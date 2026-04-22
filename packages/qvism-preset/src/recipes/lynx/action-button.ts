@@ -4,29 +4,25 @@ import { defineLynxSlotRecipe } from "../../utils/define-lynx";
 import { active, disabled, loading, pseudo } from "../../utils/pseudo";
 
 /**
- * `tint-color` is a Lynx-only CSS property on `<image>` (not in csstype).
- * Lynx 3.7 에서 runtime + CSS 양쪽으로 동작 확인됨. TypeScript 우회용 helper.
- */
-function tintColor(value: string): Record<string, string> {
-  return { "tint-color": value };
-}
-
-/**
  * ActionButton recipe (Lynx fork).
  *
  * Derived from the web `action-button` recipe with these changes for Lynx:
  * - **Slot-recipe shape** (`root`/`text`/`prefixIcon`/`suffixIcon`).
- * - **`prefixIcon`/`suffixIcon` slot 은 CSS `tint-color` property 로 직접 색 지정.**
- *   Lynx `<image>` 는 CSS `color` 대신 `tint-color` 로만 tint blend 가 적용된다.
- *   recipe → CSS 로 직접 내보내므로 main-thread hook 없이 첫 프레임부터 반영되고
- *   variant/state 전환도 className 변화만으로 즉시 반영된다.
+ * - **`prefixIcon`/`suffixIcon` 슬롯에 `color: var(--seed-color-...)` 만 지정한다.**
+ *   Lynx 3.7 의 `<image>` 는 `tint-color` CSS property 도 `tint-color` attribute
+ *   에서 `var()` 스트링도 해석하지 않는다. concrete color(hex/rgb) 만 받는다.
+ *   대신 `<image>` 의 CSS `color` 값은 main-thread API `getComputedStyleProperty("color")`
+ *   로 resolved hex 를 읽어올 수 있다 (POC D 에서 검증).
+ *   따라서 recipe 는 slot 에 `color` 만 박고, React 쪽
+ *   `ActionButton.PrefixIcon`/`SuffixIcon` 에서 `useIconColor` 훅이 main-thread 로
+ *   가 `color` 를 읽어 `tint-color` attribute 로 mirror 하는 방식으로 처리한다.
+ * - 슬롯에 width/height/flexShrink 만 남겨 아이콘 크기는 CSS 로 결정한다.
  * - `:active` pseudo replaces the web's `engaged` (hover+active).
  * - No focus-ring / `:focusVisible` — Lynx has no keyboard focus UX.
  * - No `iconOnly` / `loading` icon styles yet. `layout: "iconOnly"` and
  *   `loading` spinner remain Tier B (pending dedicated icon slots).
  * - `ghost` variant drops the `--seed-box-color` indirection since Lynx does
- *   not cascade CSS variables down to descendants the same way; slot colors
- *   are set from `vars` directly.
+ *   not cascade CSS variables down to descendants the same way.
  * - `progressCircle` track/range custom properties preserved so the `loading`
  *   spinner component can opt in once implemented.
  */
@@ -103,12 +99,12 @@ const actionButton = defineLynxSlotRecipe({
           [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.label.color },
         },
         prefixIcon: {
-          ...tintColor(vars.variantBrandSolid.enabled.prefixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantBrandSolid.disabled.prefixIcon.color),
+          color: vars.variantBrandSolid.enabled.prefixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.prefixIcon.color },
         },
         suffixIcon: {
-          ...tintColor(vars.variantBrandSolid.enabled.suffixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantBrandSolid.disabled.suffixIcon.color),
+          color: vars.variantBrandSolid.enabled.suffixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.suffixIcon.color },
         },
       },
       neutralSolid: {
@@ -126,12 +122,12 @@ const actionButton = defineLynxSlotRecipe({
           [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.label.color },
         },
         prefixIcon: {
-          ...tintColor(vars.variantNeutralSolid.enabled.prefixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantNeutralSolid.disabled.prefixIcon.color),
+          color: vars.variantNeutralSolid.enabled.prefixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.prefixIcon.color },
         },
         suffixIcon: {
-          ...tintColor(vars.variantNeutralSolid.enabled.suffixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantNeutralSolid.disabled.suffixIcon.color),
+          color: vars.variantNeutralSolid.enabled.suffixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.suffixIcon.color },
         },
       },
       neutralWeak: {
@@ -149,12 +145,12 @@ const actionButton = defineLynxSlotRecipe({
           [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.label.color },
         },
         prefixIcon: {
-          ...tintColor(vars.variantNeutralWeak.enabled.prefixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantNeutralWeak.disabled.prefixIcon.color),
+          color: vars.variantNeutralWeak.enabled.prefixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.prefixIcon.color },
         },
         suffixIcon: {
-          ...tintColor(vars.variantNeutralWeak.enabled.suffixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantNeutralWeak.disabled.suffixIcon.color),
+          color: vars.variantNeutralWeak.enabled.suffixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.suffixIcon.color },
         },
       },
       criticalSolid: {
@@ -172,12 +168,12 @@ const actionButton = defineLynxSlotRecipe({
           [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.label.color },
         },
         prefixIcon: {
-          ...tintColor(vars.variantCriticalSolid.enabled.prefixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantCriticalSolid.disabled.prefixIcon.color),
+          color: vars.variantCriticalSolid.enabled.prefixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.prefixIcon.color },
         },
         suffixIcon: {
-          ...tintColor(vars.variantCriticalSolid.enabled.suffixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantCriticalSolid.disabled.suffixIcon.color),
+          color: vars.variantCriticalSolid.enabled.suffixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.suffixIcon.color },
         },
       },
       brandOutline: {
@@ -201,12 +197,12 @@ const actionButton = defineLynxSlotRecipe({
           [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.label.color },
         },
         prefixIcon: {
-          ...tintColor(vars.variantBrandOutline.enabled.prefixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantBrandOutline.disabled.prefixIcon.color),
+          color: vars.variantBrandOutline.enabled.prefixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.prefixIcon.color },
         },
         suffixIcon: {
-          ...tintColor(vars.variantBrandOutline.enabled.suffixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantBrandOutline.disabled.suffixIcon.color),
+          color: vars.variantBrandOutline.enabled.suffixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.suffixIcon.color },
         },
       },
       neutralOutline: {
@@ -230,12 +226,12 @@ const actionButton = defineLynxSlotRecipe({
           [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.label.color },
         },
         prefixIcon: {
-          ...tintColor(vars.variantNeutralOutline.enabled.prefixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantNeutralOutline.disabled.prefixIcon.color),
+          color: vars.variantNeutralOutline.enabled.prefixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.prefixIcon.color },
         },
         suffixIcon: {
-          ...tintColor(vars.variantNeutralOutline.enabled.suffixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantNeutralOutline.disabled.suffixIcon.color),
+          color: vars.variantNeutralOutline.enabled.suffixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.suffixIcon.color },
         },
       },
       ghost: {
@@ -253,12 +249,12 @@ const actionButton = defineLynxSlotRecipe({
           [pseudo(disabled)]: { color: vars.variantGhost.disabled.label.color },
         },
         prefixIcon: {
-          ...tintColor(vars.variantGhost.enabled.prefixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantGhost.disabled.prefixIcon.color),
+          color: vars.variantGhost.enabled.prefixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantGhost.disabled.prefixIcon.color },
         },
         suffixIcon: {
-          ...tintColor(vars.variantGhost.enabled.suffixIcon.color),
-          [pseudo(disabled)]: tintColor(vars.variantGhost.disabled.suffixIcon.color),
+          color: vars.variantGhost.enabled.suffixIcon.color,
+          [pseudo(disabled)]: { color: vars.variantGhost.disabled.suffixIcon.color },
         },
       },
     },

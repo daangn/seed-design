@@ -852,19 +852,19 @@
 }
 
 .seed-action-button__prefixIcon--variant_brandSolid {
-  tint-color: var(--seed-color-palette-static-white);
+  color: var(--seed-color-palette-static-white);
 }
 
 .seed-action-button__prefixIcon--variant_brandSolid.seed-action-button__prefixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__suffixIcon--variant_brandSolid {
-  tint-color: var(--seed-color-palette-static-white);
+  color: var(--seed-color-palette-static-white);
 }
 
 .seed-action-button__suffixIcon--variant_brandSolid.seed-action-button__suffixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__root--variant_neutralSolid {
@@ -894,19 +894,19 @@
 }
 
 .seed-action-button__prefixIcon--variant_neutralSolid {
-  tint-color: var(--seed-color-fg-neutral-inverted);
+  color: var(--seed-color-fg-neutral-inverted);
 }
 
 .seed-action-button__prefixIcon--variant_neutralSolid.seed-action-button__prefixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__suffixIcon--variant_neutralSolid {
-  tint-color: var(--seed-color-fg-neutral-inverted);
+  color: var(--seed-color-fg-neutral-inverted);
 }
 
 .seed-action-button__suffixIcon--variant_neutralSolid.seed-action-button__suffixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__root--variant_neutralWeak {
@@ -936,19 +936,19 @@
 }
 
 .seed-action-button__prefixIcon--variant_neutralWeak {
-  tint-color: var(--seed-color-fg-neutral);
+  color: var(--seed-color-fg-neutral);
 }
 
 .seed-action-button__prefixIcon--variant_neutralWeak.seed-action-button__prefixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__suffixIcon--variant_neutralWeak {
-  tint-color: var(--seed-color-fg-neutral);
+  color: var(--seed-color-fg-neutral);
 }
 
 .seed-action-button__suffixIcon--variant_neutralWeak.seed-action-button__suffixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__root--variant_criticalSolid {
@@ -978,19 +978,19 @@
 }
 
 .seed-action-button__prefixIcon--variant_criticalSolid {
-  tint-color: var(--seed-color-palette-static-white);
+  color: var(--seed-color-palette-static-white);
 }
 
 .seed-action-button__prefixIcon--variant_criticalSolid.seed-action-button__prefixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__suffixIcon--variant_criticalSolid {
-  tint-color: var(--seed-color-palette-static-white);
+  color: var(--seed-color-palette-static-white);
 }
 
 .seed-action-button__suffixIcon--variant_criticalSolid.seed-action-button__suffixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__root--variant_brandOutline {
@@ -1024,19 +1024,19 @@
 }
 
 .seed-action-button__prefixIcon--variant_brandOutline {
-  tint-color: var(--seed-color-fg-brand);
+  color: var(--seed-color-fg-brand);
 }
 
 .seed-action-button__prefixIcon--variant_brandOutline.seed-action-button__prefixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__suffixIcon--variant_brandOutline {
-  tint-color: var(--seed-color-fg-brand);
+  color: var(--seed-color-fg-brand);
 }
 
 .seed-action-button__suffixIcon--variant_brandOutline.seed-action-button__suffixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__root--variant_neutralOutline {
@@ -1070,19 +1070,19 @@
 }
 
 .seed-action-button__prefixIcon--variant_neutralOutline {
-  tint-color: var(--seed-color-fg-neutral);
+  color: var(--seed-color-fg-neutral);
 }
 
 .seed-action-button__prefixIcon--variant_neutralOutline.seed-action-button__prefixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__suffixIcon--variant_neutralOutline {
-  tint-color: var(--seed-color-fg-neutral);
+  color: var(--seed-color-fg-neutral);
 }
 
 .seed-action-button__suffixIcon--variant_neutralOutline.seed-action-button__suffixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__root--variant_ghost {
@@ -1112,19 +1112,19 @@
 }
 
 .seed-action-button__prefixIcon--variant_ghost {
-  tint-color: var(--seed-color-fg-neutral);
+  color: var(--seed-color-fg-neutral);
 }
 
 .seed-action-button__prefixIcon--variant_ghost.seed-action-button__prefixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__suffixIcon--variant_ghost {
-  tint-color: var(--seed-color-fg-neutral);
+  color: var(--seed-color-fg-neutral);
 }
 
 .seed-action-button__suffixIcon--variant_ghost.seed-action-button__suffixIcon--disabled_true {
-  tint-color: var(--seed-color-fg-disabled);
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-action-button__root--size_xsmall {
