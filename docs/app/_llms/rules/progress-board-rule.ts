@@ -24,13 +24,14 @@ const statusLabel: Record<PlatformStatus, string> = {
 };
 
 function formatStatusCell(component: ComponentData, key: (typeof platformConfig)[number]["key"]) {
-  const status = component[`${key}Status`] as PlatformStatus;
+  const status = component[`${key}Status`] as PlatformStatus | undefined;
   const url = component[`${key}Url`] as string | undefined;
   const note = component[`${key}Note`] as string | undefined;
 
-  const label = statusLabel[status] ?? "Not Ready";
-  const base = url ? `[${label}](${escapeCell(url)})` : label;
+  const label = status ? statusLabel[status] : undefined;
+  if (!label) return "";
 
+  const base = url ? `[${label}](${escapeCell(url)})` : label;
   return note ? `${base} (${escapeCell(note)})` : base;
 }
 
@@ -61,6 +62,15 @@ function buildComponentTable(components: ComponentData[]): string {
   return [markdownRow(headers), markdownRow(headers.map(() => "---")), ...rows].join("\n");
 }
 
+function buildProgressBoardContent(components: ComponentData[]): string {
+  return [
+    "### 플랫폼별 진행률",
+    buildSummaryTable(components),
+    "### 컴포넌트별 상태",
+    buildComponentTable(components),
+  ].join("\n\n");
+}
+
 let componentsCache: ComponentData[] | null = null;
 let initPromise: Promise<void> | null = null;
 
@@ -79,6 +89,10 @@ async function init(): Promise<void> {
   await initPromise;
 }
 
+export function __setComponentsCacheForTests(cache: ComponentData[] | null): void {
+  componentsCache = cache;
+}
+
 export const progressBoardRule: Rule = {
   name: "ProgressBoardTable",
   init,
@@ -86,14 +100,6 @@ export const progressBoardRule: Rule = {
     node.type === "mdxJsxFlowElement" && node.name === "ProgressBoardTable",
   transform: (node) => {
     if (!componentsCache || componentsCache.length === 0) return [node];
-
-    const sections = [
-      "### 플랫폼별 진행률",
-      buildSummaryTable(componentsCache),
-      "### 컴포넌트별 상태",
-      buildComponentTable(componentsCache),
-    ];
-
-    return [{ type: "html", value: sections.join("\n\n") }];
+    return [{ type: "html", value: buildProgressBoardContent(componentsCache) }];
   },
 };
