@@ -8,7 +8,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "accordion.tsx",
-          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
+          dependencies: { "@seed-design/react": "~1.2.10", "@seed-design/css": "~1.2.10" },
         },
       ],
     },

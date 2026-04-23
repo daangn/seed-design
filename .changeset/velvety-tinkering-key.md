@@ -1,8 +1,8 @@
 ---
-"@seed-design/react": minor
-"@seed-design/react-accordion": minor
-"@seed-design/css": minor
-"@seed-design/rootage-artifacts": minor
+"@seed-design/react": patch
+"@seed-design/react-accordion": patch
+"@seed-design/css": patch
+"@seed-design/rootage-artifacts": patch
 ---
 
 `Accordion` 컴포넌트를 추가합니다.
