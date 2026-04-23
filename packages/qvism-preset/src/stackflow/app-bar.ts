@@ -118,7 +118,7 @@ export const appBarMain = defineSlotRecipe({
 
 export const appBar = defineSlotRecipe({
   name: "app-bar",
-  slots: ["root", "left", "right", "iconButton", "icon", "custom"],
+  slots: ["root", "background", "left", "right", "iconButton", "icon", "custom"],
   base: {
     root: {
       zIndex: "var(--z-index-app-bar)",
@@ -129,17 +129,15 @@ export const appBar = defineSlotRecipe({
       width: "100%",
       display: "flex",
       alignItems: "flex-end",
-
-      "&:before": {
-        content: '""',
-        position: "absolute",
-        pointerEvents: "none",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        zIndex: -1,
-      },
+    },
+    background: {
+      position: "absolute",
+      pointerEvents: "none",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: -1,
     },
     left: {
       display: "flex",
@@ -235,10 +233,8 @@ export const appBar = defineSlotRecipe({
     },
     tone: {
       layer: {
-        root: {
-          "&:before": {
-            background: `var(--seed-box-background, ${vars.toneLayer.enabled.root.color})`,
-          },
+        background: {
+          background: `var(--seed-box-background, ${vars.toneLayer.enabled.root.color})`,
         },
         icon: {
           color: `var(--seed-icon-color, ${vars.toneLayer.enabled.icon.color})`,
@@ -255,10 +251,8 @@ export const appBar = defineSlotRecipe({
     },
     divider: {
       true: {
-        root: {
-          "&:before": {
-            boxShadow: `inset 0px calc(-1 * ${vars.dividerTrue.enabled.root.strokeWidth}) 0 ${vars.dividerTrue.enabled.root.strokeColor}`,
-          },
+        background: {
+          boxShadow: `inset 0px calc(-1 * ${vars.dividerTrue.enabled.root.strokeWidth}) 0 ${vars.dividerTrue.enabled.root.strokeColor}`,
         },
       },
     },

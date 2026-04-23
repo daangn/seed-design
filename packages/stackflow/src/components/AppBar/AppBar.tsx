@@ -50,14 +50,18 @@ export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) =
   };
 
   const classNames = appBar(resolvedVariantProps);
+  const { children, ...restProps } = otherProps;
 
   return (
     <ClassNamesProvider value={classNames}>
       <MainPropsProvider value={resolvedVariantProps}>
         <AppBarPrimitive.Root
           ref={ref}
-          {...mergeProps({ className: classNames.root, style: boxStyle }, otherProps)}
-        />
+          {...mergeProps({ className: classNames.root, style: boxStyle }, restProps)}
+        >
+          <div aria-hidden data-part={appBarAnatomy.background} className={classNames.background} />
+          {children}
+        </AppBarPrimitive.Root>
       </MainPropsProvider>
     </ClassNamesProvider>
   );

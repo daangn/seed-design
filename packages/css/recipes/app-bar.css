@@ -7,8 +7,7 @@
     display: flex;
     align-items: flex-end;
 }
-.seed-app-bar__root:before {
-    content: "";
+.seed-app-bar__background {
     position: absolute;
     pointer-events: none;
     top: 0;
@@ -92,7 +91,7 @@
 .seed-app-bar__left--theme_android {
     padding-right: 16px;
 }
-.seed-app-bar__root--tone_layer:before {
+.seed-app-bar__background--tone_layer {
     background: var(--seed-box-background, var(--seed-color-bg-layer-default));
 }
 .seed-app-bar__icon--tone_layer {
@@ -104,6 +103,6 @@
 .seed-app-bar__icon--tone_transparent {
     color: var(--seed-icon-color, var(--seed-color-palette-static-white));
 }
-.seed-app-bar__root--divider_true:before {
+.seed-app-bar__background--divider_true {
     box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-subtle);
 }

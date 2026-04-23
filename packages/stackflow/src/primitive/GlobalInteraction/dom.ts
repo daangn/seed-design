@@ -28,6 +28,8 @@ export interface TransitionTargets {
   behindIcons: HTMLElement[];
   topAppBarRoot: HTMLElement | null;
   behindAppBarRoot: HTMLElement | null;
+  topAppBarBackground: HTMLElement | null;
+  behindAppBarBackground: HTMLElement | null;
 }
 
 export type TransitionStyle = "slideFromRightIOS" | "fadeFromBottomAndroid" | "fadeIn";
@@ -82,6 +84,8 @@ export function findTransitionTargets(stackEl: HTMLElement): TransitionTargets {
     behindIcons: queryAllParts(behindActivity, appBarAnatomy.icon, appBarAnatomy.custom),
     topAppBarRoot: queryParts(topActivity, appBarAnatomy.root),
     behindAppBarRoot: queryParts(behindActivity, appBarAnatomy.root),
+    topAppBarBackground: queryParts(topActivity, appBarAnatomy.background),
+    behindAppBarBackground: queryParts(behindActivity, appBarAnatomy.background),
   };
 }
 
@@ -117,6 +121,8 @@ export function clearAllStyles(t: TransitionTargets) {
     t.behindTitle,
     t.topAppBarRoot,
     t.behindAppBarRoot,
+    t.topAppBarBackground,
+    t.behindAppBarBackground,
     ...t.topIcons,
     ...t.behindIcons,
   ];

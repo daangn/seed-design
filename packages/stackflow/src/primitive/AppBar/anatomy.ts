@@ -7,6 +7,7 @@
  */
 export const appBarAnatomy = {
   root: "appBar",
+  background: "appBarBackground",
   main: "appBarMain",
   icon: "appBarIcon",
   custom: "appBarCustom",
