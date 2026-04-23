@@ -13,7 +13,7 @@ export function useSnackbarAdapter() {
       visible: api.visible,
       create: (options: CreateSnackbarOptions) => {
         return api.create({
-          timeout: options.timeout ?? 5000,
+          timeout: options.timeout ?? 4000,
           removeDelay: options.removeDelay ?? 200,
           onClose: options.onClose,
           render: options.render,
