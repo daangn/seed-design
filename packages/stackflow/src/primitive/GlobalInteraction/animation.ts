@@ -17,17 +17,28 @@ import {
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
-const IOS_EASING = "cubic-bezier(0.2, 0.1, 0.21, 0.99)";
-const IOS_DURATION = 350;
+// iOS drawer curve (Ionic Framework). Stronger than the native iOS UIKit
+// ease-in-out, giving slides a more intentional feel per Emil Kowalski's
+// design-engineering guidance.
+const IOS_EASING = "cubic-bezier(0.32, 0.72, 0, 1)";
+// Push duration matches the iOS native navigation baseline; pop runs slightly
+// shorter so the system feels responsive when the user steps back.
+const IOS_PUSH_DURATION = 350;
+const IOS_POP_DURATION = 280;
 
+// Material Decelerate (entering) and Accelerate (exiting). Replaces the
+// previous `linear` exit, which felt unfinished — exits want a curve that
+// gathers speed toward offscreen.
 const ANDROID_ENTER_EASING = "cubic-bezier(0.23, 0.1, 0.32, 1)";
 const ANDROID_ENTER_DURATION = 300;
-const ANDROID_EXIT_EASING = "linear";
+const ANDROID_EXIT_EASING = "cubic-bezier(0.4, 0, 1, 1)";
 const ANDROID_EXIT_DURATION = 150;
 
-const FADE_IN_ENTER_EASING = "ease-out";
-const FADE_IN_ENTER_DURATION = 300;
-const FADE_IN_EXIT_EASING = "ease-in";
+// Strong ease-out for both enter and exit. The standard `ease-in` is banned
+// for UI transitions — it delays the first movement where the user is looking
+// hardest. Opacity-only transitions can also be shorter than a full slide.
+const FADE_IN_EASING = "cubic-bezier(0.23, 1, 0.32, 1)";
+const FADE_IN_ENTER_DURATION = 220;
 const FADE_IN_EXIT_DURATION = 150;
 
 const MIN_SWIPE_DURATION = 150;
@@ -144,7 +155,7 @@ function calculateSwipeDuration(remainingDistance: number, velocity: number): nu
     return Math.max(MIN_SWIPE_DURATION, Math.min(MAX_SWIPE_DURATION, remainingDistance / velocity));
   }
   const ratio = remainingDistance / window.innerWidth;
-  return Math.max(MIN_SWIPE_DURATION, Math.min(MAX_SWIPE_DURATION, IOS_DURATION * ratio));
+  return Math.max(MIN_SWIPE_DURATION, Math.min(MAX_SWIPE_DURATION, IOS_PUSH_DURATION * ratio));
 }
 
 // ─── iOS Slide ──────────────────────────────────────────────────────────────
@@ -182,9 +193,14 @@ const IOS_OFFSCREEN: IosPositions = {
   appBarBackground: "translate3d(100%, 0, 0)",
 };
 
-function iosAnimate(t: TransitionTargets, from: IosPositions, to: IosPositions): AnimationResult {
+function iosAnimate(
+  t: TransitionTargets,
+  from: IosPositions,
+  to: IosPositions,
+  duration: number,
+): AnimationResult {
   const opts: KeyframeAnimationOptions = {
-    duration: IOS_DURATION,
+    duration,
     easing: IOS_EASING,
     fill: "forwards",
   };
@@ -232,7 +248,7 @@ function iosAnimate(t: TransitionTargets, from: IosPositions, to: IosPositions):
     ),
   );
 
-  return collectAnimations(anims, IOS_DURATION);
+  return collectAnimations(anims, duration);
 }
 
 /**
@@ -268,14 +284,14 @@ function pinIosInlineStyles(t: TransitionTargets, pos: IosPositions) {
 
 function iosAnimatePush(t: TransitionTargets): AnimationResult {
   pinIosInlineStyles(t, IOS_OFFSCREEN);
-  return iosAnimate(t, IOS_OFFSCREEN, IOS_ONSCREEN);
+  return iosAnimate(t, IOS_OFFSCREEN, IOS_ONSCREEN, IOS_PUSH_DURATION);
 }
 
 function iosAnimatePop(t: TransitionTargets): AnimationResult {
   // No inline pinning here — top is already onscreen (no flash risk) and
   // pinning `-30%` on the behind layer caused it to stick there when
   // cleanup got skipped for any reason.
-  return iosAnimate(t, IOS_ONSCREEN, IOS_OFFSCREEN);
+  return iosAnimate(t, IOS_ONSCREEN, IOS_OFFSCREEN, IOS_POP_DURATION);
 }
 
 // ─── Android / FadeIn ───────────────────────────────────────────────────────
@@ -336,7 +352,7 @@ function fadeInAnimate(t: TransitionTargets, direction: "push" | "pop"): Animati
   const duration = isPush ? FADE_IN_ENTER_DURATION : FADE_IN_EXIT_DURATION;
   const opts: KeyframeAnimationOptions = {
     duration,
-    easing: isPush ? FADE_IN_ENTER_EASING : FADE_IN_EXIT_EASING,
+    easing: FADE_IN_EASING,
     fill: "forwards",
   };
 
