@@ -15,6 +15,9 @@ import { dampenValue, getTranslate, isInput, isVertical, reset, set } from "./he
 import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
+const KEYBOARD_OPEN_THRESHOLD = 60;
+const KEYBOARD_STABILIZATION_THRESHOLD = 60;
+
 interface DrawerReasonToDetailMap {
   // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
   closeButton: { event: MouseEvent };
@@ -166,7 +169,7 @@ export function useDrawer(props: UseDrawerProps) {
     modal = true,
     onClose,
     nested,
-    noBodyStyles = true,
+    noBodyStyles: noBodyStylesProp,
     direction = "bottom",
     defaultOpen = false,
     snapToSequentialPoint = false,
@@ -236,6 +239,9 @@ export function useDrawer(props: UseDrawerProps) {
   const drawerHeightRef = useRef(drawerRef.current?.getBoundingClientRect().height || 0);
   const drawerWidthRef = useRef(drawerRef.current?.getBoundingClientRect().width || 0);
   const initialDrawerHeight = useRef(0);
+  const visualViewportFrame = useRef<number | null>(null);
+
+  const noBodyStyles = noBodyStylesProp ?? !(modal && isIOS());
 
   const onSnapPointChange = useCallback(
     (activeSnapPointIndex: number) => {
@@ -275,6 +281,21 @@ export function useDrawer(props: UseDrawerProps) {
     preventScrollRestoration,
     noBodyStyles,
   });
+
+  const restoreKeyboardDrawerLayout = useCallback(() => {
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+
+    drawer.style.bottom = "0px";
+
+    if (!isMobileFirefox() && !isAndroid()) {
+      if (initialDrawerHeight.current) {
+        drawer.style.height = `${initialDrawerHeight.current}px`;
+      } else {
+        drawer.style.removeProperty("height");
+      }
+    }
+  }, []);
 
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
     if (!dismissible && !snapPoints) return;
@@ -586,61 +607,136 @@ export function useDrawer(props: UseDrawerProps) {
   }, [isOpen]);
 
   useEffect(() => {
-    function onVisualViewportChange() {
-      if (!drawerRef.current || !repositionInputs) return;
+    const visualViewport = window.visualViewport;
+    if (!visualViewport) return;
 
-      const focusedElement = document.activeElement as HTMLElement;
-      if (isInput(focusedElement) || keyboardIsOpen.current) {
-        const visualViewportHeight = window.visualViewport?.height || 0;
-        const totalHeight = window.innerHeight;
-        let diffFromInitial = totalHeight - visualViewportHeight;
-        const drawerHeight = drawerRef.current.getBoundingClientRect().height || 0;
-        const isTallEnough = drawerHeight > totalHeight * 0.8;
-
-        if (!initialDrawerHeight.current) {
-          initialDrawerHeight.current = drawerHeight;
-        }
-        const offsetFromTop = drawerRef.current.getBoundingClientRect().top;
-
-        if (Math.abs(previousDiffFromInitial.current - diffFromInitial) > 60) {
-          keyboardIsOpen.current = !keyboardIsOpen.current;
-        }
-
-        if (snapPoints && snapPoints.length > 0 && snapPointsOffset && activeSnapPointIndex) {
-          const activeSnapPointHeight = snapPointsOffset[activeSnapPointIndex] || 0;
-          diffFromInitial += activeSnapPointHeight;
-        }
-        previousDiffFromInitial.current = diffFromInitial;
-
-        if (drawerHeight > visualViewportHeight || keyboardIsOpen.current) {
-          const height = drawerRef.current.getBoundingClientRect().height;
-          let newDrawerHeight = height;
-
-          if (height > visualViewportHeight) {
-            newDrawerHeight =
-              visualViewportHeight - (isTallEnough ? offsetFromTop : WINDOW_TOP_OFFSET);
-          }
-
-          if (fixed) {
-            drawerRef.current.style.height = `${height - Math.max(diffFromInitial, 0)}px`;
-          } else {
-            drawerRef.current.style.height = `${Math.max(newDrawerHeight, visualViewportHeight - offsetFromTop)}px`;
-          }
-        } else if (!isMobileFirefox() && !isAndroid()) {
-          drawerRef.current.style.height = `${initialDrawerHeight.current}px`;
-        }
-
-        if (snapPoints && snapPoints.length > 0 && !keyboardIsOpen.current) {
-          drawerRef.current.style.bottom = "0px";
-        } else {
-          drawerRef.current.style.bottom = `${Math.max(diffFromInitial, 0)}px`;
-        }
+    const cancelScheduledViewportUpdate = () => {
+      if (visualViewportFrame.current !== null) {
+        window.cancelAnimationFrame(visualViewportFrame.current);
+        visualViewportFrame.current = null;
       }
+    };
+
+    const syncVisualViewport = (attempt = 0) => {
+      visualViewportFrame.current = null;
+
+      const drawer = drawerRef.current;
+      if (!drawer || !repositionInputs) return;
+
+      const focusedElement = document.activeElement;
+      const isTextInputFocused = focusedElement instanceof HTMLElement && isInput(focusedElement);
+      const visualViewportHeight = visualViewport.height || window.innerHeight;
+      const visualViewportOffsetTop = visualViewport.offsetTop || 0;
+      const totalHeight = window.innerHeight;
+      const keyboardInset = Math.max(
+        totalHeight - (visualViewportHeight + visualViewportOffsetTop),
+        0,
+      );
+
+      if (!isTextInputFocused && keyboardInset <= 0 && !keyboardIsOpen.current) {
+        previousDiffFromInitial.current = 0;
+        restoreKeyboardDrawerLayout();
+        return;
+      }
+
+      if (
+        attempt === 0 &&
+        keyboardInset > 0 &&
+        Math.abs(previousDiffFromInitial.current - keyboardInset) >
+          KEYBOARD_STABILIZATION_THRESHOLD
+      ) {
+        drawer.style.bottom = `${Math.max(previousDiffFromInitial.current, 0)}px`;
+        visualViewportFrame.current = window.requestAnimationFrame(() => syncVisualViewport(1));
+        return;
+      }
+
+      const nextKeyboardIsOpen =
+        (isTextInputFocused && keyboardInset > KEYBOARD_OPEN_THRESHOLD) ||
+        (keyboardIsOpen.current && keyboardInset > 0);
+
+      if (!isTextInputFocused && !nextKeyboardIsOpen) {
+        keyboardIsOpen.current = false;
+        previousDiffFromInitial.current = 0;
+        restoreKeyboardDrawerLayout();
+        return;
+      }
+
+      keyboardIsOpen.current = nextKeyboardIsOpen;
+
+      const drawerRect = drawer.getBoundingClientRect();
+      const drawerHeight = drawerRect.height || 0;
+      const offsetFromTop = drawerRect.top;
+      const isTallEnough = drawerHeight > totalHeight * 0.8;
+
+      if (!initialDrawerHeight.current) {
+        initialDrawerHeight.current = drawerHeight;
+      }
+
+      if (drawerHeight > visualViewportHeight || nextKeyboardIsOpen) {
+        let newDrawerHeight = drawerHeight;
+
+        if (drawerHeight > visualViewportHeight) {
+          newDrawerHeight =
+            visualViewportHeight - (isTallEnough ? offsetFromTop : WINDOW_TOP_OFFSET);
+        }
+
+        if (fixed) {
+          drawer.style.height = `${Math.max(initialDrawerHeight.current - keyboardInset, 0)}px`;
+        } else {
+          drawer.style.height = `${Math.max(newDrawerHeight, visualViewportHeight - offsetFromTop)}px`;
+        }
+      } else if (!isMobileFirefox() && !isAndroid()) {
+        drawer.style.height = `${initialDrawerHeight.current}px`;
+      }
+
+      let bottomOffset = keyboardInset;
+      if (snapPoints && snapPoints.length > 0 && snapPointsOffset && activeSnapPointIndex != null) {
+        bottomOffset += snapPointsOffset[activeSnapPointIndex] || 0;
+      }
+
+      previousDiffFromInitial.current = bottomOffset;
+      drawer.style.bottom = `${Math.max(bottomOffset, 0)}px`;
     }
 
-    window.visualViewport?.addEventListener("resize", onVisualViewportChange);
-    return () => window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
-  }, [activeSnapPointIndex, snapPoints, snapPointsOffset, repositionInputs, fixed]);
+    const scheduleVisualViewportSync = () => {
+      cancelScheduledViewportUpdate();
+      visualViewportFrame.current = window.requestAnimationFrame(() => syncVisualViewport());
+    };
+
+    visualViewport.addEventListener("resize", scheduleVisualViewportSync);
+    visualViewport.addEventListener("scroll", scheduleVisualViewportSync);
+    document.addEventListener("focusin", scheduleVisualViewportSync, true);
+    document.addEventListener("focusout", scheduleVisualViewportSync, true);
+
+    if (isOpen) {
+      scheduleVisualViewportSync();
+    }
+
+    return () => {
+      cancelScheduledViewportUpdate();
+      visualViewport.removeEventListener("resize", scheduleVisualViewportSync);
+      visualViewport.removeEventListener("scroll", scheduleVisualViewportSync);
+      document.removeEventListener("focusin", scheduleVisualViewportSync, true);
+      document.removeEventListener("focusout", scheduleVisualViewportSync, true);
+    };
+  }, [
+    activeSnapPointIndex,
+    fixed,
+    isOpen,
+    repositionInputs,
+    restoreKeyboardDrawerLayout,
+    snapPoints,
+    snapPointsOffset,
+  ]);
+
+  useEffect(() => {
+    if (isOpen) return;
+
+    keyboardIsOpen.current = false;
+    previousDiffFromInitial.current = 0;
+    initialDrawerHeight.current = 0;
+    restoreKeyboardDrawerLayout();
+  }, [isOpen, restoreKeyboardDrawerLayout]);
 
   useEffect(() => {
     if (!modal) {

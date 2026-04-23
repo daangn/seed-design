@@ -10,6 +10,7 @@ import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { isInput } from "./helpers";
 import type { DrawerDirection } from "./types";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
 import { DrawerProvider, useDrawerContext } from "./useDrawerContext";
@@ -189,7 +190,16 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         onPressOutside={(e) => {
           if (e.defaultPrevented) return;
           if (!modal) return;
-          if (keyboardIsOpen.current) keyboardIsOpen.current = false;
+          if (keyboardIsOpen.current) {
+            const focusedElement = document.activeElement;
+
+            if (focusedElement instanceof HTMLElement && isInput(focusedElement)) {
+              focusedElement.blur();
+            }
+
+            e.preventDefault();
+            return;
+          }
 
           if (!dismissible || !closeOnInteractOutside) return;
           closeDrawer(false, { reason: "interactOutside", event: e });
