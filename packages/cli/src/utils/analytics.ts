@@ -109,7 +109,7 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
   // PostHog API 호출 (fire-and-forget)
   try {
     if (!process.env.POSTHOG_HOST || !process.env.POSTHOG_API_KEY) {
-      console.warn("[Analytics] Missing POSTHOG_HOST or POSTHOG_API_KEY");
+      console.error("[Telemetry] POSTHOG_HOST 또는 POSTHOG_API_KEY가 없어서 이벤트를 전송하지 않아요.");
       return;
     }
 

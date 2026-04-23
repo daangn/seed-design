@@ -479,7 +479,7 @@ export const docsCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] docs tracking failed:", telemetryError);
+            console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
       } catch (error) {
@@ -495,7 +495,7 @@ export const docsCommand = (cli: CAC) => {
             });
           } catch (telemetryError) {
             if (verbose) {
-              console.error("[Telemetry] docs tracking failed:", telemetryError);
+              console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
             }
           }
           if (!raw) p.outro(highlight(error.message));
@@ -513,7 +513,7 @@ export const docsCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] docs tracking failed:", telemetryError);
+            console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
 

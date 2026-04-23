@@ -214,7 +214,7 @@ export const compatCommand = (cli: CAC) => {
             });
           } catch (telemetryError) {
             if (verbose) {
-              console.error("[Telemetry] compat tracking failed:", telemetryError);
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
             }
           }
           p.outro("검사할 스니펫이 없어요.");
@@ -246,7 +246,7 @@ export const compatCommand = (cli: CAC) => {
             });
           } catch (telemetryError) {
             if (verbose) {
-              console.error("[Telemetry] compat tracking failed:", telemetryError);
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
             }
           }
 
@@ -278,7 +278,7 @@ export const compatCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] compat tracking failed:", telemetryError);
+            console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
 
@@ -295,7 +295,7 @@ export const compatCommand = (cli: CAC) => {
             });
           } catch (telemetryError) {
             if (verbose) {
-              console.error("[Telemetry] compat tracking failed:", telemetryError);
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
             }
           }
           p.outro(highlight(error.message));
@@ -312,7 +312,7 @@ export const compatCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] compat tracking failed:", telemetryError);
+            console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
 

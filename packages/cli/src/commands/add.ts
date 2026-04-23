@@ -262,7 +262,7 @@ export const addCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] add tracking failed:", telemetryError);
+            console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
       } catch (error) {
@@ -277,7 +277,7 @@ export const addCommand = (cli: CAC) => {
             });
           } catch (telemetryError) {
             if (verbose) {
-              console.error("[Telemetry] add tracking failed:", telemetryError);
+              console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
             }
           }
           p.outro(highlight(error.message));
@@ -294,7 +294,7 @@ export const addCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] add tracking failed:", telemetryError);
+            console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
 

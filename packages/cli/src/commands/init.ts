@@ -92,7 +92,7 @@ export const initCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] init tracking failed:", telemetryError);
+            console.error("[Telemetry] init 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
       } catch (error) {
@@ -107,7 +107,7 @@ export const initCommand = (cli: CAC) => {
             });
           } catch (telemetryError) {
             if (verbose) {
-              console.error("[Telemetry] init tracking failed:", telemetryError);
+              console.error("[Telemetry] init 이벤트 전송에 실패했어요:", telemetryError);
             }
           }
           p.outro(highlight(error.message));
@@ -124,7 +124,7 @@ export const initCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] init tracking failed:", telemetryError);
+            console.error("[Telemetry] init 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
 
