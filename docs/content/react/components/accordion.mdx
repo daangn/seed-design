@@ -176,6 +176,19 @@ npx @seed-design/cli@latest add ui:accordion
   ```
 </ComponentExample>
 
+### Value Array Changes
+
+`type="multiple"` controlled 모드에서는 현재 열려 있는 항목들이 `value` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `value`와 최근 `onValueChange` 결과를 함께 보여줍니다.
+
+<ComponentExample name="react/accordion/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Default Expanded
 
 `defaultValue`를 사용하여 초기 열림 상태를 지정할 수 있습니다.
