@@ -1,15 +1,15 @@
 "use client";
 
-import { Accordion as SeedAccordion } from "@seed-design/react";
 import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
+import { Accordion as SeedAccordion } from "@seed-design/react";
 import * as React from "react";
 
-export type AccordionRootProps = SeedAccordion.RootProps;
+export interface AccordionProps extends SeedAccordion.RootProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
-export const AccordionRoot = SeedAccordion.Root;
+export const Accordion = SeedAccordion.Root;
 
 export interface AccordionItemProps extends SeedAccordion.ItemProps {}
 
@@ -18,27 +18,37 @@ export interface AccordionItemProps extends SeedAccordion.ItemProps {}
  */
 export const AccordionItem = SeedAccordion.Item;
 
-export interface AccordionTriggerProps extends Omit<SeedAccordion.TriggerProps, "prefix"> {
+export interface AccordionTriggerProps
+  extends Omit<SeedAccordion.TriggerProps, "children"> {
+  title: React.ReactNode;
+  description?: React.ReactNode;
   prefix?: React.ReactNode;
+  prefixIcon?: React.ReactNode;
+  suffixIcon?: React.ReactNode;
+  headingLevel?: SeedAccordion.HeaderProps["headingLevel"];
 }
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
-  ({ children, prefix, ...props }, ref) => (
-    <SeedAccordion.Header>
+  ({ title, description, prefix, prefixIcon, suffixIcon, headingLevel, ...props }, ref) => (
+    <SeedAccordion.Header headingLevel={headingLevel}>
       <SeedAccordion.Trigger ref={ref} {...props}>
         {prefix && <SeedAccordion.Prefix>{prefix}</SeedAccordion.Prefix>}
-        <SeedAccordion.Body>{children}</SeedAccordion.Body>
+        {prefixIcon && <SeedAccordion.PrefixIcon svg={prefixIcon} />}
+        <SeedAccordion.Body>
+          <SeedAccordion.Title>{title}</SeedAccordion.Title>
+          {description && <SeedAccordion.Description>{description}</SeedAccordion.Description>}
+        </SeedAccordion.Body>
         <SeedAccordion.SuffixIcon>
-          <IconChevronDownSmallLine />
+          {suffixIcon ?? <IconChevronDownSmallLine />}
         </SeedAccordion.SuffixIcon>
       </SeedAccordion.Trigger>
     </SeedAccordion.Header>
   ),
 );
-AccordionTrigger.displayName = "Accordion.Trigger";
+AccordionTrigger.displayName = "AccordionTrigger";
 
 export interface AccordionContentProps extends SeedAccordion.ContentProps {}
 
@@ -46,30 +56,6 @@ export interface AccordionContentProps extends SeedAccordion.ContentProps {}
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionContent = React.forwardRef<HTMLDivElement, AccordionContentProps>(
-  ({ children, ...props }, ref) => (
-    <SeedAccordion.Content ref={ref} {...props}>
-      <SeedAccordion.ContentInner>{children}</SeedAccordion.ContentInner>
-    </SeedAccordion.Content>
-  ),
+  (props, ref) => <SeedAccordion.Content ref={ref} {...props} />,
 );
-AccordionContent.displayName = "Accordion.Content";
-
-export interface AccordionTitleProps extends SeedAccordion.TitleProps {}
-
-/**
- * @see https://seed-design.io/react/components/accordion
- */
-export const AccordionTitle = SeedAccordion.Title;
-
-export interface AccordionDescriptionProps extends SeedAccordion.DescriptionProps {}
-
-/**
- * @see https://seed-design.io/react/components/accordion
- */
-export const AccordionDescription = SeedAccordion.Description;
-
-/**
- * Alias for AccordionRoot
- * @see https://seed-design.io/react/components/accordion
- */
-export const Accordion = AccordionRoot;
+AccordionContent.displayName = "AccordionContent";

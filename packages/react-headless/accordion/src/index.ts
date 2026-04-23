@@ -5,8 +5,6 @@ export {
   AccordionTrigger,
   AccordionContent,
   type AccordionRootProps,
-  type AccordionSingleRootProps,
-  type AccordionMultipleRootProps,
   type AccordionItemProps,
   type AccordionHeaderProps,
   type AccordionTriggerProps,
@@ -16,10 +14,14 @@ export {
 export {
   useAccordion,
   type UseAccordionProps,
-  type UseAccordionSingleProps,
-  type UseAccordionMultipleProps,
   type UseAccordionReturn,
 } from "./useAccordion";
+
+export {
+  useAccordionItem,
+  type UseAccordionItemProps,
+  type UseAccordionItemReturn,
+} from "./useAccordionItem";
 
 export {
   useAccordionContext,
@@ -29,6 +31,7 @@ export {
 
 export {
   useAccordionItemContext,
+  useAccordionItemStateProps,
   AccordionItemProvider,
   type UseAccordionItemContext,
 } from "./useAccordionItemContext";

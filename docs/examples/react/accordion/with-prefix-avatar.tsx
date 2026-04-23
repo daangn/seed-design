@@ -1,10 +1,4 @@
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionTitle,
-  AccordionContent,
-} from "seed-design/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 
@@ -20,9 +14,8 @@ export default function AccordionWithPrefixAvatar() {
               fallback={<IdentityPlaceholder />}
             />
           }
-        >
-          <AccordionTitle>아코디언 항목 1</AccordionTitle>
-        </AccordionTrigger>
+          title="아코디언 항목 1"
+        />
         <AccordionContent>
           <p>첫 번째 항목의 내용입니다.</p>
         </AccordionContent>
@@ -36,9 +29,8 @@ export default function AccordionWithPrefixAvatar() {
               fallback={<IdentityPlaceholder />}
             />
           }
-        >
-          <AccordionTitle>아코디언 항목 2</AccordionTitle>
-        </AccordionTrigger>
+          title="아코디언 항목 2"
+        />
         <AccordionContent>
           <p>두 번째 항목의 내용입니다.</p>
         </AccordionContent>
@@ -52,9 +44,8 @@ export default function AccordionWithPrefixAvatar() {
               fallback={<IdentityPlaceholder />}
             />
           }
-        >
-          <AccordionTitle>아코디언 항목 3</AccordionTitle>
-        </AccordionTrigger>
+          title="아코디언 항목 3"
+        />
         <AccordionContent>
           <p>세 번째 항목의 내용입니다.</p>
         </AccordionContent>

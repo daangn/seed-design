@@ -22,11 +22,11 @@ npx @seed-design/cli@latest add ui:accordion
 
 ## Props
 
-### `AccordionRoot`
+### `Accordion`
 
 <react-type-table
   path="./registry/ui/accordion.tsx"
-  name="AccordionRootProps"
+  name="AccordionProps"
 />
 
 ### `AccordionItem`
@@ -119,7 +119,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Prefix Icon
 
-`prefix` prop에 `<Icon svg={} />`를 전달하여 트리거 앞에 아이콘을 추가할 수 있습니다.
+`prefixIcon` prop에 아이콘 노드를 전달하여 트리거 앞에 22px 아이콘을 배치할 수 있습니다.
 
 <ComponentExample name="react/accordion/with-prefix-icon">
   ```json doc-gen:file
@@ -132,7 +132,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### With Prefix Avatar
 
-`prefix` prop에 아바타를 전달하여 트리거 좌측에 아바타를 배치할 수 있습니다.
+`prefix` prop에 아바타처럼 자유로운 React 노드를 전달할 수 있습니다.
 
 <ComponentExample name="react/accordion/with-prefix-avatar">
   ```json doc-gen:file
@@ -145,7 +145,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Description
 
-`Accordion.Description` 을 사용하여 트리거에 부가 설명을 추가할 수 있습니다.
+`description` prop으로 트리거에 부가 설명을 추가할 수 있습니다.
 
 <ComponentExample name="react/accordion/with-description">
   ```json doc-gen:file
@@ -160,7 +160,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 `disabled` prop으로 전체 또는 개별 항목을 비활성화할 수 있습니다.
 
-- `AccordionRoot`에 `disabled`를 설정하면 모든 항목이 비활성화됩니다.
+- `Accordion`에 `disabled`를 설정하면 모든 항목이 비활성화됩니다.
 - `AccordionItem`에 `disabled`를 설정하면 해당 항목만 비활성화됩니다.
 
 <ComponentExample name="react/accordion/disabled">
@@ -174,7 +174,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Controlled
 
-`value`와 `onValueChange`를 사용하여 열림 상태를 직접 제어할 수 있습니다.
+`values`와 `onValuesChange`를 사용하여 열림 상태를 직접 제어할 수 있습니다.
 
 <ComponentExample name="react/accordion/controlled">
   ```json doc-gen:file
@@ -187,7 +187,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Value Array Changes
 
-`type="multiple"` controlled 모드에서는 현재 열려 있는 항목들이 `value` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `value`와 최근 `onValueChange` 결과를 함께 보여줍니다.
+`type="multiple"` controlled 모드에서는 현재 열려 있는 항목들이 `values` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `values`와 최근 `onValuesChange` 결과를 함께 보여줍니다.
 
 <ComponentExample name="react/accordion/value-changes">
   ```json doc-gen:file
@@ -200,7 +200,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Default Expanded
 
-`defaultValue`를 사용하여 초기 열림 상태를 지정할 수 있습니다.
+`defaultValues`를 사용하여 초기 열림 상태를 지정할 수 있습니다.
 
 <ComponentExample name="react/accordion/default-expanded">
   ```json doc-gen:file
@@ -213,7 +213,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Custom Content
 
-`Content` 영역에 자유로운 React 노드를 넣을 수 있습니다. 패딩, 배경색, 모서리 둥글기 등을 직접 스타일링하여 다양한 콘텐츠를 표현할 수 있습니다.
+`AccordionContent`는 열림/닫힘 애니메이션 컨테이너 역할만 합니다. 내용의 패딩, 배경색, 모서리 둥글기는 내부 콘텐츠에서 직접 구성하면 됩니다.
 
 <ComponentExample name="react/accordion/custom-content">
   ```json doc-gen:file
@@ -227,6 +227,11 @@ npx @seed-design/cli@latest add ui:accordion
 ## Accessibility
 
 [WAI-ARIA Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/)을 따릅니다.
+
+`AccordionTrigger`는 내부적으로 `heading > button` 구조를 구성합니다. 기본 heading level은 `h3`이며, 문서 구조에 맞춰 다른 level이 필요하면 `headingLevel` prop으로 조정할 수 있습니다. WAI-ARIA APG 예시에서도 상위 섹션 구조에 맞춰 `h3`를 사용합니다.
+
+- Pattern: [WAI-ARIA APG Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/)
+- Example: [WAI-ARIA APG Accordion Example](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/)
 
 ### 키보드 인터랙션
 

@@ -1,11 +1,7 @@
 import { createContext, useContext } from "react";
+import type { UseAccordionItemReturn } from "./useAccordionItem";
 
-export interface UseAccordionItemContext {
-  value: string;
-  open: boolean;
-  disabled: boolean;
-  triggerId: string;
-}
+export interface UseAccordionItemContext extends UseAccordionItemReturn {}
 
 const AccordionItemContext = createContext<UseAccordionItemContext | null>(null);
 
@@ -21,4 +17,12 @@ export function useAccordionItemContext<T extends boolean | undefined = true>({
     throw new Error("useAccordionItemContext must be used within an AccordionItem");
   }
   return context as UseAccordionItemContext;
+}
+
+export function useAccordionItemStateProps() {
+  const { stateProps } = useAccordionItemContext();
+
+  return {
+    stateProps,
+  };
 }

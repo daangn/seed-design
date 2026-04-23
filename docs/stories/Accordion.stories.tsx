@@ -1,46 +1,33 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import {
-  AccordionRoot,
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionTitle,
-  AccordionContent,
-  AccordionDescription,
-} from "seed-design/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
 
 import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
-import { IconCalendarFill } from "@karrotmarket/react-monochrome-icon";
-import { Icon } from "@seed-design/react";
+import { IconCalendarLine } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { CHROMATIC_PARAMETERS, createStoryWithParameters } from "@/stories/utils/parameters";
 
-const AccordionDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
+const AccordionDemo = (props: React.ComponentProps<typeof Accordion>) => (
   <Accordion {...props} style={{ width: 360 }}>
     <AccordionItem value="item-1">
-      <AccordionTrigger prefix={<Icon svg={<IconCalendarFill />} />}>
-        <AccordionTitle>배송은 얼마나 걸리나요?</AccordionTitle>
-      </AccordionTrigger>
+      <AccordionTrigger prefixIcon={<IconCalendarLine />} title="배송은 얼마나 걸리나요?" />
       <AccordionContent>
         주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-2">
-      <AccordionTrigger>
-        <AccordionTitle>반품 및 교환은 어떻게 하나요?</AccordionTitle>
-        <AccordionDescription>상품 수령 후 7일 이내</AccordionDescription>
-      </AccordionTrigger>
+      <AccordionTrigger
+        title="반품 및 교환은 어떻게 하나요?"
+        description="상품 수령 후 7일 이내"
+      />
       <AccordionContent>
         상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
         반품이 제한될 수 있습니다.
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-3">
-      <AccordionTrigger>
-        <AccordionTitle>결제 수단은 어떤 것이 있나요?</AccordionTitle>
-      </AccordionTrigger>
+      <AccordionTrigger title="결제 수단은 어떤 것이 있나요?" />
       <AccordionContent>
         신용카드, 체크카드, 계좌이체, 간편결제(카카오페이, 네이버페이) 등 다양한 결제 수단을
         지원합니다.
@@ -50,9 +37,9 @@ const AccordionDemo = (props: React.ComponentProps<typeof AccordionRoot>) => (
 );
 
 const meta = {
-  component: AccordionRoot,
+  component: Accordion,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof AccordionRoot>;
+} satisfies Meta<typeof Accordion>;
 
 export default meta;
 
@@ -72,36 +59,26 @@ export const DarkTheme = createStoryWithParameters<typeof meta>({
   parameters: { theme: "dark" },
 });
 
-const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof AccordionRoot>) => (
-  <Accordion
-    variant={variant}
-    size={size}
-    type="multiple"
-    style={{ width: 360 }}
-    defaultValue={["item-1"]}
-  >
+const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof Accordion>) => (
+  <Accordion variant={variant} size={size} type="multiple" style={{ width: 360 }} defaultValues={["item-1"]}>
     <AccordionItem value="item-1">
-      <AccordionTrigger prefix={<Icon svg={<IconCalendarFill />} />}>
-        <AccordionTitle>배송은 얼마나 걸리나요?</AccordionTitle>
-      </AccordionTrigger>
+      <AccordionTrigger prefixIcon={<IconCalendarLine />} title="배송은 얼마나 걸리나요?" />
       <AccordionContent>
         주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-2">
-      <AccordionTrigger>
-        <AccordionTitle>반품 및 교환은 어떻게 하나요?</AccordionTitle>
-        <AccordionDescription>상품 수령 후 7일 이내</AccordionDescription>
-      </AccordionTrigger>
+      <AccordionTrigger
+        title="반품 및 교환은 어떻게 하나요?"
+        description="상품 수령 후 7일 이내"
+      />
       <AccordionContent>
         상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
         반품이 제한될 수 있습니다.
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-3">
-      <AccordionTrigger>
-        <AccordionTitle>결제 수단은 어떤 것이 있나요?</AccordionTitle>
-      </AccordionTrigger>
+      <AccordionTrigger title="결제 수단은 어떤 것이 있나요?" />
       <AccordionContent>
         신용카드, 체크카드, 계좌이체, 간편결제(카카오페이, 네이버페이) 등 다양한 결제 수단을
         지원합니다.

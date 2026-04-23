@@ -145,11 +145,26 @@ describe("Accordion", () => {
       expect(getByText("Trigger 1")).toBeInTheDocument();
       expect(getAllByRole("heading", { level: 3 })).toHaveLength(3);
     });
+
+    it("renders the requested heading level", () => {
+      const { getByRole } = setUp(
+        <AccordionRoot>
+          <AccordionItem value="item-1">
+            <AccordionHeader headingLevel={4}>
+              <AccordionTrigger>Trigger 1</AccordionTrigger>
+            </AccordionHeader>
+            <AccordionContent>Content 1</AccordionContent>
+          </AccordionItem>
+        </AccordionRoot>,
+      );
+
+      expect(getByRole("heading", { level: 4 })).toBeInTheDocument();
+    });
   });
 
   describe("ARIA", () => {
     it("links trigger id to content via aria-labelledby", () => {
-      const { getByText } = setUp(<ThreeItemAccordion defaultValue={["item-1"]} />);
+      const { getByText } = setUp(<ThreeItemAccordion defaultValues={["item-1"]} />);
       const trigger = getByText("Trigger 1");
       const content = getByText("Content 1");
       const triggerId = trigger.getAttribute("id");
@@ -158,7 +173,7 @@ describe("Accordion", () => {
     });
 
     it("links trigger aria-controls to content id", () => {
-      const { getByText } = setUp(<ThreeItemAccordion defaultValue={["item-1"]} />);
+      const { getByText } = setUp(<ThreeItemAccordion defaultValues={["item-1"]} />);
       const trigger = getByText("Trigger 1");
       const content = getByText("Content 1");
       const contentId = content.getAttribute("id");
@@ -167,7 +182,7 @@ describe("Accordion", () => {
     });
 
     it("sets role=region on content", () => {
-      const { getByText } = setUp(<ThreeItemAccordion defaultValue={["item-1"]} />);
+      const { getByText } = setUp(<ThreeItemAccordion defaultValues={["item-1"]} />);
       expect(getByText("Content 1")).toHaveAttribute("role", "region");
     });
 
@@ -248,7 +263,7 @@ describe("Accordion", () => {
       expect(outerTrigger2).not.toHaveFocus();
     });
 
-    it("uses directly registered triggers instead of descendant queries", async () => {
+    it("uses item values to avoid matching nested accordion triggers", async () => {
       const { getByText, user } = setUp(<NestedAccordionWithContentBeforeHeader />);
       const outerTrigger1 = getByText("Outer Trigger 1");
       const outerTrigger2 = getByText("Outer Trigger 2");
@@ -273,9 +288,9 @@ describe("Accordion", () => {
   });
 
   describe("data attributes", () => {
-    it("sets data-accordion-trigger on trigger", () => {
+    it("sets data-value on trigger", () => {
       const { getByText } = setUp(<ThreeItemAccordion />);
-      expect(getByText("Trigger 1")).toHaveAttribute("data-accordion-trigger");
+      expect(getByText("Trigger 1")).toHaveAttribute("data-value", "item-1");
     });
 
     it("sets data-open when item is open", async () => {

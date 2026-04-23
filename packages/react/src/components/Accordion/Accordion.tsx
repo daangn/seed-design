@@ -1,28 +1,17 @@
 "use client";
 
 import { accordion, type AccordionVariantProps } from "@seed-design/css/recipes/accordion";
-import { dataAttr } from "@seed-design/dom-utils";
 import {
   Accordion as AccordionPrimitive,
-  useAccordionItemContext,
+  useAccordionItemStateProps,
 } from "@seed-design/react-accordion";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { withProvider, withContext } = createSlotRecipeContext(accordion);
-
-const useAccordionItemStateProps = () => {
-  const ctx = useAccordionItemContext();
-  return {
-    stateProps: {
-      "data-disabled": dataAttr(ctx.disabled),
-      "data-open": dataAttr(ctx.open),
-    } as React.HTMLAttributes<HTMLElement>,
-  };
-};
-
 const withStateProps = createWithStateProps([useAccordionItemStateProps]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -82,18 +71,6 @@ AccordionContent.displayName = "Accordion.Content";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionContentInnerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const AccordionContentInner = withContext<HTMLDivElement, AccordionContentInnerProps>(
-  Primitive.div,
-  "contentInner",
-);
-AccordionContentInner.displayName = "Accordion.ContentInner";
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface AccordionBodyProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionBody = withContext<HTMLDivElement, AccordionBodyProps>(Primitive.div, "body");
@@ -134,6 +111,16 @@ export const AccordionPrefix = withContext<HTMLDivElement, AccordionPrefixProps>
   "prefix",
 );
 AccordionPrefix.displayName = "Accordion.Prefix";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface AccordionPrefixIconProps extends InternalIconProps {}
+
+export const AccordionPrefixIcon = withContext<SVGSVGElement, AccordionPrefixIconProps>(
+  withStateProps(InternalIcon),
+  "prefixIcon",
+);
+AccordionPrefixIcon.displayName = "Accordion.PrefixIcon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

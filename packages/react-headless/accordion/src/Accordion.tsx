@@ -2,133 +2,72 @@
 
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
-import { Collapsible } from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef, useCallback, useId, useMemo, useRef } from "react";
+import { forwardRef, useCallback, useMemo, useRef } from "react";
 import type * as React from "react";
-import {
-  useAccordion,
-  type UseAccordionMultipleProps,
-  type UseAccordionReturn,
-  type UseAccordionSingleProps,
-} from "./useAccordion";
+import * as dom from "./dom";
+import { useAccordion, type UseAccordionProps, type UseAccordionReturn } from "./useAccordion";
+import { useAccordionItem } from "./useAccordionItem";
 import { AccordionProvider, useAccordionContext } from "./useAccordionContext";
 import { AccordionItemProvider, useAccordionItemContext } from "./useAccordionItemContext";
 
-const DATA_ACCORDION_TRIGGER = "data-accordion-trigger";
-
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface AccordionRootBaseProps
-  extends PrimitiveProps,
+export interface AccordionRootProps
+  extends UseAccordionProps,
+    PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
-export type AccordionSingleRootProps = AccordionRootBaseProps & UseAccordionSingleProps;
-export type AccordionMultipleRootProps = AccordionRootBaseProps & UseAccordionMultipleProps;
-export type AccordionRootProps = AccordionSingleRootProps | AccordionMultipleRootProps;
-
 export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>((props, ref) => {
-  if (props.type === "single") {
-    return <AccordionImplSingle {...props} ref={ref} />;
-  }
-  return <AccordionImplMultiple {...props} ref={ref} />;
-});
-AccordionRoot.displayName = "AccordionRoot";
-
-const AccordionImplSingle = forwardRef<HTMLDivElement, AccordionSingleRootProps>((props, ref) => {
   const {
     type,
-    value,
-    defaultValue,
-    onValueChange,
+    values,
+    defaultValues,
+    onValuesChange,
     collapsible,
     disabled,
-    onKeyDown,
-    children,
-    ...rest
+    ...otherProps
   } = props;
 
   const api = useAccordion({
     type,
-    value,
-    defaultValue,
-    onValueChange,
+    values,
+    defaultValues,
+    onValuesChange,
     collapsible,
     disabled,
-    valuePropPresent: Object.prototype.hasOwnProperty.call(props, "value"),
   });
 
-  return (
-    <AccordionImpl ref={ref} api={api} onKeyDown={onKeyDown} {...rest}>
-      {children}
-    </AccordionImpl>
-  );
+  return <AccordionImpl ref={ref} api={api} {...otherProps} />;
 });
-AccordionImplSingle.displayName = "AccordionImplSingle";
-
-const AccordionImplMultiple = forwardRef<HTMLDivElement, AccordionMultipleRootProps>(
-  (props, ref) => {
-    const { type, value, defaultValue, onValueChange, disabled, onKeyDown, children, ...rest } =
-      props;
-
-    const api = useAccordion({
-      type,
-      value,
-      defaultValue,
-      onValueChange,
-      disabled,
-    });
-
-    return (
-      <AccordionImpl ref={ref} api={api} onKeyDown={onKeyDown} {...rest}>
-        {children}
-      </AccordionImpl>
-    );
-  },
-);
-AccordionImplMultiple.displayName = "AccordionImplMultiple";
+AccordionRoot.displayName = "AccordionRoot";
 
 interface AccordionImplProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   api: UseAccordionReturn;
 }
 
 const AccordionImpl = forwardRef<HTMLDivElement, AccordionImplProps>(({ api, ...props }, ref) => {
-  const triggerElementsRef = useRef<Set<HTMLElement>>(new Set());
-
-  const registerTrigger = useCallback((trigger: HTMLElement) => {
-    triggerElementsRef.current.add(trigger);
-  }, []);
-
-  const unregisterTrigger = useCallback((trigger: HTMLElement) => {
-    triggerElementsRef.current.delete(trigger);
-  }, []);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const getTriggerElements = useCallback(() => {
-    return Array.from(triggerElementsRef.current)
-      .filter((trigger) => !trigger.hasAttribute("data-disabled"))
-      .sort((a, b) => {
-        const position = a.compareDocumentPosition(b);
-
-        if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
-        if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
-
-        return 0;
-      });
+    return dom.getEnabledTriggerElements(rootRef.current);
   }, []);
 
   const contextValue = useMemo(
     () => ({
       ...api,
-      registerTrigger,
-      unregisterTrigger,
       getTriggerElements,
     }),
-    [api, registerTrigger, unregisterTrigger, getTriggerElements],
+    [api, getTriggerElements],
   );
 
   return (
     <AccordionProvider value={contextValue}>
-      <Primitive.div ref={ref} data-disabled={dataAttr(api.disabled)} {...props} />
+      <Primitive.div
+        ref={composeRefs(ref, rootRef)}
+        data-disabled={dataAttr(api.disabled)}
+        {...props}
+      />
     </AccordionProvider>
   );
 });
@@ -143,33 +82,14 @@ export interface AccordionItemProps extends PrimitiveProps, React.HTMLAttributes
 
 export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>((props, ref) => {
   const { value, disabled: itemDisabled, ...rest } = props;
-  const api = useAccordionContext();
-  const triggerId = useId();
-
-  const disabled = itemDisabled || api.disabled;
-  const open = api.isOpen(value);
-
-  const itemContext = useMemo(
-    () => ({ value, open, disabled, triggerId }),
-    [value, open, disabled, triggerId],
-  );
-
-  const handleOpenChange = useCallback(
-    (nextOpen: boolean) => {
-      if (nextOpen !== open) api.toggle(value);
-    },
-    [open, api, value],
-  );
+  const itemApi = useAccordionItem({
+    value,
+    disabled: itemDisabled,
+  });
 
   return (
-    <AccordionItemProvider value={itemContext}>
-      <Collapsible.Root
-        {...rest}
-        open={open}
-        onOpenChange={handleOpenChange}
-        disabled={disabled}
-        ref={ref}
-      />
+    <AccordionItemProvider value={itemApi}>
+      <Primitive.div ref={ref} {...mergeProps(rest, itemApi.rootProps)} />
     </AccordionItemProvider>
   );
 });
@@ -179,20 +99,26 @@ AccordionItem.displayName = "AccordionItem";
 
 export interface AccordionHeaderProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLHeadingElement> {}
+    React.HTMLAttributes<HTMLHeadingElement> {
+  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
+}
 
 /**
  * `AccordionHeader` wraps the `AccordionTrigger` to provide a semantic heading
  * level for screen readers and document outline.
  *
- * Renders as `<h3>` by default.
+ * Renders as the requested native heading element. Defaults to `<h3>`.
  *
  * @see https://www.w3.org/WAI/ARIA/apg/patterns/accordion/#wai-ariaroles%2Cstates%2Candproperties
  *   — "The title of each accordion header is contained in an element with role `button`.
  *   Each accordion header `button` is wrapped in an element with role `heading`..."
  */
 export const AccordionHeader = forwardRef<HTMLHeadingElement, AccordionHeaderProps>(
-  (props, ref) => <Primitive.h3 ref={ref} {...props} />,
+  ({ asChild: _asChild, headingLevel = 3, ...props }, ref) => {
+    const Comp = `h${headingLevel}` as keyof React.JSX.IntrinsicElements;
+
+    return <Comp ref={ref as React.ForwardedRef<any>} {...props} />;
+  },
 );
 AccordionHeader.displayName = "AccordionHeader";
 
@@ -214,9 +140,8 @@ export interface AccordionTriggerProps
  */
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   (props, ref) => {
-    const { triggerId, disabled } = useAccordionItemContext();
-    const { getTriggerElements, registerTrigger, unregisterTrigger } = useAccordionContext();
-    const registeredTriggerRef = useRef<HTMLButtonElement | null>(null);
+    const itemApi = useAccordionItemContext();
+    const { getTriggerElements } = useAccordionContext();
 
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -256,37 +181,14 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
       [getTriggerElements],
     );
 
-    const handleTriggerRef = useCallback(
-      (node: HTMLButtonElement | null) => {
-        const previousNode = registeredTriggerRef.current;
-
-        if (previousNode && previousNode !== node) {
-          unregisterTrigger(previousNode);
-        }
-
-        if (node && previousNode !== node) {
-          registerTrigger(node);
-        }
-
-        registeredTriggerRef.current = node;
-      },
-      [registerTrigger, unregisterTrigger],
-    );
-
-    const composedRef = useMemo(() => composeRefs(ref, handleTriggerRef), [ref, handleTriggerRef]);
-
     return (
-      <Collapsible.Trigger
-        ref={composedRef}
+      <Primitive.button
+        ref={ref}
         {...mergeProps(
+          props,
+          itemApi.triggerProps,
           {
             onKeyDown: handleKeyDown,
-          },
-          props,
-          {
-            id: triggerId,
-            disabled,
-            [DATA_ACCORDION_TRIGGER]: "",
           },
         )}
       />
@@ -302,7 +204,13 @@ export interface AccordionContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>((props, ref) => {
-  const { triggerId } = useAccordionItemContext();
-  return <Collapsible.Content ref={ref} role="region" aria-labelledby={triggerId} {...props} />;
+  const itemApi = useAccordionItemContext();
+
+  return (
+    <Primitive.div
+      ref={composeRefs(ref, itemApi.refs.content)}
+      {...mergeProps(itemApi.contentProps, props)}
+    />
+  );
 });
 AccordionContent.displayName = "AccordionContent";
