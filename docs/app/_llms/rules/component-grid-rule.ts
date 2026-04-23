@@ -2,22 +2,27 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import { baseUrl } from "@/app/metadata";
 import type { Rule } from "./types";
 
-interface ComponentEntry {
+export interface ComponentEntry {
   category: string;
   title: string;
   description: string;
   url: string;
 }
 
+export function isDeprecatedValue(value: string | undefined): boolean {
+  if (value === undefined) return false;
+  const normalized = value.trim().toLowerCase();
+  if (normalized === "") return false;
+  return normalized !== "false" && normalized !== "no";
+}
+
 function resolveComponentsDir(): string | null {
   const candidates = [
     path.resolve(process.cwd(), "content/docs/components"),
-    path.resolve(
-      path.dirname(fileURLToPath(import.meta.url)),
-      "../../../content/docs/components",
-    ),
+    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../content/docs/components"),
   ];
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) return candidate;
@@ -64,14 +69,14 @@ function loadEntries(): ComponentEntry[] {
 
       const source = fs.readFileSync(path.join(categoryDir, file), "utf8");
       const fm = parseFrontmatter(source);
-      if (fm.deprecated) continue;
+      if (isDeprecatedValue(fm.deprecated)) continue;
 
       const slug = file.slice(0, -".mdx".length);
       entries.push({
         category,
         title: fm.title ?? slug,
         description: fm.description ?? "",
-        url: `/docs/components/${slug}`,
+        url: new URL(`/llms/docs/components/${slug}.txt`, baseUrl).toString(),
       });
     }
   }
@@ -85,7 +90,7 @@ function getEntries(): ComponentEntry[] {
   return cachedEntries;
 }
 
-function buildMarkdown(entries: ComponentEntry[]): string {
+export function buildMarkdown(entries: ComponentEntry[]): string {
   const grouped = new Map<string, ComponentEntry[]>();
   for (const entry of entries) {
     if (!grouped.has(entry.category)) grouped.set(entry.category, []);
