@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import matter from "gray-matter";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import { baseUrl } from "@/app/metadata";
 import { getLLMMarkdownUrl } from "../config";
@@ -13,12 +14,11 @@ export interface ComponentEntry {
   url: string;
 }
 
-export function isDeprecatedValue(value: string | undefined): boolean {
-  if (value === undefined) return false;
-  const normalized = value.trim().toLowerCase();
-  if (normalized === "") return false;
-  return normalized !== "false" && normalized !== "no";
-}
+type Frontmatter = {
+  title?: string;
+  description?: string;
+  deprecated?: boolean;
+};
 
 function resolveComponentsDir(): string | null {
   const candidates = [
@@ -29,23 +29,6 @@ function resolveComponentsDir(): string | null {
     if (fs.existsSync(candidate)) return candidate;
   }
   return null;
-}
-
-function parseFrontmatter(source: string): Record<string, string> {
-  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (!match) return {};
-  const result: Record<string, string> = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    const colon = line.indexOf(":");
-    if (colon === -1) continue;
-    const key = line.slice(0, colon).trim();
-    const value = line
-      .slice(colon + 1)
-      .trim()
-      .replace(/^["']|["']$/g, "");
-    if (key) result[key] = value;
-  }
-  return result;
 }
 
 function titleCase(value: string): string {
@@ -69,8 +52,8 @@ function loadEntries(): ComponentEntry[] {
       if (!file.endsWith(".mdx")) continue;
 
       const source = fs.readFileSync(path.join(categoryDir, file), "utf8");
-      const fm = parseFrontmatter(source);
-      if (isDeprecatedValue(fm.deprecated)) continue;
+      const fm = matter(source).data as Frontmatter;
+      if (fm.deprecated) continue;
 
       const slug = file.slice(0, -".mdx".length);
       entries.push({

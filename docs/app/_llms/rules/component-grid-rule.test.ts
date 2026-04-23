@@ -1,12 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { normalizeLLMBodyWithRules } from "../normalize-llm-body";
 import { normalizeForAssert, readFixture } from "../test-utils";
-import {
-  buildMarkdown,
-  componentGridRule,
-  isDeprecatedValue,
-  type ComponentEntry,
-} from "./component-grid-rule";
+import { buildMarkdown, componentGridRule, type ComponentEntry } from "./component-grid-rule";
 
 const sampleEntries: ComponentEntry[] = [
   {
@@ -45,22 +40,5 @@ describe("componentGridRule", () => {
     const actual = normalizeLLMBodyWithRules(input, [componentGridRule]);
 
     expect(normalizeForAssert(actual)).toBe(normalizeForAssert(expected));
-  });
-
-  describe("isDeprecatedValue", () => {
-    it("treats message strings as deprecated", () => {
-      expect(isDeprecatedValue("더 이상 사용되지 않습니다.")).toBe(true);
-      expect(isDeprecatedValue("true")).toBe(true);
-      expect(isDeprecatedValue("yes")).toBe(true);
-    });
-
-    it("treats explicit false/empty as not deprecated", () => {
-      expect(isDeprecatedValue(undefined)).toBe(false);
-      expect(isDeprecatedValue("")).toBe(false);
-      expect(isDeprecatedValue("  ")).toBe(false);
-      expect(isDeprecatedValue("false")).toBe(false);
-      expect(isDeprecatedValue("False")).toBe(false);
-      expect(isDeprecatedValue("no")).toBe(false);
-    });
   });
 });
