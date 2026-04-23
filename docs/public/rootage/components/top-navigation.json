@@ -28,6 +28,22 @@
             }
           }
         },
+        "left": {
+          "properties": {},
+          "description": "왼쪽 영역입니다. 일반적으로 뒤로가기/닫기 Top Navigation Icon Button이 위치합니다."
+        },
+        "main": {
+          "properties": {
+            "paddingLeft": {
+              "type": "dimension"
+            }
+          },
+          "description": "title과 subtitle을 포함하는 영역입니다."
+        },
+        "right": {
+          "properties": {},
+          "description": "오른쪽 영역입니다. 일반적으로 Top Navigation Icon Button 또는 Top Navigation Text Button이 위치합니다."
+        },
         "title": {
           "properties": {
             "color": {
@@ -81,19 +97,6 @@
             },
             "minLineHeightScale": {
               "type": "number"
-            }
-          }
-        },
-        "icon": {
-          "properties": {
-            "size": {
-              "type": "dimension"
-            },
-            "targetSize": {
-              "type": "dimension"
-            },
-            "color": {
-              "type": "color"
             }
           }
         }
@@ -151,22 +154,6 @@
                   "type": "dimension",
                   "value": "$dimension.x4"
                 }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 24,
-                    "unit": "px"
-                  }
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                }
               }
             }
           }
@@ -195,18 +182,11 @@
                   "value": "$dimension.x4"
                 }
               },
-              "icon": {
-                "size": {
+              "main": {
+                "paddingLeft": {
                   "type": "dimension",
                   "value": {
-                    "value": 24,
-                    "unit": "px"
-                  }
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
+                    "value": 16,
                     "unit": "px"
                   }
                 }
@@ -242,12 +222,6 @@
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
                 }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
               }
             }
           }
@@ -276,12 +250,6 @@
                 }
               },
               "subtitle": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                }
-              },
-              "icon": {
                 "color": {
                   "type": "color",
                   "value": "$color.palette.static-white"
