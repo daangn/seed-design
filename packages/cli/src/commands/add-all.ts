@@ -56,6 +56,7 @@ export const addAllCommand = (cli: CAC) => {
     .action(async (registryIds, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
+      const trackCwd = typeof opts?.cwd === "string" ? opts.cwd : process.cwd();
       p.intro("seed-design add-all");
 
       try {
@@ -227,8 +228,9 @@ export const addAllCommand = (cli: CAC) => {
         // add-all 성공 이벤트 추적
         const duration = Date.now() - startTime;
         try {
-          await analytics.track(options.cwd, {
-            event: "add-all",
+          await analytics.trackCommandOutcome(options.cwd, {
+            command: "add-all",
+            status: "completed",
             properties: {
               registries: selectedRegistryIds,
               items_count: itemKeys.length,
@@ -244,8 +246,35 @@ export const addAllCommand = (cli: CAC) => {
         }
       } catch (error) {
         if (isCliCancelError(error)) {
+          try {
+            await analytics.trackCommandOutcome(trackCwd, {
+              command: "add-all",
+              status: "cancelled",
+              properties: {
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] add-all tracking failed:", telemetryError);
+            }
+          }
           p.outro(highlight(error.message));
           process.exit(0);
+        }
+
+        try {
+          await analytics.trackCommandFailure(trackCwd, {
+            command: "add-all",
+            error,
+            properties: {
+              duration_ms: Date.now() - startTime,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] add-all tracking failed:", telemetryError);
+          }
         }
 
         handleCliError(error, {
