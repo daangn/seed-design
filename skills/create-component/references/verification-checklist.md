@@ -17,8 +17,9 @@
 - [ ] 문서가 실제 API와 일치하는가?
 - [ ] 예제가 동작하는가?
 - [ ] Storybook 스토리가 테마별로 정상인가?
-- [ ] `bun --filter @seed-design/docs generate:registry` 실행했는가?
-- [ ] 타입 에러가 없는가? (`bun typecheck`)
+- [ ] generated registry output이 최신인가? (`docs/public/__registry__/` 확인)
+- [ ] vendored snippet consumer가 있으면 함께 동기화했는가? (예: `examples/stackflow-spa/src/seed-design/ui/`)
+- [ ] 패키지별 `typecheck` 스크립트가 있으면 선택적으로 실행했는가?
 - [ ] Visual Test 통과했는가? (Agent Browser)
 
 ## 패턴 준수 확인
@@ -63,6 +64,6 @@ variant props 수동 destructuring, 잘못된 import 경로, style prop 직접 �
 | `packages/css/vars/component/*` | rootage |
 | `packages/qvism-preset/src/vars/component/*` | rootage |
 | `packages/rootage/components/schema.json` | rootage |
-| `docs/registry/*.json` | registry-*.ts |
+| `docs/public/__registry__/**` | docs registry script |
 
 **수정 방법**: 소스 파일 수정 후 `bun generate:all` 실행

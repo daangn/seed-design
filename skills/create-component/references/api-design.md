@@ -11,7 +11,7 @@ Snippet 레이어(`docs/registry/ui/`)와 컴포넌트 공개 API 설계 시 따
 | 단일 import으로 사용 가능 | No |
 | 이미 심플한 API | No |
 
-## API 설계 5원칙
+## API 설계 6원칙
 
 ### 1. Action을 노출하고 State setter를 숨긴다
 
@@ -76,6 +76,16 @@ sub-component가 항상 부모와 함께 사용되면 부모 recipe의 slot으�
 - **예외 허용**: consumer가 직접 조합하거나 스타일링해야 하는 명확한 사용 사례가 있을 때만 공개
 
 `contentInner`, `layoutWrapper` 같은 helper slot을 export하려면 "왜 사용자에게 이 레이어를 알아야 하는가?"를 먼저 설명할 수 있어야 한다.
+
+### 6. Prop 이름 충돌을 의식적으로 처리한다
+
+Snippet convenience prop이 underlying primitive/native prop과 이름이 겹치면 interface/type surface를 의식적으로 설계한다.
+
+- `title`, `size`, `color`, `prefix` 같은 이름은 native HTML attribute나 기존 slot prop과 충돌하기 쉽다
+- 충돌 가능성이 보이면 먼저 `Omit<...>`으로 제외하거나 prop 이름을 바꾼다
+- `interface extends`가 충돌 때문에 막히면 type alias를 쓰거나, 반대로 union이 필요 없으면 interface로 평평하게 유지한다
+
+핵심은 "편한 이름을 먼저 쓴다"가 아니라, consumer가 보는 타입 surface와 실제 런타임 contract가 정확히 맞아야 한다는 점이다.
 
 ## Children composition vs convenience prop 판단 기준
 

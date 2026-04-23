@@ -9,9 +9,18 @@
 **위치**: `packages/react-headless/[name]/`
 **조건**: 데이터 로직이 필요한 경우만 (단순 UI 컴포넌트는 생략)
 
-Headless 훅은 `use{Component}.ts` 파일에 `use{Component}` 형태로 작성한다. 훅은 `data-pressed`, `data-disabled` 같은 data 속성과 이벤트 핸들러(`onPointerDown`, `onClick` 등)를 `rootProps` 객체로 반환한다.
+Headless 훅은 하나의 `use{Component}`로 끝낼 필요가 없다. compound stateful 컴포넌트는 가능하면 root/item 책임을 분리하고, render wiring과 상태 로직을 분리한다.
+
+- root 수준 상태와 collection 관리는 `use{Component}` 또는 `useRootState` 계열 훅에 둔다.
+- item 수준 상태, 키보드 인터랙션, slot별 props 조합은 `use{Component}Item` 또는 `useItemState` 계열 훅으로 분리한다.
+- 재사용 가능한 상태 전이, DOM query, 내부 id 생성, keyboard handler는 가능하면 `use*` 훅으로 내리고 컴포넌트 파일에는 hook이 만든 props와 ref를 연결하는 역할만 남긴다.
+- hook은 `rootProps` 하나만 반환할 필요가 없다. `triggerProps`, `contentProps`, `indicatorProps`처럼 slot별 props를 반환해도 된다.
+- hook이 반환하는 props는 ARIA, ids, keyboard handler, `data-*` state까지 포함한 **slot contract**를 목표로 하고, React 컴포넌트가 같은 로직을 다시 계산하지 않게 한다.
+- DOM query가 필요하면 ref `Set` 등록보다 내부 id + 안정적인 selector contract(`data-ownedby` 등)를 먼저 검토한다.
 
 **카테고리 C/D에서 새 headless를 만들 때**: Phase 0에서 정리한 ARIA APG 패턴과 키보드 인터랙션 스펙을 이 단계에서 구현한다. `references/external-references.md`의 접근성 체크리스트를 따른다. 외부 라이브러리(Base UI, Radix)의 동일 컴포넌트 구현도 참조하여 인터페이스 설계를 검증한다.
+
+`asChild`, `headingLevel` 같은 escape hatch를 제공하기로 했다면, 런타임이 실제 지원하는 방식만 타입에 노출한다. 타입에만 열어두고 구현에서 무시하는 상태는 만들지 않는다.
 
 ## Step 2: Definition (Rootage)
 
@@ -60,7 +69,13 @@ Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 �
 
 ### Snippet 파일 작성 패턴
 
-Snippet 파일은 `"use client"` 선언으로 시작하며, `@seed-design/react`에서 compound 컴포넌트를 import하여 단순화된 API로 래핑한다. Props 인터페이스는 `SeedComponentName.RootProps`를 extends하고, `src`, `alt`, `fallback` 같은 편의 prop을 추가한다. 반드시 `React.forwardRef`로 감싸고 `displayName`을 설정한다. 하위 컴포넌트가 있으면 별도 인터페이스와 함께 re-export한다.
+Snippet 파일은 `"use client"` 선언으로 시작하며, `@seed-design/react`에서 compound 컴포넌트를 import하여 **convenience wrapper**를 우선 설계한다.
+
+- low-level re-export보다 사용자가 가장 짧게 쓸 수 있는 surface를 먼저 만든다.
+- Props는 단순 `RootProps extends`로 끝내지 말고, 실제 convenience prop(`title`, `description`, `suffixIcon` 등)을 먼저 설계한다.
+- native HTML prop이나 underlying primitive prop과 이름이 충돌할 수 있는 convenience prop(`title`, `size`, `color`, `prefix` 등)은 `Omit` 또는 rename을 먼저 검토한다.
+- 하위 컴포넌트는 사용자가 직접 알아야 하는 public 시나리오가 있을 때만 선택적으로 노출한다.
+- 반드시 `React.forwardRef`로 감싸고, `displayName`은 runtime export 이름과 맞는 flat naming을 우선한다.
 
 **추가 작업**:
 1. `docs/registry/registry-ui.ts`에 entry 추가 (의존성 버전은 해당 컴포넌트가 추가된 버전 기준)
@@ -79,6 +94,8 @@ Snippet 레이어가 있는 컴포넌트의 문서는 반드시 다음 형태로
 **위치**: `docs/examples/react/[name]/`
 
 Snippet 레이어가 있는 경우 `seed-design/ui/[name]`에서 import하고, Layout 컴포넌트(Flex, VStack 등)는 `@seed-design/react`에서 import한다. Snippet 레이어가 없는 경우 `@seed-design/react`에서 직접 import한다.
+
+snippet을 vendoring해서 소비하는 example app이 있으면 해당 경로도 함께 확인한다. 현재는 `examples/stackflow-spa/src/seed-design/ui/`가 대표적이며, snippet API가 바뀌면 이 경로와 example app build도 함께 동기화해야 한다.
 
 ## Step 7: Storybook
 

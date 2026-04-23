@@ -21,6 +21,8 @@
 - variant props(`variant`, `size`, `tone` 등)는 함수 인자에서 수동 destructuring 금지. 반드시 `recipe.splitVariantProps(props)` 또는 `createRecipeContext`/`createSlotRecipeContext` 유틸을 사용한다.
 - 공개 export는 user-meaningful slot을 기준으로 정한다. animation/layout helper slot은 기본적으로 `index.ts`와 namespace export에 올리지 않는다.
 - compound component를 추가할 때는 React surface만 보지 말고, `docs/registry/ui/`의 snippet surface까지 함께 설계한다.
+- `asChild` 같은 escape hatch는 런타임 구현이 실제로 지원할 때만 타입에 노출한다. 타입에만 열어두고 구현에서 무시하지 않는다.
+- `displayName`은 dotted namespace 문자열보다 exported symbol과 맞는 flat naming을 우선한다.
 
 ## 코드 스타일
 

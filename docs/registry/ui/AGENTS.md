@@ -23,3 +23,5 @@
 - 자동 주입 icon이나 indicator가 있으면 override prop 또는 숨김 prop을 함께 제공한다.
 - `rootProps`, `headerProps` 같은 escape hatch는 실제 사용성이 분명할 때만 추가한다.
 - `displayName`과 alias는 runtime API보다 우선순위가 낮다. 도입한다면 flat naming 또는 namespace style 중 하나를 정해 일관되게 유지한다.
+- snippet을 바꾼 뒤에는 generated registry(`docs/public/__registry__/ui/*.json`)와 vendored snippet consumer를 함께 확인한다.
+- 현재 vendored consumer의 대표 경로는 `examples/stackflow-spa/src/seed-design/ui/`이며, snippet API 변경 시 이 경로도 같이 동기화하는 것을 기본값으로 본다.
