@@ -1,14 +1,13 @@
 "use client";
 
-import { composeRefs } from "@radix-ui/react-compose-refs";
-import { dataAttr, mergeProps } from "@seed-design/dom-utils";
+import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef, useCallback, useMemo, useRef } from "react";
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { forwardRef } from "react";
 import type * as React from "react";
-import * as dom from "./dom";
-import { useAccordion, type UseAccordionProps, type UseAccordionReturn } from "./useAccordion";
+import { useAccordion, type UseAccordionProps } from "./useAccordion";
 import { useAccordionItem } from "./useAccordionItem";
-import { AccordionProvider, useAccordionContext } from "./useAccordionContext";
+import { AccordionProvider } from "./useAccordionContext";
 import { AccordionItemProvider, useAccordionItemContext } from "./useAccordionItemContext";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -38,40 +37,13 @@ export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>((pro
     disabled,
   });
 
-  return <AccordionImpl ref={ref} api={api} {...otherProps} />;
-});
-AccordionRoot.displayName = "AccordionRoot";
-
-interface AccordionImplProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
-  api: UseAccordionReturn;
-}
-
-const AccordionImpl = forwardRef<HTMLDivElement, AccordionImplProps>(({ api, ...props }, ref) => {
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  const getTriggerElements = useCallback(() => {
-    return dom.getEnabledTriggerElements(rootRef.current);
-  }, []);
-
-  const contextValue = useMemo(
-    () => ({
-      ...api,
-      getTriggerElements,
-    }),
-    [api, getTriggerElements],
-  );
-
   return (
-    <AccordionProvider value={contextValue}>
-      <Primitive.div
-        ref={composeRefs(ref, rootRef)}
-        data-disabled={dataAttr(api.disabled)}
-        {...props}
-      />
+    <AccordionProvider value={api}>
+      <Primitive.div ref={ref} {...mergeProps(api.rootProps, otherProps)} />
     </AccordionProvider>
   );
 });
-AccordionImpl.displayName = "AccordionImpl";
+AccordionRoot.displayName = "AccordionRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -140,57 +112,9 @@ export interface AccordionTriggerProps
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   (props, ref) => {
     const itemApi = useAccordionItemContext();
-    const { getTriggerElements } = useAccordionContext();
-
-    const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent<HTMLButtonElement>) => {
-        if (event.defaultPrevented) return;
-
-        const { key } = event;
-        if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(key)) return;
-
-        const triggers = getTriggerElements();
-        if (triggers.length === 0) return;
-
-        const currentIndex = triggers.indexOf(event.currentTarget);
-        if (currentIndex === -1) return;
-
-        event.preventDefault();
-
-        let nextIndex: number;
-        switch (key) {
-          case "ArrowDown":
-            nextIndex = currentIndex + 1 >= triggers.length ? 0 : currentIndex + 1;
-            break;
-          case "ArrowUp":
-            nextIndex = currentIndex - 1 < 0 ? triggers.length - 1 : currentIndex - 1;
-            break;
-          case "Home":
-            nextIndex = 0;
-            break;
-          case "End":
-            nextIndex = triggers.length - 1;
-            break;
-          default:
-            return;
-        }
-
-        triggers[nextIndex]?.focus();
-      },
-      [getTriggerElements],
-    );
 
     return (
-      <Primitive.button
-        ref={ref}
-        {...mergeProps(
-          props,
-          itemApi.triggerProps,
-          {
-            onKeyDown: handleKeyDown,
-          },
-        )}
-      />
+      <Primitive.button ref={ref} {...mergeProps(props, itemApi.triggerProps)} />
     );
   },
 );

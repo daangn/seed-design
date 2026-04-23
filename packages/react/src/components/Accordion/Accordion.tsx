@@ -16,8 +16,9 @@ const withStateProps = createWithStateProps([useAccordionItemStateProps]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export type AccordionRootProps = React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root> &
-  AccordionVariantProps;
+export interface AccordionRootProps
+  extends AccordionVariantProps,
+    AccordionPrimitive.RootProps {}
 
 export const AccordionRoot = withProvider<HTMLDivElement, AccordionRootProps>(
   AccordionPrimitive.Root,

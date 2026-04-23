@@ -1,9 +1,7 @@
 import { createContext, useContext } from "react";
 import type { UseAccordionReturn } from "./useAccordion";
 
-export interface UseAccordionContext extends UseAccordionReturn {
-  getTriggerElements: () => HTMLElement[];
-}
+export interface UseAccordionContext extends UseAccordionReturn {}
 
 const AccordionContext = createContext<UseAccordionContext | null>(null);
 

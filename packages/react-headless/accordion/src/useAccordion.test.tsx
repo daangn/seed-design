@@ -177,5 +177,16 @@ describe("useAccordion", () => {
       const { getByTestId } = setUp(<Harness type="single" />);
       expect(getByTestId("disabled")).toHaveTextContent("false");
     });
+
+    it("does not change values when toggle is called while disabled", async () => {
+      const handleChange = mock<(values: string[]) => void>(() => {});
+      const { getByTestId, user } = setUp(
+        <Harness type="single" disabled={true} values={[]} onValuesChange={handleChange} />,
+      );
+
+      await user.click(getByTestId("toggle-1"));
+      expect(handleChange).not.toHaveBeenCalled();
+      expect(getByTestId("values")).toHaveTextContent("[]");
+    });
   });
 });
