@@ -16,3 +16,22 @@ snippet으로 바로 설치해 사용할 수 있습니다.
 ```sh
 npx @seed-design/cli@latest add ui:accordion
 ```
+
+```tsx
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionTitle,
+  AccordionContent,
+} from "seed-design/ui/accordion";
+
+<Accordion type="single" defaultValue="item-1" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>
+      <AccordionTitle>자주 묻는 질문 1</AccordionTitle>
+    </AccordionTrigger>
+    <AccordionContent>답변 내용</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
