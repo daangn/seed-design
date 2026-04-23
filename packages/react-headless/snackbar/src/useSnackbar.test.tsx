@@ -213,6 +213,37 @@ describe("useSnackbar", () => {
       expect(snackbarApi.queue.length).toBe(0);
     });
 
+    it("should not call onClose of queued snackbars that were dropped without being shown", () => {
+      const onCloseFirst = mock(() => {});
+      const onCloseQueuedA = mock(() => {});
+      const onCloseQueuedB = mock(() => {});
+      setUp({ strategy: "queued" });
+
+      act(() =>
+        snackbarApi.create(createSnackbar("First", { onClose: onCloseFirst, removeDelay: 100 })),
+      );
+      act(() => {
+        snackbarApi.create(
+          createSnackbar("Queued A", { strategy: "queued", onClose: onCloseQueuedA }),
+        );
+        snackbarApi.create(
+          createSnackbar("Queued B", { strategy: "queued", onClose: onCloseQueuedB }),
+        );
+      });
+
+      expect(snackbarApi.queue.length).toBe(2);
+
+      // Immediate snackbar drops the queue (Queued A, B were never shown)
+      act(() => snackbarApi.create(createSnackbar("Urgent", { strategy: "immediate" })));
+      act(() => jest.advanceTimersByTime(100));
+
+      // First was shown → its onClose fires once
+      expect(onCloseFirst).toHaveBeenCalledTimes(1);
+      // Queued A, B never became currentSnackbar → their onClose must not fire
+      expect(onCloseQueuedA).not.toHaveBeenCalled();
+      expect(onCloseQueuedB).not.toHaveBeenCalled();
+    });
+
     it("should restart timeout after replacement", () => {
       setUp();
 
