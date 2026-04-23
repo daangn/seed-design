@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import { baseUrl } from "@/app/metadata";
+import { getLLMMarkdownUrl } from "../config";
 import type { Rule } from "./types";
 
 export interface ComponentEntry {
@@ -76,7 +77,7 @@ function loadEntries(): ComponentEntry[] {
         category,
         title: fm.title ?? slug,
         description: fm.description ?? "",
-        url: new URL(`/llms/docs/components/${slug}.txt`, baseUrl).toString(),
+        url: new URL(getLLMMarkdownUrl("docs", ["components", slug]), baseUrl).toString(),
       });
     }
   }
