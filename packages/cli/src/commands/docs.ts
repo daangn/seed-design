@@ -246,6 +246,7 @@ export const docsCommand = (cli: CAC) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
       const raw = opts.raw ?? false;
+      const trackCwd = process.cwd();
 
       if (!raw) p.intro("seed-design docs");
 
@@ -465,24 +466,55 @@ export const docsCommand = (cli: CAC) => {
 
         const duration = Date.now() - startTime;
         try {
-          await analytics.track(process.cwd(), {
-            event: "docs",
+          await analytics.trackCommandOutcome(trackCwd, {
+            command: "docs",
+            status: "completed",
             properties: {
               query: options.query ?? null,
               item_id: selectedItem?.id ?? options.query ?? null,
               has_snippet: !!(selectedItem?.snippets && selectedItem.snippets.length > 0),
+              raw_mode: raw,
               duration_ms: duration,
             },
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] docs tracking failed:", telemetryError);
+            console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
       } catch (error) {
         if (isCliCancelError(error)) {
+          try {
+            await analytics.trackCommandOutcome(trackCwd, {
+              command: "docs",
+              status: "cancelled",
+              properties: {
+                raw_mode: raw,
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
+            }
+          }
           if (!raw) p.outro(highlight(error.message));
           process.exit(0);
+        }
+
+        try {
+          await analytics.trackCommandFailure(trackCwd, {
+            command: "docs",
+            error,
+            properties: {
+              raw_mode: raw,
+              duration_ms: Date.now() - startTime,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
+          }
         }
 
         if (raw) {

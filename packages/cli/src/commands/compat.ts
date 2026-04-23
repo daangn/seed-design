@@ -123,6 +123,7 @@ export const compatCommand = (cli: CAC) => {
     .action(async (itemIds, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
+      const trackCwd = typeof opts?.cwd === "string" ? opts.cwd : process.cwd();
       p.intro("seed-design compat");
 
       try {
@@ -202,6 +203,20 @@ export const compatCommand = (cli: CAC) => {
             })();
 
         if (!resolvedTargetItemKeys.length) {
+          try {
+            await analytics.trackCommandOutcome(options.cwd, {
+              command: "compat",
+              status: "completed",
+              result: "empty",
+              properties: {
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
+            }
+          }
           p.outro("검사할 스니펫이 없어요.");
           process.exit(0);
         }
@@ -219,8 +234,10 @@ export const compatCommand = (cli: CAC) => {
           p.outro("모든 스니펫이 현재 @seed-design/react, @seed-design/css와 호환돼요.");
 
           try {
-            await analytics.track(options.cwd, {
-              event: "compat",
+            await analytics.trackCommandOutcome(options.cwd, {
+              command: "compat",
+              status: "completed",
+              result: "compatible",
               properties: {
                 checked_items_count: compatibilityReport.checkedItemKeys.length,
                 incompatible_items_count: 0,
@@ -229,7 +246,7 @@ export const compatCommand = (cli: CAC) => {
             });
           } catch (telemetryError) {
             if (verbose) {
-              console.error("[Telemetry] compat tracking failed:", telemetryError);
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
             }
           }
 
@@ -246,8 +263,10 @@ export const compatCommand = (cli: CAC) => {
         p.outro("호환성 이슈가 있어요.");
 
         try {
-          await analytics.track(options.cwd, {
-            event: "compat",
+          await analytics.trackCommandOutcome(options.cwd, {
+            command: "compat",
+            status: "completed",
+            result: "incompatible",
             properties: {
               checked_items_count: compatibilityReport.checkedItemKeys.length,
               incompatible_items_count: new Set(
@@ -259,15 +278,42 @@ export const compatCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] compat tracking failed:", telemetryError);
+            console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
 
         process.exit(1);
       } catch (error) {
         if (isCliCancelError(error)) {
+          try {
+            await analytics.trackCommandOutcome(trackCwd, {
+              command: "compat",
+              status: "cancelled",
+              properties: {
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
+            }
+          }
           p.outro(highlight(error.message));
           process.exit(0);
+        }
+
+        try {
+          await analytics.trackCommandFailure(trackCwd, {
+            command: "compat",
+            error,
+            properties: {
+              duration_ms: Date.now() - startTime,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
+          }
         }
 
         handleCliError(error, {
