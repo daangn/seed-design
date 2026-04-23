@@ -33,6 +33,9 @@ const FADE_IN_EXIT_DURATION = 150;
 const MIN_SWIPE_DURATION = 150;
 const MAX_SWIPE_DURATION = 500;
 
+// Extra margin added to duration for the setTimeout race fallback.
+const FINISHED_TIMEOUT_MARGIN = 100;
+
 // ─── Utilities ──────────────────────────────────────────────────────────────
 
 function safeAnimate(
@@ -44,24 +47,11 @@ function safeAnimate(
   return el.animate(keyframes, options);
 }
 
-function safePseudoAnimate(
-  el: HTMLElement | null,
-  keyframes: Keyframe[],
-  options: KeyframeAnimationOptions,
-): Animation | null {
-  if (!el) return null;
-  try {
-    return el.animate(keyframes, { ...options, pseudoElement: "::before" });
-  } catch {
-    return null;
-  }
-}
-
 /**
- * Snap the `::before` transform to a concrete value during an interactive
- * gesture (e.g. swipe-back). Reuses a single Animation by swapping its
- * keyframes each call — recreating on every touchmove would cancel-then-
- * recreate and cause a visible flicker.
+ * Snap the app-bar background element transform during an interactive gesture
+ * (e.g. swipe-back). Reuses a single Animation by swapping its keyframes each
+ * call — recreating on every touchmove would cancel-then-recreate and cause a
+ * visible flicker.
  */
 export function scrubAppBarBackground(
   el: HTMLElement | null,
@@ -76,7 +66,7 @@ export function scrubAppBarBackground(
       prev.cancel();
     }
   }
-  return safePseudoAnimate(el, [{ transform }], { duration: 1, fill: "forwards" });
+  return safeAnimate(el, [{ transform }], { duration: 1, fill: "forwards" });
 }
 
 export function cancelAll(animations: (Animation | null)[]) {
@@ -89,23 +79,64 @@ export function cancelAll(animations: (Animation | null)[]) {
   }
 }
 
-function waitAll(animations: (Animation | null)[]): Promise<void> {
+/**
+ * Resolve when the animation finishes or `timeoutMs` elapses, whichever
+ * comes first. Uses `Animation.finished` when available (Chrome 84+,
+ * Safari 13.1+, Firefox 110+) and falls back to `onfinish` / `oncancel`
+ * listeners for older browsers (e.g. Chrome 77). Both the timer and the
+ * listeners are always cleaned up on the losing side of the race, so a
+ * late-firing animation cannot invoke a stale callback or leak via
+ * closure-retained Animation references.
+ */
+function waitOne(a: Animation, timeoutMs: number): Promise<void> {
+  const maybeFinished = (a as { finished?: Promise<Animation> }).finished;
+
+  if (maybeFinished && typeof maybeFinished.then === "function") {
+    return new Promise<void>((resolve) => {
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        resolve();
+      };
+      const timer = setTimeout(finish, timeoutMs);
+      maybeFinished.then(finish, finish);
+    });
+  }
+
+  return new Promise<void>((resolve) => {
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      try {
+        a.onfinish = null;
+        a.oncancel = null;
+      } catch {
+        /* ignore */
+      }
+      clearTimeout(timer);
+      resolve();
+    };
+    a.onfinish = finish;
+    a.oncancel = finish;
+    const timer = setTimeout(finish, timeoutMs);
+  });
+}
+
+function waitAll(animations: (Animation | null)[], durationMs: number): Promise<void> {
   const valid = animations.filter((a): a is Animation => a !== null);
   if (valid.length === 0) return Promise.resolve();
-  return Promise.all(
-    valid.map((a) =>
-      a.finished.catch(() => {
-        /* AbortError from cancel */
-      }),
-    ),
-  ).then(() => {});
+  const timeout = durationMs + FINISHED_TIMEOUT_MARGIN;
+  return Promise.all(valid.map((a) => waitOne(a, timeout))).then(() => {});
 }
 
 export type AnimationResult = { animations: Animation[]; finished: Promise<void> };
 
-function collectAnimations(anims: (Animation | null)[]): AnimationResult {
+function collectAnimations(anims: (Animation | null)[], durationMs: number): AnimationResult {
   const animations = anims.filter((a): a is Animation => a !== null);
-  return { animations, finished: waitAll(animations) };
+  return { animations, finished: waitAll(animations, durationMs) };
 }
 
 function calculateSwipeDuration(remainingDistance: number, velocity: number): number {
@@ -126,7 +157,7 @@ interface IosPositions {
   behindTitle: Keyframe;
   topIconOpacity: string;
   behindIconOpacity: string;
-  appBarPseudo: string;
+  appBarBackground: string;
 }
 
 const IOS_ONSCREEN: IosPositions = {
@@ -137,7 +168,7 @@ const IOS_ONSCREEN: IosPositions = {
   behindTitle: { opacity: "0", transform: `translate3d(${-TITLE_OFFSET_PERCENT}%, 0, 0)` },
   topIconOpacity: "1",
   behindIconOpacity: "0",
-  appBarPseudo: "translate3d(0, 0, 0)",
+  appBarBackground: "translate3d(0, 0, 0)",
 };
 
 const IOS_OFFSCREEN: IosPositions = {
@@ -148,7 +179,7 @@ const IOS_OFFSCREEN: IosPositions = {
   behindTitle: { opacity: "1", transform: "translate3d(0, 0, 0)" },
   topIconOpacity: "0",
   behindIconOpacity: "1",
-  appBarPseudo: "translate3d(100%, 0, 0)",
+  appBarBackground: "translate3d(100%, 0, 0)",
 };
 
 function iosAnimate(t: TransitionTargets, from: IosPositions, to: IosPositions): AnimationResult {
@@ -194,33 +225,56 @@ function iosAnimate(t: TransitionTargets, from: IosPositions, to: IosPositions):
     );
   }
   anims.push(
-    safePseudoAnimate(
-      t.topAppBarRoot,
-      [{ transform: from.appBarPseudo }, { transform: to.appBarPseudo }],
+    safeAnimate(
+      t.topAppBarBackground,
+      [{ transform: from.appBarBackground }, { transform: to.appBarBackground }],
       opts,
     ),
   );
 
-  return collectAnimations(anims);
+  return collectAnimations(anims, IOS_DURATION);
+}
+
+/**
+ * Pin every iOS transition target to the given position with inline styles
+ * before the animation starts. Prevents a one-frame flash at the final
+ * position when the browser paints between React commit and animation
+ * commit, and guarantees a known start state when the previous transition's
+ * finish handler did not run (e.g. in browsers without Animation.finished
+ * support, where the polyfill could time out).
+ */
+function pinIosInlineStyles(t: TransitionTargets, pos: IosPositions) {
+  setTransform(t.topLayer, pos.topLayer);
+  setTransform(t.behindLayer, pos.behindLayer);
+  setOpacity(t.topDim, pos.dim);
+  setTransform(t.topAppBarBackground, pos.appBarBackground);
+
+  const topTitleOpacity = pos.topTitle["opacity"] as string;
+  const topTitleTransform = pos.topTitle["transform"] as string;
+  if (t.topTitle) {
+    setOpacity(t.topTitle, topTitleOpacity);
+    setTransform(t.topTitle, topTitleTransform);
+  }
+  if (t.behindTitle) {
+    setOpacity(t.behindTitle, pos.behindTitle["opacity"] as string);
+    setTransform(t.behindTitle, pos.behindTitle["transform"] as string);
+  }
+  for (const icon of t.topIcons) {
+    setOpacity(icon, pos.topIconOpacity);
+    setTransform(icon, topTitleTransform);
+  }
+  for (const icon of t.behindIcons) setOpacity(icon, pos.behindIconOpacity);
 }
 
 function iosAnimatePush(t: TransitionTargets): AnimationResult {
-  // Set start positions as inline style before animation (prevents flash)
-  setTransform(t.topLayer, "translate3d(100%, 0, 0)");
-  setOpacity(t.topDim, "0");
-  if (t.topTitle) {
-    setOpacity(t.topTitle, "0");
-    setTransform(t.topTitle, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
-  }
-  for (const icon of t.topIcons) {
-    setOpacity(icon, "0");
-    setTransform(icon, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
-  }
-
+  pinIosInlineStyles(t, IOS_OFFSCREEN);
   return iosAnimate(t, IOS_OFFSCREEN, IOS_ONSCREEN);
 }
 
 function iosAnimatePop(t: TransitionTargets): AnimationResult {
+  // No inline pinning here — top is already onscreen (no flash risk) and
+  // pinning `-30%` on the behind layer caused it to stick there when
+  // cleanup got skipped for any reason.
   return iosAnimate(t, IOS_ONSCREEN, IOS_OFFSCREEN);
 }
 
@@ -228,8 +282,9 @@ function iosAnimatePop(t: TransitionTargets): AnimationResult {
 
 function androidAnimate(t: TransitionTargets, direction: "push" | "pop"): AnimationResult {
   const isPush = direction === "push";
+  const duration = isPush ? ANDROID_ENTER_DURATION : ANDROID_EXIT_DURATION;
   const opts: KeyframeAnimationOptions = {
-    duration: isPush ? ANDROID_ENTER_DURATION : ANDROID_EXIT_DURATION,
+    duration,
     easing: isPush ? ANDROID_ENTER_EASING : ANDROID_EXIT_EASING,
     fill: "forwards",
   };
@@ -244,6 +299,13 @@ function androidAnimate(t: TransitionTargets, direction: "push" | "pop"): Animat
       setTransform(t.topAppBarRoot, "translate3d(0, 8vh, 0)");
     }
   } else {
+    // Pin onscreen positions before pop starts (mirror push setup)
+    setOpacity(t.topLayer, "1");
+    setTransform(t.topLayer, "translate3d(0, 0, 0)");
+    if (t.topAppBarRoot) {
+      setOpacity(t.topAppBarRoot, "1");
+      setTransform(t.topAppBarRoot, "translate3d(0, 0, 0)");
+    }
     // Restore behind appBar before pop starts (was hidden during idle)
     if (t.behindAppBarRoot) t.behindAppBarRoot.style.opacity = "";
   }
@@ -259,17 +321,21 @@ function androidAnimate(t: TransitionTargets, direction: "push" | "pop"): Animat
     { opacity: toOpacity, transform: `translate3d(0, ${isPush ? "0" : "-8vh"}, 0)` },
   ];
 
-  return collectAnimations([
-    safeAnimate(t.topLayer, shared, opts),
-    safeAnimate(t.topDim, dimFrames, opts),
-    safeAnimate(t.topAppBarRoot, shared, opts),
-  ]);
+  return collectAnimations(
+    [
+      safeAnimate(t.topLayer, shared, opts),
+      safeAnimate(t.topDim, dimFrames, opts),
+      safeAnimate(t.topAppBarRoot, shared, opts),
+    ],
+    duration,
+  );
 }
 
 function fadeInAnimate(t: TransitionTargets, direction: "push" | "pop"): AnimationResult {
   const isPush = direction === "push";
+  const duration = isPush ? FADE_IN_ENTER_DURATION : FADE_IN_EXIT_DURATION;
   const opts: KeyframeAnimationOptions = {
-    duration: isPush ? FADE_IN_ENTER_DURATION : FADE_IN_EXIT_DURATION,
+    duration,
     easing: isPush ? FADE_IN_ENTER_EASING : FADE_IN_EXIT_EASING,
     fill: "forwards",
   };
@@ -279,6 +345,9 @@ function fadeInAnimate(t: TransitionTargets, direction: "push" | "pop"): Animati
     setOpacity(t.topLayer, "0");
     if (t.topAppBarRoot) setOpacity(t.topAppBarRoot, "0");
   } else {
+    // Pin onscreen positions before pop starts (mirror push setup)
+    setOpacity(t.topLayer, "1");
+    if (t.topAppBarRoot) setOpacity(t.topAppBarRoot, "1");
     // Restore behind appBar before pop starts (was hidden during idle)
     if (t.behindAppBarRoot) t.behindAppBarRoot.style.opacity = "";
   }
@@ -288,10 +357,10 @@ function fadeInAnimate(t: TransitionTargets, direction: "push" | "pop"): Animati
     { opacity: isPush ? "1" : "0" },
   ];
 
-  return collectAnimations([
-    safeAnimate(t.topLayer, frames, opts),
-    safeAnimate(t.topAppBarRoot, frames, opts),
-  ]);
+  return collectAnimations(
+    [safeAnimate(t.topLayer, frames, opts), safeAnimate(t.topAppBarRoot, frames, opts)],
+    duration,
+  );
 }
 
 // ─── Swipe ──────────────────────────────────────────────────────────────────
@@ -351,14 +420,14 @@ function animateSwipe(
     );
   }
   anims.push(
-    safePseudoAnimate(
-      t.topAppBarRoot,
-      [{ transform: `translate3d(${displacement}px, 0, 0)` }, { transform: end.appBarPseudo }],
+    safeAnimate(
+      t.topAppBarBackground,
+      [{ transform: `translate3d(${displacement}px, 0, 0)` }, { transform: end.appBarBackground }],
       opts,
     ),
   );
 
-  return collectAnimations(anims);
+  return collectAnimations(anims, duration);
 }
 
 // ─── Public API ─────────────────────────────────────────────────────────────

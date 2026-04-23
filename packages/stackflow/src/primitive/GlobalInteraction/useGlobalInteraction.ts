@@ -80,9 +80,10 @@ export function useGlobalInteraction() {
   // Running WAAPI animations — for cancellation on new transitions
   const runningAnimsRef = useRef<Animation[]>([]);
 
-  // Current scrub animation on topAppBarRoot::before (drives app-bar background
-  // during swipe gesture). Retained across touchmoves to replace in place.
-  const pseudoScrubAnimRef = useRef<Animation | null>(null);
+  // Current scrub animation on the top AppBar background element. Retained
+  // across touchmoves so setKeyframes can replace it in place — recreating
+  // on every move would cancel-then-recreate and flicker.
+  const appBarBgScrubAnimRef = useRef<Animation | null>(null);
 
   // Transition style of the top activity at swipe start. Non-iOS styles
   // (fadeFromBottomAndroid / fadeIn) do not track finger displacement —
@@ -109,14 +110,14 @@ export function useGlobalInteraction() {
     const startSwipeBack = useCallback(
       ({ x0, t0 }: StartSwipeBackProps) => {
         // Cancel pending push rAF and any running animations
-        if (pendingRAFRef.current !== null) {
-          cancelAnimationFrame(pendingRAFRef.current);
-          pendingRAFRef.current = null;
+        if (pendingPushRAFRef.current !== null) {
+          cancelAnimationFrame(pendingPushRAFRef.current);
+          pendingPushRAFRef.current = null;
         }
         cancelAll(runningAnimsRef.current);
         runningAnimsRef.current = [];
-        pseudoScrubAnimRef.current?.cancel();
-        pseudoScrubAnimRef.current = null;
+        appBarBgScrubAnimRef.current?.cancel();
+        appBarBgScrubAnimRef.current = null;
 
         swipeBackContextRef.current = {
           x0,
@@ -156,10 +157,10 @@ export function useGlobalInteraction() {
         const targets = cachedTargetsRef.current;
         if (targets && swipeStyleRef.current === "slideFromRightIOS") {
           applySwipeStyles(targets, displacement, displacementRatio);
-          pseudoScrubAnimRef.current = scrubAppBarBackground(
-            targets.topAppBarRoot,
+          appBarBgScrubAnimRef.current = scrubAppBarBackground(
+            targets.topAppBarBackground,
             `translate3d(${displacement}px, 0, 0)`,
-            pseudoScrubAnimRef.current,
+            appBarBgScrubAnimRef.current,
           );
         }
 
@@ -193,8 +194,8 @@ export function useGlobalInteraction() {
 
         // Clear inline styles from swiping — WAAPI will take over from current position
         clearAllStyles(targets);
-        pseudoScrubAnimRef.current?.cancel();
-        pseudoScrubAnimRef.current = null;
+        appBarBgScrubAnimRef.current?.cancel();
+        appBarBgScrubAnimRef.current = null;
 
         if (swiped) {
           setSwipeBackState("completing");
@@ -208,6 +209,9 @@ export function useGlobalInteraction() {
           runningAnimsRef.current = animations;
 
           finished.then(() => {
+            // Bail out if a newer transition has already claimed the ref —
+            // otherwise this stale handler would clobber the new animation's
+            // freshly-pinned inline styles.
             // Set inline styles BEFORE cancel to prevent flash
             setPostExitPositions(targets);
             cancelAll(animations);
@@ -244,8 +248,8 @@ export function useGlobalInteraction() {
     const reset = useCallback(() => {
       cancelAll(runningAnimsRef.current);
       runningAnimsRef.current = [];
-      pseudoScrubAnimRef.current?.cancel();
-      pseudoScrubAnimRef.current = null;
+      appBarBgScrubAnimRef.current?.cancel();
+      appBarBgScrubAnimRef.current = null;
       if (cachedTargetsRef.current) {
         clearAllStyles(cachedTargetsRef.current);
       }
@@ -276,7 +280,13 @@ export function useGlobalInteraction() {
 
   // ── WAAPI push/pop transitions triggered by stackflow state changes ──
   const prevTransitionStateRef = useRef<string>(topActivity.transitionState);
-  const pendingRAFRef = useRef<number | null>(null);
+
+  // Defer push animation one frame so stackflow has committed the new top
+  // activity's DOM (data-activity-is-top + layer/appBar subtree) before we
+  // query targets. Running sync in useLayoutEffect turned out to race with
+  // stackflow's internal subscription updates, leaving targets empty and
+  // the enter animation never firing.
+  const pendingPushRAFRef = useRef<number | null>(null);
 
   // Skip the next exit-active transition after swipe completing,
   // because stackflow fires exit-active as part of its normal lifecycle
@@ -298,12 +308,15 @@ export function useGlobalInteraction() {
 
       cancelAll(runningAnimsRef.current);
       runningAnimsRef.current = [];
-      if (pendingRAFRef.current !== null) {
-        cancelAnimationFrame(pendingRAFRef.current);
+      if (pendingPushRAFRef.current !== null) {
+        cancelAnimationFrame(pendingPushRAFRef.current);
       }
-      pendingRAFRef.current = requestAnimationFrame(() => {
-        pendingRAFRef.current = null;
-        // Read style from DOM at animation time — React state may be stale
+      // Defer one frame so stackflow's new top activity subtree is reliably
+      // observable via data-activity-is-top. Sync dispatch inside
+      // useLayoutEffect raced with stackflow subscription updates and left
+      // findTransitionTargets empty on push.
+      pendingPushRAFRef.current = requestAnimationFrame(() => {
+        pendingPushRAFRef.current = null;
         const style = readTransitionStyle(stackEl);
         const targets = findTransitionTargets(stackEl);
         const { animations, finished } = animateTransition(targets, "push", style);
@@ -324,13 +337,12 @@ export function useGlobalInteraction() {
 
       if (swipeState !== "idle") return;
 
-      if (pendingRAFRef.current !== null) {
-        cancelAnimationFrame(pendingRAFRef.current);
-        pendingRAFRef.current = null;
+      if (pendingPushRAFRef.current !== null) {
+        cancelAnimationFrame(pendingPushRAFRef.current);
+        pendingPushRAFRef.current = null;
       }
       cancelAll(runningAnimsRef.current);
       runningAnimsRef.current = [];
-      // Read style from DOM — always fresh
       const style = readTransitionStyle(stackEl);
       const targets = findTransitionTargets(stackEl);
       const { animations, finished } = animateTransition(targets, "pop", style);
