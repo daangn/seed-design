@@ -1,6 +1,7 @@
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterAll, beforeEach, describe, expect, it, jest, mock } from "bun:test";
+import { StrictMode } from "react";
 
 import {
   SnackbarRegion,
@@ -50,6 +51,19 @@ function setUp(providerProps: Omit<SnackbarRootProviderProps, "children"> = {}) 
       <SnackbarRootProvider {...providerProps}>
         <SnackbarControls />
       </SnackbarRootProvider>,
+    ),
+  };
+}
+
+function setUpStrict(providerProps: Omit<SnackbarRootProviderProps, "children"> = {}) {
+  return {
+    user: userEvent.setup({ advanceTimers: (ms) => jest.advanceTimersByTime(ms) }),
+    ...render(
+      <StrictMode>
+        <SnackbarRootProvider {...providerProps}>
+          <SnackbarControls />
+        </SnackbarRootProvider>
+      </StrictMode>,
     ),
   };
 }
@@ -113,6 +127,35 @@ describe("useSnackbar", () => {
       act(() => jest.advanceTimersByTime(100));
 
       expect(screen.queryByText("Dismiss me")).not.toBeInTheDocument();
+    });
+
+    it("should call onClose exactly once when dismiss() is invoked", () => {
+      const onClose = mock(() => {});
+      setUp();
+
+      act(() => {
+        snackbarApi.create(createSnackbar("Bye", { onClose, removeDelay: 100 }));
+      });
+
+      act(() => snackbarApi.dismiss());
+      act(() => jest.advanceTimersByTime(100));
+
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("StrictMode safety", () => {
+    it("should not lose queued items under StrictMode double-invocation", () => {
+      setUpStrict({ strategy: "queued" });
+
+      act(() => {
+        snackbarApi.create(createSnackbar("A", { timeout: 10000, removeDelay: 1000 }));
+        snackbarApi.create(createSnackbar("B", { timeout: 10000, removeDelay: 1000 }));
+        snackbarApi.create(createSnackbar("C", { timeout: 10000, removeDelay: 1000 }));
+      });
+
+      expect(screen.getByText("A")).toBeInTheDocument();
+      expect(snackbarApi.queue.length).toBe(2);
     });
   });
 

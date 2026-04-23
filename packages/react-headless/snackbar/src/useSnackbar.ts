@@ -1,6 +1,6 @@
 import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useSupports } from "@seed-design/react-supports";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useReducer } from "react";
 import { useSafeOffset } from "./useSafeOffset";
 
 type SnackbarState = "inactive" | "active" | "persist" | "dismissing";
@@ -51,120 +51,101 @@ export interface CreateSnackbarOptions {
   strategy?: "immediate" | "queued";
 }
 
+interface ReducerState {
+  state: SnackbarState;
+  queue: CreateSnackbarOptions[];
+  currentSnackbar: CreateSnackbarOptions | null;
+}
+
+type ReducerAction =
+  | { type: "PUSH"; option: CreateSnackbarOptions; strategy: "immediate" | "queued" }
+  | { type: "ACTIVATE_NEXT" }
+  | { type: "PAUSE"; pauseOnInteraction: boolean }
+  | { type: "RESUME" }
+  | { type: "DISMISS" }
+  | { type: "REMOVE" };
+
+const initialState: ReducerState = {
+  state: "inactive",
+  queue: [],
+  currentSnackbar: null,
+};
+
+function reducer(s: ReducerState, action: ReducerAction): ReducerState {
+  switch (action.type) {
+    case "PUSH": {
+      const { option, strategy } = action;
+      if (strategy === "immediate") {
+        switch (s.state) {
+          case "inactive":
+            return { state: "active", currentSnackbar: option, queue: [] };
+          case "dismissing":
+            return { ...s, queue: [option] };
+          default:
+            return { ...s, state: "dismissing", queue: [option] };
+        }
+      }
+      if (s.state === "inactive") {
+        return { state: "active", currentSnackbar: option, queue: [] };
+      }
+      return { ...s, queue: [...s.queue, option] };
+    }
+    case "ACTIVATE_NEXT": {
+      if (s.state !== "inactive" || s.queue.length === 0) return s;
+      const [first, ...rest] = s.queue;
+      return { state: "active", currentSnackbar: first, queue: rest };
+    }
+    case "PAUSE":
+      return action.pauseOnInteraction && s.state === "active" ? { ...s, state: "persist" } : s;
+    case "RESUME":
+      return s.state === "persist" ? { ...s, state: "active" } : s;
+    case "DISMISS":
+      return s.state === "active" || s.state === "persist" ? { ...s, state: "dismissing" } : s;
+    case "REMOVE":
+      return { ...s, state: "inactive", currentSnackbar: null };
+  }
+}
+
 function useSnackbarState({
   pauseOnInteraction = true,
   strategy = "immediate",
 }: UseSnackbarStateProps) {
-  const [state, setState] = useState<SnackbarState>("inactive");
-  const [queue, setQueue] = useState<CreateSnackbarOptions[]>([]);
-  const [currentSnackbar, setCurrentSnackbar] = useState<CreateSnackbarOptions | null>(null);
+  const [{ state, queue, currentSnackbar }, dispatch] = useReducer(reducer, initialState);
 
   const visibleDuration = currentSnackbar?.timeout ?? 4000;
   const removeDelay = currentSnackbar?.removeDelay ?? 200;
   const visible = state === "active" || state === "persist";
 
-  // actions
-  const push = useCallback((option: CreateSnackbarOptions) => {
-    setQueue((prev) => [...prev, option]);
-  }, []);
-
-  const pop = useCallback(() => {
-    setQueue(([snackbar, ...rest]) => {
-      setCurrentSnackbar(snackbar ?? null);
-      return rest;
-    });
-  }, []);
-
-  const removeCurrentSnackbar = useCallback(() => {
-    setCurrentSnackbar(null);
-  }, []);
-
-  const invokeOnClose = useCallback(() => {
-    if (currentSnackbar?.onClose) {
-      currentSnackbar.onClose();
-    }
-  }, [currentSnackbar]);
-
-  // entry events
   useEffect(() => {
     switch (state) {
       case "inactive": {
-        if (queue.length >= 1) {
-          pop();
-          setState("active");
-        }
+        if (queue.length >= 1) dispatch({ type: "ACTIVATE_NEXT" });
         break;
       }
       case "active": {
-        const timeout = setTimeout(() => {
-          setState("dismissing");
-        }, visibleDuration);
+        const timeout = setTimeout(() => dispatch({ type: "DISMISS" }), visibleDuration);
         return () => clearTimeout(timeout);
       }
       case "dismissing": {
         const timeout = setTimeout(() => {
-          setState("inactive");
-          invokeOnClose();
-          removeCurrentSnackbar();
+          currentSnackbar?.onClose?.();
+          dispatch({ type: "REMOVE" });
         }, removeDelay);
         return () => clearTimeout(timeout);
       }
     }
-  }, [state, queue, visibleDuration, removeDelay, pop, invokeOnClose, removeCurrentSnackbar]);
+  }, [state, queue.length, currentSnackbar, visibleDuration, removeDelay]);
 
-  // events
   const events = useMemo(
     () => ({
       push: (option: CreateSnackbarOptions) => {
-        const effectiveStrategy = option.strategy ?? strategy;
-
-        if (effectiveStrategy === "immediate") {
-          setState((prev) => {
-            switch (prev) {
-              case "inactive":
-                setCurrentSnackbar(option);
-                return "active";
-              case "dismissing":
-                setQueue([option]);
-                return prev;
-              default:
-                setQueue([option]);
-                return "dismissing";
-            }
-          });
-        } else {
-          push(option);
-          setState((prev) => {
-            switch (prev) {
-              case "inactive":
-                pop();
-                return "active";
-              default:
-                return prev;
-            }
-          });
-        }
+        dispatch({ type: "PUSH", option, strategy: option.strategy ?? strategy });
       },
-      pause: () => {
-        if (state === "active") {
-          if (pauseOnInteraction) {
-            setState("persist");
-          }
-        }
-      },
-      resume: () => {
-        if (state === "persist") {
-          setState("active");
-        }
-      },
-      dismiss: () => {
-        if (state === "active" || state === "persist") {
-          setState("dismissing");
-          invokeOnClose();
-        }
-      },
+      pause: () => dispatch({ type: "PAUSE", pauseOnInteraction }),
+      resume: () => dispatch({ type: "RESUME" }),
+      dismiss: () => dispatch({ type: "DISMISS" }),
     }),
-    [state, strategy, push, pop, invokeOnClose, pauseOnInteraction],
+    [strategy, pauseOnInteraction],
   );
 
   return useMemo(
