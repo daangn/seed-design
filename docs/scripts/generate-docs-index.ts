@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import { existsSync, readFileSync, readdirSync, statSync } from "fs";
 import { promises as fs } from "fs";
+import matter from "gray-matter";
 import path from "node:path";
 
 type DocsSnippet = {
@@ -63,32 +64,11 @@ const SECTION_LABELS: Record<string, string> = {
   patterns: "패턴",
 };
 
-/**
- * Parse YAML frontmatter from an MDX file.
- * Returns null if no frontmatter is found.
- */
-function parseFrontmatter(content: string): Record<string, string> | null {
-  const match = content.match(/^---\s*\n([\s\S]*?)\n---/);
-  if (!match) return null;
-
-  const result: Record<string, string> = {};
-  for (const line of match[1].split("\n")) {
-    const colonIdx = line.indexOf(":");
-    if (colonIdx === -1) continue;
-    const key = line.slice(0, colonIdx).trim();
-    let value = line.slice(colonIdx + 1).trim();
-    // Strip matching surrounding quotes so YAML values like
-    // description: "@seed-design/cli..." parse cleanly.
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    }
-    result[key] = value;
-  }
-  return result;
-}
+type Frontmatter = {
+  title?: string;
+  description?: string;
+  deprecated?: boolean;
+};
 
 /**
  * Convert a file path relative to its content dir into URL slugs.
@@ -205,8 +185,8 @@ async function main() {
 
       const fullPath = path.join(sourceDir, relPath);
       const content = readFileSync(fullPath, "utf-8");
-      const frontmatter = parseFrontmatter(content);
-      if (!frontmatter?.title) continue;
+      const frontmatter = matter(content).data as Frontmatter;
+      if (!frontmatter.title) continue;
 
       // Section ID is the first slug for multi-level categories,
       // or "components" as default for flat categories (breeze, lynx, ai-integration)
@@ -222,7 +202,7 @@ async function main() {
         title: frontmatter.title,
         ...(frontmatter.description && { description: frontmatter.description }),
         docUrl,
-        ...(frontmatter.deprecated === "true" && { deprecated: true }),
+        ...(frontmatter.deprecated && { deprecated: true }),
         ...(registryEntry && {
           snippetKey: `${registryEntry.registryId}:${itemId}`,
           snippets: registryEntry.snippets,
