@@ -18,6 +18,7 @@ function setUp(jsx: ReactElement) {
 
 function SingleHarness(
   props: UseAccordionSingleProps & {
+    valuePropPresent?: boolean;
     onApi?: (api: ReturnType<typeof useAccordion>) => void;
   },
 ) {
@@ -32,8 +33,12 @@ function SingleHarness(
       <button type="button" data-testid="toggle-2" onClick={() => api.toggle("item-2")}>
         toggle 2
       </button>
+      <button type="button" data-testid="toggle-empty" onClick={() => api.toggle("")}>
+        toggle empty
+      </button>
       <span data-testid="open-1">{String(api.isOpen("item-1"))}</span>
       <span data-testid="open-2">{String(api.isOpen("item-2"))}</span>
+      <span data-testid="open-empty">{String(api.isOpen(""))}</span>
       <span data-testid="disabled">{String(api.disabled)}</span>
       <span data-testid="collapsible">{String(api.collapsible)}</span>
     </div>
@@ -68,6 +73,7 @@ describe("useAccordion", () => {
       const { getByTestId } = setUp(<SingleHarness type="single" defaultValue="item-1" />);
       expect(getByTestId("open-1")).toHaveTextContent("true");
       expect(getByTestId("open-2")).toHaveTextContent("false");
+      expect(getByTestId("open-empty")).toHaveTextContent("false");
     });
 
     it("opens one item on toggle and closes the previously open one", async () => {
@@ -96,15 +102,69 @@ describe("useAccordion", () => {
     });
 
     it("is controlled when value prop is provided", async () => {
-      const handleChange = mock<(value: string) => void>(() => {});
+      const handleChange = mock<(value: string | undefined) => void>(() => {});
       const { getByTestId, user, rerender } = setUp(
-        <SingleHarness type="single" value="" onValueChange={handleChange} />,
+        <SingleHarness type="single" value="item-2" onValueChange={handleChange} />,
       );
       await user.click(getByTestId("toggle-1"));
       expect(handleChange).toHaveBeenCalledWith("item-1");
 
       rerender(<SingleHarness type="single" value="item-1" onValueChange={handleChange} />);
       expect(getByTestId("open-1")).toHaveTextContent("true");
+    });
+
+    it("treats an empty string item value as a valid open item", async () => {
+      const { getByTestId, user } = setUp(<SingleHarness type="single" defaultValue="" />);
+
+      expect(getByTestId("open-empty")).toHaveTextContent("true");
+      expect(getByTestId("open-1")).toHaveTextContent("false");
+
+      await user.click(getByTestId("toggle-1"));
+      expect(getByTestId("open-empty")).toHaveTextContent("false");
+      expect(getByTestId("open-1")).toHaveTextContent("true");
+
+      await user.click(getByTestId("toggle-empty"));
+      expect(getByTestId("open-empty")).toHaveTextContent("true");
+      expect(getByTestId("open-1")).toHaveTextContent("false");
+    });
+
+    it("supports a controlled closed state when value is explicitly undefined", async () => {
+      const handleChange = mock<(value: string | undefined) => void>(() => {});
+      const { getByTestId, user, rerender } = setUp(
+        <SingleHarness
+          type="single"
+          value={undefined}
+          valuePropPresent={true}
+          onValueChange={handleChange}
+        />,
+      );
+
+      expect(getByTestId("open-1")).toHaveTextContent("false");
+      await user.click(getByTestId("toggle-1"));
+      expect(handleChange).toHaveBeenCalledWith("item-1");
+
+      rerender(
+        <SingleHarness
+          type="single"
+          value="item-1"
+          valuePropPresent={true}
+          onValueChange={handleChange}
+        />,
+      );
+      expect(getByTestId("open-1")).toHaveTextContent("true");
+
+      await user.click(getByTestId("toggle-1"));
+      expect(handleChange).toHaveBeenLastCalledWith(undefined);
+
+      rerender(
+        <SingleHarness
+          type="single"
+          value={undefined}
+          valuePropPresent={true}
+          onValueChange={handleChange}
+        />,
+      );
+      expect(getByTestId("open-1")).toHaveTextContent("false");
     });
 
     it("exposes collapsible=true by default", () => {
