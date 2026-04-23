@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: top-navigation-icon-button
+  name: Top Navigation Icon Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+      icon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          size: 44px
+        icon:
+          size: 24px
+    tone=layer:
+      enabled:
+        icon:
+          color: $color.fg.neutral
+      disabled:
+        icon:
+          color: $color.fg.disabled
+    tone=transparent:
+      enabled:
+        icon:
+          color: $color.palette.static-white
+      disabled:
+        icon:
+          color: $color.fg.disabled

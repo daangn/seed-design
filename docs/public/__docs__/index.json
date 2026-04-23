@@ -24,12 +24,14 @@
             {
               "id": "action-chip",
               "title": "Action Chip",
-              "docUrl": "/docs/components/action-chip"
+              "docUrl": "/docs/components/action-chip",
+              "deprecated": true
             },
             {
               "id": "action-sheet",
               "title": "Action Sheet",
               "docUrl": "/docs/components/action-sheet",
+              "deprecated": true,
               "snippetKey": "ui:action-sheet",
               "snippets": [
                 {
@@ -164,6 +166,7 @@
               "id": "control-chip",
               "title": "Control Chip",
               "docUrl": "/docs/components/control-chip",
+              "deprecated": true,
               "snippetKey": "ui:control-chip",
               "snippets": [
                 {
@@ -183,6 +186,7 @@
               "title": "Error State",
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
               "docUrl": "/docs/components/error-state",
+              "deprecated": true,
               "snippetKey": "ui:error-state",
               "snippets": [
                 {
@@ -195,6 +199,7 @@
               "id": "extended-action-sheet",
               "title": "Extended Action Sheet",
               "docUrl": "/docs/components/extended-action-sheet",
+              "deprecated": true,
               "snippetKey": "ui:extended-action-sheet",
               "snippets": [
                 {
@@ -206,12 +211,14 @@
             {
               "id": "extended-fab",
               "title": "Extended FAB",
-              "docUrl": "/docs/components/extended-fab"
+              "docUrl": "/docs/components/extended-fab",
+              "deprecated": true
             },
             {
               "id": "fab",
               "title": "FAB",
-              "docUrl": "/docs/components/fab"
+              "docUrl": "/docs/components/fab",
+              "deprecated": true
             },
             {
               "id": "field",
@@ -268,6 +275,7 @@
               "id": "inline-banner",
               "title": "Inline Banner",
               "docUrl": "/docs/components/inline-banner",
+              "deprecated": true,
               "snippetKey": "ui:inline-banner",
               "snippets": [
                 {
@@ -285,7 +293,8 @@
             {
               "id": "link-content",
               "title": "Link Content",
-              "docUrl": "/docs/components/link-content"
+              "docUrl": "/docs/components/link-content",
+              "deprecated": true
             },
             {
               "id": "list",
@@ -733,12 +742,14 @@
             {
               "id": "action-chip",
               "title": "Action Chip",
-              "docUrl": "/react/components/action-chip"
+              "docUrl": "/react/components/action-chip",
+              "deprecated": true
             },
             {
               "id": "action-sheet",
               "title": "Action Sheet",
               "docUrl": "/react/components/action-sheet",
+              "deprecated": true,
               "snippetKey": "ui:action-sheet",
               "snippets": [
                 {
@@ -866,7 +877,8 @@
               "id": "columns",
               "title": "Columns",
               "description": "여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/columns"
+              "docUrl": "/react/components/columns",
+              "deprecated": true
             },
             {
               "id": "composition",
@@ -910,6 +922,7 @@
               "id": "control-chip",
               "title": "Control Chip",
               "docUrl": "/react/components/control-chip",
+              "deprecated": true,
               "snippetKey": "ui:control-chip",
               "snippets": [
                 {
@@ -929,6 +942,7 @@
               "title": "Error State",
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
               "docUrl": "/react/components/error-state",
+              "deprecated": true,
               "snippetKey": "ui:error-state",
               "snippets": [
                 {
@@ -941,6 +955,7 @@
               "id": "extended-action-sheet",
               "title": "Extended Action Sheet",
               "docUrl": "/react/components/extended-action-sheet",
+              "deprecated": true,
               "snippetKey": "ui:extended-action-sheet",
               "snippets": [
                 {
@@ -952,12 +967,14 @@
             {
               "id": "extended-fab",
               "title": "Extended FAB",
-              "docUrl": "/react/components/extended-fab"
+              "docUrl": "/react/components/extended-fab",
+              "deprecated": true
             },
             {
               "id": "fab",
               "title": "FAB",
-              "docUrl": "/react/components/fab"
+              "docUrl": "/react/components/fab",
+              "deprecated": true
             },
             {
               "id": "field-button",
@@ -1045,12 +1062,14 @@
               "id": "inline",
               "title": "Inline",
               "description": "인라인 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/inline"
+              "docUrl": "/react/components/inline",
+              "deprecated": true
             },
             {
               "id": "inline-banner",
               "title": "Inline Banner",
               "docUrl": "/react/components/inline-banner",
+              "deprecated": true,
               "snippetKey": "ui:inline-banner",
               "snippets": [
                 {
@@ -1074,7 +1093,8 @@
             {
               "id": "link-content",
               "title": "Link Content",
-              "docUrl": "/react/components/link-content"
+              "docUrl": "/react/components/link-content",
+              "deprecated": true
             },
             {
               "id": "list",
@@ -1284,7 +1304,8 @@
               "id": "stack",
               "title": "Stack",
               "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/stack"
+              "docUrl": "/react/components/stack",
+              "deprecated": true
             },
             {
               "id": "switch",
@@ -1395,7 +1416,7 @@
             {
               "id": "commands",
               "title": "Commands",
-              "description": "\"@seed-design/cli 명령어를 안내해요.\"",
+              "description": "@seed-design/cli 명령어를 안내해요.",
               "docUrl": "/react/getting-started/cli/commands"
             },
             {
@@ -1529,7 +1550,7 @@
             {
               "id": "introduction",
               "title": "Introduction",
-              "description": "\"@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.\"",
+              "description": "@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.",
               "docUrl": "/react/developer-tools/codemods/introduction"
             }
           ]

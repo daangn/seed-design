@@ -17,6 +17,7 @@
     border-radius: var(--seed-radius-full)
 }
 .seed-notification-badge--size_large {
+    min-width: max(18px, calc(var(--seed-line-height-t1) + 0px * 2));
     min-height: 18px;
     border-radius: var(--seed-radius-full);
     padding-left: var(--seed-dimension-x1);

@@ -234,6 +234,12 @@
       "path": "/components/toggle-button.json"
     },
     {
+      "path": "/components/top-navigation-icon-button.json"
+    },
+    {
+      "path": "/components/top-navigation-text-button.json"
+    },
+    {
       "path": "/components/top-navigation.json"
     },
     {

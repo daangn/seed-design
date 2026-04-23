@@ -4,10 +4,6 @@ export const vars = {
       "root": {
         "height": "44px",
         "paddingX": "var(--seed-dimension-x4)"
-      },
-      "icon": {
-        "size": "24px",
-        "targetSize": "44px"
       }
     }
   },
@@ -17,9 +13,8 @@ export const vars = {
         "height": "56px",
         "paddingX": "var(--seed-dimension-x4)"
       },
-      "icon": {
-        "size": "24px",
-        "targetSize": "44px"
+      "main": {
+        "paddingLeft": "16px"
       }
     }
   },
@@ -33,9 +28,6 @@ export const vars = {
       },
       "subtitle": {
         "color": "var(--seed-color-fg-neutral-muted)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     }
   },
@@ -48,9 +40,6 @@ export const vars = {
         "color": "var(--seed-color-palette-static-white)"
       },
       "subtitle": {
-        "color": "var(--seed-color-palette-static-white)"
-      },
-      "icon": {
         "color": "var(--seed-color-palette-static-white)"
       }
     }
