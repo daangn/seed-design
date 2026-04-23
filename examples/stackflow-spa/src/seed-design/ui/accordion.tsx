@@ -4,29 +4,31 @@ import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import { Accordion as SeedAccordion } from "@seed-design/react";
 import * as React from "react";
 
-export interface AccordionProps extends SeedAccordion.RootProps {}
+export type AccordionProps = SeedAccordion.RootProps;
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const Accordion = SeedAccordion.Root;
 
-export interface AccordionItemProps extends SeedAccordion.ItemProps {}
+export type AccordionItemProps = SeedAccordion.ItemProps;
 
 /**
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionItem = SeedAccordion.Item;
 
-export interface AccordionTriggerProps
-  extends Omit<SeedAccordion.TriggerProps, "children"> {
+export type AccordionTriggerProps = Omit<
+  SeedAccordion.TriggerProps,
+  "children" | "title" | "prefix"
+> & {
   title: React.ReactNode;
   description?: React.ReactNode;
   prefix?: React.ReactNode;
   prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
   headingLevel?: SeedAccordion.HeaderProps["headingLevel"];
-}
+};
 
 /**
  * @see https://seed-design.io/react/components/accordion
@@ -50,7 +52,7 @@ export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTri
 );
 AccordionTrigger.displayName = "AccordionTrigger";
 
-export interface AccordionContentProps extends SeedAccordion.ContentProps {}
+export type AccordionContentProps = SeedAccordion.ContentProps;
 
 /**
  * @see https://seed-design.io/react/components/accordion

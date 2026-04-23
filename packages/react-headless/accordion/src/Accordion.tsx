@@ -98,8 +98,7 @@ AccordionItem.displayName = "AccordionItem";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLHeadingElement> {
+  extends React.HTMLAttributes<HTMLHeadingElement> {
   headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
@@ -114,7 +113,7 @@ export interface AccordionHeaderProps
  *   Each accordion header `button` is wrapped in an element with role `heading`..."
  */
 export const AccordionHeader = forwardRef<HTMLHeadingElement, AccordionHeaderProps>(
-  ({ asChild: _asChild, headingLevel = 3, ...props }, ref) => {
+  ({ headingLevel = 3, ...props }, ref) => {
     const Comp = `h${headingLevel}` as keyof React.JSX.IntrinsicElements;
 
     return <Comp ref={ref as React.ForwardedRef<any>} {...props} />;
