@@ -1,9 +1,10 @@
 "use client";
 
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Collapsible } from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { forwardRef, useCallback, useId, useMemo, useRef } from "react";
 import type * as React from "react";
 import {
   useAccordion,
@@ -15,21 +16,6 @@ import { AccordionProvider, useAccordionContext } from "./useAccordionContext";
 import { AccordionItemProvider, useAccordionItemContext } from "./useAccordionItemContext";
 
 const DATA_ACCORDION_TRIGGER = "data-accordion-trigger";
-
-function composeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
-  return (node: T | null) => {
-    refs.forEach((ref) => {
-      if (!ref) return;
-
-      if (typeof ref === "function") {
-        ref(node);
-        return;
-      }
-
-      ref.current = node;
-    });
-  };
-}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -107,43 +93,37 @@ interface AccordionImplProps extends PrimitiveProps, React.HTMLAttributes<HTMLDi
 }
 
 const AccordionImpl = forwardRef<HTMLDivElement, AccordionImplProps>(({ api, ...props }, ref) => {
-  const itemElementsRef = useRef<Set<HTMLElement>>(new Set());
+  const triggerElementsRef = useRef<Set<HTMLElement>>(new Set());
 
-  const registerItem = useCallback((item: HTMLElement) => {
-    itemElementsRef.current.add(item);
+  const registerTrigger = useCallback((trigger: HTMLElement) => {
+    triggerElementsRef.current.add(trigger);
   }, []);
 
-  const unregisterItem = useCallback((item: HTMLElement) => {
-    itemElementsRef.current.delete(item);
+  const unregisterTrigger = useCallback((trigger: HTMLElement) => {
+    triggerElementsRef.current.delete(trigger);
   }, []);
 
   const getTriggerElements = useCallback(() => {
-    const items = Array.from(itemElementsRef.current).sort((a, b) => {
-      const position = a.compareDocumentPosition(b);
+    return Array.from(triggerElementsRef.current)
+      .filter((trigger) => !trigger.hasAttribute("data-disabled"))
+      .sort((a, b) => {
+        const position = a.compareDocumentPosition(b);
 
-      if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
-      if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+        if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+        if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
 
-      return 0;
-    });
-
-    return items.flatMap((item) => {
-      const trigger = item.querySelector<HTMLElement>(`[${DATA_ACCORDION_TRIGGER}]`);
-
-      if (!trigger || trigger.hasAttribute("data-disabled")) return [];
-
-      return [trigger];
-    });
+        return 0;
+      });
   }, []);
 
   const contextValue = useMemo(
     () => ({
       ...api,
-      registerItem,
-      unregisterItem,
+      registerTrigger,
+      unregisterTrigger,
       getTriggerElements,
     }),
-    [api, registerItem, unregisterItem, getTriggerElements],
+    [api, registerTrigger, unregisterTrigger, getTriggerElements],
   );
 
   return (
@@ -165,7 +145,6 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>((pro
   const { value, disabled: itemDisabled, ...rest } = props;
   const api = useAccordionContext();
   const triggerId = useId();
-  const [itemElement, setItemElement] = useState<HTMLDivElement | null>(null);
 
   const disabled = itemDisabled || api.disabled;
   const open = api.isOpen(value);
@@ -182,16 +161,6 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>((pro
     [open, api, value],
   );
 
-  useEffect(() => {
-    if (!itemElement) return;
-
-    api.registerItem(itemElement);
-
-    return () => {
-      api.unregisterItem(itemElement);
-    };
-  }, [api, itemElement]);
-
   return (
     <AccordionItemProvider value={itemContext}>
       <Collapsible.Root
@@ -199,7 +168,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>((pro
         open={open}
         onOpenChange={handleOpenChange}
         disabled={disabled}
-        ref={composeRefs(ref, setItemElement)}
+        ref={ref}
       />
     </AccordionItemProvider>
   );
@@ -246,7 +215,8 @@ export interface AccordionTriggerProps
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   (props, ref) => {
     const { triggerId, disabled } = useAccordionItemContext();
-    const { getTriggerElements } = useAccordionContext();
+    const { getTriggerElements, registerTrigger, unregisterTrigger } = useAccordionContext();
+    const registeredTriggerRef = useRef<HTMLButtonElement | null>(null);
 
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -286,9 +256,28 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
       [getTriggerElements],
     );
 
+    const handleTriggerRef = useCallback(
+      (node: HTMLButtonElement | null) => {
+        const previousNode = registeredTriggerRef.current;
+
+        if (previousNode && previousNode !== node) {
+          unregisterTrigger(previousNode);
+        }
+
+        if (node && previousNode !== node) {
+          registerTrigger(node);
+        }
+
+        registeredTriggerRef.current = node;
+      },
+      [registerTrigger, unregisterTrigger],
+    );
+
+    const composedRef = useMemo(() => composeRefs(ref, handleTriggerRef), [ref, handleTriggerRef]);
+
     return (
       <Collapsible.Trigger
-        ref={ref}
+        ref={composedRef}
         {...mergeProps(
           {
             onKeyDown: handleKeyDown,
