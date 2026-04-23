@@ -14,8 +14,17 @@
             "color": {
               "type": "color"
             },
+            "minWidth": {
+              "type": "dimension",
+              "description": "낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다."
+            },
             "minHeight": {
-              "type": "dimension"
+              "type": "dimension",
+              "description": "낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다."
+            },
+            "minAspectRatio": {
+              "type": "number",
+              "description": "낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다."
             },
             "paddingX": {
               "type": "dimension"
@@ -61,10 +70,10 @@
         "size": {
           "values": {
             "large": {
-              "description": "라벨을 포함해 구체적인 알림 수나 상태 정보를 제공합니다."
+              "description": "라벨을 포함해 구체적인 알림 수나 상태 정보를 제공합니다. 세부 정보가 중요하고 충분한 공간이 있을 때 사용합니다. 내부 라벨을 반드시 포함해야 합니다."
             },
             "small": {
-              "description": "간결한 도트 형태로, 텍스트 없이 상태 변화만 표시합니다."
+              "description": "간결한 도트 형태로, 텍스트 없이 상태 변화만 표시합니다. 알림의 존재 여부만 중요하거나 공간이 제한된 경우에 적합합니다. 내부 라벨은 지원하지 않습니다."
             }
           },
           "defaultValue": "large"
@@ -107,12 +116,23 @@
             ],
             "slots": {
               "root": {
+                "minWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 18,
+                    "unit": "px"
+                  }
+                },
                 "minHeight": {
                   "type": "dimension",
                   "value": {
                     "value": 18,
                     "unit": "px"
                   }
+                },
+                "minAspectRatio": {
+                  "type": "number",
+                  "value": 1
                 },
                 "paddingX": {
                   "type": "dimension",

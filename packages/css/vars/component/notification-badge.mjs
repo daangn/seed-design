@@ -12,7 +12,9 @@ export const vars = {
   "sizeLarge": {
     "enabled": {
       "root": {
+        "minWidth": "18px",
         "minHeight": "18px",
+        "minAspectRatio": "1",
         "paddingX": "var(--seed-dimension-x1)",
         "paddingY": "0px",
         "cornerRadius": "var(--seed-radius-full)",
