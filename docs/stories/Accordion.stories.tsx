@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
 
+import { Box } from "@seed-design/react";
 import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
 import { IconCalendarLine } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
@@ -13,7 +14,9 @@ const AccordionDemo = (props: React.ComponentProps<typeof Accordion>) => (
     <AccordionItem value="item-1">
       <AccordionTrigger prefixIcon={<IconCalendarLine />} title="배송은 얼마나 걸리나요?" />
       <AccordionContent>
-        주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
+        <Box p="x4">
+          주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
+        </Box>
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-2">
@@ -22,15 +25,19 @@ const AccordionDemo = (props: React.ComponentProps<typeof Accordion>) => (
         description="상품 수령 후 7일 이내"
       />
       <AccordionContent>
-        상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
-        반품이 제한될 수 있습니다.
+        <Box p="x4">
+          상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
+          반품이 제한될 수 있습니다.
+        </Box>
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-3">
       <AccordionTrigger title="결제 수단은 어떤 것이 있나요?" />
       <AccordionContent>
-        신용카드, 체크카드, 계좌이체, 간편결제(카카오페이, 네이버페이) 등 다양한 결제 수단을
-        지원합니다.
+        <Box p="x4">
+          신용카드, 체크카드, 계좌이체, 간편결제(카카오페이, 네이버페이) 등 다양한 결제 수단을
+          지원합니다.
+        </Box>
       </AccordionContent>
     </AccordionItem>
   </Accordion>
@@ -64,7 +71,9 @@ const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof Accord
     <AccordionItem value="item-1">
       <AccordionTrigger prefixIcon={<IconCalendarLine />} title="배송은 얼마나 걸리나요?" />
       <AccordionContent>
-        주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
+        <Box p="x4">
+          주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
+        </Box>
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-2">
@@ -73,15 +82,19 @@ const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof Accord
         description="상품 수령 후 7일 이내"
       />
       <AccordionContent>
-        상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
-        반품이 제한될 수 있습니다.
+        <Box p="x4">
+          상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
+          반품이 제한될 수 있습니다.
+        </Box>
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-3">
       <AccordionTrigger title="결제 수단은 어떤 것이 있나요?" />
       <AccordionContent>
-        신용카드, 체크카드, 계좌이체, 간편결제(카카오페이, 네이버페이) 등 다양한 결제 수단을
-        지원합니다.
+        <Box p="x4">
+          신용카드, 체크카드, 계좌이체, 간편결제(카카오페이, 네이버페이) 등 다양한 결제 수단을
+          지원합니다.
+        </Box>
       </AccordionContent>
     </AccordionItem>
   </Accordion>

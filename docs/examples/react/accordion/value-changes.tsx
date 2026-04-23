@@ -21,19 +21,25 @@ export default function AccordionValueChanges() {
         <AccordionItem value="shipping">
           <AccordionTrigger title="배송 옵션" />
           <AccordionContent>
-            <p>빠른 배송, 새벽 배송, 방문 수령 옵션을 비교할 수 있습니다.</p>
+            <Box p="x4">
+              <p>빠른 배송, 새벽 배송, 방문 수령 옵션을 비교할 수 있습니다.</p>
+            </Box>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="payment">
           <AccordionTrigger title="결제 수단" />
           <AccordionContent>
-            <p>카드, 계좌이체, 간편결제 중에서 원하는 결제 수단을 선택할 수 있습니다.</p>
+            <Box p="x4">
+              <p>카드, 계좌이체, 간편결제 중에서 원하는 결제 수단을 선택할 수 있습니다.</p>
+            </Box>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="refund">
           <AccordionTrigger title="환불 정책" />
           <AccordionContent>
-            <p>주문 취소 가능 시간과 환불 소요 기간을 확인할 수 있습니다.</p>
+            <Box p="x4">
+              <p>주문 취소 가능 시간과 환불 소요 기간을 확인할 수 있습니다.</p>
+            </Box>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

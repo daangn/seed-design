@@ -23,7 +23,7 @@ export const AccordionRoot = withProvider<HTMLDivElement, AccordionRootProps>(
   AccordionPrimitive.Root,
   "root",
 );
-AccordionRoot.displayName = "Accordion.Root";
+AccordionRoot.displayName = "AccordionRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ export const AccordionItem = withContext<HTMLDivElement, AccordionItemProps>(
   AccordionPrimitive.Item,
   "item",
 );
-AccordionItem.displayName = "Accordion.Item";
+AccordionItem.displayName = "AccordionItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ export const AccordionHeader = withContext<HTMLHeadingElement, AccordionHeaderPr
   AccordionPrimitive.Header,
   "header",
 );
-AccordionHeader.displayName = "Accordion.Header";
+AccordionHeader.displayName = "AccordionHeader";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -56,7 +56,7 @@ export const AccordionTrigger = withContext<HTMLButtonElement, AccordionTriggerP
   AccordionPrimitive.Trigger,
   "trigger",
 );
-AccordionTrigger.displayName = "Accordion.Trigger";
+AccordionTrigger.displayName = "AccordionTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,14 +67,14 @@ export const AccordionContent = withContext<HTMLDivElement, AccordionContentProp
   AccordionPrimitive.Content,
   "content",
 );
-AccordionContent.displayName = "Accordion.Content";
+AccordionContent.displayName = "AccordionContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionBodyProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionBody = withContext<HTMLDivElement, AccordionBodyProps>(Primitive.div, "body");
-AccordionBody.displayName = "Accordion.Body";
+AccordionBody.displayName = "AccordionBody";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,7 +86,7 @@ export const AccordionTitle = withContext<HTMLSpanElement, AccordionTitleProps>(
   withStateProps(Primitive.span),
   "title",
 );
-AccordionTitle.displayName = "Accordion.Title";
+AccordionTitle.displayName = "AccordionTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,7 +98,7 @@ export const AccordionDescription = withContext<HTMLSpanElement, AccordionDescri
   withStateProps(Primitive.span),
   "description",
 );
-AccordionDescription.displayName = "Accordion.Description";
+AccordionDescription.displayName = "AccordionDescription";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -110,7 +110,7 @@ export const AccordionPrefix = withContext<HTMLDivElement, AccordionPrefixProps>
   withStateProps(Primitive.div),
   "prefix",
 );
-AccordionPrefix.displayName = "Accordion.Prefix";
+AccordionPrefix.displayName = "AccordionPrefix";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -120,7 +120,7 @@ export const AccordionPrefixIcon = withContext<SVGSVGElement, AccordionPrefixIco
   withStateProps(InternalIcon),
   "prefixIcon",
 );
-AccordionPrefixIcon.displayName = "Accordion.PrefixIcon";
+AccordionPrefixIcon.displayName = "AccordionPrefixIcon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -132,4 +132,4 @@ export const AccordionSuffixIcon = withContext<HTMLDivElement, AccordionSuffixIc
   withStateProps(Primitive.div),
   "suffixIcon",
 );
-AccordionSuffixIcon.displayName = "Accordion.SuffixIcon";
+AccordionSuffixIcon.displayName = "AccordionSuffixIcon";
