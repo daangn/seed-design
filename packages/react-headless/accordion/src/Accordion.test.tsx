@@ -50,6 +50,87 @@ function ThreeItemAccordion(props: Partial<AccordionRootProps> = {}) {
   );
 }
 
+function NestedAccordion() {
+  return (
+    <AccordionRoot>
+      <AccordionItem value="outer-1">
+        <AccordionHeader>
+          <AccordionTrigger>Outer Trigger 1</AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent>
+          <AccordionRoot>
+            <AccordionItem value="inner-1">
+              <AccordionHeader>
+                <AccordionTrigger>Inner Trigger 1</AccordionTrigger>
+              </AccordionHeader>
+              <AccordionContent>Inner Content 1</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="inner-2">
+              <AccordionHeader>
+                <AccordionTrigger>Inner Trigger 2</AccordionTrigger>
+              </AccordionHeader>
+              <AccordionContent>Inner Content 2</AccordionContent>
+            </AccordionItem>
+          </AccordionRoot>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="outer-2">
+        <AccordionHeader>
+          <AccordionTrigger>Outer Trigger 2</AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent>Outer Content 2</AccordionContent>
+      </AccordionItem>
+    </AccordionRoot>
+  );
+}
+
+function NestedAccordionWithContentBeforeHeader() {
+  return (
+    <AccordionRoot>
+      <AccordionItem value="outer-1">
+        <AccordionContent>
+          <AccordionRoot>
+            <AccordionItem value="inner-1">
+              <AccordionHeader>
+                <AccordionTrigger>Inner Trigger 1</AccordionTrigger>
+              </AccordionHeader>
+              <AccordionContent>Inner Content 1</AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="inner-2">
+              <AccordionHeader>
+                <AccordionTrigger>Inner Trigger 2</AccordionTrigger>
+              </AccordionHeader>
+              <AccordionContent>Inner Content 2</AccordionContent>
+            </AccordionItem>
+          </AccordionRoot>
+        </AccordionContent>
+        <AccordionHeader>
+          <AccordionTrigger>Outer Trigger 1</AccordionTrigger>
+        </AccordionHeader>
+      </AccordionItem>
+      <AccordionItem value="outer-2">
+        <AccordionHeader>
+          <AccordionTrigger>Outer Trigger 2</AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent>Outer Content 2</AccordionContent>
+      </AccordionItem>
+    </AccordionRoot>
+  );
+}
+
+function RootDisabledAccordion() {
+  return (
+    <AccordionRoot disabled={true}>
+      <AccordionItem value="item-1" disabled={false}>
+        <AccordionHeader>
+          <AccordionTrigger>Trigger 1</AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent>Content 1</AccordionContent>
+      </AccordionItem>
+    </AccordionRoot>
+  );
+}
+
 describe("Accordion", () => {
   const originalResizeObserver = window.ResizeObserver;
   window.ResizeObserver = ResizeObserver;
@@ -150,6 +231,44 @@ describe("Accordion", () => {
 
       await user.keyboard("{Home}");
       expect(trigger1).toHaveFocus();
+    });
+
+    it("keeps roving focus scoped to the nearest accordion", async () => {
+      const { getByText, user } = setUp(<NestedAccordion />);
+      const outerTrigger1 = getByText("Outer Trigger 1");
+      const outerTrigger2 = getByText("Outer Trigger 2");
+      const innerTrigger1 = getByText("Inner Trigger 1");
+      const innerTrigger2 = getByText("Inner Trigger 2");
+
+      await user.click(outerTrigger1);
+      innerTrigger1.focus();
+
+      await user.keyboard("{ArrowDown}");
+      expect(innerTrigger2).toHaveFocus();
+      expect(outerTrigger2).not.toHaveFocus();
+    });
+
+    it("uses directly registered triggers instead of descendant queries", async () => {
+      const { getByText, user } = setUp(<NestedAccordionWithContentBeforeHeader />);
+      const outerTrigger1 = getByText("Outer Trigger 1");
+      const outerTrigger2 = getByText("Outer Trigger 2");
+
+      outerTrigger1.focus();
+      await user.keyboard("{ArrowDown}");
+      expect(outerTrigger2).toHaveFocus();
+    });
+  });
+
+  describe("disabled", () => {
+    it("does not allow an item to override root disabled={true}", async () => {
+      const { getByText, user } = setUp(<RootDisabledAccordion />);
+      const trigger = getByText("Trigger 1");
+
+      expect(trigger).toBeDisabled();
+      expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+      await user.click(trigger);
+      expect(trigger).toHaveAttribute("aria-expanded", "false");
     });
   });
 

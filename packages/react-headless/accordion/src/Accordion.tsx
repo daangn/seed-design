@@ -1,9 +1,10 @@
 "use client";
 
-import { dataAttr } from "@seed-design/dom-utils";
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Collapsible } from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef, useCallback, useId, useMemo } from "react";
+import { forwardRef, useCallback, useId, useMemo, useRef } from "react";
 import type * as React from "react";
 import {
   useAccordion,
@@ -54,6 +55,7 @@ const AccordionImplSingle = forwardRef<HTMLDivElement, AccordionSingleRootProps>
     onValueChange,
     collapsible,
     disabled,
+    valuePropPresent: Object.prototype.hasOwnProperty.call(props, "value"),
   });
 
   return (
@@ -90,67 +92,46 @@ interface AccordionImplProps extends PrimitiveProps, React.HTMLAttributes<HTMLDi
   api: UseAccordionReturn;
 }
 
-const AccordionImpl = forwardRef<HTMLDivElement, AccordionImplProps>(
-  ({ api, onKeyDown, ...props }, ref) => {
-    const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent<HTMLDivElement>) => {
-        onKeyDown?.(event);
-        if (event.defaultPrevented) return;
+const AccordionImpl = forwardRef<HTMLDivElement, AccordionImplProps>(({ api, ...props }, ref) => {
+  const triggerElementsRef = useRef<Set<HTMLElement>>(new Set());
 
-        const { key } = event;
-        if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(key)) return;
+  const registerTrigger = useCallback((trigger: HTMLElement) => {
+    triggerElementsRef.current.add(trigger);
+  }, []);
 
-        const target = event.target;
-        if (!(target instanceof HTMLElement)) return;
-        if (!target.hasAttribute(DATA_ACCORDION_TRIGGER)) return;
+  const unregisterTrigger = useCallback((trigger: HTMLElement) => {
+    triggerElementsRef.current.delete(trigger);
+  }, []);
 
-        event.preventDefault();
+  const getTriggerElements = useCallback(() => {
+    return Array.from(triggerElementsRef.current)
+      .filter((trigger) => !trigger.hasAttribute("data-disabled"))
+      .sort((a, b) => {
+        const position = a.compareDocumentPosition(b);
 
-        const triggers = Array.from(
-          event.currentTarget.querySelectorAll<HTMLElement>(
-            `[${DATA_ACCORDION_TRIGGER}]:not([data-disabled])`,
-          ),
-        );
+        if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+        if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
 
-        if (triggers.length === 0) return;
+        return 0;
+      });
+  }, []);
 
-        const currentIndex = triggers.indexOf(target);
+  const contextValue = useMemo(
+    () => ({
+      ...api,
+      registerTrigger,
+      unregisterTrigger,
+      getTriggerElements,
+    }),
+    [api, registerTrigger, unregisterTrigger, getTriggerElements],
+  );
 
-        let nextIndex: number;
-        switch (key) {
-          case "ArrowDown":
-            nextIndex = currentIndex + 1 >= triggers.length ? 0 : currentIndex + 1;
-            break;
-          case "ArrowUp":
-            nextIndex = currentIndex - 1 < 0 ? triggers.length - 1 : currentIndex - 1;
-            break;
-          case "Home":
-            nextIndex = 0;
-            break;
-          case "End":
-            nextIndex = triggers.length - 1;
-            break;
-          default:
-            return;
-        }
-
-        triggers[nextIndex]?.focus();
-      },
-      [onKeyDown],
-    );
-
-    return (
-      <AccordionProvider value={api}>
-        <Primitive.div
-          ref={ref}
-          data-disabled={dataAttr(api.disabled)}
-          onKeyDown={handleKeyDown}
-          {...props}
-        />
-      </AccordionProvider>
-    );
-  },
-);
+  return (
+    <AccordionProvider value={contextValue}>
+      <Primitive.div ref={ref} data-disabled={dataAttr(api.disabled)} {...props} />
+    </AccordionProvider>
+  );
+});
 AccordionImpl.displayName = "AccordionImpl";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +146,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>((pro
   const api = useAccordionContext();
   const triggerId = useId();
 
-  const disabled = itemDisabled ?? api.disabled;
+  const disabled = itemDisabled || api.disabled;
   const open = api.isOpen(value);
 
   const itemContext = useMemo(
@@ -234,13 +215,80 @@ export interface AccordionTriggerProps
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   (props, ref) => {
     const { triggerId, disabled } = useAccordionItemContext();
+    const { getTriggerElements, registerTrigger, unregisterTrigger } = useAccordionContext();
+    const registeredTriggerRef = useRef<HTMLButtonElement | null>(null);
+
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (event.defaultPrevented) return;
+
+        const { key } = event;
+        if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(key)) return;
+
+        const triggers = getTriggerElements();
+        if (triggers.length === 0) return;
+
+        const currentIndex = triggers.indexOf(event.currentTarget);
+        if (currentIndex === -1) return;
+
+        event.preventDefault();
+
+        let nextIndex: number;
+        switch (key) {
+          case "ArrowDown":
+            nextIndex = currentIndex + 1 >= triggers.length ? 0 : currentIndex + 1;
+            break;
+          case "ArrowUp":
+            nextIndex = currentIndex - 1 < 0 ? triggers.length - 1 : currentIndex - 1;
+            break;
+          case "Home":
+            nextIndex = 0;
+            break;
+          case "End":
+            nextIndex = triggers.length - 1;
+            break;
+          default:
+            return;
+        }
+
+        triggers[nextIndex]?.focus();
+      },
+      [getTriggerElements],
+    );
+
+    const handleTriggerRef = useCallback(
+      (node: HTMLButtonElement | null) => {
+        const previousNode = registeredTriggerRef.current;
+
+        if (previousNode && previousNode !== node) {
+          unregisterTrigger(previousNode);
+        }
+
+        if (node && previousNode !== node) {
+          registerTrigger(node);
+        }
+
+        registeredTriggerRef.current = node;
+      },
+      [registerTrigger, unregisterTrigger],
+    );
+
+    const composedRef = useMemo(() => composeRefs(ref, handleTriggerRef), [ref, handleTriggerRef]);
+
     return (
       <Collapsible.Trigger
-        {...props}
-        ref={ref}
-        id={triggerId}
-        disabled={disabled}
-        {...{ [DATA_ACCORDION_TRIGGER]: "" }}
+        ref={composedRef}
+        {...mergeProps(
+          {
+            onKeyDown: handleKeyDown,
+          },
+          props,
+          {
+            id: triggerId,
+            disabled,
+            [DATA_ACCORDION_TRIGGER]: "",
+          },
+        )}
       />
     );
   },
