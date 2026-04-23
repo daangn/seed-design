@@ -15,6 +15,9 @@
 - `data-*` 속성으로 상태 표현 (data-checked, data-disabled 등)
 - `useControllableState`로 controlled/uncontrolled 지원
 - `forwardRef` 필수
+- APG가 heading hierarchy나 landmark 구조를 요구하면 native heading을 hardcode하기 전에 `hardcode`, `asChild`, `aria-level override` 중 어떤 escape hatch를 줄지 먼저 정한다.
+- 기존 primitive/hook 조합으로 해결할 수 있으면 재사용을 우선한다. 새 hook abstraction은 duplication이 분명할 때만 추가한다.
+- public API는 내부 상태 구현의 단순함보다 consumer ergonomics와 외부 레퍼런스 일관성을 우선한다.
 
 ## Headless 컴포넌트 예시
 

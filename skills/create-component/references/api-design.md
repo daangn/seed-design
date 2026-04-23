@@ -11,7 +11,7 @@ Snippet 레이어(`docs/registry/ui/`)와 컴포넌트 공개 API 설계 시 따
 | 단일 import으로 사용 가능 | No |
 | 이미 심플한 API | No |
 
-## API 설계 4원칙
+## API 설계 5원칙
 
 ### 1. Action을 노출하고 State setter를 숨긴다
 
@@ -34,6 +34,12 @@ Snippet prop interface가 필요한 slot을 결정하고, slot이 recipe 구조�
 
 API를 먼저 설계하지 않으면 recipe 구조를 나중에 바꿔야 할 수 있다.
 
+특히 Snippet이 **3개 이상 sub-component를 감추는 경우**에는 slot 구조를 먼저 떠올리지 말고 아래 순서로 시작한다:
+
+1. 최종 사용자가 작성할 **minimal user code** 예시를 먼저 쓴다
+2. 이 예시를 만족하는 convenience prop(`title`, `description`, `suffixIcon` 등) 초안을 만든다
+3. convenience prop만으로 부족한 경우에만 low-level composition escape hatch를 추가한다
+
 ### 3. 자동 주입 요소는 prop으로 명시한다
 
 Snippet이 아이콘이나 indicator를 자동으로 삽입하는 경우, 반드시 prop interface에 이를 제어할 수 있는 prop을 포함한다.
@@ -47,12 +53,42 @@ interface AccordionItemProps {
 // 나쁨: 아이콘이 암묵적으로 삽입됨
 ```
 
+자동 주입 요소가 있으면 아래 중 하나를 반드시 제공한다:
+- 완전 교체 prop (`suffixIcon`, `indicator`)
+- 숨김/비활성화 prop (`hideIndicator`)
+- 둘 다
+
+기본값이 있는 자동 주입 요소를 consumer가 제어할 수 없으면, Snippet이 보기보다 훨씬 더 opinionated해진다.
+
 ### 4. Recipe 통합 기준
 
 sub-component가 항상 부모와 함께 사용되면 부모 recipe의 slot으로 통합한다. 독립적으로 사용 가능하면 별도 recipe로 분리한다.
 
 - **통합**: `file-upload-item` recipe 안에 remove button slot (항상 item 안에서만 사용)
 - **분리**: `checkbox` recipe와 `checkmark` recipe (checkmark은 다른 컴포넌트에서도 사용)
+
+### 5. 내부 helper slot과 공개 slot을 구분한다
+
+애니메이션, padding 분리, layout 보정 때문에 필요한 helper slot은 구현에 필요할 수 있지만, 공개 API에 반드시 노출되어야 하는 것은 아니다.
+
+- **공개 기본값**: 사용자가 의미를 이해할 수 있는 slot만 export
+- **비공개 기본값**: animation wrapper, padding wrapper, measurement wrapper 같은 implementation helper slot
+- **예외 허용**: consumer가 직접 조합하거나 스타일링해야 하는 명확한 사용 사례가 있을 때만 공개
+
+`contentInner`, `layoutWrapper` 같은 helper slot을 export하려면 "왜 사용자에게 이 레이어를 알아야 하는가?"를 먼저 설명할 수 있어야 한다.
+
+## Children composition vs convenience prop 판단 기준
+
+둘 다 가능한 경우 아래 기준으로 결정한다:
+
+- **convenience prop 우선**
+  - snippet이 3개 이상 sub-component를 감춘다
+  - `title`/`description`/`prefix`처럼 반복되는 구조가 명확하다
+  - 사용자가 child 순서나 내부 마크업을 자주 바꿀 이유가 적다
+- **children composition 유지**
+  - rich content가 핵심 사용 사례다
+  - child 순서/구조를 consumer가 자주 제어해야 한다
+  - snippet이 low-level composition wrapper라는 목적이 문서로 명확하다
 
 ## Snippet 작성 패턴
 
@@ -82,6 +118,8 @@ export const Component = React.forwardRef<HTMLElement, ComponentProps>(
 
 Component.displayName = "Component";
 ```
+
+Snippet이 convenience wrapper라면, 이 패턴에서 `children`을 그대로 열어두기보다 사용자 의미가 분명한 prop을 먼저 정의한다.
 
 ## Registry 등록
 

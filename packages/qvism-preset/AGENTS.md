@@ -14,6 +14,8 @@
 - Recipe 이름: kebab-case (예: `action-button`)
 - Pseudo 선택자: `active` (hover 대신, 모바일 우선), `disabled`, `focus`, `checked` 등
 - 토큰 참조: `vars.{variant}.{state}.{slot}.{property}`
+- arbitrary content slot에는 근거 없이 `display: flex`, `flexDirection`, `gap` 같은 구조 강제를 넣지 않는다. 실제 contract가 block 구조일 때만 추가한다.
+- base에는 여러 variant가 공유하는 affordance를 두고, variant에는 geometry나 specialization만 올린다.
 
 ## 상태 기반 선택자 작성 규칙
 

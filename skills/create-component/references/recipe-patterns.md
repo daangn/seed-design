@@ -17,6 +17,15 @@ vars.<variantType>.<state>.<element>.<property>
 
 예시: `vars.variantBrandSolid.enabled.root.color`, `vars.base.disabled.label.color`
 
+## Vocabulary 선택
+
+outline, frame, divider처럼 **시각적 선**을 표현하는 token은 기본적으로 `strokeColor`/`strokeWidth` vocabulary를 먼저 검토한다.
+
+- **`stroke*` 우선**: 1px frame, outline, separator처럼 "선을 그린다"는 의미가 핵심일 때
+- **`border*` 사용**: 실제 CSS border semantics를 public contract로 드러내야 하거나, 기존 컴포넌트 vocabulary와 반드시 맞춰야 할 때
+
+새 컴포넌트에서 둘 다 가능하다면 `stroke*` 쪽이 rootage vocabulary를 더 일관되게 유지한다.
+
 ## Pseudo 선택자
 
 `pseudo()` 헬퍼를 사용하여 상태별 스타일을 정의한다. native HTML 속성과 data 속성을 동시에 지원한다.
@@ -78,6 +87,14 @@ import { prefixIcon, suffixIcon, onlyIcon } from "../utils/icon";
 - `suffixIcon()` → `--seed-suffix-icon-size`, `--seed-suffix-icon-color` 등
 - `onlyIcon()` → `--seed-icon-size`, `--seed-icon-color`
 
+slot 이름과 token은 **public contract**를 따라간다.
+
+- public API가 generic `prefix`라면 recipe가 크기를 강제하지 않는다
+- public API가 icon-only `prefixIcon`으로 확정된 경우에만 `prefixIcon` slot과 `size` token을 도입한다
+- icon과 avatar를 모두 받을 수 있는 slot이라면 색상 정도만 제어하고 크기 강제는 피한다
+
+즉, `prefixIcon` slot은 "앞에 아이콘이 올 수 있다"가 아니라 "앞 슬롯은 아이콘 전용이다"가 확정됐을 때만 만든다.
+
 ## 애니메이션 패턴
 
 ### 색상 전환 (가장 흔함)
@@ -94,6 +111,8 @@ transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.bas
 - `contentInner` slot: padding + opacity transition
 
 padding을 `content`에 넣으면 collapse 시 padding이 먼저 사라져 choppy한 애니메이션이 된다. 반드시 `contentInner` 래퍼를 사용한다.
+
+`contentInner`는 animation quality를 위한 구현 패턴이다. 이 패턴이 필요하다는 사실과, 해당 helper slot을 public API로 export해야 한다는 사실은 별개로 판단한다.
 
 ### Modal/Sheet 진입/퇴장
 
@@ -132,6 +151,16 @@ compoundVariants: [
 ```
 
 사용 예: badge(18개 조합), text-input(6개 조합), chip, page-banner
+
+## Arbitrary Content Slot
+
+slot이 badge, custom inline element, rich text 등 **임의 content**를 받을 수 있다면 구조를 과하게 고정하지 않는다.
+
+- 근거 없이 `display: flex`, `flexDirection: column`, `gap`을 기본값으로 두지 않는다
+- typography, color처럼 의미가 분명한 스타일만 먼저 준다
+- block형 구조가 실제 contract로 정해진 경우에만 layout 스타일을 추가한다
+
+content contract가 느슨할수록 recipe는 구조보다 표현에 집중한다.
 
 ## defineRecipe vs defineSlotRecipe 전환 주의
 

@@ -9,6 +9,17 @@
 - `clsx`로 className 병합
 - variant props는 반드시 `splitVariantProps` 또는 context 유틸 사용 (수동 destructuring 금지)
 - recipe는 `@seed-design/css/recipes/{name}`에서 import
+- primitive prop이 union인 경우 `interface extends` 대신 `type Props = PrimitiveProps & VariantProps` 형태를 허용한다
+
+## 공개 Export Surface
+
+React 레이어의 export는 구현 편의가 아니라 **사용자 의미**를 기준으로 잡는다.
+
+- `index.ts`와 namespace에는 user-meaningful slot을 우선 export한다
+- animation/layout/padding 분리를 위한 helper slot은 기본적으로 비공개로 둔다
+- helper slot을 공개하려면 direct composition이나 styling escape hatch 같은 명확한 사용자 시나리오가 있어야 한다
+
+예: `Content`, `Label`, `Description`은 공개 후보가 될 수 있지만, `ContentInner` 같은 implementation helper는 기본적으로 내부에 남긴다.
 
 ## createSlotRecipeContext 사용법
 
@@ -126,6 +137,8 @@ export type { ComponentRootProps, ... } from "./Component";
 ```
 
 **사용 조건**: compound 컴포넌트에만. 단일 컴포넌트(카테고리 A)와 레이아웃(카테고리 E)에는 namespace를 만들지 않는다.
+
+namespace export에도 동일한 기준을 적용한다. 짧은 이름 re-export가 가능하더라도 helper slot은 namespace surface에 올리지 않는다.
 
 ## Multi-Recipe 패턴
 

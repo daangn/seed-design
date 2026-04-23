@@ -19,6 +19,8 @@
 - HTML 요소 대신 `Primitive.*` 사용
 - compound component의 경우 Root 컴포넌트가 context를 포함해야 하고 하위 컴포넌트가 상위 context에서 제공하는 값을 바탕으로 동작해야 하므로 `createSlotRecipeContext`가 제공하는 도구를 적극적으로 활용한다.
 - variant props(`variant`, `size`, `tone` 등)는 함수 인자에서 수동 destructuring 금지. 반드시 `recipe.splitVariantProps(props)` 또는 `createRecipeContext`/`createSlotRecipeContext` 유틸을 사용한다.
+- 공개 export는 user-meaningful slot을 기준으로 정한다. animation/layout helper slot은 기본적으로 `index.ts`와 namespace export에 올리지 않는다.
+- compound component를 추가할 때는 React surface만 보지 말고, `docs/registry/ui/`의 snippet surface까지 함께 설계한다.
 
 ## 코드 스타일
 

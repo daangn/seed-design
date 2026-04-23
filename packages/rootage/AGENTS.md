@@ -14,3 +14,5 @@ SEED Design의 **디자인 토큰과 컴포넌트 스키마를 YAML로 정의**�
 - 컴포넌트 YAML 첫 줄: `# yaml-language-server: $schema=./schema.json`
 - 토큰 네이밍: `$type.category.name` (예: `$color.palette.gray-00`)
 - theme 값: `theme-light`와 `theme-dark` 모두 정의 필수
+- outline이나 1px frame 성격의 token은 기본적으로 `strokeColor`/`strokeWidth` vocabulary를 먼저 검토한다. 실제 CSS border semantics를 public contract로 드러낼 때만 `border*`를 사용한다.
+- slot 이름은 public component contract를 반영한다. generic 앞 슬롯이면 `prefix`, icon-only 슬롯이면 `prefixIcon`처럼 의미를 분리한다.
