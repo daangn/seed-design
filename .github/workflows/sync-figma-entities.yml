@@ -46,9 +46,7 @@ jobs:
         shell: bash
         working-directory: packages/figma
         run: |
-          bunx tsc --noEmit 2>&1 | tee /tmp/tsc-errors.txt
-          TSC_EXIT=${PIPESTATUS[0]}
-          if [ $TSC_EXIT -ne 0 ]; then
+          if ! bunx tsc --noEmit 2>&1 | tee /tmp/tsc-errors.txt; then
             echo "tsc_failed=true" >> $GITHUB_OUTPUT
             exit 1
           fi
