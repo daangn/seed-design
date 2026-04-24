@@ -70,6 +70,14 @@
   },
   "changesets": [
     "add-lynx-framework-support",
-    "lynx-alpha-release"
+    "lynx-alpha-release",
+    "lynx-bottom-sheet-deps",
+    "lynx-bottom-sheet",
+    "lynx-css-qvism-split",
+    "lynx-react-utils-refactor",
+    "lynx-react-utils",
+    "lynx-switch",
+    "lynx-tag-group",
+    "prune-stale-lynx-css-artifacts"
   ]
 }
