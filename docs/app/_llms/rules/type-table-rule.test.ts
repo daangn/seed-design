@@ -13,6 +13,7 @@ describe("typeTableRule", () => {
   it("converts entries to readable markdown list", () => {
     const result = toMarkdown({
       name: "ActionButtonProps",
+      description: "",
       entries: [
         {
           name: "variant",
@@ -50,6 +51,7 @@ describe("typeTableRule", () => {
   it("shows required and deprecated fields", () => {
     const result = toMarkdown({
       name: "TestProps",
+      description: "",
       entries: [
         {
           name: "children",
@@ -85,6 +87,7 @@ describe("typeTableRule", () => {
   it("omits empty description", () => {
     const result = toMarkdown({
       name: "TestProps",
+      description: "",
       entries: [
         {
           name: "value",
