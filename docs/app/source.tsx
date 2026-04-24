@@ -2,8 +2,7 @@ import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
 import { docs, reactDocs, breezeDocs, lynxDocs, aiIntegrationDocs } from "@/.source/server";
 import { getRootageMetadata } from "@/components/rootage";
 import type { Node, Root } from "fumadocs-core/page-tree";
-import { loader } from "fumadocs-core/source";
-import type { Source, SourceConfig } from "fumadocs-core/source";
+import { loader, type StaticSource } from "fumadocs-core/source";
 import type { ComponentType, SVGProps } from "react";
 
 const iconMap: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
@@ -24,9 +23,37 @@ function getComponentIdFromUrl(url: string): string | null {
   return isComponentPage ? urlParts[urlParts.length - 1] : null;
 }
 
-async function transformPageTreeWithBadges(
+type FumadocsSource<TSrc extends StaticSource> = StaticSource<{
+  pageData: Extract<TSrc["files"][number], { type: "page" }>["data"];
+  metaData: Extract<TSrc["files"][number], { type: "meta" }>["data"];
+}>;
+
+function createSource<TSrc extends StaticSource>(src: TSrc, baseUrl: string) {
+  const narrowed: FumadocsSource<TSrc> = src;
+  return loader(narrowed, { baseUrl, icon: iconHandler });
+}
+
+const iconHandler = (icon: string | undefined) => {
+  if (!icon || !(icon in iconMap)) {
+    return undefined;
+  }
+
+  const Icon = iconMap[icon];
+  return <Icon />;
+};
+
+const baseDocsSource = createSource(docs.toFumadocsSource(), "/docs");
+const baseReactSource = createSource(reactDocs.toFumadocsSource(), "/react");
+const baseBreezeSource = createSource(breezeDocs.toFumadocsSource(), "/breeze");
+const baseLynxSource = createSource(lynxDocs.toFumadocsSource(), "/lynx");
+const baseAiIntegrationSource = createSource(
+  aiIntegrationDocs.toFumadocsSource(),
+  "/ai-integration",
+);
+
+async function transformPageTreeWithBadges<TSrc extends typeof baseDocsSource>(
   tree: Root,
-  sourceLoader: typeof baseDocsSource,
+  sourceLoader: TSrc,
 ): Promise<Root> {
   try {
     async function transformNode(node: Node): Promise<Node> {
@@ -77,47 +104,6 @@ async function transformPageTreeWithBadges(
   }
 }
 
-const iconHandler = (icon: string | undefined) => {
-  if (!icon || !(icon in iconMap)) {
-    return undefined;
-  }
-
-  const Icon = iconMap[icon];
-  return <Icon />;
-};
-
-type SourceConfigFromSource<TSource extends { files: Array<{ type: string; data: unknown }> }> = {
-  pageData: Extract<TSource["files"][number], { type: "page" }>["data"];
-  metaData: Extract<TSource["files"][number], { type: "meta" }>["data"];
-} & SourceConfig;
-
-function createTypedLoader<TSource extends { files: Array<{ type: string; data: unknown }> }>(
-  baseUrl: string,
-  source: TSource,
-) {
-  type Config = SourceConfigFromSource<TSource>;
-
-  return loader<Config>({
-    baseUrl,
-    source: source as unknown as Source<Config>,
-    icon: iconHandler,
-  });
-}
-
-const baseDocsSource = createTypedLoader("/docs", docs.toFumadocsSource());
-
-const baseReactSource = createTypedLoader("/react", reactDocs.toFumadocsSource());
-
-const baseBreezeSource = createTypedLoader("/breeze", breezeDocs.toFumadocsSource());
-
-const baseLynxSource = createTypedLoader("/lynx", lynxDocs.toFumadocsSource());
-
-const baseAiIntegrationSource = createTypedLoader(
-  "/ai-integration",
-  aiIntegrationDocs.toFumadocsSource(),
-);
-
-// Transform page trees with badges
 async function getTransformedPageTree(): Promise<Root> {
   return await transformPageTreeWithBadges(baseDocsSource.pageTree, baseDocsSource);
 }

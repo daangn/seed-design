@@ -12,6 +12,7 @@ function toMarkdown(doc: Parameters<typeof docToMdastList>[0]): string {
 describe("typeTableRule", () => {
   it("converts entries to readable markdown list", () => {
     const result = toMarkdown({
+      id: "ActionButtonProps",
       name: "ActionButtonProps",
       entries: [
         {
@@ -49,6 +50,7 @@ describe("typeTableRule", () => {
 
   it("shows required and deprecated fields", () => {
     const result = toMarkdown({
+      id: "TestProps",
       name: "TestProps",
       entries: [
         {
@@ -84,6 +86,7 @@ describe("typeTableRule", () => {
 
   it("omits empty description", () => {
     const result = toMarkdown({
+      id: "TestProps",
       name: "TestProps",
       entries: [
         {
