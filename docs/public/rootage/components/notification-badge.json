@@ -15,16 +15,10 @@
               "type": "color"
             },
             "minWidth": {
-              "type": "dimension",
-              "description": "낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다."
+              "type": "dimension"
             },
             "minHeight": {
-              "type": "dimension",
-              "description": "낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다."
-            },
-            "minAspectRatio": {
-              "type": "number",
-              "description": "낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다."
+              "type": "dimension"
             },
             "paddingX": {
               "type": "dimension"
@@ -130,10 +124,6 @@
                     "unit": "px"
                   }
                 },
-                "minAspectRatio": {
-                  "type": "number",
-                  "value": 1
-                },
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x1"
@@ -174,11 +164,11 @@
               "label": {
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t1"
+                  "value": "$font-size.t1-static"
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t1"
+                  "value": "$line-height.t1-static"
                 },
                 "fontWeight": {
                   "type": "number",

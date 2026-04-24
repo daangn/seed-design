@@ -15,12 +15,8 @@ export declare const vars: {
   "sizeLarge": {
     "enabled": {
       "root": {
-        /** 낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다. */
         "minWidth": "18px",
-        /** 낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다. */
         "minHeight": "18px",
-        /** 낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도 정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야 합니다. */
-        "minAspectRatio": "1",
         "paddingX": "var(--seed-dimension-x1)",
         "paddingY": "0px",
         "cornerRadius": "var(--seed-radius-full)",
@@ -29,8 +25,8 @@ export declare const vars: {
         "textAttachedGap": "2px"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t1)",
-        "lineHeight": "var(--seed-line-height-t1)",
+        "fontSize": "var(--seed-font-size-t1-static)",
+        "lineHeight": "var(--seed-line-height-t1-static)",
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }

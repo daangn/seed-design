@@ -3,4 +3,4 @@
 "@seed-design/css": patch
 ---
 
-NotificationBadge의 size=large variant가 최소 너비를 갖도록 하고, 폰트 스케일링 배율이 1보다 큰 환경에서도 항상 최소 1/1 비율을 유지하도록 업데이트합니다.
+NotificationBadge의 size=large variant가 최소 너비를 갖도록 하고, size=large에서 표시되는 레이블이 폰트 스케일링의 영향을 받지 않도록 수정합니다.

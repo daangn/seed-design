@@ -12,19 +12,8 @@ data:
             type: color
           minWidth:
             type: dimension
-            description: 낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도
-              정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야
-              합니다.
           minHeight:
             type: dimension
-            description: 낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도
-              정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야
-              합니다.
-          minAspectRatio:
-            type: number
-            description: 낮은 폰트 스케일링 배율에서 최소 크기를 보장하고, 높은 폰트 스케일링 배율에서 레이블이 좁은 너비를 차지할 때도
-              정사각형 비율을 보장하기 위해 minWidth, minHeight, minAspectRatio를 동시에 만족시켜야
-              합니다.
           paddingX:
             type: dimension
           paddingY:
@@ -70,7 +59,6 @@ data:
         root:
           minWidth: 18px
           minHeight: 18px
-          minAspectRatio: 1
           paddingX: $dimension.x1
           paddingY: 0px
           cornerRadius: $radius.full
@@ -78,8 +66,8 @@ data:
           iconAttachedInsetTop: 14px
           textAttachedGap: 2px
         label:
-          fontSize: $font-size.t1
-          lineHeight: $line-height.t1
+          fontSize: $font-size.t1-static
+          lineHeight: $line-height.t1-static
           fontWeight: $font-weight.bold
     size=small:
       enabled:

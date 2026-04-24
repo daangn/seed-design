@@ -93,8 +93,7 @@ export const notificationBadge = defineRecipe({
         borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
       },
       large: {
-        // we do this rather than consuming vars.sizeLarge.enabled.root.minAspectRatio because we can't have such nice things in CSS yet
-        minWidth: `max(${vars.sizeLarge.enabled.root.minWidth}, calc(${vars.sizeLarge.enabled.label.lineHeight} + ${vars.sizeLarge.enabled.root.paddingY} * 2))`,
+        minWidth: vars.sizeLarge.enabled.root.minWidth,
         minHeight: vars.sizeLarge.enabled.root.minHeight,
         borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
 
