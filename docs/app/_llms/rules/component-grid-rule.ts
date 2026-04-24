@@ -28,6 +28,7 @@ function resolveComponentsDir(): string | null {
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) return candidate;
   }
+  console.warn(`[ComponentGrid] components directory not found; tried: ${candidates.join(", ")}`);
   return null;
 }
 
