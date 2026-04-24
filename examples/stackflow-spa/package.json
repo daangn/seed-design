@@ -12,8 +12,8 @@
     "@karrotmarket/react-multicolor-icon": "^1.14.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-use-callback-ref": "^1.1.1",
-    "@seed-design/css": "1.2.9",
-    "@seed-design/react": "1.2.9",
+    "@seed-design/css": "1.2.10",
+    "@seed-design/react": "1.2.10",
     "@seed-design/stackflow": "1.1.20",
     "@seed-design/stylesheet": "1.1.1",
     "@stackflow/compat-await-push": "^1.1.13",
@@ -29,7 +29,7 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@seed-design/cli": "1.3.2",
+    "@seed-design/cli": "1.3.3",
     "@seed-design/vite-plugin": "^1.1.1",
     "@types/node": "^25.0.0",
     "@types/react": "^19.2.7",

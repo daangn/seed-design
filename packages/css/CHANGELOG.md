@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 1.2.10
+
+### Patch Changes
+
+- 46bdf17: AppBar 내부 title/subtitle 영역이 폰트 스케일링이 대응된 iOS 환경에서 최대 120%까지 폰트 스케일링을 하도록 변경합니다. (기존 동작: 폰트 스케일링이 대응된 환경에서도 폰트 스케일링 설정의 영향을 받지 않음)
+- 79c7aa3: NotificationBadge의 size=large variant가 최소 너비를 갖도록 하고, size=large에서 표시되는 레이블이 폰트 스케일링의 영향을 받지 않도록 수정합니다.
+
 ## 1.2.9
 
 ### Patch Changes
