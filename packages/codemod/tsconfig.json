@@ -8,7 +8,8 @@
     "esModuleInterop": true,
     "preserveWatchOutput": true,
     "isolatedModules": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strict": false
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
   "exclude": ["node_modules", "__testfixtures__"]
