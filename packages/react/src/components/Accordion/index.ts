@@ -8,7 +8,6 @@ export {
   AccordionTitle,
   AccordionDescription,
   AccordionPrefix,
-  AccordionPrefixIcon,
   AccordionSuffixIcon,
   type AccordionRootProps,
   type AccordionItemProps,
@@ -19,7 +18,6 @@ export {
   type AccordionTitleProps,
   type AccordionDescriptionProps,
   type AccordionPrefixProps,
-  type AccordionPrefixIconProps,
   type AccordionSuffixIconProps,
 } from "./Accordion";
 

@@ -10,7 +10,7 @@ export default function AccordionWithPrefixAvatar() {
         <AccordionTrigger
           prefix={
             <Avatar
-              size="24"
+              size="48"
               src="https://avatars.githubusercontent.com/u/54893898?v=4"
               fallback={<IdentityPlaceholder />}
             />
@@ -27,7 +27,7 @@ export default function AccordionWithPrefixAvatar() {
         <AccordionTrigger
           prefix={
             <Avatar
-              size="24"
+              size="48"
               src="https://avatars.githubusercontent.com/u/54893898?v=4"
               fallback={<IdentityPlaceholder />}
             />
@@ -44,7 +44,7 @@ export default function AccordionWithPrefixAvatar() {
         <AccordionTrigger
           prefix={
             <Avatar
-              size="24"
+              size="48"
               src="https://avatars.githubusercontent.com/u/54893898?v=4"
               fallback={<IdentityPlaceholder />}
             />

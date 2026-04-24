@@ -9,7 +9,6 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { withProvider, withContext } = createSlotRecipeContext(accordion);
 const withStateProps = createWithStateProps([useAccordionItemStateProps]);
@@ -112,16 +111,6 @@ export const AccordionPrefix = withContext<HTMLDivElement, AccordionPrefixProps>
   "prefix",
 );
 AccordionPrefix.displayName = "AccordionPrefix";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface AccordionPrefixIconProps extends InternalIconProps {}
-
-export const AccordionPrefixIcon = withContext<SVGSVGElement, AccordionPrefixIconProps>(
-  withStateProps(InternalIcon),
-  "prefixIcon",
-);
-AccordionPrefixIcon.displayName = "AccordionPrefixIcon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

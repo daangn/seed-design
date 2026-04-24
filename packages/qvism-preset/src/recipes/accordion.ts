@@ -16,7 +16,6 @@ const accordion = defineSlotRecipe({
     "header",
     "trigger",
     "prefix",
-    "prefixIcon",
     "body",
     "title",
     "description",
@@ -64,11 +63,6 @@ const accordion = defineSlotRecipe({
       },
     },
     prefix: {
-      display: "inline-flex",
-      alignItems: "center",
-      flexShrink: 0,
-    },
-    prefixIcon: {
       display: "inline-flex",
       alignItems: "center",
       flexShrink: 0,
@@ -208,9 +202,6 @@ const accordion = defineSlotRecipe({
         },
         prefix: {
           marginRight: itemVars.sizeMedium.enabled.prefix.paddingRight,
-        },
-        prefixIcon: {
-          marginRight: itemVars.sizeMedium.enabled.prefix.paddingRight,
           ...onlyIcon({
             size: itemVars.sizeMedium.enabled.prefixIcon.size,
           }),
@@ -236,9 +227,6 @@ const accordion = defineSlotRecipe({
           paddingBottom: itemVars.sizeLarge.enabled.trigger.paddingY,
         },
         prefix: {
-          marginRight: itemVars.sizeLarge.enabled.prefix.paddingRight,
-        },
-        prefixIcon: {
           marginRight: itemVars.sizeLarge.enabled.prefix.paddingRight,
           ...onlyIcon({
             size: itemVars.sizeLarge.enabled.prefixIcon.size,

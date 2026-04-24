@@ -15,7 +15,7 @@ declare type AccordionVariantMap = {
 
 export declare type AccordionVariantProps = Partial<AccordionVariant>;
 
-export declare type AccordionSlotName = "root" | "item" | "header" | "trigger" | "prefix" | "prefixIcon" | "body" | "title" | "description" | "suffixIcon" | "content";
+export declare type AccordionSlotName = "root" | "item" | "header" | "trigger" | "prefix" | "body" | "title" | "description" | "suffixIcon" | "content";
 
 export declare const accordionVariantMap: AccordionVariantMap;
 

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
 
-import { Box } from "@seed-design/react";
+import { Box, Icon } from "@seed-design/react";
 import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
 import { IconCalendarLine } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
@@ -12,7 +12,7 @@ import { CHROMATIC_PARAMETERS, createStoryWithParameters } from "@/stories/utils
 const AccordionDemo = (props: React.ComponentProps<typeof Accordion>) => (
   <Accordion {...props} style={{ width: 360 }}>
     <AccordionItem value="item-1">
-      <AccordionTrigger prefixIcon={<IconCalendarLine />} title="배송은 얼마나 걸리나요?" />
+      <AccordionTrigger prefix={<Icon svg={<IconCalendarLine />} />} title="배송은 얼마나 걸리나요?" />
       <AccordionContent>
         <Box p="x4">
           주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
@@ -67,9 +67,15 @@ export const DarkTheme = createStoryWithParameters<typeof meta>({
 });
 
 const AccordionOpenDemo = ({ variant, size }: React.ComponentProps<typeof Accordion>) => (
-  <Accordion variant={variant} size={size} type="multiple" style={{ width: 360 }} defaultValues={["item-1"]}>
+  <Accordion
+    variant={variant}
+    size={size}
+    type="multiple"
+    style={{ width: 360 }}
+    defaultValues={["item-1"]}
+  >
     <AccordionItem value="item-1">
-      <AccordionTrigger prefixIcon={<IconCalendarLine />} title="배송은 얼마나 걸리나요?" />
+      <AccordionTrigger prefix={<Icon svg={<IconCalendarLine />} />} title="배송은 얼마나 걸리나요?" />
       <AccordionContent>
         <Box p="x4">
           주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.

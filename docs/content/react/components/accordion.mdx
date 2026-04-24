@@ -117,9 +117,9 @@ npx @seed-design/cli@latest add ui:accordion
   ```
 </ComponentExample>
 
-### Prefix Icon
+### Prefix
 
-`prefixIcon` prop에 아이콘 노드를 전달하여 트리거 앞에 22px 아이콘을 배치할 수 있습니다. 아이콘이 아닌 자유로운 노드는 `prefix`를 사용하세요.
+`prefix` prop에 아이콘이나 아바타 같은 앞쪽 요소를 전달할 수 있습니다. 아이콘은 SEED `Icon` 컴포넌트로 감싸면 Accordion의 22px 아이콘 크기 토큰을 받습니다.
 
 <ComponentExample name="react/accordion/with-prefix-icon">
   ```json doc-gen:file
@@ -132,7 +132,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### With Prefix Avatar
 
-`prefix` prop에 아바타처럼 자유로운 React 노드를 전달할 수 있습니다.
+아바타를 넣는 경우에는 List와 같이 `Avatar size="48"` 패턴을 권장합니다.
 
 <ComponentExample name="react/accordion/with-prefix-avatar">
   ```json doc-gen:file

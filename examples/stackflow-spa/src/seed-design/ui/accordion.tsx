@@ -23,7 +23,6 @@ export interface AccordionTriggerProps
   title: React.ReactNode;
   description?: React.ReactNode;
   prefix?: React.ReactNode;
-  prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
   headingLevel?: SeedAccordion.HeaderProps["headingLevel"];
 }
@@ -32,11 +31,10 @@ export interface AccordionTriggerProps
  * @see https://seed-design.io/react/components/accordion
  */
 export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
-  ({ title, description, prefix, prefixIcon, suffixIcon, headingLevel, ...props }, ref) => (
+  ({ title, description, prefix, suffixIcon, headingLevel, ...props }, ref) => (
     <SeedAccordion.Header headingLevel={headingLevel}>
       <SeedAccordion.Trigger ref={ref} {...props}>
         {prefix && <SeedAccordion.Prefix>{prefix}</SeedAccordion.Prefix>}
-        {prefixIcon && <SeedAccordion.PrefixIcon svg={prefixIcon} />}
         <SeedAccordion.Body>
           <SeedAccordion.Title>{title}</SeedAccordion.Title>
           {description && <SeedAccordion.Description>{description}</SeedAccordion.Description>}

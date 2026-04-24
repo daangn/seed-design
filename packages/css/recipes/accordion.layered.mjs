@@ -23,10 +23,6 @@ const accordionSlotNames = [
     "seed-accordion__prefix"
   ],
   [
-    "prefixIcon",
-    "seed-accordion__prefixIcon"
-  ],
-  [
     "body",
     "seed-accordion__body"
   ],
