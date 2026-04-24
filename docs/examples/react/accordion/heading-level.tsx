@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "se
 export default function AccordionHeadingLevel() {
   return (
     <Box width="full" height="full" p="x6">
-      <VStack gap="x4" align="stretch" width="full" style={{ maxWidth: "420px" }}>
+      <VStack gap="x4" align="stretch" width="full">
         <Text as="h3" textStyle="t5Bold">
           주문 도움말
         </Text>
