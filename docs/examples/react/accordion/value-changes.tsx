@@ -16,6 +16,7 @@ export default function AccordionValueChanges() {
         gridTemplateColumns: "minmax(0, 1fr) minmax(280px, 360px)",
         gap: "24px",
         alignItems: "start",
+        minHeight: "320px",
       }}
     >
       <Accordion
