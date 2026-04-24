@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "se
 
 import { Box, Icon } from "@seed-design/react";
 import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
-import { IconCalendarLine } from "@karrotmarket/react-monochrome-icon";
+import { IconTruckLine } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
@@ -12,7 +12,7 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 const AccordionDemo = (props: React.ComponentProps<typeof Accordion>) => (
   <Accordion {...props} style={{ width: 360 }}>
     <AccordionItem value="item-1">
-      <AccordionTrigger prefix={<Icon svg={<IconCalendarLine />} />} title="배송은 얼마나 걸리나요?" />
+      <AccordionTrigger prefix={<Icon svg={<IconTruckLine />} />} title="배송은 얼마나 걸리나요?" />
       <AccordionContent>
         <Box p="x4">
           주문 후 영업일 기준 2-3일 내에 배송됩니다. 지역에 따라 다소 차이가 있을 수 있습니다.
