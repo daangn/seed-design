@@ -17,7 +17,9 @@ export const docs = defineDocs({
       coverImageFigmaId: z.string().optional(),
     }),
     postprocess: {
-      includeProcessedMarkdown: true,
+      includeProcessedMarkdown: {
+        headingIds: false,
+      },
     },
   },
 });
@@ -30,7 +32,9 @@ export const reactDocs = defineDocs({
       deprecated: z.boolean().optional(),
     }),
     postprocess: {
-      includeProcessedMarkdown: true,
+      includeProcessedMarkdown: {
+        headingIds: false,
+      },
     },
   },
 });
@@ -43,7 +47,9 @@ export const breezeDocs = defineDocs({
       deprecated: z.boolean().optional(),
     }),
     postprocess: {
-      includeProcessedMarkdown: true,
+      includeProcessedMarkdown: {
+        headingIds: false,
+      },
     },
   },
 });
@@ -56,7 +62,9 @@ export const lynxDocs = defineDocs({
       deprecated: z.boolean().optional(),
     }),
     postprocess: {
-      includeProcessedMarkdown: true,
+      includeProcessedMarkdown: {
+        headingIds: false,
+      },
     },
   },
 });
@@ -69,7 +77,9 @@ export const aiIntegrationDocs = defineDocs({
       deprecated: z.boolean().optional(),
     }),
     postprocess: {
-      includeProcessedMarkdown: true,
+      includeProcessedMarkdown: {
+        headingIds: false,
+      },
     },
   },
 });
