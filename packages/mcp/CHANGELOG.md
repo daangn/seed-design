@@ -1,5 +1,25 @@
 # @seed-design/mcp
 
+## 1.3.12
+
+### Patch Changes
+
+- @seed-design/figma@1.3.12
+
+## 1.3.11
+
+### Patch Changes
+
+- 7ca8e6c: axios 의존성을 업데이트합니다.
+- Updated dependencies [41cd943]
+  - @seed-design/figma@1.3.11
+
+## 1.3.10
+
+### Patch Changes
+
+- @seed-design/figma@1.3.10
+
 ## 1.3.9
 
 ### Patch Changes

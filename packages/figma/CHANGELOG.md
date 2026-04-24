@@ -1,5 +1,29 @@
 # @seed-design/figma
 
+## 1.3.12
+
+### Patch Changes
+
+- Updated dependencies [46bdf17]
+- Updated dependencies [79c7aa3]
+  - @seed-design/css@1.2.10
+
+## 1.3.11
+
+### Patch Changes
+
+- 41cd943: 아이콘 데이터 및 Figma Codegen 컴포넌트 핸들러를 최신 버전으로 업데이트합니다.
+- Updated dependencies [5bf2e8a]
+  - @seed-design/css@1.2.9
+
+## 1.3.10
+
+### Patch Changes
+
+- Updated dependencies [c02bfba]
+- Updated dependencies [f391668]
+  - @seed-design/css@1.2.8
+
 ## 1.3.9
 
 ### Patch Changes

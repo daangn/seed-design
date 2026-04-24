@@ -11,7 +11,7 @@
       "slots": {
         "root": {
           "properties": {
-            "minHeight": {
+            "height": {
               "type": "dimension"
             },
             "paddingX": {
@@ -28,18 +28,21 @@
             }
           }
         },
-        "icon": {
+        "left": {
+          "properties": {},
+          "description": "왼쪽 영역입니다. 일반적으로 뒤로가기/닫기 Top Navigation Icon Button이 위치합니다."
+        },
+        "main": {
           "properties": {
-            "size": {
+            "paddingLeft": {
               "type": "dimension"
-            },
-            "targetSize": {
-              "type": "dimension"
-            },
-            "color": {
-              "type": "color"
             }
-          }
+          },
+          "description": "title과 subtitle을 포함하는 영역입니다."
+        },
+        "right": {
+          "properties": {},
+          "description": "오른쪽 영역입니다. 일반적으로 Top Navigation Icon Button 또는 Top Navigation Text Button이 위치합니다."
         },
         "title": {
           "properties": {
@@ -54,6 +57,18 @@
             },
             "lineHeight": {
               "type": "dimension"
+            },
+            "maxFontSizeScale": {
+              "type": "number"
+            },
+            "minFontSizeScale": {
+              "type": "number"
+            },
+            "maxLineHeightScale": {
+              "type": "number"
+            },
+            "minLineHeightScale": {
+              "type": "number"
             }
           }
         },
@@ -70,6 +85,18 @@
             },
             "lineHeight": {
               "type": "dimension"
+            },
+            "maxFontSizeScale": {
+              "type": "number"
+            },
+            "minFontSizeScale": {
+              "type": "number"
+            },
+            "maxLineHeightScale": {
+              "type": "number"
+            },
+            "minLineHeightScale": {
+              "type": "number"
             }
           }
         }
@@ -116,7 +143,7 @@
             ],
             "slots": {
               "root": {
-                "minHeight": {
+                "height": {
                   "type": "dimension",
                   "value": {
                     "value": 44,
@@ -126,22 +153,6 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x4"
-                }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 24,
-                    "unit": "px"
-                  }
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
                 }
               }
             }
@@ -159,7 +170,7 @@
             ],
             "slots": {
               "root": {
-                "minHeight": {
+                "height": {
                   "type": "dimension",
                   "value": {
                     "value": 56,
@@ -171,18 +182,11 @@
                   "value": "$dimension.x4"
                 }
               },
-              "icon": {
-                "size": {
+              "main": {
+                "paddingLeft": {
                   "type": "dimension",
                   "value": {
-                    "value": 24,
-                    "unit": "px"
-                  }
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
+                    "value": 16,
                     "unit": "px"
                   }
                 }
@@ -218,12 +222,6 @@
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
                 }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
               }
             }
           }
@@ -252,12 +250,6 @@
                 }
               },
               "subtitle": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                }
-              },
-              "icon": {
                 "color": {
                   "type": "color",
                   "value": "$color.palette.static-white"
@@ -307,7 +299,7 @@
               "title": {
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t6-static"
+                  "value": "$font-size.t6"
                 },
                 "fontWeight": {
                   "type": "number",
@@ -315,7 +307,23 @@
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t6-static"
+                  "value": "$line-height.t6"
+                },
+                "maxFontSizeScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minFontSizeScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "maxLineHeightScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minLineHeightScale": {
+                  "type": "number",
+                  "value": 1
                 }
               }
             }
@@ -335,7 +343,7 @@
               "title": {
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t5-static"
+                  "value": "$font-size.t5"
                 },
                 "fontWeight": {
                   "type": "number",
@@ -343,13 +351,29 @@
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t5-static"
+                  "value": "$line-height.t5"
+                },
+                "maxFontSizeScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minFontSizeScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "maxLineHeightScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minLineHeightScale": {
+                  "type": "number",
+                  "value": 1
                 }
               },
               "subtitle": {
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t2-static"
+                  "value": "$font-size.t2"
                 },
                 "fontWeight": {
                   "type": "number",
@@ -357,7 +381,23 @@
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t2-static"
+                  "value": "$line-height.t2"
+                },
+                "maxFontSizeScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minFontSizeScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "maxLineHeightScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minLineHeightScale": {
+                  "type": "number",
+                  "value": 1
                 }
               }
             }

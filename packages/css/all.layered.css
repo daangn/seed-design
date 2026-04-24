@@ -764,14 +764,18 @@
   @keyframes seed-enter {
     from {
       opacity: var(--seed-enter-opacity, 1);
-      transform: translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0) scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1)) rotate(var(--seed-enter-rotate, 0));
+      transform: translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0)
+      scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1))
+      rotate(var(--seed-enter-rotate, 0));
     }
   }
 
   @keyframes seed-exit {
     to {
       opacity: var(--seed-exit-opacity, 1);
-      transform: translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0) scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1)) rotate(var(--seed-exit-rotate, 0));
+      transform: translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0)
+      scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1))
+      rotate(var(--seed-exit-rotate, 0));
     }
   }
 
@@ -921,13 +925,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -956,13 +960,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -991,13 +995,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralWeak:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -1026,13 +1030,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_criticalSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-critical-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-critical-solid-pressed);
     }
@@ -1064,13 +1068,13 @@
     --range-color: var(--seed-color-bg-brand-solid);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandOutline:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -1103,13 +1107,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralOutline:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -1141,13 +1145,13 @@
     background: #fff0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_ghost:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_ghost:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -1363,7 +1367,7 @@
   .seed-action-sheet__positioner {
     overscroll-behavior-y: none;
     --sheet-z-index: 2;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     justify-content: center;
     align-items: flex-end;
     display: flex;
@@ -1373,7 +1377,7 @@
 
   .seed-action-sheet__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
@@ -1402,7 +1406,7 @@
   .seed-action-sheet__content {
     box-sizing: border-box;
     word-break: break-all;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
@@ -1957,21 +1961,21 @@
   }
 
   .seed-app-bar-main__title--layout_titleOnly {
-    font-size: var(--seed-font-size-t6-static);
+    font-size: clamp(calc(var(--seed-font-size-t6-static) * 1), var(--seed-font-size-t6), calc(var(--seed-font-size-t6-static) * 1.2));
     font-weight: var(--seed-font-weight-bold);
-    line-height: var(--seed-line-height-t6-static);
+    line-height: clamp(calc(var(--seed-line-height-t6-static) * 1), var(--seed-line-height-t6), calc(var(--seed-line-height-t6-static) * 1.2));
   }
 
   .seed-app-bar-main__title--layout_withSubtitle {
-    font-size: var(--seed-font-size-t5-static);
+    font-size: clamp(calc(var(--seed-font-size-t5-static) * 1), var(--seed-font-size-t5), calc(var(--seed-font-size-t5-static) * 1.2));
     font-weight: var(--seed-font-weight-bold);
-    line-height: var(--seed-line-height-t5-static);
+    line-height: clamp(calc(var(--seed-line-height-t5-static) * 1), var(--seed-line-height-t5), calc(var(--seed-line-height-t5-static) * 1.2));
   }
 
   .seed-app-bar-main__subtitle--layout_withSubtitle {
-    font-size: var(--seed-font-size-t2-static);
+    font-size: clamp(calc(var(--seed-font-size-t2-static) * 1), var(--seed-font-size-t2), calc(var(--seed-font-size-t2-static) * 1.2));
     font-weight: var(--seed-font-weight-regular);
-    line-height: var(--seed-line-height-t2-static);
+    line-height: clamp(calc(var(--seed-line-height-t2-static) * 1), var(--seed-line-height-t2), calc(var(--seed-line-height-t2-static) * 1.2));
   }
 
   .seed-app-bar-main__root--theme_cupertino {
@@ -2111,7 +2115,7 @@
   }
 
   .seed-app-screen__root {
-    --app-bar-offset: calc(var(--app-bar-height)  + var(--seed-safe-area-top));
+    --app-bar-offset: calc(var(--app-bar-height) + var(--seed-safe-area-top));
     width: 100%;
     height: 100%;
     position: absolute;
@@ -2171,10 +2175,10 @@
   }
 
   .seed-app-screen__root--transitionStyle_slideFromRightIOS {
-    --z-index-dim: calc(var(--z-index-base)  + 0);
-    --z-index-layer: calc(var(--z-index-base)  + 2);
-    --z-index-edge: calc(var(--z-index-base)  + 4);
-    --z-index-app-bar: calc(var(--z-index-base)  + 7);
+    --z-index-dim: calc(var(--z-index-base) + 0);
+    --z-index-layer: calc(var(--z-index-base) + 2);
+    --z-index-edge: calc(var(--z-index-base) + 4);
+    --z-index-app-bar: calc(var(--z-index-base) + 7);
   }
 
   .seed-app-screen__layer--transitionStyle_slideFromRightIOS {
@@ -2319,10 +2323,10 @@
   }
 
   .seed-app-screen__root--transitionStyle_fadeFromBottomAndroid {
-    --z-index-dim: calc(var(--z-index-base)  + 0);
-    --z-index-layer: calc(var(--z-index-base)  + 3);
-    --z-index-edge: calc(var(--z-index-base)  + 4);
-    --z-index-app-bar: calc(var(--z-index-base)  + 4);
+    --z-index-dim: calc(var(--z-index-base) + 0);
+    --z-index-layer: calc(var(--z-index-base) + 3);
+    --z-index-edge: calc(var(--z-index-base) + 4);
+    --z-index-app-bar: calc(var(--z-index-base) + 4);
   }
 
   .seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid {
@@ -2375,10 +2379,10 @@
   }
 
   .seed-app-screen__root--transitionStyle_fadeIn {
-    --z-index-dim: calc(var(--z-index-base)  + 0);
-    --z-index-layer: calc(var(--z-index-base)  + 3);
-    --z-index-edge: calc(var(--z-index-base)  + 4);
-    --z-index-app-bar: calc(var(--z-index-base)  + 4);
+    --z-index-dim: calc(var(--z-index-base) + 0);
+    --z-index-layer: calc(var(--z-index-base) + 3);
+    --z-index-edge: calc(var(--z-index-base) + 4);
+    --z-index-app-bar: calc(var(--z-index-base) + 4);
   }
 
   .seed-app-screen__dim--transitionStyle_fadeIn {
@@ -2929,7 +2933,7 @@
   .seed-bottom-sheet__positioner {
     overscroll-behavior-y: none;
     --sheet-z-index: 2;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     justify-content: center;
     align-items: flex-end;
     display: flex;
@@ -2939,7 +2943,7 @@
 
   .seed-bottom-sheet__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
@@ -2955,7 +2959,7 @@
   .seed-bottom-sheet__content {
     box-sizing: border-box;
     word-break: break-all;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
@@ -3162,13 +3166,13 @@
     transform: translateX(-50%);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-bottom-sheet-handle__root:is(:hover, [data-hover]) {
       background-color: var(--seed-color-palette-gray-500);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-bottom-sheet-handle__root:is(:active, [data-active]) {
       background-color: var(--seed-color-palette-gray-500);
     }
@@ -3273,7 +3277,7 @@
     cursor: pointer;
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
-    margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
+    margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
     border-radius: var(--seed-radius-r2_5);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
@@ -3299,13 +3303,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_neutral:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -3321,13 +3325,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_informative:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
@@ -3343,13 +3347,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_positive:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
@@ -3365,13 +3369,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_warning:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
@@ -3387,13 +3391,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_critical:is(button, a):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
@@ -3409,13 +3413,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_magic:is(button, a):is(:hover, [data-hover]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
@@ -3458,7 +3462,7 @@
 
   .seed-checkbox__root--size_large {
     min-height: var(--seed-dimension-x9);
-    --checkmark-margin-top: calc((var(--seed-dimension-x9)  - var(--seed-dimension-x6)) / 2);
+    --checkmark-margin-top: calc((var(--seed-dimension-x9) - var(--seed-dimension-x6)) / 2);
   }
 
   .seed-checkbox__label--size_large {
@@ -3469,7 +3473,7 @@
 
   .seed-checkbox__root--size_medium {
     min-height: var(--seed-dimension-x8);
-    --checkmark-margin-top: calc((var(--seed-dimension-x8)  - var(--seed-dimension-x5)) / 2);
+    --checkmark-margin-top: calc((var(--seed-dimension-x8) - var(--seed-dimension-x5)) / 2);
   }
 
   .seed-checkbox__label--size_medium {
@@ -3519,13 +3523,13 @@
     border-width: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -3544,13 +3548,13 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -3582,13 +3586,13 @@
     background: var(--seed-color-bg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -3602,13 +3606,13 @@
     background: var(--seed-color-bg-brand-solid);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -3618,13 +3622,13 @@
     color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
       background: var(--seed-color-palette-gray-200);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
       background: var(--seed-color-palette-gray-200);
     }
@@ -3634,13 +3638,13 @@
     color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
       background: var(--seed-color-palette-carrot-200);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_ghost-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
       background: var(--seed-color-palette-carrot-200);
     }
@@ -3743,25 +3747,25 @@
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_solid:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-weak-alpha-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_solid:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-weak-alpha-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -3789,13 +3793,13 @@
     --seed-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineStrong:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineStrong:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -3806,13 +3810,13 @@
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -3840,13 +3844,13 @@
     --seed-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineWeak:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineWeak:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -3857,13 +3861,13 @@
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip__root--variant_outlineWeak:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -4041,25 +4045,25 @@
     color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -4087,25 +4091,25 @@
     border-color: #0000;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -4131,25 +4135,25 @@
     color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_brandSolid:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_brandSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -4212,7 +4216,7 @@
     min-width: var(--seed-dimension-x4);
     aspect-ratio: 1;
     width: auto;
-    max-width: 64px;
+    max-width: 160px;
     color: var(--seed-color-palette-gray-400);
     fill: currentColor;
     stroke: currentColor;
@@ -4278,13 +4282,13 @@
     --range-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -4310,13 +4314,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-layer-floating-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
       background: var(--seed-color-bg-layer-floating-pressed);
     }
@@ -4450,7 +4454,7 @@
   .seed-dialog__positioner {
     overscroll-behavior-y: none;
     --dialog-z-index: 2;
-    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     justify-content: center;
     align-items: center;
     display: flex;
@@ -4460,7 +4464,7 @@
 
   .seed-dialog__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
@@ -4468,7 +4472,7 @@
   .seed-dialog__content {
     box-sizing: border-box;
     word-break: break-all;
-    z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 272px;
     margin: auto var(--seed-dimension-x8);
@@ -4560,7 +4564,7 @@
   .seed-extended-action-sheet__positioner {
     overscroll-behavior-y: none;
     --sheet-z-index: 2;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     justify-content: center;
     align-items: flex-end;
     display: flex;
@@ -4570,7 +4574,7 @@
 
   .seed-extended-action-sheet__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
@@ -4599,7 +4603,7 @@
   .seed-extended-action-sheet__content {
     box-sizing: border-box;
     word-break: break-all;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     padding-block: var(--seed-dimension-x4);
@@ -4871,7 +4875,7 @@
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-subtle);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
-    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4)  - var(--seed-dimension-x4)) / 2);
+    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
     display: flex;
   }
 
@@ -4883,7 +4887,7 @@
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-color: var(--seed-color-fg-critical);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
-    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4)  - var(--seed-dimension-x4)) / 2);
+    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
     display: flex;
   }
 
@@ -4991,13 +4995,13 @@
     overflow: hidden;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-floating-action-button__root:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-floating-action-button__root:is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -5055,7 +5059,7 @@
 
   .seed-help-bubble__positioner {
     --popover-z-index: 99;
-    z-index: calc(var(--popover-z-index)  + var(--z-index-offset, 0));
+    z-index: calc(var(--popover-z-index) + var(--z-index-offset, 0));
   }
 
   .seed-help-bubble__content {
@@ -5134,10 +5138,10 @@
   .seed-help-bubble__closeButton {
     cursor: pointer;
     padding: calc((38px - var(--seed-dimension-x3_5)) / 2);
-    margin-left: calc(var(--seed-dimension-x1)  - ((38px - var(--seed-dimension-x3_5)) / 2));
+    margin-left: calc(var(--seed-dimension-x1) - ((38px - var(--seed-dimension-x3_5)) / 2));
     margin-right: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2));
-    margin-top: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2)  + var(--seed-dimension-x0_5));
-    margin-bottom: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2)  + var(--seed-dimension-x0_5));
+    margin-top: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
+    margin-bottom: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
     color: var(--seed-color-fg-neutral-inverted);
     --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
@@ -5192,9 +5196,17 @@
     display: block;
   }
 
+  .seed-image-frame__content:not([data-loading-state="loaded"]) {
+    display: none;
+  }
+
   .seed-image-frame__fallback {
     width: 100%;
     height: 100%;
+  }
+
+  .seed-image-frame__fallback[data-loading-state="loaded"] {
+    display: none;
   }
 
   .seed-image-frame__root--stroke_true:after {
@@ -5250,10 +5262,10 @@
 
   .seed-image-frame-reaction-button__root:before {
     content: "";
-    top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
-    right: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
-    bottom: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
-    left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x6)) / 2 * -1);
+    top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    right: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
@@ -5304,7 +5316,7 @@
     padding-block: var(--seed-dimension-x2_5);
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x2);
-    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
+    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
     --seed-suffix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-margin-left: var(--seed-dimension-x4);
     --seed-suffix-icon-align-self: center;
@@ -5361,8 +5373,8 @@
   .seed-inline-banner__closeButton {
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
-    margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
-    margin-left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x4));
+    margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
+    margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x4));
     --seed-suffix-icon-margin-left: initial;
     cursor: pointer;
     background-color: #0000;
@@ -5494,13 +5506,13 @@
     background-color: var(--seed-color-bg-disabled);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-input-button__button:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -5790,7 +5802,7 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -5799,7 +5811,7 @@
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -5808,7 +5820,7 @@
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]:before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -5817,7 +5829,7 @@
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -5853,25 +5865,25 @@
     background-color: var(--seed-color-bg-brand-weak);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-brand-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-brand-weak-pressed);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]:before {
       background-color: var(--seed-color-bg-brand-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content--highlighted_true:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
       background-color: var(--seed-color-bg-brand-weak-pressed);
     }
@@ -6007,7 +6019,7 @@
   .seed-menu-sheet__positioner {
     overscroll-behavior-y: none;
     --sheet-z-index: 2;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     justify-content: center;
     align-items: flex-end;
     display: flex;
@@ -6017,7 +6029,7 @@
 
   .seed-menu-sheet__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
@@ -6025,12 +6037,12 @@
   .seed-menu-sheet__content {
     box-sizing: border-box;
     word-break: break-all;
-    z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x4);
-    padding-bottom: calc(var(--seed-dimension-x4)  + var(--seed-safe-area-bottom));
+    padding-bottom: calc(var(--seed-dimension-x4) + var(--seed-safe-area-bottom));
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
     flex-direction: column;
@@ -6106,13 +6118,13 @@
     display: flex;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-menu-sheet__closeButton:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-menu-sheet__closeButton:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -6186,13 +6198,13 @@
     display: flex;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-menu-sheet-item__root:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-menu-sheet-item__root:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -6293,11 +6305,12 @@
 
   .seed-notification-badge--size_large {
     border-radius: var(--seed-radius-full);
+    min-width: 18px;
     min-height: 18px;
     padding-left: var(--seed-dimension-x1);
     padding-right: var(--seed-dimension-x1);
-    font-size: var(--seed-font-size-t1);
-    line-height: var(--seed-line-height-t1);
+    font-size: var(--seed-font-size-t1-static);
+    line-height: var(--seed-line-height-t1-static);
     font-weight: var(--seed-font-weight-bold);
     padding-top: 0;
     padding-bottom: 0;
@@ -6352,7 +6365,7 @@
     padding-bottom: var(--seed-dimension-x2_5);
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x2);
-    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
+    --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
     --seed-suffix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-margin-left: var(--seed-dimension-x2);
     --seed-suffix-icon-align-self: center;
@@ -6407,8 +6420,8 @@
 
   .seed-page-banner__button {
     cursor: pointer;
-    margin: calc((var(--seed-dimension-x10)  - var(--seed-line-height-t3)) * .5 * -1);
-    padding: calc((var(--seed-dimension-x10)  - var(--seed-line-height-t3)) * .5);
+    margin: calc((var(--seed-dimension-x10) - var(--seed-line-height-t3)) * .5 * -1);
+    padding: calc((var(--seed-dimension-x10) - var(--seed-line-height-t3)) * .5);
     font-family: inherit;
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
@@ -6431,8 +6444,8 @@
   .seed-page-banner__closeButton {
     width: var(--seed-dimension-x10);
     height: var(--seed-dimension-x10);
-    margin: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5);
-    margin-left: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
+    margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
+    margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
     --seed-suffix-icon-margin-left: initial;
     cursor: pointer;
     border-radius: var(--seed-radius-r1);
@@ -6461,13 +6474,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_neutral-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -6483,13 +6496,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -6505,13 +6518,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_informative-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-informative-weak-pressed);
     }
@@ -6527,13 +6540,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-informative-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_informative-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-informative-solid-pressed);
     }
@@ -6549,13 +6562,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_positive-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-positive-weak-pressed);
     }
@@ -6571,13 +6584,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-positive-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_positive-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-positive-solid-pressed);
     }
@@ -6593,13 +6606,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_warning-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-warning-weak-pressed);
     }
@@ -6615,13 +6628,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-black-alpha-900);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-warning-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_warning-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-warning-solid-pressed);
     }
@@ -6637,13 +6650,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_critical-variant_weak:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-critical-weak-pressed);
     }
@@ -6659,13 +6672,13 @@
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-critical-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_critical-variant_solid:is(button):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-critical-solid-pressed);
     }
@@ -6681,13 +6694,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:hover, [data-hover]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-page-banner__root--tone_magic-variant_weak:is(button):is(:active, [data-active]) {
       background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
     }
@@ -6755,7 +6768,7 @@
   }
 
   .seed-pull-to-refresh__indicator {
-    transform: translateY(min(calc(var(--ptr-displacement, 0)  - var(--ptr-size)), 0px));
+    transform: translateY(min(calc(var(--ptr-displacement, 0) - var(--ptr-size)), 0px));
     transition: transform var(--seed-duration-d6);
     justify-content: center;
     align-items: center;
@@ -6799,7 +6812,7 @@
 
   .seed-radio__root--size_large {
     min-height: var(--seed-dimension-x9);
-    --radiomark-margin-top: calc((var(--seed-dimension-x9)  - var(--seed-dimension-x6)) / 2);
+    --radiomark-margin-top: calc((var(--seed-dimension-x9) - var(--seed-dimension-x6)) / 2);
   }
 
   .seed-radio__label--size_large {
@@ -6810,7 +6823,7 @@
 
   .seed-radio__root--size_medium {
     min-height: var(--seed-dimension-x8);
-    --radiomark-margin-top: calc((var(--seed-dimension-x8)  - var(--seed-dimension-x5)) / 2);
+    --radiomark-margin-top: calc((var(--seed-dimension-x8) - var(--seed-dimension-x5)) / 2);
   }
 
   .seed-radio__label--size_medium {
@@ -6842,13 +6855,13 @@
     position: relative;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -6890,13 +6903,13 @@
     background-color: var(--seed-color-bg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -6910,13 +6923,13 @@
     background-color: var(--seed-color-bg-brand-solid);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -6993,13 +7006,13 @@
     --seed-count-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -7013,13 +7026,13 @@
     --seed-count-color: var(--seed-color-fg-brand);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -7184,28 +7197,28 @@
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
       background-color: var(--seed-color-palette-gray-100);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
       background-color: var(--seed-color-palette-gray-100);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
@@ -7234,13 +7247,13 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -7380,13 +7393,13 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       color: var(--seed-color-fg-neutral-subtle);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       color: var(--seed-color-fg-neutral-subtle);
     }
@@ -7684,12 +7697,12 @@
   }
 
   .seed-slider__valueIndicatorArrow[data-dir="ltr"] {
-    left: calc(50% + (var(--thumb-offset)  - var(--indicator-label-offset)));
+    left: calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)));
     transform: translateX(-50%);
   }
 
   .seed-slider__valueIndicatorArrow[data-dir="rtl"] {
-    right: calc(50% + (var(--thumb-offset)  - var(--indicator-label-offset)));
+    right: calc(50% + (var(--thumb-offset) - var(--indicator-label-offset)));
     transform: translateX(50%);
   }
 
@@ -7910,7 +7923,7 @@
     z-index: 2147483647;
     left: calc(env(safe-area-inset-left, 0px));
     right: calc(env(safe-area-inset-right, 0px));
-    bottom: calc(env(safe-area-inset-bottom, 0px)  + var(--snackbar-region-offset, 0px));
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px));
     padding-left: var(--seed-dimension-x2);
     padding-right: var(--seed-dimension-x2);
     padding-top: var(--seed-dimension-x2);
@@ -7951,7 +7964,7 @@
   .seed-switch__root--size_16 {
     min-height: var(--seed-dimension-x6);
     gap: var(--seed-dimension-x1_5);
-    --switchmark-margin-top: calc((var(--seed-dimension-x6)  - 16px) / 2);
+    --switchmark-margin-top: calc((var(--seed-dimension-x6) - 16px) / 2);
   }
 
   .seed-switch__label--size_16 {
@@ -7963,7 +7976,7 @@
   .seed-switch__root--size_24 {
     min-height: var(--seed-dimension-x6);
     gap: var(--seed-dimension-x2);
-    --switchmark-margin-top: calc((var(--seed-dimension-x6)  - 24px) / 2);
+    --switchmark-margin-top: calc((var(--seed-dimension-x6) - 24px) / 2);
   }
 
   .seed-switch__label--size_24 {
@@ -7975,7 +7988,7 @@
   .seed-switch__root--size_32 {
     min-height: var(--seed-dimension-x8);
     gap: var(--seed-dimension-x2_5);
-    --switchmark-margin-top: calc((var(--seed-dimension-x8)  - 32px) / 2);
+    --switchmark-margin-top: calc((var(--seed-dimension-x8) - 32px) / 2);
   }
 
   .seed-switch__label--size_32 {
@@ -8050,7 +8063,7 @@
   }
 
   .seed-switchmark__thumb--size_16:is(:checked, [data-checked]) {
-    transform: scale(1)translateX(10px);
+    transform: scale(1) translateX(10px);
   }
 
   .seed-switchmark__root--size_24 {
@@ -8065,7 +8078,7 @@
   }
 
   .seed-switchmark__thumb--size_24:is(:checked, [data-checked]) {
-    transform: scale(1)translateX(14px);
+    transform: scale(1) translateX(14px);
   }
 
   .seed-switchmark__root--size_32 {
@@ -8080,7 +8093,7 @@
   }
 
   .seed-switchmark__thumb--size_32:is(:checked, [data-checked]) {
-    transform: scale(1)translateX(20px);
+    transform: scale(1) translateX(20px);
   }
 
   .seed-tabs__root {
@@ -8197,8 +8210,8 @@
   }
 
   .seed-tabs__indicator--triggerLayout_fill {
-    left: calc(var(--indicator-left, 0px)  + var(--seed-dimension-spacing-x-global-gutter));
-    width: calc(var(--indicator-width, 0px)  - 2 * var(--seed-dimension-spacing-x-global-gutter));
+    left: calc(var(--indicator-left, 0px) + var(--seed-dimension-spacing-x-global-gutter));
+    width: calc(var(--indicator-width, 0px) - 2 * var(--seed-dimension-spacing-x-global-gutter));
   }
 
   .seed-tabs__trigger--triggerLayout_fill {
@@ -8217,8 +8230,8 @@
   }
 
   .seed-tabs__indicator--triggerLayout_hug {
-    left: calc(var(--indicator-left, 0px)  + 0px);
-    width: calc(var(--indicator-width, 0px)  - 2 * 0px);
+    left: calc(var(--indicator-left, 0px) + 0px);
+    width: calc(var(--indicator-width, 0px) - 2 * 0px);
   }
 
   .seed-tabs__trigger--triggerLayout_hug:is([aria-selected="true"], [data-selected])[data-ssr]:after {
@@ -9086,13 +9099,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -9107,13 +9120,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -9146,13 +9159,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_neutralWeak:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_neutralWeak:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -9167,13 +9180,13 @@
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_neutralWeak:is([aria-pressed="true"], [data-pressed]):is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }

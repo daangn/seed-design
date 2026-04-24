@@ -6,6 +6,7 @@ import {
 } from "../utils/focus-ring";
 import { pseudo, focusVisible } from "../utils/pseudo";
 import { topNavigation as vars } from "../vars/component";
+import { topNavigationIconButton as iconButtonVars } from "../vars/component";
 import { fadeInAnimations, fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
   idle,
@@ -43,23 +44,26 @@ export const appBarMain = defineSlotRecipe({
   },
   variants: {
     layout: {
+      // TODO: have some better way to derive static font-size/line-height token references
+      // NOTE: when updating vars, update static token references accordingly
+      // NOTE: nested clamp — outer component bounds narrow the inner global clamp baked into the token (intersection; requires component range ⊆ global range). see packages/qvism-preset/src/global.ts
       titleOnly: {
         title: {
-          fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
+          fontSize: `clamp(calc(${tokens.$fontSize.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.minFontSizeScale}), ${vars.titleLayoutTitleOnly.enabled.title.fontSize}, calc(${tokens.$fontSize.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.maxFontSizeScale}))`,
           fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
-          lineHeight: vars.titleLayoutTitleOnly.enabled.title.lineHeight,
+          lineHeight: `clamp(calc(${tokens.$lineHeight.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.minLineHeightScale}), ${vars.titleLayoutTitleOnly.enabled.title.lineHeight}, calc(${tokens.$lineHeight.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.maxLineHeightScale}))`,
         },
       },
       withSubtitle: {
         title: {
-          fontSize: vars.titleLayoutWithSubtitle.enabled.title.fontSize,
+          fontSize: `clamp(calc(${tokens.$fontSize.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.minFontSizeScale}), ${vars.titleLayoutWithSubtitle.enabled.title.fontSize}, calc(${tokens.$fontSize.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.maxFontSizeScale}))`,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.title.fontWeight,
-          lineHeight: vars.titleLayoutWithSubtitle.enabled.title.lineHeight,
+          lineHeight: `clamp(calc(${tokens.$lineHeight.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.minLineHeightScale}), ${vars.titleLayoutWithSubtitle.enabled.title.lineHeight}, calc(${tokens.$lineHeight.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.maxLineHeightScale}))`,
         },
         subtitle: {
-          fontSize: vars.titleLayoutWithSubtitle.enabled.subtitle.fontSize,
+          fontSize: `clamp(calc(${tokens.$fontSize.t2Static} * ${vars.titleLayoutWithSubtitle.enabled.subtitle.minFontSizeScale}), ${vars.titleLayoutWithSubtitle.enabled.subtitle.fontSize}, calc(${tokens.$fontSize.t2Static} * ${vars.titleLayoutWithSubtitle.enabled.subtitle.maxFontSizeScale}))`,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.subtitle.fontWeight,
-          lineHeight: vars.titleLayoutWithSubtitle.enabled.subtitle.lineHeight,
+          lineHeight: `clamp(calc(${tokens.$lineHeight.t2Static} * ${vars.titleLayoutWithSubtitle.enabled.subtitle.minLineHeightScale}), ${vars.titleLayoutWithSubtitle.enabled.subtitle.lineHeight}, calc(${tokens.$lineHeight.t2Static} * ${vars.titleLayoutWithSubtitle.enabled.subtitle.maxLineHeightScale}))`,
         },
       },
     },
@@ -209,55 +213,56 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeCupertino.enabled.root.minHeight} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.themeCupertino.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingLeft: vars.themeCupertino.enabled.root.paddingX,
           paddingRight: vars.themeCupertino.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
-          width: vars.themeCupertino.enabled.icon.targetSize,
-          height: vars.themeCupertino.enabled.icon.targetSize,
+          width: iconButtonVars.base.enabled.root.size,
+          height: iconButtonVars.base.enabled.root.size,
 
           // cursor: "pointer"; // we might need this later
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
+            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
+            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
           },
         },
         // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
         // if we decide to do so, we should require users to wrap the icon with the <Icon /> component. (currently it's optional)
         icon: {
-          width: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
+          width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
         },
       },
+      // TODO: most of these can be shared with cupertino, we can just override the necessary styles
       android: {
         root: {
-          height: `calc(${vars.themeAndroid.enabled.root.minHeight} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingLeft: vars.themeAndroid.enabled.root.paddingX,
           paddingRight: vars.themeAndroid.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
-          width: vars.themeAndroid.enabled.icon.targetSize,
-          height: vars.themeAndroid.enabled.icon.targetSize,
+          width: iconButtonVars.base.enabled.root.size,
+          height: iconButtonVars.base.enabled.root.size,
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${vars.themeAndroid.enabled.icon.targetSize} - ${vars.themeAndroid.enabled.icon.size}) / 2)`,
+            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${vars.themeAndroid.enabled.icon.targetSize} - ${vars.themeAndroid.enabled.icon.size}) / 2)`,
+            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
           },
         },
         icon: {
-          width: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
+          width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
         },
         left: {
-          paddingRight: "16px",
+          paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
         },
       },
     },
@@ -327,7 +332,7 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          color: `var(--seed-icon-color, ${vars.toneLayer.enabled.icon.color})`,
+          color: `var(--seed-icon-color, ${iconButtonVars.toneLayer.enabled.icon.color})`,
         },
       },
       transparent: {
@@ -335,7 +340,7 @@ export const appBar = defineSlotRecipe({
           backgroundColor: vars.toneTransparent.enabled.root.color,
         },
         icon: {
-          color: `var(--seed-icon-color, ${vars.toneTransparent.enabled.icon.color})`,
+          color: `var(--seed-icon-color, ${iconButtonVars.toneTransparent.enabled.icon.color})`,
         },
       },
     },

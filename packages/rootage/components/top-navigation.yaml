@@ -8,7 +8,7 @@ data:
     slots:
       root:
         properties:
-          minHeight:
+          height:
             type: dimension
           paddingX:
             type: dimension
@@ -18,14 +18,18 @@ data:
             type: color
           strokeWidth:
             type: dimension
-      icon:
+      left:
+        properties: {}
+        description: 왼쪽 영역입니다. 일반적으로 뒤로가기/닫기 Top Navigation Icon Button이 위치합니다.
+      main:
         properties:
-          size:
+          paddingLeft:
             type: dimension
-          targetSize:
-            type: dimension
-          color:
-            type: color
+        description: title과 subtitle을 포함하는 영역입니다.
+      right:
+        properties: {}
+        description: 오른쪽 영역입니다. 일반적으로 Top Navigation Icon Button 또는 Top Navigation Text
+          Button이 위치합니다.
       title:
         properties:
           color:
@@ -36,6 +40,14 @@ data:
             type: number
           lineHeight:
             type: dimension
+          maxFontSizeScale:
+            type: number
+          minFontSizeScale:
+            type: number
+          maxLineHeightScale:
+            type: number
+          minLineHeightScale:
+            type: number
       subtitle:
         properties:
           color:
@@ -46,23 +58,29 @@ data:
             type: number
           lineHeight:
             type: dimension
+          maxFontSizeScale:
+            type: number
+          minFontSizeScale:
+            type: number
+          maxLineHeightScale:
+            type: number
+          minLineHeightScale:
+            type: number
   definitions:
     theme=cupertino:
       enabled:
         root:
-          minHeight: 44px
+          height: 44px
           paddingX: $dimension.x4
-        icon:
-          size: 24px
-          targetSize: 44px
+        # main:
+        #   paddingLeft: $dimension.x1
     theme=android:
       enabled:
         root:
-          minHeight: 56px
+          height: 56px
           paddingX: $dimension.x4
-        icon:
-          size: 24px
-          targetSize: 44px
+        main:
+          paddingLeft: 16px # should be $dimension.x1_5 after we add pressed styles to top navigation icon buttons and do the layout based on the button size rather than the icon size
     tone=layer:
       enabled:
         root:
@@ -71,8 +89,6 @@ data:
           color: $color.fg.neutral
         subtitle:
           color: $color.fg.neutral-muted
-        icon:
-          color: $color.fg.neutral
     tone=transparent:
       enabled:
         root:
@@ -80,8 +96,6 @@ data:
         title:
           color: $color.palette.static-white
         subtitle:
-          color: $color.palette.static-white
-        icon:
           color: $color.palette.static-white
     divider=true:
       enabled:
@@ -91,16 +105,28 @@ data:
     titleLayout=titleOnly:
       enabled:
         title:
-          fontSize: $font-size.t6-static
+          fontSize: $font-size.t6
           fontWeight: $font-weight.bold
-          lineHeight: $line-height.t6-static
+          lineHeight: $line-height.t6
+          maxFontSizeScale: 1.2
+          minFontSizeScale: 1
+          maxLineHeightScale: 1.2
+          minLineHeightScale: 1
     titleLayout=withSubtitle:
       enabled:
         title:
-          fontSize: $font-size.t5-static
+          fontSize: $font-size.t5
           fontWeight: $font-weight.bold
-          lineHeight: $line-height.t5-static
+          lineHeight: $line-height.t5
+          maxFontSizeScale: 1.2
+          minFontSizeScale: 1
+          maxLineHeightScale: 1.2
+          minLineHeightScale: 1
         subtitle:
-          fontSize: $font-size.t2-static
+          fontSize: $font-size.t2
           fontWeight: $font-weight.regular
-          lineHeight: $line-height.t2-static
+          lineHeight: $line-height.t2
+          maxFontSizeScale: 1.2
+          minFontSizeScale: 1
+          maxLineHeightScale: 1.2
+          minLineHeightScale: 1

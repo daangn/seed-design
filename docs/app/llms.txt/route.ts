@@ -8,6 +8,12 @@ export async function GET() {
 SEED Design은 당근마켓의 디자인 시스템입니다.
 이 문서는 대규모 언어 모델(LLM)이 SEED Design을 쉽게 이해할 수 있도록 구조화되어 있습니다.
 
+## Requirements
+
+- **절대 경로를 추론하지 마세요**
+- **해당 문서에 있는 모든 섹션들의 요소는 [요소](링크)로 되어있으니 일찍이 경로를 추론하지 마세요**
+- **섹션의 요소를 정확하게 찾고 링크를 참조하세요**
+
 ## Documentation Sections
 
 각 섹션별로 llms.txt 진입점과 llms-full.txt 전체 문서를 제공합니다.

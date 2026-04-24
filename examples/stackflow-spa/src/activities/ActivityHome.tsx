@@ -220,6 +220,28 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
               ),
             }),
         },
+        {
+          title: "Snackbar (queued)",
+          onClick: () =>
+            snackbarAdapter.create({
+              strategy: "queued",
+              render: () => <Snackbar message="Queued Snackbar" />,
+            }),
+        },
+        {
+          // 기존 스낵바를 먼저 닫고 다음 tick에 새 스낵바를 띄우는 패턴.
+          // dismiss 상태 전이가 적용된 뒤에 create가 실행되므로
+          // 항상 새 스낵바부터 활성화되는 것을 보장한다.
+          title: "Snackbar (dismiss+setTimeout workaround)",
+          onClick: () => {
+            snackbarAdapter.dismiss();
+            setTimeout(() => {
+              snackbarAdapter.create({
+                render: () => <Snackbar message="Workaround Snackbar" />,
+              });
+            }, 0);
+          },
+        },
       ],
     },
     {
@@ -228,6 +250,20 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Tabs", onClick: () => push("ActivityTabs", {}) },
         { title: "AnimatedTabs", onClick: () => push("ActivityAnimatedTabs", {}) },
         { title: "SwipeableTabs", onClick: () => push("ActivitySwipeableTabs", {}) },
+        {
+          title: "TabsAutoHeightLazy",
+          onClick: () => push("ActivityTabsAutoHeightLazy", {}),
+        },
+      ],
+    },
+    {
+      title: "Forms",
+      items: [
+        { title: "Switch", onClick: () => push("ActivitySwitch", {}) },
+        { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
+        { title: "RadioGroup", onClick: () => push("ActivityRadioGroup", {}) },
+        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "Form", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {
@@ -238,8 +274,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
-        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
-        { title: "Form", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {
