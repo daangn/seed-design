@@ -13,7 +13,10 @@ function getReadableValue(value: TokenDeclaration["values"][number]["value"]): s
       return value.value;
     case "GradientLit":
       return value.stops
-        .map(({ position, color }) => `${Math.round(position.value * 100)}%: ${color.value}`)
+        .map(
+          ({ position, color }) =>
+            `${Math.round(position.value * 100)}%: ${getReadableValue(color)}`,
+        )
         .join(", ");
     case "NumberLit":
       return `${value.value}`;
