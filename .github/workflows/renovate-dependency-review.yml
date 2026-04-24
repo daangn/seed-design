@@ -34,7 +34,7 @@ jobs:
       - name: Get PR details
         if: github.event_name == 'issue_comment'
         id: pr-info
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const pr = await github.rest.pulls.get({
@@ -68,7 +68,7 @@ jobs:
 
       - name: Add reaction
         if: github.event_name == 'issue_comment'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.reactions.createForIssueComment({
@@ -344,7 +344,7 @@ jobs:
 
       - name: Add success reaction
         if: success() && github.event_name == 'issue_comment'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.reactions.createForIssueComment({
@@ -356,7 +356,7 @@ jobs:
 
       - name: Add failure reaction
         if: failure() && github.event_name == 'issue_comment'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.reactions.createForIssueComment({
