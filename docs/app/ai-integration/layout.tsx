@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
-import { aiIntegrationOptions } from "../layout.config";
+import { baseOptions } from "../layout.config";
+import { aiIntegrationSource } from "../source";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import DefaultSearchDialog from "@/components/search/search";
 import { TAGS } from "@/app/api/search/constants";
@@ -16,7 +17,9 @@ export default function Layout({ children }: { children: ReactNode }) {
         },
       }}
     >
-      <DocsLayout {...aiIntegrationOptions}>{children}</DocsLayout>
+      <DocsLayout {...baseOptions} tree={aiIntegrationSource.pageTree}>
+        {children}
+      </DocsLayout>
     </RootProvider>
   );
 }
