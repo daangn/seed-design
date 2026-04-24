@@ -16,7 +16,7 @@ interface UseSnackbarStateProps {
 export interface CreateSnackbarOptions {
   /**
    * The duration the snackbar will be visible
-   * @default 5000
+   * @default 4000
    */
   timeout?: number;
   /**
@@ -41,7 +41,7 @@ function useSnackbarState({ pauseOnInteraction = true }: UseSnackbarStateProps) 
   const [queue, setQueue] = useState<CreateSnackbarOptions[]>([]);
   const [currentSnackbar, setCurrentSnackbar] = useState<CreateSnackbarOptions | null>(null);
 
-  const visibleDuration = currentSnackbar?.timeout ?? 5000;
+  const visibleDuration = currentSnackbar?.timeout ?? 4000;
   const removeDelay = currentSnackbar?.removeDelay ?? 200;
   const visible = state === "active" || state === "persist";
 
