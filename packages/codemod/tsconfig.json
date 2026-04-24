@@ -3,11 +3,12 @@
     "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "Node",
+    "ignoreDeprecations": "6.0",
+    "types": ["node", "bun"],
     "esModuleInterop": true,
-    "downlevelIteration": true,
     "preserveWatchOutput": true,
     "isolatedModules": false,
-    "skipLibCheck": false
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
   "exclude": ["node_modules", "__testfixtures__"]

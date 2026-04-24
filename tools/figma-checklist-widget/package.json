@@ -16,6 +16,6 @@
     "@figma/widget-typings": "*",
     "concurrently": "^9.1.2",
     "esbuild": "^0.27.0",
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.0"
   }
 }

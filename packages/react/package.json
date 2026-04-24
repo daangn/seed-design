@@ -72,6 +72,7 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
+    "@types/node": "^25.0.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^6.0.0",

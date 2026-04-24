@@ -31,7 +31,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
 
   const isDev = dev ? "-D" : null;
   const addCommand = packageManager === "npm" ? "install" : "add";
-  const command = [addCommand, isDev, ...depsToInstall].filter(Boolean);
+  const command = [addCommand, isDev, ...depsToInstall].filter((v): v is string => Boolean(v));
   const commandLabel = `${packageManager} ${command.join(" ")}`;
 
   try {
