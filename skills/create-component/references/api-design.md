@@ -11,7 +11,7 @@ Snippet 레이어(`docs/registry/ui/`)와 컴포넌트 공개 API 설계 시 따
 | 단일 import으로 사용 가능 | No |
 | 이미 심플한 API | No |
 
-## API 설계 6원칙
+## API 설계 7원칙
 
 ### 1. Action을 노출하고 State setter를 숨긴다
 
@@ -22,23 +22,15 @@ Snippet 레이어(`docs/registry/ui/`)와 컴포넌트 공개 API 설계 시 따
 
 render-prop이나 callback에서 제공하는 API도 동일하다. 사용자가 배열을 직접 map/filter하게 하지 말고, 의미 있는 action 함수를 제공한다.
 
-### 2. API를 확정한 후 Recipe를 구현한다
+### 2. API가 Recipe 구조를 이끈다
 
-Snippet prop interface가 필요한 slot을 결정하고, slot이 recipe 구조를 결정한다.
+Snippet prop interface는 필요한 slot과 state를 결정하는 입력이다. Recipe의 token/slot 이름이 public API를 강제하지 않도록, 사용자가 보게 될 surface를 먼저 검토한다.
 
-순서:
-1. Snippet의 공개 prop interface 초안 작성
-2. 이 interface가 어떤 slot을 필요로 하는지 도출
-3. slot 구조에 맞춰 recipe 작성
-4. Recipe에 맞춰 React 컴포넌트 구현
+- **API 초안을 먼저 잡아야 하는 경우**: snippet이 여러 sub-component를 감추거나, 자동 주입 요소/affix/helper slot처럼 public contract 판단이 필요한 경우
+- **Recipe부터 빠르게 검증해도 되는 경우**: 단일 presentational 컴포넌트이고 기존 컴포넌트와 API 패턴이 거의 같은 경우
+- **판단 기준**: minimal user code, accessibility 구조, 공개해야 하는 slot과 숨겨야 하는 helper slot, token vocabulary가 서로 충돌하지 않아야 한다
 
-API를 먼저 설계하지 않으면 recipe 구조를 나중에 바꿔야 할 수 있다.
-
-특히 Snippet이 **3개 이상 sub-component를 감추는 경우**에는 slot 구조를 먼저 떠올리지 말고 아래 순서로 시작한다:
-
-1. 최종 사용자가 작성할 **minimal user code** 예시를 먼저 쓴다
-2. 이 예시를 만족하는 convenience prop(`title`, `description`, `suffixIcon` 등) 초안을 만든다
-3. convenience prop만으로 부족한 경우에만 low-level composition escape hatch를 추가한다
+세부 구현 순서와 registry 작업은 `implementation-steps.md`의 Snippet/Recipe 단계가 기준이다. 이 문서에는 "왜 이 API 형태를 선택하는가"만 남긴다.
 
 ### 3. 자동 주입 요소는 prop으로 명시한다
 
@@ -53,12 +45,12 @@ interface AccordionItemProps {
 // 나쁨: 아이콘이 암묵적으로 삽입됨
 ```
 
-자동 주입 요소가 있으면 아래 중 하나를 반드시 제공한다:
+자동 주입 요소가 있으면 아래 중 하나를 public API에 둘지 검토한다:
 - 완전 교체 prop (`suffixIcon`, `indicator`)
 - 숨김/비활성화 prop (`hideIndicator`)
 - 둘 다
 
-기본값이 있는 자동 주입 요소를 consumer가 제어할 수 없으면, Snippet이 보기보다 훨씬 더 opinionated해진다.
+기본값이 있는 자동 주입 요소를 consumer가 제어할 수 없으면, Snippet이 보기보다 훨씬 더 opinionated해진다. 구체적인 wrapper 작성 규칙은 `implementation-steps.md`의 Snippet 파일 작성 패턴을 따른다.
 
 ### 4. Recipe 통합 기준
 
@@ -86,6 +78,7 @@ Snippet convenience prop이 underlying primitive/native prop과 이름이 겹치
 - `interface extends`가 충돌 때문에 막히면 type alias를 쓰거나, 반대로 union이 필요 없으면 interface로 평평하게 유지한다
 
 핵심은 "편한 이름을 먼저 쓴다"가 아니라, consumer가 보는 타입 surface와 실제 런타임 contract가 정확히 맞아야 한다는 점이다.
+구체적인 snippet 타입 작성 예시는 `implementation-steps.md`의 Snippet 파일 작성 패턴을 기준으로 삼는다.
 
 ### 7. Affix prop은 content contract 기준으로 정한다
 
@@ -122,7 +115,7 @@ import * as SeedComponent from "@seed-design/react/components/Component";
 /**
  * @see https://seed-design.pages.dev/react/components/component
  */
-export interface ComponentProps extends SeedComponent.RootProps {
+export interface ComponentProps extends Omit<SeedComponent.RootProps, "children"> {
   // 편의 props (label, description 등)
 }
 
@@ -140,15 +133,11 @@ export const Component = React.forwardRef<HTMLElement, ComponentProps>(
 Component.displayName = "Component";
 ```
 
-Snippet이 convenience wrapper라면, 이 패턴에서 `children`을 그대로 열어두기보다 사용자 의미가 분명한 prop을 먼저 정의한다.
+Snippet이 convenience wrapper라면, 이 패턴에서 `children`을 그대로 열어두기보다 사용자 의미가 분명한 prop을 먼저 정의한다. Low-level composition을 유지해야 하는 경우에는 `children`을 열어두되, 문서에서 그 이유와 권장 composition을 함께 설명한다.
 
 ## Registry 등록
 
-Snippet 작성 후 반드시:
-
-1. `docs/registry/registry-ui.ts`에 entry 추가
-2. `bun --filter @seed-design/docs generate:registry` 실행
-3. 생성된 JSON 파일 확인
+Registry 등록 절차는 `implementation-steps.md`의 Registry UI 단계가 기준이다. API 설계 단계에서는 snippet이 stable user API인지, 설치 후 사용자가 작성할 최소 코드가 무엇인지, version/dependency metadata에 영향을 주는 public surface가 있는지만 결정한다.
 
 ## Block 패턴
 

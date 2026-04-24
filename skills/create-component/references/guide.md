@@ -113,5 +113,7 @@ Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:al
 - [ ] `bun generate:all` 실행
 - [ ] `bun test:all` 성공
 - [ ] `bun docs:test` 성공
-- [ ] 필요한 패키지 또는 예제 build 성공 (`bun packages:build`, example app build 등)
+- [ ] 변경 범위에 해당하는 build 성공
+  - React 패키지 변경: `bun --filter @seed-design/react build` 또는 여러 패키지 변경 시 `bun packages:build`
+  - Snippet/example 변경: vendored consumer build (예: `bun --cwd examples/stackflow-spa build`)
 - [ ] Storybook 테마별 확인 (Light, Dark, Font Scaling)
