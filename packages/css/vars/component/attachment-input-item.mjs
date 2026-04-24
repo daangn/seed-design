@@ -28,6 +28,10 @@ export const vars = {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
         "fontWeight": "var(--seed-font-weight-regular)"
+      },
+      "removeButtonMask": {
+        "offset": "var(--seed-dimension-x1_5)",
+        "size": "var(--seed-dimension-x6)"
       }
     },
     "dragging": {

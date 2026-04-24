@@ -7,8 +7,6 @@ export declare const vars: {
         "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
-        "foobarWidth": "2px",
-        "foobarColor": "var(--seed-color-bg-layer-default)",
         "offset": "var(--seed-dimension-x1)"
       },
       "icon": {

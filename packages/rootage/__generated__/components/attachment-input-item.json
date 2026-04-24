@@ -102,6 +102,17 @@
             }
           }
         },
+        "removeButtonMask": {
+          "properties": {
+            "offset": {
+              "type": "dimension"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          },
+          "description": "dragging 상태에서는 표시되지 않습니다."
+        },
         "badge": {
           "properties": {
             "color": {
@@ -240,6 +251,16 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                }
+              },
+              "removeButtonMask": {
+                "offset": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
                 }
               }
             }

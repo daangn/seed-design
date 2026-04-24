@@ -6,6 +6,8 @@
     gap: var(--seed-dimension-x2_5);
     height: 80px;
     border-radius: var(--seed-radius-r3);
+    --remove-button-mask-size: var(--seed-dimension-x6);
+    --remove-button-mask-offset: var(--seed-dimension-x1_5);
     transition: opacity 0.2s;
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
@@ -23,18 +25,42 @@
     left: 0;
     border-radius: inherit;
     pointer-events: none;
+    -webkit-mask-image: linear-gradient(black, black), url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>');
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
+    mask-image: linear-gradient(black, black), url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>');
+    mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    mask-repeat: no-repeat;
+    mask-composite: subtract;
+    transform: translateZ(0);
 }
 .seed-attachment-input-item__root[role='button']:not([aria-grabbed=true]) {
     cursor: grab;
 }
 .seed-attachment-input-item__root[aria-grabbed=true] {
     opacity: 0.5;
+    --remove-button-mask-size: 0px;
+    --remove-button-mask-offset: 0px;
 }
 .seed-attachment-input-item__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: inherit;
+    -webkit-mask-image: linear-gradient(black, black), url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>');
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
+    mask-image: linear-gradient(black, black), url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>');
+    mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    mask-repeat: no-repeat;
+    mask-composite: subtract;
+    transform: translateZ(0);
 }
 .seed-attachment-input-item__thumbnail {
     display: flex;
@@ -79,6 +105,17 @@
     align-items: center;
     justify-content: center;
     border-radius: inherit;
+    -webkit-mask-image: linear-gradient(black, black), url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>');
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
+    mask-image: linear-gradient(black, black), url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>');
+    mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    mask-repeat: no-repeat;
+    mask-composite: subtract;
+    transform: translateZ(0);
 }
 .seed-attachment-input-item__actionButton {
     width: 100%;
@@ -132,7 +169,7 @@
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-attachment-input-item__removeButton {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak), 0 0 0 2px var(--seed-color-bg-layer-default);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     --seed-icon-size: var(--seed-dimension-x2_5);
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
@@ -149,6 +186,9 @@
 .seed-attachment-input-item__removeButton:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     --seed-icon-color: var(--seed-color-fg-disabled);
+}
+[aria-grabbed=true] .seed-attachment-input-item__removeButton {
+    display: none;
 }
 .seed-attachment-input-item__root--type_general {
     width: 160px;

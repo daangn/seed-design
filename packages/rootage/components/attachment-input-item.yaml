@@ -64,6 +64,13 @@ data:
         properties:
           color:
             type: color
+      removeButtonMask:
+        description: dragging 상태에서는 표시되지 않습니다.
+        properties:
+          offset:
+            type: dimension
+          size:
+            type: dimension
       badge:
         properties:
           color:
@@ -111,6 +118,9 @@ data:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
           fontWeight: $font-weight.regular
+        removeButtonMask:
+          offset: $dimension.x1_5
+          size: $dimension.x6
 
       dragging:
         root:

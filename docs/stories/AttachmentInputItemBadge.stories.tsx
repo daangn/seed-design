@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { AttachmentInput } from "@seed-design/react";
+import { AttachmentInput, Icon } from "@seed-design/react";
 import type { FileEntry } from "@seed-design/react/primitive";
+import { IconXmarkFill } from "@karrotmarket/react-monochrome-icon";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
@@ -38,6 +39,9 @@ const AttachmentInputItemBadgeForStory = () => (
                 <AttachmentInput.ItemBadge>
                   {BADGE_LABEL_BY_ID[fileEntry.id]}
                 </AttachmentInput.ItemBadge>
+                <AttachmentInput.ItemRemoveButton aria-label="파일 제거">
+                  <Icon svg={<IconXmarkFill />} />
+                </AttachmentInput.ItemRemoveButton>
               </AttachmentInput.Item>
             ))
           }

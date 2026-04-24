@@ -4,6 +4,8 @@
     align-items: center;
     gap: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
+    --remove-button-mask-size: var(--seed-dimension-x6);
+    --remove-button-mask-offset: var(--seed-dimension-x1_5);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     height: 80px;
@@ -21,8 +23,19 @@
     content: "";
     border-radius: inherit;
     pointer-events: none;
+    -webkit-mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    -webkit-mask-composite: source-out;
+    mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
+    -webkit-mask-repeat: no-repeat;
+    mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
     position: absolute;
     inset: 0;
+    transform: translateZ(0);
+    mask-repeat: no-repeat;
+    mask-composite: subtract;
   }
 
   .seed-attachment-input-item__root[role="button"]:not([aria-grabbed="true"]) {
@@ -31,6 +44,8 @@
 
   .seed-attachment-input-item__root[aria-grabbed="true"] {
     opacity: .5;
+    --remove-button-mask-size: 0px;
+    --remove-button-mask-offset: 0px;
   }
 
   .seed-attachment-input-item__image {
@@ -38,6 +53,17 @@
     border-radius: inherit;
     width: 100%;
     height: 100%;
+    -webkit-mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    -webkit-mask-composite: source-out;
+    mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
+    -webkit-mask-repeat: no-repeat;
+    mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    transform: translateZ(0);
+    mask-repeat: no-repeat;
+    mask-composite: subtract;
   }
 
   .seed-attachment-input-item__thumbnail {
@@ -78,12 +104,23 @@
 
   .seed-attachment-input-item__backdrop {
     border-radius: inherit;
+    -webkit-mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
+    -webkit-mask-composite: source-out;
+    mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
+    -webkit-mask-repeat: no-repeat;
+    mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
     flex-direction: column;
     justify-content: center;
     align-items: center;
     display: flex;
     position: absolute;
     inset: 0;
+    transform: translateZ(0);
+    mask-repeat: no-repeat;
+    mask-composite: subtract;
   }
 
   .seed-attachment-input-item__actionButton {
@@ -143,7 +180,7 @@
   }
 
   .seed-attachment-input-item__removeButton {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak), 0 0 0 2px var(--seed-color-bg-layer-default);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     --seed-icon-size: var(--seed-dimension-x2_5);
     --seed-icon-color: var(--seed-color-fg-neutral);
   }
@@ -163,6 +200,10 @@
   .seed-attachment-input-item__removeButton:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     --seed-icon-color: var(--seed-color-fg-disabled);
+  }
+
+  [aria-grabbed="true"] .seed-attachment-input-item__removeButton {
+    display: none;
   }
 
   .seed-attachment-input-item__root--type_general {
