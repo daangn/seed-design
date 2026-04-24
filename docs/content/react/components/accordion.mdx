@@ -120,6 +120,7 @@ npx @seed-design/cli@latest add ui:accordion
 ### Prefix
 
 `prefix` prop에 아이콘 같은 앞쪽 요소를 전달할 수 있습니다. 아이콘은 SEED `Icon` 컴포넌트로 감싸면 Accordion의 22px 아이콘 크기 토큰을 받습니다.
+Accordion prefix icon은 List의 prefix icon처럼 텍스트 옆에서 항목 의미를 보조하므로 기본적으로 Line icon을 권장합니다. `size`나 `variant`와 관계없이 22px 기준을 유지하며, Fill icon은 16px 이하의 작은 아이콘, 버튼/칩처럼 컨테이너 안의 아이콘, ON/OFF 상태 표현에 더 적합합니다. 자세한 기준은 [Iconography Usage](/docs/foundation/iconography/usage)를 참고하세요.
 
 <ComponentExample name="react/accordion/with-prefix-icon">
   ```json doc-gen:file
