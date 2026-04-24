@@ -2,7 +2,7 @@ import { useControllableState } from "@seed-design/react-use-controllable-state"
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import type React from "react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
-import { isAndroid, isIOS, isMobileFirefox } from "./browser";
+import { isAndroid, isIOS, isMobileFirefox, isSafari } from "./browser";
 import {
   CLOSE_THRESHOLD,
   DRAG_CLASS,
@@ -17,6 +17,34 @@ import { useSnapPoints } from "./use-snap-points";
 
 const KEYBOARD_OPEN_THRESHOLD = 60;
 const KEYBOARD_STABILIZATION_THRESHOLD = 60;
+// iOS Safari can auto-scroll a visible input before visualViewport settles.
+// Briefly hiding the input suppresses that native scroll jump during focus.
+const INPUT_FOCUS_GUARD_RESTORE_DELAY = 180;
+const INPUT_FOCUS_GUARD_FALLBACK_DELAY = 700;
+
+interface InputFocusGuardState {
+  element: HTMLElement;
+  opacity: string;
+  opacityPriority: string;
+  transition: string;
+  transitionPriority: string;
+  focused: boolean;
+  timeoutId: number | null;
+  frameId: number | null;
+}
+
+function getInputForFocusGuard(target: EventTarget | null, root: HTMLElement) {
+  if (!(target instanceof Element)) return null;
+
+  let element: Element | null = target;
+
+  while (element && element !== root) {
+    if (isInput(element)) return element as HTMLElement;
+    element = element.parentElement;
+  }
+
+  return null;
+}
 
 interface DrawerReasonToDetailMap {
   // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
@@ -240,6 +268,7 @@ export function useDrawer(props: UseDrawerProps) {
   const drawerWidthRef = useRef(drawerRef.current?.getBoundingClientRect().width || 0);
   const initialDrawerHeight = useRef(0);
   const visualViewportFrame = useRef<number | null>(null);
+  const inputFocusGuard = useRef<InputFocusGuardState | null>(null);
 
   const noBodyStyles = noBodyStylesProp ?? !(modal && isIOS());
 
@@ -296,6 +325,93 @@ export function useDrawer(props: UseDrawerProps) {
       }
     }
   }, []);
+
+  const clearInputFocusGuardTimers = useCallback((guard: InputFocusGuardState) => {
+    if (guard.timeoutId !== null) {
+      window.clearTimeout(guard.timeoutId);
+      guard.timeoutId = null;
+    }
+
+    if (guard.frameId !== null) {
+      window.cancelAnimationFrame(guard.frameId);
+      guard.frameId = null;
+    }
+  }, []);
+
+  const restoreInputFocusGuard = useCallback(() => {
+    const guard = inputFocusGuard.current;
+    if (!guard) return;
+
+    clearInputFocusGuardTimers(guard);
+
+    if (guard.opacity) {
+      guard.element.style.setProperty("opacity", guard.opacity, guard.opacityPriority);
+    } else {
+      guard.element.style.removeProperty("opacity");
+    }
+
+    if (guard.transition) {
+      guard.element.style.setProperty("transition", guard.transition, guard.transitionPriority);
+    } else {
+      guard.element.style.removeProperty("transition");
+    }
+
+    inputFocusGuard.current = null;
+  }, [clearInputFocusGuardTimers]);
+
+  const scheduleInputFocusGuardRestore = useCallback(
+    (delay = 0) => {
+      const guard = inputFocusGuard.current;
+      if (!guard) return;
+
+      clearInputFocusGuardTimers(guard);
+
+      if (delay > 0) {
+        guard.timeoutId = window.setTimeout(() => {
+          restoreInputFocusGuard();
+        }, delay);
+        return;
+      }
+
+      guard.frameId = window.requestAnimationFrame(() => {
+        const currentGuard = inputFocusGuard.current;
+        if (!currentGuard) return;
+
+        currentGuard.frameId = window.requestAnimationFrame(() => {
+          restoreInputFocusGuard();
+        });
+      });
+    },
+    [clearInputFocusGuardTimers, restoreInputFocusGuard],
+  );
+
+  const applyInputFocusGuard = useCallback(
+    (element: HTMLElement) => {
+      if (inputFocusGuard.current?.element === element) return;
+
+      restoreInputFocusGuard();
+
+      const guard: InputFocusGuardState = {
+        element,
+        opacity: element.style.getPropertyValue("opacity"),
+        opacityPriority: element.style.getPropertyPriority("opacity"),
+        transition: element.style.getPropertyValue("transition"),
+        transitionPriority: element.style.getPropertyPriority("transition"),
+        focused: false,
+        timeoutId: null,
+        frameId: null,
+      };
+
+      inputFocusGuard.current = guard;
+      element.style.setProperty("opacity", "0", "important");
+      element.style.setProperty("transition", "none", "important");
+
+      guard.timeoutId = window.setTimeout(() => {
+        restoreInputFocusGuard();
+      }, INPUT_FOCUS_GUARD_FALLBACK_DELAY);
+    },
+    [restoreInputFocusGuard],
+  );
 
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
     if (!dismissible && !snapPoints) return;
@@ -605,6 +721,64 @@ export function useDrawer(props: UseDrawerProps) {
       reset(document.documentElement, "scrollBehavior");
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || !repositionInputs || !isIOS() || !isSafari()) {
+      restoreInputFocusGuard();
+      return;
+    }
+
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+
+    const onInputFocusStart = (event: Event) => {
+      const input = getInputForFocusGuard(event.target, drawer);
+      if (!input) return;
+
+      applyInputFocusGuard(input);
+    };
+
+    const onInputFocus = (event: FocusEvent) => {
+      const guard = inputFocusGuard.current;
+      if (!guard) return;
+      if (event.target instanceof Node && !guard.element.contains(event.target)) return;
+
+      guard.focused = true;
+      scheduleInputFocusGuardRestore();
+    };
+
+    const onFocusGestureEnd = () => {
+      const guard = inputFocusGuard.current;
+      if (!guard || guard.focused) return;
+
+      scheduleInputFocusGuardRestore(INPUT_FOCUS_GUARD_RESTORE_DELAY);
+    };
+
+    drawer.addEventListener("pointerdown", onInputFocusStart, true);
+    drawer.addEventListener("touchstart", onInputFocusStart, true);
+    drawer.addEventListener("focusin", onInputFocus, true);
+    window.addEventListener("pointerup", onFocusGestureEnd, true);
+    window.addEventListener("touchend", onFocusGestureEnd, true);
+    window.addEventListener("pointercancel", restoreInputFocusGuard, true);
+    window.addEventListener("touchcancel", restoreInputFocusGuard, true);
+
+    return () => {
+      drawer.removeEventListener("pointerdown", onInputFocusStart, true);
+      drawer.removeEventListener("touchstart", onInputFocusStart, true);
+      drawer.removeEventListener("focusin", onInputFocus, true);
+      window.removeEventListener("pointerup", onFocusGestureEnd, true);
+      window.removeEventListener("touchend", onFocusGestureEnd, true);
+      window.removeEventListener("pointercancel", restoreInputFocusGuard, true);
+      window.removeEventListener("touchcancel", restoreInputFocusGuard, true);
+      restoreInputFocusGuard();
+    };
+  }, [
+    applyInputFocusGuard,
+    isOpen,
+    repositionInputs,
+    restoreInputFocusGuard,
+    scheduleInputFocusGuardRestore,
+  ]);
 
   useEffect(() => {
     const visualViewport = window.visualViewport;

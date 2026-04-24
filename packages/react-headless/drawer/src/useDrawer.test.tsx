@@ -75,7 +75,6 @@ function DrawerHarness({
       <div data-testid="has-animation-done">{String(api.hasAnimationDone)}</div>
       <div data-testid="should-overlay-animate">{String(api.shouldOverlayAnimate)}</div>
       <div data-testid="is-close-button-rendered">{String(api.isCloseButtonRendered)}</div>
-      {withInput ? <input data-testid="input" /> : null}
 
       <div
         data-testid="drawer"
@@ -84,7 +83,9 @@ function DrawerHarness({
         onPointerDown={api.onPress}
         onPointerMove={api.onDrag}
         onPointerUp={api.onRelease}
-      />
+      >
+        {withInput ? <input data-testid="input" /> : null}
+      </div>
       <div data-testid="overlay" ref={api.overlayRef} />
     </div>
   );
@@ -148,12 +149,17 @@ function createVisualViewportMock({
 }
 
 describe("useDrawer", () => {
+  const IOS_SAFARI_USER_AGENT =
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
+  const IOS_WEBVIEW_USER_AGENT =
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148";
   const originalSetPointerCapture = window.HTMLElement.prototype.setPointerCapture;
   const originalVisualViewport = Object.getOwnPropertyDescriptor(window, "visualViewport");
   const originalInnerHeight = Object.getOwnPropertyDescriptor(window, "innerHeight");
   const originalRequestAnimationFrame = window.requestAnimationFrame;
   const originalCancelAnimationFrame = window.cancelAnimationFrame;
   const originalNavigatorPlatform = Object.getOwnPropertyDescriptor(window.navigator, "platform");
+  const originalNavigatorUserAgent = Object.getOwnPropertyDescriptor(window.navigator, "userAgent");
 
   beforeAll(() => {
     window.HTMLElement.prototype.setPointerCapture = mock(() => {});
@@ -187,6 +193,10 @@ describe("useDrawer", () => {
 
     if (originalNavigatorPlatform) {
       Object.defineProperty(window.navigator, "platform", originalNavigatorPlatform);
+    }
+
+    if (originalNavigatorUserAgent) {
+      Object.defineProperty(window.navigator, "userAgent", originalNavigatorUserAgent);
     }
   });
 
@@ -490,5 +500,118 @@ describe("useDrawer", () => {
     );
 
     expect(api?.noBodyStyles).toBe(false);
+  });
+
+  it("iOS Safari에서는 input focus 전에 opacity guard를 임시 적용하고 focus 후 복구한다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      configurable: true,
+      value: "iPhone",
+    });
+    Object.defineProperty(window.navigator, "userAgent", {
+      configurable: true,
+      value: IOS_SAFARI_USER_AGENT,
+    });
+
+    const { getByTestId } = render(<DrawerHarness defaultOpen withInput />);
+    const input = getByTestId("input") as HTMLInputElement;
+
+    input.style.setProperty("opacity", "0.5", "important");
+    input.style.setProperty("transition", "opacity 1s");
+
+    act(() => {
+      fireEvent.pointerDown(input);
+    });
+
+    expect(input.style.getPropertyValue("opacity")).toBe("0");
+    expect(input.style.getPropertyPriority("opacity")).toBe("important");
+    expect(input.style.getPropertyValue("transition")).toBe("none");
+    expect(input.style.getPropertyPriority("transition")).toBe("important");
+
+    act(() => {
+      fireEvent.focusIn(input);
+    });
+
+    expect(input.style.getPropertyValue("opacity")).toBe("0.5");
+    expect(input.style.getPropertyPriority("opacity")).toBe("important");
+    expect(input.style.getPropertyValue("transition")).toBe("opacity 1s");
+    expect(input.style.getPropertyPriority("transition")).toBe("");
+  });
+
+  it("iOS Safari input focus가 발생하지 않아도 pointerup 후 opacity guard를 복구한다", () => {
+    jest.useFakeTimers();
+    Object.defineProperty(window.navigator, "platform", {
+      configurable: true,
+      value: "iPhone",
+    });
+    Object.defineProperty(window.navigator, "userAgent", {
+      configurable: true,
+      value: IOS_SAFARI_USER_AGENT,
+    });
+
+    const { getByTestId } = render(<DrawerHarness defaultOpen withInput />);
+    const input = getByTestId("input") as HTMLInputElement;
+
+    input.style.setProperty("opacity", "0.75");
+    input.style.setProperty("transition", "opacity 120ms");
+
+    act(() => {
+      fireEvent.pointerDown(input);
+      fireEvent.pointerUp(window);
+      jest.advanceTimersByTime(179);
+    });
+
+    expect(input.style.getPropertyValue("opacity")).toBe("0");
+    expect(input.style.getPropertyValue("transition")).toBe("none");
+
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+
+    expect(input.style.getPropertyValue("opacity")).toBe("0.75");
+    expect(input.style.getPropertyValue("transition")).toBe("opacity 120ms");
+  });
+
+  it("iOS WebView에서는 Safari opacity guard를 적용하지 않는다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      configurable: true,
+      value: "iPhone",
+    });
+    Object.defineProperty(window.navigator, "userAgent", {
+      configurable: true,
+      value: IOS_WEBVIEW_USER_AGENT,
+    });
+
+    const { getByTestId } = render(<DrawerHarness defaultOpen withInput />);
+    const input = getByTestId("input") as HTMLInputElement;
+
+    act(() => {
+      fireEvent.pointerDown(input);
+    });
+
+    expect(input.style.getPropertyValue("opacity")).toBe("");
+    expect(input.style.getPropertyValue("transition")).toBe("");
+  });
+
+  it("repositionInputs가 false이면 iOS Safari opacity guard를 적용하지 않는다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      configurable: true,
+      value: "iPhone",
+    });
+    Object.defineProperty(window.navigator, "userAgent", {
+      configurable: true,
+      value: IOS_SAFARI_USER_AGENT,
+    });
+
+    const { getByTestId } = render(
+      <DrawerHarness defaultOpen withInput repositionInputs={false} />,
+    );
+    const input = getByTestId("input") as HTMLInputElement;
+
+    act(() => {
+      fireEvent.pointerDown(input);
+    });
+
+    expect(input.style.getPropertyValue("opacity")).toBe("");
+    expect(input.style.getPropertyValue("transition")).toBe("");
   });
 });
