@@ -87,6 +87,17 @@ Snippet convenience prop이 underlying primitive/native prop과 이름이 겹치
 
 핵심은 "편한 이름을 먼저 쓴다"가 아니라, consumer가 보는 타입 surface와 실제 런타임 contract가 정확히 맞아야 한다는 점이다.
 
+### 7. Affix prop은 content contract 기준으로 정한다
+
+`prefix`, `suffix`, `prefixIcon`, `prefixAvatar` 같은 affix API는 recipe token 이름이 아니라 사용자에게 열어줄 content 종류를 기준으로 정한다.
+
+- broad content가 필요하면 `ListItem`처럼 `prefix` 하나를 우선한다
+- icon-only contract가 명확하면 `SelectBox`처럼 `prefixIcon`을 둔다
+- avatar처럼 별도 semantic content kind가 명확하면 `Chip`처럼 `PrefixAvatar`를 분리할 수 있다
+- 같은 위치에 `prefix`와 `prefixIcon`을 동시에 열면 두 prop을 함께 넣을 수 있어 API 모델이 흐려진다
+
+`prefixIcon` token은 generic `prefix` slot 안의 icon styling을 의미할 수 있다. token 이름이 곧 snippet prop 이름이어야 하는 것은 아니다.
+
 ## Children composition vs convenience prop 판단 기준
 
 둘 다 가능한 경우 아래 기준으로 결정한다:

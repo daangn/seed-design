@@ -87,9 +87,11 @@ import { prefixIcon, suffixIcon, onlyIcon } from "../utils/icon";
 - `suffixIcon()` → `--seed-suffix-icon-size`, `--seed-suffix-icon-color` 등
 - `onlyIcon()` → `--seed-icon-size`, `--seed-icon-color`
 
-slot 이름과 token은 **public contract**를 따라간다.
+`onlyIcon()`은 SEED `Icon` 컴포넌트가 소비하는 `--seed-icon-*` 변수를 설정한다. raw SVG나 외부 아이콘 컴포넌트를 그대로 넣으면 크기 token이 적용되지 않을 수 있으므로, examples에서는 `<Icon svg={...} />`로 감싸는 패턴을 사용한다.
 
-- public API가 generic `prefix`라면 recipe가 크기를 강제하지 않는다
+slot 이름과 token은 **public content contract**를 따라간다.
+
+- public API가 generic `prefix`라도, `ListItem`처럼 prefix 안의 SEED `Icon`에만 icon size/color를 적용하는 패턴은 가능하다
 - public API가 icon-only `prefixIcon`으로 확정된 경우에만 `prefixIcon` slot과 `size` token을 도입한다
 - icon과 avatar를 모두 받을 수 있는 slot이라면 색상 정도만 제어하고 크기 강제는 피한다
 
