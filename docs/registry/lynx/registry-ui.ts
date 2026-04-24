@@ -23,7 +23,6 @@ export const registryUI: Registry = {
           dependencies: {
             "@seed-design/lynx-react": "~0.1.0-alpha.0",
             "@seed-design/lynx-css": "~0.1.0-alpha.0",
-            "@lynx-js/lynx-ui-sheet": "^3.130.1",
           },
         },
       ],
