@@ -7,6 +7,8 @@
 - 본체가 아이콘 없이는 의미가 없는 경우(Checkbox의 체크마크, RadioGroup의 라디오 점)에는 **컴포넌트 전체를 Tier B에 둔다**.
 - Tier A2 래핑 컴포넌트(Dialog/BottomSheet/MenuSheet)는 **본체는 착수, CloseButton 서브컴포넌트만 Tier B로 분리**.
 
+**Update**: ActionButton 은 WebP + `tint-color` attribute main-thread sync 패턴으로 `prefixIcon` / `suffixIcon` / `icon` prop 기반 아이콘 슬롯이 구현됨. `layout="iconOnly"` 도 지원. 동일 패턴(rootage vars → `color: var(--...)` slot CSS → main-thread `getComputedStyleProperty` 로 resolved hex 읽어 `tint-color` 세팅)은 ToggleButton/ReactionButton/ContextualFloatingButton 등 후속 컴포넌트에도 적용 가능.
+
 ---
 
 ## 1. ToggleButton / ReactionButton / ContextualFloatingButton

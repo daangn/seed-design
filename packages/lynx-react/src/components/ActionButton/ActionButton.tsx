@@ -25,7 +25,7 @@ type ActionButtonRuntimeVariantProps = ActionButtonVariantProps & {
   loading?: boolean;
 };
 
-type IconSlotKey = "prefixIcon" | "suffixIcon";
+type IconSlotKey = "prefixIcon" | "suffixIcon" | "icon";
 
 type IconElementProps = {
   className?: string;
@@ -105,7 +105,10 @@ function resolveIconSize(
   slot: IconSlotKey,
 ): string | undefined {
   const size = variantProps?.size ?? "medium";
-  const layout = variantProps?.layout ?? "withText";
+  // `icon` slot is only rendered under `layout="iconOnly"` and keyed at
+  // `sizeXxxLayoutIconOnly.enabled.icon.size`. prefixIcon/suffixIcon follow
+  // the current `layout` (`withText` by default) path.
+  const layout = slot === "icon" ? "iconOnly" : (variantProps?.layout ?? "withText");
   return resolveRecipeToken(actionButtonVars, [
     `size${capitalize(size)}Layout${capitalize(layout)}`,
     "enabled",
@@ -145,19 +148,17 @@ function ActionButtonIconSlot({
 /**
  * @platform Lynx
  *
- * 미지원 기능 (Lynx 3.7 SVG 지원 후 추가 예정):
- * - layout: "iconOnly": SVG 아이콘 렌더링 필요
- *
  * 웹 대비 차이:
  * - 아이콘 전달 방식: 웹의 `<ActionButton.PrefixIcon svg={...} />` 가 아니라 `prefixIcon` /
- *   `suffixIcon` prop 으로 ReactElement 를 직접 넘긴다. Lynx `<text>` 가 flex 컨테이너가
- *   아니라 children 전체를 text 로 감싸면 아이콘이 flex item 이 안 되기 때문.
+ *   `suffixIcon` / `icon` prop 으로 ReactElement 를 직접 넘긴다. Lynx `<text>` 가 flex
+ *   컨테이너가 아니라 children 전체를 text 로 감싸면 아이콘이 flex item 이 안 되기 때문.
  * - 미지원 prop: `color`, `fontWeight`, `bleedX`, `bleedY` (CSS variable 동적 주입 제한)
  *
  * ```tsx
  * import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
  * import IconChevronDownFill from "@karrotmarket/lynx-monochrome-icon/IconChevronDownFill";
  *
+ * // withText (기본)
  * <ActionButton
  *   variant="brandSolid"
  *   prefixIcon={<IconPlusFill />}
@@ -165,14 +166,25 @@ function ActionButtonIconSlot({
  * >
  *   라벨
  * </ActionButton>
+ *
+ * // iconOnly — `icon` prop 과 `aria-label` 필수
+ * <ActionButton
+ *   layout="iconOnly"
+ *   variant="neutralSolid"
+ *   icon={<IconPlusFill />}
+ *   aria-label="추가"
+ * />
  * ```
  */
 export interface ActionButtonProps extends Omit<ActionButtonRuntimeVariantProps, "layout"> {
   children?: React.ReactNode;
   className?: string;
   flexGrow?: number;
+  layout?: "withText" | "iconOnly";
+  icon?: ReactElement<IconElementProps>;
   prefixIcon?: ReactElement<IconElementProps>;
   suffixIcon?: ReactElement<IconElementProps>;
+  "aria-label"?: string;
   bindtap?: () => void;
   "main-thread:bindtap"?: () => void;
 }
@@ -181,6 +193,8 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   const {
     children,
     flexGrow,
+    layout,
+    icon,
     prefixIcon,
     suffixIcon,
     bindtap,
@@ -189,6 +203,11 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   } = props;
   const { disabled = false, loading = false } = variantAndRest;
   const isInteractive = !disabled && !loading;
+  const isIconOnly = layout === "iconOnly";
+
+  if (process.env.NODE_ENV !== "production" && isIconOnly && !props["aria-label"]) {
+    console.warn('ActionButton: `layout="iconOnly"` requires `aria-label` for accessibility.');
+  }
 
   const { pressed: _pressed, ...pressTapHandlers } = usePressTap({
     disabled: !isInteractive,
@@ -199,17 +218,26 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   return (
     <ActionButtonRoot
       {...variantAndRest}
+      layout={layout}
       ref={ref}
       style={flexGrow != null ? { flexGrow } : undefined}
       {...pressTapHandlers}
     >
-      {prefixIcon != null && isValidElement(prefixIcon) ? (
-        <ActionButtonIconSlot icon={prefixIcon} slot="prefixIcon" />
-      ) : null}
-      {loading ? children : <ActionButtonTextSlot>{children}</ActionButtonTextSlot>}
-      {suffixIcon != null && isValidElement(suffixIcon) ? (
-        <ActionButtonIconSlot icon={suffixIcon} slot="suffixIcon" />
-      ) : null}
+      {isIconOnly ? (
+        icon != null && isValidElement(icon) ? (
+          <ActionButtonIconSlot icon={icon} slot="icon" />
+        ) : null
+      ) : (
+        <>
+          {prefixIcon != null && isValidElement(prefixIcon) ? (
+            <ActionButtonIconSlot icon={prefixIcon} slot="prefixIcon" />
+          ) : null}
+          {loading ? children : <ActionButtonTextSlot>{children}</ActionButtonTextSlot>}
+          {suffixIcon != null && isValidElement(suffixIcon) ? (
+            <ActionButtonIconSlot icon={suffixIcon} slot="suffixIcon" />
+          ) : null}
+        </>
+      )}
     </ActionButtonRoot>
   );
 });

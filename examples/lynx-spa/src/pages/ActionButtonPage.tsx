@@ -91,6 +91,46 @@ export function ActionButtonPage() {
           Disabled
         </ActionButton>
       </view>
+
+      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+        Icon Only
+      </text>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
+          alignItems: 'center',
+        }}
+      >
+        <ActionButton
+          layout="iconOnly"
+          variant="brandSolid"
+          icon={<IconPlusFill />}
+          aria-label="추가"
+        />
+        <ActionButton
+          layout="iconOnly"
+          variant="neutralSolid"
+          size="small"
+          icon={<IconPlusFill />}
+          aria-label="추가"
+        />
+        <ActionButton
+          layout="iconOnly"
+          variant="brandOutline"
+          icon={<IconPlusFill />}
+          aria-label="추가"
+        />
+        <ActionButton
+          layout="iconOnly"
+          variant="brandSolid"
+          disabled
+          icon={<IconPlusFill />}
+          aria-label="비활성"
+        />
+      </view>
     </scroll-view>
   );
 }

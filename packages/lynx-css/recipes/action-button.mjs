@@ -17,6 +17,10 @@ const actionButtonSlotNames = [
   [
     "suffixIcon",
     "seed-action-button__suffixIcon"
+  ],
+  [
+    "icon",
+    "seed-action-button__icon"
   ]
 ];
 

@@ -28,7 +28,7 @@ import { active, disabled, loading, pseudo } from "../../utils/pseudo";
  */
 const actionButton = defineLynxSlotRecipe({
   name: "action-button",
-  slots: ["root", "text", "prefixIcon", "suffixIcon"],
+  slots: ["root", "text", "prefixIcon", "suffixIcon", "icon"],
   base: {
     root: {
       display: "flex",
@@ -75,6 +75,9 @@ const actionButton = defineLynxSlotRecipe({
     suffixIcon: {
       flexShrink: 0,
     },
+    icon: {
+      flexShrink: 0,
+    },
   },
   variants: {
     variant: {
@@ -106,6 +109,10 @@ const actionButton = defineLynxSlotRecipe({
           color: vars.variantBrandSolid.enabled.suffixIcon.color,
           [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.suffixIcon.color },
         },
+        icon: {
+          color: vars.variantBrandSolid.enabled.icon.color,
+          [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.icon.color },
+        },
       },
       neutralSolid: {
         root: {
@@ -128,6 +135,10 @@ const actionButton = defineLynxSlotRecipe({
         suffixIcon: {
           color: vars.variantNeutralSolid.enabled.suffixIcon.color,
           [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.suffixIcon.color },
+        },
+        icon: {
+          color: vars.variantNeutralSolid.enabled.icon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.icon.color },
         },
       },
       neutralWeak: {
@@ -152,6 +163,10 @@ const actionButton = defineLynxSlotRecipe({
           color: vars.variantNeutralWeak.enabled.suffixIcon.color,
           [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.suffixIcon.color },
         },
+        icon: {
+          color: vars.variantNeutralWeak.enabled.icon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.icon.color },
+        },
       },
       criticalSolid: {
         root: {
@@ -174,6 +189,10 @@ const actionButton = defineLynxSlotRecipe({
         suffixIcon: {
           color: vars.variantCriticalSolid.enabled.suffixIcon.color,
           [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.suffixIcon.color },
+        },
+        icon: {
+          color: vars.variantCriticalSolid.enabled.icon.color,
+          [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.icon.color },
         },
       },
       brandOutline: {
@@ -204,6 +223,10 @@ const actionButton = defineLynxSlotRecipe({
           color: vars.variantBrandOutline.enabled.suffixIcon.color,
           [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.suffixIcon.color },
         },
+        icon: {
+          color: vars.variantBrandOutline.enabled.icon.color,
+          [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.icon.color },
+        },
       },
       neutralOutline: {
         root: {
@@ -233,6 +256,10 @@ const actionButton = defineLynxSlotRecipe({
           color: vars.variantNeutralOutline.enabled.suffixIcon.color,
           [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.suffixIcon.color },
         },
+        icon: {
+          color: vars.variantNeutralOutline.enabled.icon.color,
+          [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.icon.color },
+        },
       },
       ghost: {
         root: {
@@ -255,6 +282,10 @@ const actionButton = defineLynxSlotRecipe({
         suffixIcon: {
           color: vars.variantGhost.enabled.suffixIcon.color,
           [pseudo(disabled)]: { color: vars.variantGhost.disabled.suffixIcon.color },
+        },
+        icon: {
+          color: vars.variantGhost.enabled.icon.color,
+          [pseudo(disabled)]: { color: vars.variantGhost.disabled.icon.color },
         },
       },
     },
@@ -339,6 +370,10 @@ const actionButton = defineLynxSlotRecipe({
           "--seed-box-padding-top": vars.sizeXsmallLayoutIconOnly.enabled.root.paddingY,
           "--seed-box-padding-bottom": vars.sizeXsmallLayoutIconOnly.enabled.root.paddingY,
         },
+        icon: {
+          width: vars.sizeXsmallLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeXsmallLayoutIconOnly.enabled.icon.size,
+        },
       },
     },
     {
@@ -376,6 +411,10 @@ const actionButton = defineLynxSlotRecipe({
           "--seed-box-padding-right": vars.sizeSmallLayoutIconOnly.enabled.root.paddingX,
           "--seed-box-padding-top": vars.sizeSmallLayoutIconOnly.enabled.root.paddingY,
           "--seed-box-padding-bottom": vars.sizeSmallLayoutIconOnly.enabled.root.paddingY,
+        },
+        icon: {
+          width: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
         },
       },
     },
@@ -415,6 +454,10 @@ const actionButton = defineLynxSlotRecipe({
           "--seed-box-padding-top": vars.sizeMediumLayoutIconOnly.enabled.root.paddingY,
           "--seed-box-padding-bottom": vars.sizeMediumLayoutIconOnly.enabled.root.paddingY,
         },
+        icon: {
+          width: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
+        },
       },
     },
     {
@@ -452,6 +495,10 @@ const actionButton = defineLynxSlotRecipe({
           "--seed-box-padding-right": vars.sizeLargeLayoutIconOnly.enabled.root.paddingX,
           "--seed-box-padding-top": vars.sizeLargeLayoutIconOnly.enabled.root.paddingY,
           "--seed-box-padding-bottom": vars.sizeLargeLayoutIconOnly.enabled.root.paddingY,
+        },
+        icon: {
+          width: vars.sizeLargeLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeLargeLayoutIconOnly.enabled.icon.size,
         },
       },
     },
