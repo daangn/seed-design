@@ -290,6 +290,11 @@ export const defaultConfig: Required<LynxCompatConfig> = {
     "opacity",
     "filter",
 
+    // Lynx-specific (image)
+    // `<image>` 의 non-transparent 픽셀을 지정 색으로 tint 한다.
+    // Lynx 런타임에서 CSS property 로도 동작 확인됨.
+    "tint-color",
+
     // Transform & Animation
     "transform",
     "transform-origin",

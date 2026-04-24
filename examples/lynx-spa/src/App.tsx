@@ -17,6 +17,7 @@ import { SwitchPage } from "./pages/SwitchPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
+import { IconColorPOCPage } from "./pages/IconColorPOCPage.jsx";
 import { UseControllableStatePage } from "./pages/UseControllableStatePage.jsx";
 import { UsePressTapPage } from "./pages/UsePressTapPage.jsx";
 
@@ -39,6 +40,7 @@ export type Page =
   | "test-native-box"
   | "test-tailwind-box"
   | "css-selector-test"
+  | "icon-color-poc"
   | "use-controllable-state"
   | "use-press-tap";
 
@@ -89,6 +91,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "test-native-box" && <TestNativeBoxPage />}
       {currentPage === "test-tailwind-box" && <TestTailwindBoxPage />}
       {currentPage === "css-selector-test" && <CSSSelectorTestPage />}
+      {currentPage === "icon-color-poc" && <IconColorPOCPage />}
       {currentPage === "use-controllable-state" && <UseControllableStatePage />}
       {currentPage === "use-press-tap" && <UsePressTapPage />}
       <Suspense>

@@ -640,7 +640,7 @@ import IconYenLine from "@karrotmarket/lynx-monochrome-icon/IconYenLine";
 const { $color } = vars;
 
 interface IconEntry {
-  component: (props: { size?: number; color: string }) => React.JSX.Element;
+  component: React.ComponentType<{ size?: number; color?: string; className?: string }>;
   name: string;
 }
 

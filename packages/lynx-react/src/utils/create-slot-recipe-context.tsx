@@ -60,7 +60,9 @@ export function createSlotRecipeContext<
 
       return (
         <ClassNamesProvider value={classNames}>
-          <Component {...otherProps} />
+          <PropsProvider value={variantProps}>
+            <Component {...otherProps} />
+          </PropsProvider>
         </ClassNamesProvider>
       );
     };
@@ -89,11 +91,13 @@ export function createSlotRecipeContext<
 
       return (
         <ClassNamesProvider value={classNames}>
-          <Component
-            {...(ref ? { ref } : {})}
-            {...otherProps}
-            className={clsx(slotClassName, userClassName)}
-          />
+          <PropsProvider value={variantProps}>
+            <Component
+              {...(ref ? { ref } : {})}
+              {...otherProps}
+              className={clsx(slotClassName, userClassName)}
+            />
+          </PropsProvider>
         </ClassNamesProvider>
       );
     });

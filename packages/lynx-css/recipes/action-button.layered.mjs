@@ -4,11 +4,23 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const actionButtonSlotNames = [
   [
     "root",
-    "seed-action-button"
+    "seed-action-button__root"
   ],
   [
     "text",
     "seed-action-button__text"
+  ],
+  [
+    "prefixIcon",
+    "seed-action-button__prefixIcon"
+  ],
+  [
+    "suffixIcon",
+    "seed-action-button__suffixIcon"
+  ],
+  [
+    "icon",
+    "seed-action-button__icon"
   ]
 ];
 
@@ -72,12 +84,6 @@ export const actionButtonVariantMap = {
   "layout": [
     "withText",
     "iconOnly"
-  ],
-  "disabled": [
-    true
-  ],
-  "loading": [
-    true
   ]
 };
 
