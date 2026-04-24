@@ -9,7 +9,15 @@ export default function AccordionValueChanges() {
   const [history, setHistory] = useState<string[][]>([DEFAULT_VALUES]);
 
   return (
-    <VStack gap="x4" width="full" align="stretch">
+    <Box
+      width="full"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "minmax(0, 1fr) minmax(280px, 360px)",
+        gap: "24px",
+        alignItems: "start",
+      }}
+    >
       <Accordion
         type="multiple"
         values={values}
@@ -50,6 +58,7 @@ export default function AccordionValueChanges() {
         borderRadius="r2"
         borderWidth={1}
         borderColor="stroke.neutralWeak"
+        style={{ alignSelf: "start" }}
       >
         <VStack gap="x2" align="stretch">
           <Text textStyle="t3Medium">
@@ -65,6 +74,6 @@ export default function AccordionValueChanges() {
           ))}
         </VStack>
       </Box>
-    </VStack>
+    </Box>
   );
 }
