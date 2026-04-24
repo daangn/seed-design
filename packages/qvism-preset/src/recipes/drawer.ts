@@ -6,7 +6,7 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { active, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { drawerCloseButton as closeButtonVars, drawer as vars } from "../vars/component";
 
 const drawer = defineSlotRecipe({
@@ -268,7 +268,7 @@ const drawer = defineSlotRecipe({
         size: closeButtonVars.base.enabled.icon.size,
       }),
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         background: closeButtonVars.base.pressed.root.color,
       },
 

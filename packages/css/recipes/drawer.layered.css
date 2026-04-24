@@ -328,8 +328,16 @@
     position: absolute;
   }
 
-  .seed-drawer__closeButton:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+  @media (hover: hover) {
+    .seed-drawer__closeButton:is(:hover, [data-hover]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
+  }
+
+  @media (hover: none) {
+    .seed-drawer__closeButton:is(:active, [data-active]) {
+      background: var(--seed-color-bg-neutral-weak-pressed);
+    }
   }
 
   .seed-drawer__closeButton:after {
