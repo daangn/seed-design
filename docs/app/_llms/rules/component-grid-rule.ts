@@ -108,7 +108,8 @@ export const componentGridRule: Rule = {
       const entries = getEntries();
       if (entries.length === 0) return [node];
       return [{ type: "html", value: buildMarkdown(entries) }];
-    } catch {
+    } catch (error) {
+      console.warn("[ComponentGrid] transform failed; falling back to original MDX node:", error);
       return [node];
     }
   },
