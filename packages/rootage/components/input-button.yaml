@@ -161,6 +161,14 @@ data:
           color: $color.fg.disabled
         placeholder:
           color: $color.fg.disabled
+        prefixText:
+          color: $color.fg.disabled
+        prefixIcon:
+          color: $color.fg.disabled
+        suffixText:
+          color: $color.fg.disabled
+        suffixIcon:
+          color: $color.fg.disabled
 
       readonly:
         root:

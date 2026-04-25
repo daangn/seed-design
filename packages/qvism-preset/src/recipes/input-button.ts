@@ -152,6 +152,10 @@ const inputButton = defineSlotRecipe({
       color: vars.base.enabled.prefixText.color,
 
       pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: vars.base.disabled.prefixText.color,
+      },
     },
     prefixIcon: {
       width: vars.base.enabled.prefixIcon.size,
@@ -161,6 +165,10 @@ const inputButton = defineSlotRecipe({
       color: vars.base.enabled.prefixIcon.color,
 
       pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: vars.base.disabled.prefixIcon.color,
+      },
     },
     suffixText: {
       fontSize: vars.base.enabled.suffixText.fontSize,
@@ -170,6 +178,10 @@ const inputButton = defineSlotRecipe({
       color: vars.base.enabled.suffixText.color,
 
       pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: vars.base.disabled.suffixText.color,
+      },
     },
     suffixIcon: {
       width: vars.base.enabled.suffixIcon.size,
@@ -179,6 +191,10 @@ const inputButton = defineSlotRecipe({
       color: vars.base.enabled.suffixIcon.color,
 
       pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: vars.base.disabled.suffixIcon.color,
+      },
     },
     clearButton: {
       cursor: "pointer",

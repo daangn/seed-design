@@ -367,6 +367,30 @@
                   "type": "color",
                   "value": "$color.fg.disabled"
                 }
+              },
+              "prefixText": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "suffixText": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "suffixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
               }
             }
           },

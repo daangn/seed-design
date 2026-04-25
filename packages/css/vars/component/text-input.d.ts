@@ -51,6 +51,18 @@ export declare const vars: {
       },
       "placeholder": {
         "color": "var(--seed-color-fg-disabled)"
+      },
+      "prefixText": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "prefixIcon": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "suffixText": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "suffixIcon": {
+        "color": "var(--seed-color-fg-disabled)"
       }
     }
   },

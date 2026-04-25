@@ -90,18 +90,34 @@ const textInput = defineSlotRecipe({
     prefixText: {
       color: vars.base.enabled.prefixText.color,
       fontWeight: vars.base.enabled.prefixText.fontWeight,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.prefixText.color,
+      },
     },
     prefixIcon: {
       color: vars.base.enabled.prefixIcon.color,
       flexShrink: 0,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.prefixIcon.color,
+      },
     },
     suffixText: {
       color: vars.base.enabled.suffixText.color,
       fontWeight: vars.base.enabled.suffixText.fontWeight,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.suffixText.color,
+      },
     },
     suffixIcon: {
       color: vars.base.enabled.suffixIcon.color,
       flexShrink: 0,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.suffixIcon.color,
+      },
     },
   },
   defaultVariants: {
