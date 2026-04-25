@@ -48,7 +48,7 @@
     "@figma/rest-api-spec": "^0.36.0",
     "@karrotmarket/icon-data": "^1.28.0",
     "@seed-design/figma-extractor": "^1.1.1",
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.0"
   },
   "publishConfig": {
     "access": "public"
