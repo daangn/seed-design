@@ -117,6 +117,50 @@
           }
         }
       },
+      "$font-size.t11": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.75,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t12": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 2,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t13": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 2.5,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t14": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 3,
+              "unit": "rem"
+            }
+          }
+        }
+      },
       "$font-size.t1-static": {
         "values": {
           "default": {
@@ -231,6 +275,54 @@
             "type": "dimension",
             "value": {
               "value": 26,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t11-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 28,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t12-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 32,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t13-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 40,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t14-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 48,
               "unit": "px"
             }
           }

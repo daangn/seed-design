@@ -35,6 +35,18 @@ data:
     $line-height.t10:
       values:
         default: 2.1875rem # 35px ÷ 16
+    $line-height.t11:
+      values:
+        default: 2.375rem # 38px ÷ 16
+    $line-height.t12:
+      values:
+        default: 2.625rem # 42px ÷ 16
+    $line-height.t13:
+      values:
+        default: 3.25rem # 52px ÷ 16
+    $line-height.t14:
+      values:
+        default: 3.75rem # 60px ÷ 16
     $line-height.t1-static:
       description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
@@ -75,3 +87,19 @@ data:
       description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
       values:
         default: 35px
+    $line-height.t11-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
+      values:
+        default: 38px
+    $line-height.t12-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
+      values:
+        default: 42px
+    $line-height.t13-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
+      values:
+        default: 52px
+    $line-height.t14-static:
+      description: 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다.
+      values:
+        default: 60px

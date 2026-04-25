@@ -117,6 +117,50 @@
           }
         }
       },
+      "$line-height.t11": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 2.375,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t12": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 2.625,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t13": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 3.25,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t14": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 3.75,
+              "unit": "rem"
+            }
+          }
+        }
+      },
       "$line-height.t1-static": {
         "values": {
           "default": {
@@ -231,6 +275,54 @@
             "type": "dimension",
             "value": {
               "value": 35,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t11-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 38,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t12-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 42,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t13-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 52,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t14-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 60,
               "unit": "px"
             }
           }

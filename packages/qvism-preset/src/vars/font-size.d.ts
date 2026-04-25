@@ -8,6 +8,10 @@ export declare const t7 = "var(--seed-font-size-t7)";
 export declare const t8 = "var(--seed-font-size-t8)";
 export declare const t9 = "var(--seed-font-size-t9)";
 export declare const t10 = "var(--seed-font-size-t10)";
+export declare const t11 = "var(--seed-font-size-t11)";
+export declare const t12 = "var(--seed-font-size-t12)";
+export declare const t13 = "var(--seed-font-size-t13)";
+export declare const t14 = "var(--seed-font-size-t14)";
 /** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
 export declare const t1Static = "var(--seed-font-size-t1-static)";
 /** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
@@ -28,3 +32,11 @@ export declare const t8Static = "var(--seed-font-size-t8-static)";
 export declare const t9Static = "var(--seed-font-size-t9-static)";
 /** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
 export declare const t10Static = "var(--seed-font-size-t10-static)";
+/** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
+export declare const t11Static = "var(--seed-font-size-t11-static)";
+/** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
+export declare const t12Static = "var(--seed-font-size-t12-static)";
+/** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
+export declare const t13Static = "var(--seed-font-size-t13-static)";
+/** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
+export declare const t14Static = "var(--seed-font-size-t14-static)";
