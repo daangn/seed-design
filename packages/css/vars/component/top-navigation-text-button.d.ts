@@ -2,6 +2,8 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
+        /** 버튼 레이블이 길어졌을 때 ellipsis 말줄임을 시작할 최대 너비입니다. Top Navigation main slot이 충분한 공간을 차지할 수 있도록 하기 위해 폰트 스케일링의 영향을 받지 않는 px 값을 사용합니다. */
+        "maxWidth": "96px",
         "height": "44px",
         "paddingX": "var(--seed-dimension-x2_5)"
       },
