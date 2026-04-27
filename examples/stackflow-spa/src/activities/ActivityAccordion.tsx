@@ -42,15 +42,39 @@ const FAQ_ITEMS = [
   },
 ];
 
-interface AccordionSectionProps {
+interface AccordionSectionBaseProps {
   title: string;
   description: string;
   variant: NonNullable<ComponentProps<typeof Accordion>["variant"]>;
-  accordionProps?: Omit<ComponentProps<typeof Accordion>, "children" | "variant">;
 }
 
+type AccordionSectionProps = AccordionSectionBaseProps &
+  (
+    | {
+        multiple?: false;
+        collapsible?: boolean;
+      }
+    | {
+        multiple: true;
+        collapsible?: never;
+      }
+  );
+
 function AccordionSection(props: AccordionSectionProps) {
-  const { title, description, variant, accordionProps } = props;
+  const { title, description, variant, multiple, collapsible } = props;
+
+  const accordionItems = FAQ_ITEMS.map((item) => (
+    <AccordionItem key={item.value} value={item.value}>
+      <AccordionTrigger title={item.title} description={item.description} />
+      <AccordionContent>
+        <Box p="x4">
+          <Text as="p" textStyle="t4Regular" color="fg.neutralMuted">
+            {item.content}
+          </Text>
+        </Box>
+      </AccordionContent>
+    </AccordionItem>
+  ));
 
   return (
     <Box bg="bg.layerDefault" borderRadius="r3" borderWidth={1} borderColor="stroke.neutralWeak">
@@ -71,20 +95,15 @@ function AccordionSection(props: AccordionSectionProps) {
           </Box>
         </HStack>
 
-        <Accordion variant={variant} {...accordionProps}>
-          {FAQ_ITEMS.map((item) => (
-            <AccordionItem key={item.value} value={item.value}>
-              <AccordionTrigger title={item.title} description={item.description} />
-              <AccordionContent>
-                <Box p="x4">
-                  <Text as="p" textStyle="t4Regular" color="fg.neutralMuted">
-                    {item.content}
-                  </Text>
-                </Box>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        {multiple ? (
+          <Accordion variant={variant} multiple>
+            {accordionItems}
+          </Accordion>
+        ) : (
+          <Accordion variant={variant} collapsible={collapsible}>
+            {accordionItems}
+          </Accordion>
+        )}
       </VStack>
     </Box>
   );
@@ -112,12 +131,13 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
             title="Inline"
             description="여러 항목을 동시에 열 수 있는 기본 accordion 예시입니다."
             variant="inline"
+            multiple
           />
           <AccordionSection
             title="Separated"
             description="카드형 항목을 하나씩 열고 닫는 accordion 예시입니다."
             variant="separated"
-            accordionProps={{ collapsible: true }}
+            collapsible
           />
         </VStack>
       </AppScreenContent>
