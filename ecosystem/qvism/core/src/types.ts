@@ -102,6 +102,30 @@ export interface RecipeMetadata<T extends RecipeVariantRecord = RecipeVariantRec
   };
 }
 
+/**
+ * Validate that `M` (e.g. yaml-sourced metadata) does not contain any axis or
+ * value keys that are absent from the recipe `variants` (`T`). Extra keys
+ * collapse the relevant slot to `never`, so the assignment fails to compile
+ * and the offending key surfaces in the error.
+ */
+export type ExactRecipeMetadata<T extends RecipeVariantRecord, M> = M extends {
+  variants?: infer MV;
+}
+  ? Exclude<keyof MV, keyof T> extends never
+    ? M & {
+        variants?: {
+          [K in keyof MV]: K extends keyof T
+            ? MV[K] extends { values?: infer VV }
+              ? Exclude<keyof VV, keyof T[K]> extends never
+                ? MV[K]
+                : never
+              : MV[K]
+            : never;
+        };
+      }
+    : never
+  : M;
+
 export interface RecipeDefinition<T extends RecipeVariantRecord = RecipeVariantRecord> {
   name: string;
   base: StyleObject;
