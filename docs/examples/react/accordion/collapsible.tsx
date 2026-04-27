@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "se
 
 export default function AccordionCollapsible() {
   return (
-    <Accordion type="single" defaultValues={["item-1"]} collapsible={false}>
+    <Accordion defaultValues={["item-1"]} collapsible={false}>
       <AccordionItem value="item-1">
         <AccordionTrigger title="주문 전 확인 사항" />
         <AccordionContent>

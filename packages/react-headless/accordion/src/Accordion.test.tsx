@@ -197,7 +197,7 @@ describe("Accordion", () => {
 
   describe("click interaction", () => {
     it("toggles open state on trigger click", async () => {
-      const { getByText, user } = setUp(<ThreeItemAccordion type="single" />);
+      const { getByText, user } = setUp(<ThreeItemAccordion />);
       const trigger = getByText("Trigger 1");
       await user.click(trigger);
       expect(trigger).toHaveAttribute("aria-expanded", "true");

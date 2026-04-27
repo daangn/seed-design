@@ -6,7 +6,7 @@ metadata:
 data:
   schema:
     slots:
-      item:
+      root:
         properties:
           strokeColor:
             type: color
@@ -104,7 +104,7 @@ data:
   definitions:
     base:
       enabled:
-        item:
+        root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         trigger:
@@ -181,13 +181,13 @@ data:
 
     variant=inline:
       enabled:
-        item:
+        root:
           dividerColor: $color.stroke.neutral-subtle
           dividerPaddingX: $dimension.x3
 
     variant=separated:
       enabled:
-        item:
+        root:
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
           cornerRadius: $radius.r3

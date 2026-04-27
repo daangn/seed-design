@@ -142,10 +142,10 @@ const accordion = defineSlotRecipe({
             content: "''",
             position: "absolute",
             bottom: 0,
-            left: itemVars.variantInline.enabled.item.dividerPaddingX,
-            right: itemVars.variantInline.enabled.item.dividerPaddingX,
+            left: itemVars.variantInline.enabled.root.dividerPaddingX,
+            right: itemVars.variantInline.enabled.root.dividerPaddingX,
             height: "1px",
-            backgroundColor: itemVars.variantInline.enabled.item.dividerColor,
+            backgroundColor: itemVars.variantInline.enabled.root.dividerColor,
           },
         },
         trigger: {
@@ -158,8 +158,8 @@ const accordion = defineSlotRecipe({
             left: 0,
             zIndex: -1,
             transitionProperty: "background-color, left, right, border-radius",
-            transitionDuration: itemVars.base.enabled.item.colorDuration,
-            transitionTimingFunction: itemVars.base.enabled.item.colorTimingFunction,
+            transitionDuration: itemVars.base.enabled.root.colorDuration,
+            transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
           },
           [pseudo(not(disabled), engaged, "::before")]: {
             backgroundColor: itemVars.base.pressed.trigger.color,
@@ -171,8 +171,8 @@ const accordion = defineSlotRecipe({
       },
       separated: {
         item: {
-          boxShadow: `inset 0 0 0 ${itemVars.variantSeparated.enabled.item.strokeWidth} ${itemVars.variantSeparated.enabled.item.strokeColor}`,
-          borderRadius: itemVars.variantSeparated.enabled.item.cornerRadius,
+          boxShadow: `inset 0 0 0 ${itemVars.variantSeparated.enabled.root.strokeWidth} ${itemVars.variantSeparated.enabled.root.strokeColor}`,
+          borderRadius: itemVars.variantSeparated.enabled.root.cornerRadius,
           overflow: "hidden",
         },
         trigger: {
@@ -185,8 +185,8 @@ const accordion = defineSlotRecipe({
             left: 0,
             zIndex: -1,
             transitionProperty: "background-color",
-            transitionDuration: itemVars.base.enabled.item.colorDuration,
-            transitionTimingFunction: itemVars.base.enabled.item.colorTimingFunction,
+            transitionDuration: itemVars.base.enabled.root.colorDuration,
+            transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
           },
           [pseudo(not(disabled), engaged, "::before")]: {
             backgroundColor: itemVars.base.pressed.trigger.color,

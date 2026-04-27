@@ -80,7 +80,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Single Expand
 
-`type="single"` 을 사용하면 한 번에 하나의 항목만 펼칠 수 있습니다.
+기본적으로 한 번에 하나의 항목만 펼칠 수 있습니다.
 
 <ComponentExample name="react/accordion/single">
   ```json doc-gen:file
@@ -93,7 +93,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Collapsible
 
-`type="single"` 모드에서 `collapsible` prop을 사용하여 열린 항목을 다시 클릭했을 때 닫힘 여부를 제어할 수 있습니다. 기본값은 `true`입니다. `collapsible={false}`로 설정하면 항상 하나의 항목이 열려 있어야 합니다.
+단일 확장 모드에서 `collapsible` prop을 사용하여 열린 항목을 다시 클릭했을 때 닫힘 여부를 제어할 수 있습니다. 기본값은 `true`입니다. `collapsible={false}`로 설정하면 항상 하나의 항목이 열려 있어야 합니다. `multiple` 모드에서는 각 항목이 독립적으로 열리고 닫히므로 `collapsible`을 사용할 수 없습니다.
 
 <ComponentExample name="react/accordion/collapsible">
   ```json doc-gen:file
@@ -119,8 +119,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Prefix
 
-`prefix` prop에 아이콘 같은 앞쪽 요소를 전달할 수 있습니다. 아이콘은 SEED `Icon` 컴포넌트로 감싸면 Accordion의 22px 아이콘 크기 토큰을 받습니다.
-Accordion prefix icon은 List의 prefix icon처럼 텍스트 옆에서 항목 의미를 보조하므로 기본적으로 Line icon을 권장합니다. `size`나 `variant`와 관계없이 22px 기준을 유지하며, Fill icon은 16px 이하의 작은 아이콘, 버튼/칩처럼 컨테이너 안의 아이콘, ON/OFF 상태 표현에 더 적합합니다. 자세한 기준은 [Iconography Usage](/docs/foundation/iconography/usage)를 참고하세요.
+`prefix` prop에 아이콘 같은 앞쪽 요소를 전달할 수 있습니다.
 
 <ComponentExample name="react/accordion/with-prefix-icon">
   ```json doc-gen:file
@@ -175,7 +174,7 @@ Accordion prefix icon은 List의 prefix icon처럼 텍스트 옆에서 항목 �
 
 ### Value Array Changes
 
-`type="multiple"` controlled 모드에서는 현재 열려 있는 항목들이 `values` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `values`와 최근 `onValuesChange` 결과를 함께 보여줍니다.
+`multiple` controlled 모드에서는 현재 열려 있는 항목들이 `values` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `values`와 최근 `onValuesChange` 결과를 함께 보여줍니다.
 
 <ComponentExample name="react/accordion/value-changes">
   ```json doc-gen:file

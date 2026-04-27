@@ -4,7 +4,7 @@ import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import { Accordion as SeedAccordion } from "@seed-design/react";
 import * as React from "react";
 
-export interface AccordionProps extends SeedAccordion.RootProps {}
+export type AccordionProps = SeedAccordion.RootProps;
 
 /**
  * @see https://seed-design.io/react/components/accordion

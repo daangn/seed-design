@@ -6,20 +6,19 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { forwardRef } from "react";
 import type * as React from "react";
 import { useAccordion, type UseAccordionProps } from "./useAccordion";
-import { useAccordionItem } from "./useAccordionItem";
+import { useAccordionItem, type UseAccordionItemProps } from "./useAccordionItem";
 import { AccordionProvider } from "./useAccordionContext";
 import { AccordionItemProvider, useAccordionItemContext } from "./useAccordionItemContext";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionRootProps
-  extends UseAccordionProps,
-    PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
+export type AccordionRootProps = UseAccordionProps &
+  PrimitiveProps &
+  Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue">;
 
 export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>((props, ref) => {
   const {
-    type,
+    multiple,
     values,
     defaultValues,
     onValuesChange,
@@ -28,14 +27,23 @@ export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>((pro
     ...otherProps
   } = props;
 
-  const api = useAccordion({
-    type,
-    values,
-    defaultValues,
-    onValuesChange,
-    collapsible,
-    disabled,
-  });
+  const api = useAccordion(
+    multiple
+      ? {
+          multiple: true,
+          values,
+          defaultValues,
+          onValuesChange,
+          disabled,
+        }
+      : {
+          values,
+          defaultValues,
+          onValuesChange,
+          collapsible,
+          disabled,
+        },
+  );
 
   return (
     <AccordionProvider value={api}>
@@ -47,10 +55,10 @@ AccordionRoot.displayName = "AccordionRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionItemProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
-  value: string;
-  disabled?: boolean;
-}
+export interface AccordionItemProps
+  extends UseAccordionItemProps,
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>((props, ref) => {
   const { value, disabled: itemDisabled, ...rest } = props;

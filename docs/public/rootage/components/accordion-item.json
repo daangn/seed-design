@@ -9,7 +9,7 @@
     "name": "Accordion Item",
     "schema": {
       "slots": {
-        "item": {
+        "root": {
           "properties": {
             "strokeColor": {
               "type": "color"
@@ -175,7 +175,7 @@
               "enabled"
             ],
             "slots": {
-              "item": {
+              "root": {
                 "colorDuration": {
                   "type": "duration",
                   "value": "$duration.color-transition"
@@ -451,7 +451,7 @@
               "enabled"
             ],
             "slots": {
-              "item": {
+              "root": {
                 "dividerColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-subtle"
@@ -475,7 +475,7 @@
               "enabled"
             ],
             "slots": {
-              "item": {
+              "root": {
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"

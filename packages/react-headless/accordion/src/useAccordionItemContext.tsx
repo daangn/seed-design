@@ -18,11 +18,3 @@ export function useAccordionItemContext<T extends boolean | undefined = true>({
   }
   return context as UseAccordionItemContext;
 }
-
-export function useAccordionItemStateProps() {
-  const { stateProps } = useAccordionItemContext();
-
-  return {
-    stateProps,
-  };
-}

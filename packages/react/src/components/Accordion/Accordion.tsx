@@ -3,7 +3,7 @@
 import { accordion, type AccordionVariantProps } from "@seed-design/css/recipes/accordion";
 import {
   Accordion as AccordionPrimitive,
-  useAccordionItemStateProps,
+  useAccordionItemContext,
 } from "@seed-design/react-accordion";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
@@ -11,13 +11,11 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
 const { withProvider, withContext } = createSlotRecipeContext(accordion);
-const withStateProps = createWithStateProps([useAccordionItemStateProps]);
+const withStateProps = createWithStateProps([useAccordionItemContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionRootProps
-  extends AccordionVariantProps,
-    AccordionPrimitive.RootProps {}
+export type AccordionRootProps = AccordionVariantProps & AccordionPrimitive.RootProps;
 
 export const AccordionRoot = withProvider<HTMLDivElement, AccordionRootProps>(
   AccordionPrimitive.Root,

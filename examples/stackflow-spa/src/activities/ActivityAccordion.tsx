@@ -117,7 +117,7 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
             title="Separated"
             description="카드형 항목을 하나씩 열고 닫는 accordion 예시입니다."
             variant="separated"
-            accordionProps={{ type: "single", collapsible: true }}
+            accordionProps={{ collapsible: true }}
           />
         </VStack>
       </AppScreenContent>

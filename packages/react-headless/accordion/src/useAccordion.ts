@@ -3,20 +3,28 @@ import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useId, useMemo } from "react";
 import * as dom from "./dom";
 
-export interface UseAccordionProps {
-  type?: "single" | "multiple";
+interface UseAccordionBaseProps {
   values?: string[];
   defaultValues?: string[];
   onValuesChange?: (values: string[]) => void;
-  collapsible?: boolean;
   disabled?: boolean;
 }
+
+export type UseAccordionProps =
+  | (UseAccordionBaseProps & {
+      multiple?: false;
+      collapsible?: boolean;
+    })
+  | (UseAccordionBaseProps & {
+      multiple: true;
+      collapsible?: never;
+    });
 
 export type UseAccordionReturn = ReturnType<typeof useAccordion>;
 
 export function useAccordion(props: UseAccordionProps) {
   const accordionId = useId();
-  const isSingle = props.type === "single";
+  const isMultiple = props.multiple === true;
   const disabled = props.disabled ?? false;
   const rootId = dom.getRootId(accordionId);
 
@@ -26,8 +34,8 @@ export function useAccordion(props: UseAccordionProps) {
     onChange: props.onValuesChange,
   });
 
-  const values = isSingle ? rawValues.slice(0, 1) : rawValues;
-  const collapsible = isSingle ? (props.collapsible ?? true) : true;
+  const values = isMultiple ? rawValues : rawValues.slice(0, 1);
+  const collapsible = isMultiple ? true : (props.collapsible ?? true);
 
   const isOpen = useCallback(
     (itemValue: string) => values.includes(itemValue),
@@ -94,7 +102,7 @@ export function useAccordion(props: UseAccordionProps) {
     (itemValue: string) => {
       if (disabled) return;
 
-      if (isSingle) {
+      if (!isMultiple) {
         const isCurrentOpen = values[0] === itemValue;
 
         if (isCurrentOpen) {
@@ -103,13 +111,14 @@ export function useAccordion(props: UseAccordionProps) {
         }
 
         setValues([itemValue]);
-      } else {
-        setValues((prev) =>
-          prev.includes(itemValue) ? prev.filter((v) => v !== itemValue) : [...prev, itemValue],
-        );
+        return;
       }
+
+      setValues((prev) =>
+        prev.includes(itemValue) ? prev.filter((v) => v !== itemValue) : [...prev, itemValue],
+      );
     },
-    [collapsible, disabled, isSingle, setValues, values],
+    [collapsible, disabled, isMultiple, setValues, values],
   );
 
   return useMemo(

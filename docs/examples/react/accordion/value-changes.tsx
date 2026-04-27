@@ -20,7 +20,7 @@ export default function AccordionValueChanges() {
       }}
     >
       <Accordion
-        type="multiple"
+        multiple
         values={values}
         onValuesChange={(nextValues) => {
           setValues(nextValues);

@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "se
 
 export default function AccordionSingle() {
   return (
-    <Accordion type="single" defaultValues={["item-1"]}>
+    <Accordion defaultValues={["item-1"]}>
       <AccordionItem value="item-1">
         <AccordionTrigger title="아코디언 항목 1" />
         <AccordionContent>

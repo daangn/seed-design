@@ -1,7 +1,7 @@
 export const vars = {
   "base": {
     "enabled": {
-      "item": {
+      "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
@@ -108,7 +108,7 @@ export const vars = {
   },
   "variantInline": {
     "enabled": {
-      "item": {
+      "root": {
         "dividerColor": "var(--seed-color-stroke-neutral-subtle)",
         "dividerPaddingX": "var(--seed-dimension-x3)"
       }
@@ -116,7 +116,7 @@ export const vars = {
   },
   "variantSeparated": {
     "enabled": {
-      "item": {
+      "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
         "cornerRadius": "var(--seed-radius-r3)"

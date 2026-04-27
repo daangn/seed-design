@@ -31,7 +31,6 @@ export {
 
 export {
   useAccordionItemContext,
-  useAccordionItemStateProps,
   AccordionItemProvider,
   type UseAccordionItemContext,
 } from "./useAccordionItemContext";

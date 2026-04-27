@@ -9,8 +9,8 @@ import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 
-const AccordionDemo = (props: React.ComponentProps<typeof Accordion>) => (
-  <Accordion {...props} style={{ width: 360 }}>
+const AccordionDemo = ({ style, ...props }: React.ComponentProps<typeof Accordion>) => (
+  <Accordion {...props} style={{ ...style, width: 360 }}>
     <AccordionItem value="item-1">
       <AccordionTrigger prefix={<Icon svg={<IconTruckLine />} />} title="배송은 얼마나 걸리나요?" />
       <AccordionContent>
