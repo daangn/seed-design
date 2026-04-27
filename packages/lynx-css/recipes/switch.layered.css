@@ -12,7 +12,7 @@
     transition: opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
   }
 
-  .seed-switch__label.seed-switch__label--disabled_true {
+  .seed-switch__label:is(:disabled, [disabled], [data-disabled]) {
     opacity: .58;
   }
 

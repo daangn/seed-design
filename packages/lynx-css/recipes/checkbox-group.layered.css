@@ -1,0 +1,7 @@
+@layer seed-components {
+  .seed-checkbox-group {
+    gap: var(--seed-dimension-x1);
+    flex-direction: column;
+    display: flex;
+  }
+}
