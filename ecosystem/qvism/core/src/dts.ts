@@ -6,6 +6,7 @@ import { escapeReservedWord } from "./reserved-words";
 import type {
   RecipeDefinition,
   RecipeKindDefinition,
+  RecipeMetadata,
   RecipeVariantRecord,
   SlotRecipeDefinition,
   SlotRecipeVariantRecord,
@@ -20,6 +21,7 @@ const generateVariantInterface = (
   defaultVariants?:
     | SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>["defaultVariants"]
     | RecipeDefinition<RecipeVariantRecord>["defaultVariants"],
+  metadata?: RecipeMetadata,
 ) => {
   const generateVariantType = (
     variantName: keyof typeof defaultVariants,
@@ -33,17 +35,43 @@ const generateVariantInterface = (
       .filter(Boolean)
       .join(" | ");
     const defaultValue = defaultVariants?.[variantName];
+    const variantMeta = metadata?.variants?.[variantName as string];
+    const axisDescription = variantMeta?.description;
+    const valueDescriptions = variantMeta?.values;
 
-    if (defaultValue !== undefined) {
-      return outdent`
-        /**
-          * @default ${typeof defaultValue === "string" ? stringLiteralType(defaultValue) : defaultValue}
-          */
-          ${variantName}: ${typeString};
-      `;
+    const valueListLines = valueDescriptions
+      ? values
+          .filter(not(isBooleanString))
+          .map((v) => {
+            const desc = valueDescriptions[v]?.description;
+            return desc ? `- \`${v}\`: ${desc}` : null;
+          })
+          .filter((line): line is string => line !== null)
+      : [];
+
+    const hasJsdoc =
+      Boolean(axisDescription) || valueListLines.length > 0 || defaultValue !== undefined;
+
+    if (!hasJsdoc) {
+      return `${variantName as string}: ${typeString};`;
     }
 
-    return `${variantName}: ${typeString};`;
+    const sections: string[] = [];
+    if (axisDescription) sections.push(axisDescription);
+    if (valueListLines.length > 0) sections.push(valueListLines.join("\n"));
+    if (defaultValue !== undefined) {
+      const defaultStr =
+        typeof defaultValue === "string" ? stringLiteralType(defaultValue) : defaultValue;
+      sections.push(`@default ${defaultStr}`);
+    }
+
+    const jsdocBody = sections
+      .join("\n\n")
+      .split("\n")
+      .map((line) => (line ? `  * ${line}` : `  *`))
+      .join("\n");
+
+    return `/**\n${jsdocBody}\n  */\n  ${variantName as string}: ${typeString};`;
   };
 
   return Object.entries(variants)
@@ -59,21 +87,22 @@ export function generateRecipeDts(definition: RecipeDefinition<RecipeVariantReco
   const variantInterface = generateVariantInterface(
     definition.variants,
     definition.defaultVariants,
+    definition.metadata,
   );
 
   return outdent`
   declare interface ${capitalizedName}Variant {
     ${variantInterface}
   }
-  
+
   declare type ${capitalizedName}VariantMap = {
     [key in keyof ${capitalizedName}Variant]: Array<${capitalizedName}Variant[key]>;
   };
-  
+
   export declare type ${capitalizedName}VariantProps = Partial<${capitalizedName}Variant>;
-  
+
   export declare const ${jsName}VariantMap: ${capitalizedName}VariantMap;
-  
+
   export declare const ${escapeReservedWord(jsName)}: ((
     props?: ${capitalizedName}VariantProps,
   ) => string) & {
@@ -92,6 +121,7 @@ export function generateSlotRecipeDts(
   const variantInterface = generateVariantInterface(
     definition.variants,
     definition.defaultVariants,
+    definition.metadata,
   );
   const slotNameType = definition.slots.map((slot) => `"${slot}"`).join(" | ");
 
@@ -99,17 +129,17 @@ export function generateSlotRecipeDts(
   declare interface ${capitalizedName}Variant {
     ${variantInterface}
   }
-  
+
   declare type ${capitalizedName}VariantMap = {
     [key in keyof ${capitalizedName}Variant]: Array<${capitalizedName}Variant[key]>;
   };
-  
+
   export declare type ${capitalizedName}VariantProps = Partial<${capitalizedName}Variant>;
-  
+
   export declare type ${capitalizedName}SlotName = ${slotNameType};
-  
+
   export declare const ${jsName}VariantMap: ${capitalizedName}VariantMap;
-  
+
   export declare const ${escapeReservedWord(jsName)}: ((
     props?: ${capitalizedName}VariantProps,
   ) => Record<${capitalizedName}SlotName, string>) & {

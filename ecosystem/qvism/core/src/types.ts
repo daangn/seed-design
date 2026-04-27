@@ -89,12 +89,26 @@ export type RecipeCompoundVariant<T> = T & {
   css: StyleObject;
 };
 
+export interface VariantValueMetadata {
+  description?: string;
+}
+
+export interface RecipeMetadata<T extends RecipeVariantRecord = RecipeVariantRecord> {
+  variants?: {
+    [K in keyof T]?: {
+      description?: string;
+      values?: { [V in Extract<keyof T[K], string>]?: VariantValueMetadata };
+    };
+  };
+}
+
 export interface RecipeDefinition<T extends RecipeVariantRecord = RecipeVariantRecord> {
   name: string;
   base: StyleObject;
   variants: T;
   compoundVariants?: Pretty<RecipeCompoundVariant<RecipeCompoundSelection<T>>>[];
   defaultVariants: Required<RecipeSelection<T>>;
+  metadata?: RecipeMetadata<T>;
 }
 
 // slot recipe
@@ -119,6 +133,7 @@ export interface SlotRecipeDefinition<
   variants: T;
   compoundVariants?: Pretty<SlotRecipeCompoundVariant<S, RecipeCompoundSelection<T>>>[];
   defaultVariants: Required<RecipeSelection<T>>;
+  metadata?: RecipeMetadata<T>;
 }
 
 export type RecipeKindDefinition = RecipeDefinition | SlotRecipeDefinition;
