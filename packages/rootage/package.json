@@ -7,13 +7,22 @@
     "directory": "packages/rootage"
   },
   "scripts": {
-    "rootage:generate": "bun rootage json-schema ./components"
+    "clean": "rm -rf dist",
+    "rootage:generate": "bun rootage json-schema ./components && bun rootage json ./dist"
   },
   "main": "package.json",
   "files": [
     "*.yaml",
-    "components/*.yaml"
+    "components/*.yaml",
+    "dist/**/*.json"
   ],
+  "exports": {
+    ".": "./package.json",
+    "./package.json": "./package.json",
+    "./index.json": "./dist/index.json",
+    "./components/*.json": "./dist/components/*.json",
+    "./*.json": "./dist/*.json"
+  },
   "publishConfig": {
     "access": "public"
   }

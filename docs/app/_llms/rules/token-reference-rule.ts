@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
 import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
@@ -182,20 +183,15 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
   tokenDataCache = new Map();
-  // Next.js 빌드 시 cwd는 docs/, bun test는 루트에서 실행
-  const candidates = [
-    join(process.cwd(), "public/rootage"),
-    join(process.cwd(), "docs/public/rootage"),
-  ];
-  const rootageDir = candidates.find((dir) => {
-    try {
-      readFileSync(join(dir, "index.json"), "utf-8");
-      return true;
-    } catch {
-      return false;
-    }
-  });
-  if (!rootageDir) return tokenDataCache;
+  const rootageDir = join(
+    dirname(createRequire(import.meta.url).resolve("@seed-design/rootage-artifacts/package.json")),
+    "dist",
+  );
+  try {
+    readFileSync(join(rootageDir, "index.json"), "utf-8");
+  } catch {
+    return tokenDataCache;
+  }
 
   try {
     const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");

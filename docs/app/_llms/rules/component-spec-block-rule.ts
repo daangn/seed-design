@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
 import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
@@ -127,7 +128,10 @@ function loadComponentSpecData(): Map<string, Exchange.ComponentSpecModel> {
   if (specDataCache) return specDataCache;
 
   specDataCache = new Map();
-  const rootageDir = join(process.cwd(), "public/rootage");
+  const rootageDir = join(
+    dirname(createRequire(import.meta.url).resolve("@seed-design/rootage-artifacts/package.json")),
+    "dist",
+  );
 
   try {
     const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
