@@ -3,6 +3,18 @@ declare interface TextVariant {
   * - `screenTitle`: 화면에 크게 표시되는 주요 제목이나 타이틀에 사용합니다.
   * - `articleBody`: 게시물이나 콘텐츠 중심 섹션의 본문 텍스트에 사용합니다.
   * - `articleNote`: 주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용하며, 일반 본문 텍스트에는 사용하지 않습니다.
+  * - `t11Regular`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t11Medium`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t11Bold`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t12Regular`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t12Medium`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t12Bold`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t13Regular`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t13Medium`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t13Bold`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t14Regular`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t14Medium`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+  * - `t14Bold`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
   * - `t1StaticRegular`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
   * - `t1StaticMedium`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
   * - `t1StaticBold`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
@@ -33,18 +45,18 @@ declare interface TextVariant {
   * - `t10StaticRegular`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
   * - `t10StaticMedium`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
   * - `t10StaticBold`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t11StaticRegular`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t11StaticMedium`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t11StaticBold`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t12StaticRegular`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t12StaticMedium`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t12StaticBold`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t13StaticRegular`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t13StaticMedium`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t13StaticBold`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t14StaticRegular`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t14StaticMedium`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
-  * - `t14StaticBold`: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t11StaticRegular`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t11StaticMedium`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t11StaticBold`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t12StaticRegular`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t12StaticMedium`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t12StaticBold`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t13StaticRegular`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t13StaticMedium`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t13StaticBold`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t14StaticRegular`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t14StaticMedium`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+  * - `t14StaticBold`: `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
   *
   * @default "t5Regular"
   */

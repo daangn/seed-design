@@ -305,6 +305,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT11Regular": {
     "enabled": {
       "root": {
@@ -314,6 +317,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT11Medium": {
     "enabled": {
       "root": {
@@ -323,6 +329,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT11Bold": {
     "enabled": {
       "root": {
@@ -332,6 +341,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT12Regular": {
     "enabled": {
       "root": {
@@ -341,6 +353,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT12Medium": {
     "enabled": {
       "root": {
@@ -350,6 +365,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT12Bold": {
     "enabled": {
       "root": {
@@ -359,6 +377,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT13Regular": {
     "enabled": {
       "root": {
@@ -368,6 +389,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT13Medium": {
     "enabled": {
       "root": {
@@ -377,6 +401,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT13Bold": {
     "enabled": {
       "root": {
@@ -386,6 +413,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT14Regular": {
     "enabled": {
       "root": {
@@ -395,6 +425,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT14Medium": {
     "enabled": {
       "root": {
@@ -404,6 +437,9 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
   "textStyleT14Bold": {
     "enabled": {
       "root": {
@@ -774,7 +810,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT11StaticRegular": {
     "enabled": {
@@ -786,7 +822,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT11StaticMedium": {
     "enabled": {
@@ -798,7 +834,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT11StaticBold": {
     "enabled": {
@@ -810,7 +846,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT12StaticRegular": {
     "enabled": {
@@ -822,7 +858,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT12StaticMedium": {
     "enabled": {
@@ -834,7 +870,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT12StaticBold": {
     "enabled": {
@@ -846,7 +882,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT13StaticRegular": {
     "enabled": {
@@ -858,7 +894,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT13StaticMedium": {
     "enabled": {
@@ -870,7 +906,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT13StaticBold": {
     "enabled": {
@@ -882,7 +918,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT14StaticRegular": {
     "enabled": {
@@ -894,7 +930,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT14StaticMedium": {
     "enabled": {
@@ -906,7 +942,7 @@ export declare const vars: {
     }
   },
   /**
-   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT14StaticBold": {
     "enabled": {
