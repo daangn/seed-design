@@ -1,3 +1,6 @@
+import spec from "@seed-design/rootage-artifacts/components/switchmark.json" with {
+  type: "json",
+};
 import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { checked, disabled, focusVisible, pseudo } from "../utils/pseudo";
@@ -121,6 +124,11 @@ const switchmarkRecipe = defineSlotRecipe({
   defaultVariants: {
     tone: "brand",
     size: 32,
+  },
+  metadata: {
+    variants: {
+      tone: spec.data.schema.variants.tone,
+    },
   },
 });
 

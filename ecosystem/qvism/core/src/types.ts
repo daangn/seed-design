@@ -97,7 +97,7 @@ export interface RecipeMetadata<T extends RecipeVariantRecord = RecipeVariantRec
   variants?: {
     [K in keyof T]?: {
       description?: string;
-      values?: { [V in Extract<keyof T[K], string>]?: VariantValueMetadata };
+      values?: { [V in Extract<keyof T[K], string | number>]?: VariantValueMetadata };
     };
   };
 }
@@ -107,19 +107,29 @@ export interface RecipeMetadata<T extends RecipeVariantRecord = RecipeVariantRec
  * value keys that are absent from the recipe `variants` (`T`). Extra keys
  * collapse the relevant slot to `never`, so the assignment fails to compile
  * and the offending key surfaces in the error.
+ *
+ * Keys are compared after stringification so numeric recipe keys (e.g. `20`)
+ * still match their JSON-imported string counterparts (e.g. `"20"`).
  */
+type StringifiedKeys<T> = `${keyof T & (string | number)}`;
+
 export type ExactRecipeMetadata<T extends RecipeVariantRecord, M> = M extends {
   variants?: infer MV;
 }
-  ? Exclude<keyof MV, keyof T> extends never
+  ? Exclude<StringifiedKeys<MV>, StringifiedKeys<T>> extends never
     ? M & {
         variants?: {
-          [K in keyof MV]: K extends keyof T
-            ? MV[K] extends { values?: infer VV }
-              ? Exclude<keyof VV, keyof T[K]> extends never
-                ? MV[K]
-                : never
-              : MV[K]
+          [K in keyof MV]: K extends `${infer Kn}`
+            ? Kn extends StringifiedKeys<T>
+              ? MV[K] extends { values?: infer VV }
+                ? Exclude<
+                    StringifiedKeys<VV>,
+                    StringifiedKeys<T[Extract<keyof T, K | Kn | number>]>
+                  > extends never
+                  ? MV[K]
+                  : never
+                : MV[K]
+              : never
             : never;
         };
       }
