@@ -27,10 +27,15 @@
 - [ ] 패턴 참조 컴포넌트의 파일 구조를 따랐는가?
 - [ ] Focus ring 적용? (인터랙티브 컴포넌트 → createFocusRingStyles)
 - [ ] 키보드 인터랙션 구현? (카테고리 C/D)
+- [ ] Mode API가 binary이면 boolean을 우선했고, enum이 필요하면 제3상태/대등한 값의 근거를 남겼는가?
+- [ ] 특정 mode에서만 유효한 prop을 타입 union, 문서, 테스트로 차단했는가?
 - [ ] 숨겨진 native input 패턴 적용? (form control인 경우)
 - [ ] 애니메이션: contentInner 분리 패턴 사용? (expand/collapse인 경우)
 - [ ] 폼 통합: TextField canonical 패턴 준수? (Field 통합인 경우)
 - [ ] Snippet API: action 노출, state setter 숨김?
+- [ ] Snippet naming: convenience wrapper는 `Component`, low-level composition wrapper만 `ComponentRoot`를 사용했는가?
+- [ ] Hook props와 component props를 중복 선언하지 않고 `Use*Props`를 재사용했는가?
+- [ ] Context `stateProps`를 중복 helper로 다시 만들지 않고 headless context를 재사용했는가?
 - [ ] Namespace 파일: compound이면 있고, simple이면 없는지?
 - [ ] Changeset 생성? (`/changeset` 스킬 참조)
 

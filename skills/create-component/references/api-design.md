@@ -11,7 +11,7 @@ Snippet 레이어(`docs/registry/ui/`)와 컴포넌트 공개 API 설계 시 따
 | 단일 import으로 사용 가능 | No |
 | 이미 심플한 API | No |
 
-## API 설계 7원칙
+## API 설계 9원칙
 
 ### 1. Action을 노출하고 State setter를 숨긴다
 
@@ -80,18 +80,44 @@ Snippet convenience prop이 underlying primitive/native prop과 이름이 겹치
 핵심은 "편한 이름을 먼저 쓴다"가 아니라, consumer가 보는 타입 surface와 실제 런타임 contract가 정확히 맞아야 한다는 점이다.
 구체적인 snippet 타입 작성 예시는 `implementation-steps.md`의 Snippet 파일 작성 패턴을 기준으로 삼는다.
 
-### 7. Affix prop은 content contract 기준으로 정한다
+### 7. Mode API는 확장 가능성이 분명할 때만 enum으로 만든다
+
+모드가 사실상 on/off라면 enum 문자열보다 boolean prop을 우선한다.
+
+- **boolean 우선**: `multiple?: boolean`처럼 한 가지 capability를 켜고 끄는 경우
+- **enum 허용**: `orientation: "horizontal" | "vertical"`처럼 값들이 대등하거나, 제3의 상태가 이미 명확한 경우
+- **나쁜 신호**: `"single" | "multiple"`처럼 한 값이 기본 상태를 다시 이름 붙인 형태이고 추가 상태 계획이 없는 경우
+
+외부 레퍼런스가 enum을 쓰더라도 그대로 따르지 않는다. SEED Design의 snippet/headless surface에서 사용자가 실제로 선택해야 하는 개념이 무엇인지 먼저 정한다.
+
+### 8. 특정 mode에서만 유효한 prop은 타입으로 차단한다
+
+특정 mode에서 의미 없는 prop을 런타임에서 조용히 무시하지 않는다. 타입, 문서, 테스트가 같은 contract를 설명해야 한다.
+
+```typescript
+type ComponentProps =
+  | { multiple?: false; collapsible?: boolean }
+  | { multiple: true; collapsible?: never };
+```
+
+- 타입: discriminated union으로 불가능한 조합을 막는다
+- 문서: prop이 어느 mode에서만 유효한지 명시한다
+- 테스트: 허용/불허 타입 예시와 런타임 동작을 함께 확인한다
+
+런타임 fallback이 필요하더라도 public API에서 "넣어도 되지만 무시됨"이라는 상태를 만들지 않는다.
+
+### 9. Affix prop은 content contract 기준으로 정한다
 
 `prefix`, `suffix`, `prefixIcon`, `prefixAvatar` 같은 affix API는 recipe token 이름이 아니라 사용자에게 열어줄 content 종류를 기준으로 정한다.
 
-- broad content가 필요하면 `ListItem`처럼 `prefix` 하나를 우선한다
-- icon-only contract가 명확하면 `SelectBox`처럼 `prefixIcon`을 둔다
-- avatar처럼 별도 semantic content kind가 명확하면 `Chip`처럼 `PrefixAvatar`를 분리할 수 있다
+- broad content가 필요하면 `prefix`/`suffix`처럼 generic content slot을 우선한다
+- icon-only contract가 명확하면 `prefixIcon`/`suffixIcon`처럼 icon 전용 prop을 둔다
+- avatar, thumbnail, control처럼 별도 semantic content kind가 명확하면 전용 prop이나 전용 slot으로 분리할 수 있다
 - 같은 위치에 `prefix`와 `prefixIcon`을 동시에 열면 두 prop을 함께 넣을 수 있어 API 모델이 흐려진다
 
 `prefixIcon` token은 generic `prefix` slot 안의 icon styling을 의미할 수 있다. token 이름이 곧 snippet prop 이름이어야 하는 것은 아니다.
 
-## Children composition vs convenience prop 판단 기준
+## [Snippet] Children composition vs convenience prop 판단 기준
 
 둘 다 가능한 경우 아래 기준으로 결정한다:
 
@@ -134,6 +160,15 @@ Component.displayName = "Component";
 ```
 
 Snippet이 convenience wrapper라면, 이 패턴에서 `children`을 그대로 열어두기보다 사용자 의미가 분명한 prop을 먼저 정의한다. Low-level composition을 유지해야 하는 경우에는 `children`을 열어두되, 문서에서 그 이유와 권장 composition을 함께 설명한다.
+
+## [Snippet] Export naming
+
+Snippet의 최상위 export 이름은 사용자가 설치 후 import하는 이름이므로 underlying React primitive 이름을 그대로 따라가지 않는다.
+
+- convenience wrapper는 `Component`를 우선한다. 내부에서 `SeedComponent.Root`를 쓰더라도 사용자-facing 이름에 `Root`를 붙이지 않는다.
+- low-level composition wrapper라는 목적이 분명하고 sub-component를 함께 노출해야 할 때만 `ComponentRoot`를 사용한다.
+- 같은 snippet 안에서 `Component`와 `ComponentRoot`를 동시에 둘 필요가 있으면, `Component`는 가장 짧은 기본 사용 경로, `ComponentRoot`는 escape hatch 역할이어야 한다.
+- `displayName`은 exported symbol과 맞춘다. namespace가 실제 runtime API가 아니면 dotted name보다 flat name을 우선한다.
 
 ## Registry 등록
 

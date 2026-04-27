@@ -23,6 +23,8 @@
 - 같은 시각적 위치를 가리키는 generic slot과 semantic slot을 동시에 public export하지 않는다. broad content가 필요한 위치는 `Prefix`처럼 하나로 열고, semantic slot은 `Chip.PrefixAvatar`처럼 content kind가 명확할 때만 분리한다.
 - compound component를 추가할 때는 React surface만 보지 말고, `docs/registry/ui/`의 snippet surface까지 함께 설계한다.
 - `asChild` 같은 escape hatch는 런타임 구현이 실제로 지원할 때만 타입에 노출한다. 타입에만 열어두고 구현에서 무시하지 않는다.
+- headless hook이 mode별 union props를 제공하면 styled wrapper도 같은 union을 보존한다. wrapper 내부에서 hook props를 재조합할 때는 mode별 branch를 나누어 무효한 prop 조합이 섞이지 않게 한다.
+- headless context가 `stateProps`를 제공하면 `createWithStateProps`에 해당 context hook을 직접 연결한다. 같은 `data-*` state를 위한 중복 helper는 만들지 않는다.
 - `displayName`은 dotted namespace 문자열보다 exported symbol과 맞는 flat naming을 우선한다.
 
 ## 코드 스타일

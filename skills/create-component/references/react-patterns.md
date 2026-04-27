@@ -65,6 +65,29 @@ const withStateProps = createWithStateProps([
 - `strict: true` (default) → context 없으면 에러 (반드시 해당 wrapper 안에서 사용)
 - `strict: false` → context 없으면 null 반환 (wrapper가 선택적일 때)
 
+### Headless context stateProps 재사용
+
+headless context가 이미 `stateProps`, `triggerProps`, `contentProps`처럼 slot contract를 제공한다면 styled React 레이어에서 같은 helper를 다시 export하거나 다시 계산하지 않는다.
+
+- styled 컴포넌트에서는 headless context hook을 `createWithStateProps([useComponentItemContext])`에 직접 연결한다.
+- 같은 `data-*` state를 만들기 위한 별도 `useComponentItemStateProps` helper는 중복 API가 되기 쉬우므로 피한다.
+- state props는 DOM에 퍼뜨릴 최종 contract다. React 레이어는 className/variant wiring을 더하고, headless 레이어가 만든 ARIA/id/keyboard/data-state를 다시 만들지 않는다.
+
+### Hook props와 component props 중복 선언 방지
+
+headless 훅이 받는 props와 headless primitive component가 받는 props는 같은 source를 공유한다.
+
+```typescript
+export interface ComponentItemProps
+  extends UseComponentItemProps,
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+```
+
+- hook props를 component props에 다시 손으로 선언하지 않는다.
+- hook props가 union이면 component props도 union/type alias로 surface를 유지한다.
+- wrapper가 hook props를 재조합해야 할 때는 mode별 branch를 만들어 불가능한 조합이 섞이지 않게 한다.
+
 ## Form/Field 통합 패턴
 
 form 요소가 `<Field.Root>` 안에서 사용될 수 있는 경우 TextField를 canonical reference로 따른다.

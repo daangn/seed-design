@@ -24,6 +24,16 @@ Headless 훅은 하나의 `use{Component}`로 끝낼 필요가 없다. compound 
 
 `asChild`, `headingLevel` 같은 escape hatch는 API 안정성, DOM 구조, 접근성 요구가 모두 설명될 때만 제공한다. 제공하기로 했다면 런타임이 실제 지원하는 방식만 타입에 노출한다. 타입에만 열어두고 구현에서 무시하는 상태는 만들지 않는다. 특히 heading/landmark처럼 접근성 구조에 영향을 주는 escape hatch는 편의성보다 올바른 기본값과 override 범위를 먼저 정하고, 스타일과 DOM 구조가 깨질 수 있는 선택지는 문서화한다.
 
+mode prop을 설계할 때는 값의 수보다 사용자가 선택하는 개념을 먼저 본다. 미래 제3상태가 명확하지 않은 binary mode는 `"single" | "multiple"` 같은 enum보다 `multiple?: boolean`처럼 capability boolean을 우선한다. 특정 mode에서만 유효한 prop은 타입 union으로 차단하고, headless 훅에서 조용히 무시하는 contract를 만들지 않는다.
+
+```typescript
+type UseComponentProps =
+  | { multiple?: false; collapsible?: boolean }
+  | { multiple: true; collapsible?: never };
+```
+
+위와 같은 union을 쓰면 React wrapper도 같은 contract를 유지해야 한다. wrapper에서 props를 다시 조합할 때는 mode별로 hook props를 분기해, `multiple: true`인 객체에 single-only prop이 섞이지 않게 한다.
+
 ## Step 2: Definition (Rootage)
 
 **위치**: `packages/rootage/components/[name].yaml`
@@ -77,6 +87,7 @@ Snippet 파일은 `"use client"` 선언으로 시작하며, `@seed-design/react`
 - Props는 단순 `RootProps extends`로 끝내지 말고, 실제 convenience prop(`title`, `description`, `suffixIcon` 등)을 먼저 설계한다.
 - native HTML prop이나 underlying primitive prop과 이름이 충돌할 수 있는 convenience prop(`title`, `size`, `color`, `prefix` 등)은 `Omit` 또는 rename을 먼저 검토한다.
 - 하위 컴포넌트는 독립적인 public 사용 의도, root와 다른 props/lifecycle, 또는 consumer가 반드시 별도 위치에 렌더해야 하는 요구가 있을 때만 노출한다.
+- 최상위 convenience wrapper 이름은 `Component`를 우선한다. low-level composition 자체를 노출하는 목적이 분명할 때만 `ComponentRoot`를 사용한다.
 - 반드시 `React.forwardRef`로 감싸고, `displayName`은 exported symbol과 같은 단순 문자열을 우선한다. 예를 들어 `Avatar` export라면 `Avatar`, `AccordionTrigger` export라면 `AccordionTrigger`를 사용하고, namespace가 실제 runtime API가 아닌 경우 `Accordion.Trigger` 같은 dotted name은 쓰지 않는다.
 
 **추가 작업**:
