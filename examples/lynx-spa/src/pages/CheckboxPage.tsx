@@ -1,14 +1,13 @@
 import IconCheckmarkFatFill from '@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill';
 import IconMinusFill from '@karrotmarket/lynx-monochrome-icon/IconMinusFill';
-
+import { checkboxVariantMap } from '@seed-design/lynx-css/recipes/checkbox';
+import { checkmarkVariantMap } from '@seed-design/lynx-css/recipes/checkmark';
 import {
   CheckboxControl,
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxRoot,
 } from '@seed-design/lynx-react';
-import { checkboxVariantMap } from '@seed-design/lynx-css/recipes/checkbox';
-import { checkmarkVariantMap } from '@seed-design/lynx-css/recipes/checkmark';
 
 import { VariantCatalog } from '../components/variant-catalog.jsx';
 

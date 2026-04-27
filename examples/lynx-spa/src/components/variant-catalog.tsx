@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from '@lynx-js/react';
+import { type ReactNode, useState } from '@lynx-js/react';
 
 import {
   VariantPlayground,

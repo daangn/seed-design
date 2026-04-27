@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from '@lynx-js/react';
+import { type ReactNode, useMemo } from '@lynx-js/react';
 
 type PrimitiveValue = string | number | boolean;
 type VariantMap = Record<string, readonly PrimitiveValue[]>;
@@ -36,7 +36,10 @@ export function VariantTable(props: VariantTableProps) {
   }, [variantMaps]);
 
   const keys = useMemo(() => Object.keys(mergedMap), [mergedMap]);
-  const combinations = useMemo(() => generateCombinations(mergedMap), [mergedMap]);
+  const combinations = useMemo(
+    () => generateCombinations(mergedMap),
+    [mergedMap],
+  );
 
   return (
     <list
@@ -67,11 +70,7 @@ export function VariantTable(props: VariantTableProps) {
         </view>
       </list-item>
       {combinations.map((combo, i) => (
-        <list-item
-          // biome-ignore lint/suspicious/noArrayIndexKey: combinations are stable
-          key={`row-${i}`}
-          item-key={`row-${i}`}
-        >
+        <list-item key={`row-${i}`} item-key={`row-${i}`}>
           <Row keys={keys} combo={combo} renderComponent={children} />
         </list-item>
       ))}

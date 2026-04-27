@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from '@lynx-js/react';
+import { type ReactNode, useMemo, useState } from '@lynx-js/react';
 
 type PrimitiveValue = string | number | boolean;
 type VariantMap = Record<string, readonly PrimitiveValue[]>;
@@ -22,7 +22,9 @@ export interface VariantPlaygroundProps {
   ) => ReactNode;
 }
 
-function isBooleanOptions(options: readonly PrimitiveValue[]): options is readonly boolean[] {
+function isBooleanOptions(
+  options: readonly PrimitiveValue[],
+): options is readonly boolean[] {
   return options.length > 0 && options.every((v) => typeof v === 'boolean');
 }
 
@@ -46,13 +48,17 @@ export function VariantPlayground(props: VariantPlaygroundProps) {
     for (const [key, options] of Object.entries(mergedMap)) {
       if (key in init || options.length === 0) continue;
       // boolean variant 는 false 를 기본으로 (checked/disabled/indeterminate 등 — 명시적 활성화)
-      init[key] = isBooleanOptions(options) ? false : (options[0] as PrimitiveValue);
+      init[key] = isBooleanOptions(options)
+        ? false
+        : (options[0] as PrimitiveValue);
     }
     return init;
   });
 
   const setValue = (key: string, value: PrimitiveValue) => {
-    setValues((prev) => (prev[key] === value ? prev : { ...prev, [key]: value }));
+    setValues((prev) =>
+      prev[key] === value ? prev : { ...prev, [key]: value },
+    );
   };
 
   return (

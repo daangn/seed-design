@@ -1,3 +1,5 @@
+import { radioVariantMap } from '@seed-design/lynx-css/recipes/radio';
+import { radiomarkVariantMap } from '@seed-design/lynx-css/recipes/radiomark';
 import {
   RadioGroupItem,
   RadioGroupItemControl,
@@ -5,8 +7,6 @@ import {
   RadioGroupItemLabel,
   RadioGroupRoot,
 } from '@seed-design/lynx-react';
-import { radioVariantMap } from '@seed-design/lynx-css/recipes/radio';
-import { radiomarkVariantMap } from '@seed-design/lynx-css/recipes/radiomark';
 
 import { VariantCatalog } from '../components/variant-catalog.jsx';
 
