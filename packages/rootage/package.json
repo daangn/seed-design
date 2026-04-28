@@ -7,7 +7,6 @@
     "directory": "packages/rootage"
   },
   "scripts": {
-    "clean": "rm -rf __generated__",
     "rootage:generate": "bun rootage json-schema ./components && bun rootage json ./__generated__"
   },
   "main": "package.json",
