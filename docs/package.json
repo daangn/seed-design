@@ -14,7 +14,6 @@
     "generate:all": "bun generate:registry && bun generate:docs-index",
     "generate:registry": "bun scripts/generate-registry.ts",
     "generate:docs-index": "bun scripts/generate-docs-index.ts",
-    "prebuild": "bun --filter @seed-design/rootage-artifacts rootage:generate",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
