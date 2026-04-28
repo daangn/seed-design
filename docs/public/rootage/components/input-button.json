@@ -142,7 +142,19 @@
           }
         }
       },
-      "variants": {}
+      "variants": {
+        "size": {
+          "values": {
+            "large": {
+              "description": "뷰포트 너비와 관계없이 사용할 수 있습니다."
+            },
+            "medium": {
+              "description": "Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다."
+            }
+          },
+          "defaultValue": "large"
+        }
+      }
     },
     "definitions": [
       {
@@ -154,22 +166,6 @@
             ],
             "slots": {
               "root": {
-                "height": {
-                  "type": "dimension",
-                  "value": "$dimension.x13"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r3"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
@@ -206,14 +202,6 @@
                 }
               },
               "value": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                },
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
@@ -224,14 +212,6 @@
                 }
               },
               "placeholder": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                },
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
@@ -242,69 +222,38 @@
                 }
               },
               "prefixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                },
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
                 },
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-muted"
+                  "value": "$color.fg.neutral-subtle"
                 }
               },
               "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                },
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
                 }
               },
               "suffixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                },
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
                 },
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-muted"
+                  "value": "$color.fg.neutral-subtle"
                 }
               },
               "suffixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                },
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
                 }
               },
               "clearButton": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
-                },
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-subtle"
@@ -415,6 +364,189 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.placeholder"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "large"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": "$dimension.x13"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              },
+              "value": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                }
+              },
+              "placeholder": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                }
+              },
+              "prefixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                }
+              },
+              "prefixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              },
+              "suffixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                }
+              },
+              "suffixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              },
+              "clearButton": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 22,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": "$dimension.x10"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r2"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x3_5"
+                }
+              },
+              "value": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "placeholder": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "prefixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "prefixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              },
+              "suffixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "suffixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              },
+              "clearButton": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x4_5"
                 }
               }
             }

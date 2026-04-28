@@ -2,10 +2,6 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "height": "var(--seed-dimension-x13)",
-        "cornerRadius": "var(--seed-radius-r3)",
-        "gap": "var(--seed-dimension-x2_5)",
-        "paddingX": "var(--seed-dimension-x4)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "color": "var(--seed-color-bg-transparent)",
@@ -15,39 +11,28 @@ export const vars = {
         "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "value": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-regular)",
         "color": "var(--seed-color-fg-neutral)"
       },
       "placeholder": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-regular)",
         "color": "var(--seed-color-fg-placeholder)"
       },
       "prefixText": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-regular)",
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--seed-color-fg-neutral-subtle)"
       },
       "prefixIcon": {
-        "size": "var(--seed-dimension-x5)",
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "suffixText": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-regular)",
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--seed-color-fg-neutral-subtle)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x5)",
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "clearButton": {
-        "size": "22px",
         "color": "var(--seed-color-fg-neutral-subtle)"
       }
     },
@@ -94,6 +79,76 @@ export const vars = {
       },
       "placeholder": {
         "color": "var(--seed-color-fg-placeholder)"
+      }
+    }
+  },
+  "sizeLarge": {
+    "enabled": {
+      "root": {
+        "height": "var(--seed-dimension-x13)",
+        "gap": "var(--seed-dimension-x2_5)",
+        "cornerRadius": "var(--seed-radius-r3)",
+        "paddingX": "var(--seed-dimension-x4)"
+      },
+      "value": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
+      },
+      "placeholder": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
+      },
+      "prefixText": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
+      },
+      "prefixIcon": {
+        "size": "var(--seed-dimension-x5)"
+      },
+      "suffixText": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
+      },
+      "suffixIcon": {
+        "size": "var(--seed-dimension-x5)"
+      },
+      "clearButton": {
+        "size": "22px"
+      }
+    }
+  },
+  "sizeMedium": {
+    "enabled": {
+      "root": {
+        "height": "var(--seed-dimension-x10)",
+        "gap": "var(--seed-dimension-x2)",
+        "cornerRadius": "var(--seed-radius-r2)",
+        "paddingX": "var(--seed-dimension-x3_5)"
+      },
+      "value": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
+      },
+      "placeholder": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
+      },
+      "prefixText": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
+      },
+      "prefixIcon": {
+        "size": "var(--seed-dimension-x4)"
+      },
+      "suffixText": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
+      },
+      "suffixIcon": {
+        "size": "var(--seed-dimension-x4)"
+      },
+      "clearButton": {
+        "size": "var(--seed-dimension-x4_5)"
       }
     }
   }

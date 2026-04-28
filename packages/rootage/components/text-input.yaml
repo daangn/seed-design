@@ -28,7 +28,8 @@ data:
             type: color
           strokeDuration:
             type: duration
-            description: enabled 상태의 stroke 위에 focused/invalid 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
+            description: enabled 상태의 stroke 위에 focused/invalid 상태의 stroke가 fade in/out 되는 데에
+              걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
           strokeTimingFunction:
             type: cubicBezier
       value:
@@ -90,6 +91,12 @@ data:
             description: 기본 스타일입니다.
           underline:
             description: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
+      size:
+        values:
+          large:
+            description: 뷰포트 너비와 관계없이 사용할 수 있습니다.
+          medium:
+            description: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
   definitions:
     base:
       enabled:
@@ -104,12 +111,12 @@ data:
           color: $color.fg.placeholder
           fontWeight: $font-weight.regular
         prefixText:
-          color: $color.fg.neutral-muted
+          color: $color.fg.neutral-subtle
           fontWeight: $font-weight.regular
         prefixIcon:
           color: $color.fg.neutral-muted
         suffixText:
-          color: $color.fg.neutral-muted
+          color: $color.fg.neutral-subtle
           fontWeight: $font-weight.regular
         suffixIcon:
           color: $color.fg.neutral-muted
@@ -138,8 +145,6 @@ data:
     variant=outline:
       enabled:
         root:
-          cornerRadius: $radius.r3
-          paddingX: $dimension.x4
           strokeWidth: 1px
       focused:
         root:
@@ -158,6 +163,8 @@ data:
         root:
           gap: $dimension.x2_5
           minHeight: $dimension.x13
+          cornerRadius: $radius.r3
+          paddingX: $dimension.x4
         value:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
@@ -177,8 +184,10 @@ data:
     variant=outline,size=medium:
       enabled:
         root:
-          gap: $dimension.x1_5
+          gap: $dimension.x2
           minHeight: $dimension.x10
+          cornerRadius: $radius.r2
+          paddingX: $dimension.x3_5
         value:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
@@ -199,9 +208,24 @@ data:
     variant=underline:
       enabled:
         root:
+          strokeBottomWidth: 1px
+      focused:
+        root:
+          strokeBottomWidth: 2px
+      invalid:
+        root:
+          strokeBottomWidth: 2px
+      readonly:
+        value:
+          color: $color.fg.neutral-muted
+        placeholder:
+          color: $color.fg.neutral-muted
+    variant=underline,size=large:
+      enabled:
+        root:
           gap: $dimension.x2_5
           minHeight: $dimension.x10
-          strokeBottomWidth: 1px
+          paddingY: $dimension.x2
         value:
           fontSize: $font-size.t6
           lineHeight: $line-height.t6
@@ -218,17 +242,28 @@ data:
           lineHeight: $line-height.t6
         suffixIcon:
           size: $dimension.x6
-      focused:
+    variant=underline,size=medium:
+      enabled:
         root:
-          strokeBottomWidth: 2px
-      invalid:
-        root:
-          strokeBottomWidth: 2px
-      readonly:
+          gap: $dimension.x2
+          minHeight: 34px
+          paddingY: $dimension.x1_5
         value:
-          color: $color.fg.neutral-muted
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
         placeholder:
-          color: $color.fg.neutral-muted
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixIcon:
+          size: $dimension.x5
+        suffixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        suffixIcon:
+          size: $dimension.x5
     type=singleline: {}
     type=multiline,size=large:
       enabled:
