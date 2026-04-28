@@ -2,6 +2,7 @@ import "server-only";
 
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { cache } from "react";
 import { buildContext, Exchange } from "@seed-design/rootage-core";
 import index from "@seed-design/rootage-artifacts/index.json";
 
@@ -9,7 +10,7 @@ import index from "@seed-design/rootage-artifacts/index.json";
 // `@seed-design/rootage-artifacts` is the workspace package at `packages/rootage`.
 const ROOTAGE_DIST = join(process.cwd(), "..", "packages", "rootage", "dist");
 
-export const getRootage = async () => {
+export const getRootage = cache(async () => {
   const sourceFiles = await Promise.all(
     index.resources.map(async (resource) => {
       const content = await readFile(join(ROOTAGE_DIST, resource.path), "utf-8");
@@ -20,11 +21,8 @@ export const getRootage = async () => {
     }),
   );
   return buildContext(sourceFiles);
-};
+});
 
-/**
- * Get rootage metadata for a specific component
- */
 export async function getRootageMetadata(componentId: string) {
   const rootage = await getRootage();
   const sourceFile = rootage.sourceFiles.find(
@@ -48,22 +46,14 @@ export async function getComponentStatus(
   pageData?: { deprecated?: string },
 ) {
   if (pageData?.deprecated) {
-    return {
-      deprecated: true,
-      deprecatedMessage: pageData.deprecated,
-    };
+    return { deprecated: true, deprecatedMessage: pageData.deprecated };
   }
 
-  const componentId = params.slug?.[1];
-  if (componentId && params.slug?.[0] === "components") {
-    const metadata = await getRootageMetadata(componentId);
-    if (metadata?.deprecated) {
-      return {
-        deprecated: true,
-        deprecatedMessage: metadata.deprecatedMessage,
-      };
-    }
-  }
+  const componentId = params.slug?.[0] === "components" ? params.slug[1] : undefined;
+  if (!componentId) return { deprecated: false, deprecatedMessage: null };
 
-  return { deprecated: false, deprecatedMessage: null };
+  const metadata = await getRootageMetadata(componentId);
+  if (!metadata?.deprecated) return { deprecated: false, deprecatedMessage: null };
+
+  return { deprecated: true, deprecatedMessage: metadata.deprecatedMessage };
 }

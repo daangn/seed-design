@@ -7,6 +7,7 @@ import type {
   MdxJsxFlowElement,
 } from "mdast-util-mdx-jsx";
 import type { Exchange } from "@seed-design/rootage-core";
+import index from "@seed-design/rootage-artifacts/index.json";
 import type { Rule } from "./types";
 import { markdownRow } from "./markdown-utils";
 import {
@@ -109,10 +110,6 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   return new RegExp(expr.regex.pattern, expr.regex.flags);
 }
 
-interface RootageIndex {
-  resources: { path: string }[];
-}
-
 /*
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
@@ -187,30 +184,17 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
     dirname(createRequire(import.meta.url).resolve("@seed-design/rootage-artifacts/package.json")),
     "dist",
   );
-  try {
-    readFileSync(join(rootageDir, "index.json"), "utf-8");
-  } catch {
-    return tokenDataCache;
-  }
 
-  try {
-    const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
-    const index = JSON.parse(indexContent) as RootageIndex;
+  for (const resource of index.resources) {
+    const { path } = resource;
+    if (path.startsWith("/components/") || path === "/collections.json") continue;
 
-    for (const resource of index.resources) {
-      const { path } = resource;
-      if (path.startsWith("/components/") || path === "/collections.json") continue;
-
-      try {
-        const filePath = join(rootageDir, path.slice(1));
-        const content = readFileSync(filePath, "utf-8");
-        tokenDataCache.set(path, JSON.parse(content) as Exchange.TokensModel);
-      } catch {
-        // 읽지 못한 파일은 건너뜀
-      }
+    try {
+      const content = readFileSync(join(rootageDir, path.slice(1)), "utf-8");
+      tokenDataCache.set(path, JSON.parse(content) as Exchange.TokensModel);
+    } catch {
+      // 읽지 못한 파일은 건너뜀
     }
-  } catch {
-    // index.json 읽기 실패 시 빈 캐시 반환
   }
 
   return tokenDataCache;

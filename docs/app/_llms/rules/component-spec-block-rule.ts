@@ -7,6 +7,7 @@ import type {
   MdxJsxFlowElement,
 } from "mdast-util-mdx-jsx";
 import type { Exchange } from "@seed-design/rootage-core";
+import index from "@seed-design/rootage-artifacts/index.json";
 import type { Rule } from "./types";
 import {
   type ArrayExpressionNode,
@@ -39,10 +40,6 @@ function getVariantsFromNode(node: MdxJsxFlowElement): string[] {
   return (expr as ArrayExpressionNode).elements
     .filter((el): el is LiteralNode & { value: string } => isStringLiteral(el))
     .map((el) => el.value);
-}
-
-interface RootageIndex {
-  resources: { path: string }[];
 }
 
 /*
@@ -133,26 +130,18 @@ function loadComponentSpecData(): Map<string, Exchange.ComponentSpecModel> {
     "dist",
   );
 
-  try {
-    const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
-    const index = JSON.parse(indexContent) as RootageIndex;
+  for (const resource of index.resources) {
+    const { path } = resource;
+    if (!path.startsWith("/components/")) continue;
 
-    for (const resource of index.resources) {
-      const { path } = resource;
-      if (!path.startsWith("/components/")) continue;
-
-      try {
-        const filePath = join(rootageDir, path.slice(1));
-        const content = readFileSync(filePath, "utf-8");
-        const data = JSON.parse(content) as Exchange.ComponentSpecModel;
-        const id = data.metadata?.id ?? path.replace("/components/", "").replace(".json", "");
-        specDataCache.set(id, data);
-      } catch {
-        // 읽지 못한 파일은 건너뜀
-      }
+    try {
+      const content = readFileSync(join(rootageDir, path.slice(1)), "utf-8");
+      const data = JSON.parse(content) as Exchange.ComponentSpecModel;
+      const id = data.metadata?.id ?? path.replace("/components/", "").replace(".json", "");
+      specDataCache.set(id, data);
+    } catch {
+      // 읽지 못한 파일은 건너뜀
     }
-  } catch {
-    // index.json 읽기 실패 시 빈 캐시 반환
   }
 
   return specDataCache;
