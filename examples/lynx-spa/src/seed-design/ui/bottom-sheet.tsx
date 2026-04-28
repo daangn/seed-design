@@ -2,7 +2,6 @@
  * @file ui:bottom-sheet
  * @requires @seed-design/lynx-react@~0.1.0-alpha.0
  * @requires @seed-design/lynx-css@~0.1.0-alpha.0
- * @requires @lynx-js/lynx-ui-sheet@^3.130.1
  **/
 
 import {
