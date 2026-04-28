@@ -1,9 +1,23 @@
 import { Box } from "@seed-design/react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "seed-design/ui/accordion";
+import { useState } from "react";
 
-export default function AccordionCollapsible() {
+export default function AccordionControlledRequiredOpen() {
+  const [values, setValues] = useState<string[]>(["item-1"]);
+
   return (
-    <Accordion defaultValues={["item-1"]} collapsible={false}>
+    <Accordion
+      values={values}
+      onValuesChange={(next) => {
+        if (next.length === 0) return;
+        setValues(next);
+      }}
+    >
       <AccordionItem value="item-1">
         <AccordionTrigger title="주문 전 확인 사항" />
         <AccordionContent>

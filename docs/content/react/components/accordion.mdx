@@ -91,14 +91,14 @@ npx @seed-design/cli@latest add ui:accordion
   ```
 </ComponentExample>
 
-### Collapsible
+### Always one open
 
-단일 확장 모드에서 `collapsible` prop을 사용하여 열린 항목을 다시 클릭했을 때 닫힘 여부를 제어할 수 있습니다. 기본값은 `true`입니다. `collapsible={false}`로 설정하면 항상 하나의 항목이 열려 있어야 합니다. `multiple` 모드에서는 각 항목이 독립적으로 열리고 닫히므로 `collapsible`을 사용할 수 없습니다.
+`values`와 `onValuesChange`를 사용해 controlled 패턴으로 운영하면, 빈 배열이 들어올 때 setter를 호출하지 않는 가드만 추가하여 항상 하나의 항목이 열려 있도록 강제할 수 있습니다.
 
-<ComponentExample name="react/accordion/collapsible">
+<ComponentExample name="react/accordion/controlled-required-open">
   ```json doc-gen:file
   {
-    "file": "examples/react/accordion/collapsible.tsx",
+    "file": "examples/react/accordion/controlled-required-open.tsx",
     "codeblock": true
   }
   ```

@@ -15,7 +15,7 @@ const withStateProps = createWithStateProps([useAccordionItemContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export type AccordionRootProps = AccordionVariantProps & AccordionPrimitive.RootProps;
+export interface AccordionRootProps extends AccordionVariantProps, AccordionPrimitive.RootProps {}
 
 export const AccordionRoot = withProvider<HTMLDivElement, AccordionRootProps>(
   AccordionPrimitive.Root,

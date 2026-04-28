@@ -10,7 +10,12 @@ import {
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { useFlow } from "@stackflow/react/future";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "seed-design/ui/accordion";
 import { Box, HStack, Text, VStack } from "@seed-design/react";
 import type { ComponentProps } from "react";
 
@@ -42,26 +47,15 @@ const FAQ_ITEMS = [
   },
 ];
 
-interface AccordionSectionBaseProps {
+interface AccordionSectionProps {
   title: string;
   description: string;
   variant: NonNullable<ComponentProps<typeof Accordion>["variant"]>;
+  multiple?: boolean;
 }
 
-type AccordionSectionProps = AccordionSectionBaseProps &
-  (
-    | {
-        multiple?: false;
-        collapsible?: boolean;
-      }
-    | {
-        multiple: true;
-        collapsible?: never;
-      }
-  );
-
 function AccordionSection(props: AccordionSectionProps) {
-  const { title, description, variant, multiple, collapsible } = props;
+  const { title, description, variant, multiple } = props;
 
   const accordionItems = FAQ_ITEMS.map((item) => (
     <AccordionItem key={item.value} value={item.value}>
@@ -95,15 +89,9 @@ function AccordionSection(props: AccordionSectionProps) {
           </Box>
         </HStack>
 
-        {multiple ? (
-          <Accordion variant={variant} multiple>
-            {accordionItems}
-          </Accordion>
-        ) : (
-          <Accordion variant={variant} collapsible={collapsible}>
-            {accordionItems}
-          </Accordion>
-        )}
+        <Accordion variant={variant} multiple={multiple}>
+          {accordionItems}
+        </Accordion>
       </VStack>
     </Box>
   );
@@ -137,7 +125,6 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
             title="Separated"
             description="카드형 항목을 하나씩 열고 닫는 accordion 예시입니다."
             variant="separated"
-            collapsible
           />
         </VStack>
       </AppScreenContent>

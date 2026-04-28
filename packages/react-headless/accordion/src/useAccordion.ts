@@ -3,22 +3,13 @@ import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useId, useMemo } from "react";
 import * as dom from "./dom";
 
-interface UseAccordionBaseProps {
+export interface UseAccordionProps {
   values?: string[];
   defaultValues?: string[];
   onValuesChange?: (values: string[]) => void;
   disabled?: boolean;
+  multiple?: boolean;
 }
-
-export type UseAccordionProps =
-  | (UseAccordionBaseProps & {
-      multiple?: false;
-      collapsible?: boolean;
-    })
-  | (UseAccordionBaseProps & {
-      multiple: true;
-      collapsible?: never;
-    });
 
 export type UseAccordionReturn = ReturnType<typeof useAccordion>;
 
@@ -35,12 +26,8 @@ export function useAccordion(props: UseAccordionProps) {
   });
 
   const values = isMultiple ? rawValues : rawValues.slice(0, 1);
-  const collapsible = isMultiple ? true : (props.collapsible ?? true);
 
-  const isOpen = useCallback(
-    (itemValue: string) => values.includes(itemValue),
-    [values],
-  );
+  const isOpen = useCallback((itemValue: string) => values.includes(itemValue), [values]);
 
   const getEnabledValues = useCallback(() => {
     return dom.getEnabledValues(rootId);
@@ -106,7 +93,7 @@ export function useAccordion(props: UseAccordionProps) {
         const isCurrentOpen = values[0] === itemValue;
 
         if (isCurrentOpen) {
-          if (collapsible) setValues([]);
+          setValues([]);
           return;
         }
 
@@ -118,7 +105,7 @@ export function useAccordion(props: UseAccordionProps) {
         prev.includes(itemValue) ? prev.filter((v) => v !== itemValue) : [...prev, itemValue],
       );
     },
-    [collapsible, disabled, isMultiple, setValues, values],
+    [disabled, isMultiple, setValues, values],
   );
 
   return useMemo(
@@ -126,7 +113,6 @@ export function useAccordion(props: UseAccordionProps) {
       accordionId,
       rootId,
       disabled,
-      collapsible,
       values,
       isOpen,
       toggle,
@@ -142,7 +128,6 @@ export function useAccordion(props: UseAccordionProps) {
     }),
     [
       accordionId,
-      collapsible,
       disabled,
       focusFirst,
       focusLast,

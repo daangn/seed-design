@@ -12,38 +12,21 @@ import { AccordionItemProvider, useAccordionItemContext } from "./useAccordionIt
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export type AccordionRootProps = UseAccordionProps &
-  PrimitiveProps &
-  Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue">;
+export interface AccordionRootProps
+  extends UseAccordionProps,
+    PrimitiveProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
 export const AccordionRoot = forwardRef<HTMLDivElement, AccordionRootProps>((props, ref) => {
-  const {
+  const { multiple, values, defaultValues, onValuesChange, disabled, ...otherProps } = props;
+
+  const api = useAccordion({
     multiple,
     values,
     defaultValues,
     onValuesChange,
-    collapsible,
     disabled,
-    ...otherProps
-  } = props;
-
-  const api = useAccordion(
-    multiple
-      ? {
-          multiple: true,
-          values,
-          defaultValues,
-          onValuesChange,
-          disabled,
-        }
-      : {
-          values,
-          defaultValues,
-          onValuesChange,
-          collapsible,
-          disabled,
-        },
-  );
+  });
 
   return (
     <AccordionProvider value={api}>
@@ -77,8 +60,7 @@ AccordionItem.displayName = "AccordionItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionHeaderProps
-  extends React.HTMLAttributes<HTMLHeadingElement> {
+export interface AccordionHeaderProps extends React.HTMLAttributes<HTMLHeadingElement> {
   headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
@@ -121,9 +103,7 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerPr
   (props, ref) => {
     const itemApi = useAccordionItemContext();
 
-    return (
-      <Primitive.button ref={ref} {...mergeProps(props, itemApi.triggerProps)} />
-    );
+    return <Primitive.button ref={ref} {...mergeProps(props, itemApi.triggerProps)} />;
   },
 );
 AccordionTrigger.displayName = "AccordionTrigger";

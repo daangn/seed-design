@@ -7,10 +7,8 @@ import { useAccordion, type UseAccordionProps } from "./useAccordion";
 
 function expectUseAccordionProps(_props: UseAccordionProps) {}
 
-expectUseAccordionProps({ collapsible: false });
 expectUseAccordionProps({ multiple: true });
-// @ts-expect-error collapsible is only supported in single mode.
-expectUseAccordionProps({ multiple: true, collapsible: false });
+expectUseAccordionProps({ multiple: false });
 
 function setUp(jsx: ReactElement) {
   return {
@@ -43,7 +41,6 @@ function Harness(
       <span data-testid="open-2">{String(api.isOpen("item-2"))}</span>
       <span data-testid="open-empty">{String(api.isOpen(""))}</span>
       <span data-testid="disabled">{String(api.disabled)}</span>
-      <span data-testid="collapsible">{String(api.collapsible)}</span>
       <span data-testid="values">{JSON.stringify(api.values)}</span>
     </div>
   );
@@ -52,9 +49,7 @@ function Harness(
 describe("useAccordion", () => {
   describe("single mode", () => {
     it("initializes with defaultValues and uses only the first value", () => {
-      const { getByTestId } = setUp(
-        <Harness defaultValues={["item-1", "item-2"]} />,
-      );
+      const { getByTestId } = setUp(<Harness defaultValues={["item-1", "item-2"]} />);
 
       expect(getByTestId("open-1")).toHaveTextContent("true");
       expect(getByTestId("open-2")).toHaveTextContent("false");
@@ -73,22 +68,12 @@ describe("useAccordion", () => {
       expect(getByTestId("open-2")).toHaveTextContent("true");
     });
 
-    it("closes the open item when collapsible=true (default) and re-clicked", async () => {
+    it("closes the open item when re-clicked", async () => {
       const { getByTestId, user } = setUp(<Harness defaultValues={["item-1"]} />);
 
       await user.click(getByTestId("toggle-1"));
       expect(getByTestId("open-1")).toHaveTextContent("false");
       expect(getByTestId("values")).toHaveTextContent("[]");
-    });
-
-    it("keeps the open item when collapsible=false and re-clicked", async () => {
-      const { getByTestId, user } = setUp(
-        <Harness defaultValues={["item-1"]} collapsible={false} />,
-      );
-
-      await user.click(getByTestId("toggle-1"));
-      expect(getByTestId("open-1")).toHaveTextContent("true");
-      expect(getByTestId("values")).toHaveTextContent('["item-1"]');
     });
 
     it("is controlled when values prop is provided", async () => {
@@ -134,11 +119,6 @@ describe("useAccordion", () => {
       await user.click(getByTestId("toggle-empty"));
       expect(getByTestId("open-empty")).toHaveTextContent("true");
       expect(getByTestId("open-1")).toHaveTextContent("false");
-    });
-
-    it("exposes collapsible=true by default", () => {
-      const { getByTestId } = setUp(<Harness />);
-      expect(getByTestId("collapsible")).toHaveTextContent("true");
     });
   });
 
