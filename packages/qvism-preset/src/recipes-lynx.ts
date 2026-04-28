@@ -1,6 +1,12 @@
 import actionButton from "./recipes/lynx/action-button";
 import bottomSheet from "./recipes/lynx/bottom-sheet";
 import bottomSheetHandle from "./recipes/lynx/bottom-sheet-handle";
+import checkbox from "./recipes/lynx/checkbox";
+import checkboxGroup from "./recipes/lynx/checkbox-group";
+import checkmark from "./recipes/lynx/checkmark";
+import radio from "./recipes/lynx/radio";
+import radioGroup from "./recipes/lynx/radio-group";
+import radiomark from "./recipes/lynx/radiomark";
 import switchRecipe from "./recipes/lynx/switch";
 import switchmarkRecipe from "./recipes/lynx/switchmark";
 import {
@@ -18,6 +24,12 @@ export const lynxRecipes = {
   actionButton,
   bottomSheet,
   bottomSheetHandle,
+  checkbox,
+  checkboxGroup,
+  checkmark,
+  radio,
+  radioGroup,
+  radiomark,
   switch: switchRecipe,
   switchmark: switchmarkRecipe,
   tagGroup: lynxTagGroup,

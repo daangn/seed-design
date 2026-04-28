@@ -1,0 +1,107 @@
+---
+title: RadioGroup
+description: 사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.
+---
+
+## Installation
+
+{/* TODO: dev 브랜치 머지 시 @alpha 태그와 --baseUrl 옵션 제거 */}
+```package-install
+npx @seed-design/cli@alpha add ui:radio-group --baseUrl https://lynx.seed-design.pages.dev
+```
+
+<LynxManualInstallation name="radio-group" />
+
+## Usage
+
+RadioGroup은 compound component 집합입니다. Root가 선택 상태를 소유하고 각 Item이 context로 자신의 선택 여부를 파악합니다.
+
+```tsx
+import {
+  RadioGroupRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemIndicator,
+  RadioGroupItemLabel,
+} from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <RadioGroupRoot defaultValue="small">
+      {["small", "medium", "large"].map((value) => (
+        <RadioGroupItem key={value} value={value}>
+          <RadioGroupItemControl>
+            <RadioGroupItemIndicator />
+          </RadioGroupItemControl>
+          <RadioGroupItemLabel>{value}</RadioGroupItemLabel>
+        </RadioGroupItem>
+      ))}
+    </RadioGroupRoot>
+  );
+}
+```
+
+Controlled 모드는 `value`와 `onValueChange`를 함께 전달합니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+
+export function ControlledRadioGroup() {
+  const [size, setSize] = useState("small");
+  return (
+    <RadioGroupRoot value={size} onValueChange={setSize}>
+      {/* Items */}
+    </RadioGroupRoot>
+  );
+}
+```
+
+### Group-level disabled
+
+`RadioGroupRoot`의 `disabled` prop은 모든 Item을 한꺼번에 비활성화합니다. Item별로도 `disabled` 를 전달할 수 있고, 둘 중 하나라도 `true`면 해당 Item은 비활성화됩니다.
+
+```tsx
+<RadioGroupRoot defaultValue="a" disabled>
+  {/* ... all items disabled */}
+</RadioGroupRoot>
+
+<RadioGroupRoot defaultValue="a">
+  <RadioGroupItem value="a">...</RadioGroupItem>
+  <RadioGroupItem value="b" disabled>...</RadioGroupItem>
+</RadioGroupRoot>
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/RadioGroup/RadioGroup.tsx" name="RadioGroupRootProps" />
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니다.
+
+- **아이콘 주입 방식**: `RadioGroupItemIndicator`는 `@karrotmarket/lynx-monochrome-icon`의 monochrome icon 컴포넌트만 받습니다. 내부에서 `<image tint-color=...>`로 렌더되어 `useIconColor` 훅이 recipe의 `color` 토큰을 동기화합니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
+- **이벤트 핸들링**: `onChange` 대신 `onValueChange(value: string)`만 노출합니다. tap 핸들러는 Item 내부에서 소유합니다.
+- **렌더링 요소**: HTML `<label>` / `<input type="radio">` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
+- **Compound 구조**: `RadioGroupRoot` → `RadioGroupItem` → `RadioGroupItemControl` → `RadioGroupItemIndicator` + `RadioGroupItemLabel` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다.
+- **Strict containment**: `RadioGroupItem` 은 반드시 `RadioGroupRoot` 안에서 사용해야 합니다. 외부에서 쓰면 런타임 에러가 발생합니다.
+</Callout>
+
+## Lynx 미지원 기능
+
+현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
+
+### 런타임 모델 차이로 제외
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `RadioGroupItemHiddenInput` | `<input type="radio">` | Lynx에 HTML form 제출 모델 없음 |
+| `name` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
+| `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
+| `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onValueChange`로 대체 |
+
+### 추후 CSS 지원 시 추가 예정
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `active` (pressed) 모디파이어 | `data-active` | `radiomark` recipe CSS에 pressed 상태가 정의되면 활성화 |
