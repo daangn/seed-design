@@ -22,7 +22,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.3.11"
+          bun-version: "1.3.13"
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
@@ -46,9 +46,7 @@ jobs:
         shell: bash
         working-directory: packages/figma
         run: |
-          bunx tsc --noEmit 2>&1 | tee /tmp/tsc-errors.txt
-          TSC_EXIT=${PIPESTATUS[0]}
-          if [ $TSC_EXIT -ne 0 ]; then
+          if ! bunx tsc --noEmit 2>&1 | tee /tmp/tsc-errors.txt; then
             echo "tsc_failed=true" >> $GITHUB_OUTPUT
             exit 1
           fi
@@ -208,29 +206,47 @@ jobs:
             echo "files=$FILES" >> $GITHUB_OUTPUT
           fi
 
+      - name: Slack payload를 빌드해요
+        if: steps.check-diff.outputs.has_changes == 'true'
+        env:
+          FILE_COUNT: ${{ steps.check-diff.outputs.file_count }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          REBUILD_OUTCOME: ${{ steps.rebuild.outcome }}
+          CLAUDE_SUMMARY: ${{ steps.claude-summary.outputs.summary }}
+          PR_URL: ${{ steps.create-pr.outputs.pr_url }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          if [ "$BUILD_OUTCOME" = "success" ]; then
+            BUILD_STATUS="타입체크 & 빌드: *✅ 성공*"
+          elif [ "$REBUILD_OUTCOME" = "success" ]; then
+            BUILD_STATUS="타입체크 & 빌드: *✅ 성공 (Claude 자동 수정)*"
+          else
+            BUILD_STATUS="타입체크 & 빌드: *❌ 실패*"
+          fi
+
+          SECTION_TEXT="$(printf '변경된 파일 수: *%s개*\n%s' "$FILE_COUNT" "$BUILD_STATUS")"
+          if [ -n "$CLAUDE_SUMMARY" ]; then
+            SECTION_TEXT="$(printf '%s\nClaude: %s' "$SECTION_TEXT" "$CLAUDE_SUMMARY")"
+          fi
+
+          jq -n \
+            --arg channel "$SLACK_CHANNEL_ID" \
+            --arg section_text "$SECTION_TEXT" \
+            --arg pr_url "$PR_URL" \
+            '{
+              channel: $channel,
+              text: "Figma Entity 변경이 감지되었어요.",
+              blocks: [
+                {type: "header", text: {type: "plain_text", text: "Figma Entity 변경이 감지되었어요"}},
+                {type: "section", text: {type: "mrkdwn", text: $section_text}},
+                {type: "actions", elements: [{type: "button", style: "primary", text: {type: "plain_text", text: "PR 보기"}, url: $pr_url}]}
+              ]
+            }' > /tmp/slack-payload.json
+
       - name: Slack에 알려요
         if: steps.check-diff.outputs.has_changes == 'true'
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "Figma Entity 변경이 감지되었어요."
-            blocks:
-              - type: "header"
-                text:
-                  type: "plain_text"
-                  text: "Figma Entity 변경이 감지되었어요"
-              - type: "section"
-                text:
-                  type: "mrkdwn"
-                  text: "변경된 파일 수: *${{ steps.check-diff.outputs.file_count }}개*\n${{ steps.build.outcome == 'success' && '타입체크 & 빌드: *✅ 성공*' || (steps.rebuild.outcome == 'success' && '타입체크 & 빌드: *✅ 성공 (Claude 자동 수정)*' || '타입체크 & 빌드: *❌ 실패*') }}${{ steps.claude-summary.outputs.summary && format('\nClaude: {0}', steps.claude-summary.outputs.summary) || '' }}"
-              - type: "actions"
-                elements:
-                  - type: "button"
-                    style: "primary"
-                    text:
-                      type: "plain_text"
-                      text: "PR 보기"
-                    url: "${{ steps.create-pr.outputs.pr_url }}"
+          payload-file-path: /tmp/slack-payload.json

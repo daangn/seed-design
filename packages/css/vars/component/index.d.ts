@@ -73,5 +73,7 @@ export { vars as tagGroup } from "./tag-group";
 export { vars as textButton } from "./text-button";
 export { vars as textInput } from "./text-input";
 export { vars as toggleButton } from "./toggle-button";
+export { vars as topNavigationIconButton } from "./top-navigation-icon-button";
+export { vars as topNavigationTextButton } from "./top-navigation-text-button";
 export { vars as topNavigation } from "./top-navigation";
 export { vars as typography } from "./typography";

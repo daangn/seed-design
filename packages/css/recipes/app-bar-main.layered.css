@@ -10,21 +10,21 @@
   }
 
   .seed-app-bar-main__title--layout_titleOnly {
-    font-size: var(--seed-font-size-t6-static);
+    font-size: clamp(calc(var(--seed-font-size-t6-static) * 1), var(--seed-font-size-t6), calc(var(--seed-font-size-t6-static) * 1.2));
     font-weight: var(--seed-font-weight-bold);
-    line-height: var(--seed-line-height-t6-static);
+    line-height: clamp(calc(var(--seed-line-height-t6-static) * 1), var(--seed-line-height-t6), calc(var(--seed-line-height-t6-static) * 1.2));
   }
 
   .seed-app-bar-main__title--layout_withSubtitle {
-    font-size: var(--seed-font-size-t5-static);
+    font-size: clamp(calc(var(--seed-font-size-t5-static) * 1), var(--seed-font-size-t5), calc(var(--seed-font-size-t5-static) * 1.2));
     font-weight: var(--seed-font-weight-bold);
-    line-height: var(--seed-line-height-t5-static);
+    line-height: clamp(calc(var(--seed-line-height-t5-static) * 1), var(--seed-line-height-t5), calc(var(--seed-line-height-t5-static) * 1.2));
   }
 
   .seed-app-bar-main__subtitle--layout_withSubtitle {
-    font-size: var(--seed-font-size-t2-static);
+    font-size: clamp(calc(var(--seed-font-size-t2-static) * 1), var(--seed-font-size-t2), calc(var(--seed-font-size-t2-static) * 1.2));
     font-weight: var(--seed-font-weight-regular);
-    line-height: var(--seed-line-height-t2-static);
+    line-height: clamp(calc(var(--seed-line-height-t2-static) * 1), var(--seed-line-height-t2), calc(var(--seed-line-height-t2-static) * 1.2));
   }
 
   .seed-app-bar-main__root--theme_cupertino {

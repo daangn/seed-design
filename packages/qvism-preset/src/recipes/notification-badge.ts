@@ -93,6 +93,7 @@ export const notificationBadge = defineRecipe({
         borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
       },
       large: {
+        minWidth: vars.sizeLarge.enabled.root.minWidth,
         minHeight: vars.sizeLarge.enabled.root.minHeight,
         borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
 

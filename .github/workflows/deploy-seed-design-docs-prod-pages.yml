@@ -66,7 +66,10 @@ jobs:
       - name: Build Docs
         working-directory: ./docs
         env:
+          # docs uses Next static export, so NEXT_PUBLIC_* values must be present at build time.
           FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
+          NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
+          NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
         run: |
           bun run build
 

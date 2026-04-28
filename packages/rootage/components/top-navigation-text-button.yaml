@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: top-navigation-text-button
+  name: Top Navigation Text Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          maxWidth:
+            type: dimension
+            description: 버튼 레이블이 길어졌을 때 ellipsis 말줄임을 시작할 최대 너비입니다. Top Navigation main slot이 충분한 공간을 차지할 수 있도록 하기 위해 폰트 스케일링의 영향을 받지 않는 px 값을 사용합니다.
+          height:
+            type: dimension
+          paddingX:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          maxFontSizeScale:
+            type: number
+          minFontSizeScale:
+            type: number
+          maxLineHeightScale:
+            type: number
+          minLineHeightScale:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          maxWidth: 96px
+          height: 44px
+          paddingX: $dimension.x2_5
+        label:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.medium
+          maxFontSizeScale: 1.2
+          minFontSizeScale: 1
+          maxLineHeightScale: 1.2
+          minLineHeightScale: 1
+    tone=layer:
+      enabled:
+        label:
+          color: $color.fg.neutral
+      disabled:
+        label:
+          color: $color.fg.disabled
+    tone=transparent:
+      enabled:
+        label:
+          color: $color.palette.static-white
+      disabled:
+        label:
+          color: $color.fg.disabled
