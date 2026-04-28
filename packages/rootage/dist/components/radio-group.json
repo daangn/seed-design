@@ -1,0 +1,43 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "radio-group",
+    "name": "Radio Group"
+  },
+  "data": {
+    "id": "radio-group",
+    "name": "Radio Group",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "gapY": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gapY": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

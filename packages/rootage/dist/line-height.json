@@ -1,0 +1,242 @@
+{
+  "kind": "Tokens",
+  "metadata": {
+    "id": "line-height",
+    "name": "Line Height"
+  },
+  "data": {
+    "collection": "global",
+    "tokens": {
+      "$line-height.t1": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 0.9375,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t2": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t3": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.125,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t4": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.1875,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.375,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t6": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.5,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t7": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.6875,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t8": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.875,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t9": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 2,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t10": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 2.1875,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$line-height.t1-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 15,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t2-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t3-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 18,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t4-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 19,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t5-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 22,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t6-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 24,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t7-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 27,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t8-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 30,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t9-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 32,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$line-height.t10-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 35,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      }
+    }
+  }
+}

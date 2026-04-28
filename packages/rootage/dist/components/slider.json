@@ -1,0 +1,395 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "slider",
+    "name": "Slider"
+  },
+  "data": {
+    "id": "slider",
+    "name": "Slider",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "control": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            }
+          }
+        },
+        "track": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "range": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "widthDuration": {
+              "type": "duration"
+            },
+            "widthTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "thumb": {
+          "properties": {
+            "size": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "valueIndicatorRoot": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension",
+              "description": "value indicator 내부 좌우 여백입니다. arrow와 valueIndicatorRoot 경계 사이의 최소 간격에도 동일한 값이 적용됩니다."
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "offsetY": {
+              "type": "dimension"
+            },
+            "enterScale": {
+              "type": "number"
+            },
+            "enterOpacity": {
+              "type": "number"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitScale": {
+              "type": "number"
+            },
+            "exitOpacity": {
+              "type": "number"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "translateDuration": {
+              "type": "duration"
+            },
+            "translateTimingFunction": {
+              "type": "cubicBezier"
+            }
+          },
+          "description": "arrow width + (valueIndicatorRoot paddingX * 2)만큼의 최소 너비를 가집니다."
+        },
+        "valueIndicatorArrow": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "width": {
+              "type": "dimension"
+            },
+            "height": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "gutter": {
+              "type": "dimension",
+              "description": "arrow와 thumb 사이의 거리를 정의합니다."
+            }
+          }
+        },
+        "valueIndicatorLabel": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "marker": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                }
+              },
+              "control": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 26,
+                    "unit": "px"
+                  }
+                }
+              },
+              "track": {
+                "height": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-400"
+                }
+              },
+              "range": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "widthDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "widthTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "thumb": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted"
+                }
+              },
+              "valueIndicatorRoot": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r1_5"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "offsetY": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
+                },
+                "enterScale": {
+                  "type": "number",
+                  "value": 0.9
+                },
+                "enterOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "enterDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "enterTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.enter"
+                },
+                "exitScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "exitOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "exitDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "exitTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "translateDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "translateTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "valueIndicatorArrow": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted"
+                },
+                "width": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "height": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r0_5"
+                },
+                "gutter": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                }
+              },
+              "valueIndicatorLabel": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              },
+              "marker": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "range": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "thumb": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "marker": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

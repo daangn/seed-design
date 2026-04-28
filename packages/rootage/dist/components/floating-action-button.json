@@ -1,0 +1,259 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "floating-action-button",
+    "name": "Floating Action Button"
+  },
+  "data": {
+    "id": "floating-action-button",
+    "name": "Floating Action Button",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "shadow": {
+              "type": "shadow"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "layoutDuration": {
+              "type": "duration"
+            },
+            "layoutTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "icon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "sizeDuration": {
+              "type": "duration"
+            },
+            "sizeTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "variants": {
+        "extended": {
+          "values": {
+            "true": {
+              "description": "라벨이 포함된 확장 형태로, 버튼의 역할을 명확히 전달합니다."
+            },
+            "false": {
+              "description": "아이콘만 표시되는 기본 형태입니다."
+            }
+          },
+          "defaultValue": "true"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.brand-solid"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "shadow": {
+                  "type": "shadow",
+                  "value": "$shadow.s3"
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "layoutDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "layoutTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                },
+                "sizeDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "sizeTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.brand-solid-pressed"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "extended": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4_5"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
+                },
+                "minHeight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 48,
+                    "unit": "px"
+                  }
+                }
+              },
+              "icon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "extended": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 56,
+                    "unit": "px"
+                  }
+                }
+              },
+              "icon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

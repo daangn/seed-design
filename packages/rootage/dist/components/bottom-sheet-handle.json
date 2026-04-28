@@ -1,0 +1,136 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "bottom-sheet-handle",
+    "name": "Bottom Sheet Handle"
+  },
+  "data": {
+    "id": "bottom-sheet-handle",
+    "name": "Bottom Sheet Handle",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "fromTop": {
+              "type": "dimension"
+            },
+            "width": {
+              "type": "dimension"
+            },
+            "height": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "borderRadius": {
+              "type": "dimension"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "touchArea": {
+          "properties": {
+            "width": {
+              "type": "dimension"
+            },
+            "height": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fromTop": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 6,
+                    "unit": "px"
+                  }
+                },
+                "width": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 36,
+                    "unit": "px"
+                  }
+                },
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 4,
+                    "unit": "px"
+                  }
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-400"
+                },
+                "borderRadius": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 9999,
+                    "unit": "px"
+                  }
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "touchArea": {
+                "width": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 44,
+                    "unit": "px"
+                  }
+                },
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 44,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-500"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

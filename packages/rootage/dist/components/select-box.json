@@ -1,0 +1,468 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "select-box",
+    "name": "Select Box"
+  },
+  "data": {
+    "id": "select-box",
+    "name": "Select Box",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "color": {
+              "type": "color"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "strokeDuration": {
+              "type": "duration",
+              "description": "enabled 상태의 stroke 위에 selected 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다."
+            },
+            "strokeTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "trigger": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingLeft": {
+              "type": "dimension"
+            },
+            "paddingRight": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            }
+          }
+        },
+        "content": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "prefixIcon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "body": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingRight": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "description": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "footer": {
+          "properties": {
+            "expandHeightDuration": {
+              "type": "duration",
+              "description": "열릴 때는 천천히 펼쳐지고 빠르게 fade in됩니다."
+            },
+            "expandHeightTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "expandOpacityDuration": {
+              "type": "duration",
+              "description": "열릴 때는 천천히 펼쳐지고 빠르게 fade in됩니다."
+            },
+            "expandOpacityTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "collapseHeightDuration": {
+              "type": "duration",
+              "description": "닫힐 때는 빠르게 접히고 천천히 fade out됩니다."
+            },
+            "collapseHeightTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "collapseOpacityDuration": {
+              "type": "duration",
+              "description": "닫힐 때는 빠르게 접히고 천천히 fade out됩니다."
+            },
+            "collapseOpacityTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        }
+      },
+      "variants": {
+        "layout": {
+          "values": {
+            "horizontal": {},
+            "vertical": {}
+          },
+          "defaultValue": "horizontal"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "strokeDuration": {
+                  "type": "duration",
+                  "value": {
+                    "value": 0.1,
+                    "unit": "s"
+                  }
+                },
+                "strokeTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "trigger": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 22,
+                    "unit": "px"
+                  }
+                }
+              },
+              "body": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                },
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                }
+              },
+              "label": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              },
+              "description": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              },
+              "footer": {
+                "expandHeightDuration": {
+                  "type": "duration",
+                  "value": {
+                    "value": 400,
+                    "unit": "ms"
+                  }
+                },
+                "expandHeightTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "expandOpacityDuration": {
+                  "type": "duration",
+                  "value": "$duration.d6"
+                },
+                "expandOpacityTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "collapseHeightDuration": {
+                  "type": "duration",
+                  "value": "$duration.d6"
+                },
+                "collapseHeightTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "collapseOpacityDuration": {
+                  "type": "duration",
+                  "value": {
+                    "value": 400,
+                    "unit": "ms"
+                  }
+                },
+                "collapseOpacityTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-contrast"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "description": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "enabled",
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent-pressed"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "layout": "horizontal"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "trigger": {
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                },
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              },
+              "content": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "layout": "vertical"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "trigger": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              },
+              "content": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

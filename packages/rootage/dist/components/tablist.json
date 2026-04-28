@@ -1,0 +1,225 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "tablist",
+    "name": "Tablist"
+  },
+  "data": {
+    "id": "tablist",
+    "name": "Tablist",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "strokeBottomWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "height": {
+              "type": "dimension"
+            }
+          }
+        },
+        "indicator": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "transformDuration": {
+              "type": "duration"
+            },
+            "transformTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "insetX": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {
+        "layout": {
+          "values": {
+            "hug": {},
+            "fill": {}
+          },
+          "defaultValue": "hug"
+        },
+        "size": {
+          "values": {
+            "small": {},
+            "medium": {}
+          },
+          "defaultValue": "small"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-default"
+                },
+                "strokeBottomWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
+                }
+              },
+              "indicator": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
+                    "unit": "px"
+                  }
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "transformDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "transformTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "layout": "hug"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                }
+              },
+              "indicator": {
+                "insetX": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "layout": "fill"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0,
+                    "unit": "px"
+                  }
+                }
+              },
+              "indicator": {
+                "insetX": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "small"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 40,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 44,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

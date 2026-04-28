@@ -1,0 +1,43 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "checkbox-group",
+    "name": "Checkbox Group"
+  },
+  "data": {
+    "id": "checkbox-group",
+    "name": "Checkbox Group",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "gapY": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gapY": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

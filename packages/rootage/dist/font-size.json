@@ -1,0 +1,242 @@
+{
+  "kind": "Tokens",
+  "metadata": {
+    "id": "font-size",
+    "name": "Font Size"
+  },
+  "data": {
+    "collection": "global",
+    "tokens": {
+      "$font-size.t1": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 0.6875,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t2": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 0.75,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t3": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 0.8125,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t4": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 0.875,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t6": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.125,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t7": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.25,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t8": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.375,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t9": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.5,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t10": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 1.625,
+              "unit": "rem"
+            }
+          }
+        }
+      },
+      "$font-size.t1-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 11,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t2-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 12,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t3-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 13,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t4-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 14,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t5-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t6-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 18,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t7-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 20,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t8-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 22,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t9-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 24,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      },
+      "$font-size.t10-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 26,
+              "unit": "px"
+            }
+          }
+        },
+        "description": "폰트 스케일링에 반응하지 않도록 px로 정의되었습니다."
+      }
+    }
+  }
+}

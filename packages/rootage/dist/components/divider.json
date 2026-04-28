@@ -1,0 +1,46 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "divider",
+    "name": "Divider"
+  },
+  "data": {
+    "id": "divider",
+    "name": "Divider",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "thickness": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "thickness": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

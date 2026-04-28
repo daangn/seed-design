@@ -1,0 +1,275 @@
+{
+  "kind": "Tokens",
+  "metadata": {
+    "id": "dimension",
+    "name": "Dimension"
+  },
+  "data": {
+    "collection": "global",
+    "tokens": {
+      "$dimension.x0_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 2,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x1": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 4,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x1_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 6,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x2": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 8,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x2_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 10,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x3": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 12,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x3_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 14,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x4": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x4_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 18,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 20,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x6": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 24,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x7": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 28,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x8": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 32,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x9": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 36,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x10": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 40,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x12": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 48,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x13": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 52,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x14": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 56,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.x16": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 64,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$dimension.spacing-x.between-chips": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": "$dimension.x2"
+          }
+        },
+        "description": "Chip 사이의 수평 간격에 사용합니다."
+      },
+      "$dimension.spacing-x.global-gutter": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": "$dimension.x4"
+          }
+        },
+        "description": "화면 전체에 적용되는 기본 수평 padding 값입니다."
+      },
+      "$dimension.spacing-y.component-default": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": "$dimension.x3"
+          }
+        },
+        "description": "컴포넌트 간 수직 간격 토큰이 정의되지 않은 컴포넌트 사이의 수직 간격에 사용합니다."
+      },
+      "$dimension.spacing-y.nav-to-title": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": "$dimension.x5"
+          }
+        },
+        "description": "Top Navigation과 Page Title 사이의 간격입니다."
+      },
+      "$dimension.spacing-y.screen-bottom": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": "$dimension.x14"
+          }
+        },
+        "description": "화면 하단의 여백입니다."
+      },
+      "$dimension.spacing-y.between-text": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": "$dimension.x1_5"
+          }
+        },
+        "description": "텍스트 요소 간의 수직 간격입니다."
+      }
+    }
+  }
+}

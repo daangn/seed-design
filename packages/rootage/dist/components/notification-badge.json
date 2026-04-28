@@ -1,0 +1,222 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "notification-badge",
+    "name": "Notification Badge"
+  },
+  "data": {
+    "id": "notification-badge",
+    "name": "Notification Badge",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "iconAttachedInsetEnd": {
+              "type": "dimension"
+            },
+            "iconAttachedInsetTop": {
+              "type": "dimension"
+            },
+            "textAttachedGap": {
+              "type": "dimension"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "large": {
+              "description": "라벨을 포함해 구체적인 알림 수나 상태 정보를 제공합니다."
+            },
+            "small": {
+              "description": "간결한 도트 형태로, 텍스트 없이 상태 변화만 표시합니다."
+            }
+          },
+          "defaultValue": "large"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.brand-solid"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "large"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "minHeight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 18,
+                    "unit": "px"
+                  }
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0,
+                    "unit": "px"
+                  }
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "iconAttachedInsetEnd": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 8,
+                    "unit": "px"
+                  }
+                },
+                "iconAttachedInsetTop": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 14,
+                    "unit": "px"
+                  }
+                },
+                "textAttachedGap": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
+                    "unit": "px"
+                  }
+                }
+              },
+              "label": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t1"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t1"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "small"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 6,
+                    "unit": "px"
+                  }
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "iconAttachedInsetEnd": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 7,
+                    "unit": "px"
+                  }
+                },
+                "iconAttachedInsetTop": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 7,
+                    "unit": "px"
+                  }
+                },
+                "textAttachedGap": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

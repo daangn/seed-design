@@ -1,0 +1,236 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "skeleton",
+    "name": "Skeleton"
+  },
+  "data": {
+    "id": "skeleton",
+    "name": "Skeleton",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            }
+          }
+        },
+        "shimmer": {
+          "properties": {
+            "duration": {
+              "type": "duration"
+            },
+            "timingFunction": {
+              "type": "cubicBezier"
+            },
+            "gradient": {
+              "type": "gradient"
+            }
+          }
+        }
+      },
+      "variants": {
+        "radius": {
+          "values": {
+            "0": {
+              "description": "기본값입니다."
+            },
+            "8": {
+              "description": "텍스트 콘텐츠에 사용합니다."
+            },
+            "16": {
+              "description": "카드 및 썸네일에 사용합니다."
+            },
+            "full": {
+              "description": "Avatar(원형) 콘텐츠에 사용합니다."
+            }
+          },
+          "defaultValue": "0"
+        },
+        "tone": {
+          "values": {
+            "neutral": {
+              "description": "데이터를 불러오는 일반적인 로딩 경험에 사용합니다."
+            },
+            "magic": {
+              "description": "AI 기능이 활성화되었을 때 사용합니다."
+            }
+          },
+          "defaultValue": "neutral"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "shimmer": {
+                "duration": {
+                  "type": "duration",
+                  "value": {
+                    "value": 1.5,
+                    "unit": "s"
+                  }
+                },
+                "timingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "radius": "0"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "radius": "8"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 8,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "radius": "16"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 16,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "radius": "full"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "neutral"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-200"
+                }
+              },
+              "shimmer": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": "$gradient.shimmer-neutral"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "magic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.magic-weak"
+                }
+              },
+              "shimmer": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": "$gradient.shimmer-magic"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

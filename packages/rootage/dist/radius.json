@@ -1,0 +1,133 @@
+{
+  "kind": "Tokens",
+  "metadata": {
+    "id": "radius",
+    "name": "Radius"
+  },
+  "data": {
+    "collection": "global",
+    "tokens": {
+      "$radius.r0_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 2,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r1": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 4,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r1_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 6,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r2": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 8,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r2_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 10,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r3": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 12,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r3_5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 14,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r4": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r5": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 20,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.r6": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 24,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$radius.full": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 9999,
+              "unit": "px"
+            }
+          }
+        }
+      }
+    }
+  }
+}

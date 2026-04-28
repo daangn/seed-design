@@ -1,0 +1,87 @@
+{
+  "kind": "Tokens",
+  "metadata": {
+    "id": "duration",
+    "name": "Duration",
+    "lastUpdated": "25-11-18"
+  },
+  "data": {
+    "collection": "global",
+    "tokens": {
+      "$duration.d1": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": {
+              "value": 50,
+              "unit": "ms"
+            }
+          }
+        }
+      },
+      "$duration.d2": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": {
+              "value": 100,
+              "unit": "ms"
+            }
+          }
+        }
+      },
+      "$duration.d3": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": {
+              "value": 150,
+              "unit": "ms"
+            }
+          }
+        }
+      },
+      "$duration.d4": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": {
+              "value": 200,
+              "unit": "ms"
+            }
+          }
+        }
+      },
+      "$duration.d5": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": {
+              "value": 250,
+              "unit": "ms"
+            }
+          }
+        }
+      },
+      "$duration.d6": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": {
+              "value": 300,
+              "unit": "ms"
+            }
+          }
+        }
+      },
+      "$duration.color-transition": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": "$duration.d3"
+          }
+        }
+      }
+    }
+  }
+}
