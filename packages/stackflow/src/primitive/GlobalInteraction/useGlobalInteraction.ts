@@ -199,8 +199,11 @@ export function useGlobalInteraction() {
         return swiped;
       }
 
-      // Clear inline styles from swiping — WAAPI will take over from current position
-      clearAllStyles(targets);
+      // Keep swipe-time inline styles intact — WAAPI keyframe[0] matches the
+      // current displacement, and the inline values cover the 1-frame gap
+      // before the animation's first paint. Clearing here would cause a
+      // single-frame snap to default (transform: 0) on heavy main-thread
+      // sessions where reflow can interleave between this clear and animate().
       stopAppBarBgScrub();
 
       const onFinish = (animations: Animation[], pin: () => void) => {
