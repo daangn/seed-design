@@ -149,12 +149,17 @@ function calculateSwipeDuration(remainingDistance: number, velocity: number): nu
 
 // ─── iOS Slide ──────────────────────────────────────────────────────────────
 
+interface TitleKeyframe {
+  opacity: string;
+  transform: string;
+}
+
 interface IosPositions {
   topLayer: string;
   behindLayer: string;
   dim: string;
-  topTitle: Keyframe;
-  behindTitle: Keyframe;
+  topTitle: TitleKeyframe;
+  behindTitle: TitleKeyframe;
   topIconOpacity: string;
   behindIconOpacity: string;
   appBarBackground: string;
@@ -208,8 +213,8 @@ function iosAnimate(t: TransitionTargets, from: IosPositions, to: IosPositions):
       safeAnimate(
         icon,
         [
-          { opacity: from.topIconOpacity, transform: from.topTitle["transform"] as string },
-          { opacity: to.topIconOpacity, transform: to.topTitle["transform"] as string },
+          { opacity: from.topIconOpacity, transform: from.topTitle.transform },
+          { opacity: to.topIconOpacity, transform: to.topTitle.transform },
         ],
         opts,
       ),
@@ -249,19 +254,14 @@ function pinIosInlineStyles(t: TransitionTargets, pos: IosPositions) {
   setOpacity(t.topDim, pos.dim);
   setTransform(t.topAppBarBackground, pos.appBarBackground);
 
-  const topTitleOpacity = pos.topTitle["opacity"] as string;
-  const topTitleTransform = pos.topTitle["transform"] as string;
-  if (t.topTitle) {
-    setOpacity(t.topTitle, topTitleOpacity);
-    setTransform(t.topTitle, topTitleTransform);
-  }
-  if (t.behindTitle) {
-    setOpacity(t.behindTitle, pos.behindTitle["opacity"] as string);
-    setTransform(t.behindTitle, pos.behindTitle["transform"] as string);
-  }
+  setOpacity(t.topTitle, pos.topTitle.opacity);
+  setTransform(t.topTitle, pos.topTitle.transform);
+  setOpacity(t.behindTitle, pos.behindTitle.opacity);
+  setTransform(t.behindTitle, pos.behindTitle.transform);
+
   for (const icon of t.topIcons) {
     setOpacity(icon, pos.topIconOpacity);
-    setTransform(icon, topTitleTransform);
+    setTransform(icon, pos.topTitle.transform);
   }
   for (const icon of t.behindIcons) setOpacity(icon, pos.behindIconOpacity);
 }
@@ -408,7 +408,7 @@ function animateSwipe(
         icon,
         [
           { opacity: `${topFade}`, transform: currentTitleOffset },
-          { opacity: end.topIconOpacity, transform: end.topTitle["transform"] as string },
+          { opacity: end.topIconOpacity, transform: end.topTitle.transform },
         ],
         opts,
       ),

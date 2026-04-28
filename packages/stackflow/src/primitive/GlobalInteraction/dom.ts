@@ -58,15 +58,13 @@ export function findTransitionTargets(stackEl: HTMLElement): TransitionTargets {
 
   let behindActivity: HTMLElement | null = null;
   if (topActivity) {
-    const all = stackEl.querySelectorAll<HTMLElement>(`[data-part='${appScreenAnatomy.activity}']`);
+    const all = Array.from(
+      stackEl.querySelectorAll<HTMLElement>(`[data-part='${appScreenAnatomy.activity}']`),
+    );
     const topId = topActivity.dataset["activityId"];
-    let found = false;
-    for (let i = all.length - 1; i >= 0; i--) {
-      if (all[i].dataset["activityId"] === topId) {
-        found = true;
-        continue;
-      }
-      if (found && all[i].dataset["activityId"]) {
+    const topIdx = all.findIndex((el) => el.dataset["activityId"] === topId);
+    for (let i = topIdx - 1; i >= 0; i--) {
+      if (all[i].dataset["activityId"]) {
         behindActivity = all[i];
         break;
       }
