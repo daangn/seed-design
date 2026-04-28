@@ -6,7 +6,6 @@ import { escapeReservedWord } from "./reserved-words";
 import type {
   RecipeDefinition,
   RecipeKindDefinition,
-  RecipeMetadata,
   RecipeVariantRecord,
   SlotRecipeDefinition,
   SlotRecipeVariantRecord,
@@ -14,19 +13,22 @@ import type {
 
 const stringLiteralType = (value: string) => `"${value}"`;
 
+const buildJsdocBlock = (sections: string[]) =>
+  sections
+    .join("\n\n")
+    .split("\n")
+    .map((line) => (line ? `  * ${line}` : `  *`))
+    .join("\n");
+
 const generateVariantInterface = (
-  variants:
-    | SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>["variants"]
-    | RecipeDefinition<RecipeVariantRecord>["variants"],
-  defaultVariants?:
-    | SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>["defaultVariants"]
-    | RecipeDefinition<RecipeVariantRecord>["defaultVariants"],
-  metadata?: RecipeMetadata,
+  definition:
+    | RecipeDefinition<RecipeVariantRecord>
+    | SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>,
 ) => {
-  const generateVariantType = (
-    variantName: keyof typeof defaultVariants,
-    variant: Record<string, any>,
-  ) => {
+  const { variants, metadata } = definition;
+  const defaultVariants = definition.defaultVariants as Record<string, string | boolean>;
+
+  const generateVariantType = (variantName: string, variant: Record<string, any>) => {
     const values = Object.keys(variant);
     const booleanValues = values.filter(isBooleanString);
     const hasBoolean = booleanValues.length > 0;
@@ -35,7 +37,7 @@ const generateVariantInterface = (
       .filter(Boolean)
       .join(" | ");
     const defaultValue = defaultVariants?.[variantName];
-    const variantMeta = metadata?.variants?.[variantName as string];
+    const variantMeta = metadata?.variants?.[variantName];
     const axisDescription = variantMeta?.description;
     const valueDescriptions = variantMeta?.values;
 
@@ -49,13 +51,6 @@ const generateVariantInterface = (
           .filter((line): line is string => line !== null)
       : [];
 
-    const hasJsdoc =
-      Boolean(axisDescription) || valueListLines.length > 0 || defaultValue !== undefined;
-
-    if (!hasJsdoc) {
-      return `${variantName as string}: ${typeString};`;
-    }
-
     const sections: string[] = [];
     if (axisDescription) sections.push(axisDescription);
     if (valueListLines.length > 0) sections.push(valueListLines.join("\n"));
@@ -65,30 +60,20 @@ const generateVariantInterface = (
       sections.push(`@default ${defaultStr}`);
     }
 
-    const jsdocBody = sections
-      .join("\n\n")
-      .split("\n")
-      .map((line) => (line ? `  * ${line}` : `  *`))
-      .join("\n");
+    if (sections.length === 0) return `${variantName}: ${typeString};`;
 
-    return `/**\n${jsdocBody}\n  */\n  ${variantName as string}: ${typeString};`;
+    return `/**\n${buildJsdocBlock(sections)}\n  */\n  ${variantName}: ${typeString};`;
   };
 
   return Object.entries(variants)
-    .map(([variantName, variant]) =>
-      generateVariantType(variantName as keyof typeof defaultVariants, variant),
-    )
+    .map(([variantName, variant]) => generateVariantType(variantName, variant))
     .join("\n");
 };
 
 export function generateRecipeDts(definition: RecipeDefinition<RecipeVariantRecord>): string {
   const capitalizedName = pascalCase(definition.name);
   const jsName = camelCase(definition.name);
-  const variantInterface = generateVariantInterface(
-    definition.variants,
-    definition.defaultVariants,
-    definition.metadata,
-  );
+  const variantInterface = generateVariantInterface(definition);
 
   return outdent`
   declare interface ${capitalizedName}Variant {
@@ -118,11 +103,7 @@ export function generateSlotRecipeDts(
 ): string {
   const capitalizedName = pascalCase(definition.name);
   const jsName = camelCase(definition.name);
-  const variantInterface = generateVariantInterface(
-    definition.variants,
-    definition.defaultVariants,
-    definition.metadata,
-  );
+  const variantInterface = generateVariantInterface(definition);
   const slotNameType = definition.slots.map((slot) => `"${slot}"`).join(" | ");
 
   return outdent`
