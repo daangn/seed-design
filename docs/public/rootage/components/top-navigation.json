@@ -25,6 +25,13 @@
             },
             "strokeWidth": {
               "type": "dimension"
+            },
+            "gradient": {
+              "type": "gradient"
+            },
+            "bleedBottom": {
+              "type": "dimension",
+              "description": "gradient가 표시될 때 하단 아래로 gradient가 확장되는 길이입니다."
             }
           }
         },
@@ -104,17 +111,29 @@
       "variants": {
         "theme": {
           "values": {
-            "cupertino": {},
+            "ios": {},
             "android": {}
           },
-          "defaultValue": "cupertino"
+          "defaultValue": "ios"
         },
         "tone": {
           "values": {
-            "layer": {},
+            "layer": {
+              "description": "color를 $color.bg.layer-basement 등으로 변경하여 사용할 수 있습니다."
+            },
             "transparent": {}
           },
           "defaultValue": "layer"
+        },
+        "gradient": {
+          "values": {
+            "false": {
+              "description": "false로 사용하는 것을 권장하지 않습니다. gradient 없이 사용하면 Top Navigation의 콘텐츠 가독성을 직접 확보해야 합니다. 스크린 배경 색상이 Top Navigation에 보이기를 원하는 경우 tone=layer를 사용하세요."
+            },
+            "true": {}
+          },
+          "defaultValue": "false",
+          "description": "tone=transparent일 때만 동작합니다."
         },
         "divider": {
           "values": {
@@ -134,7 +153,7 @@
     "definitions": [
       {
         "variants": {
-          "theme": "cupertino"
+          "theme": "ios"
         },
         "definitions": [
           {
@@ -237,12 +256,6 @@
               "enabled"
             ],
             "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "#00000000"
-                }
-              },
               "title": {
                 "color": {
                   "type": "color",
@@ -253,6 +266,61 @@
                 "color": {
                   "type": "color",
                   "value": "$color.palette.static-white"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "transparent",
+          "gradient": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "#00000000"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "transparent",
+          "gradient": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": [
+                    {
+                      "color": "#00000059",
+                      "position": 0
+                    },
+                    {
+                      "color": "#00000000",
+                      "position": 1
+                    }
+                  ]
+                },
+                "bleedBottom": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
                 }
               }
             }
