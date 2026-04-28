@@ -48,7 +48,7 @@ export const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTri
 );
 AccordionTrigger.displayName = "AccordionTrigger";
 
-export type AccordionContentProps = SeedAccordion.ContentProps;
+export interface AccordionContentProps extends SeedAccordion.ContentProps {}
 
 /**
  * @see https://seed-design.io/react/components/accordion
