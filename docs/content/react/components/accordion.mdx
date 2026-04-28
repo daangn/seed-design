@@ -78,14 +78,14 @@ npx @seed-design/cli@latest add ui:accordion
   ```
 </ComponentExample>
 
-### Single Expand
+### Multiple
 
-기본적으로 한 번에 하나의 항목만 펼칠 수 있습니다.
+기본적으로 한 번에 하나의 항목만 펼칠 수 있습니다. `multiple` prop을 사용하면 여러 항목을 동시에 펼칠 수 있습니다.
 
-<ComponentExample name="react/accordion/single">
+<ComponentExample name="react/accordion/multiple">
   ```json doc-gen:file
   {
-    "file": "examples/react/accordion/single.tsx",
+    "file": "examples/react/accordion/multiple.tsx",
     "codeblock": true
   }
   ```
@@ -174,7 +174,7 @@ npx @seed-design/cli@latest add ui:accordion
 
 ### Value Array Changes
 
-`multiple` controlled 모드에서는 현재 열려 있는 항목들이 `values` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `values`와 최근 `onValuesChange` 결과를 함께 보여줍니다.
+controlled 모드에서는 현재 열려 있는 항목이 `values` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `values`와 최근 `onValuesChange` 결과를 함께 보여줍니다.
 
 <ComponentExample name="react/accordion/value-changes">
   ```json doc-gen:file
