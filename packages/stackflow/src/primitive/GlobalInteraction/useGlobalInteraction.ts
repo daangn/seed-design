@@ -226,20 +226,12 @@ export function useGlobalInteraction() {
         setSwipeBackState("completing");
         // Mark to skip the next exit-active from stackflow
         skipNextExitRef.current = true;
-        const { animations, finished } = animateSwipeComplete(
-          targets,
-          ctx.displacement,
-          ctx.velocity,
-        );
+        const { animations, finished } = animateSwipeComplete(targets, ctx.displacement);
         runningAnimsRef.current = animations;
         finished.then(() => onFinish(animations, () => setPostExitPositions(targets)));
       } else {
         setSwipeBackState("canceling");
-        const { animations, finished } = animateSwipeCancel(
-          targets,
-          ctx.displacement,
-          ctx.velocity,
-        );
+        const { animations, finished } = animateSwipeCancel(targets, ctx.displacement);
         runningAnimsRef.current = animations;
         finished.then(() => onFinish(animations, () => setIdlePositions(targets)));
       }

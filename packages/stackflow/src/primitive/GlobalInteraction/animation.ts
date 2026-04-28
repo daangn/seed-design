@@ -30,9 +30,6 @@ const FADE_IN_ENTER_DURATION = 300;
 const FADE_IN_EXIT_EASING = "ease-in";
 const FADE_IN_EXIT_DURATION = 150;
 
-const MIN_SWIPE_DURATION = 150;
-const MAX_SWIPE_DURATION = 500;
-
 // Extra margin added to duration for the setTimeout race fallback.
 const FINISHED_TIMEOUT_MARGIN = 100;
 
@@ -137,14 +134,6 @@ export type AnimationResult = { animations: Animation[]; finished: Promise<void>
 function collectAnimations(anims: (Animation | null)[], durationMs: number): AnimationResult {
   const animations = anims.filter((a): a is Animation => a !== null);
   return { animations, finished: waitAll(animations, durationMs) };
-}
-
-function calculateSwipeDuration(remainingDistance: number, velocity: number): number {
-  if (velocity > 0.5) {
-    return Math.max(MIN_SWIPE_DURATION, Math.min(MAX_SWIPE_DURATION, remainingDistance / velocity));
-  }
-  const ratio = remainingDistance / window.innerWidth;
-  return Math.max(MIN_SWIPE_DURATION, Math.min(MAX_SWIPE_DURATION, IOS_DURATION * ratio));
 }
 
 // ─── iOS Slide ──────────────────────────────────────────────────────────────
@@ -449,20 +438,10 @@ export function animateTransition(
   }
 }
 
-export function animateSwipeComplete(
-  t: TransitionTargets,
-  displacement: number,
-  velocity: number,
-): AnimationResult {
-  const duration = calculateSwipeDuration(window.innerWidth - displacement, velocity);
-  return animateSwipe(t, displacement, duration, IOS_OFFSCREEN);
+export function animateSwipeComplete(t: TransitionTargets, displacement: number): AnimationResult {
+  return animateSwipe(t, displacement, IOS_DURATION, IOS_OFFSCREEN);
 }
 
-export function animateSwipeCancel(
-  t: TransitionTargets,
-  displacement: number,
-  velocity: number,
-): AnimationResult {
-  const duration = calculateSwipeDuration(displacement, velocity);
-  return animateSwipe(t, displacement, duration, IOS_ONSCREEN);
+export function animateSwipeCancel(t: TransitionTargets, displacement: number): AnimationResult {
+  return animateSwipe(t, displacement, IOS_DURATION, IOS_ONSCREEN);
 }
