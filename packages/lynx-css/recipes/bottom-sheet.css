@@ -25,11 +25,12 @@
     display: flex;
     flex: 1;
     flex-direction: column;
+    box-sizing: border-box;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: var(--seed-safe-area-bottom);
     transform: translate3d(0, 100%, 0)
 }
 .seed-bottom-sheet__header {

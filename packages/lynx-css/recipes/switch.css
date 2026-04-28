@@ -2,43 +2,43 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    position: relative;
+    position: relative
 }
 .seed-switch__label {
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);
-    transition: opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
-}
-.seed-switch__label.seed-switch__label--disabled_true {
-    opacity: 0.58;
+    transition: opacity var(--seed-duration-d1) var(--seed-timing-function-easing)
 }
 .seed-switch__root--size_16 {
     min-height: var(--seed-dimension-x6);
     gap: var(--seed-dimension-x1_5);
-    --switchmark-margin-top: calc((var(--seed-dimension-x6) - 16px) / 2);
+    --switchmark-margin-top: calc((var(--seed-dimension-x6) - 16px) / 2)
 }
 .seed-switch__label--size_16 {
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
-    margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t3) / 2);
+    margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t3) / 2)
 }
 .seed-switch__root--size_24 {
     min-height: var(--seed-dimension-x6);
     gap: var(--seed-dimension-x2);
-    --switchmark-margin-top: calc((var(--seed-dimension-x6) - 24px) / 2);
+    --switchmark-margin-top: calc((var(--seed-dimension-x6) - 24px) / 2)
 }
 .seed-switch__label--size_24 {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
-    margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t4) / 2);
+    margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t4) / 2)
 }
 .seed-switch__root--size_32 {
     min-height: var(--seed-dimension-x8);
     gap: var(--seed-dimension-x2_5);
-    --switchmark-margin-top: calc((var(--seed-dimension-x8) - 32px) / 2);
+    --switchmark-margin-top: calc((var(--seed-dimension-x8) - 32px) / 2)
 }
 .seed-switch__label--size_32 {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
-    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t5) / 2);
+    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t5) / 2)
+}
+.seed-switch__label--disabled_true {
+    opacity: 0.58
 }

@@ -1,6 +1,5 @@
 import { switchmark as vars } from "../../vars/component";
 import { defineLynxSlotRecipe } from "../../utils/define-lynx";
-import { checked, disabled, pseudo } from "../../utils/pseudo";
 
 const switchmarkRecipe = defineLynxSlotRecipe({
   name: "switchmark",
@@ -16,10 +15,6 @@ const switchmarkRecipe = defineLynxSlotRecipe({
       margin: "var(--switchmark-margin-top, 0) 0",
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}`,
-
-      [pseudo(disabled)]: {
-        opacity: vars.base.disabled.root.opacity,
-      },
     },
     thumb: {
       borderRadius: vars.base.enabled.thumb.cornerRadius,
@@ -32,28 +27,11 @@ const switchmarkRecipe = defineLynxSlotRecipe({
   variants: {
     tone: {
       neutral: {
-        root: {
-          [pseudo(checked)]: {
-            backgroundColor: vars.toneNeutral.enabledSelected.root.color,
-          },
-          [pseudo(disabled, checked)]: {
-            backgroundColor: vars.toneNeutral.disabledSelected.root.color,
-          },
-        },
         thumb: {
           backgroundColor: vars.toneNeutral.enabled.thumb.color,
-
-          [pseudo(disabled)]: {
-            backgroundColor: vars.toneNeutral.disabled.thumb.color,
-          },
         },
       },
       brand: {
-        root: {
-          [pseudo(checked)]: {
-            backgroundColor: vars.toneBrand.enabledSelected.root.color,
-          },
-        },
         thumb: {
           backgroundColor: vars.toneBrand.enabled.thumb.color,
         },
@@ -69,10 +47,6 @@ const switchmarkRecipe = defineLynxSlotRecipe({
         thumb: {
           width: vars.size32.enabled.thumb.width,
           height: vars.size32.enabled.thumb.height,
-
-          [pseudo(checked)]: {
-            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size32.enabled.root.width} - ${vars.size32.enabled.root.height}))`,
-          },
         },
       },
       24: {
@@ -84,10 +58,6 @@ const switchmarkRecipe = defineLynxSlotRecipe({
         thumb: {
           width: vars.size24.enabled.thumb.width,
           height: vars.size24.enabled.thumb.height,
-
-          [pseudo(checked)]: {
-            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size24.enabled.root.width} - ${vars.size24.enabled.root.height}))`,
-          },
         },
       },
       16: {
@@ -99,17 +69,91 @@ const switchmarkRecipe = defineLynxSlotRecipe({
         thumb: {
           width: vars.size16.enabled.thumb.width,
           height: vars.size16.enabled.thumb.height,
-
-          [pseudo(checked)]: {
-            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size16.enabled.root.width} - ${vars.size16.enabled.root.height}))`,
-          },
         },
       },
     },
+    checked: {
+      true: {},
+      false: {},
+    },
+    disabled: {
+      true: {
+        root: {
+          opacity: vars.base.disabled.root.opacity,
+        },
+      },
+      false: {},
+    },
   },
+  compoundVariants: [
+    // ── tone × checked: selected root color ──────────────────────────────────
+    {
+      tone: "brand",
+      checked: true,
+      css: {
+        root: { backgroundColor: vars.toneBrand.enabledSelected.root.color },
+      },
+    },
+    {
+      tone: "neutral",
+      checked: true,
+      disabled: false,
+      css: {
+        root: { backgroundColor: vars.toneNeutral.enabledSelected.root.color },
+      },
+    },
+    {
+      tone: "neutral",
+      checked: true,
+      disabled: true,
+      css: {
+        root: { backgroundColor: vars.toneNeutral.disabledSelected.root.color },
+      },
+    },
+
+    // ── tone × disabled: neutral thumb override (brand keeps enabled color) ──
+    {
+      tone: "neutral",
+      disabled: true,
+      css: {
+        thumb: { backgroundColor: vars.toneNeutral.disabled.thumb.color },
+      },
+    },
+
+    // ── size × checked: thumb transform ──────────────────────────────────────
+    {
+      size: 32,
+      checked: true,
+      css: {
+        thumb: {
+          transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size32.enabled.root.width} - ${vars.size32.enabled.root.height}))`,
+        },
+      },
+    },
+    {
+      size: 24,
+      checked: true,
+      css: {
+        thumb: {
+          transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size24.enabled.root.width} - ${vars.size24.enabled.root.height}))`,
+        },
+      },
+    },
+    {
+      size: 16,
+      checked: true,
+      css: {
+        thumb: {
+          transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size16.enabled.root.width} - ${vars.size16.enabled.root.height}))`,
+        },
+      },
+    },
+  ],
   defaultVariants: {
     tone: "brand",
     size: 32,
+    checked: false,
+    disabled: false,
   },
 });
 

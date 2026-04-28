@@ -27,7 +27,10 @@ const actionButtonSlotNames = [
 const defaultVariant = {
   "variant": "brandSolid",
   "size": "medium",
-  "layout": "withText"
+  "layout": "withText",
+  "pressed": false,
+  "disabled": false,
+  "loading": false
 };
 
 const compoundVariants = [
@@ -62,6 +65,90 @@ const compoundVariants = [
   {
     "size": "large",
     "layout": "iconOnly"
+  },
+  {
+    "variant": "brandSolid",
+    "pressed": true
+  },
+  {
+    "variant": "neutralSolid",
+    "pressed": true
+  },
+  {
+    "variant": "neutralWeak",
+    "pressed": true
+  },
+  {
+    "variant": "criticalSolid",
+    "pressed": true
+  },
+  {
+    "variant": "brandOutline",
+    "pressed": true
+  },
+  {
+    "variant": "neutralOutline",
+    "pressed": true
+  },
+  {
+    "variant": "ghost",
+    "pressed": true
+  },
+  {
+    "variant": "brandSolid",
+    "disabled": true
+  },
+  {
+    "variant": "neutralSolid",
+    "disabled": true
+  },
+  {
+    "variant": "neutralWeak",
+    "disabled": true
+  },
+  {
+    "variant": "criticalSolid",
+    "disabled": true
+  },
+  {
+    "variant": "brandOutline",
+    "disabled": true
+  },
+  {
+    "variant": "neutralOutline",
+    "disabled": true
+  },
+  {
+    "variant": "ghost",
+    "disabled": true
+  },
+  {
+    "variant": "brandSolid",
+    "loading": true
+  },
+  {
+    "variant": "neutralSolid",
+    "loading": true
+  },
+  {
+    "variant": "neutralWeak",
+    "loading": true
+  },
+  {
+    "variant": "criticalSolid",
+    "loading": true
+  },
+  {
+    "variant": "brandOutline",
+    "loading": true
+  },
+  {
+    "variant": "neutralOutline",
+    "loading": true
+  },
+  {
+    "variant": "ghost",
+    "loading": true
   }
 ];
 
@@ -84,6 +171,18 @@ export const actionButtonVariantMap = {
   "layout": [
     "withText",
     "iconOnly"
+  ],
+  "pressed": [
+    true,
+    false
+  ],
+  "disabled": [
+    true,
+    false
+  ],
+  "loading": [
+    true,
+    false
   ]
 };
 

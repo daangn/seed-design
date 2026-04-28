@@ -7,6 +7,14 @@ declare interface SwitchmarkVariant {
   * @default 32
   */
   size: "16" | "24" | "32";
+/**
+  * @default false
+  */
+  checked: boolean;
+/**
+  * @default false
+  */
+  disabled: boolean;
 }
 
 declare type SwitchmarkVariantMap = {

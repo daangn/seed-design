@@ -11,6 +11,18 @@ declare interface ActionButtonVariant {
   * @default "withText"
   */
   layout: "withText" | "iconOnly";
+/**
+  * @default false
+  */
+  pressed: boolean;
+/**
+  * @default false
+  */
+  disabled: boolean;
+/**
+  * @default false
+  */
+  loading: boolean;
 }
 
 declare type ActionButtonVariantMap = {

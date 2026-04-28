@@ -4,6 +4,7 @@
     align-items: center;
     flex-shrink: 0
 }
+.seed-tag-group-item__label {}
 .seed-tag-group-item__label--size_t2 {
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2)

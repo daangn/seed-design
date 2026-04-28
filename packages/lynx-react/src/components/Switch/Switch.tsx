@@ -18,17 +18,13 @@ import { usePressTap } from "../../hooks/use-press-tap";
  * - focus / focusVisible: Lynx에 키보드 포커스 개념이 없음
  * - onChange (raw DOM event): 의미 없음. 토글 이벤트는 onCheckedChange로만 노출
  *
- * 추후 CSS 지원 시 추가 예정:
- * - active (pressed) 모디파이어: switchmark recipe CSS에 pressed 상태가 정의되면 활성화
+ * 추후 rootage 토큰 확장 시 추가 예정:
+ * - pressed boolean variant: switchmark rootage spec 에 pressed 상태가 추가되면
+ *   switchmark recipe 와 Switch 컴포넌트에 boolean variant 로 노출.
  */
 
 type SwitchSize = NonNullable<SwitchVariantProps["size"]>;
 type SwitchTone = NonNullable<SwitchmarkVariantProps["tone"]>;
-
-// recipe .d.ts는 CSS variant만 선언하지만 런타임은 state modifier도 지원 (postcss-lynx-compat이
-// pseudo selector를 class modifier로 변환). local alias로 타입 갭 우회.
-type SwitchStyleRuntimeProps = SwitchVariantProps & { disabled?: boolean };
-type SwitchmarkRuntimeProps = SwitchmarkVariantProps & { checked?: boolean; disabled?: boolean };
 
 interface SwitchContextValue {
   checked: boolean;
@@ -132,13 +128,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
   const size: SwitchSize = variantProps.size ?? ctxSize;
 
   const classes = React.useMemo(
-    () =>
-      switchmark({
-        tone,
-        size,
-        checked: checked ? true : undefined,
-        disabled: disabled ? true : undefined,
-      } as SwitchmarkRuntimeProps),
+    () => switchmark({ tone, size, checked, disabled }),
     [tone, size, checked, disabled],
   );
 
@@ -186,10 +176,7 @@ export interface SwitchLabelProps {
 export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
   const { disabled, size } = useSwitchContext("SwitchLabel");
-  const labelClassName = (switchStyle as (p?: SwitchStyleRuntimeProps) => Record<string, string>)({
-    size,
-    disabled: disabled ? true : undefined,
-  })["label"];
+  const labelClassName = switchStyle({ size, disabled }).label;
 
   return (
     <text

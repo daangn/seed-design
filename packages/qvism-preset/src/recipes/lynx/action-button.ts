@@ -1,7 +1,6 @@
 import { actionButton as vars } from "../../vars/component";
 
 import { defineLynxSlotRecipe } from "../../utils/define-lynx";
-import { active, disabled, loading, pseudo } from "../../utils/pseudo";
 
 /**
  * ActionButton recipe (Lynx fork).
@@ -17,7 +16,9 @@ import { active, disabled, loading, pseudo } from "../../utils/pseudo";
  *   `ActionButton.PrefixIcon`/`SuffixIcon` 에서 `useIconColor` 훅이 main-thread 로
  *   가 `color` 를 읽어 `tint-color` attribute 로 mirror 하는 방식으로 처리한다.
  * - 슬롯에 width/height/flexShrink 만 남겨 아이콘 크기는 CSS 로 결정한다.
- * - `:active` pseudo replaces the web's `engaged` (hover+active).
+ * - `pressed` / `disabled` / `loading` boolean variants replace the web's
+ *   pseudo selectors (`:active`, `:disabled`, etc.). Lynx 는 native form pseudo
+ *   가 없으므로 컴포넌트 런타임에서 boolean prop 으로 직접 상태를 전달한다.
  * - No focus-ring / `:focusVisible` — Lynx has no keyboard focus UX.
  * - No `iconOnly` / `loading` icon styles yet. `layout: "iconOnly"` and
  *   `loading` spinner remain Tier B (pending dedicated icon slots).
@@ -86,114 +87,44 @@ const actionButton = defineLynxSlotRecipe({
           background: vars.variantBrandSolid.enabled.root.color,
           "--track-color": vars.variantBrandSolid.enabled.progressCircle.trackColor,
           "--range-color": vars.variantBrandSolid.enabled.progressCircle.rangeColor,
-
-          [pseudo(active)]: {
-            background: vars.variantBrandSolid.pressed.root.color,
-          },
-          [pseudo(disabled)]: {
-            background: vars.variantBrandSolid.disabled.root.color,
-          },
-          [pseudo(loading)]: {
-            background: vars.variantBrandSolid.loading.root.color,
-          },
         },
-        text: {
-          color: vars.variantBrandSolid.enabled.label.color,
-          [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.label.color },
-        },
-        prefixIcon: {
-          color: vars.variantBrandSolid.enabled.prefixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.prefixIcon.color },
-        },
-        suffixIcon: {
-          color: vars.variantBrandSolid.enabled.suffixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.suffixIcon.color },
-        },
-        icon: {
-          color: vars.variantBrandSolid.enabled.icon.color,
-          [pseudo(disabled)]: { color: vars.variantBrandSolid.disabled.icon.color },
-        },
+        text: { color: vars.variantBrandSolid.enabled.label.color },
+        prefixIcon: { color: vars.variantBrandSolid.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantBrandSolid.enabled.suffixIcon.color },
+        icon: { color: vars.variantBrandSolid.enabled.icon.color },
       },
       neutralSolid: {
         root: {
           background: vars.variantNeutralSolid.enabled.root.color,
           "--track-color": vars.variantNeutralSolid.enabled.progressCircle.trackColor,
           "--range-color": vars.variantNeutralSolid.enabled.progressCircle.rangeColor,
-
-          [pseudo(active)]: { background: vars.variantNeutralSolid.pressed.root.color },
-          [pseudo(disabled)]: { background: vars.variantNeutralSolid.disabled.root.color },
-          [pseudo(loading)]: { background: vars.variantNeutralSolid.loading.root.color },
         },
-        text: {
-          color: vars.variantNeutralSolid.enabled.label.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.label.color },
-        },
-        prefixIcon: {
-          color: vars.variantNeutralSolid.enabled.prefixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.prefixIcon.color },
-        },
-        suffixIcon: {
-          color: vars.variantNeutralSolid.enabled.suffixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.suffixIcon.color },
-        },
-        icon: {
-          color: vars.variantNeutralSolid.enabled.icon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralSolid.disabled.icon.color },
-        },
+        text: { color: vars.variantNeutralSolid.enabled.label.color },
+        prefixIcon: { color: vars.variantNeutralSolid.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantNeutralSolid.enabled.suffixIcon.color },
+        icon: { color: vars.variantNeutralSolid.enabled.icon.color },
       },
       neutralWeak: {
         root: {
           background: vars.variantNeutralWeak.enabled.root.color,
           "--track-color": vars.variantNeutralWeak.enabled.progressCircle.trackColor,
           "--range-color": vars.variantNeutralWeak.enabled.progressCircle.rangeColor,
-
-          [pseudo(active)]: { background: vars.variantNeutralWeak.pressed.root.color },
-          [pseudo(disabled)]: { background: vars.variantNeutralWeak.disabled.root.color },
-          [pseudo(loading)]: { background: vars.variantNeutralWeak.loading.root.color },
         },
-        text: {
-          color: vars.variantNeutralWeak.enabled.label.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.label.color },
-        },
-        prefixIcon: {
-          color: vars.variantNeutralWeak.enabled.prefixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.prefixIcon.color },
-        },
-        suffixIcon: {
-          color: vars.variantNeutralWeak.enabled.suffixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.suffixIcon.color },
-        },
-        icon: {
-          color: vars.variantNeutralWeak.enabled.icon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralWeak.disabled.icon.color },
-        },
+        text: { color: vars.variantNeutralWeak.enabled.label.color },
+        prefixIcon: { color: vars.variantNeutralWeak.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantNeutralWeak.enabled.suffixIcon.color },
+        icon: { color: vars.variantNeutralWeak.enabled.icon.color },
       },
       criticalSolid: {
         root: {
           background: vars.variantCriticalSolid.enabled.root.color,
           "--track-color": vars.variantCriticalSolid.enabled.progressCircle.trackColor,
           "--range-color": vars.variantCriticalSolid.enabled.progressCircle.rangeColor,
-
-          [pseudo(active)]: { background: vars.variantCriticalSolid.pressed.root.color },
-          [pseudo(disabled)]: { background: vars.variantCriticalSolid.disabled.root.color },
-          [pseudo(loading)]: { background: vars.variantCriticalSolid.loading.root.color },
         },
-        text: {
-          color: vars.variantCriticalSolid.enabled.label.color,
-          [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.label.color },
-        },
-        prefixIcon: {
-          color: vars.variantCriticalSolid.enabled.prefixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.prefixIcon.color },
-        },
-        suffixIcon: {
-          color: vars.variantCriticalSolid.enabled.suffixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.suffixIcon.color },
-        },
-        icon: {
-          color: vars.variantCriticalSolid.enabled.icon.color,
-          [pseudo(disabled)]: { color: vars.variantCriticalSolid.disabled.icon.color },
-        },
+        text: { color: vars.variantCriticalSolid.enabled.label.color },
+        prefixIcon: { color: vars.variantCriticalSolid.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantCriticalSolid.enabled.suffixIcon.color },
+        icon: { color: vars.variantCriticalSolid.enabled.icon.color },
       },
       brandOutline: {
         root: {
@@ -203,30 +134,11 @@ const actionButton = defineLynxSlotRecipe({
           borderColor: vars.variantBrandOutline.enabled.root.strokeColor,
           "--track-color": vars.variantBrandOutline.enabled.progressCircle.trackColor,
           "--range-color": vars.variantBrandOutline.enabled.progressCircle.rangeColor,
-
-          [pseudo(active)]: { background: vars.variantBrandOutline.pressed.root.color },
-          [pseudo(disabled)]: {
-            background: vars.variantBrandOutline.disabled.root.color,
-            borderColor: vars.variantBrandOutline.disabled.root.strokeColor,
-          },
-          [pseudo(loading)]: { background: vars.variantBrandOutline.loading.root.color },
         },
-        text: {
-          color: vars.variantBrandOutline.enabled.label.color,
-          [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.label.color },
-        },
-        prefixIcon: {
-          color: vars.variantBrandOutline.enabled.prefixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.prefixIcon.color },
-        },
-        suffixIcon: {
-          color: vars.variantBrandOutline.enabled.suffixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.suffixIcon.color },
-        },
-        icon: {
-          color: vars.variantBrandOutline.enabled.icon.color,
-          [pseudo(disabled)]: { color: vars.variantBrandOutline.disabled.icon.color },
-        },
+        text: { color: vars.variantBrandOutline.enabled.label.color },
+        prefixIcon: { color: vars.variantBrandOutline.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantBrandOutline.enabled.suffixIcon.color },
+        icon: { color: vars.variantBrandOutline.enabled.icon.color },
       },
       neutralOutline: {
         root: {
@@ -236,57 +148,22 @@ const actionButton = defineLynxSlotRecipe({
           borderColor: vars.variantNeutralOutline.enabled.root.strokeColor,
           "--track-color": vars.variantNeutralOutline.enabled.progressCircle.trackColor,
           "--range-color": vars.variantNeutralOutline.enabled.progressCircle.rangeColor,
-
-          [pseudo(active)]: { background: vars.variantNeutralOutline.pressed.root.color },
-          [pseudo(disabled)]: {
-            background: vars.variantNeutralOutline.disabled.root.color,
-            borderColor: vars.variantNeutralOutline.disabled.root.strokeColor,
-          },
-          [pseudo(loading)]: { background: vars.variantNeutralOutline.loading.root.color },
         },
-        text: {
-          color: vars.variantNeutralOutline.enabled.label.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.label.color },
-        },
-        prefixIcon: {
-          color: vars.variantNeutralOutline.enabled.prefixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.prefixIcon.color },
-        },
-        suffixIcon: {
-          color: vars.variantNeutralOutline.enabled.suffixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.suffixIcon.color },
-        },
-        icon: {
-          color: vars.variantNeutralOutline.enabled.icon.color,
-          [pseudo(disabled)]: { color: vars.variantNeutralOutline.disabled.icon.color },
-        },
+        text: { color: vars.variantNeutralOutline.enabled.label.color },
+        prefixIcon: { color: vars.variantNeutralOutline.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantNeutralOutline.enabled.suffixIcon.color },
+        icon: { color: vars.variantNeutralOutline.enabled.icon.color },
       },
       ghost: {
         root: {
           background: vars.variantGhost.enabled.root.color,
           "--track-color": vars.variantGhost.enabled.progressCircle.trackColor,
           "--range-color": vars.variantGhost.enabled.progressCircle.rangeColor,
-
-          [pseudo(active)]: { background: vars.variantGhost.pressed.root.color },
-          [pseudo(disabled)]: { background: vars.variantGhost.disabled.root.color },
-          [pseudo(loading)]: { background: vars.variantGhost.loading.root.color },
         },
-        text: {
-          color: vars.variantGhost.enabled.label.color,
-          [pseudo(disabled)]: { color: vars.variantGhost.disabled.label.color },
-        },
-        prefixIcon: {
-          color: vars.variantGhost.enabled.prefixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantGhost.disabled.prefixIcon.color },
-        },
-        suffixIcon: {
-          color: vars.variantGhost.enabled.suffixIcon.color,
-          [pseudo(disabled)]: { color: vars.variantGhost.disabled.suffixIcon.color },
-        },
-        icon: {
-          color: vars.variantGhost.enabled.icon.color,
-          [pseudo(disabled)]: { color: vars.variantGhost.disabled.icon.color },
-        },
+        text: { color: vars.variantGhost.enabled.label.color },
+        prefixIcon: { color: vars.variantGhost.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantGhost.enabled.suffixIcon.color },
+        icon: { color: vars.variantGhost.enabled.icon.color },
       },
     },
     size: {
@@ -331,9 +208,21 @@ const actionButton = defineLynxSlotRecipe({
       withText: {},
       iconOnly: {},
     },
+    pressed: {
+      true: {},
+      false: {},
+    },
+    disabled: {
+      true: {},
+      false: {},
+    },
+    loading: {
+      true: {},
+      false: {},
+    },
   },
   compoundVariants: [
-    // size × layout=withText — padding, gap, font size, icon dimensions
+    // ── size × layout=withText — padding, gap, font size, icon dimensions ───
     {
       size: "xsmall",
       layout: "withText",
@@ -502,11 +391,173 @@ const actionButton = defineLynxSlotRecipe({
         },
       },
     },
+
+    // ── variant × pressed — root background only ────────────────────────────
+    {
+      variant: "brandSolid",
+      pressed: true,
+      css: { root: { background: vars.variantBrandSolid.pressed.root.color } },
+    },
+    {
+      variant: "neutralSolid",
+      pressed: true,
+      css: { root: { background: vars.variantNeutralSolid.pressed.root.color } },
+    },
+    {
+      variant: "neutralWeak",
+      pressed: true,
+      css: { root: { background: vars.variantNeutralWeak.pressed.root.color } },
+    },
+    {
+      variant: "criticalSolid",
+      pressed: true,
+      css: { root: { background: vars.variantCriticalSolid.pressed.root.color } },
+    },
+    {
+      variant: "brandOutline",
+      pressed: true,
+      css: { root: { background: vars.variantBrandOutline.pressed.root.color } },
+    },
+    {
+      variant: "neutralOutline",
+      pressed: true,
+      css: { root: { background: vars.variantNeutralOutline.pressed.root.color } },
+    },
+    {
+      variant: "ghost",
+      pressed: true,
+      css: { root: { background: vars.variantGhost.pressed.root.color } },
+    },
+
+    // ── variant × disabled — all slots ──────────────────────────────────────
+    {
+      variant: "brandSolid",
+      disabled: true,
+      css: {
+        root: { background: vars.variantBrandSolid.disabled.root.color },
+        text: { color: vars.variantBrandSolid.disabled.label.color },
+        prefixIcon: { color: vars.variantBrandSolid.disabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantBrandSolid.disabled.suffixIcon.color },
+        icon: { color: vars.variantBrandSolid.disabled.icon.color },
+      },
+    },
+    {
+      variant: "neutralSolid",
+      disabled: true,
+      css: {
+        root: { background: vars.variantNeutralSolid.disabled.root.color },
+        text: { color: vars.variantNeutralSolid.disabled.label.color },
+        prefixIcon: { color: vars.variantNeutralSolid.disabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantNeutralSolid.disabled.suffixIcon.color },
+        icon: { color: vars.variantNeutralSolid.disabled.icon.color },
+      },
+    },
+    {
+      variant: "neutralWeak",
+      disabled: true,
+      css: {
+        root: { background: vars.variantNeutralWeak.disabled.root.color },
+        text: { color: vars.variantNeutralWeak.disabled.label.color },
+        prefixIcon: { color: vars.variantNeutralWeak.disabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantNeutralWeak.disabled.suffixIcon.color },
+        icon: { color: vars.variantNeutralWeak.disabled.icon.color },
+      },
+    },
+    {
+      variant: "criticalSolid",
+      disabled: true,
+      css: {
+        root: { background: vars.variantCriticalSolid.disabled.root.color },
+        text: { color: vars.variantCriticalSolid.disabled.label.color },
+        prefixIcon: { color: vars.variantCriticalSolid.disabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantCriticalSolid.disabled.suffixIcon.color },
+        icon: { color: vars.variantCriticalSolid.disabled.icon.color },
+      },
+    },
+    {
+      variant: "brandOutline",
+      disabled: true,
+      css: {
+        root: {
+          background: vars.variantBrandOutline.disabled.root.color,
+          borderColor: vars.variantBrandOutline.disabled.root.strokeColor,
+        },
+        text: { color: vars.variantBrandOutline.disabled.label.color },
+        prefixIcon: { color: vars.variantBrandOutline.disabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantBrandOutline.disabled.suffixIcon.color },
+        icon: { color: vars.variantBrandOutline.disabled.icon.color },
+      },
+    },
+    {
+      variant: "neutralOutline",
+      disabled: true,
+      css: {
+        root: {
+          background: vars.variantNeutralOutline.disabled.root.color,
+          borderColor: vars.variantNeutralOutline.disabled.root.strokeColor,
+        },
+        text: { color: vars.variantNeutralOutline.disabled.label.color },
+        prefixIcon: { color: vars.variantNeutralOutline.disabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantNeutralOutline.disabled.suffixIcon.color },
+        icon: { color: vars.variantNeutralOutline.disabled.icon.color },
+      },
+    },
+    {
+      variant: "ghost",
+      disabled: true,
+      css: {
+        root: { background: vars.variantGhost.disabled.root.color },
+        text: { color: vars.variantGhost.disabled.label.color },
+        prefixIcon: { color: vars.variantGhost.disabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantGhost.disabled.suffixIcon.color },
+        icon: { color: vars.variantGhost.disabled.icon.color },
+      },
+    },
+
+    // ── variant × loading — root background only ────────────────────────────
+    {
+      variant: "brandSolid",
+      loading: true,
+      css: { root: { background: vars.variantBrandSolid.loading.root.color } },
+    },
+    {
+      variant: "neutralSolid",
+      loading: true,
+      css: { root: { background: vars.variantNeutralSolid.loading.root.color } },
+    },
+    {
+      variant: "neutralWeak",
+      loading: true,
+      css: { root: { background: vars.variantNeutralWeak.loading.root.color } },
+    },
+    {
+      variant: "criticalSolid",
+      loading: true,
+      css: { root: { background: vars.variantCriticalSolid.loading.root.color } },
+    },
+    {
+      variant: "brandOutline",
+      loading: true,
+      css: { root: { background: vars.variantBrandOutline.loading.root.color } },
+    },
+    {
+      variant: "neutralOutline",
+      loading: true,
+      css: { root: { background: vars.variantNeutralOutline.loading.root.color } },
+    },
+    {
+      variant: "ghost",
+      loading: true,
+      css: { root: { background: vars.variantGhost.loading.root.color } },
+    },
   ],
   defaultVariants: {
     variant: "brandSolid",
     size: "medium",
     layout: "withText",
+    pressed: false,
+    disabled: false,
+    loading: false,
   },
 });
 
