@@ -43,6 +43,8 @@
       "version": "0.0.0",
       "dependencies": {
         "@karrotmarket/icon-data": "^1.28.0",
+        "@karrotmarket/lynx-monochrome-icon": "1.10.0",
+        "@karrotmarket/lynx-multicolor-icon": "1.13.0",
         "@karrotmarket/react-monochrome-icon": "^1.14.0",
         "@karrotmarket/react-multicolor-icon": "^1.14.0",
         "@lottiefiles/react-lottie-player": "^3.6.0",

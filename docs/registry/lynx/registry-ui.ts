@@ -1,64 +1,88 @@
-import type { Registry } from "../schema";
+import type { Registry } from '../schema';
 
 export const registryUI: Registry = {
-  id: "ui",
+  id: 'ui',
   items: [
     {
-      id: "action-button",
+      id: 'action-button',
       snippets: [
         {
-          path: "action-button.tsx",
+          path: 'action-button.tsx',
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            '@seed-design/lynx-react': '~0.1.0-alpha.0',
+            '@seed-design/lynx-css': '~0.1.0-alpha.0',
           },
         },
       ],
     },
     {
-      id: "bottom-sheet",
+      id: 'bottom-sheet',
       snippets: [
         {
-          path: "bottom-sheet.tsx",
+          path: 'bottom-sheet.tsx',
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            '@seed-design/lynx-react': '~0.1.0-alpha.0',
+            '@seed-design/lynx-css': '~0.1.0-alpha.0',
           },
         },
       ],
     },
     {
-      id: "progress-circle",
+      id: 'checkbox',
       snippets: [
         {
-          path: "progress-circle.tsx",
+          path: 'checkbox.tsx',
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            '@seed-design/lynx-react': '~0.1.0-alpha.0',
+            '@seed-design/lynx-css': '~0.1.0-alpha.0',
           },
         },
       ],
     },
     {
-      id: "switch",
+      id: 'progress-circle',
       snippets: [
         {
-          path: "switch.tsx",
+          path: 'progress-circle.tsx',
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            '@seed-design/lynx-react': '~0.1.0-alpha.0',
+            '@seed-design/lynx-css': '~0.1.0-alpha.0',
           },
         },
       ],
     },
     {
-      id: "tag-group",
+      id: 'radio-group',
       snippets: [
         {
-          path: "tag-group.tsx",
+          path: 'radio-group.tsx',
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            '@seed-design/lynx-react': '~0.1.0-alpha.0',
+            '@seed-design/lynx-css': '~0.1.0-alpha.0',
+          },
+        },
+      ],
+    },
+    {
+      id: 'switch',
+      snippets: [
+        {
+          path: 'switch.tsx',
+          dependencies: {
+            '@seed-design/lynx-react': '~0.1.0-alpha.0',
+            '@seed-design/lynx-css': '~0.1.0-alpha.0',
+          },
+        },
+      ],
+    },
+    {
+      id: 'tag-group',
+      snippets: [
+        {
+          path: 'tag-group.tsx',
+          dependencies: {
+            '@seed-design/lynx-react': '~0.1.0-alpha.0',
+            '@seed-design/lynx-css': '~0.1.0-alpha.0',
           },
         },
       ],
