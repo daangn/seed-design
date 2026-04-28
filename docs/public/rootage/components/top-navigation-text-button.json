@@ -59,6 +59,13 @@
             "transparent": {}
           },
           "defaultValue": "layer"
+        },
+        "theme": {
+          "values": {
+            "ios": {},
+            "android": {}
+          },
+          "defaultValue": "ios"
         }
       }
     },
@@ -72,13 +79,6 @@
             ],
             "slots": {
               "root": {
-                "maxWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 96,
-                    "unit": "px"
-                  }
-                },
                 "height": {
                   "type": "dimension",
                   "value": {
@@ -190,6 +190,35 @@
             }
           }
         ]
+      },
+      {
+        "variants": {
+          "theme": "ios"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 96,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "theme": "android"
+        },
+        "definitions": []
       }
     ]
   }

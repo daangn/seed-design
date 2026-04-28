@@ -2,7 +2,6 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "maxWidth": "96px",
         "height": "44px",
         "paddingX": "var(--seed-dimension-x2_5)"
       },
@@ -40,5 +39,13 @@ export const vars = {
         "color": "var(--seed-color-fg-disabled)"
       }
     }
-  }
+  },
+  "themeIos": {
+    "enabled": {
+      "root": {
+        "maxWidth": "96px"
+      }
+    }
+  },
+  "themeAndroid": {}
 }
