@@ -8,12 +8,12 @@ import index from "@seed-design/rootage-artifacts/index.json";
 
 // `process.cwd()` is `docs/` during Next.js build/runtime.
 // `@seed-design/rootage-artifacts` is the workspace package at `packages/rootage`.
-const ROOTAGE_DIST = join(process.cwd(), "..", "packages", "rootage", "dist");
+const ROOTAGE_DATA = join(process.cwd(), "..", "packages", "rootage", "__generated__");
 
 export const getRootage = cache(async () => {
   const sourceFiles = await Promise.all(
     index.resources.map(async (resource) => {
-      const content = await readFile(join(ROOTAGE_DIST, resource.path), "utf-8");
+      const content = await readFile(join(ROOTAGE_DATA, resource.path), "utf-8");
       return {
         fileName: resource.path,
         ast: Exchange.fromObject(JSON.parse(content) as Exchange.Model),

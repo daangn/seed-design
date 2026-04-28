@@ -127,7 +127,7 @@ function loadComponentSpecData(): Map<string, Exchange.ComponentSpecModel> {
   specDataCache = new Map();
   const rootageDir = join(
     dirname(createRequire(import.meta.url).resolve("@seed-design/rootage-artifacts/package.json")),
-    "dist",
+    "__generated__",
   );
 
   for (const resource of index.resources) {

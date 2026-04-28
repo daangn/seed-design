@@ -65,8 +65,8 @@ jobs:
           bun rootage:generate
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add packages/rootage/dist
-          git commit -m "Update rootage dist to match new package version" || echo "No changes to commit"
+          git add packages/rootage/__generated__
+          git commit -m "Update rootage generated json to match new package version" || echo "No changes to commit"
           git push
 
       - name: 배포된 버전을 가져와요
