@@ -204,17 +204,22 @@ export function useGlobalInteraction() {
       stopAppBarBgScrub();
 
       const onFinish = (animations: Animation[], pin: () => void) => {
-        // Bail out if a newer transition has already claimed the ref —
-        // otherwise this stale handler would clobber the new animation's
-        // freshly-pinned inline styles.
-        if (runningAnimsRef.current !== animations) return;
-        // Set inline styles BEFORE cancel to prevent flash
+        // Always pin + cancel: skipping these leaves inline styles from the
+        // mid-gesture snapshot on screen when the animation gets cancelled
+        // by a newer transition (the cancel itself drops fill:forwards, so
+        // the stale inline styles become visible).
+        // Set inline styles BEFORE cancel to prevent flash.
         pin();
         cancelAll(animations);
-        runningAnimsRef.current = [];
-        cachedTargetsRef.current = null;
-        swipeStyleRef.current = null;
-        setSwipeBackState("idle");
+        // Only reset the running ref / per-gesture caches if no newer
+        // transition has claimed them — otherwise we'd clobber the next
+        // gesture's state.
+        if (runningAnimsRef.current === animations) {
+          runningAnimsRef.current = [];
+          cachedTargetsRef.current = null;
+          swipeStyleRef.current = null;
+          setSwipeBackState("idle");
+        }
       };
 
       if (swiped) {
@@ -287,10 +292,14 @@ export function useGlobalInteraction() {
         const { animations, finished } = animateTransition(targets, "push", style);
         runningAnimsRef.current = animations;
         finished.then(() => {
-          if (runningAnimsRef.current !== animations) return;
+          // Always pin idle inline styles + cancel before checking the ref.
+          // Skipping these on cancel-by-newer-transition would leave the
+          // mid-flight inline styles (or none at all) on screen.
           setIdlePositions(targets, style);
           cancelAll(animations);
-          runningAnimsRef.current = [];
+          if (runningAnimsRef.current === animations) {
+            runningAnimsRef.current = [];
+          }
         });
       });
     }
@@ -310,10 +319,14 @@ export function useGlobalInteraction() {
       const { animations, finished } = animateTransition(targets, "pop", style);
       runningAnimsRef.current = animations;
       finished.then(() => {
-        if (runningAnimsRef.current !== animations) return;
+        // Always pin post-exit inline styles + cancel. If we bail here on
+        // cancel-by-newer-transition, the previous transition's idle inline
+        // styles (e.g. behind layer at -30%) stay on screen.
         setPostExitPositions(targets, style);
         cancelAll(animations);
-        runningAnimsRef.current = [];
+        if (runningAnimsRef.current === animations) {
+          runningAnimsRef.current = [];
+        }
       });
     }
   }, [topActivity.transitionState, stopRunningAnims, cancelPendingPushRAF]);
