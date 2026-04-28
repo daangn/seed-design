@@ -25,8 +25,7 @@ AccordionRoot.displayName = "AccordionRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionItemProps
-  extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> {}
+export interface AccordionItemProps extends AccordionPrimitive.ItemProps {}
 
 export const AccordionItem = withContext<HTMLDivElement, AccordionItemProps>(
   AccordionPrimitive.Item,
@@ -36,8 +35,7 @@ AccordionItem.displayName = "AccordionItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionHeaderProps
-  extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Header> {}
+export interface AccordionHeaderProps extends AccordionPrimitive.HeaderProps {}
 
 export const AccordionHeader = withContext<HTMLHeadingElement, AccordionHeaderProps>(
   AccordionPrimitive.Header,
@@ -47,8 +45,7 @@ AccordionHeader.displayName = "AccordionHeader";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> {}
+export interface AccordionTriggerProps extends AccordionPrimitive.TriggerProps {}
 
 export const AccordionTrigger = withContext<HTMLButtonElement, AccordionTriggerProps>(
   AccordionPrimitive.Trigger,
@@ -58,8 +55,7 @@ AccordionTrigger.displayName = "AccordionTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionContentProps
-  extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content> {}
+export interface AccordionContentProps extends AccordionPrimitive.ContentProps {}
 
 export const AccordionContent = withContext<HTMLDivElement, AccordionContentProps>(
   AccordionPrimitive.Content,
