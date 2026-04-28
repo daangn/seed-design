@@ -1,6 +1,6 @@
 import * as React from "@lynx-js/react";
 import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
-import IconMinusFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFill";
+import IconMinusFatFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFatFill";
 import {
   CheckboxControl,
   CheckboxGroup,
@@ -25,7 +25,7 @@ export const Checkbox = React.forwardRef<unknown, CheckboxProps>(
           <CheckboxIndicator
             unchecked={<IconCheckmarkFatFill />}
             checked={<IconCheckmarkFatFill />}
-            indeterminate={<IconMinusFill />}
+            indeterminate={<IconMinusFatFill />}
           />
         </CheckboxControl>
         {label != null ? <CheckboxLabel>{label}</CheckboxLabel> : null}
@@ -45,7 +45,10 @@ export const Checkmark = React.forwardRef<unknown, CheckmarkProps>((props, ref) 
   return (
     <CheckboxRoot ref={ref} {...props}>
       <CheckboxControl>
-        <CheckboxIndicator checked={<IconCheckmarkFatFill />} indeterminate={<IconMinusFill />} />
+        <CheckboxIndicator
+          checked={<IconCheckmarkFatFill />}
+          indeterminate={<IconMinusFatFill />}
+        />
       </CheckboxControl>
     </CheckboxRoot>
   );

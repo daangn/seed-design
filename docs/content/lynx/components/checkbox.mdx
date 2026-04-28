@@ -18,7 +18,7 @@ Checkbox는 compound component 집합입니다. Root가 상태를 소유하고 C
 
 ```tsx
 import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
-import IconMinusFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFill";
+import IconMinusFatFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFatFill";
 import {
   CheckboxRoot,
   CheckboxControl,
@@ -32,7 +32,7 @@ export function App() {
       <CheckboxControl>
         <CheckboxIndicator
           checked={<IconCheckmarkFatFill />}
-          indeterminate={<IconMinusFill />}
+          indeterminate={<IconMinusFatFill />}
         />
       </CheckboxControl>
       <CheckboxLabel>알림 받기</CheckboxLabel>
@@ -66,7 +66,7 @@ export function ControlledCheckbox() {
 ```tsx
 <CheckboxRoot checked={allChecked} indeterminate={someChecked} onCheckedChange={handleToggle}>
   <CheckboxControl>
-    <CheckboxIndicator checked={<IconCheckmarkFatFill />} indeterminate={<IconMinusFill />} />
+    <CheckboxIndicator checked={<IconCheckmarkFatFill />} indeterminate={<IconMinusFatFill />} />
   </CheckboxControl>
   <CheckboxLabel>전체 선택</CheckboxLabel>
 </CheckboxRoot>
