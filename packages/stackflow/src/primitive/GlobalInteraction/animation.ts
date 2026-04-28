@@ -30,9 +30,6 @@ const FADE_IN_ENTER_DURATION = 300;
 const FADE_IN_EXIT_EASING = "ease-in";
 const FADE_IN_EXIT_DURATION = 150;
 
-const MIN_SWIPE_DURATION = 150;
-const MAX_SWIPE_DURATION = 500;
-
 // Extra margin added to duration for the setTimeout race fallback.
 const FINISHED_TIMEOUT_MARGIN = 100;
 
@@ -139,22 +136,19 @@ function collectAnimations(anims: (Animation | null)[], durationMs: number): Ani
   return { animations, finished: waitAll(animations, durationMs) };
 }
 
-function calculateSwipeDuration(remainingDistance: number, velocity: number): number {
-  if (velocity > 0.5) {
-    return Math.max(MIN_SWIPE_DURATION, Math.min(MAX_SWIPE_DURATION, remainingDistance / velocity));
-  }
-  const ratio = remainingDistance / window.innerWidth;
-  return Math.max(MIN_SWIPE_DURATION, Math.min(MAX_SWIPE_DURATION, IOS_DURATION * ratio));
-}
-
 // ─── iOS Slide ──────────────────────────────────────────────────────────────
+
+interface TitleKeyframe {
+  opacity: string;
+  transform: string;
+}
 
 interface IosPositions {
   topLayer: string;
   behindLayer: string;
   dim: string;
-  topTitle: Keyframe;
-  behindTitle: Keyframe;
+  topTitle: TitleKeyframe;
+  behindTitle: TitleKeyframe;
   topIconOpacity: string;
   behindIconOpacity: string;
   appBarBackground: string;
@@ -208,8 +202,8 @@ function iosAnimate(t: TransitionTargets, from: IosPositions, to: IosPositions):
       safeAnimate(
         icon,
         [
-          { opacity: from.topIconOpacity, transform: from.topTitle["transform"] as string },
-          { opacity: to.topIconOpacity, transform: to.topTitle["transform"] as string },
+          { opacity: from.topIconOpacity, transform: from.topTitle.transform },
+          { opacity: to.topIconOpacity, transform: to.topTitle.transform },
         ],
         opts,
       ),
@@ -249,19 +243,14 @@ function pinIosInlineStyles(t: TransitionTargets, pos: IosPositions) {
   setOpacity(t.topDim, pos.dim);
   setTransform(t.topAppBarBackground, pos.appBarBackground);
 
-  const topTitleOpacity = pos.topTitle["opacity"] as string;
-  const topTitleTransform = pos.topTitle["transform"] as string;
-  if (t.topTitle) {
-    setOpacity(t.topTitle, topTitleOpacity);
-    setTransform(t.topTitle, topTitleTransform);
-  }
-  if (t.behindTitle) {
-    setOpacity(t.behindTitle, pos.behindTitle["opacity"] as string);
-    setTransform(t.behindTitle, pos.behindTitle["transform"] as string);
-  }
+  setOpacity(t.topTitle, pos.topTitle.opacity);
+  setTransform(t.topTitle, pos.topTitle.transform);
+  setOpacity(t.behindTitle, pos.behindTitle.opacity);
+  setTransform(t.behindTitle, pos.behindTitle.transform);
+
   for (const icon of t.topIcons) {
     setOpacity(icon, pos.topIconOpacity);
-    setTransform(icon, topTitleTransform);
+    setTransform(icon, pos.topTitle.transform);
   }
   for (const icon of t.behindIcons) setOpacity(icon, pos.behindIconOpacity);
 }
@@ -408,7 +397,7 @@ function animateSwipe(
         icon,
         [
           { opacity: `${topFade}`, transform: currentTitleOffset },
-          { opacity: end.topIconOpacity, transform: end.topTitle["transform"] as string },
+          { opacity: end.topIconOpacity, transform: end.topTitle.transform },
         ],
         opts,
       ),
@@ -449,20 +438,10 @@ export function animateTransition(
   }
 }
 
-export function animateSwipeComplete(
-  t: TransitionTargets,
-  displacement: number,
-  velocity: number,
-): AnimationResult {
-  const duration = calculateSwipeDuration(window.innerWidth - displacement, velocity);
-  return animateSwipe(t, displacement, duration, IOS_OFFSCREEN);
+export function animateSwipeComplete(t: TransitionTargets, displacement: number): AnimationResult {
+  return animateSwipe(t, displacement, IOS_DURATION, IOS_OFFSCREEN);
 }
 
-export function animateSwipeCancel(
-  t: TransitionTargets,
-  displacement: number,
-  velocity: number,
-): AnimationResult {
-  const duration = calculateSwipeDuration(displacement, velocity);
-  return animateSwipe(t, displacement, duration, IOS_ONSCREEN);
+export function animateSwipeCancel(t: TransitionTargets, displacement: number): AnimationResult {
+  return animateSwipe(t, displacement, IOS_DURATION, IOS_ONSCREEN);
 }
