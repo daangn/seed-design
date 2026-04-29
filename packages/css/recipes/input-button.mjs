@@ -40,11 +40,18 @@ const inputButtonSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "size": "large"
+};
 
 const compoundVariants = [];
 
-export const inputButtonVariantMap = {};
+export const inputButtonVariantMap = {
+  "size": [
+    "large",
+    "medium"
+  ]
+};
 
 export const inputButtonVariantKeys = Object.keys(inputButtonVariantMap);
 

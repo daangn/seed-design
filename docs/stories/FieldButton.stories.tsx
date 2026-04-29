@@ -48,6 +48,12 @@ const conditionMap = {
     value: {
       children: <FieldButtonValue>선택된 값</FieldButtonValue>,
     },
+    valueWithClear: {
+      children: <FieldButtonValue>선택된 값</FieldButtonValue>,
+      showClearButton: true,
+      values: ["선택된 값"],
+      onValuesChange: () => {},
+    },
   },
 };
 
