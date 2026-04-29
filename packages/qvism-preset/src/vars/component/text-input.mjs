@@ -247,7 +247,7 @@ export const vars = {
   "typeMultilineSizeLarge": {
     "enabled": {
       "root": {
-        "minHeight": "95px",
+        "minHeight": "94px",
         "paddingY": "var(--seed-dimension-x3_5)"
       }
     }
@@ -255,8 +255,8 @@ export const vars = {
   "typeMultilineSizeMedium": {
     "enabled": {
       "root": {
-        "minHeight": "90px",
-        "paddingY": "11px"
+        "minHeight": "82px",
+        "paddingY": "var(--seed-dimension-x3)"
       }
     }
   }

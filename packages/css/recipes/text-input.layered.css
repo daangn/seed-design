@@ -145,15 +145,15 @@
   }
 
   .seed-text-input__value--size_large:is(textarea) {
-    min-height: 95px;
+    min-height: 94px;
     padding-top: var(--seed-dimension-x3_5);
     padding-bottom: var(--seed-dimension-x3_5);
   }
 
   .seed-text-input__value--size_medium:is(textarea) {
-    min-height: 90px;
-    padding-top: 11px;
-    padding-bottom: 11px;
+    min-height: 82px;
+    padding-top: var(--seed-dimension-x3);
+    padding-bottom: var(--seed-dimension-x3);
   }
 
   .seed-text-input__root--variant_outline-size_large {

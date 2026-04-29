@@ -268,10 +268,10 @@ data:
     type=multiline,size=large:
       enabled:
         root:
-          minHeight: 95px
+          minHeight: 94px
           paddingY: $dimension.x3_5
     type=multiline,size=medium:
       enabled:
         root:
-          minHeight: 90px
-          paddingY: 11px
+          minHeight: 82px
+          paddingY: $dimension.x3

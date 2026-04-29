@@ -840,7 +840,7 @@
                 "minHeight": {
                   "type": "dimension",
                   "value": {
-                    "value": 95,
+                    "value": 94,
                     "unit": "px"
                   }
                 },
@@ -868,16 +868,13 @@
                 "minHeight": {
                   "type": "dimension",
                   "value": {
-                    "value": 90,
+                    "value": 82,
                     "unit": "px"
                   }
                 },
                 "paddingY": {
                   "type": "dimension",
-                  "value": {
-                    "value": 11,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x3"
                 }
               }
             }
