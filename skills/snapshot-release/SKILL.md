@@ -43,23 +43,29 @@ Snapshot releases are built by GitHub Actions from the PR's *remote* HEAD, so an
 Use **AskUserQuestion**. Tailor the question to whatever Step 1 found:
 
 - **Clean tree, fully pushed**: "There's no `/snapshot` comment on this PR yet. Want me to post one for you?" — Options: `Yes, post it` / `No, I'll post it myself`.
-- **Uncommitted changes and/or unpushed commits**: Spell out exactly what's local-only (e.g. "3 modified files" / "2 unpushed commits") and warn that the snapshot will be built from the remote HEAD without them. Options: `Stop, I'll push first` (recommended default) / `Post anyway against remote HEAD`.
+- **Clean tree, but unpushed commits exist**: Spell out the unpushed commits (e.g. "2 unpushed commits") and offer to push them first. Options: `Push, then post /snapshot` (recommended default) / `Post anyway against remote HEAD` / `Stop, I'll handle it`.
+- **Uncommitted changes (with or without unpushed commits)**: `git push` won't carry the uncommitted work, so do **not** offer the push option. Spell out what's local-only and warn that the snapshot will be built from the remote HEAD without those changes. Options: `Stop, I'll handle it` (recommended default) / `Post anyway against remote HEAD`.
 
-On `No` / `Stop`, stop and tell the user to push and re-invoke.
-On `Yes` / `Post anyway`, run Step 3 with `anchor` left empty — the orchestrator will post first.
+On `Stop`, stop and tell the user to commit/push and re-invoke.
+On `Push, then post /snapshot`, run Step 3 with `anchor` empty and `PUSH_FIRST=1` — the orchestrator will `git push` before posting.
+On `Yes` / `Post anyway`, run Step 3 with `anchor` empty (and `PUSH_FIRST=0`) — the orchestrator will post immediately.
 
 ## Step 3: Orchestrate (single Bash call)
 
-One command that conditionally posts, finds the matching workflow run, waits for it, and prints the resulting `📦 Snapshot Release` comment. Substitute `<NUM>` and `<ANCHOR>` from Step 1 (pass `<ANCHOR>` empty when posting):
+One command that conditionally pushes and posts, finds the matching workflow run, waits for it, and prints the resulting `📦 Snapshot Release` comment. Substitute `<NUM>`, `<ANCHOR>`, and `<PUSH_FIRST>` from Step 1 / Step 2 (pass `<ANCHOR>` empty when posting; `<PUSH_FIRST>` is `1` only when the user explicitly chose `Push, then post /snapshot`):
 
 ```bash
 set -euo pipefail
 
 NUM=<NUM>
 ANCHOR='<ANCHOR>'
+PUSH_FIRST='<PUSH_FIRST>'  # "1" or "0"
 
-# Post /snapshot if the user opted to trigger a fresh one (anchor will be empty)
+# Trigger path: optionally push, then post /snapshot
 if [ -z "$ANCHOR" ]; then
+  if [ "$PUSH_FIRST" = "1" ]; then
+    git push
+  fi
   gh pr comment "$NUM" --body "/snapshot"
   ANCHOR=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 fi
