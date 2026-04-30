@@ -38,6 +38,11 @@ git log @{u}..HEAD --oneline 2>/dev/null || echo "(no upstream tracking)"
 
 ## Step 2: Confirm trigger (only when no `/snapshot` exists)
 
+Before opening the AskUserQuestion, re-read the user's original request:
+
+- **Wait-only intent** (e.g. "snapshot 기다려줘", "snapshot 끝났어?", "결과 보여줘", "did the snapshot finish?", "let me know when it's done"): the user assumed a `/snapshot` comment already exists. Don't pivot to a trigger prompt. Just tell them no `/snapshot` comment was found on this PR and stop. Suggest they post `/snapshot` themselves (or re-invoke with a trigger phrasing) if they want to proceed.
+- **Trigger or ambiguous intent** (e.g. "snapshot 해줘", "trigger a snapshot", "snapshot 결과 받아와", "post `/snapshot` for me"): proceed with the AskUserQuestion below.
+
 Snapshot releases are built by GitHub Actions from the PR's *remote* HEAD, so any uncommitted change or unpushed commit will be silently absent from the resulting tarballs. Surface that before posting `/snapshot`.
 
 Use **AskUserQuestion**. Tailor the question to whatever Step 1 found:
