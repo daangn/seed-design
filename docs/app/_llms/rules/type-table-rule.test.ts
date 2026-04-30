@@ -14,6 +14,7 @@ describe("typeTableRule", () => {
     const result = toMarkdown({
       id: "ActionButtonProps",
       name: "ActionButtonProps",
+      description: "",
       entries: [
         {
           name: "variant",
@@ -52,6 +53,7 @@ describe("typeTableRule", () => {
     const result = toMarkdown({
       id: "TestProps",
       name: "TestProps",
+      description: "",
       entries: [
         {
           name: "children",
@@ -88,6 +90,7 @@ describe("typeTableRule", () => {
     const result = toMarkdown({
       id: "TestProps",
       name: "TestProps",
+      description: "",
       entries: [
         {
           name: "value",

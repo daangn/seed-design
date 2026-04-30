@@ -70,7 +70,7 @@
     "figma-api": "^2.1.2-beta",
     "knip": "^5.50.5",
     "publint": "^0.3.12",
-    "typescript": "^5.9.2",
+    "typescript": "^6.0.0",
     "ultra-runner": "^3.10.5",
     "watchlist": "^0.3.1",
     "wrangler": "^4.13.0",

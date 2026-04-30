@@ -31,7 +31,7 @@ const addOptionsSchema = z.object({
    */
   all: z.boolean(),
   cwd: z.string(),
-  baseUrl: z.string().optional(),
+  baseUrl: z.string().default(BASE_URL),
   onDiff: z.enum(["overwrite", "backup"]).optional(),
 });
 
