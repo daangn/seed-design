@@ -1,6 +1,9 @@
 import { defineSlotRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 import { imageFrame as vars } from "../vars/component";
+import spec from "@seed-design/rootage-artifacts/components/image-frame.json" with {
+  type: "json",
+};
 
 const imageFrame = defineSlotRecipe({
   name: "image-frame",
@@ -51,6 +54,9 @@ const imageFrame = defineSlotRecipe({
   },
   defaultVariants: {
     stroke: false,
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

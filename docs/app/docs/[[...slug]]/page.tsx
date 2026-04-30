@@ -2,7 +2,7 @@ import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
 import { docsSource } from "@/app/source";
 import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { mdxComponents } from "@/components/mdx-components";
-import { getComponentStatus } from "@/components/rootage";
+import { getComponentStatus } from "@/lib/rootage";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

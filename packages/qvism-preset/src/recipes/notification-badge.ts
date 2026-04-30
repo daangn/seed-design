@@ -1,5 +1,8 @@
 import { defineRecipe } from "../utils/define";
 import { notificationBadge as vars } from "../vars/component";
+import spec from "@seed-design/rootage-artifacts/components/notification-badge.json" with {
+  type: "json",
+};
 
 export const notificationBadgePositioner = defineRecipe({
   name: "notification-badge-positioner",
@@ -109,5 +112,8 @@ export const notificationBadge = defineRecipe({
   },
   defaultVariants: {
     size: "large",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });

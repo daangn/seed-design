@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/badge.json" with { type: "json" };
 import { badge as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
@@ -269,6 +270,12 @@ const badge = defineSlotRecipe({
     size: "medium",
     variant: "solid",
     tone: "neutral",
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+      tone: spec.data.schema.variants.tone,
+    },
   },
 });
 

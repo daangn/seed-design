@@ -6,6 +6,9 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/radiomark.json" with {
+  type: "json",
+};
 
 const radiomark = defineSlotRecipe({
   name: "radiomark",
@@ -139,6 +142,11 @@ const radiomark = defineSlotRecipe({
   defaultVariants: {
     tone: "brand",
     size: "medium",
+  },
+  metadata: {
+    variants: {
+      tone: spec.data.schema.variants.tone,
+    },
   },
 });
 

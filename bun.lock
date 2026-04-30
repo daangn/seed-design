@@ -63,6 +63,7 @@
         "@seed-design/migration-index": "0.0.0-alpha-20260414104312",
         "@seed-design/react": "0.0.0-alpha-20260416135457",
         "@seed-design/react-icon": "^0.7.4",
+        "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "0.0.0-alpha-20260416134952",
         "@seed-design/tailwind4-theme": "0.0.0-alpha-20260414104312",
@@ -96,6 +97,7 @@
         "remark-rehype": "^11.1.2",
         "remark-stringify": "^11.0.0",
         "sanity": "^4.20.3",
+        "server-only": "^0.0.1",
         "shiki": "^3.4.2",
         "simple-reveal": "^0.8.0",
         "styled-components": "6",
@@ -459,6 +461,7 @@
         "@seed-design/rootage-core": "0.0.0",
       },
       "devDependencies": {
+        "@seed-design/rootage-artifacts": "workspace:*",
         "csstype": "^3.1.3",
       },
     },

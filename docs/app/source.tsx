@@ -1,6 +1,6 @@
 import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
 import { docs, reactDocs, breezeDocs, lynxDocs, aiIntegrationDocs } from "@/.source/server";
-import { getRootageMetadata } from "@/components/rootage";
+import { getRootageMetadata } from "@/lib/rootage";
 import type { Node, Root } from "fumadocs-core/page-tree";
 import { loader } from "fumadocs-core/source";
 import type { Source, SourceConfig } from "fumadocs-core/source";
