@@ -55,7 +55,7 @@ export const appScreen = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          "--app-bar-height": navVars.themeCupertino.enabled.root.height,
+          "--app-bar-height": navVars.themeIos.enabled.root.height,
         },
       },
       android: {
@@ -160,6 +160,7 @@ export const appScreen = defineSlotRecipe({
             // since we're using sticky, when iOS overscroll happens the before pseudoelement will stick to the top of `layer` and won't show the gradient in the overscroll area.
             // so we extend the height of the gradient and use transform to move it up to the possible gradient area.
             // rgba(0, 0, 0, 0.2) is for a natural look; if we use rgba(0, 0, 0, 0.35) on 0% the gradient looks off
+            // TODO: consume rootage variables
             background: `linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.35) ${OVERSCROLL_GRADIENT_OFFSET}, rgba(0, 0, 0, 0.00) 100%)`,
             pointerEvents: "none",
             zIndex: 1,

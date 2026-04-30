@@ -178,9 +178,9 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeCupertino.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeCupertino.enabled.root.paddingX,
-          paddingRight: vars.themeCupertino.enabled.root.paddingX,
+          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
+          paddingLeft: vars.themeIos.enabled.root.paddingX,
+          paddingRight: vars.themeIos.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -247,7 +247,8 @@ export const appBar = defineSlotRecipe({
       },
       transparent: {
         root: {
-          backgroundColor: vars.toneTransparent.enabled.root.color,
+          // gradient is handled in app-screen.ts
+          backgroundColor: vars.toneTransparentGradientFalse.enabled.root.color,
         },
         icon: {
           color: `var(--seed-icon-color, ${iconButtonVars.toneTransparent.enabled.icon.color})`,

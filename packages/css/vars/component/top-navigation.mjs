@@ -1,5 +1,5 @@
 export const vars = {
-  "themeCupertino": {
+  "themeIos": {
     "enabled": {
       "root": {
         "height": "44px",
@@ -33,14 +33,26 @@ export const vars = {
   },
   "toneTransparent": {
     "enabled": {
-      "root": {
-        "color": "#00000000"
-      },
       "title": {
         "color": "var(--seed-color-palette-static-white)"
       },
       "subtitle": {
         "color": "var(--seed-color-palette-static-white)"
+      }
+    }
+  },
+  "toneTransparentGradientFalse": {
+    "enabled": {
+      "root": {
+        "color": "#00000000"
+      }
+    }
+  },
+  "toneTransparentGradientTrue": {
+    "enabled": {
+      "root": {
+        "gradient": "#00000059 0%, #00000000 100%",
+        "bleedBottom": "var(--seed-dimension-x5)"
       }
     }
   },
