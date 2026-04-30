@@ -49,7 +49,8 @@ const compoundVariants = [];
 export const inputButtonVariantMap = {
   "size": [
     "large",
-    "medium"
+    "medium",
+    "responsive"
   ]
 };
 
