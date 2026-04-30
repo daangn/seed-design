@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "CommonJS",
-    "moduleResolution": "Node",
-    "ignoreDeprecations": "6.0",
+    "moduleResolution": "Bundler",
     "types": ["node", "bun"],
     "esModuleInterop": true,
     "preserveWatchOutput": true,
