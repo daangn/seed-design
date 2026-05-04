@@ -255,18 +255,10 @@ export const appBar = defineSlotRecipe({
         },
       },
     },
-    divider: {
-      true: {
-        background: {
-          boxShadow: `inset 0px calc(-1 * 1px) 0 ${tokens.$color.stroke.neutralSubtle}`,
-        },
-      },
-    },
   },
   defaultVariants: {
     theme: "cupertino",
     transitionStyle: "slideFromRightIOS",
     tone: "layer",
-    divider: false,
   },
 });

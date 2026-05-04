@@ -30,7 +30,7 @@ const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => 
 
   return (
     <AppScreen>
-      <AppBar divider>
+      <AppBar>
         <AppBarLeft>
           {Array.from({ length: counts.left }).map((_, index) => (
             <AppBarIconButton key={index}>
