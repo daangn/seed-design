@@ -138,6 +138,9 @@
       "path": "/components/manner-temp.json"
     },
     {
+      "path": "/components/menu-item.json"
+    },
+    {
       "path": "/components/menu-sheet-close-button.json"
     },
     {
@@ -145,6 +148,9 @@
     },
     {
       "path": "/components/menu-sheet.json"
+    },
+    {
+      "path": "/components/menu.json"
     },
     {
       "path": "/components/notification-badge.json"
