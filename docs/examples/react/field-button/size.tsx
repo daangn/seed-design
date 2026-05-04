@@ -26,6 +26,17 @@ export default function FieldButtonSize() {
       >
         <FieldButtonPlaceholder>플레이스홀더</FieldButtonPlaceholder>
       </FieldButton>
+      <FieldButton
+        label="라벨"
+        description="size=responsive"
+        size="responsive"
+        buttonProps={{
+          onClick: () => window.alert("버튼 클릭됨"),
+          "aria-label": "선택 화면 열기",
+        }}
+      >
+        <FieldButtonPlaceholder>플레이스홀더</FieldButtonPlaceholder>
+      </FieldButton>
     </HStack>
   );
 }
