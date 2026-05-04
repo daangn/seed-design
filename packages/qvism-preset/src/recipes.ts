@@ -33,6 +33,7 @@ import imageFrameIcon from "./recipes/image-frame-icon";
 import imageFrameIndicator from "./recipes/image-frame-indicator";
 import imageFrameReactionButton from "./recipes/image-frame-reaction-button";
 import inlineBanner from "./recipes/inline-banner";
+import layout from "./recipes/layout";
 import inputButton from "./recipes/input-button";
 import linkContent from "./recipes/link-content";
 import listHeader from "./recipes/list-header";
@@ -106,6 +107,7 @@ export const recipes = {
   imageFrameReactionButton,
   inlineBanner,
   inputButton,
+  layout,
   linkContent,
   listHeader,
   listItem,
