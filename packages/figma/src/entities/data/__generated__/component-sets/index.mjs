@@ -1149,7 +1149,8 @@ export const privateComponentTabsLine = {
 
 export const privateComponentTextInputCardNumberInput = {
   "name": "privateComponentTextInputCardNumberInput",
-  "key": "60888e1eba691721f0ec6a41df43c1c075e5beac"
+  "key": "60888e1eba691721f0ec6a41df43c1c075e5beac",
+  "componentPropertyDefinitions": {}
 };
 
 export const privateComponentTextInputIdNumberInput = {
