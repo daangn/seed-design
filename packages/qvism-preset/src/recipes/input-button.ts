@@ -1,3 +1,6 @@
+import spec from "@seed-design/rootage-artifacts/components/input-button.json" with {
+  type: "json",
+};
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
@@ -278,6 +281,9 @@ const inputButton = defineSlotRecipe({
   },
   defaultVariants: {
     size: "large",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 
