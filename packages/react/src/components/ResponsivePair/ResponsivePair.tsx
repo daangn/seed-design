@@ -1,15 +1,16 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
+import type { DistributiveOmit } from "../../utils/styled";
 import { Flex, type FlexProps } from "../Flex";
 
-export interface ResponsivePairProps extends Omit<FlexProps, "flexDirection" | "flexWrap"> {
+export type ResponsivePairProps = DistributiveOmit<FlexProps, "flexDirection" | "flexWrap"> & {
   /**
    * @default "wrap-reverse"
    */
   wrap?: "wrap" | "wrap-reverse";
 
   children: [React.ReactNode, React.ReactNode];
-}
+};
 
 export const ResponsivePair = React.forwardRef<HTMLDivElement, ResponsivePairProps>(
   (props, ref) => {

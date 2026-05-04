@@ -1,10 +1,11 @@
 import * as React from "react";
+import type { DistributiveOmit } from "../../utils/styled";
 import { Box, type BoxProps } from "../Box/Box";
 
 /**
  * @deprecated Use `HStack` instead.
  */
-export interface ColumnsProps extends Omit<BoxProps, "display" | "direction"> {}
+export type ColumnsProps = DistributiveOmit<BoxProps, "display" | "direction">;
 
 /**
  * @deprecated Use `HStack` instead.
@@ -25,9 +26,9 @@ export const Columns = React.forwardRef<HTMLDivElement, ColumnsProps>((props, re
 /**
  * @deprecated Use `HStack` instead.
  */
-export interface ColumnProps extends Omit<BoxProps, "display" | "flexDirection" | "width"> {
+export type ColumnProps = DistributiveOmit<BoxProps, "display" | "flexDirection" | "width"> & {
   width?: BoxProps["width"] | "content";
-}
+};
 
 /**
  * @deprecated Use `HStack` instead.
