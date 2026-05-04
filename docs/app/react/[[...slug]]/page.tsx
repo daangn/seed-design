@@ -3,7 +3,7 @@ import { reactSource } from "@/app/source";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import { mdxComponents } from "@/components/mdx-components";
 import { LLMOptions, ViewOptions } from "@/components/page-actions";
-import { getComponentStatus } from "@/components/rootage";
+import { getComponentStatus } from "@/lib/rootage";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

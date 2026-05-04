@@ -1,4 +1,5 @@
-import { getRootage, stringifyValueLit } from "@/components/rootage";
+import { getRootage } from "@/lib/rootage";
+import { stringifyValueLit } from "@/components/rootage";
 import { TokenLink } from "@/components/token-link";
 import { TypeIndicator } from "@/components/type-indicator";
 import { IconArrowRightLine } from "@karrotmarket/react-monochrome-icon";
