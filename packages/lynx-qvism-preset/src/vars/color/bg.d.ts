@@ -64,6 +64,8 @@ export declare const positiveWeak = "var(--seed-color-bg-positive-weak)";
 export declare const positiveWeakPressed = "var(--seed-color-bg-positive-weak-pressed)";
 export declare const transparent = "var(--seed-color-bg-transparent)";
 export declare const transparentPressed = "var(--seed-color-bg-transparent-pressed)";
+export declare const transparentSelected = "var(--seed-color-bg-transparent-selected)";
+export declare const transparentSelectedPressed = "var(--seed-color-bg-transparent-selected-pressed)";
 /** 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid) */
 export declare const warningSolid = "var(--seed-color-bg-warning-solid)";
 /** 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid-pressed) */
