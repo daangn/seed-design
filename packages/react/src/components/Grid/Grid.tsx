@@ -1,10 +1,10 @@
 import { mergeProps } from "@seed-design/dom-utils";
 import * as React from "react";
 import type { ResponsiveValue } from "../../types/responsive";
-import { resolveResponsive } from "../../utils/styled";
+import { resolveResponsive, type DistributiveOmit } from "../../utils/styled";
 import { Box, type BoxProps } from "../Box/Box";
 
-export interface GridProps extends Omit<BoxProps, "display"> {
+export type GridProps = DistributiveOmit<BoxProps, "display"> & {
   /**
    * @default "grid"
    */
@@ -52,7 +52,7 @@ export interface GridProps extends Omit<BoxProps, "display"> {
    * Shorthand for `gridAutoRows`.
    */
   autoRows?: string;
-}
+};
 
 function handleGridTemplate(v: number | string): string {
   return typeof v === "number" ? `repeat(${v}, minmax(0, 1fr))` : v;
