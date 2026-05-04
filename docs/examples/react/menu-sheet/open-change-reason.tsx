@@ -19,10 +19,10 @@ export default function MenuSheetOnOpenChangeReason() {
     <VStack gap="x4" align="center">
       <MenuSheetRoot
         open={open}
-        onOpenChange={(open, meta) => {
+        onOpenChange={(open, details) => {
           setOpen(open);
 
-          (open ? setOpenReason : setCloseReason)(meta?.reason ?? null);
+          (open ? setOpenReason : setCloseReason)(details?.reason ?? null);
         }}
       >
         <MenuSheetTrigger asChild>

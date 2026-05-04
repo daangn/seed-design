@@ -1,0 +1,273 @@
+---
+title: Menu
+description: 버튼 클릭 시 관련된 작업 항목을 보여주는 플로팅 드롭다운 메뉴 컴포넌트입니다.
+---
+
+<ComponentExample name="react/menu/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:menu
+```
+
+<ManualInstallation name="menu" />
+
+## Usage
+
+Menu는 아래와 같은 구조로 구성됩니다.
+
+```tsx
+import {
+  MenuRoot,
+  MenuTrigger,
+  MenuContent,
+  MenuGroup,
+  MenuGroupLabel,
+  MenuItem,
+} from "seed-design/ui/menu";
+```
+
+```tsx
+<MenuRoot>
+  <MenuTrigger>...</MenuTrigger>
+  <MenuContent>
+    <MenuGroup>
+      <MenuGroupLabel>그룹 제목</MenuGroupLabel>
+      <MenuItem label="항목 1" />
+      <MenuItem label="항목 2" />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItem label="항목 3" />
+    </MenuGroup>
+  </MenuContent>
+</MenuRoot>
+```
+
+- `MenuRoot`: 메뉴의 상태(열림/닫힘)와 위치를 관리합니다.
+- `MenuTrigger`: 클릭 시 메뉴를 열고 닫는 트리거입니다.
+- `MenuAnchor`: 메뉴의 위치 기준점만 제공하며, 열고 닫는 동작은 포함하지 않습니다. `FieldButton`처럼 내부 `<button>`을 직접 제어해야 하는 경우에 `MenuTrigger` 대신 사용합니다.
+- `MenuContent`: 메뉴 항목들을 감싸는 플로팅 컨테이너입니다.
+- `MenuGroup`: 관련된 항목들을 그룹으로 묶습니다. 모든 `MenuItem`은 `MenuGroup` 안에 있어야 합니다.
+- `MenuGroupLabel`: 그룹의 제목을 표시합니다.
+- `MenuItem`: 개별 메뉴 항목입니다.
+
+## Props
+
+### `MenuRoot`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuRootProps"
+/>
+
+### `MenuTrigger`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuTriggerProps"
+/>
+
+### `MenuAnchor`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuAnchorProps"
+/>
+
+### `MenuContent`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuContentProps"
+/>
+
+### `MenuGroup`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuGroupProps"
+/>
+
+### `MenuGroupLabel`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuGroupLabelProps"
+/>
+
+### `MenuItem`
+
+<react-type-table
+  path="./registry/ui/menu.tsx"
+  name="MenuItemProps"
+/>
+
+## Examples
+
+### Trigger
+
+`<MenuTrigger>`는 `aria-haspopup="menu"` 속성을 설정하고, Menu의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+<ComponentExample name="react/menu/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Size
+
+`MenuRoot`의 `size` prop으로 메뉴의 크기를 설정합니다.
+
+<ComponentExample name="react/menu/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Description
+
+`MenuItem`의 `description` prop을 사용하여 항목에 부가 설명을 추가합니다.
+
+<ComponentExample name="react/menu/with-description">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/with-description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Tone
+
+`MenuItem`의 `tone` prop으로 항목의 톤을 설정합니다.
+
+<ComponentExample name="react/menu/tone">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/tone.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled Items
+
+`MenuItem`의 `disabled` prop을 사용하여 특정 항목을 비활성화합니다.
+
+<ComponentExample name="react/menu/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Placement
+
+`MenuRoot`의 `placement` prop으로 메뉴의 위치를 설정합니다. 기본값은 `"bottom"`입니다.
+
+<ComponentExample name="react/menu/placement">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/placement.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Anchor
+
+`MenuAnchor`의 `children`은 Menu가 위치를 잡는 데에만 사용되며, `MenuTrigger`와 달리 클릭으로 열고 닫는 동작이 포함되지 않습니다.
+
+`open` prop을 controlled하게 사용하여 열리고 닫힌 상태를 직접 관리해야 합니다.
+
+<Callout title="Menu는 기본적으로 Menu 밖 영역에서 클릭(마우스 환경) 또는 드래그(터치 환경)가 발생할 때 닫힙니다.">
+
+아래 예시의 경우 `onOpenChange` 콜백에 조건을 추가하여 바깥 영역을 클릭한 경우에도 메뉴가 닫히지 않도록 구현되어 있습니다.
+
+</Callout>
+
+<ComponentExample name="react/menu/anchor">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/anchor.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Match Width
+
+`MenuRoot`의 `matchReferenceWidth` prop을 사용하면 메뉴의 너비가 reference 요소(Trigger 또는 Anchor)의 너비에 맞춰집니다.
+
+<ComponentExample name="react/menu/match-reference-width">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/match-reference-width.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With FieldButton
+
+`FieldButton`은 내부에 별도의 `<button>` 요소를 가진 복합 컴포넌트이므로, `MenuTrigger` 대신 `MenuAnchor`를 사용합니다. `buttonProps`를 통해 `onClick`, `aria-haspopup`, `aria-expanded`를 내부 `<button>` 요소에 직접 전달합니다.
+
+`matchReferenceWidth`를 함께 사용하면 메뉴 너비가 `FieldButton`에 맞춰져 Select와 유사한 UI를 구현할 수 있습니다.
+
+<ComponentExample name="react/menu/with-field-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/with-field-button.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+<Card title="Field Button" href="/react/components/field-button">
+
+입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.
+
+</Card>
+
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `MenuTrigger`로 열림
+
+**닫힐 때** (`open: false`)
+
+- `"trigger"`: `MenuTrigger`로 닫힘
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+- `"itemClick"`: 메뉴 항목 클릭
+- `"cascadeDismiss"`: 상위 레이어 닫힘으로 인한 연쇄 닫힘
+
+<ComponentExample name="react/menu/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
