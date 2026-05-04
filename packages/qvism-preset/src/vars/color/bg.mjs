@@ -14,7 +14,6 @@ export const informativeWeakPressed = "var(--seed-color-bg-informative-weak-pres
 export const layerBasement = "var(--seed-color-bg-layer-basement)";
 export const layerDefault = "var(--seed-color-bg-layer-default)";
 export const layerDefaultPressed = "var(--seed-color-bg-layer-default-pressed)";
-export const layerFill = "var(--seed-color-bg-layer-fill)";
 export const layerFloating = "var(--seed-color-bg-layer-floating)";
 export const layerFloatingPressed = "var(--seed-color-bg-layer-floating-pressed)";
 export const magicWeak = "var(--seed-color-bg-magic-weak)";

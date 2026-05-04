@@ -26,12 +26,7 @@ export const AppBarPropsProvider = PropsProvider;
 export interface AppBarProps
   extends AppBarVariantProps,
     AppBarPrimitive.RootProps,
-    BoxBackgroundProps {
-  /**
-   * @deprecated SEED React 1.3에서 제거될 예정인 옵션입니다. 옵션 제거 이후에는 AppBar 하단 구분선이 표시되지 않습니다.
-   */
-  divider?: AppBarVariantProps["divider"];
-}
+    BoxBackgroundProps {}
 
 export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) => {
   const { style: boxStyle, restProps: propsWithoutBoxProps } = useBoxBackgroundProps(props);
