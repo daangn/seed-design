@@ -428,19 +428,109 @@ export default plugin(
     "lineHeight": "var(--seed-line-height-t7)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
+  "t8-regular": {
+    "fontSize": "var(--seed-font-size-t8)",
+    "lineHeight": "var(--seed-line-height-t8)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t8-medium": {
+    "fontSize": "var(--seed-font-size-t8)",
+    "lineHeight": "var(--seed-line-height-t8)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
   "t8-bold": {
     "fontSize": "var(--seed-font-size-t8)",
     "lineHeight": "var(--seed-line-height-t8)",
     "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t9-regular": {
+    "fontSize": "var(--seed-font-size-t9)",
+    "lineHeight": "var(--seed-line-height-t9)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t9-medium": {
+    "fontSize": "var(--seed-font-size-t9)",
+    "lineHeight": "var(--seed-line-height-t9)",
+    "fontWeight": "var(--seed-font-weight-medium)"
   },
   "t9-bold": {
     "fontSize": "var(--seed-font-size-t9)",
     "lineHeight": "var(--seed-line-height-t9)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
+  "t10-regular": {
+    "fontSize": "var(--seed-font-size-t10)",
+    "lineHeight": "var(--seed-line-height-t10)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t10-medium": {
+    "fontSize": "var(--seed-font-size-t10)",
+    "lineHeight": "var(--seed-line-height-t10)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
   "t10-bold": {
     "fontSize": "var(--seed-font-size-t10)",
     "lineHeight": "var(--seed-line-height-t10)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t11-regular": {
+    "fontSize": "var(--seed-font-size-t11)",
+    "lineHeight": "var(--seed-line-height-t11)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t11-medium": {
+    "fontSize": "var(--seed-font-size-t11)",
+    "lineHeight": "var(--seed-line-height-t11)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t11-bold": {
+    "fontSize": "var(--seed-font-size-t11)",
+    "lineHeight": "var(--seed-line-height-t11)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t12-regular": {
+    "fontSize": "var(--seed-font-size-t12)",
+    "lineHeight": "var(--seed-line-height-t12)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t12-medium": {
+    "fontSize": "var(--seed-font-size-t12)",
+    "lineHeight": "var(--seed-line-height-t12)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t12-bold": {
+    "fontSize": "var(--seed-font-size-t12)",
+    "lineHeight": "var(--seed-line-height-t12)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t13-regular": {
+    "fontSize": "var(--seed-font-size-t13)",
+    "lineHeight": "var(--seed-line-height-t13)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t13-medium": {
+    "fontSize": "var(--seed-font-size-t13)",
+    "lineHeight": "var(--seed-line-height-t13)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t13-bold": {
+    "fontSize": "var(--seed-font-size-t13)",
+    "lineHeight": "var(--seed-line-height-t13)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t14-regular": {
+    "fontSize": "var(--seed-font-size-t14)",
+    "lineHeight": "var(--seed-line-height-t14)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t14-medium": {
+    "fontSize": "var(--seed-font-size-t14)",
+    "lineHeight": "var(--seed-line-height-t14)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t14-bold": {
+    "fontSize": "var(--seed-font-size-t14)",
+    "lineHeight": "var(--seed-line-height-t14)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
   "t1-static-regular": {
@@ -548,19 +638,109 @@ export default plugin(
     "lineHeight": "var(--seed-line-height-t7-static)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
+  "t8-static-regular": {
+    "fontSize": "var(--seed-font-size-t8-static)",
+    "lineHeight": "var(--seed-line-height-t8-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t8-static-medium": {
+    "fontSize": "var(--seed-font-size-t8-static)",
+    "lineHeight": "var(--seed-line-height-t8-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
   "t8-static-bold": {
     "fontSize": "var(--seed-font-size-t8-static)",
     "lineHeight": "var(--seed-line-height-t8-static)",
     "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t9-static-regular": {
+    "fontSize": "var(--seed-font-size-t9-static)",
+    "lineHeight": "var(--seed-line-height-t9-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t9-static-medium": {
+    "fontSize": "var(--seed-font-size-t9-static)",
+    "lineHeight": "var(--seed-line-height-t9-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
   },
   "t9-static-bold": {
     "fontSize": "var(--seed-font-size-t9-static)",
     "lineHeight": "var(--seed-line-height-t9-static)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
+  "t10-static-regular": {
+    "fontSize": "var(--seed-font-size-t10-static)",
+    "lineHeight": "var(--seed-line-height-t10-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t10-static-medium": {
+    "fontSize": "var(--seed-font-size-t10-static)",
+    "lineHeight": "var(--seed-line-height-t10-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
   "t10-static-bold": {
     "fontSize": "var(--seed-font-size-t10-static)",
     "lineHeight": "var(--seed-line-height-t10-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t11-static-regular": {
+    "fontSize": "var(--seed-font-size-t11-static)",
+    "lineHeight": "var(--seed-line-height-t11-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t11-static-medium": {
+    "fontSize": "var(--seed-font-size-t11-static)",
+    "lineHeight": "var(--seed-line-height-t11-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t11-static-bold": {
+    "fontSize": "var(--seed-font-size-t11-static)",
+    "lineHeight": "var(--seed-line-height-t11-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t12-static-regular": {
+    "fontSize": "var(--seed-font-size-t12-static)",
+    "lineHeight": "var(--seed-line-height-t12-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t12-static-medium": {
+    "fontSize": "var(--seed-font-size-t12-static)",
+    "lineHeight": "var(--seed-line-height-t12-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t12-static-bold": {
+    "fontSize": "var(--seed-font-size-t12-static)",
+    "lineHeight": "var(--seed-line-height-t12-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t13-static-regular": {
+    "fontSize": "var(--seed-font-size-t13-static)",
+    "lineHeight": "var(--seed-line-height-t13-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t13-static-medium": {
+    "fontSize": "var(--seed-font-size-t13-static)",
+    "lineHeight": "var(--seed-line-height-t13-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t13-static-bold": {
+    "fontSize": "var(--seed-font-size-t13-static)",
+    "lineHeight": "var(--seed-line-height-t13-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t14-static-regular": {
+    "fontSize": "var(--seed-font-size-t14-static)",
+    "lineHeight": "var(--seed-line-height-t14-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t14-static-medium": {
+    "fontSize": "var(--seed-font-size-t14-static)",
+    "lineHeight": "var(--seed-line-height-t14-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t14-static-bold": {
+    "fontSize": "var(--seed-font-size-t14-static)",
+    "lineHeight": "var(--seed-line-height-t14-static)",
     "fontWeight": "var(--seed-font-weight-bold)"
   }
 },
@@ -615,6 +795,10 @@ export default plugin(
   "t8": "var(--seed-font-size-t8)",
   "t9": "var(--seed-font-size-t9)",
   "t10": "var(--seed-font-size-t10)",
+  "t11": "var(--seed-font-size-t11)",
+  "t12": "var(--seed-font-size-t12)",
+  "t13": "var(--seed-font-size-t13)",
+  "t14": "var(--seed-font-size-t14)",
   "t1-static": "var(--seed-font-size-t1-static)",
   "t2-static": "var(--seed-font-size-t2-static)",
   "t3-static": "var(--seed-font-size-t3-static)",
@@ -624,7 +808,11 @@ export default plugin(
   "t7-static": "var(--seed-font-size-t7-static)",
   "t8-static": "var(--seed-font-size-t8-static)",
   "t9-static": "var(--seed-font-size-t9-static)",
-  "t10-static": "var(--seed-font-size-t10-static)"
+  "t10-static": "var(--seed-font-size-t10-static)",
+  "t11-static": "var(--seed-font-size-t11-static)",
+  "t12-static": "var(--seed-font-size-t12-static)",
+  "t13-static": "var(--seed-font-size-t13-static)",
+  "t14-static": "var(--seed-font-size-t14-static)"
 },
         lineHeight: {
   "t1": "var(--seed-line-height-t1)",
@@ -637,6 +825,10 @@ export default plugin(
   "t8": "var(--seed-line-height-t8)",
   "t9": "var(--seed-line-height-t9)",
   "t10": "var(--seed-line-height-t10)",
+  "t11": "var(--seed-line-height-t11)",
+  "t12": "var(--seed-line-height-t12)",
+  "t13": "var(--seed-line-height-t13)",
+  "t14": "var(--seed-line-height-t14)",
   "t1-static": "var(--seed-line-height-t1-static)",
   "t2-static": "var(--seed-line-height-t2-static)",
   "t3-static": "var(--seed-line-height-t3-static)",
@@ -646,7 +838,11 @@ export default plugin(
   "t7-static": "var(--seed-line-height-t7-static)",
   "t8-static": "var(--seed-line-height-t8-static)",
   "t9-static": "var(--seed-line-height-t9-static)",
-  "t10-static": "var(--seed-line-height-t10-static)"
+  "t10-static": "var(--seed-line-height-t10-static)",
+  "t11-static": "var(--seed-line-height-t11-static)",
+  "t12-static": "var(--seed-line-height-t12-static)",
+  "t13-static": "var(--seed-line-height-t13-static)",
+  "t14-static": "var(--seed-line-height-t14-static)"
 },
         fontWeight: {
   "regular": "var(--seed-font-weight-regular)",
