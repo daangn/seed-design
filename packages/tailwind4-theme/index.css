@@ -145,6 +145,8 @@
   --color-bg-positive-weak-pressed: var(--seed-color-bg-positive-weak-pressed);
   --color-bg-transparent: var(--seed-color-bg-transparent);
   --color-bg-transparent-pressed: var(--seed-color-bg-transparent-pressed);
+  --color-bg-transparent-selected: var(--seed-color-bg-transparent-selected);
+  --color-bg-transparent-selected-pressed: var(--seed-color-bg-transparent-selected-pressed);
   --color-bg-warning-solid: var(--seed-color-bg-warning-solid);
   --color-bg-warning-solid-pressed: var(--seed-color-bg-warning-solid-pressed);
   --color-bg-warning-weak: var(--seed-color-bg-warning-weak);
@@ -153,6 +155,7 @@
   --color-stroke-brand-weak: var(--seed-color-stroke-brand-weak);
   --color-stroke-critical-solid: var(--seed-color-stroke-critical-solid);
   --color-stroke-critical-weak: var(--seed-color-stroke-critical-weak);
+  --color-stroke-focus-ring: var(--seed-color-stroke-focus-ring);
   --color-stroke-informative-solid: var(--seed-color-stroke-informative-solid);
   --color-stroke-informative-weak: var(--seed-color-stroke-informative-weak);
   --color-stroke-neutral-contrast: var(--seed-color-stroke-neutral-contrast);
@@ -164,7 +167,6 @@
   --color-stroke-positive-weak: var(--seed-color-stroke-positive-weak);
   --color-stroke-warning-solid: var(--seed-color-stroke-warning-solid);
   --color-stroke-warning-weak: var(--seed-color-stroke-warning-weak);
-  --color-stroke-focus-ring: var(--seed-color-stroke-focus-ring);
   --color-manner-temp-l1-bg: var(--seed-color-manner-temp-l1-bg);
   --color-manner-temp-l1-text: var(--seed-color-manner-temp-l1-text);
   --color-manner-temp-l10-bg: var(--seed-color-manner-temp-l10-bg);

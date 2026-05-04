@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 26-01-15
+  lastUpdated: 26-06-15
 data:
   collection: color
   tokens:
@@ -634,6 +634,14 @@ data:
       values:
         theme-light: $color.palette.static-black-alpha-100
         theme-dark: $color.palette.static-white-alpha-50
+    $color.bg.transparent-selected:
+      values:
+        theme-light: $color.palette.static-black-alpha-200
+        theme-dark: $color.palette.static-white-alpha-100
+    $color.bg.transparent-selected-pressed:
+      values:
+        theme-light: $color.palette.static-black-alpha-300
+        theme-dark: $color.palette.static-white-alpha-200
     $color.bg.warning-solid:
       description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)
       values:
@@ -674,6 +682,10 @@ data:
       values:
         theme-light: $color.palette.red-300
         theme-dark: $color.palette.red-300
+    $color.stroke.focus-ring:
+      values:
+        theme-light: $color.palette.blue-600
+        theme-dark: $color.palette.blue-600
     $color.stroke.informative-solid:
       description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)
       values:
@@ -729,10 +741,6 @@ data:
       values:
         theme-light: $color.palette.yellow-300
         theme-dark: $color.palette.yellow-300
-    $color.stroke.focus-ring:
-      values:
-        theme-light: $color.palette.blue-600
-        theme-dark: $color.palette.blue-600
     $color.manner-temp.l1.bg:
       values:
         theme-light: "#f1f2f3"
