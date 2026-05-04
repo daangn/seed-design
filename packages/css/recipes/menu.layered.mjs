@@ -33,7 +33,8 @@ const compoundVariants = [];
 export const menuVariantMap = {
   "size": [
     "medium",
-    "small"
+    "small",
+    "responsive"
   ]
 };
 
