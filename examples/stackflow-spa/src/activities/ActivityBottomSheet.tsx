@@ -70,7 +70,11 @@ const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = 
     : (open: boolean) => !open && pop();
 
   return (
-    <BottomSheetRoot open={open} onOpenChange={onOpenChange}>
+    <BottomSheetRoot
+      open={open}
+      modal={keepMounted ? activity.isActive : undefined}
+      onOpenChange={onOpenChange}
+    >
       <BottomSheetContent
         showHandle
         showCloseButton={false}
