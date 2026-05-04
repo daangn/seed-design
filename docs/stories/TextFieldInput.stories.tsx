@@ -6,7 +6,7 @@ import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
 import { textInputVariantMap } from "@seed-design/css/recipes/text-input";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { VIEWPORT_MODES, createStoryWithParameters } from "@/stories/utils/parameters";
 
 const meta = {
   component: TextField,
@@ -68,7 +68,12 @@ const CommonStoryTemplate: Story = {
   ),
 };
 
-export const LightTheme = CommonStoryTemplate;
+export const LightTheme: Story = {
+  ...CommonStoryTemplate,
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
+};
 
 export const DarkTheme = createStoryWithParameters({
   ...CommonStoryTemplate,

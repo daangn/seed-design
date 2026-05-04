@@ -38,6 +38,19 @@ export default function MenuSize() {
           </MenuGroup>
         </MenuContent>
       </MenuRoot>
+
+      <MenuRoot size="responsive">
+        <MenuTrigger asChild>
+          <ActionButton variant="neutralSolid">Responsive</ActionButton>
+        </MenuTrigger>
+        <MenuContent>
+          <MenuGroup>
+            <MenuGroupLabel>작업</MenuGroupLabel>
+            <MenuItem label="추가" prefixIcon={<IconPlusLine />} />
+            <MenuItem label="수정" prefixIcon={<IconPencilLine />} />
+          </MenuGroup>
+        </MenuContent>
+      </MenuRoot>
     </HStack>
   );
 }

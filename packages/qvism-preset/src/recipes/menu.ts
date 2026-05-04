@@ -21,6 +21,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { prefixIcon, suffixIcon } from "../utils/icon";
+import { breakpoints } from "../utils/breakpoint";
 
 // implement when submenu is needed
 // const highlighted = "[data-highlighted]";
@@ -134,6 +135,36 @@ export const menu = defineSlotRecipe({
           fontSize: menuVars.sizeSmall.enabled.groupLabel.fontSize,
           lineHeight: menuVars.sizeSmall.enabled.groupLabel.lineHeight,
           fontWeight: menuVars.sizeSmall.enabled.groupLabel.fontWeight,
+        },
+      },
+      responsive: {
+        content: {
+          width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeMedium.enabled.root.width})`,
+
+          [breakpoints.up("lg")]: {
+            width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeSmall.enabled.root.width})`,
+          },
+        },
+        groupLabel: {
+          paddingTop: menuVars.sizeMedium.enabled.groupLabel.paddingY,
+          paddingBottom: menuVars.sizeMedium.enabled.groupLabel.paddingY,
+          paddingLeft: menuVars.sizeMedium.enabled.groupLabel.paddingX,
+          paddingRight: menuVars.sizeMedium.enabled.groupLabel.paddingX,
+
+          fontSize: menuVars.sizeMedium.enabled.groupLabel.fontSize,
+          lineHeight: menuVars.sizeMedium.enabled.groupLabel.lineHeight,
+          fontWeight: menuVars.sizeMedium.enabled.groupLabel.fontWeight,
+
+          [breakpoints.up("lg")]: {
+            paddingTop: menuVars.sizeSmall.enabled.groupLabel.paddingY,
+            paddingBottom: menuVars.sizeSmall.enabled.groupLabel.paddingY,
+            paddingLeft: menuVars.sizeSmall.enabled.groupLabel.paddingX,
+            paddingRight: menuVars.sizeSmall.enabled.groupLabel.paddingX,
+
+            fontSize: menuVars.sizeSmall.enabled.groupLabel.fontSize,
+            lineHeight: menuVars.sizeSmall.enabled.groupLabel.lineHeight,
+            fontWeight: menuVars.sizeSmall.enabled.groupLabel.fontWeight,
+          },
         },
       },
     },
@@ -289,6 +320,59 @@ export const menuItem = defineSlotRecipe({
         description: {
           fontSize: menuItemVars.sizeSmall.enabled.description.fontSize,
           lineHeight: menuItemVars.sizeSmall.enabled.description.lineHeight,
+        },
+      },
+      responsive: {
+        root: {
+          paddingTop: menuItemVars.sizeMedium.enabled.root.paddingY,
+          paddingBottom: menuItemVars.sizeMedium.enabled.root.paddingY,
+          paddingLeft: menuItemVars.sizeMedium.enabled.root.paddingX,
+          paddingRight: menuItemVars.sizeMedium.enabled.root.paddingX,
+
+          gap: menuItemVars.sizeMedium.enabled.root.gap,
+
+          ...prefixIcon({
+            size: menuItemVars.sizeMedium.enabled.prefixIcon.size,
+          }),
+
+          ...suffixIcon({
+            size: menuItemVars.sizeMedium.enabled.suffixIcon.size,
+          }),
+
+          [breakpoints.up("lg")]: {
+            paddingTop: menuItemVars.sizeSmall.enabled.root.paddingY,
+            paddingBottom: menuItemVars.sizeSmall.enabled.root.paddingY,
+            paddingLeft: menuItemVars.sizeSmall.enabled.root.paddingX,
+            paddingRight: menuItemVars.sizeSmall.enabled.root.paddingX,
+
+            gap: menuItemVars.sizeSmall.enabled.root.gap,
+
+            ...prefixIcon({
+              size: menuItemVars.sizeSmall.enabled.prefixIcon.size,
+            }),
+
+            ...suffixIcon({
+              size: menuItemVars.sizeSmall.enabled.suffixIcon.size,
+            }),
+          },
+        },
+        label: {
+          fontSize: menuItemVars.sizeMedium.enabled.label.fontSize,
+          lineHeight: menuItemVars.sizeMedium.enabled.label.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: menuItemVars.sizeSmall.enabled.label.fontSize,
+            lineHeight: menuItemVars.sizeSmall.enabled.label.lineHeight,
+          },
+        },
+        description: {
+          fontSize: menuItemVars.sizeMedium.enabled.description.fontSize,
+          lineHeight: menuItemVars.sizeMedium.enabled.description.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: menuItemVars.sizeSmall.enabled.description.fontSize,
+            lineHeight: menuItemVars.sizeSmall.enabled.description.lineHeight,
+          },
         },
       },
     },
