@@ -125,105 +125,6 @@ function handleGradient(gradientToken: string | undefined, direction: string | u
   return `linear-gradient(${direction}, ${colorStops})`;
 }
 
-function handleDisplay(display: string | undefined) {
-  if (!display) {
-    return undefined;
-  }
-
-  if (process.env.NODE_ENV !== "production") {
-    if (display === "inlineFlex" || display === "inlineBlock") {
-      console.warn(
-        `[SEED Design System] display='${display}' is deprecated and will be removed in @seed-design/react@1.3.0. Use display='${display === "inlineFlex" ? "inline-flex" : "inline-block"}' instead.`,
-      );
-    }
-  }
-
-  return (
-    {
-      flex: "flex",
-      grid: "grid",
-      inlineFlex: "inline-flex", // @deprecated Use `inline-flex` instead.
-      inlineBlock: "inline-block", // @deprecated Use `inline-block` instead.
-      none: "none",
-    }[display] ?? display
-  );
-}
-
-function handleFlexDirection(flexDirection: string | undefined) {
-  if (!flexDirection) {
-    return undefined;
-  }
-
-  if (process.env.NODE_ENV !== "production") {
-    if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
-      console.warn(
-        `[SEED Design System] flexDirection='${flexDirection}' is deprecated and will be removed in @seed-design/react@1.3.0. Use flexDirection='${flexDirection === "rowReverse" ? "row-reverse" : "column-reverse"}' instead.`,
-      );
-    }
-  }
-
-  return (
-    {
-      row: "row",
-      column: "column",
-      rowReverse: "row-reverse", // @deprecated Use `row-reverse` instead.
-      columnReverse: "column-reverse", // @deprecated Use `column-reverse` instead.
-    }[flexDirection] ?? flexDirection
-  );
-}
-
-function handleJustifyContent(justifyContent: string | undefined) {
-  if (!justifyContent) {
-    return undefined;
-  }
-
-  if (process.env.NODE_ENV !== "production") {
-    if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
-      console.warn(
-        `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
-      );
-    }
-    if (justifyContent === "spaceBetween" || justifyContent === "spaceAround") {
-      console.warn(
-        `[SEED Design System] justifyContent='${justifyContent}' is deprecated and will be removed in @seed-design/react@1.3.0. Use justifyContent='${justifyContent === "spaceBetween" ? "space-between" : "space-around"}' instead.`,
-      );
-    }
-  }
-
-  return (
-    {
-      flexStart: "flex-start", // @deprecated Use `flex-start` instead.
-      flexEnd: "flex-end", // @deprecated Use `flex-end` instead.
-      center: "center",
-      spaceBetween: "space-between", // @deprecated Use `space-between` instead.
-      spaceAround: "space-around", // @deprecated Use `space-around` instead.
-    }[justifyContent] ?? justifyContent
-  );
-}
-
-function handleAlignItems(alignItems: string | undefined) {
-  if (!alignItems) {
-    return undefined;
-  }
-
-  if (process.env.NODE_ENV !== "production") {
-    if (alignItems === "flexStart" || alignItems === "flexEnd") {
-      console.warn(
-        `[SEED Design System] alignItems='${alignItems}' is deprecated and will be removed in @seed-design/react@1.3.0. Use alignItems='${alignItems === "flexStart" ? "flex-start" : "flex-end"}' instead.`,
-      );
-    }
-  }
-
-  return (
-    {
-      flexStart: "flex-start", // @deprecated Use `flex-start` instead.
-      flexEnd: "flex-end", // @deprecated Use `flex-end` instead.
-      center: "center",
-      stretch: "stretch",
-    }[alignItems] ?? alignItems
-  );
-}
-
 export interface StyleProps {
   /**
    * Shorthand for `background`.
@@ -452,15 +353,7 @@ export interface StyleProps {
   >;
 
   display?: ResponsiveValue<
-    | "block"
-    | "flex"
-    | "grid"
-    | "inline-flex"
-    | "inline"
-    | "inline-block"
-    | "none"
-    | "inlineFlex" // @deprecated Use `inline-flex` instead.
-    | "inlineBlock" // @deprecated Use `inline-block` instead.
+    "block" | "flex" | "grid" | "inline-flex" | "inline" | "inline-block" | "none"
   >;
 
   position?: "relative" | "absolute" | "fixed" | "sticky";
@@ -482,59 +375,25 @@ export interface StyleProps {
   flexShrink?: 0 | (number & {}) | true;
 
   // Flex
-  flexDirection?: ResponsiveValue<
-    | "row"
-    | "column"
-    | "row-reverse"
-    | "column-reverse"
-    | "rowReverse" // @deprecated Use `row-reverse` instead.
-    | "columnReverse" // @deprecated Use `column-reverse` instead.
-  >;
+  flexDirection?: ResponsiveValue<"row" | "column" | "row-reverse" | "column-reverse">;
 
   /**
    * If true, flex-wrap will be set to `wrap`.
    */
   flexWrap?: "wrap" | "wrap-reverse" | "nowrap" | true;
 
-  justifyContent?:
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "space-between"
-    | "space-around"
-    | "flexStart" // @deprecated Use `flex-start` instead.
-    | "flexEnd" // @deprecated Use `flex-end` instead.
-    | "spaceBetween" // @deprecated Use `space-between` instead.
-    | "spaceAround"; // @deprecated Use `space-around` instead.
+  justifyContent?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around";
 
   /**
    * In flexbox layout, this property is ignored.
    */
   justifySelf?: "center" | "start" | "end" | "stretch";
 
-  alignItems?:
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "stretch"
-    | "flexStart" // @deprecated Use `flex-start` instead.
-    | "flexEnd"; // @deprecated Use `flex-end` instead.
+  alignItems?: "flex-start" | "flex-end" | "center" | "stretch";
 
-  alignContent?:
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "stretch"
-    | "flexStart" // @deprecated Use `flex-start` instead.
-    | "flexEnd"; // @deprecated Use `flex-end` instead.
+  alignContent?: "flex-start" | "flex-end" | "center" | "stretch";
 
-  alignSelf?:
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "stretch"
-    | "flexStart" // @deprecated Use `flex-start` instead.
-    | "flexEnd"; // @deprecated Use `flex-end` instead.
+  alignSelf?: "flex-start" | "flex-end" | "center" | "stretch";
 
   gap?: ResponsiveValue<
     Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
@@ -677,11 +536,11 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-flex-grow": flexGrow === true ? 1 : flexGrow,
       "--seed-box-flex-shrink": flexShrink === true ? 1 : flexShrink,
       "--seed-box-flex-wrap": flexWrap === true ? "wrap" : flexWrap,
-      "--seed-box-justify-content": handleJustifyContent(justifyContent),
+      "--seed-box-justify-content": justifyContent,
       "--seed-box-justify-self": justifySelf,
-      "--seed-box-align-items": handleAlignItems(alignItems),
-      "--seed-box-align-content": handleAlignItems(alignContent),
-      "--seed-box-align-self": handleAlignItems(alignSelf),
+      "--seed-box-align-items": alignItems,
+      "--seed-box-align-content": alignContent,
+      "--seed-box-align-self": alignSelf,
       "--seed-box-grid-column": gridColumn,
       "--seed-box-grid-row": gridRow,
       "--seed-box-unstable-transform": unstable_transform,
@@ -735,9 +594,9 @@ export function useStyleProps<T extends UseStyleProps>(
           handleBleed(v, "left"),
         )),
       ...(gap !== undefined && resolveResponsive("--seed-box-gap", gap, handleDimension)),
-      ...(display !== undefined && resolveResponsive("--seed-box-display", display, handleDisplay)),
+      ...(display !== undefined && resolveResponsive("--seed-box-display", display, (v) => v)),
       ...(flexDirection !== undefined &&
-        resolveResponsive("--seed-box-flex-direction", flexDirection, handleFlexDirection)),
+        resolveResponsive("--seed-box-flex-direction", flexDirection, (v) => v)),
       ...style,
     } as React.CSSProperties,
     restProps: {

@@ -238,7 +238,6 @@ export const tokens = {
   --seed-color-bg-layer-basement: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-default: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-100);
-  --seed-color-bg-layer-fill: var(--seed-color-palette-gray-100);
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-100);
   --seed-color-bg-magic-weak: #f9f2ee;
@@ -309,8 +308,6 @@ export const tokens = {
   --seed-color-banner-teal: #e6faf6;
   --seed-color-banner-warm-gray: #f2f0ee;
   --seed-color-banner-yellow: #fffae1;
-  --seed-gradient-fade-layer-floating: #ffffff00 0%, #000000 100%;
-  --seed-gradient-fade-layer-default: #000000 0%, #ffffff00 100%;
   --seed-gradient-glow-magic: #fef6f7 0%, #fef0e7 80%, #f9f7f5 100%;
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
@@ -451,7 +448,6 @@ export const tokens = {
   --seed-color-bg-layer-basement: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-default: var(--seed-color-palette-gray-100);
   --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-300);
-  --seed-color-bg-layer-fill: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-300);
   --seed-color-bg-magic-weak: #201f1f;
@@ -522,8 +518,6 @@ export const tokens = {
   --seed-color-banner-teal: #143633;
   --seed-color-banner-warm-gray: #2f2b27;
   --seed-color-banner-yellow: #3e2b00;
-  --seed-gradient-fade-layer-floating: #1d202500 0%, #000000 100%;
-  --seed-gradient-fade-layer-default: #000000 0%, #16171b00 100%;
   --seed-gradient-glow-magic: #2d252d 0%, #3a312b 80%, #333232 100%;
   --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;

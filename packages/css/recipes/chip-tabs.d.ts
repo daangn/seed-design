@@ -6,7 +6,7 @@ declare interface ChipTabsVariant {
 /**
   * @default "neutralSolid"
   */
-  variant: "neutralSolid" | "neutralOutline" | "brandSolid";
+  variant: "neutralSolid" | "neutralOutline";
 /**
   * @default "hug"
   */

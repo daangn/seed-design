@@ -5,22 +5,7 @@ import { forwardRef } from "react";
 
 export interface ChipTabsRootProps extends SeedChipTabs.RootProps {}
 
-export const ChipTabsRoot = (props: ChipTabsRootProps) => {
-  const { children, variant, ...otherProps } = props;
-
-  if (variant === "brandSolid" && process.env.NODE_ENV !== "production") {
-    console.warn(
-      "ChipTabsRoot: brandSolid variant is deprecated. Use neutralSolid or neutralOutline instead.",
-    );
-  }
-
-  return (
-    <SeedChipTabs.Root variant={variant} {...otherProps}>
-      {children}
-    </SeedChipTabs.Root>
-  );
-};
-ChipTabsRoot.displayName = "ChipTabsRoot";
+export const ChipTabsRoot = SeedChipTabs.Root;
 
 export interface ChipTabsListProps extends SeedChipTabs.ListProps {}
 
