@@ -11,7 +11,7 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
 } from "seed-design/ui/alert-dialog";
-import { Divider, ResponsivePair, VStack } from "@seed-design/react";
+import { ResponsivePair, VStack } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { Switch } from "seed-design/ui/switch";
@@ -49,7 +49,11 @@ const ActivityAlertDialog: StaticActivityComponentType<"ActivityAlertDialog"> = 
     : handleClose;
 
   return (
-    <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
+    <AlertDialogRoot
+      open={open}
+      modal={keepMounted ? activity.isActive : undefined}
+      onOpenChange={onOpenChange}
+    >
       <AlertDialogContent layerIndex={useActivityZIndexBase()}>
         <AlertDialogHeader>
           <AlertDialogTitle>제목</AlertDialogTitle>

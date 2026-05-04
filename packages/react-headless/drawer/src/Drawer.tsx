@@ -1,12 +1,15 @@
 "use client";
 
-import { useComposedRefs } from "@radix-ui/react-compose-refs";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
-import { dataAttr } from "@seed-design/dom-utils";
+import { hideOthers } from "aria-hidden";
+import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
+import { Presence } from "@seed-design/react-presence";
+import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import type { DrawerDirection } from "./types";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
 import { DrawerProvider, useDrawerContext } from "./useDrawerContext";
@@ -16,32 +19,19 @@ export interface DrawerRootProps extends UseDrawerProps {
 }
 
 export const DrawerRoot = (props: DrawerRootProps) => {
-  const { children, defaultOpen, dismissible, modal } = props;
   const api = useDrawer(props);
-  return (
-    <DialogPrimitive.Root
-      defaultOpen={defaultOpen}
-      open={api.isOpen}
-      onOpenChange={(open) => {
-        if (!dismissible && !open) return;
-        if (open) {
-          api.setHasBeenOpened(true);
-        } else {
-          api.closeDrawer(true);
-        }
-
-        api.setIsOpen(open);
-      }}
-      modal={modal}
-    >
-      <DrawerProvider value={api}>{children}</DrawerProvider>
-    </DialogPrimitive.Root>
-  );
+  return <DrawerProvider value={api}>{props.children}</DrawerProvider>;
 };
 
-export interface DrawerTriggerProps extends DialogPrimitive.DialogTriggerProps {}
+export interface DrawerTriggerProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const DrawerTrigger = DialogPrimitive.Trigger;
+export const DrawerTrigger = forwardRef<HTMLButtonElement, DrawerTriggerProps>((props, ref) => {
+  const api = useDrawerContext();
+  return <Primitive.button ref={ref} {...mergeProps(api.triggerProps, props)} />;
+});
+DrawerTrigger.displayName = "DrawerTrigger";
 
 export interface DrawerPositionerProps
   extends PrimitiveProps,
@@ -49,19 +39,11 @@ export interface DrawerPositionerProps
 
 export const DrawerPositioner = forwardRef<HTMLDivElement, DrawerPositionerProps>((props, ref) => {
   const api = useDrawerContext();
-  return (
-    <Primitive.div
-      ref={ref}
-      {...props}
-      style={{ pointerEvents: api.isOpen ? undefined : "none", ...props.style }}
-    />
-  );
+  return <Primitive.div ref={ref} {...mergeProps(api.positionerProps, props)} />;
 });
 DrawerPositioner.displayName = "DrawerPositioner";
 
-export interface DrawerBackdropProps
-  extends DialogPrimitive.DialogOverlayProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface DrawerBackdropProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((props, ref) => {
   const {
@@ -73,8 +55,10 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
     shouldFade,
     shouldOverlayAnimate,
     hasAnimationDone,
+    lazyMount,
+    unmountOnExit,
   } = useDrawerContext();
-  const composedRef = useComposedRefs(ref, overlayRef);
+  const composedRef = composeRefs(ref, overlayRef);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
   const onMouseUp = useCallbackRef((event: React.PointerEvent<HTMLDivElement>) => onRelease(event));
 
@@ -83,26 +67,27 @@ export const DrawerBackdrop = forwardRef<HTMLDivElement, DrawerBackdropProps>((p
   }
 
   return (
-    <DialogPrimitive.Overlay
-      ref={composedRef}
-      onMouseUp={onMouseUp}
-      data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
-      data-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
-      data-should-overlay-animate={shouldOverlayAnimate ? "true" : "false"}
-      data-open={dataAttr(isOpen)}
-      data-animation-done={hasAnimationDone ? "true" : "false"}
-      {...props}
-    />
+    <Presence present={isOpen} unmountOnExit={unmountOnExit} lazyMount={lazyMount}>
+      <Primitive.div
+        ref={composedRef}
+        onMouseUp={onMouseUp}
+        data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
+        data-snap-points-overlay={isOpen && shouldFade ? "true" : "false"}
+        data-should-overlay-animate={shouldOverlayAnimate ? "true" : "false"}
+        data-open={dataAttr(isOpen)}
+        data-animation-done={hasAnimationDone ? "true" : "false"}
+        {...props}
+      />
+    </Presence>
   );
 });
 DrawerBackdrop.displayName = "DrawerBackdrop";
 
-export interface DrawerContentProps
-  extends DialogPrimitive.DialogContentProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface DrawerContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((props, ref) => {
-  const { onPointerDownOutside, style, onOpenAutoFocus, ...restProps } = props;
+  const { style, ...restProps } = props;
+
   const {
     drawerRef,
     onPress,
@@ -123,10 +108,23 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     closeOnEscape,
     dismissible,
     hasAnimationDone,
+    titleId,
+    descriptionId,
+    lazyMount,
+    unmountOnExit,
   } = useDrawerContext();
+
+  const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
+  const contentRef = useCallback((el: HTMLDivElement | null) => setContentNode(el), []);
+
+  // aria-hide everything except the content when modal
+  useEffect(() => {
+    if (!isOpen || !modal || !contentNode) return;
+    return hideOthers(contentNode);
+  }, [isOpen, modal, contentNode]);
+
   // Needed to use transition instead of animations
   const [delayedSnapPoints, setDelayedSnapPoints] = useState(false);
-  const composedRef = useComposedRefs(ref, drawerRef);
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
   const lastKnownPointerEventRef = useRef<React.PointerEvent<HTMLDivElement> | null>(null);
   const wasBeyondThePointRef = useRef(false);
@@ -134,7 +132,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
 
   const isDeltaInDirection = (
     delta: { x: number; y: number },
-    direction: DrawerDirection,
+    dir: DrawerDirection,
     threshold = 0,
   ) => {
     if (wasBeyondThePointRef.current) return true;
@@ -142,9 +140,9 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     const deltaY = Math.abs(delta.y);
     const deltaX = Math.abs(delta.x);
     const isDeltaX = deltaX > deltaY;
-    const dFactor = ["bottom", "right"].includes(direction) ? 1 : -1;
+    const dFactor = ["bottom", "right"].includes(dir) ? 1 : -1;
 
-    if (direction === "left" || direction === "right") {
+    if (dir === "left" || dir === "right") {
       const isReverseDirection = delta.x * dFactor < 0;
       if (!isReverseDirection && deltaX >= 0 && deltaX <= threshold) {
         return isDeltaX;
@@ -175,142 +173,171 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
   }
 
   return (
-    <DialogPrimitive.Content
-      data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
-      data-drawer-direction={direction}
-      data-open={dataAttr(isOpen)}
-      data-animation-done={hasAnimationDone ? "true" : "false"}
-      data-drawer=""
-      data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
-      data-custom-container={container ? "true" : "false"}
-      {...restProps}
-      ref={composedRef}
-      style={
-        snapPointsOffset && snapPointsOffset.length > 0
-          ? ({
-              "--snap-point-height": `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
-              ...style,
-            } as React.CSSProperties)
-          : (style ?? {})
-      }
-      onPointerDown={(event) => {
-        if (handleOnly) return;
-        restProps.onPointerDown?.(event);
-        pointerStartRef.current = { x: event.pageX, y: event.pageY };
-        onPress(event);
-      }}
-      onOpenAutoFocus={(e) => {
-        onOpenAutoFocus?.(e);
-
-        if (!autoFocus) {
-          e.preventDefault();
-        }
-      }}
-      onPointerDownOutside={(e) => {
-        onPointerDownOutside?.(e);
-
-        if (!modal || e.defaultPrevented) {
-          e.preventDefault();
-          return;
-        }
-
-        if (keyboardIsOpen.current) {
-          keyboardIsOpen.current = false;
-        }
-      }}
-      onFocusOutside={(e) => {
-        props.onFocusOutside?.(e);
-        // Always prevent focusOutside to avoid conflicts when focus moves between modals
-        // (e.g., when Dialog closes and restores focus while BottomSheet is opening)
-        e.preventDefault();
-      }}
-      onPointerMove={(event) => {
-        lastKnownPointerEventRef.current = event;
-        if (handleOnly) return;
-        restProps.onPointerMove?.(event);
-        if (!pointerStartRef.current) return;
-        const yPosition = event.pageY - pointerStartRef.current.y;
-        const xPosition = event.pageX - pointerStartRef.current.x;
-
-        const swipeStartThreshold = event.pointerType === "touch" ? 10 : 2;
-        const delta = { x: xPosition, y: yPosition };
-
-        const isAllowedToSwipe = isDeltaInDirection(delta, direction, swipeStartThreshold);
-        if (isAllowedToSwipe) onDrag(event);
-        else if (
-          Math.abs(xPosition) > swipeStartThreshold ||
-          Math.abs(yPosition) > swipeStartThreshold
-        ) {
-          pointerStartRef.current = null;
-        }
-      }}
-      onPointerUp={(event) => {
-        restProps.onPointerUp?.(event);
-        pointerStartRef.current = null;
-        wasBeyondThePointRef.current = false;
-        onRelease(event);
-      }}
-      onPointerOut={(event) => {
-        restProps.onPointerOut?.(event);
-        handleOnPointerUp(lastKnownPointerEventRef.current);
-      }}
-      onContextMenu={(event) => {
-        restProps.onContextMenu?.(event);
-        if (lastKnownPointerEventRef.current) {
-          handleOnPointerUp(lastKnownPointerEventRef.current);
-        }
-      }}
-      onInteractOutside={(e) => {
-        // Only close if event is not prevented (e.g., by onFocusOutside or onPointerDownOutside)
-        if (dismissible && closeOnInteractOutside && !e.defaultPrevented) {
-          closeDrawer(false, { reason: "interactOutside", event: e.detail.originalEvent });
-        }
-        props.onInteractOutside?.(e);
-      }}
-      onEscapeKeyDown={(e) => {
-        if (dismissible && closeOnEscape) {
+    <Presence present={isOpen} unmountOnExit={unmountOnExit} lazyMount={lazyMount}>
+      {/* DismissibleLayer must wrap FocusScope, not the other way around.
+          FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
+          DOM element; if DismissibleLayer sits between them, those props are
+          swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
+      <DismissibleLayer
+        enabled={isOpen}
+        blockPointerEvents={modal}
+        onEscapeKeyDown={(e) => {
+          if (e.defaultPrevented) return;
+          if (!dismissible || !closeOnEscape) return;
           closeDrawer(false, { reason: "escapeKeyDown", event: e });
-        }
-        props.onEscapeKeyDown?.(e);
-      }}
-    />
+        }}
+        onPressOutside={(e) => {
+          if (e.defaultPrevented) return;
+          if (!modal) return;
+          if (keyboardIsOpen.current) keyboardIsOpen.current = false;
+
+          if (!dismissible || !closeOnInteractOutside) return;
+          closeDrawer(false, { reason: "interactOutside", event: e });
+        }}
+        onFocusOutside={() => {
+          // Focus trapping is handled by FocusScope — nothing to do here.
+          // The old Radix architecture needed e.preventDefault() here (PR #1187)
+          // to prevent cascade closes, but the new DismissibleLayer handles
+          // that via onCascadeDismiss instead.
+        }}
+        onCascadeDismiss={({ dismissedParent }) => {
+          closeDrawer(false, { reason: "cascadeDismiss", dismissedParent });
+        }}
+      >
+        <FocusScope
+          asChild
+          loop={modal}
+          trapped={modal && isOpen}
+          onMountAutoFocus={(e) => {
+            // prevent FocusScope's default autoFocus behavior
+            e.preventDefault();
+
+            // when autoFocus is true, FocusScope sets the focus to the first tabbable element; otherwise content;
+            // the desired behavior is to set the focus to the content regardless of whether there are tabbable elements or not when true]
+            if (autoFocus) {
+              drawerRef.current?.focus();
+            }
+
+            // later, we can do something like:
+            // when trigger has clicked using keyboard, focus the first tabbable element;
+            // when trigger has clicked using mouse, focus the content
+            // -> matches Menu behavior
+          }}
+        >
+          <Primitive.div
+            role="dialog"
+            aria-modal={modal}
+            aria-labelledby={titleId}
+            aria-describedby={descriptionId}
+            data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
+            data-drawer-direction={direction}
+            data-open={dataAttr(isOpen)}
+            data-animation-done={hasAnimationDone ? "true" : "false"}
+            data-drawer=""
+            data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
+            data-custom-container={container ? "true" : "false"}
+            {...restProps}
+            ref={composeRefs(ref, drawerRef, contentRef)}
+            style={{
+              ...(snapPointsOffset && snapPointsOffset.length > 0
+                ? ({
+                    "--snap-point-height": `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
+                    ...style,
+                  } as React.CSSProperties)
+                : style),
+              ...(!modal && { pointerEvents: "auto" }),
+            }}
+            onPointerDown={(event) => {
+              if (handleOnly) return;
+              restProps.onPointerDown?.(event);
+              pointerStartRef.current = { x: event.pageX, y: event.pageY };
+              onPress(event);
+            }}
+            onPointerMove={(event) => {
+              lastKnownPointerEventRef.current = event;
+              if (handleOnly) return;
+              restProps.onPointerMove?.(event);
+              if (!pointerStartRef.current) return;
+              const yPosition = event.pageY - pointerStartRef.current.y;
+              const xPosition = event.pageX - pointerStartRef.current.x;
+
+              const swipeStartThreshold = event.pointerType === "touch" ? 10 : 2;
+              const delta = { x: xPosition, y: yPosition };
+
+              const isAllowedToSwipe = isDeltaInDirection(delta, direction, swipeStartThreshold);
+              if (isAllowedToSwipe) onDrag(event);
+              else if (
+                Math.abs(xPosition) > swipeStartThreshold ||
+                Math.abs(yPosition) > swipeStartThreshold
+              ) {
+                pointerStartRef.current = null;
+              }
+            }}
+            onPointerUp={(event) => {
+              restProps.onPointerUp?.(event);
+              pointerStartRef.current = null;
+              wasBeyondThePointRef.current = false;
+              onRelease(event);
+            }}
+            onPointerOut={(event) => {
+              restProps.onPointerOut?.(event);
+              handleOnPointerUp(lastKnownPointerEventRef.current);
+            }}
+            onContextMenu={(event) => {
+              restProps.onContextMenu?.(event);
+              if (lastKnownPointerEventRef.current) {
+                handleOnPointerUp(lastKnownPointerEventRef.current);
+              }
+            }}
+          />
+        </FocusScope>
+      </DismissibleLayer>
+    </Presence>
   );
 });
 DrawerContent.displayName = "DrawerContent";
 
-export interface DrawerTitleProps extends DialogPrimitive.DialogTitleProps {}
+export interface DrawerTitleProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLHeadingElement> {}
 
-export const DrawerTitle = DialogPrimitive.Title;
+export const DrawerTitle = forwardRef<HTMLHeadingElement, DrawerTitleProps>((props, ref) => {
+  const api = useDrawerContext();
+  return <Primitive.h2 ref={ref} {...mergeProps(api.titleProps, props)} />;
+});
+DrawerTitle.displayName = "DrawerTitle";
 
-export interface DrawerDescriptionProps extends DialogPrimitive.DialogDescriptionProps {}
+export interface DrawerDescriptionProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLParagraphElement> {}
 
-export const DrawerDescription = DialogPrimitive.Description;
+export const DrawerDescription = forwardRef<HTMLParagraphElement, DrawerDescriptionProps>(
+  (props, ref) => {
+    const api = useDrawerContext();
+    return <Primitive.p ref={ref} {...mergeProps(api.descriptionProps, props)} />;
+  },
+);
+DrawerDescription.displayName = "DrawerDescription";
 
 export interface DrawerHeaderProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>((props, ref) => {
-  const { isCloseButtonRendered } = useDrawerContext();
-  return (
-    <Primitive.div ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
-  );
+  const api = useDrawerContext();
+  return <Primitive.div ref={ref} {...mergeProps(api.headerProps, props)} />;
 });
 DrawerHeader.displayName = "DrawerHeader";
 
-export interface DrawerCloseButtonProps extends DialogPrimitive.DialogCloseProps {}
+export interface DrawerCloseButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButtonProps>(
   (props, ref) => {
-    const { closeButtonRef, setIsOpen } = useDrawerContext();
-    const composedRef = useComposedRefs(ref, closeButtonRef);
+    const api = useDrawerContext();
     return (
       <Primitive.button
-        ref={composedRef}
-        {...props}
-        onClick={(e) => {
-          props.onClick?.(e);
-          if (e.defaultPrevented) return;
-          setIsOpen(false, { reason: "closeButton", event: e.nativeEvent });
-        }}
+        ref={composeRefs(ref, api.closeButtonRef)}
+        {...mergeProps(api.closeButtonProps, props)}
       />
     );
   },
