@@ -40,8 +40,20 @@ jobs:
           FIGMA_COMPONENTS_FILE_KEY: ${{ secrets.FIGMA_COMPONENTS_FILE_KEY }}
           FIGMA_TEMPLATES_FILE_KEY: ${{ secrets.FIGMA_TEMPLATES_FILE_KEY }}
 
+      - name: 기존 PR과 동일한 동기화 결과인지 확인해요
+        id: existing-pr-check
+        run: |
+          if git ls-remote --exit-code --heads origin chore/sync-figma-entities >/dev/null 2>&1; then
+            git fetch --depth=1 origin chore/sync-figma-entities
+            if git diff --quiet origin/chore/sync-figma-entities -- packages/figma/src/entities/data/__generated__; then
+              echo "기존 PR과 동일한 __generated__ 결과예요 - 이후 단계를 건너뜁니다"
+              echo "skip=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: "@seed-design/figma를 타입체크하고 빌드해요"
         id: build
+        if: steps.existing-pr-check.outputs.skip != 'true'
         continue-on-error: true
         shell: bash
         working-directory: packages/figma
@@ -54,7 +66,7 @@ jobs:
 
       - name: Claude로 타입 에러를 자동 수정해요
         id: claude-fix
-        if: steps.build.outcome != 'success' && steps.build.outputs.tsc_failed == 'true'
+        if: steps.existing-pr-check.outputs.skip != 'true' && steps.build.outcome != 'success' && steps.build.outputs.tsc_failed == 'true'
         continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
@@ -105,13 +117,14 @@ jobs:
 
       - name: Claude 수정 후 다시 빌드해요
         id: rebuild
-        if: steps.claude-fix.outcome == 'success'
+        if: steps.existing-pr-check.outputs.skip != 'true' && steps.claude-fix.outcome == 'success'
         continue-on-error: true
         working-directory: packages/figma
         run: bunx tsc --noEmit && bun run build
 
       - name: 변경사항이 있는지 확인해요
         id: check-diff
+        if: steps.existing-pr-check.outputs.skip != 'true'
         run: |
           DIFF_COUNT=$(git diff --name-only packages/figma/src/entities/data/__generated__ | wc -l | tr -d ' ')
           UNTRACKED_COUNT=$(git ls-files --others --exclude-standard packages/figma/src/entities/data/__generated__ | wc -l | tr -d ' ')
@@ -133,7 +146,7 @@ jobs:
           git add packages/figma/src/entities/data/__generated__
           # Claude가 수정한 소스 파일도 스테이징
           if [ "${{ steps.rebuild.outcome }}" == "success" ]; then
-            git add packages/figma/src/codegen/
+            git add packages/figma/src/
           fi
           git commit -m "chore(figma): sync entities from Figma"
           git push --force origin "$BRANCH_NAME"
