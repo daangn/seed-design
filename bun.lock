@@ -479,6 +479,7 @@
         "@seed-design/react-pull-to-refresh": "1.0.1",
         "@seed-design/react-radio-group": "1.1.0",
         "@seed-design/react-segmented-control": "1.0.1",
+        "@seed-design/react-side-navigation": "0.0.1",
         "@seed-design/react-slider": "1.0.2",
         "@seed-design/react-snackbar": "1.0.2",
         "@seed-design/react-switch": "1.0.1",
@@ -882,6 +883,25 @@
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-supports": "0.0.1",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/side-navigation": {
+      "name": "@seed-design/react-side-navigation",
+      "version": "0.0.1",
+      "dependencies": {
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-collapsible": "0.1.0",
+        "@seed-design/react-primitive": "1.0.0",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -2618,6 +2638,8 @@
     "@seed-design/react-scrollable": ["@seed-design/react-scrollable@workspace:packages/react-headless/scrollable"],
 
     "@seed-design/react-segmented-control": ["@seed-design/react-segmented-control@workspace:packages/react-headless/segmented-control"],
+
+    "@seed-design/react-side-navigation": ["@seed-design/react-side-navigation@workspace:packages/react-headless/side-navigation"],
 
     "@seed-design/react-slider": ["@seed-design/react-slider@workspace:packages/react-headless/slider"],
 

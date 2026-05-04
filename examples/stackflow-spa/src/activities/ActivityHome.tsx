@@ -1,7 +1,6 @@
 import {
   Box,
   Divider,
-  Icon,
   Portal,
   PullToRefresh,
   VStack,
@@ -313,6 +312,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
+        { title: "SideNavigation", onClick: () => push("ActivitySideNavigation", {}) },
       ],
     },
     {
