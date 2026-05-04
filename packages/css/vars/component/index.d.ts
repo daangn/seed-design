@@ -13,7 +13,6 @@ export { vars as callout } from "./callout";
 export { vars as checkboxGroup } from "./checkbox-group";
 export { vars as checkbox } from "./checkbox";
 export { vars as checkmark } from "./checkmark";
-export { vars as chipTab } from "./chip-tab";
 export { vars as chipTablist } from "./chip-tablist";
 export { vars as chip } from "./chip";
 export { vars as contentPlaceholder } from "./content-placeholder";
