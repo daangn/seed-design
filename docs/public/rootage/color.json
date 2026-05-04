@@ -3,7 +3,7 @@
   "metadata": {
     "id": "color",
     "name": "Color",
-    "lastUpdated": "26-01-15"
+    "lastUpdated": "26-06-15"
   },
   "data": {
     "collection": "color",
@@ -1804,6 +1804,30 @@
           }
         }
       },
+      "$color.bg.transparent-selected": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-black-alpha-200"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white-alpha-100"
+          }
+        }
+      },
+      "$color.bg.transparent-selected-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-black-alpha-300"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white-alpha-200"
+          }
+        }
+      },
       "$color.bg.warning-solid": {
         "values": {
           "theme-light": {
@@ -1907,6 +1931,18 @@
           }
         },
         "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak)"
+      },
+      "$color.stroke.focus-ring": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.blue-600"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.blue-600"
+          }
+        }
       },
       "$color.stroke.informative-solid": {
         "values": {
@@ -2050,18 +2086,6 @@
           }
         },
         "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak)"
-      },
-      "$color.stroke.focus-ring": {
-        "values": {
-          "theme-light": {
-            "type": "color",
-            "value": "$color.palette.blue-600"
-          },
-          "theme-dark": {
-            "type": "color",
-            "value": "$color.palette.blue-600"
-          }
-        }
       },
       "$color.manner-temp.l1.bg": {
         "values": {
