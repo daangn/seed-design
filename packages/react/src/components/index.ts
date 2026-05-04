@@ -38,6 +38,7 @@ export * from "./IdentityPlaceholder";
 export * from "./ImageFrame";
 export * from "./Inline";
 export * from "./InlineBanner";
+export * from "./Layout";
 export * from "./LinkContent";
 export * from "./List";
 export * from "./LoadingIndicator";
