@@ -12,7 +12,7 @@ declare interface TextInputVariant {
   *
   * @default "large"
   */
-  size: "large" | "medium";
+  size: "large" | "medium" | "responsive";
 }
 
 declare type TextInputVariantMap = {

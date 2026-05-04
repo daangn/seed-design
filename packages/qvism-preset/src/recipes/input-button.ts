@@ -11,6 +11,7 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { vars as tokens } from "../vars";
+import { breakpoints } from "../utils/breakpoint";
 
 const inputButton = defineSlotRecipe({
   name: "input-button",
@@ -276,6 +277,91 @@ const inputButton = defineSlotRecipe({
         clearButton: onlyIcon({
           size: vars.sizeMedium.enabled.clearButton.size,
         }),
+      },
+      responsive: {
+        root: {
+          height: vars.sizeLarge.enabled.root.height,
+          gap: vars.sizeLarge.enabled.root.gap,
+          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
+          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+
+          [breakpoints.up("lg")]: {
+            height: vars.sizeMedium.enabled.root.height,
+            gap: vars.sizeMedium.enabled.root.gap,
+            paddingLeft: vars.sizeMedium.enabled.root.paddingX,
+            paddingRight: vars.sizeMedium.enabled.root.paddingX,
+          },
+        },
+        button: {
+          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+
+          [breakpoints.up("lg")]: {
+            borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+          },
+        },
+        value: {
+          fontSize: vars.sizeLarge.enabled.value.fontSize,
+          lineHeight: vars.sizeLarge.enabled.value.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.sizeMedium.enabled.value.fontSize,
+            lineHeight: vars.sizeMedium.enabled.value.lineHeight,
+          },
+        },
+        placeholder: {
+          fontSize: vars.sizeLarge.enabled.placeholder.fontSize,
+          lineHeight: vars.sizeLarge.enabled.placeholder.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.sizeMedium.enabled.placeholder.fontSize,
+            lineHeight: vars.sizeMedium.enabled.placeholder.lineHeight,
+          },
+        },
+        prefixText: {
+          fontSize: vars.sizeLarge.enabled.prefixText.fontSize,
+          lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.sizeMedium.enabled.prefixText.fontSize,
+            lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
+          },
+        },
+        prefixIcon: {
+          width: vars.sizeLarge.enabled.prefixIcon.size,
+          height: vars.sizeLarge.enabled.prefixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: vars.sizeMedium.enabled.prefixIcon.size,
+            height: vars.sizeMedium.enabled.prefixIcon.size,
+          },
+        },
+        suffixText: {
+          fontSize: vars.sizeLarge.enabled.suffixText.fontSize,
+          lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.sizeMedium.enabled.suffixText.fontSize,
+            lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
+          },
+        },
+        suffixIcon: {
+          width: vars.sizeLarge.enabled.suffixIcon.size,
+          height: vars.sizeLarge.enabled.suffixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: vars.sizeMedium.enabled.suffixIcon.size,
+            height: vars.sizeMedium.enabled.suffixIcon.size,
+          },
+        },
+        clearButton: {
+          ...onlyIcon({
+            size: vars.sizeLarge.enabled.clearButton.size,
+          }),
+
+          [breakpoints.up("lg")]: onlyIcon({
+            size: vars.sizeMedium.enabled.clearButton.size,
+          }),
+        },
       },
     },
   },

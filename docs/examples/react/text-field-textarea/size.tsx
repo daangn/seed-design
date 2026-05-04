@@ -11,12 +11,18 @@ export default function TextFieldTextareaSize() {
         <TextField label="라벨" description="size=medium" size="medium">
           <TextFieldTextarea placeholder="플레이스홀더" />
         </TextField>
+        <TextField label="라벨" description="size=responsive" size="responsive">
+          <TextFieldTextarea placeholder="플레이스홀더" />
+        </TextField>
       </HStack>
       <HStack gap="x3">
         <TextField variant="underline" description="size=large (default)" size="large">
           <TextFieldTextarea aria-label="라벨" placeholder="플레이스홀더" />
         </TextField>
         <TextField variant="underline" description="size=medium" size="medium">
+          <TextFieldTextarea aria-label="라벨" placeholder="플레이스홀더" />
+        </TextField>
+        <TextField variant="underline" description="size=responsive" size="responsive">
           <TextFieldTextarea aria-label="라벨" placeholder="플레이스홀더" />
         </TextField>
       </HStack>
