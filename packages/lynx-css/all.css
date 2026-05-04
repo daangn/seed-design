@@ -79,6 +79,10 @@
   --seed-font-size-t8: 22sp;
   --seed-font-size-t9: 24sp;
   --seed-font-size-t10: 26sp;
+  --seed-font-size-t11: 28sp;
+  --seed-font-size-t12: 32sp;
+  --seed-font-size-t13: 40sp;
+  --seed-font-size-t14: 48sp;
   --seed-font-size-t1-static: 11px;
   --seed-font-size-t2-static: 12px;
   --seed-font-size-t3-static: 13px;
@@ -89,6 +93,10 @@
   --seed-font-size-t8-static: 22px;
   --seed-font-size-t9-static: 24px;
   --seed-font-size-t10-static: 26px;
+  --seed-font-size-t11-static: 28px;
+  --seed-font-size-t12-static: 32px;
+  --seed-font-size-t13-static: 40px;
+  --seed-font-size-t14-static: 48px;
   --seed-font-weight-regular: 400;
   --seed-font-weight-medium: 500;
   --seed-font-weight-bold: 700;
@@ -102,6 +110,10 @@
   --seed-line-height-t8: 30sp;
   --seed-line-height-t9: 32sp;
   --seed-line-height-t10: 35sp;
+  --seed-line-height-t11: 38sp;
+  --seed-line-height-t12: 42sp;
+  --seed-line-height-t13: 52sp;
+  --seed-line-height-t14: 60sp;
   --seed-line-height-t1-static: 15px;
   --seed-line-height-t2-static: 16px;
   --seed-line-height-t3-static: 18px;
@@ -112,6 +124,10 @@
   --seed-line-height-t8-static: 30px;
   --seed-line-height-t9-static: 32px;
   --seed-line-height-t10-static: 35px;
+  --seed-line-height-t11-static: 38px;
+  --seed-line-height-t12-static: 42px;
+  --seed-line-height-t13-static: 52px;
+  --seed-line-height-t14-static: 60px;
   --seed-radius-r0_5: 2px;
   --seed-radius-r1: 4px;
   --seed-radius-r1_5: 6px;
