@@ -1549,19 +1549,6 @@
         },
         "description": "basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다. (pressed)"
       },
-      "$color.bg.layer-fill": {
-        "values": {
-          "theme-light": {
-            "type": "color",
-            "value": "$color.palette.gray-100"
-          },
-          "theme-dark": {
-            "type": "color",
-            "value": "$color.palette.gray-200"
-          }
-        },
-        "description": "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
-      },
       "$color.bg.layer-floating": {
         "values": {
           "theme-light": {

@@ -18,7 +18,7 @@ const PullToRefreshPreview: ActivityComponentType<"react/pull-to-refresh/preview
   // AppScreen snippet is integrating PullToRefresh, so it's not necessary to use it here.
   return (
     <AppScreen.Root>
-      <AppBar.Root divider>
+      <AppBar.Root>
         <AppBar.Main>
           <AppBar.Title>Pull To Refresh</AppBar.Title>
         </AppBar.Main>

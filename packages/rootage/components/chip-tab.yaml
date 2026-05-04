@@ -110,28 +110,3 @@ data:
           color: $color.bg.disabled
         label:
           color: $color.fg.disabled
-    variant=brandSolid:
-      enabled:
-        root:
-          color: $color.bg.neutral-weak
-        label:
-          color: $color.fg.neutral-muted
-      enabled,pressed:
-        root:
-          color: $color.bg.neutral-weak-pressed
-      selected:
-        root:
-          color: $color.bg.brand-solid
-        label:
-          color: $color.palette.static-white
-      selected,pressed:
-        root:
-          color: $color.bg.brand-solid-pressed
-      disabled:
-        root:
-          color: $color.bg.disabled
-        label:
-          color: $color.fg.disabled
-      selected,disabled:
-        root:
-          color: $color.bg.disabled

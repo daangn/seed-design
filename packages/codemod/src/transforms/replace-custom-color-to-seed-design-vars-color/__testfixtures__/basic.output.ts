@@ -53,7 +53,7 @@ export const staticColors = style({
 
 // Test deprecated tokens with alternative
 export const deprecatedColors = style({
-  backgroundColor: color["bg.layerFill"],
+  backgroundColor: color["bg.neutralWeak"],
   color: color["fg.neutralSubtle"],
 });
 

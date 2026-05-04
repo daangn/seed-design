@@ -8,68 +8,6 @@
   "data": {
     "collection": "color",
     "tokens": {
-      "$gradient.fade-layer-floating": {
-        "values": {
-          "theme-light": {
-            "type": "gradient",
-            "value": [
-              {
-                "color": "#ffffff00",
-                "position": 0
-              },
-              {
-                "color": "#000000",
-                "position": 1
-              }
-            ]
-          },
-          "theme-dark": {
-            "type": "gradient",
-            "value": [
-              {
-                "color": "#1d202500",
-                "position": 0
-              },
-              {
-                "color": "#000000",
-                "position": 1
-              }
-            ]
-          }
-        },
-        "description": "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.\n@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다.\n"
-      },
-      "$gradient.fade-layer-default": {
-        "values": {
-          "theme-light": {
-            "type": "gradient",
-            "value": [
-              {
-                "color": "#000000",
-                "position": 0
-              },
-              {
-                "color": "#ffffff00",
-                "position": 1
-              }
-            ]
-          },
-          "theme-dark": {
-            "type": "gradient",
-            "value": [
-              {
-                "color": "#000000",
-                "position": 0
-              },
-              {
-                "color": "#16171b00",
-                "position": 1
-              }
-            ]
-          }
-        },
-        "description": "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.\n@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다.\n"
-      },
       "$gradient.glow-magic": {
         "values": {
           "theme-light": {

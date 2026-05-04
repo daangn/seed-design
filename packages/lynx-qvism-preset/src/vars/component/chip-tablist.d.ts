@@ -20,12 +20,5 @@ export declare const vars: {
         "gap": "8px"
       }
     }
-  },
-  "variantBrandSolid": {
-    "enabled": {
-      "root": {
-        "gap": "8px"
-      }
-    }
   }
 }
