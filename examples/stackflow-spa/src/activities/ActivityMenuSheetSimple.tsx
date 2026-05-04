@@ -45,7 +45,11 @@ const ActivityMenuSheetSimple: StaticActivityComponentType<"ActivityMenuSheetSim
     : (open: boolean) => !open && pop();
 
   return (
-    <MenuSheetRoot open={open} onOpenChange={onOpenChange}>
+    <MenuSheetRoot
+      open={open}
+      modal={keepMounted ? activity.isActive : undefined}
+      onOpenChange={onOpenChange}
+    >
       <MenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
         <MenuSheetGroup>
           <MenuSheetItem

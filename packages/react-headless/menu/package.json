@@ -1,0 +1,53 @@
+{
+  "name": "@seed-design/react-menu",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/react-headless/menu"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/index.cjs",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "lint:publish": "bun publint",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.27.0",
+    "@radix-ui/react-compose-refs": "^1.1.2",
+    "@radix-ui/react-focus-scope": "^1.1.8",
+    "@seed-design/dom-utils": "1.0.0",
+    "@seed-design/react-dismissible-layer": "0.0.0",
+    "@seed-design/react-primitive": "^1.0.0",
+    "@seed-design/react-use-controllable-state": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.6",
+    "jsdom": "^29.0.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "vitest": "^4.1.3"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

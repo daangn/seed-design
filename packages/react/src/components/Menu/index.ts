@@ -1,0 +1,28 @@
+export {
+  MenuRoot,
+  MenuAnchor,
+  MenuTrigger,
+  MenuPositioner,
+  MenuContent,
+  MenuScrollArea,
+  MenuGroup,
+  MenuGroupLabel,
+  MenuItem,
+  MenuItemBody,
+  MenuItemLabel,
+  MenuItemDescription,
+  type MenuRootProps,
+  type MenuAnchorProps,
+  type MenuTriggerProps,
+  type MenuPositionerProps,
+  type MenuContentProps,
+  type MenuScrollAreaProps,
+  type MenuGroupProps,
+  type MenuGroupLabelProps,
+  type MenuItemProps,
+  type MenuItemBodyProps,
+  type MenuItemLabelProps,
+  type MenuItemDescriptionProps,
+} from "./Menu";
+
+export * as Menu from "./Menu.namespace";

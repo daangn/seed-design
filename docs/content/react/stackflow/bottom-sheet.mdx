@@ -104,7 +104,7 @@ return (
 ```
 
 1. `open`을 `transitionState`로 관리하여 다른 Activity가 위에 push되어도 Bottom Sheet가 unmount되지 않도록 합니다.
-1. `modal={isActive}`로 Bottom Sheet Activity가 비활성 상태일 때 `modal`을 `false`로 설정합니다. 이렇게 하지 않으면, 위에 push된 Activity에서 스크롤 등의 상호작용이 동작하지 않습니다.
+1. `modal={isActive}`로 Bottom Sheet Activity가 비활성 상태일 때 `modal`을 `false`로 설정합니다. 이렇게 하지 않으면, 위에 push된 Activity에서 포커스, 스크린 리더 접근 및 스크롤 등의 상호작용이 동작하지 않습니다.
 1. `onOpenChange` 핸들러에서 `isActive`인 경우에만 `pop()`을 실행하여, 비활성 상태에서의 의도치 않은 Activity 종료를 방지합니다.
 
 #### Stacking Another Modal Overlay on Top

@@ -42,6 +42,7 @@ export const config = defineConfig({
     { route: "/list-item", name: "ActivityListItem" },
     { route: "/list-image-frame", name: "ActivityListImageFrame" },
     { route: "/manner-temp-level", name: "ActivityMannerTempLevel" },
+    { route: "/menu", name: "ActivityMenu" },
     { route: "/menu-sheet", name: "ActivityMenuSheet" },
     { route: "/menu-sheet-activity", name: "ActivityMenuSheetActivity" },
     { route: "/menu-sheet-activity/simple", name: "ActivityMenuSheetSimple" },

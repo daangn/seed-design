@@ -211,6 +211,15 @@ export const registryUI: Registry = {
       deprecated: true,
     },
     {
+      id: "menu",
+      snippets: [
+        {
+          path: "menu.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+      ],
+    },
+    {
       id: "menu-sheet",
       snippets: [
         {

@@ -1,12 +1,14 @@
 "use client";
 
-import { DismissableLayer } from "@radix-ui/react-dismissable-layer";
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
+import { hideOthers } from "aria-hidden";
+import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef } from "react";
-import { Presence } from "./private/Presence";
+import { forwardRef, useCallback, useEffect, useState } from "react";
+import { Presence } from "@seed-design/react-presence";
 import { useDialog, type UseDialogProps } from "./useDialog";
 import { DialogProvider, useDialogContext } from "./useDialogContext";
 
@@ -38,10 +40,10 @@ export const DialogPositioner = forwardRef<HTMLDivElement, DialogPositionerProps
   const api = useDialogContext();
   return <Primitive.div ref={ref} {...mergeProps(api.positionerProps, props)} />;
 });
+DialogPositioner.displayName = "DialogPositioner";
 
 export interface DialogBackdropProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-// We might need scroll lock here; not needed yet in stackflow based webview.
 export const DialogBackdrop = forwardRef<HTMLDivElement, DialogBackdropProps>((props, ref) => {
   const api = useDialogContext();
   return (
@@ -54,37 +56,50 @@ DialogBackdrop.displayName = "DialogBackdrop";
 
 export interface DialogContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-// TODO: implement DismissableLayer in useDialog instead of radix-ui
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const api = useDialogContext();
+  const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
+  const contentRef = useCallback((el: HTMLDivElement | null) => setContentNode(el), []);
+
+  // aria-hide everything except the content (better supported equivalent to setting aria-modal)
+  useEffect(() => {
+    if (!api.open || !api.modal || !contentNode) return;
+    return hideOthers(contentNode);
+  }, [api.open, api.modal, contentNode]);
 
   return (
     <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
-      <FocusScope asChild loop trapped={api.open}>
-        {/* onDismiss = onEscapeKeyDown + onInteractOutside (= onFocusOutside + onPointerDownOutside) */}
-        <DismissableLayer
-          ref={ref}
-          onEscapeKeyDown={(e) => {
-            if (!api.closeOnEscape) {
-              e.preventDefault();
-              return;
-            }
+      {/* DismissibleLayer must wrap FocusScope, not the other way around.
+          FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
+          DOM element; if DismissibleLayer sits between them, those props are
+          swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
+      <DismissibleLayer
+        enabled={api.open}
+        // We might need scroll lock here; not needed yet in stackflow based webview.
+        onEscapeKeyDown={(e) => {
+          if (!api.closeOnEscape) return;
+          api.setOpen(false, { reason: "escapeKeyDown", event: e });
+        }}
+        onPressOutside={(e) => {
+          if (!api.closeOnInteractOutside) return;
+          api.setOpen(false, { reason: "interactOutside", event: e });
+        }}
+        onFocusOutside={() => {
+          // focus trapping is handled by FocusScope — nothing to do here
 
-            api.setOpen(false, { reason: "escapeKeyDown", event: e });
-          }}
-          // onInteractOutside = onFocusOutside + onPointerDownOutside
-          onInteractOutside={(e) => {
-            if (!api.closeOnInteractOutside) {
-              e.preventDefault();
-              return;
-            }
-
-            api.setOpen(false, { reason: "interactOutside", event: e.detail.originalEvent });
-          }}
-          // onFocusOutside isn't needed because FocusScope traps the focus
-          {...mergeProps(api.contentProps, props)}
-        />
-      </FocusScope>
+          if (!api.closeOnInteractOutside) return; // not actually going to happen; FocusScope will work regardless
+        }}
+        onCascadeDismiss={({ dismissedParent }) => {
+          api.setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+        }}
+      >
+        <FocusScope asChild loop trapped={api.open && api.modal}>
+          <Primitive.div
+            ref={composeRefs(ref, contentRef)}
+            {...mergeProps(api.contentProps, props)}
+          />
+        </FocusScope>
+      </DismissibleLayer>
     </Presence>
   );
 });
