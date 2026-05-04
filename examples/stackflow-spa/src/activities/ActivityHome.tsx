@@ -102,6 +102,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
+      title: "Box",
+      items: [{ title: "Margin Playground", onClick: () => push("ActivityMarginPlayground", {}) }],
+    },
+    {
       title: "AlertDialogs",
       items: [
         {

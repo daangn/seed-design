@@ -70,6 +70,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityListRadioItem: lazy(() => import("../activities/ActivityListRadioItem")),
     ActivityListSwitchItem: lazy(() => import("../activities/ActivityListSwitchItem")),
     ActivityMannerTempLevel: lazy(() => import("../activities/ActivityMannerTempLevel")),
+    ActivityMarginPlayground: lazy(() => import("../activities/ActivityMarginPlayground")),
     ActivityMenu: lazy(() => import("../activities/ActivityMenu")),
     ActivityMenuSheet: lazy(() => import("../activities/ActivityMenuSheet")),
     ActivityMenuSheetActivity: lazy(() => import("../activities/ActivityMenuSheetActivity")),
