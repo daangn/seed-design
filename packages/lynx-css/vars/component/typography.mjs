@@ -215,12 +215,48 @@ export const vars = {
       }
     }
   },
+  "textStyleT8Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8)",
+        "lineHeight": "var(--seed-line-height-t8)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT8Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8)",
+        "lineHeight": "var(--seed-line-height-t8)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
   "textStyleT8Bold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t8)",
         "lineHeight": "var(--seed-line-height-t8)",
         "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT9Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9)",
+        "lineHeight": "var(--seed-line-height-t9)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT9Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9)",
+        "lineHeight": "var(--seed-line-height-t9)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     }
   },
@@ -233,11 +269,137 @@ export const vars = {
       }
     }
   },
+  "textStyleT10Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10)",
+        "lineHeight": "var(--seed-line-height-t10)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT10Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10)",
+        "lineHeight": "var(--seed-line-height-t10)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
   "textStyleT10Bold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT11Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11)",
+        "lineHeight": "var(--seed-line-height-t11)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT11Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11)",
+        "lineHeight": "var(--seed-line-height-t11)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT11Bold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11)",
+        "lineHeight": "var(--seed-line-height-t11)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT12Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12)",
+        "lineHeight": "var(--seed-line-height-t12)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT12Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12)",
+        "lineHeight": "var(--seed-line-height-t12)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT12Bold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12)",
+        "lineHeight": "var(--seed-line-height-t12)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT13Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13)",
+        "lineHeight": "var(--seed-line-height-t13)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT13Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13)",
+        "lineHeight": "var(--seed-line-height-t13)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT13Bold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13)",
+        "lineHeight": "var(--seed-line-height-t13)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT14Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14)",
+        "lineHeight": "var(--seed-line-height-t14)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT14Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14)",
+        "lineHeight": "var(--seed-line-height-t14)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT14Bold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14)",
+        "lineHeight": "var(--seed-line-height-t14)",
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }
@@ -431,12 +593,48 @@ export const vars = {
       }
     }
   },
+  "textStyleT8StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8-static)",
+        "lineHeight": "var(--seed-line-height-t8-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT8StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8-static)",
+        "lineHeight": "var(--seed-line-height-t8-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
   "textStyleT8StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
         "lineHeight": "var(--seed-line-height-t8-static)",
         "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT9StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9-static)",
+        "lineHeight": "var(--seed-line-height-t9-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT9StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9-static)",
+        "lineHeight": "var(--seed-line-height-t9-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     }
   },
@@ -449,11 +647,137 @@ export const vars = {
       }
     }
   },
+  "textStyleT10StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10-static)",
+        "lineHeight": "var(--seed-line-height-t10-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT10StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10-static)",
+        "lineHeight": "var(--seed-line-height-t10-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
   "textStyleT10StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT11StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11-static)",
+        "lineHeight": "var(--seed-line-height-t11-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT11StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11-static)",
+        "lineHeight": "var(--seed-line-height-t11-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT11StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11-static)",
+        "lineHeight": "var(--seed-line-height-t11-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT12StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12-static)",
+        "lineHeight": "var(--seed-line-height-t12-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT12StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12-static)",
+        "lineHeight": "var(--seed-line-height-t12-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT12StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12-static)",
+        "lineHeight": "var(--seed-line-height-t12-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT13StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13-static)",
+        "lineHeight": "var(--seed-line-height-t13-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT13StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13-static)",
+        "lineHeight": "var(--seed-line-height-t13-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT13StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13-static)",
+        "lineHeight": "var(--seed-line-height-t13-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT14StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14-static)",
+        "lineHeight": "var(--seed-line-height-t14-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT14StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14-static)",
+        "lineHeight": "var(--seed-line-height-t14-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  "textStyleT14StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14-static)",
+        "lineHeight": "var(--seed-line-height-t14-static)",
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }

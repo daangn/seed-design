@@ -8,6 +8,14 @@ export declare const t7 = "var(--seed-line-height-t7)";
 export declare const t8 = "var(--seed-line-height-t8)";
 export declare const t9 = "var(--seed-line-height-t9)";
 export declare const t10 = "var(--seed-line-height-t10)";
+/** `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. */
+export declare const t11 = "var(--seed-line-height-t11)";
+/** `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. */
+export declare const t12 = "var(--seed-line-height-t12)";
+/** `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. */
+export declare const t13 = "var(--seed-line-height-t13)";
+/** `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. */
+export declare const t14 = "var(--seed-line-height-t14)";
 /** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
 export declare const t1Static = "var(--seed-line-height-t1-static)";
 /** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
@@ -28,3 +36,11 @@ export declare const t8Static = "var(--seed-line-height-t8-static)";
 export declare const t9Static = "var(--seed-line-height-t9-static)";
 /** 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
 export declare const t10Static = "var(--seed-line-height-t10-static)";
+/** `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
+export declare const t11Static = "var(--seed-line-height-t11-static)";
+/** `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
+export declare const t12Static = "var(--seed-line-height-t12-static)";
+/** `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
+export declare const t13Static = "var(--seed-line-height-t13-static)";
+/** `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 px로 정의되었습니다. */
+export declare const t14Static = "var(--seed-line-height-t14-static)";
