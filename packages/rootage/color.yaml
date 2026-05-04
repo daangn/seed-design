@@ -539,11 +539,6 @@ data:
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
-    $color.bg.layer-fill:
-      description: "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
-      values:
-        theme-light: $color.palette.gray-100
-        theme-dark: $color.palette.gray-200
     $color.bg.layer-floating:
       description: 화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다.
       values:

@@ -10,7 +10,7 @@ const semanticColors = {
   warning: theme.colors["bg-warning-solid"].computedValue,
   danger: theme.colors["bg-critical-solid"].computedValue,
   paperDefault: theme.colors["bg-layer-default"].computedValue,
-  paperContents: theme.colors["bg-layer-fill"].computedValue,
+  paperContents: theme.colors["bg-neutral-weak"].computedValue,
   paperDialog: theme.colors["bg-layer-floating"].computedValue,
   inkText: theme.colors["fg-neutral"].computedValue,
   inkTextLow: theme.colors["fg-neutral-subtle"].computedValue,
@@ -93,7 +93,7 @@ const Dialog = ({ isOpen, onClose }) => {
     },
     content: {
       color: theme.colors["palette-gray-800"].computedValue,
-      backgroundColor: theme.colors["bg-layer-fill"].computedValue,
+      backgroundColor: theme.colors["bg-neutral-weak"].computedValue,
     },
     footer: {
       borderTop: `1px solid ${theme.colors["stroke-neutral-muted"].computedValue}`,
