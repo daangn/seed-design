@@ -41,6 +41,14 @@ const compoundVariants = [
   {
     "variant": "outline",
     "size": "medium"
+  },
+  {
+    "variant": "underline",
+    "size": "large"
+  },
+  {
+    "variant": "underline",
+    "size": "medium"
   }
 ];
 
