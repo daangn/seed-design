@@ -24,6 +24,24 @@
       "path": "/components/action-sheet.json"
     },
     {
+      "path": "/components/attachment-input-dropzone.json"
+    },
+    {
+      "path": "/components/attachment-input-item-action-button.json"
+    },
+    {
+      "path": "/components/attachment-input-item-remove-button.json"
+    },
+    {
+      "path": "/components/attachment-input-item.json"
+    },
+    {
+      "path": "/components/attachment-input-trigger.json"
+    },
+    {
+      "path": "/components/attachment-input.json"
+    },
+    {
       "path": "/components/avatar-stack.json"
     },
     {
