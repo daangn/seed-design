@@ -1,5 +1,6 @@
 import { resolveToken } from "@seed-design/rootage-core";
-import { getRootage, stringifyValueLit } from "./rootage";
+import { getRootage } from "@/lib/rootage";
+import { stringifyValueLit } from "./rootage";
 import { TokenValue } from "./token-cell";
 import { TokenTable, TokenTableItem } from "./token-table";
 

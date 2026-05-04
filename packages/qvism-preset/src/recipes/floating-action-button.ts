@@ -7,6 +7,9 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/floating-action-button.json" with {
+  type: "json",
+};
 
 const floatingActionButton = defineSlotRecipe({
   name: "floating-action-button",
@@ -116,6 +119,9 @@ const floatingActionButton = defineSlotRecipe({
   },
   defaultVariants: {
     extended: true,
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 
