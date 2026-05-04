@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/text-input.json" with { type: "json" };
 import { textInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, focus, disabled, not, readOnly, invalid } from "../utils/pseudo";
@@ -410,6 +411,12 @@ const textInput = defineSlotRecipe({
           },
         },
       },
+    },
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+      size: spec.data.schema.variants.size,
     },
   },
 });
