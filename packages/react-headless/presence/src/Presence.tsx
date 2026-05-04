@@ -26,7 +26,7 @@ export const Presence = (props: PresenceProps) => {
   }
 
   return (
-    <Primitive.div ref={ref as any} asChild>
+    <Primitive.div ref={ref} asChild>
       {props.children}
     </Primitive.div>
   );

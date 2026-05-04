@@ -1,0 +1,315 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "menu",
+    "name": "Menu"
+  },
+  "data": {
+    "id": "menu",
+    "name": "Menu",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "shadow": {
+              "type": "shadow"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "enterScale": {
+              "type": "number"
+            },
+            "enterOpacity": {
+              "type": "number"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitScale": {
+              "type": "number"
+            },
+            "exitOpacity": {
+              "type": "number"
+            },
+            "gutter": {
+              "type": "dimension",
+              "description": "트리거와 메뉴 사이의 간격을 정의합니다."
+            },
+            "overflowPadding": {
+              "type": "dimension",
+              "description": "메뉴와 뷰포트 경계 사이의 최소 간격을 정의합니다."
+            },
+            "maxHeight": {
+              "type": "dimension"
+            },
+            "width": {
+              "type": "dimension"
+            }
+          }
+        },
+        "group": {
+          "properties": {}
+        },
+        "groupLabel": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "divider": {
+          "properties": {
+            "marginX": {
+              "type": "dimension"
+            },
+            "height": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        }
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "medium": {},
+            "small": {}
+          },
+          "defaultValue": "medium"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r5"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-floating"
+                },
+                "shadow": {
+                  "type": "shadow",
+                  "value": "$shadow.s3"
+                },
+                "enterDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "enterTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.enter"
+                },
+                "enterScale": {
+                  "type": "number",
+                  "value": 0.95
+                },
+                "enterOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "exitDuration": {
+                  "type": "duration",
+                  "value": "$duration.d2"
+                },
+                "exitTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.exit"
+                },
+                "exitScale": {
+                  "type": "number",
+                  "value": 0.95
+                },
+                "exitOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "gutter": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "overflowPadding": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "maxHeight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 480,
+                    "unit": "px"
+                  }
+                }
+              },
+              "groupLabel": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                }
+              },
+              "divider": {
+                "marginX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "width": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 240,
+                    "unit": "px"
+                  }
+                }
+              },
+              "groupLabel": {
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "small"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "width": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 200,
+                    "unit": "px"
+                  }
+                }
+              },
+              "groupLabel": {
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

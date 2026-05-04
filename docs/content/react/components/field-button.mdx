@@ -123,6 +123,25 @@ npx @seed-design/cli@latest add ui:field-button
 
 ### Use Cases
 
+#### Menu
+
+`Menu`와 함께 사용하면 Select와 유사한 UI를 구현할 수 있습니다. `MenuTrigger` 대신 `MenuAnchor`를 사용하고, `matchReferenceWidth`로 메뉴 너비를 맞춥니다.
+
+<ComponentExample name="react/menu/with-field-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/with-field-button.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+<Card title="Menu" href="/react/components/menu" variant="example">
+
+버튼 클릭 시 관련된 작업 항목을 보여주는 플로팅 드롭다운 메뉴 컴포넌트입니다.
+
+</Card>
+
 #### Form
 
 `FieldButton`에 `values` prop을 제공하는 경우 폼 제출에 활용할 수 있도록 `<input type="hidden" />`을 함께 렌더링합니다.
