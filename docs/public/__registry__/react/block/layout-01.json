@@ -1,0 +1,17 @@
+{
+  "id": "layout-01",
+  "description": "기본 Layout (Header + Content + Footer)",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "layout-01.tsx",
+      "content": "/**\n * @file block:layout-01\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport { Box, Layout, Text, VStack } from \"@seed-design/react\";\n\nexport default function LayoutBlock() {\n  return (\n    <Layout.Root>\n      <Layout.Content>\n        <VStack gap=\"x6\" paddingY=\"x6\">\n          <Box\n            as=\"header\"\n            bg=\"bg.neutralWeak\"\n            borderRadius=\"r2\"\n            paddingX=\"x6\"\n            paddingY=\"x4\"\n            display=\"flex\"\n            alignItems=\"center\"\n          >\n            <Text textStyle=\"t6Bold\">Header</Text>\n          </Box>\n\n          <Box\n            as=\"main\"\n            bg=\"bg.neutralWeak\"\n            borderRadius=\"r2\"\n            paddingX=\"x6\"\n            paddingY=\"x10\"\n            display=\"flex\"\n            alignItems=\"center\"\n            justifyContent=\"center\"\n            minHeight=\"200px\"\n          >\n            <Text textStyle=\"t5Medium\" color=\"fg.neutralSubtle\">\n              Content\n            </Text>\n          </Box>\n\n          <Box\n            as=\"footer\"\n            bg=\"bg.neutralWeak\"\n            borderRadius=\"r2\"\n            paddingX=\"x6\"\n            paddingY=\"x4\"\n            display=\"flex\"\n            alignItems=\"center\"\n          >\n            <Text textStyle=\"t3Regular\" color=\"fg.neutralSubtle\">\n              Footer\n            </Text>\n          </Box>\n        </VStack>\n      </Layout.Content>\n    </Layout.Root>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    }
+  ]
+}
