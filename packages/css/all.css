@@ -3496,8 +3496,6 @@
   box-sizing: border-box;
   white-space: nowrap;
   border-radius: var(--seed-radius-full);
-  padding-top: var(--seed-dimension-x2);
-  padding-bottom: var(--seed-dimension-x2);
   font-family: inherit;
   font-weight: var(--seed-font-weight-medium);
   transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
@@ -3520,9 +3518,10 @@
 
 .seed-chip-tabs__trigger--size_medium {
   min-height: 36px;
+  min-width: var(--seed-dimension-x12);
   font-size: var(--seed-font-size-t4);
-  padding-left: var(--seed-dimension-x3_5);
-  padding-right: var(--seed-dimension-x3_5);
+  padding-left: calc(var(--seed-dimension-x2) + var(--seed-dimension-x1_5));
+  padding-right: calc(var(--seed-dimension-x2) + var(--seed-dimension-x1_5));
 }
 
 .seed-chip-tabs__list--size_large {
@@ -3531,9 +3530,10 @@
 
 .seed-chip-tabs__trigger--size_large {
   min-height: 40px;
+  min-width: var(--seed-dimension-x13);
   font-size: var(--seed-font-size-t4);
-  padding-left: var(--seed-dimension-x4);
-  padding-right: var(--seed-dimension-x4);
+  padding-left: calc(var(--seed-dimension-x2_5) + var(--seed-dimension-x1_5));
+  padding-right: calc(var(--seed-dimension-x2_5) + var(--seed-dimension-x1_5));
 }
 
 .seed-chip-tabs__trigger--variant_neutralSolid {
@@ -3572,12 +3572,7 @@
 
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
   cursor: not-allowed;
-  color: var(--seed-color-fg-disabled);
-}
-
-.seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]):is([aria-selected="true"], [data-selected]) {
-  background-color: var(--seed-color-bg-disabled);
-  color: var(--seed-color-fg-disabled);
+  opacity: .5;
 }
 
 .seed-chip-tabs__trigger--variant_neutralOutline {
@@ -3618,12 +3613,7 @@
 
 .seed-chip-tabs__trigger--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
   cursor: not-allowed;
-  color: var(--seed-color-fg-disabled);
-}
-
-.seed-chip-tabs__trigger--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]):is([aria-selected="true"], [data-selected]) {
-  background-color: var(--seed-color-bg-disabled);
-  color: var(--seed-color-fg-disabled);
+  opacity: .5;
 }
 
 .seed-chip-tabs__root--contentLayout_fill {
