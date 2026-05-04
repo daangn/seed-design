@@ -1,8 +1,7 @@
 import * as React from "react";
-import "@testing-library/jest-dom/vitest";
 import { screen, cleanup, render, waitFor } from "@testing-library/react";
 import { useControllableState } from "./useControllableState";
-import { afterEach, describe, it, expect, afterAll, vi } from "vitest";
+import { afterEach, describe, it, expect, afterAll, vi } from "bun:test";
 import userEvent from "@testing-library/user-event";
 
 describe("useControllableState", () => {
