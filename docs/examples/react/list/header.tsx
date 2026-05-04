@@ -60,8 +60,7 @@ export default function () {
             size="small"
             color="fg.neutralSubtle"
             fontWeight="medium"
-            bleedX="asPadding"
-            bleedY="asPadding"
+            bleed="asPadding"
           >
             <PrefixIcon svg={<IconQuestionmarkCircleFill />} />
             도움말

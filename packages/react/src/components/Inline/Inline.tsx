@@ -1,10 +1,11 @@
 import * as React from "react";
+import type { DistributiveOmit } from "../../utils/styled";
 import { Box, type BoxProps } from "../Box/Box";
 
 /**
  * @deprecated Use `HStack` instead.
  */
-export interface InlineProps extends Omit<BoxProps, "display" | "direction" | "flexWrap"> {}
+export type InlineProps = DistributiveOmit<BoxProps, "display" | "direction" | "flexWrap">;
 
 /**
  * @deprecated Use `HStack` instead.
