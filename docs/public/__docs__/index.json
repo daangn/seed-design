@@ -1582,6 +1582,12 @@
               "title": "Footer",
               "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
               "docUrl": "/react/blocks/footer"
+            },
+            {
+              "id": "layout",
+              "title": "Layout",
+              "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
+              "docUrl": "/react/blocks/layout"
             }
           ]
         }
