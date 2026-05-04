@@ -237,6 +237,10 @@
   --font-size-t8: var(--seed-font-size-t8);
   --font-size-t9: var(--seed-font-size-t9);
   --font-size-t10: var(--seed-font-size-t10);
+  --font-size-t11: var(--seed-font-size-t11);
+  --font-size-t12: var(--seed-font-size-t12);
+  --font-size-t13: var(--seed-font-size-t13);
+  --font-size-t14: var(--seed-font-size-t14);
   --font-size-t1-static: var(--seed-font-size-t1-static);
   --font-size-t2-static: var(--seed-font-size-t2-static);
   --font-size-t3-static: var(--seed-font-size-t3-static);
@@ -247,6 +251,10 @@
   --font-size-t8-static: var(--seed-font-size-t8-static);
   --font-size-t9-static: var(--seed-font-size-t9-static);
   --font-size-t10-static: var(--seed-font-size-t10-static);
+  --font-size-t11-static: var(--seed-font-size-t11-static);
+  --font-size-t12-static: var(--seed-font-size-t12-static);
+  --font-size-t13-static: var(--seed-font-size-t13-static);
+  --font-size-t14-static: var(--seed-font-size-t14-static);
   --font-weight-regular: var(--seed-font-weight-regular);
   --font-weight-medium: var(--seed-font-weight-medium);
   --font-weight-bold: var(--seed-font-weight-bold);
@@ -266,6 +274,10 @@
   --line-height-t8: var(--seed-line-height-t8);
   --line-height-t9: var(--seed-line-height-t9);
   --line-height-t10: var(--seed-line-height-t10);
+  --line-height-t11: var(--seed-line-height-t11);
+  --line-height-t12: var(--seed-line-height-t12);
+  --line-height-t13: var(--seed-line-height-t13);
+  --line-height-t14: var(--seed-line-height-t14);
   --line-height-t1-static: var(--seed-line-height-t1-static);
   --line-height-t2-static: var(--seed-line-height-t2-static);
   --line-height-t3-static: var(--seed-line-height-t3-static);
@@ -276,6 +288,10 @@
   --line-height-t8-static: var(--seed-line-height-t8-static);
   --line-height-t9-static: var(--seed-line-height-t9-static);
   --line-height-t10-static: var(--seed-line-height-t10-static);
+  --line-height-t11-static: var(--seed-line-height-t11-static);
+  --line-height-t12-static: var(--seed-line-height-t12-static);
+  --line-height-t13-static: var(--seed-line-height-t13-static);
+  --line-height-t14-static: var(--seed-line-height-t14-static);
   --radius-r0_5: var(--seed-radius-r0_5);
   --radius-r1: var(--seed-radius-r1);
   --radius-r1_5: var(--seed-radius-r1_5);
@@ -496,10 +512,34 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t8-regular {
+    font-size: var(--seed-font-size-t8);
+    line-height: var(--seed-line-height-t8);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t8-medium {
+    font-size: var(--seed-font-size-t8);
+    line-height: var(--seed-line-height-t8);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
 @utility t8-bold {
     font-size: var(--seed-font-size-t8);
     line-height: var(--seed-line-height-t8);
     font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t9-regular {
+    font-size: var(--seed-font-size-t9);
+    line-height: var(--seed-line-height-t9);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t9-medium {
+    font-size: var(--seed-font-size-t9);
+    line-height: var(--seed-line-height-t9);
+    font-weight: var(--seed-font-weight-medium);
   }
 
 @utility t9-bold {
@@ -508,9 +548,93 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t10-regular {
+    font-size: var(--seed-font-size-t10);
+    line-height: var(--seed-line-height-t10);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t10-medium {
+    font-size: var(--seed-font-size-t10);
+    line-height: var(--seed-line-height-t10);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
 @utility t10-bold {
     font-size: var(--seed-font-size-t10);
     line-height: var(--seed-line-height-t10);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t11-regular {
+    font-size: var(--seed-font-size-t11);
+    line-height: var(--seed-line-height-t11);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t11-medium {
+    font-size: var(--seed-font-size-t11);
+    line-height: var(--seed-line-height-t11);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t11-bold {
+    font-size: var(--seed-font-size-t11);
+    line-height: var(--seed-line-height-t11);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t12-regular {
+    font-size: var(--seed-font-size-t12);
+    line-height: var(--seed-line-height-t12);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t12-medium {
+    font-size: var(--seed-font-size-t12);
+    line-height: var(--seed-line-height-t12);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t12-bold {
+    font-size: var(--seed-font-size-t12);
+    line-height: var(--seed-line-height-t12);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t13-regular {
+    font-size: var(--seed-font-size-t13);
+    line-height: var(--seed-line-height-t13);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t13-medium {
+    font-size: var(--seed-font-size-t13);
+    line-height: var(--seed-line-height-t13);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t13-bold {
+    font-size: var(--seed-font-size-t13);
+    line-height: var(--seed-line-height-t13);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t14-regular {
+    font-size: var(--seed-font-size-t14);
+    line-height: var(--seed-line-height-t14);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t14-medium {
+    font-size: var(--seed-font-size-t14);
+    line-height: var(--seed-line-height-t14);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t14-bold {
+    font-size: var(--seed-font-size-t14);
+    line-height: var(--seed-line-height-t14);
     font-weight: var(--seed-font-weight-bold);
   }
 
@@ -640,10 +764,34 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t8-static-regular {
+    font-size: var(--seed-font-size-t8-static);
+    line-height: var(--seed-line-height-t8-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t8-static-medium {
+    font-size: var(--seed-font-size-t8-static);
+    line-height: var(--seed-line-height-t8-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
 @utility t8-static-bold {
     font-size: var(--seed-font-size-t8-static);
     line-height: var(--seed-line-height-t8-static);
     font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t9-static-regular {
+    font-size: var(--seed-font-size-t9-static);
+    line-height: var(--seed-line-height-t9-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t9-static-medium {
+    font-size: var(--seed-font-size-t9-static);
+    line-height: var(--seed-line-height-t9-static);
+    font-weight: var(--seed-font-weight-medium);
   }
 
 @utility t9-static-bold {
@@ -652,9 +800,93 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t10-static-regular {
+    font-size: var(--seed-font-size-t10-static);
+    line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t10-static-medium {
+    font-size: var(--seed-font-size-t10-static);
+    line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
 @utility t10-static-bold {
     font-size: var(--seed-font-size-t10-static);
     line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t11-static-regular {
+    font-size: var(--seed-font-size-t11-static);
+    line-height: var(--seed-line-height-t11-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t11-static-medium {
+    font-size: var(--seed-font-size-t11-static);
+    line-height: var(--seed-line-height-t11-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t11-static-bold {
+    font-size: var(--seed-font-size-t11-static);
+    line-height: var(--seed-line-height-t11-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t12-static-regular {
+    font-size: var(--seed-font-size-t12-static);
+    line-height: var(--seed-line-height-t12-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t12-static-medium {
+    font-size: var(--seed-font-size-t12-static);
+    line-height: var(--seed-line-height-t12-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t12-static-bold {
+    font-size: var(--seed-font-size-t12-static);
+    line-height: var(--seed-line-height-t12-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t13-static-regular {
+    font-size: var(--seed-font-size-t13-static);
+    line-height: var(--seed-line-height-t13-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t13-static-medium {
+    font-size: var(--seed-font-size-t13-static);
+    line-height: var(--seed-line-height-t13-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t13-static-bold {
+    font-size: var(--seed-font-size-t13-static);
+    line-height: var(--seed-line-height-t13-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t14-static-regular {
+    font-size: var(--seed-font-size-t14-static);
+    line-height: var(--seed-line-height-t14-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t14-static-medium {
+    font-size: var(--seed-font-size-t14-static);
+    line-height: var(--seed-line-height-t14-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t14-static-bold {
+    font-size: var(--seed-font-size-t14-static);
+    line-height: var(--seed-line-height-t14-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
