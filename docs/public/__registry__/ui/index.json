@@ -648,6 +648,30 @@
     {
       "snippets": [
         {
+          "path": "side-navigation.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.1.0",
+            "@seed-design/css": "~1.1.0"
+          }
+        }
+      ],
+      "id": "side-navigation",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "menu"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "slider.tsx",
           "dependencies": {
             "@seed-design/react": "~1.1.0",
