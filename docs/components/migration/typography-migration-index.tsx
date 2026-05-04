@@ -1,4 +1,4 @@
-import { getRootage } from "@/components/rootage";
+import { getRootage } from "@/lib/rootage";
 import { FoundationTokenMapping } from "@seed-design/migration-index";
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import { Text, TextProps } from "@seed-design/react";

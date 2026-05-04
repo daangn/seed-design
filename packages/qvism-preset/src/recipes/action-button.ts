@@ -1,3 +1,6 @@
+import spec from "@seed-design/rootage-artifacts/components/action-button.json" with {
+  type: "json",
+};
 import { actionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
@@ -529,6 +532,9 @@ const actionButton = defineRecipe({
     variant: "brandSolid",
     size: "medium",
     layout: "withText",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

@@ -1,3 +1,6 @@
+import spec from "@seed-design/rootage-artifacts/components/toggle-button.json" with {
+  type: "json",
+};
 import { toggleButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
@@ -192,6 +195,11 @@ const toggleButton = defineRecipe({
   defaultVariants: {
     variant: "brandSolid",
     size: "small",
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+    },
   },
 });
 

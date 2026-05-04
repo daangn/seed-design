@@ -1,4 +1,5 @@
-import { getRootage, stringifyValueLit } from "@/components/rootage";
+import { getRootage } from "@/lib/rootage";
+import { stringifyValueLit } from "@/components/rootage";
 import { TokenValue } from "@/components/token-cell";
 import {
   scaleColorMappings,

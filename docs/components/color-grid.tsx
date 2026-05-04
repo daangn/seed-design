@@ -1,5 +1,5 @@
 import { resolveToken } from "@seed-design/rootage-core";
-import { getRootage } from "./rootage";
+import { getRootage } from "@/lib/rootage";
 import { ColorSwatch } from "./color-swatch";
 
 export interface ColorGridProps {

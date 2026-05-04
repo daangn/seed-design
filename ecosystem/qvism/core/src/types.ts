@@ -89,12 +89,60 @@ export type RecipeCompoundVariant<T> = T & {
   css: StyleObject;
 };
 
+export interface VariantValueMetadata {
+  description?: string;
+}
+
+export interface RecipeMetadata<T extends RecipeVariantRecord = RecipeVariantRecord> {
+  variants?: {
+    [K in keyof T]?: {
+      description?: string;
+      values?: { [V in Extract<keyof T[K], string | number>]?: VariantValueMetadata };
+    };
+  };
+}
+
+/**
+ * Validate that `M` (e.g. yaml-sourced metadata) does not contain any axis or
+ * value keys that are absent from the recipe `variants` (`T`). Extra keys
+ * collapse the relevant slot to `never`, so the assignment fails to compile
+ * and the offending key surfaces in the error.
+ *
+ * Keys are compared after stringification so numeric recipe keys (e.g. `20`)
+ * still match their JSON-imported string counterparts (e.g. `"20"`).
+ */
+type StringifiedKeys<T> = `${keyof T & (string | number)}`;
+
+export type ExactRecipeMetadata<T extends RecipeVariantRecord, M> = M extends {
+  variants?: infer MV;
+}
+  ? Exclude<StringifiedKeys<MV>, StringifiedKeys<T>> extends never
+    ? M & {
+        variants?: {
+          [K in keyof MV]: K extends `${infer Kn}`
+            ? Kn extends StringifiedKeys<T>
+              ? MV[K] extends { values?: infer VV }
+                ? Exclude<
+                    StringifiedKeys<VV>,
+                    StringifiedKeys<T[Extract<keyof T, K | Kn | number>]>
+                  > extends never
+                  ? MV[K]
+                  : never
+                : MV[K]
+              : never
+            : never;
+        };
+      }
+    : never
+  : M;
+
 export interface RecipeDefinition<T extends RecipeVariantRecord = RecipeVariantRecord> {
   name: string;
   base: StyleObject;
   variants: T;
   compoundVariants?: Pretty<RecipeCompoundVariant<RecipeCompoundSelection<T>>>[];
   defaultVariants: Required<RecipeSelection<T>>;
+  metadata?: RecipeMetadata<T>;
 }
 
 // slot recipe
@@ -119,6 +167,7 @@ export interface SlotRecipeDefinition<
   variants: T;
   compoundVariants?: Pretty<SlotRecipeCompoundVariant<S, RecipeCompoundSelection<T>>>[];
   defaultVariants: Required<RecipeSelection<T>>;
+  metadata?: RecipeMetadata<T>;
 }
 
 export type RecipeKindDefinition = RecipeDefinition | SlotRecipeDefinition;
