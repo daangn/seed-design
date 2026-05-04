@@ -7,6 +7,9 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/menu-sheet-item.json" with {
+  type: "json",
+};
 
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
@@ -117,6 +120,9 @@ const menuSheetItem = defineSlotRecipe({
   defaultVariants: {
     tone: "neutral",
     labelAlign: "left",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 
