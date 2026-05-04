@@ -69,7 +69,7 @@ if [[ "$FILE_PATH" == *"ecosystem/rootage/"* ]]; then
 elif [[ "$FILE_PATH" == *"ecosystem/qvism/"* ]]; then
   run_with_feedback bun --filter @seed-design/qvism-core build
   run_with_feedback bun --filter @seed-design/qvism-cli build
-  run_with_feedback bun --filter @seed-design/qvism-core test --dots
+  run_with_feedback bun test ecosystem/qvism --dots
 fi
 
 # ============================================================
