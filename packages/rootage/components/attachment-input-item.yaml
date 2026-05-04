@@ -1,0 +1,168 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: attachment-input-item
+  name: Attachment Input Item
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          width:
+            type: dimension
+          height:
+            type: dimension
+          paddingX:
+            type: dimension
+          gap:
+            type: dimension
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          opacity:
+            type: number
+      thumbnail:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      thumbnailIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      name:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      size:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      backdrop:
+        properties:
+          color:
+            type: color
+      removeButtonMask:
+        description: dragging 상태에서는 표시되지 않습니다.
+        properties:
+          offset:
+            type: dimension
+          size:
+            type: dimension
+      badge:
+        properties:
+          color:
+            type: color
+          height:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          paddingX:
+            type: dimension
+      badgeLabel:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+
+  definitions:
+    base:
+      enabled:
+        root:
+          height: 80px
+          color: $color.bg.transparent
+          cornerRadius: $radius.r3
+          strokeWidth: 1px
+          gap: $dimension.x2_5
+        thumbnail:
+          color: $color.bg.neutral-weak
+          size: $dimension.x12
+          cornerRadius: $radius.r2
+        thumbnailIcon:
+          color: $color.fg.neutral-subtle
+          size: $dimension.x6
+        name:
+          color: $color.fg.neutral
+          fontSize: $font-size.t2
+          lineHeight: $line-height.t2
+          fontWeight: $font-weight.medium
+        size:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t1
+          lineHeight: $line-height.t1
+          fontWeight: $font-weight.regular
+        removeButtonMask:
+          offset: $dimension.x1_5
+          size: $dimension.x6
+
+    type=file:
+      enabled:
+        root:
+          width: 160px
+          strokeColor: $color.stroke.neutral-weak
+          paddingX: $dimension.x4
+      readonly:
+        thumbnailIcon:
+          color: $color.fg.disabled
+        name:
+          color: $color.fg.disabled
+        size:
+          color: $color.fg.disabled
+      dragging:
+        thumbnailIcon:
+          color: $color.fg.disabled
+        name:
+          color: $color.fg.disabled
+        size:
+          color: $color.fg.disabled
+
+    type=image:
+      enabled:
+        root:
+          width: 80px
+          strokeColor: $color.stroke.neutral-subtle
+        backdrop:
+          color: $color.bg.overlay
+        badge:
+          color: $color.bg.overlay
+          height: $dimension.x6
+          cornerRadius: $radius.r3
+          paddingX: $dimension.x1
+        badgeLabel:
+          color: $color.palette.static-white
+          fontSize: $font-size.t2
+          lineHeight: $line-height.t2
+          fontWeight: $font-weight.medium
+      readonly:
+        root:
+          opacity: 0.5
+      dragging:
+        root:
+          opacity: 0.5

@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: attachment-input-item-remove-button
+  name: Attachment Input Item Remove Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          offset:
+            type: dimension
+      icon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          size: $dimension.x5
+          # targetSize: $dimension.x5
+          cornerRadius: $radius.full
+          color: $color.bg.layer-default
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-weak
+          offset: $dimension.x1
+        icon:
+          size: $dimension.x2_5
+          color: $color.fg.neutral
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      disabled:
+        icon:
+          color: $color.fg.disabled
