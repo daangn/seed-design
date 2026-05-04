@@ -12,6 +12,7 @@ import { useCallback, useRef, useState } from "react";
 import { MenuContent, MenuGroup, MenuGroupLabel, MenuItem, MenuRoot } from "seed-design/ui/menu";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
+import { VIEWPORT_MODES } from "./utils/parameters";
 
 const MenuPreview = ({ size }: MenuVariantProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -93,7 +94,12 @@ const CommonStoryTemplate: Story = {
   ),
 };
 
-export const LightTheme = CommonStoryTemplate;
+export const LightTheme: Story = {
+  ...CommonStoryTemplate,
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
+};
 
 export const DarkTheme = createStoryWithParameters({
   ...CommonStoryTemplate,

@@ -2,7 +2,7 @@ declare interface MenuVariant {
   /**
   * @default "medium"
   */
-  size: "medium" | "small";
+  size: "medium" | "small" | "responsive";
 }
 
 declare type MenuVariantMap = {

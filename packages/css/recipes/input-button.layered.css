@@ -232,4 +232,112 @@
   .seed-input-button__clearButton--size_medium {
     --seed-icon-size: var(--seed-dimension-x4_5);
   }
+
+  .seed-input-button__root--size_responsive {
+    height: var(--seed-dimension-x13);
+    gap: var(--seed-dimension-x2_5);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__root--size_responsive {
+      height: var(--seed-dimension-x10);
+      gap: var(--seed-dimension-x2);
+      padding-left: var(--seed-dimension-x3_5);
+      padding-right: var(--seed-dimension-x3_5);
+    }
+  }
+
+  .seed-input-button__button--size_responsive {
+    border-radius: var(--seed-radius-r3);
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__button--size_responsive {
+      border-radius: var(--seed-radius-r2);
+    }
+  }
+
+  .seed-input-button__value--size_responsive {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__value--size_responsive {
+      font-size: var(--seed-font-size-t4);
+      line-height: var(--seed-line-height-t4);
+    }
+  }
+
+  .seed-input-button__placeholder--size_responsive {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__placeholder--size_responsive {
+      font-size: var(--seed-font-size-t4);
+      line-height: var(--seed-line-height-t4);
+    }
+  }
+
+  .seed-input-button__prefixText--size_responsive {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__prefixText--size_responsive {
+      font-size: var(--seed-font-size-t4);
+      line-height: var(--seed-line-height-t4);
+    }
+  }
+
+  .seed-input-button__prefixIcon--size_responsive {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__prefixIcon--size_responsive {
+      width: var(--seed-dimension-x4);
+      height: var(--seed-dimension-x4);
+    }
+  }
+
+  .seed-input-button__suffixText--size_responsive {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__suffixText--size_responsive {
+      font-size: var(--seed-font-size-t4);
+      line-height: var(--seed-line-height-t4);
+    }
+  }
+
+  .seed-input-button__suffixIcon--size_responsive {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__suffixIcon--size_responsive {
+      width: var(--seed-dimension-x4);
+      height: var(--seed-dimension-x4);
+    }
+  }
+
+  .seed-input-button__clearButton--size_responsive {
+    --seed-icon-size: 22px;
+  }
+
+  @media (width >= 1280px) {
+    .seed-input-button__clearButton--size_responsive {
+      --seed-icon-size: var(--seed-dimension-x4_5);
+    }
+  }
 }
