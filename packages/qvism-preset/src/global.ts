@@ -128,10 +128,23 @@ export const globalCss = defineGlobalCss({
     "--seed-box-bleed-top--responsive": "0px",
     "--seed-box-bleed-left--responsive": "0px",
     "--seed-box-bleed-right--responsive": "0px",
-    marginTop: "calc(var(--seed-box-bleed-top) * -1)",
-    marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
-    marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
-    marginRight: "calc(var(--seed-box-bleed-right) * -1)",
+
+    // `initial` keeps these as the guaranteed-invalid value so the
+    // `var(--margin, calc(bleed * -1))` fallback below resolves to bleed
+    // whenever margin is not explicitly set. `auto` passes through without
+    // getting trapped in a calc() expression.
+    "--seed-box-margin--responsive": "initial",
+    "--seed-box-margin-y--responsive": "var(--seed-box-margin)",
+    "--seed-box-margin-x--responsive": "var(--seed-box-margin)",
+    "--seed-box-margin-top--responsive": "var(--seed-box-margin-y)",
+    "--seed-box-margin-bottom--responsive": "var(--seed-box-margin-y)",
+    "--seed-box-margin-left--responsive": "var(--seed-box-margin-x)",
+    "--seed-box-margin-right--responsive": "var(--seed-box-margin-x)",
+
+    marginTop: "var(--seed-box-margin-top, calc(var(--seed-box-bleed-top) * -1))",
+    marginBottom: "var(--seed-box-margin-bottom, calc(var(--seed-box-bleed-bottom) * -1))",
+    marginLeft: "var(--seed-box-margin-left, calc(var(--seed-box-bleed-left) * -1))",
+    marginRight: "var(--seed-box-margin-right, calc(var(--seed-box-bleed-right) * -1))",
 
     "--seed-box-min-height--responsive": "initial",
     "--seed-box-max-height--responsive": "initial",
