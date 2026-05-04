@@ -18,7 +18,7 @@ const ControlPanel = React.forwardRef<HTMLDivElement, ControlPanelProps>((props,
       <div className={styles.item}>
         <span className={styles.title}>그리드 표시</span>
         <Switch
-          size="medium"
+          size="24"
           checked={preferences.showGrid}
           onCheckedChange={(checked) => updatePreferences({ showGrid: checked })}
         />
