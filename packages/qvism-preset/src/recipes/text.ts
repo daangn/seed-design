@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/typography.json" with { type: "json" };
 import { typography as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
@@ -84,6 +85,11 @@ const text = defineRecipe({
     textStyle: "t5Regular",
     maxLines: "none",
     textDecorationLine: "none",
+  },
+  metadata: {
+    variants: {
+      textStyle: spec.data.schema.variants.textStyle,
+    },
   },
 });
 
