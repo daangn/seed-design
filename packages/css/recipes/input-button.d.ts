@@ -2,7 +2,7 @@ declare interface InputButtonVariant {
   /**
   * @default "large"
   */
-  size: "large" | "medium";
+  size: "large" | "medium" | "responsive";
 }
 
 declare type InputButtonVariantMap = {
