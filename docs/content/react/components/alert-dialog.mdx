@@ -79,6 +79,19 @@ npx @seed-design/cli@latest add ui:alert-dialog
 
 ## Examples
 
+### Trigger
+
+`<AlertDialogTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, AlertDialog의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+<ComponentExample name="react/alert-dialog/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/alert-dialog/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Responsive Wrapping
 
 `<ResponsivePair>` 컴포넌트를 사용해 버튼 컨텐츠가 길어지는 경우 레이아웃을 세로로 접을 수 있습니다.
