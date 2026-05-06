@@ -63,7 +63,7 @@ const CommonStoryTemplate: Story = {
 
 export const LightTheme = CommonStoryTemplate;
 
-export const DarkTheme = createStoryWithParameters<typeof meta>({
+export const DarkTheme = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { theme: "dark" },
 });
