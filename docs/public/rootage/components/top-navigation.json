@@ -137,7 +137,8 @@
         },
         "divider": {
           "values": {
-            "true": {}
+            "true": {},
+            "false": {}
           },
           "defaultValue": "true"
         },
@@ -353,6 +354,12 @@
             }
           }
         ]
+      },
+      {
+        "variants": {
+          "divider": "false"
+        },
+        "definitions": []
       },
       {
         "variants": {

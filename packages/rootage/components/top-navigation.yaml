@@ -132,6 +132,7 @@ data:
         root:
           strokeColor: $color.stroke.neutral-subtle
           strokeWidth: 1px
+    divider=false: {}
     titleLayout=titleOnly:
       enabled:
         title:

@@ -72,6 +72,7 @@ export declare const vars: {
       }
     }
   },
+  "dividerFalse": {},
   "titleLayoutTitleOnly": {
     "enabled": {
       "title": {
