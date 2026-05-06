@@ -3,6 +3,10 @@ declare interface SwitchVariant {
   * @default 32
   */
   size: "16" | "24" | "32";
+/**
+  * @default false
+  */
+  disabled: boolean;
 }
 
 declare type SwitchVariantMap = {

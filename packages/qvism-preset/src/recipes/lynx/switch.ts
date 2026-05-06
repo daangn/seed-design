@@ -1,7 +1,6 @@
 import { switch as vars } from "../../vars/component";
 import { switchmark as markVars } from "../../vars/component";
 import { defineLynxSlotRecipe } from "../../utils/define-lynx";
-import { disabled, pseudo } from "../../utils/pseudo";
 
 const switchRecipe = defineLynxSlotRecipe({
   name: "switch",
@@ -18,10 +17,6 @@ const switchRecipe = defineLynxSlotRecipe({
       color: vars.base.enabled.label.color,
 
       transition: `opacity ${vars.base.disabled.label.opacityDuration} ${vars.base.disabled.label.opacityTimingFunction}`,
-
-      [pseudo(disabled)]: {
-        opacity: vars.base.disabled.label.opacity,
-      },
     },
   },
   variants: {
@@ -63,9 +58,18 @@ const switchRecipe = defineLynxSlotRecipe({
         },
       },
     },
+    disabled: {
+      true: {
+        label: {
+          opacity: vars.base.disabled.label.opacity,
+        },
+      },
+      false: {},
+    },
   },
   defaultVariants: {
     size: 32,
+    disabled: false,
   },
 });
 

@@ -14,10 +14,43 @@ const switchmarkSlotNames = [
 
 const defaultVariant = {
   "tone": "brand",
-  "size": 32
+  "size": 32,
+  "checked": false,
+  "disabled": false
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "tone": "brand",
+    "checked": true
+  },
+  {
+    "tone": "neutral",
+    "checked": true,
+    "disabled": false
+  },
+  {
+    "tone": "neutral",
+    "checked": true,
+    "disabled": true
+  },
+  {
+    "tone": "neutral",
+    "disabled": true
+  },
+  {
+    "size": 32,
+    "checked": true
+  },
+  {
+    "size": 24,
+    "checked": true
+  },
+  {
+    "size": 16,
+    "checked": true
+  }
+];
 
 export const switchmarkVariantMap = {
   "tone": [
@@ -28,6 +61,14 @@ export const switchmarkVariantMap = {
     "16",
     "24",
     "32"
+  ],
+  "checked": [
+    true,
+    false
+  ],
+  "disabled": [
+    true,
+    false
   ]
 };
 

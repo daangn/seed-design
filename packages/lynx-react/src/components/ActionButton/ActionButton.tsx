@@ -18,13 +18,6 @@ import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token
 const { ClassNamesProvider, useClassNames, PropsProvider, useProps } =
   createSlotRecipeContext(actionButton);
 
-// recipe .d.ts 는 CSS variant 만 선언하지만 런타임은 state modifier 도 지원
-// (postcss-lynx-compat 이 pseudo selector 를 class modifier 로 변환).
-type ActionButtonRuntimeVariantProps = ActionButtonVariantProps & {
-  disabled?: boolean;
-  loading?: boolean;
-};
-
 type IconSlotKey = "prefixIcon" | "suffixIcon" | "icon";
 
 type IconElementProps = {
@@ -46,7 +39,7 @@ type ActionButtonRootOwnProps = {
 
 const ActionButtonRoot = React.forwardRef<
   unknown,
-  ActionButtonRuntimeVariantProps & ActionButtonRootOwnProps
+  ActionButtonVariantProps & ActionButtonRootOwnProps
 >((innerProps, ref) => {
   const props = { layout: "withText" as const, ...innerProps };
   const [variantProps, otherProps] = actionButton.splitVariantProps(props);
@@ -56,10 +49,16 @@ const ActionButtonRoot = React.forwardRef<
     children,
     ...rest
   } = otherProps as ActionButtonRootOwnProps & Record<string, unknown>;
-  const { disabled, loading } = innerProps;
   const propsForContext = useMemo(
-    () => ({ ...variantProps, disabled, loading }) as ActionButtonRuntimeVariantProps,
-    [variantProps.variant, variantProps.size, variantProps.layout, disabled, loading],
+    () => variantProps,
+    [
+      variantProps.variant,
+      variantProps.size,
+      variantProps.layout,
+      variantProps.pressed,
+      variantProps.disabled,
+      variantProps.loading,
+    ],
   );
   return (
     <ClassNamesProvider value={classNames}>
@@ -101,7 +100,7 @@ ActionButtonTextSlot.displayName = "ActionButtonTextSlot";
  * `style={{ width, height }}` 를 박기 때문에 style prop 으로 덮어 씌워야 recipe 사이즈가 적용된다.
  */
 function resolveIconSize(
-  variantProps: ActionButtonRuntimeVariantProps | null,
+  variantProps: ActionButtonVariantProps | null,
   slot: IconSlotKey,
 ): string | undefined {
   const size = variantProps?.size ?? "medium";
@@ -129,7 +128,7 @@ function ActionButtonIconSlot({
   slot: IconSlotKey;
 }) {
   const classNames = useClassNames();
-  const variantProps = useProps() as ActionButtonRuntimeVariantProps | null;
+  const variantProps = useProps() as ActionButtonVariantProps | null;
   const { ref } = useIconColor([
     variantProps?.variant ?? null,
     variantProps?.disabled ?? false,
@@ -176,7 +175,7 @@ function ActionButtonIconSlot({
  * />
  * ```
  */
-export interface ActionButtonProps extends Omit<ActionButtonRuntimeVariantProps, "layout"> {
+export interface ActionButtonProps extends Omit<ActionButtonVariantProps, "layout" | "pressed"> {
   children?: React.ReactNode;
   className?: string;
   flexGrow?: number;
@@ -209,7 +208,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     console.warn('ActionButton: `layout="iconOnly"` requires `aria-label` for accessibility.');
   }
 
-  const { pressed: _pressed, ...pressTapHandlers } = usePressTap({
+  const { pressed, ...pressTapHandlers } = usePressTap({
     disabled: !isInteractive,
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
@@ -219,6 +218,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     <ActionButtonRoot
       {...variantAndRest}
       layout={layout}
+      pressed={pressed}
       ref={ref}
       style={flexGrow != null ? { flexGrow } : undefined}
       {...pressTapHandlers}

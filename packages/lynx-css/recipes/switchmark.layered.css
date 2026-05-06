@@ -8,34 +8,14 @@
     position: relative;
   }
 
-  .seed-switchmark__root.seed-switchmark__root--disabled_true {
-    opacity: .38;
-  }
-
   .seed-switchmark__thumb {
     border-radius: var(--seed-radius-full);
     transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms;
     transform: scale(.8);
   }
 
-  .seed-switchmark__root--tone_neutral.seed-switchmark__root--checked_true {
-    background-color: var(--seed-color-bg-neutral-inverted);
-  }
-
-  .seed-switchmark__root--tone_neutral.seed-switchmark__root--disabled_true.seed-switchmark__root--checked_true {
-    background-color: var(--seed-color-palette-gray-600);
-  }
-
   .seed-switchmark__thumb--tone_neutral {
     background-color: var(--seed-color-fg-neutral-inverted);
-  }
-
-  .seed-switchmark__thumb--tone_neutral.seed-switchmark__thumb--disabled_true {
-    background-color: var(--seed-color-palette-static-black-alpha-700);
-  }
-
-  .seed-switchmark__root--tone_brand.seed-switchmark__root--checked_true {
-    background-color: var(--seed-color-bg-brand-solid);
   }
 
   .seed-switchmark__thumb--tone_brand {
@@ -53,10 +33,6 @@
     height: 12px;
   }
 
-  .seed-switchmark__thumb--size_16.seed-switchmark__thumb--checked_true {
-    transform: scale(1) translateX(10px);
-  }
-
   .seed-switchmark__root--size_24 {
     min-width: 38px;
     min-height: 24px;
@@ -66,10 +42,6 @@
   .seed-switchmark__thumb--size_24 {
     width: 20px;
     height: 20px;
-  }
-
-  .seed-switchmark__thumb--size_24.seed-switchmark__thumb--checked_true {
-    transform: scale(1) translateX(14px);
   }
 
   .seed-switchmark__root--size_32 {
@@ -83,7 +55,35 @@
     height: 26px;
   }
 
-  .seed-switchmark__thumb--size_32.seed-switchmark__thumb--checked_true {
+  .seed-switchmark__root--disabled_true {
+    opacity: .38;
+  }
+
+  .seed-switchmark__root--tone_brand-checked_true {
+    background-color: var(--seed-color-bg-brand-solid);
+  }
+
+  .seed-switchmark__root--tone_neutral-checked_true-disabled_false {
+    background-color: var(--seed-color-bg-neutral-inverted);
+  }
+
+  .seed-switchmark__root--tone_neutral-checked_true-disabled_true {
+    background-color: var(--seed-color-palette-gray-600);
+  }
+
+  .seed-switchmark__thumb--tone_neutral-disabled_true {
+    background-color: var(--seed-color-palette-static-black-alpha-700);
+  }
+
+  .seed-switchmark__thumb--size_32-checked_true {
     transform: scale(1) translateX(20px);
+  }
+
+  .seed-switchmark__thumb--size_24-checked_true {
+    transform: scale(1) translateX(14px);
+  }
+
+  .seed-switchmark__thumb--size_16-checked_true {
+    transform: scale(1) translateX(10px);
   }
 }
