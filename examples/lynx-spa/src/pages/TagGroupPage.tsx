@@ -4,7 +4,7 @@ import {
   TagGroupItemLabel,
   TagGroupRoot,
   type TagGroupRootProps,
-} from "@seed-design/lynx-react";
+} from "../seed-design/ui/tag-group";
 import { vars } from "@seed-design/lynx-css/vars";
 
 const { $color } = vars;

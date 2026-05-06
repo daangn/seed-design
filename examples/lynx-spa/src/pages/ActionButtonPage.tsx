@@ -1,7 +1,7 @@
 import IconChevronDownFill from '@karrotmarket/lynx-monochrome-icon/IconChevronDownFill';
 import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
 
-import { ActionButton } from '@seed-design/lynx-react';
+import { ActionButton } from '../seed-design/ui/action-button';
 
 export function ActionButtonPage() {
   return (

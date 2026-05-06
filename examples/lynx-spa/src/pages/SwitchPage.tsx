@@ -6,7 +6,7 @@ import {
   SwitchLabel,
 } from '@seed-design/lynx-react';
 
-import { Switch, Switchmark } from '../components/ui/switch.js';
+import { Switch, Switchmark } from '../seed-design/ui/switch';
 
 export function SwitchPage() {
   const [controlled, setControlled] = useState(false);

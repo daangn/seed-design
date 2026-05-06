@@ -1,9 +1,8 @@
 import { useRef, useState } from "@lynx-js/react";
 import { vars } from "@seed-design/lynx-css/vars";
-import { ActionButton, type BottomSheetRootRef } from "@seed-design/lynx-react";
+import { type BottomSheetRootRef } from "@seed-design/lynx-react";
 
-// `seed-design add ui:bottom-sheet -f lynx`로 설치된 snippet.
-// 사용자가 실제로 소비하는 얇은 상위 API (Root / Trigger / Content / Body / Footer)를 재현한다.
+import { ActionButton } from "../seed-design/ui/action-button";
 import {
   BottomSheetBody,
   BottomSheetContent,

@@ -1,3 +1,9 @@
+/**
+ * @file ui:switch
+ * @requires @seed-design/lynx-react@~0.1.0-alpha.0
+ * @requires @seed-design/lynx-css@~0.1.0-alpha.0
+ **/
+
 import * as React from "@lynx-js/react";
 import {
   SwitchRoot,
@@ -44,3 +50,8 @@ export const Switchmark = React.forwardRef<unknown, SwitchmarkProps>((props, ref
   );
 });
 Switchmark.displayName = "Switchmark";
+
+/**
+ * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
+ * You can extend this snippet however you want.
+ */

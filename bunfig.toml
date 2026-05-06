@@ -1,6 +1,7 @@
 [install]
+# registry = "https://registry.npmjs.org/" # moved to .npmrc; bunfig.toml is overridden by user ~/.npmrc
 linker = "isolated"
-minimumReleaseAge = 86400 # 1 day
+minimumReleaseAge = 259200 # 3 days
 minimumReleaseAgeExcludes = ["@karrotmarket/react-monochrome-icon", "@karrotmarket/react-multicolor-icon", "@karrotmarket/lynx-monochrome-icon", "@karrotmarket/lynx-multicolor-icon", "@karrotmarket/icon-data"]
 
 [test]
