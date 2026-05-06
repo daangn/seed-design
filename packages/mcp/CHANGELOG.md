@@ -1,5 +1,13 @@
 # @seed-design/mcp
 
+## 1.3.13
+
+### Patch Changes
+
+- 95d0aa2: `uuid` 의존성을 v14로 업데이트합니다.
+- Updated dependencies [87f6f45]
+  - @seed-design/figma@1.3.13
+
 ## 1.3.12
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @seed-design/figma
 
+## 1.3.13
+
+### Patch Changes
+
+- 87f6f45: Figma 엔티티 및 Codegen을 업데이트합니다.
+- Updated dependencies [be7022a]
+  - @seed-design/css@1.2.11
+
 ## 1.3.12
 
 ### Patch Changes
