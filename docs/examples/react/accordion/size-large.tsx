@@ -1,5 +1,10 @@
 import { Box } from "@seed-design/react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "seed-design/ui/accordion";
 
 export default function AccordionSizeLarge() {
   return (

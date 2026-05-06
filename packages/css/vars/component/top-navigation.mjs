@@ -1,13 +1,9 @@
 export const vars = {
-  "themeCupertino": {
+  "themeIos": {
     "enabled": {
       "root": {
         "height": "44px",
         "paddingX": "var(--seed-dimension-x4)"
-      },
-      "icon": {
-        "size": "24px",
-        "targetSize": "44px"
       }
     }
   },
@@ -17,9 +13,8 @@ export const vars = {
         "height": "56px",
         "paddingX": "var(--seed-dimension-x4)"
       },
-      "icon": {
-        "size": "24px",
-        "targetSize": "44px"
+      "main": {
+        "paddingLeft": "16px"
       }
     }
   },
@@ -33,25 +28,31 @@ export const vars = {
       },
       "subtitle": {
         "color": "var(--seed-color-fg-neutral-muted)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     }
   },
   "toneTransparent": {
     "enabled": {
-      "root": {
-        "color": "#00000000"
-      },
       "title": {
         "color": "var(--seed-color-palette-static-white)"
       },
       "subtitle": {
         "color": "var(--seed-color-palette-static-white)"
-      },
-      "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+      }
+    }
+  },
+  "toneTransparentGradientFalse": {
+    "enabled": {
+      "root": {
+        "color": "#00000000"
+      }
+    }
+  },
+  "toneTransparentGradientTrue": {
+    "enabled": {
+      "root": {
+        "gradient": "#00000059 0%, #00000000 100%",
+        "bleedBottom": "var(--seed-dimension-x5)"
       }
     }
   },
@@ -70,9 +71,9 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-bold)",
         "lineHeight": "var(--seed-line-height-t6)",
         "maxFontSizeScale": "1.2",
-        "minFontSizeScale": "0.8",
+        "minFontSizeScale": "1",
         "maxLineHeightScale": "1.2",
-        "minLineHeightScale": "0.8"
+        "minLineHeightScale": "1"
       }
     }
   },
@@ -83,18 +84,18 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-bold)",
         "lineHeight": "var(--seed-line-height-t5)",
         "maxFontSizeScale": "1.2",
-        "minFontSizeScale": "0.8",
+        "minFontSizeScale": "1",
         "maxLineHeightScale": "1.2",
-        "minLineHeightScale": "0.8"
+        "minLineHeightScale": "1"
       },
       "subtitle": {
         "fontSize": "var(--seed-font-size-t2)",
         "fontWeight": "var(--seed-font-weight-regular)",
         "lineHeight": "var(--seed-line-height-t2)",
         "maxFontSizeScale": "1.2",
-        "minFontSizeScale": "0.8",
+        "minFontSizeScale": "1",
         "maxLineHeightScale": "1.2",
-        "minLineHeightScale": "0.8"
+        "minLineHeightScale": "1"
       }
     }
   }

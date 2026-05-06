@@ -24,7 +24,13 @@ import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
+import footer from "./recipes/footer";
 import { field, fieldLabel } from "./recipes/field";
+import {
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
+} from "./recipes/attachment-input";
 import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
@@ -33,12 +39,14 @@ import imageFrameIcon from "./recipes/image-frame-icon";
 import imageFrameIndicator from "./recipes/image-frame-indicator";
 import imageFrameReactionButton from "./recipes/image-frame-reaction-button";
 import inlineBanner from "./recipes/inline-banner";
+import layout from "./recipes/layout";
 import inputButton from "./recipes/input-button";
 import linkContent from "./recipes/link-content";
 import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
+import { menu, menuItem } from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
@@ -52,6 +60,11 @@ import reactionButton from "./recipes/reaction-button";
 import scrollFog from "./recipes/scroll-fog";
 import segmentedControl from "./recipes/segmented-control";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
+import {
+  sideNavigation,
+  sideNavigationInset,
+  sideNavigationMenuItem,
+} from "./recipes/side-navigation";
 import skeleton from "./recipes/skeleton";
 import { slider, sliderMarker, sliderTick } from "./recipes/slider";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
@@ -97,7 +110,11 @@ export const recipes = {
   fab,
   field,
   fieldLabel,
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
   floatingActionButton,
+  footer,
   helpBubble,
   identityPlaceholder,
   imageFrame,
@@ -106,11 +123,14 @@ export const recipes = {
   imageFrameReactionButton,
   inlineBanner,
   inputButton,
+  layout,
   linkContent,
   listHeader,
   listItem,
   mannerTemp,
   mannerTempBadge,
+  menu,
+  menuItem,
   menuSheet,
   menuSheetItem,
   notificationBadge,
@@ -127,6 +147,9 @@ export const recipes = {
   selectBox,
   selectBoxCheckmark,
   selectBoxGroup,
+  sideNavigation,
+  sideNavigationInset,
+  sideNavigationMenuItem,
   skeleton,
   slider,
   sliderMarker,

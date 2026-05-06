@@ -18,6 +18,7 @@ import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-
 import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import type { DistributiveOmit } from "../../utils/styled";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
 import { Badge, type BadgeProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
@@ -26,28 +27,21 @@ import { InternalIcon } from "../private/Icon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ImageFrameProps
-  extends Omit<AspectRatioProps, "children">,
-    ImageFrameVariantProps {
-  /**
-   * @deprecated Deprecated in `@seed-design/react@1.2.x`; will be removed in 1.3.0.
-   * Use borderRadius="r2" instead.
-   * Reason: 모서리 스타일은 borderRadius prop으로 통일합니다.
-   */
-  rounded?: ImageFrameVariantProps["rounded"];
-  src: string;
-  alt: string;
-  fallback?: React.ReactNode;
-  loading?: "eager" | "lazy";
-  decoding?: "async" | "auto" | "sync";
-  crossOrigin?: "anonymous" | "use-credentials" | "";
-  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
-  sizes?: string;
-  srcSet?: string;
-  onLoad?: React.ReactEventHandler<HTMLImageElement>;
-  onError?: React.ReactEventHandler<HTMLImageElement>;
-  children?: React.ReactNode;
-}
+export type ImageFrameProps = DistributiveOmit<AspectRatioProps, "children"> &
+  ImageFrameVariantProps & {
+    src: string;
+    alt: string;
+    fallback?: React.ReactNode;
+    loading?: "eager" | "lazy";
+    decoding?: "async" | "auto" | "sync";
+    crossOrigin?: "anonymous" | "use-credentials" | "";
+    referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+    sizes?: string;
+    srcSet?: string;
+    onLoad?: React.ReactEventHandler<HTMLImageElement>;
+    onError?: React.ReactEventHandler<HTMLImageElement>;
+    children?: React.ReactNode;
+  };
 
 export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
   (
@@ -65,6 +59,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
       srcSet,
       onLoad,
       onError,
+      borderRadius = "r2",
       children,
       ...rest
     },
@@ -74,7 +69,14 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     const classNames = imageFrameRecipe(variantProps);
 
     return (
-      <AspectRatio ref={ref} ratio={ratio} className={className} {...restProps}>
+      <AspectRatio
+        ref={ref}
+        ratio={ratio}
+        className={className}
+        borderRadius={borderRadius}
+        // splitVariantProps collapses the margin/bleed union; re-assert the shape.
+        {...(restProps as AspectRatioProps)}
+      >
         <Image.Root className={classNames.root}>
           <Image.Content
             className={classNames.content}

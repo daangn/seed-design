@@ -8,6 +8,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { vars as tokens } from "../vars";
+import spec from "@seed-design/rootage-artifacts/components/callout.json" with { type: "json" };
 
 const callout = defineSlotRecipe({
   name: "callout",
@@ -280,6 +281,9 @@ const callout = defineSlotRecipe({
         },
       },
     },
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

@@ -4,7 +4,7 @@ import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-desi
 import { inputButtonVariantMap } from "@seed-design/css/recipes/input-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { VIEWPORT_MODES, createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
 
 const meta = {
@@ -48,6 +48,12 @@ const conditionMap = {
     value: {
       children: <FieldButtonValue>선택된 값</FieldButtonValue>,
     },
+    valueWithClear: {
+      children: <FieldButtonValue>선택된 값</FieldButtonValue>,
+      showClearButton: true,
+      values: ["선택된 값"],
+      onValuesChange: () => {},
+    },
   },
 };
 
@@ -74,7 +80,12 @@ const CommonStoryTemplate: Story = {
   ),
 };
 
-export const LightTheme = CommonStoryTemplate;
+export const LightTheme: Story = {
+  ...CommonStoryTemplate,
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
+};
 
 export const DarkTheme = createStoryWithParameters({
   ...CommonStoryTemplate,

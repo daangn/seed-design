@@ -220,6 +220,15 @@ export const registryUI: Registry = {
       deprecated: true,
     },
     {
+      id: "menu",
+      snippets: [
+        {
+          path: "menu.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+      ],
+    },
+    {
       id: "menu-sheet",
       snippets: [
         {
@@ -346,6 +355,34 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "attachment-field",
+      snippets: [
+        {
+          path: "attachment-field.tsx",
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
+        },
+      ],
+    },
+    {
+      id: "attachment-field-reorderable",
+      snippets: [
+        {
+          path: "attachment-field.tsx",
+          dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
+        },
+        {
+          path: "attachment-field-reorderable.tsx",
+          dependencies: {
+            "@seed-design/react": "~1.2.0",
+            "@seed-design/css": "~1.2.0",
+            "@dnd-kit/react": "^0.4.0",
+            "@dnd-kit/abstract": "^0.4.0",
+            "@dnd-kit/dom": "^0.4.0",
+          },
+        },
+      ],
+    },
+    {
       id: "contextual-floating-button",
       snippets: [
         {
@@ -381,6 +418,15 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "result-section.tsx",
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
+        },
+      ],
+    },
+    {
+      id: "side-navigation",
+      snippets: [
+        {
+          path: "side-navigation.tsx",
           dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],

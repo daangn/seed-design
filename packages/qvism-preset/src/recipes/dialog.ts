@@ -1,7 +1,7 @@
 import { dialog as vars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { not, open, pseudo } from "../utils/pseudo";
+import { not, open, pseudo, focus } from "../utils/pseudo";
 
 const dialog = defineSlotRecipe({
   name: "dialog",
@@ -52,6 +52,10 @@ const dialog = defineSlotRecipe({
       maxWidth: vars.base.enabled.content.maxWidth,
       margin: `auto ${vars.base.enabled.content.marginX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
     },
     header: {
       display: "flex",

@@ -4,7 +4,12 @@ import {
   IconQuestionmarkCircleLine,
   IconTruckLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "seed-design/ui/accordion";
 
 export default function AccordionWithPrefixIcon() {
   return (
@@ -26,7 +31,10 @@ export default function AccordionWithPrefixIcon() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="support">
-        <AccordionTrigger prefix={<Icon svg={<IconQuestionmarkCircleLine />} />} title="문의와 환불" />
+        <AccordionTrigger
+          prefix={<Icon svg={<IconQuestionmarkCircleLine />} />}
+          title="문의와 환불"
+        />
         <AccordionContent>
           <Box p="x4">
             <p>주문 취소 가능 시간, 환불 소요 기간, 고객센터 문의 방법을 확인할 수 있습니다.</p>

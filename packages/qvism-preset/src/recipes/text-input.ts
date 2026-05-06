@@ -1,6 +1,8 @@
+import spec from "@seed-design/rootage-artifacts/components/text-input.json" with { type: "json" };
 import { textInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, focus, disabled, not, readOnly, invalid } from "../utils/pseudo";
+import { breakpoints } from "../utils/breakpoint";
 
 const MAX_DURATION_SECONDS = 2147483647;
 
@@ -90,18 +92,34 @@ const textInput = defineSlotRecipe({
     prefixText: {
       color: vars.base.enabled.prefixText.color,
       fontWeight: vars.base.enabled.prefixText.fontWeight,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.prefixText.color,
+      },
     },
     prefixIcon: {
       color: vars.base.enabled.prefixIcon.color,
       flexShrink: 0,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.prefixIcon.color,
+      },
     },
     suffixText: {
       color: vars.base.enabled.suffixText.color,
       fontWeight: vars.base.enabled.suffixText.fontWeight,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.suffixText.color,
+      },
     },
     suffixIcon: {
       color: vars.base.enabled.suffixIcon.color,
       flexShrink: 0,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.suffixIcon.color,
+      },
     },
   },
   defaultVariants: {
@@ -116,6 +134,7 @@ const textInput = defineSlotRecipe({
         root: {
           gap: vars.variantOutlineSizeLarge.enabled.root.gap,
           minHeight: vars.variantOutlineSizeLarge.enabled.root.minHeight,
+          borderRadius: vars.variantOutlineSizeLarge.enabled.root.cornerRadius,
         },
         value: {
           fontSize: vars.variantOutlineSizeLarge.enabled.value.fontSize,
@@ -125,22 +144,46 @@ const textInput = defineSlotRecipe({
             fontSize: vars.variantOutlineSizeLarge.enabled.placeholder.fontSize,
             lineHeight: vars.variantOutlineSizeLarge.enabled.placeholder.lineHeight,
           },
+
+          [pseudo(":first-child")]: {
+            paddingLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+          },
+
+          [pseudo(":last-child")]: {
+            paddingRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+          },
         },
         prefixText: {
           fontSize: vars.variantOutlineSizeLarge.enabled.prefixText.fontSize,
           lineHeight: vars.variantOutlineSizeLarge.enabled.prefixText.lineHeight,
+
+          [pseudo(":first-child")]: {
+            marginLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+          },
         },
         prefixIcon: {
           width: vars.variantOutlineSizeLarge.enabled.prefixIcon.size,
           height: vars.variantOutlineSizeLarge.enabled.prefixIcon.size,
+
+          [pseudo(":first-child")]: {
+            marginLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+          },
         },
         suffixText: {
           fontSize: vars.variantOutlineSizeLarge.enabled.suffixText.fontSize,
           lineHeight: vars.variantOutlineSizeLarge.enabled.suffixText.lineHeight,
+
+          [pseudo(":last-child")]: {
+            marginRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+          },
         },
         suffixIcon: {
           width: vars.variantOutlineSizeLarge.enabled.suffixIcon.size,
           height: vars.variantOutlineSizeLarge.enabled.suffixIcon.size,
+
+          [pseudo(":last-child")]: {
+            marginRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+          },
         },
       },
     },
@@ -151,6 +194,7 @@ const textInput = defineSlotRecipe({
         root: {
           gap: vars.variantOutlineSizeMedium.enabled.root.gap,
           minHeight: vars.variantOutlineSizeMedium.enabled.root.minHeight,
+          borderRadius: vars.variantOutlineSizeMedium.enabled.root.cornerRadius,
         },
         value: {
           fontSize: vars.variantOutlineSizeMedium.enabled.value.fontSize,
@@ -160,22 +204,314 @@ const textInput = defineSlotRecipe({
             fontSize: vars.variantOutlineSizeMedium.enabled.placeholder.fontSize,
             lineHeight: vars.variantOutlineSizeMedium.enabled.placeholder.lineHeight,
           },
+
+          [pseudo(":first-child")]: {
+            paddingLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+          },
+
+          [pseudo(":last-child")]: {
+            paddingRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+          },
         },
         prefixText: {
           fontSize: vars.variantOutlineSizeMedium.enabled.prefixText.fontSize,
           lineHeight: vars.variantOutlineSizeMedium.enabled.prefixText.lineHeight,
+
+          [pseudo(":first-child")]: {
+            marginLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+          },
         },
         prefixIcon: {
           width: vars.variantOutlineSizeMedium.enabled.prefixIcon.size,
           height: vars.variantOutlineSizeMedium.enabled.prefixIcon.size,
+
+          [pseudo(":first-child")]: {
+            marginLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+          },
         },
         suffixText: {
           fontSize: vars.variantOutlineSizeMedium.enabled.suffixText.fontSize,
           lineHeight: vars.variantOutlineSizeMedium.enabled.suffixText.lineHeight,
+
+          [pseudo(":last-child")]: {
+            marginRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+          },
         },
         suffixIcon: {
           width: vars.variantOutlineSizeMedium.enabled.suffixIcon.size,
           height: vars.variantOutlineSizeMedium.enabled.suffixIcon.size,
+
+          [pseudo(":last-child")]: {
+            marginRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+          },
+        },
+      },
+    },
+    {
+      variant: "outline",
+      size: "responsive",
+      css: {
+        root: {
+          gap: vars.variantOutlineSizeLarge.enabled.root.gap,
+          minHeight: vars.variantOutlineSizeLarge.enabled.root.minHeight,
+          borderRadius: vars.variantOutlineSizeLarge.enabled.root.cornerRadius,
+
+          [breakpoints.up("lg")]: {
+            gap: vars.variantOutlineSizeMedium.enabled.root.gap,
+            minHeight: vars.variantOutlineSizeMedium.enabled.root.minHeight,
+            borderRadius: vars.variantOutlineSizeMedium.enabled.root.cornerRadius,
+          },
+        },
+        value: {
+          fontSize: vars.variantOutlineSizeLarge.enabled.value.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.enabled.value.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.variantOutlineSizeMedium.enabled.value.fontSize,
+            lineHeight: vars.variantOutlineSizeMedium.enabled.value.lineHeight,
+          },
+
+          [pseudo("::placeholder")]: {
+            fontSize: vars.variantOutlineSizeLarge.enabled.placeholder.fontSize,
+            lineHeight: vars.variantOutlineSizeLarge.enabled.placeholder.lineHeight,
+
+            [breakpoints.up("lg")]: {
+              fontSize: vars.variantOutlineSizeMedium.enabled.placeholder.fontSize,
+              lineHeight: vars.variantOutlineSizeMedium.enabled.placeholder.lineHeight,
+            },
+          },
+
+          [pseudo(":first-child")]: {
+            paddingLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+
+            [breakpoints.up("lg")]: {
+              paddingLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            },
+          },
+
+          [pseudo(":last-child")]: {
+            paddingRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+
+            [breakpoints.up("lg")]: {
+              paddingRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            },
+          },
+        },
+        prefixText: {
+          fontSize: vars.variantOutlineSizeLarge.enabled.prefixText.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.enabled.prefixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.variantOutlineSizeMedium.enabled.prefixText.fontSize,
+            lineHeight: vars.variantOutlineSizeMedium.enabled.prefixText.lineHeight,
+          },
+
+          [pseudo(":first-child")]: {
+            marginLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+
+            [breakpoints.up("lg")]: {
+              marginLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            },
+          },
+        },
+        prefixIcon: {
+          width: vars.variantOutlineSizeLarge.enabled.prefixIcon.size,
+          height: vars.variantOutlineSizeLarge.enabled.prefixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: vars.variantOutlineSizeMedium.enabled.prefixIcon.size,
+            height: vars.variantOutlineSizeMedium.enabled.prefixIcon.size,
+          },
+
+          [pseudo(":first-child")]: {
+            marginLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+
+            [breakpoints.up("lg")]: {
+              marginLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            },
+          },
+        },
+        suffixText: {
+          fontSize: vars.variantOutlineSizeLarge.enabled.suffixText.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.enabled.suffixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.variantOutlineSizeMedium.enabled.suffixText.fontSize,
+            lineHeight: vars.variantOutlineSizeMedium.enabled.suffixText.lineHeight,
+          },
+
+          [pseudo(":last-child")]: {
+            marginRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+
+            [breakpoints.up("lg")]: {
+              marginRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            },
+          },
+        },
+        suffixIcon: {
+          width: vars.variantOutlineSizeLarge.enabled.suffixIcon.size,
+          height: vars.variantOutlineSizeLarge.enabled.suffixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: vars.variantOutlineSizeMedium.enabled.suffixIcon.size,
+            height: vars.variantOutlineSizeMedium.enabled.suffixIcon.size,
+          },
+
+          [pseudo(":last-child")]: {
+            marginRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+
+            [breakpoints.up("lg")]: {
+              marginRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            },
+          },
+        },
+      },
+    },
+    {
+      variant: "underline",
+      size: "large",
+      css: {
+        root: {
+          gap: vars.variantUnderlineSizeLarge.enabled.root.gap,
+          minHeight: vars.variantUnderlineSizeLarge.enabled.root.minHeight,
+          paddingTop: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
+          paddingBottom: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
+        },
+        value: {
+          fontSize: vars.variantUnderlineSizeLarge.enabled.value.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.enabled.value.lineHeight,
+
+          [pseudo("::placeholder")]: {
+            fontSize: vars.variantUnderlineSizeLarge.enabled.placeholder.fontSize,
+            lineHeight: vars.variantUnderlineSizeLarge.enabled.placeholder.lineHeight,
+          },
+        },
+        prefixText: {
+          fontSize: vars.variantUnderlineSizeLarge.enabled.prefixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.enabled.prefixText.lineHeight,
+        },
+        prefixIcon: {
+          width: vars.variantUnderlineSizeLarge.enabled.prefixIcon.size,
+          height: vars.variantUnderlineSizeLarge.enabled.prefixIcon.size,
+        },
+        suffixText: {
+          fontSize: vars.variantUnderlineSizeLarge.enabled.suffixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.enabled.suffixText.lineHeight,
+        },
+        suffixIcon: {
+          width: vars.variantUnderlineSizeLarge.enabled.suffixIcon.size,
+          height: vars.variantUnderlineSizeLarge.enabled.suffixIcon.size,
+        },
+      },
+    },
+    {
+      variant: "underline",
+      size: "medium",
+      css: {
+        root: {
+          gap: vars.variantUnderlineSizeMedium.enabled.root.gap,
+          minHeight: vars.variantUnderlineSizeMedium.enabled.root.minHeight,
+          paddingTop: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
+          paddingBottom: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
+        },
+        value: {
+          fontSize: vars.variantUnderlineSizeMedium.enabled.value.fontSize,
+          lineHeight: vars.variantUnderlineSizeMedium.enabled.value.lineHeight,
+
+          [pseudo("::placeholder")]: {
+            fontSize: vars.variantUnderlineSizeMedium.enabled.placeholder.fontSize,
+            lineHeight: vars.variantUnderlineSizeMedium.enabled.placeholder.lineHeight,
+          },
+        },
+        prefixText: {
+          fontSize: vars.variantUnderlineSizeMedium.enabled.prefixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeMedium.enabled.prefixText.lineHeight,
+        },
+        prefixIcon: {
+          width: vars.variantUnderlineSizeMedium.enabled.prefixIcon.size,
+          height: vars.variantUnderlineSizeMedium.enabled.prefixIcon.size,
+        },
+        suffixText: {
+          fontSize: vars.variantUnderlineSizeMedium.enabled.suffixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeMedium.enabled.suffixText.lineHeight,
+        },
+        suffixIcon: {
+          width: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
+          height: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
+        },
+      },
+    },
+    {
+      variant: "underline",
+      size: "responsive",
+      css: {
+        root: {
+          gap: vars.variantUnderlineSizeLarge.enabled.root.gap,
+          minHeight: vars.variantUnderlineSizeLarge.enabled.root.minHeight,
+          paddingTop: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
+          paddingBottom: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
+
+          [breakpoints.up("lg")]: {
+            gap: vars.variantUnderlineSizeMedium.enabled.root.gap,
+            minHeight: vars.variantUnderlineSizeMedium.enabled.root.minHeight,
+            paddingTop: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
+            paddingBottom: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
+          },
+        },
+        value: {
+          fontSize: vars.variantUnderlineSizeLarge.enabled.value.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.enabled.value.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.variantUnderlineSizeMedium.enabled.value.fontSize,
+            lineHeight: vars.variantUnderlineSizeMedium.enabled.value.lineHeight,
+          },
+
+          [pseudo("::placeholder")]: {
+            fontSize: vars.variantUnderlineSizeLarge.enabled.placeholder.fontSize,
+            lineHeight: vars.variantUnderlineSizeLarge.enabled.placeholder.lineHeight,
+
+            [breakpoints.up("lg")]: {
+              fontSize: vars.variantUnderlineSizeMedium.enabled.placeholder.fontSize,
+              lineHeight: vars.variantUnderlineSizeMedium.enabled.placeholder.lineHeight,
+            },
+          },
+        },
+        prefixText: {
+          fontSize: vars.variantUnderlineSizeLarge.enabled.prefixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.enabled.prefixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.variantUnderlineSizeMedium.enabled.prefixText.fontSize,
+            lineHeight: vars.variantUnderlineSizeMedium.enabled.prefixText.lineHeight,
+          },
+        },
+        prefixIcon: {
+          width: vars.variantUnderlineSizeLarge.enabled.prefixIcon.size,
+          height: vars.variantUnderlineSizeLarge.enabled.prefixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: vars.variantUnderlineSizeMedium.enabled.prefixIcon.size,
+            height: vars.variantUnderlineSizeMedium.enabled.prefixIcon.size,
+          },
+        },
+        suffixText: {
+          fontSize: vars.variantUnderlineSizeLarge.enabled.suffixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.enabled.suffixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.variantUnderlineSizeMedium.enabled.suffixText.fontSize,
+            lineHeight: vars.variantUnderlineSizeMedium.enabled.suffixText.lineHeight,
+          },
+        },
+        suffixIcon: {
+          width: vars.variantUnderlineSizeLarge.enabled.suffixIcon.size,
+          height: vars.variantUnderlineSizeLarge.enabled.suffixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
+            height: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
+          },
         },
       },
     },
@@ -184,8 +520,6 @@ const textInput = defineSlotRecipe({
     variant: {
       outline: {
         root: {
-          borderRadius: vars.variantOutline.enabled.root.cornerRadius,
-
           boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
           "&::after": {
@@ -217,41 +551,9 @@ const textInput = defineSlotRecipe({
             backgroundColor: vars.variantOutline.readonly.root.color,
           },
         },
-        value: {
-          [pseudo(":first-child")]: {
-            paddingLeft: vars.variantOutline.enabled.root.paddingX,
-          },
-
-          [pseudo(":last-child")]: {
-            paddingRight: vars.variantOutline.enabled.root.paddingX,
-          },
-        },
-        prefixText: {
-          [pseudo(":first-child")]: {
-            marginLeft: vars.variantOutline.enabled.root.paddingX,
-          },
-        },
-        prefixIcon: {
-          [pseudo(":first-child")]: {
-            marginLeft: vars.variantOutline.enabled.root.paddingX,
-          },
-        },
-        suffixText: {
-          [pseudo(":last-child")]: {
-            marginRight: vars.variantOutline.enabled.root.paddingX,
-          },
-        },
-        suffixIcon: {
-          [pseudo(":last-child")]: {
-            marginRight: vars.variantOutline.enabled.root.paddingX,
-          },
-        },
       },
       underline: {
         root: {
-          gap: vars.variantUnderline.enabled.root.gap,
-          minHeight: vars.variantUnderline.enabled.root.minHeight,
-
           boxShadow: `inset 0 calc(${vars.variantUnderline.enabled.root.strokeBottomWidth} * -1) 0 0 ${vars.base.enabled.root.strokeColor}`,
 
           "&::after": {
@@ -275,14 +577,6 @@ const textInput = defineSlotRecipe({
           },
         },
         value: {
-          fontSize: vars.variantUnderline.enabled.value.fontSize,
-          lineHeight: vars.variantUnderline.enabled.value.lineHeight,
-
-          [pseudo("::placeholder")]: {
-            fontSize: vars.variantUnderline.enabled.placeholder.fontSize,
-            lineHeight: vars.variantUnderline.enabled.placeholder.lineHeight,
-          },
-
           [pseudo(readOnly, not(disabled))]: {
             color: vars.variantUnderline.readonly.value.color,
           },
@@ -290,22 +584,6 @@ const textInput = defineSlotRecipe({
           [pseudo(readOnly, not(disabled), "::placeholder")]: {
             color: vars.variantUnderline.readonly.placeholder.color,
           },
-        },
-        prefixText: {
-          fontSize: vars.variantUnderline.enabled.prefixText.fontSize,
-          lineHeight: vars.variantUnderline.enabled.prefixText.lineHeight,
-        },
-        prefixIcon: {
-          width: vars.variantUnderline.enabled.prefixIcon.size,
-          height: vars.variantUnderline.enabled.prefixIcon.size,
-        },
-        suffixText: {
-          fontSize: vars.variantUnderline.enabled.suffixText.fontSize,
-          lineHeight: vars.variantUnderline.enabled.suffixText.lineHeight,
-        },
-        suffixIcon: {
-          width: vars.variantUnderline.enabled.suffixIcon.size,
-          height: vars.variantUnderline.enabled.suffixIcon.size,
         },
       },
     },
@@ -328,6 +606,27 @@ const textInput = defineSlotRecipe({
           },
         },
       },
+      responsive: {
+        value: {
+          [pseudo(":is(textarea)")]: {
+            minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
+            paddingTop: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+            paddingBottom: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+
+            [breakpoints.up("lg")]: {
+              minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
+              paddingTop: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+              paddingBottom: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+            },
+          },
+        },
+      },
+    },
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+      size: spec.data.schema.variants.size,
     },
   },
 });

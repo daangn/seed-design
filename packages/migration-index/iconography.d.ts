@@ -1,4 +1,4 @@
-import type { FoundationTokenMapping } from "./types";
+import type { FoundationTokenMapping } from "./types.js";
 
 export declare const monochromeIconMappings: FoundationTokenMapping[];
 export declare const multicolorIconMappings: FoundationTokenMapping[];

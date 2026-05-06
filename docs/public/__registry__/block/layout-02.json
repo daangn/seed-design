@@ -1,0 +1,17 @@
+{
+  "id": "layout-02",
+  "description": "대시보드 Layout (density=high + 그리드 카드)",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "layout-02.tsx",
+      "content": "/**\n * @file block:layout-02\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport { Box, Layout, Text, VStack } from \"@seed-design/react\";\n\nexport default function LayoutBlock() {\n  return (\n    <Layout.Root density=\"high\">\n      <Layout.Content>\n        <VStack gap=\"x6\" paddingY=\"x6\" paddingX=\"x8\">\n          <Box\n            as=\"header\"\n            display=\"flex\"\n            alignItems=\"center\"\n            justifyContent=\"space-between\"\n            paddingY=\"x4\"\n            style={{ borderBottom: \"1px solid var(--seed-color-stroke-neutralWeak)\" }}\n          >\n            <Text textStyle=\"t6Bold\">Dashboard</Text>\n            <Text textStyle=\"t4Regular\" color=\"fg.neutralSubtle\">\n              2026-04-14\n            </Text>\n          </Box>\n\n          <Box\n            as=\"main\"\n            display=\"grid\"\n            gap=\"x4\"\n            style={{ gridTemplateColumns: \"repeat(auto-fill, minmax(280px, 1fr))\" }}\n          >\n            {[\"매출\", \"방문자\", \"전환율\", \"평균 체류시간\"].map((label) => (\n              <Box\n                key={label}\n                bg=\"bg.neutralWeak\"\n                borderRadius=\"r2\"\n                paddingX=\"x6\"\n                paddingY=\"x6\"\n                display=\"flex\"\n                flexDirection=\"column\"\n                gap=\"x2\"\n              >\n                <Text textStyle=\"t3Regular\" color=\"fg.neutralSubtle\">\n                  {label}\n                </Text>\n                <Text textStyle=\"t7Bold\">—</Text>\n              </Box>\n            ))}\n          </Box>\n        </VStack>\n      </Layout.Content>\n    </Layout.Root>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    }
+  ]
+}

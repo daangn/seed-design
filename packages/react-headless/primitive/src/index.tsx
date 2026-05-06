@@ -38,6 +38,7 @@ export const Primitive = {
   h2: createPrimitive("h2"),
   ul: createPrimitive("ul"),
   li: createPrimitive("li"),
+  nav: createPrimitive("nav"),
   svg: createPrimitive("svg"),
   circle: createPrimitive("circle"),
 };

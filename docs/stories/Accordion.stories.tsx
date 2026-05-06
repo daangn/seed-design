@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "seed-design/ui/accordion";
 
 import { Box, Icon } from "@seed-design/react";
 import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
@@ -20,14 +25,11 @@ const AccordionDemo = ({ style, ...props }: React.ComponentProps<typeof Accordio
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-2">
-      <AccordionTrigger
-        title="반품 및 교환은 어떻게 하나요?"
-        description="상품 수령 후 7일 이내"
-      />
+      <AccordionTrigger title="반품 및 교환은 어떻게 하나요?" description="상품 수령 후 7일 이내" />
       <AccordionContent>
         <Box p="x4">
-          상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된 경우
-          반품이 제한될 수 있습니다.
+          상품 수령 후 7일 이내에 고객센터로 문의해 주세요. 단, 사용 흔적이 있거나 포장이 훼손된
+          경우 반품이 제한될 수 있습니다.
         </Box>
       </AccordionContent>
     </AccordionItem>

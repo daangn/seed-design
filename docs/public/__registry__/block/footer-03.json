@@ -1,0 +1,34 @@
+{
+  "id": "footer-03",
+  "description": "컴팩트 Footer (링크 + 회사정보 + SNS 아이콘)",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "action-button"
+      ]
+    },
+    {
+      "registryId": "icon",
+      "itemIds": [
+        "icon-facebook",
+        "icon-github",
+        "icon-instagram",
+        "icon-medium"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "footer-03.tsx",
+      "content": "/**\n * @file block:footer-03\n * @requires @seed-design/react@~1.3.0\n * @requires @seed-design/css@~1.3.0\n **/\n\n\"use client\";\n\nimport { Box, Footer, HStack, Icon, Text, VStack } from \"@seed-design/react\";\nimport { ActionButton } from \"../ui/action-button\";\n\nimport { IconFacebook } from \"../icon/icon-facebook\";\nimport { IconGitHub } from \"../icon/icon-github\";\nimport { IconInstagram } from \"../icon/icon-instagram\";\nimport { IconMedium } from \"../icon/icon-medium\";\n\nexport default function FooterBlock() {\n  return (\n    <Box\n      as=\"footer\"\n      width=\"100%\"\n      style={{ maxWidth: \"1040px\", marginInline: \"auto\" }}\n      paddingX=\"x8\"\n      paddingY=\"x10\"\n    >\n      <VStack gap=\"x4\" align=\"flex-start\">\n        <HStack gap=\"x6\" wrap align=\"center\">\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            개인정보처리방침\n          </Footer.LinkText>\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            브랜드 가이드라인\n          </Footer.LinkText>\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            자주 묻는 질문\n          </Footer.LinkText>\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            문의\n          </Footer.LinkText>\n        </HStack>\n\n        <Text textStyle=\"t3Regular\" color=\"fg.neutralSubtle\">\n          (주)에이비씨컴퍼니 | 주소: 서울특별시 강남구 테헤란로 123 | 채용문의: recruit@example.com\n        </Text>\n\n        <HStack justify=\"space-between\" align=\"center\" width=\"100%\" wrap gap=\"x4\">\n          <Text textStyle=\"t4Medium\" color=\"fg.neutralMuted\">\n            ⓒ 2026 Company Inc.\n          </Text>\n\n          <HStack gap=\"x6\">\n            <ActionButton\n              variant=\"ghost\"\n              size=\"large\"\n              layout=\"iconOnly\"\n              bleedX=\"asPadding\"\n              aria-label=\"GitHub\"\n            >\n              <Icon svg={<IconGitHub />} />\n            </ActionButton>\n            <ActionButton\n              variant=\"ghost\"\n              size=\"large\"\n              layout=\"iconOnly\"\n              bleedX=\"asPadding\"\n              aria-label=\"Medium\"\n            >\n              <Icon svg={<IconMedium />} />\n            </ActionButton>\n            <ActionButton\n              variant=\"ghost\"\n              size=\"large\"\n              layout=\"iconOnly\"\n              bleedX=\"asPadding\"\n              aria-label=\"Facebook\"\n            >\n              <Icon svg={<IconFacebook />} />\n            </ActionButton>\n            <ActionButton\n              variant=\"ghost\"\n              size=\"large\"\n              layout=\"iconOnly\"\n              bleedX=\"asPadding\"\n              aria-label=\"Instagram\"\n            >\n              <Icon svg={<IconInstagram />} />\n            </ActionButton>\n          </HStack>\n        </HStack>\n      </VStack>\n    </Box>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.3.0",
+        "@seed-design/css": "~1.3.0"
+      }
+    }
+  ]
+}

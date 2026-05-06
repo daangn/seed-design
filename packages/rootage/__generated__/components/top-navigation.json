@@ -1,0 +1,477 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "top-navigation",
+    "name": "Top Navigation"
+  },
+  "data": {
+    "id": "top-navigation",
+    "name": "Top Navigation",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "gradient": {
+              "type": "gradient"
+            },
+            "bleedBottom": {
+              "type": "dimension",
+              "description": "gradient가 표시될 때 하단 아래로 gradient가 확장되는 길이입니다."
+            }
+          }
+        },
+        "left": {
+          "properties": {},
+          "description": "왼쪽 영역입니다. 일반적으로 뒤로가기/닫기 Top Navigation Icon Button이 위치합니다."
+        },
+        "main": {
+          "properties": {
+            "paddingLeft": {
+              "type": "dimension"
+            }
+          },
+          "description": "title과 subtitle을 포함하는 영역입니다."
+        },
+        "right": {
+          "properties": {},
+          "description": "오른쪽 영역입니다. 일반적으로 Top Navigation Icon Button 또는 Top Navigation Text Button이 위치합니다."
+        },
+        "title": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "maxFontSizeScale": {
+              "type": "number"
+            },
+            "minFontSizeScale": {
+              "type": "number"
+            },
+            "maxLineHeightScale": {
+              "type": "number"
+            },
+            "minLineHeightScale": {
+              "type": "number"
+            }
+          }
+        },
+        "subtitle": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "maxFontSizeScale": {
+              "type": "number"
+            },
+            "minFontSizeScale": {
+              "type": "number"
+            },
+            "maxLineHeightScale": {
+              "type": "number"
+            },
+            "minLineHeightScale": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "variants": {
+        "theme": {
+          "values": {
+            "ios": {},
+            "android": {}
+          },
+          "defaultValue": "ios"
+        },
+        "tone": {
+          "values": {
+            "layer": {
+              "description": "color를 $color.bg.layer-basement 등으로 변경하여 사용할 수 있습니다."
+            },
+            "transparent": {}
+          },
+          "defaultValue": "layer"
+        },
+        "gradient": {
+          "values": {
+            "false": {
+              "description": "false로 사용하는 것을 권장하지 않습니다. gradient 없이 사용하면 Top Navigation의 콘텐츠 가독성을 직접 확보해야 합니다. 스크린 배경 색상이 Top Navigation에 보이기를 원하는 경우 tone=layer를 사용하세요."
+            },
+            "true": {}
+          },
+          "defaultValue": "false",
+          "description": "tone=transparent일 때만 동작합니다."
+        },
+        "divider": {
+          "values": {
+            "true": {}
+          },
+          "defaultValue": "true"
+        },
+        "titleLayout": {
+          "values": {
+            "titleOnly": {},
+            "withSubtitle": {}
+          },
+          "defaultValue": "titleOnly"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {
+          "theme": "ios"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 44,
+                    "unit": "px"
+                  }
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "theme": "android"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 56,
+                    "unit": "px"
+                  }
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              },
+              "main": {
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 16,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "layer"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-default"
+                }
+              },
+              "title": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "subtitle": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "transparent"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "title": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                }
+              },
+              "subtitle": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "transparent",
+          "gradient": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "#00000000"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "transparent",
+          "gradient": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": [
+                    {
+                      "color": "#00000059",
+                      "position": 0
+                    },
+                    {
+                      "color": "#00000000",
+                      "position": 1
+                    }
+                  ]
+                },
+                "bleedBottom": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "divider": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-subtle"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "titleLayout": "titleOnly"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "title": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6"
+                },
+                "maxFontSizeScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minFontSizeScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "maxLineHeightScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minLineHeightScale": {
+                  "type": "number",
+                  "value": 1
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "titleLayout": "withSubtitle"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "title": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "maxFontSizeScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minFontSizeScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "maxLineHeightScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minLineHeightScale": {
+                  "type": "number",
+                  "value": 1
+                }
+              },
+              "subtitle": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t2"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2"
+                },
+                "maxFontSizeScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minFontSizeScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "maxLineHeightScale": {
+                  "type": "number",
+                  "value": 1.2
+                },
+                "minLineHeightScale": {
+                  "type": "number",
+                  "value": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

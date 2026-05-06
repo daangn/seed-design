@@ -6,6 +6,7 @@ import {
 } from "../utils/focus-ring";
 import { pseudo, focusVisible } from "../utils/pseudo";
 import { topNavigation as vars } from "../vars/component";
+import { topNavigationIconButton as iconButtonVars } from "../vars/component";
 import { fadeInAnimations, fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
   idle,
@@ -212,31 +213,32 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeCupertino.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeCupertino.enabled.root.paddingX,
-          paddingRight: vars.themeCupertino.enabled.root.paddingX,
+          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
+          paddingLeft: vars.themeIos.enabled.root.paddingX,
+          paddingRight: vars.themeIos.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
-          width: vars.themeCupertino.enabled.icon.targetSize,
-          height: vars.themeCupertino.enabled.icon.targetSize,
+          width: iconButtonVars.base.enabled.root.size,
+          height: iconButtonVars.base.enabled.root.size,
 
           // cursor: "pointer"; // we might need this later
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
+            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
+            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
           },
         },
         // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
         // if we decide to do so, we should require users to wrap the icon with the <Icon /> component. (currently it's optional)
         icon: {
-          width: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
+          width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
         },
       },
+      // TODO: most of these can be shared with cupertino, we can just override the necessary styles
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
@@ -245,22 +247,22 @@ export const appBar = defineSlotRecipe({
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
-          width: vars.themeAndroid.enabled.icon.targetSize,
-          height: vars.themeAndroid.enabled.icon.targetSize,
+          width: iconButtonVars.base.enabled.root.size,
+          height: iconButtonVars.base.enabled.root.size,
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${vars.themeAndroid.enabled.icon.targetSize} - ${vars.themeAndroid.enabled.icon.size}) / 2)`,
+            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${vars.themeAndroid.enabled.icon.targetSize} - ${vars.themeAndroid.enabled.icon.size}) / 2)`,
+            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
           },
         },
         icon: {
-          width: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
+          width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
         },
         left: {
-          paddingRight: "16px",
+          paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
         },
       },
     },
@@ -330,15 +332,16 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          color: `var(--seed-icon-color, ${vars.toneLayer.enabled.icon.color})`,
+          color: `var(--seed-icon-color, ${iconButtonVars.toneLayer.enabled.icon.color})`,
         },
       },
       transparent: {
         root: {
-          backgroundColor: vars.toneTransparent.enabled.root.color,
+          // gradient is handled in app-screen.ts
+          backgroundColor: vars.toneTransparentGradientFalse.enabled.root.color,
         },
         icon: {
-          color: `var(--seed-icon-color, ${vars.toneTransparent.enabled.icon.color})`,
+          color: `var(--seed-icon-color, ${iconButtonVars.toneTransparent.enabled.icon.color})`,
         },
       },
     },

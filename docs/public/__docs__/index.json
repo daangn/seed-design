@@ -37,12 +37,14 @@
             {
               "id": "action-chip",
               "title": "Action Chip",
-              "docUrl": "/docs/components/action-chip"
+              "docUrl": "/docs/components/action-chip",
+              "deprecated": true
             },
             {
               "id": "action-sheet",
               "title": "Action Sheet",
               "docUrl": "/docs/components/action-sheet",
+              "deprecated": true,
               "snippetKey": "ui:action-sheet",
               "snippets": [
                 {
@@ -63,6 +65,12 @@
                   "path": "alert-dialog.tsx"
                 }
               ]
+            },
+            {
+              "id": "attachment-input",
+              "title": "Attachment Input",
+              "description": "사진, 영상, 파일 첨부를 다루는 입력으로, 선택, 업로드, 진행률, 실패, 삭제 상태를 관리합니다.",
+              "docUrl": "/docs/components/attachment-input"
             },
             {
               "id": "avatar",
@@ -177,6 +185,7 @@
               "id": "control-chip",
               "title": "Control Chip",
               "docUrl": "/docs/components/control-chip",
+              "deprecated": true,
               "snippetKey": "ui:control-chip",
               "snippets": [
                 {
@@ -196,6 +205,7 @@
               "title": "Error State",
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
               "docUrl": "/docs/components/error-state",
+              "deprecated": true,
               "snippetKey": "ui:error-state",
               "snippets": [
                 {
@@ -208,6 +218,7 @@
               "id": "extended-action-sheet",
               "title": "Extended Action Sheet",
               "docUrl": "/docs/components/extended-action-sheet",
+              "deprecated": true,
               "snippetKey": "ui:extended-action-sheet",
               "snippets": [
                 {
@@ -219,12 +230,14 @@
             {
               "id": "extended-fab",
               "title": "Extended FAB",
-              "docUrl": "/docs/components/extended-fab"
+              "docUrl": "/docs/components/extended-fab",
+              "deprecated": true
             },
             {
               "id": "fab",
               "title": "FAB",
-              "docUrl": "/docs/components/fab"
+              "docUrl": "/docs/components/fab",
+              "deprecated": true
             },
             {
               "id": "field",
@@ -281,6 +294,7 @@
               "id": "inline-banner",
               "title": "Inline Banner",
               "docUrl": "/docs/components/inline-banner",
+              "deprecated": true,
               "snippetKey": "ui:inline-banner",
               "snippets": [
                 {
@@ -298,7 +312,8 @@
             {
               "id": "link-content",
               "title": "Link Content",
-              "docUrl": "/docs/components/link-content"
+              "docUrl": "/docs/components/link-content",
+              "deprecated": true
             },
             {
               "id": "list",
@@ -327,6 +342,19 @@
                 {
                   "label": "react",
                   "path": "manner-temp.tsx"
+                }
+              ]
+            },
+            {
+              "id": "menu",
+              "title": "Menu",
+              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+              "docUrl": "/docs/components/menu",
+              "snippetKey": "ui:menu",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu.tsx"
                 }
               ]
             },
@@ -436,6 +464,19 @@
                 {
                   "label": "react",
                   "path": "select-box.tsx"
+                }
+              ]
+            },
+            {
+              "id": "side-navigation",
+              "title": "Side Navigation",
+              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+              "docUrl": "/docs/components/side-navigation",
+              "snippetKey": "ui:side-navigation",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-navigation.tsx"
                 }
               ]
             },
@@ -759,12 +800,14 @@
             {
               "id": "action-chip",
               "title": "Action Chip",
-              "docUrl": "/react/components/action-chip"
+              "docUrl": "/react/components/action-chip",
+              "deprecated": true
             },
             {
               "id": "action-sheet",
               "title": "Action Sheet",
               "docUrl": "/react/components/action-sheet",
+              "deprecated": true,
               "snippetKey": "ui:action-sheet",
               "snippets": [
                 {
@@ -797,6 +840,19 @@
               "title": "Aspect Ratio",
               "description": "가로(width)가 정해지면 비율에 따라 세로(height)가 자동으로 결정되는 레이아웃 컨테이너입니다.",
               "docUrl": "/react/components/aspect-ratio"
+            },
+            {
+              "id": "attachment-field",
+              "title": "Attachment Field",
+              "description": "파일을 선택하거나 드래그 앤 드롭으로 업로드할 수 있는 컴포넌트입니다.",
+              "docUrl": "/react/components/attachment-field",
+              "snippetKey": "ui:attachment-field",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "attachment-field.tsx"
+                }
+              ]
             },
             {
               "id": "avatar",
@@ -892,7 +948,8 @@
               "id": "columns",
               "title": "Columns",
               "description": "여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/columns"
+              "docUrl": "/react/components/columns",
+              "deprecated": true
             },
             {
               "id": "composition",
@@ -936,6 +993,7 @@
               "id": "control-chip",
               "title": "Control Chip",
               "docUrl": "/react/components/control-chip",
+              "deprecated": true,
               "snippetKey": "ui:control-chip",
               "snippets": [
                 {
@@ -955,6 +1013,7 @@
               "title": "Error State",
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
               "docUrl": "/react/components/error-state",
+              "deprecated": true,
               "snippetKey": "ui:error-state",
               "snippets": [
                 {
@@ -967,6 +1026,7 @@
               "id": "extended-action-sheet",
               "title": "Extended Action Sheet",
               "docUrl": "/react/components/extended-action-sheet",
+              "deprecated": true,
               "snippetKey": "ui:extended-action-sheet",
               "snippets": [
                 {
@@ -978,12 +1038,14 @@
             {
               "id": "extended-fab",
               "title": "Extended FAB",
-              "docUrl": "/react/components/extended-fab"
+              "docUrl": "/react/components/extended-fab",
+              "deprecated": true
             },
             {
               "id": "fab",
               "title": "FAB",
-              "docUrl": "/react/components/fab"
+              "docUrl": "/react/components/fab",
+              "deprecated": true
             },
             {
               "id": "field-button",
@@ -1071,12 +1133,14 @@
               "id": "inline",
               "title": "Inline",
               "description": "인라인 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/inline"
+              "docUrl": "/react/components/inline",
+              "deprecated": true
             },
             {
               "id": "inline-banner",
               "title": "Inline Banner",
               "docUrl": "/react/components/inline-banner",
+              "deprecated": true,
               "snippetKey": "ui:inline-banner",
               "snippets": [
                 {
@@ -1100,7 +1164,8 @@
             {
               "id": "link-content",
               "title": "Link Content",
-              "docUrl": "/react/components/link-content"
+              "docUrl": "/react/components/link-content",
+              "deprecated": true
             },
             {
               "id": "list",
@@ -1142,6 +1207,19 @@
                 {
                   "label": "react",
                   "path": "manner-temp-badge.tsx"
+                }
+              ]
+            },
+            {
+              "id": "menu",
+              "title": "Menu",
+              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+              "docUrl": "/react/components/menu",
+              "snippetKey": "ui:menu",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu.tsx"
                 }
               ]
             },
@@ -1222,6 +1300,12 @@
                   "path": "reaction-button.tsx"
                 }
               ]
+            },
+            {
+              "id": "responsive-design",
+              "title": "Responsive Design",
+              "description": "Viewport 크기에 따라 레이아웃과 스타일을 조정하는 방법을 알아봅니다.",
+              "docUrl": "/react/components/concepts/responsive-design"
             },
             {
               "id": "result-section",
@@ -1310,7 +1394,8 @@
               "id": "stack",
               "title": "Stack",
               "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/stack"
+              "docUrl": "/react/components/stack",
+              "deprecated": true
             },
             {
               "id": "switch",
@@ -1421,7 +1506,7 @@
             {
               "id": "commands",
               "title": "Commands",
-              "description": "\"@seed-design/cli 명령어를 안내해요.\"",
+              "description": "@seed-design/cli 명령어를 안내해요.",
               "docUrl": "/react/getting-started/cli/commands"
             },
             {
@@ -1555,7 +1640,7 @@
             {
               "id": "introduction",
               "title": "Introduction",
-              "description": "\"@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.\"",
+              "description": "@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.",
               "docUrl": "/react/developer-tools/codemods/introduction"
             }
           ]
@@ -1569,6 +1654,37 @@
               "title": "Changelog",
               "description": "최신 업데이트와 변경사항을 기록합니다.",
               "docUrl": "/react/updates/changelog"
+            }
+          ]
+        },
+        {
+          "id": "blocks",
+          "label": "blocks",
+          "items": [
+            {
+              "id": "footer",
+              "title": "Footer",
+              "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
+              "docUrl": "/react/blocks/footer"
+            },
+            {
+              "id": "layout",
+              "title": "Layout",
+              "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
+              "docUrl": "/react/blocks/layout"
+            },
+            {
+              "id": "side-navigation",
+              "title": "Side Navigation",
+              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+              "docUrl": "/react/blocks/side-navigation",
+              "snippetKey": "ui:side-navigation",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-navigation.tsx"
+                }
+              ]
             }
           ]
         }

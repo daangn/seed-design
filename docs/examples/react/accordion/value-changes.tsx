@@ -1,5 +1,10 @@
 import { Box, Text, VStack } from "@seed-design/react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "seed-design/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "seed-design/ui/accordion";
 import { useState } from "react";
 
 const DEFAULT_VALUES = ["shipping"];

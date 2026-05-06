@@ -1,4 +1,4 @@
-import { chipTablist as vars, chipTab as triggerVars } from "../vars/component";
+import { chipTablist as vars, chip as chipVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { engaged, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import {
@@ -65,12 +65,10 @@ const chipTabs = defineSlotRecipe({
       whiteSpace: "nowrap",
       fontFamily: "inherit",
 
-      borderRadius: triggerVars.base.enabled.root.cornerRadius,
-      paddingTop: triggerVars.base.enabled.root.paddingY,
-      paddingBottom: triggerVars.base.enabled.root.paddingY,
-      fontWeight: triggerVars.base.enabled.label.fontWeight,
+      borderRadius: chipVars.base.enabled.root.cornerRadius,
+      fontWeight: chipVars.base.enabled.label.fontWeight,
 
-      transition: `background-color ${triggerVars.base.enabled.root.colorDuration} ${triggerVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -83,10 +81,11 @@ const chipTabs = defineSlotRecipe({
           gap: vars.base.enabled.root.gap,
         },
         trigger: {
-          minHeight: triggerVars.sizeMedium.enabled.root.minHeight,
-          fontSize: triggerVars.sizeMedium.enabled.label.fontSize,
-          paddingLeft: triggerVars.sizeMedium.enabled.root.paddingX,
-          paddingRight: triggerVars.sizeMedium.enabled.root.paddingX,
+          // NOTE: chip uses `height`, but chip-tab keeps `minHeight` to preserve existing behavior
+          minHeight: chipVars.sizeMedium.enabled.root.height,
+          fontSize: chipVars.sizeMedium.enabled.label.fontSize,
+          paddingLeft: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+          paddingRight: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
         },
       },
       large: {
@@ -94,105 +93,64 @@ const chipTabs = defineSlotRecipe({
           gap: vars.base.enabled.root.gap,
         },
         trigger: {
-          minHeight: triggerVars.sizeLarge.enabled.root.minHeight,
-          fontSize: triggerVars.sizeLarge.enabled.label.fontSize,
-          paddingLeft: triggerVars.sizeLarge.enabled.root.paddingX,
-          paddingRight: triggerVars.sizeLarge.enabled.root.paddingX,
+          // NOTE: chip uses `height`, but chip-tab keeps `minHeight` to preserve existing behavior
+          minHeight: chipVars.sizeLarge.enabled.root.height,
+          fontSize: chipVars.sizeLarge.enabled.label.fontSize,
+          paddingLeft: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+          paddingRight: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
         },
       },
     },
     variant: {
       neutralSolid: {
         trigger: {
-          backgroundColor: triggerVars.variantNeutralSolid.enabled.root.color,
+          backgroundColor: chipVars.variantSolid.enabled.root.color,
 
-          color: triggerVars.variantNeutralSolid.enabled.label.color,
+          color: chipVars.variantSolid.enabled.label.color,
 
           [pseudo(selected)]: {
-            backgroundColor: triggerVars.variantNeutralSolid.selected.root.color,
-            color: triggerVars.variantNeutralSolid.selected.label.color,
+            backgroundColor: chipVars.variantSolid.selected.root.color,
+            color: chipVars.variantSolid.selected.label.color,
           },
 
           [pseudo(engaged)]: {
-            backgroundColor: triggerVars.variantNeutralSolid.enabledPressed.root.color,
+            backgroundColor: chipVars.variantSolid.pressed.root.color,
           },
 
           [pseudo(selected, engaged)]: {
-            backgroundColor: triggerVars.variantNeutralSolid.selectedPressed.root.color,
+            backgroundColor: chipVars.variantSolid.selectedPressed.root.color,
           },
 
           [pseudo(disabled)]: {
             cursor: "not-allowed",
-            backgroundColor: undefined,
-            color: triggerVars.variantNeutralSolid.disabled.label.color,
-          },
-
-          [pseudo(disabled, selected)]: {
-            backgroundColor: triggerVars.variantNeutralSolid.selectedDisabled.root.color,
-            color: triggerVars.variantNeutralSolid.selectedDisabled.label.color,
+            opacity: chipVars.variantSolid.disabled.root.opacity,
           },
         },
       },
       neutralOutline: {
         trigger: {
-          backgroundColor: triggerVars.variantNeutralOutline.enabled.root.color,
-          border: `${triggerVars.variantNeutralOutline.enabled.root.strokeWidth} solid ${triggerVars.variantNeutralOutline.enabled.root.strokeColor}`,
+          backgroundColor: chipVars.variantOutlineStrong.enabled.root.color,
+          border: `${chipVars.variantOutlineStrong.enabled.root.strokeWidth} solid ${chipVars.variantOutlineStrong.enabled.root.strokeColor}`,
 
-          color: triggerVars.variantNeutralOutline.enabled.label.color,
+          color: chipVars.variantOutlineStrong.enabled.label.color,
 
           [pseudo(selected)]: {
-            backgroundColor: triggerVars.variantNeutralOutline.selected.root.color,
+            backgroundColor: chipVars.variantOutlineStrong.selected.root.color,
             borderColor: "transparent",
-            color: triggerVars.variantNeutralOutline.selected.label.color,
+            color: chipVars.variantOutlineStrong.selected.label.color,
           },
 
           [pseudo(engaged)]: {
-            backgroundColor: triggerVars.variantNeutralOutline.enabledPressed.root.color,
+            backgroundColor: chipVars.variantOutlineStrong.pressed.root.color,
           },
 
           [pseudo(selected, engaged)]: {
-            backgroundColor: triggerVars.variantNeutralOutline.selectedPressed.root.color,
+            backgroundColor: chipVars.variantOutlineStrong.selectedPressed.root.color,
           },
 
           [pseudo(disabled)]: {
             cursor: "not-allowed",
-            backgroundColor: undefined,
-            color: triggerVars.variantNeutralOutline.disabled.label.color,
-          },
-
-          [pseudo(disabled, selected)]: {
-            backgroundColor: triggerVars.variantNeutralOutline.selectedDisabled.root.color,
-            color: triggerVars.variantNeutralOutline.selectedDisabled.label.color,
-          },
-        },
-      },
-      brandSolid: {
-        trigger: {
-          backgroundColor: triggerVars.variantBrandSolid.enabled.root.color,
-
-          color: triggerVars.variantBrandSolid.enabled.label.color,
-
-          [pseudo(selected)]: {
-            backgroundColor: triggerVars.variantBrandSolid.selected.root.color,
-            color: triggerVars.variantBrandSolid.selected.label.color,
-          },
-
-          [pseudo(engaged)]: {
-            backgroundColor: triggerVars.variantBrandSolid.enabledPressed.root.color,
-          },
-
-          [pseudo(selected, engaged)]: {
-            backgroundColor: triggerVars.variantBrandSolid.selectedPressed.root.color,
-          },
-
-          [pseudo(disabled)]: {
-            cursor: "not-allowed",
-            backgroundColor: triggerVars.variantBrandSolid.disabled.root.color,
-            color: triggerVars.variantBrandSolid.disabled.label.color,
-          },
-
-          [pseudo(disabled, selected)]: {
-            backgroundColor: triggerVars.variantBrandSolid.selectedDisabled.root.color,
+            opacity: chipVars.variantOutlineStrong.disabled.root.opacity,
           },
         },
       },

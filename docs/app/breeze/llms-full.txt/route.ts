@@ -5,7 +5,8 @@ import { breezeSource } from "@/app/source";
 export const revalidate = false;
 
 export async function GET() {
-  const pages = (breezeSource.getPages())
+  const pages = breezeSource
+    .getPages()
     .filter((page) => shouldIncludeInFullText("breeze", page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
 

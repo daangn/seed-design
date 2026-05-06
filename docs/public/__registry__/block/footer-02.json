@@ -1,0 +1,34 @@
+{
+  "id": "footer-02",
+  "description": "표준 Footer (링크 + 회사정보 + 연락처 + SNS 아이콘)",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "action-button"
+      ]
+    },
+    {
+      "registryId": "icon",
+      "itemIds": [
+        "icon-blog",
+        "icon-facebook",
+        "icon-instagram",
+        "icon-youtube"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "footer-02.tsx",
+      "content": "/**\n * @file block:footer-02\n * @requires @seed-design/react@~1.3.0\n * @requires @seed-design/css@~1.3.0\n **/\n\n\"use client\";\n\nimport { Box, Footer, HStack, Icon, Text, VStack } from \"@seed-design/react\";\nimport { ActionButton } from \"../ui/action-button\";\n\nimport { IconBlog } from \"../icon/icon-blog\";\nimport { IconFacebook } from \"../icon/icon-facebook\";\nimport { IconInstagram } from \"../icon/icon-instagram\";\nimport { IconYouTube } from \"../icon/icon-youtube\";\n\nexport default function FooterBlock() {\n  return (\n    <Box\n      as=\"footer\"\n      width=\"100%\"\n      style={{ maxWidth: \"1040px\", marginInline: \"auto\" }}\n      paddingX=\"x8\"\n      paddingY=\"x10\"\n    >\n      <VStack gap=\"x4\" align=\"flex-start\">\n        <HStack gap=\"x6\" wrap align=\"center\">\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            개인정보처리방침\n          </Footer.LinkText>\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            이용약관\n          </Footer.LinkText>\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            운영정책\n          </Footer.LinkText>\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            판매 운영정책\n          </Footer.LinkText>\n          <Footer.LinkText size=\"medium\" href=\"#\">\n            주문 이용약관\n          </Footer.LinkText>\n        </HStack>\n\n        <Text textStyle=\"t3Regular\" color=\"fg.neutralSubtle\">\n          (주)에이비씨컴퍼니 | 사업자 등록번호: 000-00-00000 | 통신판매업신고번호:\n          0000-서울강남-0000 | 대표: 홍길동 | 주소: 서울특별시 강남구 테헤란로 123\n          <br />\n          호스팅 사업자: Amazon Web Service(AWS)\n        </Text>\n\n        <Text textStyle=\"t3Regular\" color=\"fg.neutralSubtle\">\n          전화: 000-0000-0000 | 고객문의: support@example.com\n        </Text>\n\n        <HStack justify=\"space-between\" align=\"center\" width=\"100%\" wrap gap=\"x4\">\n          <Text textStyle=\"t4Medium\" color=\"fg.neutralMuted\">\n            ⓒ 2026 Company Inc.\n          </Text>\n\n          <HStack gap=\"x6\">\n            <ActionButton\n              variant=\"ghost\"\n              size=\"large\"\n              layout=\"iconOnly\"\n              bleedX=\"asPadding\"\n              aria-label=\"Blog\"\n            >\n              <Icon svg={<IconBlog />} />\n            </ActionButton>\n            <ActionButton\n              variant=\"ghost\"\n              size=\"large\"\n              layout=\"iconOnly\"\n              bleedX=\"asPadding\"\n              aria-label=\"YouTube\"\n            >\n              <Icon svg={<IconYouTube />} />\n            </ActionButton>\n            <ActionButton\n              variant=\"ghost\"\n              size=\"large\"\n              layout=\"iconOnly\"\n              bleedX=\"asPadding\"\n              aria-label=\"Instagram\"\n            >\n              <Icon svg={<IconInstagram />} />\n            </ActionButton>\n            <ActionButton\n              variant=\"ghost\"\n              size=\"large\"\n              layout=\"iconOnly\"\n              bleedX=\"asPadding\"\n              aria-label=\"Facebook\"\n            >\n              <Icon svg={<IconFacebook />} />\n            </ActionButton>\n          </HStack>\n        </HStack>\n      </VStack>\n    </Box>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.3.0",
+        "@seed-design/css": "~1.3.0"
+      }
+    }
+  ]
+}

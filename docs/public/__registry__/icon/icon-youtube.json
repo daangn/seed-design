@@ -1,0 +1,9 @@
+{
+  "id": "icon-youtube",
+  "snippets": [
+    {
+      "path": "icon-youtube.tsx",
+      "content": "/**\n * @file icon:icon-youtube\n **/\n\nimport type * as React from \"react\";\n\ntype IconProps = React.SVGProps<SVGSVGElement>;\n\nexport function IconYouTube(props: IconProps) {\n  return (\n    <svg\n      width=\"24\"\n      height=\"24\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      {...props}\n    >\n      <path\n        fillRule=\"evenodd\"\n        clipRule=\"evenodd\"\n        d=\"M11.9883 4.41504C11.9883 4.41504 18.8804 4.41517 20.5898 4.87793C21.5523 5.12828 22.2762 5.85631 22.5303 6.79688C23 8.46584 23 11.9863 23 11.9863C23 12.0228 22.9976 15.5375 22.5303 17.2129C22.2762 18.1308 21.5523 18.8739 20.5898 19.1318C18.8804 19.587 11.9883 19.5879 11.9883 19.5879C11.947 19.5879 5.1068 19.5856 3.41016 19.1318C2.46309 18.8739 1.7236 18.1308 1.4541 17.2129C1.00216 15.5375 1.00001 12.0228 1 11.9863C1 11.9863 0.999779 8.46584 1.4541 6.79688C1.72364 5.85628 2.4631 5.12829 3.41016 4.87793C5.1068 4.41657 11.947 4.41504 11.9883 4.41504ZM9.72461 15.2256L15.4141 12.001L9.72461 8.77734V15.2256Z\"\n        fill=\"currentColor\"\n      />\n    </svg>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
+    }
+  ]
+}
