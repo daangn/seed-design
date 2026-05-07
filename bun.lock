@@ -975,7 +975,7 @@
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "devDependencies": {
         "@rsbuild/core": "^2.0.0",
         "@seed-design/css": "^1.1.0",
