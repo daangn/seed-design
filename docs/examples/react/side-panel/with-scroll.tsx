@@ -15,7 +15,8 @@ const SidePanelWithScroll = () => {
 
   const handleScroll = useCallback(() => {
     if (scrollRef.current) {
-      setIsScrolled(scrollRef.current.scrollTop > 0);
+      const next = scrollRef.current.scrollTop > 0;
+      setIsScrolled((prev) => (prev !== next ? next : prev));
     }
   }, []);
 

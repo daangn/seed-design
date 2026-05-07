@@ -12,7 +12,7 @@ const SidePanelDismissible = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <SidePanelRoot open={open} onOpenChange={(o) => setOpen(o)} dismissible={false}>
+    <SidePanelRoot open={open} onOpenChange={setOpen} dismissible={false}>
       <SidePanelTrigger asChild>
         <ActionButton variant="neutralSolid">닫기 불가 Side Panel</ActionButton>
       </SidePanelTrigger>
