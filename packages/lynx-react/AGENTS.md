@@ -263,6 +263,13 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 - 테스트: `src/<...>/__tests__/<file>.test.{ts,tsx}`
 - 빌드: `tsc`로 `lib/`에 출력 (테스트 파일은 `tsconfig.json`의 `exclude`로 제외)
 
+### Barrel export 컨벤션
+
+- `src/<folder>/index.ts` 에서 폴더 내 모든 모듈을 `export * from "./<file-or-folder>"` 로 재노출한다.
+- 최상위 `src/index.ts` 는 폴더 단위로 `export * from "./<folder>"` 만 작성한다.
+- 새 폴더(예: `contexts/`, `types/`)를 추가할 때도 같은 패턴을 따르고, 최상위 `src/index.ts` 에 한 줄 `export *` 를 추가한다.
+- 새 컴포넌트/훅/유틸 파일을 추가하면 해당 폴더의 `index.ts` 에 `export * from "./<new-file>"` 한 줄만 추가한다 (최상위는 손대지 않는다).
+
 ## 테스트
 
 lynx-react는 vitest + ReactLynx Testing Library를 사용한다 (다른 패키지의 bun:test와 다름).
