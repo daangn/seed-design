@@ -42,7 +42,7 @@ export function useIconColor(deps: DependencyList): {
 } {
   const ref = useMainThreadRef<IconElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: deps 는 caller 가 책임.
+  // deps 는 caller 가 책임.
   useEffect(() => {
     runOnMainThread(syncTintColor)(ref);
   }, deps);
