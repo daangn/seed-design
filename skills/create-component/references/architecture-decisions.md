@@ -82,6 +82,12 @@ https://www.w3.org/WAI/ARIA/apg/patterns/ 에서 해당 컴포넌트 패턴을 �
   - Home/End:
   - Escape:
   - Tab:
+- **Role/heading override 전략**:
+  - `hardcode`: native element를 고정한다.
+  - `asChild`: consumer가 semantic wrapper를 교체할 수 있게 한다.
+  - `aria-level override`: wrapper는 유지하되 계층만 조정할 수 있게 한다.
+
+APG가 heading 계층이나 landmark 구조를 요구하는 컴포넌트는 이 전략을 **구현 전에 명시적으로 선택**한다. 기본값으로 hardcode만 두면 문서 구조나 페이지 계층에 따라 API가 막힐 수 있다.
 
 ### 4c. SEED Design 접근성 유틸리티 적용 계획
 
@@ -108,13 +114,20 @@ https://www.w3.org/WAI/ARIA/apg/patterns/ 에서 해당 컴포넌트 패턴을 �
 
 ## 6. 패턴 참조 컴포넌트 지정
 
-카테고리별 canonical reference에서 가장 유사한 컴포넌트를 선택한다. 이후 모든 구현 단계에서 이 컴포넌트의 해당 파일을 **먼저 읽고** 패턴을 따른다.
+참조 컴포넌트는 하나만 고르지 않는다. 레이어별로 가장 유사한 참조를 따로 선택하고, 이후 구현 단계에서 해당 파일을 **먼저 읽고** 패턴을 따른다.
 
-**선택한 참조 컴포넌트**: ________________
+- **Headless reference**: ________________
+  - 경로: `packages/react-headless/{name}/` 또는 `packages/react-headless/{name}/src/`
+- **Styled React reference**: ________________
+  - 경로: `packages/react/src/components/{Name}/`
+- **Snippet reference**: ________________
+  - 경로: `docs/registry/ui/{name}.tsx`
+- **Rootage vocabulary reference**: ________________
+  - 경로: `packages/rootage/components/{name}.yaml`
+- **Docs reference** (선택): ________________
+  - 경로: `docs/content/react/components/{name}.mdx`
 
-참조 파일 경로:
-- Rootage: `packages/rootage/components/{name}.yaml`
-- Recipe: `packages/qvism-preset/src/recipes/{name}.ts`
-- React: `packages/react/src/components/{Name}/`
-- Snippet: `docs/registry/ui/{name}.tsx`
-- Docs: `docs/content/react/components/{name}.mdx`
+기록 시 아래를 함께 남긴다:
+- 각 레이어에서 **무엇을 따라갈지** (예: slot 구조, prop naming, token vocabulary, example composition)
+- 참조와 **의도적으로 다르게 가는 부분**
+- 외부 레퍼런스(Radix, Base UI, shadcn/ui)와 내부 레퍼런스가 충돌할 때 어느 쪽을 우선할지

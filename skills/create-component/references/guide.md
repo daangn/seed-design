@@ -6,7 +6,7 @@
 
 1. **Phase 0**: `references/architecture-decisions.md`를 완성하여 카테고리와 패턴을 확정합니다.
 2. **Phase 1**: Rootage → Recipe → React → Snippet → Storybook → Docs 순서로 구현합니다.
-3. **Phase 2**: `bun packages:build`, `bun typecheck`, Visual Test 체크리스트를 완료합니다.
+3. **Phase 2**: `bun generate:all`, `bun test:all`, `bun docs:test`와 필요한 개별 build를 완료합니다.
 4. 상세 구현은 `references/implementation-steps.md`와 `references/verification-checklist.md`를 사용합니다.
 
 ## 핵심 흐름
@@ -41,7 +41,7 @@ Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:al
 
 - `packages/css/**` ← rootage에서 생성
 - `packages/qvism-preset/src/vars/**` ← rootage에서 생성
-- `docs/registry/*.json` ← registry-*.ts에서 생성
+- `docs/public/__registry__/**` ← docs registry script에서 생성
 
 ## 전체 파이프라인
 
@@ -111,6 +111,9 @@ Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:al
 
 작업 완료 전:
 - [ ] `bun generate:all` 실행
-- [ ] `bun packages:build` 성공
-- [ ] `bun typecheck` 에러 없음
+- [ ] `bun test:all` 성공
+- [ ] `bun docs:test` 성공
+- [ ] 변경 범위에 해당하는 build 성공
+  - React 패키지 변경: `bun --filter @seed-design/react build` 또는 여러 패키지 변경 시 `bun packages:build`
+  - Snippet/example 변경: vendored consumer build (예: `bun --cwd examples/stackflow-spa build`)
 - [ ] Storybook 테마별 확인 (Light, Dark, Font Scaling)
