@@ -104,3 +104,10 @@ pre, code, pre code {
   user-select: text !important;
   -webkit-user-select: text !important;
 }
+
+/* Landing page: extend brand background to overscroll/bounce area */
+html:has(main[data-landing="true"]),
+body:has(main[data-landing="true"]) {
+  background-color: var(--seed-color-palette-carrot-600);
+  overscroll-behavior: none;
+}
