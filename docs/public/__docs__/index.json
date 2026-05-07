@@ -188,19 +188,6 @@
               "docUrl": "/docs/components/divider"
             },
             {
-              "id": "drawer",
-              "title": "Drawer",
-              "description": "화면 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 상하좌우 4방향을 지원하며, 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.",
-              "docUrl": "/docs/components/drawer",
-              "snippetKey": "ui:drawer",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "drawer.tsx"
-                }
-              ]
-            },
-            {
               "id": "error-state",
               "title": "Error State",
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
@@ -1007,19 +994,6 @@
               "title": "Divider",
               "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
               "docUrl": "/react/components/divider"
-            },
-            {
-              "id": "drawer",
-              "title": "Drawer",
-              "description": "화면 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 상하좌우 4방향을 지원하며, 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.",
-              "docUrl": "/react/components/drawer",
-              "snippetKey": "ui:drawer",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "drawer.tsx"
-                }
-              ]
             },
             {
               "id": "error-state",
