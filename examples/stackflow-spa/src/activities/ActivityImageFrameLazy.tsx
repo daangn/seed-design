@@ -25,8 +25,7 @@ const buildSrc = (label: string, color: string, sessionKey: string) =>
 const ActivityImageFrameLazy: StaticActivityComponentType<"ActivityImageFrameLazy"> = () => {
   const { push } = useFlow();
 
-  // crypto.getRandomValues로 매 마운트마다 다른 cache-bust 키를 생성한다.
-  // (Math.random은 보안 컨텍스트가 아니어도 CodeQL이 경고를 발생시키므로 회피)
+  // CodeQL "Insecure randomness" 회피. cache-bust suffix 용도.
   const sessionKey = useMemo(() => {
     const random = new Uint32Array(1);
     globalThis.crypto.getRandomValues(random);
