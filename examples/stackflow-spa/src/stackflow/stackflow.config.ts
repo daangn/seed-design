@@ -52,6 +52,8 @@ export const config = defineConfig({
     { route: "/segmented-control", name: "ActivitySegmentedControl" },
     { route: "/switch", name: "ActivitySwitch" },
     { route: "/side-navigation", name: "ActivitySideNavigation" },
+    { route: "/side-panel", name: "ActivitySidePanel" },
+    { route: "/side-panel-activity", name: "ActivitySidePanelActivity" },
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },
     { route: "/tabs", name: "ActivityTabs" },
     { route: "/tabs-auto-height-lazy", name: "ActivityTabsAutoHeightLazy" },

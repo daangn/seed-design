@@ -14,11 +14,11 @@ import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityDrawerActivity: {};
+    ActivitySidePanelActivity: {};
   }
 }
 
-const ActivityDrawerActivity: StaticActivityComponentType<"ActivityDrawerActivity"> = () => {
+const ActivitySidePanelActivity: StaticActivityComponentType<"ActivitySidePanelActivity"> = () => {
   const { push } = useFlow();
 
   return (
@@ -27,7 +27,7 @@ const ActivityDrawerActivity: StaticActivityComponentType<"ActivityDrawerActivit
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain title="Drawer Activity" />
+        <AppBarMain title="Side Panel Activity" />
         <AppBarRight>
           <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
@@ -36,13 +36,17 @@ const ActivityDrawerActivity: StaticActivityComponentType<"ActivityDrawerActivit
       </AppBar>
       <AppScreenContent>
         <VStack p="x5" justify="center" gap="x4">
-          <ActionButton variant="neutralSolid" flexGrow onClick={() => push("ActivityDrawer", {})}>
-            ActivityDrawer를 Push
+          <ActionButton
+            variant="neutralSolid"
+            flexGrow
+            onClick={() => push("ActivitySidePanel", {})}
+          >
+            ActivitySidePanel을 Push
           </ActionButton>
           <ActionButton
             variant="neutralWeak"
             flexGrow
-            onClick={() => push("ActivityDrawerActivity", {})}
+            onClick={() => push("ActivitySidePanelActivity", {})}
           >
             지금 열린 이 Activity를 Push
           </ActionButton>
@@ -52,4 +56,4 @@ const ActivityDrawerActivity: StaticActivityComponentType<"ActivityDrawerActivit
   );
 };
 
-export default ActivityDrawerActivity;
+export default ActivitySidePanelActivity;

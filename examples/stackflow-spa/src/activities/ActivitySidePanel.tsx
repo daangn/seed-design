@@ -2,39 +2,42 @@ import { Flex, VStack } from "@seed-design/react";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { DrawerBody, DrawerContent, DrawerFooter, DrawerRoot } from "seed-design/ui/drawer";
+import {
+  SidePanelBody,
+  SidePanelContent,
+  SidePanelFooter,
+  SidePanelRoot,
+} from "seed-design/ui/side-panel";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityDrawer: {};
+    ActivitySidePanel: {};
   }
 }
 
-const ActivityDrawer: StaticActivityComponentType<"ActivityDrawer"> = () => {
+const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () => {
   const { pop } = useFlow();
   const activity = useActivity();
 
-  const [direction, setDirection] = useState<"left" | "right" | "bottom" | "top">("right");
+  const [direction, setDirection] = useState<"left" | "right">("right");
   const [size, setSize] = useState<"small" | "medium" | "large">("medium");
 
   const open = activity.isActive;
   const onOpenChange = (open: boolean) => !open && pop();
 
   return (
-    <DrawerRoot open={open} onOpenChange={onOpenChange} direction={direction} size={size}>
-      <DrawerContent title="Drawer" description="Drawer 컴포넌트 데모입니다.">
-        <DrawerBody>
+    <SidePanelRoot open={open} onOpenChange={onOpenChange} direction={direction} size={size}>
+      <SidePanelContent title="Side Panel" description="Side Panel 컴포넌트 데모입니다.">
+        <SidePanelBody>
           <VStack gap="x4">
             <VStack gap="x2">
               <SegmentedControl
                 value={direction}
-                onValueChange={(v) => setDirection(v as "left" | "right" | "bottom" | "top")}
+                onValueChange={(v) => setDirection(v as "left" | "right")}
               >
                 <SegmentedControlItem value="left">Left</SegmentedControlItem>
                 <SegmentedControlItem value="right">Right</SegmentedControlItem>
-                <SegmentedControlItem value="bottom">Bottom</SegmentedControlItem>
-                <SegmentedControlItem value="top">Top</SegmentedControlItem>
               </SegmentedControl>
             </VStack>
 
@@ -49,8 +52,8 @@ const ActivityDrawer: StaticActivityComponentType<"ActivityDrawer"> = () => {
               </SegmentedControl>
             </VStack>
           </VStack>
-        </DrawerBody>
-        <DrawerFooter>
+        </SidePanelBody>
+        <SidePanelFooter>
           <Flex gap="x2">
             <ActionButton variant="neutralWeak" flexGrow onClick={() => pop()}>
               닫기
@@ -59,10 +62,10 @@ const ActivityDrawer: StaticActivityComponentType<"ActivityDrawer"> = () => {
               확인
             </ActionButton>
           </Flex>
-        </DrawerFooter>
-      </DrawerContent>
-    </DrawerRoot>
+        </SidePanelFooter>
+      </SidePanelContent>
+    </SidePanelRoot>
   );
 };
 
-export default ActivityDrawer;
+export default ActivitySidePanel;
