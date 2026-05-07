@@ -1,5 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo } from "../utils/pseudo";
+import { not, pseudo } from "../utils/pseudo";
 import { imageFrame as vars } from "../vars/component";
 
 const imageFrame = defineSlotRecipe({
@@ -7,7 +7,9 @@ const imageFrame = defineSlotRecipe({
   slots: ["root", "content", "fallback"],
   base: {
     // content는 항상 layout box를 유지해야 native loading="lazy"가 viewport intersection을 측정할 수 있다.
-    // fallback이 DOM 순서로 위에 stack되어 시각 처리를 담당한다.
+    // fallback은 DOM 순서로 위에 stack된다. fallback이 없는 경우에도 image가 노출되지 않도록
+    // loaded가 아닌 모든 상태에서 image를 visibility:hidden으로 가린다.
+    // visibility:hidden은 layout box를 유지하므로 lazy 발화에는 영향이 없다.
     root: {
       position: "relative",
       overflow: "hidden",
@@ -21,9 +23,7 @@ const imageFrame = defineSlotRecipe({
       height: "100%",
       objectFit: "cover",
       borderRadius: "inherit",
-      // error 상태에서 브라우저 기본 broken icon이 노출되는 것을 방지.
-      // visibility:hidden은 layout box를 유지하므로 lazy 발화에는 영향이 없다.
-      [pseudo("[data-loading-state='error']")]: {
+      [pseudo(not("[data-loading-state='loaded']"))]: {
         visibility: "hidden",
       },
     },

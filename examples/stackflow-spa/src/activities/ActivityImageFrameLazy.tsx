@@ -25,7 +25,13 @@ const buildSrc = (label: string, color: string, sessionKey: string) =>
 const ActivityImageFrameLazy: StaticActivityComponentType<"ActivityImageFrameLazy"> = () => {
   const { push } = useFlow();
 
-  const sessionKey = useMemo(() => Math.random().toString(36).slice(2), []);
+  // crypto.getRandomValues로 매 마운트마다 다른 cache-bust 키를 생성한다.
+  // (Math.random은 보안 컨텍스트가 아니어도 CodeQL이 경고를 발생시키므로 회피)
+  const sessionKey = useMemo(() => {
+    const random = new Uint32Array(1);
+    globalThis.crypto.getRandomValues(random);
+    return random[0].toString(36);
+  }, []);
 
   const src = useMemo(
     () => ({
@@ -99,46 +105,42 @@ const ActivityImageFrameLazy: StaticActivityComponentType<"ActivityImageFrameLaz
 
           <div>
             <h3 style={{ marginBottom: 8 }}>Avatar · loading="lazy"</h3>
-            <div style={{ width: 96, height: 96 }}>
-              <Avatar.Root>
-                <Avatar.Fallback>
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      display: "grid",
-                      placeItems: "center",
-                      background: "#eee",
-                    }}
-                  >
-                    L
-                  </div>
-                </Avatar.Fallback>
-                <Avatar.Image src={src.lazyAvatar} alt="Avatar lazy" loading="lazy" />
-              </Avatar.Root>
-            </div>
+            <Avatar.Root size="96">
+              <Avatar.Fallback>
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    display: "grid",
+                    placeItems: "center",
+                    background: "#eee",
+                  }}
+                >
+                  L
+                </div>
+              </Avatar.Fallback>
+              <Avatar.Image src={src.lazyAvatar} alt="Avatar lazy" loading="lazy" />
+            </Avatar.Root>
           </div>
 
           <div>
             <h3 style={{ marginBottom: 8 }}>Avatar · loading="eager" (대조군)</h3>
-            <div style={{ width: 96, height: 96 }}>
-              <Avatar.Root>
-                <Avatar.Fallback>
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      display: "grid",
-                      placeItems: "center",
-                      background: "#eee",
-                    }}
-                  >
-                    E
-                  </div>
-                </Avatar.Fallback>
-                <Avatar.Image src={src.eagerAvatar} alt="Avatar eager" loading="eager" />
-              </Avatar.Root>
-            </div>
+            <Avatar.Root size="96">
+              <Avatar.Fallback>
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    display: "grid",
+                    placeItems: "center",
+                    background: "#eee",
+                  }}
+                >
+                  E
+                </div>
+              </Avatar.Fallback>
+              <Avatar.Image src={src.eagerAvatar} alt="Avatar eager" loading="eager" />
+            </Avatar.Root>
           </div>
         </section>
       </AppScreenContent>

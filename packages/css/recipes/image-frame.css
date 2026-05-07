@@ -12,7 +12,7 @@
     object-fit: cover;
     border-radius: inherit;
 }
-.seed-image-frame__content[data-loading-state='error'] {
+.seed-image-frame__content:not([data-loading-state='loaded']) {
     visibility: hidden;
 }
 .seed-image-frame__fallback {

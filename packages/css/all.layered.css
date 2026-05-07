@@ -1956,7 +1956,7 @@
     mask-composite: subtract;
   }
 
-  .seed-avatar__image[data-loading-state="error"] {
+  .seed-avatar__image:not([data-loading-state="loaded"]) {
     visibility: hidden;
   }
 
@@ -4649,7 +4649,7 @@
     inset: 0;
   }
 
-  .seed-image-frame__content[data-loading-state="error"] {
+  .seed-image-frame__content:not([data-loading-state="loaded"]) {
     visibility: hidden;
   }
 

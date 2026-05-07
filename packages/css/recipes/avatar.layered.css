@@ -52,7 +52,7 @@
     mask-composite: subtract;
   }
 
-  .seed-avatar__image[data-loading-state="error"] {
+  .seed-avatar__image:not([data-loading-state="loaded"]) {
     visibility: hidden;
   }
 

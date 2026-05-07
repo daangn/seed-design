@@ -51,7 +51,7 @@
     mask-composite: subtract;
     transform: translateZ(0);
 }
-.seed-avatar__image[data-loading-state='error'] {
+.seed-avatar__image:not([data-loading-state='loaded']) {
     visibility: hidden;
 }
 .seed-avatar__fallback {
