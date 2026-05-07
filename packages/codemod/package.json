@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@seed-design/migration-index": "^1.0.0",
-    "cac": "^6.7.14",
+    "cac": "^7.0.0",
     "change-case": "^5.4.4",
     "es-toolkit": "^1.35.0",
     "execa": "^9.5.2",
