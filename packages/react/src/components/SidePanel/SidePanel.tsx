@@ -2,7 +2,7 @@ import { sidePanel, type SidePanelVariantProps } from "@seed-design/css/recipes/
 import { dataAttr } from "@seed-design/dom-utils";
 import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef } from "react";
+import { forwardRef, type ReactNode } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
@@ -10,18 +10,34 @@ const { withRootProvider, withContext } = createSlotRecipeContext(sidePanel);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelRootProps
-  extends SidePanelVariantProps,
-    Omit<
-      Drawer.RootProps,
-      | "direction"
-      | "snapPoints"
-      | "activeSnapPoint"
-      | "setActiveSnapPoint"
-      | "fadeFromIndex"
-      | "snapToSequentialPoint"
-    > {
+export interface SidePanelRootProps extends SidePanelVariantProps {
+  /** Whether the side panel is open (controlled). */
+  open?: boolean;
+  /** Default open state (uncontrolled). */
+  defaultOpen?: boolean;
+  /** Called when open state changes. */
+  onOpenChange?: (open: boolean) => void;
+  /** Direction the side panel slides in from. @default "right" */
   direction?: "left" | "right";
+  /** Whether the side panel is modal (with backdrop and focus trap). @default true */
+  modal?: boolean;
+  /** Whether the side panel can be dismissed via Escape, outside click, or drag. @default true */
+  dismissible?: boolean;
+  /** Whether to close on Escape key. @default true */
+  closeOnEscape?: boolean;
+  /** Whether to close on outside interaction. @default true */
+  closeOnInteractOutside?: boolean;
+  /** Lazy-mount the content on first open. @default true */
+  lazyMount?: boolean;
+  /** Unmount the content on close. @default true */
+  unmountOnExit?: boolean;
+  /** Custom portal container. */
+  container?: HTMLElement | null;
+  /** Whether to auto-focus the content on open. @default true */
+  autoFocus?: boolean;
+  /** Called when the panel finishes opening or closing. */
+  onAnimationEnd?: (open: boolean) => void;
+  children?: ReactNode;
 }
 
 export const SidePanelRoot = withRootProvider<SidePanelRootProps>(Drawer.Root, {
@@ -34,13 +50,17 @@ export const SidePanelRoot = withRootProvider<SidePanelRootProps>(Drawer.Root, {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelTriggerProps extends Drawer.TriggerProps {}
+export interface SidePanelTriggerProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const SidePanelTrigger = Drawer.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelPositionerProps extends Drawer.PositionerProps {}
+export interface SidePanelPositionerProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const SidePanelPositioner = withContext<HTMLDivElement, SidePanelPositionerProps>(
   Drawer.Positioner,
@@ -49,7 +69,9 @@ export const SidePanelPositioner = withContext<HTMLDivElement, SidePanelPosition
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelBackdropProps extends Drawer.BackdropProps {}
+export interface SidePanelBackdropProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const SidePanelBackdrop = withContext<HTMLDivElement, SidePanelBackdropProps>(
   Drawer.Backdrop,
@@ -59,8 +81,9 @@ export const SidePanelBackdrop = withContext<HTMLDivElement, SidePanelBackdropPr
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SidePanelContentProps
-  extends Drawer.ContentProps,
-    Pick<StyleProps, "width" | "maxWidth" | "height" | "maxHeight"> {}
+  extends PrimitiveProps,
+    Pick<StyleProps, "width" | "maxWidth" | "height" | "maxHeight">,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const SidePanelContent = withContext<HTMLDivElement, SidePanelContentProps>(
   withStyleProps(Drawer.Content),
@@ -69,7 +92,9 @@ export const SidePanelContent = withContext<HTMLDivElement, SidePanelContentProp
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelHeaderProps extends Drawer.HeaderProps {}
+export interface SidePanelHeaderProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const SidePanelHeader = withContext<HTMLDivElement, SidePanelHeaderProps>(
   Drawer.Header,
@@ -78,7 +103,9 @@ export const SidePanelHeader = withContext<HTMLDivElement, SidePanelHeaderProps>
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelTitleProps extends Drawer.TitleProps {}
+export interface SidePanelTitleProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLHeadingElement> {}
 
 export const SidePanelTitle = withContext<HTMLHeadingElement, SidePanelTitleProps>(
   forwardRef<HTMLHeadingElement, SidePanelTitleProps>((props, ref) => {
@@ -95,7 +122,9 @@ SidePanelTitle.displayName = "SidePanelTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelDescriptionProps extends Drawer.DescriptionProps {}
+export interface SidePanelDescriptionProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const SidePanelDescription = withContext<HTMLParagraphElement, SidePanelDescriptionProps>(
   Drawer.Description,
@@ -127,7 +156,9 @@ export const SidePanelFooter = withContext<HTMLDivElement, SidePanelFooterProps>
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelCloseButtonProps extends Drawer.CloseButtonProps {}
+export interface SidePanelCloseButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const SidePanelCloseButton = withContext<HTMLButtonElement, SidePanelCloseButtonProps>(
   Drawer.CloseButton,

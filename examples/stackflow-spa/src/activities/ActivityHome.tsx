@@ -187,7 +187,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "BottomSheets",
       items: [
         { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },
-        { title: "Side Panel", onClick: () => push("ActivitySidePanel", {}) },
         {
           title: "BottomSheet Modal Test",
           onClick: () => push("ActivityBottomSheetModalTest", {}),
@@ -311,6 +310,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SideNavigation", onClick: () => push("ActivitySideNavigation", {}) },
+        { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
       ],
     },
     {
