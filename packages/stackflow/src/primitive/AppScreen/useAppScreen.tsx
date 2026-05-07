@@ -3,6 +3,7 @@ import { useNullableActivity } from "@stackflow/react-ui-core";
 import { useMemo } from "react";
 import { type UseSwipeBackProps, useSwipeBack } from "../GlobalInteraction/useSwipeBack";
 import { useActivityZIndexBase } from "../../hooks";
+import { appScreenAnatomy } from "./anatomy";
 
 export interface UseAppScreenProps extends UseSwipeBackProps {}
 
@@ -38,7 +39,7 @@ export function useAppScreen(props: UseAppScreenProps) {
       activity,
       stateProps,
       activityProps: elementProps({
-        "data-part": "activity",
+        "data-part": appScreenAnatomy.activity,
         "data-activity-type": "full-screen",
         ...activityProps,
         ...stateProps,
@@ -48,16 +49,16 @@ export function useAppScreen(props: UseAppScreenProps) {
         suppressHydrationWarning: true,
       }),
       dimProps: elementProps({
-        "data-part": "dim",
+        "data-part": appScreenAnatomy.dim,
         ...stateProps,
       }),
       layerProps: elementProps({
-        "data-part": "layer",
+        "data-part": appScreenAnatomy.layer,
         ...stateProps,
         ...layerProps,
       }),
       edgeProps: elementProps({
-        "data-part": "edge",
+        "data-part": appScreenAnatomy.edge,
         "aria-hidden": true,
         tabIndex: -1,
         ...edgeProps,

@@ -14,18 +14,11 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   if (!page) notFound();
 
   const { body: MDX, toc, lastModified } = await page.data.load();
-  const { deprecated, deprecatedMessage } = await getComponentStatus(params, {
+  const { deprecated } = await getComponentStatus(params, {
     deprecated: page.data.deprecated,
   });
 
   const displayTitle = deprecated ? `${page.data.title} (Deprecated)` : page.data.title;
-  const displayDescription = deprecated ? (
-    <span className="text-red-600">
-      {deprecatedMessage} <span className="text-gray-600">{page.data.description}</span>
-    </span>
-  ) : (
-    <span>{page.data.description}</span>
-  );
 
   const markdownUrl = getLLMMarkdownUrl("react", page.slugs);
   const isChangelog = page.slugs.join("/") === "updates/changelog";
@@ -41,7 +34,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       lastUpdate={lastModified}
     >
       <DocsTitle>{displayTitle}</DocsTitle>
-      <DocsDescription>{displayDescription}</DocsDescription>
+      <DocsDescription>{page.data.description}</DocsDescription>
       <div className="flex flex-row gap-2 items-center mb-3 justify-end">
         {isChangelog ? (
           <ChangelogLLMOptions fallbackUrl={markdownUrl} />
@@ -69,10 +62,9 @@ export async function generateMetadata(props: {
   if (!page) notFound();
 
   const loadedData = await page.data.load();
-  const frontmatterDeprecated = (loadedData as any).deprecated;
+  const frontmatterDeprecated = (loadedData as { deprecated?: boolean }).deprecated;
   const { deprecated } = await getComponentStatus(params, { deprecated: frontmatterDeprecated });
 
-  // Add (Deprecated) to title if component is deprecated
   const displayTitle =
     deprecated && !page.data.title.includes("(Deprecated)")
       ? `${page.data.title} (Deprecated)`

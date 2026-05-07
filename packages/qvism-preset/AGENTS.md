@@ -12,8 +12,11 @@
 ## 코드 작성 컨벤션
 
 - Recipe 이름: kebab-case (예: `action-button`)
-- Pseudo 선택자: `active` (hover 대신, 모바일 우선), `disabled`, `focus`, `checked` 등
+- interactive affordance는 기본적으로 `engaged`를 먼저 검토한다. `engaged`는 hover 가능한 환경에서는 hover, 터치 환경에서는 active 계열 상호작용으로 풀린다.
+- `active`는 "눌린 순간만 표현해야 하는 press-only semantics" 같은 좁은 경우에만 사용하고, 기본 interactive 상태 설명에는 쓰지 않는다.
 - 토큰 참조: `vars.{variant}.{state}.{slot}.{property}`
+- arbitrary content slot에는 근거 없이 `display: flex`, `flexDirection`, `gap` 같은 구조 강제를 넣지 않는다. 실제 contract가 block 구조일 때만 추가한다.
+- base에는 여러 variant가 공유하는 affordance를 두고, variant에는 geometry나 specialization만 올린다.
 
 ## 상태 기반 선택자 작성 규칙
 

@@ -1,13 +1,15 @@
-import type { Tool } from "../types.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SECTIONS, SECTION_IDS } from "../config.js";
 
-export const discoverSeedDocsTool: Tool = {
-  name: "discover_seed_docs",
-  description:
-    "Discover all available SEED Design documentation sections and categories. " +
-    "Call this first to understand the documentation structure before using list_docs or get_doc.",
-  exec(server, { name, description }) {
-    server.tool(name, description, {}, async () => {
+export function registerDiscoverSeedDocsTool(server: McpServer): void {
+  server.registerTool(
+    "discover_seed_docs",
+    {
+      description:
+        "Discover all available SEED Design documentation sections and categories. " +
+        "Call this first to understand the documentation structure before using list_docs or get_doc.",
+    },
+    async () => {
       const sections = SECTION_IDS.map((id) => {
         const config = SECTIONS[id];
         const categories = Object.entries(config.categories);
@@ -53,6 +55,6 @@ export const discoverSeedDocsTool: Tool = {
           },
         ],
       };
-    });
-  },
-};
+    },
+  );
+}

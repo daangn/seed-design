@@ -1,6 +1,5 @@
 ---
 "@seed-design/lynx-react": minor
-"@seed-design/qvism-preset": minor
 "@seed-design/lynx-css": minor
 ---
 

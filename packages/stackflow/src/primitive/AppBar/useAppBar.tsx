@@ -2,6 +2,7 @@ import { elementProps } from "@seed-design/dom-utils";
 import { useMemo, useState } from "react";
 import { useAppScreenContext } from "../AppScreen";
 import { useElementOffset } from "../private/useElementOffset";
+import { appBarAnatomy } from "./anatomy";
 
 // biome-ignore lint/suspicious/noEmptyInterface: intentionally empty for future extension
 export interface UseAppBarProps {}
@@ -30,7 +31,7 @@ export function useAppBar(_props: UseAppBarProps) {
       },
       stateProps,
       rootProps: elementProps({
-        "data-part": "appBar",
+        "data-part": appBarAnatomy.root,
         ...stateProps,
         style: {
           "--centered-title-padding-x": centeredTitlePaddingX,

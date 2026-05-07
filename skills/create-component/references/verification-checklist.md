@@ -17,8 +17,9 @@
 - [ ] 문서가 실제 API와 일치하는가?
 - [ ] 예제가 동작하는가?
 - [ ] Storybook 스토리가 테마별로 정상인가?
-- [ ] `bun --filter @seed-design/docs generate:registry` 실행했는가?
-- [ ] 타입 에러가 없는가? (`bun typecheck`)
+- [ ] generated registry output이 최신인가? (`docs/public/__registry__/` 확인)
+- [ ] vendored snippet consumer가 있으면 함께 동기화했는가? (예: `examples/stackflow-spa/src/seed-design/ui/`)
+- [ ] 패키지별 `typecheck` 스크립트가 있으면 선택적으로 실행했는가?
 - [ ] Visual Test 통과했는가? (Agent Browser)
 
 ## 패턴 준수 확인
@@ -26,10 +27,15 @@
 - [ ] 패턴 참조 컴포넌트의 파일 구조를 따랐는가?
 - [ ] Focus ring 적용? (인터랙티브 컴포넌트 → createFocusRingStyles)
 - [ ] 키보드 인터랙션 구현? (카테고리 C/D)
+- [ ] Mode API가 binary이면 boolean을 우선했고, enum이 필요하면 제3상태/대등한 값의 근거를 남겼는가?
+- [ ] 특정 mode에서만 유효한 prop을 타입 union, 문서, 테스트로 차단했는가?
 - [ ] 숨겨진 native input 패턴 적용? (form control인 경우)
 - [ ] 애니메이션: contentInner 분리 패턴 사용? (expand/collapse인 경우)
 - [ ] 폼 통합: TextField canonical 패턴 준수? (Field 통합인 경우)
 - [ ] Snippet API: action 노출, state setter 숨김?
+- [ ] Snippet naming: convenience wrapper는 `Component`, low-level composition wrapper만 `ComponentRoot`를 사용했는가?
+- [ ] Hook props와 component props를 중복 선언하지 않고 `Use*Props`를 재사용했는가?
+- [ ] Context `stateProps`를 중복 helper로 다시 만들지 않고 headless context를 재사용했는가?
 - [ ] Namespace 파일: compound이면 있고, simple이면 없는지?
 - [ ] Changeset 생성? (`/changeset` 스킬 참조)
 
@@ -63,6 +69,6 @@ variant props 수동 destructuring, 잘못된 import 경로, style prop 직접 �
 | `packages/css/vars/component/*` | rootage |
 | `packages/qvism-preset/src/vars/component/*` | rootage |
 | `packages/rootage/components/schema.json` | rootage |
-| `docs/registry/*.json` | registry-*.ts |
+| `docs/public/__registry__/**` | docs registry script |
 
 **수정 방법**: 소스 파일 수정 후 `bun generate:all` 실행

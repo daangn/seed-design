@@ -13,7 +13,7 @@ export const docs = defineDocs({
   docs: {
     async: true,
     schema: frontmatterSchema.extend({
-      deprecated: z.string().optional(),
+      deprecated: z.boolean().optional(),
       coverImageFigmaId: z.string().optional(),
     }),
     postprocess: {
@@ -27,7 +27,7 @@ export const reactDocs = defineDocs({
   docs: {
     async: true,
     schema: frontmatterSchema.extend({
-      deprecated: z.string().optional(),
+      deprecated: z.boolean().optional(),
     }),
     postprocess: {
       includeProcessedMarkdown: true,
@@ -40,7 +40,7 @@ export const breezeDocs = defineDocs({
   docs: {
     async: true,
     schema: frontmatterSchema.extend({
-      deprecated: z.string().optional(),
+      deprecated: z.boolean().optional(),
     }),
     postprocess: {
       includeProcessedMarkdown: true,
@@ -53,7 +53,7 @@ export const lynxDocs = defineDocs({
   docs: {
     async: true,
     schema: frontmatterSchema.extend({
-      deprecated: z.string().optional(),
+      deprecated: z.boolean().optional(),
     }),
     postprocess: {
       includeProcessedMarkdown: true,
@@ -66,7 +66,7 @@ export const aiIntegrationDocs = defineDocs({
   docs: {
     async: true,
     schema: frontmatterSchema.extend({
-      deprecated: z.string().optional(),
+      deprecated: z.boolean().optional(),
     }),
     postprocess: {
       includeProcessedMarkdown: true,
