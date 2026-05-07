@@ -56,9 +56,9 @@ export function useImage(props: UseImageProps) {
   const getContentProps = useCallback(
     ({ src }: { src?: string }) => {
       return imgProps({
-        hidden: !isLoaded,
-        "data-visible": dataAttr(isLoaded),
         src,
+        "aria-hidden": !isLoaded,
+        "data-visible": dataAttr(isLoaded),
         ...stateProps,
       });
     },
@@ -78,7 +78,6 @@ export function useImage(props: UseImageProps) {
   const fallbackProps = useMemo(
     () =>
       elementProps({
-        hidden: isLoaded,
         "data-visible": dataAttr(!isLoaded),
         ...stateProps,
       }),

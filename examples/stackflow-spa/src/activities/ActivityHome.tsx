@@ -93,6 +93,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "AvatarStack", onClick: () => push("ActivityAvatarStack", {}) },
         { title: "Avatar", onClick: () => push("ActivityAvatar", {}) },
+        {
+          title: "Avatar + ImageFrame Lazy",
+          onClick: () => push("ActivityImageFrameLazy", {}),
+        },
       ],
     },
     {

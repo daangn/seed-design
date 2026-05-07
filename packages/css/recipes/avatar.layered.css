@@ -44,14 +44,16 @@
     mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
     mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     display: block;
+    position: absolute;
+    inset: 0;
     overflow: hidden;
     transform: translateZ(0);
     mask-repeat: no-repeat;
     mask-composite: subtract;
   }
 
-  .seed-avatar__image:not([data-loading-state="loaded"]) {
-    display: none;
+  .seed-avatar__image[data-loading-state="error"] {
+    visibility: hidden;
   }
 
   .seed-avatar__fallback {
@@ -70,6 +72,8 @@
     justify-content: center;
     align-items: center;
     display: flex;
+    position: absolute;
+    inset: 0;
     overflow: hidden;
     transform: translateZ(0);
     mask-repeat: no-repeat;

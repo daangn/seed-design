@@ -36,6 +36,7 @@ export const config = defineConfig({
     { route: "/list-item-switch", name: "ActivityListSwitchItem" },
     { route: "/list-item", name: "ActivityListItem" },
     { route: "/list-image-frame", name: "ActivityListImageFrame" },
+    { route: "/image-frame-lazy", name: "ActivityImageFrameLazy" },
     { route: "/manner-temp-level", name: "ActivityMannerTempLevel" },
     { route: "/menu-sheet", name: "ActivityMenuSheet" },
     { route: "/menu-sheet-activity", name: "ActivityMenuSheetActivity" },

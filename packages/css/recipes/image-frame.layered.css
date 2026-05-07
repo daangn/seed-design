@@ -11,15 +11,19 @@
     width: 100%;
     height: 100%;
     display: block;
+    position: absolute;
+    inset: 0;
   }
 
-  .seed-image-frame__content:not([data-loading-state="loaded"]) {
-    display: none;
+  .seed-image-frame__content[data-loading-state="error"] {
+    visibility: hidden;
   }
 
   .seed-image-frame__fallback {
     width: 100%;
     height: 100%;
+    position: absolute;
+    inset: 0;
   }
 
   .seed-image-frame__fallback[data-loading-state="loaded"] {
