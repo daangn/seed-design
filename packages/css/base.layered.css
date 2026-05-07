@@ -176,10 +176,52 @@
     --seed-box-bleed-right-lg: var(--seed-box-bleed-right-md);
     --seed-box-bleed-right-xl: var(--seed-box-bleed-right-lg);
     --seed-box-bleed-right: var(--seed-box-bleed-right-base);
-    margin-top: calc(var(--seed-box-bleed-top) * -1);
-    margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
-    margin-left: calc(var(--seed-box-bleed-left) * -1);
-    margin-right: calc(var(--seed-box-bleed-right) * -1);
+    --seed-box-margin-base: initial;
+    --seed-box-margin-sm: var(--seed-box-margin-base);
+    --seed-box-margin-md: var(--seed-box-margin-sm);
+    --seed-box-margin-lg: var(--seed-box-margin-md);
+    --seed-box-margin-xl: var(--seed-box-margin-lg);
+    --seed-box-margin: var(--seed-box-margin-base);
+    --seed-box-margin-y-base: var(--seed-box-margin);
+    --seed-box-margin-y-sm: var(--seed-box-margin-y-base);
+    --seed-box-margin-y-md: var(--seed-box-margin-y-sm);
+    --seed-box-margin-y-lg: var(--seed-box-margin-y-md);
+    --seed-box-margin-y-xl: var(--seed-box-margin-y-lg);
+    --seed-box-margin-y: var(--seed-box-margin-y-base);
+    --seed-box-margin-x-base: var(--seed-box-margin);
+    --seed-box-margin-x-sm: var(--seed-box-margin-x-base);
+    --seed-box-margin-x-md: var(--seed-box-margin-x-sm);
+    --seed-box-margin-x-lg: var(--seed-box-margin-x-md);
+    --seed-box-margin-x-xl: var(--seed-box-margin-x-lg);
+    --seed-box-margin-x: var(--seed-box-margin-x-base);
+    --seed-box-margin-top-base: var(--seed-box-margin-y);
+    --seed-box-margin-top-sm: var(--seed-box-margin-top-base);
+    --seed-box-margin-top-md: var(--seed-box-margin-top-sm);
+    --seed-box-margin-top-lg: var(--seed-box-margin-top-md);
+    --seed-box-margin-top-xl: var(--seed-box-margin-top-lg);
+    --seed-box-margin-top: var(--seed-box-margin-top-base);
+    --seed-box-margin-bottom-base: var(--seed-box-margin-y);
+    --seed-box-margin-bottom-sm: var(--seed-box-margin-bottom-base);
+    --seed-box-margin-bottom-md: var(--seed-box-margin-bottom-sm);
+    --seed-box-margin-bottom-lg: var(--seed-box-margin-bottom-md);
+    --seed-box-margin-bottom-xl: var(--seed-box-margin-bottom-lg);
+    --seed-box-margin-bottom: var(--seed-box-margin-bottom-base);
+    --seed-box-margin-left-base: var(--seed-box-margin-x);
+    --seed-box-margin-left-sm: var(--seed-box-margin-left-base);
+    --seed-box-margin-left-md: var(--seed-box-margin-left-sm);
+    --seed-box-margin-left-lg: var(--seed-box-margin-left-md);
+    --seed-box-margin-left-xl: var(--seed-box-margin-left-lg);
+    --seed-box-margin-left: var(--seed-box-margin-left-base);
+    --seed-box-margin-right-base: var(--seed-box-margin-x);
+    --seed-box-margin-right-sm: var(--seed-box-margin-right-base);
+    --seed-box-margin-right-md: var(--seed-box-margin-right-sm);
+    --seed-box-margin-right-lg: var(--seed-box-margin-right-md);
+    --seed-box-margin-right-xl: var(--seed-box-margin-right-lg);
+    --seed-box-margin-right: var(--seed-box-margin-right-base);
+    margin-top: var(--seed-box-margin-top, calc(var(--seed-box-bleed-top) * -1));
+    margin-bottom: var(--seed-box-margin-bottom, calc(var(--seed-box-bleed-bottom) * -1));
+    margin-left: var(--seed-box-margin-left, calc(var(--seed-box-bleed-left) * -1));
+    margin-right: var(--seed-box-margin-right, calc(var(--seed-box-bleed-right) * -1));
     --seed-box-min-height-base: initial;
     --seed-box-min-height-sm: var(--seed-box-min-height-base);
     --seed-box-min-height-md: var(--seed-box-min-height-sm);
@@ -396,6 +438,10 @@
     --seed-font-size-t8: clamp(calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-min, .8)), calc(1.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-max, 1.5)));
     --seed-font-size-t9: clamp(calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-min, .8)), calc(1.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-max, 1.5)));
     --seed-font-size-t10: clamp(calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-min, .8)), calc(1.625rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-max, 1.5)));
+    --seed-font-size-t11: clamp(calc(var(--seed-font-size-t11-static) * var(--seed-font-size-limit-min, .8)), calc(1.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t11-static) * var(--seed-font-size-limit-max, 1.5)));
+    --seed-font-size-t12: clamp(calc(var(--seed-font-size-t12-static) * var(--seed-font-size-limit-min, .8)), calc(2rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t12-static) * var(--seed-font-size-limit-max, 1.5)));
+    --seed-font-size-t13: clamp(calc(var(--seed-font-size-t13-static) * var(--seed-font-size-limit-min, .8)), calc(2.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t13-static) * var(--seed-font-size-limit-max, 1.5)));
+    --seed-font-size-t14: clamp(calc(var(--seed-font-size-t14-static) * var(--seed-font-size-limit-min, .8)), calc(3rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t14-static) * var(--seed-font-size-limit-max, 1.5)));
     --seed-font-size-t1-static: 11px;
     --seed-font-size-t2-static: 12px;
     --seed-font-size-t3-static: 13px;
@@ -406,6 +452,10 @@
     --seed-font-size-t8-static: 22px;
     --seed-font-size-t9-static: 24px;
     --seed-font-size-t10-static: 26px;
+    --seed-font-size-t11-static: 28px;
+    --seed-font-size-t12-static: 32px;
+    --seed-font-size-t13-static: 40px;
+    --seed-font-size-t14-static: 48px;
     --seed-font-weight-regular: 400;
     --seed-font-weight-medium: 500;
     --seed-font-weight-bold: 700;
@@ -419,6 +469,10 @@
     --seed-line-height-t8: clamp(calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-min, .8)), calc(1.875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-max, 1.5)));
     --seed-line-height-t9: clamp(calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-min, .8)), calc(2rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-max, 1.5)));
     --seed-line-height-t10: clamp(calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-min, .8)), calc(2.1875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-max, 1.5)));
+    --seed-line-height-t11: clamp(calc(var(--seed-line-height-t11-static) * var(--seed-line-height-limit-min, .8)), calc(2.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t11-static) * var(--seed-line-height-limit-max, 1.5)));
+    --seed-line-height-t12: clamp(calc(var(--seed-line-height-t12-static) * var(--seed-line-height-limit-min, .8)), calc(2.625rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t12-static) * var(--seed-line-height-limit-max, 1.5)));
+    --seed-line-height-t13: clamp(calc(var(--seed-line-height-t13-static) * var(--seed-line-height-limit-min, .8)), calc(3.25rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t13-static) * var(--seed-line-height-limit-max, 1.5)));
+    --seed-line-height-t14: clamp(calc(var(--seed-line-height-t14-static) * var(--seed-line-height-limit-min, .8)), calc(3.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t14-static) * var(--seed-line-height-limit-max, 1.5)));
     --seed-line-height-t1-static: 15px;
     --seed-line-height-t2-static: 16px;
     --seed-line-height-t3-static: 18px;
@@ -429,6 +483,10 @@
     --seed-line-height-t8-static: 30px;
     --seed-line-height-t9-static: 32px;
     --seed-line-height-t10-static: 35px;
+    --seed-line-height-t11-static: 38px;
+    --seed-line-height-t12-static: 42px;
+    --seed-line-height-t13-static: 52px;
+    --seed-line-height-t14-static: 60px;
     --seed-radius-r0_5: 2px;
     --seed-radius-r1: 4px;
     --seed-radius-r1_5: 6px;
@@ -867,14 +925,18 @@
   @keyframes seed-enter {
     from {
       opacity: var(--seed-enter-opacity, 1);
-      transform: translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0) scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1)) rotate(var(--seed-enter-rotate, 0));
+      transform: translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0)
+      scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1))
+      rotate(var(--seed-enter-rotate, 0));
     }
   }
 
   @keyframes seed-exit {
     to {
       opacity: var(--seed-exit-opacity, 1);
-      transform: translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0) scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1)) rotate(var(--seed-exit-rotate, 0));
+      transform: translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0)
+      scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1))
+      rotate(var(--seed-exit-rotate, 0));
     }
   }
 
@@ -971,6 +1033,13 @@
       --seed-box-bleed-top: var(--seed-box-bleed-top-sm);
       --seed-box-bleed-left: var(--seed-box-bleed-left-sm);
       --seed-box-bleed-right: var(--seed-box-bleed-right-sm);
+      --seed-box-margin: var(--seed-box-margin-sm);
+      --seed-box-margin-y: var(--seed-box-margin-y-sm);
+      --seed-box-margin-x: var(--seed-box-margin-x-sm);
+      --seed-box-margin-top: var(--seed-box-margin-top-sm);
+      --seed-box-margin-bottom: var(--seed-box-margin-bottom-sm);
+      --seed-box-margin-left: var(--seed-box-margin-left-sm);
+      --seed-box-margin-right: var(--seed-box-margin-right-sm);
       --seed-box-min-height: var(--seed-box-min-height-sm);
       --seed-box-max-height: var(--seed-box-max-height-sm);
       --seed-box-height: var(--seed-box-height-sm);
@@ -1001,6 +1070,13 @@
       --seed-box-bleed-top: var(--seed-box-bleed-top-md);
       --seed-box-bleed-left: var(--seed-box-bleed-left-md);
       --seed-box-bleed-right: var(--seed-box-bleed-right-md);
+      --seed-box-margin: var(--seed-box-margin-md);
+      --seed-box-margin-y: var(--seed-box-margin-y-md);
+      --seed-box-margin-x: var(--seed-box-margin-x-md);
+      --seed-box-margin-top: var(--seed-box-margin-top-md);
+      --seed-box-margin-bottom: var(--seed-box-margin-bottom-md);
+      --seed-box-margin-left: var(--seed-box-margin-left-md);
+      --seed-box-margin-right: var(--seed-box-margin-right-md);
       --seed-box-min-height: var(--seed-box-min-height-md);
       --seed-box-max-height: var(--seed-box-max-height-md);
       --seed-box-height: var(--seed-box-height-md);
@@ -1031,6 +1107,13 @@
       --seed-box-bleed-top: var(--seed-box-bleed-top-lg);
       --seed-box-bleed-left: var(--seed-box-bleed-left-lg);
       --seed-box-bleed-right: var(--seed-box-bleed-right-lg);
+      --seed-box-margin: var(--seed-box-margin-lg);
+      --seed-box-margin-y: var(--seed-box-margin-y-lg);
+      --seed-box-margin-x: var(--seed-box-margin-x-lg);
+      --seed-box-margin-top: var(--seed-box-margin-top-lg);
+      --seed-box-margin-bottom: var(--seed-box-margin-bottom-lg);
+      --seed-box-margin-left: var(--seed-box-margin-left-lg);
+      --seed-box-margin-right: var(--seed-box-margin-right-lg);
       --seed-box-min-height: var(--seed-box-min-height-lg);
       --seed-box-max-height: var(--seed-box-max-height-lg);
       --seed-box-height: var(--seed-box-height-lg);
@@ -1061,6 +1144,13 @@
       --seed-box-bleed-top: var(--seed-box-bleed-top-xl);
       --seed-box-bleed-left: var(--seed-box-bleed-left-xl);
       --seed-box-bleed-right: var(--seed-box-bleed-right-xl);
+      --seed-box-margin: var(--seed-box-margin-xl);
+      --seed-box-margin-y: var(--seed-box-margin-y-xl);
+      --seed-box-margin-x: var(--seed-box-margin-x-xl);
+      --seed-box-margin-top: var(--seed-box-margin-top-xl);
+      --seed-box-margin-bottom: var(--seed-box-margin-bottom-xl);
+      --seed-box-margin-left: var(--seed-box-margin-left-xl);
+      --seed-box-margin-right: var(--seed-box-margin-right-xl);
       --seed-box-min-height: var(--seed-box-min-height-xl);
       --seed-box-max-height: var(--seed-box-max-height-xl);
       --seed-box-height: var(--seed-box-height-xl);

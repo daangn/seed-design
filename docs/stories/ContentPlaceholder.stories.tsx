@@ -39,6 +39,18 @@ const conditionMap = {
         height: "133px",
       },
     },
+    wide: {
+      style: {
+        width: "320px",
+        height: "200px",
+      },
+    },
+    extraWide: {
+      style: {
+        width: "480px",
+        height: "240px",
+      },
+    },
   },
   type: {
     ...Object.fromEntries(
@@ -62,17 +74,17 @@ const CommonStoryTemplate: Story = {
 
 export const LightTheme = CommonStoryTemplate;
 
-export const DarkTheme = createStoryWithParameters<typeof meta>({
+export const DarkTheme = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters<typeof meta>({
+export const FontScalingExtraSmall = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { fontScale: "Extra Small" },
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters<typeof meta>({
+export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { fontScale: "Extra Extra Extra Large" },
 });

@@ -1,19 +1,27 @@
 {
   "name": "@seed-design/rootage-artifacts",
-  "version": "0.0.0-alpha-20260414104312",
+  "version": "1.2.9",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/rootage"
   },
   "scripts": {
-    "rootage:generate": "bun rootage json-schema ./components"
+    "rootage:generate": "bun rootage json-schema ./components && bun rootage json ./__generated__"
   },
   "main": "package.json",
   "files": [
     "*.yaml",
-    "components/*.yaml"
+    "components/*.yaml",
+    "__generated__/**/*.json"
   ],
+  "exports": {
+    ".": "./package.json",
+    "./package.json": "./package.json",
+    "./index.json": "./__generated__/index.json",
+    "./components/*.json": "./__generated__/components/*.json",
+    "./*.json": "./__generated__/*.json"
+  },
   "publishConfig": {
     "access": "public"
   }

@@ -1,41 +1,24 @@
 # @seed-design/css
 
-## 0.0.0-alpha-20260414104312
+## 1.2.10
 
 ### Patch Changes
 
-- Side Navigation, Footer, Menu 컴포넌트를 추가합니다.
+- 46bdf17: AppBar 내부 title/subtitle 영역이 폰트 스케일링이 대응된 iOS 환경에서 최대 120%까지 폰트 스케일링을 하도록 변경합니다. (기존 동작: 폰트 스케일링이 대응된 환경에서도 폰트 스케일링 설정의 영향을 받지 않음)
+- 79c7aa3: NotificationBadge의 size=large variant가 최소 너비를 갖도록 하고, size=large에서 표시되는 레이블이 폰트 스케일링의 영향을 받지 않도록 수정합니다.
 
-## 0.0.0
-
-### Minor Changes
-
-- 819110b: 1.2에서 Deprecate된 옵션을 제거합니다.
-
-  - 색상 토큰
-    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
-  - 그라디언트 토큰
-    - `$gradient.fade-layer-floating`
-    - `$gradient.fade-layer-default`
-  - Chip Tabs의 `brandSolid` variant
-  - Image Frame의 `rounded` variant
-  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
-  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
-  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
-    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
-
-- 01668c1: Footer Block을 추가합니다.
-
-  - `Footer.LinkText`: 푸터에서 사용하는 링크 텍스트 컴포넌트
-  - 4가지 푸터 블록 예제와 소셜 미디어 아이콘 컴포넌트 포함
+## 1.2.9
 
 ### Patch Changes
 
-- c02bfba: ImageFrame에서 이미지 로드 실패 시 깨진 img 요소가 fallback 위에 노출되는 버그 수정
+- 5bf2e8a: `ContentPlaceholder` asset의 최대 너비를 64px에서 160px로 변경합니다.
 
-  - content 슬롯에 `[hidden]` 규칙을 추가하여 `[hidden]` reset CSS가 없는 환경에서도 올바르게 숨겨지도록 처리합니다.
+## 1.2.8
 
-- eadb7e8: Chip Tabs Trigger가 disabled 상태일 때 opacity를 사용하여 스타일을 조절하도록 수정합니다.
+### Patch Changes
+
+- c02bfba: ImageFrame에서 이미지 로드 실패 시 깨진 img 요소가 fallback 위에 노출되는 문제를 수정합니다.
+- f391668: 삼성 Galaxy 기기에서 `:hover` 스타일이 요소에서 손을 뗀 이후에도 남아있는 문제를 수정합니다.
 
 ## 1.2.7
 

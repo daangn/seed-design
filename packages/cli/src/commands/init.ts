@@ -27,6 +27,7 @@ export const initCommand = (cli: CAC) => {
     .action(async (opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
+      const trackCwd = typeof opts?.cwd === "string" ? opts.cwd : process.cwd();
       p.intro("seed-design.json 파일 생성");
 
       try {
@@ -78,8 +79,9 @@ export const initCommand = (cli: CAC) => {
         // init 성공 이벤트 추적
         const duration = Date.now() - startTime;
         try {
-          await analytics.track(options.cwd, {
-            event: "init",
+          await analytics.trackCommandOutcome(options.cwd, {
+            command: "init",
+            status: "completed",
             properties: {
               tsx: config.tsx,
               rsc: config.rsc,
@@ -90,13 +92,40 @@ export const initCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] init tracking failed:", telemetryError);
+            console.error("[Telemetry] init 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
       } catch (error) {
         if (isCliCancelError(error)) {
+          try {
+            await analytics.trackCommandOutcome(trackCwd, {
+              command: "init",
+              status: "cancelled",
+              properties: {
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] init 이벤트 전송에 실패했어요:", telemetryError);
+            }
+          }
           p.outro(highlight(error.message));
           process.exit(0);
+        }
+
+        try {
+          await analytics.trackCommandFailure(trackCwd, {
+            command: "init",
+            error,
+            properties: {
+              duration_ms: Date.now() - startTime,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] init 이벤트 전송에 실패했어요:", telemetryError);
+          }
         }
 
         handleCliError(error, {

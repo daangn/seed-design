@@ -1,12 +1,10 @@
 # @seed-design/vite-plugin
 
-## 0.0.0-alpha-20260414104312
+## 1.1.1
 
 ### Patch Changes
 
-- Side Navigation, Footer, Menu 컴포넌트를 추가합니다.
-- Updated dependencies
-  - @seed-design/css@0.0.0-alpha-20260414104312
+- 251fd85: Vite 8과 함께 사용할 수 있도록 peerDependencies를 최신화합니다.
 
 ## 1.1.0
 

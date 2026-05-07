@@ -15,6 +15,14 @@
 - Pseudo 선택자: `active` (hover 대신, 모바일 우선), `disabled`, `focus`, `checked` 등
 - 토큰 참조: `vars.{variant}.{state}.{slot}.{property}`
 
+## 상태 기반 선택자 작성 규칙
+
+같은 headless 훅을 사용하는 recipe 간에는 CSS 선택자 전략을 통일한다.
+
+- 새로운 상태 기반 선택자를 추가할 때, 동일 훅을 사용하는 다른 recipe의 선택자 패턴을 먼저 확인한다.
+- HTML 속성(`hidden`, `disabled`)보다 `data-*` 상태 속성(`data-loading-state` 등)을 우선 사용한다. HTML 속성은 프레임워크 레이어에서 override될 수 있어 불안정하다.
+- 예시: `useImage` 훅을 사용하는 Avatar와 ImageFrame은 모두 `data-loading-state` 기반 선택자를 사용한다.
+
 ## defineRecipe vs defineSlotRecipe
 
 | 기준 | `defineRecipe` | `defineSlotRecipe` |

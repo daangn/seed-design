@@ -2,14 +2,14 @@
   .seed-drawer__positioner {
     overscroll-behavior-y: none;
     --drawer-z-index: 2;
-    z-index: calc(var(--drawer-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--drawer-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
 
   .seed-drawer__backdrop {
     background: var(--seed-color-bg-overlay);
-    z-index: calc(var(--drawer-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--drawer-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
@@ -38,7 +38,7 @@
   .seed-drawer__content {
     box-sizing: border-box;
     word-break: break-all;
-    z-index: calc(var(--drawer-z-index)  + var(--layer-index, 0));
+    z-index: calc(var(--drawer-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     touch-action: none;
     will-change: transform;

@@ -1,95 +1,25 @@
 # @seed-design/react
 
-## 0.0.0-alpha-20260414104312
+## 1.2.10
 
 ### Patch Changes
 
-- Side Navigation, Footer, Menu 컴포넌트를 추가합니다.
-- Updated dependencies
-  - @seed-design/react-side-navigation@0.0.0-alpha-20260414104312
-  - @seed-design/react-primitive@0.0.0-alpha-20260414104312
-  - @seed-design/react-dialog@0.0.0-alpha-20260414104312
-  - @seed-design/react-drawer@0.0.0-alpha-20260414104312
-  - @seed-design/react-menu@0.0.0-alpha-20260414104312
-  - @seed-design/css@0.0.0-alpha-20260414104312
-  - @seed-design/react-avatar@0.0.0-alpha-20260414104312
-  - @seed-design/react-checkbox@0.0.0-alpha-20260414104312
-  - @seed-design/react-collapsible@0.0.0-alpha-20260414104312
-  - @seed-design/react-field@0.0.0-alpha-20260414104312
-  - @seed-design/react-field-button@0.0.0-alpha-20260414104312
-  - @seed-design/react-image@0.0.0-alpha-20260414104312
-  - @seed-design/react-popover@0.0.0-alpha-20260414104312
-  - @seed-design/react-progress@0.0.0-alpha-20260414104312
-  - @seed-design/react-pull-to-refresh@0.0.0-alpha-20260414104312
-  - @seed-design/react-radio-group@0.0.0-alpha-20260414104312
-  - @seed-design/react-segmented-control@0.0.0-alpha-20260414104312
-  - @seed-design/react-snackbar@0.0.0-alpha-20260414104312
-  - @seed-design/react-switch@0.0.0-alpha-20260414104312
-  - @seed-design/react-tabs@0.0.0-alpha-20260414104312
-  - @seed-design/react-text-field@0.0.0-alpha-20260414104312
-  - @seed-design/react-toggle@0.0.0-alpha-20260414104312
+- 840f5d5: Snackbar가 표시된 상태에서 새 Snackbar를 create할 때의 동작을 정의하는 `strategy` 옵션을 추가합니다. 기본값은 `immediate`로, 새 Snackbar가 기존 Snackbar를 즉시 교체합니다.
 
-## 0.0.0
+  - 기존 스낵바에 할당된 시간이 모두 지난 뒤 새 Snackbar가 표시되는 이전 버전의 기존 동작을 선호하는 경우 `SnackbarProvider` 또는 `useSnackbarAdapter` 옵션으로 `queued`를 사용할 수 있습니다.
+  - `immediate` 옵션을 모방하기 위해 `dismiss()` 후 `setTimeout(() => create(...), 0)`하던 workaround와 함께 사용해도 정상 동작하지만, 동작이 동일하므로 workaround는 제거하는 것을 권장합니다.
 
-### Minor Changes
+- 934a0ba: Snackbar의 `timeout` 기본값을 5초에서 4초로 변경합니다. `timeout`을 명시적으로 지정한 경우에는 기존 동작이 유지됩니다.
+- Updated dependencies [840f5d5]
+- Updated dependencies [934a0ba]
+  - @seed-design/react-snackbar@1.0.2
 
-- 819110b: 1.2에서 Deprecate된 옵션을 제거합니다.
-
-  - 색상 토큰
-    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
-  - 그라디언트 토큰
-    - `$gradient.fade-layer-floating`
-    - `$gradient.fade-layer-default`
-  - Chip Tabs의 `brandSolid` variant
-  - Image Frame의 `rounded` variant
-  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
-  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
-  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
-    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
-
-- 01668c1: Footer Block을 추가합니다.
-
-  - `Footer.LinkText`: 푸터에서 사용하는 링크 텍스트 컴포넌트
-  - 4가지 푸터 블록 예제와 소셜 미디어 아이콘 컴포넌트 포함
+## 1.2.9
 
 ### Patch Changes
 
-- Updated dependencies [c02bfba]
-- Updated dependencies [eadb7e8]
-- Updated dependencies [819110b]
-- Updated dependencies [01668c1]
-  - @seed-design/css@0.0.0
-
-## 0.0.0-alpha-20260324091316
-
-### Minor Changes
-
-- a3780cd: Breakpoint 기반 반응형 스타일링을 지원합니다.
-
-  - Box, Flex, Grid, VStack 등 유틸리티 컴포넌트의 레이아웃 관련 프로퍼티에 breakpoint 기반 반응형 객체를 사용할 수 있습니다.
-
-  ```tsx
-  <Box padding={{ base: "x3", md: "x6" }} />
-  <Grid columns={{ base: 1, md: 2, lg: 4 }} gap="x4" />
-  ```
-
-  - `@seed-design/react`에서 `useBreakpoint` 훅과 `useBreakpointValue` 훅을 제공합니다.
-    - `useBreakpoint()` — 현재 활성 breakpoint 이름을 반환합니다. (`"base"` | `"sm"` | `"md"` | `"lg"` | `"xl"`)
-    - `useBreakpointValue(values)` — 반응형 객체에서 현재 breakpoint에 해당하는 값을 반환합니다.
-
-  ```tsx
-  const actionButtonProps = useBreakpointValue<ActionButtonProps>({
-    base: { variant: "neutralWeak" },
-    lg: { variant: "brandSolid" },
-  });
-  ```
-
-  - `<Grid display="none">`으로 Grid를 숨길 수 없던 문제를 수정합니다.
-
-### Patch Changes
-
-- Updated dependencies [a3780cd]
-  - @seed-design/css@0.0.0-alpha-20260324091316
+- Updated dependencies [db6ea04]
+  - @seed-design/react-tabs@1.0.4
 
 ## 1.2.8
 

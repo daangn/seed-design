@@ -696,7 +696,9 @@ export const FIGMA_VARIABLES = {
     },
     "scopes": [
       "FRAME_FILL",
-      "SHAPE_FILL"
+      "SHAPE_FILL",
+      "STROKE_COLOR",
+      "EFFECT_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -748,7 +750,9 @@ export const FIGMA_VARIABLES = {
     },
     "scopes": [
       "FRAME_FILL",
-      "SHAPE_FILL"
+      "SHAPE_FILL",
+      "STROKE_COLOR",
+      "EFFECT_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -799,7 +803,9 @@ export const FIGMA_VARIABLES = {
     },
     "scopes": [
       "FRAME_FILL",
-      "SHAPE_FILL"
+      "SHAPE_FILL",
+      "STROKE_COLOR",
+      "EFFECT_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -824,7 +830,9 @@ export const FIGMA_VARIABLES = {
     },
     "scopes": [
       "FRAME_FILL",
-      "SHAPE_FILL"
+      "SHAPE_FILL",
+      "STROKE_COLOR",
+      "EFFECT_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -1439,10 +1447,11 @@ export const FIGMA_VARIABLES = {
       "1:6": 358,
       "1:7": 358,
       "1:8": 358,
-      "51907:0": 358
+      "51907:0": 358,
+      "62468:0": 358
     },
     "scopes": [
-      "ALL_SCOPES"
+      "WIDTH_HEIGHT"
     ],
     "codeSyntax": {}
   },
@@ -1460,10 +1469,11 @@ export const FIGMA_VARIABLES = {
       "1:6": 173,
       "1:7": 173,
       "1:8": 173,
-      "51907:0": 173
+      "51907:0": 173,
+      "62468:0": 173
     },
     "scopes": [
-      "ALL_SCOPES"
+      "WIDTH_HEIGHT"
     ],
     "codeSyntax": {}
   },
@@ -1481,10 +1491,29 @@ export const FIGMA_VARIABLES = {
       "1:6": 111.33000183105469,
       "1:7": 111.33000183105469,
       "1:8": 111.33000183105469,
-      "51907:0": 111.33000183105469
+      "51907:0": 111.33000183105469,
+      "62468:0": 111.33000183105469
     },
     "scopes": [
-      "ALL_SCOPES"
+      "WIDTH_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62396:299": {
+    "name": "dimension/0",
+    "id": "VariableID:62396:299",
+    "remote": false,
+    "key": "9460c0a187a1e416bbaab9be4808b194513c9b60",
+    "variableCollectionId": "VariableCollectionId:1:174",
+    "resolvedType": "FLOAT",
+    "description": "figma에서만 사용되는 토큰입니다. ",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:4": 0
+    },
+    "scopes": [
+      "WIDTH_HEIGHT",
+      "GAP"
     ],
     "codeSyntax": {}
   },
@@ -2004,32 +2033,6 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
-  "VariableID:1:133": {
-    "name": "fg/brand-contrast",
-    "id": "VariableID:1:133",
-    "remote": false,
-    "key": "a5804c305611df8869ff5c36c4185b3b10a93775",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92927"
-      },
-      "1928:8": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92929"
-      }
-    },
-    "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
-    ],
-    "codeSyntax": {},
-    "deletedButReferenced": true
-  },
   "VariableID:1:134": {
     "name": "fg/critical",
     "id": "VariableID:1:134",
@@ -2447,7 +2450,8 @@ export const FIGMA_VARIABLES = {
       "1:6": "Figma Only iOS",
       "1:7": "Figma Only iOS",
       "1:8": "Roboto",
-      "51907:0": "Roboto"
+      "51907:0": "Roboto",
+      "62468:0": "Roboto"
     },
     "scopes": [
       "FONT_FAMILY"
@@ -2468,7 +2472,8 @@ export const FIGMA_VARIABLES = {
       "1:6": "Figma Only iOS Text",
       "1:7": "Figma Only iOS Text",
       "1:8": "Roboto",
-      "51907:0": "Roboto"
+      "51907:0": "Roboto",
+      "62468:0": "Roboto"
     },
     "scopes": [
       "FONT_FAMILY"
@@ -2486,10 +2491,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 11,
-      "1:6": 17,
-      "1:7": 8,
+      "1:6": 15,
+      "1:7": 10,
       "1:8": 11,
-      "51907:0": 16.5
+      "51907:0": 16.5,
+      "62468:0": 10
     },
     "scopes": [
       "FONT_SIZE"
@@ -2507,10 +2513,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 26,
-      "1:6": 32,
-      "1:7": 23,
+      "1:6": 34,
+      "1:7": 22,
       "1:8": 26,
-      "51907:0": 39
+      "51907:0": 28.700000762939453,
+      "62468:0": 22
     },
     "scopes": [
       "FONT_SIZE"
@@ -2531,10 +2538,187 @@ export const FIGMA_VARIABLES = {
       "1:6": 26,
       "1:7": 26,
       "1:8": 26,
-      "51907:0": 26
+      "51907:0": 26,
+      "62468:0": 26
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FONT_SIZE"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62466:5": {
+    "name": "font-size/t11",
+    "id": "VariableID:62466:5",
+    "remote": false,
+    "key": "3563ead0527fe20304f480fdf272d3cbaeef6e5b",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 28,
+      "1:6": 37,
+      "1:7": 24,
+      "1:8": 28,
+      "51907:0": 29.299999237060547,
+      "62468:0": 24
+    },
+    "scopes": [
+      "FONT_SIZE"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62476:13": {
+    "name": "font-size/t11-static",
+    "id": "VariableID:62476:13",
+    "remote": false,
+    "key": "7cc056f6a2fac299e9ceacafcfb254fdb944f253",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 28,
+      "1:6": 28,
+      "1:7": 28,
+      "1:8": 28,
+      "51907:0": 28,
+      "62468:0": 28
+    },
+    "scopes": [
+      "FONT_SIZE"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62472:6": {
+    "name": "font-size/t12",
+    "id": "VariableID:62472:6",
+    "remote": false,
+    "key": "aca82384301101930a35313139af734732889256",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 32,
+      "1:6": 42,
+      "1:7": 28,
+      "1:8": 32,
+      "51907:0": 32,
+      "62468:0": 28
+    },
+    "scopes": [
+      "FONT_SIZE"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62476:14": {
+    "name": "font-size/t12-static",
+    "id": "VariableID:62476:14",
+    "remote": false,
+    "key": "9f630e581a9e3088abfb03affa31df636abf4775",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 32,
+      "1:6": 32,
+      "1:7": 32,
+      "1:8": 32,
+      "51907:0": 32,
+      "62468:0": 32
+    },
+    "scopes": [
+      "FONT_SIZE"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62472:7": {
+    "name": "font-size/t13",
+    "id": "VariableID:62472:7",
+    "remote": false,
+    "key": "59e47f16abe04be510a235a69014b408e154ff3a",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 40,
+      "1:6": 53,
+      "1:7": 35,
+      "1:8": 40,
+      "51907:0": 40,
+      "62468:0": 35
+    },
+    "scopes": [
+      "FONT_SIZE"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62476:15": {
+    "name": "font-size/t13-static",
+    "id": "VariableID:62476:15",
+    "remote": false,
+    "key": "b96e169bb2bee076af0a08323544e561f49c04e1",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 40,
+      "1:6": 40,
+      "1:7": 40,
+      "1:8": 40,
+      "51907:0": 40,
+      "62468:0": 40
+    },
+    "scopes": [
+      "FONT_SIZE"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62472:8": {
+    "name": "font-size/t14",
+    "id": "VariableID:62472:8",
+    "remote": false,
+    "key": "b5f8c29e5c6634fdb76775de9b17f3f8dd133d7b",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 48,
+      "1:6": 63,
+      "1:7": 41,
+      "1:8": 48,
+      "51907:0": 48,
+      "62468:0": 41
+    },
+    "scopes": [
+      "FONT_SIZE"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62476:16": {
+    "name": "font-size/t14-static",
+    "id": "VariableID:62476:16",
+    "remote": false,
+    "key": "6cc1ef8cf0a807be4a7765a5387a1d1efa1cb732",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 48,
+      "1:6": 48,
+      "1:7": 48,
+      "1:8": 48,
+      "51907:0": 48,
+      "62468:0": 48
+    },
+    "scopes": [
+      "FONT_SIZE"
     ],
     "codeSyntax": {}
   },
@@ -2549,10 +2733,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 12,
-      "1:6": 18,
-      "1:7": 9,
+      "1:6": 16,
+      "1:7": 10,
       "1:8": 12,
-      "51907:0": 18
+      "51907:0": 18,
+      "62468:0": 10
     },
     "scopes": [
       "FONT_SIZE"
@@ -2570,10 +2755,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 13,
-      "1:6": 19,
-      "1:7": 10,
+      "1:6": 17,
+      "1:7": 11,
       "1:8": 13,
-      "51907:0": 19.5
+      "51907:0": 20,
+      "62468:0": 11
     },
     "scopes": [
       "FONT_SIZE"
@@ -2591,10 +2777,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 14,
-      "1:6": 20,
-      "1:7": 11,
+      "1:6": 18,
+      "1:7": 12,
       "1:8": 14,
-      "51907:0": 21
+      "51907:0": 22,
+      "62468:0": 12
     },
     "scopes": [
       "FONT_SIZE"
@@ -2612,10 +2799,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 16,
-      "1:6": 22,
-      "1:7": 13,
+      "1:6": 21,
+      "1:7": 14,
       "1:8": 16,
-      "51907:0": 24
+      "51907:0": 23,
+      "62468:0": 14
     },
     "scopes": [
       "FONT_SIZE"
@@ -2634,9 +2822,10 @@ export const FIGMA_VARIABLES = {
     "valuesByMode": {
       "1:5": 18,
       "1:6": 24,
-      "1:7": 15,
+      "1:7": 16,
       "1:8": 18,
-      "51907:0": 27
+      "51907:0": 24,
+      "62468:0": 16
     },
     "scopes": [
       "FONT_SIZE"
@@ -2657,7 +2846,8 @@ export const FIGMA_VARIABLES = {
       "1:6": 26,
       "1:7": 17,
       "1:8": 20,
-      "51907:0": 30
+      "51907:0": 26,
+      "62468:0": 17
     },
     "scopes": [
       "FONT_SIZE"
@@ -2675,10 +2865,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 22,
-      "1:6": 28,
+      "1:6": 29,
       "1:7": 19,
       "1:8": 22,
-      "51907:0": 33
+      "51907:0": 27,
+      "62468:0": 19
     },
     "scopes": [
       "FONT_SIZE"
@@ -2696,10 +2887,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 24,
-      "1:6": 30,
+      "1:6": 32,
       "1:7": 21,
       "1:8": 24,
-      "51907:0": 36
+      "51907:0": 28,
+      "62468:0": 21
     },
     "scopes": [
       "FONT_SIZE"
@@ -2720,7 +2912,8 @@ export const FIGMA_VARIABLES = {
       "1:6": "bold",
       "1:7": "bold",
       "1:8": "bold",
-      "51907:0": "bold"
+      "51907:0": "bold",
+      "62468:0": "bold"
     },
     "scopes": [
       "FONT_STYLE"
@@ -2741,7 +2934,8 @@ export const FIGMA_VARIABLES = {
       "1:6": "medium",
       "1:7": "medium",
       "1:8": "medium",
-      "51907:0": "medium"
+      "51907:0": "medium",
+      "62468:0": "medium"
     },
     "scopes": [
       "FONT_STYLE"
@@ -2762,7 +2956,8 @@ export const FIGMA_VARIABLES = {
       "1:6": "regular",
       "1:7": "regular",
       "1:8": "regular",
-      "51907:0": "regular"
+      "51907:0": "regular",
+      "62468:0": "regular"
     },
     "scopes": [
       "FONT_STYLE"
@@ -2783,7 +2978,8 @@ export const FIGMA_VARIABLES = {
       "1:6": 36,
       "1:7": 27,
       "1:8": 30,
-      "51907:0": 30
+      "51907:0": 30,
+      "62468:0": 30
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2802,10 +2998,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 15,
-      "1:6": 19,
-      "1:7": 10,
+      "1:6": 20,
+      "1:7": 13,
       "1:8": 15,
-      "51907:0": 22.5
+      "51907:0": 22.5,
+      "62468:0": 13
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2823,10 +3020,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 35,
-      "1:6": 40,
-      "1:7": 31,
+      "1:6": 46,
+      "1:7": 30,
       "1:8": 35,
-      "51907:0": 52.5
+      "51907:0": 35,
+      "62468:0": 30
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2847,10 +3045,187 @@ export const FIGMA_VARIABLES = {
       "1:6": 35,
       "1:7": 35,
       "1:8": 35,
-      "51907:0": 35
+      "51907:0": 35,
+      "62468:0": 35
     },
     "scopes": [
-      "ALL_SCOPES"
+      "LINE_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62472:9": {
+    "name": "line-height/t11",
+    "id": "VariableID:62472:9",
+    "remote": false,
+    "key": "89e04793b4b7e39331fedb38362d822718c87acd",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 38,
+      "1:6": 50,
+      "1:7": 33,
+      "1:8": 38,
+      "51907:0": 38,
+      "62468:0": 33
+    },
+    "scopes": [
+      "LINE_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62476:17": {
+    "name": "line-height/t11-static",
+    "id": "VariableID:62476:17",
+    "remote": false,
+    "key": "acc664c45622b6656965d7211f556484a93f3169",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 38,
+      "1:6": 38,
+      "1:7": 38,
+      "1:8": 38,
+      "51907:0": 38,
+      "62468:0": 38
+    },
+    "scopes": [
+      "LINE_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62472:10": {
+    "name": "line-height/t12",
+    "id": "VariableID:62472:10",
+    "remote": false,
+    "key": "e2270c2ee82cb86f8128de21a66e52112b646f2c",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 42,
+      "1:6": 55,
+      "1:7": 36,
+      "1:8": 42,
+      "51907:0": 42,
+      "62468:0": 36
+    },
+    "scopes": [
+      "LINE_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62476:18": {
+    "name": "line-height/t12-static",
+    "id": "VariableID:62476:18",
+    "remote": false,
+    "key": "d07735edf82009980756985967ba030d2cb4122f",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 42,
+      "1:6": 42,
+      "1:7": 42,
+      "1:8": 42,
+      "51907:0": 42,
+      "62468:0": 42
+    },
+    "scopes": [
+      "LINE_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62472:11": {
+    "name": "line-height/t13",
+    "id": "VariableID:62472:11",
+    "remote": false,
+    "key": "b210b31f1274150a48b1874db4c076a39fee3d3e",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 52,
+      "1:6": 69,
+      "1:7": 45,
+      "1:8": 52,
+      "51907:0": 52,
+      "62468:0": 45
+    },
+    "scopes": [
+      "LINE_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62476:19": {
+    "name": "line-height/t13-static",
+    "id": "VariableID:62476:19",
+    "remote": false,
+    "key": "8715c03818edfadb6048ac375e7f9ca13e8e5efa",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 52,
+      "1:6": 52,
+      "1:7": 52,
+      "1:8": 52,
+      "51907:0": 52,
+      "62468:0": 52
+    },
+    "scopes": [
+      "LINE_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62472:12": {
+    "name": "line-height/t14",
+    "id": "VariableID:62472:12",
+    "remote": false,
+    "key": "5ea22e5d70b679313c0cb0a09d445f1157b0a7d7",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 60,
+      "1:6": 79,
+      "1:7": 52,
+      "1:8": 60,
+      "51907:0": 60,
+      "62468:0": 52
+    },
+    "scopes": [
+      "LINE_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62476:20": {
+    "name": "line-height/t14-static",
+    "id": "VariableID:62476:20",
+    "remote": false,
+    "key": "65bf38bfd71e74b161767b5a665028eaad679bb1",
+    "variableCollectionId": "VariableCollectionId:1:197",
+    "resolvedType": "FLOAT",
+    "description": "데스크탑 화면에서 사용을 권장합니다.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:5": 60,
+      "1:6": 60,
+      "1:7": 60,
+      "1:8": 60,
+      "51907:0": 60,
+      "62468:0": 60
+    },
+    "scopes": [
+      "LINE_HEIGHT"
     ],
     "codeSyntax": {}
   },
@@ -2865,10 +3240,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 16,
-      "1:6": 22,
-      "1:7": 13,
+      "1:6": 21,
+      "1:7": 14,
       "1:8": 16,
-      "51907:0": 24
+      "51907:0": 23,
+      "62468:0": 14
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2887,9 +3263,10 @@ export const FIGMA_VARIABLES = {
     "valuesByMode": {
       "1:5": 18,
       "1:6": 24,
-      "1:7": 15,
+      "1:7": 16,
       "1:8": 18,
-      "51907:0": 27
+      "51907:0": 24,
+      "62468:0": 16
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2910,7 +3287,8 @@ export const FIGMA_VARIABLES = {
       "1:6": 25,
       "1:7": 16,
       "1:8": 19,
-      "51907:0": 28.5
+      "51907:0": 25,
+      "62468:0": 16
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2928,10 +3306,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 22,
-      "1:6": 27,
-      "1:7": 18,
+      "1:6": 29,
+      "1:7": 19,
       "1:8": 22,
-      "51907:0": 33
+      "51907:0": 27,
+      "62468:0": 19
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2949,10 +3328,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 24,
-      "1:6": 29,
-      "1:7": 20,
+      "1:6": 32,
+      "1:7": 21,
       "1:8": 24,
-      "51907:0": 36
+      "51907:0": 28,
+      "62468:0": 21
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2970,10 +3350,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 27,
-      "1:6": 31,
-      "1:7": 22,
+      "1:6": 36,
+      "1:7": 23,
       "1:8": 27,
-      "51907:0": 40.5
+      "51907:0": 29,
+      "62468:0": 23
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -2991,10 +3372,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 30,
-      "1:6": 34,
-      "1:7": 25,
+      "1:6": 40,
+      "1:7": 26,
       "1:8": 30,
-      "51907:0": 45
+      "51907:0": 30,
+      "62468:0": 26
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -3012,10 +3394,11 @@ export const FIGMA_VARIABLES = {
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1:5": 32,
-      "1:6": 38,
-      "1:7": 29,
+      "1:6": 42,
+      "1:7": 28,
       "1:8": 32,
-      "51907:0": 48
+      "51907:0": 32,
+      "62468:0": 28
     },
     "scopes": [
       "LINE_HEIGHT"
@@ -3596,7 +3979,8 @@ export const FIGMA_VARIABLES = {
       "1:6": "iOS",
       "1:7": "iOS",
       "1:8": "Android",
-      "51907:0": "Android"
+      "51907:0": "Android",
+      "62468:0": "Android"
     },
     "scopes": [
       "ALL_SCOPES"
@@ -6370,6 +6754,23 @@ export const FIGMA_VARIABLES = {
     },
     "scopes": [
       "WIDTH_HEIGHT"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:62423:2": {
+    "name": "radius/0",
+    "id": "VariableID:62423:2",
+    "remote": false,
+    "key": "2ab62d921a6b843eabc28ca727b2344d21f12a84",
+    "variableCollectionId": "VariableCollectionId:1:174",
+    "resolvedType": "FLOAT",
+    "description": "figma에서만 사용되는 토큰입니다. ",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1:4": 0
+    },
+    "scopes": [
+      "CORNER_RADIUS"
     ],
     "codeSyntax": {}
   },

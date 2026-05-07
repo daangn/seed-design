@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-tabs",
-  "version": "0.0.0-alpha-20260414104312",
+  "version": "1.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -32,7 +32,7 @@
     "@radix-ui/react-use-controllable-state": "1.2.2",
     "@radix-ui/react-use-size": "^1.1.1",
     "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-primitive": "0.0.0-alpha-20260414104312",
+    "@seed-design/react-primitive": "1.0.0",
     "@seed-design/react-supports": "0.0.1",
     "embla-carousel-auto-height": "^8.6.0",
     "embla-carousel-react": "^8.6.0"

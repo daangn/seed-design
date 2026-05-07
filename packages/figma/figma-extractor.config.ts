@@ -39,6 +39,7 @@ const PRIVATE_PATTERNS: RegExp[] = [
   /Bottom Action Bar/,
   /Identity Placeholder/,
   /Content Placeholder/,
+  /Menu/,
 
   // FAB
   /Button Type/,
@@ -131,13 +132,11 @@ const config = createConfig({
         return {
           name: getSafeIdentifierName(`${prefix}${name}`),
           key,
-          ...(componentPropertyDefinitions && {
-            componentPropertyDefinitions: Object.fromEntries(
-              Object.entries(componentPropertyDefinitions).map(
-                ([propKey, { defaultValue, preferredValues, ...rest }]) => [propKey, rest],
-              ),
+          componentPropertyDefinitions: Object.fromEntries(
+            Object.entries(componentPropertyDefinitions ?? {}).map(
+              ([propKey, { defaultValue, preferredValues, ...rest }]) => [propKey, rest],
             ),
-          }),
+          ),
         };
       })
       .write(async (items, { utils, write, pipelineName }) => {
@@ -236,13 +235,11 @@ const config = createConfig({
         return {
           name: getSafeIdentifierName(`${prefix}${name}`),
           key,
-          ...(componentPropertyDefinitions && {
-            componentPropertyDefinitions: Object.fromEntries(
-              Object.entries(componentPropertyDefinitions).map(
-                ([propKey, { defaultValue, preferredValues, ...rest }]) => [propKey, rest],
-              ),
+          componentPropertyDefinitions: Object.fromEntries(
+            Object.entries(componentPropertyDefinitions ?? {}).map(
+              ([propKey, { defaultValue, preferredValues, ...rest }]) => [propKey, rest],
             ),
-          }),
+          ),
         };
       })
       .write(async (items, { utils, write, pipelineName }) => {

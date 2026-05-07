@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-menu",
-  "version": "0.0.0-alpha-20260414104312",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -32,8 +32,8 @@
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-focus-scope": "^1.1.8",
     "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-dismissible-layer": "0.0.0-alpha-20260414104312",
-    "@seed-design/react-primitive": "0.0.0-alpha-20260414104312",
+    "@seed-design/react-dismissible-layer": "0.0.0",
+    "@seed-design/react-primitive": "^1.0.0",
     "@seed-design/react-use-controllable-state": "1.0.0"
   },
   "devDependencies": {

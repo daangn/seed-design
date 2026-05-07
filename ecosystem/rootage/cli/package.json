@@ -24,7 +24,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/rootage-artifacts": "0.0.0-alpha-20260414104312",
+    "@seed-design/rootage-artifacts": "1.2.9",
     "@seed-design/rootage-core": "0.0.0",
     "fs-extra": "^11.3.0",
     "yaml": "^2.7.1",
@@ -32,9 +32,10 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
+    "@types/node": "^25.0.0",
     "@types/yargs": "^17.0.33",
     "esbuild": "^0.27.0",
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.0"
   },
   "publishConfig": {
     "access": "public"

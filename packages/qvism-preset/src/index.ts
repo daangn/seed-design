@@ -24,6 +24,10 @@ export default definePreset({
         hover,
         active,
       },
+      media: {
+        hover: "(hover: hover) and (pointer: fine)",
+        active: "not all and (hover: hover) and (pointer: fine)",
+      },
     }),
   ],
   theme: {

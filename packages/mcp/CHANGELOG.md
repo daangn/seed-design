@@ -1,18 +1,24 @@
 # @seed-design/mcp
 
-## 0.0.0-alpha-20260414104312
+## 1.3.12
 
 ### Patch Changes
 
-- Side Navigation, Footer, Menu 컴포넌트를 추가합니다.
-- Updated dependencies
-  - @seed-design/figma@0.0.0-alpha-20260414104312
+- @seed-design/figma@1.3.12
 
-## 0.0.0
+## 1.3.11
 
 ### Patch Changes
 
-- @seed-design/figma@0.0.0
+- 7ca8e6c: axios 의존성을 업데이트합니다.
+- Updated dependencies [41cd943]
+  - @seed-design/figma@1.3.11
+
+## 1.3.10
+
+### Patch Changes
+
+- @seed-design/figma@1.3.10
 
 ## 1.3.9
 

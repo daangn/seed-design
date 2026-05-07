@@ -1,6 +1,6 @@
 // Duplicated from packages/css/breakpoints/index.mjs
 // since qvism-preset cannot depend on @seed-design/css (css is generated from qvism-preset)
-// might define breakpoint in rootage later
+// might derive breakpoint names from rootage later
 
 export const breakpointValues = {
   base: 0,

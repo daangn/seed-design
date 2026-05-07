@@ -186,6 +186,11 @@ export function parseValue(input: Document.Value): AST.ValueLit {
     parseGradient(input);
 
   if (result) {
+    if (result.kind === "TokenLit") {
+      throw new Error(
+        "parseValue received a token reference; callers must detect token refs via isTokenRef before invoking parseValue.",
+      );
+    }
     return result;
   }
 

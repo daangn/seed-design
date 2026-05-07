@@ -1,0 +1,101 @@
+---
+title: Side Navigation
+description: 서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.
+coverImageFigmaId: 693:7046
+---
+
+## Anatomy
+
+<FigmaImage id="676:14750" alt="Side Navigation의 Anatomy 이미지" />
+
+Side Navigation은 Header, Trigger, Content, Footer로 구성됩니다.
+
+- **Header**: 서비스 이름, 프로필 정보 및 계정 전환이 포함됩니다.
+- **Trigger**: 사이드바를 접거나 펼칠 수 있는 인터랙션 요소입니다.
+- **Content**: 네비게이션 그룹과 메뉴 아이템이 포함되는 스크롤 가능한 영역입니다.
+- **Group**: 연관된 메뉴 아이템들을 논리적으로 묶어주는 단위입니다. (Label 포함 가능)
+- **Menu Item**: 1단계 네비게이션 요소로 아이콘, 라벨, 확장용 Chevron을 포함합니다.
+- **Menu Sub Item**: 1단계 메뉴 하위에 위치하는 2단계 상세 메뉴입니다.
+- **Footer**: '가이드북', '지원센터'와 같이 서비스의 보조적인 링크나 외부 연결 액션이 위치합니다.
+
+## Guidelines
+
+### Menu Item
+
+<FigmaImage
+  id="676:14768"
+  alt="Side Navigation의 Menu Item - 단일 메뉴와 계층구조가 있는 메뉴"
+/>
+
+사용자가 직접 인터랙션하며 페이지를 이동하거나 하위 메뉴를 제어하는 가장 기본 단위입니다.
+
+#### 하위 항목이 있는 경우 (Collapsible Menu)
+
+- **동작 원칙**: 메인 아이템(부모)을 클릭할 때 해당 페이지로 이동하지 않고, 하위 리스트를 접고 펼치는 아코디언 동작만 수행합니다.
+- **상태 표시**: 우측의 Chevron 아이콘이 회전하며 현재 펼쳐짐/닫힘 상태를 사용자에게 직관적으로 전달합니다.
+- **자동 펼침**: 하위 항목 중 하나가 활성(Active) 상태라면, 부모 메뉴는 사용자의 별도 조작 없이도 자동으로 펼쳐진 상태를 유지해야 합니다.
+
+#### 하위 항목이 없는 경우 (Standalone Menu)
+
+- **동작 원칙**: 아이템 클릭 시 즉시 해당 페이지로 이동하는 단독 메뉴로 동작합니다.
+- **레이아웃**: 하위 항목이 없으므로 우측의 Chevron 아이콘은 표시되지 않으며, 필요에 따라 외부 링크 아이콘이나 배지([Badge](/docs/components/badge))를 Suffix 영역에 배치할 수 있습니다.
+
+### Collapsed State
+
+<FigmaImage id="676:14787" alt="Side Navigation의 Collapsed State 예시" />
+
+공간 효율을 위해 접기 기능을 설정할 수 있습니다. 접힌 경우 아이콘만 보이도록 최소화되어 레이아웃 공간을 확보합니다. 트리거를 다시 누르는 경우 펼쳐집니다.
+
+계층 구조가 있는 메뉴가 접히는 경우, 공간 확보를 위해 모든 하위 메뉴(Sub Item)는 시각적으로 숨겨집니다.
+
+사이드바가 접힌 상태에서는 아이콘만 노출되므로, 호버 시 다음과 같은 보조 UI를 통해 정보를 제공합니다.
+
+- **하위 항목이 있는 메뉴**: 아이콘에 호버 시, 숨겨졌던 서브 메뉴 리스트가 팝오버(Popover) 형태로 나타납니다. 사용자는 사이드바를 다시 펼치지 않고도 팝오버 내에서 원하는 하위 페이지로 즉시 이동할 수 있습니다.
+- **하위 항목이 없는 메뉴**: 단독 메뉴 아이콘에 호버 시, 해당 메뉴의 명칭을 담은 [Help Bubble](/docs/components/help-bubble)이 나타나 아이콘의 의미를 보완합니다.
+
+### Menu Item 라벨 작성하기
+
+<FigmaImage
+  id="676:14846"
+  alt="Side Navigation의 Menu Item 라벨 작성 가이드라인"
+/>
+
+메뉴 명칭은 사용자가 기능을 즉각적으로 인지할 수 있도록 최대한 간결하고 명확하게 작성합니다. (예: '상품 정보 관리' 대신 '상품 관리')
+
+레이블이 길어져 할당된 너비를 초과할 경우, 말줄임(...) 처리 대신 자동 줄바꿈(Word-wrap)을 적용하여 전체 명칭이 모두 노출되도록 합니다.
+
+### Scroll Behavior
+
+<FigmaImage id="676:14868" alt="Side Navigation의 Scroll Behavior 예시" />
+
+내부 콘텐츠의 양이 화면 높이를 초과할 경우를 대비하여 일관된 스크롤 정책을 가집니다.
+
+- **Fixed Header & Footer**: 서비스 타이틀(Header)과 주요 가이드 링크(Footer)는 스크롤 시에도 화면 상/하단에 고정되어야 합니다.
+- **Independent Content Scroll**: 메뉴가 많아질 경우 중간의 Content 영역만 독립적으로 스크롤됩니다.
+- 스크롤이 발생할 때 Header 하단에 Divider를 표시하여 콘텐츠가 가려지고 있음을 인지시킵니다.
+- 스크롤이 발생하면 Content 영역 하단에 [Scroll Fog](/docs/components/scroll-fog)를 표시합니다. Scroll Fog 높이만큼 하단 여백을 확보해 스크롤을 끝까지 내렸을 때 자연스럽게 표시되도록 합니다.
+
+### Background Variant
+
+<FigmaImage
+  id="676:14885"
+  alt="Side Navigation의 Background Variant - Neutral과 Transparent"
+/>
+
+배경색 옵션을 통해 사이드바의 시각적 경계를 설정할 수 있습니다.
+
+- **Neutral**: 그레이 컬러를 사용하여 메인 콘텐츠 영역과 시각적인 면 분할을 만듭니다. 정보가 많거나 사이드바의 위계가 높을 때 권장합니다.
+- **Transparent**: 별도의 배경색 없이 서비스의 기본 바탕색을 공유합니다. 미니멀한 레이아웃을 지향할 때 사용합니다.
+
+### Responsive Design
+
+<FigmaImage
+  id="676:14901"
+  alt="Side Navigation의 Responsive Design - 브레이크포인트별 전환"
+/>
+
+다양한 디바이스 환경에서도 최적의 탐색 경험을 제공하기 위해 브레이크포인트에 따라 사이드바의 형태가 자동으로 전환됩니다.
+
+- **lg**: Expanded 상태가 기본이며, 사용자의 선택에 따라 수동으로 접거나 펼칠 수 있습니다.
+- **md**: 공간 효율을 위해 Collapsed로 자동 전환됩니다. 이 상태에서는 아이콘만 노출되어 메인 콘텐츠 영역을 넓게 확보합니다.
+- **sm**: 사이드바가 화면에서 숨겨지며, 상단 네비게이션의 메뉴 버튼을 통해 펼쳐지는 Drawer 방식으로 전환됩니다.

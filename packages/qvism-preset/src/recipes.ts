@@ -26,6 +26,11 @@ import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
 import footer from "./recipes/footer";
 import { field, fieldLabel } from "./recipes/field";
+import {
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
+} from "./recipes/attachment-input";
 import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
@@ -105,6 +110,9 @@ export const recipes = {
   fab,
   field,
   fieldLabel,
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
   floatingActionButton,
   footer,
   helpBubble,

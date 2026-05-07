@@ -5,6 +5,7 @@ import { addAllCommand } from "@/src/commands/add-all";
 import { compatCommand } from "@/src/commands/compat";
 import { docsCommand } from "@/src/commands/docs";
 import { initCommand } from "@/src/commands/init";
+
 import { getPackageInfo } from "@/src/utils/get-package-info";
 import { cac } from "cac";
 

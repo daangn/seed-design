@@ -1,6 +1,14 @@
 # 컴포넌트 작업 완료 체크리스트
 
-## 필수 확인 사항
+## Phase 0: 아키텍처 결정
+
+- [ ] 컴포넌트 카테고리 확정? (A/B/C/D/E)
+- [ ] 패턴 참조 컴포넌트 지정?
+- [ ] 의존성 API 안정성 확인?
+- [ ] 외부 라이브러리 인터페이스 조사? (카테고리 C/D)
+- [ ] ARIA APG 패턴 확인? (카테고리 C/D)
+
+## Phase 1: 구현 확인
 
 - [ ] Rootage 정의가 완전한가?
 - [ ] `bun generate:all` 실행했는가?
@@ -12,6 +20,18 @@
 - [ ] `bun --filter @seed-design/docs generate:registry` 실행했는가?
 - [ ] 타입 에러가 없는가? (`bun typecheck`)
 - [ ] Visual Test 통과했는가? (Agent Browser)
+
+## 패턴 준수 확인
+
+- [ ] 패턴 참조 컴포넌트의 파일 구조를 따랐는가?
+- [ ] Focus ring 적용? (인터랙티브 컴포넌트 → createFocusRingStyles)
+- [ ] 키보드 인터랙션 구현? (카테고리 C/D)
+- [ ] 숨겨진 native input 패턴 적용? (form control인 경우)
+- [ ] 애니메이션: contentInner 분리 패턴 사용? (expand/collapse인 경우)
+- [ ] 폼 통합: TextField canonical 패턴 준수? (Field 통합인 경우)
+- [ ] Snippet API: action 노출, state setter 숨김?
+- [ ] Namespace 파일: compound이면 있고, simple이면 없는지?
+- [ ] Changeset 생성? (`/changeset` 스킬 참조)
 
 ## 흔한 실수
 

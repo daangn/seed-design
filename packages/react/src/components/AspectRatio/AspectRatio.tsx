@@ -3,7 +3,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";
 
-export interface AspectRatioProps extends BoxProps {
+export type AspectRatioProps = BoxProps & {
   /**
    * The aspect ratio of the aspect ratio container (width / height).
    * @default 4 / 3
@@ -24,7 +24,7 @@ export interface AspectRatioProps extends BoxProps {
    * @default "hidden"
    */
   overflowY?: BoxProps["overflowY"];
-}
+};
 
 export const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
   ({ ratio = 4 / 3, children, className, style, ...rest }, ref) => {

@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: attachment-input-item-action-button
+  name: Attachment Input Item Action Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          gap: $dimension.x1
+        icon:
+          size: $dimension.x6
+        label:
+          fontSize: $font-size.t2
+          lineHeight: $line-height.t2
+          fontWeight: $font-weight.medium
+
+    type=file:
+      enabled:
+        icon:
+          color: $color.fg.neutral-subtle
+        label:
+          color: $color.fg.neutral-subtle
+
+    type=image:
+      enabled:
+        icon:
+          color: $color.palette.static-white
+        label:
+          color: $color.palette.static-white

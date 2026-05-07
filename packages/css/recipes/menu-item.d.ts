@@ -2,7 +2,7 @@ declare interface MenuItemVariant {
   /**
   * @default "medium"
   */
-  size: "medium" | "small";
+  size: "medium" | "small" | "responsive";
 /**
   * @default "neutral"
   */

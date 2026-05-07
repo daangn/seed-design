@@ -1,22 +1,28 @@
 # @seed-design/figma
 
-## 0.0.0-alpha-20260414104312
+## 1.3.12
 
 ### Patch Changes
 
-- Side Navigation, Footer, Menu 컴포넌트를 추가합니다.
-- Updated dependencies
-  - @seed-design/css@0.0.0-alpha-20260414104312
+- Updated dependencies [46bdf17]
+- Updated dependencies [79c7aa3]
+  - @seed-design/css@1.2.10
 
-## 0.0.0
+## 1.3.11
+
+### Patch Changes
+
+- 41cd943: 아이콘 데이터 및 Figma Codegen 컴포넌트 핸들러를 최신 버전으로 업데이트합니다.
+- Updated dependencies [5bf2e8a]
+  - @seed-design/css@1.2.9
+
+## 1.3.10
 
 ### Patch Changes
 
 - Updated dependencies [c02bfba]
-- Updated dependencies [eadb7e8]
-- Updated dependencies [819110b]
-- Updated dependencies [01668c1]
-  - @seed-design/css@0.0.0
+- Updated dependencies [f391668]
+  - @seed-design/css@1.2.8
 
 ## 1.3.9
 

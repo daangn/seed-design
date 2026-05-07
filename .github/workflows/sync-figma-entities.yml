@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
 
     steps:
       - name: Checkout dev
@@ -21,7 +22,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.3.11"
+          bun-version: "1.3.13"
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
@@ -39,14 +40,91 @@ jobs:
           FIGMA_COMPONENTS_FILE_KEY: ${{ secrets.FIGMA_COMPONENTS_FILE_KEY }}
           FIGMA_TEMPLATES_FILE_KEY: ${{ secrets.FIGMA_TEMPLATES_FILE_KEY }}
 
+      - name: 기존 PR과 동일한 동기화 결과인지 확인해요
+        id: existing-pr-check
+        run: |
+          if git ls-remote --exit-code --heads origin chore/sync-figma-entities >/dev/null 2>&1; then
+            git fetch --depth=1 origin chore/sync-figma-entities
+            if git diff --quiet origin/chore/sync-figma-entities -- packages/figma/src/entities/data/__generated__; then
+              echo "기존 PR과 동일한 __generated__ 결과예요 - 이후 단계를 건너뜁니다"
+              echo "skip=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: "@seed-design/figma를 타입체크하고 빌드해요"
         id: build
+        if: steps.existing-pr-check.outputs.skip != 'true'
+        continue-on-error: true
+        shell: bash
+        working-directory: packages/figma
+        run: |
+          if ! bunx tsc --noEmit 2>&1 | tee /tmp/tsc-errors.txt; then
+            echo "tsc_failed=true" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          bun run build
+
+      - name: Claude로 타입 에러를 자동 수정해요
+        id: claude-fix
+        if: steps.existing-pr-check.outputs.skip != 'true' && steps.build.outcome != 'success' && steps.build.outputs.tsc_failed == 'true'
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
+          prompt: |
+            You are fixing TypeScript type errors in packages/figma after a Figma entity sync.
+
+            ## What happened
+            The Figma entity sync updated generated type definitions under
+            `packages/figma/src/entities/data/__generated__/`. Any subdirectory may have changed:
+            `component-sets/`, `components/`, `icons/`, `styles/`, `variable-collections/`, `variables/`.
+            These changes altered string literals (variant option names, property keys, slot names).
+
+            Source files under `packages/figma/src/` (especially `src/codegen/`) reference these
+            generated types. Common patterns that break:
+            - `ts-pattern` `.with("OldVariant", ...)` in handler files
+            - `props["Old Key#123:0"]` property access
+            - `findSlotNode(node, "Old Slot#123:0")` string arguments
+            - Type imports that reference generated interfaces
+
+            ## Type chain
+            1. `__generated__/component-sets/index.d.ts` — `variantOptions: [...]` defines valid string literals
+            2. `__generated__/components/index.d.ts` — component variant types
+            3. `src/codegen/component-properties.ts` — `InferComponentDefinition` extracts union types from above
+            4. `src/codegen/targets/react/component/handlers/*.ts` — `.with()` patterns must match
+
+            ## tsc errors to fix
+            The tsc error output is saved at `/tmp/tsc-errors.txt`. Read it first.
+
+            ## Rules
+            1. ONLY modify files under `packages/figma/src/` — NEVER touch `__generated__/`
+            2. For each error, read the relevant generated type file to find the NEW valid string literal
+            3. Common fix patterns:
+               - `.with("OldName", ...)` → `.with("NewName", ...)`
+               - `props["Old Key#123:0"]` → `props["New Key#123:0"]`
+               - `findSlotNode(node, "Old#123:0")` → `findSlotNode(node, "New#123:0")`
+            4. If a variant option was removed entirely, remove the `.with()` clause
+            5. If a new variant option was added, add a `.with()` clause matching sibling patterns
+            6. Preserve existing code style exactly
+            7. After all fixes, verify: `cd packages/figma && bunx tsc --noEmit && bun run build`
+            8. If errors remain after the first pass, fix them too
+            9. Do NOT change any logic or behavior — only update string literals to match new generated types
+          claude_args: |
+            --model claude-sonnet-4-5-20250929
+            --max-turns 20
+            --allowedTools "Edit,Read,Glob,Grep,Bash(bunx tsc *),Bash(bun run build),Bash(cat *),Bash(ls *)"
+            --json-schema '{"type":"object","properties":{"summary":{"type":"string","description":"1-2 sentence Korean summary of what was changed"},"files_modified":{"type":"array","items":{"type":"string"},"description":"List of files that were modified"},"fix_succeeded":{"type":"boolean","description":"Whether tsc and build pass after fixes"}},"required":["summary","files_modified","fix_succeeded"]}'
+
+      - name: Claude 수정 후 다시 빌드해요
+        id: rebuild
+        if: steps.existing-pr-check.outputs.skip != 'true' && steps.claude-fix.outcome == 'success'
         continue-on-error: true
         working-directory: packages/figma
         run: bunx tsc --noEmit && bun run build
 
       - name: 변경사항이 있는지 확인해요
         id: check-diff
+        if: steps.existing-pr-check.outputs.skip != 'true'
         run: |
           DIFF_COUNT=$(git diff --name-only packages/figma/src/entities/data/__generated__ | wc -l | tr -d ' ')
           UNTRACKED_COUNT=$(git ls-files --others --exclude-standard packages/figma/src/entities/data/__generated__ | wc -l | tr -d ' ')
@@ -66,6 +144,10 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH_NAME"
           git add packages/figma/src/entities/data/__generated__
+          # Claude가 수정한 소스 파일도 스테이징
+          if [ "${{ steps.rebuild.outcome }}" == "success" ]; then
+            git add packages/figma/src/
+          fi
           git commit -m "chore(figma): sync entities from Figma"
           git push --force origin "$BRANCH_NAME"
 
@@ -73,18 +155,36 @@ jobs:
         if: steps.check-diff.outputs.has_changes == 'true'
         id: create-pr
         run: |
-          DRAFT_FLAG=${{ steps.build.outcome != 'success' && '--draft' || '' }}
+          # 빌드 성공 판단: 원래 빌드 성공 OR Claude 수정 후 재빌드 성공
+          BUILD_OK=${{ (steps.build.outcome == 'success' || steps.rebuild.outcome == 'success') && 'true' || 'false' }}
+          DRAFT_FLAG=""
+          if [ "$BUILD_OK" != "true" ]; then
+            DRAFT_FLAG="--draft"
+          fi
+
+          # 빌드 상태 메시지
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            BUILD_STATUS="✅ 성공"
+          elif [ "${{ steps.rebuild.outcome }}" == "success" ]; then
+            BUILD_STATUS="✅ 성공 (Claude가 타입 에러를 자동 수정했어요)"
+          else
+            BUILD_STATUS="❌ 실패"
+            if [ "${{ steps.build.outputs.tsc_failed }}" == "true" ]; then
+              BUILD_STATUS="❌ 실패 (Claude 자동 수정도 실패했어요)"
+            fi
+          fi
+
           PR_BODY="$(cat <<EOF
           Figma entity 데이터가 변경되었어요.
 
           - 변경된 파일 수: ${{ steps.check-diff.outputs.file_count }}개
-          - 타입체크 & 빌드: ${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}
+          - 타입체크 & 빌드: ${BUILD_STATUS}
           EOF
           )"
           EXISTING_PR=$(gh pr list --head chore/sync-figma-entities --base dev --state open --json url --jq '.[0].url')
           if [ -n "$EXISTING_PR" ]; then
             gh pr edit "$EXISTING_PR" --body "$PR_BODY"
-            if [ "${{ steps.build.outcome }}" != "success" ]; then
+            if [ "$BUILD_OK" != "true" ]; then
               gh pr ready --undo "$EXISTING_PR" 2>/dev/null || true
             else
               gh pr ready "$EXISTING_PR" 2>/dev/null || true
@@ -102,29 +202,64 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Claude 요약을 추출해요
+        id: claude-summary
+        if: steps.check-diff.outputs.has_changes == 'true' && steps.build.outputs.tsc_failed == 'true'
+        env:
+          CLAUDE_OUTPUT: ${{ steps.claude-fix.outputs.structured_output }}
+        run: |
+          if [ -n "$CLAUDE_OUTPUT" ]; then
+            SUMMARY=$(echo "$CLAUDE_OUTPUT" | jq -r '.summary // empty')
+            FILES=$(echo "$CLAUDE_OUTPUT" | jq -r '.files_modified // [] | join(", ")')
+            {
+              echo "summary<<SUMMARY_EOF"
+              echo "$SUMMARY"
+              echo "SUMMARY_EOF"
+            } >> $GITHUB_OUTPUT
+            echo "files=$FILES" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Slack payload를 빌드해요
+        if: steps.check-diff.outputs.has_changes == 'true'
+        env:
+          FILE_COUNT: ${{ steps.check-diff.outputs.file_count }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          REBUILD_OUTCOME: ${{ steps.rebuild.outcome }}
+          CLAUDE_SUMMARY: ${{ steps.claude-summary.outputs.summary }}
+          PR_URL: ${{ steps.create-pr.outputs.pr_url }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          if [ "$BUILD_OUTCOME" = "success" ]; then
+            BUILD_STATUS="타입체크 & 빌드: *✅ 성공*"
+          elif [ "$REBUILD_OUTCOME" = "success" ]; then
+            BUILD_STATUS="타입체크 & 빌드: *✅ 성공 (Claude 자동 수정)*"
+          else
+            BUILD_STATUS="타입체크 & 빌드: *❌ 실패*"
+          fi
+
+          SECTION_TEXT="$(printf '변경된 파일 수: *%s개*\n%s' "$FILE_COUNT" "$BUILD_STATUS")"
+          if [ -n "$CLAUDE_SUMMARY" ]; then
+            SECTION_TEXT="$(printf '%s\nClaude: %s' "$SECTION_TEXT" "$CLAUDE_SUMMARY")"
+          fi
+
+          jq -n \
+            --arg channel "$SLACK_CHANNEL_ID" \
+            --arg section_text "$SECTION_TEXT" \
+            --arg pr_url "$PR_URL" \
+            '{
+              channel: $channel,
+              text: "Figma Entity 변경이 감지되었어요.",
+              blocks: [
+                {type: "header", text: {type: "plain_text", text: "Figma Entity 변경이 감지되었어요"}},
+                {type: "section", text: {type: "mrkdwn", text: $section_text}},
+                {type: "actions", elements: [{type: "button", style: "primary", text: {type: "plain_text", text: "PR 보기"}, url: $pr_url}]}
+              ]
+            }' > /tmp/slack-payload.json
+
       - name: Slack에 알려요
         if: steps.check-diff.outputs.has_changes == 'true'
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "Figma Entity 변경이 감지되었어요."
-            blocks:
-              - type: "header"
-                text:
-                  type: "plain_text"
-                  text: "Figma Entity 변경이 감지되었어요"
-              - type: "section"
-                text:
-                  type: "mrkdwn"
-                  text: "변경된 파일 수: *${{ steps.check-diff.outputs.file_count }}개*\n타입체크 & 빌드: *${{ steps.build.outcome == 'success' && '✅ 성공' || '❌ 실패' }}*"
-              - type: "actions"
-                elements:
-                  - type: "button"
-                    style: "primary"
-                    text:
-                      type: "plain_text"
-                      text: "PR 보기"
-                    url: "${{ steps.create-pr.outputs.pr_url }}"
+          payload-file-path: /tmp/slack-payload.json
