@@ -68,6 +68,8 @@ export { vars as segmentedControl } from "./segmented-control";
 export { vars as selectBoxCheckmark } from "./select-box-checkmark";
 export { vars as selectBoxGroup } from "./select-box-group";
 export { vars as selectBox } from "./select-box";
+export { vars as sidePanelCloseButton } from "./side-panel-close-button";
+export { vars as sidePanel } from "./side-panel";
 export { vars as skeleton } from "./skeleton";
 export { vars as sliderThumb } from "./slider-thumb";
 export { vars as sliderTick } from "./slider-tick";

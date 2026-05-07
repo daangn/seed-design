@@ -65,6 +65,7 @@ import {
   sideNavigationInset,
   sideNavigationMenuItem,
 } from "./recipes/side-navigation";
+import sidePanel from "./recipes/side-panel";
 import skeleton from "./recipes/skeleton";
 import { slider, sliderMarker, sliderTick } from "./recipes/slider";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
@@ -150,6 +151,7 @@ export const recipes = {
   sideNavigation,
   sideNavigationInset,
   sideNavigationMenuItem,
+  sidePanel,
   skeleton,
   slider,
   sliderMarker,

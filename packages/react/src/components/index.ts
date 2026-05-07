@@ -61,6 +61,7 @@ export * from "./ScrollFog";
 export * from "./SegmentedControl";
 export * from "./SelectBox";
 export * from "./SideNavigation";
+export * from "./SidePanel";
 export * from "./Skeleton";
 export * from "./Slider";
 export * from "./Snackbar";

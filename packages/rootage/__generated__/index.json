@@ -219,6 +219,12 @@
       "path": "/components/select-box.json"
     },
     {
+      "path": "/components/side-panel-close-button.json"
+    },
+    {
+      "path": "/components/side-panel.json"
+    },
+    {
       "path": "/components/skeleton.json"
     },
     {

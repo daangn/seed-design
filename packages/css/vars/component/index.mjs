@@ -68,6 +68,8 @@ export { vars as segmentedControl } from "./segmented-control.mjs";
 export { vars as selectBoxCheckmark } from "./select-box-checkmark.mjs";
 export { vars as selectBoxGroup } from "./select-box-group.mjs";
 export { vars as selectBox } from "./select-box.mjs";
+export { vars as sidePanelCloseButton } from "./side-panel-close-button.mjs";
+export { vars as sidePanel } from "./side-panel.mjs";
 export { vars as skeleton } from "./skeleton.mjs";
 export { vars as sliderThumb } from "./slider-thumb.mjs";
 export { vars as sliderTick } from "./slider-tick.mjs";

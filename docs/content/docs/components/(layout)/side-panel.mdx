@@ -1,0 +1,40 @@
+---
+title: SidePanel
+description: 화면 좌측 또는 우측 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.
+---
+
+<PlatformStatusTable componentId="side-panel" />
+
+## Anatomy
+
+Side Panel은 Backdrop, Content, Header, Close Button, Body, Footer로 구성됩니다.
+
+## Properties
+
+### Direction
+
+Side Panel이 열리는 방향을 설정합니다. `left`, `right` 중 선택할 수 있으며, 기본값은 `right`입니다.
+
+좌우(left/right) 방향 모두 높이가 100vh로 고정됩니다.
+
+### Size
+
+Side Panel의 너비를 설정합니다. `small` (480px), `medium` (720px), `large` (960px)를 지원합니다.
+
+프리셋 외에 뷰포트 기반의 유동적인 너비가 필요할 때는 StyleProps를 통해 `width`, `maxWidth` 등을 직접 지정할 수 있습니다.
+
+### Show Close Button
+
+Close Button 사용 여부를 설정합니다. 기본값은 `true`입니다.
+
+### Modal / Non-modal
+
+기본적으로 Side Panel은 Modal로 동작하며, Backdrop이 표시되고 포커스가 트랩됩니다.
+
+`modal={false}`로 설정하면 배경과 상호작용이 가능하고, Backdrop이 표시되지 않습니다.
+
+## Guidelines
+
+- Side Panel은 주로 데스크탑 환경에서 네비게이션, 상세 정보, 설정 패널 등에 사용합니다.
+- 모바일 환경에서는 뷰포트 너비를 초과하지 않도록 자동으로 최대 너비가 100vw로 제한됩니다.
+- 화면 하단에서 슬라이드 업되는 모달이 필요하다면 [Bottom Sheet](/docs/components/bottom-sheet)를 사용하세요.
