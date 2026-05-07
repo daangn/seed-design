@@ -49,6 +49,10 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityBottomSheetActivity: lazy(() => import("../activities/ActivityBottomSheetActivity")),
     ActivityBottomSheetModalTest: lazy(() => import("../activities/ActivityBottomSheetModalTest")),
     ActivityBottomSheetStep: lazy(() => import("../activities/ActivityBottomSheetStep")),
+    ActivityBottomSheetWithAlertDialogStep: lazy(
+      () => import("../activities/ActivityBottomSheetWithAlertDialogStep"),
+    ),
+    ActivityNestedBottomSheet: lazy(() => import("../activities/ActivityNestedBottomSheet")),
     ActivityCheckbox: lazy(() => import("../activities/ActivityCheckbox")),
     ActivityChipButton: lazy(() => import("../activities/ActivityChipButton")),
     ActivityChipToggle: lazy(() => import("../activities/ActivityChipToggle")),
