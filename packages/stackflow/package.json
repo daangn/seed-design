@@ -49,7 +49,7 @@
     "vite-plugin-dts": "^4.5.3"
   },
   "peerDependencies": {
-    "@seed-design/css": ">=1.1.19",
+    "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11",
     "@stackflow/core": ">=1.1.0",
     "@stackflow/react": ">=1.4.1",
     "react": ">=18.0.0",
