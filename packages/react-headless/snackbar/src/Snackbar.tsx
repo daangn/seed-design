@@ -12,11 +12,8 @@ export interface SnackbarRootProviderProps extends UseSnackbarProps {
   children: React.ReactNode;
 }
 
-export const SnackbarRootProvider = ({
-  children,
-  pauseOnInteraction,
-}: SnackbarRootProviderProps) => {
-  const api = useSnackbar({ pauseOnInteraction });
+export const SnackbarRootProvider = ({ children, ...props }: SnackbarRootProviderProps) => {
+  const api = useSnackbar(props);
   return <SnackbarProvider value={api}>{children}</SnackbarProvider>;
 };
 

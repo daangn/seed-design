@@ -22,7 +22,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.3.11"
+          bun-version: "1.3.13"
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
@@ -40,15 +40,25 @@ jobs:
           FIGMA_COMPONENTS_FILE_KEY: ${{ secrets.FIGMA_COMPONENTS_FILE_KEY }}
           FIGMA_TEMPLATES_FILE_KEY: ${{ secrets.FIGMA_TEMPLATES_FILE_KEY }}
 
+      - name: 기존 PR과 동일한 동기화 결과인지 확인해요
+        id: existing-pr-check
+        run: |
+          if git ls-remote --exit-code --heads origin chore/sync-figma-entities >/dev/null 2>&1; then
+            git fetch --depth=1 origin chore/sync-figma-entities
+            if git diff --quiet origin/chore/sync-figma-entities -- packages/figma/src/entities/data/__generated__; then
+              echo "기존 PR과 동일한 __generated__ 결과예요 - 이후 단계를 건너뜁니다"
+              echo "skip=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: "@seed-design/figma를 타입체크하고 빌드해요"
         id: build
+        if: steps.existing-pr-check.outputs.skip != 'true'
         continue-on-error: true
         shell: bash
         working-directory: packages/figma
         run: |
-          bunx tsc --noEmit 2>&1 | tee /tmp/tsc-errors.txt
-          TSC_EXIT=${PIPESTATUS[0]}
-          if [ $TSC_EXIT -ne 0 ]; then
+          if ! bunx tsc --noEmit 2>&1 | tee /tmp/tsc-errors.txt; then
             echo "tsc_failed=true" >> $GITHUB_OUTPUT
             exit 1
           fi
@@ -56,7 +66,7 @@ jobs:
 
       - name: Claude로 타입 에러를 자동 수정해요
         id: claude-fix
-        if: steps.build.outcome != 'success' && steps.build.outputs.tsc_failed == 'true'
+        if: steps.existing-pr-check.outputs.skip != 'true' && steps.build.outcome != 'success' && steps.build.outputs.tsc_failed == 'true'
         continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
@@ -107,13 +117,14 @@ jobs:
 
       - name: Claude 수정 후 다시 빌드해요
         id: rebuild
-        if: steps.claude-fix.outcome == 'success'
+        if: steps.existing-pr-check.outputs.skip != 'true' && steps.claude-fix.outcome == 'success'
         continue-on-error: true
         working-directory: packages/figma
         run: bunx tsc --noEmit && bun run build
 
       - name: 변경사항이 있는지 확인해요
         id: check-diff
+        if: steps.existing-pr-check.outputs.skip != 'true'
         run: |
           DIFF_COUNT=$(git diff --name-only packages/figma/src/entities/data/__generated__ | wc -l | tr -d ' ')
           UNTRACKED_COUNT=$(git ls-files --others --exclude-standard packages/figma/src/entities/data/__generated__ | wc -l | tr -d ' ')
@@ -135,7 +146,7 @@ jobs:
           git add packages/figma/src/entities/data/__generated__
           # Claude가 수정한 소스 파일도 스테이징
           if [ "${{ steps.rebuild.outcome }}" == "success" ]; then
-            git add packages/figma/src/codegen/
+            git add packages/figma/src/
           fi
           git commit -m "chore(figma): sync entities from Figma"
           git push --force origin "$BRANCH_NAME"
@@ -208,29 +219,47 @@ jobs:
             echo "files=$FILES" >> $GITHUB_OUTPUT
           fi
 
+      - name: Slack payload를 빌드해요
+        if: steps.check-diff.outputs.has_changes == 'true'
+        env:
+          FILE_COUNT: ${{ steps.check-diff.outputs.file_count }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          REBUILD_OUTCOME: ${{ steps.rebuild.outcome }}
+          CLAUDE_SUMMARY: ${{ steps.claude-summary.outputs.summary }}
+          PR_URL: ${{ steps.create-pr.outputs.pr_url }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          if [ "$BUILD_OUTCOME" = "success" ]; then
+            BUILD_STATUS="타입체크 & 빌드: *✅ 성공*"
+          elif [ "$REBUILD_OUTCOME" = "success" ]; then
+            BUILD_STATUS="타입체크 & 빌드: *✅ 성공 (Claude 자동 수정)*"
+          else
+            BUILD_STATUS="타입체크 & 빌드: *❌ 실패*"
+          fi
+
+          SECTION_TEXT="$(printf '변경된 파일 수: *%s개*\n%s' "$FILE_COUNT" "$BUILD_STATUS")"
+          if [ -n "$CLAUDE_SUMMARY" ]; then
+            SECTION_TEXT="$(printf '%s\nClaude: %s' "$SECTION_TEXT" "$CLAUDE_SUMMARY")"
+          fi
+
+          jq -n \
+            --arg channel "$SLACK_CHANNEL_ID" \
+            --arg section_text "$SECTION_TEXT" \
+            --arg pr_url "$PR_URL" \
+            '{
+              channel: $channel,
+              text: "Figma Entity 변경이 감지되었어요.",
+              blocks: [
+                {type: "header", text: {type: "plain_text", text: "Figma Entity 변경이 감지되었어요"}},
+                {type: "section", text: {type: "mrkdwn", text: $section_text}},
+                {type: "actions", elements: [{type: "button", style: "primary", text: {type: "plain_text", text: "PR 보기"}, url: $pr_url}]}
+              ]
+            }' > /tmp/slack-payload.json
+
       - name: Slack에 알려요
         if: steps.check-diff.outputs.has_changes == 'true'
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "Figma Entity 변경이 감지되었어요."
-            blocks:
-              - type: "header"
-                text:
-                  type: "plain_text"
-                  text: "Figma Entity 변경이 감지되었어요"
-              - type: "section"
-                text:
-                  type: "mrkdwn"
-                  text: "변경된 파일 수: *${{ steps.check-diff.outputs.file_count }}개*\n${{ steps.build.outcome == 'success' && '타입체크 & 빌드: *✅ 성공*' || (steps.rebuild.outcome == 'success' && '타입체크 & 빌드: *✅ 성공 (Claude 자동 수정)*' || '타입체크 & 빌드: *❌ 실패*') }}${{ steps.claude-summary.outputs.summary && format('\nClaude: {0}', steps.claude-summary.outputs.summary) || '' }}"
-              - type: "actions"
-                elements:
-                  - type: "button"
-                    style: "primary"
-                    text:
-                      type: "plain_text"
-                      text: "PR 보기"
-                    url: "${{ steps.create-pr.outputs.pr_url }}"
+          payload-file-path: /tmp/slack-payload.json

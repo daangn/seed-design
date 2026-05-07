@@ -31,7 +31,7 @@ const addOptionsSchema = z.object({
    */
   all: z.boolean(),
   cwd: z.string(),
-  baseUrl: z.string().optional(),
+  baseUrl: z.string().default(BASE_URL),
   framework: z.enum(["react", "lynx"]).optional(),
   onDiff: z.enum(["overwrite", "backup"]).optional(),
 });
@@ -57,6 +57,7 @@ export const addCommand = (cli: CAC) => {
     .action(async (itemIds, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
+      const trackCwd = typeof opts?.cwd === "string" ? opts.cwd : process.cwd();
       p.intro("seed-design add");
 
       try {
@@ -254,8 +255,9 @@ export const addCommand = (cli: CAC) => {
         });
 
         try {
-          await analytics.track(options.cwd, {
-            event: "add",
+          await analytics.trackCommandOutcome(options.cwd, {
+            command: "add",
+            status: "completed",
             properties: {
               items_count: filteredItemKeys.length,
               registries: Array.from(uniqueRegistries),
@@ -266,13 +268,40 @@ export const addCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] add tracking failed:", telemetryError);
+            console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
       } catch (error) {
         if (isCliCancelError(error)) {
+          try {
+            await analytics.trackCommandOutcome(trackCwd, {
+              command: "add",
+              status: "cancelled",
+              properties: {
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
+            }
+          }
           p.outro(highlight(error.message));
           process.exit(0);
+        }
+
+        try {
+          await analytics.trackCommandFailure(trackCwd, {
+            command: "add",
+            error,
+            properties: {
+              duration_ms: Date.now() - startTime,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
+          }
         }
 
         handleCliError(error, {

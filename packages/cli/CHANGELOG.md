@@ -10,6 +10,22 @@
   - 모든 CLI 명령(`add`, `add-all`, `compat`)에 `--framework`/`-f` 플래그 추가
   - 프레임워크별 호환성 패키지 검사 지원 (`@seed-design/lynx-react`, `@seed-design/lynx-css`)
 
+## 1.3.4
+
+### Patch Changes
+
+- c5012d1: @seed-design/cli 옵션 스키마 정합성을 개선합니다.
+
+## 1.3.3
+
+### Patch Changes
+
+- abada1c: CLI 텔레메트리 수집을 개선합니다.
+
+  - `add`, `add-all`, `compat`, `docs`, `init` 명령어의 실행 결과를 `completed`, `cancelled`, `failed`로 구분해 수집합니다.
+  - `compat` 명령어는 `compatible`, `incompatible`, `empty` 결과를 추가로 구분해 수집합니다.
+  - 텔레메트리 실패 테스트를 보강하고, 실패 시에는 상세 메시지 대신 안전한 에러 타입만 전송하도록 정리합니다.
+
 ## 1.3.2
 
 ### Patch Changes

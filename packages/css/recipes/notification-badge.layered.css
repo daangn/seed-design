@@ -21,11 +21,12 @@
 
   .seed-notification-badge--size_large {
     border-radius: var(--seed-radius-full);
+    min-width: 18px;
     min-height: 18px;
     padding-left: var(--seed-dimension-x1);
     padding-right: var(--seed-dimension-x1);
-    font-size: var(--seed-font-size-t1);
-    line-height: var(--seed-line-height-t1);
+    font-size: var(--seed-font-size-t1-static);
+    line-height: var(--seed-line-height-t1-static);
     font-weight: var(--seed-font-weight-bold);
     padding-top: 0;
     padding-bottom: 0;

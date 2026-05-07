@@ -158,6 +158,14 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           onClick: () => push("ActivityBottomSheetModalTest", {}),
         },
         {
+          title: "BottomSheet × AlertDialog (Step)",
+          onClick: () => push("ActivityBottomSheetWithAlertDialogStep", {}),
+        },
+        {
+          title: "BottomSheet × AlertDialog (Activity)",
+          onClick: () => push("ActivityNestedBottomSheet", {}),
+        },
+        {
           title: "MenuSheet",
           component: (
             <DialogPushTrigger
@@ -219,6 +227,28 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
                 <Snackbar variant="critical" message="Disco Party!" actionLabel="Dance" />
               ),
             }),
+        },
+        {
+          title: "Snackbar (queued)",
+          onClick: () =>
+            snackbarAdapter.create({
+              strategy: "queued",
+              render: () => <Snackbar message="Queued Snackbar" />,
+            }),
+        },
+        {
+          // 기존 스낵바를 먼저 닫고 다음 tick에 새 스낵바를 띄우는 패턴.
+          // dismiss 상태 전이가 적용된 뒤에 create가 실행되므로
+          // 항상 새 스낵바부터 활성화되는 것을 보장한다.
+          title: "Snackbar (dismiss+setTimeout workaround)",
+          onClick: () => {
+            snackbarAdapter.dismiss();
+            setTimeout(() => {
+              snackbarAdapter.create({
+                render: () => <Snackbar message="Workaround Snackbar" />,
+              });
+            }, 0);
+          },
         },
       ],
     },

@@ -14,6 +14,10 @@ SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서
 - Frontmatter에 `title`, `description`을 필수로 포함한다.
 - 문서 UI와 스토리는 문서 본문과 분리된 참조 계층으로 관리한다.
 - **`docs/registry/{react,lynx}/ui/`의 snippet 레이어 변경은 최소한으로 한다.** snippet은 사용자가 직접 커스터마이징하는 레이어이므로, 불필요한 변경은 사용자 코드에 영향을 줄 수 있다.
+- `docs/registry/{react,lynx}/ui/` snippet은 단순 예제가 아니라 stable user API로 취급한다. snippet을 만들 때는 low-level re-export보다 convenience wrapper를 우선 검토한다.
+- snippet을 추가하거나 바꿀 때는 먼저 사용자가 작성할 **minimal user code** 예시를 떠올리고, 그 예시에 맞춰 API를 정한다.
+- snippet 변경 후에는 source 파일만 보지 말고 generated registry(`docs/public/__registry__/`)가 함께 갱신됐는지 확인한다.
+- vendored snippet consumer가 있으면 그 경로도 함께 확인한다. 현재는 `examples/stackflow-spa/src/seed-design/ui/`가 대표적이다.
 - **`content/` 하위에 AGENTS.md를 두지 않는다.** fumadocs가 `content/` 전체를 스캔하여 `.md` 파일을 문서 콘텐츠로 인식하므로 frontmatter 에러가 발생한다.
 
 ### Lynx 문서 작성 가이드 (`content/lynx/`)
