@@ -69,7 +69,7 @@ export {
   type TagGroupItemLabelProps,
 } from "./components/TagGroup";
 export { createSlotRecipeContext } from "./utils/create-slot-recipe-context";
-export { getSeedClassName } from "./get-seed-class-name";
+export { getSeedClassName } from "./utils/get-seed-class-name";
 export { splitMultipleVariantsProps } from "./utils/split-multiple-variants-props";
 export {
   useControllableState,
