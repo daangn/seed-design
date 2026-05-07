@@ -33,26 +33,34 @@ export async function ColorMigrationIndex({ prefix }: ColorMigrationIndexProps) 
 
   const tableItems: TokenMappingItem[] = mappings.map((mapping) => ({
     previousTokenId: mapping.previous,
-    newTokens: mapping.next.map((newId) => {
-      const { path, value } = resolveToken(rootage, newId as `$${string}`, {
-        global: "default",
-        color: "theme-light",
-      });
+    newTokens: mapping.next.flatMap((newId) => {
+      try {
+        const { path, value } = resolveToken(rootage, newId as `$${string}`, {
+          global: "default",
+          color: "theme-light",
+        });
 
-      const valuesWithDescription: TokenValue[] = path.map((tokenRef) => ({
-        ref: tokenRef,
-        description: rootage.tokenEntities[tokenRef]?.description,
-      }));
-      valuesWithDescription.push({
-        ref: stringifyValueLit(value),
-        description: undefined,
-      });
+        const valuesWithDescription: TokenValue[] = path.map((tokenRef) => ({
+          ref: tokenRef,
+          description: rootage.tokenEntities[tokenRef]?.description,
+        }));
+        valuesWithDescription.push({
+          ref: stringifyValueLit(value),
+          description: undefined,
+        });
 
-      return {
-        id: newId,
-        values: valuesWithDescription,
-        resolvedValue: value,
-      };
+        return [
+          {
+            id: newId,
+            values: valuesWithDescription,
+            resolvedValue: value,
+          },
+        ];
+      } catch {
+        // Skip tokens that no longer exist in the current rootage (e.g.,
+        // mappings that point to deprecated tokens).
+        return [];
+      }
     }),
     description: mapping.description,
   }));
