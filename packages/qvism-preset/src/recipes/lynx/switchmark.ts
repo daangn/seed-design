@@ -1,6 +1,10 @@
 import { switchmark as vars } from "../../vars/component";
 import { defineLynxSlotRecipe } from "../../utils/define-lynx";
 
+function subtractPx(left: string, right: string) {
+  return `${Number.parseFloat(left) - Number.parseFloat(right)}px`;
+}
+
 const switchmarkRecipe = defineLynxSlotRecipe({
   name: "switchmark",
   slots: ["root", "thumb"],
@@ -126,7 +130,7 @@ const switchmarkRecipe = defineLynxSlotRecipe({
       checked: true,
       css: {
         thumb: {
-          transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size32.enabled.root.width} - ${vars.size32.enabled.root.height}))`,
+          transform: `scale(${vars.base.selected.thumb.scale}) translateX(${subtractPx(vars.size32.enabled.root.width, vars.size32.enabled.root.height)})`,
         },
       },
     },
@@ -135,7 +139,7 @@ const switchmarkRecipe = defineLynxSlotRecipe({
       checked: true,
       css: {
         thumb: {
-          transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size24.enabled.root.width} - ${vars.size24.enabled.root.height}))`,
+          transform: `scale(${vars.base.selected.thumb.scale}) translateX(${subtractPx(vars.size24.enabled.root.width, vars.size24.enabled.root.height)})`,
         },
       },
     },
@@ -144,7 +148,7 @@ const switchmarkRecipe = defineLynxSlotRecipe({
       checked: true,
       css: {
         thumb: {
-          transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size16.enabled.root.width} - ${vars.size16.enabled.root.height}))`,
+          transform: `scale(${vars.base.selected.thumb.scale}) translateX(${subtractPx(vars.size16.enabled.root.width, vars.size16.enabled.root.height)})`,
         },
       },
     },
