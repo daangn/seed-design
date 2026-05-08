@@ -64,6 +64,9 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
         SEED Design Lynx Catalog
       </text>
 
+      <SectionHeader>Getting Started</SectionHeader>
+      <ListItem title="Theming" onTap={() => navigate('theming')} />
+
       <SectionHeader>Foundation</SectionHeader>
       <ListItem title="Color" onTap={() => navigate('foundation-color')} />
       <ListItem
@@ -109,7 +112,6 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       />
 
       <SectionHeader>Test</SectionHeader>
-      <ListItem title="Theming" onTap={() => navigate('theming')} />
       <ListItem
         title="Nested Vars Test (Lynx 3.6+)"
         onTap={() => navigate('nested-vars-test')}

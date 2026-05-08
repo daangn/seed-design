@@ -1,13 +1,22 @@
-// Copyright 2024 The Lynx Authors. All rights reserved.
-// Licensed under the Apache License Version 2.0 that can be found in the
-// LICENSE file in the root directory of this source tree.
+/** @jsxImportSource @lynx-js/react */
 import '@testing-library/jest-dom';
+import { getQueriesForElement, render } from '@lynx-js/react/testing-library';
 import { expect, test, vi } from 'vitest';
-import { render, getQueriesForElement } from '@lynx-js/react/testing-library';
 
 import { App } from '../App.jsx';
+import { ThemingPage } from '../pages/ThemingPage.jsx';
 
-test('App', async () => {
+function getRenderedQueries() {
+  const root = elementTree.root;
+
+  if (!root) {
+    throw new Error('Expected Lynx render root to exist.');
+  }
+
+  return getQueriesForElement(root);
+}
+
+test('App renders the current Lynx catalog home', async () => {
   const cb = vi.fn();
 
   render(
@@ -17,6 +26,7 @@ test('App', async () => {
       }}
     />,
   );
+
   expect(cb).toBeCalledTimes(1);
   expect(cb.mock.calls).toMatchInlineSnapshot(`
     [
@@ -25,76 +35,22 @@ test('App', async () => {
       ],
     ]
   `);
-  expect(elementTree.root).toMatchInlineSnapshot(`
-    <page>
-      <view>
-        <view
-          class="Background"
-        />
-        <view
-          class="App"
-        >
-          <view
-            class="Banner"
-          >
-            <view
-              class="Logo"
-            >
-              <image
-                class="Logo--lynx"
-                src="/src/assets/lynx-logo.png"
-              />
-            </view>
-            <text
-              class="Title"
-            >
-              React
-            </text>
-            <text
-              class="Subtitle"
-            >
-              on Lynx
-            </text>
-          </view>
-          <view
-            class="Content"
-          >
-            <image
-              class="Arrow"
-              src="/src/assets/arrow.png"
-            />
-            <text
-              class="Description"
-            >
-              Tap the logo and have fun!
-            </text>
-            <text
-              class="Hint"
-            >
-              Edit
-              <text
-                style="font-style:italic;color:rgba(255, 255, 255, 0.85)"
-              >
-                 src/App.tsx 
-              </text>
-              to see updates!
-            </text>
-          </view>
-          <view
-            style="flex:1"
-          />
-        </view>
-      </view>
-    </page>
-  `);
-  const { findByText } = getQueriesForElement(elementTree.root!);
-  const element = await findByText('Tap the logo and have fun!');
-  expect(element).toBeInTheDocument();
-  expect(element).toMatchInlineSnapshot(`
-    <text
-      class="Description"
-    >
-      Tap the logo and have fun!
-    </text>
-  `);
+
+  const { findByText } = getRenderedQueries();
+
+  expect(await findByText('SEED Design Lynx Catalog')).toBeInTheDocument();
+  expect(await findByText('Getting Started')).toBeInTheDocument();
+  expect(await findByText('Theming')).toBeInTheDocument();
+});
+
+test('ThemingPage renders class-based theme examples', async () => {
+  render(<ThemingPage />);
+
+  const { findByText } = getRenderedQueries();
+
+  expect(await findByText('getSeedClassName()')).toBeInTheDocument();
+  expect(await findByText('Theme Overrides')).toBeInTheDocument();
+  expect(await findByText('Light only')).toBeInTheDocument();
+  expect(await findByText('Dark only')).toBeInTheDocument();
+  expect(await findByText('Tailwind Tokens')).toBeInTheDocument();
 });
