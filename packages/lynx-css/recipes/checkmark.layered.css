@@ -1,6 +1,5 @@
 @layer seed-components {
   .seed-checkmark__root {
-    box-sizing: border-box;
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     flex: none;
     justify-content: center;
