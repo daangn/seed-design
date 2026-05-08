@@ -1,7 +1,5 @@
 import { vars } from '@seed-design/lynx-css/vars';
-import { getSeedClassName } from '@seed-design/lynx-react';
-
-import { ActionButton } from '../seed-design/ui/action-button';
+import { ActionButton, getSeedClassName } from '@seed-design/lynx-react';
 
 const { $color } = vars;
 

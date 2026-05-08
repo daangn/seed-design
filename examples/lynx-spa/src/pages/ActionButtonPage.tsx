@@ -1,6 +1,7 @@
 import IconChevronDownFill from '@karrotmarket/lynx-monochrome-icon/IconChevronDownFill';
 import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
 import { actionButtonVariantMap } from '@seed-design/lynx-css/recipes/action-button';
+import { ActionButton, type ActionButtonProps } from '@seed-design/lynx-react';
 
 import {
   CatalogExamples,
@@ -11,10 +12,6 @@ import {
   VariantCatalog,
   type VariantValues,
 } from '../components/variant-catalog.jsx';
-import {
-  ActionButton,
-  type ActionButtonProps,
-} from '../seed-design/ui/action-button';
 
 type ActionButtonVariant = NonNullable<ActionButtonProps['variant']>;
 type ActionButtonSize = NonNullable<ActionButtonProps['size']>;

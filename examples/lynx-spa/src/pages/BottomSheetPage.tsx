@@ -1,24 +1,23 @@
 import { useRef, useState } from '@lynx-js/react';
 import { bottomSheetVariantMap } from '@seed-design/lynx-css/recipes/bottom-sheet';
-import { type BottomSheetRootRef } from '@seed-design/lynx-react';
+import { ActionButton, type BottomSheetRootRef } from '@seed-design/lynx-react';
 
 import {
   CatalogExamples,
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
-  VariantCatalog,
   type VariantAxis,
+  VariantCatalog,
   type VariantValues,
 } from '../components/variant-catalog.jsx';
-import { ActionButton } from '../seed-design/ui/action-button';
 import {
   BottomSheetBody,
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetRoot,
-  BottomSheetTrigger,
   type BottomSheetRootProps,
+  BottomSheetTrigger,
 } from '../seed-design/ui/bottom-sheet';
 
 const SNAP_POINTS_FIT_80: Array<number | string> = ['fit', '80%'];
