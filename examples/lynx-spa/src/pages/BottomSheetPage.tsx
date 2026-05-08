@@ -1,6 +1,5 @@
 import { useRef, useState } from '@lynx-js/react';
 import { bottomSheetVariantMap } from '@seed-design/lynx-css/recipes/bottom-sheet';
-import { vars } from '@seed-design/lynx-css/vars';
 import { type BottomSheetRootRef } from '@seed-design/lynx-react';
 
 import {
@@ -24,8 +23,6 @@ import {
 
 const SNAP_POINTS_FIT_80: Array<number | string> = ['fit', '80%'];
 const SNAP_POINTS_FIT: Array<number | string> = ['fit'];
-
-const { $color } = vars;
 
 type BottomSheetHeaderAlign = NonNullable<BottomSheetRootProps['headerAlign']>;
 
@@ -52,15 +49,8 @@ function renderBottomSheet(values: VariantValues) {
       skipAnimation={skipAnimation}
       snapPoints={SNAP_POINTS_FIT_80}
     >
-      <BottomSheetTrigger
-        style={{
-          padding: '10px 16px',
-          backgroundColor: $color.bg.brandSolid,
-          borderRadius: '8px',
-          alignSelf: 'flex-start',
-        }}
-      >
-        <text style={{ color: $color.fg.brandContrast }}>Open sheet</text>
+      <BottomSheetTrigger style={{ alignSelf: 'flex-start' }}>
+        <ActionButton variant="brandSolid">Open sheet</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent
         title={`Header ${headerAlign}`}
@@ -86,15 +76,8 @@ function BottomSheetExamples() {
     <CatalogExamples title="BottomSheet" gap="16px">
       <CatalogSectionTitle>Uncontrolled (Trigger 기반)</CatalogSectionTitle>
       <BottomSheetRoot snapPoints={SNAP_POINTS_FIT_80}>
-        <BottomSheetTrigger
-          style={{
-            padding: '10px 16px',
-            backgroundColor: $color.bg.brandSolid,
-            borderRadius: '8px',
-            alignSelf: 'flex-start',
-          }}
-        >
-          <text style={{ color: $color.fg.brandContrast }}>Trigger 탭</text>
+        <BottomSheetTrigger style={{ alignSelf: 'flex-start' }}>
+          <ActionButton variant="brandSolid">Trigger 탭</ActionButton>
         </BottomSheetTrigger>
         <BottomSheetContent
           title="기본 Bottom Sheet"
