@@ -5,7 +5,8 @@ import { docsSource } from "@/app/source";
 export const revalidate = false;
 
 export async function GET() {
-  const pages = (docsSource.getPages())
+  const pages = docsSource
+    .getPages()
     .filter((page) => shouldIncludeInFullText("docs", page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
 
