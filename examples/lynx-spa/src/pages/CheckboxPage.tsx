@@ -1,35 +1,77 @@
-import IconCheckmarkFatFill from '@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill';
-import IconMinusFatFill from '@karrotmarket/lynx-monochrome-icon/IconMinusFatFill';
 import { checkboxVariantMap } from '@seed-design/lynx-css/recipes/checkbox';
 import { checkmarkVariantMap } from '@seed-design/lynx-css/recipes/checkmark';
-import { Checkbox } from '@seed-design/lynx-react';
 
-import { VariantCatalog } from '../components/variant-catalog.jsx';
+import {
+  VariantCatalog,
+  type SetVariantValue,
+  type VariantAxis,
+  type VariantValues,
+} from '../components/variant-catalog.jsx';
+import { Checkbox, type CheckboxProps } from '../seed-design/ui/checkbox';
+
+type CheckboxWeight = NonNullable<CheckboxProps['weight']>;
+type CheckboxSize = NonNullable<CheckboxProps['size']>;
+type CheckboxTone = NonNullable<CheckboxProps['tone']>;
+type CheckboxVariant = NonNullable<CheckboxProps['variant']>;
+
+const variants: readonly VariantAxis[] = [
+  {
+    key: 'weight',
+    options: checkboxVariantMap.weight,
+    defaultValue: 'regular',
+  },
+  {
+    key: 'size',
+    options: checkboxVariantMap.size,
+    defaultValue: 'medium',
+  },
+  {
+    key: 'disabled',
+    options: checkboxVariantMap.disabled,
+    defaultValue: false,
+  },
+  {
+    key: 'variant',
+    options: checkmarkVariantMap.variant,
+    defaultValue: 'square',
+  },
+  {
+    key: 'tone',
+    options: checkmarkVariantMap.tone,
+    defaultValue: 'brand',
+  },
+  {
+    key: 'checked',
+    options: checkmarkVariantMap.checked,
+    defaultValue: false,
+  },
+  {
+    key: 'indeterminate',
+    options: checkmarkVariantMap.indeterminate,
+    defaultValue: false,
+  },
+];
+
+function renderCheckbox(values: VariantValues, setValue: SetVariantValue) {
+  return (
+    <Checkbox
+      label="Checkbox"
+      weight={values.weight as CheckboxWeight}
+      size={values.size as CheckboxSize}
+      tone={values.tone as CheckboxTone}
+      variant={values.variant as CheckboxVariant}
+      checked={Boolean(values.checked)}
+      indeterminate={Boolean(values.indeterminate)}
+      disabled={Boolean(values.disabled)}
+      onCheckedChange={(next) => setValue('checked', next)}
+    />
+  );
+}
 
 export function CheckboxPage() {
   return (
-    <VariantCatalog variantMaps={[checkboxVariantMap, checkmarkVariantMap]}>
-      {(v, setValue) => (
-        <Checkbox.Root
-          weight={v.weight as 'regular' | 'bold'}
-          size={v.size as 'medium' | 'large'}
-          tone={v.tone as 'brand' | 'neutral'}
-          variant={v.variant as 'square' | 'ghost'}
-          checked={Boolean(v.checked)}
-          indeterminate={Boolean(v.indeterminate)}
-          disabled={Boolean(v.disabled)}
-          onCheckedChange={(next) => setValue('checked', next)}
-        >
-          <Checkbox.Control>
-            <Checkbox.Indicator
-              unchecked={<IconCheckmarkFatFill />}
-              checked={<IconCheckmarkFatFill />}
-              indeterminate={<IconMinusFatFill />}
-            />
-          </Checkbox.Control>
-          <Checkbox.Label>Checkbox</Checkbox.Label>
-        </Checkbox.Root>
-      )}
+    <VariantCatalog variants={variants}>
+      {(values, setValue) => renderCheckbox(values, setValue)}
     </VariantCatalog>
   );
 }

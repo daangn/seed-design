@@ -4,10 +4,16 @@
  * @requires @seed-design/lynx-css@~0.1.0-alpha.0
  **/
 
-import * as React from "@lynx-js/react";
-import { Switch as SeedSwitch } from "@seed-design/lynx-react";
+import * as React from '@lynx-js/react';
+import {
+  SwitchControl,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+  type SwitchRootProps,
+} from '@seed-design/lynx-react';
 
-export interface SwitchProps extends SeedSwitch.RootProps {
+export interface SwitchProps extends SwitchRootProps {
   label?: React.ReactNode;
 }
 
@@ -17,33 +23,35 @@ export interface SwitchProps extends SeedSwitch.RootProps {
 export const Switch = React.forwardRef<unknown, SwitchProps>(
   ({ label, children, ...otherProps }, ref) => {
     return (
-      <SeedSwitch.Root ref={ref} {...otherProps}>
-        <SeedSwitch.Control>
-          <SeedSwitch.Thumb />
-        </SeedSwitch.Control>
-        {label != null ? <SeedSwitch.Label>{label}</SeedSwitch.Label> : null}
+      <SwitchRoot ref={ref} {...otherProps}>
+        <SwitchControl>
+          <SwitchThumb />
+        </SwitchControl>
+        {label != null ? <SwitchLabel>{label}</SwitchLabel> : null}
         {children}
-      </SeedSwitch.Root>
+      </SwitchRoot>
     );
   },
 );
-Switch.displayName = "Switch";
+Switch.displayName = 'Switch';
 
-export interface SwitchmarkProps extends Omit<SeedSwitch.RootProps, "children"> {}
+export interface SwitchmarkProps extends Omit<SwitchRootProps, 'children'> {}
 
 /**
  * @see https://seed-design.io/lynx/components/switch
  */
-export const Switchmark = React.forwardRef<unknown, SwitchmarkProps>((props, ref) => {
-  return (
-    <SeedSwitch.Root ref={ref} {...props}>
-      <SeedSwitch.Control>
-        <SeedSwitch.Thumb />
-      </SeedSwitch.Control>
-    </SeedSwitch.Root>
-  );
-});
-Switchmark.displayName = "Switchmark";
+export const Switchmark = React.forwardRef<unknown, SwitchmarkProps>(
+  (props, ref) => {
+    return (
+      <SwitchRoot ref={ref} {...props}>
+        <SwitchControl>
+          <SwitchThumb />
+        </SwitchControl>
+      </SwitchRoot>
+    );
+  },
+);
+Switchmark.displayName = 'Switchmark';
 
 /**
  * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.

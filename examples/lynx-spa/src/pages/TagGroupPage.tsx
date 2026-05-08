@@ -1,84 +1,71 @@
-import { useState } from "@lynx-js/react";
+import { tagGroupVariantMap } from '@seed-design/lynx-css/recipes/tag-group';
+import { tagGroupItemVariantMap } from '@seed-design/lynx-css/recipes/tag-group-item';
+
+import {
+  CatalogExamples,
+  CatalogSectionHeader,
+} from '../components/catalog-examples.jsx';
+import {
+  VariantCatalog,
+  type VariantAxis,
+  type VariantValues,
+} from '../components/variant-catalog.jsx';
 import {
   TagGroupItem,
   TagGroupItemLabel,
   TagGroupRoot,
   type TagGroupRootProps,
-} from "../seed-design/ui/tag-group";
-import { vars } from "@seed-design/lynx-css/vars";
+} from '../seed-design/ui/tag-group';
 
-const { $color } = vars;
+type TagGroupSize = NonNullable<TagGroupRootProps['size']>;
+type TagGroupWeight = NonNullable<TagGroupRootProps['weight']>;
+type TagGroupTone = NonNullable<TagGroupRootProps['tone']>;
 
-type Size = NonNullable<TagGroupRootProps["size"]>;
+const variants: readonly VariantAxis[] = [
+  {
+    key: 'size',
+    options: tagGroupVariantMap.size,
+    defaultValue: 't2',
+  },
+  {
+    key: 'weight',
+    options: tagGroupItemVariantMap.weight,
+    defaultValue: 'regular',
+  },
+  {
+    key: 'tone',
+    options: tagGroupItemVariantMap.tone,
+    defaultValue: 'neutralSubtle',
+  },
+];
 
-function SectionHeader({ children }: { children: string }) {
+function renderTagGroup(values: VariantValues) {
   return (
-    <text
-      style={{
-        fontSize: "14px",
-        fontWeight: "bold",
-        marginTop: "16px",
-        marginBottom: "8px",
-        color: $color.fg.neutralSubtle,
-      }}
+    <TagGroupRoot
+      size={values.size as TagGroupSize}
+      weight={values.weight as TagGroupWeight}
+      tone={values.tone as TagGroupTone}
     >
-      {children}
-    </text>
+      <TagGroupItem>
+        <TagGroupItemLabel>동네 인증</TagGroupItemLabel>
+      </TagGroupItem>
+      <TagGroupItem>
+        <TagGroupItemLabel>매너 온도 42.0°C</TagGroupItemLabel>
+      </TagGroupItem>
+      <TagGroupItem>
+        <TagGroupItemLabel>재거래 희망률 89%</TagGroupItemLabel>
+      </TagGroupItem>
+    </TagGroupRoot>
   );
 }
 
-function Toggle({
-  label,
-  active,
-  onTap,
-}: {
-  label: string;
-  active: boolean;
-  onTap: () => void;
-}) {
+function TagGroupExamples() {
   return (
-    <view
-      bindtap={onTap}
-      style={{
-        paddingLeft: "12px",
-        paddingRight: "12px",
-        paddingTop: "6px",
-        paddingBottom: "6px",
-        borderRadius: "8px",
-        borderWidth: "1px",
-        borderColor: active ? $color.stroke.brandSolid : $color.stroke.neutralMuted,
-        backgroundColor: active ? $color.bg.brandSolid : $color.bg.neutralWeak,
-      }}
-    >
-      <text
-        style={{
-          fontSize: "13px",
-          color: active ? $color.fg.brandContrast : $color.fg.neutral,
-          fontWeight: "bold",
-        }}
-      >
-        {label}
-      </text>
-    </view>
-  );
-}
-
-export function TagGroupPage() {
-  const [size, setSize] = useState<Size>("t2");
-
-  return (
-    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-      <text style={{ fontSize: "20px", fontWeight: "bold" }}>TagGroup</text>
-
-      <SectionHeader>Size</SectionHeader>
-      <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
-        {(["t2", "t3", "t4"] as const).map((s) => (
-          <Toggle key={s} label={s} active={size === s} onTap={() => setSize(s)} />
-        ))}
-      </view>
-
-      <SectionHeader>Default (neutralSubtle · regular)</SectionHeader>
-      <TagGroupRoot size={size}>
+    <CatalogExamples title="TagGroup">
+      <CatalogSectionHeader>
+        Default (neutralSubtle · regular)
+      </CatalogSectionHeader>
+      <TagGroupRoot size="t2">
         <TagGroupItem>
           <TagGroupItemLabel>동네 인증</TagGroupItemLabel>
         </TagGroupItem>
@@ -90,8 +77,8 @@ export function TagGroupPage() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Weight: bold</SectionHeader>
-      <TagGroupRoot size={size} weight="bold">
+      <CatalogSectionHeader>Weight: bold</CatalogSectionHeader>
+      <TagGroupRoot size="t2" weight="bold">
         <TagGroupItem>
           <TagGroupItemLabel>전체</TagGroupItemLabel>
         </TagGroupItem>
@@ -103,8 +90,8 @@ export function TagGroupPage() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Tone: neutral</SectionHeader>
-      <TagGroupRoot size={size} tone="neutral">
+      <CatalogSectionHeader>Tone: neutral</CatalogSectionHeader>
+      <TagGroupRoot size="t2" tone="neutral">
         <TagGroupItem>
           <TagGroupItemLabel>새 상품</TagGroupItemLabel>
         </TagGroupItem>
@@ -113,8 +100,8 @@ export function TagGroupPage() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Tone: brand</SectionHeader>
-      <TagGroupRoot size={size} tone="brand" weight="bold">
+      <CatalogSectionHeader>Tone: brand</CatalogSectionHeader>
+      <TagGroupRoot size="t2" tone="brand" weight="bold">
         <TagGroupItem>
           <TagGroupItemLabel>추천</TagGroupItemLabel>
         </TagGroupItem>
@@ -123,8 +110,8 @@ export function TagGroupPage() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Per-item override</SectionHeader>
-      <TagGroupRoot size={size}>
+      <CatalogSectionHeader>Per-item override</CatalogSectionHeader>
+      <TagGroupRoot size="t2">
         <TagGroupItem tone="brand" weight="bold">
           <TagGroupItemLabel>NEW</TagGroupItemLabel>
         </TagGroupItem>
@@ -136,8 +123,8 @@ export function TagGroupPage() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Wrap behaviour</SectionHeader>
-      <TagGroupRoot size={size}>
+      <CatalogSectionHeader>Wrap behaviour</CatalogSectionHeader>
+      <TagGroupRoot size="t2">
         <TagGroupItem>
           <TagGroupItemLabel>관악구 봉천동</TagGroupItemLabel>
         </TagGroupItem>
@@ -155,8 +142,8 @@ export function TagGroupPage() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Custom separator</SectionHeader>
-      <TagGroupRoot size={size} separator=" / ">
+      <CatalogSectionHeader>Custom separator</CatalogSectionHeader>
+      <TagGroupRoot size="t2" separator=" / ">
         <TagGroupItem>
           <TagGroupItemLabel>서울</TagGroupItemLabel>
         </TagGroupItem>
@@ -167,6 +154,14 @@ export function TagGroupPage() {
           <TagGroupItemLabel>봉천동</TagGroupItemLabel>
         </TagGroupItem>
       </TagGroupRoot>
-    </scroll-view>
+    </CatalogExamples>
+  );
+}
+
+export function TagGroupPage() {
+  return (
+    <VariantCatalog variants={variants} examples={<TagGroupExamples />}>
+      {(values) => renderTagGroup(values)}
+    </VariantCatalog>
   );
 }

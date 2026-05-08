@@ -1,62 +1,162 @@
 import { useState } from '@lynx-js/react';
-import { Switch as SeedSwitch } from '@seed-design/lynx-react';
+import {
+  SwitchControl,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+} from '@seed-design/lynx-react';
+import { switchVariantMap } from '@seed-design/lynx-css/recipes/switch';
+import { switchmarkVariantMap } from '@seed-design/lynx-css/recipes/switchmark';
 
-import { Switch, Switchmark } from '../seed-design/ui/switch';
+import {
+  CatalogExamples,
+  CatalogSectionTitle,
+} from '../components/catalog-examples.jsx';
+import {
+  VariantCatalog,
+  type SetVariantValue,
+  type VariantAxis,
+  type VariantValues,
+} from '../components/variant-catalog.jsx';
+import { Switch, Switchmark, type SwitchProps } from '../seed-design/ui/switch';
 
-export function SwitchPage() {
+type SwitchSize = NonNullable<SwitchProps['size']>;
+type SwitchTone = NonNullable<SwitchProps['tone']>;
+
+const variants: readonly VariantAxis[] = [
+  {
+    key: 'size',
+    options: switchVariantMap.size,
+    defaultValue: '32',
+  },
+  {
+    key: 'tone',
+    options: switchmarkVariantMap.tone,
+    defaultValue: 'brand',
+  },
+  {
+    key: 'checked',
+    options: switchmarkVariantMap.checked,
+    defaultValue: false,
+  },
+  {
+    key: 'disabled',
+    options: switchVariantMap.disabled,
+    defaultValue: false,
+  },
+];
+
+function renderSwitch(values: VariantValues, setValue: SetVariantValue) {
+  const checked = Boolean(values.checked);
+  return (
+    <Switch
+      label={checked ? 'On' : 'Off'}
+      size={values.size as SwitchSize}
+      tone={values.tone as SwitchTone}
+      checked={checked}
+      disabled={Boolean(values.disabled)}
+      onCheckedChange={(next) => setValue('checked', next)}
+    />
+  );
+}
+
+function SwitchExamples() {
   const [controlled, setControlled] = useState(false);
 
   return (
-    <scroll-view scroll-y style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>Switch</text>
-
-      <text style={{ fontSize: '16px', fontWeight: 'bold' }}>Default (uncontrolled)</text>
-      <view style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
+    <CatalogExamples title="Switch" gap="12px">
+      <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '16px',
+          alignItems: 'center',
+        }}
+      >
         <Switchmark />
         <Switchmark defaultChecked />
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>With Label</text>
+      <CatalogSectionTitle>With Label</CatalogSectionTitle>
       <view style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Switch label="알림 받기" defaultChecked />
         <Switch label="자동 로그인" />
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>Controlled</text>
-      <view style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
-        <Switch label={controlled ? 'On' : 'Off'} checked={controlled} onCheckedChange={setControlled} />
+      <CatalogSectionTitle>Controlled</CatalogSectionTitle>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '16px',
+          alignItems: 'center',
+        }}
+      >
+        <Switch
+          label={controlled ? 'On' : 'Off'}
+          checked={controlled}
+          onCheckedChange={setControlled}
+        />
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>Sizes</text>
-      <view style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
+      <CatalogSectionTitle>Sizes</CatalogSectionTitle>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '16px',
+          alignItems: 'center',
+        }}
+      >
         <Switchmark size="16" defaultChecked />
         <Switchmark size="24" defaultChecked />
         <Switchmark size="32" defaultChecked />
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>Tones</text>
-      <view style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
+      <CatalogSectionTitle>Tones</CatalogSectionTitle>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '16px',
+          alignItems: 'center',
+        }}
+      >
         <Switch label="Brand" tone="brand" defaultChecked />
         <Switch label="Neutral" tone="neutral" defaultChecked />
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>Disabled</text>
+      <CatalogSectionTitle>Disabled</CatalogSectionTitle>
       <view style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Switch label="Disabled Off" disabled />
         <Switch label="Disabled On" disabled defaultChecked />
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-        Compound: Control override (Root=brand, Control=neutral)
-      </text>
-      <view style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
-        <SeedSwitch.Root tone="brand" defaultChecked>
-          <SeedSwitch.Control tone="neutral">
-            <SeedSwitch.Thumb />
-          </SeedSwitch.Control>
-          <SeedSwitch.Label>Override</SeedSwitch.Label>
-        </SeedSwitch.Root>
+      <CatalogSectionTitle>Compound: Control override</CatalogSectionTitle>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '16px',
+          alignItems: 'center',
+        }}
+      >
+        <SwitchRoot tone="brand" defaultChecked>
+          <SwitchControl tone="neutral">
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchLabel>Override</SwitchLabel>
+        </SwitchRoot>
       </view>
-    </scroll-view>
+    </CatalogExamples>
+  );
+}
+
+export function SwitchPage() {
+  return (
+    <VariantCatalog variants={variants} examples={<SwitchExamples />}>
+      {(values, setValue) => renderSwitch(values, setValue)}
+    </VariantCatalog>
   );
 }
