@@ -111,13 +111,15 @@ const TRANSITION_DURATION = 300;
 
 // --- Components ---
 
-export interface RootProps extends ProgressCircleVariantProps {
+export interface ProgressCircleRootProps extends ProgressCircleVariantProps {
   minValue?: number;
   maxValue?: number;
   value?: number;
   children?: React.ReactNode;
   className?: string;
 }
+
+export type RootProps = ProgressCircleRootProps;
 
 /**
  * Lynx에서 SVG를 사용할 수 없어 CSS clip-path 기반 pie sector로 구현.
@@ -129,7 +131,7 @@ export interface RootProps extends ProgressCircleVariantProps {
  *
  * Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정.
  */
-function Root(props: RootProps) {
+export const ProgressCircleRoot = (props: ProgressCircleRootProps) => {
   const size: Size = (props.size as Size) ?? "40";
   const tone: Tone = (props.tone as Tone) ?? "neutral";
   const numSize = Number(size);
@@ -161,9 +163,9 @@ function Root(props: RootProps) {
       </view>
     </ProgressCircleContext.Provider>
   );
-}
+};
 
-function Range() {
+export const ProgressCircleRange = () => {
   const { numSize, isDeterminate, progress, classes } = useProgressCircleCtx();
 
   if (!isDeterminate) {
@@ -171,7 +173,7 @@ function Range() {
   }
 
   return <DeterminateRange numSize={numSize} progress={progress} classes={classes} />;
-}
+};
 
 type Classes = ReturnType<typeof progressCircle>;
 
@@ -404,10 +406,5 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
   );
 }
 
-Root.displayName = "ProgressCircle.Root";
-Range.displayName = "ProgressCircle.Range";
-
-export const ProgressCircle = {
-  Root,
-  Range,
-};
+ProgressCircleRoot.displayName = "ProgressCircleRoot";
+ProgressCircleRange.displayName = "ProgressCircleRange";

@@ -1,10 +1,5 @@
 import { useState } from '@lynx-js/react';
-import {
-  SwitchRoot,
-  SwitchControl,
-  SwitchThumb,
-  SwitchLabel,
-} from '@seed-design/lynx-react';
+import { Switch as SeedSwitch } from '@seed-design/lynx-react';
 
 import { Switch, Switchmark } from '../seed-design/ui/switch';
 
@@ -55,12 +50,12 @@ export function SwitchPage() {
         Compound: Control override (Root=brand, Control=neutral)
       </text>
       <view style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
-        <SwitchRoot tone="brand" defaultChecked>
-          <SwitchControl tone="neutral">
-            <SwitchThumb />
-          </SwitchControl>
-          <SwitchLabel>Override</SwitchLabel>
-        </SwitchRoot>
+        <SeedSwitch.Root tone="brand" defaultChecked>
+          <SeedSwitch.Control tone="neutral">
+            <SeedSwitch.Thumb />
+          </SeedSwitch.Control>
+          <SeedSwitch.Label>Override</SeedSwitch.Label>
+        </SeedSwitch.Root>
       </view>
     </scroll-view>
   );

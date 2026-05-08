@@ -1,13 +1,7 @@
 import * as React from "@lynx-js/react";
-import {
-  SwitchRoot,
-  SwitchControl,
-  SwitchThumb,
-  SwitchLabel,
-  type SwitchRootProps,
-} from "@seed-design/lynx-react";
+import { Switch as SeedSwitch } from "@seed-design/lynx-react";
 
-export interface SwitchProps extends SwitchRootProps {
+export interface SwitchProps extends SeedSwitch.RootProps {
   label?: React.ReactNode;
 }
 
@@ -17,30 +11,30 @@ export interface SwitchProps extends SwitchRootProps {
 export const Switch = React.forwardRef<unknown, SwitchProps>(
   ({ label, children, ...otherProps }, ref) => {
     return (
-      <SwitchRoot ref={ref} {...otherProps}>
-        <SwitchControl>
-          <SwitchThumb />
-        </SwitchControl>
-        {label != null ? <SwitchLabel>{label}</SwitchLabel> : null}
+      <SeedSwitch.Root ref={ref} {...otherProps}>
+        <SeedSwitch.Control>
+          <SeedSwitch.Thumb />
+        </SeedSwitch.Control>
+        {label != null ? <SeedSwitch.Label>{label}</SeedSwitch.Label> : null}
         {children}
-      </SwitchRoot>
+      </SeedSwitch.Root>
     );
   },
 );
 Switch.displayName = "Switch";
 
-export interface SwitchmarkProps extends Omit<SwitchRootProps, "children"> {}
+export interface SwitchmarkProps extends Omit<SeedSwitch.RootProps, "children"> {}
 
 /**
  * @see https://seed-design.io/lynx/components/switch
  */
 export const Switchmark = React.forwardRef<unknown, SwitchmarkProps>((props, ref) => {
   return (
-    <SwitchRoot ref={ref} {...props}>
-      <SwitchControl>
-        <SwitchThumb />
-      </SwitchControl>
-    </SwitchRoot>
+    <SeedSwitch.Root ref={ref} {...props}>
+      <SeedSwitch.Control>
+        <SeedSwitch.Thumb />
+      </SeedSwitch.Control>
+    </SeedSwitch.Root>
   );
 });
 Switchmark.displayName = "Switchmark";

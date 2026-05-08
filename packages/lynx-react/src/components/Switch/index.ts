@@ -8,3 +8,5 @@ export {
   type SwitchThumbProps,
   type SwitchLabelProps,
 } from "./Switch";
+
+export * as Switch from "./Switch.namespace";

@@ -51,19 +51,14 @@ export function App() {
 snippet이 제공하는 기본 구성으로는 부족한 경우 `@seed-design/lynx-react`의 compound component를 직접 조합합니다. 예를 들어 Control에서 Root의 `tone`/`size`를 override 하려면:
 
 ```tsx
-import {
-  SwitchRoot,
-  SwitchControl,
-  SwitchThumb,
-  SwitchLabel,
-} from "@seed-design/lynx-react";
+import { Switch } from "@seed-design/lynx-react";
 
-<SwitchRoot tone="brand" size="32" defaultChecked>
-  <SwitchControl tone="neutral">
-    <SwitchThumb />
-  </SwitchControl>
-  <SwitchLabel>레이블</SwitchLabel>
-</SwitchRoot>
+<Switch.Root tone="brand" size="32" defaultChecked>
+  <Switch.Control tone="neutral">
+    <Switch.Thumb />
+  </Switch.Control>
+  <Switch.Label>레이블</Switch.Label>
+</Switch.Root>
 ```
 
 ## Props
@@ -77,7 +72,7 @@ Lynx `Switch`는 React `Switch`와 다음과 같은 차이가 있습니다.
 
 - **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Switch 내부에서 소유합니다.
 - **렌더링 요소**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
-- **Compound 구조**: `SwitchRoot` → `SwitchControl` → `SwitchThumb` / `SwitchLabel` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다. Control에 `tone`/`size`를 직접 전달해 Root를 override 하는 것도 지원합니다.
+- **Compound 구조**: `Switch.Root` → `Switch.Control` → `Switch.Thumb` / `Switch.Label` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다. Control에 `tone`/`size`를 직접 전달해 Root를 override 하는 것도 지원합니다.
 - **ref forwarding**: 모든 서브 컴포넌트는 `React.forwardRef`를 지원합니다.
 </Callout>
 
