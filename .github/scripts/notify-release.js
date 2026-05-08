@@ -11,8 +11,7 @@ const IGNORED_LINE_PREFIXES = ["- Updated dependencies"];
 /** 순서 번호 이모지 */
 const NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 const REPO = "daangn/seed-design";
-const VERSION_PATTERN =
-  String.raw`\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?`;
+const VERSION_PATTERN = String.raw`\d+\.\d+\.\d+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?`;
 
 /**
  * CHANGELOG 항목의 커밋 표기를 Slack 링크 표기로 변환
@@ -212,13 +211,13 @@ function main() {
   for (const [i, release] of topLevelReleases.entries()) {
     const emoji = NUMBER_EMOJIS[i] ?? `${i + 1}.`;
     const allItems = Object.values(release.sections).flat();
-    const dependencyReleaseLines = formatDependencyReleaseLines(childrenByPackage, release.packageName);
+    const dependencyReleaseLines = formatDependencyReleaseLines(
+      childrenByPackage,
+      release.packageName,
+    );
     const dependencySection =
       dependencyReleaseLines.length > 0
-        ? [
-            "• 종속 패키지 업데이트",
-            ...dependencyReleaseLines.map((line) => `  ${line}`),
-          ]
+        ? ["• 종속 패키지 업데이트", ...dependencyReleaseLines.map((line) => `  ${line}`)]
         : [];
 
     const changelogUrl = `https://seed-design.io/react/updates/changelog?package=${encodeURIComponent(release.packageName)}&version=${encodeURIComponent(release.version)}`;
