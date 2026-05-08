@@ -60,6 +60,19 @@ describe("usePressTap", () => {
       expect(onTap).toHaveBeenCalledTimes(1);
     });
 
+    it("clears pressed when bindtap fires", () => {
+      const { result } = renderHook(() => usePressTap({ onTap: vi.fn() }));
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      act(() => {
+        result.current.bindtap(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(false);
+    });
+
     it("can be omitted without error", () => {
       const { result } = renderHook(() => usePressTap());
 

@@ -4,6 +4,10 @@ export type PrimitiveValue = string | number | boolean;
 export type VariantValues = Record<string, PrimitiveValue>;
 export type SetVariantValue = (key: string, value: PrimitiveValue) => void;
 
+export interface VariantRenderMeta {
+  interactive: boolean;
+}
+
 export interface VariantAxis {
   key: string;
   label?: string;
@@ -21,7 +25,11 @@ export interface VariantPlaygroundProps {
    * preview 영역. 현재 값 스냅샷과 setter 를 받아 실제 컴포넌트를 렌더한다.
    * setter 는 controlled state (예: `checked`) 를 playground 로 되돌릴 때 사용.
    */
-  children: (values: VariantValues, setValue: SetVariantValue) => ReactNode;
+  children: (
+    values: VariantValues,
+    setValue: SetVariantValue,
+    meta: VariantRenderMeta,
+  ) => ReactNode;
 }
 
 function isBooleanOptions(
@@ -78,7 +86,7 @@ export function VariantPlayground(props: VariantPlaygroundProps) {
           overflow: 'hidden',
         }}
       >
-        {children(values, setValue)}
+        {children(values, setValue, { interactive: true })}
       </view>
 
       {/* Controls: fixed to the bottom with its own scroll area. */}

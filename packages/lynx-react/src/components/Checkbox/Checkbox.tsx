@@ -77,6 +77,7 @@ export interface CheckboxRootProps
   defaultChecked?: boolean;
   indeterminate?: boolean;
   disabled?: boolean;
+  readOnly?: boolean;
   onCheckedChange?: (checked: boolean) => void;
 }
 
@@ -88,6 +89,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     defaultChecked = false,
     indeterminate = false,
     disabled = false,
+    readOnly = false,
     onCheckedChange,
     ...restProps
   } = props;
@@ -105,7 +107,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   });
 
   const { pressed, ...pressHandlers } = usePressTap({
-    disabled,
+    disabled: disabled || readOnly,
     onTap: () => setChecked(!checked),
   });
 

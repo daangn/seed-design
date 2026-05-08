@@ -163,7 +163,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color },
+        root: { background: vars.variantSquareToneBrand.enabledSelected.root.color },
         icon: { color: vars.variantSquareToneBrand.enabledSelected.icon.color },
       },
     },
@@ -173,7 +173,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color },
+        root: { background: vars.variantSquareToneNeutral.enabledSelected.root.color },
         icon: { color: vars.variantSquareToneNeutral.enabledSelected.icon.color },
       },
     },
@@ -183,7 +183,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       indeterminate: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color },
+        root: { background: vars.variantSquareToneBrand.enabledSelected.root.color },
         icon: { color: vars.variantSquareToneBrand.enabledSelected.icon.color },
       },
     },
@@ -193,7 +193,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       indeterminate: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color },
+        root: { background: vars.variantSquareToneNeutral.enabledSelected.root.color },
         icon: { color: vars.variantSquareToneNeutral.enabledSelected.icon.color },
       },
     },
@@ -204,7 +204,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       disabled: true,
       css: {
         root: {
-          backgroundColor: vars.variantSquare.disabled.root.color,
+          background: vars.variantSquare.disabled.root.color,
           borderColor: vars.variantSquare.disabled.root.strokeColor,
         },
         icon: { color: vars.variantSquare.disabled.icon.color },
@@ -271,7 +271,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       checked: false,
       indeterminate: false,
       disabled: false,
-      css: { root: { backgroundColor: vars.variantSquare.pressed.root.color } },
+      css: { root: { background: vars.variantSquare.pressed.root.color } },
     },
     // ── pressed: square + tone, selected ────────────────────────────────────
     {
@@ -280,7 +280,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       pressed: true,
       checked: true,
       disabled: false,
-      css: { root: { backgroundColor: vars.variantSquareToneBrand.pressedSelected.root.color } },
+      css: { root: { background: vars.variantSquareToneBrand.pressedSelected.root.color } },
     },
     {
       variant: "square",
@@ -288,7 +288,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       pressed: true,
       checked: true,
       disabled: false,
-      css: { root: { backgroundColor: vars.variantSquareToneNeutral.pressedSelected.root.color } },
+      css: { root: { background: vars.variantSquareToneNeutral.pressedSelected.root.color } },
     },
     {
       variant: "square",
@@ -296,7 +296,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       pressed: true,
       indeterminate: true,
       disabled: false,
-      css: { root: { backgroundColor: vars.variantSquareToneBrand.pressedSelected.root.color } },
+      css: { root: { background: vars.variantSquareToneBrand.pressedSelected.root.color } },
     },
     {
       variant: "square",
@@ -304,7 +304,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       pressed: true,
       indeterminate: true,
       disabled: false,
-      css: { root: { backgroundColor: vars.variantSquareToneNeutral.pressedSelected.root.color } },
+      css: { root: { background: vars.variantSquareToneNeutral.pressedSelected.root.color } },
     },
     // ── pressed: ghost unchecked ────────────────────────────────────────────
     {
@@ -313,7 +313,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       checked: false,
       indeterminate: false,
       disabled: false,
-      css: { root: { backgroundColor: vars.variantGhost.pressed.root.color } },
+      css: { root: { background: vars.variantGhost.pressed.root.color } },
     },
     // ── pressed: ghost + tone, selected ─────────────────────────────────────
     {
@@ -322,7 +322,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       pressed: true,
       checked: true,
       disabled: false,
-      css: { root: { backgroundColor: vars.variantGhostToneBrand.pressedSelected.root.color } },
+      css: { root: { background: vars.variantGhostToneBrand.pressedSelected.root.color } },
     },
     {
       variant: "ghost",
@@ -330,7 +330,7 @@ const checkmarkRecipe = defineLynxSlotRecipe({
       pressed: true,
       checked: true,
       disabled: false,
-      css: { root: { backgroundColor: vars.variantGhostToneNeutral.pressedSelected.root.color } },
+      css: { root: { background: vars.variantGhostToneNeutral.pressedSelected.root.color } },
     },
   ],
   defaultVariants: {

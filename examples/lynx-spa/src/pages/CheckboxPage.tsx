@@ -2,9 +2,10 @@ import { checkboxVariantMap } from '@seed-design/lynx-css/recipes/checkbox';
 import { checkmarkVariantMap } from '@seed-design/lynx-css/recipes/checkmark';
 
 import {
-  VariantCatalog,
   type SetVariantValue,
   type VariantAxis,
+  VariantCatalog,
+  type VariantRenderMeta,
   type VariantValues,
 } from '../components/variant-catalog.jsx';
 import { Checkbox, type CheckboxProps } from '../seed-design/ui/checkbox';
@@ -52,7 +53,13 @@ const variants: readonly VariantAxis[] = [
   },
 ];
 
-function renderCheckbox(values: VariantValues, setValue: SetVariantValue) {
+function renderCheckbox(
+  values: VariantValues,
+  setValue: SetVariantValue,
+  meta: VariantRenderMeta,
+) {
+  const interactive = meta.interactive;
+
   return (
     <Checkbox
       label="Checkbox"
@@ -63,7 +70,10 @@ function renderCheckbox(values: VariantValues, setValue: SetVariantValue) {
       checked={Boolean(values.checked)}
       indeterminate={Boolean(values.indeterminate)}
       disabled={Boolean(values.disabled)}
-      onCheckedChange={(next) => setValue('checked', next)}
+      readOnly={!interactive}
+      onCheckedChange={
+        interactive ? (next) => setValue('checked', next) : undefined
+      }
     />
   );
 }
@@ -71,7 +81,7 @@ function renderCheckbox(values: VariantValues, setValue: SetVariantValue) {
 export function CheckboxPage() {
   return (
     <VariantCatalog variants={variants}>
-      {(values, setValue) => renderCheckbox(values, setValue)}
+      {(values, setValue, meta) => renderCheckbox(values, setValue, meta)}
     </VariantCatalog>
   );
 }

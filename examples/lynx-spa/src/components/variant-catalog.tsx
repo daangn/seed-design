@@ -12,6 +12,7 @@ export type {
   PrimitiveValue,
   SetVariantValue,
   VariantAxis,
+  VariantRenderMeta,
   VariantValues,
 } from './variant-playground.jsx';
 
@@ -87,7 +88,7 @@ function renderForTable(
   children: VariantPlaygroundProps['children'],
   values: VariantValues,
 ): ReactNode {
-  return children(values, noopSetValue);
+  return children(values, noopSetValue, { interactive: false });
 }
 
 function toTabLabel(mode: Mode) {

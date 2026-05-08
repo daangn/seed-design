@@ -40,6 +40,7 @@ export function usePressTap(options: UsePressTapOptions = {}): UsePressTapReturn
 
   const handleTap = useMemoizedFn(() => {
     if (disabled) return;
+    setPressed(false);
     onTap?.();
   });
 
