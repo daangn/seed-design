@@ -1,29 +1,35 @@
-import { Suspense, lazy, useState } from '@lynx-js/react';
+import { lazy, Suspense, useState } from '@lynx-js/react';
 import { vars } from '@seed-design/lynx-css/vars';
 
 import { ActionButtonPage } from './pages/ActionButtonPage.jsx';
 import { BottomSheetPage } from './pages/BottomSheetPage.jsx';
 import { CheckboxPage } from './pages/CheckboxPage.jsx';
+import { CSSSelectorTestPage } from './pages/CSSSelectorTestPage.jsx';
 import { FoundationColorPage } from './pages/FoundationColorPage.jsx';
-import { FoundationMonochromeIconPage } from './pages/FoundationMonochromeIconPage.jsx';
-import { FoundationMulticolorIconPage } from './pages/FoundationMulticolorIconPage.jsx';
 import { FoundationTypographyPage } from './pages/FoundationTypographyPage.jsx';
 import { HomePage } from './pages/HomePage.jsx';
-import { TailwindDemoPage } from './pages/TailwindDemoPage.jsx';
-import { TestNativeBoxPage } from './pages/TestNativeBoxPage.jsx';
-import { TestTailwindBoxPage } from './pages/TestTailwindBoxPage.jsx';
+import { IconColorPOCPage } from './pages/IconColorPOCPage.jsx';
 import { NestedVarsTestPage } from './pages/NestedVarsTestPage.jsx';
 import { ProgressCirclePage } from './pages/ProgressCirclePage.jsx';
 import { RadioGroupPage } from './pages/RadioGroupPage.jsx';
 import { SwitchPage } from './pages/SwitchPage.jsx';
 import { TagGroupPage } from './pages/TagGroupPage.jsx';
+import { TailwindDemoPage } from './pages/TailwindDemoPage.jsx';
+import { TestNativeBoxPage } from './pages/TestNativeBoxPage.jsx';
+import { TestTailwindBoxPage } from './pages/TestTailwindBoxPage.jsx';
 import { ThemingPage } from './pages/ThemingPage.jsx';
-import { CSSSelectorTestPage } from './pages/CSSSelectorTestPage.jsx';
-import { IconColorPOCPage } from './pages/IconColorPOCPage.jsx';
 import { UseControllableStatePage } from './pages/UseControllableStatePage.jsx';
 import { UsePressTapPage } from './pages/UsePressTapPage.jsx';
 
 const LynxConsole = lazy(() => import('lynx-console'));
+const FoundationMonochromeIconPage = lazy(async () => ({
+  default: (await import('./pages/FoundationMonochromeIconPage.jsx'))
+    .FoundationMonochromeIconPage,
+}));
+const FoundationMulticolorIconPage = lazy(async () => ({
+  default: (await import('./pages/FoundationMulticolorIconPage.jsx'))
+    .FoundationMulticolorIconPage,
+}));
 
 export type Page =
   | 'home'
@@ -64,9 +70,8 @@ function BackButton({ onBack }: { onBack: () => void }) {
   );
 }
 
-// Variant catalog pages use a fullscreen flex shell so previews, tabs, and
-// controls can own their own scroll areas.
-const CATALOG_PAGES = new Set<Page>([
+// Pages that own their own scroll areas use a fullscreen flex shell.
+const FULLSCREEN_PAGES = new Set<Page>([
   'action-button',
   'bottom-sheet',
   'checkbox',
@@ -74,13 +79,15 @@ const CATALOG_PAGES = new Set<Page>([
   'radio-group',
   'switch',
   'tag-group',
+  'foundation-monochrome-icon',
+  'foundation-multicolor-icon',
 ]);
 
 export function App(props: { onRender?: () => void }) {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   props.onRender?.();
 
-  if (CATALOG_PAGES.has(currentPage)) {
+  if (FULLSCREEN_PAGES.has(currentPage)) {
     return (
       <view
         style={{
@@ -101,6 +108,14 @@ export function App(props: { onRender?: () => void }) {
         {currentPage === 'radio-group' && <RadioGroupPage />}
         {currentPage === 'switch' && <SwitchPage />}
         {currentPage === 'tag-group' && <TagGroupPage />}
+        <Suspense>
+          {currentPage === 'foundation-monochrome-icon' && (
+            <FoundationMonochromeIconPage />
+          )}
+          {currentPage === 'foundation-multicolor-icon' && (
+            <FoundationMulticolorIconPage />
+          )}
+        </Suspense>
         <Suspense>
           <LynxConsole theme="light" />
         </Suspense>
@@ -127,12 +142,6 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === 'theming' && <ThemingPage />}
       {currentPage === 'nested-vars-test' && <NestedVarsTestPage />}
       {currentPage === 'foundation-color' && <FoundationColorPage />}
-      {currentPage === 'foundation-monochrome-icon' && (
-        <FoundationMonochromeIconPage />
-      )}
-      {currentPage === 'foundation-multicolor-icon' && (
-        <FoundationMulticolorIconPage />
-      )}
       {currentPage === 'foundation-typography' && <FoundationTypographyPage />}
       {currentPage === 'tailwind-demo' && <TailwindDemoPage />}
       {currentPage === 'test-native-box' && <TestNativeBoxPage />}
