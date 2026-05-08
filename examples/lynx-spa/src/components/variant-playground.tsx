@@ -32,16 +32,23 @@ function isBooleanOptions(
 
 const toLabel = (value: PrimitiveValue) => String(value);
 
+export function getVariantDefaultValues(
+  variants: readonly VariantAxis[],
+): VariantValues {
+  const result: VariantValues = {};
+  for (const variant of variants) {
+    result[variant.key] = variant.defaultValue;
+  }
+  return result;
+}
+
 export function VariantPlayground(props: VariantPlaygroundProps) {
   const { variants, children } = props;
 
-  const defaultValues = useMemo<VariantValues>(() => {
-    const result: VariantValues = {};
-    for (const variant of variants) {
-      result[variant.key] = variant.defaultValue;
-    }
-    return result;
-  }, [variants]);
+  const defaultValues = useMemo(
+    () => getVariantDefaultValues(variants),
+    [variants],
+  );
 
   const [values, setValues] = useState<VariantValues>(() => defaultValues);
 

@@ -4,6 +4,10 @@ import { vars } from '@seed-design/lynx-css/vars';
 import { type BottomSheetRootRef } from '@seed-design/lynx-react';
 
 import {
+  CatalogExamples,
+  CatalogSectionTitle,
+} from '../components/catalog-examples.jsx';
+import {
   VariantCatalog,
   type VariantAxis,
   type VariantValues,
@@ -74,32 +78,13 @@ function renderBottomSheet(values: VariantValues) {
   );
 }
 
-function SectionTitle({ children }: { children: string }) {
-  return (
-    <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-      {children}
-    </text>
-  );
-}
-
 function BottomSheetExamples() {
   const uncontrolledRef = useRef<BottomSheetRootRef>(null);
   const [controlledOpen, setControlledOpen] = useState(false);
 
   return (
-    <scroll-view
-      scroll-y
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-        flex: 1,
-        padding: '16px',
-      }}
-    >
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>BottomSheet</text>
-
-      <SectionTitle>Uncontrolled (Trigger 기반)</SectionTitle>
+    <CatalogExamples title="BottomSheet" gap="16px">
+      <CatalogSectionTitle>Uncontrolled (Trigger 기반)</CatalogSectionTitle>
       <BottomSheetRoot snapPoints={SNAP_POINTS_FIT_80}>
         <BottomSheetTrigger
           style={{
@@ -125,7 +110,7 @@ function BottomSheetExamples() {
         </BottomSheetContent>
       </BottomSheetRoot>
 
-      <SectionTitle>Imperative ref</SectionTitle>
+      <CatalogSectionTitle>Imperative ref</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -155,7 +140,7 @@ function BottomSheetExamples() {
         </BottomSheetContent>
       </BottomSheetRoot>
 
-      <SectionTitle>Controlled</SectionTitle>
+      <CatalogSectionTitle>Controlled</CatalogSectionTitle>
       <view style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
         <ActionButton bindtap={() => setControlledOpen(true)}>
           open=true
@@ -174,7 +159,7 @@ function BottomSheetExamples() {
           description="backdrop 탭 / drag-to-close 시 onOpenChange로 외부 state가 갱신됩니다."
         />
       </BottomSheetRoot>
-    </scroll-view>
+    </CatalogExamples>
   );
 }
 

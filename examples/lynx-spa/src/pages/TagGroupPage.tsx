@@ -1,7 +1,10 @@
 import { tagGroupVariantMap } from '@seed-design/lynx-css/recipes/tag-group';
 import { tagGroupItemVariantMap } from '@seed-design/lynx-css/recipes/tag-group-item';
-import { vars } from '@seed-design/lynx-css/vars';
 
+import {
+  CatalogExamples,
+  CatalogSectionHeader,
+} from '../components/catalog-examples.jsx';
 import {
   VariantCatalog,
   type VariantAxis,
@@ -13,8 +16,6 @@ import {
   TagGroupRoot,
   type TagGroupRootProps,
 } from '../seed-design/ui/tag-group';
-
-const { $color } = vars;
 
 type TagGroupSize = NonNullable<TagGroupRootProps['size']>;
 type TagGroupWeight = NonNullable<TagGroupRootProps['weight']>;
@@ -58,36 +59,12 @@ function renderTagGroup(values: VariantValues) {
   );
 }
 
-function SectionHeader({ children }: { children: string }) {
-  return (
-    <text
-      style={{
-        fontSize: '14px',
-        fontWeight: 'bold',
-        marginTop: '16px',
-        marginBottom: '8px',
-        color: $color.fg.neutralSubtle,
-      }}
-    >
-      {children}
-    </text>
-  );
-}
-
 function TagGroupExamples() {
   return (
-    <scroll-view
-      scroll-y
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
-        padding: '16px',
-      }}
-    >
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>TagGroup</text>
-
-      <SectionHeader>Default (neutralSubtle · regular)</SectionHeader>
+    <CatalogExamples title="TagGroup">
+      <CatalogSectionHeader>
+        Default (neutralSubtle · regular)
+      </CatalogSectionHeader>
       <TagGroupRoot size="t2">
         <TagGroupItem>
           <TagGroupItemLabel>동네 인증</TagGroupItemLabel>
@@ -100,7 +77,7 @@ function TagGroupExamples() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Weight: bold</SectionHeader>
+      <CatalogSectionHeader>Weight: bold</CatalogSectionHeader>
       <TagGroupRoot size="t2" weight="bold">
         <TagGroupItem>
           <TagGroupItemLabel>전체</TagGroupItemLabel>
@@ -113,7 +90,7 @@ function TagGroupExamples() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Tone: neutral</SectionHeader>
+      <CatalogSectionHeader>Tone: neutral</CatalogSectionHeader>
       <TagGroupRoot size="t2" tone="neutral">
         <TagGroupItem>
           <TagGroupItemLabel>새 상품</TagGroupItemLabel>
@@ -123,7 +100,7 @@ function TagGroupExamples() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Tone: brand</SectionHeader>
+      <CatalogSectionHeader>Tone: brand</CatalogSectionHeader>
       <TagGroupRoot size="t2" tone="brand" weight="bold">
         <TagGroupItem>
           <TagGroupItemLabel>추천</TagGroupItemLabel>
@@ -133,7 +110,7 @@ function TagGroupExamples() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Per-item override</SectionHeader>
+      <CatalogSectionHeader>Per-item override</CatalogSectionHeader>
       <TagGroupRoot size="t2">
         <TagGroupItem tone="brand" weight="bold">
           <TagGroupItemLabel>NEW</TagGroupItemLabel>
@@ -146,7 +123,7 @@ function TagGroupExamples() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Wrap behaviour</SectionHeader>
+      <CatalogSectionHeader>Wrap behaviour</CatalogSectionHeader>
       <TagGroupRoot size="t2">
         <TagGroupItem>
           <TagGroupItemLabel>관악구 봉천동</TagGroupItemLabel>
@@ -165,7 +142,7 @@ function TagGroupExamples() {
         </TagGroupItem>
       </TagGroupRoot>
 
-      <SectionHeader>Custom separator</SectionHeader>
+      <CatalogSectionHeader>Custom separator</CatalogSectionHeader>
       <TagGroupRoot size="t2" separator=" / ">
         <TagGroupItem>
           <TagGroupItemLabel>서울</TagGroupItemLabel>
@@ -177,7 +154,7 @@ function TagGroupExamples() {
           <TagGroupItemLabel>봉천동</TagGroupItemLabel>
         </TagGroupItem>
       </TagGroupRoot>
-    </scroll-view>
+    </CatalogExamples>
   );
 }
 

@@ -4,6 +4,10 @@ import { switchVariantMap } from '@seed-design/lynx-css/recipes/switch';
 import { switchmarkVariantMap } from '@seed-design/lynx-css/recipes/switchmark';
 
 import {
+  CatalogExamples,
+  CatalogSectionTitle,
+} from '../components/catalog-examples.jsx';
+import {
   VariantCatalog,
   type SetVariantValue,
   type VariantAxis,
@@ -51,31 +55,12 @@ function renderSwitch(values: VariantValues, setValue: SetVariantValue) {
   );
 }
 
-function SectionTitle({ children }: { children: string }) {
-  return (
-    <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-      {children}
-    </text>
-  );
-}
-
 function SwitchExamples() {
   const [controlled, setControlled] = useState(false);
 
   return (
-    <scroll-view
-      scroll-y
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '12px',
-        flex: 1,
-        padding: '16px',
-      }}
-    >
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>Switch</text>
-
-      <SectionTitle>Default (uncontrolled)</SectionTitle>
+    <CatalogExamples title="Switch" gap="12px">
+      <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -88,13 +73,13 @@ function SwitchExamples() {
         <Switchmark defaultChecked />
       </view>
 
-      <SectionTitle>With Label</SectionTitle>
+      <CatalogSectionTitle>With Label</CatalogSectionTitle>
       <view style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Switch label="알림 받기" defaultChecked />
         <Switch label="자동 로그인" />
       </view>
 
-      <SectionTitle>Controlled</SectionTitle>
+      <CatalogSectionTitle>Controlled</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -110,7 +95,7 @@ function SwitchExamples() {
         />
       </view>
 
-      <SectionTitle>Sizes</SectionTitle>
+      <CatalogSectionTitle>Sizes</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -124,7 +109,7 @@ function SwitchExamples() {
         <Switchmark size="32" defaultChecked />
       </view>
 
-      <SectionTitle>Tones</SectionTitle>
+      <CatalogSectionTitle>Tones</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -137,15 +122,13 @@ function SwitchExamples() {
         <Switch label="Neutral" tone="neutral" defaultChecked />
       </view>
 
-      <SectionTitle>Disabled</SectionTitle>
+      <CatalogSectionTitle>Disabled</CatalogSectionTitle>
       <view style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Switch label="Disabled Off" disabled />
         <Switch label="Disabled On" disabled defaultChecked />
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-        Compound: Control override (Root=brand, Control=neutral)
-      </text>
+      <CatalogSectionTitle>Compound: Control override</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -161,7 +144,7 @@ function SwitchExamples() {
           <SeedSwitch.Label>Override</SeedSwitch.Label>
         </SeedSwitch.Root>
       </view>
-    </scroll-view>
+    </CatalogExamples>
   );
 }
 

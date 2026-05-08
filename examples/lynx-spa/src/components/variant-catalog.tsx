@@ -83,12 +83,12 @@ export function VariantCatalog(props: VariantCatalogProps) {
   );
 }
 
-const noopSetValue = () => {};
+const noopSetValue: SetVariantValue = () => {};
 function renderForTable(
   children: VariantPlaygroundProps['children'],
   values: VariantValues,
 ): ReactNode {
-  return children(values, noopSetValue as SetVariantValue);
+  return children(values, noopSetValue);
 }
 
 function toTabLabel(mode: Mode) {

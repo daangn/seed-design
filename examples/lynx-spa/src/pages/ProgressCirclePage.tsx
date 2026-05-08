@@ -2,6 +2,10 @@ import { useEffect, useState } from '@lynx-js/react';
 import { progressCircleVariantMap } from '@seed-design/lynx-css/recipes/progress-circle';
 
 import {
+  CatalogExamples,
+  CatalogSectionTitle,
+} from '../components/catalog-examples.jsx';
+import {
   VariantCatalog,
   type VariantAxis,
   type VariantValues,
@@ -124,33 +128,12 @@ function AutoProgressTest() {
   );
 }
 
-function SectionTitle({ children }: { children: string }) {
-  return (
-    <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-      {children}
-    </text>
-  );
-}
-
 function ProgressCircleExamples() {
   const [progress, setProgress] = useState(0.3);
 
   return (
-    <scroll-view
-      scroll-y
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '12px',
-        flex: 1,
-        padding: '16px',
-      }}
-    >
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>
-        ProgressCircle
-      </text>
-
-      <SectionTitle>Indeterminate</SectionTitle>
+    <CatalogExamples title="ProgressCircle" gap="12px">
+      <CatalogSectionTitle>Indeterminate</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -172,7 +155,7 @@ function ProgressCircleExamples() {
         </view>
       </view>
 
-      <SectionTitle>Sizes</SectionTitle>
+      <CatalogSectionTitle>Sizes</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -185,7 +168,7 @@ function ProgressCircleExamples() {
         <ProgressCircle tone="brand" size="40" />
       </view>
 
-      <SectionTitle>Determinate</SectionTitle>
+      <CatalogSectionTitle>Determinate</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -224,7 +207,7 @@ function ProgressCircleExamples() {
         />
       </view>
 
-      <SectionTitle>Interactive</SectionTitle>
+      <CatalogSectionTitle>Interactive</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -267,9 +250,11 @@ function ProgressCircleExamples() {
         </view>
       </view>
 
-      <SectionTitle>Transition Test (auto +10% every 1s)</SectionTitle>
+      <CatalogSectionTitle>
+        Transition Test (auto +10% every 1s)
+      </CatalogSectionTitle>
       <AutoProgressTest />
-    </scroll-view>
+    </CatalogExamples>
   );
 }
 

@@ -1,9 +1,10 @@
 import { type ReactNode, useMemo } from '@lynx-js/react';
 
-import type {
-  PrimitiveValue,
-  VariantAxis,
-  VariantValues,
+import {
+  getVariantDefaultValues,
+  type PrimitiveValue,
+  type VariantAxis,
+  type VariantValues,
 } from './variant-playground.jsx';
 
 export interface VariantTableProps {
@@ -21,17 +22,11 @@ type TableEntry =
       values: VariantValues;
     };
 
-function toDefaultValues(variants: readonly VariantAxis[]): VariantValues {
-  const result: VariantValues = {};
-  for (const variant of variants) result[variant.key] = variant.defaultValue;
-  return result;
-}
-
 export function VariantTable(props: VariantTableProps) {
   const { variants, children } = props;
 
   const entries = useMemo<TableEntry[]>(() => {
-    const defaults = toDefaultValues(variants);
+    const defaults = getVariantDefaultValues(variants);
     const result: TableEntry[] = [];
     for (const axis of variants) {
       result.push({ type: 'header', key: `header-${axis.key}`, axis });

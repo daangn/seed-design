@@ -3,6 +3,10 @@ import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
 import { actionButtonVariantMap } from '@seed-design/lynx-css/recipes/action-button';
 
 import {
+  CatalogExamples,
+  CatalogSectionTitle,
+} from '../components/catalog-examples.jsx';
+import {
   VariantCatalog,
   type VariantAxis,
   type VariantValues,
@@ -77,29 +81,10 @@ function renderActionButton(values: VariantValues) {
   );
 }
 
-function SectionTitle({ children }: { children: string }) {
-  return (
-    <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-      {children}
-    </text>
-  );
-}
-
 function ActionButtonExamples() {
   return (
-    <scroll-view
-      scroll-y
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '12px',
-        flex: 1,
-        padding: '16px',
-      }}
-    >
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>ActionButton</text>
-
-      <SectionTitle>Variants</SectionTitle>
+    <CatalogExamples title="ActionButton" gap="12px">
+      <CatalogSectionTitle>Variants</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -117,7 +102,7 @@ function ActionButtonExamples() {
         <ActionButton variant="ghost">Ghost</ActionButton>
       </view>
 
-      <SectionTitle>Sizes</SectionTitle>
+      <CatalogSectionTitle>Sizes</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -133,7 +118,7 @@ function ActionButtonExamples() {
         <ActionButton size="large">Large</ActionButton>
       </view>
 
-      <SectionTitle>Disabled</SectionTitle>
+      <CatalogSectionTitle>Disabled</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -150,7 +135,7 @@ function ActionButtonExamples() {
         </ActionButton>
       </view>
 
-      <SectionTitle>Prefix / Suffix Icon</SectionTitle>
+      <CatalogSectionTitle>Prefix / Suffix Icon</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -184,7 +169,7 @@ function ActionButtonExamples() {
         </ActionButton>
       </view>
 
-      <SectionTitle>Icon Only</SectionTitle>
+      <CatalogSectionTitle>Icon Only</CatalogSectionTitle>
       <view
         style={{
           display: 'flex',
@@ -221,7 +206,7 @@ function ActionButtonExamples() {
           aria-label="Disabled"
         />
       </view>
-    </scroll-view>
+    </CatalogExamples>
   );
 }
 
