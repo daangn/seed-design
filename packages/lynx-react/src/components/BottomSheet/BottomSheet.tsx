@@ -38,6 +38,10 @@ type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
 
 const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
+const SKIP_ANIMATION_TRANSITION: SheetTransition = {
+  type: "tween",
+  duration: 0,
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 // SEED Transitions — 웹 SEED BottomSheet (recipe: d6/d4 + enter-expressive/enter/exit)
@@ -73,12 +77,19 @@ const SEED_EXIT_ANIMATION: SheetTransition = {
 };
 
 /**
- * Trigger가 Root의 imperative API(`open` 등)를 호출할 수 있도록 `SheetRootRef`를 공유하는 내부 컨텍스트.
+ * Trigger와 Content가 Root의 imperative API와 동작 옵션을 공유하는 내부 컨텍스트.
  */
-const RootRefContext = createContext<RefObject<SheetRootRef | null> | null>(null);
+interface BottomSheetContextValue {
+  rootRef: RefObject<SheetRootRef | null>;
+  options: {
+    skipAnimation: boolean;
+  };
+}
 
-function useRootRef(): RefObject<SheetRootRef | null> {
-  const ctx = useContext(RootRefContext);
+const BottomSheetContext = createContext<BottomSheetContextValue | null>(null);
+
+function useBottomSheetContext(): BottomSheetContextValue {
+  const ctx = useContext(BottomSheetContext);
   if (!ctx) {
     throw new Error("BottomSheet compound components must be used within BottomSheetRoot");
   }
@@ -148,9 +159,19 @@ export const BottomSheetRoot = forwardRef<SheetRootRef, BottomSheetRootProps>(
       // variantProps 객체는 매 렌더 새로 생성되므로 개별 variant 값으로 의존성을 고정한다.
       [headerAlign, skipAnimation],
     );
+    const shouldSkipAnimation = skipAnimation === true;
+    const context = useMemo(
+      () => ({
+        rootRef: internalRef,
+        options: {
+          skipAnimation: shouldSkipAnimation,
+        },
+      }),
+      [shouldSkipAnimation],
+    );
 
     return (
-      <RootRefContext.Provider value={internalRef}>
+      <BottomSheetContext.Provider value={context}>
         <ClassNamesProvider value={classNames}>
           <SheetRoot
             ref={mergedRef}
@@ -163,7 +184,7 @@ export const BottomSheetRoot = forwardRef<SheetRootRef, BottomSheetRootProps>(
             {children}
           </SheetRoot>
         </ClassNamesProvider>
-      </RootRefContext.Provider>
+      </BottomSheetContext.Provider>
     );
   },
 );
@@ -182,13 +203,18 @@ export interface BottomSheetTriggerProps {
 
 export const BottomSheetTrigger = forwardRef<unknown, BottomSheetTriggerProps>((props, ref) => {
   const { children, className, style, bindtap: userBindtap } = props;
-  const rootRef = useRootRef();
+  const { rootRef, options } = useBottomSheetContext();
 
   // `bindtap`을 직접 prop으로 쓰면 React DOM `<view>` 타입(SVG)이 적용되어 TS가 거부한다.
   // Lynx JSX 런타임은 이 prop을 올바르게 처리하므로 spread로 우회한다 (ActionButton과 동일 패턴).
   const handlers = {
     bindtap: () => {
-      rootRef.current?.open();
+      if (options.skipAnimation) {
+        rootRef.current?.open({ animate: false });
+      } else {
+        rootRef.current?.open();
+      }
+
       userBindtap?.();
     },
   };
@@ -247,17 +273,24 @@ BottomSheetBackdrop.displayName = "BottomSheetBackdrop";
 
 export interface BottomSheetContentProps extends SheetContentProps {}
 
-export const BottomSheetContent = withContext<unknown, BottomSheetContentProps>(
-  SheetContent,
-  "content",
-  {
-    defaultProps: {
-      snapAnimation: SEED_SNAP_ANIMATION,
-      enterAnimation: SEED_ENTER_ANIMATION,
-      exitAnimation: SEED_EXIT_ANIMATION,
-    },
-  },
-);
+export const BottomSheetContent = forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
+  const { className, snapAnimation, enterAnimation, exitAnimation, ...restProps } = props;
+  const classNames = useClassNames();
+  const { options } = useBottomSheetContext();
+
+  const defaultAnimation = options.skipAnimation ? SKIP_ANIMATION_TRANSITION : undefined;
+
+  return (
+    <SheetContent
+      {...(ref ? { ref } : {})}
+      {...restProps}
+      className={clsx(classNames.content, className)}
+      snapAnimation={snapAnimation ?? defaultAnimation ?? SEED_SNAP_ANIMATION}
+      enterAnimation={enterAnimation ?? defaultAnimation ?? SEED_ENTER_ANIMATION}
+      exitAnimation={exitAnimation ?? defaultAnimation ?? SEED_EXIT_ANIMATION}
+    />
+  );
+});
 BottomSheetContent.displayName = "BottomSheetContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
