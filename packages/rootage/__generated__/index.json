@@ -9,6 +9,12 @@
       "path": "/color.json"
     },
     {
+      "path": "/components/accordion-item.json"
+    },
+    {
+      "path": "/components/accordion.json"
+    },
+    {
       "path": "/components/action-button.json"
     },
     {

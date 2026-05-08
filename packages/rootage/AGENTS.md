@@ -17,3 +17,5 @@ SEED Design의 **디자인 토큰과 컴포넌트 스키마를 YAML로 정의**�
 - outline이나 1px frame 성격의 token은 기본적으로 `strokeColor`/`strokeWidth` vocabulary를 먼저 검토한다. 실제 CSS border semantics를 public contract로 드러낼 때만 `border*`를 사용한다.
 - slot 이름은 public component contract를 반영한다. generic 앞 슬롯이면 `prefix`, icon-only 슬롯이면 `prefixIcon`처럼 의미를 분리한다.
 - item 자체를 설명하는 component spec에서도 최상위 element token slot은 `root`를 우선한다. 부모 recipe에서 그 component를 `item` slot으로 배치하더라도 rootage token schema 안에서는 해당 component의 root element라는 의미를 유지한다.
+- duration/timingFunction은 하드코딩(`300ms`, `ease-in-out`)하지 않고, 반드시 시스템 토큰을 먼저 찾아 사용한다: `$duration.d1`~`$duration.d6`, `$timing-function.easing`/`enter`/`exit` 등. 시스템 토큰에 맞는 값이 없을 때만 하드코딩한다 (예: select-box의 `400ms`).
+- 반걸음 dimension은 언더스코어 구분자 사용: `$dimension.x0_5` (콤마 아님)

@@ -13,7 +13,10 @@ function isCodeBlockTab(node: RootContent): node is MdxJsxFlowElement {
   return node.type === "mdxJsxFlowElement" && node.name === "CodeBlockTab";
 }
 
-function extractPackageInstallTabs(node: MdxJsxFlowElement, context: RuleContext): PackageInstallTab[] {
+function extractPackageInstallTabs(
+  node: MdxJsxFlowElement,
+  context: RuleContext,
+): PackageInstallTab[] {
   const tabs: PackageInstallTab[] = [];
 
   for (const child of node.children as RootContent[]) {
