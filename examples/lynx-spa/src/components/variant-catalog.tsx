@@ -1,9 +1,8 @@
 import { type ReactNode, useState } from '@lynx-js/react';
 
 import {
-  VariantPlayground,
   type SetVariantValue,
-  type VariantAxis,
+  VariantPlayground,
   type VariantPlaygroundProps,
   type VariantValues,
 } from './variant-playground.jsx';
