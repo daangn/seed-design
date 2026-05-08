@@ -64,9 +64,7 @@ const sessionId = generateSessionId();
 let hasShownMessage = false;
 
 function omitUndefined(properties: Record<string, unknown>): Record<string, unknown> {
-  return Object.fromEntries(
-    Object.entries(properties).filter(([, value]) => value !== undefined),
-  );
+  return Object.fromEntries(Object.entries(properties).filter(([, value]) => value !== undefined));
 }
 
 function getSafeErrorType(error: unknown): string {
@@ -109,7 +107,9 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
   // PostHog API 호출 (fire-and-forget)
   try {
     if (!process.env.POSTHOG_HOST || !process.env.POSTHOG_API_KEY) {
-      console.error("[Telemetry] POSTHOG_HOST 또는 POSTHOG_API_KEY가 없어서 이벤트를 전송하지 않아요.");
+      console.error(
+        "[Telemetry] POSTHOG_HOST 또는 POSTHOG_API_KEY가 없어서 이벤트를 전송하지 않아요.",
+      );
       return;
     }
 
