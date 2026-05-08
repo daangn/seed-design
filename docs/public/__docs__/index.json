@@ -9,6 +9,19 @@
           "label": "컴포넌트",
           "items": [
             {
+              "id": "accordion",
+              "title": "Accordion",
+              "description": "세부 정보를 점진적으로 공개할 수 있는, 수직으로 쌓인 목록 컴포넌트입니다.",
+              "docUrl": "/docs/components/accordion",
+              "snippetKey": "ui:accordion",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "accordion.tsx"
+                }
+              ]
+            },
+            {
               "id": "action-button",
               "title": "Action Button",
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
@@ -758,6 +771,19 @@
           "id": "components",
           "label": "컴포넌트",
           "items": [
+            {
+              "id": "accordion",
+              "title": "Accordion",
+              "description": "여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.",
+              "docUrl": "/react/components/accordion",
+              "snippetKey": "ui:accordion",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "accordion.tsx"
+                }
+              ]
+            },
             {
               "id": "action-button",
               "title": "Action Button",

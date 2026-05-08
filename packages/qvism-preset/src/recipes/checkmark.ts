@@ -1,6 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/checkmark.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/checkmark.json" with { type: "json" };
 import { checkmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
