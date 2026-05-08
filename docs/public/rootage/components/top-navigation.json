@@ -21,10 +21,12 @@
               "type": "color"
             },
             "strokeColor": {
-              "type": "color"
+              "type": "color",
+              "description": "divider=true일 때 적용되는 하단 stroke 색상입니다.\n@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.\nReason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.\n"
             },
             "strokeWidth": {
-              "type": "dimension"
+              "type": "dimension",
+              "description": "divider=true일 때 적용되는 하단 stroke 두께입니다.\n@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.\nReason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.\n"
             },
             "gradient": {
               "type": "gradient"
@@ -137,10 +139,15 @@
         },
         "divider": {
           "values": {
-            "true": {},
-            "false": {}
+            "true": {
+              "description": "하단 stroke를 표시합니다.\n@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.\nReason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.\n"
+            },
+            "false": {
+              "description": "하단 stroke를 표시하지 않습니다.\n@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.\nReason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.\n"
+            }
           },
-          "defaultValue": "true"
+          "defaultValue": "true",
+          "description": "하단 stroke 표시 여부입니다.\n@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.\nReason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.\n"
         },
         "titleLayout": {
           "values": {

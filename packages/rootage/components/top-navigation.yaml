@@ -16,8 +16,16 @@ data:
             type: color
           strokeColor:
             type: color
+            description: |
+              divider=true일 때 적용되는 하단 stroke 색상입니다.
+              @deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+              Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
           strokeWidth:
             type: dimension
+            description: |
+              divider=true일 때 적용되는 하단 stroke 두께입니다.
+              @deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+              Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
           gradient:
             type: gradient
           bleedBottom:
@@ -83,6 +91,22 @@ data:
             description: false로 사용하는 것을 권장하지 않습니다. gradient 없이 사용하면 Top Navigation의 콘텐츠 가독성을
               직접 확보해야 합니다. 스크린 배경 색상이 Top Navigation에 보이기를 원하는 경우 tone=layer를
               사용하세요.
+      divider:
+        description: |
+          하단 stroke 표시 여부입니다.
+          @deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+          Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
+        values:
+          "true":
+            description: |
+              하단 stroke를 표시합니다.
+              @deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+              Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
+          "false":
+            description: |
+              하단 stroke를 표시하지 않습니다.
+              @deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+              Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
   definitions:
     theme=ios:
       enabled:

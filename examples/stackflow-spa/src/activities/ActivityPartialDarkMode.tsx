@@ -24,7 +24,7 @@ const ActivityPartialDarkMode: StaticActivityComponentType<"ActivityPartialDarkM
 
   return (
     <AppScreen>
-      <AppBar divider>
+      <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>

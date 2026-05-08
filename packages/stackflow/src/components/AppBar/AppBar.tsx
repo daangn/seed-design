@@ -26,7 +26,12 @@ export const AppBarPropsProvider = PropsProvider;
 export interface AppBarProps
   extends AppBarVariantProps,
     AppBarPrimitive.RootProps,
-    BoxBackgroundProps {}
+    BoxBackgroundProps {
+  /**
+   * @deprecated Deprecated in @seed-design/stackflow@1.1.x; will be removed in 2.0.0. Remove divider; AppBar should render without the bottom stroke.
+   */
+  divider?: AppBarVariantProps["divider"];
+}
 
 export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) => {
   const { style: boxStyle, restProps: propsWithoutBoxProps } = useBoxBackgroundProps(props);

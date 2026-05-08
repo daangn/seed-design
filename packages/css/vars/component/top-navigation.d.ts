@@ -64,14 +64,34 @@ export declare const vars: {
       }
     }
   },
+  /**
+   * 하단 stroke를 표시합니다.
+@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
+
+   */
   "dividerTrue": {
     "enabled": {
       "root": {
+        /** divider=true일 때 적용되는 하단 stroke 색상입니다.
+@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
+ */
         "strokeColor": "var(--seed-color-stroke-neutral-subtle)",
+        /** divider=true일 때 적용되는 하단 stroke 두께입니다.
+@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
+ */
         "strokeWidth": "1px"
       }
     }
   },
+  /**
+   * 하단 stroke를 표시하지 않습니다.
+@deprecated divider 옵션은 @seed-design/rootage-artifacts@2.0.0에서 제거될 예정입니다. divider 사용을 제거하세요.
+Reason: Top Navigation/AppBar의 하단 stroke 옵션을 제거합니다.
+
+   */
   "dividerFalse": {},
   "titleLayoutTitleOnly": {
     "enabled": {
