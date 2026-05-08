@@ -4,10 +4,8 @@ import { defineLynxSlotRecipe } from "../../utils/define-lynx";
 /**
  * Lynx-전용 radiomark recipe.
  *
- * 웹 recipe (`../radiomark.ts`) 가 `pseudo(checked)` / `pseudo(disabled)` 기반인 것과
- * 달리, Lynx 는 `checked` / `disabled` 를 boolean variants 로 일급 노출한다.
- * 런타임에서 prop 값을 그대로 넘기면 `StringToBoolean` 을 통해 타입 캐스팅 없이
- * compile 된다.
+ * `checked`, `disabled`, `pressed` 상태를 boolean variant로 받아 className 조합으로
+ * 반영한다.
  */
 const radiomarkRecipe = defineLynxSlotRecipe({
   name: "radiomark",

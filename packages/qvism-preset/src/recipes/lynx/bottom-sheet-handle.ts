@@ -2,11 +2,9 @@ import { defineLynxSlotRecipe } from "../../utils/define-lynx";
 import { bottomSheetHandle as handleVars } from "../../vars/component";
 
 /**
- * BottomSheet handle recipe (Lynx fork).
+ * Lynx-전용 BottomSheet handle recipe.
  *
- * Identical in spirit to the web recipe but stripped of CSS features Lynx
- * does not support (CSS `transition`, pseudo-class hover, etc.). Pressed-state
- * feedback is driven by lynx-ui-sheet's touch handlers, not CSS `:active`.
+ * handle과 touch area의 정적 geometry만 제공한다.
  */
 const bottomSheetHandle = defineLynxSlotRecipe({
   name: "bottom-sheet-handle",

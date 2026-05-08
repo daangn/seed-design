@@ -4,14 +4,9 @@ import { defineLynxSlotRecipe } from "../../utils/define-lynx";
 /**
  * Lynx-전용 checkmark recipe.
  *
- * 웹 recipe (`../checkmark.ts`) 가 `pseudo(checked)` / `pseudo(disabled)` 등 CSS
- * pseudo selector 기반으로 상태를 표현하는 반면, Lynx 는 native form 이 없어 pseudo
- * 를 직접 사용할 수 없다. 대신 boolean variants (`checked`, `disabled`,
- * `indeterminate`) 로 상태를 일급 노출한다. 컴포넌트 런타임에서 prop 값을 그대로
- * 넘기면 `StringToBoolean` 을 통해 타입 캐스팅 없이 compile 된다.
- *
- * variant=square: 박스 + 체크 아이콘. unchecked 시 아이콘 숨김.
- * variant=ghost: 박스 없음, 항상 아이콘 표시. selected 시 tone 색상으로 강조.
+ * `checked`, `disabled`, `indeterminate`, `pressed` 상태를 boolean variant로 받아
+ * className 조합으로 반영한다. square는 박스와 아이콘을 함께 그리고, ghost는
+ * 아이콘 색상만 상태에 맞게 바꾼다.
  */
 const checkmarkRecipe = defineLynxSlotRecipe({
   name: "checkmark",

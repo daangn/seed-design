@@ -3,29 +3,11 @@ import { actionButton as vars } from "../../vars/component";
 import { defineLynxSlotRecipe } from "../../utils/define-lynx";
 
 /**
- * ActionButton recipe (Lynx fork).
+ * Lynx-전용 ActionButton recipe.
  *
- * Derived from the web `action-button` recipe with these changes for Lynx:
- * - **Slot-recipe shape** (`root`/`text`/`prefixIcon`/`suffixIcon`).
- * - **`prefixIcon`/`suffixIcon` 슬롯에 `color: var(--seed-color-...)` 만 지정한다.**
- *   Lynx 3.7 의 `<image>` 는 `tint-color` CSS property 도 `tint-color` attribute
- *   에서 `var()` 스트링도 해석하지 않는다. concrete color(hex/rgb) 만 받는다.
- *   대신 `<image>` 의 CSS `color` 값은 main-thread API `getComputedStyleProperty("color")`
- *   로 resolved hex 를 읽어올 수 있다 (POC D 에서 검증).
- *   따라서 recipe 는 slot 에 `color` 만 박고, React 쪽
- *   `ActionButton.PrefixIcon`/`SuffixIcon` 에서 `useIconColor` 훅이 main-thread 로
- *   가 `color` 를 읽어 `tint-color` attribute 로 mirror 하는 방식으로 처리한다.
- * - 슬롯에 width/height/flexShrink 만 남겨 아이콘 크기는 CSS 로 결정한다.
- * - `pressed` / `disabled` / `loading` boolean variants replace the web's
- *   pseudo selectors (`:active`, `:disabled`, etc.). Lynx 는 native form pseudo
- *   가 없으므로 컴포넌트 런타임에서 boolean prop 으로 직접 상태를 전달한다.
- * - No focus-ring / `:focusVisible` — Lynx has no keyboard focus UX.
- * - No `iconOnly` / `loading` icon styles yet. `layout: "iconOnly"` and
- *   `loading` spinner remain Tier B (pending dedicated icon slots).
- * - `ghost` variant drops the `--seed-box-color` indirection since Lynx does
- *   not cascade CSS variables down to descendants the same way.
- * - `progressCircle` track/range custom properties preserved so the `loading`
- *   spinner component can opt in once implemented.
+ * `pressed`, `disabled`, `loading` 상태는 boolean variant로 받아 slot별 className
+ * 조합으로 반영한다. 아이콘 slot은 `useIconColor`가 resolved color를 native tint로
+ * mirror할 수 있도록 color만 가진다.
  */
 const actionButton = defineLynxSlotRecipe({
   name: "action-button",
