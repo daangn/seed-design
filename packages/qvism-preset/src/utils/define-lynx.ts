@@ -1,29 +1,29 @@
 import type { CSSProperties as LynxCss } from "@lynx-js/types";
 import type {
-  AnySelector,
-  CssVarProperties,
   RecipeDefinition,
   RecipeVariantRecord,
-  Selectors,
   SlotRecipeDefinition,
   SlotRecipeVariantRecord,
 } from "@seed-design/qvism-core";
 
-type LynxStyleProperties = LynxCss & CssVarProperties;
+type CssVarRef = `var(--${string})`;
+type CssVarKey = `--${string}`;
 
-type LynxNested<P> = P & {
-  [K in Selectors]?: LynxNested<P>;
+type LynxStyleProperties = {
+  [K in keyof LynxCss]: LynxCss[K] | CssVarRef;
 } & {
-  [K in AnySelector]?: LynxNested<P>;
+  [K in CssVarKey]?: string;
 };
 
 /**
  * Style object constrained to properties/values that the Lynx view engine
  * actually supports. Derived from `@lynx-js/types` `CSSProperties`, so keys
  * like `inline-*` display values or `verticalAlign` are unavailable at
- * compile time — unlike the web `StyleObject` which accepts them.
+ * compile time. Unlike the web style object, selector nesting is intentionally
+ * omitted so state styles are modeled as recipe variants and emitted as
+ * className combinations.
  */
-export type LynxStyleObject = LynxNested<LynxStyleProperties>;
+export type LynxStyleObject = LynxStyleProperties;
 
 type LynxSlotRecord<S extends string> = Partial<Record<S, LynxStyleObject>>;
 

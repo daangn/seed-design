@@ -2,19 +2,10 @@ import { defineLynxSlotRecipe } from "../../utils/define-lynx";
 import { bottomSheet as vars } from "../../vars/component";
 
 /**
- * BottomSheet recipe (Lynx fork).
+ * Lynx-전용 BottomSheet recipe.
  *
- * Derived from the web `bottom-sheet` recipe but pruned for Lynx runtime:
- * - No `[data-snap-points]` / `[data-open]` attribute selectors (Lynx only
- *   supports class-based selectors). Backdrop opacity and content transform
- *   are driven entirely by `@lynx-js/lynx-ui-sheet` via main-thread worklets.
- * - No `::after` pseudo-element (unsupported in Lynx) — the web rule extends
- *   content background below the viewport to hide bounce-back. Not needed on
- *   Lynx because there is no native rubber-band scroll beneath the sheet.
- * - No `animation-name` / `animation-duration`. Open/close/snap animations are
- *   tweened by lynx-ui-sheet's motion engine, not CSS keyframes.
- * - No `focus` / `focusVisible` outline — Lynx has no keyboard focus UX.
- *   `closeButton` slot is retained for future Tier B SVG support.
+ * 정적 layout/surface/typography 스타일만 className으로 제공하고, backdrop/content
+ * motion은 `@lynx-js/lynx-ui-sheet`의 main-thread worklet이 직접 구동한다.
  */
 const bottomSheet = defineLynxSlotRecipe({
   name: "bottom-sheet",
