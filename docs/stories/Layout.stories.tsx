@@ -44,7 +44,11 @@ const children = (
 export const LightTheme: Story = {
   args: {
     children,
-    style: { width: "100%", height: "400px", border: "1px solid var(--seed-color-stroke-neutralWeak)" },
+    style: {
+      width: "100%",
+      height: "400px",
+      border: "1px solid var(--seed-color-stroke-neutralWeak)",
+    },
   },
   render: (args) => (
     <VariantTable Component={meta.component} variantMap={layoutVariantMap} {...args} />

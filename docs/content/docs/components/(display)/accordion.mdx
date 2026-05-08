@@ -1,0 +1,150 @@
+---
+title: Accordion
+description: 세부 정보를 점진적으로 공개할 수 있는, 수직으로 쌓인 목록 컴포넌트입니다.
+coverImageFigmaId: 1049:4381
+---
+
+<PlatformStatusTable componentId="accordion" />
+
+## Anatomy
+
+Accordion은 Trigger(Prefix, Title, Description, Chevron Icon)와 확장 시 Custom Content로 구성됩니다.
+
+Trigger는 사용자가 클릭하여 콘텐츠를 열고 닫을 수 있는 영역입니다. Prefix, Title, Description, Chevron Icon을 포함합니다.
+
+<FigmaImage
+  id="1030:18028"
+  alt="Accordion의 Anatomy 이미지. Trigger(Prefix, Title, Description, Chevron Icon)와 확장 시 Custom Content로 구성됩니다."
+/>
+
+## Properties
+
+### Open
+
+Accordion은 기본적으로 두 가지 시각적 상태를 가집니다.
+
+- **Collapsed**: 헤더만 노출되며 Content Panel이 숨겨진 상태입니다. Chevron Icon이 아래 방향을 가리킵니다.
+- **Expanded**: 헤더 아래에 Content Panel이 펼쳐진 상태입니다. Chevron Icon이 위 방향을 가리킵니다.
+
+기본적으로 모든 패널은 Collapsed 상태로 시작하여, 사용자에게 콘텐츠의 전체적인 개요를 먼저 제공합니다.
+
+<FigmaImage
+  id="1030:18047"
+  alt="Accordion의 Open Property - Collapsed, Expanded"
+/>
+
+### Size
+
+모바일과 PC를 하나의 컴포넌트로 대응하기 위한 prop입니다. 사이즈에 따라 Padding, Font Size, Chevron Icon Size가 다릅니다. 기본 값으로는 Medium입니다.
+
+- **Medium**: 모바일 기본 사이즈입니다.
+- **Large**: PC 대응 사이즈입니다.
+
+Large 사이즈는 PC 환경에서 뷰포트 너비가 변하더라도 폰트 사이즈가 동일하게 유지됩니다. 반응형에 따라 달라지는 것은 컴포넌트의 레이아웃 요소이며, 타이포그래피는 고정값을 사용합니다.
+
+<FigmaImage id="1030:18063" alt="Accordion의 Size Property - Medium, Large" />
+
+### Variant
+
+Accordion Item들의 시각적 배치 방식을 정의합니다. 콘텐츠의 성격과 레이아웃에 따라 적절한 Variant를 선택해 주세요.
+
+<FigmaImage id="1030:18079" alt="Accordion의 Variant - Inline, Separated" />
+
+### State
+
+Accordion 컴포넌트는 Enabled, Pressed, Disabled 상태를 제공합니다.
+
+<FigmaImage
+  id="1030:18102"
+  alt="Accordion의 State - Enabled, Pressed, Enabled + Focus, Disabled"
+/>
+
+### Prefix
+
+Prefix Slot은 Accordion 좌측에 위치합니다. 아이콘 이외에 다른 요소를 사용하고 싶은 경우 Custom을 이용해 변경해 주세요.
+
+Prefix에 어떤 요소가 오느냐에 따라 Trigger와의 간격을 사용처에서 커스텀하여 조절할 수 있습니다. 간격 조정 시에는 디자인 시스템에서 제공하는 spacing token을 활용해 주세요.
+
+<FigmaImage
+  id="1030:18136"
+  alt="Accordion의 Prefix Property - None, Icon, Custom"
+/>
+
+## Guidelines
+
+### Accordion 기본 사용하기
+
+Accordion은 관련 정보를 그룹화하거나, 긴 페이지의 스크롤을 줄여야 할 때 사용합니다.
+
+<FigmaImage id="1030:18196" alt="Accordion을 활용한 사용 예시" />
+
+### Item 최소 개수
+
+Accordion은 여러 섹션을 접고 펼치며 탐색하는 컴포넌트이므로, 최소 2개 이상의 Item으로 구성해야 합니다.
+
+단일 콘텐츠를 접고 펼치는 용도는 해당 아이템에 Collapsible 동작을 활용할 수 있어요.
+
+<Grid>
+  <FigmaImage id="1030:18234" alt="2개 이상의 Item으로 구성한 Accordion 예시" />
+  <DontImage
+    figmaId="1030:18260"
+    body="Accordion Item을 단일로 사용하지 마세요."
+    alt="Accordion Item을 단일로 사용한 예시"
+  />
+</Grid>
+
+### Accordion 터치 영역
+
+터치 영역은 Chevron 아이콘뿐만 아니라 Trigger 전체를 포함합니다.
+
+<FigmaImage
+  id="1039:6417"
+  alt="Accordion의 터치 영역 예시. Chevron 아이콘뿐만 아니라 Trigger 전체를 포함합니다."
+/>
+
+### Expansion Behavior 차이
+
+| 동작              | 설명                                                                                  | 사용처                               |
+| ----------------- | ------------------------------------------------------------------------------------- | ------------------------------------ |
+| **Single Expand** | 한 번에 하나의 패널만 열 수 있습니다. 다른 패널을 열면 기존 패널이 자동으로 닫힙니다. | 단계별 프로세스, 작은 화면 혹은 영역 |
+| **Multi Expand**  | 여러 패널을 동시에 열 수 있습니다. 각 패널의 상태가 독립적으로 관리됩니다.            | FAQ, 콘텐츠가 풍부한 경우            |
+
+<Grid>
+  <FigmaImage id="1030:18296" alt="Single Expand 사용 예시" />
+  <FigmaImage id="1030:18323" alt="Multi Expand 사용 예시" />
+</Grid>
+
+### 확장 시 자동 스크롤 / 포커스 이동
+
+자동 스크롤 및 포커스 이동은 기본값으로 지원하지 않습니다. 다만, Accordion 콘텐츠가 뷰포트보다 길어지는 경우에는 전체 Accordion이 페이지 수준에서 수직으로 스크롤되어야 합니다.
+
+<FigmaImage
+  id="1030:18597"
+  alt="Accordion 확장 시 페이지 수준에서 수직으로 스크롤되는 예시"
+/>
+
+### Content Panel 내 스크롤 지양
+
+Content Panel 개별 내부에서의 스크롤은 지양합니다. 콘텐츠가 길 경우 Accordion 전체를 포함하는 페이지 수준에서 수직 스크롤을 허용하되, 개별 패널 내의 스크롤은 사용하지 마세요.
+
+<Grid>
+  <FigmaImage
+    id="1030:18670"
+    alt="Content Panel 내부에서 수직 스크롤이 발생한 예시"
+  />
+  <DontImage
+    figmaId="1030:18861"
+    body="Content Panel 개별 내부에서의 스크롤은 지양합니다."
+    alt="Content Panel 개별 내부에서 수직 스크롤이 발생한 예시"
+  />
+</Grid>
+
+## Specification
+
+### Accordion
+
+<ComponentSpecBlock id="accordion" headingComponent="h4" />
+
+### Accordion Item
+
+<ComponentSpecBlock id="accordion-item" headingComponent="h4" />

@@ -1,6 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/switchmark.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/switchmark.json" with { type: "json" };
 import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { checked, disabled, focusVisible, pseudo } from "../utils/pseudo";
