@@ -77,21 +77,23 @@ const SEED_EXIT_ANIMATION: SheetTransition = {
 };
 
 /**
- * Trigger가 Root의 imperative API(`open` 등)를 호출할 수 있도록 `SheetRootRef`를 공유하는 내부 컨텍스트.
+ * Trigger와 Content가 Root의 imperative API와 동작 옵션을 공유하는 내부 컨텍스트.
  */
-const RootRefContext = createContext<RefObject<SheetRootRef | null> | null>(null);
-const SkipAnimationContext = createContext(false);
+interface BottomSheetContextValue {
+  rootRef: RefObject<SheetRootRef | null>;
+  options: {
+    skipAnimation: boolean;
+  };
+}
 
-function useRootRef(): RefObject<SheetRootRef | null> {
-  const ctx = useContext(RootRefContext);
+const BottomSheetContext = createContext<BottomSheetContextValue | null>(null);
+
+function useBottomSheetContext(): BottomSheetContextValue {
+  const ctx = useContext(BottomSheetContext);
   if (!ctx) {
     throw new Error("BottomSheet compound components must be used within BottomSheetRoot");
   }
   return ctx;
-}
-
-function useSkipAnimation(): boolean {
-  return useContext(SkipAnimationContext);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -158,24 +160,31 @@ export const BottomSheetRoot = forwardRef<SheetRootRef, BottomSheetRootProps>(
       [headerAlign, skipAnimation],
     );
     const shouldSkipAnimation = skipAnimation === true;
+    const context = useMemo(
+      () => ({
+        rootRef: internalRef,
+        options: {
+          skipAnimation: shouldSkipAnimation,
+        },
+      }),
+      [shouldSkipAnimation],
+    );
 
     return (
-      <RootRefContext.Provider value={internalRef}>
-        <SkipAnimationContext.Provider value={shouldSkipAnimation}>
-          <ClassNamesProvider value={classNames}>
-            <SheetRoot
-              ref={mergedRef}
-              show={open}
-              defaultShow={defaultOpen}
-              onShowChange={onOpenChange}
-              snapPoints={snapPoints ?? DEFAULT_SNAP_POINTS}
-              {...nativeProps}
-            >
-              {children}
-            </SheetRoot>
-          </ClassNamesProvider>
-        </SkipAnimationContext.Provider>
-      </RootRefContext.Provider>
+      <BottomSheetContext.Provider value={context}>
+        <ClassNamesProvider value={classNames}>
+          <SheetRoot
+            ref={mergedRef}
+            show={open}
+            defaultShow={defaultOpen}
+            onShowChange={onOpenChange}
+            snapPoints={snapPoints ?? DEFAULT_SNAP_POINTS}
+            {...nativeProps}
+          >
+            {children}
+          </SheetRoot>
+        </ClassNamesProvider>
+      </BottomSheetContext.Provider>
     );
   },
 );
@@ -194,14 +203,13 @@ export interface BottomSheetTriggerProps {
 
 export const BottomSheetTrigger = forwardRef<unknown, BottomSheetTriggerProps>((props, ref) => {
   const { children, className, style, bindtap: userBindtap } = props;
-  const rootRef = useRootRef();
-  const skipAnimation = useSkipAnimation();
+  const { rootRef, options } = useBottomSheetContext();
 
   // `bindtap`을 직접 prop으로 쓰면 React DOM `<view>` 타입(SVG)이 적용되어 TS가 거부한다.
   // Lynx JSX 런타임은 이 prop을 올바르게 처리하므로 spread로 우회한다 (ActionButton과 동일 패턴).
   const handlers = {
     bindtap: () => {
-      if (skipAnimation) {
+      if (options.skipAnimation) {
         rootRef.current?.open({ animate: false });
       } else {
         rootRef.current?.open();
@@ -268,9 +276,9 @@ export interface BottomSheetContentProps extends SheetContentProps {}
 export const BottomSheetContent = forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
   const { className, snapAnimation, enterAnimation, exitAnimation, ...restProps } = props;
   const classNames = useClassNames();
-  const skipAnimation = useSkipAnimation();
+  const { options } = useBottomSheetContext();
 
-  const defaultAnimation = skipAnimation ? SKIP_ANIMATION_TRANSITION : undefined;
+  const defaultAnimation = options.skipAnimation ? SKIP_ANIMATION_TRANSITION : undefined;
 
   return (
     <SheetContent
