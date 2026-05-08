@@ -269,7 +269,10 @@ async function mdToHtml(md: string): Promise<string> {
 }
 
 function stripHtmlTags(html: string): string {
-  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /** @description 단일 `<li>` 항목만 있는 `<ul>` 태그를 벗겨냅니다. 단일 항목 변경사항의 불필요한 리스트 래핑을 제거합니다. */
