@@ -14,7 +14,7 @@ const switchmarkSlotNames = [
 
 const defaultVariant = {
   "tone": "brand",
-  "size": 32,
+  "size": "32",
   "checked": false,
   "disabled": false
 };
@@ -39,15 +39,15 @@ const compoundVariants = [
     "disabled": true
   },
   {
-    "size": 32,
+    "size": "32",
     "checked": true
   },
   {
-    "size": 24,
+    "size": "24",
     "checked": true
   },
   {
-    "size": 16,
+    "size": "16",
     "checked": true
   }
 ];

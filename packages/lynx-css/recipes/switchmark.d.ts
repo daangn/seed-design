@@ -4,7 +4,7 @@ declare interface SwitchmarkVariant {
   */
   tone: "neutral" | "brand";
 /**
-  * @default 32
+  * @default "32"
   */
   size: "16" | "24" | "32";
 /**

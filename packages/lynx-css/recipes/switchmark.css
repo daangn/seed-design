@@ -60,11 +60,11 @@
     background-color: var(--seed-color-palette-static-black-alpha-700)
 }
 .seed-switchmark__thumb--size_32-checked_true {
-    transform: scale(1) translateX(calc(52px - 32px))
+    transform: scale(1) translateX(20px)
 }
 .seed-switchmark__thumb--size_24-checked_true {
-    transform: scale(1) translateX(calc(38px - 24px))
+    transform: scale(1) translateX(14px)
 }
 .seed-switchmark__thumb--size_16-checked_true {
-    transform: scale(1) translateX(calc(26px - 16px))
+    transform: scale(1) translateX(10px)
 }
