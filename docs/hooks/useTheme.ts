@@ -18,12 +18,8 @@ function readThemeInfo(): ThemeInfo {
     };
   }
 
-  const colorMode = document.documentElement.getAttribute(
-    "data-seed-color-mode"
-  ) as ColorMode;
-  const userColorScheme = document.documentElement.getAttribute(
-    "data-seed-user-color-scheme"
-  );
+  const colorMode = document.documentElement.getAttribute("data-seed-color-mode") as ColorMode;
+  const userColorScheme = document.documentElement.getAttribute("data-seed-user-color-scheme");
 
   return {
     colorMode: colorMode || "system",
