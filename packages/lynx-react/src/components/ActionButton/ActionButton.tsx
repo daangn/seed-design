@@ -32,6 +32,14 @@ type IconElementProps = {
   ref?: React.Ref<MainThread.Element>;
 };
 
+type ActionButtonContentProps = {
+  children?: React.ReactNode;
+  isIconOnly: boolean;
+  icon?: ReactElement<IconElementProps>;
+  prefixIcon?: ReactElement<IconElementProps>;
+  suffixIcon?: ReactElement<IconElementProps>;
+};
+
 type ActionButtonRootOwnProps = {
   className?: string;
   style?: React.CSSProperties;
@@ -163,13 +171,7 @@ function ActionButtonContent({
   icon,
   prefixIcon,
   suffixIcon,
-}: {
-  children?: React.ReactNode;
-  isIconOnly: boolean;
-  icon?: ReactElement<IconElementProps>;
-  prefixIcon?: ReactElement<IconElementProps>;
-  suffixIcon?: ReactElement<IconElementProps>;
-}) {
+}: ActionButtonContentProps) {
   if (isIconOnly) {
     return icon != null && isValidElement(icon) ? (
       <ActionButtonIconSlot icon={icon} slot="icon" />
@@ -189,7 +191,7 @@ function ActionButtonContent({
   );
 }
 
-function ActionButtonLoadingContent(props: Parameters<typeof ActionButtonContent>[0]) {
+function ActionButtonLoadingContent(props: ActionButtonContentProps) {
   const classNames = useClassNames();
 
   return (

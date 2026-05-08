@@ -5,13 +5,7 @@ import { describe, expect, it } from "vitest";
 import { ActionButton } from "../ActionButton";
 
 function getRenderedQueries() {
-  const root = elementTree.root;
-
-  if (!root) {
-    throw new Error("Expected Lynx render root to exist.");
-  }
-
-  return getQueriesForElement(root);
+  return getQueriesForElement(getRenderedRoot());
 }
 
 function getRenderedRoot() {
