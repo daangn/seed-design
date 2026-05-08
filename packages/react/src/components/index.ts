@@ -1,3 +1,4 @@
+export * from "./Accordion";
 export * from "./ActionButton";
 export * from "./ActionChip";
 export * from "./ActionSheet";
