@@ -126,7 +126,7 @@ const switchmarkRecipe = defineLynxSlotRecipe({
 
     // ── size × checked: thumb transform ──────────────────────────────────────
     {
-      size: 32,
+      size: "32",
       checked: true,
       css: {
         thumb: {
@@ -135,7 +135,7 @@ const switchmarkRecipe = defineLynxSlotRecipe({
       },
     },
     {
-      size: 24,
+      size: "24",
       checked: true,
       css: {
         thumb: {
@@ -144,7 +144,7 @@ const switchmarkRecipe = defineLynxSlotRecipe({
       },
     },
     {
-      size: 16,
+      size: "16",
       checked: true,
       css: {
         thumb: {
@@ -155,7 +155,7 @@ const switchmarkRecipe = defineLynxSlotRecipe({
   ],
   defaultVariants: {
     tone: "brand",
-    size: 32,
+    size: "32",
     checked: false,
     disabled: false,
   },

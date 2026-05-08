@@ -47,7 +47,7 @@
   ],
   "scripts": {
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
-    "qvism:generate": "bun ./node_modules/.bin/qvism ./ ./recipes",
+    "qvism:generate": "bun qvism ./ ./recipes",
     "lint:publish": "bun publint"
   },
   "devDependencies": {

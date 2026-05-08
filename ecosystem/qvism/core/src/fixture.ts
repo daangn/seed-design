@@ -1,6 +1,4 @@
-export const sharedMjs = `const toClassNameValue = (value) => \`\${value}\`;
-
-export const createClassName = (className, variants, compoundVariants = []) => {
+export const sharedMjs = `export const createClassName = (className, variants, compoundVariants = []) => {
   const variantKeys = Object.keys(variants)
 
   const variantValues = variantKeys.map((key) => variants[key]);
@@ -11,9 +9,7 @@ export const createClassName = (className, variants, compoundVariants = []) => {
 
   const compountVariantClassName = compoundVariants
     .filter((compoundVariant) =>
-      Object.keys(compoundVariant).every(
-        (key) => toClassNameValue(compoundVariant[key]) === toClassNameValue(variants[key]),
-      ),
+      Object.keys(compoundVariant).every((key) => compoundVariant[key] === variants[key]),
     )
     .map(
       (compoundVariant) =>
