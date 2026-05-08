@@ -7,6 +7,10 @@ const actionButtonSlotNames = [
     "seed-action-button__root"
   ],
   [
+    "content",
+    "seed-action-button__content"
+  ],
+  [
     "text",
     "seed-action-button__text"
   ],
@@ -21,6 +25,10 @@ const actionButtonSlotNames = [
   [
     "icon",
     "seed-action-button__icon"
+  ],
+  [
+    "loadingIndicator",
+    "seed-action-button__loadingIndicator"
   ]
 ];
 

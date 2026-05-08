@@ -4,29 +4,6 @@
     {
       "snippets": [
         {
-          "path": "action-button.tsx",
-          "dependencies": {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0"
-          }
-        }
-      ],
-      "id": "action-button",
-      "dependencies": [
-        "@seed-design/lynx-react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "progress-circle"
-          ]
-        }
-      ]
-    },
-    {
-      "snippets": [
-        {
           "path": "bottom-sheet.tsx",
           "dependencies": {
             "@seed-design/lynx-react": "~0.1.0-alpha.0",

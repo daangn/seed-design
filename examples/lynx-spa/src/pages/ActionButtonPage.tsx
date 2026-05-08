@@ -1,20 +1,17 @@
 import IconChevronDownFill from '@karrotmarket/lynx-monochrome-icon/IconChevronDownFill';
 import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
 import { actionButtonVariantMap } from '@seed-design/lynx-css/recipes/action-button';
+import { ActionButton, type ActionButtonProps } from '@seed-design/lynx-react';
 
 import {
   CatalogExamples,
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
-  VariantCatalog,
   type VariantAxis,
+  VariantCatalog,
   type VariantValues,
 } from '../components/variant-catalog.jsx';
-import {
-  ActionButton,
-  type ActionButtonProps,
-} from '../seed-design/ui/action-button';
 
 type ActionButtonVariant = NonNullable<ActionButtonProps['variant']>;
 type ActionButtonSize = NonNullable<ActionButtonProps['size']>;
@@ -167,6 +164,42 @@ function ActionButtonExamples() {
         >
           Disabled
         </ActionButton>
+      </view>
+
+      <CatalogSectionTitle>Loading</CatalogSectionTitle>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
+          alignItems: 'center',
+        }}
+      >
+        <ActionButton variant="brandSolid" loading>
+          Loading
+        </ActionButton>
+        <ActionButton
+          variant="neutralSolid"
+          prefixIcon={<IconPlusFill />}
+          loading
+        >
+          Prefix Icon
+        </ActionButton>
+        <ActionButton
+          variant="brandOutline"
+          suffixIcon={<IconChevronDownFill />}
+          loading
+        >
+          Suffix Icon
+        </ActionButton>
+        <ActionButton
+          layout="iconOnly"
+          variant="brandSolid"
+          icon={<IconPlusFill />}
+          loading
+          aria-label="Loading"
+        />
       </view>
 
       <CatalogSectionTitle>Icon Only</CatalogSectionTitle>

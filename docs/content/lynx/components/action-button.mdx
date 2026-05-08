@@ -5,12 +5,14 @@ description: 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 �
 
 ## Installation
 
-{/* TODO: dev 브랜치 머지 시 @alpha 태그와 --baseUrl 옵션 제거 */}
+{/* TODO: dev 브랜치 머지 시 @alpha 태그 제거 */}
 ```package-install
-npx @seed-design/cli@alpha add ui:action-button --baseUrl https://lynx.seed-design.pages.dev
+@seed-design/lynx-react@alpha @seed-design/lynx-css@alpha
 ```
 
-<LynxManualInstallation name="action-button" />
+<Callout>
+Lynx `ActionButton`은 별도 `ui:action-button` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
 
 ## Usage
 
@@ -38,21 +40,13 @@ Lynx `ActionButton`은 React `ActionButton`과 다음과 같은 차이가 있습
 - **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
 - **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`/`<text>` 요소를 렌더링합니다.
 - **ref forwarding**: `React.forwardRef`로 ref를 전달할 수 있습니다.
+- **아이콘 전달 방식**: 웹의 slot 컴포넌트 대신 `prefixIcon` / `suffixIcon` / `icon` prop으로 아이콘 element를 전달합니다.
+- **Loading 상태**: 웹과 동일하게 spinner를 absolute로 얹고 기존 content를 숨겨 원래 버튼 폭을 유지합니다.
 </Callout>
 
 ## Lynx 미지원 기능
 
 현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
-
-### Lynx 3.7 SVG 지원 후 추가 예정
-
-| 기능 | 웹 대응 | 설명 |
-|------|---------|------|
-| `loading` | `usePendingButton` | SVG 기반 spinner 필요 |
-| `layout: "iconOnly"` | `IconRequired` | SVG 아이콘 렌더링 필요 |
-| `PrefixIcon` / `SuffixIcon` | `Icon` 컴포넌트 | SVG 아이콘 렌더링 필요 |
-
-### 추후 검토
 
 | 기능 | 웹 대응 | 설명 |
 |------|---------|------|

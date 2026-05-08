@@ -11,7 +11,7 @@ import { defineLynxSlotRecipe } from "../../utils/define-lynx";
  */
 const actionButton = defineLynxSlotRecipe({
   name: "action-button",
-  slots: ["root", "text", "prefixIcon", "suffixIcon", "icon"],
+  slots: ["root", "content", "text", "prefixIcon", "suffixIcon", "icon", "loadingIndicator"],
   base: {
     root: {
       display: "flex",
@@ -52,6 +52,13 @@ const actionButton = defineLynxSlotRecipe({
 
       transition: `color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
+    content: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      opacity: 0,
+    },
     prefixIcon: {
       flexShrink: 0,
     },
@@ -60,6 +67,16 @@ const actionButton = defineLynxSlotRecipe({
     },
     icon: {
       flexShrink: 0,
+    },
+    loadingIndicator: {
+      position: "absolute",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
     },
   },
   variants: {
@@ -216,6 +233,9 @@ const actionButton = defineLynxSlotRecipe({
           "--seed-box-padding-top": vars.sizeXsmallLayoutWithText.enabled.root.paddingY,
           "--seed-box-padding-bottom": vars.sizeXsmallLayoutWithText.enabled.root.paddingY,
         },
+        content: {
+          gap: vars.sizeXsmallLayoutWithText.enabled.root.gap,
+        },
         text: {
           fontSize: vars.sizeXsmallLayoutWithText.enabled.label.fontSize,
           lineHeight: vars.sizeXsmallLayoutWithText.enabled.label.lineHeight,
@@ -257,6 +277,9 @@ const actionButton = defineLynxSlotRecipe({
           "--seed-box-padding-right": vars.sizeSmallLayoutWithText.enabled.root.paddingX,
           "--seed-box-padding-top": vars.sizeSmallLayoutWithText.enabled.root.paddingY,
           "--seed-box-padding-bottom": vars.sizeSmallLayoutWithText.enabled.root.paddingY,
+        },
+        content: {
+          gap: vars.sizeSmallLayoutWithText.enabled.root.gap,
         },
         text: {
           fontSize: vars.sizeSmallLayoutWithText.enabled.label.fontSize,
@@ -300,6 +323,9 @@ const actionButton = defineLynxSlotRecipe({
           "--seed-box-padding-top": vars.sizeMediumLayoutWithText.enabled.root.paddingY,
           "--seed-box-padding-bottom": vars.sizeMediumLayoutWithText.enabled.root.paddingY,
         },
+        content: {
+          gap: vars.sizeMediumLayoutWithText.enabled.root.gap,
+        },
         text: {
           fontSize: vars.sizeMediumLayoutWithText.enabled.label.fontSize,
           lineHeight: vars.sizeMediumLayoutWithText.enabled.label.lineHeight,
@@ -341,6 +367,9 @@ const actionButton = defineLynxSlotRecipe({
           "--seed-box-padding-right": vars.sizeLargeLayoutWithText.enabled.root.paddingX,
           "--seed-box-padding-top": vars.sizeLargeLayoutWithText.enabled.root.paddingY,
           "--seed-box-padding-bottom": vars.sizeLargeLayoutWithText.enabled.root.paddingY,
+        },
+        content: {
+          gap: vars.sizeLargeLayoutWithText.enabled.root.gap,
         },
         text: {
           fontSize: vars.sizeLargeLayoutWithText.enabled.label.fontSize,

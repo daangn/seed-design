@@ -10,6 +10,11 @@ import { useIconColor } from "../../hooks/use-icon-color";
 import { usePressTap, type UsePressTapReturn } from "../../hooks/use-press-tap";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
+import {
+  ProgressCircleRange,
+  ProgressCircleRoot,
+  type ProgressCircleRootProps,
+} from "../ProgressCircle";
 
 // Root/TextSlot 은 `withProvider("view", ...)` / `withContext("text", ...)` 를 쓰지 않는다.
 // intrinsic string 인자는 `React.createElement("view", ...)` 로 컴파일되어 Lynx 컴파일러의
@@ -19,11 +24,20 @@ const { ClassNamesProvider, useClassNames, PropsProvider, useProps } =
   createSlotRecipeContext(actionButton);
 
 type IconSlotKey = "prefixIcon" | "suffixIcon" | "icon";
+type ActionButtonSize = NonNullable<ActionButtonVariantProps["size"]>;
 
 type IconElementProps = {
   className?: string;
   style?: React.CSSProperties;
   ref?: React.Ref<MainThread.Element>;
+};
+
+type ActionButtonContentProps = {
+  children?: React.ReactNode;
+  isIconOnly: boolean;
+  icon?: ReactElement<IconElementProps>;
+  prefixIcon?: ReactElement<IconElementProps>;
+  suffixIcon?: ReactElement<IconElementProps>;
 };
 
 type ActionButtonRootOwnProps = {
@@ -36,6 +50,13 @@ type ActionButtonRootOwnProps = {
   bindtap?: UsePressTapReturn["bindtap"];
   "main-thread:bindtap"?: UsePressTapReturn["main-thread:bindtap"];
 };
+
+const progressCircleSizeMap = {
+  xsmall: "14",
+  small: "14",
+  medium: "16",
+  large: "18",
+} as const satisfies Record<ActionButtonSize, NonNullable<ProgressCircleRootProps["size"]>>;
 
 const ActionButtonRoot = React.forwardRef<
   unknown,
@@ -144,6 +165,54 @@ function ActionButtonIconSlot({
   });
 }
 
+function ActionButtonContent({
+  children,
+  isIconOnly,
+  icon,
+  prefixIcon,
+  suffixIcon,
+}: ActionButtonContentProps) {
+  if (isIconOnly) {
+    return icon != null && isValidElement(icon) ? (
+      <ActionButtonIconSlot icon={icon} slot="icon" />
+    ) : null;
+  }
+
+  return (
+    <>
+      {prefixIcon != null && isValidElement(prefixIcon) ? (
+        <ActionButtonIconSlot icon={prefixIcon} slot="prefixIcon" />
+      ) : null}
+      <ActionButtonTextSlot>{children}</ActionButtonTextSlot>
+      {suffixIcon != null && isValidElement(suffixIcon) ? (
+        <ActionButtonIconSlot icon={suffixIcon} slot="suffixIcon" />
+      ) : null}
+    </>
+  );
+}
+
+function ActionButtonLoadingContent(props: ActionButtonContentProps) {
+  const classNames = useClassNames();
+
+  return (
+    <view className={classNames.content}>
+      <ActionButtonContent {...props} />
+    </view>
+  );
+}
+
+function ActionButtonLoadingIndicator({ size }: { size: ActionButtonSize }) {
+  const classNames = useClassNames();
+
+  return (
+    <view className={classNames.loadingIndicator}>
+      <ProgressCircleRoot size={progressCircleSizeMap[size]} tone="inherit">
+        <ProgressCircleRange />
+      </ProgressCircleRoot>
+    </view>
+  );
+}
+
 /**
  * @platform Lynx
  *
@@ -203,6 +272,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   const { disabled = false, loading = false } = variantAndRest;
   const isInteractive = !disabled && !loading;
   const isIconOnly = layout === "iconOnly";
+  const size = variantAndRest.size ?? "medium";
 
   if (process.env.NODE_ENV !== "production" && isIconOnly && !props["aria-label"]) {
     console.warn('ActionButton: `layout="iconOnly"` requires `aria-label` for accessibility.');
@@ -223,20 +293,27 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
       style={flexGrow != null ? { flexGrow } : undefined}
       {...pressTapHandlers}
     >
-      {isIconOnly ? (
-        icon != null && isValidElement(icon) ? (
-          <ActionButtonIconSlot icon={icon} slot="icon" />
-        ) : null
-      ) : (
+      {loading ? (
         <>
-          {prefixIcon != null && isValidElement(prefixIcon) ? (
-            <ActionButtonIconSlot icon={prefixIcon} slot="prefixIcon" />
-          ) : null}
-          {loading ? children : <ActionButtonTextSlot>{children}</ActionButtonTextSlot>}
-          {suffixIcon != null && isValidElement(suffixIcon) ? (
-            <ActionButtonIconSlot icon={suffixIcon} slot="suffixIcon" />
-          ) : null}
+          <ActionButtonLoadingIndicator size={size} />
+          <ActionButtonLoadingContent
+            isIconOnly={isIconOnly}
+            icon={icon}
+            prefixIcon={prefixIcon}
+            suffixIcon={suffixIcon}
+          >
+            {children}
+          </ActionButtonLoadingContent>
         </>
+      ) : (
+        <ActionButtonContent
+          isIconOnly={isIconOnly}
+          icon={icon}
+          prefixIcon={prefixIcon}
+          suffixIcon={suffixIcon}
+        >
+          {children}
+        </ActionButtonContent>
       )}
     </ActionButtonRoot>
   );
