@@ -19,24 +19,19 @@ Checkbox는 compound component 집합입니다. Root가 상태를 소유하고 C
 ```tsx
 import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
 import IconMinusFatFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFatFill";
-import {
-  CheckboxRoot,
-  CheckboxControl,
-  CheckboxIndicator,
-  CheckboxLabel,
-} from "@seed-design/lynx-react";
+import { Checkbox } from "@seed-design/lynx-react";
 
 export function App() {
   return (
-    <CheckboxRoot defaultChecked>
-      <CheckboxControl>
-        <CheckboxIndicator
+    <Checkbox.Root defaultChecked>
+      <Checkbox.Control>
+        <Checkbox.Indicator
           checked={<IconCheckmarkFatFill />}
           indeterminate={<IconMinusFatFill />}
         />
-      </CheckboxControl>
-      <CheckboxLabel>알림 받기</CheckboxLabel>
-    </CheckboxRoot>
+      </Checkbox.Control>
+      <Checkbox.Label>알림 받기</Checkbox.Label>
+    </Checkbox.Root>
   );
 }
 ```
@@ -45,45 +40,47 @@ Controlled 모드는 `checked`와 `onCheckedChange`를 함께 전달합니다.
 
 ```tsx
 import { useState } from "@lynx-js/react";
+import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
+import { Checkbox } from "@seed-design/lynx-react";
 
 export function ControlledCheckbox() {
   const [checked, setChecked] = useState(false);
   return (
-    <CheckboxRoot checked={checked} onCheckedChange={setChecked}>
-      <CheckboxControl>
-        <CheckboxIndicator checked={<IconCheckmarkFatFill />} />
-      </CheckboxControl>
-      <CheckboxLabel>{checked ? "선택됨" : "선택 안 됨"}</CheckboxLabel>
-    </CheckboxRoot>
+    <Checkbox.Root checked={checked} onCheckedChange={setChecked}>
+      <Checkbox.Control>
+        <Checkbox.Indicator checked={<IconCheckmarkFatFill />} />
+      </Checkbox.Control>
+      <Checkbox.Label>{checked ? "선택됨" : "선택 안 됨"}</Checkbox.Label>
+    </Checkbox.Root>
   );
 }
 ```
 
 ### Indeterminate 상태
 
-일부 항목만 선택된 상태를 표현할 때 `indeterminate` prop과 함께 `CheckboxIndicator`의 `indeterminate` 아이콘을 전달합니다. native `<input type="checkbox">`와 동일하게, indeterminate 상태에서 tap하면 `checked` 값만 토글되고 `indeterminate` prop은 소비자가 직접 해제해야 합니다.
+일부 항목만 선택된 상태를 표현할 때 `indeterminate` prop과 함께 `Checkbox.Indicator`의 `indeterminate` 아이콘을 전달합니다. native `<input type="checkbox">`와 동일하게, indeterminate 상태에서 tap하면 `checked` 값만 토글되고 `indeterminate` prop은 소비자가 직접 해제해야 합니다.
 
 ```tsx
-<CheckboxRoot checked={allChecked} indeterminate={someChecked} onCheckedChange={handleToggle}>
-  <CheckboxControl>
-    <CheckboxIndicator checked={<IconCheckmarkFatFill />} indeterminate={<IconMinusFatFill />} />
-  </CheckboxControl>
-  <CheckboxLabel>전체 선택</CheckboxLabel>
-</CheckboxRoot>
+<Checkbox.Root checked={allChecked} indeterminate={someChecked} onCheckedChange={handleToggle}>
+  <Checkbox.Control>
+    <Checkbox.Indicator checked={<IconCheckmarkFatFill />} indeterminate={<IconMinusFatFill />} />
+  </Checkbox.Control>
+  <Checkbox.Label>전체 선택</Checkbox.Label>
+</Checkbox.Root>
 ```
 
 ### Group 레이아웃
 
-여러 Checkbox를 수직 간격과 함께 묶을 때 `CheckboxGroup`을 사용합니다. 자식 Checkbox 사이의 상태 공유는 하지 않고 레이아웃만 제공합니다.
+여러 Checkbox를 수직 간격과 함께 묶을 때 `Checkbox.Group`을 사용합니다. 자식 Checkbox 사이의 상태 공유는 하지 않고 레이아웃만 제공합니다.
 
 ```tsx
-import { CheckboxGroup } from "@seed-design/lynx-react";
+import { Checkbox } from "@seed-design/lynx-react";
 
-<CheckboxGroup>
-  <CheckboxRoot>...</CheckboxRoot>
-  <CheckboxRoot>...</CheckboxRoot>
-  <CheckboxRoot>...</CheckboxRoot>
-</CheckboxGroup>
+<Checkbox.Group>
+  <Checkbox.Root>...</Checkbox.Root>
+  <Checkbox.Root>...</Checkbox.Root>
+  <Checkbox.Root>...</Checkbox.Root>
+</Checkbox.Group>
 ```
 
 ## Props
@@ -95,10 +92,10 @@ import { CheckboxGroup } from "@seed-design/lynx-react";
 <Callout type="warning">
 Lynx `Checkbox`는 React `Checkbox`와 다음과 같은 차이가 있습니다.
 
-- **아이콘 주입 방식**: `CheckboxIndicator`는 `@karrotmarket/lynx-monochrome-icon`의 monochrome icon 컴포넌트만 받습니다. 내부에서 `<image tint-color=...>`로 렌더되어 `useIconColor` 훅이 recipe의 `color` 토큰을 동기화합니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
+- **아이콘 주입 방식**: `Checkbox.Indicator`는 `@karrotmarket/lynx-monochrome-icon`의 monochrome icon 컴포넌트만 받습니다. 내부에서 `<image tint-color=...>`로 렌더되어 `useIconColor` 훅이 recipe의 `color` 토큰을 동기화합니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
 - **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Root 내부에서 소유합니다.
 - **렌더링 요소**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
-- **Compound 구조**: `CheckboxRoot` → `CheckboxControl` → `CheckboxIndicator` + `CheckboxLabel` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다.
+- **Compound 구조**: `Checkbox.Root` → `Checkbox.Control` → `Checkbox.Indicator` + `Checkbox.Label` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다.
 - **ref forwarding**: 모든 sub-component는 `React.forwardRef`를 지원합니다 (Indicator 제외 — `cloneElement`로 내부에서 tint-color ref를 주입하므로 외부 ref를 받지 않음).
 </Callout>
 

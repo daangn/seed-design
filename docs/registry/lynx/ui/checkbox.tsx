@@ -1,16 +1,9 @@
 import * as React from "@lynx-js/react";
 import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
 import IconMinusFatFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFatFill";
-import {
-  CheckboxControl,
-  CheckboxGroup,
-  CheckboxIndicator,
-  CheckboxLabel,
-  CheckboxRoot,
-  type CheckboxRootProps,
-} from "@seed-design/lynx-react";
+import { Checkbox as SeedCheckbox } from "@seed-design/lynx-react";
 
-export interface CheckboxProps extends CheckboxRootProps {
+export interface CheckboxProps extends SeedCheckbox.RootProps {
   label?: React.ReactNode;
 }
 
@@ -20,40 +13,40 @@ export interface CheckboxProps extends CheckboxRootProps {
 export const Checkbox = React.forwardRef<unknown, CheckboxProps>(
   ({ label, children, ...otherProps }, ref) => {
     return (
-      <CheckboxRoot ref={ref} {...otherProps}>
-        <CheckboxControl>
-          <CheckboxIndicator
+      <SeedCheckbox.Root ref={ref} {...otherProps}>
+        <SeedCheckbox.Control>
+          <SeedCheckbox.Indicator
             unchecked={<IconCheckmarkFatFill />}
             checked={<IconCheckmarkFatFill />}
             indeterminate={<IconMinusFatFill />}
           />
-        </CheckboxControl>
-        {label != null ? <CheckboxLabel>{label}</CheckboxLabel> : null}
+        </SeedCheckbox.Control>
+        {label != null ? <SeedCheckbox.Label>{label}</SeedCheckbox.Label> : null}
         {children}
-      </CheckboxRoot>
+      </SeedCheckbox.Root>
     );
   },
 );
 Checkbox.displayName = "Checkbox";
 
-export interface CheckmarkProps extends Omit<CheckboxRootProps, "children"> {}
+export interface CheckmarkProps extends Omit<SeedCheckbox.RootProps, "children"> {}
 
 /**
  * @see https://seed-design.io/lynx/components/checkbox
  */
 export const Checkmark = React.forwardRef<unknown, CheckmarkProps>((props, ref) => {
   return (
-    <CheckboxRoot ref={ref} {...props}>
-      <CheckboxControl>
-        <CheckboxIndicator
+    <SeedCheckbox.Root ref={ref} {...props}>
+      <SeedCheckbox.Control>
+        <SeedCheckbox.Indicator
           checked={<IconCheckmarkFatFill />}
           indeterminate={<IconMinusFatFill />}
         />
-      </CheckboxControl>
-    </CheckboxRoot>
+      </SeedCheckbox.Control>
+    </SeedCheckbox.Root>
   );
 });
 Checkmark.displayName = "Checkmark";
 
-export { CheckboxGroup };
-export type { CheckboxGroupProps } from "@seed-design/lynx-react";
+export const CheckboxGroup = SeedCheckbox.Group;
+export type CheckboxGroupProps = SeedCheckbox.GroupProps;

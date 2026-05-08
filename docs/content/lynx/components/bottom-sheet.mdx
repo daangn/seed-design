@@ -17,64 +17,52 @@ npx @seed-design/cli@alpha add ui:bottom-sheet --baseUrl https://lynx.seed-desig
 ## Usage
 
 ```tsx
-import {
-  BottomSheetBackdrop,
-  BottomSheetBody,
-  BottomSheetContent,
-  BottomSheetDescription,
-  BottomSheetFooter,
-  BottomSheetHandle,
-  BottomSheetHeader,
-  BottomSheetPositioner,
-  BottomSheetRoot,
-  BottomSheetTitle,
-  BottomSheetTrigger,
-} from "@seed-design/lynx-react";
+import { BottomSheet } from "@seed-design/lynx-react";
 
 export function App() {
   return (
-    <BottomSheetRoot snapPoints={["fit", "80%"]}>
-      <BottomSheetTrigger>
+    <BottomSheet.Root snapPoints={["fit", "80%"]}>
+      <BottomSheet.Trigger>
         <text>시트 열기</text>
-      </BottomSheetTrigger>
-      <BottomSheetPositioner>
-        <BottomSheetBackdrop />
-        <BottomSheetContent>
-          <BottomSheetHandle />
-          <BottomSheetHeader>
-            <BottomSheetTitle>제목</BottomSheetTitle>
-            <BottomSheetDescription>부가 설명</BottomSheetDescription>
-          </BottomSheetHeader>
-          <BottomSheetBody>
+      </BottomSheet.Trigger>
+      <BottomSheet.Positioner>
+        <BottomSheet.Backdrop />
+        <BottomSheet.Content>
+          <BottomSheet.Handle />
+          <BottomSheet.Header>
+            <BottomSheet.Title>제목</BottomSheet.Title>
+            <BottomSheet.Description>부가 설명</BottomSheet.Description>
+          </BottomSheet.Header>
+          <BottomSheet.Body>
             <text>본문 콘텐츠</text>
-          </BottomSheetBody>
-          <BottomSheetFooter>
+          </BottomSheet.Body>
+          <BottomSheet.Footer>
             <text>하단 액션 영역</text>
-          </BottomSheetFooter>
-        </BottomSheetContent>
-      </BottomSheetPositioner>
-    </BottomSheetRoot>
+          </BottomSheet.Footer>
+        </BottomSheet.Content>
+      </BottomSheet.Positioner>
+    </BottomSheet.Root>
   );
 }
 ```
 
-`BottomSheetPositioner`는 시트가 처음 열릴 때까지 `BottomSheetBackdrop`과 `BottomSheetContent`의 마운트를 지연시킵니다. `BottomSheetTrigger`는 Positioner 밖에 두어야 탭으로 시트를 열 수 있습니다.
+`BottomSheet.Positioner`는 시트가 처음 열릴 때까지 `BottomSheet.Backdrop`과 `BottomSheet.Content`의 마운트를 지연시킵니다. `BottomSheet.Trigger`는 Positioner 밖에 두어야 탭으로 시트를 열 수 있습니다.
 
 ### Imperative 제어
 
-`BottomSheetRoot`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다.
+`BottomSheet.Root`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다.
 
 ```tsx
 import { useRef } from "@lynx-js/react";
-import { BottomSheetRoot, type BottomSheetRootRef } from "@seed-design/lynx-react";
+import { BottomSheet, type BottomSheetRootRef } from "@seed-design/lynx-react";
 
 export function App() {
   const ref = useRef<BottomSheetRootRef>(null);
 
   return (
-    <BottomSheetRoot ref={ref} snapPoints={["fit", "80%"]}>
+    <BottomSheet.Root ref={ref} snapPoints={["fit", "80%"]}>
       {/* ... */}
-    </BottomSheetRoot>
+    </BottomSheet.Root>
   );
 }
 ```

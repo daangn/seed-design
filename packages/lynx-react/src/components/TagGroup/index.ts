@@ -6,3 +6,5 @@ export {
   type TagGroupItemProps,
   type TagGroupItemLabelProps,
 } from "./TagGroup";
+
+export * as TagGroup from "./TagGroup.namespace";

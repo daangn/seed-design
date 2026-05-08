@@ -10,3 +10,5 @@ export {
   type RadioGroupItemIndicatorProps,
   type RadioGroupItemLabelProps,
 } from "./RadioGroup";
+
+export * as RadioGroup from "./RadioGroup.namespace";

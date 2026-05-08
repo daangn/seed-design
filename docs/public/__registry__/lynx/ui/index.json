@@ -110,7 +110,10 @@
           }
         }
       ],
-      "id": "tag-group"
+      "id": "tag-group",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
     }
   ]
 }

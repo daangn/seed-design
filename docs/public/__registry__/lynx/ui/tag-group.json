@@ -1,9 +1,12 @@
 {
   "id": "tag-group",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
   "snippets": [
     {
       "path": "tag-group.tsx",
-      "content": "/**\n * @file ui:tag-group\n * @requires @seed-design/lynx-react@~0.1.0-alpha.0\n * @requires @seed-design/lynx-css@~0.1.0-alpha.0\n **/\n\n/**\n * @see https://seed-design.io/lynx/components/tag-group\n */\nexport {\n  TagGroupRoot,\n  TagGroupItem,\n  TagGroupItemLabel,\n  type TagGroupRootProps,\n  type TagGroupItemProps,\n  type TagGroupItemLabelProps,\n} from \"@seed-design/lynx-react\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "content": "/**\n * @file ui:tag-group\n * @requires @seed-design/lynx-react@~0.1.0-alpha.0\n * @requires @seed-design/lynx-css@~0.1.0-alpha.0\n **/\n\n/**\n * @see https://seed-design.io/lynx/components/tag-group\n */\nimport { TagGroup as SeedTagGroup } from \"@seed-design/lynx-react\";\n\nexport interface TagGroupRootProps extends SeedTagGroup.RootProps {}\n\nexport const TagGroupRoot = SeedTagGroup.Root;\n\nexport interface TagGroupItemProps extends SeedTagGroup.ItemProps {}\n\nexport const TagGroupItem = SeedTagGroup.Item;\n\nexport interface TagGroupItemLabelProps extends SeedTagGroup.ItemLabelProps {}\n\nexport const TagGroupItemLabel = SeedTagGroup.ItemLabel;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
       "dependencies": {
         "@seed-design/lynx-react": "~0.1.0-alpha.0",
         "@seed-design/lynx-css": "~0.1.0-alpha.0"
