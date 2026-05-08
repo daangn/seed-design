@@ -1,5 +1,10 @@
 import { useState } from '@lynx-js/react';
-import { Switch as SeedSwitch } from '@seed-design/lynx-react';
+import {
+  SwitchControl,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+} from '@seed-design/lynx-react';
 import { switchVariantMap } from '@seed-design/lynx-css/recipes/switch';
 import { switchmarkVariantMap } from '@seed-design/lynx-css/recipes/switchmark';
 
@@ -137,12 +142,12 @@ function SwitchExamples() {
           alignItems: 'center',
         }}
       >
-        <SeedSwitch.Root tone="brand" defaultChecked>
-          <SeedSwitch.Control tone="neutral">
-            <SeedSwitch.Thumb />
-          </SeedSwitch.Control>
-          <SeedSwitch.Label>Override</SeedSwitch.Label>
-        </SeedSwitch.Root>
+        <SwitchRoot tone="brand" defaultChecked>
+          <SwitchControl tone="neutral">
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchLabel>Override</SwitchLabel>
+        </SwitchRoot>
       </view>
     </CatalogExamples>
   );

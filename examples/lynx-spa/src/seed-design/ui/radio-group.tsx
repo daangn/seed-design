@@ -4,10 +4,18 @@
  * @requires @seed-design/lynx-css@~0.1.0-alpha.0
  **/
 
-import * as React from "@lynx-js/react";
-import { RadioGroup as SeedRadioGroup } from "@seed-design/lynx-react";
+import * as React from '@lynx-js/react';
+import {
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemIndicator,
+  RadioGroupItemLabel,
+  RadioGroupRoot,
+  type RadioGroupItemProps,
+  type RadioGroupRootProps,
+} from '@seed-design/lynx-react';
 
-export interface RadioGroupProps extends SeedRadioGroup.RootProps {}
+export interface RadioGroupProps extends RadioGroupRootProps {}
 
 /**
  * @see https://seed-design.io/lynx/components/radio-group
@@ -15,15 +23,15 @@ export interface RadioGroupProps extends SeedRadioGroup.RootProps {}
 export const RadioGroup = React.forwardRef<unknown, RadioGroupProps>(
   ({ children, ...otherProps }, ref) => {
     return (
-      <SeedRadioGroup.Root ref={ref} {...otherProps}>
+      <RadioGroupRoot ref={ref} {...otherProps}>
         {children}
-      </SeedRadioGroup.Root>
+      </RadioGroupRoot>
     );
   },
 );
-RadioGroup.displayName = "RadioGroup";
+RadioGroup.displayName = 'RadioGroup';
 
-export interface RadioProps extends SeedRadioGroup.ItemProps {
+export interface RadioProps extends RadioGroupItemProps {
   label?: React.ReactNode;
 }
 
@@ -33,17 +41,19 @@ export interface RadioProps extends SeedRadioGroup.ItemProps {
 export const Radio = React.forwardRef<unknown, RadioProps>(
   ({ label, children, ...otherProps }, ref) => {
     return (
-      <SeedRadioGroup.Item ref={ref} {...otherProps}>
-        <SeedRadioGroup.ItemControl>
-          <SeedRadioGroup.ItemIndicator />
-        </SeedRadioGroup.ItemControl>
-        {label != null ? <SeedRadioGroup.ItemLabel>{label}</SeedRadioGroup.ItemLabel> : null}
+      <RadioGroupItem ref={ref} {...otherProps}>
+        <RadioGroupItemControl>
+          <RadioGroupItemIndicator />
+        </RadioGroupItemControl>
+        {label != null ? (
+          <RadioGroupItemLabel>{label}</RadioGroupItemLabel>
+        ) : null}
         {children}
-      </SeedRadioGroup.Item>
+      </RadioGroupItem>
     );
   },
 );
-Radio.displayName = "Radio";
+Radio.displayName = 'Radio';
 
 /**
  * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
