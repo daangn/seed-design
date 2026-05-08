@@ -1,4 +1,4 @@
-import * as React from "@lynx-js/react";
+import type * as React from "@lynx-js/react";
 import {
   createContext,
   runOnMainThread,
@@ -261,7 +261,7 @@ function DeterminateRange({
     return () => {
       runOnMainThread(cancelAnimation)();
     };
-  }, [progress]);
+  }, [progress, numSize]);
 
   return (
     <>
@@ -357,7 +357,7 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
     return () => {
       runOnMainThread(stopLoop)();
     };
-  }, []);
+  }, [numSize]);
 
   const initialClipPath = 'path("M 0 0 Z")';
 
