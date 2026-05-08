@@ -1,15 +1,5 @@
 import { act, fireEvent, render } from "@testing-library/react";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  it,
-  jest,
-  mock,
-  spyOn,
-} from "bun:test";
+import { afterAll, afterEach, beforeAll, describe, expect, it, jest, mock, spyOn } from "bun:test";
 import * as React from "react";
 import { DRAG_CLASS, TRANSITIONS } from "./constants";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
@@ -19,11 +9,7 @@ interface DrawerHarnessProps extends UseDrawerProps {
   onApi?: (api: ReturnType<typeof useDrawer>) => void;
 }
 
-function DrawerHarness({
-  initialCloseButtonVisible = false,
-  onApi,
-  ...props
-}: DrawerHarnessProps) {
+function DrawerHarness({ initialCloseButtonVisible = false, onApi, ...props }: DrawerHarnessProps) {
   const api = useDrawer(props);
   const [showCloseButton, setShowCloseButton] = React.useState(initialCloseButtonVisible);
 
@@ -161,7 +147,9 @@ describe("useDrawer", () => {
   });
 
   it("dismissible이 false이고 snapPoints가 없으면 드래그를 시작하지 않는다", () => {
-    const { getByTestId } = render(<DrawerHarness defaultOpen dismissible={false} direction="left" />);
+    const { getByTestId } = render(
+      <DrawerHarness defaultOpen dismissible={false} direction="left" />,
+    );
     const drawer = getByTestId("drawer");
 
     fireEvent.pointerDown(drawer, {
@@ -293,9 +281,7 @@ describe("useDrawer", () => {
   it("닫힘 애니메이션 후 active snap point를 첫 번째 스냅 포인트로 되돌린다", () => {
     jest.useFakeTimers();
 
-    const { getByTestId } = render(
-      <DrawerHarness defaultOpen snapPoints={["100px", "300px"]} />,
-    );
+    const { getByTestId } = render(<DrawerHarness defaultOpen snapPoints={["100px", "300px"]} />);
 
     fireEvent.click(getByTestId("set-second-snap"));
     expect(getByTestId("active-snap-point")).toHaveTextContent("300px");

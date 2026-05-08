@@ -1,3 +1,4 @@
+import accordion from "./recipes/accordion";
 import actionButton from "./recipes/action-button";
 import actionChip from "./recipes/action-chip";
 import actionSheet from "./recipes/action-sheet";
@@ -78,6 +79,7 @@ import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
 
 export const recipes = {
+  accordion,
   actionButton,
   actionChip,
   actionSheet,

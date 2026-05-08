@@ -1,0 +1,246 @@
+---
+title: Accordion
+description: 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+---
+
+<ComponentExample name="react/accordion/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:accordion
+```
+
+<ManualInstallation name="accordion" />
+
+## Props
+
+### `Accordion`
+
+<react-type-table
+  path="./registry/ui/accordion.tsx"
+  name="AccordionProps"
+/>
+
+### `AccordionItem`
+
+<react-type-table
+  path="./registry/ui/accordion.tsx"
+  name="AccordionItemProps"
+/>
+
+### `AccordionTrigger`
+
+<react-type-table
+  path="./registry/ui/accordion.tsx"
+  name="AccordionTriggerProps"
+/>
+
+### `AccordionContent`
+
+<react-type-table
+  path="./registry/ui/accordion.tsx"
+  name="AccordionContentProps"
+/>
+
+## Examples
+
+### Inline Variant
+
+기본 variant입니다. 아이템이 연속된 흐름으로 제공되며, 아이템 사이에 구분선이 표시됩니다.
+
+<ComponentExample name="react/accordion/inline">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/inline.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Separated
+
+`variant="separated"` 를 사용하면 각 항목이 분리된 카드 형태로 표시됩니다.
+
+<ComponentExample name="react/accordion/separated">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/separated.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Multiple
+
+기본적으로 한 번에 하나의 항목만 펼칠 수 있습니다. `multiple` prop을 사용하면 여러 항목을 동시에 펼칠 수 있습니다.
+
+<ComponentExample name="react/accordion/multiple">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/multiple.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Always one open
+
+`values`와 `onValuesChange`를 사용해 controlled 패턴으로 운영하면, 빈 배열이 들어올 때 setter를 호출하지 않는 가드만 추가하여 항상 하나의 항목이 열려 있도록 강제할 수 있습니다.
+
+<ComponentExample name="react/accordion/controlled-required-open">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/controlled-required-open.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Large Size
+
+`size="large"` 를 사용하면 더 큰 크기의 아코디언을 표시합니다.
+
+<ComponentExample name="react/accordion/size-large">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/size-large.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Prefix
+
+`prefix` prop에 아이콘 같은 앞쪽 요소를 전달할 수 있습니다.
+
+<ComponentExample name="react/accordion/with-prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/with-prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Description
+
+`description` prop으로 트리거에 부가 설명을 추가할 수 있습니다.
+
+<ComponentExample name="react/accordion/with-description">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/with-description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+`disabled` prop으로 전체 또는 개별 항목을 비활성화할 수 있습니다.
+
+- `Accordion`에 `disabled`를 설정하면 모든 항목이 비활성화됩니다.
+- `AccordionItem`에 `disabled`를 설정하면 해당 항목만 비활성화됩니다.
+
+<ComponentExample name="react/accordion/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+`values`와 `onValuesChange`를 사용하여 열림 상태를 직접 제어할 수 있습니다.
+
+<ComponentExample name="react/accordion/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Value Array Changes
+
+controlled 모드에서는 현재 열려 있는 항목이 `values` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `values`와 최근 `onValuesChange` 결과를 함께 보여줍니다.
+
+<ComponentExample name="react/accordion/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Default Expanded
+
+`defaultValues`를 사용하여 초기 열림 상태를 지정할 수 있습니다.
+
+<ComponentExample name="react/accordion/default-expanded">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/default-expanded.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Content
+
+`AccordionContent`는 열림/닫힘 애니메이션 컨테이너 역할만 합니다. 기본 패딩, 배경색, 테두리, 타이포그래피 스타일은 제공하지 않으므로 내부 콘텐츠에서 직접 구성해야 합니다. 아래 예시처럼 `Box`로 패딩과 배경을 명시적으로 주는 패턴을 권장합니다.
+
+<ComponentExample name="react/accordion/custom-content">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/custom-content.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Accessibility
+
+[WAI-ARIA Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/)을 따릅니다.
+
+`AccordionTrigger`는 내부적으로 `heading > button` 구조를 구성합니다. 기본 heading level은 `h3`이며, 문서 구조에 맞춰 다른 level이 필요하면 `headingLevel` prop으로 조정할 수 있습니다. WAI-ARIA APG 예시에서도 상위 섹션 구조에 맞춰 `h3`를 사용합니다.
+
+- Pattern: [WAI-ARIA APG Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/)
+- Example: [WAI-ARIA APG Accordion Example](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/)
+
+### Heading Level Escape Hatch
+
+상위 섹션 heading이 이미 존재한다면 `headingLevel`로 accordion header의 level을 맞춰 주세요. 예를 들어 accordion이 `h3` 섹션 안에 들어간다면 각 항목 header는 `h4`로 내리는 식으로 문서 outline을 유지할 수 있습니다.
+
+<ComponentExample name="react/accordion/heading-level">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/heading-level.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 키보드 인터랙션
+
+| 키 | 동작 |
+| --- | --- |
+| `Enter` / `Space` | 포커스된 트리거의 패널을 펼치거나 접습니다. |
+| `Tab` | 다음 포커스 가능한 요소로 이동합니다. |
+| `Shift + Tab` | 이전 포커스 가능한 요소로 이동합니다. |
+| `ArrowDown` | 다음 트리거로 포커스를 이동합니다. 마지막이면 첫 번째로 순환합니다. |
+| `ArrowUp` | 이전 트리거로 포커스를 이동합니다. 첫 번째이면 마지막으로 순환합니다. |
+| `Home` | 첫 번째 트리거로 포커스를 이동합니다. |
+| `End` | 마지막 트리거로 포커스를 이동합니다. |

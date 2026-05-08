@@ -1,0 +1,193 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: accordion-item
+  name: Accordion Item
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          strokeColor:
+            type: color
+          strokeWidth:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          dividerColor:
+            type: color
+          dividerPaddingX:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+      trigger:
+        properties:
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          color:
+            type: color
+          marginX:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      prefix:
+        properties:
+          paddingRight:
+            type: dimension
+      prefixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      title:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      description:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      suffixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+          paddingLeft:
+            type: dimension
+          rotateDuration:
+            type: duration
+          rotateTimingFunction:
+            type: cubicBezier
+      body:
+        properties:
+          gap:
+            type: dimension
+      content:
+        properties:
+          expandHeightDuration:
+            type: duration
+          expandHeightTimingFunction:
+            type: cubicBezier
+          collapseHeightDuration:
+            type: duration
+          collapseHeightTimingFunction:
+            type: cubicBezier
+    variants:
+      variant:
+        values:
+          inline:
+            description: Full-width items with dividers
+          separated:
+            description: Card-style independent items with gap
+      size:
+        values:
+          medium: {}
+          large: {}
+  definitions:
+    base:
+      enabled:
+        root:
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+        trigger:
+          paddingX: $dimension.spacing-x.global-gutter
+        body:
+          gap: $dimension.x0_5
+        prefixIcon:
+          color: $color.fg.neutral
+        title:
+          color: $color.fg.neutral
+          fontWeight: $font-weight.medium
+        description:
+          color: $color.fg.neutral-subtle
+          fontWeight: $font-weight.medium
+        suffixIcon:
+          color: $color.fg.neutral-subtle
+          rotateDuration: $duration.d6
+          rotateTimingFunction: $timing-function.easing
+        content:
+          expandHeightDuration: $duration.d6
+          expandHeightTimingFunction: $timing-function.easing
+          collapseHeightDuration: $duration.d6
+          collapseHeightTimingFunction: $timing-function.easing
+      disabled:
+        prefixIcon:
+          color: $color.fg.disabled
+        title:
+          color: $color.fg.disabled
+        description:
+          color: $color.fg.disabled
+        suffixIcon:
+          color: $color.fg.disabled
+      pressed:
+        trigger:
+          color: $color.bg.transparent-pressed
+          marginX: $dimension.x1_5
+          cornerRadius: $dimension.x2_5
+
+    size=medium:
+      enabled:
+        trigger:
+          paddingY: $dimension.x4
+        prefix:
+          paddingRight: $dimension.x3
+        prefixIcon:
+          size: 22px
+        title:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        description:
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+        suffixIcon:
+          size: $dimension.x5
+          paddingLeft: $dimension.x3
+
+    size=large:
+      enabled:
+        trigger:
+          paddingY: $dimension.x5
+        prefix:
+          paddingRight: $dimension.x3
+        prefixIcon:
+          size: 22px
+        title:
+          fontSize: $font-size.t7
+          lineHeight: $line-height.t7
+        description:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        suffixIcon:
+          size: $dimension.x6
+          paddingLeft: $dimension.x3
+
+    variant=inline:
+      enabled:
+        root:
+          dividerColor: $color.stroke.neutral-subtle
+          dividerPaddingX: $dimension.x3
+
+    variant=separated:
+      enabled:
+        root:
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px
+          cornerRadius: $radius.r3

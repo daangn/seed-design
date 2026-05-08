@@ -1,0 +1,86 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "accordion",
+    "name": "Accordion"
+  },
+  "data": {
+    "id": "accordion",
+    "name": "Accordion",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {
+        "variant": {
+          "values": {
+            "separated": {
+              "description": "Card-style independent items with gap"
+            },
+            "inline": {
+              "description": "Full-width items with dividers"
+            }
+          },
+          "defaultValue": "separated"
+        },
+        "size": {
+          "values": {
+            "medium": {},
+            "large": {}
+          },
+          "defaultValue": "medium"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {
+          "variant": "separated",
+          "size": "medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "separated",
+          "size": "large"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

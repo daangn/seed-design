@@ -14,3 +14,5 @@ SEED Design의 **디자인 토큰과 컴포넌트 스키마를 YAML로 정의**�
 - 컴포넌트 YAML 첫 줄: `# yaml-language-server: $schema=./schema.json`
 - 토큰 네이밍: `$type.category.name` (예: `$color.palette.gray-00`)
 - theme 값: `theme-light`와 `theme-dark` 모두 정의 필수
+- duration/timingFunction은 하드코딩(`300ms`, `ease-in-out`)하지 않고, 반드시 시스템 토큰을 먼저 찾아 사용한다: `$duration.d1`~`$duration.d6`, `$timing-function.easing`/`enter`/`exit` 등. 시스템 토큰에 맞는 값이 없을 때만 하드코딩한다 (예: select-box의 `400ms`).
+- 반걸음 dimension은 언더스코어 구분자 사용: `$dimension.x0_5` (콤마 아님)

@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: accordion
+  name: Accordion
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+    variants:
+      variant:
+        values:
+          inline:
+            description: Full-width items with dividers
+          separated:
+            description: Card-style independent items with gap
+      size:
+        values:
+          medium: {}
+          large: {}
+  definitions:
+    variant=separated, size=medium:
+      enabled:
+        root:
+          gap: $dimension.x3
+
+    variant=separated, size=large:
+      enabled:
+        root:
+          gap: $dimension.x4
