@@ -7,8 +7,8 @@ import {
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
-  VariantCatalog,
   type VariantAxis,
+  VariantCatalog,
   type VariantValues,
 } from '../components/variant-catalog.jsx';
 import {
@@ -167,6 +167,42 @@ function ActionButtonExamples() {
         >
           Disabled
         </ActionButton>
+      </view>
+
+      <CatalogSectionTitle>Loading</CatalogSectionTitle>
+      <view
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '8px',
+          alignItems: 'center',
+        }}
+      >
+        <ActionButton variant="brandSolid" loading>
+          Loading
+        </ActionButton>
+        <ActionButton
+          variant="neutralSolid"
+          prefixIcon={<IconPlusFill />}
+          loading
+        >
+          Prefix Icon
+        </ActionButton>
+        <ActionButton
+          variant="brandOutline"
+          suffixIcon={<IconChevronDownFill />}
+          loading
+        >
+          Suffix Icon
+        </ActionButton>
+        <ActionButton
+          layout="iconOnly"
+          variant="brandSolid"
+          icon={<IconPlusFill />}
+          loading
+          aria-label="Loading"
+        />
       </view>
 
       <CatalogSectionTitle>Icon Only</CatalogSectionTitle>

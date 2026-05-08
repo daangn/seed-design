@@ -32,6 +32,13 @@
     font-weight: var(--seed-font-weight-bold);
     transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing)
 }
+.seed-action-button__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    opacity: 0
+}
 .seed-action-button__prefixIcon {
     flex-shrink: 0
 }
@@ -40,6 +47,16 @@
 }
 .seed-action-button__icon {
     flex-shrink: 0
+}
+.seed-action-button__loadingIndicator {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0
 }
 .seed-action-button__root--variant_brandSolid {
     background: var(--seed-color-bg-brand-solid);
@@ -197,6 +214,9 @@
     --seed-box-padding-top: var(--seed-dimension-x1_5);
     --seed-box-padding-bottom: var(--seed-dimension-x1_5)
 }
+.seed-action-button__content--size_xsmall-layout_withText {
+    gap: var(--seed-dimension-x1)
+}
 .seed-action-button__text--size_xsmall-layout_withText {
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3)
@@ -226,6 +246,9 @@
     --seed-box-padding-right: var(--seed-dimension-x3_5);
     --seed-box-padding-top: var(--seed-dimension-x2);
     --seed-box-padding-bottom: var(--seed-dimension-x2)
+}
+.seed-action-button__content--size_small-layout_withText {
+    gap: var(--seed-dimension-x1)
 }
 .seed-action-button__text--size_small-layout_withText {
     font-size: var(--seed-font-size-t4);
@@ -257,6 +280,9 @@
     --seed-box-padding-top: var(--seed-dimension-x2_5);
     --seed-box-padding-bottom: var(--seed-dimension-x2_5)
 }
+.seed-action-button__content--size_medium-layout_withText {
+    gap: var(--seed-dimension-x1_5)
+}
 .seed-action-button__text--size_medium-layout_withText {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4)
@@ -286,6 +312,9 @@
     --seed-box-padding-right: var(--seed-dimension-x5);
     --seed-box-padding-top: var(--seed-dimension-x3_5);
     --seed-box-padding-bottom: var(--seed-dimension-x3_5)
+}
+.seed-action-button__content--size_large-layout_withText {
+    gap: var(--seed-dimension-x2)
 }
 .seed-action-button__text--size_large-layout_withText {
     font-size: var(--seed-font-size-t6);

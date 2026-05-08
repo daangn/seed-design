@@ -14,14 +14,6 @@
       "id": "action-button",
       "dependencies": [
         "@seed-design/lynx-react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "progress-circle"
-          ]
-        }
       ]
     },
     {
