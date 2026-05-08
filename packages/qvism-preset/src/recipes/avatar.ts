@@ -1,6 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/avatar.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/avatar.json" with { type: "json" };
 import { defineSlotRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 import { avatar as vars } from "../vars/component";
