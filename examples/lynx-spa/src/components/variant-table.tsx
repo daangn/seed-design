@@ -1,45 +1,52 @@
 import { type ReactNode, useMemo } from '@lynx-js/react';
 
-type PrimitiveValue = string | number | boolean;
-type VariantMap = Record<string, readonly PrimitiveValue[]>;
-type Combination = Record<string, PrimitiveValue>;
+import type {
+  PrimitiveValue,
+  VariantAxis,
+  VariantValues,
+} from './variant-playground.jsx';
 
 export interface VariantTableProps {
-  variantMaps: readonly VariantMap[];
-  children: (combination: Combination) => ReactNode;
+  variants: readonly VariantAxis[];
+  children: (values: VariantValues) => ReactNode;
 }
 
-function generateCombinations(mergedMap: VariantMap): Combination[] {
-  const keys = Object.keys(mergedMap);
-  let combos: Combination[] = [{}];
-  for (const key of keys) {
-    const values = mergedMap[key];
-    if (values == null) continue;
-    const next: Combination[] = [];
-    for (const combo of combos) {
-      for (const v of values) next.push({ ...combo, [key]: v });
-    }
-    combos = next;
-  }
-  return combos;
+type TableEntry =
+  | { type: 'header'; key: string; axis: VariantAxis }
+  | {
+      type: 'row';
+      key: string;
+      axis: VariantAxis;
+      option: PrimitiveValue;
+      values: VariantValues;
+    };
+
+function toDefaultValues(variants: readonly VariantAxis[]): VariantValues {
+  const result: VariantValues = {};
+  for (const variant of variants) result[variant.key] = variant.defaultValue;
+  return result;
 }
 
 export function VariantTable(props: VariantTableProps) {
-  const { variantMaps, children } = props;
+  const { variants, children } = props;
 
-  const mergedMap = useMemo<VariantMap>(() => {
-    const result: Record<string, readonly PrimitiveValue[]> = {};
-    for (const map of variantMaps) {
-      for (const [k, v] of Object.entries(map)) result[k] = v;
+  const entries = useMemo<TableEntry[]>(() => {
+    const defaults = toDefaultValues(variants);
+    const result: TableEntry[] = [];
+    for (const axis of variants) {
+      result.push({ type: 'header', key: `header-${axis.key}`, axis });
+      for (const option of axis.options) {
+        result.push({
+          type: 'row',
+          key: `row-${axis.key}-${String(option)}`,
+          axis,
+          option,
+          values: { ...defaults, [axis.key]: option },
+        });
+      }
     }
     return result;
-  }, [variantMaps]);
-
-  const keys = useMemo(() => Object.keys(mergedMap), [mergedMap]);
-  const combinations = useMemo(
-    () => generateCombinations(mergedMap),
-    [mergedMap],
-  );
+  }, [variants]);
 
   return (
     <list
@@ -48,44 +55,58 @@ export function VariantTable(props: VariantTableProps) {
       scroll-orientation="vertical"
       style={{ flex: 1, width: '100%' }}
     >
-      <list-item item-key="header" key="header">
-        <view
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingTop: '10px',
-            paddingBottom: '10px',
-            paddingLeft: '12px',
-            paddingRight: '12px',
-            backgroundColor: '#f5f5f5',
-            borderBottomWidth: '1px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: '#ddd',
-          }}
-        >
-          <text style={{ fontSize: '11px', fontWeight: 'bold', color: '#333' }}>
-            {keys.length} variants × {combinations.length} combinations
-          </text>
-        </view>
-      </list-item>
-      {combinations.map((combo, i) => (
-        <list-item key={`row-${i}`} item-key={`row-${i}`}>
-          <Row keys={keys} combo={combo} renderComponent={children} />
+      {entries.map((entry) => (
+        <list-item key={entry.key} item-key={entry.key}>
+          {entry.type === 'header' ? (
+            <SectionHeader axis={entry.axis} />
+          ) : (
+            <Row
+              axis={entry.axis}
+              option={entry.option}
+              values={entry.values}
+              renderComponent={children}
+            />
+          )}
         </list-item>
       ))}
     </list>
   );
 }
 
+function SectionHeader({ axis }: { axis: VariantAxis }) {
+  return (
+    <view
+      style={{
+        paddingTop: '14px',
+        paddingBottom: '8px',
+        paddingLeft: '12px',
+        paddingRight: '12px',
+        backgroundColor: '#f5f5f5',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: '#ddd',
+      }}
+    >
+      <text style={{ fontSize: '12px', fontWeight: 'bold', color: '#333' }}>
+        {axis.label ?? axis.key}
+      </text>
+      <text style={{ fontSize: '10px', lineHeight: '14px', color: '#777' }}>
+        {`default: ${String(axis.defaultValue)}`}
+      </text>
+    </view>
+  );
+}
+
 function Row({
-  keys,
-  combo,
+  axis,
+  option,
+  values,
   renderComponent,
 }: {
-  keys: string[];
-  combo: Combination;
-  renderComponent: (combo: Combination) => ReactNode;
+  axis: VariantAxis;
+  option: PrimitiveValue;
+  values: VariantValues;
+  renderComponent: (values: VariantValues) => ReactNode;
 }) {
   return (
     <view
@@ -104,35 +125,42 @@ function Row({
     >
       <view
         style={{
-          width: '50%',
+          width: '36%',
           display: 'flex',
           flexDirection: 'column',
           paddingRight: '12px',
         }}
       >
-        {keys.map((k) => (
-          <text
-            key={k}
-            style={{
-              fontSize: '10px',
-              lineHeight: '14px',
-              color: '#666',
-            }}
-          >
-            {`${k}: ${String(combo[k])}`}
-          </text>
-        ))}
+        <text
+          style={{
+            fontSize: '11px',
+            lineHeight: '16px',
+            fontWeight: 'bold',
+            color: '#333',
+          }}
+        >
+          {String(option)}
+        </text>
+        <text
+          style={{
+            fontSize: '10px',
+            lineHeight: '14px',
+            color: '#777',
+          }}
+        >
+          {axis.label ?? axis.key}
+        </text>
       </view>
       <view
         style={{
-          width: '50%',
+          width: '64%',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'flex-start',
         }}
       >
-        {renderComponent(combo)}
+        {renderComponent(values)}
       </view>
     </view>
   );

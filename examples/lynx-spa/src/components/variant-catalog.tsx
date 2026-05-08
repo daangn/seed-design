@@ -2,26 +2,42 @@ import { type ReactNode, useState } from '@lynx-js/react';
 
 import {
   VariantPlayground,
+  type SetVariantValue,
+  type VariantAxis,
   type VariantPlaygroundProps,
+  type VariantValues,
 } from './variant-playground.jsx';
 import { VariantTable } from './variant-table.jsx';
 
-type PrimitiveValue = string | number | boolean;
-type Mode = 'playground' | 'table';
+export type {
+  PrimitiveValue,
+  SetVariantValue,
+  VariantAxis,
+  VariantValues,
+} from './variant-playground.jsx';
 
-export interface VariantCatalogProps extends VariantPlaygroundProps {}
+type Mode = 'playground' | 'table' | 'examples';
+
+export interface VariantCatalogProps extends VariantPlaygroundProps {
+  examples?: ReactNode;
+}
 
 /**
- * 컴포넌트 카탈로그 페이지의 두 가지 뷰를 탭으로 전환한다.
+ * 컴포넌트 카탈로그 페이지의 뷰를 탭으로 전환한다.
  *
  * - Playground: 변수 하나하나를 선택하며 단일 미리보기 (디테일 검사)
- * - Table: 모든 조합을 매트릭스로 나열 (전체 형태 비교)
+ * - Table: variant 축 하나씩 펼쳐 빠르게 비교 (나머지는 default 고정)
+ * - Examples: 사용 시나리오 중심 수동 예시
  *
  * 두 모드 모두 같은 `children` render function 을 공유한다.
  */
 export function VariantCatalog(props: VariantCatalogProps) {
-  const { children, ...rest } = props;
+  const { children, variants, examples } = props;
   const [mode, setMode] = useState<Mode>('playground');
+  const tabs: Mode[] =
+    examples == null
+      ? ['playground', 'table']
+      : ['playground', 'table', 'examples'];
 
   return (
     <view
@@ -44,23 +60,24 @@ export function VariantCatalog(props: VariantCatalogProps) {
           borderBottomColor: '#e5e5e5',
         }}
       >
-        <TabButton
-          active={mode === 'playground'}
-          onTap={() => setMode('playground')}
-          label="Playground"
-        />
-        <TabButton
-          active={mode === 'table'}
-          onTap={() => setMode('table')}
-          label="Table"
-        />
+        {tabs.map((tab) => (
+          <TabButton
+            key={tab}
+            active={mode === tab}
+            width={`${100 / tabs.length}%`}
+            onTap={() => setMode(tab)}
+            label={toTabLabel(tab)}
+          />
+        ))}
       </view>
       {mode === 'playground' ? (
-        <VariantPlayground {...rest}>{children}</VariantPlayground>
-      ) : (
-        <VariantTable variantMaps={props.variantMaps}>
-          {(combo) => renderForTable(children, combo)}
+        <VariantPlayground variants={variants}>{children}</VariantPlayground>
+      ) : mode === 'table' ? (
+        <VariantTable variants={variants}>
+          {(values) => renderForTable(children, values)}
         </VariantTable>
+      ) : (
+        <view style={{ flex: 1, minHeight: 0 }}>{examples}</view>
       )}
     </view>
   );
@@ -69,17 +86,25 @@ export function VariantCatalog(props: VariantCatalogProps) {
 const noopSetValue = () => {};
 function renderForTable(
   children: VariantPlaygroundProps['children'],
-  combo: Record<string, PrimitiveValue>,
+  values: VariantValues,
 ): ReactNode {
-  return children(combo, noopSetValue);
+  return children(values, noopSetValue as SetVariantValue);
+}
+
+function toTabLabel(mode: Mode) {
+  if (mode === 'playground') return 'Playground';
+  if (mode === 'table') return 'Table';
+  return 'Examples';
 }
 
 function TabButton({
   active,
+  width,
   onTap,
   label,
 }: {
   active: boolean;
+  width: string;
   onTap: () => void;
   label: string;
 }) {
@@ -87,7 +112,7 @@ function TabButton({
     <view
       bindtap={onTap}
       style={{
-        width: '50%',
+        width,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

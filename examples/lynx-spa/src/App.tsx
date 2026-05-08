@@ -64,10 +64,17 @@ function BackButton({ onBack }: { onBack: () => void }) {
   );
 }
 
-// VariantPlayground 를 쓰는 카탈로그 페이지들은 scroll-view 루트 대신 flex column
-// fullscreen shell 을 사용한다. preview 가 남은 공간을 flex:1 로 점유하고 controls 가
-// 하단 고정되려면 부모가 scroll-view 가 아니어야 함.
-const CATALOG_PAGES = new Set<Page>(['checkbox', 'radio-group']);
+// Variant catalog pages use a fullscreen flex shell so previews, tabs, and
+// controls can own their own scroll areas.
+const CATALOG_PAGES = new Set<Page>([
+  'action-button',
+  'bottom-sheet',
+  'checkbox',
+  'progress-circle',
+  'radio-group',
+  'switch',
+  'tag-group',
+]);
 
 export function App(props: { onRender?: () => void }) {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -87,8 +94,13 @@ export function App(props: { onRender?: () => void }) {
         <view style={{ paddingLeft: '16px', paddingRight: '16px' }}>
           <BackButton onBack={() => setCurrentPage('home')} />
         </view>
+        {currentPage === 'action-button' && <ActionButtonPage />}
+        {currentPage === 'bottom-sheet' && <BottomSheetPage />}
         {currentPage === 'checkbox' && <CheckboxPage />}
+        {currentPage === 'progress-circle' && <ProgressCirclePage />}
         {currentPage === 'radio-group' && <RadioGroupPage />}
+        {currentPage === 'switch' && <SwitchPage />}
+        {currentPage === 'tag-group' && <TagGroupPage />}
         <Suspense>
           <LynxConsole theme="light" />
         </Suspense>
@@ -113,11 +125,6 @@ export function App(props: { onRender?: () => void }) {
       )}
       {currentPage === 'home' && <HomePage navigate={setCurrentPage} />}
       {currentPage === 'theming' && <ThemingPage />}
-      {currentPage === 'action-button' && <ActionButtonPage />}
-      {currentPage === 'bottom-sheet' && <BottomSheetPage />}
-      {currentPage === 'progress-circle' && <ProgressCirclePage />}
-      {currentPage === 'switch' && <SwitchPage />}
-      {currentPage === 'tag-group' && <TagGroupPage />}
       {currentPage === 'nested-vars-test' && <NestedVarsTestPage />}
       {currentPage === 'foundation-color' && <FoundationColorPage />}
       {currentPage === 'foundation-monochrome-icon' && (

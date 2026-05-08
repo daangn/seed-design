@@ -1,14 +1,105 @@
 import IconChevronDownFill from '@karrotmarket/lynx-monochrome-icon/IconChevronDownFill';
 import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
+import { actionButtonVariantMap } from '@seed-design/lynx-css/recipes/action-button';
 
-import { ActionButton } from '../seed-design/ui/action-button';
+import {
+  VariantCatalog,
+  type VariantAxis,
+  type VariantValues,
+} from '../components/variant-catalog.jsx';
+import {
+  ActionButton,
+  type ActionButtonProps,
+} from '../seed-design/ui/action-button';
 
-export function ActionButtonPage() {
+type ActionButtonVariant = NonNullable<ActionButtonProps['variant']>;
+type ActionButtonSize = NonNullable<ActionButtonProps['size']>;
+type ActionButtonLayout = NonNullable<ActionButtonProps['layout']>;
+
+const variants: readonly VariantAxis[] = [
+  {
+    key: 'variant',
+    options: actionButtonVariantMap.variant,
+    defaultValue: 'brandSolid',
+  },
+  {
+    key: 'size',
+    options: actionButtonVariantMap.size,
+    defaultValue: 'medium',
+  },
+  {
+    key: 'layout',
+    options: actionButtonVariantMap.layout,
+    defaultValue: 'withText',
+  },
+  {
+    key: 'disabled',
+    options: actionButtonVariantMap.disabled,
+    defaultValue: false,
+  },
+  {
+    key: 'loading',
+    options: actionButtonVariantMap.loading,
+    defaultValue: false,
+  },
+];
+
+function renderActionButton(values: VariantValues) {
+  const layout = values.layout as ActionButtonLayout;
+  const size = values.size as ActionButtonSize;
+  const variant = values.variant as ActionButtonVariant;
+  const disabled = Boolean(values.disabled);
+  const loading = Boolean(values.loading);
+
+  if (layout === 'iconOnly') {
+    return (
+      <ActionButton
+        layout="iconOnly"
+        variant={variant}
+        size={size}
+        disabled={disabled}
+        loading={loading}
+        icon={<IconPlusFill />}
+        aria-label="Add"
+      />
+    );
+  }
+
   return (
-    <scroll-view scroll-y style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
+    <ActionButton
+      variant={variant}
+      size={size}
+      disabled={disabled}
+      loading={loading}
+    >
+      Action
+    </ActionButton>
+  );
+}
+
+function SectionTitle({ children }: { children: string }) {
+  return (
+    <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+      {children}
+    </text>
+  );
+}
+
+function ActionButtonExamples() {
+  return (
+    <scroll-view
+      scroll-y
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+        flex: 1,
+        padding: '16px',
+      }}
+    >
       <text style={{ fontSize: '20px', fontWeight: 'bold' }}>ActionButton</text>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold' }}>Variants</text>
+      <SectionTitle>Variants</SectionTitle>
       <view
         style={{
           display: 'flex',
@@ -26,9 +117,7 @@ export function ActionButtonPage() {
         <ActionButton variant="ghost">Ghost</ActionButton>
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-        Sizes
-      </text>
+      <SectionTitle>Sizes</SectionTitle>
       <view
         style={{
           display: 'flex',
@@ -44,9 +133,7 @@ export function ActionButtonPage() {
         <ActionButton size="large">Large</ActionButton>
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-        Disabled
-      </text>
+      <SectionTitle>Disabled</SectionTitle>
       <view
         style={{
           display: 'flex',
@@ -63,9 +150,7 @@ export function ActionButtonPage() {
         </ActionButton>
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-        Prefix / Suffix Icon
-      </text>
+      <SectionTitle>Prefix / Suffix Icon</SectionTitle>
       <view
         style={{
           display: 'flex',
@@ -77,7 +162,10 @@ export function ActionButtonPage() {
         <ActionButton variant="brandSolid" prefixIcon={<IconPlusFill />}>
           Prefix Icon
         </ActionButton>
-        <ActionButton variant="neutralSolid" suffixIcon={<IconChevronDownFill />}>
+        <ActionButton
+          variant="neutralSolid"
+          suffixIcon={<IconChevronDownFill />}
+        >
           Suffix Icon
         </ActionButton>
         <ActionButton
@@ -87,14 +175,16 @@ export function ActionButtonPage() {
         >
           Both
         </ActionButton>
-        <ActionButton variant="brandSolid" disabled prefixIcon={<IconPlusFill />}>
+        <ActionButton
+          variant="brandSolid"
+          disabled
+          prefixIcon={<IconPlusFill />}
+        >
           Disabled
         </ActionButton>
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-        Icon Only
-      </text>
+      <SectionTitle>Icon Only</SectionTitle>
       <view
         style={{
           display: 'flex',
@@ -108,29 +198,37 @@ export function ActionButtonPage() {
           layout="iconOnly"
           variant="brandSolid"
           icon={<IconPlusFill />}
-          aria-label="추가"
+          aria-label="Add"
         />
         <ActionButton
           layout="iconOnly"
           variant="neutralSolid"
           size="small"
           icon={<IconPlusFill />}
-          aria-label="추가"
+          aria-label="Add"
         />
         <ActionButton
           layout="iconOnly"
           variant="brandOutline"
           icon={<IconPlusFill />}
-          aria-label="추가"
+          aria-label="Add"
         />
         <ActionButton
           layout="iconOnly"
           variant="brandSolid"
           disabled
           icon={<IconPlusFill />}
-          aria-label="비활성"
+          aria-label="Disabled"
         />
       </view>
     </scroll-view>
+  );
+}
+
+export function ActionButtonPage() {
+  return (
+    <VariantCatalog variants={variants} examples={<ActionButtonExamples />}>
+      {(values) => renderActionButton(values)}
+    </VariantCatalog>
   );
 }
