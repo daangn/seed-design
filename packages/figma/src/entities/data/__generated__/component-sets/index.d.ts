@@ -1,6 +1,6 @@
-export declare const privateTemplateChipGroupField: {
-  "name": "privateTemplateChipGroupField",
-  "key": "b6e9378d9ac76f812121d6aa7264cc38d2310e39",
+export declare const privateComponentChipGroupField: {
+  "name": "privateComponentChipGroupField",
+  "key": "3b202396b4eb4486b5f2181c97d6576ebae94250",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -20,9 +20,9 @@ export declare const privateTemplateChipGroupField: {
   }
 };
 
-export declare const privateTemplatePhoneNumberField: {
-  "name": "privateTemplatePhoneNumberField",
-  "key": "b9c5726a5d6d25938fcc2b84281a3a0f513c7495",
+export declare const privateComponentPhoneNumberField: {
+  "name": "privateComponentPhoneNumberField",
+  "key": "1aa9cf6ca847087540f16568c9ca86a07fafaf9b",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -50,9 +50,9 @@ export declare const privateTemplatePhoneNumberField: {
   }
 };
 
-export declare const privateTemplatePinField: {
-  "name": "privateTemplatePinField",
-  "key": "0abee679553f912b4cbe9839d048cc64494a3b51",
+export declare const privateComponentPinField: {
+  "name": "privateComponentPinField",
+  "key": "7e11c6342399819db16b85e947c6d1aae4e8a442",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -120,9 +120,9 @@ export declare const privateComponentBottomSheetHandle: {
   }
 };
 
-export declare const privateTemplateChipGroup: {
-  "name": "privateTemplateChipGroup",
-  "key": "a6819019971fb8f472a4c07f6952014393da1859",
+export declare const privateComponentChipGroup: {
+  "name": "privateComponentChipGroup",
+  "key": "3838d772ac3c7504d976b2f386ce521efe69d08f",
   "componentPropertyDefinitions": {
     "Layout": {
       "type": "VARIANT",
@@ -736,9 +736,9 @@ export declare const privateComponentRootTopNavigationIconButton: {
   }
 };
 
-export declare const privateTemplateRootTopNavigationPreset: {
-  "name": "privateTemplateRootTopNavigationPreset",
-  "key": "524bbc05ea9fb5910d36618720ea82d96d8f211f",
+export declare const privateComponentRootTopNavigationPreset: {
+  "name": "privateComponentRootTopNavigationPreset",
+  "key": "26e1de69cbbed91a577b0c962a92ebab2621bf5f",
   "componentPropertyDefinitions": {
     "Tab": {
       "type": "VARIANT",
@@ -1722,9 +1722,68 @@ export declare const componentDeprecatedActionSheet: {
   }
 };
 
-export declare const templateDeprecatedChipGroup: {
-  "name": "templateDeprecatedChipGroup",
-  "key": "c6b8406eed754f43da93e17a1887ea331d168bdc",
+export declare const componentDeprecatedChip: {
+  "name": "componentDeprecatedChip",
+  "key": "c947a926605cfd181998ddbb46554da84eebaab2",
+  "componentPropertyDefinitions": {
+    "Label#7185:0": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#8722:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Suffix Type#32538:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Suffix#32538:181": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Solid",
+        "Outline Strong",
+        "Outline Weak"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium",
+        "Small"
+      ]
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
+      ]
+    },
+    "Prefix Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "None",
+        "Icon",
+        "Avatar",
+        "Image"
+      ]
+    }
+  }
+};
+
+export declare const componentDeprecatedChipGroup: {
+  "name": "componentDeprecatedChipGroup",
+  "key": "0f2bfd4ee01f2bce58ebd7f4cc9332d0420e50fd",
   "componentPropertyDefinitions": {
     "Refresh Button#15888:2": {
       "type": "BOOLEAN"
@@ -2123,6 +2182,30 @@ export declare const componentDerpecatedTopNavigation: {
   }
 };
 
+export declare const componentAccordion: {
+  "name": "componentAccordion",
+  "key": "0686a42b92941f42561f73e95ecff0699b86e3a9",
+  "componentPropertyDefinitions": {
+    "Slot#10588:0": {
+      "type": "SLOT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large (Desktop)"
+      ]
+    },
+    "Variants": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Inline",
+        "Separated"
+      ]
+    }
+  }
+};
+
 export declare const componentActionButton: {
   "name": "componentActionButton",
   "key": "cd70496145efd7f5ffdb5413fb4db8e918561ffa",
@@ -2222,10 +2305,16 @@ export declare const componentAndroidNowBarScreen: {
   }
 };
 
-export declare const templateAttachmentField: {
-  "name": "templateAttachmentField",
-  "key": "fadc2874d82258d8522bb240de58a2400738f05e",
+export declare const componentAttachmentField: {
+  "name": "componentAttachmentField",
+  "key": "7a1711f401793fb33ca9ceb599916a7440ef60b4",
   "componentPropertyDefinitions": {
+    "Show Header#11576:30": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#11576:47": {
+      "type": "BOOLEAN"
+    },
     "Type": {
       "type": "VARIANT",
       "variantOptions": [
@@ -2286,9 +2375,9 @@ export declare const componentAvatar: {
   }
 };
 
-export declare const templateAvatarPreset: {
-  "name": "templateAvatarPreset",
-  "key": "42eefce6a1ab0d45780d2be5346d8ec5f6bace6e",
+export declare const componentAvatarPreset: {
+  "name": "componentAvatarPreset",
+  "key": "539a0546169fb966bed1b07aa98db4b070206fc1",
   "componentPropertyDefinitions": {
     "Image": {
       "type": "VARIANT",
@@ -2459,9 +2548,9 @@ export declare const componentBottomSheet: {
   }
 };
 
-export declare const templateButtonGroup: {
-  "name": "templateButtonGroup",
-  "key": "c36b74a90e2321ac498f59ed8bf9ce4b365a5547",
+export declare const componentButtonGroup: {
+  "name": "componentButtonGroup",
+  "key": "2acf5a3240876b2b82e3e42f267856b8582c07f6",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",
@@ -2613,9 +2702,9 @@ export declare const componentCheckbox: {
   }
 };
 
-export declare const templateCheckboxField: {
-  "name": "templateCheckboxField",
-  "key": "214dd0fc8a3c5bc1e0c90cce29936f1ec6a26c3c",
+export declare const componentCheckboxField: {
+  "name": "componentCheckboxField",
+  "key": "c157db7fe8d812716f2ed3f520b8bacfb9fb8416",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -2681,27 +2770,31 @@ export declare const componentCheckmark: {
 
 export declare const componentChip: {
   "name": "componentChip",
-  "key": "c947a926605cfd181998ddbb46554da84eebaab2",
+  "key": "f23dfd7f48dd6fc6fbbdae95a091fd7a06a942e1",
   "componentPropertyDefinitions": {
-    "Label#7185:0": {
-      "type": "TEXT"
+    "Has Prefix#9822:0": {
+      "type": "BOOLEAN"
     },
-    "Prefix Icon#8722:0": {
+    "Prefix Type#9965:0": {
       "type": "INSTANCE_SWAP"
     },
-    "Suffix Type#32538:0": {
+    "Suffix Type#9965:109": {
       "type": "INSTANCE_SWAP"
+    },
+    "Suffix Type Small#9981:218": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Prefix Type Small#9981:327": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Icon#10111:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Notification#10111:109": {
+      "type": "BOOLEAN"
     },
     "Has Suffix#32538:181": {
       "type": "BOOLEAN"
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Solid",
-        "Outline Strong",
-        "Outline Weak"
-      ]
     },
     "Size": {
       "type": "VARIANT",
@@ -2709,6 +2802,21 @@ export declare const componentChip: {
         "Large",
         "Medium",
         "Small"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "With Text",
+        "Icon Only"
+      ]
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Solid",
+        "Outline Strong",
+        "Outline Weak"
       ]
     },
     "Selected": {
@@ -2725,22 +2833,13 @@ export declare const componentChip: {
         "Pressed",
         "Disabled"
       ]
-    },
-    "Prefix Type": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Icon",
-        "Avatar",
-        "Image"
-      ]
     }
   }
 };
 
-export declare const templateChipGroup: {
-  "name": "templateChipGroup",
-  "key": "cb2a0fa6e04cf2099baeced91ee74f9d93d36069",
+export declare const componentChipGroup: {
+  "name": "componentChipGroup",
+  "key": "dbef4539572f056c6a90c332299d9b9febd212de",
   "componentPropertyDefinitions": {
     "Variant": {
       "type": "VARIANT",
@@ -2822,9 +2921,9 @@ export declare const componentContextualFloatingButton: {
   }
 };
 
-export declare const templateDisclaimer: {
-  "name": "templateDisclaimer",
-  "key": "c56cb5f18959ad92f6638b588e8d248335dcc03b",
+export declare const componentDisclaimer: {
+  "name": "componentDisclaimer",
+  "key": "9532514879fc59d5b221b8cc4b85a569ed15d265",
   "componentPropertyDefinitions": {
     "Show Title#54910:2": {
       "type": "BOOLEAN"
@@ -2885,15 +2984,22 @@ export declare const componentEditorToolbarFigmaOnly: {
   }
 };
 
-export declare const templateFieldButton: {
-  "name": "templateFieldButton",
-  "key": "e706abd7be0d1a2ea0aeeb656b47d3b03aa5cda8",
+export declare const componentFieldButton: {
+  "name": "componentFieldButton",
+  "key": "a9f6a5ee2d52881b87e22ef1a18fac67e92558f4",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
     "Show Footer#40606:9": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
     },
     "State": {
       "type": "VARIANT",
@@ -3262,6 +3368,38 @@ export declare const componentMenuSheet: {
   }
 };
 
+export declare const componentMultilineTextField: {
+  "name": "componentMultilineTextField",
+  "key": "e1b7b5bfa5ff6a633cecc5110b958520a9e79ddf",
+  "componentPropertyDefinitions": {
+    "Show Header#11576:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#11576:15": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "AI Loading (Figma Only)",
+        "Disabled",
+        "Read Only",
+        "Error Focused",
+        "Error",
+        "Focused",
+        "Enabled"
+      ]
+    }
+  }
+};
+
 export declare const componentOsBottomIndicatorFigmaOnly: {
   "name": "componentOsBottomIndicatorFigmaOnly",
   "key": "291fcfece0247fd59a6ef14312347267523a5152",
@@ -3460,9 +3598,9 @@ export declare const componentRadio: {
   }
 };
 
-export declare const templateRadioField: {
-  "name": "templateRadioField",
-  "key": "a3f159c223e3a0888fc48098c1580793297f82e9",
+export declare const componentRadioField: {
+  "name": "componentRadioField",
+  "key": "7a1c06315434813d0c4256366e2f478954cd6f14",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -3703,9 +3841,9 @@ export declare const componentSegmentedControl: {
   }
 };
 
-export declare const templateSelectBoxField: {
-  "name": "templateSelectBoxField",
-  "key": "cddac54129eed15830319d1e30480f42ea80d4d3",
+export declare const componentSelectBoxField: {
+  "name": "componentSelectBoxField",
+  "key": "a4202b1d4bbb185f25f937dd6a71cfc580e58cb5",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -3836,9 +3974,9 @@ export declare const componentSkeleton: {
   }
 };
 
-export declare const templateSkeletonPreset: {
-  "name": "templateSkeletonPreset",
-  "key": "6ef44f7c25caf577c58486f7dd9a6d2dbccdbae2",
+export declare const componentSkeletonPreset: {
+  "name": "componentSkeletonPreset",
+  "key": "f59d479beaf5d5d73da2ff8984778a40dd2e65bd",
   "componentPropertyDefinitions": {
     "Preset (Figma-Only)": {
       "type": "VARIANT",
@@ -3886,9 +4024,9 @@ export declare const componentSlider: {
   }
 };
 
-export declare const templateSliderField: {
-  "name": "templateSliderField",
-  "key": "28779a6663ce9d43b08050f128a925513e36a2e6",
+export declare const componentSliderField: {
+  "name": "componentSliderField",
+  "key": "a0d06d2084b3ab2d0dc4a9dc23fa3500043dddc4",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -4071,15 +4209,22 @@ export declare const componentTagGroup: {
   }
 };
 
-export declare const templateTextField: {
-  "name": "templateTextField",
-  "key": "d23c5e730ba19fe6ba3c376a5abbf3df7a54672e",
+export declare const componentTextField: {
+  "name": "componentTextField",
+  "key": "8b134244cb1038a13e6365aa9664a3fcb8b7e352",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
     "Show Footer#40606:9": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
     },
     "Variant": {
       "type": "VARIANT",
@@ -4098,25 +4243,6 @@ export declare const templateTextField: {
         "Disabled",
         "Read Only",
         "AI Loading (Figma Only)"
-      ]
-    }
-  }
-};
-
-export declare const templateTextareaField: {
-  "name": "templateTextareaField",
-  "key": "1e0375ed8a5dc490008d6e0dcc20b812b6e39114",
-  "componentPropertyDefinitions": {
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "AI Loading (Figma Only)",
-        "Disabled",
-        "Read Only",
-        "Error Focused",
-        "Error",
-        "Focused",
-        "Enabled"
       ]
     }
   }
@@ -4217,9 +4343,9 @@ export declare const componentTopNavigation: {
   }
 };
 
-export declare const templateTopNavigationPreset: {
-  "name": "templateTopNavigationPreset",
-  "key": "392ae70c701b8f657d3114498801c5672decc547",
+export declare const componentTopNavigationPreset: {
+  "name": "componentTopNavigationPreset",
+  "key": "0dd628c49a9e02b1a5f3208a0b870b567cff59a7",
   "componentPropertyDefinitions": {
     "Action Button#17406:0": {
       "type": "BOOLEAN"
@@ -4339,6 +4465,13 @@ export declare const componentFieldHeader: {
     "Has Suffix#34796:2": {
       "type": "BOOLEAN"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
     "Weight": {
       "type": "VARIANT",
       "variantOptions": [
@@ -4393,6 +4526,13 @@ export declare const componentTextInput: {
     "Has Suffix#32865:68": {
       "type": "BOOLEAN"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
@@ -4403,13 +4543,6 @@ export declare const componentTextInput: {
         "Disabled",
         "Read Only",
         "AI Loading (Figma Only)"
-      ]
-    },
-    "Size": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Large",
-        "Medium (Desktop Only)"
       ]
     }
   }

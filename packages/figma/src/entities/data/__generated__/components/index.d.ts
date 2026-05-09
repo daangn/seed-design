@@ -1,24 +1,24 @@
-export declare const privateTemplateAddressPickerField: {
-  "name": "privateTemplateAddressPickerField",
-  "key": "4af06df28eca43fe2be5fe5ba5e6019587de9fac",
+export declare const privateComponentAddressPickerField: {
+  "name": "privateComponentAddressPickerField",
+  "key": "014c59a3a937f0ef9eab9d64a3e75071474fd251",
   "componentPropertyDefinitions": {}
 };
 
-export declare const privateTemplateDatePickerField: {
-  "name": "privateTemplateDatePickerField",
-  "key": "c161d1326a1087258e4f762aa3c378c098308d98",
+export declare const privateComponentDatePickerField: {
+  "name": "privateComponentDatePickerField",
+  "key": "cea4ffa312ceb2985022ddc0f5cc465f66d247ce",
   "componentPropertyDefinitions": {}
 };
 
-export declare const privateTemplateSelectField: {
-  "name": "privateTemplateSelectField",
-  "key": "a2138764f60a9b5a35e22ff40bc6cd701c660260",
+export declare const privateComponentSelectField: {
+  "name": "privateComponentSelectField",
+  "key": "7c6371809b9f0f21365bc2d9009d9872458768d8",
   "componentPropertyDefinitions": {}
 };
 
-export declare const privateTemplateTimePickerField: {
-  "name": "privateTemplateTimePickerField",
-  "key": "e38df17cf1e0f96e09774b015739dfde30d46115",
+export declare const privateComponentTimePickerField: {
+  "name": "privateComponentTimePickerField",
+  "key": "e14c34bd55fb9b18ca569011355b9f5f1f976180",
   "componentPropertyDefinitions": {}
 };
 
@@ -118,9 +118,9 @@ export declare const privateComponentTopNavigationLeftIconButton: {
   }
 };
 
-export declare const templateFilterBar: {
-  "name": "templateFilterBar",
-  "key": "325dcf7b1fb8354463fd3ed04f4ec77359311f19",
+export declare const componentFilterBar: {
+  "name": "componentFilterBar",
+  "key": "ec0cea376d2d446f3e02835c21dc224fb11bfcc1",
   "componentPropertyDefinitions": {
     "Show Clear Button#32562:362": {
       "type": "BOOLEAN"
@@ -134,18 +134,12 @@ export declare const componentIcon: {
   "componentPropertyDefinitions": {}
 };
 
-export declare const templateInformationList: {
-  "name": "templateInformationList",
-  "key": "ea1ff4070a5ef4ada5974dc7030e8f9a1b759cdb",
-  "componentPropertyDefinitions": {}
-};
-
 export declare const componentField: {
   "name": "componentField",
   "key": "96f0d114c3ec7826b22531502f05e82404835df4",
   "componentPropertyDefinitions": {
-    "Input#40606:0": {
-      "type": "INSTANCE_SWAP"
+    "Slot#11576:64": {
+      "type": "SLOT"
     },
     "Show Header#40606:1": {
       "type": "BOOLEAN"
@@ -154,6 +148,42 @@ export declare const componentField: {
       "type": "BOOLEAN"
     }
   }
+};
+
+export declare const componentAccordionHeaderItemIndicatorClosed: {
+  "name": "componentAccordionHeaderItemIndicatorClosed",
+  "key": "0f0afef6fb11483bd7be852043b82d07cc862cb0",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentAccordionHeaderItemIndicatorOpen: {
+  "name": "componentAccordionHeaderItemIndicatorOpen",
+  "key": "22bccc60546abc3d24e444baee65543860ded3b7",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentAccordionItemContentsSlotCard: {
+  "name": "componentAccordionItemContentsSlotCard",
+  "key": "bf38fffc0a3d52a6556f1f8900ff35da45272987",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentAccordionItemContentsSlotDescription: {
+  "name": "componentAccordionItemContentsSlotDescription",
+  "key": "97e258610bf17fb4d964972bcf0c04ace24390d2",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentAccordionItemPrefixCustom: {
+  "name": "componentAccordionItemPrefixCustom",
+  "key": "99419495e8c42b6aa0ec9ad3ae25d6221254266c",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentAccordionItemPrefixIcon: {
+  "name": "componentAccordionItemPrefixIcon",
+  "key": "ddab1d44d634fb0c3efad82aec7bad2e3d63463a",
+  "componentPropertyDefinitions": {}
 };
 
 export declare const componentBottomSheetContentsAgreement: {
@@ -196,6 +226,86 @@ export declare const componentChipSuffixIcon: {
   }
 };
 
+export declare const componentChipItemPrefixMediumAvatar: {
+  "name": "componentChipItemPrefixMediumAvatar",
+  "key": "cf493d53b3f5cb1e1bbfcc58b96d5ec7b19f06e8",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemPrefixMediumIcon: {
+  "name": "componentChipItemPrefixMediumIcon",
+  "key": "bf58c4c2af7cc5a266f707e6f27857651b5bc526",
+  "componentPropertyDefinitions": {
+    "Icon#9981:436": {
+      "type": "INSTANCE_SWAP"
+    }
+  }
+};
+
+export declare const componentChipItemPrefixMediumImage: {
+  "name": "componentChipItemPrefixMediumImage",
+  "key": "d773d83622d0a9cb43fdd0b2c65dafb9905f3c3e",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemPrefixSmallAvatar: {
+  "name": "componentChipItemPrefixSmallAvatar",
+  "key": "4949a78c7f9c5aff60135ec34a9e5b1e9bc0ee82",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemPrefixSmallIcon: {
+  "name": "componentChipItemPrefixSmallIcon",
+  "key": "d7c2038464f29ebe2bac5df595df709a5e7f609a",
+  "componentPropertyDefinitions": {
+    "Icon#9981:437": {
+      "type": "INSTANCE_SWAP"
+    }
+  }
+};
+
+export declare const componentChipItemPrefixSmallImage: {
+  "name": "componentChipItemPrefixSmallImage",
+  "key": "71710fc8ad7af696a8d04a511eb25cc1e18d6212",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemSuffixMediumChevron: {
+  "name": "componentChipItemSuffixMediumChevron",
+  "key": "3842e5ca18a9f9b032fada1b42b4ce5c20fc9a02",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemSuffixMediumCustom: {
+  "name": "componentChipItemSuffixMediumCustom",
+  "key": "687b613a158680809fc4ee1e97c7c91d0aca98db",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemSuffixMediumDismiss: {
+  "name": "componentChipItemSuffixMediumDismiss",
+  "key": "3e89ab12c96dd9f7258ef8c0f5d399ffdf9c76ce",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemSuffixSmallChevron: {
+  "name": "componentChipItemSuffixSmallChevron",
+  "key": "14c0ea8f10ac2639674c8726d7aee6a265f0a2ae",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemSuffixSmallCustom: {
+  "name": "componentChipItemSuffixSmallCustom",
+  "key": "5576dd57bf29e959239708bdcee2ac3ea4470731",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemSuffixSmallDismiss: {
+  "name": "componentChipItemSuffixSmallDismiss",
+  "key": "e32de98f1011177d585439cd1364d087f1ab90da",
+  "componentPropertyDefinitions": {}
+};
+
 export declare const componentImageFrameBadge: {
   "name": "componentImageFrameBadge",
   "key": "6a1feb47139040d6f7522528f7c91bf4fe7bcc84",
@@ -228,33 +338,21 @@ export declare const componentImageFrameOverlayIndicator: {
   }
 };
 
-export declare const templateItemEmbedViewTypeDiscountRate: {
-  "name": "templateItemEmbedViewTypeDiscountRate",
-  "key": "6672b5e163637b12b0b648cbbcaafffdc63b809c",
-  "componentPropertyDefinitions": {}
-};
-
-export declare const templateItemEmbedViewTypeOriginalPrice: {
-  "name": "templateItemEmbedViewTypeOriginalPrice",
-  "key": "3ce31f0965fc9c600f4d8fe2feb1152dda088297",
-  "componentPropertyDefinitions": {}
-};
-
 export declare const componentListItemDetailCustom: {
   "name": "componentListItemDetailCustom",
   "key": "d56900622b320739b5ce9dc9b12af1bcd1f6eeb4",
   "componentPropertyDefinitions": {}
 };
 
-export declare const componentListItemDetailSubText_42a: {
-  "name": "componentListItemDetailSubText",
-  "key": "42ae9274fba94cb3b02c4e64b6584e5d03b73835",
-  "componentPropertyDefinitions": {}
-};
-
 export declare const componentListItemDetailSubText_07e: {
   "name": "componentListItemDetailSubText",
   "key": "07ea4a584c3fc5862e842efb5a151aff0059ee76",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentListItemDetailSubText_42a: {
+  "name": "componentListItemDetailSubText",
+  "key": "42ae9274fba94cb3b02c4e64b6584e5d03b73835",
   "componentPropertyDefinitions": {}
 };
 
