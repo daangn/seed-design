@@ -21,15 +21,32 @@ const {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetRootProps extends MenuSheetVariantProps, Drawer.RootProps {}
+export interface SwipableMenuSheetRootProps
+  extends MenuSheetVariantProps,
+    Omit<
+      Drawer.RootProps,
+      | "snapPoints"
+      | "activeSnapPoint"
+      | "setActiveSnapPoint"
+      | "fadeFromIndex"
+      | "snapToSequentialPoint"
+      | "direction"
+    > {}
 
-export const SwipableMenuSheetRoot = withRootProvider<SwipableMenuSheetRootProps>(Drawer.Root, {
-  defaultProps: {
-    direction: "bottom",
-    lazyMount: true,
-    unmountOnExit: true,
+// Forces `direction="bottom"` so the bottom-only recipe transform isn't broken.
+const SwipableDrawerRoot = (props: Drawer.RootProps) => (
+  <Drawer.Root {...props} direction="bottom" />
+);
+
+export const SwipableMenuSheetRoot = withRootProvider<SwipableMenuSheetRootProps>(
+  SwipableDrawerRoot,
+  {
+    defaultProps: {
+      lazyMount: true,
+      unmountOnExit: true,
+    },
   },
-});
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,9 +96,11 @@ SwipableMenuSheetContent.displayName = "SwipableMenuSheetContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+// `preventCycle` only applies when snap points are configured, and
+// SwipableMenuSheet omits snap points from its Root API.
 export interface SwipableMenuSheetHandleProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+    Omit<Drawer.HandleProps, "preventCycle"> {}
 
 export const SwipableMenuSheetHandle = React.forwardRef<
   HTMLDivElement,
@@ -147,7 +166,8 @@ export const SwipableMenuSheetList = withContext<HTMLDivElement, SwipableMenuShe
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwipableMenuSheetGroupProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement>,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
 export const SwipableMenuSheetGroup = React.forwardRef<HTMLDivElement, SwipableMenuSheetGroupProps>(
