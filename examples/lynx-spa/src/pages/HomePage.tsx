@@ -104,13 +104,6 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       />
       <ListItem title="usePressTap" onTap={() => navigate('use-press-tap')} />
 
-      <SectionHeader>Performance Comparison</SectionHeader>
-      <ListItem title="Native view" onTap={() => navigate('test-native-box')} />
-      <ListItem
-        title="Tailwind Box"
-        onTap={() => navigate('test-tailwind-box')}
-      />
-
       <SectionHeader>Test</SectionHeader>
       <ListItem
         title="Nested Vars Test (Lynx 3.6+)"
