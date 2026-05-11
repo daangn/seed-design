@@ -16,7 +16,7 @@ export const Checkbox = React.forwardRef<unknown, CheckboxProps>(
       <SeedCheckbox.Root ref={ref} {...otherProps}>
         <SeedCheckbox.Control>
           <SeedCheckbox.Indicator
-            unchecked={<IconCheckmarkFatFill />}
+            unchecked={otherProps.variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}
             checked={<IconCheckmarkFatFill />}
             indeterminate={<IconMinusFatFill />}
           />
@@ -39,6 +39,7 @@ export const Checkmark = React.forwardRef<unknown, CheckmarkProps>((props, ref) 
     <SeedCheckbox.Root ref={ref} {...props}>
       <SeedCheckbox.Control>
         <SeedCheckbox.Indicator
+          unchecked={props.variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}
           checked={<IconCheckmarkFatFill />}
           indeterminate={<IconMinusFatFill />}
         />
