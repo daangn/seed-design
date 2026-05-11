@@ -31,6 +31,7 @@ export interface SwipableMenuSheetRootProps
       | "fadeFromIndex"
       | "snapToSequentialPoint"
       | "direction"
+      | "dismissible"
     > {}
 
 // Forces `direction="bottom"` so the bottom-only recipe transform isn't broken.
