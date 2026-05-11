@@ -3,21 +3,21 @@ import { HStack, Text, VStack } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
-  SwipableMenuSheetContent,
-  SwipableMenuSheetGroup,
-  SwipableMenuSheetItem,
-  SwipableMenuSheetRoot,
-  SwipableMenuSheetTrigger,
-} from "seed-design/ui/swipable-menu-sheet";
+  SwipeableMenuSheetContent,
+  SwipeableMenuSheetGroup,
+  SwipeableMenuSheetItem,
+  SwipeableMenuSheetRoot,
+  SwipeableMenuSheetTrigger,
+} from "seed-design/ui/swipeable-menu-sheet";
 
-export default function SwipableMenuSheetOnOpenChangeReason() {
+export default function SwipeableMenuSheetOnOpenChangeReason() {
   const [open, setOpen] = useState(false);
   const [openReason, setOpenReason] = useState<string | null>(null);
   const [closeReason, setCloseReason] = useState<string | null>(null);
 
   return (
     <VStack gap="x4" align="center">
-      <SwipableMenuSheetRoot
+      <SwipeableMenuSheetRoot
         open={open}
         onOpenChange={(open, details) => {
           setOpen(open);
@@ -25,17 +25,17 @@ export default function SwipableMenuSheetOnOpenChangeReason() {
           (open ? setOpenReason : setCloseReason)(details?.reason ?? null);
         }}
       >
-        <SwipableMenuSheetTrigger asChild>
+        <SwipeableMenuSheetTrigger asChild>
           <ActionButton variant="neutralSolid">열기</ActionButton>
-        </SwipableMenuSheetTrigger>
-        <SwipableMenuSheetContent title="메뉴" aria-label="Swipable Menu Sheet">
-          <SwipableMenuSheetGroup>
-            <SwipableMenuSheetItem label="Action 1" prefixIcon={<IconEyeSlashLine />} />
-            <SwipableMenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
-            <SwipableMenuSheetItem label="Action 3" prefixIcon={<IconEyeSlashLine />} />
-          </SwipableMenuSheetGroup>
-        </SwipableMenuSheetContent>
-      </SwipableMenuSheetRoot>
+        </SwipeableMenuSheetTrigger>
+        <SwipeableMenuSheetContent title="메뉴" aria-label="Swipeable Menu Sheet">
+          <SwipeableMenuSheetGroup>
+            <SwipeableMenuSheetItem label="Action 1" prefixIcon={<IconEyeSlashLine />} />
+            <SwipeableMenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
+            <SwipeableMenuSheetItem label="Action 3" prefixIcon={<IconEyeSlashLine />} />
+          </SwipeableMenuSheetGroup>
+        </SwipeableMenuSheetContent>
+      </SwipeableMenuSheetRoot>
 
       <HStack gap="x4">
         <Text fontSize="t3" color="fg.neutralMuted">

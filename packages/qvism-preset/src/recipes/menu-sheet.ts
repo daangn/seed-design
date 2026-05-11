@@ -60,7 +60,7 @@ const menuSheet = defineSlotRecipe({
       touchAction: "none",
       willChange: "transform",
 
-      // When wrapped by Drawer (SwipableMenuSheet), expose header padding-top
+      // When wrapped by Drawer (SwipeableMenuSheet), expose header padding-top
       // so the Handle has room above the header.
       "&[data-drawer]": {
         "--menu-sheet-header-padding-top": vars.base.enabled.header.paddingTop,

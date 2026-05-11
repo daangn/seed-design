@@ -263,10 +263,10 @@ export const registryUI: Registry = {
       ],
     },
     {
-      id: "swipable-menu-sheet",
+      id: "swipeable-menu-sheet",
       snippets: [
         {
-          path: "swipable-menu-sheet.tsx",
+          path: "swipeable-menu-sheet.tsx",
           dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],

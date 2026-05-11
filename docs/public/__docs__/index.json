@@ -1450,15 +1450,15 @@
               "deprecated": true
             },
             {
-              "id": "swipable-menu-sheet",
-              "title": "Swipable Menu Sheet",
+              "id": "swipeable-menu-sheet",
+              "title": "Swipeable Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다. swipe 제스처로 닫을 수 있고, 핸들로 드래그 affordance를 제공합니다.",
-              "docUrl": "/react/components/swipable-menu-sheet",
-              "snippetKey": "react/ui:swipable-menu-sheet",
+              "docUrl": "/react/components/swipeable-menu-sheet",
+              "snippetKey": "react/ui:swipeable-menu-sheet",
               "snippets": [
                 {
                   "label": "react",
-                  "path": "swipable-menu-sheet.tsx"
+                  "path": "swipeable-menu-sheet.tsx"
                 }
               ]
             },

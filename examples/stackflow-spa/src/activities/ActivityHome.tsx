@@ -33,7 +33,7 @@ import {
 import { Snackbar } from "seed-design/ui/snackbar";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
-import { swipableMenuSheetCallback } from "./ActivitySwipableMenuSheet";
+import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { Callout } from "seed-design/ui/callout";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
@@ -215,16 +215,16 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           ),
         },
         {
-          title: "SwipableMenuSheet",
+          title: "SwipeableMenuSheet",
           component: (
             <DialogPushTrigger
-              callbackActivity={swipableMenuSheetCallback}
+              callbackActivity={swipeableMenuSheetCallback}
               params={{}}
               onPop={(result) => {
                 console.log(result?.action);
               }}
             >
-              <ListButtonItem title="SwipableMenuSheet" />
+              <ListButtonItem title="SwipeableMenuSheet" />
             </DialogPushTrigger>
           ),
         },

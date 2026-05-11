@@ -21,7 +21,7 @@ const {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetRootProps
+export interface SwipeableMenuSheetRootProps
   extends MenuSheetVariantProps,
     Omit<
       Drawer.RootProps,
@@ -35,12 +35,12 @@ export interface SwipableMenuSheetRootProps
     > {}
 
 // Forces `direction="bottom"` so the bottom-only recipe transform isn't broken.
-const SwipableDrawerRoot = (props: Drawer.RootProps) => (
+const SwipeableDrawerRoot = (props: Drawer.RootProps) => (
   <Drawer.Root {...props} direction="bottom" />
 );
 
-export const SwipableMenuSheetRoot = withRootProvider<SwipableMenuSheetRootProps>(
-  SwipableDrawerRoot,
+export const SwipeableMenuSheetRoot = withRootProvider<SwipeableMenuSheetRootProps>(
+  SwipeableDrawerRoot,
   {
     defaultProps: {
       lazyMount: true,
@@ -51,37 +51,37 @@ export const SwipableMenuSheetRoot = withRootProvider<SwipableMenuSheetRootProps
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetTriggerProps extends Drawer.TriggerProps {}
+export interface SwipeableMenuSheetTriggerProps extends Drawer.TriggerProps {}
 
-export const SwipableMenuSheetTrigger = Drawer.Trigger;
+export const SwipeableMenuSheetTrigger = Drawer.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetPositionerProps extends Drawer.PositionerProps {}
+export interface SwipeableMenuSheetPositionerProps extends Drawer.PositionerProps {}
 
-export const SwipableMenuSheetPositioner = withContext<
+export const SwipeableMenuSheetPositioner = withContext<
   HTMLDivElement,
-  SwipableMenuSheetPositionerProps
+  SwipeableMenuSheetPositionerProps
 >(Drawer.Positioner, "positioner");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetBackdropProps extends Drawer.BackdropProps {}
+export interface SwipeableMenuSheetBackdropProps extends Drawer.BackdropProps {}
 
-export const SwipableMenuSheetBackdrop = withContext<
+export const SwipeableMenuSheetBackdrop = withContext<
   HTMLDivElement,
-  SwipableMenuSheetBackdropProps
+  SwipeableMenuSheetBackdropProps
 >(Drawer.Backdrop, "backdrop");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetContentProps
+export interface SwipeableMenuSheetContentProps
   extends Drawer.ContentProps,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
-export const SwipableMenuSheetContent = React.forwardRef<
+export const SwipeableMenuSheetContent = React.forwardRef<
   HTMLDivElement,
-  SwipableMenuSheetContentProps
+  SwipeableMenuSheetContentProps
 >(({ className, ...props }, ref) => {
   const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
   const classNames = useClassNames();
@@ -93,19 +93,19 @@ export const SwipableMenuSheetContent = React.forwardRef<
   );
 });
 
-SwipableMenuSheetContent.displayName = "SwipableMenuSheetContent";
+SwipeableMenuSheetContent.displayName = "SwipeableMenuSheetContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 // `preventCycle` only applies when snap points are configured, and
-// SwipableMenuSheet omits snap points from its Root API.
-export interface SwipableMenuSheetHandleProps
+// SwipeableMenuSheet omits snap points from its Root API.
+export interface SwipeableMenuSheetHandleProps
   extends PrimitiveProps,
     Omit<Drawer.HandleProps, "preventCycle"> {}
 
-export const SwipableMenuSheetHandle = React.forwardRef<
+export const SwipeableMenuSheetHandle = React.forwardRef<
   HTMLDivElement,
-  SwipableMenuSheetHandleProps
+  SwipeableMenuSheetHandleProps
 >(({ className, ...props }, ref) => {
   const classNames = bottomSheetHandle();
 
@@ -116,23 +116,23 @@ export const SwipableMenuSheetHandle = React.forwardRef<
   );
 });
 
-SwipableMenuSheetHandle.displayName = "SwipableMenuSheetHandle";
+SwipeableMenuSheetHandle.displayName = "SwipeableMenuSheetHandle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetHeaderProps extends Drawer.HeaderProps {}
+export interface SwipeableMenuSheetHeaderProps extends Drawer.HeaderProps {}
 
-export const SwipableMenuSheetHeader = withContext<HTMLDivElement, SwipableMenuSheetHeaderProps>(
+export const SwipeableMenuSheetHeader = withContext<HTMLDivElement, SwipeableMenuSheetHeaderProps>(
   Drawer.Header,
   "header",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetTitleProps extends Drawer.TitleProps {}
+export interface SwipeableMenuSheetTitleProps extends Drawer.TitleProps {}
 
-export const SwipableMenuSheetTitle = withContext<HTMLHeadingElement, SwipableMenuSheetTitleProps>(
-  React.forwardRef<HTMLHeadingElement, SwipableMenuSheetTitleProps>((props, ref) => {
+export const SwipeableMenuSheetTitle = withContext<HTMLHeadingElement, SwipeableMenuSheetTitleProps>(
+  React.forwardRef<HTMLHeadingElement, SwipeableMenuSheetTitleProps>((props, ref) => {
     const { isCloseButtonRendered } = useDrawerContext();
 
     return (
@@ -142,36 +142,36 @@ export const SwipableMenuSheetTitle = withContext<HTMLHeadingElement, SwipableMe
   "title",
 );
 
-SwipableMenuSheetTitle.displayName = "SwipableMenuSheetTitle";
+SwipeableMenuSheetTitle.displayName = "SwipeableMenuSheetTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetDescriptionProps extends Drawer.DescriptionProps {}
+export interface SwipeableMenuSheetDescriptionProps extends Drawer.DescriptionProps {}
 
-export const SwipableMenuSheetDescription = withContext<
+export const SwipeableMenuSheetDescription = withContext<
   HTMLParagraphElement,
-  SwipableMenuSheetDescriptionProps
+  SwipeableMenuSheetDescriptionProps
 >(Drawer.Description, "description");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetListProps
+export interface SwipeableMenuSheetListProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const SwipableMenuSheetList = withContext<HTMLDivElement, SwipableMenuSheetListProps>(
+export const SwipeableMenuSheetList = withContext<HTMLDivElement, SwipeableMenuSheetListProps>(
   Primitive.div,
   "list",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetGroupProps
+export interface SwipeableMenuSheetGroupProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement>,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
-export const SwipableMenuSheetGroup = React.forwardRef<HTMLDivElement, SwipableMenuSheetGroupProps>(
+export const SwipeableMenuSheetGroup = React.forwardRef<HTMLDivElement, SwipeableMenuSheetGroupProps>(
   ({ className, ...props }, ref) => {
     const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
     const parentProps = useItemProps();
@@ -185,18 +185,18 @@ export const SwipableMenuSheetGroup = React.forwardRef<HTMLDivElement, SwipableM
   },
 );
 
-SwipableMenuSheetGroup.displayName = "SwipableMenuSheetGroup";
+SwipeableMenuSheetGroup.displayName = "SwipeableMenuSheetGroup";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetItemProps
+export interface SwipeableMenuSheetItemProps
   extends PrimitiveProps,
     MenuSheetItemVariantProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const SwipableMenuSheetItem = React.forwardRef<
+export const SwipeableMenuSheetItem = React.forwardRef<
   HTMLButtonElement,
-  SwipableMenuSheetItemProps
+  SwipeableMenuSheetItemProps
 >(({ className: propClassName, ...props }, ref) => {
   const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
   const parentProps = useItemProps();
@@ -213,47 +213,47 @@ export const SwipableMenuSheetItem = React.forwardRef<
   );
 });
 
-SwipableMenuSheetItem.displayName = "SwipableMenuSheetItem";
+SwipeableMenuSheetItem.displayName = "SwipeableMenuSheetItem";
 
-export interface SwipableMenuSheetItemContentProps
+export interface SwipeableMenuSheetItemContentProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const SwipableMenuSheetItemContent = withItemContext<
+export const SwipeableMenuSheetItemContent = withItemContext<
   HTMLDivElement,
-  SwipableMenuSheetItemContentProps
+  SwipeableMenuSheetItemContentProps
 >(Primitive.div, "content");
 
-export interface SwipableMenuSheetItemLabelProps
+export interface SwipeableMenuSheetItemLabelProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const SwipableMenuSheetItemLabel = withItemContext<
+export const SwipeableMenuSheetItemLabel = withItemContext<
   HTMLSpanElement,
-  SwipableMenuSheetItemLabelProps
+  SwipeableMenuSheetItemLabelProps
 >(Primitive.span, "label");
 
-export interface SwipableMenuSheetItemDescriptionProps
+export interface SwipeableMenuSheetItemDescriptionProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const SwipableMenuSheetItemDescription = withItemContext<
+export const SwipeableMenuSheetItemDescription = withItemContext<
   HTMLSpanElement,
-  SwipableMenuSheetItemDescriptionProps
+  SwipeableMenuSheetItemDescriptionProps
 >(Primitive.span, "description");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipableMenuSheetHiddenCloseButtonProps extends Drawer.CloseButtonProps {}
+export interface SwipeableMenuSheetHiddenCloseButtonProps extends Drawer.CloseButtonProps {}
 
 /**
- * Visually hidden button that closes the swipable menu sheet (for screen readers).
+ * Visually hidden button that closes the swipeable menu sheet (for screen readers).
  */
-export const SwipableMenuSheetHiddenCloseButton = React.forwardRef<
+export const SwipeableMenuSheetHiddenCloseButton = React.forwardRef<
   HTMLButtonElement,
-  SwipableMenuSheetHiddenCloseButtonProps
+  SwipeableMenuSheetHiddenCloseButtonProps
 >(({ style, ...otherProps }, ref) => (
   <Drawer.CloseButton ref={ref} style={{ ...visuallyHidden, ...style }} {...otherProps} />
 ));
 
-SwipableMenuSheetHiddenCloseButton.displayName = "SwipableMenuSheetHiddenCloseButton";
+SwipeableMenuSheetHiddenCloseButton.displayName = "SwipeableMenuSheetHiddenCloseButton";

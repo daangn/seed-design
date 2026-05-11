@@ -2,18 +2,18 @@ import { useActivity, type StaticActivityComponentType } from "@stackflow/react/
 
 import { IconPencilLine, IconPlusLine } from "@karrotmarket/react-monochrome-icon";
 import {
-  SwipableMenuSheetContent,
-  SwipableMenuSheetGroup,
-  SwipableMenuSheetItem,
-  SwipableMenuSheetRoot,
-} from "seed-design/ui/swipable-menu-sheet";
+  SwipeableMenuSheetContent,
+  SwipeableMenuSheetGroup,
+  SwipeableMenuSheetItem,
+  SwipeableMenuSheetRoot,
+} from "seed-design/ui/swipeable-menu-sheet";
 import { createCallbackActivity } from "../stackflow/createCallbackActivity";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 
 type Action = "add" | "edit" | "delete" | "test1" | "test2";
 
-export const swipableMenuSheetCallback = createCallbackActivity(
-  "ActivitySwipableMenuSheet",
+export const swipeableMenuSheetCallback = createCallbackActivity(
+  "ActivitySwipeableMenuSheet",
   {} as {
     action: Action;
   },
@@ -21,12 +21,12 @@ export const swipableMenuSheetCallback = createCallbackActivity(
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivitySwipableMenuSheet: {};
+    ActivitySwipeableMenuSheet: {};
   }
 }
 
-const ActivitySwipableMenuSheet: StaticActivityComponentType<"ActivitySwipableMenuSheet"> = () => {
-  const { pop } = swipableMenuSheetCallback.useCallbackPop();
+const ActivitySwipeableMenuSheet: StaticActivityComponentType<"ActivitySwipeableMenuSheet"> = () => {
+  const { pop } = swipeableMenuSheetCallback.useCallbackPop();
   const activity = useActivity();
 
   const handleAction = (action: Action) => () => {
@@ -40,33 +40,33 @@ const ActivitySwipableMenuSheet: StaticActivityComponentType<"ActivitySwipableMe
   };
 
   return (
-    <SwipableMenuSheetRoot open={activity.isActive} onOpenChange={handleClose}>
-      <SwipableMenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
-        <SwipableMenuSheetGroup>
-          <SwipableMenuSheetItem
+    <SwipeableMenuSheetRoot open={activity.isActive} onOpenChange={handleClose}>
+      <SwipeableMenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
+        <SwipeableMenuSheetGroup>
+          <SwipeableMenuSheetItem
             onClick={handleAction("add")}
             label="Add"
             prefixIcon={<IconPlusLine />}
           />
-          <SwipableMenuSheetItem
+          <SwipeableMenuSheetItem
             onClick={handleAction("edit")}
             label="Edit Proident pariatur do cillum labore nisi ex velit fugiat laboris pariatur consequat mollit ex culpa cillum."
             description="Aliqua reprehenderit nostrud ea laborum. Aliquip qui sint amet nulla aliqua mollit consequat sint nostrud cupidatat nisi."
             prefixIcon={<IconPencilLine />}
           />
-        </SwipableMenuSheetGroup>
-        <SwipableMenuSheetGroup labelAlign="center">
-          <SwipableMenuSheetItem onClick={handleAction("test1")} label="Test1" />
-          <SwipableMenuSheetItem onClick={handleAction("test2")} label="Test2" />
-          <SwipableMenuSheetItem
+        </SwipeableMenuSheetGroup>
+        <SwipeableMenuSheetGroup labelAlign="center">
+          <SwipeableMenuSheetItem onClick={handleAction("test1")} label="Test1" />
+          <SwipeableMenuSheetItem onClick={handleAction("test2")} label="Test2" />
+          <SwipeableMenuSheetItem
             onClick={handleAction("delete")}
             tone="critical"
             label="Adipisicing commodo et ex ad reprehenderit. Excepteur sint aute voluptate id."
           />
-        </SwipableMenuSheetGroup>
-      </SwipableMenuSheetContent>
-    </SwipableMenuSheetRoot>
+        </SwipeableMenuSheetGroup>
+      </SwipeableMenuSheetContent>
+    </SwipeableMenuSheetRoot>
   );
 };
 
-export default ActivitySwipableMenuSheet;
+export default ActivitySwipeableMenuSheet;

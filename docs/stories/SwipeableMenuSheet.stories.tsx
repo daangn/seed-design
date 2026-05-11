@@ -5,16 +5,16 @@ import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
 import { menuSheetVariantMap } from "@seed-design/css/recipes/menu-sheet";
 import { Box } from "@seed-design/react";
 import {
-  SwipableMenuSheetContent,
-  SwipableMenuSheetGroup,
-  SwipableMenuSheetItem,
-  SwipableMenuSheetRoot,
-} from "seed-design/ui/swipable-menu-sheet";
+  SwipeableMenuSheetContent,
+  SwipeableMenuSheetGroup,
+  SwipeableMenuSheetItem,
+  SwipeableMenuSheetRoot,
+} from "seed-design/ui/swipeable-menu-sheet";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import type { ReactNode } from "react";
 
-const SwipableMenuSheetPreview = ({
+const SwipeableMenuSheetPreview = ({
   title,
   description,
   prefixIcon,
@@ -37,35 +37,35 @@ const SwipableMenuSheetPreview = ({
           animation: none !important;
         }
       `}</style>
-      <SwipableMenuSheetRoot open>
-        <SwipableMenuSheetContent
+      <SwipeableMenuSheetRoot open>
+        <SwipeableMenuSheetContent
           title={title}
           description={description}
           labelAlign={prefixIcon ? "left" : "center"}
         >
-          <SwipableMenuSheetGroup>
-            <SwipableMenuSheetItem prefixIcon={prefixIcon} label="Action 1" />
-            <SwipableMenuSheetItem
+          <SwipeableMenuSheetGroup>
+            <SwipeableMenuSheetItem prefixIcon={prefixIcon} label="Action 1" />
+            <SwipeableMenuSheetItem
               prefixIcon={prefixIcon}
               label="Action 2"
               description="항목에 대한 설명"
             />
-            <SwipableMenuSheetItem prefixIcon={prefixIcon} label="Action 3" />
-          </SwipableMenuSheetGroup>
-          <SwipableMenuSheetGroup>
-            <SwipableMenuSheetItem prefixIcon={prefixIcon} label="Action 4" />
-            <SwipableMenuSheetItem tone="critical" prefixIcon={prefixIcon} label="Action 5" />
-          </SwipableMenuSheetGroup>
-        </SwipableMenuSheetContent>
-      </SwipableMenuSheetRoot>
+            <SwipeableMenuSheetItem prefixIcon={prefixIcon} label="Action 3" />
+          </SwipeableMenuSheetGroup>
+          <SwipeableMenuSheetGroup>
+            <SwipeableMenuSheetItem prefixIcon={prefixIcon} label="Action 4" />
+            <SwipeableMenuSheetItem tone="critical" prefixIcon={prefixIcon} label="Action 5" />
+          </SwipeableMenuSheetGroup>
+        </SwipeableMenuSheetContent>
+      </SwipeableMenuSheetRoot>
     </Box>
   );
 };
 
 const meta = {
-  component: SwipableMenuSheetPreview,
+  component: SwipeableMenuSheetPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof SwipableMenuSheetPreview>;
+} satisfies Meta<typeof SwipeableMenuSheetPreview>;
 
 export default meta;
 
