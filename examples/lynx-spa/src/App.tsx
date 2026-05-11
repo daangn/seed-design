@@ -15,8 +15,6 @@ import { RadioGroupPage } from './pages/RadioGroupPage.jsx';
 import { SwitchPage } from './pages/SwitchPage.jsx';
 import { TagGroupPage } from './pages/TagGroupPage.jsx';
 import { TailwindDemoPage } from './pages/TailwindDemoPage.jsx';
-import { TestNativeBoxPage } from './pages/TestNativeBoxPage.jsx';
-import { TestTailwindBoxPage } from './pages/TestTailwindBoxPage.jsx';
 import { ThemingPage } from './pages/ThemingPage.jsx';
 import { UseControllableStatePage } from './pages/UseControllableStatePage.jsx';
 import { UsePressTapPage } from './pages/UsePressTapPage.jsx';
@@ -47,8 +45,6 @@ export type Page =
   | 'foundation-multicolor-icon'
   | 'foundation-typography'
   | 'tailwind-demo'
-  | 'test-native-box'
-  | 'test-tailwind-box'
   | 'css-selector-test'
   | 'icon-color-poc'
   | 'use-controllable-state'
@@ -144,8 +140,6 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === 'foundation-color' && <FoundationColorPage />}
       {currentPage === 'foundation-typography' && <FoundationTypographyPage />}
       {currentPage === 'tailwind-demo' && <TailwindDemoPage />}
-      {currentPage === 'test-native-box' && <TestNativeBoxPage />}
-      {currentPage === 'test-tailwind-box' && <TestTailwindBoxPage />}
       {currentPage === 'css-selector-test' && <CSSSelectorTestPage />}
       {currentPage === 'icon-color-poc' && <IconColorPOCPage />}
       {currentPage === 'use-controllable-state' && <UseControllableStatePage />}
