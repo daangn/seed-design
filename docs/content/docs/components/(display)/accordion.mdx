@@ -27,7 +27,10 @@ Accordion은 기본적으로 두 가지 시각적 상태를 가집니다.
 
 기본적으로 모든 패널은 Collapsed 상태로 시작하여, 사용자에게 콘텐츠의 전체적인 개요를 먼저 제공합니다.
 
-<FigmaImage id="1030:18047" alt="Accordion의 Open Property - Collapsed, Expanded" />
+<FigmaImage
+  id="1030:18047"
+  alt="Accordion의 Open Property - Collapsed, Expanded"
+/>
 
 ### Size
 
@@ -43,9 +46,6 @@ Large 사이즈는 PC 환경에서 뷰포트 너비가 변하더라도 폰트 �
 ### Variant
 
 Accordion Item들의 시각적 배치 방식을 정의합니다. 콘텐츠의 성격과 레이아웃에 따라 적절한 Variant를 선택해 주세요.
-
-- **Inline**: Accordion Item들이 하나의 연속된 목록처럼 표현됩니다. 밀접하게 관련된 항목들을 컴팩트하게 나열할 때 사용합니다.
-- **Separated**: 각 Accordion Item이 개별 카드 형태로 분리되어 표현됩니다. 항목 간 시각적 독립성이 필요하거나, 각 섹션의 중요도가 동등할 때 사용합니다.
 
 <FigmaImage id="1030:18079" alt="Accordion의 Variant - Inline, Separated" />
 
@@ -66,7 +66,10 @@ Prefix Slot은 Accordion 좌측에 위치합니다. 아이콘 이외에 다른 �
 
 Prefix에 어떤 요소가 오느냐에 따라 Trigger와의 간격을 사용처에서 커스텀하여 조절할 수 있습니다. 간격 조정 시에는 디자인 시스템에서 제공하는 spacing token을 활용해 주세요.
 
-<FigmaImage id="1030:18136" alt="Accordion의 Prefix Property - None, Icon, Custom" />
+<FigmaImage
+  id="1030:18136"
+  alt="Accordion의 Prefix Property - None, Icon, Custom"
+/>
 
 ## Guidelines
 
@@ -102,12 +105,10 @@ Accordion은 여러 섹션을 접고 펼치며 탐색하는 컴포넌트이므�
 
 ### Expansion Behavior 차이
 
-- **Single Expand**: 한 번에 하나의 패널만 열 수 있습니다. 다른 패널을 열면 기존 패널이 자동으로 닫힙니다.
-  - 단계별 프로세스
-  - 작은 화면 혹은 영역
-- **Multi Expand**: 여러 패널을 동시에 열 수 있습니다. 각 패널의 상태가 독립적으로 관리됩니다.
-  - FAQ
-  - 콘텐츠가 풍부한 경우
+| 동작              | 설명                                                                                  | 사용처                               |
+| ----------------- | ------------------------------------------------------------------------------------- | ------------------------------------ |
+| **Single Expand** | 한 번에 하나의 패널만 열 수 있습니다. 다른 패널을 열면 기존 패널이 자동으로 닫힙니다. | 단계별 프로세스, 작은 화면 혹은 영역 |
+| **Multi Expand**  | 여러 패널을 동시에 열 수 있습니다. 각 패널의 상태가 독립적으로 관리됩니다.            | FAQ, 콘텐츠가 풍부한 경우            |
 
 <Grid>
   <FigmaImage id="1030:18323" alt="Single Expand 사용 예시" />
@@ -128,10 +129,9 @@ Accordion은 여러 섹션을 접고 펼치며 탐색하는 컴포넌트이므�
 Content Panel 개별 내부에서의 스크롤은 지양합니다. 콘텐츠가 길 경우 Accordion 전체를 포함하는 페이지 수준에서 수직 스크롤을 허용하되, 개별 패널 내의 스크롤은 사용하지 마세요.
 
 <Grid>
-  <DontImage
-    figmaId="1030:18670"
-    body="수평 스크롤은 어떤 경우에도 사용하지 않습니다."
-    alt="Content Panel 내부에서 수평 스크롤이 발생한 예시"
+  <FigmaImage
+    id="1030:18670"
+    alt="Content Panel 내부에서 수직 스크롤이 발생한 예시"
   />
   <DontImage
     figmaId="1030:18861"
