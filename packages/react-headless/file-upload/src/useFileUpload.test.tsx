@@ -479,6 +479,149 @@ describe("useFileUpload", () => {
     });
   });
 
+  describe("readonly state", () => {
+    const seedFiles: FileEntry[] = [
+      { id: "seed-1", file: createMockFile("seed.txt", 100, "text/plain"), status: "success" },
+    ];
+
+    it("should have data-readonly attribute on dropzone when readOnly", () => {
+      const { getByTestId } = setUp(<BasicFileUpload readOnly />);
+      const dropzone = getByTestId("dropzone");
+
+      expect(dropzone.getAttribute("data-readonly")).toBe("");
+    });
+
+    it("should disable trigger when readOnly", () => {
+      const { getByText } = setUp(<BasicFileUpload readOnly />);
+      const trigger = getByText("Choose files") as HTMLButtonElement;
+
+      expect(trigger.disabled).toBe(true);
+    });
+
+    it("should NOT disable hidden input when readOnly so the form value is preserved", () => {
+      const { getByTestId } = setUp(
+        <BasicFileUpload readOnly defaultAcceptedFileEntries={seedFiles} />,
+      );
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+
+      expect(input.disabled).toBe(false);
+    });
+
+    it("should keep input.files in sync when readOnly (form submission carries the values)", async () => {
+      const { getByTestId } = setUp(
+        <BasicFileUpload readOnly defaultAcceptedFileEntries={seedFiles} />,
+      );
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+
+      await waitFor(() => {
+        expect(input.files?.length).toBe(1);
+        expect(input.files?.[0]?.name).toBe("seed.txt");
+      });
+    });
+
+    it("should not accept files via input change when readOnly", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload readOnly onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
+      );
+
+      const input = getByTestId("hidden-input") as HTMLInputElement;
+      fireEvent.change(input, {
+        target: { files: [createMockFile("new.txt", 100, "text/plain")] },
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      expect(onAcceptedFileEntriesChange).not.toHaveBeenCalled();
+    });
+
+    it("should not accept dropped files when readOnly", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId } = setUp(
+        <BasicFileUpload readOnly onAcceptedFileEntriesChange={onAcceptedFileEntriesChange} />,
+      );
+
+      const dropzone = getByTestId("dropzone");
+      fireEvent.drop(dropzone, {
+        dataTransfer: { files: [createMockFile("dropped.txt", 100, "text/plain")] },
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      expect(onAcceptedFileEntriesChange).not.toHaveBeenCalled();
+    });
+
+    it("should disable remove button on items when readOnly", () => {
+      const { getByTestId } = setUp(
+        <BasicFileUpload readOnly defaultAcceptedFileEntries={seedFiles} />,
+      );
+      const deleteButton = getByTestId("delete-0") as HTMLButtonElement;
+
+      expect(deleteButton.disabled).toBe(true);
+    });
+
+    it("should not remove items when readOnly", async () => {
+      const onAcceptedFileEntriesChange = mock(() => {});
+      const { getByTestId, user } = setUp(
+        <BasicFileUpload
+          readOnly
+          defaultAcceptedFileEntries={seedFiles}
+          onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}
+        />,
+      );
+
+      const deleteButton = getByTestId("delete-0");
+      await user.click(deleteButton);
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      expect(onAcceptedFileEntriesChange).not.toHaveBeenCalled();
+      expect(getByTestId("item-0")).toBeDefined();
+    });
+
+    it("should not reorder when readOnly", async () => {
+      const reorderSeed: FileEntry[] = [
+        { id: "r-1", file: createMockFile("a.txt", 100, "text/plain"), status: "success" },
+        { id: "r-2", file: createMockFile("b.txt", 100, "text/plain"), status: "success" },
+      ];
+
+      const ReadOnlyReorder = () => (
+        <FileUploadRoot maxFiles={5} readOnly defaultAcceptedFileEntries={reorderSeed}>
+          <FileUploadContext>
+            {({ acceptedFileEntries, reorderFileEntry }) => (
+              <>
+                <ul>
+                  {acceptedFileEntries.map((f, i) => (
+                    <li key={f.id} data-testid={`f-${i}`}>
+                      {f.file.name}
+                    </li>
+                  ))}
+                </ul>
+                <button type="button" data-testid="reorder" onClick={() => reorderFileEntry(0, 1)}>
+                  Reorder
+                </button>
+              </>
+            )}
+          </FileUploadContext>
+        </FileUploadRoot>
+      );
+
+      const { getByTestId, user } = setUp(<ReadOnlyReorder />);
+
+      await user.click(getByTestId("reorder"));
+
+      await waitFor(() => {
+        expect(getByTestId("f-0").textContent).toBe("a.txt");
+        expect(getByTestId("f-1").textContent).toBe("b.txt");
+      });
+    });
+
+    it("should still have data-readonly when both disabled and readOnly are set", () => {
+      const { getByTestId } = setUp(<BasicFileUpload disabled readOnly />);
+      const dropzone = getByTestId("dropzone");
+
+      expect(dropzone.getAttribute("data-readonly")).toBe("");
+      expect(dropzone.getAttribute("data-disabled")).toBe("");
+    });
+  });
+
   describe("status change", () => {
     it("should call onAcceptedFileEntriesChange when file status changes", async () => {
       const onAcceptedFileEntriesChange = mock(() => {});

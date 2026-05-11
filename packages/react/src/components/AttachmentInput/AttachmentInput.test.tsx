@@ -138,6 +138,21 @@ describe("AttachmentInput", () => {
         const input = getByTestId("hidden-input") as HTMLInputElement;
         expect(input).toBeDisabled();
       });
+
+      it("should propagate aria-readonly from Field context to hidden input", () => {
+        const { getByTestId } = setUp(
+          <Field.Root readOnly>
+            <AttachmentInputRoot>
+              <AttachmentInputHiddenInput data-testid="hidden-input" />
+            </AttachmentInputRoot>
+          </Field.Root>,
+        );
+
+        const input = getByTestId("hidden-input") as HTMLInputElement;
+        expect(input.getAttribute("aria-readonly")).toBe("true");
+        // hidden input itself stays enabled so the form value is preserved when read-only
+        expect(input.disabled).toBe(false);
+      });
     });
   });
 });
