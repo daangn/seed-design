@@ -7107,10 +7107,22 @@
     position: relative;
   }
 
+  .seed-menu-sheet__content:after {
+    content: "";
+    background: inherit;
+    z-index: -1;
+    height: 200vh;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+
   .seed-menu-sheet__header {
     text-align: center;
     align-items: center;
     gap: var(--seed-dimension-x1);
+    padding-top: var(--menu-sheet-header-padding-top, 0);
     padding-bottom: var(--seed-dimension-x4);
     flex-direction: column;
     display: flex;

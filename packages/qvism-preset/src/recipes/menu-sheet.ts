@@ -60,6 +60,12 @@ const menuSheet = defineSlotRecipe({
       touchAction: "none",
       willChange: "transform",
 
+      // When wrapped by Drawer (SwipableMenuSheet), expose header padding-top
+      // so the Handle has room above the header.
+      "&[data-drawer]": {
+        "--menu-sheet-header-padding-top": vars.base.enabled.header.paddingTop,
+      },
+
       background: vars.base.enabled.content.color,
       paddingLeft: vars.base.enabled.content.paddingX,
       paddingRight: vars.base.enabled.content.paddingX,
@@ -71,6 +77,18 @@ const menuSheet = defineSlotRecipe({
       paddingBottom: `calc(${vars.base.enabled.content.paddingBottom} + var(--seed-safe-area-bottom))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+
+      /** Expand Content Background */
+      "&::after": {
+        top: "100%",
+        height: "200vh",
+        content: '""',
+        position: "absolute",
+        left: 0,
+        right: 0,
+        background: "inherit",
+        zIndex: -1,
+      },
     },
     header: {
       display: "flex",
@@ -79,6 +97,7 @@ const menuSheet = defineSlotRecipe({
       textAlign: "center",
 
       gap: vars.base.enabled.header.gap,
+      paddingTop: "var(--menu-sheet-header-padding-top, 0)",
       paddingBottom: vars.base.enabled.header.paddingBottom,
     },
     title: {
