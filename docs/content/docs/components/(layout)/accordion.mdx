@@ -1,64 +1,151 @@
 ---
 title: Accordion
-description: 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+description: 세부 정보를 점진적으로 공개할 수 있는, 수직으로 쌓인 목록 컴포넌트입니다.
 ---
 
 <PlatformStatusTable componentId="accordion" />
 
-## 구성 요소
+## Anatomy
 
-Accordion은 다음 요소로 구성됩니다:
+Accordion은 Trigger(Prefix, Title, Description, Chevron Icon)와 확장 시 Custom Content로 구성됩니다.
 
-- **Header (Trigger)**: 클릭하여 콘텐츠를 펼치거나 접는 영역
-  - Title (필수): 메인 타이틀
-  - Description (옵션): 서브 텍스트
-  - Prefix (옵션): 아이콘 또는 아바타
-  - Indicator: chevron 아이콘 (필수)
-- **Content (Panel)**: 펼쳐지는 콘텐츠 영역. 슬롯으로 제공
+Trigger는 사용자가 클릭하여 콘텐츠를 열고 닫을 수 있는 영역입니다. Prefix, Title, Description, Chevron Icon을 포함합니다.
 
-## Variants
+<FigmaImage
+  id="1030:18028"
+  alt="Accordion의 Anatomy 이미지. Trigger(Prefix, Title, Description, Chevron Icon)와 확장 시 Custom Content로 구성됩니다."
+/>
 
-### Inline
+## Properties
 
-하나의 흐름 안에서 보여지는 경우에 사용합니다. 아코디언이 속한 컨테이너 안에서 full-width를 차지하고 아이템 간 구분선을 표시합니다. FAQ에 자주 사용됩니다.
+### Open
 
-### Separated
+Accordion은 기본적으로 두 가지 시각적 상태를 가집니다.
 
-각 아코디언 아이템이 분리되어 있는 형태입니다. 아이템 각각이 경계를 가지고 있고, border-radius를 지닙니다. 모달에서 사용하거나 독립된 아이템 성격이 강할 때 적합합니다.
+- **Collapsed**: 헤더만 노출되며 Content Panel이 숨겨진 상태입니다. Chevron Icon이 아래 방향을 가리킵니다.
+- **Expanded**: 헤더 아래에 Content Panel이 펼쳐진 상태입니다. Chevron Icon이 위 방향을 가리킵니다.
 
-## Size
+기본적으로 모든 패널은 Collapsed 상태로 시작하여, 사용자에게 콘텐츠의 전체적인 개요를 먼저 제공합니다.
 
-- **Medium** (기본): 일반적인 사용에 적합
-- **Large**: 더 큰 패딩과 폰트 크기, 강조가 필요한 경우
+<FigmaImage id="1030:18047" alt="Accordion의 Open Property - Collapsed, Expanded" />
 
-## 동작
+### Size
 
-### 확장 모드
+모바일과 PC를 하나의 컴포넌트로 대응하기 위한 prop입니다. 사이즈에 따라 Padding, Font Size, Chevron Icon Size가 다릅니다. 기본 값으로는 Medium입니다.
 
-- **Multiple** (기본): 여러 개의 항목을 동시에 열 수 있습니다
-- **Single**: 한 번에 하나의 항목만 열립니다
+- **Medium**: 모바일 기본 사이즈입니다.
+- **Large**: PC 대응 사이즈입니다.
 
-### 초기 상태
+Large 사이즈는 PC 환경에서 뷰포트 너비가 변하더라도 폰트 사이즈가 동일하게 유지됩니다. 반응형에 따라 달라지는 것은 컴포넌트의 레이아웃 요소이며, 타이포그래피는 고정값을 사용합니다.
 
-- 기본: 전체 접힘
-- 예외로 열어둬야 하는 항목이 있다면 가능
+<FigmaImage id="1030:18063" alt="Accordion의 Size Property - Medium, Large" />
 
-## Collapsible vs Accordion
+### Variant
 
-- 콘텐츠 섹션이 **2개 이상이고, 구조적 관계가 있다면** Accordion을 사용합니다.
-- 펼치고 접을 수 있는 영역이 **1개이거나, 독립적으로 동작한다면** Collapsible을 사용합니다.
+Accordion Item들의 시각적 배치 방식을 정의합니다. 콘텐츠의 성격과 레이아웃에 따라 적절한 Variant를 선택해 주세요.
 
-## 접근성
+- **Inline**: Accordion Item들이 하나의 연속된 목록처럼 표현됩니다. 밀접하게 관련된 항목들을 컴팩트하게 나열할 때 사용합니다.
+- **Separated**: 각 Accordion Item이 개별 카드 형태로 분리되어 표현됩니다. 항목 간 시각적 독립성이 필요하거나, 각 섹션의 중요도가 동등할 때 사용합니다.
 
-| 키 | 동작 |
-|-----|------|
-| `Enter` / `Space` | 포커스된 트리거 토글 |
-| `ArrowDown` | 다음 트리거로 포커스 이동 |
-| `ArrowUp` | 이전 트리거로 포커스 이동 |
-| `Home` | 첫 번째 트리거로 포커스 이동 |
-| `End` | 마지막 트리거로 포커스 이동 |
-| `Tab` | 일반 탭 순서 이동 |
+<FigmaImage id="1030:18079" alt="Accordion의 Variant - Inline, Separated" />
+
+### State
+
+Accordion 컴포넌트는 Enabled, Pressed, Disabled 상태를 제공합니다.
+
+Focus 상태는 별도의 State Variant로 분리되어 있지 않고, '.Focus Ring'이라는 독립된 레이어로 구성되어 있습니다. Enabled, Pressed, Disabled 등 각 상태에서 키보드 인터랙션 시 호출될 수 있으므로, 해당 레이어를 켜서 Focus 상태를 정의할 수 있어요.
+
+<FigmaImage
+  id="1030:18102"
+  alt="Accordion의 State - Enabled, Pressed, Enabled + Focus, Disabled"
+/>
+
+### Prefix
+
+Prefix Slot은 Accordion 좌측에 위치합니다. 아이콘 이외에 다른 요소를 사용하고 싶은 경우 Custom을 이용해 변경해 주세요.
+
+Prefix에 어떤 요소가 오느냐에 따라 Trigger와의 간격을 사용처에서 커스텀하여 조절할 수 있습니다. 간격 조정 시에는 디자인 시스템에서 제공하는 spacing token을 활용해 주세요.
+
+<FigmaImage id="1030:18136" alt="Accordion의 Prefix Property - None, Icon, Custom" />
+
+## Guidelines
+
+### Accordion 기본 사용하기
+
+Accordion은 관련 정보를 그룹화하거나, 긴 페이지의 스크롤을 줄여야 할 때 사용합니다.
+
+<FigmaImage id="1030:18196" alt="Accordion을 활용한 사용 예시" />
+
+### Item 최소 개수
+
+Accordion은 여러 섹션을 접고 펼치며 탐색하는 컴포넌트이므로, 최소 2개 이상의 Item으로 구성해야 합니다.
+
+단일 콘텐츠를 접고 펼치는 용도는 해당 아이템에 Collapsible 동작을 활용할 수 있어요.
+
+<Grid>
+  <FigmaImage id="1030:18234" alt="2개 이상의 Item으로 구성한 Accordion 예시" />
+  <DontImage
+    figmaId="1030:18260"
+    body="Accordion Item을 단일로 사용하지 마세요."
+    alt="Accordion Item을 단일로 사용한 예시"
+  />
+</Grid>
+
+### Accordion 터치 영역
+
+터치 영역은 Chevron 아이콘뿐만 아니라 Trigger 전체를 포함합니다.
+
+<FigmaImage
+  id="1030:18296"
+  alt="Accordion의 터치 영역 예시. Chevron 아이콘뿐만 아니라 Trigger 전체를 포함합니다."
+/>
+
+### Expansion Behavior 차이
+
+- **Single Expand**: 한 번에 하나의 패널만 열 수 있습니다. 다른 패널을 열면 기존 패널이 자동으로 닫힙니다.
+  - 단계별 프로세스
+  - 작은 화면 혹은 영역
+- **Multi Expand**: 여러 패널을 동시에 열 수 있습니다. 각 패널의 상태가 독립적으로 관리됩니다.
+  - FAQ
+  - 콘텐츠가 풍부한 경우
+
+<Grid>
+  <FigmaImage id="1030:18323" alt="Single Expand 사용 예시" />
+  <FigmaImage id="1030:18361" alt="Multi Expand 사용 예시" />
+</Grid>
+
+### 확장 시 자동 스크롤 / 포커스 이동
+
+자동 스크롤 및 포커스 이동은 기본값으로 지원하지 않습니다. 다만, Accordion 콘텐츠가 뷰포트보다 길어지는 경우에는 전체 Accordion이 페이지 수준에서 수직으로 스크롤되어야 합니다.
+
+<FigmaImage
+  id="1030:18597"
+  alt="Accordion 확장 시 페이지 수준에서 수직으로 스크롤되는 예시"
+/>
+
+### Content Panel 내 스크롤 지양
+
+Content Panel 개별 내부에서의 스크롤은 지양합니다. 콘텐츠가 길 경우 Accordion 전체를 포함하는 페이지 수준에서 수직 스크롤을 허용하되, 개별 패널 내의 스크롤은 사용하지 마세요.
+
+<Grid>
+  <DontImage
+    figmaId="1030:18670"
+    body="수평 스크롤은 어떤 경우에도 사용하지 않습니다."
+    alt="Content Panel 내부에서 수평 스크롤이 발생한 예시"
+  />
+  <DontImage
+    figmaId="1030:18861"
+    body="Content Panel 개별 내부에서의 스크롤은 지양합니다."
+    alt="Content Panel 개별 내부에서 수직 스크롤이 발생한 예시"
+  />
+</Grid>
 
 ## Specification
 
-<ComponentSpecBlock id="accordion" />
+### Accordion
+
+<ComponentSpecBlock id="accordion" headingComponent="h4" />
+
+### Accordion Item
+
+<ComponentSpecBlock id="accordion-item" headingComponent="h4" />
