@@ -7,6 +7,7 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon, suffixIcon } from "../utils/icon";
 import { disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import spec from "@seed-design/rootage-artifacts/components/accordion.json" with { type: "json" };
 
 const accordion = defineSlotRecipe({
   name: "accordion",
@@ -272,6 +273,9 @@ const accordion = defineSlotRecipe({
   defaultVariants: {
     variant: "inline",
     size: "medium",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 
