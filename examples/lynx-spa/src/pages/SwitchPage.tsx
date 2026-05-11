@@ -14,6 +14,7 @@ import {
 } from '../components/catalog-examples.jsx';
 import {
   VariantCatalog,
+  type PreviewState,
   type SetVariantValue,
   type VariantAxis,
   type VariantValues,
@@ -44,6 +45,11 @@ const variants: readonly VariantAxis[] = [
     options: switchVariantMap.disabled,
     defaultValue: false,
   },
+];
+
+const previewStates: readonly PreviewState[] = [
+  { key: 'checked', defaultValue: false },
+  { key: 'disabled', defaultValue: false },
 ];
 
 function renderSwitch(values: VariantValues, setValue: SetVariantValue) {
@@ -155,7 +161,11 @@ function SwitchExamples() {
 
 export function SwitchPage() {
   return (
-    <VariantCatalog variants={variants} examples={<SwitchExamples />}>
+    <VariantCatalog
+      variants={variants}
+      previewStates={previewStates}
+      examples={<SwitchExamples />}
+    >
       {(values, setValue) => renderSwitch(values, setValue)}
     </VariantCatalog>
   );

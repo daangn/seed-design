@@ -2,6 +2,7 @@ import { checkboxVariantMap } from '@seed-design/lynx-css/recipes/checkbox';
 import { checkmarkVariantMap } from '@seed-design/lynx-css/recipes/checkmark';
 
 import {
+  type PreviewState,
   VariantCatalog,
   type SetVariantValue,
   type VariantAxis,
@@ -52,6 +53,12 @@ const variants: readonly VariantAxis[] = [
   },
 ];
 
+const previewStates: readonly PreviewState[] = [
+  { key: 'checked', defaultValue: false },
+  { key: 'indeterminate', defaultValue: false },
+  { key: 'disabled', defaultValue: false },
+];
+
 function renderCheckbox(values: VariantValues, setValue: SetVariantValue) {
   return (
     <Checkbox
@@ -70,7 +77,7 @@ function renderCheckbox(values: VariantValues, setValue: SetVariantValue) {
 
 export function CheckboxPage() {
   return (
-    <VariantCatalog variants={variants}>
+    <VariantCatalog variants={variants} previewStates={previewStates}>
       {(values, setValue) => renderCheckbox(values, setValue)}
     </VariantCatalog>
   );

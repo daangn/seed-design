@@ -7,6 +7,7 @@ import {
 } from '../components/catalog-examples.jsx';
 import {
   VariantCatalog,
+  type PreviewState,
   type VariantAxis,
   type VariantValues,
 } from '../components/variant-catalog.jsx';
@@ -46,6 +47,10 @@ const variants: readonly VariantAxis[] = [
     options: ['indeterminate', '25%', '50%', '75%', '100%'],
     defaultValue: 'indeterminate',
   },
+];
+
+const previewStates: readonly PreviewState[] = [
+  { key: 'progressState', label: 'value', defaultValue: 'indeterminate' },
 ];
 
 function renderProgressCircle(values: VariantValues) {
@@ -260,7 +265,11 @@ function ProgressCircleExamples() {
 
 export function ProgressCirclePage() {
   return (
-    <VariantCatalog variants={variants} examples={<ProgressCircleExamples />}>
+    <VariantCatalog
+      variants={variants}
+      previewStates={previewStates}
+      examples={<ProgressCircleExamples />}
+    >
       {(values) => renderProgressCircle(values)}
     </VariantCatalog>
   );

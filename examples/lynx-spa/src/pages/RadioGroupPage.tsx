@@ -2,6 +2,8 @@ import { radioVariantMap } from '@seed-design/lynx-css/recipes/radio';
 import { radiomarkVariantMap } from '@seed-design/lynx-css/recipes/radiomark';
 
 import {
+  type PreviewState,
+  type SetVariantValue,
   VariantCatalog,
   type VariantAxis,
   type VariantValues,
@@ -39,14 +41,21 @@ const variants: readonly VariantAxis[] = [
   },
 ];
 
-function renderRadioGroup(values: VariantValues) {
+const previewStates: readonly PreviewState[] = [
+  { key: 'value', defaultValue: 'option1' },
+];
+
+function renderRadioGroup(values: VariantValues, setValue: SetVariantValue) {
+  const selectedValue = values.value as string;
+
   return (
     <RadioGroup
       weight={values.weight as RadioWeight}
       size={values.size as RadioSize}
       tone={values.tone as RadioTone}
       disabled={Boolean(values.disabled)}
-      defaultValue="option1"
+      value={selectedValue}
+      onValueChange={(next) => setValue('value', next)}
     >
       {['option1', 'option2', 'option3'].map((value) => (
         <Radio
@@ -61,8 +70,8 @@ function renderRadioGroup(values: VariantValues) {
 
 export function RadioGroupPage() {
   return (
-    <VariantCatalog variants={variants}>
-      {(values) => renderRadioGroup(values)}
+    <VariantCatalog variants={variants} previewStates={previewStates}>
+      {(values, setValue) => renderRadioGroup(values, setValue)}
     </VariantCatalog>
   );
 }

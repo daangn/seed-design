@@ -8,6 +8,7 @@ import {
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
+  type PreviewState,
   type VariantAxis,
   VariantCatalog,
   type VariantValues,
@@ -43,6 +44,11 @@ const variants: readonly VariantAxis[] = [
     options: actionButtonVariantMap.loading,
     defaultValue: false,
   },
+];
+
+const previewStates: readonly PreviewState[] = [
+  { key: 'disabled', defaultValue: false },
+  { key: 'loading', defaultValue: false },
 ];
 
 function renderActionButton(values: VariantValues) {
@@ -245,7 +251,11 @@ function ActionButtonExamples() {
 
 export function ActionButtonPage() {
   return (
-    <VariantCatalog variants={variants} examples={<ActionButtonExamples />}>
+    <VariantCatalog
+      variants={variants}
+      previewStates={previewStates}
+      examples={<ActionButtonExamples />}
+    >
       {(values) => renderActionButton(values)}
     </VariantCatalog>
   );
