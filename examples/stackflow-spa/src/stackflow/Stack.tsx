@@ -90,6 +90,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivitySidePanel: lazy(() => import("../activities/ActivitySidePanel")),
     ActivitySidePanelActivity: lazy(() => import("../activities/ActivitySidePanelActivity")),
     ActivityResponsiveSidePanel: lazy(() => import("../activities/ActivityResponsiveSidePanel")),
+    ActivitySwipableMenuSheet: lazy(() => import("../activities/ActivitySwipableMenuSheet")),
     ActivitySwipeableTabs: lazy(() => import("../activities/ActivitySwipeableTabs")),
     ActivityTabs: lazy(() => import("../activities/ActivityTabs")),
     ActivityTabsAutoHeightLazy: lazy(() => import("../activities/ActivityTabsAutoHeightLazy")),
