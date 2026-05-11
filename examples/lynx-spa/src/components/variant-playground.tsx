@@ -11,12 +11,23 @@ export interface VariantAxis {
   defaultValue: PrimitiveValue;
 }
 
+export interface PreviewState {
+  key: string;
+  label?: string;
+  defaultValue: PrimitiveValue;
+}
+
 export interface VariantPlaygroundProps {
   /**
    * Public하게 조작 가능한 variant 축만 넘긴다. recipe에는 있어도 컴포넌트 prop으로
    * 고정할 수 없는 상태(예: pressed)는 포함하지 않는다.
    */
   variants: readonly VariantAxis[];
+  /**
+   * Preview 오른쪽 아래에 표시할 controlled state 값.
+   * variant control에는 없어도 preview에서 setValue로 갱신할 수 있다.
+   */
+  previewStates?: readonly PreviewState[];
   /**
    * preview 영역. 현재 값 스냅샷과 setter 를 받아 실제 컴포넌트를 렌더한다.
    * setter 는 controlled state (예: `checked`) 를 playground 로 되돌릴 때 사용.
@@ -42,15 +53,50 @@ export function getVariantDefaultValues(
   return result;
 }
 
+export function getPreviewStateDefaultValues(
+  previewStates: readonly PreviewState[] = [],
+): VariantValues {
+  const result: VariantValues = {};
+  for (const state of previewStates) {
+    result[state.key] = state.defaultValue;
+  }
+  return result;
+}
+
+function getDefaultValues(
+  variants: readonly VariantAxis[],
+  previewStates: readonly PreviewState[] = [],
+): VariantValues {
+  return {
+    ...getVariantDefaultValues(variants),
+    ...getPreviewStateDefaultValues(previewStates),
+  };
+}
+
+function getPreviewStateText(
+  previewStates: readonly PreviewState[] = [],
+  values: VariantValues,
+) {
+  if (previewStates.length === 0) return null;
+
+  return previewStates
+    .map((state) => {
+      const value = values[state.key] ?? state.defaultValue;
+      return `${state.label ?? state.key}=${toLabel(value)}`;
+    })
+    .join(' · ');
+}
+
 export function VariantPlayground(props: VariantPlaygroundProps) {
-  const { variants, children } = props;
+  const { variants, previewStates, children } = props;
 
   const defaultValues = useMemo(
-    () => getVariantDefaultValues(variants),
-    [variants],
+    () => getDefaultValues(variants, previewStates),
+    [variants, previewStates],
   );
 
   const [values, setValues] = useState<VariantValues>(() => defaultValues);
+  const previewStateText = getPreviewStateText(previewStates, values);
 
   const setValue = (key: string, value: PrimitiveValue) => {
     setValues((prev) =>
@@ -76,9 +122,29 @@ export function VariantPlayground(props: VariantPlaygroundProps) {
           justifyContent: 'center',
           padding: '16px',
           overflow: 'hidden',
+          position: 'relative',
         }}
       >
         {children(values, setValue)}
+        {previewStateText != null && (
+          <view
+            style={{
+              position: 'absolute',
+              right: '8px',
+              bottom: '8px',
+            }}
+          >
+            <text
+              style={{
+                fontSize: '10px',
+                lineHeight: '12px',
+                color: '#888',
+              }}
+            >
+              {previewStateText}
+            </text>
+          </view>
+        )}
       </view>
 
       {/* Controls: fixed to the bottom with its own scroll area. */}
