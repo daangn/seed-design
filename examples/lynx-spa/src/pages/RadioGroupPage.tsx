@@ -4,13 +4,13 @@ import { radiomarkVariantMap } from '@seed-design/lynx-css/recipes/radiomark';
 import {
   type PreviewState,
   type SetVariantValue,
-  VariantCatalog,
   type VariantAxis,
+  VariantCatalog,
   type VariantValues,
 } from '../components/variant-catalog.jsx';
 import {
-  Radio,
   RadioGroup,
+  RadioGroupItem,
   type RadioGroupProps,
 } from '../seed-design/ui/radio-group';
 
@@ -58,7 +58,7 @@ function renderRadioGroup(values: VariantValues, setValue: SetVariantValue) {
       onValueChange={(next) => setValue('value', next)}
     >
       {['option1', 'option2', 'option3'].map((value) => (
-        <Radio
+        <RadioGroupItem
           key={value}
           value={value}
           label={`Option ${value.replace('option', '')}`}

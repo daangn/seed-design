@@ -1,4 +1,11 @@
 {
   "title": "Components",
-  "pages": ["action-button", "bottom-sheet", "progress-circle", "switch", "tag-group"]
+  "pages": [
+    "action-button",
+    "bottom-sheet",
+    "progress-circle",
+    "radio-group",
+    "switch",
+    "tag-group"
+  ]
 }

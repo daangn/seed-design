@@ -14,23 +14,18 @@ npx @seed-design/cli@alpha add ui:radio-group --baseUrl https://lynx.seed-design
 
 ## Usage
 
-RadioGroup은 compound component 집합입니다. Root가 선택 상태를 소유하고 각 Item이 context로 자신의 선택 여부를 파악합니다.
+설치한 snippet은 기본 사용 경로인 `RadioGroup`과 `RadioGroupItem`, 커스텀 레이아웃에서 마크만 조합할 때 쓰는 `Radiomark`를 함께 export 합니다.
 
 ```tsx
-import { RadioGroup } from "@seed-design/lynx-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export function App() {
   return (
-    <RadioGroup.Root defaultValue="small">
-      {["small", "medium", "large"].map((value) => (
-        <RadioGroup.Item key={value} value={value}>
-          <RadioGroup.ItemControl>
-            <RadioGroup.ItemIndicator />
-          </RadioGroup.ItemControl>
-          <RadioGroup.ItemLabel>{value}</RadioGroup.ItemLabel>
-        </RadioGroup.Item>
-      ))}
-    </RadioGroup.Root>
+    <RadioGroup defaultValue="small">
+      <RadioGroupItem value="small" label="Small" />
+      <RadioGroupItem value="medium" label="Medium" />
+      <RadioGroupItem value="large" label="Large" />
+    </RadioGroup>
   );
 }
 ```
@@ -39,47 +34,102 @@ Controlled 모드는 `value`와 `onValueChange`를 함께 전달합니다.
 
 ```tsx
 import { useState } from "@lynx-js/react";
-import { RadioGroup } from "@seed-design/lynx-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export function ControlledRadioGroup() {
-  const [size, setSize] = useState("small");
+  const [value, setValue] = useState("small");
+
   return (
-    <RadioGroup.Root value={size} onValueChange={setSize}>
-      {/* Items */}
-    </RadioGroup.Root>
+    <RadioGroup value={value} onValueChange={setValue}>
+      <RadioGroupItem value="small" label="Small" />
+      <RadioGroupItem value="medium" label="Medium" />
+      <RadioGroupItem value="large" label="Large" />
+    </RadioGroup>
   );
 }
 ```
 
-### Group-level disabled
+### Disabled
 
-`RadioGroup.Root`의 `disabled` prop은 모든 Item을 한꺼번에 비활성화합니다. Item별로도 `disabled` 를 전달할 수 있고, 둘 중 하나라도 `true`면 해당 Item은 비활성화됩니다.
+`RadioGroup`의 `disabled` prop은 모든 item을 한꺼번에 비활성화합니다. 개별 item에도 `disabled`를 전달할 수 있고, 둘 중 하나라도 `true`면 해당 item은 비활성화됩니다.
 
 ```tsx
-<RadioGroup.Root defaultValue="a" disabled>
-  {/* ... all items disabled */}
-</RadioGroup.Root>
+<RadioGroup defaultValue="small" disabled>
+  <RadioGroupItem value="small" label="Small" />
+  <RadioGroupItem value="medium" label="Medium" />
+</RadioGroup>
 
-<RadioGroup.Root defaultValue="a">
-  <RadioGroup.Item value="a">...</RadioGroup.Item>
-  <RadioGroup.Item value="b" disabled>...</RadioGroup.Item>
-</RadioGroup.Root>
+<RadioGroup defaultValue="small">
+  <RadioGroupItem value="small" label="Small" />
+  <RadioGroupItem value="medium" label="Medium" disabled />
+</RadioGroup>
+```
+
+### Radiomark
+
+`Radiomark`는 label 없이 라디오 마크만 필요한 커스텀 레이아웃용 escape hatch입니다. `@seed-design/lynx-react`의 primitive item 안에서 사용합니다.
+
+```tsx
+import { RadioGroup as RadioGroupPrimitive } from "@seed-design/lynx-react";
+import { Radiomark } from "@/components/ui/radio-group";
+
+export function CustomRadioGroup() {
+  return (
+    <RadioGroupPrimitive.Root defaultValue="regular">
+      <RadioGroupPrimitive.Item value="regular">
+        <Radiomark tone="neutral" />
+        <text>regular</text>
+      </RadioGroupPrimitive.Item>
+      <RadioGroupPrimitive.Item value="bold">
+        <Radiomark tone="neutral" />
+        <text>bold</text>
+      </RadioGroupPrimitive.Item>
+    </RadioGroupPrimitive.Root>
+  );
+}
+```
+
+### Compound 사용 (고급)
+
+snippet이 제공하는 기본 구성으로는 부족한 경우 `@seed-design/lynx-react`의 compound component를 직접 조합합니다.
+
+```tsx
+import { RadioGroup } from "@seed-design/lynx-react";
+
+<RadioGroup.Root defaultValue="small">
+  <RadioGroup.Item value="small">
+    <RadioGroup.ItemControl tone="neutral">
+      <RadioGroup.ItemIndicator />
+    </RadioGroup.ItemControl>
+    <RadioGroup.ItemLabel>Small</RadioGroup.ItemLabel>
+  </RadioGroup.Item>
+</RadioGroup.Root>;
 ```
 
 ## Props
 
-<react-type-table path="../packages/lynx-react/src/components/RadioGroup/RadioGroup.tsx" name="RadioGroupRootProps" />
+### `RadioGroup`
+
+<react-type-table path="./registry/lynx/ui/radio-group.tsx" name="RadioGroupProps" />
+
+### `RadioGroupItem`
+
+<react-type-table path="./registry/lynx/ui/radio-group.tsx" name="RadioGroupItemProps" />
+
+### `Radiomark`
+
+<react-type-table path="./registry/lynx/ui/radio-group.tsx" name="RadiomarkProps" />
 
 ## 웹 버전과의 차이
 
 <Callout type="warning">
 Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니다.
 
-- **아이콘 주입 방식**: `RadioGroup.ItemIndicator`는 `@karrotmarket/lynx-monochrome-icon`의 monochrome icon 컴포넌트만 받습니다. 내부에서 `<image tint-color=...>`로 렌더되어 `useIconColor` 훅이 recipe의 `color` 토큰을 동기화합니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
-- **이벤트 핸들링**: `onChange` 대신 `onValueChange(value: string)`만 노출합니다. tap 핸들러는 Item 내부에서 소유합니다.
+- **Field wrapper 없음**: React snippet의 `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator` 같은 field 관련 prop은 Lynx snippet에서 제공하지 않습니다.
+- **아이콘 렌더링 방식**: 기본 `RadioGroup.ItemIndicator`는 `<view>` dot으로 렌더됩니다. custom icon을 전달할 때는 `@karrotmarket/lynx-monochrome-icon`의 monochrome icon 컴포넌트를 사용해야 하며 raw `<svg>` 주입은 Lynx 범위 밖입니다.
+- **이벤트 핸들링**: `onChange` 대신 `onValueChange(value: string)`만 노출합니다. tap 핸들러는 item 내부에서 소유합니다.
 - **렌더링 요소**: HTML `<label>` / `<input type="radio">` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
-- **Compound 구조**: `RadioGroup.Root` → `RadioGroup.Item` → `RadioGroup.ItemControl` → `RadioGroup.ItemIndicator` + `RadioGroup.ItemLabel` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다.
-- **Strict containment**: `RadioGroup.Item` 은 반드시 `RadioGroup.Root` 안에서 사용해야 합니다. 외부에서 쓰면 런타임 에러가 발생합니다.
+- **Strict containment**: `RadioGroupItem`, `Radiomark`, `RadioGroup.ItemControl`, `RadioGroup.ItemIndicator`, `RadioGroup.ItemLabel`은 반드시 `RadioGroup.Root`와 `RadioGroup.Item`의 적절한 context 안에서 사용해야 합니다.
 </Callout>
 
 ## Lynx 미지원 기능
@@ -92,6 +142,8 @@ Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니�
 |------|---------|------|
 | `RadioGroupItemHiddenInput` | `<input type="radio">` | Lynx에 HTML form 제출 모델 없음 |
 | `name` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
+| `inputProps` | 내부 input prop 전달 | Lynx에는 전달할 HTML input이 없음 |
+| `label` / `description` / `errorMessage` on `RadioGroup` | field wrapper props | Lynx에 대응 field wrapper snippet을 제공하지 않음 |
 | `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
 | `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onValueChange`로 대체 |
 
