@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-presence",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha-20260511052324",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@radix-ui/react-use-layout-effect": "^1.1.1",
-    "@seed-design/react-primitive": "1.0.0"
+    "@seed-design/react-primitive": "0.0.0-alpha-20260511052324"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

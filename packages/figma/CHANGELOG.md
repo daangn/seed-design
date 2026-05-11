@@ -1,5 +1,25 @@
 # @seed-design/figma
 
+## 0.0.0-alpha-20260511052324
+
+### Patch Changes
+
+- 87f6f45: Figma 엔티티 및 Codegen을 업데이트합니다.
+- Updated dependencies [159d112]
+- Updated dependencies [40b53c2]
+- Updated dependencies [4c0fb84]
+- Updated dependencies [365ae12]
+- Updated dependencies [1dd2eec]
+- Updated dependencies [aef192c]
+- Updated dependencies [ed00db6]
+- Updated dependencies [614f791]
+- Updated dependencies [c0ea51e]
+- Updated dependencies [0cb4cf3]
+- Updated dependencies [c649d70]
+- Updated dependencies [cba205f]
+- Updated dependencies [0c5d245]
+  - @seed-design/css@0.0.0-alpha-20260511052324
+
 ## 1.3.12
 
 ### Patch Changes

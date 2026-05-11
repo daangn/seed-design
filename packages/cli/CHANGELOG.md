@@ -1,5 +1,11 @@
 # @seed-design/cli
 
+## 0.0.0-alpha-20260511052324
+
+### Patch Changes
+
+- c5012d1: @seed-design/cli 옵션 스키마 정합성을 개선합니다.
+
 ## 1.3.3
 
 ### Patch Changes

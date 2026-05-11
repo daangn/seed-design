@@ -1,5 +1,100 @@
 # @seed-design/rootage-artifacts
 
+## 0.0.0-alpha-20260511052324
+
+### Minor Changes
+
+- 40b53c2: Attachment Field 관련 컴포넌트를 추가합니다.
+- 365ae12: 신규 타이포그래피 토큰을 추가합니다.
+
+  - **폰트 크기 토큰 (`$font-size`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **줄 간격 토큰 (`$line-height`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **텍스트 스타일 (`textStyle`)**
+    - `t8Regular`, `t8Medium`, `t8StaticRegular`, `t8StaticMedium`
+    - `t9Regular`, `t9Medium`, `t9StaticRegular`, `t9StaticMedium`
+    - `t10Regular`, `t10Medium`, `t10StaticRegular`, `t10StaticMedium`
+    - `t11Regular`, `t11Medium`, `t11Bold`, `t11StaticRegular`, `t11StaticMedium`, `t11StaticBold`
+    - `t12Regular`, `t12Medium`, `t12Bold`, `t12StaticRegular`, `t12StaticMedium`, `t12StaticBold`
+    - `t13Regular`, `t13Medium`, `t13Bold`, `t13StaticRegular`, `t13StaticMedium`, `t13StaticBold`
+    - `t14Regular`, `t14Medium`, `t14Bold`, `t14StaticRegular`, `t14StaticMedium`, `t14StaticBold`
+
+- 1dd2eec: Menu 컴포넌트를 추가합니다.
+
+  Dialog(AlertDialog, MenuSheet)와 Drawer(BottomSheet)를 `@radix-ui/react-dismissable-layer`에서 자체 `useDismissibleLayer` 훅 기반으로 리팩터링하고 불필요하게 외부로 노출되던 내부 옵션들을 제거합니다.
+
+  - `Drawer.BackdropProps`의 `forceMount` 옵션을 제거합니다.
+    - `Drawer.RootProps`의 `lazyMount`/`unmountOnExit` 옵션으로 대체할 수 있습니다.
+  - `Drawer.ContentProps`에서 아래 옵션을 제거합니다.
+    - `onPointerDownOutside`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onInteractOutside`, `forceMount`, `onFocusOutside`
+    - `Drawer.RootProps`의 `onOpenChange` 두 번째 인자 `details`를 통해 대체할 수 있습니다.
+  - `Dialog.RootProps` 및 `Drawer.RootProps`의 `onOpenChange` 두 번째 인자 `details.reason`이 `interactOutside`인 경우 `details.event`의 타입을 `PointerEvent | FocusEvent`에서 `PointerEvent | TouchEvent | FocusEvent`로 변경합니다.
+  - `Dialog.RootProps` 및 `Drawer.RootProps` 두 번째 인자 `details`의 `reason`으로 `cascadeDismiss`를 추가합니다. 두 개 이상의 오버레이 컴포넌트를 표시한 상황에서 하위 컴포넌트가 dismiss되는 경우 상위 컴포넌트는 `cascadeDismiss`와 함께 `onOpenChange`가 호출됩니다.
+  - @seed-design/react 패키지에서 @radix-ui/react-dialog 의존성을 제거합니다.
+
+  Drawer를 연 뒤 Drawer 뒤 요소에 포커스가 남아 있는 문제를 수정합니다. Drawer가 열리는 경우 `Drawer.Content`에 자동으로 포커스가 이동합니다.
+
+  - `Drawer.RootProps`의 `autoFocus` 기본값을 `false`에서 `true`로 변경합니다.
+
+  스크린 리더가 `modal=true` (기본값)인 Dialog 및 Drawer 뒤 요소를 읽을 수 있는 문제를 수정합니다.
+
+- ed00db6: 일부 컴포넌트 variant 옵션에 JSDoc을 추가합니다.
+- c0ea51e: 1.2에서 Deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - Image Frame의 `rounded` variant
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+
+- cba205f: Text Input(Text Field)과 Input Button(Field Button)에 `size="medium"` variant를 추가합니다.
+- 0c5d245: `@seed-design/react`에 `Accordion` 컴포넌트 추가.
+
+  - `multiple` prop으로 단일/다중 확장 모드, `variant="inline" | "separated"`, `size="medium" | "large"` 지원
+  - WAI-ARIA Accordion 패턴 준수 (키보드 네비 `ArrowUp`/`Down`/`Home`/`End`, `<h3>` 헤더 자동 래핑)
+  - `@seed-design/react-accordion` 헤드리스 패키지 신규 출시 (스타일 없이 상태/접근성만 필요할 때 직접 사용 가능)
+  - snippet은 `AccordionTrigger`의 `title`, `description`, `prefix`, `suffixIcon`, `headingLevel` prop으로 반복되는 trigger 구성을 간단히 작성할 수 있습니다.
+  - prefix 아이콘은 `prefix={<Icon ... />}`처럼 SEED `Icon` 컴포넌트로 감싸서 전달합니다.
+
+  snippet으로 바로 설치해 사용할 수 있습니다.
+
+  ```sh
+  npx @seed-design/cli@latest add ui:accordion
+  ```
+
+  ```tsx
+  import {
+    Accordion,
+    AccordionItem,
+    AccordionTrigger,
+    AccordionContent,
+  } from "seed-design/ui/accordion";
+
+  <Accordion defaultValues={["item-1"]}>
+    <AccordionItem value="item-1">
+      <AccordionTrigger title="자주 묻는 질문 1" />
+      <AccordionContent>답변 내용</AccordionContent>
+    </AccordionItem>
+  </Accordion>;
+  ```
+
+### Patch Changes
+
+- aef192c: Chip Tabs Trigger가 disabled 상태일 때 opacity를 사용하여 스타일을 조절하도록 수정합니다.
+
 ## 1.2.9
 
 ### Patch Changes

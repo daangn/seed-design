@@ -1,5 +1,44 @@
 # @seed-design/tailwind3-plugin
 
+## 0.0.0-alpha-20260511052324
+
+### Minor Changes
+
+- 365ae12: 신규 타이포그래피 토큰을 추가합니다.
+
+  - **폰트 크기 토큰 (`$font-size`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **줄 간격 토큰 (`$line-height`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **텍스트 스타일 (`textStyle`)**
+    - `t8Regular`, `t8Medium`, `t8StaticRegular`, `t8StaticMedium`
+    - `t9Regular`, `t9Medium`, `t9StaticRegular`, `t9StaticMedium`
+    - `t10Regular`, `t10Medium`, `t10StaticRegular`, `t10StaticMedium`
+    - `t11Regular`, `t11Medium`, `t11Bold`, `t11StaticRegular`, `t11StaticMedium`, `t11StaticBold`
+    - `t12Regular`, `t12Medium`, `t12Bold`, `t12StaticRegular`, `t12StaticMedium`, `t12StaticBold`
+    - `t13Regular`, `t13Medium`, `t13Bold`, `t13StaticRegular`, `t13StaticMedium`, `t13StaticBold`
+    - `t14Regular`, `t14Medium`, `t14Bold`, `t14StaticRegular`, `t14StaticMedium`, `t14StaticBold`
+
+- c0ea51e: 1.2에서 Deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - Image Frame의 `rounded` variant
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+
 ## 1.1.18
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @seed-design/react-primitive
 
+## 0.0.0-alpha-20260511052324
+
+### Minor Changes
+
+- 0cb4cf3: Side Navigation 컴포넌트를 추가합니다.
+
 ## 1.0.0
 
 ### Major Changes
