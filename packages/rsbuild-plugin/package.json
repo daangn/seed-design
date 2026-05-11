@@ -39,7 +39,7 @@
     "@seed-design/css": "^1.1.0"
   },
   "peerDependencies": {
-    "@rsbuild/core": "^2.0.0",
+    "@rsbuild/core": "^1.1.0 || ^2.0.0",
     "@seed-design/css": "^1.1.0"
   },
   "publishConfig": {
