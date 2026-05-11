@@ -1,0 +1,211 @@
+---
+title: Swipable Menu Sheet
+description: 사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다. swipe 제스처로 닫을 수 있고, 핸들로 드래그 affordance를 제공합니다.
+---
+
+<ComponentExample name="react/swipable-menu-sheet/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:swipable-menu-sheet
+```
+
+<ManualInstallation name="swipable-menu-sheet" />
+
+## Props
+
+### `SwipableMenuSheetRoot`
+
+<react-type-table
+  path="./registry/ui/swipable-menu-sheet.tsx"
+  name="SwipableMenuSheetRootProps"
+/>
+
+### `SwipableMenuSheetTrigger`
+
+<react-type-table
+  path="./registry/ui/swipable-menu-sheet.tsx"
+  name="SwipableMenuSheetTriggerProps"
+/>
+
+### `SwipableMenuSheetContent`
+
+<react-type-table
+  path="./registry/ui/swipable-menu-sheet.tsx"
+  name="SwipableMenuSheetContentProps"
+/>
+
+### `SwipableMenuSheetGroup`
+
+<react-type-table
+  path="./registry/ui/swipable-menu-sheet.tsx"
+  name="SwipableMenuSheetGroupProps"
+/>
+
+### `SwipableMenuSheetItem`
+
+<react-type-table
+  path="./registry/ui/swipable-menu-sheet.tsx"
+  name="SwipableMenuSheetItemProps"
+/>
+
+## Examples
+
+### Trigger
+
+`<SwipableMenuSheetTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, SwipableMenuSheet의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+`MenuSheet`과 달리, swipe-down 제스처로도 시트를 닫을 수 있어요. 시트 상단의 핸들이 드래그 affordance를 제공합니다. 스크린 리더 사용자를 위해, 시트 안에는 시각적으로 숨겨진 닫기 버튼이 자동으로 렌더링됩니다.
+
+<ComponentExample name="react/swipable-menu-sheet/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 SwipableMenuSheet를 열고 닫을 수 있습니다. 이 경우 `open` prop을 사용하여 SwipableMenuSheet의 상태를 제어합니다.
+
+<ComponentExample name="react/swipable-menu-sheet/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Title
+
+`SwipableMenuSheetContent`의 `title` prop을 사용하여 시트 헤더에 제목을 표시합니다.
+
+<ComponentExample name="react/swipable-menu-sheet/with-title">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/with-title.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Title and Description
+
+`SwipableMenuSheetContent`의 `description` prop을 사용하여 제목 아래에 부가 설명을 추가합니다.
+
+<ComponentExample name="react/swipable-menu-sheet/with-title-and-description">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/with-title-and-description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Label Align
+
+`SwipableMenuSheetContent`의 `labelAlign` prop으로 메뉴 항목의 레이블 정렬을 설정합니다.
+
+#### `labelAlign="left"` (with `PrefixIcon`)
+
+레이블을 왼쪽 정렬합니다.
+
+<ComponentExample name="react/swipable-menu-sheet/with-prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/with-prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### `labelAlign="center"` (without `PrefixIcon`)
+
+레이블을 중앙 정렬합니다. (일반적으로, `prefixIcon` 없는 경우)
+
+<ComponentExample name="react/swipable-menu-sheet/without-prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/without-prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Overriding `labelAlign`
+
+필요한 경우 `SwipableMenuSheetContent`에 지정한 `labelAlign`을 `SwipableMenuSheetGroup` 또는 `SwipableMenuSheetItem`에 지정한 `labelAlign`으로 덮어쓸 수 있습니다.
+
+<ComponentExample name="react/swipable-menu-sheet/overriding-label-align">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/overriding-label-align.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `SwipableMenuSheetTrigger` (`SwipableMenuSheet.Trigger`)로 열림
+
+**닫힐 때** (`open: false`)
+
+- `"closeButton"`: 시각적으로 숨겨진 `SwipableMenuSheet.HiddenCloseButton`이 활성화되어 닫힘 (주로 스크린 리더 사용자)
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+- `"drag"`: swipe 제스처로 닫힘
+- `"handleClickOnLastSnapPoint"`: 마지막 스냅 포인트에서 핸들 클릭으로 닫힘
+
+<ComponentExample name="react/swipable-menu-sheet/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Dismissible
+
+`dismissible` prop을 `false`로 설정하면 `closeOnEscape`, `closeOnInteractOutside`, swipe로 닫기 기능이 비활성화됩니다.
+의도적으로 SwipableMenuSheet를 닫을 수 없게 하고 싶을 때 사용합니다. 이외에는 유저가 SwipableMenuSheet를 닫을 수 있는 방법을 제공해야 합니다.
+
+<ComponentExample name="react/swipable-menu-sheet/dismissible">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/dismissible.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Skip Animation
+
+`skipAnimation` prop을 사용하여 SwipableMenuSheet의 enter/exit 애니메이션을 건너뛸 수 있습니다.
+
+<ComponentExample name="react/swipable-menu-sheet/skip-animation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipable-menu-sheet/skip-animation.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

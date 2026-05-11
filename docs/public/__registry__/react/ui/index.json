@@ -935,6 +935,21 @@
     {
       "snippets": [
         {
+          "path": "swipable-menu-sheet.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.3.0",
+            "@seed-design/css": "~1.3.0"
+          }
+        }
+      ],
+      "id": "swipable-menu-sheet",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "switch.tsx",
           "dependencies": {
             "@seed-design/react": "~1.2.0",
