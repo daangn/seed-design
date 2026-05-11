@@ -56,6 +56,10 @@ const menuSheet = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
+      // Performance and interaction
+      touchAction: "none",
+      willChange: "transform",
+
       background: vars.base.enabled.content.color,
       paddingLeft: vars.base.enabled.content.paddingX,
       paddingRight: vars.base.enabled.content.paddingX,

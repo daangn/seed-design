@@ -64,18 +64,13 @@ export interface SwipableMenuSheetContentProps
 export const SwipableMenuSheetContent = React.forwardRef<
   HTMLDivElement,
   SwipableMenuSheetContentProps
->(({ className, style, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
   const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
   const classNames = useClassNames();
 
   return (
     <ItemPropsProvider value={variantProps}>
-      <Drawer.Content
-        ref={ref}
-        className={clsx(classNames.content, className)}
-        style={{ touchAction: "none", willChange: "transform", ...style }}
-        {...otherProps}
-      />
+      <Drawer.Content ref={ref} className={clsx(classNames.content, className)} {...otherProps} />
     </ItemPropsProvider>
   );
 });
