@@ -122,16 +122,26 @@ data:
           offset: $dimension.x1_5
           size: $dimension.x6
 
-      dragging:
-        root:
-          opacity: 0.5
-
     type=file:
       enabled:
         root:
           width: 160px
           strokeColor: $color.stroke.neutral-weak
           paddingX: $dimension.x4
+      readonly:
+        thumbnailIcon:
+          color: $color.fg.disabled
+        name:
+          color: $color.fg.disabled
+        size:
+          color: $color.fg.disabled
+      dragging:
+        thumbnailIcon:
+          color: $color.fg.disabled
+        name:
+          color: $color.fg.disabled
+        size:
+          color: $color.fg.disabled
 
     type=image:
       enabled:
@@ -150,3 +160,9 @@ data:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.medium
+      readonly:
+        root:
+          opacity: 0.5
+      dragging:
+        root:
+          opacity: 0.5

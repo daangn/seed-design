@@ -5,7 +5,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, not, pseudo, readOnly } from "../utils/pseudo";
 import {
   attachmentInput as vars,
   attachmentInputItem as itemVars,
@@ -160,8 +160,6 @@ const attachmentInputItem = defineSlotRecipe({
       "--remove-button-mask-size": itemVars.base.enabled.removeButtonMask.size,
       "--remove-button-mask-offset": itemVars.base.enabled.removeButtonMask.offset,
 
-      transition: "opacity 0.2s",
-
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
@@ -179,13 +177,11 @@ const attachmentInputItem = defineSlotRecipe({
         ...removeButtonMask,
       },
 
-      [pseudo("[role='button']", not("[aria-grabbed=true]"))]: {
+      [pseudo("[role='button']", not("[aria-grabbed=true]"), not("[data-readonly]"))]: {
         cursor: "grab",
       },
 
       [pseudo("[aria-grabbed=true]")]: {
-        opacity: itemVars.base.dragging.root.opacity,
-
         // Disable the remove button mask while dragging — see the slot's
         // description in attachment-input-item.yaml.
         "--remove-button-mask-size": "0px",
@@ -318,7 +314,7 @@ const attachmentInputItem = defineSlotRecipe({
         color: itemRemoveButtonVars.base.enabled.icon.color,
       }),
 
-      [pseudo(engaged)]: {
+      [pseudo(not(disabled), engaged)]: {
         backgroundColor: itemRemoveButtonVars.base.pressed.root.color,
       },
 
@@ -341,7 +337,6 @@ const attachmentInputItem = defineSlotRecipe({
   },
   variants: {
     type: {
-      // TODO: rename
       general: {
         root: {
           width: itemVars.typeFile.enabled.root.width,
@@ -356,10 +351,40 @@ const attachmentInputItem = defineSlotRecipe({
           [pseudo("[data-has-overlay]")]: {
             display: "none",
           },
+
+          [pseudo(readOnly)]: {
+            ...onlyIcon({
+              color: itemVars.typeFile.readonly.thumbnailIcon.color,
+            }),
+          },
+
+          "[aria-grabbed=true] &": {
+            ...onlyIcon({
+              color: itemVars.typeFile.dragging.thumbnailIcon.color,
+            }),
+          },
         },
         metadata: {
           [pseudo("[data-has-overlay]")]: {
             display: "none",
+          },
+        },
+        name: {
+          [pseudo(readOnly)]: {
+            color: itemVars.typeFile.readonly.name.color,
+          },
+
+          "[aria-grabbed=true] &": {
+            color: itemVars.typeFile.dragging.name.color,
+          },
+        },
+        size: {
+          [pseudo(readOnly)]: {
+            color: itemVars.typeFile.readonly.size.color,
+          },
+
+          "[aria-grabbed=true] &": {
+            color: itemVars.typeFile.dragging.size.color,
           },
         },
         actionButton: {
@@ -374,8 +399,18 @@ const attachmentInputItem = defineSlotRecipe({
         root: {
           width: itemVars.typeImage.enabled.root.width,
 
+          transition: "opacity 0.2s",
+
           "&::before": {
             boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeImage.enabled.root.strokeColor}`,
+          },
+
+          [pseudo(readOnly)]: {
+            opacity: itemVars.typeImage.readonly.root.opacity,
+          },
+
+          [pseudo("[aria-grabbed=true]")]: {
+            opacity: itemVars.typeImage.dragging.root.opacity,
           },
         },
         thumbnail: {

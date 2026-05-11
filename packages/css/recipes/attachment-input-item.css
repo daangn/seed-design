@@ -8,7 +8,6 @@
     border-radius: var(--seed-radius-r3);
     --remove-button-mask-size: var(--seed-dimension-x6);
     --remove-button-mask-offset: var(--seed-dimension-x1_5);
-    transition: opacity 0.2s;
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
@@ -37,11 +36,10 @@
     mask-composite: subtract;
     transform: translateZ(0);
 }
-.seed-attachment-input-item__root[role='button']:not([aria-grabbed=true]) {
+.seed-attachment-input-item__root[role='button']:not([aria-grabbed=true]):not([data-readonly]) {
     cursor: grab;
 }
 .seed-attachment-input-item__root[aria-grabbed=true] {
-    opacity: 0.5;
     --remove-button-mask-size: 0px;
     --remove-button-mask-offset: 0px;
 }
@@ -174,12 +172,12 @@
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
 @media (hover: hover) and (pointer: fine) {
-    .seed-attachment-input-item__removeButton:is(:hover, [data-hover]) {
+    .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
         background-color: var(--seed-color-bg-layer-default-pressed);
     }
 }
 @media not all and (hover: hover) and (pointer: fine) {
-    .seed-attachment-input-item__removeButton:is(:active, [data-active]) {
+    .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
         background-color: var(--seed-color-bg-layer-default-pressed);
     }
 }
@@ -201,8 +199,26 @@
 .seed-attachment-input-item__thumbnail--type_general[data-has-overlay] {
     display: none;
 }
+.seed-attachment-input-item__thumbnail--type_general:is([data-readonly]) {
+    --seed-icon-color: var(--seed-color-fg-disabled);
+}
+[aria-grabbed=true] .seed-attachment-input-item__thumbnail--type_general {
+    --seed-icon-color: var(--seed-color-fg-disabled);
+}
 .seed-attachment-input-item__metadata--type_general[data-has-overlay] {
     display: none;
+}
+.seed-attachment-input-item__name--type_general:is([data-readonly]) {
+    color: var(--seed-color-fg-disabled);
+}
+[aria-grabbed=true] .seed-attachment-input-item__name--type_general {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-attachment-input-item__size--type_general:is([data-readonly]) {
+    color: var(--seed-color-fg-disabled);
+}
+[aria-grabbed=true] .seed-attachment-input-item__size--type_general {
+    color: var(--seed-color-fg-disabled);
 }
 .seed-attachment-input-item__actionButton--type_general {
     color: var(--seed-color-fg-neutral-subtle);
@@ -210,9 +226,16 @@
 }
 .seed-attachment-input-item__root--type_image {
     width: 80px;
+    transition: opacity 0.2s;
 }
 .seed-attachment-input-item__root--type_image::before {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle);
+}
+.seed-attachment-input-item__root--type_image:is([data-readonly]) {
+    opacity: 0.5;
+}
+.seed-attachment-input-item__root--type_image[aria-grabbed=true] {
+    opacity: 0.5;
 }
 .seed-attachment-input-item__thumbnail--type_image {
     display: none;

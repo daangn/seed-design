@@ -264,19 +264,6 @@
                 }
               }
             }
-          },
-          {
-            "states": [
-              "dragging"
-            ],
-            "slots": {
-              "root": {
-                "opacity": {
-                  "type": "number",
-                  "value": 0.5
-                }
-              }
-            }
           }
         ]
       },
@@ -305,6 +292,56 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x4"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "readonly"
+            ],
+            "slots": {
+              "thumbnailIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "name": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "size": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "dragging"
+            ],
+            "slots": {
+              "thumbnailIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "name": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "size": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
                 }
               }
             }
@@ -374,6 +411,32 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.medium"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "readonly"
+            ],
+            "slots": {
+              "root": {
+                "opacity": {
+                  "type": "number",
+                  "value": 0.5
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "dragging"
+            ],
+            "slots": {
+              "root": {
+                "opacity": {
+                  "type": "number",
+                  "value": 0.5
                 }
               }
             }

@@ -33,11 +33,6 @@ export const vars = {
         "offset": "var(--seed-dimension-x1_5)",
         "size": "var(--seed-dimension-x6)"
       }
-    },
-    "dragging": {
-      "root": {
-        "opacity": "0.5"
-      }
     }
   },
   "typeFile": {
@@ -46,6 +41,28 @@ export const vars = {
         "width": "160px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "paddingX": "var(--seed-dimension-x4)"
+      }
+    },
+    "readonly": {
+      "thumbnailIcon": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "name": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "size": {
+        "color": "var(--seed-color-fg-disabled)"
+      }
+    },
+    "dragging": {
+      "thumbnailIcon": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "name": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "size": {
+        "color": "var(--seed-color-fg-disabled)"
       }
     }
   },
@@ -69,6 +86,16 @@ export const vars = {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
         "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    },
+    "readonly": {
+      "root": {
+        "opacity": "0.5"
+      }
+    },
+    "dragging": {
+      "root": {
+        "opacity": "0.5"
       }
     }
   }
