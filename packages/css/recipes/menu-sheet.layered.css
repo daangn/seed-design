@@ -36,6 +36,10 @@
     position: relative;
   }
 
+  .seed-menu-sheet__content:is(:focus, [data-focus]) {
+    outline: none;
+  }
+
   .seed-menu-sheet__content:after {
     content: "";
     background: inherit;

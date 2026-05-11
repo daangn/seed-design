@@ -1,7 +1,7 @@
 import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -77,6 +77,10 @@ const menuSheet = defineSlotRecipe({
       paddingBottom: `calc(${vars.base.enabled.content.paddingBottom} + var(--seed-safe-area-bottom))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
 
       /** Expand Content Background */
       "&::after": {
