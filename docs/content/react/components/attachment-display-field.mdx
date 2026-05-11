@@ -1,0 +1,276 @@
+---
+title: Attachment Display Field
+description: 외부 소스에서 제공된 미디어를 URL 기반으로 표시하고 관리하는 컴포넌트입니다.
+---
+
+<ComponentExample name="react/attachment-display-field/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+### Default
+
+순서 변경이 불필요한 경우 사용할 수 있는 컴포넌트를 포함합니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:attachment-display-field
+```
+
+<ManualInstallation name="attachment-display-field" />
+
+### Reorderable
+
+드래그 앤 드롭을 통한 항목 순서 변경이 필요한 경우 활용할 수 있는 컴포넌트를 포함합니다. 프로젝트에 [dnd-kit](https://dndkit.com/overview) 의존성이 추가됩니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
+```
+
+<ManualInstallation name="attachment-display-field-reorderable" />
+
+## Props
+
+### `AttachmentDisplayField`
+
+<react-type-table
+  path="./registry/ui/attachment-display-field.tsx"
+  name="AttachmentDisplayFieldProps"
+/>
+
+### `AttachmentDisplay`
+
+<react-type-table
+  path="./registry/ui/attachment-display-field.tsx"
+  name="AttachmentDisplayProps"
+/>
+
+### `AttachmentDisplayItem`
+
+<react-type-table
+  path="./registry/ui/attachment-display-field.tsx"
+  name="AttachmentDisplayItemProps"
+/>
+
+## Usage
+
+### 기본 사용법
+
+`AttachmentDisplayField` 안에 `AttachmentDisplay` 또는 `AttachmentDisplayReorderable`을 조합하여 사용합니다.
+
+`AttachmentDisplay`는 HTML `<input type="file">`을 사용하지 않습니다. `onTriggerClick`으로 외부 미디어 피커를 호출하고, 그 결과를 `entries`로 주입하여 표시하세요.
+
+[`AttachmentField`](/react/components/attachment-field)와 달리 `AttachmentDisplayField`는 파일의 유효성을 검증하거나 파일 객체를 직접 다루지 않습니다.
+
+```tsx
+import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
+
+<AttachmentDisplayField
+  entries={entries}
+  onEntriesChange={setEntries}
+  maxEntries={10}
+>
+  <AttachmentDisplay
+    onTriggerClick={async () => {
+      const result = await openMediaPicker({ ... });
+      // result를 entries로 변환하여 setEntries 호출
+    }}
+  />
+</AttachmentDisplayField>;
+```
+
+### Item 직접 구성하기
+
+`AttachmentDisplay`, `AttachmentDisplayReorderable`은 `children`을 render prop으로 사용합니다.
+
+`entries`를 활용하여 `AttachmentDisplayItem`을 직접 렌더링할 수 있습니다. 이때 `DisplayItemEntry` 타입이 제공하는 `id`를 `key`로 활용하는 것을 권장합니다.
+
+`children`을 제공하지 않는 경우 자동으로 `entries`를 `AttachmentDisplayItem`으로 렌더링합니다.
+
+```tsx
+import {
+  AttachmentDisplay,
+  AttachmentDisplayField,
+  AttachmentDisplayItem,
+} from "seed-design/ui/attachment-display-field";
+
+<AttachmentDisplayField
+  entries={entries}
+  onEntriesChange={setEntries}
+  maxEntries={10}
+>
+  <AttachmentDisplay onTriggerClick={openPicker}>
+    {({ entries }) =>
+      entries.map((entry) => (
+        <AttachmentDisplayItem key={entry.id} entry={entry} />
+      ))
+    }
+  </AttachmentDisplay>
+</AttachmentDisplayField>;
+```
+
+## Adding Entries
+
+### Trigger
+
+`AttachmentDisplay`는 trigger(업로드 버튼)가 포함된 레이아웃을 제공합니다. trigger 클릭 시 `onTriggerClick` 콜백이 실행됩니다. 일반적으로 외부 미디어 피커 호출을 수행합니다.
+
+<ComponentExample name="react/attachment-display-field/trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Listening to Entry Changes
+
+`entries`는 현재 표시되고 있는 항목의 목록입니다. `onEntriesChange` 콜백으로 `entries`에 등록된 파일 변경 이벤트를 감지할 수 있습니다.
+
+<ComponentExample name="react/attachment-display-field/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Managing Item Status
+
+`entries`의 각 항목은 `pending`, `uploading`, `success`, `error`의 status를 가질 수 있습니다. 새로 추가되는 항목의 status 기본값은 의도에 맞게 자유롭게 지정할 수 있습니다(외부 피커가 막 던진 항목이라면 `uploading`, 이미 업로드 완료된 미디어를 hydrate한다면 `success`).
+
+외부 업로드 API가 파일 업로드 상태를 제공하는 경우 `entries` 각 항목의 status를 업데이트하여 UI에 반영할 수 있습니다.
+
+<ComponentExample name="react/attachment-display-field/status">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/status.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+- `uploading`: [ProgressCircle](/react/components/progress-circle)이 표시됩니다.
+  - `progress`를 설정하여 업로드 진행률을 표시할 수 있습니다.
+  - `progress`를 지정하지 않는 경우 [indeterminate](/react/components/progress-circle#indeterminate) 상태로 표시됩니다.
+- `error`: 재시도 버튼이 표시됩니다.
+  - 클릭 시 `AttachmentDisplay`에 지정한 `onRetry` 콜백이 실행됩니다.
+
+## Reordering Entries
+
+`AttachmentDisplayReorderable`을 사용하면 드래그로 항목의 순서를 변경할 수 있습니다.
+
+해당 컴포넌트는 `dnd-kit` 의존성 분리를 위해 별도 snippet [`ui:attachment-display-field-reorderable`](#reorderable)로 제공됩니다.
+
+Context를 통해 `reorderEntry`가 제공되므로, 필요한 경우 원하는 드래그 앤 드롭 동작을 직접 구현하거나, 이미 프로젝트에서 사용 중인 드래그 앤 드롭 라이브러리와 연동하여 사용할 수 있습니다.
+
+<ComponentExample name="react/attachment-display-field/reorderable">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/reorderable.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Examples
+
+### Disabled
+
+`disabled` prop으로 trigger 버튼을 비활성화할 수 있습니다.
+
+<ComponentExample name="react/attachment-display-field/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Read Only
+
+`readOnly` prop으로 읽기 전용 상태를 표현할 수 있습니다. trigger, 파일 제거 버튼, 순서 변경 모두 비활성화됩니다.
+
+<ComponentExample name="react/attachment-display-field/readonly">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/readonly.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+`entries`와 `onEntriesChange`를 사용하여 외부에서 아이템 목록을 제어할 수 있습니다.
+
+<ComponentExample name="react/attachment-display-field/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Inset
+
+`--seed-attachment-input-extend-x` CSS 변수를 사용하여 스크롤되는 아이템 목록이 레이아웃 바깥으로 빠져나오도록 구성할 수 있습니다.
+
+<ComponentExample name="react/attachment-display-field/custom-inset">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/custom-inset.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Field Integration
+
+`label`, `description`, `errorMessage` 등 Field 관련 prop을 전달할 수 있습니다.
+
+<ComponentExample name="react/attachment-display-field/field">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/field.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizing Items
+
+Snippet이 제공하는 기본 아이템 구성 외에 추가적인 커스터마이징이 필요한 경우, `@seed-design/react`에서 제공하는 `AttachmentDisplay.ItemBadge` 등의 요소를 활용하여 직접 아이템을 구성할 수 있습니다.
+
+아래 예시에서는 `AttachmentDisplay.ItemBadge`를 사용하여 첫 번째 이미지에 "대표사진" 배지를 표시합니다.
+
+<ComponentExample name="react/attachment-display-field/customizing-items">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/customizing-items.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Attachment Display Field vs. Attachment Field
+
+HTML `<input type="file">`을 사용해야 하는 경우 `AttachmentField`를, 외부 소스와 연동하여 URL 기반으로 미디어를 표시해야 하는 경우 `AttachmentDisplayField`를 사용하세요.
+
+|                           | Attachment Field             | Attachment Display                  |
+| ------------------------- | ---------------------------- | ----------------------------------- |
+| 미디어 소스               | HTML `<input type="file">`   | 이미지 URL                          |
+| 데이터 모델               | `File` 기반 `FileEntry`      | URL 기반 `DisplayItemEntry`         |
+| 파일 선택                 | `<input type="file">`        | 다루지 않음 (`onTriggerClick` 위임) |
+| 드래그 앤 드롭으로 업로드 | `AttachmentDropzone`         | 다루지 않음                         |
+| 파일 검증                 | accept, maxFileSize 등       | 다루지 않음                         |
+| Form 연동                 | `<input type="file">` 동기화 | 다루지 않음                         |
