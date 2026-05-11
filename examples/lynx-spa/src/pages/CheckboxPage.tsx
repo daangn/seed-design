@@ -7,6 +7,7 @@ import {
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
+  type PreviewState,
   VariantCatalog,
   type SetVariantValue,
   type VariantAxis,
@@ -60,6 +61,12 @@ const variants: readonly VariantAxis[] = [
     options: checkmarkVariantMap.indeterminate,
     defaultValue: false,
   },
+];
+
+const previewStates: readonly PreviewState[] = [
+  { key: 'checked', defaultValue: false },
+  { key: 'indeterminate', defaultValue: false },
+  { key: 'disabled', defaultValue: false },
 ];
 
 function renderCheckbox(values: VariantValues, setValue: SetVariantValue) {
@@ -126,10 +133,30 @@ function CheckboxExamples() {
 
       <CatalogSectionTitle>Tones and Variants</CatalogSectionTitle>
       <CheckboxGroup>
-        <Checkbox label="Brand square" tone="brand" variant="square" defaultChecked />
-        <Checkbox label="Neutral square" tone="neutral" variant="square" defaultChecked />
-        <Checkbox label="Brand ghost" tone="brand" variant="ghost" defaultChecked />
-        <Checkbox label="Neutral ghost" tone="neutral" variant="ghost" defaultChecked />
+        <Checkbox
+          label="Brand square"
+          tone="brand"
+          variant="square"
+          defaultChecked
+        />
+        <Checkbox
+          label="Neutral square"
+          tone="neutral"
+          variant="square"
+          defaultChecked
+        />
+        <Checkbox
+          label="Brand ghost"
+          tone="brand"
+          variant="ghost"
+          defaultChecked
+        />
+        <Checkbox
+          label="Neutral ghost"
+          tone="neutral"
+          variant="ghost"
+          defaultChecked
+        />
       </CheckboxGroup>
 
       <CatalogSectionTitle>Disabled</CatalogSectionTitle>
@@ -143,7 +170,11 @@ function CheckboxExamples() {
 
 export function CheckboxPage() {
   return (
-    <VariantCatalog variants={variants} examples={<CheckboxExamples />}>
+    <VariantCatalog
+      variants={variants}
+      previewStates={previewStates}
+      examples={<CheckboxExamples />}
+    >
       {(values, setValue) => renderCheckbox(values, setValue)}
     </VariantCatalog>
   );

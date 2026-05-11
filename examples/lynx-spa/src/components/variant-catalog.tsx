@@ -1,6 +1,7 @@
 import { type ReactNode, useState } from '@lynx-js/react';
 
 import {
+  getPreviewStateDefaultValues,
   type SetVariantValue,
   VariantPlayground,
   type VariantPlaygroundProps,
@@ -9,6 +10,7 @@ import {
 import { VariantTable } from './variant-table.jsx';
 
 export type {
+  PreviewState,
   PrimitiveValue,
   SetVariantValue,
   VariantAxis,
@@ -31,7 +33,7 @@ export interface VariantCatalogProps extends VariantPlaygroundProps {
  * 두 모드 모두 같은 `children` render function 을 공유한다.
  */
 export function VariantCatalog(props: VariantCatalogProps) {
-  const { children, variants, examples } = props;
+  const { children, variants, previewStates, examples } = props;
   const [mode, setMode] = useState<Mode>('playground');
   const tabs: Mode[] =
     examples == null
@@ -70,10 +72,12 @@ export function VariantCatalog(props: VariantCatalogProps) {
         ))}
       </view>
       {mode === 'playground' ? (
-        <VariantPlayground variants={variants}>{children}</VariantPlayground>
+        <VariantPlayground variants={variants} previewStates={previewStates}>
+          {children}
+        </VariantPlayground>
       ) : mode === 'table' ? (
         <VariantTable variants={variants}>
-          {(values) => renderForTable(children, values)}
+          {(values) => renderForTable(children, values, previewStates)}
         </VariantTable>
       ) : (
         <view style={{ flex: 1, minHeight: 0 }}>{examples}</view>
@@ -86,8 +90,12 @@ const noopSetValue: SetVariantValue = () => {};
 function renderForTable(
   children: VariantPlaygroundProps['children'],
   values: VariantValues,
+  previewStates: VariantPlaygroundProps['previewStates'],
 ): ReactNode {
-  return children(values, noopSetValue);
+  return children(
+    { ...getPreviewStateDefaultValues(previewStates), ...values },
+    noopSetValue,
+  );
 }
 
 function toTabLabel(mode: Mode) {

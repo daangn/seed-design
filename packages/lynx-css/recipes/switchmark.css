@@ -3,7 +3,6 @@
     position: relative;
     border-radius: var(--seed-radius-full);
     background-color: var(--seed-color-palette-gray-600);
-    margin: var(--switchmark-margin-top, 0) 0;
     transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing)
 }
 .seed-switchmark__thumb {

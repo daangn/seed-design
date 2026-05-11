@@ -16,8 +16,6 @@ const switchmarkRecipe = defineLynxSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: vars.base.enabled.root.color,
 
-      margin: "var(--switchmark-margin-top, 0) 0",
-
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}`,
     },
     thumb: {

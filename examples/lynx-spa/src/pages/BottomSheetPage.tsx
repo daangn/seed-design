@@ -7,6 +7,8 @@ import {
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
+  type PreviewState,
+  type SetVariantValue,
   type VariantAxis,
   VariantCatalog,
   type VariantValues,
@@ -38,17 +40,27 @@ const variants: readonly VariantAxis[] = [
   },
 ];
 
-function renderBottomSheet(values: VariantValues) {
+const previewStates: readonly PreviewState[] = [
+  { key: 'open', defaultValue: false },
+];
+
+function renderBottomSheet(values: VariantValues, setValue: SetVariantValue) {
   const headerAlign = values.headerAlign as BottomSheetHeaderAlign;
   const skipAnimation = Boolean(values.skipAnimation);
+  const open = Boolean(values.open);
 
   return (
     <BottomSheetRoot
       headerAlign={headerAlign}
       skipAnimation={skipAnimation}
+      open={open}
+      onOpenChange={(next) => setValue('open', next)}
       snapPoints={SNAP_POINTS_FIT_80}
     >
-      <BottomSheetTrigger style={{ alignSelf: 'flex-start' }}>
+      <BottomSheetTrigger
+        style={{ alignSelf: 'flex-start' }}
+        bindtap={() => setValue('open', true)}
+      >
         <ActionButton variant="brandSolid">Open sheet</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent
@@ -147,8 +159,12 @@ function BottomSheetExamples() {
 
 export function BottomSheetPage() {
   return (
-    <VariantCatalog variants={variants} examples={<BottomSheetExamples />}>
-      {(values) => renderBottomSheet(values)}
+    <VariantCatalog
+      variants={variants}
+      previewStates={previewStates}
+      examples={<BottomSheetExamples />}
+    >
+      {(values, setValue) => renderBottomSheet(values, setValue)}
     </VariantCatalog>
   );
 }
