@@ -37,9 +37,15 @@ const SidePanelPreview = ({
           display: none !important;
         }
         .seed-side-panel__content {
+          position: relative !important;
+          inset: unset !important;
           animation: none !important;
           height: auto !important;
           width: 100% !important;
+          max-width: 100% !important;
+        }
+        .seed-side-panel__content::after {
+          display: none !important;
         }
       `}</style>
       <SidePanelRoot open direction="right" size={size}>
