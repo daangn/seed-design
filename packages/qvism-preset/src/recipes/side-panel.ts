@@ -6,6 +6,7 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
+import { breakpoints } from "../utils/breakpoint";
 import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { sidePanelCloseButton as closeButtonVars, sidePanel as vars } from "../vars/component";
 
@@ -75,13 +76,16 @@ const sidePanel = defineSlotRecipe({
         outline: "none",
       },
 
-      // Left/Right: full height, anchored to the corresponding edge
+      // Left/Right: full height, anchored to the corresponding edge.
+      // Mobile-first: 80vw on sm-, token width on md+.
+      // Safe-area: panel side gets safe-area-inset padding for landscape notch.
       [pseudo("[data-drawer-direction='left']")]: {
         top: 0,
         bottom: 0,
         left: 0,
-        width: "var(--seed-box-width, var(--side-panel-size-width))",
+        width: "var(--seed-box-width, 80vw)",
         maxWidth: "100vw",
+        paddingLeft: "env(safe-area-inset-left, 0)",
         "&::after": {
           content: '""',
           position: "absolute",
@@ -92,13 +96,17 @@ const sidePanel = defineSlotRecipe({
           background: "inherit",
           zIndex: -1,
         },
+        [breakpoints.up("md")]: {
+          width: "var(--seed-box-width, var(--side-panel-size-width))",
+        },
       },
       [pseudo("[data-drawer-direction='right']")]: {
         top: 0,
         bottom: 0,
         right: 0,
-        width: "var(--seed-box-width, var(--side-panel-size-width))",
+        width: "var(--seed-box-width, 80vw)",
         maxWidth: "100vw",
+        paddingRight: "env(safe-area-inset-right, 0)",
         "&::after": {
           content: '""',
           position: "absolute",
@@ -108,6 +116,9 @@ const sidePanel = defineSlotRecipe({
           bottom: 0,
           background: "inherit",
           zIndex: -1,
+        },
+        [breakpoints.up("md")]: {
+          width: "var(--seed-box-width, var(--side-panel-size-width))",
         },
       },
 
@@ -140,7 +151,8 @@ const sidePanel = defineSlotRecipe({
       gap: vars.base.enabled.header.gap,
       paddingLeft: vars.base.enabled.header.paddingX,
       paddingRight: vars.base.enabled.header.paddingX,
-      paddingTop: vars.base.enabled.header.paddingTop,
+      // Respect device safe-area on top edge (e.g. iOS status bar / notch in portrait)
+      paddingTop: `max(${vars.base.enabled.header.paddingTop}, env(safe-area-inset-top, 0px))`,
       paddingBottom: vars.base.enabled.header.paddingBottom,
     },
     title: {
@@ -198,7 +210,8 @@ const sidePanel = defineSlotRecipe({
       paddingLeft: vars.base.enabled.footer.paddingX,
       paddingRight: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
-      paddingBottom: vars.base.enabled.footer.paddingBottom,
+      // Respect device safe-area on bottom edge (e.g. iOS home indicator)
+      paddingBottom: `max(${vars.base.enabled.footer.paddingBottom}, env(safe-area-inset-bottom, 0px))`,
       gap: vars.base.enabled.footer.gap,
     },
     closeButton: {
