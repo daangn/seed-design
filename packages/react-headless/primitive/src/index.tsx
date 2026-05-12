@@ -41,4 +41,5 @@ export const Primitive = {
   nav: createPrimitive("nav"),
   svg: createPrimitive("svg"),
   circle: createPrimitive("circle"),
+  header: createPrimitive("header"),
 };

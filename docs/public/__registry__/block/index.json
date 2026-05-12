@@ -118,6 +118,177 @@
     {
       "snippets": [
         {
+          "path": "header-01.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0"
+          }
+        }
+      ],
+      "id": "header-01",
+      "description": "미니멀 Header (로고 + 계정 버튼)",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "header-02.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0"
+          }
+        }
+      ],
+      "id": "header-02",
+      "description": "네비게이션 Header (로고 + 센터 메뉴 + CTA)",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "header-03.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0"
+          }
+        }
+      ],
+      "id": "header-03",
+      "description": "확장 Header (로고 + 좌측 메뉴 + 외부 링크 + CTA)",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button",
+            "menu"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "header-04.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0"
+          }
+        }
+      ],
+      "id": "header-04",
+      "description": "당근닷컴 Header (로고 + 서비스 메뉴 + 검색 + 앱 다운로드)",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "header-06.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0"
+          }
+        }
+      ],
+      "id": "header-06",
+      "description": "Transparent Header (스크롤 시 배경 전환)",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "header-responsive-01.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0",
+            "@karrotmarket/react-monochrome-icon": "~0"
+          }
+        }
+      ],
+      "id": "header-responsive-01",
+      "description": "반응형 Header — 일반 회사 (768px↑ nav / 768px↓ SidePanel)",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button",
+            "side-panel"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "header-responsive-02.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0",
+            "@karrotmarket/react-monochrome-icon": "~0"
+          }
+        }
+      ],
+      "id": "header-responsive-02",
+      "description": "반응형 Header — 당근닷컴 (서브메뉴 Menu↔Accordion 전환)",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "accordion",
+            "action-button",
+            "menu",
+            "side-panel"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "layout-01.tsx",
           "dependencies": {
             "@seed-design/react": "~1.0.0",

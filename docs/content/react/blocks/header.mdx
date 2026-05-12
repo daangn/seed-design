@@ -1,0 +1,75 @@
+---
+title: Header
+description: 페이지 상단에 로고, 네비게이션, 액션 버튼 등을 배치하는 블록입니다.
+full: true
+---
+
+## 반응형 Header
+
+768px 미만 viewport에서는 가로 네비게이션 대신 햄버거 버튼 → 좌측 슬라이드 `SidePanel`로 네비게이션을 보여줍니다. `Box.hideFrom`과 `Box.display` 반응형 prop으로 데스크탑/모바일 컨텐츠를 분리하고, 같은 데이터 모델을 양쪽에서 재사용합니다.
+
+### 기본 패턴 (일반 회사 헤더)
+
+데스크탑은 가로 nav, 모바일은 햄버거 → SidePanel에 동일한 nav 아이템을 세로 리스트로 표시합니다.
+
+```package-install
+npx @seed-design/cli@latest add block:header-responsive-01
+```
+
+<BlockPreview name="header-responsive-01" iframeHeight={500}>
+  <BlockCodeTabs name="header-responsive-01" />
+</BlockPreview>
+
+### 서브메뉴 패턴 (Menu ↔ Accordion 전환)
+
+같은 nav 데이터를 데스크탑에서는 `Menu` 드롭다운으로, 모바일에서는 `Accordion`으로 펼치는 패턴입니다. viewport에 맞는 인터랙션을 사용하면서 사용자가 도달할 수 있는 정보는 동일합니다.
+
+```package-install
+npx @seed-design/cli@latest add block:header-responsive-02
+```
+
+<BlockPreview name="header-responsive-02" iframeHeight={500}>
+  <BlockCodeTabs name="header-responsive-02" />
+</BlockPreview>
+
+## 기본 변형
+
+```package-install
+npx @seed-design/cli@latest add block:header-01
+```
+
+<BlockPreview name="header-01">
+  <BlockCodeTabs name="header-01" />
+</BlockPreview>
+
+```package-install
+npx @seed-design/cli@latest add block:header-02
+```
+
+<BlockPreview name="header-02">
+  <BlockCodeTabs name="header-02" />
+</BlockPreview>
+
+```package-install
+npx @seed-design/cli@latest add block:header-03
+```
+
+<BlockPreview name="header-03">
+  <BlockCodeTabs name="header-03" />
+</BlockPreview>
+
+```package-install
+npx @seed-design/cli@latest add block:header-04
+```
+
+<BlockPreview name="header-04">
+  <BlockCodeTabs name="header-04" />
+</BlockPreview>
+
+```package-install
+npx @seed-design/cli@latest add block:header-06
+```
+
+<BlockPreview name="header-06" iframeHeight={600}>
+  <BlockCodeTabs name="header-06" />
+</BlockPreview>

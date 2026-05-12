@@ -83,5 +83,83 @@ export const registryBlock: Registry = {
         },
       ],
     },
+    {
+      id: "header-responsive-01",
+      description: "반응형 Header — 일반 회사 (768px↑ nav / 768px↓ SidePanel)",
+      snippets: [
+        {
+          path: "header-responsive-01.tsx",
+          dependencies: {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0",
+            "@karrotmarket/react-monochrome-icon": "~0",
+          },
+        },
+      ],
+    },
+    {
+      id: "header-responsive-02",
+      description: "반응형 Header — 당근닷컴 (서브메뉴 Menu↔Accordion 전환)",
+      snippets: [
+        {
+          path: "header-responsive-02.tsx",
+          dependencies: {
+            "@seed-design/react": "~1.0.0",
+            "@seed-design/css": "~1.0.0",
+            "@karrotmarket/react-monochrome-icon": "~0",
+          },
+        },
+      ],
+    },
+    {
+      id: "header-01",
+      description: "미니멀 Header (로고 + 계정 버튼)",
+      snippets: [
+        {
+          path: "header-01.tsx",
+          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
+    {
+      id: "header-02",
+      description: "네비게이션 Header (로고 + 센터 메뉴 + CTA)",
+      snippets: [
+        {
+          path: "header-02.tsx",
+          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
+    {
+      id: "header-03",
+      description: "확장 Header (로고 + 좌측 메뉴 + 외부 링크 + CTA)",
+      snippets: [
+        {
+          path: "header-03.tsx",
+          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
+    {
+      id: "header-04",
+      description: "당근닷컴 Header (로고 + 서비스 메뉴 + 검색 + 앱 다운로드)",
+      snippets: [
+        {
+          path: "header-04.tsx",
+          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
+    {
+      id: "header-06",
+      description: "Transparent Header (스크롤 시 배경 전환)",
+      snippets: [
+        {
+          path: "header-06.tsx",
+          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+        },
+      ],
+    },
   ],
 };

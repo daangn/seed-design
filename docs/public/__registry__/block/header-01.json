@@ -1,0 +1,17 @@
+{
+  "id": "header-01",
+  "description": "미니멀 Header (로고 + 계정 버튼)",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "header-01.tsx",
+      "content": "/**\n * @file block:header-01\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport { Header as SeedHeader } from \"@seed-design/react\";\n\nfunction PlaceholderLogo() {\n  return (\n    <svg width=\"80\" height=\"40\" viewBox=\"0 0 80 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <rect width=\"80\" height=\"40\" rx=\"8\" fill=\"currentColor\" fillOpacity=\"0.08\" />\n      <text\n        x=\"40\"\n        y=\"24\"\n        textAnchor=\"middle\"\n        fill=\"currentColor\"\n        fillOpacity=\"0.5\"\n        fontSize=\"14\"\n        fontWeight=\"600\"\n        fontFamily=\"inherit\"\n      >\n        Logo\n      </text>\n    </svg>\n  );\n}\n\nexport default function Header() {\n  return (\n    <SeedHeader.Root divider>\n      <SeedHeader.Left>\n        <PlaceholderLogo />\n      </SeedHeader.Left>\n      <SeedHeader.Right>\n        <SeedHeader.ActionButton size=\"small\">My Account</SeedHeader.ActionButton>\n      </SeedHeader.Right>\n    </SeedHeader.Root>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    }
+  ]
+}

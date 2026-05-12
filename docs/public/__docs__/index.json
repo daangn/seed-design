@@ -1694,6 +1694,12 @@
               "docUrl": "/react/blocks/footer"
             },
             {
+              "id": "header",
+              "title": "Header",
+              "description": "페이지 상단에 로고, 네비게이션, 액션 버튼 등을 배치하는 블록입니다.",
+              "docUrl": "/react/blocks/header"
+            },
+            {
               "id": "layout",
               "title": "Layout",
               "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",

@@ -1,0 +1,25 @@
+{
+  "id": "header-06",
+  "description": "Transparent Header (스크롤 시 배경 전환)",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "action-button"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "header-06.tsx",
+      "content": "/**\n * @file block:header-06\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport { Header as SeedHeader, Text, VStack } from \"@seed-design/react\";\nimport { ActionButton } from \"../ui/action-button\";\n\nfunction PlaceholderLogo() {\n  return (\n    <svg width=\"80\" height=\"40\" viewBox=\"0 0 80 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <rect width=\"80\" height=\"40\" rx=\"8\" fill=\"currentColor\" fillOpacity=\"0.08\" />\n      <text\n        x=\"40\"\n        y=\"24\"\n        textAnchor=\"middle\"\n        fill=\"currentColor\"\n        fillOpacity=\"0.5\"\n        fontSize=\"14\"\n        fontWeight=\"600\"\n        fontFamily=\"inherit\"\n      >\n        Logo\n      </text>\n    </svg>\n  );\n}\n\nconst SCROLL_THRESHOLD = 50;\n\nexport default function Header() {\n  const [scrolled, setScrolled] = useState(false);\n\n  useEffect(() => {\n    const handleScroll = () => {\n      setScrolled(window.scrollY > SCROLL_THRESHOLD);\n    };\n    window.addEventListener(\"scroll\", handleScroll, { passive: true });\n    return () => window.removeEventListener(\"scroll\", handleScroll);\n  }, []);\n\n  return (\n    <div style={{ minHeight: \"200vh\" }}>\n      <div\n        style={{\n          height: \"100vh\",\n          background: \"linear-gradient(135deg, #667eea 0%, #764ba2 100%)\",\n          display: \"flex\",\n          alignItems: \"center\",\n          justifyContent: \"center\",\n        }}\n      >\n        <VStack align=\"center\" gap=\"x4\">\n          <Text as=\"h1\" textStyle=\"t8Bold\" style={{ color: \"#fff\" }}>\n            Landing Page Hero\n          </Text>\n          <Text textStyle=\"t4Regular\" style={{ color: \"rgba(255,255,255,0.8)\" }}>\n            Scroll down to see the header transition\n          </Text>\n        </VStack>\n      </div>\n\n      <div\n        style={{\n          height: \"100vh\",\n          display: \"flex\",\n          alignItems: \"center\",\n          justifyContent: \"center\",\n        }}\n      >\n        <Text textStyle=\"t5Regular\" style={{ opacity: 0.5 }}>\n          Content section\n        </Text>\n      </div>\n\n      <div style={{ position: \"fixed\", top: 0, left: 0, right: 0, zIndex: 10 }}>\n        <SeedHeader.Root\n          transparent={!scrolled}\n          divider={scrolled}\n          style={{\n            transition: \"background-color 200ms, border-color 200ms\",\n          }}\n        >\n          <SeedHeader.Left>\n            <PlaceholderLogo />\n          </SeedHeader.Left>\n          <SeedHeader.Right>\n            <SeedHeader.ActionButton size=\"small\">About</SeedHeader.ActionButton>\n            <SeedHeader.ActionButton size=\"small\">Contact</SeedHeader.ActionButton>\n            <ActionButton variant=\"neutralSolid\" size=\"small\">\n              Sign Up\n            </ActionButton>\n          </SeedHeader.Right>\n        </SeedHeader.Root>\n      </div>\n    </div>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    }
+  ]
+}
