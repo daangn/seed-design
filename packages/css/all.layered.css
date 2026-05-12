@@ -9013,15 +9013,18 @@
     top: var(--seed-dimension-x6);
     right: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-r3);
+    background: var(--seed-color-bg-transparent);
     cursor: pointer;
+    width: 52px;
+    height: 52px;
+    transition-property: background-color;
+    transition-duration: var(--seed-duration-color-transition);
+    transition-timing-function: var(--seed-timing-function-easing);
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral);
-    background: #fff0;
     border: none;
     justify-content: center;
     align-items: center;
-    width: 52px;
-    height: 52px;
     display: flex;
     position: absolute;
   }

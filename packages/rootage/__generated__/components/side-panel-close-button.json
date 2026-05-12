@@ -22,6 +22,12 @@
             },
             "size": {
               "type": "dimension"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -50,7 +56,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "#ffffff00"
+                  "value": "$color.bg.transparent"
                 },
                 "cornerRadius": {
                   "type": "dimension",
@@ -69,6 +75,14 @@
                     "value": 52,
                     "unit": "px"
                   }
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "icon": {

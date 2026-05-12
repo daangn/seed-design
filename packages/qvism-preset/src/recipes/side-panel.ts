@@ -229,6 +229,10 @@ const sidePanel = defineSlotRecipe({
       height: closeButtonVars.base.enabled.root.size,
       cursor: "pointer",
 
+      transitionProperty: "background-color",
+      transitionDuration: closeButtonVars.base.enabled.root.colorDuration,
+      transitionTimingFunction: closeButtonVars.base.enabled.root.colorTimingFunction,
+
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,
         size: closeButtonVars.base.enabled.icon.size,

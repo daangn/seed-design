@@ -16,6 +16,10 @@ data:
             type: dimension
           size:
             type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
       icon:
         properties:
           color:
@@ -26,10 +30,12 @@ data:
     base:
       enabled:
         root:
-          color: "#ffffff00"
+          color: $color.bg.transparent
           cornerRadius: $radius.r3
           targetSize: 52px
           size: 52px
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
         icon:
           color: $color.fg.neutral
           size: 22px
