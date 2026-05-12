@@ -141,6 +141,7 @@ function collectAnimations(anims: (Animation | null)[], durationMs: number): Ani
 interface TitleKeyframe {
   opacity: string;
   transform: string;
+  [key: string]: string | number | null | undefined;
 }
 
 interface IosPositions {
