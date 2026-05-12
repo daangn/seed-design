@@ -1,31 +1,20 @@
 "use client";
 
-import { useBreakpoint } from "@seed-design/react";
-import * as React from "react";
+import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import {
-  BottomSheetBody,
-  BottomSheetContent,
-  BottomSheetFooter,
-  BottomSheetRoot,
-  BottomSheetTrigger,
-} from "./bottom-sheet";
-import {
-  SidePanelBody,
-  type SidePanelBodyProps,
-  SidePanelContent,
-  type SidePanelContentProps,
-  SidePanelFooter,
-  type SidePanelFooterProps,
-  SidePanelRoot,
-  type SidePanelRootProps,
-  SidePanelTrigger,
-  type SidePanelTriggerProps,
-} from "./side-panel";
+  BottomSheet as SeedBottomSheet,
+  Icon,
+  SidePanel as SeedSidePanel,
+  useBreakpoint,
+  VisuallyHidden,
+} from "@seed-design/react";
+import type * as React from "react";
+import { createContext, forwardRef, useContext, useMemo } from "react";
 
-const ResponsiveContext = React.createContext<{ isMobile: boolean } | null>(null);
+const ResponsiveContext = createContext<{ isMobile: boolean } | null>(null);
 
 function useResponsiveContext() {
-  const ctx = React.useContext(ResponsiveContext);
+  const ctx = useContext(ResponsiveContext);
   if (!ctx) {
     throw new Error(
       "ResponsiveSidePanel sub-components must be used inside <ResponsiveSidePanelRoot>",
@@ -34,7 +23,7 @@ function useResponsiveContext() {
   return ctx;
 }
 
-export interface ResponsiveSidePanelRootProps extends SidePanelRootProps {}
+export interface ResponsiveSidePanelRootProps extends SeedSidePanel.RootProps {}
 
 /**
  * Automatically switches between SidePanel (md+) and BottomSheet (sm-).
@@ -42,88 +31,112 @@ export interface ResponsiveSidePanelRootProps extends SidePanelRootProps {}
  *
  * @see https://seed-design.io/react/components/side-panel
  */
-export function ResponsiveSidePanelRoot({
+export const ResponsiveSidePanelRoot = ({
   children,
   modal = true,
   ...props
-}: ResponsiveSidePanelRootProps) {
+}: ResponsiveSidePanelRootProps) => {
   const breakpoint = useBreakpoint();
   const isMobile = breakpoint === "base" || breakpoint === "sm";
   const resolvedModal = isMobile ? true : modal;
-
-  const value = React.useMemo(() => ({ isMobile }), [isMobile]);
+  const value = useMemo(() => ({ isMobile }), [isMobile]);
+  const Panel = isMobile ? SeedBottomSheet : SeedSidePanel;
 
   return (
     <ResponsiveContext.Provider value={value}>
-      {isMobile ? (
-        <BottomSheetRoot modal={resolvedModal} {...props}>
-          {children}
-        </BottomSheetRoot>
-      ) : (
-        <SidePanelRoot modal={resolvedModal} {...props}>
-          {children}
-        </SidePanelRoot>
-      )}
+      <Panel.Root modal={resolvedModal} {...props}>
+        {children}
+      </Panel.Root>
     </ResponsiveContext.Provider>
   );
+};
+
+export interface ResponsiveSidePanelTriggerProps extends SeedSidePanel.TriggerProps {}
+
+export const ResponsiveSidePanelTrigger = SeedSidePanel.Trigger;
+
+export interface ResponsiveSidePanelContentProps extends Omit<SeedSidePanel.ContentProps, "title"> {
+  title?: React.ReactNode;
+
+  description?: React.ReactNode;
+
+  layerIndex?: number;
+
+  /**
+   * @default true
+   */
+  showCloseButton?: boolean;
 }
 
-export interface ResponsiveSidePanelTriggerProps extends SidePanelTriggerProps {}
-
-export const ResponsiveSidePanelTrigger = React.forwardRef<
-  HTMLButtonElement,
-  ResponsiveSidePanelTriggerProps
->((props, ref) => {
-  const { isMobile } = useResponsiveContext();
-  return isMobile ? (
-    <BottomSheetTrigger ref={ref} {...props} />
-  ) : (
-    <SidePanelTrigger ref={ref} {...props} />
-  );
-});
-ResponsiveSidePanelTrigger.displayName = "ResponsiveSidePanelTrigger";
-
-export interface ResponsiveSidePanelContentProps extends SidePanelContentProps {}
-
-export const ResponsiveSidePanelContent = React.forwardRef<
+export const ResponsiveSidePanelContent = forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelContentProps
->((props, ref) => {
+>(({ children, title, description, layerIndex, showCloseButton = true, ...otherProps }, ref) => {
   const { isMobile } = useResponsiveContext();
-  return isMobile ? (
-    <BottomSheetContent ref={ref} {...props} />
-  ) : (
-    <SidePanelContent ref={ref} {...props} />
+  const Panel = isMobile ? SeedBottomSheet : SeedSidePanel;
+
+  if (
+    !title &&
+    !otherProps["aria-labelledby"] &&
+    !otherProps["aria-label"] &&
+    process.env.NODE_ENV !== "production"
+  ) {
+    console.warn(
+      "ResponsiveSidePanelContent: aria-labelledby or aria-label should be provided if title is not provided.",
+    );
+  }
+
+  const shouldRenderHeader = title || description;
+
+  return (
+    <Panel.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
+      <Panel.Backdrop />
+      <Panel.Content ref={ref} {...otherProps}>
+        {shouldRenderHeader && (
+          <Panel.Header>
+            {title ? (
+              <Panel.Title>{title}</Panel.Title>
+            ) : (
+              <VisuallyHidden asChild>
+                <Panel.Title>{otherProps["aria-label"] || ""}</Panel.Title>
+              </VisuallyHidden>
+            )}
+            {description && <Panel.Description>{description}</Panel.Description>}
+          </Panel.Header>
+        )}
+        {children}
+        {showCloseButton && (
+          <Panel.CloseButton aria-label="닫기">
+            <Icon svg={<IconXmarkLine />} />
+          </Panel.CloseButton>
+        )}
+      </Panel.Content>
+    </Panel.Positioner>
   );
 });
+
 ResponsiveSidePanelContent.displayName = "ResponsiveSidePanelContent";
 
-export interface ResponsiveSidePanelBodyProps extends SidePanelBodyProps {}
+export interface ResponsiveSidePanelBodyProps extends SeedSidePanel.BodyProps {}
 
-export const ResponsiveSidePanelBody = React.forwardRef<
-  HTMLDivElement,
-  ResponsiveSidePanelBodyProps
->((props, ref) => {
-  const { isMobile } = useResponsiveContext();
-  return isMobile ? (
-    <BottomSheetBody ref={ref} {...props} />
-  ) : (
-    <SidePanelBody ref={ref} {...props} />
-  );
-});
+export const ResponsiveSidePanelBody = forwardRef<HTMLDivElement, ResponsiveSidePanelBodyProps>(
+  (props, ref) => {
+    const { isMobile } = useResponsiveContext();
+    const Panel = isMobile ? SeedBottomSheet : SeedSidePanel;
+    return <Panel.Body ref={ref} {...props} />;
+  },
+);
+
 ResponsiveSidePanelBody.displayName = "ResponsiveSidePanelBody";
 
-export interface ResponsiveSidePanelFooterProps extends SidePanelFooterProps {}
+export interface ResponsiveSidePanelFooterProps extends SeedSidePanel.FooterProps {}
 
-export const ResponsiveSidePanelFooter = React.forwardRef<
-  HTMLDivElement,
-  ResponsiveSidePanelFooterProps
->((props, ref) => {
-  const { isMobile } = useResponsiveContext();
-  return isMobile ? (
-    <BottomSheetFooter ref={ref} {...props} />
-  ) : (
-    <SidePanelFooter ref={ref} {...props} />
-  );
-});
+export const ResponsiveSidePanelFooter = forwardRef<HTMLDivElement, ResponsiveSidePanelFooterProps>(
+  (props, ref) => {
+    const { isMobile } = useResponsiveContext();
+    const Panel = isMobile ? SeedBottomSheet : SeedSidePanel;
+    return <Panel.Footer ref={ref} {...props} />;
+  },
+);
+
 ResponsiveSidePanelFooter.displayName = "ResponsiveSidePanelFooter";
