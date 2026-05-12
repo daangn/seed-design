@@ -160,8 +160,8 @@ const attachmentInputItem = defineSlotRecipe({
       "--remove-button-mask-size": itemVars.base.enabled.removeButtonMask.size,
       "--remove-button-mask-offset": itemVars.base.enabled.removeButtonMask.offset,
 
-      ...createFocusRingRestStyles({ position: "inside" }),
-      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       "&::before": {
         content: '""',
