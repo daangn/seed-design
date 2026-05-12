@@ -70,14 +70,22 @@
   },
   "changesets": [
     "add-lynx-framework-support",
+    "brave-sheets-skip",
+    "gentle-rings-spin",
+    "lynx-action-button-loading-width",
     "lynx-alpha-release",
     "lynx-bottom-sheet-deps",
     "lynx-bottom-sheet",
+    "lynx-checkbox-radio-group",
     "lynx-css-qvism-split",
+    "lynx-namespace-exports",
     "lynx-react-utils-refactor",
     "lynx-react-utils",
     "lynx-switch",
     "lynx-tag-group",
-    "prune-stale-lynx-css-artifacts"
+    "prune-stale-lynx-css-artifacts",
+    "quiet-recipes-bloom",
+    "quiet-rooks-arrange",
+    "steady-switch-align"
   ]
 }
