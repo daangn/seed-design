@@ -150,7 +150,7 @@ export default function DaangnResponsiveHeader() {
             </SidePanelTrigger>
             <SidePanelContent title="메뉴">
               <SidePanelBody>
-                <Accordion type="single" collapsible>
+                <Accordion>
                   <VStack gap="x0" paddingY="x2">
                     {NAV_ITEMS.map((item) => (
                       <MobileNavItem key={item.id} item={item} />
