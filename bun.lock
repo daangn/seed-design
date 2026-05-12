@@ -471,6 +471,7 @@
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@radix-ui/react-use-layout-effect": "^1.1.1",
         "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-accordion": "0.1.0",
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.1",
         "@seed-design/react-collapsible": "0.1.0",
@@ -515,6 +516,26 @@
       },
       "peerDependencies": {
         "@seed-design/css": ">=1.1.17",
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/accordion": {
+      "name": "@seed-design/react-accordion",
+      "version": "0.1.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-collapsible": "0.1.0",
+        "@seed-design/react-primitive": "1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -2665,6 +2686,8 @@
     "@seed-design/qvism-preset": ["@seed-design/qvism-preset@workspace:packages/qvism-preset"],
 
     "@seed-design/react": ["@seed-design/react@workspace:packages/react"],
+
+    "@seed-design/react-accordion": ["@seed-design/react-accordion@workspace:packages/react-headless/accordion"],
 
     "@seed-design/react-avatar": ["@seed-design/react-avatar@workspace:packages/react-headless/avatar"],
 
@@ -6209,6 +6232,10 @@
     "@seed-design/react/@seed-design/react-text-field": ["@seed-design/react-text-field@1.1.1", "", { "dependencies": { "@radix-ui/react-use-controllable-state": "1.2.2", "@seed-design/dom-utils": "1.0.0", "@seed-design/react-primitive": "1.0.0", "@seed-design/react-supports": "0.0.1" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-baTYWaKW1tMzfO15lkN5McXlJOmDZA2E2bWdX91n+/3GXL9xLFMTPuw9FGrnPWxmqWFrJuRqdaVwEtuYmf1Jxw=="],
 
     "@seed-design/react/@seed-design/react-toggle": ["@seed-design/react-toggle@1.0.1", "", { "dependencies": { "@radix-ui/react-use-controllable-state": "1.2.2", "@seed-design/dom-utils": "1.0.0", "@seed-design/react-primitive": "1.0.0" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-D+foJzO5uTQROy0/V/2ETto1/6yLhqn22gyZ2DpRU9ejDGVz7bnS+Sw78JhueWDqdm4IgidxKkweCrq0aJfd/w=="],
+
+    "@seed-design/react-accordion/@seed-design/react-collapsible": ["@seed-design/react-collapsible@0.1.0", "", { "dependencies": { "@radix-ui/react-compose-refs": "^1.1.2", "@radix-ui/react-use-controllable-state": "^1.2.2", "@radix-ui/react-use-layout-effect": "^1.1.1", "@seed-design/dom-utils": "1.0.0", "@seed-design/react-primitive": "1.0.0" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-2Xg2VBpX/cnIFmCqo6kWtmMEGZVMDsRgAFEnpf1sSd9ruvEdgsNpu+354QBUkCwCcKSFLez6m9Bsj++VguMQAw=="],
+
+    "@seed-design/react-accordion/@seed-design/react-primitive": ["@seed-design/react-primitive@1.0.0", "", { "dependencies": { "@radix-ui/react-slot": "^1.2.3" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-7GTGMO60KqLFeTI0+NAoQppFN6clxHGqukhRVBpS5HBUHLtMzY1PpA+CW961Z7LQecX7IqUZbABjVqGszpveFw=="],
 
     "@seed-design/react-dialog/@seed-design/react-primitive": ["@seed-design/react-primitive@1.0.0", "", { "dependencies": { "@radix-ui/react-slot": "^1.2.3" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-7GTGMO60KqLFeTI0+NAoQppFN6clxHGqukhRVBpS5HBUHLtMzY1PpA+CW961Z7LQecX7IqUZbABjVqGszpveFw=="],
 

@@ -4,6 +4,15 @@ export const registryUI: Registry = {
   id: "ui",
   items: [
     {
+      id: "accordion",
+      snippets: [
+        {
+          path: "accordion.tsx",
+          dependencies: { "@seed-design/react": "~1.2.10", "@seed-design/css": "~1.2.10" },
+        },
+      ],
+    },
+    {
       id: "app-screen",
       snippets: [
         {

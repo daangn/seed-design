@@ -16,9 +16,7 @@ describe("ImageFrame", () => {
   describe("ImageFrameReactionButton", () => {
     it("renders the unselected icon by default", () => {
       const classNames = imageFrameReactionButton();
-      const { getByRole, container } = setUp(
-        <ImageFrameReactionButton aria-label="Like image" />,
-      );
+      const { getByRole, container } = setUp(<ImageFrameReactionButton aria-label="Like image" />);
 
       const button = getByRole("button", { name: "Like image" });
       const lineIcon = container.querySelector(`.${classNames.lineIcon}`);

@@ -1,8 +1,6 @@
 import { skeleton as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
-import spec from "@seed-design/rootage-artifacts/components/skeleton.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/skeleton.json" with { type: "json" };
 
 const skeleton = defineRecipe({
   name: "skeleton",

@@ -4,7 +4,7 @@ import { lynxSource } from "@/app/source";
 export const revalidate = false;
 
 export async function GET() {
-  const pages = (lynxSource.getPages()).filter((page) => page.slugs.length > 0);
+  const pages = lynxSource.getPages().filter((page) => page.slugs.length > 0);
 
   const pageList = pages
     .map((page) => {
