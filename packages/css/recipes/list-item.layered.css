@@ -118,7 +118,7 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -127,7 +127,7 @@
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -181,13 +181,13 @@
     background-color: var(--seed-color-bg-brand-weak);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-brand-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content--highlighted_true:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-brand-weak-pressed);
     }

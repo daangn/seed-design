@@ -132,7 +132,7 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger--variant_inline:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -141,7 +141,7 @@
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger--variant_inline:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
       left: var(--seed-dimension-x1_5);
@@ -166,13 +166,13 @@
     inset: 0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger--variant_separated:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger--variant_separated:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }

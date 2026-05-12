@@ -148,13 +148,13 @@
     --seed-icon-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-attachment-input-item__removeButton:is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-layer-default-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-attachment-input-item__removeButton:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-layer-default-pressed);
     }

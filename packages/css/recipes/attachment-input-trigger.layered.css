@@ -25,13 +25,13 @@
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }

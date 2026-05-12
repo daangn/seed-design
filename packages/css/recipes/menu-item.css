@@ -37,7 +37,7 @@
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover])::before {
         background-color: var(--seed-color-bg-transparent-pressed);
         left: var(--seed-dimension-x2);
@@ -45,7 +45,7 @@
         border-radius: var(--seed-radius-r3);
     }
 }
-@media (hover: none) {
+@media not all and (hover: hover) and (pointer: fine) {
     .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active])::before {
         background-color: var(--seed-color-bg-transparent-pressed);
         left: var(--seed-dimension-x2);

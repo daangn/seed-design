@@ -109,13 +109,13 @@
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-side-navigation__trigger:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-side-navigation__trigger:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }

@@ -1,5 +1,8 @@
 declare interface ToggleButtonVariant {
   /**
+  * - `brandSolid`: 브랜드 컬러로 강조된 스타일입니다.
+  * - `neutralWeak`: 기본적인 토글 스타일입니다.
+  *
   * @default "brandSolid"
   */
   variant: "brandSolid" | "neutralWeak";

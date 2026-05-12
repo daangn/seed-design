@@ -83,13 +83,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-brand-solid-pressed);
     }
@@ -118,13 +118,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -153,13 +153,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralWeak:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-weak-pressed);
     }
@@ -188,13 +188,13 @@
     --range-color: var(--seed-color-palette-static-white);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_criticalSolid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-critical-solid-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
       background: var(--seed-color-bg-critical-solid-pressed);
     }
@@ -226,13 +226,13 @@
     --range-color: var(--seed-color-bg-brand-solid);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandOutline:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -265,13 +265,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralOutline:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
@@ -303,13 +303,13 @@
     background: #fff0;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_ghost:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_ghost:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }

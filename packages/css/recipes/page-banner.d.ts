@@ -1,9 +1,14 @@
 declare interface PageBannerVariant {
   /**
+  * - `weak`: 배경색이 연한 스타일입니다.
+  * - `solid`: 배경색이 진한 스타일입니다.
+  *
   * @default "weak"
   */
   variant: "weak" | "solid";
 /**
+  * - `magic`: AI 기능을 나타냅니다. variant=solid와 조합하여 사용하지 않습니다.
+  *
   * @default "neutral"
   */
   tone: "neutral" | "informative" | "positive" | "warning" | "critical" | "magic";

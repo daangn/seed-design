@@ -43,12 +43,12 @@
 .seed-side-navigation-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])) {
     cursor: pointer;
 }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .seed-side-navigation-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover])::before {
         background-color: var(--seed-color-bg-transparent-pressed);
     }
 }
-@media (hover: none) {
+@media not all and (hover: hover) and (pointer: fine) {
     .seed-side-navigation-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active])::before {
         background-color: var(--seed-color-bg-transparent-pressed);
     }
@@ -56,12 +56,12 @@
 .seed-side-navigation-menu-item__root[data-current] {
     background-color: var(--seed-color-palette-static-black-alpha-200);
 }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .seed-side-navigation-menu-item__root[data-current]:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
         background-color: var(--seed-color-palette-static-black-alpha-300);
     }
 }
-@media (hover: none) {
+@media not all and (hover: hover) and (pointer: fine) {
     .seed-side-navigation-menu-item__root[data-current]:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
         background-color: var(--seed-color-palette-static-black-alpha-300);
     }
