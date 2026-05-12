@@ -258,6 +258,18 @@
     --seed-icon-size: var(--seed-dimension-x3_5);
   }
 
+  .seed-chip__root--size_small-layout_withText {
+    min-width: 44px;
+  }
+
+  .seed-chip__root--size_medium-layout_withText {
+    min-width: var(--seed-dimension-x12);
+  }
+
+  .seed-chip__root--size_large-layout_withText {
+    min-width: var(--seed-dimension-x13);
+  }
+
   .seed-chip__root--size_small-layout_iconOnly {
     min-width: var(--seed-dimension-x8);
   }
