@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 import type { DisplayItemEntry } from "@seed-design/react/primitive";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
-import { createStoryWithParameters, VIEWPORT_MODES } from "@/stories/utils/parameters";
+import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -97,9 +97,6 @@ const CommonStoryTemplate: Story = {
 
 export const LightTheme: Story = {
   ...CommonStoryTemplate,
-  parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
-  },
 };
 
 export const DarkTheme = createStoryWithParameters({
