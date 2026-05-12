@@ -82,7 +82,7 @@ export const SidePanelBackdrop = withContext<HTMLDivElement, SidePanelBackdropPr
 
 export interface SidePanelContentProps
   extends PrimitiveProps,
-    Pick<StyleProps, "width" | "maxWidth" | "height" | "maxHeight">,
+    Pick<StyleProps, "width" | "maxWidth">,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const SidePanelContent = withContext<HTMLDivElement, SidePanelContentProps>(
