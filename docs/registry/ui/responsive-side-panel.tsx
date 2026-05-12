@@ -5,14 +5,9 @@ import * as React from "react";
 import {
   BottomSheetBody,
   BottomSheetContent,
-  type BottomSheetContentProps,
   BottomSheetFooter,
-  type BottomSheetFooterProps,
-  type BottomSheetBodyProps,
   BottomSheetRoot,
-  type BottomSheetRootProps,
   BottomSheetTrigger,
-  type BottomSheetTriggerProps,
 } from "./bottom-sheet";
 import {
   SidePanelBody,
@@ -27,11 +22,7 @@ import {
   type SidePanelTriggerProps,
 } from "./side-panel";
 
-interface ResponsiveContextValue {
-  isMobile: boolean;
-}
-
-const ResponsiveContext = React.createContext<ResponsiveContextValue | null>(null);
+const ResponsiveContext = React.createContext<{ isMobile: boolean } | null>(null);
 
 function useResponsiveContext() {
   const ctx = React.useContext(ResponsiveContext);
@@ -43,20 +34,11 @@ function useResponsiveContext() {
   return ctx;
 }
 
-export interface ResponsiveSidePanelRootProps extends Omit<SidePanelRootProps, "direction"> {
-  /**
-   * Direction of the panel when shown as SidePanel (md+ viewports).
-   * Ignored on sm- viewports (rendered as BottomSheet).
-   * @default "right"
-   */
-  direction?: SidePanelRootProps["direction"];
-}
+export interface ResponsiveSidePanelRootProps extends SidePanelRootProps {}
 
 /**
  * Automatically switches between SidePanel (md+) and BottomSheet (sm-).
- *
- * Persistent (`modal={false}`) is forced to `modal={true}` on sm- to
- * fall back to a modal experience that suits small viewports.
+ * Persistent (`modal={false}`) is forced to `modal={true}` on sm-.
  *
  * @see https://seed-design.io/react/components/side-panel
  */
@@ -74,7 +56,7 @@ export function ResponsiveSidePanelRoot({
   return (
     <ResponsiveContext.Provider value={value}>
       {isMobile ? (
-        <BottomSheetRoot modal={resolvedModal} {...(props as BottomSheetRootProps)}>
+        <BottomSheetRoot modal={resolvedModal} {...props}>
           {children}
         </BottomSheetRoot>
       ) : (
@@ -94,7 +76,7 @@ export const ResponsiveSidePanelTrigger = React.forwardRef<
 >((props, ref) => {
   const { isMobile } = useResponsiveContext();
   return isMobile ? (
-    <BottomSheetTrigger ref={ref} {...(props as BottomSheetTriggerProps)} />
+    <BottomSheetTrigger ref={ref} {...props} />
   ) : (
     <SidePanelTrigger ref={ref} {...props} />
   );
@@ -109,7 +91,7 @@ export const ResponsiveSidePanelContent = React.forwardRef<
 >((props, ref) => {
   const { isMobile } = useResponsiveContext();
   return isMobile ? (
-    <BottomSheetContent ref={ref} {...(props as BottomSheetContentProps)} />
+    <BottomSheetContent ref={ref} {...props} />
   ) : (
     <SidePanelContent ref={ref} {...props} />
   );
@@ -124,7 +106,7 @@ export const ResponsiveSidePanelBody = React.forwardRef<
 >((props, ref) => {
   const { isMobile } = useResponsiveContext();
   return isMobile ? (
-    <BottomSheetBody ref={ref} {...(props as BottomSheetBodyProps)} />
+    <BottomSheetBody ref={ref} {...props} />
   ) : (
     <SidePanelBody ref={ref} {...props} />
   );
@@ -139,7 +121,7 @@ export const ResponsiveSidePanelFooter = React.forwardRef<
 >((props, ref) => {
   const { isMobile } = useResponsiveContext();
   return isMobile ? (
-    <BottomSheetFooter ref={ref} {...(props as BottomSheetFooterProps)} />
+    <BottomSheetFooter ref={ref} {...props} />
   ) : (
     <SidePanelFooter ref={ref} {...props} />
   );
