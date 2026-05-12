@@ -107,6 +107,49 @@ return (
 1. `modal={isActive}`로 Bottom Sheet Activity가 비활성 상태일 때 `modal`을 `false`로 설정합니다. 이렇게 하지 않으면, 위에 push된 Activity에서 포커스, 스크린 리더 접근 및 스크롤 등의 상호작용이 동작하지 않습니다.
 1. `onOpenChange` 핸들러에서 `isActive`인 경우에만 `pop()`을 실행하여, 비활성 상태에서의 의도치 않은 Activity 종료를 방지합니다.
 
+#### Stacking Another Modal Overlay on Top
+
+Bottom Sheet Activity 위에 자체 backdrop을 갖는 또 다른 modal Activity(예: Alert Dialog Activity)를 push해 얹는 경우에는, `modal={isActive}` 대신 `modal`을 항상 `true`로 두는 것을 권장합니다.
+
+`modal={isActive}` 패턴은 위에 push되는 Activity가 일반 AppScreen일 때 스크롤 등의 상호작용을 보장하기 위한 것이지만, 위로 push되는 Activity가 자체 backdrop을 갖는 modal overlay라면 비활성 시점에 Bottom Sheet의 backdrop이 사라지면서 dim layering이 끊겨 보일 수 있습니다.
+
+<StackflowExample path="/nested-bottom-sheet">
+  ```json doc-gen:file
+  {
+    "file": "../examples/stackflow-spa/src/activities/ActivityNestedBottomSheet.tsx",
+    "codeblock": {
+      "meta": "title='ActivityNestedBottomSheet.tsx'"
+    }
+  }
+  ```
+</StackflowExample>
+
+```tsx
+const { isActive, transitionState } = useActivity();
+
+return (
+  <BottomSheetRoot
+    open={
+      transitionState === "enter-active" || transitionState === "enter-done"
+    }
+    // [!code highlight]
+    modal
+    onOpenChange={(open) => !open && isActive && pop()}
+  >
+    {/* ... */}
+  </BottomSheetRoot>
+);
+```
+
+1. `modal`을 항상 `true`로 두어 위에 또 다른 modal Activity가 push되어도 Bottom Sheet의 backdrop layering이 끊기지 않도록 합니다.
+1. `onOpenChange`의 `isActive` 가드 덕분에 비활성 상태에서의 outside 상호작용으로 의도치 않게 `pop()`이 발생하지 않습니다.
+
+<Callout title="언제 `modal={isActive}`를 유지해야 하나요?">
+
+위에 push되는 Activity가 Bottom Sheet 영역까지 덮는 backdrop을 갖지 않는 일반 AppScreen이라면, 위 Activity의 스크롤 등 상호작용을 위해 `modal={isActive}` 가이드가 적합합니다. modal overlay 두 개가 stack되는 경우에 한해 `modal`을 항상 `true`로 두는 변형을 사용하세요.
+
+</Callout>
+
 ## Syncing BottomSheet State with a Step
 
 Bottom Sheet를 Activity로 만들 수 없는 경우, Bottom Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)으로 만들 수 있습니다.

@@ -192,6 +192,14 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           onClick: () => push("ActivityBottomSheetModalTest", {}),
         },
         {
+          title: "BottomSheet × AlertDialog (Step)",
+          onClick: () => push("ActivityBottomSheetWithAlertDialogStep", {}),
+        },
+        {
+          title: "BottomSheet × AlertDialog (Activity)",
+          onClick: () => push("ActivityNestedBottomSheet", {}),
+        },
+        {
           title: "MenuSheet",
           component: (
             <DialogPushTrigger

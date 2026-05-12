@@ -33,6 +33,18 @@ const defaultVariant = {
 const compoundVariants = [
   {
     "size": "small",
+    "layout": "withText"
+  },
+  {
+    "size": "medium",
+    "layout": "withText"
+  },
+  {
+    "size": "large",
+    "layout": "withText"
+  },
+  {
+    "size": "small",
     "layout": "iconOnly"
   },
   {

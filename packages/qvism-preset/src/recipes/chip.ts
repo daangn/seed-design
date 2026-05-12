@@ -264,6 +264,33 @@ const chip = defineSlotRecipe({
   compoundVariants: [
     {
       size: "small",
+      layout: "withText",
+      css: {
+        root: {
+          minWidth: vars.sizeSmallLayoutWithText.enabled.root.minWidth,
+        },
+      },
+    },
+    {
+      size: "medium",
+      layout: "withText",
+      css: {
+        root: {
+          minWidth: vars.sizeMediumLayoutWithText.enabled.root.minWidth,
+        },
+      },
+    },
+    {
+      size: "large",
+      layout: "withText",
+      css: {
+        root: {
+          minWidth: vars.sizeLargeLayoutWithText.enabled.root.minWidth,
+        },
+      },
+    },
+    {
+      size: "small",
       layout: "iconOnly",
       css: {
         root: {

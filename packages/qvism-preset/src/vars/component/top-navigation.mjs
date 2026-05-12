@@ -64,6 +64,7 @@ export const vars = {
       }
     }
   },
+  "dividerFalse": {},
   "titleLayoutTitleOnly": {
     "enabled": {
       "title": {

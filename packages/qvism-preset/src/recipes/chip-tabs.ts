@@ -83,6 +83,7 @@ const chipTabs = defineSlotRecipe({
         trigger: {
           // NOTE: chip uses `height`, but chip-tab keeps `minHeight` to preserve existing behavior
           minHeight: chipVars.sizeMedium.enabled.root.height,
+          minWidth: chipVars.sizeMediumLayoutWithText.enabled.root.minWidth,
           fontSize: chipVars.sizeMedium.enabled.label.fontSize,
           paddingLeft: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
           paddingRight: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
@@ -95,6 +96,7 @@ const chipTabs = defineSlotRecipe({
         trigger: {
           // NOTE: chip uses `height`, but chip-tab keeps `minHeight` to preserve existing behavior
           minHeight: chipVars.sizeLarge.enabled.root.height,
+          minWidth: chipVars.sizeLargeLayoutWithText.enabled.root.minWidth,
           fontSize: chipVars.sizeLarge.enabled.label.fontSize,
           paddingLeft: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
           paddingRight: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
