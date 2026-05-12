@@ -73,7 +73,6 @@ export interface UseFileUploadProps extends UseFileUploadStateProps {
   invalid?: boolean;
 
   /**
-   * NOTE: this currently is a no-op since the UI doesn't have a readOnly state
    * @default false
    */
   readOnly?: boolean;
@@ -133,7 +132,7 @@ export function useFileUpload({
 
   const multiple = maxFiles > 1;
   const maxFilesReached = acceptedFileEntries.length >= maxFiles;
-  const triggerDisabled = disabled || maxFilesReached;
+  const triggerDisabled = disabled || maxFilesReached || readOnly;
 
   const acceptString = Array.isArray(accept) ? accept.join(",") : accept;
 
@@ -231,7 +230,7 @@ export function useFileUpload({
 
   const setFileEntries = useCallback(
     (files: File[]) => {
-      if (disabled) return;
+      if (disabled || readOnly) return;
 
       const { accepted, rejected } = validateFiles(files);
 
@@ -257,6 +256,7 @@ export function useFileUpload({
     },
     [
       disabled,
+      readOnly,
       multiple,
       validateFiles,
       setAcceptedFileEntries,
@@ -268,7 +268,7 @@ export function useFileUpload({
 
   const reorderFileEntry = useCallback(
     (fromIndex: number, toIndex: number) => {
-      if (disabled) return;
+      if (disabled || readOnly) return;
       setAcceptedFileEntries((prev) => {
         const files = [...(prev ?? [])];
 
@@ -281,7 +281,7 @@ export function useFileUpload({
         return files;
       });
     },
-    [disabled, setAcceptedFileEntries],
+    [disabled, readOnly, setAcceptedFileEntries],
   );
 
   const createFileUrl = useCallback((file: File, callback: (url: string) => void) => {
@@ -290,20 +290,25 @@ export function useFileUpload({
     return () => URL.revokeObjectURL(url);
   }, []);
 
+  // Root `disabled` intentionally does NOT block removal — disabled trigger should still allow
+  // pruning what's already accepted. Root `readOnly` does block it: readOnly preserves the form value.
   const removeFileEntry = useCallback(
     (id: string) => {
+      if (readOnly) return;
       setAcceptedFileEntries((prev) => (prev ?? []).filter((f) => f.id !== id));
     },
-    [setAcceptedFileEntries],
+    [readOnly, setAcceptedFileEntries],
   );
 
   const clearFileEntries = useCallback(() => {
+    if (readOnly) return;
     setAcceptedFileEntries([]);
-  }, [setAcceptedFileEntries]);
+  }, [readOnly, setAcceptedFileEntries]);
 
   const stateProps = elementProps({
     "data-dragging-over": dataAttr(isDragging),
     "data-disabled": dataAttr(triggerDisabled),
+    "data-readonly": dataAttr(readOnly),
     "data-invalid": dataAttr(invalid),
   });
 
@@ -350,6 +355,7 @@ export function useFileUpload({
     acceptedFileEntries,
     dragging: isDragging,
     disabled,
+    readOnly,
     invalid,
     required,
     maxFiles,
@@ -435,6 +441,10 @@ export function useFileUpload({
 
       tabIndex: -1,
       style: visuallyHidden,
+      // exclude from the a11y tree — the trigger/dropzone provides the accessible interface,
+      // and tabIndex: -1 alone does not stop AT browse-mode cursors from reaching the input.
+      // ref: https://github.com/chakra-ui/zag/commit/e847201a3d0b98d3b109d702f9942f0bfa25b97f
+      "aria-hidden": true,
 
       onChange: (event) => {
         const files = event.target.files;
@@ -452,7 +462,8 @@ export function useFileUpload({
 export type UseFileUploadItemReturn = ReturnType<typeof useFileUploadItem>;
 
 export function useFileUploadItem(fileEntry: FileEntry) {
-  const { createFileUrl, removeFileEntry, acceptType } = useFileUploadContext();
+  const { createFileUrl, removeFileEntry, acceptType, readOnly, stateProps } =
+    useFileUploadContext();
 
   const [isOverlayRendered, setIsOverlayRendered] = useState(false);
   const overlayRef = useCallback((node: HTMLElement | null) => {
@@ -486,13 +497,16 @@ export function useFileUploadItem(fileEntry: FileEntry) {
         } satisfies React.ImgHTMLAttributes<HTMLImageElement>,
       }),
 
-    thumbnailProps: overlayStateProps,
-    metadataProps: overlayStateProps,
+    thumbnailProps: { ...overlayStateProps, ...stateProps },
+    metadataProps: { ...overlayStateProps, ...stateProps },
 
-    // NOTE: `disabled` of item remove button works separately from the overall `disabled` state so we don't have stateProps here
+    // Root `disabled` is intentionally NOT propagated here — disabled still allows pruning
+    // already-accepted files. Root `readOnly` does block removal so the value is preserved.
     removeButtonProps: buttonProps({
       type: "button",
+      disabled: readOnly,
       onClick: () => {
+        if (readOnly) return;
         removeFileEntry(fileEntry.id);
       },
     }),

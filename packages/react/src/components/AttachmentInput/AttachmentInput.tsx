@@ -54,7 +54,12 @@ export const AttachmentInputHiddenInput = React.forwardRef<
     props,
   );
 
-  return <FileUploadPrimitive.HiddenInput ref={ref} {...mergedProps} />;
+  // aria-readonly is invalid on <input type="file"> per ARIA 1.2 (only valid on
+  // textbox/spinbutton/checkbox/switch/slider/etc), but Field spreads it onto every
+  // child input. Strip it here so we keep Field's other aria attributes intact.
+  const { "aria-readonly": _ariaReadOnly, ...rest } = mergedProps;
+
+  return <FileUploadPrimitive.HiddenInput ref={ref} {...rest} />;
 });
 AttachmentInputHiddenInput.displayName = "AttachmentInputHiddenInput";
 

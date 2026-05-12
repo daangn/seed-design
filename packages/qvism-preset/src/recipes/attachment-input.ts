@@ -5,7 +5,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, not, pseudo, readOnly } from "../utils/pseudo";
 import {
   attachmentInput as vars,
   attachmentInputItem as itemVars,
@@ -14,6 +14,36 @@ import {
   attachmentInputTrigger as triggerVars,
   attachmentInputDropzone as dropzoneVars,
 } from "../vars/component";
+import type { Properties } from "csstype";
+
+// Punches a circular hole at the remove button position so the gap stays
+// transparent regardless of the surrounding layer background.
+// (See avatar's badgeMask pattern — SVG keeps the edge crisper than radial-gradient,
+// which produced visible blur even with a sub-pixel transition.)
+const CIRCLE_SVG_MASK =
+  '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>';
+
+function toDataUrl(svg: string) {
+  return `url('data:image/svg+xml;utf8,${svg}')`;
+}
+
+const removeButtonMask: Properties = {
+  WebkitMaskImage: `linear-gradient(black, black), ${toDataUrl(CIRCLE_SVG_MASK)}`,
+  WebkitMaskSize: "100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size)",
+  WebkitMaskPosition:
+    "0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset))",
+  WebkitMaskRepeat: "no-repeat",
+  WebkitMaskComposite: "source-out",
+
+  maskImage: `linear-gradient(black, black), ${toDataUrl(CIRCLE_SVG_MASK)}`,
+  maskSize: "100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size)",
+  maskPosition:
+    "0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset))",
+  maskRepeat: "no-repeat",
+  maskComposite: "subtract",
+
+  transform: "translateZ(0)",
+};
 
 const attachmentInputTrigger = defineSlotRecipe({
   name: "attachment-input-trigger",
@@ -127,10 +157,11 @@ const attachmentInputItem = defineSlotRecipe({
       height: itemVars.base.enabled.root.height,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
-      transition: "opacity 0.2s",
+      "--remove-button-mask-size": itemVars.base.enabled.removeButtonMask.size,
+      "--remove-button-mask-offset": itemVars.base.enabled.removeButtonMask.offset,
 
-      ...createFocusRingRestStyles({ position: "inside" }),
-      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       "&::before": {
         content: '""',
@@ -142,14 +173,19 @@ const attachmentInputItem = defineSlotRecipe({
         borderRadius: "inherit",
 
         pointerEvents: "none",
+
+        ...removeButtonMask,
       },
 
-      [pseudo("[role='button']", not("[aria-grabbed=true]"))]: {
+      [pseudo("[role='button']", not("[aria-grabbed=true]"), not("[data-readonly]"))]: {
         cursor: "grab",
       },
 
       [pseudo("[aria-grabbed=true]")]: {
-        opacity: itemVars.base.dragging.root.opacity,
+        // Disable the remove button mask while dragging — see the slot's
+        // description in attachment-input-item.yaml.
+        "--remove-button-mask-size": "0px",
+        "--remove-button-mask-offset": "0px",
       },
     },
     image: {
@@ -159,6 +195,8 @@ const attachmentInputItem = defineSlotRecipe({
       objectFit: "cover",
 
       borderRadius: "inherit",
+
+      ...removeButtonMask,
     },
     thumbnail: {
       display: "flex",
@@ -212,6 +250,8 @@ const attachmentInputItem = defineSlotRecipe({
       justifyContent: "center",
 
       borderRadius: "inherit",
+
+      ...removeButtonMask,
     },
     actionButton: {
       width: "100%",
@@ -267,14 +307,14 @@ const attachmentInputItem = defineSlotRecipe({
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
-      boxShadow: `inset 0 0 0 ${itemRemoveButtonVars.base.enabled.root.strokeWidth} ${itemRemoveButtonVars.base.enabled.root.strokeColor}, 0 0 0 ${itemRemoveButtonVars.base.enabled.root.foobarWidth} ${itemRemoveButtonVars.base.enabled.root.foobarColor}`,
+      boxShadow: `inset 0 0 0 ${itemRemoveButtonVars.base.enabled.root.strokeWidth} ${itemRemoveButtonVars.base.enabled.root.strokeColor}`,
 
       ...onlyIcon({
         size: itemRemoveButtonVars.base.enabled.icon.size,
         color: itemRemoveButtonVars.base.enabled.icon.color,
       }),
 
-      [pseudo(engaged)]: {
+      [pseudo(not(disabled), engaged)]: {
         backgroundColor: itemRemoveButtonVars.base.pressed.root.color,
       },
 
@@ -285,11 +325,18 @@ const attachmentInputItem = defineSlotRecipe({
           color: itemRemoveButtonVars.base.disabled.icon.color,
         }),
       },
+
+      // dnd-kit's useSortable sets [aria-grabbed=true] directly on the root <li>
+      // and headless does not expose this state, so child slots can only react
+      // via an ancestor selector. While dragging the mask is also disabled (size: 0),
+      // so we hide the button to keep the interaction and visuals consistent.
+      "[aria-grabbed=true] &": {
+        display: "none",
+      },
     },
   },
   variants: {
     type: {
-      // TODO: rename
       general: {
         root: {
           width: itemVars.typeFile.enabled.root.width,
@@ -304,10 +351,40 @@ const attachmentInputItem = defineSlotRecipe({
           [pseudo("[data-has-overlay]")]: {
             display: "none",
           },
+
+          [pseudo(readOnly)]: {
+            ...onlyIcon({
+              color: itemVars.typeFile.readonly.thumbnailIcon.color,
+            }),
+          },
+
+          "[aria-grabbed=true] &": {
+            ...onlyIcon({
+              color: itemVars.typeFile.dragging.thumbnailIcon.color,
+            }),
+          },
         },
         metadata: {
           [pseudo("[data-has-overlay]")]: {
             display: "none",
+          },
+        },
+        name: {
+          [pseudo(readOnly)]: {
+            color: itemVars.typeFile.readonly.name.color,
+          },
+
+          "[aria-grabbed=true] &": {
+            color: itemVars.typeFile.dragging.name.color,
+          },
+        },
+        size: {
+          [pseudo(readOnly)]: {
+            color: itemVars.typeFile.readonly.size.color,
+          },
+
+          "[aria-grabbed=true] &": {
+            color: itemVars.typeFile.dragging.size.color,
           },
         },
         actionButton: {
@@ -322,8 +399,18 @@ const attachmentInputItem = defineSlotRecipe({
         root: {
           width: itemVars.typeImage.enabled.root.width,
 
+          transition: "opacity 0.2s",
+
           "&::before": {
             boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeImage.enabled.root.strokeColor}`,
+          },
+
+          [pseudo(readOnly)]: {
+            opacity: itemVars.typeImage.readonly.root.opacity,
+          },
+
+          [pseudo("[aria-grabbed=true]")]: {
+            opacity: itemVars.typeImage.dragging.root.opacity,
           },
         },
         thumbnail: {

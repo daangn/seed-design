@@ -18,10 +18,6 @@ data:
             type: dimension
           strokeColor:
             type: color
-          foobarWidth:
-            type: dimension
-          foobarColor:
-            type: color
           offset:
             type: dimension
       icon:
@@ -40,8 +36,6 @@ data:
           color: $color.bg.layer-default
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak
-          foobarWidth: 2px
-          foobarColor: $color.bg.layer-default
           offset: $dimension.x1
         icon:
           size: $dimension.x2_5

@@ -138,6 +138,24 @@ describe("AttachmentInput", () => {
         const input = getByTestId("hidden-input") as HTMLInputElement;
         expect(input).toBeDisabled();
       });
+
+      it("should not put aria-readonly on the hidden input even when Field is read-only", () => {
+        // aria-readonly is invalid on <input type="file"> per ARIA 1.2 — it's only valid on
+        // textbox/spinbutton/checkbox/switch/slider/etc. Field spreads aria-readonly to every
+        // child input, so AttachmentInputHiddenInput has to strip it.
+        const { getByTestId } = setUp(
+          <Field.Root readOnly>
+            <AttachmentInputRoot>
+              <AttachmentInputHiddenInput data-testid="hidden-input" />
+            </AttachmentInputRoot>
+          </Field.Root>,
+        );
+
+        const input = getByTestId("hidden-input") as HTMLInputElement;
+        expect(input.getAttribute("aria-readonly")).toBeNull();
+        // hidden input itself stays enabled so the form value is preserved when read-only
+        expect(input.disabled).toBe(false);
+      });
     });
   });
 });
