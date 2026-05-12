@@ -143,20 +143,10 @@ export const registryBlock: Registry = {
     },
     {
       id: "header-04",
-      description: "당근닷컴 Header (로고 + 서비스 메뉴 + 검색 + 앱 다운로드)",
+      description: "당근닷컴 Header (로고 + 서비스 메뉴 + Menu 드롭다운 + 검색 + 앱 다운로드)",
       snippets: [
         {
           path: "header-04.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
-        },
-      ],
-    },
-    {
-      id: "header-06",
-      description: "Transparent Header (스크롤 시 배경 전환)",
-      snippets: [
-        {
-          path: "header-06.tsx",
           dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
         },
       ],

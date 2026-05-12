@@ -1,9 +1,49 @@
 "use client";
 
 import type * as React from "react";
-import { IconMagnifyingglassFill } from "@karrotmarket/react-monochrome-icon";
-import { Header as SeedHeader, HStack, Icon } from "@seed-design/react";
+import {
+  IconChevronDownSmallLine,
+  IconMagnifyingglassFill,
+} from "@karrotmarket/react-monochrome-icon";
+import { Header as SeedHeader, HStack, Icon, SuffixIcon } from "@seed-design/react";
 import { ActionButton } from "../ui/action-button";
+import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from "../ui/menu";
+
+type NavItem = {
+  label: string;
+  href?: string;
+  subItems?: { label: string; description?: string }[];
+};
+
+const NAV_ITEMS: NavItem[] = [
+  { label: "중고거래", href: "/used" },
+  {
+    label: "부동산",
+    subItems: [
+      { label: "부동산 검색", description: "전국 매물을 한눈에" },
+      { label: "중개사 서비스", description: "공인중개사 협력" },
+      { label: "중개사 이용 가이드", description: "처음이라면 가이드부터" },
+    ],
+  },
+  {
+    label: "중고차",
+    subItems: [
+      { label: "중고차 검색", description: "직거래 매물 찾기" },
+      { label: "딜러 입점하기", description: "전문 판매자 등록" },
+    ],
+  },
+  {
+    label: "알바⸱과외⸱레슨",
+    subItems: [
+      { label: "알바 찾기", description: "동네 알바 모아보기" },
+      { label: "과외 찾기", description: "원하는 분야의 과외" },
+      { label: "레슨 찾기", description: "취미부터 자격증까지" },
+    ],
+  },
+  { label: "동네업체", href: "/biz" },
+  { label: "동네생활", href: "/story" },
+  { label: "모임", href: "/group" },
+];
 
 function DaanggnLogo(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -51,6 +91,27 @@ function DaanggnLogo(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function DesktopNavItem({ item }: { item: NavItem }) {
+  if (!item.subItems) {
+    return <SeedHeader.ActionButton size="small">{item.label}</SeedHeader.ActionButton>;
+  }
+  return (
+    <MenuRoot>
+      <MenuTrigger asChild>
+        <SeedHeader.ActionButton size="small">
+          {item.label}
+          <SuffixIcon svg={<IconChevronDownSmallLine />} />
+        </SeedHeader.ActionButton>
+      </MenuTrigger>
+      <MenuContent>
+        {item.subItems.map((sub) => (
+          <MenuItem key={sub.label} label={sub.label} description={sub.description} />
+        ))}
+      </MenuContent>
+    </MenuRoot>
+  );
+}
+
 export default function Header() {
   return (
     <SeedHeader.Root divider>
@@ -59,13 +120,9 @@ export default function Header() {
       </SeedHeader.Left>
       <SeedHeader.Center>
         <HStack gap="x2" px="x4">
-          <SeedHeader.ActionButton size="small">중고거래</SeedHeader.ActionButton>
-          <SeedHeader.ActionButton size="small">부동산</SeedHeader.ActionButton>
-          <SeedHeader.ActionButton size="small">중고차</SeedHeader.ActionButton>
-          <SeedHeader.ActionButton size="small">알바⸱과외⸱레슨</SeedHeader.ActionButton>
-          <SeedHeader.ActionButton size="small">동네업체</SeedHeader.ActionButton>
-          <SeedHeader.ActionButton size="small">동네생활</SeedHeader.ActionButton>
-          <SeedHeader.ActionButton size="small">모임</SeedHeader.ActionButton>
+          {NAV_ITEMS.map((item) => (
+            <DesktopNavItem key={item.label} item={item} />
+          ))}
         </HStack>
       </SeedHeader.Center>
       <SeedHeader.Right>
