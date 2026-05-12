@@ -17,6 +17,8 @@ import {
 
 export interface BottomSheetRootProps extends SeedBottomSheetRootProps {}
 
+export type BottomSheetRootRef = SeedBottomSheetRootRef;
+
 /**
  * @see https://seed-design.io/lynx/components/bottom-sheet
  */

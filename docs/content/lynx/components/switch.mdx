@@ -46,24 +46,32 @@ export function App() {
 }
 ```
 
-### Compound 사용 (고급)
+### Tone / Size
 
-snippet이 제공하는 기본 구성으로는 부족한 경우 `@seed-design/lynx-react`의 compound component를 직접 조합합니다. 예를 들어 Control에서 Root의 `tone`/`size`를 override 하려면:
+`Switch`와 `Switchmark`는 snippet API에서 `tone`, `size`를 그대로 전달받습니다.
 
 ```tsx
-import { Switch } from "@seed-design/lynx-react";
+import { Switch, Switchmark } from "@/components/ui/switch";
 
-<Switch.Root tone="brand" size="32" defaultChecked>
-  <Switch.Control tone="neutral">
-    <Switch.Thumb />
-  </Switch.Control>
-  <Switch.Label>레이블</Switch.Label>
-</Switch.Root>
+export function SwitchVariants() {
+  return (
+    <>
+      <Switch label="브랜드 스위치" tone="brand" size="32" defaultChecked />
+      <Switchmark tone="brand" size="24" defaultChecked />
+    </>
+  );
+}
 ```
 
 ## Props
 
-<react-type-table path="../packages/lynx-react/src/components/Switch/Switch.tsx" name="SwitchRootProps" />
+### `Switch`
+
+<react-type-table path="./registry/lynx/ui/switch.tsx" name="SwitchProps" />
+
+### `Switchmark`
+
+<react-type-table path="./registry/lynx/ui/switch.tsx" name="SwitchmarkProps" />
 
 ## 웹 버전과의 차이
 

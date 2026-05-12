@@ -32,21 +32,21 @@ export function App() {
 
 `TagGroupRoot`의 `size`·`weight`·`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `" · "`이고 `separator` prop으로 바꿀 수 있습니다.
 
-### Compound 사용 (고급)
+### Tone / Separator
 
-snippet이 제공하는 기본 `label` 구성으로는 부족한 경우 `@seed-design/lynx-react`의 compound component를 직접 조합합니다.
+`TagGroupRoot`의 `tone`, `weight`, `separator`는 그룹 기본값으로 전달되고, 개별 `TagGroupItem`에서 필요한 값만 덮어쓸 수 있습니다.
 
 ```tsx
-import { TagGroup } from "@seed-design/lynx-react";
+import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
 
-<TagGroup.Root size="t2">
-  <TagGroup.Item tone="brand" weight="bold">
-    <TagGroup.ItemLabel>NEW</TagGroup.ItemLabel>
-  </TagGroup.Item>
-  <TagGroup.Item>
-    <TagGroup.ItemLabel>무료 나눔</TagGroup.ItemLabel>
-  </TagGroup.Item>
-</TagGroup.Root>;
+export function TagGroupVariants() {
+  return (
+    <TagGroupRoot size="t2" tone="neutralWeak" separator=" / ">
+      <TagGroupItem tone="brand" weight="bold" label="NEW" />
+      <TagGroupItem label="무료 나눔" />
+    </TagGroupRoot>
+  );
+}
 ```
 
 ## Props

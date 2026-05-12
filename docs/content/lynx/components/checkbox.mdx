@@ -97,26 +97,19 @@ export function App() {
 }
 ```
 
-### Compound 사용 (고급)
+### Tone / Variant
 
-snippet이 제공하는 기본 구성으로는 부족한 경우 `@seed-design/lynx-react`의 compound component를 직접 조합합니다. 이때 `Checkbox.Indicator`에는 Lynx monochrome icon을 직접 전달해야 합니다.
+`Checkbox`와 `Checkmark`는 snippet API에서 `tone`, `variant`를 그대로 전달받습니다.
 
 ```tsx
-import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
-import IconMinusFatFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFatFill";
-import { Checkbox } from "@seed-design/lynx-react";
+import { Checkbox, Checkmark } from "@/components/ui/checkbox";
 
-export function CustomCheckbox() {
+export function CheckboxVariants() {
   return (
-    <Checkbox.Root defaultChecked>
-      <Checkbox.Control tone="neutral">
-        <Checkbox.Indicator
-          checked={<IconCheckmarkFatFill />}
-          indeterminate={<IconMinusFatFill />}
-        />
-      </Checkbox.Control>
-      <Checkbox.Label>커스텀 체크박스</Checkbox.Label>
-    </Checkbox.Root>
+    <>
+      <Checkbox label="브랜드 체크박스" tone="brand" defaultChecked />
+      <Checkmark variant="ghost" tone="brand" defaultChecked />
+    </>
   );
 }
 ```

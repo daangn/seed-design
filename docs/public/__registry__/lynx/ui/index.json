@@ -6,8 +6,8 @@
         {
           "path": "bottom-sheet.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0"
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1"
           }
         }
       ],
@@ -21,8 +21,8 @@
         {
           "path": "checkbox.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0"
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1"
           }
         }
       ],
@@ -37,8 +37,8 @@
         {
           "path": "progress-circle.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0"
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1"
           }
         }
       ],
@@ -52,8 +52,8 @@
         {
           "path": "radio-group.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0"
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1"
           }
         }
       ],
@@ -67,8 +67,8 @@
         {
           "path": "switch.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0"
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1"
           }
         }
       ],
@@ -82,8 +82,8 @@
         {
           "path": "tag-group.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0"
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1"
           }
         }
       ],

@@ -3,6 +3,7 @@
   "pages": [
     "action-button",
     "bottom-sheet",
+    "checkbox",
     "progress-circle",
     "radio-group",
     "switch",
