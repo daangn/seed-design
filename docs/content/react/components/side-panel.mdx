@@ -12,7 +12,48 @@ description: 화면 좌측 또는 우측 가장자리에서 슬라이드하여 �
   ```
 </ComponentExample>
 
-## Installation
+## Responsive Side Panel
+
+데스크탑 UI에서 Side Panel을 사용하는 경우, **기본적으로 `ResponsiveSidePanel`을 사용하는 것을 권장합니다.** md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 자동 전환되어 각 환경에 적합한 사용성을 제공합니다.
+
+- md 이상 (768px+): Side Panel로 표시
+- sm 이하 (~767px): Bottom Sheet로 표시
+- 공통 제약: Header/Body/Footer 구조는 양 컴포넌트에서 동일하게 유지
+- Persistent (`modal={false}`) + sm 이하: 모달로 자동 전환 (BottomSheet 동작 보장)
+
+### Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:responsive-side-panel
+```
+
+<ManualInstallation name="responsive-side-panel" />
+
+### Usage
+
+뷰포트를 줄여서 SidePanel ↔ BottomSheet 자동 전환을 확인해보세요.
+
+<ComponentExample name="react/side-panel/responsive">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/side-panel/responsive.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 예외: Side Panel을 직접 사용해야 하는 경우
+
+다음과 같은 경우에 한해 아래의 일반 `SidePanel`을 직접 사용합니다.
+
+- 모바일 사이드 메뉴/네비게이션 (햄버거 메뉴, 프로필 진입 메뉴 등) — sm 이하에서도 부분 너비 패널로 표시되어야 네비게이션 컨텍스트가 유지됨
+- Persistent Type이 필요한 경우 (md 이상 전용 영구 패널)
+
+## Side Panel
+
+위 예외 케이스에 해당할 때만 일반 `SidePanel`을 직접 사용합니다. 그 외 데스크탑 UI 케이스에서는 위의 `ResponsiveSidePanel`을 사용하세요.
+
+### Installation
 
 ```package-install
 npx @seed-design/cli@latest add ui:side-panel
@@ -188,38 +229,3 @@ Trigger 외의 방식으로 Side Panel을 열고 닫을 수 있습니다. 이 �
   }
   ```
 </ComponentExample>
-
-## Responsive
-
-데스크탑 UI에서 Side Panel을 사용하는 경우, 기본적으로 `ResponsiveSidePanel`을 사용합니다. md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 자동 전환되어 각 환경에 적합한 사용성을 제공합니다.
-
-- md 이상 (768px+): Side Panel로 표시
-- sm 이하 (~767px): Bottom Sheet로 표시
-- 공통 제약: Header/Body/Footer 구조는 양 컴포넌트에서 동일하게 유지
-- Persistent (`modal={false}`) + sm 이하: 모달로 자동 전환 (BottomSheet 동작 보장)
-
-### Installation
-
-```package-install
-npx @seed-design/cli@latest add ui:responsive-side-panel
-```
-
-<ManualInstallation name="responsive-side-panel" />
-
-### Usage
-
-뷰포트를 줄여서 SidePanel ↔ BottomSheet 자동 전환을 확인해보세요.
-
-<ComponentExample name="react/side-panel/responsive">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/side-panel/responsive.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### 예외: Side Panel을 직접 사용해야 하는 경우
-
-- 모바일 사이드 메뉴/네비게이션 (햄버거 메뉴, 프로필 진입 메뉴 등) — sm 이하에서도 부분 너비 패널로 표시되어야 네비게이션 컨텍스트가 유지됨
-- Persistent Type이 필요한 경우 (md 이상 전용 영구 패널)
