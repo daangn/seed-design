@@ -102,6 +102,17 @@
             }
           }
         },
+        "removeButtonMask": {
+          "properties": {
+            "offset": {
+              "type": "dimension"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          },
+          "description": "dragging 상태에서는 표시되지 않습니다."
+        },
         "badge": {
           "properties": {
             "color": {
@@ -241,18 +252,15 @@
                   "type": "number",
                   "value": "$font-weight.regular"
                 }
-              }
-            }
-          },
-          {
-            "states": [
-              "dragging"
-            ],
-            "slots": {
-              "root": {
-                "opacity": {
-                  "type": "number",
-                  "value": 0.5
+              },
+              "removeButtonMask": {
+                "offset": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
                 }
               }
             }
@@ -284,6 +292,56 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x4"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "readonly"
+            ],
+            "slots": {
+              "thumbnailIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "name": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "size": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "dragging"
+            ],
+            "slots": {
+              "thumbnailIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "name": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "size": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
                 }
               }
             }
@@ -353,6 +411,32 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.medium"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "readonly"
+            ],
+            "slots": {
+              "root": {
+                "opacity": {
+                  "type": "number",
+                  "value": 0.5
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "dragging"
+            ],
+            "slots": {
+              "root": {
+                "opacity": {
+                  "type": "number",
+                  "value": 0.5
                 }
               }
             }

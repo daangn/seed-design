@@ -64,6 +64,13 @@ data:
         properties:
           color:
             type: color
+      removeButtonMask:
+        description: dragging 상태에서는 표시되지 않습니다.
+        properties:
+          offset:
+            type: dimension
+          size:
+            type: dimension
       badge:
         properties:
           color:
@@ -111,10 +118,9 @@ data:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
           fontWeight: $font-weight.regular
-
-      dragging:
-        root:
-          opacity: 0.5
+        removeButtonMask:
+          offset: $dimension.x1_5
+          size: $dimension.x6
 
     type=file:
       enabled:
@@ -122,6 +128,20 @@ data:
           width: 160px
           strokeColor: $color.stroke.neutral-weak
           paddingX: $dimension.x4
+      readonly:
+        thumbnailIcon:
+          color: $color.fg.disabled
+        name:
+          color: $color.fg.disabled
+        size:
+          color: $color.fg.disabled
+      dragging:
+        thumbnailIcon:
+          color: $color.fg.disabled
+        name:
+          color: $color.fg.disabled
+        size:
+          color: $color.fg.disabled
 
     type=image:
       enabled:
@@ -140,3 +160,9 @@ data:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.medium
+      readonly:
+        root:
+          opacity: 0.5
+      dragging:
+        root:
+          opacity: 0.5

@@ -171,9 +171,12 @@ export const SortableAttachmentInputItem = React.forwardRef<
   HTMLLIElement,
   SortableAttachmentInputItemProps
 >(({ fileEntry, index, ...props }, _ref) => {
+  const { readOnly } = useFileUploadContext();
+
   const { ref: sortableRef } = useSortable({
     id: fileEntry.id,
     index,
+    disabled: readOnly,
     modifiers: [RestrictToHorizontalAxis],
     data: { name: fileEntry.file.name },
   });

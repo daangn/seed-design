@@ -65,6 +65,10 @@ const conditionMap = {
     false: { disabled: false },
     true: { disabled: true },
   },
+  readOnly: {
+    false: { readOnly: false },
+    true: { readOnly: true },
+  },
 };
 
 const CommonStoryTemplate: Story = {

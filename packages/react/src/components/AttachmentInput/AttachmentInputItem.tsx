@@ -31,7 +31,7 @@ export interface AttachmentInputItemProps
 
 export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInputItemProps>(
   ({ className, fileEntry, ...props }, ref) => {
-    const { acceptType } = useFileUploadContext();
+    const { acceptType, stateProps } = useFileUploadContext();
     const api = useFileUploadItem(fileEntry);
 
     const [variantProps, otherProps] = attachmentInputItem.splitVariantProps({
@@ -44,7 +44,12 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
     return (
       <ClassNamesProvider value={classNames}>
         <FileUploadItemProvider value={api}>
-          <Primitive.li ref={ref} className={clsx(classNames.root, className)} {...otherProps} />
+          <Primitive.li
+            ref={ref}
+            className={clsx(classNames.root, className)}
+            {...stateProps}
+            {...otherProps}
+          />
         </FileUploadItemProvider>
       </ClassNamesProvider>
     );

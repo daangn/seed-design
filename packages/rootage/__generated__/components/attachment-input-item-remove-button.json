@@ -26,12 +26,6 @@
             "strokeColor": {
               "type": "color"
             },
-            "foobarWidth": {
-              "type": "dimension"
-            },
-            "foobarColor": {
-              "type": "color"
-            },
             "offset": {
               "type": "dimension"
             }
@@ -82,17 +76,6 @@
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-weak"
-                },
-                "foobarWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                },
-                "foobarColor": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
                 },
                 "offset": {
                   "type": "dimension",
