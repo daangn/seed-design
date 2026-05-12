@@ -64,6 +64,16 @@ export const registryBlock: Registry = {
       ],
     },
     {
+      id: "responsive-side-panel-01",
+      description: "ResponsiveSidePanel (md+ Side Panel, sm- Bottom Sheet 자동 전환)",
+      snippets: [
+        {
+          path: "responsive-side-panel-01.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+      ],
+    },
+    {
       id: "layout-01",
       description: "기본 Layout (Header + Content + Footer)",
       snippets: [

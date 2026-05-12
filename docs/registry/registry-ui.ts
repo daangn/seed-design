@@ -85,6 +85,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "responsive-side-panel",
+      snippets: [
+        {
+          path: "responsive-side-panel.tsx",
+          dependencies: {
+            "@seed-design/react": "~1.3.0",
+            "@seed-design/css": "~1.3.0",
+            "@karrotmarket/react-monochrome-icon": "^1.0.0",
+          },
+        },
+      ],
+    },
+    {
       id: "bottom-sheet",
       snippets: [
         {

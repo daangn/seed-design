@@ -150,6 +150,31 @@
     {
       "snippets": [
         {
+          "path": "responsive-side-panel-01.tsx",
+          "dependencies": {
+            "@seed-design/react": "~1.3.0",
+            "@seed-design/css": "~1.3.0"
+          }
+        }
+      ],
+      "id": "responsive-side-panel-01",
+      "description": "ResponsiveSidePanel (md+ Side Panel, sm- Bottom Sheet 자동 전환)",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button",
+            "responsive-side-panel"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "side-navigation-01.tsx",
           "dependencies": {
             "@seed-design/react": "~1.3.0",
