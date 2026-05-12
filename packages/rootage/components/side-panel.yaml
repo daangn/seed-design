@@ -76,6 +76,8 @@ data:
             type: dimension
           fontWeight:
             type: number
+          paddingX:
+            type: dimension
       closeButton:
         properties:
           fromTop:
@@ -125,6 +127,7 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
+          paddingX: $dimension.x6
         closeButton:
           fromTop: $dimension.x6
           fromRight: $dimension.x4

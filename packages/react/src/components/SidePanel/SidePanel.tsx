@@ -127,9 +127,21 @@ export interface SidePanelDescriptionProps
     React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const SidePanelDescription = withContext<HTMLParagraphElement, SidePanelDescriptionProps>(
-  Drawer.Description,
+  forwardRef<HTMLParagraphElement, SidePanelDescriptionProps>((props, ref) => {
+    const { isCloseButtonRendered } = useDrawerContext();
+
+    return (
+      <Drawer.Description
+        ref={ref}
+        data-show-close-button={dataAttr(isCloseButtonRendered)}
+        {...props}
+      />
+    );
+  }),
   "description",
 );
+
+SidePanelDescription.displayName = "SidePanelDescription";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

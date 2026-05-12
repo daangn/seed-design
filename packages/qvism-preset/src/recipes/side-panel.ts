@@ -163,6 +163,14 @@ const sidePanel = defineSlotRecipe({
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
 
+      paddingLeft: vars.base.enabled.description.paddingX,
+      paddingRight: vars.base.enabled.description.paddingX,
+
+      // When close button is shown, add extra right padding to avoid overlap
+      [pseudo("[data-show-close-button]")]: {
+        paddingRight: closeButtonVars.base.enabled.root.size,
+      },
+
       margin: 0,
       whiteSpace: "pre-wrap",
     },

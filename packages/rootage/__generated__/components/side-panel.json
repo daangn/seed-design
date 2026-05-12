@@ -117,6 +117,9 @@
             },
             "fontWeight": {
               "type": "number"
+            },
+            "paddingX": {
+              "type": "dimension"
             }
           }
         },
@@ -273,6 +276,10 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
                 }
               },
               "closeButton": {

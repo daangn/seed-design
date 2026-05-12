@@ -9174,6 +9174,15 @@
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-regular);
+  padding-left: var(--seed-dimension-x6);
+  padding-right: var(--seed-dimension-x6);
+}
+
+.seed-side-panel__description[data-show-close-button] {
+  padding-right: 52px;
+}
+
+.seed-side-panel__description {
   white-space: pre-wrap;
   margin: 0;
 }
