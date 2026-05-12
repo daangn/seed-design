@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/tailwind3-plugin",
-  "version": "0.0.0-alpha-20260414104312",
+  "version": "1.1.18",
   "description": "Tailwind3 CSS plugin for Seed Design tokens",
   "repository": {
     "type": "git",

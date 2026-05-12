@@ -1,19 +1,20 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { notFound } from "next/navigation";
 import * as React from "react";
+import { notFound } from "next/navigation";
 
 export function BlockRenderer({ name }: { name: string }) {
-  const Block = React.useMemo(
-    () =>
-      dynamic(
-        () =>
-          import(`../../../registry/block/${name}`).catch(() => ({ default: () => notFound() })),
-        { ssr: false },
-      ),
-    [name],
-  );
+  const Block = React.useMemo(() => {
+    return React.lazy(() =>
+      import(`../../../registry/block/${name}`).catch(() => ({
+        default: () => notFound(),
+      })),
+    );
+  }, [name]);
 
-  return <Block />;
+  return (
+    <React.Suspense fallback={null}>
+      <Block />
+    </React.Suspense>
+  );
 }
