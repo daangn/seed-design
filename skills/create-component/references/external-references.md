@@ -28,6 +28,52 @@ SEED Design은 외부 라이브러리에 직접 의존하지 않지만, 인터�
 
 **주의**: 외부 패턴을 그대로 복사하지 않는다. SEED Design의 기존 패턴(Primitive, createSlotRecipeContext, data-* 속성)과 조화시킨다.
 
+### 라이브러리 우선순위 룰
+
+같은 컴포넌트라도 라이브러리마다 다른 결정을 내린다. 어느 라이브러리를 어떤 결정의 기준점으로 삼을지가 명확하지 않으면 결정이 흔들린다. **결정 영역별 1순위 라이브러리**를 다음 표를 기준으로 한다:
+
+| 결정 영역 | 1순위 | 이유 |
+|---------|------|------|
+| Headless 훅 API 형태 (`use*` 반환값, slot별 props) | Base UI | 가장 최신의 hook-first 설계, 접근성 구현 깊이 |
+| controlled/uncontrolled 패턴 | Base UI | `useControllableState`와 유사한 패턴을 가장 일관되게 적용 |
+| Compound 구조 (Root/Trigger/Content 분리) | Radix | compound primitives 설계 표준 |
+| 포커스 트랩, dismissable layer | Radix | 이미 SEED가 일부 의존 (`@radix-ui/react-dismissable-layer` 등) |
+| Prop naming / variant 체계 (size, intent, kind 등) | Chakra | 컴포넌트 카탈로그가 넓고 prop 일관성 강함 |
+| Snippet/registry 사용자 API | shadcn | snippet 시스템 자체가 shadcn에서 영감 |
+
+1순위가 SEED 패턴과 충돌하면 SEED를 우선한다. 예: Radix가 `<Component.Root>` 같은 dotted namespace를 권장해도 SEED의 `ComponentRoot` 명명을 따른다 (`api-design.md` §convenience wrapper 참조).
+
+### 차용 vs 거부 결정 트리
+
+외부 라이브러리에서 어떤 패턴을 발견했을 때 차용할지 거부할지의 판단 기준:
+
+```text
+외부 패턴 발견
+    │
+    ├─ SEED 기존 패턴과 충돌? ──Yes──> 거부. SEED 패턴 유지.
+    │                                  (예: 외부의 dotted namespace, 외부의 controlled-only API)
+    │
+    └─ No → SEED가 같은 문제를 다른 방식으로 푸는가?
+              ├─ Yes → 거부. 같은 문제에 두 가지 패턴 공존 금지.
+              │        (예: state 동기화에 SEED는 useControllableState 사용 → 외부의 다른 동기화 패턴 거부)
+              │
+              └─ No → 차용 가능. 단, 한 가지 조건:
+                       SEED 기존 컴포넌트와 prop naming/variant naming이 일관되는지 확인.
+                       (예: 외부가 `colorScheme`이라도 SEED가 `variant`를 쓰면 `variant`로 정렬)
+```
+
+### 카테고리별 외부 레퍼런스 조사 수준
+
+| 카테고리 | 외부 조사 깊이 |
+|---------|------------|
+| A. Simple | prop naming + variant 체계만 최소 비교 (Chakra 위주) |
+| B. Compound (Stateless) | 위 + compound 구조 (Radix) |
+| C. Compound (Stateful) | 위 + Headless 훅 API + 접근성 (Base UI 필수) |
+| D. Multi-Recipe | 위 전체 |
+| E. Layout | prop naming 최소 비교만 (Chakra의 Flex/Stack 등) |
+
+카테고리 C/D는 외부 조사 없이 진행 금지. 다른 카테고리도 최소 prop naming 일관성은 확인한다.
+
 ## Part 2: SEED Design의 외부 의존성
 
 SEED Design이 실제로 의존하는 외부 패키지. 새 의존성을 추가하기 전에 이 목록을 확인하고, 기존 패키지로 해결 가능한지 먼저 검토한다.
