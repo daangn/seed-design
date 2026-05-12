@@ -441,6 +441,10 @@ export function useFileUpload({
 
       tabIndex: -1,
       style: visuallyHidden,
+      // exclude from the a11y tree — the trigger/dropzone provides the accessible interface,
+      // and tabIndex: -1 alone does not stop AT browse-mode cursors from reaching the input.
+      // ref: https://github.com/chakra-ui/zag/commit/e847201a3d0b98d3b109d702f9942f0bfa25b97f
+      "aria-hidden": true,
 
       onChange: (event) => {
         const files = event.target.files;

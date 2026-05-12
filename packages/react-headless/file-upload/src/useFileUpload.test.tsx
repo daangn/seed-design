@@ -87,6 +87,7 @@ describe("useFileUpload", () => {
       expect(input.type).toBe("file");
       expect(input.name).toBe("files");
       expect(input.tabIndex).toBe(-1);
+      expect(input.getAttribute("aria-hidden")).toBe("true");
     });
 
     it("should render with multiple attribute when maxFiles > 1", () => {
