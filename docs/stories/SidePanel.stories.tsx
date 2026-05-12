@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import {
+  sidePanelVariantMap,
+  type SidePanelVariantProps,
+} from "@seed-design/css/recipes/side-panel";
 import { Box, Text } from "@seed-design/react";
 import type { ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -19,8 +23,7 @@ const SidePanelPreview = ({
   description,
   showCloseButton,
   showFooter,
-}: {
-  size?: "small" | "medium" | "large";
+}: Pick<SidePanelVariantProps, "size"> & {
   title?: ReactNode;
   description?: ReactNode;
   showCloseButton?: boolean;
@@ -74,11 +77,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const conditionMap = {
-  size: {
-    small: { size: "small" as const },
-    medium: { size: "medium" as const },
-    large: { size: "large" as const },
-  },
   showCloseButton: {
     true: { showCloseButton: true },
     false: { showCloseButton: false },
@@ -106,7 +104,7 @@ const CommonStoryTemplate: Story = {
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={{}}
+      variantMap={sidePanelVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
