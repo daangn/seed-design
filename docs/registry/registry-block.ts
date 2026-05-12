@@ -84,11 +84,11 @@ export const registryBlock: Registry = {
       ],
     },
     {
-      id: "header-responsive-01",
+      id: "responsive-header-01",
       description: "반응형 Header — 일반 회사 (768px↑ nav / 768px↓ SidePanel)",
       snippets: [
         {
-          path: "header-responsive-01.tsx",
+          path: "responsive-header-01.tsx",
           dependencies: {
             "@seed-design/react": "~1.0.0",
             "@seed-design/css": "~1.0.0",
@@ -98,11 +98,11 @@ export const registryBlock: Registry = {
       ],
     },
     {
-      id: "header-responsive-02",
+      id: "responsive-header-02",
       description: "반응형 Header — 당근닷컴 (서브메뉴 Menu↔Accordion 전환)",
       snippets: [
         {
-          path: "header-responsive-02.tsx",
+          path: "responsive-header-02.tsx",
           dependencies: {
             "@seed-design/react": "~1.0.0",
             "@seed-design/css": "~1.0.0",

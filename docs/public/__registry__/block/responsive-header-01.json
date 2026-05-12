@@ -1,0 +1,28 @@
+{
+  "id": "responsive-header-01",
+  "description": "반응형 Header — 일반 회사 (768px↑ nav / 768px↓ SidePanel)",
+  "dependencies": [
+    "@karrotmarket/react-monochrome-icon",
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "action-button",
+        "side-panel"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "responsive-header-01.tsx",
+      "content": "/**\n * @file block:responsive-header-01\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n * @requires @karrotmarket/react-monochrome-icon@~0\n **/\n\n\"use client\";\n\nimport {\n  IconArrowUpRightFill,\n  IconHorizline3VerticalLine,\n} from \"@karrotmarket/react-monochrome-icon\";\nimport { Box, Header as SeedHeader, HStack, Icon, SuffixIcon, VStack } from \"@seed-design/react\";\nimport { ActionButton } from \"../ui/action-button\";\nimport {\n  SidePanelBody,\n  SidePanelContent,\n  SidePanelFooter,\n  SidePanelRoot,\n  SidePanelTrigger,\n} from \"../ui/side-panel\";\n\nconst NAV_ITEMS = [\n  { label: \"Platform\", href: \"/platform\" },\n  { label: \"Features\", href: \"/features\" },\n  { label: \"Integrations\", href: \"/integrations\" },\n  { label: \"Case Studies\", href: \"/case-studies\" },\n];\n\nconst EXTERNAL_LINK = { label: \"Docs\", href: \"https://docs.example.com\" };\n\nfunction PlaceholderLogo() {\n  return (\n    <svg\n      width=\"80\"\n      height=\"40\"\n      viewBox=\"0 0 80 40\"\n      fill=\"none\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      aria-label=\"Company logo\"\n    >\n      <rect width=\"80\" height=\"40\" rx=\"8\" fill=\"currentColor\" fillOpacity=\"0.08\" />\n      <text\n        x=\"40\"\n        y=\"24\"\n        textAnchor=\"middle\"\n        fill=\"currentColor\"\n        fillOpacity=\"0.5\"\n        fontSize=\"14\"\n        fontWeight=\"600\"\n        fontFamily=\"inherit\"\n      >\n        Logo\n      </text>\n    </svg>\n  );\n}\n\nexport default function ResponsiveHeader() {\n  return (\n    <SeedHeader.Root divider>\n      <SeedHeader.Left>\n        <PlaceholderLogo />\n        <Box display={{ base: \"none\", md: \"flex\" }}>\n          <HStack gap=\"x2\" px=\"x4\">\n            {NAV_ITEMS.map((item) => (\n              <SeedHeader.ActionButton key={item.label} size=\"small\">\n                {item.label}\n              </SeedHeader.ActionButton>\n            ))}\n            <SeedHeader.ActionButton size=\"small\">\n              {EXTERNAL_LINK.label}\n              <SuffixIcon svg={<IconArrowUpRightFill />} />\n            </SeedHeader.ActionButton>\n          </HStack>\n        </Box>\n      </SeedHeader.Left>\n      <SeedHeader.Right>\n        <Box display={{ base: \"none\", md: \"flex\" }}>\n          <ActionButton variant=\"neutralSolid\" size=\"small\">\n            Get Started\n          </ActionButton>\n        </Box>\n        <Box hideFrom=\"md\">\n          <SidePanelRoot direction=\"left\">\n            <SidePanelTrigger asChild>\n              <SeedHeader.ActionButton size=\"small\" aria-label=\"메뉴 열기\">\n                <Icon svg={<IconHorizline3VerticalLine />} size=\"20px\" />\n              </SeedHeader.ActionButton>\n            </SidePanelTrigger>\n            <SidePanelContent title=\"Menu\">\n              <SidePanelBody>\n                <VStack gap=\"x1\" paddingY=\"x2\">\n                  {NAV_ITEMS.map((item) => (\n                    <ActionButton key={item.label} variant=\"neutralWeak\" layout=\"withText\">\n                      {item.label}\n                    </ActionButton>\n                  ))}\n                  <ActionButton variant=\"neutralWeak\" layout=\"withText\">\n                    {EXTERNAL_LINK.label}\n                    <SuffixIcon svg={<IconArrowUpRightFill />} />\n                  </ActionButton>\n                </VStack>\n              </SidePanelBody>\n              <SidePanelFooter>\n                <ActionButton variant=\"neutralSolid\" size=\"medium\">\n                  Get Started\n                </ActionButton>\n              </SidePanelFooter>\n            </SidePanelContent>\n          </SidePanelRoot>\n        </Box>\n      </SeedHeader.Right>\n    </SeedHeader.Root>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0",
+        "@karrotmarket/react-monochrome-icon": "~0"
+      }
+    }
+  ]
+}
