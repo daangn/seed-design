@@ -15,14 +15,10 @@ npx @seed-design/cli@alpha add ui:progress-circle --baseUrl https://lynx.seed-de
 ## Usage
 
 ```tsx
-import { ProgressCircle } from "@seed-design/lynx-react";
+import { ProgressCircle } from "@/components/ui/progress-circle";
 
 export function App() {
-  return (
-    <ProgressCircle.Root tone="brand" size="40">
-      <ProgressCircle.Range />
-    </ProgressCircle.Root>
-  );
+  return <ProgressCircle tone="brand" size="40" />;
 }
 ```
 
@@ -31,20 +27,18 @@ export function App() {
 `minValue`, `maxValue`, `value`를 지정하면 determinate 모드로 동작합니다.
 
 ```tsx
-import { ProgressCircle } from "@seed-design/lynx-react";
+import { ProgressCircle } from "@/components/ui/progress-circle";
 
 export function App() {
   return (
-    <ProgressCircle.Root tone="brand" size="40" minValue={0} maxValue={1} value={0.5}>
-      <ProgressCircle.Range />
-    </ProgressCircle.Root>
+    <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={0.5} />
   );
 }
 ```
 
 ## Props
 
-<react-type-table path="../packages/lynx-react/src/components/ProgressCircle/ProgressCircle.tsx" name="ProgressCircleRootProps" />
+<react-type-table path="./registry/lynx/ui/progress-circle.tsx" name="ProgressCircleProps" />
 
 ## 웹 버전과의 차이
 

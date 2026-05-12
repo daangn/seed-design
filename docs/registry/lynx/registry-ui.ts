@@ -13,8 +13,8 @@ export const registryUI: Registry = {
         {
           path: "bottom-sheet.tsx",
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1",
           },
         },
       ],
@@ -25,8 +25,8 @@ export const registryUI: Registry = {
         {
           path: "checkbox.tsx",
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1",
           },
         },
       ],
@@ -37,8 +37,8 @@ export const registryUI: Registry = {
         {
           path: "progress-circle.tsx",
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1",
           },
         },
       ],
@@ -49,8 +49,8 @@ export const registryUI: Registry = {
         {
           path: "radio-group.tsx",
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1",
           },
         },
       ],
@@ -61,8 +61,8 @@ export const registryUI: Registry = {
         {
           path: "switch.tsx",
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1",
           },
         },
       ],
@@ -73,8 +73,8 @@ export const registryUI: Registry = {
         {
           path: "tag-group.tsx",
           dependencies: {
-            "@seed-design/lynx-react": "~0.1.0-alpha.0",
-            "@seed-design/lynx-css": "~0.1.0-alpha.0",
+            "@seed-design/lynx-react": "~0.2.0-alpha.1",
+            "@seed-design/lynx-css": "~0.1.1-alpha.1",
           },
         },
       ],

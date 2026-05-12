@@ -1,6 +1,6 @@
 import { useRef, useState } from '@lynx-js/react';
 import { bottomSheetVariantMap } from '@seed-design/lynx-css/recipes/bottom-sheet';
-import { ActionButton, type BottomSheetRootRef } from '@seed-design/lynx-react';
+import { ActionButton } from '@seed-design/lynx-react';
 
 import {
   CatalogExamples,
@@ -18,6 +18,7 @@ import {
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetRoot,
+  type BottomSheetRootRef,
   type BottomSheetRootProps,
   BottomSheetTrigger,
 } from '../seed-design/ui/bottom-sheet';

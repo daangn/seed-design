@@ -65,45 +65,25 @@ export function ControlledRadioGroup() {
 </RadioGroup>
 ```
 
-### Radiomark
+### Custom Item Content
 
-`Radiomark`는 label 없이 라디오 마크만 필요한 커스텀 레이아웃용 escape hatch입니다. `@seed-design/lynx-react`의 primitive item 안에서 사용합니다.
+`RadioGroupItem`은 `label` 뒤에 추가 children을 렌더합니다. 라벨 옆에 보조 정보를 붙이는 정도의 커스텀 구성은 snippet API 안에서 처리할 수 있습니다.
 
 ```tsx
-import { RadioGroup as RadioGroupPrimitive } from "@seed-design/lynx-react";
-import { Radiomark } from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export function CustomRadioGroup() {
   return (
-    <RadioGroupPrimitive.Root defaultValue="regular">
-      <RadioGroupPrimitive.Item value="regular">
-        <Radiomark tone="neutral" />
-        <text>regular</text>
-      </RadioGroupPrimitive.Item>
-      <RadioGroupPrimitive.Item value="bold">
-        <Radiomark tone="neutral" />
-        <text>bold</text>
-      </RadioGroupPrimitive.Item>
-    </RadioGroupPrimitive.Root>
+    <RadioGroup defaultValue="regular">
+      <RadioGroupItem value="regular" label="Regular">
+        <text>기본 두께</text>
+      </RadioGroupItem>
+      <RadioGroupItem value="bold" label="Bold">
+        <text>강한 두께</text>
+      </RadioGroupItem>
+    </RadioGroup>
   );
 }
-```
-
-### Compound 사용 (고급)
-
-snippet이 제공하는 기본 구성으로는 부족한 경우 `@seed-design/lynx-react`의 compound component를 직접 조합합니다.
-
-```tsx
-import { RadioGroup } from "@seed-design/lynx-react";
-
-<RadioGroup.Root defaultValue="small">
-  <RadioGroup.Item value="small">
-    <RadioGroup.ItemControl tone="neutral">
-      <RadioGroup.ItemIndicator />
-    </RadioGroup.ItemControl>
-    <RadioGroup.ItemLabel>Small</RadioGroup.ItemLabel>
-  </RadioGroup.Item>
-</RadioGroup.Root>;
 ```
 
 ## Props

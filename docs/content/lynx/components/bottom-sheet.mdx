@@ -17,59 +17,75 @@ npx @seed-design/cli@alpha add ui:bottom-sheet --baseUrl https://lynx.seed-desig
 ## Usage
 
 ```tsx
-import { BottomSheet } from "@seed-design/lynx-react";
+import {
+  BottomSheetBody,
+  BottomSheetContent,
+  BottomSheetFooter,
+  BottomSheetRoot,
+  BottomSheetTrigger,
+} from "@/components/ui/bottom-sheet";
 
 export function App() {
   return (
-    <BottomSheet.Root snapPoints={["fit", "80%"]}>
-      <BottomSheet.Trigger>
+    <BottomSheetRoot snapPoints={["fit", "80%"]}>
+      <BottomSheetTrigger>
         <text>시트 열기</text>
-      </BottomSheet.Trigger>
-      <BottomSheet.Positioner>
-        <BottomSheet.Backdrop />
-        <BottomSheet.Content>
-          <BottomSheet.Handle />
-          <BottomSheet.Header>
-            <BottomSheet.Title>제목</BottomSheet.Title>
-            <BottomSheet.Description>부가 설명</BottomSheet.Description>
-          </BottomSheet.Header>
-          <BottomSheet.Body>
-            <text>본문 콘텐츠</text>
-          </BottomSheet.Body>
-          <BottomSheet.Footer>
-            <text>하단 액션 영역</text>
-          </BottomSheet.Footer>
-        </BottomSheet.Content>
-      </BottomSheet.Positioner>
-    </BottomSheet.Root>
+      </BottomSheetTrigger>
+      <BottomSheetContent title="제목" description="부가 설명" showHandle>
+        <BottomSheetBody>
+          <text>본문 콘텐츠</text>
+        </BottomSheetBody>
+        <BottomSheetFooter>
+          <text>하단 액션 영역</text>
+        </BottomSheetFooter>
+      </BottomSheetContent>
+    </BottomSheetRoot>
   );
 }
 ```
 
-`BottomSheet.Positioner`는 시트가 처음 열릴 때까지 `BottomSheet.Backdrop`과 `BottomSheet.Content`의 마운트를 지연시킵니다. `BottomSheet.Trigger`는 Positioner 밖에 두어야 탭으로 시트를 열 수 있습니다.
+snippet의 `BottomSheetContent`는 내부에서 Positioner, Backdrop, Content, Header, Title, Description을 조립합니다. `BottomSheetTrigger`는 Content 밖에 두어야 탭으로 시트를 열 수 있습니다.
 
 ### Imperative 제어
 
-`BottomSheet.Root`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다.
+`BottomSheetRoot`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다.
 
 ```tsx
 import { useRef } from "@lynx-js/react";
-import { BottomSheet, type BottomSheetRootRef } from "@seed-design/lynx-react";
+import { BottomSheetRoot, type BottomSheetRootRef } from "@/components/ui/bottom-sheet";
 
 export function App() {
   const ref = useRef<BottomSheetRootRef>(null);
 
   return (
-    <BottomSheet.Root ref={ref} snapPoints={["fit", "80%"]}>
+    <BottomSheetRoot ref={ref} snapPoints={["fit", "80%"]}>
       {/* ... */}
-    </BottomSheet.Root>
+    </BottomSheetRoot>
   );
 }
 ```
 
 ## Props
 
-<react-type-table path="../packages/lynx-react/src/components/BottomSheet/BottomSheet.tsx" name="BottomSheetRootProps" />
+### `BottomSheetRoot`
+
+<react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetRootProps" />
+
+### `BottomSheetTrigger`
+
+<react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetTriggerProps" />
+
+### `BottomSheetContent`
+
+<react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetContentProps" />
+
+### `BottomSheetBody`
+
+<react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetBodyProps" />
+
+### `BottomSheetFooter`
+
+<react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetFooterProps" />
 
 ## 웹 버전과의 차이
 
