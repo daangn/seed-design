@@ -12,54 +12,27 @@ description: 화면 좌측 또는 우측 가장자리에서 슬라이드하여 �
   ```
 </ComponentExample>
 
-## Responsive Side Panel
+## Installation
 
-데스크탑 UI에서 Side Panel을 사용하는 경우, **기본적으로 `ResponsiveSidePanel`을 사용하는 것을 권장합니다.** md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 자동 전환되어 각 환경에 적합한 사용성을 제공합니다.
+### Default
 
-- md 이상 (768px+): Side Panel로 표시
-- sm 이하 (~767px): Bottom Sheet로 표시
-- 공통 제약: Header/Body/Footer 구조는 양 컴포넌트에서 동일하게 유지
-- Persistent (`modal={false}`) + sm 이하: 모달로 자동 전환 (BottomSheet 동작 보장)
-
-### Installation
-
-```package-install
-npx @seed-design/cli@latest add ui:responsive-side-panel
-```
-
-<ManualInstallation name="responsive-side-panel" />
-
-### Usage
-
-뷰포트를 줄여서 SidePanel ↔ BottomSheet 자동 전환을 확인해보세요.
-
-<ComponentExample name="react/side-panel/responsive">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/side-panel/responsive.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### 예외: Side Panel을 직접 사용해야 하는 경우
-
-다음과 같은 경우에 한해 아래의 일반 `SidePanel`을 직접 사용합니다.
-
-- 모바일 사이드 메뉴/네비게이션 (햄버거 메뉴, 프로필 진입 메뉴 등) — sm 이하에서도 부분 너비 패널로 표시되어야 네비게이션 컨텍스트가 유지됨
-- Persistent Type이 필요한 경우 (md 이상 전용 영구 패널)
-
-## Side Panel
-
-위 예외 케이스에 해당할 때만 일반 `SidePanel`을 직접 사용합니다. 그 외 데스크탑 UI 케이스에서는 위의 `ResponsiveSidePanel`을 사용하세요.
-
-### Installation
+좌/우 가장자리에서 슬라이드되는 기본 Side Panel 컴포넌트를 포함합니다.
 
 ```package-install
 npx @seed-design/cli@latest add ui:side-panel
 ```
 
 <ManualInstallation name="side-panel" />
+
+### Responsive
+
+뷰포트에 따라 Bottom Sheet로 자동 전환되는 반응형 변형입니다. dependency로 `ui:bottom-sheet`와 `ui:side-panel`이 함께 설치됩니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:responsive-side-panel
+```
+
+<ManualInstallation name="responsive-side-panel" />
 
 ## Props
 
@@ -105,6 +78,26 @@ npx @seed-design/cli@latest add ui:side-panel
 | `Escape` | `dismissible=true`일 때 Side Panel을 닫습니다. |
 | `Tab` | `modal=true`일 때 Side Panel 내부 요소들 사이로 포커스를 순환합니다. |
 | `Shift + Tab` | `modal=true`일 때 역방향으로 포커스를 순환합니다. |
+
+## Usage
+
+### Responsive를 권장합니다
+
+데스크탑 UI에서 Side Panel을 사용하는 경우 **기본적으로 `ResponsiveSidePanel`을 권장합니다.** md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 자동 전환되어 각 환경에 적합한 사용성을 제공합니다.
+
+- md 이상 (768px+): Side Panel로 표시
+- sm 이하 (~767px): Bottom Sheet로 표시
+- 공통 제약: Header/Body/Footer 구조는 양 컴포넌트에서 동일하게 유지됩니다.
+- Persistent (`modal={false}`) + sm 이하: 모달로 자동 전환되어 BottomSheet 동작이 보장됩니다.
+
+`ResponsiveSidePanelRoot`는 `SidePanelRoot` props를 그대로 받습니다. `direction`, `size`, `width`, `maxWidth` 등 SidePanel 전용 prop은 sm 이하에서는 무시되며, 뷰포트가 breakpoint를 가로질러도 wrapper가 open 상태를 보존해 패널이 닫히지 않습니다.
+
+### SidePanel을 직접 사용해야 하는 경우
+
+다음 케이스에서만 일반 `SidePanel`을 직접 사용합니다.
+
+- 모바일 사이드 메뉴/네비게이션 (햄버거 메뉴, 프로필 진입 메뉴 등) — sm 이하에서도 부분 너비 패널로 표시되어야 네비게이션 컨텍스트가 유지됨
+- Persistent Type이 필요한 경우 (md 이상 전용 영구 패널)
 
 ## Examples
 
@@ -225,6 +218,19 @@ Trigger 외의 방식으로 Side Panel을 열고 닫을 수 있습니다. 이 �
   ```json doc-gen:file
   {
     "file": "examples/react/side-panel/non-modal.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Responsive
+
+`ResponsiveSidePanel`을 사용하면 md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 자동 전환됩니다. 뷰포트를 줄여서 전환 동작을 확인해보세요.
+
+<ComponentExample name="react/side-panel/responsive">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/side-panel/responsive.tsx",
     "codeblock": true
   }
   ```
