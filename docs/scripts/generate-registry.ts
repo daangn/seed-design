@@ -7,6 +7,7 @@ import { registryLib as reactRegistryLib } from "../registry/react/registry-lib.
 import { registryUI as reactRegistryUI } from "../registry/react/registry-ui.js";
 import { registryBlock as reactRegistryBlock } from "../registry/react/registry-block.js";
 import { registryUI as lynxRegistryUI } from "../registry/lynx/registry-ui.js";
+import type { Framework } from "../registry/schema.js";
 
 // remove leading & trailing newline and add a new ending newline
 const cleanFile = (filePath: string) => `${filePath.replace(/^\n+|\n+$/g, "")}\n`;
@@ -48,14 +49,14 @@ ${content}
 
 const frameworks = [
   {
-    name: "react",
+    name: "react" satisfies Framework,
     registryPath: path.join(process.cwd(), "registry", "react"),
     outputPath: path.join(process.cwd(), "public", "__registry__", "react"),
     registries: [reactRegistryUI, reactRegistryLib, reactRegistryBreeze, reactRegistryBlock],
     innateDeps: new Set(["react", "react-dom"]),
   },
   {
-    name: "lynx",
+    name: "lynx" satisfies Framework,
     registryPath: path.join(process.cwd(), "registry", "lynx"),
     outputPath: path.join(process.cwd(), "public", "__registry__", "lynx"),
     registries: [lynxRegistryUI],
@@ -65,6 +66,11 @@ const frameworks = [
 
 async function main() {
   console.log(chalk.gray("Generating Component Registry..."));
+
+  await fs.rm(path.join(process.cwd(), "public", "__registry__"), {
+    recursive: true,
+    force: true,
+  });
 
   for (const framework of frameworks) {
     console.log(chalk.gray(`\nGenerating ${framework.name} registry...`));
@@ -107,6 +113,13 @@ async function main() {
       "utf8",
     );
   }
+
+  const availableFrameworksPath = path.join(process.cwd(), "public", "__registry__", "index.json");
+  await fs.writeFile(
+    availableFrameworksPath,
+    JSON.stringify(frameworks.map(({ name }) => ({ id: name })), null, 2),
+    "utf8",
+  );
 
   console.log(chalk.green("\nAll Registries Generated !"));
 }

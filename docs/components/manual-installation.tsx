@@ -18,7 +18,7 @@ interface ManualInstallationProps {
 export async function ManualInstallation(props: ManualInstallationProps) {
   const { name } = props;
 
-  const json = (await import(`@/public/__registry__/ui/${name}.json`).then((module) => {
+  const json = (await import(`@/public/__registry__/react/ui/${name}.json`).then((module) => {
     return module.default;
   })) as GeneratedRegistryItem;
 

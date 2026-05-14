@@ -13,7 +13,7 @@
               "title": "Action Button",
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
               "docUrl": "/docs/components/action-button",
-              "snippetKey": "ui:action-button",
+              "snippetKey": "react/ui:action-button",
               "snippets": [
                 {
                   "label": "react",
@@ -32,7 +32,7 @@
               "title": "Action Sheet",
               "docUrl": "/docs/components/action-sheet",
               "deprecated": true,
-              "snippetKey": "ui:action-sheet",
+              "snippetKey": "react/ui:action-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -45,7 +45,7 @@
               "title": "Alert Dialog",
               "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
               "docUrl": "/docs/components/alert-dialog",
-              "snippetKey": "ui:alert-dialog",
+              "snippetKey": "react/ui:alert-dialog",
               "snippets": [
                 {
                   "label": "react",
@@ -58,7 +58,7 @@
               "title": "Avatar",
               "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
               "docUrl": "/docs/components/avatar",
-              "snippetKey": "ui:avatar",
+              "snippetKey": "react/ui:avatar",
               "snippets": [
                 {
                   "label": "react",
@@ -83,7 +83,7 @@
               "title": "Bottom Sheet",
               "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
               "docUrl": "/docs/components/bottom-sheet",
-              "snippetKey": "ui:bottom-sheet",
+              "snippetKey": "react/ui:bottom-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -96,7 +96,7 @@
               "title": "Callout",
               "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
               "docUrl": "/docs/components/callout",
-              "snippetKey": "ui:callout",
+              "snippetKey": "react/ui:callout",
               "snippets": [
                 {
                   "label": "react",
@@ -109,7 +109,7 @@
               "title": "Checkbox",
               "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
               "docUrl": "/docs/components/checkbox",
-              "snippetKey": "ui:checkbox",
+              "snippetKey": "react/ui:checkbox",
               "snippets": [
                 {
                   "label": "react",
@@ -122,7 +122,7 @@
               "title": "Chip",
               "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
               "docUrl": "/docs/components/chip",
-              "snippetKey": "ui:chip",
+              "snippetKey": "react/ui:chip",
               "snippets": [
                 {
                   "label": "react",
@@ -141,7 +141,7 @@
               "title": "Content Placeholder",
               "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
               "docUrl": "/docs/components/content-placeholder",
-              "snippetKey": "ui:content-placeholder",
+              "snippetKey": "react/ui:content-placeholder",
               "snippets": [
                 {
                   "label": "react",
@@ -154,7 +154,7 @@
               "title": "Contextual Floating Button",
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
               "docUrl": "/docs/components/contextual-floating-button",
-              "snippetKey": "ui:contextual-floating-button",
+              "snippetKey": "react/ui:contextual-floating-button",
               "snippets": [
                 {
                   "label": "react",
@@ -167,7 +167,7 @@
               "title": "Control Chip",
               "docUrl": "/docs/components/control-chip",
               "deprecated": true,
-              "snippetKey": "ui:control-chip",
+              "snippetKey": "react/ui:control-chip",
               "snippets": [
                 {
                   "label": "react",
@@ -187,7 +187,7 @@
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
               "docUrl": "/docs/components/error-state",
               "deprecated": true,
-              "snippetKey": "ui:error-state",
+              "snippetKey": "react/ui:error-state",
               "snippets": [
                 {
                   "label": "react",
@@ -200,7 +200,7 @@
               "title": "Extended Action Sheet",
               "docUrl": "/docs/components/extended-action-sheet",
               "deprecated": true,
-              "snippetKey": "ui:extended-action-sheet",
+              "snippetKey": "react/ui:extended-action-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -231,7 +231,7 @@
               "title": "Floating Action Button",
               "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
               "docUrl": "/docs/components/floating-action-button",
-              "snippetKey": "ui:floating-action-button",
+              "snippetKey": "react/ui:floating-action-button",
               "snippets": [
                 {
                   "label": "react",
@@ -244,7 +244,7 @@
               "title": "Help Bubble",
               "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
               "docUrl": "/docs/components/help-bubble",
-              "snippetKey": "ui:help-bubble",
+              "snippetKey": "react/ui:help-bubble",
               "snippets": [
                 {
                   "label": "react",
@@ -257,7 +257,7 @@
               "title": "Identity Placeholder",
               "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
               "docUrl": "/docs/components/identity-placeholder",
-              "snippetKey": "ui:identity-placeholder",
+              "snippetKey": "react/ui:identity-placeholder",
               "snippets": [
                 {
                   "label": "react",
@@ -276,7 +276,7 @@
               "title": "Inline Banner",
               "docUrl": "/docs/components/inline-banner",
               "deprecated": true,
-              "snippetKey": "ui:inline-banner",
+              "snippetKey": "react/ui:inline-banner",
               "snippets": [
                 {
                   "label": "react",
@@ -301,7 +301,7 @@
               "title": "List",
               "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
               "docUrl": "/docs/components/list",
-              "snippetKey": "ui:list",
+              "snippetKey": "react/ui:list",
               "snippets": [
                 {
                   "label": "react",
@@ -318,7 +318,7 @@
               "title": "Manner Temp & Manner Temp Badge",
               "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
               "docUrl": "/docs/components/manner-temp",
-              "snippetKey": "ui:manner-temp",
+              "snippetKey": "react/ui:manner-temp",
               "snippets": [
                 {
                   "label": "react",
@@ -331,7 +331,7 @@
               "title": "Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
               "docUrl": "/docs/components/menu-sheet",
-              "snippetKey": "ui:menu-sheet",
+              "snippetKey": "react/ui:menu-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -350,7 +350,7 @@
               "title": "Page Banner",
               "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
               "docUrl": "/docs/components/page-banner",
-              "snippetKey": "ui:page-banner",
+              "snippetKey": "react/ui:page-banner",
               "snippets": [
                 {
                   "label": "react",
@@ -363,7 +363,7 @@
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
               "docUrl": "/docs/components/progress-circle",
-              "snippetKey": "ui:progress-circle",
+              "snippetKey": "react/ui:progress-circle",
               "snippets": [
                 {
                   "label": "react",
@@ -382,7 +382,7 @@
               "title": "Reaction Button",
               "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
               "docUrl": "/docs/components/reaction-button",
-              "snippetKey": "ui:reaction-button",
+              "snippetKey": "react/ui:reaction-button",
               "snippets": [
                 {
                   "label": "react",
@@ -395,7 +395,7 @@
               "title": "Result Section",
               "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
               "docUrl": "/docs/components/result-section",
-              "snippetKey": "ui:result-section",
+              "snippetKey": "react/ui:result-section",
               "snippets": [
                 {
                   "label": "react",
@@ -414,7 +414,7 @@
               "title": "Segmented Control",
               "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
               "docUrl": "/docs/components/segmented-control",
-              "snippetKey": "ui:segmented-control",
+              "snippetKey": "react/ui:segmented-control",
               "snippets": [
                 {
                   "label": "react",
@@ -427,7 +427,7 @@
               "title": "Select Box",
               "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
               "docUrl": "/docs/components/select-box",
-              "snippetKey": "ui:select-box",
+              "snippetKey": "react/ui:select-box",
               "snippets": [
                 {
                   "label": "react",
@@ -446,7 +446,7 @@
               "title": "Slider",
               "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
               "docUrl": "/docs/components/slider",
-              "snippetKey": "ui:slider",
+              "snippetKey": "react/ui:slider",
               "snippets": [
                 {
                   "label": "react",
@@ -459,7 +459,7 @@
               "title": "Snackbar",
               "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
               "docUrl": "/docs/components/snackbar",
-              "snippetKey": "ui:snackbar",
+              "snippetKey": "react/ui:snackbar",
               "snippets": [
                 {
                   "label": "react",
@@ -472,7 +472,7 @@
               "title": "Switch",
               "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
               "docUrl": "/docs/components/switch",
-              "snippetKey": "ui:switch",
+              "snippetKey": "react/ui:switch",
               "snippets": [
                 {
                   "label": "react",
@@ -485,7 +485,7 @@
               "title": "Tabs",
               "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
               "docUrl": "/docs/components/tabs",
-              "snippetKey": "ui:tabs",
+              "snippetKey": "react/ui:tabs",
               "snippets": [
                 {
                   "label": "react",
@@ -498,7 +498,7 @@
               "title": "Tag Group",
               "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
               "docUrl": "/docs/components/tag-group",
-              "snippetKey": "ui:tag-group",
+              "snippetKey": "react/ui:tag-group",
               "snippets": [
                 {
                   "label": "react",
@@ -731,7 +731,7 @@
               "title": "Action Button",
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
               "docUrl": "/react/components/action-button",
-              "snippetKey": "ui:action-button",
+              "snippetKey": "react/ui:action-button",
               "snippets": [
                 {
                   "label": "react",
@@ -750,7 +750,7 @@
               "title": "Action Sheet",
               "docUrl": "/react/components/action-sheet",
               "deprecated": true,
-              "snippetKey": "ui:action-sheet",
+              "snippetKey": "react/ui:action-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -763,7 +763,7 @@
               "title": "Alert Dialog",
               "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
               "docUrl": "/react/components/alert-dialog",
-              "snippetKey": "ui:alert-dialog",
+              "snippetKey": "react/ui:alert-dialog",
               "snippets": [
                 {
                   "label": "react",
@@ -788,7 +788,7 @@
               "title": "Avatar",
               "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
               "docUrl": "/react/components/avatar",
-              "snippetKey": "ui:avatar",
+              "snippetKey": "react/ui:avatar",
               "snippets": [
                 {
                   "label": "react",
@@ -807,7 +807,7 @@
               "title": "Bottom Sheet",
               "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
               "docUrl": "/react/components/bottom-sheet",
-              "snippetKey": "ui:bottom-sheet",
+              "snippetKey": "react/ui:bottom-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -826,7 +826,7 @@
               "title": "Callout",
               "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
               "docUrl": "/react/components/callout",
-              "snippetKey": "ui:callout",
+              "snippetKey": "react/ui:callout",
               "snippets": [
                 {
                   "label": "react",
@@ -839,7 +839,7 @@
               "title": "Checkbox",
               "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
               "docUrl": "/react/components/checkbox",
-              "snippetKey": "ui:checkbox",
+              "snippetKey": "react/ui:checkbox",
               "snippets": [
                 {
                   "label": "react",
@@ -852,7 +852,7 @@
               "title": "Chip",
               "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
               "docUrl": "/react/components/chip",
-              "snippetKey": "ui:chip",
+              "snippetKey": "react/ui:chip",
               "snippets": [
                 {
                   "label": "react",
@@ -865,7 +865,7 @@
               "title": "Chip Tabs",
               "description": "Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용됩니다.",
               "docUrl": "/react/components/chip-tabs",
-              "snippetKey": "ui:chip-tabs",
+              "snippetKey": "react/ui:chip-tabs",
               "snippets": [
                 {
                   "label": "react",
@@ -897,7 +897,7 @@
               "title": "Content Placeholder",
               "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
               "docUrl": "/react/components/content-placeholder",
-              "snippetKey": "ui:content-placeholder",
+              "snippetKey": "react/ui:content-placeholder",
               "snippets": [
                 {
                   "label": "react",
@@ -910,7 +910,7 @@
               "title": "Contextual Floating Button",
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
               "docUrl": "/react/components/contextual-floating-button",
-              "snippetKey": "ui:contextual-floating-button",
+              "snippetKey": "react/ui:contextual-floating-button",
               "snippets": [
                 {
                   "label": "react",
@@ -923,7 +923,7 @@
               "title": "Control Chip",
               "docUrl": "/react/components/control-chip",
               "deprecated": true,
-              "snippetKey": "ui:control-chip",
+              "snippetKey": "react/ui:control-chip",
               "snippets": [
                 {
                   "label": "react",
@@ -943,7 +943,7 @@
               "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
               "docUrl": "/react/components/error-state",
               "deprecated": true,
-              "snippetKey": "ui:error-state",
+              "snippetKey": "react/ui:error-state",
               "snippets": [
                 {
                   "label": "react",
@@ -956,7 +956,7 @@
               "title": "Extended Action Sheet",
               "docUrl": "/react/components/extended-action-sheet",
               "deprecated": true,
-              "snippetKey": "ui:extended-action-sheet",
+              "snippetKey": "react/ui:extended-action-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -981,7 +981,7 @@
               "title": "Field Button",
               "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
               "docUrl": "/react/components/field-button",
-              "snippetKey": "ui:field-button",
+              "snippetKey": "react/ui:field-button",
               "snippets": [
                 {
                   "label": "react",
@@ -1006,7 +1006,7 @@
               "title": "Floating Action Button",
               "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
               "docUrl": "/react/components/floating-action-button",
-              "snippetKey": "ui:floating-action-button",
+              "snippetKey": "react/ui:floating-action-button",
               "snippets": [
                 {
                   "label": "react",
@@ -1031,7 +1031,7 @@
               "title": "Help Bubble",
               "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
               "docUrl": "/react/components/help-bubble",
-              "snippetKey": "ui:help-bubble",
+              "snippetKey": "react/ui:help-bubble",
               "snippets": [
                 {
                   "label": "react",
@@ -1044,7 +1044,7 @@
               "title": "Identity Placeholder",
               "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
               "docUrl": "/react/components/identity-placeholder",
-              "snippetKey": "ui:identity-placeholder",
+              "snippetKey": "react/ui:identity-placeholder",
               "snippets": [
                 {
                   "label": "react",
@@ -1070,7 +1070,7 @@
               "title": "Inline Banner",
               "docUrl": "/react/components/inline-banner",
               "deprecated": true,
-              "snippetKey": "ui:inline-banner",
+              "snippetKey": "react/ui:inline-banner",
               "snippets": [
                 {
                   "label": "react",
@@ -1101,7 +1101,7 @@
               "title": "List",
               "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
               "docUrl": "/react/components/list",
-              "snippetKey": "ui:list",
+              "snippetKey": "react/ui:list",
               "snippets": [
                 {
                   "label": "react",
@@ -1118,7 +1118,7 @@
               "title": "Manner Temp",
               "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
               "docUrl": "/react/components/manner-temp",
-              "snippetKey": "ui:manner-temp",
+              "snippetKey": "react/ui:manner-temp",
               "snippets": [
                 {
                   "label": "react",
@@ -1131,7 +1131,7 @@
               "title": "Manner Temp Badge",
               "description": "매너 온도를 배지 형태로 표현하는 컴포넌트입니다. 콤팩트한 공간에서 사용자의 매너 온도 레벨을 간단히 표시할 때 사용됩니다.",
               "docUrl": "/react/components/manner-temp-badge",
-              "snippetKey": "ui:manner-temp-badge",
+              "snippetKey": "react/ui:manner-temp-badge",
               "snippets": [
                 {
                   "label": "react",
@@ -1144,7 +1144,7 @@
               "title": "Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
               "docUrl": "/react/components/menu-sheet",
-              "snippetKey": "ui:menu-sheet",
+              "snippetKey": "react/ui:menu-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -1157,7 +1157,7 @@
               "title": "Page Banner",
               "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
               "docUrl": "/react/components/page-banner",
-              "snippetKey": "ui:page-banner",
+              "snippetKey": "react/ui:page-banner",
               "snippets": [
                 {
                   "label": "react",
@@ -1170,7 +1170,7 @@
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
               "docUrl": "/react/components/progress-circle",
-              "snippetKey": "ui:progress-circle",
+              "snippetKey": "react/ui:progress-circle",
               "snippets": [
                 {
                   "label": "react",
@@ -1183,7 +1183,7 @@
               "title": "Pull To Refresh",
               "description": "사용자가 화면을 아래로 당겨 콘텐츠를 새로고침할 수 있게 해주는 컴포넌트입니다. 모바일 환경에서 최신 콘텐츠를 불러올 때 사용됩니다.",
               "docUrl": "/react/components/pull-to-refresh",
-              "snippetKey": "ui:pull-to-refresh",
+              "snippetKey": "react/ui:pull-to-refresh",
               "snippets": [
                 {
                   "label": "react",
@@ -1196,7 +1196,7 @@
               "title": "Radio Group",
               "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
               "docUrl": "/react/components/radio-group",
-              "snippetKey": "ui:radio-group",
+              "snippetKey": "react/ui:radio-group",
               "snippets": [
                 {
                   "label": "react",
@@ -1209,7 +1209,7 @@
               "title": "Reaction Button",
               "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
               "docUrl": "/react/components/reaction-button",
-              "snippetKey": "ui:reaction-button",
+              "snippetKey": "react/ui:reaction-button",
               "snippets": [
                 {
                   "label": "react",
@@ -1222,7 +1222,7 @@
               "title": "Result Section",
               "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
               "docUrl": "/react/components/result-section",
-              "snippetKey": "ui:result-section",
+              "snippetKey": "react/ui:result-section",
               "snippets": [
                 {
                   "label": "react",
@@ -1241,7 +1241,7 @@
               "title": "Segmented Control",
               "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
               "docUrl": "/react/components/segmented-control",
-              "snippetKey": "ui:segmented-control",
+              "snippetKey": "react/ui:segmented-control",
               "snippets": [
                 {
                   "label": "react",
@@ -1254,7 +1254,7 @@
               "title": "Select Box",
               "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
               "docUrl": "/react/components/select-box",
-              "snippetKey": "ui:select-box",
+              "snippetKey": "react/ui:select-box",
               "snippets": [
                 {
                   "label": "react",
@@ -1273,7 +1273,7 @@
               "title": "Slider",
               "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
               "docUrl": "/react/components/slider",
-              "snippetKey": "ui:slider",
+              "snippetKey": "react/ui:slider",
               "snippets": [
                 {
                   "label": "react",
@@ -1286,7 +1286,7 @@
               "title": "Snackbar",
               "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
               "docUrl": "/react/components/snackbar",
-              "snippetKey": "ui:snackbar",
+              "snippetKey": "react/ui:snackbar",
               "snippets": [
                 {
                   "label": "react",
@@ -1312,7 +1312,7 @@
               "title": "Switch",
               "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
               "docUrl": "/react/components/switch",
-              "snippetKey": "ui:switch",
+              "snippetKey": "react/ui:switch",
               "snippets": [
                 {
                   "label": "react",
@@ -1325,7 +1325,7 @@
               "title": "Tabs",
               "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
               "docUrl": "/react/components/tabs",
-              "snippetKey": "ui:tabs",
+              "snippetKey": "react/ui:tabs",
               "snippets": [
                 {
                   "label": "react",
@@ -1338,7 +1338,7 @@
               "title": "Tag Group",
               "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
               "docUrl": "/react/components/tag-group",
-              "snippetKey": "ui:tag-group",
+              "snippetKey": "react/ui:tag-group",
               "snippets": [
                 {
                   "label": "react",
@@ -1369,7 +1369,7 @@
               "title": "Toggle Button",
               "description": "사용자가 특정 상태를 켜거나 끌 수 있게 해주는 버튼 형태의 컴포넌트입니다. 필터링이나 뷰 전환과 같은 즉각적인 상태 변경에 사용됩니다.",
               "docUrl": "/react/components/toggle-button",
-              "snippetKey": "ui:toggle-button",
+              "snippetKey": "react/ui:toggle-button",
               "snippets": [
                 {
                   "label": "react",
@@ -1472,7 +1472,7 @@
               "title": "Alert Dialog",
               "description": "Alert Dialog를 Stackflow와 함께 사용하는 방법을 안내합니다.",
               "docUrl": "/react/stackflow/alert-dialog",
-              "snippetKey": "ui:alert-dialog",
+              "snippetKey": "react/ui:alert-dialog",
               "snippets": [
                 {
                   "label": "react",
@@ -1485,7 +1485,7 @@
               "title": "App Screen",
               "description": "Stackflow 네비게이션에서 개별 화면을 구성하는 컴포넌트입니다. 모바일 앱과 같은 화면 전환 경험을 제공할 때 사용됩니다.",
               "docUrl": "/react/stackflow/app-screen",
-              "snippetKey": "ui:app-screen",
+              "snippetKey": "react/ui:app-screen",
               "snippets": [
                 {
                   "label": "react",
@@ -1502,7 +1502,7 @@
               "title": "Bottom Sheet",
               "description": "Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
               "docUrl": "/react/stackflow/bottom-sheet",
-              "snippetKey": "ui:bottom-sheet",
+              "snippetKey": "react/ui:bottom-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -1521,7 +1521,7 @@
               "title": "Menu Sheet",
               "description": "Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
               "docUrl": "/react/stackflow/menu-sheet",
-              "snippetKey": "ui:menu-sheet",
+              "snippetKey": "react/ui:menu-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -1582,7 +1582,7 @@
               "title": "Animate Number",
               "description": "숫자를 부드럽게 애니메이션하는 유틸리티 컴포넌트",
               "docUrl": "/breeze/components/animate-number",
-              "snippetKey": "breeze:animate-number",
+              "snippetKey": "react/breeze:animate-number",
               "snippets": [
                 {
                   "label": "react",
@@ -1610,21 +1610,14 @@
               "id": "action-button",
               "title": "Action Button",
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
-              "docUrl": "/lynx/components/action-button",
-              "snippetKey": "ui:action-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-button.tsx"
-                }
-              ]
+              "docUrl": "/lynx/components/action-button"
             },
             {
               "id": "bottom-sheet",
               "title": "Bottom Sheet",
               "description": "화면 하단에서 올라오는 시트 컴포넌트로, 드래그·snap·dismiss 상호작용을 제공합니다.",
               "docUrl": "/lynx/components/bottom-sheet",
-              "snippetKey": "ui:bottom-sheet",
+              "snippetKey": "lynx/ui:bottom-sheet",
               "snippets": [
                 {
                   "label": "react",
@@ -1637,7 +1630,7 @@
               "title": "Checkbox",
               "description": "사용자가 여러 옵션 중 하나 이상을 선택할 수 있게 하는 체크박스 컴포넌트입니다.",
               "docUrl": "/lynx/components/checkbox",
-              "snippetKey": "ui:checkbox",
+              "snippetKey": "lynx/ui:checkbox",
               "snippets": [
                 {
                   "label": "react",
@@ -1674,7 +1667,7 @@
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
               "docUrl": "/lynx/components/progress-circle",
-              "snippetKey": "ui:progress-circle",
+              "snippetKey": "lynx/ui:progress-circle",
               "snippets": [
                 {
                   "label": "react",
@@ -1687,7 +1680,7 @@
               "title": "RadioGroup",
               "description": "사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.",
               "docUrl": "/lynx/components/radio-group",
-              "snippetKey": "ui:radio-group",
+              "snippetKey": "lynx/ui:radio-group",
               "snippets": [
                 {
                   "label": "react",
@@ -1706,7 +1699,7 @@
               "title": "Switch",
               "description": "특정 옵션이나 설정을 켜거나 끌 수 있도록 돕는 토글 컴포넌트입니다.",
               "docUrl": "/lynx/components/switch",
-              "snippetKey": "ui:switch",
+              "snippetKey": "lynx/ui:switch",
               "snippets": [
                 {
                   "label": "react",
@@ -1719,7 +1712,7 @@
               "title": "Tag Group",
               "description": "텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
               "docUrl": "/lynx/components/tag-group",
-              "snippetKey": "ui:tag-group",
+              "snippetKey": "lynx/ui:tag-group",
               "snippets": [
                 {
                   "label": "react",

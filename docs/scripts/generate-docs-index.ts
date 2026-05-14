@@ -3,33 +3,9 @@ import { existsSync, readFileSync, readdirSync, statSync } from "fs";
 import { promises as fs } from "fs";
 import matter from "gray-matter";
 import path from "node:path";
+import type { DocsCategory, DocsIndex, DocsItem, DocsSection } from "../../packages/cli/src/schema";
 
-type DocsSnippet = {
-  label: string;
-  path: string;
-};
-
-type DocsItem = {
-  id: string;
-  title: string;
-  description?: string;
-  docUrl: string;
-  deprecated?: boolean;
-  snippetKey?: string;
-  snippets?: DocsSnippet[];
-};
-
-type DocsSection = {
-  id: string;
-  label: string;
-  items: DocsItem[];
-};
-
-type DocsCategory = {
-  id: string;
-  label: string;
-  sections: DocsSection[];
-};
+type DocsSnippet = NonNullable<DocsItem["snippets"]>[number];
 
 type RegistryItem = {
   id: string;
@@ -39,6 +15,12 @@ type RegistryItem = {
 type RegistryIndex = {
   id: string;
   items: RegistryItem[];
+};
+
+type RegistryMapEntry = {
+  framework: "react" | "lynx";
+  registryId: string;
+  snippets: DocsSnippet[];
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -127,21 +109,26 @@ function getSnippetLabel(filePath: string): string {
 }
 
 /**
- * Build a map of registry entries from public/__registry__/ index files.
+ * Build a map of registry entries from framework-scoped public registry index files.
  */
-function buildRegistryMap(): Map<string, { registryId: string; snippets: DocsSnippet[] }> {
-  const map = new Map<string, { registryId: string; snippets: DocsSnippet[] }>();
+function buildRegistryMap(): Map<string, RegistryMapEntry> {
+  const map = new Map<string, RegistryMapEntry>();
 
-  for (const registryId of ["ui", "breeze"] as const) {
+  for (const { framework, registryId } of [
+    { framework: "react", registryId: "ui" },
+    { framework: "react", registryId: "breeze" },
+    { framework: "lynx", registryId: "ui" },
+  ] as const) {
     try {
       const raw = readFileSync(
-        path.join(process.cwd(), `public/__registry__/${registryId}/index.json`),
+        path.join(process.cwd(), `public/__registry__/${framework}/${registryId}/index.json`),
         "utf-8",
       );
       const registry = JSON.parse(raw) as RegistryIndex;
       for (const item of registry.items) {
         if (item.snippets.length > 0) {
-          map.set(`${registryId}:${item.id}`, {
+          map.set(`${framework}/${registryId}:${item.id}`, {
+            framework,
             registryId,
             snippets: item.snippets.map((s) => ({
               label: getSnippetLabel(s.path),
@@ -156,6 +143,24 @@ function buildRegistryMap(): Map<string, { registryId: string; snippets: DocsSni
   }
 
   return map;
+}
+
+function findRegistryEntry(
+  registryMap: Map<string, RegistryMapEntry>,
+  categoryId: string,
+  itemId: string,
+): RegistryMapEntry | undefined {
+  if (categoryId === "lynx") {
+    return registryMap.get(`lynx/ui:${itemId}`);
+  }
+
+  if (categoryId === "breeze") {
+    return registryMap.get(`react/breeze:${itemId}`);
+  }
+
+  if (categoryId === "react" || categoryId === "docs") {
+    return registryMap.get(`react/ui:${itemId}`) ?? registryMap.get(`react/breeze:${itemId}`);
+  }
 }
 
 async function main() {
@@ -195,7 +200,7 @@ async function main() {
       const itemId = slugs[slugs.length - 1];
       const docUrl = `${baseUrl}/${slugs.join("/")}`;
 
-      const registryEntry = registryMap.get(`ui:${itemId}`) ?? registryMap.get(`breeze:${itemId}`);
+      const registryEntry = findRegistryEntry(registryMap, categoryId, itemId);
 
       const item: DocsItem = {
         id: itemId,
@@ -204,7 +209,7 @@ async function main() {
         docUrl,
         ...(frontmatter.deprecated && { deprecated: true }),
         ...(registryEntry && {
-          snippetKey: `${registryEntry.registryId}:${itemId}`,
+          snippetKey: `${registryEntry.framework}/${registryEntry.registryId}:${itemId}`,
           snippets: registryEntry.snippets,
         }),
       };
@@ -263,7 +268,8 @@ async function main() {
   }
 
   const outPath = path.join(outDir, "index.json");
-  await fs.writeFile(outPath, JSON.stringify({ categories }, null, 2), "utf8");
+  const docsIndex: DocsIndex = { categories };
+  await fs.writeFile(outPath, JSON.stringify(docsIndex, null, 2), "utf8");
 
   const totalItems = categories.reduce(
     (sum, c) => sum + c.sections.reduce((s, sec) => s + sec.items.length, 0),

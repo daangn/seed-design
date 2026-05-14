@@ -20,7 +20,7 @@ export async function BreezeManualInstallation(props: BreezeManualInstallationPr
   let json: GeneratedRegistryItem | null = null;
 
   try {
-    json = (await import(`@/public/__registry__/breeze/${name}.json`).then((module) => {
+    json = (await import(`@/public/__registry__/react/breeze/${name}.json`).then((module) => {
       return module.default;
     })) as GeneratedRegistryItem;
   } catch (error) {
