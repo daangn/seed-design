@@ -60,6 +60,21 @@ describe("usePressTap", () => {
       expect(onTap).toHaveBeenCalledTimes(1);
     });
 
+    it("clears pressed when bindtap fires", () => {
+      const { result } = renderHook(() => usePressTap());
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      expect(result.current.pressed).toBe(true);
+
+      act(() => {
+        result.current.bindtap(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(false);
+    });
+
     it("can be omitted without error", () => {
       const { result } = renderHook(() => usePressTap());
 
@@ -91,6 +106,22 @@ describe("usePressTap", () => {
       });
 
       expect(onTap).not.toHaveBeenCalled();
+    });
+
+    it("clears pressed when disabled changes to true", () => {
+      const { result, rerender } = renderHook(
+        ({ disabled }) => usePressTap({ disabled }),
+        { initialProps: { disabled: false } },
+      );
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      expect(result.current.pressed).toBe(true);
+
+      rerender({ disabled: true });
+
+      expect(result.current.pressed).toBe(false);
     });
   });
 

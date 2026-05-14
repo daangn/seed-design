@@ -1,4 +1,4 @@
-import { useState } from "@lynx-js/react";
+import { useEffect, useState } from "@lynx-js/react";
 import type { TouchEvent } from "@lynx-js/types";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 
@@ -39,9 +39,16 @@ export function usePressTap(options: UsePressTapOptions = {}): UsePressTapReturn
   });
 
   const handleTap = useMemoizedFn(() => {
+    setPressed(false);
     if (disabled) return;
     onTap?.();
   });
+
+  useEffect(() => {
+    if (disabled) {
+      setPressed(false);
+    }
+  }, [disabled]);
 
   return {
     pressed,
