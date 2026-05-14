@@ -10,33 +10,28 @@ const { withRootProvider, withContext } = createSlotRecipeContext(sidePanel);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelRootProps extends SidePanelVariantProps {
-  /** Whether the side panel is open (controlled). */
-  open?: boolean;
-  /** Default open state (uncontrolled). */
-  defaultOpen?: boolean;
-  /** Called when open state changes. */
-  onOpenChange?: (open: boolean) => void;
+export interface SidePanelRootProps
+  extends SidePanelVariantProps,
+    Pick<
+      Drawer.RootProps,
+      | "open"
+      | "defaultOpen"
+      | "onOpenChange"
+      | "modal"
+      | "dismissible"
+      | "closeOnEscape"
+      | "closeOnInteractOutside"
+      | "lazyMount"
+      | "unmountOnExit"
+      | "container"
+      | "autoFocus"
+      | "onAnimationEnd"
+      | "closeThreshold"
+      | "onDrag"
+      | "onRelease"
+    > {
   /** Direction the side panel slides in from. @default "right" */
   direction?: "left" | "right";
-  /** Whether the side panel is modal (with backdrop and focus trap). @default true */
-  modal?: boolean;
-  /** Whether the side panel can be dismissed via Escape, outside click, or drag. @default true */
-  dismissible?: boolean;
-  /** Whether to close on Escape key. @default true */
-  closeOnEscape?: boolean;
-  /** Whether to close on outside interaction. @default true */
-  closeOnInteractOutside?: boolean;
-  /** Lazy-mount the content on first open. @default true */
-  lazyMount?: boolean;
-  /** Unmount the content on close. @default true */
-  unmountOnExit?: boolean;
-  /** Custom portal container. */
-  container?: HTMLElement | null;
-  /** Whether to auto-focus the content on open. @default true */
-  autoFocus?: boolean;
-  /** Called when the panel finishes opening or closing. */
-  onAnimationEnd?: (open: boolean) => void;
   children?: ReactNode;
 }
 
