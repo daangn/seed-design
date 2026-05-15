@@ -31,13 +31,14 @@ const mergedProps = {
 
 Lynx는 CSS `inherit` 키워드를 지원하지 않는다. CSS variable을 `inherit`로 초기화하는 패턴(웹의 `.seed-text`)은 Lynx에서 동작하지 않으므로, 스타일을 요소에 직접 적용해야 한다.
 
-### Primitive.view 사용 금지
+### Runtime intrinsic tag 변수화 금지
 
-`@seed-design/lynx-primitive`의 현재 `Primitive.view` 구현은 `<Comp>` 변수 태그로 렌더하기 때문에 파일 소스에 **리터럴 `<view>` JSX 가 존재하지 않는다**. 이는 Lynx 컴파일러의 intrinsic tag 정적 분석을 우회해 `BackgroundSnapshot not found: view` 런타임 에러를 유발한다. 스타일드 컴포넌트에서는 네이티브 `<view>` 요소를 직접 사용하고, `asChild` 패턴이 필요하면 `Slot`을 직접 import해서 조건부 렌더링한다.
+Lynx 컴파일러는 intrinsic tag 를 컴파일 타임에 리터럴 JSX 로 만나야 native element 로 등록한다. 런타임 변수 태그(`<Comp>`, `<Tag>`)로 `<view>` / `<text>` 를 렌더하면 `BackgroundSnapshot not found: view` 런타임 에러를 유발한다. 스타일드 컴포넌트에서는 네이티브 `<view>` / `<text>` 요소를 컴포넌트 파일 안에서 직접 사용한다.
 
 ```tsx
-// ❌ 금지 — Primitive.view 내부가 <Comp> 변수 태그를 사용
-<Primitive.view ref={ref} className={className}>{children}</Primitive.view>
+// ❌ 금지 — intrinsic tag 가 런타임 변수로 전달됨
+const Comp = "view";
+<Comp ref={ref} className={className}>{children}</Comp>
 
 // ✅ 네이티브 <view> 직접 사용
 <view {...(ref ? { ref } : {})} className={className}>{children}</view>
@@ -52,7 +53,7 @@ Lynx 컴파일러는 JSX 의 intrinsic 태그(`<view>`, `<text>`, `<image>` 등)
 #### 조건을 깨는 패턴 (금지)
 
 - **intrinsic tag 를 runtime 변수로 전달**: `React.createElement("view", ...)` 또는 `const Tag = "view"; <Tag />`. 대표 실패 케이스는 `withContext("view", "header")` 가 `React.createElement(Component, ...)` where `Component === "view"` 로 컴파일되어 **PR #1489 에서 실제 재현 + revert 된 사례**.
-- **소스에 리터럴 intrinsic 태그가 없는 JSX**: `@seed-design/lynx-primitive` 의 현재 `Primitive.view` 구현이 `<Comp>` 변수 태그만 사용 — 사용 금지.
+- **소스에 리터럴 intrinsic 태그가 없는 JSX**: 공통 컴포넌트가 `<Comp>` 변수 태그만 렌더하는 패턴 — 사용 금지.
 
 #### 조건을 만족하는 안전한 패턴
 
@@ -68,7 +69,6 @@ Lynx 컴파일러는 JSX 의 intrinsic 태그(`<view>`, `<text>`, `<image>` 등)
 | `withContext(SheetBackdrop, "backdrop")` | ✅ (SheetBackdrop 파일 안에 리터럴 `<view>`) | ship 실증 |
 | `withContext("view", "header")` | ❌ createElement 에 string | PR #1489 실패 재현 |
 | **공통 유틸 파일의 factory (예: createSlotRecipeContext 안의 `withViewContext`)** | ❌ 리터럴 `<view>` 가 **다른 파일**에 있음 | **PR #1503 spike 에서 실패 재현** |
-| `Primitive.view` (현재 SEED 구현) | ❌ `<Comp>` 변수 태그 | 사용 금지 |
 | `const Tag = "view"; <Tag />` | ❌ | 금지 |
 
 #### ⚠️ 파일-경계 제약 (2026-04-22 PR #1503 spike 로 확인)
@@ -152,7 +152,7 @@ export interface ComponentProps
 ## 코드 작성 컨벤션
 
 - 모든 컴포넌트는 `React.forwardRef` 사용 + ref null 가드
-- 네이티브 `<view>` 요소 직접 사용 (`Primitive.view` 사용 금지 — BackgroundSnapshot 에러)
+- 네이티브 `<view>` / `<text>` 요소를 컴포넌트 파일 안에서 직접 렌더링
 - `displayName` 필수
 - `clsx`로 recipe className과 사용자 `className` 병합
 - recipe import: `@seed-design/lynx-css/recipes/<name>` (웹의 `@seed-design/css`가 아니다)

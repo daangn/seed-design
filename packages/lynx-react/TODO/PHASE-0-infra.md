@@ -94,7 +94,7 @@ function usePressTap(props: UsePressTapProps): UsePressTapReturn
 
 - **ref null guard**: `...(ref ? { ref } : {})` - Lynx applyRef가 null에서 에러
 - **children 분리**: `const { children, ...nativeProps } = restProps` - circular reference 방지
-- **네이티브 `<view>` 직접 사용**: Primitive.view 사용 금지 (BackgroundSnapshot 에러)
+- **네이티브 `<view>` 직접 사용**: intrinsic tag 를 런타임 변수로 렌더하지 않기 (BackgroundSnapshot 에러)
 - **displayName 필수**: `Component.displayName = "ComponentName"`
 
 ## 산출물 체크리스트
@@ -107,4 +107,4 @@ function usePressTap(props: UsePressTapProps): UsePressTapReturn
 
 ## 후속 과제 (별도 PR)
 
-- **`@seed-design/lynx-primitive` 의 `Primitive.view` / `Primitive.text` / `Primitive.image` 재구현**: 현재 `<Comp>` 변수 태그 기반이라 Lynx 에서 BackgroundSnapshot 에러. intrinsic tag 별 분기로 리터럴 JSX 를 갖도록 재작성하면 packages/react 와 Primitive API parity 회복 가능. 현재 lynx-react 어디에서도 import 하지 않으므로 blocking 아님.
+- **Primitive API parity 재검토**: 나중에 Lynx 전용 primitive API 를 다시 도입한다면 intrinsic tag 별 리터럴 JSX 분기를 유지하는 설계가 필요하다.

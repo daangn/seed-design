@@ -5,7 +5,6 @@
   "workspaces": [
     "packages/*",
     "packages/react-headless/*",
-    "packages/lynx-headless/*",
     "packages/utils/*",
     "tools/*",
     "ecosystem/*",
