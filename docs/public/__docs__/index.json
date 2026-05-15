@@ -1733,6 +1733,12 @@
               "docUrl": "/lynx/hooks/use-controllable-state"
             },
             {
+              "id": "use-icon-color",
+              "title": "useIconColor",
+              "description": "Lynx image 아이콘의 CSS color를 native tint-color로 동기화하는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-icon-color"
+            },
+            {
               "id": "use-press-tap",
               "title": "usePressTap",
               "description": "Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.",
