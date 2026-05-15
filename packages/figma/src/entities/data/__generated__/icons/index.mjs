@@ -449,6 +449,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "c0ca1bc45d70e9e6d45c107f19a488b4550f4a35": {
+    "name": "icon_building2_twosize",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "7b4c6f3b3626b280ac3b50968b94f4271a4d8e4d": {
+    "name": "icon_building2_twosize",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "43c561a67ed28579eae47ee9be1f6c35cfa73fce": {
     "name": "icon_calendar",
     "type": "monochrome",
@@ -1006,6 +1016,16 @@ export const FIGMA_ICONS = {
   },
   "c523bad2767ba8b94a227811d539b15a1bf6a267": {
     "name": "icon_document_plus",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "a3521e42bb1fa701e873483e992d1866e4441e5e": {
+    "name": "icon_document_tray",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "1dd922b43ab2bc137bf9a7b0b4223c058070a65b": {
+    "name": "icon_document_tray",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -1619,6 +1639,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "919dd621ff599b66929ea7cbaef462359e756304": {
+    "name": "icon_hospitalcross_shield",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "0cfa81f9264814aeae13a81266539dd2f57c86eb": {
+    "name": "icon_hospitalcross_shield",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "aff5ba9298b12d5090002f5ef2bce35c31d377dd": {
     "name": "icon_hospitalcross_square",
     "type": "monochrome",
@@ -1626,6 +1656,16 @@ export const FIGMA_ICONS = {
   },
   "4f4d4d322176863a25e6073f4ef4f23c9c48e03f": {
     "name": "icon_hospitalcross_square",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "cafd8deff46ff81b4de508caff7cac5a2680a2ae": {
+    "name": "icon_house_card",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "7a72f879fdbc3da6023476fa67f05aba8a7ca440": {
+    "name": "icon_house_card",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -3049,6 +3089,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "6ff0cf0bf12ac4667cec8798f5171f514e85a168": {
+    "name": "icon_wand_plus_circle",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "f6c709faea19968faa15079b935ba533ea72c1eb": {
+    "name": "icon_wand_plus_circle",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "2747dd7daf6035c6b5c39951651db705797e9d9c": {
     "name": "icon_washingmachine",
     "type": "monochrome",
@@ -3225,6 +3275,10 @@ export const FIGMA_ICONS = {
     "name": "icon_asterisk_horizrectangle_coolwave3",
     "type": "multicolor"
   },
+  "66c144646951f969436426357da8791f78d8f057": {
+    "name": "icon_book",
+    "type": "multicolor"
+  },
   "38dda34eb04fba2f3239bcc93b870db61901f720": {
     "name": "icon_box_flap",
     "type": "multicolor"
@@ -3327,6 +3381,10 @@ export const FIGMA_ICONS = {
   },
   "bfb3fa82c3642bd55ae5ab9da241fd4a6a593736": {
     "name": "icon_fish_wave2",
+    "type": "multicolor"
+  },
+  "d5b7d0efa3d85021bd831c5141a43cd4a0fde530": {
+    "name": "icon_flower",
     "type": "multicolor"
   },
   "fe769cca256bb3fc7fa70682e1d85169ba104f53": {
@@ -3469,6 +3527,10 @@ export const FIGMA_ICONS = {
     "name": "icon_spraybottle_sponge",
     "type": "multicolor"
   },
+  "53729bb72150963fd5a7dd04aa6c8569a81f7e5e": {
+    "name": "icon_star_calendar",
+    "type": "multicolor"
+  },
   "86bfe331ab4d3a5bf29019345e208ce7b73371bd": {
     "name": "icon_tree",
     "type": "multicolor"
@@ -3491,6 +3553,10 @@ export const FIGMA_ICONS = {
   },
   "ab66ee11be5539d340a87f1e9ca021fef1db3ef8": {
     "name": "icon_vest_horizstripe",
+    "type": "multicolor"
+  },
+  "d8579af735e0f286ddefdffc811b12469d9bb24b": {
+    "name": "icon_wand_plus_circle",
     "type": "multicolor"
   },
   "7ddb6f0f63708485a75cb21a25fae01671a34562": {
