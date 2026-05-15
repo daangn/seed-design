@@ -50,8 +50,8 @@ export type CheckmarkProperties = InferComponentDefinition<
   typeof sets.componentCheckmark.componentPropertyDefinitions
 >;
 
-export type ChipProperties = InferComponentDefinition<
-  typeof sets.componentChip.componentPropertyDefinitions
+export type LegacyChipProperties = InferComponentDefinition<
+  typeof sets.componentDeprecatedChip.componentPropertyDefinitions
 >;
 
 export type ChipIconSuffixProperties = InferComponentDefinition<
