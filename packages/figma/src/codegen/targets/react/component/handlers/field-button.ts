@@ -29,7 +29,7 @@ export const createFieldButtonHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<FieldButtonProperties>(
-    sets.templateFieldButton.key,
+    sets.componentFieldButton.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
@@ -131,7 +131,7 @@ export const createSelectFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.privateTemplateSelectField.key,
+    components.privateComponentSelectField.key,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -147,7 +147,7 @@ export const createDatePickerFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.privateTemplateDatePickerField.key,
+    components.privateComponentDatePickerField.key,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -163,7 +163,7 @@ export const createTimePickerFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.privateTemplateTimePickerField.key,
+    components.privateComponentTimePickerField.key,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,
@@ -179,7 +179,7 @@ export const createAddressFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldButtonHandler = createFieldButtonHandler(ctx);
 
   return defineComponentHandler<GenericFieldButtonProps>(
-    components.privateTemplateAddressPickerField.key,
+    components.privateComponentAddressPickerField.key,
     (node, traverse) => {
       const [fieldButton] = findAllInstances<FieldButtonProperties>({
         node,

@@ -36,7 +36,7 @@ export const createSliderFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<SliderFieldProperties>(
-    metadata.templateSliderField.key,
+    metadata.componentSliderField.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
