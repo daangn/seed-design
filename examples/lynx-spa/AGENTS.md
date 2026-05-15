@@ -25,6 +25,13 @@ Read docs below in advance to help you understand the library or frameworks this
 
 - Rspack: <https://rspack.rs/llms.txt>
 
+## Known Runtime Notes
+
+- For VariantTable icon tint regressions in Lynx `list` content, read
+  `LIST_ICON_TINT_INVESTIGATION.md` before changing qvism recipes or adding
+  timer-based retries. Current evidence points to main-thread appearance timing,
+  not catalog remount workarounds or hardcoded color token maps.
+
 ## Tools
 
 ### Biome

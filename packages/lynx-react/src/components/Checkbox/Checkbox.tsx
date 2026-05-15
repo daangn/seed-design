@@ -181,6 +181,7 @@ type IconElementProps = {
   className?: string;
   style?: CSSProperties;
   ref?: React.Ref<MainThread.Element>;
+  "main-thread:binduiappear"?: () => void;
 };
 
 export interface CheckboxIndicatorProps {
@@ -205,7 +206,7 @@ export function CheckboxIndicator(props: CheckboxIndicatorProps) {
   const { checked, indeterminate, disabled, pressed, tone, variant, size } =
     useCheckboxContext("CheckboxIndicator");
   const iconClassName = useCheckmarkIconClass("CheckboxIndicator");
-  const { ref: tintRef } = useIconColor([
+  const iconColor = useIconColor([
     checked,
     indeterminate,
     disabled,
@@ -234,11 +235,11 @@ export function CheckboxIndicator(props: CheckboxIndicatorProps) {
   ]);
 
   return cloneElement(icon, {
+    ...iconColor,
     className: clsx(iconClassName, icon.props.className, className),
     style: iconSize
       ? { width: iconSize, height: iconSize, ...icon.props.style, ...style }
       : { ...icon.props.style, ...style },
-    ref: tintRef,
   });
 }
 CheckboxIndicator.displayName = "CheckboxIndicator";
