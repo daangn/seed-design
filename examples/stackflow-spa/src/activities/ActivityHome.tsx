@@ -320,6 +320,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SideNavigation", onClick: () => push("ActivitySideNavigation", {}) },
         { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
+        {
+          title: "ResponsiveSidePanel",
+          onClick: () => push("ActivityResponsiveSidePanel", {}),
+        },
       ],
     },
     {
