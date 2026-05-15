@@ -2793,6 +2793,9 @@ export const componentChip = {
     "Has Notification#10111:109": {
       "type": "BOOLEAN"
     },
+    "Label#12217:0": {
+      "type": "TEXT"
+    },
     "Has Suffix#32538:181": {
       "type": "BOOLEAN"
     },
