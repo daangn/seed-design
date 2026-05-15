@@ -1,7 +1,7 @@
 import { renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it } from "vitest";
 
-import { useIconColor } from "../use-icon-color";
+import { useIconColor } from "../useIconColor";
 
 describe("useIconColor", () => {
   it("returns icon tint sync props", () => {

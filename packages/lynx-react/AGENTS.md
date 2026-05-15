@@ -258,7 +258,7 @@ variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 
 ## 파일 작성 컨벤션
 
 - 컴포넌트: `src/components/<ComponentName>/<ComponentName>.tsx` + `index.ts`
-- 훅: `src/hooks/<use-name>.ts` (`useState` / `useEffect` / `useContext` 등 React API 를 직접 호출하는 파일)
+- 훅: `src/hooks/<useName>.ts` (`useState` / `useEffect` / `useContext` 등 React API 를 직접 호출하는 파일)
 - 유틸리티: `src/utils/<util-name>.ts` (순수 함수 / 팩토리. React 훅은 `src/hooks/` 로 분리)
 - 테스트: `src/<...>/__tests__/<file>.test.{ts,tsx}`
 - 빌드: `tsc`로 `lib/`에 출력 (테스트 파일은 `tsconfig.json`의 `exclude`로 제외)

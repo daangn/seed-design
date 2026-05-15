@@ -1,3 +1,3 @@
-export * from "./use-controllable-state";
-export * from "./use-icon-color";
-export * from "./use-press-tap";
+export * from "./useControllableState";
+export * from "./useIconColor";
+export * from "./usePressTap";
