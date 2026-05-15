@@ -5,7 +5,7 @@ import * as React from "react";
 import * as SeedBottomSheet from "./bottom-sheet";
 import * as SeedSidePanel from "./side-panel";
 
-const ResponsiveContext = React.createContext<{ isMobile: boolean } | null>(null);
+const ResponsiveContext = React.createContext<{ belowMd: boolean } | null>(null);
 
 function useResponsiveContext() {
   const ctx = React.useContext(ResponsiveContext);
@@ -21,7 +21,6 @@ export interface ResponsiveSidePanelRootProps extends SeedSidePanel.SidePanelRoo
 
 /**
  * Automatically switches between SidePanel (md+) and BottomSheet (sm-).
- * Persistent (`modal={false}`) is forced to `modal={true}` on sm-.
  *
  * The open state is managed here so the panel stays open while the
  * viewport crosses the breakpoint (SidePanel and BottomSheet are
@@ -35,12 +34,10 @@ export const ResponsiveSidePanelRoot = ({
   open: openProp,
   defaultOpen = false,
   onOpenChange,
-  modal = true,
   ...props
 }: ResponsiveSidePanelRootProps) => {
   const breakpoint = useBreakpoint();
-  const isMobile = breakpoint === "base" || breakpoint === "sm";
-  const resolvedModal = isMobile ? true : modal;
+  const belowMd = breakpoint === "base" || breakpoint === "sm";
 
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
   const isControlled = openProp !== undefined;
@@ -53,12 +50,12 @@ export const ResponsiveSidePanelRoot = ({
     [isControlled, onOpenChange],
   );
 
-  const value = React.useMemo(() => ({ isMobile }), [isMobile]);
-  const Root = isMobile ? SeedBottomSheet.BottomSheetRoot : SeedSidePanel.SidePanelRoot;
+  const value = React.useMemo(() => ({ belowMd }), [belowMd]);
+  const Root = belowMd ? SeedBottomSheet.BottomSheetRoot : SeedSidePanel.SidePanelRoot;
 
   return (
     <ResponsiveContext.Provider value={value}>
-      <Root open={open} onOpenChange={setOpen} modal={resolvedModal} {...props}>
+      <Root open={open} onOpenChange={setOpen} {...props}>
         {children}
       </Root>
     </ResponsiveContext.Provider>
@@ -71,8 +68,8 @@ export const ResponsiveSidePanelTrigger = React.forwardRef<
   HTMLButtonElement,
   ResponsiveSidePanelTriggerProps
 >((props, ref) => {
-  const { isMobile } = useResponsiveContext();
-  const Trigger = isMobile ? SeedBottomSheet.BottomSheetTrigger : SeedSidePanel.SidePanelTrigger;
+  const { belowMd } = useResponsiveContext();
+  const Trigger = belowMd ? SeedBottomSheet.BottomSheetTrigger : SeedSidePanel.SidePanelTrigger;
   return <Trigger ref={ref} {...props} />;
 });
 ResponsiveSidePanelTrigger.displayName = "ResponsiveSidePanelTrigger";
@@ -83,8 +80,8 @@ export const ResponsiveSidePanelContent = React.forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelContentProps
 >((props, ref) => {
-  const { isMobile } = useResponsiveContext();
-  const Content = isMobile ? SeedBottomSheet.BottomSheetContent : SeedSidePanel.SidePanelContent;
+  const { belowMd } = useResponsiveContext();
+  const Content = belowMd ? SeedBottomSheet.BottomSheetContent : SeedSidePanel.SidePanelContent;
   return <Content ref={ref} {...props} />;
 });
 ResponsiveSidePanelContent.displayName = "ResponsiveSidePanelContent";
@@ -95,8 +92,8 @@ export const ResponsiveSidePanelBody = React.forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelBodyProps
 >((props, ref) => {
-  const { isMobile } = useResponsiveContext();
-  const Body = isMobile ? SeedBottomSheet.BottomSheetBody : SeedSidePanel.SidePanelBody;
+  const { belowMd } = useResponsiveContext();
+  const Body = belowMd ? SeedBottomSheet.BottomSheetBody : SeedSidePanel.SidePanelBody;
   return <Body ref={ref} {...props} />;
 });
 ResponsiveSidePanelBody.displayName = "ResponsiveSidePanelBody";
@@ -107,8 +104,8 @@ export const ResponsiveSidePanelFooter = React.forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelFooterProps
 >((props, ref) => {
-  const { isMobile } = useResponsiveContext();
-  const Footer = isMobile ? SeedBottomSheet.BottomSheetFooter : SeedSidePanel.SidePanelFooter;
+  const { belowMd } = useResponsiveContext();
+  const Footer = belowMd ? SeedBottomSheet.BottomSheetFooter : SeedSidePanel.SidePanelFooter;
   return <Footer ref={ref} {...props} />;
 });
 ResponsiveSidePanelFooter.displayName = "ResponsiveSidePanelFooter";
