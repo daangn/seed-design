@@ -342,7 +342,6 @@ export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButton
     );
   },
 );
-DrawerCloseButton.displayName = "DrawerCloseButton";
 
 export interface DrawerHandleProps extends React.HTMLAttributes<HTMLDivElement> {
   preventCycle?: boolean;
