@@ -5,3 +5,4 @@ export declare const d4 = "var(--seed-duration-d4)";
 export declare const d5 = "var(--seed-duration-d5)";
 export declare const d6 = "var(--seed-duration-d6)";
 export declare const colorTransition = "var(--seed-duration-color-transition)";
+export declare const pressedScale = "var(--seed-duration-pressed-scale)";

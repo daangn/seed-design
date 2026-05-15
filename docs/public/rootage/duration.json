@@ -81,6 +81,14 @@
             "value": "$duration.d3"
           }
         }
+      },
+      "$duration.pressed-scale": {
+        "values": {
+          "default": {
+            "type": "duration",
+            "value": "$duration.d3"
+          }
+        }
       }
     }
   }

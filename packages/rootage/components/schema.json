@@ -520,6 +520,7 @@
         { "const": "$duration.d4", "title": "$duration.d4", "description": "default: 200ms", "markdownDescription": "- default: `200ms`" },
         { "const": "$duration.d5", "title": "$duration.d5", "description": "default: 250ms", "markdownDescription": "- default: `250ms`" },
         { "const": "$duration.d6", "title": "$duration.d6", "description": "default: 300ms", "markdownDescription": "- default: `300ms`" },
+        { "const": "$duration.pressed-scale", "title": "$duration.pressed-scale", "description": "default: $duration.d3", "markdownDescription": "- default: `$duration.d3`" },
         { "const": "$font-size.t1", "title": "$font-size.t1", "description": "default: 0.6875rem", "markdownDescription": "- default: `0.6875rem`" },
         { "const": "$font-size.t1-static", "title": "$font-size.t1-static", "description": "default: 11px", "markdownDescription": "- default: `11px`" },
         { "const": "$font-size.t10", "title": "$font-size.t10", "description": "default: 1.625rem", "markdownDescription": "- default: `1.625rem`" },
@@ -590,7 +591,8 @@
         { "const": "$timing-function.enter-expressive", "title": "$timing-function.enter-expressive", "description": "default: 0.03, 0.4, 0.1, 1", "markdownDescription": "- default: `0.03, 0.4, 0.1, 1`" },
         { "const": "$timing-function.exit", "title": "$timing-function.exit", "description": "default: 0.35, 0, 1, 1", "markdownDescription": "- default: `0.35, 0, 1, 1`" },
         { "const": "$timing-function.exit-expressive", "title": "$timing-function.exit-expressive", "description": "default: 0.35, 0, 0.95, 0.55", "markdownDescription": "- default: `0.35, 0, 0.95, 0.55`" },
-        { "const": "$timing-function.linear", "title": "$timing-function.linear", "description": "default: 0, 0, 1, 1", "markdownDescription": "- default: `0, 0, 1, 1`" }
+        { "const": "$timing-function.linear", "title": "$timing-function.linear", "description": "default: 0, 0, 1, 1", "markdownDescription": "- default: `0, 0, 1, 1`" },
+        { "const": "$timing-function.pressed-scale", "title": "$timing-function.pressed-scale", "description": "default: 0, 0, 0.15, 1", "markdownDescription": "- default: `0, 0, 0.15, 1`" }
       ]
     }
   }

@@ -27,3 +27,6 @@ data:
     $duration.color-transition:
       values:
         default: $duration.d3
+    $duration.pressed-scale:
+      values:
+        default: $duration.d3
