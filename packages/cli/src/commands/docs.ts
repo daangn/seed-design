@@ -18,13 +18,20 @@ const GITHUB_SNIPPET_BASE =
   "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
 
 const docsOptionsSchema = z.object({
-  query: z.string().optional(),
+  query: z
+    .union([z.string(), z.array(z.string())])
+    .optional()
+    .transform((query) => {
+      const normalized = Array.isArray(query) ? query.join(" ") : query;
+      const trimmed = normalized?.trim();
+      return trimmed ? trimmed : undefined;
+    }),
   baseUrl: z.string().optional(),
   raw: z.boolean(),
 });
 
-function buildSnippetUrl(registryId: string, snippetPath: string): string {
-  return `${GITHUB_SNIPPET_BASE}/${registryId}/${snippetPath}`;
+function buildSnippetUrl(registryPath: string, snippetPath: string): string {
+  return `${GITHUB_SNIPPET_BASE}/${registryPath}/${snippetPath}`;
 }
 
 function printDocsResult(item: DocsItem, baseUrl: string) {
@@ -34,14 +41,14 @@ function printDocsResult(item: DocsItem, baseUrl: string) {
   const lines = [item.id, `- docs: ${docLink}`, `- llms.txt: ${llmsLink}`];
 
   if (item.snippetKey && item.snippets && item.snippets.length > 0) {
-    const [registryId] = item.snippetKey.split(":");
-    if (registryId === "ui" || registryId === "breeze") {
+    const [registryPath] = item.snippetKey.split(":");
+    if (registryPath) {
       if (item.snippets.length === 1) {
-        lines.push(`- snippet: ${buildSnippetUrl(registryId, item.snippets[0].path)}`);
+        lines.push(`- snippet: ${buildSnippetUrl(registryPath, item.snippets[0].path)}`);
       } else {
         lines.push("- snippet:");
         for (const snippet of item.snippets) {
-          lines.push(`   - ${snippet.label}: ${buildSnippetUrl(registryId, snippet.path)}`);
+          lines.push(`   - ${snippet.label}: ${buildSnippetUrl(registryPath, snippet.path)}`);
         }
       }
     }
@@ -162,7 +169,7 @@ function buildSuggestionHint(segments: string[], categories: DocsCategory[]): st
  */
 function parseQueryPath(query: string): string[] {
   return query
-    .split("/")
+    .split(/[\/\s]+/)
     .map((s) => s.trim())
     .filter(Boolean);
 }
@@ -229,7 +236,7 @@ async function selectCategory(categories: DocsCategory[]): Promise<DocsCategory>
 
 export const docsCommand = (cli: CAC) => {
   cli
-    .command("docs [query]", "문서 링크, llms.txt 링크, 스니펫 링크를 조회합니다")
+    .command("docs [...query]", "문서 링크, llms.txt 링크, 스니펫 링크를 조회합니다")
     .option("-u, --baseUrl <baseUrl>", `레지스트리의 기본 URL (기본값: ${BASE_URL})`, {
       default: BASE_URL,
     })
@@ -239,6 +246,7 @@ export const docsCommand = (cli: CAC) => {
     .example("seed-design docs")
     .example("seed-design docs action-button")
     .example("seed-design docs react")
+    .example("seed-design docs lynx action-button")
     .example("seed-design docs react/components")
     .example("seed-design docs react/components/action-button")
     .example("seed-design docs react/updates/changelog --raw")

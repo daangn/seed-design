@@ -15,4 +15,4 @@
 - `src/seed-design/ui/`는 generated snippet의 vendored copy로 취급한다. registry snippet API가 바뀌면 이 경로도 같이 업데이트한다.
 - snippet이 존재하는 컴포넌트는 direct package import보다 `seed-design/ui/*` consumption을 우선한다.
 - snippet 변경 후에는 이 예제 앱 build를 확인하여 실제 소비자 코드가 깨지지 않았는지 검증한다.
-- vendored snippet을 앱 코드에서 임시로 우회 수정하기보다, 가능한 한 `docs/registry/ui/`의 public snippet contract를 먼저 바로잡고 여기로 내려보낸다.
+- vendored snippet을 앱 코드에서 임시로 우회 수정하기보다, 가능한 한 `docs/registry/react/ui/`의 public snippet contract를 먼저 바로잡고 여기로 내려보낸다.
