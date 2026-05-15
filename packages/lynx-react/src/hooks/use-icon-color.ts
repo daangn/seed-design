@@ -7,9 +7,9 @@ type IconElement = MainThread.Element & {
   getComputedCssProperty?: (name: string) => string;
 };
 
-// Lynx `<image>` 의 `tint-color` attribute 는 concrete color(hex/rgb) 만 받는다. CSS
-// `color: var(--seed-color-...)` 를 slot 에 걸면 `getComputedStyleProperty("color")` 가
-// resolved hex 를 돌려주므로 main-thread 에서 한번 읽어 `tint-color` 로 mirror 한다.
+// Lynx `<image>` 의 `tint-color` attribute 에 CSS variable 문자열을 직접 넣는 경로는
+// 안정적으로 동작하지 않는다. CSS `color` 는 computed style 로 resolved color 를 읽을 수
+// 있으므로 main-thread 에서 한 번 읽어 `tint-color` 로 mirror 한다.
 function syncTintColor(ref: RefObject<IconElement>) {
   "main thread";
 
@@ -33,19 +33,25 @@ function syncTintColor(ref: RefObject<IconElement>) {
  * `tint-color` attribute 로 mirror. `deps` 가 바뀌면 재동기화.
  *
  * ```tsx
- * const { ref } = useIconColor([variant, disabled, loading]);
- * return cloneElement(iconChild, { ref });
+ * const iconColorProps = useIconColor([variant, disabled, loading]);
+ * return cloneElement(iconChild, iconColorProps);
  * ```
  */
 export function useIconColor(deps: DependencyList): {
   ref: RefObject<MainThread.Element>;
+  "main-thread:binduiappear": () => void;
 } {
   const ref = useMainThreadRef<IconElement>(null);
+
+  function syncOnUiAppear() {
+    "main thread";
+    syncTintColor(ref);
+  }
 
   // deps 는 caller 가 책임.
   useEffect(() => {
     runOnMainThread(syncTintColor)(ref);
   }, deps);
 
-  return { ref };
+  return { ref, "main-thread:binduiappear": syncOnUiAppear };
 }

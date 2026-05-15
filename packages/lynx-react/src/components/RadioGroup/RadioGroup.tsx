@@ -264,6 +264,7 @@ type IconElementProps = {
   className?: string;
   style?: CSSProperties;
   ref?: React.Ref<MainThread.Element>;
+  "main-thread:binduiappear"?: () => void;
 };
 
 export interface RadioGroupItemIndicatorProps {
@@ -280,7 +281,7 @@ export function RadioGroupItemIndicator(props: RadioGroupItemIndicatorProps) {
   const { checked, disabled, pressed, tone, size } =
     useRadioGroupItemContext("RadioGroupItemIndicator");
   const iconClassName = useRadiomarkIconClass("RadioGroupItemIndicator");
-  const { ref: tintRef } = useIconColor([checked, disabled, pressed, tone, size]);
+  const iconColor = useIconColor([checked, disabled, pressed, tone, size]);
 
   const icon = checked ? checkedIcon : unchecked;
 
@@ -301,11 +302,11 @@ export function RadioGroupItemIndicator(props: RadioGroupItemIndicatorProps) {
   ]);
 
   return cloneElement(icon, {
+    ...iconColor,
     className: clsx(iconClassName, icon.props.className, className),
     style: iconSize
       ? { width: iconSize, height: iconSize, ...icon.props.style, ...style }
       : { ...icon.props.style, ...style },
-    ref: tintRef,
   });
 }
 RadioGroupItemIndicator.displayName = "RadioGroupItemIndicator";

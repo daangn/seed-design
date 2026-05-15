@@ -30,6 +30,7 @@ type IconElementProps = {
   className?: string;
   style?: React.CSSProperties;
   ref?: React.Ref<MainThread.Element>;
+  "main-thread:binduiappear"?: () => void;
 };
 
 type ActionButtonContentProps = {
@@ -150,7 +151,7 @@ function ActionButtonIconSlot({
 }) {
   const classNames = useClassNames();
   const variantProps = useProps() as ActionButtonVariantProps | null;
-  const { ref } = useIconColor([
+  const iconColor = useIconColor([
     variantProps?.variant ?? null,
     variantProps?.disabled ?? false,
     variantProps?.loading ?? false,
@@ -158,10 +159,10 @@ function ActionButtonIconSlot({
   const sizeVar = resolveIconSize(variantProps, slot);
   const childProps = icon.props;
   return cloneElement(icon, {
+    ...iconColor,
     className: clsx(classNames[slot], childProps.className),
     style:
       sizeVar != null ? { width: sizeVar, height: sizeVar, ...childProps.style } : childProps.style,
-    ref: ref as React.Ref<MainThread.Element>,
   });
 }
 
