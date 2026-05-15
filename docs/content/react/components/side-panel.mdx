@@ -1,5 +1,5 @@
 ---
-title: SidePanel
+title: Side Panel
 description: 화면 좌측 또는 우측 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.
 ---
 
@@ -80,7 +80,6 @@ npx @seed-design/cli@latest add ui:responsive-side-panel
 - md 이상 (768px+): Side Panel로 표시
 - sm 이하 (~767px): Bottom Sheet로 표시
 - 공통 제약: Header/Body/Footer 구조는 양 컴포넌트에서 동일하게 유지됩니다.
-- Persistent (`modal={false}`) + sm 이하: 모달로 자동 전환되어 BottomSheet 동작이 보장됩니다.
 
 `ResponsiveSidePanelRoot`는 `SidePanelRoot` props를 그대로 받습니다. `direction`, `size`, `width`, `maxWidth` 등 SidePanel 전용 prop은 sm 이하에서는 무시되며, 뷰포트가 breakpoint를 가로질러도 wrapper가 open 상태를 보존해 패널이 닫히지 않습니다.
 
