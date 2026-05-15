@@ -84,6 +84,19 @@
             ]
           }
         }
+      },
+      "$timing-function.pressed-scale": {
+        "values": {
+          "default": {
+            "type": "cubicBezier",
+            "value": [
+              0,
+              0,
+              0.15,
+              1
+            ]
+          }
+        }
       }
     }
   }
