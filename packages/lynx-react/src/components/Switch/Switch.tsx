@@ -7,8 +7,8 @@ import { switchmark } from "@seed-design/lynx-css/recipes/switchmark";
 import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switchmark";
 
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
-import { useControllableState } from "../../hooks/use-controllable-state";
-import { usePressTap } from "../../hooks/use-press-tap";
+import { useControllableState } from "../../hooks/useControllableState";
+import { usePressTap } from "../../hooks/usePressTap";
 
 /**
  * @platform Lynx

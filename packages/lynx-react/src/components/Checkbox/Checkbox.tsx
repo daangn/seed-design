@@ -10,9 +10,9 @@ import type { CheckmarkVariantProps } from "@seed-design/lynx-css/recipes/checkm
 import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 import { vars as checkmarkVars } from "@seed-design/lynx-css/vars/component/checkmark";
 
-import { useControllableState } from "../../hooks/use-controllable-state";
-import { useIconColor } from "../../hooks/use-icon-color";
-import { usePressTap } from "../../hooks/use-press-tap";
+import { useControllableState } from "../../hooks/useControllableState";
+import { useIconColor } from "../../hooks/useIconColor";
+import { usePressTap } from "../../hooks/usePressTap";
 import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 

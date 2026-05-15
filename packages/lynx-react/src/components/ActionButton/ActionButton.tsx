@@ -6,8 +6,8 @@ import clsx from "clsx";
 import * as React from "react";
 import { cloneElement, isValidElement, useMemo, type ReactElement } from "react";
 
-import { useIconColor } from "../../hooks/use-icon-color";
-import { usePressTap, type UsePressTapReturn } from "../../hooks/use-press-tap";
+import { useIconColor } from "../../hooks/useIconColor";
+import { usePressTap, type UsePressTapReturn } from "../../hooks/usePressTap";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
 import {

@@ -1,6 +1,6 @@
 import { act, renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
-import { usePressTap } from "../use-press-tap";
+import { usePressTap } from "../usePressTap";
 
 const fakeEvent = {} as Parameters<ReturnType<typeof usePressTap>["bindtap"]>[0];
 
