@@ -12,6 +12,6 @@ SEED Design의 핵심 패키지들이 위치하며, 디자인 토큰 정의부�
 
 ## 코드 작성 컨벤션
 
-- 패키지 의존 흐름은 `rootage -> qvism-preset/css -> react-headless -> react`를 기본으로 유지한다.
+- 패키지 의존 흐름은 `rootage -> qvism-preset/css -> react-headless -> react`와 `rootage -> lynx-qvism-preset/lynx-css -> lynx-react`를 기본으로 유지한다.
 - 토큰/레시피/스타일 변경은 source 패키지를 수정한 뒤 `bun generate:all`로 결과물을 재생성한다.
 - 교차 패키지 import는 내부 경로 대신 공개 엔트리포인트를 우선 사용한다.

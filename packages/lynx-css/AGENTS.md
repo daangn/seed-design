@@ -9,8 +9,8 @@
 | 경로 | 생성 원천 | 수정 가능 |
 |------|-----------|-----------|
 | `vars/` | `rootage/*.yaml` | **X** |
-| `recipes/` | `qvism-preset/src/recipes/*.ts` | **X** |
-| `*.css` (루트) | qvism-preset | **X** |
+| `recipes/` | `lynx-qvism-preset/src/recipes/*.ts` | **X** |
+| `*.css` (루트) | lynx-qvism-preset | **X** |
 | `qvism.config.mjs` | - | **O** |
 | `package.json` | - | **O** |
 
@@ -18,12 +18,12 @@
 
 스타일 변경이 필요하면:
 1. 토큰 → `packages/rootage/*.yaml` 수정
-2. Recipe → `packages/qvism-preset/src/recipes/*.ts` 수정
+2. Recipe → `packages/lynx-qvism-preset/src/recipes/*.ts` 수정
 3. `bun generate:all` 실행
 
 ### 수동 관리 recipe (qvism 자동 생성 제외)
 
-Lynx 플랫폼 제약으로 qvism recipe에서 자동 생성할 수 없는 컴포넌트는 수동으로 관리한다. 이 파일들은 `qvism-preset`의 `excludeRecipes`에 등록되어 `bun generate:all` 시 덮어쓰여지지 않는다.
+Lynx 플랫폼 제약으로 qvism recipe에서 자동 생성할 수 없는 컴포넌트는 수동으로 관리한다. 이 파일들은 `bun generate:all` 시 덮어쓰여지지 않도록 별도 관리한다.
 
 | Recipe | 제외 이유 | 웹과의 차이 |
 |--------|-----------|-------------|

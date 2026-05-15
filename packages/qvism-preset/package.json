@@ -14,11 +14,6 @@
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
       "require": "./lib/index.cjs"
-    },
-    "./lynx": {
-      "types": "./lib/lynx.d.ts",
-      "import": "./lib/lynx.js",
-      "require": "./lib/lynx.cjs"
     }
   },
   "main": "./lib/index.cjs",
@@ -35,7 +30,6 @@
   },
   "dependencies": {
     "@seed-design/postcss-engaged": "0.0.0",
-    "@seed-design/postcss-lynx-compat": "0.0.0",
     "@seed-design/qvism-core": "0.0.0",
     "@seed-design/rootage-core": "0.0.0"
   },
@@ -43,7 +37,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@lynx-js/types": "^3.7.0",
     "csstype": "^3.1.3"
   }
 }

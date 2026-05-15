@@ -1,4 +1,4 @@
-import preset from "@seed-design/qvism-preset/lynx";
+import preset from "@seed-design/lynx-qvism-preset";
 
 export default {
   ...preset,
