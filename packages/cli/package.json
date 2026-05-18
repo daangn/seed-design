@@ -16,7 +16,7 @@
     "src"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19.0"
   },
   "scripts": {
     "build": "ENV=prod bun ./build.mjs",
