@@ -34,6 +34,8 @@ export const ResponsiveSidePanelRoot = ({
   open: openProp,
   defaultOpen = false,
   onOpenChange,
+  direction,
+  size,
   ...props
 }: ResponsiveSidePanelRootProps) => {
   const breakpoint = useBreakpoint();
@@ -42,22 +44,33 @@ export const ResponsiveSidePanelRoot = ({
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
   const isControlled = openProp !== undefined;
   const open = isControlled ? openProp : internalOpen;
-  const setOpen = React.useCallback(
-    (next: boolean) => {
+  const setOpen = React.useCallback<NonNullable<ResponsiveSidePanelRootProps["onOpenChange"]>>(
+    (next, details) => {
       if (!isControlled) setInternalOpen(next);
-      onOpenChange?.(next);
+      onOpenChange?.(next, details);
     },
     [isControlled, onOpenChange],
   );
 
   const value = React.useMemo(() => ({ belowMd }), [belowMd]);
-  const Root = belowMd ? SeedBottomSheet.BottomSheetRoot : SeedSidePanel.SidePanelRoot;
 
   return (
     <ResponsiveContext.Provider value={value}>
-      <Root open={open} onOpenChange={setOpen} {...props}>
-        {children}
-      </Root>
+      {belowMd ? (
+        <SeedBottomSheet.BottomSheetRoot open={open} onOpenChange={setOpen} {...props}>
+          {children}
+        </SeedBottomSheet.BottomSheetRoot>
+      ) : (
+        <SeedSidePanel.SidePanelRoot
+          open={open}
+          onOpenChange={setOpen}
+          direction={direction}
+          size={size}
+          {...props}
+        >
+          {children}
+        </SeedSidePanel.SidePanelRoot>
+      )}
     </ResponsiveContext.Provider>
   );
 };
@@ -79,10 +92,13 @@ export interface ResponsiveSidePanelContentProps extends SeedSidePanel.SidePanel
 export const ResponsiveSidePanelContent = React.forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelContentProps
->((props, ref) => {
+>(({ width, maxWidth, ...props }, ref) => {
   const { belowMd } = useResponsiveContext();
-  const Content = belowMd ? SeedBottomSheet.BottomSheetContent : SeedSidePanel.SidePanelContent;
-  return <Content ref={ref} {...props} />;
+  if (belowMd) {
+    return <SeedBottomSheet.BottomSheetContent ref={ref} {...props} />;
+  }
+
+  return <SeedSidePanel.SidePanelContent ref={ref} width={width} maxWidth={maxWidth} {...props} />;
 });
 ResponsiveSidePanelContent.displayName = "ResponsiveSidePanelContent";
 

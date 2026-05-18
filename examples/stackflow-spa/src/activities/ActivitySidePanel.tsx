@@ -1,4 +1,5 @@
 import { Flex, VStack } from "@seed-design/react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -28,13 +29,19 @@ const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () =
 
   return (
     <SidePanelRoot open={open} onOpenChange={onOpenChange} direction={direction} size={size}>
-      <SidePanelContent title="Side Panel" description="Side Panel 컴포넌트 데모입니다.">
+      <SidePanelContent
+        title="Side Panel"
+        description="Side Panel 컴포넌트 데모입니다."
+        layerIndex={useActivityZIndexBase()}
+      >
         <SidePanelBody>
           <VStack gap="x4">
             <VStack gap="x2">
               <SegmentedControl
+                aria-label="패널 방향"
                 value={direction}
                 onValueChange={(v) => setDirection(v as "left" | "right")}
+                style={{ width: "100%" }}
               >
                 <SegmentedControlItem value="left">Left</SegmentedControlItem>
                 <SegmentedControlItem value="right">Right</SegmentedControlItem>
@@ -43,8 +50,10 @@ const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () =
 
             <VStack gap="x2">
               <SegmentedControl
+                aria-label="패널 크기"
                 value={size}
                 onValueChange={(v) => setSize(v as "small" | "medium" | "large")}
+                style={{ width: "100%" }}
               >
                 <SegmentedControlItem value="small">Small</SegmentedControlItem>
                 <SegmentedControlItem value="medium">Medium</SegmentedControlItem>

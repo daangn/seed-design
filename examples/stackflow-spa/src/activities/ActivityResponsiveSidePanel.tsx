@@ -1,4 +1,5 @@
 import { Flex, VStack } from "@seed-design/react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -32,13 +33,16 @@ const ActivityResponsiveSidePanel: StaticActivityComponentType<
       <ResponsiveSidePanelContent
         title="Responsive Side Panel"
         description="md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 표시됩니다. 뷰포트를 줄여서 자동 전환을 확인해보세요."
+        layerIndex={useActivityZIndexBase()}
       >
         <ResponsiveSidePanelBody>
           <VStack gap="x4">
             <VStack gap="x2">
               <SegmentedControl
+                aria-label="패널 크기"
                 value={size}
                 onValueChange={(v) => setSize(v as "small" | "medium" | "large")}
+                style={{ width: "100%" }}
               >
                 <SegmentedControlItem value="small">Small</SegmentedControlItem>
                 <SegmentedControlItem value="medium">Medium</SegmentedControlItem>
