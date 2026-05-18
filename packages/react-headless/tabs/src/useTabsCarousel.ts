@@ -46,6 +46,18 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
         }
         return true;
       },
+      // Workaround for Embla v8 AutoHeight plugin not detecting lazy-loaded content height changes.
+      // When a slide's content changes size (e.g. after lazy mount), reInit recalculates the height.
+      // ref: https://github.com/davidjerleke/embla-carousel/discussions/1142
+      watchResize: (emblaApi, entries) => {
+        for (const entry of entries) {
+          if (entry.target !== emblaApi.containerNode()) {
+            emblaApi.reInit();
+            return false;
+          }
+        }
+        return true;
+      },
     },
     plugins,
   );

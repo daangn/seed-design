@@ -7,6 +7,10 @@ const appBarSlotNames = [
     "seed-app-bar__root"
   ],
   [
+    "background",
+    "seed-app-bar__background"
+  ],
+  [
     "left",
     "seed-app-bar__left"
   ],

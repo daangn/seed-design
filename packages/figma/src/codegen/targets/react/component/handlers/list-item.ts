@@ -39,9 +39,9 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ListItemProperties>(metadata.componentListItem.key, (node, traverse) => {
     const { componentProperties: props } = node;
 
-    const { alignItems, title } = match(props.Variants.value)
-      .with("Single Line", () => ({ alignItems: undefined, title: props["Title#28452:21"].value }))
-      .with("Multi Line", () => ({
+    const { alignItems, title } = match(props.Align.value)
+      .with("Center", () => ({ alignItems: undefined, title: props["Title#28452:21"].value }))
+      .with("Top", () => ({
         alignItems: "flex-start",
         title: props["Title #28487:0"].value,
       }))

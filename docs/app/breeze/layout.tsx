@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
-import { breezeOptions } from "../layout.config";
+import { baseOptions } from "../layout.config";
+import { breezeSource } from "../source";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import DefaultSearchDialog from "@/components/search/search";
 import { TAGS } from "@/app/api/search/constants";
@@ -18,7 +19,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           },
         }}
       >
-        <DocsLayout {...breezeOptions}>{children}</DocsLayout>
+        <DocsLayout {...baseOptions} tree={breezeSource.pageTree}>
+          {children}
+        </DocsLayout>
       </RootProvider>
     </MotionProvider>
   );

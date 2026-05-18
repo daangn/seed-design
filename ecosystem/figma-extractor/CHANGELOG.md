@@ -1,5 +1,11 @@
 # @seed-design/figma-extractor
 
+## 1.1.1
+
+### Patch Changes
+
+- 7ca8e6c: axios 의존성을 업데이트합니다.
+
 ## 1.1.0
 
 ### Minor Changes

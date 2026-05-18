@@ -46,7 +46,15 @@ function readYAMLFilesSync(dir: string, fileList: string[] = []) {
   return fileList;
 }
 
-function writeFileSync({ filename, writePath, code }) {
+function writeFileSync({
+  filename,
+  writePath,
+  code,
+}: {
+  filename: string;
+  writePath: string;
+  code: string;
+}) {
   console.log("Writing", filename, "to", writePath);
 
   if (!fs.existsSync(path.dirname(writePath))) {

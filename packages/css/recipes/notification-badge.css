@@ -17,13 +17,14 @@
     border-radius: var(--seed-radius-full)
 }
 .seed-notification-badge--size_large {
+    min-width: 18px;
     min-height: 18px;
     border-radius: var(--seed-radius-full);
     padding-left: var(--seed-dimension-x1);
     padding-right: var(--seed-dimension-x1);
     padding-top: 0px;
     padding-bottom: 0px;
-    font-size: var(--seed-font-size-t1);
-    line-height: var(--seed-line-height-t1);
+    font-size: var(--seed-font-size-t1-static);
+    line-height: var(--seed-line-height-t1-static);
     font-weight: var(--seed-font-weight-bold)
 }

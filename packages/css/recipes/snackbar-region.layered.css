@@ -3,7 +3,7 @@
     z-index: 2147483647;
     left: calc(env(safe-area-inset-left, 0px));
     right: calc(env(safe-area-inset-right, 0px));
-    bottom: calc(env(safe-area-inset-bottom, 0px)  + var(--snackbar-region-offset, 0px));
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px));
     padding-left: var(--seed-dimension-x2);
     padding-right: var(--seed-dimension-x2);
     padding-top: var(--seed-dimension-x2);

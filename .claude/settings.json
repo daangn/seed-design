@@ -70,17 +70,6 @@
         ]
       }
     ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/skill-activation-prompt.sh",
-            "timeout": 3000
-          }
-        ]
-      }
-    ],
     "Stop": [
       {
         "hooks": [

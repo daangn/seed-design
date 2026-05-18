@@ -681,7 +681,8 @@ export default plugin(
   "d4": "var(--seed-duration-d4)",
   "d5": "var(--seed-duration-d5)",
   "d6": "var(--seed-duration-d6)",
-  "color-transition": "var(--seed-duration-color-transition)"
+  "color-transition": "var(--seed-duration-color-transition)",
+  "pressed-scale": "var(--seed-duration-pressed-scale)"
 },
         transitionTimingFunction: {
   "linear": "var(--seed-timing-function-linear)",
@@ -689,7 +690,8 @@ export default plugin(
   "enter": "var(--seed-timing-function-enter)",
   "exit": "var(--seed-timing-function-exit)",
   "enter-expressive": "var(--seed-timing-function-enter-expressive)",
-  "exit-expressive": "var(--seed-timing-function-exit-expressive)"
+  "exit-expressive": "var(--seed-timing-function-exit-expressive)",
+  "pressed-scale": "var(--seed-timing-function-pressed-scale)"
 },
         boxShadow: {
   "s1": "var(--seed-shadow-s1)",

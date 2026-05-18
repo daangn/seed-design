@@ -31,7 +31,7 @@ export type CubicBezier = {
   value: readonly [number, number, number, number] | TokenRef;
 };
 export type ShadowLayer = {
-  color: ColorLit;
+  color: ColorLit | TokenRef;
   offsetX: DimensionLit;
   offsetY: DimensionLit;
   blur: DimensionLit;
@@ -42,7 +42,7 @@ export type Shadow = {
   value: ShadowLayer[] | TokenRef;
 };
 export type GradientStop = {
-  color: ColorLit;
+  color: ColorLit | TokenRef;
   position: number;
 };
 export type Gradient = {

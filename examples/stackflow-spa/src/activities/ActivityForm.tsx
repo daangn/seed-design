@@ -283,6 +283,8 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
                   <Slider
                     label="예산 범위"
                     indicator="선택"
+                    invalid
+                    errorMessage="Fugiat nisi exercitation incididunt qui incididunt in id laborum voluptate."
                     min={0}
                     max={1_000_000}
                     step={50_000}

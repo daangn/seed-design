@@ -3,6 +3,161 @@ title: Figma MCP
 description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하는 Model Context Protocol(MCP)를 제공합니다.
 ---
 
+## 빠른 설치
+
+[Figma 설정](https://www.figma.com/settings)에서 **Personal Access Token** (PAT)을 발급받을 수 있습니다.
+
+- **PAT가 있는 경우**: Figma URL을 복사해서 AI Agent에게 전달하는 **REST API** 방식으로 사용할 수 있습니다.
+- **PAT가 없는 경우**: Figma 플러그인을 통해 실시간으로 선택한 레이어를 가져오는 **WebSocket** 방식을 사용해야 합니다.
+
+각 방식의 상세한 차이점은 아래 [설치](#설치) 섹션을 참고하세요.
+
+<Tabs groupId="figma-quick-install" persist items={['REST API (PAT 필요)', 'WebSocket (PAT 불필요)']}>
+
+<Tab value="REST API (PAT 필요)">
+
+<Tabs items={['Claude Code', 'Codex CLI', 'Gemini CLI', 'Claude Desktop']}>
+
+<Tab value="Claude Code">
+
+```bash
+claude mcp add seed-design-figma \
+  --env FIGMA_PERSONAL_ACCESS_TOKEN=${FIGMA_PERSONAL_ACCESS_TOKEN} \
+  -- bunx -y @seed-design/mcp@latest
+```
+
+</Tab>
+
+<Tab value="Codex CLI">
+
+```bash
+codex mcp add seed-design-figma \
+  --env FIGMA_PERSONAL_ACCESS_TOKEN=${FIGMA_PERSONAL_ACCESS_TOKEN} \
+  -- bunx -y @seed-design/mcp@latest
+```
+
+</Tab>
+
+<Tab value="Gemini CLI">
+
+`~/.gemini/settings.json` 파일에 다음을 추가합니다:
+
+```json
+{
+  "mcpServers": {
+    "seed-design-figma": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"],
+      "env": {
+        "FIGMA_PERSONAL_ACCESS_TOKEN": "<YOUR_FIGMA_PERSONAL_ACCESS_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab value="Claude Desktop">
+
+`~/Library/Application Support/Claude/claude_desktop_config.json` 파일에 다음을 추가합니다:
+
+```json
+{
+  "mcpServers": {
+    "seed-design-figma": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"],
+      "env": {
+        "FIGMA_PERSONAL_ACCESS_TOKEN": "<YOUR_FIGMA_PERSONAL_ACCESS_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+</Tab>
+
+</Tabs>
+
+</Tab>
+
+<Tab value="WebSocket (PAT 불필요)">
+
+먼저 백그라운드에서 WebSocket 서버를 실행하고, Figma에서 [MCP 플러그인](https://www.figma.com/community/plugin/1496384010980477154)을 설치합니다.
+
+<Callout>
+
+WebSocket 서버 실행을 위해 Bun 런타임이 필요합니다. `--bun` flag를 사용해주세요.
+
+</Callout>
+
+```bash
+bunx --bun @seed-design/mcp@latest socket
+```
+
+그 다음 MCP 서버를 등록합니다.
+
+<Tabs items={['Claude Code', 'Codex CLI', 'Gemini CLI', 'Claude Desktop']}>
+
+<Tab value="Claude Code">
+
+```bash
+claude mcp add seed-design-figma \
+  -- bunx -y @seed-design/mcp@latest
+```
+
+</Tab>
+
+<Tab value="Codex CLI">
+
+```bash
+codex mcp add seed-design-figma \
+  -- bunx -y @seed-design/mcp@latest
+```
+
+</Tab>
+
+<Tab value="Gemini CLI">
+
+`~/.gemini/settings.json` 파일에 다음을 추가합니다:
+
+```json
+{
+  "mcpServers": {
+    "seed-design-figma": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"]
+    }
+  }
+}
+```
+
+</Tab>
+
+<Tab value="Claude Desktop">
+
+`~/Library/Application Support/Claude/claude_desktop_config.json` 파일에 다음을 추가합니다:
+
+```json
+{
+  "mcpServers": {
+    "seed-design-figma": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"]
+    }
+  }
+}
+```
+
+</Tab>
+
+</Tabs>
+
+</Tab>
+
+</Tabs>
+
 ## 설치
 
 <Steps>
@@ -60,6 +215,12 @@ bunx --bun @seed-design/mcp@latest socket
 
 </Tabs>
 
+</Step>
+
+<Step>
+
+### MCP 서버 등록
+
 #### `--mode` 옵션으로 도구 범위 제한하기
 
 MCP 서버 실행 시 `--mode` 옵션을 명시하면 해당 모드에서 사용 가능한 도구만 등록하여 context 크기를 줄일 수 있습니다.
@@ -71,12 +232,6 @@ MCP 서버 실행 시 `--mode` 옵션을 명시하면 해당 모드에서 사용
 | `all` (기본값) | 모든 도구 등록        | PAT 있으면 REST 우선, WS 전용 도구는 WS 사용   |
 | `rest`         | REST API 도구만 등록  | `get_selection` 등 WS 전용 도구 미등록         |
 | `websocket`    | WebSocket 도구만 등록 | 현재 모든 도구가 WebSocket 동작 가능, PAT 무시 |
-
-</Step>
-
-<Step>
-
-### MCP 서버 등록
 
 <Tabs groupId="figma-access-method" persist items={['REST API', 'WebSocket']}>
 

@@ -106,9 +106,205 @@ export const FIGMA_STYLES = [
   },
   {
     "styleType": "TEXT",
+    "key": "f1b075bf372e390817956ac334349f42ec368ccd",
+    "name": "scale/t10-medium",
+    "description": "26",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "58575457da24cac686bda44738f925bf7fb1000f",
+    "name": "scale/t10-regular",
+    "description": "26",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
     "key": "08861e25c3f74a29c2ae4ce007fe50b63e302392",
     "name": "scale/t10-static-bold",
     "description": "26",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "7b382c6819df53c004f4bb6464cc1159437d28f4",
+    "name": "scale/t10-static-medium",
+    "description": "26",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "7ac0425bf2720501638e207801bdc83188776606",
+    "name": "scale/t10-static-regular",
+    "description": "26",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "c4098caa6dadf9d0313a5cd3bf1954aa428806bc",
+    "name": "scale/t11-bold",
+    "description": "28",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "7f9079e1462525cba38c2bf1eef30868a3604c1f",
+    "name": "scale/t11-medium",
+    "description": "28",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "ea8f44eb90bc314a4afffcb2cd01df65e62e71ac",
+    "name": "scale/t11-regular",
+    "description": "28",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "3fe2b88e352b6983ca3f1ba3564116c9df17d1f4",
+    "name": "scale/t11-static-bold",
+    "description": "28",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "d75f42739e281be648feeba353a88a2beb6cd6b3",
+    "name": "scale/t11-static-medium",
+    "description": "28",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "2ec7180151eb92cf7dda82e2e9d44e17db597aa7",
+    "name": "scale/t11-static-regular",
+    "description": "28",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "8848230f95a4b768c3fb4586d6cf00c4b7871597",
+    "name": "scale/t12-bold",
+    "description": "32",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "d03833cfa1fc42209eaaf75ac4ac7563c3ce05db",
+    "name": "scale/t12-medium",
+    "description": "32",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "f520df58299347b765369130e1cc35c4d5777ee5",
+    "name": "scale/t12-regular",
+    "description": "32",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "078207b0210a5e730107f7e9434ccf73fe4aa037",
+    "name": "scale/t12-static-bold",
+    "description": "32",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "0bbb0b5109594a030af1b31fa4a2fec97c888898",
+    "name": "scale/t12-static-medium",
+    "description": "32",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "7b5c555d3b6b442c7c2560d40687ad511fccd2bf",
+    "name": "scale/t12-static-regular",
+    "description": "32",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "f8246d0f7aac99e4bedf442e7705eb8c6fbd287f",
+    "name": "scale/t13-large",
+    "description": "40",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "aa030de3cc69647ac9261dde645751902cb034fa",
+    "name": "scale/t13-medium",
+    "description": "40",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "5f319de1ecd415b8046b8104dee700d68276f591",
+    "name": "scale/t13-regular",
+    "description": "40",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "c431b4007e9dc95ca040323d7bfbfc93506dcb1b",
+    "name": "scale/t13-static-bold",
+    "description": "40",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "f27b6a9f531a34f06cc33c6f051f178b78d7b42a",
+    "name": "scale/t13-static-medium",
+    "description": "40",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "25aafb51bb53e8ad6a4fd3888c4cd0fe22fe1484",
+    "name": "scale/t13-static-regular",
+    "description": "40",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "cb4871a19bfe5793fb62e8cb2af414077dbb554f",
+    "name": "scale/t14-bold",
+    "description": "48",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "7a65a36ff5664459014003876f7e008f7f9a29ac",
+    "name": "scale/t14-medium",
+    "description": "48",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "319ce219a9a7d266cdc86525f6a9d15d33d3fbc5",
+    "name": "scale/t14-regular",
+    "description": "48",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "a901e969dec12e78cc4e12e2dedd49490d3f9b6c",
+    "name": "scale/t14-static-bold",
+    "description": "48",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "a8b4a10427f553ab3675471396389a0aab9cba74",
+    "name": "scale/t14-static-medium",
+    "description": "48",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "cdcbb93f6e2c0785bd3bb0e9f7ecad7568c1be5e",
+    "name": "scale/t14-static-regular",
+    "description": "48",
     "remote": false
   },
   {
@@ -372,8 +568,36 @@ export const FIGMA_STYLES = [
   },
   {
     "styleType": "TEXT",
+    "key": "6e0e3a4652ac72a7bdf4f6ca5e3b3e88e6e91a1f",
+    "name": "scale/t8-medium",
+    "description": "22",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "ba43d7fc601a61769f623e1ec54a569fcf80d0d2",
+    "name": "scale/t8-regular",
+    "description": "22",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
     "key": "37821f18bc4416d7a81fa429d89240317a8f17e6",
     "name": "scale/t8-static-bold",
+    "description": "22",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "759499dc9fc172011297eee2b8b96c3b369708c9",
+    "name": "scale/t8-static-medium",
+    "description": "22",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "2643414348304d2a7f712f321a7ee07c3f20cff6",
+    "name": "scale/t8-static-regular",
     "description": "22",
     "remote": false
   },
@@ -386,8 +610,36 @@ export const FIGMA_STYLES = [
   },
   {
     "styleType": "TEXT",
+    "key": "2c069c359d4d880a09a0ff025ae70e56e5e6cfda",
+    "name": "scale/t9-medium",
+    "description": "24",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "9e695936bfe469d21c072346744f0ce73c808336",
+    "name": "scale/t9-regular",
+    "description": "24",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
     "key": "c06e147e98440109199e2e3fa2a63390d19afb0c",
     "name": "scale/t9-static-bold",
+    "description": "24",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "6e6b4cd794df40335e9f3f6ec3ba519e71e5db5d",
+    "name": "scale/t9-static-medium",
+    "description": "24",
+    "remote": false
+  },
+  {
+    "styleType": "TEXT",
+    "key": "25fd249f85598595696ee12df23f3c0209287199",
+    "name": "scale/t9-static-regular",
     "description": "24",
     "remote": false
   },

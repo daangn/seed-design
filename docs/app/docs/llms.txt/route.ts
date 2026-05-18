@@ -41,9 +41,11 @@ export async function GET() {
           );
           const llmsUrl = new URL(`/llms/docs/${slugsWithExt.join("/")}`, baseUrl);
           const displayTitle = getDisplayTitle(page, categoryPages);
-          return `- [${displayTitle}](${llmsUrl})`;
+          const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+          return { displayTitle, line: `- [${displayTitle}](${llmsUrl})${deprecatedLabel}` };
         })
-        .sort()
+        .sort((a, b) => a.displayTitle.localeCompare(b.displayTitle))
+        .map((x) => x.line)
         .join("\n");
       return `### ${category}
 

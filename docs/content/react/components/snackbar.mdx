@@ -83,6 +83,22 @@ npx @seed-design/cli@latest add ui:snackbar
   ```
 </ComponentExample>
 
+### Strategy
+
+Snackbar가 이미 표시 중일 때 새로운 Snackbar를 생성하면, 기본적으로 기존 Snackbar를 즉시 교체합니다 (`immediate`).
+큐에 넣고 순차적으로 보여주려면 `strategy: "queued"`를 사용합니다.
+
+`strategy`는 `SnackbarProvider`에서 기본값을 설정하거나, `create()` 호출 시 개별적으로 지정할 수 있습니다.
+
+<ComponentExample name="react/snackbar/strategy">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/snackbar/strategy.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Avoid Overlap
 
 `<SnackbarAvoidOverlap />` 컴포넌트를 사용하여 스낵바가 겹치지 않아야 하는 영역을 지정할 수 있습니다.

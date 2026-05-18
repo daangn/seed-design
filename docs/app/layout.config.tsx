@@ -1,11 +1,3 @@
-import {
-  aiIntegrationSource,
-  breezeSource,
-  lynxSource,
-  reactSource,
-  docsSource,
-} from "@/app/source";
-import { ReactVersionSwitcher } from "@/components/react-version-switcher";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
@@ -114,33 +106,4 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       </div>
     ),
   },
-};
-
-export const docsOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await docsSource.getTransformedPageTree(),
-};
-
-export const reactOptions: DocsLayoutProps = {
-  ...baseOptions,
-  sidebar: {
-    ...baseOptions.sidebar,
-    banner: <ReactVersionSwitcher />,
-  },
-  tree: await reactSource.getTransformedReactPageTree(),
-};
-
-export const lynxOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await lynxSource.getTransformedLynxPageTree(),
-};
-
-export const breezeOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await breezeSource.getTransformedBreezePageTree(),
-};
-
-export const aiIntegrationOptions: DocsLayoutProps = {
-  ...baseOptions,
-  tree: await aiIntegrationSource.getTransformedAiIntegrationPageTree(),
 };

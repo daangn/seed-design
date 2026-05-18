@@ -11,7 +11,6 @@ function Component() {
     <ActionButton
       onClick={() =>
         adapter.create({
-          timeout: 5000,
           onClose: () => {},
           render: () => <Snackbar message="알림 메세지" actionLabel="확인" onAction={() => {}} />,
         })

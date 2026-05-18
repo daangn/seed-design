@@ -3,12 +3,12 @@ import react from "@vitejs/plugin-react";
 import { viteSingleFile } from "vite-plugin-singlefile";
 import { resolve } from "node:path";
 import { seedDesignPlugin } from "@seed-design/vite-plugin";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), viteSingleFile(), seedDesignPlugin(), tsconfigPaths()],
+  plugins: [react(), viteSingleFile(), seedDesignPlugin()],
   resolve: {
+    tsconfigPaths: true,
     alias: {
       "seed-design": resolve(__dirname, "src/ui/common/design-system"),
       common: resolve(__dirname, "src/ui/common"),
@@ -20,7 +20,7 @@ export default defineConfig({
     emptyOutDir: false,
     cssCodeSplit: false,
     assetsInlineLimit: 100000000,
-    rollupOptions: {
+    rolldownOptions: {
       input: resolve(__dirname, "index.html"),
       external: ["tabbable"],
     },

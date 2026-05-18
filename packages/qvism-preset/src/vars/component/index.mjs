@@ -73,5 +73,7 @@ export { vars as tagGroup } from "./tag-group.mjs";
 export { vars as textButton } from "./text-button.mjs";
 export { vars as textInput } from "./text-input.mjs";
 export { vars as toggleButton } from "./toggle-button.mjs";
+export { vars as topNavigationIconButton } from "./top-navigation-icon-button.mjs";
+export { vars as topNavigationTextButton } from "./top-navigation-text-button.mjs";
 export { vars as topNavigation } from "./top-navigation.mjs";
 export { vars as typography } from "./typography.mjs";

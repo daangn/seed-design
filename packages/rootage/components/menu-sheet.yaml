@@ -46,6 +46,8 @@ data:
         properties:
           gap:
             type: dimension
+          paddingTop:
+            type: dimension
           paddingBottom:
             type: dimension
       title:
@@ -110,6 +112,7 @@ data:
           exitTimingFunction: $timing-function.exit
         header:
           gap: $dimension.x1
+          paddingTop: $dimension.x2
           paddingBottom: $dimension.x4
         title:
           fontSize: $font-size.t6

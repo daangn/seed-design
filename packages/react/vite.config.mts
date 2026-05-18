@@ -21,7 +21,7 @@ export default defineConfig({
       entry: globbySync(["src/**/index.ts", "src/vars.ts", "src/primitive.ts"]),
     },
     outDir: "lib",
-    rollupOptions: {
+    rolldownOptions: {
       logLevel: "silent",
       external: [
         ...Object.keys(pkg.dependencies ?? {}),

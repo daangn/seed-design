@@ -12,6 +12,7 @@ export const vars = {
   "sizeLarge": {
     "enabled": {
       "root": {
+        "minWidth": "18px",
         "minHeight": "18px",
         "paddingX": "var(--seed-dimension-x1)",
         "paddingY": "0px",
@@ -21,8 +22,8 @@ export const vars = {
         "textAttachedGap": "2px"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t1)",
-        "lineHeight": "var(--seed-line-height-t1)",
+        "fontSize": "var(--seed-font-size-t1-static)",
+        "lineHeight": "var(--seed-line-height-t1-static)",
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }

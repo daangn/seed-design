@@ -23,6 +23,7 @@ export const vars = {
       },
       "header": {
         "gap": "var(--seed-dimension-x1)",
+        "paddingTop": "var(--seed-dimension-x2)",
         "paddingBottom": "var(--seed-dimension-x4)"
       },
       "title": {

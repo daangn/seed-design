@@ -3,6 +3,7 @@ kind: ComponentSpec
 metadata:
   id: menu-sheet-close-button
   name: Menu Sheet Close Button
+  deprecated: No longer used. Menu Sheet now uses a handle instead of a close button.
 data:
   schema:
     slots:

@@ -18,13 +18,41 @@ import {
 } from "./estree-utils";
 
 /*
+  fumadocs processed text에서 HTML entity로 escape된 문자열을 디코딩합니다.
+  예: `[&#x22;color&#x22;, &#x22;palette&#x22;]` → `["color", "palette"]`
+*/
+function decodeHtmlEntities(str: string): string {
+  return str
+    .replace(/&#x22;/g, '"')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
+/*
   <TokenReference groups={["color", "palette"]} /> 에서 groups 배열을 파싱합니다.
+  fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
 function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "groups",
   );
-  if (!attr || typeof attr.value !== "object" || !attr.value) return [];
+  if (!attr) return [];
+
+  // fumadocs processed text: groups="[&#x22;color&#x22;, &#x22;palette&#x22;]"
+  if (typeof attr.value === "string") {
+    try {
+      const decoded = decodeHtmlEntities(attr.value);
+      const parsed: unknown = JSON.parse(decoded);
+      if (Array.isArray(parsed)) return parsed.filter((v): v is string => typeof v === "string");
+    } catch {
+      // JSON 파싱 실패 시 빈 배열 반환
+    }
+    return [];
+  }
+
+  if (typeof attr.value !== "object" || !attr.value) return [];
 
   const attrValue = attr.value as MdxJsxAttributeValueExpression;
   const estree = attrValue.data?.estree;
@@ -43,12 +71,29 @@ function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
 
 /*
   <TokenReference regex={/\$color\..*-pressed$/} /> 에서 regex를 파싱합니다.
+  fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
 function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "regex",
   );
-  if (!attr || typeof attr.value !== "object" || !attr.value) return null;
+  if (!attr) return null;
+
+  // fumadocs processed text: regex="/\$color\..*-pressed$/"
+  if (typeof attr.value === "string") {
+    const decoded = decodeHtmlEntities(attr.value);
+    const match = decoded.match(/^\/(.+)\/([dgimsuvy]*)$/);
+    if (match) {
+      try {
+        return new RegExp(match[1], match[2]);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  if (typeof attr.value !== "object" || !attr.value) return null;
 
   const attrValue = attr.value as MdxJsxAttributeValueExpression;
   const estree = attrValue.data?.estree;
@@ -137,7 +182,20 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
   tokenDataCache = new Map();
-  const rootageDir = join(import.meta.dir, "../../../public/rootage");
+  // Next.js 빌드 시 cwd는 docs/, bun test는 루트에서 실행
+  const candidates = [
+    join(process.cwd(), "public/rootage"),
+    join(process.cwd(), "docs/public/rootage"),
+  ];
+  const rootageDir = candidates.find((dir) => {
+    try {
+      readFileSync(join(dir, "index.json"), "utf-8");
+      return true;
+    } catch {
+      return false;
+    }
+  });
+  if (!rootageDir) return tokenDataCache;
 
   try {
     const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
@@ -175,11 +233,12 @@ export const tokenReferenceRule: Rule = {
       const matched: { id: string; entry: { values: Record<string, Exchange.Value> } }[] = [];
       for (const data of tokenData.values()) {
         for (const [id, entry] of Object.entries(data.data.tokens)) {
+          regex.lastIndex = 0;
           if (regex.test(id)) matched.push({ id, entry });
         }
       }
 
-      if (matched.length === 0) throw new Error(`No tokens matched regex: ${regex}`);
+      if (matched.length === 0) return [node];
 
       const themeNames = Object.keys(matched[0].entry.values);
       const headers = ["Token", ...themeNames];
@@ -208,16 +267,16 @@ export const tokenReferenceRule: Rule = {
         if (table) sections.push(`## ${data.metadata.name}\n\n${table}`);
       }
       const allTables = sections.join("\n\n");
-      if (!allTables) throw new Error("No token tables generated");
+      if (!allTables) return [node];
       return [{ type: "html", value: allTables }];
     }
 
     const tokenPath = `/${groups[0]}.json`;
     const data = tokenData.get(tokenPath);
-    if (!data) throw new Error(`Token file not found: ${tokenPath}`);
+    if (!data) return [node];
 
     const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);
-    if (!tableMarkdown) throw new Error(`No table generated for groups: ${groups.join(".")}`);
+    if (!tableMarkdown) return [node];
 
     return [{ type: "html", value: tableMarkdown }];
   },

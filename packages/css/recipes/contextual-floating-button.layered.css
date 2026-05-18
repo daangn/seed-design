@@ -57,13 +57,13 @@
     --range-color: var(--seed-color-fg-neutral-inverted);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
       background: var(--seed-color-bg-neutral-inverted-pressed);
     }
@@ -89,13 +89,13 @@
     --range-color: var(--seed-color-fg-neutral);
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_layer:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-layer-floating-pressed);
     }
   }
 
-  @media (hover: none) {
+  @media not all and (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
       background: var(--seed-color-bg-layer-floating-pressed);
     }
