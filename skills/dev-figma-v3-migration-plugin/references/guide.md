@@ -91,9 +91,12 @@ git diff src/main/data/__generated__/
 ```typescript
 import type { ComponentMapping, NewComponentProperties } from "./types";
 
-export const exampleMapping: ComponentMapping<"Old Component Name", "New Component Name"> = {
-  oldComponent: "Old Component Name",    // V2 컴포넌트 이름 (Generated 파일의 name과 일치)
-  newComponent: "New Component Name",    // V3 컴포넌트 이름
+export const exampleMapping: ComponentMapping<
+  "Old Component Name",
+  "New Component Name"
+> = {
+  oldComponent: "Old Component Name", // V2 컴포넌트 이름 (Generated 파일의 name과 일치)
+  newComponent: "New Component Name", // V3 컴포넌트 이름
   variantMap: {
     // Variant 값 매핑
   },
@@ -112,7 +115,10 @@ export const exampleMapping: ComponentMapping<"Old Component Name", "New Compone
 
 import type { ComponentMapping, NewComponentProperties } from "./types";
 
-export const boxButtonMapping: ComponentMapping<"✅ Box Button v2", "🟢 Action Button"> = {
+export const boxButtonMapping: ComponentMapping<
+  "✅ Box Button v2",
+  "🟢 Action Button"
+> = {
   oldComponent: "✅ Box Button v2",
   newComponent: "🟢 Action Button",
 
@@ -148,10 +154,12 @@ export const boxButtonMapping: ComponentMapping<"✅ Box Button v2", "🟢 Actio
     // 조건부 로직으로 Layout 설정
     if (prefixIcon && suffixIcon) {
       newProperties.Layout = "Icon Last";
-      newProperties["Prefix Icon#5987:305"] = oldProperties["↳Icons#28292:0"].value;
+      newProperties["Prefix Icon#5987:305"] =
+        oldProperties["↳Icons#28292:0"].value;
     } else if (prefixIcon) {
       newProperties.Layout = "Icon First";
-      newProperties["Prefix Icon#5987:305"] = oldProperties["↳Icons#28292:0"].value;
+      newProperties["Prefix Icon#5987:305"] =
+        oldProperties["↳Icons#28292:0"].value;
     } else if (suffixIcon) {
       newProperties.Layout = "Icon Last";
     } else {
@@ -173,7 +181,10 @@ export const boxButtonMapping: ComponentMapping<"✅ Box Button v2", "🟢 Actio
 import type { ComponentMapping, NewComponentProperties } from "./types";
 
 // 자식 컴포넌트 매핑 정의
-const itemMenuGroupMapping: ComponentMapping<"Action button group", ".Item / Menu Group"> = {
+const itemMenuGroupMapping: ComponentMapping<
+  "Action button group",
+  ".Item / Menu Group"
+> = {
   oldComponent: "Action button group",
   newComponent: ".Item / Menu Group",
   variantMap: {},
@@ -188,7 +199,10 @@ const itemMenuGroupMapping: ComponentMapping<"Action button group", ".Item / Men
   },
 };
 
-const itemMenuItemMapping: ComponentMapping<"Action button", ".Item / Menu Item"> = {
+const itemMenuItemMapping: ComponentMapping<
+  "Action button",
+  ".Item / Menu Item"
+> = {
   oldComponent: "Action button",
   newComponent: ".Item / Menu Item",
   variantMap: {
@@ -207,7 +221,8 @@ const itemMenuItemMapping: ComponentMapping<"Action button", ".Item / Menu Item"
     const hasPrefixIcon = oldProperties["Prefix icon"].value === "True";
     if (hasPrefixIcon) {
       newProperties["Show Prefix Icon#17043:5"] = true;
-      newProperties["Prefix Icon#55948:0"] = oldProperties["Icon#55948:0"].value;
+      newProperties["Prefix Icon#55948:0"] =
+        oldProperties["Icon#55948:0"].value;
     }
 
     return newProperties;
@@ -215,7 +230,10 @@ const itemMenuItemMapping: ComponentMapping<"Action button", ".Item / Menu Item"
 };
 
 // 부모 컴포넌트 매핑 (childrenMappings 포함)
-export const actionSheetMapping: ComponentMapping<"✅ Action Sheet v2", "🟢 Menu Sheet"> = {
+export const actionSheetMapping: ComponentMapping<
+  "✅ Action Sheet v2",
+  "🟢 Menu Sheet"
+> = {
   oldComponent: "✅ Action Sheet v2",
   newComponent: "🟢 Menu Sheet",
   variantMap: {},
@@ -248,6 +266,7 @@ export const actionSheetMapping: ComponentMapping<"✅ Action Sheet v2", "🟢 M
    - `src/main/mapping/[component].ts` 파일 생성 또는 기존 파일에 추가
 
 3. **index.ts 업데이트**
+
    ```typescript
    // src/main/mapping/index.ts
    import { newComponentMapping } from "./new-component";
@@ -272,40 +291,40 @@ export const actionSheetMapping: ComponentMapping<"✅ Action Sheet v2", "🟢 M
 ```typescript
 // src/main/data/__generated__/v3-component-sets/action-button.d.ts
 export declare const metadata: {
-  "name": "🟢 Action Button",
-  "key": "450ede9d0bf42fc6ef14345c77e6e407d6d5ee89",
-  "componentPropertyDefinitions": {
+  name: "🟢 Action Button";
+  key: "450ede9d0bf42fc6ef14345c77e6e407d6d5ee89";
+  componentPropertyDefinitions: {
     "Label#5987:61": {
-      "type": "TEXT",
-      "defaultValue": "라벨"
-    },
-    "Size": {
-      "type": "VARIANT",
-      "defaultValue": "XSmall",
-      "variantOptions": ["XSmall", "Small", "Medium", "Large"]
-    },
-    "Layout": {
-      "type": "VARIANT",
-      "defaultValue": "Text Only",
-      "variantOptions": ["Text Only", "Icon First", "Icon Last", "Icon Only"]
-    },
+      type: "TEXT";
+      defaultValue: "라벨";
+    };
+    Size: {
+      type: "VARIANT";
+      defaultValue: "XSmall";
+      variantOptions: ["XSmall", "Small", "Medium", "Large"];
+    };
+    Layout: {
+      type: "VARIANT";
+      defaultValue: "Text Only";
+      variantOptions: ["Text Only", "Icon First", "Icon Last", "Icon Only"];
+    };
     "Prefix Icon#5987:305": {
-      "type": "INSTANCE_SWAP",
-      "defaultValue": "37665:153410",
-      "preferredValues": []
-    }
-  }
+      type: "INSTANCE_SWAP";
+      defaultValue: "37665:153410";
+      preferredValues: [];
+    };
+  };
 };
 ```
 
 ### 프로퍼티 타입별 처리
 
-| 타입 | 설명 | 값 형식 |
-|------|------|---------|
-| `VARIANT` | 선택 가능한 옵션들 | `variantOptions` 중 하나 |
-| `TEXT` | 텍스트 입력 | `string` |
-| `BOOLEAN` | 참/거짓 | `boolean` |
-| `INSTANCE_SWAP` | 컴포넌트 교체 | 컴포넌트 key (`string`) |
+| 타입            | 설명               | 값 형식                  |
+| --------------- | ------------------ | ------------------------ |
+| `VARIANT`       | 선택 가능한 옵션들 | `variantOptions` 중 하나 |
+| `TEXT`          | 텍스트 입력        | `string`                 |
+| `BOOLEAN`       | 참/거짓            | `boolean`                |
+| `INSTANCE_SWAP` | 컴포넌트 교체      | 컴포넌트 key (`string`)  |
 
 ### 타입 안전성
 
@@ -326,6 +345,7 @@ export declare const metadata: {
 **원인**: 프로퍼티 이름이 Generated 파일과 일치하지 않음
 
 **해결**: Generated `.d.ts` 파일에서 정확한 프로퍼티 이름 확인
+
 ```bash
 cat src/main/data/__generated__/v3-component-sets/[component].d.ts
 ```
@@ -341,6 +361,7 @@ cat src/main/data/__generated__/v3-component-sets/[component].d.ts
 **원인**: `FIGMA_PERSONAL_ACCESS_TOKEN` 미설정 또는 만료
 
 **해결**:
+
 ```bash
 export FIGMA_PERSONAL_ACCESS_TOKEN="new-token"
 bun extract
@@ -349,6 +370,7 @@ bun extract
 ### 디버깅 팁
 
 1. **프로퍼티 이름 확인**
+
    ```bash
    # V2 컴포넌트 프로퍼티 확인
    cat src/main/data/__generated__/v2-component-sets/[component].d.ts
@@ -358,6 +380,7 @@ bun extract
    ```
 
 2. **기존 매핑 패턴 참고**
+
    ```bash
    # 비슷한 컴포넌트의 매핑 확인
    cat src/main/mapping/buttons.ts

@@ -379,6 +379,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "7b59d2394b5e4f4afe8cd878b8c34eda0290a909": {
+    "name": "icon_bluetooth",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "cffdf70fc348cda9519485fddadeea73109472eb": {
+    "name": "icon_bluetooth",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "7ac64253cb58d2586e1bf5dc16cc0248a85d453a": {
     "name": "icon_book",
     "type": "monochrome",
@@ -1486,6 +1496,16 @@ export const FIGMA_ICONS = {
   },
   "7a3f42c9f17aa6ab186080ab5f4a9a2e5c37e947": {
     "name": "icon_hash",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "d9df3fa27527b9c54f7d464b6e324838afd7a543": {
+    "name": "icon_headphone",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "a3c1df4ac30f85c205750829c7deaa66feb52303": {
+    "name": "icon_headphone",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -3257,8 +3277,20 @@ export const FIGMA_ICONS = {
     "name": "icon_cup_heatwave",
     "type": "multicolor"
   },
+  "3e2768bd7d80eb4cda3caa1e03f1e77d759cca2d": {
+    "name": "icon_cup_takeout",
+    "type": "multicolor"
+  },
+  "38d387c42aa89b278faa9ec18df32d3951b32dbd": {
+    "name": "icon_cupcake",
+    "type": "multicolor"
+  },
   "057604252532151ab4a009b24c2b6135fb1c1f2f": {
     "name": "icon_diamond",
+    "type": "multicolor"
+  },
+  "ccae6dba7646071e1caf16fd9d88cb9990205f86": {
+    "name": "icon_document_seal",
     "type": "multicolor"
   },
   "808918e0da41b715bb7d1bb2885a7818bbd492bc": {
@@ -3279,6 +3311,10 @@ export const FIGMA_ICONS = {
   },
   "62dde329b38f7ad5dbdba7db01a8c1189ec1c0ef": {
     "name": "icon_envelope",
+    "type": "multicolor"
+  },
+  "a000f8385a64e8123a04f9c2d39fbbfc1c5b42a5": {
+    "name": "icon_eyebrow",
     "type": "multicolor"
   },
   "c848c902c8493a7d0199c779217cb2f3331b55c5": {
@@ -3317,12 +3353,20 @@ export const FIGMA_ICONS = {
     "name": "icon_grid_dot5",
     "type": "multicolor"
   },
+  "d0e0382283523704f1efe66dc6d2d8386fe78739": {
+    "name": "icon_hand_drop",
+    "type": "multicolor"
+  },
   "9d3511905b35064003bf689e7f536f120e1fa5ad": {
     "name": "icon_horizline_viewfinder",
     "type": "multicolor"
   },
   "32526400d33c2be2d0d16c3fd27fc1fe053fd9c6": {
     "name": "icon_hospital",
+    "type": "multicolor"
+  },
+  "67ff44c9c9449d4f473c684f89e08cbbf7f61b7d": {
+    "name": "icon_house_card",
     "type": "multicolor"
   },
   "36ad8a52bf4592709d964d81510dd73476cfe147": {
@@ -3363,6 +3407,10 @@ export const FIGMA_ICONS = {
   },
   "baf0b42a1d9f90ba613145076e71d94513485097": {
     "name": "icon_pencil",
+    "type": "multicolor"
+  },
+  "3581ba15610f8e9765be1d359802595907d4aaf4": {
+    "name": "icon_percent_arrowshape_down",
     "type": "multicolor"
   },
   "eaa087227f156444a7ce10fa2fb9276bd0f0c262": {

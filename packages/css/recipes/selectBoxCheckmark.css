@@ -20,12 +20,12 @@
     color: var(--seed-color-fg-placeholder);
     transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
         color: var(--seed-color-fg-neutral-subtle);
     }
 }
-@media (hover: none) {
+@media not all and (hover: hover) and (pointer: fine) {
     .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
         color: var(--seed-color-fg-neutral-subtle);
     }

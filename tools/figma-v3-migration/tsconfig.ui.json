@@ -20,6 +20,7 @@
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
     "declarationMap": true,
+    "types": ["@figma/plugin-typings"],
     "paths": {
       "common/*": ["./src/ui/common/*"],
       "seed-design/*": ["./src/ui/common/design-system/*"],

@@ -1,4 +1,4 @@
-import type { PublicRegistry, PublicRegistryItem } from "@/src/schema";
+import type { PublicRegistry } from "@/src/schema";
 
 export function resolveDependencies({
   selectedItemKeys,
@@ -13,7 +13,7 @@ export function resolveDependencies({
   const registryItemsToAdd: { registryId: string; items: PublicRegistry["items"] }[] = [];
   const npmDependenciesToAdd = new Set<string>();
 
-  function collectRegistryItemsToAdd(registryId: string, item: PublicRegistryItem) {
+  function collectRegistryItemsToAdd(registryId: string, item: PublicRegistry["items"][number]) {
     const registryFoundToAdd = registryItemsToAdd.find((r) => r.registryId === registryId);
 
     // if already added, skip

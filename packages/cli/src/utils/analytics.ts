@@ -3,9 +3,24 @@ import * as p from "@clack/prompts";
 import { getRawConfig } from "./get-config";
 
 const EVENT_PREFIX = "seed_cli";
+const COMMAND_STATUSES = ["completed", "cancelled", "failed"] as const;
 
 interface TrackOptions {
   event: string;
+  properties?: Record<string, unknown>;
+}
+
+interface TrackCommandOutcomeOptions {
+  command: string;
+  status: (typeof COMMAND_STATUSES)[number];
+  result?: string;
+  properties?: Record<string, unknown>;
+}
+
+interface TrackCommandFailureOptions {
+  command: string;
+  error: unknown;
+  result?: string;
   properties?: Record<string, unknown>;
 }
 
@@ -48,6 +63,24 @@ const sessionId = generateSessionId();
 // 세션당 한 번만 메시지 표시
 let hasShownMessage = false;
 
+function omitUndefined(properties: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(properties).filter(([, value]) => value !== undefined),
+  );
+}
+
+function getSafeErrorType(error: unknown): string {
+  if (error instanceof Error && error.name) {
+    return error.name;
+  }
+
+  if (typeof error === "object" && error !== null) {
+    return error.constructor?.name ?? "Object";
+  }
+
+  return typeof error;
+}
+
 /**
  * PostHog에 이벤트를 전송합니다.
  */
@@ -76,7 +109,7 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
   // PostHog API 호출 (fire-and-forget)
   try {
     if (!process.env.POSTHOG_HOST || !process.env.POSTHOG_API_KEY) {
-      console.warn("[Analytics] Missing POSTHOG_HOST or POSTHOG_API_KEY");
+      console.error("[Telemetry] POSTHOG_HOST 또는 POSTHOG_API_KEY가 없어서 이벤트를 전송하지 않아요.");
       return;
     }
 
@@ -113,6 +146,37 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
   }
 }
 
+async function trackCommandOutcome(
+  cwd: string,
+  { command, status, result, properties = {} }: TrackCommandOutcomeOptions,
+): Promise<void> {
+  await track(cwd, {
+    event: command,
+    properties: omitUndefined({
+      status,
+      result,
+      ...properties,
+    }),
+  });
+}
+
+async function trackCommandFailure(
+  cwd: string,
+  { command, error, result, properties = {} }: TrackCommandFailureOptions,
+): Promise<void> {
+  await trackCommandOutcome(cwd, {
+    command,
+    status: "failed",
+    result,
+    properties: omitUndefined({
+      error_type: getSafeErrorType(error),
+      ...properties,
+    }),
+  });
+}
+
 export const analytics = {
   track,
+  trackCommandFailure,
+  trackCommandOutcome,
 };

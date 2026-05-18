@@ -1,21 +1,6 @@
 import { defineSlotRecipe } from "../utils/define";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
-import { fadeInAnimations, fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
-import {
-  idle,
-  idleBehind,
-  pop,
-  popBehind,
-  push,
-  pushBehind,
-  swipeBackCanceling,
-  swipeBackCancelingBehind,
-  swipeBackCompleting,
-  swipeBackCompletingBehind,
-  swipeBackSwiping,
-  swipeBackSwipingBehind,
-} from "./pseudo";
 
 const OVERSCROLL_GRADIENT_OFFSET = "400px";
 
@@ -70,12 +55,12 @@ export const appScreen = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          "--app-bar-height": navVars.themeCupertino.enabled.root.minHeight,
+          "--app-bar-height": navVars.themeIos.enabled.root.height,
         },
       },
       android: {
         root: {
-          "--app-bar-height": navVars.themeAndroid.enabled.root.minHeight,
+          "--app-bar-height": navVars.themeAndroid.enabled.root.height,
         },
         edge: {
           display: "none",
@@ -91,33 +76,12 @@ export const appScreen = defineSlotRecipe({
           "--z-index-app-bar": "calc(var(--z-index-base) + 7)",
         },
         layer: {
+          // GPU layer hint for smooth animations driven by JS (WAAPI)
           transform: "translate3d(0, 0, 0)",
-          // top
-          [push]: iOSAnimations.layer.push,
-          [pop]: iOSAnimations.layer.pop,
-          [idle]: iOSAnimations.layer.idle,
-          [swipeBackSwiping]: iOSAnimations.layer.interaction,
-          [swipeBackCanceling]: iOSAnimations.layer.cancel,
-          [swipeBackCompleting]: iOSAnimations.layer.complete,
-
-          // behind
-          [pushBehind]: iOSAnimations.layerBehind.push,
-          [popBehind]: iOSAnimations.layerBehind.pop,
-          [idleBehind]: iOSAnimations.layerBehind.idle,
-          [swipeBackSwipingBehind]: iOSAnimations.layerBehind.interaction,
-          [swipeBackCancelingBehind]: iOSAnimations.layerBehind.cancel,
-          [swipeBackCompletingBehind]: iOSAnimations.layerBehind.complete,
         },
         dim: {
           height: "100%",
           background: vars.$color.bg.overlay,
-
-          [push]: iOSAnimations.dim.push,
-          [pop]: iOSAnimations.dim.pop,
-          [idle]: iOSAnimations.dim.idle,
-          [swipeBackSwiping]: iOSAnimations.dim.interaction,
-          [swipeBackCanceling]: iOSAnimations.dim.cancel,
-          [swipeBackCompleting]: iOSAnimations.dim.complete,
         },
       },
       fadeFromBottomAndroid: {
@@ -130,21 +94,11 @@ export const appScreen = defineSlotRecipe({
         dim: {
           height: "160px",
           background: `linear-gradient(${vars.$color.bg.overlay}, rgba(0, 0, 0, 0))`,
-
-          [push]: fadeFromBottomAndroidAnimations.dim.push,
-          [pop]: fadeFromBottomAndroidAnimations.dim.pop,
         },
         layer: {
           transform: "translate3d(0, 0, 0)",
-
-          [push]: fadeFromBottomAndroidAnimations.layer.push,
-          [pop]: fadeFromBottomAndroidAnimations.layer.pop,
         },
       },
-      // NOTE: this is currently named as fadeIn for consistency with other transitionStyles
-      // (top activity slides in from bottom or slides in from right so it "fades in")
-      // but the actual animation is a pair of enter and exit fade animations.
-      // might want to rename later to crossfade to prevent confusion
       fadeIn: {
         root: {
           "--z-index-dim": "calc(var(--z-index-base) + 0)",
@@ -154,10 +108,6 @@ export const appScreen = defineSlotRecipe({
         },
         dim: {
           display: "none",
-        },
-        layer: {
-          [push]: fadeInAnimations.layer.push,
-          [pop]: fadeInAnimations.layer.pop,
         },
       },
     },
@@ -210,6 +160,7 @@ export const appScreen = defineSlotRecipe({
             // since we're using sticky, when iOS overscroll happens the before pseudoelement will stick to the top of `layer` and won't show the gradient in the overscroll area.
             // so we extend the height of the gradient and use transform to move it up to the possible gradient area.
             // rgba(0, 0, 0, 0.2) is for a natural look; if we use rgba(0, 0, 0, 0.35) on 0% the gradient looks off
+            // TODO: consume rootage variables
             background: `linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.35) ${OVERSCROLL_GRADIENT_OFFSET}, rgba(0, 0, 0, 0.00) 100%)`,
             pointerEvents: "none",
             zIndex: 1,

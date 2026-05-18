@@ -19,9 +19,27 @@ Figma 연결 없이 독립적으로 실행되며, SEED Design을 사용하는 �
 
 ## 설치
 
-<Tabs items={['Claude Desktop', 'Cursor', 'Claude Code']}>
-  <Tab value="Claude Desktop">
-`~/Library/Application Support/Claude/claude_desktop_config.json` 파일에 다음을 추가합니다:
+<Tabs items={['Claude Code', 'Codex CLI', 'Gemini CLI', 'Cursor', 'Claude Desktop']}>
+
+<Tab value="Claude Code">
+
+```sh
+claude mcp add seed-docs -- npx -y @seed-design/docs-mcp
+```
+
+</Tab>
+
+<Tab value="Codex CLI">
+
+```sh
+codex mcp add seed-docs -- npx -y @seed-design/docs-mcp
+```
+
+</Tab>
+
+<Tab value="Gemini CLI">
+
+`~/.gemini/settings.json` 파일에 다음을 추가합니다:
 
 ```json
 {
@@ -33,8 +51,11 @@ Figma 연결 없이 독립적으로 실행되며, SEED Design을 사용하는 �
   }
 }
 ```
-  </Tab>
-  <Tab value="Cursor">
+
+</Tab>
+
+<Tab value="Cursor">
+
 ```json
 {
   "mcpServers": {
@@ -48,12 +69,26 @@ Figma 연결 없이 독립적으로 실행되며, SEED Design을 사용하는 �
 ```
 
 [Cursor MCP에 대해 자세히 알아보기](https://docs.cursor.com/context/model-context-protocol)
-  </Tab>
-  <Tab value="Claude Code">
-```sh
-claude mcp add seed-docs npx @seed-design/docs-mcp
+
+</Tab>
+
+<Tab value="Claude Desktop">
+
+`~/Library/Application Support/Claude/claude_desktop_config.json` 파일에 다음을 추가합니다:
+
+```json
+{
+  "mcpServers": {
+    "seed-docs": {
+      "command": "npx",
+      "args": ["-y", "@seed-design/docs-mcp"]
+    }
+  }
+}
 ```
-  </Tab>
+
+</Tab>
+
 </Tabs>
 
 ## 사용 가능한 도구

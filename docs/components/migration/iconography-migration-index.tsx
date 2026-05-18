@@ -47,8 +47,8 @@ export function IconographyMigrationIndex({ type }: IconographyMigrationIndexPro
       </colgroup>
       <thead>
         <tr>
-          <th>V2</th>
-          <th>V3</th>
+          <th>이전</th>
+          <th>SEED</th>
         </tr>
       </thead>
       <tbody>

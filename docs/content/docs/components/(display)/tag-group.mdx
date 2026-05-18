@@ -117,15 +117,6 @@ Tag Group은 기본적으로 한 줄에 정보를 요약하도록 설계되어 �
 
 Tag Group 내 태그는 '문자 단위(word-break: break-all)'로 줄바꿈됩니다. 이는 태그가 여러 줄로 표시되더라도 하나의 정보 단위로 인지되도록 하기 위함입니다.
 
-## Tag Group V3 변경점
-
-<FigmaImage id="66:26924" alt="Tag Group V2와 V3 비교" />
-
-- 피그마 라이브러리에만 있던 컴포넌트를 React 구현체로 제공합니다.
-- 사용자가 실제 읽어야 할 정보(label)와 구분 역할의 dot(⸱)을 시각적, 구조적으로 명확히 분리했어요.
-- dot(⸱)에는 `aria-hidden="true"` 속성을 부여하여 스크린 리더가 읽지 않도록 처리했습니다.
-- 개별 Tag Item의 속성을 변경할 수 있도록 피그마 인터페이스를 개선했습니다.
-
 ## Specification
 
 ### Tag Group

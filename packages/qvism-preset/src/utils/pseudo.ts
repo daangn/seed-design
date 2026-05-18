@@ -27,6 +27,11 @@ export const invalid = ":is(:invalid, [data-invalid])";
 
 export const engaged = ":--engaged";
 
+export const media = {
+  isHoverableInputDevice: "@media (hover: hover) and (pointer: fine)",
+  isNotHoverableInputDevice: "@media not all and (hover: hover) and (pointer: fine)",
+} as const;
+
 export const loading = "[data-loading]";
 
 export const before = "::before";

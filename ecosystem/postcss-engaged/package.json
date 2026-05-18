@@ -32,7 +32,7 @@
   "devDependencies": {
     "postcss": "^8.5.3",
     "postcss-nested": "^7.0.2",
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,11 +1,12 @@
 import chalk from "chalk";
 import { createClient } from "@sanity/client";
 import { promises as fs } from "fs";
+import matter from "gray-matter";
 import path from "node:path";
 import { apiVersion, dataset, projectId } from "../sanity-studio/env.js";
 
 interface ComponentFrontmatter {
-  title: string;
+  title?: string;
   description?: string;
 }
 
@@ -13,25 +14,6 @@ interface ComponentToImport {
   id: string;
   name: string;
   filePath: string;
-}
-
-// Parse MDX frontmatter
-function parseFrontmatter(content: string): ComponentFrontmatter | null {
-  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---/;
-  const match = content.match(frontmatterRegex);
-
-  if (!match) return null;
-
-  const frontmatterContent = match[1];
-  const titleMatch = frontmatterContent.match(/title:\s*(.+)/);
-  const descriptionMatch = frontmatterContent.match(/description:\s*"?([^"\n]+)"?/);
-
-  if (!titleMatch) return null;
-
-  return {
-    title: titleMatch[1].trim(),
-    description: descriptionMatch ? descriptionMatch[1].trim() : undefined,
-  };
 }
 
 // Scan components directory
@@ -47,10 +29,10 @@ async function scanComponents(): Promise<ComponentToImport[]> {
 
     const filePath = path.join(componentsDir, file);
     const content = await fs.readFile(filePath, "utf-8");
-    const frontmatter = parseFrontmatter(content);
+    const frontmatter = matter(content).data as ComponentFrontmatter;
 
-    if (!frontmatter) {
-      console.log(chalk.yellow(`⚠️  Skipping ${file} - no frontmatter found`));
+    if (!frontmatter.title) {
+      console.log(chalk.yellow(`⚠️  Skipping ${file} - no frontmatter title found`));
       continue;
     }
 

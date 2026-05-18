@@ -6,7 +6,7 @@
   }
 
   .seed-pull-to-refresh__indicator {
-    transform: translateY(min(calc(var(--ptr-displacement, 0)  - var(--ptr-size)), 0px));
+    transform: translateY(min(calc(var(--ptr-displacement, 0) - var(--ptr-size)), 0px));
     transition: transform var(--seed-duration-d6);
     justify-content: center;
     align-items: center;

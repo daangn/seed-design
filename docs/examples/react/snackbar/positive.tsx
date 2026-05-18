@@ -8,7 +8,6 @@ function Component() {
     <ActionButton
       onClick={() =>
         adapter.create({
-          timeout: 5000,
           onClose: () => {},
           render: () => (
             <Snackbar

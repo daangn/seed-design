@@ -251,7 +251,18 @@ data:
         icon:
           size: $dimension.x4
 
-    layout=withText: {}
+    size=small,layout=withText:
+      enabled:
+        root:
+          minWidth: 44px
+    size=medium,layout=withText:
+      enabled:
+        root:
+          minWidth: $dimension.x12
+    size=large,layout=withText:
+      enabled:
+        root:
+          minWidth: $dimension.x13
 
     size=small,layout=iconOnly:
       enabled:

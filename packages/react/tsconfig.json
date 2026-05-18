@@ -6,7 +6,7 @@
     "moduleResolution": "Bundler",
     "verbatimModuleSyntax": true,
     "typeRoots": ["../../node_modules/@types", "../../types"],
-    "types": ["bun", "bun-jest-dom"],
+    "types": ["bun", "bun-jest-dom", "node"],
 
     "strict": true,
     "skipLibCheck": true,
@@ -19,6 +19,7 @@
     "declarationMap": true,
 
     "jsx": "react-jsx",
+    "rootDir": "./src",
     "outDir": "lib"
   },
   "include": ["src"]

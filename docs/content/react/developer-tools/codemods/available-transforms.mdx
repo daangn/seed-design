@@ -323,14 +323,14 @@ export function BasicExample() {
 
 ## replace-custom-imported-typography-variable
 
-Seed Design V2에서 V3로 마이그레이션 시 import된 타이포그래피 변수를 변환합니다.
+Sprout에서 SEED로 마이그레이션 시 import된 타이포그래피 변수를 변환합니다.
 
 ### 기능
 
 - 타이포그래피 관련 import 문을 찾아 변수명을 변환합니다.
 - 변수가 사용된 모든 위치(템플릿 리터럴, 객체 속성 등)를 찾아 업데이트합니다.
-- typography.mjs의 매핑 정보에 따라 V2 타이포그래피 변수를 V3로 변환합니다.
-- 같은 V3 토큰으로 변환되는 중복 import를 제거합니다 (예: subtitle1Regular, bodyM1Regular가 모두 t5Regular로 변환되면 t5Regular는 한 번만 import).
+- typography.mjs의 매핑 정보에 따라 Sprout 타이포그래피 변수를 SEED로 변환합니다.
+- 같은 SEED 토큰으로 변환되는 중복 import를 제거합니다 (예: subtitle1Regular, bodyM1Regular가 모두 t5Regular로 변환되면 t5Regular는 한 번만 import).
 - 별칭(alias)으로 import된 변수명은 유지합니다 (예: `bodyM1Regular as customTypo`에서 `t5Regular as customTypo`로 변환).
 
 ```package-install
@@ -1681,7 +1681,7 @@ const Component = () => (
 
 ### 변환되지 않는 토큰들
 
-다음 토큰들은 이미 v3 형식이므로 변환되지 않습니다:
+다음 토큰들은 이미 SEED 형식이므로 변환되지 않습니다:
 - `vars.$color.stroke.brandWeak`
 - `vars.$color.stroke.brandSolid`
 - `vars.$color.stroke.neutralSubtle`
@@ -1987,11 +1987,11 @@ export const footer = style([
 
 ## replace-stitches-styled-color
 
-Stitches로 스타일링된 컴포넌트의 색상을 V3 형식으로 변환해요.
+Stitches로 스타일링된 컴포넌트의 색상을 SEED 형식으로 변환해요.
 
 ### 변환 내용
 
-- Stitches `styled()` 함수에서 사용된 Seed Design V2 색상 토큰을 V3 색상 토큰으로 변환합니다.
+- Stitches `styled()` 함수에서 사용된 Sprout 색상 토큰을 SEED 색상 토큰으로 변환합니다.
 - 모든 색상 관련 스타일 속성(color, backgroundColor, borderColor 등)을 지원합니다.
 - 상태 변이(variants)에 적용된 색상 변경도 함께 변환합니다.
 
@@ -2562,7 +2562,7 @@ const Component = () => {
 
 ## replace-alpha-color
 
-Seed Design V3에서 V3로 알파 컬러 토큰을 업데이트하는 transform입니다.
+SEED 알파 컬러 토큰을 새로운 이름으로 업데이트하는 transform입니다.
 이 transform은 다음과 같은 알파 컬러 토큰들을 새로운 값으로 변경합니다:
 
 - `staticBlackAlpha50` → `staticBlackAlpha200`
@@ -2574,7 +2574,7 @@ Seed Design V3에서 V3로 알파 컬러 토큰을 업데이트하는 transform�
 
 - 이 transform은 JavaScript/TypeScript 파일과 CSS 파일을 모두 자동으로 처리합니다.
 - **한 번만 실행**: 동일한 파일에 여러 번 실행하면 연쇄 변환이 발생할 수 있습니다
-- **V3 → V3 마이그레이션**: 이미 V3를 사용 중인 프로젝트에서만 사용하세요
+- **SEED 전용**: 이미 SEED를 사용 중인 프로젝트에서만 사용하세요
 - **백업 권장**: 변환 전에 코드를 백업하는 것을 권장합니다
 - **순서 중요**: 큰 번호부터 작은 번호 순으로 변환하여 연쇄 변환을 방지합니다
 
@@ -2654,7 +2654,7 @@ export const Component = () => {
 
 ## replace-custom-seed-design-color
 
-커스텀 Seed Design 컬러 토큰을 V3 형식으로 변환하는 트랜스폼
+커스텀 컬러 토큰을 SEED 형식으로 변환하는 트랜스폼
 
 ```package-install
 npx @seed-design/codemod@latest replace-custom-seed-design-color <target_path>
@@ -2976,11 +2976,11 @@ npx @seed-design/codemod@latest replace-css-seed-design-typography-variable <tar
 
 ## replace-tailwind-color
 
-Tailwind CSS 색상 클래스를 Seed Design V3 형식으로 변환해요.
+Tailwind CSS 색상 클래스를 SEED 형식으로 변환해요.
 
 ### 변환 내용
 
-- Seed Design V2의 색상 클래스 네이밍을 V3 형식으로 변환합니다.
+- Sprout의 색상 클래스 네이밍을 SEED 형식으로 변환합니다.
 - `text-`, `bg-`, `border-` 등의 접두사를 가진 Tailwind 색상 클래스를 변환합니다.
 - 색상 강도(shade)에 따른 변환 매핑을 적용합니다.
 

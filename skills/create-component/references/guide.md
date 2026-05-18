@@ -4,16 +4,28 @@
 
 ## Quick Start
 
-1. Rootage 스펙을 정의/수정하고 `bun generate:all`을 실행합니다.
-2. Recipe, React UI, Storybook, 문서를 순서대로 반영합니다.
-3. `bun packages:build`, `bun typecheck`, Visual Test 체크리스트를 완료합니다.
+1. **Phase 0**: `references/architecture-decisions.md`를 완성하여 카테고리와 패턴을 확정합니다.
+2. **Phase 1**: Rootage → Recipe → React → Snippet → Storybook → Docs 순서로 구현합니다.
+3. **Phase 2**: `bun generate:all`, `bun test:all`, `bun docs:test`와 필요한 개별 build를 완료합니다.
 4. 상세 구현은 `references/implementation-steps.md`와 `references/verification-checklist.md`를 사용합니다.
 
 ## 핵심 흐름
 
 ```text
-Headless (선택) → Rootage YAML → bun generate:all → Recipe → React → Storybook → Docs → Visual Test
+Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:all → Recipe → React → Snippet → Storybook → Docs → Visual Test
 ```
+
+## 카테고리별 Quick Reference
+
+| 카테고리 | Recipe | React 패턴 | Namespace | 참조 |
+|----------|--------|-----------|-----------|------|
+| A. Simple | defineRecipe | splitVariantProps | 없음 | Badge |
+| B. Compound (Stateless) | defineSlotRecipe | createSlotRecipeContext | 있음 | Avatar |
+| C. Compound (Stateful) | defineSlotRecipe | + createWithStateProps | 있음 | TextField |
+| D. Multi-Recipe | defineSlotRecipe ×2 | splitMultipleVariantsProps | 있음 | Checkbox |
+| E. Layout | 없음 | Box 확장 | 없음 | Flex |
+
+카테고리 결정 방법은 `references/architecture-decisions.md`를 참조합니다.
 
 ## 수정 진입점
 
@@ -29,7 +41,7 @@ Headless (선택) → Rootage YAML → bun generate:all → Recipe → React →
 
 - `packages/css/**` ← rootage에서 생성
 - `packages/qvism-preset/src/vars/**` ← rootage에서 생성
-- `docs/registry/*.json` ← registry-*.ts에서 생성
+- `docs/public/__registry__/**` ← docs registry script에서 생성
 
 ## 전체 파이프라인
 
@@ -99,6 +111,9 @@ Headless (선택) → Rootage YAML → bun generate:all → Recipe → React →
 
 작업 완료 전:
 - [ ] `bun generate:all` 실행
-- [ ] `bun packages:build` 성공
-- [ ] `bun typecheck` 에러 없음
+- [ ] `bun test:all` 성공
+- [ ] `bun docs:test` 성공
+- [ ] 변경 범위에 해당하는 build 성공
+  - React 패키지 변경: `bun --filter @seed-design/react build` 또는 여러 패키지 변경 시 `bun packages:build`
+  - Snippet/example 변경: vendored consumer build (예: `bun --cwd examples/stackflow-spa build`)
 - [ ] Storybook 테마별 확인 (Light, Dark, Font Scaling)

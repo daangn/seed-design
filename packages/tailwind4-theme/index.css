@@ -228,6 +228,7 @@
   --duration-d5: var(--seed-duration-d5);
   --duration-d6: var(--seed-duration-d6);
   --duration-color-transition: var(--seed-duration-color-transition);
+  --duration-pressed-scale: var(--seed-duration-pressed-scale);
   --font-size-t1: var(--seed-font-size-t1);
   --font-size-t2: var(--seed-font-size-t2);
   --font-size-t3: var(--seed-font-size-t3);
@@ -299,6 +300,7 @@
   --timing-function-exit: var(--seed-timing-function-exit);
   --timing-function-enter-expressive: var(--seed-timing-function-enter-expressive);
   --timing-function-exit-expressive: var(--seed-timing-function-exit-expressive);
+  --timing-function-pressed-scale: var(--seed-timing-function-pressed-scale);
   --gradient-stops-fade-layer-floating: #ffffff00 0.00%, #000000 100.00%;
   --gradient-stops-fade-layer-default: #000000 0.00%, #ffffff00 100.00%;
   --gradient-stops-glow-magic: #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%;
