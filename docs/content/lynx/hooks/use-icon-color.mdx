@@ -16,11 +16,11 @@ import { useIconColor } from "@seed-design/lynx-react";
 ### 기본 사용
 
 ```tsx
-import { cloneElement, isValidElement } from "react";
+import { cloneElement, isValidElement, type ReactElement } from "react";
 import { useIconColor } from "@seed-design/lynx-react";
 
 function IconSlot({ icon, variant, disabled }: {
-  icon: React.ReactElement;
+  icon: ReactElement;
   variant: string;
   disabled: boolean;
 }) {

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { BASE_URL } from "../constants";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
+import { getRawConfig } from "../utils/get-config";
 import {
   CliCancelError,
   CliError,
@@ -27,6 +28,8 @@ const docsOptionsSchema = z.object({
       return trimmed ? trimmed : undefined;
     }),
   baseUrl: z.string().optional(),
+  cwd: z.string().default(process.cwd()),
+  framework: z.enum(["react", "lynx"]).optional(),
   raw: z.boolean(),
 });
 
@@ -174,6 +177,35 @@ function parseQueryPath(query: string): string[] {
     .filter(Boolean);
 }
 
+function normalizeRegistryKeySegment(segment: string): string {
+  const [, itemId] = segment.split(":");
+  return itemId ?? segment;
+}
+
+function normalizeDocsQuery({
+  query,
+  framework,
+  categoryIds,
+}: {
+  query?: string;
+  framework?: string;
+  categoryIds: string[];
+}): string | undefined {
+  if (!query) return undefined;
+
+  const segments = parseQueryPath(query).map(normalizeRegistryKeySegment);
+  if (!segments.length) return undefined;
+
+  const [firstSegment] = segments;
+  const isCategoryQuery = categoryIds.includes(firstSegment);
+
+  if (!isCategoryQuery && framework && categoryIds.includes(framework)) {
+    return [framework, ...segments].join("/");
+  }
+
+  return segments.join("/");
+}
+
 /**
  * Search all items across all categories/sections.
  */
@@ -240,6 +272,10 @@ export const docsCommand = (cli: CAC) => {
     .option("-u, --baseUrl <baseUrl>", `레지스트리의 기본 URL (기본값: ${BASE_URL})`, {
       default: BASE_URL,
     })
+    .option("--cwd <cwd>", "the working directory. defaults to the current directory.", {
+      default: process.cwd(),
+    })
+    .option("-f, --framework <framework>", "프레임워크 (react 또는 lynx)")
     .option("--raw", "llms.txt 내용을 직접 가져와 출력합니다. LLM 파이프에 유용합니다.", {
       default: false,
     })
@@ -254,7 +290,7 @@ export const docsCommand = (cli: CAC) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
       const raw = opts.raw ?? false;
-      const trackCwd = process.cwd();
+      let trackCwd = process.cwd();
 
       if (!raw) p.intro("seed-design docs");
 
@@ -265,7 +301,10 @@ export const docsCommand = (cli: CAC) => {
         }
 
         const { data: options } = parsed;
+        trackCwd = options.cwd;
         const baseUrl = options.baseUrl ?? BASE_URL;
+        const rawConfig = await getRawConfig(options.cwd).catch(() => null);
+        const framework = options.framework ?? rawConfig?.framework;
 
         if (options.raw && !options.query) {
           throw new CliError({
@@ -291,12 +330,17 @@ export const docsCommand = (cli: CAC) => {
         })();
 
         const { categories } = docsIndex;
+        const docsQuery = normalizeDocsQuery({
+          query: options.query,
+          framework,
+          categoryIds: categories.map((category) => category.id),
+        });
         let selectedItem: DocsItem | undefined;
 
         // In --raw mode, wrap index resolution in try-catch to allow fallback to direct URL
         const resolveFromIndex = async (): Promise<DocsItem | undefined> => {
-          if (options.query) {
-            const segments = parseQueryPath(options.query);
+          if (docsQuery) {
+            const segments = parseQueryPath(docsQuery);
 
             // Deep paths (more than category/section/item) can't be resolved from index
             // e.g., react/updates/changelog/react/1.2.9 — skip to fallback in --raw mode
@@ -334,7 +378,7 @@ export const docsCommand = (cli: CAC) => {
                           .join("\n")}`
                       : "";
                   throw new CliError({
-                    message: `${highlight(options.query)}: 문서를 찾을 수 없어요.${suggestion}`,
+                    message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion}`,
                     hint: `\`seed-design docs ${matchedCategory.id}/${matchedSection.id}\`로 목록을 확인해보세요.`,
                   });
                 }
@@ -382,7 +426,7 @@ export const docsCommand = (cli: CAC) => {
                     ? `\n\n💡 이것을 의미했나요?\n${suggestions.map((s) => `   - ${s}`).join("\n")}`
                     : "";
                 throw new CliError({
-                  message: `${highlight(options.query)}: 문서를 찾을 수 없어요.${suggestion}`,
+                  message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion}`,
                   hint: `\`seed-design docs ${matchedCategory.id}\`로 목록을 확인해보세요.`,
                 });
               }
@@ -409,12 +453,12 @@ export const docsCommand = (cli: CAC) => {
               return await selectItem(section.items);
             }
             // No category match — global search
-            const matched = searchAllItems(categories, options.query);
+            const matched = searchAllItems(categories, docsQuery);
 
             if (matched.length === 0) {
               const suggestion = buildSuggestionHint(segments, categories);
               throw new CliError({
-                message: `${highlight(options.query)}: 문서를 찾을 수 없어요.${suggestion ?? ""}`,
+                message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion ?? ""}`,
                 hint: "`seed-design docs`로 전체 목록을 확인해보세요.",
               });
             }
@@ -422,7 +466,7 @@ export const docsCommand = (cli: CAC) => {
               return matched[0].item;
             }
             const selected = await p.select({
-              message: `${highlight(options.query)}에 해당하는 항목을 선택해주세요`,
+              message: `${highlight(docsQuery)}에 해당하는 항목을 선택해주세요`,
               options: matched.map(({ item, categoryLabel, sectionLabel }) => ({
                 label: `[${categoryLabel} > ${sectionLabel}] ${item.title}`,
                 value: item,
@@ -464,7 +508,7 @@ export const docsCommand = (cli: CAC) => {
             const llmsUrl = `${baseUrl}/llms${selectedItem.docUrl}.txt`;
             content = await fetchLlmsTxt({ url: llmsUrl });
           } else {
-            content = await tryFetchLlmsTxt({ baseUrl, query: options.query! });
+            content = await tryFetchLlmsTxt({ baseUrl, query: docsQuery! });
           }
           console.log(content);
         } else {
