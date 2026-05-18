@@ -9,7 +9,6 @@ import {
   type FetchFigmaImageUrlsOptions,
 } from "./fetch-figma-image-urls";
 
-const LOG_PREFIX = "[remark-figma-image]";
 const FIGMA_ID_PROP_SUPPORTED_COMPONENTS = ["DoImage", "DontImage"];
 
 const DEFAULT_IMAGE_SIZE = {
@@ -70,26 +69,19 @@ export function remarkFigmaImage({
     const usePlaceholder = !accessToken || !fileKey;
 
     const imageUrls: Map<string, string> = usePlaceholder
-      ? createPlaceholderImageUrls(Array.from(figmaNodes.keys()))
+      ? new Map(Array.from(figmaNodes.keys()).map((id) => [id, PLACEHOLDER_DATA_URI]))
       : await fetchFigmaImageUrls({
           client: createFigmaClient(accessToken),
           fileKey,
           nodeIds: Array.from(figmaNodes.keys()),
           options: fetchUrlsOptions,
-        }).catch((error) => {
-          console.warn(
-            `${LOG_PREFIX} Failed to fetch image URLs from Figma API; using placeholders. ${getErrorMessage(error)}`,
-          );
-
-          return createPlaceholderImageUrls(Array.from(figmaNodes.keys()));
         });
 
     for (const [figmaId, entries] of figmaNodes) {
-      const url = imageUrls.get(figmaId) ?? PLACEHOLDER_DATA_URI;
+      const url = imageUrls.get(figmaId);
 
-      if (!imageUrls.has(figmaId)) {
-        console.warn(`${LOG_PREFIX} Missing image URL for Figma node ${figmaId}; using placeholder.`);
-      }
+      if (!url)
+        throw new Error(`[remark-figma-image] Failed to get image URL for Figma node: ${figmaId}`);
 
       for (const { node, index, parent } of entries) {
         if (!node.name) continue;
@@ -141,16 +133,6 @@ export function remarkFigmaImage({
       }
     }
   };
-}
-
-function createPlaceholderImageUrls(figmaIds: string[]): Map<string, string> {
-  return new Map(figmaIds.map((id) => [id, PLACEHOLDER_DATA_URI]));
-}
-
-function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) return error.message;
-
-  return String(error);
 }
 
 /**

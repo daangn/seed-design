@@ -10,44 +10,10 @@ const client = env.figmaPersonalAccessToken
   ? createFigmaClient(env.figmaPersonalAccessToken)
   : undefined;
 
-async function getCoverImageSrc(nodeId: string): Promise<string | undefined> {
-  if (!env.figmaFileKey || !client) return undefined;
-
-  try {
-    const urls = await fetchFigmaImageUrls({
-      client,
-      fileKey: env.figmaFileKey,
-      nodeIds: [nodeId],
-      options: {
-        scale: 3,
-      },
-    });
-
-    return getImageUrl(urls, nodeId);
-  } catch (error) {
-    console.warn(
-      `[component-grid] Failed to fetch cover image for Figma node ${nodeId}; using default card image. ${getErrorMessage(error)}`,
-    );
-
-    return undefined;
-  }
-}
-
-function getImageUrl(urls: Map<string, string>, nodeId: string): string | undefined {
+function requireImageUrl(urls: Map<string, string>, nodeId: string): string {
   const url = urls.get(nodeId);
-  if (!url) {
-    console.warn(
-      `[component-grid] Missing cover image URL for Figma node ${nodeId}; using default card image.`,
-    );
-  }
-
+  if (!url) throw new Error(`[component-grid] Failed to get image URL for Figma node: ${nodeId}`);
   return url;
-}
-
-function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) return error.message;
-
-  return String(error);
 }
 
 function getCategoryFromPath(path: string): string | null {
@@ -91,23 +57,31 @@ export async function ComponentGrid() {
         <section key={category}>
           <h2 className="text-xl font-semibold mb-4">{category}</h2>
           <ul className="grid grid-cols-2 md:grid-cols-3 gap-4 not-prose items-stretch">
-            {pages.map(async (page) => {
-              const coverImageSrc = page.data.coverImageFigmaId
-                ? await getCoverImageSrc(page.data.coverImageFigmaId)
-                : undefined;
-
-              return (
-                <li key={page.url}>
-                  <ComponentCard
-                    className="h-full"
-                    coverImageSrc={coverImageSrc}
-                    title={page.data.title}
-                    description={page.data.description}
-                    href={page.url}
-                  />
-                </li>
-              );
-            })}
+            {pages.map(async (page) => (
+              <li key={page.url}>
+                <ComponentCard
+                  className="h-full"
+                  {...(page.data.coverImageFigmaId &&
+                    env.figmaFileKey &&
+                    client && {
+                      coverImageSrc: requireImageUrl(
+                        await fetchFigmaImageUrls({
+                          client,
+                          fileKey: env.figmaFileKey,
+                          nodeIds: [page.data.coverImageFigmaId],
+                          options: {
+                            scale: 3,
+                          },
+                        }),
+                        page.data.coverImageFigmaId,
+                      ),
+                    })}
+                  title={page.data.title}
+                  description={page.data.description}
+                  href={page.url}
+                />
+              </li>
+            ))}
           </ul>
         </section>
       ))}
