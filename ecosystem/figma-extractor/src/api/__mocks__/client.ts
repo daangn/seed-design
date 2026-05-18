@@ -26,7 +26,7 @@ export const createApiClient = mock(() => {
       };
 
       const requestedIds = ids.split(",");
-      const filteredNodes = {};
+      const filteredNodes: Record<string, unknown> = {};
 
       requestedIds.forEach((id) => {
         if (allNodes[id]) {

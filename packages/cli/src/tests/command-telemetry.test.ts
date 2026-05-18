@@ -52,6 +52,15 @@ mock.module("../utils/init-config", () => ({
 const { addCommand } = await import("../commands/add");
 const { initCommand } = await import("../commands/init");
 
+function assertHasCommandAction<T extends { commandAction?: unknown }>(
+  command: T,
+  name: string,
+): asserts command is T & { commandAction: NonNullable<T["commandAction"]> } {
+  if (!command.commandAction) {
+    throw new Error(`Command has no action handler: ${name}`);
+  }
+}
+
 function getCommand(cli: CAC, name: string) {
   const command = cli.commands.find((item) => item.name === name);
 
@@ -59,6 +68,7 @@ function getCommand(cli: CAC, name: string) {
     throw new Error(`Command not found: ${name}`);
   }
 
+  assertHasCommandAction(command, name);
   return command;
 }
 

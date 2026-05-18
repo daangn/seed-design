@@ -39,5 +39,13 @@ export const vars = {
         "color": "var(--seed-color-fg-disabled)"
       }
     }
-  }
+  },
+  "themeIos": {
+    "enabled": {
+      "root": {
+        "maxWidth": "96px"
+      }
+    }
+  },
+  "themeAndroid": {}
 }

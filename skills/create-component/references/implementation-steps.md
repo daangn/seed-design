@@ -9,9 +9,30 @@
 **위치**: `packages/react-headless/[name]/`
 **조건**: 데이터 로직이 필요한 경우만 (단순 UI 컴포넌트는 생략)
 
-Headless 훅은 `use{Component}.ts` 파일에 `use{Component}` 형태로 작성한다. 훅은 `data-pressed`, `data-disabled` 같은 data 속성과 이벤트 핸들러(`onPointerDown`, `onClick` 등)를 `rootProps` 객체로 반환한다.
+Headless 훅은 하나의 `use{Component}`로 끝낼 필요가 없다. compound stateful 컴포넌트는 가능하면 root/item 책임을 분리하고, render wiring과 상태 로직을 분리한다.
+
+분리 여부는 인터랙션 슬롯 수와 상태 소유권으로 판단한다. 독립 item state, roving focus/DOM query, trigger/content/indicator처럼 slot별 props가 필요하면 `use{Component}` + `use{Component}Item` 구조를 우선한다. 단일 root state만 있고 interactive slot이 하나라면 하나의 훅으로 충분할 수 있다. 분리는 중복 계산을 줄이고 재사용성을 높이지만, context와 파일 수가 늘어나므로 `packages/react-headless/AGENTS.md`의 책임 분리 기준을 함께 따른다.
+
+- root 수준 상태와 collection 관리는 `use{Component}` 또는 `useRootState` 계열 훅에 둔다.
+- item 수준 상태, 키보드 인터랙션, slot별 props 조합은 `use{Component}Item` 또는 `useItemState` 계열 훅으로 분리한다.
+- 재사용 가능한 상태 전이, DOM query, 내부 id 생성, keyboard handler는 가능하면 `use*` 훅으로 내리고 컴포넌트 파일에는 hook이 만든 props와 ref를 연결하는 역할만 남긴다.
+- hook은 `rootProps` 하나만 반환할 필요가 없다. `triggerProps`, `contentProps`, `indicatorProps`처럼 slot별 props를 반환해도 된다.
+- hook이 반환하는 props는 ARIA, ids, keyboard handler, `data-*` state까지 포함한 **slot contract**를 목표로 하고, React 컴포넌트가 같은 로직을 다시 계산하지 않게 한다.
+- DOM query가 필요하면 ref `Set` 등록보다 내부 id + 안정적인 selector contract(`data-ownedby` 등)를 먼저 검토한다.
 
 **카테고리 C/D에서 새 headless를 만들 때**: Phase 0에서 정리한 ARIA APG 패턴과 키보드 인터랙션 스펙을 이 단계에서 구현한다. `references/external-references.md`의 접근성 체크리스트를 따른다. 외부 라이브러리(Base UI, Radix)의 동일 컴포넌트 구현도 참조하여 인터페이스 설계를 검증한다.
+
+`asChild`, `headingLevel` 같은 escape hatch는 API 안정성, DOM 구조, 접근성 요구가 모두 설명될 때만 제공한다. 제공하기로 했다면 런타임이 실제 지원하는 방식만 타입에 노출한다. 타입에만 열어두고 구현에서 무시하는 상태는 만들지 않는다. 특히 heading/landmark처럼 접근성 구조에 영향을 주는 escape hatch는 편의성보다 올바른 기본값과 override 범위를 먼저 정하고, 스타일과 DOM 구조가 깨질 수 있는 선택지는 문서화한다.
+
+mode prop을 설계할 때는 값의 수보다 사용자가 선택하는 개념을 먼저 본다. 미래 제3상태가 명확하지 않은 binary mode는 `"single" | "multiple"` 같은 enum보다 `multiple?: boolean`처럼 capability boolean을 우선한다. 특정 mode에서만 유효한 prop은 타입 union으로 차단하고, headless 훅에서 조용히 무시하는 contract를 만들지 않는다.
+
+```typescript
+type UseComponentProps =
+  | { multiple?: false; collapsible?: boolean }
+  | { multiple: true; collapsible?: never };
+```
+
+위와 같은 union을 쓰면 React wrapper도 같은 contract를 유지해야 한다. wrapper에서 props를 다시 조합할 때는 mode별로 hook props를 분기해, `multiple: true`인 객체에 single-only prop이 섞이지 않게 한다.
 
 ## Step 2: Definition (Rootage)
 
@@ -60,7 +81,14 @@ Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 �
 
 ### Snippet 파일 작성 패턴
 
-Snippet 파일은 `"use client"` 선언으로 시작하며, `@seed-design/react`에서 compound 컴포넌트를 import하여 단순화된 API로 래핑한다. Props 인터페이스는 `SeedComponentName.RootProps`를 extends하고, `src`, `alt`, `fallback` 같은 편의 prop을 추가한다. 반드시 `React.forwardRef`로 감싸고 `displayName`을 설정한다. 하위 컴포넌트가 있으면 별도 인터페이스와 함께 re-export한다.
+Snippet 파일은 `"use client"` 선언으로 시작하며, `@seed-design/react`에서 compound 컴포넌트를 import하여 **convenience wrapper**를 우선 설계한다.
+
+- low-level re-export보다 사용자가 가장 짧게 쓸 수 있는 surface를 먼저 만든다.
+- Props는 단순 `RootProps extends`로 끝내지 말고, 실제 convenience prop(`title`, `description`, `suffixIcon` 등)을 먼저 설계한다.
+- native HTML prop이나 underlying primitive prop과 이름이 충돌할 수 있는 convenience prop(`title`, `size`, `color`, `prefix` 등)은 `Omit` 또는 rename을 먼저 검토한다.
+- 하위 컴포넌트는 독립적인 public 사용 의도, root와 다른 props/lifecycle, 또는 consumer가 반드시 별도 위치에 렌더해야 하는 요구가 있을 때만 노출한다.
+- 최상위 convenience wrapper 이름은 `Component`를 우선한다. low-level composition 자체를 노출하는 목적이 분명할 때만 `ComponentRoot`를 사용한다.
+- 반드시 `React.forwardRef`로 감싸고, `displayName`은 exported symbol과 같은 단순 문자열을 우선한다. 예를 들어 `Avatar` export라면 `Avatar`, `AccordionTrigger` export라면 `AccordionTrigger`를 사용하고, namespace가 실제 runtime API가 아닌 경우 `Accordion.Trigger` 같은 dotted name은 쓰지 않는다.
 
 **추가 작업**:
 1. `docs/registry/registry-ui.ts`에 entry 추가 (의존성 버전은 해당 컴포넌트가 추가된 버전 기준)
@@ -79,6 +107,8 @@ Snippet 레이어가 있는 컴포넌트의 문서는 반드시 다음 형태로
 **위치**: `docs/examples/react/[name]/`
 
 Snippet 레이어가 있는 경우 `seed-design/ui/[name]`에서 import하고, Layout 컴포넌트(Flex, VStack 등)는 `@seed-design/react`에서 import한다. Snippet 레이어가 없는 경우 `@seed-design/react`에서 직접 import한다.
+
+snippet을 vendoring해서 소비하는 example app이 있으면 해당 경로도 함께 확인한다. 현재는 `examples/stackflow-spa/src/seed-design/ui/`가 대표적이며, snippet API가 바뀌면 이 경로와 example app build도 함께 동기화해야 한다.
 
 ## Step 7: Storybook
 

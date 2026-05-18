@@ -22,7 +22,7 @@ const compatOptionsSchema = z.object({
   all: z.boolean(),
   registry: z.string().optional(),
   cwd: z.string(),
-  baseUrl: z.string().optional(),
+  baseUrl: z.string().default(BASE_URL),
 });
 
 function parseTargetInputs({

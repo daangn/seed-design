@@ -1,39 +1,3 @@
-export declare const privateTemplateAttachmentField: {
-  "name": "privateTemplateAttachmentField",
-  "key": "5ba20e248e9cd0292fc285488b2ed3b3145d37b0",
-  "componentPropertyDefinitions": {
-    "Show Header#40606:8": {
-      "type": "BOOLEAN"
-    },
-    "Show Footer#40606:9": {
-      "type": "BOOLEAN"
-    },
-    "Type": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Media",
-        "File"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Error",
-        "Disabled",
-        "Read Only"
-      ]
-    },
-    "Has Value": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "False",
-        "True"
-      ]
-    }
-  }
-};
-
 export declare const privateTemplateChipGroupField: {
   "name": "privateTemplateChipGroupField",
   "key": "b6e9378d9ac76f812121d6aa7264cc38d2310e39",
@@ -282,6 +246,13 @@ export declare const privateComponentInputButtonPrefix: {
     "Icon#34021:2": {
       "type": "INSTANCE_SWAP"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
+    },
     "Type": {
       "type": "VARIANT",
       "variantOptions": [
@@ -301,6 +272,13 @@ export declare const privateComponentInputButtonSuffix: {
     },
     "Icon#37963:0": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Type (Figma Only)": {
       "type": "VARIANT",
@@ -326,6 +304,13 @@ export declare const privateComponentInputButtonValue: {
     "Placeholder Text#34067:2": {
       "type": "TEXT"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
+    },
     "Value": {
       "type": "VARIANT",
       "variantOptions": [
@@ -346,11 +331,15 @@ export declare const privateComponentInputButtonValueDisabled: {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Value": {
       "type": "VARIANT",
@@ -372,20 +361,24 @@ export declare const privateComponentInputButtonValueReadOnly: {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Value": {
       "type": "VARIANT",
       "variantOptions": [
-        "Custom (Figma Only)",
-        "Chips-Overflow (Figma Only)",
-        "Chips-Scrollable (Figma Only)",
+        "Empty",
         "Text",
-        "Empty"
+        "Chips-Scrollable (Figma Only)",
+        "Chips-Overflow (Figma Only)",
+        "Custom (Figma Only)"
       ]
     }
   }
@@ -1157,24 +1150,7 @@ export declare const privateComponentTabsLine: {
 export declare const privateComponentTextInputCardNumberInput: {
   "name": "privateComponentTextInputCardNumberInput",
   "key": "60888e1eba691721f0ec6a41df43c1c075e5beac",
-  "componentPropertyDefinitions": {
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
-    "Has Value": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "false",
-        "true"
-      ]
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Plain Text"
-      ]
-    }
-  }
+  "componentPropertyDefinitions": {}
 };
 
 export declare const privateComponentTextInputIdNumberInput: {
@@ -1186,6 +1162,13 @@ export declare const privateComponentTextInputIdNumberInput: {
     },
     "Clear Button#34067:1": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1207,17 +1190,24 @@ export declare const privateComponentTextInputInput: {
   "name": "privateComponentTextInputInput",
   "key": "c030fb7107795ad42b4b2eea454b05fb4b4c9ac7",
   "componentPropertyDefinitions": {
+    "Show Clear Button#11049:0": {
+      "type": "BOOLEAN"
+    },
     "Value Text#34067:0": {
       "type": "TEXT"
-    },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
     },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
     },
     "Show Cursor (Figma Only)#53584:0": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1236,11 +1226,15 @@ export declare const privateComponentTextInputInputDisabled: {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1259,11 +1253,15 @@ export declare const privateComponentTextInputInputReadOnly: {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1281,6 +1279,13 @@ export declare const privateComponentTextInputPrefix: {
   "componentPropertyDefinitions": {
     "Icon#34021:2": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large"
+      ]
     },
     "Type": {
       "type": "VARIANT",
@@ -1301,6 +1306,13 @@ export declare const privateComponentTextInputSuffix: {
     },
     "Icon#45391:0": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large"
+      ]
     },
     "Type (Figma Only)": {
       "type": "VARIANT",
@@ -1324,6 +1336,13 @@ export declare const privateComponentTextareaInput: {
     "Placeholder Text#34067:2": {
       "type": "TEXT"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
+    },
     "Has Value": {
       "type": "VARIANT",
       "variantOptions": [
@@ -1341,11 +1360,15 @@ export declare const privateComponentTextareaInputDisabled: {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1364,11 +1387,15 @@ export declare const privateComponentTextareaInputReadOnly: {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1454,7 +1481,7 @@ export declare const privateComponentTopNavigationTitleLeft: {
       "variantOptions": [
         "Avatar",
         "Custom",
-        "Cutom Icon"
+        "Custom Icon"
       ]
     }
   }
@@ -1483,6 +1510,9 @@ export declare const privateComponentUnderlineTextInputInput: {
   "name": "privateComponentUnderlineTextInputInput",
   "key": "a8a39cf124e7b4c3b873429e81b4278639a7031b",
   "componentPropertyDefinitions": {
+    "Show Clear Button#10972:0": {
+      "type": "BOOLEAN"
+    },
     "Value Text#34067:0": {
       "type": "TEXT"
     },
@@ -1491,6 +1521,13 @@ export declare const privateComponentUnderlineTextInputInput: {
     },
     "Show Cursor (Figma Only)#53584:3": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1509,11 +1546,15 @@ export declare const privateComponentUnderlineTextInputInputDisabled: {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1532,11 +1573,15 @@ export declare const privateComponentUnderlineTextInputInputReadOnly: {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1554,6 +1599,13 @@ export declare const privateComponentUnderlineTextInputPrefix: {
   "componentPropertyDefinitions": {
     "Icon#34021:2": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Type": {
       "type": "VARIANT",
@@ -1574,6 +1626,13 @@ export declare const privateComponentUnderlineTextInputSuffix: {
     },
     "Icon#45391:5": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Type (Figma Only)": {
       "type": "VARIANT",
@@ -1874,38 +1933,6 @@ export declare const componentDeprecatedMultilineTextField: {
   }
 };
 
-export declare const componentDeprecatedRangeSlider: {
-  "name": "componentDeprecatedRangeSlider",
-  "key": "acd9b25dba649748699d0a67f900857629d62e64",
-  "componentPropertyDefinitions": {
-    "Steps": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
-      ]
-    }
-  }
-};
-
 export declare const componentDeprecatedSelectBox: {
   "name": "componentDeprecatedSelectBox",
   "key": "83d4bbb026d432c35f0b2c7b7b273eafdd28e1a1",
@@ -1963,38 +1990,6 @@ export declare const componentDeprecatedSelectBoxGroup: {
         "4",
         "5",
         "6"
-      ]
-    }
-  }
-};
-
-export declare const componentDeprecatedSlider: {
-  "name": "componentDeprecatedSlider",
-  "key": "c103c0a6ec25de57bb41eb820648a467afc5788e",
-  "componentPropertyDefinitions": {
-    "Steps": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
       ]
     }
   }
@@ -2222,6 +2217,36 @@ export declare const componentAndroidNowBarScreen: {
         "Status bar chip",
         "Expanded view",
         "Collapsed view"
+      ]
+    }
+  }
+};
+
+export declare const templateAttachmentField: {
+  "name": "templateAttachmentField",
+  "key": "fadc2874d82258d8522bb240de58a2400738f05e",
+  "componentPropertyDefinitions": {
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Media",
+        "File"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Error",
+        "Disabled",
+        "Read Only"
+      ]
+    },
+    "Has Value": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
       ]
     }
   }
@@ -3010,8 +3035,8 @@ export declare const componentImageFrame: {
   }
 };
 
-export declare const componentIOsLiveAcitivityScreen: {
-  "name": "componentIOsLiveAcitivityScreen",
+export declare const componentIOsLiveActivityScreen: {
+  "name": "componentIOsLiveActivityScreen",
   "key": "3d7ff6cf68e769096237bcc0122be08caf8b6ce4",
   "componentPropertyDefinitions": {
     "Type": {
@@ -3122,11 +3147,11 @@ export declare const componentListItem: {
         "Disabled"
       ]
     },
-    "Variants": {
+    "Align": {
       "type": "VARIANT",
       "variantOptions": [
-        "Single Line",
-        "Multi Line"
+        "Center",
+        "Top"
       ]
     },
     "Highlighted": {
@@ -4235,6 +4260,41 @@ export declare const componentUserSelectionFigmaOnly: {
   }
 };
 
+export declare const componentAttachmentInput: {
+  "name": "componentAttachmentInput",
+  "key": "912d312b7a25ab698708e196a7d3f2f91d2bd2f5",
+  "componentPropertyDefinitions": {
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Media",
+        "File"
+      ]
+    },
+    "Trigger Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Button",
+        "Dropzone"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Disabled"
+      ]
+    },
+    "Has Value": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    }
+  }
+};
+
 export declare const componentFieldFooter: {
   "name": "componentFieldFooter",
   "key": "a2e73c375b787756a11e84c5915f8251c621ee3a",
@@ -4299,15 +4359,22 @@ export declare const componentInputButton: {
     "Has Suffix#32865:68": {
       "type": "BOOLEAN"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
-        "Error",
-        "Disabled",
-        "Read Only",
         "Pressed",
-        "Error Pressed"
+        "Error",
+        "Error Pressed",
+        "Disabled",
+        "Read Only"
       ]
     }
   }
@@ -4337,6 +4404,13 @@ export declare const componentTextInput: {
         "Read Only",
         "AI Loading (Figma Only)"
       ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
     }
   }
 };
@@ -4345,6 +4419,13 @@ export declare const componentTextarea: {
   "name": "componentTextarea",
   "key": "e20ec5b725e0fdbaca728cecdc72b0c485728b4d",
   "componentPropertyDefinitions": {
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
     "Auto Size (Figma Only)": {
       "type": "VARIANT",
       "variantOptions": [
@@ -4388,6 +4469,13 @@ export declare const componentUnderlineTextInput: {
         "Read Only",
         "AI Loading (Figma Only)"
       ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium (Desktop Only)",
+        "Large"
+      ]
     }
   }
 };
@@ -4418,7 +4506,7 @@ export declare const componentActionButtonGhostButton: {
     "Size": {
       "type": "VARIANT",
       "variantOptions": [
-        "Xsmall",
+        "XSmall",
         "Small",
         "Medium",
         "Large"

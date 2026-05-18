@@ -9,6 +9,17 @@
 - `clsx`로 className 병합
 - variant props는 반드시 `splitVariantProps` 또는 context 유틸 사용 (수동 destructuring 금지)
 - recipe는 `@seed-design/css/recipes/{name}`에서 import
+- primitive prop이 union인 경우 `interface extends` 대신 `type Props = PrimitiveProps & VariantProps` 형태를 허용한다
+
+## 공개 Export Surface
+
+React 레이어의 export는 구현 편의가 아니라 **사용자 의미**를 기준으로 잡는다.
+
+- `index.ts`와 namespace에는 user-meaningful slot을 우선 export한다
+- animation/layout/padding 분리를 위한 helper slot은 기본적으로 비공개로 둔다
+- helper slot을 공개하려면 direct composition이나 styling escape hatch 같은 명확한 사용자 시나리오가 있어야 한다
+
+예: `Content`, `Label`, `Description`은 공개 후보가 될 수 있지만, `ContentInner` 같은 implementation helper는 기본적으로 내부에 남긴다.
 
 ## createSlotRecipeContext 사용법
 
@@ -53,6 +64,29 @@ const withStateProps = createWithStateProps([
 
 - `strict: true` (default) → context 없으면 에러 (반드시 해당 wrapper 안에서 사용)
 - `strict: false` → context 없으면 null 반환 (wrapper가 선택적일 때)
+
+### Headless context stateProps 재사용
+
+headless context가 이미 `stateProps`, `triggerProps`, `contentProps`처럼 slot contract를 제공한다면 styled React 레이어에서 같은 helper를 다시 export하거나 다시 계산하지 않는다.
+
+- styled 컴포넌트에서는 headless context hook을 `createWithStateProps([useComponentItemContext])`에 직접 연결한다.
+- 같은 `data-*` state를 만들기 위한 별도 `useComponentItemStateProps` helper는 중복 API가 되기 쉬우므로 피한다.
+- state props는 DOM에 퍼뜨릴 최종 contract다. React 레이어는 className/variant wiring을 더하고, headless 레이어가 만든 ARIA/id/keyboard/data-state를 다시 만들지 않는다.
+
+### Hook props와 component props 중복 선언 방지
+
+headless 훅이 받는 props와 headless primitive component가 받는 props는 같은 source를 공유한다.
+
+```typescript
+export interface ComponentItemProps
+  extends UseComponentItemProps,
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+```
+
+- hook props를 component props에 다시 손으로 선언하지 않는다.
+- hook props가 union이면 component props도 union/type alias로 surface를 유지한다.
+- wrapper가 hook props를 재조합해야 할 때는 mode별 branch를 만들어 불가능한 조합이 섞이지 않게 한다.
 
 ## Form/Field 통합 패턴
 
@@ -126,6 +160,8 @@ export type { ComponentRootProps, ... } from "./Component";
 ```
 
 **사용 조건**: compound 컴포넌트에만. 단일 컴포넌트(카테고리 A)와 레이아웃(카테고리 E)에는 namespace를 만들지 않는다.
+
+namespace export에도 동일한 기준을 적용한다. 짧은 이름 re-export가 가능하더라도 helper slot은 namespace surface에 올리지 않는다.
 
 ## Multi-Recipe 패턴
 

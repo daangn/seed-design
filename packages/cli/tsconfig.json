@@ -4,8 +4,8 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "isolatedModules": false,
-    "skipLibCheck": false,
-    "baseUrl": ".",
+    "skipLibCheck": true,
+    "types": ["bun", "node"],
     "paths": {
       "@/*": ["./*"]
     }

@@ -1,5 +1,11 @@
 # @seed-design/docs-mcp
 
+## 0.5.3
+
+### Patch Changes
+
+- c5012d1: @seed-design/docs-mcp가 MCP SDK의 신규 API를 사용하도록 업데이트합니다.
+
 ## 0.5.2
 
 ### Patch Changes

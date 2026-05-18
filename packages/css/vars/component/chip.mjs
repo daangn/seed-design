@@ -258,7 +258,27 @@ export const vars = {
       }
     }
   },
-  "layoutWithText": {},
+  "sizeSmallLayoutWithText": {
+    "enabled": {
+      "root": {
+        "minWidth": "44px"
+      }
+    }
+  },
+  "sizeMediumLayoutWithText": {
+    "enabled": {
+      "root": {
+        "minWidth": "var(--seed-dimension-x12)"
+      }
+    }
+  },
+  "sizeLargeLayoutWithText": {
+    "enabled": {
+      "root": {
+        "minWidth": "var(--seed-dimension-x13)"
+      }
+    }
+  },
   "sizeSmallLayoutIconOnly": {
     "enabled": {
       "root": {

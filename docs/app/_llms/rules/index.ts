@@ -1,6 +1,7 @@
 import { changelogPageRule } from "./changelog-page-rule";
 import { codeBlockTabsRule } from "./codeblock-tabs-rule";
 import { componentExampleRule } from "./component-example-rule";
+import { componentGridRule } from "./component-grid-rule";
 import { platformStatusRule } from "./platform-status-rule";
 import { progressBoardRule } from "./progress-board-rule";
 import { typeTableRule } from "./type-table-rule";
@@ -17,6 +18,7 @@ export const activeRules: Rule[] = [
   platformStatusRule,
   progressBoardRule,
   iconLibraryRule,
+  componentGridRule,
   componentSpecBlockRule,
   changelogPageRule,
 ];
@@ -25,6 +27,7 @@ export {
   changelogPageRule,
   codeBlockTabsRule,
   componentExampleRule,
+  componentGridRule,
   typeTableRule,
   tokenReferenceRule,
   componentSpecBlockRule,

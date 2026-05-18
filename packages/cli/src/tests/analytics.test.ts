@@ -37,8 +37,8 @@ describe("analytics command outcome tracking", () => {
 
   it("command outcome payload에 status를 포함해야 한다", async () => {
     const cwd = await createTempCwd();
-    const fetchSpy = spyOn(globalThis, "fetch").mockImplementation(
-      async () => new Response(null, { status: 200 }),
+    const fetchSpy = spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(null, { status: 200 }),
     );
     const infoSpy = spyOn(prompts.log, "info").mockImplementation(() => {});
 
@@ -66,8 +66,8 @@ describe("analytics command outcome tracking", () => {
 
   it("failed outcome payload에는 error_type만 포함하고 message는 포함하지 않아야 한다", async () => {
     const cwd = await createTempCwd();
-    const fetchSpy = spyOn(globalThis, "fetch").mockImplementation(
-      async () => new Response(null, { status: 200 }),
+    const fetchSpy = spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(null, { status: 200 }),
     );
     spyOn(prompts.log, "info").mockImplementation(() => {});
 

@@ -29,7 +29,7 @@ const addAllOptionsSchema = z.object({
   all: z.boolean(),
   includeDeprecated: z.boolean().optional(),
   cwd: z.string(),
-  baseUrl: z.string().optional(),
+  baseUrl: z.string().default(BASE_URL),
   onDiff: z.enum(["overwrite", "backup"]).optional(),
 });
 

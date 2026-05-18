@@ -1,6 +1,14 @@
 # Phase 0: 아키텍처 결정
 
+> **전제조건**: `references/brainstorming.md`의 Phase 0 Pre가 완료되어 있어야 한다. 즉 사용자와 Purpose, 기존과의 관계, 엣지케이스, 토큰 의존성, 외부 레퍼런스 우선순위가 합의된 상태에서 진입한다. 합의되지 않았으면 Phase 0 Pre로 돌아간다.
+
 구현을 시작하기 전에 이 문서의 모든 섹션을 완료한다. 여기서 내린 결정이 이후 모든 단계의 파일 구조, 유틸리티 선택, recipe 타입을 결정한다.
+
+Phase 0 Pre의 산출물(합의 요약)이 다음 항목의 입력이 된다:
+- 합의된 **유사 컴포넌트 매트릭스** → §6 패턴 참조 컴포넌트의 기본값
+- 합의된 **엣지케이스** → §4b ARIA APG 패턴, §5 추가 요건 체크리스트
+- 합의된 **토큰 의존성** → Phase 1 Step 2 (Rootage)에서 사용
+- 합의된 **외부 레퍼런스 우선순위** → §4a 외부 라이브러리 조사의 1순위
 
 ## 1. 컴포넌트 카테고리 결정
 
@@ -82,6 +90,12 @@ https://www.w3.org/WAI/ARIA/apg/patterns/ 에서 해당 컴포넌트 패턴을 �
   - Home/End:
   - Escape:
   - Tab:
+- **Role/heading override 전략**:
+  - `hardcode`: native element를 고정한다.
+  - `asChild`: consumer가 semantic wrapper를 교체할 수 있게 한다.
+  - `aria-level override`: wrapper는 유지하되 계층만 조정할 수 있게 한다.
+
+APG가 heading 계층이나 landmark 구조를 요구하는 컴포넌트는 이 전략을 **구현 전에 명시적으로 선택**한다. 기본값으로 hardcode만 두면 문서 구조나 페이지 계층에 따라 API가 막힐 수 있다.
 
 ### 4c. SEED Design 접근성 유틸리티 적용 계획
 
@@ -108,13 +122,20 @@ https://www.w3.org/WAI/ARIA/apg/patterns/ 에서 해당 컴포넌트 패턴을 �
 
 ## 6. 패턴 참조 컴포넌트 지정
 
-카테고리별 canonical reference에서 가장 유사한 컴포넌트를 선택한다. 이후 모든 구현 단계에서 이 컴포넌트의 해당 파일을 **먼저 읽고** 패턴을 따른다.
+참조 컴포넌트는 하나만 고르지 않는다. 레이어별로 가장 유사한 참조를 따로 선택하고, 이후 구현 단계에서 해당 파일을 **먼저 읽고** 패턴을 따른다.
 
-**선택한 참조 컴포넌트**: ________________
+- **Headless reference**: ________________
+  - 경로: `packages/react-headless/{name}/` 또는 `packages/react-headless/{name}/src/`
+- **Styled React reference**: ________________
+  - 경로: `packages/react/src/components/{Name}/`
+- **Snippet reference**: ________________
+  - 경로: `docs/registry/ui/{name}.tsx`
+- **Rootage vocabulary reference**: ________________
+  - 경로: `packages/rootage/components/{name}.yaml`
+- **Docs reference** (선택): ________________
+  - 경로: `docs/content/react/components/{name}.mdx`
 
-참조 파일 경로:
-- Rootage: `packages/rootage/components/{name}.yaml`
-- Recipe: `packages/qvism-preset/src/recipes/{name}.ts`
-- React: `packages/react/src/components/{Name}/`
-- Snippet: `docs/registry/ui/{name}.tsx`
-- Docs: `docs/content/react/components/{name}.mdx`
+기록 시 아래를 함께 남긴다:
+- 각 레이어에서 **무엇을 따라갈지** (예: slot 구조, prop naming, token vocabulary, example composition)
+- 참조와 **의도적으로 다르게 가는 부분**
+- 외부 레퍼런스(Radix, Base UI, shadcn/ui)와 내부 레퍼런스가 충돌할 때 어느 쪽을 우선할지

@@ -3,8 +3,8 @@ export {
   scaleColorMappings,
   semanticColorMappings,
   staticColorMappings,
-} from "./color";
-export { iconMappings, monochromeIconMappings, multicolorIconMappings } from "./iconography";
-export { typographyMappings } from "./typography";
+} from "./color.mjs";
+export { iconMappings, monochromeIconMappings, multicolorIconMappings } from "./iconography.mjs";
+export { typographyMappings } from "./typography.mjs";
 
-export type { FoundationTokenMapping } from "./types";
+export type { FoundationTokenMapping } from "./types.js";
