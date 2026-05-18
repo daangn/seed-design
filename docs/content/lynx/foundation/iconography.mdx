@@ -22,10 +22,10 @@ npm install @karrotmarket/lynx-multicolor-icon
 아이콘 로더를 설정해야 합니다.
 
 <Callout>
-  lynx 3.5 기준으로 SVG를 지원하지 않기 때문에 로더를 설정해 이를 WebP로
-  변환하는 역할을 합니다. `@karrotmarket/lynx-*-icon` 패키지는 내부적으로
-  `karrotmarket/assets-*` 패키지의 SVG를 사용하는데, 이를 로컬에서 `sharp`를
-  사용해서 WebP로 변환하는 역할을 합니다.
+  `@karrotmarket/lynx-*-icon` 패키지는 내부적으로
+  `karrotmarket/assets-*` 패키지의 SVG asset을 사용합니다. 아래 loader는 해당
+  package asset을 Lynx에서 안정적으로 표시할 수 있도록 로컬에서 `sharp`로 WebP
+  data URL로 변환합니다.
 </Callout>
 
 ```package-install
@@ -34,11 +34,11 @@ npm install -D sharp
 
 <Files>
   <File name="package.json" />
-  <File name="rsbuild.config.ts" />
+  <File name="lynx.config.ts" />
   <File name="icon-loader.js" />
 </Files>
 
-```ts title="rsbuild.config.ts"
+```ts title="lynx.config.ts"
 import { defineConfig } from "@lynx-js/rspeedy";
 
 import { pluginQRCode } from "@lynx-js/qrcode-rsbuild-plugin";
@@ -156,11 +156,11 @@ import { IconCamera } from "@karrotmarket/lynx-multicolor-icon";
 export function App() {
   return (
     <view>
-      {"모노크롬 아이콘은 color가 필수입니다."}
+      <text>모노크롬 아이콘은 color가 필수입니다.</text>
       <IconArrow2ClockwiseCircularLine size={24} color="gray" />
       <IconArrow2ClockwiseCircularFill size={30} color="gray" />
 
-      {"멀티컬러 아이콘은 color가 없습니다."}
+      <text>멀티컬러 아이콘은 color가 없습니다.</text>
       <IconCamera size={30} />
     </view>
   );

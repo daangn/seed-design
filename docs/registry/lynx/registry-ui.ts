@@ -1,5 +1,10 @@
 import type { Registry } from "../schema";
 
+const lynxSeedPackageRanges = {
+  "@seed-design/lynx-react": ">=0.1.0-0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.1.0-0 <1.0.0",
+};
+
 // Lynx UI registry. Each item must have a matching snippet file under
 // `./ui/<id>.tsx` and a corresponding component implementation in
 // `@seed-design/lynx-react`. See `docs/registry/react/registry-ui.ts`
@@ -12,10 +17,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "bottom-sheet.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": "~0.2.0-alpha.1",
-            "@seed-design/lynx-css": "~0.1.1-alpha.1",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -24,10 +26,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "checkbox.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": "~0.2.0-alpha.1",
-            "@seed-design/lynx-css": "~0.1.1-alpha.1",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -36,10 +35,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "progress-circle.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": "~0.2.0-alpha.1",
-            "@seed-design/lynx-css": "~0.1.1-alpha.1",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -48,10 +44,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "radio-group.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": "~0.2.0-alpha.1",
-            "@seed-design/lynx-css": "~0.1.1-alpha.1",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -60,10 +53,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "switch.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": "~0.2.0-alpha.1",
-            "@seed-design/lynx-css": "~0.1.1-alpha.1",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -72,10 +62,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "tag-group.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": "~0.2.0-alpha.1",
-            "@seed-design/lynx-css": "~0.1.1-alpha.1",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },

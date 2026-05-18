@@ -20,7 +20,10 @@ import { usePressTap } from "@seed-design/lynx-react";
 
 function TappableCard() {
   const { pressed, ...handlers } = usePressTap({
-    onTap: () => console.log("tapped!"),
+    onTap: () => {
+      "background only";
+      console.log("tapped!");
+    },
   });
 
   return (
@@ -37,7 +40,10 @@ function TappableCard() {
 function DisabledButton({ disabled }: { disabled: boolean }) {
   const { pressed, ...handlers } = usePressTap({
     disabled,
-    onTap: () => console.log("won't fire when disabled"),
+    onTap: () => {
+      "background only";
+      console.log("won't fire when disabled");
+    },
   });
 
   return <view {...handlers}><text>Button</text></view>;
@@ -47,8 +53,6 @@ function DisabledButton({ disabled }: { disabled: boolean }) {
 ### Main Thread 이벤트
 
 ```tsx
-"main thread";
-
 import { usePressTap } from "@seed-design/lynx-react";
 
 function AnimatedButton() {
@@ -58,7 +62,10 @@ function AnimatedButton() {
   };
 
   const { pressed, ...handlers } = usePressTap({
-    onTap: () => console.log("tapped"),
+    onTap: () => {
+      "background only";
+      console.log("tapped");
+    },
     mainThreadOnTap: mainThreadTap,
   });
 

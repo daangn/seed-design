@@ -17,13 +17,32 @@ Lynx `ActionButton`은 별도 `ui:action-button` snippet 없이 `@seed-design/ly
 ## Usage
 
 ```tsx
+import IconChevronRightLine from "@karrotmarket/lynx-monochrome-icon/IconChevronRightLine";
+import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
 import { ActionButton } from "@seed-design/lynx-react";
 
 export function App() {
   return (
-    <ActionButton variant="brandSolid" size="medium" bindtap={() => console.log("tapped")}>
-      버튼
-    </ActionButton>
+    <view>
+      <ActionButton
+        variant="brandSolid"
+        size="medium"
+        prefixIcon={<IconPlusFill />}
+        bindtap={() => {
+          "background only";
+          console.log("tapped");
+        }}
+      >
+        버튼
+      </ActionButton>
+
+      <ActionButton
+        layout="iconOnly"
+        variant="neutralSolid"
+        icon={<IconChevronRightLine />}
+        aria-label="다음"
+      />
+    </view>
   );
 }
 ```

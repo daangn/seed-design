@@ -79,14 +79,7 @@ describe("docs command", () => {
 
   async function runDocsCommand(args: string[]) {
     const proc = Bun.spawn({
-      cmd: [
-        process.execPath,
-        "packages/cli/src/index.ts",
-        "docs",
-        ...args,
-        "-u",
-        baseUrl,
-      ],
+      cmd: [process.execPath, "packages/cli/src/index.ts", "docs", ...args, "-u", baseUrl],
       cwd: repoRoot,
       env: {
         ...process.env,
@@ -134,6 +127,22 @@ describe("docs command", () => {
     expect(result.stdout).toContain("/lynx/components/checkbox");
     expect(result.stdout).toContain("- llms.txt: http://");
     expect(result.stdout).toContain("/llms/lynx/components/checkbox.txt");
+    expect(result.stdout).toContain(
+      "- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/lynx/ui/checkbox.tsx",
+    );
+  });
+
+  it("resolves registry-key queries with an explicit framework", async () => {
+    requests.length = 0;
+    const result = await runDocsCommand(["ui:checkbox", "--framework", "lynx"]);
+
+    if (result.exitCode !== 0) {
+      throw new Error(
+        `docs command failed\nbaseUrl:${baseUrl}\nrequests:${requests.join(",")}\nstdout:\n${result.stdout}\nstderr:\n${result.stderr}`,
+      );
+    }
+    expect(result.stdout).toContain("- docs: http://");
+    expect(result.stdout).toContain("/lynx/components/checkbox");
     expect(result.stdout).toContain(
       "- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/lynx/ui/checkbox.tsx",
     );

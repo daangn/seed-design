@@ -59,13 +59,13 @@ export default {
 
 <Step>
 
-### base.css import하기
+### base.css와 Tailwind import하기
+
+앱 entry에서는 전역 CSS 파일을 import하고, CSS 파일 안에서 SEED `base.css`와 Tailwind 디렉티브를 함께 불러와요.
 
 ```ts title="src/index.tsx"
-import "@seed-design/lynx-css/base.css";
+import "./styles/global.css";
 ```
-
-CSS 파일에 Tailwind 디렉티브를 추가해요.
 
 ```css title="src/styles/global.css"
 @import "@seed-design/lynx-css/base.css";
@@ -136,7 +136,7 @@ npx @seed-design/cli@alpha init
 
 <Step>
 
-### tsconfig.json 설정하기
+### seed-design path alias 설정하기
 
 <Callout>
 
@@ -144,12 +144,13 @@ npx @seed-design/cli@alpha init
 
 </Callout>
 
-</Step>
+TypeScript가 snippet import를 해석할 수 있도록 루트 `tsconfig.json`에 path alias를 추가해요.
 
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
     // ... your options
+    "baseUrl": ".",
     "paths": {
       // [!code highlight]
       "seed-design/*": [
@@ -160,6 +161,38 @@ npx @seed-design/cli@alpha init
   }
 }
 ```
+
+Lynx 템플릿처럼 `src/tsconfig.json`이 별도로 있고 `composite` 프로젝트를 사용하는 경우, 생성된 snippet 경로도 include에 추가해야 해요.
+
+```json title="src/tsconfig.json"
+{
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "../seed-design/**/*.ts",
+    "../seed-design/**/*.tsx"
+  ]
+}
+```
+
+Rspeedy/Rspack도 같은 alias를 알아야 런타임 빌드에서 `seed-design/*` import를 해석할 수 있어요.
+
+```ts title="lynx.config.ts"
+import { defineConfig } from "@lynx-js/rspeedy";
+import { fileURLToPath } from "node:url";
+
+const seedDesignDir = fileURLToPath(new URL("./seed-design", import.meta.url));
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      "seed-design": seedDesignDir,
+    },
+  },
+});
+```
+
+</Step>
 
 <Step>
 
@@ -172,6 +205,7 @@ SEED Design 컴포넌트가 Lynx에서 정상 동작하려면 `pluginLynxConfig`
 ```
 
 ```ts title="lynx.config.ts"
+import { defineConfig } from "@lynx-js/rspeedy";
 import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 
 export default defineConfig({
@@ -224,12 +258,14 @@ lynx-console
 ```tsx title="src/App.tsx"
 import {
   initLogMonitor,
+  initMainThreadConsole,
   initNetworkMonitor,
   initPerformanceMonitor,
 } from "lynx-console/setup";
 import LynxConsole from "lynx-console";
 
 initLogMonitor();
+initMainThreadConsole();
 initNetworkMonitor();
 initPerformanceMonitor();
 
