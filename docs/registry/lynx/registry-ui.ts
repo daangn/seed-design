@@ -1,8 +1,8 @@
 import type { Registry } from "../schema";
 
 const lynxSeedPackageRanges = {
-  "@seed-design/lynx-react": ">=0.1.0-0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.1.0-0 <1.0.0",
+  "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
 };
 
 // Lynx UI registry. Each item must have a matching snippet file under
