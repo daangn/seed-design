@@ -65,7 +65,8 @@
     "@seed-design/figma-expose-variables": "0.0.0",
     "figma-mcp": "1.0.0",
     "@seed-design/figma-spec-widget": "0.0.0",
-    "figma-v3-migration": "1.0.0"
+    "figma-v3-migration": "1.0.0",
+    "@seed-design/lynx-qvism-preset": "0.0.0"
   },
   "changesets": [
     "add-lynx-framework-support",
@@ -78,6 +79,7 @@
     "lynx-checkbox-radio-group",
     "lynx-css-qvism-split",
     "lynx-namespace-exports",
+    "lynx-react-hook-camelcase",
     "lynx-react-utils-refactor",
     "lynx-react-utils",
     "lynx-switch",

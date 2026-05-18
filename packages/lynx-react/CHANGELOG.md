@@ -1,5 +1,11 @@
 # @seed-design/lynx-react
 
+## 0.2.0-alpha.3
+
+### Patch Changes
+
+- b53ea7e: Lynx React 내부 hook 파일명과 TODO 폴더를 정리하고, Lynx React/CSS alpha 조합 검증을 위한 패치 릴리스를 준비합니다.
+
 ## 0.2.0-alpha.2
 
 ### Minor Changes
