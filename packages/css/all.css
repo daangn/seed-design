@@ -8819,20 +8819,24 @@
   --side-panel-size-width: 720px;
 }
 
-.seed-side-panel__footer--size_medium {
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-start;
+@media (width >= 768px) {
+  .seed-side-panel__footer--size_medium {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
 }
 
 .seed-side-panel__content--size_large {
   --side-panel-size-width: 960px;
 }
 
-.seed-side-panel__footer--size_large {
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-start;
+@media (width >= 768px) {
+  .seed-side-panel__footer--size_large {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
 }
 
 .seed-skeleton {

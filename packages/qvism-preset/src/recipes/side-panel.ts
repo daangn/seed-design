@@ -280,9 +280,11 @@ const sidePanel = defineSlotRecipe({
           "--side-panel-size-width": vars.sizeMedium.enabled.content.width,
         },
         footer: {
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          alignItems: "flex-start",
+          [breakpoints.up("md")]: {
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignItems: "flex-start",
+          },
         },
       },
       large: {
@@ -290,9 +292,11 @@ const sidePanel = defineSlotRecipe({
           "--side-panel-size-width": vars.sizeLarge.enabled.content.width,
         },
         footer: {
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          alignItems: "flex-start",
+          [breakpoints.up("md")]: {
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignItems: "flex-start",
+          },
         },
       },
     },
