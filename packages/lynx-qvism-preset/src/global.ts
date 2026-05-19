@@ -1,58 +1,26 @@
-import { vars } from "./vars";
 import { defineGlobalCss } from "./utils/define";
-import { active, pseudo } from "./utils/pseudo";
+import { pseudo } from "./utils/pseudo";
 
 export const globalCss = defineGlobalCss({
   ":root": {
-    "--seed-safe-area-top": "0px",
-    "--seed-safe-area-bottom": "0px",
-
-    "@supports (left: constant(safe-area-inset-left))": {
-      "--seed-safe-area-top": "constant(safe-area-inset-top)",
-      "--seed-safe-area-bottom": "constant(safe-area-inset-bottom)",
-    },
-
-    "@supports (left: env(safe-area-inset-left))": {
-      "--seed-safe-area-top": "env(safe-area-inset-top)",
-      "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
-    },
-
-    // Font scaling variables
-    "--seed-font-size-multiplier": "1",
-    "--seed-font-size-limit-min": "0.8",
-    "--seed-font-size-limit-max": "1.5", // Android default 150%
-    "--seed-line-height-limit-min": "0.8",
-    "--seed-line-height-limit-max": "1.5", // Android default 150%
+    "--seed-safe-area-top": "env(safe-area-inset-top)",
+    "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
   },
 
   // iOS platform-specific overrides
-  "[data-seed-platform='ios']": {
-    "--seed-font-size-limit-max": "1.35", // iOS 135% limit
-    "--seed-line-height-limit-max": "1.35",
-  },
-
-  "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {
-    "@supports (font: -apple-system-body)": {
-      /**
-       * 0.9412 is the font size multiplier for iOS
-       * It converts iOS default 17px to web standard 16px
-       * Individual font sizes are clamped to max 135% in the token system
-       */
-      "--seed-font-size-multiplier": "0.9412",
-      font: "-apple-system-body",
-    },
+  ".seed-platform-ios": {
+    "--seed-platform": "ios",
   },
 
   ".seed-loading-indicator": {
     position: "absolute",
-    display: "inline-flex",
+    display: "flex",
   },
   ".seed-icon, .seed-prefix-icon, .seed-suffix-icon": {
-    display: "inline-flex",
+    display: "flex",
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
-    verticalAlign: "middle",
   },
   ".seed-icon": {
     width: "var(--seed-icon-size)",
@@ -92,13 +60,13 @@ export const globalCss = defineGlobalCss({
     color: "var(--seed-count-color)",
   },
   ".seed-box": {
-    "--seed-box-background": "initial",
-    "--seed-box-color": "initial",
+    "--seed-box-background": "transparent",
+    "--seed-box-color": "currentColor",
     background: "var(--seed-box-background)",
     color: "var(--seed-box-color)",
 
     "--seed-box-border-style": "solid",
-    "--seed-box-border-color": "initial",
+    "--seed-box-border-color": "transparent",
     borderStyle: "var(--seed-box-border-style)",
     borderColor: "var(--seed-box-border-color)",
 
@@ -133,12 +101,12 @@ export const globalCss = defineGlobalCss({
     marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
     marginRight: "calc(var(--seed-box-bleed-right) * -1)",
 
-    "--seed-box-min-height": "initial",
-    "--seed-box-max-height": "initial",
-    "--seed-box-height": "initial",
-    "--seed-box-min-width": "initial",
-    "--seed-box-max-width": "initial",
-    "--seed-box-width": "initial",
+    "--seed-box-min-height": "auto",
+    "--seed-box-max-height": "none",
+    "--seed-box-height": "auto",
+    "--seed-box-min-width": "auto",
+    "--seed-box-max-width": "none",
+    "--seed-box-width": "auto",
     minHeight: "var(--seed-box-min-height)",
     maxHeight: "var(--seed-box-max-height)",
     height: "var(--seed-box-height)",
@@ -146,16 +114,16 @@ export const globalCss = defineGlobalCss({
     maxWidth: "var(--seed-box-max-width)",
     width: "var(--seed-box-width)",
 
-    "--seed-box-top": "initial",
-    "--seed-box-bottom": "initial",
-    "--seed-box-left": "initial",
-    "--seed-box-right": "initial",
+    "--seed-box-top": "auto",
+    "--seed-box-bottom": "auto",
+    "--seed-box-left": "auto",
+    "--seed-box-right": "auto",
     top: "var(--seed-box-top)",
     bottom: "var(--seed-box-bottom)",
     left: "var(--seed-box-left)",
     right: "var(--seed-box-right)",
 
-    "--seed-box-border-radius": "initial",
+    "--seed-box-border-radius": "0",
     "--seed-box-border-bottom-left-radius": "var(--seed-box-border-radius)",
     "--seed-box-border-bottom-right-radius": "var(--seed-box-border-radius)",
     "--seed-box-border-top-left-radius": "var(--seed-box-border-radius)",
@@ -165,39 +133,39 @@ export const globalCss = defineGlobalCss({
     borderTopLeftRadius: "var(--seed-box-border-top-left-radius)",
     borderTopRightRadius: "var(--seed-box-border-top-right-radius)",
 
-    "--seed-box-box-shadow": "initial",
+    "--seed-box-box-shadow": "none",
     boxShadow: "var(--seed-box-box-shadow)",
 
     "--seed-box-display": "block",
-    "--seed-box-position": "initial",
+    "--seed-box-position": "relative",
     display: "var(--seed-box-display)",
     position: "var(--seed-box-position)",
 
     // NOTE: Not sure how to treat transform/translate right now, mark as unstable until we have a better solution.
-    "--seed-box-unstable-transform": "initial",
+    "--seed-box-unstable-transform": "none",
     transform: "var(--seed-box-unstable-transform)",
 
-    "--seed-box-z-index": "initial",
+    "--seed-box-z-index": "auto",
     zIndex: "var(--seed-box-z-index)",
 
-    "--seed-box-overflow-x": "initial",
-    "--seed-box-overflow-y": "initial",
+    "--seed-box-overflow-x": "visible",
+    "--seed-box-overflow-y": "visible",
     overflowX: "var(--seed-box-overflow-x)",
     overflowY: "var(--seed-box-overflow-y)",
 
-    "--seed-box-flex-grow": "initial",
-    "--seed-box-flex-shrink": "initial",
+    "--seed-box-flex-grow": "0",
+    "--seed-box-flex-shrink": "1",
     flexGrow: "var(--seed-box-flex-grow)",
     flexShrink: "var(--seed-box-flex-shrink)",
 
-    "--seed-box-flex-direction": "initial",
-    "--seed-box-flex-wrap": "initial",
-    "--seed-box-justify-content": "initial",
+    "--seed-box-flex-direction": "row",
+    "--seed-box-flex-wrap": "nowrap",
+    "--seed-box-justify-content": "flex-start",
     "--seed-box-justify-self": "auto",
     "--seed-box-align-items": "stretch",
     "--seed-box-align-content": "stretch",
     "--seed-box-align-self": "auto",
-    "--seed-box-gap": "initial",
+    "--seed-box-gap": "0px",
     flexDirection: "var(--seed-box-flex-direction)",
     flexWrap: "var(--seed-box-flex-wrap)",
     justifyContent: "var(--seed-box-justify-content)",
@@ -207,50 +175,31 @@ export const globalCss = defineGlobalCss({
     alignSelf: "var(--seed-box-align-self)",
     gap: "var(--seed-box-gap)",
 
-    "--seed-box-grid-column": "initial",
-    gridColumn: "var(--seed-box-grid-column)",
-    "--seed-box-grid-row": "initial",
-    gridRow: "var(--seed-box-grid-row)",
-
     // Only apply active background when explicitly opted in via _active prop.
     // Without [data-has-active-bg], the :active rule's higher specificity (0,2,0)
-    // would override external class backgrounds (e.g. .bg-red-500) with initial (transparent) even when _active is not set.
+    // would override external class backgrounds with transparent even when _active is not set.
     // this workaround can be removed when decide to support cascade layers by default
-    [pseudo("[data-has-active-bg]", active)]: {
+    [pseudo("[data-has-active-bg]:active")]: {
+      background: "var(--seed-box-background--active)",
+    },
+    [pseudo("[data-has-active-bg][data-active]")]: {
       background: "var(--seed-box-background--active)",
     },
   },
   ".seed-grid": {
     display: "grid",
 
-    "--seed-grid-columns": "initial",
+    "--seed-grid-columns": "none",
     gridTemplateColumns: "var(--seed-grid-columns)",
-    "--seed-grid-rows": "initial",
+    "--seed-grid-rows": "none",
     gridTemplateRows: "var(--seed-grid-rows)",
-    "--seed-grid-auto-flow": "initial",
+    "--seed-grid-auto-flow": "row",
     gridAutoFlow: "var(--seed-grid-auto-flow)",
-    "--seed-grid-auto-columns": "initial",
+    "--seed-grid-auto-columns": "auto",
     gridAutoColumns: "var(--seed-grid-auto-columns)",
-    "--seed-grid-auto-rows": "initial",
+    "--seed-grid-auto-rows": "auto",
     gridAutoRows: "var(--seed-grid-auto-rows)",
     "--seed-grid-justify-items": "stretch",
     justifyItems: "var(--seed-grid-justify-items)",
-  },
-  ".seed-consistent-width": {
-    // Consistent text width between font-weight changes
-    "&:before": {
-      content: "attr(data-text)",
-      display: "block",
-      visibility: "hidden",
-      height: 0,
-      fontWeight: vars.$fontWeight.regular,
-    },
-    "&:after": {
-      content: "attr(data-text)",
-      display: "block",
-      visibility: "hidden",
-      height: 0,
-      fontWeight: vars.$fontWeight.bold,
-    },
   },
 });

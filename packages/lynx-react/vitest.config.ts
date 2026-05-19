@@ -7,7 +7,7 @@ export default mergeConfig(
   defaultConfig,
   defineConfig({
     test: {
-      include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
+      include: ["src/**/*.test.{ts,tsx}"],
     },
     optimizeDeps: {
       exclude: [

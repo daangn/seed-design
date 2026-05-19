@@ -1,9 +1,8 @@
 /*
  * CSS Selector 지원 검증 테스트
  *
- * postcss-lynx-compat의 Step 3 변환을 피하기 위해
- * tag selector (view[data-*]) 형태를 사용합니다.
- * Step 3은 .class[data-*] 패턴만 변환하므로 tag selector는 그대로 통과됩니다.
+ * Lynx 엔진의 selector 지원을 직접 확인하기 위해 tag selector
+ * (view[data-*]) 형태를 사용합니다.
  *
  * 각 테스트 케이스에서 "적용됨" = 초록색 배경, "미적용" = 기본(없음)
  */
@@ -99,9 +98,8 @@ view[data-sel-test="3-3"]:not([data-excluded]) {
  * 4. Pseudo-classes (미지원 예상)
  * 엔진 코드 근거: MatchPseudoClass()에 case 없음 → false 반환
  *
- * 주의: :checked, :indeterminate, :invalid은
- * postcss-lynx-compat의 filterPseudoClasses에 의해 제거되므로
- * CSS 파일로는 테스트 불가 (아래 주석 참조)
+ * 주의: :checked, :indeterminate, :invalid은 Lynx recipe source에서
+ * boolean variant/className으로 모델링합니다.
  * ================================================================ */
 
 /* 4-1. :disabled - PseudoState 미정의 */
@@ -109,11 +107,9 @@ view[data-sel-test="4-1"] {
   background-color: #ef4444;
 }
 /* :disabled는 PseudoState enum에 없으므로 항상 false → 빨간색 유지 예상 */
-/* 단, postcss-lynx-compat가 변환하지 않으므로 그대로 Lynx에 전달됨 */
 
 /* 4-2. :is() - switch case 없음 */
-/* postcss-lynx-compat가 :is()를 확장하므로 원본 :is()는 Lynx에 도달하지 않음 */
-/* 별도로 :is()를 우회 테스트하기 어려움 - 스킵 */
+/* Lynx preset source에서는 :is()를 사용하지 않고 class/variant로 풀어 씁니다. */
 
 /* ================================================================
  * 5. Combinators (자손/자식/형제)
@@ -144,7 +140,7 @@ view[data-sel-test="5-4-trigger"] ~ view[data-sel-test="5-4-target"] {
  * 6. 복합 선택자 (Compound)
  * ================================================================ */
 
-/* 6-1. tag + data-attr 복합 (class를 앞에 두면 postcss-lynx-compat Step 3에 걸림) */
+/* 6-1. tag + data-attr 복합 */
 view[data-compound="true"][data-state="active"] {
   background-color: #22c55e;
 }

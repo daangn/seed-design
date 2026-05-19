@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-css",
-  "version": "0.2.0-alpha.3",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -47,7 +47,7 @@
   ],
   "scripts": {
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
-    "qvism:generate": "bun qvism ./ ./recipes",
+    "qvism:generate": "bun ../../ecosystem/qvism/cli/src/bin/qvism.ts --dir ./ --recipesDir ./recipes",
     "lint:publish": "bun publint"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react",
-  "version": "0.2.0-alpha.3",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,12 +30,13 @@
   },
   "peerDependencies": {
     "@seed-design/css": ">=1.1.17",
-    "@seed-design/lynx-css": ">=0.1.1-alpha.0 <0.2.0 || >=0.2.0-alpha.0 <1.0.0",
+    "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
     "@lynx-js/react": ">=0.100.0"
   },
   "devDependencies": {
     "@lynx-js/react": "^0.116.3",
     "@lynx-js/types": "^3.7.0",
+    "@seed-design/lynx-css": "0.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@types/react": "^19.2.2",
     "jsdom": "^29.0.2",

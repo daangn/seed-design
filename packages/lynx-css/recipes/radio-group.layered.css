@@ -1,5 +1,5 @@
 @layer seed-components {
-  .seed-radio-group {
+  .seed-radio-group__root {
     gap: var(--seed-dimension-x1);
     flex-direction: column;
     display: flex;

@@ -161,18 +161,6 @@
         "postcss": "^8",
       },
     },
-    "ecosystem/postcss-lynx-compat": {
-      "name": "@seed-design/postcss-lynx-compat",
-      "version": "0.0.0",
-      "devDependencies": {
-        "postcss": "^8.5.3",
-        "typescript": "^5.9.2",
-        "vitest": "^3.1.1",
-      },
-      "peerDependencies": {
-        "postcss": "^8",
-      },
-    },
     "ecosystem/qvism/cli": {
       "name": "@seed-design/qvism-cli",
       "version": "0.0.0",
@@ -321,7 +309,7 @@
         "react-dom": "^19.2.3",
       },
       "devDependencies": {
-        "@seed-design/cli": "1.4.0-alpha.0",
+        "@seed-design/cli": "workspace:*",
         "@seed-design/vite-plugin": "^1.1.1",
         "@types/node": "^25.0.0",
         "@types/react": "^19.2.7",
@@ -338,7 +326,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.4.0-alpha.0",
+      "version": "1.3.4",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
@@ -455,7 +443,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.2.0-alpha.3",
+      "version": "0.0.0",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -465,7 +453,6 @@
       "name": "@seed-design/lynx-qvism-preset",
       "version": "0.0.0",
       "dependencies": {
-        "@seed-design/postcss-lynx-compat": "0.0.0",
         "@seed-design/qvism-core": "0.0.0",
         "@seed-design/rootage-core": "0.0.0",
       },
@@ -475,7 +462,7 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.2.0-alpha.3",
+      "version": "0.0.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
@@ -484,6 +471,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.116.3",
         "@lynx-js/types": "^3.7.0",
+        "@seed-design/lynx-css": "0.0.0",
         "@testing-library/jest-dom": "^6.9.1",
         "@types/react": "^19.2.2",
         "jsdom": "^29.0.2",
@@ -493,7 +481,7 @@
       "peerDependencies": {
         "@lynx-js/react": ">=0.100.0",
         "@seed-design/css": ">=1.1.17",
-        "@seed-design/lynx-css": ">=0.1.1-alpha.0 <0.2.0 || >=0.2.0-alpha.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
       },
     },
     "packages/mcp": {
@@ -2716,8 +2704,6 @@
     "@seed-design/migration-index": ["@seed-design/migration-index@workspace:packages/migration-index"],
 
     "@seed-design/postcss-engaged": ["@seed-design/postcss-engaged@workspace:ecosystem/postcss-engaged"],
-
-    "@seed-design/postcss-lynx-compat": ["@seed-design/postcss-lynx-compat@workspace:ecosystem/postcss-lynx-compat"],
 
     "@seed-design/qvism-cli": ["@seed-design/qvism-cli@workspace:ecosystem/qvism/cli"],
 
@@ -6342,8 +6328,6 @@
     "@seed-design/lynx-react/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
     "@seed-design/mcp/zod": ["zod@4.3.6", "", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
-
-    "@seed-design/postcss-lynx-compat/typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "@seed-design/tailwind3-plugin/tailwindcss": ["tailwindcss@3.4.19", "", { "dependencies": { "@alloc/quick-lru": "^5.2.0", "arg": "^5.0.2", "chokidar": "^3.6.0", "didyoumean": "^1.2.2", "dlv": "^1.1.3", "fast-glob": "^3.3.2", "glob-parent": "^6.0.2", "is-glob": "^4.0.3", "jiti": "^1.21.7", "lilconfig": "^3.1.3", "micromatch": "^4.0.8", "normalize-path": "^3.0.0", "object-hash": "^3.0.0", "picocolors": "^1.1.1", "postcss": "^8.4.47", "postcss-import": "^15.1.0", "postcss-js": "^4.0.1", "postcss-load-config": "^4.0.2 || ^5.0 || ^6.0", "postcss-nested": "^6.2.0", "postcss-selector-parser": "^6.1.2", "resolve": "^1.22.8", "sucrase": "^3.35.0" }, "bin": { "tailwind": "lib/cli.js", "tailwindcss": "lib/cli.js" } }, "sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ=="],
 

@@ -32,6 +32,15 @@ UI 라이브러리가 특정 CSS 기술에 의존하는 경우, 라이브러리 
   - [Rootage](../rootage/README.md)로 디자인 결정을 선언합니다.
   - Qvism으로 CSS 맥락을 부여해 구조화된 컴포넌트 스타일을 구현합니다.
 
+## CSS Output Pipeline
+
+Preset은 두 단계의 PostCSS 확장 지점을 사용할 수 있습니다.
+
+- `postcssPlugins`: style object를 CSS로 변환한 직후, Lightning CSS 최적화 이전에 실행합니다.
+- `postTransformPlugins`: Lightning CSS 최적화 이후, 최종 CSS를 파일로 쓰기 직전에 실행합니다.
+
+Qvism core는 특정 framework나 runtime의 CSS compatibility를 알지 않습니다. Target별 보정이 필요하다면 preset이 `postTransformPlugins`로 최종 CSS만 후처리합니다.
+
 ## When to Use
 
 Qvism은 모든 사례를 위한 도구가 아닙니다:

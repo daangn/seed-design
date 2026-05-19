@@ -64,16 +64,11 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
   // Write each recipe .mjs + .d.ts + layered .mjs
   const options = { prefix: config.prefix };
-  const genOptions = {
-    targetSlots: config.deriveSlots,
-    extraVariants: config.extraVariants,
-  };
-
   await Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
       const name = definition.name;
-      const jsCode = generateJs(definition, { ...options, ...genOptions });
-      const dtsCode = generateDts(definition, genOptions);
+      const jsCode = generateJs(definition, options);
+      const dtsCode = generateDts(definition);
 
       console.log("Writing", name, "to", path.join(recipesDir, `${name}.mjs`));
       fs.writeFileSync(path.join(recipesDir, `${name}.mjs`), jsCode);
@@ -84,7 +79,6 @@ async function writeRecipes(recipesDir: string, config: Config) {
       // Layered .mjs (imports layered CSS instead)
       const layeredJsCode = generateJs(definition, {
         ...options,
-        ...genOptions,
         cssImportPath: `./${name}.layered.css`,
       });
       console.log("Writing", name, "to", path.join(recipesDir, `${name}.layered.mjs`));
@@ -132,13 +126,8 @@ async function main() {
   }
 
   // TODO: validate userConfig with zod
-  const outputDir = path.resolve(process.cwd(), dir);
-  const recipesOutputDir = path.resolve(process.cwd(), recipesDir);
-  fs.ensureDirSync(outputDir);
-  fs.ensureDirSync(recipesOutputDir);
-
-  await writeBundles(outputDir, userConfig as Config);
-  await writeRecipes(recipesOutputDir, userConfig as Config);
+  await writeBundles(path.resolve(process.cwd(), dir), userConfig as Config);
+  await writeRecipes(path.resolve(process.cwd(), recipesDir), userConfig as Config);
 
   console.log("Done");
 }

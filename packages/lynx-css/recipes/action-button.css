@@ -28,7 +28,6 @@
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing)
 }
 .seed-action-button__text {
-    font-family: inherit;
     font-weight: var(--seed-font-weight-bold);
     transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing)
 }

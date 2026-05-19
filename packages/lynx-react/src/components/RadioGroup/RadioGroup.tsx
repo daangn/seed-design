@@ -130,7 +130,7 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
     [setValueInternal],
   );
 
-  const rootClassName = radioGroup();
+  const rootClassName = radioGroup().root;
 
   const ctx = React.useMemo<RadioGroupContextValue>(
     () => ({ value, setValue, disabled, size, weight, tone }),
