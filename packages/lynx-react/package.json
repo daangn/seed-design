@@ -36,6 +36,7 @@
   "devDependencies": {
     "@lynx-js/react": "^0.116.3",
     "@lynx-js/types": "^3.7.0",
+    "@seed-design/lynx-css": "0.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@types/react": "^19.2.2",
     "jsdom": "^29.0.2",
