@@ -12,10 +12,10 @@ const SidePanelCustomSize = () => {
     <Flex gap="x3" wrap="wrap">
       <SidePanelRoot direction="right">
         <SidePanelTrigger asChild>
-          <ActionButton variant="neutralSolid">width 50vw</ActionButton>
+          <ActionButton variant="neutralSolid">width 80vw, max 640px</ActionButton>
         </SidePanelTrigger>
-        <SidePanelContent title="Fluid Width" width="50vw">
-          <SidePanelBody>뷰포트 너비의 50%를 차지합니다</SidePanelBody>
+        <SidePanelContent title="Fluid Width" width="80vw" maxWidth="640px">
+          <SidePanelBody>뷰포트 너비에 따라 커지되 최대 640px까지만 확장됩니다.</SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
 

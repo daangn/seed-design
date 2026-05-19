@@ -68,9 +68,10 @@ const sidePanel = defineSlotRecipe({
       willChange: "transform",
 
       "--seed-box-width--responsive": "initial",
-      "--seed-box-max-width--responsive": "initial",
+      "--seed-box-max-width--responsive": "100vw",
       "--seed-box-height--responsive": "initial",
       "--seed-box-max-height--responsive": "initial",
+      maxWidth: "var(--seed-box-max-width)",
 
       [pseudo(focus)]: {
         outline: "none",
@@ -84,7 +85,6 @@ const sidePanel = defineSlotRecipe({
         bottom: 0,
         left: 0,
         width: "var(--seed-box-width, 80vw)",
-        maxWidth: "100vw",
         paddingLeft: "env(safe-area-inset-left, 0)",
         "&::after": {
           content: '""',
@@ -105,7 +105,6 @@ const sidePanel = defineSlotRecipe({
         bottom: 0,
         right: 0,
         width: "var(--seed-box-width, 80vw)",
-        maxWidth: "100vw",
         paddingRight: "env(safe-area-inset-right, 0)",
         "&::after": {
           content: '""',
@@ -206,6 +205,7 @@ const sidePanel = defineSlotRecipe({
     footer: {
       display: "flex",
       flexDirection: "column",
+      alignItems: "stretch",
 
       paddingLeft: vars.base.enabled.footer.paddingX,
       paddingRight: vars.base.enabled.footer.paddingX,
@@ -213,6 +213,12 @@ const sidePanel = defineSlotRecipe({
       // Respect device safe-area on bottom edge (e.g. iOS home indicator)
       paddingBottom: `max(${vars.base.enabled.footer.paddingBottom}, env(safe-area-inset-bottom, 0px))`,
       gap: vars.base.enabled.footer.gap,
+
+      [breakpoints.up("md")]: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "flex-start",
+      },
     },
     closeButton: {
       position: "absolute",

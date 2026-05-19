@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SidePanelBody,
@@ -7,9 +8,17 @@ import {
 } from "seed-design/ui/side-panel";
 
 const SidePanelNonModal = () => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <SidePanelRoot modal={false}>
-      <SidePanelTrigger asChild>
+    <SidePanelRoot modal={false} open={open} onOpenChange={setOpen}>
+      <SidePanelTrigger
+        asChild
+        onClick={(event) => {
+          event.preventDefault();
+          setOpen((open) => !open);
+        }}
+      >
         <ActionButton variant="neutralSolid">Non-modal Side Panel</ActionButton>
       </SidePanelTrigger>
       <SidePanelContent title="Non-modal">
