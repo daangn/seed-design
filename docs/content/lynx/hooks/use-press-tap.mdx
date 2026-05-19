@@ -96,13 +96,11 @@ function AnimatedButton() {
 
 ## CSS 스타일링 참고
 
-Lynx에서 press 상태의 시각적 피드백은 CSS `:active` pseudo-class가 자동으로 처리합니다. `pressed` 상태는 JavaScript 로직용이며, CSS 스타일링에 사용하지 마세요.
+SEED Lynx 컴포넌트는 `pressed` 상태를 recipe의 boolean variant로 전달하고, 생성된 className 조합으로 press 스타일을 표현합니다. Web처럼 `:active` pseudo-class나 `data-active` selector에 기대지 않습니다.
 
-```css
-/* Recipe에서 자동 생성 — 직접 작성 불필요 */
-.button:active {
-  background: var(--seed-color-bg-brand-solid-pressed);
-}
+```tsx
+const { pressed, ...pressHandlers } = usePressTap({ onTap });
+const classNames = actionButton({ pressed });
 ```
 
 ## 웹 버전과의 차이
