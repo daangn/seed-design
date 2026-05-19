@@ -195,6 +195,19 @@ export async function transpileRulesToCss(
   return css;
 }
 
+export async function applyPostTransformPlugins(
+  css: string,
+  plugins: postcss.AcceptedPlugin[] = [],
+): Promise<string> {
+  if (plugins.length === 0) {
+    return css;
+  }
+
+  return postcss(plugins)
+    .process(css, { from: undefined })
+    .then((result) => result.css);
+}
+
 export function generateTokenRules(tokens: Theme["tokens"]): postcss.ChildNode[] {
   return postcss.parse(tokens._raw).nodes;
 }
@@ -214,13 +227,17 @@ export async function generateEachRecipe(
     Object.values(theme.recipes).map(async (recipe) => {
       const name = recipe.name;
       const rules = generateRecipeKindRules(recipe, { prefix });
-      const css = await transpileRulesToCss(rules, config.postcssPlugins);
+      const rawCss = await transpileRulesToCss(rules, config.postcssPlugins);
+      const css = await applyPostTransformPlugins(rawCss, config.postTransformPlugins);
 
-      const layeredCss = transform({
-        filename: `${name}.css`,
-        code: Buffer.from(wrapInLayer(css, "seed-components")),
-        minify: false,
-      }).code.toString();
+      const layeredCss = await applyPostTransformPlugins(
+        transform({
+          filename: `${name}.css`,
+          code: Buffer.from(wrapInLayer(rawCss, "seed-components")),
+          minify: false,
+        }).code.toString(),
+        config.postTransformPlugins,
+      );
 
       return { name, css, layeredCss };
     }),
@@ -243,14 +260,20 @@ export async function generateBaseBundle(
 
   if (layer) {
     const wrapped = wrapInLayer(css, "seed-base");
-    return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
+    return applyPostTransformPlugins(
+      transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString(),
+      config.postTransformPlugins,
+    );
   }
 
-  return transform({
-    filename: "qvism.css",
-    code: Buffer.from(css),
-    minify,
-  }).code.toString();
+  return applyPostTransformPlugins(
+    transform({
+      filename: "qvism.css",
+      code: Buffer.from(css),
+      minify,
+    }).code.toString(),
+    config.postTransformPlugins,
+  );
 }
 
 export async function generateAllBundle(
@@ -273,15 +296,21 @@ export async function generateAllBundle(
     const recipesCss = await transpileRulesToCss(recipeRules, config.postcssPlugins);
     const wrapped = `${wrapInLayer(baseCss, "seed-base")}\n${wrapInLayer(recipesCss, "seed-components")}`;
 
-    return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
+    return applyPostTransformPlugins(
+      transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString(),
+      config.postTransformPlugins,
+    );
   }
 
   const rules = [...globalRules, ...tokenRules, ...recipeRules, ...keyframeRules];
   const css = await transpileRulesToCss(rules, config.postcssPlugins);
 
-  return transform({
-    filename: "qvism.css",
-    code: Buffer.from(css),
-    minify,
-  }).code.toString();
+  return applyPostTransformPlugins(
+    transform({
+      filename: "qvism.css",
+      code: Buffer.from(css),
+      minify,
+    }).code.toString(),
+    config.postTransformPlugins,
+  );
 }

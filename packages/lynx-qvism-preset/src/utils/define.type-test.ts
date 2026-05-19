@@ -25,6 +25,16 @@ void defineKeyframes({
 });
 
 void defineRecipe({
+  name: "strict-bad-inset",
+  base: {
+    // @ts-expect-error inset shorthand must be expanded to top/right/bottom/left.
+    inset: 0,
+  },
+  variants: {},
+  defaultVariants: {},
+});
+
+void defineRecipe({
   name: "strict-bad-property",
   base: {
     // @ts-expect-error boxSizing is intentionally disallowed in Lynx preset sources.

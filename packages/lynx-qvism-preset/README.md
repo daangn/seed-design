@@ -18,10 +18,17 @@ from `src/utils/define.ts` when adding Lynx CSS. These helpers intentionally rej
 CSS that SEED does not want to emit for Lynx, even if the upstream Lynx type package
 contains a broader web-like property.
 
+qvism core remains target-neutral and only exposes a final CSS post-transform hook.
+This preset uses that hook for Lynx compatibility fixes that can appear after
+Lightning CSS optimization, such as expanding `inset` shorthand back to physical
+`top` / `right` / `bottom` / `left` longhands.
+
 ## Authoring rules
 
 - Model root/text/compound parts explicitly with `defineSlotRecipe`.
 - Do not rely on `initial`, `inherit`, or `unset`; write explicit fallback values.
+- Do not write `inset` or `inset-*` shorthand in source; use physical longhands
+  when a full-position fill is needed.
 - Avoid web-only CSS such as `boxSizing`, `verticalAlign`, SVG stroke/fill CSS,
   generated `content`, and attribute selector based theme/platform switching.
 - Use Lynx class selectors such as `.seed-color-mode-dark-only` and

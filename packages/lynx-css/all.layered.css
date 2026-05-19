@@ -820,7 +820,10 @@
     align-items: center;
     display: flex;
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .seed-action-button__root--variant_brandSolid {
@@ -1176,7 +1179,10 @@
     align-items: flex-end;
     display: flex;
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .seed-bottom-sheet__backdrop {
@@ -1184,7 +1190,10 @@
     background: var(--seed-color-bg-overlay);
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   .seed-bottom-sheet__content {

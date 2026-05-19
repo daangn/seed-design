@@ -18,6 +18,13 @@ type CssVarKey = `--${string}`;
 type CssWideKeyword = "initial" | "inherit" | "unset";
 
 type ForbiddenLynxStyleKey =
+  | "inset"
+  | "insetBlock"
+  | "insetBlockEnd"
+  | "insetBlockStart"
+  | "insetInline"
+  | "insetInlineEnd"
+  | "insetInlineStart"
   | "boxSizing"
   | "verticalAlign"
   | "font"

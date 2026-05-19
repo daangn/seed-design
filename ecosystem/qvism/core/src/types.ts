@@ -142,6 +142,8 @@ export interface Config {
 
   postcssPlugins?: AcceptedPlugin[];
 
+  postTransformPlugins?: AcceptedPlugin[];
+
   theme: Theme;
 }
 

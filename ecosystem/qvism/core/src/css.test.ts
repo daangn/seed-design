@@ -1,6 +1,26 @@
 import { expect, test } from "bun:test";
 
-import { generateKeyframeRules, transpileRulesToCss } from "./css";
+import { generateAllBundle, generateKeyframeRules, transpileRulesToCss } from "./css";
+
+const expandInsetPlugin = {
+  postcssPlugin: "test-expand-inset",
+  Declaration(decl: {
+    prop: string;
+    value: string;
+    clone(overrides: { prop: string; value: string }): unknown;
+    replaceWith(...nodes: unknown[]): void;
+  }) {
+    if (decl.prop !== "inset") {
+      return;
+    }
+
+    decl.replaceWith(
+      ...["top", "right", "bottom", "left"].map((prop) =>
+        decl.clone({ prop, value: decl.value }),
+      ),
+    );
+  },
+};
 
 test("generateKeyframeRules: only one keyframe", async () => {
   // given
@@ -144,4 +164,38 @@ test("generateKeyframeRules: from to", async () => {
       }
   }"
 `);
+});
+
+test("generateAllBundle applies postTransformPlugins before returning CSS", async () => {
+  // given
+  const config = {
+    postTransformPlugins: [expandInsetPlugin],
+    theme: {
+      tokens: {
+        _raw: "",
+      },
+      recipes: {
+        overlay: {
+          name: "overlay",
+          base: {
+            position: "fixed",
+            inset: 0,
+          },
+          variants: {},
+          defaultVariants: {},
+        },
+      },
+      keyframes: {},
+    },
+  };
+
+  // when
+  const css = await generateAllBundle(config);
+
+  // then
+  expect(css).toContain("top: 0;");
+  expect(css).toContain("right: 0;");
+  expect(css).toContain("bottom: 0;");
+  expect(css).toContain("left: 0;");
+  expect(css).not.toContain("inset:");
 });
