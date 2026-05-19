@@ -32,7 +32,7 @@ export const ResponsiveSidePanelRoot = ({
   open: openProp,
   defaultOpen = false,
   onOpenChange,
-  direction,
+  direction = "right",
   size,
   ...props
 }: ResponsiveSidePanelRootProps) => {
