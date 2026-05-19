@@ -282,7 +282,7 @@ export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((prop
   return (
     <view
       {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
-      className={clsx(classes, className)}
+      className={clsx(classes.root, className)}
       {...nativeProps}
     >
       {children}

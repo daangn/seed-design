@@ -5,10 +5,22 @@ type TokenLit = AST.TokenLit;
 type ValueLit = AST.ValueLit;
 
 /**
- * Creates a SEED-specific declaration function with platform-aware font scaling
+ * Creates a SEED-specific declaration function with Lynx font units.
  */
+function toSp(value: string): string {
+  return value
+    .replace(/(?<![a-zA-Z])(\d*\.?\d+)rem\b/g, (_, num: string) => {
+      const px = Number.parseFloat(num) * 16;
+      return `${Number.parseFloat(px.toFixed(4))}sp`;
+    })
+    .replace(/(?<![a-zA-Z])(\d*\.?\d+)px\b/g, (_, num: string) => {
+      const px = Number.parseFloat(num);
+      return `${Number.parseFloat(px.toFixed(4))}sp`;
+    });
+}
+
 const createSeedDeclaration =
-  (prefix: string) =>
+  () =>
   ({
     decl,
     mode,
@@ -40,15 +52,7 @@ const createSeedDeclaration =
     const isLineHeight = tokenGroup.includes("line-height");
 
     if (isFontSize || isLineHeight) {
-      // Build CSS variable names for scaling
-      const tokenType = isFontSize ? "font-size" : "line-height";
-      const multiplierVar = `var(--${prefix}-font-size-multiplier, 1)`;
-      const staticTokenVar = `var(--${prefix}-${tokenType}-${tokenKey}-static)`;
-      const limitMinVar = `var(--${prefix}-${tokenType}-limit-min, 0.8)`;
-      const limitMaxVar = `var(--${prefix}-${tokenType}-limit-max, 1.5)`;
-
-      // Return clamp with dynamic min and max using static values
-      return `${tokenName(decl.token)}: clamp(calc(${staticTokenVar} * ${limitMinVar}), calc(${value} * ${multiplierVar}), calc(${staticTokenVar} * ${limitMaxVar}));`;
+      return `${tokenName(decl.token)}: ${toSp(value)};`;
     }
 
     // Default: return the value as-is for other tokens
@@ -68,40 +72,22 @@ export default function generateSeedCss(
   const prefix = options?.prefix || "seed"; // Extract prefix for use in declaration
   const seedOptions = {
     prefix,
-    banner:
-      options?.banner ||
-      `:root, [data-seed-color-mode="system"] {
-  color-scheme: light dark;
-}
-
-[data-seed-color-mode="light-only"] {
-  color-scheme: light;
-  color-scheme: only light;
-}
-
-[data-seed-color-mode="dark-only"] {
-  color-scheme: dark;
-  color-scheme: only dark;
-}
-
-`,
+    banner: options?.banner ?? "",
     selectors: {
       global: {
         default: ":root",
       },
       color: {
         "theme-light": `:root,
-:root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"],
-:root[data-seed-color-mode="light-only"],
-:root [data-seed-color-mode="light-only"],
+:root.seed-user-color-scheme-light,
+:root.seed-color-mode-light-only,
 .seed-color-mode-light-only`,
-        "theme-dark": `:root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
-:root[data-seed-color-mode="dark-only"],
-:root [data-seed-color-mode="dark-only"],
+        "theme-dark": `:root.seed-user-color-scheme-dark,
+:root.seed-color-mode-dark-only,
 .seed-color-mode-dark-only`,
       },
     },
-    customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory
+    customDeclaration: createSeedDeclaration(),
   };
 
   // Use core's getTokenCss with our custom declaration

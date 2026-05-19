@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
-const componentsDir = join(currentDir, "..");
+const componentsDir = join(currentDir, "components");
 
 function readComponentFile(componentName: string, fileName: string): string {
   return readFileSync(join(componentsDir, componentName, fileName), "utf8");

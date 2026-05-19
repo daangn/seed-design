@@ -37,30 +37,6 @@ export const keyframes = defineKeyframes({
     },
   },
 
-  "progress-circle-head": {
-    "0%": {
-      strokeDasharray: "0, 1000%",
-    },
-    "75%": {
-      strokeDasharray: "var(--circumference), 1000%",
-    },
-    "100%": {
-      strokeDasharray: "var(--circumference), 1000%",
-    },
-  },
-
-  "progress-circle-tail": {
-    "0%": {
-      strokeDashoffset: 0,
-    },
-    "33.33%": {
-      strokeDashoffset: 0,
-    },
-    "100%": {
-      strokeDashoffset: "calc(var(--circumference) * -1)",
-    },
-  },
-
   "fade-in": {
     from: {
       opacity: 0,
@@ -78,7 +54,7 @@ export const keyframes = defineKeyframes({
 
   "drawer-slide-from-bottom": {
     from: {
-      transform: "translate3d(0, var(--initial-transform, 100%), 0)",
+      transform: "translate3d(0, var(--seed-drawer-start-transform, 100%), 0)",
     },
     to: {
       transform: "translate3d(0, var(--snap-point-height, 0), 0)",
@@ -87,7 +63,7 @@ export const keyframes = defineKeyframes({
 
   "drawer-slide-to-bottom": {
     to: {
-      transform: "translate3d(0, var(--initial-transform, 100%), 0)",
+      transform: "translate3d(0, var(--seed-drawer-start-transform, 100%), 0)",
     },
   },
 });

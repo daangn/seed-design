@@ -47,7 +47,6 @@ const actionButton = defineSlotRecipe({
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
     text: {
-      fontFamily: "inherit",
       fontWeight: vars.base.enabled.label.fontWeight,
 
       transition: `color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,

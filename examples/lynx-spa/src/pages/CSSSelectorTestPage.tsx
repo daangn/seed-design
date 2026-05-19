@@ -192,13 +192,13 @@ export function CSSSelectorTestPage() {
       <TestCase
         id="4-2"
         label=":checked, :is() 등"
-        expected="postcss-lynx-compat가 필터/확장하여 직접 테스트 불가"
+        expected="recipe source에서는 사용하지 않음"
       >
         <view style={{ padding: "8px", backgroundColor: $color.bg.neutralWeak, borderRadius: "6px" }}>
           <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
-            :checked → filterPseudoClasses에 의해 CSS에서 제거됨{"\n"}
-            :is() → postcss-lynx-compat가 개별 selector로 확장{"\n"}
-            → 이들은 플러그인 설정을 변경해야 테스트 가능
+            :checked → Lynx recipe에서는 boolean variant/className으로 모델링{"\n"}
+            :is() → Lynx preset source에서는 사용하지 않음{"\n"}
+            → 필요한 경우 qvism core가 아니라 preset source에서 명시적으로 작성
           </text>
         </view>
       </TestCase>
@@ -323,12 +323,10 @@ export function CSSSelectorTestPage() {
       >
         <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle, lineHeight: "18px" }}>
           {"[data-*] selector가 직접 동작하면:\n"}
-          {"→ postcss-lynx-compat의 [data-*]→className 변환 제거 가능\n"}
-          {"→ selectorMappings (data-seed-platform) 변환 제거 가능\n\n"}
-          {":is() 미지원 확인 시:\n"}
-          {"→ :is() 확장은 계속 필요\n\n"}
-          {":disabled/:checked 미지원 확인 시:\n"}
-          {"→ filterPseudoClasses는 계속 필요"}
+          {"→ Lynx source에서 class/data selector를 직접 선택 가능\n"}
+          {"→ qvism core 후처리 없이 preset source에서 구조를 명시\n\n"}
+          {":is() / unsupported pseudo가 필요하면:\n"}
+          {"→ CSS 후처리보다 recipe variant/className으로 모델링"}
         </text>
       </view>
     </scroll-view>

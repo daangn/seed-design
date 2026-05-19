@@ -1,12 +1,15 @@
 import { radioGroup as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 
-const radioGroupRecipe = defineRecipe({
+const radioGroupRecipe = defineSlotRecipe({
   name: "radio-group",
+  slots: ["root", "text"],
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: vars.base.enabled.root.gapY,
+    root: {
+      display: "flex",
+      flexDirection: "column",
+      gap: vars.base.enabled.root.gapY,
+    },
   },
   variants: {},
   defaultVariants: {},

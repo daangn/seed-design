@@ -1,19 +1,5 @@
 export const tokens = {
-  _raw: `:root, [data-seed-color-mode="system"] {
-  color-scheme: light dark;
-}
-
-[data-seed-color-mode="light-only"] {
-  color-scheme: light;
-  color-scheme: only light;
-}
-
-[data-seed-color-mode="dark-only"] {
-  color-scheme: dark;
-  color-scheme: only dark;
-}
-
-:root {
+  _raw: `:root {
   --seed-dimension-x0_5: 2px;
   --seed-dimension-x1: 4px;
   --seed-dimension-x1_5: 6px;
@@ -46,16 +32,16 @@ export const tokens = {
   --seed-duration-d5: 250ms;
   --seed-duration-d6: 300ms;
   --seed-duration-color-transition: var(--seed-duration-d3);
-  --seed-font-size-t1: clamp(calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-min, 0.8)), calc(0.6875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t2: clamp(calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-min, 0.8)), calc(0.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t3: clamp(calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-min, 0.8)), calc(0.8125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t4: clamp(calc(var(--seed-font-size-t4-static) * var(--seed-font-size-limit-min, 0.8)), calc(0.875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t4-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t5: clamp(calc(var(--seed-font-size-t5-static) * var(--seed-font-size-limit-min, 0.8)), calc(1rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t5-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t6: clamp(calc(var(--seed-font-size-t6-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t6-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t7: clamp(calc(var(--seed-font-size-t7-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.25rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t7-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t8: clamp(calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t9: clamp(calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-max, 1.5)));
-  --seed-font-size-t10: clamp(calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.625rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-max, 1.5)));
+  --seed-font-size-t1: 11sp;
+  --seed-font-size-t2: 12sp;
+  --seed-font-size-t3: 13sp;
+  --seed-font-size-t4: 14sp;
+  --seed-font-size-t5: 16sp;
+  --seed-font-size-t6: 18sp;
+  --seed-font-size-t7: 20sp;
+  --seed-font-size-t8: 22sp;
+  --seed-font-size-t9: 24sp;
+  --seed-font-size-t10: 26sp;
   --seed-font-size-t1-static: 11px;
   --seed-font-size-t2-static: 12px;
   --seed-font-size-t3-static: 13px;
@@ -69,16 +55,16 @@ export const tokens = {
   --seed-font-weight-regular: 400;
   --seed-font-weight-medium: 500;
   --seed-font-weight-bold: 700;
-  --seed-line-height-t1: clamp(calc(var(--seed-line-height-t1-static) * var(--seed-line-height-limit-min, 0.8)), calc(0.9375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t1-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t2: clamp(calc(var(--seed-line-height-t2-static) * var(--seed-line-height-limit-min, 0.8)), calc(1rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t2-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t3: clamp(calc(var(--seed-line-height-t3-static) * var(--seed-line-height-limit-min, 0.8)), calc(1.125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t3-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t4: clamp(calc(var(--seed-line-height-t4-static) * var(--seed-line-height-limit-min, 0.8)), calc(1.1875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t4-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t5: clamp(calc(var(--seed-line-height-t5-static) * var(--seed-line-height-limit-min, 0.8)), calc(1.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t5-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t6: clamp(calc(var(--seed-line-height-t6-static) * var(--seed-line-height-limit-min, 0.8)), calc(1.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t6-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t7: clamp(calc(var(--seed-line-height-t7-static) * var(--seed-line-height-limit-min, 0.8)), calc(1.6875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t7-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t8: clamp(calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-min, 0.8)), calc(1.875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t9: clamp(calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-min, 0.8)), calc(2rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-max, 1.5)));
-  --seed-line-height-t10: clamp(calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-min, 0.8)), calc(2.1875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-max, 1.5)));
+  --seed-line-height-t1: 15sp;
+  --seed-line-height-t2: 16sp;
+  --seed-line-height-t3: 18sp;
+  --seed-line-height-t4: 19sp;
+  --seed-line-height-t5: 22sp;
+  --seed-line-height-t6: 24sp;
+  --seed-line-height-t7: 27sp;
+  --seed-line-height-t8: 30sp;
+  --seed-line-height-t9: 32sp;
+  --seed-line-height-t10: 35sp;
   --seed-line-height-t1-static: 15px;
   --seed-line-height-t2-static: 16px;
   --seed-line-height-t3-static: 18px;
@@ -109,9 +95,8 @@ export const tokens = {
 }
 
 :root,
-:root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"],
-:root[data-seed-color-mode="light-only"],
-:root [data-seed-color-mode="light-only"],
+:root.seed-user-color-scheme-light,
+:root.seed-color-mode-light-only,
 .seed-color-mode-light-only {
   --seed-color-palette-gray-00: #ffffff;
   --seed-color-palette-gray-100: #f7f8f9;
@@ -323,9 +308,8 @@ export const tokens = {
   --seed-shadow-s3: 0px 4px 16px 0px #0000001f;
 }
 
-:root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
-:root[data-seed-color-mode="dark-only"],
-:root [data-seed-color-mode="dark-only"],
+:root.seed-user-color-scheme-dark,
+:root.seed-color-mode-dark-only,
 .seed-color-mode-dark-only {
   --seed-color-palette-gray-00: #000000;
   --seed-color-palette-gray-100: #16171b;

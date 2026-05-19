@@ -53,7 +53,6 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flex: 1,
       flexDirection: "column",
-      boxSizing: "border-box",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,

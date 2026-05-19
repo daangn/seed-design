@@ -12,7 +12,6 @@ const radiomarkRecipe = defineSlotRecipe({
   slots: ["root", "icon"],
   base: {
     root: {
-      boxSizing: "border-box",
       position: "relative",
       display: "flex",
       alignItems: "center",

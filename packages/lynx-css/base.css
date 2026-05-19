@@ -1,8 +1,14 @@
-@supports (font: -apple-system-body) {
+:root {
+  --seed-safe-area-top: env(safe-area-inset-top);
+  --seed-safe-area-bottom: env(safe-area-inset-bottom);
+}
+
+.seed-platform-ios {
+  --seed-platform: ios;
 }
 
 .seed-loading-indicator {
-  display: inline-flex;
+  display: flex;
   position: absolute;
 }
 
@@ -10,21 +16,19 @@
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
-  display: inline-flex;
+  display: flex;
 }
 
 .seed-icon {
   width: var(--seed-icon-size);
   height: var(--seed-icon-size);
-}
-
-.seed-icon__text {
   color: var(--seed-icon-color, currentColor);
 }
 
 .seed-prefix-icon {
   width: var(--seed-prefix-icon-size);
   height: var(--seed-prefix-icon-size);
+  color: var(--seed-prefix-icon-color, currentColor);
   margin-left: var(--seed-prefix-icon-margin-left, 0);
   margin-right: var(--seed-prefix-icon-margin-right, 0);
   margin-top: var(--seed-prefix-icon-margin-top, 0);
@@ -33,13 +37,10 @@
   justify-self: var(--seed-prefix-icon-justify-self);
 }
 
-.seed-prefix-icon__text {
-  color: var(--seed-prefix-icon-color, currentColor);
-}
-
 .seed-suffix-icon {
   width: var(--seed-suffix-icon-size);
   height: var(--seed-suffix-icon-size);
+  color: var(--seed-suffix-icon-color, currentColor);
   margin-left: var(--seed-suffix-icon-margin-left, 0);
   margin-right: var(--seed-suffix-icon-margin-right, 0);
   margin-top: var(--seed-suffix-icon-margin-top, 0);
@@ -48,11 +49,7 @@
   justify-self: var(--seed-suffix-icon-justify-self);
 }
 
-.seed-suffix-icon__text {
-  color: var(--seed-suffix-icon-color, currentColor);
-}
-
-.seed-count__text {
+.seed-count {
   font-size: var(--seed-count-font-size);
   line-height: var(--seed-count-line-height);
   font-weight: var(--seed-count-font-weight);
@@ -61,7 +58,9 @@
 
 .seed-box {
   --seed-box-background: transparent;
+  --seed-box-color: currentColor;
   background: var(--seed-box-background);
+  color: var(--seed-box-color);
   --seed-box-border-style: solid;
   --seed-box-border-color: transparent;
   border-style: var(--seed-box-border-style);
@@ -157,76 +156,16 @@
   align-content: var(--seed-box-align-content);
   align-self: var(--seed-box-align-self);
   gap: var(--seed-box-gap);
-  --seed-box-grid-column: auto;
-  --seed-box-grid-row: auto;
 }
 
-.seed-box__text {
-  --seed-box-background: transparent;
-  --seed-box-border-style: solid;
-  --seed-box-border-color: transparent;
-  --seed-box-border-width: 0;
-  --seed-box-border-top-width: var(--seed-box-border-width);
-  --seed-box-border-bottom-width: var(--seed-box-border-width);
-  --seed-box-border-left-width: var(--seed-box-border-width);
-  --seed-box-border-right-width: var(--seed-box-border-width);
-  --seed-box-padding: 0;
-  --seed-box-padding-y: var(--seed-box-padding);
-  --seed-box-padding-x: var(--seed-box-padding);
-  --seed-box-padding-bottom: var(--seed-box-padding-y);
-  --seed-box-padding-top: var(--seed-box-padding-y);
-  --seed-box-padding-left: var(--seed-box-padding-x);
-  --seed-box-padding-right: var(--seed-box-padding-x);
-  --seed-box-bleed-bottom: 0px;
-  --seed-box-bleed-top: 0px;
-  --seed-box-bleed-left: 0px;
-  --seed-box-bleed-right: 0px;
-  --seed-box-min-height: auto;
-  --seed-box-max-height: none;
-  --seed-box-height: auto;
-  --seed-box-min-width: auto;
-  --seed-box-max-width: none;
-  --seed-box-width: auto;
-  --seed-box-top: auto;
-  --seed-box-bottom: auto;
-  --seed-box-left: auto;
-  --seed-box-right: auto;
-  --seed-box-border-radius: 0;
-  --seed-box-border-bottom-left-radius: var(--seed-box-border-radius);
-  --seed-box-border-bottom-right-radius: var(--seed-box-border-radius);
-  --seed-box-border-top-left-radius: var(--seed-box-border-radius);
-  --seed-box-border-top-right-radius: var(--seed-box-border-radius);
-  --seed-box-box-shadow: none;
-  --seed-box-display: block;
-  --seed-box-position: relative;
-  --seed-box-unstable-transform: none;
-  --seed-box-z-index: auto;
-  --seed-box-overflow-x: visible;
-  --seed-box-overflow-y: visible;
-  --seed-box-flex-grow: 0;
-  --seed-box-flex-shrink: 1;
-  --seed-box-flex-direction: row;
-  --seed-box-flex-wrap: nowrap;
-  --seed-box-justify-content: flex-start;
-  --seed-box-justify-self: auto;
-  --seed-box-align-items: stretch;
-  --seed-box-align-content: stretch;
-  --seed-box-align-self: auto;
-  --seed-box-gap: 0px;
-  --seed-box-grid-column: auto;
-  --seed-box-grid-row: auto;
-  transform: var(--seed-box-unstable-transform);
-  color: var(--seed-box-color);
-}
-
-.seed-box.seed-box--has-active-bg_true:active {
+.seed-box[data-has-active-bg]:active, .seed-box[data-has-active-bg][data-active] {
   background: var(--seed-box-background--active);
 }
 
 .seed-grid {
-  --seed-grid-columns: auto;
+  --seed-grid-columns: none;
   grid-template-columns: var(--seed-grid-columns);
-  --seed-grid-rows: auto;
+  --seed-grid-rows: none;
   grid-template-rows: var(--seed-grid-rows);
   --seed-grid-auto-flow: row;
   grid-auto-flow: var(--seed-grid-auto-flow);
@@ -237,35 +176,6 @@
   --seed-grid-justify-items: stretch;
   justify-items: var(--seed-grid-justify-items);
   display: grid;
-}
-
-.seed-grid__text {
-  --seed-grid-columns: auto;
-  --seed-grid-rows: auto;
-  --seed-grid-auto-flow: row;
-  --seed-grid-auto-columns: auto;
-  --seed-grid-auto-rows: auto;
-  --seed-grid-justify-items: stretch;
-}
-
-.seed-consistent-width:before {
-  visibility: hidden;
-  height: 0;
-  display: block;
-}
-
-.seed-consistent-width__text:before {
-  font-weight: var(--seed-font-weight-regular);
-}
-
-.seed-consistent-width:after {
-  visibility: hidden;
-  height: 0;
-  display: block;
-}
-
-.seed-consistent-width__text:after {
-  font-weight: var(--seed-font-weight-bold);
 }
 
 :root {
@@ -823,12 +733,6 @@
   }
 }
 
-@keyframes progress-circle-head {
-}
-
-@keyframes progress-circle-tail {
-}
-
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -847,7 +751,7 @@
 
 @keyframes drawer-slide-from-bottom {
   from {
-    transform: translate3d(0, var(--initial-transform, 100%), 0);
+    transform: translate3d(0, var(--seed-drawer-start-transform, 100%), 0);
   }
 
   to {
@@ -857,6 +761,6 @@
 
 @keyframes drawer-slide-to-bottom {
   to {
-    transform: translate3d(0, var(--initial-transform, 100%), 0);
+    transform: translate3d(0, var(--seed-drawer-start-transform, 100%), 0);
   }
 }

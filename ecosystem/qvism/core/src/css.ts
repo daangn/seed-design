@@ -214,24 +214,13 @@ export async function generateEachRecipe(
     Object.values(theme.recipes).map(async (recipe) => {
       const name = recipe.name;
       const rules = generateRecipeKindRules(recipe, { prefix });
-      let css = await transpileRulesToCss(rules, config.postcssPlugins);
+      const css = await transpileRulesToCss(rules, config.postcssPlugins);
 
-      // postTransformPlugins 적용 (postcss-lynx-compat 등 lightningcss 이후 실행할 플러그인)
-      if (config.postTransformPlugins && config.postTransformPlugins.length > 0) {
-        css = (await postcss(config.postTransformPlugins).process(css, { from: undefined })).css;
-      }
-
-      let layeredCss = transform({
+      const layeredCss = transform({
         filename: `${name}.css`,
         code: Buffer.from(wrapInLayer(css, "seed-components")),
         minify: false,
       }).code.toString();
-
-      if (config.postTransformPlugins && config.postTransformPlugins.length > 0) {
-        layeredCss = (
-          await postcss(config.postTransformPlugins).process(layeredCss, { from: undefined })
-        ).css;
-      }
 
       return { name, css, layeredCss };
     }),
@@ -254,29 +243,14 @@ export async function generateBaseBundle(
 
   if (layer) {
     const wrapped = wrapInLayer(css, "seed-base");
-    const transformed = transform({
-      filename: "qvism.css",
-      code: Buffer.from(wrapped),
-      minify,
-    }).code.toString();
-    if (config.postTransformPlugins && config.postTransformPlugins.length > 0) {
-      return (await postcss(config.postTransformPlugins).process(transformed, { from: undefined }))
-        .css;
-    }
-    return transformed;
+    return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
   }
 
-  const transformed = transform({
+  return transform({
     filename: "qvism.css",
     code: Buffer.from(css),
     minify,
   }).code.toString();
-
-  if (config.postTransformPlugins && config.postTransformPlugins.length > 0) {
-    return (await postcss(config.postTransformPlugins).process(transformed, { from: undefined }))
-      .css;
-  }
-  return transformed;
 }
 
 export async function generateAllBundle(
@@ -299,34 +273,15 @@ export async function generateAllBundle(
     const recipesCss = await transpileRulesToCss(recipeRules, config.postcssPlugins);
     const wrapped = `${wrapInLayer(baseCss, "seed-base")}\n${wrapInLayer(recipesCss, "seed-components")}`;
 
-    const layerTransformed = transform({
-      filename: "qvism.css",
-      code: Buffer.from(wrapped),
-      minify,
-    }).code.toString();
-    if (config.postTransformPlugins && config.postTransformPlugins.length > 0) {
-      return (
-        await postcss(config.postTransformPlugins).process(layerTransformed, { from: undefined })
-      ).css;
-    }
-    return layerTransformed;
+    return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
   }
 
   const rules = [...globalRules, ...tokenRules, ...recipeRules, ...keyframeRules];
   const css = await transpileRulesToCss(rules, config.postcssPlugins);
 
-  const transformed = transform({
+  return transform({
     filename: "qvism.css",
     code: Buffer.from(css),
     minify,
   }).code.toString();
-
-  // lightningcss가 shorthand를 재생성하므로, postTransformPlugins를 마지막에 적용
-  if (config.postTransformPlugins && config.postTransformPlugins.length > 0) {
-    const postResult = await postcss(config.postTransformPlugins).process(transformed, {
-      from: undefined,
-    });
-    return postResult.css;
-  }
-  return transformed;
 }

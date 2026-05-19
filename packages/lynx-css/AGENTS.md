@@ -33,6 +33,6 @@ Lynx 플랫폼 제약으로 qvism recipe에서 자동 생성할 수 없는 컴�
 
 ### css 패키지와의 차이
 
-- Lynx 전용 PostCSS 파이프라인 사용 (`postcssEngaged`, `postcssLynxCompat`)
-- CSS attribute 선택자를 Lynx 호환 클래스명으로 매핑 (예: `user-color-scheme="dark"` → `.seed-user-color-scheme-dark`)
-- `deriveSlots`, `extraVariants`가 루트 config에서 직접 적용됨 (targets가 아닌 최상위 레벨)
+- Lynx 전용 recipe/preset source에서 Web과 다른 CSS를 직접 작성한다.
+- CSS attribute 선택자 후처리에 의존하지 않고 Lynx에서 사용할 class selector를 source에 명시한다.
+- slot 분리가 필요하면 qvism core 확장 대신 `packages/lynx-qvism-preset`에서 `defineSlotRecipe`로 모델링한다.

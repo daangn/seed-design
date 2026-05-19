@@ -4,7 +4,7 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const checkboxGroupSlotNames = [
   [
     "root",
-    "seed-checkbox-group"
+    "seed-checkbox-group__root"
   ],
   [
     "text",
@@ -16,17 +16,7 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const checkboxGroupVariantMap = {
-  "disabled": [
-    true
-  ],
-  "loading": [
-    true
-  ],
-  "checked": [
-    true
-  ]
-};
+export const checkboxGroupVariantMap = {};
 
 export const checkboxGroupVariantKeys = Object.keys(checkboxGroupVariantMap);
 

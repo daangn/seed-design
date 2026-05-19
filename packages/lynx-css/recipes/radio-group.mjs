@@ -4,7 +4,7 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 const radioGroupSlotNames = [
   [
     "root",
-    "seed-radio-group"
+    "seed-radio-group__root"
   ],
   [
     "text",
@@ -16,17 +16,7 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const radioGroupVariantMap = {
-  "disabled": [
-    true
-  ],
-  "loading": [
-    true
-  ],
-  "checked": [
-    true
-  ]
-};
+export const radioGroupVariantMap = {};
 
 export const radioGroupVariantKeys = Object.keys(radioGroupVariantMap);
 

@@ -36,15 +36,15 @@ type ParentSelector = `${DataAttributes} &`;
 
 type AtRuleType = "media" | "layer" | "container" | "supports" | "page";
 
-export type AnySelector = `${string}&` | `&${string}` | `@${AtRuleType}${string}`;
+type AnySelector = `${string}&` | `&${string}` | `@${AtRuleType}${string}`;
 
-export type Selectors = AttributeSelector | ParentSelector;
+type Selectors = AttributeSelector | ParentSelector;
 
 // properties
 type CssVarRef = `var(--${string})`;
 type CssVarKey = `--${string}`;
 
-export type CssVarProperties = {
+type CssVarProperties = {
   [key in CssVarKey]?: string;
 };
 
@@ -140,19 +140,9 @@ export interface Theme {
 export interface Config {
   prefix?: string;
 
-  /** postcss-nested와 함께 실행할 플러그인 (예: postcssEngaged) */
   postcssPlugins?: AcceptedPlugin[];
 
-  /** lightningcss transform 이후 실행할 플러그인 (예: postcss-lynx-compat) */
-  postTransformPlugins?: AcceptedPlugin[];
-
   theme: Theme;
-
-  /** 단일 recipe를 이 슬롯 이름으로 분리된 JS/DTS 생성. 첫 번째가 base class */
-  deriveSlots?: string[];
-
-  /** CSS 후처리로 생성된 추가 variant (예: { disabled: [true], loading: [true] }) */
-  extraVariants?: Record<string, (string | boolean)[]>;
 }
 
 export interface CssgenConfig {

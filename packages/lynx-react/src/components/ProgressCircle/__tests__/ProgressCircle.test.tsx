@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const progressCircleSource = readFileSync(
-  join(currentDir, "..", "ProgressCircle", "ProgressCircle.tsx"),
+  join(currentDir, "..", "ProgressCircle.tsx"),
   "utf8",
 );
 

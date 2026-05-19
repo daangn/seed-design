@@ -30,7 +30,6 @@
   }
 
   .seed-action-button__text {
-    font-family: inherit;
     font-weight: var(--seed-font-weight-bold);
     transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
   }
@@ -52,10 +51,7 @@
     align-items: center;
     display: flex;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
   }
 
   .seed-action-button__root--variant_brandSolid {

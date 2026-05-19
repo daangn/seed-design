@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
-const lynxCssRecipesDir = join(currentDir, "..", "..", "..", "..", "lynx-css", "recipes");
+const lynxCssRecipesDir = join(currentDir, "..", "..", "..", "..", "..", "lynx-css", "recipes");
 const switchCss = readFileSync(join(lynxCssRecipesDir, "switch.css"), "utf8");
 const switchmarkCss = readFileSync(join(lynxCssRecipesDir, "switchmark.css"), "utf8");
 

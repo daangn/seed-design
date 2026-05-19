@@ -1,32 +1,3 @@
-export const focus = ":is(:focus, [data-focus])";
-
-export const focusVisible = ":is(:focus-visible, [data-focus-visible])";
-
-export const hover = ":is(:hover, [data-hover])";
-
-export const active = ":is(:active, [data-active])";
-
-export const disabled = ":is(:disabled, [disabled], [data-disabled])";
-
-export const readOnly = ":is([data-readonly])";
-
-export const checked = ":is(:checked, [data-checked])";
-
-export const checkedOrIndeterminate =
-  ":is(:checked, :indeterminate, [data-checked], [data-indeterminate])";
-
-export const pressed = ":is([aria-pressed=true], [data-pressed])";
-
-export const selected = ":is([aria-selected=true], [data-selected])";
-
-export const open = ':is([data-state="open"], [data-open])';
-
-export const hidden = ":is([hidden], [data-hidden])";
-
-export const invalid = ":is(:invalid, [data-invalid])";
-
-export const engaged = ":--engaged";
-
 export const media = {
   isHoverableInputDevice: "@media (hover: hover) and (pointer: fine)",
   isNotHoverableInputDevice: "@media not all and (hover: hover) and (pointer: fine)",
