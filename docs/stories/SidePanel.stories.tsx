@@ -58,6 +58,7 @@ const SidePanelPreview = ({
           </SidePanelBody>
           {showFooter && (
             <SidePanelFooter>
+              <ActionButton variant="neutralWeak">Cancel</ActionButton>
               <ActionButton variant="neutralSolid">Confirm</ActionButton>
             </SidePanelFooter>
           )}
