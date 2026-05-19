@@ -92,6 +92,7 @@ export const registryUI: Registry = {
           dependencies: {
             "@seed-design/react": "~1.3.0",
             "@seed-design/css": "~1.3.0",
+            "@seed-design/react-use-controllable-state": "~1.0.0",
           },
         },
       ],

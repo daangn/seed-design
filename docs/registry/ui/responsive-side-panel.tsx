@@ -1,6 +1,7 @@
 "use client";
 
 import { useBreakpoint } from "@seed-design/react";
+import { useControllableState } from "@seed-design/react-use-controllable-state";
 import * as React from "react";
 import * as SeedBottomSheet from "./bottom-sheet";
 import * as SeedSidePanel from "./side-panel";
@@ -41,16 +42,15 @@ export const ResponsiveSidePanelRoot = ({
   const breakpoint = useBreakpoint();
   const belowMd = breakpoint === "base" || breakpoint === "sm";
 
-  const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
-  const isControlled = openProp !== undefined;
-  const open = isControlled ? openProp : internalOpen;
-  const setOpen = React.useCallback<NonNullable<ResponsiveSidePanelRootProps["onOpenChange"]>>(
-    (next, details) => {
-      if (!isControlled) setInternalOpen(next);
-      onOpenChange?.(next, details);
-    },
-    [isControlled, onOpenChange],
-  );
+  const [open, setOpen] = useControllableState<
+    boolean,
+    Parameters<NonNullable<ResponsiveSidePanelRootProps["onOpenChange"]>>[1]
+  >({
+    prop: openProp,
+    defaultProp: defaultOpen,
+    onChange: onOpenChange,
+    caller: "ResponsiveSidePanelRoot",
+  });
 
   const value = React.useMemo(() => ({ belowMd }), [belowMd]);
 
