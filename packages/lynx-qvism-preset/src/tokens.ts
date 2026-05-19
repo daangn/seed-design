@@ -32,6 +32,7 @@ export const tokens = {
   --seed-duration-d5: 250ms;
   --seed-duration-d6: 300ms;
   --seed-duration-color-transition: var(--seed-duration-d3);
+  --seed-duration-pressed-scale: var(--seed-duration-d3);
   --seed-font-size-t1: 11sp;
   --seed-font-size-t2: 12sp;
   --seed-font-size-t3: 13sp;
@@ -92,6 +93,7 @@ export const tokens = {
   --seed-timing-function-exit: cubic-bezier(0.35, 0, 1, 1);
   --seed-timing-function-enter-expressive: cubic-bezier(0.03, 0.4, 0.1, 1);
   --seed-timing-function-exit-expressive: cubic-bezier(0.35, 0, 0.95, 0.55);
+  --seed-timing-function-pressed-scale: cubic-bezier(0, 0, 0.15, 1);
 }
 
 :root,

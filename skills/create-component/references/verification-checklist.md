@@ -1,12 +1,23 @@
 # 컴포넌트 작업 완료 체크리스트
 
+## Phase 0 Pre: 요구사항 Brainstorming
+
+- [ ] Purpose(왜/누가/사용 사례) 사용자와 합의?
+- [ ] 기존과의 관계(신규/확장/대체) + 유사 컴포넌트 매트릭스 합의?
+- [ ] 엣지케이스 시나리오(상태/제어/키보드/스크린리더/모바일/폼/RTL/스케일) 합의?
+- [ ] 토큰 의존성(신규/기존) 합의?
+- [ ] 외부 레퍼런스 우선순위 합의?
+- [ ] 합의 요약 메모 또는 PR description 초안 작성?
+- [ ] **사용자가 "이대로 진행" 명시 컨펌? (게이트 0Pre→0)**
+
 ## Phase 0: 아키텍처 결정
 
 - [ ] 컴포넌트 카테고리 확정? (A/B/C/D/E)
 - [ ] 패턴 참조 컴포넌트 지정?
-- [ ] 의존성 API 안정성 확인?
-- [ ] 외부 라이브러리 인터페이스 조사? (카테고리 C/D)
+- [ ] 의존성 API 안정성 확인? (불안정 시 구현 중단)
+- [ ] 외부 라이브러리 인터페이스 조사? (카테고리 C/D 필수, A/B/E 최소 prop naming)
 - [ ] ARIA APG 패턴 확인? (카테고리 C/D)
+- [ ] **사용자에게 Phase 0 결과 요약 보고 + 컨펌? (게이트 0→1)**
 
 ## Phase 1: 구현 확인
 
@@ -20,7 +31,19 @@
 - [ ] generated registry output이 최신인가? (`docs/public/__registry__/` 확인)
 - [ ] vendored snippet consumer가 있으면 함께 동기화했는가? (예: `examples/stackflow-spa/src/seed-design/ui/`)
 - [ ] 패키지별 `typecheck` 스크립트가 있으면 선택적으로 실행했는가?
-- [ ] Visual Test 통과했는가? (Agent Browser)
+- [ ] **자동 검증 게이트 통과? (게이트 1→2)**
+  - `bun generate:all` ✅
+  - `bun test:all` ✅
+  - `bun packages:build` ✅
+  - `bun docs:test` ✅
+
+## Phase 2: 검증 (모든 카테고리 필수)
+
+- [ ] Storybook 4종 테마/스케일 확인? (Light, Dark, FontScaling ExtraSmall, ExtraExtraExtraLarge)
+- [ ] docs 사이트의 컴포넌트 페이지 렌더링 확인?
+- [ ] **`examples/stackflow-spa`의 유사 Activity 확인 (없으면 신설 검토)** — snippet 레이어 유무와 무관하게 실 사용 환경 검증
+- [ ] Visual Test 결과 사용자에게 보고 + 컨펌? (게이트 2→완료)
+- [ ] `/changeset` 스킬로 changeset 생성?
 
 ## 패턴 준수 확인
 

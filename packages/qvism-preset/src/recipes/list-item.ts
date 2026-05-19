@@ -10,7 +10,15 @@ import { listItem as vars } from "../vars/component";
 
 const listItem = defineSlotRecipe({
   name: "list-item",
-  slots: ["root", "content", "title", "detail", "prefix", "suffix"],
+  slots: [
+    "root",
+    // TODO: consider renaming this slot to 'body' following rootage
+    "content",
+    "title",
+    "detail",
+    "prefix",
+    "suffix",
+  ],
   base: {
     root: {
       boxSizing: "border-box",
@@ -93,9 +101,9 @@ const listItem = defineSlotRecipe({
       backgroundColor: "transparent",
       border: "none",
       fontFamily: "inherit",
-      "--seed-box-gap": vars.base.enabled.content.gap,
+      "--seed-box-gap": vars.base.enabled.body.gap,
       gap: "var(--seed-box-gap)",
-      "--seed-box-padding-right": vars.base.enabled.content.paddingRight,
+      "--seed-box-padding-right": vars.base.enabled.body.paddingRight,
       padding: "0 var(--seed-box-padding-right) 0 0",
 
       textDecoration: "none",

@@ -35,3 +35,8 @@ data:
         default:
           type: cubicBezier
           value: [0.35, 0, 0.95, 0.55]
+    $timing-function.pressed-scale:
+      values:
+        default:
+          type: cubicBezier
+          value: [0, 0, 0.15, 1]
