@@ -28,6 +28,7 @@ describe("Switch", () => {
 
   it("aligns Lynx switch content with flex center instead of margin compensation", () => {
     expect(switchCss).toContain("align-items: center");
+    expect(switchCss).not.toContain("justify-content: space-between");
     expect(switchCss).not.toContain("--switchmark-margin-top");
     expect(switchmarkCss).not.toContain("--switchmark-margin-top");
   });
