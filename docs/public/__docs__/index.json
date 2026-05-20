@@ -1763,6 +1763,12 @@
               "docUrl": "/lynx/hooks/use-press-tap"
             },
             {
+              "id": "use-safe-area",
+              "title": "useSafeArea",
+              "description": "Lynx 앱에서 top/bottom safe area inset 값을 가져오는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-safe-area"
+            },
+            {
               "id": "v-stack",
               "title": "VStack",
               "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",

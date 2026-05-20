@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from '@lynx-js/react';
 import { vars } from '@seed-design/lynx-css/vars';
+import { getSafeAreaInset, getSafeAreaPadding } from '@seed-design/lynx-react';
 
 import { ActionButtonPage } from './pages/ActionButtonPage.jsx';
 import { BottomSheetPage } from './pages/BottomSheetPage.jsx';
@@ -18,6 +19,7 @@ import { LayoutPrimitivesPage } from './pages/LayoutPrimitivesPage.jsx';
 import { NestedVarsTestPage } from './pages/NestedVarsTestPage.jsx';
 import { ProgressCirclePage } from './pages/ProgressCirclePage.jsx';
 import { RadioGroupPage } from './pages/RadioGroupPage.jsx';
+import { SafeAreaDebugPage } from './pages/SafeAreaDebugPage.jsx';
 import { SwitchPage } from './pages/SwitchPage.jsx';
 import { TagGroupPage } from './pages/TagGroupPage.jsx';
 import { TailwindDemoPage } from './pages/TailwindDemoPage.jsx';
@@ -57,6 +59,7 @@ export type Page =
   | 'layout-stress-tailwind'
   | 'layout-stress-style'
   | 'layout-stress-seed-primitives'
+  | 'safe-area-debug'
   | 'css-selector-test'
   | 'icon-color-poc'
   | 'use-controllable-state'
@@ -110,8 +113,8 @@ export function App(props: { onRender?: () => void }) {
     return (
       <view
         style={{
-          paddingTop: 'calc(16px + env(safe-area-inset-top))',
-          paddingBottom: 'env(safe-area-inset-bottom)',
+          paddingTop: getSafeAreaPadding('top', 16),
+          paddingBottom: getSafeAreaInset('bottom'),
           display: 'flex',
           flexDirection: 'column',
           height: '100vh',
@@ -149,8 +152,8 @@ export function App(props: { onRender?: () => void }) {
       scroll-y
       style={{
         padding: '16px',
-        paddingTop: 'calc(16px + env(safe-area-inset-top))',
-        paddingBottom: 'calc(16px + env(safe-area-inset-bottom))',
+        paddingTop: getSafeAreaPadding('top', 16),
+        paddingBottom: getSafeAreaPadding('bottom', 16),
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
@@ -172,6 +175,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === 'layout-stress-seed-primitives' && (
         <LayoutStressSeedPrimitivesPage />
       )}
+      {currentPage === 'safe-area-debug' && <SafeAreaDebugPage />}
       {currentPage === 'css-selector-test' && <CSSSelectorTestPage />}
       {currentPage === 'icon-color-poc' && <IconColorPOCPage />}
       {currentPage === 'use-controllable-state' && <UseControllableStatePage />}

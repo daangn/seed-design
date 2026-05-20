@@ -1,10 +1,22 @@
 import "@testing-library/jest-dom";
 import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import { vars } from "@seed-design/lynx-css/vars";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Text } from "../../Text";
 import { Box } from "../Box";
+import { useStyleProps } from "../../../utils/styled";
+
+interface TestLynxGlobal {
+  lynx?: {
+    __globalProps?: {
+      safeAreaInsets?: {
+        top?: number;
+        bottom?: number;
+      };
+    };
+  };
+}
 
 function getRenderedQueries() {
   return getQueriesForElement(getRenderedRoot());
@@ -27,6 +39,10 @@ function expectStyle(style: CSSStyleDeclaration, expected: Record<string, string
 }
 
 describe("Box", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("resolves token style props to direct view styles", () => {
     render(
       <Box
@@ -73,6 +89,27 @@ describe("Box", () => {
       "padding-right": vars.$dimension.x2,
       "padding-bottom": vars.$dimension.x2,
       "padding-left": "24px",
+    });
+  });
+
+  it("resolves top and bottom safe area padding from global props", () => {
+    vi.stubGlobal("lynx", {
+      __globalProps: {
+        safeAreaInsets: {
+          top: 47,
+          bottom: 34,
+        },
+      },
+    } satisfies NonNullable<TestLynxGlobal["lynx"]>);
+
+    const { style } = useStyleProps({
+      pt: "safeArea",
+      pb: "safeArea",
+    });
+
+    expect(style).toMatchObject({
+      paddingTop: "47px",
+      paddingBottom: "34px",
     });
   });
 });

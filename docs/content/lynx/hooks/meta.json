@@ -1,4 +1,4 @@
 {
   "title": "Hooks",
-  "pages": ["use-controllable-state", "use-icon-color", "use-press-tap"]
+  "pages": ["use-controllable-state", "use-icon-color", "use-press-tap", "use-safe-area"]
 }

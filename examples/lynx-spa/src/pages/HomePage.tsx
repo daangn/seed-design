@@ -123,6 +123,10 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
         onTap={() => navigate('layout-stress-seed-primitives')}
       />
       <ListItem
+        title="Safe Area Debug"
+        onTap={() => navigate('safe-area-debug')}
+      />
+      <ListItem
         title="Nested Vars Test (Lynx 3.6+)"
         onTap={() => navigate('nested-vars-test')}
       />

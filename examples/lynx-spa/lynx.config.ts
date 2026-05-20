@@ -6,6 +6,11 @@ import { pluginTypeCheck } from "@rsbuild/plugin-type-check";
 import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 
 export default defineConfig({
+  source: {
+    define: {
+      console: "globalThis.console",
+    },
+  },
   plugins: [
     pluginQRCode({
       schema(url) {

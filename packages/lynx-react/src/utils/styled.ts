@@ -15,6 +15,8 @@ import type {
 } from "@seed-design/lynx-css/vars";
 import { vars } from "@seed-design/lynx-css/vars";
 
+import { getSafeAreaInset } from "./safe-area";
+
 export function handleColor(color: string | undefined) {
   if (!color) {
     return undefined;
@@ -60,7 +62,7 @@ export function handlePaddingWithSafeArea(
   direction: "top" | "bottom",
 ): string | undefined {
   if (padding === "safeArea") {
-    return `env(safe-area-inset-${direction})`;
+    return getSafeAreaInset(direction);
   }
 
   return handleDimension(padding);
