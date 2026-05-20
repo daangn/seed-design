@@ -153,6 +153,10 @@ const sidePanel = defineSlotRecipe({
       // Respect device safe-area on top edge (e.g. iOS status bar / notch in portrait)
       paddingTop: `max(${vars.base.enabled.header.paddingTop}, env(safe-area-inset-top, 0px))`,
       paddingBottom: vars.base.enabled.header.paddingBottom,
+
+      [pseudo("[data-show-close-button]")]: {
+        paddingRight: `calc(${vars.base.enabled.header.paddingX} + ${closeButtonVars.base.enabled.root.size})`,
+      },
     },
     title: {
       color: vars.base.enabled.title.color,
@@ -161,11 +165,6 @@ const sidePanel = defineSlotRecipe({
       fontWeight: vars.base.enabled.title.fontWeight,
       wordBreak: "keep-all",
 
-      // When close button is shown, add extra right padding
-      [pseudo("[data-show-close-button]")]: {
-        paddingRight: closeButtonVars.base.enabled.root.size,
-      },
-
       margin: 0,
     },
     description: {
@@ -173,14 +172,6 @@ const sidePanel = defineSlotRecipe({
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
-
-      paddingLeft: vars.base.enabled.description.paddingX,
-      paddingRight: vars.base.enabled.description.paddingX,
-
-      // When close button is shown, add extra right padding to avoid overlap
-      [pseudo("[data-show-close-button]")]: {
-        paddingRight: closeButtonVars.base.enabled.root.size,
-      },
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -191,11 +182,14 @@ const sidePanel = defineSlotRecipe({
       flex: 1,
       overflowY: "auto",
 
+      "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
       "--seed-box-height--responsive": "initial",
       "--seed-box-min-height--responsive": "initial",
       "--seed-box-max-height--responsive": "initial",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
+      paddingLeft: "var(--seed-box-padding-x)",
+      paddingRight: "var(--seed-box-padding-x)",
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",

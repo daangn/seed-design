@@ -1,8 +1,7 @@
 import { sidePanel, type SidePanelVariantProps } from "@seed-design/css/recipes/side-panel";
-import { dataAttr } from "@seed-design/dom-utils";
-import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
+import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
@@ -103,13 +102,7 @@ export interface SidePanelTitleProps
     React.HTMLAttributes<HTMLHeadingElement> {}
 
 export const SidePanelTitle = withContext<HTMLHeadingElement, SidePanelTitleProps>(
-  forwardRef<HTMLHeadingElement, SidePanelTitleProps>((props, ref) => {
-    const { isCloseButtonRendered } = useDrawerContext();
-
-    return (
-      <Drawer.Title ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
-    );
-  }),
+  Drawer.Title,
   "title",
 );
 
@@ -122,17 +115,7 @@ export interface SidePanelDescriptionProps
     React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const SidePanelDescription = withContext<HTMLParagraphElement, SidePanelDescriptionProps>(
-  forwardRef<HTMLParagraphElement, SidePanelDescriptionProps>((props, ref) => {
-    const { isCloseButtonRendered } = useDrawerContext();
-
-    return (
-      <Drawer.Description
-        ref={ref}
-        data-show-close-button={dataAttr(isCloseButtonRendered)}
-        {...props}
-      />
-    );
-  }),
+  Drawer.Description,
   "description",
 );
 
@@ -142,7 +125,10 @@ SidePanelDescription.displayName = "SidePanelDescription";
 
 export interface SidePanelBodyProps
   extends PrimitiveProps,
-    Pick<StyleProps, "height" | "maxHeight" | "minHeight" | "justifyContent" | "alignItems">,
+    Pick<
+      StyleProps,
+      "paddingX" | "height" | "maxHeight" | "minHeight" | "justifyContent" | "alignItems"
+    >,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const SidePanelBody = withContext<HTMLDivElement, SidePanelBodyProps>(

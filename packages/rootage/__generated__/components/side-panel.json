@@ -72,6 +72,13 @@
             }
           }
         },
+        "body": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            }
+          }
+        },
         "footer": {
           "properties": {
             "paddingX": {
@@ -117,9 +124,6 @@
             },
             "fontWeight": {
               "type": "number"
-            },
-            "paddingX": {
-              "type": "dimension"
             }
           }
         },
@@ -224,6 +228,12 @@
                   "value": "$dimension.x4"
                 }
               },
+              "body": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
+              },
               "footer": {
                 "paddingX": {
                   "type": "dimension",
@@ -276,10 +286,6 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
                 }
               },
               "closeButton": {

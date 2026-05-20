@@ -30,10 +30,10 @@ const SidePanelWithScroll = () => {
         description="본문만 스크롤되며, 헤더와 푸터는 고정됩니다."
       >
         {isScrolled && <Divider />}
-        <SidePanelBody>
+        <SidePanelBody paddingX="x6">
           <VStack ref={scrollRef} overflowY="auto" height="full" onScroll={handleScroll}>
             <ScrollFog placement={["bottom"]}>
-              <VStack gap="x4" py="x4" px="x6">
+              <VStack gap="x4" py="x4">
                 {Array.from({ length: 20 }, (_, i) => (
                   <Box key={i} width="full" height="80px" bg="bg.layerBasement" borderRadius="r2" />
                 ))}

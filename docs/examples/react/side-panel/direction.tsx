@@ -1,4 +1,4 @@
-import { Flex } from "@seed-design/react";
+import { Box, Flex } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SidePanelBody,
@@ -15,7 +15,11 @@ const SidePanelDirection = () => {
           <ActionButton variant="neutralSolid">Right</ActionButton>
         </SidePanelTrigger>
         <SidePanelContent title="Right Side Panel">
-          <SidePanelBody>오른쪽에서 열리는 Side Panel</SidePanelBody>
+          <SidePanelBody paddingX="x6">
+            <Box py="x4">
+              오른쪽 가장자리에서 슬라이드되어 보조 콘텐츠를 표시합니다.
+            </Box>
+          </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
 
@@ -24,7 +28,11 @@ const SidePanelDirection = () => {
           <ActionButton variant="neutralSolid">Left</ActionButton>
         </SidePanelTrigger>
         <SidePanelContent title="Left Side Panel">
-          <SidePanelBody>왼쪽에서 열리는 Side Panel</SidePanelBody>
+          <SidePanelBody paddingX="x6">
+            <Box py="x4">
+              왼쪽 가장자리에서 슬라이드되어 탐색이나 설정 영역을 표시합니다.
+            </Box>
+          </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
     </Flex>

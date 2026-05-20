@@ -10,7 +10,7 @@ export const vars = {
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral)",
+        "color": "var(--seed-color-fg-neutral-subtle)",
         "size": "22px"
       }
     },

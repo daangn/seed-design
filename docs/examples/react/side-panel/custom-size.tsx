@@ -1,4 +1,4 @@
-import { Flex } from "@seed-design/react";
+import { Box, Flex } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SidePanelBody,
@@ -15,7 +15,11 @@ const SidePanelCustomSize = () => {
           <ActionButton variant="neutralSolid">width 80vw, max 640px</ActionButton>
         </SidePanelTrigger>
         <SidePanelContent title="Fluid Width" width="80vw" maxWidth="640px">
-          <SidePanelBody>뷰포트 너비에 따라 커지되 최대 640px까지만 확장됩니다.</SidePanelBody>
+          <SidePanelBody paddingX="x6">
+            <Box py="x4">
+              뷰포트 너비에 따라 커지되 최대 640px까지만 확장됩니다.
+            </Box>
+          </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
 
@@ -24,7 +28,11 @@ const SidePanelCustomSize = () => {
           <ActionButton variant="neutralSolid">width 400px</ActionButton>
         </SidePanelTrigger>
         <SidePanelContent title="Fixed Width" width="400px">
-          <SidePanelBody>고정된 400px 너비의 Side Panel</SidePanelBody>
+          <SidePanelBody paddingX="x6">
+            <Box py="x4">
+              고정 너비가 필요한 작업 패널에 사용할 수 있습니다.
+            </Box>
+          </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
     </Flex>

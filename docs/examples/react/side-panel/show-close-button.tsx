@@ -1,4 +1,4 @@
-import { Flex } from "@seed-design/react";
+import { Box, Flex } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SidePanelBody,
@@ -15,7 +15,11 @@ const SidePanelShowCloseButton = () => {
           <ActionButton variant="neutralSolid">닫기 버튼 있음</ActionButton>
         </SidePanelTrigger>
         <SidePanelContent title="닫기 버튼" showCloseButton>
-          <SidePanelBody>닫기 버튼이 표시됩니다 (기본값)</SidePanelBody>
+          <SidePanelBody paddingX="x6">
+            <Box py="x4">
+              기본적으로 닫기 버튼이 표시되어 패널을 바로 닫을 수 있습니다.
+            </Box>
+          </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
 
@@ -24,7 +28,11 @@ const SidePanelShowCloseButton = () => {
           <ActionButton variant="neutralSolid">닫기 버튼 없음</ActionButton>
         </SidePanelTrigger>
         <SidePanelContent title="닫기 버튼 없음" showCloseButton={false}>
-          <SidePanelBody>닫기 버튼이 숨겨집니다</SidePanelBody>
+          <SidePanelBody paddingX="x6">
+            <Box py="x4">
+              닫기 버튼을 숨길 때는 본문이나 푸터에 닫을 수 있는 액션을 제공하세요.
+            </Box>
+          </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
     </Flex>

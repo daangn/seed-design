@@ -53,13 +53,15 @@ const SidePanelPreview = ({
       `}</style>
       <SidePanelRoot open direction="right" size={size}>
         <SidePanelContent title={title} description={description} showCloseButton={showCloseButton}>
-          <SidePanelBody minHeight="x16">
-            <Text>Body content area</Text>
+          <SidePanelBody minHeight="x16" paddingX="x6">
+            <Box py="x4">
+              <Text>Body content area</Text>
+            </Box>
           </SidePanelBody>
           {showFooter && (
             <SidePanelFooter>
-              <ActionButton variant="neutralWeak">Cancel</ActionButton>
               <ActionButton variant="neutralSolid">Confirm</ActionButton>
+              <ActionButton variant="neutralWeak">Cancel</ActionButton>
             </SidePanelFooter>
           )}
         </SidePanelContent>

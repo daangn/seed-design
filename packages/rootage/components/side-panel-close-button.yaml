@@ -37,7 +37,7 @@ data:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         icon:
-          color: $color.fg.neutral
+          color: $color.fg.neutral-subtle
           size: 22px
       pressed:
         root:
