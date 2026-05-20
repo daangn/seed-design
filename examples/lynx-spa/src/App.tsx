@@ -9,6 +9,7 @@ import { FoundationColorPage } from './pages/FoundationColorPage.jsx';
 import { FoundationTypographyPage } from './pages/FoundationTypographyPage.jsx';
 import { HomePage } from './pages/HomePage.jsx';
 import { IconColorPOCPage } from './pages/IconColorPOCPage.jsx';
+import { LayoutPrimitivesPage } from './pages/LayoutPrimitivesPage.jsx';
 import { NestedVarsTestPage } from './pages/NestedVarsTestPage.jsx';
 import { ProgressCirclePage } from './pages/ProgressCirclePage.jsx';
 import { RadioGroupPage } from './pages/RadioGroupPage.jsx';
@@ -45,6 +46,7 @@ export type Page =
   | 'foundation-multicolor-icon'
   | 'foundation-typography'
   | 'tailwind-demo'
+  | 'layout-primitives'
   | 'css-selector-test'
   | 'icon-color-poc'
   | 'use-controllable-state'
@@ -140,6 +142,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === 'foundation-color' && <FoundationColorPage />}
       {currentPage === 'foundation-typography' && <FoundationTypographyPage />}
       {currentPage === 'tailwind-demo' && <TailwindDemoPage />}
+      {currentPage === 'layout-primitives' && <LayoutPrimitivesPage />}
       {currentPage === 'css-selector-test' && <CSSSelectorTestPage />}
       {currentPage === 'icon-color-poc' && <IconColorPOCPage />}
       {currentPage === 'use-controllable-state' && <UseControllableStatePage />}

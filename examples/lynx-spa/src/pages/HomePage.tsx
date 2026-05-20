@@ -86,6 +86,10 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="Tailwind Demo" onTap={() => navigate('tailwind-demo')} />
 
       <SectionHeader>Components</SectionHeader>
+      <ListItem
+        title="Layout Primitives"
+        onTap={() => navigate('layout-primitives')}
+      />
       <ListItem title="ActionButton" onTap={() => navigate('action-button')} />
       <ListItem title="BottomSheet" onTap={() => navigate('bottom-sheet')} />
       <ListItem title="Checkbox" onTap={() => navigate('checkbox')} />

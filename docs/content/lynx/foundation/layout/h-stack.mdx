@@ -1,0 +1,74 @@
+---
+title: HStack
+description: HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.
+---
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+## Usage
+
+```tsx
+import { Box, HStack, Text } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <HStack gap="x2" align="center" justify="spaceBetween">
+      <Box bg="bg.brandWeak" borderRadius="r2" px="x3" py="x2">
+        <Text textStyle="t3Bold" color="fg.brand">
+          A
+        </Text>
+      </Box>
+      <Box bg="bg.positiveWeak" borderRadius="r2" px="x3" py="x2">
+        <Text textStyle="t3Bold" color="fg.positive">
+          B
+        </Text>
+      </Box>
+    </HStack>
+  );
+}
+```
+
+`HStack`은 내부적으로 `Box`를 사용하며 `display="flex"`와 `flexDirection="row"`를 기본 적용합니다.
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Stack/Stack.tsx" name="HStackProps" />
+
+## Layout Aliases
+
+`HStack`은 `VStack`과 동일한 alias를 제공합니다.
+
+| Prop | 적용되는 style |
+|------|----------------|
+| `align` | `alignItems` |
+| `justify` | `justifyContent` |
+| `wrap` | `flexWrap` |
+| `grow` | `flexGrow` |
+| `shrink` | `flexShrink` |
+
+가로 방향에서 줄바꿈이 필요하면 `wrap`을 사용합니다.
+
+```tsx
+<HStack gap="x2" wrap>
+  <Box px="x3" py="x1" borderRadius="full" bg="bg.neutralWeak">
+    <Text>chip</Text>
+  </Box>
+  <Box px="x3" py="x1" borderRadius="full" bg="bg.neutralWeak">
+    <Text>chip</Text>
+  </Box>
+</HStack>
+```
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `HStack`은 React `HStack`과 다음과 같은 차이가 있습니다.
+
+- `as`, `asChild`를 지원하지 않습니다. 항상 Lynx 네이티브 `<view>`를 렌더링합니다.
+- `Stack`이라는 deprecated alias는 제공하지 않습니다. Lynx에서는 `VStack` / `HStack`을 명시적으로 사용합니다.
+- 지원하지 않는 StyleProps는 `Box`와 동일하게 열지 않습니다.
+</Callout>
