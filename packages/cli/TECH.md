@@ -3,7 +3,7 @@
 ## 개요
 
 - 패키지: `@seed-design/cli`
-- 런타임: Node.js >= 18
+- 런타임: Node.js >= 20.19.0
 - 언어/모듈: TypeScript, ESM
 - 핵심 의존성: `cac`, `@clack/prompts@1`, `cosmiconfig`, `zod`, `execa`
 - 빌드: `esbuild` (`build.mjs`, `dev.mjs`)
