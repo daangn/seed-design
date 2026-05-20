@@ -41,6 +41,8 @@ type LynxPerformance = {
 };
 
 type Measurement = {
+  id?: string;
+  source?: 'observer' | 'timing';
   total?: number;
   render?: number;
   resolve?: number;
@@ -76,7 +78,12 @@ type TimingListener = {
   onUpdate: (info: TimingInfo) => void;
 };
 
-type ObserverStatus = 'observer' | 'timing' | 'unsupported' | 'error';
+type ObserverStatus =
+  | 'observer'
+  | 'observer+timing'
+  | 'timing'
+  | 'unsupported'
+  | 'error';
 
 type Subscription = {
   disconnect?: () => void;
@@ -128,15 +135,19 @@ function readTimingMeasurement(
   info: TimingInfo,
 ): Measurement | null {
   const updateTimings = info.update_timings ?? {};
-  const timingKey = Object.keys(updateTimings).find((key) =>
+  const timingKeys = Object.keys(updateTimings).filter((key) =>
     key.startsWith(identifier),
   );
+  const timingKey = timingKeys[timingKeys.length - 1];
 
   if (!timingKey) return null;
 
   const timing = updateTimings[timingKey];
 
   return {
+    id: timingKey,
+    source: 'timing',
+    total: toDuration(timing.draw_end, timing.create_vdom_start),
     render: toDuration(timing.create_vdom_end, timing.create_vdom_start),
     resolve: toDuration(timing.dispatch_end, timing.dispatch_start),
     layout: toDuration(timing.layout_end, timing.layout_start),
@@ -144,6 +155,31 @@ function readTimingMeasurement(
     actualFmp: info.metrics?.actual_fmp,
     totalActualFmp: info.metrics?.total_actual_fmp,
   };
+}
+
+function appendMeasurement(samples: Measurement[], measurement: Measurement) {
+  if (!measurement.id) {
+    return [...samples, measurement].slice(-MAX_SAMPLES);
+  }
+
+  const existingIndex = samples.findIndex(
+    (sample) => sample.id === measurement.id,
+  );
+
+  if (existingIndex === -1) {
+    return [...samples, measurement].slice(-MAX_SAMPLES);
+  }
+
+  const existing = samples[existingIndex];
+
+  if (existing.source === 'observer' && measurement.source === 'timing') {
+    return samples;
+  }
+
+  const next = [...samples];
+  next[existingIndex] = measurement;
+
+  return next.slice(-MAX_SAMPLES);
 }
 
 function average(samples: Measurement[]) {
@@ -180,63 +216,84 @@ export function useLynxPerformanceObserver(identifier: string) {
     'background only';
 
     const performance = getLynxPerformance();
+    const disconnects: Array<() => void> = [];
+    let hasObserver = false;
+    let hasTiming = false;
+    let hasError = false;
 
-    if (!performance?.createObserver) {
-      if (!performance?.addTimingListener) {
-        return { status: 'unsupported' };
-      }
-
+    if (performance?.createObserver) {
       try {
+        const observer = performance.createObserver((entry) => {
+          const entryIdentifier = entry.identifier ?? entry.name ?? '';
+          if (!entryIdentifier.startsWith(identifier)) {
+            return;
+          }
+
+          const measurement = readMeasurement(entry);
+          if (!measurement) return;
+
+          setSamples((current) =>
+            appendMeasurement(current, {
+              ...measurement,
+              id: entryIdentifier,
+              source: 'observer',
+            }),
+          );
+        });
+
+        observer.observe(['pipeline']);
+        disconnects.push(() => observer.disconnect());
+        hasObserver = true;
+      } catch {
+        hasError = true;
+      }
+    }
+
+    if (performance?.addTimingListener) {
+      try {
+        const handleTiming = (info: TimingInfo) => {
+          const measurement = readTimingMeasurement(identifier, info);
+          if (!measurement) return;
+
+          setSamples((current) => appendMeasurement(current, measurement));
+        };
+
         const listener: TimingListener = {
-          onSetup: (info) => {
-            const measurement = readTimingMeasurement(identifier, info);
-            if (!measurement) return;
-            setSamples((current) =>
-              [...current, measurement].slice(-MAX_SAMPLES),
-            );
-          },
-          onUpdate: (info) => {
-            const measurement = readTimingMeasurement(identifier, info);
-            if (!measurement) return;
-            setSamples((current) =>
-              [...current, measurement].slice(-MAX_SAMPLES),
-            );
-          },
+          onSetup: handleTiming,
+          onUpdate: handleTiming,
         };
 
         performance.addTimingListener(listener);
-
-        return {
-          disconnect: () => performance.removeTimingListener?.(listener),
-          status: 'timing',
-        };
+        disconnects.push(() => performance.removeTimingListener?.(listener));
+        hasTiming = true;
       } catch {
-        return { status: 'error' };
+        hasError = true;
       }
     }
 
-    try {
-      const observer = performance.createObserver((entry) => {
-        const entryIdentifier = entry.identifier ?? entry.name ?? '';
-        if (!entryIdentifier.startsWith(identifier)) {
-          return;
-        }
-
-        const measurement = readMeasurement(entry);
-        if (!measurement) return;
-
-        setSamples((current) => [...current, measurement].slice(-MAX_SAMPLES));
-      });
-
-      observer.observe(['pipeline']);
-
-      return {
-        disconnect: () => observer.disconnect(),
-        status: 'observer',
-      };
-    } catch {
-      return { status: 'error' };
+    if (!hasObserver && !hasTiming) {
+      return { status: hasError ? 'error' : 'unsupported' };
     }
+
+    if (hasObserver && hasTiming) {
+      return {
+        disconnect: () => {
+          disconnects.forEach((disconnect) => {
+            disconnect();
+          });
+        },
+        status: 'observer+timing',
+      };
+    }
+
+    return {
+      disconnect: () => {
+        disconnects.forEach((disconnect) => {
+          disconnect();
+        });
+      },
+      status: hasObserver ? 'observer' : 'timing',
+    };
   }, [identifier]);
 
   useEffect(() => () => subscription.disconnect?.(), [subscription]);

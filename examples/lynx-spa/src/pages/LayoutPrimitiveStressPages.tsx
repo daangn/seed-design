@@ -191,67 +191,70 @@ export function LayoutStressStylePage() {
 
       <view
         __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.style, revision)}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: vars.$dimension.x4,
-        }}
       >
-        <NativeHeader
-          title="Stress: inline style"
-          description="72 tiles rendered with native tags and explicit object styles."
-        />
-
         <view
           style={{
             display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            gap: vars.$dimension.x2,
+            flexDirection: 'column',
+            gap: vars.$dimension.x4,
           }}
         >
-          {STRESS_ITEMS.map((item) => {
-            const tone = STYLE_TONES[(item + revision) % STYLE_TONES.length];
+          <NativeHeader
+            title="Stress: inline style"
+            description="72 tiles rendered with native tags and explicit object styles."
+          />
 
-            return (
-              <view
-                key={item}
-                style={{
-                  background: tone.tile,
-                  borderRadius: vars.$radius.r2,
-                  width: STRESS_TILE_SIZE,
-                  height: STRESS_TILE_SIZE,
-                  padding: vars.$dimension.x2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: vars.$dimension.x0_5,
-                }}
-              >
-                <text
+          <view
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              gap: vars.$dimension.x2,
+            }}
+          >
+            {STRESS_ITEMS.map((item) => {
+              const tone = STYLE_TONES[(item + revision) % STYLE_TONES.length];
+
+              return (
+                <view
+                  key={item}
                   style={{
-                    color: tone.text,
-                    fontSize: vars.$fontSize.t2,
-                    lineHeight: vars.$lineHeight.t2,
-                    fontWeight: '700',
+                    background: tone.tile,
+                    borderRadius: vars.$radius.r2,
+                    width: STRESS_TILE_SIZE,
+                    height: STRESS_TILE_SIZE,
+                    padding: vars.$dimension.x2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: vars.$dimension.x0_5,
                   }}
                 >
-                  {`#${item + 1}`}
-                </text>
-                <text
-                  style={{
-                    color: vars.$color.fg.neutralSubtle,
-                    fontSize: vars.$fontSize.t1,
-                    lineHeight: vars.$lineHeight.t1,
-                    fontWeight: '400',
-                  }}
-                >
-                  item
-                </text>
-              </view>
-            );
-          })}
+                  <text
+                    style={{
+                      color: tone.text,
+                      fontSize: vars.$fontSize.t2,
+                      lineHeight: vars.$lineHeight.t2,
+                      fontWeight: '700',
+                    }}
+                  >
+                    {`#${item + 1}`}
+                  </text>
+                  <text
+                    style={{
+                      color: vars.$color.fg.neutralSubtle,
+                      fontSize: vars.$fontSize.t1,
+                      lineHeight: vars.$lineHeight.t1,
+                      fontWeight: '400',
+                    }}
+                  >
+                    item
+                  </text>
+                </view>
+              );
+            })}
+          </view>
         </view>
       </view>
     </view>
