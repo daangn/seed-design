@@ -45,7 +45,7 @@ export const SidePanelContent = forwardRef<HTMLDivElement, SidePanelContentProps
       );
     }
 
-    const shouldRenderHeader = title || description;
+    const shouldRenderHeader = title || description || showCloseButton;
 
     return (
       <SeedSidePanel.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
@@ -61,14 +61,14 @@ export const SidePanelContent = forwardRef<HTMLDivElement, SidePanelContentProps
                 </VisuallyHidden>
               )}
               {description && <SeedSidePanel.Description>{description}</SeedSidePanel.Description>}
+              {showCloseButton && (
+                <SeedSidePanel.CloseButton aria-label="닫기">
+                  <Icon svg={<IconXmarkLine />} />
+                </SeedSidePanel.CloseButton>
+              )}
             </SeedSidePanel.Header>
           )}
           {children}
-          {showCloseButton && (
-            <SeedSidePanel.CloseButton aria-label="닫기">
-              <Icon svg={<IconXmarkLine />} />
-            </SeedSidePanel.CloseButton>
-          )}
         </SeedSidePanel.Content>
       </SeedSidePanel.Positioner>
     );

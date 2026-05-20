@@ -40,6 +40,8 @@ data:
         properties:
           gap:
             type: dimension
+          minHeight:
+            type: dimension
           paddingX:
             type: dimension
           paddingTop:
@@ -111,6 +113,7 @@ data:
           exitTimingFunction: $timing-function.exit-expressive
         header:
           gap: $dimension.x1_5
+          minHeight: 70px
           paddingX: $dimension.x6
           paddingTop: $dimension.x6
           paddingBottom: $dimension.x4
@@ -132,7 +135,7 @@ data:
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
         closeButton:
-          fromTop: $dimension.x6
+          fromTop: $dimension.x4_5
           fromRight: $dimension.x4
     size=small:
       enabled:

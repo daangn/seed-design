@@ -61,6 +61,9 @@
             "gap": {
               "type": "dimension"
             },
+            "minHeight": {
+              "type": "dimension"
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -215,6 +218,13 @@
                   "type": "dimension",
                   "value": "$dimension.x1_5"
                 },
+                "minHeight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 70,
+                    "unit": "px"
+                  }
+                },
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x6"
@@ -291,7 +301,7 @@
               "closeButton": {
                 "fromTop": {
                   "type": "dimension",
-                  "value": "$dimension.x6"
+                  "value": "$dimension.x4_5"
                 },
                 "fromRight": {
                   "type": "dimension",

@@ -144,14 +144,17 @@ const sidePanel = defineSlotRecipe({
       }),
     },
     header: {
+      position: "relative",
       display: "flex",
       flexDirection: "column",
+      boxSizing: "border-box",
 
       gap: vars.base.enabled.header.gap,
+      minHeight: `calc(${vars.base.enabled.header.minHeight} + var(--seed-safe-area-top))`,
       paddingLeft: vars.base.enabled.header.paddingX,
       paddingRight: vars.base.enabled.header.paddingX,
       // Respect device safe-area on top edge (e.g. iOS status bar / notch in portrait)
-      paddingTop: `max(${vars.base.enabled.header.paddingTop}, env(safe-area-inset-top, 0px))`,
+      paddingTop: `calc(${vars.base.enabled.header.paddingTop} + var(--seed-safe-area-top))`,
       paddingBottom: vars.base.enabled.header.paddingBottom,
 
       [pseudo("[data-show-close-button]")]: {
@@ -205,7 +208,7 @@ const sidePanel = defineSlotRecipe({
       paddingRight: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
       // Respect device safe-area on bottom edge (e.g. iOS home indicator)
-      paddingBottom: `max(${vars.base.enabled.footer.paddingBottom}, env(safe-area-inset-bottom, 0px))`,
+      paddingBottom: `calc(${vars.base.enabled.footer.paddingBottom} + var(--seed-safe-area-bottom))`,
       gap: vars.base.enabled.footer.gap,
     },
     closeButton: {
@@ -215,7 +218,7 @@ const sidePanel = defineSlotRecipe({
       alignItems: "center",
       border: "none",
 
-      top: vars.base.enabled.closeButton.fromTop,
+      top: `calc(${vars.base.enabled.closeButton.fromTop} + var(--seed-safe-area-top))`,
       right: vars.base.enabled.closeButton.fromRight,
       borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
       background: closeButtonVars.base.enabled.root.color,

@@ -19,6 +19,7 @@ export declare const vars: {
       },
       "header": {
         "gap": "var(--seed-dimension-x1_5)",
+        "minHeight": "70px",
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x6)",
         "paddingBottom": "var(--seed-dimension-x4)"
@@ -45,7 +46,7 @@ export declare const vars: {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x6)",
+        "fromTop": "var(--seed-dimension-x4_5)",
         "fromRight": "var(--seed-dimension-x4)"
       }
     }
