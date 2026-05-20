@@ -157,7 +157,9 @@ export function LayoutPrimitivesPage() {
             (label) => (
               <Box
                 key={label}
-                bg="bg.layerDefault"
+                bg="bg.neutralWeak"
+                borderColor="stroke.neutralMuted"
+                borderWidth={1}
                 borderRadius="full"
                 px="x3"
                 py="x1"

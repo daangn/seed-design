@@ -1,5 +1,6 @@
 import { useState } from '@lynx-js/react';
 import { Box, Text, VStack } from '@seed-design/lynx-react';
+import type * as React from 'react';
 
 const TEXT_STYLES = [
   'screenTitle',
@@ -63,10 +64,25 @@ export function TextPrimitivePage() {
         >
           fontSize / lineHeight / fontWeight overrides
         </Text>
-        <Text textStyle="t4Bold" color="fg.neutral" align="center">
-          align center
-        </Text>
       </VStack>
+
+      <SectionTitle>Alignment</SectionTitle>
+      <Box bg="bg.neutralWeak" borderRadius="r3" p="x3">
+        <VStack gap="x2">
+          {(['left', 'center', 'right'] as const).map((align) => (
+            <Box key={align} bg="bg.layerDefault" borderRadius="r2" p="x2">
+              <Text
+                textStyle="t3Bold"
+                color="fg.neutral"
+                align={align}
+                style={{ width: '100%' } as React.CSSProperties}
+              >
+                {`align ${align}`}
+              </Text>
+            </Box>
+          ))}
+        </VStack>
+      </Box>
 
       <SectionTitle>Dynamic token values</SectionTitle>
       <Box

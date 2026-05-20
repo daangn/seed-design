@@ -91,8 +91,19 @@ const FULLSCREEN_PAGES = new Set<Page>([
   'foundation-multicolor-icon',
 ]);
 
+const MEASUREMENT_PAGES = new Set<Page>([
+  'layout-stress-tailwind',
+  'layout-stress-style',
+  'layout-stress-seed-primitives',
+]);
+
+const HIDE_LYNX_CONSOLE_IN_MEASUREMENT = true;
+
 export function App(props: { onRender?: () => void }) {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const showLynxConsole =
+    !HIDE_LYNX_CONSOLE_IN_MEASUREMENT || !MEASUREMENT_PAGES.has(currentPage);
+
   props.onRender?.();
 
   if (FULLSCREEN_PAGES.has(currentPage)) {
@@ -124,9 +135,11 @@ export function App(props: { onRender?: () => void }) {
             <FoundationMulticolorIconPage />
           )}
         </Suspense>
-        <Suspense>
-          <LynxConsole theme="light" />
-        </Suspense>
+        {showLynxConsole && (
+          <Suspense>
+            <LynxConsole theme="light" />
+          </Suspense>
+        )}
       </view>
     );
   }
@@ -163,9 +176,11 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === 'icon-color-poc' && <IconColorPOCPage />}
       {currentPage === 'use-controllable-state' && <UseControllableStatePage />}
       {currentPage === 'use-press-tap' && <UsePressTapPage />}
-      <Suspense>
-        <LynxConsole theme="light" />
-      </Suspense>
+      {showLynxConsole && (
+        <Suspense>
+          <LynxConsole theme="light" />
+        </Suspense>
+      )}
     </scroll-view>
   );
 }
