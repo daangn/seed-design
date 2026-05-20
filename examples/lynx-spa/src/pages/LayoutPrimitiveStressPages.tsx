@@ -137,7 +137,6 @@ export function LayoutStressTailwindPage() {
       />
 
       <view
-        key={`tailwind-${revision}`}
         __lynx_timing_flag={getTimingFlag(
           STRESS_IDENTIFIERS.tailwind,
           revision,
@@ -191,7 +190,6 @@ export function LayoutStressStylePage() {
       />
 
       <view
-        key={`style-${revision}`}
         __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.style, revision)}
         style={{
           display: 'flex',
@@ -278,7 +276,6 @@ export function LayoutStressSeedPrimitivesPage() {
       />
 
       <view
-        key={`seed-${revision}`}
         __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.seed, revision)}
       >
         <VStack gap="x4">
