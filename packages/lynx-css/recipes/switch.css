@@ -1,7 +1,6 @@
 .seed-switch__root {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     position: relative
 }
 .seed-switch__label {
