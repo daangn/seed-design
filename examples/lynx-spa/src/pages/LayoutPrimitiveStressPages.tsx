@@ -82,6 +82,10 @@ function useStressRevision() {
   };
 }
 
+function getTimingFlag(identifier: string, revision: number) {
+  return `${identifier}:${revision}`;
+}
+
 function NativeHeader({
   title,
   description,
@@ -134,7 +138,10 @@ export function LayoutStressTailwindPage() {
 
       <view
         key={`tailwind-${revision}`}
-        __lynx_timing_flag={STRESS_IDENTIFIERS.tailwind}
+        __lynx_timing_flag={getTimingFlag(
+          STRESS_IDENTIFIERS.tailwind,
+          revision,
+        )}
         className="flex flex-col gap-4"
       >
         <view className="flex flex-col gap-1">
@@ -185,7 +192,7 @@ export function LayoutStressStylePage() {
 
       <view
         key={`style-${revision}`}
-        __lynx_timing_flag={STRESS_IDENTIFIERS.style}
+        __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.style, revision)}
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -272,7 +279,7 @@ export function LayoutStressSeedPrimitivesPage() {
 
       <view
         key={`seed-${revision}`}
-        __lynx_timing_flag={STRESS_IDENTIFIERS.seed}
+        __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.seed, revision)}
       >
         <VStack gap="x4">
           <VStack gap="x1">

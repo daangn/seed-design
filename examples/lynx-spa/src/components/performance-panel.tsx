@@ -29,6 +29,7 @@ type PerformanceObserver = {
 };
 
 type LynxPerformance = {
+  addTimingListener?: (listener: TimingListener) => void;
   createObserver?: (
     callback: (entry: PipelineEntry) => void,
   ) => PerformanceObserver;
@@ -36,6 +37,7 @@ type LynxPerformance = {
     traceName: string,
     option?: { args?: Record<string, string> },
   ) => void;
+  removeTimingListener?: (listener: TimingListener) => void;
 };
 
 type Measurement = {
@@ -48,11 +50,50 @@ type Measurement = {
   totalActualFmp?: number;
 };
 
-type ObserverStatus = 'listening' | 'unsupported' | 'error';
+type TimingInfo = {
+  metrics?: {
+    actual_fmp?: number;
+    total_actual_fmp?: number;
+  };
+  update_timings?: Record<
+    string,
+    {
+      create_vdom_start?: number;
+      create_vdom_end?: number;
+      dispatch_start?: number;
+      dispatch_end?: number;
+      layout_start?: number;
+      layout_end?: number;
+      ui_operation_flush_start?: number;
+      ui_operation_flush_end?: number;
+      draw_end?: number;
+    }
+  >;
+};
+
+type TimingListener = {
+  onSetup: (info: TimingInfo) => void;
+  onUpdate: (info: TimingInfo) => void;
+};
+
+type ObserverStatus = 'observer' | 'timing' | 'unsupported' | 'error';
+
+type Subscription = {
+  disconnect?: () => void;
+  status: ObserverStatus;
+};
 
 const MAX_SAMPLES = 20;
 
+declare const lynx: { performance?: LynxPerformance } | undefined;
+
 function getLynxPerformance() {
+  'background only';
+
+  if (typeof lynx !== 'undefined') {
+    return lynx?.performance;
+  }
+
   return (globalThis as { lynx?: { performance?: LynxPerformance } }).lynx
     ?.performance;
 }
@@ -79,6 +120,29 @@ function readMeasurement(entry: PipelineEntry): Measurement | null {
     paint: toDuration(entry.paintEnd, entry.pipelineStart),
     actualFmp: entry.actualFmp?.duration,
     totalActualFmp: entry.totalActualFmp?.duration,
+  };
+}
+
+function readTimingMeasurement(
+  identifier: string,
+  info: TimingInfo,
+): Measurement | null {
+  const updateTimings = info.update_timings ?? {};
+  const timingKey = Object.keys(updateTimings).find((key) =>
+    key.startsWith(identifier),
+  );
+
+  if (!timingKey) return null;
+
+  const timing = updateTimings[timingKey];
+
+  return {
+    render: toDuration(timing.create_vdom_end, timing.create_vdom_start),
+    resolve: toDuration(timing.dispatch_end, timing.dispatch_start),
+    layout: toDuration(timing.layout_end, timing.layout_start),
+    paint: toDuration(timing.draw_end, timing.create_vdom_start),
+    actualFmp: info.metrics?.actual_fmp,
+    totalActualFmp: info.metrics?.total_actual_fmp,
   };
 }
 
@@ -110,23 +174,53 @@ function formatMs(value?: number) {
 }
 
 export function useLynxPerformanceObserver(identifier: string) {
-  const [status, setStatus] = useState<ObserverStatus>('unsupported');
   const [samples, setSamples] = useState<Measurement[]>([]);
 
-  useEffect(() => {
+  const subscription = useMemo<Subscription>(() => {
+    'background only';
+
     const performance = getLynxPerformance();
 
     if (!performance?.createObserver) {
-      setStatus('unsupported');
-      return;
-    }
+      if (!performance?.addTimingListener) {
+        return { status: 'unsupported' };
+      }
 
-    setStatus('listening');
+      try {
+        const listener: TimingListener = {
+          onSetup: (info) => {
+            const measurement = readTimingMeasurement(identifier, info);
+            if (!measurement) return;
+            setSamples((current) =>
+              [...current, measurement].slice(-MAX_SAMPLES),
+            );
+          },
+          onUpdate: (info) => {
+            const measurement = readTimingMeasurement(identifier, info);
+            if (!measurement) return;
+            setSamples((current) =>
+              [...current, measurement].slice(-MAX_SAMPLES),
+            );
+          },
+        };
+
+        performance.addTimingListener(listener);
+
+        return {
+          disconnect: () => performance.removeTimingListener?.(listener),
+          status: 'timing',
+        };
+      } catch {
+        return { status: 'error' };
+      }
+    }
 
     try {
       const observer = performance.createObserver((entry) => {
-        if (entry.identifier !== identifier && entry.name !== identifier)
+        const entryIdentifier = entry.identifier ?? entry.name ?? '';
+        if (!entryIdentifier.startsWith(identifier)) {
           return;
+        }
 
         const measurement = readMeasurement(entry);
         if (!measurement) return;
@@ -136,20 +230,25 @@ export function useLynxPerformanceObserver(identifier: string) {
 
       observer.observe(['pipeline']);
 
-      return () => observer.disconnect();
+      return {
+        disconnect: () => observer.disconnect(),
+        status: 'observer',
+      };
     } catch {
-      setStatus('error');
+      return { status: 'error' };
     }
   }, [identifier]);
+
+  useEffect(() => () => subscription.disconnect?.(), [subscription]);
 
   const summary = useMemo(
     () => ({
       last: samples.length > 0 ? samples[samples.length - 1] : null,
       average: average(samples),
       count: samples.length,
-      status,
+      status: subscription.status,
     }),
-    [samples, status],
+    [samples, subscription.status],
   );
 
   return summary;
@@ -313,7 +412,7 @@ export function PerformancePanel({
         >
           <text
             style={{
-              color: vars.$color.fg.brandContrast,
+              color: vars.$color.palette.staticWhite,
               fontSize: vars.$fontSize.t2,
               lineHeight: vars.$lineHeight.t2,
               fontWeight: '700',
