@@ -9,6 +9,11 @@ import { FoundationColorPage } from './pages/FoundationColorPage.jsx';
 import { FoundationTypographyPage } from './pages/FoundationTypographyPage.jsx';
 import { HomePage } from './pages/HomePage.jsx';
 import { IconColorPOCPage } from './pages/IconColorPOCPage.jsx';
+import {
+  LayoutStressSeedPrimitivesPage,
+  LayoutStressStylePage,
+  LayoutStressTailwindPage,
+} from './pages/LayoutPrimitiveStressPages.jsx';
 import { LayoutPrimitivesPage } from './pages/LayoutPrimitivesPage.jsx';
 import { NestedVarsTestPage } from './pages/NestedVarsTestPage.jsx';
 import { ProgressCirclePage } from './pages/ProgressCirclePage.jsx';
@@ -16,6 +21,7 @@ import { RadioGroupPage } from './pages/RadioGroupPage.jsx';
 import { SwitchPage } from './pages/SwitchPage.jsx';
 import { TagGroupPage } from './pages/TagGroupPage.jsx';
 import { TailwindDemoPage } from './pages/TailwindDemoPage.jsx';
+import { TextPrimitivePage } from './pages/TextPrimitivePage.jsx';
 import { ThemingPage } from './pages/ThemingPage.jsx';
 import { UseControllableStatePage } from './pages/UseControllableStatePage.jsx';
 import { UsePressTapPage } from './pages/UsePressTapPage.jsx';
@@ -47,6 +53,10 @@ export type Page =
   | 'foundation-typography'
   | 'tailwind-demo'
   | 'layout-primitives'
+  | 'text-primitive'
+  | 'layout-stress-tailwind'
+  | 'layout-stress-style'
+  | 'layout-stress-seed-primitives'
   | 'css-selector-test'
   | 'icon-color-poc'
   | 'use-controllable-state'
@@ -143,6 +153,12 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === 'foundation-typography' && <FoundationTypographyPage />}
       {currentPage === 'tailwind-demo' && <TailwindDemoPage />}
       {currentPage === 'layout-primitives' && <LayoutPrimitivesPage />}
+      {currentPage === 'text-primitive' && <TextPrimitivePage />}
+      {currentPage === 'layout-stress-tailwind' && <LayoutStressTailwindPage />}
+      {currentPage === 'layout-stress-style' && <LayoutStressStylePage />}
+      {currentPage === 'layout-stress-seed-primitives' && (
+        <LayoutStressSeedPrimitivesPage />
+      )}
       {currentPage === 'css-selector-test' && <CSSSelectorTestPage />}
       {currentPage === 'icon-color-poc' && <IconColorPOCPage />}
       {currentPage === 'use-controllable-state' && <UseControllableStatePage />}

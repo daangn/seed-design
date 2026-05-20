@@ -2,16 +2,6 @@ import { useState } from '@lynx-js/react';
 import { Box, HStack, Text, VStack } from '@seed-design/lynx-react';
 import type * as React from 'react';
 
-const STRESS_ITEMS = Array.from({ length: 72 }, (_, index) => index);
-const TEXT_STYLES = [
-  'screenTitle',
-  't7Bold',
-  't6Medium',
-  't5Regular',
-  't4Regular',
-  't3Regular',
-] as const;
-
 function SectionTitle({ children }: { children: string }) {
   return (
     <Text textStyle="t6Bold" color="fg.neutral" style={{ marginTop: '22px' }}>
@@ -88,10 +78,10 @@ export function LayoutPrimitivesPage() {
     <VStack gap="x4">
       <VStack gap="x1">
         <Text textStyle="t9Bold" color="fg.neutral">
-          Box / VStack / HStack / Text
+          Box / VStack / HStack
         </Text>
         <Text textStyle="t4Regular" color="fg.neutralSubtle">
-          @seed-design/lynx-react layout primitives
+          @seed-design/lynx-react layout components
         </Text>
       </VStack>
 
@@ -181,26 +171,6 @@ export function LayoutPrimitivesPage() {
         </HStack>
       </VStack>
 
-      <SectionTitle>Text</SectionTitle>
-      <VStack gap="x2">
-        {TEXT_STYLES.map((textStyle) => (
-          <Text key={textStyle} textStyle={textStyle} color="fg.neutral">
-            {textStyle}
-          </Text>
-        ))}
-        <Text textStyle="t5Bold" color="fg.critical">
-          t5Bold with fg.critical
-        </Text>
-        <Text
-          fontSize="t7"
-          lineHeight="t7"
-          fontWeight="bold"
-          color="fg.informative"
-        >
-          fontSize / lineHeight / fontWeight overrides
-        </Text>
-      </VStack>
-
       <SectionTitle>Dynamic token values</SectionTitle>
       <Box
         bindtap={switchAccent}
@@ -215,63 +185,10 @@ export function LayoutPrimitivesPage() {
             Tap to switch token values
           </Text>
           <Text textStyle="t3Regular" color="fg.neutralSubtle">
-            Box and Text update token-derived object styles through React state.
+            Box, VStack, and HStack update token-derived object styles.
           </Text>
         </VStack>
       </Box>
-
-      <SectionTitle>Stress grid</SectionTitle>
-      <VStack gap="x2">
-        <Text textStyle="t3Regular" color="fg.neutralSubtle">
-          72 Box/Text pairs rendered with nested VStack and HStack primitives.
-        </Text>
-        <HStack gap="x2" wrap>
-          {STRESS_ITEMS.map((item) => {
-            const variant = item % 4;
-            const bg =
-              variant === 0
-                ? 'bg.brandWeak'
-                : variant === 1
-                  ? 'bg.positiveWeak'
-                  : variant === 2
-                    ? 'bg.informativeWeak'
-                    : 'bg.neutralWeak';
-            const color =
-              variant === 0
-                ? 'fg.brand'
-                : variant === 1
-                  ? 'fg.positive'
-                  : variant === 2
-                    ? 'fg.informative'
-                    : 'fg.neutral';
-
-            return (
-              <Box
-                key={item}
-                bg={bg}
-                borderRadius="r2"
-                width="56px"
-                height="56px"
-                p="x2"
-              >
-                <VStack
-                  gap="x0_5"
-                  align="center"
-                  justify="center"
-                  style={{ height: '100%' }}
-                >
-                  <Text textStyle="t2Bold" color={color}>
-                    {`#${item + 1}`}
-                  </Text>
-                  <Text textStyle="t1Regular" color="fg.neutralSubtle">
-                    item
-                  </Text>
-                </VStack>
-              </Box>
-            );
-          })}
-        </HStack>
-      </VStack>
     </VStack>
   );
 }
