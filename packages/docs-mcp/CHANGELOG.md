@@ -1,5 +1,11 @@
 # @seed-design/docs-mcp
 
+## 0.5.4
+
+### Patch Changes
+
+- 78a01b2: 아이콘 정보를 최신으로 업데이트합니다.
+
 ## 0.5.3
 
 ### Patch Changes
