@@ -68,7 +68,7 @@ const sidePanel = defineSlotRecipe({
       willChange: "transform",
 
       "--seed-box-width--responsive": "initial",
-      "--seed-box-max-width--responsive": "100vw",
+      "--seed-box-max-width--responsive": "80%",
       "--seed-box-height--responsive": "initial",
       "--seed-box-max-height--responsive": "initial",
       maxWidth: "var(--seed-box-max-width)",

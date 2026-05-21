@@ -8553,7 +8553,7 @@
   --seed-box-width-lg: var(--seed-box-width-md);
   --seed-box-width-xl: var(--seed-box-width-lg);
   --seed-box-width: var(--seed-box-width-base);
-  --seed-box-max-width-base: 100vw;
+  --seed-box-max-width-base: 80%;
   --seed-box-max-width-sm: var(--seed-box-max-width-base);
   --seed-box-max-width-md: var(--seed-box-max-width-sm);
   --seed-box-max-width-lg: var(--seed-box-max-width-md);
