@@ -25,7 +25,11 @@ export declare const privateComponentTimePickerField: {
 export declare const privateComponentItemMenuItemGroup: {
   "name": "privateComponentItemMenuItemGroup",
   "key": "5f64d89069596e92a14f8cee6b66bc43e1a89e09",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Container#12285:86": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const privateComponentItemNowBarStatusBarChip_94d: {
@@ -57,24 +61,6 @@ export declare const componentItemNowBarDefault: {
       "type": "TEXT"
     }
   }
-};
-
-export declare const privateComponentMenuItemBadge: {
-  "name": "privateComponentMenuItemBadge",
-  "key": "c74503291f75e9a4ded3d122dc8d5557ca343d81",
-  "componentPropertyDefinitions": {}
-};
-
-export declare const privateComponentMenuItemIcon: {
-  "name": "privateComponentMenuItemIcon",
-  "key": "0492a418f27c645c0392844565695dbc8d2f44af",
-  "componentPropertyDefinitions": {}
-};
-
-export declare const privateComponentMenuItemSuffixChevron: {
-  "name": "privateComponentMenuItemSuffixChevron",
-  "key": "0bf5e8b6f6b81617b69add92af4659e0fa300c76",
-  "componentPropertyDefinitions": {}
 };
 
 export declare const privateComponentSidebarMenuGroup: {
@@ -122,6 +108,9 @@ export declare const componentFilterBar: {
   "name": "componentFilterBar",
   "key": "ec0cea376d2d446f3e02835c21dc224fb11bfcc1",
   "componentPropertyDefinitions": {
+    "Container#12261:85": {
+      "type": "SLOT"
+    },
     "Show Clear Button#32562:362": {
       "type": "BOOLEAN"
     }
@@ -456,6 +445,24 @@ export declare const componentListItemSuffixRadiomark: {
 export declare const componentListItemSuffixSwitch: {
   "name": "componentListItemSuffixSwitch",
   "key": "0c26bd64e117e168b06eea69be903e4be762a728",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentMenuItemBadge: {
+  "name": "componentMenuItemBadge",
+  "key": "c74503291f75e9a4ded3d122dc8d5557ca343d81",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentMenuItemIcon: {
+  "name": "componentMenuItemIcon",
+  "key": "0492a418f27c645c0392844565695dbc8d2f44af",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentMenuItemSuffixChevron: {
+  "name": "componentMenuItemSuffixChevron",
+  "key": "0bf5e8b6f6b81617b69add92af4659e0fa300c76",
   "componentPropertyDefinitions": {}
 };
 

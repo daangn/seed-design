@@ -124,6 +124,9 @@ export const privateComponentChipGroup = {
   "name": "privateComponentChipGroup",
   "key": "3838d772ac3c7504d976b2f386ce521efe69d08f",
   "componentPropertyDefinitions": {
+    "Chip Group#12261:81": {
+      "type": "SLOT"
+    },
     "Layout": {
       "type": "VARIANT",
       "variantOptions": [
@@ -1103,8 +1106,8 @@ export const privateComponentTabsChip = {
   "name": "privateComponentTabsChip",
   "key": "16bd9efbd95f4b5fa3dfe31c2e1acf4e8a88f6a5",
   "componentPropertyDefinitions": {
-    "Show Scroll Fog(Figma Only)#53171:9": {
-      "type": "BOOLEAN"
+    "Container#12286:101": {
+      "type": "SLOT"
     },
     "Size": {
       "type": "VARIANT",
@@ -1127,8 +1130,8 @@ export const privateComponentTabsLine = {
   "name": "privateComponentTabsLine",
   "key": "e5bf0d2582100280b410415b9d8742202edbb45c",
   "componentPropertyDefinitions": {
-    "Show Scroll Fog(Figma Only)#53171:14": {
-      "type": "BOOLEAN"
+    "Container#12286:96": {
+      "type": "SLOT"
     },
     "Size": {
       "type": "VARIANT",
@@ -2186,7 +2189,7 @@ export const componentAccordion = {
   "name": "componentAccordion",
   "key": "0686a42b92941f42561f73e95ecff0699b86e3a9",
   "componentPropertyDefinitions": {
-    "Slot#10588:0": {
+    "Accordion Group#10588:0": {
       "type": "SLOT"
     },
     "Size": {
@@ -2706,6 +2709,9 @@ export const componentCheckboxField = {
   "name": "componentCheckboxField",
   "key": "c157db7fe8d812716f2ed3f520b8bacfb9fb8416",
   "componentPropertyDefinitions": {
+    "Checkbox Group#12261:0": {
+      "type": "SLOT"
+    },
     "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
@@ -2844,6 +2850,9 @@ export const componentChipGroup = {
   "name": "componentChipGroup",
   "key": "dbef4539572f056c6a90c332299d9b9febd212de",
   "componentPropertyDefinitions": {
+    "Chip Group#12261:62": {
+      "type": "SLOT"
+    },
     "Variant": {
       "type": "VARIANT",
       "variantOptions": [
@@ -3605,6 +3614,9 @@ export const componentRadioField = {
   "name": "componentRadioField",
   "key": "7a1c06315434813d0c4256366e2f478954cd6f14",
   "componentPropertyDefinitions": {
+    "Radio Group#12285:87": {
+      "type": "SLOT"
+    },
     "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
@@ -3870,6 +3882,9 @@ export const componentSelectBoxGroup = {
   "name": "componentSelectBoxGroup",
   "key": "cbf6ddeb6d6f889e983399291ec8b60ee3390177",
   "componentPropertyDefinitions": {
+    "Select Box Group#12285:92": {
+      "type": "SLOT"
+    },
     "Column": {
       "type": "VARIANT",
       "variantOptions": [
