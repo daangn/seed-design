@@ -86,6 +86,11 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="Tailwind Demo" onTap={() => navigate('tailwind-demo')} />
 
       <SectionHeader>Components</SectionHeader>
+      <ListItem
+        title="Box / VStack / HStack"
+        onTap={() => navigate('layout-primitives')}
+      />
+      <ListItem title="Text" onTap={() => navigate('text-primitive')} />
       <ListItem title="ActionButton" onTap={() => navigate('action-button')} />
       <ListItem title="BottomSheet" onTap={() => navigate('bottom-sheet')} />
       <ListItem title="Checkbox" onTap={() => navigate('checkbox')} />
@@ -105,6 +110,22 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="usePressTap" onTap={() => navigate('use-press-tap')} />
 
       <SectionHeader>Test</SectionHeader>
+      <ListItem
+        title="Layout Stress: Tailwind"
+        onTap={() => navigate('layout-stress-tailwind')}
+      />
+      <ListItem
+        title="Layout Stress: Inline Style"
+        onTap={() => navigate('layout-stress-style')}
+      />
+      <ListItem
+        title="Layout Stress: SEED Primitives"
+        onTap={() => navigate('layout-stress-seed-primitives')}
+      />
+      <ListItem
+        title="Safe Area Debug"
+        onTap={() => navigate('safe-area-debug')}
+      />
       <ListItem
         title="Nested Vars Test (Lynx 3.6+)"
         onTap={() => navigate('nested-vars-test')}

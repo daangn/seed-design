@@ -1626,6 +1626,12 @@
               ]
             },
             {
+              "id": "box",
+              "title": "Box",
+              "description": "Box 컴포넌트는 Lynx에서 가장 기초적인 레이아웃 표면을 구성하는 컴포넌트입니다.",
+              "docUrl": "/lynx/foundation/layout/box"
+            },
+            {
               "id": "checkbox",
               "title": "Checkbox",
               "description": "사용자가 여러 옵션 중 하나 이상을 선택할 수 있게 하는 체크박스 컴포넌트입니다.",
@@ -1649,6 +1655,12 @@
               "title": "Feature Flags",
               "description": "SEED Design을 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
               "docUrl": "/lynx/getting-started/feature-flags"
+            },
+            {
+              "id": "h-stack",
+              "title": "HStack",
+              "description": "HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
+              "docUrl": "/lynx/foundation/layout/h-stack"
             },
             {
               "id": "iconography",
@@ -1721,6 +1733,12 @@
               ]
             },
             {
+              "id": "text",
+              "title": "Text",
+              "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
+              "docUrl": "/lynx/foundation/typography/text"
+            },
+            {
               "id": "theming",
               "title": "Theming",
               "description": "Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 방법을 알아봅니다.",
@@ -1743,6 +1761,18 @@
               "title": "usePressTap",
               "description": "Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.",
               "docUrl": "/lynx/hooks/use-press-tap"
+            },
+            {
+              "id": "use-safe-area",
+              "title": "useSafeArea",
+              "description": "Lynx 앱에서 top/bottom safe area inset 값을 가져오는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-safe-area"
+            },
+            {
+              "id": "v-stack",
+              "title": "VStack",
+              "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
+              "docUrl": "/lynx/foundation/layout/v-stack"
             }
           ]
         }
