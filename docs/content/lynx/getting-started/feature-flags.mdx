@@ -26,13 +26,24 @@ Lynx의 피쳐 플래그는 두 개의 rsbuild 플러그인을 통해 설정합�
 
 ### `enableCSSSelector`
 
-Blink 표준 CSS 셀렉터 매칭을 활성화합니다.
+Lynx CSS를 기존 `pseudo_map` 기반 매칭이 아니라 `LynxCSSSelector` / `RuleSet` 기반의 새 selector 파이프라인으로 파싱하고 매칭합니다.
+이 플래그는 CSS selector 엔진 경로를 켜는 옵션이지, Web에서 쓰는 모든 selector를 동일하게 지원한다는 의미는 아닙니다.
 
-|                      | 설명                                                                                                                                        |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **끄면**             | 레거시 `pseudo_map` 기반 매칭만 동작. class selector, attribute selector 등이 제한적                                                        |
-| **켜면**             | class (`.name`), id (`#name`), attribute (`[data-*="value"]`), pseudo-class (`:hover`, `:focus`) 등 표준 CSS 셀렉터 사용 가능               |
-| **SEED Design 이점** | SEED Design은 컴포넌트 상태를 `data-*` 속성으로 관리합니다. 이 플래그 없이는 `[data-pressed="true"]` 같은 상태 기반 스타일링이 불가능합니다 |
+|                      | 설명                                                                                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **끄면**             | CSS rule을 레거시 selector string / `pseudo_map` 중심으로 처리합니다. 복합 selector, combinator, cascade specificity 처리 범위가 제한적입니다                            |
+| **켜면**             | CSS rule을 `LynxCSSSelector` tuple로 인코딩하고 `RuleSet`에서 type, class, id, combinator, 일부 pseudo-class(`:active`, `:focus`, `:hover`, `:root`, `:not()`)를 매칭합니다 |
+| **주의**             | 현재 styling 경로에서 `[data-*]`, `[attr=value]`, `[attr*=value]` 같은 attribute selector는 public release surface로 보지 않습니다                                         |
+| **SEED Design 이점** | theme/platform class, component className, descendant/child selector, `:root` 토큰 선언처럼 class 기반 CSS를 안정적으로 적용할 수 있습니다                                 |
+
+<Callout type="warn">
+  `enableCSSSelector`가 켜져 있어도 Web처럼 `data-*` attribute selector로
+  컴포넌트 상태 스타일을 표현하지 마세요. Lynx implementation에는 attribute
+  selector parser/indexing 흔적이 있지만, 현재 CSS styling matcher는
+  attribute selector를 실제 매칭 대상으로 처리하지 않습니다. SEED Lynx
+  컴포넌트는 `pressed`, `checked`, `disabled`, `loading` 같은 상태를 recipe
+  boolean variant로 className에 반영합니다.
+</Callout>
 
 ### `enableCSSInvalidation`
 
@@ -40,8 +51,8 @@ Blink 표준 CSS 셀렉터 매칭을 활성화합니다.
 
 |                      | 설명                                                                                                           |
 | -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **끄면**             | class나 attribute가 변경될 때마다 **전체 스타일을 재계산**합니다. 컴포넌트가 많아질수록 성능 저하가 심해집니다 |
-| **켜면**             | 변경된 셀렉터에 영향받는 요소만 재계산합니다. class/id/pseudo-class별 invalidation 맵을 관리합니다             |
+| **끄면**             | class, id, pseudo-state가 변경될 때마다 **전체 스타일을 재계산**합니다. 컴포넌트가 많아질수록 성능 저하가 심해집니다 |
+| **켜면**             | 변경된 셀렉터에 영향받는 요소만 재계산합니다. 현재 구현은 class/id/pseudo-class별 invalidation 맵을 중심으로 관리합니다 |
 | **SEED Design 이점** | 버튼 hover, checkbox 체크 등 상태 변경 시 해당 컴포넌트만 스타일을 업데이트합니다                              |
 
 <Callout>
