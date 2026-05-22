@@ -8,7 +8,7 @@ export * from "./bottom-sheet";
 export * from "./callout";
 export * from "./checkbox";
 export * from "./checkmark";
-export * from "./chip";
+export * from "./legacy-chip";
 export * from "./content-placeholder";
 export * from "./contextual-floating-button";
 export * from "./divider";

@@ -36,7 +36,7 @@
     "clsx": "^2.1.1"
   },
   "devDependencies": {
-    "@seed-design/css": "1.2.11",
+    "@seed-design/css": "1.2.12",
     "@stackflow/core": "^1.2.0",
     "@stackflow/react": "^1.5.1",
     "@types/react": "^19.2.2",
@@ -46,7 +46,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "vite": "^8.0.0",
-    "vite-plugin-dts": "^4.5.3"
+    "vite-plugin-dts": "^5.0.0"
   },
   "peerDependencies": {
     "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11",

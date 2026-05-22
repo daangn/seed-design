@@ -797,9 +797,69 @@
       },
       {
         "variants": {
+          "size": "small",
           "layout": "withText"
         },
-        "definitions": []
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "minWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 44,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "medium",
+          "layout": "withText"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "minWidth": {
+                  "type": "dimension",
+                  "value": "$dimension.x12"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "large",
+          "layout": "withText"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "minWidth": {
+                  "type": "dimension",
+                  "value": "$dimension.x13"
+                }
+              }
+            }
+          }
+        ]
       },
       {
         "variants": {
