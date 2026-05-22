@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "@figma/rest-api-spec": "0.27.0",
-    "cac": "^6.7.14",
+    "cac": "^7.0.0",
     "change-case": "^5.4.4",
     "cosmiconfig": "^9.0.0",
     "dotenv": "^17.0.0",
