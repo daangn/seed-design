@@ -266,7 +266,7 @@ export const createSelectBoxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
   const selectBoxGroupHandler = createSelectBoxGroupHandler(ctx);
 
   return defineComponentHandler<SelectBoxGroupFieldProperties>(
-    metadata.templateSelectBoxField.key,
+    metadata.componentSelectBoxField.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 

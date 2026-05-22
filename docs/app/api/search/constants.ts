@@ -6,4 +6,5 @@ export const TAGS = {
   lynx: { name: "Lynx", value: "lynx" },
   breeze: { name: "Breeze", value: "breeze" },
   aiIntegration: { name: "AI Integration", value: "ai-integration" },
+  blog: { name: "Blog", value: "blog" },
 } as const satisfies Record<string, TagItem>;

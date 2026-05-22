@@ -60,7 +60,7 @@ export const createCheckboxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<CheckboxGroupFieldProperties>(
-    metadata.templateCheckboxField.key,
+    metadata.componentCheckboxField.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 

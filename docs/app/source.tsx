@@ -1,5 +1,12 @@
 import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
-import { docs, reactDocs, breezeDocs, lynxDocs, aiIntegrationDocs } from "@/.source/server";
+import {
+  docs,
+  reactDocs,
+  breezeDocs,
+  lynxDocs,
+  aiIntegrationDocs,
+  blogDocs,
+} from "@/.source/server";
 import { loader, type LoaderPlugin, type StaticSource } from "fumadocs-core/source";
 import type { ComponentType, SVGProps } from "react";
 
@@ -59,3 +66,4 @@ export const aiIntegrationSource = createSource(
   aiIntegrationDocs.toFumadocsSource(),
   "/ai-integration",
 );
+export const blogSource = createSource(blogDocs.toFumadocsSource(), "/blog");

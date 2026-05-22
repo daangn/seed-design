@@ -1,5 +1,11 @@
 # @seed-design/rsbuild-plugin
 
+## 1.2.1
+
+### Patch Changes
+
+- c1bf147: `@rsbuild/core` peerDependency 범위를 확장하여 rsbuild v1.1과 v2를 모두 지원합니다.
+
 ## 1.2.0
 
 ### Minor Changes
