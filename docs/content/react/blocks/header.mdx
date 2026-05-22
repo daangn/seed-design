@@ -6,7 +6,11 @@ full: true
 
 ## 반응형 Header
 
-768px 미만 viewport에서는 가로 네비게이션 대신 햄버거 버튼 → 좌측 슬라이드 `SidePanel`로 네비게이션을 보여줍니다. `Box.hideFrom`과 `Box.display` 반응형 prop으로 데스크탑/모바일 컨텐츠를 분리하고, 같은 데이터 모델을 양쪽에서 재사용합니다.
+Header는 로고, 네비게이션, 검색, CTA, 서브메뉴처럼 서비스마다 정보 구조가 달라지는 영역입니다. 그래서 `responsive-side-panel`처럼 하나의 `ui` 스니펫으로 추상화하기보다, Seed가 권장하는 구성을 담은 `block:responsive-header-*` 예제로 제공합니다.
+
+768px 미만 viewport에서는 가로 네비게이션 대신 헤더 오른쪽에 햄버거 버튼을 표시하고, 좌측 슬라이드 `SidePanel`로 Header의 컨텐츠를 다시 배치합니다. Header 모바일 메뉴는 작은 화면에서도 네비게이션 컨텍스트를 유지하는 것이 중요하므로, `ui:responsive-side-panel`처럼 Bottom Sheet로 전환하지 않고 `ui:side-panel`을 직접 사용합니다.
+
+`Box.hideFrom`과 `Box.display` 반응형 prop으로 데스크탑/모바일 컨텐츠를 분리하고, 같은 데이터 모델을 양쪽에서 재사용합니다. 기본 `header-*` 블록은 자유롭게 가져다 쓰는 단순 Header 예제이고, 모바일 대응이 필요한 경우에는 아래 `responsive-header-*` 블록을 먼저 참고하세요.
 
 ### 기본 패턴 (일반 회사 헤더)
 

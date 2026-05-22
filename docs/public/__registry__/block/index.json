@@ -244,14 +244,14 @@
         {
           "path": "responsive-header-01.tsx",
           "dependencies": {
-            "@seed-design/react": "~1.0.0",
-            "@seed-design/css": "~1.0.0",
-            "@karrotmarket/react-monochrome-icon": "~0"
+            "@seed-design/react": "~1.3.0",
+            "@seed-design/css": "~1.3.0",
+            "@karrotmarket/react-monochrome-icon": "^1.0.0"
           }
         }
       ],
       "id": "responsive-header-01",
-      "description": "반응형 Header — 일반 회사 (768px↑ nav / 768px↓ SidePanel)",
+      "description": "권장 반응형 Header — 일반 회사 (md↑ nav / md↓ SidePanel)",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
@@ -271,14 +271,14 @@
         {
           "path": "responsive-header-02.tsx",
           "dependencies": {
-            "@seed-design/react": "~1.0.0",
-            "@seed-design/css": "~1.0.0",
-            "@karrotmarket/react-monochrome-icon": "~0"
+            "@seed-design/react": "~1.3.0",
+            "@seed-design/css": "~1.3.0",
+            "@karrotmarket/react-monochrome-icon": "^1.0.0"
           }
         }
       ],
       "id": "responsive-header-02",
-      "description": "반응형 Header — 당근닷컴 (서브메뉴 Menu↔Accordion 전환)",
+      "description": "권장 반응형 Header — 당근닷컴 (Menu↔Accordion + SidePanel)",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
