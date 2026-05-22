@@ -6,6 +6,7 @@ import {
   breezeSource,
   lynxSource,
   aiIntegrationSource,
+  blogSource,
 } from "@/app/source";
 
 export const dynamic = "force-static";
@@ -18,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...breezeSource.getPages(),
       ...lynxSource.getPages(),
       ...aiIntegrationSource.getPages(),
+      ...blogSource.getPages(),
     ].map(async (page) => {
       const { lastModified } = await page.data.load();
 

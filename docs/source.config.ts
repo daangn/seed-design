@@ -74,6 +74,20 @@ export const aiIntegrationDocs = defineDocs({
   },
 });
 
+export const blogDocs = defineDocs({
+  dir: "content/blog",
+  docs: {
+    async: true,
+    schema: frontmatterSchema.extend({
+      publishedAt: z.iso.date().or(z.date()).optional(),
+      coverImageFigmaId: z.string().optional(),
+    }),
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+  },
+});
+
 export default defineConfig({
   plugins: [lastModified()],
   mdxOptions: {

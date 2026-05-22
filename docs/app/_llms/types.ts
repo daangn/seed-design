@@ -1,6 +1,6 @@
 import type { Page } from "fumadocs-core/source";
 
-export type Section = "react" | "docs" | "breeze" | "lynx" | "ai-integration";
+export type Section = "react" | "docs" | "breeze" | "lynx" | "ai-integration" | "blog";
 
 export type LLMPage = Page & {
   data: {
