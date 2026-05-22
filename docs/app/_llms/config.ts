@@ -35,6 +35,11 @@ export const sectionConfigs: Record<Section, SectionConfig> = {
     description: "MCP, llms.txt 활용법 등 AI 도구 연동 가이드",
     excludePaths: ["index.mdx"],
   },
+  blog: {
+    contentDir: "blog",
+    baseUrl: "/blog",
+    description: "SEED Design 소식과 이야기",
+  },
 };
 
 export function getGitHubSourceUrl(section: Section, pagePath: string): string {

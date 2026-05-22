@@ -1,12 +1,3 @@
-export interface SanityImageType {
-  _type: "image";
-  _key: string;
-  asset: {
-    _ref: string;
-    _type: "reference";
-  };
-}
-
 export type PlatformStatus = "ready" | "not-ready" | "in-progress" | "deprecated" | "not-planned";
 
 export interface ComponentData {
