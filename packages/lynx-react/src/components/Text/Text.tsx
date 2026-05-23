@@ -10,6 +10,7 @@ import {
   type TextStyle,
   type TextStyleProps,
 } from "../../utils/styled";
+import type { LynxStyledElementProps } from "../../types";
 
 function capitalize<T extends string>(value: T): Capitalize<T> {
   return (value.charAt(0).toUpperCase() + value.slice(1)) as Capitalize<T>;
@@ -21,11 +22,7 @@ function getTypographyStyle(textStyle: TextStyle | undefined) {
   return value.enabled.root;
 }
 
-export interface TextProps extends TextStyleProps {
-  className?: string;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
-}
+export interface TextProps extends TextStyleProps, LynxStyledElementProps {}
 
 export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
   const {

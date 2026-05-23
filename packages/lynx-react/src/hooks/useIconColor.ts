@@ -7,24 +7,30 @@ type IconElement = MainThread.Element & {
   getComputedCssProperty?: (name: string) => string;
 };
 
+export interface UseIconColorOptions {
+  sourceRef?: RefObject<MainThread.Element>;
+}
+
 // Lynx `<image>` 의 `tint-color` attribute 에 CSS variable 문자열을 직접 넣는 경로는
 // 안정적으로 동작하지 않는다. CSS `color` 는 computed style 로 resolved color 를 읽을 수
 // 있으므로 main-thread 에서 한 번 읽어 `tint-color` 로 mirror 한다.
-function syncTintColor(ref: RefObject<IconElement>) {
+function syncTintColor(targetRef: RefObject<IconElement>, sourceRef?: RefObject<IconElement>) {
   "main thread";
 
-  const el = ref.current;
-  if (!el) return;
+  const target = targetRef.current;
+  if (!target) return;
+
+  const source = sourceRef?.current ?? target;
 
   let color: string | undefined;
-  if (typeof el.getComputedStyleProperty === "function") {
-    color = el.getComputedStyleProperty("color");
-  } else if (typeof el.getComputedCssProperty === "function") {
-    color = el.getComputedCssProperty("color");
+  if (typeof source.getComputedStyleProperty === "function") {
+    color = source.getComputedStyleProperty("color");
+  } else if (typeof source.getComputedCssProperty === "function") {
+    color = source.getComputedCssProperty("color");
   }
 
   if (color) {
-    el.setAttribute("tint-color", color);
+    target.setAttribute("tint-color", color);
   }
 }
 
@@ -37,20 +43,24 @@ function syncTintColor(ref: RefObject<IconElement>) {
  * return cloneElement(iconChild, iconColorProps);
  * ```
  */
-export function useIconColor(deps: DependencyList): {
+export function useIconColor(
+  deps: DependencyList,
+  options?: UseIconColorOptions,
+): {
   ref: RefObject<MainThread.Element>;
   "main-thread:binduiappear": () => void;
 } {
   const ref = useMainThreadRef<IconElement>(null);
+  const sourceRef = options?.sourceRef as RefObject<IconElement> | undefined;
 
   function syncOnUiAppear() {
     "main thread";
-    syncTintColor(ref);
+    syncTintColor(ref, sourceRef);
   }
 
   // deps 는 caller 가 책임.
   useEffect(() => {
-    runOnMainThread(syncTintColor)(ref);
+    runOnMainThread(syncTintColor)(ref, sourceRef);
   }, deps);
 
   return { ref, "main-thread:binduiappear": syncOnUiAppear };

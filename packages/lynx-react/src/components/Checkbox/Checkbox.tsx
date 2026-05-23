@@ -1,20 +1,18 @@
 import * as React from "react";
-import { cloneElement, isValidElement, type CSSProperties, type ReactElement } from "react";
+import { isValidElement, type ReactElement } from "react";
 import clsx from "clsx";
-import type { MainThread } from "@lynx-js/types";
 
 import { checkbox } from "@seed-design/lynx-css/recipes/checkbox";
 import type { CheckboxVariantProps } from "@seed-design/lynx-css/recipes/checkbox";
 import { checkmark } from "@seed-design/lynx-css/recipes/checkmark";
 import type { CheckmarkVariantProps } from "@seed-design/lynx-css/recipes/checkmark";
 import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
-import { vars as checkmarkVars } from "@seed-design/lynx-css/vars/component/checkmark";
 
 import { useControllableState } from "../../hooks/useControllableState";
-import { useIconColor } from "../../hooks/useIconColor";
 import { usePressTap } from "../../hooks/usePressTap";
-import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
+import type { LynxIconElementProps, LynxStyledElementProps } from "../../types";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
+import { InternalIcon } from "../Icon/Icon";
 
 /**
  * @platform Lynx
@@ -30,25 +28,19 @@ import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-
  * recipe 의 `color` 토큰을 `tint-color` 로 동기화한다. raw SVG 주입은 Lynx 범위 밖.
  */
 
-type CheckboxSize = NonNullable<CheckboxVariantProps["size"]>;
-type CheckboxWeight = NonNullable<CheckboxVariantProps["weight"]>;
-type CheckmarkTone = NonNullable<CheckmarkVariantProps["tone"]>;
-type CheckmarkVariant = NonNullable<CheckmarkVariantProps["variant"]>;
-
-interface CheckboxContextValue {
+interface CheckboxApi {
   checked: boolean;
   indeterminate: boolean;
   disabled: boolean;
   pressed: boolean;
-  size: CheckboxSize;
-  weight: CheckboxWeight;
-  tone: CheckmarkTone;
-  variant: CheckmarkVariant;
+  checkboxVariantProps: CheckboxVariantProps;
+  checkmarkVariantProps: CheckmarkVariantProps;
+  toggle: () => void;
 }
 
-const CheckboxContext = React.createContext<CheckboxContextValue | null>(null);
+const CheckboxContext = React.createContext<CheckboxApi | null>(null);
 
-function useCheckboxContext(consumer: string): CheckboxContextValue {
+function useCheckboxContext(consumer: string): CheckboxApi {
   const ctx = React.useContext(CheckboxContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <CheckboxRoot/>.`);
@@ -56,10 +48,15 @@ function useCheckboxContext(consumer: string): CheckboxContextValue {
   return ctx;
 }
 
-const CheckmarkIconClassContext = React.createContext<string | null>(null);
+interface CheckmarkControlContextValue {
+  iconClassName: string;
+  checkmarkVariantProps: CheckmarkVariantProps;
+}
 
-function useCheckmarkIconClass(consumer: string): string {
-  const ctx = React.useContext(CheckmarkIconClassContext);
+const CheckmarkControlContext = React.createContext<CheckmarkControlContextValue | null>(null);
+
+function useCheckmarkControlContext(consumer: string): CheckmarkControlContextValue {
+  const ctx = React.useContext(CheckmarkControlContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <CheckboxControl/>.`);
   }
@@ -70,9 +67,8 @@ function useCheckmarkIconClass(consumer: string): string {
 
 export interface CheckboxRootProps
   extends CheckboxVariantProps,
-    Omit<CheckmarkVariantProps, "size" | "checked" | "disabled" | "indeterminate"> {
-  children?: React.ReactNode;
-  className?: string;
+    Omit<CheckmarkVariantProps, "size" | "checked" | "disabled" | "indeterminate">,
+    LynxStyledElementProps {
   checked?: boolean;
   defaultChecked?: boolean;
   indeterminate?: boolean;
@@ -93,10 +89,6 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   } = props;
   const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { checkbox, checkmark });
-  const weight: CheckboxWeight = checkboxVariantProps.weight ?? "regular";
-  const size: CheckboxSize = checkboxVariantProps.size ?? "medium";
-  const tone: CheckmarkTone = checkmarkVariantProps.tone ?? "brand";
-  const variant: CheckmarkVariant = checkmarkVariantProps.variant ?? "square";
 
   const [checked, setChecked] = useControllableState({
     value: checkedProp,
@@ -104,20 +96,38 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     onChange: onCheckedChange,
   });
 
+  const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
+
   const { pressed, ...pressHandlers } = usePressTap({
     disabled,
-    onTap: () => setChecked(!checked),
+    onTap: toggle,
   });
 
-  const rootClassName = checkbox({ weight, size, disabled }).root;
+  const rootClassName = checkbox({ ...checkboxVariantProps, disabled }).root;
 
-  const ctx = React.useMemo<CheckboxContextValue>(
-    () => ({ checked, indeterminate, disabled, pressed, size, weight, tone, variant }),
-    [checked, indeterminate, disabled, pressed, size, weight, tone, variant],
+  const api = React.useMemo<CheckboxApi>(
+    () => ({
+      checked,
+      indeterminate,
+      disabled,
+      pressed,
+      checkboxVariantProps,
+      checkmarkVariantProps,
+      toggle,
+    }),
+    [
+      checked,
+      indeterminate,
+      disabled,
+      pressed,
+      checkboxVariantProps,
+      checkmarkVariantProps,
+      toggle,
+    ],
   );
 
   return (
-    <CheckboxContext.Provider value={ctx}>
+    <CheckboxContext.Provider value={api}>
       <view
         {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
         className={clsx(rootClassName, className)}
@@ -134,35 +144,27 @@ CheckboxRoot.displayName = "CheckboxRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CheckboxControlProps
-  extends Pick<CheckmarkVariantProps, "tone" | "variant" | "size"> {
-  children?: React.ReactNode;
-  className?: string;
-}
+  extends Pick<CheckmarkVariantProps, "tone" | "variant" | "size">,
+    LynxStyledElementProps {}
 
 export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((props, ref) => {
   const [variantProps, restProps] = checkmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
-  const {
-    checked,
-    indeterminate,
-    disabled,
-    pressed,
-    tone: ctxTone,
-    variant: ctxVariant,
-    size: ctxSize,
-  } = useCheckboxContext("CheckboxControl");
-
-  const tone: CheckmarkTone = variantProps.tone ?? ctxTone;
-  const variant: CheckmarkVariant = variantProps.variant ?? ctxVariant;
-  const size: CheckboxSize = (variantProps.size as CheckboxSize | undefined) ?? ctxSize;
-
-  const classes = React.useMemo(
-    () => checkmark({ variant, tone, size, checked, disabled, indeterminate, pressed }),
-    [variant, tone, size, checked, disabled, indeterminate, pressed],
-  );
+  const api = useCheckboxContext("CheckboxControl");
+  const checkmarkVariantProps: CheckmarkVariantProps = {
+    ...api.checkmarkVariantProps,
+    ...variantProps,
+    checked: api.checked,
+    disabled: api.disabled,
+    indeterminate: api.indeterminate,
+    pressed: api.pressed,
+  };
+  const classes = checkmark(checkmarkVariantProps);
 
   return (
-    <CheckmarkIconClassContext.Provider value={classes.icon}>
+    <CheckmarkControlContext.Provider
+      value={{ iconClassName: classes.icon, checkmarkVariantProps }}
+    >
       <view
         {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
         className={clsx(classes.root, className)}
@@ -170,29 +172,21 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
       >
         {children}
       </view>
-    </CheckmarkIconClassContext.Provider>
+    </CheckmarkControlContext.Provider>
   );
 });
 CheckboxControl.displayName = "CheckboxControl";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-type IconElementProps = {
-  className?: string;
-  style?: CSSProperties;
-  ref?: React.Ref<MainThread.Element>;
-  "main-thread:binduiappear"?: () => void;
-};
-
-export interface CheckboxIndicatorProps {
+export interface CheckboxIndicatorProps
+  extends Pick<LynxStyledElementProps, "className" | "style"> {
   /** Icon rendered when neither checked nor indeterminate. Optional. */
-  unchecked?: ReactElement<IconElementProps>;
+  unchecked?: ReactElement<LynxIconElementProps>;
   /** Icon rendered when `checked=true` and `indeterminate=false`. */
-  checked: ReactElement<IconElementProps>;
+  checked: ReactElement<LynxIconElementProps>;
   /** Icon rendered when `indeterminate=true`. */
-  indeterminate?: ReactElement<IconElementProps>;
-  className?: string;
-  style?: CSSProperties;
+  indeterminate?: ReactElement<LynxIconElementProps>;
 }
 
 export function CheckboxIndicator(props: CheckboxIndicatorProps) {
@@ -203,58 +197,45 @@ export function CheckboxIndicator(props: CheckboxIndicatorProps) {
     className,
     style,
   } = props;
-  const { checked, indeterminate, disabled, pressed, tone, variant, size } =
-    useCheckboxContext("CheckboxIndicator");
-  const iconClassName = useCheckmarkIconClass("CheckboxIndicator");
-  const iconColor = useIconColor([
-    checked,
-    indeterminate,
-    disabled,
-    pressed,
-    tone,
-    variant,
-    size,
-  ]);
+  const api = useCheckboxContext("CheckboxIndicator");
+  const { iconClassName, checkmarkVariantProps } = useCheckmarkControlContext("CheckboxIndicator");
 
-  if (process.env.NODE_ENV !== "production" && indeterminate && !indeterminateIcon) {
+  if (process.env.NODE_ENV !== "production" && api.indeterminate && !indeterminateIcon) {
     console.warn(
       "[seed-design] CheckboxIndicator: `indeterminate` prop must be provided when the checkbox is in an indeterminate state.",
     );
   }
 
-  const icon = indeterminate ? indeterminateIcon : checked ? checkedIcon : unchecked;
-  if (!icon || !isValidElement<IconElementProps>(icon)) return null;
+  const icon = api.indeterminate ? indeterminateIcon : api.checked ? checkedIcon : unchecked;
+  if (!icon || !isValidElement<LynxIconElementProps>(icon)) return null;
 
-  // lynx-monochrome-icon 이 `<image style={{ width, height, ...style }}>` 로 자체 default size 를 박으므로
-  // recipe 토큰에서 꺼낸 사이즈를 inline 으로 주입해 덮는다.
-  const iconSize = resolveRecipeToken(checkmarkVars, [
-    `variant${capitalize(variant)}Size${capitalize(size)}`,
-    "enabled",
-    "icon",
-    "size",
-  ]);
-
-  return cloneElement(icon, {
-    ...iconColor,
-    className: clsx(iconClassName, icon.props.className, className),
-    style: iconSize
-      ? { width: iconSize, height: iconSize, ...icon.props.style, ...style }
-      : { ...icon.props.style, ...style },
-  });
+  return (
+    <InternalIcon
+      icon={icon}
+      className={clsx(iconClassName, className)}
+      style={style}
+      deps={[
+        api.checked,
+        api.indeterminate,
+        api.disabled,
+        api.pressed,
+        checkmarkVariantProps.tone,
+        checkmarkVariantProps.variant,
+        checkmarkVariantProps.size,
+      ]}
+    />
+  );
 }
 CheckboxIndicator.displayName = "CheckboxIndicator";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CheckboxLabelProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+export interface CheckboxLabelProps extends LynxStyledElementProps {}
 
 export const CheckboxLabel = React.forwardRef<unknown, CheckboxLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const { disabled, weight, size } = useCheckboxContext("CheckboxLabel");
-  const labelClassName = checkbox({ weight, size, disabled }).label;
+  const api = useCheckboxContext("CheckboxLabel");
+  const labelClassName = checkbox({ ...api.checkboxVariantProps, disabled: api.disabled }).label;
 
   return (
     <text
@@ -270,10 +251,7 @@ CheckboxLabel.displayName = "CheckboxLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CheckboxGroupProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+export interface CheckboxGroupProps extends LynxStyledElementProps {}
 
 export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;

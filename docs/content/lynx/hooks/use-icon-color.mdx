@@ -17,6 +17,7 @@ import { useIconColor } from "@seed-design/lynx-react";
 
 ```tsx
 import { cloneElement, isValidElement, type ReactElement } from "react";
+import { useMainThreadRef } from "@lynx-js/react";
 import { useIconColor } from "@seed-design/lynx-react";
 
 function IconSlot({ icon, variant, disabled }: {
@@ -24,18 +25,23 @@ function IconSlot({ icon, variant, disabled }: {
   variant: string;
   disabled: boolean;
 }) {
-  const iconColorProps = useIconColor([variant, disabled]);
+  const wrapperRef = useMainThreadRef(null);
+  const iconColorProps = useIconColor([variant, disabled], { sourceRef: wrapperRef });
 
   if (!isValidElement(icon)) return null;
 
-  return cloneElement(icon, {
-    ...iconColorProps,
-    className: "my-icon-slot",
-  });
+  return (
+    <view main-thread:ref={wrapperRef} className="my-icon-slot">
+      {cloneElement(icon, {
+        ...iconColorProps,
+        style: { width: "100%", height: "100%" },
+      })}
+    </view>
+  );
 }
 ```
 
-`useIconColor`가 반환하는 객체는 icon element에 그대로 주입할 수 있는 props입니다. 기존처럼 `{ ref }`만 구조 분해해서 사용할 수도 있지만, Lynx `list`처럼 UI 노드가 늦게 appear 되는 컨테이너까지 안정적으로 지원하려면 반환 객체 전체를 icon에 넘기는 방식을 권장합니다.
+`useIconColor`가 반환하는 객체는 icon element에 그대로 주입할 수 있는 props입니다. `sourceRef`를 전달하면 wrapper의 computed `color`를 읽어 icon `<image>`의 `tint-color`에 반영합니다. 기존처럼 `sourceRef` 없이 쓰면 icon element 자신의 computed `color`를 읽습니다.
 
 ### 상태 의존성
 
@@ -95,6 +101,7 @@ Lynx의 monochrome icon은 내부적으로 `<image>`를 렌더링하고, 실제 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `deps` | `DependencyList` | icon의 CSS `color`에 영향을 주는 의존성 목록입니다. 값이 바뀌면 main thread에서 tint color를 다시 동기화합니다. |
+| `options.sourceRef` | `RefObject<MainThread.Element>` | optional. icon 자체가 아니라 wrapper element의 computed `color`를 source로 사용할 때 전달합니다. |
 
 ### Return
 

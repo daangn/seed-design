@@ -6,6 +6,7 @@ import {
   type TagGroupItemVariantProps,
 } from "@seed-design/lynx-css/recipes/tag-group-item";
 
+import type { LynxStyledElementProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 
@@ -22,9 +23,10 @@ const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
  * - `flexShrink` prop: CSS variable 동적 주입 제한
  * - 아이콘 slot: Lynx 3.7 SVG 지원 후 검토 (Tier B)
  */
-export interface TagGroupRootProps extends TagGroupVariantProps, TagGroupItemVariantProps {
-  children?: React.ReactNode;
-  className?: string;
+export interface TagGroupRootProps
+  extends TagGroupVariantProps,
+    TagGroupItemVariantProps,
+    LynxStyledElementProps {
   /**
    * children 사이에 삽입되는 구분자. 기본값 `" · "`.
    */
@@ -79,10 +81,7 @@ TagGroupRoot.displayName = "TagGroupRoot";
  * - `asChild` prop: Lynx Slot 미지원
  * - `flexShrink` prop: CSS variable 동적 주입 제한
  */
-export interface TagGroupItemProps extends TagGroupItemVariantProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+export interface TagGroupItemProps extends TagGroupItemVariantProps, LynxStyledElementProps {}
 
 export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props, ref) => {
   const parentVariantProps = useProps();
@@ -104,10 +103,7 @@ export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props,
 });
 TagGroupItem.displayName = "TagGroupItem";
 
-export interface TagGroupItemLabelProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+export interface TagGroupItemLabelProps extends LynxStyledElementProps {}
 
 export const TagGroupItemLabel = React.forwardRef<unknown, TagGroupItemLabelProps>((props, ref) => {
   const classes = useClassNames();

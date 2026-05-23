@@ -11,12 +11,9 @@ import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
 import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
-
-type Tone = "neutral" | "brand" | "staticWhite" | "inherit";
-type Size = "14" | "16" | "18" | "24" | "40";
+import type { LynxElementProps } from "../../types";
 
 interface ProgressCircleContextValue {
-  tone: Tone;
   numSize: number;
   isDeterminate: boolean;
   progress: number;
@@ -111,12 +108,10 @@ const TRANSITION_DURATION = 300;
 
 // --- Components ---
 
-export interface ProgressCircleRootProps extends ProgressCircleVariantProps {
+export interface ProgressCircleRootProps extends ProgressCircleVariantProps, LynxElementProps {
   minValue?: number;
   maxValue?: number;
   value?: number;
-  children?: React.ReactNode;
-  className?: string;
 }
 
 export type RootProps = ProgressCircleRootProps;
@@ -132,8 +127,8 @@ export type RootProps = ProgressCircleRootProps;
  * Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정.
  */
 export const ProgressCircleRoot = (props: ProgressCircleRootProps) => {
-  const size: Size = (props.size as Size) ?? "40";
-  const tone: Tone = (props.tone as Tone) ?? "neutral";
+  const size = props.size ?? "40";
+  const tone = props.tone ?? "neutral";
   const numSize = Number(size);
 
   const isDeterminate =
@@ -149,8 +144,8 @@ export const ProgressCircleRoot = (props: ProgressCircleRootProps) => {
   const classes = progressCircle({ tone, size });
 
   const ctx = useMemo(
-    () => ({ tone, numSize, isDeterminate, progress, classes }),
-    [tone, numSize, isDeterminate, progress, classes],
+    () => ({ numSize, isDeterminate, progress, classes }),
+    [numSize, isDeterminate, progress, classes],
   );
 
   return (
