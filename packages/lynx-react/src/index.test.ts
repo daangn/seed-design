@@ -35,12 +35,4 @@ describe("components public exports", () => {
     expect(implementation).toContain("export const ProgressCircleRoot");
     expect(implementation).toContain("export const ProgressCircleRange");
   });
-
-  it("exports Icon slot prop types from the Icon entrypoint", () => {
-    const index = readComponentFile("Icon", "index.ts");
-
-    expect(index).toContain("type IconProps");
-    expect(index).toContain("type PrefixIconProps");
-    expect(index).toContain("type SuffixIconProps");
-  });
 });

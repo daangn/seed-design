@@ -26,7 +26,7 @@ export function handleColor(color: string | undefined) {
   return vars.$color[type]?.[value] ?? color;
 }
 
-export function handleDimension(dimension: string | 0 | undefined): string | undefined {
+export function handleDimension(dimension: number | string | undefined): string | undefined {
   if (dimension == null) {
     return undefined;
   }
@@ -43,6 +43,14 @@ export function handleDimension(dimension: string | 0 | undefined): string | und
 
   // @ts-expect-error token category is derived from the public string contract.
   return vars.$dimension[dimension] ?? vars.$dimension[type]?.[value] ?? dimension;
+}
+
+export function resolveFlexValue(
+  value: number | string | boolean | undefined,
+): number | string | undefined {
+  if (value === true) return 1;
+  if (value === false) return 0;
+  return value;
 }
 
 function handleBorderWidth(width: 0 | 1 | (string & {}) | undefined) {
@@ -354,8 +362,8 @@ export function useStyleProps<T extends UseStyleProps>(
       overflowX,
       overflowY,
       zIndex,
-      flexGrow: flexGrow === true ? 1 : flexGrow === false ? 0 : flexGrow,
-      flexShrink: flexShrink === true ? 1 : flexShrink === false ? 0 : flexShrink,
+      flexGrow: resolveFlexValue(flexGrow),
+      flexShrink: resolveFlexValue(flexShrink),
       flexDirection: handleFlexDirection(flexDirection),
       flexWrap: flexWrap === true ? "wrap" : flexWrap === false ? "nowrap" : flexWrap,
       justifyContent: handleJustifyContent(justifyContent),

@@ -13,9 +13,9 @@ import type {
   LynxStyledElementProps,
   LynxTouchProps,
 } from "../../types";
-import type { StyleProps } from "../../utils/styled";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
+import { resolveFlexValue, type StyleProps } from "../../utils/styled";
 import {
   ProgressCircleRange,
   ProgressCircleRoot,
@@ -38,6 +38,8 @@ import {
 // 리터럴 JSX 정적 분석을 우회하고 `BackgroundSnapshot not found: view` 런타임 에러를 유발한다.
 // (자세한 내용: `packages/lynx-react/AGENTS.md` 의 "Native tag literal JSX constraint" 섹션)
 const { ClassNamesProvider, useClassNames, PropsProvider } = createSlotRecipeContext(actionButton);
+
+////////////////////////////////////////////////////////////////////////////////////
 
 interface ActionButtonContentProps extends LynxElementProps {
   isIconOnly: boolean;
@@ -65,11 +67,7 @@ function resolveProgressCircleSize(
   return progressCircleVariantMap.size.find((size) => size === normalized) ?? "16";
 }
 
-function resolveFlexGrow(flexGrow: StyleProps["flexGrow"]) {
-  if (flexGrow === true) return 1;
-  if (flexGrow === false) return 0;
-  return flexGrow;
-}
+////////////////////////////////////////////////////////////////////////////////////
 
 const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>((innerProps, ref) => {
   const props = { layout: "withText" as const, ...innerProps };
@@ -133,6 +131,8 @@ const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>((inner
 });
 ActionButtonRoot.displayName = "ActionButtonRoot";
 
+////////////////////////////////////////////////////////////////////////////////////
+
 interface ActionButtonTextSlotProps extends LynxElementProps {}
 
 const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps>((props, ref) => {
@@ -149,6 +149,8 @@ const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps
   );
 });
 ActionButtonTextSlot.displayName = "ActionButtonTextSlot";
+
+////////////////////////////////////////////////////////////////////////////////////
 
 function ActionButtonContent({
   children,
@@ -198,6 +200,8 @@ function ActionButtonContent({
   );
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+
 function ActionButtonLoadingContent(props: ActionButtonContentProps) {
   const classNames = useClassNames();
 
@@ -207,6 +211,8 @@ function ActionButtonLoadingContent(props: ActionButtonContentProps) {
     </view>
   );
 }
+
+////////////////////////////////////////////////////////////////////////////////////
 
 function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps["size"] }) {
   const classNames = useClassNames();
@@ -220,6 +226,8 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
     </view>
   );
 }
+
+////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @platform Lynx
@@ -297,7 +305,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
         layout={layout}
         pressed={pressed}
         ref={ref}
-        style={flexGrow != null ? { flexGrow: resolveFlexGrow(flexGrow) } : undefined}
+        style={flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined}
         {...pressTapHandlers}
       >
         {loading ? (

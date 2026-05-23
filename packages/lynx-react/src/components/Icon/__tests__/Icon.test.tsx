@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { render } from "@lynx-js/react/testing-library";
+import { vars } from "@seed-design/lynx-css/vars";
 import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -41,7 +42,14 @@ MockIcon.displayName = "MockIcon";
 
 describe("Icon", () => {
   it("renders a wrapped icon image that fills the wrapper", () => {
-    render(<Icon icon={<MockIcon className="child-icon" />} className="custom-icon" size={20} />);
+    render(
+      <Icon
+        icon={<MockIcon className="child-icon" />}
+        className="custom-icon"
+        size={20}
+        color="fg.brand"
+      />,
+    );
 
     const root = getRenderedRoot();
     const wrapper = root.querySelector(".seed-icon");
@@ -49,6 +57,7 @@ describe("Icon", () => {
 
     expect(wrapper).toHaveClass("custom-icon");
     expect(wrapper).toHaveStyle({ width: "20px", height: "20px" });
+    expect((wrapper as HTMLElement).style.getPropertyValue("color")).toBe(vars.$color.fg.brand);
     expect(image).toHaveClass("child-icon");
     expect(image).toHaveStyle({ width: "100%", height: "100%" });
   });

@@ -6,8 +6,11 @@ import { cloneElement, isValidElement, type DependencyList, type ReactElement } 
 
 import { useIconColor } from "../../hooks/useIconColor";
 import type { LynxIconElementProps, LynxStyledElementProps } from "../../types";
+import { handleColor, handleDimension, type StyleProps } from "../../utils/styled";
 
 export type IconSlotName = "icon" | "prefixIcon" | "suffixIcon";
+
+////////////////////////////////////////////////////////////////////////////////////
 
 interface IconSlotContextValue {
   classNames?: Partial<Record<IconSlotName, string>>;
@@ -82,6 +85,8 @@ export function IconSlotProvider({
   return <IconSlotContext.Provider value={value}>{children}</IconSlotContext.Provider>;
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+
 const iconSlotMarker = Symbol.for("@seed-design/lynx-react/icon-slot");
 
 interface IconSlotComponent {
@@ -94,10 +99,12 @@ export function getIconSlotName(node: React.ReactNode): IconSlotName | null {
   return ((node.type as IconSlotComponent)[iconSlotMarker] ?? null) as IconSlotName | null;
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface IconProps extends LynxStyledElementProps {
   icon: ReactElement<LynxIconElementProps>;
-  size?: number | string;
-  color?: string;
+  size?: StyleProps["height"] | number;
+  color?: StyleProps["color"];
 }
 
 export interface PrefixIconProps extends IconProps {}
@@ -109,23 +116,19 @@ interface IconSlotBaseProps extends IconProps {
   baseClassName?: string;
 }
 
-function toDimension(value: number | string | undefined): string | undefined {
-  if (typeof value === "number") return `${value}px`;
-  return value;
-}
-
 function mergeWrapperStyle({
   size,
   color,
   style,
 }: Pick<IconProps, "size" | "color" | "style">): React.CSSProperties | undefined {
-  const dimension = toDimension(size);
+  const dimension = handleDimension(size);
+  const resolvedColor = handleColor(color);
 
-  if (dimension == null && color == null) return style;
+  if (dimension == null && resolvedColor == null) return style;
 
   return {
     ...(dimension != null ? { width: dimension, height: dimension } : {}),
-    ...(color != null ? { color } : {}),
+    ...(resolvedColor != null ? { color: resolvedColor } : {}),
     ...style,
   };
 }
@@ -185,6 +188,8 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
 });
 IconSlotBase.displayName = "IconSlotBase";
 
+////////////////////////////////////////////////////////////////////////////////////
+
 function createIconComponent<Props extends IconProps>(
   displayName: string,
   slot: IconSlotName,
@@ -211,6 +216,8 @@ export const SuffixIcon = createIconComponent<SuffixIconProps>(
   "suffixIcon",
   "seed-suffix-icon",
 );
+
+////////////////////////////////////////////////////////////////////////////////////
 
 export interface InternalIconProps extends LynxStyledElementProps {
   icon: ReactElement<LynxIconElementProps>;
