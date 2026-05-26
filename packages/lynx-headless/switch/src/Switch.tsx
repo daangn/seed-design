@@ -15,24 +15,19 @@ export interface SwitchState {
 
 export interface SwitchNativeProps extends ButtonNativeProps {}
 
-export interface SwitchRootProps
-  extends Omit<ButtonRootProps, "buttonProps" | "children" | "onClick"> {
+export interface SwitchRootProps extends Omit<ButtonRootProps, "children" | "onClick"> {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   children?: ReactNode | ((state: SwitchState) => ReactNode);
-  switchProps?: SwitchNativeProps;
 }
 
 export interface SwitchControlProps extends SwitchNativeProps {
   children?: ReactNode;
-  switchProps?: SwitchNativeProps;
 }
 
-export interface SwitchThumbProps extends SwitchNativeProps {
-  thumbProps?: SwitchNativeProps;
-}
+export interface SwitchThumbProps extends SwitchNativeProps {}
 
 const SwitchContext = createContext<SwitchState | null>(null);
 
@@ -55,7 +50,6 @@ export const SwitchRoot = forwardRef<unknown, SwitchRootProps>((props, ref) => {
     children,
     className,
     style,
-    switchProps,
     "accessibility-role-description": accessibilityRoleDescription = "switch",
     ...rootProps
   } = props;
@@ -78,7 +72,6 @@ export const SwitchRoot = forwardRef<unknown, SwitchRootProps>((props, ref) => {
       onClick={toggle}
       className={cx(className, checked && "ui-checked")}
       style={style}
-      buttonProps={switchProps}
       accessibility-role-description={accessibilityRoleDescription}
     >
       {(buttonState) => {
@@ -102,22 +95,20 @@ SwitchRoot.displayName = "SwitchRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const SwitchControl = forwardRef<unknown, SwitchControlProps>((props, ref) => {
-  const { children, className, style, switchProps, ...controlProps } = props;
+  const { children, className, style, ...controlProps } = props;
   const state = useSwitchContext("SwitchControl");
 
   return (
     <view
       {...controlProps}
-      {...switchProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
       className={cx(
-        switchProps?.className,
         className,
         state.active && "ui-active",
         state.checked && "ui-checked",
         state.disabled && "ui-disabled",
       )}
-      style={style ?? switchProps?.style}
+      style={style}
     >
       {children}
     </view>
@@ -128,22 +119,20 @@ SwitchControl.displayName = "SwitchControl";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const SwitchThumb = forwardRef<unknown, SwitchThumbProps>((props, ref) => {
-  const { className, style, thumbProps, ...rootProps } = props;
+  const { className, style, ...rootProps } = props;
   const state = useSwitchContext("SwitchThumb");
 
   return (
     <view
       {...rootProps}
-      {...thumbProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
       className={cx(
-        thumbProps?.className,
         className,
         state.active && "ui-active",
         state.checked && "ui-checked",
         state.disabled && "ui-disabled",
       )}
-      style={style ?? thumbProps?.style}
+      style={style}
     />
   );
 });

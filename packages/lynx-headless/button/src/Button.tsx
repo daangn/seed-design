@@ -24,7 +24,6 @@ export interface ButtonRootProps extends ButtonNativeProps {
   disabled?: boolean;
   onClick?: () => void;
   children?: ReactNode | ((state: ButtonState) => ReactNode);
-  buttonProps?: ButtonNativeProps;
 }
 
 const ButtonContext = createContext<ButtonState | null>(null);
@@ -46,7 +45,6 @@ export const ButtonRoot = forwardRef<unknown, ButtonRootProps>((props, ref) => {
     children,
     className,
     style,
-    buttonProps,
     bindtap,
     bindtouchcancel,
     bindtouchend,
@@ -72,26 +70,22 @@ export const ButtonRoot = forwardRef<unknown, ButtonRootProps>((props, ref) => {
   }, [disabled]);
 
   const handleTouchStart: NonNullable<ViewProps["bindtouchstart"]> = (event) => {
-    buttonProps?.bindtouchstart?.(event);
     bindtouchstart?.(event);
     if (disabled) return;
     setActive(true);
   };
 
   const handleTouchEnd: NonNullable<ViewProps["bindtouchend"]> = (event) => {
-    buttonProps?.bindtouchend?.(event);
     bindtouchend?.(event);
     setActive(false);
   };
 
   const handleTouchCancel: NonNullable<ViewProps["bindtouchcancel"]> = (event) => {
-    buttonProps?.bindtouchcancel?.(event);
     bindtouchcancel?.(event);
     setActive(false);
   };
 
   const handleTap: NonNullable<ViewProps["bindtap"]> = (event) => {
-    buttonProps?.bindtap?.(event);
     bindtap?.(event);
     if (disabled) return;
     onClick?.();
@@ -111,28 +105,16 @@ export const ButtonRoot = forwardRef<unknown, ButtonRootProps>((props, ref) => {
     <ButtonContext.Provider value={state}>
       <view
         {...rootProps}
-        {...buttonProps}
         {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
         {...interactionProps}
-        accessibility-element={
-          accessibilityElement ?? buttonProps?.["accessibility-element"] ?? true
-        }
-        accessibility-label={accessibilityLabel ?? buttonProps?.["accessibility-label"]}
-        accessibility-role-description={
-          accessibilityRoleDescription ?? buttonProps?.["accessibility-role-description"]
-        }
-        accessibility-traits={
-          accessibilityTraits ?? buttonProps?.["accessibility-traits"] ?? "button"
-        }
-        accessibility-value={accessibilityValue ?? buttonProps?.["accessibility-value"]}
-        event-through={eventThrough ?? buttonProps?.["event-through"] ?? false}
-        className={cx(
-          buttonProps?.className,
-          className,
-          state.active && "ui-active",
-          disabled && "ui-disabled",
-        )}
-        style={style ?? buttonProps?.style}
+        accessibility-element={accessibilityElement ?? true}
+        accessibility-label={accessibilityLabel}
+        accessibility-role-description={accessibilityRoleDescription}
+        accessibility-traits={accessibilityTraits ?? "button"}
+        accessibility-value={accessibilityValue}
+        event-through={eventThrough ?? false}
+        className={cx(className, state.active && "ui-active", disabled && "ui-disabled")}
+        style={style}
       >
         {renderWithState(children, state)}
       </view>

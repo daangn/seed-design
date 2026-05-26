@@ -100,6 +100,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
 
   return (
     <HeadlessCheckboxRoot
+      {...nativeProps}
       ref={ref}
       checked={checkedProp}
       defaultChecked={defaultChecked}
@@ -108,7 +109,6 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       onCheckedChange={onCheckedChange}
       className={clsx(rootClassName, className)}
       style={style}
-      checkboxProps={nativeProps}
     >
       <CheckboxRecipeContext.Provider value={api}>{children}</CheckboxRecipeContext.Provider>
     </HeadlessCheckboxRoot>

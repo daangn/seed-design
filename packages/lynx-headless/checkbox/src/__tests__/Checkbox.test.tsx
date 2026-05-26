@@ -115,6 +115,26 @@ describe("CheckboxRoot", () => {
     expect(root).toHaveAttribute("accessibility-value", "일부 선택됨");
   });
 
+  it("ignores legacy checkboxProps bucket when native props are passed directly", () => {
+    render(
+      <CheckboxRoot
+        {...({
+          checkboxProps: {
+            className: "legacy-checkbox",
+          },
+        } as never)}
+        className="direct-checkbox"
+      >
+        체크박스
+      </CheckboxRoot>,
+    );
+
+    const root = getRootView();
+
+    expect(root).toHaveClass("direct-checkbox");
+    expect(root).not.toHaveClass("legacy-checkbox");
+  });
+
   it("shares state through control and indicator context", () => {
     render(
       <CheckboxRoot defaultChecked indeterminate>
@@ -128,6 +148,41 @@ describe("CheckboxRoot", () => {
 
     expect(root.querySelector("view > view")).toHaveClass("ui-checked", "ui-indeterminate");
     expect(root.querySelector("view > view > view")).toHaveClass("ui-checked", "ui-indeterminate");
+  });
+
+  it("uses direct native props on control and indicator slots", () => {
+    render(
+      <CheckboxRoot defaultChecked>
+        <CheckboxControl
+          {...({
+            checkboxProps: {
+              className: "legacy-control",
+            },
+          } as never)}
+          className="direct-control"
+        >
+          <CheckboxIndicator
+            {...({
+              indicatorProps: {
+                className: "legacy-indicator",
+              },
+            } as never)}
+            className="direct-indicator"
+          >
+            표시
+          </CheckboxIndicator>
+        </CheckboxControl>
+      </CheckboxRoot>,
+    );
+
+    const root = getRenderedRoot();
+    const control = root.querySelector("view > view")!;
+    const indicator = root.querySelector("view > view > view")!;
+
+    expect(control).toHaveClass("direct-control");
+    expect(control).not.toHaveClass("legacy-control");
+    expect(indicator).toHaveClass("direct-indicator");
+    expect(indicator).not.toHaveClass("legacy-indicator");
   });
 
   it("does not render indicator when unchecked unless forceMount is true", () => {

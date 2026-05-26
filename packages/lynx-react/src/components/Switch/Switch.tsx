@@ -94,6 +94,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
 
   return (
     <HeadlessSwitchRoot
+      {...nativeProps}
       ref={ref}
       checked={checkedProp}
       defaultChecked={defaultChecked}
@@ -101,7 +102,6 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
       onCheckedChange={onCheckedChange}
       className={clsx(rootClassName, className)}
       style={style}
-      switchProps={nativeProps}
     >
       <SwitchRecipeContext.Provider value={api}>{children}</SwitchRecipeContext.Provider>
     </HeadlessSwitchRoot>

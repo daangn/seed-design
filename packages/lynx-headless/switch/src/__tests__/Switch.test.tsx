@@ -108,6 +108,26 @@ describe("SwitchRoot", () => {
     expect(root).toHaveAttribute("accessibility-value", "켜짐");
   });
 
+  it("ignores legacy switchProps bucket when native props are passed directly", () => {
+    render(
+      <SwitchRoot
+        {...({
+          switchProps: {
+            className: "legacy-switch",
+          },
+        } as never)}
+        className="direct-switch"
+      >
+        스위치
+      </SwitchRoot>,
+    );
+
+    const root = getRootView();
+
+    expect(root).toHaveClass("direct-switch");
+    expect(root).not.toHaveClass("legacy-switch");
+  });
+
   it("shares state through control and thumb context", () => {
     render(
       <SwitchRoot defaultChecked>
@@ -121,6 +141,39 @@ describe("SwitchRoot", () => {
 
     expect(root.querySelector("view > view")).toHaveClass("ui-checked");
     expect(root.querySelector("view > view > view")).toHaveClass("ui-checked");
+  });
+
+  it("uses direct native props on control and thumb slots", () => {
+    render(
+      <SwitchRoot defaultChecked>
+        <SwitchControl
+          {...({
+            switchProps: {
+              className: "legacy-control",
+            },
+          } as never)}
+          className="direct-control"
+        >
+          <SwitchThumb
+            {...({
+              thumbProps: {
+                className: "legacy-thumb",
+              },
+            } as never)}
+            className="direct-thumb"
+          />
+        </SwitchControl>
+      </SwitchRoot>,
+    );
+
+    const root = getRenderedRoot();
+    const control = root.querySelector("view > view")!;
+    const thumb = root.querySelector("view > view > view")!;
+
+    expect(control).toHaveClass("direct-control");
+    expect(control).not.toHaveClass("legacy-control");
+    expect(thumb).toHaveClass("direct-thumb");
+    expect(thumb).not.toHaveClass("legacy-thumb");
   });
 
   it("throws when context hook is used outside provider", () => {

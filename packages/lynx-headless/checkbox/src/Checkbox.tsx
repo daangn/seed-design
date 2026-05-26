@@ -16,26 +16,22 @@ export interface CheckboxState {
 
 export interface CheckboxNativeProps extends ButtonNativeProps {}
 
-export interface CheckboxRootProps
-  extends Omit<ButtonRootProps, "buttonProps" | "children" | "onClick"> {
+export interface CheckboxRootProps extends Omit<ButtonRootProps, "children" | "onClick"> {
   checked?: boolean;
   defaultChecked?: boolean;
   indeterminate?: boolean;
   disabled?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   children?: ReactNode | ((state: CheckboxState) => ReactNode);
-  checkboxProps?: CheckboxNativeProps;
 }
 
 export interface CheckboxControlProps extends CheckboxNativeProps {
   children?: ReactNode;
-  checkboxProps?: CheckboxNativeProps;
 }
 
 export interface CheckboxIndicatorProps extends CheckboxNativeProps {
   forceMount?: boolean;
   children?: ReactNode | ((state: CheckboxState) => ReactNode);
-  indicatorProps?: CheckboxNativeProps;
 }
 
 const CheckboxContext = createContext<CheckboxState | null>(null);
@@ -60,7 +56,6 @@ export const CheckboxRoot = forwardRef<unknown, CheckboxRootProps>((props, ref) 
     children,
     className,
     style,
-    checkboxProps,
     "accessibility-role-description": accessibilityRoleDescription = "checkbox",
     ...rootProps
   } = props;
@@ -83,7 +78,6 @@ export const CheckboxRoot = forwardRef<unknown, CheckboxRootProps>((props, ref) 
       onClick={toggle}
       className={cx(className, checked && "ui-checked", indeterminate && "ui-indeterminate")}
       style={style}
-      buttonProps={checkboxProps}
       accessibility-role-description={accessibilityRoleDescription}
     >
       {(buttonState) => {
@@ -108,23 +102,21 @@ CheckboxRoot.displayName = "CheckboxRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const CheckboxControl = forwardRef<unknown, CheckboxControlProps>((props, ref) => {
-  const { children, className, style, checkboxProps, ...controlProps } = props;
+  const { children, className, style, ...controlProps } = props;
   const state = useCheckboxContext("CheckboxControl");
 
   return (
     <view
       {...controlProps}
-      {...checkboxProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
       className={cx(
-        checkboxProps?.className,
         className,
         state.active && "ui-active",
         state.checked && "ui-checked",
         state.disabled && "ui-disabled",
         state.indeterminate && "ui-indeterminate",
       )}
-      style={style ?? checkboxProps?.style}
+      style={style}
     >
       {children}
     </view>
@@ -135,7 +127,7 @@ CheckboxControl.displayName = "CheckboxControl";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const CheckboxIndicator = forwardRef<unknown, CheckboxIndicatorProps>((props, ref) => {
-  const { forceMount = false, children, className, style, indicatorProps, ...rootProps } = props;
+  const { forceMount = false, children, className, style, ...rootProps } = props;
   const state = useCheckboxContext("CheckboxIndicator");
   const shouldRender = forceMount || state.checked || state.indeterminate;
 
@@ -144,17 +136,15 @@ export const CheckboxIndicator = forwardRef<unknown, CheckboxIndicatorProps>((pr
   return (
     <view
       {...rootProps}
-      {...indicatorProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
       className={cx(
-        indicatorProps?.className,
         className,
         state.active && "ui-active",
         state.checked && "ui-checked",
         state.disabled && "ui-disabled",
         state.indeterminate && "ui-indeterminate",
       )}
-      style={style ?? indicatorProps?.style}
+      style={style}
     >
       {renderWithState(children, state)}
     </view>

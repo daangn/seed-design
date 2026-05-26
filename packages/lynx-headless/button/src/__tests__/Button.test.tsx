@@ -67,6 +67,53 @@ describe("ButtonRoot", () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
+  it("composes direct native tap handler with onClick", () => {
+    const bindtap = vi.fn();
+    const onClick = vi.fn();
+    render(
+      <ButtonRoot bindtap={bindtap} onClick={onClick}>
+        버튼
+      </ButtonRoot>,
+    );
+
+    fireEvent.tap(getRootView());
+
+    expect(bindtap).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("ignores legacy buttonProps bucket when native props are passed directly", () => {
+    const bindtap = vi.fn();
+    const legacyBindtap = vi.fn();
+    const onClick = vi.fn();
+
+    render(
+      <ButtonRoot
+        {...({
+          buttonProps: {
+            bindtap: legacyBindtap,
+            className: "legacy-button",
+          },
+        } as never)}
+        bindtap={bindtap}
+        className="direct-button"
+        onClick={onClick}
+      >
+        버튼
+      </ButtonRoot>,
+    );
+
+    const button = getRootView();
+
+    fireEvent.tap(button);
+
+    expect(button).toHaveClass("direct-button");
+    expect(button).not.toHaveClass("legacy-button");
+    expect(bindtap).toHaveBeenCalledTimes(1);
+    expect(legacyBindtap).not.toHaveBeenCalled();
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
   it("ignores tap when disabled", () => {
     const onClick = vi.fn();
     render(
