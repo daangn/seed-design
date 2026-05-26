@@ -1,4 +1,4 @@
-import type * as React from "react";
+import type * as React from "@lynx-js/react";
 import {
   createContext,
   forwardRef,
@@ -12,7 +12,7 @@ import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
 import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
-import type { LynxStyledElementProps } from "../../types";
+import type { LynxStyledElementProps, LynxViewRef } from "../../types";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -163,7 +163,7 @@ export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((
   return (
     <ProgressCircleContext.Provider value={ctx}>
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
         style={{ ...style, width: `${numSize}px`, height: `${numSize}px` }}
       >

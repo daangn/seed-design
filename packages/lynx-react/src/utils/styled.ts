@@ -1,4 +1,4 @@
-import type * as React from "react";
+import type { CSSProperties } from "@lynx-js/types";
 import type {
   Dimension,
   FontSize,
@@ -222,9 +222,9 @@ export interface StyleProps {
   position?: "relative" | "absolute" | "fixed" | (string & {});
   overflowX?: "visible" | "hidden" | (string & {});
   overflowY?: "visible" | "hidden" | (string & {});
-  zIndex?: React.CSSProperties["zIndex"];
-  flexGrow?: React.CSSProperties["flexGrow"] | boolean;
-  flexShrink?: React.CSSProperties["flexShrink"] | boolean;
+  zIndex?: CSSProperties["zIndex"];
+  flexGrow?: CSSProperties["flexGrow"] | boolean;
+  flexShrink?: CSSProperties["flexShrink"] | boolean;
   flexDirection?: "row" | "column" | "rowReverse" | "columnReverse" | (string & {});
   flexWrap?: "nowrap" | "wrap" | boolean;
   justifyContent?:
@@ -234,7 +234,7 @@ export interface StyleProps {
     | "spaceBetween"
     | "spaceAround"
     | (string & {});
-  justifySelf?: React.CSSProperties["justifySelf"];
+  justifySelf?: CSSProperties["justifySelf"];
   alignItems?: "flexStart" | "flexEnd" | "center" | "stretch" | (string & {});
   alignContent?: "flexStart" | "flexEnd" | "center" | "stretch" | (string & {});
   alignSelf?: "flexStart" | "flexEnd" | "center" | "stretch" | (string & {});
@@ -242,13 +242,13 @@ export interface StyleProps {
 }
 
 interface UseStyleProps extends StyleProps {
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
 export function useStyleProps<T extends UseStyleProps>(
   props: T,
 ): {
-  style: React.CSSProperties;
+  style: CSSProperties;
   restProps: Omit<T, keyof UseStyleProps>;
 } {
   const {
@@ -372,7 +372,7 @@ export function useStyleProps<T extends UseStyleProps>(
       alignContent: handleAlignItems(alignContent),
       alignSelf: handleAlignItems(alignSelf),
       ...style,
-    } as React.CSSProperties,
+    } as CSSProperties,
     restProps,
   };
 }

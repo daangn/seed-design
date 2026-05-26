@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import * as React from "react";
+import * as React from "@lynx-js/react";
 
-import type { LynxPressableProps, LynxStyledElementProps } from "../../types";
+import type { LynxPressableProps, LynxStyledElementProps, LynxViewRef } from "../../types";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 
 export interface BoxProps extends StyleProps, LynxStyledElementProps, LynxPressableProps {
@@ -16,7 +16,7 @@ export const Box = React.forwardRef<unknown, BoxProps>((props, ref) => {
 
   return (
     <view
-      {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       {...nativeProps}
       className={clsx(className)}
       style={style}

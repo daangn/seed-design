@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
-import * as React from "react";
+import * as React from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
 
 import type { LynxIconElementProps } from "../../../types";

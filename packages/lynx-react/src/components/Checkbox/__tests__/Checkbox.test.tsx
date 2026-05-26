@@ -2,11 +2,19 @@ import "@testing-library/jest-dom";
 import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import { checkbox } from "@seed-design/lynx-css/recipes/checkbox";
 import { checkmark } from "@seed-design/lynx-css/recipes/checkmark";
-import * as React from "react";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import * as React from "@lynx-js/react";
 import { describe, expect, it } from "vitest";
 
 import type { LynxIconElementProps } from "../../../types";
 import { CheckboxControl, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "../Checkbox";
+
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const lynxCssRecipesDir = join(currentDir, "..", "..", "..", "..", "..", "lynx-css", "recipes");
+const checkboxCss = readFileSync(join(lynxCssRecipesDir, "checkbox.css"), "utf8");
+const checkmarkCss = readFileSync(join(lynxCssRecipesDir, "checkmark.css"), "utf8");
 
 function getRenderedQueries() {
   return getQueriesForElement(getRenderedRoot());
@@ -79,5 +87,12 @@ describe("Checkbox", () => {
 
     expect(iconWrapper).toBeInTheDocument();
     expect(image).toHaveStyle({ width: "100%", height: "100%" });
+  });
+
+  it("top-aligns Lynx checkbox content and applies mark margin compensation", () => {
+    expect(checkboxCss).toContain("align-items: flex-start");
+    expect(checkboxCss).toContain("--checkmark-margin-top");
+    expect(checkboxCss).toContain("margin-top:");
+    expect(checkmarkCss).toContain("var(--checkmark-margin-top, 0)");
   });
 });

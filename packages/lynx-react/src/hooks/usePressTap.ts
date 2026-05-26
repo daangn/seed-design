@@ -1,20 +1,26 @@
 import { useState } from "@lynx-js/react";
-import type { TouchEvent } from "@lynx-js/types";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
+
+import type { LynxTouchProps } from "../types";
+
+type TapHandler = NonNullable<LynxTouchProps["bindtap"]>;
+type TouchStartHandler = NonNullable<LynxTouchProps["bindtouchstart"]>;
+type TouchEndHandler = NonNullable<LynxTouchProps["bindtouchend"]>;
+type TouchCancelHandler = NonNullable<LynxTouchProps["bindtouchcancel"]>;
 
 export interface UsePressTapOptions {
   disabled?: boolean;
-  onTap?: () => void;
-  mainThreadOnTap?: () => void;
+  onTap?: LynxTouchProps["bindtap"];
+  mainThreadOnTap?: LynxTouchProps["main-thread:bindtap"];
 }
 
 export interface UsePressTapReturn {
   pressed: boolean;
-  bindtap: (e: TouchEvent) => void;
-  bindtouchstart: (e: TouchEvent) => void;
-  bindtouchend: (e: TouchEvent) => void;
-  bindtouchcancel: (e: TouchEvent) => void;
-  "main-thread:bindtap"?: () => void;
+  bindtap: TapHandler;
+  bindtouchstart: TouchStartHandler;
+  bindtouchend: TouchEndHandler;
+  bindtouchcancel: TouchCancelHandler;
+  "main-thread:bindtap"?: LynxTouchProps["main-thread:bindtap"];
 }
 
 /**
@@ -38,9 +44,9 @@ export function usePressTap(options: UsePressTapOptions = {}): UsePressTapReturn
     setPressed(false);
   });
 
-  const handleTap = useMemoizedFn(() => {
+  const handleTap = useMemoizedFn((...args: Parameters<TapHandler>) => {
     if (disabled) return;
-    onTap?.();
+    onTap?.(...args);
   });
 
   return {

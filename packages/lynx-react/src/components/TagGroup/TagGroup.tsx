@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "@lynx-js/react";
 import clsx from "clsx";
 import { tagGroup, type TagGroupVariantProps } from "@seed-design/lynx-css/recipes/tag-group";
 import {
@@ -6,7 +6,8 @@ import {
   type TagGroupItemVariantProps,
 } from "@seed-design/lynx-css/recipes/tag-group-item";
 
-import type { LynxStyledElementProps } from "../../types";
+import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
+import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
@@ -41,12 +42,12 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
   const { children, className, separator = " · ", ...nativeProps } = otherProps;
   const classes = tagGroup(tagGroupVariantProps);
 
-  const visibleChildren = React.Children.toArray(children);
+  const visibleChildren = toArray(children);
 
   return (
     <PropsProvider value={tagGroupItemVariantProps}>
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
         {...nativeProps}
       >
@@ -99,7 +100,7 @@ export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props,
   return (
     <ClassNamesProvider value={classes}>
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
         style={style}
         {...nativeProps}
@@ -120,7 +121,7 @@ export const TagGroupItemLabel = React.forwardRef<unknown, TagGroupItemLabelProp
   const { children, className, ...nativeProps } = props;
   return (
     <text
-      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(classes.label, className)}
       {...nativeProps}
     >

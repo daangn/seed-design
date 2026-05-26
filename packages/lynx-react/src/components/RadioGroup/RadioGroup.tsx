@@ -1,5 +1,5 @@
-import * as React from "react";
-import { isValidElement, type ReactElement } from "react";
+import * as React from "@lynx-js/react";
+import { isValidElement, type ReactElement } from "@lynx-js/react";
 import clsx from "clsx";
 
 import { radio } from "@seed-design/lynx-css/recipes/radio";
@@ -10,7 +10,12 @@ import { radioGroup } from "@seed-design/lynx-css/recipes/radio-group";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
-import type { LynxIconElementProps, LynxStyledElementProps } from "../../types";
+import type {
+  LynxIconElementProps,
+  LynxStyledElementProps,
+  LynxTextRef,
+  LynxViewRef,
+} from "../../types";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
 
@@ -139,7 +144,7 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
   return (
     <RadioGroupContext.Provider value={api}>
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
         {...nativeProps}
       >
@@ -195,7 +200,7 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
   return (
     <RadioGroupItemContext.Provider value={itemApi}>
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
         {...pressHandlers}
         {...nativeProps}
@@ -233,7 +238,7 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
         value={{ iconClassName: classes.icon, radiomarkVariantProps }}
       >
         <view
-          {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+          {...(ref ? { ref: ref as LynxViewRef } : {})}
           className={clsx(classes.root, className)}
           {...nativeProps}
         >
@@ -303,7 +308,7 @@ export const RadioGroupItemLabel = React.forwardRef<unknown, RadioGroupItemLabel
 
     return (
       <text
-        {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(labelClassName, className)}
         {...nativeProps}
       >

@@ -1,13 +1,12 @@
-import { checkbox as vars } from "../vars/component";
+import { checkmark as checkmarkVars, checkbox as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
 /**
  * Lynx-전용 checkbox wrapper recipe.
  *
- * 웹 recipe 와 달리 `alignItems: center` 를 사용해 checkmark 와 label 을 vertical
- * center 로 정렬한다. 웹은 `<span>` 텍스트가 lineHeight box 안에서 baseline 기준이라
- * `marginTop` 으로 수동 보정이 필요하지만, Lynx `<text>` 는 native vertical center
- * 정렬이 더 안정적이라 별도 보정 변수를 두지 않는다.
+ * React recipe 와 동일하게 root 는 위쪽 정렬을 유지하고, mark/label 은 각 size 의
+ * 터치 영역 안에서만 margin 으로 수직 보정한다. 긴 label 이 2줄 이상으로 래핑되어도
+ * checkmark 가 전체 label 높이의 가운데로 내려가지 않도록 하기 위함이다.
  */
 const checkboxRecipe = defineSlotRecipe({
   name: "checkbox",
@@ -15,7 +14,7 @@ const checkboxRecipe = defineSlotRecipe({
   base: {
     root: {
       display: "flex",
-      alignItems: "center",
+      alignItems: "flex-start",
       position: "relative",
       gap: vars.base.enabled.root.gap,
     },
@@ -34,17 +33,25 @@ const checkboxRecipe = defineSlotRecipe({
     },
     size: {
       medium: {
-        root: { minHeight: vars.sizeMedium.enabled.root.minHeight },
+        root: {
+          minHeight: vars.sizeMedium.enabled.root.minHeight,
+          "--checkmark-margin-top": `calc((${vars.sizeMedium.enabled.root.minHeight} - ${checkmarkVars.sizeMedium.enabled.root.size}) / 2)`,
+        },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
           lineHeight: vars.sizeMedium.enabled.label.lineHeight,
+          marginTop: `calc(${vars.sizeMedium.enabled.root.minHeight} / 2 - ${vars.sizeMedium.enabled.label.lineHeight} / 2)`,
         },
       },
       large: {
-        root: { minHeight: vars.sizeLarge.enabled.root.minHeight },
+        root: {
+          minHeight: vars.sizeLarge.enabled.root.minHeight,
+          "--checkmark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${checkmarkVars.sizeLarge.enabled.root.size}) / 2)`,
+        },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
           lineHeight: vars.sizeLarge.enabled.label.lineHeight,
+          marginTop: `calc(${vars.sizeLarge.enabled.root.minHeight} / 2 - ${vars.sizeLarge.enabled.label.lineHeight} / 2)`,
         },
       },
     },
