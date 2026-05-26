@@ -8,6 +8,7 @@ export {
 export type {
   CheckboxControlProps,
   CheckboxIndicatorProps,
+  CheckboxNativeProps,
   CheckboxRootProps,
   CheckboxState,
 } from "./Checkbox";

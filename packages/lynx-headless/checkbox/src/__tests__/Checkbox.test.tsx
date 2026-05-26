@@ -94,6 +94,27 @@ describe("CheckboxRoot", () => {
     expect(getRenderedQueries().getByText("checked-mixed")).toBeInTheDocument();
   });
 
+  it("marks the root with checkbox accessibility semantics", () => {
+    render(
+      <CheckboxRoot
+        defaultChecked
+        indeterminate
+        accessibility-label="약관 동의"
+        accessibility-value="일부 선택됨"
+      >
+        체크박스
+      </CheckboxRoot>,
+    );
+
+    const root = getRootView();
+
+    expect(root).toHaveAttribute("accessibility-element", "true");
+    expect(root).toHaveAttribute("accessibility-traits", "button");
+    expect(root).toHaveAttribute("accessibility-role-description", "checkbox");
+    expect(root).toHaveAttribute("accessibility-label", "약관 동의");
+    expect(root).toHaveAttribute("accessibility-value", "일부 선택됨");
+  });
+
   it("shares state through control and indicator context", () => {
     render(
       <CheckboxRoot defaultChecked indeterminate>

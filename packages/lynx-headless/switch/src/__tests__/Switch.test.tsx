@@ -92,6 +92,22 @@ describe("SwitchRoot", () => {
     expect(getRenderedQueries().getByText("on-disabled")).toBeInTheDocument();
   });
 
+  it("marks the root with switch accessibility semantics", () => {
+    render(
+      <SwitchRoot defaultChecked accessibility-label="알림" accessibility-value="켜짐">
+        스위치
+      </SwitchRoot>,
+    );
+
+    const root = getRootView();
+
+    expect(root).toHaveAttribute("accessibility-element", "true");
+    expect(root).toHaveAttribute("accessibility-traits", "button");
+    expect(root).toHaveAttribute("accessibility-role-description", "switch");
+    expect(root).toHaveAttribute("accessibility-label", "알림");
+    expect(root).toHaveAttribute("accessibility-value", "켜짐");
+  });
+
   it("shares state through control and thumb context", () => {
     render(
       <SwitchRoot defaultChecked>

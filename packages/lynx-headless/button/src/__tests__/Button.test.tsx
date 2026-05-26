@@ -90,6 +90,22 @@ describe("ButtonRoot", () => {
     expect(getRenderedQueries().getByText("disabled")).toBeInTheDocument();
   });
 
+  it("marks the root as a Lynx accessibility button", () => {
+    render(
+      <ButtonRoot accessibility-label="저장" accessibility-value="준비됨">
+        버튼
+      </ButtonRoot>,
+    );
+
+    const button = getRootView();
+
+    expect(button).toHaveAttribute("accessibility-element", "true");
+    expect(button).toHaveAttribute("accessibility-traits", "button");
+    expect(button).toHaveAttribute("accessibility-label", "저장");
+    expect(button).toHaveAttribute("accessibility-value", "준비됨");
+    expect(button).toHaveAttribute("event-through", "false");
+  });
+
   it("throws when context hook is used outside provider", () => {
     function Consumer() {
       useButtonContext("Consumer");

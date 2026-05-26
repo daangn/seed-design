@@ -1,7 +1,8 @@
 import { createContext, forwardRef, useContext } from "@lynx-js/react";
-import type { CSSProperties, ReactNode, Ref } from "react";
+import type { ReactNode, Ref } from "react";
 
 import { ButtonRoot } from "@seed-design/lynx-button";
+import type { ButtonNativeProps, ButtonRootProps } from "@seed-design/lynx-button";
 import { useControllableState } from "@seed-design/lynx-use-controllable-state";
 
 import { cx, renderWithState } from "./utils";
@@ -12,28 +13,25 @@ export interface SwitchState {
   disabled: boolean;
 }
 
-export interface SwitchRootProps {
+export interface SwitchNativeProps extends ButtonNativeProps {}
+
+export interface SwitchRootProps
+  extends Omit<ButtonRootProps, "buttonProps" | "children" | "onClick"> {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   children?: ReactNode | ((state: SwitchState) => ReactNode);
-  className?: string;
-  style?: CSSProperties;
-  switchProps?: Record<string, unknown>;
+  switchProps?: SwitchNativeProps;
 }
 
-export interface SwitchControlProps {
+export interface SwitchControlProps extends SwitchNativeProps {
   children?: ReactNode;
-  className?: string;
-  style?: CSSProperties;
-  switchProps?: Record<string, unknown>;
+  switchProps?: SwitchNativeProps;
 }
 
-export interface SwitchThumbProps {
-  className?: string;
-  style?: CSSProperties;
-  thumbProps?: Record<string, unknown>;
+export interface SwitchThumbProps extends SwitchNativeProps {
+  thumbProps?: SwitchNativeProps;
 }
 
 const SwitchContext = createContext<SwitchState | null>(null);
@@ -58,6 +56,8 @@ export const SwitchRoot = forwardRef<unknown, SwitchRootProps>((props, ref) => {
     className,
     style,
     switchProps,
+    "accessibility-role-description": accessibilityRoleDescription = "switch",
+    ...rootProps
   } = props;
   const [checked, setChecked] = useControllableState({
     value: checkedProp,
@@ -72,12 +72,14 @@ export const SwitchRoot = forwardRef<unknown, SwitchRootProps>((props, ref) => {
 
   return (
     <ButtonRoot
+      {...rootProps}
       ref={ref}
       disabled={disabled}
       onClick={toggle}
       className={cx(className, checked && "ui-checked")}
       style={style}
       buttonProps={switchProps}
+      accessibility-role-description={accessibilityRoleDescription}
     >
       {(buttonState) => {
         const state: SwitchState = {
@@ -100,20 +102,22 @@ SwitchRoot.displayName = "SwitchRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const SwitchControl = forwardRef<unknown, SwitchControlProps>((props, ref) => {
-  const { children, className, style, switchProps } = props;
+  const { children, className, style, switchProps, ...controlProps } = props;
   const state = useSwitchContext("SwitchControl");
 
   return (
     <view
+      {...controlProps}
       {...switchProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
       className={cx(
+        switchProps?.className,
         className,
         state.active && "ui-active",
         state.checked && "ui-checked",
         state.disabled && "ui-disabled",
       )}
-      style={style}
+      style={style ?? switchProps?.style}
     >
       {children}
     </view>
@@ -124,20 +128,22 @@ SwitchControl.displayName = "SwitchControl";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const SwitchThumb = forwardRef<unknown, SwitchThumbProps>((props, ref) => {
-  const { className, style, thumbProps } = props;
+  const { className, style, thumbProps, ...rootProps } = props;
   const state = useSwitchContext("SwitchThumb");
 
   return (
     <view
+      {...rootProps}
       {...thumbProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
       className={cx(
+        thumbProps?.className,
         className,
         state.active && "ui-active",
         state.checked && "ui-checked",
         state.disabled && "ui-disabled",
       )}
-      style={style}
+      style={style ?? thumbProps?.style}
     />
   );
 });
