@@ -15,6 +15,8 @@ import {
   type Config,
 } from "@seed-design/qvism-core";
 
+type ResolvedConfig = Config & { generateLayeredCss: boolean };
+
 function resolveGenerateLayeredCss(config: Partial<Config>, cliLayered?: boolean): boolean {
   return cliLayered ?? config.generateLayeredCss ?? true;
 }
@@ -23,8 +25,8 @@ function removeFileIfExists(filePath: string) {
   fs.removeSync(filePath);
 }
 
-async function writeBundles(outputDir: string, config: Config) {
-  const generateLayeredCss = resolveGenerateLayeredCss(config);
+async function writeBundles(outputDir: string, config: ResolvedConfig) {
+  const { generateLayeredCss } = config;
   const allCss = await generateAllBundle(config);
   console.log("Writing css bundle to", path.join(outputDir, "all.css"));
   fs.writeFileSync(path.join(outputDir, "all.css"), allCss);
@@ -79,8 +81,8 @@ async function writeBundles(outputDir: string, config: Config) {
   }
 }
 
-async function writeRecipes(recipesDir: string, config: Config) {
-  const generateLayeredCss = resolveGenerateLayeredCss(config);
+async function writeRecipes(recipesDir: string, config: ResolvedConfig) {
+  const { generateLayeredCss } = config;
   // Prepare shared JS
   const sharedJs = generateSharedJs();
   console.log("Writing shared to", path.join(recipesDir, "shared.mjs"));
@@ -173,7 +175,7 @@ async function main() {
   const config = {
     ...userConfig,
     generateLayeredCss: resolveGenerateLayeredCss(userConfig, layered),
-  } as Config;
+  } as ResolvedConfig;
 
   await writeBundles(path.resolve(process.cwd(), dir), config);
   await writeRecipes(path.resolve(process.cwd(), recipesDir), config);
