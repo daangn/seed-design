@@ -15,8 +15,6 @@ import {
   type Config,
 } from "@seed-design/qvism-core";
 
-type ResolvedConfig = Config & { generateLayeredCss: boolean };
-
 function resolveGenerateLayeredCss(config: Partial<Config>, cliLayered?: boolean): boolean {
   return cliLayered ?? config.generateLayeredCss ?? true;
 }
@@ -25,8 +23,8 @@ function removeFileIfExists(filePath: string) {
   fs.removeSync(filePath);
 }
 
-async function writeBundles(outputDir: string, config: ResolvedConfig) {
-  const { generateLayeredCss } = config;
+async function writeBundles(outputDir: string, config: Config) {
+  const generateLayeredCss = config.generateLayeredCss ?? true;
   const allCss = await generateAllBundle(config);
   console.log("Writing css bundle to", path.join(outputDir, "all.css"));
   fs.writeFileSync(path.join(outputDir, "all.css"), allCss);
@@ -81,8 +79,8 @@ async function writeBundles(outputDir: string, config: ResolvedConfig) {
   }
 }
 
-async function writeRecipes(recipesDir: string, config: ResolvedConfig) {
-  const { generateLayeredCss } = config;
+async function writeRecipes(recipesDir: string, config: Config) {
+  const generateLayeredCss = config.generateLayeredCss ?? true;
   // Prepare shared JS
   const sharedJs = generateSharedJs();
   console.log("Writing shared to", path.join(recipesDir, "shared.mjs"));
@@ -172,10 +170,10 @@ async function main() {
   }
 
   // TODO: validate userConfig with zod
-  const config = {
+  const config: Config = {
     ...userConfig,
     generateLayeredCss: resolveGenerateLayeredCss(userConfig, layered),
-  } as ResolvedConfig;
+  };
 
   await writeBundles(path.resolve(process.cwd(), dir), config);
   await writeRecipes(path.resolve(process.cwd(), recipesDir), config);
