@@ -13,14 +13,17 @@ async function withTempDir<T>(callback: (tempDir: string) => Promise<T>) {
   }
 }
 
-async function writeConfig(tempDir: string, generateLayeredCss: boolean) {
+async function writeConfig(tempDir: string, generateLayeredCss?: boolean) {
   const configPath = path.join(tempDir, "qvism.config.mjs");
+  const generateLayeredCssOption =
+    generateLayeredCss === undefined
+      ? ""
+      : `  generateLayeredCss: ${JSON.stringify(generateLayeredCss)},\n`;
 
   await fs.writeFile(
     configPath,
     `export default {
-  generateLayeredCss: ${JSON.stringify(generateLayeredCss)},
-  theme: {
+${generateLayeredCssOption}  theme: {
     tokens: { _raw: "" },
     recipes: {
       badge: {
@@ -62,6 +65,35 @@ async function expectFile(filePath: string) {
 async function expectNoFile(filePath: string) {
   await expect(fs.stat(filePath)).rejects.toThrow();
 }
+
+test("generates layered output by default", async () => {
+  await withTempDir(async (tempDir) => {
+    // given
+    const outputDir = path.join(tempDir, "dist");
+    const recipesDir = path.join(outputDir, "recipes");
+    await fs.mkdir(recipesDir, { recursive: true });
+    const configPath = await writeConfig(tempDir);
+
+    // when
+    const result = await runQvism([
+      "--dir",
+      outputDir,
+      "--recipesDir",
+      recipesDir,
+      "--config",
+      configPath,
+    ]);
+
+    // then
+    expect(result.exitCode).toBe(0);
+    await expectFile(path.join(outputDir, "all.layered.css"));
+    await expectFile(path.join(outputDir, "all.layered.min.css"));
+    await expectFile(path.join(outputDir, "base.layered.css"));
+    await expectFile(path.join(outputDir, "base.layered.min.css"));
+    await expectFile(path.join(recipesDir, "badge.layered.css"));
+    await expectFile(path.join(recipesDir, "badge.layered.mjs"));
+  });
+});
 
 test("config can disable layered output and stale layered files are removed", async () => {
   await withTempDir(async (tempDir) => {

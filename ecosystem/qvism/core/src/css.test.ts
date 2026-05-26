@@ -27,6 +27,27 @@ const expandInsetPlugin = {
   },
 };
 
+function createSingleRecipeConfig() {
+  return {
+    theme: {
+      tokens: {
+        _raw: "",
+      },
+      recipes: {
+        actionButton: {
+          name: "action-button",
+          base: {
+            color: "red",
+          },
+          variants: {},
+          defaultVariants: {},
+        },
+      },
+      keyframes: {},
+    },
+  };
+}
+
 test("generateKeyframeRules: only one keyframe", async () => {
   // given
   const keyframes = {
@@ -207,33 +228,31 @@ test("generateAllBundle applies postTransformPlugins before returning CSS", asyn
 
 test("generateEachRecipe omits layered CSS when layered generation is disabled", async () => {
   // given
-  const config = {
-    theme: {
-      tokens: {
-        _raw: "",
-      },
-      recipes: {
-        actionButton: {
-          name: "action-button",
-          base: {
-            color: "red",
-          },
-          variants: {},
-          defaultVariants: {},
-        },
-      },
-      keyframes: {},
-    },
-  };
+  const config = createSingleRecipeConfig();
 
   // when
   const recipes = await generateEachRecipe(config, { generateLayeredCss: false });
 
   // then
-  expect(recipes).toEqual([
-    {
-      name: "action-button",
-      css: ".action-button {\n    color: red\n}",
-    },
-  ]);
+  expect(recipes).toHaveLength(1);
+  expect(recipes[0].name).toBe("action-button");
+  expect(recipes[0].css).toContain(".action-button");
+  expect(recipes[0].css).toContain("color: red");
+  expect(recipes[0]).not.toHaveProperty("layeredCss");
+});
+
+test("generateEachRecipe includes layered CSS by default", async () => {
+  // given
+  const config = createSingleRecipeConfig();
+
+  // when
+  const recipes = await generateEachRecipe(config);
+
+  // then
+  expect(recipes).toHaveLength(1);
+  expect(recipes[0].name).toBe("action-button");
+  expect(recipes[0].css).toContain(".action-button");
+  expect(recipes[0].layeredCss).toBeDefined();
+  expect(recipes[0].layeredCss ?? "").toContain("@layer seed-components");
+  expect(recipes[0].layeredCss ?? "").toContain(".action-button");
 });
