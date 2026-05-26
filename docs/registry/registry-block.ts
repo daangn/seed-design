@@ -85,7 +85,7 @@ export const registryBlock: Registry = {
     },
     {
       id: "responsive-header-01",
-      description: "권장 반응형 Header — 일반 회사 (md↑ nav / md↓ SidePanel)",
+      description: "권장 반응형 Header — 당근닷컴 (Menu↔Accordion + SidePanel)",
       snippets: [
         {
           path: "responsive-header-01.tsx",
@@ -99,7 +99,7 @@ export const registryBlock: Registry = {
     },
     {
       id: "responsive-header-02",
-      description: "권장 반응형 Header — 당근닷컴 (Menu↔Accordion + SidePanel)",
+      description: "권장 반응형 Header — 일반 회사 (md↑ nav / md↓ SidePanel)",
       snippets: [
         {
           path: "responsive-header-02.tsx",
@@ -113,41 +113,25 @@ export const registryBlock: Registry = {
     },
     {
       id: "header-01",
-      description: "미니멀 Header (로고 + 계정 버튼)",
+      description: "당근닷컴 Header (로고 + 서비스 메뉴 + Menu 드롭다운 + 검색 + 앱 다운로드)",
       snippets: [
         {
           path: "header-01.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: {
+            "@seed-design/react": "~1.3.0",
+            "@seed-design/css": "~1.3.0",
+            "@karrotmarket/react-monochrome-icon": "^1.0.0",
+          },
         },
       ],
     },
     {
       id: "header-02",
-      description: "네비게이션 Header (로고 + 센터 메뉴 + CTA)",
+      description: "일반 Header (로고 + 센터 메뉴 + 검색 + CTA)",
       snippets: [
         {
           path: "header-02.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
-        },
-      ],
-    },
-    {
-      id: "header-03",
-      description: "확장 Header (로고 + 좌측 메뉴 + 외부 링크 + CTA)",
-      snippets: [
-        {
-          path: "header-03.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
-        },
-      ],
-    },
-    {
-      id: "header-04",
-      description: "당근닷컴 Header (로고 + 서비스 메뉴 + Menu 드롭다운 + 검색 + 앱 다운로드)",
-      snippets: [
-        {
-          path: "header-04.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
         },
       ],
     },
