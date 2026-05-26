@@ -1,6 +1,11 @@
 import { expect, test } from "bun:test";
 
-import { generateAllBundle, generateKeyframeRules, transpileRulesToCss } from "./css";
+import {
+  generateAllBundle,
+  generateEachRecipe,
+  generateKeyframeRules,
+  transpileRulesToCss,
+} from "./css";
 
 const expandInsetPlugin = {
   postcssPlugin: "test-expand-inset",
@@ -198,4 +203,37 @@ test("generateAllBundle applies postTransformPlugins before returning CSS", asyn
   expect(css).toContain("bottom: 0;");
   expect(css).toContain("left: 0;");
   expect(css).not.toContain("inset:");
+});
+
+test("generateEachRecipe omits layered CSS when layered generation is disabled", async () => {
+  // given
+  const config = {
+    theme: {
+      tokens: {
+        _raw: "",
+      },
+      recipes: {
+        actionButton: {
+          name: "action-button",
+          base: {
+            color: "red",
+          },
+          variants: {},
+          defaultVariants: {},
+        },
+      },
+      keyframes: {},
+    },
+  };
+
+  // when
+  const recipes = await generateEachRecipe(config, { generateLayeredCss: false });
+
+  // then
+  expect(recipes).toEqual([
+    {
+      name: "action-button",
+      css: ".action-button {\n    color: red\n}",
+    },
+  ]);
 });

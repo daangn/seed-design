@@ -140,6 +140,8 @@ export interface Theme {
 export interface Config {
   prefix?: string;
 
+  generateLayeredCss?: boolean;
+
   postcssPlugins?: AcceptedPlugin[];
 
   postTransformPlugins?: AcceptedPlugin[];
@@ -150,4 +152,5 @@ export interface Config {
 export interface CssgenConfig {
   minify?: boolean;
   layer?: boolean;
+  generateLayeredCss?: boolean;
 }
