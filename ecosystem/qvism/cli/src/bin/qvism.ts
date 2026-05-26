@@ -42,6 +42,7 @@ async function writeBundles(outputDir: string, config: Config) {
   fs.writeFileSync(path.join(outputDir, "base.min.css"), minifiedBaseCss);
 
   if (!generateLayeredCss) {
+    // Remove stale layered bundles from earlier runs.
     removeFileIfExists(path.join(outputDir, "all.layered.css"));
     removeFileIfExists(path.join(outputDir, "all.layered.min.css"));
     removeFileIfExists(path.join(outputDir, "base.layered.css"));
@@ -85,7 +86,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
   console.log("Writing shared to", path.join(recipesDir, "shared.mjs"));
   fs.writeFileSync(path.join(recipesDir, "shared.mjs"), sharedJs);
 
-  // Write each recipe .mjs + .d.ts + layered .mjs
+  // Write each recipe .mjs + .d.ts, and optionally layered .mjs
   const options = { prefix: config.prefix };
   await Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
@@ -102,6 +103,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
       const layeredJsPath = path.join(recipesDir, `${name}.layered.mjs`);
 
       if (!generateLayeredCss) {
+        // Remove stale layered recipe JS from earlier runs.
         removeFileIfExists(layeredJsPath);
         return;
       }
@@ -115,8 +117,8 @@ async function writeRecipes(recipesDir: string, config: Config) {
     }),
   );
 
-  // Write each recipe .css + layered .css
-  const recipes = await generateEachRecipe(config);
+  // Write each recipe .css, and optionally layered .css
+  const recipes = await generateEachRecipe(config, { generateLayeredCss });
   for (const { name, css, layeredCss } of recipes) {
     console.log("Writing", name, "to", path.join(recipesDir, `${name}.css`));
     fs.writeFileSync(path.join(recipesDir, `${name}.css`), css);
@@ -124,6 +126,7 @@ async function writeRecipes(recipesDir: string, config: Config) {
     const layeredCssPath = path.join(recipesDir, `${name}.layered.css`);
 
     if (!generateLayeredCss) {
+      // Remove stale layered recipe CSS from earlier runs.
       removeFileIfExists(layeredCssPath);
       continue;
     }
