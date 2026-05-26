@@ -1,6 +1,10 @@
 ---
 "@seed-design/lynx-css": minor
 "@seed-design/lynx-react": minor
+"@seed-design/lynx-use-controllable-state": minor
+"@seed-design/lynx-button": minor
+"@seed-design/lynx-switch": minor
+"@seed-design/lynx-checkbox": minor
 "@seed-design/cli": minor
 ---
 
@@ -11,4 +15,6 @@ SEED Design Lynx의 첫 stable 버전을 릴리즈합니다.
   - 컴포넌트: `ActionButton`, `BottomSheet`, `Box`, `Checkbox`, `HStack`, `ProgressCircle`, `RadioGroup`, `Switch`, `TagGroup`, `Text`, `VStack`
   - Hook: `useControllableState`, `useIconColor`, `usePressTap`, `useSafeArea`
   - Safe Area: `useSafeArea`, `getSafeAreaInset`, `getSafeAreaPadding` API로 `env(safe-area-inset-*)`와 host 앱의 `lynx.__globalProps` fallback을 함께 지원합니다.
+  - `Switch`, `Checkbox`는 Lynx 전용 headless primitive를 내부에서 사용해 상태/press 로직과 styled recipe 레이어를 분리합니다.
+- `@seed-design/lynx-use-controllable-state`, `@seed-design/lynx-button`, `@seed-design/lynx-switch`, `@seed-design/lynx-checkbox`: Lynx 런타임 제약에 맞춘 headless primitive를 제공합니다.
 - `@seed-design/cli`: Lynx framework 감지, registry snippet 추가, compatibility check, docs lookup 흐름을 지원합니다.

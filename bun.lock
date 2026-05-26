@@ -449,6 +449,66 @@
         "@seed-design/qvism-cli": "0.0.0",
       },
     },
+    "packages/lynx-headless/button": {
+      "name": "@seed-design/lynx-button",
+      "version": "0.0.0",
+      "devDependencies": {
+        "@lynx-js/react": "^0.116.3",
+        "@lynx-js/types": "^3.7.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@types/react": "^19.2.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+      },
+    },
+    "packages/lynx-headless/checkbox": {
+      "name": "@seed-design/lynx-checkbox",
+      "version": "0.0.0",
+      "dependencies": {
+        "@seed-design/lynx-button": "0.0.0",
+        "@seed-design/lynx-use-controllable-state": "0.0.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.116.3",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@types/react": "^19.2.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+      },
+    },
+    "packages/lynx-headless/switch": {
+      "name": "@seed-design/lynx-switch",
+      "version": "0.0.0",
+      "dependencies": {
+        "@seed-design/lynx-button": "0.0.0",
+        "@seed-design/lynx-use-controllable-state": "0.0.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.116.3",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@types/react": "^19.2.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+      },
+    },
+    "packages/lynx-headless/use-controllable-state": {
+      "name": "@seed-design/lynx-use-controllable-state",
+      "version": "0.0.0",
+      "devDependencies": {
+        "@lynx-js/react": "^0.116.3",
+        "@types/react": "^19.2.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+      },
+    },
     "packages/lynx-qvism-preset": {
       "name": "@seed-design/lynx-qvism-preset",
       "version": "0.0.0",
@@ -466,6 +526,8 @@
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
+        "@seed-design/lynx-checkbox": "0.0.0",
+        "@seed-design/lynx-switch": "0.0.0",
         "clsx": "^2.1.1",
       },
       "devDependencies": {
@@ -2693,11 +2755,19 @@
 
     "@seed-design/figma-spec-widget": ["@seed-design/figma-spec-widget@workspace:tools/figma-spec-widget"],
 
+    "@seed-design/lynx-button": ["@seed-design/lynx-button@workspace:packages/lynx-headless/button"],
+
+    "@seed-design/lynx-checkbox": ["@seed-design/lynx-checkbox@workspace:packages/lynx-headless/checkbox"],
+
     "@seed-design/lynx-css": ["@seed-design/lynx-css@workspace:packages/lynx-css"],
 
     "@seed-design/lynx-qvism-preset": ["@seed-design/lynx-qvism-preset@workspace:packages/lynx-qvism-preset"],
 
     "@seed-design/lynx-react": ["@seed-design/lynx-react@workspace:packages/lynx-react"],
+
+    "@seed-design/lynx-switch": ["@seed-design/lynx-switch@workspace:packages/lynx-headless/switch"],
+
+    "@seed-design/lynx-use-controllable-state": ["@seed-design/lynx-use-controllable-state@workspace:packages/lynx-headless/use-controllable-state"],
 
     "@seed-design/mcp": ["@seed-design/mcp@workspace:packages/mcp"],
 
@@ -6325,7 +6395,15 @@
 
     "@seed-design/figma-extractor/@figma/rest-api-spec": ["@figma/rest-api-spec@0.27.0", "", {}, "sha512-jRGYwBLdybit9X7puOmztx8XUt1dq9a7jtBO2KEK4OrxP8GKGX5yY2+efV/XNRHnqTbzFue0qdZklSBs/EaGNw=="],
 
+    "@seed-design/lynx-button/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
+
+    "@seed-design/lynx-checkbox/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
+
     "@seed-design/lynx-react/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
+
+    "@seed-design/lynx-switch/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
+
+    "@seed-design/lynx-use-controllable-state/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
     "@seed-design/mcp/zod": ["zod@4.3.6", "", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
 
@@ -7053,7 +7131,15 @@
 
     "@sanity/sdk/@sanity/mutate/nanoid": ["nanoid@5.1.9", "", { "bin": { "nanoid": "bin/nanoid.js" } }, "sha512-ZUvP7KeBLe3OZ1ypw6dI/TzYJuvHP77IM4Ry73waSQTLn8/g8rpdjfyVAh7t1/+FjBtG4lCP42MEbDxOsRpBMw=="],
 
+    "@seed-design/lynx-button/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
+
+    "@seed-design/lynx-checkbox/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
+
     "@seed-design/lynx-react/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
+
+    "@seed-design/lynx-switch/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
+
+    "@seed-design/lynx-use-controllable-state/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
 
     "@seed-design/tailwind3-plugin/tailwindcss/arg": ["arg@5.0.2", "", {}, "sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg=="],
 

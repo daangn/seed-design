@@ -49,6 +49,8 @@
   "dependencies": {
     "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "@lynx-js/lynx-ui-common": "^3.130.0",
+    "@seed-design/lynx-checkbox": "0.0.0",
+    "@seed-design/lynx-switch": "0.0.0",
     "clsx": "^2.1.1"
   }
 }

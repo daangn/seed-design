@@ -1,0 +1,36 @@
+{
+  "name": "@seed-design/lynx-use-controllable-state",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/lynx-headless/use-controllable-state"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["lib", "src"],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "tsc",
+    "lint:publish": "bun publint",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@lynx-js/react": "^0.116.3",
+    "@types/react": "^19.2.2",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@lynx-js/react": ">=0.100.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
