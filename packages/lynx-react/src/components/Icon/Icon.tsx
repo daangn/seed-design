@@ -133,6 +133,10 @@ function mergeWrapperStyle({
   };
 }
 
+function getStyleColor(style: React.CSSProperties | undefined): React.CSSProperties["color"] {
+  return style?.color;
+}
+
 const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) => {
   const {
     icon,
@@ -149,8 +153,9 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
   const iconRequiredContext = React.useContext(IconRequiredContext);
   const sourceRef = useMainThreadRef<MainThread.Element>(null);
   const slotClassName = slot != null ? context?.classNames?.[slot] : undefined;
+  const styleColor = getStyleColor(style);
   const iconColor = useIconColor(
-    [baseClassName, slotClassName, className, size, color, ...(context?.deps ?? [])],
+    [baseClassName, slotClassName, className, size, color, styleColor, ...(context?.deps ?? [])],
     { sourceRef },
   );
   const hasValidIcon = isValidElement<LynxIconElementProps>(icon);
@@ -227,7 +232,8 @@ export interface InternalIconProps extends LynxStyledElementProps {
 export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props, ref) => {
   const { icon, deps = [], className, style, children: _children, ...nativeProps } = props;
   const sourceRef = useMainThreadRef<MainThread.Element>(null);
-  const iconColor = useIconColor([className, ...(deps ?? [])], { sourceRef });
+  const styleColor = getStyleColor(style);
+  const iconColor = useIconColor([className, styleColor, ...(deps ?? [])], { sourceRef });
 
   if (!isValidElement<LynxIconElementProps>(icon)) return null;
 

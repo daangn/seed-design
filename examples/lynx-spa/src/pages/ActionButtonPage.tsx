@@ -6,7 +6,6 @@ import {
   Icon,
   PrefixIcon,
   SuffixIcon,
-  type ActionButtonProps,
 } from '@seed-design/lynx-react';
 
 import {
@@ -14,17 +13,13 @@ import {
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
-  type PreviewState,
-  type VariantAxis,
+  definePreviewStates,
+  defineVariantAxes,
   VariantCatalog,
-  type VariantValues,
+  type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
 
-type ActionButtonVariant = NonNullable<ActionButtonProps['variant']>;
-type ActionButtonSize = NonNullable<ActionButtonProps['size']>;
-type ActionButtonLayout = NonNullable<ActionButtonProps['layout']>;
-
-const variants: readonly VariantAxis[] = [
+const variants = defineVariantAxes([
   {
     key: 'variant',
     options: actionButtonVariantMap.variant,
@@ -50,17 +45,20 @@ const variants: readonly VariantAxis[] = [
     options: actionButtonVariantMap.loading,
     defaultValue: false,
   },
-];
+]);
 
-const previewStates: readonly PreviewState[] = [
+const previewStates = definePreviewStates([
   { key: 'disabled', defaultValue: false },
   { key: 'loading', defaultValue: false },
-];
+]);
 
-function renderActionButton(values: VariantValues) {
-  const layout = values.layout as ActionButtonLayout;
-  const size = values.size as ActionButtonSize;
-  const variant = values.variant as ActionButtonVariant;
+type ActionButtonValues = VariantCatalogValues<
+  typeof variants,
+  typeof previewStates
+>;
+
+function renderActionButton(values: ActionButtonValues) {
+  const { layout, size, variant } = values;
   const disabled = Boolean(values.disabled);
   const loading = Boolean(values.loading);
 

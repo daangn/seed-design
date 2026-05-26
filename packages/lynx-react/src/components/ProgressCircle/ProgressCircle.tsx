@@ -1,6 +1,7 @@
-import type * as React from "@lynx-js/react";
+import type * as React from "react";
 import {
   createContext,
+  forwardRef,
   runOnMainThread,
   useContext,
   useEffect,
@@ -11,7 +12,7 @@ import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
 import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
-import type { LynxElementProps } from "../../types";
+import type { LynxStyledElementProps } from "../../types";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,7 +119,9 @@ const TRANSITION_DURATION = 300;
 
 // --- Components ---
 
-export interface ProgressCircleRootProps extends ProgressCircleVariantProps, LynxElementProps {
+export interface ProgressCircleRootProps
+  extends ProgressCircleVariantProps,
+    LynxStyledElementProps {
   minValue?: number;
   maxValue?: number;
   value?: number;
@@ -138,20 +141,17 @@ export type RootProps = ProgressCircleRootProps;
  *
  * Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정.
  */
-export const ProgressCircleRoot = (props: ProgressCircleRootProps) => {
-  const size = props.size ?? "40";
-  const tone = props.tone ?? "neutral";
+export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((props, ref) => {
+  const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
+  const { children, className, style, minValue, maxValue, value } = otherProps;
+  const size = variantProps.size ?? "40";
+  const tone = variantProps.tone ?? "neutral";
   const numSize = Number(size);
 
-  const isDeterminate =
-    props.minValue !== undefined && props.maxValue !== undefined && props.value !== undefined;
+  const isDeterminate = minValue !== undefined && maxValue !== undefined && value !== undefined;
 
-  const range = (props.maxValue ?? 1) - (props.minValue ?? 0);
-  const progress = isDeterminate
-    ? range === 0
-      ? 0
-      : ((props.value ?? 0) - (props.minValue ?? 0)) / range
-    : 0;
+  const range = (maxValue ?? 1) - (minValue ?? 0);
+  const progress = isDeterminate ? (range === 0 ? 0 : ((value ?? 0) - (minValue ?? 0)) / range) : 0;
 
   const classes = progressCircle({ tone, size });
 
@@ -163,14 +163,15 @@ export const ProgressCircleRoot = (props: ProgressCircleRootProps) => {
   return (
     <ProgressCircleContext.Provider value={ctx}>
       <view
-        className={clsx(classes.root, props.className)}
-        style={{ width: `${numSize}px`, height: `${numSize}px` }}
+        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        className={clsx(classes.root, className)}
+        style={{ ...style, width: `${numSize}px`, height: `${numSize}px` }}
       >
-        {props.children}
+        {children}
       </view>
     </ProgressCircleContext.Provider>
   );
-};
+});
 
 ////////////////////////////////////////////////////////////////////////////////////
 

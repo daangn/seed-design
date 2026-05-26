@@ -8,6 +8,14 @@ type SlotRecipe<
   splitVariantProps: <T extends Props>(props: T) => [Props, Omit<T, keyof Props>];
 };
 
+function assertNotIntrinsicComponent(Component: React.ElementType<any>, caller: string) {
+  if (typeof Component !== "string") return;
+
+  throw new Error(
+    `${caller} cannot wrap intrinsic tag "${Component}" in Lynx. Native <view>/<text> slots must be rendered as literal JSX in the component file; passing intrinsic strings through createSlotRecipeContext can cause BackgroundSnapshot not found errors.`,
+  );
+}
+
 export function createSlotRecipeContext<
   Props extends Record<string, string | boolean | undefined>,
   Classnames extends Record<string, string>,
@@ -50,6 +58,7 @@ export function createSlotRecipeContext<
       defaultProps?: Partial<P>;
     },
   ): React.ForwardRefExoticComponent<React.PropsWithoutRef<P>> => {
+    assertNotIntrinsicComponent(Component, "withRootProvider");
     const { defaultProps } = options ?? {};
 
     const StyledComponent = (innerProps: any) => {
@@ -80,6 +89,7 @@ export function createSlotRecipeContext<
       defaultProps?: Partial<P>;
     },
   ): React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>> => {
+    assertNotIntrinsicComponent(Component, "withProvider");
     const { defaultProps } = options ?? {};
 
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
@@ -114,6 +124,7 @@ export function createSlotRecipeContext<
       defaultProps?: Partial<P>;
     },
   ): React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>> => {
+    assertNotIntrinsicComponent(Component, "withContext");
     const { defaultProps } = options ?? {};
 
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {

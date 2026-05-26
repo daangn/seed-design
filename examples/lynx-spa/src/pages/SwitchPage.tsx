@@ -14,17 +14,14 @@ import {
 } from '../components/catalog-examples.jsx';
 import {
   VariantCatalog,
-  type PreviewState,
+  definePreviewStates,
+  defineVariantAxes,
   type SetVariantValue,
-  type VariantAxis,
-  type VariantValues,
+  type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
-import { Switch, Switchmark, type SwitchProps } from '../seed-design/ui/switch';
+import { Switch, Switchmark } from '../seed-design/ui/switch';
 
-type SwitchSize = NonNullable<SwitchProps['size']>;
-type SwitchTone = NonNullable<SwitchProps['tone']>;
-
-const variants: readonly VariantAxis[] = [
+const variants = defineVariantAxes([
   {
     key: 'size',
     options: switchVariantMap.size,
@@ -45,20 +42,25 @@ const variants: readonly VariantAxis[] = [
     options: switchVariantMap.disabled,
     defaultValue: false,
   },
-];
+]);
 
-const previewStates: readonly PreviewState[] = [
+const previewStates = definePreviewStates([
   { key: 'checked', defaultValue: false },
   { key: 'disabled', defaultValue: false },
-];
+]);
 
-function renderSwitch(values: VariantValues, setValue: SetVariantValue) {
+type SwitchValues = VariantCatalogValues<typeof variants, typeof previewStates>;
+
+function renderSwitch(
+  values: SwitchValues,
+  setValue: SetVariantValue<SwitchValues>,
+) {
   const checked = Boolean(values.checked);
   return (
     <Switch
       label={checked ? 'On' : 'Off'}
-      size={values.size as SwitchSize}
-      tone={values.tone as SwitchTone}
+      size={values.size}
+      tone={values.tone}
       checked={checked}
       disabled={Boolean(values.disabled)}
       onCheckedChange={(next) => setValue('checked', next)}

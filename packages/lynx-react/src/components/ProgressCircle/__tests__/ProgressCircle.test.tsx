@@ -1,33 +1,72 @@
-import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import "@testing-library/jest-dom";
+import { render } from "@lynx-js/react/testing-library";
+import { describe, expect, it, vi } from "vitest";
 
-const currentDir = dirname(fileURLToPath(import.meta.url));
-const progressCircleSource = readFileSync(
-  join(currentDir, "..", "ProgressCircle.tsx"),
-  "utf8",
-);
+import { ProgressCircleRange, ProgressCircleRoot } from "../ProgressCircle";
 
-function readEffectDependencies(marker: string): string {
-  const markerIndex = progressCircleSource.indexOf(marker);
-  expect(markerIndex).toBeGreaterThanOrEqual(0);
+vi.mock("@lynx-js/react", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@lynx-js/react")>();
 
-  const dependencyStart = progressCircleSource.indexOf("}, [", markerIndex);
-  expect(dependencyStart).toBeGreaterThanOrEqual(0);
+  return {
+    ...actual,
+    runOnMainThread: () => () => undefined,
+  };
+});
 
-  const dependencyEnd = progressCircleSource.indexOf("]);", dependencyStart);
-  expect(dependencyEnd).toBeGreaterThanOrEqual(0);
+function getRenderedRoot() {
+  const root = elementTree.root;
 
-  return progressCircleSource.slice(dependencyStart, dependencyEnd);
+  if (!root) {
+    throw new Error("Expected Lynx render root to exist.");
+  }
+
+  return root;
+}
+
+function getRenderedElement(selector: string) {
+  const root = getRenderedRoot();
+
+  if (root.matches(selector)) return root;
+
+  const element = root.querySelector(selector);
+  if (!element) {
+    throw new Error(`Expected ${selector} to be rendered.`);
+  }
+
+  return element;
 }
 
 describe("ProgressCircle", () => {
-  it("restarts indeterminate animation when size changes", () => {
-    expect(readEffectDependencies("runOnMainThread(startLoop)")).toContain("numSize");
+  it("renders an indeterminate range with root classes and size-owned dimensions", () => {
+    render(
+      <ProgressCircleRoot
+        size="24"
+        className="custom-progress"
+        style={{ width: "1px", height: "1px", opacity: 0.5 }}
+      >
+        <ProgressCircleRange />
+      </ProgressCircleRoot>,
+    );
+
+    const root = getRenderedElement(".seed-progress-circle__root");
+
+    expect(root).toHaveClass("custom-progress");
+    expect(root).toHaveStyle({ width: "24px", height: "24px", opacity: "0.5" });
+    expect(root.querySelector(".seed-progress-circle__range")).toBeInTheDocument();
+    expect(root.querySelectorAll(".seed-progress-circle__cap")).toHaveLength(2);
   });
 
-  it("restarts determinate transition when size changes", () => {
-    expect(readEffectDependencies("runOnMainThread(startAnimation)")).toContain("numSize");
+  it("renders a determinate range without depending on source string assertions", () => {
+    render(
+      <ProgressCircleRoot size="40" minValue={0} maxValue={1} value={0.5}>
+        <ProgressCircleRange />
+      </ProgressCircleRoot>,
+    );
+
+    const root = getRenderedElement(".seed-progress-circle__root");
+
+    expect(root).toHaveStyle({ width: "40px", height: "40px" });
+    expect(root.querySelector(".seed-progress-circle__range")).toBeInTheDocument();
+    expect(root.querySelectorAll(".seed-progress-circle__cap")).toHaveLength(2);
   });
 });

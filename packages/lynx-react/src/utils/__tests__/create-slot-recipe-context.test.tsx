@@ -85,6 +85,14 @@ describe("createSlotRecipeContext", () => {
   });
 
   describe("withRootProvider", () => {
+    it("rejects intrinsic native tags to avoid Lynx BackgroundSnapshot errors", () => {
+      const { withRootProvider } = createSlotRecipeContext(mockSlotRecipe);
+
+      expect(() => withRootProvider<MockVariantProps>("view")).toThrow(
+        /literal JSX.*BackgroundSnapshot/,
+      );
+    });
+
     it("injects classnames into context without applying className on the root element", () => {
       const { Mock: Root, received: rootReceived } = createMock("Root");
       const { Mock: Child, received: childReceived } = createMock("Child");
@@ -105,6 +113,14 @@ describe("createSlotRecipeContext", () => {
   });
 
   describe("withProvider", () => {
+    it("rejects intrinsic native tags to avoid Lynx BackgroundSnapshot errors", () => {
+      const { withProvider } = createSlotRecipeContext(mockSlotRecipe);
+
+      expect(() => withProvider<unknown, MockVariantProps>("view", "root")).toThrow(
+        /literal JSX.*BackgroundSnapshot/,
+      );
+    });
+
     it("applies slot className to the provider element and injects context", () => {
       const { Mock: Root, received: rootReceived } = createMock("Root");
       const { Mock: Child, received: childReceived } = createMock("Child");
@@ -165,6 +181,14 @@ describe("createSlotRecipeContext", () => {
   });
 
   describe("withContext", () => {
+    it("rejects intrinsic native tags to avoid Lynx BackgroundSnapshot errors", () => {
+      const { withContext } = createSlotRecipeContext(mockSlotRecipe);
+
+      expect(() => withContext<unknown, Record<string, unknown>>("text", "label")).toThrow(
+        /literal JSX.*BackgroundSnapshot/,
+      );
+    });
+
     it("reads slot className from ClassNamesProvider", () => {
       const { Mock: Label, received } = createMock("Label");
       const { ClassNamesProvider, withContext } = createSlotRecipeContext(mockSlotRecipe);

@@ -7,25 +7,15 @@ import {
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
-  type PreviewState,
+  definePreviewStates,
+  defineVariantAxes,
   VariantCatalog,
   type SetVariantValue,
-  type VariantAxis,
-  type VariantValues,
+  type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
-import {
-  Checkbox,
-  CheckboxGroup,
-  Checkmark,
-  type CheckboxProps,
-} from '../seed-design/ui/checkbox';
+import { Checkbox, CheckboxGroup, Checkmark } from '../seed-design/ui/checkbox';
 
-type CheckboxWeight = NonNullable<CheckboxProps['weight']>;
-type CheckboxSize = NonNullable<CheckboxProps['size']>;
-type CheckboxTone = NonNullable<CheckboxProps['tone']>;
-type CheckboxVariant = NonNullable<CheckboxProps['variant']>;
-
-const variants: readonly VariantAxis[] = [
+const variants = defineVariantAxes([
   {
     key: 'weight',
     options: checkboxVariantMap.weight,
@@ -61,22 +51,30 @@ const variants: readonly VariantAxis[] = [
     options: checkmarkVariantMap.indeterminate,
     defaultValue: false,
   },
-];
+]);
 
-const previewStates: readonly PreviewState[] = [
+const previewStates = definePreviewStates([
   { key: 'checked', defaultValue: false },
   { key: 'indeterminate', defaultValue: false },
   { key: 'disabled', defaultValue: false },
-];
+]);
 
-function renderCheckbox(values: VariantValues, setValue: SetVariantValue) {
+type CheckboxValues = VariantCatalogValues<
+  typeof variants,
+  typeof previewStates
+>;
+
+function renderCheckbox(
+  values: CheckboxValues,
+  setValue: SetVariantValue<CheckboxValues>,
+) {
   return (
     <Checkbox
       label="Checkbox"
-      weight={values.weight as CheckboxWeight}
-      size={values.size as CheckboxSize}
-      tone={values.tone as CheckboxTone}
-      variant={values.variant as CheckboxVariant}
+      weight={values.weight}
+      size={values.size}
+      tone={values.tone}
+      variant={values.variant}
       checked={Boolean(values.checked)}
       indeterminate={Boolean(values.indeterminate)}
       disabled={Boolean(values.disabled)}

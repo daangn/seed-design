@@ -4,12 +4,15 @@ import {
   getVariantDefaultValues,
   type PrimitiveValue,
   type VariantAxis,
+  type VariantCatalogValues,
   type VariantValues,
 } from './variant-playground.jsx';
 
-export interface VariantTableProps {
-  variants: readonly VariantAxis[];
-  children: (values: VariantValues) => ReactNode;
+export interface VariantTableProps<
+  Variants extends readonly VariantAxis[] = readonly VariantAxis[],
+> {
+  variants: Variants;
+  children: (values: VariantCatalogValues<Variants>) => ReactNode;
 }
 
 type TableEntry =
@@ -22,7 +25,9 @@ type TableEntry =
       values: VariantValues;
     };
 
-export function VariantTable(props: VariantTableProps) {
+export function VariantTable<const Variants extends readonly VariantAxis[]>(
+  props: VariantTableProps<Variants>,
+) {
   const { variants, children } = props;
 
   const entries = useMemo<TableEntry[]>(() => {
@@ -59,7 +64,7 @@ export function VariantTable(props: VariantTableProps) {
               axis={entry.axis}
               option={entry.option}
               values={entry.values}
-              renderComponent={children}
+              renderComponent={children as (values: VariantValues) => ReactNode}
             />
           )}
         </list-item>

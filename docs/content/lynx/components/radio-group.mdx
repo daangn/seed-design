@@ -13,7 +13,7 @@ npx @seed-design/cli add ui:radio-group
 
 ## Usage
 
-설치한 snippet은 기본 사용 경로인 `RadioGroup`과 `RadioGroupItem`, 커스텀 레이아웃에서 마크만 조합할 때 쓰는 `Radiomark`를 함께 export 합니다.
+설치한 snippet은 기본 사용 경로인 `RadioGroup`과 `RadioGroupItem`, 커스텀 레이아웃에서 item context 안의 마크만 조합할 때 쓰는 `Radiomark`를 함께 export 합니다.
 
 ```tsx
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -107,8 +107,9 @@ Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니�
 - **Field wrapper 없음**: React snippet의 `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator` 같은 field 관련 prop은 Lynx snippet에서 제공하지 않습니다.
 - **아이콘 렌더링 방식**: 기본 `RadioGroup.ItemIndicator`는 `<view>` dot으로 렌더됩니다. custom icon을 전달할 때는 `@karrotmarket/lynx-monochrome-icon`의 monochrome icon 컴포넌트를 사용해야 하며 raw `<svg>` 주입은 Lynx 범위 밖입니다.
 - **이벤트 핸들링**: `onChange` 대신 `onValueChange(value: string)`만 노출합니다. tap 핸들러는 item 내부에서 소유합니다.
+- **Pressed 상태**: 웹의 `data-active` 대신 내부 press state를 `radiomark` recipe의 `pressed` boolean variant로 전달합니다.
 - **렌더링 요소**: HTML `<label>` / `<input type="radio">` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
-- **Strict containment**: `RadioGroupItem`, `Radiomark`, `RadioGroup.ItemControl`, `RadioGroup.ItemIndicator`, `RadioGroup.ItemLabel`은 반드시 `RadioGroup.Root`와 `RadioGroup.Item`의 적절한 context 안에서 사용해야 합니다.
+- **Strict containment**: `RadioGroupItem`, `Radiomark`, `RadioGroup.ItemControl`, `RadioGroup.ItemIndicator`, `RadioGroup.ItemLabel`은 반드시 `RadioGroup.Root`와 `RadioGroup.Item`의 적절한 context 안에서 사용해야 합니다. `Radiomark`는 standalone primitive가 아니라 item context 안에서 `ItemControl`과 `ItemIndicator`를 묶는 snippet helper입니다.
 </Callout>
 
 ## Lynx 미지원 기능
@@ -125,9 +126,3 @@ Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니�
 | `label` / `description` / `errorMessage` on `RadioGroup` | field wrapper props | Lynx에 대응 field wrapper snippet을 제공하지 않음 |
 | `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
 | `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onValueChange`로 대체 |
-
-### 추후 CSS 지원 시 추가 예정
-
-| 기능 | 웹 대응 | 설명 |
-|------|---------|------|
-| `active` (pressed) 모디파이어 | `data-active` | `radiomark` recipe CSS에 pressed 상태가 정의되면 활성화 |

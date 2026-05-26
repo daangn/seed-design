@@ -2,23 +2,15 @@ import { radioVariantMap } from '@seed-design/lynx-css/recipes/radio';
 import { radiomarkVariantMap } from '@seed-design/lynx-css/recipes/radiomark';
 
 import {
-  type PreviewState,
+  definePreviewStates,
+  defineVariantAxes,
   type SetVariantValue,
-  type VariantAxis,
   VariantCatalog,
-  type VariantValues,
+  type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
-import {
-  RadioGroup,
-  RadioGroupItem,
-  type RadioGroupProps,
-} from '../seed-design/ui/radio-group';
+import { RadioGroup, RadioGroupItem } from '../seed-design/ui/radio-group';
 
-type RadioWeight = NonNullable<RadioGroupProps['weight']>;
-type RadioSize = NonNullable<RadioGroupProps['size']>;
-type RadioTone = NonNullable<RadioGroupProps['tone']>;
-
-const variants: readonly VariantAxis[] = [
+const variants = defineVariantAxes([
   {
     key: 'weight',
     options: radioVariantMap.weight,
@@ -39,22 +31,28 @@ const variants: readonly VariantAxis[] = [
     options: radioVariantMap.disabled,
     defaultValue: false,
   },
-];
+]);
 
-const previewStates: readonly PreviewState[] = [
+const previewStates = definePreviewStates([
   { key: 'value', defaultValue: 'option1' },
-];
+]);
 
-function renderRadioGroup(values: VariantValues, setValue: SetVariantValue) {
-  const selectedValue = values.value as string;
+type RadioGroupValues = VariantCatalogValues<
+  typeof variants,
+  typeof previewStates
+>;
 
+function renderRadioGroup(
+  values: RadioGroupValues,
+  setValue: SetVariantValue<RadioGroupValues>,
+) {
   return (
     <RadioGroup
-      weight={values.weight as RadioWeight}
-      size={values.size as RadioSize}
-      tone={values.tone as RadioTone}
+      weight={values.weight}
+      size={values.size}
+      tone={values.tone}
       disabled={Boolean(values.disabled)}
-      value={selectedValue}
+      value={values.value}
       onValueChange={(next) => setValue('value', next)}
     >
       {['option1', 'option2', 'option3'].map((value) => (

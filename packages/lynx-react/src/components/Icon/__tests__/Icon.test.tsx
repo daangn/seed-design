@@ -62,6 +62,15 @@ describe("Icon", () => {
     expect(image).toHaveStyle({ width: "100%", height: "100%" });
   });
 
+  it("lets wrapper style color override the color prop", () => {
+    render(<Icon icon={<MockIcon />} color="fg.brand" style={{ color: "#123456" }} />);
+
+    const root = getRenderedRoot();
+    const wrapper = root.querySelector(".seed-icon");
+
+    expect(wrapper).toHaveStyle({ color: "#123456" });
+  });
+
   it("renders prefix and suffix wrappers with global slot classes", () => {
     render(
       <view>

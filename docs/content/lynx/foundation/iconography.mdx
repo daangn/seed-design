@@ -166,3 +166,31 @@ export function App() {
   );
 }
 ```
+
+## SEED Component Slots
+
+일반 화면에서 아이콘만 직접 렌더할 때는 위 예시처럼 `@karrotmarket/lynx-*-icon` 컴포넌트를 그대로 사용합니다.
+
+SEED 컴포넌트의 monochrome icon slot 안에서는 `@seed-design/lynx-react`의 `Icon`, `PrefixIcon`, `SuffixIcon` wrapper를 사용하세요. wrapper가 recipe className에서 계산된 color를 Lynx `<image>`의 `tint-color`로 동기화하고, slot size를 icon image에 전달합니다.
+
+```tsx
+import IconChevronDownFill from "@karrotmarket/lynx-monochrome-icon/IconChevronDownFill";
+import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
+import { ActionButton, Icon, PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <view>
+      <ActionButton>
+        <PrefixIcon icon={<IconPlusFill />} />
+        추가
+        <SuffixIcon icon={<IconChevronDownFill />} />
+      </ActionButton>
+
+      <ActionButton layout="iconOnly" aria-label="추가">
+        <Icon icon={<IconPlusFill />} />
+      </ActionButton>
+    </view>
+  );
+}
+```

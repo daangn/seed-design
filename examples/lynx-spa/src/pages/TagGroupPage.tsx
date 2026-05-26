@@ -7,20 +7,12 @@ import {
 } from '../components/catalog-examples.jsx';
 import {
   VariantCatalog,
-  type VariantAxis,
-  type VariantValues,
+  defineVariantAxes,
+  type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
-import {
-  TagGroupItem,
-  TagGroupRoot,
-  type TagGroupRootProps,
-} from '../seed-design/ui/tag-group';
+import { TagGroupItem, TagGroupRoot } from '../seed-design/ui/tag-group';
 
-type TagGroupSize = NonNullable<TagGroupRootProps['size']>;
-type TagGroupWeight = NonNullable<TagGroupRootProps['weight']>;
-type TagGroupTone = NonNullable<TagGroupRootProps['tone']>;
-
-const variants: readonly VariantAxis[] = [
+const variants = defineVariantAxes([
   {
     key: 'size',
     options: tagGroupVariantMap.size,
@@ -36,15 +28,13 @@ const variants: readonly VariantAxis[] = [
     options: tagGroupItemVariantMap.tone,
     defaultValue: 'neutralSubtle',
   },
-];
+]);
 
-function renderTagGroup(values: VariantValues) {
+type TagGroupValues = VariantCatalogValues<typeof variants>;
+
+function renderTagGroup(values: TagGroupValues) {
   return (
-    <TagGroupRoot
-      size={values.size as TagGroupSize}
-      weight={values.weight as TagGroupWeight}
-      tone={values.tone as TagGroupTone}
-    >
+    <TagGroupRoot size={values.size} weight={values.weight} tone={values.tone}>
       <TagGroupItem label="동네 인증" />
       <TagGroupItem label="매너 온도 42.0°C" />
       <TagGroupItem label="재거래 희망률 89%" />
