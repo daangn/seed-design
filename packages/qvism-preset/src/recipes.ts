@@ -32,6 +32,9 @@ import {
   attachmentInputTrigger,
 } from "./recipes/attachment-input";
 import floatingActionButton from "./recipes/floating-action-button";
+import header from "./recipes/header";
+import headerActionButton from "./recipes/header-action-button";
+import headerToggleButton from "./recipes/header-toggle-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import imageFrame from "./recipes/image-frame";
@@ -116,6 +119,9 @@ export const recipes = {
   attachmentInputTrigger,
   floatingActionButton,
   footer,
+  header,
+  headerActionButton,
+  headerToggleButton,
   helpBubble,
   identityPlaceholder,
   imageFrame,

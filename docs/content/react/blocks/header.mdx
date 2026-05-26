@@ -1,0 +1,59 @@
+---
+title: Header
+description: 페이지 상단에 로고, 네비게이션, 액션 버튼 등을 배치하는 블록입니다.
+full: true
+---
+
+## 반응형 Header
+
+Header는 로고, 네비게이션, 검색, CTA, 서브메뉴처럼 서비스마다 정보 구조가 달라지는 영역입니다. 그래서 `responsive-side-panel`처럼 하나의 `ui` 스니펫으로 추상화하기보다, Seed가 권장하는 구성을 담은 `block:responsive-header-*` 예제로 제공합니다.
+
+768px 미만 viewport에서는 가로 네비게이션 대신 헤더 오른쪽에 햄버거 버튼을 표시하고, 좌측 슬라이드 `SidePanel`로 Header의 컨텐츠를 다시 배치합니다. Header 모바일 메뉴는 작은 화면에서도 네비게이션 컨텍스트를 유지하는 것이 중요하므로, `ui:responsive-side-panel`처럼 Bottom Sheet로 전환하지 않고 `ui:side-panel`을 직접 사용합니다.
+
+`Box.hideFrom`과 `Box.display` 반응형 prop으로 데스크탑/모바일 컨텐츠를 분리하고, 같은 데이터 모델을 양쪽에서 재사용합니다. 기본 `header-*` 블록은 자유롭게 가져다 쓰는 단순 Header 예제이고, 모바일 대응이 필요한 경우에는 아래 `responsive-header-*` 블록을 먼저 참고하세요.
+
+### 당근닷컴 패턴 (Menu ↔ Accordion 전환)
+
+데스크탑은 서비스 메뉴를 `Menu` 드롭다운으로 표시하고, 모바일은 햄버거 → SidePanel에서 `Accordion`으로 다시 배치합니다. 모바일 메뉴의 주요 항목은 버튼이 아니라 큰 텍스트 행으로 표현하고, 하위 메뉴만 펼쳐서 탐색합니다.
+
+```package-install
+npx @seed-design/cli@latest add block:responsive-header-01
+```
+
+<BlockPreview name="responsive-header-01" iframeHeight={500}>
+  <BlockCodeTabs name="responsive-header-01" />
+</BlockPreview>
+
+### 기본 패턴 (일반 회사 헤더)
+
+데스크탑은 가로 nav, 모바일은 햄버거 → SidePanel에 동일한 nav 아이템을 세로 리스트로 표시합니다.
+
+```package-install
+npx @seed-design/cli@latest add block:responsive-header-02
+```
+
+<BlockPreview name="responsive-header-02" iframeHeight={500}>
+  <BlockCodeTabs name="responsive-header-02" />
+</BlockPreview>
+
+## 기본 변형
+
+### 당근닷컴 Header
+
+```package-install
+npx @seed-design/cli@latest add block:header-01
+```
+
+<BlockPreview name="header-01">
+  <BlockCodeTabs name="header-01" />
+</BlockPreview>
+
+### 일반 Header
+
+```package-install
+npx @seed-design/cli@latest add block:header-02
+```
+
+<BlockPreview name="header-02">
+  <BlockCodeTabs name="header-02" />
+</BlockPreview>
