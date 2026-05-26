@@ -1,17 +1,13 @@
 import clsx from "clsx";
 import * as React from "react";
 
+import type { LynxPressableProps, LynxStyledElementProps } from "../../types";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 
-export interface BoxProps extends StyleProps {
-  className?: string;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
-  bindtap?: () => void;
+export interface BoxProps extends StyleProps, LynxStyledElementProps, LynxPressableProps {
   bindtouchstart?: () => void;
   bindtouchend?: () => void;
   bindtouchcancel?: () => void;
-  "main-thread:bindtap"?: () => void;
 }
 
 export const Box = React.forwardRef<unknown, BoxProps>((props, ref) => {

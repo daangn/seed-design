@@ -7,17 +7,12 @@ import {
 } from '../components/catalog-examples.jsx';
 import {
   VariantCatalog,
-  type PreviewState,
-  type VariantAxis,
-  type VariantValues,
+  definePreviewStates,
+  defineVariantAxes,
+  type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
-import {
-  ProgressCircle,
-  type ProgressCircleProps,
-} from '../seed-design/ui/progress-circle';
+import { ProgressCircle } from '../seed-design/ui/progress-circle';
 
-type ProgressCircleTone = NonNullable<ProgressCircleProps['tone']>;
-type ProgressCircleSize = NonNullable<ProgressCircleProps['size']>;
 type ProgressState = 'indeterminate' | '25%' | '50%' | '75%' | '100%';
 
 const progressValueMap: Record<
@@ -30,7 +25,7 @@ const progressValueMap: Record<
   '100%': 1,
 };
 
-const variants: readonly VariantAxis[] = [
+const variants = defineVariantAxes([
   {
     key: 'tone',
     options: progressCircleVariantMap.tone,
@@ -47,16 +42,20 @@ const variants: readonly VariantAxis[] = [
     options: ['indeterminate', '25%', '50%', '75%', '100%'],
     defaultValue: 'indeterminate',
   },
-];
+]);
 
-const previewStates: readonly PreviewState[] = [
+const previewStates = definePreviewStates([
   { key: 'progressState', label: 'value', defaultValue: 'indeterminate' },
-];
+]);
 
-function renderProgressCircle(values: VariantValues) {
-  const tone = values.tone as ProgressCircleTone;
-  const size = values.size as ProgressCircleSize;
-  const progressState = values.progressState as ProgressState;
+type ProgressCircleValues = VariantCatalogValues<
+  typeof variants,
+  typeof previewStates
+>;
+
+function renderProgressCircle(values: ProgressCircleValues) {
+  const { tone, size } = values;
+  const progressState: ProgressState = values.progressState;
   const progressValue =
     progressState === 'indeterminate'
       ? undefined

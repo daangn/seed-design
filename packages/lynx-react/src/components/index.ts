@@ -2,6 +2,7 @@ export * from "./ActionButton";
 export * from "./Box";
 export * from "./BottomSheet";
 export * from "./Checkbox";
+export * from "./Icon";
 export * from "./ProgressCircle";
 export * from "./RadioGroup";
 export * from "./Stack";

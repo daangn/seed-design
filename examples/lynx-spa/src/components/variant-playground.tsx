@@ -2,37 +2,99 @@ import { type ReactNode, useMemo, useState } from '@lynx-js/react';
 
 export type PrimitiveValue = string | number | boolean;
 export type VariantValues = Record<string, PrimitiveValue>;
-export type SetVariantValue = (key: string, value: PrimitiveValue) => void;
+export type SetVariantValue<Values extends VariantValues = VariantValues> = <
+  Key extends keyof Values & string,
+>(
+  key: Key,
+  value: Values[Key],
+) => void;
 
-export interface VariantAxis {
-  key: string;
+export interface VariantAxis<
+  Key extends string = string,
+  Value extends PrimitiveValue = PrimitiveValue,
+> {
+  key: Key;
   label?: string;
-  options: readonly PrimitiveValue[];
-  defaultValue: PrimitiveValue;
+  options: readonly Value[];
+  defaultValue: Value;
 }
 
-export interface PreviewState {
-  key: string;
+export interface PreviewState<
+  Key extends string = string,
+  Value extends PrimitiveValue = PrimitiveValue,
+> {
+  key: Key;
   label?: string;
-  defaultValue: PrimitiveValue;
+  defaultValue: Value;
 }
 
-export interface VariantPlaygroundProps {
+type WidenPrimitive<Value> = Value extends string
+  ? string
+  : Value extends number
+    ? number
+    : Value extends boolean
+      ? boolean
+      : Value;
+
+type VariantAxisValues<Variants extends readonly VariantAxis[]> = {
+  [Axis in Variants[number] as Axis['key']]: Axis extends VariantAxis<
+    string,
+    infer Value
+  >
+    ? Value
+    : never;
+};
+
+type PreviewStateValues<PreviewStates extends readonly PreviewState[]> = {
+  [State in PreviewStates[number] as State['key']]: State extends PreviewState<
+    string,
+    infer Value
+  >
+    ? WidenPrimitive<Value>
+    : never;
+};
+
+export type VariantCatalogValues<
+  Variants extends readonly VariantAxis[] = readonly VariantAxis[],
+  PreviewStates extends readonly PreviewState[] = readonly PreviewState[],
+> = VariantValues &
+  VariantAxisValues<Variants> &
+  PreviewStateValues<PreviewStates>;
+
+export function defineVariantAxes<
+  const Variants extends readonly VariantAxis[],
+>(variants: Variants): Variants {
+  return variants;
+}
+
+export function definePreviewStates<
+  const PreviewStates extends readonly PreviewState[],
+>(previewStates: PreviewStates): PreviewStates {
+  return previewStates;
+}
+
+export interface VariantPlaygroundProps<
+  Variants extends readonly VariantAxis[] = readonly VariantAxis[],
+  PreviewStates extends readonly PreviewState[] = readonly PreviewState[],
+> {
   /**
    * Public하게 조작 가능한 variant 축만 넘긴다. recipe에는 있어도 컴포넌트 prop으로
    * 고정할 수 없는 상태(예: pressed)는 포함하지 않는다.
    */
-  variants: readonly VariantAxis[];
+  variants: Variants;
   /**
    * Preview 오른쪽 아래에 표시할 controlled state 값.
    * variant control에는 없어도 preview에서 setValue로 갱신할 수 있다.
    */
-  previewStates?: readonly PreviewState[];
+  previewStates?: PreviewStates;
   /**
    * preview 영역. 현재 값 스냅샷과 setter 를 받아 실제 컴포넌트를 렌더한다.
    * setter 는 controlled state (예: `checked`) 를 playground 로 되돌릴 때 사용.
    */
-  children: (values: VariantValues, setValue: SetVariantValue) => ReactNode;
+  children: (
+    values: VariantCatalogValues<Variants, PreviewStates>,
+    setValue: SetVariantValue<VariantCatalogValues<Variants, PreviewStates>>,
+  ) => ReactNode;
 }
 
 function isBooleanOptions(
@@ -87,7 +149,10 @@ function getPreviewStateText(
     .join(' · ');
 }
 
-export function VariantPlayground(props: VariantPlaygroundProps) {
+export function VariantPlayground<
+  const Variants extends readonly VariantAxis[],
+  const PreviewStates extends readonly PreviewState[] = readonly [],
+>(props: VariantPlaygroundProps<Variants, PreviewStates>) {
   const { variants, previewStates, children } = props;
 
   const defaultValues = useMemo(
@@ -98,11 +163,14 @@ export function VariantPlayground(props: VariantPlaygroundProps) {
   const [values, setValues] = useState<VariantValues>(() => defaultValues);
   const previewStateText = getPreviewStateText(previewStates, values);
 
-  const setValue = (key: string, value: PrimitiveValue) => {
+  const setPrimitiveValue = (key: string, value: PrimitiveValue) => {
     setValues((prev) =>
       prev[key] === value ? prev : { ...prev, [key]: value },
     );
   };
+  const setValue: SetVariantValue<
+    VariantCatalogValues<Variants, PreviewStates>
+  > = (key, value) => setPrimitiveValue(key, value);
 
   return (
     <view
@@ -125,7 +193,10 @@ export function VariantPlayground(props: VariantPlaygroundProps) {
           position: 'relative',
         }}
       >
-        {children(values, setValue)}
+        {children(
+          values as VariantCatalogValues<Variants, PreviewStates>,
+          setValue,
+        )}
         {previewStateText != null && (
           <view
             style={{
@@ -173,7 +244,7 @@ export function VariantPlayground(props: VariantPlaygroundProps) {
                   key={variant.key}
                   name={variant.label ?? variant.key}
                   current={!!values[variant.key]}
-                  onChange={(next) => setValue(variant.key, next)}
+                  onChange={(next) => setPrimitiveValue(variant.key, next)}
                 />
               ) : (
                 <VariantRow
@@ -181,7 +252,7 @@ export function VariantPlayground(props: VariantPlaygroundProps) {
                   name={variant.label ?? variant.key}
                   options={variant.options}
                   current={values[variant.key]}
-                  onChange={(next) => setValue(variant.key, next)}
+                  onChange={(next) => setPrimitiveValue(variant.key, next)}
                 />
               ),
             )}

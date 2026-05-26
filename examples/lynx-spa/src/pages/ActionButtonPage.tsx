@@ -1,24 +1,25 @@
 import IconChevronDownFill from '@karrotmarket/lynx-monochrome-icon/IconChevronDownFill';
 import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
 import { actionButtonVariantMap } from '@seed-design/lynx-css/recipes/action-button';
-import { ActionButton, type ActionButtonProps } from '@seed-design/lynx-react';
+import {
+  ActionButton,
+  Icon,
+  PrefixIcon,
+  SuffixIcon,
+} from '@seed-design/lynx-react';
 
 import {
   CatalogExamples,
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
-  type PreviewState,
-  type VariantAxis,
+  definePreviewStates,
+  defineVariantAxes,
   VariantCatalog,
-  type VariantValues,
+  type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
 
-type ActionButtonVariant = NonNullable<ActionButtonProps['variant']>;
-type ActionButtonSize = NonNullable<ActionButtonProps['size']>;
-type ActionButtonLayout = NonNullable<ActionButtonProps['layout']>;
-
-const variants: readonly VariantAxis[] = [
+const variants = defineVariantAxes([
   {
     key: 'variant',
     options: actionButtonVariantMap.variant,
@@ -44,17 +45,20 @@ const variants: readonly VariantAxis[] = [
     options: actionButtonVariantMap.loading,
     defaultValue: false,
   },
-];
+]);
 
-const previewStates: readonly PreviewState[] = [
+const previewStates = definePreviewStates([
   { key: 'disabled', defaultValue: false },
   { key: 'loading', defaultValue: false },
-];
+]);
 
-function renderActionButton(values: VariantValues) {
-  const layout = values.layout as ActionButtonLayout;
-  const size = values.size as ActionButtonSize;
-  const variant = values.variant as ActionButtonVariant;
+type ActionButtonValues = VariantCatalogValues<
+  typeof variants,
+  typeof previewStates
+>;
+
+function renderActionButton(values: ActionButtonValues) {
+  const { layout, size, variant } = values;
   const disabled = Boolean(values.disabled);
   const loading = Boolean(values.loading);
 
@@ -66,9 +70,10 @@ function renderActionButton(values: VariantValues) {
         size={size}
         disabled={disabled}
         loading={loading}
-        icon={<IconPlusFill />}
         aria-label="Add"
-      />
+      >
+        <Icon icon={<IconPlusFill />} />
+      </ActionButton>
     );
   }
 
@@ -147,27 +152,21 @@ function ActionButtonExamples() {
           gap: '8px',
         }}
       >
-        <ActionButton variant="brandSolid" prefixIcon={<IconPlusFill />}>
+        <ActionButton variant="brandSolid">
+          <PrefixIcon icon={<IconPlusFill />} />
           Prefix Icon
         </ActionButton>
-        <ActionButton
-          variant="neutralSolid"
-          suffixIcon={<IconChevronDownFill />}
-        >
+        <ActionButton variant="neutralSolid">
           Suffix Icon
+          <SuffixIcon icon={<IconChevronDownFill />} />
         </ActionButton>
-        <ActionButton
-          variant="brandOutline"
-          prefixIcon={<IconPlusFill />}
-          suffixIcon={<IconChevronDownFill />}
-        >
+        <ActionButton variant="brandOutline">
+          <PrefixIcon icon={<IconPlusFill />} />
           Both
+          <SuffixIcon icon={<IconChevronDownFill />} />
         </ActionButton>
-        <ActionButton
-          variant="brandSolid"
-          disabled
-          prefixIcon={<IconPlusFill />}
-        >
+        <ActionButton variant="brandSolid" disabled>
+          <PrefixIcon icon={<IconPlusFill />} />
           Disabled
         </ActionButton>
       </view>
@@ -185,27 +184,22 @@ function ActionButtonExamples() {
         <ActionButton variant="brandSolid" loading>
           Loading
         </ActionButton>
-        <ActionButton
-          variant="neutralSolid"
-          prefixIcon={<IconPlusFill />}
-          loading
-        >
+        <ActionButton variant="neutralSolid" loading>
+          <PrefixIcon icon={<IconPlusFill />} />
           Prefix Icon
         </ActionButton>
-        <ActionButton
-          variant="brandOutline"
-          suffixIcon={<IconChevronDownFill />}
-          loading
-        >
+        <ActionButton variant="brandOutline" loading>
           Suffix Icon
+          <SuffixIcon icon={<IconChevronDownFill />} />
         </ActionButton>
         <ActionButton
           layout="iconOnly"
           variant="brandSolid"
-          icon={<IconPlusFill />}
           loading
           aria-label="Loading"
-        />
+        >
+          <Icon icon={<IconPlusFill />} />
+        </ActionButton>
       </view>
 
       <CatalogSectionTitle>Icon Only</CatalogSectionTitle>
@@ -218,32 +212,28 @@ function ActionButtonExamples() {
           alignItems: 'center',
         }}
       >
-        <ActionButton
-          layout="iconOnly"
-          variant="brandSolid"
-          icon={<IconPlusFill />}
-          aria-label="Add"
-        />
+        <ActionButton layout="iconOnly" variant="brandSolid" aria-label="Add">
+          <Icon icon={<IconPlusFill />} />
+        </ActionButton>
         <ActionButton
           layout="iconOnly"
           variant="neutralSolid"
           size="small"
-          icon={<IconPlusFill />}
           aria-label="Add"
-        />
-        <ActionButton
-          layout="iconOnly"
-          variant="brandOutline"
-          icon={<IconPlusFill />}
-          aria-label="Add"
-        />
+        >
+          <Icon icon={<IconPlusFill />} />
+        </ActionButton>
+        <ActionButton layout="iconOnly" variant="brandOutline" aria-label="Add">
+          <Icon icon={<IconPlusFill />} />
+        </ActionButton>
         <ActionButton
           layout="iconOnly"
           variant="brandSolid"
           disabled
-          icon={<IconPlusFill />}
           aria-label="Disabled"
-        />
+        >
+          <Icon icon={<IconPlusFill />} />
+        </ActionButton>
       </view>
     </CatalogExamples>
   );

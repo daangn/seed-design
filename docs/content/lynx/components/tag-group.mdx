@@ -31,6 +31,8 @@ export function App() {
 
 `TagGroupRoot`의 `size`·`weight`·`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `" · "`이고 `separator` prop으로 바꿀 수 있습니다.
 
+`TagGroupItem`은 `flexShrink`를 지원합니다. 긴 태그가 있는 레이아웃에서 item의 축소 우선순위를 조정해야 할 때 사용하세요.
+
 ### Tone / Separator
 
 `TagGroupRoot`의 `tone`, `weight`, `separator`는 그룹 기본값으로 전달되고, 개별 `TagGroupItem`에서 필요한 값만 덮어쓸 수 있습니다.
@@ -89,7 +91,6 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 | prop | 웹 동작 | Lynx 미지원 사유 |
 |------|---------|------------------|
 | `truncate` (Root) | 한 줄 유지 + 모든 item label의 말줄임 | Lynx flex 모델에서는 label이 item 너비에 맞춰지지 않아 웹 수준의 inline ellipsis가 동작하지 않음. 모든 item에 말줄임을 일괄 적용하는 경험이 자연스럽지 않아 제거됨 |
-| `flexShrink` (Item) | Item 축소 우선순위 제어 | CSS variable 동적 주입 제한 |
 | `asChild` (Root/Item) | Slot 기반 다형 렌더 | Lynx에서 Primitive Slot 패턴 미제공 |
 | `prefixIcon` / `suffixIcon` (Item) | 아이콘 + 라벨 | Lynx 3.7 SVG 지원 이후 Tier B에서 재검토 |
 

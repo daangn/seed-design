@@ -6,11 +6,15 @@ import {
   type TagGroupItemVariantProps,
 } from "@seed-design/lynx-css/recipes/tag-group-item";
 
+import type { LynxStyledElementProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
+import { useStyleProps, type StyleProps } from "../../utils/styled";
 
 const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
   createSlotRecipeContext(tagGroupItem);
+
+////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @platform Lynx
@@ -19,12 +23,12 @@ const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
  * - `truncate` prop: Lynx flex 모델에서는 item 단위 wrap만 가능해 웹 수준의
  *   "한 줄 유지 + label ellipsis" 조합을 재현할 수 없음
  * - `asChild` prop: Lynx Slot 미지원
- * - `flexShrink` prop: CSS variable 동적 주입 제한
  * - 아이콘 slot: Lynx 3.7 SVG 지원 후 검토 (Tier B)
  */
-export interface TagGroupRootProps extends TagGroupVariantProps, TagGroupItemVariantProps {
-  children?: React.ReactNode;
-  className?: string;
+export interface TagGroupRootProps
+  extends TagGroupVariantProps,
+    TagGroupItemVariantProps,
+    LynxStyledElementProps {
   /**
    * children 사이에 삽입되는 구분자. 기본값 `" · "`.
    */
@@ -72,29 +76,32 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
 });
 TagGroupRoot.displayName = "TagGroupRoot";
 
+////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * @platform Lynx
  *
  * 웹 대비 미지원 기능:
  * - `asChild` prop: Lynx Slot 미지원
- * - `flexShrink` prop: CSS variable 동적 주입 제한
  */
-export interface TagGroupItemProps extends TagGroupItemVariantProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+export interface TagGroupItemProps
+  extends TagGroupItemVariantProps,
+    Pick<StyleProps, "flexShrink">,
+    LynxStyledElementProps {}
 
 export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props, ref) => {
   const parentVariantProps = useProps();
   const [localVariantProps, otherProps] = tagGroupItem.splitVariantProps(props);
   const classes = tagGroupItem({ ...parentVariantProps, ...localVariantProps });
-  const { children, className, ...nativeProps } = otherProps;
+  const { style, restProps } = useStyleProps(otherProps);
+  const { children, className, ...nativeProps } = restProps;
 
   return (
     <ClassNamesProvider value={classes}>
       <view
         {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
         className={clsx(classes.root, className)}
+        style={style}
         {...nativeProps}
       >
         {children}
@@ -104,10 +111,9 @@ export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props,
 });
 TagGroupItem.displayName = "TagGroupItem";
 
-export interface TagGroupItemLabelProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface TagGroupItemLabelProps extends LynxStyledElementProps {}
 
 export const TagGroupItemLabel = React.forwardRef<unknown, TagGroupItemLabelProps>((props, ref) => {
   const classes = useClassNames();

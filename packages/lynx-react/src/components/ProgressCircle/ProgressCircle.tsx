@@ -1,6 +1,7 @@
-import type * as React from "@lynx-js/react";
+import type * as React from "react";
 import {
   createContext,
+  forwardRef,
   runOnMainThread,
   useContext,
   useEffect,
@@ -11,12 +12,11 @@ import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
 import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
+import type { LynxStyledElementProps } from "../../types";
 
-type Tone = "neutral" | "brand" | "staticWhite" | "inherit";
-type Size = "14" | "16" | "18" | "24" | "40";
+////////////////////////////////////////////////////////////////////////////////////
 
 interface ProgressCircleContextValue {
-  tone: Tone;
   numSize: number;
   isDeterminate: boolean;
   progress: number;
@@ -32,6 +32,8 @@ function useProgressCircleCtx() {
   }
   return ctx;
 }
+
+////////////////////////////////////////////////////////////////////////////////////
 
 // --- Background-thread-only utilities (for initial render) ---
 
@@ -54,6 +56,8 @@ function bgPieClipPath(size: number, angleDeg: number): string | undefined {
   const largeArc = angleDeg > 180 ? 1 : 0;
   return `path("M ${c} ${c} L ${c} ${c - r} A ${r} ${r} 0 ${largeArc} 1 ${endX} ${endY} Z")`;
 }
+
+////////////////////////////////////////////////////////////////////////////////////
 
 // --- Main-thread-only utilities (for animations) ---
 // Compiled into the main thread bundle. Must NOT be called from render code.
@@ -104,22 +108,28 @@ function sampleIndeterminate(t: number) {
   return { containerDeg, arcLength };
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+
 // --- Animation constants ---
 
 const INDETERMINATE_DURATION = 1200;
 const TRANSITION_DURATION = 300;
 
+////////////////////////////////////////////////////////////////////////////////////
+
 // --- Components ---
 
-export interface ProgressCircleRootProps extends ProgressCircleVariantProps {
+export interface ProgressCircleRootProps
+  extends ProgressCircleVariantProps,
+    LynxStyledElementProps {
   minValue?: number;
   maxValue?: number;
   value?: number;
-  children?: React.ReactNode;
-  className?: string;
 }
 
 export type RootProps = ProgressCircleRootProps;
+
+////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Lynx에서 SVG를 사용할 수 없어 CSS clip-path 기반 pie sector로 구현.
@@ -131,39 +141,39 @@ export type RootProps = ProgressCircleRootProps;
  *
  * Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정.
  */
-export const ProgressCircleRoot = (props: ProgressCircleRootProps) => {
-  const size: Size = (props.size as Size) ?? "40";
-  const tone: Tone = (props.tone as Tone) ?? "neutral";
+export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((props, ref) => {
+  const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
+  const { children, className, style, minValue, maxValue, value } = otherProps;
+  const size = variantProps.size ?? "40";
+  const tone = variantProps.tone ?? "neutral";
   const numSize = Number(size);
 
-  const isDeterminate =
-    props.minValue !== undefined && props.maxValue !== undefined && props.value !== undefined;
+  const isDeterminate = minValue !== undefined && maxValue !== undefined && value !== undefined;
 
-  const range = (props.maxValue ?? 1) - (props.minValue ?? 0);
-  const progress = isDeterminate
-    ? range === 0
-      ? 0
-      : ((props.value ?? 0) - (props.minValue ?? 0)) / range
-    : 0;
+  const range = (maxValue ?? 1) - (minValue ?? 0);
+  const progress = isDeterminate ? (range === 0 ? 0 : ((value ?? 0) - (minValue ?? 0)) / range) : 0;
 
   const classes = progressCircle({ tone, size });
 
   const ctx = useMemo(
-    () => ({ tone, numSize, isDeterminate, progress, classes }),
-    [tone, numSize, isDeterminate, progress, classes],
+    () => ({ numSize, isDeterminate, progress, classes }),
+    [numSize, isDeterminate, progress, classes],
   );
 
   return (
     <ProgressCircleContext.Provider value={ctx}>
       <view
-        className={clsx(classes.root, props.className)}
-        style={{ width: `${numSize}px`, height: `${numSize}px` }}
+        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        className={clsx(classes.root, className)}
+        style={{ ...style, width: `${numSize}px`, height: `${numSize}px` }}
       >
-        {props.children}
+        {children}
       </view>
     </ProgressCircleContext.Provider>
   );
-};
+});
+
+////////////////////////////////////////////////////////////////////////////////////
 
 export const ProgressCircleRange = () => {
   const { numSize, isDeterminate, progress, classes } = useProgressCircleCtx();
@@ -176,6 +186,8 @@ export const ProgressCircleRange = () => {
 };
 
 type Classes = ReturnType<typeof progressCircle>;
+
+////////////////////////////////////////////////////////////////////////////////////
 
 function DeterminateRange({
   numSize,
@@ -299,6 +311,8 @@ function DeterminateRange({
     </>
   );
 }
+
+////////////////////////////////////////////////////////////////////////////////////
 
 function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Classes }) {
   const containerRef = useMainThreadRef<MainThread.Element>(null);

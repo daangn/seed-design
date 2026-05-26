@@ -18,7 +18,7 @@ Lynx `ActionButton`은 별도 `ui:action-button` snippet 없이 `@seed-design/ly
 ```tsx
 import IconChevronRightLine from "@karrotmarket/lynx-monochrome-icon/IconChevronRightLine";
 import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
-import { ActionButton } from "@seed-design/lynx-react";
+import { ActionButton, Icon, PrefixIcon } from "@seed-design/lynx-react";
 
 export function App() {
   return (
@@ -26,21 +26,22 @@ export function App() {
       <ActionButton
         variant="brandSolid"
         size="medium"
-        prefixIcon={<IconPlusFill />}
         bindtap={() => {
           "background only";
           console.log("tapped");
         }}
       >
+        <PrefixIcon icon={<IconPlusFill />} />
         버튼
       </ActionButton>
 
       <ActionButton
         layout="iconOnly"
         variant="neutralSolid"
-        icon={<IconChevronRightLine />}
         aria-label="다음"
-      />
+      >
+        <Icon icon={<IconChevronRightLine />} />
+      </ActionButton>
     </view>
   );
 }
@@ -58,7 +59,8 @@ Lynx `ActionButton`은 React `ActionButton`과 다음과 같은 차이가 있습
 - **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
 - **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`/`<text>` 요소를 렌더링합니다.
 - **ref forwarding**: `React.forwardRef`로 ref를 전달할 수 있습니다.
-- **아이콘 전달 방식**: 웹의 slot 컴포넌트 대신 `prefixIcon` / `suffixIcon` / `icon` prop으로 아이콘 element를 전달합니다.
+- **아이콘 렌더링 방식**: 웹의 SVG `currentColor` 대신 Lynx `<image>`의 `tint-color`를 사용합니다. `Icon` / `PrefixIcon` / `SuffixIcon`이 recipe color를 native tint로 동기화합니다.
+- **호환 아이콘 prop**: 기존 `prefixIcon` / `suffixIcon` / `icon` prop도 계속 지원하지만, 기본 예시는 child slot API를 사용합니다.
 - **Loading 상태**: 웹과 동일하게 spinner를 absolute로 얹고 기존 content를 숨겨 원래 버튼 폭을 유지합니다.
 </Callout>
 

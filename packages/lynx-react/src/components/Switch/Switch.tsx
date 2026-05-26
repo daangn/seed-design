@@ -9,6 +9,7 @@ import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switc
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import type { LynxStyledElementProps } from "../../types";
 
 /**
  * @platform Lynx
@@ -23,19 +24,17 @@ import { usePressTap } from "../../hooks/usePressTap";
  *   switchmark recipe 와 Switch 컴포넌트에 boolean variant 로 노출.
  */
 
-type SwitchSize = NonNullable<SwitchVariantProps["size"]>;
-type SwitchTone = NonNullable<SwitchmarkVariantProps["tone"]>;
-
-interface SwitchContextValue {
+interface SwitchApi {
   checked: boolean;
   disabled: boolean;
-  size: SwitchSize;
-  tone: SwitchTone;
+  switchVariantProps: SwitchVariantProps;
+  switchmarkVariantProps: SwitchmarkVariantProps;
+  toggle: () => void;
 }
 
-const SwitchContext = React.createContext<SwitchContextValue | null>(null);
+const SwitchContext = React.createContext<SwitchApi | null>(null);
 
-function useSwitchContext(consumer: string): SwitchContextValue {
+function useSwitchContext(consumer: string): SwitchApi {
   const ctx = React.useContext(SwitchContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
@@ -43,10 +42,15 @@ function useSwitchContext(consumer: string): SwitchContextValue {
   return ctx;
 }
 
-const SwitchmarkThumbClassContext = React.createContext<string | null>(null);
+interface SwitchmarkControlContextValue {
+  thumbClassName: string;
+  switchmarkVariantProps: SwitchmarkVariantProps;
+}
 
-function useSwitchmarkThumbClass(consumer: string): string {
-  const ctx = React.useContext(SwitchmarkThumbClassContext);
+const SwitchmarkControlContext = React.createContext<SwitchmarkControlContextValue | null>(null);
+
+function useSwitchmarkControlContext(consumer: string): SwitchmarkControlContextValue {
+  const ctx = React.useContext(SwitchmarkControlContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <SwitchControl/>.`);
   }
@@ -55,9 +59,10 @@ function useSwitchmarkThumbClass(consumer: string): string {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchRootProps extends SwitchVariantProps, Omit<SwitchmarkVariantProps, "size"> {
-  children?: React.ReactNode;
-  className?: string;
+export interface SwitchRootProps
+  extends SwitchVariantProps,
+    Omit<SwitchmarkVariantProps, "size">,
+    LynxStyledElementProps {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
@@ -76,8 +81,6 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   } = props;
   const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
-  const size: SwitchSize = switchVariantProps.size ?? "32";
-  const tone: SwitchTone = switchmarkVariantProps.tone ?? "brand";
 
   const [checked, setChecked] = useControllableState({
     value: checkedProp,
@@ -85,20 +88,28 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     onChange: onCheckedChange,
   });
 
+  const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
+
   const { pressed: _pressed, ...pressHandlers } = usePressTap({
     disabled,
-    onTap: () => setChecked(!checked),
+    onTap: toggle,
   });
 
-  const rootClassName = switchStyle({ size }).root;
+  const rootClassName = switchStyle({ ...switchVariantProps, disabled }).root;
 
-  const ctx = React.useMemo<SwitchContextValue>(
-    () => ({ checked, disabled, size, tone }),
-    [checked, disabled, size, tone],
+  const api = React.useMemo<SwitchApi>(
+    () => ({
+      checked,
+      disabled,
+      switchVariantProps,
+      switchmarkVariantProps,
+      toggle,
+    }),
+    [checked, disabled, switchVariantProps, switchmarkVariantProps, toggle],
   );
 
   return (
-    <SwitchContext.Provider value={ctx}>
+    <SwitchContext.Provider value={api}>
       <view
         {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
         className={clsx(rootClassName, className)}
@@ -114,26 +125,26 @@ SwitchRoot.displayName = "SwitchRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchControlProps extends Pick<SwitchmarkVariantProps, "tone" | "size"> {
-  children?: React.ReactNode;
-  className?: string;
-}
+export interface SwitchControlProps
+  extends Pick<SwitchmarkVariantProps, "tone" | "size">,
+    LynxStyledElementProps {}
 
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
-  const { checked, disabled, tone: ctxTone, size: ctxSize } = useSwitchContext("SwitchControl");
-
-  const tone: SwitchTone = variantProps.tone ?? ctxTone;
-  const size: SwitchSize = variantProps.size ?? ctxSize;
-
-  const classes = React.useMemo(
-    () => switchmark({ tone, size, checked, disabled }),
-    [tone, size, checked, disabled],
-  );
+  const api = useSwitchContext("SwitchControl");
+  const switchmarkVariantProps: SwitchmarkVariantProps = {
+    ...api.switchmarkVariantProps,
+    ...variantProps,
+    checked: api.checked,
+    disabled: api.disabled,
+  };
+  const classes = switchmark(switchmarkVariantProps);
 
   return (
-    <SwitchmarkThumbClassContext.Provider value={classes.thumb}>
+    <SwitchmarkControlContext.Provider
+      value={{ thumbClassName: classes.thumb, switchmarkVariantProps }}
+    >
       <view
         {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
         className={clsx(classes.root, className)}
@@ -141,20 +152,18 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       >
         {children}
       </view>
-    </SwitchmarkThumbClassContext.Provider>
+    </SwitchmarkControlContext.Provider>
   );
 });
 SwitchControl.displayName = "SwitchControl";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchThumbProps {
-  className?: string;
-}
+export interface SwitchThumbProps extends Pick<LynxStyledElementProps, "className" | "style"> {}
 
 export const SwitchThumb = React.forwardRef<unknown, SwitchThumbProps>((props, ref) => {
   const { className, ...nativeProps } = props;
-  const thumbClassName = useSwitchmarkThumbClass("SwitchThumb");
+  const { thumbClassName } = useSwitchmarkControlContext("SwitchThumb");
 
   return (
     <view
@@ -168,15 +177,15 @@ SwitchThumb.displayName = "SwitchThumb";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchLabelProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+export interface SwitchLabelProps extends LynxStyledElementProps {}
 
 export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const { disabled, size } = useSwitchContext("SwitchLabel");
-  const labelClassName = switchStyle({ size, disabled }).label;
+  const api = useSwitchContext("SwitchLabel");
+  const labelClassName = switchStyle({
+    ...api.switchVariantProps,
+    disabled: api.disabled,
+  }).label;
 
   return (
     <text

@@ -7,11 +7,11 @@ import {
   CatalogSectionTitle,
 } from '../components/catalog-examples.jsx';
 import {
-  type PreviewState,
+  definePreviewStates,
+  defineVariantAxes,
   type SetVariantValue,
-  type VariantAxis,
   VariantCatalog,
-  type VariantValues,
+  type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
 import {
   BottomSheetBody,
@@ -19,16 +19,13 @@ import {
   BottomSheetFooter,
   BottomSheetRoot,
   type BottomSheetRootRef,
-  type BottomSheetRootProps,
   BottomSheetTrigger,
 } from '../seed-design/ui/bottom-sheet';
 
 const SNAP_POINTS_FIT_80: Array<number | string> = ['fit', '80%'];
 const SNAP_POINTS_FIT: Array<number | string> = ['fit'];
 
-type BottomSheetHeaderAlign = NonNullable<BottomSheetRootProps['headerAlign']>;
-
-const variants: readonly VariantAxis[] = [
+const variants = defineVariantAxes([
   {
     key: 'headerAlign',
     options: bottomSheetVariantMap.headerAlign,
@@ -39,14 +36,22 @@ const variants: readonly VariantAxis[] = [
     options: bottomSheetVariantMap.skipAnimation,
     defaultValue: false,
   },
-];
+]);
 
-const previewStates: readonly PreviewState[] = [
+const previewStates = definePreviewStates([
   { key: 'open', defaultValue: false },
-];
+]);
 
-function renderBottomSheet(values: VariantValues, setValue: SetVariantValue) {
-  const headerAlign = values.headerAlign as BottomSheetHeaderAlign;
+type BottomSheetValues = VariantCatalogValues<
+  typeof variants,
+  typeof previewStates
+>;
+
+function renderBottomSheet(
+  values: BottomSheetValues,
+  setValue: SetVariantValue<BottomSheetValues>,
+) {
+  const { headerAlign } = values;
   const skipAnimation = Boolean(values.skipAnimation);
   const open = Boolean(values.open);
 

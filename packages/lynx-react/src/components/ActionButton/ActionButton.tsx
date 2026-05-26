@@ -1,68 +1,75 @@
 import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
 import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
+import { progressCircleVariantMap } from "@seed-design/lynx-css/recipes/progress-circle";
 import { actionButton as actionButtonVars } from "@seed-design/lynx-css/vars/component";
-import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import * as React from "react";
-import { cloneElement, isValidElement, useMemo, type ReactElement } from "react";
+import { isValidElement, useMemo } from "react";
 
-import { useIconColor } from "../../hooks/useIconColor";
-import { usePressTap, type UsePressTapReturn } from "../../hooks/usePressTap";
+import { usePressTap } from "../../hooks/usePressTap";
+import type {
+  LynxElementProps,
+  LynxPressableProps,
+  LynxStyledElementProps,
+  LynxTouchProps,
+} from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
+import { resolveFlexValue, type StyleProps } from "../../utils/styled";
 import {
   ProgressCircleRange,
   ProgressCircleRoot,
   type ProgressCircleRootProps,
 } from "../ProgressCircle";
+import {
+  Icon,
+  IconRequired,
+  IconSlotProvider,
+  PrefixIcon,
+  SuffixIcon,
+  getIconSlotName,
+  type IconProps,
+  type PrefixIconProps,
+  type SuffixIconProps,
+} from "../Icon/Icon";
 
 // Root/TextSlot 은 `withProvider("view", ...)` / `withContext("text", ...)` 를 쓰지 않는다.
 // intrinsic string 인자는 `React.createElement("view", ...)` 로 컴파일되어 Lynx 컴파일러의
 // 리터럴 JSX 정적 분석을 우회하고 `BackgroundSnapshot not found: view` 런타임 에러를 유발한다.
 // (자세한 내용: `packages/lynx-react/AGENTS.md` 의 "Native tag literal JSX constraint" 섹션)
-const { ClassNamesProvider, useClassNames, PropsProvider, useProps } =
-  createSlotRecipeContext(actionButton);
+const { ClassNamesProvider, useClassNames, PropsProvider } = createSlotRecipeContext(actionButton);
 
-type IconSlotKey = "prefixIcon" | "suffixIcon" | "icon";
-type ActionButtonSize = NonNullable<ActionButtonVariantProps["size"]>;
+////////////////////////////////////////////////////////////////////////////////////
 
-type IconElementProps = {
-  className?: string;
-  style?: React.CSSProperties;
-  ref?: React.Ref<MainThread.Element>;
-  "main-thread:binduiappear"?: () => void;
-};
-
-type ActionButtonContentProps = {
-  children?: React.ReactNode;
+interface ActionButtonContentProps extends LynxElementProps {
   isIconOnly: boolean;
-  icon?: ReactElement<IconElementProps>;
-  prefixIcon?: ReactElement<IconElementProps>;
-  suffixIcon?: ReactElement<IconElementProps>;
-};
+  icon?: IconProps["icon"];
+  prefixIcon?: PrefixIconProps["icon"];
+  suffixIcon?: SuffixIconProps["icon"];
+}
 
-type ActionButtonRootOwnProps = {
-  className?: string;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
-  bindtouchstart?: UsePressTapReturn["bindtouchstart"];
-  bindtouchend?: UsePressTapReturn["bindtouchend"];
-  bindtouchcancel?: UsePressTapReturn["bindtouchcancel"];
-  bindtap?: UsePressTapReturn["bindtap"];
-  "main-thread:bindtap"?: UsePressTapReturn["main-thread:bindtap"];
-};
+interface ActionButtonRootOwnProps extends LynxStyledElementProps, LynxTouchProps {}
 
-const progressCircleSizeMap = {
-  xsmall: "14",
-  small: "14",
-  medium: "16",
-  large: "18",
-} as const satisfies Record<ActionButtonSize, NonNullable<ProgressCircleRootProps["size"]>>;
+interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {}
 
-const ActionButtonRoot = React.forwardRef<
-  unknown,
-  ActionButtonVariantProps & ActionButtonRootOwnProps
->((innerProps, ref) => {
+function resolveProgressCircleSize(
+  actionButtonSize: ActionButtonVariantProps["size"],
+): ProgressCircleRootProps["size"] {
+  const size = actionButtonSize ?? "medium";
+  const token = resolveRecipeToken(actionButtonVars, [
+    `size${capitalize(size)}`,
+    "enabled",
+    "progressCircle",
+    "size",
+  ]);
+  const normalized = token?.endsWith("px") ? token.slice(0, -2) : token;
+
+  return progressCircleVariantMap.size.find((size) => size === normalized) ?? "16";
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>((innerProps, ref) => {
   const props = { layout: "withText" as const, ...innerProps };
   const [variantProps, otherProps] = actionButton.splitVariantProps(props);
   const classNames = actionButton(variantProps);
@@ -82,26 +89,53 @@ const ActionButtonRoot = React.forwardRef<
       variantProps.loading,
     ],
   );
+  const iconSlotContextValue = useMemo(
+    () => ({
+      classNames: {
+        icon: classNames.icon,
+        prefixIcon: classNames.prefixIcon,
+        suffixIcon: classNames.suffixIcon,
+      },
+      deps: [
+        variantProps.variant ?? null,
+        variantProps.disabled ?? false,
+        variantProps.loading ?? false,
+        variantProps.pressed ?? false,
+      ],
+    }),
+    [
+      classNames.icon,
+      classNames.prefixIcon,
+      classNames.suffixIcon,
+      variantProps.variant,
+      variantProps.disabled,
+      variantProps.loading,
+      variantProps.pressed,
+    ],
+  );
   return (
     <ClassNamesProvider value={classNames}>
       <PropsProvider value={propsForContext}>
-        <view
-          {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
-          {...rest}
-          className={clsx(classNames.root, userClassName)}
-        >
-          {children as React.ReactNode}
-        </view>
+        <IconSlotProvider value={iconSlotContextValue}>
+          <view
+            {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+            {...rest}
+            className={clsx(classNames.root, userClassName)}
+          >
+            {children as React.ReactNode}
+          </view>
+        </IconSlotProvider>
       </PropsProvider>
     </ClassNamesProvider>
   );
 });
 ActionButtonRoot.displayName = "ActionButtonRoot";
 
-const ActionButtonTextSlot = React.forwardRef<
-  unknown,
-  { children?: React.ReactNode; className?: string }
->((props, ref) => {
+////////////////////////////////////////////////////////////////////////////////////
+
+interface ActionButtonTextSlotProps extends LynxElementProps {}
+
+const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps>((props, ref) => {
   const { children, className: userClassName, ...rest } = props;
   const classNames = useClassNames();
   return (
@@ -116,55 +150,7 @@ const ActionButtonTextSlot = React.forwardRef<
 });
 ActionButtonTextSlot.displayName = "ActionButtonTextSlot";
 
-/**
- * rootage vars 에서 현재 variant/size/layout 조합의 slot `size` 토큰
- * (예: `"var(--seed-dimension-x4)"`) 을 꺼낸다. 아이콘 컴포넌트가 inline
- * `style={{ width, height }}` 를 박기 때문에 style prop 으로 덮어 씌워야 recipe 사이즈가 적용된다.
- */
-function resolveIconSize(
-  variantProps: ActionButtonVariantProps | null,
-  slot: IconSlotKey,
-): string | undefined {
-  const size = variantProps?.size ?? "medium";
-  // `icon` slot is only rendered under `layout="iconOnly"` and keyed at
-  // `sizeXxxLayoutIconOnly.enabled.icon.size`. prefixIcon/suffixIcon follow
-  // the current `layout` (`withText` by default) path.
-  const layout = slot === "icon" ? "iconOnly" : (variantProps?.layout ?? "withText");
-  return resolveRecipeToken(actionButtonVars, [
-    `size${capitalize(size)}Layout${capitalize(layout)}`,
-    "enabled",
-    slot,
-    "size",
-  ]);
-}
-
-/**
- * `prefixIcon` / `suffixIcon` prop 으로 전달된 아이콘 element 에 slot className +
- * size(style) + main-thread tint-color ref 를 주입한다.
- */
-function ActionButtonIconSlot({
-  icon,
-  slot,
-}: {
-  icon: ReactElement<IconElementProps>;
-  slot: IconSlotKey;
-}) {
-  const classNames = useClassNames();
-  const variantProps = useProps() as ActionButtonVariantProps | null;
-  const iconColor = useIconColor([
-    variantProps?.variant ?? null,
-    variantProps?.disabled ?? false,
-    variantProps?.loading ?? false,
-  ]);
-  const sizeVar = resolveIconSize(variantProps, slot);
-  const childProps = icon.props;
-  return cloneElement(icon, {
-    ...iconColor,
-    className: clsx(classNames[slot], childProps.className),
-    style:
-      sizeVar != null ? { width: sizeVar, height: sizeVar, ...childProps.style } : childProps.style,
-  });
-}
+////////////////////////////////////////////////////////////////////////////////////
 
 function ActionButtonContent({
   children,
@@ -173,24 +159,48 @@ function ActionButtonContent({
   prefixIcon,
   suffixIcon,
 }: ActionButtonContentProps) {
+  const childArray = React.Children.toArray(children);
+  const prefixIconChildren: React.ReactNode[] = [];
+  const suffixIconChildren: React.ReactNode[] = [];
+  const iconChildren: React.ReactNode[] = [];
+  const textChildren: React.ReactNode[] = [];
+
+  for (const child of childArray) {
+    const slotName = getIconSlotName(child);
+
+    if (slotName === "prefixIcon") {
+      prefixIconChildren.push(child);
+      continue;
+    }
+    if (slotName === "suffixIcon") {
+      suffixIconChildren.push(child);
+      continue;
+    }
+    if (slotName === "icon") {
+      iconChildren.push(child);
+      continue;
+    }
+
+    textChildren.push(child);
+  }
+
   if (isIconOnly) {
-    return icon != null && isValidElement(icon) ? (
-      <ActionButtonIconSlot icon={icon} slot="icon" />
-    ) : null;
+    if (icon != null && isValidElement(icon)) return <Icon icon={icon} />;
+    return iconChildren.length > 0 ? <>{iconChildren}</> : null;
   }
 
   return (
     <>
-      {prefixIcon != null && isValidElement(prefixIcon) ? (
-        <ActionButtonIconSlot icon={prefixIcon} slot="prefixIcon" />
-      ) : null}
-      <ActionButtonTextSlot>{children}</ActionButtonTextSlot>
-      {suffixIcon != null && isValidElement(suffixIcon) ? (
-        <ActionButtonIconSlot icon={suffixIcon} slot="suffixIcon" />
-      ) : null}
+      {prefixIcon != null && isValidElement(prefixIcon) ? <PrefixIcon icon={prefixIcon} /> : null}
+      {prefixIconChildren}
+      {textChildren.length > 0 ? <ActionButtonTextSlot>{textChildren}</ActionButtonTextSlot> : null}
+      {suffixIconChildren}
+      {suffixIcon != null && isValidElement(suffixIcon) ? <SuffixIcon icon={suffixIcon} /> : null}
     </>
   );
 }
+
+////////////////////////////////////////////////////////////////////////////////////
 
 function ActionButtonLoadingContent(props: ActionButtonContentProps) {
   const classNames = useClassNames();
@@ -202,60 +212,63 @@ function ActionButtonLoadingContent(props: ActionButtonContentProps) {
   );
 }
 
-function ActionButtonLoadingIndicator({ size }: { size: ActionButtonSize }) {
+////////////////////////////////////////////////////////////////////////////////////
+
+function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps["size"] }) {
   const classNames = useClassNames();
+  const progressCircleSize = resolveProgressCircleSize(size);
 
   return (
     <view className={classNames.loadingIndicator}>
-      <ProgressCircleRoot size={progressCircleSizeMap[size]} tone="inherit">
+      <ProgressCircleRoot size={progressCircleSize} tone="inherit">
         <ProgressCircleRange />
       </ProgressCircleRoot>
     </view>
   );
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * @platform Lynx
  *
  * 웹 대비 차이:
- * - 아이콘 전달 방식: 웹의 `<ActionButton.PrefixIcon svg={...} />` 가 아니라 `prefixIcon` /
- *   `suffixIcon` / `icon` prop 으로 ReactElement 를 직접 넘긴다. Lynx `<text>` 가 flex
- *   컨테이너가 아니라 children 전체를 text 로 감싸면 아이콘이 flex item 이 안 되기 때문.
+ * - 아이콘 렌더링: 웹의 SVG `currentColor` 대신 Lynx `<image>` 의 `tint-color` 를
+ *   `Icon` / `PrefixIcon` / `SuffixIcon` wrapper 가 동기화한다.
+ * - 호환 API: 기존 `prefixIcon` / `suffixIcon` / `icon` prop 도 유지한다.
  * - 미지원 prop: `color`, `fontWeight`, `bleedX`, `bleedY` (CSS variable 동적 주입 제한)
  *
  * ```tsx
  * import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
  * import IconChevronDownFill from "@karrotmarket/lynx-monochrome-icon/IconChevronDownFill";
+ * import { Icon, PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
  *
  * // withText (기본)
- * <ActionButton
- *   variant="brandSolid"
- *   prefixIcon={<IconPlusFill />}
- *   suffixIcon={<IconChevronDownFill />}
- * >
+ * <ActionButton variant="brandSolid">
+ *   <PrefixIcon icon={<IconPlusFill />} />
  *   라벨
+ *   <SuffixIcon icon={<IconChevronDownFill />} />
  * </ActionButton>
  *
- * // iconOnly — `icon` prop 과 `aria-label` 필수
+ * // iconOnly — `<Icon />` child 와 `aria-label` 필수
  * <ActionButton
  *   layout="iconOnly"
  *   variant="neutralSolid"
- *   icon={<IconPlusFill />}
  *   aria-label="추가"
- * />
+ * >
+ *   <Icon icon={<IconPlusFill />} />
+ * </ActionButton>
  * ```
  */
-export interface ActionButtonProps extends Omit<ActionButtonVariantProps, "layout" | "pressed"> {
-  children?: React.ReactNode;
-  className?: string;
-  flexGrow?: number;
-  layout?: "withText" | "iconOnly";
-  icon?: ReactElement<IconElementProps>;
-  prefixIcon?: ReactElement<IconElementProps>;
-  suffixIcon?: ReactElement<IconElementProps>;
+export interface ActionButtonProps
+  extends Omit<ActionButtonVariantProps, "pressed">,
+    Pick<StyleProps, "flexGrow">,
+    LynxElementProps,
+    LynxPressableProps {
+  icon?: IconProps["icon"];
+  prefixIcon?: PrefixIconProps["icon"];
+  suffixIcon?: SuffixIconProps["icon"];
   "aria-label"?: string;
-  bindtap?: () => void;
-  "main-thread:bindtap"?: () => void;
 }
 
 export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
@@ -273,7 +286,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   const { disabled = false, loading = false } = variantAndRest;
   const isInteractive = !disabled && !loading;
   const isIconOnly = layout === "iconOnly";
-  const size = variantAndRest.size ?? "medium";
+  const size = variantAndRest.size;
 
   if (process.env.NODE_ENV !== "production" && isIconOnly && !props["aria-label"]) {
     console.warn('ActionButton: `layout="iconOnly"` requires `aria-label` for accessibility.');
@@ -286,37 +299,39 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   });
 
   return (
-    <ActionButtonRoot
-      {...variantAndRest}
-      layout={layout}
-      pressed={pressed}
-      ref={ref}
-      style={flexGrow != null ? { flexGrow } : undefined}
-      {...pressTapHandlers}
-    >
-      {loading ? (
-        <>
-          <ActionButtonLoadingIndicator size={size} />
-          <ActionButtonLoadingContent
+    <IconRequired enabled={isIconOnly}>
+      <ActionButtonRoot
+        {...variantAndRest}
+        layout={layout}
+        pressed={pressed}
+        ref={ref}
+        style={flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined}
+        {...pressTapHandlers}
+      >
+        {loading ? (
+          <>
+            <ActionButtonLoadingIndicator size={size} />
+            <ActionButtonLoadingContent
+              isIconOnly={isIconOnly}
+              icon={icon}
+              prefixIcon={prefixIcon}
+              suffixIcon={suffixIcon}
+            >
+              {children}
+            </ActionButtonLoadingContent>
+          </>
+        ) : (
+          <ActionButtonContent
             isIconOnly={isIconOnly}
             icon={icon}
             prefixIcon={prefixIcon}
             suffixIcon={suffixIcon}
           >
             {children}
-          </ActionButtonLoadingContent>
-        </>
-      ) : (
-        <ActionButtonContent
-          isIconOnly={isIconOnly}
-          icon={icon}
-          prefixIcon={prefixIcon}
-          suffixIcon={suffixIcon}
-        >
-          {children}
-        </ActionButtonContent>
-      )}
-    </ActionButtonRoot>
+          </ActionButtonContent>
+        )}
+      </ActionButtonRoot>
+    </IconRequired>
   );
 });
 ActionButton.displayName = "ActionButton";

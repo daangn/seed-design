@@ -3,23 +3,35 @@ import { type ReactNode, useState } from '@lynx-js/react';
 import {
   getPreviewStateDefaultValues,
   type SetVariantValue,
+  type PreviewState,
+  type VariantAxis,
+  type VariantCatalogValues,
   VariantPlayground,
   type VariantPlaygroundProps,
   type VariantValues,
 } from './variant-playground.jsx';
 import { VariantTable } from './variant-table.jsx';
 
+export {
+  definePreviewStates,
+  defineVariantAxes,
+} from './variant-playground.jsx';
+
 export type {
   PreviewState,
   PrimitiveValue,
   SetVariantValue,
   VariantAxis,
+  VariantCatalogValues,
   VariantValues,
 } from './variant-playground.jsx';
 
 type Mode = 'playground' | 'table' | 'examples';
 
-export interface VariantCatalogProps extends VariantPlaygroundProps {
+export interface VariantCatalogProps<
+  Variants extends readonly VariantAxis[] = readonly VariantAxis[],
+  PreviewStates extends readonly PreviewState[] = readonly PreviewState[],
+> extends VariantPlaygroundProps<Variants, PreviewStates> {
   examples?: ReactNode;
 }
 
@@ -32,7 +44,10 @@ export interface VariantCatalogProps extends VariantPlaygroundProps {
  *
  * 두 모드 모두 같은 `children` render function 을 공유한다.
  */
-export function VariantCatalog(props: VariantCatalogProps) {
+export function VariantCatalog<
+  const Variants extends readonly VariantAxis[],
+  const PreviewStates extends readonly PreviewState[] = readonly [],
+>(props: VariantCatalogProps<Variants, PreviewStates>) {
   const { children, variants, previewStates, examples } = props;
   const [mode, setMode] = useState<Mode>('playground');
   const tabs: Mode[] =
@@ -72,11 +87,14 @@ export function VariantCatalog(props: VariantCatalogProps) {
         ))}
       </view>
       {mode === 'playground' ? (
-        <VariantPlayground variants={variants} previewStates={previewStates}>
+        <VariantPlayground<Variants, PreviewStates>
+          variants={variants}
+          previewStates={previewStates}
+        >
           {children}
         </VariantPlayground>
       ) : mode === 'table' ? (
-        <VariantTable variants={variants}>
+        <VariantTable<Variants> variants={variants}>
           {(values) => renderForTable(children, values, previewStates)}
         </VariantTable>
       ) : (
@@ -87,14 +105,25 @@ export function VariantCatalog(props: VariantCatalogProps) {
 }
 
 const noopSetValue: SetVariantValue = () => {};
-function renderForTable(
-  children: VariantPlaygroundProps['children'],
+function renderForTable<
+  Variants extends readonly VariantAxis[],
+  PreviewStates extends readonly PreviewState[],
+>(
+  children: VariantPlaygroundProps<Variants, PreviewStates>['children'],
   values: VariantValues,
-  previewStates: VariantPlaygroundProps['previewStates'],
+  previewStates: VariantPlaygroundProps<
+    Variants,
+    PreviewStates
+  >['previewStates'],
 ): ReactNode {
   return children(
-    { ...getPreviewStateDefaultValues(previewStates), ...values },
-    noopSetValue,
+    {
+      ...getPreviewStateDefaultValues(previewStates),
+      ...values,
+    } as VariantCatalogValues<Variants, PreviewStates>,
+    noopSetValue as SetVariantValue<
+      VariantCatalogValues<Variants, PreviewStates>
+    >,
   );
 }
 

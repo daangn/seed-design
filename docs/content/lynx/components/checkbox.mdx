@@ -134,6 +134,7 @@ Lynx `Checkbox`는 React `Checkbox`와 다음과 같은 차이가 있습니다.
 
 - **아이콘 주입 방식**: snippet의 `Checkbox`와 `Checkmark`는 `@karrotmarket/lynx-monochrome-icon`의 check / minus icon을 자동으로 주입합니다. compound component를 직접 조합할 때는 `Checkbox.Indicator`에 Lynx monochrome icon을 전달해야 합니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
 - **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Root 내부에서 소유합니다.
+- **Pressed 상태**: 웹의 `data-active` 대신 내부 press state를 `checkmark` recipe의 `pressed` boolean variant로 전달합니다.
 - **렌더링 요소**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
 - **Compound 구조**: `Checkbox.Root` → `Checkbox.Control` → `Checkbox.Indicator` + `Checkbox.Label` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다.
 - **ref forwarding**: `Checkbox`, `Checkmark`, `CheckboxGroup`은 Root view로 ref를 전달합니다. 웹 snippet처럼 hidden input ref를 제공하지 않습니다.
@@ -153,9 +154,3 @@ Lynx `Checkbox`는 React `Checkbox`와 다음과 같은 차이가 있습니다.
 | `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
 | `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onCheckedChange`로 대체 |
 | `weight="default"` / `"stronger"` | deprecated 호환 매핑 | Lynx 신규 컴포넌트이므로 처음부터 `"regular"` / `"bold"` 만 노출 |
-
-### 추후 CSS 지원 시 추가 예정
-
-| 기능 | 웹 대응 | 설명 |
-|------|---------|------|
-| `active` (pressed) 모디파이어 | `data-active` | `checkmark` recipe CSS에 pressed 상태가 정의되면 활성화 |

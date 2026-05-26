@@ -24,13 +24,12 @@ import {
   useContext,
   useMemo,
   useRef,
-  type ReactNode,
   type Ref,
   type RefObject,
 } from "@lynx-js/react";
-import type { CSSProperties } from "react";
 import clsx from "clsx";
 
+import type { LynxPressableProps, LynxStyledElementProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
@@ -194,12 +193,9 @@ BottomSheetRoot.displayName = "BottomSheetRoot";
 // Trigger
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetTriggerProps {
-  children?: ReactNode;
-  className?: string;
-  style?: CSSProperties;
-  bindtap?: () => void;
-}
+export interface BottomSheetTriggerProps
+  extends LynxStyledElementProps,
+    Pick<LynxPressableProps, "bindtap"> {}
 
 export const BottomSheetTrigger = forwardRef<unknown, BottomSheetTriggerProps>((props, ref) => {
   const { children, className, style, bindtap: userBindtap } = props;
@@ -323,11 +319,7 @@ BottomSheetHandle.displayName = "BottomSheetHandle";
 // (lynx-ui-sheet 같은 외부 컴포넌트 감싸기엔 withContext를 그대로 사용해도 안전.)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetSlotProps {
-  children?: ReactNode;
-  className?: string;
-  style?: CSSProperties;
-}
+export interface BottomSheetSlotProps extends LynxStyledElementProps {}
 
 function createViewSlot(slotName: keyof BottomSheetClassNames) {
   const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
