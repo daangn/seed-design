@@ -258,7 +258,7 @@ export const appBar = defineSlotRecipe({
     divider: {
       true: {
         background: {
-          boxShadow: `inset 0px calc(-1 * ${vars.dividerTrue.enabled.root.strokeWidth}) 0 ${vars.dividerTrue.enabled.root.strokeColor}`,
+          boxShadow: `inset 0px calc(-1 * 1px) 0 ${tokens.$color.stroke.neutralSubtle}`,
         },
       },
     },
