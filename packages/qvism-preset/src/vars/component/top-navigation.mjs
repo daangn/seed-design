@@ -56,15 +56,6 @@ export const vars = {
       }
     }
   },
-  "dividerTrue": {
-    "enabled": {
-      "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-subtle)",
-        "strokeWidth": "1px"
-      }
-    }
-  },
-  "dividerFalse": {},
   "titleLayoutTitleOnly": {
     "enabled": {
       "title": {
