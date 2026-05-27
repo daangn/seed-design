@@ -1,6 +1,5 @@
 import { useState } from '@lynx-js/react';
 import { Box, Text, VStack } from '@seed-design/lynx-react';
-import type * as React from 'react';
 
 const TEXT_STYLES = [
   'screenTitle',
@@ -96,7 +95,7 @@ export function TextPrimitivePage() {
                 textStyle="t3Bold"
                 color="fg.neutral"
                 align={align}
-                style={{ width: '100%' } as React.CSSProperties}
+                style={{ width: '100%' }}
               >
                 {`align ${align}`}
               </Text>
