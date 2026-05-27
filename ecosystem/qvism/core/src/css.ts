@@ -215,9 +215,12 @@ export function generateTokenRules(tokens: Theme["tokens"]): postcss.ChildNode[]
 export async function generateEachRecipe(
   config: Config,
   cssConfig: CssgenConfig = {},
-): Promise<{ name: string; css: string; layeredCss: string }[]> {
+): Promise<{ name: string; css: string; layeredCss?: string }[]> {
   const { prefix, theme } = config;
-  const { minify = false } = cssConfig;
+  const {
+    minify = false,
+    generateLayeredCss = config.generateLayeredCss ?? true,
+  } = cssConfig;
 
   if (minify) {
     throw new Error("Minification is not supported for individual recipe generation yet.");
@@ -230,16 +233,22 @@ export async function generateEachRecipe(
       const rawCss = await transpileRulesToCss(rules, config.postcssPlugins);
       const css = await applyPostTransformPlugins(rawCss, config.postTransformPlugins);
 
-      const layeredCss = await applyPostTransformPlugins(
-        transform({
-          filename: `${name}.css`,
-          code: Buffer.from(wrapInLayer(rawCss, "seed-components")),
-          minify: false,
-        }).code.toString(),
-        config.postTransformPlugins,
-      );
+      if (!generateLayeredCss) {
+        return { name, css };
+      }
 
-      return { name, css, layeredCss };
+      return {
+        name,
+        css,
+        layeredCss: await applyPostTransformPlugins(
+          transform({
+            filename: `${name}.css`,
+            code: Buffer.from(wrapInLayer(rawCss, "seed-components")),
+            minify: false,
+          }).code.toString(),
+          config.postTransformPlugins,
+        ),
+      };
     }),
   );
 
