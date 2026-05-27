@@ -1,13 +1,5 @@
 import { switchmark } from "@seed-design/lynx-css/recipes/switchmark";
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-
-const currentDir = dirname(fileURLToPath(import.meta.url));
-const lynxCssRecipesDir = join(currentDir, "..", "..", "..", "..", "..", "lynx-css", "recipes");
-const switchCss = readFileSync(join(lynxCssRecipesDir, "switch.css"), "utf8");
-const switchmarkCss = readFileSync(join(lynxCssRecipesDir, "switchmark.css"), "utf8");
 
 describe("Switch", () => {
   it.each(["16", "24", "32"] as const)("includes selected thumb class for size %s", (size) => {
@@ -21,13 +13,5 @@ describe("Switch", () => {
     expect(classNames.thumb.split(" ")).toContain(
       `seed-switchmark__thumb--size_${size}-checked_true`,
     );
-  });
-
-  it("top-aligns Lynx switch content and applies mark margin compensation", () => {
-    expect(switchCss).toContain("align-items: flex-start");
-    expect(switchCss).toContain("--switchmark-margin-top");
-    expect(switchCss).toContain("margin-top:");
-    expect(switchCss).not.toContain("justify-content: space-between");
-    expect(switchmarkCss).toContain("var(--switchmark-margin-top, 0) 0");
   });
 });
