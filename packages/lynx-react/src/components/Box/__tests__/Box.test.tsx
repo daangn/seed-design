@@ -5,15 +5,20 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Text } from "../../Text";
 import { Box } from "../Box";
-import { useStyleProps } from "../../../utils/styled";
 
 interface TestLynxGlobal {
   lynx?: {
     __globalProps?: {
-      safeAreaInsets?: {
-        top?: number;
-        bottom?: number;
-      };
+      safeAreaInsetTop?: number;
+      safeAreaInsetBottom?: number;
+    };
+  };
+  lynxTestingEnv?: {
+    backgroundThread: {
+      globalThis: TestLynxGlobal;
+    };
+    mainThread: {
+      globalThis: TestLynxGlobal;
     };
   };
 }
@@ -38,8 +43,27 @@ function expectStyle(style: CSSStyleDeclaration, expected: Record<string, string
   }
 }
 
+function setGlobalProps(
+  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
+) {
+  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
+  const globals = [
+    globalThis as TestLynxGlobal,
+    lynxTestingEnv?.backgroundThread.globalThis,
+    lynxTestingEnv?.mainThread.globalThis,
+  ].filter((global): global is TestLynxGlobal => Boolean(global));
+
+  for (const global of globals) {
+    global.lynx = {
+      ...global.lynx,
+      __globalProps: globalProps,
+    };
+  }
+}
+
 describe("Box", () => {
   afterEach(() => {
+    setGlobalProps({});
     vi.unstubAllGlobals();
   });
 
@@ -93,23 +117,23 @@ describe("Box", () => {
   });
 
   it("resolves top and bottom safe area padding from global props", () => {
-    vi.stubGlobal("lynx", {
-      __globalProps: {
-        safeAreaInsets: {
-          top: 47,
-          bottom: 34,
-        },
-      },
-    } satisfies NonNullable<TestLynxGlobal["lynx"]>);
-
-    const { style } = useStyleProps({
-      pt: "safeArea",
-      pb: "safeArea",
+    setGlobalProps({
+      safeAreaInsetTop: 47,
+      safeAreaInsetBottom: 34,
     });
 
-    expect(style).toMatchObject({
-      paddingTop: "47px",
-      paddingBottom: "34px",
+    render(
+      <Box className="box-test" pt="safeArea" pb="safeArea">
+        <Text>Box content</Text>
+      </Box>,
+    );
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    expect(box).toBeInTheDocument();
+    expectStyle((box as HTMLElement).style, {
+      "padding-top": "47px",
+      "padding-bottom": "34px",
     });
   });
 });

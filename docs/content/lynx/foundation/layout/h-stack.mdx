@@ -32,7 +32,7 @@ export function App() {
 }
 ```
 
-`HStack`은 내부적으로 `Box`를 사용하며 `display="flex"`와 `flexDirection="row"`를 기본 적용합니다.
+`HStack`은 Lynx 네이티브 `<view>`를 직접 렌더링하며 `display="flex"`와 `flexDirection="row"`를 기본 적용합니다. `Box`를 내부에서 합성하지 않아 반복 렌더링에서 primitive 컴포넌트 단계를 줄입니다.
 
 ## Props
 

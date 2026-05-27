@@ -1,21 +1,11 @@
 import { useState } from '@lynx-js/react';
 import { vars } from '@seed-design/lynx-css/vars';
-import {
-  getSafeAreaInset,
-  getSafeAreaPadding,
-  Text,
-  useSafeArea,
-  VStack,
-} from '@seed-design/lynx-react';
+import { Text, useSafeArea, VStack } from '@seed-design/lynx-react';
 
 interface LynxGlobalProps {
   [key: string]: unknown;
-  safeAreaInsets?: {
-    top?: number | string | null;
-    bottom?: number | string | null;
-  };
-  safeAreaInsetTop?: number | string | null;
-  safeAreaInsetBottom?: number | string | null;
+  safeAreaInsetTop?: number | null;
+  safeAreaInsetBottom?: number | null;
 }
 
 interface LynxGlobal {
@@ -40,6 +30,18 @@ function formatValue(value: unknown) {
   }
 
   return String(value);
+}
+
+function hasHostSafeAreaValue(value: number | null | undefined) {
+  return typeof value === 'number' && value !== 0 && Number.isFinite(value);
+}
+
+function getSafeAreaSource(value: number | null | undefined) {
+  return hasHostSafeAreaValue(value) ? 'globalProps' : 'env fallback';
+}
+
+function addBaseToSafeAreaInset(inset: string, base: number) {
+  return `calc(${base}px + ${inset})`;
 }
 
 function DebugRow({ label, value }: { label: string; value: unknown }) {
@@ -119,7 +121,7 @@ function SafeAreaPreview({
               color: $color.fg.neutralSubtle,
             }}
           >
-            top {paddingTop} / bottom {paddingBottom}
+            top {formatValue(paddingTop)} / bottom {formatValue(paddingBottom)}
           </text>
         </view>
       </view>
@@ -131,18 +133,17 @@ export function SafeAreaDebugPage() {
   const [snapshot, setSnapshot] = useState(0);
   const globalProps = getGlobalProps();
   const globalPropKeys = Object.keys(globalProps ?? {}).join(', ');
-  const helperTop = getSafeAreaInset('top');
-  const helperBottom = getSafeAreaInset('bottom');
-  const helperPaddingTop = getSafeAreaPadding('top', 16);
-  const helperPaddingBottom = getSafeAreaPadding('bottom', 16);
   const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
+  const safeAreaPaddingTop = addBaseToSafeAreaInset(safeAreaInsetTop, 16);
+  const safeAreaPaddingBottom = addBaseToSafeAreaInset(safeAreaInsetBottom, 16);
 
   return (
     <VStack gap="x6">
       <VStack gap="x1">
         <Text textStyle="screenTitle">Safe Area Debug</Text>
         <Text textStyle="t5Regular" color="fg.neutralSubtle">
-          Compare raw globalProps, env fallback, and package helper output.
+          Verify host-provided safeAreaInsetTop and safeAreaInsetBottom values,
+          with env fallback.
         </Text>
         <view
           bindtap={() => setSnapshot((current) => current + 1)}
@@ -170,7 +171,7 @@ export function SafeAreaDebugPage() {
       </VStack>
 
       <VStack gap="x2">
-        <Text textStyle="t6Bold">globalProps</Text>
+        <Text textStyle="t6Bold">Host globalProps</Text>
         <view
           style={{
             paddingLeft: '14px',
@@ -180,18 +181,6 @@ export function SafeAreaDebugPage() {
           }}
         >
           <DebugRow label="keys" value={globalPropKeys} />
-          <DebugRow label="raw" value={globalProps} />
-          <DebugRow label="safearea" value={globalProps?.safearea} />
-          <DebugRow label="safeArea" value={globalProps?.safeArea} />
-          <DebugRow label="safeAreaInsets" value={globalProps?.safeAreaInsets} />
-          <DebugRow
-            label="safeAreaInsets.top"
-            value={globalProps?.safeAreaInsets?.top}
-          />
-          <DebugRow
-            label="safeAreaInsets.bottom"
-            value={globalProps?.safeAreaInsets?.bottom}
-          />
           <DebugRow
             label="safeAreaInsetTop"
             value={globalProps?.safeAreaInsetTop}
@@ -200,11 +189,19 @@ export function SafeAreaDebugPage() {
             label="safeAreaInsetBottom"
             value={globalProps?.safeAreaInsetBottom}
           />
+          <DebugRow
+            label="top source"
+            value={getSafeAreaSource(globalProps?.safeAreaInsetTop)}
+          />
+          <DebugRow
+            label="bottom source"
+            value={getSafeAreaSource(globalProps?.safeAreaInsetBottom)}
+          />
         </view>
       </VStack>
 
       <VStack gap="x2">
-        <Text textStyle="t6Bold">Package helper</Text>
+        <Text textStyle="t6Bold">Resolved values</Text>
         <view
           style={{
             paddingLeft: '14px',
@@ -213,37 +210,24 @@ export function SafeAreaDebugPage() {
             borderRadius: '12px',
           }}
         >
-          <DebugRow label="getSafeAreaInset(top)" value={helperTop} />
-          <DebugRow label="getSafeAreaInset(bottom)" value={helperBottom} />
-          <DebugRow
-            label="getSafeAreaPadding(top, 16)"
-            value={helperPaddingTop}
-          />
-          <DebugRow
-            label="getSafeAreaPadding(bottom, 16)"
-            value={helperPaddingBottom}
-          />
           <DebugRow label="useSafeArea().top" value={safeAreaInsetTop} />
           <DebugRow label="useSafeArea().bottom" value={safeAreaInsetBottom} />
+          <DebugRow label="top + 16px base" value={safeAreaPaddingTop} />
+          <DebugRow label="bottom + 16px base" value={safeAreaPaddingBottom} />
         </view>
       </VStack>
 
       <VStack gap="x2">
-        <Text textStyle="t6Bold">Visual comparison</Text>
+        <Text textStyle="t6Bold">Preview</Text>
         <SafeAreaPreview
-          title="env only"
-          paddingTop="env(safe-area-inset-top)"
-          paddingBottom="env(safe-area-inset-bottom)"
+          title="useSafeArea"
+          paddingTop={safeAreaInsetTop}
+          paddingBottom={safeAreaInsetBottom}
         />
         <SafeAreaPreview
-          title="package helper"
-          paddingTop={helperTop}
-          paddingBottom={helperBottom}
-        />
-        <SafeAreaPreview
-          title="package helper + 16px base"
-          paddingTop={helperPaddingTop}
-          paddingBottom={helperPaddingBottom}
+          title="useSafeArea + 16px base"
+          paddingTop={safeAreaPaddingTop}
+          paddingBottom={safeAreaPaddingBottom}
         />
       </VStack>
     </VStack>

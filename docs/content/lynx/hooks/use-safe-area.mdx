@@ -9,7 +9,7 @@ description: Lynx 앱에서 top/bottom safe area inset 값을 가져오는 훅�
 import { useSafeArea } from "@seed-design/lynx-react";
 ```
 
-`useSafeArea`는 `@seed-design/lynx-react` 패키지에 포함되어 있습니다. iOS의 CSS `env(safe-area-inset-*)` 경로와 host 앱이 주입하는 `lynx.__globalProps` 값을 같은 API로 다룹니다.
+`useSafeArea`는 `@seed-design/lynx-react` 패키지에 포함되어 있습니다. host 앱이 주입하는 `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetBottom` 값을 우선 읽고, 값이 없으면 Lynx CSS `env(safe-area-inset-*)`를 fallback으로 반환합니다.
 
 ## Usage
 
@@ -48,17 +48,16 @@ function Screen() {
 }
 ```
 
-`Box pt="safeArea"` / `pb="safeArea"`도 같은 safe area 계산 로직을 사용합니다.
+`Box pt="safeArea"` / `pb="safeArea"`도 내부적으로 `useSafeArea`와 같은 safe area resolve 로직을 사용합니다.
 
 ## 동작 방식
 
-우선순위는 다음과 같습니다.
+값 소스 우선순위는 다음과 같습니다.
 
-1. `lynx.__globalProps.safeAreaInsets.top` / `bottom`
-2. `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetBottom`
-3. `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)`
+1. `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetBottom`
+2. `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)`
 
-host가 양수 값을 주입하면 해당 값을 `px` 문자열로 변환합니다. 값이 없거나 `0`, `0px`, 빈 문자열처럼 zero-like 값이면 Lynx CSS `env()` fallback을 유지합니다.
+host가 `0`이 아닌 유효한 숫자 값을 주입하면 해당 값을 `px` 문자열로 변환합니다. 값이 없거나 `0`이면 CSS `env()` 문자열을 반환하고, 실제 px 해석은 Lynx layout 단계에 맡깁니다.
 
 ## API
 
@@ -71,6 +70,6 @@ host가 양수 값을 주입하면 해당 값을 `px` 문자열로 변환합니�
 
 ## 사용 시 주의사항
 
-- Lynx에서는 `env(safe-area-inset-top, 0px)`처럼 fallback 파라미터가 있는 `env()` 문법을 사용하지 않습니다.
+- host global props가 없으면 CSS `env(safe-area-inset-*)` fallback을 반환합니다. 이 값은 JavaScript에서 px로 resolve되지 않고 style/layout 단계에서 해석됩니다.
 - v1에서는 top/bottom만 지원합니다. left/right/p/px/py safe area shorthand는 열지 않습니다.
-- BG → FG 딥링크 진입처럼 native safe area 계산 타이밍이 흔들릴 수 있는 환경에서는 host 앱이 `lynx.__globalProps`로 safe area 값을 주입하는 경로를 함께 확인해야 합니다.
+- BG → FG 딥링크 진입처럼 native safe area 계산 타이밍이 흔들릴 수 있는 환경에서는 host 앱이 `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetBottom`을 안정적으로 주입하는지 확인해야 합니다.

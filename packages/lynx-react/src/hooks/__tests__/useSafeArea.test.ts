@@ -1,17 +1,20 @@
 import { renderHook } from "@lynx-js/react/testing-library";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import { useSafeArea } from "../useSafeArea";
 
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const useSafeAreaSource = readFileSync(join(currentDir, "..", "useSafeArea.ts"), "utf8");
+const utilsIndexSource = readFileSync(join(currentDir, "..", "..", "utils", "index.ts"), "utf8");
+
 interface TestLynxGlobal {
   lynx?: {
     __globalProps?: {
-      safeAreaInsets?: {
-        top?: number | string | null;
-        bottom?: number | string | null;
-      };
-      safeAreaInsetTop?: number | string | null;
-      safeAreaInsetBottom?: number | string | null;
+      safeAreaInsetTop?: number;
+      safeAreaInsetBottom?: number;
     };
   };
   lynxTestingEnv?: {
@@ -27,10 +30,16 @@ interface TestLynxGlobal {
 function setGlobalProps(
   globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
 ) {
+  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
+
+  if (!lynxTestingEnv) {
+    throw new Error("Expected Lynx testing environment globals to be available.");
+  }
+
   const globals = [
     globalThis as TestLynxGlobal,
-    (globalThis as TestLynxGlobal).lynxTestingEnv!.backgroundThread.globalThis,
-    (globalThis as TestLynxGlobal).lynxTestingEnv!.mainThread.globalThis,
+    lynxTestingEnv.backgroundThread.globalThis,
+    lynxTestingEnv.mainThread.globalThis,
   ];
 
   for (const global of globals) {
@@ -42,7 +51,13 @@ function setGlobalProps(
 }
 
 describe("useSafeArea", () => {
-  it("falls back to Lynx env values", () => {
+  it("keeps safe area resolution in the hook without exporting duplicate helpers", () => {
+    expect(useSafeAreaSource).not.toContain("../utils/safe-area");
+    expect(useSafeAreaSource).toContain("resolveSafeAreaInset");
+    expect(utilsIndexSource).not.toContain("./safe-area");
+  });
+
+  it("falls back to Lynx env values when host flat global props are missing", () => {
     const { result } = renderHook(() => useSafeArea());
 
     expect(result.current).toEqual({
@@ -51,26 +66,10 @@ describe("useSafeArea", () => {
     });
   });
 
-  it("uses globalProps safeAreaInsets when available", () => {
+  it("uses flat globalProps values before env fallback", () => {
     setGlobalProps({
-      safeAreaInsets: {
-        top: 47,
-        bottom: 34,
-      },
-    });
-
-    const { result } = renderHook(() => useSafeArea());
-
-    expect(result.current).toEqual({
-      safeAreaInsetTop: "47px",
-      safeAreaInsetBottom: "34px",
-    });
-  });
-
-  it("uses flat globalProps values as fallback", () => {
-    setGlobalProps({
-      safeAreaInsetTop: "48",
-      safeAreaInsetBottom: "35px",
+      safeAreaInsetTop: 48,
+      safeAreaInsetBottom: 35,
     });
 
     const { result } = renderHook(() => useSafeArea());
@@ -78,6 +77,20 @@ describe("useSafeArea", () => {
     expect(result.current).toEqual({
       safeAreaInsetTop: "48px",
       safeAreaInsetBottom: "35px",
+    });
+  });
+
+  it("falls back to Lynx env values when host flat global props are zero", () => {
+    setGlobalProps({
+      safeAreaInsetTop: 0,
+      safeAreaInsetBottom: 0,
+    });
+
+    const { result } = renderHook(() => useSafeArea());
+
+    expect(result.current).toEqual({
+      safeAreaInsetTop: "env(safe-area-inset-top)",
+      safeAreaInsetBottom: "env(safe-area-inset-bottom)",
     });
   });
 });

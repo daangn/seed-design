@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState } from '@lynx-js/react';
 import { vars } from '@seed-design/lynx-css/vars';
-import { getSafeAreaInset, getSafeAreaPadding } from '@seed-design/lynx-react';
+import { useSafeArea } from '@seed-design/lynx-react';
 
 import { ActionButtonPage } from './pages/ActionButtonPage.jsx';
 import { BottomSheetPage } from './pages/BottomSheetPage.jsx';
@@ -102,8 +102,13 @@ const MEASUREMENT_PAGES = new Set<Page>([
 
 const HIDE_LYNX_CONSOLE_IN_MEASUREMENT = true;
 
+function addBaseToSafeAreaInset(inset: string, base: number) {
+  return `calc(${base}px + ${inset})`;
+}
+
 export function App(props: { onRender?: () => void }) {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
   const showLynxConsole =
     !HIDE_LYNX_CONSOLE_IN_MEASUREMENT || !MEASUREMENT_PAGES.has(currentPage);
 
@@ -113,8 +118,8 @@ export function App(props: { onRender?: () => void }) {
     return (
       <view
         style={{
-          paddingTop: getSafeAreaPadding('top', 16),
-          paddingBottom: getSafeAreaInset('bottom'),
+          paddingTop: addBaseToSafeAreaInset(safeAreaInsetTop, 16),
+          paddingBottom: safeAreaInsetBottom,
           display: 'flex',
           flexDirection: 'column',
           height: '100vh',
@@ -152,8 +157,8 @@ export function App(props: { onRender?: () => void }) {
       scroll-y
       style={{
         padding: '16px',
-        paddingTop: getSafeAreaPadding('top', 16),
-        paddingBottom: getSafeAreaPadding('bottom', 16),
+        paddingTop: addBaseToSafeAreaInset(safeAreaInsetTop, 16),
+        paddingBottom: addBaseToSafeAreaInset(safeAreaInsetBottom, 16),
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',

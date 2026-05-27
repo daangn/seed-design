@@ -1,10 +1,16 @@
 import "@testing-library/jest-dom";
 import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import { vars } from "@seed-design/lynx-css/vars";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import { Text } from "../../Text";
 import { HStack, VStack } from "../Stack";
+
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const stackSource = readFileSync(join(currentDir, "..", "Stack.tsx"), "utf8");
 
 function getRenderedQueries() {
   return getQueriesForElement(getRenderedRoot());
@@ -21,6 +27,11 @@ function getRenderedRoot() {
 }
 
 describe("Stack", () => {
+  it("renders native view directly instead of importing Box", () => {
+    expect(stackSource).not.toContain('from "../Box"');
+    expect(stackSource).toContain("<view");
+  });
+
   it("renders VStack as a flex column with layout aliases", () => {
     render(
       <VStack className="stack-test" gap="x2" align="center" justify="spaceBetween">
