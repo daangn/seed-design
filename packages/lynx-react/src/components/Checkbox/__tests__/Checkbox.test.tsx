@@ -86,7 +86,7 @@ describe("Checkbox", () => {
     expect(image).toHaveStyle({ width: "100%", height: "100%" });
   });
 
-  it("keeps recipe className and headless checked state class together", () => {
+  it("uses recipe className as the styling source of truth", () => {
     render(
       <CheckboxRoot defaultChecked size="large" weight="bold">
         <CheckboxControl>
@@ -99,7 +99,8 @@ describe("Checkbox", () => {
     getRenderedQueries().getByText("동의");
     const root = getRootView();
 
-    expect(root).toHaveClass("seed-checkbox__root", "ui-checked");
+    expect(root).toHaveClass("seed-checkbox__root");
+    expect(root).not.toHaveClass("ui-checked");
     expect(getRenderedRoot().querySelector(".seed-checkmark__root")).toHaveClass(
       checkmark({
         variant: "square",
@@ -117,6 +118,9 @@ describe("Checkbox", () => {
     const onCheckedChange = vi.fn();
     render(
       <CheckboxRoot defaultChecked={false} onCheckedChange={onCheckedChange}>
+        <CheckboxControl>
+          <CheckboxIndicator checked={<MockIcon />} />
+        </CheckboxControl>
         <CheckboxLabel>동의</CheckboxLabel>
       </CheckboxRoot>,
     );
@@ -127,7 +131,18 @@ describe("Checkbox", () => {
     fireEvent.tap(root);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(root).toHaveClass("ui-checked");
+    expect(root).not.toHaveClass("ui-checked");
+    expect(getRenderedRoot().querySelector(".seed-checkmark__root")).toHaveClass(
+      checkmark({
+        variant: "square",
+        tone: "brand",
+        size: "medium",
+        checked: true,
+        disabled: false,
+        indeterminate: false,
+        pressed: false,
+      }).root,
+    );
   });
 
   it("does not change disabled checkbox on tap", () => {
@@ -144,7 +159,7 @@ describe("Checkbox", () => {
     fireEvent.tap(root);
 
     expect(onCheckedChange).not.toHaveBeenCalled();
-    expect(root).toHaveClass("ui-disabled");
+    expect(root).not.toHaveClass("ui-disabled");
     expect(root).not.toHaveClass("ui-checked");
   });
 });

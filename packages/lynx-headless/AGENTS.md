@@ -14,5 +14,5 @@ Lynx 전용 headless primitive 패키지를 component 단위로 제공하는 폴
 
 - React DOM headless 로직, DOM primitive, hidden input, form/focus 모델을 공유하지 않는다.
 - native `<view>` / `<text>`는 해당 headless 컴포넌트 파일 안에 literal JSX로 작성한다.
-- 상태는 공식 `lynx-ui`와 같은 `ui-*` class와 render props/context로 노출한다.
+- 상태는 render props/context로 노출하고, 자동 상태 class는 주입하지 않는다.
 - styled recipe, SEED token, className recipe 조합은 넣지 않는다. 그런 책임은 `packages/lynx-react`에 둔다.

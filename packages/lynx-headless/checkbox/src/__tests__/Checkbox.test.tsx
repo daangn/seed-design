@@ -28,25 +28,27 @@ describe("CheckboxRoot", () => {
     const onCheckedChange = vi.fn();
     render(
       <CheckboxRoot defaultChecked={false} onCheckedChange={onCheckedChange}>
-        체크박스
+        {(state) => <text>{state.checked ? "checked" : "unchecked"}</text>}
       </CheckboxRoot>,
     );
 
     const root = getRootView();
 
     expect(root).not.toHaveClass("ui-checked");
+    expect(getRenderedQueries().getByText("unchecked")).toBeInTheDocument();
 
     fireEvent.tap(root);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(root).toHaveClass("ui-checked");
+    expect(getRenderedQueries().getByText("checked")).toBeInTheDocument();
+    expect(root).not.toHaveClass("ui-checked");
   });
 
   it("keeps controlled checked state until value changes", () => {
     const onCheckedChange = vi.fn();
     const { rerender } = render(
       <CheckboxRoot checked={false} onCheckedChange={onCheckedChange}>
-        체크박스
+        {(state) => <text>{state.checked ? "checked" : "unchecked"}</text>}
       </CheckboxRoot>,
     );
 
@@ -55,15 +57,17 @@ describe("CheckboxRoot", () => {
     fireEvent.tap(root);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
+    expect(getRenderedQueries().getByText("unchecked")).toBeInTheDocument();
     expect(root).not.toHaveClass("ui-checked");
 
     rerender(
       <CheckboxRoot checked onCheckedChange={onCheckedChange}>
-        체크박스
+        {(state) => <text>{state.checked ? "checked" : "unchecked"}</text>}
       </CheckboxRoot>,
     );
 
-    expect(root).toHaveClass("ui-checked");
+    expect(getRenderedQueries().getByText("checked")).toBeInTheDocument();
+    expect(root).not.toHaveClass("ui-checked");
   });
 
   it("ignores tap when disabled", () => {
@@ -79,7 +83,7 @@ describe("CheckboxRoot", () => {
     fireEvent.tap(root);
 
     expect(onCheckedChange).not.toHaveBeenCalled();
-    expect(root).toHaveClass("ui-disabled");
+    expect(root).not.toHaveClass("ui-disabled");
   });
 
   it("passes state to render-prop children", () => {
@@ -135,19 +139,24 @@ describe("CheckboxRoot", () => {
     expect(root).not.toHaveClass("legacy-checkbox");
   });
 
-  it("shares state through control and indicator context", () => {
+  it("shares state through control and indicator context without adding automatic state classes", () => {
     render(
       <CheckboxRoot defaultChecked indeterminate>
         <CheckboxControl>
-          <CheckboxIndicator>표시</CheckboxIndicator>
+          <CheckboxIndicator>
+            {(state) => <text>{state.checked && state.indeterminate ? "mixed" : "plain"}</text>}
+          </CheckboxIndicator>
         </CheckboxControl>
       </CheckboxRoot>,
     );
 
     const root = getRenderedRoot();
 
-    expect(root.querySelector("view > view")).toHaveClass("ui-checked", "ui-indeterminate");
-    expect(root.querySelector("view > view > view")).toHaveClass("ui-checked", "ui-indeterminate");
+    expect(getRenderedQueries().getByText("mixed")).toBeInTheDocument();
+    expect(root.querySelector("view > view")).not.toHaveClass("ui-checked");
+    expect(root.querySelector("view > view")).not.toHaveClass("ui-indeterminate");
+    expect(root.querySelector("view > view > view")).not.toHaveClass("ui-checked");
+    expect(root.querySelector("view > view > view")).not.toHaveClass("ui-indeterminate");
   });
 
   it("uses direct native props on control and indicator slots", () => {

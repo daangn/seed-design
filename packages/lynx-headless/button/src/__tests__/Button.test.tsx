@@ -24,37 +24,53 @@ function getRootView() {
 }
 
 describe("ButtonRoot", () => {
-  it("renders active and disabled state classes", () => {
-    render(<ButtonRoot disabled>버튼</ButtonRoot>);
+  it("passes disabled state without adding automatic state classes", () => {
+    render(
+      <ButtonRoot disabled>
+        {(state) => <text>{state.disabled ? "disabled" : "enabled"}</text>}
+      </ButtonRoot>,
+    );
 
     const button = getRootView();
 
-    expect(button).toHaveClass("ui-disabled");
+    expect(getRenderedQueries().getByText("disabled")).toBeInTheDocument();
+    expect(button).not.toHaveClass("ui-disabled");
     expect(button).not.toHaveClass("ui-active");
   });
 
-  it("tracks active state while pressed", () => {
-    render(<ButtonRoot>버튼</ButtonRoot>);
+  it("tracks active state while pressed without adding automatic state classes", () => {
+    render(<ButtonRoot>{(state) => <text>{state.active ? "active" : "idle"}</text>}</ButtonRoot>);
 
     const button = getRootView();
 
+    expect(getRenderedQueries().getByText("idle")).toBeInTheDocument();
+
     fireEvent.touchstart(button);
-    expect(button).toHaveClass("ui-active");
+    expect(getRenderedQueries().getByText("active")).toBeInTheDocument();
+    expect(button).not.toHaveClass("ui-active");
 
     fireEvent.touchend(button);
+    expect(getRenderedQueries().getByText("idle")).toBeInTheDocument();
     expect(button).not.toHaveClass("ui-active");
   });
 
   it("resets active state when disabled during press", () => {
-    const { rerender } = render(<ButtonRoot>버튼</ButtonRoot>);
+    const { rerender } = render(
+      <ButtonRoot>{(state) => <text>{state.active ? "active" : "idle"}</text>}</ButtonRoot>,
+    );
     const button = getRootView();
 
     fireEvent.touchstart(button);
-    expect(button).toHaveClass("ui-active");
+    expect(getRenderedQueries().getByText("active")).toBeInTheDocument();
 
-    rerender(<ButtonRoot disabled>버튼</ButtonRoot>);
+    rerender(
+      <ButtonRoot disabled>
+        {(state) => <text>{state.active ? "active" : "idle"}</text>}
+      </ButtonRoot>,
+    );
 
-    expect(getRootView()).toHaveClass("ui-disabled");
+    expect(getRenderedQueries().getByText("idle")).toBeInTheDocument();
+    expect(getRootView()).not.toHaveClass("ui-disabled");
     expect(getRootView()).not.toHaveClass("ui-active");
   });
 

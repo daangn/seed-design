@@ -53,7 +53,7 @@ describe("Switch", () => {
     expect(switchmarkCss).not.toContain("--switchmark-margin-top");
   });
 
-  it("keeps recipe className and headless checked state class together", () => {
+  it("uses recipe className as the styling source of truth", () => {
     render(
       <SwitchRoot defaultChecked size="24">
         <SwitchControl>
@@ -66,7 +66,8 @@ describe("Switch", () => {
     getRenderedQueries().getByText("알림");
     const root = getRootView();
 
-    expect(root).toHaveClass("seed-switch__root", "ui-checked");
+    expect(root).toHaveClass("seed-switch__root");
+    expect(root).not.toHaveClass("ui-checked");
     expect(getRenderedRoot().querySelector(".seed-switchmark__root")).toHaveClass(
       switchmark({
         tone: "brand",
@@ -81,6 +82,9 @@ describe("Switch", () => {
     const onCheckedChange = vi.fn();
     render(
       <SwitchRoot defaultChecked={false} onCheckedChange={onCheckedChange}>
+        <SwitchControl>
+          <SwitchThumb />
+        </SwitchControl>
         <SwitchLabel>알림</SwitchLabel>
       </SwitchRoot>,
     );
@@ -91,7 +95,15 @@ describe("Switch", () => {
     fireEvent.tap(root);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(root).toHaveClass("ui-checked");
+    expect(root).not.toHaveClass("ui-checked");
+    expect(getRenderedRoot().querySelector(".seed-switchmark__root")).toHaveClass(
+      switchmark({
+        tone: "brand",
+        size: "32",
+        checked: true,
+        disabled: false,
+      }).root,
+    );
   });
 
   it("does not change disabled switch on tap", () => {
@@ -108,7 +120,7 @@ describe("Switch", () => {
     fireEvent.tap(root);
 
     expect(onCheckedChange).not.toHaveBeenCalled();
-    expect(root).toHaveClass("ui-disabled");
+    expect(root).not.toHaveClass("ui-disabled");
     expect(root).not.toHaveClass("ui-checked");
   });
 });

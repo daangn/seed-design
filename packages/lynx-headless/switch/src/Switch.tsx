@@ -5,7 +5,7 @@ import { ButtonRoot } from "@seed-design/lynx-button";
 import type { ButtonNativeProps, ButtonRootProps } from "@seed-design/lynx-button";
 import { useControllableState } from "@seed-design/lynx-use-controllable-state";
 
-import { cx, renderWithState } from "./utils";
+import { renderWithState } from "./utils";
 
 export interface SwitchState {
   active: boolean;
@@ -70,7 +70,7 @@ export const SwitchRoot = forwardRef<unknown, SwitchRootProps>((props, ref) => {
       ref={ref}
       disabled={disabled}
       onClick={toggle}
-      className={cx(className, checked && "ui-checked")}
+      className={className}
       style={style}
       accessibility-role-description={accessibilityRoleDescription}
     >
@@ -96,18 +96,13 @@ SwitchRoot.displayName = "SwitchRoot";
 
 export const SwitchControl = forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const { children, className, style, ...controlProps } = props;
-  const state = useSwitchContext("SwitchControl");
+  useSwitchContext("SwitchControl");
 
   return (
     <view
       {...controlProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
-      className={cx(
-        className,
-        state.active && "ui-active",
-        state.checked && "ui-checked",
-        state.disabled && "ui-disabled",
-      )}
+      className={className}
       style={style}
     >
       {children}
@@ -120,18 +115,13 @@ SwitchControl.displayName = "SwitchControl";
 
 export const SwitchThumb = forwardRef<unknown, SwitchThumbProps>((props, ref) => {
   const { className, style, ...rootProps } = props;
-  const state = useSwitchContext("SwitchThumb");
+  useSwitchContext("SwitchThumb");
 
   return (
     <view
       {...rootProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
-      className={cx(
-        className,
-        state.active && "ui-active",
-        state.checked && "ui-checked",
-        state.disabled && "ui-disabled",
-      )}
+      className={className}
       style={style}
     />
   );

@@ -5,7 +5,7 @@ import { ButtonRoot } from "@seed-design/lynx-button";
 import type { ButtonNativeProps, ButtonRootProps } from "@seed-design/lynx-button";
 import { useControllableState } from "@seed-design/lynx-use-controllable-state";
 
-import { cx, renderWithState } from "./utils";
+import { renderWithState } from "./utils";
 
 export interface CheckboxState {
   active: boolean;
@@ -76,7 +76,7 @@ export const CheckboxRoot = forwardRef<unknown, CheckboxRootProps>((props, ref) 
       ref={ref}
       disabled={disabled}
       onClick={toggle}
-      className={cx(className, checked && "ui-checked", indeterminate && "ui-indeterminate")}
+      className={className}
       style={style}
       accessibility-role-description={accessibilityRoleDescription}
     >
@@ -103,19 +103,13 @@ CheckboxRoot.displayName = "CheckboxRoot";
 
 export const CheckboxControl = forwardRef<unknown, CheckboxControlProps>((props, ref) => {
   const { children, className, style, ...controlProps } = props;
-  const state = useCheckboxContext("CheckboxControl");
+  useCheckboxContext("CheckboxControl");
 
   return (
     <view
       {...controlProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
-      className={cx(
-        className,
-        state.active && "ui-active",
-        state.checked && "ui-checked",
-        state.disabled && "ui-disabled",
-        state.indeterminate && "ui-indeterminate",
-      )}
+      className={className}
       style={style}
     >
       {children}
@@ -137,13 +131,7 @@ export const CheckboxIndicator = forwardRef<unknown, CheckboxIndicatorProps>((pr
     <view
       {...rootProps}
       {...(ref ? { ref: ref as Ref<SVGViewElement> } : {})}
-      className={cx(
-        className,
-        state.active && "ui-active",
-        state.checked && "ui-checked",
-        state.disabled && "ui-disabled",
-        state.indeterminate && "ui-indeterminate",
-      )}
+      className={className}
       style={style}
     >
       {renderWithState(children, state)}

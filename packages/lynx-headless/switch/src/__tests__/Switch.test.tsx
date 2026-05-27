@@ -28,25 +28,27 @@ describe("SwitchRoot", () => {
     const onCheckedChange = vi.fn();
     render(
       <SwitchRoot defaultChecked={false} onCheckedChange={onCheckedChange}>
-        스위치
+        {(state) => <text>{state.checked ? "on" : "off"}</text>}
       </SwitchRoot>,
     );
 
     const root = getRootView();
 
     expect(root).not.toHaveClass("ui-checked");
+    expect(getRenderedQueries().getByText("off")).toBeInTheDocument();
 
     fireEvent.tap(root);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(root).toHaveClass("ui-checked");
+    expect(getRenderedQueries().getByText("on")).toBeInTheDocument();
+    expect(root).not.toHaveClass("ui-checked");
   });
 
   it("keeps controlled checked state until value changes", () => {
     const onCheckedChange = vi.fn();
     const { rerender } = render(
       <SwitchRoot checked={false} onCheckedChange={onCheckedChange}>
-        스위치
+        {(state) => <text>{state.checked ? "on" : "off"}</text>}
       </SwitchRoot>,
     );
 
@@ -55,15 +57,17 @@ describe("SwitchRoot", () => {
     fireEvent.tap(root);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
+    expect(getRenderedQueries().getByText("off")).toBeInTheDocument();
     expect(root).not.toHaveClass("ui-checked");
 
     rerender(
       <SwitchRoot checked onCheckedChange={onCheckedChange}>
-        스위치
+        {(state) => <text>{state.checked ? "on" : "off"}</text>}
       </SwitchRoot>,
     );
 
-    expect(root).toHaveClass("ui-checked");
+    expect(getRenderedQueries().getByText("on")).toBeInTheDocument();
+    expect(root).not.toHaveClass("ui-checked");
   });
 
   it("ignores tap when disabled", () => {
@@ -79,7 +83,7 @@ describe("SwitchRoot", () => {
     fireEvent.tap(root);
 
     expect(onCheckedChange).not.toHaveBeenCalled();
-    expect(root).toHaveClass("ui-disabled");
+    expect(root).not.toHaveClass("ui-disabled");
   });
 
   it("passes state to render-prop children", () => {
@@ -128,19 +132,26 @@ describe("SwitchRoot", () => {
     expect(root).not.toHaveClass("legacy-switch");
   });
 
-  it("shares state through control and thumb context", () => {
+  it("shares state through control and thumb context without adding automatic state classes", () => {
+    function ThumbStateLabel() {
+      const state = useSwitchContext("ThumbStateLabel");
+      return <text>{state.checked ? "thumb-on" : "thumb-off"}</text>;
+    }
+
     render(
       <SwitchRoot defaultChecked>
         <SwitchControl>
           <SwitchThumb />
+          <ThumbStateLabel />
         </SwitchControl>
       </SwitchRoot>,
     );
 
     const root = getRenderedRoot();
 
-    expect(root.querySelector("view > view")).toHaveClass("ui-checked");
-    expect(root.querySelector("view > view > view")).toHaveClass("ui-checked");
+    expect(getRenderedQueries().getByText("thumb-on")).toBeInTheDocument();
+    expect(root.querySelector("view > view")).not.toHaveClass("ui-checked");
+    expect(root.querySelector("view > view > view")).not.toHaveClass("ui-checked");
   });
 
   it("uses direct native props on control and thumb slots", () => {

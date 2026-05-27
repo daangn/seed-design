@@ -9,7 +9,7 @@ import {
 import type { ViewProps } from "@lynx-js/types";
 import type { CSSProperties, ReactNode, Ref } from "react";
 
-import { cx, renderWithState } from "./utils";
+import { renderWithState } from "./utils";
 
 export interface ButtonState {
   active: boolean;
@@ -113,7 +113,7 @@ export const ButtonRoot = forwardRef<unknown, ButtonRootProps>((props, ref) => {
         accessibility-traits={accessibilityTraits ?? "button"}
         accessibility-value={accessibilityValue}
         event-through={eventThrough ?? false}
-        className={cx(className, state.active && "ui-active", disabled && "ui-disabled")}
+        className={className}
         style={style}
       >
         {renderWithState(children, state)}
