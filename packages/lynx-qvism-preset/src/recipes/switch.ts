@@ -29,7 +29,6 @@ const switchRecipe = defineSlotRecipe({
         label: {
           fontSize: vars.size32.enabled.label.fontSize,
           lineHeight: vars.size32.enabled.label.lineHeight,
-          marginTop: `calc(${vars.size32.enabled.root.height} / 2 - ${vars.size32.enabled.label.lineHeight} / 2)`,
         },
       },
       24: {
@@ -41,7 +40,6 @@ const switchRecipe = defineSlotRecipe({
         label: {
           fontSize: vars.size24.enabled.label.fontSize,
           lineHeight: vars.size24.enabled.label.lineHeight,
-          marginTop: `calc(${vars.size24.enabled.root.height} / 2 - ${vars.size24.enabled.label.lineHeight} / 2)`,
         },
       },
       16: {
@@ -53,7 +51,6 @@ const switchRecipe = defineSlotRecipe({
         label: {
           fontSize: vars.size16.enabled.label.fontSize,
           lineHeight: vars.size16.enabled.label.lineHeight,
-          marginTop: `calc(${vars.size16.enabled.root.height} / 2 - ${vars.size16.enabled.label.lineHeight} / 2)`,
         },
       },
     },

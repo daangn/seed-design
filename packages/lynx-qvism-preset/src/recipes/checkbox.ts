@@ -4,8 +4,8 @@ import { defineSlotRecipe } from "../utils/define";
 /**
  * Lynx-전용 checkbox wrapper recipe.
  *
- * React recipe 와 동일하게 root 는 위쪽 정렬을 유지하고, mark/label 은 각 size 의
- * 터치 영역 안에서만 margin 으로 수직 보정한다. 긴 label 이 2줄 이상으로 래핑되어도
+ * Root 는 위쪽 정렬을 유지하고, mark 는 각 size 의 터치 영역 안에서만 margin 으로
+ * 수직 보정한다. 긴 label 이 2줄 이상으로 래핑되어도
  * checkmark 가 전체 label 높이의 가운데로 내려가지 않도록 하기 위함이다.
  */
 const checkboxRecipe = defineSlotRecipe({
@@ -40,7 +40,6 @@ const checkboxRecipe = defineSlotRecipe({
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
           lineHeight: vars.sizeMedium.enabled.label.lineHeight,
-          marginTop: `calc(${vars.sizeMedium.enabled.root.minHeight} / 2 - ${vars.sizeMedium.enabled.label.lineHeight} / 2)`,
         },
       },
       large: {
@@ -51,7 +50,6 @@ const checkboxRecipe = defineSlotRecipe({
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
           lineHeight: vars.sizeLarge.enabled.label.lineHeight,
-          marginTop: `calc(${vars.sizeLarge.enabled.root.minHeight} / 2 - ${vars.sizeLarge.enabled.label.lineHeight} / 2)`,
         },
       },
     },

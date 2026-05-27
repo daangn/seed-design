@@ -15,8 +15,7 @@
 }
 .seed-switch__label--size_16 {
     font-size: var(--seed-font-size-t3);
-    line-height: var(--seed-line-height-t3);
-    margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t3) / 2)
+    line-height: var(--seed-line-height-t3)
 }
 .seed-switch__root--size_24 {
     min-height: var(--seed-dimension-x6);
@@ -25,8 +24,7 @@
 }
 .seed-switch__label--size_24 {
     font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
-    margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t4) / 2)
+    line-height: var(--seed-line-height-t4)
 }
 .seed-switch__root--size_32 {
     min-height: var(--seed-dimension-x8);
@@ -35,8 +33,7 @@
 }
 .seed-switch__label--size_32 {
     font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
-    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t5) / 2)
+    line-height: var(--seed-line-height-t5)
 }
 .seed-switch__label--disabled_true {
     opacity: 0.58
