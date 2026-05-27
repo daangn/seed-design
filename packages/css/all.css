@@ -2002,10 +2002,6 @@
   color: var(--seed-icon-color, var(--seed-color-palette-static-white));
 }
 
-.seed-app-bar__background--divider_true {
-  box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-subtle);
-}
-
 .seed-app-bar-main__root {
   flex: 1;
 }
