@@ -1594,7 +1594,8 @@
 .seed-switch__root--size_16 {
   min-height: var(--seed-dimension-x6);
   gap: var(--seed-dimension-x1_5);
-  --switchmark-margin-top: calc((var(--seed-dimension-x6) - 16px) / 2);
+  --switchmark-margin-top: calc((var(--seed-dimension-x6) - 16px) / 2 + var(--seed-dimension-x1));
+  --switchmark-margin-bottom: calc((var(--seed-dimension-x6) - 16px) / 2 - var(--seed-dimension-x1));
 }
 
 .seed-switch__label--size_16 {
@@ -1634,7 +1635,8 @@
 .seed-switchmark__root {
   border-radius: var(--seed-radius-full);
   background-color: var(--seed-color-palette-gray-600);
-  margin: var(--switchmark-margin-top, 0) 0;
+  margin-top: var(--switchmark-margin-top, 0);
+  margin-bottom: var(--switchmark-margin-bottom, var(--switchmark-margin-top, 0));
   transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
   display: flex;
   position: relative;
