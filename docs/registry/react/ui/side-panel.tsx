@@ -10,10 +10,7 @@ export interface SidePanelRootProps extends SeedSidePanel.RootProps {}
 /**
  * @see https://seed-design.io/react/components/side-panel
  */
-export const SidePanelRoot = (props: SidePanelRootProps) => {
-  const { children, ...otherProps } = props;
-  return <SeedSidePanel.Root {...otherProps}>{children}</SeedSidePanel.Root>;
-};
+export const SidePanelRoot = SeedSidePanel.Root;
 
 export interface SidePanelTriggerProps extends SeedSidePanel.TriggerProps {}
 

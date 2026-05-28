@@ -223,6 +223,8 @@ Component.displayName = "Component";
 
 Snippet이 convenience wrapper라면, 이 패턴에서 `children`을 그대로 열어두기보다 사용자 의미가 분명한 prop을 먼저 정의한다. Low-level composition을 유지해야 하는 경우에는 `children`을 열어두되, 문서에서 그 이유와 권장 composition을 함께 설명한다.
 
+로직 없는 root wrapper는 만들지 않는다. `children`을 받아 underlying `Root`에 그대로 넘기기만 한다면 `export const ComponentRoot = SeedComponent.Root`처럼 re-export를 우선한다. 반대로 `Content`처럼 title/description, 자동 close button, accessibility warning 등 convenience 조합 책임이 있으면 wrapper를 유지한다.
+
 ## [Snippet] Export naming
 
 Snippet의 최상위 export 이름은 사용자가 설치 후 import하는 이름이므로 underlying React primitive 이름을 그대로 따라가지 않는다.
