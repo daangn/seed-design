@@ -115,6 +115,8 @@ Dialog, Drawer, Sheet류의 close button은 **visual root/icon 위치**와 **tou
 - touch target 확장은 recipe의 `::after`에서 `calc((root.size - root.targetSize) / 2)` inset으로 처리한다.
 - Figma에서 아이콘 기준 좌표가 주어진 경우, 보정값을 `fromTop`/`fromRight` rootage 토큰에 직접 넣지 않는다. 토큰은 visual root 기준 좌표를 표현하고, 터치 영역 보정은 `targetSize + ::after`가 맡는다.
 - header/title이 close button touch target과 겹칠 수 있으면 padding 보정은 `root.size`가 아니라 `root.targetSize` 기준으로 잡는다.
+- visual root가 투명한 icon-only close button이라면 hover/active 피드백을 위해 배경 면을 새로 만들지 않는다. 디자인에서 버튼 배경이 명시되지 않았다면 `pressed.icon.color` 같은 icon state token으로 `--seed-icon-color`를 바꾸고, semantic fg token(예: `$color.fg.neutral`)을 우선 사용한다.
+- icon color에 transition이 필요하면 duration/timing token도 `icon` slot 아래에 두고, recipe에서는 `.seed-icon`의 `color` transition을 지정한다.
 
 ## 애니메이션 패턴
 

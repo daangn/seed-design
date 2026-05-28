@@ -9019,30 +9019,31 @@
     border-radius: var(--seed-radius-r3);
     background: var(--seed-color-bg-transparent);
     cursor: pointer;
-    width: 22px;
-    height: 22px;
-    transition-property: background-color;
-    transition-duration: var(--seed-duration-color-transition);
-    transition-timing-function: var(--seed-timing-function-easing);
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
     border: none;
     justify-content: center;
     align-items: center;
+    width: 22px;
+    height: 22px;
     display: flex;
     position: absolute;
     right: 24px;
   }
 
+  .seed-side-panel__closeButton :where(.seed-icon) {
+    transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+  }
+
   @media (hover: hover) and (pointer: fine) {
     .seed-side-panel__closeButton:is(:hover, [data-hover]) {
-      background: var(--seed-color-bg-neutral-weak-pressed);
+      --seed-icon-color: var(--seed-color-fg-neutral);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-side-panel__closeButton:is(:active, [data-active]) {
-      background: var(--seed-color-bg-neutral-weak-pressed);
+      --seed-icon-color: var(--seed-color-fg-neutral);
     }
   }
 
