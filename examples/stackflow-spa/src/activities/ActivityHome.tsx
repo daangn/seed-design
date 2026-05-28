@@ -327,6 +327,11 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SideNavigation", onClick: () => replace("ActivitySideNavigation", {}) },
+        { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
+        {
+          title: "ResponsiveSidePanel",
+          onClick: () => push("ActivityResponsiveSidePanel", {}),
+        },
       ],
     },
     {

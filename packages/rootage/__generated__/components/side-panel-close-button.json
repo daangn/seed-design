@@ -1,0 +1,120 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "side-panel-close-button",
+    "name": "Side Panel Close Button"
+  },
+  "data": {
+    "id": "side-panel-close-button",
+    "name": "Side Panel Close Button",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "targetSize": {
+              "type": "dimension"
+            },
+            "size": {
+              "type": "dimension"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "icon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
+                },
+                "targetSize": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 52,
+                    "unit": "px"
+                  }
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 52,
+                    "unit": "px"
+                  }
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 22,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-weak-pressed"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
