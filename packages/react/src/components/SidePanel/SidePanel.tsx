@@ -1,7 +1,6 @@
 import { sidePanel, type SidePanelVariantProps } from "@seed-design/css/recipes/side-panel";
 import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import type { ReactNode } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
@@ -11,27 +10,9 @@ const { withRootProvider, withContext } = createSlotRecipeContext(sidePanel);
 
 export interface SidePanelRootProps
   extends SidePanelVariantProps,
-    Pick<
-      Drawer.RootProps,
-      | "open"
-      | "defaultOpen"
-      | "onOpenChange"
-      | "modal"
-      | "dismissible"
-      | "closeOnEscape"
-      | "closeOnInteractOutside"
-      | "lazyMount"
-      | "unmountOnExit"
-      | "container"
-      | "autoFocus"
-      | "onAnimationEnd"
-      | "closeThreshold"
-      | "onDrag"
-      | "onRelease"
-    > {
+    Drawer.RootProps {
   /** Direction the side panel slides in from. @default "right" */
   direction?: "left" | "right";
-  children?: ReactNode;
 }
 
 export const SidePanelRoot = withRootProvider<SidePanelRootProps>(Drawer.Root, {
@@ -44,17 +25,13 @@ export const SidePanelRoot = withRootProvider<SidePanelRootProps>(Drawer.Root, {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface SidePanelTriggerProps extends Drawer.TriggerProps {}
 
 export const SidePanelTrigger = Drawer.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelPositionerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface SidePanelPositionerProps extends Drawer.PositionerProps {}
 
 export const SidePanelPositioner = withContext<HTMLDivElement, SidePanelPositionerProps>(
   Drawer.Positioner,
@@ -63,9 +40,7 @@ export const SidePanelPositioner = withContext<HTMLDivElement, SidePanelPosition
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelBackdropProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface SidePanelBackdropProps extends Drawer.BackdropProps {}
 
 export const SidePanelBackdrop = withContext<HTMLDivElement, SidePanelBackdropProps>(
   Drawer.Backdrop,
@@ -75,9 +50,8 @@ export const SidePanelBackdrop = withContext<HTMLDivElement, SidePanelBackdropPr
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SidePanelContentProps
-  extends PrimitiveProps,
-    Pick<StyleProps, "width" | "maxWidth">,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends Drawer.ContentProps,
+    Pick<StyleProps, "width" | "maxWidth"> {}
 
 export const SidePanelContent = withContext<HTMLDivElement, SidePanelContentProps>(
   withStyleProps(Drawer.Content),
@@ -86,9 +60,7 @@ export const SidePanelContent = withContext<HTMLDivElement, SidePanelContentProp
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface SidePanelHeaderProps extends Drawer.HeaderProps {}
 
 export const SidePanelHeader = withContext<HTMLDivElement, SidePanelHeaderProps>(
   Drawer.Header,
@@ -97,9 +69,7 @@ export const SidePanelHeader = withContext<HTMLDivElement, SidePanelHeaderProps>
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLHeadingElement> {}
+export interface SidePanelTitleProps extends Drawer.TitleProps {}
 
 export const SidePanelTitle = withContext<HTMLHeadingElement, SidePanelTitleProps>(
   Drawer.Title,
@@ -110,9 +80,7 @@ SidePanelTitle.displayName = "SidePanelTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLParagraphElement> {}
+export interface SidePanelDescriptionProps extends Drawer.DescriptionProps {}
 
 export const SidePanelDescription = withContext<HTMLParagraphElement, SidePanelDescriptionProps>(
   Drawer.Description,
@@ -149,9 +117,7 @@ export const SidePanelFooter = withContext<HTMLDivElement, SidePanelFooterProps>
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SidePanelCloseButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface SidePanelCloseButtonProps extends Drawer.CloseButtonProps {}
 
 export const SidePanelCloseButton = withContext<HTMLButtonElement, SidePanelCloseButtonProps>(
   Drawer.CloseButton,
