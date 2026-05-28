@@ -2,7 +2,7 @@ import { switch as vars } from "../vars/component";
 import { switchmark as markVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
-const switchmarkSize16VisualOffset = "var(--seed-dimension-x1)";
+const switchmarkSize16VisualOffset = "var(--seed-dimension-x2)";
 
 const switchRecipe = defineSlotRecipe({
   name: "switch",
