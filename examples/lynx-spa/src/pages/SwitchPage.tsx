@@ -47,11 +47,7 @@ function renderSwitch(values: SwitchValues, setValue: SetVariantValue<SwitchValu
   const checked = Boolean(values.checked);
   return (
     <Switch
-      label={
-        checked
-          ? "OnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOnOn"
-          : "OffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOffOff"
-      }
+      label={checked ? "On" : "Off"}
       size={values.size}
       tone={values.tone}
       checked={checked}
