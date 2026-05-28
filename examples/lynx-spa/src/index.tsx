@@ -1,17 +1,17 @@
-import "@lynx-js/preact-devtools";
-import { root } from "@lynx-js/react";
-import "@lynx-js/react/debug";
+import '@lynx-js/preact-devtools';
+import { root } from '@lynx-js/react';
+import '@lynx-js/react/debug';
 import {
   initLogMonitor,
   initMainThreadConsole,
   initNetworkMonitor,
   initPerformanceMonitor,
-} from "lynx-console/setup";
+} from 'lynx-console/setup';
 
-import "./styles/global.css";
+import './styles/global.css';
 
-import { getSeedClassName } from "@seed-design/lynx-react";
-import { App } from "./App.jsx";
+import { useSeedRootProps } from '@seed-design/lynx-react';
+import { App } from './App.jsx';
 
 // Initialize lynx-console monitors before rendering.
 // This must run before the LynxConsole component is rendered.
@@ -20,14 +20,23 @@ initMainThreadConsole();
 initNetworkMonitor();
 initPerformanceMonitor();
 
-root.render(
-  <page
-    className={getSeedClassName({ colorMode: "system" })}
-    style={{ backgroundColor: 'var(--seed-color-bg-layer-default)' }}
-  >
-    <App />
-  </page>,
-);
+function Root() {
+  const { className, style } = useSeedRootProps({ colorMode: 'system' });
+
+  return (
+    <page
+      className={className}
+      style={{
+        ...style,
+        backgroundColor: 'var(--seed-color-bg-layer-default)',
+      }}
+    >
+      <App />
+    </page>
+  );
+}
+
+root.render(<Root />);
 
 if (import.meta.webpackHot) {
   import.meta.webpackHot.accept();

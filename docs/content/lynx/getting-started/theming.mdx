@@ -10,25 +10,32 @@ SEED Design은 라이트 모드와 다크 모드를 지원하는 테마 시스�
 웹 환경에서는 `data-*` 속성 셀렉터를 통해 테마를 제어하지만, Lynx에서는 `data-*` 속성 셀렉터를 지원하지 않기 때문에 **CSS 클래스 이름**을 사용합니다.
 CSS 커스텀 프로퍼티(변수)는 Lynx에서도 기본적으로 상속되므로, 루트 요소에 설정된 테마 토큰이 하위 요소에 자연스럽게 적용됩니다.
 
-## 전역 테마 적용
+## 전역 설정 적용
 
-`@seed-design/lynx-react`의 `getSeedClassName()` 함수를 사용하여 `<page>` 요소에 테마와 플랫폼 클래스를 설정합니다.
+`@seed-design/lynx-react`의 `useSeedRootProps()` 훅을 사용하여 `<page>` 요소에 테마/플랫폼 클래스와 safe area CSS 변수를 설정합니다.
 
 ```tsx
 import { root } from "@lynx-js/react";
-import { getSeedClassName } from "@seed-design/lynx-react";
+import { useSeedRootProps } from "@seed-design/lynx-react";
 
-root.render(
-  <page className={getSeedClassName({ colorMode: "system" })}>
-    <App />
-  </page>,
-);
+function Root() {
+  const seedRootProps = useSeedRootProps({ colorMode: "system" });
+
+  return (
+    <page {...seedRootProps}>
+      <App />
+    </page>
+  );
+}
+
+root.render(<Root />);
 ```
 
-`getSeedClassName()`은 다음 클래스들을 조합하여 반환합니다:
+`useSeedRootProps()`는 다음 값을 반환합니다:
 
 - **테마 클래스**: `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark`
 - **플랫폼 클래스**: `seed-platform-ios` 또는 `seed-platform-android`
+- **Safe area CSS 변수**: `--seed-safe-area-top`, `--seed-safe-area-bottom`
 
 ### `colorMode` 옵션
 
@@ -41,13 +48,19 @@ root.render(
 
 `system`으로 설정하면 `lynx.__globalProps.theme` 값을 읽어 기기의 다크 모드 설정을 따릅니다.
 
+### `safeArea` 옵션
+
+`safeArea`는 기본값이 `true`입니다. `lynx.__globalProps.safeAreaInsetTop`과 `safeAreaInsetBottom` 값을 읽어 `<page>` 요소에 `--seed-safe-area-top`, `--seed-safe-area-bottom` CSS 변수로 주입합니다.
+
+host 앱이 값을 제공하지 않으면 CSS `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` 값을 fallback으로 사용합니다.
+
 ## 테마 클래스 이해하기
 
 SEED Design의 Lynx 테마 시스템은 두 종류의 클래스 이름을 사용합니다.
 
 ### `seed-user-color-scheme-*` (루트 레벨 테마)
 
-`getSeedClassName()`이 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
+`useSeedRootProps()`가 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
 
 - `seed-user-color-scheme-light`: 라이트 모드가 적용됨
 - `seed-user-color-scheme-dark`: 다크 모드가 적용됨
@@ -61,7 +74,7 @@ SEED Design의 Lynx 테마 시스템은 두 종류의 클래스 이름을 사용
 
 ### 플랫폼 클래스
 
-`getSeedClassName()`은 `SystemInfo.platform`을 읽어 플랫폼 클래스도 함께 설정합니다.
+`useSeedRootProps()`는 `SystemInfo.platform`을 읽어 플랫폼 클래스도 함께 설정합니다.
 
 - `seed-platform-ios`: iOS 기기
 - `seed-platform-android`: Android 기기
@@ -145,4 +158,4 @@ function MyComponent() {
 | 테마 오버라이드 | `data-seed-color-mode="light-only"` 또는 `"dark-only"` 속성 | `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스 |
 | 플랫폼 감지 | User Agent 기반 | `SystemInfo.platform` 기반 (`seed-platform-ios` / `seed-platform-android`) |
 | 토큰 상속 | CSS 커스텀 프로퍼티 상속 | CSS 커스텀 프로퍼티 상속 (동일) |
-| 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `getSeedClassName()` 함수로 직접 설정 |
+| 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `useSeedRootProps()` 훅으로 직접 설정 |
