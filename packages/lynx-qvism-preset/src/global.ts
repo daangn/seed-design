@@ -2,11 +2,6 @@ import { defineGlobalCss } from "./utils/define";
 import { pseudo } from "./utils/pseudo";
 
 export const globalCss = defineGlobalCss({
-  ":root": {
-    "--seed-safe-area-top": "env(safe-area-inset-top)",
-    "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
-  },
-
   // iOS platform-specific overrides
   ".seed-platform-ios": {
     "--seed-platform": "ios",

@@ -52,7 +52,7 @@ root.render(<Root />);
 
 `safeArea`는 기본값이 `true`입니다. `lynx.__globalProps.safeAreaInsetTop`과 `safeAreaInsetBottom` 값을 읽어 `<page>` 요소에 `--seed-safe-area-top`, `--seed-safe-area-bottom` CSS 변수로 주입합니다.
 
-host 앱이 값을 제공하지 않으면 CSS `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` 값을 fallback으로 사용합니다.
+SEED Lynx 컴포넌트는 CSS preset의 `:root`에서 safe area 값을 직접 만들지 않고, 이 루트 CSS 변수를 참조합니다. host 앱이 값을 제공하면 실제 px 값이 들어가며, 값이 없을 때만 CSS `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` 값을 fallback으로 사용합니다.
 
 ## 테마 클래스 이해하기
 
