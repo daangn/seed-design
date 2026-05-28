@@ -1,4 +1,4 @@
-import { Flex, VStack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
@@ -63,14 +63,10 @@ const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () =
           </VStack>
         </SidePanelBody>
         <SidePanelFooter>
-          <Flex gap="x2">
-            <ActionButton variant="neutralWeak" flexGrow onClick={() => pop()}>
-              닫기
-            </ActionButton>
-            <ActionButton variant="neutralSolid" flexGrow>
-              확인
-            </ActionButton>
-          </Flex>
+          <ActionButton variant="neutralWeak" onClick={() => pop()}>
+            닫기
+          </ActionButton>
+          <ActionButton variant="neutralSolid">확인</ActionButton>
         </SidePanelFooter>
       </SidePanelContent>
     </SidePanelRoot>
