@@ -2,8 +2,6 @@ import { switch as vars } from "../vars/component";
 import { switchmark as markVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
-const switchmarkSize16VisualOffset = "var(--seed-dimension-x2)";
-
 const switchRecipe = defineSlotRecipe({
   name: "switch",
   slots: ["root", "label"],
@@ -50,8 +48,7 @@ const switchRecipe = defineSlotRecipe({
         root: {
           minHeight: vars.size16.enabled.root.height,
           gap: vars.size16.enabled.root.gap,
-          "--switchmark-margin-top": `calc((${vars.size16.enabled.root.height} - ${markVars.size16.enabled.root.height}) / 2 + ${switchmarkSize16VisualOffset})`,
-          "--switchmark-margin-bottom": `calc((${vars.size16.enabled.root.height} - ${markVars.size16.enabled.root.height}) / 2 - ${switchmarkSize16VisualOffset})`,
+          "--switchmark-margin-top": `calc((${vars.size16.enabled.root.height} - ${markVars.size16.enabled.root.height}) / 2)`,
         },
         label: {
           fontSize: vars.size16.enabled.label.fontSize,

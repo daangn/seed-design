@@ -9,7 +9,7 @@ import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switc
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
-import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
+import type { LynxStyle, LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
 
 /**
  * @platform Lynx
@@ -55,6 +55,33 @@ function useSwitchmarkControlContext(consumer: string): SwitchmarkControlContext
     throw new Error(`<${consumer}/> must be rendered inside <SwitchControl/>.`);
   }
   return ctx;
+}
+
+type SwitchSize = NonNullable<SwitchVariantProps["size"]>;
+type SwitchmarkSize = NonNullable<SwitchmarkVariantProps["size"]>;
+
+const switchRootHeightBySize: Record<SwitchSize, number> = {
+  "16": 24,
+  "24": 24,
+  "32": 32,
+};
+
+const switchmarkHeightBySize: Record<SwitchmarkSize, number> = {
+  "16": 16,
+  "24": 24,
+  "32": 32,
+};
+
+function resolveSwitchControlMarginTop(
+  rootSize: SwitchVariantProps["size"],
+  controlSize: SwitchmarkVariantProps["size"],
+) {
+  const resolvedRootSize = rootSize ?? "32";
+  const resolvedControlSize = controlSize ?? resolvedRootSize;
+  const offset =
+    (switchRootHeightBySize[resolvedRootSize] - switchmarkHeightBySize[resolvedControlSize]) / 2;
+
+  return offset > 0 ? `${offset}px` : undefined;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -131,7 +158,7 @@ export interface SwitchControlProps
 
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
-  const { children, className, ...nativeProps } = restProps;
+  const { children, className, style, ...nativeProps } = restProps;
   const api = useSwitchContext("SwitchControl");
   const switchmarkVariantProps: SwitchmarkVariantProps = {
     ...api.switchmarkVariantProps,
@@ -140,6 +167,12 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
     disabled: api.disabled,
   };
   const classes = switchmark(switchmarkVariantProps);
+  const marginTop = resolveSwitchControlMarginTop(
+    api.switchVariantProps.size,
+    switchmarkVariantProps.size,
+  );
+  const controlStyle: LynxStyle | undefined =
+    marginTop != null ? { marginTop, ...style } : style;
 
   return (
     <SwitchmarkControlContext.Provider
@@ -148,6 +181,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
+        style={controlStyle}
         {...nativeProps}
       >
         {children}
