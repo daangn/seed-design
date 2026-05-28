@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const sheetMocks = vi.hoisted(() => ({
   contentProps: [] as Array<Record<string, unknown>>,
@@ -47,103 +47,10 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
 
 import * as BottomSheet from "../BottomSheet.namespace";
 
-interface TestLynxGlobal {
-  lynx?: {
-    __globalProps?: {
-      safeAreaInsets?: {
-        top?: number | string | null;
-        bottom?: number | string | null;
-      };
-      safeAreaInsetTop?: number | string | null;
-      safeAreaInsetBottom?: number | string | null;
-    };
-  };
-  lynxTestingEnv?: {
-    backgroundThread: {
-      globalThis: TestLynxGlobal;
-    };
-    mainThread: {
-      globalThis: TestLynxGlobal;
-    };
-  };
-}
-
-function getLynxGlobals(): TestLynxGlobal[] {
-  const rootGlobal = globalThis as TestLynxGlobal;
-
-  return [
-    rootGlobal,
-    rootGlobal.lynxTestingEnv?.backgroundThread.globalThis,
-    rootGlobal.lynxTestingEnv?.mainThread.globalThis,
-  ].filter((global): global is TestLynxGlobal => global != null);
-}
-
-function setGlobalProps(
-  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
-) {
-  for (const global of getLynxGlobals()) {
-    global.lynx = {
-      ...global.lynx,
-      __globalProps: globalProps,
-    };
-  }
-}
-
 describe("BottomSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
     sheetMocks.rootRef.open.mockClear();
-  });
-
-  afterEach(() => {
-    for (const global of getLynxGlobals()) {
-      if (global.lynx) {
-        delete global.lynx.__globalProps;
-      }
-    }
-  });
-
-  it("uses bottom safe area as the default content padding", () => {
-    render(
-      <BottomSheet.Root>
-        <BottomSheet.Content />
-      </BottomSheet.Root>,
-    );
-
-    expect(sheetMocks.contentProps.at(-1)?.style).toMatchObject({
-      paddingBottom: "env(safe-area-inset-bottom)",
-    });
-  });
-
-  it("uses host-provided bottom safe area for content padding", () => {
-    setGlobalProps({
-      safeAreaInsets: {
-        bottom: 34,
-      },
-    });
-
-    render(
-      <BottomSheet.Root>
-        <BottomSheet.Content />
-      </BottomSheet.Root>,
-    );
-
-    expect(sheetMocks.contentProps.at(-1)?.style).toMatchObject({
-      paddingBottom: "34px",
-    });
-  });
-
-  it("lets user content style override bottom safe area padding", () => {
-    render(
-      <BottomSheet.Root>
-        <BottomSheet.Content style={{ paddingTop: "8px", paddingBottom: "24px" }} />
-      </BottomSheet.Root>,
-    );
-
-    expect(sheetMocks.contentProps.at(-1)?.style).toMatchObject({
-      paddingTop: "8px",
-      paddingBottom: "24px",
-    });
   });
 
   it("skips motion-engine animations when Root has skipAnimation", () => {
