@@ -1,12 +1,14 @@
 "use client";
 
-import { useBreakpoint } from "@seed-design/react";
+import { useBreakpointValue } from "@seed-design/react";
 import { useControllableState } from "@seed-design/react-use-controllable-state";
 import * as React from "react";
 import * as SeedBottomSheet from "./bottom-sheet";
 import * as SeedSidePanel from "./side-panel";
 
-const ResponsiveContext = React.createContext<{ belowMd: boolean } | null>(null);
+const ResponsiveContext = React.createContext<{ shouldUseBottomSheet: boolean | undefined } | null>(
+  null,
+);
 
 function useResponsiveContext() {
   const ctx = React.useContext(ResponsiveContext);
@@ -39,8 +41,7 @@ export const ResponsiveSidePanelRoot = ({
   size,
   ...props
 }: ResponsiveSidePanelRootProps) => {
-  const breakpoint = useBreakpoint();
-  const belowMd = breakpoint === "base" || breakpoint === "sm";
+  const shouldUseBottomSheet = useBreakpointValue({ base: true, md: false });
 
   const [open, setOpen] = useControllableState<
     boolean,
@@ -52,11 +53,11 @@ export const ResponsiveSidePanelRoot = ({
     caller: "ResponsiveSidePanelRoot",
   });
 
-  const value = React.useMemo(() => ({ belowMd }), [belowMd]);
+  const value = React.useMemo(() => ({ shouldUseBottomSheet }), [shouldUseBottomSheet]);
 
   return (
     <ResponsiveContext.Provider value={value}>
-      {belowMd ? (
+      {shouldUseBottomSheet ? (
         <SeedBottomSheet.BottomSheetRoot open={open} onOpenChange={setOpen} {...props}>
           {children}
         </SeedBottomSheet.BottomSheetRoot>
@@ -81,8 +82,10 @@ export const ResponsiveSidePanelTrigger = React.forwardRef<
   HTMLButtonElement,
   ResponsiveSidePanelTriggerProps
 >((props, ref) => {
-  const { belowMd } = useResponsiveContext();
-  const Trigger = belowMd ? SeedBottomSheet.BottomSheetTrigger : SeedSidePanel.SidePanelTrigger;
+  const { shouldUseBottomSheet } = useResponsiveContext();
+  const Trigger = shouldUseBottomSheet
+    ? SeedBottomSheet.BottomSheetTrigger
+    : SeedSidePanel.SidePanelTrigger;
   return <Trigger ref={ref} {...props} />;
 });
 ResponsiveSidePanelTrigger.displayName = "ResponsiveSidePanelTrigger";
@@ -93,8 +96,8 @@ export const ResponsiveSidePanelContent = React.forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelContentProps
 >(({ width, maxWidth, ...props }, ref) => {
-  const { belowMd } = useResponsiveContext();
-  if (belowMd) {
+  const { shouldUseBottomSheet } = useResponsiveContext();
+  if (shouldUseBottomSheet) {
     return <SeedBottomSheet.BottomSheetContent ref={ref} {...props} />;
   }
 
@@ -108,8 +111,8 @@ export const ResponsiveSidePanelBody = React.forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelBodyProps
 >((props, ref) => {
-  const { belowMd } = useResponsiveContext();
-  const Body = belowMd ? SeedBottomSheet.BottomSheetBody : SeedSidePanel.SidePanelBody;
+  const { shouldUseBottomSheet } = useResponsiveContext();
+  const Body = shouldUseBottomSheet ? SeedBottomSheet.BottomSheetBody : SeedSidePanel.SidePanelBody;
   return <Body ref={ref} {...props} />;
 });
 ResponsiveSidePanelBody.displayName = "ResponsiveSidePanelBody";
@@ -120,8 +123,10 @@ export const ResponsiveSidePanelFooter = React.forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelFooterProps
 >((props, ref) => {
-  const { belowMd } = useResponsiveContext();
-  const Footer = belowMd ? SeedBottomSheet.BottomSheetFooter : SeedSidePanel.SidePanelFooter;
+  const { shouldUseBottomSheet } = useResponsiveContext();
+  const Footer = shouldUseBottomSheet
+    ? SeedBottomSheet.BottomSheetFooter
+    : SeedSidePanel.SidePanelFooter;
   return <Footer ref={ref} {...props} />;
 });
 ResponsiveSidePanelFooter.displayName = "ResponsiveSidePanelFooter";
