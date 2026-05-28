@@ -1,5 +1,5 @@
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
-import { Icon, SidePanel as SeedSidePanel, VisuallyHidden } from "@seed-design/react";
+import { Icon, SidePanel as SeedSidePanel } from "@seed-design/react";
 import type * as React from "react";
 import { forwardRef } from "react";
 
@@ -48,13 +48,7 @@ export const SidePanelContent = forwardRef<HTMLDivElement, SidePanelContentProps
         <SeedSidePanel.Content ref={ref} {...otherProps}>
           {shouldRenderHeader && (
             <SeedSidePanel.Header>
-              {title ? (
-                <SeedSidePanel.Title>{title}</SeedSidePanel.Title>
-              ) : (
-                <VisuallyHidden asChild>
-                  <SeedSidePanel.Title>{otherProps["aria-label"] || ""}</SeedSidePanel.Title>
-                </VisuallyHidden>
-              )}
+              {title && <SeedSidePanel.Title>{title}</SeedSidePanel.Title>}
               {description && <SeedSidePanel.Description>{description}</SeedSidePanel.Description>}
               {showCloseButton && (
                 <SeedSidePanel.CloseButton aria-label="닫기">

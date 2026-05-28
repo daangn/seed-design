@@ -225,6 +225,8 @@ Snippet이 convenience wrapper라면, 이 패턴에서 `children`을 그대로 �
 
 로직 없는 root wrapper는 만들지 않는다. `children`을 받아 underlying `Root`에 그대로 넘기기만 한다면 `export const ComponentRoot = SeedComponent.Root`처럼 re-export를 우선한다. 반대로 `Content`처럼 title/description, 자동 close button, accessibility warning 등 convenience 조합 책임이 있으면 wrapper를 유지한다.
 
+accessibility warning과 fallback 렌더링은 별개의 선택이다. `aria-label` 또는 `aria-labelledby`가 underlying content에 그대로 전달된다면, convenience wrapper가 임의의 hidden label/title을 대신 렌더하지 않는다. hidden fallback을 만들기 전에 실제 DOM/ARIA 연결이 필요한지, consumer가 제공한 aria prop과 충돌하지 않는지 확인한다.
+
 ## [Snippet] Export naming
 
 Snippet의 최상위 export 이름은 사용자가 설치 후 import하는 이름이므로 underlying React primitive 이름을 그대로 따라가지 않는다.
