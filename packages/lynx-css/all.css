@@ -1594,7 +1594,6 @@
 .seed-switch__root--size_16 {
   min-height: var(--seed-dimension-x6);
   gap: var(--seed-dimension-x1_5);
-  --switchmark-margin-top: calc((var(--seed-dimension-x6) - 16px) / 2);
 }
 
 .seed-switch__label--size_16 {
@@ -1606,7 +1605,6 @@
 .seed-switch__root--size_24 {
   min-height: var(--seed-dimension-x6);
   gap: var(--seed-dimension-x2);
-  --switchmark-margin-top: calc((var(--seed-dimension-x6) - 24px) / 2);
 }
 
 .seed-switch__label--size_24 {
@@ -1618,7 +1616,6 @@
 .seed-switch__root--size_32 {
   min-height: var(--seed-dimension-x8);
   gap: var(--seed-dimension-x2_5);
-  --switchmark-margin-top: calc((var(--seed-dimension-x8) - 32px) / 2);
 }
 
 .seed-switch__label--size_32 {
@@ -1634,8 +1631,6 @@
 .seed-switchmark__root {
   border-radius: var(--seed-radius-full);
   background-color: var(--seed-color-palette-gray-600);
-  margin-top: var(--switchmark-margin-top, 0);
-  margin-bottom: var(--switchmark-margin-bottom, var(--switchmark-margin-top, 0));
   transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
   display: flex;
   position: relative;
@@ -1658,6 +1653,8 @@
 .seed-switchmark__root--size_16 {
   min-width: 26px;
   min-height: 16px;
+  margin-top: calc((var(--seed-dimension-x6) - 16px) / 2);
+  margin-bottom: calc((var(--seed-dimension-x6) - 16px) / 2);
   padding: 2px;
 }
 
@@ -1669,6 +1666,8 @@
 .seed-switchmark__root--size_24 {
   min-width: 38px;
   min-height: 24px;
+  margin-top: calc((var(--seed-dimension-x6) - 24px) / 2);
+  margin-bottom: calc((var(--seed-dimension-x6) - 24px) / 2);
   padding: 2px;
 }
 
@@ -1680,6 +1679,8 @@
 .seed-switchmark__root--size_32 {
   min-width: 52px;
   min-height: 32px;
+  margin-top: calc((var(--seed-dimension-x8) - 32px) / 2);
+  margin-bottom: calc((var(--seed-dimension-x8) - 32px) / 2);
   padding: 3px;
 }
 

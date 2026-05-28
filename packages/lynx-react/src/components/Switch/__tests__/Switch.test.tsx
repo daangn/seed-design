@@ -28,7 +28,7 @@ describe("Switch", () => {
     );
   });
 
-  it("applies the 16px control offset directly for Lynx layout", () => {
+  it("leaves the 16px control offset to the recipe class", () => {
     render(
       <SwitchRoot size="16">
         <SwitchControl>
@@ -40,10 +40,13 @@ describe("Switch", () => {
 
     const control = getRenderedRoot().querySelector(".seed-switchmark__root");
 
-    expect((control as HTMLElement).style.getPropertyValue("margin-top")).toBe("4px");
+    expect((control as HTMLElement).className.split(" ")).toContain(
+      "seed-switchmark__root--size_16",
+    );
+    expect((control as HTMLElement).style.getPropertyValue("margin-top")).toBe("");
   });
 
-  it("lets explicit control style override the default offset", () => {
+  it("forwards explicit control style", () => {
     render(
       <SwitchRoot size="16">
         <SwitchControl style={{ marginTop: "10px" }}>
