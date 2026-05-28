@@ -28,6 +28,9 @@ data:
             type: color
           width:
             type: dimension
+          widthFraction:
+            type: number
+            description: viewport 또는 parent width에 대한 mobile content width 비율입니다.
           enterDuration:
             type: duration
           enterTimingFunction:
@@ -107,6 +110,7 @@ data:
           exitOpacity: 0
         content:
           color: $color.bg.layer-floating
+          widthFraction: 0.8
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive
           exitDuration: $duration.d6

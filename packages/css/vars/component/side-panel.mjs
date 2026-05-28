@@ -12,6 +12,7 @@ export const vars = {
       },
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
+        "widthFraction": "0.8",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
         "exitDuration": "var(--seed-duration-d6)",

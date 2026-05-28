@@ -12,6 +12,8 @@ export declare const vars: {
       },
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
+        /** viewport 또는 parent width에 대한 mobile content width 비율입니다. */
+        "widthFraction": "0.8",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
         "exitDuration": "var(--seed-duration-d6)",

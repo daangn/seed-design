@@ -19,6 +19,14 @@ vars.<variantType>.<state>.<element>.<property>
 
 예시: `vars.variantBrandSolid.enabled.root.color`, `vars.base.disabled.label.color`
 
+## Fraction token 변환
+
+viewport 또는 parent size에 대한 비율은 rootage에서 `0.8` 같은 `number` token으로 정의하고, recipe에서 CSS 단위로 변환한다. raw `80vw`, `80%` 같은 디자인 값은 recipe에 직접 쓰지 않는다.
+
+- viewport 기준이면 `calc(${vars.base.enabled.content.widthFraction} * 100vw)`처럼 변환한다.
+- parent 기준이면 `calc(${vars.base.enabled.content.widthFraction} * 100%)`처럼 변환한다.
+- token 이름은 의미와 대상이 드러나도록 `widthFraction`, `heightFraction`처럼 짓는다.
+
 ## Vocabulary 선택
 
 outline, frame, divider처럼 **시각적 선**을 표현하는 token은 기본적으로 `strokeColor`/`strokeWidth` vocabulary를 먼저 검토한다.

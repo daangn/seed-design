@@ -68,7 +68,7 @@ const sidePanel = defineSlotRecipe({
       willChange: "transform",
 
       "--seed-box-width--responsive": "initial",
-      "--seed-box-max-width--responsive": "80%",
+      "--seed-box-max-width--responsive": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
       "--seed-box-height--responsive": "initial",
       "--seed-box-max-height--responsive": "initial",
       maxWidth: "var(--seed-box-max-width)",
@@ -78,13 +78,13 @@ const sidePanel = defineSlotRecipe({
       },
 
       // Left/Right: full height, anchored to the corresponding edge.
-      // Mobile-first: 80vw on sm-, token width on md+.
+      // Mobile-first: width fraction on sm-, token width on md+.
       // Safe-area: panel side gets safe-area-inset padding for landscape notch.
       [pseudo("[data-drawer-direction='left']")]: {
         top: 0,
         bottom: 0,
         left: 0,
-        width: "var(--seed-box-width, 80vw)",
+        width: `var(--seed-box-width, calc(${vars.base.enabled.content.widthFraction} * 100vw))`,
         paddingLeft: "env(safe-area-inset-left, 0)",
         "&::after": {
           content: '""',
@@ -104,7 +104,7 @@ const sidePanel = defineSlotRecipe({
         top: 0,
         bottom: 0,
         right: 0,
-        width: "var(--seed-box-width, 80vw)",
+        width: `var(--seed-box-width, calc(${vars.base.enabled.content.widthFraction} * 100vw))`,
         paddingRight: "env(safe-area-inset-right, 0)",
         "&::after": {
           content: '""',

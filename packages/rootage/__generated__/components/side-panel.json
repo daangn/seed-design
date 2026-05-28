@@ -42,6 +42,10 @@
             "width": {
               "type": "dimension"
             },
+            "widthFraction": {
+              "type": "number",
+              "description": "viewport 또는 parent width에 대한 mobile content width 비율입니다."
+            },
             "enterDuration": {
               "type": "duration"
             },
@@ -195,6 +199,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-floating"
+                },
+                "widthFraction": {
+                  "type": "number",
+                  "value": 0.8
                 },
                 "enterDuration": {
                   "type": "duration",
