@@ -18,7 +18,30 @@ function useResponsiveContext() {
   return ctx;
 }
 
-export interface ResponsiveSidePanelRootProps extends SeedSidePanel.SidePanelRootProps {}
+type ResponsiveSidePanelRootCommonProps = Pick<
+  SeedSidePanel.SidePanelRootProps,
+  | "children"
+  | "open"
+  | "defaultOpen"
+  | "onOpenChange"
+  | "modal"
+  | "dismissible"
+  | "closeOnEscape"
+  | "closeOnInteractOutside"
+  | "lazyMount"
+  | "unmountOnExit"
+  | "container"
+  | "autoFocus"
+  | "onAnimationEnd"
+  | "closeThreshold"
+  | "onDrag"
+  | "onRelease"
+>;
+
+export interface ResponsiveSidePanelRootProps extends ResponsiveSidePanelRootCommonProps {
+  direction?: SeedSidePanel.SidePanelRootProps["direction"];
+  size?: SeedSidePanel.SidePanelRootProps["size"];
+}
 
 /**
  * Automatically switches between SidePanel (md+) and BottomSheet (sm-).
