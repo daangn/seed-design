@@ -8766,13 +8766,12 @@
 }
 
 .seed-side-panel__closeButton {
-  top: calc(var(--seed-dimension-x4_5) + var(--seed-safe-area-top));
-  right: var(--seed-dimension-x4);
+  top: calc(28px + var(--seed-safe-area-top));
   border-radius: var(--seed-radius-r3);
   background: var(--seed-color-bg-transparent);
   cursor: pointer;
-  width: 52px;
-  height: 52px;
+  width: 22px;
+  height: 22px;
   transition-property: background-color;
   transition-duration: var(--seed-duration-color-transition);
   transition-timing-function: var(--seed-timing-function-easing);
@@ -8783,6 +8782,7 @@
   align-items: center;
   display: flex;
   position: absolute;
+  right: 24px;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -8804,7 +8804,7 @@
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   position: absolute;
-  inset: 0;
+  inset: -15px;
 }
 
 .seed-side-panel__closeButton:is(:focus, [data-focus]) {

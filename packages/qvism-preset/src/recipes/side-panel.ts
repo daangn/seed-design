@@ -158,7 +158,7 @@ const sidePanel = defineSlotRecipe({
       paddingBottom: vars.base.enabled.header.paddingBottom,
 
       [pseudo("[data-show-close-button]")]: {
-        paddingRight: `calc(${vars.base.enabled.header.paddingX} + ${closeButtonVars.base.enabled.root.size})`,
+        paddingRight: `calc(${vars.base.enabled.header.paddingX} + ${closeButtonVars.base.enabled.root.targetSize})`,
       },
     },
     title: {

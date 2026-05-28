@@ -301,11 +301,17 @@
               "closeButton": {
                 "fromTop": {
                   "type": "dimension",
-                  "value": "$dimension.x4_5"
+                  "value": {
+                    "value": 28,
+                    "unit": "px"
+                  }
                 },
                 "fromRight": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": {
+                    "value": 24,
+                    "unit": "px"
+                  }
                 }
               }
             }

@@ -99,6 +99,15 @@ slot 이름과 token은 **public content contract**를 따라간다.
 
 즉, `prefixIcon` slot은 "앞에 아이콘이 올 수 있다"가 아니라 "앞 슬롯은 아이콘 전용이다"가 확정됐을 때만 만든다.
 
+## Overlay Close Button 위치와 터치 영역
+
+Dialog, Drawer, Sheet류의 close button은 **visual root/icon 위치**와 **touch target 크기**를 구분한다. 위치 토큰(`fromTop`, `fromRight` 등)을 추가하거나 수정할 때는 먼저 패턴 컴포넌트(BottomSheet 등)가 해당 토큰을 visual root 기준으로 쓰는지, touch target 기준으로 쓰는지 확인한다.
+
+- visual root/icon 크기와 touch target 크기가 다르면 `root.size`는 visual root 크기, `root.targetSize`는 터치 영역 크기로 둔다.
+- touch target 확장은 recipe의 `::after`에서 `calc((root.size - root.targetSize) / 2)` inset으로 처리한다.
+- Figma에서 아이콘 기준 좌표가 주어진 경우, 보정값을 `fromTop`/`fromRight` rootage 토큰에 직접 넣지 않는다. 토큰은 visual root 기준 좌표를 표현하고, 터치 영역 보정은 `targetSize + ::after`가 맡는다.
+- header/title이 close button touch target과 겹칠 수 있으면 padding 보정은 `root.size`가 아니라 `root.targetSize` 기준으로 잡는다.
+
 ## 애니메이션 패턴
 
 ### 색상 전환 (가장 흔함)

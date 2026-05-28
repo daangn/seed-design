@@ -5,7 +5,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-transparent)",
         "cornerRadius": "var(--seed-radius-r3)",
         "targetSize": "52px",
-        "size": "52px",
+        "size": "22px",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },

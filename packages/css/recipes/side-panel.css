@@ -243,12 +243,12 @@
     justify-content: center;
     align-items: center;
     border: none;
-    top: calc(var(--seed-dimension-x4_5) + var(--seed-safe-area-top));
-    right: var(--seed-dimension-x4);
+    top: calc(28px + var(--seed-safe-area-top));
+    right: 24px;
     border-radius: var(--seed-radius-r3);
     background: var(--seed-color-bg-transparent);
-    width: 52px;
-    height: 52px;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
     transition-property: background-color;
     transition-duration: var(--seed-duration-color-transition);
@@ -269,10 +269,10 @@
 .seed-side-panel__closeButton:after {
     content: "";
     position: absolute;
-    top: calc((52px - 52px) / 2);
-    right: calc((52px - 52px) / 2);
-    bottom: calc((52px - 52px) / 2);
-    left: calc((52px - 52px) / 2);
+    top: calc((22px - 52px) / 2);
+    right: calc((22px - 52px) / 2);
+    bottom: calc((22px - 52px) / 2);
+    left: calc((22px - 52px) / 2);
     border-radius: var(--seed-radius-r3);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
