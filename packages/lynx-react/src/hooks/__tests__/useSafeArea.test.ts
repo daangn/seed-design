@@ -53,6 +53,8 @@ function setGlobalProps(
 describe("useSafeArea", () => {
   it("keeps safe area resolution in the hook without exporting duplicate helpers", () => {
     expect(useSafeAreaSource).not.toContain("../utils/safe-area");
+    expect(useSafeAreaSource).not.toContain("globalThis");
+    expect(useSafeAreaSource).toContain("lynx.__globalProps");
     expect(useSafeAreaSource).toContain("resolveSafeAreaInset");
     expect(utilsIndexSource).not.toContain("./safe-area");
   });

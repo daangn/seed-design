@@ -1,5 +1,4 @@
 import { useMemo } from "@lynx-js/react";
-import type { GlobalProps } from "@lynx-js/types";
 
 type SafeAreaEdge = "top" | "bottom";
 
@@ -10,20 +9,10 @@ declare module "@lynx-js/types" {
   }
 }
 
-interface LynxGlobal {
-  lynx?: {
-    __globalProps?: GlobalProps;
-  };
-}
-
 const safeAreaProp: Record<SafeAreaEdge, "safeAreaInsetTop" | "safeAreaInsetBottom"> = {
   top: "safeAreaInsetTop",
   bottom: "safeAreaInsetBottom",
 };
-
-function getGlobalProps(): GlobalProps | undefined {
-  return (globalThis as LynxGlobal).lynx?.__globalProps;
-}
 
 function getSafeAreaEnvInset(edge: SafeAreaEdge): string {
   return `env(safe-area-inset-${edge})`;
@@ -54,9 +43,8 @@ export interface UseSafeAreaReturn {
  * 반환합니다.
  */
 export function useSafeArea(): UseSafeAreaReturn {
-  const globalProps = getGlobalProps();
-  const safeAreaInsetTop = globalProps?.[safeAreaProp.top];
-  const safeAreaInsetBottom = globalProps?.[safeAreaProp.bottom];
+  const safeAreaInsetTop = lynx.__globalProps?.[safeAreaProp.top];
+  const safeAreaInsetBottom = lynx.__globalProps?.[safeAreaProp.bottom];
 
   return useMemo(
     () => ({
