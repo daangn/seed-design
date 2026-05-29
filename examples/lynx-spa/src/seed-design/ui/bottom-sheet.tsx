@@ -5,6 +5,13 @@
  **/
 
 import {
+  type ForwardRefExoticComponent,
+  forwardRef,
+  type PropsWithoutRef,
+  type ReactNode,
+  type RefAttributes,
+} from "@lynx-js/react";
+import {
   BottomSheet as SeedBottomSheet,
   type BottomSheetBodyProps as SeedBottomSheetBodyProps,
   type BottomSheetContentProps as SeedBottomSheetContentProps,
@@ -13,13 +20,6 @@ import {
   type BottomSheetRootRef as SeedBottomSheetRootRef,
   type BottomSheetTriggerProps as SeedBottomSheetTriggerProps,
 } from "@seed-design/lynx-react";
-import {
-  forwardRef,
-  type ForwardRefExoticComponent,
-  type PropsWithoutRef,
-  type ReactNode,
-  type RefAttributes,
-} from "@lynx-js/react";
 
 export interface BottomSheetRootProps extends SeedBottomSheetRootProps {}
 

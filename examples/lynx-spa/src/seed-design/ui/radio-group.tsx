@@ -4,8 +4,8 @@
  * @requires @seed-design/lynx-css@~0.1.0-alpha.0
  **/
 
-import * as React from '@lynx-js/react';
-import { RadioGroup as SeedRadioGroup } from '@seed-design/lynx-react';
+import * as React from "@lynx-js/react";
+import { RadioGroup as SeedRadioGroup } from "@seed-design/lynx-react";
 
 export interface RadioGroupProps extends SeedRadioGroup.RootProps {}
 
@@ -21,7 +21,7 @@ export const RadioGroup = React.forwardRef<unknown, RadioGroupProps>(
     );
   },
 );
-RadioGroup.displayName = 'RadioGroup';
+RadioGroup.displayName = "RadioGroup";
 
 export interface RadioGroupItemProps extends SeedRadioGroup.ItemProps {
   label?: React.ReactNode;
@@ -37,32 +37,27 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>(
         <SeedRadioGroup.ItemControl>
           <SeedRadioGroup.ItemIndicator />
         </SeedRadioGroup.ItemControl>
-        {label != null ? (
-          <SeedRadioGroup.ItemLabel>{label}</SeedRadioGroup.ItemLabel>
-        ) : null}
+        {label != null ? <SeedRadioGroup.ItemLabel>{label}</SeedRadioGroup.ItemLabel> : null}
         {children}
       </SeedRadioGroup.Item>
     );
   },
 );
-RadioGroupItem.displayName = 'RadioGroupItem';
+RadioGroupItem.displayName = "RadioGroupItem";
 
-export interface RadiomarkProps
-  extends Omit<SeedRadioGroup.ItemControlProps, 'children'> {}
+export interface RadiomarkProps extends Omit<SeedRadioGroup.ItemControlProps, "children"> {}
 
 /**
  * @see https://seed-design.io/lynx/components/radio-group
  */
-export const Radiomark = React.forwardRef<unknown, RadiomarkProps>(
-  (props, ref) => {
-    return (
-      <SeedRadioGroup.ItemControl ref={ref} {...props}>
-        <SeedRadioGroup.ItemIndicator />
-      </SeedRadioGroup.ItemControl>
-    );
-  },
-);
-Radiomark.displayName = 'Radiomark';
+export const Radiomark = React.forwardRef<unknown, RadiomarkProps>((props, ref) => {
+  return (
+    <SeedRadioGroup.ItemControl ref={ref} {...props}>
+      <SeedRadioGroup.ItemIndicator />
+    </SeedRadioGroup.ItemControl>
+  );
+});
+Radiomark.displayName = "Radiomark";
 
 /**
  * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.

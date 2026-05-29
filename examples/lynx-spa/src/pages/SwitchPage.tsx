@@ -1,14 +1,14 @@
 import { useState } from "@lynx-js/react";
-import { SwitchControl, SwitchLabel, SwitchRoot, SwitchThumb } from "@seed-design/lynx-react";
 import { switchVariantMap } from "@seed-design/lynx-css/recipes/switch";
 import { switchmarkVariantMap } from "@seed-design/lynx-css/recipes/switchmark";
+import { SwitchControl, SwitchLabel, SwitchRoot, SwitchThumb } from "@seed-design/lynx-react";
 
 import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
 import {
-  VariantCatalog,
   definePreviewStates,
   defineVariantAxes,
   type SetVariantValue,
+  VariantCatalog,
   type VariantCatalogValues,
 } from "../components/variant-catalog.jsx";
 import { Switch, Switchmark } from "../seed-design/ui/switch";

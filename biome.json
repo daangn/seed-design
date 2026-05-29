@@ -19,12 +19,17 @@
       "!**/__registry__/**/*",
       "!**/public/**/*",
       "!packages/css/**/*",
+      "!packages/lynx-css/**/*",
       "!**/schema.json",
       "!packages/qvism-preset/src/vars/**/*",
       "!packages/qvism-preset/src/token.css",
       "!packages/qvism-preset/src/tokens.ts",
+      "!packages/lynx-qvism-preset/src/vars/**/*",
+      "!packages/lynx-qvism-preset/src/token.css",
+      "!packages/lynx-qvism-preset/src/tokens.ts",
       "!packages/tailwind3-plugin/src/index.ts",
-      "!packages/tailwind4-theme/src/index.css"
+      "!packages/tailwind4-theme/src/index.css",
+      "!packages/tailwind4-theme/index.css"
     ],
     "enabled": true,
     "indentStyle": "space",
@@ -128,6 +133,34 @@
       },
       "formatter": {
         "lineWidth": 100
+      }
+    },
+    {
+      "includes": ["docs/app/global.css"],
+      "css": {
+        "parser": {
+          "tailwindDirectives": true
+        }
+      }
+    },
+    {
+      "includes": ["examples/lynx-spa/**/*"],
+      "css": {
+        "parser": {
+          "cssModules": true,
+          "tailwindDirectives": true
+        }
+      },
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnknownProperty": "off",
+            "noUnknownTypeSelector": "off"
+          },
+          "suspicious": {
+            "noUnknownAtRules": "off"
+          }
+        }
       }
     }
   ]

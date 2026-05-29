@@ -22,9 +22,12 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   });
   SheetView.displayName = "MockSheetView";
 
-  const SheetContent = React.forwardRef<unknown, Record<string, unknown>>((props) => {
+  const SheetContent = React.forwardRef<
+    unknown,
+    Record<string, unknown> & { children?: React.ReactNode }
+  >((props) => {
     sheetMocks.contentProps.push(props);
-    return <>{props.children as React.ReactNode}</>;
+    return <>{props["children"]}</>;
   });
   SheetContent.displayName = "MockSheetContent";
 
@@ -45,12 +48,33 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   };
 });
 
-import * as BottomSheet from "../BottomSheet.namespace";
+vi.mock("../../hooks/useSafeArea", () => ({
+  useSafeArea: () => ({
+    safeAreaInsetTop: "62px",
+    safeAreaInsetBottom: "34px",
+  }),
+}));
+
+import * as BottomSheet from "./BottomSheet.namespace";
 
 describe("BottomSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
     sheetMocks.rootRef.open.mockClear();
+  });
+
+  it("passes safe area bottom to Content inner padding", () => {
+    render(
+      <BottomSheet.Root>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      innerStyle: {
+        paddingBottom: "34px",
+      },
+    });
   });
 
   it("skips motion-engine animations when Root has skipAnimation", () => {
@@ -68,9 +92,9 @@ describe("BottomSheet", () => {
   });
 
   it("preserves user-provided animations when Root has skipAnimation", () => {
-    const snapAnimation = { type: "tween", duration: 120 };
-    const enterAnimation = { type: "tween", duration: 140 };
-    const exitAnimation = { type: "tween", duration: 90 };
+    const snapAnimation = { type: "tween", duration: 120 } as const;
+    const enterAnimation = { type: "tween", duration: 140 } as const;
+    const exitAnimation = { type: "tween", duration: 90 } as const;
 
     render(
       <BottomSheet.Root skipAnimation>
@@ -89,20 +113,6 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("injects bottom safe area into content style", () => {
-    render(
-      <BottomSheet.Root skipAnimation>
-        <BottomSheet.Content />
-      </BottomSheet.Root>,
-    );
-
-    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
-      style: {
-        "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
-      },
-    });
-  });
-
   it("opens with default animation when Root does not skip animation", () => {
     const { getByText } = render(
       <BottomSheet.Root>
@@ -112,7 +122,12 @@ describe("BottomSheet", () => {
       </BottomSheet.Root>,
     );
 
-    fireEvent.tap(getByText("Open sheet").parentElement!);
+    const trigger = (getByText("Open sheet") as HTMLElement).parentElement;
+    if (!trigger) {
+      throw new Error("Expected trigger parent element to exist.");
+    }
+
+    fireEvent.tap(trigger);
 
     expect(sheetMocks.rootRef.open).toHaveBeenCalledWith();
   });
@@ -126,7 +141,12 @@ describe("BottomSheet", () => {
       </BottomSheet.Root>,
     );
 
-    fireEvent.tap(getByText("Open sheet").parentElement!);
+    const trigger = (getByText("Open sheet") as HTMLElement).parentElement;
+    if (!trigger) {
+      throw new Error("Expected trigger parent element to exist.");
+    }
+
+    fireEvent.tap(trigger);
 
     expect(sheetMocks.rootRef.open).toHaveBeenCalledWith({ animate: false });
   });

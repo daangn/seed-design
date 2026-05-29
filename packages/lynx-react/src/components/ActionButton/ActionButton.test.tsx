@@ -1,11 +1,12 @@
 import "@testing-library/jest-dom";
 import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
+import type { MainThread } from "@lynx-js/types";
 import * as React from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
 
-import type { LynxIconElementProps } from "../../../types";
-import { Icon, PrefixIcon, SuffixIcon } from "../../Icon";
-import { ActionButton } from "../ActionButton";
+import type { LynxIconElementProps } from "../../types";
+import { Icon, PrefixIcon, SuffixIcon } from "../Icon";
+import { ActionButton } from "./ActionButton";
 
 vi.mock("@lynx-js/react", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@lynx-js/react")>();
@@ -30,13 +31,13 @@ function getRenderedRoot() {
   return root;
 }
 
-const MockIcon = React.forwardRef<unknown, LynxIconElementProps>((props, ref) => {
+const MockIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => {
   const { className, style, ...rest } = props;
 
   return (
     <image
       {...rest}
-      {...(ref ? { "main-thread:ref": ref as React.Ref<unknown> } : {})}
+      {...(ref ? { "main-thread:ref": ref as React.Ref<MainThread.Element> } : {})}
       className={className}
       style={style}
     />

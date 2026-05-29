@@ -1,6 +1,9 @@
 export function TailwindDemoPage() {
   return (
-    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "16px", flex: 1 }}>
+    <scroll-view
+      scroll-y
+      style={{ display: "flex", flexDirection: "column", gap: "16px", flex: 1 }}
+    >
       <text style={{ fontSize: "20px", fontWeight: "bold" }}>Tailwind + SEED Tokens</text>
 
       {/* Colors */}
@@ -35,7 +38,9 @@ export function TailwindDemoPage() {
       </view>
 
       {/* Typography */}
-      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Typography Scale</text>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>
+        Typography Scale
+      </text>
       <view className="flex flex-col gap-1">
         <text className="t1-regular text-fg-neutral">t1-regular (smallest)</text>
         <text className="t3-regular text-fg-neutral">t3-regular</text>
@@ -70,7 +75,9 @@ export function TailwindDemoPage() {
       </view>
 
       {/* Border */}
-      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Border & Radius</text>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>
+        Border & Radius
+      </text>
       <view className="flex flex-row gap-2">
         <view className="border border-stroke-neutral-muted rounded p-3">
           <text className="t4-regular">rounded</text>
@@ -84,7 +91,9 @@ export function TailwindDemoPage() {
       </view>
 
       {/* Justify & Align */}
-      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>justify-between + items-center</text>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>
+        justify-between + items-center
+      </text>
       <view className="flex flex-row justify-between items-center bg-bg-neutral-weak p-3 rounded-lg">
         <text className="t5-bold text-fg-neutral">Title</text>
         <text className="t4-regular text-fg-neutral-subtle">Detail</text>

@@ -4,17 +4,16 @@ declare const lynx: {
   __globalProps?: Record<string, unknown>;
 };
 
-declare const SystemInfo: {
-  platform?: "Android" | "iOS" | "Harmony" | "windows" | "macOS";
-};
+export type ColorMode = "system" | "light-only" | "dark-only";
 
-type ColorMode = "system" | "light-only" | "dark-only";
+export interface GetSeedClassNameOptions {
+  colorMode?: ColorMode;
+}
 
 /**
  * Lynx 앱의 root `<page>` 요소에 적용할 SEED Design className을 반환한다.
  *
- * 테마(dark/light)와 플랫폼(iOS/Android)을 자동 감지하여
- * 렌더링 전에 올바른 CSS 변수가 적용되도록 한다.
+ * 테마(dark/light)를 자동 감지하여 렌더링 전에 올바른 CSS 변수가 적용되도록 한다.
  *
  * @example
  * ```tsx
@@ -27,7 +26,7 @@ type ColorMode = "system" | "light-only" | "dark-only";
  * );
  * ```
  */
-export function getSeedClassName(options?: { colorMode?: ColorMode }): string {
+export function getSeedClassName(options?: GetSeedClassNameOptions): string {
   const { colorMode = "system" } = options ?? {};
 
   // Theme — lynx.__globalProps.theme에서 시스템 테마 읽기
@@ -44,9 +43,5 @@ export function getSeedClassName(options?: { colorMode?: ColorMode }): string {
         : "seed-user-color-scheme-light";
   }
 
-  // Platform — SystemInfo.platform에서 디바이스 플랫폼 읽기
-  const platform = SystemInfo?.platform;
-  const platformClass = platform === "iOS" ? "seed-platform-ios" : "seed-platform-android";
-
-  return `${themeClass} ${platformClass}`;
+  return themeClass;
 }

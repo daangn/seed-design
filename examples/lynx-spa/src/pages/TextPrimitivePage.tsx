@@ -1,38 +1,38 @@
-import { useState } from '@lynx-js/react';
-import { Box, Text, VStack } from '@seed-design/lynx-react';
+import { useState } from "@lynx-js/react";
+import { Box, Text, VStack } from "@seed-design/lynx-react";
 
 const TEXT_STYLES = [
-  'screenTitle',
-  't7Bold',
-  't6Medium',
-  't5Regular',
-  't4Regular',
-  't3Regular',
+  "screenTitle",
+  "t7Bold",
+  "t6Medium",
+  "t5Regular",
+  "t4Regular",
+  "t3Regular",
 ] as const;
 
 const STATIC_TEXT_STYLES = [
-  't3StaticRegular',
-  't5StaticRegular',
-  't5StaticBold',
-  't7StaticBold',
-  't9StaticBold',
+  "t3StaticRegular",
+  "t5StaticRegular",
+  "t5StaticBold",
+  "t7StaticBold",
+  "t9StaticBold",
 ] as const;
 
 function SectionTitle({ children }: { children: string }) {
   return (
-    <Text textStyle="t6Bold" color="fg.neutral" style={{ marginTop: '22px' }}>
+    <Text textStyle="t6Bold" color="fg.neutral" style={{ marginTop: "22px" }}>
       {children}
     </Text>
   );
 }
 
 export function TextPrimitivePage() {
-  const [accent, setAccent] = useState<'brand' | 'positive'>('brand');
-  const isBrand = accent === 'brand';
+  const [accent, setAccent] = useState<"brand" | "positive">("brand");
+  const isBrand = accent === "brand";
 
   function switchAccent() {
-    'background only';
-    setAccent(isBrand ? 'positive' : 'brand');
+    "background only";
+    setAccent(isBrand ? "positive" : "brand");
   }
 
   return (
@@ -76,12 +76,7 @@ export function TextPrimitivePage() {
         <Text textStyle="t5Bold" color="fg.critical">
           t5Bold with fg.critical
         </Text>
-        <Text
-          fontSize="t7"
-          lineHeight="t7"
-          fontWeight="bold"
-          color="fg.informative"
-        >
+        <Text fontSize="t7" lineHeight="t7" fontWeight="bold" color="fg.informative">
           fontSize / lineHeight / fontWeight overrides
         </Text>
       </VStack>
@@ -89,14 +84,9 @@ export function TextPrimitivePage() {
       <SectionTitle>Alignment</SectionTitle>
       <Box bg="bg.neutralWeak" borderRadius="r3" p="x3">
         <VStack gap="x2">
-          {(['left', 'center', 'right'] as const).map((align) => (
+          {(["left", "center", "right"] as const).map((align) => (
             <Box key={align} bg="bg.layerDefault" borderRadius="r2" p="x2">
-              <Text
-                textStyle="t3Bold"
-                color="fg.neutral"
-                align={align}
-                style={{ width: '100%' }}
-              >
+              <Text textStyle="t3Bold" color="fg.neutral" align={align} style={{ width: "100%" }}>
                 {`align ${align}`}
               </Text>
             </Box>
@@ -137,8 +127,7 @@ export function TextPrimitivePage() {
 
           <Box bg="bg.layerDefault" borderRadius="r2" p="x3">
             <Text textStyle="t3Regular" color="fg.neutralSubtle">
-              Change the mobile device font-size setting and compare this page
-              again.
+              Change the mobile device font-size setting and compare this page again.
             </Text>
           </Box>
         </VStack>
@@ -147,14 +136,14 @@ export function TextPrimitivePage() {
       <SectionTitle>Dynamic token values</SectionTitle>
       <Box
         bindtap={switchAccent}
-        bg={isBrand ? 'bg.brandWeak' : 'bg.positiveWeak'}
-        borderColor={isBrand ? 'stroke.brandWeak' : 'stroke.positiveWeak'}
+        bg={isBrand ? "bg.brandWeak" : "bg.positiveWeak"}
+        borderColor={isBrand ? "stroke.brandWeak" : "stroke.positiveWeak"}
         borderWidth={1}
         borderRadius="r3"
         p="x4"
       >
         <VStack gap="x1">
-          <Text textStyle="t5Bold" color={isBrand ? 'fg.brand' : 'fg.positive'}>
+          <Text textStyle="t5Bold" color={isBrand ? "fg.brand" : "fg.positive"}>
             Tap to switch Text color
           </Text>
           <Text textStyle="t3Regular" color="fg.neutralSubtle">

@@ -7,15 +7,14 @@
 /**
  * @see https://seed-design.io/lynx/components/tag-group
  */
-import * as React from '@lynx-js/react';
-import { TagGroup as SeedTagGroup } from '@seed-design/lynx-react';
+import * as React from "@lynx-js/react";
+import { TagGroup as SeedTagGroup } from "@seed-design/lynx-react";
 
 export interface TagGroupRootProps extends SeedTagGroup.RootProps {}
 
 export const TagGroupRoot = SeedTagGroup.Root;
 
-export interface TagGroupItemProps
-  extends Omit<SeedTagGroup.ItemProps, 'children'> {
+export interface TagGroupItemProps extends Omit<SeedTagGroup.ItemProps, "children"> {
   label: React.ReactNode;
 }
 
@@ -28,7 +27,7 @@ export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>(
     );
   },
 );
-TagGroupItem.displayName = 'TagGroupItem';
+TagGroupItem.displayName = "TagGroupItem";
 
 /**
  * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
