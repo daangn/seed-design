@@ -10,8 +10,6 @@ SEED Design은 라이트 모드와 다크 모드를 지원하는 테마 시스�
 웹 환경에서는 `data-*` 속성 셀렉터를 통해 테마를 제어하지만, Lynx에서는 `data-*` 속성 셀렉터를 지원하지 않기 때문에 **CSS 클래스 이름**을 사용합니다.
 스타일시트에 선언된 CSS 커스텀 프로퍼티(변수)는 Lynx에서도 상속되므로, 루트 요소에 설정된 테마 토큰이 하위 요소에 자연스럽게 적용됩니다.
 
-런타임 값이 필요한 safe area는 테마 설정과 분리해서 다룹니다. safe area가 필요한 화면이나 컴포넌트에서 값을 직접 읽어 적용하세요.
-
 ## 전역 설정 적용
 
 `@seed-design/lynx-react`의 `getSeedClassName()` 함수를 사용하여 `<page>` 요소에 테마/플랫폼 클래스를 설정합니다.
@@ -46,33 +44,6 @@ root.render(<Root />);
 | `dark-only` | (무관) | `seed-user-color-scheme-dark` |
 
 `system`으로 설정하면 `lynx.__globalProps.theme` 값을 읽어 기기의 다크 모드 설정을 따릅니다.
-
-## Safe Area 처리
-
-Safe area는 `getSeedClassName()`의 책임이 아닙니다. safe area 값이 필요한 화면이나 컴포넌트에서 `useSafeArea()`를 직접 사용하세요.
-
-```tsx
-import { useSafeArea } from "@seed-design/lynx-react";
-
-function Screen() {
-  const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
-
-  return (
-    <view
-      style={{
-        paddingTop: `calc(16px + ${safeAreaInsetTop})`,
-        paddingBottom: safeAreaInsetBottom,
-      }}
-    >
-      <text>Content</text>
-    </view>
-  );
-}
-```
-
-`useSafeArea()`는 `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetBottom` 값을 우선 사용하고, host가 값을 제공하지 않으면 `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` 값을 fallback으로 반환합니다.
-
-`Box`에서는 `pt="safeArea"` / `pb="safeArea"`를 사용할 수 있습니다. `BottomSheet.Content`처럼 safe area가 컴포넌트 구조와 직접 연결된 경우에는 컴포넌트 내부에서 필요한 bottom safe area를 처리합니다.
 
 ## 테마 클래스 이해하기
 
