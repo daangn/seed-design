@@ -24,7 +24,7 @@
     "format:all": "bun biome format --fix",
     "test:all": "bun test:unit && bun test:lynx-react",
     "test:unit": "bun test --path-ignore-patterns='packages/lynx-react/**'",
-    "test:lynx-react": "bun --filter @seed-design/lynx-react typecheck:test && bun --filter @seed-design/lynx-react test",
+    "test:lynx-react": "bun run --filter '@seed-design/lynx-react' typecheck && bun run --filter '@seed-design/lynx-react' test",
     "generate:all": "bun rootage:generate && bun qvism:generate && bun docs:generate",
     "figma:sync": "bun figma-extractor --config=scripts/.config/figma-extractor.config.ts scripts/data variables && bun run ./scripts/figma-to-rootage.ts",
     "images:convert": "bun scripts/convert-images-to-webp.ts",
