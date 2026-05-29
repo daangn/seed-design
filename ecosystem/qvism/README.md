@@ -34,12 +34,12 @@ UI 라이브러리가 특정 CSS 기술에 의존하는 경우, 라이브러리 
 
 ## CSS Output Pipeline
 
-Preset은 두 단계의 PostCSS 확장 지점을 사용할 수 있습니다.
+Preset은 style object를 CSS로 변환한 뒤 Lightning CSS로 최종 CSS를 출력합니다.
 
 - `postcssPlugins`: style object를 CSS로 변환한 직후, Lightning CSS 최적화 이전에 실행합니다.
-- `postTransformPlugins`: Lightning CSS 최적화 이후, 최종 CSS를 파일로 쓰기 직전에 실행합니다.
+- `lightningcssOptions`: Lightning CSS `transform()`에 전달할 옵션입니다. qvism이 호출마다 관리하는 `filename`, `code`, `minify`는 제외됩니다.
 
-Qvism core는 특정 framework나 runtime의 CSS compatibility를 알지 않습니다. Target별 보정이 필요하다면 preset이 `postTransformPlugins`로 최종 CSS만 후처리합니다.
+Qvism core는 특정 framework나 runtime의 CSS compatibility를 알지 않습니다. Target별 보정이 필요하다면 preset이 `lightningcssOptions`로 Lightning CSS의 공식 옵션을 설정합니다.
 
 ## When to Use
 

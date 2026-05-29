@@ -9,9 +9,6 @@ type LynxRuntime = typeof globalThis & {
   lynx?: {
     __globalProps?: Record<string, unknown> | null;
   };
-  SystemInfo?: {
-    platform?: string;
-  };
 };
 
 const runtime = globalThis as LynxRuntime;
@@ -20,20 +17,14 @@ function getGlobalProps() {
   return runtime.lynx?.__globalProps ?? {};
 }
 
-function getRuntimePlatform() {
-  return runtime.SystemInfo?.platform ?? "unknown";
-}
-
 function getFallbackSeedClassName(colorMode: ColorMode) {
   const systemTheme = String(getGlobalProps().theme ?? "").toLowerCase();
   const resolvedTheme =
     colorMode === "dark-only" || (colorMode === "system" && systemTheme === "dark")
       ? "dark"
       : "light";
-  const platformClass =
-    getRuntimePlatform() === "iOS" ? "seed-platform-ios" : "seed-platform-android";
 
-  return `seed-user-color-scheme-${resolvedTheme} ${platformClass}`;
+  return `seed-user-color-scheme-${resolvedTheme}`;
 }
 
 function getSafeSeedClassName(colorMode: ColorMode) {
@@ -193,7 +184,6 @@ export function ThemingPage() {
   const globalProps = getGlobalProps();
   const systemTheme = String(globalProps.theme ?? "unknown");
   const frontendTheme = String(globalProps.frontendTheme ?? "unknown");
-  const platform = getRuntimePlatform();
 
   return (
     <scroll-view
@@ -234,7 +224,6 @@ export function ThemingPage() {
         </text>
         <InfoRow label="lynx.__globalProps.theme" value={systemTheme} />
         <InfoRow label="lynx.__globalProps.frontendTheme" value={frontendTheme} />
-        <InfoRow label="SystemInfo.platform" value={platform} />
       </view>
 
       <SectionTitle>getSeedClassName()</SectionTitle>
