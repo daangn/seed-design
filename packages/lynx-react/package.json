@@ -23,10 +23,10 @@
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "tsc",
+    "build": "vite build",
     "lint:publish": "bun publint",
     "test": "vitest run",
-    "typecheck:test": "tsc -p tsconfig.test.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.100.0",
@@ -39,6 +39,8 @@
     "@seed-design/lynx-css": "0.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "jsdom": "^29.0.2",
+    "vite": "^8.0.0",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4"
   },
   "publishConfig": {
