@@ -1,6 +1,7 @@
 import { typography } from "@seed-design/lynx-css/vars/component";
+import type { CSSProperties } from "@lynx-js/types";
 import clsx from "clsx";
-import * as React from "react";
+import * as React from "@lynx-js/react";
 
 import {
   handleColor,
@@ -10,7 +11,7 @@ import {
   type TextStyle,
   type TextStyleProps,
 } from "../../utils/styled";
-import type { LynxStyledElementProps } from "../../types";
+import type { LynxStyledElementProps, LynxTextRef } from "../../types";
 
 function capitalize<T extends string>(value: T): Capitalize<T> {
   return (value.charAt(0).toUpperCase() + value.slice(1)) as Capitalize<T>;
@@ -41,7 +42,7 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
 
   return (
     <text
-      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       {...nativeProps}
       className={clsx(className)}
       style={
@@ -52,7 +53,7 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
           fontWeight: handleFontWeight(fontWeight) ?? typographyStyle.fontWeight,
           textAlign: align,
           ...style,
-        } as React.CSSProperties
+        } as CSSProperties
       }
     >
       {children}

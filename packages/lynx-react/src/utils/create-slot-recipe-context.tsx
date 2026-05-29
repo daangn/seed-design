@@ -1,4 +1,12 @@
 import { createContext, forwardRef, useContext } from "@lynx-js/react";
+import type {
+  ElementType,
+  ForwardRefExoticComponent,
+  PropsWithoutRef,
+  ReactElement,
+  ReactNode,
+  RefAttributes,
+} from "@lynx-js/react";
 import clsx from "clsx";
 
 type SlotRecipe<
@@ -8,7 +16,7 @@ type SlotRecipe<
   splitVariantProps: <T extends Props>(props: T) => [Props, Omit<T, keyof Props>];
 };
 
-function assertNotIntrinsicComponent(Component: React.ElementType<any>, caller: string) {
+function assertNotIntrinsicComponent(Component: ElementType<any>, caller: string) {
   if (typeof Component !== "string") return;
 
   throw new Error(
@@ -19,21 +27,42 @@ function assertNotIntrinsicComponent(Component: React.ElementType<any>, caller: 
 export function createSlotRecipeContext<
   Props extends Record<string, string | boolean | undefined>,
   Classnames extends Record<string, string>,
->(recipe: SlotRecipe<Props, Classnames>) {
+>(
+  recipe: SlotRecipe<Props, Classnames>,
+): {
+  ClassNamesProvider: (props: { children: ReactNode; value: Classnames }) => ReactElement;
+  PropsProvider: (props: { children: ReactNode; value: Props }) => ReactElement;
+  useClassNames: () => Classnames;
+  useProps: () => Props | null;
+  withRootProvider: <P>(
+    Component: ElementType<any>,
+    options?: {
+      defaultProps?: Partial<P>;
+    },
+  ) => ForwardRefExoticComponent<PropsWithoutRef<P>>;
+  withProvider: <T, P>(
+    Component: ElementType<any>,
+    slot: keyof Classnames,
+    options?: {
+      defaultProps?: Partial<P>;
+    },
+  ) => ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>;
+  withContext: <T, P>(
+    Component: ElementType<any>,
+    slot?: keyof Classnames,
+    options?: {
+      defaultProps?: Partial<P>;
+    },
+  ) => ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>;
+} {
   const ClassNamesContext = createContext<Classnames | null>(null);
   const PropsContext = createContext<Props | null>(null);
 
-  const ClassNamesProvider = ({
-    children,
-    value,
-  }: {
-    children: React.ReactNode;
-    value: Classnames;
-  }) => {
+  const ClassNamesProvider = ({ children, value }: { children: ReactNode; value: Classnames }) => {
     return <ClassNamesContext.Provider value={value}>{children}</ClassNamesContext.Provider>;
   };
 
-  const PropsProvider = ({ children, value }: { children: React.ReactNode; value: Props }) => {
+  const PropsProvider = ({ children, value }: { children: ReactNode; value: Props }) => {
     return <PropsContext.Provider value={value}>{children}</PropsContext.Provider>;
   };
 
@@ -53,11 +82,11 @@ export function createSlotRecipeContext<
   }
 
   const withRootProvider = <P,>(
-    Component: React.ElementType<any>,
+    Component: ElementType<any>,
     options?: {
       defaultProps?: Partial<P>;
     },
-  ): React.ForwardRefExoticComponent<React.PropsWithoutRef<P>> => {
+  ): ForwardRefExoticComponent<PropsWithoutRef<P>> => {
     assertNotIntrinsicComponent(Component, "withRootProvider");
     const { defaultProps } = options ?? {};
 
@@ -83,12 +112,12 @@ export function createSlotRecipeContext<
   };
 
   const withProvider = <T, P>(
-    Component: React.ElementType<any>,
+    Component: ElementType<any>,
     slot: keyof Classnames,
     options?: {
       defaultProps?: Partial<P>;
     },
-  ): React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>> => {
+  ): ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>> => {
     assertNotIntrinsicComponent(Component, "withProvider");
     const { defaultProps } = options ?? {};
 
@@ -118,12 +147,12 @@ export function createSlotRecipeContext<
   };
 
   const withContext = <T, P>(
-    Component: React.ElementType<any>,
+    Component: ElementType<any>,
     slot?: keyof Classnames,
     options?: {
       defaultProps?: Partial<P>;
     },
-  ): React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>> => {
+  ): ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>> => {
     assertNotIntrinsicComponent(Component, "withContext");
     const { defaultProps } = options ?? {};
 

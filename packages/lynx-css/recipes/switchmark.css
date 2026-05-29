@@ -19,6 +19,8 @@
 .seed-switchmark__root--size_16 {
     min-width: 26px;
     min-height: 16px;
+    margin-top: calc((var(--seed-dimension-x6) - 16px) / 2);
+    margin-bottom: calc((var(--seed-dimension-x6) - 16px) / 2);
     padding: 2px 2px
 }
 .seed-switchmark__thumb--size_16 {
@@ -28,6 +30,8 @@
 .seed-switchmark__root--size_24 {
     min-width: 38px;
     min-height: 24px;
+    margin-top: calc((var(--seed-dimension-x6) - 24px) / 2);
+    margin-bottom: calc((var(--seed-dimension-x6) - 24px) / 2);
     padding: 2px 2px
 }
 .seed-switchmark__thumb--size_24 {
@@ -37,6 +41,8 @@
 .seed-switchmark__root--size_32 {
     min-width: 52px;
     min-height: 32px;
+    margin-top: calc((var(--seed-dimension-x8) - 32px) / 2);
+    margin-bottom: calc((var(--seed-dimension-x8) - 32px) / 2);
     padding: 3px 3px
 }
 .seed-switchmark__thumb--size_32 {

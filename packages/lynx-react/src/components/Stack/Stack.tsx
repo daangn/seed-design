@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "@lynx-js/react";
 
 import { Box, type BoxProps } from "../Box";
 

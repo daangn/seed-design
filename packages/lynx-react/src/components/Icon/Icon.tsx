@@ -1,11 +1,16 @@
 import { useMainThreadRef } from "@lynx-js/react";
-import type { MainThread } from "@lynx-js/types";
+import type { CSSProperties, MainThread } from "@lynx-js/types";
 import clsx from "clsx";
-import * as React from "react";
-import { cloneElement, isValidElement, type DependencyList, type ReactElement } from "react";
+import * as React from "@lynx-js/react";
+import {
+  cloneElement,
+  isValidElement,
+  type DependencyList,
+  type ReactElement,
+} from "@lynx-js/react";
 
 import { useIconColor } from "../../hooks/useIconColor";
-import type { LynxIconElementProps, LynxStyledElementProps } from "../../types";
+import type { LynxIconElementProps, LynxStyledElementProps, LynxViewRef } from "../../types";
 import { handleColor, handleDimension, type StyleProps } from "../../utils/styled";
 
 export type IconSlotName = "icon" | "prefixIcon" | "suffixIcon";
@@ -120,7 +125,7 @@ function mergeWrapperStyle({
   size,
   color,
   style,
-}: Pick<IconProps, "size" | "color" | "style">): React.CSSProperties | undefined {
+}: Pick<IconProps, "size" | "color" | "style">): CSSProperties | undefined {
   const dimension = handleDimension(size);
   const resolvedColor = handleColor(color);
 
@@ -133,7 +138,7 @@ function mergeWrapperStyle({
   };
 }
 
-function getStyleColor(style: React.CSSProperties | undefined): React.CSSProperties["color"] {
+function getStyleColor(style: CSSProperties | undefined): CSSProperties["color"] {
   return style?.color;
 }
 
@@ -173,7 +178,7 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
 
   return (
     <view
-      {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       {...nativeProps}
       main-thread:ref={sourceRef}
       className={clsx(baseClassName, slotClassName, className)}
@@ -239,7 +244,7 @@ export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props,
 
   return (
     <view
-      {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       {...nativeProps}
       main-thread:ref={sourceRef}
       className={className}

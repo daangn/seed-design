@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import { checkbox } from "@seed-design/lynx-css/recipes/checkbox";
 import { checkmark } from "@seed-design/lynx-css/recipes/checkmark";
-import * as React from "react";
+import * as React from "@lynx-js/react";
 import { describe, expect, it } from "vitest";
 
 import type { LynxIconElementProps } from "../../../types";

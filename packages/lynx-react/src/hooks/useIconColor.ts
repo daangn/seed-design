@@ -1,6 +1,6 @@
 import { runOnMainThread, useEffect, useMainThreadRef } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
-import type { DependencyList, RefObject } from "react";
+import type { DependencyList, RefObject } from "@lynx-js/react";
 
 type IconElement = MainThread.Element & {
   getComputedStyleProperty?: (name: string) => string;

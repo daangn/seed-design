@@ -1,5 +1,5 @@
-import * as React from "react";
-import { isValidElement, type ReactElement } from "react";
+import * as React from "@lynx-js/react";
+import { isValidElement, type ReactElement } from "@lynx-js/react";
 import clsx from "clsx";
 
 import { checkbox } from "@seed-design/lynx-css/recipes/checkbox";
@@ -10,7 +10,12 @@ import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
-import type { LynxIconElementProps, LynxStyledElementProps } from "../../types";
+import type {
+  LynxIconElementProps,
+  LynxStyledElementProps,
+  LynxTextRef,
+  LynxViewRef,
+} from "../../types";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
 
@@ -129,7 +134,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   return (
     <CheckboxContext.Provider value={api}>
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
         {...pressHandlers}
         {...nativeProps}
@@ -166,7 +171,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
       value={{ iconClassName: classes.icon, checkmarkVariantProps }}
     >
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
         {...nativeProps}
       >
@@ -239,7 +244,7 @@ export const CheckboxLabel = React.forwardRef<unknown, CheckboxLabelProps>((prop
 
   return (
     <text
-      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(labelClassName, className)}
       {...nativeProps}
     >
@@ -259,7 +264,7 @@ export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((prop
 
   return (
     <view
-      {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.root, className)}
       {...nativeProps}
     >

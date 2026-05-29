@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
 import { switchStyle } from "@seed-design/lynx-css/recipes/switch";
@@ -9,7 +9,7 @@ import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switc
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
-import type { LynxStyledElementProps } from "../../types";
+import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
 
 /**
  * @platform Lynx
@@ -111,7 +111,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   return (
     <SwitchContext.Provider value={api}>
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
         {...pressHandlers}
         {...nativeProps}
@@ -146,7 +146,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       value={{ thumbClassName: classes.thumb, switchmarkVariantProps }}
     >
       <view
-        {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
         {...nativeProps}
       >
@@ -167,7 +167,7 @@ export const SwitchThumb = React.forwardRef<unknown, SwitchThumbProps>((props, r
 
   return (
     <view
-      {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(thumbClassName, className)}
       {...nativeProps}
     />
@@ -189,7 +189,7 @@ export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, r
 
   return (
     <text
-      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(labelClassName, className)}
       {...nativeProps}
     >

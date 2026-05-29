@@ -18,6 +18,7 @@ const checkmarkRecipe = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       flex: "none",
+      marginTop: "var(--checkmark-margin-top, 0)",
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
