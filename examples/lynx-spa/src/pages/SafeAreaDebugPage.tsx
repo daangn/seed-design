@@ -38,9 +38,7 @@ function DebugRow({ label, value }: { label: string; value: unknown }) {
         borderBottomColor: $color.stroke.neutralMuted,
       }}
     >
-      <text style={{ fontSize: '13px', color: $color.fg.neutralSubtle }}>
-        {label}
-      </text>
+      <text style={{ fontSize: '13px', color: $color.fg.neutralSubtle }}>{label}</text>
       <text
         style={{
           fontSize: '13px',
@@ -132,14 +130,8 @@ export function SafeAreaDebugPage() {
             borderRadius: '12px',
           }}
         >
-          <DebugRow
-            label="safeAreaInsetTop"
-            value={globalProps?.safeAreaInsetTop}
-          />
-          <DebugRow
-            label="safeAreaInsetBottom"
-            value={globalProps?.safeAreaInsetBottom}
-          />
+          <DebugRow label="safeAreaInsetTop" value={globalProps?.safeAreaInsetTop} />
+          <DebugRow label="safeAreaInsetBottom" value={globalProps?.safeAreaInsetBottom} />
         </view>
       </VStack>
 

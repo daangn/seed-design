@@ -2,10 +2,7 @@ import { useRef, useState } from '@lynx-js/react';
 import { bottomSheetVariantMap } from '@seed-design/lynx-css/recipes/bottom-sheet';
 import { ActionButton } from '@seed-design/lynx-react';
 
-import {
-  CatalogExamples,
-  CatalogSectionTitle,
-} from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionTitle } from '../components/catalog-examples.jsx';
 import {
   definePreviewStates,
   defineVariantAxes,
@@ -38,14 +35,9 @@ const variants = defineVariantAxes([
   },
 ]);
 
-const previewStates = definePreviewStates([
-  { key: 'open', defaultValue: false },
-]);
+const previewStates = definePreviewStates([{ key: 'open', defaultValue: false }]);
 
-type BottomSheetValues = VariantCatalogValues<
-  typeof variants,
-  typeof previewStates
->;
+type BottomSheetValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
 function renderBottomSheet(
   values: BottomSheetValues,
@@ -119,18 +111,10 @@ function BottomSheetExamples() {
           flexWrap: 'wrap',
         }}
       >
-        <ActionButton bindtap={() => uncontrolledRef.current?.open()}>
-          open()
-        </ActionButton>
-        <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(0)}>
-          snapTo(0)
-        </ActionButton>
-        <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(1)}>
-          snapTo(1)
-        </ActionButton>
-        <ActionButton bindtap={() => uncontrolledRef.current?.close()}>
-          close()
-        </ActionButton>
+        <ActionButton bindtap={() => uncontrolledRef.current?.open()}>open()</ActionButton>
+        <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(0)}>snapTo(0)</ActionButton>
+        <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(1)}>snapTo(1)</ActionButton>
+        <ActionButton bindtap={() => uncontrolledRef.current?.close()}>close()</ActionButton>
       </view>
       <BottomSheetRoot ref={uncontrolledRef} snapPoints={SNAP_POINTS_FIT_80}>
         <BottomSheetContent title="Imperative 예제" showHandle>
@@ -142,12 +126,8 @@ function BottomSheetExamples() {
 
       <CatalogSectionTitle>Controlled</CatalogSectionTitle>
       <view style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
-        <ActionButton bindtap={() => setControlledOpen(true)}>
-          open=true
-        </ActionButton>
-        <ActionButton bindtap={() => setControlledOpen(false)}>
-          open=false
-        </ActionButton>
+        <ActionButton bindtap={() => setControlledOpen(true)}>open=true</ActionButton>
+        <ActionButton bindtap={() => setControlledOpen(false)}>open=false</ActionButton>
       </view>
       <BottomSheetRoot
         open={controlledOpen}

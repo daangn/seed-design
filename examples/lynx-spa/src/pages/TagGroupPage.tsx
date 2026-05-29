@@ -1,13 +1,10 @@
 import { tagGroupVariantMap } from '@seed-design/lynx-css/recipes/tag-group';
 import { tagGroupItemVariantMap } from '@seed-design/lynx-css/recipes/tag-group-item';
 
+import { CatalogExamples, CatalogSectionHeader } from '../components/catalog-examples.jsx';
 import {
-  CatalogExamples,
-  CatalogSectionHeader,
-} from '../components/catalog-examples.jsx';
-import {
-  VariantCatalog,
   defineVariantAxes,
+  VariantCatalog,
   type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
 import { TagGroupItem, TagGroupRoot } from '../seed-design/ui/tag-group';
@@ -45,9 +42,7 @@ function renderTagGroup(values: TagGroupValues) {
 function TagGroupExamples() {
   return (
     <CatalogExamples title="TagGroup">
-      <CatalogSectionHeader>
-        Default (neutralSubtle · regular)
-      </CatalogSectionHeader>
+      <CatalogSectionHeader>Default (neutralSubtle · regular)</CatalogSectionHeader>
       <TagGroupRoot size="t2">
         <TagGroupItem label="동네 인증" />
         <TagGroupItem label="매너 온도 42.0°C" />

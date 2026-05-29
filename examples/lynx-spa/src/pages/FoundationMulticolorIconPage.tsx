@@ -78,10 +78,7 @@ import IconWonCircle from '@karrotmarket/lynx-multicolor-icon/IconWonCircle';
 import IconWonShield from '@karrotmarket/lynx-multicolor-icon/IconWonShield';
 import IconWrench from '@karrotmarket/lynx-multicolor-icon/IconWrench';
 
-import {
-  type IconEntry,
-  VirtualIconGrid,
-} from '../components/icon-virtual-grid.jsx';
+import { type IconEntry, VirtualIconGrid } from '../components/icon-virtual-grid.jsx';
 
 const icons: IconEntry[] = [
   {

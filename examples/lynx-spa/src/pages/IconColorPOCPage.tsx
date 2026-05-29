@@ -1,14 +1,8 @@
 import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
-import {
-  runOnMainThread,
-  useEffect,
-  useMainThreadRef,
-  useState,
-} from '@lynx-js/react';
+import { runOnMainThread, useEffect, useMainThreadRef, useState } from '@lynx-js/react';
 import type { MainThread } from '@lynx-js/types';
-import type { RefObject } from 'react';
-
 import { vars } from '@seed-design/lynx-css/vars';
+import type { RefObject } from 'react';
 
 import '../styles/icon-color-poc.css';
 
@@ -91,10 +85,8 @@ function useIconColorPOC(depKey: string, label: string) {
         return;
       }
 
-      const hasGetComputed =
-        typeof el.getComputedStyleProperty === 'function';
-      const hasGetComputedCss =
-        typeof el.getComputedCssProperty === 'function';
+      const hasGetComputed = typeof el.getComputedStyleProperty === 'function';
+      const hasGetComputedCss = typeof el.getComputedCssProperty === 'function';
 
       console.log(
         `[POC ${tag}] API probe — getComputedStyleProperty:${hasGetComputed} getComputedCssProperty:${hasGetComputedCss}`,
@@ -129,19 +121,15 @@ function useIconColorPOC(depKey: string, label: string) {
  * ============================================================= */
 
 function POCDIconComponent() {
-  const [variant, setVariant] = useState<
-    'brandSolid' | 'criticalSolid' | 'neutralWeak'
-  >('brandSolid');
+  const [variant, setVariant] = useState<'brandSolid' | 'criticalSolid' | 'neutralWeak'>(
+    'brandSolid',
+  );
   const { ref } = useIconColorPOC(variant, 'D');
   const iconClass = `poc-c-icon poc-c-icon--${variant}`;
 
   const next = () =>
     setVariant((v) =>
-      v === 'brandSolid'
-        ? 'criticalSolid'
-        : v === 'criticalSolid'
-          ? 'neutralWeak'
-          : 'brandSolid',
+      v === 'brandSolid' ? 'criticalSolid' : v === 'criticalSolid' ? 'neutralWeak' : 'brandSolid',
     );
 
   return (
@@ -195,19 +183,15 @@ function POCDIconComponent() {
 }
 
 function POCCVariantToggle() {
-  const [variant, setVariant] = useState<
-    'brandSolid' | 'criticalSolid' | 'neutralWeak'
-  >('brandSolid');
+  const [variant, setVariant] = useState<'brandSolid' | 'criticalSolid' | 'neutralWeak'>(
+    'brandSolid',
+  );
   const { ref } = useIconColorPOC(variant, 'C');
   const iconClass = `poc-c-icon poc-c-icon--${variant}`;
 
   const next = () =>
     setVariant((v) =>
-      v === 'brandSolid'
-        ? 'criticalSolid'
-        : v === 'criticalSolid'
-          ? 'neutralWeak'
-          : 'brandSolid',
+      v === 'brandSolid' ? 'criticalSolid' : v === 'criticalSolid' ? 'neutralWeak' : 'brandSolid',
     );
 
   return (
@@ -288,8 +272,8 @@ export function IconColorPOCPage() {
           marginBottom: '8px',
         }}
       >
-        아이콘 tint-color 적용 방식 4가지 실측. 브랜드 컬러 배경 위에서 plus
-        아이콘이 흰색(또는 의도한 색)으로 보이면 해당 방식이 동작하는 것.
+        아이콘 tint-color 적용 방식 4가지 실측. 브랜드 컬러 배경 위에서 plus 아이콘이 흰색(또는
+        의도한 색)으로 보이면 해당 방식이 동작하는 것.
       </text>
 
       {/* Baseline — hex color 고정 sanity check */}
@@ -322,10 +306,7 @@ export function IconColorPOCPage() {
             IconPlusFill 은 내부에서 <image tint-color={color}> 로 렌더하므로
             color prop 에 CSS var 스트링을 그대로 넘기면 POC A 와 동치.
           */}
-          <IconPlusFill
-            color="var(--seed-color-palette-static-white)"
-            size={32}
-          />
+          <IconPlusFill color="var(--seed-color-palette-static-white)" size={32} />
           <text style={{ fontSize: '12px', color: $color.fg.neutralInverted }}>
             ✅ 흰색 → var() 해석됨 / ❌ 검정 → 미해석
           </text>

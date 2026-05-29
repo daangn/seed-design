@@ -24,12 +24,7 @@ interface VirtualIconGridProps {
   title: string;
 }
 
-export function VirtualIconGrid({
-  iconColor,
-  icons,
-  packageName,
-  title,
-}: VirtualIconGridProps) {
+export function VirtualIconGrid({ iconColor, icons, packageName, title }: VirtualIconGridProps) {
   return (
     <view
       style={{

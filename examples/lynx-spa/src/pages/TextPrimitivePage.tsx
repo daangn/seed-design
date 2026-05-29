@@ -76,12 +76,7 @@ export function TextPrimitivePage() {
         <Text textStyle="t5Bold" color="fg.critical">
           t5Bold with fg.critical
         </Text>
-        <Text
-          fontSize="t7"
-          lineHeight="t7"
-          fontWeight="bold"
-          color="fg.informative"
-        >
+        <Text fontSize="t7" lineHeight="t7" fontWeight="bold" color="fg.informative">
           fontSize / lineHeight / fontWeight overrides
         </Text>
       </VStack>
@@ -91,12 +86,7 @@ export function TextPrimitivePage() {
         <VStack gap="x2">
           {(['left', 'center', 'right'] as const).map((align) => (
             <Box key={align} bg="bg.layerDefault" borderRadius="r2" p="x2">
-              <Text
-                textStyle="t3Bold"
-                color="fg.neutral"
-                align={align}
-                style={{ width: '100%' }}
-              >
+              <Text textStyle="t3Bold" color="fg.neutral" align={align} style={{ width: '100%' }}>
                 {`align ${align}`}
               </Text>
             </Box>
@@ -137,8 +127,7 @@ export function TextPrimitivePage() {
 
           <Box bg="bg.layerDefault" borderRadius="r2" p="x3">
             <Text textStyle="t3Regular" color="fg.neutralSubtle">
-              Change the mobile device font-size setting and compare this page
-              again.
+              Change the mobile device font-size setting and compare this page again.
             </Text>
           </Box>
         </VStack>

@@ -116,13 +116,7 @@ export function LayoutPrimitivesPage() {
       </VStack>
 
       <SectionTitle>VStack</SectionTitle>
-      <VStack
-        gap="x2"
-        bg="bg.neutralWeak"
-        borderRadius="r3"
-        p="x3"
-        align="stretch"
-      >
+      <VStack gap="x2" bg="bg.neutralWeak" borderRadius="r3" p="x3" align="stretch">
         {['First item', 'Second item', 'Third item'].map((label) => (
           <Box key={label} bg="bg.layerDefault" borderRadius="r2" p="x3">
             <Text textStyle="t4Medium" color="fg.neutral">
@@ -153,23 +147,21 @@ export function LayoutPrimitivesPage() {
         </HStack>
 
         <HStack gap="x2" wrap>
-          {['wrap', 'gap', 'align', 'justify', 'grow', 'shrink'].map(
-            (label) => (
-              <Box
-                key={label}
-                bg="bg.neutralWeak"
-                borderColor="stroke.neutralMuted"
-                borderWidth={1}
-                borderRadius="full"
-                px="x3"
-                py="x1"
-              >
-                <Text textStyle="t2Bold" color="fg.neutral">
-                  {label}
-                </Text>
-              </Box>
-            ),
-          )}
+          {['wrap', 'gap', 'align', 'justify', 'grow', 'shrink'].map((label) => (
+            <Box
+              key={label}
+              bg="bg.neutralWeak"
+              borderColor="stroke.neutralMuted"
+              borderWidth={1}
+              borderRadius="full"
+              px="x3"
+              py="x1"
+            >
+              <Text textStyle="t2Bold" color="fg.neutral">
+                {label}
+              </Text>
+            </Box>
+          ))}
         </HStack>
       </VStack>
 

@@ -37,19 +37,13 @@ type WidenPrimitive<Value> = Value extends string
       : Value;
 
 type VariantAxisValues<Variants extends readonly VariantAxis[]> = {
-  [Axis in Variants[number] as Axis['key']]: Axis extends VariantAxis<
-    string,
-    infer Value
-  >
+  [Axis in Variants[number] as Axis['key']]: Axis extends VariantAxis<string, infer Value>
     ? Value
     : never;
 };
 
 type PreviewStateValues<PreviewStates extends readonly PreviewState[]> = {
-  [State in PreviewStates[number] as State['key']]: State extends PreviewState<
-    string,
-    infer Value
-  >
+  [State in PreviewStates[number] as State['key']]: State extends PreviewState<string, infer Value>
     ? WidenPrimitive<Value>
     : never;
 };
@@ -57,19 +51,17 @@ type PreviewStateValues<PreviewStates extends readonly PreviewState[]> = {
 export type VariantCatalogValues<
   Variants extends readonly VariantAxis[] = readonly VariantAxis[],
   PreviewStates extends readonly PreviewState[] = readonly PreviewState[],
-> = VariantValues &
-  VariantAxisValues<Variants> &
-  PreviewStateValues<PreviewStates>;
+> = VariantValues & VariantAxisValues<Variants> & PreviewStateValues<PreviewStates>;
 
-export function defineVariantAxes<
-  const Variants extends readonly VariantAxis[],
->(variants: Variants): Variants {
+export function defineVariantAxes<const Variants extends readonly VariantAxis[]>(
+  variants: Variants,
+): Variants {
   return variants;
 }
 
-export function definePreviewStates<
-  const PreviewStates extends readonly PreviewState[],
->(previewStates: PreviewStates): PreviewStates {
+export function definePreviewStates<const PreviewStates extends readonly PreviewState[]>(
+  previewStates: PreviewStates,
+): PreviewStates {
   return previewStates;
 }
 
@@ -97,17 +89,13 @@ export interface VariantPlaygroundProps<
   ) => ReactNode;
 }
 
-function isBooleanOptions(
-  options: readonly PrimitiveValue[],
-): options is readonly boolean[] {
+function isBooleanOptions(options: readonly PrimitiveValue[]): options is readonly boolean[] {
   return options.length > 0 && options.every((v) => typeof v === 'boolean');
 }
 
 const toLabel = (value: PrimitiveValue) => String(value);
 
-export function getVariantDefaultValues(
-  variants: readonly VariantAxis[],
-): VariantValues {
+export function getVariantDefaultValues(variants: readonly VariantAxis[]): VariantValues {
   const result: VariantValues = {};
   for (const variant of variants) {
     result[variant.key] = variant.defaultValue;
@@ -135,10 +123,7 @@ function getDefaultValues(
   };
 }
 
-function getPreviewStateText(
-  previewStates: readonly PreviewState[] = [],
-  values: VariantValues,
-) {
+function getPreviewStateText(values: VariantValues, previewStates: readonly PreviewState[] = []) {
   if (previewStates.length === 0) return null;
 
   return previewStates
@@ -161,16 +146,13 @@ export function VariantPlayground<
   );
 
   const [values, setValues] = useState<VariantValues>(() => defaultValues);
-  const previewStateText = getPreviewStateText(previewStates, values);
+  const previewStateText = getPreviewStateText(values, previewStates);
 
   const setPrimitiveValue = (key: string, value: PrimitiveValue) => {
-    setValues((prev) =>
-      prev[key] === value ? prev : { ...prev, [key]: value },
-    );
+    setValues((prev) => (prev[key] === value ? prev : { ...prev, [key]: value }));
   };
-  const setValue: SetVariantValue<
-    VariantCatalogValues<Variants, PreviewStates>
-  > = (key, value) => setPrimitiveValue(key, value);
+  const setValue: SetVariantValue<VariantCatalogValues<Variants, PreviewStates>> = (key, value) =>
+    setPrimitiveValue(key, value);
 
   return (
     <view
@@ -193,10 +175,7 @@ export function VariantPlayground<
           position: 'relative',
         }}
       >
-        {children(
-          values as VariantCatalogValues<Variants, PreviewStates>,
-          setValue,
-        )}
+        {children(values as VariantCatalogValues<Variants, PreviewStates>, setValue)}
         {previewStateText != null && (
           <view
             style={{

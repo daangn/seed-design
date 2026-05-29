@@ -30,13 +30,8 @@ type PerformanceObserver = {
 
 type LynxPerformance = {
   addTimingListener?: (listener: TimingListener) => void;
-  createObserver?: (
-    callback: (entry: PipelineEntry) => void,
-  ) => PerformanceObserver;
-  profileMark?: (
-    traceName: string,
-    option?: { args?: Record<string, string> },
-  ) => void;
+  createObserver?: (callback: (entry: PipelineEntry) => void) => PerformanceObserver;
+  profileMark?: (traceName: string, option?: { args?: Record<string, string> }) => void;
   removeTimingListener?: (listener: TimingListener) => void;
 };
 
@@ -78,12 +73,7 @@ type TimingListener = {
   onUpdate: (info: TimingInfo) => void;
 };
 
-type ObserverStatus =
-  | 'observer'
-  | 'observer+timing'
-  | 'timing'
-  | 'unsupported'
-  | 'error';
+type ObserverStatus = 'observer' | 'observer+timing' | 'timing' | 'unsupported' | 'error';
 
 type Subscription = {
   disconnect?: () => void;
@@ -101,8 +91,7 @@ function getLynxPerformance() {
     return lynx?.performance;
   }
 
-  return (globalThis as { lynx?: { performance?: LynxPerformance } }).lynx
-    ?.performance;
+  return (globalThis as { lynx?: { performance?: LynxPerformance } }).lynx?.performance;
 }
 
 function isNumber(value: unknown): value is number {
@@ -130,14 +119,9 @@ function readMeasurement(entry: PipelineEntry): Measurement | null {
   };
 }
 
-function readTimingMeasurement(
-  identifier: string,
-  info: TimingInfo,
-): Measurement | null {
+function readTimingMeasurement(identifier: string, info: TimingInfo): Measurement | null {
   const updateTimings = info.update_timings ?? {};
-  const timingKeys = Object.keys(updateTimings).filter((key) =>
-    key.startsWith(identifier),
-  );
+  const timingKeys = Object.keys(updateTimings).filter((key) => key.startsWith(identifier));
   const timingKey = timingKeys[timingKeys.length - 1];
 
   if (!timingKey) return null;
@@ -162,9 +146,7 @@ function appendMeasurement(samples: Measurement[], measurement: Measurement) {
     return [...samples, measurement].slice(-MAX_SAMPLES);
   }
 
-  const existingIndex = samples.findIndex(
-    (sample) => sample.id === measurement.id,
-  );
+  const existingIndex = samples.findIndex((sample) => sample.id === measurement.id);
 
   if (existingIndex === -1) {
     return [...samples, measurement].slice(-MAX_SAMPLES);
@@ -347,13 +329,7 @@ function MetricValue({ label, value }: { label: string; value?: number }) {
   );
 }
 
-function MetricRow({
-  title,
-  measurement,
-}: {
-  title: string;
-  measurement: Measurement | null;
-}) {
+function MetricRow({ title, measurement }: { title: string; measurement: Measurement | null }) {
   return (
     <view
       style={{

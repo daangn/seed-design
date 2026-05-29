@@ -86,13 +86,7 @@ function getTimingFlag(identifier: string, revision: number) {
   return `${identifier}:${revision}`;
 }
 
-function NativeHeader({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) {
+function NativeHeader({ title, description }: { title: string; description: string }) {
   return (
     <view
       style={{
@@ -137,10 +131,7 @@ export function LayoutStressTailwindPage() {
       />
 
       <view
-        __lynx_timing_flag={getTimingFlag(
-          STRESS_IDENTIFIERS.tailwind,
-          revision,
-        )}
+        __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.tailwind, revision)}
         className="flex flex-col gap-4"
       >
         <view className="flex flex-col gap-1">
@@ -152,8 +143,7 @@ export function LayoutStressTailwindPage() {
 
         <view className="flex flex-row flex-wrap gap-2">
           {STRESS_ITEMS.map((item) => {
-            const tone =
-              TAILWIND_TONES[(item + revision) % TAILWIND_TONES.length];
+            const tone = TAILWIND_TONES[(item + revision) % TAILWIND_TONES.length];
 
             return (
               <view
@@ -189,9 +179,7 @@ export function LayoutStressStylePage() {
         onRerender={rerender}
       />
 
-      <view
-        __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.style, revision)}
-      >
+      <view __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.style, revision)}>
         <view
           style={{
             display: 'flex',
@@ -278,9 +266,7 @@ export function LayoutStressSeedPrimitivesPage() {
         onRerender={rerender}
       />
 
-      <view
-        __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.seed, revision)}
-      >
+      <view __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.seed, revision)}>
         <VStack gap="x4">
           <VStack gap="x1">
             <Text textStyle="t9Bold" color="fg.neutral">
@@ -304,12 +290,7 @@ export function LayoutStressSeedPrimitivesPage() {
                   height={STRESS_TILE_SIZE}
                   p="x2"
                 >
-                  <VStack
-                    gap="x0_5"
-                    align="center"
-                    justify="center"
-                    style={{ height: '100%' }}
-                  >
+                  <VStack gap="x0_5" align="center" justify="center" style={{ height: '100%' }}>
                     <Text textStyle="t2Bold" color={tone.text}>
                       {`#${item + 1}`}
                     </Text>

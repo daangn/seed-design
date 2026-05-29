@@ -2,8 +2,8 @@ import { type ReactNode, useState } from '@lynx-js/react';
 
 import {
   getPreviewStateDefaultValues,
-  type SetVariantValue,
   type PreviewState,
+  type SetVariantValue,
   type VariantAxis,
   type VariantCatalogValues,
   VariantPlayground,
@@ -12,11 +12,6 @@ import {
 } from './variant-playground.jsx';
 import { VariantTable } from './variant-table.jsx';
 
-export {
-  definePreviewStates,
-  defineVariantAxes,
-} from './variant-playground.jsx';
-
 export type {
   PreviewState,
   PrimitiveValue,
@@ -24,6 +19,10 @@ export type {
   VariantAxis,
   VariantCatalogValues,
   VariantValues,
+} from './variant-playground.jsx';
+export {
+  definePreviewStates,
+  defineVariantAxes,
 } from './variant-playground.jsx';
 
 type Mode = 'playground' | 'table' | 'examples';
@@ -51,9 +50,7 @@ export function VariantCatalog<
   const { children, variants, previewStates, examples } = props;
   const [mode, setMode] = useState<Mode>('playground');
   const tabs: Mode[] =
-    examples == null
-      ? ['playground', 'table']
-      : ['playground', 'table', 'examples'];
+    examples == null ? ['playground', 'table'] : ['playground', 'table', 'examples'];
 
   return (
     <view
@@ -111,19 +108,14 @@ function renderForTable<
 >(
   children: VariantPlaygroundProps<Variants, PreviewStates>['children'],
   values: VariantValues,
-  previewStates: VariantPlaygroundProps<
-    Variants,
-    PreviewStates
-  >['previewStates'],
+  previewStates: VariantPlaygroundProps<Variants, PreviewStates>['previewStates'],
 ): ReactNode {
   return children(
     {
       ...getPreviewStateDefaultValues(previewStates),
       ...values,
     } as VariantCatalogValues<Variants, PreviewStates>,
-    noopSetValue as SetVariantValue<
-      VariantCatalogValues<Variants, PreviewStates>
-    >,
+    noopSetValue as SetVariantValue<VariantCatalogValues<Variants, PreviewStates>>,
   );
 }
 

@@ -27,14 +27,11 @@ function getRuntimePlatform() {
 function getFallbackSeedClassName(colorMode: ColorMode) {
   const systemTheme = String(getGlobalProps().theme ?? '').toLowerCase();
   const resolvedTheme =
-    colorMode === 'dark-only' ||
-    (colorMode === 'system' && systemTheme === 'dark')
+    colorMode === 'dark-only' || (colorMode === 'system' && systemTheme === 'dark')
       ? 'dark'
       : 'light';
   const platformClass =
-    getRuntimePlatform() === 'iOS'
-      ? 'seed-platform-ios'
-      : 'seed-platform-android';
+    getRuntimePlatform() === 'iOS' ? 'seed-platform-ios' : 'seed-platform-android';
 
   return `seed-user-color-scheme-${resolvedTheme} ${platformClass}`;
 }
@@ -72,12 +69,8 @@ function InfoRow({ label, value }: { label: string; value: string }) {
         gap: '2px',
       }}
     >
-      <text style={{ fontSize: '12px', color: $color.fg.neutralSubtle }}>
-        {label}
-      </text>
-      <text style={{ fontSize: '13px', color: $color.fg.neutral }}>
-        {value}
-      </text>
+      <text style={{ fontSize: '12px', color: $color.fg.neutralSubtle }}>{label}</text>
+      <text style={{ fontSize: '13px', color: $color.fg.neutral }}>{value}</text>
     </view>
   );
 }
@@ -102,9 +95,7 @@ function TokenLine({ name, value }: { name: string; value: string }) {
           backgroundColor: value,
         }}
       />
-      <text style={{ fontSize: '12px', color: $color.fg.neutralMuted }}>
-        {name}
-      </text>
+      <text style={{ fontSize: '12px', color: $color.fg.neutralMuted }}>{name}</text>
     </view>
   );
 }
@@ -142,9 +133,7 @@ function ThemeSurface({
         >
           {title}
         </text>
-        <text style={{ fontSize: '12px', color: $color.fg.neutralSubtle }}>
-          {description}
-        </text>
+        <text style={{ fontSize: '12px', color: $color.fg.neutralSubtle }}>{description}</text>
       </view>
 
       <view
@@ -162,10 +151,7 @@ function ThemeSurface({
         </text>
         <TokenLine name="bg.neutralWeak" value={$color.bg.neutralWeak} />
         <TokenLine name="fg.neutral" value={$color.fg.neutral} />
-        <TokenLine
-          name="stroke.neutralMuted"
-          value={$color.stroke.neutralMuted}
-        />
+        <TokenLine name="stroke.neutralMuted" value={$color.stroke.neutralMuted} />
       </view>
 
       <view
@@ -189,10 +175,7 @@ function ThemeSurface({
 
 function TailwindTokenPreview({ className }: { className?: string }) {
   return (
-    <view
-      className={className}
-      style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
-    >
+    <view className={className} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
       <view className="bg-bg-layer-default border border-stroke-neutral-muted rounded-lg p-3">
         <text className="t4-bold text-fg-neutral">Tailwind token surface</text>
         <text className="t3-regular text-fg-neutral-subtle">
@@ -200,9 +183,7 @@ function TailwindTokenPreview({ className }: { className?: string }) {
         </text>
       </view>
       <view className="bg-bg-brand-weak rounded-lg p-3">
-        <text className="t4-regular text-fg-brand">
-          Theme-aware Tailwind brand token
-        </text>
+        <text className="t4-regular text-fg-brand">Theme-aware Tailwind brand token</text>
       </view>
     </view>
   );
@@ -252,10 +233,7 @@ export function ThemingPage() {
           Runtime
         </text>
         <InfoRow label="lynx.__globalProps.theme" value={systemTheme} />
-        <InfoRow
-          label="lynx.__globalProps.frontendTheme"
-          value={frontendTheme}
-        />
+        <InfoRow label="lynx.__globalProps.frontendTheme" value={frontendTheme} />
         <InfoRow label="SystemInfo.platform" value={platform} />
       </view>
 
@@ -271,25 +249,13 @@ export function ThemingPage() {
           gap: '8px',
         }}
       >
-        <InfoRow
-          label='colorMode: "system"'
-          value={getSafeSeedClassName('system')}
-        />
-        <InfoRow
-          label='colorMode: "light-only"'
-          value={getSafeSeedClassName('light-only')}
-        />
-        <InfoRow
-          label='colorMode: "dark-only"'
-          value={getSafeSeedClassName('dark-only')}
-        />
+        <InfoRow label='colorMode: "system"' value={getSafeSeedClassName('system')} />
+        <InfoRow label='colorMode: "light-only"' value={getSafeSeedClassName('light-only')} />
+        <InfoRow label='colorMode: "dark-only"' value={getSafeSeedClassName('dark-only')} />
       </view>
 
       <SectionTitle>Theme Overrides</SectionTitle>
-      <ThemeSurface
-        title="Global theme"
-        description="No override class. Follows the page theme."
-      />
+      <ThemeSurface title="Global theme" description="No override class. Follows the page theme." />
       <ThemeSurface
         title="Light only"
         description="Uses seed-color-mode-light-only on this subtree."

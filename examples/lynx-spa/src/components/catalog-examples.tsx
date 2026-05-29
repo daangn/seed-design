@@ -1,4 +1,4 @@
-import { type ReactNode } from '@lynx-js/react';
+import type { ReactNode } from '@lynx-js/react';
 import { vars } from '@seed-design/lynx-css/vars';
 
 const { $color } = vars;
@@ -30,11 +30,7 @@ export function CatalogExamples({
 }
 
 export function CatalogSectionTitle({ children }: { children: string }) {
-  return (
-    <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
-      {children}
-    </text>
-  );
+  return <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>{children}</text>;
 }
 
 export function CatalogSectionHeader({ children }: { children: string }) {

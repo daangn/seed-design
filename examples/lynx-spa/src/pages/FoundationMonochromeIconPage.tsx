@@ -646,10 +646,7 @@ import IconYenFill from '@karrotmarket/lynx-monochrome-icon/IconYenFill';
 import IconYenLine from '@karrotmarket/lynx-monochrome-icon/IconYenLine';
 
 import { vars } from '@seed-design/lynx-css/vars';
-import {
-  type IconEntry,
-  VirtualIconGrid,
-} from '../components/icon-virtual-grid.jsx';
+import { type IconEntry, VirtualIconGrid } from '../components/icon-virtual-grid.jsx';
 
 const { $color } = vars;
 

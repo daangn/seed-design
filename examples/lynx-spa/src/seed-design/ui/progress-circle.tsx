@@ -7,7 +7,7 @@
 import {
   ProgressCircle as SeedProgressCircle,
   type ProgressCircleProps as SeedProgressCircleProps,
-} from "@seed-design/lynx-react";
+} from '@seed-design/lynx-react';
 
 export interface ProgressCircleProps extends SeedProgressCircleProps {}
 

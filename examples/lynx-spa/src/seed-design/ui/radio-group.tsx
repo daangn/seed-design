@@ -37,9 +37,7 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>(
         <SeedRadioGroup.ItemControl>
           <SeedRadioGroup.ItemIndicator />
         </SeedRadioGroup.ItemControl>
-        {label != null ? (
-          <SeedRadioGroup.ItemLabel>{label}</SeedRadioGroup.ItemLabel>
-        ) : null}
+        {label != null ? <SeedRadioGroup.ItemLabel>{label}</SeedRadioGroup.ItemLabel> : null}
         {children}
       </SeedRadioGroup.Item>
     );
@@ -47,21 +45,18 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>(
 );
 RadioGroupItem.displayName = 'RadioGroupItem';
 
-export interface RadiomarkProps
-  extends Omit<SeedRadioGroup.ItemControlProps, 'children'> {}
+export interface RadiomarkProps extends Omit<SeedRadioGroup.ItemControlProps, 'children'> {}
 
 /**
  * @see https://seed-design.io/lynx/components/radio-group
  */
-export const Radiomark = React.forwardRef<unknown, RadiomarkProps>(
-  (props, ref) => {
-    return (
-      <SeedRadioGroup.ItemControl ref={ref} {...props}>
-        <SeedRadioGroup.ItemIndicator />
-      </SeedRadioGroup.ItemControl>
-    );
-  },
-);
+export const Radiomark = React.forwardRef<unknown, RadiomarkProps>((props, ref) => {
+  return (
+    <SeedRadioGroup.ItemControl ref={ref} {...props}>
+      <SeedRadioGroup.ItemIndicator />
+    </SeedRadioGroup.ItemControl>
+  );
+});
 Radiomark.displayName = 'Radiomark';
 
 /**

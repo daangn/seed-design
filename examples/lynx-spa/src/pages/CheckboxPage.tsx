@@ -2,10 +2,7 @@ import { useState } from '@lynx-js/react';
 import { checkboxVariantMap } from '@seed-design/lynx-css/recipes/checkbox';
 import { checkmarkVariantMap } from '@seed-design/lynx-css/recipes/checkmark';
 
-import {
-  CatalogExamples,
-  CatalogSectionTitle,
-} from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionTitle } from '../components/catalog-examples.jsx';
 import {
   definePreviewStates,
   defineVariantAxes,
@@ -59,15 +56,9 @@ const previewStates = definePreviewStates([
   { key: 'disabled', defaultValue: false },
 ]);
 
-type CheckboxValues = VariantCatalogValues<
-  typeof variants,
-  typeof previewStates
->;
+type CheckboxValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
-function renderCheckbox(
-  values: CheckboxValues,
-  setValue: SetVariantValue<CheckboxValues>,
-) {
+function renderCheckbox(values: CheckboxValues, setValue: SetVariantValue<CheckboxValues>) {
   return (
     <Checkbox
       label="Checkbox"
@@ -131,30 +122,10 @@ function CheckboxExamples() {
 
       <CatalogSectionTitle>Tones and Variants</CatalogSectionTitle>
       <CheckboxGroup>
-        <Checkbox
-          label="Brand square"
-          tone="brand"
-          variant="square"
-          defaultChecked
-        />
-        <Checkbox
-          label="Neutral square"
-          tone="neutral"
-          variant="square"
-          defaultChecked
-        />
-        <Checkbox
-          label="Brand ghost"
-          tone="brand"
-          variant="ghost"
-          defaultChecked
-        />
-        <Checkbox
-          label="Neutral ghost"
-          tone="neutral"
-          variant="ghost"
-          defaultChecked
-        />
+        <Checkbox label="Brand square" tone="brand" variant="square" defaultChecked />
+        <Checkbox label="Neutral square" tone="neutral" variant="square" defaultChecked />
+        <Checkbox label="Brand ghost" tone="brand" variant="ghost" defaultChecked />
+        <Checkbox label="Neutral ghost" tone="neutral" variant="ghost" defaultChecked />
       </CheckboxGroup>
 
       <CatalogSectionTitle>Disabled</CatalogSectionTitle>

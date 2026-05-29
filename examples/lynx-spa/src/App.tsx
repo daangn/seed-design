@@ -30,12 +30,10 @@ import { UsePressTapPage } from './pages/UsePressTapPage.jsx';
 
 const LynxConsole = lazy(() => import('lynx-console'));
 const FoundationMonochromeIconPage = lazy(async () => ({
-  default: (await import('./pages/FoundationMonochromeIconPage.jsx'))
-    .FoundationMonochromeIconPage,
+  default: (await import('./pages/FoundationMonochromeIconPage.jsx')).FoundationMonochromeIconPage,
 }));
 const FoundationMulticolorIconPage = lazy(async () => ({
-  default: (await import('./pages/FoundationMulticolorIconPage.jsx'))
-    .FoundationMulticolorIconPage,
+  default: (await import('./pages/FoundationMulticolorIconPage.jsx')).FoundationMulticolorIconPage,
 }));
 
 export type Page =
@@ -74,9 +72,7 @@ function BackButton({ onBack }: { onBack: () => void }) {
         marginBottom: '8px',
       }}
     >
-      <text style={{ fontSize: '16px', color: vars.$color.fg.brand }}>
-        {'← Back'}
-      </text>
+      <text style={{ fontSize: '16px', color: vars.$color.fg.brand }}>{'← Back'}</text>
     </view>
   );
 }
@@ -109,8 +105,7 @@ function addBaseToSafeAreaInset(inset: string, base: number) {
 export function App(props: { onRender?: () => void }) {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
-  const showLynxConsole =
-    !HIDE_LYNX_CONSOLE_IN_MEASUREMENT || !MEASUREMENT_PAGES.has(currentPage);
+  const showLynxConsole = !HIDE_LYNX_CONSOLE_IN_MEASUREMENT || !MEASUREMENT_PAGES.has(currentPage);
 
   props.onRender?.();
 
@@ -136,12 +131,8 @@ export function App(props: { onRender?: () => void }) {
         {currentPage === 'switch' && <SwitchPage />}
         {currentPage === 'tag-group' && <TagGroupPage />}
         <Suspense>
-          {currentPage === 'foundation-monochrome-icon' && (
-            <FoundationMonochromeIconPage />
-          )}
-          {currentPage === 'foundation-multicolor-icon' && (
-            <FoundationMulticolorIconPage />
-          )}
+          {currentPage === 'foundation-monochrome-icon' && <FoundationMonochromeIconPage />}
+          {currentPage === 'foundation-multicolor-icon' && <FoundationMulticolorIconPage />}
         </Suspense>
         {showLynxConsole && (
           <Suspense>
@@ -164,9 +155,7 @@ export function App(props: { onRender?: () => void }) {
         height: '100vh',
       }}
     >
-      {currentPage !== 'home' && (
-        <BackButton onBack={() => setCurrentPage('home')} />
-      )}
+      {currentPage !== 'home' && <BackButton onBack={() => setCurrentPage('home')} />}
       {currentPage === 'home' && <HomePage navigate={setCurrentPage} />}
       {currentPage === 'theming' && <ThemingPage />}
       {currentPage === 'nested-vars-test' && <NestedVarsTestPage />}
@@ -177,9 +166,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === 'text-primitive' && <TextPrimitivePage />}
       {currentPage === 'layout-stress-tailwind' && <LayoutStressTailwindPage />}
       {currentPage === 'layout-stress-style' && <LayoutStressStylePage />}
-      {currentPage === 'layout-stress-seed-primitives' && (
-        <LayoutStressSeedPrimitivesPage />
-      )}
+      {currentPage === 'layout-stress-seed-primitives' && <LayoutStressSeedPrimitivesPage />}
       {currentPage === 'safe-area-debug' && <SafeAreaDebugPage />}
       {currentPage === 'css-selector-test' && <CSSSelectorTestPage />}
       {currentPage === 'icon-color-poc' && <IconColorPOCPage />}

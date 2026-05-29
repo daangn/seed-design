@@ -1,17 +1,9 @@
 import { useState } from '@lynx-js/react';
 import { switchVariantMap } from '@seed-design/lynx-css/recipes/switch';
 import { switchmarkVariantMap } from '@seed-design/lynx-css/recipes/switchmark';
-import {
-  SwitchControl,
-  SwitchLabel,
-  SwitchRoot,
-  SwitchThumb,
-} from '@seed-design/lynx-react';
+import { SwitchControl, SwitchLabel, SwitchRoot, SwitchThumb } from '@seed-design/lynx-react';
 
-import {
-  CatalogExamples,
-  CatalogSectionTitle,
-} from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionTitle } from '../components/catalog-examples.jsx';
 import {
   definePreviewStates,
   defineVariantAxes,
@@ -51,10 +43,7 @@ const previewStates = definePreviewStates([
 
 type SwitchValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
-function renderSwitch(
-  values: SwitchValues,
-  setValue: SetVariantValue<SwitchValues>,
-) {
+function renderSwitch(values: SwitchValues, setValue: SetVariantValue<SwitchValues>) {
   const checked = Boolean(values.checked);
   return (
     <Switch
@@ -163,11 +152,7 @@ function SwitchExamples() {
 
 export function SwitchPage() {
   return (
-    <VariantCatalog
-      variants={variants}
-      previewStates={previewStates}
-      examples={<SwitchExamples />}
-    >
+    <VariantCatalog variants={variants} previewStates={previewStates} examples={<SwitchExamples />}>
       {(values, setValue) => renderSwitch(values, setValue)}
     </VariantCatalog>
   );

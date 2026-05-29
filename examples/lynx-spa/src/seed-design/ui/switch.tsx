@@ -9,8 +9,8 @@ import {
   SwitchControl,
   SwitchLabel,
   SwitchRoot,
-  SwitchThumb,
   type SwitchRootProps,
+  SwitchThumb,
 } from '@seed-design/lynx-react';
 
 export interface SwitchProps extends SwitchRootProps {
@@ -40,17 +40,15 @@ export interface SwitchmarkProps extends Omit<SwitchRootProps, 'children'> {}
 /**
  * @see https://seed-design.io/lynx/components/switch
  */
-export const Switchmark = React.forwardRef<unknown, SwitchmarkProps>(
-  (props, ref) => {
-    return (
-      <SwitchRoot ref={ref} {...props}>
-        <SwitchControl>
-          <SwitchThumb />
-        </SwitchControl>
-      </SwitchRoot>
-    );
-  },
-);
+export const Switchmark = React.forwardRef<unknown, SwitchmarkProps>((props, ref) => {
+  return (
+    <SwitchRoot ref={ref} {...props}>
+      <SwitchControl>
+        <SwitchThumb />
+      </SwitchControl>
+    </SwitchRoot>
+  );
+});
 Switchmark.displayName = 'Switchmark';
 
 /**

@@ -39,8 +39,7 @@ function compareIconNames(a, b) {
       while (isDigit(a[aEnd])) aEnd += 1;
       while (isDigit(b[bEnd])) bEnd += 1;
 
-      const numberDiff =
-        Number(a.slice(aIndex, aEnd)) - Number(b.slice(bIndex, bEnd));
+      const numberDiff = Number(a.slice(aIndex, aEnd)) - Number(b.slice(bIndex, bEnd));
       if (numberDiff !== 0) return numberDiff;
 
       aIndex = aEnd;
@@ -74,19 +73,14 @@ function getIconNames(packageName) {
   const entryPath = require.resolve(packageName);
   const libDir = dirname(entryPath);
   return readdirSync(libDir)
-    .filter(
-      (f) => f.endsWith('.js') && !f.endsWith('.cjs') && f.startsWith('Icon'),
-    )
+    .filter((f) => f.endsWith('.js') && !f.endsWith('.cjs') && f.startsWith('Icon'))
     .map((f) => f.replace('.js', ''))
     .sort(compareIconNames);
 }
 
 function generateMonochromePage(iconNames) {
   const imports = iconNames
-    .map(
-      (name) =>
-        `import ${name} from '@karrotmarket/lynx-monochrome-icon/${name}';`,
-    )
+    .map((name) => `import ${name} from '@karrotmarket/lynx-monochrome-icon/${name}';`)
     .join('\n');
 
   const entries = iconNames
@@ -128,10 +122,7 @@ export function FoundationMonochromeIconPage() {
 
 function generateMulticolorPage(iconNames) {
   const imports = iconNames
-    .map(
-      (name) =>
-        `import ${name} from '@karrotmarket/lynx-multicolor-icon/${name}';`,
-    )
+    .map((name) => `import ${name} from '@karrotmarket/lynx-multicolor-icon/${name}';`)
     .join('\n');
 
   const entries = iconNames
@@ -176,14 +167,10 @@ writeFileSync(
   resolve(outDir, 'FoundationMonochromeIconPage.tsx'),
   generateMonochromePage(monoIcons),
 );
-console.log(
-  `Generated FoundationMonochromeIconPage.tsx (${monoIcons.length} icons)`,
-);
+console.log(`Generated FoundationMonochromeIconPage.tsx (${monoIcons.length} icons)`);
 
 writeFileSync(
   resolve(outDir, 'FoundationMulticolorIconPage.tsx'),
   generateMulticolorPage(multiIcons),
 );
-console.log(
-  `Generated FoundationMulticolorIconPage.tsx (${multiIcons.length} icons)`,
-);
+console.log(`Generated FoundationMulticolorIconPage.tsx (${multiIcons.length} icons)`);

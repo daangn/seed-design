@@ -1,17 +1,9 @@
 import IconChevronDownFill from '@karrotmarket/lynx-monochrome-icon/IconChevronDownFill';
 import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
 import { actionButtonVariantMap } from '@seed-design/lynx-css/recipes/action-button';
-import {
-  ActionButton,
-  Icon,
-  PrefixIcon,
-  SuffixIcon,
-} from '@seed-design/lynx-react';
+import { ActionButton, Icon, PrefixIcon, SuffixIcon } from '@seed-design/lynx-react';
 
-import {
-  CatalogExamples,
-  CatalogSectionTitle,
-} from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionTitle } from '../components/catalog-examples.jsx';
 import {
   definePreviewStates,
   defineVariantAxes,
@@ -52,10 +44,7 @@ const previewStates = definePreviewStates([
   { key: 'loading', defaultValue: false },
 ]);
 
-type ActionButtonValues = VariantCatalogValues<
-  typeof variants,
-  typeof previewStates
->;
+type ActionButtonValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
 function renderActionButton(values: ActionButtonValues) {
   const { layout, size, variant } = values;
@@ -78,12 +67,7 @@ function renderActionButton(values: ActionButtonValues) {
   }
 
   return (
-    <ActionButton
-      variant={variant}
-      size={size}
-      disabled={disabled}
-      loading={loading}
-    >
+    <ActionButton variant={variant} size={size} disabled={disabled} loading={loading}>
       Action
     </ActionButton>
   );
@@ -192,12 +176,7 @@ function ActionButtonExamples() {
           Suffix Icon
           <SuffixIcon icon={<IconChevronDownFill />} />
         </ActionButton>
-        <ActionButton
-          layout="iconOnly"
-          variant="brandSolid"
-          loading
-          aria-label="Loading"
-        >
+        <ActionButton layout="iconOnly" variant="brandSolid" loading aria-label="Loading">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
       </view>
@@ -215,23 +194,13 @@ function ActionButtonExamples() {
         <ActionButton layout="iconOnly" variant="brandSolid" aria-label="Add">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
-        <ActionButton
-          layout="iconOnly"
-          variant="neutralSolid"
-          size="small"
-          aria-label="Add"
-        >
+        <ActionButton layout="iconOnly" variant="neutralSolid" size="small" aria-label="Add">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
         <ActionButton layout="iconOnly" variant="brandOutline" aria-label="Add">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
-        <ActionButton
-          layout="iconOnly"
-          variant="brandSolid"
-          disabled
-          aria-label="Disabled"
-        >
+        <ActionButton layout="iconOnly" variant="brandSolid" disabled aria-label="Disabled">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
       </view>

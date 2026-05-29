@@ -1,24 +1,18 @@
 import { useEffect, useState } from '@lynx-js/react';
 import { progressCircleVariantMap } from '@seed-design/lynx-css/recipes/progress-circle';
 
+import { CatalogExamples, CatalogSectionTitle } from '../components/catalog-examples.jsx';
 import {
-  CatalogExamples,
-  CatalogSectionTitle,
-} from '../components/catalog-examples.jsx';
-import {
-  VariantCatalog,
   definePreviewStates,
   defineVariantAxes,
+  VariantCatalog,
   type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
 import { ProgressCircle } from '../seed-design/ui/progress-circle';
 
 type ProgressState = 'indeterminate' | '25%' | '50%' | '75%' | '100%';
 
-const progressValueMap: Record<
-  Exclude<ProgressState, 'indeterminate'>,
-  number
-> = {
+const progressValueMap: Record<Exclude<ProgressState, 'indeterminate'>, number> = {
   '25%': 0.25,
   '50%': 0.5,
   '75%': 0.75,
@@ -48,30 +42,19 @@ const previewStates = definePreviewStates([
   { key: 'progressState', label: 'value', defaultValue: 'indeterminate' },
 ]);
 
-type ProgressCircleValues = VariantCatalogValues<
-  typeof variants,
-  typeof previewStates
->;
+type ProgressCircleValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
 function renderProgressCircle(values: ProgressCircleValues) {
   const { tone, size } = values;
   const progressState: ProgressState = values.progressState;
   const progressValue =
-    progressState === 'indeterminate'
-      ? undefined
-      : progressValueMap[progressState];
+    progressState === 'indeterminate' ? undefined : progressValueMap[progressState];
 
   const circle =
     progressValue == null ? (
       <ProgressCircle tone={tone} size={size} />
     ) : (
-      <ProgressCircle
-        tone={tone}
-        size={size}
-        minValue={0}
-        maxValue={1}
-        value={progressValue}
-      />
+      <ProgressCircle tone={tone} size={size} minValue={0} maxValue={1} value={progressValue} />
     );
 
   return (
@@ -120,13 +103,7 @@ function AutoProgressTest() {
         alignItems: 'center',
       }}
     >
-      <ProgressCircle
-        tone="brand"
-        size="40"
-        minValue={0}
-        maxValue={1}
-        value={value}
-      />
+      <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={value} />
       <text style={{ fontSize: '14px' }}>{`${Math.round(value * 100)}%`}</text>
     </view>
   );
@@ -181,34 +158,10 @@ function ProgressCircleExamples() {
           alignItems: 'center',
         }}
       >
-        <ProgressCircle
-          tone="neutral"
-          size="40"
-          minValue={0}
-          maxValue={1}
-          value={0.25}
-        />
-        <ProgressCircle
-          tone="brand"
-          size="40"
-          minValue={0}
-          maxValue={1}
-          value={0.5}
-        />
-        <ProgressCircle
-          tone="brand"
-          size="40"
-          minValue={0}
-          maxValue={1}
-          value={0.75}
-        />
-        <ProgressCircle
-          tone="brand"
-          size="40"
-          minValue={0}
-          maxValue={1}
-          value={1}
-        />
+        <ProgressCircle tone="neutral" size="40" minValue={0} maxValue={1} value={0.25} />
+        <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={0.5} />
+        <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={0.75} />
+        <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={1} />
       </view>
 
       <CatalogSectionTitle>Interactive</CatalogSectionTitle>
@@ -220,16 +173,8 @@ function ProgressCircleExamples() {
           alignItems: 'center',
         }}
       >
-        <ProgressCircle
-          tone="brand"
-          size="40"
-          minValue={0}
-          maxValue={1}
-          value={progress}
-        />
-        <text
-          style={{ fontSize: '14px' }}
-        >{`${Math.round(progress * 100)}%`}</text>
+        <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={progress} />
+        <text style={{ fontSize: '14px' }}>{`${Math.round(progress * 100)}%`}</text>
       </view>
       <view style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
         <view
@@ -254,9 +199,7 @@ function ProgressCircleExamples() {
         </view>
       </view>
 
-      <CatalogSectionTitle>
-        Transition Test (auto +10% every 1s)
-      </CatalogSectionTitle>
+      <CatalogSectionTitle>Transition Test (auto +10% every 1s)</CatalogSectionTitle>
       <AutoProgressTest />
     </CatalogExamples>
   );

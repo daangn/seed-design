@@ -33,19 +33,11 @@ const variants = defineVariantAxes([
   },
 ]);
 
-const previewStates = definePreviewStates([
-  { key: 'value', defaultValue: 'option1' },
-]);
+const previewStates = definePreviewStates([{ key: 'value', defaultValue: 'option1' }]);
 
-type RadioGroupValues = VariantCatalogValues<
-  typeof variants,
-  typeof previewStates
->;
+type RadioGroupValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
-function renderRadioGroup(
-  values: RadioGroupValues,
-  setValue: SetVariantValue<RadioGroupValues>,
-) {
+function renderRadioGroup(values: RadioGroupValues, setValue: SetVariantValue<RadioGroupValues>) {
   return (
     <RadioGroup
       weight={values.weight}
@@ -56,11 +48,7 @@ function renderRadioGroup(
       onValueChange={(next) => setValue('value', next)}
     >
       {['option1', 'option2', 'option3'].map((value) => (
-        <RadioGroupItem
-          key={value}
-          value={value}
-          label={`Option ${value.replace('option', '')}`}
-        />
+        <RadioGroupItem key={value} value={value} label={`Option ${value.replace('option', '')}`} />
       ))}
     </RadioGroup>
   );
