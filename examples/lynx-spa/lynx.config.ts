@@ -1,9 +1,9 @@
-import { defineConfig } from "@lynx-js/rspeedy";
+import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 
 import { pluginQRCode } from "@lynx-js/qrcode-rsbuild-plugin";
 import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
+import { defineConfig } from "@lynx-js/rspeedy";
 import { pluginTypeCheck } from "@rsbuild/plugin-type-check";
-import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 
 export default defineConfig({
   source: {

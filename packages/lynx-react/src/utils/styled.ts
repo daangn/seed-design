@@ -15,7 +15,7 @@ import type {
 } from "@seed-design/lynx-css/vars";
 import { vars } from "@seed-design/lynx-css/vars";
 
-import { getSafeAreaInset } from "./safe-area";
+import { useSafeArea } from "../hooks/useSafeArea";
 
 export function handleColor(color: string | undefined) {
   if (!color) {
@@ -67,10 +67,10 @@ function handleBorderWidth(width: 0 | 1 | (string & {}) | undefined) {
 
 export function handlePaddingWithSafeArea(
   padding: string | 0 | undefined,
-  direction: "top" | "bottom",
+  safeAreaInset: string,
 ): string | undefined {
   if (padding === "safeArea") {
-    return getSafeAreaInset(direction);
+    return safeAreaInset;
   }
 
   return handleDimension(padding);
@@ -308,15 +308,17 @@ export function useStyleProps<T extends UseStyleProps>(
     style,
     ...restProps
   } = props;
+  const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
 
   const backgroundValue = handleColor(background ?? bg);
   const paddingValue = handleDimension(padding ?? p);
   const paddingXValue = handleDimension(paddingX ?? px) ?? paddingValue;
   const paddingYValue = handleDimension(paddingY ?? py) ?? paddingValue;
-  const paddingTopValue = handlePaddingWithSafeArea(paddingTop ?? pt, "top") ?? paddingYValue;
+  const paddingTopValue =
+    handlePaddingWithSafeArea(paddingTop ?? pt, safeAreaInsetTop) ?? paddingYValue;
   const paddingRightValue = handleDimension(paddingRight ?? pr) ?? paddingXValue;
   const paddingBottomValue =
-    handlePaddingWithSafeArea(paddingBottom ?? pb, "bottom") ?? paddingYValue;
+    handlePaddingWithSafeArea(paddingBottom ?? pb, safeAreaInsetBottom) ?? paddingYValue;
   const paddingLeftValue = handleDimension(paddingLeft ?? pl) ?? paddingXValue;
   const hasBorderStyle =
     borderColor != null ||

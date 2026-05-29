@@ -32,6 +32,7 @@ import {
 } from "@lynx-js/react";
 import clsx from "clsx";
 
+import { useSafeArea } from "../../hooks/useSafeArea";
 import type {
   LynxPressableProps,
   LynxStyledElementProps,
@@ -278,9 +279,11 @@ export interface BottomSheetContentProps extends SheetContentProps {}
 
 export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetContentProps> =
   forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
-    const { className, snapAnimation, enterAnimation, exitAnimation, ...restProps } = props;
+    const { className, innerStyle, snapAnimation, enterAnimation, exitAnimation, ...restProps } =
+      props;
     const classNames = useClassNames();
     const { options } = useBottomSheetContext();
+    const { safeAreaInsetBottom } = useSafeArea();
 
     const defaultAnimation = options.skipAnimation ? SKIP_ANIMATION_TRANSITION : undefined;
 
@@ -289,6 +292,10 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
         {...(ref ? { ref } : {})}
         {...restProps}
         className={clsx(classNames.content, className)}
+        innerStyle={{
+          paddingBottom: safeAreaInsetBottom,
+          ...innerStyle,
+        }}
         snapAnimation={snapAnimation ?? defaultAnimation ?? SEED_SNAP_ANIMATION}
         enterAnimation={enterAnimation ?? defaultAnimation ?? SEED_ENTER_ANIMATION}
         exitAnimation={exitAnimation ?? defaultAnimation ?? SEED_EXIT_ANIMATION}

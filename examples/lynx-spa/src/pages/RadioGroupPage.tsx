@@ -1,5 +1,5 @@
-import { radioVariantMap } from '@seed-design/lynx-css/recipes/radio';
-import { radiomarkVariantMap } from '@seed-design/lynx-css/recipes/radiomark';
+import { radioVariantMap } from "@seed-design/lynx-css/recipes/radio";
+import { radiomarkVariantMap } from "@seed-design/lynx-css/recipes/radiomark";
 
 import {
   definePreviewStates,
@@ -7,45 +7,37 @@ import {
   type SetVariantValue,
   VariantCatalog,
   type VariantCatalogValues,
-} from '../components/variant-catalog.jsx';
-import { RadioGroup, RadioGroupItem } from '../seed-design/ui/radio-group';
+} from "../components/variant-catalog.jsx";
+import { RadioGroup, RadioGroupItem } from "../seed-design/ui/radio-group";
 
 const variants = defineVariantAxes([
   {
-    key: 'weight',
+    key: "weight",
     options: radioVariantMap.weight,
-    defaultValue: 'regular',
+    defaultValue: "regular",
   },
   {
-    key: 'size',
+    key: "size",
     options: radioVariantMap.size,
-    defaultValue: 'medium',
+    defaultValue: "medium",
   },
   {
-    key: 'tone',
+    key: "tone",
     options: radiomarkVariantMap.tone,
-    defaultValue: 'brand',
+    defaultValue: "brand",
   },
   {
-    key: 'disabled',
+    key: "disabled",
     options: radioVariantMap.disabled,
     defaultValue: false,
   },
 ]);
 
-const previewStates = definePreviewStates([
-  { key: 'value', defaultValue: 'option1' },
-]);
+const previewStates = definePreviewStates([{ key: "value", defaultValue: "option1" }]);
 
-type RadioGroupValues = VariantCatalogValues<
-  typeof variants,
-  typeof previewStates
->;
+type RadioGroupValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
-function renderRadioGroup(
-  values: RadioGroupValues,
-  setValue: SetVariantValue<RadioGroupValues>,
-) {
+function renderRadioGroup(values: RadioGroupValues, setValue: SetVariantValue<RadioGroupValues>) {
   return (
     <RadioGroup
       weight={values.weight}
@@ -53,14 +45,10 @@ function renderRadioGroup(
       tone={values.tone}
       disabled={Boolean(values.disabled)}
       value={values.value}
-      onValueChange={(next) => setValue('value', next)}
+      onValueChange={(next) => setValue("value", next)}
     >
-      {['option1', 'option2', 'option3'].map((value) => (
-        <RadioGroupItem
-          key={value}
-          value={value}
-          label={`Option ${value.replace('option', '')}`}
-        />
+      {["option1", "option2", "option3"].map((value) => (
+        <RadioGroupItem key={value} value={value} label={`Option ${value.replace("option", "")}`} />
       ))}
     </RadioGroup>
   );

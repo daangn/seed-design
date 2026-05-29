@@ -1,8 +1,3 @@
-:root {
-  --seed-safe-area-top: env(safe-area-inset-top);
-  --seed-safe-area-bottom: env(safe-area-inset-bottom);
-}
-
 .seed-platform-ios {
   --seed-platform: ios;
 }
@@ -1130,7 +1125,6 @@
   background: var(--seed-color-bg-layer-floating);
   border-top-left-radius: var(--seed-radius-r6);
   border-top-right-radius: var(--seed-radius-r6);
-  padding-bottom: var(--seed-safe-area-bottom);
   flex-direction: column;
   flex: 1;
   display: flex;

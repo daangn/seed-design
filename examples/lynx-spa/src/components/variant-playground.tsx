@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo, useState } from '@lynx-js/react';
+import { type ReactNode, useMemo, useState } from "@lynx-js/react";
 
 export type PrimitiveValue = string | number | boolean;
 export type VariantValues = Record<string, PrimitiveValue>;
@@ -37,19 +37,13 @@ type WidenPrimitive<Value> = Value extends string
       : Value;
 
 type VariantAxisValues<Variants extends readonly VariantAxis[]> = {
-  [Axis in Variants[number] as Axis['key']]: Axis extends VariantAxis<
-    string,
-    infer Value
-  >
+  [Axis in Variants[number] as Axis["key"]]: Axis extends VariantAxis<string, infer Value>
     ? Value
     : never;
 };
 
 type PreviewStateValues<PreviewStates extends readonly PreviewState[]> = {
-  [State in PreviewStates[number] as State['key']]: State extends PreviewState<
-    string,
-    infer Value
-  >
+  [State in PreviewStates[number] as State["key"]]: State extends PreviewState<string, infer Value>
     ? WidenPrimitive<Value>
     : never;
 };
@@ -57,19 +51,17 @@ type PreviewStateValues<PreviewStates extends readonly PreviewState[]> = {
 export type VariantCatalogValues<
   Variants extends readonly VariantAxis[] = readonly VariantAxis[],
   PreviewStates extends readonly PreviewState[] = readonly PreviewState[],
-> = VariantValues &
-  VariantAxisValues<Variants> &
-  PreviewStateValues<PreviewStates>;
+> = VariantValues & VariantAxisValues<Variants> & PreviewStateValues<PreviewStates>;
 
-export function defineVariantAxes<
-  const Variants extends readonly VariantAxis[],
->(variants: Variants): Variants {
+export function defineVariantAxes<const Variants extends readonly VariantAxis[]>(
+  variants: Variants,
+): Variants {
   return variants;
 }
 
-export function definePreviewStates<
-  const PreviewStates extends readonly PreviewState[],
->(previewStates: PreviewStates): PreviewStates {
+export function definePreviewStates<const PreviewStates extends readonly PreviewState[]>(
+  previewStates: PreviewStates,
+): PreviewStates {
   return previewStates;
 }
 
@@ -97,17 +89,13 @@ export interface VariantPlaygroundProps<
   ) => ReactNode;
 }
 
-function isBooleanOptions(
-  options: readonly PrimitiveValue[],
-): options is readonly boolean[] {
-  return options.length > 0 && options.every((v) => typeof v === 'boolean');
+function isBooleanOptions(options: readonly PrimitiveValue[]): options is readonly boolean[] {
+  return options.length > 0 && options.every((v) => typeof v === "boolean");
 }
 
 const toLabel = (value: PrimitiveValue) => String(value);
 
-export function getVariantDefaultValues(
-  variants: readonly VariantAxis[],
-): VariantValues {
+export function getVariantDefaultValues(variants: readonly VariantAxis[]): VariantValues {
   const result: VariantValues = {};
   for (const variant of variants) {
     result[variant.key] = variant.defaultValue;
@@ -135,10 +123,7 @@ function getDefaultValues(
   };
 }
 
-function getPreviewStateText(
-  previewStates: readonly PreviewState[] = [],
-  values: VariantValues,
-) {
+function getPreviewStateText(values: VariantValues, previewStates: readonly PreviewState[] = []) {
   if (previewStates.length === 0) return null;
 
   return previewStates
@@ -146,7 +131,7 @@ function getPreviewStateText(
       const value = values[state.key] ?? state.defaultValue;
       return `${state.label ?? state.key}=${toLabel(value)}`;
     })
-    .join(' · ');
+    .join(" · ");
 }
 
 export function VariantPlayground<
@@ -161,23 +146,20 @@ export function VariantPlayground<
   );
 
   const [values, setValues] = useState<VariantValues>(() => defaultValues);
-  const previewStateText = getPreviewStateText(previewStates, values);
+  const previewStateText = getPreviewStateText(values, previewStates);
 
   const setPrimitiveValue = (key: string, value: PrimitiveValue) => {
-    setValues((prev) =>
-      prev[key] === value ? prev : { ...prev, [key]: value },
-    );
+    setValues((prev) => (prev[key] === value ? prev : { ...prev, [key]: value }));
   };
-  const setValue: SetVariantValue<
-    VariantCatalogValues<Variants, PreviewStates>
-  > = (key, value) => setPrimitiveValue(key, value);
+  const setValue: SetVariantValue<VariantCatalogValues<Variants, PreviewStates>> = (key, value) =>
+    setPrimitiveValue(key, value);
 
   return (
     <view
       style={{
         flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         minHeight: 0,
       }}
     >
@@ -185,31 +167,28 @@ export function VariantPlayground<
       <view
         style={{
           flex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '16px',
-          overflow: 'hidden',
-          position: 'relative',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px",
+          overflow: "hidden",
+          position: "relative",
         }}
       >
-        {children(
-          values as VariantCatalogValues<Variants, PreviewStates>,
-          setValue,
-        )}
+        {children(values as VariantCatalogValues<Variants, PreviewStates>, setValue)}
         {previewStateText != null && (
           <view
             style={{
-              position: 'absolute',
-              right: '8px',
-              bottom: '8px',
+              position: "absolute",
+              right: "8px",
+              bottom: "8px",
             }}
           >
             <text
               style={{
-                fontSize: '10px',
-                lineHeight: '12px',
-                color: '#888',
+                fontSize: "10px",
+                lineHeight: "12px",
+                color: "#888",
               }}
             >
               {previewStateText}
@@ -222,20 +201,20 @@ export function VariantPlayground<
       <view
         style={{
           flexShrink: 0,
-          maxHeight: '45%',
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderTopColor: '#e5e5e5',
-          backgroundColor: '#f7f7f7',
+          maxHeight: "45%",
+          borderTopWidth: "1px",
+          borderTopStyle: "solid",
+          borderTopColor: "#e5e5e5",
+          backgroundColor: "#f7f7f7",
         }}
       >
-        <scroll-view scroll-y style={{ maxHeight: '100%' }}>
+        <scroll-view scroll-y style={{ maxHeight: "100%" }}>
           <view
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              padding: '12px 16px',
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              padding: "12px 16px",
             }}
           >
             {variants.map((variant) =>
@@ -277,28 +256,28 @@ function VariantRow({
   return (
     <view
       style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: '8px',
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: "8px",
       }}
     >
       <text
         style={{
-          minWidth: '92px',
-          fontSize: '12px',
-          fontWeight: '600',
-          color: '#555',
+          minWidth: "92px",
+          fontSize: "12px",
+          fontWeight: "600",
+          color: "#555",
         }}
       >
         {name}
       </text>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '4px',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "4px",
         }}
       >
         {options.map((option) => {
@@ -309,21 +288,21 @@ function VariantRow({
               key={label}
               bindtap={() => onChange(option)}
               style={{
-                paddingTop: '4px',
-                paddingBottom: '4px',
-                paddingLeft: '10px',
-                paddingRight: '10px',
-                borderRadius: '6px',
-                backgroundColor: active ? '#222' : '#fff',
-                borderWidth: '1px',
-                borderStyle: 'solid',
-                borderColor: active ? '#222' : '#d0d0d0',
+                paddingTop: "4px",
+                paddingBottom: "4px",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                borderRadius: "6px",
+                backgroundColor: active ? "#222" : "#fff",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: active ? "#222" : "#d0d0d0",
               }}
             >
               <text
                 style={{
-                  fontSize: '12px',
-                  color: active ? '#fff' : '#333',
+                  fontSize: "12px",
+                  color: active ? "#fff" : "#333",
                 }}
               >
                 {label}
@@ -348,18 +327,18 @@ function BooleanRow({
   return (
     <view
       style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: '8px',
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: "8px",
       }}
     >
       <text
         style={{
-          minWidth: '92px',
-          fontSize: '12px',
-          fontWeight: '600',
-          color: '#555',
+          minWidth: "92px",
+          fontSize: "12px",
+          fontWeight: "600",
+          color: "#555",
         }}
       >
         {name}
@@ -367,24 +346,24 @@ function BooleanRow({
       <view
         bindtap={() => onChange(!current)}
         style={{
-          paddingTop: '4px',
-          paddingBottom: '4px',
-          paddingLeft: '10px',
-          paddingRight: '10px',
-          borderRadius: '6px',
-          backgroundColor: current ? '#222' : '#fff',
-          borderWidth: '1px',
-          borderStyle: 'solid',
-          borderColor: current ? '#222' : '#d0d0d0',
+          paddingTop: "4px",
+          paddingBottom: "4px",
+          paddingLeft: "10px",
+          paddingRight: "10px",
+          borderRadius: "6px",
+          backgroundColor: current ? "#222" : "#fff",
+          borderWidth: "1px",
+          borderStyle: "solid",
+          borderColor: current ? "#222" : "#d0d0d0",
         }}
       >
         <text
           style={{
-            fontSize: '12px',
-            color: current ? '#fff' : '#333',
+            fontSize: "12px",
+            color: current ? "#fff" : "#333",
           }}
         >
-          {current ? 'true' : 'false'}
+          {current ? "true" : "false"}
         </text>
       </view>
     </view>

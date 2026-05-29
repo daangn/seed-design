@@ -20,14 +20,20 @@ initMainThreadConsole();
 initNetworkMonitor();
 initPerformanceMonitor();
 
-root.render(
-  <page
-    className={getSeedClassName({ colorMode: "system" })}
-    style={{ backgroundColor: 'var(--seed-color-bg-layer-default)' }}
-  >
-    <App />
-  </page>,
-);
+function Root() {
+  return (
+    <page
+      className={getSeedClassName({ colorMode: "system" })}
+      style={{
+        backgroundColor: "var(--seed-color-bg-layer-default)",
+      }}
+    >
+      <App />
+    </page>
+  );
+}
+
+root.render(<Root />);
 
 if (import.meta.webpackHot) {
   import.meta.webpackHot.accept();

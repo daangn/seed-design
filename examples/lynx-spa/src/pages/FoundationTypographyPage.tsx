@@ -41,9 +41,7 @@ function FontSizeRow({
         {name} → {sizeVar}
         {lineHeightVar ? ` / ${lineHeightVar}` : ""}
       </text>
-      <text
-        style={`font-size: ${sizeVar}; line-height: ${lineHeightVar ?? "normal"};`}
-      >
+      <text style={`font-size: ${sizeVar}; line-height: ${lineHeightVar ?? "normal"};`}>
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
     </view>
@@ -112,7 +110,14 @@ export function FoundationTypographyPage() {
       <FontWeightRow name="bold" weightVar={$fontWeight.bold} />
 
       <SectionTitle>Dynamic Font Size (sp)</SectionTitle>
-      <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle, paddingLeft: "8px", paddingRight: "8px" }}>
+      <text
+        style={{
+          fontSize: "11px",
+          color: $color.fg.neutralSubtle,
+          paddingLeft: "8px",
+          paddingRight: "8px",
+        }}
+      >
         sp 단위 — 시스템 폰트 크기 설정에 반응합니다
       </text>
       {dynamicFontSizes.map((item) => (
@@ -120,7 +125,14 @@ export function FoundationTypographyPage() {
       ))}
 
       <SectionTitle>Static Font Size (px)</SectionTitle>
-      <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle, paddingLeft: "8px", paddingRight: "8px" }}>
+      <text
+        style={{
+          fontSize: "11px",
+          color: $color.fg.neutralSubtle,
+          paddingLeft: "8px",
+          paddingRight: "8px",
+        }}
+      >
         px 단위 — 시스템 폰트 크기 설정에 반응하지 않습니다
       </text>
       {staticFontSizes.map((item) => (

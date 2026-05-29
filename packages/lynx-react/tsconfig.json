@@ -23,5 +23,5 @@
     "outDir": "lib"
   },
   "include": ["src"],
-  "exclude": ["src/**/__tests__/**"]
+  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"]
 }

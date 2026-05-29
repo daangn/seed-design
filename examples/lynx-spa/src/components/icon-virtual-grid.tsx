@@ -1,5 +1,5 @@
-import type { ComponentType } from '@lynx-js/react';
-import { vars } from '@seed-design/lynx-css/vars';
+import type { ComponentType } from "@lynx-js/react";
+import { vars } from "@seed-design/lynx-css/vars";
 
 const { $color } = vars;
 
@@ -24,29 +24,24 @@ interface VirtualIconGridProps {
   title: string;
 }
 
-export function VirtualIconGrid({
-  iconColor,
-  icons,
-  packageName,
-  title,
-}: VirtualIconGridProps) {
+export function VirtualIconGrid({ iconColor, icons, packageName, title }: VirtualIconGridProps) {
   return (
     <view
       style={{
-        display: 'flex',
+        display: "flex",
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: "column",
         minHeight: 0,
-        paddingLeft: '16px',
-        paddingRight: '16px',
+        paddingLeft: "16px",
+        paddingRight: "16px",
       }}
     >
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>{title}</text>
+      <text style={{ fontSize: "20px", fontWeight: "bold" }}>{title}</text>
       <text
         style={{
-          fontSize: '13px',
+          fontSize: "13px",
           color: $color.fg.neutralSubtle,
-          marginBottom: '8px',
+          marginBottom: "8px",
         }}
       >
         {packageName} — {icons.length} icons
@@ -57,7 +52,7 @@ export function VirtualIconGrid({
         span-count={COLUMN_COUNT}
         scroll-orientation="vertical"
         preload-buffer-count={PRELOAD_ITEM_COUNT}
-        style={{ flex: 1, height: '100%', width: '100%' }}
+        style={{ flex: 1, height: "100%", width: "100%" }}
       >
         {icons.map(({ component: IconComp, name }) => (
           <list-item
@@ -69,12 +64,12 @@ export function VirtualIconGrid({
             <view
               style={{
                 height: `${ITEM_HEIGHT}px`,
-                padding: '8px 4px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '4px',
+                padding: "8px 4px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "4px",
               }}
             >
               {iconColor == null ? (
@@ -84,12 +79,12 @@ export function VirtualIconGrid({
               )}
               <text
                 style={{
-                  height: '24px',
-                  fontSize: '9px',
-                  lineHeight: '10px',
+                  height: "24px",
+                  fontSize: "9px",
+                  lineHeight: "10px",
                   color: $color.fg.neutralMuted,
-                  textAlign: 'center',
-                  wordBreak: 'break-all',
+                  textAlign: "center",
+                  wordBreak: "break-all",
                 }}
               >
                 {name}

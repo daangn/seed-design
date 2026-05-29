@@ -4,14 +4,14 @@
  * @requires @seed-design/lynx-css@~0.1.0-alpha.0
  **/
 
-import * as React from '@lynx-js/react';
+import * as React from "@lynx-js/react";
 import {
   SwitchControl,
   SwitchLabel,
   SwitchRoot,
-  SwitchThumb,
   type SwitchRootProps,
-} from '@seed-design/lynx-react';
+  SwitchThumb,
+} from "@seed-design/lynx-react";
 
 export interface SwitchProps extends SwitchRootProps {
   label?: React.ReactNode;
@@ -33,25 +33,23 @@ export const Switch = React.forwardRef<unknown, SwitchProps>(
     );
   },
 );
-Switch.displayName = 'Switch';
+Switch.displayName = "Switch";
 
-export interface SwitchmarkProps extends Omit<SwitchRootProps, 'children'> {}
+export interface SwitchmarkProps extends Omit<SwitchRootProps, "children"> {}
 
 /**
  * @see https://seed-design.io/lynx/components/switch
  */
-export const Switchmark = React.forwardRef<unknown, SwitchmarkProps>(
-  (props, ref) => {
-    return (
-      <SwitchRoot ref={ref} {...props}>
-        <SwitchControl>
-          <SwitchThumb />
-        </SwitchControl>
-      </SwitchRoot>
-    );
-  },
-);
-Switchmark.displayName = 'Switchmark';
+export const Switchmark = React.forwardRef<unknown, SwitchmarkProps>((props, ref) => {
+  return (
+    <SwitchRoot ref={ref} {...props}>
+      <SwitchControl>
+        <SwitchThumb />
+      </SwitchControl>
+    </SwitchRoot>
+  );
+});
+Switchmark.displayName = "Switchmark";
 
 /**
  * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.

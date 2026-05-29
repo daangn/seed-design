@@ -8,7 +8,11 @@ declare const SystemInfo: {
   platform?: "Android" | "iOS" | "Harmony" | "windows" | "macOS";
 };
 
-type ColorMode = "system" | "light-only" | "dark-only";
+export type ColorMode = "system" | "light-only" | "dark-only";
+
+export interface GetSeedClassNameOptions {
+  colorMode?: ColorMode;
+}
 
 /**
  * Lynx 앱의 root `<page>` 요소에 적용할 SEED Design className을 반환한다.
@@ -27,7 +31,7 @@ type ColorMode = "system" | "light-only" | "dark-only";
  * );
  * ```
  */
-export function getSeedClassName(options?: { colorMode?: ColorMode }): string {
+export function getSeedClassName(options?: GetSeedClassNameOptions): string {
   const { colorMode = "system" } = options ?? {};
 
   // Theme — lynx.__globalProps.theme에서 시스템 테마 읽기
