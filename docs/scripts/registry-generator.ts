@@ -17,6 +17,14 @@ type TransformSnippetContent = (
     snippetMetadata: Registry["items"][number]["snippets"][number];
   },
 ) => string;
+type PackageDependencyFields = {
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
+  optionalDependencies?: Record<string, string>;
+};
+
+const packageManifest = packageJson as PackageDependencyFields;
 
 export class RegistryGenerator {
   #project: Project;
@@ -48,10 +56,10 @@ export class RegistryGenerator {
 
     this.#installedDeps = new Set(
       Object.keys({
-        ...(packageJson.dependencies ?? {}),
-        ...(packageJson.devDependencies ?? {}),
-        ...(packageJson.peerDependencies ?? {}),
-        ...(packageJson.optionalDependencies ?? {}),
+        ...(packageManifest.dependencies ?? {}),
+        ...(packageManifest.devDependencies ?? {}),
+        ...(packageManifest.peerDependencies ?? {}),
+        ...(packageManifest.optionalDependencies ?? {}),
       }),
     );
     this.#project = new Project({

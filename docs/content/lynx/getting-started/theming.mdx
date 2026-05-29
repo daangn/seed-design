@@ -12,7 +12,7 @@ CSS 커스텀 프로퍼티(변수)는 Lynx에서도 기본적으로 상속되므
 
 ## 전역 테마 적용
 
-`@seed-design/lynx-react`의 `getSeedClassName()` 함수를 사용하여 `<page>` 요소에 테마와 플랫폼 클래스를 설정합니다.
+`@seed-design/lynx-react`의 `getSeedClassName()` 함수를 사용하여 `<page>` 요소에 테마 클래스를 설정합니다.
 
 ```tsx
 import { root } from "@lynx-js/react";
@@ -25,10 +25,7 @@ root.render(
 );
 ```
 
-`getSeedClassName()`은 다음 클래스들을 조합하여 반환합니다:
-
-- **테마 클래스**: `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark`
-- **플랫폼 클래스**: `seed-platform-ios` 또는 `seed-platform-android`
+`getSeedClassName()`은 `colorMode` 옵션에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환합니다.
 
 ### `colorMode` 옵션
 
@@ -58,13 +55,6 @@ SEED Design의 Lynx 테마 시스템은 두 종류의 클래스 이름을 사용
 
 - `seed-color-mode-light-only`: 해당 영역을 라이트 모드로 강제
 - `seed-color-mode-dark-only`: 해당 영역을 다크 모드로 강제
-
-### 플랫폼 클래스
-
-`getSeedClassName()`은 `SystemInfo.platform`을 읽어 플랫폼 클래스도 함께 설정합니다.
-
-- `seed-platform-ios`: iOS 기기
-- `seed-platform-android`: Android 기기
 
 ## 작동 원리
 
@@ -143,6 +133,5 @@ function MyComponent() {
 | 테마 제어 방식 | `data-*` 속성 셀렉터 | CSS 클래스 이름 |
 | 전역 테마 설정 | `data-seed-color-mode` + `data-seed-user-color-scheme` 속성을 `<html>`에 적용 | `seed-user-color-scheme-*` 클래스를 `<page>`에 적용 |
 | 테마 오버라이드 | `data-seed-color-mode="light-only"` 또는 `"dark-only"` 속성 | `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스 |
-| 플랫폼 감지 | User Agent 기반 | `SystemInfo.platform` 기반 (`seed-platform-ios` / `seed-platform-android`) |
 | 토큰 상속 | CSS 커스텀 프로퍼티 상속 | CSS 커스텀 프로퍼티 상속 (동일) |
 | 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `getSeedClassName()` 함수로 직접 설정 |
