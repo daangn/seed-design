@@ -46,7 +46,14 @@ export class RegistryGenerator {
     this.#getFileContent = getFileContent;
     this.#transformSnippetContent = transformSnippetContent ?? ((content) => content);
 
-    this.#installedDeps = new Set(Object.keys(packageJson.dependencies ?? {}));
+    this.#installedDeps = new Set(
+      Object.keys({
+        ...(packageJson.dependencies ?? {}),
+        ...(packageJson.devDependencies ?? {}),
+        ...(packageJson.peerDependencies ?? {}),
+        ...(packageJson.optionalDependencies ?? {}),
+      }),
+    );
     this.#project = new Project({
       // TODO: find out what options are these
       skipLoadingLibFiles: true,

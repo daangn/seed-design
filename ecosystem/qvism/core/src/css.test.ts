@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import { Features } from "lightningcss";
 
 import {
   generateAllBundle,
@@ -6,26 +7,6 @@ import {
   generateKeyframeRules,
   transpileRulesToCss,
 } from "./css";
-
-const expandInsetPlugin = {
-  postcssPlugin: "test-expand-inset",
-  Declaration(decl: {
-    prop: string;
-    value: string;
-    clone(overrides: { prop: string; value: string }): unknown;
-    replaceWith(...nodes: unknown[]): void;
-  }) {
-    if (decl.prop !== "inset") {
-      return;
-    }
-
-    decl.replaceWith(
-      ...["top", "right", "bottom", "left"].map((prop) =>
-        decl.clone({ prop, value: decl.value }),
-      ),
-    );
-  },
-};
 
 function createSingleRecipeConfig() {
   return {
@@ -192,10 +173,12 @@ test("generateKeyframeRules: from to", async () => {
 `);
 });
 
-test("generateAllBundle applies postTransformPlugins before returning CSS", async () => {
+test("generateAllBundle passes lightningcssOptions to transform", async () => {
   // given
   const config = {
-    postTransformPlugins: [expandInsetPlugin],
+    lightningcssOptions: {
+      include: Features.LogicalProperties,
+    },
     theme: {
       tokens: {
         _raw: "",

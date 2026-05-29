@@ -9,9 +9,6 @@ import { highlight } from "./color";
 const REACT_COMPAT_PACKAGES = ["@seed-design/react", "@seed-design/css"] as const;
 const LYNX_COMPAT_PACKAGES = ["@seed-design/lynx-react", "@seed-design/lynx-css"] as const;
 
-/** @deprecated Use getCompatPackageNames(framework) instead */
-export const COMPAT_PACKAGE_NAMES = REACT_COMPAT_PACKAGES;
-
 export type CompatPackageName =
   | (typeof REACT_COMPAT_PACKAGES)[number]
   | (typeof LYNX_COMPAT_PACKAGES)[number];
