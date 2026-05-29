@@ -1,47 +1,47 @@
-import IconChevronDownFill from '@karrotmarket/lynx-monochrome-icon/IconChevronDownFill';
-import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
-import { actionButtonVariantMap } from '@seed-design/lynx-css/recipes/action-button';
-import { ActionButton, Icon, PrefixIcon, SuffixIcon } from '@seed-design/lynx-react';
+import IconChevronDownFill from "@karrotmarket/lynx-monochrome-icon/IconChevronDownFill";
+import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
+import { actionButtonVariantMap } from "@seed-design/lynx-css/recipes/action-button";
+import { ActionButton, Icon, PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
 
-import { CatalogExamples, CatalogSectionTitle } from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
 import {
   definePreviewStates,
   defineVariantAxes,
   VariantCatalog,
   type VariantCatalogValues,
-} from '../components/variant-catalog.jsx';
+} from "../components/variant-catalog.jsx";
 
 const variants = defineVariantAxes([
   {
-    key: 'variant',
+    key: "variant",
     options: actionButtonVariantMap.variant,
-    defaultValue: 'brandSolid',
+    defaultValue: "brandSolid",
   },
   {
-    key: 'size',
+    key: "size",
     options: actionButtonVariantMap.size,
-    defaultValue: 'medium',
+    defaultValue: "medium",
   },
   {
-    key: 'layout',
+    key: "layout",
     options: actionButtonVariantMap.layout,
-    defaultValue: 'withText',
+    defaultValue: "withText",
   },
   {
-    key: 'disabled',
+    key: "disabled",
     options: actionButtonVariantMap.disabled,
     defaultValue: false,
   },
   {
-    key: 'loading',
+    key: "loading",
     options: actionButtonVariantMap.loading,
     defaultValue: false,
   },
 ]);
 
 const previewStates = definePreviewStates([
-  { key: 'disabled', defaultValue: false },
-  { key: 'loading', defaultValue: false },
+  { key: "disabled", defaultValue: false },
+  { key: "loading", defaultValue: false },
 ]);
 
 type ActionButtonValues = VariantCatalogValues<typeof variants, typeof previewStates>;
@@ -51,7 +51,7 @@ function renderActionButton(values: ActionButtonValues) {
   const disabled = Boolean(values.disabled);
   const loading = Boolean(values.loading);
 
-  if (layout === 'iconOnly') {
+  if (layout === "iconOnly") {
     return (
       <ActionButton
         layout="iconOnly"
@@ -79,10 +79,10 @@ function ActionButtonExamples() {
       <CatalogSectionTitle>Variants</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
         <ActionButton variant="brandSolid">Brand Solid</ActionButton>
@@ -97,11 +97,11 @@ function ActionButtonExamples() {
       <CatalogSectionTitle>Sizes</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
+          alignItems: "center",
         }}
       >
         <ActionButton size="xsmall">XSmall</ActionButton>
@@ -113,10 +113,10 @@ function ActionButtonExamples() {
       <CatalogSectionTitle>Disabled</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
         <ActionButton variant="brandSolid" disabled>
@@ -130,10 +130,10 @@ function ActionButtonExamples() {
       <CatalogSectionTitle>Prefix / Suffix Icon</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
         <ActionButton variant="brandSolid">
@@ -158,11 +158,11 @@ function ActionButtonExamples() {
       <CatalogSectionTitle>Loading</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
+          alignItems: "center",
         }}
       >
         <ActionButton variant="brandSolid" loading>
@@ -184,11 +184,11 @@ function ActionButtonExamples() {
       <CatalogSectionTitle>Icon Only</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: '8px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "8px",
+          alignItems: "center",
         }}
       >
         <ActionButton layout="iconOnly" variant="brandSolid" aria-label="Add">

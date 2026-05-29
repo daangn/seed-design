@@ -2,12 +2,12 @@ export function TailwindDemoPage() {
   return (
     <scroll-view
       scroll-y
-      style={{ display: 'flex', flexDirection: 'column', gap: '16px', flex: 1 }}
+      style={{ display: "flex", flexDirection: "column", gap: "16px", flex: 1 }}
     >
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>Tailwind + SEED Tokens</text>
+      <text style={{ fontSize: "20px", fontWeight: "bold" }}>Tailwind + SEED Tokens</text>
 
       {/* Colors */}
-      <text style={{ fontSize: '16px', fontWeight: 'bold' }}>Background Colors</text>
+      <text style={{ fontSize: "16px", fontWeight: "bold" }}>Background Colors</text>
       <view className="flex flex-col gap-2">
         <view className="bg-bg-layer-default p-3 rounded-lg border border-stroke-neutral-muted">
           <text className="text-fg-neutral">bg-bg-layer-default</text>
@@ -27,7 +27,7 @@ export function TailwindDemoPage() {
       </view>
 
       {/* Text Colors */}
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>Text Colors</text>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Text Colors</text>
       <view className="flex flex-col gap-1">
         <text className="t5-regular text-fg-neutral">text-fg-neutral</text>
         <text className="t5-regular text-fg-neutral-subtle">text-fg-neutral-subtle</text>
@@ -38,7 +38,7 @@ export function TailwindDemoPage() {
       </view>
 
       {/* Typography */}
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>
         Typography Scale
       </text>
       <view className="flex flex-col gap-1">
@@ -51,7 +51,7 @@ export function TailwindDemoPage() {
       </view>
 
       {/* Flex Layout */}
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>Flex Row</text>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Flex Row</text>
       <view className="flex flex-row gap-2">
         <view className="bg-bg-brand-weak px-3 py-2 rounded flex-1">
           <text className="t5-regular">A</text>
@@ -64,7 +64,7 @@ export function TailwindDemoPage() {
         </view>
       </view>
 
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>Flex Column</text>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>Flex Column</text>
       <view className="flex flex-col gap-2">
         <view className="bg-bg-neutral-weak px-3 py-2 rounded-lg">
           <text className="t5-regular text-fg-neutral">Item 1</text>
@@ -75,7 +75,7 @@ export function TailwindDemoPage() {
       </view>
 
       {/* Border */}
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>
         Border & Radius
       </text>
       <view className="flex flex-row gap-2">
@@ -91,7 +91,7 @@ export function TailwindDemoPage() {
       </view>
 
       {/* Justify & Align */}
-      <text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '8px' }}>
+      <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>
         justify-between + items-center
       </text>
       <view className="flex flex-row justify-between items-center bg-bg-neutral-weak p-3 rounded-lg">

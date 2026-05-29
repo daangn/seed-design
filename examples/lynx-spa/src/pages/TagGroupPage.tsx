@@ -1,29 +1,29 @@
-import { tagGroupVariantMap } from '@seed-design/lynx-css/recipes/tag-group';
-import { tagGroupItemVariantMap } from '@seed-design/lynx-css/recipes/tag-group-item';
+import { tagGroupVariantMap } from "@seed-design/lynx-css/recipes/tag-group";
+import { tagGroupItemVariantMap } from "@seed-design/lynx-css/recipes/tag-group-item";
 
-import { CatalogExamples, CatalogSectionHeader } from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionHeader } from "../components/catalog-examples.jsx";
 import {
   defineVariantAxes,
   VariantCatalog,
   type VariantCatalogValues,
-} from '../components/variant-catalog.jsx';
-import { TagGroupItem, TagGroupRoot } from '../seed-design/ui/tag-group';
+} from "../components/variant-catalog.jsx";
+import { TagGroupItem, TagGroupRoot } from "../seed-design/ui/tag-group";
 
 const variants = defineVariantAxes([
   {
-    key: 'size',
+    key: "size",
     options: tagGroupVariantMap.size,
-    defaultValue: 't2',
+    defaultValue: "t2",
   },
   {
-    key: 'weight',
+    key: "weight",
     options: tagGroupItemVariantMap.weight,
-    defaultValue: 'regular',
+    defaultValue: "regular",
   },
   {
-    key: 'tone',
+    key: "tone",
     options: tagGroupItemVariantMap.tone,
-    defaultValue: 'neutralSubtle',
+    defaultValue: "neutralSubtle",
   },
 ]);
 

@@ -1,10 +1,10 @@
-import { useState } from '@lynx-js/react';
-import { Box, HStack, Text, VStack } from '@seed-design/lynx-react';
-import type * as React from 'react';
+import { useState } from "@lynx-js/react";
+import { Box, HStack, Text, VStack } from "@seed-design/lynx-react";
+import type * as React from "react";
 
 function SectionTitle({ children }: { children: string }) {
   return (
-    <Text textStyle="t6Bold" color="fg.neutral" style={{ marginTop: '22px' }}>
+    <Text textStyle="t6Bold" color="fg.neutral" style={{ marginTop: "22px" }}>
       {children}
     </Text>
   );
@@ -25,23 +25,23 @@ function Surface({
 }: {
   title: string;
   description: string;
-  tone: 'brand' | 'positive' | 'informative';
+  tone: "brand" | "positive" | "informative";
 }) {
   const toneStyle = {
     brand: {
-      bg: 'bg.brandWeak',
-      borderColor: 'stroke.brandWeak',
-      color: 'fg.brand',
+      bg: "bg.brandWeak",
+      borderColor: "stroke.brandWeak",
+      color: "fg.brand",
     },
     positive: {
-      bg: 'bg.positiveWeak',
-      borderColor: 'stroke.positiveWeak',
-      color: 'fg.positive',
+      bg: "bg.positiveWeak",
+      borderColor: "stroke.positiveWeak",
+      color: "fg.positive",
     },
     informative: {
-      bg: 'bg.informativeWeak',
-      borderColor: 'stroke.informativeWeak',
-      color: 'fg.informative',
+      bg: "bg.informativeWeak",
+      borderColor: "stroke.informativeWeak",
+      color: "fg.informative",
     },
   }[tone];
 
@@ -66,12 +66,12 @@ function Surface({
 }
 
 export function LayoutPrimitivesPage() {
-  const [accent, setAccent] = useState<'brand' | 'positive'>('brand');
-  const isBrand = accent === 'brand';
+  const [accent, setAccent] = useState<"brand" | "positive">("brand");
+  const isBrand = accent === "brand";
 
   function switchAccent() {
-    'background only';
-    setAccent(isBrand ? 'positive' : 'brand');
+    "background only";
+    setAccent(isBrand ? "positive" : "brand");
   }
 
   return (
@@ -105,7 +105,7 @@ export function LayoutPrimitivesPage() {
               borderRadius="full"
               px="x3"
               py="x1"
-              style={{ paddingLeft: '28px' }}
+              style={{ paddingLeft: "28px" }}
             >
               <Text textStyle="t2Bold" color="fg.neutral">
                 override
@@ -117,7 +117,7 @@ export function LayoutPrimitivesPage() {
 
       <SectionTitle>VStack</SectionTitle>
       <VStack gap="x2" bg="bg.neutralWeak" borderRadius="r3" p="x3" align="stretch">
-        {['First item', 'Second item', 'Third item'].map((label) => (
+        {["First item", "Second item", "Third item"].map((label) => (
           <Box key={label} bg="bg.layerDefault" borderRadius="r2" p="x3">
             <Text textStyle="t4Medium" color="fg.neutral">
               {label}
@@ -147,7 +147,7 @@ export function LayoutPrimitivesPage() {
         </HStack>
 
         <HStack gap="x2" wrap>
-          {['wrap', 'gap', 'align', 'justify', 'grow', 'shrink'].map((label) => (
+          {["wrap", "gap", "align", "justify", "grow", "shrink"].map((label) => (
             <Box
               key={label}
               bg="bg.neutralWeak"
@@ -168,14 +168,14 @@ export function LayoutPrimitivesPage() {
       <SectionTitle>Dynamic token values</SectionTitle>
       <Box
         bindtap={switchAccent}
-        bg={isBrand ? 'bg.brandWeak' : 'bg.positiveWeak'}
-        borderColor={isBrand ? 'stroke.brandWeak' : 'stroke.positiveWeak'}
+        bg={isBrand ? "bg.brandWeak" : "bg.positiveWeak"}
+        borderColor={isBrand ? "stroke.brandWeak" : "stroke.positiveWeak"}
         borderWidth={1}
         borderRadius="r3"
         p="x4"
       >
         <VStack gap="x1">
-          <Text textStyle="t5Bold" color={isBrand ? 'fg.brand' : 'fg.positive'}>
+          <Text textStyle="t5Bold" color={isBrand ? "fg.brand" : "fg.positive"}>
             Tap to switch token values
           </Text>
           <Text textStyle="t3Regular" color="fg.neutralSubtle">

@@ -1,6 +1,6 @@
-import { vars } from '@seed-design/lynx-css/vars';
+import { vars } from "@seed-design/lynx-css/vars";
 
-import type { Page } from '../App.jsx';
+import type { Page } from "../App.jsx";
 
 const { $color } = vars;
 
@@ -9,17 +9,17 @@ function ListItem({ title, onTap }: { title: string; onTap: () => void }) {
     <view
       bindtap={onTap}
       style={{
-        padding: '14px 12px',
-        borderBottomWidth: '1px',
+        padding: "14px 12px",
+        borderBottomWidth: "1px",
         borderBottomColor: $color.stroke.neutralMuted,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
-      <text style={{ fontSize: '16px', color: $color.fg.neutral }}>{title}</text>
-      <text style={{ fontSize: '16px', color: $color.fg.neutralSubtle }}>{'→'}</text>
+      <text style={{ fontSize: "16px", color: $color.fg.neutral }}>{title}</text>
+      <text style={{ fontSize: "16px", color: $color.fg.neutralSubtle }}>{"→"}</text>
     </view>
   );
 }
@@ -28,14 +28,14 @@ function SectionHeader({ children }: { children: string }) {
   return (
     <text
       style={{
-        fontSize: '13px',
-        fontWeight: 'bold',
+        fontSize: "13px",
+        fontWeight: "bold",
         color: $color.fg.neutralSubtle,
-        marginTop: '16px',
-        marginBottom: '4px',
-        paddingLeft: '12px',
-        textTransform: 'uppercase',
-        letterSpacing: '0.5px',
+        marginTop: "16px",
+        marginBottom: "4px",
+        paddingLeft: "12px",
+        textTransform: "uppercase",
+        letterSpacing: "0.5px",
       }}
     >
       {children}
@@ -45,12 +45,12 @@ function SectionHeader({ children }: { children: string }) {
 
 export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
   return (
-    <scroll-view scroll-y style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", flex: 1 }}>
       <text
         style={{
-          fontSize: '22px',
-          fontWeight: 'bold',
-          marginBottom: '16px',
+          fontSize: "22px",
+          fontWeight: "bold",
+          marginBottom: "16px",
           color: $color.fg.brand,
         }}
       >
@@ -58,43 +58,43 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       </text>
 
       <SectionHeader>Getting Started</SectionHeader>
-      <ListItem title="Theming" onTap={() => navigate('theming')} />
+      <ListItem title="Theming" onTap={() => navigate("theming")} />
 
       <SectionHeader>Foundation</SectionHeader>
-      <ListItem title="Color" onTap={() => navigate('foundation-color')} />
-      <ListItem title="Monochrome Icon" onTap={() => navigate('foundation-monochrome-icon')} />
-      <ListItem title="Multicolor Icon" onTap={() => navigate('foundation-multicolor-icon')} />
-      <ListItem title="Typography" onTap={() => navigate('foundation-typography')} />
+      <ListItem title="Color" onTap={() => navigate("foundation-color")} />
+      <ListItem title="Monochrome Icon" onTap={() => navigate("foundation-monochrome-icon")} />
+      <ListItem title="Multicolor Icon" onTap={() => navigate("foundation-multicolor-icon")} />
+      <ListItem title="Typography" onTap={() => navigate("foundation-typography")} />
 
       <SectionHeader>Tailwind</SectionHeader>
-      <ListItem title="Tailwind Demo" onTap={() => navigate('tailwind-demo')} />
+      <ListItem title="Tailwind Demo" onTap={() => navigate("tailwind-demo")} />
 
       <SectionHeader>Components</SectionHeader>
-      <ListItem title="Box / VStack / HStack" onTap={() => navigate('layout-primitives')} />
-      <ListItem title="Text" onTap={() => navigate('text-primitive')} />
-      <ListItem title="ActionButton" onTap={() => navigate('action-button')} />
-      <ListItem title="BottomSheet" onTap={() => navigate('bottom-sheet')} />
-      <ListItem title="Checkbox" onTap={() => navigate('checkbox')} />
-      <ListItem title="ProgressCircle" onTap={() => navigate('progress-circle')} />
-      <ListItem title="RadioGroup" onTap={() => navigate('radio-group')} />
-      <ListItem title="Switch" onTap={() => navigate('switch')} />
-      <ListItem title="TagGroup" onTap={() => navigate('tag-group')} />
+      <ListItem title="Box / VStack / HStack" onTap={() => navigate("layout-primitives")} />
+      <ListItem title="Text" onTap={() => navigate("text-primitive")} />
+      <ListItem title="ActionButton" onTap={() => navigate("action-button")} />
+      <ListItem title="BottomSheet" onTap={() => navigate("bottom-sheet")} />
+      <ListItem title="Checkbox" onTap={() => navigate("checkbox")} />
+      <ListItem title="ProgressCircle" onTap={() => navigate("progress-circle")} />
+      <ListItem title="RadioGroup" onTap={() => navigate("radio-group")} />
+      <ListItem title="Switch" onTap={() => navigate("switch")} />
+      <ListItem title="TagGroup" onTap={() => navigate("tag-group")} />
 
       <SectionHeader>Hooks</SectionHeader>
-      <ListItem title="useControllableState" onTap={() => navigate('use-controllable-state')} />
-      <ListItem title="usePressTap" onTap={() => navigate('use-press-tap')} />
+      <ListItem title="useControllableState" onTap={() => navigate("use-controllable-state")} />
+      <ListItem title="usePressTap" onTap={() => navigate("use-press-tap")} />
 
       <SectionHeader>Test</SectionHeader>
-      <ListItem title="Layout Stress: Tailwind" onTap={() => navigate('layout-stress-tailwind')} />
-      <ListItem title="Layout Stress: Inline Style" onTap={() => navigate('layout-stress-style')} />
+      <ListItem title="Layout Stress: Tailwind" onTap={() => navigate("layout-stress-tailwind")} />
+      <ListItem title="Layout Stress: Inline Style" onTap={() => navigate("layout-stress-style")} />
       <ListItem
         title="Layout Stress: SEED Primitives"
-        onTap={() => navigate('layout-stress-seed-primitives')}
+        onTap={() => navigate("layout-stress-seed-primitives")}
       />
-      <ListItem title="Safe Area Debug" onTap={() => navigate('safe-area-debug')} />
-      <ListItem title="Nested Vars Test (Lynx 3.6+)" onTap={() => navigate('nested-vars-test')} />
-      <ListItem title="CSS Selector Test" onTap={() => navigate('css-selector-test')} />
-      <ListItem title="Icon Color POC" onTap={() => navigate('icon-color-poc')} />
+      <ListItem title="Safe Area Debug" onTap={() => navigate("safe-area-debug")} />
+      <ListItem title="Nested Vars Test (Lynx 3.6+)" onTap={() => navigate("nested-vars-test")} />
+      <ListItem title="CSS Selector Test" onTap={() => navigate("css-selector-test")} />
+      <ListItem title="Icon Color POC" onTap={() => navigate("icon-color-poc")} />
     </scroll-view>
   );
 }

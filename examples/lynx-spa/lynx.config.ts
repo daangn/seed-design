@@ -1,14 +1,14 @@
-import { pluginLynxConfig } from '@lynx-js/config-rsbuild-plugin';
+import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 
-import { pluginQRCode } from '@lynx-js/qrcode-rsbuild-plugin';
-import { pluginReactLynx } from '@lynx-js/react-rsbuild-plugin';
-import { defineConfig } from '@lynx-js/rspeedy';
-import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
+import { pluginQRCode } from "@lynx-js/qrcode-rsbuild-plugin";
+import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
+import { defineConfig } from "@lynx-js/rspeedy";
+import { pluginTypeCheck } from "@rsbuild/plugin-type-check";
 
 export default defineConfig({
   source: {
     define: {
-      console: 'globalThis.console',
+      console: "globalThis.console",
     },
   },
   plugins: [
@@ -51,13 +51,13 @@ export default defineConfig({
     }),
   ],
   output: {
-    filename: '[name].[platform].bundle',
+    filename: "[name].[platform].bundle",
   },
   tools: {
     rspack(config) {
       if (config.module?.rules) {
         config.module.rules = config.module.rules.map((rule) => {
-          if (!rule || typeof rule !== 'object' || !(rule.test instanceof RegExp)) {
+          if (!rule || typeof rule !== "object" || !(rule.test instanceof RegExp)) {
             return rule;
           }
 
@@ -69,7 +69,7 @@ export default defineConfig({
         config.module.rules.unshift({
           test: /\.svg$/,
           use: {
-            loader: './icon-loader.js',
+            loader: "./icon-loader.js",
           },
         });
       }

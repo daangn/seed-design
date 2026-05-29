@@ -1,44 +1,44 @@
-import { useState } from '@lynx-js/react';
-import { switchVariantMap } from '@seed-design/lynx-css/recipes/switch';
-import { switchmarkVariantMap } from '@seed-design/lynx-css/recipes/switchmark';
-import { SwitchControl, SwitchLabel, SwitchRoot, SwitchThumb } from '@seed-design/lynx-react';
+import { useState } from "@lynx-js/react";
+import { switchVariantMap } from "@seed-design/lynx-css/recipes/switch";
+import { switchmarkVariantMap } from "@seed-design/lynx-css/recipes/switchmark";
+import { SwitchControl, SwitchLabel, SwitchRoot, SwitchThumb } from "@seed-design/lynx-react";
 
-import { CatalogExamples, CatalogSectionTitle } from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
 import {
   definePreviewStates,
   defineVariantAxes,
   type SetVariantValue,
   VariantCatalog,
   type VariantCatalogValues,
-} from '../components/variant-catalog.jsx';
-import { Switch, Switchmark } from '../seed-design/ui/switch';
+} from "../components/variant-catalog.jsx";
+import { Switch, Switchmark } from "../seed-design/ui/switch";
 
 const variants = defineVariantAxes([
   {
-    key: 'size',
+    key: "size",
     options: switchVariantMap.size,
-    defaultValue: '32',
+    defaultValue: "32",
   },
   {
-    key: 'tone',
+    key: "tone",
     options: switchmarkVariantMap.tone,
-    defaultValue: 'brand',
+    defaultValue: "brand",
   },
   {
-    key: 'checked',
+    key: "checked",
     options: switchmarkVariantMap.checked,
     defaultValue: false,
   },
   {
-    key: 'disabled',
+    key: "disabled",
     options: switchVariantMap.disabled,
     defaultValue: false,
   },
 ]);
 
 const previewStates = definePreviewStates([
-  { key: 'checked', defaultValue: false },
-  { key: 'disabled', defaultValue: false },
+  { key: "checked", defaultValue: false },
+  { key: "disabled", defaultValue: false },
 ]);
 
 type SwitchValues = VariantCatalogValues<typeof variants, typeof previewStates>;
@@ -47,12 +47,12 @@ function renderSwitch(values: SwitchValues, setValue: SetVariantValue<SwitchValu
   const checked = Boolean(values.checked);
   return (
     <Switch
-      label={checked ? 'On' : 'Off'}
+      label={checked ? "On" : "Off"}
       size={values.size}
       tone={values.tone}
       checked={checked}
       disabled={Boolean(values.disabled)}
-      onCheckedChange={(next) => setValue('checked', next)}
+      onCheckedChange={(next) => setValue("checked", next)}
     />
   );
 }
@@ -65,10 +65,10 @@ function SwitchExamples() {
       <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '16px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          gap: "16px",
+          alignItems: "center",
         }}
       >
         <Switchmark />
@@ -76,7 +76,7 @@ function SwitchExamples() {
       </view>
 
       <CatalogSectionTitle>With Label</CatalogSectionTitle>
-      <view style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         <Switch label="알림 받기" defaultChecked />
         <Switch label="자동 로그인" />
       </view>
@@ -84,14 +84,14 @@ function SwitchExamples() {
       <CatalogSectionTitle>Controlled</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '16px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          gap: "16px",
+          alignItems: "center",
         }}
       >
         <Switch
-          label={controlled ? 'On' : 'Off'}
+          label={controlled ? "On" : "Off"}
           checked={controlled}
           onCheckedChange={setControlled}
         />
@@ -100,10 +100,10 @@ function SwitchExamples() {
       <CatalogSectionTitle>Sizes</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '16px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          gap: "16px",
+          alignItems: "center",
         }}
       >
         <Switchmark size="16" defaultChecked />
@@ -114,10 +114,10 @@ function SwitchExamples() {
       <CatalogSectionTitle>Tones</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '16px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          gap: "16px",
+          alignItems: "center",
         }}
       >
         <Switch label="Brand" tone="brand" defaultChecked />
@@ -125,7 +125,7 @@ function SwitchExamples() {
       </view>
 
       <CatalogSectionTitle>Disabled</CatalogSectionTitle>
-      <view style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         <Switch label="Disabled Off" disabled />
         <Switch label="Disabled On" disabled defaultChecked />
       </view>
@@ -133,10 +133,10 @@ function SwitchExamples() {
       <CatalogSectionTitle>Compound: Control override</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '16px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          gap: "16px",
+          alignItems: "center",
         }}
       >
         <SwitchRoot tone="brand" defaultChecked>

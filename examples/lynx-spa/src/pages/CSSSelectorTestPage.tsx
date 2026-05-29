@@ -1,6 +1,6 @@
-import { vars } from '@seed-design/lynx-css/vars';
+import { vars } from "@seed-design/lynx-css/vars";
 
-import '../styles/css-selector-test.css';
+import "../styles/css-selector-test.css";
 
 const { $color } = vars;
 
@@ -19,10 +19,10 @@ function SectionTitle({ children }: { children: string }) {
   return (
     <text
       style={{
-        fontSize: '16px',
-        fontWeight: 'bold',
-        marginTop: '20px',
-        marginBottom: '8px',
+        fontSize: "16px",
+        fontWeight: "bold",
+        marginTop: "20px",
+        marginBottom: "8px",
         color: $color.fg.neutral,
       }}
     >
@@ -45,22 +45,22 @@ function TestCase({
   return (
     <view
       style={{
-        marginBottom: '8px',
-        borderWidth: '1px',
+        marginBottom: "8px",
+        borderWidth: "1px",
         borderColor: $color.stroke.neutralMuted,
-        borderRadius: '8px',
-        overflow: 'hidden',
+        borderRadius: "8px",
+        overflow: "hidden",
       }}
     >
-      <view style={{ padding: '8px 12px', backgroundColor: $color.bg.neutralWeak }}>
-        <text style={{ fontSize: '13px', fontWeight: 'bold', color: $color.fg.neutral }}>
+      <view style={{ padding: "8px 12px", backgroundColor: $color.bg.neutralWeak }}>
+        <text style={{ fontSize: "13px", fontWeight: "bold", color: $color.fg.neutral }}>
           {id}. {label}
         </text>
-        <text style={{ fontSize: '11px', color: $color.fg.neutralSubtle, marginTop: '2px' }}>
+        <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle, marginTop: "2px" }}>
           기대: {expected}
         </text>
       </view>
-      <view style={{ padding: '8px 12px' }}>{children}</view>
+      <view style={{ padding: "8px 12px" }}>{children}</view>
     </view>
   );
 }
@@ -72,12 +72,12 @@ function ResultBox({
   return (
     <view
       style={{
-        padding: '10px 12px',
-        borderRadius: '6px',
-        minHeight: '40px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        padding: "10px 12px",
+        borderRadius: "6px",
+        minHeight: "40px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
       {...rest}
     >
@@ -87,14 +87,14 @@ function ResultBox({
 }
 
 function ResultText({ children }: { children: string }) {
-  return <text style={{ fontSize: '13px', color: '#ffffff', fontWeight: 'bold' }}>{children}</text>;
+  return <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>{children}</text>;
 }
 
 export function CSSSelectorTestPage() {
   return (
-    <scroll-view scroll-y style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
-      <text style={{ fontSize: '20px', fontWeight: 'bold' }}>CSS Selector Test</text>
-      <text style={{ fontSize: '13px', color: $color.fg.neutralSubtle, marginBottom: '8px' }}>
+    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
+      <text style={{ fontSize: "20px", fontWeight: "bold" }}>CSS Selector Test</text>
+      <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle, marginBottom: "8px" }}>
         enableCSSSelector: true 환경에서 CSS selector 지원 검증
       </text>
 
@@ -114,7 +114,7 @@ export function CSSSelectorTestPage() {
       </TestCase>
 
       <TestCase id="1-3" label="[data-size] 다른 값 분기" expected="파란=small, 주황=large">
-        <view style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+        <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
           <ResultBox data-sel-test="1-3a" data-size="small" style={{ flex: 1 }}>
             <ResultText>small → 파란</ResultText>
           </ResultBox>
@@ -179,11 +179,11 @@ export function CSSSelectorTestPage() {
         expected="빨간색 유지 = 미지원 확인 (PseudoState 미정의)"
       >
         <ResultBox data-sel-test="4-1">
-          <text style={{ fontSize: '13px', color: '#ffffff', fontWeight: 'bold' }}>
+          <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>
             빨간 유지 = :disabled 미지원 확인
           </text>
         </ResultBox>
-        <text style={{ fontSize: '11px', color: $color.fg.neutralSubtle, marginTop: '4px' }}>
+        <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle, marginTop: "4px" }}>
           참고: CSS에 view[data-sel-test=4-1]:disabled 룰이 없어 기본 빨간색. Lynx 엔진에 :disabled
           PseudoState가 없으므로 설령 CSS에 있어도 적용 안 됨
         </text>
@@ -191,11 +191,11 @@ export function CSSSelectorTestPage() {
 
       <TestCase id="4-2" label=":checked, :is() 등" expected="recipe source에서는 사용하지 않음">
         <view
-          style={{ padding: '8px', backgroundColor: $color.bg.neutralWeak, borderRadius: '6px' }}
+          style={{ padding: "8px", backgroundColor: $color.bg.neutralWeak, borderRadius: "6px" }}
         >
-          <text style={{ fontSize: '12px', color: $color.fg.neutralSubtle }}>
-            :checked → Lynx recipe에서는 boolean variant/className으로 모델링{'\n'}
-            :is() → Lynx preset source에서는 사용하지 않음{'\n'}→ 필요한 경우 qvism core가 아니라
+          <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
+            :checked → Lynx recipe에서는 boolean variant/className으로 모델링{"\n"}
+            :is() → Lynx preset source에서는 사용하지 않음{"\n"}→ 필요한 경우 qvism core가 아니라
             preset source에서 명시적으로 작성
           </text>
         </view>
@@ -215,26 +215,26 @@ export function CSSSelectorTestPage() {
       <TestCase id="5-2" label="(공백) 자손 선택자" expected="초록색 텍스트 = 지원">
         <view data-sel-test="5-2">
           <view>
-            <text style={{ fontSize: '13px', fontWeight: 'bold' }}>자손 텍스트 → 초록이면 OK</text>
+            <text style={{ fontSize: "13px", fontWeight: "bold" }}>자손 텍스트 → 초록이면 OK</text>
           </view>
         </view>
       </TestCase>
 
       <TestCase id="5-3" label="+ 인접 형제 선택자" expected="두 번째 박스 초록 = 지원">
-        <view style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+        <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
           <view
             data-sel-test="5-3-trigger"
             style={{
               flex: 1,
-              padding: '10px',
-              backgroundColor: '#94a3b8',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              padding: "10px",
+              backgroundColor: "#94a3b8",
+              borderRadius: "6px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <text style={{ fontSize: '13px', color: '#ffffff', fontWeight: 'bold' }}>trigger</text>
+            <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>trigger</text>
           </view>
           <ResultBox data-sel-test="5-3-target" style={{ flex: 1 }}>
             <ResultText>+ 인접 → 초록이면 OK</ResultText>
@@ -243,31 +243,31 @@ export function CSSSelectorTestPage() {
       </TestCase>
 
       <TestCase id="5-4" label="~ 일반 형제 선택자" expected="세 번째 박스 초록 = 지원">
-        <view style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <view style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
           <view
             data-sel-test="5-4-trigger"
             style={{
-              padding: '8px',
-              backgroundColor: '#94a3b8',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              padding: "8px",
+              backgroundColor: "#94a3b8",
+              borderRadius: "6px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <text style={{ fontSize: '13px', color: '#ffffff', fontWeight: 'bold' }}>trigger</text>
+            <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>trigger</text>
           </view>
           <view
             style={{
-              padding: '8px',
-              backgroundColor: '#94a3b8',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              padding: "8px",
+              backgroundColor: "#94a3b8",
+              borderRadius: "6px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <text style={{ fontSize: '13px', color: '#ffffff', fontWeight: 'bold' }}>
+            <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>
               중간 형제
             </text>
           </view>
@@ -298,9 +298,9 @@ export function CSSSelectorTestPage() {
       <TestCase id="7-1" label=":root에서 정의한 CSS 변수" expected="초록색 텍스트 = 지원">
         <text
           style={{
-            fontSize: '14px',
-            fontWeight: 'bold',
-            color: 'var(--css-sel-test-root-color)',
+            fontSize: "14px",
+            fontWeight: "bold",
+            color: "var(--css-sel-test-root-color)",
           }}
         >
           이 텍스트가 초록이면 :root CSS 변수 동작
@@ -311,18 +311,18 @@ export function CSSSelectorTestPage() {
       <SectionTitle>검증 요약</SectionTitle>
       <view
         style={{
-          padding: '12px',
+          padding: "12px",
           backgroundColor: $color.bg.neutralWeak,
-          borderRadius: '8px',
-          marginBottom: '40px',
+          borderRadius: "8px",
+          marginBottom: "40px",
         }}
       >
-        <text style={{ fontSize: '12px', color: $color.fg.neutralSubtle, lineHeight: '18px' }}>
-          {'[data-*] selector가 직접 동작하면:\n'}
-          {'→ Lynx source에서 class/data selector를 직접 선택 가능\n'}
-          {'→ qvism core 후처리 없이 preset source에서 구조를 명시\n\n'}
-          {':is() / unsupported pseudo가 필요하면:\n'}
-          {'→ CSS 후처리보다 recipe variant/className으로 모델링'}
+        <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle, lineHeight: "18px" }}>
+          {"[data-*] selector가 직접 동작하면:\n"}
+          {"→ Lynx source에서 class/data selector를 직접 선택 가능\n"}
+          {"→ qvism core 후처리 없이 preset source에서 구조를 명시\n\n"}
+          {":is() / unsupported pseudo가 필요하면:\n"}
+          {"→ CSS 후처리보다 recipe variant/className으로 모델링"}
         </text>
       </view>
     </scroll-view>

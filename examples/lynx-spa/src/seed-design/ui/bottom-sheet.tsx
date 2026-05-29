@@ -10,7 +10,7 @@ import {
   type PropsWithoutRef,
   type ReactNode,
   type RefAttributes,
-} from '@lynx-js/react';
+} from "@lynx-js/react";
 import {
   BottomSheet as SeedBottomSheet,
   type BottomSheetBodyProps as SeedBottomSheetBodyProps,
@@ -19,7 +19,7 @@ import {
   type BottomSheetRootProps as SeedBottomSheetRootProps,
   type BottomSheetRootRef as SeedBottomSheetRootRef,
   type BottomSheetTriggerProps as SeedBottomSheetTriggerProps,
-} from '@seed-design/lynx-react';
+} from "@seed-design/lynx-react";
 
 export interface BottomSheetRootProps extends SeedBottomSheetRootProps {}
 
@@ -33,13 +33,13 @@ export const BottomSheetRoot: ForwardRefExoticComponent<
 > = forwardRef<SeedBottomSheetRootRef, BottomSheetRootProps>((props, ref) => {
   return <SeedBottomSheet.Root ref={ref} {...props} />;
 });
-BottomSheetRoot.displayName = 'BottomSheetRoot';
+BottomSheetRoot.displayName = "BottomSheetRoot";
 
 export interface BottomSheetTriggerProps extends SeedBottomSheetTriggerProps {}
 
 export const BottomSheetTrigger = SeedBottomSheet.Trigger;
 
-export interface BottomSheetContentProps extends Omit<SeedBottomSheetContentProps, 'title'> {
+export interface BottomSheetContentProps extends Omit<SeedBottomSheetContentProps, "title"> {
   title?: ReactNode;
 
   description?: ReactNode;

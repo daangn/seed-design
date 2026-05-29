@@ -4,9 +4,9 @@
  * @requires @seed-design/lynx-css@~0.1.0-alpha.0
  **/
 
-import IconCheckmarkFatFill from '@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill';
-import IconMinusFatFill from '@karrotmarket/lynx-monochrome-icon/IconMinusFatFill';
-import * as React from '@lynx-js/react';
+import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
+import IconMinusFatFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFatFill";
+import * as React from "@lynx-js/react";
 import {
   CheckboxControl,
   CheckboxGroup,
@@ -15,7 +15,7 @@ import {
   CheckboxLabel,
   CheckboxRoot,
   type CheckboxRootProps,
-} from '@seed-design/lynx-react';
+} from "@seed-design/lynx-react";
 
 export interface CheckboxProps extends CheckboxRootProps {
   label?: React.ReactNode;
@@ -30,7 +30,7 @@ export const Checkbox = React.forwardRef<unknown, CheckboxProps>(
       <CheckboxRoot ref={ref} {...otherProps}>
         <CheckboxControl>
           <CheckboxIndicator
-            unchecked={otherProps.variant === 'ghost' ? <IconCheckmarkFatFill /> : undefined}
+            unchecked={otherProps.variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}
             checked={<IconCheckmarkFatFill />}
             indeterminate={<IconMinusFatFill />}
           />
@@ -41,9 +41,9 @@ export const Checkbox = React.forwardRef<unknown, CheckboxProps>(
     );
   },
 );
-Checkbox.displayName = 'Checkbox';
+Checkbox.displayName = "Checkbox";
 
-export interface CheckmarkProps extends Omit<CheckboxRootProps, 'children'> {}
+export interface CheckmarkProps extends Omit<CheckboxRootProps, "children"> {}
 
 /**
  * @see https://seed-design.io/lynx/components/checkbox
@@ -53,7 +53,7 @@ export const Checkmark = React.forwardRef<unknown, CheckmarkProps>((props, ref) 
     <CheckboxRoot ref={ref} {...props}>
       <CheckboxControl>
         <CheckboxIndicator
-          unchecked={props.variant === 'ghost' ? <IconCheckmarkFatFill /> : undefined}
+          unchecked={props.variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}
           checked={<IconCheckmarkFatFill />}
           indeterminate={<IconMinusFatFill />}
         />
@@ -61,7 +61,7 @@ export const Checkmark = React.forwardRef<unknown, CheckmarkProps>((props, ref) 
     </CheckboxRoot>
   );
 });
-Checkmark.displayName = 'Checkmark';
+Checkmark.displayName = "Checkmark";
 
 export type { CheckboxGroupProps };
 export { CheckboxGroup };

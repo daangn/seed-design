@@ -1,10 +1,10 @@
-import IconPlusFill from '@karrotmarket/lynx-monochrome-icon/IconPlusFill';
-import { runOnMainThread, useEffect, useMainThreadRef, useState } from '@lynx-js/react';
-import type { MainThread } from '@lynx-js/types';
-import { vars } from '@seed-design/lynx-css/vars';
-import type { RefObject } from 'react';
+import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
+import { runOnMainThread, useEffect, useMainThreadRef, useState } from "@lynx-js/react";
+import type { MainThread } from "@lynx-js/types";
+import { vars } from "@seed-design/lynx-css/vars";
+import type { RefObject } from "react";
 
-import '../styles/icon-color-poc.css';
+import "../styles/icon-color-poc.css";
 
 const { $color } = vars;
 
@@ -18,11 +18,11 @@ const PLUS_ICON_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent(
 
 function SectionHeader({ title, desc }: { title: string; desc: string }) {
   return (
-    <view style={{ marginBottom: '8px' }}>
+    <view style={{ marginBottom: "8px" }}>
       <text
         style={{
-          fontSize: '14px',
-          fontWeight: 'bold',
+          fontSize: "14px",
+          fontWeight: "bold",
           color: $color.fg.neutral,
         }}
       >
@@ -30,9 +30,9 @@ function SectionHeader({ title, desc }: { title: string; desc: string }) {
       </text>
       <text
         style={{
-          fontSize: '12px',
+          fontSize: "12px",
           color: $color.fg.neutralSubtle,
-          marginTop: '4px',
+          marginTop: "4px",
         }}
       >
         {desc}
@@ -48,13 +48,13 @@ function BrandBg({ children }: { children: React.ReactNode }) {
   return (
     <view
       style={{
-        padding: '16px',
+        padding: "16px",
         backgroundColor: $color.bg.brandSolid,
-        borderRadius: '8px',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: '16px',
+        borderRadius: "8px",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: "16px",
       }}
     >
       {children}
@@ -77,7 +77,7 @@ function useIconColorPOC(depKey: string, label: string) {
 
   useEffect(() => {
     function sync(r: RefObject<ElementLike>, tag: string) {
-      'main thread';
+      "main thread";
 
       const el = r.current;
       if (!el) {
@@ -85,8 +85,8 @@ function useIconColorPOC(depKey: string, label: string) {
         return;
       }
 
-      const hasGetComputed = typeof el.getComputedStyleProperty === 'function';
-      const hasGetComputedCss = typeof el.getComputedCssProperty === 'function';
+      const hasGetComputed = typeof el.getComputedStyleProperty === "function";
+      const hasGetComputedCss = typeof el.getComputedCssProperty === "function";
 
       console.log(
         `[POC ${tag}] API probe — getComputedStyleProperty:${hasGetComputed} getComputedCssProperty:${hasGetComputedCss}`,
@@ -94,15 +94,15 @@ function useIconColorPOC(depKey: string, label: string) {
 
       let color: string | undefined;
       if (hasGetComputed) {
-        color = el.getComputedStyleProperty?.('color');
+        color = el.getComputedStyleProperty?.("color");
       } else if (hasGetComputedCss) {
-        color = el.getComputedCssProperty?.('color');
+        color = el.getComputedCssProperty?.("color");
       }
 
       console.log(`[POC ${tag}] resolved color = ${String(color)}`);
 
       if (color) {
-        el.setAttribute('tint-color', color);
+        el.setAttribute("tint-color", color);
         console.log(`[POC ${tag}] tint-color attribute set`);
       } else {
         console.log(`[POC ${tag}] no color resolved — tint-color not set`);
@@ -121,33 +121,33 @@ function useIconColorPOC(depKey: string, label: string) {
  * ============================================================= */
 
 function POCDIconComponent() {
-  const [variant, setVariant] = useState<'brandSolid' | 'criticalSolid' | 'neutralWeak'>(
-    'brandSolid',
+  const [variant, setVariant] = useState<"brandSolid" | "criticalSolid" | "neutralWeak">(
+    "brandSolid",
   );
-  const { ref } = useIconColorPOC(variant, 'D');
+  const { ref } = useIconColorPOC(variant, "D");
   const iconClass = `poc-c-icon poc-c-icon--${variant}`;
 
   const next = () =>
     setVariant((v) =>
-      v === 'brandSolid' ? 'criticalSolid' : v === 'criticalSolid' ? 'neutralWeak' : 'brandSolid',
+      v === "brandSolid" ? "criticalSolid" : v === "criticalSolid" ? "neutralWeak" : "brandSolid",
     );
 
   return (
     <view>
       <view
         style={{
-          padding: '16px',
+          padding: "16px",
           backgroundColor:
-            variant === 'brandSolid'
+            variant === "brandSolid"
               ? $color.bg.brandSolid
-              : variant === 'criticalSolid'
+              : variant === "criticalSolid"
                 ? $color.bg.criticalSolid
                 : $color.bg.neutralWeak,
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '16px',
+          borderRadius: "8px",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "16px",
         }}
       >
         {/*
@@ -159,7 +159,7 @@ function POCDIconComponent() {
           className={iconClass}
           size={32}
         />
-        <text style={{ fontSize: '12px', color: $color.fg.neutralInverted }}>
+        <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
           current: {variant}
         </text>
       </view>
@@ -167,14 +167,14 @@ function POCDIconComponent() {
       <view
         bindtap={next}
         style={{
-          marginTop: '8px',
-          padding: '10px 14px',
+          marginTop: "8px",
+          padding: "10px 14px",
           backgroundColor: $color.bg.neutralWeak,
-          borderRadius: '6px',
-          alignSelf: 'flex-start',
+          borderRadius: "6px",
+          alignSelf: "flex-start",
         }}
       >
-        <text style={{ fontSize: '13px', color: $color.fg.neutral }}>
+        <text style={{ fontSize: "13px", color: $color.fg.neutral }}>
           Tap to cycle variant (POC D)
         </text>
       </view>
@@ -183,33 +183,33 @@ function POCDIconComponent() {
 }
 
 function POCCVariantToggle() {
-  const [variant, setVariant] = useState<'brandSolid' | 'criticalSolid' | 'neutralWeak'>(
-    'brandSolid',
+  const [variant, setVariant] = useState<"brandSolid" | "criticalSolid" | "neutralWeak">(
+    "brandSolid",
   );
-  const { ref } = useIconColorPOC(variant, 'C');
+  const { ref } = useIconColorPOC(variant, "C");
   const iconClass = `poc-c-icon poc-c-icon--${variant}`;
 
   const next = () =>
     setVariant((v) =>
-      v === 'brandSolid' ? 'criticalSolid' : v === 'criticalSolid' ? 'neutralWeak' : 'brandSolid',
+      v === "brandSolid" ? "criticalSolid" : v === "criticalSolid" ? "neutralWeak" : "brandSolid",
     );
 
   return (
     <view>
       <view
         style={{
-          padding: '16px',
+          padding: "16px",
           backgroundColor:
-            variant === 'brandSolid'
+            variant === "brandSolid"
               ? $color.bg.brandSolid
-              : variant === 'criticalSolid'
+              : variant === "criticalSolid"
                 ? $color.bg.criticalSolid
                 : $color.bg.neutralWeak,
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '16px',
+          borderRadius: "8px",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "16px",
         }}
       >
         {/*
@@ -222,7 +222,7 @@ function POCCVariantToggle() {
           className={iconClass}
           size={32}
         />
-        <text style={{ fontSize: '12px', color: $color.fg.neutralInverted }}>
+        <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
           current: {variant}
         </text>
       </view>
@@ -230,14 +230,14 @@ function POCCVariantToggle() {
       <view
         bindtap={next}
         style={{
-          marginTop: '8px',
-          padding: '10px 14px',
+          marginTop: "8px",
+          padding: "10px 14px",
           backgroundColor: $color.bg.neutralWeak,
-          borderRadius: '6px',
-          alignSelf: 'flex-start',
+          borderRadius: "6px",
+          alignSelf: "flex-start",
         }}
       >
-        <text style={{ fontSize: '13px', color: $color.fg.neutral }}>
+        <text style={{ fontSize: "13px", color: $color.fg.neutral }}>
           Tap to cycle variant (POC C)
         </text>
       </view>
@@ -253,12 +253,12 @@ export function IconColorPOCPage() {
   return (
     <scroll-view
       scroll-y
-      style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}
+      style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}
     >
       <text
         style={{
-          fontSize: '20px',
-          fontWeight: 'bold',
+          fontSize: "20px",
+          fontWeight: "bold",
           color: $color.fg.neutral,
         }}
       >
@@ -267,9 +267,9 @@ export function IconColorPOCPage() {
 
       <text
         style={{
-          fontSize: '12px',
+          fontSize: "12px",
           color: $color.fg.neutralSubtle,
-          marginBottom: '8px',
+          marginBottom: "8px",
         }}
       >
         아이콘 tint-color 적용 방식 4가지 실측. 브랜드 컬러 배경 위에서 plus 아이콘이 흰색(또는
@@ -277,7 +277,7 @@ export function IconColorPOCPage() {
       </text>
 
       {/* Baseline — hex color 고정 sanity check */}
-      <view style={{ marginBottom: '16px' }}>
+      <view style={{ marginBottom: "16px" }}>
         <SectionHeader
           title="Baseline — hex color 고정 (컴포넌트 + raw image)"
           desc="아이콘이 렌더되는지 자체부터 좌표화. 왼쪽: IconPlusFill with hex color. 오른쪽: raw <image> + data URI + hex tint. 둘 중 어느 쪽이 보이는지."
@@ -286,17 +286,17 @@ export function IconColorPOCPage() {
           <IconPlusFill color="#FFFFFF" size={32} />
           <image
             src={PLUS_ICON_DATA_URI}
-            {...{ 'tint-color': '#FFFFFF' }}
-            style={{ width: '32px', height: '32px' }}
+            {...{ "tint-color": "#FFFFFF" }}
+            style={{ width: "32px", height: "32px" }}
           />
-          <text style={{ fontSize: '12px', color: $color.fg.neutralInverted }}>
+          <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
             좌: 컴포넌트 / 우: data URI
           </text>
         </BrandBg>
       </view>
 
       {/* POC A */}
-      <view style={{ marginBottom: '16px' }}>
+      <view style={{ marginBottom: "16px" }}>
         <SectionHeader
           title="POC A — attribute 에 var() 직접 주입"
           desc='<image tint-color="var(--seed-color-palette-static-white)" /> — 흰 아이콘이면 Lynx attribute parser 가 CSS var 해석.'
@@ -307,14 +307,14 @@ export function IconColorPOCPage() {
             color prop 에 CSS var 스트링을 그대로 넘기면 POC A 와 동치.
           */}
           <IconPlusFill color="var(--seed-color-palette-static-white)" size={32} />
-          <text style={{ fontSize: '12px', color: $color.fg.neutralInverted }}>
+          <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
             ✅ 흰색 → var() 해석됨 / ❌ 검정 → 미해석
           </text>
         </BrandBg>
       </view>
 
       {/* POC B */}
-      <view style={{ marginBottom: '16px' }}>
+      <view style={{ marginBottom: "16px" }}>
         <SectionHeader
           title="POC B — CSS property 로서의 tint-color"
           desc=".poc-b-icon { tint-color: var(...) } — 흰 아이콘이면 Lynx 가 tint-color 를 CSS property 로도 지원."
@@ -325,14 +325,14 @@ export function IconColorPOCPage() {
            * className 을 전달하므로 CSS 쪽에서 tint-color 를 지정하면 적용 여부 확인 가능.
            */}
           <IconPlusFill className="poc-b-icon" size={32} />
-          <text style={{ fontSize: '12px', color: $color.fg.neutralInverted }}>
+          <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
             ✅ 흰색 → CSS tint-color 지원 / ❌ 검정 → 미지원
           </text>
         </BrandBg>
       </view>
 
       {/* POC C */}
-      <view style={{ marginBottom: '16px' }}>
+      <view style={{ marginBottom: "16px" }}>
         <SectionHeader
           title="POC C — main-thread sync 훅 + raw <image> + variant toggle"
           desc="버튼 탭으로 variant 토글. tint-color 가 따라 바뀌는지 + 초기 마운트 flash 체감."
@@ -341,7 +341,7 @@ export function IconColorPOCPage() {
       </view>
 
       {/* POC D */}
-      <view style={{ marginBottom: '16px' }}>
+      <view style={{ marginBottom: "16px" }}>
         <SectionHeader
           title="POC D — IconPlusFill(1.9.0) + external ref + slot className"
           desc="실제 ActionButton.PrefixIcon 패턴. color prop 생략, className 으로 recipe color 주입, ref 로 main-thread tint-color sync."
