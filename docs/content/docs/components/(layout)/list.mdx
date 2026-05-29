@@ -124,6 +124,16 @@ List Item은 기본으로 클릭 동작을 제공하며 여러개의 상호작�
 
 **List Item은 표현 공간에 제약이 있기 때문에 복잡하게 상호작용 요소를 조합하지 마세요.**
 
+### Switch/Checkmark/Radiomark 사용 시
+
+List Item의 prefix나 suffix에 [Switchmark](/docs/components/switch#switchmark), [Checkmark](/docs/components/checkbox#checkmark), [Radiomark](/docs/components/radio#radio-mark)를 넣을 때는 List Item 전체를 하나의 클릭 영역으로 사용하여 행 어디를 눌러도 동작이 일어나도록 합니다. 이 경우 prefix/suffix에 [Action Button](/docs/components/action-button)과 같이 자체 클릭 영역이 필요한 요소를 함께 넣지 않습니다.
+
+<FigmaImage id="1383:4565" alt="List Item suffix에 Switchmark를 배치하고 행 전체를 클릭 영역으로 사용한 예시" />
+
+약관과 같이 별도 화면에서 확인해야 하는 정보가 있는 경우, 레이블 텍스트 안에 하이퍼링크를 사용하되, 행 동작으로 탭이 전파되지 않도록 처리합니다.
+
+<FigmaImage id="1597:3391" alt="약관 동의 Bottom Sheet에서 각 약관 항목의 '보기' 하이퍼링크로 약관을 별도 화면에서 확인하도록 하고, 체크박스 행 동작과 분리한 예시" />
+
 ### Concentric Radius
 
 <FigmaImage id="2:137919" alt="Concentric Radius 예시" />
