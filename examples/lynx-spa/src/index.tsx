@@ -22,12 +22,7 @@ initPerformanceMonitor();
 
 function Root() {
   return (
-    <page
-      className={getSeedClassName({ colorMode: "system" })}
-      style={{
-        backgroundColor: "var(--seed-color-bg-layer-default)",
-      }}
-    >
+    <page className={`${getSeedClassName({ colorMode: "system" })} bg-bg-layer-default`}>
       <App />
     </page>
   );

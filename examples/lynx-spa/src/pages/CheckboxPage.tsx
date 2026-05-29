@@ -82,14 +82,7 @@ function CheckboxExamples() {
   return (
     <CatalogExamples title="Checkbox" gap="12px">
       <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <Checkmark />
         <Checkmark defaultChecked />
         <Checkmark variant="ghost" defaultChecked />

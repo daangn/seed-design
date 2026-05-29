@@ -77,14 +77,7 @@ function ActionButtonExamples() {
   return (
     <CatalogExamples title="ActionButton" gap="12px">
       <CatalogSectionTitle>Variants</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-        }}
-      >
+      <view className="flex flex-row flex-wrap gap-x2">
         <ActionButton variant="brandSolid">Brand Solid</ActionButton>
         <ActionButton variant="neutralSolid">Neutral Solid</ActionButton>
         <ActionButton variant="neutralWeak">Neutral Weak</ActionButton>
@@ -95,15 +88,7 @@ function ActionButtonExamples() {
       </view>
 
       <CatalogSectionTitle>Sizes</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row flex-wrap gap-x2 items-center">
         <ActionButton size="xsmall">XSmall</ActionButton>
         <ActionButton size="small">Small</ActionButton>
         <ActionButton size="medium">Medium</ActionButton>
@@ -111,14 +96,7 @@ function ActionButtonExamples() {
       </view>
 
       <CatalogSectionTitle>Disabled</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-        }}
-      >
+      <view className="flex flex-row flex-wrap gap-x2">
         <ActionButton variant="brandSolid" disabled>
           Disabled
         </ActionButton>
@@ -128,14 +106,7 @@ function ActionButtonExamples() {
       </view>
 
       <CatalogSectionTitle>Prefix / Suffix Icon</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-        }}
-      >
+      <view className="flex flex-row flex-wrap gap-x2">
         <ActionButton variant="brandSolid">
           <PrefixIcon icon={<IconPlusFill />} />
           Prefix Icon
@@ -156,15 +127,7 @@ function ActionButtonExamples() {
       </view>
 
       <CatalogSectionTitle>Loading</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row flex-wrap gap-x2 items-center">
         <ActionButton variant="brandSolid" loading>
           Loading
         </ActionButton>
@@ -182,15 +145,7 @@ function ActionButtonExamples() {
       </view>
 
       <CatalogSectionTitle>Icon Only</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "8px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row flex-wrap gap-x2 items-center">
         <ActionButton layout="iconOnly" variant="brandSolid" aria-label="Add">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>

@@ -1,12 +1,10 @@
 import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
 import { runOnMainThread, useEffect, useMainThreadRef, useState } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
-import { vars } from "@seed-design/lynx-css/vars";
+import clsx from "clsx";
 import type { RefObject } from "react";
 
 import "../styles/icon-color-poc.css";
-
-const { $color } = vars;
 
 /**
  * 간단한 검정 plus 아이콘을 data URI로 렌더 (raw <image> POC용).
@@ -16,27 +14,17 @@ const PLUS_ICON_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#000000"><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>',
 )}`;
 
+const VARIANT_BG_CLASS = {
+  brandSolid: "bg-bg-brand-solid",
+  criticalSolid: "bg-bg-critical-solid",
+  neutralWeak: "bg-bg-neutral-weak",
+} as const;
+
 function SectionHeader({ title, desc }: { title: string; desc: string }) {
   return (
-    <view style={{ marginBottom: "8px" }}>
-      <text
-        style={{
-          fontSize: "14px",
-          fontWeight: "bold",
-          color: $color.fg.neutral,
-        }}
-      >
-        {title}
-      </text>
-      <text
-        style={{
-          fontSize: "12px",
-          color: $color.fg.neutralSubtle,
-          marginTop: "4px",
-        }}
-      >
-        {desc}
-      </text>
+    <view className="mb-x2">
+      <text className="t4-bold text-fg-neutral">{title}</text>
+      <text className="t2-regular text-fg-neutral-subtle mt-x1">{desc}</text>
     </view>
   );
 }
@@ -46,17 +34,7 @@ function SectionHeader({ title, desc }: { title: string; desc: string }) {
  */
 function BrandBg({ children }: { children: React.ReactNode }) {
   return (
-    <view
-      style={{
-        padding: "16px",
-        backgroundColor: $color.bg.brandSolid,
-        borderRadius: "8px",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: "16px",
-      }}
-    >
+    <view className="p-x4 bg-bg-brand-solid rounded-r2 flex flex-row items-center gap-x4">
       {children}
     </view>
   );
@@ -135,20 +113,10 @@ function POCDIconComponent() {
   return (
     <view>
       <view
-        style={{
-          padding: "16px",
-          backgroundColor:
-            variant === "brandSolid"
-              ? $color.bg.brandSolid
-              : variant === "criticalSolid"
-                ? $color.bg.criticalSolid
-                : $color.bg.neutralWeak,
-          borderRadius: "8px",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "16px",
-        }}
+        className={clsx(
+          "p-x4 rounded-r2 flex flex-row items-center gap-x4",
+          VARIANT_BG_CLASS[variant],
+        )}
       >
         {/*
          * IconPlusFill 1.9.0: forwardRef + className + color optional.
@@ -159,24 +127,14 @@ function POCDIconComponent() {
           className={iconClass}
           size={32}
         />
-        <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
-          current: {variant}
-        </text>
+        <text className="t2-regular text-fg-neutral-inverted">current: {variant}</text>
       </view>
 
       <view
         bindtap={next}
-        style={{
-          marginTop: "8px",
-          padding: "10px 14px",
-          backgroundColor: $color.bg.neutralWeak,
-          borderRadius: "6px",
-          alignSelf: "flex-start",
-        }}
+        className="mt-x2 py-x2_5 px-x3_5 bg-bg-neutral-weak rounded-r1_5 self-start"
       >
-        <text style={{ fontSize: "13px", color: $color.fg.neutral }}>
-          Tap to cycle variant (POC D)
-        </text>
+        <text className="t3-regular text-fg-neutral">Tap to cycle variant (POC D)</text>
       </view>
     </view>
   );
@@ -197,20 +155,10 @@ function POCCVariantToggle() {
   return (
     <view>
       <view
-        style={{
-          padding: "16px",
-          backgroundColor:
-            variant === "brandSolid"
-              ? $color.bg.brandSolid
-              : variant === "criticalSolid"
-                ? $color.bg.criticalSolid
-                : $color.bg.neutralWeak,
-          borderRadius: "8px",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "16px",
-        }}
+        className={clsx(
+          "p-x4 rounded-r2 flex flex-row items-center gap-x4",
+          VARIANT_BG_CLASS[variant],
+        )}
       >
         {/*
          * POC C: IconPlusFill(1.9.0) + ref + className.
@@ -222,24 +170,14 @@ function POCCVariantToggle() {
           className={iconClass}
           size={32}
         />
-        <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
-          current: {variant}
-        </text>
+        <text className="t2-regular text-fg-neutral-inverted">current: {variant}</text>
       </view>
 
       <view
         bindtap={next}
-        style={{
-          marginTop: "8px",
-          padding: "10px 14px",
-          backgroundColor: $color.bg.neutralWeak,
-          borderRadius: "6px",
-          alignSelf: "flex-start",
-        }}
+        className="mt-x2 py-x2_5 px-x3_5 bg-bg-neutral-weak rounded-r1_5 self-start"
       >
-        <text style={{ fontSize: "13px", color: $color.fg.neutral }}>
-          Tap to cycle variant (POC C)
-        </text>
+        <text className="t3-regular text-fg-neutral">Tap to cycle variant (POC C)</text>
       </view>
     </view>
   );
@@ -251,52 +189,29 @@ function POCCVariantToggle() {
 
 export function IconColorPOCPage() {
   return (
-    <scroll-view
-      scroll-y
-      style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}
-    >
-      <text
-        style={{
-          fontSize: "20px",
-          fontWeight: "bold",
-          color: $color.fg.neutral,
-        }}
-      >
-        Icon Color POC
-      </text>
+    <scroll-view scroll-y className="flex flex-col gap-x4 flex-1">
+      <text className="t7-bold text-fg-neutral">Icon Color POC</text>
 
-      <text
-        style={{
-          fontSize: "12px",
-          color: $color.fg.neutralSubtle,
-          marginBottom: "8px",
-        }}
-      >
+      <text className="t2-regular text-fg-neutral-subtle mb-x2">
         아이콘 tint-color 적용 방식 4가지 실측. 브랜드 컬러 배경 위에서 plus 아이콘이 흰색(또는
         의도한 색)으로 보이면 해당 방식이 동작하는 것.
       </text>
 
       {/* Baseline — hex color 고정 sanity check */}
-      <view style={{ marginBottom: "16px" }}>
+      <view className="mb-x4">
         <SectionHeader
           title="Baseline — hex color 고정 (컴포넌트 + raw image)"
           desc="아이콘이 렌더되는지 자체부터 좌표화. 왼쪽: IconPlusFill with hex color. 오른쪽: raw <image> + data URI + hex tint. 둘 중 어느 쪽이 보이는지."
         />
         <BrandBg>
           <IconPlusFill color="#FFFFFF" size={32} />
-          <image
-            src={PLUS_ICON_DATA_URI}
-            {...{ "tint-color": "#FFFFFF" }}
-            style={{ width: "32px", height: "32px" }}
-          />
-          <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
-            좌: 컴포넌트 / 우: data URI
-          </text>
+          <image src={PLUS_ICON_DATA_URI} {...{ "tint-color": "#FFFFFF" }} className="w-x8 h-x8" />
+          <text className="t2-regular text-fg-neutral-inverted">좌: 컴포넌트 / 우: data URI</text>
         </BrandBg>
       </view>
 
       {/* POC A */}
-      <view style={{ marginBottom: "16px" }}>
+      <view className="mb-x4">
         <SectionHeader
           title="POC A — attribute 에 var() 직접 주입"
           desc='<image tint-color="var(--seed-color-palette-static-white)" /> — 흰 아이콘이면 Lynx attribute parser 가 CSS var 해석.'
@@ -307,14 +222,14 @@ export function IconColorPOCPage() {
             color prop 에 CSS var 스트링을 그대로 넘기면 POC A 와 동치.
           */}
           <IconPlusFill color="var(--seed-color-palette-static-white)" size={32} />
-          <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
+          <text className="t2-regular text-fg-neutral-inverted">
             ✅ 흰색 → var() 해석됨 / ❌ 검정 → 미해석
           </text>
         </BrandBg>
       </view>
 
       {/* POC B */}
-      <view style={{ marginBottom: "16px" }}>
+      <view className="mb-x4">
         <SectionHeader
           title="POC B — CSS property 로서의 tint-color"
           desc=".poc-b-icon { tint-color: var(...) } — 흰 아이콘이면 Lynx 가 tint-color 를 CSS property 로도 지원."
@@ -325,14 +240,14 @@ export function IconColorPOCPage() {
            * className 을 전달하므로 CSS 쪽에서 tint-color 를 지정하면 적용 여부 확인 가능.
            */}
           <IconPlusFill className="poc-b-icon" size={32} />
-          <text style={{ fontSize: "12px", color: $color.fg.neutralInverted }}>
+          <text className="t2-regular text-fg-neutral-inverted">
             ✅ 흰색 → CSS tint-color 지원 / ❌ 검정 → 미지원
           </text>
         </BrandBg>
       </view>
 
       {/* POC C */}
-      <view style={{ marginBottom: "16px" }}>
+      <view className="mb-x4">
         <SectionHeader
           title="POC C — main-thread sync 훅 + raw <image> + variant toggle"
           desc="버튼 탭으로 variant 토글. tint-color 가 따라 바뀌는지 + 초기 마운트 flash 체감."
@@ -341,7 +256,7 @@ export function IconColorPOCPage() {
       </view>
 
       {/* POC D */}
-      <view style={{ marginBottom: "16px" }}>
+      <view className="mb-x4">
         <SectionHeader
           title="POC D — IconPlusFill(1.9.0) + external ref + slot className"
           desc="실제 ActionButton.PrefixIcon 패턴. color prop 생략, className 으로 recipe color 주입, ref 로 main-thread tint-color sync."

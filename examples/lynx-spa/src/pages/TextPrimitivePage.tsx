@@ -20,7 +20,7 @@ const STATIC_TEXT_STYLES = [
 
 function SectionTitle({ children }: { children: string }) {
   return (
-    <Text textStyle="t6Bold" color="fg.neutral" style={{ marginTop: "22px" }}>
+    <Text textStyle="t6Bold" color="fg.neutral" className="mt-[22px]">
       {children}
     </Text>
   );
@@ -86,7 +86,7 @@ export function TextPrimitivePage() {
         <VStack gap="x2">
           {(["left", "center", "right"] as const).map((align) => (
             <Box key={align} bg="bg.layerDefault" borderRadius="r2" p="x2">
-              <Text textStyle="t3Bold" color="fg.neutral" align={align} style={{ width: "100%" }}>
+              <Text textStyle="t3Bold" color="fg.neutral" align={align} className="w-full">
                 {`align ${align}`}
               </Text>
             </Box>

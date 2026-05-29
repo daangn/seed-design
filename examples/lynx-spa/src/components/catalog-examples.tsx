@@ -1,7 +1,10 @@
 import type { ReactNode } from "@lynx-js/react";
-import { vars } from "@seed-design/lynx-css/vars";
+import clsx from "clsx";
 
-const { $color } = vars;
+const GAP_CLASS_NAMES = {
+  "12px": "gap-x3",
+  "16px": "gap-x4",
+} as const;
 
 export function CatalogExamples({
   title,
@@ -12,39 +15,21 @@ export function CatalogExamples({
   gap?: string;
   children: ReactNode;
 }) {
+  const gapClassName =
+    gap == null ? undefined : GAP_CLASS_NAMES[gap as keyof typeof GAP_CLASS_NAMES];
+
   return (
-    <scroll-view
-      scroll-y
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        padding: "16px",
-        ...(gap == null ? {} : { gap }),
-      }}
-    >
-      <text style={{ fontSize: "20px", fontWeight: "bold" }}>{title}</text>
+    <scroll-view scroll-y className={clsx("flex flex-col flex-1 p-x4", gapClassName)}>
+      <text className="t7-bold">{title}</text>
       {children}
     </scroll-view>
   );
 }
 
 export function CatalogSectionTitle({ children }: { children: string }) {
-  return <text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "8px" }}>{children}</text>;
+  return <text className="t5-bold mt-x2">{children}</text>;
 }
 
 export function CatalogSectionHeader({ children }: { children: string }) {
-  return (
-    <text
-      style={{
-        fontSize: "14px",
-        fontWeight: "bold",
-        marginTop: "16px",
-        marginBottom: "8px",
-        color: $color.fg.neutralSubtle,
-      }}
-    >
-      {children}
-    </text>
-  );
+  return <text className="t4-bold mt-x4 mb-x2 text-fg-neutral-subtle">{children}</text>;
 }

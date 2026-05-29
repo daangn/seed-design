@@ -1,43 +1,20 @@
-import { vars } from "@seed-design/lynx-css/vars";
-
 import type { Page } from "../App.jsx";
-
-const { $color } = vars;
 
 function ListItem({ title, onTap }: { title: string; onTap: () => void }) {
   return (
     <view
       bindtap={onTap}
-      style={{
-        padding: "14px 12px",
-        borderBottomWidth: "1px",
-        borderBottomColor: $color.stroke.neutralMuted,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
+      className="py-x3_5 px-x3 border-b border-stroke-neutral-muted flex flex-row justify-between items-center"
     >
-      <text style={{ fontSize: "16px", color: $color.fg.neutral }}>{title}</text>
-      <text style={{ fontSize: "16px", color: $color.fg.neutralSubtle }}>{"→"}</text>
+      <text className="t5-regular text-fg-neutral">{title}</text>
+      <text className="t5-regular text-fg-neutral-subtle">{"→"}</text>
     </view>
   );
 }
 
 function SectionHeader({ children }: { children: string }) {
   return (
-    <text
-      style={{
-        fontSize: "13px",
-        fontWeight: "bold",
-        color: $color.fg.neutralSubtle,
-        marginTop: "16px",
-        marginBottom: "4px",
-        paddingLeft: "12px",
-        textTransform: "uppercase",
-        letterSpacing: "0.5px",
-      }}
-    >
+    <text className="t3-bold text-fg-neutral-subtle mt-x4 mb-x1 pl-x3 uppercase tracking-[0.5px]">
       {children}
     </text>
   );
@@ -45,17 +22,8 @@ function SectionHeader({ children }: { children: string }) {
 
 export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
   return (
-    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-      <text
-        style={{
-          fontSize: "22px",
-          fontWeight: "bold",
-          marginBottom: "16px",
-          color: $color.fg.brand,
-        }}
-      >
-        SEED Design Lynx Catalog
-      </text>
+    <scroll-view scroll-y className="flex flex-col flex-1">
+      <text className="t8-bold mb-x4 text-fg-brand">SEED Design Lynx Catalog</text>
 
       <SectionHeader>Getting Started</SectionHeader>
       <ListItem title="Theming" onTap={() => navigate("theming")} />

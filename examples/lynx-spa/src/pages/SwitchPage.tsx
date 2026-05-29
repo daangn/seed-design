@@ -63,33 +63,19 @@ function SwitchExamples() {
   return (
     <CatalogExamples title="Switch" gap="12px">
       <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <Switchmark />
         <Switchmark defaultChecked />
       </view>
 
       <CatalogSectionTitle>With Label</CatalogSectionTitle>
-      <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <view className="flex flex-col gap-x2">
         <Switch label="알림 받기" defaultChecked />
         <Switch label="자동 로그인" />
       </view>
 
       <CatalogSectionTitle>Controlled</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <Switch
           label={controlled ? "On" : "Off"}
           checked={controlled}
@@ -98,47 +84,26 @@ function SwitchExamples() {
       </view>
 
       <CatalogSectionTitle>Sizes</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <Switchmark size="16" defaultChecked />
         <Switchmark size="24" defaultChecked />
         <Switchmark size="32" defaultChecked />
       </view>
 
       <CatalogSectionTitle>Tones</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <Switch label="Brand" tone="brand" defaultChecked />
         <Switch label="Neutral" tone="neutral" defaultChecked />
       </view>
 
       <CatalogSectionTitle>Disabled</CatalogSectionTitle>
-      <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <view className="flex flex-col gap-x2">
         <Switch label="Disabled Off" disabled />
         <Switch label="Disabled On" disabled defaultChecked />
       </view>
 
       <CatalogSectionTitle>Compound: Control override</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <SwitchRoot tone="brand" defaultChecked>
           <SwitchControl tone="neutral">
             <SwitchThumb />

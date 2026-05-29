@@ -1,31 +1,16 @@
-import { vars } from "@seed-design/lynx-css/vars";
-
 import "../styles/nested-vars-test.css";
-
-const { $color } = vars;
 
 /**
  * Lynx 3.6+ Nested CSS Variables 테스트 페이지
  *
  * 검증 항목:
  * A. CSS 파일에서 nested var() — page 토큰 중첩 참조가 런타임에 resolve되는지
- * B. style={{ '--x': value }} — 객체 형태로 CSS variable 설정이 동작하는지
+ * B. inline style object — 객체 형태로 CSS variable 설정이 동작하는지
  * C. 직접 값 — 비교 기준
  */
 
 function SectionTitle({ children }: { children: string }) {
-  return (
-    <text
-      style={{
-        fontSize: "16px",
-        fontWeight: "bold",
-        marginTop: "16px",
-        marginBottom: "8px",
-      }}
-    >
-      {children}
-    </text>
-  );
+  return <text className="t5-bold mt-x4 mb-x2 text-fg-neutral">{children}</text>;
 }
 
 function TestResult({
@@ -38,15 +23,8 @@ function TestResult({
   children: React.ReactNode;
 }) {
   return (
-    <view
-      style={{
-        padding: "8px",
-        marginBottom: "6px",
-        borderBottomWidth: "1px",
-        borderBottomColor: $color.stroke.neutralMuted,
-      }}
-    >
-      <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle, marginBottom: "4px" }}>
+    <view className="p-x2 mb-x1_5 border-b border-stroke-neutral-muted">
+      <text className="t3-regular text-fg-neutral-subtle mb-x1">
         {label} (기대: {expected})
       </text>
       {children}
@@ -56,11 +34,9 @@ function TestResult({
 
 export function NestedVarsTestPage() {
   return (
-    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "8px", flex: 1 }}>
-      <text style={{ fontSize: "20px", fontWeight: "bold" }}>Nested CSS Variables Test</text>
-      <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle }}>
-        Lynx 3.6+ nested var() 지원 검증
-      </text>
+    <scroll-view scroll-y className="flex flex-col gap-x2 flex-1">
+      <text className="t7-bold text-fg-neutral">Nested CSS Variables Test</text>
+      <text className="t3-regular text-fg-neutral-subtle">Lynx 3.6+ nested var() 지원 검증</text>
 
       {/* ── 테스트 A: CSS 파일의 nested var() ── */}
       <SectionTitle>A. CSS nested var() (클래스 기반)</SectionTitle>
@@ -92,7 +68,7 @@ export function NestedVarsTestPage() {
         label="calc() 내 var(): --test-spacing-lg = calc(var(--test-spacing-base) * 2)"
         expected="16px padding"
       >
-        <view style={{ backgroundColor: $color.bg.neutralWeak, borderRadius: "4px" }}>
+        <view className="bg-bg-neutral-weak rounded-r1">
           <text className="nested-test-brand">
             이 텍스트 주변에 16px padding이 있으면 calc(var()) 동작
           </text>
@@ -100,9 +76,9 @@ export function NestedVarsTestPage() {
       </TestResult>
 
       {/* ── 테스트 B: style 객체로 CSS variable 설정 ── */}
-      <SectionTitle>{"B. style={{ '--x': value }} 객체 형태"}</SectionTitle>
+      <SectionTitle>B. inline style object 객체 형태</SectionTitle>
 
-      <TestResult label="style={{ '--test-inline-color': '#0066ff' }}" expected="파란색 텍스트">
+      <TestResult label="inline object --test-inline-color: #0066ff" expected="파란색 텍스트">
         <view style={{ "--test-inline-color": "#0066ff" } as Record<string, string>}>
           <text style={{ color: "var(--test-inline-color)" }}>
             이 텍스트가 파란색이면 style 객체로 CSS var 설정 동작
@@ -110,10 +86,7 @@ export function NestedVarsTestPage() {
         </view>
       </TestResult>
 
-      <TestResult
-        label="style={{ '--size': '20px' }} + font-size: var(--size)"
-        expected="20px 폰트"
-      >
+      <TestResult label="inline object --size: 20px + font-size: var(--size)" expected="20px 폰트">
         <view style={{ "--test-inline-size": "20px" } as Record<string, string>}>
           <text style={{ fontSize: "var(--test-inline-size)" }}>
             이 텍스트가 20px이면 style 객체 var() 참조 동작

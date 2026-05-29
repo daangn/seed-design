@@ -55,10 +55,7 @@ function renderBottomSheet(
       onOpenChange={(next) => setValue("open", next)}
       snapPoints={SNAP_POINTS_FIT_80}
     >
-      <BottomSheetTrigger
-        style={{ alignSelf: "flex-start" }}
-        bindtap={() => setValue("open", true)}
-      >
+      <BottomSheetTrigger className="self-start" bindtap={() => setValue("open", true)}>
         <ActionButton variant="brandSolid">Open sheet</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent
@@ -85,7 +82,7 @@ function BottomSheetExamples() {
     <CatalogExamples title="BottomSheet" gap="16px">
       <CatalogSectionTitle>Uncontrolled (Trigger 기반)</CatalogSectionTitle>
       <BottomSheetRoot snapPoints={SNAP_POINTS_FIT_80}>
-        <BottomSheetTrigger style={{ alignSelf: "flex-start" }}>
+        <BottomSheetTrigger className="self-start">
           <ActionButton variant="brandSolid">Trigger 탭</ActionButton>
         </BottomSheetTrigger>
         <BottomSheetContent
@@ -103,14 +100,7 @@ function BottomSheetExamples() {
       </BottomSheetRoot>
 
       <CatalogSectionTitle>Imperative ref</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "8px",
-          flexWrap: "wrap",
-        }}
-      >
+      <view className="flex flex-row gap-x2 flex-wrap">
         <ActionButton bindtap={() => uncontrolledRef.current?.open()}>open()</ActionButton>
         <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(0)}>snapTo(0)</ActionButton>
         <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(1)}>snapTo(1)</ActionButton>
@@ -125,7 +115,7 @@ function BottomSheetExamples() {
       </BottomSheetRoot>
 
       <CatalogSectionTitle>Controlled</CatalogSectionTitle>
-      <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+      <view className="flex flex-row gap-x2">
         <ActionButton bindtap={() => setControlledOpen(true)}>open=true</ActionButton>
         <ActionButton bindtap={() => setControlledOpen(false)}>open=false</ActionButton>
       </view>
