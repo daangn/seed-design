@@ -1,21 +1,16 @@
-import { type ReactNode, useState } from '@lynx-js/react';
+import { type ReactNode, useState } from "@lynx-js/react";
 
 import {
   getPreviewStateDefaultValues,
-  type SetVariantValue,
   type PreviewState,
+  type SetVariantValue,
   type VariantAxis,
   type VariantCatalogValues,
   VariantPlayground,
   type VariantPlaygroundProps,
   type VariantValues,
-} from './variant-playground.jsx';
-import { VariantTable } from './variant-table.jsx';
-
-export {
-  definePreviewStates,
-  defineVariantAxes,
-} from './variant-playground.jsx';
+} from "./variant-playground.jsx";
+import { VariantTable } from "./variant-table.jsx";
 
 export type {
   PreviewState,
@@ -24,9 +19,13 @@ export type {
   VariantAxis,
   VariantCatalogValues,
   VariantValues,
-} from './variant-playground.jsx';
+} from "./variant-playground.jsx";
+export {
+  definePreviewStates,
+  defineVariantAxes,
+} from "./variant-playground.jsx";
 
-type Mode = 'playground' | 'table' | 'examples';
+type Mode = "playground" | "table" | "examples";
 
 export interface VariantCatalogProps<
   Variants extends readonly VariantAxis[] = readonly VariantAxis[],
@@ -49,31 +48,29 @@ export function VariantCatalog<
   const PreviewStates extends readonly PreviewState[] = readonly [],
 >(props: VariantCatalogProps<Variants, PreviewStates>) {
   const { children, variants, previewStates, examples } = props;
-  const [mode, setMode] = useState<Mode>('playground');
+  const [mode, setMode] = useState<Mode>("playground");
   const tabs: Mode[] =
-    examples == null
-      ? ['playground', 'table']
-      : ['playground', 'table', 'examples'];
+    examples == null ? ["playground", "table"] : ["playground", "table", "examples"];
 
   return (
     <view
       style={{
         flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         minHeight: 0,
       }}
     >
       <view
         style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'row',
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
           flexShrink: 0,
-          backgroundColor: '#fafafa',
-          borderBottomWidth: '1px',
-          borderBottomStyle: 'solid',
-          borderBottomColor: '#e5e5e5',
+          backgroundColor: "#fafafa",
+          borderBottomWidth: "1px",
+          borderBottomStyle: "solid",
+          borderBottomColor: "#e5e5e5",
         }}
       >
         {tabs.map((tab) => (
@@ -86,14 +83,14 @@ export function VariantCatalog<
           />
         ))}
       </view>
-      {mode === 'playground' ? (
+      {mode === "playground" ? (
         <VariantPlayground<Variants, PreviewStates>
           variants={variants}
           previewStates={previewStates}
         >
           {children}
         </VariantPlayground>
-      ) : mode === 'table' ? (
+      ) : mode === "table" ? (
         <VariantTable<Variants> variants={variants}>
           {(values) => renderForTable(children, values, previewStates)}
         </VariantTable>
@@ -109,28 +106,23 @@ function renderForTable<
   Variants extends readonly VariantAxis[],
   PreviewStates extends readonly PreviewState[],
 >(
-  children: VariantPlaygroundProps<Variants, PreviewStates>['children'],
+  children: VariantPlaygroundProps<Variants, PreviewStates>["children"],
   values: VariantValues,
-  previewStates: VariantPlaygroundProps<
-    Variants,
-    PreviewStates
-  >['previewStates'],
+  previewStates: VariantPlaygroundProps<Variants, PreviewStates>["previewStates"],
 ): ReactNode {
   return children(
     {
       ...getPreviewStateDefaultValues(previewStates),
       ...values,
     } as VariantCatalogValues<Variants, PreviewStates>,
-    noopSetValue as SetVariantValue<
-      VariantCatalogValues<Variants, PreviewStates>
-    >,
+    noopSetValue as SetVariantValue<VariantCatalogValues<Variants, PreviewStates>>,
   );
 }
 
 function toTabLabel(mode: Mode) {
-  if (mode === 'playground') return 'Playground';
-  if (mode === 'table') return 'Table';
-  return 'Examples';
+  if (mode === "playground") return "Playground";
+  if (mode === "table") return "Table";
+  return "Examples";
 }
 
 function TabButton({
@@ -149,23 +141,23 @@ function TabButton({
       bindtap={onTap}
       style={{
         width,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: '14px',
-        paddingBottom: '14px',
-        borderBottomWidth: '2px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: active ? '#222' : 'transparent',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingTop: "14px",
+        paddingBottom: "14px",
+        borderBottomWidth: "2px",
+        borderBottomStyle: "solid",
+        borderBottomColor: active ? "#222" : "transparent",
       }}
     >
       <text
         style={{
-          fontSize: '14px',
-          lineHeight: '20px',
-          fontWeight: active ? 'bold' : 'normal',
-          color: active ? '#222222' : '#888888',
+          fontSize: "14px",
+          lineHeight: "20px",
+          fontWeight: active ? "bold" : "normal",
+          color: active ? "#222222" : "#888888",
         }}
       >
         {label}

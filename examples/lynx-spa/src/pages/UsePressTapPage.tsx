@@ -1,16 +1,10 @@
 import { useState } from "@lynx-js/react";
-import { usePressTap } from "@seed-design/lynx-react";
 import { vars } from "@seed-design/lynx-css/vars";
+import { usePressTap } from "@seed-design/lynx-react";
 
 const { $color } = vars;
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
       <text style={{ fontSize: "16px", fontWeight: "bold" }}>{title}</text>
@@ -91,8 +85,7 @@ export function UsePressTapPage() {
       <Section title="Basic">
         <PressTapDemo label="Press me" />
         <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
-          touchstart 시 pressed=true, touchend/cancel 시 pressed=false. 탭 시
-          onTap 호출.
+          touchstart 시 pressed=true, touchend/cancel 시 pressed=false. 탭 시 onTap 호출.
         </text>
       </Section>
 
@@ -106,8 +99,7 @@ export function UsePressTapPage() {
       <Section title="With main-thread:bindtap">
         <PressTapDemo label="Main thread ready" withMainThread />
         <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
-          mainThreadOnTap 제공 시 `main-thread:bindtap` 반환 객체에 포함. 콘솔
-          로그 확인.
+          mainThreadOnTap 제공 시 `main-thread:bindtap` 반환 객체에 포함. 콘솔 로그 확인.
         </text>
       </Section>
     </scroll-view>

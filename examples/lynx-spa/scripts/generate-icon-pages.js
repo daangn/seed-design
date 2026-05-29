@@ -8,16 +8,16 @@
  * Usage: node scripts/generate-icon-pages.js
  */
 
-import { readdirSync, writeFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readdirSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
 
 function isDigit(char) {
-  return char >= '0' && char <= '9';
+  return char >= "0" && char <= "9";
 }
 
 function isUppercaseLetter(char) {
@@ -39,8 +39,7 @@ function compareIconNames(a, b) {
       while (isDigit(a[aEnd])) aEnd += 1;
       while (isDigit(b[bEnd])) bEnd += 1;
 
-      const numberDiff =
-        Number(a.slice(aIndex, aEnd)) - Number(b.slice(bIndex, bEnd));
+      const numberDiff = Number(a.slice(aIndex, aEnd)) - Number(b.slice(bIndex, bEnd));
       if (numberDiff !== 0) return numberDiff;
 
       aIndex = aEnd;
@@ -74,30 +73,25 @@ function getIconNames(packageName) {
   const entryPath = require.resolve(packageName);
   const libDir = dirname(entryPath);
   return readdirSync(libDir)
-    .filter(
-      (f) => f.endsWith('.js') && !f.endsWith('.cjs') && f.startsWith('Icon'),
-    )
-    .map((f) => f.replace('.js', ''))
+    .filter((f) => f.endsWith(".js") && !f.endsWith(".cjs") && f.startsWith("Icon"))
+    .map((f) => f.replace(".js", ""))
     .sort(compareIconNames);
 }
 
 function generateMonochromePage(iconNames) {
   const imports = iconNames
-    .map(
-      (name) =>
-        `import ${name} from '@karrotmarket/lynx-monochrome-icon/${name}';`,
-    )
-    .join('\n');
+    .map((name) => `import ${name} from '@karrotmarket/lynx-monochrome-icon/${name}';`)
+    .join("\n");
 
   const entries = iconNames
     .map((name) => {
-      const label = name.replace(/^Icon/, '');
+      const label = name.replace(/^Icon/, "");
       return `  {
     component: ${name},
     name: '${label}',
   },`;
     })
-    .join('\n');
+    .join("\n");
 
   return `${imports}
 
@@ -128,21 +122,18 @@ export function FoundationMonochromeIconPage() {
 
 function generateMulticolorPage(iconNames) {
   const imports = iconNames
-    .map(
-      (name) =>
-        `import ${name} from '@karrotmarket/lynx-multicolor-icon/${name}';`,
-    )
-    .join('\n');
+    .map((name) => `import ${name} from '@karrotmarket/lynx-multicolor-icon/${name}';`)
+    .join("\n");
 
   const entries = iconNames
     .map((name) => {
-      const label = name.replace(/^Icon/, '');
+      const label = name.replace(/^Icon/, "");
       return `  {
     component: ${name},
     name: '${label}',
   },`;
     })
-    .join('\n');
+    .join("\n");
 
   return `${imports}
 
@@ -167,23 +158,19 @@ export function FoundationMulticolorIconPage() {
 `;
 }
 
-const monoIcons = getIconNames('@karrotmarket/lynx-monochrome-icon');
-const multiIcons = getIconNames('@karrotmarket/lynx-multicolor-icon');
+const monoIcons = getIconNames("@karrotmarket/lynx-monochrome-icon");
+const multiIcons = getIconNames("@karrotmarket/lynx-multicolor-icon");
 
-const outDir = resolve(__dirname, '../src/pages');
+const outDir = resolve(__dirname, "../src/pages");
 
 writeFileSync(
-  resolve(outDir, 'FoundationMonochromeIconPage.tsx'),
+  resolve(outDir, "FoundationMonochromeIconPage.tsx"),
   generateMonochromePage(monoIcons),
 );
-console.log(
-  `Generated FoundationMonochromeIconPage.tsx (${monoIcons.length} icons)`,
-);
+console.log(`Generated FoundationMonochromeIconPage.tsx (${monoIcons.length} icons)`);
 
 writeFileSync(
-  resolve(outDir, 'FoundationMulticolorIconPage.tsx'),
+  resolve(outDir, "FoundationMulticolorIconPage.tsx"),
   generateMulticolorPage(multiIcons),
 );
-console.log(
-  `Generated FoundationMulticolorIconPage.tsx (${multiIcons.length} icons)`,
-);
+console.log(`Generated FoundationMulticolorIconPage.tsx (${multiIcons.length} icons)`);

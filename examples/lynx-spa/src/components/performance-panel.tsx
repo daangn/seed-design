@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from '@lynx-js/react';
-import { vars } from '@seed-design/lynx-css/vars';
+import { useEffect, useMemo, useState } from "@lynx-js/react";
+import { vars } from "@seed-design/lynx-css/vars";
 
 type PipelineMetric = {
   name: string;
@@ -30,19 +30,14 @@ type PerformanceObserver = {
 
 type LynxPerformance = {
   addTimingListener?: (listener: TimingListener) => void;
-  createObserver?: (
-    callback: (entry: PipelineEntry) => void,
-  ) => PerformanceObserver;
-  profileMark?: (
-    traceName: string,
-    option?: { args?: Record<string, string> },
-  ) => void;
+  createObserver?: (callback: (entry: PipelineEntry) => void) => PerformanceObserver;
+  profileMark?: (traceName: string, option?: { args?: Record<string, string> }) => void;
   removeTimingListener?: (listener: TimingListener) => void;
 };
 
 type Measurement = {
   id?: string;
-  source?: 'observer' | 'timing';
+  source?: "observer" | "timing";
   total?: number;
   render?: number;
   resolve?: number;
@@ -78,12 +73,7 @@ type TimingListener = {
   onUpdate: (info: TimingInfo) => void;
 };
 
-type ObserverStatus =
-  | 'observer'
-  | 'observer+timing'
-  | 'timing'
-  | 'unsupported'
-  | 'error';
+type ObserverStatus = "observer" | "observer+timing" | "timing" | "unsupported" | "error";
 
 type Subscription = {
   disconnect?: () => void;
@@ -95,18 +85,17 @@ const MAX_SAMPLES = 20;
 declare const lynx: { performance?: LynxPerformance } | undefined;
 
 function getLynxPerformance() {
-  'background only';
+  "background only";
 
-  if (typeof lynx !== 'undefined') {
+  if (typeof lynx !== "undefined") {
     return lynx?.performance;
   }
 
-  return (globalThis as { lynx?: { performance?: LynxPerformance } }).lynx
-    ?.performance;
+  return (globalThis as { lynx?: { performance?: LynxPerformance } }).lynx?.performance;
 }
 
 function isNumber(value: unknown): value is number {
-  return typeof value === 'number' && Number.isFinite(value);
+  return typeof value === "number" && Number.isFinite(value);
 }
 
 function toDuration(end: unknown, start: unknown) {
@@ -130,14 +119,9 @@ function readMeasurement(entry: PipelineEntry): Measurement | null {
   };
 }
 
-function readTimingMeasurement(
-  identifier: string,
-  info: TimingInfo,
-): Measurement | null {
+function readTimingMeasurement(identifier: string, info: TimingInfo): Measurement | null {
   const updateTimings = info.update_timings ?? {};
-  const timingKeys = Object.keys(updateTimings).filter((key) =>
-    key.startsWith(identifier),
-  );
+  const timingKeys = Object.keys(updateTimings).filter((key) => key.startsWith(identifier));
   const timingKey = timingKeys[timingKeys.length - 1];
 
   if (!timingKey) return null;
@@ -146,7 +130,7 @@ function readTimingMeasurement(
 
   return {
     id: timingKey,
-    source: 'timing',
+    source: "timing",
     total: toDuration(timing.draw_end, timing.create_vdom_start),
     render: toDuration(timing.create_vdom_end, timing.create_vdom_start),
     resolve: toDuration(timing.dispatch_end, timing.dispatch_start),
@@ -162,9 +146,7 @@ function appendMeasurement(samples: Measurement[], measurement: Measurement) {
     return [...samples, measurement].slice(-MAX_SAMPLES);
   }
 
-  const existingIndex = samples.findIndex(
-    (sample) => sample.id === measurement.id,
-  );
+  const existingIndex = samples.findIndex((sample) => sample.id === measurement.id);
 
   if (existingIndex === -1) {
     return [...samples, measurement].slice(-MAX_SAMPLES);
@@ -172,7 +154,7 @@ function appendMeasurement(samples: Measurement[], measurement: Measurement) {
 
   const existing = samples[existingIndex];
 
-  if (existing.source === 'observer' && measurement.source === 'timing') {
+  if (existing.source === "observer" && measurement.source === "timing") {
     return samples;
   }
 
@@ -186,13 +168,13 @@ function average(samples: Measurement[]) {
   if (samples.length === 0) return null;
 
   return {
-    total: averageValue(samples, 'total'),
-    render: averageValue(samples, 'render'),
-    resolve: averageValue(samples, 'resolve'),
-    layout: averageValue(samples, 'layout'),
-    paint: averageValue(samples, 'paint'),
-    actualFmp: averageValue(samples, 'actualFmp'),
-    totalActualFmp: averageValue(samples, 'totalActualFmp'),
+    total: averageValue(samples, "total"),
+    render: averageValue(samples, "render"),
+    resolve: averageValue(samples, "resolve"),
+    layout: averageValue(samples, "layout"),
+    paint: averageValue(samples, "paint"),
+    actualFmp: averageValue(samples, "actualFmp"),
+    totalActualFmp: averageValue(samples, "totalActualFmp"),
   };
 }
 
@@ -205,7 +187,7 @@ function averageValue(samples: Measurement[], key: keyof Measurement) {
 }
 
 function formatMs(value?: number) {
-  if (!isNumber(value)) return '-';
+  if (!isNumber(value)) return "-";
   return `${value.toFixed(1)}ms`;
 }
 
@@ -213,7 +195,7 @@ export function useLynxPerformanceObserver(identifier: string) {
   const [samples, setSamples] = useState<Measurement[]>([]);
 
   const subscription = useMemo<Subscription>(() => {
-    'background only';
+    "background only";
 
     const performance = getLynxPerformance();
     const disconnects: Array<() => void> = [];
@@ -224,7 +206,7 @@ export function useLynxPerformanceObserver(identifier: string) {
     if (performance?.createObserver) {
       try {
         const observer = performance.createObserver((entry) => {
-          const entryIdentifier = entry.identifier ?? entry.name ?? '';
+          const entryIdentifier = entry.identifier ?? entry.name ?? "";
           if (!entryIdentifier.startsWith(identifier)) {
             return;
           }
@@ -236,12 +218,12 @@ export function useLynxPerformanceObserver(identifier: string) {
             appendMeasurement(current, {
               ...measurement,
               id: entryIdentifier,
-              source: 'observer',
+              source: "observer",
             }),
           );
         });
 
-        observer.observe(['pipeline']);
+        observer.observe(["pipeline"]);
         disconnects.push(() => observer.disconnect());
         hasObserver = true;
       } catch {
@@ -272,7 +254,7 @@ export function useLynxPerformanceObserver(identifier: string) {
     }
 
     if (!hasObserver && !hasTiming) {
-      return { status: hasError ? 'error' : 'unsupported' };
+      return { status: hasError ? "error" : "unsupported" };
     }
 
     if (hasObserver && hasTiming) {
@@ -282,7 +264,7 @@ export function useLynxPerformanceObserver(identifier: string) {
             disconnect();
           });
         },
-        status: 'observer+timing',
+        status: "observer+timing",
       };
     }
 
@@ -292,7 +274,7 @@ export function useLynxPerformanceObserver(identifier: string) {
           disconnect();
         });
       },
-      status: hasObserver ? 'observer' : 'timing',
+      status: hasObserver ? "observer" : "timing",
     };
   }, [identifier]);
 
@@ -316,7 +298,7 @@ function MetricValue({ label, value }: { label: string; value?: number }) {
     <view
       style={{
         flex: 1,
-        minWidth: '72px',
+        minWidth: "72px",
         padding: vars.$dimension.x2,
         borderRadius: vars.$radius.r2,
         background: vars.$color.bg.neutralWeak,
@@ -327,7 +309,7 @@ function MetricValue({ label, value }: { label: string; value?: number }) {
           color: vars.$color.fg.neutralSubtle,
           fontSize: vars.$fontSize.t1,
           lineHeight: vars.$lineHeight.t1,
-          fontWeight: '400',
+          fontWeight: "400",
         }}
       >
         {label}
@@ -337,7 +319,7 @@ function MetricValue({ label, value }: { label: string; value?: number }) {
           color: vars.$color.fg.neutral,
           fontSize: vars.$fontSize.t2,
           lineHeight: vars.$lineHeight.t2,
-          fontWeight: '700',
+          fontWeight: "700",
           marginTop: vars.$dimension.x0_5,
         }}
       >
@@ -347,18 +329,12 @@ function MetricValue({ label, value }: { label: string; value?: number }) {
   );
 }
 
-function MetricRow({
-  title,
-  measurement,
-}: {
-  title: string;
-  measurement: Measurement | null;
-}) {
+function MetricRow({ title, measurement }: { title: string; measurement: Measurement | null }) {
   return (
     <view
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: vars.$dimension.x1,
       }}
     >
@@ -367,16 +343,16 @@ function MetricRow({
           color: vars.$color.fg.neutral,
           fontSize: vars.$fontSize.t2,
           lineHeight: vars.$lineHeight.t2,
-          fontWeight: '700',
+          fontWeight: "700",
         }}
       >
         {title}
       </text>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
           gap: vars.$dimension.x1,
         }}
       >
@@ -409,7 +385,7 @@ export function PerformancePanel({
   } = useLynxPerformanceObserver(identifier);
 
   function handleRerender() {
-    getLynxPerformance()?.profileMark?.('layout-stress-rerender', {
+    getLynxPerformance()?.profileMark?.("layout-stress-rerender", {
       args: { identifier, revision: String(revision + 1) },
     });
     onRerender();
@@ -418,32 +394,32 @@ export function PerformancePanel({
   return (
     <view
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: vars.$dimension.x3,
         padding: vars.$dimension.x3,
         borderRadius: vars.$radius.r3,
-        borderWidth: '1px',
+        borderWidth: "1px",
         borderColor: vars.$color.stroke.neutralMuted,
         background: vars.$color.bg.layerDefault,
       }}
     >
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
           gap: vars.$dimension.x2,
         }}
       >
-        <view style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        <view style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
           <text
             style={{
               color: vars.$color.fg.neutral,
               fontSize: vars.$fontSize.t3,
               lineHeight: vars.$lineHeight.t3,
-              fontWeight: '700',
+              fontWeight: "700",
             }}
           >
             Performance
@@ -453,7 +429,7 @@ export function PerformancePanel({
               color: vars.$color.fg.neutralSubtle,
               fontSize: vars.$fontSize.t1,
               lineHeight: vars.$lineHeight.t1,
-              fontWeight: '400',
+              fontWeight: "400",
             }}
           >
             {`${status} | samples ${count} | run ${revision}`}
@@ -472,7 +448,7 @@ export function PerformancePanel({
               color: vars.$color.palette.staticWhite,
               fontSize: vars.$fontSize.t2,
               lineHeight: vars.$lineHeight.t2,
-              fontWeight: '700',
+              fontWeight: "700",
             }}
           >
             Rerender

@@ -1,18 +1,15 @@
-import { useRef, useState } from '@lynx-js/react';
-import { bottomSheetVariantMap } from '@seed-design/lynx-css/recipes/bottom-sheet';
-import { ActionButton } from '@seed-design/lynx-react';
+import { useRef, useState } from "@lynx-js/react";
+import { bottomSheetVariantMap } from "@seed-design/lynx-css/recipes/bottom-sheet";
+import { ActionButton } from "@seed-design/lynx-react";
 
-import {
-  CatalogExamples,
-  CatalogSectionTitle,
-} from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
 import {
   definePreviewStates,
   defineVariantAxes,
   type SetVariantValue,
   VariantCatalog,
   type VariantCatalogValues,
-} from '../components/variant-catalog.jsx';
+} from "../components/variant-catalog.jsx";
 import {
   BottomSheetBody,
   BottomSheetContent,
@@ -20,32 +17,27 @@ import {
   BottomSheetRoot,
   type BottomSheetRootRef,
   BottomSheetTrigger,
-} from '../seed-design/ui/bottom-sheet';
+} from "../seed-design/ui/bottom-sheet";
 
-const SNAP_POINTS_FIT_80: Array<number | string> = ['fit', '80%'];
-const SNAP_POINTS_FIT: Array<number | string> = ['fit'];
+const SNAP_POINTS_FIT_80: Array<number | string> = ["fit", "80%"];
+const SNAP_POINTS_FIT: Array<number | string> = ["fit"];
 
 const variants = defineVariantAxes([
   {
-    key: 'headerAlign',
+    key: "headerAlign",
     options: bottomSheetVariantMap.headerAlign,
-    defaultValue: 'left',
+    defaultValue: "left",
   },
   {
-    key: 'skipAnimation',
+    key: "skipAnimation",
     options: bottomSheetVariantMap.skipAnimation,
     defaultValue: false,
   },
 ]);
 
-const previewStates = definePreviewStates([
-  { key: 'open', defaultValue: false },
-]);
+const previewStates = definePreviewStates([{ key: "open", defaultValue: false }]);
 
-type BottomSheetValues = VariantCatalogValues<
-  typeof variants,
-  typeof previewStates
->;
+type BottomSheetValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
 function renderBottomSheet(
   values: BottomSheetValues,
@@ -60,18 +52,18 @@ function renderBottomSheet(
       headerAlign={headerAlign}
       skipAnimation={skipAnimation}
       open={open}
-      onOpenChange={(next) => setValue('open', next)}
+      onOpenChange={(next) => setValue("open", next)}
       snapPoints={SNAP_POINTS_FIT_80}
     >
       <BottomSheetTrigger
-        style={{ alignSelf: 'flex-start' }}
-        bindtap={() => setValue('open', true)}
+        style={{ alignSelf: "flex-start" }}
+        bindtap={() => setValue("open", true)}
       >
         <ActionButton variant="brandSolid">Open sheet</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent
         title={`Header ${headerAlign}`}
-        description={skipAnimation ? 'Animation skipped' : 'Default animation'}
+        description={skipAnimation ? "Animation skipped" : "Default animation"}
         showHandle
       >
         <BottomSheetBody>
@@ -93,7 +85,7 @@ function BottomSheetExamples() {
     <CatalogExamples title="BottomSheet" gap="16px">
       <CatalogSectionTitle>Uncontrolled (Trigger 기반)</CatalogSectionTitle>
       <BottomSheetRoot snapPoints={SNAP_POINTS_FIT_80}>
-        <BottomSheetTrigger style={{ alignSelf: 'flex-start' }}>
+        <BottomSheetTrigger style={{ alignSelf: "flex-start" }}>
           <ActionButton variant="brandSolid">Trigger 탭</ActionButton>
         </BottomSheetTrigger>
         <BottomSheetContent
@@ -113,24 +105,16 @@ function BottomSheetExamples() {
       <CatalogSectionTitle>Imperative ref</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '8px',
-          flexWrap: 'wrap',
+          display: "flex",
+          flexDirection: "row",
+          gap: "8px",
+          flexWrap: "wrap",
         }}
       >
-        <ActionButton bindtap={() => uncontrolledRef.current?.open()}>
-          open()
-        </ActionButton>
-        <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(0)}>
-          snapTo(0)
-        </ActionButton>
-        <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(1)}>
-          snapTo(1)
-        </ActionButton>
-        <ActionButton bindtap={() => uncontrolledRef.current?.close()}>
-          close()
-        </ActionButton>
+        <ActionButton bindtap={() => uncontrolledRef.current?.open()}>open()</ActionButton>
+        <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(0)}>snapTo(0)</ActionButton>
+        <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(1)}>snapTo(1)</ActionButton>
+        <ActionButton bindtap={() => uncontrolledRef.current?.close()}>close()</ActionButton>
       </view>
       <BottomSheetRoot ref={uncontrolledRef} snapPoints={SNAP_POINTS_FIT_80}>
         <BottomSheetContent title="Imperative 예제" showHandle>
@@ -141,13 +125,9 @@ function BottomSheetExamples() {
       </BottomSheetRoot>
 
       <CatalogSectionTitle>Controlled</CatalogSectionTitle>
-      <view style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
-        <ActionButton bindtap={() => setControlledOpen(true)}>
-          open=true
-        </ActionButton>
-        <ActionButton bindtap={() => setControlledOpen(false)}>
-          open=false
-        </ActionButton>
+      <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+        <ActionButton bindtap={() => setControlledOpen(true)}>open=true</ActionButton>
+        <ActionButton bindtap={() => setControlledOpen(false)}>open=false</ActionButton>
       </view>
       <BottomSheetRoot
         open={controlledOpen}

@@ -189,16 +189,14 @@ export function CSSSelectorTestPage() {
         </text>
       </TestCase>
 
-      <TestCase
-        id="4-2"
-        label=":checked, :is() 등"
-        expected="recipe source에서는 사용하지 않음"
-      >
-        <view style={{ padding: "8px", backgroundColor: $color.bg.neutralWeak, borderRadius: "6px" }}>
+      <TestCase id="4-2" label=":checked, :is() 등" expected="recipe source에서는 사용하지 않음">
+        <view
+          style={{ padding: "8px", backgroundColor: $color.bg.neutralWeak, borderRadius: "6px" }}
+        >
           <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
             :checked → Lynx recipe에서는 boolean variant/className으로 모델링{"\n"}
-            :is() → Lynx preset source에서는 사용하지 않음{"\n"}
-            → 필요한 경우 qvism core가 아니라 preset source에서 명시적으로 작성
+            :is() → Lynx preset source에서는 사용하지 않음{"\n"}→ 필요한 경우 qvism core가 아니라
+            preset source에서 명시적으로 작성
           </text>
         </view>
       </TestCase>
@@ -217,9 +215,7 @@ export function CSSSelectorTestPage() {
       <TestCase id="5-2" label="(공백) 자손 선택자" expected="초록색 텍스트 = 지원">
         <view data-sel-test="5-2">
           <view>
-            <text style={{ fontSize: "13px", fontWeight: "bold" }}>
-              자손 텍스트 → 초록이면 OK
-            </text>
+            <text style={{ fontSize: "13px", fontWeight: "bold" }}>자손 텍스트 → 초록이면 OK</text>
           </view>
         </view>
       </TestCase>

@@ -1,5 +1,5 @@
-import { vars } from '@seed-design/lynx-css/vars';
-import { Text, useSafeArea, VStack } from '@seed-design/lynx-react';
+import { vars } from "@seed-design/lynx-css/vars";
+import { Text, useSafeArea, VStack } from "@seed-design/lynx-react";
 
 interface LynxGlobalProps {
   safeAreaInsetTop?: number | null;
@@ -13,11 +13,11 @@ function getGlobalProps() {
 }
 
 function formatValue(value: unknown) {
-  if (value == null || value === '') {
-    return '-';
+  if (value == null || value === "") {
+    return "-";
   }
 
-  if (typeof value === 'object') {
+  if (typeof value === "object") {
     return JSON.stringify(value);
   }
 
@@ -28,23 +28,21 @@ function DebugRow({ label, value }: { label: string; value: unknown }) {
   return (
     <view
       style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: '12px',
-        paddingTop: '10px',
-        paddingBottom: '10px',
-        borderBottomWidth: '1px',
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: "12px",
+        paddingTop: "10px",
+        paddingBottom: "10px",
+        borderBottomWidth: "1px",
         borderBottomColor: $color.stroke.neutralMuted,
       }}
     >
-      <text style={{ fontSize: '13px', color: $color.fg.neutralSubtle }}>
-        {label}
-      </text>
+      <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle }}>{label}</text>
       <text
         style={{
-          fontSize: '13px',
-          fontWeight: 'bold',
+          fontSize: "13px",
+          fontWeight: "bold",
           color: $color.fg.neutral,
         }}
       >
@@ -67,8 +65,8 @@ function SafeAreaPreview({
     <view
       style={{
         background: $color.bg.neutralWeak,
-        borderRadius: '12px',
-        overflow: 'hidden',
+        borderRadius: "12px",
+        overflow: "hidden",
       }}
     >
       <view
@@ -80,15 +78,15 @@ function SafeAreaPreview({
       >
         <view
           style={{
-            padding: '12px',
+            padding: "12px",
             background: $color.bg.layerDefault,
-            borderRadius: '10px',
+            borderRadius: "10px",
           }}
         >
           <text
             style={{
-              fontSize: '14px',
-              fontWeight: 'bold',
+              fontSize: "14px",
+              fontWeight: "bold",
               color: $color.fg.brand,
             }}
           >
@@ -96,8 +94,8 @@ function SafeAreaPreview({
           </text>
           <text
             style={{
-              marginTop: '4px',
-              fontSize: '13px',
+              marginTop: "4px",
+              fontSize: "13px",
               color: $color.fg.neutralSubtle,
             }}
           >
@@ -126,20 +124,14 @@ export function SafeAreaDebugPage() {
         <Text textStyle="t6Bold">Host globalProps</Text>
         <view
           style={{
-            paddingLeft: '14px',
-            paddingRight: '14px',
+            paddingLeft: "14px",
+            paddingRight: "14px",
             background: $color.bg.neutralWeak,
-            borderRadius: '12px',
+            borderRadius: "12px",
           }}
         >
-          <DebugRow
-            label="safeAreaInsetTop"
-            value={globalProps?.safeAreaInsetTop}
-          />
-          <DebugRow
-            label="safeAreaInsetBottom"
-            value={globalProps?.safeAreaInsetBottom}
-          />
+          <DebugRow label="safeAreaInsetTop" value={globalProps?.safeAreaInsetTop} />
+          <DebugRow label="safeAreaInsetBottom" value={globalProps?.safeAreaInsetBottom} />
         </view>
       </VStack>
 
@@ -147,10 +139,10 @@ export function SafeAreaDebugPage() {
         <Text textStyle="t6Bold">Resolved values</Text>
         <view
           style={{
-            paddingLeft: '14px',
-            paddingRight: '14px',
+            paddingLeft: "14px",
+            paddingRight: "14px",
             background: $color.bg.neutralWeak,
-            borderRadius: '12px',
+            borderRadius: "12px",
           }}
         >
           <DebugRow label="useSafeArea().top" value={safeAreaInsetTop} />
