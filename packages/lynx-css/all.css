@@ -1125,7 +1125,6 @@
   background: var(--seed-color-bg-layer-floating);
   border-top-left-radius: var(--seed-radius-r6);
   border-top-right-radius: var(--seed-radius-r6);
-  padding-bottom: var(--seed-safe-area-bottom, 0px);
   flex-direction: column;
   flex: 1;
   display: flex;

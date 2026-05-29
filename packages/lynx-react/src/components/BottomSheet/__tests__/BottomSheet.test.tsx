@@ -45,12 +45,33 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   };
 });
 
+vi.mock("../../../hooks/useSafeArea", () => ({
+  useSafeArea: () => ({
+    safeAreaInsetTop: "62px",
+    safeAreaInsetBottom: "34px",
+  }),
+}));
+
 import * as BottomSheet from "../BottomSheet.namespace";
 
 describe("BottomSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
     sheetMocks.rootRef.open.mockClear();
+  });
+
+  it("passes safe area bottom to Content inner padding", () => {
+    render(
+      <BottomSheet.Root>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      innerStyle: {
+        paddingBottom: "34px",
+      },
+    });
   });
 
   it("skips motion-engine animations when Root has skipAnimation", () => {
@@ -98,7 +119,12 @@ describe("BottomSheet", () => {
       </BottomSheet.Root>,
     );
 
-    fireEvent.tap(getByText("Open sheet").parentElement!);
+    const trigger = getByText("Open sheet").parentElement;
+    if (!trigger) {
+      throw new Error("Expected trigger parent element to exist.");
+    }
+
+    fireEvent.tap(trigger);
 
     expect(sheetMocks.rootRef.open).toHaveBeenCalledWith();
   });
@@ -112,7 +138,12 @@ describe("BottomSheet", () => {
       </BottomSheet.Root>,
     );
 
-    fireEvent.tap(getByText("Open sheet").parentElement!);
+    const trigger = getByText("Open sheet").parentElement;
+    if (!trigger) {
+      throw new Error("Expected trigger parent element to exist.");
+    }
+
+    fireEvent.tap(trigger);
 
     expect(sheetMocks.rootRef.open).toHaveBeenCalledWith({ animate: false });
   });

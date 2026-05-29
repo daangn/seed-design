@@ -70,6 +70,8 @@ host가 `0`이 아닌 유효한 숫자 값을 주입하면 해당 값을 `px` �
 
 ## 사용 시 주의사항
 
+- `getSeedClassName()`은 테마/플랫폼 className만 반환합니다. safe area가 필요한 위치에서 `useSafeArea()` 또는 `Box pt="safeArea"` / `pb="safeArea"`를 사용하세요.
 - host global props가 없으면 CSS `env(safe-area-inset-*)` fallback을 반환합니다. 이 값은 JavaScript에서 px로 resolve되지 않고 style/layout 단계에서 해석됩니다.
+- `BottomSheet.Content`처럼 컴포넌트 구조상 safe area가 필요한 경우에는 컴포넌트 내부에서 bottom safe area를 처리합니다.
 - v1에서는 top/bottom만 지원합니다. left/right/p/px/py safe area shorthand는 열지 않습니다.
 - BG → FG 딥링크 진입처럼 native safe area 계산 타이밍이 흔들릴 수 있는 환경에서는 host 앱이 `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetBottom`을 안정적으로 주입하는지 확인해야 합니다.

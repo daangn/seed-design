@@ -8,6 +8,6 @@ test("globalCss does not define safe area variables with :root env fallback", ()
   expect(globalCss[":root"]?.["--seed-safe-area-bottom"]).toBeUndefined();
 });
 
-test("bottom sheet content uses the root safe area CSS variable", () => {
-  expect(bottomSheet.base.content?.paddingBottom).toBe("var(--seed-safe-area-bottom, 0px)");
+test("bottom sheet recipe does not depend on a runtime safe area CSS variable", () => {
+  expect(bottomSheet.base.content?.paddingBottom).toBeUndefined();
 });

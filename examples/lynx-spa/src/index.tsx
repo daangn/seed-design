@@ -10,7 +10,7 @@ import {
 
 import './styles/global.css';
 
-import { useSeedRootProps } from '@seed-design/lynx-react';
+import { getSeedClassName } from '@seed-design/lynx-react';
 import { App } from './App.jsx';
 
 // Initialize lynx-console monitors before rendering.
@@ -21,13 +21,10 @@ initNetworkMonitor();
 initPerformanceMonitor();
 
 function Root() {
-  const { className, style } = useSeedRootProps({ colorMode: 'system' });
-
   return (
     <page
-      className={className}
+      className={getSeedClassName({ colorMode: 'system' })}
       style={{
-        ...style,
         backgroundColor: 'var(--seed-color-bg-layer-default)',
       }}
     >

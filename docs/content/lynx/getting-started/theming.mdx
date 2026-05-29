@@ -8,21 +8,21 @@ description: Lynx 환경에서 SEED Design의 테마 시스템을 활용하는 �
 SEED Design은 라이트 모드와 다크 모드를 지원하는 테마 시스템을 제공합니다.
 
 웹 환경에서는 `data-*` 속성 셀렉터를 통해 테마를 제어하지만, Lynx에서는 `data-*` 속성 셀렉터를 지원하지 않기 때문에 **CSS 클래스 이름**을 사용합니다.
-CSS 커스텀 프로퍼티(변수)는 Lynx에서도 기본적으로 상속되므로, 루트 요소에 설정된 테마 토큰이 하위 요소에 자연스럽게 적용됩니다.
+스타일시트에 선언된 CSS 커스텀 프로퍼티(변수)는 Lynx에서도 상속되므로, 루트 요소에 설정된 테마 토큰이 하위 요소에 자연스럽게 적용됩니다.
+
+런타임 값이 필요한 safe area는 테마 설정과 분리해서 다룹니다. safe area가 필요한 화면이나 컴포넌트에서 값을 직접 읽어 적용하세요.
 
 ## 전역 설정 적용
 
-`@seed-design/lynx-react`의 `useSeedRootProps()` 훅을 사용하여 `<page>` 요소에 테마/플랫폼 클래스와 safe area CSS 변수를 설정합니다.
+`@seed-design/lynx-react`의 `getSeedClassName()` 함수를 사용하여 `<page>` 요소에 테마/플랫폼 클래스를 설정합니다.
 
 ```tsx
 import { root } from "@lynx-js/react";
-import { useSeedRootProps } from "@seed-design/lynx-react";
+import { getSeedClassName } from "@seed-design/lynx-react";
 
 function Root() {
-  const seedRootProps = useSeedRootProps({ colorMode: "system" });
-
   return (
-    <page {...seedRootProps}>
+    <page className={getSeedClassName({ colorMode: "system" })}>
       <App />
     </page>
   );
@@ -31,11 +31,10 @@ function Root() {
 root.render(<Root />);
 ```
 
-`useSeedRootProps()`는 다음 값을 반환합니다:
+`getSeedClassName()`은 다음 값을 포함한 className 문자열을 반환합니다:
 
 - **테마 클래스**: `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark`
 - **플랫폼 클래스**: `seed-platform-ios` 또는 `seed-platform-android`
-- **Safe area CSS 변수**: `--seed-safe-area-top`, `--seed-safe-area-bottom`
 
 ### `colorMode` 옵션
 
@@ -48,11 +47,32 @@ root.render(<Root />);
 
 `system`으로 설정하면 `lynx.__globalProps.theme` 값을 읽어 기기의 다크 모드 설정을 따릅니다.
 
-### `safeArea` 옵션
+## Safe Area 처리
 
-`safeArea`는 기본값이 `true`입니다. `lynx.__globalProps.safeAreaInsetTop`과 `safeAreaInsetBottom` 값을 읽어 `<page>` 요소에 `--seed-safe-area-top`, `--seed-safe-area-bottom` CSS 변수로 주입합니다.
+Safe area는 `getSeedClassName()`의 책임이 아닙니다. safe area 값이 필요한 화면이나 컴포넌트에서 `useSafeArea()`를 직접 사용하세요.
 
-SEED Lynx 컴포넌트는 CSS preset의 `:root`에서 safe area 값을 직접 만들지 않고, 이 루트 CSS 변수를 참조합니다. host 앱이 값을 제공하면 실제 px 값이 들어가며, 값이 없을 때만 CSS `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` 값을 fallback으로 사용합니다.
+```tsx
+import { useSafeArea } from "@seed-design/lynx-react";
+
+function Screen() {
+  const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
+
+  return (
+    <view
+      style={{
+        paddingTop: `calc(16px + ${safeAreaInsetTop})`,
+        paddingBottom: safeAreaInsetBottom,
+      }}
+    >
+      <text>Content</text>
+    </view>
+  );
+}
+```
+
+`useSafeArea()`는 `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetBottom` 값을 우선 사용하고, host가 값을 제공하지 않으면 `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` 값을 fallback으로 반환합니다.
+
+`Box`에서는 `pt="safeArea"` / `pb="safeArea"`를 사용할 수 있습니다. `BottomSheet.Content`처럼 safe area가 컴포넌트 구조와 직접 연결된 경우에는 컴포넌트 내부에서 필요한 bottom safe area를 처리합니다.
 
 ## 테마 클래스 이해하기
 
@@ -60,7 +80,7 @@ SEED Design의 Lynx 테마 시스템은 두 종류의 클래스 이름을 사용
 
 ### `seed-user-color-scheme-*` (루트 레벨 테마)
 
-`useSeedRootProps()`가 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
+`getSeedClassName()`이 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
 
 - `seed-user-color-scheme-light`: 라이트 모드가 적용됨
 - `seed-user-color-scheme-dark`: 다크 모드가 적용됨
@@ -74,7 +94,7 @@ SEED Design의 Lynx 테마 시스템은 두 종류의 클래스 이름을 사용
 
 ### 플랫폼 클래스
 
-`useSeedRootProps()`는 `SystemInfo.platform`을 읽어 플랫폼 클래스도 함께 설정합니다.
+`getSeedClassName()`은 `SystemInfo.platform`을 읽어 플랫폼 클래스도 함께 반환합니다.
 
 - `seed-platform-ios`: iOS 기기
 - `seed-platform-android`: Android 기기
@@ -158,4 +178,4 @@ function MyComponent() {
 | 테마 오버라이드 | `data-seed-color-mode="light-only"` 또는 `"dark-only"` 속성 | `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스 |
 | 플랫폼 감지 | User Agent 기반 | `SystemInfo.platform` 기반 (`seed-platform-ios` / `seed-platform-android`) |
 | 토큰 상속 | CSS 커스텀 프로퍼티 상속 | CSS 커스텀 프로퍼티 상속 (동일) |
-| 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `useSeedRootProps()` 훅으로 직접 설정 |
+| 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `getSeedClassName()` 함수로 className 직접 설정 |
