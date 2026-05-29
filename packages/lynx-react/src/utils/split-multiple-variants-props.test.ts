@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { splitMultipleVariantsProps } from "../split-multiple-variants-props";
+import { splitMultipleVariantsProps } from "./split-multiple-variants-props";
 
 function makeRecipe<V extends Record<string, unknown>>(variantKeys: (keyof V)[]) {
   return {

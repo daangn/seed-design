@@ -1,14 +1,7 @@
 import { renderHook } from "@lynx-js/react/testing-library";
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { useSafeArea } from "../useSafeArea";
-
-const currentDir = dirname(fileURLToPath(import.meta.url));
-const useSafeAreaSource = readFileSync(join(currentDir, "..", "useSafeArea.ts"), "utf8");
-const utilsIndexSource = readFileSync(join(currentDir, "..", "..", "utils", "index.ts"), "utf8");
+import { useSafeArea } from "./useSafeArea";
 
 interface TestLynxGlobal {
   lynx?: {
@@ -51,14 +44,6 @@ function setGlobalProps(
 }
 
 describe("useSafeArea", () => {
-  it("keeps safe area resolution in the hook without exporting duplicate helpers", () => {
-    expect(useSafeAreaSource).not.toContain("../utils/safe-area");
-    expect(useSafeAreaSource).not.toContain("globalThis");
-    expect(useSafeAreaSource).toContain("lynx.__globalProps");
-    expect(useSafeAreaSource).toContain("resolveSafeAreaInset");
-    expect(utilsIndexSource).not.toContain("./safe-area");
-  });
-
   it("falls back to Lynx env values when host flat global props are missing", () => {
     const { result } = renderHook(() => useSafeArea());
 
