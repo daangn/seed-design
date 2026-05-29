@@ -1,10 +1,6 @@
 import { defineGlobalCss } from "./utils/define";
 
 export const globalCss = defineGlobalCss({
-  ":root": {
-    "--seed-safe-area-top": "env(safe-area-inset-top)",
-    "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
-  },
   ".seed-icon, .seed-prefix-icon, .seed-suffix-icon": {
     display: "flex",
     alignItems: "center",

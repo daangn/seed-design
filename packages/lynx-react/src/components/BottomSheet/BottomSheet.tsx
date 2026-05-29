@@ -17,6 +17,7 @@ import {
   type SheetTransition,
   type SheetViewProps,
 } from "@lynx-js/lynx-ui-sheet";
+import type { CSSProperties } from "@lynx-js/types";
 import {
   createContext,
   forwardRef,
@@ -39,6 +40,7 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { getSafeAreaInset } from "../../utils/safe-area";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
@@ -278,17 +280,22 @@ export interface BottomSheetContentProps extends SheetContentProps {}
 
 export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetContentProps> =
   forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
-    const { className, snapAnimation, enterAnimation, exitAnimation, ...restProps } = props;
+    const { className, style, snapAnimation, enterAnimation, exitAnimation, ...restProps } = props;
     const classNames = useClassNames();
     const { options } = useBottomSheetContext();
 
     const defaultAnimation = options.skipAnimation ? SKIP_ANIMATION_TRANSITION : undefined;
+    const contentStyle = {
+      "--seed-safe-area-bottom": getSafeAreaInset("bottom"),
+      ...style,
+    } as CSSProperties;
 
     return (
       <SheetContent
         {...(ref ? { ref } : {})}
         {...restProps}
         className={clsx(classNames.content, className)}
+        style={contentStyle}
         snapAnimation={snapAnimation ?? defaultAnimation ?? SEED_SNAP_ANIMATION}
         enterAnimation={enterAnimation ?? defaultAnimation ?? SEED_ENTER_ANIMATION}
         exitAnimation={exitAnimation ?? defaultAnimation ?? SEED_EXIT_ANIMATION}

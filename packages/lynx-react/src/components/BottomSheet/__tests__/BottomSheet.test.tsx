@@ -89,6 +89,20 @@ describe("BottomSheet", () => {
     });
   });
 
+  it("injects bottom safe area into content style", () => {
+    render(
+      <BottomSheet.Root skipAnimation>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      style: {
+        "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+      },
+    });
+  });
+
   it("opens with default animation when Root does not skip animation", () => {
     const { getByText } = render(
       <BottomSheet.Root>
