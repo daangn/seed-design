@@ -1,35 +1,63 @@
 import { switchmark } from "@seed-design/lynx-css/recipes/switchmark";
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { render } from "@lynx-js/react/testing-library";
 import { describe, expect, it } from "vitest";
 
-const currentDir = dirname(fileURLToPath(import.meta.url));
-const lynxCssRecipesDir = join(currentDir, "..", "..", "..", "..", "..", "lynx-css", "recipes");
-const switchCss = readFileSync(join(lynxCssRecipesDir, "switch.css"), "utf8");
-const switchmarkCss = readFileSync(join(lynxCssRecipesDir, "switchmark.css"), "utf8");
+import { SwitchControl, SwitchLabel, SwitchRoot, SwitchThumb } from "../Switch";
+
+function getRenderedRoot() {
+  const root = elementTree.root;
+
+  if (!root) {
+    throw new Error("Expected Lynx render root to exist.");
+  }
+
+  return root;
+}
 
 describe("Switch", () => {
-  it.each(["16", "24", "32"] as const)(
-    "includes selected thumb class for size %s",
-    (size) => {
-      const classNames = switchmark({
-        tone: "brand",
-        size,
-        checked: true,
-        disabled: false,
-      });
+  it.each(["16", "24", "32"] as const)("includes selected thumb class for size %s", (size) => {
+    const classNames = switchmark({
+      tone: "brand",
+      size,
+      checked: true,
+      disabled: false,
+    });
 
-      expect(classNames.thumb.split(" ")).toContain(
-        `seed-switchmark__thumb--size_${size}-checked_true`,
-      );
-    },
-  );
+    expect(classNames.thumb.split(" ")).toContain(
+      `seed-switchmark__thumb--size_${size}-checked_true`,
+    );
+  });
 
-  it("aligns Lynx switch content with flex center instead of margin compensation", () => {
-    expect(switchCss).toContain("align-items: center");
-    expect(switchCss).not.toContain("justify-content: space-between");
-    expect(switchCss).not.toContain("--switchmark-margin-top");
-    expect(switchmarkCss).not.toContain("--switchmark-margin-top");
+  it("leaves the 16px control offset to the recipe class", () => {
+    render(
+      <SwitchRoot size="16">
+        <SwitchControl>
+          <SwitchThumb />
+        </SwitchControl>
+        <SwitchLabel>OffOff</SwitchLabel>
+      </SwitchRoot>,
+    );
+
+    const control = getRenderedRoot().querySelector(".seed-switchmark__root");
+
+    expect((control as HTMLElement).className.split(" ")).toContain(
+      "seed-switchmark__root--size_16",
+    );
+    expect((control as HTMLElement).style.getPropertyValue("margin-top")).toBe("");
+  });
+
+  it("forwards explicit control style", () => {
+    render(
+      <SwitchRoot size="16">
+        <SwitchControl style={{ marginTop: "10px" }}>
+          <SwitchThumb />
+        </SwitchControl>
+        <SwitchLabel>OffOff</SwitchLabel>
+      </SwitchRoot>,
+    );
+
+    const control = getRenderedRoot().querySelector(".seed-switchmark__root");
+
+    expect((control as HTMLElement).style.getPropertyValue("margin-top")).toBe("10px");
   });
 });

@@ -105,7 +105,7 @@ export function LayoutPrimitivesPage() {
               borderRadius="full"
               px="x3"
               py="x1"
-              style={{ paddingLeft: '28px' } as React.CSSProperties}
+              style={{ paddingLeft: '28px' }}
             >
               <Text textStyle="t2Bold" color="fg.neutral">
                 override

@@ -9,8 +9,8 @@ import {
 import {
   definePreviewStates,
   defineVariantAxes,
-  VariantCatalog,
   type SetVariantValue,
+  VariantCatalog,
   type VariantCatalogValues,
 } from '../components/variant-catalog.jsx';
 import { Checkbox, CheckboxGroup, Checkmark } from '../seed-design/ui/checkbox';

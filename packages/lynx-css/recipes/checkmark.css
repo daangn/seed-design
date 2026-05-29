@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     flex: none;
+    margin-top: var(--checkmark-margin-top, 0);
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing)
 }
 .seed-checkmark__icon {

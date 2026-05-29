@@ -3,17 +3,20 @@ import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/act
 import { progressCircleVariantMap } from "@seed-design/lynx-css/recipes/progress-circle";
 import { actionButton as actionButtonVars } from "@seed-design/lynx-css/vars/component";
 import clsx from "clsx";
-import * as React from "react";
-import { isValidElement, useMemo } from "react";
+import * as React from "@lynx-js/react";
+import { isValidElement, useMemo } from "@lynx-js/react";
 
 import { usePressTap } from "../../hooks/usePressTap";
 import type {
   LynxElementProps,
   LynxPressableProps,
   LynxStyledElementProps,
+  LynxTextRef,
   LynxTouchProps,
+  LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { toArray } from "../../utils/children";
 import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
 import { resolveFlexValue, type StyleProps } from "../../utils/styled";
 import {
@@ -118,7 +121,7 @@ const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>((inner
       <PropsProvider value={propsForContext}>
         <IconSlotProvider value={iconSlotContextValue}>
           <view
-            {...(ref ? { ref: ref as React.Ref<SVGViewElement> } : {})}
+            {...(ref ? { ref: ref as LynxViewRef } : {})}
             {...rest}
             className={clsx(classNames.root, userClassName)}
           >
@@ -140,7 +143,7 @@ const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps
   const classNames = useClassNames();
   return (
     <text
-      {...(ref ? { ref: ref as React.Ref<SVGTextElement> } : {})}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       {...rest}
       className={clsx(classNames.text, userClassName)}
     >
@@ -159,7 +162,7 @@ function ActionButtonContent({
   prefixIcon,
   suffixIcon,
 }: ActionButtonContentProps) {
-  const childArray = React.Children.toArray(children);
+  const childArray = toArray(children);
   const prefixIconChildren: React.ReactNode[] = [];
   const suffixIconChildren: React.ReactNode[] = [];
   const iconChildren: React.ReactNode[] = [];

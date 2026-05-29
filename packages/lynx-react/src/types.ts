@@ -1,31 +1,45 @@
-import type * as React from "react";
-import type { MainThread, TouchEvent } from "@lynx-js/types";
+import type { ReactNode, Ref } from "@lynx-js/react";
+import type {
+  CSSProperties,
+  IntrinsicElements,
+  MainThread,
+  NodesRef,
+  TextProps,
+  ViewProps,
+} from "@lynx-js/types";
+
+export type LynxViewProps = IntrinsicElements["view"] & ViewProps;
+export type LynxTextProps = IntrinsicElements["text"] & TextProps;
+export type LynxViewRef = Ref<NodesRef>;
+export type LynxTextRef = Ref<NodesRef>;
+export type LynxMainThreadRef = Ref<MainThread.Element>;
+export type LynxStyle = CSSProperties;
 
 export interface LynxElementProps {
-  children?: React.ReactNode;
-  className?: string;
+  children?: ReactNode;
+  className?: LynxViewProps["className"];
 }
 
 export interface LynxStyledElementProps extends LynxElementProps {
-  style?: React.CSSProperties;
+  style?: LynxStyle;
 }
 
 export interface LynxPressableProps {
-  bindtap?: () => void;
-  "main-thread:bindtap"?: () => void;
+  bindtap?: LynxViewProps["bindtap"];
+  "main-thread:bindtap"?: LynxViewProps["main-thread:bindtap"];
 }
 
 export interface LynxTouchProps {
-  bindtap?: (event: TouchEvent) => void;
-  bindtouchstart?: (event: TouchEvent) => void;
-  bindtouchend?: (event: TouchEvent) => void;
-  bindtouchcancel?: (event: TouchEvent) => void;
-  "main-thread:bindtap"?: () => void;
+  bindtap?: LynxViewProps["bindtap"];
+  bindtouchstart?: LynxViewProps["bindtouchstart"];
+  bindtouchend?: LynxViewProps["bindtouchend"];
+  bindtouchcancel?: LynxViewProps["bindtouchcancel"];
+  "main-thread:bindtap"?: LynxViewProps["main-thread:bindtap"];
 }
 
 export interface LynxIconElementProps {
-  className?: string;
-  style?: React.CSSProperties;
-  ref?: React.Ref<MainThread.Element>;
-  "main-thread:binduiappear"?: () => void;
+  className?: IntrinsicElements["image"]["className"];
+  style?: LynxStyle;
+  ref?: LynxMainThreadRef;
+  "main-thread:binduiappear"?: IntrinsicElements["image"]["main-thread:binduiappear"];
 }

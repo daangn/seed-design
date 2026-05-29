@@ -1,3 +1,4 @@
+import { switch as switchVars } from "../vars/component";
 import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
@@ -44,6 +45,8 @@ const switchmarkRecipe = defineSlotRecipe({
         root: {
           minWidth: vars.size32.enabled.root.width,
           minHeight: vars.size32.enabled.root.height,
+          marginTop: `calc((${switchVars.size32.enabled.root.height} - ${vars.size32.enabled.root.height}) / 2)`,
+          marginBottom: `calc((${switchVars.size32.enabled.root.height} - ${vars.size32.enabled.root.height}) / 2)`,
           padding: `${vars.size32.enabled.root.paddingY} ${vars.size32.enabled.root.paddingX}`,
         },
         thumb: {
@@ -55,6 +58,8 @@ const switchmarkRecipe = defineSlotRecipe({
         root: {
           minWidth: vars.size24.enabled.root.width,
           minHeight: vars.size24.enabled.root.height,
+          marginTop: `calc((${switchVars.size24.enabled.root.height} - ${vars.size24.enabled.root.height}) / 2)`,
+          marginBottom: `calc((${switchVars.size24.enabled.root.height} - ${vars.size24.enabled.root.height}) / 2)`,
           padding: `${vars.size24.enabled.root.paddingY} ${vars.size24.enabled.root.paddingX}`,
         },
         thumb: {
@@ -66,6 +71,8 @@ const switchmarkRecipe = defineSlotRecipe({
         root: {
           minWidth: vars.size16.enabled.root.width,
           minHeight: vars.size16.enabled.root.height,
+          marginTop: `calc((${switchVars.size16.enabled.root.height} - ${vars.size16.enabled.root.height}) / 2)`,
+          marginBottom: `calc((${switchVars.size16.enabled.root.height} - ${vars.size16.enabled.root.height}) / 2)`,
           padding: `${vars.size16.enabled.root.paddingY} ${vars.size16.enabled.root.paddingX}`,
         },
         thumb: {

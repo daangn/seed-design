@@ -1221,7 +1221,7 @@
 }
 
 .seed-checkbox__root {
-  align-items: center;
+  align-items: flex-start;
   gap: var(--seed-dimension-x2);
   display: flex;
   position: relative;
@@ -1241,6 +1241,7 @@
 
 .seed-checkbox__root--size_medium {
   min-height: var(--seed-dimension-x8);
+  --checkmark-margin-top: calc((var(--seed-dimension-x8) - var(--seed-dimension-x5)) / 2);
 }
 
 .seed-checkbox__label--size_medium {
@@ -1250,6 +1251,7 @@
 
 .seed-checkbox__root--size_large {
   min-height: var(--seed-dimension-x9);
+  --checkmark-margin-top: calc((var(--seed-dimension-x9) - var(--seed-dimension-x6)) / 2);
 }
 
 .seed-checkbox__label--size_large {
@@ -1268,6 +1270,7 @@
 }
 
 .seed-checkmark__root {
+  margin-top: var(--checkmark-margin-top, 0);
   transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
   flex: none;
   justify-content: center;
@@ -1571,7 +1574,7 @@
 }
 
 .seed-switch__root {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   position: relative;
 }
@@ -1590,6 +1593,7 @@
 .seed-switch__label--size_16 {
   font-size: var(--seed-font-size-t3);
   line-height: var(--seed-line-height-t3);
+  margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t3) / 2);
 }
 
 .seed-switch__root--size_24 {
@@ -1600,6 +1604,7 @@
 .seed-switch__label--size_24 {
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t4);
+  margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t4) / 2);
 }
 
 .seed-switch__root--size_32 {
@@ -1610,6 +1615,7 @@
 .seed-switch__label--size_32 {
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
+  margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t5) / 2);
 }
 
 .seed-switch__label--disabled_true {
@@ -1641,6 +1647,8 @@
 .seed-switchmark__root--size_16 {
   min-width: 26px;
   min-height: 16px;
+  margin-top: calc((var(--seed-dimension-x6) - 16px) / 2);
+  margin-bottom: calc((var(--seed-dimension-x6) - 16px) / 2);
   padding: 2px;
 }
 
@@ -1652,6 +1660,8 @@
 .seed-switchmark__root--size_24 {
   min-width: 38px;
   min-height: 24px;
+  margin-top: calc((var(--seed-dimension-x6) - 24px) / 2);
+  margin-bottom: calc((var(--seed-dimension-x6) - 24px) / 2);
   padding: 2px;
 }
 
@@ -1663,6 +1673,8 @@
 .seed-switchmark__root--size_32 {
   min-width: 52px;
   min-height: 32px;
+  margin-top: calc((var(--seed-dimension-x8) - 32px) / 2);
+  margin-bottom: calc((var(--seed-dimension-x8) - 32px) / 2);
   padding: 3px;
 }
 
