@@ -1,73 +1,64 @@
-import { useState } from '@lynx-js/react';
-import { checkboxVariantMap } from '@seed-design/lynx-css/recipes/checkbox';
-import { checkmarkVariantMap } from '@seed-design/lynx-css/recipes/checkmark';
+import { useState } from "@lynx-js/react";
+import { checkboxVariantMap } from "@seed-design/lynx-css/recipes/checkbox";
+import { checkmarkVariantMap } from "@seed-design/lynx-css/recipes/checkmark";
 
-import {
-  CatalogExamples,
-  CatalogSectionTitle,
-} from '../components/catalog-examples.jsx';
+import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
 import {
   definePreviewStates,
   defineVariantAxes,
   type SetVariantValue,
   VariantCatalog,
   type VariantCatalogValues,
-} from '../components/variant-catalog.jsx';
-import { Checkbox, CheckboxGroup, Checkmark } from '../seed-design/ui/checkbox';
+} from "../components/variant-catalog.jsx";
+import { Checkbox, CheckboxGroup, Checkmark } from "../seed-design/ui/checkbox";
 
 const variants = defineVariantAxes([
   {
-    key: 'weight',
+    key: "weight",
     options: checkboxVariantMap.weight,
-    defaultValue: 'regular',
+    defaultValue: "regular",
   },
   {
-    key: 'size',
+    key: "size",
     options: checkboxVariantMap.size,
-    defaultValue: 'medium',
+    defaultValue: "medium",
   },
   {
-    key: 'disabled',
+    key: "disabled",
     options: checkboxVariantMap.disabled,
     defaultValue: false,
   },
   {
-    key: 'variant',
+    key: "variant",
     options: checkmarkVariantMap.variant,
-    defaultValue: 'square',
+    defaultValue: "square",
   },
   {
-    key: 'tone',
+    key: "tone",
     options: checkmarkVariantMap.tone,
-    defaultValue: 'brand',
+    defaultValue: "brand",
   },
   {
-    key: 'checked',
+    key: "checked",
     options: checkmarkVariantMap.checked,
     defaultValue: false,
   },
   {
-    key: 'indeterminate',
+    key: "indeterminate",
     options: checkmarkVariantMap.indeterminate,
     defaultValue: false,
   },
 ]);
 
 const previewStates = definePreviewStates([
-  { key: 'checked', defaultValue: false },
-  { key: 'indeterminate', defaultValue: false },
-  { key: 'disabled', defaultValue: false },
+  { key: "checked", defaultValue: false },
+  { key: "indeterminate", defaultValue: false },
+  { key: "disabled", defaultValue: false },
 ]);
 
-type CheckboxValues = VariantCatalogValues<
-  typeof variants,
-  typeof previewStates
->;
+type CheckboxValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
-function renderCheckbox(
-  values: CheckboxValues,
-  setValue: SetVariantValue<CheckboxValues>,
-) {
+function renderCheckbox(values: CheckboxValues, setValue: SetVariantValue<CheckboxValues>) {
   return (
     <Checkbox
       label="Checkbox"
@@ -78,7 +69,7 @@ function renderCheckbox(
       checked={Boolean(values.checked)}
       indeterminate={Boolean(values.indeterminate)}
       disabled={Boolean(values.disabled)}
-      onCheckedChange={(next) => setValue('checked', next)}
+      onCheckedChange={(next) => setValue("checked", next)}
     />
   );
 }
@@ -93,10 +84,10 @@ function CheckboxExamples() {
       <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
       <view
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '16px',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          gap: "16px",
+          alignItems: "center",
         }}
       >
         <Checkmark />
@@ -113,7 +104,7 @@ function CheckboxExamples() {
 
       <CatalogSectionTitle>Controlled</CatalogSectionTitle>
       <Checkbox
-        label={controlled ? '선택됨' : '선택 안 됨'}
+        label={controlled ? "선택됨" : "선택 안 됨"}
         checked={controlled}
         onCheckedChange={setControlled}
       />
@@ -131,30 +122,10 @@ function CheckboxExamples() {
 
       <CatalogSectionTitle>Tones and Variants</CatalogSectionTitle>
       <CheckboxGroup>
-        <Checkbox
-          label="Brand square"
-          tone="brand"
-          variant="square"
-          defaultChecked
-        />
-        <Checkbox
-          label="Neutral square"
-          tone="neutral"
-          variant="square"
-          defaultChecked
-        />
-        <Checkbox
-          label="Brand ghost"
-          tone="brand"
-          variant="ghost"
-          defaultChecked
-        />
-        <Checkbox
-          label="Neutral ghost"
-          tone="neutral"
-          variant="ghost"
-          defaultChecked
-        />
+        <Checkbox label="Brand square" tone="brand" variant="square" defaultChecked />
+        <Checkbox label="Neutral square" tone="neutral" variant="square" defaultChecked />
+        <Checkbox label="Brand ghost" tone="brand" variant="ghost" defaultChecked />
+        <Checkbox label="Neutral ghost" tone="neutral" variant="ghost" defaultChecked />
       </CheckboxGroup>
 
       <CatalogSectionTitle>Disabled</CatalogSectionTitle>
