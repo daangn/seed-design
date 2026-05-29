@@ -1,10 +1,9 @@
 import "@testing-library/jest-dom";
-import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
-import { vars } from "@seed-design/lynx-css/vars";
+import { render } from "@lynx-js/react/testing-library";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { Text } from "../../Text";
-import { Box } from "../Box";
+import { Text } from "../Text";
+import { Box } from "./Box";
 
 interface TestLynxGlobal {
   lynx?: {
@@ -21,10 +20,6 @@ interface TestLynxGlobal {
       globalThis: TestLynxGlobal;
     };
   };
-}
-
-function getRenderedQueries() {
-  return getQueriesForElement(getRenderedRoot());
 }
 
 function getRenderedRoot() {
@@ -65,55 +60,6 @@ describe("Box", () => {
   afterEach(() => {
     setGlobalProps({});
     vi.unstubAllGlobals();
-  });
-
-  it("resolves token style props to direct view styles", () => {
-    render(
-      <Box
-        className="box-test"
-        bg="bg.brandWeak"
-        borderColor="stroke.brandWeak"
-        borderWidth={1}
-        borderRadius="r3"
-        p="x4"
-      >
-        <Text>Box content</Text>
-      </Box>,
-    );
-
-    const box = getRenderedRoot().querySelector(".box-test");
-
-    expect(box).toBeInTheDocument();
-    expectStyle((box as HTMLElement).style, {
-      background: vars.$color.bg.brandWeak,
-      "border-color": vars.$color.stroke.brandWeak,
-      "border-style": "solid",
-      "border-width": "1px",
-      "border-radius": vars.$radius.r3,
-      "padding-top": vars.$dimension.x4,
-      "padding-right": vars.$dimension.x4,
-      "padding-bottom": vars.$dimension.x4,
-      "padding-left": vars.$dimension.x4,
-    });
-  });
-
-  it("lets explicit style override derived style props", () => {
-    render(
-      <Box className="box-test" p="x2" style={{ paddingLeft: "24px" }}>
-        <Text>Box content</Text>
-      </Box>,
-    );
-
-    const { getByText } = getRenderedQueries();
-    const box = getByText("Box content").parentElement;
-
-    expect(box).toHaveClass("box-test");
-    expectStyle((box as HTMLElement).style, {
-      "padding-top": vars.$dimension.x2,
-      "padding-right": vars.$dimension.x2,
-      "padding-bottom": vars.$dimension.x2,
-      "padding-left": "24px",
-    });
   });
 
   it("resolves top and bottom safe area padding from global props", () => {

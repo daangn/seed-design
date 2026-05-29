@@ -22,9 +22,12 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   });
   SheetView.displayName = "MockSheetView";
 
-  const SheetContent = React.forwardRef<unknown, Record<string, unknown>>((props) => {
+  const SheetContent = React.forwardRef<
+    unknown,
+    Record<string, unknown> & { children?: React.ReactNode }
+  >((props) => {
     sheetMocks.contentProps.push(props);
-    return <>{props.children as React.ReactNode}</>;
+    return <>{props["children"]}</>;
   });
   SheetContent.displayName = "MockSheetContent";
 
@@ -45,14 +48,14 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   };
 });
 
-vi.mock("../../../hooks/useSafeArea", () => ({
+vi.mock("../../hooks/useSafeArea", () => ({
   useSafeArea: () => ({
     safeAreaInsetTop: "62px",
     safeAreaInsetBottom: "34px",
   }),
 }));
 
-import * as BottomSheet from "../BottomSheet.namespace";
+import * as BottomSheet from "./BottomSheet.namespace";
 
 describe("BottomSheet", () => {
   beforeEach(() => {
@@ -89,9 +92,9 @@ describe("BottomSheet", () => {
   });
 
   it("preserves user-provided animations when Root has skipAnimation", () => {
-    const snapAnimation = { type: "tween", duration: 120 };
-    const enterAnimation = { type: "tween", duration: 140 };
-    const exitAnimation = { type: "tween", duration: 90 };
+    const snapAnimation = { type: "tween", duration: 120 } as const;
+    const enterAnimation = { type: "tween", duration: 140 } as const;
+    const exitAnimation = { type: "tween", duration: 90 } as const;
 
     render(
       <BottomSheet.Root skipAnimation>
@@ -119,7 +122,7 @@ describe("BottomSheet", () => {
       </BottomSheet.Root>,
     );
 
-    const trigger = getByText("Open sheet").parentElement;
+    const trigger = (getByText("Open sheet") as HTMLElement).parentElement;
     if (!trigger) {
       throw new Error("Expected trigger parent element to exist.");
     }
@@ -138,7 +141,7 @@ describe("BottomSheet", () => {
       </BottomSheet.Root>,
     );
 
-    const trigger = getByText("Open sheet").parentElement;
+    const trigger = (getByText("Open sheet") as HTMLElement).parentElement;
     if (!trigger) {
       throw new Error("Expected trigger parent element to exist.");
     }

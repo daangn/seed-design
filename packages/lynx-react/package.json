@@ -26,7 +26,7 @@
     "build": "tsc",
     "lint:publish": "bun publint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "typecheck:test": "tsc -p tsconfig.test.json --noEmit"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.100.0",

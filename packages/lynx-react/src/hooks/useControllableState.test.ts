@@ -1,6 +1,6 @@
 import { act, renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
-import { useControllableState } from "../useControllableState";
+import { useControllableState } from "./useControllableState";
 
 describe("useControllableState", () => {
   describe("uncontrolled mode", () => {
