@@ -23,9 +23,10 @@ interface StackBaseProps extends StyleProps, LynxStyledElementProps, LynxPressab
  * @platform Lynx
  *
  * `VStack`과 `HStack`은 native `<view>`를 직접 렌더링하고 stack 방향에 필요한
- * 최소 flex style만 적용합니다. 의도적으로 `Box`를 조합하지 않으므로, 패키지
- * 컴포넌트가 반복 레이아웃에서 primitive 컴포넌트 비용을 더 만들지 않도록
- * 도와줍니다.
+ * 최소 flex style만 적용합니다. 앱 코드에서 성능에 민감한 반복 레이아웃을 만들
+ * 때는 native `<view>`/`<text>`와 Tailwind utility className을 우선 고려하세요.
+ * 패키지 컴포넌트 내부에서는 `Box`를 합성하지 않고 native tag와 recipe className을
+ * 사용해 primitive 컴포넌트 비용이 누적되지 않도록 합니다.
  */
 export interface StackProps extends Omit<StackBaseProps, StackStyleProps> {
   align?: StackBaseProps["alignItems"];
