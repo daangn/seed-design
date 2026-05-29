@@ -17,14 +17,6 @@ type TransformSnippetContent = (
     snippetMetadata: Registry["items"][number]["snippets"][number];
   },
 ) => string;
-type PackageDependencyFields = {
-  dependencies?: Record<string, string>;
-  devDependencies?: Record<string, string>;
-  peerDependencies?: Record<string, string>;
-  optionalDependencies?: Record<string, string>;
-};
-
-const packageManifest = packageJson as PackageDependencyFields;
 
 export class RegistryGenerator {
   #project: Project;
@@ -54,14 +46,7 @@ export class RegistryGenerator {
     this.#getFileContent = getFileContent;
     this.#transformSnippetContent = transformSnippetContent ?? ((content) => content);
 
-    this.#installedDeps = new Set(
-      Object.keys({
-        ...(packageManifest.dependencies ?? {}),
-        ...(packageManifest.devDependencies ?? {}),
-        ...(packageManifest.peerDependencies ?? {}),
-        ...(packageManifest.optionalDependencies ?? {}),
-      }),
-    );
+    this.#installedDeps = new Set(Object.keys(packageJson.dependencies ?? {}));
     this.#project = new Project({
       // TODO: find out what options are these
       skipLoadingLibFiles: true,
