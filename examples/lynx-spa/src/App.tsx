@@ -114,19 +114,17 @@ export function App(props: { onRender?: () => void }) {
         <view className="px-x4 shrink-0">
           <BackButton onBack={() => setCurrentPage("home")} />
         </view>
-        <view className="flex-1 min-h-0">
-          {currentPage === "action-button" && <ActionButtonPage />}
-          {currentPage === "bottom-sheet" && <BottomSheetPage />}
-          {currentPage === "checkbox" && <CheckboxPage />}
-          {currentPage === "progress-circle" && <ProgressCirclePage />}
-          {currentPage === "radio-group" && <RadioGroupPage />}
-          {currentPage === "switch" && <SwitchPage />}
-          {currentPage === "tag-group" && <TagGroupPage />}
-          <Suspense>
-            {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
-            {currentPage === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
-          </Suspense>
-        </view>
+        {currentPage === "action-button" && <ActionButtonPage />}
+        {currentPage === "bottom-sheet" && <BottomSheetPage />}
+        {currentPage === "checkbox" && <CheckboxPage />}
+        {currentPage === "progress-circle" && <ProgressCirclePage />}
+        {currentPage === "radio-group" && <RadioGroupPage />}
+        {currentPage === "switch" && <SwitchPage />}
+        {currentPage === "tag-group" && <TagGroupPage />}
+        <Suspense>
+          {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
+          {currentPage === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
+        </Suspense>
         {showLynxConsole && (
           <Suspense>
             <LynxConsole theme="light" />
