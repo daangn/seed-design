@@ -1,4 +1,11 @@
 import type { ComponentType } from "@lynx-js/react";
+import { vars } from "@seed-design/lynx-css/vars";
+
+const { $color } = vars;
+
+const COLUMN_COUNT = 4;
+const ITEM_HEIGHT = 76;
+const PRELOAD_ITEM_COUNT = COLUMN_COUNT * 8;
 
 export interface IconProps {
   color?: string;
@@ -17,66 +24,83 @@ interface VirtualIconGridProps {
   title: string;
 }
 
-interface IconRow {
-  emptyKeys: string[];
-  icons: IconEntry[];
-  key: string;
-}
-
-const COLUMN_COUNT = 4;
-const EMPTY_CELL_KEYS = ["empty-a", "empty-b", "empty-c"];
-
-function chunkIconRows(icons: IconEntry[]) {
-  const rows: IconRow[] = [];
-
-  for (let index = 0; index < icons.length; index += COLUMN_COUNT) {
-    const rowIcons = icons.slice(index, index + COLUMN_COUNT);
-    const rowKey = rowIcons.map(({ name }) => name).join(":");
-    const emptyKeys = EMPTY_CELL_KEYS.slice(0, COLUMN_COUNT - rowIcons.length).map(
-      (key) => `${rowKey}:${key}`,
-    );
-
-    rows.push({ emptyKeys, icons: rowIcons, key: rowKey });
-  }
-
-  return rows;
-}
-
 export function VirtualIconGrid({ iconColor, icons, packageName, title }: VirtualIconGridProps) {
-  const rows = chunkIconRows(icons);
-
   return (
-    <view className="lynx-icon-grid-page">
-      <view className="lynx-icon-grid-header">
-        <text className="lynx-icon-grid-title">{title}</text>
-        <text className="lynx-icon-grid-subtitle">
-          {packageName} - {icons.length} icons
-        </text>
-      </view>
+    <view
+      style={{
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        minHeight: 0,
+        paddingLeft: "16px",
+        paddingRight: "16px",
+      }}
+    >
+      <text
+        style={{
+          color: $color.fg.neutral,
+          fontSize: "20px",
+          fontWeight: "bold",
+        }}
+      >
+        {title}
+      </text>
+      <text
+        style={{
+          color: $color.fg.neutralSubtle,
+          fontSize: "13px",
+          marginBottom: "8px",
+        }}
+      >
+        {packageName} - {icons.length} icons
+      </text>
 
-      <scroll-view scroll-y className="lynx-icon-grid-scroll">
-        <view className="lynx-icon-grid-content">
-          {rows.map((row) => (
-            <view key={row.key} className="lynx-icon-grid-row">
-              {row.icons.map(({ component: IconComp, name }) => (
-                <view key={name} className="lynx-icon-grid-cell">
-                  <view className="lynx-icon-grid-icon">
-                    {iconColor == null ? (
-                      <IconComp size={28} />
-                    ) : (
-                      <IconComp size={28} color={iconColor} />
-                    )}
-                  </view>
-                  <text className="lynx-icon-grid-label">{name}</text>
-                </view>
-              ))}
-              {row.emptyKeys.map((key) => (
-                <view key={key} className="lynx-icon-grid-placeholder" />
-              ))}
+      <list
+        list-type="flow"
+        span-count={COLUMN_COUNT}
+        scroll-orientation="vertical"
+        preload-buffer-count={PRELOAD_ITEM_COUNT}
+        style={{ flex: 1, height: "100%", width: "100%" }}
+      >
+        {icons.map(({ component: IconComp, name }) => (
+          <list-item
+            key={name}
+            item-key={name}
+            estimated-main-axis-size-px={ITEM_HEIGHT}
+            reuse-identifier="icon-cell"
+          >
+            <view
+              style={{
+                alignItems: "center",
+                display: "flex",
+                flexDirection: "column",
+                gap: "4px",
+                height: `${ITEM_HEIGHT}px`,
+                justifyContent: "center",
+                padding: "8px 4px",
+              }}
+            >
+              {iconColor == null ? (
+                <IconComp size={24} />
+              ) : (
+                <IconComp size={24} color={iconColor} />
+              )}
+              <text
+                style={{
+                  color: $color.fg.neutralMuted,
+                  fontSize: "9px",
+                  height: "24px",
+                  lineHeight: "10px",
+                  textAlign: "center",
+                  wordBreak: "break-all",
+                }}
+              >
+                {name}
+              </text>
             </view>
-          ))}
-        </view>
-      </scroll-view>
+          </list-item>
+        ))}
+      </list>
     </view>
   );
 }

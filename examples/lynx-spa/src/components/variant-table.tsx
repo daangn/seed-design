@@ -49,7 +49,12 @@ export function VariantTable<const Variants extends readonly VariantAxis[]>(
   }, [variants]);
 
   return (
-    <list list-type="single" span-count={1} scroll-orientation="vertical" className="flex-1 w-full">
+    <list
+      list-type="single"
+      span-count={1}
+      scroll-orientation="vertical"
+      style={{ flex: 1, width: "100%" }}
+    >
       {entries.map((entry) => (
         <list-item key={entry.key} item-key={entry.key}>
           {entry.type === "header" ? (
