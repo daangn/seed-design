@@ -338,6 +338,57 @@ describe("useAttachmentDisplay", () => {
     });
   });
 
+  // The snippet layer (AttachmentDisplay) hands these mutators to `onTriggerClick`/`onRetry`
+  // for use in controlled mode too. That only works if the functional updater inside `setEntries`
+  // reads the *current* controlled `entries` prop, not a stale snapshot — verify that here.
+  describe("controlled mode functional updaters", () => {
+    it("addEntries appends to the current controlled value across sequential calls", () => {
+      const onEntriesChange = mock((_next: DisplayItemEntry[]) => {});
+      let api!: UseAttachmentDisplayReturn;
+
+      function Controlled() {
+        const [entries, setEntries] = React.useState<DisplayItemEntry[]>([sampleSuccess("a")]);
+        return (
+          <BasicDisplay
+            entries={entries}
+            onEntriesChange={(next) => {
+              onEntriesChange(next);
+              setEntries(next);
+            }}
+            maxEntries={5}
+            extraChildren={
+              <ApiHarness
+                onApi={(value) => {
+                  api = value;
+                }}
+              />
+            }
+          />
+        );
+      }
+
+      const { queryAllByTestId } = setUp(<Controlled />);
+      expect(queryAllByTestId(/^item-/)).toHaveLength(1);
+
+      act(() => api.addEntries([sampleSuccess("b")]));
+      expect(onEntriesChange.mock.calls.at(-1)?.[0]).toEqual([
+        sampleSuccess("a"),
+        sampleSuccess("b"),
+      ]);
+      expect(queryAllByTestId(/^item-/)).toHaveLength(2);
+
+      // Second call must read the now-current [a, b] (committed via the controlled prop),
+      // not the [a] captured when the first render's setter was created.
+      act(() => api.addEntries([sampleSuccess("c")]));
+      expect(onEntriesChange.mock.calls.at(-1)?.[0]).toEqual([
+        sampleSuccess("a"),
+        sampleSuccess("b"),
+        sampleSuccess("c"),
+      ]);
+      expect(queryAllByTestId(/^item-/)).toHaveLength(3);
+    });
+  });
+
   describe("reorderEntry helper", () => {
     it("moves entry from fromIndex to toIndex", () => {
       const onEntriesChange = mock((_next: DisplayItemEntry[]) => {});

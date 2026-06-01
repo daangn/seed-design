@@ -12,13 +12,15 @@ const defaultEntries: DisplayItemEntry[] = [
 ];
 
 // 외부 미디어 피커 모킹. 실제 환경에서는 네이티브 브릿지/모달/서버 호출 등으로 교체하세요.
-async function openMediaPicker(): Promise<DisplayItemEntry> {
+async function openMediaPicker(): Promise<DisplayItemEntry[]> {
   const id = crypto.randomUUID();
-  return {
-    id,
-    thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`,
-    status: "success",
-  };
+  return [
+    {
+      id,
+      thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`,
+      status: "success",
+    },
+  ];
 }
 
 export default function AttachmentDisplayReorderableExample() {
@@ -27,9 +29,8 @@ export default function AttachmentDisplayReorderableExample() {
   return (
     <AttachmentDisplayField entries={entries} onEntriesChange={setEntries} maxEntries={5}>
       <AttachmentDisplayReorderable
-        onTriggerClick={async () => {
-          const newEntry = await openMediaPicker();
-          setEntries((prev) => [...prev, newEntry]);
+        onTriggerClick={async ({ addEntries }) => {
+          addEntries(await openMediaPicker());
         }}
       />
     </AttachmentDisplayField>

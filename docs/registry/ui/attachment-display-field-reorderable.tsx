@@ -6,7 +6,11 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { isSortable, useSortable } from "@dnd-kit/react/sortable";
 import { IconCameraFill } from "@karrotmarket/react-monochrome-icon";
 import { AttachmentDisplay as SeedAttachmentDisplay } from "@seed-design/react";
-import { type DisplayItemEntry, useAttachmentDisplayContext } from "@seed-design/react/primitive";
+import {
+  type DisplayItemEntry,
+  type UseAttachmentDisplayReturn,
+  useAttachmentDisplayContext,
+} from "@seed-design/react/primitive";
 import * as React from "react";
 
 import { AttachmentDisplayItem, type AttachmentDisplayItemProps } from "./attachment-display-field";
@@ -37,12 +41,17 @@ const accessibilityPlugin = Accessibility.configure({
 } satisfies NonNullable<ConstructorParameters<typeof Accessibility>[1]>);
 
 export type AttachmentDisplayReorderableProps = {
-  onTriggerClick: () => void;
+  onTriggerClick: (
+    helpers: Pick<UseAttachmentDisplayReturn, "addEntries" | "updateEntryStatus">,
+  ) => void;
 } & (
   | { children: SeedAttachmentDisplay.ContextProps["children"]; onRetry?: never }
   | {
       children?: undefined;
-      onRetry?: (entry: DisplayItemEntry) => void;
+      onRetry?: (
+        entry: DisplayItemEntry,
+        helpers: Pick<UseAttachmentDisplayReturn, "updateEntryStatus">,
+      ) => void;
     }
 );
 
@@ -53,7 +62,7 @@ export const AttachmentDisplayReorderable = React.forwardRef<
   HTMLDivElement,
   AttachmentDisplayReorderableProps
 >(function AttachmentDisplayReorderable({ onTriggerClick, onRetry, children }, ref) {
-  const { reorderEntry } = useAttachmentDisplayContext();
+  const { addEntries, reorderEntry, updateEntryStatus } = useAttachmentDisplayContext();
 
   return (
     <DragDropProvider
@@ -66,7 +75,10 @@ export const AttachmentDisplayReorderable = React.forwardRef<
       }}
     >
       <SeedAttachmentDisplay.Container ref={ref}>
-        <SeedAttachmentDisplay.Trigger onClick={onTriggerClick} aria-label={LABEL_SELECT_FILE}>
+        <SeedAttachmentDisplay.Trigger
+          onClick={() => onTriggerClick({ addEntries, updateEntryStatus })}
+          aria-label={LABEL_SELECT_FILE}
+        >
           <SeedAttachmentDisplay.TriggerIcon image={<IconCameraFill />} />
           <SeedAttachmentDisplay.TriggerItemCount />
         </SeedAttachmentDisplay.Trigger>
@@ -80,7 +92,7 @@ export const AttachmentDisplayReorderable = React.forwardRef<
                       key={entry.id}
                       entry={entry}
                       index={index}
-                      {...(onRetry && { onRetry: () => onRetry(entry) })}
+                      {...(onRetry && { onRetry: () => onRetry(entry, { updateEntryStatus }) })}
                     />
                   ))}
           </SeedAttachmentDisplay.Context>

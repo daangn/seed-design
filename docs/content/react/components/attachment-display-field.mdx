@@ -63,26 +63,24 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 `AttachmentDisplayField` 안에 `AttachmentDisplay` 또는 `AttachmentDisplayReorderable`을 조합하여 사용합니다.
 
-`AttachmentDisplay`는 HTML `<input type="file">`을 사용하지 않습니다. `onTriggerClick`으로 외부 미디어 피커를 호출하고, 그 결과를 `entries`로 주입하여 표시하세요.
+`AttachmentDisplay`는 HTML `<input type="file">`을 사용하지 않습니다. `onTriggerClick`으로 외부 미디어 피커를 호출하고, 콜백 인자로 전달되는 `addEntries`에 그 결과를 넘겨 표시하세요. `addEntries`는 `maxEntries` 상한과 single-mode(`maxEntries={1}`) 치환을 내부에서 처리하므로, `entries`를 직접 펼쳐 넣는 것보다 안전합니다.
 
 [`AttachmentField`](/react/components/attachment-field)와 달리 `AttachmentDisplayField`는 파일의 유효성을 검증하거나 파일 객체를 직접 다루지 않습니다.
 
 ```tsx
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 
-<AttachmentDisplayField
-  entries={entries}
-  onEntriesChange={setEntries}
-  maxEntries={10}
->
+<AttachmentDisplayField defaultEntries={[]} maxEntries={10}>
   <AttachmentDisplay
-    onTriggerClick={async () => {
-      const result = await openMediaPicker({ ... });
-      // result를 entries로 변환하여 setEntries 호출
+    onTriggerClick={async ({ addEntries }) => {
+      const pickedEntries = await openMediaPicker();
+      addEntries(pickedEntries);
     }}
   />
 </AttachmentDisplayField>;
 ```
+
+`entries`와 `onEntriesChange`로 목록을 직접 제어하는 controlled 방식도 지원합니다. 이 경우에도 `addEntries`는 동일하게 동작합니다([Controlled](#controlled) 참고).
 
 ### Item 직접 구성하기
 
@@ -99,12 +97,12 @@ import {
   AttachmentDisplayItem,
 } from "seed-design/ui/attachment-display-field";
 
-<AttachmentDisplayField
-  entries={entries}
-  onEntriesChange={setEntries}
-  maxEntries={10}
->
-  <AttachmentDisplay onTriggerClick={openPicker}>
+<AttachmentDisplayField defaultEntries={[]} maxEntries={10}>
+  <AttachmentDisplay
+    onTriggerClick={async ({ addEntries }) => {
+      addEntries(await openMediaPicker());
+    }}
+  >
     {({ entries }) =>
       entries.map((entry) => (
         <AttachmentDisplayItem key={entry.id} entry={entry} />
@@ -118,7 +116,7 @@ import {
 
 ### Trigger
 
-`AttachmentDisplay`는 trigger(업로드 버튼)가 포함된 레이아웃을 제공합니다. trigger 클릭 시 `onTriggerClick` 콜백이 실행됩니다. 일반적으로 외부 미디어 피커 호출을 수행합니다.
+`AttachmentDisplay`는 trigger(업로드 버튼)가 포함된 레이아웃을 제공합니다. trigger 클릭 시 `onTriggerClick` 콜백이 실행됩니다. 일반적으로 외부 미디어 피커 호출을 수행합니다. 콜백은 `{ addEntries, updateEntryStatus }`를 인자로 받아, 피커 결과를 추가하고 곧바로 업로드 상태를 갱신할 수 있습니다.
 
 <ComponentExample name="react/attachment-display-field/trigger">
   ```json doc-gen:file
@@ -146,7 +144,7 @@ import {
 
 `entries`의 각 항목은 `pending`, `uploading`, `success`, `error`의 status를 가질 수 있습니다. 새로 추가되는 항목의 status 기본값은 의도에 맞게 자유롭게 지정할 수 있습니다(외부 피커가 막 던진 항목이라면 `uploading`, 이미 업로드 완료된 미디어를 hydrate한다면 `success`).
 
-외부 업로드 API가 파일 업로드 상태를 제공하는 경우 `entries` 각 항목의 status를 업데이트하여 UI에 반영할 수 있습니다.
+외부 업로드 API와 연동하는 경우, `onTriggerClick`·`onRetry` 콜백으로 함께 전달되는 `updateEntryStatus` 헬퍼를 사용하여 각 항목의 status를 업데이트합니다.
 
 <ComponentExample name="react/attachment-display-field/status">
   ```json doc-gen:file
@@ -161,7 +159,7 @@ import {
   - `progress`를 설정하여 업로드 진행률을 표시할 수 있습니다.
   - `progress`를 지정하지 않는 경우 [indeterminate](/react/components/progress-circle#indeterminate) 상태로 표시됩니다.
 - `error`: 재시도 버튼이 표시됩니다.
-  - 클릭 시 `AttachmentDisplay`에 지정한 `onRetry` 콜백이 실행됩니다.
+  - 클릭 시 `AttachmentDisplay`에 지정한 `onRetry` 콜백이 `(entry, { updateEntryStatus })` 인자로 실행됩니다. `updateEntryStatus`로 해당 항목을 다시 `uploading` 상태로 되돌려 업로드를 재시도하세요.
 
 ## Reordering Entries
 

@@ -1,4 +1,3 @@
-import { useCallback, useRef, useState } from "react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
@@ -44,81 +43,66 @@ const insetStyle = {
   "--seed-attachment-input-extend-x": vars.$dimension.spacingX.globalGutter,
 } as React.CSSProperties;
 
-function presetEntries(count: number): DisplayItemEntry[] {
+function presetEntries(prefix: string, count: number): DisplayItemEntry[] {
   return Array.from(
     { length: count },
     (_, i): DisplayItemEntry => ({
-      id: `preset-${i}`,
-      thumbnailUrl: sampleThumbnailUrl(`preset-${i}`),
+      id: `${prefix}-${i}`,
+      thumbnailUrl: sampleThumbnailUrl(`${prefix}-${i}`),
       status: "success",
     }),
   );
 }
 
-// 외부 업로드 상태 구독을 흉내 낸다. AttachmentDisplay 자체는 업로드를 수행하지 않으므로
-// 활동에서 entries를 직접 소유하고 status를 갱신한다.
-function useSimulatedDisplay(initialEntries: DisplayItemEntry[] = []) {
-  const [entries, setEntries] = useState<DisplayItemEntry[]>(initialEntries);
-  const idRef = useRef(0);
+// uncontrolled defaultEntries는 첫 렌더에서만 읽히므로 모듈 상수로 한 번만 만든다.
+const customizingEntries = presetEntries("customizing", 2);
+const disabledEntries = presetEntries("disabled", 2);
+const readOnlyEntries = presetEntries("readonly", 3);
 
-  const updateStatus = useCallback((id: string, details: DisplayItemStatusDetails) => {
-    setEntries((prev) =>
-      prev.map((entry) =>
-        entry.id === id ? { id: entry.id, thumbnailUrl: entry.thumbnailUrl, ...details } : entry,
-      ),
-    );
-  }, []);
+// 외부 미디어 피커가 이미지 하나를 반환했다고 가정한다.
+async function openMediaPicker(): Promise<DisplayItemEntry[]> {
+  const id = crypto.randomUUID();
+  return [{ id, thumbnailUrl: sampleThumbnailUrl(`display-${id}`), status: "uploading" }];
+}
 
-  const simulateUpload = useCallback(
-    (id: string) => {
-      const totalChunks = 5;
-      let chunk = 0;
+// 외부 업로드 상태 구독을 흉내 낸다. AttachmentDisplay가 entries를 소유하므로
+// status는 컴포넌트가 콜백으로 전달하는 updateEntryStatus 헬퍼로만 갱신한다.
+function simulateUpload(
+  id: string,
+  updateEntryStatus: (id: string, details: DisplayItemStatusDetails) => void,
+) {
+  const totalChunks = 5;
+  let chunk = 0;
 
-      const tick = () => {
-        chunk += 1;
-        updateStatus(id, {
-          status: "uploading",
-          progress: Math.round((chunk / totalChunks) * 100),
-        });
-
-        if (chunk < totalChunks) {
-          setTimeout(tick, 200 + Math.random() * 300);
-          return;
-        }
-
-        // AttachmentField 예제와 동일하게 50% 확률로 실패시켜 재시도 버튼을 노출한다.
-        updateStatus(id, { status: Math.random() > 0.5 ? "success" : "error" });
-      };
-
-      setTimeout(tick, 200 + Math.random() * 300);
-    },
-    [updateStatus],
-  );
-
-  // 외부 미디어 피커가 이미지 하나를 반환했다고 가정한다.
-  // maxEntries에 도달하면 trigger가 비활성화되므로 별도 cap은 두지 않는다.
-  const handleTriggerClick = useCallback(() => {
-    const seq = idRef.current++;
-    const entry: DisplayItemEntry = {
-      id: `entry-${seq}`,
-      thumbnailUrl: sampleThumbnailUrl(`display-${seq}`),
+  const tick = () => {
+    chunk += 1;
+    updateEntryStatus(id, {
       status: "uploading",
-      progress: 0,
-    };
+      progress: Math.round((chunk / totalChunks) * 100),
+    });
 
-    setEntries((prev) => [...prev, entry]);
-    simulateUpload(entry.id);
-  }, [simulateUpload]);
+    if (chunk < totalChunks) {
+      setTimeout(tick, 200 + Math.random() * 300);
+      return;
+    }
 
-  const handleRetry = useCallback(
-    (entry: DisplayItemEntry) => {
-      updateStatus(entry.id, { status: "uploading", progress: 0 });
-      simulateUpload(entry.id);
-    },
-    [simulateUpload, updateStatus],
-  );
+    // AttachmentField 예제와 동일하게 50% 확률로 실패시켜 재시도 버튼을 노출한다.
+    updateEntryStatus(id, { status: Math.random() > 0.5 ? "success" : "error" });
+  };
 
-  return { entries, setEntries, handleTriggerClick, handleRetry };
+  setTimeout(tick, 200 + Math.random() * 300);
+}
+
+// 피커 결과를 addEntries로 추가하고(maxEntries 상한은 내부 처리), 곧바로 업로드 상태를 구동한다.
+async function pickAndUpload(
+  addEntries: (entries: DisplayItemEntry[]) => void,
+  updateEntryStatus: (id: string, details: DisplayItemStatusDetails) => void,
+) {
+  const pickedEntries = await openMediaPicker();
+  addEntries(pickedEntries);
+  for (const entry of pickedEntries) {
+    simulateUpload(entry.id, updateEntryStatus);
+  }
 }
 
 interface FeaturedDisplayItemProps {
@@ -161,13 +145,6 @@ const ActivityAttachmentDisplayField: StaticActivityComponentType<
 > = () => {
   const { push } = useFlow();
 
-  const basic = useSimulatedDisplay();
-  const reorderable = useSimulatedDisplay();
-  const customizing = useSimulatedDisplay(presetEntries(2));
-  const disabled = useSimulatedDisplay(presetEntries(2));
-  const readOnly = useSimulatedDisplay(presetEntries(3));
-  const field = useSimulatedDisplay();
-
   return (
     <AppScreen>
       <AppBar>
@@ -186,14 +163,16 @@ const ActivityAttachmentDisplayField: StaticActivityComponentType<
           <AttachmentDisplayField
             label="AttachmentDisplay"
             description="trigger 클릭 시 외부 피커 호출 시뮬레이션 (50% 확률로 실패)"
-            entries={basic.entries}
-            onEntriesChange={basic.setEntries}
             maxEntries={5}
             style={insetStyle}
           >
             <AttachmentDisplay
-              onTriggerClick={basic.handleTriggerClick}
-              onRetry={basic.handleRetry}
+              onTriggerClick={({ addEntries, updateEntryStatus }) =>
+                pickAndUpload(addEntries, updateEntryStatus)
+              }
+              onRetry={(entry, { updateEntryStatus }) =>
+                simulateUpload(entry.id, updateEntryStatus)
+              }
             />
           </AttachmentDisplayField>
 
@@ -202,14 +181,16 @@ const ActivityAttachmentDisplayField: StaticActivityComponentType<
           <AttachmentDisplayField
             label="AttachmentDisplayReorderable"
             description="드래그로 순서 변경 가능"
-            entries={reorderable.entries}
-            onEntriesChange={reorderable.setEntries}
             maxEntries={5}
             style={insetStyle}
           >
             <AttachmentDisplayReorderable
-              onTriggerClick={reorderable.handleTriggerClick}
-              onRetry={reorderable.handleRetry}
+              onTriggerClick={({ addEntries, updateEntryStatus }) =>
+                pickAndUpload(addEntries, updateEntryStatus)
+              }
+              onRetry={(entry, { updateEntryStatus }) =>
+                simulateUpload(entry.id, updateEntryStatus)
+              }
             />
           </AttachmentDisplayField>
 
@@ -218,19 +199,22 @@ const ActivityAttachmentDisplayField: StaticActivityComponentType<
           <AttachmentDisplayField
             label="Customizing Items (대표사진 배지)"
             description="첫 번째 이미지에 ItemBadge 표시"
-            entries={customizing.entries}
-            onEntriesChange={customizing.setEntries}
+            defaultEntries={customizingEntries}
             maxEntries={5}
             style={insetStyle}
           >
-            <AttachmentDisplay onTriggerClick={customizing.handleTriggerClick}>
-              {({ entries }) =>
+            <AttachmentDisplay
+              onTriggerClick={({ addEntries, updateEntryStatus }) =>
+                pickAndUpload(addEntries, updateEntryStatus)
+              }
+            >
+              {({ entries, updateEntryStatus }) =>
                 entries.map((entry, index) => (
                   <FeaturedDisplayItem
                     key={entry.id}
                     entry={entry}
                     featured={index === 0}
-                    onRetry={() => customizing.handleRetry(entry)}
+                    onRetry={() => simulateUpload(entry.id, updateEntryStatus)}
                   />
                 ))
               }
@@ -242,15 +226,18 @@ const ActivityAttachmentDisplayField: StaticActivityComponentType<
           <AttachmentDisplayField
             label="Disabled"
             description="trigger는 비활성, 제거는 가능"
-            entries={disabled.entries}
-            onEntriesChange={disabled.setEntries}
+            defaultEntries={disabledEntries}
             maxEntries={5}
             disabled
             style={insetStyle}
           >
             <AttachmentDisplay
-              onTriggerClick={disabled.handleTriggerClick}
-              onRetry={disabled.handleRetry}
+              onTriggerClick={({ addEntries, updateEntryStatus }) =>
+                pickAndUpload(addEntries, updateEntryStatus)
+              }
+              onRetry={(entry, { updateEntryStatus }) =>
+                simulateUpload(entry.id, updateEntryStatus)
+              }
             />
           </AttachmentDisplayField>
 
@@ -259,15 +246,18 @@ const ActivityAttachmentDisplayField: StaticActivityComponentType<
           <AttachmentDisplayField
             label="Read Only"
             description="trigger·제거·순서 변경 모두 비활성"
-            entries={readOnly.entries}
-            onEntriesChange={readOnly.setEntries}
+            defaultEntries={readOnlyEntries}
             maxEntries={5}
             readOnly
             style={insetStyle}
           >
             <AttachmentDisplay
-              onTriggerClick={readOnly.handleTriggerClick}
-              onRetry={readOnly.handleRetry}
+              onTriggerClick={({ addEntries, updateEntryStatus }) =>
+                pickAndUpload(addEntries, updateEntryStatus)
+              }
+              onRetry={(entry, { updateEntryStatus }) =>
+                simulateUpload(entry.id, updateEntryStatus)
+              }
             />
           </AttachmentDisplayField>
 
@@ -279,14 +269,16 @@ const ActivityAttachmentDisplayField: StaticActivityComponentType<
             errorMessage="사진을 1장 이상 등록해 주세요."
             invalid
             showRequiredIndicator
-            entries={field.entries}
-            onEntriesChange={field.setEntries}
             maxEntries={5}
             style={insetStyle}
           >
             <AttachmentDisplay
-              onTriggerClick={field.handleTriggerClick}
-              onRetry={field.handleRetry}
+              onTriggerClick={({ addEntries, updateEntryStatus }) =>
+                pickAndUpload(addEntries, updateEntryStatus)
+              }
+              onRetry={(entry, { updateEntryStatus }) =>
+                simulateUpload(entry.id, updateEntryStatus)
+              }
             />
           </AttachmentDisplayField>
         </VStack>

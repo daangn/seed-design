@@ -11,7 +11,11 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import {
+  type DisplayItemEntry,
+  type UseAttachmentDisplayReturn,
+  useAttachmentDisplayContext,
+} from "@seed-design/react/primitive";
 import * as React from "react";
 
 import { ProgressCircle } from "./progress-circle";
@@ -102,12 +106,17 @@ export const AttachmentDisplayField = React.forwardRef<HTMLDivElement, Attachmen
 AttachmentDisplayField.displayName = "AttachmentDisplayField";
 
 export type AttachmentDisplayProps = {
-  onTriggerClick: () => void;
+  onTriggerClick: (
+    helpers: Pick<UseAttachmentDisplayReturn, "addEntries" | "updateEntryStatus">,
+  ) => void;
 } & (
   | { children: SeedAttachmentDisplay.ContextProps["children"]; onRetry?: never }
   | {
       children?: undefined;
-      onRetry?: (entry: DisplayItemEntry) => void;
+      onRetry?: (
+        entry: DisplayItemEntry,
+        helpers: Pick<UseAttachmentDisplayReturn, "updateEntryStatus">,
+      ) => void;
     }
 );
 
@@ -116,9 +125,14 @@ export type AttachmentDisplayProps = {
  */
 export const AttachmentDisplay = React.forwardRef<HTMLDivElement, AttachmentDisplayProps>(
   ({ onTriggerClick, children, onRetry }, ref) => {
+    const { addEntries, updateEntryStatus } = useAttachmentDisplayContext();
+
     return (
       <SeedAttachmentDisplay.Container ref={ref}>
-        <SeedAttachmentDisplay.Trigger onClick={onTriggerClick} aria-label={LABEL_SELECT_FILE}>
+        <SeedAttachmentDisplay.Trigger
+          onClick={() => onTriggerClick({ addEntries, updateEntryStatus })}
+          aria-label={LABEL_SELECT_FILE}
+        >
           <SeedAttachmentDisplay.TriggerIcon image={<IconCameraFill />} />
           <SeedAttachmentDisplay.TriggerItemCount />
         </SeedAttachmentDisplay.Trigger>
@@ -131,7 +145,7 @@ export const AttachmentDisplay = React.forwardRef<HTMLDivElement, AttachmentDisp
                     <AttachmentDisplayItem
                       key={entry.id}
                       entry={entry}
-                      {...(onRetry && { onRetry: () => onRetry(entry) })}
+                      {...(onRetry && { onRetry: () => onRetry(entry, { updateEntryStatus }) })}
                     />
                   ))}
           </SeedAttachmentDisplay.Context>

@@ -6,13 +6,15 @@ import { useRef, useState } from "react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 
 // 외부 미디어 피커 모킹. 실제 환경에서는 네이티브 브릿지/모달/서버 호출 등으로 교체하세요.
-async function openMediaPicker(): Promise<DisplayItemEntry> {
+async function openMediaPicker(): Promise<DisplayItemEntry[]> {
   const id = crypto.randomUUID();
-  return {
-    id,
-    thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`,
-    status: "success",
-  };
+  return [
+    {
+      id,
+      thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`,
+      status: "success",
+    },
+  ];
 }
 
 export default function AttachmentDisplayValueChanges() {
@@ -26,15 +28,13 @@ export default function AttachmentDisplayValueChanges() {
     setLogs((prev) => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
   };
 
-  const handleTriggerClick = async () => {
-    const newEntry = await openMediaPicker();
-    setEntries((prev) => [...prev, newEntry]);
-    addLog(`added: ${newEntry.id}`);
-  };
-
+  // addEntries로 추가하든 제거 버튼으로 지우든 변경은 항상 onEntriesChange로 흐르므로,
+  // 추가/삭제 감지를 여기 한 곳에서 처리합니다.
   const handleEntriesChange = (next: DisplayItemEntry[]) => {
     const prev = entriesRef.current;
+    const added = next.filter((n) => !prev.some((p) => p.id === n.id));
     const removed = prev.filter((p) => !next.some((n) => n.id === p.id));
+    if (added.length > 0) addLog(`added: ${added.map((a) => a.id).join(", ")}`);
     if (removed.length > 0) addLog(`removed: ${removed.map((r) => r.id).join(", ")}`);
     setEntries(next);
   };
@@ -57,7 +57,11 @@ export default function AttachmentDisplayValueChanges() {
         onEntriesChange={handleEntriesChange}
         maxEntries={3}
       >
-        <AttachmentDisplay onTriggerClick={handleTriggerClick} />
+        <AttachmentDisplay
+          onTriggerClick={async ({ addEntries }) => {
+            addEntries(await openMediaPicker());
+          }}
+        />
       </AttachmentDisplayField>
     </VStack>
   );
