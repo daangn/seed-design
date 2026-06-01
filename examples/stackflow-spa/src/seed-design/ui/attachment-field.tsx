@@ -241,7 +241,7 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
         </SeedAttachmentInput.ItemThumbnail>
         <SeedAttachmentInput.ItemMetadata>
           <SeedAttachmentInput.ItemName />
-          <SeedAttachmentInput.ItemSizeText formatBytes={formatBytes} />
+          <SeedAttachmentInput.ItemSize formatBytes={formatBytes} />
         </SeedAttachmentInput.ItemMetadata>
         <SeedAttachmentInput.ItemBackdrop status="uploading">
           {(entry) => (

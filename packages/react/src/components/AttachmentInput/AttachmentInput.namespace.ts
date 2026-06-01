@@ -30,7 +30,7 @@ export {
   AttachmentInputItemMetadata as ItemMetadata,
   AttachmentInputItemName as ItemName,
   AttachmentInputItemRemoveButton as ItemRemoveButton,
-  AttachmentInputItemSize as ItemSizeText,
+  AttachmentInputItemSize as ItemSize,
   AttachmentInputItemThumbnail as ItemThumbnail,
   type AttachmentInputItemActionButtonProps as ItemActionButtonProps,
   type AttachmentInputItemBackdropProps as ItemBackdropProps,
@@ -40,7 +40,7 @@ export {
   type AttachmentInputItemNameProps as ItemNameProps,
   type AttachmentInputItemProps as ItemProps,
   type AttachmentInputItemRemoveButtonProps as ItemRemoveButtonProps,
-  type AttachmentInputItemSizeProps as ItemSizeTextProps,
+  type AttachmentInputItemSizeProps as ItemSizeProps,
   type AttachmentInputItemThumbnailProps as ItemThumbnailProps,
 } from "./AttachmentInputItem";
 
