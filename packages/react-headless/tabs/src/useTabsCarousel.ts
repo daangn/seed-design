@@ -66,7 +66,7 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
           const prevHeight = heights.get(slide);
           heights.set(slide, newHeight);
 
-          if (prevHeight !== undefined && Math.abs(newHeight - prevHeight) >= 0.5) {
+          if (prevHeight !== undefined && newHeight !== prevHeight) {
             emblaApi.reInit();
             return false;
           }
