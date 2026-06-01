@@ -22,17 +22,25 @@ export interface TransitionTargets {
   topDim: HTMLElement | null;
   behindLayer: HTMLElement | null;
   behindDim: HTMLElement | null;
+  intermediateActivities: HTMLElement[];
+  intermediateLayers: HTMLElement[];
+  intermediateDims: HTMLElement[];
   topTitle: HTMLElement | null;
   behindTitle: HTMLElement | null;
+  intermediateTitles: HTMLElement[];
   topIcons: HTMLElement[];
   behindIcons: HTMLElement[];
+  intermediateIcons: HTMLElement[];
   topAppBarRoot: HTMLElement | null;
   behindAppBarRoot: HTMLElement | null;
+  intermediateAppBarRoots: HTMLElement[];
   topAppBarBackground: HTMLElement | null;
   behindAppBarBackground: HTMLElement | null;
+  intermediateAppBarBackgrounds: HTMLElement[];
 }
 
 export type TransitionStyle = "slideFromRightIOS" | "fadeFromBottomAndroid" | "fadeIn";
+export type TransitionDirection = "push" | "pop";
 
 // ─── DOM Discovery ──────────────────────────────────────────────────────────
 
@@ -46,6 +54,16 @@ function queryAllParts(activity: HTMLElement | null, ...parts: string[]): HTMLEl
   return Array.from(activity.querySelectorAll<HTMLElement>(selector));
 }
 
+function queryPartsFromActivities(activities: HTMLElement[], part: string): HTMLElement[] {
+  return activities
+    .map((activity) => queryParts(activity, part))
+    .filter((el): el is HTMLElement => el !== null);
+}
+
+function queryAllPartsFromActivities(activities: HTMLElement[], ...parts: string[]): HTMLElement[] {
+  return activities.flatMap((activity) => queryAllParts(activity, ...parts));
+}
+
 /** Read transition style directly from the top activity DOM element. */
 export function readTransitionStyle(stackEl: HTMLElement): TransitionStyle {
   const topActivity = stackEl.querySelector<HTMLElement>("[data-activity-is-top]");
@@ -53,21 +71,48 @@ export function readTransitionStyle(stackEl: HTMLElement): TransitionStyle {
 }
 
 /** Find all transition target elements. Call once per gesture/transition. */
-export function findTransitionTargets(stackEl: HTMLElement): TransitionTargets {
+export function findTransitionTargets(
+  stackEl: HTMLElement,
+  options: {
+    direction?: TransitionDirection;
+  } = {},
+): TransitionTargets {
   const topActivity = stackEl.querySelector<HTMLElement>("[data-activity-is-top]");
 
   let behindActivity: HTMLElement | null = null;
+  let intermediateActivities: HTMLElement[] = [];
   if (topActivity) {
     const all = Array.from(
       stackEl.querySelectorAll<HTMLElement>(`[data-part='${appScreenAnatomy.activity}']`),
     );
     const topId = topActivity.dataset["activityId"];
     const topIdx = all.findIndex((el) => el.dataset["activityId"] === topId);
-    for (let i = topIdx - 1; i >= 0; i--) {
-      if (all[i].dataset["activityId"]) {
-        behindActivity = all[i];
-        break;
+
+    const findBehindIndex = (predicate: (activity: HTMLElement) => boolean) => {
+      for (let i = topIdx - 1; i >= 0; i--) {
+        if (all[i].dataset["activityId"] && predicate(all[i])) {
+          return i;
+        }
       }
+
+      return -1;
+    };
+
+    let behindIdx =
+      options.direction === "pop"
+        ? findBehindIndex((activity) => activity.dataset["activityIsActive"] !== undefined)
+        : -1;
+
+    if (behindIdx === -1) {
+      behindIdx = findBehindIndex(() => true);
+    }
+
+    if (behindIdx > -1) {
+      behindActivity = all[behindIdx];
+      intermediateActivities =
+        options.direction === "pop"
+          ? all.slice(behindIdx + 1, topIdx).filter((activity) => activity.dataset["activityId"])
+          : [];
     }
   }
 
@@ -76,14 +121,28 @@ export function findTransitionTargets(stackEl: HTMLElement): TransitionTargets {
     topDim: queryParts(topActivity, appScreenAnatomy.dim),
     behindLayer: queryParts(behindActivity, appScreenAnatomy.layer),
     behindDim: queryParts(behindActivity, appScreenAnatomy.dim),
+    intermediateActivities,
+    intermediateLayers: queryPartsFromActivities(intermediateActivities, appScreenAnatomy.layer),
+    intermediateDims: queryPartsFromActivities(intermediateActivities, appScreenAnatomy.dim),
     topTitle: queryParts(topActivity, appBarAnatomy.main),
     behindTitle: queryParts(behindActivity, appBarAnatomy.main),
+    intermediateTitles: queryPartsFromActivities(intermediateActivities, appBarAnatomy.main),
     topIcons: queryAllParts(topActivity, appBarAnatomy.icon, appBarAnatomy.custom),
     behindIcons: queryAllParts(behindActivity, appBarAnatomy.icon, appBarAnatomy.custom),
+    intermediateIcons: queryAllPartsFromActivities(
+      intermediateActivities,
+      appBarAnatomy.icon,
+      appBarAnatomy.custom,
+    ),
     topAppBarRoot: queryParts(topActivity, appBarAnatomy.root),
     behindAppBarRoot: queryParts(behindActivity, appBarAnatomy.root),
+    intermediateAppBarRoots: queryPartsFromActivities(intermediateActivities, appBarAnatomy.root),
     topAppBarBackground: queryParts(topActivity, appBarAnatomy.background),
     behindAppBarBackground: queryParts(behindActivity, appBarAnatomy.background),
+    intermediateAppBarBackgrounds: queryPartsFromActivities(
+      intermediateActivities,
+      appBarAnatomy.background,
+    ),
   };
 }
 
@@ -117,14 +176,74 @@ export function clearAllStyles(t: TransitionTargets) {
     t.behindDim,
     t.topTitle,
     t.behindTitle,
+    ...t.intermediateLayers,
+    ...t.intermediateDims,
+    ...t.intermediateTitles,
     t.topAppBarRoot,
     t.behindAppBarRoot,
+    ...t.intermediateAppBarRoots,
     t.topAppBarBackground,
     t.behindAppBarBackground,
+    ...t.intermediateAppBarBackgrounds,
     ...t.topIcons,
     ...t.behindIcons,
+    ...t.intermediateIcons,
   ];
   for (const el of all) clearStyles(el);
+}
+
+function setActivityPostExitPositions(
+  {
+    layer,
+    dim,
+    title,
+    icons,
+    appBarRoot,
+  }: {
+    layer: HTMLElement | null;
+    dim: HTMLElement | null;
+    title: HTMLElement | null;
+    icons: HTMLElement[];
+    appBarRoot: HTMLElement | null;
+  },
+  style: TransitionStyle,
+) {
+  setOpacity(dim, "0");
+  setOpacity(appBarRoot, "0");
+
+  if (style === "slideFromRightIOS") {
+    setTransform(layer, "translate3d(100%, 0, 0)");
+    setOpacity(title, "0");
+    setTransform(title, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
+    for (const icon of icons) {
+      setOpacity(icon, "0");
+      setTransform(icon, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
+    }
+  } else if (style === "fadeFromBottomAndroid") {
+    setOpacity(layer, "0");
+    setTransform(layer, "translate3d(0, 8vh, 0)");
+    setTransform(appBarRoot, "translate3d(0, 8vh, 0)");
+  } else {
+    setOpacity(layer, "0");
+  }
+}
+
+export function setIntermediateExitPositions(
+  t: TransitionTargets,
+  style: TransitionStyle = "slideFromRightIOS",
+) {
+  for (const activity of t.intermediateActivities) {
+    setActivityPostExitPositions(
+      {
+        layer: queryParts(activity, appScreenAnatomy.layer),
+        dim: queryParts(activity, appScreenAnatomy.dim),
+        title: queryParts(activity, appBarAnatomy.main),
+        icons: queryAllParts(activity, appBarAnatomy.icon, appBarAnatomy.custom),
+        appBarRoot: queryParts(activity, appBarAnatomy.root),
+      },
+      style,
+    );
+  }
 }
 
 /**
@@ -160,24 +279,17 @@ export function setPostExitPositions(
   clearAllStyles(t);
 
   // Pin top activity off-screen (stackflow will remove it from DOM later)
-  setOpacity(t.topDim, "0");
-  setOpacity(t.topAppBarRoot, "0");
-
-  if (style === "slideFromRightIOS") {
-    setTransform(t.topLayer, "translate3d(100%, 0, 0)");
-    setOpacity(t.topTitle, "0");
-    setTransform(t.topTitle, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
-    for (const icon of t.topIcons) {
-      setOpacity(icon, "0");
-      setTransform(icon, `translate3d(${TITLE_OFFSET_PERCENT}%, 0, 0)`);
-    }
-  } else if (style === "fadeFromBottomAndroid") {
-    setOpacity(t.topLayer, "0");
-    setTransform(t.topLayer, "translate3d(0, 8vh, 0)");
-    setTransform(t.topAppBarRoot, "translate3d(0, 8vh, 0)");
-  } else {
-    setOpacity(t.topLayer, "0");
-  }
+  setActivityPostExitPositions(
+    {
+      layer: t.topLayer,
+      dim: t.topDim,
+      title: t.topTitle,
+      icons: t.topIcons,
+      appBarRoot: t.topAppBarRoot,
+    },
+    style,
+  );
+  setIntermediateExitPositions(t, style);
 }
 
 /** Apply inline styles during swiping (touchmove). */
