@@ -1,7 +1,14 @@
-import { ActionButton } from "@seed-design/lynx-react";
+import { ActionButton, getSeedClassName } from "@seed-design/lynx-react";
 import clsx from "clsx";
 
-import { getGlobalProps, getSafeSeedClassName } from "../utils/theme";
+interface ThemeGlobalProps {
+  frontendTheme?: unknown;
+  theme?: unknown;
+}
+
+function getGlobalProps() {
+  return (lynx.__globalProps ?? {}) as ThemeGlobalProps;
+}
 
 function SectionTitle({ children }: { children: string }) {
   return <text className="t5-bold mt-x4 mb-x2 text-fg-neutral">{children}</text>;
@@ -108,9 +115,15 @@ export function ThemingPage() {
 
       <SectionTitle>getSeedClassName()</SectionTitle>
       <view className="p-x3 rounded-r2 border border-stroke-neutral-muted flex flex-col gap-x2">
-        <InfoRow label='colorMode: "system"' value={getSafeSeedClassName("system")} />
-        <InfoRow label='colorMode: "light-only"' value={getSafeSeedClassName("light-only")} />
-        <InfoRow label='colorMode: "dark-only"' value={getSafeSeedClassName("dark-only")} />
+        <InfoRow label='colorMode: "system"' value={getSeedClassName({ colorMode: "system" })} />
+        <InfoRow
+          label='colorMode: "light-only"'
+          value={getSeedClassName({ colorMode: "light-only" })}
+        />
+        <InfoRow
+          label='colorMode: "dark-only"'
+          value={getSeedClassName({ colorMode: "dark-only" })}
+        />
       </view>
 
       <SectionTitle>Theme Overrides</SectionTitle>

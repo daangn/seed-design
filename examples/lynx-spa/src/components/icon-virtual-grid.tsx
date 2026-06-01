@@ -1,6 +1,6 @@
 import type { ComponentType } from "@lynx-js/react";
 
-interface IconProps {
+export interface IconProps {
   color?: string;
   size?: number;
 }
@@ -46,37 +46,32 @@ export function VirtualIconGrid({ iconColor, icons, packageName, title }: Virtua
   const rows = chunkIconRows(icons);
 
   return (
-    <view className="flex flex-1 min-h-0 flex-col bg-bg-layer-default">
-      <view className="px-x4 pt-x1 pb-x3 border-b border-stroke-neutral-subtle bg-bg-layer-default">
-        <text className="t7-bold text-fg-neutral">{title}</text>
-        <text className="t2-regular text-fg-neutral-subtle mt-x0_5">
+    <view className="lynx-icon-grid-page">
+      <view className="lynx-icon-grid-header">
+        <text className="lynx-icon-grid-title">{title}</text>
+        <text className="lynx-icon-grid-subtitle">
           {packageName} - {icons.length} icons
         </text>
       </view>
 
-      <scroll-view scroll-y className="flex-1 min-h-0 w-full">
-        <view className="px-x4 pt-x3 pb-x16 flex flex-col gap-x2">
+      <scroll-view scroll-y className="lynx-icon-grid-scroll">
+        <view className="lynx-icon-grid-content">
           {rows.map((row) => (
-            <view key={row.key} className="flex flex-row gap-x2">
+            <view key={row.key} className="lynx-icon-grid-row">
               {row.icons.map(({ component: IconComp, name }) => (
-                <view
-                  key={name}
-                  className="flex-1 min-w-0 h-[104px] py-x2 px-x1 rounded-r2 border border-stroke-neutral-subtle bg-bg-layer-fill flex flex-col items-center justify-center gap-x1"
-                >
-                  <view className="h-x8 flex items-center justify-center">
+                <view key={name} className="lynx-icon-grid-cell">
+                  <view className="lynx-icon-grid-icon">
                     {iconColor == null ? (
                       <IconComp size={28} />
                     ) : (
                       <IconComp size={28} color={iconColor} />
                     )}
                   </view>
-                  <text className="h-x8 t1-regular text-fg-neutral-muted text-center break-all">
-                    {name}
-                  </text>
+                  <text className="lynx-icon-grid-label">{name}</text>
                 </view>
               ))}
               {row.emptyKeys.map((key) => (
-                <view key={key} className="flex-1 min-w-0 h-[104px]" />
+                <view key={key} className="lynx-icon-grid-placeholder" />
               ))}
             </view>
           ))}

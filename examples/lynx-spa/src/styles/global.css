@@ -1,4 +1,5 @@
 @import "@seed-design/lynx-css/base.css";
+@import "./icon-grid.css";
 
 @tailwind components;
 @tailwind utilities;
