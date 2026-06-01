@@ -10,8 +10,8 @@ import {
 
 import "./styles/global.css";
 
-import { getSeedClassName } from "@seed-design/lynx-react";
 import { App } from "./App.jsx";
+import { getSafeSeedClassName } from "./utils/theme";
 
 // Initialize lynx-console monitors before rendering.
 // This must run before the LynxConsole component is rendered.
@@ -22,7 +22,7 @@ initPerformanceMonitor();
 
 function Root() {
   return (
-    <page className={`${getSeedClassName({ colorMode: "system" })} bg-bg-layer-default`}>
+    <page className={`${getSafeSeedClassName("system")} bg-bg-layer-default`}>
       <App />
     </page>
   );

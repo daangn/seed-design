@@ -64,10 +64,12 @@ function renderBottomSheet(
         showHandle
       >
         <BottomSheetBody>
-          <text>Use the trigger to inspect this variant.</text>
+          <text className="t3-regular text-fg-neutral">
+            Use the trigger to inspect this variant.
+          </text>
         </BottomSheetBody>
         <BottomSheetFooter>
-          <text>Footer area</text>
+          <text className="t3-regular text-fg-neutral">Footer area</text>
         </BottomSheetFooter>
       </BottomSheetContent>
     </BottomSheetRoot>
@@ -91,10 +93,12 @@ function BottomSheetExamples() {
           showHandle
         >
           <BottomSheetBody>
-            <text>본문에 자유로운 Lynx 엘리먼트를 배치할 수 있습니다.</text>
+            <text className="t3-regular text-fg-neutral">
+              본문에 자유로운 Lynx 엘리먼트를 배치할 수 있습니다.
+            </text>
           </BottomSheetBody>
           <BottomSheetFooter>
-            <text>하단 액션 영역</text>
+            <text className="t3-regular text-fg-neutral">하단 액션 영역</text>
           </BottomSheetFooter>
         </BottomSheetContent>
       </BottomSheetRoot>
@@ -109,7 +113,9 @@ function BottomSheetExamples() {
       <BottomSheetRoot ref={uncontrolledRef} snapPoints={SNAP_POINTS_FIT_80}>
         <BottomSheetContent title="Imperative 예제" showHandle>
           <BottomSheetBody>
-            <text>위 버튼으로 snapTo/open/close를 호출합니다.</text>
+            <text className="t3-regular text-fg-neutral">
+              위 버튼으로 snapTo/open/close를 호출합니다.
+            </text>
           </BottomSheetBody>
         </BottomSheetContent>
       </BottomSheetRoot>

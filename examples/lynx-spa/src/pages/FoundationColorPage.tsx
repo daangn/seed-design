@@ -3,7 +3,7 @@ import { vars } from "@seed-design/lynx-css/vars";
 const { $color } = vars;
 
 function SectionTitle({ children }: { children: string }) {
-  return <text className="t6-bold mt-x5 mb-x2">{children}</text>;
+  return <text className="t6-bold mt-x5 mb-x2 text-fg-neutral">{children}</text>;
 }
 
 function ColorSwatch({
@@ -62,8 +62,8 @@ function renderEntries(obj: Record<string, string>, mode: "fg" | "bg" | "stroke"
 
 export function FoundationColorPage() {
   return (
-    <scroll-view scroll-y className="flex flex-col gap-x1 flex-1">
-      <text className="t7-bold">Color</text>
+    <scroll-view scroll-y className="flex flex-col gap-x1 flex-1 bg-bg-layer-default">
+      <text className="t7-bold text-fg-neutral">Color</text>
       <text className="t3-regular text-fg-neutral-subtle mb-x2">
         @seed-design/lynx-css/vars — $color tokens
       </text>

@@ -105,26 +105,28 @@ export function App(props: { onRender?: () => void }) {
   if (FULLSCREEN_PAGES.has(currentPage)) {
     return (
       <view
-        className="flex flex-col h-screen"
+        className="flex flex-col h-screen min-h-0 bg-bg-layer-default"
         style={{
           paddingTop: addBaseToSafeAreaInset(safeAreaInsetTop, 16),
           paddingBottom: safeAreaInsetBottom,
         }}
       >
-        <view className="px-x4">
+        <view className="px-x4 shrink-0">
           <BackButton onBack={() => setCurrentPage("home")} />
         </view>
-        {currentPage === "action-button" && <ActionButtonPage />}
-        {currentPage === "bottom-sheet" && <BottomSheetPage />}
-        {currentPage === "checkbox" && <CheckboxPage />}
-        {currentPage === "progress-circle" && <ProgressCirclePage />}
-        {currentPage === "radio-group" && <RadioGroupPage />}
-        {currentPage === "switch" && <SwitchPage />}
-        {currentPage === "tag-group" && <TagGroupPage />}
-        <Suspense>
-          {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
-          {currentPage === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
-        </Suspense>
+        <view className="flex-1 min-h-0">
+          {currentPage === "action-button" && <ActionButtonPage />}
+          {currentPage === "bottom-sheet" && <BottomSheetPage />}
+          {currentPage === "checkbox" && <CheckboxPage />}
+          {currentPage === "progress-circle" && <ProgressCirclePage />}
+          {currentPage === "radio-group" && <RadioGroupPage />}
+          {currentPage === "switch" && <SwitchPage />}
+          {currentPage === "tag-group" && <TagGroupPage />}
+          <Suspense>
+            {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
+            {currentPage === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
+          </Suspense>
+        </view>
         {showLynxConsole && (
           <Suspense>
             <LynxConsole theme="light" />
@@ -137,7 +139,7 @@ export function App(props: { onRender?: () => void }) {
   return (
     <scroll-view
       scroll-y
-      className="flex flex-col h-screen px-x4"
+      className="flex flex-col h-screen px-x4 bg-bg-layer-default"
       style={{
         paddingTop: addBaseToSafeAreaInset(safeAreaInsetTop, 16),
         paddingBottom: addBaseToSafeAreaInset(safeAreaInsetBottom, 16),

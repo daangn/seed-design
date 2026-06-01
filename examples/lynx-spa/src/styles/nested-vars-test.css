@@ -2,10 +2,8 @@
 
 /* 테스트 A: page 레벨 nested var() */
 page {
-  --test-palette-brand: #fa6616;
-  --test-palette-critical: #e53e3e;
-  --test-fg-brand: var(--test-palette-brand);
-  --test-fg-critical: var(--test-palette-critical);
+  --test-fg-brand: var(--seed-color-fg-brand);
+  --test-fg-critical: var(--seed-color-fg-critical);
 
   --test-spacing-base: 8px;
   --test-spacing-lg: calc(var(--test-spacing-base) * 2);

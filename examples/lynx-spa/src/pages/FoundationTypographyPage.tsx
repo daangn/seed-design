@@ -3,7 +3,7 @@ import { vars } from "@seed-design/lynx-css/vars";
 const { $fontSize, $lineHeight, $fontWeight } = vars;
 
 function SectionTitle({ children }: { children: string }) {
-  return <text className="t6-bold mt-x5 mb-x2">{children}</text>;
+  return <text className="t6-bold mt-x5 mb-x2 text-fg-neutral">{children}</text>;
 }
 
 function FontSizeRow({
@@ -21,7 +21,10 @@ function FontSizeRow({
         {name} → {sizeVar}
         {lineHeightVar ? ` / ${lineHeightVar}` : ""}
       </text>
-      <text style={`font-size: ${sizeVar}; line-height: ${lineHeightVar ?? "normal"};`}>
+      <text
+        className="text-fg-neutral"
+        style={`font-size: ${sizeVar}; line-height: ${lineHeightVar ?? "normal"};`}
+      >
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
     </view>
@@ -34,7 +37,7 @@ function FontWeightRow({ name, weightVar }: { name: string; weightVar: string })
       <text className="t1-regular text-fg-neutral-subtle">
         {name} → {weightVar}
       </text>
-      <text className="text-t5 leading-t5" style={`font-weight: ${weightVar};`}>
+      <text className="text-t5 leading-t5 text-fg-neutral" style={`font-weight: ${weightVar};`}>
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
     </view>
@@ -69,8 +72,8 @@ const staticFontSizes = [
 
 export function FoundationTypographyPage() {
   return (
-    <scroll-view scroll-y className="flex flex-col gap-x1 flex-1">
-      <text className="t7-bold">Typography</text>
+    <scroll-view scroll-y className="flex flex-col gap-x1 flex-1 bg-bg-layer-default">
+      <text className="t7-bold text-fg-neutral">Typography</text>
       <text className="t3-regular text-fg-neutral-subtle mb-x2">
         @seed-design/lynx-css/vars — $fontSize, $lineHeight, $fontWeight tokens
       </text>

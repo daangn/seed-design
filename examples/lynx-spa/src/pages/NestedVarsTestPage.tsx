@@ -1,3 +1,5 @@
+import { vars } from "@seed-design/lynx-css/vars";
+
 import "../styles/nested-vars-test.css";
 
 /**
@@ -6,7 +8,7 @@ import "../styles/nested-vars-test.css";
  * 검증 항목:
  * A. CSS 파일에서 nested var() — page 토큰 중첩 참조가 런타임에 resolve되는지
  * B. inline style object — 객체 형태로 CSS variable 설정이 동작하는지
- * C. 직접 값 — 비교 기준
+ * C. semantic token 직접 값 — 비교 기준
  */
 
 function SectionTitle({ children }: { children: string }) {
@@ -42,15 +44,15 @@ export function NestedVarsTestPage() {
       <SectionTitle>A. CSS nested var() (클래스 기반)</SectionTitle>
 
       <TestResult
-        label="1단계 중첩: --test-fg-brand = var(--test-palette-brand)"
-        expected="#fa6616 색상"
+        label="1단계 중첩: --test-fg-brand = var(--seed-color-fg-brand)"
+        expected="fg.brand 색상"
       >
         <text className="nested-test-brand">이 텍스트가 주황색이면 1단계 nested var() 동작</text>
       </TestResult>
 
       <TestResult
-        label="1단계 중첩: --test-fg-critical = var(--test-palette-critical)"
-        expected="#e53e3e 색상"
+        label="1단계 중첩: --test-fg-critical = var(--seed-color-fg-critical)"
+        expected="fg.critical 색상"
       >
         <text className="nested-test-critical">이 텍스트가 빨간색이면 1단계 nested var() 동작</text>
       </TestResult>
@@ -78,8 +80,15 @@ export function NestedVarsTestPage() {
       {/* ── 테스트 B: style 객체로 CSS variable 설정 ── */}
       <SectionTitle>B. inline style object 객체 형태</SectionTitle>
 
-      <TestResult label="inline object --test-inline-color: #0066ff" expected="파란색 텍스트">
-        <view style={{ "--test-inline-color": "#0066ff" } as Record<string, string>}>
+      <TestResult
+        label="inline object --test-inline-color: fg.informative"
+        expected="informative 텍스트"
+      >
+        <view
+          style={
+            { "--test-inline-color": "var(--seed-color-fg-informative)" } as Record<string, string>
+          }
+        >
           <text style={{ color: "var(--test-inline-color)" }}>
             이 텍스트가 파란색이면 style 객체로 CSS var 설정 동작
           </text>
@@ -88,14 +97,19 @@ export function NestedVarsTestPage() {
 
       <TestResult label="inline object --size: 20px + font-size: var(--size)" expected="20px 폰트">
         <view style={{ "--test-inline-size": "20px" } as Record<string, string>}>
-          <text style={{ fontSize: "var(--test-inline-size)" }}>
+          <text className="text-fg-neutral" style={{ fontSize: "var(--test-inline-size)" }}>
             이 텍스트가 20px이면 style 객체 var() 참조 동작
           </text>
         </view>
       </TestResult>
 
-      <TestResult label="CSS var 상속: 부모에서 설정 → 자식에서 사용" expected="녹색 텍스트">
-        <view style={{ "--test-inherited": "#00aa00" } as Record<string, string>}>
+      <TestResult
+        label="CSS var 상속: 부모에서 fg.positive 설정 → 자식에서 사용"
+        expected="positive 텍스트"
+      >
+        <view
+          style={{ "--test-inherited": "var(--seed-color-fg-positive)" } as Record<string, string>}
+        >
           <view>
             <text style={{ color: "var(--test-inherited)" }}>
               이 텍스트가 녹색이면 CSS var 상속 동작
@@ -104,19 +118,25 @@ export function NestedVarsTestPage() {
         </view>
       </TestResult>
 
-      {/* ── 테스트 C: 직접 값 (비교 기준) ── */}
-      <SectionTitle>C. 직접 값 (비교 기준)</SectionTitle>
+      {/* ── 테스트 C: semantic token 직접 값 (비교 기준) ── */}
+      <SectionTitle>C. semantic token 직접 값 (비교 기준)</SectionTitle>
 
-      <TestResult label="color: #fa6616 직접 지정" expected="주황색">
-        <text style={{ color: "#fa6616", fontSize: "14px" }}>주황색 텍스트 (테스트 A와 비교)</text>
+      <TestResult label="color: fg.brand 직접 지정" expected="fg.brand">
+        <text style={{ color: vars.$color.fg.brand, fontSize: "14px" }}>
+          fg.brand 텍스트 (테스트 A와 비교)
+        </text>
       </TestResult>
 
-      <TestResult label="color: #0066ff 직접 지정" expected="파란색">
-        <text style={{ color: "#0066ff" }}>파란색 텍스트 (테스트 B와 비교)</text>
+      <TestResult label="color: fg.informative 직접 지정" expected="fg.informative">
+        <text style={{ color: vars.$color.fg.informative }}>
+          fg.informative 텍스트 (테스트 B와 비교)
+        </text>
       </TestResult>
 
       <TestResult label="fontSize: 20px 직접 지정" expected="20px 폰트">
-        <text style={{ fontSize: "20px" }}>20px 텍스트 (테스트 B와 비교)</text>
+        <text className="text-fg-neutral" style={{ fontSize: "20px" }}>
+          20px 텍스트 (테스트 B와 비교)
+        </text>
       </TestResult>
     </scroll-view>
   );

@@ -1,37 +1,7 @@
-import { ActionButton, getSeedClassName } from "@seed-design/lynx-react";
+import { ActionButton } from "@seed-design/lynx-react";
 import clsx from "clsx";
 
-type ColorMode = "system" | "light-only" | "dark-only";
-
-type LynxRuntime = typeof globalThis & {
-  lynx?: {
-    __globalProps?: Record<string, unknown> | null;
-  };
-};
-
-const runtime = globalThis as LynxRuntime;
-
-function getGlobalProps() {
-  return runtime.lynx?.__globalProps ?? {};
-}
-
-function getFallbackSeedClassName(colorMode: ColorMode) {
-  const systemTheme = String(getGlobalProps().theme ?? "").toLowerCase();
-  const resolvedTheme =
-    colorMode === "dark-only" || (colorMode === "system" && systemTheme === "dark")
-      ? "dark"
-      : "light";
-
-  return `seed-user-color-scheme-${resolvedTheme}`;
-}
-
-function getSafeSeedClassName(colorMode: ColorMode) {
-  try {
-    return getSeedClassName({ colorMode });
-  } catch {
-    return getFallbackSeedClassName(colorMode);
-  }
-}
+import { getGlobalProps, getSafeSeedClassName } from "../utils/theme";
 
 function SectionTitle({ children }: { children: string }) {
   return <text className="t5-bold mt-x4 mb-x2 text-fg-neutral">{children}</text>;

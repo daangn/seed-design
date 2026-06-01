@@ -64,7 +64,7 @@ function renderProgressCircle(values: ProgressCircleValues) {
       ) : (
         circle
       )}
-      <text className="t3-regular">{progressState}</text>
+      <text className="t3-regular text-fg-neutral">{progressState}</text>
     </view>
   );
 }
@@ -82,7 +82,7 @@ function AutoProgressTest() {
   return (
     <view className="flex flex-row gap-x4 items-center">
       <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={value} />
-      <text className="t4-regular">{`${Math.round(value * 100)}%`}</text>
+      <text className="t4-regular text-fg-neutral">{`${Math.round(value * 100)}%`}</text>
     </view>
   );
 }
@@ -118,20 +118,20 @@ function ProgressCircleExamples() {
       <CatalogSectionTitle>Interactive</CatalogSectionTitle>
       <view className="flex flex-row gap-x4 items-center">
         <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={progress} />
-        <text className="t4-regular">{`${Math.round(progress * 100)}%`}</text>
+        <text className="t4-regular text-fg-neutral">{`${Math.round(progress * 100)}%`}</text>
       </view>
       <view className="flex flex-row gap-x2">
         <view
           bindtap={() => setProgress((p) => Math.max(0, p - 0.1))}
           className="py-x2 px-x4 bg-bg-neutral-weak rounded-r1_5"
         >
-          <text className="t4-regular">- 10%</text>
+          <text className="t4-regular text-fg-neutral">- 10%</text>
         </view>
         <view
           bindtap={() => setProgress((p) => Math.min(1, p + 0.1))}
           className="py-x2 px-x4 bg-bg-neutral-weak rounded-r1_5"
         >
-          <text className="t4-regular">+ 10%</text>
+          <text className="t4-regular text-fg-neutral">+ 10%</text>
         </view>
       </view>
 

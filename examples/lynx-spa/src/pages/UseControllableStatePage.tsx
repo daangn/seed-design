@@ -5,7 +5,7 @@ import clsx from "clsx";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <view className="flex flex-col gap-x2">
-      <text className="t5-bold">{title}</text>
+      <text className="t5-bold text-fg-neutral">{title}</text>
       {children}
     </view>
   );
@@ -25,7 +25,7 @@ function UncontrollableToggle() {
         value ? "bg-bg-brand-solid" : "bg-bg-neutral-weak",
       )}
     >
-      <text className={clsx("t4-regular", value ? "text-palette-static-white" : "text-fg-neutral")}>
+      <text className={clsx("t4-regular", value ? "text-fg-neutral-inverted" : "text-fg-neutral")}>
         {`value: ${String(value)} (tap to toggle)`}
       </text>
     </view>
@@ -53,7 +53,7 @@ function ControlledToggle() {
         )}
       >
         <text
-          className={clsx("t4-regular", value ? "text-palette-static-white" : "text-fg-neutral")}
+          className={clsx("t4-regular", value ? "text-fg-neutral-inverted" : "text-fg-neutral")}
         >
           {`value: ${String(value)} (tap to toggle)`}
         </text>
@@ -72,8 +72,8 @@ function ControlledToggle() {
 
 export function UseControllableStatePage() {
   return (
-    <scroll-view scroll-y className="flex flex-col gap-x4 flex-1">
-      <text className="t7-bold">useControllableState</text>
+    <scroll-view scroll-y className="flex flex-col gap-x4 flex-1 bg-bg-layer-default">
+      <text className="t7-bold text-fg-neutral">useControllableState</text>
 
       <Section title="Uncontrolled">
         <UncontrollableToggle />

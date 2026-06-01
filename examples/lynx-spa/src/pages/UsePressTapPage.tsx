@@ -5,7 +5,7 @@ import clsx from "clsx";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <view className="flex flex-col gap-x2">
-      <text className="t5-bold">{title}</text>
+      <text className="t5-bold text-fg-neutral">{title}</text>
       {children}
     </view>
   );
@@ -51,7 +51,7 @@ function PressTapDemo({
       <text
         className={clsx(
           "t4-bold",
-          disabled ? "text-fg-neutral-subtle" : "text-palette-static-white",
+          disabled ? "text-fg-neutral-subtle" : "text-fg-neutral-inverted",
         )}
       >
         {label}
@@ -59,7 +59,7 @@ function PressTapDemo({
       <text
         className={clsx(
           "t2-regular mt-x1",
-          disabled ? "text-fg-neutral-subtle" : "text-palette-static-white",
+          disabled ? "text-fg-neutral-subtle" : "text-fg-neutral-inverted",
         )}
       >
         {`pressed: ${String(pressed)} · taps: ${tapCount} · main-thread:bindtap: ${String(hasMainThread)}`}
@@ -70,8 +70,8 @@ function PressTapDemo({
 
 export function UsePressTapPage() {
   return (
-    <scroll-view scroll-y className="flex flex-col gap-x4 flex-1">
-      <text className="t7-bold">usePressTap</text>
+    <scroll-view scroll-y className="flex flex-col gap-x4 flex-1 bg-bg-layer-default">
+      <text className="t7-bold text-fg-neutral">usePressTap</text>
 
       <Section title="Basic">
         <PressTapDemo label="Press me" />

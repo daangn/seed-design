@@ -11,7 +11,7 @@ import "../styles/icon-color-poc.css";
  * 원본 픽셀이 유색이어야 tint-color 의 SRC_IN blend 가 적용됨.
  */
 const PLUS_ICON_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#000000"><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>',
 )}`;
 
 const VARIANT_BG_CLASS = {
@@ -197,15 +197,19 @@ export function IconColorPOCPage() {
         의도한 색)으로 보이면 해당 방식이 동작하는 것.
       </text>
 
-      {/* Baseline — hex color 고정 sanity check */}
+      {/* Baseline — semantic color 고정 sanity check */}
       <view className="mb-x4">
         <SectionHeader
-          title="Baseline — hex color 고정 (컴포넌트 + raw image)"
-          desc="아이콘이 렌더되는지 자체부터 좌표화. 왼쪽: IconPlusFill with hex color. 오른쪽: raw <image> + data URI + hex tint. 둘 중 어느 쪽이 보이는지."
+          title="Baseline — semantic color 고정 (컴포넌트 + raw image)"
+          desc="아이콘이 렌더되는지 자체부터 좌표화. 왼쪽: IconPlusFill with fg.neutral-inverted. 오른쪽: raw <image> + data URI + semantic tint. 둘 중 어느 쪽이 보이는지."
         />
         <BrandBg>
-          <IconPlusFill color="#FFFFFF" size={32} />
-          <image src={PLUS_ICON_DATA_URI} {...{ "tint-color": "#FFFFFF" }} className="w-x8 h-x8" />
+          <IconPlusFill color="var(--seed-color-fg-neutral-inverted)" size={32} />
+          <image
+            src={PLUS_ICON_DATA_URI}
+            {...{ "tint-color": "var(--seed-color-fg-neutral-inverted)" }}
+            className="w-x8 h-x8"
+          />
           <text className="t2-regular text-fg-neutral-inverted">좌: 컴포넌트 / 우: data URI</text>
         </BrandBg>
       </view>
@@ -214,14 +218,14 @@ export function IconColorPOCPage() {
       <view className="mb-x4">
         <SectionHeader
           title="POC A — attribute 에 var() 직접 주입"
-          desc='<image tint-color="var(--seed-color-palette-static-white)" /> — 흰 아이콘이면 Lynx attribute parser 가 CSS var 해석.'
+          desc='<image tint-color="var(--seed-color-fg-neutral-inverted)" /> — 흰 아이콘이면 Lynx attribute parser 가 CSS var 해석.'
         />
         <BrandBg>
           {/*
             IconPlusFill 은 내부에서 <image tint-color={color}> 로 렌더하므로
             color prop 에 CSS var 스트링을 그대로 넘기면 POC A 와 동치.
           */}
-          <IconPlusFill color="var(--seed-color-palette-static-white)" size={32} />
+          <IconPlusFill color="var(--seed-color-fg-neutral-inverted)" size={32} />
           <text className="t2-regular text-fg-neutral-inverted">
             ✅ 흰색 → var() 해석됨 / ❌ 검정 → 미해석
           </text>

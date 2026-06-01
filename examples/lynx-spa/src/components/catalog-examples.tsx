@@ -19,15 +19,18 @@ export function CatalogExamples({
     gap == null ? undefined : GAP_CLASS_NAMES[gap as keyof typeof GAP_CLASS_NAMES];
 
   return (
-    <scroll-view scroll-y className={clsx("flex flex-col flex-1 p-x4", gapClassName)}>
-      <text className="t7-bold">{title}</text>
+    <scroll-view
+      scroll-y
+      className={clsx("flex flex-col flex-1 p-x4 bg-bg-layer-default", gapClassName)}
+    >
+      <text className="t7-bold text-fg-neutral">{title}</text>
       {children}
     </scroll-view>
   );
 }
 
 export function CatalogSectionTitle({ children }: { children: string }) {
-  return <text className="t5-bold mt-x2">{children}</text>;
+  return <text className="t5-bold mt-x2 text-fg-neutral">{children}</text>;
 }
 
 export function CatalogSectionHeader({ children }: { children: string }) {
