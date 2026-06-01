@@ -8,7 +8,6 @@ import {
   applySwipeStyles,
   clearAllStyles,
   setIdlePositions,
-  setIntermediateExitPositions,
   setPostExitPositions,
 } from "./dom";
 import {
@@ -311,8 +310,7 @@ export function useGlobalInteraction() {
       cancelPendingPushRAF();
       stopRunningAnims();
       const style = readTransitionStyle(stackEl);
-      const targets = findTransitionTargets(stackEl, { direction: "pop" });
-      setIntermediateExitPositions(targets, style);
+      const targets = findTransitionTargets(stackEl);
       const { animations, finished } = animateTransition(targets, "pop", style);
       runningAnimsRef.current = animations;
       finished.then(() => {

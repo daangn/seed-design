@@ -138,10 +138,10 @@ function collectAnimations(anims: (Animation | null)[], durationMs: number): Ani
 
 // ─── iOS Slide ──────────────────────────────────────────────────────────────
 
-type TitleKeyframe = Keyframe & {
+interface TitleKeyframe {
   opacity: string;
   transform: string;
-};
+}
 
 interface IosPositions {
   topLayer: string;
