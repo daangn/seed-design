@@ -91,6 +91,9 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityTabs: lazy(() => import("../activities/ActivityTabs")),
     ActivityTabsAutoHeightLazy: lazy(() => import("../activities/ActivityTabsAutoHeightLazy")),
     ActivityAttachmentField: lazy(() => import("../activities/ActivityAttachmentField")),
+    ActivityAttachmentDisplayField: lazy(
+      () => import("../activities/ActivityAttachmentDisplayField"),
+    ),
     ActivityForm: lazy(() => import("../activities/ActivityForm")),
     ActivityCategorySheet: lazy(() => import("../activities/ActivityCategorySheet")),
     ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),

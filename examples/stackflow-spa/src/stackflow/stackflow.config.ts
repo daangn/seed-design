@@ -62,6 +62,7 @@ export const config = defineConfig({
     { route: "/tabs", name: "ActivityTabs" },
     { route: "/tabs-auto-height-lazy", name: "ActivityTabsAutoHeightLazy" },
     { route: "/attachment-field", name: "ActivityAttachmentField" },
+    { route: "/attachment-display-field", name: "ActivityAttachmentDisplayField" },
     { route: "/form", name: "ActivityForm" },
     { route: "/category-sheet", name: "ActivityCategorySheet" },
     { route: "/toggle-button", name: "ActivityToggleButton" },
