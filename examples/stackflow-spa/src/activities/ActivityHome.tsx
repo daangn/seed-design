@@ -227,6 +227,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           title: "TabsAutoHeightLazy",
           onClick: () => push("ActivityTabsAutoHeightLazy", {}),
         },
+        {
+          title: "ChipTabsScrollFog",
+          onClick: () => push("ActivityChipTabsScrollFog", {}),
+        },
       ],
     },
     {
