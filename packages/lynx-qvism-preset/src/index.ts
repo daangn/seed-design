@@ -1,4 +1,4 @@
-import { Features } from "@seed-design/qvism-core";
+import { Features } from "lightningcss";
 
 import { globalCss } from "./global";
 import { keyframes } from "./keyframes";

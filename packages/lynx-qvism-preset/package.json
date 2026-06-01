@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "@seed-design/qvism-core": "0.0.0",
-    "@seed-design/rootage-core": "0.0.0"
+    "@seed-design/rootage-core": "0.0.0",
+    "lightningcss": "^1.29.3"
   },
   "devDependencies": {
     "@lynx-js/types": "^3.7.0"
