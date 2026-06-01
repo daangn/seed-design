@@ -1,7 +1,7 @@
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import { VStack } from "@seed-design/react";
 import { AppBar as SeedAppBar } from "@seed-design/stackflow";
-import { useActions, useActivity } from "@stackflow/react";
+import { useActions, useActivity, useStack } from "@stackflow/react";
 import * as React from "react";
 import { forwardRef } from "react";
 
@@ -65,11 +65,12 @@ export const AppBarBackButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
   ({ children = <IconChevronLeftLine />, onClick, ...otherProps }, ref) => {
     const activity = useActivity();
     const actions = useActions();
+    const stack = useStack();
 
     const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(e);
 
-      if (!e.defaultPrevented) {
+      if (!e.defaultPrevented && stack?.globalTransitionState !== "loading") {
         actions.pop();
       }
     };

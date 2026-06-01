@@ -15,11 +15,6 @@ export const seedPlugin =
   ): StackflowReactPlugin =>
   () => ({
     key: "seed-design",
-    onBeforePop({ actions }) {
-      if (actions.getStack().globalTransitionState === "loading") {
-        actions.preventDefault();
-      }
-    },
     wrapStack({ stack, initialContext }) {
       const resolved = typeof options === "function" ? options({ initialContext }) : options;
 
