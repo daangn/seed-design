@@ -18,29 +18,31 @@ function useResponsiveContext() {
   return ctx;
 }
 
-type ResponsiveSidePanelRootCommonProps = Pick<
-  SeedSidePanel.SidePanelRootProps,
+type ResponsiveSidePanelRootManagedProp =
   | "children"
   | "open"
   | "defaultOpen"
-  | "onOpenChange"
-  | "modal"
-  | "dismissible"
-  | "closeOnEscape"
-  | "closeOnInteractOutside"
-  | "lazyMount"
-  | "unmountOnExit"
-  | "container"
-  | "autoFocus"
-  | "onAnimationEnd"
-  | "closeThreshold"
-  | "onDrag"
-  | "onRelease"
->;
+  | "onOpenChange";
 
-export interface ResponsiveSidePanelRootProps extends ResponsiveSidePanelRootCommonProps {
-  direction?: SeedSidePanel.SidePanelRootProps["direction"];
-  size?: SeedSidePanel.SidePanelRootProps["size"];
+type ResponsiveSidePanelRootOpenChangeDetails =
+  | Parameters<NonNullable<SeedSidePanel.SidePanelRootProps["onOpenChange"]>>[1]
+  | Parameters<NonNullable<SeedBottomSheet.BottomSheetRootProps["onOpenChange"]>>[1];
+
+export interface ResponsiveSidePanelRootProps {
+  children?: React.ReactNode;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+
+  sidePanelRootProps?: Omit<
+    SeedSidePanel.SidePanelRootProps,
+    ResponsiveSidePanelRootManagedProp
+  >;
+
+  bottomSheetRootProps?: Omit<
+    SeedBottomSheet.BottomSheetRootProps,
+    ResponsiveSidePanelRootManagedProp
+  >;
 }
 
 /**
@@ -58,19 +60,18 @@ export const ResponsiveSidePanelRoot = ({
   open: openProp,
   defaultOpen = false,
   onOpenChange,
-  direction = "right",
-  size,
-  ...props
+  sidePanelRootProps,
+  bottomSheetRootProps,
 }: ResponsiveSidePanelRootProps) => {
   const shouldUseBottomSheet = useBreakpointValue({ base: true, md: false });
 
   const [open, setOpen] = useControllableState<
     boolean,
-    Parameters<NonNullable<ResponsiveSidePanelRootProps["onOpenChange"]>>[1]
+    ResponsiveSidePanelRootOpenChangeDetails
   >({
     prop: openProp,
     defaultProp: defaultOpen,
-    onChange: onOpenChange,
+    onChange: (nextOpen) => onOpenChange?.(nextOpen),
     caller: "ResponsiveSidePanelRoot",
   });
 
@@ -79,16 +80,18 @@ export const ResponsiveSidePanelRoot = ({
   return (
     <ResponsiveContext.Provider value={value}>
       {shouldUseBottomSheet ? (
-        <SeedBottomSheet.BottomSheetRoot open={open} onOpenChange={setOpen} {...props}>
+        <SeedBottomSheet.BottomSheetRoot
+          {...bottomSheetRootProps}
+          open={open}
+          onOpenChange={setOpen}
+        >
           {children}
         </SeedBottomSheet.BottomSheetRoot>
       ) : (
         <SeedSidePanel.SidePanelRoot
+          {...sidePanelRootProps}
           open={open}
           onOpenChange={setOpen}
-          direction={direction}
-          size={size}
-          {...props}
         >
           {children}
         </SeedSidePanel.SidePanelRoot>

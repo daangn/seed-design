@@ -227,7 +227,7 @@ Snippet이 convenience wrapper라면, 이 패턴에서 `children`을 그대로 �
 
 accessibility warning과 fallback 렌더링은 별개의 선택이다. `aria-label` 또는 `aria-labelledby`가 underlying content에 그대로 전달된다면, convenience wrapper가 임의의 hidden label/title을 대신 렌더하지 않는다. hidden fallback을 만들기 전에 실제 DOM/ARIA 연결이 필요한지, consumer가 제공한 aria prop과 충돌하지 않는지 확인한다.
 
-responsive/adaptive wrapper가 서로 다른 underlying component를 조건부 렌더링할 때는 한쪽 root props 전체를 양쪽에 spread하지 않는다. 양쪽에 안전한 공통 props를 명시적으로 `Pick`하고, `direction`, `size`처럼 특정 mode에서만 의미 있는 props는 별도 필드로 분리해 해당 component에만 전달한다.
+responsive/adaptive Root wrapper가 서로 다른 underlying component를 조건부 렌더링할 때는 한쪽 Root props 전체를 양쪽에 spread하지 않는다. wrapper가 open state를 소유하면 `children`, `open`, `defaultOpen`, `onOpenChange`는 top-level에서 직접 정의하고, `sidePanelRootProps`, `bottomSheetRootProps`처럼 대상 component가 드러나는 prop bag에서 이 state props를 `Omit`한다. top-level `onOpenChange`를 boolean-only API로 설계하는 경우 underlying component의 change details는 의도적으로 추상화한 contract로 본다. details를 함께 노출해야 한다면 top-level callback 타입에서 명시적으로 설계하고, bag-level `onOpenChange`와 동시에 열지 않는다.
 
 ## [Snippet] Export naming
 

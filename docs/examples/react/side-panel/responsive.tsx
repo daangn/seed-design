@@ -10,7 +10,7 @@ import {
 
 const SidePanelResponsive = () => {
   return (
-    <ResponsiveSidePanelRoot>
+    <ResponsiveSidePanelRoot sidePanelRootProps={{ size: "medium" }}>
       <ResponsiveSidePanelTrigger asChild>
         <ActionButton variant="neutralSolid">Open</ActionButton>
       </ResponsiveSidePanelTrigger>

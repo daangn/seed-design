@@ -71,6 +71,13 @@ npx @seed-design/cli@latest add ui:responsive-side-panel
   name="SidePanelFooterProps"
 />
 
+### `ResponsiveSidePanelRoot`
+
+<react-type-table
+  path="./registry/ui/responsive-side-panel.tsx"
+  name="ResponsiveSidePanelRootProps"
+/>
+
 ## Examples
 
 ### Trigger
@@ -213,6 +220,7 @@ Trigger를 다시 눌러 닫아야 하는 경우에는 `open` prop으로 상태�
 ### Responsive
 
 `ResponsiveSidePanel`을 사용하면 md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 자동 전환됩니다. 뷰포트를 줄여서 전환 동작을 확인해보세요.
+`onOpenChange`는 열림 상태만 전달하며, Side Panel 또는 Bottom Sheet에만 적용되는 Root 옵션은 `sidePanelRootProps`, `bottomSheetRootProps`로 전달합니다.
 
 <ComponentExample name="react/side-panel/responsive">
   ```json doc-gen:file
