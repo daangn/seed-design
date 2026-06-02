@@ -1,9 +1,3 @@
-/**
- * @file ui:progress-circle
- * @requires @seed-design/lynx-react@~0.1.0-alpha.0
- * @requires @seed-design/lynx-css@~0.1.0-alpha.0
- **/
-
 import {
   ProgressCircle as SeedProgressCircle,
   type ProgressCircleProps as SeedProgressCircleProps,
@@ -21,8 +15,3 @@ export function ProgressCircle(props: ProgressCircleProps) {
     </SeedProgressCircle.Root>
   );
 }
-
-/**
- * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
- * You can extend this snippet however you want.
- */

@@ -1,16 +1,3 @@
-/**
- * @file ui:bottom-sheet
- * @requires @seed-design/lynx-react@~0.1.0-alpha.0
- * @requires @seed-design/lynx-css@~0.1.0-alpha.0
- **/
-
-import {
-  type ForwardRefExoticComponent,
-  forwardRef,
-  type PropsWithoutRef,
-  type ReactNode,
-  type RefAttributes,
-} from "@lynx-js/react";
 import {
   BottomSheet as SeedBottomSheet,
   type BottomSheetBodyProps as SeedBottomSheetBodyProps,
@@ -20,6 +7,13 @@ import {
   type BottomSheetRootRef as SeedBottomSheetRootRef,
   type BottomSheetTriggerProps as SeedBottomSheetTriggerProps,
 } from "@seed-design/lynx-react";
+import {
+  forwardRef,
+  type ForwardRefExoticComponent,
+  type PropsWithoutRef,
+  type ReactNode,
+  type RefAttributes,
+} from "@lynx-js/react";
 
 export interface BottomSheetRootProps extends SeedBottomSheetRootProps {}
 
@@ -90,8 +84,3 @@ export interface BottomSheetFooterProps extends SeedBottomSheetFooterProps {}
 
 export const BottomSheetFooter: (props: BottomSheetFooterProps) => ReactNode =
   SeedBottomSheet.Footer;
-
-/**
- * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
- * You can extend this snippet however you want.
- */
