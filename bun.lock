@@ -551,6 +551,7 @@
         "@radix-ui/react-use-layout-effect": "^1.1.1",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-accordion": "0.1.0",
+        "@seed-design/react-attachment-display": "0.0.0",
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.1",
         "@seed-design/react-collapsible": "0.1.0",
@@ -607,6 +608,25 @@
         "@radix-ui/react-use-controllable-state": "^1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-collapsible": "0.1.0",
+        "@seed-design/react-primitive": "1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/attachment-display": {
+      "name": "@seed-design/react-attachment-display",
+      "version": "0.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "1.1.2",
+        "@radix-ui/react-use-controllable-state": "1.2.2",
+        "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
       },
       "devDependencies": {
@@ -2946,6 +2966,8 @@
     "@seed-design/react": ["@seed-design/react@workspace:packages/react"],
 
     "@seed-design/react-accordion": ["@seed-design/react-accordion@workspace:packages/react-headless/accordion"],
+
+    "@seed-design/react-attachment-display": ["@seed-design/react-attachment-display@workspace:packages/react-headless/attachment-display"],
 
     "@seed-design/react-avatar": ["@seed-design/react-avatar@workspace:packages/react-headless/avatar"],
 
@@ -6766,6 +6788,8 @@
     "@seed-design/postcss-responsive/typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "@seed-design/react/vite-plugin-dts": ["vite-plugin-dts@5.0.0", "", { "dependencies": { "unplugin-dts": "1.0.0" }, "peerDependencies": { "@microsoft/api-extractor": ">=7", "rollup": ">=3", "vite": ">=3" }, "optionalPeers": ["@microsoft/api-extractor", "rollup", "vite"] }, "sha512-VLNAUttBq7pLxxL/m/ztjd5zj5yiviiC7ijfPFVLK5c45FLcibvieBsdjSka3a4ag1qdrAF9K3OysH4/lW+rPQ=="],
+
+    "@seed-design/react-attachment-display/@radix-ui/react-compose-refs": ["@radix-ui/react-compose-refs@1.1.2", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg=="],
 
     "@seed-design/react-file-upload/@radix-ui/react-compose-refs": ["@radix-ui/react-compose-refs@1.1.2", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg=="],
 
