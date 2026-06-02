@@ -1,13 +1,11 @@
 import { useState } from "@lynx-js/react";
-import { vars } from "@seed-design/lynx-css/vars";
 import { useControllableState } from "@seed-design/lynx-react";
-
-const { $color } = vars;
+import clsx from "clsx";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      <text style={{ fontSize: "16px", fontWeight: "bold" }}>{title}</text>
+    <view className="flex flex-col gap-x2">
+      <text className="t5-bold text-fg-neutral">{title}</text>
       {children}
     </view>
   );
@@ -22,18 +20,12 @@ function UncontrollableToggle() {
   return (
     <view
       bindtap={() => setValue(!value)}
-      style={{
-        padding: "14px 16px",
-        borderRadius: "8px",
-        backgroundColor: value ? $color.bg.brandSolid : $color.bg.neutralWeak,
-      }}
+      className={clsx(
+        "py-x3_5 px-x4 rounded-r2",
+        value ? "bg-bg-brand-solid" : "bg-bg-neutral-weak",
+      )}
     >
-      <text
-        style={{
-          fontSize: "14px",
-          color: value ? $color.palette.staticWhite : $color.fg.neutral,
-        }}
-      >
+      <text className={clsx("t4-regular", value ? "text-fg-neutral-inverted" : "text-fg-neutral")}>
         {`value: ${String(value)} (tap to toggle)`}
       </text>
     </view>
@@ -52,35 +44,25 @@ function ControlledToggle() {
   });
 
   return (
-    <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+    <view className="flex flex-col gap-x2">
       <view
         bindtap={() => setValue(!value)}
-        style={{
-          padding: "14px 16px",
-          borderRadius: "8px",
-          backgroundColor: value ? $color.bg.brandSolid : $color.bg.neutralWeak,
-        }}
+        className={clsx(
+          "py-x3_5 px-x4 rounded-r2",
+          value ? "bg-bg-brand-solid" : "bg-bg-neutral-weak",
+        )}
       >
         <text
-          style={{
-            fontSize: "14px",
-            color: value ? $color.palette.staticWhite : $color.fg.neutral,
-          }}
+          className={clsx("t4-regular", value ? "text-fg-neutral-inverted" : "text-fg-neutral")}
         >
           {`value: ${String(value)} (tap to toggle)`}
         </text>
       </view>
       <view
         bindtap={() => setExternal(!external)}
-        style={{
-          padding: "10px 16px",
-          borderRadius: "6px",
-          backgroundColor: $color.bg.layerBasement,
-          borderWidth: "1px",
-          borderColor: $color.stroke.neutralMuted,
-        }}
+        className="py-x2_5 px-x4 rounded-r1_5 bg-bg-layer-basement border border-stroke-neutral-muted"
       >
-        <text style={{ fontSize: "13px", color: $color.fg.neutral }}>
+        <text className="t3-regular text-fg-neutral">
           {`External override: ${String(external)} (tap to flip parent state)`}
         </text>
       </view>
@@ -90,15 +72,12 @@ function ControlledToggle() {
 
 export function UseControllableStatePage() {
   return (
-    <scroll-view
-      scroll-y
-      style={{ display: "flex", flexDirection: "column", gap: "16px", flex: 1 }}
-    >
-      <text style={{ fontSize: "20px", fontWeight: "bold" }}>useControllableState</text>
+    <scroll-view scroll-y className="flex flex-col gap-x4 flex-1 bg-bg-layer-default">
+      <text className="t7-bold text-fg-neutral">useControllableState</text>
 
       <Section title="Uncontrolled">
         <UncontrollableToggle />
-        <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
+        <text className="t2-regular text-fg-neutral-subtle">
           value가 제공되지 않아 훅 내부 state로 동작. onChange는 값이 실제 바뀔 때만 호출 (동일
           값으로 setValue 시 skip).
         </text>
@@ -106,7 +85,7 @@ export function UseControllableStatePage() {
 
       <Section title="Controlled">
         <ControlledToggle />
-        <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
+        <text className="t2-regular text-fg-neutral-subtle">
           부모의 value를 따르고 setValue는 onChange만 호출. 부모 state를 외부에서 바꿔도 반영됨.
         </text>
       </Section>

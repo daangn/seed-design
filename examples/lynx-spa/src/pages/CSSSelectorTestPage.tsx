@@ -1,8 +1,6 @@
-import { vars } from "@seed-design/lynx-css/vars";
+import clsx from "clsx";
 
 import "../styles/css-selector-test.css";
-
-const { $color } = vars;
 
 /**
  * CSS Selector 지원 검증 페이지
@@ -16,19 +14,7 @@ const { $color } = vars;
  */
 
 function SectionTitle({ children }: { children: string }) {
-  return (
-    <text
-      style={{
-        fontSize: "16px",
-        fontWeight: "bold",
-        marginTop: "20px",
-        marginBottom: "8px",
-        color: $color.fg.neutral,
-      }}
-    >
-      {children}
-    </text>
-  );
+  return <text className="t5-bold mt-x5 mb-x2 text-fg-neutral">{children}</text>;
 }
 
 function TestCase({
@@ -43,42 +29,29 @@ function TestCase({
   children: React.ReactNode;
 }) {
   return (
-    <view
-      style={{
-        marginBottom: "8px",
-        borderWidth: "1px",
-        borderColor: $color.stroke.neutralMuted,
-        borderRadius: "8px",
-        overflow: "hidden",
-      }}
-    >
-      <view style={{ padding: "8px 12px", backgroundColor: $color.bg.neutralWeak }}>
-        <text style={{ fontSize: "13px", fontWeight: "bold", color: $color.fg.neutral }}>
+    <view className="mb-x2 border border-stroke-neutral-muted rounded-r2 overflow-hidden">
+      <view className="py-x2 px-x3 bg-bg-neutral-weak">
+        <text className="t3-bold text-fg-neutral">
           {id}. {label}
         </text>
-        <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle, marginTop: "2px" }}>
-          기대: {expected}
-        </text>
+        <text className="t1-regular text-fg-neutral-subtle mt-x0_5">기대: {expected}</text>
       </view>
-      <view style={{ padding: "8px 12px" }}>{children}</view>
+      <view className="py-x2 px-x3">{children}</view>
     </view>
   );
 }
 
 function ResultBox({
   children,
+  className,
   ...rest
-}: { children?: React.ReactNode } & Record<string, unknown>) {
+}: { children?: React.ReactNode; className?: string } & Record<string, unknown>) {
   return (
     <view
-      style={{
-        padding: "10px 12px",
-        borderRadius: "6px",
-        minHeight: "40px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+      className={clsx(
+        "py-x2_5 px-x3 rounded-r1_5 min-h-[var(--seed-dimension-x10)] flex justify-center items-center",
+        className,
+      )}
       {...rest}
     >
       {children}
@@ -87,14 +60,14 @@ function ResultBox({
 }
 
 function ResultText({ children }: { children: string }) {
-  return <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>{children}</text>;
+  return <text className="t3-bold text-fg-neutral-inverted">{children}</text>;
 }
 
 export function CSSSelectorTestPage() {
   return (
-    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
-      <text style={{ fontSize: "20px", fontWeight: "bold" }}>CSS Selector Test</text>
-      <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle, marginBottom: "8px" }}>
+    <scroll-view scroll-y className="flex flex-col gap-x1 flex-1">
+      <text className="t7-bold text-fg-neutral">CSS Selector Test</text>
+      <text className="t3-regular text-fg-neutral-subtle mb-x2">
         enableCSSSelector: true 환경에서 CSS selector 지원 검증
       </text>
 
@@ -114,11 +87,11 @@ export function CSSSelectorTestPage() {
       </TestCase>
 
       <TestCase id="1-3" label="[data-size] 다른 값 분기" expected="파란=small, 주황=large">
-        <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
-          <ResultBox data-sel-test="1-3a" data-size="small" style={{ flex: 1 }}>
+        <view className="flex flex-row gap-x2">
+          <ResultBox data-sel-test="1-3a" data-size="small" className="flex-1">
             <ResultText>small → 파란</ResultText>
           </ResultBox>
-          <ResultBox data-sel-test="1-3b" data-size="large" style={{ flex: 1 }}>
+          <ResultBox data-sel-test="1-3b" data-size="large" className="flex-1">
             <ResultText>large → 주황</ResultText>
           </ResultBox>
         </view>
@@ -179,21 +152,17 @@ export function CSSSelectorTestPage() {
         expected="빨간색 유지 = 미지원 확인 (PseudoState 미정의)"
       >
         <ResultBox data-sel-test="4-1">
-          <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>
-            빨간 유지 = :disabled 미지원 확인
-          </text>
+          <ResultText>빨간 유지 = :disabled 미지원 확인</ResultText>
         </ResultBox>
-        <text style={{ fontSize: "11px", color: $color.fg.neutralSubtle, marginTop: "4px" }}>
+        <text className="t1-regular text-fg-neutral-subtle mt-x1">
           참고: CSS에 view[data-sel-test=4-1]:disabled 룰이 없어 기본 빨간색. Lynx 엔진에 :disabled
           PseudoState가 없으므로 설령 CSS에 있어도 적용 안 됨
         </text>
       </TestCase>
 
       <TestCase id="4-2" label=":checked, :is() 등" expected="recipe source에서는 사용하지 않음">
-        <view
-          style={{ padding: "8px", backgroundColor: $color.bg.neutralWeak, borderRadius: "6px" }}
-        >
-          <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
+        <view className="p-x2 bg-bg-neutral-weak rounded-r1_5">
+          <text className="t2-regular text-fg-neutral-subtle">
             :checked → Lynx recipe에서는 boolean variant/className으로 모델링{"\n"}
             :is() → Lynx preset source에서는 사용하지 않음{"\n"}→ 필요한 경우 qvism core가 아니라
             preset source에서 명시적으로 작성
@@ -215,61 +184,35 @@ export function CSSSelectorTestPage() {
       <TestCase id="5-2" label="(공백) 자손 선택자" expected="초록색 텍스트 = 지원">
         <view data-sel-test="5-2">
           <view>
-            <text style={{ fontSize: "13px", fontWeight: "bold" }}>자손 텍스트 → 초록이면 OK</text>
+            <text className="t3-bold text-fg-neutral">자손 텍스트 → 초록이면 OK</text>
           </view>
         </view>
       </TestCase>
 
       <TestCase id="5-3" label="+ 인접 형제 선택자" expected="두 번째 박스 초록 = 지원">
-        <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+        <view className="flex flex-row gap-x2">
           <view
             data-sel-test="5-3-trigger"
-            style={{
-              flex: 1,
-              padding: "10px",
-              backgroundColor: "#94a3b8",
-              borderRadius: "6px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="flex-1 p-x2_5 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center"
           >
-            <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>trigger</text>
+            <text className="t3-bold text-fg-neutral-inverted">trigger</text>
           </view>
-          <ResultBox data-sel-test="5-3-target" style={{ flex: 1 }}>
+          <ResultBox data-sel-test="5-3-target" className="flex-1">
             <ResultText>+ 인접 → 초록이면 OK</ResultText>
           </ResultBox>
         </view>
       </TestCase>
 
       <TestCase id="5-4" label="~ 일반 형제 선택자" expected="세 번째 박스 초록 = 지원">
-        <view style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+        <view className="flex flex-col gap-x1">
           <view
             data-sel-test="5-4-trigger"
-            style={{
-              padding: "8px",
-              backgroundColor: "#94a3b8",
-              borderRadius: "6px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="p-x2 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center"
           >
-            <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>trigger</text>
+            <text className="t3-bold text-fg-neutral-inverted">trigger</text>
           </view>
-          <view
-            style={{
-              padding: "8px",
-              backgroundColor: "#94a3b8",
-              borderRadius: "6px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <text style={{ fontSize: "13px", color: "#ffffff", fontWeight: "bold" }}>
-              중간 형제
-            </text>
+          <view className="p-x2 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center">
+            <text className="t3-bold text-fg-neutral-inverted">중간 형제</text>
           </view>
           <ResultBox data-sel-test="5-4-target">
             <ResultText>~ 일반형제 → 초록이면 OK</ResultText>
@@ -297,9 +240,8 @@ export function CSSSelectorTestPage() {
 
       <TestCase id="7-1" label=":root에서 정의한 CSS 변수" expected="초록색 텍스트 = 지원">
         <text
+          className="t4-bold"
           style={{
-            fontSize: "14px",
-            fontWeight: "bold",
             color: "var(--css-sel-test-root-color)",
           }}
         >
@@ -309,15 +251,8 @@ export function CSSSelectorTestPage() {
 
       {/* ── 요약 ── */}
       <SectionTitle>검증 요약</SectionTitle>
-      <view
-        style={{
-          padding: "12px",
-          backgroundColor: $color.bg.neutralWeak,
-          borderRadius: "8px",
-          marginBottom: "40px",
-        }}
-      >
-        <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle, lineHeight: "18px" }}>
+      <view className="p-x3 bg-bg-neutral-weak rounded-r2 mb-x10">
+        <text className="t2-regular text-fg-neutral-subtle">
           {"[data-*] selector가 직접 동작하면:\n"}
           {"→ Lynx source에서 class/data selector를 직접 선택 가능\n"}
           {"→ qvism core 후처리 없이 preset source에서 구조를 명시\n\n"}

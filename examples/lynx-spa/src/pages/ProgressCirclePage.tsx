@@ -58,28 +58,13 @@ function renderProgressCircle(values: ProgressCircleValues) {
     );
 
   return (
-    <view
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        gap: "12px",
-        alignItems: "center",
-      }}
-    >
+    <view className="flex flex-row gap-x3 items-center">
       {tone === "staticWhite" ? (
-        <view
-          style={{
-            backgroundColor: "#222",
-            borderRadius: "8px",
-            padding: "8px",
-          }}
-        >
-          {circle}
-        </view>
+        <view className="bg-bg-neutral-solid rounded-r2 p-x2">{circle}</view>
       ) : (
         circle
       )}
-      <text style={{ fontSize: "13px" }}>{progressState}</text>
+      <text className="t3-regular text-fg-neutral">{progressState}</text>
     </view>
   );
 }
@@ -95,16 +80,9 @@ function AutoProgressTest() {
   }, []);
 
   return (
-    <view
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        gap: "16px",
-        alignItems: "center",
-      }}
-    >
+    <view className="flex flex-row gap-x4 items-center">
       <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={value} />
-      <text style={{ fontSize: "14px" }}>{`${Math.round(value * 100)}%`}</text>
+      <text className="t4-regular text-fg-neutral">{`${Math.round(value * 100)}%`}</text>
     </view>
   );
 }
@@ -115,49 +93,22 @@ function ProgressCircleExamples() {
   return (
     <CatalogExamples title="ProgressCircle" gap="12px">
       <CatalogSectionTitle>Indeterminate</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <ProgressCircle tone="neutral" size="40" />
         <ProgressCircle tone="brand" size="40" />
-        <view
-          style={{
-            backgroundColor: "#222",
-            borderRadius: "8px",
-            padding: "8px",
-          }}
-        >
+        <view className="bg-bg-neutral-solid rounded-r2 p-x2">
           <ProgressCircle tone="staticWhite" size="40" />
         </view>
       </view>
 
       <CatalogSectionTitle>Sizes</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <ProgressCircle tone="brand" size="24" />
         <ProgressCircle tone="brand" size="40" />
       </view>
 
       <CatalogSectionTitle>Determinate</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <ProgressCircle tone="neutral" size="40" minValue={0} maxValue={1} value={0.25} />
         <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={0.5} />
         <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={0.75} />
@@ -165,37 +116,22 @@ function ProgressCircleExamples() {
       </view>
 
       <CatalogSectionTitle>Interactive</CatalogSectionTitle>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "16px",
-          alignItems: "center",
-        }}
-      >
+      <view className="flex flex-row gap-x4 items-center">
         <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={progress} />
-        <text style={{ fontSize: "14px" }}>{`${Math.round(progress * 100)}%`}</text>
+        <text className="t4-regular text-fg-neutral">{`${Math.round(progress * 100)}%`}</text>
       </view>
-      <view style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+      <view className="flex flex-row gap-x2">
         <view
           bindtap={() => setProgress((p) => Math.max(0, p - 0.1))}
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#eee",
-            borderRadius: "6px",
-          }}
+          className="py-x2 px-x4 bg-bg-neutral-weak rounded-r1_5"
         >
-          <text style={{ fontSize: "14px" }}>- 10%</text>
+          <text className="t4-regular text-fg-neutral">- 10%</text>
         </view>
         <view
           bindtap={() => setProgress((p) => Math.min(1, p + 0.1))}
-          style={{
-            padding: "8px 16px",
-            backgroundColor: "#eee",
-            borderRadius: "6px",
-          }}
+          className="py-x2 px-x4 bg-bg-neutral-weak rounded-r1_5"
         >
-          <text style={{ fontSize: "14px" }}>+ 10%</text>
+          <text className="t4-regular text-fg-neutral">+ 10%</text>
         </view>
       </view>
 

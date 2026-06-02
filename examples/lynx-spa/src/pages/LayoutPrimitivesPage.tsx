@@ -4,7 +4,7 @@ import type * as React from "react";
 
 function SectionTitle({ children }: { children: string }) {
   return (
-    <Text textStyle="t6Bold" color="fg.neutral" style={{ marginTop: "22px" }}>
+    <Text textStyle="t6Bold" color="fg.neutral" className="mt-[22px]">
       {children}
     </Text>
   );
@@ -96,17 +96,11 @@ export function LayoutPrimitivesPage() {
           <HStack gap="x3" align="center" justify="spaceBetween">
             <VStack gap="x1" grow>
               <Text textStyle="t4Bold" color="fg.neutral">
-                style prop merge
+                className utility merge
               </Text>
-              <CodeLabel>style={`{{ paddingLeft: "28px" }}`}</CodeLabel>
+              <CodeLabel>className="pl-x7"</CodeLabel>
             </VStack>
-            <Box
-              bg="bg.layerDefault"
-              borderRadius="full"
-              px="x3"
-              py="x1"
-              style={{ paddingLeft: "28px" }}
-            >
+            <Box bg="bg.layerDefault" borderRadius="full" px="x3" py="x1" className="pl-x7">
               <Text textStyle="t2Bold" color="fg.neutral">
                 override
               </Text>

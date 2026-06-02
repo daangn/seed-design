@@ -1,4 +1,5 @@
 import { type ReactNode, useMemo, useState } from "@lynx-js/react";
+import clsx from "clsx";
 
 export type PrimitiveValue = string | number | boolean;
 export type VariantValues = Record<string, PrimitiveValue>;
@@ -155,42 +156,13 @@ export function VariantPlayground<
     setPrimitiveValue(key, value);
 
   return (
-    <view
-      style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        minHeight: 0,
-      }}
-    >
+    <view className="flex flex-col flex-1 min-h-0">
       {/* Preview: fills the remaining space and centers the component. */}
-      <view
-        style={{
-          flex: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "16px",
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
+      <view className="flex flex-1 items-center justify-center p-x4 overflow-hidden relative">
         {children(values as VariantCatalogValues<Variants, PreviewStates>, setValue)}
         {previewStateText != null && (
-          <view
-            style={{
-              position: "absolute",
-              right: "8px",
-              bottom: "8px",
-            }}
-          >
-            <text
-              style={{
-                fontSize: "10px",
-                lineHeight: "12px",
-                color: "#888",
-              }}
-            >
+          <view className="absolute right-x2 bottom-x2">
+            <text className="text-[10px] leading-[12px] text-fg-neutral-muted">
               {previewStateText}
             </text>
           </view>
@@ -198,25 +170,9 @@ export function VariantPlayground<
       </view>
 
       {/* Controls: fixed to the bottom with its own scroll area. */}
-      <view
-        style={{
-          flexShrink: 0,
-          maxHeight: "45%",
-          borderTopWidth: "1px",
-          borderTopStyle: "solid",
-          borderTopColor: "#e5e5e5",
-          backgroundColor: "#f7f7f7",
-        }}
-      >
-        <scroll-view scroll-y style={{ maxHeight: "100%" }}>
-          <view
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-              padding: "12px 16px",
-            }}
-          >
+      <view className="shrink-0 max-h-[45%] border-t border-stroke-neutral-muted bg-bg-layer-fill">
+        <scroll-view scroll-y className="max-h-full">
+          <view className="flex flex-col gap-x2_5 py-x3 px-x4">
             {variants.map((variant) =>
               isBooleanOptions(variant.options) ? (
                 <BooleanRow
@@ -254,32 +210,9 @@ function VariantRow({
   onChange: (value: PrimitiveValue) => void;
 }) {
   return (
-    <view
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: "8px",
-      }}
-    >
-      <text
-        style={{
-          minWidth: "92px",
-          fontSize: "12px",
-          fontWeight: "600",
-          color: "#555",
-        }}
-      >
-        {name}
-      </text>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "4px",
-        }}
-      >
+    <view className="flex flex-row items-center gap-x2">
+      <text className="min-w-[92px] t2-medium text-fg-neutral-muted">{name}</text>
+      <view className="flex flex-row flex-wrap gap-x1">
         {options.map((option) => {
           const active = current === option;
           const label = toLabel(option);
@@ -287,23 +220,18 @@ function VariantRow({
             <view
               key={label}
               bindtap={() => onChange(option)}
-              style={{
-                paddingTop: "4px",
-                paddingBottom: "4px",
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                borderRadius: "6px",
-                backgroundColor: active ? "#222" : "#fff",
-                borderWidth: "1px",
-                borderStyle: "solid",
-                borderColor: active ? "#222" : "#d0d0d0",
-              }}
+              className={clsx(
+                "py-x1 px-x2_5 rounded-r1_5 border",
+                active
+                  ? "bg-bg-neutral-solid border-stroke-neutral-contrast"
+                  : "bg-bg-layer-default border-stroke-neutral-muted",
+              )}
             >
               <text
-                style={{
-                  fontSize: "12px",
-                  color: active ? "#fff" : "#333",
-                }}
+                className={clsx(
+                  "t2-regular",
+                  active ? "text-fg-neutral-inverted" : "text-fg-neutral",
+                )}
               >
                 {label}
               </text>
@@ -325,43 +253,19 @@ function BooleanRow({
   onChange: (value: boolean) => void;
 }) {
   return (
-    <view
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: "8px",
-      }}
-    >
-      <text
-        style={{
-          minWidth: "92px",
-          fontSize: "12px",
-          fontWeight: "600",
-          color: "#555",
-        }}
-      >
-        {name}
-      </text>
+    <view className="flex flex-row items-center gap-x2">
+      <text className="min-w-[92px] t2-medium text-fg-neutral-muted">{name}</text>
       <view
         bindtap={() => onChange(!current)}
-        style={{
-          paddingTop: "4px",
-          paddingBottom: "4px",
-          paddingLeft: "10px",
-          paddingRight: "10px",
-          borderRadius: "6px",
-          backgroundColor: current ? "#222" : "#fff",
-          borderWidth: "1px",
-          borderStyle: "solid",
-          borderColor: current ? "#222" : "#d0d0d0",
-        }}
+        className={clsx(
+          "py-x1 px-x2_5 rounded-r1_5 border",
+          current
+            ? "bg-bg-neutral-solid border-stroke-neutral-contrast"
+            : "bg-bg-layer-default border-stroke-neutral-muted",
+        )}
       >
         <text
-          style={{
-            fontSize: "12px",
-            color: current ? "#fff" : "#333",
-          }}
+          className={clsx("t2-regular", current ? "text-fg-neutral-inverted" : "text-fg-neutral")}
         >
           {current ? "true" : "false"}
         </text>

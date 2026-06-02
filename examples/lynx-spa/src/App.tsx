@@ -1,5 +1,4 @@
 import { lazy, Suspense, useState } from "@lynx-js/react";
-import { vars } from "@seed-design/lynx-css/vars";
 import { useSafeArea } from "@seed-design/lynx-react";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
@@ -65,14 +64,8 @@ export type Page =
 
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
-    <view
-      bindtap={onBack}
-      style={{
-        padding: "8px 0",
-        marginBottom: "8px",
-      }}
-    >
-      <text style={{ fontSize: "16px", color: vars.$color.fg.brand }}>{"← Back"}</text>
+    <view bindtap={onBack} className="py-x2 mb-x2">
+      <text className="t5-regular text-fg-brand">{"← Back"}</text>
     </view>
   );
 }
@@ -112,15 +105,13 @@ export function App(props: { onRender?: () => void }) {
   if (FULLSCREEN_PAGES.has(currentPage)) {
     return (
       <view
+        className="flex flex-col h-screen min-h-0 bg-bg-layer-default"
         style={{
           paddingTop: addBaseToSafeAreaInset(safeAreaInsetTop, 16),
           paddingBottom: safeAreaInsetBottom,
-          display: "flex",
-          flexDirection: "column",
-          height: "100vh",
         }}
       >
-        <view style={{ paddingLeft: "16px", paddingRight: "16px" }}>
+        <view className="px-x4 shrink-0">
           <BackButton onBack={() => setCurrentPage("home")} />
         </view>
         {currentPage === "action-button" && <ActionButtonPage />}
@@ -146,13 +137,10 @@ export function App(props: { onRender?: () => void }) {
   return (
     <scroll-view
       scroll-y
+      className="flex flex-col h-screen px-x4 bg-bg-layer-default"
       style={{
-        padding: "16px",
         paddingTop: addBaseToSafeAreaInset(safeAreaInsetTop, 16),
         paddingBottom: addBaseToSafeAreaInset(safeAreaInsetBottom, 16),
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
       }}
     >
       {currentPage !== "home" && <BackButton onBack={() => setCurrentPage("home")} />}

@@ -123,7 +123,7 @@ export function LayoutStressTailwindPage() {
   const { revision, rerender } = useStressRevision();
 
   return (
-    <view className="flex flex-col gap-4">
+    <view className="flex flex-col gap-x4">
       <PerformancePanel
         identifier={STRESS_IDENTIFIERS.tailwind}
         revision={revision}
@@ -132,24 +132,23 @@ export function LayoutStressTailwindPage() {
 
       <view
         __lynx_timing_flag={getTimingFlag(STRESS_IDENTIFIERS.tailwind, revision)}
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-x4"
       >
-        <view className="flex flex-col gap-1">
+        <view className="flex flex-col gap-x1">
           <text className="t9-bold text-fg-neutral">Stress: Tailwind</text>
           <text className="t4-regular text-fg-neutral-subtle">
             72 tiles rendered with Tailwind utilities.
           </text>
         </view>
 
-        <view className="flex flex-row flex-wrap gap-2">
+        <view className="flex flex-row flex-wrap gap-x2">
           {STRESS_ITEMS.map((item) => {
             const tone = TAILWIND_TONES[(item + revision) % TAILWIND_TONES.length];
 
             return (
               <view
                 key={item}
-                className={`${tone.tile} flex flex-col items-center justify-center gap-0.5 rounded-lg p-2`}
-                style={{ width: STRESS_TILE_SIZE, height: STRESS_TILE_SIZE }}
+                className={`${tone.tile} flex flex-col items-center justify-center gap-x0_5 rounded-r2 p-x2 w-x14 h-x14`}
               >
                 <text className={`t2-bold ${tone.text}`}>{`#${item + 1}`}</text>
                 <text className="t1-regular text-fg-neutral-subtle">item</text>
@@ -253,13 +252,7 @@ export function LayoutStressSeedPrimitivesPage() {
   const { revision, rerender } = useStressRevision();
 
   return (
-    <view
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: vars.$dimension.x4,
-      }}
-    >
+    <view className="flex flex-col gap-x4">
       <PerformancePanel
         identifier={STRESS_IDENTIFIERS.seed}
         revision={revision}
@@ -290,7 +283,7 @@ export function LayoutStressSeedPrimitivesPage() {
                   height={STRESS_TILE_SIZE}
                   p="x2"
                 >
-                  <VStack gap="x0_5" align="center" justify="center" style={{ height: "100%" }}>
+                  <VStack gap="x0_5" align="center" justify="center" className="h-full">
                     <Text textStyle="t2Bold" color={tone.text}>
                       {`#${item + 1}`}
                     </Text>

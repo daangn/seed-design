@@ -1,13 +1,11 @@
 import { useState } from "@lynx-js/react";
-import { vars } from "@seed-design/lynx-css/vars";
 import { usePressTap } from "@seed-design/lynx-react";
-
-const { $color } = vars;
+import clsx from "clsx";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <view style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      <text style={{ fontSize: "16px", fontWeight: "bold" }}>{title}</text>
+    <view className="flex flex-col gap-x2">
+      <text className="t5-bold text-fg-neutral">{title}</text>
       {children}
     </view>
   );
@@ -41,32 +39,28 @@ function PressTapDemo({
   return (
     <view
       {...handlers}
-      style={{
-        padding: "14px 16px",
-        borderRadius: "8px",
-        backgroundColor: disabled
-          ? $color.bg.layerBasement
+      className={clsx(
+        "py-x3_5 px-x4 rounded-r2",
+        disabled
+          ? "bg-bg-layer-basement opacity-50"
           : pressed
-            ? $color.bg.brandSolidPressed
-            : $color.bg.brandSolid,
-        opacity: disabled ? "0.5" : "1",
-      }}
+            ? "bg-bg-brand-solid-pressed opacity-100"
+            : "bg-bg-brand-solid opacity-100",
+      )}
     >
       <text
-        style={{
-          fontSize: "14px",
-          fontWeight: "bold",
-          color: disabled ? $color.fg.neutralSubtle : $color.palette.staticWhite,
-        }}
+        className={clsx(
+          "t4-bold",
+          disabled ? "text-fg-neutral-subtle" : "text-fg-neutral-inverted",
+        )}
       >
         {label}
       </text>
       <text
-        style={{
-          fontSize: "12px",
-          color: disabled ? $color.fg.neutralSubtle : $color.palette.staticWhite,
-          marginTop: "4px",
-        }}
+        className={clsx(
+          "t2-regular mt-x1",
+          disabled ? "text-fg-neutral-subtle" : "text-fg-neutral-inverted",
+        )}
       >
         {`pressed: ${String(pressed)} · taps: ${tapCount} · main-thread:bindtap: ${String(hasMainThread)}`}
       </text>
@@ -76,29 +70,26 @@ function PressTapDemo({
 
 export function UsePressTapPage() {
   return (
-    <scroll-view
-      scroll-y
-      style={{ display: "flex", flexDirection: "column", gap: "16px", flex: 1 }}
-    >
-      <text style={{ fontSize: "20px", fontWeight: "bold" }}>usePressTap</text>
+    <scroll-view scroll-y className="flex flex-col gap-x4 flex-1 bg-bg-layer-default">
+      <text className="t7-bold text-fg-neutral">usePressTap</text>
 
       <Section title="Basic">
         <PressTapDemo label="Press me" />
-        <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
+        <text className="t2-regular text-fg-neutral-subtle">
           touchstart 시 pressed=true, touchend/cancel 시 pressed=false. 탭 시 onTap 호출.
         </text>
       </Section>
 
       <Section title="Disabled">
         <PressTapDemo label="Disabled" disabled />
-        <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
+        <text className="t2-regular text-fg-neutral-subtle">
           disabled=true일 때 pressed 변화와 onTap 호출이 차단됨.
         </text>
       </Section>
 
       <Section title="With main-thread:bindtap">
         <PressTapDemo label="Main thread ready" withMainThread />
-        <text style={{ fontSize: "12px", color: $color.fg.neutralSubtle }}>
+        <text className="t2-regular text-fg-neutral-subtle">
           mainThreadOnTap 제공 시 `main-thread:bindtap` 반환 객체에 포함. 콘솔 로그 확인.
         </text>
       </Section>

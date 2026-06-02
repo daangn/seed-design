@@ -11,6 +11,7 @@ import {
 import "./styles/global.css";
 
 import { getSeedClassName } from "@seed-design/lynx-react";
+
 import { App } from "./App.jsx";
 
 // Initialize lynx-console monitors before rendering.
@@ -22,12 +23,7 @@ initPerformanceMonitor();
 
 function Root() {
   return (
-    <page
-      className={getSeedClassName({ colorMode: "system" })}
-      style={{
-        backgroundColor: "var(--seed-color-bg-layer-default)",
-      }}
-    >
+    <page className={`${getSeedClassName({ colorMode: "system" })} bg-bg-layer-default`}>
       <App />
     </page>
   );

@@ -233,6 +233,7 @@
       "name": "lynx-spa",
       "version": "1.0.0",
       "dependencies": {
+        "@karrotmarket/icon-data": "^1.34.0",
         "@karrotmarket/lynx-monochrome-icon": "1.10.0",
         "@karrotmarket/lynx-multicolor-icon": "1.13.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",

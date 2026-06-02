@@ -1,20 +1,9 @@
 import { vars } from "@seed-design/lynx-css/vars";
 
-const { $color, $fontSize, $lineHeight, $fontWeight } = vars;
+const { $fontSize, $lineHeight, $fontWeight } = vars;
 
 function SectionTitle({ children }: { children: string }) {
-  return (
-    <text
-      style={{
-        fontSize: "18px",
-        fontWeight: "bold",
-        marginTop: "20px",
-        marginBottom: "8px",
-      }}
-    >
-      {children}
-    </text>
-  );
+  return <text className="t6-bold mt-x5 mb-x2 text-fg-neutral">{children}</text>;
 }
 
 function FontSizeRow({
@@ -27,21 +16,15 @@ function FontSizeRow({
   lineHeightVar?: string;
 }) {
   return (
-    <view
-      style={{
-        padding: "8px",
-        borderBottomWidth: "1px",
-        borderBottomColor: $color.stroke.neutralMuted,
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px",
-      }}
-    >
-      <text style={`font-size: 11px; color: ${$color.fg.neutralSubtle};`}>
+    <view className="p-x2 border-b border-stroke-neutral-muted flex flex-col gap-x1">
+      <text className="t1-regular text-fg-neutral-subtle">
         {name} → {sizeVar}
         {lineHeightVar ? ` / ${lineHeightVar}` : ""}
       </text>
-      <text style={`font-size: ${sizeVar}; line-height: ${lineHeightVar ?? "normal"};`}>
+      <text
+        className="text-fg-neutral"
+        style={`font-size: ${sizeVar}; line-height: ${lineHeightVar ?? "normal"};`}
+      >
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
     </view>
@@ -50,20 +33,11 @@ function FontSizeRow({
 
 function FontWeightRow({ name, weightVar }: { name: string; weightVar: string }) {
   return (
-    <view
-      style={{
-        padding: "8px",
-        borderBottomWidth: "1px",
-        borderBottomColor: $color.stroke.neutralMuted,
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px",
-      }}
-    >
-      <text style={`font-size: 11px; color: ${$color.fg.neutralSubtle};`}>
+    <view className="p-x2 border-b border-stroke-neutral-muted flex flex-col gap-x1">
+      <text className="t1-regular text-fg-neutral-subtle">
         {name} → {weightVar}
       </text>
-      <text style={`font-size: 16px; font-weight: ${weightVar};`}>
+      <text className="text-t5 leading-t5 text-fg-neutral" style={`font-weight: ${weightVar};`}>
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
     </view>
@@ -98,9 +72,9 @@ const staticFontSizes = [
 
 export function FoundationTypographyPage() {
   return (
-    <scroll-view scroll-y style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
-      <text style={{ fontSize: "20px", fontWeight: "bold" }}>Typography</text>
-      <text style={{ fontSize: "13px", color: $color.fg.neutralSubtle, marginBottom: "8px" }}>
+    <scroll-view scroll-y className="flex flex-col gap-x1 flex-1 bg-bg-layer-default">
+      <text className="t7-bold text-fg-neutral">Typography</text>
+      <text className="t3-regular text-fg-neutral-subtle mb-x2">
         @seed-design/lynx-css/vars — $fontSize, $lineHeight, $fontWeight tokens
       </text>
 
@@ -110,14 +84,7 @@ export function FoundationTypographyPage() {
       <FontWeightRow name="bold" weightVar={$fontWeight.bold} />
 
       <SectionTitle>Dynamic Font Size (sp)</SectionTitle>
-      <text
-        style={{
-          fontSize: "11px",
-          color: $color.fg.neutralSubtle,
-          paddingLeft: "8px",
-          paddingRight: "8px",
-        }}
-      >
+      <text className="t1-regular text-fg-neutral-subtle px-x2">
         sp 단위 — 시스템 폰트 크기 설정에 반응합니다
       </text>
       {dynamicFontSizes.map((item) => (
@@ -125,14 +92,7 @@ export function FoundationTypographyPage() {
       ))}
 
       <SectionTitle>Static Font Size (px)</SectionTitle>
-      <text
-        style={{
-          fontSize: "11px",
-          color: $color.fg.neutralSubtle,
-          paddingLeft: "8px",
-          paddingRight: "8px",
-        }}
-      >
+      <text className="t1-regular text-fg-neutral-subtle px-x2">
         px 단위 — 시스템 폰트 크기 설정에 반응하지 않습니다
       </text>
       {staticFontSizes.map((item) => (

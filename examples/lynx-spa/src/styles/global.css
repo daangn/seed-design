@@ -2,3 +2,11 @@
 
 @tailwind components;
 @tailwind utilities;
+
+page {
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+text {
+  color: var(--seed-color-fg-neutral);
+}

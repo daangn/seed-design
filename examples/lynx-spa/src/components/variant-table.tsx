@@ -75,22 +75,9 @@ export function VariantTable<const Variants extends readonly VariantAxis[]>(
 
 function SectionHeader({ axis }: { axis: VariantAxis }) {
   return (
-    <view
-      style={{
-        paddingTop: "14px",
-        paddingBottom: "8px",
-        paddingLeft: "12px",
-        paddingRight: "12px",
-        backgroundColor: "#f5f5f5",
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "#ddd",
-      }}
-    >
-      <text style={{ fontSize: "12px", fontWeight: "bold", color: "#333" }}>
-        {axis.label ?? axis.key}
-      </text>
-      <text style={{ fontSize: "10px", lineHeight: "14px", color: "#777" }}>
+    <view className="pt-x3_5 pb-x2 px-x3 bg-bg-neutral-weak border-b border-stroke-neutral-muted">
+      <text className="t2-bold text-fg-neutral">{axis.label ?? axis.key}</text>
+      <text className="text-[10px] leading-[14px] text-fg-neutral-muted">
         {`default: ${String(axis.defaultValue)}`}
       </text>
     </view>
@@ -109,57 +96,14 @@ function Row({
   renderComponent: (values: VariantValues) => ReactNode;
 }) {
   return (
-    <view
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        paddingTop: "12px",
-        paddingBottom: "12px",
-        paddingLeft: "12px",
-        paddingRight: "12px",
-        borderBottomWidth: "1px",
-        borderBottomStyle: "solid",
-        borderBottomColor: "#eee",
-      }}
-    >
-      <view
-        style={{
-          width: "36%",
-          display: "flex",
-          flexDirection: "column",
-          paddingRight: "12px",
-        }}
-      >
-        <text
-          style={{
-            fontSize: "11px",
-            lineHeight: "16px",
-            fontWeight: "bold",
-            color: "#333",
-          }}
-        >
-          {String(option)}
-        </text>
-        <text
-          style={{
-            fontSize: "10px",
-            lineHeight: "14px",
-            color: "#777",
-          }}
-        >
+    <view className="flex flex-row items-center py-x3 px-x3 border-b border-stroke-neutral-subtle">
+      <view className="w-[36%] flex flex-col pr-x3">
+        <text className="t1-bold text-fg-neutral">{String(option)}</text>
+        <text className="text-[10px] leading-[14px] text-fg-neutral-muted">
           {axis.label ?? axis.key}
         </text>
       </view>
-      <view
-        style={{
-          width: "64%",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "flex-start",
-        }}
-      >
+      <view className="w-[64%] flex flex-row items-center justify-start">
         {renderComponent(values)}
       </view>
     </view>

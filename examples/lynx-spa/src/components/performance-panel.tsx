@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "@lynx-js/react";
-import { vars } from "@seed-design/lynx-css/vars";
 
 type PipelineMetric = {
   name: string;
@@ -295,67 +294,18 @@ export function useLynxPerformanceObserver(identifier: string) {
 
 function MetricValue({ label, value }: { label: string; value?: number }) {
   return (
-    <view
-      style={{
-        flex: 1,
-        minWidth: "72px",
-        padding: vars.$dimension.x2,
-        borderRadius: vars.$radius.r2,
-        background: vars.$color.bg.neutralWeak,
-      }}
-    >
-      <text
-        style={{
-          color: vars.$color.fg.neutralSubtle,
-          fontSize: vars.$fontSize.t1,
-          lineHeight: vars.$lineHeight.t1,
-          fontWeight: "400",
-        }}
-      >
-        {label}
-      </text>
-      <text
-        style={{
-          color: vars.$color.fg.neutral,
-          fontSize: vars.$fontSize.t2,
-          lineHeight: vars.$lineHeight.t2,
-          fontWeight: "700",
-          marginTop: vars.$dimension.x0_5,
-        }}
-      >
-        {formatMs(value)}
-      </text>
+    <view className="flex-1 min-w-[72px] p-x2 rounded-r2 bg-bg-neutral-weak">
+      <text className="t1-regular text-fg-neutral-subtle">{label}</text>
+      <text className="t2-bold text-fg-neutral mt-x0_5">{formatMs(value)}</text>
     </view>
   );
 }
 
 function MetricRow({ title, measurement }: { title: string; measurement: Measurement | null }) {
   return (
-    <view
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: vars.$dimension.x1,
-      }}
-    >
-      <text
-        style={{
-          color: vars.$color.fg.neutral,
-          fontSize: vars.$fontSize.t2,
-          lineHeight: vars.$lineHeight.t2,
-          fontWeight: "700",
-        }}
-      >
-        {title}
-      </text>
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: vars.$dimension.x1,
-        }}
-      >
+    <view className="flex flex-col gap-x1">
+      <text className="t2-bold text-fg-neutral">{title}</text>
+      <view className="flex flex-row flex-wrap gap-x1">
         <MetricValue label="total" value={measurement?.total} />
         <MetricValue label="render" value={measurement?.render} />
         <MetricValue label="resolve" value={measurement?.resolve} />
@@ -392,67 +342,16 @@ export function PerformancePanel({
   }
 
   return (
-    <view
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: vars.$dimension.x3,
-        padding: vars.$dimension.x3,
-        borderRadius: vars.$radius.r3,
-        borderWidth: "1px",
-        borderColor: vars.$color.stroke.neutralMuted,
-        background: vars.$color.bg.layerDefault,
-      }}
-    >
-      <view
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: vars.$dimension.x2,
-        }}
-      >
-        <view style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-          <text
-            style={{
-              color: vars.$color.fg.neutral,
-              fontSize: vars.$fontSize.t3,
-              lineHeight: vars.$lineHeight.t3,
-              fontWeight: "700",
-            }}
-          >
-            Performance
-          </text>
-          <text
-            style={{
-              color: vars.$color.fg.neutralSubtle,
-              fontSize: vars.$fontSize.t1,
-              lineHeight: vars.$lineHeight.t1,
-              fontWeight: "400",
-            }}
-          >
+    <view className="flex flex-col gap-x3 p-x3 rounded-r3 border border-stroke-neutral-muted bg-bg-layer-default">
+      <view className="flex flex-row items-center justify-between gap-x2">
+        <view className="flex flex-col gap-x0_5">
+          <text className="t3-bold text-fg-neutral">Performance</text>
+          <text className="t1-regular text-fg-neutral-subtle">
             {`${status} | samples ${count} | run ${revision}`}
           </text>
         </view>
-        <view
-          bindtap={handleRerender}
-          style={{
-            padding: `${vars.$dimension.x2} ${vars.$dimension.x3}`,
-            borderRadius: vars.$radius.full,
-            background: vars.$color.bg.brandSolid,
-          }}
-        >
-          <text
-            style={{
-              color: vars.$color.palette.staticWhite,
-              fontSize: vars.$fontSize.t2,
-              lineHeight: vars.$lineHeight.t2,
-              fontWeight: "700",
-            }}
-          >
-            Rerender
-          </text>
+        <view bindtap={handleRerender} className="py-x2 px-x3 rounded-full bg-bg-brand-solid">
+          <text className="t2-bold text-fg-neutral-inverted">Rerender</text>
         </view>
       </view>
 

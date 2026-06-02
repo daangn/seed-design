@@ -1,4 +1,5 @@
 import { type ReactNode, useState } from "@lynx-js/react";
+import clsx from "clsx";
 
 import {
   getPreviewStateDefaultValues,
@@ -53,31 +54,12 @@ export function VariantCatalog<
     examples == null ? ["playground", "table"] : ["playground", "table", "examples"];
 
   return (
-    <view
-      style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        minHeight: 0,
-      }}
-    >
-      <view
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          flexShrink: 0,
-          backgroundColor: "#fafafa",
-          borderBottomWidth: "1px",
-          borderBottomStyle: "solid",
-          borderBottomColor: "#e5e5e5",
-        }}
-      >
+    <view className="flex flex-col flex-1 min-h-0">
+      <view className="w-full flex flex-row shrink-0 bg-bg-layer-fill border-b border-stroke-neutral-muted">
         {tabs.map((tab) => (
           <TabButton
             key={tab}
             active={mode === tab}
-            width={`${100 / tabs.length}%`}
             onTap={() => setMode(tab)}
             label={toTabLabel(tab)}
           />
@@ -95,7 +77,7 @@ export function VariantCatalog<
           {(values) => renderForTable(children, values, previewStates)}
         </VariantTable>
       ) : (
-        <view style={{ flex: 1, minHeight: 0 }}>{examples}</view>
+        <view className="flex-1 min-h-0">{examples}</view>
       )}
     </view>
   );
@@ -127,38 +109,23 @@ function toTabLabel(mode: Mode) {
 
 function TabButton({
   active,
-  width,
   onTap,
   label,
 }: {
   active: boolean;
-  width: string;
   onTap: () => void;
   label: string;
 }) {
   return (
     <view
       bindtap={onTap}
-      style={{
-        width,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        paddingTop: "14px",
-        paddingBottom: "14px",
-        borderBottomWidth: "2px",
-        borderBottomStyle: "solid",
-        borderBottomColor: active ? "#222" : "transparent",
-      }}
+      className={clsx(
+        "flex flex-1 flex-col items-center justify-center py-x3_5 border-b-2",
+        active ? "border-stroke-neutral-contrast" : "border-transparent",
+      )}
     >
       <text
-        style={{
-          fontSize: "14px",
-          lineHeight: "20px",
-          fontWeight: active ? "bold" : "normal",
-          color: active ? "#222222" : "#888888",
-        }}
+        className={clsx(active ? "t4-bold text-fg-neutral" : "t4-regular text-fg-neutral-muted")}
       >
         {label}
       </text>
