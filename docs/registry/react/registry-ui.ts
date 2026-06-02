@@ -355,6 +355,34 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "attachment-display-field",
+      snippets: [
+        {
+          path: "attachment-display-field.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+      ],
+    },
+    {
+      id: "attachment-display-field-reorderable",
+      snippets: [
+        {
+          path: "attachment-display-field.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+        {
+          path: "attachment-display-field-reorderable.tsx",
+          dependencies: {
+            "@seed-design/react": "~1.3.0",
+            "@seed-design/css": "~1.3.0",
+            "@dnd-kit/react": "^0.4.0",
+            "@dnd-kit/abstract": "^0.4.0",
+            "@dnd-kit/dom": "^0.4.0",
+          },
+        },
+      ],
+    },
+    {
       id: "attachment-field",
       snippets: [
         {
