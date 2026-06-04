@@ -3,26 +3,15 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { hideOthers } from "aria-hidden";
-import { RemoveScroll } from "react-remove-scroll";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
+import { usePreventScroll } from "@seed-design/react-prevent-scroll";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef, useCallback, useEffect, useState } from "react";
 import { Presence } from "@seed-design/react-presence";
 import { useDialog, type UseDialogProps } from "./useDialog";
 import { DialogProvider, useDialogContext } from "./useDialogContext";
-
-/**
- * `react-remove-scroll` renders its lock container via the `as` prop. Routing it
- * through `Primitive.div` + `asChild` (= Slot) merges the scroll-capture handlers
- * and `lockRef` onto the existing dialog element instead of inserting a wrapper
- * node, and composes refs rather than overriding them (which `forwardProps` would).
- */
-const ScrollLockSlot = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  (props, ref) => <Primitive.div asChild ref={ref} {...props} />,
-);
-ScrollLockSlot.displayName = "ScrollLockSlot";
 
 export interface DialogRootProps extends UseDialogProps {
   children: React.ReactNode;
@@ -73,6 +62,10 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
   const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
   const contentRef = useCallback((el: HTMLDivElement | null) => setContentNode(el), []);
 
+  // Lock body scroll while the modal overlay is open. Mirrors the `modal` contract: the lock
+  // releases the moment the dialog is non-modal or closed.
+  usePreventScroll({ isDisabled: !(api.modal && api.open) });
+
   // aria-hide everything except the content (better supported equivalent to setting aria-modal)
   useEffect(() => {
     if (!api.open || !api.modal || !contentNode) return;
@@ -105,17 +98,10 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
         }}
       >
         <FocusScope asChild loop trapped={api.open && api.modal}>
-          <RemoveScroll
-            as={ScrollLockSlot}
-            enabled={api.modal && api.open}
-            removeScrollBar
-            allowPinchZoom
-          >
-            <Primitive.div
-              ref={composeRefs(ref, contentRef)}
-              {...mergeProps(api.contentProps, props)}
-            />
-          </RemoveScroll>
+          <Primitive.div
+            ref={composeRefs(ref, contentRef)}
+            {...mergeProps(api.contentProps, props)}
+          />
         </FocusScope>
       </DismissibleLayer>
     </Presence>

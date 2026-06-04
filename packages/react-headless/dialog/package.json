@@ -32,10 +32,10 @@
     "@seed-design/dom-utils": "1.0.0",
     "@seed-design/react-dismissible-layer": "0.0.0",
     "@seed-design/react-presence": "0.0.0",
+    "@seed-design/react-prevent-scroll": "0.0.0",
     "@seed-design/react-primitive": "1.0.0",
     "@seed-design/react-use-controllable-state": "1.0.0",
-    "aria-hidden": "^1.2.6",
-    "react-remove-scroll": "^2.7.2"
+    "aria-hidden": "^1.2.6"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

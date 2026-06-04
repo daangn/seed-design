@@ -326,27 +326,30 @@ describe("useDrawer", () => {
 });
 
 describe("스크롤 락", () => {
-  it("modal이고 열렸을 때 body 스크롤을 잠그고, 닫히면 해제한다", () => {
+  // usePreventScroll locks the root element (`overflow: hidden`), not the body.
+  const isScrollLocked = () => document.documentElement.style.overflow === "hidden";
+
+  it("modal이고 열렸을 때 루트 스크롤을 잠그고, 닫히면 해제한다", () => {
     const { rerender } = render(
       <DrawerRoot open={false} modal>
         <DrawerContent>내용</DrawerContent>
       </DrawerRoot>,
     );
-    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
+    expect(isScrollLocked()).toBe(false);
 
     rerender(
       <DrawerRoot open modal>
         <DrawerContent>내용</DrawerContent>
       </DrawerRoot>,
     );
-    expect(document.body.hasAttribute("data-scroll-locked")).toBe(true);
+    expect(isScrollLocked()).toBe(true);
 
     rerender(
       <DrawerRoot open={false} modal>
         <DrawerContent>내용</DrawerContent>
       </DrawerRoot>,
     );
-    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
+    expect(isScrollLocked()).toBe(false);
   });
 
   it("modal=false면 열려 있어도 잠그지 않는다", () => {
@@ -355,6 +358,6 @@ describe("스크롤 락", () => {
         <DrawerContent>내용</DrawerContent>
       </DrawerRoot>,
     );
-    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
+    expect(isScrollLocked()).toBe(false);
   });
 });

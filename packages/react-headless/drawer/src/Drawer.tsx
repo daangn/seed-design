@@ -4,30 +4,16 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { hideOthers } from "aria-hidden";
-import { RemoveScroll } from "react-remove-scroll";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { Presence } from "@seed-design/react-presence";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
+import { usePreventScroll } from "@seed-design/react-prevent-scroll";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import type { DrawerDirection } from "./types";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
 import { DrawerProvider, useDrawerContext } from "./useDrawerContext";
-
-/**
- * `react-remove-scroll` renders its lock container via the `as` prop. Routing it
- * through `Primitive.div` + `asChild` (= Slot) merges the scroll-capture handlers
- * and `lockRef` onto the existing dialog element instead of inserting a wrapper
- * node. This matters because e.g. BottomSheet's content is a flex child of its
- * positioner — an extra DOM node would break the layout. `forwardProps` is not an
- * option here: it clones via `ref` override and would drop the dialog's own refs
- * (`drawerRef`/`contentRef`).
- */
-const ScrollLockSlot = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  (props, ref) => <Primitive.div asChild ref={ref} {...props} />,
-);
-ScrollLockSlot.displayName = "ScrollLockSlot";
 
 export interface DrawerRootProps extends UseDrawerProps {
   children?: React.ReactNode;
@@ -128,6 +114,10 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     lazyMount,
     unmountOnExit,
   } = useDrawerContext();
+
+  // Lock body scroll while the modal drawer is open. Mirrors the `modal` contract: the lock
+  // releases the moment the drawer is non-modal or closed.
+  usePreventScroll({ isDisabled: !(modal && isOpen) });
 
   const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
   const contentRef = useCallback((el: HTMLDivElement | null) => setContentNode(el), []);
@@ -238,79 +228,72 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
             // -> matches Menu behavior
           }}
         >
-          <RemoveScroll
-            as={ScrollLockSlot}
-            enabled={modal && isOpen}
-            removeScrollBar
-            allowPinchZoom
-          >
-            <Primitive.div
-              role="dialog"
-              aria-modal={modal}
-              aria-labelledby={titleId}
-              aria-describedby={descriptionId}
-              data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
-              data-drawer-direction={direction}
-              data-open={dataAttr(isOpen)}
-              data-animation-done={hasAnimationDone ? "true" : "false"}
-              data-drawer=""
-              data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
-              data-custom-container={container ? "true" : "false"}
-              {...restProps}
-              ref={composeRefs(ref, drawerRef, contentRef)}
-              style={{
-                ...(snapPointsOffset && snapPointsOffset.length > 0
-                  ? ({
-                      "--snap-point-height": `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
-                      ...style,
-                    } as React.CSSProperties)
-                  : style),
-                ...(!modal && { pointerEvents: "auto" }),
-              }}
-              onPointerDown={(event) => {
-                if (handleOnly) return;
-                restProps.onPointerDown?.(event);
-                pointerStartRef.current = { x: event.pageX, y: event.pageY };
-                onPress(event);
-              }}
-              onPointerMove={(event) => {
-                lastKnownPointerEventRef.current = event;
-                if (handleOnly) return;
-                restProps.onPointerMove?.(event);
-                if (!pointerStartRef.current) return;
-                const yPosition = event.pageY - pointerStartRef.current.y;
-                const xPosition = event.pageX - pointerStartRef.current.x;
+          <Primitive.div
+            role="dialog"
+            aria-modal={modal}
+            aria-labelledby={titleId}
+            aria-describedby={descriptionId}
+            data-delayed-snap-points={delayedSnapPoints ? "true" : "false"}
+            data-drawer-direction={direction}
+            data-open={dataAttr(isOpen)}
+            data-animation-done={hasAnimationDone ? "true" : "false"}
+            data-drawer=""
+            data-snap-points={isOpen && hasSnapPoints ? "true" : "false"}
+            data-custom-container={container ? "true" : "false"}
+            {...restProps}
+            ref={composeRefs(ref, drawerRef, contentRef)}
+            style={{
+              ...(snapPointsOffset && snapPointsOffset.length > 0
+                ? ({
+                    "--snap-point-height": `${snapPointsOffset[activeSnapPointIndex ?? 0]!}px`,
+                    ...style,
+                  } as React.CSSProperties)
+                : style),
+              ...(!modal && { pointerEvents: "auto" }),
+            }}
+            onPointerDown={(event) => {
+              if (handleOnly) return;
+              restProps.onPointerDown?.(event);
+              pointerStartRef.current = { x: event.pageX, y: event.pageY };
+              onPress(event);
+            }}
+            onPointerMove={(event) => {
+              lastKnownPointerEventRef.current = event;
+              if (handleOnly) return;
+              restProps.onPointerMove?.(event);
+              if (!pointerStartRef.current) return;
+              const yPosition = event.pageY - pointerStartRef.current.y;
+              const xPosition = event.pageX - pointerStartRef.current.x;
 
-                const swipeStartThreshold = event.pointerType === "touch" ? 10 : 2;
-                const delta = { x: xPosition, y: yPosition };
+              const swipeStartThreshold = event.pointerType === "touch" ? 10 : 2;
+              const delta = { x: xPosition, y: yPosition };
 
-                const isAllowedToSwipe = isDeltaInDirection(delta, direction, swipeStartThreshold);
-                if (isAllowedToSwipe) onDrag(event);
-                else if (
-                  Math.abs(xPosition) > swipeStartThreshold ||
-                  Math.abs(yPosition) > swipeStartThreshold
-                ) {
-                  pointerStartRef.current = null;
-                }
-              }}
-              onPointerUp={(event) => {
-                restProps.onPointerUp?.(event);
+              const isAllowedToSwipe = isDeltaInDirection(delta, direction, swipeStartThreshold);
+              if (isAllowedToSwipe) onDrag(event);
+              else if (
+                Math.abs(xPosition) > swipeStartThreshold ||
+                Math.abs(yPosition) > swipeStartThreshold
+              ) {
                 pointerStartRef.current = null;
-                wasBeyondThePointRef.current = false;
-                onRelease(event);
-              }}
-              onPointerOut={(event) => {
-                restProps.onPointerOut?.(event);
+              }
+            }}
+            onPointerUp={(event) => {
+              restProps.onPointerUp?.(event);
+              pointerStartRef.current = null;
+              wasBeyondThePointRef.current = false;
+              onRelease(event);
+            }}
+            onPointerOut={(event) => {
+              restProps.onPointerOut?.(event);
+              handleOnPointerUp(lastKnownPointerEventRef.current);
+            }}
+            onContextMenu={(event) => {
+              restProps.onContextMenu?.(event);
+              if (lastKnownPointerEventRef.current) {
                 handleOnPointerUp(lastKnownPointerEventRef.current);
-              }}
-              onContextMenu={(event) => {
-                restProps.onContextMenu?.(event);
-                if (lastKnownPointerEventRef.current) {
-                  handleOnPointerUp(lastKnownPointerEventRef.current);
-                }
-              }}
-            />
-          </RemoveScroll>
+              }
+            }}
+          />
         </FocusScope>
       </DismissibleLayer>
     </Presence>
