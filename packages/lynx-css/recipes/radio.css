@@ -19,8 +19,7 @@
 }
 .seed-radio__label--size_medium {
     font-size: var(--seed-font-size-t4);
-    line-height: var(--seed-line-height-t4);
-    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2)
+    line-height: var(--seed-line-height-t4)
 }
 .seed-radio__root--size_large {
     min-height: var(--seed-dimension-x9);
@@ -28,8 +27,7 @@
 }
 .seed-radio__label--size_large {
     font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
-    margin-top: calc(var(--seed-dimension-x9) / 2 - var(--seed-line-height-t5) / 2)
+    line-height: var(--seed-line-height-t5)
 }
 .seed-radio__label--disabled_true {
     color: var(--seed-color-fg-disabled)

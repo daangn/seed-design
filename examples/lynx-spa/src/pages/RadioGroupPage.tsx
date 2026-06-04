@@ -1,6 +1,7 @@
 import { radioVariantMap } from "@seed-design/lynx-css/recipes/radio";
 import { radiomarkVariantMap } from "@seed-design/lynx-css/recipes/radiomark";
 
+import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
 import {
   definePreviewStates,
   defineVariantAxes,
@@ -54,9 +55,45 @@ function renderRadioGroup(values: RadioGroupValues, setValue: SetVariantValue<Ra
   );
 }
 
+function RadioGroupExamples() {
+  return (
+    <CatalogExamples title="RadioGroup" gap="12px">
+      <CatalogSectionTitle>With Label</CatalogSectionTitle>
+      <RadioGroup defaultValue="option2">
+        {["option1", "option2", "option3"].map((value) => (
+          <RadioGroupItem
+            key={value}
+            value={value}
+            label={`Option ${value.replace("option", "")}`}
+          />
+        ))}
+      </RadioGroup>
+
+      <CatalogSectionTitle>Long Label</CatalogSectionTitle>
+      <view className="w-[220px]">
+        <RadioGroup defaultValue="option2">
+          <RadioGroupItem value="option1" label="Option with a short label" />
+          <RadioGroupItem
+            value="option2"
+            label="Option with a long label that wraps across multiple lines"
+          />
+          <RadioGroupItem
+            value="option3"
+            label="Another option with enough text to verify alignment"
+          />
+        </RadioGroup>
+      </view>
+    </CatalogExamples>
+  );
+}
+
 export function RadioGroupPage() {
   return (
-    <VariantCatalog variants={variants} previewStates={previewStates}>
+    <VariantCatalog
+      variants={variants}
+      previewStates={previewStates}
+      examples={<RadioGroupExamples />}
+    >
       {(values, setValue) => renderRadioGroup(values, setValue)}
     </VariantCatalog>
   );
