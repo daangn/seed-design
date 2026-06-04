@@ -25,7 +25,7 @@ interface ProgressCircleContextValue {
 
 const ProgressCircleContext = createContext<ProgressCircleContextValue | null>(null);
 
-function useProgressCircleCtx() {
+function useProgressCircleContext() {
   const ctx = useContext(ProgressCircleContext);
   if (!ctx) {
     throw new Error("ProgressCircle compound components must be used within ProgressCircle.Root");
@@ -176,7 +176,7 @@ export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const ProgressCircleRange = () => {
-  const { numSize, isDeterminate, progress, classes } = useProgressCircleCtx();
+  const { numSize, isDeterminate, progress, classes } = useProgressCircleContext();
 
   if (!isDeterminate) {
     return <IndeterminateRange numSize={numSize} classes={classes} />;

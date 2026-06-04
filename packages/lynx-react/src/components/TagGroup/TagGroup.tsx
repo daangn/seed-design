@@ -59,12 +59,7 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
           return (
             <view
               key={(child as React.ReactElement).key ?? index}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                flexShrink: 0,
-              }}
+              className={classes.separatorWrapper}
             >
               <text className={classes.separator}>{separator}</text>
               {child}

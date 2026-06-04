@@ -3,7 +3,7 @@ import { defineSlotRecipe } from "../utils/define";
 
 export const tagGroup = defineSlotRecipe({
   name: "tag-group",
-  slots: ["root", "separator"],
+  slots: ["root", "separatorWrapper", "separator"],
   base: {
     root: {
       display: "flex",
@@ -14,6 +14,12 @@ export const tagGroup = defineSlotRecipe({
       // 이게 없으면 flex-wrap이 "컨테이너 초과" 기준 자체가 없어 root가
       // content 크기로 늘어나버린다.
       width: "100%",
+    },
+    separatorWrapper: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      flexShrink: 0,
     },
     separator: {
       color: vars.base.enabled.separator.color,

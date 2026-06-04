@@ -5,6 +5,12 @@
     flex-wrap: wrap;
     width: 100%
 }
+.seed-tag-group__separatorWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0
+}
 .seed-tag-group__separator {
     color: var(--seed-color-palette-gray-600);
     font-weight: var(--seed-font-weight-regular);

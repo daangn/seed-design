@@ -1,13 +1,12 @@
-import { radio as vars } from "../vars/component";
+import { radio as vars, radiomark as radiomarkVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
 /**
  * Lynx-전용 radio wrapper recipe.
  *
- * 웹 recipe 와 달리 `alignItems: center` 를 사용해 radiomark 와 label 을 vertical
- * center 로 정렬한다. 웹은 `<span>` 텍스트가 lineHeight box 안에서 baseline 기준이라
- * `marginTop` 으로 수동 보정이 필요하지만, Lynx `<text>` 는 native vertical center
- * 정렬이 더 안정적이라 별도 보정 변수를 두지 않는다.
+ * React radio 및 Lynx checkbox/switch 와 동일하게 root 는 top-align 하고,
+ * mark/label 에 size 별 보정값을 주어 multiline label 에서 mark 가 중앙으로 밀리지
+ * 않도록 한다.
  */
 const radioRecipe = defineSlotRecipe({
   name: "radio",
@@ -15,7 +14,7 @@ const radioRecipe = defineSlotRecipe({
   base: {
     root: {
       display: "flex",
-      alignItems: "center",
+      alignItems: "flex-start",
       position: "relative",
       gap: vars.base.enabled.root.gap,
     },
@@ -34,17 +33,25 @@ const radioRecipe = defineSlotRecipe({
     },
     size: {
       medium: {
-        root: { minHeight: vars.sizeMedium.enabled.root.minHeight },
+        root: {
+          minHeight: vars.sizeMedium.enabled.root.minHeight,
+          "--radiomark-margin-top": `calc((${vars.sizeMedium.enabled.root.minHeight} - ${radiomarkVars.sizeMedium.enabled.root.size}) / 2)`,
+        },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
           lineHeight: vars.sizeMedium.enabled.label.lineHeight,
+          marginTop: `calc(${vars.sizeMedium.enabled.root.minHeight} / 2 - ${vars.sizeMedium.enabled.label.lineHeight} / 2)`,
         },
       },
       large: {
-        root: { minHeight: vars.sizeLarge.enabled.root.minHeight },
+        root: {
+          minHeight: vars.sizeLarge.enabled.root.minHeight,
+          "--radiomark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${radiomarkVars.sizeLarge.enabled.root.size}) / 2)`,
+        },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
           lineHeight: vars.sizeLarge.enabled.label.lineHeight,
+          marginTop: `calc(${vars.sizeLarge.enabled.root.minHeight} / 2 - ${vars.sizeLarge.enabled.label.lineHeight} / 2)`,
         },
       },
     },
