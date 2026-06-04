@@ -761,15 +761,13 @@
           "path": "responsive-side-panel.tsx",
           "dependencies": {
             "@seed-design/react": "~1.3.0",
-            "@seed-design/css": "~1.3.0",
-            "@seed-design/react-use-controllable-state": "~1.0.0"
+            "@seed-design/css": "~1.3.0"
           }
         }
       ],
       "id": "responsive-side-panel",
       "dependencies": [
-        "@seed-design/react",
-        "@seed-design/react-use-controllable-state"
+        "@seed-design/react"
       ],
       "innerDependencies": [
         {

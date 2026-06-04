@@ -1,5 +1,4 @@
 import { useBreakpointValue } from "@seed-design/react";
-import { useControllableState } from "@seed-design/react-use-controllable-state";
 import * as React from "react";
 import * as SeedBottomSheet from "./bottom-sheet";
 import * as SeedSidePanel from "./side-panel";
@@ -23,10 +22,6 @@ type ResponsiveSidePanelRootManagedProp =
   | "open"
   | "defaultOpen"
   | "onOpenChange";
-
-type ResponsiveSidePanelRootOpenChangeDetails =
-  | Parameters<NonNullable<SeedSidePanel.SidePanelRootProps["onOpenChange"]>>[1]
-  | Parameters<NonNullable<SeedBottomSheet.BottomSheetRootProps["onOpenChange"]>>[1];
 
 export interface ResponsiveSidePanelRootProps {
   children?: React.ReactNode;
@@ -65,15 +60,22 @@ export const ResponsiveSidePanelRoot = ({
 }: ResponsiveSidePanelRootProps) => {
   const shouldUseBottomSheet = useBreakpointValue({ base: true, md: false });
 
-  const [open, setOpen] = useControllableState<
-    boolean,
-    ResponsiveSidePanelRootOpenChangeDetails
-  >({
-    prop: openProp,
-    defaultProp: defaultOpen,
-    onChange: (nextOpen) => onOpenChange?.(nextOpen),
-    caller: "ResponsiveSidePanelRoot",
-  });
+  const isControlled = openProp !== undefined;
+  const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
+  const open = openProp ?? internalOpen;
+
+  const setOpen = React.useCallback(
+    (nextOpen: boolean) => {
+      if (nextOpen === open) return;
+
+      if (!isControlled) {
+        setInternalOpen(nextOpen);
+      }
+
+      onOpenChange?.(nextOpen);
+    },
+    [isControlled, onOpenChange, open],
+  );
 
   const value = React.useMemo(() => ({ shouldUseBottomSheet }), [shouldUseBottomSheet]);
 
