@@ -1,6 +1,6 @@
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { Flex } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useRef, useState } from "react";
 import {
   AppBar,
@@ -8,19 +8,19 @@ import {
   AppBarIconButton,
   AppBarLeft,
   AppBarMain,
-  AppBarProps,
+  type AppBarProps,
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/app-screen/with-intersection-observer": unknown;
+    ActivityAppScreenIntersectionObserver: {};
   }
 }
 
-const AppScreenWithIntersectionObserverActivity: ActivityComponentType<
-  "react/app-screen/with-intersection-observer"
+const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
+  "ActivityAppScreenIntersectionObserver"
 > = () => {
   const [tone, setTone] = useState<AppBarProps["tone"]>("transparent");
   const whiteImageRef = useRef<HTMLDivElement>(null);
@@ -91,4 +91,4 @@ const AppScreenWithIntersectionObserverActivity: ActivityComponentType<
   );
 };
 
-export default AppScreenWithIntersectionObserverActivity;
+export default ActivityAppScreenIntersectionObserver;

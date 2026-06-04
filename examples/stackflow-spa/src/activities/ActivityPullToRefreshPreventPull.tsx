@@ -1,5 +1,5 @@
 import { AppBar, AppScreen } from "@seed-design/stackflow";
-import { ActivityComponentType } from "@stackflow/react/future";
+import { type StaticActivityComponentType } from "@stackflow/react/future";
 import { VStack, PullToRefresh, Box } from "@seed-design/react";
 import {
   PullToRefreshContent,
@@ -9,12 +9,12 @@ import {
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/pull-to-refresh/prevent-pull": {};
+    ActivityPullToRefreshPreventPull: {};
   }
 }
 
-const PullToRefreshPreventPull: ActivityComponentType<
-  "react/pull-to-refresh/prevent-pull"
+const ActivityPullToRefreshPreventPull: StaticActivityComponentType<
+  "ActivityPullToRefreshPreventPull"
 > = () => {
   // AppScreen is imported from @seed-design/stackflow instead of snippet for demo purpose.
   // AppScreen snippet is integrating PullToRefresh, so it's not necessary to use it here.
@@ -76,4 +76,4 @@ const PullToRefreshPreventPull: ActivityComponentType<
   );
 };
 
-export default PullToRefreshPreventPull;
+export default ActivityPullToRefreshPreventPull;

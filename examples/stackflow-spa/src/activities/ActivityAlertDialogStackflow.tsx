@@ -1,5 +1,5 @@
 import { useActivityZIndexBase } from "@seed-design/stackflow";
-import { ActivityComponentType, useFlow } from "@stackflow/react/future";
+import { type StaticActivityComponentType, useFlow } from "@stackflow/react/future";
 import {
   AlertDialogAction,
   AlertDialogContent,
@@ -12,11 +12,13 @@ import {
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/alert-dialog/stackflow": {};
+    ActivityAlertDialogStackflow: {};
   }
 }
 
-const AlertDialogStackflow: ActivityComponentType<"react/alert-dialog/stackflow"> = () => {
+const ActivityAlertDialogStackflow: StaticActivityComponentType<
+  "ActivityAlertDialogStackflow"
+> = () => {
   const { pop } = useFlow();
 
   return (
@@ -34,4 +36,4 @@ const AlertDialogStackflow: ActivityComponentType<"react/alert-dialog/stackflow"
   );
 };
 
-export default AlertDialogStackflow;
+export default ActivityAlertDialogStackflow;

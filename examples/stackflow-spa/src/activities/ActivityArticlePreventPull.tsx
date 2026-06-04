@@ -1,5 +1,5 @@
 import { VStack, Icon, Text, Article, Divider, PullToRefresh } from "@seed-design/react";
-import { ActivityComponentType } from "@stackflow/react/future";
+import { type StaticActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
@@ -12,11 +12,13 @@ import { PageBanner } from "seed-design/ui/page-banner";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/article/prevent-pull": {};
+    ActivityArticlePreventPull: {};
   }
 }
 
-const ArticlePreventPull: ActivityComponentType<"react/article/prevent-pull"> = () => {
+const ActivityArticlePreventPull: StaticActivityComponentType<
+  "ActivityArticlePreventPull"
+> = () => {
   return (
     <AppScreen>
       <AppBar>
@@ -68,4 +70,4 @@ const ArticlePreventPull: ActivityComponentType<"react/article/prevent-pull"> = 
   );
 };
 
-export default ArticlePreventPull;
+export default ActivityArticlePreventPull;

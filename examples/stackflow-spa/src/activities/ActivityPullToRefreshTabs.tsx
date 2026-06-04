@@ -1,5 +1,5 @@
 import { VStack } from "@seed-design/react";
-import { ActivityComponentType } from "@stackflow/react/future";
+import { type StaticActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
@@ -11,11 +11,11 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tab
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/pull-to-refresh/tabs": {};
+    ActivityPullToRefreshTabs: {};
   }
 }
 
-const PullToRefreshTabs: ActivityComponentType<"react/pull-to-refresh/tabs"> = () => {
+const ActivityPullToRefreshTabs: StaticActivityComponentType<"ActivityPullToRefreshTabs"> = () => {
   return (
     <AppScreen>
       <AppBar>
@@ -53,4 +53,4 @@ const PullToRefreshTabs: ActivityComponentType<"react/pull-to-refresh/tabs"> = (
   );
 };
 
-export default PullToRefreshTabs;
+export default ActivityPullToRefreshTabs;
