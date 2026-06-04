@@ -2,7 +2,7 @@
 
 ## 디렉토리 개요
 
-**CSS Recipe를 정의**하는 패키지. `rootage`에서 생성된 토큰(`src/vars/`)을 사용하여 컴포넌트별 스타일을 정의한다. `bun qvism:generate`로 `css/recipes`에 CSS를 생성한다.
+**웹 CSS Recipe를 정의**하는 패키지. `rootage`에서 생성된 토큰(`src/vars/`)을 사용하여 컴포넌트별 스타일을 정의한다. `bun qvism:generate`로 `css/recipes`에 CSS를 생성한다.
 
 ## 파일 작성 컨벤션
 
@@ -43,3 +43,7 @@
 1. **반드시 `bun generate:all` 실행**: Recipe 타입을 변경한 후 generate를 실행하지 않으면 CSS와 소스가 불일치해 빌드가 깨집니다.
 2. **CSS 클래스명 패턴이 변경됨**: `defineRecipe`의 `.seed-{name}` → `defineSlotRecipe`의 `.seed-{name}__root`로 변경되므로 React 컴포넌트에서 사용하는 import도 업데이트 필요.
 3. **올바른 순서**: Recipe 수정 → `bun generate:all` → React 코드 수정
+
+## Lynx preset 분리
+
+Lynx 전용 recipe와 preset은 `packages/lynx-qvism-preset`에서 관리한다. 웹 recipe를 수정할 때 Lynx 동작도 함께 바뀌어야 하는지 확인하고, 필요한 경우 해당 패키지의 recipe도 별도로 수정한다.

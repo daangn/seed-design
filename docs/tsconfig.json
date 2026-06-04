@@ -17,7 +17,7 @@
     "types": ["bun", "node"],
     "paths": {
       "@/*": ["./*"],
-      "seed-design/*": ["./registry/*"]
+      "seed-design/*": ["./registry/react/*"]
     },
     "plugins": [
       {

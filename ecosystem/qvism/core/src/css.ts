@@ -195,6 +195,19 @@ export async function transpileRulesToCss(
   return css;
 }
 
+function transformCss(
+  css: string,
+  config: Config,
+  options: { filename: string; minify: boolean },
+): string {
+  return transform({
+    ...config.lightningcssOptions,
+    filename: options.filename,
+    code: Buffer.from(css),
+    minify: options.minify,
+  }).code.toString();
+}
+
 export function generateTokenRules(tokens: Theme["tokens"]): postcss.ChildNode[] {
   return postcss.parse(tokens._raw).nodes;
 }
@@ -202,9 +215,12 @@ export function generateTokenRules(tokens: Theme["tokens"]): postcss.ChildNode[]
 export async function generateEachRecipe(
   config: Config,
   cssConfig: CssgenConfig = {},
-): Promise<{ name: string; css: string; layeredCss: string }[]> {
+): Promise<{ name: string; css: string; layeredCss?: string }[]> {
   const { prefix, theme } = config;
-  const { minify = false } = cssConfig;
+  const {
+    minify = false,
+    generateLayeredCss = config.generateLayeredCss ?? true,
+  } = cssConfig;
 
   if (minify) {
     throw new Error("Minification is not supported for individual recipe generation yet.");
@@ -214,15 +230,20 @@ export async function generateEachRecipe(
     Object.values(theme.recipes).map(async (recipe) => {
       const name = recipe.name;
       const rules = generateRecipeKindRules(recipe, { prefix });
-      const css = await transpileRulesToCss(rules, config.postcssPlugins);
+      const rawCss = await transpileRulesToCss(rules, config.postcssPlugins);
 
-      const layeredCss = transform({
-        filename: `${name}.css`,
-        code: Buffer.from(wrapInLayer(css, "seed-components")),
-        minify: false,
-      }).code.toString();
+      if (!generateLayeredCss) {
+        return { name, css: rawCss };
+      }
 
-      return { name, css, layeredCss };
+      return {
+        name,
+        css: rawCss,
+        layeredCss: transformCss(wrapInLayer(rawCss, "seed-components"), config, {
+          filename: `${name}.css`,
+          minify: false,
+        }),
+      };
     }),
   );
 
@@ -243,14 +264,10 @@ export async function generateBaseBundle(
 
   if (layer) {
     const wrapped = wrapInLayer(css, "seed-base");
-    return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
+    return transformCss(wrapped, config, { filename: "qvism.css", minify });
   }
 
-  return transform({
-    filename: "qvism.css",
-    code: Buffer.from(css),
-    minify,
-  }).code.toString();
+  return transformCss(css, config, { filename: "qvism.css", minify });
 }
 
 export async function generateAllBundle(
@@ -273,15 +290,11 @@ export async function generateAllBundle(
     const recipesCss = await transpileRulesToCss(recipeRules, config.postcssPlugins);
     const wrapped = `${wrapInLayer(baseCss, "seed-base")}\n${wrapInLayer(recipesCss, "seed-components")}`;
 
-    return transform({ filename: "qvism.css", code: Buffer.from(wrapped), minify }).code.toString();
+    return transformCss(wrapped, config, { filename: "qvism.css", minify });
   }
 
   const rules = [...globalRules, ...tokenRules, ...recipeRules, ...keyframeRules];
   const css = await transpileRulesToCss(rules, config.postcssPlugins);
 
-  return transform({
-    filename: "qvism.css",
-    code: Buffer.from(css),
-    minify,
-  }).code.toString();
+  return transformCss(css, config, { filename: "qvism.css", minify });
 }

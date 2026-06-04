@@ -1,0 +1,54 @@
+{
+  "name": "@seed-design/lynx-react",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/lynx-react"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "vite build",
+    "lint:publish": "bun publint",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
+  },
+  "peerDependencies": {
+    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/types": ">=3.7.0",
+    "@seed-design/lynx-css": "0.0.0 || >=0.1.0 <1.0.0"
+  },
+  "devDependencies": {
+    "@lynx-js/react": "^0.116.3",
+    "@lynx-js/types": "^3.7.0",
+    "@seed-design/lynx-css": "0.0.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "jsdom": "^29.0.2",
+    "vite": "^8.0.0",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@lynx-js/lynx-ui-sheet": "^3.130.1",
+    "@lynx-js/lynx-ui-common": "^3.130.0",
+    "clsx": "^2.1.1"
+  }
+}

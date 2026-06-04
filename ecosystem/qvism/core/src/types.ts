@@ -1,4 +1,5 @@
 import type * as CSS from "csstype";
+import type { CustomAtRules, TransformOptions } from "lightningcss";
 import type { AcceptedPlugin } from "postcss";
 
 // utils
@@ -140,7 +141,11 @@ export interface Theme {
 export interface Config {
   prefix?: string;
 
+  generateLayeredCss?: boolean;
+
   postcssPlugins?: AcceptedPlugin[];
+
+  lightningcssOptions?: Omit<TransformOptions<CustomAtRules>, "filename" | "code" | "minify">;
 
   theme: Theme;
 }
@@ -148,4 +153,5 @@ export interface Config {
 export interface CssgenConfig {
   minify?: boolean;
   layer?: boolean;
+  generateLayeredCss?: boolean;
 }

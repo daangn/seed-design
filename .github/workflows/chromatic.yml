@@ -10,7 +10,7 @@ env:
 on:
   push:
     paths:
-      - "docs/registry/**"
+      - "docs/registry/react/**"
       - "docs/stories/**"
       - "docs/.storybook/**"
       - "packages/react/**"

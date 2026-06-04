@@ -40,7 +40,8 @@ npx @seed-design/cli@latest add-all --all
 
 ### 4) Compatibility Check
 
-현재 프로젝트의 `@seed-design/react`, `@seed-design/css`와 스니펫 요구 버전이 맞는지 검사합니다.
+현재 프로젝트의 seed-design 패키지와 스니펫 요구 버전이 맞는지 검사합니다.
+React: `@seed-design/react`, `@seed-design/css` / Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css`
 
 ```bash
 npx @seed-design/cli@latest compat
@@ -124,7 +125,7 @@ docs index에 없는 깊은 경로(패키지별 changelog, 버전별 changelog �
 action-button
 - docs: https://seed-design.io/react/components/action-button
 - llms.txt: https://seed-design.io/llms/react/components/action-button.txt
-- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/ui/action-button.tsx
+- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/react/ui/action-button.tsx
 ```
 
 `snippet` 줄은 `ui` 또는 `breeze` 레지스트리 항목에만 출력됩니다. 파운데이션 등 스니펫이 없는 항목은 `docs`와 `llms.txt`만 출력됩니다.
@@ -143,6 +144,7 @@ react/component/action-buton: 문서를 찾을 수 없어요.
 주요 필드:
 
 - `path`: 스니펫 출력 루트 경로
+- `framework`: 대상 프레임워크 (`react` | `lynx`, 기본값 `react`)
 - `tsx`: TypeScript 변환 여부
 - `rsc`: `"use client"` 유지 여부
 - `telemetry`: 익명 사용 데이터 수집 여부

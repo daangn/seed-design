@@ -1,0 +1,16 @@
+export const brandSolid = "var(--seed-color-stroke-brand-solid)";
+export const brandWeak = "var(--seed-color-stroke-brand-weak)";
+export const criticalSolid = "var(--seed-color-stroke-critical-solid)";
+export const criticalWeak = "var(--seed-color-stroke-critical-weak)";
+export const informativeSolid = "var(--seed-color-stroke-informative-solid)";
+export const informativeWeak = "var(--seed-color-stroke-informative-weak)";
+export const neutralContrast = "var(--seed-color-stroke-neutral-contrast)";
+export const neutralMuted = "var(--seed-color-stroke-neutral-muted)";
+export const neutralSolid = "var(--seed-color-stroke-neutral-solid)";
+export const neutralSubtle = "var(--seed-color-stroke-neutral-subtle)";
+export const neutralWeak = "var(--seed-color-stroke-neutral-weak)";
+export const positiveSolid = "var(--seed-color-stroke-positive-solid)";
+export const positiveWeak = "var(--seed-color-stroke-positive-weak)";
+export const warningSolid = "var(--seed-color-stroke-warning-solid)";
+export const warningWeak = "var(--seed-color-stroke-warning-weak)";
+export const focusRing = "var(--seed-color-stroke-focus-ring)";

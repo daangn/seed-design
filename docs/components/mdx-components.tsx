@@ -23,6 +23,7 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import clsx from "clsx";
 import type { MDXComponents } from "mdx/types";
 import { BreezeManualInstallation } from "./breeze-manual-installation";
+import { LynxManualInstallation } from "./lynx-manual-installation";
 import { DoImage } from "./guideline/do-image";
 import { DontImage } from "./guideline/dont-image";
 import { Image } from "./guideline/image";
@@ -64,6 +65,7 @@ export const mdxComponents: MDXComponents = {
   TokenReference,
   ComponentSpecBlock,
   BreezeManualInstallation,
+  LynxManualInstallation,
   Tab,
   Tabs,
   Step,

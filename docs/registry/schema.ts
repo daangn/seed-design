@@ -1,3 +1,5 @@
+export type Framework = "react" | "lynx";
+
 export interface Registry {
   id: string;
 

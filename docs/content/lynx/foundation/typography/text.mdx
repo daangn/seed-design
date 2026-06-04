@@ -1,0 +1,66 @@
+---
+title: Text
+description: Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.
+---
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+## Usage
+
+```tsx
+import { Text } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <Text textStyle="t5Regular" color="fg.neutral">
+      기본 텍스트
+    </Text>
+  );
+}
+```
+
+`Text`는 Lynx 네이티브 `<text>`를 렌더링합니다. `textStyle`은 Figma Text Style에 대응되는 SEED 타이포그래피 토큰을 한 번에 적용합니다.
+
+<Callout>
+Lynx에서는 텍스트가 반드시 `<text>` 요소 안에 있어야 합니다. `Text`는 이 제약을 숨기지 않고, Lynx에 맞는 native text element를 직접 렌더링합니다.
+</Callout>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Text/Text.tsx" name="TextProps" />
+
+## Text Styles
+
+```tsx
+<Text textStyle="screenTitle" color="fg.neutral">
+  screenTitle
+</Text>
+
+<Text textStyle="t5Bold" color="fg.critical">
+  t5Bold
+</Text>
+```
+
+더 구체적인 조정이 필요하면 `fontSize`, `lineHeight`, `fontWeight`, `align`을 사용할 수 있습니다.
+
+```tsx
+<Text fontSize="t7" lineHeight="t7" fontWeight="bold" align="center">
+  직접 지정한 타이포그래피 값
+</Text>
+```
+
+`fontSize`만 지정하고 `lineHeight`를 생략하면 같은 단계의 line-height 토큰을 함께 사용합니다.
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `Text`는 React `Text`와 다음과 같은 차이가 있습니다.
+
+- `as`, `asChild`를 지원하지 않습니다. 항상 Lynx 네이티브 `<text>`를 렌더링합니다.
+- `maxLines`, `whiteSpace`, `userSelect`, `textDecorationLine`은 아직 제공하지 않습니다.
+- CSS `inherit`에 기대는 웹 `.seed-text` 패턴을 사용하지 않고, `color`, `fontSize`, `lineHeight`, `fontWeight`, `textAlign`을 직접 object style로 적용합니다.
+</Callout>
