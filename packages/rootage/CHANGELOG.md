@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 1.2.11
+
+### Patch Changes
+
+- 9cacf29: AppBar 하단에 구분선을 표시하는 `divider` 옵션을 deprecated 처리합니다. SEED React 1.3에서 제거될 예정이며, 제거 이후에는 AppBar 하단 구분선이 표시되지 않습니다.
+
 ## 1.2.10
 
 ### Patch Changes
