@@ -1,5 +1,18 @@
 # @seed-design/cli
 
+## 1.4.0
+
+### Minor Changes
+
+- 699af2c: SEED Design Lynx의 첫 stable 버전을 릴리즈합니다.
+
+  - `@seed-design/lynx-css`: Lynx 환경에서 사용할 수 있는 SEED 디자인 토큰, base CSS, component recipe CSS를 제공합니다.
+  - `@seed-design/lynx-react`: Lynx용 SEED React 컴포넌트와 hook을 제공합니다.
+    - 컴포넌트: `ActionButton`, `BottomSheet`, `Box`, `Checkbox`, `HStack`, `ProgressCircle`, `RadioGroup`, `Switch`, `TagGroup`, `Text`, `VStack`
+    - Hook: `useControllableState`, `useIconColor`, `usePressTap`, `useSafeArea`
+    - Safe Area: `useSafeArea` API로 `env(safe-area-inset-*)`와 host 앱의 `lynx.__globalProps` fallback을 함께 지원합니다.
+  - `@seed-design/cli`: Lynx framework 감지, registry snippet 추가, compatibility check, docs lookup 흐름을 지원합니다.
+
 ## 1.3.5
 
 ### Patch Changes
@@ -36,6 +49,7 @@
 ### Patch Changes
 
 - 8f37e56: `docs` 명령어에서 경로를 잘못 입력했을 때 유사한 항목을 제안합니다.
+
   - 오타가 포함된 경로를 입력하면 가장 가까운 유효 경로를 알려줍니다. (예: `react/component/action-buton` → `react/components/action-button`)
   - 카테고리, 섹션, 아이템 각 단계에서 유사 후보를 자동 검색합니다.
 
@@ -85,6 +99,7 @@
 ### Major Changes
 
 - 950c9e1: **`add` 명령어 사용 방식을 변경합니다.**
+
   - 항목 추가
 
   ```sh
