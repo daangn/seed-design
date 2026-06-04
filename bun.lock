@@ -46,7 +46,7 @@
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
         "@seed-design/css": "1.2.13",
-        "@seed-design/lynx-react": "0.0.0",
+        "@seed-design/lynx-react": "0.1.0",
         "@seed-design/migration-index": "1.0.0",
         "@seed-design/react": "1.2.11",
         "@seed-design/react-icon": "^0.7.4",
@@ -96,7 +96,7 @@
         "@figma/rest-api-spec": "^0.36.0",
         "@karrotmarket/lynx-multicolor-icon": "1.13.0",
         "@lynx-js/react": "0.117.0",
-        "@seed-design/lynx-css": "0.0.0",
+        "@seed-design/lynx-css": "0.1.0",
         "@storybook/builder-webpack5": "^10.1.10",
         "@storybook/nextjs": "^10.1.10",
         "@tailwindcss/postcss": "^4.0.6",
@@ -323,7 +323,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.3.5",
+      "version": "1.4.0",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
@@ -440,7 +440,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -460,7 +460,7 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
@@ -469,7 +469,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.116.3",
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/lynx-css": "0.0.0",
+        "@seed-design/lynx-css": "0.1.0",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
         "vite": "^8.0.0",
