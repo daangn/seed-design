@@ -7,6 +7,10 @@ const tagGroupSlotNames = [
     "seed-tag-group__root"
   ],
   [
+    "separatorWrapper",
+    "seed-tag-group__separatorWrapper"
+  ],
+  [
     "separator",
     "seed-tag-group__separator"
   ]

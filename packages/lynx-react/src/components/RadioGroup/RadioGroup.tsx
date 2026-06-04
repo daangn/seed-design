@@ -32,7 +32,7 @@ import { InternalIcon } from "../Icon/Icon";
  * recipe 의 `color` 토큰을 `tint-color` 로 동기화한다.
  */
 
-interface RadioGroupApi {
+interface RadioGroupContextValue {
   value: string | null;
   setValue: (value: string) => void;
   disabled: boolean;
@@ -40,9 +40,9 @@ interface RadioGroupApi {
   radiomarkVariantProps: RadiomarkVariantProps;
 }
 
-const RadioGroupContext = React.createContext<RadioGroupApi | null>(null);
+const RadioGroupContext = React.createContext<RadioGroupContextValue | null>(null);
 
-function useRadioGroupContext(consumer: string): RadioGroupApi {
+function useRadioGroupContext(consumer: string): RadioGroupContextValue {
   const ctx = React.useContext(RadioGroupContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <RadioGroupRoot/>.`);
@@ -50,7 +50,7 @@ function useRadioGroupContext(consumer: string): RadioGroupApi {
   return ctx;
 }
 
-interface RadioGroupItemApi {
+interface RadioGroupItemContextValue {
   value: string;
   checked: boolean;
   disabled: boolean;
@@ -58,9 +58,9 @@ interface RadioGroupItemApi {
   select: () => void;
 }
 
-const RadioGroupItemContext = React.createContext<RadioGroupItemApi | null>(null);
+const RadioGroupItemContext = React.createContext<RadioGroupItemContextValue | null>(null);
 
-function useRadioGroupItemContext(consumer: string): RadioGroupItemApi {
+function useRadioGroupItemContext(consumer: string): RadioGroupItemContextValue {
   const ctx = React.useContext(RadioGroupItemContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <RadioGroupItem/>.`);
@@ -130,7 +130,7 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
 
   const rootClassName = radioGroup().root;
 
-  const api = React.useMemo<RadioGroupApi>(
+  const contextValue = React.useMemo<RadioGroupContextValue>(
     () => ({
       value,
       setValue,
@@ -142,7 +142,7 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
   );
 
   return (
-    <RadioGroupContext.Provider value={api}>
+    <RadioGroupContext.Provider value={contextValue}>
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
@@ -170,23 +170,23 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
     className,
     ...nativeProps
   } = props;
-  const groupApi = useRadioGroupContext("RadioGroupItem");
+  const groupContext = useRadioGroupContext("RadioGroupItem");
 
-  const disabled = groupApi.disabled || itemDisabled;
-  const checked = groupApi.value === itemValue;
+  const disabled = groupContext.disabled || itemDisabled;
+  const checked = groupContext.value === itemValue;
   const select = React.useCallback(() => {
     if (checked) return;
-    groupApi.setValue(itemValue);
-  }, [checked, groupApi, itemValue]);
+    groupContext.setValue(itemValue);
+  }, [checked, groupContext, itemValue]);
 
   const { pressed, ...pressHandlers } = usePressTap({
     disabled,
     onTap: select,
   });
 
-  const rootClassName = radio({ ...groupApi.radioVariantProps, disabled }).root;
+  const rootClassName = radio({ ...groupContext.radioVariantProps, disabled }).root;
 
-  const itemApi = React.useMemo<RadioGroupItemApi>(
+  const itemContextValue = React.useMemo<RadioGroupItemContextValue>(
     () => ({
       value: itemValue,
       checked,
@@ -198,7 +198,7 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
   );
 
   return (
-    <RadioGroupItemContext.Provider value={itemApi}>
+    <RadioGroupItemContext.Provider value={itemContextValue}>
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
@@ -222,14 +222,14 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
   (props, ref) => {
     const [variantProps, restProps] = radiomark.splitVariantProps(props);
     const { children, className, ...nativeProps } = restProps;
-    const groupApi = useRadioGroupContext("RadioGroupItemControl");
-    const itemApi = useRadioGroupItemContext("RadioGroupItemControl");
+    const groupContext = useRadioGroupContext("RadioGroupItemControl");
+    const itemContext = useRadioGroupItemContext("RadioGroupItemControl");
     const radiomarkVariantProps: RadiomarkVariantProps = {
-      ...groupApi.radiomarkVariantProps,
+      ...groupContext.radiomarkVariantProps,
       ...variantProps,
-      checked: itemApi.checked,
-      disabled: itemApi.disabled,
-      pressed: itemApi.pressed,
+      checked: itemContext.checked,
+      disabled: itemContext.disabled,
+      pressed: itemContext.pressed,
     };
     const classes = radiomark(radiomarkVariantProps);
 
@@ -262,11 +262,11 @@ export interface RadioGroupItemIndicatorProps
 
 export function RadioGroupItemIndicator(props: RadioGroupItemIndicatorProps) {
   const { unchecked, checked: checkedIcon, className, style } = props;
-  const itemApi = useRadioGroupItemContext("RadioGroupItemIndicator");
+  const itemContext = useRadioGroupItemContext("RadioGroupItemIndicator");
   const { iconClassName, radiomarkVariantProps } =
     useRadiomarkControlContext("RadioGroupItemIndicator");
 
-  const icon = itemApi.checked ? checkedIcon : unchecked;
+  const icon = itemContext.checked ? checkedIcon : unchecked;
 
   // 사용자가 custom icon 을 주지 않으면 default `<view>` 로 동그란 점을 그린다.
   // radiomark.icon recipe 가 borderRadius/backgroundColor/width/height 를 적용해
@@ -281,9 +281,9 @@ export function RadioGroupItemIndicator(props: RadioGroupItemIndicatorProps) {
       className={clsx(iconClassName, className)}
       style={style}
       deps={[
-        itemApi.checked,
-        itemApi.disabled,
-        itemApi.pressed,
+        itemContext.checked,
+        itemContext.disabled,
+        itemContext.pressed,
         radiomarkVariantProps.tone,
         radiomarkVariantProps.size,
       ]}
@@ -299,11 +299,11 @@ export interface RadioGroupItemLabelProps extends LynxStyledElementProps {}
 export const RadioGroupItemLabel = React.forwardRef<unknown, RadioGroupItemLabelProps>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
-    const itemApi = useRadioGroupItemContext("RadioGroupItemLabel");
-    const groupApi = useRadioGroupContext("RadioGroupItemLabel");
+    const itemContext = useRadioGroupItemContext("RadioGroupItemLabel");
+    const groupContext = useRadioGroupContext("RadioGroupItemLabel");
     const labelClassName = radio({
-      ...groupApi.radioVariantProps,
-      disabled: itemApi.disabled,
+      ...groupContext.radioVariantProps,
+      disabled: itemContext.disabled,
     }).label;
 
     return (

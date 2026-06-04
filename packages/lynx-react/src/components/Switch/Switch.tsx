@@ -24,7 +24,7 @@ import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../typ
  *   switchmark recipe 와 Switch 컴포넌트에 boolean variant 로 노출.
  */
 
-interface SwitchApi {
+interface SwitchContextValue {
   checked: boolean;
   disabled: boolean;
   switchVariantProps: SwitchVariantProps;
@@ -32,9 +32,9 @@ interface SwitchApi {
   toggle: () => void;
 }
 
-const SwitchContext = React.createContext<SwitchApi | null>(null);
+const SwitchContext = React.createContext<SwitchContextValue | null>(null);
 
-function useSwitchContext(consumer: string): SwitchApi {
+function useSwitchContext(consumer: string): SwitchContextValue {
   const ctx = React.useContext(SwitchContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
@@ -97,7 +97,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
 
   const rootClassName = switchStyle({ ...switchVariantProps, disabled }).root;
 
-  const api = React.useMemo<SwitchApi>(
+  const contextValue = React.useMemo<SwitchContextValue>(
     () => ({
       checked,
       disabled,
@@ -109,7 +109,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   );
 
   return (
-    <SwitchContext.Provider value={api}>
+    <SwitchContext.Provider value={contextValue}>
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
@@ -132,12 +132,12 @@ export interface SwitchControlProps
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
-  const api = useSwitchContext("SwitchControl");
+  const context = useSwitchContext("SwitchControl");
   const switchmarkVariantProps: SwitchmarkVariantProps = {
-    ...api.switchmarkVariantProps,
+    ...context.switchmarkVariantProps,
     ...variantProps,
-    checked: api.checked,
-    disabled: api.disabled,
+    checked: context.checked,
+    disabled: context.disabled,
   };
   const classes = switchmark(switchmarkVariantProps);
 
@@ -181,10 +181,10 @@ export interface SwitchLabelProps extends LynxStyledElementProps {}
 
 export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const api = useSwitchContext("SwitchLabel");
+  const context = useSwitchContext("SwitchLabel");
   const labelClassName = switchStyle({
-    ...api.switchVariantProps,
-    disabled: api.disabled,
+    ...context.switchVariantProps,
+    disabled: context.disabled,
   }).label;
 
   return (

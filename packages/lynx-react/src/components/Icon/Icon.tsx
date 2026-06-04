@@ -55,7 +55,7 @@ export function IconRequired({
     registeredCountRef.current = Math.max(0, registeredCountRef.current - 1);
   }, []);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (!enabled) return;
 
     if (process.env.NODE_ENV !== "production") {
@@ -165,7 +165,7 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
   );
   const hasValidIcon = isValidElement<LynxIconElementProps>(icon);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (slot !== "icon" || !hasValidIcon) return;
 
     iconRequiredContext?.register();

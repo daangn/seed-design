@@ -17,6 +17,7 @@ const radiomarkRecipe = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       flex: "none",
+      marginTop: "var(--radiomark-margin-top, 0)",
 
       borderWidth: vars.base.enabled.root.strokeWidth,
       borderStyle: "solid",
