@@ -31,7 +31,7 @@ export const createTextInputFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<TextInputFieldProperties>(
-    metadata.templateTextField.key,
+    metadata.componentTextField.key,
     (node, traverse) => {
       const props = node.componentProperties;
 
@@ -189,7 +189,7 @@ export const createTextareaFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<TextareaFieldProperties>(
-    metadata.templateTextareaField.key,
+    metadata.componentMultilineTextField.key,
     (node, traverse) => {
       const [textarea] = findAllInstances<TextareaProperties>({
         node,

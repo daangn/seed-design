@@ -1,5 +1,14 @@
 # @seed-design/figma
 
+## 1.3.14
+
+### Patch Changes
+
+- 546f1fc: Figma 코드젠 컴포넌트 핸들러 및 아이콘 데이터를 업데이트합니다.
+- Updated dependencies [d8860f4]
+- Updated dependencies [7588e59]
+  - @seed-design/css@1.2.12
+
 ## 1.3.13
 
 ### Patch Changes

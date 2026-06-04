@@ -1,5 +1,12 @@
 # @seed-design/mcp
 
+## 1.3.14
+
+### Patch Changes
+
+- Updated dependencies [546f1fc]
+  - @seed-design/figma@1.3.14
+
 ## 1.3.13
 
 ### Patch Changes

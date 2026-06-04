@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
       id-token: write
     steps:
@@ -81,7 +81,7 @@ jobs:
       - name: Checkout PR branch
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          ref: ${{ steps.pr-info.outputs.sha || github.event.pull_request.head.sha }}
+          ref: ${{ steps.pr-info.outputs.ref || github.event.pull_request.head.ref }}
           fetch-depth: 0
 
       - name: Check install scripts in changed packages
@@ -151,7 +151,7 @@ jobs:
           echo "result=$VULN_COUNT" >> "$GITHUB_OUTPUT"
 
       - name: Run Claude Dependency Analysis
-        uses: anthropics/claude-code-action@9db782c3a17ef2bfc274cd17411bc3e0a5ba1345 # v1
+        uses: anthropics/claude-code-action@4481e6d3c7bbb88db2a928ca3444c536f589c7c1 # v1
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           allowed_bots: "renovate[bot]"
@@ -264,6 +264,34 @@ jobs:
                - 🔴 위험: 사용 중인 API에 Breaking change 발생
             </step-4-impact-analysis>
 
+            <step-4-5-changeset>
+            Renovate 의존성 업데이트가 우리 public package의 릴리스 노트에 포함되어야 하는지 판단하고, 필요하면 changeset 파일을 생성하세요.
+
+            ⚠️ `Write`/`Edit` 도구는 `.changeset/*.md` 파일 생성 또는 수정에만 사용하세요.
+            `package.json`, lockfile, workflow, source file 등 다른 파일은 절대 수정하지 마세요.
+            커밋과 push는 워크플로우의 후속 step이 처리하므로 직접 실행하지 마세요.
+
+            판단 절차:
+            1. 먼저 `skills/changeset/SKILL.md`와 `skills/changeset/references/patterns.md`를 읽고 changeset 작성 규칙을 숙지하세요.
+            2. `git diff ${{ steps.pr-info.outputs.base_sha || github.event.pull_request.base.sha }} -- '**/package.json'` 으로 변경된 workspace package.json을 확인하세요.
+            3. 각 변경 package.json에서 `dependencies`, `devDependencies`, `peerDependencies`, `optionalDependencies`의 버전 상승을 찾으세요.
+            4. 변경 package.json의 가장 가까운 package root를 기준으로 package name과 `private` 여부를 확인하세요.
+            5. 다음 대상은 changeset을 만들지 마세요:
+               - `package.json`의 `"private": true`인 패키지
+               - 루트 package.json
+               - `docs/`, `examples/`, `tools/`, `packages/archive/`, `.github/`, `scripts/` 등 릴리스되지 않는 영역
+               - 이미 존재하는 `.changeset/*.md`가 같은 public package와 같은 의존성 업데이트를 충분히 설명하는 경우
+            6. changeset이 필요한 public package가 있으면 `.changeset/<random-adjective-noun-verb>.md` 파일을 생성하세요.
+               - 파일명은 영어 소문자 3단어와 하이픈으로 만들고 기존 파일과 충돌하지 않게 하세요.
+               - frontmatter package name은 반드시 쌍따옴표로 감싸세요.
+               - 메시지는 한국어 `~합니다` 체로, 디자인 시스템 소비자 관점에서 작성하세요.
+            7. 버전 타입은 다음 기준으로 정하세요:
+               - 기본값은 `patch`입니다. 단순 dependency/devDependency/optionalDependency 업데이트, 내부 도구 안정화, 사용자 API 변경이 없는 경우 patch로 작성하세요.
+               - peerDependency 범위 변경, 런타임 요구사항 변경, 소비자 동작 변화, snippet 재설치가 필요한 영향, breaking 가능성이 있는 경우 `minor`로 올리세요.
+               - package 전체 구조 변경이나 전체 API 표면 재설계처럼 `major`가 필요해 보이면 major changeset을 만들지 말고, 최종 코멘트의 Changeset 처리 섹션에 "수동 확인 필요"로 표시하세요.
+            8. 독립적인 public package 영향이 여러 개면 changeset 파일을 분리하고, 동일한 맥락의 linked package 영향은 하나의 changeset에 묶으세요.
+            </step-4-5-changeset>
+
             <step-5-conclusion>
             다음 포맷으로 최종 분석 결과를 출력하세요.
             `gh pr comment`를 직접 호출하지 마세요 — 워크플로우의 스티키 코멘트 메커니즘이 자동으로 PR 코멘트를 생성/업데이트합니다.
@@ -312,6 +340,14 @@ jobs:
             - [ ] `bun test:all` 실행 권장 여부
             - [ ] 특정 테스트 실행 권고 (해당 시)
 
+            ## 📝 Changeset 처리
+            | 패키지 | 필요 여부 | 타입 | 파일 | 판단 근거 |
+            |--------|----------|------|------|----------|
+            | ... | 생성/불필요/기존 changeset으로 커버/수동 확인 필요 | patch/minor/- | `.changeset/...md` 또는 `-` | ... |
+
+            생성한 changeset이 있다면 파일명과 메시지 요약을 적으세요.
+            수동 확인이 필요한 경우, 왜 자동으로 만들지 않았는지 적으세요.
+
             ## 🎯 결론
             (머지 가능 여부, 주의사항, 필요한 후속 작업)
             </step-5-conclusion>
@@ -327,8 +363,10 @@ jobs:
               Bash(git log *),
               Bash(git show *),
               Bash(git status),
+              Bash(git status *),
               Bash(grep *),
               Bash(head *),
+              Bash(jq *),
               Bash(ls *),
               Bash(npm info *),
               Bash(npm view *),
@@ -336,11 +374,50 @@ jobs:
               Bash(npm search *),
               Bash(tail *),
               Bash(tree *),
+              Edit,
               Glob,
               Grep,
               Read,
+              Write,
               mcp__github_comment__update_claude_comment
             "
+
+      - name: Validate changeset-only modifications
+        id: changeset-diff
+        run: |
+          git status --short
+
+          NON_CHANGESET_FILES=$(git status --porcelain | awk '{print $2}' | grep -vE '^\.changeset/[^/]+\.md$' || true)
+          if [ -n "$NON_CHANGESET_FILES" ]; then
+            echo "Claude modified files outside .changeset/*.md:"
+            echo "$NON_CHANGESET_FILES"
+            exit 1
+          fi
+
+          CHANGESET_FILES=$(git status --porcelain -- '.changeset/*.md' | awk '{print $2}' || true)
+          if [ -z "$CHANGESET_FILES" ]; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          {
+            echo "files<<CHANGESET_FILES_EOF"
+            echo "$CHANGESET_FILES"
+            echo "CHANGESET_FILES_EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit changeset to Renovate branch
+        if: steps.changeset-diff.outputs.has_changes == 'true'
+        env:
+          HEAD_REF: ${{ steps.pr-info.outputs.ref || github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add .changeset/*.md
+          git commit -m "chore(changeset): add dependency update changeset"
+          git push origin "HEAD:${HEAD_REF}"
 
       - name: Add success reaction
         if: success() && github.event_name == 'issue_comment'

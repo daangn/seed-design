@@ -49,7 +49,7 @@ export const createRadioGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<RadioGroupFieldProperties>(
-    metadata.templateRadioField.key,
+    metadata.componentRadioField.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 

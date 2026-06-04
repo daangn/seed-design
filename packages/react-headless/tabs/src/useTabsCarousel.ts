@@ -33,6 +33,7 @@ const plugins = [autoHeight];
 
 const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
   const api = useTabsContext();
+  const slideHeights = useRef(new WeakMap<HTMLElement, number>());
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: props.loop,
@@ -47,11 +48,25 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
         return true;
       },
       // Workaround for Embla v8 AutoHeight plugin not detecting lazy-loaded content height changes.
-      // When a slide's content changes size (e.g. after lazy mount), reInit recalculates the height.
       // ref: https://github.com/davidjerleke/embla-carousel/discussions/1142
+      // Embla's default resize handler only reInits on axis-size (width, for a horizontal carousel)
+      // changes, so a slide growing taller (e.g. after lazy mount) never triggers a recalculation.
+      // We reInit manually, but ONLY when a slide's *height* actually changes — reInit-ing on every
+      // slide resize (including width fluctuations during horizontal scroll) re-applies Embla's
+      // translate3d mid-scroll and breaks momentum scrolling in WKWebView/Safari.
       watchResize: (emblaApi, entries) => {
+        const heights = slideHeights.current;
+        const slides = emblaApi.slideNodes();
+
         for (const entry of entries) {
-          if (entry.target !== emblaApi.containerNode()) {
+          const slide = slides.find((node) => node === entry.target);
+          if (!slide) continue;
+
+          const newHeight = slide.offsetHeight;
+          const prevHeight = heights.get(slide);
+          heights.set(slide, newHeight);
+
+          if (prevHeight !== undefined && newHeight !== prevHeight) {
             emblaApi.reInit();
             return false;
           }

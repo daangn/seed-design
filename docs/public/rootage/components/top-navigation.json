@@ -20,12 +20,6 @@
             "color": {
               "type": "color"
             },
-            "strokeColor": {
-              "type": "color"
-            },
-            "strokeWidth": {
-              "type": "dimension"
-            },
             "gradient": {
               "type": "gradient"
             },
@@ -134,13 +128,6 @@
           },
           "defaultValue": "false",
           "description": "tone=transparent일 때만 동작합니다."
-        },
-        "divider": {
-          "values": {
-            "true": {},
-            "false": {}
-          },
-          "defaultValue": "true"
         },
         "titleLayout": {
           "values": {
@@ -327,39 +314,6 @@
             }
           }
         ]
-      },
-      {
-        "variants": {
-          "divider": "true"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-subtle"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "divider": "false"
-        },
-        "definitions": []
       },
       {
         "variants": {
