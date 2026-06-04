@@ -1,5 +1,12 @@
 # @seed-design/react-tabs
 
+## 1.0.5
+
+### Patch Changes
+
+- f2b0e5c: lazyMount를 사용하는 Tabs · ChipTabs에서 멀리 떨어진 탭을 선택하면 다른 탭이 열리던 문제를 해결합니다. lazyMount 및 TabsCarousel 사용 시 TabsContent 자체를 항상 렌더하고, TabsContent의 children만 lazy mount하도록 변경합니다.
+- 0fb82eb: iOS 환경에서 ChipTabs + ScrollFog 사용 시 가로 스크롤이 동작하지 않는 문제를 해결합니다.
+
 ## 1.0.4
 
 ### Patch Changes
