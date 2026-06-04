@@ -2,6 +2,7 @@ import { act, fireEvent, render } from "@testing-library/react";
 import { afterAll, afterEach, beforeAll, describe, expect, it, jest, mock, spyOn } from "bun:test";
 import * as React from "react";
 import { DRAG_CLASS, TRANSITIONS } from "./constants";
+import { DrawerContent, DrawerRoot } from "./Drawer";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
 
 interface DrawerHarnessProps extends UseDrawerProps {
@@ -323,5 +324,39 @@ describe("useDrawer", () => {
       jest.advanceTimersByTime(TRANSITIONS.ENTER_DURATION * 1000);
     });
     expect(getByTestId("should-overlay-animate")).toHaveTextContent("false");
+  });
+});
+
+describe("스크롤 락", () => {
+  it("modal이고 열렸을 때 body 스크롤을 잠그고, 닫히면 해제한다", () => {
+    const { rerender } = render(
+      <DrawerRoot open={false} modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
+
+    rerender(
+      <DrawerRoot open modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(true);
+
+    rerender(
+      <DrawerRoot open={false} modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
+  });
+
+  it("modal=false면 열려 있어도 잠그지 않는다", () => {
+    render(
+      <DrawerRoot open modal={false}>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
   });
 });

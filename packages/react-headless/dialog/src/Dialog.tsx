@@ -3,6 +3,7 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { hideOthers } from "aria-hidden";
+import { RemoveScroll } from "react-remove-scroll";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -11,6 +12,17 @@ import { forwardRef, useCallback, useEffect, useState } from "react";
 import { Presence } from "@seed-design/react-presence";
 import { useDialog, type UseDialogProps } from "./useDialog";
 import { DialogProvider, useDialogContext } from "./useDialogContext";
+
+/**
+ * `react-remove-scroll` renders its lock container via the `as` prop. Routing it
+ * through `Primitive.div` + `asChild` (= Slot) merges the scroll-capture handlers
+ * and `lockRef` onto the existing dialog element instead of inserting a wrapper
+ * node, and composes refs rather than overriding them (which `forwardProps` would).
+ */
+const ScrollLockSlot = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  (props, ref) => <Primitive.div asChild ref={ref} {...props} />,
+);
+ScrollLockSlot.displayName = "ScrollLockSlot";
 
 export interface DialogRootProps extends UseDialogProps {
   children: React.ReactNode;
@@ -75,7 +87,6 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
           swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
       <DismissibleLayer
         enabled={api.open}
-        // We might need scroll lock here; not needed yet in stackflow based webview.
         onEscapeKeyDown={(e) => {
           if (!api.closeOnEscape) return;
           api.setOpen(false, { reason: "escapeKeyDown", event: e });
@@ -94,10 +105,17 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
         }}
       >
         <FocusScope asChild loop trapped={api.open && api.modal}>
-          <Primitive.div
-            ref={composeRefs(ref, contentRef)}
-            {...mergeProps(api.contentProps, props)}
-          />
+          <RemoveScroll
+            as={ScrollLockSlot}
+            enabled={api.modal && api.open}
+            removeScrollBar
+            allowPinchZoom
+          >
+            <Primitive.div
+              ref={composeRefs(ref, contentRef)}
+              {...mergeProps(api.contentProps, props)}
+            />
+          </RemoveScroll>
         </FocusScope>
       </DismissibleLayer>
     </Presence>
