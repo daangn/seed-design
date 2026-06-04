@@ -101,7 +101,6 @@ describe("useDrawer", () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    document.body.style.pointerEvents = "";
   });
 
   it("closeButtonRef를 통해 닫기 버튼 마운트 상태를 추적한다", () => {
@@ -139,7 +138,6 @@ describe("useDrawer", () => {
       false,
       expect.objectContaining({ reason: "escapeKeyDown" }),
     );
-    expect(document.body.style.pointerEvents).toBe("auto");
 
     act(() => {
       jest.advanceTimersByTime(TRANSITIONS.EXIT_DURATION * 1000);

@@ -195,7 +195,6 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
           swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
       <DismissibleLayer
         enabled={isOpen}
-        blockPointerEvents={modal}
         onEscapeKeyDown={(e) => {
           if (e.defaultPrevented) return;
           if (!dismissible || !closeOnEscape) return;

@@ -7,8 +7,6 @@ import {
   isTopMost,
   isInNestedLayer,
   isInBranch,
-  isBelowPointerBlockingLayer,
-  getPointerEventsEnabled,
   type LayerStackContextValue,
   type Layer,
 } from "./layer-stack";
@@ -58,12 +56,12 @@ describe("layer-stack", () => {
 
     it("replaces existing layer when same node is added twice", () => {
       const node = createNode();
-      const first = createLayer(node, { blockPointerEvents: false });
-      const second = createLayer(node, { blockPointerEvents: true });
+      const first = createLayer(node);
+      const second = createLayer(node);
       addLayer(ctx, first);
       addLayer(ctx, second);
       expect(ctx.layers).toHaveLength(1);
-      expect(ctx.layers[0].blockPointerEvents).toBe(true);
+      expect(ctx.layers[0].dismiss).toBe(second.dismiss);
     });
   });
 
@@ -255,37 +253,6 @@ describe("layer-stack", () => {
       addBranch(ctx, branch);
       removeBranch(ctx, branch);
       expect(ctx.branches).toHaveLength(0);
-    });
-  });
-  describe("pointer blocking", () => {
-    it("isBelowPointerBlockingLayer returns false when no blocking layers", () => {
-      const node = createNode();
-      addLayer(ctx, createLayer(node));
-      expect(isBelowPointerBlockingLayer(ctx, node)).toBe(false);
-    });
-
-    it("isBelowPointerBlockingLayer returns true when below a blocking layer", () => {
-      const dialog = createNode("dialog");
-      const menu = createNode("menu");
-      addLayer(ctx, createLayer(dialog, { blockPointerEvents: true }));
-      addLayer(ctx, createLayer(menu, { blockPointerEvents: true }));
-      expect(isBelowPointerBlockingLayer(ctx, dialog)).toBe(true);
-      expect(isBelowPointerBlockingLayer(ctx, menu)).toBe(false);
-    });
-
-    it("getPointerEventsEnabled returns true when no blocking layers", () => {
-      const node = createNode();
-      addLayer(ctx, createLayer(node));
-      expect(getPointerEventsEnabled(ctx, node)).toBe(true);
-    });
-
-    it("getPointerEventsEnabled returns false for layers below the highest blocking layer", () => {
-      const dialog = createNode("dialog");
-      const menu = createNode("menu");
-      addLayer(ctx, createLayer(dialog, { blockPointerEvents: true }));
-      addLayer(ctx, createLayer(menu, { blockPointerEvents: true }));
-      expect(getPointerEventsEnabled(ctx, dialog)).toBe(false);
-      expect(getPointerEventsEnabled(ctx, menu)).toBe(true);
     });
   });
 });

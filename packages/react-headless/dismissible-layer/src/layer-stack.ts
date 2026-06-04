@@ -10,7 +10,6 @@ export interface CascadeDismissDetail {
 export interface Layer {
   node: HTMLElement;
   dismiss: (detail: CascadeDismissDetail) => void;
-  blockPointerEvents?: boolean;
   /**
    * The parent layer's node. Used to determine cascade-dismiss scope.
    * Only layers whose parentNode matches the removed layer's node will be
@@ -73,32 +72,6 @@ export function isInNestedLayer(
 
 export function isInBranch(ctx: LayerStackContextValue, target: EventTarget | null): boolean {
   return ctx.branches.some((branch) => contains(branch, target));
-}
-
-export function isBelowPointerBlockingLayer(
-  ctx: LayerStackContextValue,
-  node: HTMLElement,
-): boolean {
-  const index = ctx.layers.findIndex((l) => l.node === node);
-  const blockingLayers = ctx.layers.filter((l) => l.blockPointerEvents);
-  const highestBlocking = blockingLayers.at(-1);
-  if (!highestBlocking) return false;
-
-  const highestBlockingIndex = ctx.layers.indexOf(highestBlocking);
-  return index < highestBlockingIndex;
-}
-
-export function getPointerEventsEnabled(ctx: LayerStackContextValue, node: HTMLElement): boolean {
-  const hasBlocking = ctx.layers.some((l) => l.blockPointerEvents);
-  if (!hasBlocking) return true;
-
-  const index = ctx.layers.findIndex((l) => l.node === node);
-  const blockingLayers = ctx.layers.filter((l) => l.blockPointerEvents);
-  const highestBlocking = blockingLayers.at(-1);
-  if (!highestBlocking) return true;
-
-  const highestBlockingIndex = ctx.layers.indexOf(highestBlocking);
-  return index >= highestBlockingIndex;
 }
 
 export function notifyLayerChange() {

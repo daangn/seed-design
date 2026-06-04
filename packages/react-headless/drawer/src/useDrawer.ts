@@ -198,18 +198,6 @@ export function useDrawer(props: UseDrawerProps) {
       setTimeout(() => {
         onAnimationEnd?.(o);
       }, TRANSITIONS.EXIT_DURATION * 1000);
-
-      if (o && !modal) {
-        if (typeof window !== "undefined") {
-          window.requestAnimationFrame(() => {
-            document.body.style.pointerEvents = "auto";
-          });
-        }
-      }
-
-      if (!o) {
-        document.body.style.pointerEvents = "auto";
-      }
     },
   });
 
@@ -641,14 +629,6 @@ export function useDrawer(props: UseDrawerProps) {
     window.visualViewport?.addEventListener("resize", onVisualViewportChange);
     return () => window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
   }, [activeSnapPointIndex, snapPoints, snapPointsOffset, repositionInputs, fixed]);
-
-  useEffect(() => {
-    if (!modal) {
-      window.requestAnimationFrame(() => {
-        document.body.style.pointerEvents = "auto";
-      });
-    }
-  }, [modal]);
 
   // Effect 1: Track drawer open state
   useEffect(() => {
