@@ -3,6 +3,7 @@
     top: 6px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 1;
     width: 36px;
     height: 4px;
     background-color: var(--seed-color-palette-gray-400);
@@ -10,9 +11,9 @@
 }
 .seed-bottom-sheet-handle__touchArea {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     width: 44px;
     height: 44px
 }
