@@ -1,8 +1,9 @@
-import { Flex, HStack, VStack } from "@seed-design/react";
+import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { Flex, HStack, Icon, VStack } from "@seed-design/react";
 import { useState } from "react";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
+import { ActionButton } from "seed-design/ui/action-button";
 import { Slider } from "seed-design/ui/slider";
-import { Avatar } from "seed-design/ui/avatar";
 
 export default function HelpBubbleTooltipZIndexOffset() {
   const [zIndexOffset, setZIndexOffset] = useState(5);
@@ -32,7 +33,9 @@ export default function HelpBubbleTooltipZIndexOffset() {
         description="Et ullamco laborum voluptate ipsum labore ea nostrud sunt ipsum."
         zIndexOffset={zIndexOffset}
       >
-        <Avatar size="64" src="https://avatars.githubusercontent.com/u/54893898?v=4" fallback="L" />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="도움말">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <Slider
         min={0}

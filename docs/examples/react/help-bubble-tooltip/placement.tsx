@@ -1,6 +1,7 @@
-import { IconSparkle2 } from "@karrotmarket/react-multicolor-icon";
+import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, Icon } from "@seed-design/react";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
+import { ActionButton } from "seed-design/ui/action-button";
 
 export default function HelpBubbleTooltipPlacement() {
   return (
@@ -13,7 +14,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="top-end"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="top-end">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
         flip={false}
@@ -21,7 +24,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="top"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="top">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
         flip={false}
@@ -29,7 +34,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="top-start"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="top-start">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
         flip={false}
@@ -37,7 +44,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="left-end"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="left-end">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <Box />
       <HelpBubbleTooltipTrigger
@@ -46,7 +55,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="right-end"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="right-end">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
         flip={false}
@@ -54,7 +65,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="left"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="left">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <Box />
       <HelpBubbleTooltipTrigger
@@ -63,7 +76,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="right"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="right">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
         flip={false}
@@ -71,7 +86,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="left-start"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="left-start">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <Box />
       <HelpBubbleTooltipTrigger
@@ -80,7 +97,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="right-start"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="right-start">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
         flip={false}
@@ -88,7 +107,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="bottom-end"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="bottom-end">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
         flip={false}
@@ -96,7 +117,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="bottom"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="bottom">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
         flip={false}
@@ -104,7 +127,9 @@ export default function HelpBubbleTooltipPlacement() {
         title="bottom-start"
         description="est tempor aute"
       >
-        <Icon svg={<IconSparkle2 />} />
+        <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="bottom-start">
+          <Icon svg={<IconILowercaseSerifCircleFill />} />
+        </ActionButton>
       </HelpBubbleTooltipTrigger>
     </div>
   );

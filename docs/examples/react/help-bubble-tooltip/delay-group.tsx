@@ -1,10 +1,10 @@
 import {
-  IconBellLine,
-  IconMagnifyingglassLine,
-  IconPencilLine,
-  IconPersonCircleLine,
+  IconBellFill,
+  IconMagnifyingglassFill,
+  IconPencilFill,
+  IconPersonCircleFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Icon } from "@seed-design/react";
+import { HStack, PrefixIcon } from "@seed-design/react";
 import {
   HelpBubbleTooltipDelayGroup,
   HelpBubbleTooltipTrigger,
@@ -15,24 +15,28 @@ export default function HelpBubbleTooltipDelayGroupExample() {
   return (
     <HStack gap="x1">
       <HelpBubbleTooltipDelayGroup>
-        <HelpBubbleTooltipTrigger title="검색" placement="bottom">
-          <ActionButton variant="ghost" layout="iconOnly" aria-label="검색">
-            <Icon svg={<IconMagnifyingglassLine />} />
+        <HelpBubbleTooltipTrigger title="동네 가게와 상품을 검색해요" placement="bottom">
+          <ActionButton variant="ghost">
+            <PrefixIcon svg={<IconMagnifyingglassFill />} />
+            검색
           </ActionButton>
         </HelpBubbleTooltipTrigger>
-        <HelpBubbleTooltipTrigger title="글쓰기" placement="bottom">
-          <ActionButton variant="ghost" layout="iconOnly" aria-label="글쓰기">
-            <Icon svg={<IconPencilLine />} />
+        <HelpBubbleTooltipTrigger title="새 게시글을 작성해요" placement="bottom">
+          <ActionButton variant="ghost">
+            <PrefixIcon svg={<IconPencilFill />} />
+            글쓰기
           </ActionButton>
         </HelpBubbleTooltipTrigger>
-        <HelpBubbleTooltipTrigger title="알림" placement="bottom">
-          <ActionButton variant="ghost" layout="iconOnly" aria-label="알림">
-            <Icon svg={<IconBellLine />} />
+        <HelpBubbleTooltipTrigger title="받은 알림을 확인해요" placement="bottom">
+          <ActionButton variant="ghost">
+            <PrefixIcon svg={<IconBellFill />} />
+            알림
           </ActionButton>
         </HelpBubbleTooltipTrigger>
-        <HelpBubbleTooltipTrigger title="프로필" placement="bottom">
-          <ActionButton variant="ghost" layout="iconOnly" aria-label="프로필">
-            <Icon svg={<IconPersonCircleLine />} />
+        <HelpBubbleTooltipTrigger title="내 프로필로 이동해요" placement="bottom">
+          <ActionButton variant="ghost">
+            <PrefixIcon svg={<IconPersonCircleFill />} />
+            프로필
           </ActionButton>
         </HelpBubbleTooltipTrigger>
       </HelpBubbleTooltipDelayGroup>
