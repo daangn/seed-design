@@ -293,6 +293,9 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
         {...restProps}
         className={clsx(classNames.content, className)}
         innerStyle={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "0",
           paddingBottom: safeAreaInsetBottom,
           ...innerStyle,
         }}

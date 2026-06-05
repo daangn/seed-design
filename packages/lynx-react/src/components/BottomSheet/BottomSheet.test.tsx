@@ -96,16 +96,20 @@ describe("BottomSheet", () => {
     expect(body?.hasAttribute("scroll-y")).toBe(true);
   });
 
-  it("passes safe area bottom to Content inner padding", () => {
+  it("passes inner layout styles and safe area bottom to Content", () => {
     render(
       <BottomSheet.Root>
-        <BottomSheet.Content />
+        <BottomSheet.Content innerStyle={{ paddingTop: "8px" }} />
       </BottomSheet.Root>,
     );
 
     expect(sheetMocks.contentProps.at(-1)).toMatchObject({
       innerStyle: {
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "0",
         paddingBottom: "34px",
+        paddingTop: "8px",
       },
     });
   });

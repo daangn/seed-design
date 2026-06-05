@@ -61,7 +61,6 @@ function renderBottomSheet(
       open={open}
       onOpenChange={(next) => setValue("open", next)}
       snapPoints={SNAP_POINTS_FIT_80}
-      handleOnly
     >
       <BottomSheetTrigger className="self-start" bindtap={() => setValue("open", true)}>
         <ActionButton variant="brandSolid">Open sheet</ActionButton>
@@ -91,7 +90,7 @@ function BottomSheetExamples() {
   return (
     <CatalogExamples title="BottomSheet" gap="16px">
       <CatalogSectionTitle>Uncontrolled (Trigger 기반)</CatalogSectionTitle>
-      <BottomSheetRoot snapPoints={SNAP_POINTS_FIT_80} handleOnly>
+      <BottomSheetRoot snapPoints={SNAP_POINTS_FIT_80}>
         <BottomSheetTrigger className="self-start">
           <ActionButton variant="brandSolid">Trigger 탭</ActionButton>
         </BottomSheetTrigger>
@@ -151,7 +150,7 @@ function BottomSheetExamples() {
         <ActionButton bindtap={() => uncontrolledRef.current?.snapTo(1)}>snapTo(1)</ActionButton>
         <ActionButton bindtap={() => uncontrolledRef.current?.close()}>close()</ActionButton>
       </view>
-      <BottomSheetRoot ref={uncontrolledRef} snapPoints={SNAP_POINTS_FIT_80} handleOnly>
+      <BottomSheetRoot ref={uncontrolledRef} snapPoints={SNAP_POINTS_FIT_80}>
         <BottomSheetContent title="Imperative 예제" showHandle>
           <BottomSheetBody>
             <text className="t3-regular text-fg-neutral">
