@@ -13,6 +13,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
+import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -70,6 +71,15 @@ const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = ()
           <HelpBubbleTrigger title="Placement=bottom 테스트" placement="bottom">
             <ActionButton>Placement=bottom 테스트</ActionButton>
           </HelpBubbleTrigger>
+        </div>
+        <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "center" }}>
+          <HelpBubbleTooltipTrigger
+            title="Hover 트리거 테스트"
+            description={"포인터를 올리거나 키보드로 포커스해보세요."}
+            contentProps={{ maxWidth: "200px" }}
+          >
+            <ActionButton>Hover 트리거 테스트</ActionButton>
+          </HelpBubbleTooltipTrigger>
         </div>
         <div style={{ height: "100vh" }} />
       </AppScreenContent>
