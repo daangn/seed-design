@@ -1126,7 +1126,7 @@
             {
               "id": "help-bubble-tooltip",
               "title": "Help Bubble Tooltip",
-              "description": "포인터를 올리거나 포커스했을 때 보조 정보를 보여주는 tooltip 형태의 Help Bubble입니다.",
+              "description": "포인터를 올리거나 포커스했을 때 보조 정보를 보여주는 툴팁 형태의 Help Bubble입니다.",
               "docUrl": "/react/components/help-bubble-tooltip",
               "snippetKey": "ui:help-bubble-tooltip",
               "snippets": [
