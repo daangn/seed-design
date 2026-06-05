@@ -1,4 +1,4 @@
-import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { IconStarFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, Icon } from "@seed-design/react";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -15,7 +15,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="top-end">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -25,7 +25,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="top">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -35,7 +35,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="top-start">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -45,7 +45,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="left-end">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <Box />
@@ -56,7 +56,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="right-end">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -66,7 +66,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="left">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <Box />
@@ -77,7 +77,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="right">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -87,7 +87,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="left-start">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <Box />
@@ -98,7 +98,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="right-start">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -108,7 +108,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="bottom-end">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -118,7 +118,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="bottom">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -128,7 +128,7 @@ export default function HelpBubbleTooltipPlacement() {
         description="est tempor aute"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="bottom-start">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconStarFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
     </div>

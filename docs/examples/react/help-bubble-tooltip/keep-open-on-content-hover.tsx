@@ -1,4 +1,4 @@
-import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { IconEyeFill } from "@karrotmarket/react-monochrome-icon";
 import { HStack, Icon } from "@seed-design/react";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -12,7 +12,7 @@ export default function HelpBubbleTooltipKeepOpenOnContentHover() {
         placement="bottom"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="도움말">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconEyeFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -22,7 +22,7 @@ export default function HelpBubbleTooltipKeepOpenOnContentHover() {
         placement="bottom"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="도움말">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconEyeFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
     </HStack>

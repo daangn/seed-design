@@ -1,4 +1,4 @@
-import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { IconGearFill } from "@karrotmarket/react-monochrome-icon";
 import { Flex, HStack, Icon, VStack } from "@seed-design/react";
 import { useState } from "react";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
@@ -34,7 +34,7 @@ export default function HelpBubbleTooltipZIndexOffset() {
         zIndexOffset={zIndexOffset}
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="도움말">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconGearFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <Slider

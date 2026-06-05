@@ -1,4 +1,4 @@
-import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { IconClockFill } from "@karrotmarket/react-monochrome-icon";
 import { HStack, Icon } from "@seed-design/react";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -11,7 +11,7 @@ export default function HelpBubbleTooltipDelay() {
         placement="bottom"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="기본 지연">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconClockFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
       <HelpBubbleTooltipTrigger
@@ -21,7 +21,7 @@ export default function HelpBubbleTooltipDelay() {
         placement="bottom"
       >
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="지연 없음">
-          <Icon svg={<IconILowercaseSerifCircleFill />} />
+          <Icon svg={<IconClockFill />} />
         </ActionButton>
       </HelpBubbleTooltipTrigger>
     </HStack>

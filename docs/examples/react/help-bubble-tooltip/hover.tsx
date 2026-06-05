@@ -1,4 +1,4 @@
-import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Icon } from "@seed-design/react";
@@ -10,7 +10,7 @@ export default function HelpBubbleHover() {
       placement="right"
     >
       <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="도움말">
-        <Icon svg={<IconILowercaseSerifCircleFill />} />
+        <Icon svg={<IconExclamationmarkCircleFill />} />
       </ActionButton>
     </HelpBubbleTooltipTrigger>
   );
