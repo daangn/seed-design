@@ -315,15 +315,21 @@ export interface BottomSheetHandleProps extends SheetHandleProps {}
 
 /**
  * @remarks
- * `SheetHandle`은 forwardRef가 아니므로 ref 시그니처는 제공하지 않는다. touchArea 슬롯은
- * `SheetHandle` JSX가 정적으로 children을 받지 않는 구조라 적용하지 않는다 (Lynx
- * BackgroundSnapshot이 정적 slot 외의 동적 children 삽입을 허용하지 않음).
+ * `SheetHandle`은 forwardRef가 아니므로 ref 시그니처는 제공하지 않는다.
+ * lynx-ui-sheet의 drag handlers는 outer view에 붙으므로, 44x44 touchArea를
+ * `SheetHandle`에 적용하고 보이는 36x4 handle은 내부 view로 렌더링한다.
  */
 export function BottomSheetHandle(props: BottomSheetHandleProps): ReactElement {
-  const { className, style, ...rest } = props;
+  const { children, className, style, ...rest } = props;
   const classNames = bottomSheetHandle();
 
-  return <SheetHandle className={clsx(classNames.root, className)} style={style} {...rest} />;
+  return (
+    <SheetHandle className={classNames.touchArea} {...rest}>
+      <view className={clsx(classNames.root, className)} style={style as never}>
+        {children}
+      </view>
+    </SheetHandle>
+  );
 }
 BottomSheetHandle.displayName = "BottomSheetHandle";
 

@@ -23,9 +23,9 @@ const bottomSheetHandle = defineSlotRecipe({
     },
     touchArea: {
       position: "absolute",
-      top: "50%",
+      top: 0,
       left: "50%",
-      transform: "translate(-50%, -50%)",
+      transform: "translateX(-50%)",
       width: handleVars.base.enabled.touchArea.width,
       height: handleVars.base.enabled.touchArea.height,
     },

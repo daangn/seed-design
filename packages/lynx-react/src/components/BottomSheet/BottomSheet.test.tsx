@@ -36,6 +36,20 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   });
   SheetContent.displayName = "MockSheetContent";
 
+  const SheetHandle = React.forwardRef<
+    unknown,
+    Record<string, unknown> & { children?: React.ReactNode }
+  >((props) => {
+    const children = props["children"] as React.ReactNode;
+
+    return (
+      <view className={props["className"] as string} style={props["style"] as never}>
+        {children}
+      </view>
+    );
+  });
+  SheetHandle.displayName = "MockSheetHandle";
+
   const passthrough = (displayName: string) => {
     const Component = React.forwardRef<unknown, { children?: React.ReactNode }>((props) => {
       return <>{props.children}</>;
@@ -47,7 +61,7 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   return {
     SheetBackdrop: passthrough("MockSheetBackdrop"),
     SheetContent,
-    SheetHandle: passthrough("MockSheetHandle"),
+    SheetHandle,
     SheetRoot,
     SheetView,
   };
@@ -94,6 +108,21 @@ describe("BottomSheet", () => {
 
     expect(body).not.toBeNull();
     expect(body?.hasAttribute("scroll-y")).toBe(true);
+  });
+
+  it("renders Handle with a target-size touch area around the visual handle", () => {
+    const { container } = render(
+      <BottomSheet.Root>
+        <BottomSheet.Handle />
+      </BottomSheet.Root>,
+    );
+
+    const touchArea = container.querySelector(".seed-bottom-sheet-handle__touchArea");
+    const visualHandle = container.querySelector(".seed-bottom-sheet-handle__root");
+
+    expect(touchArea).not.toBeNull();
+    expect(visualHandle).not.toBeNull();
+    expect(touchArea?.contains(visualHandle)).toBe(true);
   });
 
   it("passes inner layout styles and safe area bottom to Content", () => {
