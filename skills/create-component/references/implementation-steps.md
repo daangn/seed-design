@@ -1,24 +1,36 @@
 # 컴포넌트 구현 상세 가이드
 
-> **전제조건**: `references/architecture-decisions.md`의 Phase 0을 완료해야 한다. 카테고리, 패턴 참조 컴포넌트, 접근성 스펙이 확정된 상태에서 구현을 시작한다.
+> **전제조건**: `references/platform-gate.md`와 `references/architecture-decisions.md`의 Phase 0을 완료해야 한다. target platform, 카테고리, 패턴 참조 컴포넌트, 접근성 스펙이 확정된 상태에서 구현을 시작한다.
 
 각 Step에서 **패턴 참조 컴포넌트의 해당 파일을 먼저 읽고** 패턴을 따른다.
 
 ## Step 1: Headless (선택)
 
-**위치**: `packages/react-headless/[name]/`
+**위치**:
+- React: `packages/react-headless/[name]/`
+- Lynx: `packages/lynx-headless/[name]/` 또는 `packages/lynx-react/src/components/[ComponentName]/` 내부 hook/context
+
 **조건**: 데이터 로직이 필요한 경우만 (단순 UI 컴포넌트는 생략)
 
 Headless 훅은 하나의 `use{Component}`로 끝낼 필요가 없다. compound stateful 컴포넌트는 가능하면 root/item 책임을 분리하고, render wiring과 상태 로직을 분리한다.
 
-분리 여부는 인터랙션 슬롯 수와 상태 소유권으로 판단한다. 독립 item state, roving focus/DOM query, trigger/content/indicator처럼 slot별 props가 필요하면 `use{Component}` + `use{Component}Item` 구조를 우선한다. 단일 root state만 있고 interactive slot이 하나라면 하나의 훅으로 충분할 수 있다. 분리는 중복 계산을 줄이고 재사용성을 높이지만, context와 파일 수가 늘어나므로 `packages/react-headless/AGENTS.md`의 책임 분리 기준을 함께 따른다.
+분리 여부는 인터랙션 슬롯 수와 상태 소유권으로 판단한다. 독립 item state, roving focus/DOM query, trigger/content/indicator처럼 slot별 props가 필요하면 `use{Component}` + `use{Component}Item` 구조를 우선한다. 단일 root state만 있고 interactive slot이 하나라면 하나의 훅으로 충분할 수 있다. 분리는 중복 계산을 줄이고 재사용성을 높이지만, context와 파일 수가 늘어나므로 target platform의 headless 또는 styled package `AGENTS.md` 책임 분리 기준을 함께 따른다.
 
-- root 수준 상태와 collection 관리는 `use{Component}` 또는 `useRootState` 계열 훅에 둔다.
-- item 수준 상태, 키보드 인터랙션, slot별 props 조합은 `use{Component}Item` 또는 `useItemState` 계열 훅으로 분리한다.
+- React root 수준 상태와 collection 관리는 `use{Component}` 또는 `useRootState` 계열 훅에 둔다.
+- React item 수준 상태, 키보드 인터랙션, slot별 props 조합은 `use{Component}Item` 또는 `useItemState` 계열 훅으로 분리한다.
 - 재사용 가능한 상태 전이, DOM query, 내부 id 생성, keyboard handler는 가능하면 `use*` 훅으로 내리고 컴포넌트 파일에는 hook이 만든 props와 ref를 연결하는 역할만 남긴다.
 - hook은 `rootProps` 하나만 반환할 필요가 없다. `triggerProps`, `contentProps`, `indicatorProps`처럼 slot별 props를 반환해도 된다.
-- hook이 반환하는 props는 ARIA, ids, keyboard handler, `data-*` state까지 포함한 **slot contract**를 목표로 하고, React 컴포넌트가 같은 로직을 다시 계산하지 않게 한다.
+- hook이 반환하는 props는 ARIA, ids, keyboard handler, `data-*` state까지 포함한 **slot contract**를 목표로 하고, styled UI 컴포넌트가 같은 로직을 다시 계산하지 않게 한다.
 - DOM query가 필요하면 ref `Set` 등록보다 내부 id + 안정적인 selector contract(`data-ownedby` 등)를 먼저 검토한다.
+
+### Lynx headless 분리 원칙
+
+Stateful Lynx 컴포넌트는 `references/lynx-patterns.md`를 따른다.
+
+- `packages/lynx-headless/*`는 상태, press/tap, controlled/uncontrolled, context, render props를 소유한다.
+- `packages/lynx-headless/*`는 자동 state class, recipe, SEED token, className 조합을 넣지 않는다.
+- `packages/lynx-react`는 headless 상태를 읽어 `@seed-design/lynx-css/recipes/*` variant와 className을 조합한다.
+- 새 `packages/lynx-headless/<component>` 패키지가 필요하면 사용자 확인을 먼저 받는다.
 
 **카테고리 C/D에서 새 headless를 만들 때**: Phase 0에서 정리한 ARIA APG 패턴과 키보드 인터랙션 스펙을 이 단계에서 구현한다. `references/external-references.md`의 접근성 체크리스트를 따른다. 외부 라이브러리(Base UI, Radix)의 동일 컴포넌트 구현도 참조하여 인터페이스 설계를 검증한다.
 
@@ -32,7 +44,7 @@ type UseComponentProps =
   | { multiple: true; collapsible?: never };
 ```
 
-위와 같은 union을 쓰면 React wrapper도 같은 contract를 유지해야 한다. wrapper에서 props를 다시 조합할 때는 mode별로 hook props를 분기해, `multiple: true`인 객체에 single-only prop이 섞이지 않게 한다.
+위와 같은 union을 쓰면 styled wrapper도 같은 contract를 유지해야 한다. wrapper에서 props를 다시 조합할 때는 mode별로 hook props를 분기해, `multiple: true`인 객체에 single-only prop이 섞이지 않게 한다.
 
 ## Step 2: Definition (Rootage)
 
@@ -43,29 +55,44 @@ type UseComponentProps =
 
 ## Step 3: Recipe (Qvism Preset)
 
-**위치**: `packages/qvism-preset/src/recipes/[name].ts`
-**추가 작업**: `recipes/index.ts`에 export 추가
-**컨벤션**: 구현 전 `packages/qvism-preset/AGENTS.md`를 읽고 해당 패키지의 컨벤션을 확인한다.
+**위치**:
+- React: `packages/qvism-preset/src/recipes/[name].ts`
+- Lynx: `packages/lynx-qvism-preset/src/recipes/[name].ts`
 
-Recipe 파일에서 `../vars/component/`의 생성된 토큰을 import하고, `defineRecipe` 또는 `defineSlotRecipe`로 스타일을 정의한다. 어떤 함수를 사용할지, 슬롯 구조, 전환 시 주의사항은 `packages/qvism-preset/AGENTS.md`에 명시되어 있다.
+**추가 작업**:
+- React: `packages/qvism-preset/src/recipes/index.ts`에 export 추가
+- Lynx: `packages/lynx-qvism-preset/src/recipes.ts` 또는 해당 preset entry에 export 추가
+
+Recipe 파일에서 생성된 component vars를 import하고, `defineRecipe` 또는 `defineSlotRecipe`로 스타일을 정의한다. 어떤 함수를 사용할지, 슬롯 구조, 전환 시 주의사항은 target preset의 `AGENTS.md`에 명시되어 있다.
 
 **추가 참조**: `references/recipe-patterns.md` — token 경로 컨벤션, pseudo 선택자, 아이콘 헬퍼, focus ring, 애니메이션 패턴
 
-**주의**: hover 대신 engaged 상태 사용 (모바일 우선)
+**주의**:
+- React recipe는 구현 전 `packages/qvism-preset/AGENTS.md`를 읽는다.
+- Lynx recipe는 구현 전 `packages/lynx-qvism-preset/AGENTS.md`와 `references/lynx-patterns.md`를 읽는다.
+- Lynx에서는 Web-only CSS나 pseudo selector 의존 대신 boolean/string variant를 우선한다.
+- hover 대신 engaged/pressed 상태 사용 (모바일 우선)
 
-## Step 4: React 컴포넌트
+## Step 4: Styled UI 컴포넌트
 
-**위치**: `packages/react/src/components/[ComponentName]/`
+**위치**:
+- React: `packages/react/src/components/[ComponentName]/`
+- Lynx: `packages/lynx-react/src/components/[ComponentName]/`
+
 **빌드**: 완료 후 `bun packages:build`
-**컨벤션**: 구현 전 `packages/react/AGENTS.md`를 읽고 해당 패키지의 컨벤션을 확인한다.
+**컨벤션**: 구현 전 target platform에 따라 `packages/react/AGENTS.md` 또는 `packages/lynx-react/AGENTS.md`를 읽고 해당 패키지의 컨벤션을 확인한다.
 
-Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 상세는 `packages/react/AGENTS.md`에 명시되어 있다.
+Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 상세는 각 패키지 `AGENTS.md`에 명시되어 있다.
 
-**추가 참조**: `references/react-patterns.md` — 카테고리별 유틸리티 선택 (createSlotRecipeContext, createWithStateProps, splitMultipleVariantsProps), Form/Field 통합, namespace 패턴
+**추가 참조**:
+- React: `references/react-patterns.md` — 카테고리별 유틸리티 선택 (createSlotRecipeContext, createWithStateProps, splitMultipleVariantsProps), Form/Field 통합, namespace 패턴
+- Lynx: `references/lynx-patterns.md` — native literal JSX 제약, ref null guard, children 분리, recipe import, unsupported Web API 문서화
 
 ## Step 5: Registry UI (Snippet 레이어)
 
-**위치**: `docs/registry/ui/[name].tsx`
+**위치**:
+- React: `docs/registry/react/ui/[name].tsx`
+- Lynx: `docs/registry/lynx/ui/[name].tsx`
 
 ### Snippet 레이어가 필요한 경우
 
@@ -76,12 +103,15 @@ Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 �
 
 ### 반대로 Snippet이 필요 없는 경우
 
-- 단일 컴포넌트 (`<Button>`, `<Badge>` 등): `@seed-design/react`에서 직접 사용
+- 단일 컴포넌트 (`<Button>`, `<Badge>` 등): target styled package에서 직접 사용
 - 이미 심플한 API를 가진 경우
 
 ### Snippet 파일 작성 패턴
 
-Snippet 파일은 `"use client"` 선언으로 시작하며, `@seed-design/react`에서 compound 컴포넌트를 import하여 **convenience wrapper**를 우선 설계한다.
+Snippet 파일은 플랫폼 runtime에 맞춰 import하며 **convenience wrapper**를 우선 설계한다.
+
+- React snippet: `"use client"` 선언으로 시작하고 `@seed-design/react`에서 import한다.
+- Lynx snippet: `@lynx-js/react`와 `@seed-design/lynx-react`에서 import한다.
 
 - low-level re-export보다 사용자가 가장 짧게 쓸 수 있는 surface를 먼저 만든다.
 - Props는 단순 `RootProps extends`로 끝내지 말고, 실제 convenience prop(`title`, `description`, `suffixIcon` 등)을 먼저 설계한다.
@@ -91,29 +121,39 @@ Snippet 파일은 `"use client"` 선언으로 시작하며, `@seed-design/react`
 - 반드시 `React.forwardRef`로 감싸고, `displayName`은 exported symbol과 같은 단순 문자열을 우선한다. 예를 들어 `Avatar` export라면 `Avatar`, `AccordionTrigger` export라면 `AccordionTrigger`를 사용하고, namespace가 실제 runtime API가 아닌 경우 `Accordion.Trigger` 같은 dotted name은 쓰지 않는다.
 
 **추가 작업**:
-1. `docs/registry/registry-ui.ts`에 entry 추가 (의존성 버전은 해당 컴포넌트가 추가된 버전 기준)
+1. React는 `docs/registry/react/registry-ui.ts`, Lynx는 `docs/registry/lynx/registry-ui.ts`에 entry 추가 (의존성 버전은 해당 컴포넌트가 추가된 버전 기준)
 2. `bun --filter @seed-design/docs generate:registry` 실행
 
-### React 문서 업데이트
+### 문서 업데이트
 
 Snippet 레이어가 있는 컴포넌트의 문서는 반드시 다음 형태로 업데이트해야 합니다:
 - `## Installation` 섹션 추가: `npx @seed-design/cli@latest add ui:[name]` 명령어
-- `<ManualInstallation name="[name]" />` 컴포넌트 추가
+- React: `<ManualInstallation name="[name]" />`, Lynx: `<LynxManualInstallation name="[name]" />`
 - `## Usage`의 import 경로를 `seed-design/ui/[name]`으로 변경
-- Props 섹션 경로를 `./registry/ui/[name].tsx`로 변경
+- Props 섹션 경로를 React는 `./registry/react/ui/[name].tsx`, Lynx는 `./registry/lynx/ui/[name].tsx`로 변경
+- Lynx 문서에는 웹 버전과의 차이와 Lynx 미지원 기능을 함께 작성
 
 ## Step 6: Examples
 
-**위치**: `docs/examples/react/[name]/`
+**위치**:
+- React: `docs/examples/react/[name]/`
+- Lynx: `examples/lynx-spa/src/pages/` 또는 기존 Lynx catalog/page
 
-Snippet 레이어가 있는 경우 `seed-design/ui/[name]`에서 import하고, Layout 컴포넌트(Flex, VStack 등)는 `@seed-design/react`에서 import한다. Snippet 레이어가 없는 경우 `@seed-design/react`에서 직접 import한다.
+React snippet 레이어가 있는 경우 `seed-design/ui/[name]`에서 import하고, Layout 컴포넌트(Flex, VStack 등)는 `@seed-design/react`에서 import한다. Lynx snippet 레이어가 있는 경우 generated Lynx registry install path를 따른다. Snippet 레이어가 없는 경우 target package에서 직접 import한다.
 
-snippet을 vendoring해서 소비하는 example app이 있으면 해당 경로도 함께 확인한다. 현재는 `examples/stackflow-spa/src/seed-design/ui/`가 대표적이며, snippet API가 바뀌면 이 경로와 example app build도 함께 동기화해야 한다.
+snippet을 vendoring해서 소비하는 example app이 있으면 해당 경로도 함께 확인한다.
+
+- React 대표 경로: `examples/stackflow-spa/src/seed-design/ui/`
+- Lynx 대표 경로: `examples/lynx-spa/src/seed-design/ui/`
+
+snippet API가 바뀌면 target platform의 vendored copy와 example app build도 함께 동기화해야 한다.
 
 ## Step 7: Storybook
 
 **위치**: `docs/stories/[ComponentName].stories.tsx`
 **명령어**: `bun storybook` (docs 폴더에서)
+
+React 컴포넌트는 Storybook 스토리를 기본으로 추가한다. Lynx 컴포넌트는 Storybook 대신 `examples/lynx-spa`의 page/catalog에서 실제 사용 화면을 확인한다.
 
 필수 스토리:
 - `LightTheme` - 라이트 테마
@@ -125,6 +165,9 @@ snippet을 vendoring해서 소비하는 example app이 있으면 해당 경로�
 
 ### React 문서
 **위치**: `docs/content/react/components/[name].mdx`
+
+### Lynx 문서
+**위치**: `docs/content/lynx/components/[name].mdx`
 
 ### Design 문서
 **위치**: `docs/content/docs/components/[name].mdx`

@@ -1,6 +1,8 @@
 # Recipe 작성 패턴
 
-`packages/qvism-preset/AGENTS.md`에 기본 컨벤션이 있다. 이 문서는 전체 68개 recipe에서 추출한 공통 패턴을 보충한다.
+`packages/qvism-preset/AGENTS.md`에 기본 컨벤션이 있다. 이 문서는 React Web recipe 공통 패턴을 보충한다.
+
+target platform이 `lynx` 또는 `cross-platform`의 Lynx 구현이면 이 문서를 token vocabulary 비교용으로만 사용하고, 실제 recipe 구현은 `references/lynx-patterns.md`와 `packages/lynx-qvism-preset/AGENTS.md`를 따른다.
 
 ## Token 경로 컨벤션
 

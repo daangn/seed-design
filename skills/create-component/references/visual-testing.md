@@ -13,7 +13,11 @@ cd docs && bun dev
 cd examples/stackflow-spa && bun dev
 # → localhost:5173
 
-# 터미널 3: Storybook
+# 터미널 3: lynx-spa 개발 서버 (Lynx 작업 시)
+cd examples/lynx-spa && bun dev
+# → Lynx dev server output 확인
+
+# 터미널 4: Storybook (React 작업 시)
 cd docs && bun storybook
 # → localhost:6006
 ```
@@ -60,16 +64,26 @@ agent-browser screenshot storybook-[name]-font-xxxl.png
 agent-browser close
 ```
 
+### 4. Lynx-SPA 테스트
+
+Lynx 컴포넌트는 Storybook 대신 `examples/lynx-spa`의 page/catalog에서 실제 사용 화면을 확인한다. snippet을 vendoring하는 컴포넌트라면 `examples/lynx-spa/src/seed-design/ui/`가 `docs/registry/lynx/ui/`와 동기화되어 있는지도 함께 본다.
+
+```bash
+cd examples/lynx-spa && bun dev
+# dev server URL과 QR/device target은 rspeedy output을 따른다.
+```
+
 ## 테스트 체크리스트
 
 | 환경 | URL | 확인 사항 |
 |------|-----|----------|
 | docs | localhost:3000 | 컴포넌트 렌더링, 예제 동작 |
-| stackflow-spa | localhost:5173 | 실제 앱 환경 동작 |
-| Storybook Light | localhost:6006 | 라이트 모드 스타일 |
-| Storybook Dark | localhost:6006 | 다크 모드 스타일 |
-| Storybook Font XS | localhost:6006 | 작은 폰트 스케일 |
-| Storybook Font XXXL | localhost:6006 | 큰 폰트 스케일 |
+| stackflow-spa (React) | localhost:5173 | 실제 앱 환경 동작 |
+| lynx-spa (Lynx) | rspeedy output | Lynx runtime/page/catalog 동작 |
+| Storybook Light (React) | localhost:6006 | 라이트 모드 스타일 |
+| Storybook Dark (React) | localhost:6006 | 다크 모드 스타일 |
+| Storybook Font XS (React) | localhost:6006 | 작은 폰트 스케일 |
+| Storybook Font XXXL (React) | localhost:6006 | 큰 폰트 스케일 |
 
 ## Figma 비교 (선택)
 

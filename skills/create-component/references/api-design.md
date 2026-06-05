@@ -1,6 +1,12 @@
 # API 설계 원칙
 
-Snippet 레이어(`docs/registry/ui/`)와 컴포넌트 공개 API 설계 시 따르는 원칙.
+Snippet 레이어와 컴포넌트 공개 API 설계 시 따르는 원칙.
+
+Platform별 snippet 경로:
+- React: `docs/registry/react/ui/`
+- Lynx: `docs/registry/lynx/ui/`
+
+Lynx snippet은 React snippet을 그대로 복사하지 않는다. `@lynx-js/react`, `@seed-design/lynx-react`, Lynx icon package, unsupported Web API 차이를 반영해 별도 user-facing API로 설계한다.
 
 ## Snippet 레이어 필요 여부
 
@@ -173,6 +179,10 @@ Snippet의 최상위 export 이름은 사용자가 설치 후 import하는 이�
 ## Registry 등록
 
 Registry 등록 절차는 `implementation-steps.md`의 Registry UI 단계가 기준이다. API 설계 단계에서는 snippet이 stable user API인지, 설치 후 사용자가 작성할 최소 코드가 무엇인지, version/dependency metadata에 영향을 주는 public surface가 있는지만 결정한다.
+
+- React registry: `docs/registry/react/registry-ui.ts`
+- Lynx registry: `docs/registry/lynx/registry-ui.ts`
+- Lynx snippet dependency range에는 `@seed-design/lynx-react`와 `@seed-design/lynx-css`가 포함되어야 한다.
 
 ## Block 패턴
 
