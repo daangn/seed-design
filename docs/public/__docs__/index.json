@@ -1613,6 +1613,19 @@
               "docUrl": "/lynx/components/action-button"
             },
             {
+              "id": "app-bar",
+              "title": "AppBar",
+              "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
+              "docUrl": "/lynx/components/app-bar",
+              "snippetKey": "lynx/ui:app-bar",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "app-bar.tsx"
+                }
+              ]
+            },
+            {
               "id": "bottom-sheet",
               "title": "Bottom Sheet",
               "description": "화면 하단에서 올라오는 시트 컴포넌트로, 드래그·snap·dismiss 상호작용을 제공합니다.",

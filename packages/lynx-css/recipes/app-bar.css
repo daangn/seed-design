@@ -1,0 +1,96 @@
+.seed-app-bar__root {
+    position: relative;
+    z-index: var(--z-index-app-bar);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end
+}
+.seed-app-bar__background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1
+}
+.seed-app-bar__left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    z-index: 1
+}
+.seed-app-bar__right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    margin-left: auto;
+    z-index: 1
+}
+.seed-app-bar__iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 0;
+    background: #00000000;
+    padding: 0;
+    border-radius: var(--seed-radius-r1)
+}
+.seed-app-bar__icon {
+    flex-shrink: 0
+}
+.seed-app-bar__custom {
+    display: flex;
+    flex-direction: row;
+    align-items: center
+}
+.seed-app-bar__root--theme_cupertino {
+    height: calc(44px + var(--seed-safe-area-top));
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
+    padding-top: var(--seed-safe-area-top)
+}
+.seed-app-bar__iconButton--theme_cupertino {
+    width: 44px;
+    height: 44px
+}
+.seed-app-bar__icon--theme_cupertino {
+    width: 24px;
+    height: 24px
+}
+.seed-app-bar__root--theme_android {
+    height: calc(56px + var(--seed-safe-area-top));
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
+    padding-top: var(--seed-safe-area-top)
+}
+.seed-app-bar__left--theme_android {
+    padding-right: 16px
+}
+.seed-app-bar__iconButton--theme_android {
+    width: 44px;
+    height: 44px
+}
+.seed-app-bar__icon--theme_android {
+    width: 24px;
+    height: 24px
+}
+.seed-app-bar__background--tone_layer {
+    background: var(--seed-color-bg-layer-default)
+}
+.seed-app-bar__icon--tone_layer {
+    color: var(--seed-color-fg-neutral)
+}
+.seed-app-bar__background--tone_transparent {
+    background: #00000000
+}
+.seed-app-bar__icon--tone_transparent {
+    color: var(--seed-color-palette-static-white)
+}
+.seed-app-bar__background--divider_true {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--seed-color-stroke-neutral-subtle)
+}
