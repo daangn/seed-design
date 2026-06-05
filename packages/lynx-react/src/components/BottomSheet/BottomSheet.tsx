@@ -316,17 +316,18 @@ export interface BottomSheetHandleProps extends SheetHandleProps {}
 /**
  * @remarks
  * `SheetHandle` is not forwardRef-compatible, so this slot does not expose a ref.
- * Drag handlers stay on the visual handle while the 44x44 touch area is centered
- * inside it to match the rootage/web target-size structure.
+ * Lynx drag handlers are bound to the `SheetHandle` outer view, so it receives
+ * the 44x44 target area while the visual handle stays centered inside it.
  */
 export function BottomSheetHandle(props: BottomSheetHandleProps): ReactElement {
   const { children, className, style, ...rest } = props;
   const classNames = bottomSheetHandle();
 
   return (
-    <SheetHandle className={clsx(classNames.root, className)} style={style} {...rest}>
-      <view className={classNames.touchArea} />
-      {children}
+    <SheetHandle className={classNames.touchArea} {...rest}>
+      <view className={clsx(classNames.root, className)} style={style as never}>
+        {children}
+      </view>
     </SheetHandle>
   );
 }

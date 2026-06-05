@@ -110,7 +110,7 @@ describe("BottomSheet", () => {
     expect(body?.hasAttribute("scroll-y")).toBe(true);
   });
 
-  it("renders Handle with a centered target-size touch area inside the visual handle", () => {
+  it("renders Handle with a target-size touch area around the visual handle", () => {
     const { container } = render(
       <BottomSheet.Root>
         <BottomSheet.Handle />
@@ -122,7 +122,7 @@ describe("BottomSheet", () => {
 
     expect(visualHandle).not.toBeNull();
     expect(touchArea).not.toBeNull();
-    expect(visualHandle?.contains(touchArea)).toBe(true);
+    expect(touchArea?.contains(visualHandle)).toBe(true);
   });
 
   it("passes inner layout styles and safe area bottom to Content", () => {

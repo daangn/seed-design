@@ -1,9 +1,8 @@
 .seed-bottom-sheet-handle__root {
     position: absolute;
-    top: 6px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
+    transform: translate(-50%, -50%);
     width: 36px;
     height: 4px;
     background-color: var(--seed-color-palette-gray-400);
@@ -11,9 +10,10 @@
 }
 .seed-bottom-sheet-handle__touchArea {
     position: absolute;
-    top: 50%;
+    top: calc(6px + 4px / 2 - 44px / 2);
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
+    z-index: 1;
     width: 44px;
     height: 44px
 }
