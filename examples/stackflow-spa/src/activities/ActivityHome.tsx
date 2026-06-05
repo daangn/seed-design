@@ -65,7 +65,7 @@ declare module "@stackflow/config" {
 }
 
 const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) => {
-  const { push } = useFlow();
+  const { push, replace } = useFlow();
   const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
 
@@ -326,7 +326,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
-        { title: "SideNavigation", onClick: () => push("ActivitySideNavigation", {}) },
+        { title: "SideNavigation", onClick: () => replace("ActivitySideNavigation", {}) },
       ],
     },
     {
