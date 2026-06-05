@@ -578,6 +578,7 @@
         "@seed-design/react-tabs": "1.0.5",
         "@seed-design/react-text-field": "1.1.1",
         "@seed-design/react-toggle": "1.0.1",
+        "@seed-design/react-tooltip": "0.0.0",
         "clsx": "^2.1.1",
         "unicode-segmenter": "^0.14.4",
       },
@@ -840,6 +841,23 @@
         "react-dom": ">=18.0.0",
       },
     },
+    "packages/react-headless/floating": {
+      "name": "@seed-design/react-floating",
+      "version": "0.0.0",
+      "dependencies": {
+        "@floating-ui/react": "^0.27.0",
+        "@radix-ui/react-use-controllable-state": "1.2.2",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
     "packages/react-headless/image": {
       "name": "@seed-design/react-image",
       "version": "0.1.1",
@@ -910,8 +928,8 @@
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
-        "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-floating": "0.0.0",
         "@seed-design/react-primitive": "1.0.0",
       },
       "devDependencies": {
@@ -1206,6 +1224,26 @@
       "dependencies": {
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/tooltip": {
+      "name": "@seed-design/react-tooltip",
+      "version": "0.0.0",
+      "dependencies": {
+        "@floating-ui/react": "^0.27.0",
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-floating": "0.0.0",
         "@seed-design/react-primitive": "1.0.0",
       },
       "devDependencies": {
@@ -2974,6 +3012,8 @@
 
     "@seed-design/react-file-upload": ["@seed-design/react-file-upload@workspace:packages/react-headless/file-upload"],
 
+    "@seed-design/react-floating": ["@seed-design/react-floating@workspace:packages/react-headless/floating"],
+
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
 
     "@seed-design/react-image": ["@seed-design/react-image@workspace:packages/react-headless/image"],
@@ -3015,6 +3055,8 @@
     "@seed-design/react-text-field": ["@seed-design/react-text-field@workspace:packages/react-headless/text-field"],
 
     "@seed-design/react-toggle": ["@seed-design/react-toggle@workspace:packages/react-headless/toggle"],
+
+    "@seed-design/react-tooltip": ["@seed-design/react-tooltip@workspace:packages/react-headless/tooltip"],
 
     "@seed-design/react-use-controllable-state": ["@seed-design/react-use-controllable-state@workspace:packages/react-headless/use-controllable-state"],
 

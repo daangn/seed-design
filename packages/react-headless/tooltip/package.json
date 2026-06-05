@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/react-popover",
-  "version": "1.0.3",
+  "name": "@seed-design/react-tooltip",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/popover"
+    "directory": "packages/react-headless/tooltip"
   },
   "sideEffects": false,
   "type": "module",
