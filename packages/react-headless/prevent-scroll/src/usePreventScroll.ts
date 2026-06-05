@@ -175,6 +175,10 @@ function preventScrollMobileSafari() {
   // Prevent scrolling up when at the top and down when at the bottom of a nested scrollable area,
   // otherwise mobile Safari starts scrolling the window. This must be applied before the touchstart
   // event as of iOS 26, so inject it as a <style> element.
+  //
+  // TODO: switch to a constructable CSSStyleSheet via document.adoptedStyleSheets once the minimum
+  // supported version is Safari/iOS 16.4+ (where constructable stylesheets land). That also removes
+  // the getNonce CSP handling below.
   const style = document.createElement("style");
   const nonce = getNonce();
   if (nonce) style.nonce = nonce;
