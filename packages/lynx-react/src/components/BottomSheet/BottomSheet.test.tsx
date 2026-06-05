@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const sheetMocks = vi.hoisted(() => ({
   contentProps: [] as Array<Record<string, unknown>>,
+  rootProps: [] as Array<Record<string, unknown>>,
   rootRef: {
     open: vi.fn(),
   },
@@ -11,9 +12,13 @@ const sheetMocks = vi.hoisted(() => ({
 vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   const React = await vi.importActual<typeof import("@lynx-js/react")>("@lynx-js/react");
 
-  const SheetRoot = React.forwardRef<unknown, { children?: React.ReactNode }>((props, ref) => {
+  const SheetRoot = React.forwardRef<
+    unknown,
+    Record<string, unknown> & { children?: React.ReactNode }
+  >((props, ref) => {
+    sheetMocks.rootProps.push(props);
     React.useImperativeHandle(ref, () => sheetMocks.rootRef);
-    return <>{props.children}</>;
+    return <>{props["children"]}</>;
   });
   SheetRoot.displayName = "MockSheetRoot";
 
@@ -60,7 +65,35 @@ import * as BottomSheet from "./BottomSheet.namespace";
 describe("BottomSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
+    sheetMocks.rootProps = [];
     sheetMocks.rootRef.open.mockClear();
+  });
+
+  it("passes handleOnly to the underlying SheetRoot", () => {
+    render(
+      <BottomSheet.Root handleOnly>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.rootProps.at(-1)).toMatchObject({
+      handleOnly: true,
+    });
+  });
+
+  it("renders Body as a vertical scroll-view", () => {
+    const { container } = render(
+      <BottomSheet.Root>
+        <BottomSheet.Body>
+          <text>Scrollable content</text>
+        </BottomSheet.Body>
+      </BottomSheet.Root>,
+    );
+
+    const body = container.querySelector("scroll-view");
+
+    expect(body).not.toBeNull();
+    expect(body?.hasAttribute("scroll-y")).toBe(true);
   });
 
   it("passes safe area bottom to Content inner padding", () => {

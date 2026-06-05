@@ -26,7 +26,7 @@ import {
 
 export function App() {
   return (
-    <BottomSheetRoot snapPoints={["fit", "80%"]}>
+    <BottomSheetRoot handleOnly snapPoints={["fit", "80%"]}>
       <BottomSheetTrigger>
         <text>시트 열기</text>
       </BottomSheetTrigger>
@@ -44,6 +44,8 @@ export function App() {
 ```
 
 snippet의 `BottomSheetContent`는 내부에서 Positioner, Backdrop, Content, Header, Title, Description을 조립합니다. `BottomSheetTrigger`는 Content 밖에 두어야 탭으로 시트를 열 수 있습니다.
+
+본문 콘텐츠가 길어지는 경우 `BottomSheetBody`에 넣으면 세로 스크롤 영역으로 렌더링됩니다. `handleOnly`를 함께 사용하면 시트 드래그는 handle에서만 처리하고, 본문 위의 세로 제스처는 body 스크롤에 사용됩니다.
 
 ### Imperative 제어
 
