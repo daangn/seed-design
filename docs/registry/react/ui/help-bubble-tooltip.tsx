@@ -47,3 +47,52 @@ export const HelpBubbleTooltipTrigger = forwardRef<
     </SeedHelpBubbleTooltip.Root>
   );
 });
+
+export interface HelpBubbleTooltipTriggerPortalProps
+  extends Omit<SeedHelpBubbleTooltip.RootProps, "children"> {
+  title: React.ReactNode;
+
+  description?: React.ReactNode;
+
+  children?: React.ReactNode;
+
+  contentProps?: SeedHelpBubbleTooltip.ContentProps;
+
+  zIndexOffset?: number;
+
+  positionerRoot?: SeedHelpBubbleTooltip.PositionerPortalProps["root"];
+}
+
+export const HelpBubbleTooltipTriggerPortal = forwardRef<
+  HTMLButtonElement,
+  HelpBubbleTooltipTriggerPortalProps
+>(
+  (
+    { title, description, contentProps, zIndexOffset, positionerRoot, children, ...otherProps },
+    ref,
+  ) => {
+    return (
+      <SeedHelpBubbleTooltip.Root {...otherProps}>
+        <SeedHelpBubbleTooltip.Trigger asChild ref={ref}>
+          {children}
+        </SeedHelpBubbleTooltip.Trigger>
+        <SeedHelpBubbleTooltip.PositionerPortal
+          root={positionerRoot}
+          style={{ "--z-index-offset": zIndexOffset } as React.CSSProperties}
+        >
+          <SeedHelpBubbleTooltip.Content {...contentProps}>
+            <SeedHelpBubbleTooltip.Arrow>
+              <SeedHelpBubbleTooltip.ArrowTip />
+            </SeedHelpBubbleTooltip.Arrow>
+            <SeedHelpBubbleTooltip.Body>
+              <SeedHelpBubbleTooltip.Title>{title}</SeedHelpBubbleTooltip.Title>
+              {description && (
+                <SeedHelpBubbleTooltip.Description>{description}</SeedHelpBubbleTooltip.Description>
+              )}
+            </SeedHelpBubbleTooltip.Body>
+          </SeedHelpBubbleTooltip.Content>
+        </SeedHelpBubbleTooltip.PositionerPortal>
+      </SeedHelpBubbleTooltip.Root>
+    );
+  },
+);
