@@ -56,7 +56,7 @@ const ActivityResultSectionCtaProgressCircle: StaticActivityComponentType<
       <AppScreenContent>
         <VStack grow gap="x4" height="full" pb="safeArea">
           <ResultSection {...resultSectionProperties[refundStatus]} />
-          <Flex p="x4" width="full" px="spacingX.globalGutter" pt="x3" pb="x2">
+          <Flex p="x4" px="spacingX.globalGutter" pt="x3" pb="x2">
             <ActionButton
               flexGrow
               size="large"
