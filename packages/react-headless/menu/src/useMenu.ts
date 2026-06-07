@@ -21,6 +21,14 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 
 const MIN_HEIGHT = 200;
 
+// Re-declare the SEED safe-area tokens on the positioner from env() (the same
+// pattern as Snackbar's `useSafeOffset`) so `useMenu` can read them back as
+// numbers without relying on the tokens being defined by the global SEED styles.
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+} as React.CSSProperties;
+
 function getTransformOrigin(placement: string) {
   const [side, align] = placement.split("-");
   const y = { top: "bottom", bottom: "top", left: "center", right: "center" }[side] ?? "top";
@@ -167,6 +175,22 @@ export function useMenu(props: UseMenuProps) {
     matchReferenceWidth = false,
   } = props;
 
+  // Safe-area insets as numbers, fed into floating-ui's collision padding below.
+  // `flip`/`size` only understand numbers, so the values are read from the
+  // positioner in JS (see the effect after `useFloating`). The positioner carries
+  // its own `env()` definition via `SAFE_AREA_STYLE`, so this hook stays
+  // self-contained instead of relying on the global SEED safe-area tokens.
+  const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
+
+  // Inset the viewport collision boundary by the safe area so flip/size/shift keep
+  // the menu clear of the notch and home indicator (not just the viewport edge).
+  const collisionPadding = {
+    top: overflowPadding + safeArea.top,
+    right: overflowPadding,
+    bottom: overflowPadding + safeArea.bottom,
+    left: overflowPadding,
+  };
+
   const setOpen = useCallback(
     (nextOpen: boolean, details?: MenuChangeDetails) => {
       if (disabled && nextOpen) return;
@@ -201,7 +225,7 @@ export function useMenu(props: UseMenuProps) {
     middleware: [
       offset(gutter),
       size({
-        padding: overflowPadding,
+        padding: collisionPadding,
         apply({ availableHeight, rects, elements }) {
           elements.floating.style.setProperty(
             "--seed-menu-available-height",
@@ -215,8 +239,8 @@ export function useMenu(props: UseMenuProps) {
           }
         },
       }),
-      flip({ padding: overflowPadding, fallbackStrategy: "initialPlacement" }),
-      shift({ padding: overflowPadding }),
+      flip({ padding: collisionPadding, fallbackStrategy: "initialPlacement" }),
+      shift({ padding: collisionPadding }),
     ],
   });
 
@@ -236,6 +260,27 @@ export function useMenu(props: UseMenuProps) {
       context.update,
     );
   }, [mounted, floatingRefs.reference, floatingRefs.floating, context]);
+
+  // Resolve the safe-area insets from the positioner, which defines them via
+  // `env()` (SAFE_AREA_STYLE). The positioner is always mounted, so this reads
+  // valid numbers before the menu first opens. Re-read on resize for orientation.
+  useEffect(() => {
+    const read = () => {
+      const positioner = floatingRefs.floating.current;
+      if (!positioner) return;
+
+      const styles = getComputedStyle(positioner);
+      setSafeArea({
+        top: Number.parseInt(styles.getPropertyValue("--seed-safe-area-top"), 10) || 0,
+        bottom: Number.parseInt(styles.getPropertyValue("--seed-safe-area-bottom"), 10) || 0,
+      });
+    };
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingRefs.floating]);
 
   const click = useClick(context, {
     enabled: !disabled,
@@ -309,7 +354,7 @@ export function useMenu(props: UseMenuProps) {
 
     positionerProps: elementProps({
       ...stateProps,
-      style: floatingStyles,
+      style: { ...SAFE_AREA_STYLE, ...floatingStyles },
     }),
 
     contentProps: elementProps({

@@ -74,6 +74,9 @@ export const menu = defineSlotRecipe({
     },
     scrollArea: {
       overflowY: "auto",
+      // `--seed-menu-available-height` already excludes the safe area: the headless
+      // layer feeds the safe-area insets into floating-ui's collision padding, so
+      // `size` reports an availableHeight that clears the notch / home indicator.
       maxHeight: `min(${menuVars.base.enabled.root.maxHeight}, var(${MENU_AVAILABLE_HEIGHT}, ${menuVars.base.enabled.root.maxHeight}))`,
       boxSizing: "border-box",
 
