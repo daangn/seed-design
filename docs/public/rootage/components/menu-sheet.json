@@ -45,7 +45,10 @@
             "paddingX": {
               "type": "dimension"
             },
-            "paddingY": {
+            "paddingTop": {
+              "type": "dimension"
+            },
+            "paddingBottom": {
               "type": "dimension"
             },
             "topCornerRadius": {
@@ -68,9 +71,6 @@
         "header": {
           "properties": {
             "gap": {
-              "type": "dimension"
-            },
-            "paddingTop": {
               "type": "dimension"
             },
             "paddingBottom": {
@@ -199,7 +199,11 @@
                   "type": "dimension",
                   "value": "$dimension.spacing-x.global-gutter"
                 },
-                "paddingY": {
+                "paddingTop": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                },
+                "paddingBottom": {
                   "type": "dimension",
                   "value": "$dimension.x4"
                 },
@@ -228,10 +232,6 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1"
-                },
-                "paddingTop": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
                 },
                 "paddingBottom": {
                   "type": "dimension",
