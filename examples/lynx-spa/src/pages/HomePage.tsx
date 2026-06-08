@@ -41,6 +41,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="Box / VStack / HStack" onTap={() => navigate("layout-primitives")} />
       <ListItem title="Text" onTap={() => navigate("text-primitive")} />
       <ListItem title="ActionButton" onTap={() => navigate("action-button")} />
+      <ListItem title="AspectRatio" onTap={() => navigate("aspect-ratio")} />
       <ListItem title="Badge" onTap={() => navigate("badge")} />
       <ListItem title="BottomSheet" onTap={() => navigate("bottom-sheet")} />
       <ListItem title="Checkbox" onTap={() => navigate("checkbox")} />

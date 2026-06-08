@@ -1,4 +1,5 @@
 export * from "./ActionButton";
+export * from "./AspectRatio";
 export * from "./Badge";
 export * from "./Box";
 export * from "./BottomSheet";

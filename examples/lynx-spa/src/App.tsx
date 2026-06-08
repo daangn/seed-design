@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "@lynx-js/react";
 import { useSafeArea } from "@seed-design/lynx-react";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
+import { AspectRatioPage } from "./pages/AspectRatioPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
@@ -41,6 +42,7 @@ export type Page =
   | "home"
   | "theming"
   | "action-button"
+  | "aspect-ratio"
   | "badge"
   | "bottom-sheet"
   | "checkbox"
@@ -77,6 +79,7 @@ function BackButton({ onBack }: { onBack: () => void }) {
 // Pages that own their own scroll areas use a fullscreen flex shell.
 const FULLSCREEN_PAGES = new Set<Page>([
   "action-button",
+  "aspect-ratio",
   "badge",
   "bottom-sheet",
   "checkbox",
@@ -120,6 +123,7 @@ export function App(props: { onRender?: () => void }) {
           <BackButton onBack={() => setCurrentPage("home")} />
         </view>
         {currentPage === "action-button" && <ActionButtonPage />}
+        {currentPage === "aspect-ratio" && <AspectRatioPage />}
         {currentPage === "badge" && <BadgePage />}
         {currentPage === "bottom-sheet" && <BottomSheetPage />}
         {currentPage === "checkbox" && <CheckboxPage />}

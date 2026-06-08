@@ -77,7 +77,7 @@ export function VariantCatalog<
           {(values) => renderForTable(children, values, previewStates)}
         </VariantTable>
       ) : (
-        <view className="flex-1 min-h-0">{examples}</view>
+        <view className="flex flex-col flex-1 min-h-0">{examples}</view>
       )}
     </view>
   );
