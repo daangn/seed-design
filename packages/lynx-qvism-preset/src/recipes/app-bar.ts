@@ -107,7 +107,7 @@ export const appBarMain = defineSlotRecipe({
       theme: "cupertino",
       css: {
         root: {
-          transform: "translateY(-12px)",
+          transform: "translateY(-11px)",
         },
       },
     },

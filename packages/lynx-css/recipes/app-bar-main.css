@@ -66,5 +66,5 @@
     color: var(--seed-color-palette-static-white)
 }
 .seed-app-bar-main__root--layout_titleOnly-theme_cupertino {
-    transform: translateY(-12px)
+    transform: translateY(-11px)
 }
