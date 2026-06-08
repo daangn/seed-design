@@ -8,8 +8,8 @@ import { checkmark } from "@seed-design/lynx-css/recipes/checkmark";
 import type { CheckmarkVariantProps } from "@seed-design/lynx-css/recipes/checkmark";
 import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
+import { useControllableState } from "@seed-design/lynx-use-controllable-state";
+import { usePressTap } from "@seed-design/lynx-use-press-tap";
 import type {
   LynxIconElementProps,
   LynxStyledElementProps,

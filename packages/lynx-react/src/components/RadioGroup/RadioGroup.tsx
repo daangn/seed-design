@@ -8,8 +8,8 @@ import { radiomark } from "@seed-design/lynx-css/recipes/radiomark";
 import type { RadiomarkVariantProps } from "@seed-design/lynx-css/recipes/radiomark";
 import { radioGroup } from "@seed-design/lynx-css/recipes/radio-group";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
+import { useControllableState } from "@seed-design/lynx-use-controllable-state";
+import { usePressTap } from "@seed-design/lynx-use-press-tap";
 import type {
   LynxIconElementProps,
   LynxStyledElementProps,
