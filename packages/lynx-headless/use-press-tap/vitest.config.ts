@@ -1,25 +1,3 @@
-import { createVitestConfig } from "@lynx-js/react/testing-library/vitest-config";
-import { defineConfig, mergeConfig } from "vitest/config";
+import { createLynxVitestConfig } from "@seed-design/lynx-vitest-config";
 
-const defaultConfig = await createVitestConfig();
-
-export default mergeConfig(
-  defaultConfig,
-  defineConfig({
-    test: {
-      include: ["src/**/*.test.{ts,tsx}"],
-    },
-    optimizeDeps: {
-      exclude: [
-        "@lynx-js/react",
-        "@lynx-js/react/testing-library",
-        "preact",
-        "preact/hooks",
-        "preact/compat",
-      ],
-    },
-    ssr: {
-      noExternal: ["@lynx-js/react", "preact", "@hongzhiyuan/preact"],
-    },
-  }),
-);
+export default await createLynxVitestConfig();
