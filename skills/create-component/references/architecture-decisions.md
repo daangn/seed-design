@@ -11,7 +11,8 @@ Phase 0에 들어오기 전에 `references/platform-gate.md`의 target platform�
 | 항목 | 값 |
 |------|----|
 | Target platform | react / lynx / cross-platform |
-| Docs/registry target | React: `docs/content/react` + `docs/registry/react/ui`, Lynx: `docs/content/lynx` + `docs/registry/lynx/ui` |
+| Delivery surface | package-only / snippet-only / package+snippet / docs-only |
+| Docs/registry target | React: `docs/content/react` + 필요 시 `docs/registry/react/ui`, Lynx: `docs/content/lynx` + 필요 시 `docs/registry/lynx/ui` |
 | Headless ownership | React headless / Lynx headless / styled-local / 없음 |
 | Lynx support delta | N/A 또는 웹 대비 차이 |
 
@@ -131,7 +132,7 @@ APG가 heading 계층이나 landmark 구조를 요구하는 컴포넌트는 이 
 - [ ] Expand/collapse 애니메이션 → React는 `recipe-patterns.md` §애니메이션, Lynx는 `lynx-patterns.md`
 - [ ] Modal/Sheet 진입/퇴장 애니메이션 → React는 `recipe-patterns.md` §Presence, Lynx는 `lynx-patterns.md`
 - [ ] Form Field 컨텍스트 통합 → React는 `react-patterns.md` §Form/Field 통합, Lynx는 지원 여부 별도 결정
-- [ ] Snippet 레이어 필요 (3+ sub-component 또는 서드파티) → `api-design.md`
+- [ ] Snippet 레이어 필요 (Delivery Surface Gate에서 Yes: 3+ sub-component, 서드파티, wrapper value) → `api-design.md`
 - [ ] 새 유틸리티 패키지 필요 → 구현 전 결정
 - [ ] 아이콘 slot (prefix/suffix) → `recipe-patterns.md` §아이콘 헬퍼
 - [ ] Block 패턴 필요 (footer-01 같은 preset 조합) → `implementation-steps.md` §Block Patterns
@@ -147,8 +148,8 @@ APG가 heading 계층이나 landmark 구조를 요구하는 컴포넌트는 이 
   - React 경로: `packages/react/src/components/{Name}/`
   - Lynx 경로: `packages/lynx-react/src/components/{Name}/`
 - **Snippet reference**: ________________
-  - React 경로: `docs/registry/react/ui/{name}.tsx`
-  - Lynx 경로: `docs/registry/lynx/ui/{name}.tsx`
+  - React 경로: `docs/registry/react/ui/{name}.tsx` 또는 "없음(package-only)"
+  - Lynx 경로: `docs/registry/lynx/ui/{name}.tsx` 또는 "없음(package-only)"
 - **Rootage vocabulary reference**: ________________
   - 경로: `packages/rootage/components/{name}.yaml`
 - **Docs reference** (선택): ________________

@@ -1,4 +1,5 @@
 export * from "./ActionButton";
+export * from "./Badge";
 export * from "./Box";
 export * from "./BottomSheet";
 export * from "./Checkbox";
