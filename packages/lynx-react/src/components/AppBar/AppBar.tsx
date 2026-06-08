@@ -43,7 +43,6 @@ const APP_BAR_HEIGHT_BY_THEME: Record<AppBarTheme, string> = {
   cupertino: "44px",
   android: "56px",
 };
-const CUPERTINO_TITLE_ONLY_OFFSET = "11px";
 
 function useAppBarContext(consumer: string): AppBarContextValue {
   const ctx = React.useContext(AppBarContext);
@@ -109,17 +108,9 @@ function getRootLayoutStyle(theme: AppBarTheme, safeAreaInsetTop: string): AppBa
 
 function getMainLayoutStyle(
   theme: AppBarMainVariantProps["theme"],
-  layout: AppBarMainVariantProps["layout"],
   safeAreaInsetTop: string,
 ): AppBarStyleObject | undefined {
   if (theme !== "cupertino") return undefined;
-
-  if (layout === "titleOnly") {
-    return {
-      top: `calc(${safeAreaInsetTop} - ${CUPERTINO_TITLE_ONLY_OFFSET})`,
-      bottom: CUPERTINO_TITLE_ONLY_OFFSET,
-    };
-  }
 
   return {
     top: safeAreaInsetTop,
@@ -267,7 +258,6 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
     ...props,
   });
   const resolvedTheme = variantProps.theme ?? "cupertino";
-  const resolvedLayout = variantProps.layout ?? "titleOnly";
   const classNames = appBarMain(variantProps);
   const { children, className, style, ...nativeProps } = otherProps;
   const centeredTitleStyle =
@@ -287,7 +277,7 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
         style={
           {
             ...centeredTitleStyle,
-            ...getMainLayoutStyle(resolvedTheme, resolvedLayout, safeAreaInsetTop),
+            ...getMainLayoutStyle(resolvedTheme, safeAreaInsetTop),
             ...style,
           } as LynxViewProps["style"]
         }

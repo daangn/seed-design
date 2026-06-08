@@ -65,7 +65,3 @@
 .seed-app-bar-main__subtitle--tone_transparent {
     color: var(--seed-color-palette-static-white)
 }
-.seed-app-bar-main__root--layout_titleOnly-theme_cupertino {
-    top: calc(var(--seed-safe-area-top) - 11px);
-    bottom: 11px
-}

@@ -101,18 +101,6 @@ export const appBarMain = defineSlotRecipe({
       },
     },
   },
-  compoundVariants: [
-    {
-      layout: "titleOnly",
-      theme: "cupertino",
-      css: {
-        root: {
-          top: "calc(var(--seed-safe-area-top) - 11px)",
-          bottom: "11px",
-        },
-      },
-    },
-  ],
   defaultVariants: {
     layout: "titleOnly",
     theme: "cupertino",

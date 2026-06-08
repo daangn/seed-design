@@ -1139,11 +1139,6 @@
   color: var(--seed-color-palette-static-white);
 }
 
-.seed-app-bar-main__root--layout_titleOnly-theme_cupertino {
-  top: calc(var(--seed-safe-area-top) - 11px);
-  bottom: 11px;
-}
-
 .seed-bottom-sheet__positioner {
   --sheet-z-index: 2;
   z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));

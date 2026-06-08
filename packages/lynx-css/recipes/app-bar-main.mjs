@@ -23,12 +23,7 @@ const defaultVariant = {
   "tone": "layer"
 };
 
-const compoundVariants = [
-  {
-    "layout": "titleOnly",
-    "theme": "cupertino"
-  }
-];
+const compoundVariants = [];
 
 export const appBarMainVariantMap = {
   "layout": [

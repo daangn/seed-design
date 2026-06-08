@@ -169,7 +169,7 @@ describe("AppBar", () => {
     });
   });
 
-  it("applies safe area and title-only offset directly to Cupertino main layout", () => {
+  it("keeps Cupertino title-only main centered in the safe-area adjusted bar", () => {
     setGlobalProps({ safeAreaInsetTop: 47 });
 
     render(
@@ -184,8 +184,8 @@ describe("AppBar", () => {
 
     expect(main).toBeInTheDocument();
     expectStyle(main!.style, {
-      top: "calc(36px)",
-      bottom: "11px",
+      top: "47px",
+      bottom: "0px",
     });
   });
 
