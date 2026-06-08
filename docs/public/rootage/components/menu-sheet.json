@@ -70,9 +70,6 @@
             "gap": {
               "type": "dimension"
             },
-            "paddingTop": {
-              "type": "dimension"
-            },
             "paddingBottom": {
               "type": "dimension"
             }
@@ -228,10 +225,6 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1"
-                },
-                "paddingTop": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
                 },
                 "paddingBottom": {
                   "type": "dimension",
