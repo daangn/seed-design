@@ -30,7 +30,9 @@ data:
             type: dimension
           paddingX:
             type: dimension
-          paddingY:
+          paddingTop:
+            type: dimension
+          paddingBottom:
             type: dimension
           topCornerRadius:
             type: dimension

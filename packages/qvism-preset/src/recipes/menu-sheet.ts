@@ -64,7 +64,7 @@ const menuSheet = defineSlotRecipe({
       // but currently React menu sheet doesn't have a handle in the header
       paddingTop: tokens.$dimension.x4,
 
-      paddingBottom: `calc(${vars.base.enabled.content.paddingY} + var(--seed-safe-area-bottom))`,
+      paddingBottom: `calc(${vars.base.enabled.content.paddingBottom} + var(--seed-safe-area-bottom))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
     },

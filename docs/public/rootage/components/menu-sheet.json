@@ -45,7 +45,10 @@
             "paddingX": {
               "type": "dimension"
             },
-            "paddingY": {
+            "paddingTop": {
+              "type": "dimension"
+            },
+            "paddingBottom": {
               "type": "dimension"
             },
             "topCornerRadius": {
@@ -196,7 +199,11 @@
                   "type": "dimension",
                   "value": "$dimension.spacing-x.global-gutter"
                 },
-                "paddingY": {
+                "paddingTop": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                },
+                "paddingBottom": {
                   "type": "dimension",
                   "value": "$dimension.x4"
                 },
