@@ -263,14 +263,21 @@ export function useMenu(props: UseMenuProps) {
     );
   }, [mounted, floatingRefs.reference, floatingRefs.floating, context]);
 
-  // Read the env()-resolved insets off the positioner. It's always mounted, so this
-  // has real px before the first open; re-read on resize to catch orientation changes.
-  useEffect(() => {
-    const read = () => {
-      const positioner = floatingRefs.floating.current;
-      if (!positioner) return;
+  // Read the env()-resolved insets off the positioner, which carries the env()
+  // declarations via SAFE_AREA_STYLE. Key on the reactive `elements.floating`, not
+  // `refs.floating`: the ref object's identity never changes, so an effect depending
+  // on it runs only once at mount — before FloatingPortal has committed the positioner
+  // child — reads a null ref, bails, and never re-fires, leaving `safeArea` stuck at
+  // {0,0}. `elements.floating` updates when the positioner mounts (it stays mounted
+  // even while closed), so the insets are read before the first open and the menu
+  // clears the safe area on its first frame. Re-read on resize for orientation changes.
+  const floatingElement = context.elements.floating;
 
-      const styles = getComputedStyle(positioner);
+  useEffect(() => {
+    if (!floatingElement) return;
+
+    const read = () => {
+      const styles = getComputedStyle(floatingElement);
       setSafeArea({
         top: Number.parseInt(styles.getPropertyValue("--seed-safe-area-top"), 10) || 0,
         bottom: Number.parseInt(styles.getPropertyValue("--seed-safe-area-bottom"), 10) || 0,
@@ -281,7 +288,7 @@ export function useMenu(props: UseMenuProps) {
     window.addEventListener("resize", read);
 
     return () => window.removeEventListener("resize", read);
-  }, [floatingRefs.floating]);
+  }, [floatingElement]);
 
   const click = useClick(context, {
     enabled: !disabled,
