@@ -182,6 +182,8 @@ function preventScrollMobileSafari() {
   const style = document.createElement("style");
   const nonce = getNonce();
   if (nonce) style.nonce = nonce;
+  // iOS support for `@layer` is iOS 15.4+, `overscroll-behavior` is iOS 16+.
+  // iOS under 16 ignores this properly
   style.textContent = `
 @layer {
   * {
@@ -283,6 +285,7 @@ function scrollIntoView(target: Element) {
               scrollable.scrollTop + adjustment,
             ),
           ),
+          // iOS 15.4+; older iOS ignores it and jumps instantly.
           behavior: "smooth",
         });
       }
