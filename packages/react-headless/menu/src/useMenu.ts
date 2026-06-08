@@ -21,9 +21,16 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 
 const MIN_HEIGHT = 200;
 
-// Re-declare the SEED safe-area tokens on the positioner from env() (the same
-// pattern as Snackbar's `useSafeOffset`) so `useMenu` can read them back as
-// numbers without relying on the tokens being defined by the global SEED styles.
+// flip/size/shift derive collisions from numeric padding, so the safe-area insets
+// have to reach floating-ui as numbers — a CSS env() value alone can't. The first
+// cut stayed in CSS, insetting the menu's max-height per placement; on iOS WebKit
+// that coupled height to placement, so flip kept re-measuring, oscillated
+// top<->bottom, and the synchronous reposition re-renders pinned the main thread.
+// Folding the insets into the collision boundary instead keeps placement stable.
+//
+// So, like Snackbar's `useSafeOffset`, the positioner re-declares the insets from
+// env() here and the hook reads them back as px (see the effect after useFloating),
+// which also keeps this layer self-contained from the global SEED safe-area tokens.
 const SAFE_AREA_STYLE = {
   "--seed-safe-area-top": "env(safe-area-inset-top)",
   "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
@@ -175,15 +182,10 @@ export function useMenu(props: UseMenuProps) {
     matchReferenceWidth = false,
   } = props;
 
-  // Safe-area insets as numbers, fed into floating-ui's collision padding below.
-  // `flip`/`size` only understand numbers, so the values are read from the
-  // positioner in JS (see the effect after `useFloating`). The positioner carries
-  // its own `env()` definition via `SAFE_AREA_STYLE`, so this hook stays
-  // self-contained instead of relying on the global SEED safe-area tokens.
   const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
 
   // Inset the viewport collision boundary by the safe area so flip/size/shift keep
-  // the menu clear of the notch and home indicator (not just the viewport edge).
+  // the menu clear of the notch and home indicator, not just the viewport edge.
   const collisionPadding = {
     top: overflowPadding + safeArea.top,
     right: overflowPadding,
@@ -261,9 +263,8 @@ export function useMenu(props: UseMenuProps) {
     );
   }, [mounted, floatingRefs.reference, floatingRefs.floating, context]);
 
-  // Resolve the safe-area insets from the positioner, which defines them via
-  // `env()` (SAFE_AREA_STYLE). The positioner is always mounted, so this reads
-  // valid numbers before the menu first opens. Re-read on resize for orientation.
+  // Read the env()-resolved insets off the positioner. It's always mounted, so this
+  // has real px before the first open; re-read on resize to catch orientation changes.
   useEffect(() => {
     const read = () => {
       const positioner = floatingRefs.floating.current;
