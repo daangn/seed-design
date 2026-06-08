@@ -14,11 +14,13 @@
     overflow: hidden;
     text-overflow: ellipsis
 }
+.seed-app-bar-main__root--layout_titleOnly {
+    transform: translateY(-12px)
+}
 .seed-app-bar-main__title--layout_titleOnly {
     font-size: var(--seed-font-size-t6);
     font-weight: var(--seed-font-weight-bold);
-    line-height: var(--seed-line-height-t6);
-    transform: translateY(-2px)
+    line-height: var(--seed-line-height-t6)
 }
 .seed-app-bar-main__title--layout_withSubtitle {
     font-size: var(--seed-font-size-t5);

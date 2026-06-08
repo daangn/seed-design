@@ -28,11 +28,13 @@ export const appBarMain = defineSlotRecipe({
   variants: {
     layout: {
       titleOnly: {
+        root: {
+          transform: "translateY(-12px)",
+        },
         title: {
           fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
           fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
           lineHeight: vars.titleLayoutTitleOnly.enabled.title.lineHeight,
-          transform: "translateY(-2px)",
         },
       },
       withSubtitle: {

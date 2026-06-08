@@ -17,7 +17,6 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { Icon } from "../Icon";
-import { getAppBarRootStyle } from "./AppBar.style";
 
 type LynxSystemInfo = { platform?: string };
 
@@ -120,7 +119,13 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         {...nativeProps}
         className={clsx(classNames.root, className)}
-        style={getAppBarRootStyle({ centeredTitlePaddingX, safeAreaInsetTop, style })}
+        style={
+          {
+            "--seed-safe-area-top": safeAreaInsetTop,
+            "--centered-title-padding-x": centeredTitlePaddingX,
+            ...style,
+          } as LynxViewProps["style"]
+        }
       >
         <view aria-hidden className={classNames.background} />
         {children}
