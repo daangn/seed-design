@@ -26,17 +26,24 @@ type AppBarClassNames = ReturnType<typeof appBar>;
 type AppBarMainClassNames = ReturnType<typeof appBarMain>;
 type AppBarTheme = NonNullable<AppBarVariantProps["theme"]>;
 type LayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
+type AppBarStyleObject = Record<string, string | number>;
 
 interface AppBarContextValue {
   classNames: AppBarClassNames;
   centeredTitlePaddingX: string;
   mainVariantProps: Pick<AppBarMainVariantProps, "theme" | "tone" | "transitionStyle">;
+  safeAreaInsetTop: string;
   setLeftWidth: (width: number) => void;
   setRightWidth: (width: number) => void;
 }
 
 const AppBarContext = React.createContext<AppBarContextValue | null>(null);
 const AppBarMainClassNamesContext = React.createContext<AppBarMainClassNames | null>(null);
+const APP_BAR_HEIGHT_BY_THEME: Record<AppBarTheme, string> = {
+  cupertino: "44px",
+  android: "56px",
+};
+const CUPERTINO_TITLE_ONLY_OFFSET = "11px";
 
 function useAppBarContext(consumer: string): AppBarContextValue {
   const ctx = React.useContext(AppBarContext);
@@ -77,6 +84,49 @@ function getCenteredTitlePadding(leftWidth: number, rightWidth: number): string 
   return `${Math.max(leftWidth, rightWidth)}px`;
 }
 
+function getSafeAreaInsetTop(
+  style: LynxViewProps["style"] | undefined,
+  fallback: string,
+): string {
+  const styleSafeAreaInsetTop = (style as Record<string, unknown> | undefined)?.[
+    "--seed-safe-area-top"
+  ];
+
+  if (typeof styleSafeAreaInsetTop === "string") return styleSafeAreaInsetTop;
+  if (typeof styleSafeAreaInsetTop === "number" && Number.isFinite(styleSafeAreaInsetTop)) {
+    return `${styleSafeAreaInsetTop}px`;
+  }
+
+  return fallback;
+}
+
+function getRootLayoutStyle(theme: AppBarTheme, safeAreaInsetTop: string): AppBarStyleObject {
+  return {
+    height: `calc(${APP_BAR_HEIGHT_BY_THEME[theme]} + ${safeAreaInsetTop})`,
+    paddingTop: safeAreaInsetTop,
+  };
+}
+
+function getMainLayoutStyle(
+  theme: AppBarMainVariantProps["theme"],
+  layout: AppBarMainVariantProps["layout"],
+  safeAreaInsetTop: string,
+): AppBarStyleObject | undefined {
+  if (theme !== "cupertino") return undefined;
+
+  if (layout === "titleOnly") {
+    return {
+      top: `calc(${safeAreaInsetTop} - ${CUPERTINO_TITLE_ONLY_OFFSET})`,
+      bottom: CUPERTINO_TITLE_ONLY_OFFSET,
+    };
+  }
+
+  return {
+    top: safeAreaInsetTop,
+    bottom: "0px",
+  };
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementProps {}
@@ -84,13 +134,15 @@ export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementPr
 export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref) => {
   const [variantProps, otherProps] = appBar.splitVariantProps(props);
   const { children, className, style, ...nativeProps } = otherProps;
-  const { safeAreaInsetTop } = useSafeArea();
+  const { safeAreaInsetTop: detectedSafeAreaInsetTop } = useSafeArea();
+  const safeAreaInsetTop = getSafeAreaInsetTop(style, detectedSafeAreaInsetTop);
   const [leftWidth, setLeftWidth] = React.useState(0);
   const [rightWidth, setRightWidth] = React.useState(0);
+  const resolvedTheme = variantProps.theme ?? getDefaultAppBarTheme();
 
   const resolvedVariantProps: AppBarVariantProps = {
     ...variantProps,
-    theme: variantProps.theme ?? getDefaultAppBarTheme(),
+    theme: resolvedTheme,
   };
   const classNames = appBar(resolvedVariantProps);
   const centeredTitlePaddingX = getCenteredTitlePadding(leftWidth, rightWidth);
@@ -107,10 +159,11 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
       classNames,
       centeredTitlePaddingX,
       mainVariantProps,
+      safeAreaInsetTop,
       setLeftWidth,
       setRightWidth,
     }),
-    [classNames, centeredTitlePaddingX, mainVariantProps],
+    [classNames, centeredTitlePaddingX, mainVariantProps, safeAreaInsetTop],
   );
 
   return (
@@ -123,6 +176,7 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
           {
             "--seed-safe-area-top": safeAreaInsetTop,
             "--centered-title-padding-x": centeredTitlePaddingX,
+            ...getRootLayoutStyle(resolvedTheme, safeAreaInsetTop),
             ...style,
           } as LynxViewProps["style"]
         }
@@ -206,11 +260,14 @@ AppBarRight.displayName = "AppBarRight";
 export interface AppBarMainProps extends AppBarMainVariantProps, LynxStyledElementProps {}
 
 export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref) => {
-  const { centeredTitlePaddingX, mainVariantProps } = useAppBarContext("AppBarMain");
+  const { centeredTitlePaddingX, mainVariantProps, safeAreaInsetTop } =
+    useAppBarContext("AppBarMain");
   const [variantProps, otherProps] = appBarMain.splitVariantProps({
     ...mainVariantProps,
     ...props,
   });
+  const resolvedTheme = variantProps.theme ?? "cupertino";
+  const resolvedLayout = variantProps.layout ?? "titleOnly";
   const classNames = appBarMain(variantProps);
   const { children, className, style, ...nativeProps } = otherProps;
   const centeredTitleStyle =
@@ -230,6 +287,7 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
         style={
           {
             ...centeredTitleStyle,
+            ...getMainLayoutStyle(resolvedTheme, resolvedLayout, safeAreaInsetTop),
             ...style,
           } as LynxViewProps["style"]
         }

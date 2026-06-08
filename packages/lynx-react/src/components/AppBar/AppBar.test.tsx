@@ -14,6 +14,12 @@ type TestSystemInfo = { platform?: string };
 
 interface TestLynxGlobal {
   SystemInfo?: TestSystemInfo;
+  lynx?: {
+    __globalProps?: {
+      safeAreaInsetTop?: number;
+      safeAreaInsetBottom?: number;
+    };
+  };
   lynxTestingEnv?: {
     backgroundThread: {
       globalThis: TestLynxGlobal;
@@ -51,6 +57,12 @@ function getAppBarRoot() {
   return appBarRoot;
 }
 
+function expectStyle(style: CSSStyleDeclaration, expected: Record<string, string>) {
+  for (const [key, value] of Object.entries(expected)) {
+    expect(style.getPropertyValue(key)).toBe(value);
+  }
+}
+
 function setSystemInfo(systemInfo: TestSystemInfo | undefined) {
   const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
   const globals = [
@@ -68,6 +80,24 @@ function setSystemInfo(systemInfo: TestSystemInfo | undefined) {
   }
 }
 
+function setGlobalProps(
+  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
+) {
+  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
+  const globals = [
+    globalThis as TestLynxGlobal,
+    lynxTestingEnv?.backgroundThread.globalThis,
+    lynxTestingEnv?.mainThread.globalThis,
+  ].filter((global): global is TestLynxGlobal => Boolean(global));
+
+  for (const global of globals) {
+    global.lynx = {
+      ...global.lynx,
+      __globalProps: globalProps,
+    };
+  }
+}
+
 function stubPlatform(platform: string | undefined) {
   setSystemInfo(platform == null ? {} : { platform });
 }
@@ -75,6 +105,7 @@ function stubPlatform(platform: string | undefined) {
 describe("AppBar", () => {
   afterEach(() => {
     setSystemInfo({ platform: "iOS" });
+    setGlobalProps({});
     vi.unstubAllGlobals();
   });
 
@@ -109,6 +140,53 @@ describe("AppBar", () => {
 
     expect(getAppBarRoot()).toHaveClass("seed-app-bar__root--theme_cupertino");
     expect(getAppBarRoot()).not.toHaveClass("seed-app-bar__root--theme_android");
+  });
+
+  it("applies safe area directly to the root layout", () => {
+    setGlobalProps({ safeAreaInsetTop: 47 });
+
+    render(<AppBar.Root theme="cupertino" />);
+
+    expectStyle(getAppBarRoot().style, {
+      height: "calc(91px)",
+      "padding-top": "47px",
+    });
+  });
+
+  it("lets an explicit safe area style override drive the direct root layout", () => {
+    setGlobalProps({ safeAreaInsetTop: 47 });
+
+    render(
+      <AppBar.Root
+        theme="cupertino"
+        style={{ "--seed-safe-area-top": "0px" } as AppBar.RootProps["style"]}
+      />,
+    );
+
+    expectStyle(getAppBarRoot().style, {
+      height: "calc(44px)",
+      "padding-top": "0px",
+    });
+  });
+
+  it("applies safe area and title-only offset directly to Cupertino main layout", () => {
+    setGlobalProps({ safeAreaInsetTop: 47 });
+
+    render(
+      <AppBar.Root theme="cupertino">
+        <AppBar.Main>
+          <AppBar.Title>Title</AppBar.Title>
+        </AppBar.Main>
+      </AppBar.Root>,
+    );
+
+    const main = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar-main__root");
+
+    expect(main).toBeInTheDocument();
+    expectStyle(main!.style, {
+      top: "calc(36px)",
+      bottom: "11px",
+    });
   });
 
   it("renders slots with recipe class names", () => {

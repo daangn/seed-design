@@ -1140,7 +1140,8 @@
 }
 
 .seed-app-bar-main__root--layout_titleOnly-theme_cupertino {
-  transform: translateY(-11px);
+  top: calc(var(--seed-safe-area-top) - 11px);
+  bottom: 11px;
 }
 
 .seed-bottom-sheet__positioner {
