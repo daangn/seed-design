@@ -17,7 +17,8 @@
 .seed-app-bar-main__title--layout_titleOnly {
     font-size: var(--seed-font-size-t6);
     font-weight: var(--seed-font-weight-bold);
-    line-height: var(--seed-line-height-t6)
+    line-height: var(--seed-line-height-t6);
+    transform: translateY(-2px)
 }
 .seed-app-bar-main__title--layout_withSubtitle {
     font-size: var(--seed-font-size-t5);

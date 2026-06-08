@@ -8,6 +8,7 @@ import {
 } from "@lynx-js/react/testing-library";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { getAppBarRootStyle } from "./AppBar.style";
 import * as AppBar from "./AppBar.namespace";
 
 type TestSystemInfo = { platform?: string };
@@ -171,6 +172,19 @@ describe("AppBar", () => {
 
     await waitFor(() => {
       expect(main).toHaveStyle({ paddingLeft: "72px", paddingRight: "72px" });
+    });
+  });
+
+  it("lets explicit style override the safe-area CSS variable", () => {
+    const style = getAppBarRootStyle({
+      centeredTitlePaddingX: "0px",
+      safeAreaInsetTop: "env(safe-area-inset-top)",
+      style: { "--seed-safe-area-top": "48px" } as Record<string, string>,
+    });
+
+    expect(style).toMatchObject({
+      "--seed-safe-area-top": "48px",
+      "--centered-title-padding-x": "0px",
     });
   });
 });

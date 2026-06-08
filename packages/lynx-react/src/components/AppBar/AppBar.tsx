@@ -17,6 +17,7 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { Icon } from "../Icon";
+import { getAppBarRootStyle } from "./AppBar.style";
 
 type LynxSystemInfo = { platform?: string };
 
@@ -79,12 +80,7 @@ function getCenteredTitlePadding(leftWidth: number, rightWidth: number): string 
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementProps {
-  /**
-   * @deprecated SEED React 1.3에서 제거될 예정인 옵션입니다. 옵션 제거 이후에는 AppBar 하단 구분선이 표시되지 않습니다.
-   */
-  divider?: AppBarVariantProps["divider"];
-}
+export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementProps {}
 
 export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref) => {
   const [variantProps, otherProps] = appBar.splitVariantProps(props);
@@ -124,13 +120,7 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         {...nativeProps}
         className={clsx(classNames.root, className)}
-        style={
-          {
-            ...style,
-            "--seed-safe-area-top": safeAreaInsetTop,
-            "--centered-title-padding-x": centeredTitlePaddingX,
-          } as LynxViewProps["style"]
-        }
+        style={getAppBarRootStyle({ centeredTitlePaddingX, safeAreaInsetTop, style })}
       >
         <view aria-hidden className={classNames.background} />
         {children}

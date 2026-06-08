@@ -1020,6 +1020,10 @@
   padding-top: var(--seed-safe-area-top);
 }
 
+.seed-app-bar__left--theme_cupertino, .seed-app-bar__right--theme_cupertino {
+  height: 44px;
+}
+
 .seed-app-bar__iconButton--theme_cupertino {
   width: 44px;
   height: 44px;
@@ -1038,7 +1042,12 @@
 }
 
 .seed-app-bar__left--theme_android {
+  height: 56px;
   padding-right: 16px;
+}
+
+.seed-app-bar__right--theme_android {
+  height: 56px;
 }
 
 .seed-app-bar__iconButton--theme_android {
@@ -1067,12 +1076,6 @@
   color: var(--seed-color-palette-static-white);
 }
 
-.seed-app-bar__background--divider_true {
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: var(--seed-color-stroke-neutral-subtle);
-}
-
 .seed-app-bar-main__root {
   flex-direction: column;
   flex: 1;
@@ -1090,6 +1093,7 @@
   font-size: var(--seed-font-size-t6);
   font-weight: var(--seed-font-weight-bold);
   line-height: var(--seed-line-height-t6);
+  transform: translateY(-2px);
 }
 
 .seed-app-bar-main__title--layout_withSubtitle {

@@ -75,7 +75,6 @@ function BackButton({ onBack }: { onBack: () => void }) {
 // Pages that own their own scroll areas use a fullscreen flex shell.
 const FULLSCREEN_PAGES = new Set<Page>([
   "action-button",
-  "app-bar",
   "bottom-sheet",
   "checkbox",
   "progress-circle",
@@ -105,6 +104,24 @@ export function App(props: { onRender?: () => void }) {
 
   props.onRender?.();
 
+  if (currentPage === "app-bar") {
+    return (
+      <view
+        className="flex flex-col h-screen min-h-0 bg-bg-layer-default"
+        style={{
+          paddingBottom: safeAreaInsetBottom,
+        }}
+      >
+        <AppBarPage onBack={() => setCurrentPage("home")} />
+        {showLynxConsole && (
+          <Suspense>
+            <LynxConsole theme="light" />
+          </Suspense>
+        )}
+      </view>
+    );
+  }
+
   if (FULLSCREEN_PAGES.has(currentPage)) {
     return (
       <view
@@ -118,7 +135,6 @@ export function App(props: { onRender?: () => void }) {
           <BackButton onBack={() => setCurrentPage("home")} />
         </view>
         {currentPage === "action-button" && <ActionButtonPage />}
-        {currentPage === "app-bar" && <AppBarPage />}
         {currentPage === "bottom-sheet" && <BottomSheetPage />}
         {currentPage === "checkbox" && <CheckboxPage />}
         {currentPage === "progress-circle" && <ProgressCirclePage />}

@@ -1,5 +1,6 @@
 import { appBarVariantMap } from "@seed-design/lynx-css/recipes/app-bar";
 import { appBarMainVariantMap } from "@seed-design/lynx-css/recipes/app-bar-main";
+import { useSafeArea } from "@seed-design/lynx-react";
 
 import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
 import {
@@ -30,11 +31,6 @@ const variants = defineVariantAxes([
     defaultValue: "layer",
   },
   {
-    key: "divider",
-    options: appBarVariantMap.divider,
-    defaultValue: false,
-  },
-  {
     key: "layout",
     options: appBarMainVariantMap.layout,
     defaultValue: "titleOnly",
@@ -45,13 +41,26 @@ const previewStates = definePreviewStates([]);
 
 type AppBarValues = VariantCatalogValues<typeof variants, typeof previewStates>;
 
+const INLINE_APP_BAR_STYLE = { "--seed-safe-area-top": "0px" } as Record<string, string>;
+const WEB_PREVIEW_SAFE_AREA_TOP = "47px";
+
+function getTopAppBarStyle(safeAreaInsetTop: string) {
+  return {
+    "--seed-safe-area-top": safeAreaInsetTop.startsWith("env(")
+      ? WEB_PREVIEW_SAFE_AREA_TOP
+      : safeAreaInsetTop,
+  } as Record<string, string>;
+}
+
 function renderAppBar(values: AppBarValues) {
   const layout = values.layout;
   const withSubtitle = layout === "withSubtitle";
+  const backgroundClassName =
+    values.tone === "transparent" ? "w-full bg-bg-brand-solid" : "w-full bg-bg-layer-default";
 
   return (
-    <view className="w-full bg-bg-layer-default">
-      <AppBar theme={values.theme} tone={values.tone} divider={Boolean(values.divider)}>
+    <view className={backgroundClassName}>
+      <AppBar theme={values.theme} tone={values.tone} style={INLINE_APP_BAR_STYLE}>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
@@ -72,7 +81,7 @@ function AppBarExamples() {
   return (
     <CatalogExamples title="AppBar" gap="16px">
       <CatalogSectionTitle>Platform default</CatalogSectionTitle>
-      <AppBar divider>
+      <AppBar style={INLINE_APP_BAR_STYLE}>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
@@ -85,7 +94,7 @@ function AppBarExamples() {
       </AppBar>
 
       <CatalogSectionTitle>Cupertino</CatalogSectionTitle>
-      <AppBar theme="cupertino" divider>
+      <AppBar theme="cupertino" style={INLINE_APP_BAR_STYLE}>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
@@ -96,7 +105,7 @@ function AppBarExamples() {
       </AppBar>
 
       <CatalogSectionTitle>Android</CatalogSectionTitle>
-      <AppBar theme="android" divider>
+      <AppBar theme="android" style={INLINE_APP_BAR_STYLE}>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
@@ -108,7 +117,7 @@ function AppBarExamples() {
 
       <CatalogSectionTitle>Transparent tone</CatalogSectionTitle>
       <view className="bg-bg-brand-solid">
-        <AppBar theme="cupertino" tone="transparent">
+        <AppBar theme="cupertino" tone="transparent" style={INLINE_APP_BAR_STYLE}>
           <AppBarLeft>
             <AppBarBackButton />
           </AppBarLeft>
@@ -117,15 +126,33 @@ function AppBarExamples() {
             <AppBarCloseButton />
           </AppBarRight>
         </AppBar>
+        <view className="px-x4 pb-x4">
+          <text className="t3-regular text-fg-neutral-inverted">
+            AppBar background is transparent over this brand surface.
+          </text>
+        </view>
       </view>
     </CatalogExamples>
   );
 }
 
-export function AppBarPage() {
+export function AppBarPage({ onBack }: { onBack?: () => void }) {
+  const { safeAreaInsetTop } = useSafeArea();
+
   return (
-    <VariantCatalog variants={variants} previewStates={previewStates} examples={<AppBarExamples />}>
-      {(values) => renderAppBar(values)}
-    </VariantCatalog>
+    <view className="flex flex-col flex-1 min-h-0 bg-bg-layer-default">
+      <AppBar theme="cupertino" style={getTopAppBarStyle(safeAreaInsetTop)}>
+        <AppBarLeft>{onBack ? <AppBarBackButton bindtap={onBack} /> : null}</AppBarLeft>
+        <AppBarMain title="AppBar" />
+        <AppBarRight />
+      </AppBar>
+      <VariantCatalog
+        variants={variants}
+        previewStates={previewStates}
+        examples={<AppBarExamples />}
+      >
+        {(values) => renderAppBar(values)}
+      </VariantCatalog>
+    </view>
   );
 }

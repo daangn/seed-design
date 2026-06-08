@@ -35,8 +35,7 @@ const appBarSlotNames = [
 const defaultVariant = {
   "theme": "cupertino",
   "transitionStyle": "slideFromRightIOS",
-  "tone": "layer",
-  "divider": false
+  "tone": "layer"
 };
 
 const compoundVariants = [];
@@ -54,10 +53,6 @@ export const appBarVariantMap = {
   "tone": [
     "layer",
     "transparent"
-  ],
-  "divider": [
-    true,
-    false
   ]
 };
 

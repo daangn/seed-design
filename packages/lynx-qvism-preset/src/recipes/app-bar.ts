@@ -32,6 +32,7 @@ export const appBarMain = defineSlotRecipe({
           fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
           fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
           lineHeight: vars.titleLayoutTitleOnly.enabled.title.lineHeight,
+          transform: "translateY(-2px)",
         },
       },
       withSubtitle: {
@@ -171,6 +172,12 @@ export const appBar = defineSlotRecipe({
           paddingRight: vars.themeIos.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
+        left: {
+          height: vars.themeIos.enabled.root.height,
+        },
+        right: {
+          height: vars.themeIos.enabled.root.height,
+        },
         iconButton: {
           width: iconButtonVars.base.enabled.root.size,
           height: iconButtonVars.base.enabled.root.size,
@@ -188,7 +195,11 @@ export const appBar = defineSlotRecipe({
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {
+          height: vars.themeAndroid.enabled.root.height,
           paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
+        },
+        right: {
+          height: vars.themeAndroid.enabled.root.height,
         },
         iconButton: {
           width: iconButtonVars.base.enabled.root.size,
@@ -223,21 +234,10 @@ export const appBar = defineSlotRecipe({
         },
       },
     },
-    divider: {
-      true: {
-        background: {
-          borderBottomWidth: 1,
-          borderBottomStyle: "solid",
-          borderBottomColor: "var(--seed-color-stroke-neutral-subtle)",
-        },
-      },
-      false: {},
-    },
   },
   defaultVariants: {
     theme: "cupertino",
     transitionStyle: "slideFromRightIOS",
     tone: "layer",
-    divider: false,
   },
 });
