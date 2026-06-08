@@ -84,6 +84,8 @@ Recipe 파일에서 생성된 component vars를 import하고, `defineRecipe` 또
 
 Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 상세는 각 패키지 `AGENTS.md`에 명시되어 있다.
 
+Lynx 컴포넌트는 구현 전에 `packages/lynx-react/src/utils`, `packages/lynx-react/src/hooks`, 그리고 패턴 참조 컴포넌트의 유틸 사용 방식을 확인한다. 특히 compound component는 `createSlotRecipeContext`를 provider/use hook으로 쓸 수 있는지 먼저 검토하고, native slot은 literal JSX로 유지한다. 쓰지 않는 유틸리티가 있으면 Phase 0 산출물이나 구현 메모에 이유를 남긴다.
+
 **추가 참조**:
 - React: `references/react-patterns.md` — 카테고리별 유틸리티 선택 (createSlotRecipeContext, createWithStateProps, splitMultipleVariantsProps), Form/Field 통합, namespace 패턴
 - Lynx: `references/lynx-patterns.md` — native literal JSX 제약, ref null guard, children 분리, recipe import, unsupported Web API 문서화

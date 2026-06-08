@@ -16,6 +16,7 @@ import type {
   LynxViewProps,
   LynxViewRef,
 } from "../../types";
+import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { Icon } from "../Icon";
 
 type LynxSystemInfo = { platform?: string };
@@ -29,7 +30,6 @@ type LayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
 type AppBarStyleObject = Record<string, string | number>;
 
 interface AppBarContextValue {
-  classNames: AppBarClassNames;
   centeredTitlePaddingX: string;
   mainVariantProps: Pick<AppBarMainVariantProps, "theme" | "tone" | "transitionStyle">;
   safeAreaInsetTop: string;
@@ -38,7 +38,14 @@ interface AppBarContextValue {
 }
 
 const AppBarContext = React.createContext<AppBarContextValue | null>(null);
-const AppBarMainClassNamesContext = React.createContext<AppBarMainClassNames | null>(null);
+const {
+  ClassNamesProvider: AppBarClassNamesProvider,
+  useClassNames: useAppBarRecipeClassNames,
+} = createSlotRecipeContext(appBar);
+const {
+  ClassNamesProvider: AppBarMainClassNamesProvider,
+  useClassNames: useAppBarMainRecipeClassNames,
+} = createSlotRecipeContext(appBarMain);
 const APP_BAR_HEIGHT_BY_THEME: Record<AppBarTheme, string> = {
   cupertino: "44px",
   android: "56px",
@@ -52,12 +59,20 @@ function useAppBarContext(consumer: string): AppBarContextValue {
   return ctx;
 }
 
+function useAppBarClassNames(consumer: string): AppBarClassNames {
+  try {
+    return useAppBarRecipeClassNames();
+  } catch {
+    throw new Error(`<${consumer}/> must be rendered inside <AppBarRoot/>.`);
+  }
+}
+
 function useAppBarMainClassNames(consumer: string): AppBarMainClassNames {
-  const ctx = React.useContext(AppBarMainClassNamesContext);
-  if (!ctx) {
+  try {
+    return useAppBarMainRecipeClassNames();
+  } catch {
     throw new Error(`<${consumer}/> must be rendered inside <AppBarMain/>.`);
   }
-  return ctx;
 }
 
 function getDefaultAppBarTheme(): AppBarTheme {
@@ -147,34 +162,35 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
   );
   const context = React.useMemo<AppBarContextValue>(
     () => ({
-      classNames,
       centeredTitlePaddingX,
       mainVariantProps,
       safeAreaInsetTop,
       setLeftWidth,
       setRightWidth,
     }),
-    [classNames, centeredTitlePaddingX, mainVariantProps, safeAreaInsetTop],
+    [centeredTitlePaddingX, mainVariantProps, safeAreaInsetTop],
   );
 
   return (
     <AppBarContext.Provider value={context}>
-      <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
-        className={clsx(classNames.root, className)}
-        style={
-          {
-            "--seed-safe-area-top": safeAreaInsetTop,
-            "--centered-title-padding-x": centeredTitlePaddingX,
-            ...getRootLayoutStyle(resolvedTheme, safeAreaInsetTop),
-            ...style,
-          } as LynxViewProps["style"]
-        }
-      >
-        <view aria-hidden className={classNames.background} />
-        {children}
-      </view>
+      <AppBarClassNamesProvider value={classNames}>
+        <view
+          {...(ref ? { ref: ref as LynxViewRef } : {})}
+          {...nativeProps}
+          className={clsx(classNames.root, className)}
+          style={
+            {
+              "--seed-safe-area-top": safeAreaInsetTop,
+              "--centered-title-padding-x": centeredTitlePaddingX,
+              ...getRootLayoutStyle(resolvedTheme, safeAreaInsetTop),
+              ...style,
+            } as LynxViewProps["style"]
+          }
+        >
+          <view aria-hidden className={classNames.background} />
+          {children}
+        </view>
+      </AppBarClassNamesProvider>
     </AppBarContext.Provider>
   );
 });
@@ -188,7 +204,8 @@ export interface AppBarLeftProps extends LynxStyledElementProps {
 
 export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref) => {
   const { children, className, bindlayoutchange, ...nativeProps } = props;
-  const { classNames, setLeftWidth } = useAppBarContext("AppBarLeft");
+  const { setLeftWidth } = useAppBarContext("AppBarLeft");
+  const classNames = useAppBarClassNames("AppBarLeft");
 
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (...args) => {
@@ -220,7 +237,8 @@ export interface AppBarRightProps extends LynxStyledElementProps {
 
 export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, ref) => {
   const { children, className, bindlayoutchange, ...nativeProps } = props;
-  const { classNames, setRightWidth } = useAppBarContext("AppBarRight");
+  const { setRightWidth } = useAppBarContext("AppBarRight");
+  const classNames = useAppBarClassNames("AppBarRight");
 
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (...args) => {
@@ -269,7 +287,7 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
       : undefined;
 
   return (
-    <AppBarMainClassNamesContext.Provider value={classNames}>
+    <AppBarMainClassNamesProvider value={classNames}>
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         {...nativeProps}
@@ -284,7 +302,7 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
       >
         {children}
       </view>
-    </AppBarMainClassNamesContext.Provider>
+    </AppBarMainClassNamesProvider>
   );
 });
 AppBarMain.displayName = "AppBarMain";
@@ -334,7 +352,7 @@ export interface AppBarIconButtonProps extends LynxElementProps, LynxPressablePr
 
 export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>((props, ref) => {
   const { children, className, icon, ...nativeProps } = props;
-  const { classNames } = useAppBarContext("AppBarIconButton");
+  const classNames = useAppBarClassNames("AppBarIconButton");
 
   if (process.env.NODE_ENV !== "production" && !props["aria-label"]) {
     console.warn("AppBarIconButton requires `aria-label` for accessibility.");
@@ -356,7 +374,7 @@ export interface AppBarSlotProps extends LynxStyledElementProps {}
 
 export const AppBarSlot = React.forwardRef<unknown, AppBarSlotProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const { classNames } = useAppBarContext("AppBarSlot");
+  const classNames = useAppBarClassNames("AppBarSlot");
 
   return (
     <view

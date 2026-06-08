@@ -25,6 +25,20 @@ Lynx compiler는 native tag를 파일 안의 literal JSX로 봐야 한다. 다�
 - `forwardRef`를 쓸 때 null ref를 전달하지 않는다.
 - `{...nativeProps}`에 `children`이 섞이지 않도록 `children`은 먼저 분리해 JSX child로 전달한다.
 
+## 유틸리티 선택
+
+Lynx compound 컴포넌트라고 해서 `createSlotRecipeContext`를 무조건 피하거나 무조건 `withContext`로 감싸지 않는다. 유틸리티는 다음 기준으로 선택한다.
+
+- `createSlotRecipeContext`는 slot recipe의 className map과 variant props를 context로 공유할 때 사용한다. `ActionButton`처럼 `ClassNamesProvider`, `PropsProvider`, `useClassNames`, `useProps`만 꺼내 쓰는 패턴도 표준이다.
+- native `<view>` / `<text>` / `<image>` slot은 `withContext("view")`나 공통 유틸 factory로 만들지 않는다. 컴포넌트 파일 안에서 literal JSX로 직접 렌더한다.
+- slot이 측정값, safe-area, imperative ref, tap/open handler 같은 런타임 값을 하위에 전파해야 하면 inline `React.createContext`를 별도로 둔다. 이 context는 recipe className context를 대체하지 않는다.
+- 하나의 public component가 여러 recipe variant를 같은 props 레이어에서 받으면 `splitMultipleVariantsProps`를 쓴다. Root와 sub-component가 recipe props를 각각 소유하면 각 컴포넌트에서 `recipe.splitVariantProps`를 쓴다.
+- pressed/disabled tap state를 recipe variant로 반영해야 하면 `usePressTap`을 쓴다. 단순 tap handler 전달만 필요한 순수 UI slot에는 강제로 넣지 않는다.
+- controlled/uncontrolled state는 `useControllableState`를 우선한다. 외부 Lynx primitive가 상태를 소유하면 wrapper에서 중복 state를 만들지 않는다.
+- safe-area가 컴포넌트 내부 layout 일부라면 `useSafeArea`를 쓴다.
+
+구현 전 계획에는 “사용한 유틸”뿐 아니라 “의도적으로 쓰지 않은 유틸과 이유”도 남긴다.
+
 ## Styling and recipe
 
 - recipe import는 `@seed-design/lynx-css/recipes/<name>`를 사용한다. Web의 `@seed-design/css`를 import하지 않는다.
