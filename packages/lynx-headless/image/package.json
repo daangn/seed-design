@@ -1,0 +1,41 @@
+{
+  "name": "@seed-design/lynx-image",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/lynx-headless/image"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {
+    "@lynx-js/lynx-ui-common": "^3.130.0"
+  },
+  "peerDependencies": {
+    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/types": ">=3.7.0"
+  },
+  "devDependencies": {
+    "@lynx-js/react": "^0.116.3",
+    "@lynx-js/types": "^3.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -51,6 +51,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
 
       <SectionHeader>Hooks</SectionHeader>
       <ListItem title="useControllableState" onTap={() => navigate("use-controllable-state")} />
+      <ListItem title="useImage" onTap={() => navigate("use-image")} />
       <ListItem title="usePressTap" onTap={() => navigate("use-press-tap")} />
 
       <SectionHeader>Test</SectionHeader>

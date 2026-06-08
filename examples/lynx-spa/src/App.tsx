@@ -26,6 +26,7 @@ import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { UseControllableStatePage } from "./pages/UseControllableStatePage.jsx";
+import { UseImagePage } from "./pages/UseImagePage.jsx";
 import { UsePressTapPage } from "./pages/UsePressTapPage.jsx";
 
 const LynxConsole = lazy(() => import("lynx-console"));
@@ -62,6 +63,7 @@ export type Page =
   | "css-selector-test"
   | "icon-color-poc"
   | "use-controllable-state"
+  | "use-image"
   | "use-press-tap";
 
 function BackButton({ onBack }: { onBack: () => void }) {
@@ -163,6 +165,7 @@ export function App(props: { onRender?: () => void }) {
       {currentPage === "css-selector-test" && <CSSSelectorTestPage />}
       {currentPage === "icon-color-poc" && <IconColorPOCPage />}
       {currentPage === "use-controllable-state" && <UseControllableStatePage />}
+      {currentPage === "use-image" && <UseImagePage />}
       {currentPage === "use-press-tap" && <UsePressTapPage />}
       {showLynxConsole && (
         <Suspense>
