@@ -67,7 +67,7 @@ export const appBarMain = defineSlotRecipe({
           alignItems: "flex-start",
           justifyContent: "center",
           width: "100%",
-          height: "100%",
+          height: vars.themeAndroid.enabled.root.height,
         },
       },
     },

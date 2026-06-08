@@ -45,7 +45,7 @@
     align-items: flex-start;
     justify-content: center;
     width: 100%;
-    height: 100%
+    height: 56px
 }
 .seed-app-bar-main__root--tone_layer {
     color: var(--seed-color-fg-neutral)
