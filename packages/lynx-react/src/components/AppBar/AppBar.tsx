@@ -98,22 +98,6 @@ function getCenteredTitlePadding(leftWidth: number, rightWidth: number): string 
   return `${Math.max(leftWidth, rightWidth)}px`;
 }
 
-function getSafeAreaInsetTop(
-  style: LynxViewProps["style"] | undefined,
-  fallback: string,
-): string {
-  const styleSafeAreaInsetTop = (style as Record<string, unknown> | undefined)?.[
-    "--seed-safe-area-top"
-  ];
-
-  if (typeof styleSafeAreaInsetTop === "string") return styleSafeAreaInsetTop;
-  if (typeof styleSafeAreaInsetTop === "number" && Number.isFinite(styleSafeAreaInsetTop)) {
-    return `${styleSafeAreaInsetTop}px`;
-  }
-
-  return fallback;
-}
-
 function getRootLayoutStyle(theme: AppBarTheme, safeAreaInsetTop: string): AppBarStyleObject {
   return {
     height: `calc(${APP_BAR_HEIGHT_BY_THEME[theme]} + ${safeAreaInsetTop})`,
@@ -140,8 +124,7 @@ export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementPr
 export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref) => {
   const [variantProps, otherProps] = appBar.splitVariantProps(props);
   const { children, className, style, ...nativeProps } = otherProps;
-  const { safeAreaInsetTop: detectedSafeAreaInsetTop } = useSafeArea();
-  const safeAreaInsetTop = getSafeAreaInsetTop(style, detectedSafeAreaInsetTop);
+  const { safeAreaInsetTop } = useSafeArea();
   const [leftWidth, setLeftWidth] = React.useState(0);
   const [rightWidth, setRightWidth] = React.useState(0);
   const resolvedTheme = variantProps.theme ?? getDefaultAppBarTheme();

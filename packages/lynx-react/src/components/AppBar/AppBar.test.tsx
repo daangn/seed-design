@@ -142,7 +142,7 @@ describe("AppBar", () => {
     expect(getAppBarRoot()).not.toHaveClass("seed-app-bar__root--theme_android");
   });
 
-  it("applies safe area directly to the root layout", () => {
+  it("applies safe area from useSafeArea to the root layout", () => {
     setGlobalProps({ safeAreaInsetTop: 47 });
 
     render(<AppBar.Root theme="cupertino" />);
@@ -153,7 +153,7 @@ describe("AppBar", () => {
     });
   });
 
-  it("lets an explicit safe area style override drive the direct root layout", () => {
+  it("does not read the safe area CSS variable override as the JS layout source", () => {
     setGlobalProps({ safeAreaInsetTop: 47 });
 
     render(
@@ -164,8 +164,8 @@ describe("AppBar", () => {
     );
 
     expectStyle(getAppBarRoot().style, {
-      height: "calc(44px)",
-      "padding-top": "0px",
+      height: "calc(91px)",
+      "padding-top": "47px",
     });
   });
 
