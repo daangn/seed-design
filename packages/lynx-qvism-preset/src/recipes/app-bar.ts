@@ -28,9 +28,6 @@ export const appBarMain = defineSlotRecipe({
   variants: {
     layout: {
       titleOnly: {
-        root: {
-          transform: "translateY(-12px)",
-        },
         title: {
           fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
           fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
@@ -104,6 +101,17 @@ export const appBarMain = defineSlotRecipe({
       },
     },
   },
+  compoundVariants: [
+    {
+      layout: "titleOnly",
+      theme: "cupertino",
+      css: {
+        root: {
+          transform: "translateY(-12px)",
+        },
+      },
+    },
+  ],
   defaultVariants: {
     layout: "titleOnly",
     theme: "cupertino",

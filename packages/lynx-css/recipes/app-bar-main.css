@@ -14,9 +14,6 @@
     overflow: hidden;
     text-overflow: ellipsis
 }
-.seed-app-bar-main__root--layout_titleOnly {
-    transform: translateY(-12px)
-}
 .seed-app-bar-main__title--layout_titleOnly {
     font-size: var(--seed-font-size-t6);
     font-weight: var(--seed-font-weight-bold);
@@ -67,4 +64,7 @@
 }
 .seed-app-bar-main__subtitle--tone_transparent {
     color: var(--seed-color-palette-static-white)
+}
+.seed-app-bar-main__root--layout_titleOnly-theme_cupertino {
+    transform: translateY(-12px)
 }
