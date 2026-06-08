@@ -315,9 +315,9 @@ export interface BottomSheetHandleProps extends SheetHandleProps {}
 
 /**
  * @remarks
- * `SheetHandle` is not forwardRef-compatible, so this slot does not expose a ref.
- * Lynx drag handlers are bound to the `SheetHandle` outer view, so it receives
- * the 44x44 target area while the visual handle stays centered inside it.
+ * `SheetHandle`은 forwardRef가 아니므로 ref 시그니처는 제공하지 않는다.
+ * Lynx drag handler는 `SheetHandle`의 outer view에 붙으므로, 44x44 target
+ * area는 `SheetHandle`에 적용하고 보이는 handle은 그 중심에 배치한다.
  */
 export function BottomSheetHandle(props: BottomSheetHandleProps): ReactElement {
   const { children, className, style, ...rest } = props;
