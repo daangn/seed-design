@@ -1,5 +1,6 @@
 import actionButton from "./recipes/action-button";
 import { appBar, appBarMain } from "./recipes/app-bar";
+import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import checkbox from "./recipes/checkbox";
@@ -19,6 +20,7 @@ export const recipes = {
   actionButton,
   appBar,
   appBarMain,
+  badge,
   bottomSheet,
   bottomSheetHandle,
   checkbox,

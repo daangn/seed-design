@@ -7,6 +7,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { vars as tokens } from "../vars";
 
 const menuSheet = defineSlotRecipe({
   name: "menu-sheet",
@@ -58,8 +59,12 @@ const menuSheet = defineSlotRecipe({
       background: vars.base.enabled.content.color,
       paddingLeft: vars.base.enabled.content.paddingX,
       paddingRight: vars.base.enabled.content.paddingX,
-      paddingTop: vars.base.enabled.content.paddingY,
-      paddingBottom: `calc(${vars.base.enabled.content.paddingY} + var(--seed-safe-area-bottom))`,
+
+      // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
+      // but currently React menu sheet doesn't have a handle in the header
+      paddingTop: tokens.$dimension.x4,
+
+      paddingBottom: `calc(${vars.base.enabled.content.paddingBottom} + var(--seed-safe-area-bottom))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
     },

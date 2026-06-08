@@ -1,3 +1,5 @@
+import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
+import IconPlusLine from "@karrotmarket/lynx-monochrome-icon/IconPlusLine";
 import { appBarVariantMap } from "@seed-design/lynx-css/recipes/app-bar";
 import { appBarMainVariantMap } from "@seed-design/lynx-css/recipes/app-bar-main";
 import { useSafeArea } from "@seed-design/lynx-react";
@@ -13,6 +15,7 @@ import {
   AppBar,
   AppBarBackButton,
   AppBarCloseButton,
+  AppBarIconButton,
   AppBarLeft,
   AppBarMain,
   AppBarRight,
@@ -111,6 +114,28 @@ function AppBarExamples() {
         </AppBarLeft>
         <AppBarMain title="Left title" subtitle="with subtitle" />
         <AppBarRight>
+          <AppBarCloseButton />
+        </AppBarRight>
+      </AppBar>
+
+      <CatalogSectionTitle>Action count</CatalogSectionTitle>
+      <AppBar theme="cupertino" style={INLINE_APP_BAR_STYLE}>
+        <AppBarLeft>
+          <AppBarBackButton />
+          <AppBarIconButton aria-label="알림" icon={<IconBellLine />} />
+        </AppBarLeft>
+        <AppBarMain title="Left two" />
+        <AppBarRight>
+          <AppBarCloseButton />
+        </AppBarRight>
+      </AppBar>
+      <AppBar theme="cupertino" style={INLINE_APP_BAR_STYLE}>
+        <AppBarLeft>
+          <AppBarBackButton />
+        </AppBarLeft>
+        <AppBarMain title="Right two" />
+        <AppBarRight>
+          <AppBarIconButton aria-label="추가" icon={<IconPlusLine />} />
           <AppBarCloseButton />
         </AppBarRight>
       </AppBar>
