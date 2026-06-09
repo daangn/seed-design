@@ -39,3 +39,54 @@ describe("useTooltip a11y contract", () => {
     expect(trigger).not.toHaveAttribute("aria-expanded");
   });
 });
+
+describe("useTooltip content pointer-events", () => {
+  // floating-ui hands us positioning styles; the decision to *also* block pointer
+  // events on the content (so hovering it can't keep the tooltip open) is ours.
+  it("blocks pointer events on the content by default", async () => {
+    const { findByTestId } = setUp(<Tooltip open />);
+
+    const positioner = await findByTestId("positioner");
+
+    expect(positioner.style.pointerEvents).toBe("none");
+  });
+
+  it("leaves pointer events untouched when keepOpenOnContentHover is set", async () => {
+    const { findByTestId } = setUp(<Tooltip open keepOpenOnContentHover />);
+
+    const positioner = await findByTestId("positioner");
+
+    expect(positioner.style.pointerEvents).toBe("");
+  });
+});
+
+describe("useTooltip state data-attributes", () => {
+  // Mapping floating-ui's placement/transition status onto our data-* contract is
+  // our glue, so lock the mapping itself — not floating-ui's positioning behavior.
+  it("maps placement onto data-side / data-alignment", async () => {
+    const { findByTestId } = setUp(<Tooltip open placement="right-start" />);
+
+    const positioner = await findByTestId("positioner");
+
+    expect(positioner).toHaveAttribute("data-side", "right");
+    expect(positioner).toHaveAttribute("data-alignment", "start");
+  });
+
+  it("sets data-open and clears data-hidden while open", async () => {
+    const { findByTestId } = setUp(<Tooltip open />);
+
+    const positioner = await findByTestId("positioner");
+
+    expect(positioner).toHaveAttribute("data-open");
+    expect(positioner).not.toHaveAttribute("data-hidden");
+  });
+
+  it("marks the content hidden while closed", async () => {
+    const { findByTestId } = setUp(<Tooltip />);
+
+    const positioner = await findByTestId("positioner");
+
+    expect(positioner).not.toHaveAttribute("data-open");
+    expect(positioner).toHaveAttribute("data-hidden");
+  });
+});
