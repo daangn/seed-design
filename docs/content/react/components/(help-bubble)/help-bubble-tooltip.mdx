@@ -195,7 +195,9 @@ Help Bubble Tooltip의 내용은 트리거의 설명으로서 작동하며, 트�
 
 #### Disabled Triggers
 
-비활성화된(`disabled`) 버튼은 hover/focus 이벤트를 발생시키지 않아 Help Bubble Tooltip이 열리지 않습니다. 비활성 상태에서도 Help Bubble Tooltip을 보여주려면 버튼을 포커스 가능한 `span`(예: `tabIndex={0}`)으로 감싸 `children`으로 사용하세요.
+기본적으로 `<button disabled>` 요소는 키보드로 포커스할 수 없어, 해당 요소를 트리거로 사용하는 경우 키보드를 통해 Help Bubble Tooltip이 열리지 않습니다.
+
+버튼이 비활성화된 이유를 안내해야 한다면, 비활성화된 버튼에 Help Bubble Tooltip을 붙이는 것보다는 그 이유를 가까운 텍스트로 함께 표시하는 구조를 권장합니다. `disabled` 버튼에 Help Bubble Tooltip을 붙여야 한다면, 버튼을 포커스 가능한 `span`(`tabIndex={0}`)으로 감싸 `children`으로 사용하세요.
 
 <ComponentExample name="react/help-bubble-tooltip/disabled" isolate>
   ```json doc-gen:file

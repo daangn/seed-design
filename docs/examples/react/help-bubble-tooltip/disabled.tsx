@@ -1,5 +1,5 @@
 import { IconPencilFill } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Icon, Text, VStack } from "@seed-design/react";
+import { HStack, PrefixIcon, Text, VStack } from "@seed-design/react";
 import { useState } from "react";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -16,11 +16,10 @@ export default function HelpBubbleTooltipDisabled() {
             <ActionButton
               variant="neutralWeak"
               size="small"
-              layout="iconOnly"
-              aria-label="글쓰기"
               disabled={disabled}
             >
-              <Icon svg={<IconPencilFill />} />
+              <PrefixIcon svg={<IconPencilFill />} />
+              글쓰기
             </ActionButton>
           </HelpBubbleTooltipTrigger>
           <Text textStyle="t3Regular" color="fg.neutralMuted">
@@ -33,20 +32,21 @@ export default function HelpBubbleTooltipDisabled() {
               <ActionButton
                 variant="neutralWeak"
                 size="small"
-                layout="iconOnly"
-                aria-label="글쓰기"
                 disabled={disabled}
-                style={{ pointerEvents: disabled ? "none" : undefined }}
               >
-                <Icon svg={<IconPencilFill />} />
+                <PrefixIcon svg={<IconPencilFill />} />
+                글쓰기
               </ActionButton>
             </span>
           </HelpBubbleTooltipTrigger>
           <Text textStyle="t3Regular" color="fg.neutralMuted">
-            span으로 감쌈
+            span으로 감쌈 (권장)
           </Text>
         </VStack>
       </HStack>
+      <Text textStyle="t4Regular" color="fg.neutralMuted">
+        Tab 키로도 포커스해 보세요. span으로 감싼 쪽만 키보드로 열립니다.
+      </Text>
       <Switch
         size="24"
         tone="neutral"
