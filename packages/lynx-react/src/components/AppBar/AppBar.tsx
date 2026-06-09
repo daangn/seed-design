@@ -6,7 +6,6 @@ import {
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
-import { useSafeArea } from "../../hooks/useSafeArea";
 import type {
   LynxElementProps,
   LynxIconElementProps,
@@ -18,45 +17,19 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { Icon } from "../Icon";
-
-type LynxSystemInfo = { platform?: string };
-
-declare const SystemInfo: LynxSystemInfo | undefined;
+import { AppBarProvider, useAppBarContext } from "./context";
+import { getLayoutWidth, getMainLayoutStyle, useAppBar } from "./useAppBar";
 
 type AppBarClassNames = ReturnType<typeof appBar>;
 type AppBarMainClassNames = ReturnType<typeof appBarMain>;
-type AppBarTheme = NonNullable<AppBarVariantProps["theme"]>;
-type SharedAppBarVariantProps = Pick<AppBarMainVariantProps, "theme" | "tone" | "transitionStyle">;
 type LayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
-type AppBarStyleObject = Record<string, string | number>;
 
-interface AppBarContextValue {
-  centeredTitlePaddingX: string;
-  safeAreaInsetTop: string;
-  sharedVariantProps: SharedAppBarVariantProps;
-  setLeftWidth: (width: number) => void;
-  setRightWidth: (width: number) => void;
-}
-
-const AppBarContext = React.createContext<AppBarContextValue | null>(null);
 const { ClassNamesProvider: AppBarClassNamesProvider, useClassNames: useAppBarRecipeClassNames } =
   createSlotRecipeContext(appBar);
 const {
   ClassNamesProvider: AppBarMainClassNamesProvider,
   useClassNames: useAppBarMainRecipeClassNames,
 } = createSlotRecipeContext(appBarMain);
-const APP_BAR_HEIGHT_BY_THEME: Record<AppBarTheme, string> = {
-  cupertino: "44px",
-  android: "56px",
-};
-
-function useAppBarContext(consumer: string): AppBarContextValue {
-  const ctx = React.useContext(AppBarContext);
-  if (!ctx) {
-    throw new Error(`<${consumer}/> must be rendered inside <AppBarRoot/>.`);
-  }
-  return ctx;
-}
 
 function useAppBarClassNames(consumer: string): AppBarClassNames {
   try {
@@ -74,48 +47,6 @@ function useAppBarMainClassNames(consumer: string): AppBarMainClassNames {
   }
 }
 
-function getDefaultAppBarTheme(): AppBarTheme {
-  const globalSystemInfo = (globalThis as typeof globalThis & { SystemInfo?: LynxSystemInfo })
-    .SystemInfo;
-  const systemInfo =
-    globalSystemInfo ?? (typeof SystemInfo === "undefined" ? undefined : SystemInfo);
-
-  if (systemInfo == null) return "cupertino";
-
-  return systemInfo.platform === "Android" ? "android" : "cupertino";
-}
-
-function getLayoutWidth(event: Parameters<LayoutChangeHandler>[0]): number | null {
-  const eventWithWidth = event as Parameters<LayoutChangeHandler>[0] & { width?: number };
-  const nextWidth = event.detail?.width ?? event.params?.width ?? eventWithWidth.width;
-  if (typeof nextWidth !== "number" || !Number.isFinite(nextWidth)) return null;
-
-  return Math.max(0, nextWidth);
-}
-
-function getCenteredTitlePadding(leftWidth: number, rightWidth: number): string {
-  return `${Math.max(leftWidth, rightWidth)}px`;
-}
-
-function getRootLayoutStyle(theme: AppBarTheme, safeAreaInsetTop: string): AppBarStyleObject {
-  return {
-    height: `calc(${APP_BAR_HEIGHT_BY_THEME[theme]} + ${safeAreaInsetTop})`,
-    paddingTop: safeAreaInsetTop,
-  };
-}
-
-function getMainLayoutStyle(
-  theme: AppBarMainVariantProps["theme"],
-  safeAreaInsetTop: string,
-): AppBarStyleObject | undefined {
-  if (theme !== "cupertino") return undefined;
-
-  return {
-    top: safeAreaInsetTop,
-    bottom: "0px",
-  };
-}
-
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementProps {}
@@ -123,38 +54,11 @@ export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementPr
 export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref) => {
   const [variantProps, otherProps] = appBar.splitVariantProps(props);
   const { children, className, style, ...nativeProps } = otherProps;
-  const { safeAreaInsetTop } = useSafeArea();
-  const [leftWidth, setLeftWidth] = React.useState(0);
-  const [rightWidth, setRightWidth] = React.useState(0);
-  const resolvedTheme = variantProps.theme ?? getDefaultAppBarTheme();
-
-  const resolvedVariantProps: AppBarVariantProps = {
-    ...variantProps,
-    theme: resolvedTheme,
-  };
+  const { contextValue, resolvedVariantProps, rootLayoutStyle } = useAppBar(variantProps);
   const classNames = appBar(resolvedVariantProps);
-  const centeredTitlePaddingX = getCenteredTitlePadding(leftWidth, rightWidth);
-  const sharedVariantProps = React.useMemo<SharedAppBarVariantProps>(
-    () => ({
-      theme: resolvedVariantProps.theme,
-      tone: resolvedVariantProps.tone,
-      transitionStyle: resolvedVariantProps.transitionStyle,
-    }),
-    [resolvedVariantProps.theme, resolvedVariantProps.tone, resolvedVariantProps.transitionStyle],
-  );
-  const context = React.useMemo<AppBarContextValue>(
-    () => ({
-      centeredTitlePaddingX,
-      safeAreaInsetTop,
-      sharedVariantProps,
-      setLeftWidth,
-      setRightWidth,
-    }),
-    [centeredTitlePaddingX, safeAreaInsetTop, sharedVariantProps],
-  );
 
   return (
-    <AppBarContext.Provider value={context}>
+    <AppBarProvider value={contextValue}>
       <AppBarClassNamesProvider value={classNames}>
         <view
           {...(ref ? { ref: ref as LynxViewRef } : {})}
@@ -162,9 +66,9 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
           className={clsx(classNames.root, className)}
           style={
             {
-              "--seed-safe-area-top": safeAreaInsetTop,
-              "--centered-title-padding-x": centeredTitlePaddingX,
-              ...getRootLayoutStyle(resolvedTheme, safeAreaInsetTop),
+              "--seed-safe-area-top": contextValue.safeAreaInsetTop,
+              "--centered-title-padding-x": contextValue.centeredTitlePaddingX,
+              ...rootLayoutStyle,
               ...style,
             } as LynxViewProps["style"]
           }
@@ -173,7 +77,7 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
           {children}
         </view>
       </AppBarClassNamesProvider>
-    </AppBarContext.Provider>
+    </AppBarProvider>
   );
 });
 AppBarRoot.displayName = "AppBarRoot";
