@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
-import { BrandFooter } from "@/components/landing/brand-footer";
-import { FloatingHeader } from "@/components/landing/floating-header";
-import { Hero } from "@/components/landing/hero";
+import { LandingExperience } from "@/components/landing/landing-experience";
 
 export default function HomePage() {
-  return (
-    <main data-landing="true" className="min-h-screen bg-palette-carrot-600">
-      <FloatingHeader />
-      <Hero />
-      <BrandFooter />
-    </main>
-  );
+  return <LandingExperience />;
 }
 
 export function generateMetadata(): Metadata {

@@ -105,9 +105,27 @@ pre, code, pre code {
   -webkit-user-select: text !important;
 }
 
-/* Landing page: extend brand background to overscroll/bounce area */
+/* Landing page: brand overscroll/bounce area + disable bounce */
 html:has(main[data-landing="true"]),
 body:has(main[data-landing="true"]) {
   background-color: var(--seed-color-palette-carrot-600);
   overscroll-behavior: none;
+}
+
+/* Lenis smooth scroll (landing page) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
