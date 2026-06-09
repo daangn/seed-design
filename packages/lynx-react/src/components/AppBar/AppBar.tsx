@@ -26,22 +26,21 @@ declare const SystemInfo: LynxSystemInfo | undefined;
 type AppBarClassNames = ReturnType<typeof appBar>;
 type AppBarMainClassNames = ReturnType<typeof appBarMain>;
 type AppBarTheme = NonNullable<AppBarVariantProps["theme"]>;
+type SharedAppBarVariantProps = Pick<AppBarMainVariantProps, "theme" | "tone" | "transitionStyle">;
 type LayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
 type AppBarStyleObject = Record<string, string | number>;
 
 interface AppBarContextValue {
   centeredTitlePaddingX: string;
-  mainVariantProps: Pick<AppBarMainVariantProps, "theme" | "tone" | "transitionStyle">;
   safeAreaInsetTop: string;
+  sharedVariantProps: SharedAppBarVariantProps;
   setLeftWidth: (width: number) => void;
   setRightWidth: (width: number) => void;
 }
 
 const AppBarContext = React.createContext<AppBarContextValue | null>(null);
-const {
-  ClassNamesProvider: AppBarClassNamesProvider,
-  useClassNames: useAppBarRecipeClassNames,
-} = createSlotRecipeContext(appBar);
+const { ClassNamesProvider: AppBarClassNamesProvider, useClassNames: useAppBarRecipeClassNames } =
+  createSlotRecipeContext(appBar);
 const {
   ClassNamesProvider: AppBarMainClassNamesProvider,
   useClassNames: useAppBarMainRecipeClassNames,
@@ -135,7 +134,7 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
   };
   const classNames = appBar(resolvedVariantProps);
   const centeredTitlePaddingX = getCenteredTitlePadding(leftWidth, rightWidth);
-  const mainVariantProps = React.useMemo<AppBarContextValue["mainVariantProps"]>(
+  const sharedVariantProps = React.useMemo<SharedAppBarVariantProps>(
     () => ({
       theme: resolvedVariantProps.theme,
       tone: resolvedVariantProps.tone,
@@ -146,12 +145,12 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
   const context = React.useMemo<AppBarContextValue>(
     () => ({
       centeredTitlePaddingX,
-      mainVariantProps,
       safeAreaInsetTop,
+      sharedVariantProps,
       setLeftWidth,
       setRightWidth,
     }),
-    [centeredTitlePaddingX, mainVariantProps, safeAreaInsetTop],
+    [centeredTitlePaddingX, safeAreaInsetTop, sharedVariantProps],
   );
 
   return (
@@ -170,7 +169,7 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
             } as LynxViewProps["style"]
           }
         >
-          <view aria-hidden className={classNames.background} />
+          <view accessibility-elements-hidden className={classNames.background} />
           {children}
         </view>
       </AppBarClassNamesProvider>
@@ -252,10 +251,10 @@ AppBarRight.displayName = "AppBarRight";
 export interface AppBarMainProps extends AppBarMainVariantProps, LynxStyledElementProps {}
 
 export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref) => {
-  const { centeredTitlePaddingX, mainVariantProps, safeAreaInsetTop } =
+  const { centeredTitlePaddingX, safeAreaInsetTop, sharedVariantProps } =
     useAppBarContext("AppBarMain");
   const [variantProps, otherProps] = appBarMain.splitVariantProps({
-    ...mainVariantProps,
+    ...sharedVariantProps,
     ...props,
   });
   const resolvedTheme = variantProps.theme ?? "cupertino";
@@ -330,21 +329,34 @@ AppBarSubtitle.displayName = "AppBarSubtitle";
 
 export interface AppBarIconButtonProps extends LynxElementProps, LynxPressableProps {
   icon?: React.ReactElement<LynxIconElementProps>;
-  "aria-label"?: string;
+  "accessibility-label"?: LynxViewProps["accessibility-label"];
+  "accessibility-element"?: LynxViewProps["accessibility-element"];
+  "accessibility-traits"?: LynxViewProps["accessibility-traits"];
 }
 
 export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>((props, ref) => {
-  const { children, className, icon, ...nativeProps } = props;
+  const {
+    children,
+    className,
+    icon,
+    "accessibility-element": accessibilityElement = true,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-traits": accessibilityTraits = "button",
+    ...nativeProps
+  } = props;
   const classNames = useAppBarClassNames("AppBarIconButton");
 
-  if (process.env.NODE_ENV !== "production" && !props["aria-label"]) {
-    console.warn("AppBarIconButton requires `aria-label` for accessibility.");
+  if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
+    console.warn("AppBarIconButton requires `accessibility-label` for accessibility.");
   }
 
   return (
     <view
       {...(ref ? { ref: ref as LynxViewRef } : {})}
       {...nativeProps}
+      accessibility-element={accessibilityElement}
+      accessibility-label={accessibilityLabel}
+      accessibility-traits={accessibilityTraits}
       className={clsx(classNames.iconButton, className)}
     >
       {icon ? <Icon className={classNames.icon} icon={icon} /> : children}

@@ -193,7 +193,7 @@ describe("AppBar", () => {
     render(
       <AppBar.Root>
         <AppBar.Left>
-          <AppBar.IconButton aria-label="Back" />
+          <AppBar.IconButton accessibility-label="Back" />
         </AppBar.Left>
         <AppBar.Main layout="withSubtitle">
           <AppBar.Title>Title</AppBar.Title>
@@ -216,6 +216,22 @@ describe("AppBar", () => {
     expect(root.querySelector(".seed-app-bar__custom")).toBeInTheDocument();
     expect(getByText("Title")).toHaveClass("seed-app-bar-main__title");
     expect(getByText("Subtitle")).toHaveClass("seed-app-bar-main__subtitle");
+  });
+
+  it("maps icon button labels to Lynx accessibility props", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Left>
+          <AppBar.IconButton accessibility-label="Back" />
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+
+    const iconButton = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+
+    expect(iconButton).toHaveAttribute("accessibility-label", "Back");
+    expect(iconButton).toHaveAttribute("accessibility-element", "true");
+    expect(iconButton).toHaveAttribute("accessibility-traits", "button");
   });
 
   it("updates centered title padding from left and right layout widths", async () => {

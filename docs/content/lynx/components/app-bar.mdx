@@ -104,6 +104,18 @@ export function Header({ goBack, close }: { goBack: () => void; close: () => voi
 }
 ```
 
+### Accessibility
+
+Lynx에서는 HTML ARIA 속성 대신 Lynx native 접근성 속성을 사용합니다. `AppBarIconButton`은 기본적으로 `accessibility-element={true}`와 `accessibility-traits="button"`을 적용하며, 아이콘만으로 의미를 알 수 없는 버튼에는 `accessibility-label`을 전달해야 합니다.
+
+```tsx
+import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
+
+<AppBarIconButton accessibility-label="알림" icon={<IconBellLine />} />
+```
+
+`AppBarBackButton`, `AppBarCloseButton`은 각각 `"뒤로"`, `"닫기"` 라벨을 기본값으로 제공합니다.
+
 ### Theme
 
 `theme`은 `"cupertino"` 또는 `"android"`를 사용할 수 있습니다. 명시하지 않으면 AppBar 내부에서 `SystemInfo.platform`을 읽어 Android에서는 `"android"`, 그 외 플랫폼이나 값이 없을 때는 `"cupertino"`를 사용합니다.
@@ -163,6 +175,7 @@ Lynx `AppBar`는 React `AppBar`와 같은 Rootage 기반 variant를 사용하지
 
 - **이벤트 핸들링**: `onClick` 대신 Lynx 이벤트인 `bindtap`을 전달합니다.
 - **렌더링 요소**: HTML 요소 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
+- **접근성 라벨링**: `aria-label` 대신 Lynx native `accessibility-label`을 사용합니다.
 - **platform theme**: 웹처럼 `data-*` selector에 의존하지 않고, recipe variant className으로 `"cupertino"` / `"android"` 디자인을 적용합니다.
 - **navigation 책임**: `AppBarBackButton`과 `AppBarCloseButton`은 이동을 자동 실행하지 않습니다. Stackflow `pop()` 같은 동작은 호출부에서 연결합니다.
 </Callout>
@@ -177,3 +190,4 @@ Lynx `AppBar`는 React `AppBar`와 같은 Rootage 기반 variant를 사용하지
 | swipe-back 전환 애니메이션 | Stackflow screen transition | 화면 전환을 소유한 navigation 계층에서 처리 |
 | `data-*` selector 기반 상태 스타일 | 웹 recipe selector | `theme`, `tone` variant className 사용 |
 | HTML button 속성 | `type`, DOM click event | Lynx `<view>` 기반 `AppBarIconButton`과 `bindtap` 사용 |
+| HTML ARIA 라벨 | `aria-label` | Lynx native `accessibility-label` 사용 |

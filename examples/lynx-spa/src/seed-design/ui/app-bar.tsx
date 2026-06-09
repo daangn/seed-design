@@ -74,8 +74,22 @@ export interface AppBarBackButtonProps extends Omit<AppBarIconButtonProps, "icon
 }
 
 export const AppBarBackButton = forwardRef<unknown, AppBarBackButtonProps>(
-  ({ icon = <IconChevronLeftLine />, ...otherProps }, ref) => {
-    return <AppBarIconButton ref={ref} aria-label="뒤로" icon={icon} {...otherProps} />;
+  (
+    {
+      icon = <IconChevronLeftLine />,
+      "accessibility-label": accessibilityLabel = "뒤로",
+      ...otherProps
+    },
+    ref,
+  ) => {
+    return (
+      <AppBarIconButton
+        ref={ref}
+        accessibility-label={accessibilityLabel}
+        icon={icon}
+        {...otherProps}
+      />
+    );
   },
 );
 AppBarBackButton.displayName = "AppBarBackButton";
@@ -85,8 +99,18 @@ export interface AppBarCloseButtonProps extends Omit<AppBarIconButtonProps, "ico
 }
 
 export const AppBarCloseButton = forwardRef<unknown, AppBarCloseButtonProps>(
-  ({ icon = <IconXmarkLine />, ...otherProps }, ref) => {
-    return <AppBarIconButton ref={ref} aria-label="닫기" icon={icon} {...otherProps} />;
+  (
+    { icon = <IconXmarkLine />, "accessibility-label": accessibilityLabel = "닫기", ...otherProps },
+    ref,
+  ) => {
+    return (
+      <AppBarIconButton
+        ref={ref}
+        accessibility-label={accessibilityLabel}
+        icon={icon}
+        {...otherProps}
+      />
+    );
   },
 );
 AppBarCloseButton.displayName = "AppBarCloseButton";

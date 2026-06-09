@@ -146,7 +146,7 @@ function AppBarExamples() {
       <AppBar theme="cupertino" style={getInlineAppBarStyle("cupertino")}>
         <AppBarLeft>
           <AppBarBackButton />
-          <AppBarIconButton aria-label="알림" icon={<IconBellLine />} />
+          <AppBarIconButton accessibility-label="알림" icon={<IconBellLine />} />
         </AppBarLeft>
         <AppBarMain title="Left two" style={getInlineAppBarMainStyle("cupertino")} />
         <AppBarRight>
@@ -159,18 +159,14 @@ function AppBarExamples() {
         </AppBarLeft>
         <AppBarMain title="Right two" style={getInlineAppBarMainStyle("cupertino")} />
         <AppBarRight>
-          <AppBarIconButton aria-label="추가" icon={<IconPlusLine />} />
+          <AppBarIconButton accessibility-label="추가" icon={<IconPlusLine />} />
           <AppBarCloseButton />
         </AppBarRight>
       </AppBar>
 
       <CatalogSectionTitle>Transparent tone</CatalogSectionTitle>
       <view className="bg-bg-brand-solid">
-        <AppBar
-          theme="cupertino"
-          tone="transparent"
-          style={getInlineAppBarStyle("cupertino")}
-        >
+        <AppBar theme="cupertino" tone="transparent" style={getInlineAppBarStyle("cupertino")}>
           <AppBarLeft>
             <AppBarBackButton />
           </AppBarLeft>
