@@ -1345,7 +1345,7 @@
 }
 
 .seed-bottom-sheet__positioner {
-  --sheet-z-index: 2;
+  --sheet-z-index: 20;
   z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
   justify-content: center;
   align-items: flex-end;
@@ -1407,9 +1407,11 @@
 }
 
 .seed-bottom-sheet__body {
+  min-height: 0;
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: var(--seed-dimension-spacing-x-global-gutter);
   flex-direction: column;
+  flex: 1;
   display: flex;
 }
 
@@ -1454,18 +1456,19 @@
   width: 36px;
   height: 4px;
   position: absolute;
-  top: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.seed-bottom-sheet-handle__touchArea {
-  width: 44px;
-  height: 44px;
-  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.seed-bottom-sheet-handle__touchArea {
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .seed-checkbox__root {

@@ -31,7 +31,7 @@ const bottomSheet = defineSlotRecipe({
       bottom: 0,
       left: 0,
 
-      "--sheet-z-index": "2",
+      "--sheet-z-index": "20",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
     },
     backdrop: {
@@ -92,6 +92,8 @@ const bottomSheet = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
+      flex: 1,
+      minHeight: "0",
 
       paddingLeft: vars.base.enabled.body.paddingX,
       paddingRight: vars.base.enabled.body.paddingX,
