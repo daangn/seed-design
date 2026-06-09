@@ -7,7 +7,10 @@ import {
 } from "@floating-ui/react";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useMemo } from "react";
-import { usePositionedFloating, type UsePositionedFloatingProps } from "./floating";
+import {
+  usePositionedFloating,
+  type UsePositionedFloatingProps,
+} from "@seed-design/react-floating";
 
 // TODO: useRole이 임의로 id를 생성하는 문제가 있음. 동작만 참고하고 role="dialog"에 맞게 aria attribute 설정을 직접 해야 함.
 
