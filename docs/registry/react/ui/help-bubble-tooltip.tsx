@@ -47,6 +47,7 @@ export const HelpBubbleTooltipTrigger = forwardRef<
     </SeedHelpBubbleTooltip.Root>
   );
 });
+HelpBubbleTooltipTrigger.displayName = "HelpBubbleTooltipTrigger";
 
 export interface HelpBubbleTooltipTriggerPortalProps
   extends Omit<SeedHelpBubbleTooltip.RootProps, "children"> {
@@ -96,3 +97,4 @@ export const HelpBubbleTooltipTriggerPortal = forwardRef<
     );
   },
 );
+HelpBubbleTooltipTriggerPortal.displayName = "HelpBubbleTooltipTriggerPortal";
