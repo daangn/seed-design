@@ -77,6 +77,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     {
       title: "AppScreen",
       items: [
+        { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
         {
           title: `Push to here (current activityIndex: ${activityIndex})`,
           onClick: () => push("ActivityHome", {}),
