@@ -53,7 +53,7 @@ Web과 Lynx의 차이는 타입과 문서가 같은 말을 해야 한다.
 
 - Lynx에서 지원하지 않는 prop은 `Omit` 등으로 타입에서 제거한다.
 - 컴포넌트 props 위에 `@platform Lynx` JSDoc으로 미지원 목록과 이유를 남긴다.
-- `docs/content/lynx/components/<name>.mdx`에 “웹 버전과의 차이”와 “Lynx 미지원 기능”을 작성한다.
+- `docs/content/lynx/components/<name>.mdx`에 `Web Version Differences`와 `Unsupported Lynx Features`를 작성한다.
 - SVG/icon 기능은 `@karrotmarket/lynx-monochrome-icon` 같은 Lynx icon element와 `<image tint-color>` 기반 wrapper를 우선 검토한다.
 
 ## Docs and registry
@@ -61,6 +61,8 @@ Web과 Lynx의 차이는 타입과 문서가 같은 말을 해야 한다.
 - Lynx snippet은 `docs/registry/lynx/ui/<name>.tsx`에 둔다.
 - `docs/registry/lynx/registry-ui.ts`에 item을 등록하고 `@seed-design/lynx-react`, `@seed-design/lynx-css` dependency range를 확인한다.
 - `docs/content/lynx/components/<name>.mdx`의 install/usage/props는 Lynx snippet 경로를 가리킨다.
+- Lynx component docs는 `Installation → Props → Usage → Web Version Differences → Unsupported Lynx Features` 순서를 따른다.
+- Lynx docs heading은 최대한 영어로 쓰고, description과 설명 본문은 한국어로 작성한다.
 - `examples/lynx-spa/src/seed-design/ui/<name>.tsx`가 vendored copy를 갖고 있으면 registry snippet과 동기화한다.
 - 실제 사용 화면은 `examples/lynx-spa`에 추가하거나 기존 page에서 확인한다.
 

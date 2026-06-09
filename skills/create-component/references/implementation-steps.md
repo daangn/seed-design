@@ -133,7 +133,9 @@ Snippet 레이어가 있는 컴포넌트의 문서는 반드시 다음 형태로
 - React: `<ManualInstallation name="[name]" />`, Lynx: `<LynxManualInstallation name="[name]" />`
 - `## Usage`의 import 경로를 `seed-design/ui/[name]`으로 변경
 - Props 섹션 경로를 React는 `./registry/react/ui/[name].tsx`, Lynx는 `./registry/lynx/ui/[name].tsx`로 변경
-- Lynx 문서에는 웹 버전과의 차이와 Lynx 미지원 기능을 함께 작성
+- Lynx 문서는 `Installation → Props → Usage → Web Version Differences → Unsupported Lynx Features` 순서를 따른다
+- Lynx 문서의 heading은 최대한 영어로 쓰고, description과 설명 본문은 한국어로 작성한다
+- Lynx 문서에는 `Web Version Differences`와 `Unsupported Lynx Features`를 함께 작성한다
 
 ## Step 6: Examples
 
