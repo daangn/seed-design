@@ -8,6 +8,62 @@ Platform별 snippet 경로:
 
 Lynx snippet은 React snippet을 그대로 복사하지 않는다. `@lynx-js/react`, `@seed-design/lynx-react`, Lynx icon package, unsupported Web API 차이를 반영해 별도 user-facing API로 설계한다.
 
+## Delivery Surface Gate
+
+컴포넌트를 어디서 공개할지 먼저 결정한다. "컴포넌트 제작"은 항상 registry snippet 제작을 뜻하지 않는다.
+
+| 공개 표면 | 선택 조건 |
+|-----------|-----------|
+| package-only | package export가 이미 사용자-facing API이고, 단일 import로 충분하며, wrapper가 composition/state/dependency를 줄이지 않는다 |
+| snippet-only | package primitive가 없거나, 사용자가 설치 후 앱 코드에 복사해 조정해야 하는 wrapper가 핵심이다 |
+| package + snippet | package primitive는 필요하지만, snippet이 3개+ sub-component 조합, 기본 아이콘/indicator, 서드파티 통합, 반복되는 앱 코드 boilerplate를 줄인다 |
+| docs-only | 구현 표면이 이미 존재하고 문서/예제 parity만 필요한 경우 |
+
+### 필수 확인 신호
+
+React 또는 다른 플랫폼 동등 컴포넌트가 있으면 아래를 함께 본다.
+
+1. docs Usage import가 package direct인지, `@/components/ui/*` snippet인지 확인
+2. `docs/registry/{platform}/ui/{name}.tsx` 존재 여부 확인
+3. package export (`packages/{platform-react}/src/components/index.ts`) 존재 여부 확인
+4. example app이 package direct를 쓰는지, vendored snippet copy를 쓰는지 확인
+5. wrapper가 줄이는 dependency/state/composition boilerplate가 실제로 있는지 확인
+
+### 판단 규칙
+
+- React 동등 컴포넌트가 package direct이고 registry snippet이 없으면, Lynx도 package-only를 기본값으로 둔다.
+- 단일 presentational primitive는 snippet을 만들지 않는 쪽이 기본이다. wrapper가 추가하는 가치가 없으면 `docs/registry/*/ui`, `registry-ui.ts`, vendored snippet copy를 만들지 않는다.
+- snippet이 필요한 경우에는 "사용자가 snippet 없이 쓰면 어떤 반복/실수가 생기는가?"를 한 문장으로 설명할 수 있어야 한다.
+- `docs/content/*`와 `examples/*`는 공개 표면에 맞춰 import 경로를 쓴다. package-only 컴포넌트 문서에서 `ui:{name}` 설치를 안내하지 않는다.
+
+## Analog Parity Check
+
+동등 컴포넌트를 참고할 때 variant/interface만 비교하지 않는다. 아래 매트릭스를 채운 뒤 구현 표면을 결정한다.
+
+| 항목 | 확인할 내용 |
+|------|-------------|
+| Variant/interface | prop 이름, default variant, unsupported prop |
+| Docs Usage | 사용자가 import하는 경로와 최소 예시 |
+| Registry 여부 | snippet 파일과 registry-ui 등록 여부 |
+| Package export | package barrel export와 type export 여부 |
+| Example surface | example app이 package direct인지 vendored snippet인지 |
+| Wrapper value | snippet이 숨기는 composition/state/dependency가 있는지 |
+
+Badge 같은 package-only primitive의 경우: React `Badge`가 `@seed-design/react` package export로 제공되고 registry snippet이 없다면, Lynx `Badge`도 `@seed-design/lynx-react` package export와 docs/example direct import를 기본값으로 한다.
+
+## Correction Retro
+
+사용자 조정이 들어오면 아래를 기록한 뒤 작업을 갱신한다.
+
+| 항목 | 질문 |
+|------|------|
+| 빠진 맥락 | 어떤 docs/registry/package/example 신호를 확인하지 않았는가? |
+| 잘못 적용한 패턴 | "대부분 컴포넌트는 snippet이 있다"처럼 어떤 규칙을 과잉 일반화했는가? |
+| 다음 판단 규칙 | 같은 상황에서 먼저 볼 파일과 제외할 작업은 무엇인가? |
+| 스킬 업데이트 후보 | 이 규칙을 `SKILL.md`, `platform-gate.md`, `api-design.md` 중 어디에 넣을 것인가? |
+
+사용자가 스킬을 함께 발전시키자고 요청하면, correction retro를 구현 작업의 일부로 취급한다. 단순 회고 설명에서 끝내지 말고 해당 reference에 durable rule을 추가할지 판단한다.
+
 ## Snippet 레이어 필요 여부
 
 | 조건 | Snippet 필요? |

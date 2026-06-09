@@ -8,8 +8,8 @@
 
 | Platform | 신호 | 기본 구현 표면 |
 |----------|------|----------------|
-| `react` | `packages/react`, `packages/react-headless`, `docs/content/react`, Storybook, stackflow-spa | Rootage → `packages/qvism-preset` → `packages/css` → `packages/react` → `docs/registry/react/ui` |
-| `lynx` | `packages/lynx-react`, `packages/lynx-css`, `docs/content/lynx`, `examples/lynx-spa`, Lynx native tag | Rootage → `packages/lynx-qvism-preset` → `packages/lynx-css` → `packages/lynx-headless`(필요 시) → `packages/lynx-react` → `docs/registry/lynx/ui` |
+| `react` | `packages/react`, `packages/react-headless`, `docs/content/react`, Storybook, stackflow-spa | Rootage → `packages/qvism-preset` → `packages/css` → `packages/react` → docs/example. Registry snippet은 Delivery Surface Gate에서 필요 시 |
+| `lynx` | `packages/lynx-react`, `packages/lynx-css`, `docs/content/lynx`, `examples/lynx-spa`, Lynx native tag | Rootage → `packages/lynx-qvism-preset` → `packages/lynx-css` → `packages/lynx-headless`(필요 시) → `packages/lynx-react` → docs/example. Registry snippet은 Delivery Surface Gate에서 필요 시 |
 | `cross-platform` | “React와 Lynx 둘 다”, 같은 컴포넌트의 Web/Lynx parity, shared token/recipe vocabulary | shared Rootage/semantic API를 먼저 정하고 React/Lynx 구현과 문서를 각각 분리 |
 
 요청이 `lynx-*`, `@lynx-js/react`, `<view>`/`<text>`, `docs/content/lynx`, `docs/registry/lynx/ui` 중 하나를 포함하면 `lynx`로 본다. 요청이 `@seed-design/react`, `docs/content/react`, Storybook 중심이면 `react`로 본다.
@@ -34,10 +34,10 @@ Lynx가 Web API를 그대로 재현할 수 없으면 타입에 열어두지 않�
 | Recipe source | `packages/qvism-preset/src/recipes/*` | `packages/lynx-qvism-preset/src/recipes/*` |
 | Generated CSS | `packages/css/*` | `packages/lynx-css/*` |
 | Docs | `docs/content/react/*` | `docs/content/lynx/*` |
-| Registry snippet | `docs/registry/react/ui/*` | `docs/registry/lynx/ui/*` |
-| Vendored example copy | `examples/stackflow-spa/src/seed-design/ui/*` | `examples/lynx-spa/src/seed-design/ui/*` |
+| Registry snippet | `docs/registry/react/ui/*` when Delivery Surface Gate = snippet | `docs/registry/lynx/ui/*` when Delivery Surface Gate = snippet |
+| Vendored example copy | `examples/stackflow-spa/src/seed-design/ui/*` when snippet exists | `examples/lynx-spa/src/seed-design/ui/*` when snippet exists |
 
-Registry snippet의 source of truth는 docs registry다. example app의 vendored copy는 registry snippet을 따라간다.
+Registry snippet을 제공하기로 결정한 경우 source of truth는 docs registry다. example app의 vendored copy는 registry snippet을 따라간다. package-only primitive는 registry/vendored copy를 만들지 않고 docs Usage와 package export, example direct import를 동기화한다.
 
 ## 4. Ask-first boundary
 
