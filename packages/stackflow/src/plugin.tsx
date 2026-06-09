@@ -16,22 +16,20 @@ export const seedPlugin =
   () => ({
     key: "seed-design",
     onBeforePop({ actionParams, actions }) {
-      // pop(count)의 내부 반복과 animate:false 는 skipExitActiveState: true 로 들어온다.
-      // 이미 즉시 제거이므로 그대로 통과시킨다.
+      // pop(count)의 내부 반복(2번째+)과 animate:false 는 skipExitActiveState: true 로 들어온다 → 통과.
       if (actionParams.skipExitActiveState) {
         return;
       }
 
-      // 이미 애니메이션되는 pop(exit-active)이 진행 중이면, 이번 pop을 "즉시 제거"로 강등한다.
-      // 화면은 그대로 닫히지만(개수 유지) exit 애니메이션이 겹치지 않아, 동시에 애니메이션되는
-      // exit는 항상 1개로 유지된다. 결과적으로 pop(); pop(); 가 pop(2)와 동일하게 동작하고,
-      // @stackflow/plugin-basic-ui 와 닫히는 화면 수가 일치한다.
+      // 이미 exit 전환이 진행 중이면, 새로 들어온 pop은 무시한다 ("전환당 1회").
+      // 백버튼 연타·중복 호출 등 어느 UI에서 온 동시 pop이든 호출부와 무관하게 막는다.
+      // 여러 화면을 한 번에 닫으려면 pop(count) 를 사용한다.
       const isPopping = actions
         .getStack()
         .activities.some((activity) => activity.transitionState === "exit-active");
 
       if (isPopping) {
-        actions.overrideActionParams({ skipExitActiveState: true });
+        actions.preventDefault();
       }
     },
     wrapStack({ stack, initialContext }) {
