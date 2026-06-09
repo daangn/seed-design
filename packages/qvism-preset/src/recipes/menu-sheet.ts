@@ -63,7 +63,7 @@ const menuSheet = defineSlotRecipe({
       // When wrapped by Drawer (SwipeableMenuSheet), expose header padding-top
       // so the Handle has room above the header.
       "&[data-drawer]": {
-        "--menu-sheet-header-padding-top": vars.base.enabled.header.paddingTop,
+        "--menu-sheet-header-padding-top": vars.base.enabled.content.paddingTop,
       },
 
       background: vars.base.enabled.content.color,
@@ -72,7 +72,7 @@ const menuSheet = defineSlotRecipe({
 
       // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
       // but currently React menu sheet doesn't have a handle in the header
-      paddingTop: tokens.$dimension.x4,
+      paddingTop: `var(--menu-sheet-header-padding-top, ${tokens.$dimension.x4})`,
 
       paddingBottom: `calc(${vars.base.enabled.content.paddingBottom} + var(--seed-safe-area-bottom))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
@@ -101,7 +101,6 @@ const menuSheet = defineSlotRecipe({
       textAlign: "center",
 
       gap: vars.base.enabled.header.gap,
-      paddingTop: "var(--menu-sheet-header-padding-top, 0)",
       paddingBottom: vars.base.enabled.header.paddingBottom,
     },
     title: {
