@@ -261,6 +261,7 @@ export const registryUI: Registry = {
           dependencies: { "@seed-design/react": "~1.2.0", "@seed-design/css": "~1.2.0" },
         },
       ],
+      deprecated: true,
     },
     {
       id: "swipeable-menu-sheet",
