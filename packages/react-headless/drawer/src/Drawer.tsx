@@ -130,6 +130,10 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
   const lastKnownPointerEventRef = useRef<React.PointerEvent<HTMLDivElement> | null>(null);
   const wasBeyondThePointRef = useRef(false);
+  // Whether the current gesture moved past the swipe-start threshold. Used to
+  // suppress the trailing click so dragging the sheet doesn't also activate the
+  // element the gesture started on (iOS still synthesizes a click on release).
+  const draggedRef = useRef(false);
   const hasSnapPoints = snapPoints && snapPoints.length > 0;
 
   const isDeltaInDirection = (
@@ -197,6 +201,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         if (handleOnly) return;
         restProps.onPointerDown?.(event);
         pointerStartRef.current = { x: event.pageX, y: event.pageY };
+        draggedRef.current = false;
         onPress(event);
       }}
       onOpenAutoFocus={(e) => {
@@ -235,12 +240,16 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         const swipeStartThreshold = event.pointerType === "touch" ? 10 : 2;
         const delta = { x: xPosition, y: yPosition };
 
+        // Once the pointer travels past the swipe-start threshold the gesture
+        // is a drag, not a tap — remember it so the trailing click can be
+        // suppressed on release (iOS still synthesizes one on the origin).
+        const isBeyondThreshold =
+          Math.abs(xPosition) > swipeStartThreshold || Math.abs(yPosition) > swipeStartThreshold;
+        if (isBeyondThreshold) draggedRef.current = true;
+
         const isAllowedToSwipe = isDeltaInDirection(delta, direction, swipeStartThreshold);
         if (isAllowedToSwipe) onDrag(event);
-        else if (
-          Math.abs(xPosition) > swipeStartThreshold ||
-          Math.abs(yPosition) > swipeStartThreshold
-        ) {
+        else if (isBeyondThreshold) {
           pointerStartRef.current = null;
         }
       }}
@@ -258,6 +267,17 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         restProps.onContextMenu?.(event);
         if (lastKnownPointerEventRef.current) {
           handleOnPointerUp(lastKnownPointerEventRef.current);
+        }
+      }}
+      onClickCapture={(event) => {
+        restProps.onClickCapture?.(event);
+        // Swallow the click that follows a drag so dragging the sheet (e.g. a
+        // swipe-to-dismiss started on an item) doesn't also activate that item.
+        // A plain tap leaves draggedRef false and clicks normally.
+        if (draggedRef.current) {
+          event.preventDefault();
+          event.stopPropagation();
+          draggedRef.current = false;
         }
       }}
       onInteractOutside={(e) => {
