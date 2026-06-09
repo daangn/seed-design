@@ -12,7 +12,6 @@ import {
   WINDOW_TOP_OFFSET,
 } from "./constants";
 import { dampenValue, getTranslate, isInput, isVertical, reset, set } from "./helpers";
-import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
 interface DrawerReasonToDetailMap {
@@ -42,11 +41,6 @@ export interface UseDrawerProps {
    * @default 0.25
    */
   closeThreshold?: number;
-  /**
-   * When `true` the `body` doesn't get any styles assigned from Drawer
-   * @default true
-   */
-  noBodyStyles?: boolean;
   onOpenChange?: (open: boolean, details?: DrawerChangeDetails) => void;
   /**
    * Duration for which the drawer is not draggable after scrolling content inside of the drawer.
@@ -106,7 +100,6 @@ export interface UseDrawerProps {
    * Useful to revert any state changes for example.
    */
   onAnimationEnd?: (open: boolean) => void;
-  preventScrollRestoration?: boolean;
   autoFocus?: boolean;
 
   /**
@@ -165,12 +158,9 @@ export function useDrawer(props: UseDrawerProps) {
     fixed,
     modal = true,
     onClose,
-    nested,
-    noBodyStyles = true,
     direction = "bottom",
     defaultOpen = false,
     snapToSequentialPoint = false,
-    preventScrollRestoration = false,
     repositionInputs = true,
     onAnimationEnd,
     container,
@@ -190,10 +180,6 @@ export function useDrawer(props: UseDrawerProps) {
     prop: openProp,
     onChange: (o: boolean, details?: DrawerChangeDetails) => {
       onOpenChange?.(o, details);
-
-      if (!o && !nested) {
-        restorePositionSetting();
-      }
 
       setTimeout(() => {
         onAnimationEnd?.(o);
@@ -253,15 +239,6 @@ export function useDrawer(props: UseDrawerProps) {
     onSnapPointChange,
     direction,
     snapToSequentialPoint,
-  });
-
-  const { restorePositionSetting } = usePositionFixed({
-    isOpen,
-    modal,
-    nested: nested ?? false,
-    hasBeenOpened,
-    preventScrollRestoration,
-    noBodyStyles,
   });
 
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
@@ -701,7 +678,6 @@ export function useDrawer(props: UseDrawerProps) {
       snapPointsOffset,
       activeSnapPointIndex,
       direction,
-      noBodyStyles,
       container,
       autoFocus,
       setHasBeenOpened,
@@ -768,7 +744,6 @@ export function useDrawer(props: UseDrawerProps) {
       snapPointsOffset,
       activeSnapPointIndex,
       direction,
-      noBodyStyles,
       container,
       autoFocus,
       setIsOpen,
