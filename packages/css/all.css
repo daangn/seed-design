@@ -5342,6 +5342,10 @@
   animation-fill-mode: forwards;
 }
 
+.seed-help-bubble__content[data-instant] {
+  animation-duration: 0s;
+}
+
 .seed-help-bubble__content:is([hidden], [data-hidden]) {
   display: none !important;
 }

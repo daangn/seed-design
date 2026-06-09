@@ -7,17 +7,19 @@ import ErrorBoundary from "./error-boundary";
 interface ComponentExampleProps {
   name: string;
 
+  isolate?: boolean;
+
   children?: React.ReactNode;
 }
 
 export function ComponentExample(props: ComponentExampleProps) {
-  const { name, children } = props;
+  const { name, isolate, children } = props;
 
   if (!children) {
     return (
       <React.Suspense fallback={null}>
         <div className="flex min-h-80">
-          <ComponentPreview name={name} />
+          <ComponentPreview name={name} isolate={isolate} />
         </div>
       </React.Suspense>
     );
@@ -28,7 +30,7 @@ export function ComponentExample(props: ComponentExampleProps) {
       <Tabs items={["미리보기", "코드"]}>
         <Tab value="미리보기">
           <div className="flex min-h-80">
-            <ComponentPreview name={name} />
+            <ComponentPreview name={name} isolate={isolate} />
           </div>
         </Tab>
         <Tab value="코드">{children}</Tab>
