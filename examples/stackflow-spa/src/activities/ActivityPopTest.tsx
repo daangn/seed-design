@@ -25,7 +25,8 @@ declare module "@stackflow/config" {
  * - "화면 더 쌓기"로 스택을 원하는 만큼 쌓는다.
  * - `pop(2)` : 의도적으로 2개를 닫는다 → 깊이가 2 줄어야 정상.
  * - `pop(); pop();` : 한 핸들러에서 pop을 2번 호출한다. seedPlugin 가드가 적용되면
- *   두 번째 호출은 첫 번째 exit 전환 중에 들어와 무시되므로 1개만 닫힌다.
+ *   두 번째 호출은 첫 번째 exit 전환 중에 들어와 "즉시 제거"로 강등되므로, 애니메이션은
+ *   한 번만 재생되고 2개가 닫힌다 (= `pop(2)` 와 동일).
  *
  * 깊이 표시 주의: stackflow는 배경 액티비티를 stack 변경 시 다시 렌더링하지 않으므로,
  * 라이브 `useStack().activities.length` 는 pop 후 착지한 화면에서 stale 해진다(갱신 안 됨).
@@ -85,14 +86,14 @@ const ActivityPopTest: StaticActivityComponentType<"ActivityPopTest"> = () => {
                 pop();
               }}
             >
-              pop(); pop(); — 두 번 호출 → 가드 시 깊이 -1
+              pop(); pop(); — 두 번 호출 → 깊이 -2 (= pop(2))
             </ActionButton>
           </VStack>
 
           <div style={{ fontSize: 13, color: "#868b94", lineHeight: 1.6 }}>
             "화면 더 쌓기"로 4개 이상 쌓은 뒤 각 버튼을 눌러보세요. pop 후 착지한 화면의 "깊이"로 몇
-            개가 닫혔는지 알 수 있습니다. pop(2)는 2개, pop(); pop();는 가드로 1개만 닫힙니다.
-            백버튼 연타도 동일하게 가드됩니다.
+            개가 닫혔는지 알 수 있습니다. pop(2)와 pop(); pop();는 둘 다 2개 닫힙니다(동일). 동시
+            pop은 하나만 슬라이드되고 나머지는 즉시 제거됩니다. 백버튼 연타도 동일합니다.
           </div>
         </VStack>
       </AppScreenContent>
