@@ -1,0 +1,209 @@
+---
+title: Help Bubble Tooltip
+description: 포인터를 올리거나 포커스했을 때 보조 정보를 보여주는 툴팁 형태의 Help Bubble입니다.
+---
+
+<ComponentExample name="react/help-bubble-tooltip/preview" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:help-bubble-tooltip
+```
+
+<ManualInstallation name="help-bubble-tooltip" />
+
+## Props
+
+### `HelpBubbleTooltipTrigger`
+
+<react-type-table
+  path="./registry/react/ui/help-bubble-tooltip.tsx"
+  name="HelpBubbleTooltipTriggerProps"
+/>
+
+### `HelpBubbleTooltipDelayGroup`
+
+<react-type-table
+  path="./registry/react/ui/help-bubble-tooltip.tsx"
+  name="HelpBubbleTooltipDelayGroupProps"
+/>
+
+## Examples
+
+### Hover & Focus
+
+`HelpBubbleTooltipTrigger`의 `children`에 포인터를 올리거나(hover) 키보드로 포커스(focus)하면 Help Bubble Tooltip을 엽니다.
+
+`children`으로는 `button` 등 포커스 가능한 요소를 넣어야 합니다.
+
+Help Bubble Tooltip은 Close Button이나 내부 인터랙션 요소를 포함하지 않습니다. 클릭으로 열고 닫거나([Toggletip](https://inclusive-components.design/tooltips-toggletips/)), Close Button이 필요하다면 [Help Bubble](/react/components/help-bubble)을 사용하세요.
+
+<ComponentExample name="react/help-bubble-tooltip/hover" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/hover.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Delay
+
+`openDelay`로 포인터가 올라온 뒤 열리기까지, `closeDelay`로 포인터가 벗어난 뒤 닫히기까지의 시간을 조절합니다. 기본값은 각각 `200ms`, `100ms`이며, focus로 열 때는 두 delay 모두 적용되지 않습니다.
+
+<ComponentExample name="react/help-bubble-tooltip/delay" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/delay.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Delay Group
+
+같은 `HelpBubbleTooltipDelayGroup`에 속한 Help Bubble Trigger 하나가 열린 뒤에는, 같은 그룹의 다른 트리거로 포인터를 옮길 때 `openDelay` 없이 즉시 열리며, `HelpBubbleTooltipDelayGroup`에 `openDelay` 또는 `closeDelay`를 지정하여 그룹 내 트리거들의 지연을 일괄적으로 조절할 수 있습니다.
+
+그룹 내 `HelpBubbleTooltipTrigger`에 `openDelay` 또는 `closeDelay`를 직접 설정하는 경우 해당 값이 그룹 delay보다 우선합니다.
+
+<ComponentExample name="react/help-bubble-tooltip/delay-group" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/delay-group.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Keep Open on Content Hover
+
+기본적으로 포인터를 Help Bubble Tooltip 위로 옮기면 트리거에서 벗어난 것으로 간주되어 닫힙니다. `keepOpenOnContentHover`를 주면 Help Bubble Tooltip 위로 포인터를 옮겨도 닫히지 않고, Help Bubble Tooltip 안의 텍스트를 드래그해 선택하는 등 내용과 상호작용할 수 있습니다.
+
+<ComponentExample name="react/help-bubble-tooltip/keep-open-on-content-hover" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/keep-open-on-content-hover.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Placement
+
+<ComponentExample name="react/help-bubble-tooltip/placement" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/placement.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Flip
+
+<ComponentExample name="react/help-bubble-tooltip/flip" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/flip.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Description
+
+`description`을 사용하여 `title` 아래에 설명을 추가할 수 있습니다.
+
+<ComponentExample name="react/help-bubble-tooltip/description" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Title Only
+
+<ComponentExample name="react/help-bubble-tooltip/title-only" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/title-only.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Setting Width Manually
+
+`contentProps`에 인라인 스타일로 `maxWidth`나 `width`를 설정하여 너비를 조절할 수 있습니다.
+
+<ComponentExample name="react/help-bubble-tooltip/width" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/width.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Line Breaks
+
+<ComponentExample name="react/help-bubble-tooltip/line-breaks" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/line-breaks.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `z-index` Offset
+
+<ComponentExample name="react/help-bubble-tooltip/z-index-offset" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/z-index-offset.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Accessibility
+
+#### Icon-only Button
+
+Help Bubble Tooltip의 내용은 트리거의 설명으로서 작동하며, 트리거의 이름을 대신하는 것이 아닙니다. Help Bubble Tooltip 사용 여부와 무관하게, 텍스트 없이 아이콘만 있는 버튼에는 항상 `aria-label`을 지정하세요.
+
+```tsx
+<HelpBubbleTooltipTrigger title="비밀번호는 영문, 숫자, 특수문자를 포함해 8자 이상이어야 해요.">
+  {/* iconOnly ActionButton에 aria-label을 지정합니다. */}
+  {/* [!code highlight] */}
+  <ActionButton layout="iconOnly" aria-label="비밀번호 규칙">
+    <Icon svg={<IconILowercaseSerifCircleFill />} />
+  </ActionButton>
+</HelpBubbleTooltipTrigger>
+```
+
+#### Disabled Triggers
+
+기본적으로 `<button disabled>` 요소는 키보드로 포커스할 수 없어, 해당 요소를 트리거로 사용하는 경우 키보드를 통해 Help Bubble Tooltip이 열리지 않습니다.
+
+버튼이 비활성화된 이유를 안내해야 한다면, 비활성화된 버튼에 Help Bubble Tooltip을 붙이는 것보다는 그 이유를 가까운 텍스트로 함께 표시하는 구조를 권장합니다. `disabled` 버튼에 Help Bubble Tooltip을 붙여야 한다면, 버튼을 포커스 가능한 `span`(`tabIndex={0}`)으로 감싸 `children`으로 사용하세요.
+
+<ComponentExample name="react/help-bubble-tooltip/disabled" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble-tooltip/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

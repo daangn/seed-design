@@ -36,6 +36,7 @@ export * from "./Footer";
 export * from "./Grid";
 export * from "./GridItem";
 export * from "./HelpBubble";
+export * from "./HelpBubbleTooltip";
 export * from "./Icon";
 export * from "./IdentityPlaceholder";
 export * from "./ImageFrame";

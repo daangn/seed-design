@@ -265,6 +265,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "help-bubble-tooltip",
+      snippets: [
+        {
+          path: "help-bubble-tooltip.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+      ],
+    },
+    {
       id: "tabs",
       snippets: [
         {

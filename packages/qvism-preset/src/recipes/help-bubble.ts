@@ -59,6 +59,12 @@ const helpBubble = defineSlotRecipe({
         }),
       },
 
+      // Skip the enter/exit animation while a `TooltipDelayGroup` is switching
+      // between tooltips, so the swap reads as instant.
+      [pseudo("[data-instant]")]: {
+        animationDuration: "0s",
+      },
+
       [pseudo(hidden)]: {
         display: "none !important",
       },
