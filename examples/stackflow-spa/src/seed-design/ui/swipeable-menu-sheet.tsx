@@ -1,4 +1,8 @@
-import { PrefixIcon, SwipeableMenuSheet as SeedSwipeableMenuSheet } from "@seed-design/react";
+import {
+  PrefixIcon,
+  SwipeableMenuSheet as SeedSwipeableMenuSheet,
+  VisuallyHidden,
+} from "@seed-design/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 
@@ -23,10 +27,15 @@ export interface SwipeableMenuSheetContentProps
   description?: React.ReactNode;
 
   layerIndex?: number;
+
+  /**
+   * @default false
+   */
+  showCloseButton?: boolean;
 }
 
 export const SwipeableMenuSheetContent = forwardRef<HTMLDivElement, SwipeableMenuSheetContentProps>(
-  ({ children, title, description, layerIndex, ...otherProps }, ref) => {
+  ({ children, title, description, layerIndex, showCloseButton = false, ...otherProps }, ref) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -49,13 +58,23 @@ export const SwipeableMenuSheetContent = forwardRef<HTMLDivElement, SwipeableMen
             <SeedSwipeableMenuSheet.Header>
               {title && <SeedSwipeableMenuSheet.Title>{title}</SeedSwipeableMenuSheet.Title>}
               {description && (
-                <SeedSwipeableMenuSheet.Description>{description}</SeedSwipeableMenuSheet.Description>
+                <SeedSwipeableMenuSheet.Description>
+                  {description}
+                </SeedSwipeableMenuSheet.Description>
               )}
             </SeedSwipeableMenuSheet.Header>
           )}
           <SeedSwipeableMenuSheet.List>{children}</SeedSwipeableMenuSheet.List>
           {/* You may implement your own i18n for dismiss label */}
-          <SeedSwipeableMenuSheet.HiddenCloseButton aria-label="닫기" />
+          {showCloseButton ? (
+            <SeedSwipeableMenuSheet.Footer>
+              <SeedSwipeableMenuSheet.CloseButton>닫기</SeedSwipeableMenuSheet.CloseButton>
+            </SeedSwipeableMenuSheet.Footer>
+          ) : (
+            <VisuallyHidden asChild>
+              <SeedSwipeableMenuSheet.CloseButton>닫기</SeedSwipeableMenuSheet.CloseButton>
+            </VisuallyHidden>
+          )}
         </SeedSwipeableMenuSheet.Content>
       </SeedSwipeableMenuSheet.Positioner>
     );

@@ -4,7 +4,7 @@ import {
   menuSheetItem,
   type MenuSheetItemVariantProps,
 } from "@seed-design/css/recipes/menu-sheet-item";
-import { dataAttr, visuallyHidden } from "@seed-design/dom-utils";
+import { dataAttr } from "@seed-design/dom-utils";
 import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
@@ -131,7 +131,10 @@ export const SwipeableMenuSheetHeader = withContext<HTMLDivElement, SwipeableMen
 
 export interface SwipeableMenuSheetTitleProps extends Drawer.TitleProps {}
 
-export const SwipeableMenuSheetTitle = withContext<HTMLHeadingElement, SwipeableMenuSheetTitleProps>(
+export const SwipeableMenuSheetTitle = withContext<
+  HTMLHeadingElement,
+  SwipeableMenuSheetTitleProps
+>(
   React.forwardRef<HTMLHeadingElement, SwipeableMenuSheetTitleProps>((props, ref) => {
     const { isCloseButtonRendered } = useDrawerContext();
 
@@ -171,19 +174,20 @@ export interface SwipeableMenuSheetGroupProps
     React.HTMLAttributes<HTMLDivElement>,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
-export const SwipeableMenuSheetGroup = React.forwardRef<HTMLDivElement, SwipeableMenuSheetGroupProps>(
-  ({ className, ...props }, ref) => {
-    const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
-    const parentProps = useItemProps();
-    const classNames = useClassNames();
+export const SwipeableMenuSheetGroup = React.forwardRef<
+  HTMLDivElement,
+  SwipeableMenuSheetGroupProps
+>(({ className, ...props }, ref) => {
+  const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
+  const parentProps = useItemProps();
+  const classNames = useClassNames();
 
-    return (
-      <ItemPropsProvider value={{ ...parentProps, ...variantProps }}>
-        <Primitive.div className={clsx(classNames.group, className)} ref={ref} {...otherProps} />
-      </ItemPropsProvider>
-    );
-  },
-);
+  return (
+    <ItemPropsProvider value={{ ...parentProps, ...variantProps }}>
+      <Primitive.div className={clsx(classNames.group, className)} ref={ref} {...otherProps} />
+    </ItemPropsProvider>
+  );
+});
 
 SwipeableMenuSheetGroup.displayName = "SwipeableMenuSheetGroup";
 
@@ -244,16 +248,23 @@ export const SwipeableMenuSheetItemDescription = withItemContext<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwipeableMenuSheetHiddenCloseButtonProps extends Drawer.CloseButtonProps {}
+export interface SwipeableMenuSheetFooterProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const SwipeableMenuSheetFooter = withContext<HTMLDivElement, SwipeableMenuSheetFooterProps>(
+  Primitive.div,
+  "footer",
+);
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SwipeableMenuSheetCloseButtonProps extends Drawer.CloseButtonProps {}
 
 /**
- * Visually hidden button that closes the swipeable menu sheet (for screen readers).
+ * Visible button that closes the swipeable menu sheet.
  */
-export const SwipeableMenuSheetHiddenCloseButton = React.forwardRef<
+export const SwipeableMenuSheetCloseButton = withContext<
   HTMLButtonElement,
-  SwipeableMenuSheetHiddenCloseButtonProps
->(({ style, ...otherProps }, ref) => (
-  <Drawer.CloseButton ref={ref} style={{ ...visuallyHidden, ...style }} {...otherProps} />
-));
-
-SwipeableMenuSheetHiddenCloseButton.displayName = "SwipeableMenuSheetHiddenCloseButton";
+  SwipeableMenuSheetCloseButtonProps
+>(Drawer.CloseButton, "closeButton");
