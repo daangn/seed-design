@@ -184,12 +184,14 @@ export function useMenu(props: UseMenuProps) {
 
   const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
 
-  // Inset the viewport collision boundary by the safe area so flip/size/shift keep
-  // the menu clear of the notch and home indicator, not just the viewport edge.
+  // Inset the viewport collision boundary so flip/size/shift keep the menu clear of
+  // the notch and home indicator, not just the viewport edge. The safe area is already
+  // a visual buffer, so where it exists the menu sits right at its boundary; only where
+  // there is none does it fall back to overflowPadding off the bare viewport edge.
   const collisionPadding = {
-    top: overflowPadding + safeArea.top,
+    top: safeArea.top || overflowPadding,
     right: overflowPadding,
-    bottom: overflowPadding + safeArea.bottom,
+    bottom: safeArea.bottom || overflowPadding,
     left: overflowPadding,
   };
 
