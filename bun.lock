@@ -564,6 +564,7 @@
         "@seed-design/react-image": "0.1.1",
         "@seed-design/react-menu": "0.0.0",
         "@seed-design/react-middle-truncate": "0.0.0",
+        "@seed-design/react-navigation-menu": "0.0.0",
         "@seed-design/react-popover": "1.0.3",
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
@@ -915,6 +916,26 @@
       "devDependencies": {
         "@testing-library/jest-dom": "^6.6.3",
         "@testing-library/react": "^16.3.0",
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/navigation-menu": {
+      "name": "@seed-design/react-navigation-menu",
+      "version": "0.0.0",
+      "dependencies": {
+        "@floating-ui/react": "^0.27.0",
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "^1.0.0",
+        "@seed-design/react-use-controllable-state": "1.0.0",
+      },
+      "devDependencies": {
         "@types/react": "^19.1.6",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -3037,6 +3058,8 @@
     "@seed-design/react-menu": ["@seed-design/react-menu@workspace:packages/react-headless/menu"],
 
     "@seed-design/react-middle-truncate": ["@seed-design/react-middle-truncate@workspace:packages/react-headless/middle-truncate"],
+
+    "@seed-design/react-navigation-menu": ["@seed-design/react-navigation-menu@workspace:packages/react-headless/navigation-menu"],
 
     "@seed-design/react-popover": ["@seed-design/react-popover@workspace:packages/react-headless/popover"],
 

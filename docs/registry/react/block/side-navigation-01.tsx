@@ -14,7 +14,7 @@ import {
   IconWrenchFill,
 } from "@karrotmarket/react-monochrome-icon";
 import { Layout, Text, VStack } from "@seed-design/react";
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 
 import {
   SideNavigationContent,
@@ -33,7 +33,11 @@ export default function SideNavigation1() {
 
   const navItemProps = (label: string) => ({
     current: currentItem === label,
-    onClick: () => setCurrentItem(label),
+    href: "#",
+    onClick: (event: MouseEvent) => {
+      event.preventDefault();
+      setCurrentItem(label);
+    },
   });
 
   return (
@@ -100,12 +104,14 @@ export default function SideNavigation1() {
             <SideNavigationItemButton
               prefixIcon={<IconGearFill />}
               label="환경설정"
-              {...navItemProps("환경설정")}
+              current={currentItem === "환경설정"}
+              onClick={() => setCurrentItem("환경설정")}
             />
             <SideNavigationItemButton
               prefixIcon={<IconPersonFill />}
               label="내 프로필"
-              {...navItemProps("내 프로필")}
+              current={currentItem === "내 프로필"}
+              onClick={() => setCurrentItem("내 프로필")}
             />
           </SideNavigationFooter>
         </SideNavigationRoot>

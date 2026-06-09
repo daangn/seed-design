@@ -263,6 +263,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "navigation-menu",
+      snippets: [
+        {
+          path: "navigation-menu.tsx",
+          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+        },
+      ],
+    },
+    {
       id: "slider",
       snippets: [
         {

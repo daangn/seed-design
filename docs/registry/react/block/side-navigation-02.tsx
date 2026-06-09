@@ -8,7 +8,7 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { Badge, Box, HStack, Layout, Text, VStack } from "@seed-design/react";
 import { useSideNavigationContext } from "@seed-design/react/primitive";
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 
 import { Avatar } from "../ui/avatar";
 import { IdentityPlaceholder } from "../ui/identity-placeholder";
@@ -78,7 +78,11 @@ export default function SideNavigation2() {
 
   const navItemProps = (label: string) => ({
     current: currentItem === label,
-    onClick: () => setCurrentItem(label),
+    href: "#",
+    onClick: (event: MouseEvent) => {
+      event.preventDefault();
+      setCurrentItem(label);
+    },
   });
 
   return (
@@ -112,7 +116,8 @@ export default function SideNavigation2() {
             <SideNavigationItemButton
               prefixIcon={<IconPersonFill />}
               label="내 프로필"
-              {...navItemProps("내 프로필")}
+              current={currentItem === "내 프로필"}
+              onClick={() => setCurrentItem("내 프로필")}
             />
           </SideNavigationFooter>
         </SideNavigationRoot>

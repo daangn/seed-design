@@ -19,7 +19,7 @@ import {
 } from "seed-design/ui/select-box";
 import { sideNavigationVariantMap } from "@seed-design/css/recipes/side-navigation";
 import { layoutVariantMap } from "@seed-design/css/recipes/layout";
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 
 import {
   IconHouseFill,
@@ -59,7 +59,11 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
   const [currentItem, setCurrentItem] = useState("홈");
   const navItemProps = (label: string) => ({
     current: currentItem === label,
-    onClick: () => setCurrentItem(label),
+    href: "#",
+    onClick: (event: MouseEvent) => {
+      event.preventDefault();
+      setCurrentItem(label);
+    },
   });
 
   return (
@@ -240,7 +244,8 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
               <SideNavigationItemButton
                 prefixIcon={<IconBellFill />}
                 label="알림"
-                {...navItemProps("알림")}
+                current={currentItem === "알림"}
+                onClick={() => setCurrentItem("알림")}
               />
             </SideNavigationFooter>
           </SideNavigationRoot>

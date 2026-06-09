@@ -1,0 +1,28 @@
+export {
+  NavigationMenuRoot,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuPositioner,
+  NavigationMenuContent,
+  NavigationMenuScrollArea,
+  NavigationMenuGroup,
+  NavigationMenuGroupLabel,
+  NavigationMenuLink,
+  NavigationMenuLinkBody,
+  NavigationMenuLinkLabel,
+  type NavigationMenuRootProps,
+  type NavigationMenuListProps,
+  type NavigationMenuItemProps,
+  type NavigationMenuTriggerProps,
+  type NavigationMenuPositionerProps,
+  type NavigationMenuContentProps,
+  type NavigationMenuScrollAreaProps,
+  type NavigationMenuGroupProps,
+  type NavigationMenuGroupLabelProps,
+  type NavigationMenuLinkProps,
+  type NavigationMenuLinkBodyProps,
+  type NavigationMenuLinkLabelProps,
+} from "./NavigationMenu";
+
+export * as NavigationMenu from "./NavigationMenu.namespace";
