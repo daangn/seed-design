@@ -16,6 +16,7 @@ import { useSnapPoints } from "./use-snap-points";
 
 interface DrawerReasonToDetailMap {
   // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
+  trigger: { event: MouseEvent };
   closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
   interactOutside: { event: PointerEvent | TouchEvent | FocusEvent };
@@ -696,7 +697,7 @@ export function useDrawer(props: UseDrawerProps) {
         ...stateProps,
         onClick: (e) => {
           if (e.defaultPrevented) return;
-          setIsOpen(true);
+          setIsOpen(true, { reason: "trigger", event: e.nativeEvent });
         },
       }),
       positionerProps: elementProps({
