@@ -84,6 +84,8 @@ Recipe 파일에서 생성된 component vars를 import하고, `defineRecipe` 또
 
 Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 상세는 각 패키지 `AGENTS.md`에 명시되어 있다.
 
+Lynx 컴포넌트는 구현 전에 `packages/lynx-react/src/utils`, `packages/lynx-react/src/hooks`, 그리고 패턴 참조 컴포넌트의 유틸 사용 방식을 확인한다. 특히 compound component는 `createSlotRecipeContext`를 provider/use hook으로 쓸 수 있는지 먼저 검토하고, native slot은 literal JSX로 유지한다. 쓰지 않는 유틸리티가 있으면 Phase 0 산출물이나 구현 메모에 이유를 남긴다.
+
 **추가 참조**:
 - React: `references/react-patterns.md` — 카테고리별 유틸리티 선택 (createSlotRecipeContext, createWithStateProps, splitMultipleVariantsProps), Form/Field 통합, namespace 패턴
 - Lynx: `references/lynx-patterns.md` — native literal JSX 제약, ref null guard, children 분리, recipe import, unsupported Web API 문서화
@@ -131,7 +133,9 @@ Snippet 레이어가 있는 컴포넌트의 문서는 반드시 다음 형태로
 - React: `<ManualInstallation name="[name]" />`, Lynx: `<LynxManualInstallation name="[name]" />`
 - `## Usage`의 import 경로를 `seed-design/ui/[name]`으로 변경
 - Props 섹션 경로를 React는 `./registry/react/ui/[name].tsx`, Lynx는 `./registry/lynx/ui/[name].tsx`로 변경
-- Lynx 문서에는 웹 버전과의 차이와 Lynx 미지원 기능을 함께 작성
+- Lynx 문서는 `Installation → Props → Usage → Web Version Differences → Unsupported Lynx Features` 순서를 따른다
+- Lynx 문서의 heading은 최대한 영어로 쓰고, description과 설명 본문은 한국어로 작성한다
+- Lynx 문서에는 `Web Version Differences`와 `Unsupported Lynx Features`를 함께 작성한다
 
 ## Step 6: Examples
 

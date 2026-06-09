@@ -139,6 +139,18 @@ Lynx 작업은 React reference를 API/semantic 비교 대상으로만 사용하�
 
 Lynx stateful 컴포넌트에서 `packages/lynx-headless/*`가 있거나 필요하면 `lynx-headless = 상태/이벤트/context`, `lynx-react = recipe/native UI wiring` 분리를 기본값으로 둔다.
 
+## Lynx 핵심 유틸리티 위치
+
+Lynx target에서는 React 유틸리티 표를 그대로 적용하지 말고, 아래 유틸리티와 `references/lynx-patterns.md`의 선택 기준을 먼저 확인한다.
+
+| 유틸리티/훅 | 경로 | 용도 |
+|-------------|------|------|
+| `createSlotRecipeContext` | `packages/lynx-react/src/utils/create-slot-recipe-context.tsx` | slot recipe className/variant props context. native intrinsic tag는 감싸지 않고 provider/use hook 중심으로 사용 가능 |
+| `splitMultipleVariantsProps` | `packages/lynx-react/src/utils/split-multiple-variants-props.ts` | 여러 Lynx recipe variant props 동시 분리 |
+| `usePressTap` | `packages/lynx-react/src/hooks/usePressTap.ts` | pressed/tap/disabled interaction state |
+| `useControllableState` | `packages/lynx-react/src/hooks/useControllableState.ts` | controlled/uncontrolled state |
+| `useSafeArea` | `packages/lynx-react/src/hooks/useSafeArea.ts` | Lynx global props/env 기반 safe-area inset |
+
 ## React 핵심 유틸리티 위치
 
 | 유틸리티 | 경로 | 용도 |
