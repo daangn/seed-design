@@ -7,6 +7,7 @@ import {
   SwipeableMenuSheetItem,
   SwipeableMenuSheetRoot,
 } from "seed-design/ui/swipeable-menu-sheet";
+import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { createCallbackActivity } from "../stackflow/createCallbackActivity";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 
@@ -25,11 +26,17 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivitySwipeableMenuSheet: StaticActivityComponentType<"ActivitySwipeableMenuSheet"> = () => {
+const ActivitySwipeableMenuSheet: StaticActivityComponentType<
+  "ActivitySwipeableMenuSheet"
+> = () => {
   const { pop } = swipeableMenuSheetCallback.useCallbackPop();
   const activity = useActivity();
+  const snackbar = useSnackbarAdapter();
 
   const handleAction = (action: Action) => () => {
+    snackbar.create({
+      render: () => <Snackbar variant="positive" message={`선택한 액션: ${action}`} />,
+    });
     pop({ action });
   };
 
