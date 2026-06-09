@@ -63,7 +63,7 @@ npx @seed-design/cli@latest add ui:swipeable-menu-sheet
 
 `<SwipeableMenuSheetTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, SwipeableMenuSheet의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
 
-`MenuSheet`과 달리, swipe-down 제스처로도 시트를 닫을 수 있어요. 시트 상단의 핸들이 드래그 affordance를 제공합니다. 스크린 리더 사용자를 위해, 시트 안에는 시각적으로 숨겨진 닫기 버튼이 자동으로 렌더링됩니다.
+`MenuSheet`과 달리, swipe-down 제스처로도 시트를 닫을 수 있어요. 시트 상단의 핸들이 드래그 affordance를 제공합니다. `SwipeableMenuSheetContent`의 `showCloseButton` prop으로 보이는 닫기 버튼을 표시할 수 있으며, 기본값(`false`)에서는 스크린 리더 사용자를 위해 시각적으로 숨겨진 닫기 버튼이 렌더링됩니다.
 
 <ComponentExample name="react/swipeable-menu-sheet/preview">
   ```json doc-gen:file
@@ -108,6 +108,19 @@ Trigger 외의 방식으로 SwipeableMenuSheet를 열고 닫을 수 있습니다
   ```json doc-gen:file
   {
     "file": "examples/react/swipeable-menu-sheet/with-title-and-description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Close Button
+
+`SwipeableMenuSheetContent`의 `showCloseButton` prop으로 시트 하단에 보이는 닫기 버튼을 표시합니다. 기본값은 `false`이며, 이때는 스크린 리더 사용자를 위한 시각적으로 숨겨진 닫기 버튼이 렌더링됩니다.
+
+<ComponentExample name="react/swipeable-menu-sheet/with-close-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/swipeable-menu-sheet/with-close-button.tsx",
     "codeblock": true
   }
   ```
@@ -168,7 +181,7 @@ Trigger 외의 방식으로 SwipeableMenuSheet를 열고 닫을 수 있습니다
 
 **닫힐 때** (`open: false`)
 
-- `"closeButton"`: 시각적으로 숨겨진 `SwipeableMenuSheet.HiddenCloseButton`이 활성화되어 닫힘 (주로 스크린 리더 사용자)
+- `"closeButton"`: 닫기 버튼(`SwipeableMenuSheet.CloseButton`)이 활성화되어 닫힘 (`showCloseButton`이 `false`인 경우 시각적으로 숨겨진 버튼이며, 주로 스크린 리더 사용자)
 - `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
 - `"interactOutside"`: 외부 영역 클릭
 - `"drag"`: swipe 제스처로 닫힘
