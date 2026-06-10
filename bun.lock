@@ -45,10 +45,10 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "1.2.13",
-        "@seed-design/lynx-react": "0.1.0",
+        "@seed-design/css": "1.2.14",
+        "@seed-design/lynx-react": "0.2.0",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.2.11",
+        "@seed-design/react": "1.2.12",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.23",
@@ -96,7 +96,7 @@
         "@figma/rest-api-spec": "^0.36.0",
         "@karrotmarket/lynx-multicolor-icon": "1.13.0",
         "@lynx-js/react": "0.117.0",
-        "@seed-design/lynx-css": "0.1.0",
+        "@seed-design/lynx-css": "0.2.0",
         "@storybook/builder-webpack5": "^10.1.10",
         "@storybook/nextjs": "^10.1.10",
         "@tailwindcss/postcss": "^4.0.6",
@@ -391,7 +391,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "1.2.13",
+      "version": "1.2.14",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -424,7 +424,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "1.3.15",
+      "version": "1.3.16",
       "dependencies": {
         "@seed-design/css": "1.2.11",
         "change-case": "^5.4.4",
@@ -440,7 +440,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -460,7 +460,7 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
@@ -469,7 +469,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.116.3",
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/lynx-css": "0.1.0",
+        "@seed-design/lynx-css": "0.2.0",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
         "vite": "^8.0.0",
@@ -484,7 +484,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "1.3.15",
+      "version": "1.3.16",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.25.3",
@@ -522,7 +522,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.2.11",
+      "version": "1.2.12",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -539,7 +539,7 @@
         "@seed-design/react-field-button": "1.0.2",
         "@seed-design/react-fieldset": "0.1.0",
         "@seed-design/react-image": "0.1.1",
-        "@seed-design/react-popover": "1.0.3",
+        "@seed-design/react-popover": "1.0.4",
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-progress": "1.0.0",
@@ -755,7 +755,7 @@
     },
     "packages/react-headless/popover": {
       "name": "@seed-design/react-popover",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
@@ -1050,7 +1050,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "1.2.11",
+      "version": "1.2.12",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -1066,7 +1066,7 @@
     },
     "packages/rsbuild-plugin-lynx-icon": {
       "name": "@seed-design/rsbuild-plugin-lynx-icon",
-      "version": "0.0.1",
+      "version": "0.1.0",
       "dependencies": {
         "sharp": "^0.34.5",
       },
@@ -1092,7 +1092,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "1.2.13",
+        "@seed-design/css": "1.2.14",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
