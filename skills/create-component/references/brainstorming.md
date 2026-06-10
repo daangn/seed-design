@@ -100,7 +100,7 @@
 
 - Headless ref:
   - React: `packages/react-headless/<name>` 중 어느 것?
-  - Lynx: `packages/lynx-headless/<name>` 또는 local hook/context 중 어느 것?
+  - Lynx: `packages/lynx-react-headless/<name>` 또는 local hook/context 중 어느 것?
 - Styled ref:
   - React: `packages/react/src/components/<Name>` 중 어느 것?
   - Lynx: `packages/lynx-react/src/components/<Name>` 중 어느 것?

@@ -1,4 +1,5 @@
 import actionButton from "./recipes/action-button";
+import { appBar, appBarMain } from "./recipes/app-bar";
 import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
@@ -10,16 +11,15 @@ import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
-import {
-  tagGroup as lynxTagGroup,
-  tagGroupItem as lynxTagGroupItem,
-} from "./recipes/tag-group";
+import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
 
 /**
  * Recipes used by the Lynx preset build.
  */
 export const recipes = {
   actionButton,
+  appBar,
+  appBarMain,
   badge,
   bottomSheet,
   bottomSheetHandle,

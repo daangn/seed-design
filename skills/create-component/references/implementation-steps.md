@@ -8,7 +8,7 @@
 
 **위치**:
 - React: `packages/react-headless/[name]/`
-- Lynx: `packages/lynx-headless/[name]/` 또는 `packages/lynx-react/src/components/[ComponentName]/` 내부 hook/context
+- Lynx: `packages/lynx-react-headless/[name]/` 또는 `packages/lynx-react/src/components/[ComponentName]/` 내부 hook/context
 
 **조건**: 데이터 로직이 필요한 경우만 (단순 UI 컴포넌트는 생략)
 
@@ -27,10 +27,10 @@ Headless 훅은 하나의 `use{Component}`로 끝낼 필요가 없다. compound 
 
 Stateful Lynx 컴포넌트는 `references/lynx-patterns.md`를 따른다.
 
-- `packages/lynx-headless/*`는 상태, press/tap, controlled/uncontrolled, context, render props를 소유한다.
-- `packages/lynx-headless/*`는 자동 state class, recipe, SEED token, className 조합을 넣지 않는다.
+- `packages/lynx-react-headless/*`는 상태, press/tap, controlled/uncontrolled, context, render props를 소유한다.
+- `packages/lynx-react-headless/*`는 자동 state class, recipe, SEED token, className 조합을 넣지 않는다.
 - `packages/lynx-react`는 headless 상태를 읽어 `@seed-design/lynx-css/recipes/*` variant와 className을 조합한다.
-- 새 `packages/lynx-headless/<component>` 패키지가 필요하면 사용자 확인을 먼저 받는다.
+- 새 `packages/lynx-react-headless/<component>` 패키지가 필요하면 사용자 확인을 먼저 받는다.
 
 **카테고리 C/D에서 새 headless를 만들 때**: Phase 0에서 정리한 ARIA APG 패턴과 키보드 인터랙션 스펙을 이 단계에서 구현한다. `references/external-references.md`의 접근성 체크리스트를 따른다. 외부 라이브러리(Base UI, Radix)의 동일 컴포넌트 구현도 참조하여 인터페이스 설계를 검증한다.
 
@@ -84,6 +84,8 @@ Recipe 파일에서 생성된 component vars를 import하고, `defineRecipe` 또
 
 Variant Props 처리 패턴, 단일/복합 슬롯 패턴, 금지 패턴 등의 상세는 각 패키지 `AGENTS.md`에 명시되어 있다.
 
+Lynx 컴포넌트는 구현 전에 `packages/lynx-react/src/utils`, `packages/lynx-react/src/hooks`, 그리고 패턴 참조 컴포넌트의 유틸 사용 방식을 확인한다. 특히 compound component는 `createSlotRecipeContext`를 provider/use hook으로 쓸 수 있는지 먼저 검토하고, native slot은 literal JSX로 유지한다. 쓰지 않는 유틸리티가 있으면 Phase 0 산출물이나 구현 메모에 이유를 남긴다.
+
 **추가 참조**:
 - React: `references/react-patterns.md` — 카테고리별 유틸리티 선택 (createSlotRecipeContext, createWithStateProps, splitMultipleVariantsProps), Form/Field 통합, namespace 패턴
 - Lynx: `references/lynx-patterns.md` — native literal JSX 제약, ref null guard, children 분리, recipe import, unsupported Web API 문서화
@@ -131,7 +133,9 @@ Snippet 레이어가 있는 컴포넌트의 문서는 반드시 다음 형태로
 - React: `<ManualInstallation name="[name]" />`, Lynx: `<LynxManualInstallation name="[name]" />`
 - `## Usage`의 import 경로를 `seed-design/ui/[name]`으로 변경
 - Props 섹션 경로를 React는 `./registry/react/ui/[name].tsx`, Lynx는 `./registry/lynx/ui/[name].tsx`로 변경
-- Lynx 문서에는 웹 버전과의 차이와 Lynx 미지원 기능을 함께 작성
+- Lynx 문서는 `Installation → Props → Usage → Web Version Differences → Unsupported Lynx Features` 순서를 따른다
+- Lynx 문서의 heading은 최대한 영어로 쓰고, description과 설명 본문은 한국어로 작성한다
+- Lynx 문서에는 `Web Version Differences`와 `Unsupported Lynx Features`를 함께 작성한다
 
 ## Step 6: Examples
 

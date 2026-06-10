@@ -31,6 +31,22 @@ function getRenderedRoot() {
   return root;
 }
 
+function getActionButtonRoot() {
+  const root = getRenderedRoot();
+
+  if (root.classList.contains("seed-action-button__root")) {
+    return root;
+  }
+
+  const actionButtonRoot = root.querySelector<HTMLElement>(".seed-action-button__root");
+
+  if (!actionButtonRoot) {
+    throw new Error("Expected ActionButton root to exist.");
+  }
+
+  return actionButtonRoot;
+}
+
 const MockIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => {
   const { className, style, ...rest } = props;
 
@@ -96,7 +112,7 @@ describe("ActionButton", () => {
 
   it("supports icon-only child slot", () => {
     render(
-      <ActionButton layout="iconOnly" aria-label="Add">
+      <ActionButton layout="iconOnly" accessibility-label="Add">
         <Icon icon={<MockIcon />} />
       </ActionButton>,
     );
@@ -106,8 +122,22 @@ describe("ActionButton", () => {
     expect(root.querySelector(".seed-icon")).toHaveClass("seed-action-button__icon");
   });
 
+  it("maps accessibility props to the root view", () => {
+    render(
+      <ActionButton layout="iconOnly" accessibility-label="Add">
+        <Icon icon={<MockIcon />} />
+      </ActionButton>,
+    );
+
+    const root = getActionButtonRoot();
+
+    expect(root).toHaveAttribute("accessibility-label", "Add");
+    expect(root).toHaveAttribute("accessibility-element", "true");
+    expect(root).toHaveAttribute("accessibility-traits", "button");
+  });
+
   it("keeps existing icon prop compatible with icon-only validation", () => {
-    render(<ActionButton layout="iconOnly" aria-label="Add" icon={<MockIcon />} />);
+    render(<ActionButton layout="iconOnly" accessibility-label="Add" icon={<MockIcon />} />);
 
     const root = getRenderedRoot();
 
@@ -117,7 +147,7 @@ describe("ActionButton", () => {
   it("throws in development when icon-only layout has no Icon child", () => {
     expect(() => {
       render(
-        <ActionButton layout="iconOnly" aria-label="Add">
+        <ActionButton layout="iconOnly" accessibility-label="Add">
           Add
         </ActionButton>,
       );
@@ -127,7 +157,7 @@ describe("ActionButton", () => {
   it("throws in development when icon-only layout has multiple Icon children", () => {
     expect(() => {
       render(
-        <ActionButton layout="iconOnly" aria-label="Add">
+        <ActionButton layout="iconOnly" accessibility-label="Add">
           <Icon icon={<MockIcon />} />
           <Icon icon={<MockIcon />} />
         </ActionButton>,

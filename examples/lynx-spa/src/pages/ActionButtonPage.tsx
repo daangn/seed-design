@@ -59,7 +59,7 @@ function renderActionButton(values: ActionButtonValues) {
         size={size}
         disabled={disabled}
         loading={loading}
-        aria-label="Add"
+        accessibility-label="Add"
       >
         <Icon icon={<IconPlusFill />} />
       </ActionButton>
@@ -139,23 +139,33 @@ function ActionButtonExamples() {
           Suffix Icon
           <SuffixIcon icon={<IconChevronDownFill />} />
         </ActionButton>
-        <ActionButton layout="iconOnly" variant="brandSolid" loading aria-label="Loading">
+        <ActionButton layout="iconOnly" variant="brandSolid" loading accessibility-label="Loading">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
       </view>
 
       <CatalogSectionTitle>Icon Only</CatalogSectionTitle>
       <view className="flex flex-row flex-wrap gap-x2 items-center">
-        <ActionButton layout="iconOnly" variant="brandSolid" aria-label="Add">
+        <ActionButton layout="iconOnly" variant="brandSolid" accessibility-label="Add">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
-        <ActionButton layout="iconOnly" variant="neutralSolid" size="small" aria-label="Add">
+        <ActionButton
+          layout="iconOnly"
+          variant="neutralSolid"
+          size="small"
+          accessibility-label="Add"
+        >
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
-        <ActionButton layout="iconOnly" variant="brandOutline" aria-label="Add">
+        <ActionButton layout="iconOnly" variant="brandOutline" accessibility-label="Add">
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
-        <ActionButton layout="iconOnly" variant="brandSolid" disabled aria-label="Disabled">
+        <ActionButton
+          layout="iconOnly"
+          variant="brandSolid"
+          disabled
+          accessibility-label="Disabled"
+        >
           <Icon icon={<IconPlusFill />} />
         </ActionButton>
       </view>

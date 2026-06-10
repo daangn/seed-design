@@ -34,7 +34,7 @@ Platform Gate → Architecture Analysis → Headless (선택) → Rootage YAML �
 |----------|----------------|---------------|--------|
 | 토큰/스타일 변수 | `packages/rootage/` | `packages/rootage/` | `bun generate:all` |
 | Recipe source | `packages/qvism-preset/src/recipes/` | `packages/lynx-qvism-preset/src/recipes/` | `bun qvism:generate` |
-| Headless/state | `packages/react-headless/` | `packages/lynx-headless/` 또는 styled-local | package build/test |
+| Headless/state | `packages/react-headless/` | `packages/lynx-react-headless/` 또는 styled-local | package build/test |
 | Styled UI | `packages/react/src/components/` | `packages/lynx-react/src/components/` | `bun packages:build` |
 | Snippet | `docs/registry/react/ui/` | `docs/registry/lynx/ui/` | docs registry generate |
 | 문서 | `docs/content/react/` | `docs/content/lynx/` | `bun docs:test` |
@@ -51,7 +51,7 @@ Platform Gate → Architecture Analysis → Headless (선택) → Rootage YAML �
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│  1. HEADLESS (Optional) - react-headless or lynx-headless   │
+│  1. HEADLESS (Optional) - react-headless or lynx-react-headless   │
 └─────────────────────────────────────────────────────────────┘
                            │
                            ▼
@@ -95,7 +95,7 @@ Platform Gate → Architecture Analysis → Headless (선택) → Rootage YAML �
 4. React는 `packages/qvism-preset/src/recipes/[name].ts`, Lynx는 `packages/lynx-qvism-preset/src/recipes/[name].ts` 작성
 5. target preset entry에 recipe export 추가
 6. React는 `packages/react/src/components/[Name]/`, Lynx는 `packages/lynx-react/src/components/[Name]/` 구현
-7. stateful Lynx에서 필요하면 `packages/lynx-headless/[name]/`를 먼저 설계하고 사용자 확인 후 추가
+7. stateful Lynx에서 필요하면 `packages/lynx-react-headless/[name]/`를 먼저 설계하고 사용자 확인 후 추가
 8. platform snippet/docs/example 작성
 9. Visual Test 실행
 

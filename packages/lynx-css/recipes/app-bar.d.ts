@@ -1,0 +1,32 @@
+declare interface AppBarVariant {
+  /**
+  * @default "cupertino"
+  */
+  theme: "cupertino" | "android";
+/**
+  * @default "slideFromRightIOS"
+  */
+  transitionStyle: "slideFromRightIOS" | "fadeFromBottomAndroid" | "fadeIn";
+/**
+  * @default "layer"
+  */
+  tone: "layer" | "transparent";
+}
+
+declare type AppBarVariantMap = {
+  [key in keyof AppBarVariant]: Array<AppBarVariant[key]>;
+};
+
+export declare type AppBarVariantProps = Partial<AppBarVariant>;
+
+export declare type AppBarSlotName = "root" | "background" | "left" | "right" | "iconButton" | "icon" | "custom";
+
+export declare const appBarVariantMap: AppBarVariantMap;
+
+export declare const appBar: ((
+  props?: AppBarVariantProps,
+) => Record<AppBarSlotName, string>) & {
+  splitVariantProps: <T extends AppBarVariantProps>(
+    props: T,
+  ) => [AppBarVariantProps, Omit<T, keyof AppBarVariantProps>];
+}
