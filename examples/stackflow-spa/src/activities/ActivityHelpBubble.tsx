@@ -1,7 +1,8 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
+import { HelpBubble as SeedHelpBubble } from "@seed-design/react";
 import {
   AppBar,
   AppBarLeft,
@@ -24,6 +25,39 @@ declare module "@stackflow/config" {
 
 const LONG_DESCRIPTION =
   "당근은 동네 이웃과 따뜻한 거래를 나누는 공간이에요. 중고 거래부터 동네 가게, 알바, 부동산까지 우리 동네의 다양한 소식을 만나보세요. 이 도움말은 컨텐츠가 길 때 말풍선이 세로로 얼마나 늘어나는지 확인하기 위한 예시예요. 가로 너비는 size 미들웨어가 제한하지만, 세로 넘침은 flip과 shift가 처리합니다.";
+
+const PORTAL_DESCRIPTION =
+  "Positioner 대신 PositionerPortal로 렌더링돼 document.body 아래로 빠져나가요. size 미들웨어가 가로 너비를 제한해서 화면을 벗어나지 않습니다.";
+
+interface PortalHelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "children"> {
+  title: ReactNode;
+  description?: ReactNode;
+  children?: ReactNode;
+}
+
+function PortalHelpBubbleTrigger({
+  title,
+  description,
+  children,
+  ...otherProps
+}: PortalHelpBubbleTriggerProps) {
+  return (
+    <SeedHelpBubble.Root {...otherProps}>
+      <SeedHelpBubble.Trigger asChild>{children}</SeedHelpBubble.Trigger>
+      <SeedHelpBubble.PositionerPortal>
+        <SeedHelpBubble.Content>
+          <SeedHelpBubble.Arrow>
+            <SeedHelpBubble.ArrowTip />
+          </SeedHelpBubble.Arrow>
+          <SeedHelpBubble.Body>
+            <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
+            {description && <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>}
+          </SeedHelpBubble.Body>
+        </SeedHelpBubble.Content>
+      </SeedHelpBubble.PositionerPortal>
+    </SeedHelpBubble.Root>
+  );
+}
 
 const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = () => {
   const { push } = useFlow();
@@ -147,6 +181,42 @@ const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = ()
           >
             <ActionButton>긴 컨텐츠 bottom 테스트</ActionButton>
           </HelpBubbleTrigger>
+        </div>
+        <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "center" }}>
+          <PortalHelpBubbleTrigger
+            title="Portal placement=top"
+            description={PORTAL_DESCRIPTION}
+            placement="top"
+          >
+            <ActionButton>Portal (top)</ActionButton>
+          </PortalHelpBubbleTrigger>
+        </div>
+        <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "center" }}>
+          <PortalHelpBubbleTrigger
+            title="Portal placement=bottom"
+            description={PORTAL_DESCRIPTION}
+            placement="bottom"
+          >
+            <ActionButton>Portal (bottom)</ActionButton>
+          </PortalHelpBubbleTrigger>
+        </div>
+        <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "flex-end" }}>
+          <PortalHelpBubbleTrigger
+            title="Portal placement=left"
+            description={PORTAL_DESCRIPTION}
+            placement="left"
+          >
+            <ActionButton>Portal (left)</ActionButton>
+          </PortalHelpBubbleTrigger>
+        </div>
+        <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "flex-start" }}>
+          <PortalHelpBubbleTrigger
+            title="Portal placement=right"
+            description={PORTAL_DESCRIPTION}
+            placement="right"
+          >
+            <ActionButton>Portal (right)</ActionButton>
+          </PortalHelpBubbleTrigger>
         </div>
         <div style={{ height: "100vh" }} />
       </AppScreenContent>
