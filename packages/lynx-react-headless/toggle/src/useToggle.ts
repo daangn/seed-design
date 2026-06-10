@@ -1,6 +1,6 @@
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
-import { useControllableState } from "@seed-design/lynx-use-controllable-state";
-import { usePressTap } from "@seed-design/lynx-use-press-tap";
+import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
+import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 export interface UseToggleStateProps {
   pressed?: boolean;
