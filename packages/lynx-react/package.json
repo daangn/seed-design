@@ -50,8 +50,8 @@
   "dependencies": {
     "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "@lynx-js/lynx-ui-common": "^3.130.0",
-    "@seed-design/lynx-use-controllable-state": "0.0.0",
-    "@seed-design/lynx-use-press-tap": "0.0.0",
+    "@seed-design/lynx-react-use-controllable-state": "0.0.0",
+    "@seed-design/lynx-react-use-press-tap": "0.0.0",
     "clsx": "^2.1.1"
   }
 }

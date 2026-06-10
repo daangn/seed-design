@@ -240,8 +240,8 @@
         "@lynx-js/react": "^0.117.0",
         "@seed-design/lynx-css": "0.1.0",
         "@seed-design/lynx-react": "0.1.0",
-        "@seed-design/lynx-use-controllable-state": "0.0.0",
-        "@seed-design/lynx-use-press-tap": "0.0.0",
+        "@seed-design/lynx-react-use-controllable-state": "0.0.0",
+        "@seed-design/lynx-react-use-press-tap": "0.0.0",
         "@seed-design/tailwind3-plugin": "workspace:*",
         "clsx": "^2.1.1",
         "lynx-console": "^0.3.0",
@@ -448,42 +448,6 @@
         "@seed-design/qvism-cli": "0.0.0",
       },
     },
-    "packages/lynx-headless/use-controllable-state": {
-      "name": "@seed-design/lynx-use-controllable-state",
-      "version": "0.0.0",
-      "dependencies": {
-        "@lynx-js/lynx-ui-common": "^3.130.0",
-      },
-      "devDependencies": {
-        "@lynx-js/react": "^0.116.3",
-        "@seed-design/lynx-vitest-config": "0.0.0",
-        "@testing-library/jest-dom": "^6.9.1",
-        "jsdom": "^29.0.2",
-        "vitest": "^3.2.4",
-      },
-      "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
-      },
-    },
-    "packages/lynx-headless/use-press-tap": {
-      "name": "@seed-design/lynx-use-press-tap",
-      "version": "0.0.0",
-      "dependencies": {
-        "@lynx-js/lynx-ui-common": "^3.130.0",
-      },
-      "devDependencies": {
-        "@lynx-js/react": "^0.116.3",
-        "@lynx-js/types": "^3.7.0",
-        "@seed-design/lynx-vitest-config": "0.0.0",
-        "@testing-library/jest-dom": "^6.9.1",
-        "jsdom": "^29.0.2",
-        "vitest": "^3.2.4",
-      },
-      "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
-        "@lynx-js/types": ">=3.7.0",
-      },
-    },
     "packages/lynx-qvism-preset": {
       "name": "@seed-design/lynx-qvism-preset",
       "version": "0.0.0",
@@ -502,8 +466,8 @@
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
-        "@seed-design/lynx-use-controllable-state": "0.0.0",
-        "@seed-design/lynx-use-press-tap": "0.0.0",
+        "@seed-design/lynx-react-use-controllable-state": "0.0.0",
+        "@seed-design/lynx-react-use-press-tap": "0.0.0",
         "clsx": "^2.1.1",
       },
       "devDependencies": {
@@ -521,6 +485,42 @@
         "@lynx-js/react": ">=0.100.0",
         "@lynx-js/types": ">=3.7.0",
         "@seed-design/lynx-css": "0.0.0 || >=0.1.0 <1.0.0",
+      },
+    },
+    "packages/lynx-react-headless/use-controllable-state": {
+      "name": "@seed-design/lynx-react-use-controllable-state",
+      "version": "0.0.0",
+      "dependencies": {
+        "@lynx-js/lynx-ui-common": "^3.130.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.116.3",
+        "@seed-design/lynx-vitest-config": "0.0.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "jsdom": "^29.0.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+      },
+    },
+    "packages/lynx-react-headless/use-press-tap": {
+      "name": "@seed-design/lynx-react-use-press-tap",
+      "version": "0.0.0",
+      "dependencies": {
+        "@lynx-js/lynx-ui-common": "^3.130.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.116.3",
+        "@lynx-js/types": "^3.7.0",
+        "@seed-design/lynx-vitest-config": "0.0.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "jsdom": "^29.0.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/types": ">=3.7.0",
       },
     },
     "packages/lynx-vitest-config": {
@@ -2787,9 +2787,9 @@
 
     "@seed-design/lynx-react": ["@seed-design/lynx-react@workspace:packages/lynx-react"],
 
-    "@seed-design/lynx-use-controllable-state": ["@seed-design/lynx-use-controllable-state@workspace:packages/lynx-headless/use-controllable-state"],
+    "@seed-design/lynx-react-use-controllable-state": ["@seed-design/lynx-react-use-controllable-state@workspace:packages/lynx-react-headless/use-controllable-state"],
 
-    "@seed-design/lynx-use-press-tap": ["@seed-design/lynx-use-press-tap@workspace:packages/lynx-headless/use-press-tap"],
+    "@seed-design/lynx-react-use-press-tap": ["@seed-design/lynx-react-use-press-tap@workspace:packages/lynx-react-headless/use-press-tap"],
 
     "@seed-design/lynx-vitest-config": ["@seed-design/lynx-vitest-config@workspace:packages/lynx-vitest-config"],
 
@@ -6563,9 +6563,9 @@
 
     "@seed-design/lynx-react/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
-    "@seed-design/lynx-use-controllable-state/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
+    "@seed-design/lynx-react-use-controllable-state/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
-    "@seed-design/lynx-use-press-tap/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
+    "@seed-design/lynx-react-use-press-tap/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
     "@seed-design/lynx-vitest-config/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
@@ -7705,11 +7705,11 @@
 
     "@sanity/ui/motion/framer-motion": ["framer-motion@12.23.24", "", { "dependencies": { "motion-dom": "^12.23.23", "motion-utils": "^12.23.6", "tslib": "^2.4.0" }, "peerDependencies": { "@emotion/is-prop-valid": "*", "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0" }, "optionalPeers": ["@emotion/is-prop-valid", "react", "react-dom"] }, "sha512-HMi5HRoRCTou+3fb3h9oTLyJGBxHfW+HnNE25tAXOvVx/IvwMHK0cx7IR4a2ZU6sh3IX1Z+4ts32PcYBOqka8w=="],
 
+    "@seed-design/lynx-react-use-controllable-state/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
+
+    "@seed-design/lynx-react-use-press-tap/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
+
     "@seed-design/lynx-react/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
-
-    "@seed-design/lynx-use-controllable-state/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
-
-    "@seed-design/lynx-use-press-tap/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
 
     "@seed-design/lynx-vitest-config/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
 

@@ -1,8 +1,8 @@
-# AGENTS.md — packages/lynx-headless
+# AGENTS.md — packages/lynx-react-headless
 
 ## 디렉토리 개요
 
-Lynx 플랫폼용 headless 패키지 모음. `@seed-design/react-headless/*`의 Lynx 대응으로, 컴포넌트별로 개별 npm 패키지(`@seed-design/lynx-*`)로 배포한다. 상태/이벤트/로직만 담당하고, 스타일드 UI는 상위의 `packages/lynx-react`가 이 훅들을 소비한다.
+Lynx 플랫폼용 headless 패키지 모음. `@seed-design/react-headless/*`의 Lynx 대응으로, 컴포넌트별로 개별 npm 패키지(`@seed-design/lynx-react-*`)로 배포한다. 상태/이벤트/로직만 담당하고, 스타일드 UI는 상위의 `packages/lynx-react`가 이 훅들을 소비한다.
 
 ## 책임 경계
 
@@ -15,10 +15,10 @@ Lynx 플랫폼용 headless 패키지 모음. `@seed-design/react-headless/*`의 
 
 ## 파일 작성 컨벤션
 
-- 패키지: `packages/lynx-headless/<component>/` (npm name `@seed-design/lynx-<component>`)
+- 패키지: `packages/lynx-react-headless/<component>/` (npm name `@seed-design/lynx-react-<component>`)
 - 훅: `src/use<Name>.ts`, 배럴: `src/index.ts`에서 `export * from "./<file>"`
 - 빌드: `bunchee` (ESM), peer `@lynx-js/react` / `@lynx-js/types`
-- 새 패키지 추가 시 루트 `package.json`의 `workspaces`에 `packages/lynx-headless/*`가 포함돼 있는지 확인
+- 새 패키지 추가 시 루트 `package.json`의 `workspaces`에 `packages/lynx-react-headless/*`가 포함돼 있는지 확인
 
 ## 코드 작성 컨벤션
 

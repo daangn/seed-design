@@ -17,8 +17,8 @@
     "@lynx-js/react": "^0.117.0",
     "@seed-design/lynx-css": "0.1.0",
     "@seed-design/lynx-react": "0.1.0",
-    "@seed-design/lynx-use-controllable-state": "0.0.0",
-    "@seed-design/lynx-use-press-tap": "0.0.0",
+    "@seed-design/lynx-react-use-controllable-state": "0.0.0",
+    "@seed-design/lynx-react-use-press-tap": "0.0.0",
     "@seed-design/tailwind3-plugin": "workspace:*",
     "clsx": "^2.1.1",
     "lynx-console": "^0.3.0"

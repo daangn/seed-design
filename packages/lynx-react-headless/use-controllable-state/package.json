@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/lynx-use-controllable-state",
+  "name": "@seed-design/lynx-react-use-controllable-state",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/lynx-headless/use-controllable-state"
+    "directory": "packages/lynx-react-headless/use-controllable-state"
   },
   "sideEffects": false,
   "type": "module",

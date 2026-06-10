@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/lynx-use-press-tap",
+  "name": "@seed-design/lynx-react-use-press-tap",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/lynx-headless/use-press-tap"
+    "directory": "packages/lynx-react-headless/use-press-tap"
   },
   "sideEffects": false,
   "type": "module",
