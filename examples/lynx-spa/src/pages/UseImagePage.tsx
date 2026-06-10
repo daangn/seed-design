@@ -1,4 +1,4 @@
-import { useImage } from "@seed-design/lynx-image";
+import { useImage } from "@seed-design/lynx-react-image";
 import { AspectRatio } from "@seed-design/lynx-react";
 
 /**
@@ -42,7 +42,7 @@ function ImageWithStatus({ src, label }: { src: string; label: string }) {
 export function UseImagePage() {
   return (
     <view className="flex flex-col pb-x10">
-      <text className="t6-bold mb-x4 text-fg-neutral">useImage (lynx-image)</text>
+      <text className="t6-bold mb-x4 text-fg-neutral">useImage (lynx-react-image)</text>
       <ImageWithStatus
         src="https://picsum.photos/seed/use-image/1200/675"
         label="정상 이미지 (loaded → fallback 사라짐)"

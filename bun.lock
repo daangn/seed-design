@@ -240,6 +240,7 @@
         "@lynx-js/react": "^0.117.0",
         "@seed-design/lynx-css": "0.1.0",
         "@seed-design/lynx-react": "0.1.0",
+        "@seed-design/lynx-react-image": "0.0.0",
         "@seed-design/lynx-react-use-controllable-state": "0.0.0",
         "@seed-design/lynx-react-use-press-tap": "0.0.0",
         "@seed-design/tailwind3-plugin": "workspace:*",
@@ -485,6 +486,21 @@
         "@lynx-js/react": ">=0.100.0",
         "@lynx-js/types": ">=3.7.0",
         "@seed-design/lynx-css": "0.0.0 || >=0.1.0 <1.0.0",
+      },
+    },
+    "packages/lynx-react-headless/image": {
+      "name": "@seed-design/lynx-react-image",
+      "version": "0.0.0",
+      "dependencies": {
+        "@lynx-js/lynx-ui-common": "^3.130.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.116.3",
+        "@lynx-js/types": "^3.7.0",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/types": ">=3.7.0",
       },
     },
     "packages/lynx-react-headless/use-controllable-state": {
@@ -2786,6 +2802,8 @@
     "@seed-design/lynx-qvism-preset": ["@seed-design/lynx-qvism-preset@workspace:packages/lynx-qvism-preset"],
 
     "@seed-design/lynx-react": ["@seed-design/lynx-react@workspace:packages/lynx-react"],
+
+    "@seed-design/lynx-react-image": ["@seed-design/lynx-react-image@workspace:packages/lynx-react-headless/image"],
 
     "@seed-design/lynx-react-use-controllable-state": ["@seed-design/lynx-react-use-controllable-state@workspace:packages/lynx-react-headless/use-controllable-state"],
 
@@ -6563,6 +6581,8 @@
 
     "@seed-design/lynx-react/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
+    "@seed-design/lynx-react-image/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
+
     "@seed-design/lynx-react-use-controllable-state/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
 
     "@seed-design/lynx-react-use-press-tap/@lynx-js/react": ["@lynx-js/react@0.116.5", "", { "dependencies": { "preact": "npm:@hongzhiyuan/preact@10.28.0-fc4af453" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-qhh9mZv7d5hKMQOXoiAOYaWQe/My6MhJ8EcJAi/c9g1EH4TQQoR0Q1o/7dIWj/pZbIiXSt6bgXpTJNQpXr+Qyg=="],
@@ -7704,6 +7724,8 @@
     "@sanity/sdk/@sanity/types/@sanity/media-library-types": ["@sanity/media-library-types@1.0.1", "", {}, "sha512-lyjDQqq0IkVMBKPsm1+IeTpOki3OeFvSCyFms8pPTYcMaH0U5S+wK553QDI4HnmmPx0SiWpOWtLlTh1qkh+IFA=="],
 
     "@sanity/ui/motion/framer-motion": ["framer-motion@12.23.24", "", { "dependencies": { "motion-dom": "^12.23.23", "motion-utils": "^12.23.6", "tslib": "^2.4.0" }, "peerDependencies": { "@emotion/is-prop-valid": "*", "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0" }, "optionalPeers": ["@emotion/is-prop-valid", "react", "react-dom"] }, "sha512-HMi5HRoRCTou+3fb3h9oTLyJGBxHfW+HnNE25tAXOvVx/IvwMHK0cx7IR4a2ZU6sh3IX1Z+4ts32PcYBOqka8w=="],
+
+    "@seed-design/lynx-react-image/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
 
     "@seed-design/lynx-react-use-controllable-state/@lynx-js/react/preact": ["@hongzhiyuan/preact@10.28.0-fc4af453", "", {}, "sha512-TrM2g079OZN1poroDnU2kQd1gNUB1DMfVoKyz23AE3hZvl9ypRgG2MdgxAJtwT5u3BmYvI4Z0EbdpJTdf428IQ=="],
 

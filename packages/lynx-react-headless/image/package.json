@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/lynx-image",
+  "name": "@seed-design/lynx-react-image",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/lynx-headless/image"
+    "directory": "packages/lynx-react-headless/image"
   },
   "sideEffects": false,
   "type": "module",
