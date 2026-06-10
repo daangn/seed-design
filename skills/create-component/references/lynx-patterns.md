@@ -56,6 +56,61 @@ Web과 Lynx의 차이는 타입과 문서가 같은 말을 해야 한다.
 - `docs/content/lynx/components/<name>.mdx`에 `Web Version Differences`와 `Unsupported Lynx Features`를 작성한다.
 - SVG/icon 기능은 `@karrotmarket/lynx-monochrome-icon` 같은 Lynx icon element와 `<image tint-color>` 기반 wrapper를 우선 검토한다.
 
+## Accessibility
+
+Lynx는 web ARIA가 아니라 자체 `accessibility-*` 속성을 쓴다. **모든 native tag(`<view>`/`<text>`/`<image>`/`<list>`/...)가 동일한 공통 속성을 공유**하며 tag별 차이는 없다. `lynx-react`의 `LynxAccessibilityProps`(`packages/lynx-react/src/types.ts`)가 이 속성들을 모은 표준 타입이다 — 컴포넌트 props가 이를 확장해 native element에 패스스루한다.
+
+### 속성 레퍼런스 (`@lynx-js/types` StandardProps)
+
+| 속성 | 타입 | web 대응 |
+|------|------|----------|
+| `accessibility-label` | `string` | `aria-label` (스크린리더가 읽을 이름) |
+| `accessibility-traits` | `'button'｜'image'｜'link'｜'header'｜'selected'｜'disabled'｜'adjustable'｜'tabbar'｜...｜'none'` (**단일 값**) | `role`/state 일부 |
+| `accessibility-element` | `boolean` | a11y 트리 포함 여부 (`<view>`는 명시 필요, `<text>`/`<image>`는 기본 `true`) |
+| `accessibility-value` | `string` | `aria-checked` / `aria-valuenow` (상태 텍스트) |
+| `accessibility-role-description` | `'switch'｜'checkbox'｜'image'｜'progressbar'｜string` | `role` |
+| `accessibility-elements-hidden` | `boolean` | `aria-hidden` |
+| `accessibility-heading` | `boolean` | `role="heading"` |
+| `accessibility-actions` | `string[]` | 커스텀 액션 (`bindaccessibilityaction` 이벤트와 함께) |
+| `accessibility-exclusive-focus` | `boolean` | focus 격리 |
+| `ios-platform-accessibility-id` | `string` | iOS 테스트 식별자 |
+
+- 이벤트: `bindaccessibilityaction` (`AccessibilityAction`) · 메서드: `requestAccessibilityFocus()`
+- **타입 미제공**(가이드 문서엔 언급): `accessibility-elements`(읽기 순서), `accessibilityAnnounce`(전역 announce) — 필요 시 런타임/버전 확인 후 사용한다.
+
+### 책임 분리
+
+- **headless(`packages/lynx-headless/*`)**: a11y 속성을 만들지 않는다. 상태(`pressed`/`checked`/`disabled`)만 노출한다.
+- **styled(`packages/lynx-react/*`)**: 내부 상태·prop에 따라 `accessibility-*`를 native element에 **직접 작성**한다. (web `react-headless`가 `stateProps`로 `aria-*`를 붙이는 역할을 Lynx에선 styled가 담당)
+- 공통 헬퍼는 두지 않는다. 컴포넌트마다 label/role/value가 달라 직접 작성이 명확하다.
+
+### 결정 트리
+
+- **interactive (button/toggle/checkbox/switch)**: `accessibility-element={true}` + `accessibility-role-description`(역할) + `accessibility-value`(상태 텍스트) + `accessibility-label`(이름). `disabled`면 `accessibility-traits="disabled"`.
+  - `traits`는 단일 값이라 `selected`+`disabled` 동시 표현 불가 → **역할은 `role-description`, 상태는 `value`**로 분담한다.
+- **decorative (장식 image/icon)**: `accessibility-elements-hidden={true}` (스크린리더에서 숨김).
+- **의미 있는 image**: `accessibility-label`(대체 텍스트) + `accessibility-traits="image"`.
+- **layout (Box/Stack/AspectRatio)**: 보통 불필요. 자식이 a11y를 담당한다.
+
+### 예시
+
+```tsx
+// Switch(styled) — 상태에 따라 a11y를 native <view>에 직접 작성
+<view
+  {...pressHandlers}
+  accessibility-element={true}
+  accessibility-role-description="switch"
+  accessibility-value={checked ? "켜짐" : "꺼짐"}
+  accessibility-traits={disabled ? "disabled" : "button"}
+  accessibility-label={label}
+/>
+
+// 장식 아이콘 — 스크린리더에서 숨김
+<image src={iconSrc} accessibility-elements-hidden={true} />
+```
+
+`accessibility-value`/`accessibility-label`의 텍스트("켜짐"/"꺼짐" 등)는 i18n 대상이므로 headless가 아니라 컴포넌트/소비처가 제공한다.
+
 ## Docs and registry
 
 - Lynx snippet은 `docs/registry/lynx/ui/<name>.tsx`에 둔다.
