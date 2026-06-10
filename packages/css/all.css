@@ -4420,6 +4420,7 @@
 .seed-help-bubble__positioner {
   --popover-z-index: 99;
   z-index: calc(var(--popover-z-index) + var(--z-index-offset, 0));
+  max-width: var(--seed-popover-available-width, none);
 }
 
 .seed-help-bubble__content {

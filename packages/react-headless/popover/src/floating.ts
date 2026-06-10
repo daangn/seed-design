@@ -96,10 +96,14 @@ function getSizeMiddleware(opts: PositioningOptions) {
   return size({
     padding: opts.overflowPadding,
     apply({ availableWidth, elements }) {
-      // Clamp the floating element's width to the space left in the viewport so it
-      // never overflows (e.g. zoomed-in webviews). Width only — vertical overflow is
-      // handled by flip/shift. `availableWidth` can be negative, so floor it at 0.
-      elements.floating.style.setProperty("max-width", `${Math.max(0, availableWidth)}px`);
+      // Expose the space left in the viewport as a CSS variable and let the stylesheet
+      // decide how to apply it (typically max-width), rather than mutating max-width here.
+      // Width only — vertical overflow is handled by flip/shift. `availableWidth` can be
+      // negative, so floor it at 0.
+      elements.floating.style.setProperty(
+        "--seed-popover-available-width",
+        `${Math.max(0, availableWidth)}px`,
+      );
     },
   });
 }

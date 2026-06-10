@@ -25,6 +25,10 @@ const helpBubble = defineSlotRecipe({
     positioner: {
       "--popover-z-index": "99",
       zIndex: "calc(var(--popover-z-index) + var(--z-index-offset, 0))",
+
+      // Clamp the bubble to the viewport. `--seed-popover-available-width` is set by the
+      // popover size middleware; before it is measured it falls back to `none`.
+      maxWidth: "var(--seed-popover-available-width, none)",
     },
     content: {
       display: "flex",
