@@ -4475,7 +4475,9 @@
 .seed-help-bubble__body {
   gap: var(--seed-dimension-x0_5);
   word-break: keep-all;
+  overflow-wrap: break-word;
   flex-direction: column;
+  min-width: 0;
   display: flex;
 }
 

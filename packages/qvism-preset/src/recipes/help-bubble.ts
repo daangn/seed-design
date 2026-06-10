@@ -83,6 +83,11 @@ const helpBubble = defineSlotRecipe({
       gap: vars.base.enabled.body.gap,
 
       wordBreak: "keep-all",
+      overflowWrap: "break-word",
+      // As a flex item the body won't shrink below its content's min-content width,
+      // so a long unbreakable run overflows the size()-constrained bubble. min-width: 0
+      // releases that floor so overflow-wrap can break the run to keep it in view.
+      minWidth: 0,
     },
     title: {
       color: vars.base.enabled.title.color,
