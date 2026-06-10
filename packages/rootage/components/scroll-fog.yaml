@@ -8,16 +8,47 @@ data:
     slots:
       root:
         properties:
-          fromColor:
-            type: color
-          toColor:
-            type: color
+          gradient:
+            type: gradient
           size:
             type: dimension
   definitions:
     base:
       enabled:
         root:
-          fromColor: "#00000000"
-          toColor: "#000000ff"
+          gradient:
+            type: gradient
+            value:
+              - color: "#00000000" # 0%
+                position: 0
+              - color: "#00000003" # 1%
+                position: 0.08
+              - color: "#00000005" # 2%
+                position: 0.16
+              - color: "#0000000d" # 5%
+                position: 0.22
+              - color: "#00000014" # 8%
+                position: 0.29
+              - color: "#00000021" # 13%
+                position: 0.35
+              - color: "#0000002e" # 18%
+                position: 0.41
+              - color: "#00000040" # 25%
+                position: 0.47
+              - color: "#00000052" # 32%
+                position: 0.53
+              - color: "#00000066" # 40%
+                position: 0.59
+              - color: "#0000007a" # 48%
+                position: 0.65
+              - color: "#00000094" # 58%
+                position: 0.71
+              - color: "#000000ab" # 67%
+                position: 0.78
+              - color: "#000000c7" # 78%
+                position: 0.84
+              - color: "#000000e3" # 89%
+                position: 0.92
+              - color: "#000000ff" # 100%
+                position: 1
           size: 20px
