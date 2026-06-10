@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 1.2.12
+
+### Patch Changes
+
+- Updated dependencies [e48f021]
+  - @seed-design/react-popover@1.0.4
+
 ## 1.2.11
 
 ### Patch Changes
