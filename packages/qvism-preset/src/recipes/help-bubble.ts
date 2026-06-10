@@ -11,6 +11,8 @@ const helpBubble = defineSlotRecipe({
     positioner: {
       "--popover-z-index": "99",
       zIndex: "calc(var(--popover-z-index) + var(--z-index-offset, 0))",
+
+      maxWidth: "var(--seed-popover-available-width, none)",
     },
     content: {
       display: "flex",
@@ -22,6 +24,9 @@ const helpBubble = defineSlotRecipe({
       paddingBottom: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
       wordBreak: "keep-all",
+      // let long unbreakable runs break so text stays within the clamped width
+      overflowWrap: "break-word",
+      minWidth: 0,
 
       "--seed-box-max-width": "initial",
       maxWidth: "var(--seed-box-max-width)",

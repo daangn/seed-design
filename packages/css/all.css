@@ -3927,6 +3927,7 @@
 .seed-help-bubble__positioner {
   --popover-z-index: 99;
   z-index: calc(var(--popover-z-index)  + var(--z-index-offset, 0));
+  max-width: var(--seed-popover-available-width, none);
 }
 
 .seed-help-bubble__content {
@@ -3937,7 +3938,9 @@
   padding-bottom: var(--seed-dimension-x2_5);
   border-radius: var(--seed-radius-r3);
   word-break: keep-all;
+  overflow-wrap: break-word;
   --seed-box-max-width: initial;
+  min-width: 0;
   max-width: var(--seed-box-max-width);
   flex-direction: column;
   display: flex;

@@ -5,6 +5,7 @@ import {
   limitShift,
   offset,
   shift,
+  size,
   useFloating,
   type Alignment,
   type ExtendedRefs,
@@ -91,6 +92,18 @@ function getShiftMiddleware(opts: PositioningOptions) {
   });
 }
 
+function getSizeMiddleware(opts: PositioningOptions) {
+  return size({
+    padding: opts.overflowPadding,
+    apply({ availableWidth, elements }) {
+      elements.floating.style.setProperty(
+        "--seed-popover-available-width",
+        `${Math.max(0, availableWidth)}px`,
+      );
+    },
+  });
+}
+
 const rectMiddleware: Middleware = {
   name: "rects",
   fn({ rects }) {
@@ -171,6 +184,7 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
       getOffsetMiddleware(arrowTipOffset, options),
       getFlipMiddleware(options),
       getShiftMiddleware(options),
+      getSizeMiddleware(options),
       getArrowMiddleware(arrowEl, options),
       rectMiddleware,
     ],
