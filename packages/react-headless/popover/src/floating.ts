@@ -96,10 +96,6 @@ function getSizeMiddleware(opts: PositioningOptions) {
   return size({
     padding: opts.overflowPadding,
     apply({ availableWidth, elements }) {
-      // Expose the space left in the viewport as a CSS variable and let the stylesheet
-      // decide how to apply it (typically max-width), rather than mutating max-width here.
-      // Width only — vertical overflow is handled by flip/shift. `availableWidth` can be
-      // negative, so floor it at 0.
       elements.floating.style.setProperty(
         "--seed-popover-available-width",
         `${Math.max(0, availableWidth)}px`,
