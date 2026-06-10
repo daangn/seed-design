@@ -13,6 +13,7 @@ import type {
   LynxStyledElementProps,
   LynxTextRef,
   LynxTouchProps,
+  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
@@ -51,7 +52,16 @@ interface ActionButtonContentProps extends LynxElementProps {
   suffixIcon?: SuffixIconProps["icon"];
 }
 
-interface ActionButtonRootOwnProps extends LynxStyledElementProps, LynxTouchProps {}
+interface ActionButtonAccessibilityProps {
+  "accessibility-label"?: LynxViewProps["accessibility-label"];
+  "accessibility-element"?: LynxViewProps["accessibility-element"];
+  "accessibility-traits"?: LynxViewProps["accessibility-traits"];
+}
+
+interface ActionButtonRootOwnProps
+  extends LynxStyledElementProps,
+    LynxTouchProps,
+    ActionButtonAccessibilityProps {}
 
 interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {}
 
@@ -253,11 +263,11 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
  *   <SuffixIcon icon={<IconChevronDownFill />} />
  * </ActionButton>
  *
- * // iconOnly — `<Icon />` child 와 `aria-label` 필수
+ * // iconOnly — `<Icon />` child 와 `accessibility-label` 필수
  * <ActionButton
  *   layout="iconOnly"
  *   variant="neutralSolid"
- *   aria-label="추가"
+ *   accessibility-label="추가"
  * >
  *   <Icon icon={<IconPlusFill />} />
  * </ActionButton>
@@ -267,11 +277,11 @@ export interface ActionButtonProps
   extends Omit<ActionButtonVariantProps, "pressed">,
     Pick<StyleProps, "flexGrow">,
     LynxElementProps,
-    LynxPressableProps {
+    LynxPressableProps,
+    ActionButtonAccessibilityProps {
   icon?: IconProps["icon"];
   prefixIcon?: PrefixIconProps["icon"];
   suffixIcon?: SuffixIconProps["icon"];
-  "aria-label"?: string;
 }
 
 export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
@@ -284,6 +294,9 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     suffixIcon,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement = true,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-traits": accessibilityTraits = "button",
     ...variantAndRest
   } = props;
   const { disabled = false, loading = false } = variantAndRest;
@@ -291,8 +304,15 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   const isIconOnly = layout === "iconOnly";
   const size = variantAndRest.size;
 
-  if (process.env.NODE_ENV !== "production" && isIconOnly && !props["aria-label"]) {
-    console.warn('ActionButton: `layout="iconOnly"` requires `aria-label` for accessibility.');
+  if (
+    process.env.NODE_ENV !== "production" &&
+    isIconOnly &&
+    accessibilityElement &&
+    !accessibilityLabel
+  ) {
+    console.warn(
+      'ActionButton: `layout="iconOnly"` requires `accessibility-label` for accessibility.',
+    );
   }
 
   const { pressed, ...pressTapHandlers } = usePressTap({
@@ -309,6 +329,9 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
         pressed={pressed}
         ref={ref}
         style={flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined}
+        accessibility-element={accessibilityElement}
+        accessibility-label={accessibilityLabel}
+        accessibility-traits={accessibilityTraits}
         {...pressTapHandlers}
       >
         {loading ? (

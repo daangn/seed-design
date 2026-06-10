@@ -7,7 +7,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    --sheet-z-index: 2;
+    --sheet-z-index: 20;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0))
 }
 .seed-bottom-sheet__backdrop {
@@ -57,6 +57,8 @@
 .seed-bottom-sheet__body {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-height: 0;
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter)
 }

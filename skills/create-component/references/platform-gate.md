@@ -9,7 +9,7 @@
 | Platform | 신호 | 기본 구현 표면 |
 |----------|------|----------------|
 | `react` | `packages/react`, `packages/react-headless`, `docs/content/react`, Storybook, stackflow-spa | Rootage → `packages/qvism-preset` → `packages/css` → `packages/react` → docs/example. Registry snippet은 Delivery Surface Gate에서 필요 시 |
-| `lynx` | `packages/lynx-react`, `packages/lynx-css`, `docs/content/lynx`, `examples/lynx-spa`, Lynx native tag | Rootage → `packages/lynx-qvism-preset` → `packages/lynx-css` → `packages/lynx-headless`(필요 시) → `packages/lynx-react` → docs/example. Registry snippet은 Delivery Surface Gate에서 필요 시 |
+| `lynx` | `packages/lynx-react`, `packages/lynx-css`, `docs/content/lynx`, `examples/lynx-spa`, Lynx native tag | Rootage → `packages/lynx-qvism-preset` → `packages/lynx-css` → `packages/lynx-react-headless`(필요 시) → `packages/lynx-react` → docs/example. Registry snippet은 Delivery Surface Gate에서 필요 시 |
 | `cross-platform` | “React와 Lynx 둘 다”, 같은 컴포넌트의 Web/Lynx parity, shared token/recipe vocabulary | shared Rootage/semantic API를 먼저 정하고 React/Lynx 구현과 문서를 각각 분리 |
 
 요청이 `lynx-*`, `@lynx-js/react`, `<view>`/`<text>`, `docs/content/lynx`, `docs/registry/lynx/ui` 중 하나를 포함하면 `lynx`로 본다. 요청이 `@seed-design/react`, `docs/content/react`, Storybook 중심이면 `react`로 본다.
@@ -30,7 +30,7 @@ Lynx가 Web API를 그대로 재현할 수 없으면 타입에 열어두지 않�
 | 판단 영역 | React | Lynx |
 |-----------|-------|------|
 | Styled component | `packages/react/src/components/*` | `packages/lynx-react/src/components/*` |
-| Headless/state | `packages/react-headless/*` | `packages/lynx-headless/*` when stateful; otherwise local Lynx hooks/context |
+| Headless/state | `packages/react-headless/*` | `packages/lynx-react-headless/*` when stateful; otherwise local Lynx hooks/context |
 | Recipe source | `packages/qvism-preset/src/recipes/*` | `packages/lynx-qvism-preset/src/recipes/*` |
 | Generated CSS | `packages/css/*` | `packages/lynx-css/*` |
 | Docs | `docs/content/react/*` | `docs/content/lynx/*` |
@@ -41,7 +41,7 @@ Registry snippet을 제공하기로 결정한 경우 source of truth는 docs reg
 
 ## 4. Ask-first boundary
 
-새 `packages/lynx-headless/<component>` 패키지가 필요하면 repo의 “새 패키지 추가” boundary에 해당한다. 구현 전에 사용자에게 다음을 보고하고 확인받는다.
+새 `packages/lynx-react-headless/<component>` 패키지가 필요하면 repo의 “새 패키지 추가” boundary에 해당한다. 구현 전에 사용자에게 다음을 보고하고 확인받는다.
 
 - 왜 `packages/lynx-react` 내부 hook/context만으로 부족한가
 - 어떤 상태/이벤트/접근성 계약을 headless 패키지가 소유하는가

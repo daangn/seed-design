@@ -1,3 +1,7 @@
+text {
+  background-color: var(--seed-color-bg-transparent);
+}
+
 .seed-icon, .seed-prefix-icon, .seed-suffix-icon {
   flex-shrink: 0;
   justify-content: center;

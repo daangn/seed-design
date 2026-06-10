@@ -21,7 +21,7 @@ export function CatalogExamples({
   return (
     <scroll-view
       scroll-y
-      className={clsx("flex flex-col flex-1 p-x4 bg-bg-layer-default", gapClassName)}
+      className={clsx("flex flex-col flex-1 min-h-0 p-x4 bg-bg-layer-default", gapClassName)}
     >
       <text className="t7-bold text-fg-neutral">{title}</text>
       {children}

@@ -13,6 +13,15 @@ export const registryUI: Registry = {
   id: "ui",
   items: [
     {
+      id: "app-bar",
+      snippets: [
+        {
+          path: "app-bar.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
       id: "bottom-sheet",
       snippets: [
         {

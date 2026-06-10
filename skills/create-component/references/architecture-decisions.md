@@ -51,6 +51,24 @@ Phase 0 Pre의 산출물(합의 요약)이 다음 항목의 입력이 된다:
 | D. Multi-Recipe | defineSlotRecipe ×2 | splitMultipleVariantsProps | 있음 | Checkbox |
 | E. Layout | 없음 | Box 확장 | 없음 | Flex |
 
+### 1a. Lynx 유틸리티 선택 게이트
+
+Target platform이 `lynx` 또는 `cross-platform`이면 카테고리 표를 React Web 결정으로만 쓰고, Styled UI 구현 전에 `packages/lynx-react/src/utils`, `packages/lynx-react/src/hooks`, `packages/lynx-react/AGENTS.md`를 확인해 유틸리티 적용 여부를 별도로 기록한다.
+
+| 유틸리티/훅 | 적용 기준 | 적용하지 않는 기준 |
+|-------------|-----------|--------------------|
+| `createSlotRecipeContext` | slot recipe의 className/variant props context를 공유할 때. `ClassNamesProvider`, `PropsProvider`, `useClassNames`, `useProps`만 사용하는 것도 권장 패턴이다. | native `<view>`/`<text>`/`<image>`를 `withContext("view")`처럼 intrinsic string으로 감쌀 때. slot이 측정값, safe-area, ref, 이벤트 합성 등 런타임 값을 함께 전파해야 하면 inline context와 병행한다. |
+| `splitMultipleVariantsProps` | 하나의 public component props가 여러 recipe variant를 같은 레이어에서 동시에 받을 때. | 각 sub-component가 자기 recipe props를 소유하거나, Root와 Slot의 recipe 책임이 분리되어 있을 때. |
+| `usePressTap` | pressed/disabled 상태를 recipe variant로 반영하거나 tap을 disabled-aware로 막아야 할 때. | 순수 UI slot이 handler를 그대로 넘기는 수준이고 pressed recipe state가 없을 때. |
+| `useControllableState` | controlled/uncontrolled local state가 있을 때. | 순수 UI 또는 외부 primitive가 상태를 소유할 때. |
+| `useSafeArea` | top/bottom safe-area를 컴포넌트 내부 layout에 반영할 때. | 상위 screen shell이 safe-area를 전적으로 소유할 때. |
+
+Phase 0 산출물에 다음을 남긴다:
+- 사용할 Lynx 유틸리티/훅
+- 의도적으로 쓰지 않는 유틸리티/훅과 이유
+- native slot은 literal JSX로 유지되는지
+- className context와 런타임 state/context가 분리되어 있는지
+
 ## 2. Headless 레이어 결정
 
 카테고리 C/D인 경우 headless 레이어가 필요하다. 기존 패키지를 재사용할 수 있는지 먼저 확인한다.
@@ -58,14 +76,14 @@ Phase 0 Pre의 산출물(합의 요약)이 다음 항목의 입력이 된다:
 **React 기존 headless 패키지** (`packages/react-headless/`):
 avatar, checkbox, collapsible, dialog, drawer, field, field-button, fieldset, image, popover, portal, primitive, progress, pull-to-refresh, radio-group, scrollable, segmented-control, slider, snackbar, supports, switch, tabs, text-field, toggle, use-controllable-state
 
-**Lynx headless 패키지** (`packages/lynx-headless/`):
-현재 repo에 있는 패키지를 먼저 확인한다. stateful Lynx 컴포넌트에서 press/tap, controlled/uncontrolled, context, render props를 재사용해야 하면 `packages/lynx-headless/*`를 우선 검토한다. 새 패키지가 필요하면 “새 패키지 추가” boundary이므로 사용자 확인 전 구현하지 않는다.
+**Lynx headless 패키지** (`packages/lynx-react-headless/`):
+현재 repo에 있는 패키지를 먼저 확인한다. stateful Lynx 컴포넌트에서 press/tap, controlled/uncontrolled, context, render props를 재사용해야 하면 `packages/lynx-react-headless/*`를 우선 검토한다. 새 패키지가 필요하면 “새 패키지 추가” boundary이므로 사용자 확인 전 구현하지 않는다.
 
 - **재사용 가능**: 기존 패키지의 훅/컨텍스트를 그대로 사용 (예: collapsible → Accordion)
 - **확장 필요**: 기존 패키지를 기반으로 새 훅 추가
 - **신규 생성**: 완전히 새로운 headless 패키지 필요
 
-신규 생성 시 target platform에 따라 `packages/react-headless/AGENTS.md` 또는 `packages/lynx-headless/AGENTS.md`의 컨벤션을 반드시 확인한다.
+신규 생성 시 target platform에 따라 `packages/react-headless/AGENTS.md` 또는 `packages/lynx-react-headless/AGENTS.md`의 컨벤션을 반드시 확인한다.
 
 ## 3. 의존성 분석 (BLOCKING GATE)
 
@@ -143,7 +161,7 @@ APG가 heading 계층이나 landmark 구조를 요구하는 컴포넌트는 이 
 
 - **Headless reference**: ________________
   - React 경로: `packages/react-headless/{name}/` 또는 `packages/react-headless/{name}/src/`
-  - Lynx 경로: `packages/lynx-headless/{name}/` 또는 styled-local hook/context
+  - Lynx 경로: `packages/lynx-react-headless/{name}/` 또는 styled-local hook/context
 - **Styled UI reference**: ________________
   - React 경로: `packages/react/src/components/{Name}/`
   - Lynx 경로: `packages/lynx-react/src/components/{Name}/`
