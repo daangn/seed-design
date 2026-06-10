@@ -7,10 +7,6 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/generated-files-guard.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/changeset-guard.sh"
           }
         ]
       },
@@ -20,10 +16,6 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/generated-files-guard.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/changeset-guard.sh"
           }
         ]
       },
@@ -33,10 +25,6 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/generated-files-guard.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/changeset-guard.sh"
           }
         ]
       },

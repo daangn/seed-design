@@ -17,25 +17,24 @@ Multicolor
 npm install @karrotmarket/lynx-multicolor-icon
 ```
 
-## Loader Configuration
+## Rsbuild Plugin Configuration
 
-아이콘 로더를 설정해야 합니다.
+Lynx 아이콘 SVG를 WebP data URL로 변환하는 Rsbuild 플러그인을 설정해야 합니다.
 
 <Callout>
   `@karrotmarket/lynx-*-icon` 패키지는 내부적으로
-  `karrotmarket/assets-*` 패키지의 SVG asset을 사용합니다. 아래 loader는 해당
-  package asset을 Lynx에서 안정적으로 표시할 수 있도록 로컬에서 `sharp`로 WebP
-  data URL로 변환합니다.
+  `karrotmarket/assets-*` 패키지의 SVG asset을 사용합니다. 아래 플러그인은 해당
+  package asset을 Lynx에서 안정적으로 표시할 수 있도록 빌드 시 `sharp`로 WebP
+  data URL 모듈로 변환합니다.
 </Callout>
 
 ```package-install
-npm install -D sharp
+npm install -D @seed-design/rsbuild-plugin-lynx-icon
 ```
 
 <Files>
   <File name="package.json" />
   <File name="lynx.config.ts" />
-  <File name="icon-loader.js" />
 </Files>
 
 ```ts title="lynx.config.ts"
@@ -43,6 +42,7 @@ import { defineConfig } from "@lynx-js/rspeedy";
 
 import { pluginQRCode } from "@lynx-js/qrcode-rsbuild-plugin";
 import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
+import { pluginLynxIcon } from "@seed-design/rsbuild-plugin-lynx-icon";
 import { pluginTypeCheck } from "@rsbuild/plugin-type-check";
 
 export default defineConfig({
@@ -55,87 +55,12 @@ export default defineConfig({
     }),
     pluginReactLynx(),
     pluginTypeCheck(),
+    pluginLynxIcon({
+      include:
+        /node_modules\/@karrotmarket\/assets-(monochrome|multicolor)\/svg\//,
+    }),
   ],
-
-  tools: {
-    rspack(config) {
-      // SVG 규칙을 찾아서 예외처리하고, 새로운 SVG 규칙을 추가합니다
-      if (config.module?.rules) {
-        config.module.rules = config.module.rules.map((rule) => {
-          if (
-            !rule ||
-            typeof rule !== "object" ||
-            !(rule.test instanceof RegExp)
-          ) {
-            return rule;
-          }
-
-          return {
-            ...rule,
-            exclude: [
-              ...(Array.isArray(rule.exclude) ? rule.exclude : []),
-              /\.svg$/,
-            ],
-          };
-        });
-        config.module.rules.unshift({
-          test: /\.svg$/,
-          use: {
-            loader: "./icon-loader.js",
-          },
-        });
-      }
-
-      return config;
-    },
-  },
 });
-```
-
-```js title="icon-loader.js"
-import sharp from "sharp";
-
-const MONOCHROME_ICON_MAX_SIZE = 24 * 3;
-const MONOCHROME_ICON_QUALITY = 90;
-const ICON_MONOCHROME_PATH = "@karrotmarket/assets-monochrome/svg/";
-const ICON_MULTICOLOR_PATH = "@karrotmarket/assets-multicolor/svg/";
-
-async function iconLoader(source) {
-  const callback = this.async();
-  const resourcePath = this.resourcePath;
-
-  if (
-    !resourcePath.includes(ICON_MONOCHROME_PATH) &&
-    !resourcePath.includes(ICON_MULTICOLOR_PATH)
-  ) {
-    return callback(null, source);
-  }
-
-  const size = MONOCHROME_ICON_MAX_SIZE;
-  const quality = MONOCHROME_ICON_QUALITY;
-
-  try {
-    const buffer = await sharp(Buffer.from(source))
-      .resize({
-        width: size,
-        fit: "contain",
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
-      })
-      .webp({ quality })
-      .toBuffer();
-
-    const base64String = buffer.toString("base64");
-    const dataUrl = `data:image/webp;base64,${base64String}`;
-
-    callback(null, `export default "${dataUrl}"`);
-  } catch (err) {
-    callback(err);
-  }
-}
-
-iconLoader.raw = true;
-
-export default iconLoader;
 ```
 
 ## Icon Library
@@ -187,7 +112,7 @@ export function App() {
         <SuffixIcon icon={<IconChevronDownFill />} />
       </ActionButton>
 
-      <ActionButton layout="iconOnly" aria-label="추가">
+      <ActionButton layout="iconOnly" accessibility-label="추가">
         <Icon icon={<IconPlusFill />} />
       </ActionButton>
     </view>
