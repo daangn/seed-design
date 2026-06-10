@@ -293,6 +293,9 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
         {...restProps}
         className={clsx(classNames.content, className)}
         innerStyle={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "0",
           paddingBottom: safeAreaInsetBottom,
           ...innerStyle,
         }}
@@ -312,15 +315,21 @@ export interface BottomSheetHandleProps extends SheetHandleProps {}
 
 /**
  * @remarks
- * `SheetHandle`은 forwardRef가 아니므로 ref 시그니처는 제공하지 않는다. touchArea 슬롯은
- * `SheetHandle` JSX가 정적으로 children을 받지 않는 구조라 적용하지 않는다 (Lynx
- * BackgroundSnapshot이 정적 slot 외의 동적 children 삽입을 허용하지 않음).
+ * `SheetHandle`은 forwardRef가 아니므로 ref 시그니처는 제공하지 않는다.
+ * Lynx drag handler는 `SheetHandle`의 outer view에 붙으므로, 44x44 target
+ * area는 `SheetHandle`에 적용하고 보이는 handle은 그 중심에 배치한다.
  */
 export function BottomSheetHandle(props: BottomSheetHandleProps): ReactElement {
-  const { className, style, ...rest } = props;
+  const { children, className, style, ...rest } = props;
   const classNames = bottomSheetHandle();
 
-  return <SheetHandle className={clsx(classNames.root, className)} style={style} {...rest} />;
+  return (
+    <SheetHandle className={classNames.touchArea} {...rest}>
+      <view className={clsx(classNames.root, className)} style={style as never}>
+        {children}
+      </view>
+    </SheetHandle>
+  );
 }
 BottomSheetHandle.displayName = "BottomSheetHandle";
 
@@ -381,7 +390,24 @@ export const BottomSheetHeader = createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
 
 export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
-export const BottomSheetBody = createViewSlot("body");
+export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyProps> = forwardRef<
+  unknown,
+  BottomSheetBodyProps
+>((props, ref) => {
+  const { children, className, style } = props;
+  const classNames = useClassNames();
+
+  return (
+    <scroll-view
+      {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+      scroll-y
+      className={clsx(classNames.body, className)}
+      style={style as never}
+    >
+      {children}
+    </scroll-view>
+  );
+});
 BottomSheetBody.displayName = "BottomSheetBody";
 
 export interface BottomSheetFooterProps extends BottomSheetSlotProps {}

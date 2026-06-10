@@ -50,7 +50,7 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheetContentProp
  *
  * 웹 BottomSheetContent와 달리 아래는 Lynx에서 미지원:
  * - `showCloseButton` (Tier B: SVG 지원 후 추가 예정)
- * - `aria-label` 기반 VisuallyHidden 제목 fallback (VisuallyHidden 미구현)
+ * - `accessibility-label` 기반 VisuallyHidden 제목 fallback (VisuallyHidden 미구현)
  */
 export const BottomSheetContent = (props: BottomSheetContentProps) => {
   const { children, title, description, showHandle = false, ...otherProps } = props;

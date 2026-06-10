@@ -1,5 +1,40 @@
 # @seed-design/lynx-css
 
+## 0.2.0
+
+### Minor Changes
+
+- c8d4c26: Lynx AppBar 컴포넌트를 추가합니다.
+
+  - `AppBar.Root`, `AppBar.Left`, `AppBar.Main`, `AppBar.Right`, `AppBar.IconButton` 등 compound API를 제공합니다.
+  - `SystemInfo.platform`에 따라 Android에서는 `android`, 그 외 플랫폼에서는 `cupertino` theme을 기본으로 적용합니다.
+  - `theme` prop으로 platform 기본값을 수동 override할 수 있습니다.
+
+- 26d3517: Lynx Badge 컴포넌트를 추가합니다.
+
+  - `@seed-design/lynx-react`에서 `Badge`를 직접 import해 사용할 수 있습니다.
+  - `@seed-design/lynx-css/recipes/badge`에서 Badge recipe 스타일을 제공합니다.
+
+  ```tsx
+  import { Badge } from "@seed-design/lynx-react";
+
+  <Badge tone="positive" variant="weak">
+    거래 가능
+  </Badge>;
+  ```
+
+### Patch Changes
+
+- 4e2ee69: Lynx BottomSheet가 앱 셸 위에 안정적으로 표시되고, 본문 스크롤 제스처를 내부에서 처리하도록 개선합니다.
+
+  - BottomSheet overlay의 기본 `z-index`를 높여 앱바 같은 상단 영역까지 backdrop이 덮이도록 수정합니다.
+  - `BottomSheetBody`가 세로 스크롤 영역으로 렌더링되어 본문을 스크롤할 때 뒤쪽 화면이 함께 스크롤되는 문제를 방지합니다.
+  - 스크롤 가능한 BottomSheet에서는 `BottomSheetRoot`의 `handleOnly`를 함께 사용할 수 있습니다.
+  - BottomSheet handle의 드래그 target size를 보이는 handle보다 크게 보장합니다.
+
+- 8dc8f4f: Menu Sheet의 디자인 스펙에서 핸들 여백 확보를 위해 `content` 상단 패딩을 `x4` → `x6`으로 늘리고 `header.paddingTop`을 제거합니다 (핸들 여백 확보). React/CSS `MenuSheet`의 경우 핸들이 존재하지 않으므로 변경사항이 없습니다.
+- 0fa9a1f: Lynx에서 테마(라이트/다크) 전환 시 텍스트 색상이 갱신되지 않던 문제를 수정합니다.
+
 ## 0.1.0
 
 ### Minor Changes

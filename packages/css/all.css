@@ -4420,6 +4420,7 @@
 .seed-help-bubble__positioner {
   --popover-z-index: 99;
   z-index: calc(var(--popover-z-index) + var(--z-index-offset, 0));
+  max-width: var(--seed-popover-available-width, none);
 }
 
 .seed-help-bubble__content {
@@ -4475,7 +4476,9 @@
 .seed-help-bubble__body {
   gap: var(--seed-dimension-x0_5);
   word-break: keep-all;
+  overflow-wrap: break-word;
   flex-direction: column;
+  min-width: 0;
   display: flex;
 }
 

@@ -2,9 +2,9 @@ import { defineSlotRecipe } from "../utils/define";
 import { bottomSheetHandle as handleVars } from "../vars/component";
 
 /**
- * Lynx-전용 BottomSheet handle recipe.
+ * Lynx-only BottomSheet handle recipe.
  *
- * handle과 touch area의 정적 geometry만 제공한다.
+ * Provides the static geometry for the visible handle and its target-size area.
  */
 const bottomSheetHandle = defineSlotRecipe({
   name: "bottom-sheet-handle",
@@ -12,9 +12,9 @@ const bottomSheetHandle = defineSlotRecipe({
   base: {
     root: {
       position: "absolute",
-      top: handleVars.base.enabled.root.fromTop,
+      top: "50%",
       left: "50%",
-      transform: "translateX(-50%)",
+      transform: "translate(-50%, -50%)",
 
       width: handleVars.base.enabled.root.width,
       height: handleVars.base.enabled.root.height,
@@ -23,9 +23,11 @@ const bottomSheetHandle = defineSlotRecipe({
     },
     touchArea: {
       position: "absolute",
-      top: "50%",
+      top: `calc(${handleVars.base.enabled.root.fromTop} + ${handleVars.base.enabled.root.height} / 2 - ${handleVars.base.enabled.touchArea.height} / 2)`,
       left: "50%",
-      transform: "translate(-50%, -50%)",
+      transform: "translateX(-50%)",
+      zIndex: 1,
+
       width: handleVars.base.enabled.touchArea.width,
       height: handleVars.base.enabled.touchArea.height,
     },

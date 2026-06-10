@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 1.2.14
+
+### Patch Changes
+
+- 8dc8f4f: Menu Sheet의 디자인 스펙에서 핸들 여백 확보를 위해 `content` 상단 패딩을 `x4` → `x6`으로 늘리고 `header.paddingTop`을 제거합니다 (핸들 여백 확보). React/CSS `MenuSheet`의 경우 핸들이 존재하지 않으므로 변경사항이 없습니다.
+- e48f021: HelpBubble이 좁은 화면에서 화면 밖으로 잘리던 문제를 수정합니다. (Popover의 floating 요소 너비를 viewport에 맞게 동적으로 제한하고, 긴 텍스트가 Help Bubble 밖으로 넘치지 않도록 긴 단어 중간 줄바꿈을 허용합니다.)
+
 ## 1.2.13
 
 ### Patch Changes

@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "@lynx-js/react";
 import { useSafeArea } from "@seed-design/lynx-react";
 
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
+import { AppBarPage } from "./pages/AppBarPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
@@ -41,6 +42,7 @@ export type Page =
   | "home"
   | "theming"
   | "action-button"
+  | "app-bar"
   | "badge"
   | "bottom-sheet"
   | "checkbox"
@@ -106,6 +108,24 @@ export function App(props: { onRender?: () => void }) {
   const showLynxConsole = !HIDE_LYNX_CONSOLE_IN_MEASUREMENT || !MEASUREMENT_PAGES.has(currentPage);
 
   props.onRender?.();
+
+  if (currentPage === "app-bar") {
+    return (
+      <view
+        className="flex flex-col h-screen min-h-0 bg-bg-layer-default"
+        style={{
+          paddingBottom: safeAreaInsetBottom,
+        }}
+      >
+        <AppBarPage onBack={() => setCurrentPage("home")} />
+        {showLynxConsole && (
+          <Suspense>
+            <LynxConsole theme="light" />
+          </Suspense>
+        )}
+      </view>
+    );
+  }
 
   if (FULLSCREEN_PAGES.has(currentPage)) {
     return (

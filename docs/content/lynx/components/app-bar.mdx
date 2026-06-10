@@ -1,0 +1,193 @@
+---
+title: AppBar
+description: 화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.
+---
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:app-bar
+```
+
+<LynxManualInstallation name="app-bar" />
+
+## Props
+
+### `AppBar`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarProps" />
+
+### `AppBarLeft`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarLeftProps" />
+
+### `AppBarMain`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarMainProps" />
+
+### `AppBarRight`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarRightProps" />
+
+### `AppBarSlot`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarSlotProps" />
+
+### `AppBarIconButton`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarIconButtonProps" />
+
+### `AppBarBackButton`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarBackButtonProps" />
+
+### `AppBarCloseButton`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarCloseButtonProps" />
+
+## Usage
+
+설치한 snippet은 Root와 주요 슬롯을 `AppBar`, `AppBarLeft`, `AppBarMain`, `AppBarRight`로 export 합니다. `AppBarBackButton`, `AppBarCloseButton`은 기본 아이콘만 제공하며, 실제 이동 로직은 `bindtap`으로 직접 전달합니다.
+
+```tsx
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "@/components/ui/app-bar";
+
+export function Header({ goBack }: { goBack: () => void }) {
+  return (
+    <AppBar>
+      <AppBarLeft>
+        <AppBarBackButton bindtap={goBack} />
+      </AppBarLeft>
+      <AppBarMain title="동네생활" />
+      <AppBarRight />
+    </AppBar>
+  );
+}
+```
+
+### Title / Subtitle
+
+`AppBarMain`에 `title`, `subtitle`을 전달하면 내부에서 `AppBar.Title`, `AppBar.Subtitle`을 조립합니다. `subtitle`이 있으면 `layout="withSubtitle"`가 자동으로 적용됩니다.
+
+```tsx
+import { AppBar, AppBarMain } from "@/components/ui/app-bar";
+
+export function Header() {
+  return (
+    <AppBar>
+      <AppBarMain title="관심 목록" subtitle="3개의 새 소식" />
+    </AppBar>
+  );
+}
+```
+
+직접 슬롯을 조립하고 싶다면 `AppBarMain`의 children으로 compound 컴포넌트를 전달합니다.
+
+```tsx
+import { AppBar, AppBarMain } from "@/components/ui/app-bar";
+import { AppBar as SeedAppBar } from "@seed-design/lynx-react";
+
+export function Header() {
+  return (
+    <AppBar>
+      <AppBarMain layout="withSubtitle">
+        <SeedAppBar.Title>제목</SeedAppBar.Title>
+        <SeedAppBar.Subtitle>부제목</SeedAppBar.Subtitle>
+      </AppBarMain>
+    </AppBar>
+  );
+}
+```
+
+### Left / Right Action
+
+왼쪽과 오른쪽에는 icon button 또는 custom slot을 배치할 수 있습니다. Cupertino theme에서는 좌우 슬롯 폭을 읽어 가운데 title이 치우치지 않도록 padding을 보정합니다.
+
+```tsx
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarCloseButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarSlot,
+} from "@/components/ui/app-bar";
+
+export function Header({ goBack, close }: { goBack: () => void; close: () => void }) {
+  return (
+    <AppBar>
+      <AppBarLeft>
+        <AppBarBackButton bindtap={goBack} />
+      </AppBarLeft>
+      <AppBarMain title="작성하기" />
+      <AppBarRight>
+        <AppBarSlot>
+          <text>완료</text>
+        </AppBarSlot>
+        <AppBarCloseButton bindtap={close} />
+      </AppBarRight>
+    </AppBar>
+  );
+}
+```
+
+### Accessibility
+
+Lynx에서는 HTML ARIA 속성 대신 Lynx native 접근성 속성을 사용합니다. `AppBarIconButton`은 기본적으로 `accessibility-element={true}`와 `accessibility-traits="button"`을 적용하며, 아이콘만으로 의미를 알 수 없는 버튼에는 `accessibility-label`을 전달해야 합니다.
+
+```tsx
+import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
+
+<AppBarIconButton accessibility-label="알림" icon={<IconBellLine />} />
+```
+
+`AppBarBackButton`, `AppBarCloseButton`은 각각 `"뒤로"`, `"닫기"` 라벨을 기본값으로 제공합니다.
+
+### Theme
+
+`theme`은 `"cupertino"` 또는 `"android"`를 사용할 수 있습니다. 명시하지 않으면 AppBar 내부에서 `SystemInfo.platform`을 읽어 Android에서는 `"android"`, 그 외 플랫폼이나 값이 없을 때는 `"cupertino"`를 사용합니다.
+
+```tsx
+<AppBar>
+  <AppBarMain title="자동 theme" />
+</AppBar>
+```
+
+수동으로 지정한 `theme`은 platform 기본값보다 우선합니다.
+
+```tsx
+<AppBar theme="android">
+  <AppBarMain title="Android layout" />
+</AppBar>
+```
+
+## Web Version Differences
+
+<Callout type="warning">
+Lynx `AppBar`는 React `AppBar`와 같은 Rootage 기반 variant를 사용하지만, Stackflow와 화면 전환 로직은 포함하지 않습니다.
+
+- **이벤트 핸들링**: `onClick` 대신 Lynx 이벤트인 `bindtap`을 전달합니다.
+- **렌더링 요소**: HTML 요소 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
+- **접근성 라벨링**: `aria-label` 대신 Lynx native `accessibility-label`을 사용합니다.
+- **platform theme**: 웹처럼 `data-*` selector에 의존하지 않고, recipe variant className으로 `"cupertino"` / `"android"` 디자인을 적용합니다.
+- **navigation 책임**: `AppBarBackButton`과 `AppBarCloseButton`은 이동을 자동 실행하지 않습니다. Stackflow `pop()` 같은 동작은 호출부에서 연결합니다.
+</Callout>
+
+## Unsupported Lynx Features
+
+현재 Lynx AppBar는 순수 UI 컴포넌트로 제공되며 다음 기능은 포함하지 않습니다.
+
+| 기능 | 웹 대응 | 대체 방법 |
+|------|---------|-----------|
+| Stackflow activity 연동 | `useActivity`, `useActions` 기반 back/close 처리 | `bindtap`에서 앱의 navigation 함수를 직접 호출 |
+| swipe-back 전환 애니메이션 | Stackflow screen transition | 화면 전환을 소유한 navigation 계층에서 처리 |
+| `data-*` selector 기반 상태 스타일 | 웹 recipe selector | `theme`, `tone` variant className 사용 |
+| HTML button 속성 | `type`, DOM click event | Lynx `<view>` 기반 `AppBarIconButton`과 `bindtap` 사용 |
+| HTML ARIA 라벨 | `aria-label` | Lynx native `accessibility-label` 사용 |
