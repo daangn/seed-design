@@ -8,7 +8,7 @@
 
 **위치**:
 - React: `packages/react-headless/[name]/`
-- Lynx: `packages/lynx-headless/[name]/` 또는 `packages/lynx-react/src/components/[ComponentName]/` 내부 hook/context
+- Lynx: `packages/lynx-react-headless/[name]/` 또는 `packages/lynx-react/src/components/[ComponentName]/` 내부 hook/context
 
 **조건**: 데이터 로직이 필요한 경우만 (단순 UI 컴포넌트는 생략)
 
@@ -27,10 +27,10 @@ Headless 훅은 하나의 `use{Component}`로 끝낼 필요가 없다. compound 
 
 Stateful Lynx 컴포넌트는 `references/lynx-patterns.md`를 따른다.
 
-- `packages/lynx-headless/*`는 상태, press/tap, controlled/uncontrolled, context, render props를 소유한다.
-- `packages/lynx-headless/*`는 자동 state class, recipe, SEED token, className 조합을 넣지 않는다.
+- `packages/lynx-react-headless/*`는 상태, press/tap, controlled/uncontrolled, context, render props를 소유한다.
+- `packages/lynx-react-headless/*`는 자동 state class, recipe, SEED token, className 조합을 넣지 않는다.
 - `packages/lynx-react`는 headless 상태를 읽어 `@seed-design/lynx-css/recipes/*` variant와 className을 조합한다.
-- 새 `packages/lynx-headless/<component>` 패키지가 필요하면 사용자 확인을 먼저 받는다.
+- 새 `packages/lynx-react-headless/<component>` 패키지가 필요하면 사용자 확인을 먼저 받는다.
 
 **카테고리 C/D에서 새 headless를 만들 때**: Phase 0에서 정리한 ARIA APG 패턴과 키보드 인터랙션 스펙을 이 단계에서 구현한다. `references/external-references.md`의 접근성 체크리스트를 따른다. 외부 라이브러리(Base UI, Radix)의 동일 컴포넌트 구현도 참조하여 인터페이스 설계를 검증한다.
 

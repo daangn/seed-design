@@ -17,7 +17,7 @@
 
 확인할 것:
 - target platform을 `lynx`로 판별한다.
-- stateful 로직은 `packages/lynx-headless/*`와 `packages/lynx-react` 책임 분리로 설계한다.
+- stateful 로직은 `packages/lynx-react-headless/*`와 `packages/lynx-react` 책임 분리로 설계한다.
 - 자동 state class를 headless에 넣지 않고, `lynx-react`가 recipe variant/className을 조합한다.
 
 ## 3. Cross-platform 컴포넌트

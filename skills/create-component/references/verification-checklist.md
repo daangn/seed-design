@@ -18,8 +18,8 @@
 - [ ] 의존성 API 안정성 확인? (불안정 시 구현 중단)
 - [ ] 외부 라이브러리 인터페이스 조사? (카테고리 C/D 필수, A/B/E 최소 prop naming)
 - [ ] ARIA APG 패턴 확인? (카테고리 C/D)
-- [ ] Lynx 작업이면 `lynx-headless` / `lynx-react` / `lynx-css` 책임 분리 결정?
-- [ ] 새 `packages/lynx-headless/<component>` 패키지가 필요하면 사용자 확인?
+- [ ] Lynx 작업이면 `lynx-react-headless` / `lynx-react` / `lynx-css` 책임 분리 결정?
+- [ ] 새 `packages/lynx-react-headless/<component>` 패키지가 필요하면 사용자 확인?
 - [ ] **사용자에게 Phase 0 결과 요약 보고 + 컨펌? (게이트 0→1)**
 
 ## Phase 1: 구현 확인
