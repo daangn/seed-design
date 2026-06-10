@@ -76,14 +76,14 @@ Phase 0 산출물에 다음을 남긴다:
 **React 기존 headless 패키지** (`packages/react-headless/`):
 avatar, checkbox, collapsible, dialog, drawer, field, field-button, fieldset, image, popover, portal, primitive, progress, pull-to-refresh, radio-group, scrollable, segmented-control, slider, snackbar, supports, switch, tabs, text-field, toggle, use-controllable-state
 
-**Lynx headless 패키지** (`packages/lynx-headless/`):
-현재 repo에 있는 패키지를 먼저 확인한다. stateful Lynx 컴포넌트에서 press/tap, controlled/uncontrolled, context, render props를 재사용해야 하면 `packages/lynx-headless/*`를 우선 검토한다. 새 패키지가 필요하면 “새 패키지 추가” boundary이므로 사용자 확인 전 구현하지 않는다.
+**Lynx headless 패키지** (`packages/lynx-react-headless/`):
+현재 repo에 있는 패키지를 먼저 확인한다. stateful Lynx 컴포넌트에서 press/tap, controlled/uncontrolled, context, render props를 재사용해야 하면 `packages/lynx-react-headless/*`를 우선 검토한다. 새 패키지가 필요하면 “새 패키지 추가” boundary이므로 사용자 확인 전 구현하지 않는다.
 
 - **재사용 가능**: 기존 패키지의 훅/컨텍스트를 그대로 사용 (예: collapsible → Accordion)
 - **확장 필요**: 기존 패키지를 기반으로 새 훅 추가
 - **신규 생성**: 완전히 새로운 headless 패키지 필요
 
-신규 생성 시 target platform에 따라 `packages/react-headless/AGENTS.md` 또는 `packages/lynx-headless/AGENTS.md`의 컨벤션을 반드시 확인한다.
+신규 생성 시 target platform에 따라 `packages/react-headless/AGENTS.md` 또는 `packages/lynx-react-headless/AGENTS.md`의 컨벤션을 반드시 확인한다.
 
 ## 3. 의존성 분석 (BLOCKING GATE)
 
@@ -161,7 +161,7 @@ APG가 heading 계층이나 landmark 구조를 요구하는 컴포넌트는 이 
 
 - **Headless reference**: ________________
   - React 경로: `packages/react-headless/{name}/` 또는 `packages/react-headless/{name}/src/`
-  - Lynx 경로: `packages/lynx-headless/{name}/` 또는 styled-local hook/context
+  - Lynx 경로: `packages/lynx-react-headless/{name}/` 또는 styled-local hook/context
 - **Styled UI reference**: ________________
   - React 경로: `packages/react/src/components/{Name}/`
   - Lynx 경로: `packages/lynx-react/src/components/{Name}/`

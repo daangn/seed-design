@@ -1,6 +1,6 @@
 ---
 name: create-component
-description: End-to-end SEED component implementation guide for React Web, Lynx, and cross-platform component work. Starts by deciding the target platform, then clarifies requirements, makes architecture decisions, follows the platform/category-specific pattern, and runs verification. Use this whenever the user is adding a new component, changing behavior across component layers, extending a snippet, or touching component docs — even if they don't explicitly say "create component". Always invoke before touching rootage YAML, qvism or lynx-qvism recipes, react/lynx-react/lynx-headless packages, docs registry snippets, or component docs. Covers all 5 component categories and refuses to skip platform gating or requirements brainstorming.
+description: End-to-end SEED component implementation guide for React Web, Lynx, and cross-platform component work. Starts by deciding the target platform, then clarifies requirements, makes architecture decisions, follows the platform/category-specific pattern, and runs verification. Use this whenever the user is adding a new component, changing behavior across component layers, extending a snippet, or touching component docs — even if they don't explicitly say "create component". Always invoke before touching rootage YAML, qvism or lynx-qvism recipes, react/lynx-react/lynx-react-headless packages, docs registry snippets, or component docs. Covers all 5 component categories and refuses to skip platform gating or requirements brainstorming.
 ---
 
 # Create Component
@@ -35,7 +35,7 @@ Phase 0 Pre 전에 target platform을 `react` / `lynx` / `cross-platform` 중 �
 ### 🔒 게이트 Platform → 0Pre
 - target platform 확정
 - `cross-platform`이면 shared Rootage/API와 플랫폼별 구현 분리 원칙 확인
-- 새 `packages/lynx-headless/<component>` 패키지가 필요하면 사용자 확인 전 구현 금지
+- 새 `packages/lynx-react-headless/<component>` 패키지가 필요하면 사용자 확인 전 구현 금지
 
 ---
 

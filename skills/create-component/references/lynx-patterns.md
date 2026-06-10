@@ -8,12 +8,12 @@ Stateful Lynx 컴포넌트의 기본 계약은 다음과 같다.
 
 | 레이어 | 책임 | 넣지 않는 것 |
 |--------|------|--------------|
-| `packages/lynx-headless/*` | 상태, press/tap, controlled/uncontrolled, context, render props | SEED recipe, token, className 자동 주입 |
+| `packages/lynx-react-headless/*` | 상태, press/tap, controlled/uncontrolled, context, render props | SEED recipe, token, className 자동 주입 |
 | `packages/lynx-react/*` | native slot JSX, recipe variant 조합, className 병합, icon/image wiring | 중복 상태 계산, Web DOM/form/focus API |
 | `packages/lynx-qvism-preset/*` | Lynx CSS 제약에 맞춘 recipe source | Web-only CSS, pseudo selector 의존 |
 | `packages/lynx-css/*` | generated CSS/recipe output | 직접 수정 |
 
-`lynx-headless`는 자동 state class를 주입하지 않는다. `active`, `checked`, `disabled` 같은 순수 상태를 context/render props로 노출하고, `lynx-react`가 그 상태를 recipe boolean/string variant로 전달한다.
+`lynx-react-headless`는 자동 state class를 주입하지 않는다. `active`, `checked`, `disabled` 같은 순수 상태를 context/render props로 노출하고, `lynx-react`가 그 상태를 recipe boolean/string variant로 전달한다.
 
 ## Native JSX 제약
 
@@ -80,7 +80,7 @@ Lynx는 web ARIA가 아니라 자체 `accessibility-*` 속성을 쓴다. **모�
 
 ### 책임 분리
 
-- **headless(`packages/lynx-headless/*`)**: a11y 속성을 만들지 않는다. 상태(`pressed`/`checked`/`disabled`)만 노출한다.
+- **headless(`packages/lynx-react-headless/*`)**: a11y 속성을 만들지 않는다. 상태(`pressed`/`checked`/`disabled`)만 노출한다.
 - **styled(`packages/lynx-react/*`)**: 내부 상태·prop에 따라 `accessibility-*`를 native element에 **직접 작성**한다. (web `react-headless`가 `stateProps`로 `aria-*`를 붙이는 역할을 Lynx에선 styled가 담당)
 - 공통 헬퍼는 두지 않는다. 컴포넌트마다 label/role/value가 달라 직접 작성이 명확하다.
 
@@ -129,6 +129,6 @@ Lynx 작업의 핵심 검증은 다음을 우선한다.
 - `bun test:all`
 - `bun packages:build`
 - `bun --filter @seed-design/lynx-react typecheck`와 `bun --filter @seed-design/lynx-react test`가 package script에 있으면 실행
-- `packages/lynx-headless/*`를 바꿨다면 해당 package build/test 또는 root `lynx-headless:*` script가 있으면 실행
+- `packages/lynx-react-headless/*`를 바꿨다면 해당 package build/test 또는 root `lynx-react-headless:*` script가 있으면 실행
 - snippet/example 변경이 있으면 `bun --filter lynx-spa build`
 - generated registry가 최신인지 `bun --filter @seed-design/docs generate:registry` 또는 docs generate script로 확인
