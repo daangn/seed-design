@@ -9,6 +9,8 @@ on:
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
+      - ".github/workflows/docs-deploy-alpha-pages.yml"
+  workflow_dispatch:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
