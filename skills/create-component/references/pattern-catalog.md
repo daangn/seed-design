@@ -137,7 +137,7 @@ Lynx 작업은 React reference를 API/semantic 비교 대상으로만 사용하�
 | D. Multi-Recipe | `packages/lynx-react/src/components/Checkbox/`, `Switch/`, `RadioGroup/` | `splitMultipleVariantsProps`, headless state와 recipe variant 분리 |
 | E. Layout | `packages/lynx-react/src/components/Box/`, `Stack/` | Lynx style props, native layout primitive |
 
-Lynx stateful 컴포넌트에서 `packages/lynx-headless/*`가 있거나 필요하면 `lynx-headless = 상태/이벤트/context`, `lynx-react = recipe/native UI wiring` 분리를 기본값으로 둔다.
+Lynx stateful 컴포넌트에서 `packages/lynx-react-headless/*`가 있거나 필요하면 `lynx-react-headless = 상태/이벤트/context`, `lynx-react = recipe/native UI wiring` 분리를 기본값으로 둔다.
 
 ## Lynx 핵심 유틸리티 위치
 
