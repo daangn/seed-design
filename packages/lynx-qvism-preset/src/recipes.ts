@@ -6,6 +6,7 @@ import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
+import contentPlaceholder from "./recipes/content-placeholder";
 import radio from "./recipes/radio";
 import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
@@ -26,6 +27,7 @@ export const recipes = {
   checkbox,
   checkboxGroup,
   checkmark,
+  contentPlaceholder,
   radio,
   radioGroup,
   radiomark,

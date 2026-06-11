@@ -6,6 +6,7 @@ import { AppBarPage } from "./pages/AppBarPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
+import { ContentPlaceholderPage } from "./pages/ContentPlaceholderPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
 import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
@@ -45,6 +46,7 @@ export type Page =
   | "badge"
   | "bottom-sheet"
   | "checkbox"
+  | "content-placeholder"
   | "progress-circle"
   | "radio-group"
   | "switch"
@@ -80,6 +82,7 @@ const FULLSCREEN_PAGES = new Set<Page>([
   "badge",
   "bottom-sheet",
   "checkbox",
+  "content-placeholder",
   "progress-circle",
   "radio-group",
   "switch",
@@ -141,6 +144,7 @@ export function App(props: { onRender?: () => void }) {
         {currentPage === "badge" && <BadgePage />}
         {currentPage === "bottom-sheet" && <BottomSheetPage />}
         {currentPage === "checkbox" && <CheckboxPage />}
+        {currentPage === "content-placeholder" && <ContentPlaceholderPage />}
         {currentPage === "progress-circle" && <ProgressCirclePage />}
         {currentPage === "radio-group" && <RadioGroupPage />}
         {currentPage === "switch" && <SwitchPage />}

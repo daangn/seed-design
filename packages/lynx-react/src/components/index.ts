@@ -4,6 +4,7 @@ export * from "./Badge";
 export * from "./Box";
 export * from "./BottomSheet";
 export * from "./Checkbox";
+export * from "./ContentPlaceholder";
 export * from "./Icon";
 export * from "./ProgressCircle";
 export * from "./RadioGroup";

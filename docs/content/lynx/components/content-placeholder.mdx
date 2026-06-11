@@ -1,0 +1,86 @@
+---
+title: ContentPlaceholder
+description: 이미지나 콘텐츠가 없거나 로딩되기 전인 영역을 채우는 플레이스홀더 컴포넌트입니다.
+---
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:content-placeholder
+```
+
+<LynxManualInstallation name="content-placeholder" />
+
+## Usage
+
+설치한 snippet은 배경 박스(`Root`)와 중앙 정렬된 asset 박스(`Asset`)를 자동으로 조합한 `ContentPlaceholder`를 export 합니다. 웹과 달리 `type` 프리셋이 없으므로, 표시할 아이콘이나 이미지를 children으로 직접 넣습니다.
+
+```tsx
+import { ContentPlaceholder } from "@/components/ui/content-placeholder";
+import IconPhotoFill from "@karrotmarket/lynx-monochrome-icon/IconPhotoFill";
+
+export function App() {
+  return (
+    <ContentPlaceholder style={{ width: 160, height: 160 }}>
+      <IconPhotoFill />
+    </ContentPlaceholder>
+  );
+}
+```
+
+### 크기 지정
+
+`ContentPlaceholder`는 기본적으로 부모를 가득 채웁니다(`width: 100%`, `height: 100%`). 고정 크기가 필요하면 `style`로 `width` / `height`를 직접 지정합니다. asset(아이콘) 박스는 Root 높이의 절반 크기로 중앙에 자동 배치됩니다.
+
+```tsx
+<ContentPlaceholder style={{ width: 200, height: 120 }}>
+  <IconPhotoFill />
+</ContentPlaceholder>
+```
+
+### 웹 `type` 프리셋 재현
+
+웹 `ContentPlaceholder`의 `type="car"`, `type="food"` 같은 카테고리 프리셋은 Lynx에서 제공하지 않습니다. 대신 같은 카테고리의 `@karrotmarket/lynx-monochrome-icon` 아이콘을 children으로 넣어 동일한 의미를 표현합니다.
+
+```tsx
+import { ContentPlaceholder } from "@/components/ui/content-placeholder";
+import IconCarFill from "@karrotmarket/lynx-monochrome-icon/IconCarFill";
+
+// 웹:  <ContentPlaceholder type="car" />
+// Lynx: 카테고리 아이콘을 직접 주입
+export function CarPlaceholder() {
+  return (
+    <ContentPlaceholder>
+      <IconCarFill />
+    </ContentPlaceholder>
+  );
+}
+```
+
+asset 박스는 recipe에서 색상(`fg` 계열)을 내려주므로, 단색 아이콘은 별도 색 지정 없이도 플레이스홀더 톤에 맞춰집니다.
+
+## Props
+
+### `ContentPlaceholder`
+
+<react-type-table path="./registry/lynx/ui/content-placeholder.tsx" name="ContentPlaceholderProps" />
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `ContentPlaceholder`는 React `ContentPlaceholder`와 다음과 같은 차이가 있습니다.
+
+- **`type` 프리셋 제거**: 웹은 `type`(default / car / food / realty 등 12종) prop으로 전용 일러스트를 자동 표시하지만, Lynx는 해당 일러스트를 포팅하지 않습니다. 아이콘이나 이미지를 children으로 직접 주입합니다.
+- **아이콘 주입 방식**: 웹은 inline `<svg>` 프리셋을 사용하지만, Lynx는 `@karrotmarket/lynx-monochrome-icon` 같은 Lynx 아이콘 또는 `<image>`를 children으로 넣습니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
+- **렌더링 요소**: HTML `<div>` 대신 네이티브 `<view>`를 렌더링합니다.
+- **Compound 구조**: `ContentPlaceholder.Root` → `ContentPlaceholder.Asset` 구성과 Context로 slot className을 공유하는 흐름은 웹과 동일합니다.
+</Callout>
+
+## Lynx 미지원 기능
+
+현재 Lynx 플랫폼 제약으로 다음이 지원되지 않습니다.
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `type` 프리셋 | `type="car"` 등 12종 | 전용 일러스트 SVG. 일부 `fill-rule="evenodd"`가 Lynx clipPath에서 깨지므로 포팅하지 않습니다. 카테고리 아이콘을 children으로 주입해 대체합니다 |
+| asset의 raw `<svg>` | inline SVG | Lynx는 임의 `<svg>` 스타일링을 지원하지 않습니다. Lynx 아이콘 element나 `<image>`를 사용합니다 |
