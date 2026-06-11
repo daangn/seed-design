@@ -267,4 +267,104 @@ describe("AppBar", () => {
       expect(main).toHaveStyle({ paddingLeft: "72px", paddingRight: "72px" });
     });
   });
+
+  it("applies leading bleed to the first icon button in the left slot", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Left>
+          <AppBar.IconButton accessibility-label="Back" />
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+
+    const iconButton = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__iconButton");
+    expect(iconButton).toBeInTheDocument();
+    expectStyle(iconButton!.style, { "margin-left": "var(--app-bar-icon-button-bleed)" });
+    expect(iconButton!.style.getPropertyValue("margin-right")).toBe("");
+  });
+
+  it("applies trailing bleed to the last icon button in the right slot", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.IconButton accessibility-label="Close" />
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const iconButton = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__iconButton");
+    expect(iconButton).toBeInTheDocument();
+    expectStyle(iconButton!.style, { "margin-right": "var(--app-bar-icon-button-bleed)" });
+    expect(iconButton!.style.getPropertyValue("margin-left")).toBe("");
+  });
+
+  it("only bleeds the trailing-most icon button when several are in the right slot", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.IconButton accessibility-label="Search" />
+          <AppBar.IconButton accessibility-label="Close" />
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const iconButtons = getAppBarRoot().querySelectorAll<HTMLElement>(".seed-app-bar__iconButton");
+    expect(iconButtons).toHaveLength(2);
+    // 선두(Search) 버튼은 가장자리가 아니므로 보정하지 않는다.
+    expect(iconButtons[0].style.getPropertyValue("margin-left")).toBe("");
+    expect(iconButtons[0].style.getPropertyValue("margin-right")).toBe("");
+    // 마지막(Close) 버튼만 trailing 보정을 받는다.
+    expectStyle(iconButtons[1].style, { "margin-right": "var(--app-bar-icon-button-bleed)" });
+  });
+
+  it("does not bleed a custom slot sitting at the slot edge", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.Slot>
+            <text>Done</text>
+          </AppBar.Slot>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const custom = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__custom");
+    expect(custom).toBeInTheDocument();
+    expect(custom!.style.getPropertyValue("margin-left")).toBe("");
+    expect(custom!.style.getPropertyValue("margin-right")).toBe("");
+  });
+
+  it("bleeds the trailing icon button but not a preceding custom slot", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.Slot>
+            <text>Done</text>
+          </AppBar.Slot>
+          <AppBar.IconButton accessibility-label="Close" />
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const root = getAppBarRoot();
+    const custom = root.querySelector<HTMLElement>(".seed-app-bar__custom");
+    const iconButton = root.querySelector<HTMLElement>(".seed-app-bar__iconButton");
+    expect(custom!.style.getPropertyValue("margin-right")).toBe("");
+    expectStyle(iconButton!.style, { "margin-right": "var(--app-bar-icon-button-bleed)" });
+  });
+
+  it("respects an explicitly provided edge over auto-injection", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Left>
+          <AppBar.IconButton accessibility-label="Back" edge="trailing" />
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+
+    const iconButton = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__iconButton");
+    // Left 슬롯이지만 명시한 trailing이 유지되고 leading을 덮어쓰지 않는다.
+    expectStyle(iconButton!.style, { "margin-right": "var(--app-bar-icon-button-bleed)" });
+    expect(iconButton!.style.getPropertyValue("margin-left")).toBe("");
+  });
 });

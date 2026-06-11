@@ -109,6 +109,8 @@ export function Header() {
 
 왼쪽과 오른쪽에는 icon button 또는 custom slot을 배치할 수 있습니다. Cupertino theme에서는 좌우 슬롯 폭을 읽어 가운데 title이 치우치지 않도록 padding을 보정합니다.
 
+가장자리에 놓인 아이콘 버튼(왼쪽 슬롯의 첫 번째, 오른쪽 슬롯의 마지막)은 아이콘 버튼의 투명 여백(터치 타겟이 아이콘보다 큼)만큼 자동으로 바깥으로 당겨져 아이콘이 화면 콘텐츠 여백에 정렬됩니다. `AppBarLeft` / `AppBarRight`가 가장자리 자식에 `edge`를 자동 주입하므로 별도 prop 없이 동작하며, `AppBarBackButton` / `AppBarCloseButton`뿐 아니라 직접 만든 `AppBarIconButton`에도 동일하게 적용됩니다. 보정은 아이콘 버튼에만 적용되어 `AppBarSlot`(custom)이나 인접한 다른 버튼은 영향을 받지 않습니다.
+
 ```tsx
 import {
   AppBar,
@@ -132,6 +134,34 @@ export function Header({ goBack, close }: { goBack: () => void; close: () => voi
           <text>완료</text>
         </AppBarSlot>
         <AppBarCloseButton bindtap={close} />
+      </AppBarRight>
+    </AppBar>
+  );
+}
+```
+
+`AppBarBackButton` / `AppBarCloseButton` 외에 다른 아이콘을 쓰고 싶다면 `AppBarIconButton`의 `icon` prop에 Lynx 아이콘을 전달해 직접 구성합니다. 가장자리에 놓이면 위와 동일하게 자동으로 정렬됩니다.
+
+```tsx
+import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "@/components/ui/app-bar";
+
+export function Header({ goBack }: { goBack: () => void }) {
+  return (
+    <AppBar>
+      <AppBarLeft>
+        <AppBarBackButton bindtap={goBack} />
+      </AppBarLeft>
+      <AppBarMain title="동네생활" />
+      <AppBarRight>
+        <AppBarIconButton accessibility-label="알림" icon={<IconBellLine />} />
       </AppBarRight>
     </AppBar>
   );
@@ -178,6 +208,7 @@ Lynx `AppBar`는 React `AppBar`와 같은 Rootage 기반 variant를 사용하지
 - **접근성 라벨링**: `aria-label` 대신 Lynx native `accessibility-label`을 사용합니다.
 - **platform theme**: 웹처럼 `data-*` selector에 의존하지 않고, recipe variant className으로 `"cupertino"` / `"android"` 디자인을 적용합니다.
 - **navigation 책임**: `AppBarBackButton`과 `AppBarCloseButton`은 이동을 자동 실행하지 않습니다. Stackflow `pop()` 같은 동작은 호출부에서 연결합니다.
+- **가장자리 아이콘 정렬**: 웹은 `iconButton:first-child` / `:last-child` selector로 bleed를 보정하지만, Lynx는 해당 가상 클래스를 지원하지 않아 `AppBarLeft` / `AppBarRight`가 가장자리 아이콘 버튼에 `edge` prop을 자동 주입해 보정합니다. 다중 버튼·custom slot에서도 가장자리 아이콘 버튼에만 정확히 적용됩니다.
 </Callout>
 
 ## Unsupported Lynx Features
