@@ -1233,6 +1233,14 @@ text {
   display: flex;
 }
 
+.seed-app-bar__iconButton.seed-app-bar__icon-button-edge-leading {
+  margin-left: -10px;
+}
+
+.seed-app-bar__iconButton.seed-app-bar__icon-button-edge-trailing {
+  margin-right: -10px;
+}
+
 .seed-app-bar__icon {
   flex-shrink: 0;
 }

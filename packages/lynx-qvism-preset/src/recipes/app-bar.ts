@@ -164,6 +164,13 @@ export const appBar = defineSlotRecipe({
       background: "#00000000",
       padding: 0,
       borderRadius: "var(--seed-radius-r1)",
+      // Keep per-button edge compensation in the recipe so caller styles remain intact.
+      "&.seed-app-bar__icon-button-edge-leading": {
+        marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+      },
+      "&.seed-app-bar__icon-button-edge-trailing": {
+        marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+      },
     },
     icon: {
       flexShrink: 0,
