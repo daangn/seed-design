@@ -11,6 +11,7 @@ import { AttachmentDisplayHeadlessPage } from "./pages/AttachmentDisplayHeadless
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CalloutPage } from "./pages/CalloutPage.jsx";
+import { ContentPlaceholderPage } from "./pages/ContentPlaceholderPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
 import { DialogHeadlessPage } from "./pages/DialogHeadlessPage.jsx";
@@ -72,6 +73,7 @@ export type Page =
   | "badge"
   | "bottom-sheet"
   | "callout"
+  | "content-placeholder"
   | "checkbox"
   | "dialog-headless"
   | "file-upload-headless"
@@ -225,6 +227,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
         <KeyboardAvoidingScrollViewHeadlessPage />
       )}
       {page === "list-headless" && <ListHeadlessPage />}
+      {page === "content-placeholder" && <ContentPlaceholderPage />}
       {page === "manner-temp" && <MannerTempPage />}
       {page === "menu-headless" && <MenuHeadlessPage />}
       {page === "page-banner" && <PageBannerPage />}
