@@ -1,4 +1,6 @@
+import { useStack } from "@stackflow/react";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { appScreenAnatomy } from "../AppScreen/anatomy";
 import { useTopActivity } from "../private/useTopActivity";
 import {
   type TransitionStyle,
@@ -257,6 +259,7 @@ export function useGlobalInteraction() {
   }, [stopRunningAnims, stopAppBarBgScrub, setSwipeBackState]);
 
   const topActivity = useTopActivity();
+  const stack = useStack();
 
   // ── WAAPI push/pop transitions triggered by stackflow state changes ──
   const prevTransitionStateRef = useRef<string>(topActivity.transitionState);
@@ -325,6 +328,26 @@ export function useGlobalInteraction() {
       });
     }
   }, [topActivity.transitionState, stopRunningAnims, cancelPendingPushRAF]);
+
+  // ── Settle safety-net ──
+  // The top + behind pair model can only reposition the immediate behind layer.
+  // If a transition unwinds in a way the pair model didn't drive (e.g. two
+  // exits overlapping, or a swipe-back race), the screen we land on may keep a
+  // stale idle offset (behind layer at -30%) and appear pushed ~1/3 left.
+  //
+  // Guarantee: once everything settles (globalTransitionState === "idle"), the
+  // top activity's layer must sit at 0%. We only touch the top layer's leftover
+  // inline transform — never the behind layer (which is meant to stay at -30%)
+  // and never anything mid-transition (this runs only when idle).
+  useLayoutEffect(() => {
+    if (stack?.globalTransitionState !== "idle") return;
+    const topLayer = stackRef.current?.querySelector<HTMLElement>(
+      `[data-activity-is-top] [data-part='${appScreenAnatomy.layer}']`,
+    );
+    if (topLayer?.style.transform) {
+      topLayer.style.transform = "";
+    }
+  }, [stack?.globalTransitionState]);
 
   // Cancel any pending push rAF and running animations on unmount so
   // late-firing finished handlers can't run against a torn-down stack.

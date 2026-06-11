@@ -20,12 +20,11 @@ declare module "@stackflow/config" {
 }
 
 /**
- * 전환 중 중복 pop 가드를 눈으로 검증하기 위한 테스트 액티비티.
+ * 전환 애니메이션이 겹쳐도 화면이 밀리지 않는지(렌더링 견고화) 눈으로 검증하는 테스트 액티비티.
  *
  * - "화면 더 쌓기"로 스택을 원하는 만큼 쌓는다.
- * - `pop(2)` : 의도적으로 2개를 닫는다 → 깊이가 2 줄어야 정상. (다중 pop의 공식 API)
- * - `pop(); pop();` : 한 핸들러에서 pop을 2번 호출한다. seedPlugin 가드가 적용되면 두 번째
- *   호출은 첫 번째 exit 전환 중에 들어와 무시되므로 1개만 닫힌다. 백버튼 연타·중복 호출도 동일.
+ * - `pop(2)` / `pop(); pop();` : 둘 다 stackflow 기본대로 2개가 닫힌다.
+ * - 동시 pop·백버튼 연타로 전환이 겹쳐도 **착지 화면이 1/3 왼쪽으로 밀리지 않으면 정상**이다.
  *
  * 깊이 표시 주의: stackflow는 배경 액티비티를 stack 변경 시 다시 렌더링하지 않으므로,
  * 라이브 `useStack().activities.length` 는 pop 후 착지한 화면에서 stale 해진다(갱신 안 됨).
@@ -85,14 +84,14 @@ const ActivityPopTest: StaticActivityComponentType<"ActivityPopTest"> = () => {
                 pop();
               }}
             >
-              pop(); pop(); — 두 번 호출 → 깊이 -1 (가드: 2번째 무시)
+              pop(); pop(); — 두 번 호출 → 깊이 -2 (stackflow 기본)
             </ActionButton>
           </VStack>
 
           <div style={{ fontSize: 13, color: "#868b94", lineHeight: 1.6 }}>
             "화면 더 쌓기"로 4개 이상 쌓은 뒤 각 버튼을 눌러보세요. pop 후 착지한 화면의 "깊이"로 몇
-            개가 닫혔는지 알 수 있습니다. pop(2)는 2개, pop(); pop();는 가드로 1개만 닫힙니다(다중
-            pop은 pop(N) 사용). 백버튼 연타도 전환당 1개만 닫힙니다.
+            개가 닫혔는지 알 수 있습니다. pop(2)·pop(); pop();는 모두 2개 닫힙니다(stackflow 기본).
+            동시 pop·백버튼 연타로 전환이 겹쳐도 화면이 1/3 왼쪽으로 밀리지 않으면 정상입니다.
           </div>
         </VStack>
       </AppScreenContent>
