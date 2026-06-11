@@ -7,13 +7,20 @@ import { registryLib } from "../registry/registry-lib.js";
 import { registryUI } from "../registry/registry-ui.js";
 
 const REGISTRY_PATH = path.join(process.cwd(), "registry");
-const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
+const REGISTRY_ROOT = path.join(process.cwd(), "public", "__registry__");
+// Scope the generated registry under a framework segment so consumers resolve
+// `/__registry__/{framework}/...` (matches the dev registry layout).
+const FRAMEWORK = "react";
+const GENERATED_REGISTRY_PATH = path.join(REGISTRY_ROOT, FRAMEWORK);
 
 // remove leading & trailing newline and add a new ending newline
 const cleanFile = (filePath: string) => `${filePath.replace(/^\n+|\n+$/g, "")}\n`;
 
 async function main() {
   console.log(chalk.gray("Generating Component Registry..."));
+
+  // Clean stale output (including the previous flat layout) before regenerating.
+  await fs.rm(REGISTRY_ROOT, { recursive: true, force: true });
 
   const generator = new RegistryGenerator({
     importAlias: "seed-design",
@@ -74,6 +81,9 @@ ${content}
 
   const availableRegistriesPath = path.join(GENERATED_REGISTRY_PATH, "index.json");
   await fs.writeFile(availableRegistriesPath, JSON.stringify(availableRegistries, null, 2), "utf8");
+
+  const availableFrameworksPath = path.join(REGISTRY_ROOT, "index.json");
+  await fs.writeFile(availableFrameworksPath, JSON.stringify([{ id: FRAMEWORK }], null, 2), "utf8");
 
   console.log(chalk.green("All Registries Generated !"));
 }
