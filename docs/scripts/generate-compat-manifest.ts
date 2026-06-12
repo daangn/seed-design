@@ -140,7 +140,7 @@ export function summarizeDeclarationEras(versions: VersionCompat[]): Declaration
 }
 
 async function fetchPackument(pkg: string): Promise<Packument> {
-  const url = `https://registry.npmjs.org/${pkg.replace("/", "%2F")}`;
+  const url = `https://registry.npmjs.org/${encodeURIComponent(pkg)}`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
