@@ -68,10 +68,6 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
         loop
         trapped={api.open}
         // Move initial focus to the dialog container, not the first tabbable element.
-        // Radix's default (focusFirst) lands on the first item, which makes a screen
-        // reader skip the title/description and shows a :focus-visible ring on that item
-        // when the dialog is opened without a prior pointer interaction (e.g. direct URL
-        // navigation). The container has no focus-visible style, so no ring appears.
         onMountAutoFocus={(e) => {
           e.preventDefault();
           contentRef.current?.focus();
