@@ -1,11 +1,12 @@
 "use client";
 
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { DismissableLayer } from "@radix-ui/react-dismissable-layer";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef, useCallback, useRef } from "react";
+import { forwardRef, useRef } from "react";
 import { Presence } from "./private/Presence";
 import { useDialog, type UseDialogProps } from "./useDialog";
 import { DialogProvider, useDialogContext } from "./useDialogContext";
@@ -59,14 +60,6 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
   const api = useDialogContext();
 
   const contentRef = useRef<HTMLDivElement>(null);
-  const composedRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      contentRef.current = node;
-      if (typeof ref === "function") ref(node);
-      else if (ref) ref.current = node;
-    },
-    [ref],
-  );
 
   return (
     <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
@@ -86,7 +79,7 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
       >
         {/* onDismiss = onEscapeKeyDown + onInteractOutside (= onFocusOutside + onPointerDownOutside) */}
         <DismissableLayer
-          ref={composedRef}
+          ref={composeRefs(ref, contentRef)}
           onEscapeKeyDown={(e) => {
             if (!api.closeOnEscape) {
               e.preventDefault();
