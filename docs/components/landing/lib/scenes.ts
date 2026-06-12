@@ -20,24 +20,52 @@ const SCRUB = 1.1;
 /** End a scrub at the end of a section's pinned dwell (regionVh - 100vh). */
 const dwellEnd = (regionVh: number) => `+=${regionVh - 100}%`;
 
-/** Section 2: assemble the six bento slots across the pinned dwell. */
+/**
+ * Section 1→2: a single pinned sequence that bridges hero into bento.
+ * (1) the base hero video clips into a padded, rounded card (`inset(20px round
+ * 20px)` matches the panel's px-5 padding + slots' rounded-2xl), then (2) the six
+ * slots assemble on top, top row first (`data-order`: 0 = top, 1 = row 4, 2 = row
+ * 5) so hero and bento read as one continuous scene with minimal empty dwell.
+ */
 export function createBentoScrub(root: HTMLElement) {
   const section = q(root, "#bento");
   if (!section) return;
   const slots = qa(section, "[data-bento-slot]");
   if (!slots.length) return;
+  const heroVideo = q(section, "[data-hero-video]");
 
+  const STEP = 0.12;
   gsap.set(slots, { autoAlpha: 0, y: 70, scale: 0.88 });
-  gsap
-    .timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: dwellEnd(REGIONS.bento),
-        scrub: SCRUB,
-      },
-    })
-    .to(slots, { autoAlpha: 1, y: 0, scale: 1, stagger: 0.14, ease: "power3.out" });
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: dwellEnd(REGIONS.bento),
+      scrub: SCRUB,
+    },
+  });
+  // 1) hero video clips into a card
+  if (heroVideo) {
+    tl.fromTo(
+      heroVideo,
+      { clipPath: "inset(0px round 0px)" },
+      { clipPath: "inset(20px round 20px)", ease: "none", duration: 0.4 },
+    );
+  }
+  // 2) slots assemble over it, top row first
+  tl.to(
+    slots,
+    {
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
+      ease: "power3.out",
+      duration: 0.6,
+      stagger: (_i: number, el: HTMLElement) => Number(el.dataset.order ?? 0) * STEP,
+    },
+    ">-0.1",
+  );
 }
 
 /** Section 3: fade in the copy and scrub the background Lottie across the dwell. */
@@ -142,4 +170,31 @@ export function createMobileReveals(root: HTMLElement) {
       scrollTrigger: { trigger, start: "top 80%", toggleActions: "play none none reverse" },
     });
   }
+}
+
+/**
+ * Section 7: footer panel grows from 100dvh to 150dvh as it's scrolled into, so it
+ * fills the viewport on entry (no empty gap) then opens up. Content stays bottom-
+ * anchored via the panel's `justify-end`.
+ */
+export function createFooterExpand(root: HTMLElement) {
+  const section = q(root, "#footer");
+  if (!section) return;
+  const panel = section.firstElementChild;
+  if (!panel) return;
+  gsap.fromTo(
+    panel,
+    { height: "100dvh" },
+    {
+      height: "150dvh",
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: dwellEnd(REGIONS.footer),
+        scrub: SCRUB,
+        invalidateOnRefresh: true,
+      },
+    },
+  );
 }

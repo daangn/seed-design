@@ -42,6 +42,8 @@ export function SectionBlog() {
             {BLOG_POSTS.map((post) => (
               <article
                 key={post.title}
+                data-cursor="text"
+                data-cursor-text={post.title}
                 className="flex w-[300px] shrink-0 snap-start flex-col gap-3"
               >
                 <ImageFrame

@@ -24,12 +24,12 @@ export const HEADER_TRANSLUCENT_BG = "#1A1C20CC";
  */
 export const REGIONS = {
   hero: 100,
-  bento: 170,
-  intro: 210,
+  bento: 150,
+  intro: 180,
   values: 110,
   showcase: 120,
   blog: 170,
-  footer: 140,
+  footer: 150,
 } as const;
 
 /**

@@ -5,12 +5,22 @@ import type { ReactNode } from "react";
 import { NAV_ITEMS } from "./lib/landing-content";
 import { SeedMark } from "./seed-mark";
 
-export type HeaderVariant = "compact" | "expanded-light" | "dark-translucent";
+/**
+ * - `transparent`: hero only — no backgrounds, dark text/icons directly on the video.
+ * - `solid`: every section after hero — logo / nav / actions each sit on their own
+ *   translucent-white pill, dark text. Unified so the header stops "flickering"
+ *   between modes as section backgrounds change.
+ * - `hidden`: footer — keeps the solid look but slides up and fades out.
+ */
+export type HeaderVariant = "transparent" | "solid" | "hidden";
 
 const cx = (...classes: Array<string | false | undefined>) => classes.filter(Boolean).join(" ");
 
-/** Shared morph transition (color + duration + easing) reused across header parts. */
+/** Color morph shared across header parts (background/text fade). */
 const MORPH = "transition-colors duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]";
+
+/** Translucent white capsule for the logo / nav / action pills in the solid state. */
+const PILL = "bg-white/80 backdrop-blur-md ring-1 ring-black/5";
 
 function ChevronDown({ className }: { className?: string }) {
   return (
@@ -51,13 +61,11 @@ function ThemeIcon({ className }: { className?: string }) {
 
 function IconButton({
   label,
-  textColor,
-  bgClass,
+  pillClass,
   children,
 }: {
   label: string;
-  textColor: string;
-  bgClass: string;
+  pillClass: string;
   children: ReactNode;
 }) {
   return (
@@ -66,9 +74,8 @@ function IconButton({
       aria-label={label}
       className={cx(
         MORPH,
-        "flex size-10 items-center justify-center rounded-full hover:opacity-70",
-        textColor,
-        bgClass,
+        "flex size-10 items-center justify-center rounded-full text-[#212121] hover:opacity-70",
+        pillClass,
       )}
     >
       {children}
@@ -77,56 +84,50 @@ function IconButton({
 }
 
 /**
- * Morphing landing header. Layout stays identical across states (no reflow); only
- * max-width, background colors, and text color animate. Three states, driven by
- * the active section:
- * - compact: narrow, no backgrounds (section 1)
- * - expanded-light: full width, nav pill + circular actions on neutral-weak (2, 6)
- * - dark-translucent: full-width translucent dark bar, white text, no nav pill (3, 4, 5)
+ * Unified landing header. Layout is identical across states (no reflow); the logo,
+ * nav, and actions each carry a translucent-white pill that fades in after hero and
+ * stays put through every section, then the whole bar slides away over the footer.
  */
 export function LandingHeader({ variant }: { variant: HeaderVariant }) {
-  const isCompact = variant === "compact";
-  const isDark = variant === "dark-translucent";
-  const isLight = variant === "expanded-light";
-
-  const textColor = isDark ? "text-white" : "text-[#212121]";
-  const navBg = isLight ? "bg-bg-neutral-weak" : "bg-transparent";
-  const iconBg = isLight ? "bg-bg-neutral-weak" : isDark ? "bg-white/10" : "bg-transparent";
+  const isTransparent = variant === "transparent";
+  const isHidden = variant === "hidden";
+  const pill = isTransparent ? "bg-transparent" : PILL;
 
   return (
     <header
       className={cx(
         "fixed inset-x-0 top-0 z-[100]",
-        MORPH,
-        isDark ? "bg-[#1A1C20CC] backdrop-blur-md" : "bg-transparent",
+        "transition-[transform,opacity] duration-[500ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+        isHidden ? "-translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100",
       )}
     >
-      <div
-        className={cx(
-          "mx-auto flex w-full items-center justify-between gap-6 px-8 py-5",
-          "transition-[max-width] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-          isCompact ? "max-w-[760px]" : "max-w-[1760px]",
-        )}
-      >
-        {/* Left: mark + wordmark (always visible) */}
-        <div className="flex shrink-0 items-center gap-2">
-          <SeedMark className={cx("h-6 w-5", MORPH, textColor)} />
-          <span className={cx("font-bold text-lg leading-none tracking-tight", MORPH, textColor)}>
-            SEED
-          </span>
+      <div className="mx-auto flex w-full max-w-[1760px] items-center justify-between gap-6 px-8 py-5">
+        {/* Left: mark + wordmark on a pill, pinned to the left edge */}
+        <div
+          className={cx(
+            "flex shrink-0 items-center gap-2 rounded-full text-[#212121]",
+            MORPH,
+            !isTransparent && "px-3 py-1.5",
+            pill,
+          )}
+        >
+          <SeedMark className="h-6 w-5" />
+          <span className="font-bold text-lg leading-none tracking-tight">SEED</span>
         </div>
 
-        {/* Center: navigation */}
-        <nav className={cx("flex items-center gap-6 rounded-full px-5 py-2.5", MORPH, navBg)}>
+        {/* Center: navigation capsule */}
+        <nav
+          className={cx(
+            "flex items-center gap-6 rounded-full px-5 py-2.5 text-[#212121]",
+            MORPH,
+            pill,
+          )}
+        >
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              className={cx(
-                "flex items-center gap-1 whitespace-nowrap font-medium text-sm hover:opacity-70",
-                MORPH,
-                textColor,
-              )}
+              className="flex items-center gap-1 whitespace-nowrap font-medium text-sm hover:opacity-70"
             >
               {item.label}
               {item.hasDropdown && <ChevronDown className="size-3.5" />}
@@ -134,12 +135,12 @@ export function LandingHeader({ variant }: { variant: HeaderVariant }) {
           ))}
         </nav>
 
-        {/* Right: actions */}
+        {/* Right: actions, pinned to the right edge */}
         <div className="flex shrink-0 items-center gap-2">
-          <IconButton label="Toggle theme" textColor={textColor} bgClass={iconBg}>
+          <IconButton label="Toggle theme" pillClass={pill}>
             <ThemeIcon className="size-[18px]" />
           </IconButton>
-          <IconButton label="Search" textColor={textColor} bgClass={iconBg}>
+          <IconButton label="Search" pillClass={pill}>
             <SearchIcon className="size-[18px]" />
           </IconButton>
         </div>

@@ -6,11 +6,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { LottieController } from "./components/scrub-lottie";
+import { CustomCursor } from "./custom-cursor";
 import { LandingHeader, type HeaderVariant } from "./landing-header";
 import { DESKTOP_QUERY, REDUCED_MOTION_QUERY } from "./lib/landing-content";
 import {
   createBentoScrub,
   createDesktopEntrances,
+  createFooterExpand,
   createIntroScrub,
   createMobileReveals,
 } from "./lib/scenes";
@@ -24,26 +26,29 @@ import { SectionValues } from "./sections/section-values";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/** Header appearance per section. */
+/** Header appearance per section. Unified to a single solid look; footer hides it. */
 const SECTION_VARIANT: Record<string, HeaderVariant> = {
-  hero: "compact",
-  bento: "expanded-light",
-  intro: "dark-translucent",
-  values: "dark-translucent",
-  showcase: "dark-translucent",
-  blog: "expanded-light",
-  footer: "compact",
+  hero: "transparent",
+  bento: "solid",
+  intro: "solid",
+  values: "solid",
+  showcase: "solid",
+  blog: "solid",
+  footer: "hidden",
 };
 
 /**
- * Landing page orchestrator. Owns the GSAP context (scoped to the root), the
- * morphing-header state machine, the Lenis smooth-scroll loop, and the
- * responsive scroll choreography.
+ * Scroll resistance over the bento "rest" beat: once the grid is assembled, wheel
+ * delta is damped to a crawl until a small budget is spent, then normal scroll
+ * resumes — a deliberate pause without fully locking the page.
  */
+const RESIST_FACTOR = 0.06;
+const RESIST_THRESHOLD = 90;
+
 export function LandingExperience() {
   const rootRef = useRef<HTMLElement>(null);
   const introLottieRef = useRef<LottieController | null>(null);
-  const [variant, setVariant] = useState<HeaderVariant>("compact");
+  const [variant, setVariant] = useState<HeaderVariant>("transparent");
 
   useGSAP(
     () => {
@@ -52,11 +57,26 @@ export function LandingExperience() {
 
       const prefersReduced = window.matchMedia(REDUCED_MOTION_QUERY).matches;
 
+      // Mutable gate shared by the Lenis input hook and the toggle trigger below.
+      const resist = { active: false, budget: 0 };
+
       // Smooth, "sticky" scroll (Lenis) synced to ScrollTrigger + GSAP's ticker.
       let lenis: Lenis | null = null;
       let onTick: ((time: number) => void) | null = null;
       if (!prefersReduced) {
-        lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+        lenis = new Lenis({
+          duration: 1.15,
+          smoothWheel: true,
+          // Damp downward input while resisting; spend the budget, then release.
+          virtualScroll: (data) => {
+            if (resist.active && data.deltaY > 0) {
+              resist.budget -= Math.abs(data.deltaY);
+              if (resist.budget > 0) data.deltaY *= RESIST_FACTOR;
+              else resist.active = false;
+            }
+            return true;
+          },
+        });
         lenis.on("scroll", ScrollTrigger.update);
         onTick = (time) => lenis?.raf(time * 1000);
         gsap.ticker.add(onTick);
@@ -88,6 +108,21 @@ export function LandingExperience() {
           createBentoScrub(root);
           createIntroScrub(root, () => introLottieRef.current);
           createDesktopEntrances(root);
+          createFooterExpand(root);
+
+          // Once the bento has assembled (end of its dwell), briefly resist scroll.
+          const bento = root.querySelector("#bento");
+          if (bento) {
+            ScrollTrigger.create({
+              trigger: bento,
+              start: "top top-=50%",
+              end: "top top-=65%",
+              onToggle: (self) => {
+                resist.active = self.isActive;
+                if (self.isActive) resist.budget = RESIST_THRESHOLD;
+              },
+            });
+          }
         } else {
           createMobileReveals(root);
         }
@@ -125,6 +160,7 @@ export function LandingExperience() {
   return (
     <main ref={rootRef} data-landing="true" className="relative w-full bg-palette-carrot-600">
       <LandingHeader variant={variant} />
+      <CustomCursor />
       {sectionTree}
     </main>
   );

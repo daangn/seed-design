@@ -129,3 +129,11 @@ html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+/* Landing page: hide the native cursor while the custom cursor is active */
+@media (pointer: fine) {
+  html.cursor-hidden,
+  html.cursor-hidden * {
+    cursor: none;
+  }
+}

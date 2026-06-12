@@ -20,6 +20,11 @@ interface SectionLayerProps {
    * section (footer) opts out so it simply sits underneath and gets revealed.
    */
   sticky?: boolean;
+  /**
+   * On mobile (< lg), drop the pin and the fixed region height so the panel grows
+   * with content — used by sections that become a 1-column stack on small screens.
+   */
+  mobileStack?: boolean;
   style?: CSSProperties;
   children: ReactNode;
 }
@@ -37,18 +42,31 @@ export function SectionLayer({
   panelClassName = "",
   behindClassName = "",
   sticky = true,
+  mobileStack = false,
   style,
   children,
 }: SectionLayerProps) {
+  // mobileStack: region height becomes a CSS var applied only from lg up, so the
+  // section flows with its content on mobile instead of being clipped to one screen.
+  const heightStyle: CSSProperties & Record<string, string> = mobileStack
+    ? { "--region-h": `${regionVh}dvh` }
+    : { height: `${regionVh}dvh` };
+
   return (
     <section
       id={id}
       data-section={id}
-      className={`relative w-full ${behindClassName}`}
-      style={{ height: `${regionVh}dvh`, zIndex: z, ...style }}
+      className={`relative w-full ${behindClassName} ${mobileStack ? "h-auto lg:h-[var(--region-h)]" : ""}`}
+      style={{ ...heightStyle, zIndex: z, ...style }}
     >
       <div
-        className={`${sticky ? "sticky top-0 h-dvh" : "relative h-full"} w-full overflow-hidden ${panelClassName}`}
+        className={`w-full overflow-hidden ${panelClassName} ${
+          mobileStack
+            ? "relative h-auto lg:sticky lg:top-0 lg:h-dvh"
+            : sticky
+              ? "sticky top-0 h-dvh"
+              : "relative h-full"
+        }`}
       >
         {children}
       </div>
