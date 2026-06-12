@@ -1,11 +1,12 @@
 "use client";
 
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { DismissableLayer } from "@radix-ui/react-dismissable-layer";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { Presence } from "./private/Presence";
 import { useDialog, type UseDialogProps } from "./useDialog";
 import { DialogProvider, useDialogContext } from "./useDialogContext";
@@ -58,12 +59,23 @@ export interface DialogContentProps extends PrimitiveProps, React.HTMLAttributes
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const api = useDialogContext();
 
+  const contentRef = useRef<HTMLDivElement>(null);
+
   return (
     <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
-      <FocusScope asChild loop trapped={api.open}>
+      <FocusScope
+        asChild
+        loop
+        trapped={api.open}
+        // Move initial focus to the dialog container, not the first tabbable element.
+        onMountAutoFocus={(e) => {
+          e.preventDefault();
+          contentRef.current?.focus();
+        }}
+      >
         {/* onDismiss = onEscapeKeyDown + onInteractOutside (= onFocusOutside + onPointerDownOutside) */}
         <DismissableLayer
-          ref={ref}
+          ref={composeRefs(ref, contentRef)}
           onEscapeKeyDown={(e) => {
             if (!api.closeOnEscape) {
               e.preventDefault();

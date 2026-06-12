@@ -42,6 +42,9 @@ const menuSheet = defineSlotRecipe({
     },
     content: {
       position: "relative",
+      // The role="dialog" container receives focus on open (a programmatic focus
+      // target, not interactive), so it must never render a focus ring.
+      outline: "none",
       display: "flex",
       flex: 1,
       flexDirection: "column",
