@@ -27,23 +27,22 @@ const dwellEnd = (regionVh: number) => `+=${regionVh - 100}%`;
  */
 export function createHeroToBento(root: HTMLElement) {
   const section = q(root, "#hero");
-  const frame = section && q(section, "[data-hero-frame]");
-  if (!section || !frame) return;
-  gsap.fromTo(
-    frame,
-    { padding: 0, borderRadius: 0 },
-    {
-      padding: 20,
-      borderRadius: 24,
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: dwellEnd(REGIONS.hero),
-        scrub: SCRUB,
-      },
+  if (!section) return;
+  const frame = q(section, "[data-hero-frame]");
+  const video = q(section, "[data-hero-video]");
+  if (!frame || !video) return;
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: dwellEnd(REGIONS.hero),
+      scrub: SCRUB,
     },
-  );
+  });
+  // The frame's padding (white gutter) and the video's own corners round in
+  // together, so the video itself becomes the rounded card — not just its frame.
+  tl.fromTo(frame, { padding: 0 }, { padding: 20, ease: "none" }, 0);
+  tl.fromTo(video, { borderRadius: 0 }, { borderRadius: 24, ease: "none" }, 0);
 }
 
 /**
