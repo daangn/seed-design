@@ -111,4 +111,28 @@ describe("summarizeDeclarationEras", () => {
       { from: "1.1.12", to: "1.1.12", count: 1, label: "@seed-design/css: >=1.1.12" },
     ]);
   });
+
+  test("같은 peers면 키 삽입 순서가 달라도 한 구간으로 묶인다", () => {
+    const versions = [
+      {
+        version: "1.0.0",
+        publishedAt: "",
+        peers: { "@seed-design/css": ">=1.0.0", "@seed-design/react": ">=1.0.0" },
+      },
+      {
+        version: "1.0.1",
+        publishedAt: "",
+        peers: { "@seed-design/react": ">=1.0.0", "@seed-design/css": ">=1.0.0" },
+      },
+    ];
+
+    expect(summarizeDeclarationEras(versions)).toEqual([
+      {
+        from: "1.0.0",
+        to: "1.0.1",
+        count: 2,
+        label: "@seed-design/css: >=1.0.0, @seed-design/react: >=1.0.0",
+      },
+    ]);
+  });
 });
