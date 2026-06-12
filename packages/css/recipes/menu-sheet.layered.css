@@ -28,6 +28,7 @@
     padding-bottom: calc(var(--seed-dimension-x4) + var(--seed-safe-area-bottom));
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
+    outline: none;
     flex-direction: column;
     flex: 1;
     display: flex;
