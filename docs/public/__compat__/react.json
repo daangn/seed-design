@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "framework": "react",
-  "generatedAt": "2026-06-12T09:00:42.064Z",
+  "generatedAt": "2026-06-12T11:09:27.503Z",
   "packages": {
     "@seed-design/css": {
       "versions": [
@@ -1941,5 +1941,60 @@
       "requires": {}
     }
   ],
-  "overlays": []
+  "overlays": [
+    {
+      "kind": "backfill",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.1.0 <1.1.10",
+      "peers": {
+        "@seed-design/css": "~1.1.0"
+      },
+      "reason": "css peer 선언 누락 구간. css와 같은 날 같은 번호로 lockstep 릴리즈되던 시기"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.2.0 <1.3.0",
+      "peers": {
+        "@seed-design/css": "~1.2.0"
+      },
+      "reason": "선언(>=1.1.17)이 과대 — same-minor 페어링 정책 기준으로 교정"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/react",
+      "version": "1.0.0",
+      "notes": "Snackbar·SwitchMark·ListHeader 등 다수 snippet 재설치 필요"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/css",
+      "version": "1.0.0",
+      "notes": "react 1.0.0과 동일 (lockstep 릴리즈)"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/react",
+      "version": "1.1.0",
+      "notes": "Error State·BottomSheet·TextField·PageBanner snippet 재설치 필요"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/css",
+      "version": "1.1.0",
+      "notes": "react 1.1.0과 동일 (lockstep 릴리즈)"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/react",
+      "version": "1.2.0",
+      "notes": "HelpBubble snippet 재설치 필요(내부 구조 변경), SelectBox suffix 마이그레이션"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/css",
+      "version": "1.2.0",
+      "notes": "react 1.2.0과 동일"
+    }
+  ]
 }

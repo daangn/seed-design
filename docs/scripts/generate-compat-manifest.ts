@@ -218,7 +218,20 @@ async function main() {
 }
 
 if (import.meta.main) {
+  // --best-effort: docs 빌드에 체이닝될 때 사용. 네트워크 실패 시 빌드를 깨는 대신
+  // 커밋되어 있는 스냅샷(docs/public/__compat__)을 그대로 서빙하도록 통과시킨다.
+  const bestEffort = process.argv.includes("--best-effort");
+
   main().catch((error) => {
+    if (bestEffort) {
+      console.warn(
+        chalk.yellow(
+          "Failed to regenerate compat manifest; falling back to the committed snapshot:",
+        ),
+        error,
+      );
+      return;
+    }
     console.error(chalk.red("Failed to generate compat manifest:"), error);
     process.exit(1);
   });
