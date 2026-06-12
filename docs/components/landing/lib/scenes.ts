@@ -21,51 +21,61 @@ const SCRUB = 1.1;
 const dwellEnd = (regionVh: number) => `+=${regionVh - 100}%`;
 
 /**
- * Section 1→2: a single pinned sequence that bridges hero into bento.
- * (1) the base hero video clips into a padded, rounded card (`inset(20px round
- * 20px)` matches the panel's px-5 padding + slots' rounded-2xl), then (2) the six
- * slots assemble on top, top row first (`data-order`: 0 = top, 1 = row 4, 2 = row
- * 5) so hero and bento read as one continuous scene with minimal empty dwell.
+ * Section 1: the single hero video's frame gains padding + rounded corners as the
+ * section pins, turning the full-bleed video into a card. Scrolling on then reveals
+ * the bento grid below — one video, framing itself, rather than two stitched clips.
+ */
+export function createHeroToBento(root: HTMLElement) {
+  const section = q(root, "#hero");
+  const frame = section && q(section, "[data-hero-frame]");
+  if (!section || !frame) return;
+  gsap.fromTo(
+    frame,
+    { padding: 0, borderRadius: 0 },
+    {
+      padding: 20,
+      borderRadius: 24,
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: dwellEnd(REGIONS.hero),
+        scrub: SCRUB,
+      },
+    },
+  );
+}
+
+/**
+ * Section 2: assemble the six bento slots top-row→bottom-row across the dwell.
+ * `data-order` groups slots by grid row (0 = top, 1 = row 4, 2 = row 5) so they
+ * appear top→bottom regardless of DOM order.
  */
 export function createBentoScrub(root: HTMLElement) {
   const section = q(root, "#bento");
   if (!section) return;
   const slots = qa(section, "[data-bento-slot]");
   if (!slots.length) return;
-  const heroVideo = q(section, "[data-hero-video]");
 
   const STEP = 0.12;
   gsap.set(slots, { autoAlpha: 0, y: 70, scale: 0.88 });
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top top",
-      end: dwellEnd(REGIONS.bento),
-      scrub: SCRUB,
-    },
-  });
-  // 1) hero video clips into a card
-  if (heroVideo) {
-    tl.fromTo(
-      heroVideo,
-      { clipPath: "inset(0px round 0px)" },
-      { clipPath: "inset(20px round 20px)", ease: "none", duration: 0.4 },
-    );
-  }
-  // 2) slots assemble over it, top row first
-  tl.to(
-    slots,
-    {
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: dwellEnd(REGIONS.bento),
+        scrub: SCRUB,
+      },
+    })
+    .to(slots, {
       autoAlpha: 1,
       y: 0,
       scale: 1,
       ease: "power3.out",
       duration: 0.6,
       stagger: (_i: number, el: HTMLElement) => Number(el.dataset.order ?? 0) * STEP,
-    },
-    ">-0.1",
-  );
+    });
 }
 
 /** Section 3: fade in the copy and scrub the background Lottie across the dwell. */

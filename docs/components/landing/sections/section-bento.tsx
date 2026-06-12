@@ -1,5 +1,5 @@
 import { ScrubLottie } from "../components/scrub-lottie";
-import { BENTO, HERO_VIDEO, REGIONS, Z } from "../lib/landing-content";
+import { BENTO, REGIONS, Z } from "../lib/landing-content";
 import { SectionLayer } from "../section-layer";
 
 function SlotVideo({ src }: { src: string }) {
@@ -23,13 +23,10 @@ const SLOT = "h-[44vh] overflow-hidden rounded-2xl lg:h-auto";
 /**
  * Section 2 — Bento.
  * Full-bleed white stage with a 20px bottom radius (so the dark section behind
- * peeks through as this layer lifts away).
- *
- * Desktop: a base hero video (`data-hero-video`) fills the panel and clips into a
- * padded, rounded card on entry (`createBentoScrub`) so section 1 reads as one
- * continuous scene; the six slots then assemble on top, top row first (`data-order`:
- * 0 = top, 1 = row 4, 2 = row 5). Mobile: the grid collapses to a 1-column stack
- * (DOM order = top→bottom) and the base video is hidden.
+ * peeks through as this layer lifts away). Revealed right after the hero video has
+ * framed itself into a card; the six slots (`data-bento-slot`) then assemble on
+ * scroll, top row first (`data-order`: 0 = top, 1 = row 4, 2 = row 5). Mobile: the
+ * grid collapses to a 1-column stack (DOM order = top→bottom).
  */
 export function SectionBento() {
   return (
@@ -41,16 +38,6 @@ export function SectionBento() {
       panelClassName="rounded-b-[20px] bg-white"
       behindClassName="bg-[#101216]"
     >
-      <video
-        data-hero-video
-        className="absolute inset-0 hidden size-full object-cover lg:block"
-        src={HERO_VIDEO}
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-hidden="true"
-      />
       <div className="flex h-full w-full flex-col px-5 pt-24 pb-8">
         <div className="flex w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-12 lg:grid-rows-6">
           {/* 1 — manner (video, top row) */}

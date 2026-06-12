@@ -13,6 +13,7 @@ import {
   createBentoScrub,
   createDesktopEntrances,
   createFooterExpand,
+  createHeroToBento,
   createIntroScrub,
   createMobileReveals,
 } from "./lib/scenes";
@@ -105,6 +106,7 @@ export function LandingExperience() {
         const conditions = ctx.conditions ?? {};
         if (conditions.reduce) return;
         if (conditions.isDesktop) {
+          createHeroToBento(root);
           createBentoScrub(root);
           createIntroScrub(root, () => introLottieRef.current);
           createDesktopEntrances(root);

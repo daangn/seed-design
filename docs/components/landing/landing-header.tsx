@@ -6,21 +6,25 @@ import { NAV_ITEMS } from "./lib/landing-content";
 import { SeedMark } from "./seed-mark";
 
 /**
- * - `transparent`: hero only — no backgrounds, dark text/icons directly on the video.
- * - `solid`: every section after hero — logo / nav / actions each sit on their own
- *   translucent-white pill, dark text. Unified so the header stops "flickering"
- *   between modes as section backgrounds change.
- * - `hidden`: footer — keeps the solid look but slides up and fades out.
+ * - `transparent`: hero only — pills have no background, dark text/icons directly
+ *   on the video.
+ * - `solid`: every section after hero — the same layout, but the logo / nav /
+ *   action pills fade in a translucent-white background.
+ * - `hidden`: footer — keeps the solid look but slides up out of view (and slides
+ *   back down when you scroll back up).
+ *
+ * Padding is identical across states (only the background color animates), so the
+ * header never shifts layout as it morphs.
  */
 export type HeaderVariant = "transparent" | "solid" | "hidden";
 
 const cx = (...classes: Array<string | false | undefined>) => classes.filter(Boolean).join(" ");
 
-/** Color morph shared across header parts (background/text fade). */
+/** Color morph shared across header parts (background fades, layout stays put). */
 const MORPH = "transition-colors duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]";
 
-/** Translucent white capsule for the logo / nav / action pills in the solid state. */
-const PILL = "bg-white/80 backdrop-blur-md ring-1 ring-black/5";
+/** Translucent white capsule background (no stroke / shadow). */
+const PILL = "bg-white/80 backdrop-blur-md";
 
 function ChevronDown({ className }: { className?: string }) {
   return (
@@ -84,9 +88,9 @@ function IconButton({
 }
 
 /**
- * Unified landing header. Layout is identical across states (no reflow); the logo,
- * nav, and actions each carry a translucent-white pill that fades in after hero and
- * stays put through every section, then the whole bar slides away over the footer.
+ * Unified landing header. The logo, nav, and actions each carry a pill whose
+ * background fades in after hero and stays put through every section; over the
+ * footer the whole bar slides up out of view.
  */
 export function LandingHeader({ variant }: { variant: HeaderVariant }) {
   const isTransparent = variant === "transparent";
@@ -97,17 +101,18 @@ export function LandingHeader({ variant }: { variant: HeaderVariant }) {
     <header
       className={cx(
         "fixed inset-x-0 top-0 z-[100]",
-        "transition-[transform,opacity] duration-[500ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-        isHidden ? "-translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100",
+        "transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+        isHidden ? "-translate-y-full" : "translate-y-0",
+        isHidden && "pointer-events-none",
       )}
     >
       <div className="mx-auto flex w-full max-w-[1760px] items-center justify-between gap-6 px-8 py-5">
-        {/* Left: mark + wordmark on a pill, pinned to the left edge */}
+        {/* Left: mark + wordmark on a pill, pinned to the left edge. Padding is
+            always present so only the background animates (no layout shift). */}
         <div
           className={cx(
-            "flex shrink-0 items-center gap-2 rounded-full text-[#212121]",
+            "flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-[#212121]",
             MORPH,
-            !isTransparent && "px-3 py-1.5",
             pill,
           )}
         >
