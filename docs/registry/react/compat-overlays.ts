@@ -42,13 +42,69 @@ export type CompatOverlay =
     };
 
 export const compatOverlays: CompatOverlay[] = [
-  // 예시 (후속 큐레이션 PR에서 실제 데이터로 채워질 예정):
-  // {
-  //   kind: "backfill",
-  //   package: "@seed-design/react",
-  //   versionRange: ">=1.1.0 <1.1.10",
-  //   peers: { "@seed-design/css": "~1.1.0" },
-  //   reason:
-  //     "css peer 선언 누락 구간. react·css가 같은 날 같은 번호로 lockstep 릴리즈되던 시기로, npm 배포 타임스탬프와 git 릴리즈 커밋으로 재구성함",
-  // },
+  // ── backfill: 선언 누락 구간 소급 ──
+  // 근거: 이 구간의 react·css는 같은 날 같은 번호로 lockstep 릴리즈됨 (npm 배포 타임스탬프로 재구성).
+  // same-version 핀이 가장 엄격하지만, 당시 실질 정책이 same-minor 페어링이었으므로 ~1.1.0으로 둔다.
+  {
+    kind: "backfill",
+    package: "@seed-design/react",
+    versionRange: ">=1.1.0 <1.1.10",
+    peers: { "@seed-design/css": "~1.1.0" },
+    reason: "css peer 선언 누락 구간. css와 같은 날 같은 번호로 lockstep 릴리즈되던 시기",
+  },
+
+  // ── correction: 과대 선언 교정 ──
+  // react 1.2.x의 선언(>=1.1.17, 상한 없음)은 css 1.1.x 조합도 통과시키지만,
+  // 실제 정책은 same-minor 페어링이라 마크업↔스타일 드리프트가 생길 수 있다.
+  // 참고: react 1.1.10~1.1.28 구간(>=1.1.x 하한만 선언)도 상한이 없긴 하나,
+  // 버전마다 하한이 달라 단일 항목으로 교정하면 하한 정보가 약해지므로 v1 큐레이션에서 보류.
+  {
+    kind: "correction",
+    package: "@seed-design/react",
+    versionRange: ">=1.2.0 <1.3.0",
+    peers: { "@seed-design/css": "~1.2.0" },
+    reason: "선언(>=1.1.17)이 과대 — same-minor 페어링 정책 기준으로 교정",
+  },
+
+  // ── breaking-boundary: 호환 단절 경계 ──
+  // 1.0.0·1.1.0은 CHANGELOG의 "BREAKING CHANGE" 마커에서 기계 추출,
+  // 1.2.0은 마커 없이 서술된 변경("1.1 → 1.2 업그레이드 시 snippet 업데이트 필요")을 검수에서 보완.
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/react",
+    version: "1.0.0",
+    notes: "Snackbar·SwitchMark·ListHeader 등 다수 snippet 재설치 필요",
+  },
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/css",
+    version: "1.0.0",
+    notes: "react 1.0.0과 동일 (lockstep 릴리즈)",
+  },
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/react",
+    version: "1.1.0",
+    notes: "Error State·BottomSheet·TextField·PageBanner snippet 재설치 필요",
+  },
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/css",
+    version: "1.1.0",
+    notes: "react 1.1.0과 동일 (lockstep 릴리즈)",
+  },
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/react",
+    version: "1.2.0",
+    notes: "HelpBubble snippet 재설치 필요(내부 구조 변경), SelectBox suffix 마이그레이션",
+  },
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/css",
+    version: "1.2.0",
+    notes: "react 1.2.0과 동일",
+  },
+
+  // known-bad: 기록된 사고 조합 아직 없음 — 실제 깨진 조합이 확인되면 여기에 추가
 ];
