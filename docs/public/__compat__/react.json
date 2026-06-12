@@ -1,0 +1,1945 @@
+{
+  "schemaVersion": 1,
+  "framework": "react",
+  "generatedAt": "2026-06-12T09:00:42.064Z",
+  "packages": {
+    "@seed-design/css": {
+      "versions": [
+        {
+          "version": "0.0.1",
+          "publishedAt": "2025-02-24T21:15:56.472Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.2",
+          "publishedAt": "2025-02-25T09:37:10.345Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.3",
+          "publishedAt": "2025-03-04T03:38:25.819Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.4",
+          "publishedAt": "2025-03-05T01:12:08.307Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.5",
+          "publishedAt": "2025-03-10T05:23:59.526Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.6",
+          "publishedAt": "2025-03-13T15:42:07.951Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.7",
+          "publishedAt": "2025-03-13T15:54:54.724Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.8",
+          "publishedAt": "2025-03-18T14:03:38.714Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.9",
+          "publishedAt": "2025-03-19T07:42:00.045Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.10",
+          "publishedAt": "2025-03-21T13:40:02.374Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.12",
+          "publishedAt": "2025-04-03T10:52:06.538Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.13",
+          "publishedAt": "2025-04-16T16:17:09.955Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.14",
+          "publishedAt": "2025-04-18T10:12:41.691Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.15",
+          "publishedAt": "2025-04-22T05:00:49.545Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.17",
+          "publishedAt": "2025-04-22T08:33:08.589Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.19",
+          "publishedAt": "2025-04-23T09:32:23.358Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.21",
+          "publishedAt": "2025-04-28T13:49:03.028Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.23",
+          "publishedAt": "2025-05-02T08:30:06.435Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.24",
+          "publishedAt": "2025-05-08T05:35:00.840Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.25",
+          "publishedAt": "2025-05-19T05:02:26.546Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.27",
+          "publishedAt": "2025-05-29T04:11:30.047Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.28",
+          "publishedAt": "2025-05-29T10:43:09.843Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.29",
+          "publishedAt": "2025-05-30T12:57:21.637Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.30",
+          "publishedAt": "2025-06-02T10:01:40.704Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.31",
+          "publishedAt": "2025-06-10T04:01:49.441Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.33",
+          "publishedAt": "2025-06-11T11:27:34.249Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.34",
+          "publishedAt": "2025-06-11T12:44:55.667Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.35",
+          "publishedAt": "2025-06-11T14:24:14.761Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.38",
+          "publishedAt": "2025-06-20T07:29:34.885Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.39",
+          "publishedAt": "2025-06-24T02:23:46.387Z",
+          "peers": {}
+        },
+        {
+          "version": "0.0.41",
+          "publishedAt": "2025-06-30T09:22:41.265Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.0",
+          "publishedAt": "2025-07-01T04:03:22.743Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.1",
+          "publishedAt": "2025-07-01T05:10:27.040Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.2",
+          "publishedAt": "2025-07-03T08:56:34.627Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.3",
+          "publishedAt": "2025-07-14T02:25:16.713Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.4",
+          "publishedAt": "2025-07-23T02:52:54.182Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.5",
+          "publishedAt": "2025-07-29T03:30:42.826Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.6",
+          "publishedAt": "2025-07-31T07:30:07.752Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.7",
+          "publishedAt": "2025-08-01T03:18:26.482Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.8",
+          "publishedAt": "2025-08-04T10:58:08.594Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.9",
+          "publishedAt": "2025-08-07T03:25:56.914Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.10",
+          "publishedAt": "2025-08-11T02:52:50.578Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.12",
+          "publishedAt": "2025-08-12T06:57:26.292Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.13",
+          "publishedAt": "2025-08-20T10:37:40.144Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.14",
+          "publishedAt": "2025-08-22T08:26:40.743Z",
+          "peers": {}
+        },
+        {
+          "version": "0.1.15",
+          "publishedAt": "2025-08-28T08:57:29.856Z",
+          "peers": {}
+        },
+        {
+          "version": "0.2.0",
+          "publishedAt": "2025-09-03T09:45:50.981Z",
+          "peers": {}
+        },
+        {
+          "version": "0.2.1",
+          "publishedAt": "2025-09-04T07:35:46.493Z",
+          "peers": {}
+        },
+        {
+          "version": "0.2.3",
+          "publishedAt": "2025-09-08T09:23:39.345Z",
+          "peers": {}
+        },
+        {
+          "version": "0.2.4",
+          "publishedAt": "2025-09-12T02:52:37.771Z",
+          "peers": {}
+        },
+        {
+          "version": "0.2.5",
+          "publishedAt": "2025-09-22T10:32:18.543Z",
+          "peers": {}
+        },
+        {
+          "version": "1.0.0",
+          "publishedAt": "2025-09-25T02:40:32.036Z",
+          "peers": {}
+        },
+        {
+          "version": "1.0.1",
+          "publishedAt": "2025-09-26T07:33:23.021Z",
+          "peers": {}
+        },
+        {
+          "version": "1.0.2",
+          "publishedAt": "2025-09-29T08:47:11.869Z",
+          "peers": {}
+        },
+        {
+          "version": "1.0.3",
+          "publishedAt": "2025-10-02T08:34:57.552Z",
+          "peers": {}
+        },
+        {
+          "version": "1.0.5",
+          "publishedAt": "2025-10-17T10:26:38.601Z",
+          "peers": {}
+        },
+        {
+          "version": "1.0.6",
+          "publishedAt": "2025-10-23T09:19:43.979Z",
+          "peers": {}
+        },
+        {
+          "version": "1.0.7",
+          "publishedAt": "2025-10-27T08:31:07.523Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.0",
+          "publishedAt": "2025-11-04T07:27:50.671Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.3",
+          "publishedAt": "2025-11-11T09:59:40.116Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.4",
+          "publishedAt": "2025-11-13T05:14:51.543Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.5",
+          "publishedAt": "2025-11-17T11:12:51.955Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.6",
+          "publishedAt": "2025-11-18T09:30:52.738Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.7",
+          "publishedAt": "2025-11-20T09:56:05.744Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.8",
+          "publishedAt": "2025-11-21T03:48:54.549Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.9",
+          "publishedAt": "2025-11-26T03:19:23.223Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.10",
+          "publishedAt": "2025-12-01T06:52:53.642Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.12",
+          "publishedAt": "2025-12-08T09:03:16.068Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.13",
+          "publishedAt": "2025-12-15T09:43:42.698Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.15",
+          "publishedAt": "2025-12-24T05:50:07.825Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.16",
+          "publishedAt": "2026-01-07T06:20:24.196Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.17",
+          "publishedAt": "2026-01-19T08:55:22.835Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.19",
+          "publishedAt": "2026-01-20T03:53:34.820Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.23",
+          "publishedAt": "2026-03-12T07:20:55.261Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.24",
+          "publishedAt": "2026-04-06T06:39:58.717Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.25",
+          "publishedAt": "2026-05-07T06:32:18.247Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.26",
+          "publishedAt": "2026-06-10T09:43:58.102Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.27",
+          "publishedAt": "2026-06-12T08:13:52.527Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.0",
+          "publishedAt": "2026-01-25T09:44:22.210Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.1",
+          "publishedAt": "2026-01-29T07:15:17.320Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.2",
+          "publishedAt": "2026-02-10T03:06:21.324Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.3",
+          "publishedAt": "2026-02-24T08:37:15.907Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.4",
+          "publishedAt": "2026-03-04T06:03:14.674Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.5",
+          "publishedAt": "2026-03-12T07:03:03.639Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.6",
+          "publishedAt": "2026-03-19T07:32:29.052Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.7",
+          "publishedAt": "2026-03-26T10:55:51.097Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.8",
+          "publishedAt": "2026-04-09T06:14:15.608Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.9",
+          "publishedAt": "2026-04-16T08:12:36.312Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.10",
+          "publishedAt": "2026-04-24T06:43:21.485Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.11",
+          "publishedAt": "2026-05-06T09:45:47.389Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.12",
+          "publishedAt": "2026-05-21T03:56:20.442Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.13",
+          "publishedAt": "2026-06-04T07:13:27.489Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.14",
+          "publishedAt": "2026-06-10T08:41:16.564Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.15",
+          "publishedAt": "2026-06-12T07:58:38.434Z",
+          "peers": {}
+        }
+      ]
+    },
+    "@seed-design/react": {
+      "versions": [
+        {
+          "version": "0.0.1",
+          "publishedAt": "2025-02-24T21:15:56.692Z",
+          "peers": {
+            "@seed-design/css": "0.0.1"
+          }
+        },
+        {
+          "version": "0.0.2",
+          "publishedAt": "2025-02-25T09:37:11.322Z",
+          "peers": {
+            "@seed-design/css": "0.0.2"
+          }
+        },
+        {
+          "version": "0.0.3",
+          "publishedAt": "2025-03-04T03:38:26.274Z",
+          "peers": {
+            "@seed-design/css": "0.0.3"
+          }
+        },
+        {
+          "version": "0.0.4",
+          "publishedAt": "2025-03-05T01:12:08.293Z",
+          "peers": {
+            "@seed-design/css": "0.0.4"
+          }
+        },
+        {
+          "version": "0.0.5",
+          "publishedAt": "2025-03-10T05:24:00.016Z",
+          "peers": {
+            "@seed-design/css": "0.0.5"
+          }
+        },
+        {
+          "version": "0.0.6",
+          "publishedAt": "2025-03-13T15:42:08.621Z",
+          "peers": {
+            "@seed-design/css": "0.0.6"
+          }
+        },
+        {
+          "version": "0.0.7",
+          "publishedAt": "2025-03-13T15:54:55.379Z",
+          "peers": {
+            "@seed-design/css": "0.0.7"
+          }
+        },
+        {
+          "version": "0.0.8",
+          "publishedAt": "2025-03-18T14:03:39.037Z",
+          "peers": {
+            "@seed-design/css": "0.0.8"
+          }
+        },
+        {
+          "version": "0.0.9",
+          "publishedAt": "2025-03-19T07:42:00.804Z",
+          "peers": {
+            "@seed-design/css": "0.0.9"
+          }
+        },
+        {
+          "version": "0.0.10",
+          "publishedAt": "2025-03-21T13:40:02.521Z",
+          "peers": {
+            "@seed-design/css": "0.0.10"
+          }
+        },
+        {
+          "version": "0.0.12",
+          "publishedAt": "2025-04-03T10:52:07.118Z",
+          "peers": {
+            "@seed-design/css": "0.0.12"
+          }
+        },
+        {
+          "version": "0.0.13",
+          "publishedAt": "2025-04-16T16:17:10.404Z",
+          "peers": {
+            "@seed-design/css": "0.0.13"
+          }
+        },
+        {
+          "version": "0.0.14",
+          "publishedAt": "2025-04-18T10:12:41.794Z",
+          "peers": {
+            "@seed-design/css": "0.0.14"
+          }
+        },
+        {
+          "version": "0.0.15",
+          "publishedAt": "2025-04-22T05:00:50.474Z",
+          "peers": {
+            "@seed-design/css": "0.0.15"
+          }
+        },
+        {
+          "version": "0.0.17",
+          "publishedAt": "2025-04-22T08:33:08.817Z",
+          "peers": {
+            "@seed-design/css": "0.0.17"
+          }
+        },
+        {
+          "version": "0.0.19",
+          "publishedAt": "2025-04-23T09:32:23.383Z",
+          "peers": {
+            "@seed-design/css": "0.0.19"
+          }
+        },
+        {
+          "version": "0.0.21",
+          "publishedAt": "2025-04-28T13:49:03.037Z",
+          "peers": {
+            "@seed-design/css": "0.0.21"
+          }
+        },
+        {
+          "version": "0.0.23",
+          "publishedAt": "2025-05-02T08:30:06.640Z",
+          "peers": {
+            "@seed-design/css": "0.0.23"
+          }
+        },
+        {
+          "version": "0.0.24",
+          "publishedAt": "2025-05-08T05:35:00.990Z",
+          "peers": {
+            "@seed-design/css": "0.0.24"
+          }
+        },
+        {
+          "version": "0.0.25",
+          "publishedAt": "2025-05-19T05:02:27.097Z",
+          "peers": {
+            "@seed-design/css": "0.0.25"
+          }
+        },
+        {
+          "version": "0.0.27",
+          "publishedAt": "2025-05-29T04:11:30.409Z",
+          "peers": {
+            "@seed-design/css": "0.0.27"
+          }
+        },
+        {
+          "version": "0.0.28",
+          "publishedAt": "2025-05-29T10:43:10.851Z",
+          "peers": {
+            "@seed-design/css": "0.0.28"
+          }
+        },
+        {
+          "version": "0.0.29",
+          "publishedAt": "2025-05-30T12:57:22.978Z",
+          "peers": {
+            "@seed-design/css": "0.0.29"
+          }
+        },
+        {
+          "version": "0.0.30",
+          "publishedAt": "2025-06-02T10:01:41.156Z",
+          "peers": {
+            "@seed-design/css": "0.0.30"
+          }
+        },
+        {
+          "version": "0.0.31",
+          "publishedAt": "2025-06-10T04:01:49.661Z",
+          "peers": {
+            "@seed-design/css": "0.0.31"
+          }
+        },
+        {
+          "version": "0.0.32",
+          "publishedAt": "2025-06-11T08:57:34.917Z",
+          "peers": {
+            "@seed-design/css": "0.0.31"
+          }
+        },
+        {
+          "version": "0.0.33",
+          "publishedAt": "2025-06-11T11:27:34.715Z",
+          "peers": {
+            "@seed-design/css": "0.0.33"
+          }
+        },
+        {
+          "version": "0.0.34",
+          "publishedAt": "2025-06-11T12:44:56.274Z",
+          "peers": {
+            "@seed-design/css": "0.0.34"
+          }
+        },
+        {
+          "version": "0.0.35",
+          "publishedAt": "2025-06-11T14:24:15.160Z",
+          "peers": {
+            "@seed-design/css": "0.0.35"
+          }
+        },
+        {
+          "version": "0.0.38",
+          "publishedAt": "2025-06-20T07:29:36.695Z",
+          "peers": {
+            "@seed-design/css": "0.0.38"
+          }
+        },
+        {
+          "version": "0.0.39",
+          "publishedAt": "2025-06-24T02:23:46.542Z",
+          "peers": {
+            "@seed-design/css": "0.0.39"
+          }
+        },
+        {
+          "version": "0.0.41",
+          "publishedAt": "2025-06-30T09:22:41.543Z",
+          "peers": {
+            "@seed-design/css": "0.0.41"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "publishedAt": "2025-07-01T04:03:23.503Z",
+          "peers": {
+            "@seed-design/css": "0.1.0"
+          }
+        },
+        {
+          "version": "0.1.1",
+          "publishedAt": "2025-07-01T05:10:27.554Z",
+          "peers": {
+            "@seed-design/css": "0.1.1"
+          }
+        },
+        {
+          "version": "0.1.2",
+          "publishedAt": "2025-07-03T08:56:34.210Z",
+          "peers": {
+            "@seed-design/css": "0.1.2"
+          }
+        },
+        {
+          "version": "0.1.3",
+          "publishedAt": "2025-07-14T02:25:16.711Z",
+          "peers": {
+            "@seed-design/css": "0.1.3"
+          }
+        },
+        {
+          "version": "0.1.4",
+          "publishedAt": "2025-07-23T02:52:55.076Z",
+          "peers": {
+            "@seed-design/css": "0.1.4"
+          }
+        },
+        {
+          "version": "0.1.5",
+          "publishedAt": "2025-07-29T03:30:43.080Z",
+          "peers": {
+            "@seed-design/css": "0.1.5"
+          }
+        },
+        {
+          "version": "0.1.6",
+          "publishedAt": "2025-07-31T07:30:08.430Z",
+          "peers": {
+            "@seed-design/css": "0.1.6"
+          }
+        },
+        {
+          "version": "0.1.7",
+          "publishedAt": "2025-08-01T03:18:27.179Z",
+          "peers": {
+            "@seed-design/css": "0.1.7"
+          }
+        },
+        {
+          "version": "0.1.8",
+          "publishedAt": "2025-08-04T10:58:09.253Z",
+          "peers": {
+            "@seed-design/css": "0.1.8"
+          }
+        },
+        {
+          "version": "0.1.9",
+          "publishedAt": "2025-08-07T03:25:57.881Z",
+          "peers": {
+            "@seed-design/css": "0.1.9"
+          }
+        },
+        {
+          "version": "0.1.10",
+          "publishedAt": "2025-08-11T02:52:51.602Z",
+          "peers": {
+            "@seed-design/css": "0.1.10"
+          }
+        },
+        {
+          "version": "0.1.11",
+          "publishedAt": "2025-08-12T03:12:35.518Z",
+          "peers": {
+            "@seed-design/css": "0.1.10"
+          }
+        },
+        {
+          "version": "0.1.12",
+          "publishedAt": "2025-08-12T06:57:27.450Z",
+          "peers": {
+            "@seed-design/css": "0.1.12"
+          }
+        },
+        {
+          "version": "0.1.13",
+          "publishedAt": "2025-08-20T10:37:40.308Z",
+          "peers": {
+            "@seed-design/css": "0.1.13"
+          }
+        },
+        {
+          "version": "0.1.14",
+          "publishedAt": "2025-08-22T08:26:41.268Z",
+          "peers": {
+            "@seed-design/css": "0.1.14"
+          }
+        },
+        {
+          "version": "0.1.15",
+          "publishedAt": "2025-08-28T08:57:30.707Z",
+          "peers": {
+            "@seed-design/css": "0.1.15"
+          }
+        },
+        {
+          "version": "0.2.0",
+          "publishedAt": "2025-09-03T09:45:51.656Z",
+          "peers": {
+            "@seed-design/css": "0.2.0"
+          }
+        },
+        {
+          "version": "0.2.1",
+          "publishedAt": "2025-09-04T07:35:47.040Z",
+          "peers": {
+            "@seed-design/css": "0.2.1"
+          }
+        },
+        {
+          "version": "0.2.2",
+          "publishedAt": "2025-09-05T08:35:11.911Z",
+          "peers": {
+            "@seed-design/css": "0.2.1"
+          }
+        },
+        {
+          "version": "0.2.3",
+          "publishedAt": "2025-09-08T09:23:40.015Z",
+          "peers": {
+            "@seed-design/css": "0.2.3"
+          }
+        },
+        {
+          "version": "0.2.4",
+          "publishedAt": "2025-09-12T02:52:38.357Z",
+          "peers": {
+            "@seed-design/css": "0.2.4"
+          }
+        },
+        {
+          "version": "0.2.5",
+          "publishedAt": "2025-09-22T10:32:18.770Z",
+          "peers": {
+            "@seed-design/css": "0.2.5"
+          }
+        },
+        {
+          "version": "1.0.0",
+          "publishedAt": "2025-09-25T02:40:32.368Z",
+          "peers": {
+            "@seed-design/css": "1.0.0"
+          }
+        },
+        {
+          "version": "1.0.1",
+          "publishedAt": "2025-09-26T07:33:23.957Z",
+          "peers": {
+            "@seed-design/css": "1.0.1"
+          }
+        },
+        {
+          "version": "1.0.2",
+          "publishedAt": "2025-09-29T08:47:11.863Z",
+          "peers": {
+            "@seed-design/css": "1.0.2"
+          }
+        },
+        {
+          "version": "1.0.3",
+          "publishedAt": "2025-10-02T08:34:58.306Z",
+          "peers": {
+            "@seed-design/css": "1.0.3"
+          }
+        },
+        {
+          "version": "1.0.4",
+          "publishedAt": "2025-10-10T06:06:41.706Z",
+          "peers": {
+            "@seed-design/css": "1.0.3"
+          }
+        },
+        {
+          "version": "1.0.5",
+          "publishedAt": "2025-10-17T10:26:38.863Z",
+          "peers": {
+            "@seed-design/css": "1.0.5"
+          }
+        },
+        {
+          "version": "1.0.6",
+          "publishedAt": "2025-10-23T09:19:44.003Z",
+          "peers": {
+            "@seed-design/css": "1.0.6"
+          }
+        },
+        {
+          "version": "1.0.7",
+          "publishedAt": "2025-10-27T08:31:07.647Z",
+          "peers": {
+            "@seed-design/css": "1.0.7"
+          }
+        },
+        {
+          "version": "1.0.8",
+          "publishedAt": "2025-11-17T12:00:31.162Z",
+          "peers": {
+            "@seed-design/css": "1.0.7"
+          }
+        },
+        {
+          "version": "1.1.0",
+          "publishedAt": "2025-11-04T07:27:51.049Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.1",
+          "publishedAt": "2025-11-04T08:19:26.727Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.3",
+          "publishedAt": "2025-11-11T09:59:41.354Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.4",
+          "publishedAt": "2025-11-13T05:14:52.041Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.5",
+          "publishedAt": "2025-11-17T11:12:51.806Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.7",
+          "publishedAt": "2025-11-20T09:56:06.591Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.8",
+          "publishedAt": "2025-11-21T03:48:54.865Z",
+          "peers": {}
+        },
+        {
+          "version": "1.1.10",
+          "publishedAt": "2025-12-01T06:52:54.287Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.10"
+          }
+        },
+        {
+          "version": "1.1.12",
+          "publishedAt": "2025-12-08T09:03:17.821Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.12"
+          }
+        },
+        {
+          "version": "1.1.13",
+          "publishedAt": "2025-12-15T09:43:43.460Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.13"
+          }
+        },
+        {
+          "version": "1.1.16",
+          "publishedAt": "2026-01-07T06:20:24.402Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.16"
+          }
+        },
+        {
+          "version": "1.1.17",
+          "publishedAt": "2026-01-19T08:55:23.681Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.1.18",
+          "publishedAt": "2026-01-29T07:55:23.356Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.1.19",
+          "publishedAt": "2026-01-29T09:53:56.630Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.1.20",
+          "publishedAt": "2026-02-03T03:43:20.757Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.1.21",
+          "publishedAt": "2026-02-03T11:51:10.817Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.1.22",
+          "publishedAt": "2026-02-24T08:49:46.842Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.1.23",
+          "publishedAt": "2026-03-12T07:20:57.047Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.23"
+          }
+        },
+        {
+          "version": "1.1.24",
+          "publishedAt": "2026-04-06T06:39:59.064Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.24"
+          }
+        },
+        {
+          "version": "1.1.25",
+          "publishedAt": "2026-04-09T06:18:49.799Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.24"
+          }
+        },
+        {
+          "version": "1.1.26",
+          "publishedAt": "2026-06-04T07:33:34.719Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.24"
+          }
+        },
+        {
+          "version": "1.1.27",
+          "publishedAt": "2026-06-10T09:43:57.680Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.24"
+          }
+        },
+        {
+          "version": "1.1.28",
+          "publishedAt": "2026-06-12T08:13:52.609Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.24"
+          }
+        },
+        {
+          "version": "1.2.0",
+          "publishedAt": "2026-01-25T09:44:23.442Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.1",
+          "publishedAt": "2026-01-29T07:15:18.252Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.2",
+          "publishedAt": "2026-02-03T03:40:36.427Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.3",
+          "publishedAt": "2026-02-03T11:50:28.481Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.4",
+          "publishedAt": "2026-02-10T03:06:23.001Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.5",
+          "publishedAt": "2026-02-24T08:37:15.862Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.6",
+          "publishedAt": "2026-03-04T06:03:16.333Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.7",
+          "publishedAt": "2026-03-12T07:03:04.477Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.8",
+          "publishedAt": "2026-03-19T07:32:30.216Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.9",
+          "publishedAt": "2026-04-09T06:14:17.341Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.10",
+          "publishedAt": "2026-04-24T06:43:23.992Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.11",
+          "publishedAt": "2026-06-04T07:13:29.999Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.12",
+          "publishedAt": "2026-06-10T08:41:19.320Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.13",
+          "publishedAt": "2026-06-12T07:58:39.494Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        }
+      ]
+    },
+    "@seed-design/stackflow": {
+      "versions": [
+        {
+          "version": "0.0.1",
+          "publishedAt": "2025-02-24T21:15:59.853Z",
+          "peers": {
+            "@seed-design/css": "0.0.1"
+          }
+        },
+        {
+          "version": "0.0.2",
+          "publishedAt": "2025-02-25T09:37:10.192Z",
+          "peers": {
+            "@seed-design/css": "0.0.2"
+          }
+        },
+        {
+          "version": "0.0.3",
+          "publishedAt": "2025-03-04T03:38:25.450Z",
+          "peers": {
+            "@seed-design/css": "0.0.3"
+          }
+        },
+        {
+          "version": "0.0.4",
+          "publishedAt": "2025-03-05T01:12:07.822Z",
+          "peers": {
+            "@seed-design/css": "0.0.4"
+          }
+        },
+        {
+          "version": "0.0.5",
+          "publishedAt": "2025-03-10T05:23:59.653Z",
+          "peers": {
+            "@seed-design/css": "0.0.5"
+          }
+        },
+        {
+          "version": "0.0.6",
+          "publishedAt": "2025-03-13T15:42:07.790Z",
+          "peers": {
+            "@seed-design/css": "0.0.6"
+          }
+        },
+        {
+          "version": "0.0.7",
+          "publishedAt": "2025-03-13T15:54:54.125Z",
+          "peers": {
+            "@seed-design/css": "0.0.7"
+          }
+        },
+        {
+          "version": "0.0.8",
+          "publishedAt": "2025-03-18T14:03:38.359Z",
+          "peers": {
+            "@seed-design/css": "0.0.8"
+          }
+        },
+        {
+          "version": "0.0.9",
+          "publishedAt": "2025-03-19T07:42:00.160Z",
+          "peers": {
+            "@seed-design/css": "0.0.9"
+          }
+        },
+        {
+          "version": "0.0.10",
+          "publishedAt": "2025-03-21T13:40:03.630Z",
+          "peers": {
+            "@seed-design/css": "0.0.10"
+          }
+        },
+        {
+          "version": "0.0.12",
+          "publishedAt": "2025-04-03T10:52:06.746Z",
+          "peers": {
+            "@seed-design/css": "0.0.12"
+          }
+        },
+        {
+          "version": "0.0.13",
+          "publishedAt": "2025-04-16T16:17:09.752Z",
+          "peers": {
+            "@seed-design/css": "0.0.13"
+          }
+        },
+        {
+          "version": "0.0.14",
+          "publishedAt": "2025-04-18T10:12:40.995Z",
+          "peers": {
+            "@seed-design/css": "0.0.14"
+          }
+        },
+        {
+          "version": "0.0.15",
+          "publishedAt": "2025-04-22T05:00:49.381Z",
+          "peers": {
+            "@seed-design/css": "0.0.15"
+          }
+        },
+        {
+          "version": "0.0.17",
+          "publishedAt": "2025-04-22T08:33:08.173Z",
+          "peers": {
+            "@seed-design/css": "0.0.17"
+          }
+        },
+        {
+          "version": "0.0.19",
+          "publishedAt": "2025-04-23T09:32:22.802Z",
+          "peers": {
+            "@seed-design/css": "0.0.19"
+          }
+        },
+        {
+          "version": "0.0.21",
+          "publishedAt": "2025-04-28T13:49:07.711Z",
+          "peers": {
+            "@seed-design/css": "0.0.21"
+          }
+        },
+        {
+          "version": "0.0.23",
+          "publishedAt": "2025-05-02T08:30:05.894Z",
+          "peers": {
+            "@seed-design/css": "0.0.23"
+          }
+        },
+        {
+          "version": "0.0.24",
+          "publishedAt": "2025-05-08T05:35:00.587Z",
+          "peers": {
+            "@seed-design/css": "0.0.24"
+          }
+        },
+        {
+          "version": "0.0.25",
+          "publishedAt": "2025-05-19T05:02:25.823Z",
+          "peers": {
+            "@seed-design/css": "0.0.25"
+          }
+        },
+        {
+          "version": "0.0.27",
+          "publishedAt": "2025-05-29T04:11:32.788Z",
+          "peers": {
+            "@seed-design/css": "0.0.27"
+          }
+        },
+        {
+          "version": "0.0.28",
+          "publishedAt": "2025-05-29T10:43:10.091Z",
+          "peers": {
+            "@seed-design/css": "0.0.28"
+          }
+        },
+        {
+          "version": "0.0.29",
+          "publishedAt": "2025-05-30T12:57:25.037Z",
+          "peers": {
+            "@seed-design/css": "0.0.29"
+          }
+        },
+        {
+          "version": "0.0.30",
+          "publishedAt": "2025-06-02T10:01:40.489Z",
+          "peers": {
+            "@seed-design/css": "0.0.30"
+          }
+        },
+        {
+          "version": "0.0.31",
+          "publishedAt": "2025-06-10T04:01:49.152Z",
+          "peers": {
+            "@seed-design/css": "0.0.31"
+          }
+        },
+        {
+          "version": "0.0.33",
+          "publishedAt": "2025-06-11T11:27:33.740Z",
+          "peers": {
+            "@seed-design/css": "0.0.33"
+          }
+        },
+        {
+          "version": "0.0.34",
+          "publishedAt": "2025-06-11T12:44:55.310Z",
+          "peers": {
+            "@seed-design/css": "0.0.34"
+          }
+        },
+        {
+          "version": "0.0.35",
+          "publishedAt": "2025-06-11T14:24:14.367Z",
+          "peers": {
+            "@seed-design/css": "0.0.35"
+          }
+        },
+        {
+          "version": "0.0.36",
+          "publishedAt": "2025-06-19T03:57:16.443Z",
+          "peers": {
+            "@seed-design/css": "0.0.35"
+          }
+        },
+        {
+          "version": "0.0.37",
+          "publishedAt": "2025-06-19T06:53:18.210Z",
+          "peers": {
+            "@seed-design/css": "0.0.35"
+          }
+        },
+        {
+          "version": "0.0.38",
+          "publishedAt": "2025-06-20T07:29:35.244Z",
+          "peers": {
+            "@seed-design/css": "0.0.38"
+          }
+        },
+        {
+          "version": "0.0.39",
+          "publishedAt": "2025-06-24T02:23:46.024Z",
+          "peers": {
+            "@seed-design/css": "0.0.39"
+          }
+        },
+        {
+          "version": "0.0.41",
+          "publishedAt": "2025-06-30T09:22:40.825Z",
+          "peers": {
+            "@seed-design/css": "0.0.41"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "publishedAt": "2025-07-01T04:03:22.718Z",
+          "peers": {
+            "@seed-design/css": ">=0.1.0"
+          }
+        },
+        {
+          "version": "0.1.2",
+          "publishedAt": "2025-07-03T08:56:33.848Z",
+          "peers": {
+            "@seed-design/css": ">=0.1.2"
+          }
+        },
+        {
+          "version": "0.1.3",
+          "publishedAt": "2025-07-14T02:25:16.037Z",
+          "peers": {
+            "@seed-design/css": ">=0.1.3"
+          }
+        },
+        {
+          "version": "0.2.0",
+          "publishedAt": "2025-09-03T09:45:51.029Z",
+          "peers": {
+            "@seed-design/css": ">=0.2.0"
+          }
+        },
+        {
+          "version": "1.0.0",
+          "publishedAt": "2025-09-25T02:40:36.650Z",
+          "peers": {
+            "@seed-design/css": ">=1.0.0"
+          }
+        },
+        {
+          "version": "1.0.5",
+          "publishedAt": "2025-10-17T10:26:38.110Z",
+          "peers": {
+            "@seed-design/css": ">=1.0.5"
+          }
+        },
+        {
+          "version": "1.0.9",
+          "publishedAt": "2026-02-12T11:49:51.965Z",
+          "peers": {
+            "@seed-design/css": ">=1.0.7"
+          }
+        },
+        {
+          "version": "1.1.0",
+          "publishedAt": "2025-11-04T07:27:52.070Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.0"
+          }
+        },
+        {
+          "version": "1.1.5",
+          "publishedAt": "2025-11-17T11:12:55.778Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.5"
+          }
+        },
+        {
+          "version": "1.1.9",
+          "publishedAt": "2025-11-26T03:19:22.914Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.9"
+          }
+        },
+        {
+          "version": "1.1.11",
+          "publishedAt": "2025-12-04T07:32:52.812Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.10"
+          }
+        },
+        {
+          "version": "1.1.15",
+          "publishedAt": "2025-12-24T05:50:07.549Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.15"
+          }
+        },
+        {
+          "version": "1.1.16",
+          "publishedAt": "2026-01-07T06:20:23.305Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.16"
+          }
+        },
+        {
+          "version": "1.1.17",
+          "publishedAt": "2026-02-24T08:37:15.238Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.19"
+          }
+        },
+        {
+          "version": "1.1.18",
+          "publishedAt": "2026-03-12T07:03:03.301Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.19"
+          }
+        },
+        {
+          "version": "1.1.19",
+          "publishedAt": "2026-03-19T07:32:28.697Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.19"
+          }
+        },
+        {
+          "version": "1.1.20",
+          "publishedAt": "2026-03-26T10:55:50.716Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.19"
+          }
+        },
+        {
+          "version": "1.1.21",
+          "publishedAt": "2026-05-06T09:45:47.126Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.19"
+          }
+        },
+        {
+          "version": "1.1.22",
+          "publishedAt": "2026-05-07T05:59:39.628Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11"
+          }
+        },
+        {
+          "version": "1.1.23",
+          "publishedAt": "2026-06-04T07:13:29.320Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11"
+          }
+        }
+      ]
+    }
+  },
+  "snippets": [
+    {
+      "registryId": "ui",
+      "itemId": "app-screen",
+      "snippetPath": "app-screen.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "app-screen",
+      "snippetPath": "app-bar.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "error-state",
+      "snippetPath": "error-state.tsx",
+      "requires": {
+        "@seed-design/react": "~1.1.0",
+        "@seed-design/css": "~1.1.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "field-button",
+      "snippetPath": "field-button.tsx",
+      "requires": {
+        "@seed-design/react": "~1.1.0",
+        "@seed-design/css": "~1.1.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "manner-temp",
+      "snippetPath": "manner-temp.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "manner-temp-badge",
+      "snippetPath": "manner-temp-badge.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "alert-dialog",
+      "snippetPath": "alert-dialog.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "bottom-sheet",
+      "snippetPath": "bottom-sheet.tsx",
+      "requires": {
+        "@seed-design/react": "~1.1.0",
+        "@seed-design/css": "~1.1.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "action-sheet",
+      "snippetPath": "action-sheet.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "extended-action-sheet",
+      "snippetPath": "extended-action-sheet.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "avatar",
+      "snippetPath": "avatar.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "pull-to-refresh",
+      "snippetPath": "pull-to-refresh.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "loading-indicator",
+      "snippetPath": "loading-indicator.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "action-button",
+      "snippetPath": "action-button.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "toggle-button",
+      "snippetPath": "toggle-button.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "reaction-button",
+      "snippetPath": "reaction-button.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "callout",
+      "snippetPath": "callout.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "control-chip",
+      "snippetPath": "control-chip.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "chip",
+      "snippetPath": "chip.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "checkbox",
+      "snippetPath": "checkbox.tsx",
+      "requires": {
+        "@seed-design/react": "~1.2.0",
+        "@seed-design/css": "~1.2.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "content-placeholder",
+      "snippetPath": "content-placeholder.tsx",
+      "requires": {
+        "@seed-design/react": "~1.2.8",
+        "@seed-design/css": "~1.2.6"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "identity-placeholder",
+      "snippetPath": "identity-placeholder.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "inline-banner",
+      "snippetPath": "inline-banner.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "menu-sheet",
+      "snippetPath": "menu-sheet.tsx",
+      "requires": {
+        "@seed-design/react": "~1.2.0",
+        "@seed-design/css": "~1.2.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "slider",
+      "snippetPath": "slider.tsx",
+      "requires": {
+        "@seed-design/react": "~1.1.0",
+        "@seed-design/css": "~1.1.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "snackbar",
+      "snippetPath": "snackbar.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "help-bubble",
+      "snippetPath": "help-bubble.tsx",
+      "requires": {
+        "@seed-design/react": "~1.2.0",
+        "@seed-design/css": "~1.2.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "tabs",
+      "snippetPath": "tabs.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "chip-tabs",
+      "snippetPath": "chip-tabs.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "tag-group",
+      "snippetPath": "tag-group.tsx",
+      "requires": {
+        "@seed-design/react": "~1.2.0",
+        "@seed-design/css": "~1.2.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "page-banner",
+      "snippetPath": "page-banner.tsx",
+      "requires": {
+        "@seed-design/react": "~1.1.0",
+        "@seed-design/css": "~1.1.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "progress-circle",
+      "snippetPath": "progress-circle.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "radio-group",
+      "snippetPath": "radio-group.tsx",
+      "requires": {
+        "@seed-design/react": "~1.2.0",
+        "@seed-design/css": "~1.2.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "select-box",
+      "snippetPath": "select-box.tsx",
+      "requires": {
+        "@seed-design/react": "~1.2.0",
+        "@seed-design/css": "~1.2.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "segmented-control",
+      "snippetPath": "segmented-control.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "switch",
+      "snippetPath": "switch.tsx",
+      "requires": {
+        "@seed-design/react": "~1.2.0",
+        "@seed-design/css": "~1.2.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "text-field",
+      "snippetPath": "text-field.tsx",
+      "requires": {
+        "@seed-design/react": "~1.1.0",
+        "@seed-design/css": "~1.1.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "contextual-floating-button",
+      "snippetPath": "contextual-floating-button.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "floating-action-button",
+      "snippetPath": "floating-action-button.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "list",
+      "snippetPath": "list.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "list",
+      "snippetPath": "list-header.tsx",
+      "requires": {
+        "@seed-design/react": "~1.0.0",
+        "@seed-design/css": "~1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "result-section",
+      "snippetPath": "result-section.tsx",
+      "requires": {
+        "@seed-design/react": "~1.1.0",
+        "@seed-design/css": "~1.1.0"
+      }
+    },
+    {
+      "registryId": "lib",
+      "itemId": "manner-temp-level",
+      "snippetPath": "manner-temp-level.ts",
+      "requires": {}
+    },
+    {
+      "registryId": "breeze",
+      "itemId": "animate-number",
+      "snippetPath": "animate-number/animate-number.tsx",
+      "requires": {}
+    },
+    {
+      "registryId": "breeze",
+      "itemId": "animate-number",
+      "snippetPath": "animate-number/animate-number.module.css",
+      "requires": {}
+    }
+  ],
+  "overlays": []
+}
