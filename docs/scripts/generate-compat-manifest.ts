@@ -15,8 +15,13 @@ import type { Registry } from "../registry/schema.js";
  * - 스니펫 축: docs/registry/react/registry-*.ts 정의의 스니펫별 요구 범위
  * - Layer 2(compat-overlays.ts)는 그대로 overlays 필드에 병합되어 소비자가 declared ⊕ overlays로 계산
  *
- * 네트워크(registry.npmjs.org)에 의존하므로 generate:all에는 포함하지 않고 수동으로 실행합니다:
+ * 실행 시점: 루트 `version` 스크립트(changeset version 직후)에 체이닝되어,
+ * Version Packages PR에 manifest 변경이 diff로 함께 잡힙니다. 수동 실행도 가능합니다:
  *   bun --filter @seed-design/docs generate:compat
+ *
+ * Version PR 시점에는 새 버전이 npm에 아직 없으므로, in-tree package.json의
+ * 버전·peer 선언을 보충해 `publishedAt: null`로 포함합니다 (배포 후 재생성 시 npm 값으로 대체됨).
+ * 네트워크(registry.npmjs.org)에 의존하므로 generate:all에는 포함하지 않습니다.
  */
 
 const SEED_SCOPE = "@seed-design/";
@@ -36,7 +41,8 @@ interface Packument {
 
 export interface VersionCompat {
   version: string;
-  publishedAt: string;
+  /** npm 배포 시각. null이면 아직 npm에 배포되지 않은 in-tree 버전 (Version Packages PR 시점) */
+  publishedAt: string | null;
   /** peerDependencies 중 @seed-design/* 만. 선언이 없으면 {} */
   peers: Record<string, string>;
 }
@@ -87,6 +93,21 @@ export function collectPackageVersions(packument: Packument): VersionCompat[] {
     publishedAt: packument.time[version] ?? "",
     peers: extractSeedPeers(packument.versions[version].peerDependencies),
   }));
+}
+
+/**
+ * npm에 아직 없는 in-tree 버전(Version Packages PR 시점의 곧 배포될 버전)을 보충합니다.
+ * 이미 npm에 존재하는 버전이면 npm 데이터(publishedAt 포함)를 그대로 둡니다.
+ */
+export function mergeInTreeVersion(
+  versions: VersionCompat[],
+  inTree: { version: string; peers: Record<string, string> },
+): VersionCompat[] {
+  if (inTree.version.includes("-")) return versions; // 프리릴리즈는 manifest 대상이 아님
+  if (versions.some((v) => v.version === inTree.version)) return versions;
+  return [...versions, { version: inTree.version, publishedAt: null, peers: inTree.peers }].sort(
+    (a, b) => compareSemver(a.version, b.version),
+  );
 }
 
 export function collectSnippets(registries: Registry[]): SnippetCompat[] {
@@ -196,7 +217,27 @@ async function main() {
     framework: "react",
     generatedAt: new Date().toISOString(),
     packages: Object.fromEntries(
-      TARGET_PACKAGES.map((pkg, i) => [pkg, { versions: collectPackageVersions(packuments[i]) }]),
+      await Promise.all(
+        TARGET_PACKAGES.map(async (pkg, i) => {
+          // cwd는 docs — 모노레포의 in-tree package.json에서 곧 배포될 버전을 보충한다
+          const inTreePath = path.join(
+            process.cwd(),
+            "..",
+            "packages",
+            pkg.slice(SEED_SCOPE.length),
+            "package.json",
+          );
+          const inTree = JSON.parse(await fs.readFile(inTreePath, "utf8")) as {
+            version: string;
+            peerDependencies?: Record<string, string>;
+          };
+          const versions = mergeInTreeVersion(collectPackageVersions(packuments[i]), {
+            version: inTree.version,
+            peers: extractSeedPeers(inTree.peerDependencies),
+          });
+          return [pkg, { versions }] as const;
+        }),
+      ),
     ),
     snippets: collectSnippets(REACT_REGISTRIES),
     overlays: compatOverlays,
