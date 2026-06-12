@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "bun generate:compat --best-effort && next build --webpack",
+    "build": "next build --webpack",
     "dev": "concurrently \"bun --filter @seed-design/stackflow-spa dev\" \"next dev --webpack\"",
     "start": "concurrently \"bun --filter @seed-design/stackflow-spa dev\" \"next start\"",
     "sanity:dev": "sanity dev",

@@ -20,7 +20,7 @@
     "lint:publish": "bun --filter '*' lint:publish",
     "lint:knip": "knip",
     "release": "bun packages:build && bun changeset publish",
-    "version": "changeset version && bun install --no-immutable",
+    "version": "changeset version && bun install --no-immutable && bun --filter @seed-design/docs generate:compat --best-effort",
     "format:all": "bun biome format --fix",
     "test:all": "bun test:unit && bun test:lynx-react",
     "test:unit": "bun test --path-ignore-patterns='packages/lynx-react/**'",
