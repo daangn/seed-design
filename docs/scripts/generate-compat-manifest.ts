@@ -119,7 +119,8 @@ export function summarizeDeclarationEras(versions: VersionCompat[]): Declaration
   const EXACT_PIN = /^\d+\.\d+\.\d+$/;
 
   const labelOf = (peers: Record<string, string>): string => {
-    const entries = Object.entries(peers);
+    // 키 삽입 순서와 무관하게 같은 peers는 같은 라벨이 되도록 정렬한다
+    const entries = Object.entries(peers).sort(([a], [b]) => a.localeCompare(b));
     if (entries.length === 0) return "(선언 없음)";
     if (entries.every(([, range]) => EXACT_PIN.test(range))) return "정확한 핀 (lockstep)";
     return entries.map(([pkg, range]) => `${pkg}: ${range}`).join(", ");
@@ -141,7 +142,7 @@ export function summarizeDeclarationEras(versions: VersionCompat[]): Declaration
 
 async function fetchPackument(pkg: string): Promise<Packument> {
   const url = `https://registry.npmjs.org/${encodeURIComponent(pkg)}`;
-  const response = await fetch(url);
+  const response = await fetch(url, { signal: AbortSignal.timeout(15_000) });
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
