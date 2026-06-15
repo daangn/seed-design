@@ -1,14 +1,14 @@
-import './selectBoxCheckmark.layered.css';
+import './select-box-checkmark.layered.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const selectBoxCheckmarkSlotNames = [
   [
     "root",
-    "seed-selectBoxCheckmark__root"
+    "seed-select-box-checkmark__root"
   ],
   [
     "icon",
-    "seed-selectBoxCheckmark__icon"
+    "seed-select-box-checkmark__icon"
   ]
 ];
 
@@ -33,4 +33,4 @@ export function selectBoxCheckmark(props) {
 
 Object.assign(selectBoxCheckmark, { splitVariantProps: (props) => splitVariantProps(props, selectBoxCheckmarkVariantMap) });
 
-// @recipe(seed): selectBoxCheckmark
+// @recipe(seed): select-box-checkmark
