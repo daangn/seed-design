@@ -100,3 +100,44 @@ import type { SeedPluginOptions } from "@seed-design/stackflow";
 
 - 화면 왼쪽 가장자리에서 오른쪽으로 스와이프하면 이전 Activity로 이동합니다.
 - 스와이프 정도에 따라 `AppScreen`이 위치를 업데이트합니다.
+
+## Pop과 백버튼 동작
+
+화면을 닫는 동작(pop)에 대해 `seedPlugin`이 보장하는 것과, 직접 만드는 버튼에서 권장하는 패턴을 정리합니다.
+
+### 프로그래매틱 pop은 그대로 동작합니다
+
+`seedPlugin`은 코드로 호출하는 pop을 가로채지 않습니다. `pop()`, `pop(2)`, 연속 호출한 `pop(); pop();`은 모두 [Stackflow의 기본 동작](https://stackflow.so/)을 그대로 따릅니다. 예를 들어 `pop(2)`와 `pop(); pop();`은 화면 2개를 닫습니다.
+
+개발자가 의도한 pop 호출을 프레임워크가 임의로 무시하지 않도록 하기 위함입니다.
+
+### 전환이 겹쳐도 화면은 깨끗하게 정착합니다
+
+`theme="cupertino"`의 화면 전환은 성능을 위해 현재 화면과 바로 뒤 화면을 명령형으로 애니메이션합니다(실시간 Swipe Back parallax를 위해). 이 때문에 전환이 빠르게 겹치면(동시 pop, 빠른 연타 등) 착지하는 화면에 직전 전환의 임시 스타일이 남아, 화면이 약간 밀리거나 `AppBar`가 잠깐 보이지 않을 수 있습니다.
+
+`seedPlugin`은 전환이 모두 정착하면(`globalTransitionState === "idle"`) 최상단 화면에 남은 임시 스타일을 정리해, 항상 기본 위치·표시 상태로 놓이도록 보장합니다. 별도 설정은 필요 없습니다.
+
+### 백버튼 중복 클릭 방지
+
+사용자가 인앱 백버튼을 실수로 빠르게 여러 번 누르면 의도와 달리 화면이 여러 개 닫힐 수 있습니다. SEED의 `AppBarBackButton` 스니펫은 전환이 진행 중일 때(`globalTransitionState === "loading"`) pop을 건너뛰어, 빠르게 눌러도 한 번만 닫히도록 합니다.
+
+```tsx
+import { useActions, useStack } from "@stackflow/react";
+
+const actions = useActions();
+const stack = useStack();
+
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  onClick?.(e);
+  // 전환 중에는 중복 pop을 건너뛴다.
+  if (!e.defaultPrevented && stack?.globalTransitionState !== "loading") {
+    actions.pop();
+  }
+};
+```
+
+직접 `pop()`을 호출하는 버튼을 만들 때도 같은 패턴을 권장합니다.
+
+<Callout type="info">
+  OS·브라우저의 하드웨어 뒤로 가기는 Stackflow의 history 동기화 경로로 처리되어 이 가드를 거치지 않습니다. 이 패턴은 인앱에서 직접 `pop()`을 호출하는 버튼에만 적용됩니다.
+</Callout>
