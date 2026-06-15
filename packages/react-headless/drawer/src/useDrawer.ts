@@ -43,7 +43,7 @@ export interface UseDrawerProps {
   /**
    * When `true` the `body` doesn't get any styles assigned from Drawer
    * @default true
-   * @deprecated SEED React 1.3에서 제거됩니다. 1.3부터 항상 기본값 `true`처럼 동작합니다.
+   * @deprecated SEED React 2.0.0에서 제거됩니다. 2.0.0부터 항상 기본값 `true`처럼 동작합니다.
    */
   noBodyStyles?: boolean;
   onOpenChange?: (open: boolean, details?: DrawerChangeDetails) => void;
@@ -106,7 +106,7 @@ export interface UseDrawerProps {
    */
   onAnimationEnd?: (open: boolean) => void;
   /**
-   * @deprecated SEED React 1.3에서 제거됩니다. 1.3부터 항상 기본값 `false`처럼 동작합니다.
+   * @deprecated SEED React 2.0.0에서 제거됩니다. 2.0.0부터 항상 기본값 `false`처럼 동작합니다.
    */
   preventScrollRestoration?: boolean;
   autoFocus?: boolean;
