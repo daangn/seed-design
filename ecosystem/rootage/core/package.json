@@ -30,7 +30,8 @@
   "dependencies": {
     "change-case": "^5.4.4",
     "dedent": "^1.5.3",
-    "yaml": "^2.7.1"
+    "yaml": "^2.7.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^25.0.0",
