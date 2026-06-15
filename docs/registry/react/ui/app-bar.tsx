@@ -3,7 +3,7 @@
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import { VStack } from "@seed-design/react";
 import { AppBar as SeedAppBar } from "@seed-design/stackflow";
-import { useActions, useActivity } from "@stackflow/react";
+import { useActions, useActivity, useStack } from "@stackflow/react";
 import * as React from "react";
 import { forwardRef } from "react";
 
@@ -67,11 +67,14 @@ export const AppBarBackButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
   ({ children = <IconChevronLeftLine />, onClick, ...otherProps }, ref) => {
     const activity = useActivity();
     const actions = useActions();
+    const stack = useStack();
 
     const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(e);
 
-      if (!e.defaultPrevented) {
+      // 전환 중(globalTransitionState === "loading")에는 중복 pop을 건너뛴다.
+      // 백버튼을 빠르게 여러 번 눌러도 한 번만 닫히게 하는 안전장치.
+      if (!e.defaultPrevented && stack?.globalTransitionState !== "loading") {
         actions.pop();
       }
     };
