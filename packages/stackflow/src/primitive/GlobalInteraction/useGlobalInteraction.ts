@@ -1,6 +1,5 @@
 import { useStack } from "@stackflow/react";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
-import { appScreenAnatomy } from "../AppScreen/anatomy";
 import { useTopActivity } from "../private/useTopActivity";
 import {
   type TransitionStyle,
@@ -9,6 +8,7 @@ import {
   readTransitionStyle,
   applySwipeStyles,
   clearAllStyles,
+  clearTopActivityStyles,
   setIdlePositions,
   setPostExitPositions,
 } from "./dom";
@@ -330,22 +330,19 @@ export function useGlobalInteraction() {
   }, [topActivity.transitionState, stopRunningAnims, cancelPendingPushRAF]);
 
   // ── Settle safety-net ──
-  // The top + behind pair model can only reposition the immediate behind layer.
-  // If a transition unwinds in a way the pair model didn't drive (e.g. two
-  // exits overlapping, or a swipe-back race), the screen we land on may keep a
-  // stale idle offset (behind layer at -30%) and appear pushed ~1/3 left.
+  // top + behind 쌍 모델은 즉시 인접한 behind 한 겹만 다룬다. 전환이 겹쳐
+  // (동시 pop, swipe-back race 등) 쌍 모델이 풀지 못한 경로로 끝나면, 착지
+  // 화면이 임시 스타일에 stuck될 수 있다 — layer가 -30%에 남아 1/3 밀리거나,
+  // appBar root가 opacity 0(setPostExitPositions)에 남아 앱바가 통째로 사라진다.
   //
-  // Guarantee: once everything settles (globalTransitionState === "idle"), the
-  // top activity's layer must sit at 0%. We only touch the top layer's leftover
-  // inline transform — never the behind layer (which is meant to stay at -30%)
-  // and never anything mid-transition (this runs only when idle).
+  // 보장: 모든 게 정착하면(globalTransitionState === "idle") top은 항상 깨끗한
+  // 기본 상태여야 한다. top 액티비티에 남은 inline을 모두 지운다 — behind는
+  // 건드리지 않고(−30% 유지), idle일 때만 돌며 이미 깨끗하면 no-op이다.
   useLayoutEffect(() => {
     if (stack?.globalTransitionState !== "idle") return;
-    const topLayer = stackRef.current?.querySelector<HTMLElement>(
-      `[data-activity-is-top] [data-part='${appScreenAnatomy.layer}']`,
-    );
-    if (topLayer?.style.transform) {
-      topLayer.style.transform = "";
+    const stackEl = stackRef.current;
+    if (stackEl) {
+      clearTopActivityStyles(stackEl);
     }
   }, [stack?.globalTransitionState]);
 
