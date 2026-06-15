@@ -40,6 +40,10 @@ const withSideNavigationStateProps = createWithStateProps([useSideNavigationCont
 const withItemStateProps = createWithStateProps([
   useSideNavigationContext,
   { useContext: useSideNavigationItemContext, strict: false },
+]);
+const withItemSlotCollapsibleStateProps = createWithStateProps([
+  useSideNavigationContext,
+  { useContext: useSideNavigationItemContext, strict: false },
   { useContext: useCollapsibleContext, strict: false },
 ]);
 
@@ -248,7 +252,7 @@ export interface SideNavigationItemSuffixIconProps extends InternalIconProps {}
 export const SideNavigationItemSuffixIcon = withItemContext<
   SVGSVGElement,
   SideNavigationItemSuffixIconProps
->(withItemStateProps(InternalIcon), "suffixIcon");
+>(withItemSlotCollapsibleStateProps(InternalIcon), "suffixIcon");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
