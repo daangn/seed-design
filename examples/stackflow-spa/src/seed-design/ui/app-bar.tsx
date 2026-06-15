@@ -70,8 +70,6 @@ export const AppBarBackButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
     const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(e);
 
-      // 전환 중(globalTransitionState === "loading")에는 중복 pop을 건너뛴다.
-      // 백버튼을 빠르게 여러 번 눌러도 한 번만 닫히게 하는 안전장치.
       if (!e.defaultPrevented && stack?.globalTransitionState !== "loading") {
         actions.pop();
       }
