@@ -243,16 +243,16 @@ export const sideNavigationMenuItem = defineSlotRecipe({
         cursor: "pointer",
       },
 
-      [pseudo(not(disabled), engaged, before)]: {
+      [pseudo(not(disabled), not("[data-current]"), engaged, before)]: {
         backgroundColor: tokens.$color.bg.transparentPressed,
       },
 
       [pseudo("[data-current]")]: {
-        backgroundColor: tokens.$color.palette.staticBlackAlpha200,
+        backgroundColor: tokens.$color.bg.transparentSelected,
       },
 
       [pseudo("[data-current]", not(disabled), engaged)]: {
-        backgroundColor: tokens.$color.palette.staticBlackAlpha300,
+        backgroundColor: tokens.$color.bg.transparentSelectedPressed,
       },
 
       [pseudo(collapsed)]: {

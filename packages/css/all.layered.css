@@ -655,6 +655,8 @@
     --seed-color-bg-positive-weak-pressed: var(--seed-color-palette-green-200);
     --seed-color-bg-transparent: #0000;
     --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-black-alpha-100);
+    --seed-color-bg-transparent-selected: var(--seed-color-palette-static-black-alpha-200);
+    --seed-color-bg-transparent-selected-pressed: var(--seed-color-palette-static-black-alpha-300);
     --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-300);
     --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-400);
     --seed-color-bg-warning-weak: var(--seed-color-palette-yellow-100);
@@ -663,6 +665,7 @@
     --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
     --seed-color-stroke-critical-solid: var(--seed-color-palette-red-700);
     --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
+    --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
     --seed-color-stroke-informative-solid: var(--seed-color-palette-blue-700);
     --seed-color-stroke-informative-weak: var(--seed-color-palette-blue-300);
     --seed-color-stroke-neutral-contrast: var(--seed-color-palette-gray-1000);
@@ -674,7 +677,6 @@
     --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
     --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
     --seed-color-stroke-warning-weak: var(--seed-color-palette-yellow-300);
-    --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
     --seed-color-manner-temp-l1-bg: #f1f2f3;
     --seed-color-manner-temp-l1-text: #757b85;
     --seed-color-manner-temp-l10-bg: #ffebee;
@@ -863,6 +865,8 @@
     --seed-color-bg-positive-weak-pressed: var(--seed-color-palette-green-200);
     --seed-color-bg-transparent: #fff0;
     --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-white-alpha-50);
+    --seed-color-bg-transparent-selected: var(--seed-color-palette-static-white-alpha-100);
+    --seed-color-bg-transparent-selected-pressed: var(--seed-color-palette-static-white-alpha-200);
     --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-800);
     --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-900);
     --seed-color-bg-warning-weak: var(--seed-color-palette-yellow-100);
@@ -871,6 +875,7 @@
     --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
     --seed-color-stroke-critical-solid: var(--seed-color-palette-red-700);
     --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
+    --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
     --seed-color-stroke-informative-solid: var(--seed-color-palette-blue-700);
     --seed-color-stroke-informative-weak: var(--seed-color-palette-blue-300);
     --seed-color-stroke-neutral-contrast: var(--seed-color-palette-gray-1000);
@@ -882,7 +887,6 @@
     --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
     --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
     --seed-color-stroke-warning-weak: var(--seed-color-palette-yellow-300);
-    --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
     --seed-color-manner-temp-l1-bg: #292929;
     --seed-color-manner-temp-l1-text: #b8b8b9;
     --seed-color-manner-temp-l10-bg: #34040a;
@@ -8649,30 +8653,30 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .seed-side-navigation-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
+    .seed-side-navigation-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):not([data-current]):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
-    .seed-side-navigation-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+    .seed-side-navigation-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):not([data-current]):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
   }
 
   .seed-side-navigation-menu-item__root[data-current] {
-    background-color: var(--seed-color-palette-static-black-alpha-200);
+    background-color: var(--seed-color-bg-transparent-selected);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .seed-side-navigation-menu-item__root[data-current]:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-palette-static-black-alpha-300);
+      background-color: var(--seed-color-bg-transparent-selected-pressed);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-side-navigation-menu-item__root[data-current]:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-      background-color: var(--seed-color-palette-static-black-alpha-300);
+      background-color: var(--seed-color-bg-transparent-selected-pressed);
     }
   }
 

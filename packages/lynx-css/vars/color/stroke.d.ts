@@ -6,6 +6,7 @@ export declare const brandWeak = "var(--seed-color-stroke-brand-weak)";
 export declare const criticalSolid = "var(--seed-color-stroke-critical-solid)";
 /** 오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak) */
 export declare const criticalWeak = "var(--seed-color-stroke-critical-weak)";
+export declare const focusRing = "var(--seed-color-stroke-focus-ring)";
 /** 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid) */
 export declare const informativeSolid = "var(--seed-color-stroke-informative-solid)";
 /** 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak) */
@@ -28,4 +29,3 @@ export declare const positiveWeak = "var(--seed-color-stroke-positive-weak)";
 export declare const warningSolid = "var(--seed-color-stroke-warning-solid)";
 /** 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak) */
 export declare const warningWeak = "var(--seed-color-stroke-warning-weak)";
-export declare const focusRing = "var(--seed-color-stroke-focus-ring)";
