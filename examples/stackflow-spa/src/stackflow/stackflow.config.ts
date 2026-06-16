@@ -73,6 +73,21 @@ export const config = defineConfig({
     { route: "/transition-style", name: "ActivityTransitionStyle" },
     { route: "/transparent-bar", name: "ActivityTransparentBar" },
 
+    { route: "/app-screen-preview", name: "ActivityAppScreenPreview" },
+    { route: "/app-screen-transparent", name: "ActivityAppScreenTransparent" },
+    { route: "/app-screen-intersection-observer", name: "ActivityAppScreenIntersectionObserver" },
+    { route: "/app-screen-app-bar-customization", name: "ActivityAppScreenAppBarCustomization" },
+    { route: "/alert-dialog-stackflow", name: "ActivityAlertDialogStackflow" },
+    {
+      route: "/result-section-cta-progress-circle",
+      name: "ActivityResultSectionCtaProgressCircle",
+    },
+    { route: "/article-prevent-pull", name: "ActivityArticlePreventPull" },
+    { route: "/article-prevent-drag", name: "ActivityArticlePreventDrag" },
+    { route: "/pull-to-refresh-preview", name: "ActivityPullToRefreshPreview" },
+    { route: "/pull-to-refresh-tabs", name: "ActivityPullToRefreshTabs" },
+    { route: "/pull-to-refresh-prevent-pull", name: "ActivityPullToRefreshPreventPull" },
+
     { route: "/demo/home", name: "ActivityDemoHome" },
     { route: "/demo/article-detail", name: "ActivityDemoArticleDetail" },
   ],

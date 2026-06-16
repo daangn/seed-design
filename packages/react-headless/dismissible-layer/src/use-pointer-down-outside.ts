@@ -1,13 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import {
-  isBelowPointerBlockingLayer,
-  isInBranch,
-  isInNestedLayer,
-  isTopMost,
-  type LayerStackContextValue,
-} from "./layer-stack";
+import { isInBranch, isInNestedLayer, isTopMost, type LayerStackContextValue } from "./layer-stack";
 
 export interface UsePointerDownOutsideOptions {
   enabled: boolean;
@@ -74,7 +68,6 @@ export function usePointerDownOutside(
 
     function isOutsideLayer(target: HTMLElement): boolean {
       if (!isTopMost(ctx, node!)) return false;
-      if (isBelowPointerBlockingLayer(ctx, node!)) return false;
       if (isInBranch(ctx, target)) return false;
       if (isInNestedLayer(ctx, node!, target)) return false;
       return true;

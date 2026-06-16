@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/react-dialog",
-  "version": "1.0.2",
+  "name": "@seed-design/react-prevent-scroll",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/dialog"
+    "directory": "packages/react-headless/prevent-scroll"
   },
   "sideEffects": false,
   "type": "module",
@@ -25,17 +25,6 @@
     "clean": "rm -rf lib",
     "build": "bunchee",
     "lint:publish": "bun publint"
-  },
-  "dependencies": {
-    "@radix-ui/react-compose-refs": "^1.1.2",
-    "@radix-ui/react-focus-scope": "^1.1.4",
-    "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-dismissible-layer": "0.0.0",
-    "@seed-design/react-presence": "0.0.0",
-    "@seed-design/react-prevent-scroll": "0.0.0",
-    "@seed-design/react-primitive": "1.0.0",
-    "@seed-design/react-use-controllable-state": "1.0.0",
-    "aria-hidden": "^1.2.6"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

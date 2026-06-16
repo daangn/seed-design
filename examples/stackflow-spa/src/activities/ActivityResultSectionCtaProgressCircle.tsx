@@ -5,12 +5,12 @@ import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, Flex, Icon, VStack } from "@seed-design/react";
-import { ActivityComponentType } from "@stackflow/react/future";
+import { type StaticActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useState, type ComponentProps } from "react";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/result-section/cta-progress-circle": {};
+    ActivityResultSectionCtaProgressCircle: {};
   }
 }
 
@@ -37,8 +37,8 @@ const resultSectionProperties = {
   },
 } satisfies Record<RefundStatus, ComponentProps<typeof ResultSection>>;
 
-const ResultSectionStackflow: ActivityComponentType<
-  "react/result-section/cta-progress-circle"
+const ActivityResultSectionCtaProgressCircle: StaticActivityComponentType<
+  "ActivityResultSectionCtaProgressCircle"
 > = () => {
   const [refundStatus, setRefundStatus] = useState<RefundStatus>("in-progress");
 
@@ -56,7 +56,7 @@ const ResultSectionStackflow: ActivityComponentType<
       <AppScreenContent>
         <VStack grow gap="x4" height="full" pb="safeArea">
           <ResultSection {...resultSectionProperties[refundStatus]} />
-          <Flex p="x4" width="full" px="spacingX.globalGutter" pt="x3" pb="x2">
+          <Flex p="x4" px="spacingX.globalGutter" pt="x3" pb="x2">
             <ActionButton
               flexGrow
               size="large"
@@ -78,4 +78,4 @@ const ResultSectionStackflow: ActivityComponentType<
   );
 };
 
-export default ResultSectionStackflow;
+export default ActivityResultSectionCtaProgressCircle;

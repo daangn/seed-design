@@ -1,6 +1,6 @@
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { Flex } from "@seed-design/react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
   AppBarCloseButton,
@@ -13,16 +13,18 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/app-screen/preview": {};
+    ActivityAppScreenTransparent: {};
   }
 }
 
-const AppScreenPreviewActivity: ActivityComponentType<"react/app-screen/preview"> = () => {
+const ActivityAppScreenTransparent: StaticActivityComponentType<
+  "ActivityAppScreenTransparent"
+> = () => {
   return (
-    <AppScreen theme="cupertino">
+    <AppScreen theme="cupertino" layerOffsetTop="none" tone="transparent">
       <AppBar>
         <AppBarLeft>
-          <AppBarCloseButton />
+          <AppBarCloseButton aria-label="Close" />
         </AppBarLeft>
         <AppBarMain>Preview</AppBarMain>
         <AppBarRight>
@@ -32,7 +34,13 @@ const AppScreenPreviewActivity: ActivityComponentType<"react/app-screen/preview"
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <Flex height="full" justify="center" align="center">
+        <Flex
+          height="full"
+          justify="center"
+          align="center"
+          bg="palette.gray800"
+          color="fg.neutralInverted"
+        >
           Preview
         </Flex>
       </AppScreenContent>
@@ -40,4 +48,4 @@ const AppScreenPreviewActivity: ActivityComponentType<"react/app-screen/preview"
   );
 };
 
-export default AppScreenPreviewActivity;
+export default ActivityAppScreenTransparent;

@@ -1,17 +1,17 @@
 import { Flex, Icon } from "@seed-design/react";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/app-screen/app-bar-customization": {};
+    ActivityAppScreenAppBarCustomization: {};
   }
 }
 
-const AppScreenAppBarCustomizationActivity: ActivityComponentType<
-  "react/app-screen/app-bar-customization"
+const ActivityAppScreenAppBarCustomization: StaticActivityComponentType<
+  "ActivityAppScreenAppBarCustomization"
 > = () => {
   return (
     <AppScreen theme="android">
@@ -32,4 +32,4 @@ const AppScreenAppBarCustomizationActivity: ActivityComponentType<
   );
 };
 
-export default AppScreenAppBarCustomizationActivity;
+export default ActivityAppScreenAppBarCustomization;

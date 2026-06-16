@@ -1,5 +1,5 @@
 import { VStack, Icon, Text, Article, Divider, Tabs } from "@seed-design/react";
-import { ActivityComponentType } from "@stackflow/react/future";
+import { type StaticActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
@@ -8,11 +8,13 @@ import { PageBanner } from "seed-design/ui/page-banner";
 
 declare module "@stackflow/config" {
   interface Register {
-    "react/article/prevent-drag": {};
+    ActivityArticlePreventDrag: {};
   }
 }
 
-const ArticlePreventDrag: ActivityComponentType<"react/article/prevent-drag"> = () => {
+const ActivityArticlePreventDrag: StaticActivityComponentType<
+  "ActivityArticlePreventDrag"
+> = () => {
   return (
     <AppScreen>
       <AppBar>
@@ -69,4 +71,4 @@ const ArticlePreventDrag: ActivityComponentType<"react/article/prevent-drag"> = 
   );
 };
 
-export default ArticlePreventDrag;
+export default ActivityArticlePreventDrag;
