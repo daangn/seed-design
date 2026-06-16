@@ -36,7 +36,7 @@ export function SectionBento() {
       regionVh={REGIONS.bento}
       sticky={false}
       mobileStack
-      panelClassName="flex flex-col justify-center rounded-b-[20px] bg-white"
+      panelClassName="flex flex-col justify-start rounded-b-[20px] bg-white"
       behindClassName="bg-[#101216]"
     >
       <div className="flex w-full flex-col px-5 pt-24 pb-8 lg:h-[100dvh]">
