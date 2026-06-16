@@ -2,6 +2,7 @@ import { act, fireEvent, render } from "@testing-library/react";
 import { afterAll, afterEach, beforeAll, describe, expect, it, jest, mock, spyOn } from "bun:test";
 import * as React from "react";
 import { DRAG_CLASS, TRANSITIONS } from "./constants";
+import { DrawerContent, DrawerRoot } from "./Drawer";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
 
 interface DrawerHarnessProps extends UseDrawerProps {
@@ -100,7 +101,6 @@ describe("useDrawer", () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    document.body.style.pointerEvents = "";
   });
 
   it("closeButtonRef를 통해 닫기 버튼 마운트 상태를 추적한다", () => {
@@ -138,7 +138,6 @@ describe("useDrawer", () => {
       false,
       expect.objectContaining({ reason: "escapeKeyDown" }),
     );
-    expect(document.body.style.pointerEvents).toBe("auto");
 
     act(() => {
       jest.advanceTimersByTime(TRANSITIONS.EXIT_DURATION * 1000);
@@ -323,5 +322,42 @@ describe("useDrawer", () => {
       jest.advanceTimersByTime(TRANSITIONS.ENTER_DURATION * 1000);
     });
     expect(getByTestId("should-overlay-animate")).toHaveTextContent("false");
+  });
+});
+
+describe("스크롤 락", () => {
+  // usePreventScroll locks the root element (`overflow: hidden`), not the body.
+  const isScrollLocked = () => document.documentElement.style.overflow === "hidden";
+
+  it("modal이고 열렸을 때 루트 스크롤을 잠그고, 닫히면 해제한다", () => {
+    const { rerender } = render(
+      <DrawerRoot open={false} modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(isScrollLocked()).toBe(false);
+
+    rerender(
+      <DrawerRoot open modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(isScrollLocked()).toBe(true);
+
+    rerender(
+      <DrawerRoot open={false} modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(isScrollLocked()).toBe(false);
+  });
+
+  it("modal=false면 열려 있어도 잠그지 않는다", () => {
+    render(
+      <DrawerRoot open modal={false}>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(isScrollLocked()).toBe(false);
   });
 });
