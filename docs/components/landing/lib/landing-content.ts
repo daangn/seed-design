@@ -27,8 +27,8 @@ export const REGIONS = {
   bento: 130,
   intro: 180,
   values: 110,
-  showcase: 120,
-  blog: 170,
+  showcase: 102,
+  blog: 116,
   footer: 150,
 } as const;
 
