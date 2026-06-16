@@ -15,12 +15,11 @@ import type { Registry } from "../registry/schema.js";
  * - 스니펫 축: docs/registry/react/registry-*.ts 정의의 스니펫별 요구 범위
  * - Layer 2(compat-overlays.ts)는 그대로 overlays 필드에 병합되어 소비자가 declared ⊕ overlays로 계산
  *
- * 실행 시점: 루트 `version` 스크립트(changeset version 직후)에 체이닝되어,
- * Version Packages PR에 manifest 변경이 diff로 함께 잡힙니다. 수동 실행도 가능합니다:
+ * 이 manifest는 1.x SemVer가 정상화되지 않은 동안의 **한시적 스냅샷**입니다.
+ * 지속 자동 생성(릴리즈 파이프라인 체이닝)을 하지 않고, 필요할 때 수동으로 1회 박제합니다:
  *   bun --filter @seed-design/docs generate:compat
- *
- * Version PR 시점에는 새 버전이 npm에 아직 없으므로, in-tree package.json의
- * 버전·peer 선언을 보충해 `publishedAt: null`로 포함합니다 (배포 후 재생성 시 npm 값으로 대체됨).
+ * 완전한 1.x 호환표는 1.x가 끝나는 2.0 직전에 최종 박제하면 됩니다. 2.0 이후 SemVer가
+ * 지켜지면 Layer 1의 가치는 사라지고(npm 선언이 곧 정답), 마이그레이션 메타만 migration-index로 이관합니다.
  * 네트워크(registry.npmjs.org)에 의존하므로 generate:all에는 포함하지 않습니다.
  */
 
@@ -41,8 +40,8 @@ interface Packument {
 
 export interface VersionCompat {
   version: string;
-  /** npm 배포 시각. null이면 아직 npm에 배포되지 않은 in-tree 버전 (Version Packages PR 시점) */
-  publishedAt: string | null;
+  /** npm 배포 시각 (없으면 빈 문자열) */
+  publishedAt: string;
   /** peerDependencies 중 @seed-design/* 만. 선언이 없으면 {} */
   peers: Record<string, string>;
 }
@@ -93,21 +92,6 @@ export function collectPackageVersions(packument: Packument): VersionCompat[] {
     publishedAt: packument.time[version] ?? "",
     peers: extractSeedPeers(packument.versions[version].peerDependencies),
   }));
-}
-
-/**
- * npm에 아직 없는 in-tree 버전(Version Packages PR 시점의 곧 배포될 버전)을 보충합니다.
- * 이미 npm에 존재하는 버전이면 npm 데이터(publishedAt 포함)를 그대로 둡니다.
- */
-export function mergeInTreeVersion(
-  versions: VersionCompat[],
-  inTree: { version: string; peers: Record<string, string> },
-): VersionCompat[] {
-  if (inTree.version.includes("-")) return versions; // 프리릴리즈는 manifest 대상이 아님
-  if (versions.some((v) => v.version === inTree.version)) return versions;
-  return [...versions, { version: inTree.version, publishedAt: null, peers: inTree.peers }].sort(
-    (a, b) => compareSemver(a.version, b.version),
-  );
 }
 
 export function collectSnippets(registries: Registry[]): SnippetCompat[] {
@@ -217,27 +201,7 @@ async function main() {
     framework: "react",
     generatedAt: new Date().toISOString(),
     packages: Object.fromEntries(
-      await Promise.all(
-        TARGET_PACKAGES.map(async (pkg, i) => {
-          // cwd는 docs — 모노레포의 in-tree package.json에서 곧 배포될 버전을 보충한다
-          const inTreePath = path.join(
-            process.cwd(),
-            "..",
-            "packages",
-            pkg.slice(SEED_SCOPE.length),
-            "package.json",
-          );
-          const inTree = JSON.parse(await fs.readFile(inTreePath, "utf8")) as {
-            version: string;
-            peerDependencies?: Record<string, string>;
-          };
-          const versions = mergeInTreeVersion(collectPackageVersions(packuments[i]), {
-            version: inTree.version,
-            peers: extractSeedPeers(inTree.peerDependencies),
-          });
-          return [pkg, { versions }] as const;
-        }),
-      ),
+      TARGET_PACKAGES.map((pkg, i) => [pkg, { versions: collectPackageVersions(packuments[i]) }]),
     ),
     snippets: collectSnippets(REACT_REGISTRIES),
     overlays: compatOverlays,
@@ -259,20 +223,7 @@ async function main() {
 }
 
 if (import.meta.main) {
-  // --best-effort: docs 빌드에 체이닝될 때 사용. 네트워크 실패 시 빌드를 깨는 대신
-  // 커밋되어 있는 스냅샷(docs/public/__compat__)을 그대로 서빙하도록 통과시킨다.
-  const bestEffort = process.argv.includes("--best-effort");
-
   main().catch((error) => {
-    if (bestEffort) {
-      console.warn(
-        chalk.yellow(
-          "Failed to regenerate compat manifest; falling back to the committed snapshot:",
-        ),
-        error,
-      );
-      return;
-    }
     console.error(chalk.red("Failed to generate compat manifest:"), error);
     process.exit(1);
   });
