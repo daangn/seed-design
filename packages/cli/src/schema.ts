@@ -102,3 +102,63 @@ export type DocsItem = z.infer<typeof docsItemSchema>;
 export type DocsSection = z.infer<typeof docsSectionSchema>;
 export type DocsCategory = z.infer<typeof docsCategorySchema>;
 export type DocsIndex = z.infer<typeof docsIndexSchema>;
+
+///////////////////////////////////////////////////////////////
+
+/**
+ * this should be in sync with `docs/scripts/generate-compat-manifest.ts`
+ * and `docs/registry/react/compat-overlays.ts`
+ */
+export const compatVersionSchema = z.object({
+  version: z.string(),
+  publishedAt: z.string(),
+  peers: z.record(z.string(), z.string()),
+});
+
+export const compatOverlaySchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("backfill"),
+    package: z.string(),
+    versionRange: z.string(),
+    peers: z.record(z.string(), z.string()),
+    reason: z.string(),
+  }),
+  z.object({
+    kind: z.literal("correction"),
+    package: z.string(),
+    versionRange: z.string(),
+    peers: z.record(z.string(), z.string()),
+    reason: z.string(),
+  }),
+  z.object({
+    kind: z.literal("known-bad"),
+    packages: z.record(z.string(), z.string()),
+    reason: z.string(),
+  }),
+  z.object({
+    kind: z.literal("breaking-boundary"),
+    package: z.string(),
+    version: z.string(),
+    notes: z.string(),
+  }),
+]);
+
+export const compatManifestSchema = z.object({
+  schemaVersion: z.literal(1),
+  framework: z.string(),
+  generatedAt: z.string(),
+  packages: z.record(z.string(), z.object({ versions: z.array(compatVersionSchema) })),
+  snippets: z.array(
+    z.object({
+      registryId: z.string(),
+      itemId: z.string(),
+      snippetPath: z.string(),
+      requires: z.record(z.string(), z.string()),
+    }),
+  ),
+  overlays: z.array(compatOverlaySchema),
+});
+
+export type CompatVersion = z.infer<typeof compatVersionSchema>;
+export type CompatOverlay = z.infer<typeof compatOverlaySchema>;
+export type CompatManifest = z.infer<typeof compatManifestSchema>;
