@@ -1,9 +1,9 @@
-import type { PublicRegistry } from "@/src/schema";
-import { getPackageInfo } from "@/src/utils/get-package-info";
+import type { CompatManifest, PublicRegistry } from "@/src/schema";
+import { getInstalledPackageVersion, getPackageInfo } from "@/src/utils/get-package-info";
 import * as p from "@clack/prompts";
 import fs from "fs-extra";
 import path from "path";
-import { intersects, satisfies, valid, validRange } from "semver";
+import { gt, intersects, minVersion, satisfies, valid, validRange } from "semver";
 import { highlight } from "./color";
 
 const REACT_COMPAT_PACKAGES = ["@seed-design/react", "@seed-design/css"] as const;
@@ -312,4 +312,227 @@ function isCompatPackageName(
   framework = "react",
 ): packageName is CompatPackageName {
   return (getCompatPackageNames(framework) as readonly string[]).includes(packageName);
+}
+
+///////////////////////////////////////////////////////////////
+// 패키지 간 호환성 (manifest 기반)
+//
+// 스니펫 검사(위)와 달리, 설치된 seed 패키지들끼리의 peer 선언이
+// 서로 만족되는지(예: react@1.1.12 가 요구하는 css 범위를 설치된 css 가 만족하는지)를
+// compat manifest 로 판정해요. manifest 의 선언(Layer 1)에 overlay(Layer 2)를 덮어
+// "effective 범위"를 계산해요.
+///////////////////////////////////////////////////////////////
+
+export interface PackagePeerIssue {
+  /** 요구하는 쪽, 예: "@seed-design/react@1.1.12" */
+  from: string;
+  fromPackage: string;
+  fromVersion: string;
+  /** 요구되는 대상 패키지, 예: "@seed-design/css" */
+  requires: string;
+  /** effective 요구 범위 */
+  range: string;
+  /** 설치된 대상 버전 (미설치면 null) */
+  installed: string | null;
+  type: "incompatible" | "missing";
+}
+
+export interface KnownBadIssue {
+  type: "known-bad";
+  packages: Record<string, string>;
+  reason: string;
+}
+
+export interface PackagePeerReport {
+  installed: Record<string, string>;
+  issues: PackagePeerIssue[];
+  knownBad: KnownBadIssue[];
+  /** 대상 패키지별로 "어디까지 올리면 모두 풀리나" (위반 범위들의 최대 하한) */
+  resolution: Record<string, string>;
+  ok: boolean;
+}
+
+/** manifest 에 등재된 패키지들의 실제 설치 버전을 node_modules 에서 읽어요. */
+export function getInstalledManifestPackageVersions({
+  manifest,
+  cwd,
+}: {
+  manifest: CompatManifest;
+  cwd: string;
+}): Record<string, string> {
+  const installed: Record<string, string> = {};
+  for (const packageName of Object.keys(manifest.packages)) {
+    const version = getInstalledPackageVersion(packageName, cwd);
+    if (version) installed[packageName] = version;
+  }
+  return installed;
+}
+
+/**
+ * 특정 패키지 버전의 effective peer 범위를 계산해요.
+ * declared(Layer 1) 위에 correction(override) → backfill(빈 곳 채움) 순으로 overlay 를 적용해요.
+ */
+export function resolveEffectivePeers({
+  packageName,
+  version,
+  manifest,
+}: {
+  packageName: string;
+  version: string;
+  manifest: CompatManifest;
+}): Record<string, string> {
+  const declared =
+    manifest.packages[packageName]?.versions.find((v) => v.version === version)?.peers ?? {};
+  const peers: Record<string, string> = { ...declared };
+
+  const matches = (range: string) => valid(version) !== null && satisfies(version, range);
+
+  // correction: 선언을 덮어씀
+  for (const overlay of manifest.overlays) {
+    if (
+      overlay.kind === "correction" &&
+      overlay.package === packageName &&
+      matches(overlay.versionRange)
+    ) {
+      Object.assign(peers, overlay.peers);
+    }
+  }
+  // backfill: 선언이 비어 있는 키만 채움
+  for (const overlay of manifest.overlays) {
+    if (
+      overlay.kind === "backfill" &&
+      overlay.package === packageName &&
+      matches(overlay.versionRange)
+    ) {
+      for (const [target, range] of Object.entries(overlay.peers)) {
+        if (!(target in peers)) peers[target] = range;
+      }
+    }
+  }
+
+  return peers;
+}
+
+export function analyzePackagePeerCompatibility({
+  manifest,
+  installedVersions,
+}: {
+  manifest: CompatManifest;
+  installedVersions: Record<string, string>;
+}): PackagePeerReport {
+  const issues: PackagePeerIssue[] = [];
+
+  for (const [packageName, version] of Object.entries(installedVersions)) {
+    const peers = resolveEffectivePeers({ packageName, version, manifest });
+
+    for (const [requires, range] of Object.entries(peers)) {
+      const installedTarget = installedVersions[requires];
+
+      if (!installedTarget) {
+        issues.push({
+          from: `${packageName}@${version}`,
+          fromPackage: packageName,
+          fromVersion: version,
+          requires,
+          range,
+          installed: null,
+          type: "missing",
+        });
+        continue;
+      }
+
+      if (!satisfies(installedTarget, range)) {
+        issues.push({
+          from: `${packageName}@${version}`,
+          fromPackage: packageName,
+          fromVersion: version,
+          requires,
+          range,
+          installed: installedTarget,
+          type: "incompatible",
+        });
+      }
+    }
+  }
+
+  // known-bad: 설치 조합이 사고로 기록된 조합과 모두 일치하면 보고
+  const knownBad: KnownBadIssue[] = [];
+  for (const overlay of manifest.overlays) {
+    if (overlay.kind !== "known-bad") continue;
+    const entries = Object.entries(overlay.packages);
+    const allMatch =
+      entries.length > 0 &&
+      entries.every(([pkg, range]) => {
+        const installed = installedVersions[pkg];
+        return installed != null && satisfies(installed, range);
+      });
+    if (allMatch) {
+      knownBad.push({ type: "known-bad", packages: overlay.packages, reason: overlay.reason });
+    }
+  }
+
+  return {
+    installed: installedVersions,
+    issues,
+    knownBad,
+    resolution: computePeerResolution(issues),
+    ok: issues.length === 0 && knownBad.length === 0,
+  };
+}
+
+/** 대상 패키지별로 위반 범위들의 "최대 하한"을 모아 `>=x.y.z` 형태로 돌려줘요. */
+function computePeerResolution(issues: PackagePeerIssue[]): Record<string, string> {
+  const highestMinByTarget = new Map<string, string>();
+
+  for (const issue of issues) {
+    const min = minVersion(issue.range);
+    if (!min) continue;
+    const current = highestMinByTarget.get(issue.requires);
+    if (!current || gt(min.version, current)) {
+      highestMinByTarget.set(issue.requires, min.version);
+    }
+  }
+
+  return Object.fromEntries(
+    Array.from(highestMinByTarget.entries()).map(([target, version]) => [target, `>=${version}`]),
+  );
+}
+
+export function logPackagePeerReport({ report }: { report: PackagePeerReport }) {
+  const installedLine = Object.entries(report.installed)
+    .map(([pkg, version]) => `${pkg}@${highlight(version)}`)
+    .join(", ");
+  p.log.info(`설치된 버전: ${installedLine || "없음"}`);
+
+  if (report.ok) {
+    p.log.success("설치된 seed 패키지들이 서로 호환돼요.");
+    return;
+  }
+
+  for (const issue of report.issues) {
+    if (issue.type === "missing") {
+      p.log.warn(
+        `${issue.from} 는 ${issue.requires} ${issue.range} 를 요구하나 설치되어 있지 않아요.`,
+      );
+      continue;
+    }
+    p.log.warn(
+      `${issue.from} 는 ${issue.requires} ${issue.range} 를 요구하나 ${issue.installed} 가 설치됐어요.`,
+    );
+  }
+
+  for (const bad of report.knownBad) {
+    const combo = Object.entries(bad.packages)
+      .map(([pkg, range]) => `${pkg}@${range}`)
+      .join(", ");
+    p.log.warn(`알려진 비호환 조합이에요 (${combo}): ${bad.reason}`);
+  }
+
+  const resolutionEntries = Object.entries(report.resolution);
+  if (resolutionEntries.length) {
+    const suggestion = resolutionEntries
+      .map(([target, range]) => `${target} ${highlight(range)}`)
+      .join(", ");
+    p.log.info(`→ ${suggestion} 로 올리면 모두 해결돼요.`);
+  }
 }

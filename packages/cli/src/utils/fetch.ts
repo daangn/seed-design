@@ -9,6 +9,8 @@ import {
   publicAvailableRegistriesSchema,
   type DocsIndex,
   docsIndexSchema,
+  type CompatManifest,
+  compatManifestSchema,
 } from "@/src/schema";
 import { CliError } from "@/src/utils/error";
 
@@ -46,6 +48,33 @@ export async function fetchDocsIndex({ baseUrl }: { baseUrl: string }): Promise<
   if (!success)
     throw new CliError({
       message: `문서 목록 파싱에 실패했어요: ${error?.message}`,
+    });
+
+  return parsed;
+}
+
+export async function fetchCompatManifest({
+  baseUrl,
+  framework,
+}: {
+  baseUrl: string;
+  framework: string;
+}): Promise<CompatManifest> {
+  const url = `${baseUrl}/__compat__/${framework}.json`;
+  const response = await fetchWithTimeout(url);
+
+  if (!response.ok)
+    throw new CliError({
+      message: `호환성 매니페스트를 가져오지 못했어요: ${response.status} ${response.statusText}`,
+      hint: `${url} 에 접근할 수 있는지 확인해주세요.`,
+    });
+
+  const data = await response.json();
+  const { success, data: parsed, error } = compatManifestSchema.safeParse(data);
+
+  if (!success)
+    throw new CliError({
+      message: `호환성 매니페스트 파싱에 실패했어요: ${error?.message}`,
     });
 
   return parsed;
