@@ -74,6 +74,39 @@ export const appScreen = defineSlotRecipe({
           "--z-index-layer": "calc(var(--z-index-base) + 2)",
           "--z-index-edge": "calc(var(--z-index-base) + 4)",
           "--z-index-app-bar": "calc(var(--z-index-base) + 7)",
+
+          // 역할(role) 기반 정지 위치(resting). root가 data-activity-is-top /
+          // data-transition-state를 가지므로, descendant로 각 파트의 기본 위치를 정의한다.
+          // 전환 중에는 WAAPI inline이 이를 덮고, 종료 시 useGlobalInteraction이 inline을
+          // clear하면 아래 기본값이 인계받는다(가려진 화면=behind, 나가는 화면=exit).
+          // 값은 animation.ts의 IOS_ONSCREEN/OFFSCREEN과 일치해야 한다.
+          "&:not([data-activity-is-top]) [data-part='layer']": {
+            transform: "translate3d(-30%, 0, 0)",
+          },
+          "&[data-transition-state^='exit'] [data-part='layer']": {
+            transform: "translate3d(100%, 0, 0)",
+          },
+          "&[data-transition-state^='exit'] [data-part='dim']": {
+            opacity: 0,
+          },
+          "&[data-transition-state^='exit'] [data-part='appBar']": {
+            opacity: 0,
+          },
+          "&:not([data-activity-is-top]) [data-part='appBarMain']": {
+            opacity: 0,
+            transform: "translate3d(-25%, 0, 0)",
+          },
+          "&[data-transition-state^='exit'] [data-part='appBarMain']": {
+            opacity: 0,
+            transform: "translate3d(25%, 0, 0)",
+          },
+          "&:not([data-activity-is-top]) [data-part='appBarIcon']": {
+            opacity: 0,
+          },
+          "&[data-transition-state^='exit'] [data-part='appBarIcon']": {
+            opacity: 0,
+            transform: "translate3d(25%, 0, 0)",
+          },
         },
         layer: {
           // GPU layer hint for smooth animations driven by JS (WAAPI)
