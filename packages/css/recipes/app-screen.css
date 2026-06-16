@@ -55,46 +55,85 @@
     --z-index-edge: calc(var(--z-index-base) + 4);
     --z-index-app-bar: calc(var(--z-index-base) + 7);
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) [data-part='layer'] {
-    transform: translate3d(-30%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='layer'] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
+    animation-duration: 350ms;
+    --seed-enter-translate-x: 100%;
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 1;
+    --seed-enter-scale: 1;
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^='exit'] [data-part='layer'] {
-    transform: translate3d(100%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='exit-active'] [data-part='layer'] {
+    animation: seed-exit;
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
+    animation-duration: 350ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 100%;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 1;
+    --seed-exit-scale: 1;
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^='exit'] [data-part='dim'] {
-    opacity: 0;
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='appBarMain'] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
+    animation-duration: 350ms;
+    --seed-enter-translate-x: 25%;
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 0;
+    --seed-enter-scale: 1;
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^='exit'] [data-part='appBar'] {
-    opacity: 0;
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='exit-active'] [data-part='appBarMain'] {
+    animation: seed-exit;
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
+    animation-duration: 350ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 25%;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 0;
+    --seed-exit-scale: 1;
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) [data-part='appBarMain'] {
-    opacity: 0;
-    transform: translate3d(-25%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='appBarIcon'] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
+    animation-duration: 350ms;
+    --seed-enter-translate-x: 25%;
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 0;
+    --seed-enter-scale: 1;
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^='exit'] [data-part='appBarMain'] {
-    opacity: 0;
-    transform: translate3d(25%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='exit-active'] [data-part='appBarIcon'] {
+    animation: seed-exit;
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
+    animation-duration: 350ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 25%;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 0;
+    --seed-exit-scale: 1;
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) [data-part='appBarIcon'] {
-    opacity: 0;
-}
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^='exit'] [data-part='appBarIcon'] {
-    opacity: 0;
-    transform: translate3d(25%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='exit-active'] [data-part='dim'] {
+    animation: seed-exit;
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
+    animation-duration: 350ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 0;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 0;
+    --seed-exit-scale: 1;
 }
 .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='layer'], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='dim'], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='appBar'], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='appBarMain'], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='appBarIcon'] {
     transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='layer'] {
-    transform: translate3d(100%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS:has(+ [data-stackflow-component-name='AppScreen'][data-transition-state^='enter']) [data-part='layer'] {
+    transform: translate3d(-30%, 0, 0);
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='appBarMain'] {
+.seed-app-screen__root--transitionStyle_slideFromRightIOS:has(+ [data-stackflow-component-name='AppScreen'][data-transition-state^='enter']) [data-part='appBarMain'] {
     opacity: 0;
-    transform: translate3d(25%, 0, 0);
+    transform: translate3d(-25%, 0, 0);
 }
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='appBarIcon'] {
+.seed-app-screen__root--transitionStyle_slideFromRightIOS:has(+ [data-stackflow-component-name='AppScreen'][data-transition-state^='enter']) [data-part='appBarIcon'] {
     opacity: 0;
-    transform: translate3d(25%, 0, 0);
 }
 .seed-app-screen__layer--transitionStyle_slideFromRightIOS {
     transform: translate3d(0, 0, 0);

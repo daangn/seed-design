@@ -1,8 +1,15 @@
+import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
 
 const OVERSCROLL_GRADIENT_OFFSET = "400px";
+
+// iOS 전환 타이밍 (animation.ts의 TransitionIOS와 동일).
+const IOS_TRANSITION = {
+  duration: "350ms",
+  timingFunction: "cubic-bezier(0.2, 0.1, 0.21, 0.99)",
+};
 
 export const appScreen = defineSlotRecipe({
   name: "app-screen",
@@ -75,57 +82,64 @@ export const appScreen = defineSlotRecipe({
           "--z-index-edge": "calc(var(--z-index-base) + 4)",
           "--z-index-app-bar": "calc(var(--z-index-base) + 7)",
 
-          // 역할(role)/상태(state) 기반 위치 + CSS transition. root가 data-activity-is-top /
-          // data-transition-state를 가지므로 descendant로 각 파트 위치를 정의하고, 아래 transition으로
-          // push/pop을 CSS가 직접 트윈한다(WAAPI 없이 → 동시 pop에도 각 화면이 스스로 안전하게 애니).
-          // behind=-30%, exit=off-screen, enter=off→0%. 값은 animation.ts의 IOS 상수와 일치시킨다.
-          "&:not([data-activity-is-top]) [data-part='layer']": {
-            transform: "translate3d(-30%, 0, 0)",
-          },
-          "&[data-transition-state^='exit'] [data-part='layer']": {
-            transform: "translate3d(100%, 0, 0)",
-          },
-          "&[data-transition-state^='exit'] [data-part='dim']": {
-            opacity: 0,
-          },
-          "&[data-transition-state^='exit'] [data-part='appBar']": {
-            opacity: 0,
-          },
-          "&:not([data-activity-is-top]) [data-part='appBarMain']": {
-            opacity: 0,
-            transform: "translate3d(-25%, 0, 0)",
-          },
-          "&[data-transition-state^='exit'] [data-part='appBarMain']": {
-            opacity: 0,
-            transform: "translate3d(25%, 0, 0)",
-          },
-          "&:not([data-activity-is-top]) [data-part='appBarIcon']": {
-            opacity: 0,
-          },
-          "&[data-transition-state^='exit'] [data-part='appBarIcon']": {
-            opacity: 0,
-            transform: "translate3d(25%, 0, 0)",
-          },
+          // 들어오는/나가는 top 화면: enter-active/exit-active 진입(t0)에 CSS animation으로 즉시 슬라이드.
+          // transition은 enter-done(=t0+duration)까지 값이 안 변해 슬라이드가 늦게 시작 → push가 순차로
+          // 보였다. seed-enter/exit keyframes는 from/to를 CSS 변수로 받아 상태 진입과 동시에 재생되므로 t0에 슬라이드한다.
+          "&[data-transition-state='enter-active'] [data-part='layer']": enterAnimation({
+            ...IOS_TRANSITION,
+            translateX: "100%",
+          }),
+          "&[data-transition-state='exit-active'] [data-part='layer']": exitAnimation({
+            ...IOS_TRANSITION,
+            translateX: "100%",
+          }),
+          "&[data-transition-state='enter-active'] [data-part='appBarMain']": enterAnimation({
+            ...IOS_TRANSITION,
+            translateX: "25%",
+            opacity: "0",
+          }),
+          "&[data-transition-state='exit-active'] [data-part='appBarMain']": exitAnimation({
+            ...IOS_TRANSITION,
+            translateX: "25%",
+            opacity: "0",
+          }),
+          "&[data-transition-state='enter-active'] [data-part='appBarIcon']": enterAnimation({
+            ...IOS_TRANSITION,
+            translateX: "25%",
+            opacity: "0",
+          }),
+          "&[data-transition-state='exit-active'] [data-part='appBarIcon']": exitAnimation({
+            ...IOS_TRANSITION,
+            translateX: "25%",
+            opacity: "0",
+          }),
+          "&[data-transition-state='exit-active'] [data-part='dim']": exitAnimation({
+            ...IOS_TRANSITION,
+            opacity: "0",
+          }),
 
-          // 이산 전환을 CSS가 트윈 (push/pop). swipe 제스처 중엔 global.css에서 transition을 꺼
-          // JS가 손가락을 직접 추적하게 한다.
+          // 뒷 화면 패럴랙스: 다음 형제(=내 위 화면)가 들어오는/들어온(enter-*) 상태면 -30%로 깔린다.
+          // is-top(전환 시작 즉시 토글)이 아니라 위 화면의 transition-state에 묶어, top 슬라이드와 같은 t0에
+          // 동기화한다. pop 시(위 화면 exit-*) 셀렉터가 거짓이 되어 0%로 복귀 — 이 또한 top 슬라이드아웃과 동시.
+          // 동시 pop(N→1)에서도 위 형제들이 전부 exit라 패럴랙스가 자동 해제 → 착지 화면이 깨끗하게 0%로 정착.
           "& [data-part='layer'], & [data-part='dim'], & [data-part='appBar'], & [data-part='appBarMain'], & [data-part='appBarIcon']":
             {
               transition:
                 "transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99)",
             },
-          // 들어오는 화면(enter-active)은 화면 밖에서 시작 → enter-done(0%)로 슬라이드인
-          "&[data-transition-state='enter-active'] [data-part='layer']": {
-            transform: "translate3d(100%, 0, 0)",
-          },
-          "&[data-transition-state='enter-active'] [data-part='appBarMain']": {
-            opacity: 0,
-            transform: "translate3d(25%, 0, 0)",
-          },
-          "&[data-transition-state='enter-active'] [data-part='appBarIcon']": {
-            opacity: 0,
-            transform: "translate3d(25%, 0, 0)",
-          },
+          "&:has(+ [data-stackflow-component-name='AppScreen'][data-transition-state^='enter']) [data-part='layer']":
+            {
+              transform: "translate3d(-30%, 0, 0)",
+            },
+          "&:has(+ [data-stackflow-component-name='AppScreen'][data-transition-state^='enter']) [data-part='appBarMain']":
+            {
+              opacity: 0,
+              transform: "translate3d(-25%, 0, 0)",
+            },
+          "&:has(+ [data-stackflow-component-name='AppScreen'][data-transition-state^='enter']) [data-part='appBarIcon']":
+            {
+              opacity: 0,
+            },
         },
         layer: {
           // GPU layer hint for smooth animations driven by JS (WAAPI swipe)

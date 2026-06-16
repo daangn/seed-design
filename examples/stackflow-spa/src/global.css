@@ -30,13 +30,15 @@ body {
   background-color: var(--seed-color-bg-brand-solid);
 }
 
-/* 하이브리드 실험: swipe-back 제스처 중에는 CSS transition을 꺼서 JS가 손가락을 lag 없이
-   추적하게 한다. (swipe-back-state는 스택 루트에 있음 → descendant로 각 파트 적용)
-   실제 적용 시엔 package/recipe로 이동. */
+/* 하이브리드 실험: swipe-back 제스처 중에는 CSS transition/animation을 꺼서 JS(WAAPI)가 손가락을
+   lag 없이 추적하게 한다. (swipe-back-state는 스택 루트에 있음 → descendant로 각 파트 적용)
+   discrete 전환은 seed-enter/exit animation으로 도는데, swipe 중엔 그 animation이 WAAPI inline을
+   덮어쓰지 못하게 animation도 함께 끈다. 실제 적용 시엔 package/recipe로 이동. */
 [data-swipe-back-state]:not([data-swipe-back-state="idle"]) [data-part="layer"],
 [data-swipe-back-state]:not([data-swipe-back-state="idle"]) [data-part="dim"],
 [data-swipe-back-state]:not([data-swipe-back-state="idle"]) [data-part="appBar"],
 [data-swipe-back-state]:not([data-swipe-back-state="idle"]) [data-part="appBarMain"],
 [data-swipe-back-state]:not([data-swipe-back-state="idle"]) [data-part="appBarIcon"] {
   transition: none;
+  animation: none;
 }

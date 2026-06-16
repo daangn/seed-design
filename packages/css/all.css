@@ -1719,48 +1719,77 @@
   --z-index-app-bar: calc(var(--z-index-base) + 7);
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) [data-part="layer"] {
-  transform: translate3d(-30%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="enter-active"] [data-part="layer"] {
+  --seed-enter-translate-x: 100%;
+  --seed-enter-translate-y: 0;
+  --seed-enter-opacity: 1;
+  --seed-enter-scale: 1;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^="exit"] [data-part="layer"] {
-  transform: translate3d(100%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="exit-active"] [data-part="layer"] {
+  --seed-exit-translate-x: 100%;
+  --seed-exit-translate-y: 0;
+  --seed-exit-opacity: 1;
+  --seed-exit-scale: 1;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^="exit"] [data-part="dim"], .seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^="exit"] [data-part="appBar"] {
-  opacity: 0;
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="enter-active"] [data-part="appBarMain"] {
+  --seed-enter-translate-x: 25%;
+  --seed-enter-translate-y: 0;
+  --seed-enter-opacity: 0;
+  --seed-enter-scale: 1;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) [data-part="appBarMain"] {
-  opacity: 0;
-  transform: translate3d(-25%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="exit-active"] [data-part="appBarMain"] {
+  --seed-exit-translate-x: 25%;
+  --seed-exit-translate-y: 0;
+  --seed-exit-opacity: 0;
+  --seed-exit-scale: 1;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^="exit"] [data-part="appBarMain"] {
-  opacity: 0;
-  transform: translate3d(25%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="enter-active"] [data-part="appBarIcon"] {
+  --seed-enter-translate-x: 25%;
+  --seed-enter-translate-y: 0;
+  --seed-enter-opacity: 0;
+  --seed-enter-scale: 1;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) [data-part="appBarIcon"] {
-  opacity: 0;
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="exit-active"] [data-part="appBarIcon"] {
+  --seed-exit-translate-x: 25%;
+  --seed-exit-translate-y: 0;
+  --seed-exit-opacity: 0;
+  --seed-exit-scale: 1;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state^="exit"] [data-part="appBarIcon"] {
-  opacity: 0;
-  transform: translate3d(25%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="exit-active"] [data-part="dim"] {
+  --seed-exit-translate-x: 0;
+  --seed-exit-translate-y: 0;
+  --seed-exit-opacity: 0;
+  --seed-exit-scale: 1;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part="layer"], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part="dim"], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part="appBar"], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part="appBarMain"], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part="appBarIcon"] {
   transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="enter-active"] [data-part="layer"] {
-  transform: translate3d(100%, 0, 0);
+.seed-app-screen__root--transitionStyle_slideFromRightIOS:has( + [data-stackflow-component-name="AppScreen"][data-transition-state^="enter"]) [data-part="layer"] {
+  transform: translate3d(-30%, 0, 0);
 }
 
-.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="enter-active"] [data-part="appBarMain"], .seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state="enter-active"] [data-part="appBarIcon"] {
+.seed-app-screen__root--transitionStyle_slideFromRightIOS:has( + [data-stackflow-component-name="AppScreen"][data-transition-state^="enter"]) [data-part="appBarMain"] {
   opacity: 0;
-  transform: translate3d(25%, 0, 0);
+  transform: translate3d(-25%, 0, 0);
+}
+
+.seed-app-screen__root--transitionStyle_slideFromRightIOS:has( + [data-stackflow-component-name="AppScreen"][data-transition-state^="enter"]) [data-part="appBarIcon"] {
+  opacity: 0;
 }
 
 .seed-app-screen__layer--transitionStyle_slideFromRightIOS {
