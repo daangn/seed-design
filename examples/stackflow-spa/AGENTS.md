@@ -20,6 +20,7 @@ SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제
 - snippet이 존재하는 컴포넌트는 direct package import보다 `seed-design/ui/*` consumption을 우선한다.
 - snippet 변경 후에는 이 예제 앱 build를 확인하여 실제 소비자 코드가 깨지지 않았는지 검증한다.
 - vendored snippet을 앱 코드에서 임시로 우회 수정하기보다, 가능한 한 `docs/registry/react/ui/`의 public snippet contract를 먼저 바로잡고 여기로 내려보낸다.
+- Activity 예시는 컴포넌트가 자체 제공하는 권장 layout을 우선 보여준다. `Footer`, `Body`처럼 recipe가 gap/stretch/layout을 이미 가진 slot에는 검증 목적 없는 추가 layout wrapper를 넣지 않는다.
 
 ## Activity 등록 체크리스트
 

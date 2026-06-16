@@ -12,7 +12,6 @@ import {
   WINDOW_TOP_OFFSET,
 } from "./constants";
 import { dampenValue, getTranslate, isInput, isVertical, reset, set } from "./helpers";
-import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
 interface DrawerReasonToDetailMap {
@@ -42,12 +41,6 @@ export interface UseDrawerProps {
    * @default 0.25
    */
   closeThreshold?: number;
-  /**
-   * When `true` the `body` doesn't get any styles assigned from Drawer
-   * @default true
-   * @deprecated SEED React 2.0.0에서 제거됩니다. 2.0.0부터 항상 기본값 `true`처럼 동작합니다.
-   */
-  noBodyStyles?: boolean;
   onOpenChange?: (open: boolean, details?: DrawerChangeDetails) => void;
   /**
    * Duration for which the drawer is not draggable after scrolling content inside of the drawer.
@@ -107,10 +100,6 @@ export interface UseDrawerProps {
    * Useful to revert any state changes for example.
    */
   onAnimationEnd?: (open: boolean) => void;
-  /**
-   * @deprecated SEED React 2.0.0에서 제거됩니다. 2.0.0부터 항상 기본값 `false`처럼 동작합니다.
-   */
-  preventScrollRestoration?: boolean;
   autoFocus?: boolean;
 
   /**
@@ -169,12 +158,9 @@ export function useDrawer(props: UseDrawerProps) {
     fixed,
     modal = true,
     onClose,
-    nested,
-    noBodyStyles = true,
     direction = "bottom",
     defaultOpen = false,
     snapToSequentialPoint = false,
-    preventScrollRestoration = false,
     repositionInputs = true,
     onAnimationEnd,
     container,
@@ -195,25 +181,9 @@ export function useDrawer(props: UseDrawerProps) {
     onChange: (o: boolean, details?: DrawerChangeDetails) => {
       onOpenChange?.(o, details);
 
-      if (!o && !nested) {
-        restorePositionSetting();
-      }
-
       setTimeout(() => {
         onAnimationEnd?.(o);
       }, TRANSITIONS.EXIT_DURATION * 1000);
-
-      if (o && !modal) {
-        if (typeof window !== "undefined") {
-          window.requestAnimationFrame(() => {
-            document.body.style.pointerEvents = "auto";
-          });
-        }
-      }
-
-      if (!o) {
-        document.body.style.pointerEvents = "auto";
-      }
     },
   });
 
@@ -269,15 +239,6 @@ export function useDrawer(props: UseDrawerProps) {
     onSnapPointChange,
     direction,
     snapToSequentialPoint,
-  });
-
-  const { restorePositionSetting } = usePositionFixed({
-    isOpen,
-    modal,
-    nested: nested ?? false,
-    hasBeenOpened,
-    preventScrollRestoration,
-    noBodyStyles,
   });
 
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
@@ -646,14 +607,6 @@ export function useDrawer(props: UseDrawerProps) {
     return () => window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
   }, [activeSnapPointIndex, snapPoints, snapPointsOffset, repositionInputs, fixed]);
 
-  useEffect(() => {
-    if (!modal) {
-      window.requestAnimationFrame(() => {
-        document.body.style.pointerEvents = "auto";
-      });
-    }
-  }, [modal]);
-
   // Effect 1: Track drawer open state
   useEffect(() => {
     if (isOpen) {
@@ -725,7 +678,6 @@ export function useDrawer(props: UseDrawerProps) {
       snapPointsOffset,
       activeSnapPointIndex,
       direction,
-      noBodyStyles,
       container,
       autoFocus,
       setHasBeenOpened,
@@ -792,7 +744,6 @@ export function useDrawer(props: UseDrawerProps) {
       snapPointsOffset,
       activeSnapPointIndex,
       direction,
-      noBodyStyles,
       container,
       autoFocus,
       setIsOpen,

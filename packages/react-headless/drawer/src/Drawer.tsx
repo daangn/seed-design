@@ -7,6 +7,7 @@ import { hideOthers } from "aria-hidden";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { Presence } from "@seed-design/react-presence";
 import { dataAttr, mergeProps } from "@seed-design/dom-utils";
+import { usePreventScroll } from "@seed-design/react-prevent-scroll";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
@@ -114,6 +115,10 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     unmountOnExit,
   } = useDrawerContext();
 
+  // Lock body scroll while the modal drawer is open. Mirrors the `modal` contract: the lock
+  // releases the moment the drawer is non-modal or closed.
+  usePreventScroll({ isDisabled: !(modal && isOpen) });
+
   const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
   const contentRef = useCallback((el: HTMLDivElement | null) => setContentNode(el), []);
 
@@ -184,7 +189,6 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
           swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
       <DismissibleLayer
         enabled={isOpen}
-        blockPointerEvents={modal}
         onEscapeKeyDown={(e) => {
           if (e.defaultPrevented) return;
           if (!dismissible || !closeOnEscape) return;

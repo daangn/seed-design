@@ -1,11 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   addLayer,
   removeLayer,
   isTopMost,
-  getPointerEventsEnabled,
   useLayerStackContext,
   useDismissibleParentNode,
   LAYER_UPDATE_EVENT,
@@ -21,12 +20,6 @@ export interface UseDismissibleLayerOptions {
    * registered in the stack and no event listeners are attached.
    */
   enabled: boolean;
-
-  /**
-   * When true, disables pointer events on elements outside this layer.
-   * Used for modal overlays (Dialog, BottomSheet).
-   */
-  blockPointerEvents?: boolean;
 
   /**
    * Called when escape key is pressed while this layer is topmost.
@@ -71,16 +64,9 @@ export interface UseDismissibleLayerOptions {
 
 const NOOP = () => {};
 
-// Module-level storage for the original body pointer-events value.
-// Follows Radix's pattern: save once when the first blocking layer mounts,
-// restore when the last blocking layer unmounts. This decouples save/restore
-// from React's bottom-up cleanup order.
-let originalBodyPointerEvents: string;
-
 export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
   const {
     enabled,
-    blockPointerEvents = false,
     onEscapeKeyDown,
     onPressOutside,
     onFocusOutside,
@@ -114,7 +100,6 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
     const layer = {
       node,
       dismiss: (detail: CascadeDismissDetail) => onCascadeDismissRef.current?.(detail),
-      blockPointerEvents,
       parentNode,
     };
 
@@ -123,35 +108,9 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
     return () => {
       removeLayer(ctx, node);
     };
-  }, [node, enabled, blockPointerEvents, ctx, parentNode]);
+  }, [node, enabled, ctx, parentNode]);
 
-  // -- Pointer event blocking --
-  // Follows Radix's pattern: save original value once when the first blocking
-  // layer mounts, restore when the last unmounts. The module-level variable
-  // decouples save/restore from React's bottom-up cleanup order.
-  useEffect(() => {
-    if (!node || !enabled || !blockPointerEvents) return;
-
-    const ownerDocument = node.ownerDocument ?? document;
-    const blockingLayers = ctx.layers.filter((l) => l.blockPointerEvents);
-
-    if (blockingLayers.length === 1) {
-      // First blocking layer — save the original value and block
-      originalBodyPointerEvents = ownerDocument.body.style.pointerEvents;
-      ownerDocument.body.style.pointerEvents = "none";
-    }
-
-    return () => {
-      // Check count BEFORE this layer is removed from ctx.layers.
-      // At cleanup time, this layer is still in the array.
-      const remainingBlocking = ctx.layers.filter((l) => l.blockPointerEvents && l.node !== node);
-      if (remainingBlocking.length === 0) {
-        ownerDocument.body.style.pointerEvents = originalBodyPointerEvents;
-      }
-    };
-  }, [node, enabled, blockPointerEvents, ctx]);
-
-  // -- Subscribe to layer changes for style updates --
+  // -- Subscribe to layer changes to keep isTopLayer fresh --
   useEffect(() => {
     if (!enabled) return;
     const handler = () => forceRender({});
@@ -195,14 +154,6 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
     onFocusOutside: handleFocusOutside,
   });
 
-  // -- Compute pointer-events style --
-  const hasBlocking = ctx.layers.some((l) => l.blockPointerEvents);
-  const pointerEventsEnabled = node ? getPointerEventsEnabled(ctx, node) : true;
-
-  const style: CSSProperties = hasBlocking
-    ? { pointerEvents: pointerEventsEnabled ? "auto" : "none" }
-    : {};
-
   const topLayer = node ? isTopMost(ctx, node) : true;
 
   if (!enabled) {
@@ -225,7 +176,6 @@ export function useDismissibleLayer(options: UseDismissibleLayerOptions) {
       onPointerDownCapture: pressOutsideProps.onPointerDownCapture,
       onFocusCapture: focusOutsideProps.onFocusCapture,
       onBlurCapture: focusOutsideProps.onBlurCapture,
-      style,
     },
     isTopLayer: topLayer,
     /** The current layer node, for providing DismissibleParentContext to children. */

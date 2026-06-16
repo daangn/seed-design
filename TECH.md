@@ -95,6 +95,8 @@ react (스타일드 컴포넌트) ← react-headless (로직)
 | `bun react:test` | react 패키지 테스트 |
 | `bun test:all` | 전체 테스트 |
 
+**테스트 환경**: `bunfig.toml`의 `[test].preload`가 `scripts/happydom.ts`(DOM 환경)와 `scripts/testing-library.ts`를 로드한다. 후자가 `@testing-library/jest-dom` 매처를 등록하고 `afterEach(cleanup)`을 전역으로 걸어주므로, 테스트에서 `cleanup()`을 직접 호출하지 않는다.
+
 ### 개발
 
 | 명령어 | 설명 |

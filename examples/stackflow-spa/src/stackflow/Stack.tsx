@@ -88,6 +88,9 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivitySegmentedControl: lazy(() => import("../activities/ActivitySegmentedControl")),
     ActivitySwitch: lazy(() => import("../activities/ActivitySwitch")),
     ActivitySideNavigation: lazy(() => import("../activities/ActivitySideNavigation")),
+    ActivitySidePanel: lazy(() => import("../activities/ActivitySidePanel")),
+    ActivitySidePanelActivity: lazy(() => import("../activities/ActivitySidePanelActivity")),
+    ActivityResponsiveSidePanel: lazy(() => import("../activities/ActivityResponsiveSidePanel")),
     ActivitySwipeableTabs: lazy(() => import("../activities/ActivitySwipeableTabs")),
     ActivityTabs: lazy(() => import("../activities/ActivityTabs")),
     ActivityTabsAutoHeightLazy: lazy(() => import("../activities/ActivityTabsAutoHeightLazy")),
@@ -101,5 +104,25 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),
     ActivityTransitionStyle: lazy(() => import("../activities/ActivityTransitionStyle")),
     ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar")),
+
+    ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
+    ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
+    ActivityAppScreenIntersectionObserver: lazy(
+      () => import("../activities/ActivityAppScreenIntersectionObserver"),
+    ),
+    ActivityAppScreenAppBarCustomization: lazy(
+      () => import("../activities/ActivityAppScreenAppBarCustomization"),
+    ),
+    ActivityAlertDialogStackflow: lazy(() => import("../activities/ActivityAlertDialogStackflow")),
+    ActivityResultSectionCtaProgressCircle: lazy(
+      () => import("../activities/ActivityResultSectionCtaProgressCircle"),
+    ),
+    ActivityArticlePreventPull: lazy(() => import("../activities/ActivityArticlePreventPull")),
+    ActivityArticlePreventDrag: lazy(() => import("../activities/ActivityArticlePreventDrag")),
+    ActivityPullToRefreshPreview: lazy(() => import("../activities/ActivityPullToRefreshPreview")),
+    ActivityPullToRefreshTabs: lazy(() => import("../activities/ActivityPullToRefreshTabs")),
+    ActivityPullToRefreshPreventPull: lazy(
+      () => import("../activities/ActivityPullToRefreshPreventPull"),
+    ),
   },
 });

@@ -709,6 +709,7 @@
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-dismissible-layer": "0.0.0",
         "@seed-design/react-presence": "0.0.0",
+        "@seed-design/react-prevent-scroll": "0.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-use-controllable-state": "1.0.0",
         "aria-hidden": "^1.2.6",
@@ -750,6 +751,7 @@
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-dismissible-layer": "0.0.0",
         "@seed-design/react-presence": "0.0.0",
+        "@seed-design/react-prevent-scroll": "0.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-use-controllable-state": "1.0.0",
         "aria-hidden": "^1.2.6",
@@ -962,6 +964,19 @@
         "@radix-ui/react-use-layout-effect": "^1.1.1",
         "@seed-design/react-primitive": "1.0.0",
       },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/prevent-scroll": {
+      "name": "@seed-design/react-prevent-scroll",
+      "version": "0.0.0",
       "devDependencies": {
         "@types/react": "^19.1.6",
         "react": "^19.1.0",
@@ -3042,6 +3057,8 @@
     "@seed-design/react-portal": ["@seed-design/react-portal@workspace:packages/react-headless/portal"],
 
     "@seed-design/react-presence": ["@seed-design/react-presence@workspace:packages/react-headless/presence"],
+
+    "@seed-design/react-prevent-scroll": ["@seed-design/react-prevent-scroll@workspace:packages/react-headless/prevent-scroll"],
 
     "@seed-design/react-primitive": ["@seed-design/react-primitive@workspace:packages/react-headless/primitive"],
 
