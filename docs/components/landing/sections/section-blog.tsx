@@ -38,7 +38,7 @@ export function SectionBlog() {
         </div>
 
         <div data-blog-cards className="mx-auto w-full max-w-[1200px] px-6">
-          <div data-lenis-prevent className="flex snap-x gap-6 overflow-x-auto pb-4">
+          <div className="flex snap-x gap-6 overflow-x-auto overscroll-x-contain pb-4">
             {BLOG_POSTS.map((post) => (
               <article
                 key={post.title}

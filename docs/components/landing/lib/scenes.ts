@@ -62,7 +62,7 @@ export function createBentoScrub(root: HTMLElement) {
     .timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top top",
+        start: "top 75%",
         end: dwellEnd(REGIONS.bento),
         scrub: SCRUB,
       },

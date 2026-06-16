@@ -23,8 +23,8 @@ export const HEADER_TRANSLUCENT_BG = "#1A1C20CC";
  * next section transitions in. Larger = slower, more deliberate pacing.
  */
 export const REGIONS = {
-  hero: 160,
-  bento: 150,
+  hero: 110,
+  bento: 130,
   intro: 180,
   values: 110,
   showcase: 120,
