@@ -48,14 +48,21 @@ export function CustomCursor() {
       xTo(e.clientX);
       yTo(e.clientY);
     };
+    // Returning to the dot is deferred briefly so flicking across the gaps between
+    // blog cards doesn't collapse the pill to a dot and back on every crossing.
+    const DOT_DELAY = 90;
+    let dotTimer = 0;
+    const cancelDotReturn = () => {
+      if (dotTimer) {
+        clearTimeout(dotTimer);
+        dotTimer = 0;
+      }
+    };
     const onOver = (e: PointerEvent) => {
       const target = e.target;
       const hit = target instanceof Element ? target.closest<HTMLElement>(INTERACTIVE) : null;
-      if (!hit) {
-        hovered.current = null;
-        setMode("dot");
-        return;
-      }
+      if (!hit) return; // gaps are handled by onOut's deferred return
+      cancelDotReturn();
       // Same card (e.g. moving over its children) — keep the current look.
       if (hit === hovered.current) return;
       hovered.current = hit;
@@ -70,10 +77,13 @@ export function CustomCursor() {
     const onOut = (e: PointerEvent) => {
       const related = e.relatedTarget;
       const stillInside = related instanceof Element && related.closest(INTERACTIVE);
-      if (!stillInside) {
+      if (stillInside) return;
+      cancelDotReturn();
+      dotTimer = window.setTimeout(() => {
         hovered.current = null;
         setMode("dot");
-      }
+        dotTimer = 0;
+      }, DOT_DELAY);
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -81,6 +91,7 @@ export function CustomCursor() {
     document.addEventListener("pointerout", onOut, { passive: true });
     document.documentElement.classList.add("cursor-hidden");
     return () => {
+      cancelDotReturn();
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerover", onOver);
       document.removeEventListener("pointerout", onOut);
@@ -94,13 +105,18 @@ export function CustomCursor() {
     const el = dotRef.current;
     if (!el) return;
     if (mode === "text") {
+      // Tween width to a measured px target — animating to "auto" is unstable and
+      // makes the pill jitter/shrink when flicking quickly between cards.
+      const fromW = Number(gsap.getProperty(el, "width")) || 0;
       gsap.set(el, { width: "auto" });
-      gsap.to(el, { height: 40, duration: 0.28, ease: "power3.out" });
+      const toW = el.offsetWidth;
+      gsap.set(el, { width: fromW });
+      gsap.to(el, { width: toW, height: 40, duration: 0.28, ease: "power3.out" });
     } else {
       const size = mode === "dot" ? 12 : 52;
       gsap.to(el, { width: size, height: size, duration: 0.28, ease: "power3.out" });
     }
-  }, [mode]);
+  }, [mode, text]);
 
   return (
     <div

@@ -57,15 +57,14 @@ export function createBentoScrub(root: HTMLElement) {
   const slots = qa(section, "[data-bento-slot]");
   if (!slots.length) return;
 
-  // Tug the slots up in one springy beat on entry (not scrubbed 1:1 with scroll),
-  // top row first — a "snappy lift" rather than a position-locked reveal.
+  // Lift the slots up on entry, top row first — smooth (no bounce/overshoot).
   const STEP = 0.1;
-  gsap.set(slots, { autoAlpha: 0, y: 80, scale: 0.9 });
+  gsap.set(slots, { autoAlpha: 0, y: 80, scale: 0.94 });
   gsap.to(slots, {
     autoAlpha: 1,
     y: 0,
     scale: 1,
-    ease: "back.out(1.5)",
+    ease: "power3.out",
     duration: 0.7,
     stagger: (_i: number, el: HTMLElement) => Number(el.dataset.order ?? 0) * STEP,
     scrollTrigger: {

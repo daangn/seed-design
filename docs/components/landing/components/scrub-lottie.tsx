@@ -41,17 +41,25 @@ export function ScrubLottie({
   onReady,
 }: ScrubLottieProps) {
   return (
-    <Player
-      src={src}
-      autoplay={autoplay}
-      loop={loop}
-      keepLastFrame
-      rendererSettings={{ preserveAspectRatio: fill ? "xMidYMid slice" : "xMidYMid meet" }}
-      className={className}
-      style={style}
-      lottieRef={(instance: LottieController) => {
-        onReady?.(instance);
-      }}
-    />
+    // The player's own `.lf-player-container` sizes to the lottie's aspect ratio,
+    // so it leaves a gap in a taller slot. The caller's className only reaches the
+    // inner div, so wrap and force the container + svg to fill — preserveAspectRatio
+    // (slice when `fill`) then covers within the now-filled box.
+    <div
+      className={`${className ?? ""} [&_.lf-player-container]:size-full [&_svg]:size-full!`.trim()}
+    >
+      <Player
+        src={src}
+        autoplay={autoplay}
+        loop={loop}
+        keepLastFrame
+        rendererSettings={{ preserveAspectRatio: fill ? "xMidYMid slice" : "xMidYMid meet" }}
+        className="size-full"
+        style={style}
+        lottieRef={(instance: LottieController) => {
+          onReady?.(instance);
+        }}
+      />
+    </div>
   );
 }

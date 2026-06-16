@@ -33,6 +33,7 @@ export function SectionLottieIntro({ onLottieReady }: SectionLottieIntroProps) {
             autoplay={!onLottieReady}
             loop={!onLottieReady}
             onReady={onLottieReady}
+            fill
             className="size-full"
             style={{ width: "100%", height: "100%" }}
           />
