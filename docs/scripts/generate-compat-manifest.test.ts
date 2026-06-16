@@ -6,7 +6,6 @@ import {
   compareSemver,
   extractSeedPeers,
   filterStableVersions,
-  mergeInTreeVersion,
   summarizeDeclarationEras,
 } from "./generate-compat-manifest.js";
 
@@ -91,35 +90,6 @@ describe("collectSnippets", () => {
       },
       { registryId: "ui", itemId: "app-screen", snippetPath: "app-bar.tsx", requires: {} },
     ]);
-  });
-});
-
-describe("mergeInTreeVersion", () => {
-  const npmVersions = [
-    { version: "1.2.11", publishedAt: "2026-05-01T00:00:00.000Z", peers: {} },
-    { version: "1.2.12", publishedAt: "2026-06-01T00:00:00.000Z", peers: {} },
-  ];
-
-  test("npm에 없는 in-tree 버전을 publishedAt: null로 보충하고 정렬한다", () => {
-    const merged = mergeInTreeVersion(npmVersions, {
-      version: "1.2.13",
-      peers: { "@seed-design/css": "~1.2.0" },
-    });
-    expect(merged.at(-1)).toEqual({
-      version: "1.2.13",
-      publishedAt: null,
-      peers: { "@seed-design/css": "~1.2.0" },
-    });
-  });
-
-  test("이미 npm에 있는 버전이면 npm 데이터를 그대로 둔다", () => {
-    expect(mergeInTreeVersion(npmVersions, { version: "1.2.12", peers: {} })).toBe(npmVersions);
-  });
-
-  test("in-tree가 프리릴리즈면 보충하지 않는다", () => {
-    expect(mergeInTreeVersion(npmVersions, { version: "2.0.0-alpha.1", peers: {} })).toBe(
-      npmVersions,
-    );
   });
 });
 
