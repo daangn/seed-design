@@ -34,11 +34,12 @@ export function SectionBento() {
       id="bento"
       z={Z.bento}
       regionVh={REGIONS.bento}
+      sticky={false}
       mobileStack
-      panelClassName="rounded-b-[20px] bg-white"
+      panelClassName="flex flex-col justify-center rounded-b-[20px] bg-white"
       behindClassName="bg-[#101216]"
     >
-      <div className="flex h-full w-full flex-col px-5 pt-24 pb-8">
+      <div className="flex w-full flex-col px-5 pt-24 pb-8 lg:h-[100dvh]">
         <div className="flex w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-12 lg:grid-rows-6">
           {/* 1 — manner (video, top row) */}
           <div

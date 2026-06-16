@@ -24,7 +24,7 @@ export const HEADER_TRANSLUCENT_BG = "#1A1C20CC";
  */
 export const REGIONS = {
   hero: 110,
-  bento: 125,
+  bento: 132,
   intro: 180,
   values: 100,
   showcase: 100,

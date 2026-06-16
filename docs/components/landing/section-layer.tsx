@@ -62,7 +62,9 @@ export function SectionLayer({
       <div
         className={`w-full overflow-hidden ${panelClassName} ${
           mobileStack
-            ? "relative h-auto lg:sticky lg:top-0 lg:h-dvh"
+            ? sticky
+              ? "relative h-auto lg:sticky lg:top-0 lg:h-dvh"
+              : "relative h-auto lg:h-full"
             : sticky
               ? "sticky top-0 h-dvh"
               : "relative h-full"

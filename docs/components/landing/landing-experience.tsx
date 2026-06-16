@@ -38,14 +38,6 @@ const SECTION_VARIANT: Record<string, HeaderVariant> = {
   footer: "hidden",
 };
 
-/**
- * Scroll resistance over the bento "rest" beat: once the grid is assembled, wheel
- * delta is damped to a crawl until a small budget is spent, then normal scroll
- * resumes — a deliberate pause without fully locking the page.
- */
-const RESIST_FACTOR = 0.06;
-const RESIST_THRESHOLD = 90;
-
 export function LandingExperience() {
   const rootRef = useRef<HTMLElement>(null);
   const introLottieRef = useRef<LottieController | null>(null);
@@ -58,26 +50,12 @@ export function LandingExperience() {
 
       const prefersReduced = window.matchMedia(REDUCED_MOTION_QUERY).matches;
 
-      // Mutable gate shared by the Lenis input hook and the toggle trigger below.
-      const resist = { active: false, budget: 0 };
-
-      // Smooth, "sticky" scroll (Lenis) synced to ScrollTrigger + GSAP's ticker.
+      // Smooth scroll (Lenis) synced to ScrollTrigger + GSAP's ticker. No scroll
+      // resistance/snapping — the page flows naturally; only intro scrubs a Lottie.
       let lenis: Lenis | null = null;
       let onTick: ((time: number) => void) | null = null;
       if (!prefersReduced) {
-        lenis = new Lenis({
-          duration: 1.15,
-          smoothWheel: true,
-          // Damp downward input while resisting; spend the budget, then release.
-          virtualScroll: (data) => {
-            if (resist.active && data.deltaY > 0) {
-              resist.budget -= Math.abs(data.deltaY);
-              if (resist.budget > 0) data.deltaY *= RESIST_FACTOR;
-              else resist.active = false;
-            }
-            return true;
-          },
-        });
+        lenis = new Lenis({ duration: 1.15, smoothWheel: true });
         lenis.on("scroll", ScrollTrigger.update);
         onTick = (time) => lenis?.raf(time * 1000);
         gsap.ticker.add(onTick);
@@ -111,20 +89,6 @@ export function LandingExperience() {
           createIntroScrub(root, () => introLottieRef.current);
           createDesktopEntrances(root);
           createFooterExpand(root);
-
-          // Once the bento has assembled (end of its dwell), briefly resist scroll.
-          const bento = root.querySelector("#bento");
-          if (bento) {
-            ScrollTrigger.create({
-              trigger: bento,
-              start: "top top-=50%",
-              end: "top top-=65%",
-              onToggle: (self) => {
-                resist.active = self.isActive;
-                if (self.isActive) resist.budget = RESIST_THRESHOLD;
-              },
-            });
-          }
         } else {
           createMobileReveals(root);
         }
