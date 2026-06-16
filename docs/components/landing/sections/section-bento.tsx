@@ -5,7 +5,7 @@ import { SectionLayer } from "../section-layer";
 function SlotVideo({ src }: { src: string }) {
   return (
     <video
-      className="size-full object-cover"
+      className="size-full scale-[1.04] object-cover"
       src={src}
       autoPlay
       muted
@@ -39,7 +39,7 @@ export function SectionBento() {
       panelClassName="flex flex-col justify-start rounded-b-[20px] bg-white"
       behindClassName="bg-[#101216]"
     >
-      <div className="flex w-full flex-col p-5 lg:h-[84dvh]">
+      <div className="flex w-full flex-col p-1.5 lg:h-[84dvh]">
         <div className="flex w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-12 lg:grid-rows-6">
           {/* 1 — manner (video, top row) */}
           <div
@@ -65,7 +65,7 @@ export function SectionBento() {
             data-order={0}
             className={`${SLOT} bg-palette-gray-100 lg:col-span-5 lg:col-start-4 lg:row-span-3 lg:row-start-1`}
           >
-            <ScrubLottie src={BENTO.tabLottie} autoplay loop className="size-full" />
+            <ScrubLottie src={BENTO.tabLottie} autoplay loop fill className="size-full" />
           </div>
 
           {/* 4 — pin (lottie, mid row) */}

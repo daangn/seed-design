@@ -20,6 +20,8 @@ interface ScrubLottieProps {
   /** Autoplay (sections 5/6). Leave false when scrubbing via `onReady`. */
   autoplay?: boolean;
   loop?: boolean;
+  /** Cover (slice) instead of contain (meet) — fills the slot, may crop edges. */
+  fill?: boolean;
   /** Receives the animation instance so a parent can scrub frames on scroll. */
   onReady?: (controller: LottieController) => void;
 }
@@ -35,6 +37,7 @@ export function ScrubLottie({
   style,
   autoplay = false,
   loop = false,
+  fill = false,
   onReady,
 }: ScrubLottieProps) {
   return (
@@ -43,6 +46,7 @@ export function ScrubLottie({
       autoplay={autoplay}
       loop={loop}
       keepLastFrame
+      rendererSettings={{ preserveAspectRatio: fill ? "xMidYMid slice" : "xMidYMid meet" }}
       className={className}
       style={style}
       lottieRef={(instance: LottieController) => {

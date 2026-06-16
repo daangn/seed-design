@@ -41,8 +41,9 @@ export function createHeroToBento(root: HTMLElement) {
   });
   // The frame's padding (white gutter) and the video's own corners round in
   // together, so the video itself becomes the rounded card — not just its frame.
-  tl.fromTo(frame, { padding: 0 }, { padding: 20, ease: "none" }, 0);
-  tl.fromTo(video, { borderRadius: 0 }, { borderRadius: 24, ease: "none" }, 0);
+  // 6px so hero's bottom gap (6) + bento's top gap (6) == the grid's gap-3 (12px).
+  tl.fromTo(frame, { padding: 0 }, { padding: 6, ease: "none" }, 0);
+  tl.fromTo(video, { borderRadius: 0 }, { borderRadius: 16, ease: "none" }, 0);
 }
 
 /**
