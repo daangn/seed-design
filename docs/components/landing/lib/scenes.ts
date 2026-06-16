@@ -56,25 +56,23 @@ export function createBentoScrub(root: HTMLElement) {
   const slots = qa(section, "[data-bento-slot]");
   if (!slots.length) return;
 
-  const STEP = 0.12;
-  gsap.set(slots, { autoAlpha: 0, y: 70, scale: 0.88 });
-  gsap
-    .timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top 75%",
-        end: dwellEnd(REGIONS.bento),
-        scrub: SCRUB,
-      },
-    })
-    .to(slots, {
-      autoAlpha: 1,
-      y: 0,
-      scale: 1,
-      ease: "power3.out",
-      duration: 0.6,
-      stagger: (_i: number, el: HTMLElement) => Number(el.dataset.order ?? 0) * STEP,
-    });
+  // Tug the slots up in one springy beat on entry (not scrubbed 1:1 with scroll),
+  // top row first — a "snappy lift" rather than a position-locked reveal.
+  const STEP = 0.1;
+  gsap.set(slots, { autoAlpha: 0, y: 80, scale: 0.9 });
+  gsap.to(slots, {
+    autoAlpha: 1,
+    y: 0,
+    scale: 1,
+    ease: "back.out(1.5)",
+    duration: 0.7,
+    stagger: (_i: number, el: HTMLElement) => Number(el.dataset.order ?? 0) * STEP,
+    scrollTrigger: {
+      trigger: section,
+      start: "top 72%",
+      toggleActions: "play none none reverse",
+    },
+  });
 }
 
 /** Section 3: fade in the copy and scrub the background Lottie across the dwell. */

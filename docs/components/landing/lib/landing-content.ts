@@ -24,11 +24,11 @@ export const HEADER_TRANSLUCENT_BG = "#1A1C20CC";
  */
 export const REGIONS = {
   hero: 110,
-  bento: 130,
+  bento: 125,
   intro: 180,
-  values: 110,
-  showcase: 102,
-  blog: 116,
+  values: 100,
+  showcase: 100,
+  blog: 100,
   footer: 150,
 } as const;
 
