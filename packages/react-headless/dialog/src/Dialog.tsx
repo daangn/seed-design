@@ -5,6 +5,7 @@ import { FocusScope } from "@radix-ui/react-focus-scope";
 import { hideOthers } from "aria-hidden";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
+import { usePreventScroll } from "@seed-design/react-prevent-scroll";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef, useCallback, useEffect, useState } from "react";
@@ -61,6 +62,10 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
   const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
   const contentRef = useCallback((el: HTMLDivElement | null) => setContentNode(el), []);
 
+  // Lock body scroll while the modal overlay is open. Mirrors the `modal` contract: the lock
+  // releases the moment the dialog is non-modal or closed.
+  usePreventScroll({ isDisabled: !(api.modal && api.open) });
+
   // aria-hide everything except the content (better supported equivalent to setting aria-modal)
   useEffect(() => {
     if (!api.open || !api.modal || !contentNode) return;
@@ -75,7 +80,6 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
           swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
       <DismissibleLayer
         enabled={api.open}
-        // We might need scroll lock here; not needed yet in stackflow based webview.
         onEscapeKeyDown={(e) => {
           if (!api.closeOnEscape) return;
           api.setOpen(false, { reason: "escapeKeyDown", event: e });
