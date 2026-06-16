@@ -82,6 +82,20 @@
     opacity: 0;
     transform: translate3d(25%, 0, 0);
 }
+.seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='layer'], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='dim'], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='appBar'], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='appBarMain'], .seed-app-screen__root--transitionStyle_slideFromRightIOS [data-part='appBarIcon'] {
+    transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
+}
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='layer'] {
+    transform: translate3d(100%, 0, 0);
+}
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='appBarMain'] {
+    opacity: 0;
+    transform: translate3d(25%, 0, 0);
+}
+.seed-app-screen__root--transitionStyle_slideFromRightIOS[data-transition-state='enter-active'] [data-part='appBarIcon'] {
+    opacity: 0;
+    transform: translate3d(25%, 0, 0);
+}
 .seed-app-screen__layer--transitionStyle_slideFromRightIOS {
     transform: translate3d(0, 0, 0);
 }

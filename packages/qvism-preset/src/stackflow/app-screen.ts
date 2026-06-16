@@ -75,11 +75,10 @@ export const appScreen = defineSlotRecipe({
           "--z-index-edge": "calc(var(--z-index-base) + 4)",
           "--z-index-app-bar": "calc(var(--z-index-base) + 7)",
 
-          // 역할(role) 기반 정지 위치(resting). root가 data-activity-is-top /
-          // data-transition-state를 가지므로, descendant로 각 파트의 기본 위치를 정의한다.
-          // 전환 중에는 WAAPI inline이 이를 덮고, 종료 시 useGlobalInteraction이 inline을
-          // clear하면 아래 기본값이 인계받는다(가려진 화면=behind, 나가는 화면=exit).
-          // 값은 animation.ts의 IOS_ONSCREEN/OFFSCREEN과 일치해야 한다.
+          // 역할(role)/상태(state) 기반 위치 + CSS transition. root가 data-activity-is-top /
+          // data-transition-state를 가지므로 descendant로 각 파트 위치를 정의하고, 아래 transition으로
+          // push/pop을 CSS가 직접 트윈한다(WAAPI 없이 → 동시 pop에도 각 화면이 스스로 안전하게 애니).
+          // behind=-30%, exit=off-screen, enter=off→0%. 값은 animation.ts의 IOS 상수와 일치시킨다.
           "&:not([data-activity-is-top]) [data-part='layer']": {
             transform: "translate3d(-30%, 0, 0)",
           },
@@ -107,9 +106,29 @@ export const appScreen = defineSlotRecipe({
             opacity: 0,
             transform: "translate3d(25%, 0, 0)",
           },
+
+          // 이산 전환을 CSS가 트윈 (push/pop). swipe 제스처 중엔 global.css에서 transition을 꺼
+          // JS가 손가락을 직접 추적하게 한다.
+          "& [data-part='layer'], & [data-part='dim'], & [data-part='appBar'], & [data-part='appBarMain'], & [data-part='appBarIcon']":
+            {
+              transition:
+                "transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99)",
+            },
+          // 들어오는 화면(enter-active)은 화면 밖에서 시작 → enter-done(0%)로 슬라이드인
+          "&[data-transition-state='enter-active'] [data-part='layer']": {
+            transform: "translate3d(100%, 0, 0)",
+          },
+          "&[data-transition-state='enter-active'] [data-part='appBarMain']": {
+            opacity: 0,
+            transform: "translate3d(25%, 0, 0)",
+          },
+          "&[data-transition-state='enter-active'] [data-part='appBarIcon']": {
+            opacity: 0,
+            transform: "translate3d(25%, 0, 0)",
+          },
         },
         layer: {
-          // GPU layer hint for smooth animations driven by JS (WAAPI)
+          // GPU layer hint for smooth animations driven by JS (WAAPI swipe)
           transform: "translate3d(0, 0, 0)",
         },
         dim: {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTopActivity } from "../private/useTopActivity";
 import {
   type TransitionStyle,
@@ -10,7 +10,6 @@ import {
 } from "./dom";
 import {
   cancelAll,
-  animateTransition,
   animateSwipeComplete,
   animateSwipeCancel,
   scrubAppBarBackground,
@@ -256,70 +255,10 @@ export function useGlobalInteraction() {
 
   const topActivity = useTopActivity();
 
-  // ── WAAPI push/pop transitions triggered by stackflow state changes ──
-  const prevTransitionStateRef = useRef<string>(topActivity.transitionState);
-
-  useLayoutEffect(() => {
-    const prev = prevTransitionStateRef.current;
-    const next = topActivity.transitionState;
-    prevTransitionStateRef.current = next;
-
-    const stackEl = stackRef.current;
-    if (!stackEl) return;
-
-    const swipeState = swipeBackStateRef.current;
-
-    if (next === "enter-active" && prev !== "enter-active") {
-      if (swipeState !== "idle") return;
-
-      stopRunningAnims();
-      cancelPendingPushRAF();
-      // Defer one frame so stackflow's new top activity subtree is reliably
-      // observable via data-activity-is-top. Sync dispatch inside
-      // useLayoutEffect raced with stackflow subscription updates and left
-      // findTransitionTargets empty on push.
-      pendingPushRAFRef.current = requestAnimationFrame(() => {
-        pendingPushRAFRef.current = null;
-        const style = readTransitionStyle(stackEl);
-        const targets = findTransitionTargets(stackEl);
-        const { animations, finished } = animateTransition(targets, "push", style);
-        runningAnimsRef.current = animations;
-        finished.then(() => {
-          // 실험(Option C): idle inline을 pin하지 않고 clear → CSS role이 위치를 인계.
-          clearAllStyles(targets);
-          cancelAll(animations);
-          if (runningAnimsRef.current === animations) {
-            runningAnimsRef.current = [];
-          }
-        });
-      });
-    }
-
-    if (next === "exit-active" && prev !== "exit-active") {
-      if (skipNextExitRef.current) {
-        skipNextExitRef.current = false;
-        return;
-      }
-
-      if (swipeState !== "idle") return;
-
-      cancelPendingPushRAF();
-      stopRunningAnims();
-      const style = readTransitionStyle(stackEl);
-      const targets = findTransitionTargets(stackEl);
-      const { animations, finished } = animateTransition(targets, "pop", style);
-      runningAnimsRef.current = animations;
-      finished.then(() => {
-        // 실험(Option C): post-exit inline을 pin하지 않고 clear → CSS role이 위치를 인계.
-        // 나가는 화면은 [data-transition-state^="exit"] CSS가 off-screen 유지(flash 방지).
-        clearAllStyles(targets);
-        cancelAll(animations);
-        if (runningAnimsRef.current === animations) {
-          runningAnimsRef.current = [];
-        }
-      });
-    }
-  }, [topActivity.transitionState, stopRunningAnims, cancelPendingPushRAF]);
+  // 이산 전환(push/pop)은 WAAPI가 아니라 CSS transition으로 처리한다(app-screen recipe).
+  // 각 화면이 자기 data-transition-state / role(data-activity-is-top)로 스스로 트윈하므로
+  // 한 번에 여러 개가 닫혀도(동시 pop) 각자 안전하게 애니메이션된다. 쌍 추론·stuck·flicker 없음.
+  // WAAPI는 아래 swipe-back 제스처(실시간 손가락 추적 + parallax)에만 쓴다.
 
   // Cancel any pending push rAF and running animations on unmount so
   // late-firing finished handlers can't run against a torn-down stack.
