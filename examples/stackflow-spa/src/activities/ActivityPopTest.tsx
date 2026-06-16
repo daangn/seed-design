@@ -42,7 +42,8 @@ const ActivityPopTest: StaticActivityComponentType<"ActivityPopTest"> = () => {
   );
 
   return (
-    <AppScreen>
+    // 실험: iOS slide 전환에서 측정하기 위해 cupertino로 고정
+    <AppScreen theme="cupertino">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

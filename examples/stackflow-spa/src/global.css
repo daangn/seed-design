@@ -29,3 +29,10 @@ body {
 .bg-brandSolid {
   background-color: var(--seed-color-bg-brand-solid);
 }
+
+/* 실험(landing-aware): 한 번에 여러 개가 닫힐 때, 나가는 중인 "중간" 화면은 숨긴다.
+   WAAPI는 나가는 top + 진짜 착지 화면만 굴리므로, 그 사이의 화면들이 슬라이드 중
+   비치지 않게 한다. (나가는 top=is-top은 애니메이션되므로 제외) */
+[data-part="activity"][data-transition-state^="exit"]:not([data-activity-is-top]) {
+  visibility: hidden;
+}

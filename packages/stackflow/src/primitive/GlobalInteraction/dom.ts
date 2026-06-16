@@ -64,8 +64,14 @@ export function findTransitionTargets(stackEl: HTMLElement): TransitionTargets {
     const topId = topActivity.dataset["activityId"];
     const topIdx = all.findIndex((el) => el.dataset["activityId"] === topId);
     for (let i = topIdx - 1; i >= 0; i--) {
-      if (all[i].dataset["activityId"]) {
-        behindActivity = all[i];
+      const el = all[i];
+      const ts = el.dataset["transitionState"] ?? "";
+      // 한 번에 여러 개가 닫힐 때(연속 pop) 중간의 나가는 액티비티는 건너뛰고
+      // 실제 착지 화면(나가는 중이 아닌 첫 액티비티)을 behind로 잡는다.
+      // → WAAPI가 "나가는 top + 진짜 착지 화면"을 직접 굴려, 중간 화면이 끼어드는
+      //   pair 한계를 없앤다.
+      if (el.dataset["activityId"] && !ts.startsWith("exit")) {
+        behindActivity = el;
         break;
       }
     }
