@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 1.1.28
+
+### Patch Changes
+
+- Updated dependencies [06307f2]
+  - @seed-design/react-dialog@1.0.3
+
 ## 1.1.27
 
 ### Patch Changes
