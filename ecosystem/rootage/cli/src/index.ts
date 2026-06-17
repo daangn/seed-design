@@ -10,7 +10,6 @@ import {
   getSourceFiles,
   getTokenCollectionDeclarations,
   getTokenDeclarations,
-  guideline,
   jsonschema,
   typescript,
   tailwind3,
@@ -30,17 +29,7 @@ const artifactsDir = path.dirname(artifactsPath);
 
 const [, , , dir = "./"] = process.argv;
 
-/** Directory (relative to the artifacts root) holding GuidelineSpec YAML files. */
-const GUIDELINES_DIR_NAME = "guidelines";
-
-/**
- * Directories the token pipeline (Tokens/ComponentSpec) must ignore. GuidelineSpec
- * documents are not part of the token graph and are compiled separately, so they are
- * skipped to avoid `Unknown document kind` errors during `prepare()`/`validate`.
- */
-const TOKEN_PIPELINE_SKIP_DIRS = new Set([GUIDELINES_DIR_NAME]);
-
-function readYAMLFilesSync(dir: string, fileList: string[] = [], skipDirs?: Set<string>) {
+function readYAMLFilesSync(dir: string, fileList: string[] = []) {
   const files = fs.readdirSync(dir);
 
   for (const file of files) {
@@ -48,8 +37,7 @@ function readYAMLFilesSync(dir: string, fileList: string[] = [], skipDirs?: Set<
     const stat = fs.statSync(filePath);
 
     if (stat.isDirectory()) {
-      if (skipDirs?.has(file)) continue;
-      readYAMLFilesSync(filePath, fileList, skipDirs);
+      readYAMLFilesSync(filePath, fileList);
     } else if (stat.isFile() && (path.extname(file) === ".yaml" || path.extname(file) === ".yml")) {
       fileList.push(filePath);
     }
@@ -77,7 +65,7 @@ function writeFileSync({
 }
 
 async function prepare() {
-  const filePaths = readYAMLFilesSync(artifactsDir, [], TOKEN_PIPELINE_SKIP_DIRS);
+  const filePaths = readYAMLFilesSync(artifactsDir);
 
   const fileContents = await Promise.all(filePaths.map((name) => fs.readFile(name, "utf-8")));
 
@@ -266,62 +254,6 @@ async function writeJson() {
   });
 }
 
-async function writeGuidelineJson() {
-  const guidelinesDir = path.join(artifactsDir, GUIDELINES_DIR_NAME);
-
-  if (!fs.existsSync(guidelinesDir)) {
-    console.log(`No "${GUIDELINES_DIR_NAME}" directory found in artifacts, skipping.`);
-    return;
-  }
-
-  const filePaths = readYAMLFilesSync(guidelinesDir);
-
-  for (const filePath of filePaths) {
-    const content = fs.readFileSync(filePath, "utf-8");
-    const model = YAML.parse(content);
-
-    // relativePath: guidelines/<scope>/<target>.yaml
-    const relativePath = path.relative(artifactsDir, filePath);
-    const withoutExt = relativePath.replace(path.extname(relativePath), "");
-    const segments = withoutExt.split(path.sep);
-    const dirScope = segments[1];
-    const fileTarget = segments[segments.length - 1];
-
-    const result = guideline.safeParseGuidelineSpec(model);
-    if (!result.success) {
-      console.error(`Invalid GuidelineSpec in ${relativePath}:`);
-      console.error(result.error.message);
-      process.exit(1);
-    }
-
-    const spec = result.data;
-
-    // The directory layout must mirror metadata so generated ids stay predictable.
-    if (spec.metadata.scope !== dirScope) {
-      console.error(
-        `GuidelineSpec scope mismatch in ${relativePath}: metadata.scope="${spec.metadata.scope}" but directory="${dirScope}".`,
-      );
-      process.exit(1);
-    }
-    if (spec.metadata.target !== fileTarget) {
-      console.error(
-        `GuidelineSpec target mismatch in ${relativePath}: metadata.target="${spec.metadata.target}" but file name="${fileTarget}".`,
-      );
-      process.exit(1);
-    }
-
-    const compiled = guideline.compileGuidelineSpec(spec);
-    const code = JSON.stringify(compiled, null, 2);
-    const writePath = path.join(process.cwd(), dir, `${withoutExt}.json`);
-
-    writeFileSync({
-      filename: `${withoutExt}.json`,
-      code,
-      writePath,
-    });
-  }
-}
-
 async function writeFile(filePath: string, content: string) {
   try {
     await fs.mkdirp(path.dirname(filePath));
@@ -479,22 +411,6 @@ yargs(process.argv.slice(2))
     },
   )
   .command(
-    "guideline-json <dir>",
-    "Compile GuidelineSpec YAML into JSON with generated ids",
-    (yargs) => {
-      return yargs.positional("dir", {
-        describe: "Output directory",
-        type: "string",
-        default: "./",
-      });
-    },
-    async () => {
-      console.log("Start");
-      await writeGuidelineJson();
-      console.log("Done");
-    },
-  )
-  .command(
     "tailwind3-plugin <dir>",
     "Generate Tailwind 3 plugin",
     (yargs) => {
@@ -543,7 +459,7 @@ yargs(process.argv.slice(2))
     "Validate YAML files and auto-fix unused schema properties",
     () => {},
     async () => {
-      const filePaths = readYAMLFilesSync(artifactsDir, [], TOKEN_PIPELINE_SKIP_DIRS);
+      const filePaths = readYAMLFilesSync(artifactsDir);
       const fileContents = await Promise.all(filePaths.map((name) => fs.readFile(name, "utf-8")));
       const models = fileContents.map((content) => YAML.parse(content) as Authoring.Model);
 

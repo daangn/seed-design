@@ -1,0 +1,131 @@
+# yaml-language-server: $schema=../guideline.schema.json
+kind: GuidelineSpec
+metadata:
+  target: action-button
+  scope: component
+guidelines:
+  # --- Layout / Icon Only ---
+  - id: G-C-action-button-001
+    type: do
+    statement: 아이콘은 라벨 가독성을 해치지 않도록 꼭 필요한 경우에만 제한적으로 사용하세요.
+  - id: G-C-action-button-002
+    type: do
+    statement: Icon Only 레이아웃은 접근성이 떨어지므로 꼭 필요한 경우에만 사용하세요.
+    description: 아이콘만으로 의미를 전달하면 의미가 분명하지 않아 접근성이 떨어집니다.
+  - id: G-C-action-button-003
+    type: do
+    statement: Icon Only 레이아웃에는 aria-label 또는 aria-labelledby를 제공하세요.
+    detectable: true
+  - id: G-C-action-button-004
+    type: dont
+    statement: 라벨의 앞과 뒤에 아이콘을 동시에 표시하지 마세요.
+    detectable: true
+  - id: G-C-action-button-005
+    type: dont
+    statement: 아이콘을 무분별하게 사용하지 마세요.
+
+  # --- Size ---
+  - id: G-C-action-button-006
+    type: do
+    statement: 강조가 필요한 CTA에는 Large, 범용 액션에는 Small·Medium, 좁은 공간에는 XSmall(Pill)을 사용하세요.
+
+  # --- Variant 선택 (의사결정 트리 재료) ---
+  - id: G-C-action-button-007
+    type: do
+    statement: 화면에서 강조하려는 정도에 따라 적절한 Variant를 선택하세요.
+    description: 시각적 주목도는 배경색 대비에 따라 달라집니다. High / Medium / Low emphasis로 나뉩니다.
+  - id: G-C-action-button-008
+    type: do
+    statement: 사용자 간 연결이 일어나는 서비스의 주요 기능에는 Brand Solid를 사용하되, 한 화면에 하나만 두세요.
+  - id: G-C-action-button-009
+    type: do
+    statement: 대부분의 화면에서 CTA에는 Neutral Solid를 사용하되, 한 화면에 하나만 두세요.
+  - id: G-C-action-button-010
+    type: do
+    statement: 삭제·초기화처럼 되돌릴 수 없는 위험한 작업에는 Critical Solid를 사용하세요.
+    description: 주로 Alert Dialog에서 사용됩니다.
+  - id: G-C-action-button-011
+    type: do
+    statement: CTA를 제외한 대부분의 액션에는 Neutral Weak를 사용하세요.
+  - id: G-C-action-button-012
+    type: do
+    statement: 중요도가 낮은 보조 액션에는 Low emphasis Variant(Brand Outline·Neutral Outline·Ghost)를 사용하세요.
+  - id: G-C-action-button-013
+    type: dont
+    statement: Outline 타입을 Solid 타입과 함께 사용하지 마세요.
+  - id: G-C-action-button-014
+    type: do
+    statement: Outline 타입은 Brand Outline과 Neutral Outline끼리 조합해 사용하세요.
+
+  # --- Brand 컬러 ---
+  - id: G-C-action-button-015
+    type: do
+    statement: Brand 컬러는 로고·대표 버튼·핵심 메시지 등 브랜드 상징 요소에 집중해서 사용하세요.
+  - id: G-C-action-button-016
+    type: dont
+    statement: Brand 컬러를 무분별하게 사용하지 마세요.
+    description: 과다 사용하면 의미와 강조도가 분산됩니다.
+  - id: G-C-action-button-017
+    type: do
+    statement: 채팅하기·글쓰기처럼 사용자 간 연결이나 서비스 핵심 액션에 Brand 컬러를 사용하세요.
+
+  # --- Button 조합 ---
+  - id: G-C-action-button-018
+    type: do
+    statement: 액션의 위계를 드러내려면 Neutral Weak를 Neutral Solid 또는 Brand Solid와 조합하세요.
+  - id: G-C-action-button-019
+    type: do
+    statement: 강조도가 낮은 서브 액션이 여러 번 나타날 때는 Neutral Outline과 Brand Outline을 나란히 조합하세요.
+  - id: G-C-action-button-020
+    type: do
+    statement: Dismiss 의미의 Neutral Weak를 Solid와 함께 배치할 때는 3:7 비율로 위계를 표현하세요.
+
+  # --- Button 배치 / 개수 ---
+  - id: G-C-action-button-021
+    type: do
+    statement: 비슷한 위계의 액션은 두 개까지 나란히 사용하세요.
+  - id: G-C-action-button-022
+    type: dont
+    statement: Action Button을 세 개 이상 나란히 배치하지 마세요.
+    description: 중요도가 비슷해 보여 선택이 어렵고 클릭 유도가 약해지며, 폰트 스케일링 시 라벨이 잘릴 수 있습니다.
+    detectable: true
+  - id: G-C-action-button-023
+    type: do
+    statement: 액션이 둘을 초과하면 Icon Only 버튼으로 추가 액션을 묶어 제공하세요.
+
+  # --- Label 작성 ---
+  - id: G-C-action-button-024
+    type: do
+    statement: Label은 사용자 행동을 중심으로 작성하세요.
+  - id: G-C-action-button-025
+    type: dont
+    statement: '‘다음’처럼 동작이 모호한 Label을 사용하지 마세요.'
+    description: 무엇을 하는지 명확하고 예측 가능하게 표현해야 합니다.
+  - id: G-C-action-button-026
+    type: do
+    statement: Label은 항상 사용자 시점에서 작성하고, 동일한 액션에는 일관된 단어와 톤을 유지하세요.
+  - id: G-C-action-button-027
+    type: do
+    statement: 불필요한 단어와 모호한 표현을 피하고 동사형의 간결한 문장으로 작성하세요.
+  - id: G-C-action-button-028
+    type: do
+    statement: 긴 Label로 레이아웃 Overflow가 우려되면 Responsive Pair 유틸리티로 레이아웃을 자동 전환하세요.
+    description: 긴 라벨·번역·폰트 스케일링으로 의도치 않게 길어질 때 발생합니다.
+
+  # --- vs Chip (유사 컴포넌트 선택 결정 = 트리 간선) ---
+  - id: G-C-action-button-029
+    type: do
+    statement: 라벨만으로 액션이 예상되는 '동작 실행'에는 Action Button을 사용하세요.
+  - id: G-C-action-button-030
+    type: dont
+    statement: 정보 표현이나 선택 상태 표시에는 Action Button을 사용하지 말고 Chip을 사용하세요.
+    # refs 대상(chip 가이드라인)은 아직 미작성. chip.yaml 작성 후 실제 id로 연결.
+    refs:
+      - G-C-chip-001
+
+  # --- 구현 (React) ---
+  - id: G-C-action-button-031
+    type: dont
+    statement: ghost가 아닌 Variant에 color·fontWeight 속성을 지정하지 마세요.
+    description: color·fontWeight는 Ghost variant에서만 동작합니다.
+    detectable: true

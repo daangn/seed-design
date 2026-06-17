@@ -439,6 +439,10 @@
         "typescript": "^6.0.0",
       },
     },
+    "packages/guidelines": {
+      "name": "@seed-design/guidelines",
+      "version": "0.0.0",
+    },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
       "version": "0.2.0",
@@ -2744,6 +2748,8 @@
     "@seed-design/figma-extractor": ["@seed-design/figma-extractor@workspace:ecosystem/figma-extractor"],
 
     "@seed-design/figma-spec-widget": ["@seed-design/figma-spec-widget@workspace:tools/figma-spec-widget"],
+
+    "@seed-design/guidelines": ["@seed-design/guidelines@workspace:packages/guidelines"],
 
     "@seed-design/lynx-css": ["@seed-design/lynx-css@workspace:packages/lynx-css"],
 
