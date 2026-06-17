@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.lynx.json",
+  "extends": "../../../tsconfig.lynx.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib"

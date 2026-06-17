@@ -1,5 +1,5 @@
 import { useState } from "@lynx-js/react";
-import { usePressTap } from "@seed-design/lynx-react";
+import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 import clsx from "clsx";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {

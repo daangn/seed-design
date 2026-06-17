@@ -6,7 +6,7 @@ import clsx from "clsx";
 import * as React from "@lynx-js/react";
 import { isValidElement, useMemo } from "@lynx-js/react";
 
-import { usePressTap } from "../../hooks/usePressTap";
+import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 import type {
   LynxElementProps,
   LynxPressableProps,
