@@ -69,9 +69,7 @@ Action Button은 컨테이너의 전체 너비를 채우거나 콘텐츠에 맞�
 
 ## Guidelines
 
-{/* 아래 do/dont 목록은 packages/guidelines/component/action-button.yaml(SSOT)에서 직접 렌더됩니다. */}
-
-<Guidelines target="action-button" />
+{/* do/dont 규범은 packages/guidelines/component/action-button.yaml(SSOT)에 정의하고, 문서에서는 <GuidelineRef id> 로 인용한다. 이미지(figmaId)는 문서 렌더링 메타데이터로 여기서만 연결한다. */}
 
 ### Hierarchy
 
@@ -122,11 +120,7 @@ Action Button의 시각적 주목도는 배경색 대비에 따라 달라집니�
 
 Brand 컬러는 브랜드의 정체성과 가치를 전달하는 중요 자산으로, 로고, 대표 버튼, 핵심 메시지 등 브랜드 상징 요소에 집중 사용해야 합니다.
 
-<DontImage
-  figmaId="2:28889"
-  alt="Action Button Brand 컬러 과다 사용 예시"
-  body="무분별하게 Brand 컬러를 사용하지 않습니다."
-/>
+<GuidelineRef id="G-C-action-button-no-brand-color-overuse" figmaId="2:28889" />
 
 Brand 컬러를 과다 사용하면 의미와 강조도가 분산됩니다. '이웃 간의 연결' 의미를 전달하는 곳에 사용하세요.
 
@@ -156,16 +150,8 @@ Solid 조합에서 Neutral Weak가 초기화, 닫기와 같이 Dismiss의 의미
 
 <Grid>
 
-<DoImage
-  figmaId="2:29133"
-  alt="Neutral Weak Action Button을 나란히 배치한 예시"
-  body="Neutral Weak 버튼을 나란히 사용할 수 있습니다."
-/>
-<DontImage
-  figmaId="2:29220"
-  alt=""
-  body="버튼을 4개 이상 나란히 사용하지 않습니다."
-/>
+<GuidelineRef id="G-C-action-button-up-to-two-side-by-side" figmaId="2:29133" />
+<GuidelineRef id="G-C-action-button-no-three-side-by-side" figmaId="2:29220" />
 
 </Grid>
 
@@ -179,16 +165,8 @@ Neutral Weak처럼 강조 위계가 낮은 Variant는 비슷한 위계의 액션
 
 <Grid>
 
-<DoImage
-  figmaId="2:29267"
-  alt="Action Button의 Label로 '시작하기'를 사용한 예시"
-  body="사용자 행동을 중심으로 Label을 작성합니다."
-/>
-<DontImage
-  figmaId="2:29282"
-  alt="Action Button의 Label로 '다음'을 사용한 예시"
-  body="‘무엇을 한다’는 동작을 명확하게 표현해야 합니다."
-/>
+<GuidelineRef id="G-C-action-button-label-action-centric" figmaId="2:29267" />
+<GuidelineRef id="G-C-action-button-no-vague-label" figmaId="2:29282" />
 
 </Grid>
 
@@ -215,20 +193,8 @@ Neutral Weak처럼 강조 위계가 낮은 Variant는 비슷한 위계의 액션
 
 아이콘은 라벨의 앞이나 뒤에 배치할 수 있으며, Prefix는 주로 액션의 의미를 보조하고, Suffix는 Chevron처럼 동작을 보조하는 역할을 합니다.
 
-<Grid>
-
-<DontImage
-  figmaId="2:29540"
-  alt="Action Button에 불필요한 아이콘을 사용한 예시"
-  body="아이콘을 무분별하게 사용하지 않습니다."
-/>
-<DontImage
-  figmaId="2:29805"
-  alt="Action Button에 라벨 앞과 뒤에 동시에 아이콘을 사용한 예시"
-  body="라벨의 앞과 뒤에 아이콘을 동시에 표시할 수 없습니다."
-/>
-
-</Grid>
+<GuidelineRef id="G-C-action-button-icon-aids-meaning" />
+<GuidelineRef id="G-C-action-button-no-dual-side-icons" figmaId="2:29805" />
 
 라벨의 가독성을 해치지 않도록 아이콘은 꼭 필요한 경우에만 제한적으로 사용하는 것을 권장합니다.
 
@@ -248,7 +214,7 @@ Action Button과 [Chip](/docs/components/chip)은 유사한 형태를 가진 컴
 
 이 선택 기준은 가이드라인으로도 관리됩니다:
 
-<GuidelineRef id="G-C-action-button-030" />
+<GuidelineRef id="G-C-action-button-chip-for-selection" />
 
 ## 더 알아보기
 

@@ -9,7 +9,7 @@ import {
   type FetchFigmaImageUrlsOptions,
 } from "./fetch-figma-image-urls";
 
-const FIGMA_ID_PROP_SUPPORTED_COMPONENTS = ["DoImage", "DontImage"];
+const FIGMA_ID_PROP_SUPPORTED_COMPONENTS = ["DoImage", "DontImage", "GuidelineRef"];
 
 const DEFAULT_IMAGE_SIZE = {
   width: 1080,

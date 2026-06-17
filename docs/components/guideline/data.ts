@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { parse } from "yaml";
 
@@ -12,6 +12,7 @@ export type GuidelineScope = "component" | "foundation" | "pattern";
 export interface GuidelineItem {
   id: string;
   type: GuidelineType;
+  group?: string;
   statement: string;
   description?: string;
   refs?: string[];
@@ -67,17 +68,23 @@ export function getGuidelinesByTarget(
   return readSpec(scope, target).guidelines.filter((item) => !item.deprecated);
 }
 
-/** 단일 id 조회. id에 scope/target이 인코딩돼 있어 글로벌 인덱스 없이 파일을 특정한다. */
+/**
+ * 단일 id 조회. id 접두사(G-{C|F|P}-)로 scope를 알아내고 그 디렉토리의 yaml을 스캔해
+ * id가 일치하는 항목을 찾는다. (슬러그 id는 target/slug 구분자가 없어 경로를 역산할 수 없으므로
+ * scope 디렉토리만 좁혀 스캔한다. id는 전역 유일이라 충돌 없음.)
+ */
 export function getGuidelineById(id: string): GuidelineItem | undefined {
-  const match = /^G-([CFP])-(.+)-(\d{3})$/.exec(id);
+  const match = /^G-([CFP])-/.exec(id);
   if (!match) return undefined;
 
-  const scope = SCOPE_BY_PREFIX[match[1]];
-  const target = match[2];
+  const dir = join(guidelinesRoot(), SCOPE_BY_PREFIX[match[1]]);
+  if (!existsSync(dir)) return undefined;
 
-  try {
-    return readSpec(scope, target).guidelines.find((item) => item.id === id);
-  } catch {
-    return undefined;
+  for (const file of readdirSync(dir)) {
+    if (!file.endsWith(".yaml") && !file.endsWith(".yml")) continue;
+    const spec = parse(readFileSync(join(dir, file), "utf-8")) as GuidelineSpec;
+    const found = spec.guidelines?.find((item) => item.id === id);
+    if (found) return found;
   }
+  return undefined;
 }

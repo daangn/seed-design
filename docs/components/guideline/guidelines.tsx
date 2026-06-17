@@ -8,14 +8,18 @@ interface GuidelinesProps {
   scope?: GuidelineScope;
   /** do/dont 중 하나만 보고 싶을 때 필터 */
   type?: GuidelineType;
+  /** 특정 group(icon, variant 등)만 보고 싶을 때 필터 */
+  group?: string;
 }
 
 /**
  * 한 target의 가이드라인 전체를 do/dont 카드 섹션으로 렌더한다.
  * 데이터는 packages/guidelines의 YAML(SSOT)에서 직접 읽는다.
  */
-export function Guidelines({ target, scope = "component", type }: GuidelinesProps) {
-  const items = getGuidelinesByTarget(target, scope).filter((item) => !type || item.type === type);
+export function Guidelines({ target, scope = "component", type, group }: GuidelinesProps) {
+  const items = getGuidelinesByTarget(target, scope).filter(
+    (item) => (!type || item.type === type) && (!group || item.group === group),
+  );
 
   return (
     <div className="flex flex-col gap-2 not-prose my-4">

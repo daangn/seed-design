@@ -37,12 +37,17 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^G-[CFP]-[a-z0-9-]+-[0-9]{3}$",
-          "description": "G-{scope 약자 C|F|P}-{target}-{3자리 순번}. 수기로 부여하며 한 번 부여되면 바꾸지 않는다(public 참조)."
+          "pattern": "^G-[CFP]-[a-z0-9-]+$",
+          "description": "G-{scope 약자 C|F|P}-{target}-{slug}. 슬러그는 파일 내에서 유일하면 된다(target이 접두사라 전역 유일). 한 번 부여되면 바꾸지 않는다(public 참조)."
         },
         "type": {
           "enum": ["do", "dont"],
           "description": "do=이렇게 하세요 / dont=이렇게 하지 마세요. 규범 진술만 허용(중립 설명은 가이드라인이 아님)."
+        },
+        "group": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "선택. 상위 묶음(icon, variant, layout 등). 문서 서브섹션 단위 렌더·탐색에 사용. 플랫 태그(계층 없음)."
         },
         "statement": {
           "type": "string",
@@ -57,7 +62,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^G-[CFP]-[a-z0-9-]+-[0-9]{3}$"
+            "pattern": "^G-[CFP]-[a-z0-9-]+$"
           },
           "description": "관련 가이드라인 id 목록. 유사 컴포넌트와의 vs 결정을 이으면 의사결정 트리의 간선 재료가 된다."
         },
