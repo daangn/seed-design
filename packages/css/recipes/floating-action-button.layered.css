@@ -73,8 +73,8 @@
   }
 
   .seed-floating-action-button__icon--extended_true {
-    width: var(--seed-dimension-x5);
-    height: var(--seed-dimension-x5);
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4);
     margin-right: var(--seed-dimension-x1);
     transition: none;
   }
