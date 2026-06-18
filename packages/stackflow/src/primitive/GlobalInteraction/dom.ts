@@ -128,17 +128,20 @@ export function clearAllStyles(t: TransitionTargets) {
 }
 
 /**
- * 전환이 정착한 뒤(globalTransitionState === "idle") top 액티비티에 남은
- * inline 스타일을 모두 제거한다.
+ * Remove all leftover inline styles from the top activity once the
+ * transition has settled (globalTransitionState === "idle").
  *
- * top + behind 쌍 모델은 즉시 인접한 behind 한 겹만 다룬다. 전환이 겹치면
- * (동시 pop, swipe-back race 등) 착지 화면이 "behind"나 "나가는 top"의 임시
- * 스타일에 stuck될 수 있다 — layer가 -30%에 남아 1/3 밀리거나, appBar root가
- * opacity 0(setPostExitPositions)에 남아 앱바가 통째로 사라진다.
+ * The top + behind pair model only handles the single immediately adjacent
+ * behind layer. When transitions overlap (concurrent pop, swipe-back race,
+ * etc.) the landing screen can get stuck with the temporary styles of a
+ * "behind" or an "exiting top" — the layer stays at -30% and shifts by 1/3,
+ * or the appBar root stays at opacity 0 (setPostExitPositions) and the whole
+ * app bar disappears.
  *
- * idle에서 top은 항상 깨끗한 기본 상태여야 하므로(setIdlePositions는 top을
- * clear만 하고 behind에만 스타일을 건다), 남은 inline을 지워 CSS 기본값
- * (layer 0%, appBar 표시)으로 되돌린다. behind는 건드리지 않고, 이미 깨끗하면 no-op이다.
+ * At idle the top must always be in a clean default state (setIdlePositions
+ * only clears the top and styles the behind), so wipe any leftover inline
+ * back to the CSS defaults (layer 0%, appBar visible). The behind is left
+ * untouched, and it's a no-op if already clean.
  */
 export function clearTopActivityStyles(stackEl: HTMLElement) {
   const t = findTransitionTargets(stackEl);
