@@ -1,6 +1,6 @@
 export {
+  NavigationMenuDelayGroup,
   NavigationMenuRoot,
-  NavigationMenuList,
   NavigationMenuItem,
   NavigationMenuTrigger,
   NavigationMenuPositioner,
@@ -11,8 +11,8 @@ export {
   NavigationMenuLink,
   NavigationMenuLinkBody,
   NavigationMenuLinkLabel,
+  type NavigationMenuDelayGroupProps,
   type NavigationMenuRootProps,
-  type NavigationMenuListProps,
   type NavigationMenuItemProps,
   type NavigationMenuTriggerProps,
   type NavigationMenuPositionerProps,

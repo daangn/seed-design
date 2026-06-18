@@ -12,6 +12,7 @@ import {
   useFloating,
   useHover,
   useInteractions,
+  useNextDelayGroup,
   useTransitionStatus,
   type OpenChangeReason,
   type Placement,
@@ -22,14 +23,17 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 
 const MIN_HEIGHT = 200;
 
+/** Default open delay (ms), shared with `NavigationMenuDelayGroup`. */
+export const DEFAULT_OPEN_DELAY = 200;
+/** Default close delay (ms), shared with `NavigationMenuDelayGroup`. */
+export const DEFAULT_CLOSE_DELAY = 100;
+
 function getTransformOrigin(placement: string) {
   const [side, align] = placement.split("-");
   const y = { top: "bottom", bottom: "top", left: "center", right: "center" }[side] ?? "top";
   const x = { start: "left", end: "right" }[align] ?? "center";
   return `${x} ${y}`;
 }
-
-export type NavigationMenuOrientation = "horizontal" | "vertical";
 
 interface UseNavigationMenuStateProps {
   /**
@@ -42,11 +46,11 @@ interface UseNavigationMenuStateProps {
 
 export interface UseNavigationMenuProps extends UseNavigationMenuStateProps {
   /**
-   * Layout orientation of the trigger list. Also decides the default flyout
-   * placement (`bottom-start` for horizontal, `right-start` for vertical).
-   * @default "horizontal"
+   * Default Floating UI placement for every item's flyout. Each item can
+   * override it via its own `placement`.
+   * @default "bottom"
    */
-  orientation?: NavigationMenuOrientation;
+  placement?: Placement;
 
   /**
    * Delay in ms before a hovered trigger opens. Skipped (0ms) while another
@@ -57,7 +61,7 @@ export interface UseNavigationMenuProps extends UseNavigationMenuStateProps {
 
   /**
    * Delay in ms before an item closes after the pointer leaves.
-   * @default 150
+   * @default 100
    */
   closeDelay?: number;
 
@@ -76,19 +80,22 @@ export interface UseNavigationMenuProps extends UseNavigationMenuStateProps {
 
 export type UseNavigationMenuReturn = ReturnType<typeof useNavigationMenu>;
 
-export function useNavigationMenu(props: UseNavigationMenuProps) {
-  const {
-    orientation = "horizontal",
-    openDelay = 200,
-    closeDelay = 150,
-    disableHoverTrigger = false,
-    disableClickTrigger = false,
-  } = props;
-
+export function useNavigationMenu({
+  value: propValue,
+  defaultValue: propDefaultValue,
+  onValueChange,
+  placement = "bottom",
+  // Kept undefined when not set so a surrounding `NavigationMenuDelayGroup` can
+  // take over (see `useGroupDelay`); defaults are applied at the delay call site.
+  openDelay,
+  closeDelay,
+  disableHoverTrigger = false,
+  disableClickTrigger = false,
+}: UseNavigationMenuProps) {
   const [value = null, setValue] = useControllableState<string | null>({
-    prop: props.value,
-    defaultProp: props.defaultValue ?? null,
-    onChange: props.onValueChange,
+    prop: propValue,
+    defaultProp: propDefaultValue ?? null,
+    onChange: onValueChange,
   });
 
   // Latest value, read synchronously inside the hover delay callback so that
@@ -101,13 +108,13 @@ export function useNavigationMenu(props: UseNavigationMenuProps) {
       value,
       setValue,
       valueRef,
-      orientation,
+      placement,
       openDelay,
       closeDelay,
       hoverEnabled: !disableHoverTrigger,
       clickEnabled: !disableClickTrigger,
     }),
-    [value, setValue, orientation, openDelay, closeDelay, disableHoverTrigger, disableClickTrigger],
+    [value, setValue, placement, openDelay, closeDelay, disableHoverTrigger, disableClickTrigger],
   );
 }
 
@@ -119,7 +126,7 @@ export interface UseNavigationMenuItemProps {
   disabled?: boolean;
 
   /**
-   * Floating UI placement. Defaults to the Root orientation's natural side.
+   * Floating UI placement. Defaults to the Root's `placement`.
    */
   placement?: Placement;
 
@@ -159,7 +166,7 @@ export function useNavigationMenuItem(
     value: openValue,
     setValue,
     valueRef,
-    orientation,
+    placement: rootPlacement,
     openDelay,
     closeDelay,
     hoverEnabled,
@@ -186,8 +193,7 @@ export function useNavigationMenuItem(
   const groupIndexCounter = useRef(0);
   groupIndexCounter.current = 0;
 
-  const placement: Placement =
-    props.placement ?? (orientation === "vertical" ? "right-start" : "bottom-start");
+  const placement: Placement = props.placement ?? rootPlacement;
 
   const onOpenChange = useCallback(
     (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
@@ -232,6 +238,12 @@ export function useNavigationMenuItem(
   const { status } = useTransitionStatus(context);
   const mounted = status !== "unmounted";
 
+  // Participate in a surrounding `NavigationMenuDelayGroup` (a floating-ui
+  // `NextFloatingDelayGroup`, shared with `HelpBubbleTooltip`): once any grouped
+  // trigger — nav flyout or tooltip — is open, the rest skip their open delay.
+  const group = useNextDelayGroup(context);
+  const useGroupDelay = group.hasProvider && openDelay === undefined && closeDelay === undefined;
+
   useEffect(() => {
     if (!mounted) return;
     if (!floatingRefs.reference.current || !floatingRefs.floating.current) return;
@@ -251,10 +263,15 @@ export function useNavigationMenuItem(
     enabled: hoverEnabled && !disabled,
     mouseOnly: true,
     handleClose: safePolygon(),
-    delay: () =>
-      valueRef.current != null
-        ? { open: 0, close: closeDelay }
-        : { open: openDelay, close: closeDelay },
+    delay: useGroupDelay
+      ? () => group.delayRef.current
+      : () =>
+          valueRef.current != null
+            ? { open: 0, close: closeDelay ?? DEFAULT_CLOSE_DELAY }
+            : {
+                open: openDelay ?? DEFAULT_OPEN_DELAY,
+                close: closeDelay ?? DEFAULT_CLOSE_DELAY,
+              },
   });
 
   const click = useClick(context, {
@@ -272,9 +289,9 @@ export function useNavigationMenuItem(
       elementProps({
         "data-hidden": dataAttr(status === "unmounted"),
         "data-open": dataAttr(status === "open" || status === "initial"),
-        "data-orientation": orientation,
+        "data-instant": dataAttr(group.isInstantPhase),
       }),
-    [status, orientation],
+    [status, group.isInstantPhase],
   );
 
   return {

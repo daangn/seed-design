@@ -5,15 +5,15 @@ import {
 import { Icon, SideNavigation as SeedSideNavigation } from "@seed-design/react";
 import {
   NavigationMenuContent,
+  NavigationMenuDelayGroup,
   NavigationMenuGroup,
   NavigationMenuGroupLabel,
   NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList,
   NavigationMenuRoot,
   NavigationMenuTrigger,
 } from "./navigation-menu";
-import { HelpBubbleTooltipDelayGroup, HelpBubbleTooltipTriggerPortal } from "./help-bubble-tooltip";
+import { HelpBubbleTooltipTriggerPortal } from "./help-bubble-tooltip";
 import { useSideNavigationContext } from "@seed-design/react/primitive";
 import * as React from "react";
 
@@ -47,18 +47,34 @@ export interface SideNavigationItemButtonProps
   prefixIcon?: React.ReactNode;
   label: React.ReactNode;
   suffixIcon?: React.ReactNode;
+  /**
+   * Suppresses the collapsed-state label tooltip. Set when the button is a
+   * NavigationMenuTrigger, which already reveals the label via its flyout.
+   */
+  disableTooltip?: boolean;
 }
 
 export const SideNavigationItemButton = React.forwardRef<
   HTMLButtonElement,
   SideNavigationItemButtonProps
->(({ prefixIcon, label, suffixIcon, ...rest }, ref) => {
-  return (
+>(({ prefixIcon, label, suffixIcon, disableTooltip, ...rest }, ref) => {
+  const { collapsed, transitioning } = useSideNavigationContext();
+  const isFlyout = collapsed && !transitioning;
+
+  const button = (
     <SeedSideNavigation.Item ref={ref} {...rest}>
       {prefixIcon && <SeedSideNavigation.ItemPrefixIcon svg={prefixIcon} />}
       <SeedSideNavigation.ItemLabel>{label}</SeedSideNavigation.ItemLabel>
       {suffixIcon && <SeedSideNavigation.ItemSuffixIcon svg={suffixIcon} />}
     </SeedSideNavigation.Item>
+  );
+
+  if (!isFlyout || disableTooltip) return button;
+
+  return (
+    <HelpBubbleTooltipTriggerPortal title={label} placement="right">
+      {button}
+    </HelpBubbleTooltipTriggerPortal>
   );
 });
 SideNavigationItemButton.displayName = "SideNavigationItemButton";
@@ -104,7 +120,7 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
 
     const renderedItems = items.map((item, index) => {
       if (!item.items) {
-        const itemButton = (
+        return (
           <SideNavigationItemButton
             key={item.key ?? index}
             current={item.current}
@@ -113,18 +129,6 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
             label={item.label}
             onClick={item.onClick}
           />
-        );
-
-        if (!isFlyout) return itemButton;
-
-        return (
-          <HelpBubbleTooltipTriggerPortal
-            key={item.key ?? index}
-            title={item.label}
-            placement="right"
-          >
-            {itemButton}
-          </HelpBubbleTooltipTriggerPortal>
         );
       }
 
@@ -138,6 +142,7 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
                 prefixIcon={item.prefixIcon}
                 label={item.label}
                 current={hasCurrentChild}
+                disableTooltip
               />
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -188,13 +193,9 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
       <SeedSideNavigation.Group ref={ref}>
         {label && <SeedSideNavigation.GroupLabel>{label}</SeedSideNavigation.GroupLabel>}
         {isFlyout ? (
-          <HelpBubbleTooltipDelayGroup>
-            <NavigationMenuRoot orientation="vertical" size="small">
-              <NavigationMenuList style={{ display: "contents" }}>
-                {renderedItems}
-              </NavigationMenuList>
-            </NavigationMenuRoot>
-          </HelpBubbleTooltipDelayGroup>
+          <NavigationMenuRoot placement="right-start" size="small">
+            {renderedItems}
+          </NavigationMenuRoot>
         ) : (
           renderedItems
         )}
@@ -208,7 +209,14 @@ export interface SideNavigationProviderProps extends SeedSideNavigation.Provider
 export const SideNavigationProvider = SeedSideNavigation.Provider;
 
 export interface SideNavigationRootProps extends SeedSideNavigation.RootProps {}
-export const SideNavigationRoot = SeedSideNavigation.Root;
+export const SideNavigationRoot = React.forwardRef<HTMLElement, SideNavigationRootProps>(
+  (props, ref) => (
+    <NavigationMenuDelayGroup>
+      <SeedSideNavigation.Root ref={ref} {...props} />
+    </NavigationMenuDelayGroup>
+  ),
+);
+SideNavigationRoot.displayName = "SideNavigationRoot";
 
 export interface SideNavigationHeaderProps extends SeedSideNavigation.HeaderProps {}
 export const SideNavigationHeader = SeedSideNavigation.Header;

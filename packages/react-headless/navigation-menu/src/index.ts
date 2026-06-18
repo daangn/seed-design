@@ -1,6 +1,6 @@
 export {
+  NavigationMenuDelayGroup,
   NavigationMenuRoot,
-  NavigationMenuList,
   NavigationMenuItem,
   NavigationMenuTrigger,
   NavigationMenuPositioner,
@@ -8,8 +8,8 @@ export {
   NavigationMenuGroup,
   NavigationMenuGroupLabel,
   NavigationMenuLink,
+  type NavigationMenuDelayGroupProps,
   type NavigationMenuRootProps,
-  type NavigationMenuListProps,
   type NavigationMenuItemProps,
   type NavigationMenuTriggerProps,
   type NavigationMenuPositionerProps,
@@ -35,5 +35,4 @@ export type {
   UseNavigationMenuItemProps,
   UseNavigationMenuReturn,
   UseNavigationMenuItemReturn,
-  NavigationMenuOrientation,
 } from "./useNavigationMenu";

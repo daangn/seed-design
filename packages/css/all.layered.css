@@ -6768,6 +6768,10 @@
     animation-fill-mode: forwards;
   }
 
+  .seed-menu__content[data-instant] {
+    animation-duration: 0s;
+  }
+
   .seed-menu__content:is([hidden], [data-hidden]) {
     display: none !important;
   }

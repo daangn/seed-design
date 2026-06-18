@@ -1,11 +1,14 @@
 "use client";
 
-import { FloatingFocusManager, FloatingPortal } from "@floating-ui/react";
+import { FloatingFocusManager, FloatingPortal, NextFloatingDelayGroup } from "@floating-ui/react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import React, { createContext, forwardRef, useContext } from "react";
+import type React from "react";
+import { createContext, forwardRef, useContext } from "react";
 import {
+  DEFAULT_CLOSE_DELAY,
+  DEFAULT_OPEN_DELAY,
   useNavigationMenu,
   useNavigationMenuItem,
   type UseNavigationMenuItemProps,
@@ -17,6 +20,37 @@ import {
   useNavigationMenuItemContext,
 } from "./useNavigationMenuItemContext";
 
+export interface NavigationMenuDelayGroupProps {
+  children?: React.ReactNode;
+  /**
+   * Shared open delay (ms) for the grouped triggers.
+   * @default 200
+   */
+  openDelay?: number;
+  /**
+   * Shared close delay (ms) for the grouped triggers.
+   * @default 100
+   */
+  closeDelay?: number;
+}
+
+/**
+ * Provider that lets a group of navigation menus (and `HelpBubbleTooltip`s)
+ * share a hover delay: once one is open, the others open instantly while the
+ * pointer moves between them.
+ */
+export function NavigationMenuDelayGroup({
+  openDelay = DEFAULT_OPEN_DELAY,
+  closeDelay = DEFAULT_CLOSE_DELAY,
+  children,
+}: NavigationMenuDelayGroupProps) {
+  return (
+    <NextFloatingDelayGroup delay={{ open: openDelay, close: closeDelay }}>
+      {children}
+    </NextFloatingDelayGroup>
+  );
+}
+
 export interface NavigationMenuRootProps extends UseNavigationMenuProps {
   children?: React.ReactNode;
 }
@@ -25,7 +59,7 @@ export const NavigationMenuRoot = ({
   value,
   defaultValue,
   onValueChange,
-  orientation,
+  placement,
   openDelay,
   closeDelay,
   disableHoverTrigger,
@@ -36,7 +70,7 @@ export const NavigationMenuRoot = ({
     value,
     defaultValue,
     onValueChange,
-    orientation,
+    placement,
     openDelay,
     closeDelay,
     disableHoverTrigger,
@@ -45,19 +79,6 @@ export const NavigationMenuRoot = ({
 
   return <NavigationMenuProvider value={api}>{children}</NavigationMenuProvider>;
 };
-
-export interface NavigationMenuListProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const NavigationMenuList = forwardRef<HTMLDivElement, NavigationMenuListProps>(
-  (props, ref) => {
-    const { orientation } = useNavigationMenuContext();
-
-    return <Primitive.div ref={ref} data-orientation={orientation} {...props} />;
-  },
-);
-NavigationMenuList.displayName = "NavigationMenuList";
 
 export interface NavigationMenuItemProps extends UseNavigationMenuItemProps {
   children?: React.ReactNode;

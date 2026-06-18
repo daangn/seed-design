@@ -23,6 +23,12 @@ const withStateProps = createWithStateProps([useNavigationMenuItemContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface NavigationMenuDelayGroupProps extends NavigationMenuPrimitive.DelayGroupProps {}
+
+export const NavigationMenuDelayGroup = NavigationMenuPrimitive.DelayGroup;
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface NavigationMenuRootProps
   extends MenuVariantProps,
     NavigationMenuPrimitive.RootProps {}
@@ -39,12 +45,6 @@ export const NavigationMenuRoot = (props: NavigationMenuRootProps) => {
     </ClassNamesProvider>
   );
 };
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface NavigationMenuListProps extends NavigationMenuPrimitive.ListProps {}
-
-export const NavigationMenuList = NavigationMenuPrimitive.List;
 
 ////////////////////////////////////////////////////////////////////////////////////
 

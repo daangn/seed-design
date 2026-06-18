@@ -7,19 +7,17 @@ import type { UseNavigationMenuProps } from "./useNavigationMenu";
 function Harness(props: UseNavigationMenuProps) {
   return (
     <NavigationMenu.Root {...props}>
-      <NavigationMenu.List>
-        <NavigationMenu.Item value="products">
-          <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
-          <NavigationMenu.Positioner>
-            <NavigationMenu.Content>
-              <NavigationMenu.Link href="/a" current>
-                Item A
-              </NavigationMenu.Link>
-              <NavigationMenu.Link href="/b">Item B</NavigationMenu.Link>
-            </NavigationMenu.Content>
-          </NavigationMenu.Positioner>
-        </NavigationMenu.Item>
-      </NavigationMenu.List>
+      <NavigationMenu.Item value="products">
+        <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+        <NavigationMenu.Positioner>
+          <NavigationMenu.Content>
+            <NavigationMenu.Link href="/a" current>
+              Item A
+            </NavigationMenu.Link>
+            <NavigationMenu.Link href="/b">Item B</NavigationMenu.Link>
+          </NavigationMenu.Content>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Item>
     </NavigationMenu.Root>
   );
 }
@@ -93,18 +91,16 @@ describe("useNavigationMenu (disclosure semantics)", () => {
     const user = userEvent.setup();
     const { getByText } = render(
       <NavigationMenu.Root>
-        <NavigationMenu.List>
-          <NavigationMenu.Item value="products">
-            <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
-            <NavigationMenu.Positioner>
-              <NavigationMenu.Content>
-                <NavigationMenu.Link href="/a" onClick={(event) => event.preventDefault()}>
-                  Item A
-                </NavigationMenu.Link>
-              </NavigationMenu.Content>
-            </NavigationMenu.Positioner>
-          </NavigationMenu.Item>
-        </NavigationMenu.List>
+        <NavigationMenu.Item value="products">
+          <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+          <NavigationMenu.Positioner>
+            <NavigationMenu.Content>
+              <NavigationMenu.Link href="/a" onClick={(event) => event.preventDefault()}>
+                Item A
+              </NavigationMenu.Link>
+            </NavigationMenu.Content>
+          </NavigationMenu.Positioner>
+        </NavigationMenu.Item>
       </NavigationMenu.Root>,
     );
     const trigger = getByText("Products");

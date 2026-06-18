@@ -3,13 +3,13 @@
 import { NavigationMenu as SeedNavigationMenu, PrefixIcon } from "@seed-design/react";
 import * as React from "react";
 
+export interface NavigationMenuDelayGroupProps extends SeedNavigationMenu.DelayGroupProps {}
+
+export const NavigationMenuDelayGroup = SeedNavigationMenu.DelayGroup;
+
 export interface NavigationMenuRootProps extends SeedNavigationMenu.RootProps {}
 
 export const NavigationMenuRoot = SeedNavigationMenu.Root;
-
-export interface NavigationMenuListProps extends SeedNavigationMenu.ListProps {}
-
-export const NavigationMenuList = SeedNavigationMenu.List;
 
 export interface NavigationMenuItemProps extends SeedNavigationMenu.ItemProps {}
 

@@ -1,6 +1,6 @@
 export {
+  NavigationMenuDelayGroup as DelayGroup,
   NavigationMenuRoot as Root,
-  NavigationMenuList as List,
   NavigationMenuItem as Item,
   NavigationMenuTrigger as Trigger,
   NavigationMenuPositioner as Positioner,
@@ -8,8 +8,8 @@ export {
   NavigationMenuGroup as Group,
   NavigationMenuGroupLabel as GroupLabel,
   NavigationMenuLink as Link,
+  type NavigationMenuDelayGroupProps as DelayGroupProps,
   type NavigationMenuRootProps as RootProps,
-  type NavigationMenuListProps as ListProps,
   type NavigationMenuItemProps as ItemProps,
   type NavigationMenuTriggerProps as TriggerProps,
   type NavigationMenuPositionerProps as PositionerProps,
