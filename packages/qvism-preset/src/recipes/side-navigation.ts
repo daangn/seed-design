@@ -55,9 +55,14 @@ export const sideNavigation = defineSlotRecipe({
 
       gap: "8px",
 
-      // top divider: appears when scrolled away from top (toggled via JS data-scrolled attribute)
+      // top divider: a full-width hairline that fades in once scrolled away from the top.
+      // A border frames the scrollport and paints outside the content box, so unlike an inset
+      // box-shadow it can't be occluded by inner content. The 1px is always reserved as a
+      // transparent border so toggling it never shifts layout; only the color changes, via the
+      // JS-managed data-scrolled attribute (faded in by the border-color transition below).
+      borderTop: "1px solid transparent",
       [pseudo("[data-scrolled]")]: {
-        boxShadow: `inset 0 1px 0 0 ${tokens.$color.stroke.neutralMuted}`,
+        borderTopColor: tokens.$color.stroke.neutralMuted,
       },
 
       // bottom scroll fog: fades content into padding at the bottom

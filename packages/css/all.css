@@ -8246,6 +8246,7 @@
 }
 
 .seed-side-navigation__content {
+  border-top: 1px solid #0000;
   flex-direction: column;
   flex: 1;
   gap: 8px;
@@ -8255,7 +8256,7 @@
 }
 
 .seed-side-navigation__content[data-scrolled] {
-  box-shadow: inset 0 1px 0 0 var(--seed-color-stroke-neutral-muted);
+  border-top-color: var(--seed-color-stroke-neutral-muted);
 }
 
 .seed-side-navigation__content {
