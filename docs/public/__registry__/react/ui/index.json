@@ -876,6 +876,7 @@
         {
           "registryId": "ui",
           "itemIds": [
+            "help-bubble-tooltip",
             "navigation-menu"
           ]
         }

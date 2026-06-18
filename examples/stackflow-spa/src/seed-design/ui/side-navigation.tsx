@@ -13,6 +13,7 @@ import {
   NavigationMenuRoot,
   NavigationMenuTrigger,
 } from "./navigation-menu";
+import { HelpBubbleTooltipDelayGroup, HelpBubbleTooltipTriggerPortal } from "./help-bubble-tooltip";
 import { useSideNavigationContext } from "@seed-design/react/primitive";
 import * as React from "react";
 
@@ -103,7 +104,7 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
 
     const renderedItems = items.map((item, index) => {
       if (!item.items) {
-        return (
+        const itemButton = (
           <SideNavigationItemButton
             key={item.key ?? index}
             current={item.current}
@@ -112,6 +113,18 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
             label={item.label}
             onClick={item.onClick}
           />
+        );
+
+        if (!isFlyout) return itemButton;
+
+        return (
+          <HelpBubbleTooltipTriggerPortal
+            key={item.key ?? index}
+            title={item.label}
+            placement="right"
+          >
+            {itemButton}
+          </HelpBubbleTooltipTriggerPortal>
         );
       }
 
@@ -175,9 +188,13 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
       <SeedSideNavigation.Group ref={ref}>
         {label && <SeedSideNavigation.GroupLabel>{label}</SeedSideNavigation.GroupLabel>}
         {isFlyout ? (
-          <NavigationMenuRoot orientation="vertical" size="small">
-            <NavigationMenuList style={{ display: "contents" }}>{renderedItems}</NavigationMenuList>
-          </NavigationMenuRoot>
+          <HelpBubbleTooltipDelayGroup>
+            <NavigationMenuRoot orientation="vertical" size="small">
+              <NavigationMenuList style={{ display: "contents" }}>
+                {renderedItems}
+              </NavigationMenuList>
+            </NavigationMenuRoot>
+          </HelpBubbleTooltipDelayGroup>
         ) : (
           renderedItems
         )}
