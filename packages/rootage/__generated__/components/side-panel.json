@@ -91,6 +91,12 @@
             "stroke": {
               "type": "color",
               "description": "본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다."
+            },
+            "transitionDuration": {
+              "type": "duration"
+            },
+            "transitionTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -262,6 +268,14 @@
                 "paddingBottom": {
                   "type": "dimension",
                   "value": "$dimension.x12"
+                },
+                "transitionDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "transitionTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "footer": {

@@ -8753,8 +8753,7 @@
   max-height: var(--seed-box-max-height);
   justify-content: var(--seed-box-justify-content);
   align-items: var(--seed-box-align-items);
-  transition: border-top-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
-  border-top: 1px solid #0000;
+  transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
   flex-direction: column;
   flex: 1;
   display: flex;
@@ -8762,7 +8761,7 @@
 }
 
 .seed-side-panel__body[data-scrolled] {
-  border-top-color: var(--seed-color-stroke-neutral-muted);
+  box-shadow: inset 0 1px 0 0 var(--seed-color-stroke-neutral-muted);
 }
 
 .seed-side-panel__body {

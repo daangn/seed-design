@@ -227,11 +227,10 @@
     max-height: var(--seed-box-max-height);
     justify-content: var(--seed-box-justify-content);
     align-items: var(--seed-box-align-items);
-    border-top: 1px solid transparent;
-    transition: border-top-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
 .seed-side-panel__body[data-scrolled] {
-    border-top-color: var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0 1px 0 0 var(--seed-color-stroke-neutral-muted);
 }
 .seed-side-panel__body {
     mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x12));

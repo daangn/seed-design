@@ -61,6 +61,10 @@ data:
           stroke:
             type: color
             description: 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다.
+          transitionDuration:
+            type: duration
+          transitionTimingFunction:
+            type: cubicBezier
       footer:
         properties:
           paddingX:
@@ -130,6 +134,8 @@ data:
         body:
           paddingX: $dimension.x6
           paddingBottom: $dimension.x12
+          transitionDuration: $duration.color-transition
+          transitionTimingFunction: $timing-function.easing
         footer:
           paddingX: $dimension.x6
           paddingTop: $dimension.x4

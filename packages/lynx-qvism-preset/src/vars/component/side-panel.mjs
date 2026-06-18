@@ -27,7 +27,9 @@ export const vars = {
       },
       "body": {
         "paddingX": "var(--seed-dimension-x6)",
-        "paddingBottom": "var(--seed-dimension-x12)"
+        "paddingBottom": "var(--seed-dimension-x12)",
+        "transitionDuration": "var(--seed-duration-color-transition)",
+        "transitionTimingFunction": "var(--seed-timing-function-easing)"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",

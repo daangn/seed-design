@@ -30,7 +30,9 @@ export declare const vars: {
       "body": {
         "paddingX": "var(--seed-dimension-x6)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
-        "paddingBottom": "var(--seed-dimension-x12)"
+        "paddingBottom": "var(--seed-dimension-x12)",
+        "transitionDuration": "var(--seed-duration-color-transition)",
+        "transitionTimingFunction": "var(--seed-timing-function-easing)"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",
