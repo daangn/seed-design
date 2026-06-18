@@ -21,17 +21,25 @@ const {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+// Allowlist only the Drawer props that fit a bottom menu sheet, so the public surface
+// stays stable if Drawer changes or its implementation is swapped later. Intentionally
+// left out: `direction` (forced "bottom" below so the bottom-only recipe transform holds),
+// `dismissible` (no default close button → would trap users), and `modal` (omitted so it
+// stays at Drawer's default `true`, keeping the focus trap and aria-modal contract on the
+// action list).
 export interface SwipeableMenuSheetRootProps
   extends MenuSheetVariantProps,
-    Omit<
+    Pick<
       Drawer.RootProps,
-      | "snapPoints"
-      | "activeSnapPoint"
-      | "setActiveSnapPoint"
-      | "fadeFromIndex"
-      | "snapToSequentialPoint"
-      | "direction"
-      | "dismissible"
+      | "children"
+      | "open"
+      | "defaultOpen"
+      | "onOpenChange"
+      | "closeOnEscape"
+      | "closeOnInteractOutside"
+      | "lazyMount"
+      | "unmountOnExit"
+      | "onAnimationEnd"
     > {}
 
 // Forces `direction="bottom"` so the bottom-only recipe transform isn't broken.
