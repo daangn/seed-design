@@ -62,8 +62,6 @@ export const NavigationMenuRoot = ({
   placement,
   openDelay,
   closeDelay,
-  disableHoverTrigger,
-  disableClickTrigger,
   children,
 }: NavigationMenuRootProps) => {
   const api = useNavigationMenu({
@@ -73,8 +71,6 @@ export const NavigationMenuRoot = ({
     placement,
     openDelay,
     closeDelay,
-    disableHoverTrigger,
-    disableClickTrigger,
   });
 
   return <NavigationMenuProvider value={api}>{children}</NavigationMenuProvider>;

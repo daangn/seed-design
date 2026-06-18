@@ -64,18 +64,6 @@ export interface UseNavigationMenuProps extends UseNavigationMenuStateProps {
    * @default 100
    */
   closeDelay?: number;
-
-  /**
-   * Disable opening on hover. Useful to force click-only behavior.
-   * @default false
-   */
-  disableHoverTrigger?: boolean;
-
-  /**
-   * Disable opening on click. Useful to force hover-only behavior.
-   * @default false
-   */
-  disableClickTrigger?: boolean;
 }
 
 export type UseNavigationMenuReturn = ReturnType<typeof useNavigationMenu>;
@@ -89,8 +77,6 @@ export function useNavigationMenu({
   // take over (see `useGroupDelay`); defaults are applied at the delay call site.
   openDelay,
   closeDelay,
-  disableHoverTrigger = false,
-  disableClickTrigger = false,
 }: UseNavigationMenuProps) {
   const [value = null, setValue] = useControllableState<string | null>({
     prop: propValue,
@@ -111,10 +97,8 @@ export function useNavigationMenu({
       placement,
       openDelay,
       closeDelay,
-      hoverEnabled: !disableHoverTrigger,
-      clickEnabled: !disableClickTrigger,
     }),
-    [value, setValue, placement, openDelay, closeDelay, disableHoverTrigger, disableClickTrigger],
+    [value, setValue, placement, openDelay, closeDelay],
   );
 }
 
@@ -169,8 +153,6 @@ export function useNavigationMenuItem(
     placement: rootPlacement,
     openDelay,
     closeDelay,
-    hoverEnabled,
-    clickEnabled,
   } = root;
 
   const open = openValue === itemValue;
@@ -260,7 +242,7 @@ export function useNavigationMenuItem(
   // travels from the trigger to the content (WCAG 1.4.13 "hoverable").
   // The delay opens instantly when another item is already open (skip-delay).
   const hover = useHover(context, {
-    enabled: hoverEnabled && !disabled,
+    enabled: !disabled,
     mouseOnly: true,
     handleClose: safePolygon(),
     delay: useGroupDelay
@@ -275,7 +257,7 @@ export function useNavigationMenuItem(
   });
 
   const click = useClick(context, {
-    enabled: clickEnabled && !disabled,
+    enabled: !disabled,
   });
 
   const dismiss = useDismiss(context, {
