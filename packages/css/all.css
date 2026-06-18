@@ -8747,15 +8747,27 @@
   --seed-box-align-items: initial;
   padding-left: var(--seed-box-padding-x);
   padding-right: var(--seed-box-padding-x);
+  padding-bottom: var(--seed-dimension-x12);
   height: var(--seed-box-height);
   min-height: var(--seed-box-min-height);
   max-height: var(--seed-box-max-height);
   justify-content: var(--seed-box-justify-content);
   align-items: var(--seed-box-align-items);
+  transition: border-top-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+  border-top: 1px solid #0000;
   flex-direction: column;
   flex: 1;
   display: flex;
   overflow-y: auto;
+}
+
+.seed-side-panel__body[data-scrolled] {
+  border-top-color: var(--seed-color-stroke-neutral-muted);
+}
+
+.seed-side-panel__body {
+  mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x12));
+  -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x12));
 }
 
 .seed-side-panel__footer {

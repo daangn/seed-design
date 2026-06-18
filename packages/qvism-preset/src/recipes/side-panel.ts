@@ -8,6 +8,8 @@ import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { breakpoints } from "../utils/breakpoint";
 import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import * as duration from "../vars/duration";
+import * as timingFunction from "../vars/timing-function";
 import { sidePanelCloseButton as closeButtonVars, sidePanel as vars } from "../vars/component";
 
 const sidePanel = defineSlotRecipe({
@@ -193,11 +195,27 @@ const sidePanel = defineSlotRecipe({
       "--seed-box-align-items": "initial",
       paddingLeft: "var(--seed-box-padding-x)",
       paddingRight: "var(--seed-box-padding-x)",
+      paddingBottom: vars.base.enabled.body.paddingBottom, // reserve room for the bottom scroll fog
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",
       justifyContent: "var(--seed-box-justify-content)",
       alignItems: "var(--seed-box-align-items)",
+
+      // top divider: a full-width hairline that fades in once the body is scrolled away from
+      // the top. A border frames the scrollport, so it stays pinned and — unlike an inset
+      // box-shadow — paints outside the content box, where inner body elements can't occlude
+      // it. The 1px is always reserved as a transparent border so toggling it on scroll never
+      // shifts layout; only the color changes, via the JS-managed data-scrolled attribute.
+      borderTop: "1px solid transparent",
+      transition: `border-top-color ${duration.colorTransition} ${timingFunction.easing}`,
+      [pseudo("[data-scrolled]")]: {
+        borderTopColor: vars.base.scrolled.body.stroke,
+      },
+
+      // bottom scroll fog: always fades the last bit of content into the panel surface; its height equals the body's paddingBottom
+      maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+      WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
     },
     footer: {
       display: "flex",
