@@ -189,6 +189,8 @@ export const menuItem = defineSlotRecipe({
       userSelect: "none",
       border: "none",
       fontFamily: "inherit",
+      color: "inherit",
+      textDecoration: "none",
       margin: 0,
       textAlign: "start",
 

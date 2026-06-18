@@ -6623,6 +6623,7 @@
   scroll-margin-bottom: var(--seed-dimension-x2);
   cursor: default;
   user-select: none;
+  color: inherit;
   text-align: start;
   isolation: isolate;
   border: none;
@@ -6630,6 +6631,7 @@
   align-items: center;
   margin: 0;
   font-family: inherit;
+  text-decoration: none;
   display: flex;
   position: relative;
 }
