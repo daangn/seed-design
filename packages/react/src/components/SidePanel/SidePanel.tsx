@@ -10,7 +10,20 @@ const { withRootProvider, withContext } = createSlotRecipeContext(sidePanel);
 
 export interface SidePanelRootProps
   extends SidePanelVariantProps,
-    Drawer.RootProps {
+    Pick<
+      Drawer.RootProps,
+      | "children"
+      | "open"
+      | "defaultOpen"
+      | "onOpenChange"
+      | "modal"
+      | "dismissible"
+      | "closeOnEscape"
+      | "closeOnInteractOutside"
+      | "lazyMount"
+      | "unmountOnExit"
+      | "onAnimationEnd"
+    > {
   /** Direction the side panel slides in from. @default "right" */
   direction?: "left" | "right";
 }
