@@ -6,6 +6,7 @@ export const config = defineConfig({
   activities: [
     { route: "/", name: "ActivityHome" },
     { route: "/404", name: "ActivityNotFound" },
+    { route: "/pop-test", name: "ActivityPopTest" },
     { route: "/action-button", name: "ActivityActionButton" },
     { route: "/app-bar-slot", name: "ActivityAppBarSlot" },
     { route: "/alert-dialog", name: "ActivityAlertDialog" },

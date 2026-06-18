@@ -78,6 +78,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityPartialDarkMode: lazy(() => import("../activities/ActivityPartialDarkMode")),
     ActivityPerfCheck: lazy(() => import("../activities/ActivityPerfCheck")),
     ActivityPluginBasicUI: lazy(() => import("../activities/ActivityPluginBasicUI")),
+    ActivityPopTest: lazy(() => import("../activities/ActivityPopTest")),
     ActivityRadioGroup: lazy(() => import("../activities/ActivityRadioGroup")),
     ActivityReactionButton: lazy(() => import("../activities/ActivityReactionButton")),
     ActivityResultSection: lazy(() => import("../activities/ActivityResultSection")),
