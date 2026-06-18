@@ -29,13 +29,13 @@ export const REGIONS = {
   values: 100,
   showcase: 100,
   blog: 100,
-  footer: 150,
 } as const;
 
 /**
  * Stacking order for the sticky layers. When a section has a HIGHER z than the
- * one after it, it lifts away to REVEAL the next (e.g. bento→intro, blog→footer).
- * When the next has a higher z, it COVERS the previous (e.g. showcase→values).
+ * one after it, it lifts away to REVEAL the next (e.g. bento→intro). When the next
+ * has a higher z, it COVERS the previous (e.g. showcase→values). The footer is a
+ * fixed bottom layer outside this stack (see section-footer).
  */
 export const Z = {
   hero: 10,
@@ -44,7 +44,6 @@ export const Z = {
   values: 25,
   showcase: 30,
   blog: 40,
-  footer: 10,
 } as const;
 
 // --- Header navigation (visual placeholder, links are temporary) ---

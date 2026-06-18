@@ -16,8 +16,8 @@ interface SectionLayerProps {
    */
   behindClassName?: string;
   /**
-   * Sticky panels pin to the top while their region scrolls (default). The last
-   * section (footer) opts out so it simply sits underneath and gets revealed.
+   * Sticky panels pin to the top while their region scrolls (default). Pass false
+   * to keep the panel in normal flow instead (e.g. the bento grid).
    */
   sticky?: boolean;
   /**

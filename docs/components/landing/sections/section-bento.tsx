@@ -39,7 +39,7 @@ export function SectionBento() {
       panelClassName="flex flex-col justify-start rounded-b-[20px] bg-white"
       behindClassName="bg-[#101216]"
     >
-      <div className="flex w-full flex-col p-1.5 lg:h-[84dvh]">
+      <div className="flex w-full flex-col p-1.5 lg:h-full lg:px-6 lg:pb-6">
         <div className="flex w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-12 lg:grid-rows-6">
           {/* 1 — manner (video, top row) */}
           <div

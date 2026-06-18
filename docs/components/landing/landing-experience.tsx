@@ -12,7 +12,6 @@ import { DESKTOP_QUERY, REDUCED_MOTION_QUERY } from "./lib/landing-content";
 import {
   createBentoScrub,
   createDesktopEntrances,
-  createFooterExpand,
   createHeroToBento,
   createIntroScrub,
   createMobileReveals,
@@ -62,14 +61,17 @@ export function LandingExperience() {
         gsap.ticker.lagSmoothing(0);
       }
 
-      // Header state machine: switch only once a section reaches the top.
+      // Header state machine: switch only once a section reaches the top. The footer
+      // is a fixed layer uncovered by the spacer, so hide the header the moment that
+      // reveal begins (spacer enters from the viewport bottom) instead of at the top.
       const sectionEls = gsap.utils.toArray<HTMLElement>(root.querySelectorAll("[data-section]"));
       for (const section of sectionEls) {
         const next = SECTION_VARIANT[section.dataset.section ?? ""];
         if (!next) continue;
+        const isFooterReveal = section.dataset.section === "footer";
         ScrollTrigger.create({
           trigger: section,
-          start: "top top",
+          start: isFooterReveal ? "top bottom" : "top top",
           end: "bottom top",
           onToggle: (self) => {
             if (self.isActive) setVariant(next);
@@ -88,7 +90,6 @@ export function LandingExperience() {
           createBentoScrub(root);
           createIntroScrub(root, () => introLottieRef.current);
           createDesktopEntrances(root);
-          createFooterExpand(root);
         } else {
           createMobileReveals(root);
         }
@@ -117,7 +118,6 @@ export function LandingExperience() {
         <SectionValues />
         <SectionShowcase />
         <SectionBlog />
-        <SectionFooter />
       </>
     ),
     [handleLottieReady],
@@ -127,7 +127,13 @@ export function LandingExperience() {
     <main ref={rootRef} data-landing="true" className="relative w-full bg-palette-carrot-600">
       <LandingHeader variant={variant} />
       <CustomCursor />
+      {/* Lowest layer: fixed to the screen bottom. Every section above is opaque and
+          covers it until they scroll off. */}
+      <SectionFooter />
       {sectionTree}
+      {/* Curtain reveal: the stack above scrolls up across this gap, uncovering the
+          fixed footer from the bottom up. Also the footer's header-hide trigger. */}
+      <div data-section="footer" aria-hidden className="h-dvh w-full" />
     </main>
   );
 }

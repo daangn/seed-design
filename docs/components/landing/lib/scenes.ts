@@ -41,8 +41,15 @@ export function createHeroToBento(root: HTMLElement) {
   });
   // The frame's padding (white gutter) and the video's own corners round in
   // together, so the video itself becomes the rounded card — not just its frame.
-  // 6px so hero's bottom gap (6) + bento's top gap (6) == the grid's gap-3 (12px).
-  tl.fromTo(frame, { padding: 0 }, { padding: 6, ease: "none" }, 0);
+  // Gutter matches the bento grid container exactly: left/right 24px (lg:px-6),
+  // top/bottom 6px (so hero's bottom gap 6 + bento's top gap 6 == the grid's
+  // gap-3 of 12px). The card then continues straight into the grid.
+  tl.fromTo(
+    frame,
+    { paddingLeft: 0, paddingRight: 0, paddingTop: 0, paddingBottom: 0 },
+    { paddingLeft: 24, paddingRight: 24, paddingTop: 6, paddingBottom: 6, ease: "none" },
+    0,
+  );
   tl.fromTo(video, { borderRadius: 0 }, { borderRadius: 16, ease: "none" }, 0);
 }
 
@@ -177,31 +184,4 @@ export function createMobileReveals(root: HTMLElement) {
       scrollTrigger: { trigger, start: "top 80%", toggleActions: "play none none reverse" },
     });
   }
-}
-
-/**
- * Section 7: footer panel grows from 100dvh to 150dvh as it's scrolled into, so it
- * fills the viewport on entry (no empty gap) then opens up. Content stays bottom-
- * anchored via the panel's `justify-end`.
- */
-export function createFooterExpand(root: HTMLElement) {
-  const section = q(root, "#footer");
-  if (!section) return;
-  const panel = section.firstElementChild;
-  if (!panel) return;
-  gsap.fromTo(
-    panel,
-    { height: "100dvh" },
-    {
-      height: "150dvh",
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: dwellEnd(REGIONS.footer),
-        scrub: SCRUB,
-        invalidateOnRefresh: true,
-      },
-    },
-  );
 }
