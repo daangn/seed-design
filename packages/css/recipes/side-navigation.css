@@ -34,7 +34,7 @@
 .seed-side-navigation__content {
     mask-image: linear-gradient(to top, transparent 0, black 24px);
     -webkit-mask-image: linear-gradient(to top, transparent 0, black 24px);
-    transition: gap 200ms, border-color 200ms;
+    transition: gap 200ms, box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
     scrollbar-width: thin;
     scrollbar-color: var(--seed-color-bg-neutral-weak-alpha) transparent;
 }
