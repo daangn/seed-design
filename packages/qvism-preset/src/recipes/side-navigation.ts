@@ -64,7 +64,7 @@ export const sideNavigation = defineSlotRecipe({
       maskImage: "linear-gradient(to top, transparent 0, black 24px)",
       WebkitMaskImage: "linear-gradient(to top, transparent 0, black 24px)",
 
-      transition: `gap ${duration}, border-color ${duration}`,
+      transition: `gap ${duration}, box-shadow ${tokens.$duration.colorTransition} ${tokens.$timingFunction.easing}`,
 
       // chrome 121~ / safari 18.2~
       scrollbarWidth: "thin",
