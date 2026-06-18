@@ -115,6 +115,21 @@ describe("useDrawer", () => {
     expect(getByTestId("is-close-button-rendered")).toHaveTextContent("false");
   });
 
+  it("트리거를 클릭하면 reason: trigger와 함께 onOpenChange를 호출한다", () => {
+    const onOpenChange = mock(() => {});
+
+    function TriggerHarness() {
+      const api = useDrawer({ onOpenChange });
+      return <button data-testid="trigger" {...api.triggerProps} />;
+    }
+
+    const { getByTestId } = render(<TriggerHarness />);
+
+    fireEvent.click(getByTestId("trigger"));
+
+    expect(onOpenChange).toHaveBeenCalledWith(true, expect.objectContaining({ reason: "trigger" }));
+  });
+
   it("closeDrawer 호출 시 상세 정보와 함께 닫힘 라이프사이클 콜백을 호출한다", () => {
     jest.useFakeTimers();
 
