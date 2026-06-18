@@ -163,3 +163,14 @@ export const NavigationMenuLinkLabel = withItemContext<
   HTMLSpanElement,
   NavigationMenuLinkLabelProps
 >(Primitive.span, "label");
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface NavigationMenuLinkDescriptionProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const NavigationMenuLinkDescription = withItemContext<
+  HTMLSpanElement,
+  NavigationMenuLinkDescriptionProps
+>(Primitive.span, "description");

@@ -11,6 +11,7 @@ export {
   NavigationMenuLink,
   NavigationMenuLinkBody,
   NavigationMenuLinkLabel,
+  NavigationMenuLinkDescription,
   type NavigationMenuDelayGroupProps,
   type NavigationMenuRootProps,
   type NavigationMenuItemProps,
@@ -23,6 +24,7 @@ export {
   type NavigationMenuLinkProps,
   type NavigationMenuLinkBodyProps,
   type NavigationMenuLinkLabelProps,
+  type NavigationMenuLinkDescriptionProps,
 } from "./NavigationMenu";
 
 export * as NavigationMenu from "./NavigationMenu.namespace";

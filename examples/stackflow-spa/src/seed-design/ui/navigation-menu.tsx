@@ -1,4 +1,4 @@
-import { NavigationMenu as SeedNavigationMenu, PrefixIcon } from "@seed-design/react";
+import { NavigationMenu as SeedNavigationMenu, PrefixIcon, SuffixIcon } from "@seed-design/react";
 import * as React from "react";
 
 export interface NavigationMenuDelayGroupProps extends SeedNavigationMenu.DelayGroupProps {}
@@ -46,16 +46,24 @@ export interface NavigationMenuLinkProps extends Omit<SeedNavigationMenu.LinkPro
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;
+
+  description?: React.ReactNode;
+
+  suffixIcon?: React.ReactNode;
 }
 
 export const NavigationMenuLink = React.forwardRef<HTMLAnchorElement, NavigationMenuLinkProps>(
-  ({ prefixIcon, label, ...props }, ref) => {
+  ({ prefixIcon, label, description, suffixIcon, ...props }, ref) => {
     return (
       <SeedNavigationMenu.Link ref={ref} {...props}>
         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
         <SeedNavigationMenu.LinkBody>
           <SeedNavigationMenu.LinkLabel>{label}</SeedNavigationMenu.LinkLabel>
+          {description && (
+            <SeedNavigationMenu.LinkDescription>{description}</SeedNavigationMenu.LinkDescription>
+          )}
         </SeedNavigationMenu.LinkBody>
+        {suffixIcon && <SuffixIcon svg={suffixIcon} />}
       </SeedNavigationMenu.Link>
     );
   },
