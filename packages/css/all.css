@@ -8170,7 +8170,7 @@
   flex-direction: column;
 }
 
-.seed-selectBoxCheckmark__root {
+.seed-select-box-checkmark__root {
   box-sizing: border-box;
   width: var(--seed-dimension-x5);
   height: var(--seed-dimension-x5);
@@ -8178,7 +8178,7 @@
   position: relative;
 }
 
-.seed-selectBoxCheckmark__icon {
+.seed-select-box-checkmark__icon {
   text-align: center;
   overflow: initial;
   width: 15px;
@@ -8192,22 +8192,22 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+  .seed-select-box-checkmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
     color: var(--seed-color-fg-neutral-subtle);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
-  .seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  .seed-select-box-checkmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     color: var(--seed-color-fg-neutral-subtle);
   }
 }
 
-.seed-selectBoxCheckmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]) {
+.seed-select-box-checkmark__icon:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]) {
   color: var(--seed-color-fg-neutral);
 }
 
-.seed-selectBoxCheckmark__icon:is(:disabled, [disabled], [data-disabled]) {
+.seed-select-box-checkmark__icon:is(:disabled, [disabled], [data-disabled]) {
   color: var(--seed-color-fg-disabled);
 }
 
