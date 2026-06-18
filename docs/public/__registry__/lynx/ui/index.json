@@ -51,6 +51,21 @@
     {
       "snippets": [
         {
+          "path": "content-placeholder.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "content-placeholder",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "progress-circle.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
