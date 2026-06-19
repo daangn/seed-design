@@ -64,6 +64,12 @@ export const menu = defineSlotRecipe({
         }),
       },
 
+      // Skip the enter/exit animation while the `NavigationMenuRoot` delay group
+      // is switching between flyouts, so the swap reads as instant.
+      [pseudo("[data-instant]")]: {
+        animationDuration: "0s",
+      },
+
       [pseudo(hidden)]: {
         display: "none !important",
       },
@@ -187,8 +193,11 @@ export const menuItem = defineSlotRecipe({
       outline: "none",
       cursor: "default",
       userSelect: "none",
+      background: "none",
       border: "none",
       fontFamily: "inherit",
+      color: "inherit",
+      textDecoration: "none",
       margin: 0,
       textAlign: "start",
 
