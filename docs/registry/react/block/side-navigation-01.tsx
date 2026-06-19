@@ -100,14 +100,12 @@ export default function SideNavigation1() {
             <SideNavigationItemButton
               prefixIcon={<IconGearFill />}
               label="환경설정"
-              current={currentItem === "환경설정"}
-              onClick={() => setCurrentItem("환경설정")}
+              {...navItemProps("환경설정")}
             />
             <SideNavigationItemButton
               prefixIcon={<IconPersonFill />}
               label="내 프로필"
-              current={currentItem === "내 프로필"}
-              onClick={() => setCurrentItem("내 프로필")}
+              {...navItemProps("내 프로필")}
             />
           </SideNavigationFooter>
         </SideNavigationRoot>

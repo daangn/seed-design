@@ -112,8 +112,7 @@ export default function SideNavigation2() {
             <SideNavigationItemButton
               prefixIcon={<IconPersonFill />}
               label="내 프로필"
-              current={currentItem === "내 프로필"}
-              onClick={() => setCurrentItem("내 프로필")}
+              {...navItemProps("내 프로필")}
             />
           </SideNavigationFooter>
         </SideNavigationRoot>

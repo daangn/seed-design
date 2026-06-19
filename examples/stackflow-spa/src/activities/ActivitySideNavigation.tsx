@@ -240,8 +240,7 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
               <SideNavigationItemButton
                 prefixIcon={<IconBellFill />}
                 label="알림"
-                current={currentItem === "알림"}
-                onClick={() => setCurrentItem("알림")}
+                {...navItemProps("알림")}
               />
             </SideNavigationFooter>
           </SideNavigationRoot>
