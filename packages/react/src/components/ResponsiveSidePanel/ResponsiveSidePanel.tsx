@@ -1,9 +1,7 @@
-import type { Drawer } from "@seed-design/react-drawer";
-import type { PrimitiveProps } from "@seed-design/react-primitive";
 import * as React from "react";
 import { useBreakpointValue } from "../../hooks/useBreakpointValue";
-import type { StyleProps } from "../../utils/styled";
 import {
+  type BottomSheet,
   BottomSheetBackdrop,
   BottomSheetBody,
   BottomSheetCloseButton,
@@ -13,12 +11,12 @@ import {
   BottomSheetHeader,
   BottomSheetPositioner,
   BottomSheetRoot,
-  type BottomSheetRootProps,
   BottomSheetTitle,
   BottomSheetTrigger,
 } from "../BottomSheet";
-import { BottomSheetHandle, type BottomSheetHandleProps } from "../BottomSheetHandle";
+import { BottomSheetHandle } from "../BottomSheetHandle";
 import {
+  type SidePanel,
   SidePanelBackdrop,
   SidePanelBody,
   SidePanelCloseButton,
@@ -28,10 +26,24 @@ import {
   SidePanelHeader,
   SidePanelPositioner,
   SidePanelRoot,
-  type SidePanelRootProps,
   SidePanelTitle,
   SidePanelTrigger,
 } from "../SidePanel";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Props accepted by both the SidePanel and BottomSheet version of a part: the
+ * keys present on both sides, with their types intersected. Derived from the
+ * SidePanel / BottomSheet components this composes — which live in this package
+ * and we own — rather than from the lower-level Drawer primitive, so the
+ * surface tracks whatever those two choose to expose even as Drawer evolves.
+ */
+type SharedProps<SidePanelProps, BottomSheetProps> = Pick<
+  SidePanelProps,
+  Extract<keyof SidePanelProps, keyof BottomSheetProps>
+> &
+  Pick<BottomSheetProps, Extract<keyof BottomSheetProps, keyof SidePanelProps>>;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -69,10 +81,10 @@ export interface ResponsiveSidePanelRootProps {
   onOpenChange?: (open: boolean) => void;
 
   /** Props forwarded to the underlying SidePanel root (md+). */
-  sidePanelRootProps?: Omit<SidePanelRootProps, ResponsiveSidePanelRootManagedProp>;
+  sidePanelRootProps?: Omit<SidePanel.RootProps, ResponsiveSidePanelRootManagedProp>;
 
   /** Props forwarded to the underlying BottomSheet root (sm-). */
-  bottomSheetRootProps?: Omit<BottomSheetRootProps, ResponsiveSidePanelRootManagedProp>;
+  bottomSheetRootProps?: Omit<BottomSheet.RootProps, ResponsiveSidePanelRootManagedProp>;
 }
 
 /**
@@ -130,7 +142,8 @@ export const ResponsiveSidePanelRoot = ({
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ResponsiveSidePanelTriggerProps extends Drawer.TriggerProps {}
+export interface ResponsiveSidePanelTriggerProps
+  extends SharedProps<SidePanel.TriggerProps, BottomSheet.TriggerProps> {}
 
 export const ResponsiveSidePanelTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -148,7 +161,8 @@ ResponsiveSidePanelTrigger.displayName = "ResponsiveSidePanelTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ResponsiveSidePanelPositionerProps extends Drawer.PositionerProps {}
+export interface ResponsiveSidePanelPositionerProps
+  extends SharedProps<SidePanel.PositionerProps, BottomSheet.PositionerProps> {}
 
 export const ResponsiveSidePanelPositioner = React.forwardRef<
   HTMLDivElement,
@@ -166,7 +180,8 @@ ResponsiveSidePanelPositioner.displayName = "ResponsiveSidePanelPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ResponsiveSidePanelBackdropProps extends Drawer.BackdropProps {}
+export interface ResponsiveSidePanelBackdropProps
+  extends SharedProps<SidePanel.BackdropProps, BottomSheet.BackdropProps> {}
 
 export const ResponsiveSidePanelBackdrop = React.forwardRef<
   HTMLDivElement,
@@ -189,8 +204,8 @@ ResponsiveSidePanelBackdrop.displayName = "ResponsiveSidePanelBackdrop";
  * rendered as a BottomSheet.
  */
 export interface ResponsiveSidePanelContentProps
-  extends Drawer.ContentProps,
-    Pick<StyleProps, "width" | "maxWidth"> {}
+  extends SharedProps<SidePanel.ContentProps, BottomSheet.ContentProps>,
+    Pick<SidePanel.ContentProps, "width" | "maxWidth"> {}
 
 export const ResponsiveSidePanelContent = React.forwardRef<
   HTMLDivElement,
@@ -208,7 +223,8 @@ ResponsiveSidePanelContent.displayName = "ResponsiveSidePanelContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ResponsiveSidePanelHeaderProps extends Drawer.HeaderProps {}
+export interface ResponsiveSidePanelHeaderProps
+  extends SharedProps<SidePanel.HeaderProps, BottomSheet.HeaderProps> {}
 
 export const ResponsiveSidePanelHeader = React.forwardRef<
   HTMLDivElement,
@@ -226,7 +242,8 @@ ResponsiveSidePanelHeader.displayName = "ResponsiveSidePanelHeader";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ResponsiveSidePanelTitleProps extends Drawer.TitleProps {}
+export interface ResponsiveSidePanelTitleProps
+  extends SharedProps<SidePanel.TitleProps, BottomSheet.TitleProps> {}
 
 export const ResponsiveSidePanelTitle = React.forwardRef<
   HTMLHeadingElement,
@@ -244,7 +261,8 @@ ResponsiveSidePanelTitle.displayName = "ResponsiveSidePanelTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ResponsiveSidePanelDescriptionProps extends Drawer.DescriptionProps {}
+export interface ResponsiveSidePanelDescriptionProps
+  extends SharedProps<SidePanel.DescriptionProps, BottomSheet.DescriptionProps> {}
 
 export const ResponsiveSidePanelDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -263,12 +281,7 @@ ResponsiveSidePanelDescription.displayName = "ResponsiveSidePanelDescription";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ResponsiveSidePanelBodyProps
-  extends PrimitiveProps,
-    Pick<
-      StyleProps,
-      "paddingX" | "height" | "maxHeight" | "minHeight" | "justifyContent" | "alignItems"
-    >,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends SharedProps<SidePanel.BodyProps, BottomSheet.BodyProps> {}
 
 export const ResponsiveSidePanelBody = React.forwardRef<
   HTMLDivElement,
@@ -287,8 +300,7 @@ ResponsiveSidePanelBody.displayName = "ResponsiveSidePanelBody";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ResponsiveSidePanelFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends SharedProps<SidePanel.FooterProps, BottomSheet.FooterProps> {}
 
 export const ResponsiveSidePanelFooter = React.forwardRef<
   HTMLDivElement,
@@ -306,7 +318,8 @@ ResponsiveSidePanelFooter.displayName = "ResponsiveSidePanelFooter";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ResponsiveSidePanelCloseButtonProps extends Drawer.CloseButtonProps {}
+export interface ResponsiveSidePanelCloseButtonProps
+  extends SharedProps<SidePanel.CloseButtonProps, BottomSheet.CloseButtonProps> {}
 
 export const ResponsiveSidePanelCloseButton = React.forwardRef<
   HTMLButtonElement,
@@ -324,7 +337,7 @@ ResponsiveSidePanelCloseButton.displayName = "ResponsiveSidePanelCloseButton";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ResponsiveSidePanelHandleProps extends BottomSheetHandleProps {}
+export interface ResponsiveSidePanelHandleProps extends BottomSheet.HandleProps {}
 
 /**
  * Renders the BottomSheet drag handle in BottomSheet mode (sm-) and nothing in
