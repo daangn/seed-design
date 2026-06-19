@@ -189,7 +189,10 @@ export function useNavigationMenuRoot(
       setFocusManaged(
         nextOpen && reason !== "hover" && event instanceof UIEvent && event.detail === 0,
       );
-      setValue(nextOpen ? itemValue : null);
+      // Only clear the shared value if this item is still the open one. Moving to
+      // a sibling opens it instantly (delay group), then this item's delayed
+      // hover-close fires; an unconditional setValue(null) would clobber it.
+      setValue((prev) => (nextOpen ? itemValue : prev === itemValue ? null : prev));
     },
     [disabled, setValue, itemValue],
   );
