@@ -55,6 +55,17 @@ export const SnackbarCloseButton = forwardRef<HTMLButtonElement, SnackbarCloseBu
   },
 );
 
+export interface SnackbarActionButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const SnackbarActionButton = forwardRef<HTMLButtonElement, SnackbarActionButtonProps>(
+  (props, ref) => {
+    const { actionButtonProps } = useSnackbarContext();
+    return <Primitive.button ref={ref} {...mergeProps(actionButtonProps, props)} />;
+  },
+);
+
 export interface SnackbarAvoidOverlapProps {
   children: React.ReactElement;
 }
