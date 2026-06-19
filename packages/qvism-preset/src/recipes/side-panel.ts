@@ -69,60 +69,47 @@ const sidePanel = defineSlotRecipe({
 
       "--seed-box-width--responsive": "initial",
       "--seed-box-max-width--responsive": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
-      "--seed-box-height--responsive": "initial",
-      "--seed-box-max-height--responsive": "initial",
+
+      // Full height, anchored top/bottom; the left/right edge is set per direction.
+      // Mobile-first: width fraction on sm-, token width on md+.
+      top: 0,
+      bottom: 0,
+      width: `var(--seed-box-width, calc(${vars.base.enabled.content.widthFraction} * 100vw))`,
       maxWidth: "var(--seed-box-max-width)",
 
       // Respect device safe-area on bottom edge (e.g. iOS home indicator);
       // applied on content so it holds even when the footer is not rendered.
       paddingBottom: "var(--seed-safe-area-bottom)",
 
+      [breakpoints.up("md")]: {
+        width: "var(--seed-box-width, var(--side-panel-size-width))",
+      },
+
+      // Bleed the panel background past the anchored edge (direction sets the side).
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        width: "100vw",
+        background: "inherit",
+        zIndex: -1,
+      },
+
       [pseudo(focus)]: {
         outline: "none",
       },
 
-      // Left/Right: full height, anchored to the corresponding edge.
-      // Mobile-first: width fraction on sm-, token width on md+.
-      // Safe-area: panel side gets safe-area-inset padding for landscape notch.
+      // Per-direction: anchored edge, landscape-notch safe-area, and background-bleed side.
       [pseudo("[data-drawer-direction='left']")]: {
-        top: 0,
-        bottom: 0,
         left: 0,
-        width: `var(--seed-box-width, calc(${vars.base.enabled.content.widthFraction} * 100vw))`,
         paddingLeft: "env(safe-area-inset-left, 0)",
-        "&::after": {
-          content: '""',
-          position: "absolute",
-          right: "100%",
-          width: "100vw",
-          top: 0,
-          bottom: 0,
-          background: "inherit",
-          zIndex: -1,
-        },
-        [breakpoints.up("md")]: {
-          width: "var(--seed-box-width, var(--side-panel-size-width))",
-        },
+        "&::after": { right: "100%" },
       },
       [pseudo("[data-drawer-direction='right']")]: {
-        top: 0,
-        bottom: 0,
         right: 0,
-        width: `var(--seed-box-width, calc(${vars.base.enabled.content.widthFraction} * 100vw))`,
         paddingRight: "env(safe-area-inset-right, 0)",
-        "&::after": {
-          content: '""',
-          position: "absolute",
-          left: "100%",
-          width: "100vw",
-          top: 0,
-          bottom: 0,
-          background: "inherit",
-          zIndex: -1,
-        },
-        [breakpoints.up("md")]: {
-          width: "var(--seed-box-width, var(--side-panel-size-width))",
-        },
+        "&::after": { left: "100%" },
       },
 
       // Direction-based slide animations
@@ -218,7 +205,6 @@ const sidePanel = defineSlotRecipe({
     footer: {
       display: "flex",
       flexDirection: "column",
-      alignItems: "stretch",
 
       paddingLeft: vars.base.enabled.footer.paddingX,
       paddingRight: vars.base.enabled.footer.paddingX,
