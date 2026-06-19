@@ -193,11 +193,23 @@ const sidePanel = defineSlotRecipe({
       "--seed-box-align-items": "initial",
       paddingLeft: "var(--seed-box-padding-x)",
       paddingRight: "var(--seed-box-padding-x)",
+      paddingBottom: vars.base.enabled.body.paddingBottom, // reserve room for the bottom scroll fog
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",
       justifyContent: "var(--seed-box-justify-content)",
       alignItems: "var(--seed-box-align-items)",
+
+      // top divider: appears when the body is scrolled away from top, but only when a header sits
+      // above it — i.e. the body is not the content's first child (toggled via JS data-scrolled attribute)
+      transition: `box-shadow ${vars.base.enabled.body.transitionDuration} ${vars.base.enabled.body.transitionTimingFunction}`,
+      [pseudo("[data-scrolled]", not(":first-child"))]: {
+        boxShadow: `inset 0 1px 0 0 ${vars.base.scrolled.body.stroke}`,
+      },
+
+      // bottom scroll fog: always fades the last bit of content into the panel surface; its height equals the body's paddingBottom
+      maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+      WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
     },
     footer: {
       display: "flex",

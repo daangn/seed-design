@@ -1,10 +1,14 @@
 import { sidePanel, type SidePanelVariantProps } from "@seed-design/css/recipes/side-panel";
 import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { dataAttr } from "@seed-design/dom-utils";
+import clsx from "clsx";
+import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withStyleProps, type StyleProps } from "../../utils/styled";
+import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withRootProvider, withContext } = createSlotRecipeContext(sidePanel);
+const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(sidePanel);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,10 +116,46 @@ export interface SidePanelBodyProps
     >,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const SidePanelBody = withContext<HTMLDivElement, SidePanelBodyProps>(
-  withStyleProps(Primitive.div),
-  "body",
+export const SidePanelBody = React.forwardRef<HTMLDivElement, SidePanelBodyProps>(
+  (props, forwardedRef) => {
+    const classNames = useClassNames();
+    const { style, restProps } = useStyleProps(props);
+    const { className, ...otherProps } = restProps;
+
+    const ref = React.useRef<HTMLDivElement>(null);
+    const [scrolled, setScrolled] = React.useState(false);
+
+    React.useEffect(() => {
+      const element = ref.current;
+      if (!element) return;
+
+      const check = () => setScrolled(element.scrollTop > 0);
+      check();
+
+      element.addEventListener("scroll", check);
+
+      const observer = new ResizeObserver(check);
+      observer.observe(element);
+
+      return () => {
+        element.removeEventListener("scroll", check);
+        observer.disconnect();
+      };
+    }, []);
+
+    return (
+      <Primitive.div
+        ref={composeRefs(ref, forwardedRef)}
+        className={clsx(classNames.body, className)}
+        style={style}
+        {...{ "data-scrolled": dataAttr(scrolled) }}
+        {...otherProps}
+      />
+    );
+  },
 );
+
+SidePanelBody.displayName = "SidePanelBody";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

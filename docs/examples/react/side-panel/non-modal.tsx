@@ -1,4 +1,3 @@
-import { Box } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -24,9 +23,7 @@ const SidePanelNonModal = () => {
       </SidePanelTrigger>
       <SidePanelContent title="Non-modal">
         <SidePanelBody paddingX="x6">
-          <Box py="x4">
-            배경과 상호작용이 가능합니다. Backdrop이 표시되지 않습니다.
-          </Box>
+          배경과 상호작용이 가능합니다. Backdrop이 표시되지 않습니다.
         </SidePanelBody>
       </SidePanelContent>
     </SidePanelRoot>

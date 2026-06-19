@@ -54,9 +54,7 @@ const SidePanelPreview = ({
       <SidePanelRoot open direction="right" size={size}>
         <SidePanelContent title={title} description={description} showCloseButton={showCloseButton}>
           <SidePanelBody minHeight="x16" paddingX="x6">
-            <Box py="x4">
-              <Text>Body content area</Text>
-            </Box>
+            <Text>Body content area</Text>
           </SidePanelBody>
           {showFooter && (
             <SidePanelFooter>
