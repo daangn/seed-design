@@ -1267,6 +1267,7 @@
               "title": "Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
               "docUrl": "/react/components/menu-sheet",
+              "deprecated": true,
               "snippetKey": "react/ui:menu-sheet",
               "snippets": [
                 {
@@ -1448,6 +1449,19 @@
               "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
               "docUrl": "/react/components/stack",
               "deprecated": true
+            },
+            {
+              "id": "swipeable-menu-sheet",
+              "title": "Swipeable Menu Sheet",
+              "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
+              "docUrl": "/react/components/swipeable-menu-sheet",
+              "snippetKey": "react/ui:swipeable-menu-sheet",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "swipeable-menu-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "switch",

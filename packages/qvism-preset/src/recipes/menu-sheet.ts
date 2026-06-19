@@ -1,7 +1,7 @@
 import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -62,11 +62,37 @@ const menuSheet = defineSlotRecipe({
 
       // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
       // but currently React menu sheet doesn't have a handle in the header
-      paddingTop: tokens.$dimension.x4,
+      paddingTop: `var(--menu-sheet-header-padding-top, ${tokens.$dimension.x4})`,
 
       paddingBottom: `calc(${vars.base.enabled.content.paddingBottom} + var(--seed-safe-area-bottom))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      "&[data-drawer]": {
+        // Performance and interaction
+        touchAction: "none",
+        willChange: "transform",
+
+        // When wrapped by Drawer (SwipeableMenuSheet), expose header padding-top
+        // so the Handle has room above the header.
+        "--menu-sheet-header-padding-top": vars.base.enabled.content.paddingTop,
+
+        // Expand Content Background
+        "&::after": {
+          top: "100%",
+          height: "200vh",
+          content: '""',
+          position: "absolute",
+          left: 0,
+          right: 0,
+          background: "inherit",
+          zIndex: -1,
+        },
+      },
     },
     header: {
       display: "flex",
