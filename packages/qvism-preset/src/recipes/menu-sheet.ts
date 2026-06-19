@@ -56,16 +56,6 @@ const menuSheet = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      // Performance and interaction
-      touchAction: "none",
-      willChange: "transform",
-
-      // When wrapped by Drawer (SwipeableMenuSheet), expose header padding-top
-      // so the Handle has room above the header.
-      "&[data-drawer]": {
-        "--menu-sheet-header-padding-top": vars.base.enabled.content.paddingTop,
-      },
-
       background: vars.base.enabled.content.color,
       paddingLeft: vars.base.enabled.content.paddingX,
       paddingRight: vars.base.enabled.content.paddingX,
@@ -82,16 +72,26 @@ const menuSheet = defineSlotRecipe({
         outline: "none",
       },
 
-      /** Expand Content Background */
-      "&::after": {
-        top: "100%",
-        height: "200vh",
-        content: '""',
-        position: "absolute",
-        left: 0,
-        right: 0,
-        background: "inherit",
-        zIndex: -1,
+      "&[data-drawer]": {
+        // Performance and interaction
+        touchAction: "none",
+        willChange: "transform",
+
+        // When wrapped by Drawer (SwipeableMenuSheet), expose header padding-top
+        // so the Handle has room above the header.
+        "--menu-sheet-header-padding-top": vars.base.enabled.content.paddingTop,
+
+        // Expand Content Background
+        "&::after": {
+          top: "100%",
+          height: "200vh",
+          content: '""',
+          position: "absolute",
+          left: 0,
+          right: 0,
+          background: "inherit",
+          zIndex: -1,
+        },
       },
     },
     header: {
