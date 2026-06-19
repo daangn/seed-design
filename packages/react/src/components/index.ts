@@ -59,6 +59,7 @@ export * from "./RadioGroup";
 export * from "./RadioGroupField";
 export * from "./ReactionButton";
 export * from "./ResponsivePair";
+export * from "./ResponsiveSidePanel";
 export * from "./ScrollFog";
 export * from "./SegmentedControl";
 export * from "./SelectBox";
