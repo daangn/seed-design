@@ -1,160 +1,140 @@
 "use client";
 
-import { useBreakpointValue } from "@seed-design/react";
-import * as React from "react";
-import * as SeedBottomSheet from "./bottom-sheet";
-import * as SeedSidePanel from "./side-panel";
+import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
+import {
+  Icon,
+  ResponsiveSidePanel as SeedResponsiveSidePanel,
+  useResponsiveSidePanelContext,
+  VisuallyHidden,
+} from "@seed-design/react";
+import type * as React from "react";
+import { forwardRef } from "react";
 
-const ResponsiveContext = React.createContext<{ shouldUseBottomSheet: boolean | undefined } | null>(
-  null,
-);
+export interface ResponsiveSidePanelRootProps extends SeedResponsiveSidePanel.RootProps {}
 
-function useResponsiveContext() {
-  const ctx = React.useContext(ResponsiveContext);
-  if (!ctx) {
-    throw new Error(
-      "ResponsiveSidePanel sub-components must be used inside <ResponsiveSidePanelRoot>",
-    );
-  }
-  return ctx;
+export const ResponsiveSidePanelRoot = SeedResponsiveSidePanel.Root;
+
+export interface ResponsiveSidePanelTriggerProps extends SeedResponsiveSidePanel.TriggerProps {}
+
+export const ResponsiveSidePanelTrigger = SeedResponsiveSidePanel.Trigger;
+
+export interface ResponsiveSidePanelContentProps
+  extends Omit<SeedResponsiveSidePanel.ContentProps, "title"> {
+  title?: React.ReactNode;
+
+  description?: React.ReactNode;
+
+  layerIndex?: number;
+
+  showCloseButton?: boolean;
+
+  showHandle?: boolean;
 }
 
-type ResponsiveSidePanelRootManagedProp =
-  | "children"
-  | "open"
-  | "defaultOpen"
-  | "onOpenChange";
-
-export interface ResponsiveSidePanelRootProps {
-  children?: React.ReactNode;
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-
-  sidePanelRootProps?: Omit<
-    SeedSidePanel.SidePanelRootProps,
-    ResponsiveSidePanelRootManagedProp
-  >;
-
-  bottomSheetRootProps?: Omit<
-    SeedBottomSheet.BottomSheetRootProps,
-    ResponsiveSidePanelRootManagedProp
-  >;
-}
-
-/**
- * Automatically switches between SidePanel (md+) and BottomSheet (sm-).
- *
- * The open state is managed here so the panel stays open while the
- * viewport crosses the breakpoint (SidePanel and BottomSheet are
- * different component instances and would otherwise re-initialize their
- * own open state on swap).
- *
- * @see https://seed-design.io/react/components/side-panel
- */
-export const ResponsiveSidePanelRoot = ({
-  children,
-  open: openProp,
-  defaultOpen = false,
-  onOpenChange,
-  sidePanelRootProps,
-  bottomSheetRootProps,
-}: ResponsiveSidePanelRootProps) => {
-  const shouldUseBottomSheet = useBreakpointValue({ base: true, md: false });
-
-  const isControlled = openProp !== undefined;
-  const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
-  const open = openProp ?? internalOpen;
-
-  const setOpen = React.useCallback(
-    (nextOpen: boolean) => {
-      if (nextOpen === open) return;
-
-      if (!isControlled) {
-        setInternalOpen(nextOpen);
-      }
-
-      onOpenChange?.(nextOpen);
-    },
-    [isControlled, onOpenChange, open],
-  );
-
-  const value = React.useMemo(() => ({ shouldUseBottomSheet }), [shouldUseBottomSheet]);
-
-  return (
-    <ResponsiveContext.Provider value={value}>
-      {shouldUseBottomSheet ? (
-        <SeedBottomSheet.BottomSheetRoot
-          {...bottomSheetRootProps}
-          open={open}
-          onOpenChange={setOpen}
-        >
-          {children}
-        </SeedBottomSheet.BottomSheetRoot>
-      ) : (
-        <SeedSidePanel.SidePanelRoot
-          {...sidePanelRootProps}
-          open={open}
-          onOpenChange={setOpen}
-        >
-          {children}
-        </SeedSidePanel.SidePanelRoot>
-      )}
-    </ResponsiveContext.Provider>
-  );
-};
-
-export interface ResponsiveSidePanelTriggerProps extends SeedSidePanel.SidePanelTriggerProps {}
-
-export const ResponsiveSidePanelTrigger = React.forwardRef<
-  HTMLButtonElement,
-  ResponsiveSidePanelTriggerProps
->((props, ref) => {
-  const { shouldUseBottomSheet } = useResponsiveContext();
-  const Trigger = shouldUseBottomSheet
-    ? SeedBottomSheet.BottomSheetTrigger
-    : SeedSidePanel.SidePanelTrigger;
-  return <Trigger ref={ref} {...props} />;
-});
-ResponsiveSidePanelTrigger.displayName = "ResponsiveSidePanelTrigger";
-
-export interface ResponsiveSidePanelContentProps extends SeedSidePanel.SidePanelContentProps {}
-
-export const ResponsiveSidePanelContent = React.forwardRef<
+export const ResponsiveSidePanelContent = forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelContentProps
->(({ width, maxWidth, ...props }, ref) => {
-  const { shouldUseBottomSheet } = useResponsiveContext();
-  if (shouldUseBottomSheet) {
-    return <SeedBottomSheet.BottomSheetContent ref={ref} {...props} />;
-  }
+>(
+  (
+    {
+      children,
+      title,
+      description,
+      layerIndex,
+      showCloseButton = true,
+      showHandle = false,
+      ...otherProps
+    },
+    ref,
+  ) => {
+    const { shouldUseBottomSheet } = useResponsiveSidePanelContext();
 
-  return <SeedSidePanel.SidePanelContent ref={ref} width={width} maxWidth={maxWidth} {...props} />;
-});
+    if (
+      !title &&
+      !otherProps["aria-labelledby"] &&
+      !otherProps["aria-label"] &&
+      process.env.NODE_ENV !== "production"
+    ) {
+      console.warn(
+        "ResponsiveSidePanelContent: aria-labelledby or aria-label should be provided if title is not provided.",
+      );
+    }
+
+    if (shouldUseBottomSheet) {
+      const shouldRenderHeader = title || description;
+
+      return (
+        <SeedResponsiveSidePanel.Positioner
+          style={{ "--layer-index": layerIndex } as React.CSSProperties}
+        >
+          <SeedResponsiveSidePanel.Backdrop />
+          <SeedResponsiveSidePanel.Content ref={ref} {...otherProps}>
+            {showHandle && <SeedResponsiveSidePanel.Handle />}
+            {shouldRenderHeader && (
+              <SeedResponsiveSidePanel.Header>
+                {title ? (
+                  <SeedResponsiveSidePanel.Title>{title}</SeedResponsiveSidePanel.Title>
+                ) : (
+                  <VisuallyHidden asChild>
+                    <SeedResponsiveSidePanel.Title>
+                      {otherProps["aria-label"] || ""}
+                    </SeedResponsiveSidePanel.Title>
+                  </VisuallyHidden>
+                )}
+                {description && (
+                  <SeedResponsiveSidePanel.Description>
+                    {description}
+                  </SeedResponsiveSidePanel.Description>
+                )}
+              </SeedResponsiveSidePanel.Header>
+            )}
+            {children}
+            {showCloseButton && (
+              <SeedResponsiveSidePanel.CloseButton aria-label="닫기">
+                <Icon svg={<IconXmarkLine />} />
+              </SeedResponsiveSidePanel.CloseButton>
+            )}
+          </SeedResponsiveSidePanel.Content>
+        </SeedResponsiveSidePanel.Positioner>
+      );
+    }
+
+    const shouldRenderHeader = title || description || showCloseButton;
+
+    return (
+      <SeedResponsiveSidePanel.Positioner
+        style={{ "--layer-index": layerIndex } as React.CSSProperties}
+      >
+        <SeedResponsiveSidePanel.Backdrop />
+        <SeedResponsiveSidePanel.Content ref={ref} {...otherProps}>
+          {shouldRenderHeader && (
+            <SeedResponsiveSidePanel.Header>
+              {title && <SeedResponsiveSidePanel.Title>{title}</SeedResponsiveSidePanel.Title>}
+              {description && (
+                <SeedResponsiveSidePanel.Description>
+                  {description}
+                </SeedResponsiveSidePanel.Description>
+              )}
+              {showCloseButton && (
+                <SeedResponsiveSidePanel.CloseButton aria-label="닫기">
+                  <Icon svg={<IconXmarkLine />} />
+                </SeedResponsiveSidePanel.CloseButton>
+              )}
+            </SeedResponsiveSidePanel.Header>
+          )}
+          {children}
+        </SeedResponsiveSidePanel.Content>
+      </SeedResponsiveSidePanel.Positioner>
+    );
+  },
+);
+
 ResponsiveSidePanelContent.displayName = "ResponsiveSidePanelContent";
 
-export interface ResponsiveSidePanelBodyProps extends SeedSidePanel.SidePanelBodyProps {}
+export interface ResponsiveSidePanelBodyProps extends SeedResponsiveSidePanel.BodyProps {}
 
-export const ResponsiveSidePanelBody = React.forwardRef<
-  HTMLDivElement,
-  ResponsiveSidePanelBodyProps
->((props, ref) => {
-  const { shouldUseBottomSheet } = useResponsiveContext();
-  const Body = shouldUseBottomSheet ? SeedBottomSheet.BottomSheetBody : SeedSidePanel.SidePanelBody;
-  return <Body ref={ref} {...props} />;
-});
-ResponsiveSidePanelBody.displayName = "ResponsiveSidePanelBody";
+export const ResponsiveSidePanelBody = SeedResponsiveSidePanel.Body;
 
-export interface ResponsiveSidePanelFooterProps extends SeedSidePanel.SidePanelFooterProps {}
+export interface ResponsiveSidePanelFooterProps extends SeedResponsiveSidePanel.FooterProps {}
 
-export const ResponsiveSidePanelFooter = React.forwardRef<
-  HTMLDivElement,
-  ResponsiveSidePanelFooterProps
->((props, ref) => {
-  const { shouldUseBottomSheet } = useResponsiveContext();
-  const Footer = shouldUseBottomSheet
-    ? SeedBottomSheet.BottomSheetFooter
-    : SeedSidePanel.SidePanelFooter;
-  return <Footer ref={ref} {...props} />;
-});
-ResponsiveSidePanelFooter.displayName = "ResponsiveSidePanelFooter";
+export const ResponsiveSidePanelFooter = SeedResponsiveSidePanel.Footer;
