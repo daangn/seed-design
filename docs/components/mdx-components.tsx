@@ -26,6 +26,8 @@ import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { LynxManualInstallation } from "./lynx-manual-installation";
 import { DoImage } from "./guideline/do-image";
 import { DontImage } from "./guideline/dont-image";
+import { GuidelineRef } from "./guideline/guideline-ref";
+import { Guidelines } from "./guideline/guidelines";
 import { Image } from "./guideline/image";
 import { IconComponent, IconTerminal } from "./icons";
 import { IconLibrary } from "./iconography/icons";
@@ -99,6 +101,8 @@ export const mdxComponents: MDXComponents = {
   IconSprout: IconCarrotLine,
 
   // Guidelines
+  Guidelines,
+  GuidelineRef,
   DoImage,
   DontImage,
   Image,

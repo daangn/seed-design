@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://seed-design.io/schema/guideline.schema.json",
+  "title": "GuidelineSpec",
+  "description": "한 컴포넌트/파운데이션/패턴(target)에 대한 디자인 가이드라인 모음. 텍스트가 진실의 원천(SSOT)이며 do/dont 규범 진술로만 구성한다.",
+  "type": "object",
+  "required": ["kind", "metadata", "guidelines"],
+  "additionalProperties": false,
+  "properties": {
+    "kind": { "const": "GuidelineSpec" },
+    "metadata": {
+      "type": "object",
+      "required": ["target", "scope"],
+      "additionalProperties": false,
+      "properties": {
+        "target": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "파일명(확장자 제외)과 동일. 예: action-button"
+        },
+        "scope": {
+          "enum": ["component", "foundation", "pattern"],
+          "description": "가이드라인의 적용 범위. 디렉토리명과 일치해야 한다."
+        }
+      }
+    },
+    "guidelines": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/guideline" }
+    }
+  },
+  "$defs": {
+    "guideline": {
+      "type": "object",
+      "required": ["id", "type", "statement"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^G-[CFP]-[a-z0-9-]+$",
+          "description": "G-{scope 약자 C|F|P}-{target}-{slug}. 슬러그는 파일 내에서 유일하면 된다(target이 접두사라 전역 유일). 한 번 부여되면 바꾸지 않는다(public 참조)."
+        },
+        "type": {
+          "enum": ["do", "dont"],
+          "description": "do=이렇게 하세요 / dont=이렇게 하지 마세요. 규범 진술만 허용(중립 설명은 가이드라인이 아님)."
+        },
+        "group": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "선택. 상위 묶음(icon, variant, layout 등). 문서 서브섹션 단위 렌더·탐색에 사용. 플랫 태그(계층 없음)."
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1,
+          "description": "한 문장 규범 진술. 조건은 문장 안에 자연어로 포함한다."
+        },
+        "description": {
+          "type": "string",
+          "description": "선택. 근거/맥락 부연 설명."
+        },
+        "refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^G-[CFP]-[a-z0-9-]+$"
+          },
+          "description": "관련 가이드라인 id 목록. 유사 컴포넌트와의 vs 결정을 이으면 의사결정 트리의 간선 재료가 된다."
+        },
+        "deprecated": {
+          "type": "boolean",
+          "description": "폐기 여부. 삭제 대신 표시해 기존 참조를 보존한다."
+        },
+        "reason": {
+          "type": "string",
+          "description": "deprecated가 true일 때 대체/사유 설명."
+        },
+        "detectable": {
+          "type": "boolean",
+          "description": "코드에서 정적으로 감지 가능한 규칙인지. 추후 doctor 스킬이 이 플래그로 자동 점검 대상을 필터링한다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,154 @@
+# yaml-language-server: $schema=../guideline.schema.json
+kind: GuidelineSpec
+metadata:
+  target: action-button
+  scope: component
+guidelines:
+  # --- Icon ---
+  - id: G-C-action-button-icon-aids-meaning
+    type: do
+    group: icon
+    statement: 아이콘은 액션의 의미를 보조하거나 동작을 안내할 때만 사용하세요.
+    description: 장식 목적이거나 의미를 더하지 않는 아이콘은 라벨 가독성을 해칩니다.
+  - id: G-C-action-button-icon-only-condition
+    type: do
+    group: icon
+    statement: Icon Only는 아이콘만으로 의미가 보편적으로 통하고 공간이 부족할 때만 사용하세요.
+    description: 아이콘만으로 의미를 전달하면 맥락이 없는 사용자에게 접근성이 떨어집니다.
+  - id: G-C-action-button-icon-only-needs-label
+    type: do
+    group: icon
+    statement: Icon Only 레이아웃에는 aria-label 또는 aria-labelledby를 제공하세요.
+    detectable: true
+  - id: G-C-action-button-no-dual-side-icons
+    type: dont
+    group: icon
+    statement: 라벨의 앞과 뒤에 아이콘을 동시에 표시하지 마세요.
+    detectable: true
+
+  # --- Size ---
+  - id: G-C-action-button-size-by-context
+    type: do
+    group: size
+    statement: 범용 액션에는 Small·Medium, 강조 CTA에는 Large, 좁은 공간에는 XSmall(Pill)을 사용하세요.
+
+  # --- Hierarchy (강조 위계) ---
+  - id: G-C-action-button-variant-by-emphasis
+    type: do
+    group: hierarchy
+    statement: 화면에서 강조하려는 정도(High·Medium·Low)에 따라 Variant를 선택하세요.
+    description: 시각적 주목도는 배경색 대비로 결정됩니다.
+  - id: G-C-action-button-one-solid-cta-per-screen
+    type: do
+    group: hierarchy
+    statement: 고강조 Solid CTA(Brand·Neutral·Critical Solid)는 한 화면에 하나만 두세요.
+
+  # --- Variant 선택 (의사결정 트리 재료) ---
+  - id: G-C-action-button-brand-solid-for-connection
+    type: do
+    group: variant
+    statement: 사용자 간 연결이 일어나는 서비스 핵심 기능에는 Brand Solid를 사용하세요.
+  - id: G-C-action-button-neutral-solid-for-cta
+    type: do
+    group: variant
+    statement: 대부분 화면의 기본 CTA에는 Neutral Solid를 사용하세요.
+  - id: G-C-action-button-critical-solid-for-destructive
+    type: do
+    group: variant
+    statement: 삭제·초기화처럼 되돌릴 수 없는 위험한 작업에는 Critical Solid를 사용하세요.
+    description: 주로 Alert Dialog에서 사용됩니다.
+  - id: G-C-action-button-neutral-weak-for-secondary
+    type: do
+    group: variant
+    statement: CTA를 제외한 대부분의 보조 액션에는 Neutral Weak를 사용하세요.
+  - id: G-C-action-button-low-emphasis-for-subactions
+    type: do
+    group: variant
+    statement: 중요도가 낮은 보조 액션에는 Low emphasis Variant(Brand Outline·Neutral Outline·Ghost)를 사용하세요.
+  - id: G-C-action-button-no-outline-solid-mix
+    type: dont
+    group: variant
+    statement: Outline 타입과 Solid 타입을 한 조합에 함께 사용하지 마세요.
+
+  # --- Brand 컬러 ---
+  - id: G-C-action-button-brand-color-on-symbols
+    type: do
+    group: brand-color
+    statement: Brand 컬러는 로고·대표 버튼·핵심 메시지 등 브랜드 상징 요소에 집중해 사용하세요.
+    description: Action Button에서는 '채팅하기·단골맺기' 같은 연결 액션과 '글쓰기·광고 올리기' 같은 서비스 핵심 액션이 해당됩니다.
+  - id: G-C-action-button-no-brand-color-overuse
+    type: dont
+    group: brand-color
+    statement: 의미가 약한 보조 액션에까지 Brand 컬러를 확대해 쓰지 마세요.
+    description: 과다 사용하면 의미와 강조도가 분산됩니다.
+
+  # --- Button 조합 ---
+  - id: G-C-action-button-pair-weak-with-solid
+    type: do
+    group: combination
+    statement: 액션의 위계를 드러내려면 Neutral Weak를 Neutral Solid 또는 Brand Solid와 조합하세요.
+  - id: G-C-action-button-pair-outline-with-outline
+    type: do
+    group: combination
+    statement: 강조도가 낮은 서브 액션이 여러 번 나타날 때는 Neutral Outline과 Brand Outline을 나란히 조합하세요.
+
+  # --- Button 배치 ---
+  - id: G-C-action-button-dismiss-uses-3-7-ratio
+    type: do
+    group: layout
+    statement: Dismiss 의미의 Neutral Weak를 Solid와 함께 배치할 때는 3:7 비율로 위계를 표현하세요.
+  - id: G-C-action-button-up-to-two-side-by-side
+    type: do
+    group: layout
+    statement: 비슷한 위계의 액션은 두 개까지만 나란히 두세요.
+  - id: G-C-action-button-no-three-side-by-side
+    type: dont
+    group: layout
+    statement: Action Button을 세 개 이상 나란히 배치하지 마세요.
+    description: 중요도가 비슷해 보여 선택이 어렵고 클릭 유도가 약해지며, 폰트 스케일링 시 라벨이 잘릴 수 있습니다.
+    detectable: true
+  - id: G-C-action-button-overflow-to-icon-only
+    type: do
+    group: layout
+    statement: 액션이 둘을 초과하면 Icon Only 버튼으로 추가 액션을 묶어 제공하세요.
+  - id: G-C-action-button-long-label-uses-responsive-pair
+    type: do
+    group: layout
+    statement: 긴 Label로 레이아웃 Overflow가 우려되면 Responsive Pair 유틸리티로 레이아웃을 자동 전환하세요.
+    description: 긴 번역이나 폰트 스케일링으로 라벨이 길어질 때 발생합니다.
+
+  # --- Label 작성 ---
+  - id: G-C-action-button-label-action-centric
+    type: do
+    group: label
+    statement: Label은 사용자가 수행할 행동을 중심으로 작성하세요.
+  - id: G-C-action-button-no-vague-label
+    type: dont
+    group: label
+    statement: '‘다음’처럼 동작이 모호한 Label을 사용하지 마세요.'
+    description: 무엇을 하는지 명확하고 예측 가능하게 표현해야 합니다.
+  - id: G-C-action-button-label-consistent-and-concise
+    type: do
+    group: label
+    statement: Label은 사용자 시점에서 동사형의 간결한 문장으로 쓰고, 동일한 액션에는 일관된 단어와 톤을 유지하세요.
+
+  # --- vs Chip (유사 컴포넌트 선택 결정 = 트리 간선) ---
+  - id: G-C-action-button-action-for-execution
+    type: do
+    group: vs-chip
+    statement: 라벨만으로 액션이 예상되는 '동작 실행'에는 Action Button을 사용하세요.
+  - id: G-C-action-button-chip-for-selection
+    type: dont
+    group: vs-chip
+    statement: 정보 표현이나 선택 상태 표시에는 Action Button을 사용하지 말고 Chip을 사용하세요.
+    # refs 대상(chip 가이드라인)은 chip.yaml 작성 후 실제 슬러그로 연결.
+    refs:
+      - G-C-chip-for-selection
+
+  # --- 구현 (React) ---
+  - id: G-C-action-button-ghost-only-style-props
+    type: dont
+    group: react
+    statement: ghost가 아닌 Variant에 color·fontWeight 속성을 지정하지 마세요.
+    description: color·fontWeight는 Ghost variant에서만 동작합니다.
+    detectable: true
