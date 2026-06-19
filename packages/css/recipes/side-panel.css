@@ -229,7 +229,7 @@
     align-items: var(--seed-box-align-items);
     transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
-.seed-side-panel__body[data-scrolled] {
+.seed-side-panel__body[data-scrolled]:not(:first-child) {
     box-shadow: inset 0 1px 0 0 var(--seed-color-stroke-neutral-muted);
 }
 .seed-side-panel__body {

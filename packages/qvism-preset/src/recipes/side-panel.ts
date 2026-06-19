@@ -200,9 +200,10 @@ const sidePanel = defineSlotRecipe({
       justifyContent: "var(--seed-box-justify-content)",
       alignItems: "var(--seed-box-align-items)",
 
-      // top divider: appears when scrolled away from top (toggled via JS data-scrolled attribute)
+      // top divider: appears when the body is scrolled away from top, but only when a header sits
+      // above it — i.e. the body is not the content's first child (toggled via JS data-scrolled attribute)
       transition: `box-shadow ${vars.base.enabled.body.transitionDuration} ${vars.base.enabled.body.transitionTimingFunction}`,
-      [pseudo("[data-scrolled]")]: {
+      [pseudo("[data-scrolled]", not(":first-child"))]: {
         boxShadow: `inset 0 1px 0 0 ${vars.base.scrolled.body.stroke}`,
       },
 

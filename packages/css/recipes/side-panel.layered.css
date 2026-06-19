@@ -245,7 +245,7 @@
     overflow-y: auto;
   }
 
-  .seed-side-panel__body[data-scrolled] {
+  .seed-side-panel__body[data-scrolled]:not(:first-child) {
     box-shadow: inset 0 1px 0 0 var(--seed-color-stroke-neutral-muted);
   }
 
