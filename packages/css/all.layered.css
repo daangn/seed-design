@@ -6772,6 +6772,10 @@
     animation-fill-mode: forwards;
   }
 
+  .seed-menu__content[data-instant] {
+    animation-duration: 0s;
+  }
+
   .seed-menu__content:is([hidden], [data-hidden]) {
     display: none !important;
   }
@@ -6876,13 +6880,16 @@
     scroll-margin-bottom: var(--seed-dimension-x2);
     cursor: default;
     user-select: none;
+    color: inherit;
     text-align: start;
     isolation: isolate;
+    background: none;
     border: none;
     outline: none;
     align-items: center;
     margin: 0;
     font-family: inherit;
+    text-decoration: none;
     display: flex;
     position: relative;
   }

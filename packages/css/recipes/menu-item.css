@@ -7,8 +7,11 @@
     outline: none;
     cursor: default;
     user-select: none;
+    background: none;
     border: none;
     font-family: inherit;
+    color: inherit;
+    text-decoration: none;
     margin: 0;
     text-align: start;
     isolation: isolate;
