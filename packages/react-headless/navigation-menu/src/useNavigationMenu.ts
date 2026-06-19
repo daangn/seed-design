@@ -242,16 +242,11 @@ export function useNavigationMenuRoot(
   // Hover is gated to mouse pointers (`mouseOnly`) so touch falls back to the
   // click interaction. `safePolygon` keeps the flyout open while the pointer
   // travels from the trigger to the content (WCAG 1.4.13 "hoverable").
-  // `blockPointerEvents` disables pointer events on everything except the open
-  // flyout and its trigger during that travel, so siblings stacked next to the
-  // trigger (other flyouts, collapsed-item tooltips) can't intercept the pointer
-  // mid-travel and steal the open state. Once the pointer leaves the safe area
-  // toward a sibling, it opens instantly via the shared delay group.
   // The delay opens instantly when another item is already open (skip-delay).
   const hover = useHover(context, {
     enabled: !disabled,
     mouseOnly: true,
-    handleClose: safePolygon({ blockPointerEvents: true }),
+    handleClose: safePolygon(),
     delay: useGroupDelay
       ? () => group.delayRef.current
       : () =>
