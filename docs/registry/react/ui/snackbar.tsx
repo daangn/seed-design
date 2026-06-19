@@ -3,7 +3,6 @@
 import {
   Snackbar as SeedSnackbar,
   useSnackbarAdapter as useSeedSnackbarAdapter,
-  useSnackbarContext,
   type CreateSnackbarOptions as SeedCreateSnackbarOptions,
 } from "@seed-design/react";
 import * as React from "react";
@@ -40,43 +39,13 @@ export interface SnackbarProps extends SeedSnackbar.RootProps {
    * 액션 버튼 클릭 시 호출되는 콜백
    */
   onAction?: () => void;
-
-  /**
-   * 액션 버튼 클릭 시 스낵바를 닫을지 여부
-   * @default true
-   * @deprecated Deprecated in `@seed-design/react@1.2.0`; will be removed in 2.0.0.
-   * SeedSnackbar.ActionButton 클릭 시 자동으로 닫히는 동작이 디자인 시스템 표준으로 통일됩니다.
-   */
-  shouldCloseOnAction?: boolean;
 }
 
 /**
  * @see https://seed-design.io/react/components/snackbar
  */
 export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
-  (
-    {
-      variant = "default",
-      children,
-      message,
-      actionLabel,
-      onAction,
-      shouldCloseOnAction = true,
-      ...otherProps
-    },
-    ref,
-  ) => {
-    const api = useSnackbarContext();
-
-    const handleAction: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-      e.stopPropagation();
-      onAction?.();
-      if (shouldCloseOnAction) {
-        e.currentTarget.blur();
-        api.dismiss();
-      }
-    };
-
+  ({ variant = "default", children, message, actionLabel, onAction, ...otherProps }, ref) => {
     return (
       <SeedSnackbar.Root ref={ref} variant={variant} {...otherProps}>
         {variant !== "default" && (
@@ -93,9 +62,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
         <SeedSnackbar.Content>
           <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
           {actionLabel && (
-            <SeedSnackbar.ActionButton onClick={handleAction}>
-              {actionLabel}
-            </SeedSnackbar.ActionButton>
+            <SeedSnackbar.ActionButton onClick={onAction}>{actionLabel}</SeedSnackbar.ActionButton>
           )}
         </SeedSnackbar.Content>
         {/* You may implement your own i18n for dismiss label */}
