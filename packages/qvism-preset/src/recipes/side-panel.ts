@@ -221,7 +221,6 @@ const sidePanel = defineSlotRecipe({
       paddingTop: vars.base.enabled.footer.paddingTop,
       // Respect device safe-area on bottom edge (e.g. iOS home indicator)
       paddingBottom: `calc(${vars.base.enabled.footer.paddingBottom} + var(--seed-safe-area-bottom))`,
-      gap: vars.base.enabled.footer.gap,
     },
     closeButton: {
       position: "absolute",
@@ -288,24 +287,10 @@ const sidePanel = defineSlotRecipe({
         content: {
           "--side-panel-size-width": vars.sizeMedium.enabled.content.width,
         },
-        footer: {
-          [breakpoints.up("md")]: {
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            alignItems: "flex-start",
-          },
-        },
       },
       large: {
         content: {
           "--side-panel-size-width": vars.sizeLarge.enabled.content.width,
-        },
-        footer: {
-          [breakpoints.up("md")]: {
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            alignItems: "flex-start",
-          },
         },
       },
     },
