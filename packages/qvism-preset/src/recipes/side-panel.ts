@@ -73,6 +73,10 @@ const sidePanel = defineSlotRecipe({
       "--seed-box-max-height--responsive": "initial",
       maxWidth: "var(--seed-box-max-width)",
 
+      // Respect device safe-area on bottom edge (e.g. iOS home indicator);
+      // applied on content so it holds even when the footer is not rendered.
+      paddingBottom: "var(--seed-safe-area-bottom)",
+
       [pseudo(focus)]: {
         outline: "none",
       },
@@ -219,8 +223,7 @@ const sidePanel = defineSlotRecipe({
       paddingLeft: vars.base.enabled.footer.paddingX,
       paddingRight: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
-      // Respect device safe-area on bottom edge (e.g. iOS home indicator)
-      paddingBottom: `calc(${vars.base.enabled.footer.paddingBottom} + var(--seed-safe-area-bottom))`,
+      paddingBottom: vars.base.enabled.footer.paddingBottom,
     },
     closeButton: {
       position: "absolute",

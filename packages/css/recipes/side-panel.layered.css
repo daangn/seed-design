@@ -67,6 +67,7 @@
     --seed-box-max-height-xl: var(--seed-box-max-height-lg);
     --seed-box-max-height: var(--seed-box-max-height-base);
     max-width: var(--seed-box-max-width);
+    padding-bottom: var(--seed-safe-area-bottom);
     flex-direction: column;
     display: flex;
     position: absolute;
@@ -258,7 +259,7 @@
     padding-left: var(--seed-dimension-x6);
     padding-right: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x4);
-    padding-bottom: calc(var(--seed-dimension-x6) + var(--seed-safe-area-bottom));
+    padding-bottom: var(--seed-dimension-x6);
     flex-direction: column;
     align-items: stretch;
     display: flex;
