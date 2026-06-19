@@ -39,7 +39,7 @@ data:
             type: duration
           exitTimingFunction:
             type: cubicBezier
-        description: 하단 safe-area inset을 content의 하단 패딩으로 적용해야 합니다. footer가 렌더되지 않아도 content가 하단 safe-area를 침범하지 않도록, 별도 property 없이 slot 차원에서 적용합니다.
+        description: 하단 safe-area inset을 content의 하단 패딩으로 적용합니다.
       header:
         properties:
           gap:
@@ -50,7 +50,7 @@ data:
             type: dimension
           paddingTop:
             type: dimension
-            description: 상단 safe-area inset과 합산하여 적용합니다.
+            description: 이 값은 상단 safe-area inset과 합산하여 적용합니다.
           paddingBottom:
             type: dimension
       body:

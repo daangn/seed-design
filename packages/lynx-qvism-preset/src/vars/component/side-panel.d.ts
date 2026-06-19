@@ -10,7 +10,7 @@ export declare const vars: {
         "exitTimingFunction": "var(--seed-timing-function-exit)",
         "exitOpacity": "0"
       },
-      /** 하단 safe-area inset을 content의 하단 패딩으로 적용해야 합니다. footer가 렌더되지 않아도 content가 하단 safe-area를 침범하지 않도록, 별도 property 없이 slot 차원에서 적용합니다. */
+      /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
         /** viewport 또는 parent width에 대한 mobile content width 비율입니다. */
@@ -24,7 +24,7 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x1_5)",
         "minHeight": "70px",
         "paddingX": "var(--seed-dimension-x6)",
-        /** 상단 safe-area inset과 합산하여 적용합니다. */
+        /** 이 값은 상단 safe-area inset과 합산하여 적용합니다. */
         "paddingTop": "var(--seed-dimension-x6)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
         "paddingBottom": "var(--seed-dimension-x4)"
@@ -38,7 +38,7 @@ export declare const vars: {
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",
-        /** 상단 safe-area inset과 합산하여 적용합니다. */
+        /** 이 값은 상단 safe-area inset과 합산하여 적용합니다. */
         "paddingTop": "var(--seed-dimension-x4)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
         "paddingBottom": "var(--seed-dimension-x6)"
@@ -69,7 +69,7 @@ export declare const vars: {
   },
   "sizeSmall": {
     "enabled": {
-      /** 하단 safe-area inset을 content의 하단 패딩으로 적용해야 합니다. footer가 렌더되지 않아도 content가 하단 safe-area를 침범하지 않도록, 별도 property 없이 slot 차원에서 적용합니다. */
+      /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "width": "480px"
       }
@@ -77,7 +77,7 @@ export declare const vars: {
   },
   "sizeMedium": {
     "enabled": {
-      /** 하단 safe-area inset을 content의 하단 패딩으로 적용해야 합니다. footer가 렌더되지 않아도 content가 하단 safe-area를 침범하지 않도록, 별도 property 없이 slot 차원에서 적용합니다. */
+      /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "width": "720px"
       }
@@ -85,7 +85,7 @@ export declare const vars: {
   },
   "sizeLarge": {
     "enabled": {
-      /** 하단 safe-area inset을 content의 하단 패딩으로 적용해야 합니다. footer가 렌더되지 않아도 content가 하단 safe-area를 침범하지 않도록, 별도 property 없이 slot 차원에서 적용합니다. */
+      /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "width": "960px"
       }
