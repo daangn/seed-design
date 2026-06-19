@@ -205,7 +205,7 @@ export interface SideNavigationRootProps extends SeedSideNavigation.RootProps {}
 export const SideNavigationRoot = React.forwardRef<HTMLElement, SideNavigationRootProps>(
   ({ children, ...props }, ref) => (
     <SeedSideNavigation.Root ref={ref} {...props}>
-      <NavigationMenuProvider placement="right-start" size="small">
+      <NavigationMenuProvider placement="right-start" size="responsive">
         {children}
       </NavigationMenuProvider>
     </SeedSideNavigation.Root>
