@@ -62,6 +62,7 @@ export const config = defineConfig({
     { route: "/side-panel", name: "ActivitySidePanel" },
     { route: "/side-panel-activity", name: "ActivitySidePanelActivity" },
     { route: "/responsive-side-panel", name: "ActivityResponsiveSidePanel" },
+    { route: "/swipeable-menu-sheet", name: "ActivitySwipeableMenuSheet" },
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },
     { route: "/tabs", name: "ActivityTabs" },
     { route: "/tabs-auto-height-lazy", name: "ActivityTabsAutoHeightLazy" },

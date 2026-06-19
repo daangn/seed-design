@@ -69,6 +69,7 @@ export * from "./Skeleton";
 export * from "./Slider";
 export * from "./Snackbar";
 export * from "./Stack";
+export * from "./SwipeableMenuSheet";
 export * from "./Switch";
 export * from "./Tabs";
 export * from "./TagGroup";

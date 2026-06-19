@@ -2,8 +2,7 @@
   "kind": "ComponentSpec",
   "metadata": {
     "id": "menu-sheet-close-button",
-    "name": "Menu Sheet Close Button",
-    "deprecated": "No longer used. Menu Sheet now uses a handle instead of a close button."
+    "name": "Menu Sheet Close Button"
   },
   "data": {
     "id": "menu-sheet-close-button",
