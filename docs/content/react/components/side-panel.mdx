@@ -136,8 +136,8 @@ Trigger 외의 방식으로 Side Panel을 열고 닫을 수 있습니다. 이 �
 
 ### Footer Layout
 
-Footer 버튼은 패널 크기와 뷰포트에 따라 배치가 달라집니다.
-`"small"` 크기이거나 sm 이하 뷰포트에서는 세로로 쌓이고, `"medium"` 이상 크기의 md 이상 뷰포트에서는 가로로 정렬됩니다.
+`SidePanelFooter`는 flex 레이아웃만 제공하며, 버튼 배치는 `VStack`, `HStack` 등으로 직접 구성합니다.
+좁은 패널에서는 `VStack`으로 세로로 쌓고, 넓은 패널에서는 `HStack`으로 가로로 정렬할 수 있습니다.
 
 <ComponentExample name="react/side-panel/footer-layout">
   ```json doc-gen:file

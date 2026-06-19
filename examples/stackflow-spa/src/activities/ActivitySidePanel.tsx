@@ -63,10 +63,12 @@ const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () =
           </VStack>
         </SidePanelBody>
         <SidePanelFooter>
-          <ActionButton variant="neutralWeak" onClick={() => pop()}>
-            닫기
-          </ActionButton>
-          <ActionButton variant="neutralSolid">확인</ActionButton>
+          <VStack gap="x2">
+            <ActionButton variant="neutralWeak" onClick={() => pop()}>
+              닫기
+            </ActionButton>
+            <ActionButton variant="neutralSolid">확인</ActionButton>
+          </VStack>
         </SidePanelFooter>
       </SidePanelContent>
     </SidePanelRoot>
