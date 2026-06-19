@@ -1,4 +1,3 @@
-import { Box } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SidePanelBody,
@@ -16,9 +15,7 @@ const SidePanelPreview = () => {
       </SidePanelTrigger>
       <SidePanelContent title="제목" description="설명을 작성할 수 있어요">
         <SidePanelBody paddingX="x6">
-          <Box py="x4">
-            패널 본문에는 사용자가 확인해야 할 내용이나 추가 입력 폼을 배치할 수 있습니다.
-          </Box>
+          패널 본문에는 사용자가 확인해야 할 내용이나 추가 입력 폼을 배치할 수 있습니다.
         </SidePanelBody>
         <SidePanelFooter>
           <ActionButton variant="neutralSolid">확인</ActionButton>

@@ -55,6 +55,16 @@ data:
         properties:
           paddingX:
             type: dimension
+          paddingBottom:
+            type: dimension
+            description: body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다.
+          stroke:
+            type: color
+            description: 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다.
+          transitionDuration:
+            type: duration
+          transitionTimingFunction:
+            type: cubicBezier
       footer:
         properties:
           paddingX:
@@ -123,6 +133,9 @@ data:
           paddingBottom: $dimension.x4
         body:
           paddingX: $dimension.x6
+          paddingBottom: $dimension.x12
+          transitionDuration: $duration.color-transition
+          transitionTimingFunction: $timing-function.easing
         footer:
           paddingX: $dimension.x6
           paddingTop: $dimension.x4
@@ -141,6 +154,9 @@ data:
         closeButton:
           fromTop: 28px
           fromRight: 24px
+      scrolled:
+        body:
+          stroke: $color.stroke.neutral-muted
     size=small:
       enabled:
         content:
