@@ -39,6 +39,7 @@ data:
             type: duration
           exitTimingFunction:
             type: cubicBezier
+        description: 하단 safe-area inset을 content의 하단 패딩으로 적용합니다.
       header:
         properties:
           gap:
@@ -49,6 +50,7 @@ data:
             type: dimension
           paddingTop:
             type: dimension
+            description: 이 값은 상단 safe-area inset과 합산하여 적용합니다.
           paddingBottom:
             type: dimension
       body:
@@ -72,8 +74,6 @@ data:
           paddingTop:
             type: dimension
           paddingBottom:
-            type: dimension
-          gap:
             type: dimension
       title:
         properties:
@@ -140,7 +140,6 @@ data:
           paddingX: $dimension.x6
           paddingTop: $dimension.x4
           paddingBottom: $dimension.x6
-          gap: $dimension.x2
         title:
           color: $color.fg.neutral
           fontSize: $font-size.t8
