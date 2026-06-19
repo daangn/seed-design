@@ -5,11 +5,10 @@ import {
 import { Icon, SideNavigation as SeedSideNavigation } from "@seed-design/react";
 import {
   NavigationMenuContent,
-  NavigationMenuDelayGroup,
   NavigationMenuGroup,
   NavigationMenuGroupLabel,
   NavigationMenuItem,
-  NavigationMenuLink,
+  NavigationMenuProvider,
   NavigationMenuRoot,
   NavigationMenuTrigger,
 } from "./navigation-menu";
@@ -103,7 +102,6 @@ export interface SideNavigationGroupProps {
         items: {
           key?: React.Key;
           label: React.ReactNode;
-          href?: string;
           current?: boolean;
           disabled?: boolean;
           onClick?: React.MouseEventHandler;
@@ -117,6 +115,8 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
     const { collapsed, transitioning } = useSideNavigationContext();
 
     const isFlyout = collapsed && !transitioning;
+
+    const groupId = React.useId();
 
     const renderedItems = items.map((item, index) => {
       if (!item.items) {
@@ -136,7 +136,7 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
 
       if (isFlyout) {
         return (
-          <NavigationMenuItem key={item.key ?? index} value={String(item.key ?? index)}>
+          <NavigationMenuRoot key={item.key ?? index} value={`${groupId}:${item.key ?? index}`}>
             <NavigationMenuTrigger asChild>
               <SideNavigationItemButton
                 prefixIcon={item.prefixIcon}
@@ -149,18 +149,17 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
               <NavigationMenuGroup>
                 <NavigationMenuGroupLabel>{item.label}</NavigationMenuGroupLabel>
                 {item.items.map((sub, subIndex) => (
-                  <NavigationMenuLink
+                  <NavigationMenuItem
                     key={sub.key ?? subIndex}
-                    href={sub.href}
                     current={sub.current}
-                    aria-disabled={sub.disabled || undefined}
+                    disabled={sub.disabled}
                     onClick={sub.onClick}
                     label={sub.label}
                   />
                 ))}
               </NavigationMenuGroup>
             </NavigationMenuContent>
-          </NavigationMenuItem>
+          </NavigationMenuRoot>
         );
       }
 
@@ -192,13 +191,7 @@ export const SideNavigationGroup = React.forwardRef<HTMLDivElement, SideNavigati
     return (
       <SeedSideNavigation.Group ref={ref}>
         {label && <SeedSideNavigation.GroupLabel>{label}</SeedSideNavigation.GroupLabel>}
-        {isFlyout ? (
-          <NavigationMenuRoot placement="right-start" size="small">
-            {renderedItems}
-          </NavigationMenuRoot>
-        ) : (
-          renderedItems
-        )}
+        {renderedItems}
       </SeedSideNavigation.Group>
     );
   },
@@ -210,10 +203,12 @@ export const SideNavigationProvider = SeedSideNavigation.Provider;
 
 export interface SideNavigationRootProps extends SeedSideNavigation.RootProps {}
 export const SideNavigationRoot = React.forwardRef<HTMLElement, SideNavigationRootProps>(
-  (props, ref) => (
-    <NavigationMenuDelayGroup>
-      <SeedSideNavigation.Root ref={ref} {...props} />
-    </NavigationMenuDelayGroup>
+  ({ children, ...props }, ref) => (
+    <SeedSideNavigation.Root ref={ref} {...props}>
+      <NavigationMenuProvider placement="right-start" size="small">
+        {children}
+      </NavigationMenuProvider>
+    </SeedSideNavigation.Root>
   ),
 );
 SideNavigationRoot.displayName = "SideNavigationRoot";

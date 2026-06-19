@@ -19,7 +19,7 @@ import {
 } from "seed-design/ui/select-box";
 import { sideNavigationVariantMap } from "@seed-design/css/recipes/side-navigation";
 import { layoutVariantMap } from "@seed-design/css/recipes/layout";
-import { useState, type MouseEvent } from "react";
+import { useState } from "react";
 
 import {
   IconHouseFill,
@@ -59,11 +59,7 @@ const ActivitySideNavigation: StaticActivityComponentType<"ActivitySideNavigatio
   const [currentItem, setCurrentItem] = useState("홈");
   const navItemProps = (label: string) => ({
     current: currentItem === label,
-    href: "#",
-    onClick: (event: MouseEvent) => {
-      event.preventDefault();
-      setCurrentItem(label);
-    },
+    onClick: () => setCurrentItem(label),
   });
 
   return (

@@ -6,19 +6,17 @@ import type { UseNavigationMenuProps } from "./useNavigationMenu";
 
 function Harness(props: UseNavigationMenuProps) {
   return (
-    <NavigationMenu.Root {...props}>
-      <NavigationMenu.Item value="products">
+    <NavigationMenu.Provider {...props}>
+      <NavigationMenu.Root value="products">
         <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
         <NavigationMenu.Positioner>
           <NavigationMenu.Content>
-            <NavigationMenu.Link href="/a" current>
-              Item A
-            </NavigationMenu.Link>
-            <NavigationMenu.Link href="/b">Item B</NavigationMenu.Link>
+            <NavigationMenu.Item current>Item A</NavigationMenu.Item>
+            <NavigationMenu.Item>Item B</NavigationMenu.Item>
           </NavigationMenu.Content>
         </NavigationMenu.Positioner>
-      </NavigationMenu.Item>
-    </NavigationMenu.Root>
+      </NavigationMenu.Root>
+    </NavigationMenu.Provider>
   );
 }
 
@@ -41,7 +39,7 @@ describe("useNavigationMenu (disclosure semantics)", () => {
     expect(document.querySelector('[role="menuitem"]')).toBeNull();
   });
 
-  it("marks the current link with aria-current=page", () => {
+  it("marks the current item with aria-current=page", () => {
     const { getByText } = render(<Harness />);
     expect(getByText("Item A")).toHaveAttribute("aria-current", "page");
     expect(getByText("Item B")).not.toHaveAttribute("aria-current");
@@ -87,28 +85,14 @@ describe("useNavigationMenu (disclosure semantics)", () => {
     expect(getByText("Products")).toHaveAttribute("aria-expanded", "true");
   });
 
-  it("closes when a link is selected even if the consumer calls preventDefault", async () => {
+  it("closes the flyout when an item is selected", async () => {
     const user = userEvent.setup();
-    const { getByText } = render(
-      <NavigationMenu.Root>
-        <NavigationMenu.Item value="products">
-          <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
-          <NavigationMenu.Positioner>
-            <NavigationMenu.Content>
-              <NavigationMenu.Link href="/a" onClick={(event) => event.preventDefault()}>
-                Item A
-              </NavigationMenu.Link>
-            </NavigationMenu.Content>
-          </NavigationMenu.Positioner>
-        </NavigationMenu.Item>
-      </NavigationMenu.Root>,
-    );
+    const { getByText } = render(<Harness />);
     const trigger = getByText("Products");
 
     await user.click(trigger);
     expect(trigger).toHaveAttribute("aria-expanded", "true");
 
-    // SPA links preventDefault to route client-side; the flyout must still close.
     await user.click(getByText("Item A"));
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });

@@ -1,17 +1,13 @@
 import { NavigationMenu as SeedNavigationMenu, PrefixIcon, SuffixIcon } from "@seed-design/react";
 import * as React from "react";
 
-export interface NavigationMenuDelayGroupProps extends SeedNavigationMenu.DelayGroupProps {}
+export interface NavigationMenuProviderProps extends SeedNavigationMenu.ProviderProps {}
 
-export const NavigationMenuDelayGroup = SeedNavigationMenu.DelayGroup;
+export const NavigationMenuProvider = SeedNavigationMenu.Provider;
 
 export interface NavigationMenuRootProps extends SeedNavigationMenu.RootProps {}
 
 export const NavigationMenuRoot = SeedNavigationMenu.Root;
-
-export interface NavigationMenuItemProps extends SeedNavigationMenu.ItemProps {}
-
-export const NavigationMenuItem = SeedNavigationMenu.Item;
 
 export interface NavigationMenuTriggerProps extends SeedNavigationMenu.TriggerProps {}
 
@@ -42,7 +38,7 @@ export interface NavigationMenuGroupLabelProps extends SeedNavigationMenu.GroupL
 
 export const NavigationMenuGroupLabel = SeedNavigationMenu.GroupLabel;
 
-export interface NavigationMenuLinkProps extends Omit<SeedNavigationMenu.LinkProps, "children"> {
+export interface NavigationMenuItemProps extends Omit<SeedNavigationMenu.ItemProps, "children"> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;
@@ -52,20 +48,20 @@ export interface NavigationMenuLinkProps extends Omit<SeedNavigationMenu.LinkPro
   suffixIcon?: React.ReactNode;
 }
 
-export const NavigationMenuLink = React.forwardRef<HTMLAnchorElement, NavigationMenuLinkProps>(
+export const NavigationMenuItem = React.forwardRef<HTMLButtonElement, NavigationMenuItemProps>(
   ({ prefixIcon, label, description, suffixIcon, ...props }, ref) => {
     return (
-      <SeedNavigationMenu.Link ref={ref} {...props}>
+      <SeedNavigationMenu.Item ref={ref} {...props}>
         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
-        <SeedNavigationMenu.LinkBody>
-          <SeedNavigationMenu.LinkLabel>{label}</SeedNavigationMenu.LinkLabel>
+        <SeedNavigationMenu.ItemBody>
+          <SeedNavigationMenu.ItemLabel>{label}</SeedNavigationMenu.ItemLabel>
           {description && (
-            <SeedNavigationMenu.LinkDescription>{description}</SeedNavigationMenu.LinkDescription>
+            <SeedNavigationMenu.ItemDescription>{description}</SeedNavigationMenu.ItemDescription>
           )}
-        </SeedNavigationMenu.LinkBody>
+        </SeedNavigationMenu.ItemBody>
         {suffixIcon && <SuffixIcon svg={suffixIcon} />}
-      </SeedNavigationMenu.Link>
+      </SeedNavigationMenu.Item>
     );
   },
 );
-NavigationMenuLink.displayName = "NavigationMenuLink";
+NavigationMenuItem.displayName = "NavigationMenuItem";

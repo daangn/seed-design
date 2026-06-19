@@ -8,7 +8,7 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { Badge, Box, HStack, Layout, Text, VStack } from "@seed-design/react";
 import { useSideNavigationContext } from "@seed-design/react/primitive";
-import { useState, type MouseEvent } from "react";
+import { useState } from "react";
 
 import { Avatar } from "../ui/avatar";
 import { IdentityPlaceholder } from "../ui/identity-placeholder";
@@ -78,11 +78,7 @@ export default function SideNavigation2() {
 
   const navItemProps = (label: string) => ({
     current: currentItem === label,
-    href: "#",
-    onClick: (event: MouseEvent) => {
-      event.preventDefault();
-      setCurrentItem(label);
-    },
+    onClick: () => setCurrentItem(label),
   });
 
   return (

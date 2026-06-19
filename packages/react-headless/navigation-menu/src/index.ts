@@ -1,5 +1,5 @@
 export {
-  NavigationMenuDelayGroup,
+  NavigationMenuProvider,
   NavigationMenuRoot,
   NavigationMenuItem,
   NavigationMenuTrigger,
@@ -7,8 +7,7 @@ export {
   NavigationMenuContent,
   NavigationMenuGroup,
   NavigationMenuGroupLabel,
-  NavigationMenuLink,
-  type NavigationMenuDelayGroupProps,
+  type NavigationMenuProviderProps,
   type NavigationMenuRootProps,
   type NavigationMenuItemProps,
   type NavigationMenuTriggerProps,
@@ -16,13 +15,16 @@ export {
   type NavigationMenuContentProps,
   type NavigationMenuGroupProps,
   type NavigationMenuGroupLabelProps,
-  type NavigationMenuLinkProps,
 } from "./NavigationMenu";
 
 export {
   useNavigationMenuContext,
   type UseNavigationMenuContext,
 } from "./useNavigationMenuContext";
+export {
+  useNavigationMenuRootContext,
+  type UseNavigationMenuRootContext,
+} from "./useNavigationMenuRootContext";
 export {
   useNavigationMenuItemContext,
   type UseNavigationMenuItemContext,
@@ -32,7 +34,8 @@ export * as NavigationMenu from "./NavigationMenu.namespace";
 
 export type {
   UseNavigationMenuProps,
-  UseNavigationMenuItemProps,
+  UseNavigationMenuRootProps,
   UseNavigationMenuReturn,
+  UseNavigationMenuRootReturn,
   UseNavigationMenuItemReturn,
 } from "./useNavigationMenu";

@@ -5,6 +5,7 @@ import { menuItem, type MenuItemVariantProps } from "@seed-design/css/recipes/me
 import {
   NavigationMenu as NavigationMenuPrimitive,
   useNavigationMenuItemContext,
+  useNavigationMenuRootContext,
 } from "@seed-design/react-navigation-menu";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
@@ -19,28 +20,23 @@ const {
   withContext: withItemContext,
   ClassNamesProvider: ItemClassNamesProvider,
 } = createSlotRecipeContext(menuItem);
-const withStateProps = createWithStateProps([useNavigationMenuItemContext]);
+const withStateProps = createWithStateProps([useNavigationMenuRootContext]);
+const withItemStateProps = createWithStateProps([useNavigationMenuItemContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface NavigationMenuDelayGroupProps extends NavigationMenuPrimitive.DelayGroupProps {}
-
-export const NavigationMenuDelayGroup = NavigationMenuPrimitive.DelayGroup;
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface NavigationMenuRootProps
+export interface NavigationMenuProviderProps
   extends MenuVariantProps,
-    NavigationMenuPrimitive.RootProps {}
+    NavigationMenuPrimitive.ProviderProps {}
 
-export const NavigationMenuRoot = (props: NavigationMenuRootProps) => {
+export const NavigationMenuProvider = (props: NavigationMenuProviderProps) => {
   const [variantProps, otherProps] = menu.splitVariantProps(props);
   const classNames = menu(variantProps);
 
   return (
     <ClassNamesProvider value={classNames}>
       <ItemPropsProvider value={{ size: variantProps.size }}>
-        <NavigationMenuPrimitive.Root {...otherProps} />
+        <NavigationMenuPrimitive.Provider {...otherProps} />
       </ItemPropsProvider>
     </ClassNamesProvider>
   );
@@ -48,9 +44,9 @@ export const NavigationMenuRoot = (props: NavigationMenuRootProps) => {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface NavigationMenuItemProps extends NavigationMenuPrimitive.ItemProps {}
+export interface NavigationMenuRootProps extends NavigationMenuPrimitive.RootProps {}
 
-export const NavigationMenuItem = NavigationMenuPrimitive.Item;
+export const NavigationMenuRoot = NavigationMenuPrimitive.Root;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,11 +114,11 @@ export const NavigationMenuGroupLabel = withContext<HTMLDivElement, NavigationMe
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface NavigationMenuLinkProps
+export interface NavigationMenuItemProps
   extends MenuItemVariantProps,
-    NavigationMenuPrimitive.LinkProps {}
+    NavigationMenuPrimitive.ItemProps {}
 
-export const NavigationMenuLink = React.forwardRef<HTMLAnchorElement, NavigationMenuLinkProps>(
+export const NavigationMenuItem = React.forwardRef<HTMLButtonElement, NavigationMenuItemProps>(
   ({ className: propClassName, ...props }, ref) => {
     const [variantProps, otherProps] = menuItem.splitVariantProps(props);
     const parentProps = useItemProps();
@@ -131,7 +127,7 @@ export const NavigationMenuLink = React.forwardRef<HTMLAnchorElement, Navigation
 
     return (
       <ItemClassNamesProvider value={classNames}>
-        <NavigationMenuPrimitive.Link
+        <NavigationMenuPrimitive.Item
           ref={ref}
           className={clsx(classNames.root, propClassName)}
           {...otherProps}
@@ -140,37 +136,37 @@ export const NavigationMenuLink = React.forwardRef<HTMLAnchorElement, Navigation
     );
   },
 );
-NavigationMenuLink.displayName = "NavigationMenuLink";
+NavigationMenuItem.displayName = "NavigationMenuItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface NavigationMenuLinkBodyProps
+export interface NavigationMenuItemBodyProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const NavigationMenuLinkBody = withItemContext<HTMLDivElement, NavigationMenuLinkBodyProps>(
-  Primitive.div,
+export const NavigationMenuItemBody = withItemContext<HTMLDivElement, NavigationMenuItemBodyProps>(
+  withItemStateProps(Primitive.div),
   "body",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface NavigationMenuLinkLabelProps
+export interface NavigationMenuItemLabelProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const NavigationMenuLinkLabel = withItemContext<
+export const NavigationMenuItemLabel = withItemContext<
   HTMLSpanElement,
-  NavigationMenuLinkLabelProps
->(Primitive.span, "label");
+  NavigationMenuItemLabelProps
+>(withItemStateProps(Primitive.span), "label");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface NavigationMenuLinkDescriptionProps
+export interface NavigationMenuItemDescriptionProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const NavigationMenuLinkDescription = withItemContext<
+export const NavigationMenuItemDescription = withItemContext<
   HTMLSpanElement,
-  NavigationMenuLinkDescriptionProps
->(Primitive.span, "description");
+  NavigationMenuItemDescriptionProps
+>(withItemStateProps(Primitive.span), "description");

@@ -23,9 +23,9 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 
 const MIN_HEIGHT = 200;
 
-/** Default open delay (ms), shared with `NavigationMenuDelayGroup`. */
+/** Default open delay (ms) for the `NavigationMenuProvider` delay group. */
 export const DEFAULT_OPEN_DELAY = 200;
-/** Default close delay (ms), shared with `NavigationMenuDelayGroup`. */
+/** Default close delay (ms) for the `NavigationMenuProvider` delay group. */
 export const DEFAULT_CLOSE_DELAY = 100;
 
 function getTransformOrigin(placement: string) {
@@ -73,8 +73,8 @@ export function useNavigationMenu({
   defaultValue: propDefaultValue,
   onValueChange,
   placement = "bottom",
-  // Kept undefined when not set so a surrounding `NavigationMenuDelayGroup` can
-  // take over (see `useGroupDelay`); defaults are applied at the delay call site.
+  // Kept undefined when not set so the `NavigationMenuProvider` delay group applies
+  // the shared default (see `useGroupDelay`); defaults are applied at the delay call site.
   openDelay,
   closeDelay,
 }: UseNavigationMenuProps) {
@@ -102,15 +102,15 @@ export function useNavigationMenu({
   );
 }
 
-export interface UseNavigationMenuItemProps {
+export interface UseNavigationMenuRootProps {
   /**
-   * Identifies this item within the shared open state. Must be unique per Root.
+   * Identifies this menu within the shared open state. Must be unique per Provider.
    */
   value: string;
   disabled?: boolean;
 
   /**
-   * Floating UI placement. Defaults to the Root's `placement`.
+   * Floating UI placement. Defaults to the Provider's `placement`.
    */
   placement?: Placement;
 
@@ -133,11 +133,13 @@ export interface UseNavigationMenuItemProps {
   strategy?: "absolute" | "fixed";
 }
 
-export type UseNavigationMenuItemReturn = ReturnType<typeof useNavigationMenuItem>;
+export type UseNavigationMenuRootReturn = ReturnType<typeof useNavigationMenuRoot>;
 
-export function useNavigationMenuItem(
+export type UseNavigationMenuItemReturn = ReturnType<UseNavigationMenuRootReturn["getItemProps"]>;
+
+export function useNavigationMenuRoot(
   root: UseNavigationMenuReturn,
-  props: UseNavigationMenuItemProps,
+  props: UseNavigationMenuRootProps,
 ) {
   const {
     value: itemValue,
@@ -220,7 +222,7 @@ export function useNavigationMenuItem(
   const { status } = useTransitionStatus(context);
   const mounted = status !== "unmounted";
 
-  // Participate in a surrounding `NavigationMenuDelayGroup` (a floating-ui
+  // Participate in the delay group provided by `NavigationMenuRoot` (a floating-ui
   // `NextFloatingDelayGroup`, shared with `HelpBubbleTooltip`): once any grouped
   // trigger — nav flyout or tooltip — is open, the rest skip their open delay.
   const group = useNextDelayGroup(context);
@@ -240,11 +242,16 @@ export function useNavigationMenuItem(
   // Hover is gated to mouse pointers (`mouseOnly`) so touch falls back to the
   // click interaction. `safePolygon` keeps the flyout open while the pointer
   // travels from the trigger to the content (WCAG 1.4.13 "hoverable").
+  // `blockPointerEvents` disables pointer events on everything except the open
+  // flyout and its trigger during that travel, so siblings stacked next to the
+  // trigger (other flyouts, collapsed-item tooltips) can't intercept the pointer
+  // mid-travel and steal the open state. Once the pointer leaves the safe area
+  // toward a sibling, it opens instantly via the shared delay group.
   // The delay opens instantly when another item is already open (skip-delay).
   const hover = useHover(context, {
     enabled: !disabled,
     mouseOnly: true,
-    handleClose: safePolygon(),
+    handleClose: safePolygon({ blockPointerEvents: true }),
     delay: useGroupDelay
       ? () => group.delayRef.current
       : () =>
@@ -318,16 +325,24 @@ export function useNavigationMenuItem(
       ...interactions.getFloatingProps(),
     }),
 
-    getLinkProps: (linkProps?: { current?: boolean }) =>
-      elementProps({
-        "aria-current": linkProps?.current ? ("page" as const) : undefined,
-        "data-current": dataAttr(linkProps?.current),
-        // Selecting a navigation link closes the flyout. This fires even when
-        // the consumer calls preventDefault for client-side routing (an SPA
-        // Link always does), so it is intentionally not gated on
-        // event.defaultPrevented.
-        onClick: () => setValue(null),
-      }),
+    getItemProps: (itemProps?: { current?: boolean; disabled?: boolean }) => {
+      const itemStateProps = elementProps({
+        "data-current": dataAttr(itemProps?.current),
+        "data-disabled": dataAttr(itemProps?.disabled),
+      });
+
+      return {
+        stateProps: itemStateProps,
+        rootProps: buttonProps({
+          ...itemStateProps,
+          disabled: itemProps?.disabled,
+          "aria-current": itemProps?.current ? ("page" as const) : undefined,
+          // Selecting a navigation item closes the flyout. A disabled <button>
+          // never fires click, so this is safe to attach unconditionally.
+          onClick: () => setValue(null),
+        }),
+      };
+    },
 
     getGroupProps: () => {
       const groupIndex = groupIndexCounter.current++;

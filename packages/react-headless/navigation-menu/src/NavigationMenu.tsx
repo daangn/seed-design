@@ -10,52 +10,31 @@ import {
   DEFAULT_CLOSE_DELAY,
   DEFAULT_OPEN_DELAY,
   useNavigationMenu,
-  useNavigationMenuItem,
-  type UseNavigationMenuItemProps,
+  useNavigationMenuRoot,
   type UseNavigationMenuProps,
+  type UseNavigationMenuRootProps,
 } from "./useNavigationMenu";
-import { NavigationMenuProvider, useNavigationMenuContext } from "./useNavigationMenuContext";
 import {
-  NavigationMenuItemProvider,
-  useNavigationMenuItemContext,
-} from "./useNavigationMenuItemContext";
+  NavigationMenuContextProvider,
+  useNavigationMenuContext,
+} from "./useNavigationMenuContext";
+import { NavigationMenuItemProvider } from "./useNavigationMenuItemContext";
+import {
+  NavigationMenuRootProvider,
+  useNavigationMenuRootContext,
+} from "./useNavigationMenuRootContext";
 
-export interface NavigationMenuDelayGroupProps {
+export interface NavigationMenuProviderProps extends UseNavigationMenuProps {
   children?: React.ReactNode;
-  /**
-   * Shared open delay (ms) for the grouped triggers.
-   * @default 200
-   */
-  openDelay?: number;
-  /**
-   * Shared close delay (ms) for the grouped triggers.
-   * @default 100
-   */
-  closeDelay?: number;
 }
 
 /**
- * Provider that lets a group of navigation menus (and `HelpBubbleTooltip`s)
- * share a hover delay: once one is open, the others open instantly while the
- * pointer moves between them.
+ * Coordinates a set of hover-disclosure menus: tracks which one is open and
+ * wraps them in a shared hover delay group, so once one flyout is open the
+ * others (and any `HelpBubbleTooltip`s rendered alongside) open instantly while
+ * the pointer moves between them. Renders no DOM of its own.
  */
-export function NavigationMenuDelayGroup({
-  openDelay = DEFAULT_OPEN_DELAY,
-  closeDelay = DEFAULT_CLOSE_DELAY,
-  children,
-}: NavigationMenuDelayGroupProps) {
-  return (
-    <NextFloatingDelayGroup delay={{ open: openDelay, close: closeDelay }}>
-      {children}
-    </NextFloatingDelayGroup>
-  );
-}
-
-export interface NavigationMenuRootProps extends UseNavigationMenuProps {
-  children?: React.ReactNode;
-}
-
-export const NavigationMenuRoot = ({
+export const NavigationMenuProvider = ({
   value,
   defaultValue,
   onValueChange,
@@ -63,7 +42,7 @@ export const NavigationMenuRoot = ({
   openDelay,
   closeDelay,
   children,
-}: NavigationMenuRootProps) => {
+}: NavigationMenuProviderProps) => {
   const api = useNavigationMenu({
     value,
     defaultValue,
@@ -73,14 +52,24 @@ export const NavigationMenuRoot = ({
     closeDelay,
   });
 
-  return <NavigationMenuProvider value={api}>{children}</NavigationMenuProvider>;
+  return (
+    <NextFloatingDelayGroup
+      delay={{ open: openDelay ?? DEFAULT_OPEN_DELAY, close: closeDelay ?? DEFAULT_CLOSE_DELAY }}
+    >
+      <NavigationMenuContextProvider value={api}>{children}</NavigationMenuContextProvider>
+    </NextFloatingDelayGroup>
+  );
 };
 
-export interface NavigationMenuItemProps extends UseNavigationMenuItemProps {
+export interface NavigationMenuRootProps extends UseNavigationMenuRootProps {
   children?: React.ReactNode;
 }
 
-export const NavigationMenuItem = ({
+/**
+ * One disclosure menu (a trigger plus its flyout) within a
+ * `NavigationMenuProvider`. Renders no DOM of its own.
+ */
+export const NavigationMenuRoot = ({
   value,
   disabled,
   placement,
@@ -88,9 +77,9 @@ export const NavigationMenuItem = ({
   overflowPadding,
   strategy,
   children,
-}: NavigationMenuItemProps) => {
-  const root = useNavigationMenuContext();
-  const api = useNavigationMenuItem(root, {
+}: NavigationMenuRootProps) => {
+  const provider = useNavigationMenuContext();
+  const api = useNavigationMenuRoot(provider, {
     value,
     disabled,
     placement,
@@ -99,7 +88,7 @@ export const NavigationMenuItem = ({
     strategy,
   });
 
-  return <NavigationMenuItemProvider value={api}>{children}</NavigationMenuItemProvider>;
+  return <NavigationMenuRootProvider value={api}>{children}</NavigationMenuRootProvider>;
 };
 
 export interface NavigationMenuTriggerProps
@@ -108,7 +97,7 @@ export interface NavigationMenuTriggerProps
 
 export const NavigationMenuTrigger = forwardRef<HTMLButtonElement, NavigationMenuTriggerProps>(
   (props, ref) => {
-    const api = useNavigationMenuItemContext();
+    const api = useNavigationMenuRootContext();
 
     return (
       <Primitive.button
@@ -132,7 +121,7 @@ export interface NavigationMenuPositionerProps
 
 export const NavigationMenuPositioner = forwardRef<HTMLDivElement, NavigationMenuPositionerProps>(
   ({ container, ...props }, ref) => {
-    const api = useNavigationMenuItemContext();
+    const api = useNavigationMenuRootContext();
 
     return (
       <FloatingPortal root={container ?? undefined}>
@@ -152,7 +141,7 @@ export interface NavigationMenuContentProps
 
 export const NavigationMenuContent = forwardRef<HTMLDivElement, NavigationMenuContentProps>(
   (props, ref) => {
-    const { floatingContext, contentProps, focusManaged } = useNavigationMenuItemContext();
+    const { floatingContext, contentProps, focusManaged } = useNavigationMenuRootContext();
 
     // FloatingFocusManager (non-modal) is enabled only when the flyout was
     // opened by keyboard (`focusManaged`). It then moves focus into the content,
@@ -178,7 +167,7 @@ export interface NavigationMenuGroupProps
 
 export const NavigationMenuGroup = forwardRef<HTMLDivElement, NavigationMenuGroupProps>(
   (props, ref) => {
-    const { getGroupProps } = useNavigationMenuItemContext();
+    const { getGroupProps } = useNavigationMenuRootContext();
     const { labelId, rootProps } = getGroupProps();
 
     return (
@@ -198,7 +187,7 @@ export interface NavigationMenuGroupLabelProps
 
 export const NavigationMenuGroupLabel = forwardRef<HTMLDivElement, NavigationMenuGroupLabelProps>(
   (props, ref) => {
-    const { getGroupLabelProps } = useNavigationMenuItemContext();
+    const { getGroupLabelProps } = useNavigationMenuRootContext();
     const labelId = useContext(NavigationMenuGroupLabelIdContext);
     if (!labelId) {
       throw new Error("NavigationMenuGroupLabel must be used within a NavigationMenuGroup");
@@ -211,20 +200,25 @@ NavigationMenuGroupLabel.displayName = "NavigationMenuGroupLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface NavigationMenuLinkProps
+export interface NavigationMenuItemProps
   extends PrimitiveProps,
-    React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
-   * Marks this link as the current page (sets aria-current="page").
+   * Marks this item as the current page (sets aria-current="page").
    */
   current?: boolean;
 }
 
-export const NavigationMenuLink = forwardRef<HTMLAnchorElement, NavigationMenuLinkProps>(
-  ({ current, ...props }, ref) => {
-    const { getLinkProps } = useNavigationMenuItemContext();
+export const NavigationMenuItem = forwardRef<HTMLButtonElement, NavigationMenuItemProps>(
+  ({ current, disabled, ...props }, ref) => {
+    const { getItemProps } = useNavigationMenuRootContext();
+    const api = getItemProps({ current, disabled });
 
-    return <Primitive.a ref={ref} {...mergeProps(getLinkProps({ current }), props)} />;
+    return (
+      <NavigationMenuItemProvider value={api}>
+        <Primitive.button ref={ref} {...mergeProps(api.rootProps, props)} />
+      </NavigationMenuItemProvider>
+    );
   },
 );
-NavigationMenuLink.displayName = "NavigationMenuLink";
+NavigationMenuItem.displayName = "NavigationMenuItem";

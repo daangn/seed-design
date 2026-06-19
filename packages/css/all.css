@@ -6630,6 +6630,7 @@
   color: inherit;
   text-align: start;
   isolation: isolate;
+  background: none;
   border: none;
   outline: none;
   align-items: center;

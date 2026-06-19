@@ -5,7 +5,7 @@ export interface UseNavigationMenuContext extends UseNavigationMenuReturn {}
 
 const NavigationMenuContext = createContext<UseNavigationMenuContext | null>(null);
 
-export const NavigationMenuProvider = NavigationMenuContext.Provider;
+export const NavigationMenuContextProvider = NavigationMenuContext.Provider;
 
 export function useNavigationMenuContext<T extends boolean | undefined = true>({
   strict = true,

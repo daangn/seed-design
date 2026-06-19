@@ -14,7 +14,7 @@ import {
   IconWrenchFill,
 } from "@karrotmarket/react-monochrome-icon";
 import { Layout, Text, VStack } from "@seed-design/react";
-import { useState, type MouseEvent } from "react";
+import { useState } from "react";
 
 import {
   SideNavigationContent,
@@ -33,11 +33,7 @@ export default function SideNavigation1() {
 
   const navItemProps = (label: string) => ({
     current: currentItem === label,
-    href: "#",
-    onClick: (event: MouseEvent) => {
-      event.preventDefault();
-      setCurrentItem(label);
-    },
+    onClick: () => setCurrentItem(label),
   });
 
   return (

@@ -1,5 +1,5 @@
 export {
-  NavigationMenuDelayGroup as DelayGroup,
+  NavigationMenuProvider as Provider,
   NavigationMenuRoot as Root,
   NavigationMenuItem as Item,
   NavigationMenuTrigger as Trigger,
@@ -7,8 +7,7 @@ export {
   NavigationMenuContent as Content,
   NavigationMenuGroup as Group,
   NavigationMenuGroupLabel as GroupLabel,
-  NavigationMenuLink as Link,
-  type NavigationMenuDelayGroupProps as DelayGroupProps,
+  type NavigationMenuProviderProps as ProviderProps,
   type NavigationMenuRootProps as RootProps,
   type NavigationMenuItemProps as ItemProps,
   type NavigationMenuTriggerProps as TriggerProps,
@@ -16,5 +15,4 @@ export {
   type NavigationMenuContentProps as ContentProps,
   type NavigationMenuGroupProps as GroupProps,
   type NavigationMenuGroupLabelProps as GroupLabelProps,
-  type NavigationMenuLinkProps as LinkProps,
 } from "./NavigationMenu";
