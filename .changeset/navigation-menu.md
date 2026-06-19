@@ -4,4 +4,4 @@
 "@seed-design/css": major
 ---
 
-NavigationMenu 컴포넌트를 추가합니다.
+Side Navigation에서 내부적으로 사용되는 `NavigationMenu` 컴포넌트를 추가합니다.
