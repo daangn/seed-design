@@ -26,7 +26,10 @@ export const vars = {
         "paddingBottom": "var(--seed-dimension-x4)"
       },
       "body": {
-        "paddingX": "var(--seed-dimension-x6)"
+        "paddingX": "var(--seed-dimension-x6)",
+        "paddingBottom": "var(--seed-dimension-x12)",
+        "transitionDuration": "var(--seed-duration-color-transition)",
+        "transitionTimingFunction": "var(--seed-timing-function-easing)"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",
@@ -49,6 +52,11 @@ export const vars = {
       "closeButton": {
         "fromTop": "28px",
         "fromRight": "24px"
+      }
+    },
+    "scrolled": {
+      "body": {
+        "stroke": "var(--seed-color-stroke-neutral-muted)"
       }
     }
   },

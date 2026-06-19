@@ -24,14 +24,20 @@ export declare const vars: {
         "minHeight": "70px",
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x6)",
+        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
         "paddingBottom": "var(--seed-dimension-x4)"
       },
       "body": {
-        "paddingX": "var(--seed-dimension-x6)"
+        "paddingX": "var(--seed-dimension-x6)",
+        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
+        "paddingBottom": "var(--seed-dimension-x12)",
+        "transitionDuration": "var(--seed-duration-color-transition)",
+        "transitionTimingFunction": "var(--seed-timing-function-easing)"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x4)",
+        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
         "paddingBottom": "var(--seed-dimension-x6)",
         "gap": "var(--seed-dimension-x2)"
       },
@@ -50,6 +56,12 @@ export declare const vars: {
       "closeButton": {
         "fromTop": "28px",
         "fromRight": "24px"
+      }
+    },
+    "scrolled": {
+      "body": {
+        /** 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다. */
+        "stroke": "var(--seed-color-stroke-neutral-muted)"
       }
     }
   },

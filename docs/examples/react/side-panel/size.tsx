@@ -1,4 +1,4 @@
-import { Box, Flex } from "@seed-design/react";
+import { Flex } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SidePanelBody,
@@ -16,9 +16,7 @@ const SidePanelSize = () => {
         </SidePanelTrigger>
         <SidePanelContent title="Small Side Panel">
           <SidePanelBody paddingX="x6">
-            <Box py="x4">
-              좁은 패널에 적합한 간결한 콘텐츠를 배치합니다.
-            </Box>
+            좁은 패널에 적합한 간결한 콘텐츠를 배치합니다.
           </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
@@ -29,9 +27,7 @@ const SidePanelSize = () => {
         </SidePanelTrigger>
         <SidePanelContent title="Medium Side Panel">
           <SidePanelBody paddingX="x6">
-            <Box py="x4">
-              기본 너비로 상세 정보와 주요 액션을 함께 제공합니다.
-            </Box>
+            기본 너비로 상세 정보와 주요 액션을 함께 제공합니다.
           </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
@@ -42,9 +38,7 @@ const SidePanelSize = () => {
         </SidePanelTrigger>
         <SidePanelContent title="Large Side Panel">
           <SidePanelBody paddingX="x6">
-            <Box py="x4">
-              넓은 패널에서 더 많은 폼 필드나 상세 콘텐츠를 다룹니다.
-            </Box>
+            넓은 패널에서 더 많은 폼 필드나 상세 콘텐츠를 다룹니다.
           </SidePanelBody>
         </SidePanelContent>
       </SidePanelRoot>
