@@ -34,8 +34,7 @@ export const vars = {
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x4)",
-        "paddingBottom": "var(--seed-dimension-x6)",
-        "gap": "var(--seed-dimension-x2)"
+        "paddingBottom": "var(--seed-dimension-x6)"
       },
       "title": {
         "color": "var(--seed-color-fg-neutral)",

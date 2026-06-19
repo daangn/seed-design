@@ -5,7 +5,7 @@ import {
   sidePanelVariantMap,
   type SidePanelVariantProps,
 } from "@seed-design/css/recipes/side-panel";
-import { Box, Text } from "@seed-design/react";
+import { Box, Text, VStack } from "@seed-design/react";
 import type { ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -58,8 +58,10 @@ const SidePanelPreview = ({
           </SidePanelBody>
           {showFooter && (
             <SidePanelFooter>
-              <ActionButton variant="neutralSolid">Confirm</ActionButton>
-              <ActionButton variant="neutralWeak">Cancel</ActionButton>
+              <VStack gap="x2">
+                <ActionButton variant="neutralSolid">Confirm</ActionButton>
+                <ActionButton variant="neutralWeak">Cancel</ActionButton>
+              </VStack>
             </SidePanelFooter>
           )}
         </SidePanelContent>
