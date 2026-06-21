@@ -33,7 +33,6 @@ import {
   MenuGroupLabel,
   MenuItem,
 } from "seed-design/ui/menu";
-import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-design/ui/field-button";
 import { BottomSheetRoot, BottomSheetContent, BottomSheetBody } from "seed-design/ui/bottom-sheet";
 import {
   AlertDialogRoot,
@@ -75,8 +74,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetFromMenuOpen, setSheetFromMenuOpen] = useState(false);
   const menuInSheetOpenRef = useRef(false);
-  const [fieldButtonMenuOpen, setFieldButtonMenuOpen] = useState(false);
-  const [selectedFruit, setSelectedFruit] = useState("");
   const [anchorMenuOpen, setAnchorMenuOpen] = useState(false);
   const [lastReason, setLastReason] = useState<string>("-");
 
@@ -258,44 +255,6 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                 </MenuContent>
               </MenuRoot>
             </HStack>
-          </VStack>
-
-          <VStack gap="x3">
-            <SectionTitle>FieldButton (Select-like)</SectionTitle>
-            <MenuRoot
-              open={fieldButtonMenuOpen}
-              onOpenChange={setFieldButtonMenuOpen}
-              matchReferenceWidth
-            >
-              <MenuAnchor asChild>
-                <FieldButton
-                  label="과일"
-                  description="좋아하는 과일을 선택해주세요."
-                  values={selectedFruit ? [selectedFruit] : undefined}
-                  showClearButton={!!selectedFruit}
-                  onValuesChange={([value]) => setSelectedFruit(value)}
-                  buttonProps={{
-                    onClick: () => setFieldButtonMenuOpen((prev) => !prev),
-                    "aria-haspopup": "menu",
-                    "aria-expanded": fieldButtonMenuOpen,
-                    "aria-label": selectedFruit ? `과일 변경. 현재: ${selectedFruit}` : "과일 선택",
-                  }}
-                >
-                  {selectedFruit ? (
-                    <FieldButtonValue>{selectedFruit}</FieldButtonValue>
-                  ) : (
-                    <FieldButtonPlaceholder>과일을 선택해주세요</FieldButtonPlaceholder>
-                  )}
-                </FieldButton>
-              </MenuAnchor>
-              <MenuContent>
-                <MenuGroup>
-                  {["사과", "바나나", "포도", "딸기", "수박"].map((fruit) => (
-                    <MenuItem key={fruit} label={fruit} onClick={() => setSelectedFruit(fruit)} />
-                  ))}
-                </MenuGroup>
-              </MenuContent>
-            </MenuRoot>
           </VStack>
 
           <VStack gap="x3">
