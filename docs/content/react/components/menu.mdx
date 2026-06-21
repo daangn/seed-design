@@ -53,7 +53,7 @@ import {
 
 - `MenuRoot`: 메뉴의 상태(열림/닫힘)와 위치를 관리합니다.
 - `MenuTrigger`: 클릭 시 메뉴를 열고 닫는 트리거입니다.
-- `MenuAnchor`: 메뉴의 위치 기준점만 제공하며, 열고 닫는 동작은 포함하지 않습니다. `FieldButton`처럼 내부 `<button>`을 직접 제어해야 하는 경우에 `MenuTrigger` 대신 사용합니다.
+- `MenuAnchor`: 메뉴의 위치 기준점만 제공하며, 열고 닫는 동작은 포함하지 않습니다. 트리거 동작을 직접 제어해야 하는 경우에 `MenuTrigger` 대신 사용합니다.
 - `MenuContent`: 메뉴 항목들을 감싸는 플로팅 컨테이너입니다.
 - `MenuGroup`: 관련된 항목들을 그룹으로 묶습니다. 모든 `MenuItem`은 `MenuGroup` 안에 있어야 합니다.
 - `MenuGroupLabel`: 그룹의 제목을 표시합니다.
@@ -223,27 +223,6 @@ import {
   }
   ```
 </ComponentExample>
-
-### With FieldButton
-
-`FieldButton`은 내부에 별도의 `<button>` 요소를 가진 복합 컴포넌트이므로, `MenuTrigger` 대신 `MenuAnchor`를 사용합니다. `buttonProps`를 통해 `onClick`, `aria-haspopup`, `aria-expanded`를 내부 `<button>` 요소에 직접 전달합니다.
-
-`matchReferenceWidth`를 함께 사용하면 메뉴 너비가 `FieldButton`에 맞춰져 Select와 유사한 UI를 구현할 수 있습니다.
-
-<ComponentExample name="react/menu/with-field-button">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/menu/with-field-button.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-<Card title="Field Button" href="/react/components/field-button">
-
-입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.
-
-</Card>
 
 ### `onOpenChange` Details
 
