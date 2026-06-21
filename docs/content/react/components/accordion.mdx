@@ -104,14 +104,14 @@ npx @seed-design/cli@latest add ui:accordion
   ```
 </ComponentExample>
 
-### Large Size
+### Size
 
-`size="large"` 를 사용하면 더 큰 크기의 아코디언을 표시합니다.
+`size` prop으로 아코디언의 크기를 설정합니다. 기본값은 `medium`(모바일 기본 사이즈)이고, `large`는 PC 대응 사이즈입니다. `responsive`는 모바일에서 Medium, `md`(768px) 이상에서 Large로 자동 전환됩니다.
 
-<ComponentExample name="react/accordion/size-large">
+<ComponentExample name="react/accordion/size">
   ```json doc-gen:file
   {
-    "file": "examples/react/accordion/size-large.tsx",
+    "file": "examples/react/accordion/size.tsx",
     "codeblock": true
   }
   ```
