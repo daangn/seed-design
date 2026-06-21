@@ -6,7 +6,7 @@ declare interface AccordionVariant {
 /**
   * @default "medium"
   */
-  size: "medium" | "large";
+  size: "medium" | "large" | "responsive";
 }
 
 declare type AccordionVariantMap = {

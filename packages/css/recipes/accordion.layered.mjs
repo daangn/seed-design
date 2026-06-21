@@ -57,6 +57,10 @@ const compoundVariants = [
   {
     "variant": "separated",
     "size": "large"
+  },
+  {
+    "variant": "separated",
+    "size": "responsive"
   }
 ];
 
@@ -67,7 +71,8 @@ export const accordionVariantMap = {
   ],
   "size": [
     "medium",
-    "large"
+    "large",
+    "responsive"
   ]
 };
 
