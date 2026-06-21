@@ -7,6 +7,7 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon, suffixIcon } from "../utils/icon";
 import { disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { breakpoints } from "../utils/breakpoint";
 import spec from "@seed-design/rootage-artifacts/components/accordion.json" with { type: "json" };
 
 const accordion = defineSlotRecipe({
@@ -248,6 +249,61 @@ const accordion = defineSlotRecipe({
           }),
         },
       },
+      responsive: {
+        trigger: {
+          paddingTop: itemVars.sizeMedium.enabled.trigger.paddingY,
+          paddingBottom: itemVars.sizeMedium.enabled.trigger.paddingY,
+
+          [breakpoints.up("md")]: {
+            paddingTop: itemVars.sizeLarge.enabled.trigger.paddingY,
+            paddingBottom: itemVars.sizeLarge.enabled.trigger.paddingY,
+          },
+        },
+        prefix: {
+          marginRight: itemVars.sizeMedium.enabled.prefix.paddingRight,
+          ...onlyIcon({
+            size: itemVars.sizeMedium.enabled.prefixIcon.size,
+          }),
+
+          [breakpoints.up("md")]: {
+            marginRight: itemVars.sizeLarge.enabled.prefix.paddingRight,
+            ...onlyIcon({
+              size: itemVars.sizeLarge.enabled.prefixIcon.size,
+            }),
+          },
+        },
+        title: {
+          fontSize: itemVars.sizeMedium.enabled.title.fontSize,
+          lineHeight: itemVars.sizeMedium.enabled.title.lineHeight,
+
+          [breakpoints.up("md")]: {
+            fontSize: itemVars.sizeLarge.enabled.title.fontSize,
+            lineHeight: itemVars.sizeLarge.enabled.title.lineHeight,
+          },
+        },
+        description: {
+          fontSize: itemVars.sizeMedium.enabled.description.fontSize,
+          lineHeight: itemVars.sizeMedium.enabled.description.lineHeight,
+
+          [breakpoints.up("md")]: {
+            fontSize: itemVars.sizeLarge.enabled.description.fontSize,
+            lineHeight: itemVars.sizeLarge.enabled.description.lineHeight,
+          },
+        },
+        suffixIcon: {
+          ...suffixIcon({
+            size: itemVars.sizeMedium.enabled.suffixIcon.size,
+            marginLeft: itemVars.sizeMedium.enabled.suffixIcon.paddingLeft,
+          }),
+
+          [breakpoints.up("md")]: {
+            ...suffixIcon({
+              size: itemVars.sizeLarge.enabled.suffixIcon.size,
+              marginLeft: itemVars.sizeLarge.enabled.suffixIcon.paddingLeft,
+            }),
+          },
+        },
+      },
     },
   },
   compoundVariants: [
@@ -266,6 +322,19 @@ const accordion = defineSlotRecipe({
       css: {
         root: {
           gap: vars.variantSeparatedSizeLarge.enabled.root.gap,
+        },
+      },
+    },
+    {
+      variant: "separated",
+      size: "responsive",
+      css: {
+        root: {
+          gap: vars.variantSeparatedSizeMedium.enabled.root.gap,
+
+          [breakpoints.up("md")]: {
+            gap: vars.variantSeparatedSizeLarge.enabled.root.gap,
+          },
         },
       },
     },
