@@ -7,6 +7,8 @@ declare interface AccordionVariant {
   */
   variant: "inline" | "separated";
 /**
+  * - `responsive`: 뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `md` 미만에서는 `medium`, `md` 이상에서는 `large`로 적용됩니다.
+  *
   * @default "medium"
   */
   size: "medium" | "large" | "responsive";
