@@ -999,6 +999,7 @@ text {
 
 .seed-app-bar__iconButton {
   border-radius: var(--seed-radius-r1);
+  --app-bar-icon-button-bleed: calc(-1 * (44px - 24px) / 2);
   background: none;
   border-width: 0;
   justify-content: center;

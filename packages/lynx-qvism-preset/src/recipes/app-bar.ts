@@ -152,6 +152,10 @@ export const appBar = defineSlotRecipe({
       background: "#00000000",
       padding: 0,
       borderRadius: "var(--seed-radius-r1)",
+      // 아이콘 버튼은 터치 타겟(root.size)이 아이콘(icon.size)보다 커서 양옆에 (root - icon) / 2 만큼
+      // 투명 여백(bleed)이 생긴다. 가장자리 버튼을 이 값만큼 바깥으로 당겨 아이콘을 콘텐츠 여백에 정렬한다.
+      // 방향(leading/trailing)은 per-instance라 AppBarIconButton이 이 변수를 marginLeft/Right에 적용한다.
+      "--app-bar-icon-button-bleed": `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
     },
     icon: {
       flexShrink: 0,

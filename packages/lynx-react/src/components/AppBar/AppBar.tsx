@@ -15,6 +15,7 @@ import type {
   LynxViewProps,
   LynxViewRef,
 } from "../../types";
+import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { Icon } from "../Icon";
 import { AppBarProvider, useAppBarContext } from "./context";
@@ -45,6 +46,44 @@ function useAppBarMainClassNames(consumer: string): AppBarMainClassNames {
   } catch {
     throw new Error(`<${consumer}/> must be rendered inside <AppBarMain/>.`);
   }
+}
+
+/**
+ * 아이콘 버튼의 bleed 보정 방향. `leading`은 좌측 가장자리(marginLeft), `trailing`은 우측 가장자리(marginRight).
+ */
+export type AppBarEdge = "leading" | "trailing";
+
+/**
+ * `AppBarLeft`/`AppBarRight`가 가장자리(첫/마지막) 자식에 `edge`를 자동 주입한다.
+ * `AppBarIconButton`만 이 값을 소비해 bleed를 보정하고, 커스텀 슬롯 등 다른 요소는 무시한다.
+ * 자식이 이미 `edge`를 명시했으면 존중하고 주입하지 않는다.
+ */
+function injectEdgeIntoChildren(children: React.ReactNode, edge: AppBarEdge): React.ReactNode {
+  const items = toArray(children);
+  if (items.length === 0) return children;
+
+  // leading은 첫 번째, trailing은 마지막 유효 엘리먼트를 대상으로 한다.
+  let targetIndex = -1;
+  for (let offset = 0; offset < items.length; offset++) {
+    const index = edge === "leading" ? offset : items.length - 1 - offset;
+    if (React.isValidElement(items[index])) {
+      targetIndex = index;
+      break;
+    }
+  }
+  if (targetIndex === -1) return children;
+
+  const target = items[targetIndex] as React.ReactElement<{ edge?: AppBarEdge }>;
+  if (target.props.edge !== undefined) return children;
+
+  return items.map((child, index) => {
+    if (!React.isValidElement(child)) return child;
+    const element = child as React.ReactElement<{ edge?: AppBarEdge }>;
+    return React.cloneElement(element, {
+      key: element.key ?? index,
+      ...(index === targetIndex ? { edge } : {}),
+    });
+  });
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +150,7 @@ export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref
       bindlayoutchange={handleLayoutChange}
       className={clsx(classNames.left, className)}
     >
-      {children}
+      {injectEdgeIntoChildren(children, "leading")}
     </view>
   );
 });
@@ -144,7 +183,7 @@ export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, r
       bindlayoutchange={handleLayoutChange}
       className={clsx(classNames.right, className)}
     >
-      {children}
+      {injectEdgeIntoChildren(children, "trailing")}
     </view>
   );
 });
@@ -236,6 +275,11 @@ export interface AppBarIconButtonProps extends LynxElementProps, LynxPressablePr
   "accessibility-label"?: LynxViewProps["accessibility-label"];
   "accessibility-element"?: LynxViewProps["accessibility-element"];
   "accessibility-traits"?: LynxViewProps["accessibility-traits"];
+  /**
+   * 가장자리 정렬을 위한 bleed 보정 방향. 보통 `AppBarLeft`(leading)/`AppBarRight`(trailing)가
+   * 가장자리 자식에 자동 주입하므로 직접 지정할 필요는 없다. 자동 주입을 덮어쓰고 싶을 때만 명시한다.
+   */
+  edge?: AppBarEdge;
 }
 
 export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>((props, ref) => {
@@ -243,6 +287,7 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
     children,
     className,
     icon,
+    edge,
     "accessibility-element": accessibilityElement = true,
     "accessibility-label": accessibilityLabel,
     "accessibility-traits": accessibilityTraits = "button",
@@ -254,10 +299,20 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
     console.warn("AppBarIconButton requires `accessibility-label` for accessibility.");
   }
 
+  // 가장자리 버튼은 bleed(투명 여백)만큼 바깥으로 당겨 아이콘을 콘텐츠 여백에 정렬한다.
+  // 값은 recipe가 노출하는 `--app-bar-icon-button-bleed`(테마 불변)를 참조한다.
+  const edgeStyle =
+    edge === "leading"
+      ? { marginLeft: "var(--app-bar-icon-button-bleed)" }
+      : edge === "trailing"
+        ? { marginRight: "var(--app-bar-icon-button-bleed)" }
+        : undefined;
+
   return (
     <view
       {...(ref ? { ref: ref as LynxViewRef } : {})}
       {...nativeProps}
+      {...(edgeStyle ? { style: edgeStyle as LynxViewProps["style"] } : {})}
       accessibility-element={accessibilityElement}
       accessibility-label={accessibilityLabel}
       accessibility-traits={accessibilityTraits}
@@ -269,10 +324,16 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
 });
 AppBarIconButton.displayName = "AppBarIconButton";
 
-export interface AppBarSlotProps extends LynxStyledElementProps {}
+export interface AppBarSlotProps extends LynxStyledElementProps {
+  /**
+   * @internal `AppBarLeft`/`AppBarRight`가 가장자리 자식에 주입하는 값. 커스텀 슬롯은 bleed 보정을
+   * 받지 않으므로 흡수만 하고 무시한다(네이티브 `<view>`로 전달되지 않게 차단).
+   */
+  edge?: AppBarEdge;
+}
 
 export const AppBarSlot = React.forwardRef<unknown, AppBarSlotProps>((props, ref) => {
-  const { children, className, ...nativeProps } = props;
+  const { children, className, edge: _edge, ...nativeProps } = props;
   const classNames = useAppBarClassNames("AppBarSlot");
 
   return (
