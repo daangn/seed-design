@@ -6,13 +6,11 @@ import { DrawerContent, DrawerRoot } from "./Drawer";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
 
 interface DrawerHarnessProps extends UseDrawerProps {
-  initialCloseButtonVisible?: boolean;
   onApi?: (api: ReturnType<typeof useDrawer>) => void;
 }
 
-function DrawerHarness({ initialCloseButtonVisible = false, onApi, ...props }: DrawerHarnessProps) {
+function DrawerHarness({ onApi, ...props }: DrawerHarnessProps) {
   const api = useDrawer(props);
-  const [showCloseButton, setShowCloseButton] = React.useState(initialCloseButtonVisible);
 
   React.useEffect(() => {
     onApi?.(api);
@@ -45,21 +43,12 @@ function DrawerHarness({ initialCloseButtonVisible = false, onApi, ...props }: D
       >
         두 번째 스냅으로 이동
       </button>
-      <button
-        data-testid="toggle-close-button"
-        onClick={() => setShowCloseButton((visible) => !visible)}
-      >
-        닫기 버튼 토글
-      </button>
-
-      {showCloseButton ? <button data-testid="close-button" ref={api.closeButtonRef} /> : null}
 
       <div data-testid="is-open">{String(api.isOpen)}</div>
       <div data-testid="is-dragging">{String(api.isDragging)}</div>
       <div data-testid="active-snap-point">{String(api.activeSnapPoint)}</div>
       <div data-testid="has-animation-done">{String(api.hasAnimationDone)}</div>
       <div data-testid="should-overlay-animate">{String(api.shouldOverlayAnimate)}</div>
-      <div data-testid="is-close-button-rendered">{String(api.isCloseButtonRendered)}</div>
 
       <div
         data-testid="drawer"
@@ -101,18 +90,6 @@ describe("useDrawer", () => {
 
   afterEach(() => {
     jest.useRealTimers();
-  });
-
-  it("closeButtonRef를 통해 닫기 버튼 마운트 상태를 추적한다", () => {
-    const { getByTestId } = render(<DrawerHarness />);
-
-    expect(getByTestId("is-close-button-rendered")).toHaveTextContent("false");
-
-    fireEvent.click(getByTestId("toggle-close-button"));
-    expect(getByTestId("is-close-button-rendered")).toHaveTextContent("true");
-
-    fireEvent.click(getByTestId("toggle-close-button"));
-    expect(getByTestId("is-close-button-rendered")).toHaveTextContent("false");
   });
 
   it("트리거를 클릭하면 reason: trigger와 함께 onOpenChange를 호출한다", () => {

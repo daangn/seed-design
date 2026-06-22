@@ -5,10 +5,13 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import clsx from "clsx";
 import * as React from "react";
+import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(sidePanel);
+const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(sidePanel);
+
+const closeButtonTracker = createRenderTrackingContext("SidePanelCloseButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,13 +35,23 @@ export interface SidePanelRootProps
   direction?: "left" | "right";
 }
 
-export const SidePanelRoot = withRootProvider<SidePanelRootProps>(Drawer.Root, {
-  defaultProps: {
-    direction: "right",
+export function SidePanelRoot(props: SidePanelRootProps) {
+  const [variantProps, otherProps] = sidePanel.splitVariantProps({
+    direction: "right" as const,
     lazyMount: true,
     unmountOnExit: true,
-  },
-});
+    ...props,
+  });
+  const classNames = sidePanel(variantProps);
+
+  return (
+    <ClassNamesProvider value={classNames}>
+      <closeButtonTracker.Provider>
+        <Drawer.Root {...otherProps} />
+      </closeButtonTracker.Provider>
+    </ClassNamesProvider>
+  );
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,10 +92,23 @@ export const SidePanelContent = withContext<HTMLDivElement, SidePanelContentProp
 
 export interface SidePanelHeaderProps extends Drawer.HeaderProps {}
 
-export const SidePanelHeader = withContext<HTMLDivElement, SidePanelHeaderProps>(
-  Drawer.Header,
-  "header",
+export const SidePanelHeader = React.forwardRef<HTMLDivElement, SidePanelHeaderProps>(
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { isRendered } = closeButtonTracker.useRenderTracking();
+
+    return (
+      <Drawer.Header
+        ref={ref}
+        data-show-close-button={dataAttr(isRendered)}
+        className={clsx(classNames.header, className)}
+        {...props}
+      />
+    );
+  },
 );
+
+SidePanelHeader.displayName = "SidePanelHeader";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -172,7 +198,19 @@ export const SidePanelFooter = withContext<HTMLDivElement, SidePanelFooterProps>
 
 export interface SidePanelCloseButtonProps extends Drawer.CloseButtonProps {}
 
-export const SidePanelCloseButton = withContext<HTMLButtonElement, SidePanelCloseButtonProps>(
-  Drawer.CloseButton,
-  "closeButton",
+export const SidePanelCloseButton = React.forwardRef<HTMLButtonElement, SidePanelCloseButtonProps>(
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { trackRef } = closeButtonTracker.useRenderTracking();
+
+    return (
+      <Drawer.CloseButton
+        ref={composeRefs(ref, trackRef)}
+        className={clsx(classNames.closeButton, className)}
+        {...props}
+      />
+    );
+  },
 );
+
+SidePanelCloseButton.displayName = "SidePanelCloseButton";

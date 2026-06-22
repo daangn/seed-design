@@ -462,13 +462,7 @@ export function useFileUpload({
 export type UseFileUploadItemReturn = ReturnType<typeof useFileUploadItem>;
 
 export function useFileUploadItem(fileEntry: FileEntry) {
-  const { createFileUrl, removeFileEntry, acceptType, readOnly, stateProps } =
-    useFileUploadContext();
-
-  const [isOverlayRendered, setIsOverlayRendered] = useState(false);
-  const overlayRef = useCallback((node: HTMLElement | null) => {
-    setIsOverlayRendered(!!node);
-  }, []);
+  const { createFileUrl, removeFileEntry, acceptType, readOnly } = useFileUploadContext();
 
   // Image blob URL management
   const [imageSrc, setImageSrc] = useState<string>();
@@ -480,14 +474,8 @@ export function useFileUploadItem(fileEntry: FileEntry) {
     return createFileUrl(fileEntry.file, setImageSrc);
   }, [fileEntry.file, createFileUrl, acceptType]);
 
-  const overlayStateProps = elementProps({
-    "data-has-overlay": dataAttr(isOverlayRendered),
-  });
-
   return {
     ...fileEntry,
-
-    refs: { overlay: overlayRef },
 
     ...(acceptType === "image" &&
       imageSrc && {
@@ -496,9 +484,6 @@ export function useFileUploadItem(fileEntry: FileEntry) {
           alt: fileEntry.file.name,
         } satisfies React.ImgHTMLAttributes<HTMLImageElement>,
       }),
-
-    thumbnailProps: { ...overlayStateProps, ...stateProps },
-    metadataProps: { ...overlayStateProps, ...stateProps },
 
     // Root `disabled` is intentionally NOT propagated here — disabled still allows pruning
     // already-accepted files. Root `readOnly` does block removal so the value is preserved.

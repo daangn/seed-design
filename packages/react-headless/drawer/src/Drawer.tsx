@@ -359,12 +359,7 @@ export interface DrawerCloseButtonProps
 export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButtonProps>(
   (props, ref) => {
     const api = useDrawerContext();
-    return (
-      <Primitive.button
-        ref={composeRefs(ref, api.closeButtonRef)}
-        {...mergeProps(api.closeButtonProps, props)}
-      />
-    );
+    return <Primitive.button ref={ref} {...mergeProps(api.closeButtonProps, props)} />;
   },
 );
 

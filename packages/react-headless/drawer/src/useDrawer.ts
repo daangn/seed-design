@@ -193,11 +193,6 @@ export function useDrawer(props: UseDrawerProps) {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [shouldOverlayAnimate, setShouldOverlayAnimate] = useState<boolean>(false);
 
-  const [isCloseButtonRendered, setIsCloseButtonRendered] = useState<boolean>(false);
-  const closeButtonRef = useCallback((node: HTMLButtonElement | null) => {
-    setIsCloseButtonRendered(!!node);
-  }, []);
-
   const overlayRef = useRef<HTMLDivElement>(null);
   const openTime = useRef<Date | null>(null);
   const dragStartTime = useRef<Date | null>(null);
@@ -690,8 +685,6 @@ export function useDrawer(props: UseDrawerProps) {
       lazyMount: lazyMountProp,
       unmountOnExit: unmountOnExitProp,
       hasAnimationDone,
-      closeButtonRef,
-      isCloseButtonRendered,
 
       triggerProps: buttonProps({
         ...stateProps,
@@ -718,7 +711,6 @@ export function useDrawer(props: UseDrawerProps) {
         ...stateProps,
       }),
       headerProps: elementProps({
-        "data-show-close-button": dataAttr(isCloseButtonRendered),
         ...stateProps,
       }),
       closeButtonProps: buttonProps({
@@ -758,8 +750,6 @@ export function useDrawer(props: UseDrawerProps) {
       lazyMountProp,
       unmountOnExitProp,
       hasAnimationDone,
-      closeButtonRef,
-      isCloseButtonRendered,
       stateProps,
     ],
   );
