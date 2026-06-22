@@ -626,7 +626,16 @@ const textInput = defineSlotRecipe({
   metadata: {
     variants: {
       variant: spec.data.schema.variants.variant,
-      size: spec.data.schema.variants.size,
+      size: {
+        ...spec.data.schema.variants.size,
+        values: {
+          ...spec.data.schema.variants.size.values,
+          responsive: {
+            description:
+              "뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `lg` 미만에서는 `large`, `lg` 이상에서는 `medium`으로 적용됩니다.",
+          },
+        },
+      },
     },
   },
 });
