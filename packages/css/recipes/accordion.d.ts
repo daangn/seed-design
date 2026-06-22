@@ -1,9 +1,14 @@
 declare interface AccordionVariant {
   /**
+  * - `inline`: Accordion Item들이 하나의 연속된 목록처럼 표현됩니다. 밀접하게 관련된 항목들을 컴팩트하게 나열할 때 사용합니다.
+  * - `separated`: 각 Accordion Item이 개별 카드 형태로 분리되어 표현됩니다. 항목 간 시각적 독립성이 필요하거나, 각 섹션의 중요도가 동등할 때 사용합니다.
+  *
   * @default "inline"
   */
   variant: "inline" | "separated";
 /**
+  * - `responsive`: 뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `md` 미만에서는 `medium`, `md` 이상에서는 `large`로 적용됩니다.
+  *
   * @default "medium"
   */
   size: "medium" | "large" | "responsive";

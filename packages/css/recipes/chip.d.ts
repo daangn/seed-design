@@ -1,5 +1,9 @@
 declare interface ChipVariant {
   /**
+  * - `solid`: 기본 스타일입니다.
+  * - `outlineStrong`: 명확한 구분이 필요한 경우 사용합니다.
+  * - `outlineWeak`: Selection 사용 시 주목도가 낮은 스타일로 권장됩니다.
+  *
   * @default "solid"
   */
   variant: "solid" | "outlineStrong" | "outlineWeak";
