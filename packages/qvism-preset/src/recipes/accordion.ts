@@ -344,7 +344,19 @@ const accordion = defineSlotRecipe({
     size: "medium",
   },
   metadata: {
-    variants: spec.data.schema.variants,
+    variants: {
+      ...spec.data.schema.variants,
+      size: {
+        ...spec.data.schema.variants.size,
+        values: {
+          ...spec.data.schema.variants.size.values,
+          responsive: {
+            description:
+              "뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `md` 미만에서는 `medium`, `md` 이상에서는 `large`로 적용됩니다.",
+          },
+        },
+      },
+    },
   },
 });
 
