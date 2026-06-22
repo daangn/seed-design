@@ -17,12 +17,7 @@ const closeButtonTracker = createRenderTrackingContext("BottomSheetCloseButton")
 
 export interface BottomSheetRootProps
   extends BottomSheetVariantProps,
-    Omit<Drawer.RootProps, "direction"> {
-  /**
-   * @deprecated SEED React 2.0.0에서 제거됩니다. BottomSheet는 항상 아래에서 올라오므로 2.0.0부터 이 옵션은 무시됩니다.
-   */
-  direction?: Drawer.RootProps["direction"];
-}
+    Omit<Drawer.RootProps, "direction"> {}
 
 export function BottomSheetRoot(props: BottomSheetRootProps) {
   const [variantProps, otherProps] = bottomSheet.splitVariantProps({
