@@ -1,6 +1,6 @@
 # @seed-design/react-text-field
 
-## 1.1.2
+## 2.0.0
 
 ### Patch Changes
 

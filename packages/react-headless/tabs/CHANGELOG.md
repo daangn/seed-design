@@ -1,6 +1,6 @@
 # @seed-design/react-tabs
 
-## 1.0.6
+## 2.0.0
 
 ### Patch Changes
 

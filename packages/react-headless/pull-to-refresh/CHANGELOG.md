@@ -1,6 +1,6 @@
 # @seed-design/react-pull-to-refresh
 
-## 1.0.2
+## 2.0.0
 
 ### Patch Changes
 

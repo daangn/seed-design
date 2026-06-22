@@ -1,6 +1,6 @@
 # @seed-design/react-radio-group
 
-## 1.1.1
+## 2.0.0
 
 ### Patch Changes
 

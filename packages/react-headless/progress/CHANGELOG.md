@@ -1,6 +1,6 @@
 # @seed-design/react-progress
 
-## 1.0.1
+## 2.0.0
 
 ### Patch Changes
 
