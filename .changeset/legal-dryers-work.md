@@ -2,7 +2,7 @@
 "@seed-design/tailwind3-plugin": major
 "@seed-design/tailwind4-theme": major
 "@seed-design/rootage-artifacts": major
-"@seed-design/lynx-css": major
+"@seed-design/lynx-css": minor
 "@seed-design/css": major
 ---
 

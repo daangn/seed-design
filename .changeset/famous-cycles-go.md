@@ -4,7 +4,7 @@
 "@seed-design/react-file-upload": major
 "@seed-design/rootage-artifacts": major
 "@seed-design/react": major
-"@seed-design/lynx-css": major
+"@seed-design/lynx-css": minor
 "@seed-design/css": major
 ---
 
