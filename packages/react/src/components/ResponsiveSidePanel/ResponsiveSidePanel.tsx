@@ -30,28 +30,13 @@ import {
   SidePanelTrigger,
 } from "../SidePanel";
 
-////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * Props accepted by both the SidePanel and BottomSheet version of a part: the
- * keys present on both sides, with their types intersected. Derived from the
- * SidePanel / BottomSheet components this composes — which live in this package
- * and we own — rather than from the lower-level Drawer primitive, so the
- * surface tracks whatever those two choose to expose even as Drawer evolves.
- */
 type SharedProps<SidePanelProps, BottomSheetProps> = Pick<
   SidePanelProps,
   Extract<keyof SidePanelProps, keyof BottomSheetProps>
 > &
   Pick<BottomSheetProps, Extract<keyof BottomSheetProps, keyof SidePanelProps>>;
 
-////////////////////////////////////////////////////////////////////////////////////
-
 interface ResponsiveSidePanelContextValue {
-  /**
-   * Whether the panel currently renders as a BottomSheet (`true`) or a SidePanel
-   * (`false`). `undefined` until the breakpoint resolves, treated as SidePanel.
-   */
   shouldUseBottomSheet: boolean | undefined;
 }
 
@@ -70,8 +55,6 @@ export function useResponsiveSidePanelContext() {
   return ctx;
 }
 
-////////////////////////////////////////////////////////////////////////////////////
-
 type ResponsiveSidePanelRootManagedProp = "children" | "open" | "defaultOpen" | "onOpenChange";
 
 export interface ResponsiveSidePanelRootProps {
@@ -87,15 +70,6 @@ export interface ResponsiveSidePanelRootProps {
   bottomSheetRootProps?: Omit<BottomSheet.RootProps, ResponsiveSidePanelRootManagedProp>;
 }
 
-/**
- * Automatically switches between SidePanel (md+) and BottomSheet (sm-).
- *
- * The open state is managed here so the panel stays open while the viewport
- * crosses the breakpoint (SidePanel and BottomSheet are different component
- * instances and would otherwise re-initialize their own open state on swap).
- *
- * @see https://seed-design.io/react/components/side-panel
- */
 export const ResponsiveSidePanelRoot = ({
   children,
   open: openProp,
@@ -140,8 +114,6 @@ export const ResponsiveSidePanelRoot = ({
   );
 };
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface ResponsiveSidePanelTriggerProps
   extends SharedProps<SidePanel.TriggerProps, BottomSheet.TriggerProps> {}
 
@@ -158,8 +130,6 @@ export const ResponsiveSidePanelTrigger = React.forwardRef<
   );
 });
 ResponsiveSidePanelTrigger.displayName = "ResponsiveSidePanelTrigger";
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface ResponsiveSidePanelPositionerProps
   extends SharedProps<SidePanel.PositionerProps, BottomSheet.PositionerProps> {}
@@ -178,8 +148,6 @@ export const ResponsiveSidePanelPositioner = React.forwardRef<
 });
 ResponsiveSidePanelPositioner.displayName = "ResponsiveSidePanelPositioner";
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface ResponsiveSidePanelBackdropProps
   extends SharedProps<SidePanel.BackdropProps, BottomSheet.BackdropProps> {}
 
@@ -197,12 +165,6 @@ export const ResponsiveSidePanelBackdrop = React.forwardRef<
 });
 ResponsiveSidePanelBackdrop.displayName = "ResponsiveSidePanelBackdrop";
 
-////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * `width` / `maxWidth` only apply in SidePanel mode (md+); they are ignored when
- * rendered as a BottomSheet.
- */
 export interface ResponsiveSidePanelContentProps
   extends SharedProps<SidePanel.ContentProps, BottomSheet.ContentProps>,
     Pick<SidePanel.ContentProps, "width" | "maxWidth"> {}
@@ -221,8 +183,6 @@ export const ResponsiveSidePanelContent = React.forwardRef<
 });
 ResponsiveSidePanelContent.displayName = "ResponsiveSidePanelContent";
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface ResponsiveSidePanelHeaderProps
   extends SharedProps<SidePanel.HeaderProps, BottomSheet.HeaderProps> {}
 
@@ -239,8 +199,6 @@ export const ResponsiveSidePanelHeader = React.forwardRef<
   );
 });
 ResponsiveSidePanelHeader.displayName = "ResponsiveSidePanelHeader";
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface ResponsiveSidePanelTitleProps
   extends SharedProps<SidePanel.TitleProps, BottomSheet.TitleProps> {}
@@ -259,8 +217,6 @@ export const ResponsiveSidePanelTitle = React.forwardRef<
 });
 ResponsiveSidePanelTitle.displayName = "ResponsiveSidePanelTitle";
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface ResponsiveSidePanelDescriptionProps
   extends SharedProps<SidePanel.DescriptionProps, BottomSheet.DescriptionProps> {}
 
@@ -277,8 +233,6 @@ export const ResponsiveSidePanelDescription = React.forwardRef<
   );
 });
 ResponsiveSidePanelDescription.displayName = "ResponsiveSidePanelDescription";
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface ResponsiveSidePanelBodyProps
   extends SharedProps<SidePanel.BodyProps, BottomSheet.BodyProps> {}
@@ -297,8 +251,6 @@ export const ResponsiveSidePanelBody = React.forwardRef<
 });
 ResponsiveSidePanelBody.displayName = "ResponsiveSidePanelBody";
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface ResponsiveSidePanelFooterProps
   extends SharedProps<SidePanel.FooterProps, BottomSheet.FooterProps> {}
 
@@ -315,8 +267,6 @@ export const ResponsiveSidePanelFooter = React.forwardRef<
   );
 });
 ResponsiveSidePanelFooter.displayName = "ResponsiveSidePanelFooter";
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface ResponsiveSidePanelCloseButtonProps
   extends SharedProps<SidePanel.CloseButtonProps, BottomSheet.CloseButtonProps> {}
@@ -335,14 +285,8 @@ export const ResponsiveSidePanelCloseButton = React.forwardRef<
 });
 ResponsiveSidePanelCloseButton.displayName = "ResponsiveSidePanelCloseButton";
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface ResponsiveSidePanelHandleProps extends BottomSheet.HandleProps {}
 
-/**
- * Renders the BottomSheet drag handle in BottomSheet mode (sm-) and nothing in
- * SidePanel mode (md+), since SidePanel has no handle.
- */
 export const ResponsiveSidePanelHandle = React.forwardRef<
   HTMLDivElement,
   ResponsiveSidePanelHandleProps

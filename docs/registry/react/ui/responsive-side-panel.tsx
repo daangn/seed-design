@@ -26,8 +26,14 @@ export interface ResponsiveSidePanelContentProps
 
   layerIndex?: number;
 
+  /**
+   * @default true
+   */
   showCloseButton?: boolean;
 
+  /**
+   * @default false
+   */
   showHandle?: boolean;
 }
 
