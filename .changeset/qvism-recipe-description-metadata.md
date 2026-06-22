@@ -1,7 +1,7 @@
 ---
-"@seed-design/rootage-artifacts": minor
-"@seed-design/css": minor
-"@seed-design/lynx-css": minor
+"@seed-design/rootage-artifacts": major
+"@seed-design/css": major
+"@seed-design/lynx-css": major
 ---
 
-일부 컴포넌트 variant 옵션에 JSDoc을 추가합니다.
+컴포넌트 및 파운데이션 전반에 JSDoc 주석을 강화합니다.

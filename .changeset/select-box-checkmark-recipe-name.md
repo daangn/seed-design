@@ -1,6 +1,6 @@
 ---
-"@seed-design/css": minor
-"@seed-design/react": minor
+"@seed-design/css": major
+"@seed-design/react": major
 ---
 
 `selectBoxCheckmark` recipe의 생성 클래스명과 import 경로를 다른 recipe와 동일하게 kebab-case로 정정합니다.
