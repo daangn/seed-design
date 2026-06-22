@@ -15,7 +15,9 @@ const closeButtonTracker = createRenderTrackingContext("BottomSheetCloseButton")
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetRootProps extends BottomSheetVariantProps, Drawer.RootProps {}
+export interface BottomSheetRootProps
+  extends BottomSheetVariantProps,
+    Omit<Drawer.RootProps, "direction"> {}
 
 export function BottomSheetRoot(props: BottomSheetRootProps) {
   const [variantProps, otherProps] = bottomSheet.splitVariantProps({
