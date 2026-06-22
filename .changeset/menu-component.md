@@ -1,6 +1,6 @@
 ---
 "@seed-design/css": major
-"@seed-design/lynx-css": major
+"@seed-design/lynx-css": minor
 "@seed-design/react-dialog": major
 "@seed-design/react-dismissible-layer": major
 "@seed-design/react-drawer": major
