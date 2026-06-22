@@ -83,36 +83,6 @@ export const AttachmentDisplayItemImage = forwardRef<
 });
 AttachmentDisplayItemImage.displayName = "AttachmentDisplayItemImage";
 
-export interface AttachmentDisplayItemThumbnailProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const AttachmentDisplayItemThumbnail = forwardRef<
-  HTMLDivElement,
-  AttachmentDisplayItemThumbnailProps
->((props, ref) => {
-  const { thumbnailProps } = useAttachmentDisplayItemContext();
-  const mergedProps = mergeProps(thumbnailProps, props);
-
-  return <Primitive.div ref={ref} {...mergedProps} />;
-});
-AttachmentDisplayItemThumbnail.displayName = "AttachmentDisplayItemThumbnail";
-
-export interface AttachmentDisplayItemMetadataProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const AttachmentDisplayItemMetadata = forwardRef<
-  HTMLDivElement,
-  AttachmentDisplayItemMetadataProps
->((props, ref) => {
-  const { metadataProps } = useAttachmentDisplayItemContext();
-  const mergedProps = mergeProps(metadataProps, props);
-
-  return <Primitive.div ref={ref} {...mergedProps} />;
-});
-AttachmentDisplayItemMetadata.displayName = "AttachmentDisplayItemMetadata";
-
 export interface AttachmentDisplayItemRemoveButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
@@ -144,7 +114,7 @@ export const AttachmentDisplayItemBackdrop = forwardRef<
   if (entry.status !== status) return null;
 
   return (
-    <Primitive.div ref={composeRefs(entry.refs.overlay, ref)} {...props}>
+    <Primitive.div ref={ref} {...props}>
       {typeof children === "function" ? children(entry) : children}
     </Primitive.div>
   );

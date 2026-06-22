@@ -1,24 +1,36 @@
 import { bottomSheet, type BottomSheetVariantProps } from "@seed-design/css/recipes/bottom-sheet";
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
-import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
+import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import clsx from "clsx";
 import { forwardRef } from "react";
+import { createPresenceContext } from "../../utils/createPresenceContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withRootProvider, withContext } = createSlotRecipeContext(bottomSheet);
+const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(bottomSheet);
+
+const closeButtonPresence = createPresenceContext("BottomSheetCloseButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BottomSheetRootProps extends BottomSheetVariantProps, Drawer.RootProps {}
 
-export const BottomSheetRoot = withRootProvider<BottomSheetRootProps>(Drawer.Root, {
-  defaultProps: {
-    direction: "bottom",
-    lazyMount: true,
-    unmountOnExit: true,
+export const BottomSheetRoot = withRootProvider<BottomSheetRootProps>(
+  (props: Drawer.RootProps) => (
+    <closeButtonPresence.Provider>
+      <Drawer.Root {...props} />
+    </closeButtonPresence.Provider>
+  ),
+  {
+    defaultProps: {
+      direction: "bottom",
+      lazyMount: true,
+      unmountOnExit: true,
+    },
   },
-});
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,15 +78,20 @@ export const BottomSheetHeader = withContext<HTMLDivElement, BottomSheetHeaderPr
 
 export interface BottomSheetTitleProps extends Drawer.TitleProps {}
 
-export const BottomSheetTitle = withContext<HTMLHeadingElement, BottomSheetTitleProps>(
-  forwardRef<HTMLHeadingElement, BottomSheetTitleProps>((props, ref) => {
-    const { isCloseButtonRendered } = useDrawerContext();
+export const BottomSheetTitle = forwardRef<HTMLHeadingElement, BottomSheetTitleProps>(
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { isPresent } = closeButtonPresence.usePresence();
 
     return (
-      <Drawer.Title ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
+      <Drawer.Title
+        ref={ref}
+        data-show-close-button={dataAttr(isPresent)}
+        className={clsx(classNames.title, className)}
+        {...props}
+      />
     );
-  }),
-  "title",
+  },
 );
 
 BottomSheetTitle.displayName = "BottomSheetTitle";
@@ -118,7 +135,19 @@ export const BottomSheetFooter = withContext<HTMLDivElement, BottomSheetFooterPr
 
 export interface BottomSheetCloseButtonProps extends Drawer.CloseButtonProps {}
 
-export const BottomSheetCloseButton = withContext<HTMLButtonElement, BottomSheetCloseButtonProps>(
-  Drawer.CloseButton,
-  "closeButton",
+export const BottomSheetCloseButton = forwardRef<HTMLButtonElement, BottomSheetCloseButtonProps>(
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { presenceRef } = closeButtonPresence.usePresence();
+
+    return (
+      <Drawer.CloseButton
+        ref={composeRefs(ref, presenceRef)}
+        className={clsx(classNames.closeButton, className)}
+        {...props}
+      />
+    );
+  },
 );
+
+BottomSheetCloseButton.displayName = "BottomSheetCloseButton";

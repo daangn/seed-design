@@ -5,6 +5,8 @@ import {
   attachmentInputItem,
   type AttachmentInputItemVariantProps,
 } from "@seed-design/css/recipes/attachment-input-item";
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { dataAttr } from "@seed-design/dom-utils";
 import {
   FileUpload as FileUploadPrimitive,
   FileUploadItemProvider,
@@ -17,10 +19,13 @@ import {
 import { MiddleTruncate } from "@seed-design/react-middle-truncate";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
+import { createPresenceContext } from "../../utils/createPresenceContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
+
+const overlayPresence = createPresenceContext("AttachmentInputItemOverlay");
 
 export interface AttachmentInputItemProps
   extends AttachmentInputItemVariantProps,
@@ -44,12 +49,14 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
     return (
       <ClassNamesProvider value={classNames}>
         <FileUploadItemProvider value={api}>
-          <Primitive.li
-            ref={ref}
-            className={clsx(classNames.root, className)}
-            {...stateProps}
-            {...otherProps}
-          />
+          <overlayPresence.Provider>
+            <Primitive.li
+              ref={ref}
+              className={clsx(classNames.root, className)}
+              {...stateProps}
+              {...otherProps}
+            />
+          </overlayPresence.Provider>
         </FileUploadItemProvider>
       </ClassNamesProvider>
     );
@@ -120,13 +127,31 @@ export const AttachmentInputItemImage = withContext<
   AttachmentInputItemImageProps
 >(FileUploadPrimitive.ItemImage, "image");
 
-export interface AttachmentInputItemThumbnailProps extends FileUploadPrimitive.ItemThumbnailProps {}
+export interface AttachmentInputItemThumbnailProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 // when actual thumbnail implementation happens, this will likely need a dedicated headless component
-export const AttachmentInputItemThumbnail = withContext<
+export const AttachmentInputItemThumbnail = React.forwardRef<
   HTMLDivElement,
   AttachmentInputItemThumbnailProps
->(FileUploadPrimitive.ItemThumbnail, "thumbnail");
+>(({ className, ...props }, ref) => {
+  const classNames = useClassNames();
+  const { stateProps } = useFileUploadContext();
+  const { isPresent } = overlayPresence.usePresence();
+
+  return (
+    <Primitive.div
+      ref={ref}
+      data-has-overlay={dataAttr(isPresent)}
+      {...stateProps}
+      className={clsx(classNames.thumbnail, className)}
+      {...props}
+    />
+  );
+});
+
+AttachmentInputItemThumbnail.displayName = "AttachmentInputItemThumbnail";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -175,16 +200,47 @@ AttachmentInputItemActionButton.displayName = "AttachmentInputItemActionButton";
 
 export interface AttachmentInputItemBackdropProps extends FileUploadPrimitive.ItemBackdropProps {}
 
-export const AttachmentInputItemBackdrop = withContext<
+export const AttachmentInputItemBackdrop = React.forwardRef<
   HTMLDivElement,
   AttachmentInputItemBackdropProps
->(FileUploadPrimitive.ItemBackdrop, "backdrop");
+>(({ className, ...props }, ref) => {
+  const classNames = useClassNames();
+  const { presenceRef } = overlayPresence.usePresence();
+
+  return (
+    <FileUploadPrimitive.ItemBackdrop
+      ref={composeRefs(ref, presenceRef)}
+      className={clsx(classNames.backdrop, className)}
+      {...props}
+    />
+  );
+});
+
+AttachmentInputItemBackdrop.displayName = "AttachmentInputItemBackdrop";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AttachmentInputItemMetadataProps extends FileUploadPrimitive.ItemMetadataProps {}
+export interface AttachmentInputItemMetadataProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const AttachmentInputItemMetadata = withContext<
+export const AttachmentInputItemMetadata = React.forwardRef<
   HTMLDivElement,
   AttachmentInputItemMetadataProps
->(FileUploadPrimitive.ItemMetadata, "metadata");
+>(({ className, ...props }, ref) => {
+  const classNames = useClassNames();
+  const { stateProps } = useFileUploadContext();
+  const { isPresent } = overlayPresence.usePresence();
+
+  return (
+    <Primitive.div
+      ref={ref}
+      data-has-overlay={dataAttr(isPresent)}
+      {...stateProps}
+      className={clsx(classNames.metadata, className)}
+      {...props}
+    />
+  );
+});
+
+AttachmentInputItemMetadata.displayName = "AttachmentInputItemMetadata";

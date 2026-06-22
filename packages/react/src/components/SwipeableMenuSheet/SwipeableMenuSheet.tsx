@@ -4,8 +4,7 @@ import {
   menuSheetItem,
   type MenuSheetItemVariantProps,
 } from "@seed-design/css/recipes/menu-sheet-item";
-import { dataAttr } from "@seed-design/dom-utils";
-import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
+import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
@@ -42,13 +41,9 @@ export interface SwipeableMenuSheetRootProps
       | "onAnimationEnd"
     > {}
 
-// Forces `direction="bottom"` so the bottom-only recipe transform isn't broken.
-const SwipeableDrawerRoot = (props: Drawer.RootProps) => (
-  <Drawer.Root {...props} direction="bottom" />
-);
-
 export const SwipeableMenuSheetRoot = withRootProvider<SwipeableMenuSheetRootProps>(
-  SwipeableDrawerRoot,
+  // Forces `direction="bottom"` so the bottom-only recipe transform isn't broken.
+  (props: Drawer.RootProps) => <Drawer.Root {...props} direction="bottom" />,
   {
     defaultProps: {
       lazyMount: true,
@@ -142,16 +137,7 @@ export interface SwipeableMenuSheetTitleProps extends Drawer.TitleProps {}
 export const SwipeableMenuSheetTitle = withContext<
   HTMLHeadingElement,
   SwipeableMenuSheetTitleProps
->(
-  React.forwardRef<HTMLHeadingElement, SwipeableMenuSheetTitleProps>((props, ref) => {
-    const { isCloseButtonRendered } = useDrawerContext();
-
-    return (
-      <Drawer.Title ref={ref} data-show-close-button={dataAttr(isCloseButtonRendered)} {...props} />
-    );
-  }),
-  "title",
-);
+>(Drawer.Title, "title");
 
 SwipeableMenuSheetTitle.displayName = "SwipeableMenuSheetTitle";
 
