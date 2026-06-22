@@ -9,7 +9,7 @@ import { createRenderTrackingContext } from "../../utils/createRenderTrackingCon
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(bottomSheet);
+const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(bottomSheet);
 
 const closeButtonTracker = createRenderTrackingContext("BottomSheetCloseButton");
 
@@ -17,20 +17,23 @@ const closeButtonTracker = createRenderTrackingContext("BottomSheetCloseButton")
 
 export interface BottomSheetRootProps extends BottomSheetVariantProps, Drawer.RootProps {}
 
-export const BottomSheetRoot = withRootProvider<BottomSheetRootProps>(
-  (props: Drawer.RootProps) => (
-    <closeButtonTracker.Provider>
-      <Drawer.Root {...props} />
-    </closeButtonTracker.Provider>
-  ),
-  {
-    defaultProps: {
-      direction: "bottom",
-      lazyMount: true,
-      unmountOnExit: true,
-    },
-  },
-);
+export function BottomSheetRoot(props: BottomSheetRootProps) {
+  const [variantProps, otherProps] = bottomSheet.splitVariantProps({
+    direction: "bottom" as const,
+    lazyMount: true,
+    unmountOnExit: true,
+    ...props,
+  });
+  const classNames = bottomSheet(variantProps);
+
+  return (
+    <ClassNamesProvider value={classNames}>
+      <closeButtonTracker.Provider>
+        <Drawer.Root {...otherProps} />
+      </closeButtonTracker.Provider>
+    </ClassNamesProvider>
+  );
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 

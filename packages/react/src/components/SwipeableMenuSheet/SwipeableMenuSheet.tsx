@@ -10,7 +10,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(menuSheet);
+const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(menuSheet);
 const {
   PropsProvider: ItemPropsProvider,
   useProps: useItemProps,
@@ -41,16 +41,21 @@ export interface SwipeableMenuSheetRootProps
       | "onAnimationEnd"
     > {}
 
-export const SwipeableMenuSheetRoot = withRootProvider<SwipeableMenuSheetRootProps>(
-  // Forces `direction="bottom"` so the bottom-only recipe transform isn't broken.
-  (props: Drawer.RootProps) => <Drawer.Root {...props} direction="bottom" />,
-  {
-    defaultProps: {
-      lazyMount: true,
-      unmountOnExit: true,
-    },
-  },
-);
+// Forces `direction="bottom"` so the bottom-only recipe transform isn't broken.
+export function SwipeableMenuSheetRoot(props: SwipeableMenuSheetRootProps) {
+  const [variantProps, otherProps] = menuSheet.splitVariantProps({
+    lazyMount: true,
+    unmountOnExit: true,
+    ...props,
+  });
+  const classNames = menuSheet(variantProps);
+
+  return (
+    <ClassNamesProvider value={classNames}>
+      <Drawer.Root {...otherProps} direction="bottom" />
+    </ClassNamesProvider>
+  );
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 

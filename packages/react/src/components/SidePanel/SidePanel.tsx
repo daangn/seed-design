@@ -9,7 +9,7 @@ import { createRenderTrackingContext } from "../../utils/createRenderTrackingCon
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(sidePanel);
+const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(sidePanel);
 
 const closeButtonTracker = createRenderTrackingContext("SidePanelCloseButton");
 
@@ -35,20 +35,23 @@ export interface SidePanelRootProps
   direction?: "left" | "right";
 }
 
-export const SidePanelRoot = withRootProvider<SidePanelRootProps>(
-  (props: Drawer.RootProps) => (
-    <closeButtonTracker.Provider>
-      <Drawer.Root {...props} />
-    </closeButtonTracker.Provider>
-  ),
-  {
-    defaultProps: {
-      direction: "right",
-      lazyMount: true,
-      unmountOnExit: true,
-    },
-  },
-);
+export function SidePanelRoot(props: SidePanelRootProps) {
+  const [variantProps, otherProps] = sidePanel.splitVariantProps({
+    direction: "right" as const,
+    lazyMount: true,
+    unmountOnExit: true,
+    ...props,
+  });
+  const classNames = sidePanel(variantProps);
+
+  return (
+    <ClassNamesProvider value={classNames}>
+      <closeButtonTracker.Provider>
+        <Drawer.Root {...otherProps} />
+      </closeButtonTracker.Provider>
+    </ClassNamesProvider>
+  );
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
