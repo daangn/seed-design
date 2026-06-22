@@ -1,4 +1,7 @@
-import spec from "@seed-design/rootage-artifacts/components/menu-item.json" with { type: "json" };
+import menuSpec from "@seed-design/rootage-artifacts/components/menu.json" with { type: "json" };
+import menuItemSpec from "@seed-design/rootage-artifacts/components/menu-item.json" with {
+  type: "json",
+};
 import { menu as menuVars, menuItem as menuItemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
@@ -175,6 +178,20 @@ export const menu = defineSlotRecipe({
   },
   defaultVariants: {
     size: "medium",
+  },
+  metadata: {
+    variants: {
+      size: {
+        ...menuSpec.data.schema.variants.size,
+        values: {
+          ...menuSpec.data.schema.variants.size.values,
+          responsive: {
+            description:
+              "뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `lg` 미만에서는 `medium`, `lg` 이상에서는 `small`로 적용됩니다.",
+          },
+        },
+      },
+    },
   },
 });
 
@@ -418,7 +435,17 @@ export const menuItem = defineSlotRecipe({
   },
   metadata: {
     variants: {
-      tone: spec.data.schema.variants.tone,
+      tone: menuItemSpec.data.schema.variants.tone,
+      size: {
+        ...menuItemSpec.data.schema.variants.size,
+        values: {
+          ...menuItemSpec.data.schema.variants.size.values,
+          responsive: {
+            description:
+              "뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `lg` 미만에서는 `medium`, `lg` 이상에서는 `small`로 적용됩니다.",
+          },
+        },
+      },
     },
   },
 });
