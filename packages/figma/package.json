@@ -39,7 +39,6 @@
     "sync-entities": "find src/entities/data/__generated__ -mindepth 1 -maxdepth 1 ! -name 'archive' -exec rm -rf {} + 2>/dev/null; bun figma-extractor src/entities/data/__generated__"
   },
   "dependencies": {
-    "@seed-design/css": "1.2.16",
     "change-case": "^5.4.4",
     "ts-pattern": "^5.7.0"
   },
