@@ -192,36 +192,6 @@ export const FileUploadItemImage = forwardRef<HTMLImageElement, FileUploadItemIm
 );
 FileUploadItemImage.displayName = "FileUploadItemImage";
 
-export interface FileUploadItemThumbnailProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const FileUploadItemThumbnail = forwardRef<HTMLDivElement, FileUploadItemThumbnailProps>(
-  (props, ref) => {
-    const { thumbnailProps } = useFileUploadItemContext();
-
-    const mergedProps = mergeProps(thumbnailProps, props);
-
-    return <Primitive.div ref={ref} {...mergedProps} />;
-  },
-);
-FileUploadItemThumbnail.displayName = "FileUploadItemThumbnail";
-
-export interface FileUploadItemMetadataProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const FileUploadItemMetadata = forwardRef<HTMLDivElement, FileUploadItemMetadataProps>(
-  (props, ref) => {
-    const { metadataProps } = useFileUploadItemContext();
-
-    const mergedProps = mergeProps(metadataProps, props);
-
-    return <Primitive.div ref={ref} {...mergedProps} />;
-  },
-);
-FileUploadItemMetadata.displayName = "FileUploadItemMetadata";
-
 export interface FileUploadItemBackdropProps
   extends PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
@@ -236,7 +206,7 @@ export const FileUploadItemBackdrop = forwardRef<HTMLDivElement, FileUploadItemB
     if (entry.status !== status) return null;
 
     return (
-      <Primitive.div ref={composeRefs(entry.refs.overlay, ref)} {...props}>
+      <Primitive.div ref={ref} {...props}>
         {typeof children === "function" ? children(entry) : children}
       </Primitive.div>
     );

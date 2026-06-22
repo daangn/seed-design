@@ -4,6 +4,8 @@ import {
   attachmentInputItem,
   type AttachmentInputItemVariantProps,
 } from "@seed-design/css/recipes/attachment-input-item";
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { dataAttr } from "@seed-design/dom-utils";
 import {
   AttachmentDisplay as AttachmentDisplayPrimitive,
   AttachmentDisplayItemProvider,
@@ -14,10 +16,15 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
+import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
+
+// Tracks whether a Backdrop (overlay) is rendered so the Thumbnail/Metadata can emit
+// `data-has-overlay` for the css recipe. Styling-only signal owned by the styled layer.
+const overlayTracker = createRenderTrackingContext("AttachmentDisplayItemOverlay");
 
 export interface AttachmentDisplayItemProps
   extends Omit<AttachmentInputItemVariantProps, "type">,
@@ -41,12 +48,14 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
     return (
       <ClassNamesProvider value={classNames}>
         <AttachmentDisplayItemProvider value={api}>
-          <Primitive.li
-            ref={ref}
-            className={clsx(classNames.root, className)}
-            {...stateProps}
-            {...otherProps}
-          />
+          <overlayTracker.Provider>
+            <Primitive.li
+              ref={ref}
+              className={clsx(classNames.root, className)}
+              {...stateProps}
+              {...otherProps}
+            />
+          </overlayTracker.Provider>
         </AttachmentDisplayItemProvider>
       </ClassNamesProvider>
     );
@@ -67,32 +76,79 @@ export const AttachmentDisplayItemImage = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayItemThumbnailProps
-  extends AttachmentDisplayPrimitive.ItemThumbnailProps {}
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const AttachmentDisplayItemThumbnail = withContext<
+export const AttachmentDisplayItemThumbnail = React.forwardRef<
   HTMLDivElement,
   AttachmentDisplayItemThumbnailProps
->(AttachmentDisplayPrimitive.ItemThumbnail, "thumbnail");
+>(({ className, ...props }, ref) => {
+  const classNames = useClassNames();
+  const { stateProps } = useAttachmentDisplayContext();
+  const { isRendered } = overlayTracker.useRenderTracking();
+
+  return (
+    <Primitive.div
+      ref={ref}
+      data-has-overlay={dataAttr(isRendered)}
+      {...stateProps}
+      className={clsx(classNames.thumbnail, className)}
+      {...props}
+    />
+  );
+});
+
+AttachmentDisplayItemThumbnail.displayName = "AttachmentDisplayItemThumbnail";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayItemMetadataProps
-  extends AttachmentDisplayPrimitive.ItemMetadataProps {}
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const AttachmentDisplayItemMetadata = withContext<
+export const AttachmentDisplayItemMetadata = React.forwardRef<
   HTMLDivElement,
   AttachmentDisplayItemMetadataProps
->(AttachmentDisplayPrimitive.ItemMetadata, "metadata");
+>(({ className, ...props }, ref) => {
+  const classNames = useClassNames();
+  const { stateProps } = useAttachmentDisplayContext();
+  const { isRendered } = overlayTracker.useRenderTracking();
+
+  return (
+    <Primitive.div
+      ref={ref}
+      data-has-overlay={dataAttr(isRendered)}
+      {...stateProps}
+      className={clsx(classNames.metadata, className)}
+      {...props}
+    />
+  );
+});
+
+AttachmentDisplayItemMetadata.displayName = "AttachmentDisplayItemMetadata";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayItemBackdropProps
   extends AttachmentDisplayPrimitive.ItemBackdropProps {}
 
-export const AttachmentDisplayItemBackdrop = withContext<
+export const AttachmentDisplayItemBackdrop = React.forwardRef<
   HTMLDivElement,
   AttachmentDisplayItemBackdropProps
->(AttachmentDisplayPrimitive.ItemBackdrop, "backdrop");
+>(({ className, ...props }, ref) => {
+  const classNames = useClassNames();
+  const { trackRef } = overlayTracker.useRenderTracking();
+
+  return (
+    <AttachmentDisplayPrimitive.ItemBackdrop
+      ref={composeRefs(ref, trackRef)}
+      className={clsx(classNames.backdrop, className)}
+      {...props}
+    />
+  );
+});
+
+AttachmentDisplayItemBackdrop.displayName = "AttachmentDisplayItemBackdrop";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

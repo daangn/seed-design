@@ -7,8 +7,6 @@ export {
   FileUploadItemSize,
   FileUploadItemRemoveButton,
   FileUploadItemImage,
-  FileUploadItemThumbnail,
-  FileUploadItemMetadata,
   FileUploadItemBackdrop,
   FileUploadContext,
   type FileUploadRootProps,
@@ -19,8 +17,6 @@ export {
   type FileUploadItemSizeProps,
   type FileUploadItemRemoveButtonProps,
   type FileUploadItemImageProps,
-  type FileUploadItemThumbnailProps,
-  type FileUploadItemMetadataProps,
   type FileUploadItemBackdropProps,
   type FileUploadContextProps,
 } from "./FileUpload";
