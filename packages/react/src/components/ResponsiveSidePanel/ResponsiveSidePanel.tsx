@@ -1,3 +1,4 @@
+import type { Breakpoint } from "@seed-design/css/breakpoints";
 import * as React from "react";
 import { useBreakpointValue } from "../../hooks/useBreakpointValue";
 import {
@@ -55,19 +56,30 @@ export function useResponsiveSidePanelContext() {
   return ctx;
 }
 
-type ResponsiveSidePanelRootManagedProp = "children" | "open" | "defaultOpen" | "onOpenChange";
-
 export interface ResponsiveSidePanelRootProps {
   children?: React.ReactNode;
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
 
-  /** Props forwarded to the underlying SidePanel root (md+). */
-  sidePanelRootProps?: Omit<SidePanel.RootProps, ResponsiveSidePanelRootManagedProp>;
+  /**
+   * Breakpoint at and above which the panel renders as a SidePanel; below it, a
+   * BottomSheet. Cannot be `"base"`, which would always be a SidePanel.
+   * @default "md"
+   */
+  sidePanelBreakpoint?: Exclude<Breakpoint, "base">;
 
-  /** Props forwarded to the underlying BottomSheet root (sm-). */
-  bottomSheetRootProps?: Omit<BottomSheet.RootProps, ResponsiveSidePanelRootManagedProp>;
+  /** Props forwarded to the underlying SidePanel root (at and above the breakpoint). */
+  sidePanelRootProps?: Omit<
+    SidePanel.RootProps,
+    "children" | "open" | "defaultOpen" | "onOpenChange"
+  >;
+
+  /** Props forwarded to the underlying BottomSheet root (below the breakpoint). */
+  bottomSheetRootProps?: Omit<
+    BottomSheet.RootProps,
+    "children" | "open" | "defaultOpen" | "onOpenChange"
+  >;
 }
 
 export const ResponsiveSidePanelRoot = ({
@@ -75,10 +87,11 @@ export const ResponsiveSidePanelRoot = ({
   open: openProp,
   defaultOpen = false,
   onOpenChange,
+  sidePanelBreakpoint = "md",
   sidePanelRootProps,
   bottomSheetRootProps,
 }: ResponsiveSidePanelRootProps) => {
-  const shouldUseBottomSheet = useBreakpointValue({ base: true, md: false });
+  const shouldUseBottomSheet = useBreakpointValue({ base: true, [sidePanelBreakpoint]: false });
 
   const isControlled = openProp !== undefined;
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
@@ -165,6 +178,10 @@ export const ResponsiveSidePanelBackdrop = React.forwardRef<
 });
 ResponsiveSidePanelBackdrop.displayName = "ResponsiveSidePanelBackdrop";
 
+/**
+ * `width` / `maxWidth` only apply in SidePanel mode (md+); they are ignored when
+ * rendered as a BottomSheet.
+ */
 export interface ResponsiveSidePanelContentProps
   extends SharedProps<SidePanel.ContentProps, BottomSheet.ContentProps>,
     Pick<SidePanel.ContentProps, "width" | "maxWidth"> {}
