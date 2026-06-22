@@ -48,10 +48,10 @@
         "@seed-design/css": "1.2.16",
         "@seed-design/lynx-react": "0.2.0",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.2.14",
+        "@seed-design/react": "1.2.15",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "1.1.23",
+        "@seed-design/stackflow": "1.1.24",
         "@seed-design/tailwind4-theme": "1.1.19",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
@@ -522,7 +522,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.2.14",
+      "version": "1.2.15",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -534,7 +534,7 @@
         "@seed-design/react-checkbox": "1.0.1",
         "@seed-design/react-collapsible": "0.1.0",
         "@seed-design/react-dialog": "1.0.3",
-        "@seed-design/react-drawer": "1.0.10",
+        "@seed-design/react-drawer": "1.0.11",
         "@seed-design/react-field": "1.0.1",
         "@seed-design/react-field-button": "1.0.2",
         "@seed-design/react-fieldset": "0.1.0",
@@ -658,7 +658,7 @@
     },
     "packages/react-headless/drawer": {
       "name": "@seed-design/react-drawer",
-      "version": "1.0.10",
+      "version": "1.0.11",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -1082,7 +1082,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "1.1.23",
+      "version": "1.1.24",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",

@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@seed-design/css": "1.2.16",
-    "@seed-design/react": "1.2.14",
+    "@seed-design/react": "1.2.15",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
