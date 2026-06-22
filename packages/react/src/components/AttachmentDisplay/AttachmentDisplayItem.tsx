@@ -16,7 +16,7 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { createPresenceContext } from "../../utils/createPresenceContext";
+import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { useClassNames, ClassNamesProvider, withContext } =
@@ -24,7 +24,7 @@ const { useClassNames, ClassNamesProvider, withContext } =
 
 // Tracks whether a Backdrop (overlay) is rendered so the Thumbnail/Metadata can emit
 // `data-has-overlay` for the css recipe. Styling-only signal owned by the styled layer.
-const overlayPresence = createPresenceContext("AttachmentDisplayItemOverlay");
+const overlayTracker = createRenderTrackingContext("AttachmentDisplayItemOverlay");
 
 export interface AttachmentDisplayItemProps
   extends Omit<AttachmentInputItemVariantProps, "type">,
@@ -48,14 +48,14 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
     return (
       <ClassNamesProvider value={classNames}>
         <AttachmentDisplayItemProvider value={api}>
-          <overlayPresence.Provider>
+          <overlayTracker.Provider>
             <Primitive.li
               ref={ref}
               className={clsx(classNames.root, className)}
               {...stateProps}
               {...otherProps}
             />
-          </overlayPresence.Provider>
+          </overlayTracker.Provider>
         </AttachmentDisplayItemProvider>
       </ClassNamesProvider>
     );
@@ -85,12 +85,12 @@ export const AttachmentDisplayItemThumbnail = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
   const { stateProps } = useAttachmentDisplayContext();
-  const { isPresent } = overlayPresence.usePresence();
+  const { isRendered } = overlayTracker.useRenderTracking();
 
   return (
     <Primitive.div
       ref={ref}
-      data-has-overlay={dataAttr(isPresent)}
+      data-has-overlay={dataAttr(isRendered)}
       {...stateProps}
       className={clsx(classNames.thumbnail, className)}
       {...props}
@@ -112,12 +112,12 @@ export const AttachmentDisplayItemMetadata = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
   const { stateProps } = useAttachmentDisplayContext();
-  const { isPresent } = overlayPresence.usePresence();
+  const { isRendered } = overlayTracker.useRenderTracking();
 
   return (
     <Primitive.div
       ref={ref}
-      data-has-overlay={dataAttr(isPresent)}
+      data-has-overlay={dataAttr(isRendered)}
       {...stateProps}
       className={clsx(classNames.metadata, className)}
       {...props}
@@ -137,11 +137,11 @@ export const AttachmentDisplayItemBackdrop = React.forwardRef<
   AttachmentDisplayItemBackdropProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
-  const { presenceRef } = overlayPresence.usePresence();
+  const { trackRef } = overlayTracker.useRenderTracking();
 
   return (
     <AttachmentDisplayPrimitive.ItemBackdrop
-      ref={composeRefs(ref, presenceRef)}
+      ref={composeRefs(ref, trackRef)}
       className={clsx(classNames.backdrop, className)}
       {...props}
     />

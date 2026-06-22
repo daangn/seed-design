@@ -19,13 +19,13 @@ import {
 import { MiddleTruncate } from "@seed-design/react-middle-truncate";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { createPresenceContext } from "../../utils/createPresenceContext";
+import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
 
-const overlayPresence = createPresenceContext("AttachmentInputItemOverlay");
+const overlayTracker = createRenderTrackingContext("AttachmentInputItemOverlay");
 
 export interface AttachmentInputItemProps
   extends AttachmentInputItemVariantProps,
@@ -49,14 +49,14 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
     return (
       <ClassNamesProvider value={classNames}>
         <FileUploadItemProvider value={api}>
-          <overlayPresence.Provider>
+          <overlayTracker.Provider>
             <Primitive.li
               ref={ref}
               className={clsx(classNames.root, className)}
               {...stateProps}
               {...otherProps}
             />
-          </overlayPresence.Provider>
+          </overlayTracker.Provider>
         </FileUploadItemProvider>
       </ClassNamesProvider>
     );
@@ -138,12 +138,12 @@ export const AttachmentInputItemThumbnail = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
   const { stateProps } = useFileUploadContext();
-  const { isPresent } = overlayPresence.usePresence();
+  const { isRendered } = overlayTracker.useRenderTracking();
 
   return (
     <Primitive.div
       ref={ref}
-      data-has-overlay={dataAttr(isPresent)}
+      data-has-overlay={dataAttr(isRendered)}
       {...stateProps}
       className={clsx(classNames.thumbnail, className)}
       {...props}
@@ -205,11 +205,11 @@ export const AttachmentInputItemBackdrop = React.forwardRef<
   AttachmentInputItemBackdropProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
-  const { presenceRef } = overlayPresence.usePresence();
+  const { trackRef } = overlayTracker.useRenderTracking();
 
   return (
     <FileUploadPrimitive.ItemBackdrop
-      ref={composeRefs(ref, presenceRef)}
+      ref={composeRefs(ref, trackRef)}
       className={clsx(classNames.backdrop, className)}
       {...props}
     />
@@ -230,12 +230,12 @@ export const AttachmentInputItemMetadata = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
   const { stateProps } = useFileUploadContext();
-  const { isPresent } = overlayPresence.usePresence();
+  const { isRendered } = overlayTracker.useRenderTracking();
 
   return (
     <Primitive.div
       ref={ref}
-      data-has-overlay={dataAttr(isPresent)}
+      data-has-overlay={dataAttr(isRendered)}
       {...stateProps}
       className={clsx(classNames.metadata, className)}
       {...props}

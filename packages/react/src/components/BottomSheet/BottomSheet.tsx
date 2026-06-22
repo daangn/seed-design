@@ -5,13 +5,13 @@ import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { forwardRef } from "react";
-import { createPresenceContext } from "../../utils/createPresenceContext";
+import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(bottomSheet);
 
-const closeButtonPresence = createPresenceContext("BottomSheetCloseButton");
+const closeButtonTracker = createRenderTrackingContext("BottomSheetCloseButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,9 +19,9 @@ export interface BottomSheetRootProps extends BottomSheetVariantProps, Drawer.Ro
 
 export const BottomSheetRoot = withRootProvider<BottomSheetRootProps>(
   (props: Drawer.RootProps) => (
-    <closeButtonPresence.Provider>
+    <closeButtonTracker.Provider>
       <Drawer.Root {...props} />
-    </closeButtonPresence.Provider>
+    </closeButtonTracker.Provider>
   ),
   {
     defaultProps: {
@@ -81,12 +81,12 @@ export interface BottomSheetTitleProps extends Drawer.TitleProps {}
 export const BottomSheetTitle = forwardRef<HTMLHeadingElement, BottomSheetTitleProps>(
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
-    const { isPresent } = closeButtonPresence.usePresence();
+    const { isRendered } = closeButtonTracker.useRenderTracking();
 
     return (
       <Drawer.Title
         ref={ref}
-        data-show-close-button={dataAttr(isPresent)}
+        data-show-close-button={dataAttr(isRendered)}
         className={clsx(classNames.title, className)}
         {...props}
       />
@@ -138,11 +138,11 @@ export interface BottomSheetCloseButtonProps extends Drawer.CloseButtonProps {}
 export const BottomSheetCloseButton = forwardRef<HTMLButtonElement, BottomSheetCloseButtonProps>(
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
-    const { presenceRef } = closeButtonPresence.usePresence();
+    const { trackRef } = closeButtonTracker.useRenderTracking();
 
     return (
       <Drawer.CloseButton
-        ref={composeRefs(ref, presenceRef)}
+        ref={composeRefs(ref, trackRef)}
         className={clsx(classNames.closeButton, className)}
         {...props}
       />

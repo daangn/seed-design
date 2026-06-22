@@ -5,13 +5,13 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import clsx from "clsx";
 import * as React from "react";
-import { createPresenceContext } from "../../utils/createPresenceContext";
+import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(sidePanel);
 
-const closeButtonPresence = createPresenceContext("SidePanelCloseButton");
+const closeButtonTracker = createRenderTrackingContext("SidePanelCloseButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,9 +37,9 @@ export interface SidePanelRootProps
 
 export const SidePanelRoot = withRootProvider<SidePanelRootProps>(
   (props: Drawer.RootProps) => (
-    <closeButtonPresence.Provider>
+    <closeButtonTracker.Provider>
       <Drawer.Root {...props} />
-    </closeButtonPresence.Provider>
+    </closeButtonTracker.Provider>
   ),
   {
     defaultProps: {
@@ -92,12 +92,12 @@ export interface SidePanelHeaderProps extends Drawer.HeaderProps {}
 export const SidePanelHeader = React.forwardRef<HTMLDivElement, SidePanelHeaderProps>(
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
-    const { isPresent } = closeButtonPresence.usePresence();
+    const { isRendered } = closeButtonTracker.useRenderTracking();
 
     return (
       <Drawer.Header
         ref={ref}
-        data-show-close-button={dataAttr(isPresent)}
+        data-show-close-button={dataAttr(isRendered)}
         className={clsx(classNames.header, className)}
         {...props}
       />
@@ -198,11 +198,11 @@ export interface SidePanelCloseButtonProps extends Drawer.CloseButtonProps {}
 export const SidePanelCloseButton = React.forwardRef<HTMLButtonElement, SidePanelCloseButtonProps>(
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
-    const { presenceRef } = closeButtonPresence.usePresence();
+    const { trackRef } = closeButtonTracker.useRenderTracking();
 
     return (
       <Drawer.CloseButton
-        ref={composeRefs(ref, presenceRef)}
+        ref={composeRefs(ref, trackRef)}
         className={clsx(classNames.closeButton, className)}
         {...props}
       />
