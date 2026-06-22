@@ -7,10 +7,6 @@ Powered by [Fumadocs](https://github.com/fuma-nama/fumadocs).
 ## Development
 
 ```bash
-npm run dev
-# or
-pnpm dev
-# or
 bun dev
 ```
 
