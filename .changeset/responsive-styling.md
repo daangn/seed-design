@@ -1,6 +1,6 @@
 ---
-"@seed-design/css": minor
-"@seed-design/react": minor
+"@seed-design/css": major
+"@seed-design/react": major
 ---
 
 Breakpoint 기반 반응형 스타일링을 지원합니다.
@@ -23,4 +23,4 @@ const actionButtonProps = useBreakpointValue<ActionButtonProps>({
 });
 ```
 
-- `<Grid display="none">`으로 Grid를 숨길 수 없던 문제를 수정합니다.
+`<Grid display="none">`으로 Grid를 숨길 수 없던 문제를 수정합니다.

@@ -1,11 +1,11 @@
 ---
-"@seed-design/react-attachment-display": minor
-"@seed-design/react-middle-truncate": minor
-"@seed-design/react-file-upload": minor
-"@seed-design/rootage-artifacts": minor
-"@seed-design/react": minor
-"@seed-design/lynx-css": minor
-"@seed-design/css": minor
+"@seed-design/react-attachment-display": major
+"@seed-design/react-middle-truncate": major
+"@seed-design/react-file-upload": major
+"@seed-design/rootage-artifacts": major
+"@seed-design/react": major
+"@seed-design/lynx-css": major
+"@seed-design/css": major
 ---
 
 Attachment Field 관련 컴포넌트를 추가합니다.

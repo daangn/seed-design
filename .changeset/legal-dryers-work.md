@@ -1,9 +1,9 @@
 ---
-"@seed-design/tailwind3-plugin": minor
-"@seed-design/tailwind4-theme": minor
-"@seed-design/rootage-artifacts": minor
-"@seed-design/lynx-css": minor
-"@seed-design/css": minor
+"@seed-design/tailwind3-plugin": major
+"@seed-design/tailwind4-theme": major
+"@seed-design/rootage-artifacts": major
+"@seed-design/lynx-css": major
+"@seed-design/css": major
 ---
 
 신규 타이포그래피 토큰을 추가합니다.

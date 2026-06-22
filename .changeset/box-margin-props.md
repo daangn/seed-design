@@ -1,6 +1,6 @@
 ---
-"@seed-design/css": minor
-"@seed-design/react": minor
+"@seed-design/css": major
+"@seed-design/react": major
 ---
 
 Box, Flex, Grid, VStack, HStack 등 레이아웃 컴포넌트에 margin 관련 프로퍼티를 추가합니다.

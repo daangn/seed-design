@@ -1,6 +1,6 @@
 ---
-"@seed-design/react": minor
-"@seed-design/css": minor
+"@seed-design/react": major
+"@seed-design/css": major
 ---
 
 `SwipeableMenuSheet` 컴포넌트를 추가하고, 기존 `MenuSheet` 관련 API를 deprecate합니다.
