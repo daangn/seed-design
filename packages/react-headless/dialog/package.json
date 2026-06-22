@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-dialog",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,10 +30,10 @@
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-focus-scope": "^1.1.4",
     "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-dismissible-layer": "0.0.0",
-    "@seed-design/react-presence": "0.0.0",
-    "@seed-design/react-prevent-scroll": "0.0.0",
-    "@seed-design/react-primitive": "1.0.0",
+    "@seed-design/react-dismissible-layer": "1.0.0",
+    "@seed-design/react-presence": "1.0.0",
+    "@seed-design/react-prevent-scroll": "1.0.0",
+    "@seed-design/react-primitive": "2.0.0",
     "@seed-design/react-use-controllable-state": "1.0.0",
     "aria-hidden": "^1.2.6"
   },

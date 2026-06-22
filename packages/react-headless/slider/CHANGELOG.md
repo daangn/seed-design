@@ -1,5 +1,12 @@
 # @seed-design/react-slider
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [ec33023]
+  - @seed-design/react-primitive@2.0.0
+
 ## 1.0.2
 
 ### Patch Changes

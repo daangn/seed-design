@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-tooltip",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,8 +30,8 @@
     "@floating-ui/react": "^0.27.0",
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-floating": "0.0.0",
-    "@seed-design/react-primitive": "1.0.0"
+    "@seed-design/react-floating": "1.0.0",
+    "@seed-design/react-primitive": "2.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

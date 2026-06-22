@@ -1,5 +1,12 @@
 # @seed-design/react-tabs
 
+## 1.0.6
+
+### Patch Changes
+
+- Updated dependencies [ec33023]
+  - @seed-design/react-primitive@2.0.0
+
 ## 1.0.5
 
 ### Patch Changes
