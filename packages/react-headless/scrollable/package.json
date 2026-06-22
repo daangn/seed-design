@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.0.1",
-    "@seed-design/dom-utils": "1.0.0",
+    "@seed-design/dom-utils": "2.0.0",
     "@seed-design/react-primitive": "2.0.0"
   },
   "devDependencies": {

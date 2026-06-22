@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-slider",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -43,8 +43,8 @@
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@radix-ui/react-use-layout-effect": "^1.1.1",
     "@radix-ui/react-use-size": "^1.1.1",
-    "@seed-design/dom-utils": "^1.0.0",
+    "@seed-design/dom-utils": "^2.0.0",
     "@seed-design/react-primitive": "^2.0.0",
-    "@seed-design/react-supports": "^0.0.1"
+    "@seed-design/react-supports": "^1.0.0"
   }
 }
