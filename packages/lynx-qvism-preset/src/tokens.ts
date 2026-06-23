@@ -242,6 +242,7 @@ export const tokens = {
   --seed-color-bg-layer-basement: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-default: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-100);
+  --seed-color-bg-layer-fill: var(--seed-color-palette-gray-100);
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-100);
   --seed-color-bg-magic-weak: #f9f2ee;
@@ -454,6 +455,7 @@ export const tokens = {
   --seed-color-bg-layer-basement: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-default: var(--seed-color-palette-gray-100);
   --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-300);
+  --seed-color-bg-layer-fill: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-300);
   --seed-color-bg-magic-weak: #201f1f;

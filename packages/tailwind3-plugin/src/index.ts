@@ -180,6 +180,7 @@ export default plugin(
   "bg-layer-basement": "var(--seed-color-bg-layer-basement)",
   "bg-layer-default": "var(--seed-color-bg-layer-default)",
   "bg-layer-default-pressed": "var(--seed-color-bg-layer-default-pressed)",
+  "bg-layer-fill": "var(--seed-color-bg-layer-fill)",
   "bg-layer-floating": "var(--seed-color-bg-layer-floating)",
   "bg-layer-floating-pressed": "var(--seed-color-bg-layer-floating-pressed)",
   "bg-magic-weak": "var(--seed-color-bg-magic-weak)",
