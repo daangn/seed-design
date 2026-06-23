@@ -1,5 +1,5 @@
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Text, VStack } from "@seed-design/react";
+import { HStack, PrefixIcon, Text, VStack } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -30,9 +30,18 @@ export default function MenuSheetOnOpenChangeReason() {
         </MenuSheetTrigger>
         <MenuSheetContent title="메뉴" aria-label="Menu Sheet">
           <MenuSheetGroup>
-            <MenuSheetItem label="Action 1" prefixIcon={<IconEyeSlashLine />} />
-            <MenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
-            <MenuSheetItem label="Action 3" prefixIcon={<IconEyeSlashLine />} />
+            <MenuSheetItem>
+              <PrefixIcon svg={<IconEyeSlashLine />} />
+              Action 1
+            </MenuSheetItem>
+            <MenuSheetItem>
+              <PrefixIcon svg={<IconEyeSlashLine />} />
+              Action 2
+            </MenuSheetItem>
+            <MenuSheetItem>
+              <PrefixIcon svg={<IconEyeSlashLine />} />
+              Action 3
+            </MenuSheetItem>
           </MenuSheetGroup>
         </MenuSheetContent>
       </MenuSheetRoot>
