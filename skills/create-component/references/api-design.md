@@ -201,7 +201,7 @@ import * as React from "react";
 import * as SeedComponent from "@seed-design/react/components/Component";
 
 /**
- * @see https://seed-design.pages.dev/react/components/component
+ * @see https://seed-design.io/react/components/component
  */
 export interface ComponentProps extends Omit<SeedComponent.RootProps, "children"> {
   // 편의 props (label, description 등)
