@@ -125,6 +125,7 @@
   --color-bg-layer-basement: var(--seed-color-bg-layer-basement);
   --color-bg-layer-default: var(--seed-color-bg-layer-default);
   --color-bg-layer-default-pressed: var(--seed-color-bg-layer-default-pressed);
+  --color-bg-layer-fill: var(--seed-color-bg-layer-fill);
   --color-bg-layer-floating: var(--seed-color-bg-layer-floating);
   --color-bg-layer-floating-pressed: var(--seed-color-bg-layer-floating-pressed);
   --color-bg-magic-weak: var(--seed-color-bg-magic-weak);
