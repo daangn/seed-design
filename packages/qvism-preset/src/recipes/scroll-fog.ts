@@ -1,5 +1,39 @@
 import { defineRecipe } from "../utils/define";
-import { scrollFog as vars } from "../vars/component";
+
+const fogStops: ReadonlyArray<readonly [string, number]> = [
+  ["#00000000", 0],
+  ["#00000003", 0.08],
+  ["#00000005", 0.16],
+  ["#0000000d", 0.22],
+  ["#00000014", 0.29],
+  ["#00000021", 0.35],
+  ["#0000002e", 0.41],
+  ["#00000040", 0.47],
+  ["#00000052", 0.53],
+  ["#00000066", 0.59],
+  ["#0000007a", 0.65],
+  ["#00000094", 0.71],
+  ["#000000ab", 0.78],
+  ["#000000c7", 0.84],
+  ["#000000e3", 0.92],
+  ["#000000ff", 1],
+];
+
+const buildMask = (direction: string, scrollableVar: string, sizeVar: string) =>
+  `linear-gradient(${direction}, ${fogStops
+    .map(([color, position]) =>
+      position === 0
+        ? `${color} 0`
+        : `${color} calc(var(${scrollableVar}) * var(${sizeVar}) * ${position})`,
+    )
+    .join(", ")})`;
+
+const maskImage = [
+  buildMask("to bottom", "--scrollable-top", "--scroll-fog-size-top"),
+  buildMask("to top", "--scrollable-bottom", "--scroll-fog-size-bottom"),
+  buildMask("to right", "--scrollable-left", "--scroll-fog-size-left"),
+  buildMask("to left", "--scrollable-right", "--scroll-fog-size-right"),
+].join(", ");
 
 const scrollFog = defineRecipe({
   name: "scroll-fog",
@@ -9,22 +43,9 @@ const scrollFog = defineRecipe({
     height: "100%",
     width: "100%",
 
-    "--scroll-fog-from-color": vars.base.enabled.root.fromColor,
-    "--scroll-fog-to-color": vars.base.enabled.root.toColor,
-
     // 4-directional gradients for fog effect
-    maskImage: [
-      "linear-gradient(to bottom, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-top) * var(--scroll-fog-size-top)))",
-      "linear-gradient(to top, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom)))",
-      "linear-gradient(to right, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-left) * var(--scroll-fog-size-left)))",
-      "linear-gradient(to left, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-right) * var(--scroll-fog-size-right)))",
-    ].join(", "),
-    WebkitMaskImage: [
-      "linear-gradient(to bottom, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-top) * var(--scroll-fog-size-top)))",
-      "linear-gradient(to top, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-bottom) * var(--scroll-fog-size-bottom)))",
-      "linear-gradient(to right, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-left) * var(--scroll-fog-size-left)))",
-      "linear-gradient(to left, var(--scroll-fog-from-color) 0, var(--scroll-fog-to-color) calc(var(--scrollable-right) * var(--scroll-fog-size-right)))",
-    ].join(", "),
+    maskImage,
+    WebkitMaskImage: maskImage,
     maskSize: "100% 100%, 100% 100%, 100% 100%, 100% 100%",
     WebkitMaskSize: "100% 100%, 100% 100%, 100% 100%, 100% 100%",
     maskRepeat: "no-repeat",
