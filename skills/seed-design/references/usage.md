@@ -65,6 +65,16 @@ npx @seed-design/cli@latest compat -c action-button -c alert-dialog
 npx @seed-design/cli@latest compat --all
 ```
 
+설치된 패키지들끼리(react↔css)의 peer 호환을 검사하거나, 가정한 버전 조합을 미리 확인하고, 구조화 출력을 받을 수 있습니다.
+
+```bash
+# 가정한 버전 조합의 호환 미리 검증
+npx @seed-design/cli@latest compat --with react@2.0.0 --with css@2.0.0
+
+# JSON 출력 (스크립트·도구용)
+npx @seed-design/cli@latest compat --json
+```
+
 ### 5) Docs 조회
 
 컴포넌트/파운데이션에 대한 문서 링크, LLM용 텍스트 링크, 스니펫 링크를 조회합니다.

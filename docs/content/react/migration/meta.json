@@ -1,3 +1,4 @@
 {
-  "title": "Migration"
+  "title": "Migration",
+  "pages": ["upgrading", "from-sprout", "migrating-icons"]
 }
