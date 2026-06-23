@@ -148,6 +148,9 @@ const attachmentInputItem = defineSlotRecipe({
   base: {
     root: {
       position: "relative",
+      // Contain the image-type border's z-index (see the type=image `&::before`)
+      // within the item so it cannot leak into the surrounding stacking context.
+      isolation: "isolate",
 
       display: "flex",
       alignItems: "center",
@@ -402,6 +405,10 @@ const attachmentInputItem = defineSlotRecipe({
           transition: "opacity 0.2s",
 
           "&::before": {
+            // The image and ::before both carry translateZ(0) (via removeButtonMask),
+            // so each forms a stacking context. Without this, the <img> paints over
+            // the border and hides it. Lift the border above the image.
+            zIndex: 1,
             boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeImage.enabled.root.strokeColor}`,
           },
 
