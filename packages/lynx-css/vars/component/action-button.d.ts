@@ -3,10 +3,17 @@ export declare const vars: {
     "enabled": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.97"
       }
     }
   },
@@ -400,7 +407,8 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)",
+        "scale": "0.95"
       }
     },
     "disabled": {

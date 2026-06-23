@@ -65,7 +65,13 @@
     cursor: not-allowed;
 }
 .seed-action-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transform: scale(1);
+}
+.seed-action-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    transform: scale(0.97);
+}
+.seed-action-button {
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-action-button--variant_brandSolid {
     background: var(--seed-color-bg-brand-solid);
@@ -276,6 +282,9 @@
     .seed-action-button--variant_ghost:is(:active, [data-active]) {
         background: var(--seed-color-bg-transparent-pressed);
     }
+}
+.seed-action-button--variant_ghost:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    transform: scale(0.95);
 }
 .seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
     background: #ffffff00;

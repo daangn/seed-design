@@ -5,7 +5,7 @@ import { actionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, loading, not, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -62,7 +62,12 @@ const actionButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transform: "scale(1)",
+    [pseudo(not(disabled), active)]: {
+      transform: `scale(${vars.base.pressed.root.scale})`,
+    },
+
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {
@@ -336,6 +341,9 @@ const actionButton = defineRecipe({
         "--range-color": vars.variantGhost.enabled.progressCircle.rangeColor,
         [pseudo(engaged)]: {
           background: vars.variantGhost.pressed.root.color,
+        },
+        [pseudo(not(disabled), active)]: {
+          transform: `scale(${vars.variantGhost.pressed.root.scale})`,
         },
         [pseudo(disabled)]: {
           background: vars.variantGhost.disabled.root.color,
