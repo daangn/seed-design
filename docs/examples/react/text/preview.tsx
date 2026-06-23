@@ -33,6 +33,18 @@ export default function TextPreview() {
       <Text color="fg.neutral" textStyle="t10Bold">
         t10Bold
       </Text>
+      <Text color="fg.neutral" textStyle="t11Bold">
+        t11Bold
+      </Text>
+      <Text color="fg.neutral" textStyle="t12Bold">
+        t12Bold
+      </Text>
+      <Text color="fg.neutral" textStyle="t13Bold">
+        t13Bold
+      </Text>
+      <Text color="fg.neutral" textStyle="t14Bold">
+        t14Bold
+      </Text>
     </Flex>
   );
 }
