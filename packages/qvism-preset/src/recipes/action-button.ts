@@ -63,9 +63,6 @@ const actionButton = defineRecipe({
     },
 
     transform: "scale(1)",
-    [pseudo(not(disabled), active)]: {
-      transform: `scale(${vars.base.pressed.root.scale})`,
-    },
 
     transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
   },
@@ -342,9 +339,6 @@ const actionButton = defineRecipe({
         [pseudo(engaged)]: {
           background: vars.variantGhost.pressed.root.color,
         },
-        [pseudo(not(disabled), active)]: {
-          transform: `scale(${vars.variantGhost.pressed.root.scale})`,
-        },
         [pseudo(disabled)]: {
           background: vars.variantGhost.disabled.root.color,
           color: vars.variantGhost.disabled.label.color,
@@ -380,6 +374,10 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeXsmallLayoutIconOnly.enabled.icon.size,
         }),
+
+        [pseudo(not(disabled), active)]: {
+          transform: `scale(${vars.sizeXsmall.pressed.root.scale})`,
+        },
       },
       small: {
         height: vars.sizeSmall.enabled.root.minHeight,
@@ -397,6 +395,10 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
         }),
+
+        [pseudo(not(disabled), active)]: {
+          transform: `scale(${vars.sizeSmall.pressed.root.scale})`,
+        },
       },
       medium: {
         height: vars.sizeMedium.enabled.root.minHeight,
@@ -414,6 +416,10 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
         }),
+
+        [pseudo(not(disabled), active)]: {
+          transform: `scale(${vars.sizeMedium.pressed.root.scale})`,
+        },
       },
       large: {
         height: vars.sizeLarge.enabled.root.minHeight,
@@ -431,6 +437,10 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeLargeLayoutIconOnly.enabled.icon.size,
         }),
+
+        [pseudo(not(disabled), active)]: {
+          transform: `scale(${vars.sizeLarge.pressed.root.scale})`,
+        },
       },
     },
     layout: {

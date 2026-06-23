@@ -10,11 +10,6 @@ export const vars = {
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"
       }
-    },
-    "pressed": {
-      "root": {
-        "scale": "0.97"
-      }
     }
   },
   "variantBrandSolid": {
@@ -347,8 +342,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)",
-        "scale": "0.95"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
@@ -383,6 +377,11 @@ export const vars = {
       "progressCircle": {
         "size": "14px",
         "thickness": "2px"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.95"
       }
     }
   },
@@ -427,6 +426,11 @@ export const vars = {
         "size": "14px",
         "thickness": "2px"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.97"
+      }
     }
   },
   "sizeSmallLayoutWithText": {
@@ -470,6 +474,11 @@ export const vars = {
         "size": "16px",
         "thickness": "2px"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.97"
+      }
     }
   },
   "sizeMediumLayoutWithText": {
@@ -512,6 +521,11 @@ export const vars = {
       "progressCircle": {
         "size": "18px",
         "thickness": "2px"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.98"
       }
     }
   },

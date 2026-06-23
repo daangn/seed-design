@@ -120,9 +120,6 @@ data:
           scaleTimingFunction: $timing-function.pressed-scale
         label:
           fontWeight: $font-weight.bold
-      pressed:
-        root:
-          scale: 0.97
     variant=brandSolid:
       enabled:
         root:
@@ -339,7 +336,6 @@ data:
       pressed:
         root:
           color: $color.bg.transparent-pressed
-          scale: 0.95
       disabled:
         root:
           color: "#ffffff00"
@@ -362,6 +358,9 @@ data:
         progressCircle:
           size: 14px
           thickness: 2px
+      pressed:
+        root:
+          scale: 0.95
     size=xsmall, layout=withText:
       enabled:
         root:
@@ -391,6 +390,9 @@ data:
         progressCircle:
           size: 14px
           thickness: 2px
+      pressed:
+        root:
+          scale: 0.97
     size=small, layout=withText:
       enabled:
         root:
@@ -420,6 +422,9 @@ data:
         progressCircle:
           size: 16px
           thickness: 2px
+      pressed:
+        root:
+          scale: 0.97
     size=medium, layout=withText:
       enabled:
         root:
@@ -449,6 +454,9 @@ data:
         progressCircle:
           size: 18px
           thickness: 2px
+      pressed:
+        root:
+          scale: 0.98
     size=large, layout=withText:
       enabled:
         root:

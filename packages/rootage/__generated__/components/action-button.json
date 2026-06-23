@@ -212,19 +212,6 @@
                 }
               }
             }
-          },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number",
-                  "value": 0.97
-                }
-              }
-            }
           }
         ]
       },
@@ -1021,10 +1008,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.transparent-pressed"
-                },
-                "scale": {
-                  "type": "number",
-                  "value": 0.95
                 }
               }
             }
@@ -1115,6 +1098,19 @@
                     "value": 2,
                     "unit": "px"
                   }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": 0.95
                 }
               }
             }
@@ -1244,6 +1240,19 @@
                 }
               }
             }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": 0.97
+                }
+              }
+            }
           }
         ]
       },
@@ -1367,6 +1376,19 @@
                     "value": 2,
                     "unit": "px"
                   }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": 0.97
                 }
               }
             }
@@ -1496,6 +1518,19 @@
                     "value": 2,
                     "unit": "px"
                   }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": 0.98
                 }
               }
             }

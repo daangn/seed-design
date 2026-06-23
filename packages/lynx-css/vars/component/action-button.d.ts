@@ -10,11 +10,6 @@ export declare const vars: {
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"
       }
-    },
-    "pressed": {
-      "root": {
-        "scale": "0.97"
-      }
     }
   },
   /**
@@ -407,8 +402,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)",
-        "scale": "0.95"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
@@ -449,6 +443,11 @@ export declare const vars: {
       "progressCircle": {
         "size": "14px",
         "thickness": "2px"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.95"
       }
     }
   },
@@ -507,6 +506,11 @@ export declare const vars: {
         "size": "14px",
         "thickness": "2px"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.97"
+      }
     }
   },
   /**
@@ -564,6 +568,11 @@ export declare const vars: {
         "size": "16px",
         "thickness": "2px"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.97"
+      }
     }
   },
   /**
@@ -620,6 +629,11 @@ export declare const vars: {
       "progressCircle": {
         "size": "18px",
         "thickness": "2px"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "0.98"
       }
     }
   },
