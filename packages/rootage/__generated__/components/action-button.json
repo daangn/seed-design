@@ -1110,7 +1110,7 @@
               "root": {
                 "scale": {
                   "type": "number",
-                  "value": 0.95
+                  "value": "$scale.s95"
                 }
               }
             }
@@ -1249,7 +1249,7 @@
               "root": {
                 "scale": {
                   "type": "number",
-                  "value": 0.97
+                  "value": "$scale.s97"
                 }
               }
             }
@@ -1388,7 +1388,7 @@
               "root": {
                 "scale": {
                   "type": "number",
-                  "value": 0.97
+                  "value": "$scale.s97"
                 }
               }
             }
@@ -1530,7 +1530,7 @@
               "root": {
                 "scale": {
                   "type": "number",
-                  "value": 0.98
+                  "value": "$scale.s98"
                 }
               }
             }

@@ -537,5 +537,21 @@ export const tokens = {
   --seed-shadow-s1: 0px 1px 4px 0px #00000080;
   --seed-shadow-s2: 0px 2px 10px 0px #000000ad;
   --seed-shadow-s3: 0px 4px 16px 0px #000000cc;
+}
+
+:root {
+  --seed-scale-s95: 0.95;
+  --seed-scale-s96: 0.96;
+  --seed-scale-s97: 0.97;
+  --seed-scale-s98: 0.98;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --seed-scale-s95: 1;
+    --seed-scale-s96: 1;
+    --seed-scale-s97: 1;
+    --seed-scale-s98: 1;
+  }
 }`
 };

@@ -381,7 +381,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "scale": "0.95"
+        "scale": "var(--seed-scale-s95)"
       }
     }
   },
@@ -429,7 +429,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "scale": "0.97"
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },
@@ -477,7 +477,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "scale": "0.97"
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },
@@ -525,7 +525,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "scale": "0.98"
+        "scale": "var(--seed-scale-s98)"
       }
     }
   },

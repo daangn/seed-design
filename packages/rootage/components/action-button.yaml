@@ -360,7 +360,7 @@ data:
           thickness: 2px
       pressed:
         root:
-          scale: 0.95
+          scale: $scale.s95
     size=xsmall, layout=withText:
       enabled:
         root:
@@ -392,7 +392,7 @@ data:
           thickness: 2px
       pressed:
         root:
-          scale: 0.97
+          scale: $scale.s97
     size=small, layout=withText:
       enabled:
         root:
@@ -424,7 +424,7 @@ data:
           thickness: 2px
       pressed:
         root:
-          scale: 0.97
+          scale: $scale.s97
     size=medium, layout=withText:
       enabled:
         root:
@@ -456,7 +456,7 @@ data:
           thickness: 2px
       pressed:
         root:
-          scale: 0.98
+          scale: $scale.s98
     size=large, layout=withText:
       enabled:
         root:

@@ -86,6 +86,10 @@ export default function generateSeedCss(
 :root.seed-color-mode-dark-only,
 .seed-color-mode-dark-only`,
       },
+      motion: {
+        preferred: ":root",
+        reduced: "@media (prefers-reduced-motion: reduce)",
+      },
     },
     customDeclaration: createSeedDeclaration(),
   };

@@ -339,7 +339,7 @@
   }
 
   .seed-action-button--size_xsmall:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(.95);
+    transform: scale(var(--seed-scale-s95));
   }
 
   .seed-action-button--size_small {
@@ -353,7 +353,7 @@
   }
 
   .seed-action-button--size_small:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(.97);
+    transform: scale(var(--seed-scale-s97));
   }
 
   .seed-action-button--size_medium {
@@ -367,7 +367,7 @@
   }
 
   .seed-action-button--size_medium:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(.97);
+    transform: scale(var(--seed-scale-s97));
   }
 
   .seed-action-button--size_large {
@@ -381,7 +381,7 @@
   }
 
   .seed-action-button--size_large:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(.98);
+    transform: scale(var(--seed-scale-s98));
   }
 
   .seed-action-button--size_xsmall-layout_withText {

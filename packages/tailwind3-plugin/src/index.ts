@@ -876,6 +876,12 @@ export default plugin(
   "s2": "var(--seed-shadow-s2)",
   "s3": "var(--seed-shadow-s3)"
 },
+        scale: {
+  "s95": "var(--seed-scale-s95)",
+  "s96": "var(--seed-scale-s96)",
+  "s97": "var(--seed-scale-s97)",
+  "s98": "var(--seed-scale-s98)"
+},
       },
     },
   },

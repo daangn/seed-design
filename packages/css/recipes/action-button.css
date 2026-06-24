@@ -298,7 +298,7 @@
     --seed-icon-size: var(--seed-dimension-x3_5);
 }
 .seed-action-button--size_xsmall:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(0.95);
+    transform: scale(var(--seed-scale-s95));
 }
 .seed-action-button--size_small {
     height: var(--seed-dimension-x9);
@@ -310,7 +310,7 @@
     --seed-icon-size: var(--seed-dimension-x4);
 }
 .seed-action-button--size_small:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(0.97);
+    transform: scale(var(--seed-scale-s97));
 }
 .seed-action-button--size_medium {
     height: var(--seed-dimension-x10);
@@ -322,7 +322,7 @@
     --seed-icon-size: 18px;
 }
 .seed-action-button--size_medium:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(0.97);
+    transform: scale(var(--seed-scale-s97));
 }
 .seed-action-button--size_large {
     height: var(--seed-dimension-x13);
@@ -334,7 +334,7 @@
     --seed-icon-size: 22px;
 }
 .seed-action-button--size_large:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(0.98);
+    transform: scale(var(--seed-scale-s98));
 }
 .seed-action-button--layout_withText {}
 .seed-action-button--layout_iconOnly {}

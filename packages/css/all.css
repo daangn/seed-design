@@ -929,6 +929,22 @@
   --seed-shadow-s3: 0px 4px 16px 0px #000c;
 }
 
+:root {
+  --seed-scale-s95: .95;
+  --seed-scale-s96: .96;
+  --seed-scale-s97: .97;
+  --seed-scale-s98: .98;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --seed-scale-s95: 1;
+    --seed-scale-s96: 1;
+    --seed-scale-s97: 1;
+    --seed-scale-s98: 1;
+  }
+}
+
 .seed-accordion__root, .seed-accordion__item {
   flex-direction: column;
   width: 100%;
@@ -1568,7 +1584,7 @@
 }
 
 .seed-action-button--size_xsmall:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  transform: scale(.95);
+  transform: scale(var(--seed-scale-s95));
 }
 
 .seed-action-button--size_small {
@@ -1582,7 +1598,7 @@
 }
 
 .seed-action-button--size_small:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  transform: scale(.97);
+  transform: scale(var(--seed-scale-s97));
 }
 
 .seed-action-button--size_medium {
@@ -1596,7 +1612,7 @@
 }
 
 .seed-action-button--size_medium:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  transform: scale(.97);
+  transform: scale(var(--seed-scale-s97));
 }
 
 .seed-action-button--size_large {
@@ -1610,7 +1626,7 @@
 }
 
 .seed-action-button--size_large:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  transform: scale(.98);
+  transform: scale(var(--seed-scale-s98));
 }
 
 .seed-action-button--size_xsmall-layout_withText {

@@ -1,0 +1,23 @@
+kind: Tokens
+metadata:
+  id: scale
+  name: Scale
+data:
+  collection: motion
+  tokens:
+    $scale.s95:
+      values:
+        preferred: 0.95
+        reduced: 1
+    $scale.s96:
+      values:
+        preferred: 0.96
+        reduced: 1
+    $scale.s97:
+      values:
+        preferred: 0.97
+        reduced: 1
+    $scale.s98:
+      values:
+        preferred: 0.98
+        reduced: 1
