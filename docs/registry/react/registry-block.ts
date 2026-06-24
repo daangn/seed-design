@@ -9,7 +9,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "footer-01.tsx",
-          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
     },
@@ -19,7 +19,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "footer-02.tsx",
-          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
     },
@@ -29,7 +29,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "footer-03.tsx",
-          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
     },
@@ -39,7 +39,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "footer-04.tsx",
-          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
     },
@@ -49,7 +49,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "side-navigation-01.tsx",
-          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
     },
@@ -59,7 +59,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "side-navigation-02.tsx",
-          dependencies: { "@seed-design/react": "~1.3.0", "@seed-design/css": "~1.3.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
     },
@@ -69,7 +69,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "layout-01.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
     },
@@ -79,7 +79,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "layout-02.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
     },
