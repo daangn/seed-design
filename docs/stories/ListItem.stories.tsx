@@ -16,6 +16,10 @@ import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ListHeader } from "seed-design/ui/list-header";
 
+const SAMPLE_IMAGE = `data:image/svg+xml,${encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#6ba6ff'/><stop offset='1' stop-color='#b06bff'/></linearGradient></defs><rect width='200' height='200' fill='url(#g)'/></svg>",
+)}`;
+
 const meta = {
   component: ListItem,
   decorators: [SeedThemeDecorator],
@@ -30,13 +34,7 @@ const prefixVariants = [
   { key: "icon", element: <Icon svg={<IconPersonCircleLine />} /> },
   {
     key: "avatar",
-    element: (
-      <Avatar
-        size="48"
-        src="https://avatars.githubusercontent.com/u/54893898?v=4"
-        fallback={<IdentityPlaceholder />}
-      />
-    ),
+    element: <Avatar size="48" src={SAMPLE_IMAGE} fallback={<IdentityPlaceholder />} />,
   },
 ];
 
