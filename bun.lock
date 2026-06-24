@@ -342,7 +342,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
