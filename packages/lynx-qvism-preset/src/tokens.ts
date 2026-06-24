@@ -544,14 +544,5 @@ export const tokens = {
   --seed-scale-s96: 0.96;
   --seed-scale-s97: 0.97;
   --seed-scale-s98: 0.98;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --seed-scale-s95: 1;
-    --seed-scale-s96: 1;
-    --seed-scale-s97: 1;
-    --seed-scale-s98: 1;
-  }
 }`
 };

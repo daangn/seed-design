@@ -581,15 +581,6 @@ text {
   --seed-scale-s98: .98;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --seed-scale-s95: 1;
-    --seed-scale-s96: 1;
-    --seed-scale-s97: 1;
-    --seed-scale-s98: 1;
-  }
-}
-
 .seed-action-button__root {
   --seed-box-flex-grow: 0;
   flex-shrink: 0;
