@@ -8,10 +8,9 @@ export function LatestVersionBanner() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setShow(
-      window.location.hostname !== "seed-design.pages.dev" &&
-        window.location.hostname.endsWith("pages.dev"),
-    );
+    const host = window.location.hostname;
+    // latest(루트)가 아닌 모든 곳(버전 서브도메인·프리뷰·alpha)에서 안내 배너 노출
+    setShow(host !== "seed-design.io" && host !== "localhost" && host !== "127.0.0.1");
   }, []);
 
   if (!show) return null;
