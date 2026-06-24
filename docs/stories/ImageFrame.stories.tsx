@@ -7,6 +7,10 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
+const SAMPLE_IMAGE = `data:image/svg+xml,${encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#6ba6ff'/><stop offset='1' stop-color='#b06bff'/></linearGradient></defs><rect width='200' height='200' fill='url(#g)'/></svg>",
+)}`;
+
 const meta = {
   component: ImageFrame,
   decorators: [SeedThemeDecorator],
@@ -32,7 +36,7 @@ const conditionMap = {
 
 const CommonStoryTemplate: Story = {
   args: {
-    src: "https://avatars.githubusercontent.com/u/54893898?v=4",
+    src: SAMPLE_IMAGE,
     alt: "ImageFrame placeholder",
   },
   render: (args) => (

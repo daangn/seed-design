@@ -8,7 +8,18 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
-const sampleThumbnailUrl = (seed: string) => `https://picsum.photos/seed/${seed}/200/200`;
+const sampleThumbnailColors: Record<string, string> = {
+  a: "#577590",
+  b: "#43aa8b",
+  c: "#f9c74f",
+  d: "#9b5de5",
+  e: "#e76f51",
+};
+
+const sampleThumbnailUrl = (seed: string) =>
+  `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='${sampleThumbnailColors[seed] ?? "#adb5bd"}'/></svg>`,
+  )}`;
 
 interface AttachmentDisplayReorderableStoryProps
   extends Omit<React.ComponentProps<typeof AttachmentDisplayField>, "children"> {}
