@@ -1,0 +1,53 @@
+{
+  "name": "@seed-design/elements",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/elements"
+  },
+  "sideEffects": [
+    "**/*.css",
+    "./lib/define/**",
+    "./src/define/**"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./define/*": {
+      "types": "./lib/define/*.d.ts",
+      "import": "./lib/define/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "vite build",
+    "lint:publish": "bun publint",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "@seed-design/css": ">=1.0.0 <3.0.0"
+  },
+  "dependencies": {
+    "lit": "^3.3.0"
+  },
+  "devDependencies": {
+    "@seed-design/css": "workspace:*",
+    "jsdom": "^29.0.2",
+    "vite": "^8.0.0",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
