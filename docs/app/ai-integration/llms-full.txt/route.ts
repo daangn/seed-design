@@ -5,7 +5,8 @@ import { aiIntegrationSource } from "@/app/source";
 export const revalidate = false;
 
 export async function GET() {
-  const pages = (aiIntegrationSource.getPages())
+  const pages = aiIntegrationSource
+    .getPages()
     .filter((page) => shouldIncludeInFullText("ai-integration", page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
 

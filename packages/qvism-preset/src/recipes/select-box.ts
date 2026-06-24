@@ -208,8 +208,7 @@ export const selectBox = defineSlotRecipe({
 });
 
 export const selectBoxCheckmark = defineSlotRecipe({
-  // TODO: this name should be fixed at some point
-  name: "selectBoxCheckmark",
+  name: "select-box-checkmark",
   slots: ["root", "icon"],
   base: {
     root: {

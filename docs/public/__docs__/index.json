@@ -9,6 +9,19 @@
           "label": "컴포넌트",
           "items": [
             {
+              "id": "accordion",
+              "title": "Accordion",
+              "description": "세부 정보를 점진적으로 공개할 수 있는, 수직으로 쌓인 목록 컴포넌트입니다.",
+              "docUrl": "/docs/components/accordion",
+              "snippetKey": "react/ui:accordion",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "accordion.tsx"
+                }
+              ]
+            },
+            {
               "id": "action-button",
               "title": "Action Button",
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
@@ -52,6 +65,12 @@
                   "path": "alert-dialog.tsx"
                 }
               ]
+            },
+            {
+              "id": "attachment-input",
+              "title": "Attachment Input",
+              "description": "사진, 영상, 파일 첨부를 다루는 입력으로, 선택, 업로드, 진행률, 실패, 삭제 상태를 관리합니다.",
+              "docUrl": "/docs/components/attachment-input"
             },
             {
               "id": "avatar",
@@ -327,6 +346,19 @@
               ]
             },
             {
+              "id": "menu",
+              "title": "Menu",
+              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+              "docUrl": "/docs/components/menu",
+              "snippetKey": "react/ui:menu",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu.tsx"
+                }
+              ]
+            },
+            {
               "id": "menu-sheet",
               "title": "Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
@@ -432,6 +464,32 @@
                 {
                   "label": "react",
                   "path": "select-box.tsx"
+                }
+              ]
+            },
+            {
+              "id": "side-navigation",
+              "title": "Side Navigation",
+              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+              "docUrl": "/docs/components/side-navigation",
+              "snippetKey": "react/ui:side-navigation",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-navigation.tsx"
+                }
+              ]
+            },
+            {
+              "id": "side-panel",
+              "title": "SidePanel",
+              "description": "화면 좌측 또는 우측 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.",
+              "docUrl": "/docs/components/side-panel",
+              "snippetKey": "react/ui:side-panel",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-panel.tsx"
                 }
               ]
             },
@@ -727,6 +785,19 @@
           "label": "컴포넌트",
           "items": [
             {
+              "id": "accordion",
+              "title": "Accordion",
+              "description": "여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.",
+              "docUrl": "/react/components/accordion",
+              "snippetKey": "react/ui:accordion",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "accordion.tsx"
+                }
+              ]
+            },
+            {
               "id": "action-button",
               "title": "Action Button",
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
@@ -782,6 +853,32 @@
               "title": "Aspect Ratio",
               "description": "가로(width)가 정해지면 비율에 따라 세로(height)가 자동으로 결정되는 레이아웃 컨테이너입니다.",
               "docUrl": "/react/components/aspect-ratio"
+            },
+            {
+              "id": "attachment-display-field",
+              "title": "Attachment Display Field",
+              "description": "외부 소스에서 제공된 미디어를 URL 기반으로 표시하고 관리하는 컴포넌트입니다.",
+              "docUrl": "/react/components/attachment-display-field",
+              "snippetKey": "react/ui:attachment-display-field",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "attachment-display-field.tsx"
+                }
+              ]
+            },
+            {
+              "id": "attachment-field",
+              "title": "Attachment Field",
+              "description": "파일을 선택하거나 드래그 앤 드롭으로 업로드할 수 있는 컴포넌트입니다.",
+              "docUrl": "/react/components/attachment-field",
+              "snippetKey": "react/ui:attachment-field",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "attachment-field.tsx"
+                }
+              ]
             },
             {
               "id": "avatar",
@@ -1040,6 +1137,19 @@
               ]
             },
             {
+              "id": "help-bubble-tooltip",
+              "title": "Help Bubble Tooltip",
+              "description": "포인터를 올리거나 포커스했을 때 보조 정보를 보여주는 툴팁 형태의 Help Bubble입니다.",
+              "docUrl": "/react/components/help-bubble-tooltip",
+              "snippetKey": "react/ui:help-bubble-tooltip",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "help-bubble-tooltip.tsx"
+                }
+              ]
+            },
+            {
               "id": "identity-placeholder",
               "title": "Identity Placeholder",
               "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
@@ -1140,10 +1250,24 @@
               ]
             },
             {
+              "id": "menu",
+              "title": "Menu",
+              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+              "docUrl": "/react/components/menu",
+              "snippetKey": "react/ui:menu",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu.tsx"
+                }
+              ]
+            },
+            {
               "id": "menu-sheet",
               "title": "Menu Sheet",
               "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
               "docUrl": "/react/components/menu-sheet",
+              "deprecated": true,
               "snippetKey": "react/ui:menu-sheet",
               "snippets": [
                 {
@@ -1218,6 +1342,12 @@
               ]
             },
             {
+              "id": "responsive-design",
+              "title": "Responsive Design",
+              "description": "Viewport 크기에 따라 레이아웃과 스타일을 조정하는 방법을 알아봅니다.",
+              "docUrl": "/react/components/concepts/responsive-design"
+            },
+            {
               "id": "result-section",
               "title": "Result Section",
               "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
@@ -1259,6 +1389,19 @@
                 {
                   "label": "react",
                   "path": "select-box.tsx"
+                }
+              ]
+            },
+            {
+              "id": "side-panel",
+              "title": "Side Panel",
+              "description": "화면 좌측 또는 우측 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.",
+              "docUrl": "/react/components/side-panel",
+              "snippetKey": "react/ui:side-panel",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-panel.tsx"
                 }
               ]
             },
@@ -1306,6 +1449,19 @@
               "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
               "docUrl": "/react/components/stack",
               "deprecated": true
+            },
+            {
+              "id": "swipeable-menu-sheet",
+              "title": "Swipeable Menu Sheet",
+              "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
+              "docUrl": "/react/components/swipeable-menu-sheet",
+              "snippetKey": "react/ui:swipeable-menu-sheet",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "swipeable-menu-sheet.tsx"
+                }
+              ]
             },
             {
               "id": "switch",
@@ -1564,6 +1720,37 @@
               "title": "Changelog",
               "description": "최신 업데이트와 변경사항을 기록합니다.",
               "docUrl": "/react/updates/changelog"
+            }
+          ]
+        },
+        {
+          "id": "blocks",
+          "label": "blocks",
+          "items": [
+            {
+              "id": "footer",
+              "title": "Footer",
+              "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
+              "docUrl": "/react/blocks/footer"
+            },
+            {
+              "id": "layout",
+              "title": "Layout",
+              "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
+              "docUrl": "/react/blocks/layout"
+            },
+            {
+              "id": "side-navigation",
+              "title": "Side Navigation",
+              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+              "docUrl": "/react/blocks/side-navigation",
+              "snippetKey": "react/ui:side-navigation",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-navigation.tsx"
+                }
+              ]
             }
           ]
         }

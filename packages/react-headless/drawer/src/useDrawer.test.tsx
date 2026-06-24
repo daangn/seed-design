@@ -1,31 +1,16 @@
 import { act, fireEvent, render } from "@testing-library/react";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  it,
-  jest,
-  mock,
-  spyOn,
-} from "bun:test";
+import { afterAll, afterEach, beforeAll, describe, expect, it, jest, mock, spyOn } from "bun:test";
 import * as React from "react";
 import { DRAG_CLASS, TRANSITIONS } from "./constants";
+import { DrawerContent, DrawerRoot } from "./Drawer";
 import { useDrawer, type UseDrawerProps } from "./useDrawer";
 
 interface DrawerHarnessProps extends UseDrawerProps {
-  initialCloseButtonVisible?: boolean;
   onApi?: (api: ReturnType<typeof useDrawer>) => void;
 }
 
-function DrawerHarness({
-  initialCloseButtonVisible = false,
-  onApi,
-  ...props
-}: DrawerHarnessProps) {
+function DrawerHarness({ onApi, ...props }: DrawerHarnessProps) {
   const api = useDrawer(props);
-  const [showCloseButton, setShowCloseButton] = React.useState(initialCloseButtonVisible);
 
   React.useEffect(() => {
     onApi?.(api);
@@ -58,21 +43,12 @@ function DrawerHarness({
       >
         두 번째 스냅으로 이동
       </button>
-      <button
-        data-testid="toggle-close-button"
-        onClick={() => setShowCloseButton((visible) => !visible)}
-      >
-        닫기 버튼 토글
-      </button>
-
-      {showCloseButton ? <button data-testid="close-button" ref={api.closeButtonRef} /> : null}
 
       <div data-testid="is-open">{String(api.isOpen)}</div>
       <div data-testid="is-dragging">{String(api.isDragging)}</div>
       <div data-testid="active-snap-point">{String(api.activeSnapPoint)}</div>
       <div data-testid="has-animation-done">{String(api.hasAnimationDone)}</div>
       <div data-testid="should-overlay-animate">{String(api.shouldOverlayAnimate)}</div>
-      <div data-testid="is-close-button-rendered">{String(api.isCloseButtonRendered)}</div>
 
       <div
         data-testid="drawer"
@@ -114,19 +90,21 @@ describe("useDrawer", () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    document.body.style.pointerEvents = "";
   });
 
-  it("closeButtonRef를 통해 닫기 버튼 마운트 상태를 추적한다", () => {
-    const { getByTestId } = render(<DrawerHarness />);
+  it("트리거를 클릭하면 reason: trigger와 함께 onOpenChange를 호출한다", () => {
+    const onOpenChange = mock(() => {});
 
-    expect(getByTestId("is-close-button-rendered")).toHaveTextContent("false");
+    function TriggerHarness() {
+      const api = useDrawer({ onOpenChange });
+      return <button data-testid="trigger" {...api.triggerProps} />;
+    }
 
-    fireEvent.click(getByTestId("toggle-close-button"));
-    expect(getByTestId("is-close-button-rendered")).toHaveTextContent("true");
+    const { getByTestId } = render(<TriggerHarness />);
 
-    fireEvent.click(getByTestId("toggle-close-button"));
-    expect(getByTestId("is-close-button-rendered")).toHaveTextContent("false");
+    fireEvent.click(getByTestId("trigger"));
+
+    expect(onOpenChange).toHaveBeenCalledWith(true, expect.objectContaining({ reason: "trigger" }));
   });
 
   it("closeDrawer 호출 시 상세 정보와 함께 닫힘 라이프사이클 콜백을 호출한다", () => {
@@ -152,7 +130,6 @@ describe("useDrawer", () => {
       false,
       expect.objectContaining({ reason: "escapeKeyDown" }),
     );
-    expect(document.body.style.pointerEvents).toBe("auto");
 
     act(() => {
       jest.advanceTimersByTime(TRANSITIONS.EXIT_DURATION * 1000);
@@ -161,7 +138,9 @@ describe("useDrawer", () => {
   });
 
   it("dismissible이 false이고 snapPoints가 없으면 드래그를 시작하지 않는다", () => {
-    const { getByTestId } = render(<DrawerHarness defaultOpen dismissible={false} direction="left" />);
+    const { getByTestId } = render(
+      <DrawerHarness defaultOpen dismissible={false} direction="left" />,
+    );
     const drawer = getByTestId("drawer");
 
     fireEvent.pointerDown(drawer, {
@@ -293,9 +272,7 @@ describe("useDrawer", () => {
   it("닫힘 애니메이션 후 active snap point를 첫 번째 스냅 포인트로 되돌린다", () => {
     jest.useFakeTimers();
 
-    const { getByTestId } = render(
-      <DrawerHarness defaultOpen snapPoints={["100px", "300px"]} />,
-    );
+    const { getByTestId } = render(<DrawerHarness defaultOpen snapPoints={["100px", "300px"]} />);
 
     fireEvent.click(getByTestId("set-second-snap"));
     expect(getByTestId("active-snap-point")).toHaveTextContent("300px");
@@ -337,5 +314,42 @@ describe("useDrawer", () => {
       jest.advanceTimersByTime(TRANSITIONS.ENTER_DURATION * 1000);
     });
     expect(getByTestId("should-overlay-animate")).toHaveTextContent("false");
+  });
+});
+
+describe("스크롤 락", () => {
+  // usePreventScroll locks the root element (`overflow: hidden`), not the body.
+  const isScrollLocked = () => document.documentElement.style.overflow === "hidden";
+
+  it("modal이고 열렸을 때 루트 스크롤을 잠그고, 닫히면 해제한다", () => {
+    const { rerender } = render(
+      <DrawerRoot open={false} modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(isScrollLocked()).toBe(false);
+
+    rerender(
+      <DrawerRoot open modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(isScrollLocked()).toBe(true);
+
+    rerender(
+      <DrawerRoot open={false} modal>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(isScrollLocked()).toBe(false);
+  });
+
+  it("modal=false면 열려 있어도 잠그지 않는다", () => {
+    render(
+      <DrawerRoot open modal={false}>
+        <DrawerContent>내용</DrawerContent>
+      </DrawerRoot>,
+    );
+    expect(isScrollLocked()).toBe(false);
   });
 });

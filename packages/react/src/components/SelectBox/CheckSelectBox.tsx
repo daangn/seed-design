@@ -3,7 +3,7 @@ import { selectBox, type SelectBoxVariantProps } from "@seed-design/css/recipes/
 import {
   selectBoxCheckmark,
   type SelectBoxCheckmarkVariantProps,
-} from "@seed-design/css/recipes/selectBoxCheckmark";
+} from "@seed-design/css/recipes/select-box-checkmark";
 import {
   selectBoxGroup,
   type SelectBoxGroupVariantProps,

@@ -1,3 +1,6 @@
+import spec from "@seed-design/rootage-artifacts/components/action-button.json" with {
+  type: "json",
+};
 import { actionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
@@ -43,10 +46,10 @@ const actionButton = defineRecipe({
     paddingLeft: "var(--seed-box-padding-left)",
     paddingRight: "var(--seed-box-padding-right)",
 
-    "--seed-box-bleed-bottom": "0px",
-    "--seed-box-bleed-top": "0px",
-    "--seed-box-bleed-left": "0px",
-    "--seed-box-bleed-right": "0px",
+    "--seed-box-bleed-bottom--responsive": "0px",
+    "--seed-box-bleed-top--responsive": "0px",
+    "--seed-box-bleed-left--responsive": "0px",
+    "--seed-box-bleed-right--responsive": "0px",
     marginTop: "calc(var(--seed-box-bleed-top) * -1)",
     marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
     marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
@@ -529,6 +532,9 @@ const actionButton = defineRecipe({
     variant: "brandSolid",
     size: "medium",
     layout: "withText",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

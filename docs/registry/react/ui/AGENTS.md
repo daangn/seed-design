@@ -27,5 +27,8 @@
 - `displayName`과 alias는 runtime API보다 우선순위가 낮다. 도입한다면 flat naming 또는 namespace style 중 하나를 정해 일관되게 유지한다.
 - 최상위 convenience wrapper는 underlying primitive가 `Root`여도 `Component` 이름을 우선한다. `ComponentRoot` suffix는 low-level composition wrapper라는 목적이 분명할 때만 사용한다.
 - 같은 snippet에서 `Component`와 `ComponentRoot`를 모두 노출한다면 `Component`는 기본 사용 경로, `ComponentRoot`는 escape hatch여야 한다.
+- responsive snippet에서 breakpoint 순서와 fallback 의미가 필요하면 `useBreakpoint()` 값 직접 비교보다 `useBreakpointValue()`를 우선한다.
+- responsive/adaptive Root wrapper가 open state를 소유하면 `children`, `open`, `defaultOpen`, `onOpenChange`는 top-level에서 직접 정의한다. mode-specific Root 옵션은 `sidePanelRootProps`, `bottomSheetRootProps`처럼 대상 component가 드러나는 prop bag으로 분리하고, 이 bag에서는 wrapper가 소유하는 state props를 제외한다.
+- top-level `onOpenChange`가 boolean-only API라면 underlying component의 change details를 의도적으로 추상화한 contract로 본다. details를 함께 노출해야 한다면 top-level callback 타입에서 명시적으로 설계하고, bag-level `onOpenChange`와 동시에 열지 않는다.
 - snippet을 바꾼 뒤에는 generated registry(`docs/public/__registry__/react/ui/*.json`)와 vendored snippet consumer를 함께 확인한다.
 - 현재 vendored consumer의 대표 경로는 `examples/stackflow-spa/src/seed-design/ui/`이며, snippet API 변경 시 이 경로도 같이 동기화하는 것을 기본값으로 본다.

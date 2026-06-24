@@ -8,6 +8,10 @@ export const env = {
     "Missing environment variable: FIGMA_PERSONAL_ACCESS_TOKEN, continuing build without Figma integration...",
   ),
   figmaCacheDisabled: process.env.FIGMA_CACHE_DISABLED === "1",
+  figmaBypassCacheNodeIds:
+    process.env.FIGMA_BYPASS_CACHE_NODE_IDS?.split(",")
+      .map((id) => id.trim())
+      .filter(Boolean) ?? [],
 };
 
 function warnIfUndefined<T>(v: T | undefined, warningMessage: string): T | undefined {
