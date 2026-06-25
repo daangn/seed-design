@@ -1,6 +1,6 @@
 import type { RootContent } from "mdast";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
-import type { Rule, RuleContext } from "./types";
+import type { Rule, RuleContext, RuleNode } from "./types";
 
 function createPreviewHeading(): RootContent {
   return {
@@ -10,7 +10,7 @@ function createPreviewHeading(): RootContent {
   };
 }
 
-function shouldInsertPreviewHeading(node: MdxJsxFlowElement, context: RuleContext): boolean {
+function shouldInsertPreviewHeading(node: RuleNode, context: RuleContext): boolean {
   const exampleName = context.getStringAttribute(node, "name");
   return typeof exampleName === "string" && exampleName.endsWith("/preview");
 }

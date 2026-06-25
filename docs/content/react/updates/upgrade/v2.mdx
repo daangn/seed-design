@@ -1,0 +1,289 @@
+---
+title: v2 업그레이드
+description: SEED React 1.2.x에서 2로 업그레이드할 때 필요한 작업을 안내합니다.
+---
+
+<Callout type="info">
+  이 가이드는 **`1.2.x`에서 `2`로 업그레이드**하는 경우를 기준으로
+  작성되었습니다. 1.2보다 낮은 버전을 사용 중이라면 [v1 이하
+  업그레이드](/react/updates/upgrade/v1) 가이드로 1.2까지 올린 다음 이 문서로
+  돌아와 주세요.
+</Callout>
+
+<Steps>
+
+<Step>
+
+## 패키지 업그레이드
+
+프로젝트에서 사용하는 `@seed-design/*` 패키지를 아래 버전 이상으로 올려주세요.
+
+| 패키지                          | 최소 버전 | 비고                                                                |
+| ------------------------------- | --------- | ------------------------------------------------------------------- |
+| `@seed-design/css`              | `2.1.0`   |                                                                     |
+| `@seed-design/react`            | `2.0.0`   |                                                                     |
+| `@seed-design/stackflow`        | `2.0.0`   |                                                                     |
+| `@seed-design/tailwind4-theme`  | `2.1.0`   |                                                                     |
+| `@seed-design/tailwind3-plugin` | `2.1.0`   |                                                                     |
+| `@seed-design/vite-plugin`      | `2.0.0`   | `1.1.1`과 동일. `@seed-design/css` peer 메이저 상승에 맞춰 함께 올림 |
+| `@seed-design/webpack-plugin`   | `2.0.0`   | `1.1.0`과 동일 (이유는 위와 동일)                                    |
+| `@seed-design/rsbuild-plugin`   | `2.0.0`   | `1.2.1`과 동일 (이유는 위와 동일)                                    |
+
+현재 프로젝트에서 사용하는 패키지만 올리면 됩니다. 사용하지 않는 패키지를 새로 설치할 필요는 없습니다.
+
+```package-install
+@seed-design/react@latest @seed-design/css@latest @seed-design/stackflow@latest
+```
+
+<Callout type="info" title="왜 메이저 버전이 2가 되었나요?">
+  1.x까지는 마이너 버전에도 breaking change가 포함되곤 했습니다. 2.0.0부터는
+  시맨틱 버저닝을 준수해, 메이저 버전이 올라갈 때만 breaking change가 생깁니다.
+  그 시작점을 나타내는 의미로 메이저를 2로 올렸습니다. 자세한 내용은 맨 아래
+  [시맨틱 버저닝 섹션](#200부터-시맨틱-버저닝을-준수합니다)에서 다룹니다.
+</Callout>
+
+</Step>
+
+<Step>
+
+## 코드 변경
+
+### 디자이너와 논의하면 좋은 항목
+
+화면에 보이는 결과가 달라질 수 있어 디자이너와 함께 확인하는 것을 권장합니다.
+
+#### 그라디언트 토큰 `$gradient.fade-layer-*` 제거
+
+<Badge tone="warning">직접 판단 필요</Badge>
+
+`$gradient.fade-layer-floating`, `$gradient.fade-layer-default`가 제거되었습니다. 스크롤 영역에 자연스러운 페이드를 주려면 [Scroll Fog](/react/components/scroll-fog) 컴포넌트를 대신 사용해주세요.
+
+<Callout type="warn">
+  Tailwind 유틸리티 클래스나 CSS Variable을 하드코딩해서 사용하고 있다면 이
+  변경은 타입 에러로 잡히지 않습니다. `fade-layer-floating`,
+  `fade-layer-default` 사용처를 직접 검색해주세요.
+</Callout>
+
+#### Chip Tabs `variant="brandSolid"` 제거
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+`variant="neutralSolid"`를 사용해주세요. (스타일은 동일합니다.)
+
+기존 `seed-design/ui/chip-tabs.tsx` snippet에는 deprecate 경고만을 위해 존재하던 분기가 있어, 아래와 같은 타입 에러가 발생할 수 있습니다.
+
+```text
+This comparison appears to be unintentional because the types
+'"neutralSolid" | "neutralOutline" | undefined' and '"brandSolid"' have no overlap. ts(2367)
+```
+
+snippet을 다시 받거나 해당 분기만 제거해주세요.
+
+```package-install
+npx @seed-design/cli@latest add ui:chip-tabs
+```
+
+#### App Bar `divider` 옵션 제거
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+App Bar 하단 구분선은 더 이상 표시되지 않습니다. 구분선이나 그림자 없이도 영역 구분이 충분하다는 디자인 판단에 따라 제거되었습니다.
+
+#### 참고: `$color.bg.layer-fill` 색상 토큰
+
+<Badge tone="warning">직접 판단 필요</Badge>
+
+이 토큰은 2에서 제거될 예정이었으나 대체 토큰의 부재로 3에서 제거될 예정입니다. `@seed-design/css`(및 `tailwind3-plugin`, `tailwind4-theme`) `2.0.0`에서는 실제로 제거되었지만 `2.1.0`에서 다시 추가되어, 권장 버전(`2.1.0` 이상)에서는 그대로 사용할 수 있습니다.
+
+### 코드만 수정하면 되는 항목
+
+화면 결과는 동일하고, 코드만 수정하면 되는 항목입니다.
+
+#### Snackbar 내부 버튼은 항상 스낵바를 닫습니다
+
+<Badge tone="informative">업데이트 필요</Badge>
+
+Snackbar 내부 버튼을 누르면 항상 스낵바가 닫히도록 정리했습니다. 이 동작은 `@seed-design/react`의 `SeedSnackbar.ActionButton`에 기본으로 내장됩니다. (기존 `shouldCloseOnAction`의 기본값도 `true`였습니다.)
+
+`seed-design/ui/snackbar.tsx` snippet의 `shouldCloseOnAction` 관련 코드는 이제 중복입니다. 동작에는 문제가 없지만, snippet을 다시 받아 중복 로직을 제거하는 것을 권장합니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:snackbar
+```
+
+#### Image Frame `rounded` 제거
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+`borderRadius="r2"`를 사용해주세요. (스타일은 동일합니다.)
+
+```tsx
+<ImageFrame rounded /> // [!code --]
+<ImageFrame borderRadius="r2" /> // [!code ++]
+```
+
+#### Switch `size="small" | "medium"` 제거
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+각각 `size="16"`, `size="32"`를 사용해주세요. (스타일은 동일합니다.)
+
+```tsx
+<Switch size="small" />  // [!code --]
+<Switch size="16" />     // [!code ++]
+<Switch size="medium" /> // [!code --]
+<Switch size="32" />     // [!code ++]
+```
+
+#### Checkbox `weight="default" | "stronger"` 제거
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+각각 `weight="regular"`, `weight="bold"`를 사용해주세요. (스타일은 동일합니다.)
+
+```tsx
+<Checkbox weight="default" />  // [!code --]
+<Checkbox weight="regular" />  // [!code ++]
+<Checkbox weight="stronger" /> // [!code --]
+<Checkbox weight="bold" />     // [!code ++]
+```
+
+#### 레이아웃 컴포넌트 prop의 camelCase 값 제거
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+`Box`, `Flex`, `VStack`, `HStack` 등 레이아웃 컴포넌트의 `justifyContent`, `alignItems`, `flexDirection`, `display` 등에서 camelCase 값이 제거되었습니다. kebab-case 값을 사용해주세요. (스타일은 동일합니다.)
+
+```tsx
+<Box justifyContent="spaceBetween" />  // [!code --]
+<Box justifyContent="space-between" /> // [!code ++]
+```
+
+#### 레이아웃 컴포넌트 prop이 discriminated union으로 전환
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+레이아웃 컴포넌트에 margin 지원을 추가하면서, `margin`과 `bleed`를 동시에 사용할 수 없도록 타입을 discriminated union으로 제한했습니다.
+
+이로 인해 `BoxProps`, `FlexProps`, `VStackProps` 등을 그대로 `extends`하던 `interface`는 `type`으로 전환해야 할 수 있습니다. (union 타입은 `interface extends`로 확장할 수 없습니다.)
+
+```tsx
+interface MyBoxProps extends BoxProps {} // [!code --]
+type MyBoxProps = BoxProps & {}; // [!code ++]
+```
+
+#### Bottom Sheet 옵션 정리
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+- `noBodyStyles`, `preventScrollRestoration` 제거: 새 스크롤 락 구현이 각 옵션의 기본값(`noBodyStyles: true`, `preventScrollRestoration: false`)처럼 동작합니다.
+- `direction` 제거: Bottom Sheet는 항상 아래에서만 열립니다.
+
+#### Select Box Checkmark 클래스명·import 경로
+
+`selectBoxCheckmark`가 다른 컴포넌트와 동일하게 kebab-case로 정리되었습니다.
+
+커스텀 스타일시트에서 selector를 사용 중이라면 <Badge tone="warning">직접 판단 필요</Badge>
+
+```css
+.seed-selectBoxCheckmark__root {
+  /* ... */
+} /* [!code --] */
+.seed-select-box-checkmark__root {
+  /* ... */
+} /* [!code ++] */
+```
+
+커스텀 컴포넌트에서 recipe를 import 중이라면 <Badge tone="neutral">import 에러로 발견 가능</Badge>
+
+```ts
+import { selectBoxCheckmark } from "@seed-design/css/recipes/selectBoxCheckmark"; // [!code --]
+import { selectBoxCheckmark } from "@seed-design/css/recipes/select-box-checkmark"; // [!code ++]
+```
+
+#### 의도와 달리 공개되어 있던 API 정리
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+- `BottomSheetBackdropProps`의 `forceMount` 제거
+  - `DrawerRoot`의 `lazyMount` / `unmountOnExit`로 대체할 수 있습니다.
+- `BottomSheetContentProps`의 `onPointerDownOutside`, `onFocusOutside`, `onInteractOutside`, `onEscapeKeyDown`, `onOpenAutoFocus`, `onCloseAutoFocus`, `forceMount` 제거
+  - `DrawerRoot`의 `onOpenChange` 두 번째 인자 `details`로 대체할 수 있습니다.
+
+#### Radix Dialog 의존성 제거
+
+<Badge tone="warning">직접 판단 필요</Badge>
+
+`@seed-design/react`에서 `@radix-ui/react-dialog` 의존성과 패치가 제거되었습니다. pnpm 환경에서 SEED React를 위해서만 이 패키지를 설치했었다면 제거할 수 있습니다.
+
+```shell
+pnpm why @radix-ui/react-dialog
+pnpm remove @radix-ui/react-dialog
+```
+
+</Step>
+
+</Steps>
+
+## 다이얼로그·시트 버그 수정 및 개선
+
+Alert Dialog, Bottom Sheet, Menu Sheet의 묵은 버그들을 수정했습니다. Stackflow 환경과 잘 맞지 않던 Radix Dialog 의존을 완전히 제거하면서, 그동안 필요했던 우회 코드를 정리할 수 있습니다.
+
+- `pointer-events`로 클릭을 막던 코드가 모두 제거되었습니다. 이를 오버라이드하던 우회 코드가 있다면 함께 제거할 수 있습니다.
+- 여러 오버레이가 겹친 상황에서 하위 오버레이가 닫히면 `onOpenChange` reason으로 `"cascadeDismiss"`를 제공합니다.
+- 트리거 클릭으로 Bottom Sheet가 열릴 때 `onOpenChange` reason `"trigger"`를 제공합니다.
+- iOS에서 Bottom Sheet 내부 버튼으로 시트를 스와이프할 때 의도치 않은 클릭이 발생하던 문제를 수정했습니다.
+- AppScreen, Drawer가 열릴 때 포커스가 컴포넌트 안으로 이동하고 그 안에서만 움직이도록 수정했습니다. (스크린 리더 환경 접근성 개선)
+
+## 새로 추가되거나 개선된 것들
+
+업그레이드에 필수는 아니지만, 2에서 함께 들어온 변화입니다. 자세한 사용법은 각 문서를 참고해주세요.
+
+### 더 넓은 화면·마우스 환경 지원
+
+- **반응형 스타일링**: `Box`, `Grid`, `VStack`, `HStack` 등에서 breakpoint 기반 반응형 값을 사용할 수 있습니다.
+  - [Responsive Design](/react/components/concepts/responsive-design)
+
+  ```tsx
+  <Box padding={{ base: "x3", md: "x6" }} />
+  <Grid columns={{ base: 1, md: 2, lg: 4 }} gap="x4" />
+  ```
+
+- **타이포그래피 토큰 추가**: `t11`-`t14` 크기·줄 간격 토큰과 텍스트 스타일이 추가되고, `t8`-`t14` 구간에 모든 두께의 텍스트 스타일이 추가되었습니다. (`<Text textStyle="t12Regular" />`)
+- **폼 요소 `size="medium"`**: Text Field Input/Textarea와 Field Button에 마우스 환경에 어울리는 `medium` 사이즈가 추가되었습니다.
+
+### 신규 컴포넌트
+
+| 컴포넌트             | 설명                                   | 문서                                          |
+| -------------------- | -------------------------------------- | --------------------------------------------- |
+| Accordion            | 섹션을 펼치고 접어 정보를 탐색         | [API](/react/components/accordion)            |
+| Attachment Field     | 파일 선택·드롭존·검증·업로드 목록 관리 | [API](/react/components/attachment-field)     |
+| Footer               | 푸터의 권장 구성                       | [Blocks](/react/blocks/footer)                |
+| Help Bubble Tooltip  | 호버·포커스로 열리는 Help Bubble       | [API](/react/components/help-bubble-tooltip)  |
+| Layout               | 데스크톱 Dashboard / Contents 레이아웃 | [Blocks](/react/blocks/layout)                |
+| Menu                 | 화면을 덮지 않고 맥락에 맞는 옵션 제공 | [API](/react/components/menu)                 |
+| Side Navigation      | 넓은 뷰포트의 최상위 메뉴 탐색         | [Blocks](/react/blocks/side-navigation)       |
+| Side Panel           | 페이지 흐름을 유지하며 많은 정보 표시  | [API](/react/components/side-panel)           |
+| Swipeable Menu Sheet | 스와이프로 닫을 수 있는 Menu Sheet     | [API](/react/components/swipeable-menu-sheet) |
+
+### 그 외 DX 개선
+
+- 컴포넌트·파운데이션 전반의 JSDoc을 강화해, 에이전트가 `d.ts`만 읽고도 variant 차이를 파악할 수 있습니다.
+- 레이아웃 컴포넌트에 `margin` 프로퍼티(`"auto"` 및 반응형 지원)와, 4방향 공통으로 쓰는 `bleed` 프로퍼티가 추가되었습니다.
+
+## 2.0.0부터 시맨틱 버저닝을 준수합니다
+
+1.x까지는 마이너 버전이 올라갈 때도 breaking change가 포함되곤 했습니다. 새 마이너가 나올 때마다 변경사항을 공지하긴 했지만, 마이너에 breaking change가 있다는 사실 자체가 예측하기 어려웠습니다.
+
+또한 `@seed-design/react`가 실제로는 특정 버전 범위의 `@seed-design/css`를 요구했는데도 `peerDependencies` 범위가 함께 갱신되지 않아, 어느 버전까지 올려야 안전한지 알기 어려웠습니다. 특히 SEED를 사용해 SDK/라이브러리를 배포하는 경우 peer dependency 범위를 어떻게 잡아야 할지 모호했습니다.
+
+그래서 **예측 가능한 버저닝**을 우선하기로 했고, 시맨틱 버저닝 준수의 시작점을 나타내는 의미로 메이저를 2로 올렸습니다.
+
+<Callout type="info">
+  모든 패키지가 항상 같은 메이저로 움직이는 것은 아닙니다. CSS 변경 없이 React
+  패키지에만 breaking change가 있는 경우처럼, 각 패키지의 버전은 독립적으로
+  올라갑니다. 문서와 가이드는 React 패키지의 버전을 기준으로 소통합니다. (예:
+  "SEED React 2")
+</Callout>
+
+전체 변경 이력은 [Changelog](/react/updates/changelog)에서 확인할 수 있습니다.

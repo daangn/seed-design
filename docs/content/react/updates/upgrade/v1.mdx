@@ -1,0 +1,308 @@
+---
+title: v1 이하 업그레이드
+description: SEED React 2 이전 버전 간 업그레이드에 필요한 작업을 버전 구간별로 안내합니다.
+---
+
+<Callout type="info">
+  이 가이드는 **2 이전 버전 간 업그레이드**를 다룹니다. 현재 버전부터 아래로 차례대로 적용해주세요.
+  1.2까지 올린 다음 2로 가려면 [v2 업그레이드](/react/updates/upgrade/v2) 가이드를 참고해주세요.
+</Callout>
+
+<Callout type="warn">
+  1.x까지는 마이너 버전에도 breaking change가 포함되어 있습니다. 그래서 이 문서는 "주요" 변경 위주로
+  정리했고, 빠진 항목이 있을 수 있습니다. 전체 변경 이력은 [Changelog](/react/updates/changelog)에서
+  확인할 수 있습니다.
+</Callout>
+
+## 0.x 주요 breaking change
+
+<Card title="SEED React v1.0 문서" href="https://v1-0.seed-design.io/react">
+  0.x에는 별도 문서 사이트가 없어, 가장 가까운 v1.0 문서로 연결됩니다.
+</Card>
+
+0.x 구간은 대부분 snippet을 다시 받으면 해결됩니다. 먼저 `add-all`로 snippet을 한 번에 최신화한 뒤, 아래 굵직한 항목을 확인하는 것을 권장합니다. `--seed-react-version`을 지정하면 해당 버전에 맞는 레지스트리에서 snippet을 받습니다.
+
+```package-install
+npx @seed-design/cli@latest add-all --seed-react-version 1.0 --on-diff backup ui
+```
+
+### Stroke 시맨틱 토큰 이름 개편 (`@seed-design/css@0.2.0`)
+
+<Badge tone="warning">직접 판단 필요</Badge>
+
+stroke 색상 토큰의 시맨틱 이름이 개편되었습니다. codemod로 일괄 치환할 수 있습니다.
+
+```shell
+npx @seed-design/codemod@latest replace-semantic-stroke-color <target_path>
+```
+
+<Callout type="warn">
+  치환 순서가 중요합니다. `neutral-muted`를 `neutral-subtle`로 **먼저** 바꾼 뒤 나머지를 적용해야
+  `neutral` → `neutral-muted` → `neutral-subtle` 같은 연쇄 치환을 피할 수 있습니다. codemod에는 이 순서가
+  반영되어 있습니다. 단, codemod는 `@seed-design/vars/css`를 통해 사용 중인 변수만 치환하므로,
+  하드코딩한 토큰은 직접 확인해주세요.
+</Callout>
+
+자세한 변환 목록은 [Available Transforms](/react/developer-tools/codemods/available-transforms)를 참고해주세요.
+
+### 미리 대비하면 좋은 deprecation
+
+아래 항목들은 0.x에서 하위호환으로 동작하지만, **SEED React 2에서 실제로 제거**됩니다. 미리 정리해두면 2로 올라갈 때 수월합니다.
+
+- Chip Tabs `variant="brandSolid"`
+  - `variant="neutralSolid"`로 대체 (`@seed-design/react@0.2.3`부터 deprecated)
+- Checkbox `weight="default" | "stronger"`
+  - `weight="regular" | "bold"`로 대체 (`0.2.4`부터)
+- Switch `size="small" | "medium"`
+  - `size="16" | "32"`로 대체 (`0.1.9`부터)
+- 레이아웃 컴포넌트(`Box`, `VStack` 등) prop의 camelCase 값
+  - kebab-case로 대체 (`0.0.15`부터)
+- Inline Banner
+  - [Page Banner](https://v1-0.seed-design.io/react/components/page-banner)로 대체 (deprecated)
+
+### 1.0.0 snippet 재설치
+
+<Badge tone="informative">업데이트 필요</Badge>
+
+첫 메이저 버전에서 아래 컴포넌트의 snippet을 다시 받아야 합니다.
+
+- **Snackbar**: 다크모드 배경색·여백 변경
+  - `add ui:snackbar`
+- **Manner Temp / Manner Temp Badge**: 온도 10단계 반영 (`level`을 직접 지정 중이라면 범위 확인)
+  - `add ui:manner-temp ui:manner-temp-badge`
+- **Switch Mark / List Header** 추가
+  - `add ui:switch`, `add ui:list`
+
+## 1.0에서 1.1로
+
+<Card title="SEED React v1.1 문서" href="https://v1-1.seed-design.io/react">
+  1.1 버전 기준의 컴포넌트·파운데이션 문서입니다.
+</Card>
+
+먼저 `@seed-design/*` 패키지를 1.1로 올려주세요. (2로 건너뛰지 않도록 1.1 라인으로 받습니다.)
+
+```package-install
+@seed-design/react@~1.1 @seed-design/css@~1.1 @seed-design/stackflow@~1.1
+```
+
+1.1의 변경은 대부분 snippet 재설치로 해결됩니다. 변경된 snippet을 한 번에 받을 수 있습니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.1 --on-diff backup ui:bottom-sheet ui:text-field ui:page-banner ui:error-state
+```
+
+### Bottom Sheet 드래그·스냅 추가
+
+<Badge tone="informative">업데이트 필요</Badge>
+
+드래그로 닫기, snap point 기능이 추가되었습니다(vaul 기반). snippet을 다시 받으면 적용됩니다. snippet의 `hideCloseButton`은 `showCloseButton`으로 바뀌었습니다.
+
+```tsx
+<BottomSheet hideCloseButton /> // [!code --]
+<BottomSheet showCloseButton={false} /> // [!code ++]
+```
+
+### Text Field `size="xlarge"` 제거
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+Text Field 관련 컴포넌트가 내부적으로 Field 컴포넌트를 사용하도록 정리되며 size가 통일되었고, `size="xlarge"`가 제거되었습니다. `labelWeight`, `showRequiredIndicator`, `variant="underline"` 옵션이 추가되었습니다. snippet을 다시 받아주세요.
+
+### Page Banner 구성 변경
+
+<Badge tone="informative">업데이트 필요</Badge>
+
+`PageBanner.TextContent`가 `PageBanner.Content`로 이름이 바뀌고, Box로 스타일링하던 부분이 `PageBanner.Body`로 정리되었습니다. (줄 간격 이슈 수정도 포함됩니다.) snippet을 다시 받아주세요.
+
+```tsx
+<PageBanner.TextContent>...</PageBanner.TextContent> // [!code --]
+<PageBanner.Content>...</PageBanner.Content> // [!code ++]
+```
+
+1.1에서 Slider, Field Button, Tag Group이 함께 추가되었습니다.
+
+<Cards>
+  <Card title="Slider" href="https://v1-1.seed-design.io/react/components/slider">값이나 범위를 선택합니다.</Card>
+  <Card title="Field Button" href="https://v1-1.seed-design.io/react/components/field-button">Text Field 모양의 버튼입니다.</Card>
+  <Card title="Tag Group" href="https://v1-1.seed-design.io/react/components/tag-group">여러 태그를 묶어 표시합니다.</Card>
+</Cards>
+
+## 1.1에서 1.2로
+
+<Card title="SEED React v1.2 문서" href="https://v1-2.seed-design.io/react">
+  1.2 버전 기준의 컴포넌트·파운데이션 문서입니다.
+</Card>
+
+가장 변경이 많은 구간입니다. 아래 순서대로 진행해주세요.
+
+<Steps>
+
+<Step>
+
+### 패키지 업그레이드
+
+`@seed-design/*` 패키지를 1.2로 올려주세요.
+
+| 패키지 | 권장 버전 |
+| --- | --- |
+| `@seed-design/react` | `1.2.0` |
+| `@seed-design/css` | `1.2.0` |
+| `@seed-design/stackflow` | `1.1.16` |
+| `@seed-design/tailwind4-theme` | `1.1.17` |
+
+```package-install
+@seed-design/react@~1.2 @seed-design/css@~1.2 @seed-design/stackflow@~1.1
+```
+
+</Step>
+
+<Step>
+
+### Snippet 업데이트
+
+변경된 snippet을 다시 받아주세요. (변경: `help-bubble`, `radio-group`, `checkbox`, `switch`, `select-box`, `menu-sheet`, `tag-group`(신규), `list`, `app-screen`)
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:help-bubble ui:radio-group ui:checkbox ui:switch ui:select-box ui:menu-sheet ui:tag-group ui:list ui:app-screen
+```
+
+`--on-diff backup`을 주면 기존 snippet이 `legacy-{filename}-{timestamp}` 파일로 백업됩니다. 커스터마이징한 내용이 있다면 백업본과 비교해 신규 snippet에 다시 적용해주세요.
+
+</Step>
+
+<Step>
+
+### 코드베이스 변경
+
+아래 항목들은 서로 독립적이라 병렬로 진행해도 됩니다.
+
+### Help Bubble
+
+<Badge tone="informative">업데이트 필요</Badge>
+
+신규 `HelpBubble.Body`가 `HelpBubble.Title`과 `HelpBubble.Description`을 감싸도록 snippet이 바뀌었습니다. snippet을 쓰고 있다면 snippet 재설치 외에 추가 작업은 없습니다. `@seed-design/react`에서 `HelpBubble`을 직접 import해서 쓰는 코드가 있다면 그대로 두고 점검해주세요.
+
+### Bottom Sheet · Menu Sheet 기본 safe area
+
+<Badge tone="warning">직접 판단 필요</Badge>
+
+`BottomSheet.Content`와 `MenuSheet.Content`가 기본적으로 하단 safe area만큼 padding을 갖게 되었습니다. 시트를 위해 따로 넣던 safe area padding은 제거해주세요.
+
+```diff
+<BottomSheet.Content>
+-  <VStack paddingBottom="safeArea">...</VStack>
++  <VStack>...</VStack>
+</BottomSheet.Content>
+```
+
+<Callout type="warn">
+  `padding-bottom: env(safe-area-inset-bottom)` 같은 코드라도 Bottom Sheet / Menu Sheet와 무관하다면
+  제거하면 안 됩니다. 모호하면 그대로 두고 확인해주세요.
+</Callout>
+
+### MenuSheetItem
+
+<Badge tone="informative">업데이트 필요</Badge>
+
+`children` 대신 `label`, `<PrefixIcon />` 대신 `prefixIcon` prop을 사용해주세요.
+
+```diff
+-<MenuSheetItem>
+-  <PrefixIcon svg={<IconHouseLine />} />
+-  메뉴 항목
+-</MenuSheetItem>
++<MenuSheetItem prefixIcon={<IconHouseLine />} label="메뉴 항목" />
+```
+
+### Tag Group
+
+<Badge tone="informative">업데이트 필요</Badge>
+
+`@seed-design/react`의 Tag Group을 snippet(`seed-design/ui/tag-group`)으로 교체하고, `children` 대신 `label`, `PrefixIcon`/`SuffixIcon` 대신 `prefixIcon`/`suffixIcon` prop을 사용해주세요.
+
+```diff
+-import { TagGroupRoot, TagGroupItem } from "@seed-design/react";
++import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
+
+<TagGroupRoot>
+-  <TagGroupItem>
+-    <PrefixIcon svg={<IconLocationpinFill />} />
+-    서초4동
+-  </TagGroupItem>
++  <TagGroupItem label="서초4동" prefixIcon={<IconLocationpinFill />} />
+</TagGroupRoot>
+```
+
+아이콘을 직접 커스터마이징해야 하는 경우에만, `@seed-design/react`의 `TagGroup.Item`과 `TagGroup.ItemLabel`을 병행해서 사용해주세요.
+
+### Select Box
+
+<Badge tone="warning">직접 판단 필요</Badge>
+
+`CheckSelectBoxGroup` / `RadioSelectBoxRoot`가 기본적으로 gap이 포함된 그리드 레이아웃이 되었습니다. 자식을 묶던 `VStack`을 제거해 직접 자식이 되도록 바꿔주세요. (`gap` 외 스타일이 있다면 `VStack`을 바깥에 남겨두세요.) 또한 Checkmark / RadioMark가 자동으로 표시되지 않으니 각 항목에 `suffix`를 추가해주세요.
+
+```diff
+-import { VStack } from "@seed-design/react";
+-import { CheckSelectBoxGroup, CheckSelectBox } from "seed-design/ui/select-box";
++import {
++  CheckSelectBoxGroup,
++  CheckSelectBox,
++  CheckSelectBoxCheckmark,
++} from "seed-design/ui/select-box";
+
+<CheckSelectBoxGroup>
+-  <VStack gap="spacingY.componentDefault">
+-    <CheckSelectBox label="옵션 1" />
+-    <CheckSelectBox label="옵션 2" />
+-  </VStack>
++  <CheckSelectBox label="옵션 1" suffix={<CheckSelectBoxCheckmark />} />
++  <CheckSelectBox label="옵션 2" suffix={<CheckSelectBoxCheckmark />} />
+</CheckSelectBoxGroup>
+```
+
+`RadioSelectBoxRoot`도 동일한 방식으로, `suffix={<RadioSelectBoxRadiomark />}`를 추가해주세요.
+
+### Radio Group / Item
+
+서로 영향을 줄 수 있어 아래 순서대로 진행해주세요.
+
+#### Radio Item `invalid` prop 제거
+
+<Badge tone="neutral">타입 에러로 발견 가능</Badge>
+
+`RadioGroupItem`, `RadioChipItem`, `RadioSelectBoxItem`, `ListRadioItem`에서 `invalid` prop이 제거되었습니다. (타입 정의에서도 제거되어 보통 타입 에러로 잡힙니다.) 사용 중인 코드나 `data-invalid` 기반 스타일이 있다면 그대로 두고 점검해주세요.
+
+#### `SwitchMark` → `Switchmark`, `RadioMark` → `Radiomark`
+
+<Badge tone="neutral">import 에러로 발견 가능</Badge>
+
+snippet에서 export되는 이름이 바뀌었습니다. snippet 파일 자체는 자동으로 최신화됩니다.
+
+```tsx
+import { SwitchMark } from "seed-design/ui/switch"; // [!code --]
+import { Switchmark } from "seed-design/ui/switch"; // [!code ++]
+import { RadioMark } from "seed-design/ui/radio-group"; // [!code --]
+import { Radiomark } from "seed-design/ui/radio-group"; // [!code ++]
+```
+
+#### RadioGroup 레이아웃 정리
+
+<Badge tone="warning">직접 판단 필요</Badge>
+
+snippet `RadioGroup`이 자체적으로 gap과 100% width를 가집니다. 자식을 묶던 `VStack`을 제거해주세요. 또한 `@seed-design/react`의 `RadioGroup.Root`는 단순 레이아웃 컴포넌트로 바뀌었으니, 이를 사용하던 코드는 `@seed-design/react/primitive`의 `RadioGroup.Root`로 변경해주세요.
+
+```diff
+-import { RadioGroup } from "@seed-design/react";
++import { RadioGroup } from "@seed-design/react/primitive";
+```
+
+</Step>
+
+</Steps>
+
+<Callout type="info" title="1.3에서 제거 예정으로 안내했던 항목은 2에서 제거되었습니다">
+  1.2 시점에 "1.3에서 제거 예정"으로 안내했던 토큰·옵션(`$gradient.fade-layer-*`, Chip Tabs `brandSolid`,
+  Checkbox `weight`, Switch `size`, 레이아웃 camelCase 값)은 SEED React 2에서 실제로 제거되었습니다.
+  (`$color.bg.layer-fill`은 2.0.0에서 제거되었다가 2.1.0에서 다시 추가되어, 권장 버전에서는 그대로 사용할 수 있습니다.)
+  2로 올라갈 때 [v2 업그레이드](/react/updates/upgrade/v2) 가이드를 참고해주세요.
+</Callout>

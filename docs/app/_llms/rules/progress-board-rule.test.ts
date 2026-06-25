@@ -52,6 +52,9 @@ afterEach(() => {
 
 describe("progressBoardRule", () => {
   it("keeps the original node when cache is empty", () => {
+    // 모듈 로드 시 _rulesInit가 sanity fetch를 fire-and-forget으로 돌려 전역 캐시를 채울 수 있어,
+    // "비어 있을 것"이라는 타이밍에 의존하지 않고 명시적으로 비운다.
+    __setComponentsCacheForTests(null);
     const input = "<ProgressBoardTable />";
 
     const actual = normalizeLLMBodyWithRules(input, [progressBoardRule]);
