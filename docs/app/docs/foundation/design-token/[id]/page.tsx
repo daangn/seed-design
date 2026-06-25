@@ -1,5 +1,5 @@
 import { getRootage } from "@/lib/rootage";
-import { stringifyValueLit } from "@/components/rootage";
+import { getDefaultModes, stringifyValueLit } from "@/components/rootage";
 import { TokenLink } from "@/components/token-link";
 import { TypeIndicator } from "@/components/type-indicator";
 import { IconArrowRightLine } from "@karrotmarket/react-monochrome-icon";
@@ -27,10 +27,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     });
     return { mode, resolved };
   });
-  const references = resolveReferences(rootage, tokenId, {
-    global: "default",
-    color: "theme-light",
-  });
+  const references = resolveReferences(rootage, tokenId, getDefaultModes(rootage));
 
   return (
     <DocsPage tableOfContent={{ enabled: false }}>
