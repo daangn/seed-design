@@ -1,5 +1,6 @@
 @layer seed-components {
   .seed-attachment-input-item__root {
+    isolation: isolate;
     justify-content: center;
     align-items: center;
     gap: var(--seed-dimension-x2_5);
@@ -241,6 +242,7 @@
   }
 
   .seed-attachment-input-item__root--type_image:before {
+    z-index: 1;
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle);
   }
 
