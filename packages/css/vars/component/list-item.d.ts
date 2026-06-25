@@ -58,7 +58,7 @@ export declare const vars: {
         "marginX": "var(--seed-dimension-x1_5)",
         "cornerRadius": "var(--seed-dimension-x2_5)",
         /** pressed 시 배경 레이어는 좌우 폭이 marginX만큼 줄어들고, 배경 레이어 위 요소들이 위치하는 레이아웃 레이어는 scale로 인해 전체적으로 줄어드는 형태로 두 레이어가 별개로 작동합니다. OS 동작 줄이기 등의 설정이 켜진 경우 이 값을 1로 변경하여 사용합니다. */
-        "contentScale": "0.97"
+        "contentScale": "var(--seed-scale-s97)"
       }
     },
     "highlighted": {

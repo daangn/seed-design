@@ -142,7 +142,7 @@ data:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x1_5
           cornerRadius: $dimension.x2_5
-          contentScale: 0.97
+          contentScale: $scale.s97
       highlighted:
         root:
           color: $color.bg.brand-weak

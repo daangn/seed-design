@@ -331,7 +331,7 @@
                 },
                 "contentScale": {
                   "type": "number",
-                  "value": 0.97
+                  "value": "$scale.s97"
                 }
               }
             }
