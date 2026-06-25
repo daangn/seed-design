@@ -48,7 +48,7 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "2.1.0",
+        "@seed-design/css": "2.1.1",
         "@seed-design/lynx-react": "0.2.0",
         "@seed-design/migration-index": "2.0.0",
         "@seed-design/react": "2.0.0",
@@ -410,7 +410,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "2.1.0",
+      "version": "2.1.1",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -1353,7 +1353,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "2.1.0",
+        "@seed-design/css": "2.1.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
