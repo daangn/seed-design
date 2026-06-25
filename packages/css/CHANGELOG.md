@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 2.1.1
+
+### Patch Changes
+
+- 11b7ffe: `AttachmentInput`/`AttachmentDisplay`의 image 타입 아이템 테두리가 이미지에 가려 렌더되지 않던 문제를 수정합니다.
+
 ## 2.1.0
 
 ### Minor Changes
