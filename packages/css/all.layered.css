@@ -932,7 +932,6 @@
 
   :root {
     --seed-scale-s95: .95;
-    --seed-scale-s96: .96;
     --seed-scale-s97: .97;
     --seed-scale-s98: .98;
   }
@@ -940,7 +939,6 @@
   @media (prefers-reduced-motion: reduce) {
     :root {
       --seed-scale-s95: 1;
-      --seed-scale-s96: 1;
       --seed-scale-s97: 1;
       --seed-scale-s98: 1;
     }

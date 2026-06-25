@@ -541,7 +541,6 @@ export const tokens = {
 
 :root {
   --seed-scale-s95: 0.95;
-  --seed-scale-s96: 0.96;
   --seed-scale-s97: 0.97;
   --seed-scale-s98: 0.98;
 }`

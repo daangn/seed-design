@@ -19,18 +19,6 @@
           }
         }
       },
-      "$scale.s96": {
-        "values": {
-          "preferred": {
-            "type": "number",
-            "value": 0.96
-          },
-          "reduced": {
-            "type": "number",
-            "value": 1
-          }
-        }
-      },
       "$scale.s97": {
         "values": {
           "preferred": {
