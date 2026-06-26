@@ -1289,6 +1289,19 @@
               ]
             },
             {
+              "id": "next-list",
+              "title": "NextList",
+              "description": "Pressed scale 등 상호작용을 라이브러리가 책임지는 차세대 List 컴포넌트입니다.",
+              "docUrl": "/react/components/next-list",
+              "snippetKey": "react/ui:next-list",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "next-list.tsx"
+                }
+              ]
+            },
+            {
               "id": "page-banner",
               "title": "Page Banner",
               "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",

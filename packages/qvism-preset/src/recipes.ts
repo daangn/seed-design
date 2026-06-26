@@ -45,6 +45,7 @@ import linkContent from "./recipes/link-content";
 import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
 import mannerTemp from "./recipes/manner-temp";
+import nextListItem from "./recipes/next-list-item";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import { menu, menuItem } from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
@@ -129,6 +130,7 @@ export const recipes = {
   listHeader,
   listItem,
   mannerTemp,
+  nextListItem,
   mannerTempBadge,
   menu,
   menuItem,
