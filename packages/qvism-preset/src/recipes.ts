@@ -45,11 +45,11 @@ import linkContent from "./recipes/link-content";
 import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
 import mannerTemp from "./recipes/manner-temp";
-import nextListItem from "./recipes/next-list-item";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import { menu, menuItem } from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
+import nextListItem from "./recipes/next-list-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import pageBanner from "./recipes/page-banner";
 import progressCircle from "./recipes/progress-circle";
@@ -130,12 +130,12 @@ export const recipes = {
   listHeader,
   listItem,
   mannerTemp,
-  nextListItem,
   mannerTempBadge,
   menu,
   menuItem,
   menuSheet,
   menuSheetItem,
+  nextListItem,
   notificationBadge,
   notificationBadgePositioner,
   pageBanner,
