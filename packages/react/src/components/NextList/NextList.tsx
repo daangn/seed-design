@@ -124,9 +124,9 @@ export const NextListContent = forwardRef<HTMLElement, NextListContentProps>(
       return (
         <Primitive.button
           ref={composeRefs(interaction.contentRef, ref)}
-          className={contentClassName}
           {...interaction.contentProps}
           {...props}
+          className={clsx(contentClassName, interaction.contentProps.className)}
         >
           {children}
         </Primitive.button>
@@ -137,9 +137,9 @@ export const NextListContent = forwardRef<HTMLElement, NextListContentProps>(
       return (
         <Primitive.a
           ref={composeRefs(interaction.contentRef, ref)}
-          className={contentClassName}
           {...interaction.contentProps}
           {...props}
+          className={clsx(contentClassName, interaction.contentProps.className)}
         >
           {children}
         </Primitive.a>
