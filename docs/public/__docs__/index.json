@@ -1559,8 +1559,8 @@
           "items": [
             {
               "id": "guide",
-              "title": "Guide",
-              "description": "Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
+              "title": "Migrating from Sprout",
+              "description": "Sprout에서 SEED React로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
               "docUrl": "/react/migration/guide"
             },
             {
@@ -1735,13 +1735,13 @@
             },
             {
               "id": "v1",
-              "title": "v1 이하 업그레이드",
+              "title": "SEED React 1 and older",
               "description": "SEED React 2 이전 버전 간 업그레이드에 필요한 작업을 버전 구간별로 안내합니다.",
               "docUrl": "/react/updates/upgrade/v1"
             },
             {
               "id": "v2",
-              "title": "SEED React 2 업그레이드",
+              "title": "SEED React 2",
               "description": "SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.",
               "docUrl": "/react/updates/upgrade/v2"
             }
