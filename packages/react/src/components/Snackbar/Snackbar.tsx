@@ -67,12 +67,10 @@ export const SnackbarPrefixIcon = withContext<HTMLDivElement, SnackbarPrefixIcon
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SnackbarActionButtonProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+export interface SnackbarActionButtonProps extends SnackbarPrimitive.ActionButtonProps {}
 
 export const SnackbarActionButton = withContext<HTMLButtonElement, SnackbarActionButtonProps>(
-  Primitive.button,
+  SnackbarPrimitive.ActionButton,
   "actionButton",
 );
 

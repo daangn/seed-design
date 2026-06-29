@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: side-panel-close-button
+  name: Side Panel Close Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          targetSize:
+            type: dimension
+          size:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.transparent
+          cornerRadius: $radius.r3
+          targetSize: 52px
+          size: 22px
+        icon:
+          color: $color.fg.neutral-subtle
+          size: 22px
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+      pressed:
+        icon:
+          color: $color.fg.neutral

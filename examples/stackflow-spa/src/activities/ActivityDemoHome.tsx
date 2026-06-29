@@ -133,12 +133,7 @@ export function Recommendations() {
   const onUnavailableFilterClick = () =>
     adapter.create({
       render: () => (
-        <Snackbar
-          message="카테고리로만 필터링할 수 있어요."
-          variant="critical"
-          actionLabel="확인"
-          onAction={adapter.dismiss}
-        />
+        <Snackbar message="카테고리로만 필터링할 수 있어요" variant="critical" actionLabel="확인" />
       ),
     });
 

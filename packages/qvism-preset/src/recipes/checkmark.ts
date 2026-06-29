@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/checkmark.json" with { type: "json" };
 import { checkmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
@@ -229,6 +230,12 @@ const checkmark = defineSlotRecipe({
     variant: "square",
     tone: "brand",
     size: "medium",
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+      tone: spec.data.schema.variants.tone,
+    },
   },
 });
 

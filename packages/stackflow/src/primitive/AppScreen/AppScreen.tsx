@@ -1,8 +1,9 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { useAppScreen, type UseAppScreenProps } from "./useAppScreen";
 import { AppScreenProvider, useAppScreenContext } from "./useAppScreenContext";
 
@@ -32,13 +33,29 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     ref: innerRef as React.RefObject<HTMLDivElement>,
   });
 
+  // Focus the layer once after the enter animation completes.
+  // onMountAutoFocus fires during enter-active and interrupts the CSS animation, so we
+  // defer until transitionState reaches "enter-done". This only happens once per activity
+  // lifecycle — subsequent isTop changes (e.g. upper activity pop) don't change
+  // transitionState, so the effect won't re-fire.
+  useEffect(() => {
+    if (api.activity?.transitionState === "enter-done") {
+      api.layerRef.current?.focus();
+    }
+  }, [api.activity?.transitionState, api.layerRef]);
+
   return (
     <AppScreenProvider value={api}>
-      <Primitive.div
-        ref={composeRefs(innerRef, ref)}
-        data-stackflow-component-name="AppScreen"
-        {...mergeProps(api.activityProps, otherProps)}
-      />
+      {/* onMountAutoFocus is prevented because it fires during enter-active and
+          interrupts the CSS animation. Focus is handled by the useEffect above instead,
+          which defers until transitionState reaches "enter-done". */}
+      <FocusScope asChild trapped loop onMountAutoFocus={(e) => e.preventDefault()}>
+        <Primitive.div
+          ref={composeRefs(innerRef, ref)}
+          data-stackflow-component-name="AppScreen"
+          {...mergeProps(api.activityProps, otherProps)}
+        />
+      </FocusScope>
     </AppScreenProvider>
   );
 });
@@ -65,8 +82,14 @@ AppScreenEdge.displayName = "AppScreenEdge";
 export interface AppScreenLayerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppScreenLayer = forwardRef<HTMLDivElement, AppScreenLayerProps>((props, ref) => {
-  const { layerProps } = useAppScreenContext();
+  const { layerProps, layerRef } = useAppScreenContext();
 
-  return <Primitive.div ref={ref} {...mergeProps(layerProps, props)} />;
+  return (
+    <Primitive.div
+      ref={composeRefs(ref, layerRef)}
+      tabIndex={-1}
+      {...mergeProps(layerProps, props)}
+    />
+  );
 });
 AppScreenLayer.displayName = "AppScreenLayer";

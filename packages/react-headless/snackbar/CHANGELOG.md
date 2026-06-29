@@ -1,5 +1,19 @@
 # @seed-design/react-snackbar
 
+## 2.0.0
+
+### Major Changes
+
+- afb77c5: Snackbar 내부 액션 버튼 클릭 시 `onAction` 핸들러 호출 이후 스낵바가 닫히는 동작을 기본값으로 제공합니다.
+
+  - snippet에 존재하던 deprecate된 `shouldCloseOnAction` 옵션(default: `true`)을 제거합니다.
+  - 해당 동작을 React 컴포넌트로 이전하여 항상 `true`처럼 동작하도록 변경합니다.
+
+### Patch Changes
+
+- Updated dependencies [ec33023]
+  - @seed-design/react-primitive@2.0.0
+
 ## 1.0.2
 
 ### Patch Changes

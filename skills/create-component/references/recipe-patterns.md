@@ -19,6 +19,14 @@ vars.<variantType>.<state>.<element>.<property>
 
 예시: `vars.variantBrandSolid.enabled.root.color`, `vars.base.disabled.label.color`
 
+## Fraction token 변환
+
+viewport 또는 parent size에 대한 비율은 rootage에서 `0.8` 같은 `number` token으로 정의하고, recipe에서 CSS 단위로 변환한다. raw `80vw`, `80%` 같은 디자인 값은 recipe에 직접 쓰지 않는다.
+
+- viewport 기준이면 `calc(${vars.base.enabled.content.widthFraction} * 100vw)`처럼 변환한다.
+- parent 기준이면 `calc(${vars.base.enabled.content.widthFraction} * 100%)`처럼 변환한다.
+- token 이름은 의미와 대상이 드러나도록 `widthFraction`, `heightFraction`처럼 짓는다.
+
 ## Vocabulary 선택
 
 outline, frame, divider처럼 **시각적 선**을 표현하는 token은 기본적으로 `strokeColor`/`strokeWidth` vocabulary를 먼저 검토한다.
@@ -98,6 +106,17 @@ slot 이름과 token은 **public content contract**를 따라간다.
 - icon과 avatar를 모두 받을 수 있는 slot이라면 색상 정도만 제어하고 크기 강제는 피한다
 
 즉, `prefixIcon` slot은 "앞에 아이콘이 올 수 있다"가 아니라 "앞 슬롯은 아이콘 전용이다"가 확정됐을 때만 만든다.
+
+## Overlay Close Button 위치와 터치 영역
+
+Dialog, Drawer, Sheet류의 close button은 **visual root/icon 위치**와 **touch target 크기**를 구분한다. 위치 토큰(`fromTop`, `fromRight` 등)을 추가하거나 수정할 때는 먼저 패턴 컴포넌트(BottomSheet 등)가 해당 토큰을 visual root 기준으로 쓰는지, touch target 기준으로 쓰는지 확인한다.
+
+- visual root/icon 크기와 touch target 크기가 다르면 `root.size`는 visual root 크기, `root.targetSize`는 터치 영역 크기로 둔다.
+- touch target 확장은 recipe의 `::after`에서 `calc((root.size - root.targetSize) / 2)` inset으로 처리한다.
+- Figma에서 아이콘 기준 좌표가 주어진 경우, 보정값을 `fromTop`/`fromRight` rootage 토큰에 직접 넣지 않는다. 토큰은 visual root 기준 좌표를 표현하고, 터치 영역 보정은 `targetSize + ::after`가 맡는다.
+- header/title이 close button touch target과 겹칠 수 있으면 padding 보정은 `root.size`가 아니라 `root.targetSize` 기준으로 잡는다.
+- visual root가 투명한 icon-only close button이라면 hover/active 피드백을 위해 배경 면을 새로 만들지 않는다. 디자인에서 버튼 배경이 명시되지 않았다면 `pressed.icon.color` 같은 icon state token으로 `--seed-icon-color`를 바꾸고, semantic fg token(예: `$color.fg.neutral`)을 우선 사용한다.
+- icon color에 transition이 필요하면 duration/timing token도 `icon` slot 아래에 두고, recipe에서는 `.seed-icon`의 `color` transition을 지정한다.
 
 ## 애니메이션 패턴
 

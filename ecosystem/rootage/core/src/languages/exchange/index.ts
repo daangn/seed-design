@@ -24,7 +24,7 @@ export function getTokenCollectionsModel(
     metadata,
     data: ast.data.map((tc) => ({
       name: tc.name,
-      modes: tc.modes,
+      modes: tc.modes.map(({ kind, ...rest }) => rest),
     })),
   };
 }

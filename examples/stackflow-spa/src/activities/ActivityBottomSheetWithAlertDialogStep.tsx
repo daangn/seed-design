@@ -55,7 +55,13 @@ const ActivityBottomSheetWithAlertDialogStep: StaticActivityComponentType<
               description="useStepOverlay로 BottomSheet step과 AlertDialog step을 한 Activity 안에서 동시에 사용합니다. BottomSheet 위에 AlertDialog를 얹은 상태에서 AlertDialog의 Backdrop이나 Content 빈 영역을 클릭해 동작을 관찰해보세요."
             />
           </Box>
-          <BottomSheetRoot {...bottomSheet.overlayProps}>
+          <BottomSheetRoot
+            {...bottomSheet.overlayProps}
+            // AlertDialog가 떠있는 동안 BottomSheet의 outside-press는 무시한다.
+            // AlertDialog는 closeOnInteractOutside=true이므로 자체적으로 닫히고,
+            // BottomSheet는 외부 클릭으로 닫히지 않도록 비활성화한다.
+            closeOnInteractOutside={!alertDialog.open}
+          >
             <BottomSheetTrigger asChild>
               <ActionButton variant="neutralSolid" flexGrow>
                 Open BottomSheet
@@ -67,14 +73,6 @@ const ActivityBottomSheetWithAlertDialogStep: StaticActivityComponentType<
                 title="BottomSheet (step)"
                 description="이 BottomSheet 위에 AlertDialog를 얹어볼 수 있어요."
                 layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
-                onPointerDownOutside={(e) => {
-                  // AlertDialog가 떠있는 동안 BottomSheet의 outside 발화는 무시한다.
-                  // AlertDialog는 closeOnInteractOutside=true이므로 자체적으로 닫히고,
-                  // BottomSheet만 닫히지 않도록 preventDefault.
-                  if (alertDialog.open) {
-                    e.preventDefault();
-                  }
-                }}
               >
                 <BottomSheetBody>
                   <AlertDialogRoot {...alertDialog.overlayProps} closeOnInteractOutside>

@@ -20,7 +20,7 @@ const withStateProps = createWithStateProps([useDialogContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetRootProps
   extends ExtendedActionSheetVariantProps,
@@ -36,7 +36,7 @@ export interface ExtendedActionSheetRootProps
 }
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetRoot = withRootProvider<ExtendedActionSheetRootProps>(
   DialogPrimitive.Root,
@@ -51,24 +51,24 @@ export const ExtendedActionSheetRoot = withRootProvider<ExtendedActionSheetRootP
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetTriggerProps extends DialogPrimitive.TriggerProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetTrigger = DialogPrimitive.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetPositionerProps extends DialogPrimitive.PositionerProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetPositioner = withContext<
   HTMLDivElement,
@@ -78,12 +78,12 @@ export const ExtendedActionSheetPositioner = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetBackdropProps extends DialogPrimitive.BackdropProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetBackdrop = withContext<
   HTMLDivElement,
@@ -93,12 +93,12 @@ export const ExtendedActionSheetBackdrop = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetContentProps extends DialogPrimitive.ContentProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetContent = withContext<
   HTMLDivElement,
@@ -108,14 +108,14 @@ export const ExtendedActionSheetContent = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetHeaderProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetHeader = withContext<
   HTMLDivElement,
@@ -125,12 +125,12 @@ export const ExtendedActionSheetHeader = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetTitleProps extends DialogPrimitive.TitleProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetTitle = withContext<
   HTMLHeadingElement,
@@ -140,14 +140,14 @@ export const ExtendedActionSheetTitle = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetListProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetList = withContext<HTMLDivElement, ExtendedActionSheetListProps>(
   withStateProps(Primitive.div),
@@ -157,12 +157,12 @@ export const ExtendedActionSheetList = withContext<HTMLDivElement, ExtendedActio
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetGroup = withContext<HTMLDivElement, ExtendedActionSheetGroupProps>(
   withStateProps(Primitive.div),
@@ -172,7 +172,7 @@ export const ExtendedActionSheetGroup = withContext<HTMLDivElement, ExtendedActi
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetItemProps
   extends PrimitiveProps,
@@ -180,7 +180,7 @@ export interface ExtendedActionSheetItemProps
     React.HTMLAttributes<HTMLButtonElement> {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetItem = withItemContext<
   HTMLButtonElement,
@@ -190,14 +190,14 @@ export const ExtendedActionSheetItem = withItemContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetFooterProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetFooter = withContext<
   HTMLDivElement,
@@ -207,12 +207,12 @@ export const ExtendedActionSheetFooter = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ExtendedActionSheetCloseButtonProps extends DialogPrimitive.CloseButtonProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ExtendedActionSheetCloseButton = withContext<
   HTMLDivElement,

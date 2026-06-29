@@ -62,6 +62,7 @@ export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTrigger
     );
   },
 );
+HelpBubbleTrigger.displayName = "HelpBubbleTrigger";
 
 export interface HelpBubbleAnchorProps extends Omit<SeedHelpBubble.RootProps, "children"> {
   title: React.ReactNode;
@@ -120,3 +121,4 @@ export const HelpBubbleAnchor = forwardRef<HTMLDivElement, HelpBubbleAnchorProps
     );
   },
 );
+HelpBubbleAnchor.displayName = "HelpBubbleAnchor";

@@ -1,4 +1,5 @@
 import { ColorGrid } from "@/components/color-grid";
+import { BlockCodeTabs } from "@/components/block-code-tabs";
 import { BlockPreview } from "@/components/block-preview";
 import { ComponentExample } from "@/components/component-example";
 import { ComponentGrid } from "@/components/component-grid";
@@ -12,6 +13,7 @@ import {
   IconDocumentLine,
   IconPaletteLine,
 } from "@karrotmarket/react-monochrome-icon";
+import { Badge } from "@/components/mdx-badge";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { CodeBlock, Pre } from "fumadocs-ui/components/codeblock";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
@@ -58,7 +60,9 @@ export const mdxComponents: MDXComponents = {
   ),
 
   // Components
+  Badge,
   ManualInstallation,
+  BlockCodeTabs,
   BlockPreview,
   ComponentExample,
   ComponentGrid,

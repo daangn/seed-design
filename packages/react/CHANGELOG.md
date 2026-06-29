@@ -1,5 +1,172 @@
 # @seed-design/react
 
+## 2.0.0
+
+### Major Changes
+
+- 4ad24cc: Box, Flex, Grid, VStack, HStack 등 레이아웃 컴포넌트에 margin 관련 프로퍼티를 추가합니다.
+
+  - `margin`/`m`, `marginX`/`mx`, `marginY`/`my`, `marginTop`/`mt`, `marginRight`/`mr`, `marginBottom`/`mb`, `marginLeft`/`ml`
+  - `"auto"` 리터럴 및 breakpoint 기반 반응형 스타일링을 지원합니다.
+  - `margin*`과 `bleed*`를 동시에 사용할 수 없도록 타입 레벨 제약(discriminated union)을 추가합니다.
+    - @seed-design/react를 통해 제공되는 다음 인터페이스가 `interface`에서 `type`으로 전환됩니다.
+      - `BoxProps`, `FlexProps`, `GridProps`, `StackProps`, `VStackProps`, `HStackProps`, `ArticleProps`, `AspectRatioProps`, `ColumnsProps`, `ColumnProps`, `GridItemProps`, `ImageFrameProps`, `InlineProps`, `ResponsivePairProps`.
+    - 위 인터페이스를 `extend`하는 타입은 `type X = BoxProps & {...}`처럼 전환할 수 있습니다.
+
+  Box, Flex, Grid, VStack, HStack 등 레이아웃 컴포넌트에 4개 방향 모두에 negative margin을 적용하는 `bleed` 프로퍼티를 추가합니다.
+
+- 555525a: Attachment Field 관련 컴포넌트를 추가합니다.
+
+  - Attachment Field: 파일을 선택하거나 드래그 앤 드롭으로 직접 업로드할 때 사용합니다.
+  - Attachment Display Field: 외부 소스에서 URL로 제공된 미디어를 표시·관리할 때 사용합니다.
+
+- 029d052: Help Bubble Tooltip 컴포넌트를 추가합니다.
+- 54a2ff8: Layout 컴포넌트를 추가합니다.
+- 69e3b97: Menu 컴포넌트를 추가합니다.
+
+  Drawer를 연 뒤 Drawer 뒤 요소에 포커스가 남아 있는 문제를 수정합니다. Drawer가 열리는 경우 `Drawer.Content`에 자동으로 포커스가 이동합니다.
+
+  - `Drawer.RootProps`의 `autoFocus` 기본값을 `false`에서 `true`로 변경합니다.
+  - 스크린 리더가 `modal=true` (기본값)인 Dialog 및 Drawer 뒤 요소를 읽을 수 있는 문제를 수정합니다.
+
+  Dialog(AlertDialog, MenuSheet)와 Drawer(BottomSheet)를 `@radix-ui/react-dismissable-layer`에서 자체 `useDismissibleLayer` 훅 기반으로 리팩터링하고 불필요하게 외부로 노출되던 내부 옵션들을 제거합니다.
+
+  - `DialogRoot` 및 `DrawerRoot`의 `onOpenChange` 두 번째 인자 `details.reason`이 `interactOutside`인 경우 `details.event`의 타입을 `PointerEvent | FocusEvent`에서 `PointerEvent | TouchEvent | FocusEvent`로 변경합니다.
+  - `DialogRoot` 및 `DrawerRoot` 두 번째 인자 `details`의 `reason`으로 `cascadeDismiss`를 추가합니다. 두 개 이상의 오버레이 컴포넌트를 표시한 상황에서 하위 컴포넌트가 dismiss되는 경우 상위 컴포넌트는 `cascadeDismiss`와 함께 `onOpenChange`가 호출됩니다.
+  - `@seed-design/react` 패키지에서 `@radix-ui/react-dialog` 의존성을 제거합니다.
+
+- 2abd3ed: Side Navigation에서 내부적으로 사용되는 `NavigationMenu` 컴포넌트를 추가합니다.
+- 9369ff9: Breakpoint 기반 반응형 스타일링을 지원합니다.
+
+  - Box, Flex, Grid, VStack 등 유틸리티 컴포넌트의 레이아웃 관련 프로퍼티에 breakpoint 기반 반응형 객체를 사용할 수 있습니다.
+
+  ```tsx
+  <Box padding={{ base: "x3", md: "x6" }} />
+  <Grid columns={{ base: 1, md: 2, lg: 4 }} gap="x4" />
+  ```
+
+  - `@seed-design/react`에서 `useBreakpoint` 훅과 `useBreakpointValue` 훅을 제공합니다.
+    - `useBreakpoint()` — 현재 활성 breakpoint 이름을 반환합니다. (`"base"` | `"sm"` | `"md"` | `"lg"` | `"xl"`)
+    - `useBreakpointValue(values)` — 반응형 객체에서 현재 breakpoint에 해당하는 값을 반환합니다.
+
+  ```tsx
+  const actionButtonProps = useBreakpointValue<ActionButtonProps>({
+    base: { variant: "neutralWeak" },
+    lg: { variant: "brandSolid" },
+  });
+  ```
+
+  `<Grid display="none">`으로 Grid를 숨길 수 없던 문제를 수정합니다.
+
+- 4839a64: `selectBoxCheckmark` recipe의 생성 클래스명과 import 경로를 다른 recipe와 동일하게 kebab-case로 정정합니다.
+
+  - 클래스명: `seed-selectBoxCheckmark__*` → `seed-select-box-checkmark__*`
+  - import 경로: `@seed-design/css/recipes/selectBoxCheckmark` → `@seed-design/css/recipes/select-box-checkmark`
+
+- 60d1a82: 1.2에서 deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - AppBar의 `divider` 옵션
+  - Image Frame의 `rounded` variant: `borderRadius` 옵션을 사용해주세요.
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+  - `AppBar`의 `divider` 옵션
+    - 하단 구분선이 더 이상 표시되지 않습니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `noBodyStyles` 옵션
+    - 제거되어 기본값(true)처럼 동작합니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `preventScrollRestoration` 옵션
+    - 제거되어 기본값(false)처럼 동작합니다.
+  - `BottomSheetRoot`의 `direction` 옵션
+    - BottomSheet는 항상 아래에서 올라오므로 `direction`을 받지 않습니다.
+  - `BottomSheetBackdrop` (`DrawerBackdrop`)의 `forceMount` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `lazyMount`/`unmountOnExit` 옵션으로 대체할 수 있습니다.
+  - `BottomSheetContent` (`DrawerContent`)의 `onPointerDownOutside`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onInteractOutside`, `forceMount`, `onFocusOutside` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `onOpenChange` 두 번째 인자 `details`를 통해 대체할 수 있습니다.
+
+- ec33023: Side Navigation 컴포넌트를 추가합니다.
+- 98b52a7: Side Panel 컴포넌트를 추가합니다.
+
+  - 화면 좌/우 가장자리에서 슬라이드해 보조 콘텐츠, 상세 정보, 설정 흐름을 표시할 수 있습니다.
+
+- afb77c5: Snackbar 내부 액션 버튼 클릭 시 `onAction` 핸들러 호출 이후 스낵바가 닫히는 동작을 기본값으로 제공합니다.
+
+  - snippet에 존재하던 deprecate된 `shouldCloseOnAction` 옵션(default: `true`)을 제거합니다.
+  - 해당 동작을 React 컴포넌트로 이전하여 항상 `true`처럼 동작하도록 변경합니다.
+
+- f982d61: `SwipeableMenuSheet` 컴포넌트를 추가하고, 기존 `MenuSheet` 관련 API를 deprecate합니다.
+
+  **`SwipeableMenuSheet` 추가**
+
+  - Drawer 기반의 `SwipeableMenuSheet` 관련 컴포넌트를 추가합니다.
+  - 전체 영역을 스와이프하여 시트를 닫을 수 있으며, 해당 동작의 힌트로 상단에 드래그 핸들이 표시됩니다.
+  - `MenuSheet`에서는 항상 표시되었던 닫기 버튼을 기본적으로 UI에 표시하지 않습니다. `showCloseButton` prop을 통해 닫기 버튼의 노출 여부를 제어할 수 있습니다.
+
+  **`MenuSheet` 관련 컴포넌트 및 API Deprecate**
+
+  - Dialog 기반의 `MenuSheet` 관련 컴포넌트 및 API를 deprecate합니다. 신규로 Menu Sheet 사용이 필요한 경우 `SwipeableMenuSheet`를 사용합니다.
+  - `open`/`defaultOpen`/`onOpenChange`등 기본적인 `MenuSheet`의 API는 `SwipeableMenuSheet`에서 동일하게 유지됩니다.
+
+- 7f1dbe3: `Footer.LinkText` 컴포넌트 및 `Footer` Block 예시를 추가합니다.
+- c0fd999: Text Input(Text Field)과 Input Button(Field Button)에 `size="medium"` variant를 추가합니다.
+- 31bf164: Accordion 컴포넌트를 추가합니다.
+
+  - 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+
+### Patch Changes
+
+- Updated dependencies [555525a]
+- Updated dependencies [029d052]
+- Updated dependencies [69e3b97]
+- Updated dependencies [2abd3ed]
+- Updated dependencies [60d1a82]
+- Updated dependencies [ec33023]
+- Updated dependencies [afb77c5]
+- Updated dependencies [31bf164]
+  - @seed-design/react-attachment-display@1.0.0
+  - @seed-design/react-middle-truncate@1.0.0
+  - @seed-design/react-file-upload@1.0.0
+  - @seed-design/react-tooltip@1.0.0
+  - @seed-design/react-popover@2.0.0
+  - @seed-design/react-dialog@2.0.0
+  - @seed-design/react-drawer@2.0.0
+  - @seed-design/react-menu@1.0.0
+  - @seed-design/react-navigation-menu@1.0.0
+  - @seed-design/react-side-navigation@1.0.0
+  - @seed-design/react-primitive@2.0.0
+  - @seed-design/react-snackbar@2.0.0
+  - @seed-design/react-accordion@1.0.0
+  - @seed-design/react-avatar@1.0.1
+  - @seed-design/react-checkbox@1.0.2
+  - @seed-design/react-collapsible@0.1.1
+  - @seed-design/react-field@1.0.2
+  - @seed-design/react-field-button@1.0.3
+  - @seed-design/react-fieldset@0.1.1
+  - @seed-design/react-image@0.1.2
+  - @seed-design/react-progress@1.0.1
+  - @seed-design/react-pull-to-refresh@1.0.2
+  - @seed-design/react-radio-group@1.1.1
+  - @seed-design/react-segmented-control@1.0.2
+  - @seed-design/react-slider@1.0.3
+  - @seed-design/react-switch@1.0.2
+  - @seed-design/react-tabs@1.0.6
+  - @seed-design/react-text-field@1.1.2
+  - @seed-design/react-toggle@1.0.2
+
+## 1.2.15
+
+### Patch Changes
+
+- 47690e2: SEED React 2.0.0에서 제거될 예정인 BottomSheet의 `direction` 옵션을 deprecated 처리합니다. 2.0.0부터 BottomSheet는 항상 아래에서 올라오며 `direction`을 받지 않습니다.
+- Updated dependencies [306673a]
+  - @seed-design/react-drawer@1.0.11
+
 ## 1.2.14
 
 ### Patch Changes

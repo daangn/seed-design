@@ -74,17 +74,17 @@ const CommonStoryTemplate: Story = {
 
 export const LightTheme = CommonStoryTemplate;
 
-export const DarkTheme = createStoryWithParameters<typeof meta>({
+export const DarkTheme = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters<typeof meta>({
+export const FontScalingExtraSmall = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { fontScale: "Extra Small" },
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters<typeof meta>({
+export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
   ...CommonStoryTemplate,
   parameters: { fontScale: "Extra Extra Extra Large" },
 });

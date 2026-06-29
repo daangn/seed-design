@@ -1,5 +1,96 @@
 # @seed-design/rootage-artifacts
 
+## 2.1.0
+
+### Minor Changes
+
+- f2b198d: `$color.bg.layer-fill` 토큰을 다시 추가합니다.
+
+  `2.0.0`에서 제거했으나 마땅한 대체 토큰이 없어 deprecated 상태로 되살립니다. 값은 제거 이전과 동일합니다. 추후 동일한 값의 새 이름 토큰으로 대체된 뒤 `3.0.0`에서 제거될 예정입니다.
+
+  `@seed-design/tailwind3-plugin`과 `@seed-design/tailwind4-theme`의 `@seed-design/css` peer dependency 버전 범위를 `^2.1.0`으로 올립니다.
+
+## 2.0.0
+
+### Major Changes
+
+- 555525a: Attachment Field 관련 컴포넌트를 추가합니다.
+
+  - Attachment Field: 파일을 선택하거나 드래그 앤 드롭으로 직접 업로드할 때 사용합니다.
+  - Attachment Display Field: 외부 소스에서 URL로 제공된 미디어를 표시·관리할 때 사용합니다.
+
+- d1a8d7c: 신규 타이포그래피 토큰을 추가합니다.
+
+  - **폰트 크기 토큰 (`$font-size`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **줄 간격 토큰 (`$line-height`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **텍스트 스타일 (`textStyle`)**
+    - `t8Regular`, `t8Medium`, `t8StaticRegular`, `t8StaticMedium`
+    - `t9Regular`, `t9Medium`, `t9StaticRegular`, `t9StaticMedium`
+    - `t10Regular`, `t10Medium`, `t10StaticRegular`, `t10StaticMedium`
+    - `t11Regular`, `t11Medium`, `t11Bold`, `t11StaticRegular`, `t11StaticMedium`, `t11StaticBold`
+    - `t12Regular`, `t12Medium`, `t12Bold`, `t12StaticRegular`, `t12StaticMedium`, `t12StaticBold`
+    - `t13Regular`, `t13Medium`, `t13Bold`, `t13StaticRegular`, `t13StaticMedium`, `t13StaticBold`
+    - `t14Regular`, `t14Medium`, `t14Bold`, `t14StaticRegular`, `t14StaticMedium`, `t14StaticBold`
+
+- 69e3b97: Menu 컴포넌트를 추가합니다.
+
+  Drawer를 연 뒤 Drawer 뒤 요소에 포커스가 남아 있는 문제를 수정합니다. Drawer가 열리는 경우 `Drawer.Content`에 자동으로 포커스가 이동합니다.
+
+  - `Drawer.RootProps`의 `autoFocus` 기본값을 `false`에서 `true`로 변경합니다.
+  - 스크린 리더가 `modal=true` (기본값)인 Dialog 및 Drawer 뒤 요소를 읽을 수 있는 문제를 수정합니다.
+
+  Dialog(AlertDialog, MenuSheet)와 Drawer(BottomSheet)를 `@radix-ui/react-dismissable-layer`에서 자체 `useDismissibleLayer` 훅 기반으로 리팩터링하고 불필요하게 외부로 노출되던 내부 옵션들을 제거합니다.
+
+  - `DialogRoot` 및 `DrawerRoot`의 `onOpenChange` 두 번째 인자 `details.reason`이 `interactOutside`인 경우 `details.event`의 타입을 `PointerEvent | FocusEvent`에서 `PointerEvent | TouchEvent | FocusEvent`로 변경합니다.
+  - `DialogRoot` 및 `DrawerRoot` 두 번째 인자 `details`의 `reason`으로 `cascadeDismiss`를 추가합니다. 두 개 이상의 오버레이 컴포넌트를 표시한 상황에서 하위 컴포넌트가 dismiss되는 경우 상위 컴포넌트는 `cascadeDismiss`와 함께 `onOpenChange`가 호출됩니다.
+  - `@seed-design/react` 패키지에서 `@radix-ui/react-dialog` 의존성을 제거합니다.
+
+- 57e4f1a: Chip Tabs Trigger가 disabled 상태일 때 opacity를 사용하여 스타일을 조절하도록 수정합니다.
+- 270b277: 컴포넌트 및 파운데이션 전반에 JSDoc 주석을 강화합니다.
+- 60d1a82: 1.2에서 deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - AppBar의 `divider` 옵션
+  - Image Frame의 `rounded` variant: `borderRadius` 옵션을 사용해주세요.
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+  - `AppBar`의 `divider` 옵션
+    - 하단 구분선이 더 이상 표시되지 않습니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `noBodyStyles` 옵션
+    - 제거되어 기본값(true)처럼 동작합니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `preventScrollRestoration` 옵션
+    - 제거되어 기본값(false)처럼 동작합니다.
+  - `BottomSheetRoot`의 `direction` 옵션
+    - BottomSheet는 항상 아래에서 올라오므로 `direction`을 받지 않습니다.
+  - `BottomSheetBackdrop` (`DrawerBackdrop`)의 `forceMount` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `lazyMount`/`unmountOnExit` 옵션으로 대체할 수 있습니다.
+  - `BottomSheetContent` (`DrawerContent`)의 `onPointerDownOutside`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onInteractOutside`, `forceMount`, `onFocusOutside` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `onOpenChange` 두 번째 인자 `details`를 통해 대체할 수 있습니다.
+
+- 98b52a7: Side Panel 컴포넌트를 추가합니다.
+
+  - 화면 좌/우 가장자리에서 슬라이드해 보조 콘텐츠, 상세 정보, 설정 흐름을 표시할 수 있습니다.
+
+- c0fd999: Text Input(Text Field)과 Input Button(Field Button)에 `size="medium"` variant를 추가합니다.
+- 31bf164: Accordion 컴포넌트를 추가합니다.
+
+  - 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+
 ## 1.2.12
 
 ### Patch Changes

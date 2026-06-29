@@ -117,7 +117,7 @@ export function transformResolvedType<T extends AST.Node | AST.Node[]>(
       const resolved = resolveToken(ctx, node.value.identifier, {
         [ctx.dependencyGraph[node.value.identifier]!.collection]:
           ctx.tokenCollectionEntities[ctx.dependencyGraph[node.value.identifier]!.collection]!
-            .modes[0]!,
+            .modes[0]!.id,
       });
       switch (resolved.value.kind) {
         case "ColorHexLit":

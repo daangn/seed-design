@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/page-banner.json" with { type: "json" };
 import { pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { engaged, focusVisible, pseudo } from "../utils/pseudo";
@@ -477,6 +478,12 @@ const pageBanner = defineSlotRecipe({
       },
     },
   ],
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+      tone: spec.data.schema.variants.tone,
+    },
+  },
 });
 
 export default pageBanner;

@@ -39,6 +39,9 @@ export const appScreen = defineSlotRecipe({
       "&::-webkit-scrollbar": {
         display: "none",
       },
+      "&:focus": {
+        outline: "none",
+      },
 
       backgroundColor: vars.$color.bg.layerDefault,
     },

@@ -12,14 +12,22 @@ npx @seed-design/cli@latest compat
 
 ## Install Compatible Snippets
 
-프로젝트의 `@seed-design/react` 버전과 맞는 스니펫이 필요하면 `--baseUrl`을 사용합니다.
+프로젝트에 설치된 SEED 버전과 맞는 스니펫이 필요하면 버전 옵션을 사용합니다. CLI가 해당 버전이 배포된 레지스트리 주소를 자동으로 찾아줍니다.
 
 ```bash
-npx @seed-design/cli@latest add --baseUrl https://1-0.seed-design.pages.dev ui:action-button
+npx @seed-design/cli@latest add --seed-react-version 1.2 ui:action-button
 ```
 
+`add-all`도 동일하게 동작합니다.
+
 ```bash
-npx @seed-design/cli@latest add-all --baseUrl https://1-1.seed-design.pages.dev ui
+npx @seed-design/cli@latest add-all --seed-react-version 1.2 ui
+```
+
+레지스트리 주소를 직접 알고 있다면 `--baseUrl`로 지정할 수도 있습니다.
+
+```bash
+npx @seed-design/cli@latest add --baseUrl https://v1-2.seed-design.io ui:action-button
 ```
 
 ## Resolve Custom File Conflicts
@@ -39,6 +47,6 @@ CLI는 파일 내용이 다르면 diff를 보여주고 아래 중 하나를 선�
 ## Recommended Flow
 
 1. `compat`으로 현재 불일치 항목을 먼저 파악합니다.
-2. 대상 컴포넌트를 작은 단위로 나눠서 `--baseUrl`로 업데이트합니다.
+2. 대상 컴포넌트를 작은 단위로 나눠서 버전 옵션(`--seed-react-version`)으로 업데이트합니다.
 3. 충돌 파일은 우선 `backup`을 선택해 안전망을 확보합니다.
 4. 동작/스타일 검증 후 필요하면 백업 파일의 커스텀을 수동 반영합니다.
