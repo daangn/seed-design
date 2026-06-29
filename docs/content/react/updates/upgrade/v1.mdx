@@ -158,21 +158,12 @@ npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:men
 
 snippet 컴포넌트 `MenuSheetItem`을 사용하는 코드에서 `children` 대신 `label`, `<PrefixIcon />` 대신 `prefixIcon` prop을 사용해주세요.
 
-```tsx
-{
-  /* [!code --] */
-}
-<MenuSheetItem>
-  {/* [!code --] */}
-  <PrefixIcon svg={<IconHouseLine />} />
-  {/* [!code --] */}
-  메뉴 항목
-  {/* [!code --] */}
-</MenuSheetItem>;
-{
-  /* [!code ++] */
-}
-<MenuSheetItem prefixIcon={<IconHouseLine />} label="메뉴 항목" />;
+```diff
+-<MenuSheetItem>
+-  <PrefixIcon svg={<IconHouseLine />} />
+-  메뉴 항목
+-</MenuSheetItem>;
++<MenuSheetItem prefixIcon={<IconHouseLine />} label="메뉴 항목" />;
 ```
 
 ### 3. Bottom Sheet 및 Menu Sheet가 기본적으로 safe area를 갖도록 수정
@@ -255,6 +246,7 @@ npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:sel
 ```tsx
 import { VStack } from "@seed-design/react"; // [!code --]
 import { CheckSelectBoxGroup, CheckSelectBox } from "seed-design/ui/select-box"; // [!code --]
+// [!code ++]
 import {
   // [!code ++]
   CheckSelectBoxGroup, // [!code ++]
@@ -280,12 +272,13 @@ import {
 
 ```tsx
 import { VStack } from "@seed-design/react"; // [!code --]
+// [!code --]
 import {
-  RadioSelectBoxRoot,
-  RadioSelectBoxItem,
+  RadioSelectBoxRoot, // [!code --]
+  RadioSelectBoxItem, // [!code --]
 } from "seed-design/ui/select-box"; // [!code --]
+// [!code ++]
 import {
-  // [!code ++]
   RadioSelectBoxRoot, // [!code ++]
   RadioSelectBoxItem, // [!code ++]
   RadioSelectBoxRadiomark, // [!code ++]
@@ -302,15 +295,23 @@ import {
   </VStack>
   {/* [!code ++] */}
   <RadioSelectBoxItem
+    // [!code ++]
     value="option1"
+    // [!code ++]
     label="옵션 1"
+    // [!code ++]
     suffix={<RadioSelectBoxRadiomark />}
+    // [!code ++]
   />
   {/* [!code ++] */}
   <RadioSelectBoxItem
+    // [!code ++]
     value="option2"
+    // [!code ++]
     label="옵션 2"
+    // [!code ++]
     suffix={<RadioSelectBoxRadiomark />}
+    // [!code ++]
   />
 </RadioSelectBoxRoot>;
 ```
