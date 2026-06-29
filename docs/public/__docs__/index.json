@@ -1732,6 +1732,18 @@
               "title": "Changelog",
               "description": "최신 업데이트와 변경사항을 기록합니다.",
               "docUrl": "/react/updates/changelog"
+            },
+            {
+              "id": "v1",
+              "title": "v1 이하 업그레이드",
+              "description": "SEED React 2 이전 버전 간 업그레이드에 필요한 작업을 버전 구간별로 안내합니다.",
+              "docUrl": "/react/updates/upgrade/v1"
+            },
+            {
+              "id": "v2",
+              "title": "SEED React 2 업그레이드",
+              "description": "SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.",
+              "docUrl": "/react/updates/upgrade/v2"
             }
           ]
         },

@@ -159,11 +159,20 @@ npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:men
 snippet 컴포넌트 `MenuSheetItem`을 사용하는 코드에서 `children` 대신 `label`, `<PrefixIcon />` 대신 `prefixIcon` prop을 사용해주세요.
 
 ```tsx
-<MenuSheetItem> // [!code --]
-  <PrefixIcon svg={<IconHouseLine />} /> // [!code --]
-  메뉴 항목 // [!code --]
-</MenuSheetItem> // [!code --]
-<MenuSheetItem prefixIcon={<IconHouseLine />} label="메뉴 항목" /> // [!code ++]
+{
+  /* [!code --] */
+}
+<MenuSheetItem>
+  {/* [!code --] */}
+  <PrefixIcon svg={<IconHouseLine />} />
+  {/* [!code --] */}
+  메뉴 항목
+  {/* [!code --] */}
+</MenuSheetItem>;
+{
+  /* [!code ++] */
+}
+<MenuSheetItem prefixIcon={<IconHouseLine />} label="메뉴 항목" />;
 ```
 
 ### 3. Bottom Sheet 및 Menu Sheet가 기본적으로 safe area를 갖도록 수정
@@ -174,8 +183,10 @@ snippet 컴포넌트 `MenuSheetItem`을 사용하는 코드에서 `children` 대
 
 ```tsx
 <BottomSheet.Content>
-  <VStack paddingBottom="safeArea">...</VStack> // [!code --]
-  <VStack>...</VStack> // [!code ++]
+  {/* [!code --] */}
+  <VStack paddingBottom="safeArea">...</VStack>
+  {/* [!code ++] */}
+  <VStack>...</VStack>
 </BottomSheet.Content>
 ```
 
