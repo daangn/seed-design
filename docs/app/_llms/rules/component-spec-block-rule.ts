@@ -8,7 +8,7 @@ import type {
 } from "mdast-util-mdx-jsx";
 import type { Exchange } from "@seed-design/rootage-core";
 import index from "@seed-design/rootage-artifacts/index.json";
-import type { Rule } from "./types";
+import type { Rule, RuleNode } from "./types";
 import {
   type ArrayExpressionNode,
   type ExpressionStatementNode,
@@ -21,7 +21,7 @@ import {
   <ComponentSpecBlock id="action-button" variants={["variant=brandSolid"]} /> 에서
   variants 배열을 파싱합니다.
 */
-function getVariantsFromNode(node: MdxJsxFlowElement): string[] {
+function getVariantsFromNode(node: RuleNode): string[] {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "variants",
   );
