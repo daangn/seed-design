@@ -1,4 +1,4 @@
-import { List, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
+import { NextList, NextListCheckItem, NextListRadioItem } from "seed-design/ui/next-list";
 import { ListHeader } from "seed-design/ui/list-header";
 import { Checkmark } from "seed-design/ui/checkbox";
 import { Radiomark } from "seed-design/ui/radio-group";
@@ -26,17 +26,17 @@ export default function ListBorderRadius() {
         borderColor="stroke.neutralWeak"
       >
         <ListHeader as="h2">카드 borderRadius: r3_5</ListHeader>
-        <List as="fieldset" itemBorderRadius="r2">
-          <ListCheckItem
+        <NextList as="fieldset" itemBorderRadius="r2">
+          <NextListCheckItem
             defaultChecked
             title="borderRadius: r2"
             suffix={<Checkmark size="large" tone="neutral" />}
           />
-          <ListCheckItem
+          <NextListCheckItem
             title="borderRadius: r2"
             suffix={<Checkmark size="large" tone="neutral" />}
           />
-        </List>
+        </NextList>
       </VStack>
       <VStack
         width="300px"
@@ -48,20 +48,20 @@ export default function ListBorderRadius() {
         borderColor="stroke.neutralWeak"
       >
         <ListHeader as="h2">카드 borderRadius: 22px</ListHeader>
-        <List asChild itemBorderRadius="r3">
+        <NextList asChild itemBorderRadius="r3">
           <RadioGroup.Root defaultValue="0" aria-label="Border radius options">
-            <ListRadioItem
+            <NextListRadioItem
               value="0"
               title="borderRadius: r3"
               suffix={<Radiomark size="large" tone="neutral" />}
             />
-            <ListRadioItem
+            <NextListRadioItem
               value="1"
               title="borderRadius: r3"
               suffix={<Radiomark size="large" tone="neutral" />}
             />
           </RadioGroup.Root>
-        </List>
+        </NextList>
       </VStack>
     </HStack>
   );

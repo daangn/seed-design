@@ -17,8 +17,7 @@ import { forwardRef } from "react";
 
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { handleRadius, withStyleProps, type StyleProps } from "../../utils/styled";
-import { VStack, type VStackProps } from "../Stack";
+import { withStyleProps, type StyleProps } from "../../utils/styled";
 
 // ────────────────────────────────────────────────────────────────────────────
 // Interaction context
@@ -60,32 +59,10 @@ const withStateProps = createWithStateProps([
 // Structural slots
 // ────────────────────────────────────────────────────────────────────────────
 
-export interface NextListRootProps
-  extends Omit<
-    VStackProps,
-    "bleed" | "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
-  > {
-  itemBorderRadius?: StyleProps["borderRadius"];
-}
-
-export const NextListRoot = forwardRef<HTMLUListElement, NextListRootProps>(
-  ({ as = "ul", style, itemBorderRadius, ...props }, ref) => {
-    return (
-      <VStack
-        as={as}
-        ref={ref as React.ForwardedRef<HTMLDivElement>}
-        style={
-          {
-            ...style,
-            "--list-item-border-radius": handleRadius(itemBorderRadius),
-          } as React.CSSProperties
-        }
-        {...props}
-      />
-    );
-  },
-);
-NextListRoot.displayName = "NextListRoot";
+// NextList shares List's container: Root is byte-identical to `ListRoot` (same
+// `--list-item-border-radius` var), so re-export it instead of duplicating. The
+// "Next" delta lives entirely in the items below.
+export { ListRoot as NextListRoot, type ListRootProps as NextListRootProps } from "../List/List";
 
 interface NextListItemRootBaseProps
   extends PrimitiveProps,

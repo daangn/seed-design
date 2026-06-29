@@ -7,15 +7,15 @@ import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
-import { List, ListDivider, ListItem } from "seed-design/ui/list";
+import { NextList, NextListDivider, NextListItem } from "seed-design/ui/next-list";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 
 export default function ListAffixes() {
   const [isToggleButtonPressed, setIsToggleButtonPressed] = useState(false);
 
   return (
-    <List width="360px">
-      <ListItem
+    <NextList width="360px">
+      <NextListItem
         prefix={
           <Avatar
             size="48"
@@ -26,14 +26,14 @@ export default function ListAffixes() {
         title="Prefix에 Avatar 넣기"
         detail="Amet elit ullamco magna."
       />
-      <ListDivider />
-      <ListItem
+      <NextListDivider />
+      <NextListItem
         title="Prefix에 아이콘 넣기"
         detail="Deserunt nulla elit est."
         prefix={<Icon svg={<IconILowercaseSerifCircleLine />} />}
       />
-      <ListDivider />
-      <ListItem
+      <NextListDivider />
+      <NextListItem
         title="Suffix에 Action Button 넣기"
         detail="Veniam non est non ut consequat."
         suffix={
@@ -42,8 +42,8 @@ export default function ListAffixes() {
           </ActionButton>
         }
       />
-      <ListDivider />
-      <ListItem
+      <NextListDivider />
+      <NextListItem
         title="Suffix에 Action Button (Ghost) 넣기"
         detail="Deserunt nulla elit est."
         suffix={
@@ -52,8 +52,8 @@ export default function ListAffixes() {
           </ActionButton>
         }
       />
-      <ListDivider />
-      <ListItem
+      <NextListDivider />
+      <NextListItem
         title="Suffix에 Toggle Button 넣기"
         detail="Sit eu incididunt aute ea elit ex."
         suffix={
@@ -66,6 +66,6 @@ export default function ListAffixes() {
           </ToggleButton>
         }
       />
-    </List>
+    </NextList>
   );
 }

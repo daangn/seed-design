@@ -1,4 +1,4 @@
-import { List, ListButtonItem } from "seed-design/ui/list";
+import { NextList, NextListButtonItem } from "seed-design/ui/next-list";
 import { ListHeader } from "seed-design/ui/list-header";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -16,45 +16,45 @@ export default function () {
         <ListHeader as="h2" variant="mediumWeak">
           variant="mediumWeak"
         </ListHeader>
-        <List>
-          <ListButtonItem
+        <NextList>
+          <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
             prefix={<Icon svg={<IconPersonCircleLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="18px" />}
           />
-          <ListButtonItem
+          <NextListButtonItem
             title="보안 · 인증 관리"
             detail="비밀번호, 생체 인증 사용을 관리해요"
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </List>
+        </NextList>
       </VStack>
       <Divider />
       <VStack>
         <ListHeader as="h2" variant="boldSolid">
           variant="boldSolid"
         </ListHeader>
-        <List>
-          <ListButtonItem
+        <NextList>
+          <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
             prefix={<Icon svg={<IconPersonCircleLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="18px" />}
           />
-          <ListButtonItem
+          <NextListButtonItem
             title="보안 · 인증 관리"
             detail="비밀번호, 생체 인증 사용을 관리해요"
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </List>
+        </NextList>
       </VStack>
       <Divider />
       <VStack>
         <ListHeader>
-          <h2>List Header with Action Button</h2>
+          <h2>NextList Header with Action Button</h2>
           <ActionButton
             variant="ghost"
             size="small"
@@ -66,20 +66,20 @@ export default function () {
             도움말
           </ActionButton>
         </ListHeader>
-        <List>
-          <ListButtonItem
+        <NextList>
+          <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
             prefix={<Icon svg={<IconPersonCircleLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="18px" />}
           />
-          <ListButtonItem
+          <NextListButtonItem
             title="보안 · 인증 관리"
             detail="비밀번호, 생체 인증 사용을 관리해요"
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </List>
+        </NextList>
       </VStack>
     </VStack>
   );

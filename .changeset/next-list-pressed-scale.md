@@ -9,5 +9,6 @@
 - 누를 수 있는 모든 행에 행 전체가 축소되는 pressed scale 피드백이 적용됩니다(배경 레이어와 레이아웃 레이어가 독립적으로 동작). `suffix`/`prefix`의 보조 버튼을 누를 때는 해당 요소만 반응하고 행은 축소되지 않습니다.
 - scale 값은 토큰으로 관리되어 `prefers-reduced-motion` 설정 시 비활성화됩니다.
 - `@seed-design/css`에 `next-list-item` recipe가 추가됩니다.
+- 기존 `List` item 컴포넌트(`ListItem`, `ListButtonItem`, `ListLinkItem`, `ListCheckItem`, `ListRadioItem`, `ListSwitchItem`)를 deprecated 처리하고 대응하는 `NextList` item으로 안내합니다. `@seed-design/react@3.0.0`에서 제거될 예정입니다.
 
-기존 `List`는 변경 없이 유지됩니다.
+기존 `List` 컨테이너(`List.Root`)와 `ListDivider`, `ListHeader`는 변경 없이 유지됩니다.

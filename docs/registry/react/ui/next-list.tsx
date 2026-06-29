@@ -10,7 +10,7 @@ import * as React from "react";
 export interface NextListProps extends SeedNextList.RootProps {}
 
 /**
- * @see https://seed-design.io/react/components/next-list
+ * @see https://seed-design.io/react/components/list
  */
 export const NextList = SeedNextList.Root;
 
@@ -23,7 +23,7 @@ export interface NextListItemProps
 }
 
 /**
- * @see https://seed-design.io/react/components/next-list
+ * @see https://seed-design.io/react/components/list
  */
 export const NextListItem = React.forwardRef<HTMLLIElement, NextListItemProps>(
   ({ title, detail, prefix, suffix, ...otherProps }, ref) => {
@@ -50,7 +50,7 @@ export interface NextListButtonItemProps
 }
 
 /**
- * @see https://seed-design.io/react/components/next-list
+ * @see https://seed-design.io/react/components/list
  */
 export const NextListButtonItem = React.forwardRef<HTMLButtonElement, NextListButtonItemProps>(
   ({ title, detail, prefix, suffix, ...otherProps }, ref) => {
@@ -77,7 +77,7 @@ export interface NextListLinkItemProps
 }
 
 /**
- * @see https://seed-design.io/react/components/next-list
+ * @see https://seed-design.io/react/components/list
  */
 export const NextListLinkItem = React.forwardRef<HTMLAnchorElement, NextListLinkItemProps>(
   ({ title, detail, prefix, suffix, ...otherProps }, ref) => {
@@ -104,7 +104,7 @@ export interface NextListCheckItemProps
 }
 
 /**
- * @see https://seed-design.io/react/components/next-list
+ * @see https://seed-design.io/react/components/list
  */
 export const NextListCheckItem = React.forwardRef<HTMLInputElement, NextListCheckItemProps>(
   ({ title, detail, prefix, suffix, ...otherProps }, ref) => {
@@ -131,7 +131,7 @@ export interface NextListRadioItemProps
 }
 
 /**
- * @see https://seed-design.io/react/components/next-list
+ * @see https://seed-design.io/react/components/list
  */
 export const NextListRadioItem = React.forwardRef<HTMLInputElement, NextListRadioItemProps>(
   ({ title, detail, prefix, suffix, ...otherProps }, ref) => {
@@ -158,7 +158,7 @@ export interface NextListSwitchItemProps
 }
 
 /**
- * @see https://seed-design.io/react/components/next-list
+ * @see https://seed-design.io/react/components/list
  */
 export const NextListSwitchItem = React.forwardRef<HTMLInputElement, NextListSwitchItemProps>(
   ({ title, detail, prefix, suffix, ...otherProps }, ref) => {
@@ -189,7 +189,7 @@ export interface NextListDividerProps extends SeedDividerProps {
 }
 
 /**
- * @see https://seed-design.io/react/components/next-list
+ * @see https://seed-design.io/react/components/list
  */
 export const NextListDivider = React.forwardRef<HTMLLIElement, NextListDividerProps>(
   ({ as = "li", "aria-hidden": ariaHidden = true, ...props }, ref) => {
