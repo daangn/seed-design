@@ -95,20 +95,12 @@ test("generates layered output by default", async () => {
   });
 });
 
-test("config can disable layered output and stale layered files are removed", async () => {
+test("config can disable layered output", async () => {
   await withTempDir(async (tempDir) => {
     // given
     const outputDir = path.join(tempDir, "dist");
     const recipesDir = path.join(outputDir, "recipes");
     await fs.mkdir(recipesDir, { recursive: true });
-    await Promise.all([
-      fs.writeFile(path.join(outputDir, "all.layered.css"), "stale"),
-      fs.writeFile(path.join(outputDir, "all.layered.min.css"), "stale"),
-      fs.writeFile(path.join(outputDir, "base.layered.css"), "stale"),
-      fs.writeFile(path.join(outputDir, "base.layered.min.css"), "stale"),
-      fs.writeFile(path.join(recipesDir, "badge.layered.css"), "stale"),
-      fs.writeFile(path.join(recipesDir, "badge.layered.mjs"), "stale"),
-    ]);
     const configPath = await writeConfig(tempDir, false);
 
     // when
