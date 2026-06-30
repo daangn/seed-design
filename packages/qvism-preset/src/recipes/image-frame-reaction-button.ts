@@ -25,9 +25,8 @@ export default defineSlotRecipe({
       width: reactionButtonVars.base.enabled.root.size,
       height: reactionButtonVars.base.enabled.root.size,
 
-      background: tokens.$color.palette.staticBlackAlpha600,
-      boxShadow: "0px 2px 4px 0px #00000026",
-      borderRadius: tokens.$radius.full,
+      background: reactionButtonVars.base.enabled.root.color,
+      boxShadow: reactionButtonVars.base.enabled.root.shadow,
 
       "&::before": {
         content: "''",

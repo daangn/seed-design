@@ -5578,7 +5578,6 @@
   width: var(--seed-dimension-x6);
   height: var(--seed-dimension-x6);
   background: var(--seed-color-palette-static-black-alpha-600);
-  border-radius: var(--seed-radius-full);
   border: none;
   justify-content: center;
   align-items: center;

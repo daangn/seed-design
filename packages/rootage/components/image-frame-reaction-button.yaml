@@ -21,9 +21,6 @@ data:
           shadow:
             type: shadow
             description: 박스 그림자입니다.
-          cornerRadius:
-            type: dimension
-            description: 모서리 반경입니다.
       fillIcon:
         description: lineIcon 아래에 내려가는 하트 아이콘입니다.
         properties:
@@ -53,7 +50,6 @@ data:
                 blur: 4px
                 spread: 0px
                 color: "#00000026"
-          cornerRadius: $radius.full
         fillIcon:
           gradient:
             type: gradient

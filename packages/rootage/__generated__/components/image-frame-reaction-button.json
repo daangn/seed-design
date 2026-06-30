@@ -26,10 +26,6 @@
             "shadow": {
               "type": "shadow",
               "description": "박스 그림자입니다."
-            },
-            "cornerRadius": {
-              "type": "dimension",
-              "description": "모서리 반경입니다."
             }
           },
           "description": "하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다."
@@ -104,10 +100,6 @@
                       }
                     }
                   ]
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
                 }
               },
               "fillIcon": {

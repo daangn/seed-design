@@ -10,9 +10,7 @@ export declare const vars: {
         /** 배경 색상입니다. */
         "color": "var(--seed-color-palette-static-black-alpha-600)",
         /** 박스 그림자입니다. */
-        "shadow": "0px 2px 4px 0px #00000026",
-        /** 모서리 반경입니다. */
-        "cornerRadius": "var(--seed-radius-full)"
+        "shadow": "0px 2px 4px 0px #00000026"
       },
       /** lineIcon 아래에 내려가는 하트 아이콘입니다. */
       "fillIcon": {
