@@ -85,7 +85,7 @@ data:
           paddingY: $dimension.x3
           minHeight: 48px
         icon:
-          size: $dimension.x5
+          size: $dimension.x4
         label:
           color: $color.palette.static-white
           fontSize: $font-size.t5
