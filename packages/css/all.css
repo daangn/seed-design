@@ -5577,13 +5577,15 @@
   cursor: pointer;
   width: var(--seed-dimension-x6);
   height: var(--seed-dimension-x6);
-  background: none;
+  background: var(--seed-color-palette-static-black-alpha-600);
+  border-radius: var(--seed-radius-full);
   border: none;
   justify-content: center;
   align-items: center;
   padding: 0;
   display: inline-flex;
   position: relative;
+  box-shadow: 0 2px 4px #00000026;
 }
 
 .seed-image-frame-reaction-button__root:before {

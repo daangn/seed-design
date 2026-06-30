@@ -18,6 +18,18 @@
             "targetSize": {
               "type": "dimension",
               "description": "터치 영역 크기입니다."
+            },
+            "color": {
+              "type": "color",
+              "description": "배경 색상입니다."
+            },
+            "shadow": {
+              "type": "shadow",
+              "description": "박스 그림자입니다."
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "description": "모서리 반경입니다."
             }
           },
           "description": "하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다."
@@ -64,6 +76,38 @@
                 "targetSize": {
                   "type": "dimension",
                   "value": "$dimension.x10"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-black-alpha-600"
+                },
+                "shadow": {
+                  "type": "shadow",
+                  "value": [
+                    {
+                      "color": "#00000026",
+                      "offsetX": {
+                        "value": 0,
+                        "unit": "px"
+                      },
+                      "offsetY": {
+                        "value": 2,
+                        "unit": "px"
+                      },
+                      "blur": {
+                        "value": 4,
+                        "unit": "px"
+                      },
+                      "spread": {
+                        "value": 0,
+                        "unit": "px"
+                      }
+                    }
+                  ]
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
                 }
               },
               "fillIcon": {

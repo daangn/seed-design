@@ -9,7 +9,9 @@
     position: relative;
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
-    background: transparent;
+    background: var(--seed-color-palette-static-black-alpha-600);
+    box-shadow: 0px 2px 4px 0px #00000026;
+    border-radius: var(--seed-radius-full);
 }
 .seed-image-frame-reaction-button__root::before {
     content: '';
