@@ -5,7 +5,7 @@ export const vars = {
         "size": "var(--seed-dimension-x6)",
         "targetSize": "var(--seed-dimension-x10)",
         "color": "var(--seed-color-palette-static-black-alpha-600)",
-        "shadow": "0px 2px 4px 0px #00000026"
+        "shadow": "0px 2px 4px 0px #0000001A"
       },
       "fillIcon": {
         "gradient": "var(--seed-color-palette-static-black-alpha-300) 0%, var(--seed-color-palette-static-black-alpha-300) 100%",

@@ -49,7 +49,7 @@ data:
                 offsetY: 2px
                 blur: 4px
                 spread: 0px
-                color: "#00000026"
+                color: "#0000001A"
         fillIcon:
           gradient:
             type: gradient
