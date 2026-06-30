@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=./schema.json
-# NOTE: do not remove this file unless you're bumping the major version of @seed-design/react; vars generated from here are imported in react/src/components/ScrollFog/ScrollFog.tsx
+# NOTE: do not remove this file unless you're bumping the major version of @seed-design/react; vars generated from here have been imported in react/src/components/ScrollFog/ScrollFog.tsx
 kind: ComponentSpec
 metadata:
   id: scroll-fog
@@ -21,5 +21,5 @@ data:
         root:
           fromColor: "#00000000"
           toColor: "#000000ff"
-          # NOTE: do not move/remove this property unless you're bumping the major version of @seed-design/react; vars generated from here are imported in react/src/components/ScrollFog/ScrollFog.tsx
+          # NOTE: do not move/remove this property unless you're bumping the major version of @seed-design/react; vars generated from here have been imported in react/src/components/ScrollFog/ScrollFog.tsx
           size: 20px

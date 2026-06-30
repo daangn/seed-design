@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=./schema.json
-# NOTE: do not remove this file unless you're bumping the major version of @seed-design/react; vars generated from here are imported in react/src/components/ImageFrame/ImageFrame.tsx
+# NOTE: do not remove this file unless you're bumping the major version of @seed-design/react; vars generated from here have been imported in react/src/components/ImageFrame/ImageFrame.tsx
 kind: ComponentSpec
 metadata:
   id: image-frame-floater
@@ -16,5 +16,5 @@ data:
     base:
       enabled:
         root:
-          # NOTE: do not move/remove this property unless you're bumping the major version of @seed-design/react; vars generated from here are imported in react/src/components/ImageFrame/ImageFrame.tsx
+          # NOTE: do not move/remove this property unless you're bumping the major version of @seed-design/react; vars generated from here have been imported in react/src/components/ImageFrame/ImageFrame.tsx
           offset: 6px
