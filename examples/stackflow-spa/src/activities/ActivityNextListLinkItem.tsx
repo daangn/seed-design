@@ -116,6 +116,7 @@ const ActivityNextListLinkItem: StaticActivityComponentType<"ActivityNextListLin
                     <NextListLinkItem
                       href="https://example.com"
                       target="_blank"
+                      rel="noreferrer noopener"
                       title={key}
                       detail={content.detail}
                       prefix={prefix.element}

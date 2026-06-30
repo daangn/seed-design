@@ -96,7 +96,7 @@ const CommonTemplate: Story = {
                             disabled={state.disabled}
                             suffix={suffix.element}
                           />
-                          {showDivider && <NextListDivider as="div" />}
+                          {showDivider && <NextListDivider />}
                         </Fragment>
                       );
                     });
@@ -119,7 +119,7 @@ const CommonTemplate: Story = {
                           disabled={state.disabled}
                           prefix={prefix.element}
                         />
-                        {showDivider && <NextListDivider as="div" />}
+                        {showDivider && <NextListDivider />}
                       </Fragment>
                     );
                   });
