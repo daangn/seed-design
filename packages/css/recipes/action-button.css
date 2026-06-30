@@ -65,8 +65,8 @@
     cursor: not-allowed;
 }
 .seed-action-button {
-    transform: scale(1);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    scale: 1;
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-action-button--variant_brandSolid {
     background: var(--seed-color-bg-brand-solid);
@@ -298,7 +298,7 @@
     --seed-icon-size: var(--seed-dimension-x3_5);
 }
 .seed-action-button--size_xsmall:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(var(--seed-scale-s95));
+    scale: var(--seed-scale-s95);
 }
 .seed-action-button--size_small {
     height: var(--seed-dimension-x9);
@@ -310,7 +310,7 @@
     --seed-icon-size: var(--seed-dimension-x4);
 }
 .seed-action-button--size_small:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(var(--seed-scale-s97));
+    scale: var(--seed-scale-s97);
 }
 .seed-action-button--size_medium {
     height: var(--seed-dimension-x10);
@@ -322,7 +322,7 @@
     --seed-icon-size: 18px;
 }
 .seed-action-button--size_medium:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(var(--seed-scale-s97));
+    scale: var(--seed-scale-s97);
 }
 .seed-action-button--size_large {
     height: var(--seed-dimension-x13);
@@ -334,7 +334,7 @@
     --seed-icon-size: 22px;
 }
 .seed-action-button--size_large:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    transform: scale(var(--seed-scale-s98));
+    scale: var(--seed-scale-s98);
 }
 .seed-action-button--layout_withText {}
 .seed-action-button--layout_iconOnly {}

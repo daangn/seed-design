@@ -1312,8 +1312,8 @@
 }
 
 .seed-action-button {
-  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  transform: scale(1);
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  scale: 1;
 }
 
 .seed-action-button--variant_brandSolid {
@@ -1582,7 +1582,7 @@
 }
 
 .seed-action-button--size_xsmall:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  transform: scale(var(--seed-scale-s95));
+  scale: var(--seed-scale-s95);
 }
 
 .seed-action-button--size_small {
@@ -1596,7 +1596,7 @@
 }
 
 .seed-action-button--size_small:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  transform: scale(var(--seed-scale-s97));
+  scale: var(--seed-scale-s97);
 }
 
 .seed-action-button--size_medium {
@@ -1610,7 +1610,7 @@
 }
 
 .seed-action-button--size_medium:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  transform: scale(var(--seed-scale-s97));
+  scale: var(--seed-scale-s97);
 }
 
 .seed-action-button--size_large {
@@ -1624,7 +1624,7 @@
 }
 
 .seed-action-button--size_large:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  transform: scale(var(--seed-scale-s98));
+  scale: var(--seed-scale-s98);
 }
 
 .seed-action-button--size_xsmall-layout_withText {

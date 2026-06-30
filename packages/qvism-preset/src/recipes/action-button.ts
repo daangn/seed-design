@@ -62,9 +62,10 @@ const actionButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    transform: "scale(1)",
+    // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+    scale: "1",
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {
@@ -376,7 +377,7 @@ const actionButton = defineRecipe({
         }),
 
         [pseudo(not(disabled), active)]: {
-          transform: `scale(${vars.sizeXsmall.pressed.root.scale})`,
+          scale: vars.sizeXsmall.pressed.root.scale,
         },
       },
       small: {
@@ -397,7 +398,7 @@ const actionButton = defineRecipe({
         }),
 
         [pseudo(not(disabled), active)]: {
-          transform: `scale(${vars.sizeSmall.pressed.root.scale})`,
+          scale: vars.sizeSmall.pressed.root.scale,
         },
       },
       medium: {
@@ -418,7 +419,7 @@ const actionButton = defineRecipe({
         }),
 
         [pseudo(not(disabled), active)]: {
-          transform: `scale(${vars.sizeMedium.pressed.root.scale})`,
+          scale: vars.sizeMedium.pressed.root.scale,
         },
       },
       large: {
@@ -439,7 +440,7 @@ const actionButton = defineRecipe({
         }),
 
         [pseudo(not(disabled), active)]: {
-          transform: `scale(${vars.sizeLarge.pressed.root.scale})`,
+          scale: vars.sizeLarge.pressed.root.scale,
         },
       },
     },
