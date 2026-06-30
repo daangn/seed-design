@@ -4,8 +4,9 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "cornerRadius": "var(--seed-radius-r3)",
-        "targetSize": "52px",
-        "size": "22px"
+        "size": "52px",
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral-subtle)",
@@ -15,6 +16,9 @@ export declare const vars: {
       }
     },
     "pressed": {
+      "root": {
+        "color": "var(--seed-color-bg-transparent-pressed)"
+      },
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       }

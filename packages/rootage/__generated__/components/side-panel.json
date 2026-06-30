@@ -78,6 +78,10 @@
             },
             "paddingBottom": {
               "type": "dimension"
+            },
+            "closeButtonGap": {
+              "type": "dimension",
+              "description": "closeButton이 표시되는 경우 paddingRight에 추가되는 여백입니다."
             }
           }
         },
@@ -90,14 +94,17 @@
               "type": "dimension",
               "description": "body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다."
             },
-            "stroke": {
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
               "type": "color",
               "description": "본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다."
             },
-            "transitionDuration": {
+            "strokeDuration": {
               "type": "duration"
             },
-            "transitionTimingFunction": {
+            "strokeTimingFunction": {
               "type": "cubicBezier"
             }
           }
@@ -257,6 +264,10 @@
                 "paddingBottom": {
                   "type": "dimension",
                   "value": "$dimension.x4"
+                },
+                "closeButtonGap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
                 }
               },
               "body": {
@@ -268,11 +279,11 @@
                   "type": "dimension",
                   "value": "$dimension.x12"
                 },
-                "transitionDuration": {
+                "strokeDuration": {
                   "type": "duration",
                   "value": "$duration.color-transition"
                 },
-                "transitionTimingFunction": {
+                "strokeTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }
@@ -351,7 +362,14 @@
             ],
             "slots": {
               "body": {
-                "stroke": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
                 }
