@@ -34,7 +34,7 @@ export declare const vars: {
         "minHeight": "48px"
       },
       "icon": {
-        "size": "var(--seed-dimension-x5)"
+        "size": "var(--seed-dimension-x4)"
       },
       "label": {
         "color": "var(--seed-color-palette-static-white)",

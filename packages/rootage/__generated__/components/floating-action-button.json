@@ -200,7 +200,7 @@
               "icon": {
                 "size": {
                   "type": "dimension",
-                  "value": "$dimension.x5"
+                  "value": "$dimension.x4"
                 }
               },
               "label": {
