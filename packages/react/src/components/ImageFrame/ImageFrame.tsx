@@ -11,7 +11,6 @@ import {
   type ImageFrameIndicatorVariantProps,
 } from "@seed-design/css/recipes/image-frame-indicator";
 import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
-import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
@@ -107,19 +106,9 @@ export interface ImageFrameFloaterProps extends FloatProps {}
 
 /**
  * ImageFrame 내에서 오버레이 요소를 배치하기 위한 컴포넌트
- *
- * @remarks
- * offsetX, offsetY 기본값은 rootage 스펙(image-frame-floater)에서 가져옵니다.
  */
 export const ImageFrameFloater = React.forwardRef<HTMLDivElement, ImageFrameFloaterProps>(
-  (
-    {
-      offsetX = floaterVars.base.enabled.root.offset,
-      offsetY = floaterVars.base.enabled.root.offset,
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ offsetX = "x1_5", offsetY = "x1_5", ...rest }, ref) => {
     return <Float ref={ref} offsetX={offsetX} offsetY={offsetY} {...rest} />;
   },
 );
