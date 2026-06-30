@@ -29,12 +29,12 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
   },
   "peerDependencies": {
-    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.7.0",
     "@seed-design/lynx-css": "0.0.0 || >=0.1.0 <1.0.0"
   },
   "devDependencies": {
-    "@lynx-js/react": "^0.116.3",
+    "@lynx-js/react": "^0.117.0",
     "@lynx-js/types": "^3.7.0",
     "@seed-design/lynx-css": "0.4.0",
     "@testing-library/jest-dom": "^6.9.1",
