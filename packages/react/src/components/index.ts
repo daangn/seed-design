@@ -55,6 +55,7 @@ export * from "./MenuSheet";
 export * from "./NavigationMenu";
 export * from "./NotificationBadge";
 export * from "./PageBanner";
+export * from "./Popover";
 export * from "./Portal";
 export * from "./ProgressCircle";
 export * from "./PullToRefresh";
