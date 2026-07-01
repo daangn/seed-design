@@ -1,0 +1,261 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: select
+  name: Select
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+          shadow:
+            type: shadow
+          paddingY:
+            type: dimension
+          gap:
+            type: dimension
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterScale:
+            type: number
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitScale:
+            type: number
+          exitOpacity:
+            type: number
+          gutter:
+            type: dimension
+            description: 트리거와 목록 사이의 간격을 정의합니다.
+          overflowPadding:
+            type: dimension
+            description: 목록과 뷰포트 경계 사이의 최소 간격을 정의합니다.
+          maxHeight:
+            type: dimension
+          width:
+            type: dimension
+      group:
+        properties: {}
+      groupLabel:
+        properties:
+          color:
+            type: color
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      divider:
+        properties:
+          marginX:
+            type: dimension
+          height:
+            type: dimension
+          color:
+            type: color
+      item:
+        properties:
+          color:
+            type: color
+          marginX:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          marginDuration:
+            type: duration
+          marginTimingFunction:
+            type: cubicBezier
+          borderRadiusDuration:
+            type: duration
+          borderRadiusTimingFunction:
+            type: cubicBezier
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          gap:
+            type: dimension
+      itemPrefixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      itemSuffixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      itemBody:
+        properties:
+          gap:
+            type: dimension
+      itemLabel:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      itemDescription:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      itemIndicator:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+    variants:
+      size:
+        values:
+          large:
+            description: 뷰포트 너비와 관계없이 사용할 수 있습니다.
+          medium:
+            description: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
+
+  definitions:
+    base:
+      enabled:
+        root:
+          cornerRadius: $radius.r5
+          color: $color.bg.layer-floating
+          shadow: $shadow.s3
+          enterDuration: $duration.d3
+          enterTimingFunction: $timing-function.enter
+          enterScale: 0.95
+          enterOpacity: 0
+          exitDuration: $duration.d2
+          exitTimingFunction: $timing-function.exit
+          exitScale: 0.95
+          exitOpacity: 0
+          paddingY: $dimension.x2
+          gap: $dimension.x2
+          gutter: $dimension.x2
+          overflowPadding: $dimension.x2
+          maxHeight: 480px
+        groupLabel:
+          color: $color.fg.neutral-subtle
+        divider:
+          marginX: $dimension.x4
+          height: 1px
+          color: $color.stroke.neutral-muted
+        item:
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+          marginDuration: $duration.d3
+          marginTimingFunction: $timing-function.easing
+          borderRadiusDuration: $duration.d3
+          borderRadiusTimingFunction: $timing-function.easing
+        itemPrefixIcon:
+          color: $color.fg.neutral
+        itemSuffixIcon:
+          color: $color.fg.neutral
+        itemBody:
+          gap: $dimension.x0_5
+        itemLabel:
+          fontWeight: $font-weight.regular
+          color: $color.fg.neutral
+        itemDescription:
+          fontWeight: $font-weight.regular
+          color: $color.fg.neutral-subtle
+        itemIndicator:
+          color: $color.fg.neutral
+      pressed:
+        item:
+          color: $color.bg.transparent-pressed
+          marginX: $dimension.x2
+          cornerRadius: $radius.r3
+      disabled:
+        itemPrefixIcon:
+          color: $color.fg.disabled
+        itemSuffixIcon:
+          color: $color.fg.disabled
+        itemLabel:
+          color: $color.fg.disabled
+        itemDescription:
+          color: $color.fg.disabled
+        itemIndicator:
+          color: $color.fg.disabled
+    size=large:
+      enabled:
+        root:
+          width: 240px
+        groupLabel:
+          paddingY: $dimension.x2_5
+          paddingX: $dimension.x4
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.medium
+        item:
+          paddingX: $dimension.x4
+          paddingY: $dimension.x3
+          gap: $dimension.x3
+        itemPrefixIcon:
+          size: 22px
+        itemSuffixIcon:
+          size: 18px
+        itemLabel:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        itemDescription:
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+        itemIndicator:
+          size: 18px
+    size=medium:
+      enabled:
+        root:
+          width: 200px
+        groupLabel:
+          paddingY: $dimension.x2
+          paddingX: $dimension.x4
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+          fontWeight: $font-weight.regular
+        item:
+          paddingX: $dimension.x4
+          paddingY: $dimension.x2_5
+          gap: $dimension.x2
+        itemPrefixIcon:
+          size: 18px
+        itemSuffixIcon:
+          size: 16px
+        itemLabel:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        itemDescription:
+          fontSize: $font-size.t2
+          lineHeight: $line-height.t2
+        itemIndicator:
+          size: 16px

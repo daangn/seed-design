@@ -1,0 +1,204 @@
+---
+title: Select
+description: 트리거를 눌러 열리는 목록에서 하나의 값을 선택하는 컴포넌트입니다.
+---
+
+<ComponentExample name="react/select/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:select
+```
+
+<ManualInstallation name="select" />
+
+## Usage
+
+Select는 아래와 같은 구조로 구성됩니다. 트리거는 Input Button, 목록은 Menu의 스타일을 따릅니다.
+
+```tsx
+import {
+  SelectRoot,
+  SelectTrigger,
+  SelectContent,
+  SelectGroup,
+  SelectGroupLabel,
+  SelectItem,
+} from "seed-design/ui/select";
+```
+
+```tsx
+<SelectRoot defaultValue="apple">
+  <SelectTrigger aria-label="과일" placeholder="과일을 선택하세요" />
+  <SelectContent>
+    <SelectGroup>
+      <SelectGroupLabel>과일</SelectGroupLabel>
+      <SelectItem value="apple" label="사과" />
+      <SelectItem value="banana" label="바나나" />
+    </SelectGroup>
+  </SelectContent>
+</SelectRoot>
+```
+
+- `SelectRoot`: 선택 값(`value`)과 열림 상태를 관리합니다.
+- `SelectTrigger`: 선택된 값 또는 placeholder를 표시하며, 클릭 시 목록을 엽니다. `role="combobox"`로 동작합니다.
+- `SelectContent`: 옵션 목록을 감싸는 플로팅 컨테이너입니다. 기본적으로 트리거 너비에 맞춰집니다.
+- `SelectGroup`: 관련된 옵션들을 그룹으로 묶습니다.
+- `SelectGroupLabel`: 그룹의 제목을 표시합니다.
+- `SelectItem`: 개별 옵션입니다. `value`가 필요하며, 선택되면 체크마크가 표시됩니다.
+
+Select는 [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) 패턴을 따릅니다. 목록이 열려 있어도 DOM 포커스는 트리거에 유지되고, 활성 옵션은 `aria-activedescendant`로 표시됩니다.
+
+## Props
+
+### `SelectRoot`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectRootProps"
+/>
+
+### `SelectTrigger`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectTriggerProps"
+/>
+
+### `SelectContent`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectContentProps"
+/>
+
+### `SelectGroup`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectGroupProps"
+/>
+
+### `SelectGroupLabel`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectGroupLabelProps"
+/>
+
+### `SelectItem`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectItemProps"
+/>
+
+### `SelectHiddenSelect`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectHiddenSelectProps"
+/>
+
+## Examples
+
+### Size
+
+`size`로 트리거와 목록의 크기를 함께 정합니다. (default: `large`)
+
+`responsive`는 화면 너비에 따라 size가 자동으로 전환되는 값입니다.
+
+<ComponentExample name="react/select/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Description
+
+`SelectItem`의 `description` prop으로 옵션에 부가 설명을 추가합니다.
+
+<ComponentExample name="react/select/with-description">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/with-description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+`SelectItem`의 `disabled`로 특정 옵션을, `SelectRoot`의 `disabled`로 Select 전체를 비활성화합니다.
+
+<ComponentExample name="react/select/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Placement
+
+`SelectRoot`의 `placement` prop으로 목록의 위치를 설정합니다. 기본값은 `"bottom"`입니다.
+
+<ComponentExample name="react/select/placement">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/placement.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Match Reference Width
+
+`SelectRoot`의 `matchReferenceWidth`는 기본값이 `true`로, 목록 너비가 트리거 너비에 맞춰집니다. `false`로 설정하면 목록이 콘텐츠에 맞는 고정 너비를 사용합니다.
+
+<ComponentExample name="react/select/match-reference-width">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/match-reference-width.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Listening to Value Changes
+
+`value`와 `onValueChange`로 선택 값을 제어할 수 있습니다.
+
+<ComponentExample name="react/select/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Form Integration
+
+`SelectRoot`에 `name`, `required`를 지정하고 `SelectHiddenSelect`를 함께 렌더링하면, 숨겨진 native `<select>`를 통해 폼 제출에 참여합니다.
+
+<ComponentExample name="react/select/form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

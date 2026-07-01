@@ -852,6 +852,22 @@
     {
       "snippets": [
         {
+          "path": "select.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.0.0",
+            "@seed-design/css": "^2.0.0"
+          }
+        }
+      ],
+      "id": "select",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "select-box.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
