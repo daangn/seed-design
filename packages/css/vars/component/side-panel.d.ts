@@ -27,14 +27,16 @@ export declare const vars: {
         /** 이 값은 상단 safe-area inset과 합산하여 적용합니다. */
         "paddingTop": "var(--seed-dimension-x6)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
-        "paddingBottom": "var(--seed-dimension-x4)"
+        "paddingBottom": "var(--seed-dimension-x4)",
+        /** closeButton이 표시되는 경우 paddingRight에 추가되는 여백입니다. */
+        "closeButtonGap": "var(--seed-dimension-x1_5)"
       },
       "body": {
         "paddingX": "var(--seed-dimension-x6)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
         "paddingBottom": "var(--seed-dimension-x12)",
-        "transitionDuration": "var(--seed-duration-color-transition)",
-        "transitionTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeDuration": "var(--seed-duration-color-transition)",
+        "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",
@@ -62,8 +64,9 @@ export declare const vars: {
     },
     "scrolled": {
       "body": {
+        "strokeWidth": "1px",
         /** 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다. */
-        "stroke": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       }
     }
   },

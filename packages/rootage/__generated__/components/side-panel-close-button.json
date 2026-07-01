@@ -17,11 +17,14 @@
             "cornerRadius": {
               "type": "dimension"
             },
-            "targetSize": {
-              "type": "dimension"
-            },
             "size": {
               "type": "dimension"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -62,19 +65,20 @@
                   "type": "dimension",
                   "value": "$radius.r3"
                 },
-                "targetSize": {
+                "size": {
                   "type": "dimension",
                   "value": {
                     "value": 52,
                     "unit": "px"
                   }
                 },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "icon": {
@@ -105,6 +109,12 @@
               "pressed"
             ],
             "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent-pressed"
+                }
+              },
               "icon": {
                 "color": {
                   "type": "color",

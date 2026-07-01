@@ -144,12 +144,12 @@ const sidePanel = defineSlotRecipe({
       minHeight: `calc(${vars.base.enabled.header.minHeight} + var(--seed-safe-area-top))`,
       paddingLeft: vars.base.enabled.header.paddingX,
       paddingRight: vars.base.enabled.header.paddingX,
-      // Respect device safe-area on top edge (e.g. iOS status bar / notch in portrait)
+
       paddingTop: `calc(${vars.base.enabled.header.paddingTop} + var(--seed-safe-area-top))`,
       paddingBottom: vars.base.enabled.header.paddingBottom,
 
       [pseudo("[data-show-close-button]")]: {
-        paddingRight: `calc(${vars.base.enabled.header.paddingX} + ${closeButtonVars.base.enabled.root.targetSize})`,
+        paddingRight: `calc(${vars.base.enabled.closeButton.fromRight} + ${closeButtonVars.base.enabled.icon.size} + ${vars.base.enabled.header.closeButtonGap})`,
       },
     },
     title: {
@@ -193,9 +193,9 @@ const sidePanel = defineSlotRecipe({
 
       // top divider: appears when the body is scrolled away from top, but only when a header sits
       // above it — i.e. the body is not the content's first child (toggled via JS data-scrolled attribute)
-      transition: `box-shadow ${vars.base.enabled.body.transitionDuration} ${vars.base.enabled.body.transitionTimingFunction}`,
+      transition: `box-shadow ${vars.base.enabled.body.strokeDuration} ${vars.base.enabled.body.strokeTimingFunction}`,
       [pseudo("[data-scrolled]", not(":first-child"))]: {
-        boxShadow: `inset 0 1px 0 0 ${vars.base.scrolled.body.stroke}`,
+        boxShadow: `inset 0 ${vars.base.scrolled.body.strokeWidth} 0 0 ${vars.base.scrolled.body.strokeColor}`,
       },
 
       // bottom scroll fog: always fades the last bit of content into the panel surface; its height equals the body's paddingBottom
@@ -217,51 +217,29 @@ const sidePanel = defineSlotRecipe({
       justifyContent: "center",
       alignItems: "center",
       border: "none",
+      background: closeButtonVars.base.enabled.root.color,
 
       top: `calc(${vars.base.enabled.closeButton.fromTop} + var(--seed-safe-area-top))`,
       right: vars.base.enabled.closeButton.fromRight,
       borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
-      background: closeButtonVars.base.enabled.root.color,
-      width: closeButtonVars.base.enabled.root.size,
-      height: closeButtonVars.base.enabled.root.size,
+
+      padding: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) / 2)`,
+      margin: `calc((${closeButtonVars.base.enabled.icon.size} - ${closeButtonVars.base.enabled.root.size}) / 2)`,
+
       cursor: "pointer",
+
+      transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,
         size: closeButtonVars.base.enabled.icon.size,
       }),
 
-      "& :where(.seed-icon)": {
-        transition: `color ${closeButtonVars.base.enabled.icon.colorDuration} ${closeButtonVars.base.enabled.icon.colorTimingFunction}`,
-      },
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       [pseudo(engaged)]: {
-        "--seed-icon-color": closeButtonVars.base.pressed.icon.color,
-      },
-
-      "&:after": {
-        content: '""',
-
-        position: "absolute",
-        top: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        right: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        bottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        left: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-
-        borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
-
-        ...createFocusRingRestStyles({ position: "inside" }),
-        transition: FOCUS_RING_TRANSITION,
-      },
-
-      [pseudo(focus)]: {
-        outline: "none",
-      },
-
-      [pseudo(focusVisible)]: {
-        "&:after": {
-          ...createFocusRingStyles({ position: "inside" }),
-        },
+        background: closeButtonVars.base.pressed.root.color,
       },
     },
   },

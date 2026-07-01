@@ -23,13 +23,14 @@ export const vars = {
         "minHeight": "70px",
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x6)",
-        "paddingBottom": "var(--seed-dimension-x4)"
+        "paddingBottom": "var(--seed-dimension-x4)",
+        "closeButtonGap": "var(--seed-dimension-x1_5)"
       },
       "body": {
         "paddingX": "var(--seed-dimension-x6)",
         "paddingBottom": "var(--seed-dimension-x12)",
-        "transitionDuration": "var(--seed-duration-color-transition)",
-        "transitionTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeDuration": "var(--seed-duration-color-transition)",
+        "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",
@@ -55,7 +56,8 @@ export const vars = {
     },
     "scrolled": {
       "body": {
-        "stroke": "var(--seed-color-stroke-neutral-muted)"
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       }
     }
   },
