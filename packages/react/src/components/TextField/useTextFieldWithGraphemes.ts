@@ -1,5 +1,4 @@
 import { useState, useMemo, useCallback } from "react";
-import { splitGraphemes } from "unicode-segmenter/grapheme";
 import { memoize } from "./memoize";
 
 export interface UseTextFieldWithGraphemesParams {
@@ -14,7 +13,9 @@ export interface UseTextFieldWithGraphemesParams {
   }) => void;
 }
 
-const getGraphemes = (string: string) => Array.from(splitGraphemes(string));
+const segmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
+const getGraphemes = (string: string) =>
+  Array.from(segmenter.segment(string), ({ segment }) => segment);
 const memoizedGetGraphemes = memoize(getGraphemes);
 
 export function useTextFieldWithGraphemes({
