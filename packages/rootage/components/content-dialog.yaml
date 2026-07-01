@@ -1,0 +1,217 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: content-dialog
+  name: Content Dialog
+data:
+  schema:
+    slots:
+      backdrop:
+        properties:
+          color:
+            type: color
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      content:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          maxWidth:
+            type: dimension
+          widthFraction:
+            type: number
+            description: viewport width 또는 parent width에 대한 비율입니다. viewport `md` 미만에서 적용합니다.
+          maxHeightFraction:
+            type: number
+            description: viewport height 또는 parent height에 대한 최대 비율입니다.
+          marginX:
+            type: dimension
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          enterScale:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      header:
+        properties:
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+          closeButtonGap:
+            type: dimension
+            description: closeButton이 표시되는 경우 paddingRight에 추가되는 여백입니다.
+      body:
+        properties:
+          paddingX:
+            type: dimension
+          paddingBottom:
+            type: dimension
+            description: body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다.
+          strokeWidth:
+            type: dimension
+            description: 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 두께입니다.
+          strokeColor:
+            type: color
+            description: 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다.
+          strokeDuration:
+            type: duration
+          strokeTimingFunction:
+            type: cubicBezier
+      footer:
+        properties:
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      title:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      description:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      closeButton:
+        properties:
+          fromTop:
+            type: dimension
+          fromRight:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        backdrop:
+          color: $color.bg.overlay
+          enterDuration: $duration.d2
+          enterTimingFunction: $timing-function.enter
+          enterOpacity: 0
+          exitDuration: $duration.d2
+          exitTimingFunction: $timing-function.exit
+          exitOpacity: 0
+        content:
+          color: $color.bg.layer-floating
+          cornerRadius: $radius.r5
+          enterDuration: $duration.d4
+          enterTimingFunction: $timing-function.enter-expressive
+          enterOpacity: 0
+          enterScale: 1.3
+          exitDuration: $duration.d2
+          exitTimingFunction: $timing-function.exit
+          exitOpacity: 0
+        header:
+          gap: $dimension.x1_5
+          closeButtonGap: $dimension.x1_5
+        footer:
+          gap: $dimension.x2
+        title:
+          color: $color.fg.neutral
+          fontWeight: $font-weight.bold
+        description:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+    size=medium:
+      enabled:
+        content:
+          widthFraction: 0.9
+          maxWidth: 480px
+          maxHeightFraction: 0.8
+          marginX: $dimension.x5
+        header:
+          paddingX: $dimension.x6
+          paddingTop: $dimension.x6
+          paddingBottom: $dimension.x4
+        body:
+          paddingX: $dimension.x6
+          paddingBottom: $dimension.x5
+          strokeDuration: $duration.color-transition
+          strokeTimingFunction: $timing-function.easing
+        footer:
+          paddingX: $dimension.x6
+          paddingTop: $dimension.x4
+          paddingBottom: $dimension.x6
+        title:
+          fontSize: $font-size.t8
+          lineHeight: $line-height.t8
+        description:
+          color: $color.fg.neutral-muted
+        closeButton:
+          fromTop: $dimension.x7
+          fromRight: $dimension.x6
+      scrolled:
+        body:
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px
+    size=large:
+      enabled:
+        content:
+          widthFraction: 0.9
+          maxWidth: 800px
+          maxHeightFraction: 0.8
+          marginX: $dimension.x5
+        header:
+          paddingX: $dimension.x6
+          paddingTop: $dimension.x6
+          paddingBottom: $dimension.x4
+        body:
+          paddingX: $dimension.x6
+          paddingBottom: $dimension.x5
+          strokeDuration: $duration.color-transition
+          strokeTimingFunction: $timing-function.easing
+        footer:
+          paddingX: $dimension.x6
+          paddingTop: $dimension.x4
+          paddingBottom: $dimension.x6
+        title:
+          fontSize: $font-size.t8
+          lineHeight: $line-height.t8
+        description:
+          color: $color.fg.neutral-muted
+        closeButton:
+          fromTop: $dimension.x7
+          fromRight: $dimension.x6
+      scrolled:
+        body:
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px

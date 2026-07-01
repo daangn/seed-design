@@ -16,6 +16,7 @@ import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
 import chipTabs from "./recipes/chip-tabs";
+import contentDialog from "./recipes/content-dialog";
 import contentPlaceholder from "./recipes/content-placeholder";
 import contextualFloatingButton from "./recipes/contextual-floating-button";
 import controlChip from "./recipes/control-chip";
@@ -103,6 +104,7 @@ export const recipes = {
   checkmark,
   chip,
   chipTabs,
+  contentDialog,
   contentPlaceholder,
   contextualFloatingButton,
   controlChip,

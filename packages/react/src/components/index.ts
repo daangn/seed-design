@@ -15,6 +15,7 @@ export * from "./Chip";
 export * from "./ChipTabs";
 export * from "./Columns";
 export * from "./ConsistentWidth";
+export * from "./ContentDialog";
 export * from "./ContentPlaceholder";
 export * from "./ContextualFloatingButton";
 export * from "./ControlChip";

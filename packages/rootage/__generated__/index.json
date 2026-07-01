@@ -84,6 +84,12 @@
       "path": "/components/chip.json"
     },
     {
+      "path": "/components/content-dialog-close-button.json"
+    },
+    {
+      "path": "/components/content-dialog.json"
+    },
+    {
       "path": "/components/content-placeholder.json"
     },
     {

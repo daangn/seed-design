@@ -23,6 +23,8 @@ export { vars as checkbox } from "./checkbox";
 export { vars as checkmark } from "./checkmark";
 export { vars as chipTablist } from "./chip-tablist";
 export { vars as chip } from "./chip";
+export { vars as contentDialogCloseButton } from "./content-dialog-close-button";
+export { vars as contentDialog } from "./content-dialog";
 export { vars as contentPlaceholder } from "./content-placeholder";
 export { vars as contextualFloatingButton } from "./contextual-floating-button";
 export { vars as controlChip } from "./control-chip";
