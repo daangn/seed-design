@@ -3,13 +3,12 @@ export const vars = {
     "enabled": {
       "root": {
         "size": "var(--seed-dimension-x6)",
-        "targetSize": "var(--seed-dimension-x10)",
-        "color": "var(--seed-color-palette-static-black-alpha-600)",
-        "shadow": "0px 2px 4px 0px #0000001A"
+        "targetSize": "var(--seed-dimension-x10)"
       },
       "fillIcon": {
-        "gradient": "var(--seed-color-palette-static-black-alpha-300) 0%, var(--seed-color-palette-static-black-alpha-300) 100%",
-        "size": "var(--seed-dimension-x6)"
+        "gradient": "var(--seed-color-palette-static-black-alpha-600) 0%, var(--seed-color-palette-static-black-alpha-600) 100%",
+        "size": "var(--seed-dimension-x6)",
+        "shadow": "0px 2px 4px 0px #0000001A"
       },
       "lineIcon": {
         "color": "var(--seed-color-palette-static-white)",

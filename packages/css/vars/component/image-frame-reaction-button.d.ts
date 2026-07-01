@@ -6,21 +6,17 @@ export declare const vars: {
         /** 보이는 버튼 크기입니다. */
         "size": "var(--seed-dimension-x6)",
         /** 터치 영역 크기입니다. */
-        "targetSize": "var(--seed-dimension-x10)",
-        /** 배경 색상입니다. */
-        "color": "var(--seed-color-palette-static-black-alpha-600)",
-        /** 박스 그림자입니다. */
-        "shadow": "0px 2px 4px 0px #0000001A"
+        "targetSize": "var(--seed-dimension-x10)"
       },
       /** lineIcon 아래에 내려가는 하트 아이콘입니다. */
       "fillIcon": {
-        "gradient": "var(--seed-color-palette-static-black-alpha-300) 0%, var(--seed-color-palette-static-black-alpha-300) 100%",
+        "gradient": "var(--seed-color-palette-static-black-alpha-600) 0%, var(--seed-color-palette-static-black-alpha-600) 100%",
         /** 보이는 버튼 크기입니다. */
-        "size": "var(--seed-dimension-x6)"
+        "size": "var(--seed-dimension-x6)",
+        "shadow": "0px 2px 4px 0px #0000001A"
       },
       /** fillIcon 위로 올라가는 하트 아이콘입니다. */
       "lineIcon": {
-        /** 배경 색상입니다. */
         "color": "var(--seed-color-palette-static-white)",
         /** 보이는 버튼 크기입니다. */
         "size": "var(--seed-dimension-x6)"
@@ -33,7 +29,6 @@ export declare const vars: {
       },
       /** fillIcon 위로 올라가는 하트 아이콘입니다. */
       "lineIcon": {
-        /** 배경 색상입니다. */
         "color": "var(--seed-color-bg-transparent)"
       }
     }

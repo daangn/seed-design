@@ -9,8 +9,7 @@
     position: relative;
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
-    background: var(--seed-color-palette-static-black-alpha-600);
-    box-shadow: 0px 2px 4px 0px #0000001A;
+    background: transparent;
 }
 .seed-image-frame-reaction-button__root::before {
     content: '';
@@ -47,7 +46,5 @@
     height: var(--seed-dimension-x6);
     color: var(--seed-color-palette-static-white);
     pointer-events: none;
-}
-.seed-image-frame-reaction-button__lineIcon:is([aria-pressed=true], [data-pressed]) {
-    color: var(--seed-color-bg-transparent);
+    filter: drop-shadow(0px 2px 4px #0000001A);
 }

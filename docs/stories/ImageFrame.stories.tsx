@@ -169,5 +169,9 @@ export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
 });
 
 export const Overlay = {
+  args: {
+    src: BRIGHT_IMAGE, // intentionally ignored, OverlayExamples renders its own frames
+    alt: "",
+  },
   render: () => <OverlayExamples />,
 } satisfies Story;

@@ -15,12 +15,6 @@ data:
           targetSize:
             type: dimension
             description: 터치 영역 크기입니다.
-          color:
-            type: color
-            description: 배경 색상입니다.
-          shadow:
-            type: shadow
-            description: 박스 그림자입니다.
       fillIcon:
         description: lineIcon 아래에 내려가는 하트 아이콘입니다.
         properties:
@@ -28,6 +22,8 @@ data:
             type: gradient
           size:
             type: dimension
+          shadow:
+            type: shadow
       lineIcon:
         description: fillIcon 위로 올라가는 하트 아이콘입니다.
         properties:
@@ -41,7 +37,15 @@ data:
         root:
           size: $dimension.x6
           targetSize: $dimension.x10
-          color: $color.palette.static-black-alpha-600
+        fillIcon:
+          gradient:
+            type: gradient
+            value:
+              - color: $color.palette.static-black-alpha-600
+                position: 0
+              - color: $color.palette.static-black-alpha-600
+                position: 1
+          size: $dimension.x6
           shadow:
             type: shadow
             value:
@@ -50,15 +54,6 @@ data:
                 blur: 4px
                 spread: 0px
                 color: "#0000001A"
-        fillIcon:
-          gradient:
-            type: gradient
-            value:
-              - color: $color.palette.static-black-alpha-300
-                position: 0
-              - color: $color.palette.static-black-alpha-300
-                position: 1
-          size: $dimension.x6
         lineIcon:
           color: $color.palette.static-white
           size: $dimension.x6

@@ -25,8 +25,7 @@ export default defineSlotRecipe({
       width: reactionButtonVars.base.enabled.root.size,
       height: reactionButtonVars.base.enabled.root.size,
 
-      background: reactionButtonVars.base.enabled.root.color,
-      boxShadow: reactionButtonVars.base.enabled.root.shadow,
+      background: "transparent",
 
       "&::before": {
         content: "''",
@@ -67,9 +66,8 @@ export default defineSlotRecipe({
       color: reactionButtonVars.base.enabled.lineIcon.color,
       pointerEvents: "none",
 
-      [pseudo(pressed)]: {
-        color: reactionButtonVars.base.selected.lineIcon.color,
-      },
+      // reactionButtonVars.base.enabled.fillIcon.shadow but without the unsupported spread value
+      filter: "drop-shadow(0px 2px 4px #0000001A)",
     },
   },
   variants: {},

@@ -224,6 +224,7 @@ const HeartLineSvg = (props: React.SVGAttributes<SVGSVGElement>) => (
     aria-hidden="true"
     {...props}
   >
+    <path d={HeartFillPath} fill="#0000004c" />
     <path fillRule="evenodd" clipRule="evenodd" d={HeartOutlineStrokePath} fill="currentColor" />
   </svg>
 );
