@@ -3,20 +3,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     overscroll-behavior-y: none;
     --dialog-z-index: 2;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
 }
 .seed-dialog__backdrop {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     background: var(--seed-color-bg-overlay);
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
 }
@@ -24,7 +18,6 @@
     position: relative;
     outline: none;
     display: flex;
-    flex: 1;
     flex-direction: column;
     box-sizing: border-box;
     word-break: break-all;
@@ -136,12 +129,12 @@
     --seed-exit-scale: 1;
 }
 .seed-dialog__content--size_alert {
+    flex: 1;
     max-width: 272px;
     margin: auto var(--seed-dimension-x8);
 }
 .seed-dialog__header--size_alert {
-    padding-left: var(--seed-dimension-x5);
-    padding-right: var(--seed-dimension-x5);
+    padding-inline: var(--seed-dimension-x5);
     padding-top: var(--seed-dimension-x5);
 }
 .seed-dialog__title--size_alert {
@@ -152,8 +145,7 @@
     color: var(--seed-color-fg-neutral);
 }
 .seed-dialog__footer--size_alert {
-    padding-left: var(--seed-dimension-x5);
-    padding-right: var(--seed-dimension-x5);
+    padding-inline: var(--seed-dimension-x5);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x5);
 }
@@ -169,17 +161,15 @@
     }
 }
 .seed-dialog__header--size_medium {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x6);
     padding-bottom: var(--seed-dimension-x4);
 }
 .seed-dialog__header--size_medium[data-show-close-button] {
-    padding-right: calc(var(--seed-dimension-x4) + 22px + var(--seed-dimension-x1_5));
+    padding-right: calc(var(--seed-dimension-x6) + 22px + var(--seed-dimension-x1_5));
 }
 .seed-dialog__body--size_medium {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-bottom: var(--seed-dimension-x5);
     transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
@@ -191,8 +181,7 @@
     -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x5));
 }
 .seed-dialog__footer--size_medium {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x6);
 }
@@ -204,8 +193,8 @@
     color: var(--seed-color-fg-neutral-muted);
 }
 .seed-dialog__closeButton--size_medium {
-    top: var(--seed-dimension-x4);
-    right: var(--seed-dimension-x4);
+    top: var(--seed-dimension-x7);
+    right: var(--seed-dimension-x6);
 }
 .seed-dialog__content--size_large {
     flex: 0 0 auto;
@@ -219,17 +208,15 @@
     }
 }
 .seed-dialog__header--size_large {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x6);
     padding-bottom: var(--seed-dimension-x4);
 }
 .seed-dialog__header--size_large[data-show-close-button] {
-    padding-right: calc(var(--seed-dimension-x4) + 22px + var(--seed-dimension-x1_5));
+    padding-right: calc(var(--seed-dimension-x6) + 22px + var(--seed-dimension-x1_5));
 }
 .seed-dialog__body--size_large {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-bottom: var(--seed-dimension-x5);
     transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
 }
@@ -241,8 +228,7 @@
     -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x5));
 }
 .seed-dialog__footer--size_large {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x6);
 }
@@ -254,6 +240,6 @@
     color: var(--seed-color-fg-neutral-muted);
 }
 .seed-dialog__closeButton--size_large {
-    top: var(--seed-dimension-x4);
-    right: var(--seed-dimension-x4);
+    top: var(--seed-dimension-x7);
+    right: var(--seed-dimension-x6);
 }

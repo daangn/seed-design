@@ -70,8 +70,7 @@ export const vars = {
         "widthFraction": "0.9",
         "maxWidth": "480px",
         "maxHeightFraction": "0.8",
-        "marginX": "var(--seed-dimension-x5)",
-        "marginY": "var(--seed-dimension-x16)"
+        "marginX": "var(--seed-dimension-x5)"
       },
       "header": {
         "paddingX": "var(--seed-dimension-x6)",
@@ -97,8 +96,8 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x4)",
-        "fromRight": "var(--seed-dimension-x4)"
+        "fromTop": "var(--seed-dimension-x7)",
+        "fromRight": "var(--seed-dimension-x6)"
       }
     },
     "scrolled": {
@@ -114,8 +113,7 @@ export const vars = {
         "widthFraction": "0.9",
         "maxWidth": "800px",
         "maxHeightFraction": "0.8",
-        "marginX": "var(--seed-dimension-x5)",
-        "marginY": "var(--seed-dimension-x16)"
+        "marginX": "var(--seed-dimension-x5)"
       },
       "header": {
         "paddingX": "var(--seed-dimension-x6)",
@@ -141,8 +139,8 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x4)",
-        "fromRight": "var(--seed-dimension-x4)"
+        "fromTop": "var(--seed-dimension-x7)",
+        "fromRight": "var(--seed-dimension-x6)"
       }
     },
     "scrolled": {

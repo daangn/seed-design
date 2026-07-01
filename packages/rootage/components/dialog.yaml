@@ -178,7 +178,6 @@ data:
           maxWidth: 480px
           maxHeightFraction: 0.8
           marginX: $dimension.x5
-          marginY: $dimension.x16
         header:
           paddingX: $dimension.x6
           paddingTop: $dimension.x6
@@ -198,8 +197,8 @@ data:
         description:
           color: $color.fg.neutral-muted
         closeButton:
-          fromTop: $dimension.x4
-          fromRight: $dimension.x4
+          fromTop: $dimension.x7
+          fromRight: $dimension.x6
       scrolled:
         body:
           strokeColor: $color.stroke.neutral-muted
@@ -211,7 +210,6 @@ data:
           maxWidth: 800px
           maxHeightFraction: 0.8
           marginX: $dimension.x5
-          marginY: $dimension.x16
         header:
           paddingX: $dimension.x6
           paddingTop: $dimension.x6
@@ -231,8 +229,8 @@ data:
         description:
           color: $color.fg.neutral-muted
         closeButton:
-          fromTop: $dimension.x4
-          fromRight: $dimension.x4
+          fromTop: $dimension.x7
+          fromRight: $dimension.x6
       scrolled:
         body:
           strokeColor: $color.stroke.neutral-muted

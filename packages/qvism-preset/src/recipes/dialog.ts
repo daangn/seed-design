@@ -30,10 +30,7 @@ const dialog = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       overscrollBehaviorY: "none",
 
       "--dialog-z-index": "2",
@@ -41,10 +38,7 @@ const dialog = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
     },
@@ -54,7 +48,6 @@ const dialog = defineSlotRecipe({
       // target, not interactive), so it must never render a focus ring.
       outline: "none",
       display: "flex",
-      flex: 1,
       flexDirection: "column",
       boxSizing: "border-box",
       wordBreak: "break-all",
@@ -110,8 +103,6 @@ const dialog = defineSlotRecipe({
       background: closeButtonVars.base.enabled.root.color,
       borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
 
-      // Expand the hit area to root.size while keeping the icon visually at icon.size:
-      // pad out to the tap target, then pull back with a negative margin of the same delta.
       padding: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) / 2)`,
       margin: `calc((${closeButtonVars.base.enabled.icon.size} - ${closeButtonVars.base.enabled.root.size}) / 2)`,
 
@@ -165,12 +156,14 @@ const dialog = defineSlotRecipe({
     size: {
       alert: {
         content: {
+          // Grow to maxWidth (viewport-inset by marginX on narrow screens); unlike
+          // medium/large there's no explicit width, so it fills up to the token cap.
+          flex: 1,
           maxWidth: vars.sizeAlert.enabled.content.maxWidth,
           margin: `auto ${vars.sizeAlert.enabled.content.marginX}`,
         },
         header: {
-          paddingLeft: vars.sizeAlert.enabled.header.paddingX,
-          paddingRight: vars.sizeAlert.enabled.header.paddingX,
+          paddingInline: vars.sizeAlert.enabled.header.paddingX,
           paddingTop: vars.sizeAlert.enabled.header.paddingTop,
         },
         title: {
@@ -181,8 +174,7 @@ const dialog = defineSlotRecipe({
           color: vars.sizeAlert.enabled.description.color,
         },
         footer: {
-          paddingLeft: vars.sizeAlert.enabled.footer.paddingX,
-          paddingRight: vars.sizeAlert.enabled.footer.paddingX,
+          paddingInline: vars.sizeAlert.enabled.footer.paddingX,
           paddingTop: vars.sizeAlert.enabled.footer.paddingTop,
           paddingBottom: vars.sizeAlert.enabled.footer.paddingBottom,
         },
@@ -200,8 +192,7 @@ const dialog = defineSlotRecipe({
           },
         },
         header: {
-          paddingLeft: vars.sizeMedium.enabled.header.paddingX,
-          paddingRight: vars.sizeMedium.enabled.header.paddingX,
+          paddingInline: vars.sizeMedium.enabled.header.paddingX,
           paddingTop: vars.sizeMedium.enabled.header.paddingTop,
           paddingBottom: vars.sizeMedium.enabled.header.paddingBottom,
 
@@ -211,23 +202,19 @@ const dialog = defineSlotRecipe({
           },
         },
         body: {
-          paddingLeft: vars.sizeMedium.enabled.body.paddingX,
-          paddingRight: vars.sizeMedium.enabled.body.paddingX,
+          paddingInline: vars.sizeMedium.enabled.body.paddingX,
           paddingBottom: vars.sizeMedium.enabled.body.paddingBottom,
 
-          // Top divider: shows when the body is scrolled and it isn't the first child (a header sits above it).
           transition: `box-shadow ${vars.sizeMedium.enabled.body.strokeDuration} ${vars.sizeMedium.enabled.body.strokeTimingFunction}`,
           [pseudo("[data-scrolled]", not(":first-child"))]: {
             boxShadow: `inset 0 ${vars.sizeMedium.scrolled.body.strokeWidth} 0 0 ${vars.sizeMedium.scrolled.body.strokeColor}`,
           },
 
-          // Bottom scroll fog: fade the last bit of content into the surface; its height equals the body's paddingBottom.
           maskImage: `linear-gradient(to top, transparent 0, black ${vars.sizeMedium.enabled.body.paddingBottom})`,
           WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.sizeMedium.enabled.body.paddingBottom})`,
         },
         footer: {
-          paddingLeft: vars.sizeMedium.enabled.footer.paddingX,
-          paddingRight: vars.sizeMedium.enabled.footer.paddingX,
+          paddingInline: vars.sizeMedium.enabled.footer.paddingX,
           paddingTop: vars.sizeMedium.enabled.footer.paddingTop,
           paddingBottom: vars.sizeMedium.enabled.footer.paddingBottom,
         },
@@ -255,8 +242,7 @@ const dialog = defineSlotRecipe({
           },
         },
         header: {
-          paddingLeft: vars.sizeLarge.enabled.header.paddingX,
-          paddingRight: vars.sizeLarge.enabled.header.paddingX,
+          paddingInline: vars.sizeLarge.enabled.header.paddingX,
           paddingTop: vars.sizeLarge.enabled.header.paddingTop,
           paddingBottom: vars.sizeLarge.enabled.header.paddingBottom,
 
@@ -265,8 +251,7 @@ const dialog = defineSlotRecipe({
           },
         },
         body: {
-          paddingLeft: vars.sizeLarge.enabled.body.paddingX,
-          paddingRight: vars.sizeLarge.enabled.body.paddingX,
+          paddingInline: vars.sizeLarge.enabled.body.paddingX,
           paddingBottom: vars.sizeLarge.enabled.body.paddingBottom,
 
           transition: `box-shadow ${vars.sizeLarge.enabled.body.strokeDuration} ${vars.sizeLarge.enabled.body.strokeTimingFunction}`,
@@ -278,8 +263,7 @@ const dialog = defineSlotRecipe({
           WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.sizeLarge.enabled.body.paddingBottom})`,
         },
         footer: {
-          paddingLeft: vars.sizeLarge.enabled.footer.paddingX,
-          paddingRight: vars.sizeLarge.enabled.footer.paddingX,
+          paddingInline: vars.sizeLarge.enabled.footer.paddingX,
           paddingTop: vars.sizeLarge.enabled.footer.paddingTop,
           paddingBottom: vars.sizeLarge.enabled.footer.paddingBottom,
         },

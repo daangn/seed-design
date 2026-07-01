@@ -74,8 +74,7 @@ export declare const vars: {
         "maxWidth": "480px",
         /** viewport height 또는 parent height에 대한 최대 비율입니다. */
         "maxHeightFraction": "0.8",
-        "marginX": "var(--seed-dimension-x5)",
-        "marginY": "var(--seed-dimension-x16)"
+        "marginX": "var(--seed-dimension-x5)"
       },
       "header": {
         "paddingX": "var(--seed-dimension-x6)",
@@ -104,8 +103,8 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x4)",
-        "fromRight": "var(--seed-dimension-x4)"
+        "fromTop": "var(--seed-dimension-x7)",
+        "fromRight": "var(--seed-dimension-x6)"
       }
     },
     "scrolled": {
@@ -125,8 +124,7 @@ export declare const vars: {
         "maxWidth": "800px",
         /** viewport height 또는 parent height에 대한 최대 비율입니다. */
         "maxHeightFraction": "0.8",
-        "marginX": "var(--seed-dimension-x5)",
-        "marginY": "var(--seed-dimension-x16)"
+        "marginX": "var(--seed-dimension-x5)"
       },
       "header": {
         "paddingX": "var(--seed-dimension-x6)",
@@ -155,8 +153,8 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "closeButton": {
-        "fromTop": "var(--seed-dimension-x4)",
-        "fromRight": "var(--seed-dimension-x4)"
+        "fromTop": "var(--seed-dimension-x7)",
+        "fromRight": "var(--seed-dimension-x6)"
       }
     },
     "scrolled": {

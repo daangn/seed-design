@@ -418,10 +418,6 @@
                 "marginX": {
                   "type": "dimension",
                   "value": "$dimension.x5"
-                },
-                "marginY": {
-                  "type": "dimension",
-                  "value": "$dimension.x16"
                 }
               },
               "header": {
@@ -489,11 +485,11 @@
               "closeButton": {
                 "fromTop": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.x7"
                 },
                 "fromRight": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.x6"
                 }
               }
             }
@@ -549,10 +545,6 @@
                 "marginX": {
                   "type": "dimension",
                   "value": "$dimension.x5"
-                },
-                "marginY": {
-                  "type": "dimension",
-                  "value": "$dimension.x16"
                 }
               },
               "header": {
@@ -620,11 +612,11 @@
               "closeButton": {
                 "fromTop": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.x7"
                 },
                 "fromRight": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.x6"
                 }
               }
             }
