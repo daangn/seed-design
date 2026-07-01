@@ -247,6 +247,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           ),
         },
         { title: "Help Bubble", ...to("ActivityHelpBubble", {}) },
+        { title: "Popover", ...to("ActivityPopover", {}) },
       ],
     },
     {

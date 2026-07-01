@@ -63,6 +63,8 @@ export { vars as pageBannerCloseButton } from "./page-banner-close-button";
 export { vars as pageBanner } from "./page-banner";
 export { vars as paginationButton } from "./pagination-button";
 export { vars as paginationPageItem } from "./pagination-page-item";
+export { vars as popoverCloseButton } from "./popover-close-button";
+export { vars as popover } from "./popover";
 export { vars as progressCircle } from "./progress-circle";
 export { vars as quantityPickerButton } from "./quantity-picker-button";
 export { vars as quantityPicker } from "./quantity-picker";

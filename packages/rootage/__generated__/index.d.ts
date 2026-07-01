@@ -204,6 +204,12 @@ declare const artifact: {
       "path": "/components/pagination-page-item.json";
     },
     {
+      "path": "/components/popover-close-button.json";
+    },
+    {
+      "path": "/components/popover.json";
+    },
+    {
       "path": "/components/progress-circle.json";
     },
     {

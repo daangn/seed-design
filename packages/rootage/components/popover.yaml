@@ -1,0 +1,160 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: popover
+  name: Popover
+data:
+  schema:
+    slots:
+      content:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          shadow:
+            type: shadow
+          minWidth:
+            type: dimension
+          maxWidth:
+            type: dimension
+          maxHeight:
+            type: dimension
+            description: viewport가 이보다 작으면 overflowPadding과 safe-area를 뺀 가용 높이로 축소됩니다.
+          gutter:
+            type: dimension
+            description: 트리거와 popover 사이의 간격을 정의합니다.
+          overflowPadding:
+            type: dimension
+            description: popover와 뷰포트 경계 사이의 최소 간격을 정의합니다. safe-area가 있으면 그 안쪽으로 배치됩니다.
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterScale:
+            type: number
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitScale:
+            type: number
+          exitOpacity:
+            type: number
+      header:
+        properties:
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+          closeButtonGap:
+            type: dimension
+            description: closeButton이 표시되는 경우 paddingRight에 추가되는 여백입니다.
+      body:
+        properties:
+          paddingX:
+            type: dimension
+          paddingBottom:
+            type: dimension
+            description: body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다.
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+            description: 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다.
+          strokeDuration:
+            type: duration
+          strokeTimingFunction:
+            type: cubicBezier
+      footer:
+        properties:
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      title:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      description:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      closeButton:
+        properties:
+          fromTop:
+            type: dimension
+          fromRight:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        content:
+          color: $color.bg.layer-floating
+          cornerRadius: $radius.r5
+          shadow: $shadow.s3
+          minWidth: 320px
+          maxWidth: 480px
+          maxHeight: 600px
+          gutter: $dimension.x2
+          overflowPadding: $dimension.x4
+          enterDuration: $duration.d3
+          enterTimingFunction: $timing-function.enter
+          enterScale: 0.95
+          enterOpacity: 0
+          exitDuration: $duration.d2
+          exitTimingFunction: $timing-function.exit
+          exitScale: 0.95
+          exitOpacity: 0
+        header:
+          gap: $dimension.x1_5
+          paddingX: $dimension.x6
+          paddingTop: $dimension.x6
+          paddingBottom: $dimension.x4
+          closeButtonGap: $dimension.x1_5
+        body:
+          paddingX: $dimension.x6
+          paddingBottom: $dimension.x8
+          strokeDuration: $duration.color-transition
+          strokeTimingFunction: $timing-function.easing
+        footer:
+          paddingX: $dimension.x6
+          paddingTop: $dimension.x4
+          paddingBottom: $dimension.x6
+        title:
+          color: $color.fg.neutral
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+          fontWeight: $font-weight.bold
+        description:
+          color: $color.fg.neutral-muted
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.regular
+        closeButton:
+          fromTop: 20px
+          fromRight: 20px
+      scrolled:
+        body:
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-muted
