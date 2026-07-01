@@ -130,7 +130,7 @@ const listItem = defineSlotRecipe({
         inset: 0,
         zIndex: -1,
 
-        transitionProperty: "background-color, left, right, border-radius",
+        transitionProperty: "background-color, inset-inline, border-radius",
         transitionDuration: vars.base.enabled.root.colorDuration,
         transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       },

@@ -1053,7 +1053,7 @@
 .seed-accordion__trigger--variant_inline:before {
   content: "";
   z-index: -1;
-  transition-property: background-color, left, right, border-radius;
+  transition-property: background-color, inset-inline, border-radius;
   transition-duration: var(--seed-duration-color-transition);
   transition-timing-function: var(--seed-timing-function-easing);
   position: absolute;
@@ -6272,7 +6272,7 @@
 .seed-list-item__content:before {
   content: "";
   z-index: -1;
-  transition-property: background-color, left, right, border-radius;
+  transition-property: background-color, inset-inline, border-radius;
   transition-duration: var(--seed-duration-color-transition);
   transition-timing-function: var(--seed-timing-function-easing);
   position: absolute;
@@ -6637,7 +6637,7 @@
 .seed-menu-item__root:before {
   content: "";
   z-index: -1;
-  transition-property: background-color, left, right, border-radius;
+  transition-property: background-color, inset-inline, border-radius;
   transition-duration: var(--seed-duration-color-transition);
   transition-timing-function: var(--seed-timing-function-easing);
   position: absolute;

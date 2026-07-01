@@ -154,7 +154,7 @@ const accordion = defineSlotRecipe({
             position: "absolute",
             inset: 0,
             zIndex: -1,
-            transitionProperty: "background-color, left, right, border-radius",
+            transitionProperty: "background-color, inset-inline, border-radius",
             transitionDuration: itemVars.base.enabled.root.colorDuration,
             transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
           },

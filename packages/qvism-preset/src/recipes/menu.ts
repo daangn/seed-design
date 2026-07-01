@@ -216,7 +216,7 @@ export const menuItem = defineSlotRecipe({
         inset: 0,
         zIndex: -1,
 
-        transitionProperty: "background-color, left, right, border-radius",
+        transitionProperty: "background-color, inset-inline, border-radius",
         transitionDuration: menuItemVars.base.enabled.root.colorDuration,
         transitionTimingFunction: menuItemVars.base.enabled.root.colorTimingFunction,
       },
