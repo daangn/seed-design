@@ -53,10 +53,7 @@ export const selectBox = defineSlotRecipe({
       "&::after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         borderRadius: "inherit",
         borderStyle: "solid",
         borderColor: "transparent",
@@ -223,10 +220,7 @@ export const selectBoxCheckmark = defineSlotRecipe({
       display: "block",
       position: "absolute",
       margin: "auto",
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
+      inset: 0,
       textAlign: "center",
       overflow: "initial",
 

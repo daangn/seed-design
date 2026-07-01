@@ -19,10 +19,7 @@
 .seed-attachment-input-item__root::before {
     content: "";
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     border-radius: inherit;
     pointer-events: none;
     -webkit-mask-image: linear-gradient(black, black), url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>');
@@ -95,10 +92,7 @@
 }
 .seed-attachment-input-item__backdrop {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;

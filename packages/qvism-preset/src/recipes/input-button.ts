@@ -41,10 +41,7 @@ const inputButton = defineSlotRecipe({
       position: "absolute",
       zIndex: -1,
 
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
 
       cursor: "pointer",
 
@@ -60,10 +57,7 @@ const inputButton = defineSlotRecipe({
       "&::after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         borderRadius: "inherit",
         borderStyle: "solid",
         borderColor: "transparent",

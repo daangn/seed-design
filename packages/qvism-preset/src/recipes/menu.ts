@@ -223,10 +223,7 @@ export const menuItem = defineSlotRecipe({
       "&::before": {
         content: '""',
         position: "absolute",
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
+        inset: 0,
         zIndex: -1,
 
         transitionProperty: "background-color, left, right, border-radius",

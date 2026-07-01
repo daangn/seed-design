@@ -169,10 +169,7 @@ const attachmentInputItem = defineSlotRecipe({
       "&::before": {
         content: '""',
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         borderRadius: "inherit",
 
         pointerEvents: "none",
@@ -242,10 +239,7 @@ const attachmentInputItem = defineSlotRecipe({
     },
     backdrop: {
       position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
 
       display: "flex",
       flexDirection: "column", // just in case

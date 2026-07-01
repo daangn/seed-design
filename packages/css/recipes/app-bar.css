@@ -10,10 +10,7 @@
 .seed-app-bar__background {
     position: absolute;
     pointer-events: none;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     z-index: -1;
 }
 .seed-app-bar__left {

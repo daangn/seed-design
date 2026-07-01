@@ -130,10 +130,7 @@ const slider = defineSlotRecipe({
         content: '""',
         position: "absolute",
 
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        inset: 0,
 
         backgroundColor: thumbVars.base.enabled.root.color,
         borderRadius: thumbVars.base.enabled.root.cornerRadius,

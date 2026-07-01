@@ -112,10 +112,7 @@ const listItem = defineSlotRecipe({
       "&::after": {
         content: "''",
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         ...createFocusRingRestStyles({ position: "inside" }),
         transition: FOCUS_RING_TRANSITION,
       },
@@ -132,10 +129,7 @@ const listItem = defineSlotRecipe({
       [pseudo("::before")]: {
         content: "''",
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         zIndex: -1,
 
         transitionProperty: "background-color, left, right, border-radius",
