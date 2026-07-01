@@ -85,7 +85,8 @@
 
   .seed-action-sheet__header:after {
     content: "";
-    inset-inline: var(--seed-dimension-spacing-x-global-gutter);
+    left: var(--seed-dimension-spacing-x-global-gutter);
+    right: var(--seed-dimension-spacing-x-global-gutter);
     background: var(--seed-color-stroke-neutral-muted);
     height: 1px;
     display: block;
