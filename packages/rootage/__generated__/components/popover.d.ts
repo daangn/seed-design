@@ -1,0 +1,386 @@
+declare const artifact: {
+  "kind": "ComponentSpec";
+  "metadata": {
+    "id": "popover";
+    "name": "Popover";
+  };
+  "data": {
+    "id": "popover";
+    "name": "Popover";
+    "schema": {
+      "slots": {
+        "content": {
+          "properties": {
+            "color": {
+              "type": "color";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+            };
+            "shadow": {
+              "type": "shadow";
+            };
+            "minWidth": {
+              "type": "dimension";
+            };
+            "maxWidth": {
+              "type": "dimension";
+            };
+            "maxHeight": {
+              "type": "dimension";
+              "description": "viewport가 이보다 작으면 overflowPadding과 safe-area를 뺀 가용 높이로 축소됩니다.";
+            };
+            "gutter": {
+              "type": "dimension";
+              "description": "트리거와 popover 사이의 간격을 정의합니다.";
+            };
+            "overflowPadding": {
+              "type": "dimension";
+              "description": "popover와 뷰포트 경계 사이의 최소 간격을 정의합니다. safe-area가 있으면 그 안쪽으로 배치됩니다.";
+            };
+            "enterDuration": {
+              "type": "duration";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+            };
+            "enterScale": {
+              "type": "number";
+            };
+            "enterOpacity": {
+              "type": "number";
+            };
+            "exitDuration": {
+              "type": "duration";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+            };
+            "exitScale": {
+              "type": "number";
+            };
+            "exitOpacity": {
+              "type": "number";
+            };
+          };
+        };
+        "header": {
+          "properties": {
+            "gap": {
+              "type": "dimension";
+            };
+            "paddingX": {
+              "type": "dimension";
+            };
+            "paddingTop": {
+              "type": "dimension";
+            };
+            "paddingBottom": {
+              "type": "dimension";
+            };
+            "closeButtonGap": {
+              "type": "dimension";
+              "description": "closeButton이 표시되는 경우 paddingRight에 추가되는 여백입니다.";
+            };
+          };
+        };
+        "body": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension";
+            };
+            "paddingBottom": {
+              "type": "dimension";
+              "description": "body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다.";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+            };
+            "strokeColor": {
+              "type": "color";
+              "description": "본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다.";
+            };
+            "strokeDuration": {
+              "type": "duration";
+            };
+            "strokeTimingFunction": {
+              "type": "cubicBezier";
+            };
+          };
+        };
+        "footer": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension";
+            };
+            "paddingTop": {
+              "type": "dimension";
+            };
+            "paddingBottom": {
+              "type": "dimension";
+            };
+          };
+        };
+        "title": {
+          "properties": {
+            "color": {
+              "type": "color";
+            };
+            "fontSize": {
+              "type": "dimension";
+            };
+            "lineHeight": {
+              "type": "dimension";
+            };
+            "fontWeight": {
+              "type": "number";
+            };
+          };
+        };
+        "description": {
+          "properties": {
+            "color": {
+              "type": "color";
+            };
+            "fontSize": {
+              "type": "dimension";
+            };
+            "lineHeight": {
+              "type": "dimension";
+            };
+            "fontWeight": {
+              "type": "number";
+            };
+          };
+        };
+        "closeButton": {
+          "properties": {
+            "fromTop": {
+              "type": "dimension";
+            };
+            "fromRight": {
+              "type": "dimension";
+            };
+          };
+        };
+      };
+      "variants": {};
+    };
+    "definitions": readonly [
+      {
+        "variants": {};
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "content": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.layer-floating";
+                };
+                "cornerRadius": {
+                  "type": "dimension";
+                  "value": "$radius.r5";
+                };
+                "shadow": {
+                  "type": "shadow";
+                  "value": "$shadow.s3";
+                };
+                "minWidth": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 320;
+                    "unit": "px";
+                  };
+                };
+                "maxWidth": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 480;
+                    "unit": "px";
+                  };
+                };
+                "maxHeight": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 600;
+                    "unit": "px";
+                  };
+                };
+                "gutter": {
+                  "type": "dimension";
+                  "value": "$dimension.x2";
+                };
+                "overflowPadding": {
+                  "type": "dimension";
+                  "value": "$dimension.x4";
+                };
+                "enterDuration": {
+                  "type": "duration";
+                  "value": "$duration.d3";
+                };
+                "enterTimingFunction": {
+                  "type": "cubicBezier";
+                  "value": "$timing-function.enter";
+                };
+                "enterScale": {
+                  "type": "number";
+                  "value": 0.95;
+                };
+                "enterOpacity": {
+                  "type": "number";
+                  "value": 0;
+                };
+                "exitDuration": {
+                  "type": "duration";
+                  "value": "$duration.d2";
+                };
+                "exitTimingFunction": {
+                  "type": "cubicBezier";
+                  "value": "$timing-function.exit";
+                };
+                "exitScale": {
+                  "type": "number";
+                  "value": 0.95;
+                };
+                "exitOpacity": {
+                  "type": "number";
+                  "value": 0;
+                };
+              };
+              "header": {
+                "gap": {
+                  "type": "dimension";
+                  "value": "$dimension.x1_5";
+                };
+                "paddingX": {
+                  "type": "dimension";
+                  "value": "$dimension.x6";
+                };
+                "paddingTop": {
+                  "type": "dimension";
+                  "value": "$dimension.x6";
+                };
+                "paddingBottom": {
+                  "type": "dimension";
+                  "value": "$dimension.x4";
+                };
+                "closeButtonGap": {
+                  "type": "dimension";
+                  "value": "$dimension.x1_5";
+                };
+              };
+              "body": {
+                "paddingX": {
+                  "type": "dimension";
+                  "value": "$dimension.x6";
+                };
+                "paddingBottom": {
+                  "type": "dimension";
+                  "value": "$dimension.x8";
+                };
+                "strokeDuration": {
+                  "type": "duration";
+                  "value": "$duration.color-transition";
+                };
+                "strokeTimingFunction": {
+                  "type": "cubicBezier";
+                  "value": "$timing-function.easing";
+                };
+              };
+              "footer": {
+                "paddingX": {
+                  "type": "dimension";
+                  "value": "$dimension.x6";
+                };
+                "paddingTop": {
+                  "type": "dimension";
+                  "value": "$dimension.x4";
+                };
+                "paddingBottom": {
+                  "type": "dimension";
+                  "value": "$dimension.x6";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+                "fontSize": {
+                  "type": "dimension";
+                  "value": "$font-size.t6";
+                };
+                "lineHeight": {
+                  "type": "dimension";
+                  "value": "$line-height.t6";
+                };
+                "fontWeight": {
+                  "type": "number";
+                  "value": "$font-weight.bold";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral-muted";
+                };
+                "fontSize": {
+                  "type": "dimension";
+                  "value": "$font-size.t4";
+                };
+                "lineHeight": {
+                  "type": "dimension";
+                  "value": "$line-height.t4";
+                };
+                "fontWeight": {
+                  "type": "number";
+                  "value": "$font-weight.regular";
+                };
+              };
+              "closeButton": {
+                "fromTop": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 20;
+                    "unit": "px";
+                  };
+                };
+                "fromRight": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 20;
+                    "unit": "px";
+                  };
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "scrolled",
+            ];
+            "slots": {
+              "body": {
+                "strokeWidth": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 1;
+                    "unit": "px";
+                  };
+                };
+                "strokeColor": {
+                  "type": "color";
+                  "value": "$color.stroke.neutral-muted";
+                };
+              };
+            };
+          },
+        ];
+      },
+    ];
+  };
+};
+export default artifact;

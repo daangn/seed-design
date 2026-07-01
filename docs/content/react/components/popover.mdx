@@ -1,0 +1,136 @@
+---
+title: Popover
+description: 트리거 요소에 앵커링되어 화면 위에 떠 있는 컨테이너입니다. Header/Body/Footer 구조로 부가 정보나 액션을 제공할 때 사용됩니다.
+---
+
+<ComponentExample name="react/popover/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/popover/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:popover
+```
+
+<ManualInstallation name="popover" />
+
+## Props
+
+### `PopoverRoot`
+
+<react-type-table
+  path="./registry/react/ui/popover.tsx"
+  name="PopoverRootProps"
+/>
+
+### `PopoverTrigger`
+
+<react-type-table
+  path="./registry/react/ui/popover.tsx"
+  name="PopoverTriggerProps"
+/>
+
+### `PopoverAnchor`
+
+<react-type-table
+  path="./registry/react/ui/popover.tsx"
+  name="PopoverAnchorProps"
+/>
+
+### `PopoverContent`
+
+<react-type-table
+  path="./registry/react/ui/popover.tsx"
+  name="PopoverContentProps"
+/>
+
+### `PopoverBody`
+
+<react-type-table
+  path="./registry/react/ui/popover.tsx"
+  name="PopoverBodyProps"
+/>
+
+### `PopoverFooter`
+
+<react-type-table
+  path="./registry/react/ui/popover.tsx"
+  name="PopoverFooterProps"
+/>
+
+## Examples
+
+### Trigger
+
+`<PopoverTrigger>`는 `asChild` 패턴을 사용해 자식 요소가 Popover를 열 수 있도록 합니다.
+
+<ComponentExample name="react/popover/trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/popover/trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 Popover를 열고 닫을 수 있습니다. 이 경우 `open` prop을 사용하여 Popover의 상태를 제어합니다.
+
+<ComponentExample name="react/popover/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/popover/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Placement
+
+`<PopoverRoot>`에 `placement` prop을 설정하여 트리거 기준 위치를 지정합니다. 뷰포트 경계를 벗어나면 자동으로 뒤집히거나(flip) 이동합니다(shift). safe-area가 있는 기기에서는 노치와 홈 인디케이터 안쪽에 배치됩니다.
+
+<ComponentExample name="react/popover/placement">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/popover/placement.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Anchor
+
+`<PopoverAnchor>`를 사용하면 트리거와 분리된 요소를 기준으로 Popover의 위치를 잡을 수 있습니다. 이 경우 열림 상태는 `open` prop으로 직접 제어합니다.
+
+<ComponentExample name="react/popover/anchor">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/popover/anchor.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Scroll
+
+`<PopoverContent>`의 `max-height`(600px)를 넘는 긴 콘텐츠는 `<PopoverBody>`가 스크롤됩니다. 스크롤 시 Body 상단에 divider가 나타나고, 하단에는 항상 scroll fog가 표시됩니다. 뷰포트가 작으면 `max-height`는 가용 높이에 맞춰 줄어듭니다.
+
+<ComponentExample name="react/popover/scroll">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/popover/scroll.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Show Close Button
+
+`<PopoverContent>`에 `showCloseButton` prop을 전달하여 닫기 버튼 표시 여부를 제어합니다. 기본값은 `true`이며, 표시될 때 Header 우측에 여백이 확보됩니다.

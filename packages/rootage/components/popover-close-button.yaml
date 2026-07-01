@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: popover-close-button
+  name: Popover Close Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          size:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.transparent
+          cornerRadius: $radius.r3
+          size: 44px
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+        icon:
+          color: $color.fg.neutral-subtle
+          size: 20px
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+      pressed:
+        root:
+          color: $color.bg.transparent-pressed
+        icon:
+          color: $color.fg.neutral
