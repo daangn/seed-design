@@ -406,6 +406,31 @@
     {
       "snippets": [
         {
+          "path": "dialog.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.0.0",
+            "@seed-design/css": "^2.0.0",
+            "@karrotmarket/react-monochrome-icon": "^1.0.0"
+          }
+        }
+      ],
+      "id": "dialog",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "error-state.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",

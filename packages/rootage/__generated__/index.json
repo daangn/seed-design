@@ -93,6 +93,9 @@
       "path": "/components/control-chip.json"
     },
     {
+      "path": "/components/dialog-close-button.json"
+    },
+    {
       "path": "/components/dialog.json"
     },
     {

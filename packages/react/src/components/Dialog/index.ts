@@ -1,5 +1,7 @@
 export {
   DialogBackdrop,
+  DialogBody,
+  DialogCloseButton,
   DialogPositioner,
   DialogContent,
   DialogDescription,
@@ -10,6 +12,8 @@ export {
   DialogTrigger,
   DialogAction,
   type DialogBackdropProps,
+  type DialogBodyProps,
+  type DialogCloseButtonProps,
   type DialogPositionerProps,
   type DialogContentProps,
   type DialogDescriptionProps,

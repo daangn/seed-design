@@ -19,6 +19,10 @@ const dialogSlotNames = [
     "seed-dialog__header"
   ],
   [
+    "body",
+    "seed-dialog__body"
+  ],
+  [
     "footer",
     "seed-dialog__footer"
   ],
@@ -33,11 +37,16 @@ const dialogSlotNames = [
   [
     "description",
     "seed-dialog__description"
+  ],
+  [
+    "closeButton",
+    "seed-dialog__closeButton"
   ]
 ];
 
 const defaultVariant = {
-  "skipAnimation": false
+  "skipAnimation": false,
+  "size": "alert"
 };
 
 const compoundVariants = [];
@@ -45,6 +54,11 @@ const compoundVariants = [];
 export const dialogVariantMap = {
   "skipAnimation": [
     false
+  ],
+  "size": [
+    "alert",
+    "medium",
+    "large"
   ]
 };
 

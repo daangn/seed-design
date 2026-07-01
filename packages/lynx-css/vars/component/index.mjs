@@ -26,6 +26,7 @@ export { vars as chip } from "./chip.mjs";
 export { vars as contentPlaceholder } from "./content-placeholder.mjs";
 export { vars as contextualFloatingButton } from "./contextual-floating-button.mjs";
 export { vars as controlChip } from "./control-chip.mjs";
+export { vars as dialogCloseButton } from "./dialog-close-button.mjs";
 export { vars as dialog } from "./dialog.mjs";
 export { vars as divider } from "./divider.mjs";
 export { vars as extendedActionSheetCloseButton } from "./extended-action-sheet-close-button.mjs";

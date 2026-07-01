@@ -28,9 +28,10 @@ data:
             type: color
           width:
             type: dimension
+            description: viewport `md` 이상에서 적용합니다.
           widthFraction:
             type: number
-            description: viewport 또는 parent width에 대한 mobile content width 비율입니다.
+            description: viewport 또는 parent width에 대한 비율입니다. viewport `md` 미만에서 적용합니다.
           enterDuration:
             type: duration
           enterTimingFunction:

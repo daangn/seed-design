@@ -13,7 +13,7 @@ export declare const vars: {
       /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
-        /** viewport 또는 parent width에 대한 mobile content width 비율입니다. */
+        /** viewport 또는 parent width에 대한 비율입니다. viewport `md` 미만에서 적용합니다. */
         "widthFraction": "0.8",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
@@ -71,6 +71,7 @@ export declare const vars: {
     "enabled": {
       /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
+        /** viewport `md` 이상에서 적용합니다. */
         "width": "480px"
       }
     }
@@ -79,6 +80,7 @@ export declare const vars: {
     "enabled": {
       /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
+        /** viewport `md` 이상에서 적용합니다. */
         "width": "720px"
       }
     }
@@ -87,6 +89,7 @@ export declare const vars: {
     "enabled": {
       /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
+        /** viewport `md` 이상에서 적용합니다. */
         "width": "960px"
       }
     }

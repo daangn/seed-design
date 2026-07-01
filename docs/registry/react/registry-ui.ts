@@ -72,6 +72,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "dialog",
+      snippets: [
+        {
+          path: "dialog.tsx",
+          dependencies: {
+            "@seed-design/react": "^2.0.0",
+            "@seed-design/css": "^2.0.0",
+            "@karrotmarket/react-monochrome-icon": "^1.0.0",
+          },
+        },
+      ],
+    },
+    {
       id: "bottom-sheet",
       snippets: [
         {

@@ -1,11 +1,18 @@
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { dialog, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
+import { dataAttr } from "@seed-design/dom-utils";
 import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { dialog, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
+import clsx from "clsx";
+import * as React from "react";
+import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
-const { withRootProvider, withContext } = createSlotRecipeContext(dialog);
+const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(dialog);
 const withStateProps = createWithStateProps([useDialogContext]);
+
+const closeButtonTracker = createRenderTrackingContext("DialogCloseButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -20,7 +27,13 @@ export interface DialogRootProps extends DialogVariantProps, DialogPrimitive.Roo
   unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
 }
 
-export const DialogRoot = withRootProvider<DialogRootProps>(DialogPrimitive.Root, {
+const DialogRootBase = (props: DialogPrimitive.RootProps) => (
+  <closeButtonTracker.Provider>
+    <DialogPrimitive.Root {...props} />
+  </closeButtonTracker.Provider>
+);
+
+export const DialogRoot = withRootProvider<DialogRootProps>(DialogRootBase, {
   defaultProps: {
     lazyMount: true,
     unmountOnExit: true,
@@ -64,7 +77,23 @@ export const DialogContent = withContext<HTMLDivElement, DialogContentProps>(
 
 export interface DialogHeaderProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const DialogHeader = withContext<HTMLDivElement, DialogHeaderProps>(Primitive.div, "header");
+export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { isRendered } = closeButtonTracker.useRenderTracking();
+
+    return (
+      <Primitive.div
+        ref={ref}
+        data-show-close-button={dataAttr(isRendered)}
+        className={clsx(classNames.header, className)}
+        {...props}
+      />
+    );
+  },
+);
+
+DialogHeader.displayName = "DialogHeader";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -92,6 +121,48 @@ export const DialogDescription = withContext<HTMLParagraphElement, DialogDescrip
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface DialogBodyProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
+  ({ className, ...props }, forwardedRef) => {
+    const classNames = useClassNames();
+
+    const ref = React.useRef<HTMLDivElement>(null);
+    const [scrolled, setScrolled] = React.useState(false);
+
+    React.useEffect(() => {
+      const element = ref.current;
+      if (!element) return;
+
+      const check = () => setScrolled(element.scrollTop > 0);
+      check();
+
+      element.addEventListener("scroll", check);
+
+      const observer = new ResizeObserver(check);
+      observer.observe(element);
+
+      return () => {
+        element.removeEventListener("scroll", check);
+        observer.disconnect();
+      };
+    }, []);
+
+    return (
+      <Primitive.div
+        ref={composeRefs(ref, forwardedRef)}
+        data-scrolled={dataAttr(scrolled)}
+        className={clsx(classNames.body, className)}
+        {...props}
+      />
+    );
+  },
+);
+
+DialogBody.displayName = "DialogBody";
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface DialogFooterProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const DialogFooter = withContext<HTMLDivElement, DialogFooterProps>(Primitive.div, "footer");
@@ -103,3 +174,24 @@ export interface DialogActionProps
     React.HTMLAttributes<HTMLButtonElement> {}
 
 export const DialogAction = DialogPrimitive.CloseButton;
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface DialogCloseButtonProps extends DialogPrimitive.CloseButtonProps {}
+
+export const DialogCloseButton = React.forwardRef<HTMLButtonElement, DialogCloseButtonProps>(
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { trackRef } = closeButtonTracker.useRenderTracking();
+
+    return (
+      <DialogPrimitive.CloseButton
+        ref={composeRefs(ref, trackRef)}
+        className={clsx(classNames.closeButton, className)}
+        {...props}
+      />
+    );
+  },
+);
+
+DialogCloseButton.displayName = "DialogCloseButton";
