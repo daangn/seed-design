@@ -11,13 +11,17 @@ export interface DialogRootProps extends Omit<SeedDialog.RootProps, "size"> {
    * @default "medium"
    */
   size?: Exclude<NonNullable<SeedDialog.RootProps["size"]>, "alert">;
+  /**
+   * @default false
+   */
+  closeOnInteractOutside?: SeedDialog.RootProps["closeOnInteractOutside"];
 }
 
 /**
  * @see https://seed-design.io/react/components/dialog
  */
 export const DialogRoot = (props: DialogRootProps) => {
-  return <SeedDialog.Root size="medium" {...props} />;
+  return <SeedDialog.Root size="medium" closeOnInteractOutside={false} {...props} />;
 };
 DialogRoot.displayName = "DialogRoot";
 
