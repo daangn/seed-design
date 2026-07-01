@@ -86,8 +86,7 @@ export const menu = defineSlotRecipe({
       maxHeight: `min(${menuVars.base.enabled.root.maxHeight}, var(${MENU_AVAILABLE_HEIGHT}, ${menuVars.base.enabled.root.maxHeight}))`,
       boxSizing: "border-box",
 
-      paddingTop: menuVars.base.enabled.root.paddingY,
-      paddingBottom: menuVars.base.enabled.root.paddingY,
+      paddingBlock: menuVars.base.enabled.root.paddingY,
 
       display: "flex",
       flexDirection: "column",
@@ -100,8 +99,7 @@ export const menu = defineSlotRecipe({
       "& + &::before": {
         content: '""',
         display: "block",
-        marginLeft: menuVars.base.enabled.divider.marginX,
-        marginRight: menuVars.base.enabled.divider.marginX,
+        marginInline: menuVars.base.enabled.divider.marginX,
         marginBottom: menuVars.base.enabled.root.gap,
         height: menuVars.base.enabled.divider.height,
         flexShrink: 0,
@@ -119,10 +117,8 @@ export const menu = defineSlotRecipe({
           width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeMedium.enabled.root.width})`,
         },
         groupLabel: {
-          paddingTop: menuVars.sizeMedium.enabled.groupLabel.paddingY,
-          paddingBottom: menuVars.sizeMedium.enabled.groupLabel.paddingY,
-          paddingLeft: menuVars.sizeMedium.enabled.groupLabel.paddingX,
-          paddingRight: menuVars.sizeMedium.enabled.groupLabel.paddingX,
+          paddingBlock: menuVars.sizeMedium.enabled.groupLabel.paddingY,
+          paddingInline: menuVars.sizeMedium.enabled.groupLabel.paddingX,
 
           fontSize: menuVars.sizeMedium.enabled.groupLabel.fontSize,
           lineHeight: menuVars.sizeMedium.enabled.groupLabel.lineHeight,
@@ -134,10 +130,8 @@ export const menu = defineSlotRecipe({
           width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeSmall.enabled.root.width})`,
         },
         groupLabel: {
-          paddingTop: menuVars.sizeSmall.enabled.groupLabel.paddingY,
-          paddingBottom: menuVars.sizeSmall.enabled.groupLabel.paddingY,
-          paddingLeft: menuVars.sizeSmall.enabled.groupLabel.paddingX,
-          paddingRight: menuVars.sizeSmall.enabled.groupLabel.paddingX,
+          paddingBlock: menuVars.sizeSmall.enabled.groupLabel.paddingY,
+          paddingInline: menuVars.sizeSmall.enabled.groupLabel.paddingX,
 
           fontSize: menuVars.sizeSmall.enabled.groupLabel.fontSize,
           lineHeight: menuVars.sizeSmall.enabled.groupLabel.lineHeight,
@@ -153,20 +147,16 @@ export const menu = defineSlotRecipe({
           },
         },
         groupLabel: {
-          paddingTop: menuVars.sizeMedium.enabled.groupLabel.paddingY,
-          paddingBottom: menuVars.sizeMedium.enabled.groupLabel.paddingY,
-          paddingLeft: menuVars.sizeMedium.enabled.groupLabel.paddingX,
-          paddingRight: menuVars.sizeMedium.enabled.groupLabel.paddingX,
+          paddingBlock: menuVars.sizeMedium.enabled.groupLabel.paddingY,
+          paddingInline: menuVars.sizeMedium.enabled.groupLabel.paddingX,
 
           fontSize: menuVars.sizeMedium.enabled.groupLabel.fontSize,
           lineHeight: menuVars.sizeMedium.enabled.groupLabel.lineHeight,
           fontWeight: menuVars.sizeMedium.enabled.groupLabel.fontWeight,
 
           [breakpoints.up("lg")]: {
-            paddingTop: menuVars.sizeSmall.enabled.groupLabel.paddingY,
-            paddingBottom: menuVars.sizeSmall.enabled.groupLabel.paddingY,
-            paddingLeft: menuVars.sizeSmall.enabled.groupLabel.paddingX,
-            paddingRight: menuVars.sizeSmall.enabled.groupLabel.paddingX,
+            paddingBlock: menuVars.sizeSmall.enabled.groupLabel.paddingY,
+            paddingInline: menuVars.sizeSmall.enabled.groupLabel.paddingX,
 
             fontSize: menuVars.sizeSmall.enabled.groupLabel.fontSize,
             lineHeight: menuVars.sizeSmall.enabled.groupLabel.lineHeight,
@@ -234,10 +224,8 @@ export const menuItem = defineSlotRecipe({
       "&::after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        right: menuItemVars.base.pressed.root.marginX,
-        bottom: 0,
-        left: menuItemVars.base.pressed.root.marginX,
+        insetBlock: 0,
+        insetInline: menuItemVars.base.pressed.root.marginX,
         borderRadius: menuItemVars.base.pressed.root.cornerRadius,
         ...createFocusRingRestStyles({ position: "inside" }),
         transition: FOCUS_RING_TRANSITION,
@@ -245,8 +233,7 @@ export const menuItem = defineSlotRecipe({
 
       [pseudo(not(disabled), engaged, before)]: {
         backgroundColor: menuItemVars.base.pressed.root.color,
-        left: menuItemVars.base.pressed.root.marginX,
-        right: menuItemVars.base.pressed.root.marginX,
+        insetInline: menuItemVars.base.pressed.root.marginX,
         borderRadius: menuItemVars.base.pressed.root.cornerRadius,
       },
 
@@ -293,10 +280,8 @@ export const menuItem = defineSlotRecipe({
     size: {
       medium: {
         root: {
-          paddingTop: menuItemVars.sizeMedium.enabled.root.paddingY,
-          paddingBottom: menuItemVars.sizeMedium.enabled.root.paddingY,
-          paddingLeft: menuItemVars.sizeMedium.enabled.root.paddingX,
-          paddingRight: menuItemVars.sizeMedium.enabled.root.paddingX,
+          paddingBlock: menuItemVars.sizeMedium.enabled.root.paddingY,
+          paddingInline: menuItemVars.sizeMedium.enabled.root.paddingX,
 
           gap: menuItemVars.sizeMedium.enabled.root.gap,
 
@@ -319,10 +304,8 @@ export const menuItem = defineSlotRecipe({
       },
       small: {
         root: {
-          paddingTop: menuItemVars.sizeSmall.enabled.root.paddingY,
-          paddingBottom: menuItemVars.sizeSmall.enabled.root.paddingY,
-          paddingLeft: menuItemVars.sizeSmall.enabled.root.paddingX,
-          paddingRight: menuItemVars.sizeSmall.enabled.root.paddingX,
+          paddingBlock: menuItemVars.sizeSmall.enabled.root.paddingY,
+          paddingInline: menuItemVars.sizeSmall.enabled.root.paddingX,
 
           gap: menuItemVars.sizeSmall.enabled.root.gap,
 
@@ -345,10 +328,8 @@ export const menuItem = defineSlotRecipe({
       },
       responsive: {
         root: {
-          paddingTop: menuItemVars.sizeMedium.enabled.root.paddingY,
-          paddingBottom: menuItemVars.sizeMedium.enabled.root.paddingY,
-          paddingLeft: menuItemVars.sizeMedium.enabled.root.paddingX,
-          paddingRight: menuItemVars.sizeMedium.enabled.root.paddingX,
+          paddingBlock: menuItemVars.sizeMedium.enabled.root.paddingY,
+          paddingInline: menuItemVars.sizeMedium.enabled.root.paddingX,
 
           gap: menuItemVars.sizeMedium.enabled.root.gap,
 
@@ -361,10 +342,8 @@ export const menuItem = defineSlotRecipe({
           }),
 
           [breakpoints.up("lg")]: {
-            paddingTop: menuItemVars.sizeSmall.enabled.root.paddingY,
-            paddingBottom: menuItemVars.sizeSmall.enabled.root.paddingY,
-            paddingLeft: menuItemVars.sizeSmall.enabled.root.paddingX,
-            paddingRight: menuItemVars.sizeSmall.enabled.root.paddingX,
+            paddingBlock: menuItemVars.sizeSmall.enabled.root.paddingY,
+            paddingInline: menuItemVars.sizeSmall.enabled.root.paddingX,
 
             gap: menuItemVars.sizeSmall.enabled.root.gap,
 

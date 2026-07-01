@@ -2,8 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--seed-dimension-x2);
-    margin-left: calc(var(--seed-attachment-input-extend-x) * -1);
-    margin-right: calc(var(--seed-attachment-input-extend-x) * -1);
+    margin-inline: calc(var(--seed-attachment-input-extend-x) * -1);
 }
 .seed-attachment-input__dropzone {
     display: flex;
@@ -14,10 +13,8 @@
     gap: var(--seed-dimension-x2);
     border: 1px dashed var(--seed-color-palette-gray-500);
     border-radius: var(--seed-radius-r3);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
-    margin-left: var(--seed-attachment-input-extend-x);
-    margin-right: var(--seed-attachment-input-extend-x);
+    padding-inline: var(--seed-dimension-x4);
+    margin-inline: var(--seed-attachment-input-extend-x);
     transition: border-color 0.2s;
 }
 .seed-attachment-input__dropzone[data-dragging-over] {
@@ -43,8 +40,7 @@
     overflow-x: auto;
     padding-top: var(--seed-dimension-x1);
     margin-top: calc(var(--seed-dimension-x1) * -1);
-    padding-left: var(--seed-attachment-input-extend-x);
-    padding-right: var(--seed-attachment-input-extend-x);
+    padding-inline: var(--seed-attachment-input-extend-x);
 }
 .seed-attachment-input__itemGroup {
     display: flex;

@@ -114,8 +114,7 @@ const tabs = defineSlotRecipe({
     triggerLayout: {
       fill: {
         list: {
-          paddingLeft: vars.layoutFill.enabled.root.paddingX,
-          paddingRight: vars.layoutFill.enabled.root.paddingX,
+          paddingInline: vars.layoutFill.enabled.root.paddingX,
           justifyContent: "space-around",
         },
         indicator: {
@@ -126,15 +125,13 @@ const tabs = defineSlotRecipe({
           flex: 1,
 
           [pseudo(selected, "[data-ssr]:after")]: {
-            left: vars.layoutFill.enabled.indicator.insetX,
-            right: vars.layoutFill.enabled.indicator.insetX,
+            insetInline: vars.layoutFill.enabled.indicator.insetX,
           },
         },
       },
       hug: {
         list: {
-          paddingLeft: vars.layoutHug.enabled.root.paddingX,
-          paddingRight: vars.layoutHug.enabled.root.paddingX,
+          paddingInline: vars.layoutHug.enabled.root.paddingX,
           justifyContent: "flex-start",
         },
         indicator: {
@@ -143,8 +140,7 @@ const tabs = defineSlotRecipe({
         },
         trigger: {
           [pseudo(selected, "[data-ssr]:after")]: {
-            left: 0,
-            right: 0,
+            insetInline: 0,
           },
         },
       },
@@ -180,10 +176,8 @@ const tabs = defineSlotRecipe({
         },
         trigger: {
           minHeight: triggerVars.sizeSmall.enabled.root.minHeight,
-          paddingLeft: triggerVars.sizeSmall.enabled.root.paddingX,
-          paddingRight: triggerVars.sizeSmall.enabled.root.paddingX,
-          paddingTop: triggerVars.sizeSmall.enabled.root.paddingY,
-          paddingBottom: triggerVars.sizeSmall.enabled.root.paddingY,
+          paddingInline: triggerVars.sizeSmall.enabled.root.paddingX,
+          paddingBlock: triggerVars.sizeSmall.enabled.root.paddingY,
 
           fontSize: triggerVars.sizeSmall.enabled.label.fontSize,
           lineHeight: triggerVars.sizeSmall.enabled.label.lineHeight,
@@ -199,10 +193,8 @@ const tabs = defineSlotRecipe({
         },
         trigger: {
           minHeight: triggerVars.sizeMedium.enabled.root.minHeight,
-          paddingLeft: triggerVars.sizeMedium.enabled.root.paddingX,
-          paddingRight: triggerVars.sizeMedium.enabled.root.paddingX,
-          paddingTop: triggerVars.sizeMedium.enabled.root.paddingY,
-          paddingBottom: triggerVars.sizeMedium.enabled.root.paddingY,
+          paddingInline: triggerVars.sizeMedium.enabled.root.paddingX,
+          paddingBlock: triggerVars.sizeMedium.enabled.root.paddingY,
 
           fontSize: triggerVars.sizeMedium.enabled.label.fontSize,
           lineHeight: triggerVars.sizeMedium.enabled.label.lineHeight,

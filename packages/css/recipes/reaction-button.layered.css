@@ -90,10 +90,8 @@
 
   .seed-reaction-button--size_xsmall {
     height: var(--seed-dimension-x8);
-    padding-left: var(--seed-dimension-x3);
-    padding-right: var(--seed-dimension-x3);
-    padding-top: var(--seed-dimension-x1_5);
-    padding-bottom: var(--seed-dimension-x1_5);
+    padding-inline: var(--seed-dimension-x3);
+    padding-block: var(--seed-dimension-x1_5);
     gap: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-full);
     font-size: var(--seed-font-size-t3);
@@ -107,10 +105,8 @@
 
   .seed-reaction-button--size_small {
     height: var(--seed-dimension-x9);
-    padding-left: var(--seed-dimension-x3_5);
-    padding-right: var(--seed-dimension-x3_5);
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
+    padding-inline: var(--seed-dimension-x3_5);
+    padding-block: var(--seed-dimension-x2);
     gap: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-full);
     font-size: var(--seed-font-size-t3);

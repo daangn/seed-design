@@ -43,8 +43,7 @@ export const sideNavigation = defineSlotRecipe({
     },
     content: {
       paddingTop: "8px",
-      paddingLeft: "8px",
-      paddingRight: "8px",
+      paddingInline: "8px",
       paddingBottom: "24px", // should be the same as the height of the scroll fog
 
       flex: 1,
@@ -195,8 +194,7 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       gap: "12px",
 
       height: "44px",
-      paddingLeft: "8px",
-      paddingRight: "8px",
+      paddingInline: "8px",
 
       width: "100%",
       overflow: "hidden",
@@ -253,8 +251,7 @@ export const sideNavigationMenuItem = defineSlotRecipe({
       },
 
       [pseudo(collapsed)]: {
-        paddingLeft: "10px",
-        paddingRight: "10px",
+        paddingInline: "10px",
       },
     },
     prefixIcon: {

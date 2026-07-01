@@ -200,8 +200,7 @@ const inputButton = defineSlotRecipe({
         root: {
           height: vars.sizeLarge.enabled.root.height,
           gap: vars.sizeLarge.enabled.root.gap,
-          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+          paddingInline: vars.sizeLarge.enabled.root.paddingX,
         },
         button: {
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
@@ -238,8 +237,7 @@ const inputButton = defineSlotRecipe({
         root: {
           height: vars.sizeMedium.enabled.root.height,
           gap: vars.sizeMedium.enabled.root.gap,
-          paddingLeft: vars.sizeMedium.enabled.root.paddingX,
-          paddingRight: vars.sizeMedium.enabled.root.paddingX,
+          paddingInline: vars.sizeMedium.enabled.root.paddingX,
         },
         button: {
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
@@ -276,14 +274,12 @@ const inputButton = defineSlotRecipe({
         root: {
           height: vars.sizeLarge.enabled.root.height,
           gap: vars.sizeLarge.enabled.root.gap,
-          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+          paddingInline: vars.sizeLarge.enabled.root.paddingX,
 
           [breakpoints.up("lg")]: {
             height: vars.sizeMedium.enabled.root.height,
             gap: vars.sizeMedium.enabled.root.gap,
-            paddingLeft: vars.sizeMedium.enabled.root.paddingX,
-            paddingRight: vars.sizeMedium.enabled.root.paddingX,
+            paddingInline: vars.sizeMedium.enabled.root.paddingX,
           },
         },
         button: {

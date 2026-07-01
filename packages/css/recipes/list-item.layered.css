@@ -5,10 +5,8 @@
     -moz-osx-font-smoothing: grayscale;
     isolation: isolate;
     width: 100%;
-    padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: var(--seed-dimension-spacing-x-global-gutter);
-    padding-top: var(--seed-dimension-x3);
-    padding-bottom: var(--seed-dimension-x3);
+    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
+    padding-block: var(--seed-dimension-x3);
     --seed-box-align-items: center;
     align-items: var(--seed-box-align-items);
     border: none;
@@ -121,8 +119,7 @@
   @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x1_5);
-      right: var(--seed-dimension-x1_5);
+      inset-inline: var(--seed-dimension-x1_5);
       border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
     }
   }
@@ -130,8 +127,7 @@
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x1_5);
-      right: var(--seed-dimension-x1_5);
+      inset-inline: var(--seed-dimension-x1_5);
       border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
     }
   }
@@ -139,8 +135,7 @@
   @media (hover: hover) and (pointer: fine) {
     .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-hover]:before {
       background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x1_5);
-      right: var(--seed-dimension-x1_5);
+      inset-inline: var(--seed-dimension-x1_5);
       border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
     }
   }
@@ -148,8 +143,7 @@
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
       background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x1_5);
-      right: var(--seed-dimension-x1_5);
+      inset-inline: var(--seed-dimension-x1_5);
       border-radius: var(--list-item-border-radius, var(--seed-dimension-x2_5));
     }
   }

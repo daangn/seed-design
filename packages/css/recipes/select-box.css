@@ -107,18 +107,15 @@
     align-items: center;
     padding-left: var(--seed-dimension-x5);
     padding-right: var(--seed-dimension-x4);
-    padding-top: var(--seed-dimension-x4);
-    padding-bottom: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x4);
 }
 .seed-select-box__content--layout_horizontal {
     align-items: center;
     gap: var(--seed-dimension-x3);
 }
 .seed-select-box__trigger--layout_vertical {
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
-    padding-top: var(--seed-dimension-x5);
-    padding-bottom: var(--seed-dimension-x5);
+    padding-inline: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x5);
 }
 .seed-select-box__content--layout_vertical {
     flex-direction: column;

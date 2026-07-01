@@ -56,13 +56,12 @@
 
   .seed-bottom-sheet__content:after {
     content: "";
+    top: 100%;
     background: inherit;
     z-index: -1;
     height: 200vh;
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
   }
 
   .seed-bottom-sheet__header {
@@ -87,8 +86,7 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
-    padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: var(--seed-dimension-spacing-x-global-gutter);
+    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     white-space: pre-wrap;
     margin: 0;
   }
@@ -120,8 +118,7 @@
     --seed-box-max-height: var(--seed-box-max-height-base);
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
-    padding-left: var(--seed-box-padding-x);
-    padding-right: var(--seed-box-padding-x);
+    padding-inline: var(--seed-box-padding-x);
     height: var(--seed-box-height);
     min-height: var(--seed-box-min-height);
     max-height: var(--seed-box-max-height);
@@ -132,8 +129,7 @@
   }
 
   .seed-bottom-sheet__footer {
-    padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: var(--seed-dimension-spacing-x-global-gutter);
+    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x3);
     padding-bottom: var(--seed-dimension-x4);
     flex-direction: column;

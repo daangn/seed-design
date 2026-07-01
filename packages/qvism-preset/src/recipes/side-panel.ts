@@ -66,8 +66,7 @@ const sidePanel = defineSlotRecipe({
 
       // Full height, anchored top/bottom; the left/right edge is set per direction.
       // Mobile-first: width fraction on sm-, token width on md+.
-      top: 0,
-      bottom: 0,
+      insetBlock: 0,
       width: `var(--seed-box-width, calc(${vars.base.enabled.content.widthFraction} * 100vw))`,
       maxWidth: "var(--seed-box-max-width)",
 
@@ -83,8 +82,7 @@ const sidePanel = defineSlotRecipe({
       "&::after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        bottom: 0,
+        insetBlock: 0,
         width: "100vw",
         background: "inherit",
         zIndex: -1,
@@ -136,8 +134,7 @@ const sidePanel = defineSlotRecipe({
 
       gap: vars.base.enabled.header.gap,
       minHeight: `calc(${vars.base.enabled.header.minHeight} + var(--seed-safe-area-top))`,
-      paddingLeft: vars.base.enabled.header.paddingX,
-      paddingRight: vars.base.enabled.header.paddingX,
+      paddingInline: vars.base.enabled.header.paddingX,
 
       paddingTop: `calc(${vars.base.enabled.header.paddingTop} + var(--seed-safe-area-top))`,
       paddingBottom: vars.base.enabled.header.paddingBottom,
@@ -177,8 +174,7 @@ const sidePanel = defineSlotRecipe({
       "--seed-box-max-height--responsive": "initial",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
-      paddingLeft: "var(--seed-box-padding-x)",
-      paddingRight: "var(--seed-box-padding-x)",
+      paddingInline: "var(--seed-box-padding-x)",
       paddingBottom: vars.base.enabled.body.paddingBottom, // reserve room for the bottom scroll fog
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
@@ -201,8 +197,7 @@ const sidePanel = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },

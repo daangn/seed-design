@@ -53,8 +53,7 @@ const accordion = defineSlotRecipe({
       padding: 0,
       fontFamily: "inherit",
       textAlign: "start",
-      paddingLeft: itemVars.base.enabled.trigger.paddingX,
-      paddingRight: itemVars.base.enabled.trigger.paddingX,
+      paddingInline: itemVars.base.enabled.trigger.paddingX,
 
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
@@ -144,8 +143,7 @@ const accordion = defineSlotRecipe({
             content: "''",
             position: "absolute",
             bottom: 0,
-            left: itemVars.variantInline.enabled.root.dividerPaddingX,
-            right: itemVars.variantInline.enabled.root.dividerPaddingX,
+            insetInline: itemVars.variantInline.enabled.root.dividerPaddingX,
             height: "1px",
             backgroundColor: itemVars.variantInline.enabled.root.dividerColor,
           },
@@ -162,8 +160,7 @@ const accordion = defineSlotRecipe({
           },
           [pseudo(not(disabled), engaged, "::before")]: {
             backgroundColor: itemVars.base.pressed.trigger.color,
-            left: itemVars.base.pressed.trigger.marginX,
-            right: itemVars.base.pressed.trigger.marginX,
+            insetInline: itemVars.base.pressed.trigger.marginX,
             borderRadius: itemVars.base.pressed.trigger.cornerRadius,
           },
         },
@@ -193,8 +190,7 @@ const accordion = defineSlotRecipe({
     size: {
       medium: {
         trigger: {
-          paddingTop: itemVars.sizeMedium.enabled.trigger.paddingY,
-          paddingBottom: itemVars.sizeMedium.enabled.trigger.paddingY,
+          paddingBlock: itemVars.sizeMedium.enabled.trigger.paddingY,
         },
         prefix: {
           marginRight: itemVars.sizeMedium.enabled.prefix.paddingRight,
@@ -219,8 +215,7 @@ const accordion = defineSlotRecipe({
       },
       large: {
         trigger: {
-          paddingTop: itemVars.sizeLarge.enabled.trigger.paddingY,
-          paddingBottom: itemVars.sizeLarge.enabled.trigger.paddingY,
+          paddingBlock: itemVars.sizeLarge.enabled.trigger.paddingY,
         },
         prefix: {
           marginRight: itemVars.sizeLarge.enabled.prefix.paddingRight,
@@ -245,12 +240,10 @@ const accordion = defineSlotRecipe({
       },
       responsive: {
         trigger: {
-          paddingTop: itemVars.sizeMedium.enabled.trigger.paddingY,
-          paddingBottom: itemVars.sizeMedium.enabled.trigger.paddingY,
+          paddingBlock: itemVars.sizeMedium.enabled.trigger.paddingY,
 
           [breakpoints.up("md")]: {
-            paddingTop: itemVars.sizeLarge.enabled.trigger.paddingY,
-            paddingBottom: itemVars.sizeLarge.enabled.trigger.paddingY,
+            paddingBlock: itemVars.sizeLarge.enabled.trigger.paddingY,
           },
         },
         prefix: {

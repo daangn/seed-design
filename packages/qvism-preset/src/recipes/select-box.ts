@@ -175,8 +175,7 @@ export const selectBox = defineSlotRecipe({
 
           paddingLeft: vars.layoutHorizontal.enabled.trigger.paddingLeft,
           paddingRight: vars.layoutHorizontal.enabled.trigger.paddingRight,
-          paddingTop: vars.layoutHorizontal.enabled.trigger.paddingY,
-          paddingBottom: vars.layoutHorizontal.enabled.trigger.paddingY,
+          paddingBlock: vars.layoutHorizontal.enabled.trigger.paddingY,
         },
         content: {
           alignItems: "center",
@@ -186,10 +185,8 @@ export const selectBox = defineSlotRecipe({
       },
       vertical: {
         trigger: {
-          paddingLeft: vars.layoutVertical.enabled.trigger.paddingX,
-          paddingRight: vars.layoutVertical.enabled.trigger.paddingX,
-          paddingTop: vars.layoutVertical.enabled.trigger.paddingY,
-          paddingBottom: vars.layoutVertical.enabled.trigger.paddingY,
+          paddingInline: vars.layoutVertical.enabled.trigger.paddingX,
+          paddingBlock: vars.layoutVertical.enabled.trigger.paddingY,
         },
         content: {
           flexDirection: "column",

@@ -18,8 +18,7 @@
     text-align: start;
     width: 100%;
     padding: 0;
-    padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: var(--seed-dimension-spacing-x-global-gutter);
+    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
@@ -115,8 +114,7 @@
   .seed-accordion__item--variant_inline:not(:last-child):after {
     content: "";
     bottom: 0;
-    left: var(--seed-dimension-x3);
-    right: var(--seed-dimension-x3);
+    inset-inline: var(--seed-dimension-x3);
     background-color: var(--seed-color-stroke-neutral-subtle);
     height: 1px;
     position: absolute;
@@ -135,8 +133,7 @@
   @media (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger--variant_inline:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x1_5);
-      right: var(--seed-dimension-x1_5);
+      inset-inline: var(--seed-dimension-x1_5);
       border-radius: var(--seed-dimension-x2_5);
     }
   }
@@ -144,8 +141,7 @@
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-accordion__trigger--variant_inline:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x1_5);
-      right: var(--seed-dimension-x1_5);
+      inset-inline: var(--seed-dimension-x1_5);
       border-radius: var(--seed-dimension-x2_5);
     }
   }
@@ -179,8 +175,7 @@
   }
 
   .seed-accordion__trigger--size_medium {
-    padding-top: var(--seed-dimension-x4);
-    padding-bottom: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x4);
   }
 
   .seed-accordion__prefix--size_medium {
@@ -204,8 +199,7 @@
   }
 
   .seed-accordion__trigger--size_large {
-    padding-top: var(--seed-dimension-x5);
-    padding-bottom: var(--seed-dimension-x5);
+    padding-block: var(--seed-dimension-x5);
   }
 
   .seed-accordion__prefix--size_large {
@@ -229,14 +223,12 @@
   }
 
   .seed-accordion__trigger--size_responsive {
-    padding-top: var(--seed-dimension-x4);
-    padding-bottom: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x4);
   }
 
   @media (width >= 768px) {
     .seed-accordion__trigger--size_responsive {
-      padding-top: var(--seed-dimension-x5);
-      padding-bottom: var(--seed-dimension-x5);
+      padding-block: var(--seed-dimension-x5);
     }
   }
 

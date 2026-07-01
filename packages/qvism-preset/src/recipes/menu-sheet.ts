@@ -54,8 +54,7 @@ const menuSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
-      paddingLeft: vars.base.enabled.content.paddingX,
-      paddingRight: vars.base.enabled.content.paddingX,
+      paddingInline: vars.base.enabled.content.paddingX,
 
       // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
       // but currently React menu sheet doesn't have a handle in the header
@@ -84,8 +83,7 @@ const menuSheet = defineSlotRecipe({
           height: "200vh",
           content: '""',
           position: "absolute",
-          left: 0,
-          right: 0,
+          insetInline: 0,
           background: "inherit",
           zIndex: -1,
         },
@@ -147,10 +145,8 @@ const menuSheet = defineSlotRecipe({
 
       backgroundColor: closeVars.base.enabled.root.color,
       minHeight: closeVars.base.enabled.root.minHeight,
-      paddingLeft: closeVars.base.enabled.root.paddingX,
-      paddingRight: closeVars.base.enabled.root.paddingX,
-      paddingTop: closeVars.base.enabled.root.paddingY,
-      paddingBottom: closeVars.base.enabled.root.paddingY,
+      paddingInline: closeVars.base.enabled.root.paddingX,
+      paddingBlock: closeVars.base.enabled.root.paddingY,
       borderRadius: closeVars.base.enabled.root.cornerRadius,
 
       border: "none",

@@ -25,8 +25,7 @@
     align-self: stretch;
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-regular);
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline: 0;
 }
 .seed-text-input__value:is(input) {
     width: 0;
@@ -132,24 +131,20 @@
 }
 .seed-text-input__value--size_large:is(textarea) {
     min-height: 94px;
-    padding-top: var(--seed-dimension-x3_5);
-    padding-bottom: var(--seed-dimension-x3_5);
+    padding-block: var(--seed-dimension-x3_5);
 }
 .seed-text-input__value--size_medium:is(textarea) {
     min-height: 82px;
-    padding-top: var(--seed-dimension-x3);
-    padding-bottom: var(--seed-dimension-x3);
+    padding-block: var(--seed-dimension-x3);
 }
 .seed-text-input__value--size_responsive:is(textarea) {
     min-height: 94px;
-    padding-top: var(--seed-dimension-x3_5);
-    padding-bottom: var(--seed-dimension-x3_5);
+    padding-block: var(--seed-dimension-x3_5);
 }
 @media (min-width: 1280px) {
     .seed-text-input__value--size_responsive:is(textarea) {
         min-height: 82px;
-        padding-top: var(--seed-dimension-x3);
-        padding-bottom: var(--seed-dimension-x3);
+        padding-block: var(--seed-dimension-x3);
     }
 }
 .seed-text-input__root--variant_outline-size_large {
@@ -369,8 +364,7 @@
 .seed-text-input__root--variant_underline-size_large {
     gap: var(--seed-dimension-x2_5);
     min-height: var(--seed-dimension-x10);
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
+    padding-block: var(--seed-dimension-x2);
 }
 .seed-text-input__value--variant_underline-size_large {
     font-size: var(--seed-font-size-t6);
@@ -399,8 +393,7 @@
 .seed-text-input__root--variant_underline-size_medium {
     gap: var(--seed-dimension-x2);
     min-height: 34px;
-    padding-top: var(--seed-dimension-x1_5);
-    padding-bottom: var(--seed-dimension-x1_5);
+    padding-block: var(--seed-dimension-x1_5);
 }
 .seed-text-input__value--variant_underline-size_medium {
     font-size: var(--seed-font-size-t5);
@@ -429,15 +422,13 @@
 .seed-text-input__root--variant_underline-size_responsive {
     gap: var(--seed-dimension-x2_5);
     min-height: var(--seed-dimension-x10);
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
+    padding-block: var(--seed-dimension-x2);
 }
 @media (min-width: 1280px) {
     .seed-text-input__root--variant_underline-size_responsive {
         gap: var(--seed-dimension-x2);
         min-height: 34px;
-        padding-top: var(--seed-dimension-x1_5);
-        padding-bottom: var(--seed-dimension-x1_5);
+        padding-block: var(--seed-dimension-x1_5);
     }
 }
 .seed-text-input__value--variant_underline-size_responsive {

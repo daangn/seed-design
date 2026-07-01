@@ -124,8 +124,7 @@
   .seed-select-box__trigger--layout_horizontal {
     padding-left: var(--seed-dimension-x5);
     padding-right: var(--seed-dimension-x4);
-    padding-top: var(--seed-dimension-x4);
-    padding-bottom: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x4);
     align-items: center;
   }
 
@@ -135,10 +134,8 @@
   }
 
   .seed-select-box__trigger--layout_vertical {
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
-    padding-top: var(--seed-dimension-x5);
-    padding-bottom: var(--seed-dimension-x5);
+    padding-inline: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x5);
   }
 
   .seed-select-box__content--layout_vertical {

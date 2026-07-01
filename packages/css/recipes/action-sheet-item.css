@@ -18,8 +18,7 @@
     content: '';
     display: block;
     position: absolute;
-    left: var(--seed-dimension-spacing-x-global-gutter);
-    right: var(--seed-dimension-spacing-x-global-gutter);
+    inset-inline: var(--seed-dimension-spacing-x-global-gutter);
     bottom: 0;
     height: 1px;
     background: var(--seed-color-stroke-neutral-muted);

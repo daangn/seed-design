@@ -18,8 +18,7 @@
     z-index: -1;
     will-change: transform;
     transform: translateX(calc(var(--segment-index) * 100%));
-    top: var(--seed-dimension-x1);
-    bottom: var(--seed-dimension-x1);
+    inset-block: var(--seed-dimension-x1);
     left: var(--seed-dimension-x1);
     width: calc((100% - var(--seed-dimension-x1) * 2) / var(--segment-count));
     border-radius: var(--seed-radius-full);
@@ -41,10 +40,8 @@
     min-width: 86px;
     height: 100%;
     min-height: 34px;
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
-    padding-top: var(--seed-dimension-x1_5);
-    padding-bottom: var(--seed-dimension-x1_5);
+    padding-inline: var(--seed-dimension-x6);
+    padding-block: var(--seed-dimension-x1_5);
     border-radius: var(--seed-radius-full);
     font-weight: var(--seed-font-weight-bold);
     font-size: var(--seed-font-size-t5);

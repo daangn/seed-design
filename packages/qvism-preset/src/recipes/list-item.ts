@@ -32,10 +32,8 @@ const listItem = defineSlotRecipe({
       width: "100%",
       isolation: "isolate",
 
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.enabled.root.paddingX,
+      paddingBlock: vars.base.enabled.root.paddingY,
 
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",
@@ -141,8 +139,7 @@ const listItem = defineSlotRecipe({
       [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
-        left: vars.base.pressed.root.marginX,
-        right: vars.base.pressed.root.marginX,
+        insetInline: vars.base.pressed.root.marginX,
 
         borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
@@ -154,8 +151,7 @@ const listItem = defineSlotRecipe({
         [pseudo(not(disabled), "[data-hover]", "::before")]: {
           backgroundColor: vars.base.pressed.root.color,
 
-          left: vars.base.pressed.root.marginX,
-          right: vars.base.pressed.root.marginX,
+          insetInline: vars.base.pressed.root.marginX,
 
           borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
         },
@@ -164,8 +160,7 @@ const listItem = defineSlotRecipe({
         [pseudo(not(disabled), "[data-active]", "::before")]: {
           backgroundColor: vars.base.pressed.root.color,
 
-          left: vars.base.pressed.root.marginX,
-          right: vars.base.pressed.root.marginX,
+          insetInline: vars.base.pressed.root.marginX,
 
           borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
         },

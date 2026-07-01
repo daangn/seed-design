@@ -44,8 +44,7 @@ const textInput = defineSlotRecipe({
 
       fontWeight: vars.base.enabled.value.fontWeight,
 
-      paddingLeft: 0,
-      paddingRight: 0,
+      paddingInline: 0,
 
       [pseudo(":is(input)")]: {
         // browser sets the default width of inputs based on the 'size' prop of the input (e.g. <input size="20" />)
@@ -371,8 +370,7 @@ const textInput = defineSlotRecipe({
         root: {
           gap: vars.variantUnderlineSizeLarge.enabled.root.gap,
           minHeight: vars.variantUnderlineSizeLarge.enabled.root.minHeight,
-          paddingTop: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
-          paddingBottom: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
+          paddingBlock: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
         },
         value: {
           fontSize: vars.variantUnderlineSizeLarge.enabled.value.fontSize,
@@ -408,8 +406,7 @@ const textInput = defineSlotRecipe({
         root: {
           gap: vars.variantUnderlineSizeMedium.enabled.root.gap,
           minHeight: vars.variantUnderlineSizeMedium.enabled.root.minHeight,
-          paddingTop: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
-          paddingBottom: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
+          paddingBlock: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
         },
         value: {
           fontSize: vars.variantUnderlineSizeMedium.enabled.value.fontSize,
@@ -445,14 +442,12 @@ const textInput = defineSlotRecipe({
         root: {
           gap: vars.variantUnderlineSizeLarge.enabled.root.gap,
           minHeight: vars.variantUnderlineSizeLarge.enabled.root.minHeight,
-          paddingTop: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
-          paddingBottom: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
+          paddingBlock: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
 
           [breakpoints.up("lg")]: {
             gap: vars.variantUnderlineSizeMedium.enabled.root.gap,
             minHeight: vars.variantUnderlineSizeMedium.enabled.root.minHeight,
-            paddingTop: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
-            paddingBottom: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
+            paddingBlock: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
           },
         },
         value: {
@@ -589,8 +584,7 @@ const textInput = defineSlotRecipe({
         value: {
           [pseudo(":is(textarea)")]: {
             minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
-            paddingTop: vars.typeMultilineSizeLarge.enabled.root.paddingY,
-            paddingBottom: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+            paddingBlock: vars.typeMultilineSizeLarge.enabled.root.paddingY,
           },
         },
       },
@@ -598,8 +592,7 @@ const textInput = defineSlotRecipe({
         value: {
           [pseudo(":is(textarea)")]: {
             minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
-            paddingTop: vars.typeMultilineSizeMedium.enabled.root.paddingY,
-            paddingBottom: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+            paddingBlock: vars.typeMultilineSizeMedium.enabled.root.paddingY,
           },
         },
       },
@@ -607,13 +600,11 @@ const textInput = defineSlotRecipe({
         value: {
           [pseudo(":is(textarea)")]: {
             minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
-            paddingTop: vars.typeMultilineSizeLarge.enabled.root.paddingY,
-            paddingBottom: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+            paddingBlock: vars.typeMultilineSizeLarge.enabled.root.paddingY,
 
             [breakpoints.up("lg")]: {
               minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
-              paddingTop: vars.typeMultilineSizeMedium.enabled.root.paddingY,
-              paddingBottom: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+              paddingBlock: vars.typeMultilineSizeMedium.enabled.root.paddingY,
             },
           },
         },
