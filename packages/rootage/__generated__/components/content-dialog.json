@@ -241,6 +241,18 @@
                   "type": "dimension",
                   "value": "$radius.r5"
                 },
+                "widthFraction": {
+                  "type": "number",
+                  "value": 0.9
+                },
+                "maxHeightFraction": {
+                  "type": "number",
+                  "value": 0.8
+                },
+                "marginX": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                },
                 "enterDuration": {
                   "type": "duration",
                   "value": "$duration.d4"
@@ -275,77 +287,6 @@
                   "type": "dimension",
                   "value": "$dimension.x1_5"
                 },
-                "closeButtonGap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1_5"
-                }
-              },
-              "footer": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                }
-              },
-              "title": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.bold"
-                }
-              },
-              "description": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "size": "medium"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "content": {
-                "widthFraction": {
-                  "type": "number",
-                  "value": 0.9
-                },
-                "maxWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 480,
-                    "unit": "px"
-                  }
-                },
-                "maxHeightFraction": {
-                  "type": "number",
-                  "value": 0.8
-                },
-                "marginX": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                }
-              },
-              "header": {
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x6"
@@ -357,6 +298,10 @@
                 "paddingBottom": {
                   "type": "dimension",
                   "value": "$dimension.x4"
+                },
+                "closeButtonGap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
                 }
               },
               "body": {
@@ -378,6 +323,10 @@
                 }
               },
               "footer": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x6"
@@ -392,6 +341,10 @@
                 }
               },
               "title": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t8"
@@ -399,12 +352,28 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t8"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
                 }
               },
               "description": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
                 }
               },
               "closeButton": {
@@ -433,6 +402,29 @@
                   "type": "dimension",
                   "value": {
                     "value": 1,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "content": {
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 480,
                     "unit": "px"
                   }
                 }
@@ -452,114 +444,10 @@
             ],
             "slots": {
               "content": {
-                "widthFraction": {
-                  "type": "number",
-                  "value": 0.9
-                },
                 "maxWidth": {
                   "type": "dimension",
                   "value": {
                     "value": 800,
-                    "unit": "px"
-                  }
-                },
-                "maxHeightFraction": {
-                  "type": "number",
-                  "value": 0.8
-                },
-                "marginX": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                }
-              },
-              "header": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "paddingTop": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "paddingBottom": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                }
-              },
-              "body": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "paddingBottom": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                },
-                "strokeDuration": {
-                  "type": "duration",
-                  "value": "$duration.color-transition"
-                },
-                "strokeTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                }
-              },
-              "footer": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "paddingTop": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
-                "paddingBottom": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                }
-              },
-              "title": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t8"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t8"
-                }
-              },
-              "description": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
-                }
-              },
-              "closeButton": {
-                "fromTop": {
-                  "type": "dimension",
-                  "value": "$dimension.x7"
-                },
-                "fromRight": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "scrolled"
-            ],
-            "slots": {
-              "body": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-muted"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
                     "unit": "px"
                   }
                 }

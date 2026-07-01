@@ -71,6 +71,15 @@ const contentDialog = defineSlotRecipe({
       background: vars.base.enabled.content.color,
       borderRadius: vars.base.enabled.content.cornerRadius,
 
+      // Mobile-first: fixed viewport fraction below md, capped token width at md+
+      // (the cap itself is the only value that differs by size — see variants).
+      width: `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
+      maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
+      [breakpoints.up("md")]: {
+        maxWidth: `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,
+      },
+
       [pseudo(open)]: enterAnimation({
         timingFunction: vars.base.enabled.content.enterTimingFunction,
         duration: vars.base.enabled.content.enterDuration,
@@ -93,6 +102,14 @@ const contentDialog = defineSlotRecipe({
       flexShrink: 0,
 
       gap: vars.base.enabled.header.gap,
+      paddingInline: vars.base.enabled.header.paddingX,
+      paddingTop: vars.base.enabled.header.paddingTop,
+      paddingBottom: vars.base.enabled.header.paddingBottom,
+
+      // Reserve room on the right so the title/description never run under the close button.
+      [pseudo("[data-show-close-button]")]: {
+        paddingRight: `calc(${vars.base.enabled.closeButton.fromRight} + ${closeButtonVars.base.enabled.icon.size} + ${vars.base.enabled.header.closeButtonGap})`,
+      },
     },
     body: {
       display: "flex",
@@ -100,14 +117,28 @@ const contentDialog = defineSlotRecipe({
       flex: 1,
       minHeight: 0,
       overflowY: "auto",
+
+      paddingInline: vars.base.enabled.body.paddingX,
+      paddingBottom: vars.base.enabled.body.paddingBottom,
+
+      transition: `box-shadow ${vars.base.enabled.body.strokeDuration} ${vars.base.enabled.body.strokeTimingFunction}`,
+      [pseudo("[data-scrolled]", not(":first-child"))]: {
+        boxShadow: `inset 0 ${vars.base.scrolled.body.strokeWidth} 0 0 ${vars.base.scrolled.body.strokeColor}`,
+      },
+
+      maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+      WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
     },
     title: {
       color: vars.base.enabled.title.color,
+      fontSize: vars.base.enabled.title.fontSize,
+      lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
 
       margin: 0,
     },
     description: {
+      color: vars.base.enabled.description.color,
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
@@ -120,9 +151,15 @@ const contentDialog = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
       flexShrink: 0,
+
+      paddingInline: vars.base.enabled.footer.paddingX,
+      paddingTop: vars.base.enabled.footer.paddingTop,
+      paddingBottom: vars.base.enabled.footer.paddingBottom,
     },
     closeButton: {
       position: "absolute",
+      top: vars.base.enabled.closeButton.fromTop,
+      right: vars.base.enabled.closeButton.fromRight,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -152,102 +189,19 @@ const contentDialog = defineSlotRecipe({
   },
   variants: {
     size: {
+      // medium and large differ only in the md+ capped width.
       medium: {
         content: {
-          // Mobile-first: fixed viewport fraction below md, capped token width at md+.
-          width: `calc(${vars.sizeMedium.enabled.content.widthFraction} * 100vw)`,
-          // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
-          maxHeight: `calc(${vars.sizeMedium.enabled.content.maxHeightFraction} * 100vh)`,
           [breakpoints.up("md")]: {
             width: vars.sizeMedium.enabled.content.maxWidth,
-            maxWidth: `calc(100vw - 2 * ${vars.sizeMedium.enabled.content.marginX})`,
           },
-        },
-        header: {
-          paddingInline: vars.sizeMedium.enabled.header.paddingX,
-          paddingTop: vars.sizeMedium.enabled.header.paddingTop,
-          paddingBottom: vars.sizeMedium.enabled.header.paddingBottom,
-
-          // Reserve room on the right so the title/description never run under the close button.
-          [pseudo("[data-show-close-button]")]: {
-            paddingRight: `calc(${vars.sizeMedium.enabled.closeButton.fromRight} + ${closeButtonVars.base.enabled.icon.size} + ${vars.base.enabled.header.closeButtonGap})`,
-          },
-        },
-        body: {
-          paddingInline: vars.sizeMedium.enabled.body.paddingX,
-          paddingBottom: vars.sizeMedium.enabled.body.paddingBottom,
-
-          transition: `box-shadow ${vars.sizeMedium.enabled.body.strokeDuration} ${vars.sizeMedium.enabled.body.strokeTimingFunction}`,
-          [pseudo("[data-scrolled]", not(":first-child"))]: {
-            boxShadow: `inset 0 ${vars.sizeMedium.scrolled.body.strokeWidth} 0 0 ${vars.sizeMedium.scrolled.body.strokeColor}`,
-          },
-
-          maskImage: `linear-gradient(to top, transparent 0, black ${vars.sizeMedium.enabled.body.paddingBottom})`,
-          WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.sizeMedium.enabled.body.paddingBottom})`,
-        },
-        footer: {
-          paddingInline: vars.sizeMedium.enabled.footer.paddingX,
-          paddingTop: vars.sizeMedium.enabled.footer.paddingTop,
-          paddingBottom: vars.sizeMedium.enabled.footer.paddingBottom,
-        },
-        title: {
-          fontSize: vars.sizeMedium.enabled.title.fontSize,
-          lineHeight: vars.sizeMedium.enabled.title.lineHeight,
-        },
-        description: {
-          color: vars.sizeMedium.enabled.description.color,
-        },
-        closeButton: {
-          top: vars.sizeMedium.enabled.closeButton.fromTop,
-          right: vars.sizeMedium.enabled.closeButton.fromRight,
         },
       },
       large: {
         content: {
-          width: `calc(${vars.sizeLarge.enabled.content.widthFraction} * 100vw)`,
-          // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
-          maxHeight: `calc(${vars.sizeLarge.enabled.content.maxHeightFraction} * 100vh)`,
           [breakpoints.up("md")]: {
             width: vars.sizeLarge.enabled.content.maxWidth,
-            maxWidth: `calc(100vw - 2 * ${vars.sizeLarge.enabled.content.marginX})`,
           },
-        },
-        header: {
-          paddingInline: vars.sizeLarge.enabled.header.paddingX,
-          paddingTop: vars.sizeLarge.enabled.header.paddingTop,
-          paddingBottom: vars.sizeLarge.enabled.header.paddingBottom,
-
-          [pseudo("[data-show-close-button]")]: {
-            paddingRight: `calc(${vars.sizeLarge.enabled.closeButton.fromRight} + ${closeButtonVars.base.enabled.icon.size} + ${vars.base.enabled.header.closeButtonGap})`,
-          },
-        },
-        body: {
-          paddingInline: vars.sizeLarge.enabled.body.paddingX,
-          paddingBottom: vars.sizeLarge.enabled.body.paddingBottom,
-
-          transition: `box-shadow ${vars.sizeLarge.enabled.body.strokeDuration} ${vars.sizeLarge.enabled.body.strokeTimingFunction}`,
-          [pseudo("[data-scrolled]", not(":first-child"))]: {
-            boxShadow: `inset 0 ${vars.sizeLarge.scrolled.body.strokeWidth} 0 0 ${vars.sizeLarge.scrolled.body.strokeColor}`,
-          },
-
-          maskImage: `linear-gradient(to top, transparent 0, black ${vars.sizeLarge.enabled.body.paddingBottom})`,
-          WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.sizeLarge.enabled.body.paddingBottom})`,
-        },
-        footer: {
-          paddingInline: vars.sizeLarge.enabled.footer.paddingX,
-          paddingTop: vars.sizeLarge.enabled.footer.paddingTop,
-          paddingBottom: vars.sizeLarge.enabled.footer.paddingBottom,
-        },
-        title: {
-          fontSize: vars.sizeLarge.enabled.title.fontSize,
-          lineHeight: vars.sizeLarge.enabled.title.lineHeight,
-        },
-        description: {
-          color: vars.sizeLarge.enabled.description.color,
-        },
-        closeButton: {
-          top: vars.sizeLarge.enabled.closeButton.fromTop,
-          right: vars.sizeLarge.enabled.closeButton.fromRight,
         },
       },
     },
