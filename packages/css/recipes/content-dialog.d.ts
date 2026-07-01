@@ -1,9 +1,5 @@
 declare interface ContentDialogVariant {
   /**
-  * @default false
-  */
-  skipAnimation: boolean;
-/**
   * @default "medium"
   */
   size: "medium" | "large";

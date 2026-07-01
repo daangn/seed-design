@@ -45,16 +45,12 @@ const contentDialogSlotNames = [
 ];
 
 const defaultVariant = {
-  "skipAnimation": false,
   "size": "medium"
 };
 
 const compoundVariants = [];
 
 export const contentDialogVariantMap = {
-  "skipAnimation": [
-    false
-  ],
   "size": [
     "medium",
     "large"
