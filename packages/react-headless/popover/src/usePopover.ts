@@ -6,13 +6,12 @@ import {
   useTransitionStatus,
 } from "@floating-ui/react";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useMemo } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import {
   usePositionedFloating,
   type UsePositionedFloatingProps,
 } from "@seed-design/react-floating";
-
-// TODO: useRole이 임의로 id를 생성하는 문제가 있음. 동작만 참고하고 role="dialog"에 맞게 aria attribute 설정을 직접 해야 함.
+import { getDescriptionId, getTitleId } from "./dom";
 
 export interface UsePopoverProps extends UsePositionedFloatingProps {
   /**
@@ -37,6 +36,21 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
     arrowStyles,
     rects,
   } = usePositionedFloating(props);
+
+  const id = useId();
+
+  // Presence-aware aria wiring: the content (dialog) only references a title/description id
+  // when that part is actually rendered, mirroring `useField`. Tracking lives here in the
+  // hook (not a styled context) so aria is guaranteed at the headless layer, and a title-less
+  // popover never emits a dangling `aria-labelledby` that would clobber a user `aria-label`.
+  const [isTitleRendered, setIsTitleRendered] = useState(false);
+  const titleRef = useCallback((node: HTMLElement | null) => {
+    setIsTitleRendered(!!node);
+  }, []);
+  const [isDescriptionRendered, setIsDescriptionRendered] = useState(false);
+  const descriptionRef = useCallback((node: HTMLElement | null) => {
+    setIsDescriptionRendered(!!node);
+  }, []);
 
   const role = useRole(context);
   const click = useClick(context);
@@ -69,6 +83,8 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
         positioner: refs.setFloating as (instance: HTMLElement | null) => void,
         arrow: refs.setArrow as (instance: HTMLElement | null) => void,
         arrowTip: refs.setArrowTip as (instance: SVGSVGElement | null) => void,
+        title: titleRef,
+        description: descriptionRef,
       },
       rects,
       stateProps,
@@ -80,9 +96,22 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
         ...stateProps,
       }),
       positionerProps: elementProps({
-        ...triggerInteractions.getFloatingProps(),
         ...stateProps,
         style: floatingStyles,
+      }),
+      contentProps: elementProps({
+        ...triggerInteractions.getFloatingProps(),
+        ...stateProps,
+        ...(isTitleRendered && { "aria-labelledby": getTitleId(id) }),
+        ...(isDescriptionRendered && { "aria-describedby": getDescriptionId(id) }),
+      }),
+      titleProps: elementProps({
+        id: getTitleId(id),
+        ...stateProps,
+      }),
+      descriptionProps: elementProps({
+        id: getDescriptionId(id),
+        ...stateProps,
       }),
       arrowProps: elementProps({
         ...stateProps,
@@ -100,6 +129,11 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
     [
       open,
       onOpenChange,
+      id,
+      isTitleRendered,
+      isDescriptionRendered,
+      titleRef,
+      descriptionRef,
       refs,
       stateProps,
       triggerInteractions,

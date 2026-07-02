@@ -87,7 +87,7 @@ export interface PopoverContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const PopoverContent = withContext<HTMLDivElement, PopoverContentProps>(
-  withStyleProps(withStateProps(Primitive.div)),
+  withStyleProps(withStateProps(PopoverPrimitive.Content)),
   "content",
 );
 
@@ -120,7 +120,7 @@ export interface PopoverTitleProps
     React.HTMLAttributes<HTMLHeadingElement> {}
 
 export const PopoverTitle = withContext<HTMLHeadingElement, PopoverTitleProps>(
-  Primitive.h2,
+  PopoverPrimitive.Title,
   "title",
 );
 
@@ -133,7 +133,7 @@ export interface PopoverDescriptionProps
     React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const PopoverDescription = withContext<HTMLParagraphElement, PopoverDescriptionProps>(
-  Primitive.p,
+  PopoverPrimitive.Description,
   "description",
 );
 

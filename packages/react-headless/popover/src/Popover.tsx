@@ -1,10 +1,11 @@
 "use client";
 
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { usePopover, type UsePopoverProps } from "./usePopover";
 import { PopoverProvider, usePopoverContext } from "./usePopoverContext";
 import { FloatingPortal, type FloatingPortalProps } from "@floating-ui/react";
@@ -83,6 +84,80 @@ export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositio
   },
 );
 PopoverPositionerPortal.displayName = "PopoverPositionerPortal";
+
+export interface PopoverContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((props, ref) => {
+  const api = usePopoverContext();
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const content = (
+    <Primitive.div
+      ref={composeRefs(contentRef, ref)}
+      tabIndex={-1}
+      {...mergeProps(api.contentProps, props)}
+    />
+  );
+
+  // Focus management via Radix FocusScope (mirrors Drawer). The dialog renders in a Portal, so:
+  // - Mounting a FocusScope registers it on Radix's focusScopesStack and pauses any trapped
+  //   parent scope (Dialog, Drawer, BottomSheet, or the Stackflow AppScreen) while open.
+  //   Without it the parent traps focus and yanks it back to the trigger, so focus could never
+  //   reach the portaled content.
+  // - trapped + loop keep focus inside the dialog (Radix/Ark parity): Tab wraps within the
+  //   content instead of escaping to the page. Non-modal is preserved — the background is not
+  //   inerted or scroll-locked, only keyboard focus is contained. Keeping focus in also means
+  //   Escape/keyboard dismissal always target this popover.
+  // - onMountAutoFocus focuses the content container (tabIndex=-1) rather than the first
+  //   tabbable, so focus doesn't land on the header close (X) button.
+  // Mounted only while open so mount/unmount maps to open/close: initial focus lands on open,
+  // and FocusScope's default return-focus sends focus back to the trigger on close.
+  return api.open ? (
+    <FocusScope
+      asChild
+      loop
+      trapped
+      onMountAutoFocus={(e) => {
+        e.preventDefault();
+        contentRef.current?.focus();
+      }}
+    >
+      {content}
+    </FocusScope>
+  ) : (
+    content
+  );
+});
+PopoverContent.displayName = "PopoverContent";
+
+export interface PopoverTitleProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLHeadingElement> {}
+
+export const PopoverTitle = forwardRef<HTMLHeadingElement, PopoverTitleProps>((props, ref) => {
+  const api = usePopoverContext();
+  return (
+    <Primitive.h2 ref={composeRefs(api.refs.title, ref)} {...mergeProps(api.titleProps, props)} />
+  );
+});
+PopoverTitle.displayName = "PopoverTitle";
+
+export interface PopoverDescriptionProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLParagraphElement> {}
+
+export const PopoverDescription = forwardRef<HTMLParagraphElement, PopoverDescriptionProps>(
+  (props, ref) => {
+    const api = usePopoverContext();
+    return (
+      <Primitive.p
+        ref={composeRefs(api.refs.description, ref)}
+        {...mergeProps(api.descriptionProps, props)}
+      />
+    );
+  },
+);
+PopoverDescription.displayName = "PopoverDescription";
 
 export interface PopoverArrowProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
