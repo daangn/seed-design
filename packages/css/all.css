@@ -7167,14 +7167,15 @@
   align-items: var(--seed-box-align-items);
   width: 100%;
   min-width: 0;
-  transition-property: transform;
+  transition-property: scale;
   transition-duration: var(--seed-duration-pressed-scale);
   transition-timing-function: var(--seed-timing-function-pressed-scale);
   display: flex;
+  scale: 1;
 }
 
 .seed-next-list-item__layout:not(:is(:disabled, [disabled], [data-disabled]))[data-active] {
-  transform: scale(var(--seed-scale-s97));
+  scale: var(--seed-scale-s97);
 }
 
 .seed-next-list-item__prefix {

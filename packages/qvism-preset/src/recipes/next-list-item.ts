@@ -13,9 +13,9 @@ import { listItem as vars } from "../vars/component";
 // Differences from the `list-item` recipe:
 //  - Two independent layers per rootage spec: the background layer (root::before,
 //    shrinks horizontally by marginX) and the layout layer (`layout` slot, shrinks
-//    via `transform: scale`). They must not be the same element, so the pressed
-//    background moves from the `content` slot to `root`, and a new `layout` slot
-//    wraps prefix/content/suffix.
+//    via the individual `scale` property). They must not be the same element, so the
+//    pressed background moves from the `content` slot to `root`, and a new `layout`
+//    slot wraps prefix/content/suffix.
 //  - Pressable detection is unified on `[data-active]`/`[data-hover]`. The library
 //    forwards these to root + layout for every variant (headless context for
 //    checkbox/radio/switch, a press context for button/anchor), so the old
@@ -92,12 +92,16 @@ const nextListItem = defineSlotRecipe({
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",
 
-      transitionProperty: "transform",
+      // Individual `scale` over `transform: scale()` — progressive enhancement for
+      // Chrome 104+ / Safari 14.1+; older browsers just skip the pressed scale so a
+      // consumer's `transform` on this element is never clobbered.
+      scale: "1",
+      transitionProperty: "scale",
       transitionDuration: vars.base.enabled.root.contentScaleDuration,
       transitionTimingFunction: vars.base.enabled.root.contentScaleTimingFunction,
 
       [pseudo(not(disabled), "[data-active]")]: {
-        transform: `scale(${vars.base.pressed.root.contentScale})`,
+        scale: vars.base.pressed.root.contentScale,
       },
     },
     prefix: {

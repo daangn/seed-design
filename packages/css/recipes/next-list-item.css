@@ -47,12 +47,13 @@
     min-width: 0;
     --seed-box-align-items: center;
     align-items: var(--seed-box-align-items);
-    transition-property: transform;
+    scale: 1;
+    transition-property: scale;
     transition-duration: var(--seed-duration-pressed-scale);
     transition-timing-function: var(--seed-timing-function-pressed-scale);
 }
 .seed-next-list-item__layout:not(:is(:disabled, [disabled], [data-disabled]))[data-active] {
-    transform: scale(var(--seed-scale-s97));
+    scale: var(--seed-scale-s97);
 }
 .seed-next-list-item__prefix {
     display: inline-flex;
