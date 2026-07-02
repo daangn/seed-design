@@ -12,15 +12,16 @@ SEED Design은 라이트 모드와 다크 모드를 지원하는 테마 시스�
 
 ## 전역 설정 적용
 
-`@seed-design/lynx-react`의 `getSeedClassName()` 함수를 사용하여 `<page>` 요소에 테마 클래스를 설정합니다.
+`@seed-design/lynx-react`의 `useSeedClassName()` 훅을 사용하여 `<page>` 요소에 테마 클래스를 설정합니다.
 
 ```tsx
 import { root } from "@lynx-js/react";
-import { getSeedClassName } from "@seed-design/lynx-react";
+import { useSeedClassName } from "@seed-design/lynx-react";
 
 function Root() {
+  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <page className={getSeedClassName({ colorMode: "system" })}>
+    <page className={seedClassName}>
       <App />
     </page>
   );
@@ -29,7 +30,11 @@ function Root() {
 root.render(<Root />);
 ```
 
-`getSeedClassName()`은 `colorMode` 옵션에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환합니다.
+`useSeedClassName()`은 `colorMode` 옵션에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환합니다. `lynx.__globalProps.theme` 변경을 구독하므로, 시스템 테마가 바뀌면 자동으로 리렌더되어 클래스가 갱신됩니다.
+
+<Callout>
+`getSeedClassName()`은 동일한 클래스를 반환하는 순수 함수 버전입니다. 테마 변경에 반응할 필요가 없는 정적 컨텍스트에서 사용하세요. 자세한 내용은 [`useSeedClassName`](/lynx/hooks/use-seed-class-name)을 참고하세요.
+</Callout>
 
 ### `colorMode` 옵션
 
@@ -48,7 +53,7 @@ SEED Design의 Lynx 테마 시스템은 두 종류의 클래스 이름을 사용
 
 ### `seed-user-color-scheme-*` (루트 레벨 테마)
 
-`getSeedClassName()`이 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
+`useSeedClassName()`이 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
 
 - `seed-user-color-scheme-light`: 라이트 모드가 적용됨
 - `seed-user-color-scheme-dark`: 다크 모드가 적용됨
@@ -138,4 +143,4 @@ function MyComponent() {
 | 전역 테마 설정 | `data-seed-color-mode` + `data-seed-user-color-scheme` 속성을 `<html>`에 적용 | `seed-user-color-scheme-*` 클래스를 `<page>`에 적용 |
 | 테마 오버라이드 | `data-seed-color-mode="light-only"` 또는 `"dark-only"` 속성 | `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스 |
 | 토큰 상속 | CSS 커스텀 프로퍼티 상속 | CSS 커스텀 프로퍼티 상속 (동일) |
-| 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `getSeedClassName()` 함수로 className 직접 설정 |
+| 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `useSeedClassName()` 훅으로 className 설정 |
