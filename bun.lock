@@ -48,10 +48,10 @@
         "@sanity/image-url": "^2.0.0",
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
-        "@seed-design/css": "2.1.1",
+        "@seed-design/css": "2.1.2",
         "@seed-design/lynx-react": "0.2.0",
         "@seed-design/migration-index": "2.0.0",
-        "@seed-design/react": "2.0.0",
+        "@seed-design/react": "2.0.1",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
@@ -101,7 +101,7 @@
         "@figma/rest-api-spec": "^0.36.0",
         "@karrotmarket/lynx-multicolor-icon": "1.13.0",
         "@lynx-js/react": "0.117.0",
-        "@seed-design/lynx-css": "0.4.0",
+        "@seed-design/lynx-css": "0.4.1",
         "@storybook/builder-webpack5": "^10.1.10",
         "@storybook/nextjs": "^10.1.10",
         "@tailwindcss/postcss": "^4.0.6",
@@ -408,7 +408,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "2.1.1",
+      "version": "2.1.2",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -456,7 +456,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -485,7 +485,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.116.3",
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/lynx-css": "0.4.0",
+        "@seed-design/lynx-css": "0.4.1",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
         "vite": "^8.0.0",
@@ -540,7 +540,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -1308,7 +1308,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "2.1.0",
+      "version": "2.1.1",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -1351,7 +1351,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "2.1.1",
+        "@seed-design/css": "2.1.2",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",

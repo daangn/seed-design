@@ -1,5 +1,13 @@
 # @seed-design/css
 
+## 2.1.2
+
+### Patch Changes
+
+- bfaa48a: Floating Action Button의 확장(extended) 형태 아이콘 크기를 `$dimension.x5`에서 `$dimension.x4`로 수정합니다.
+- 7224b94: ImageFrameReactionButton root에 반투명 배경색과 그림자를 추가하여 밝은 이미지 위에서의 가시성을 개선합니다.
+- c4ce431: Side Panel Close Button 및 Side Panel Header의 스타일을 디자인 스펙에 맞게 수정하고, Side Panel body에 `box-sizing: border-box`를 적용하여, body에 지정한 `height`/`minHeight`/`maxHeight`가 padding을 포함해 계산되도록 수정합니다.
+
 ## 2.1.1
 
 ### Patch Changes
