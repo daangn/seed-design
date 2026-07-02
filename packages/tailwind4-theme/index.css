@@ -307,6 +307,9 @@
   --radius-r5: var(--seed-radius-r5);
   --radius-r6: var(--seed-radius-r6);
   --radius-full: var(--seed-radius-full);
+  --scale-s95: var(--seed-scale-s95);
+  --scale-s97: var(--seed-scale-s97);
+  --scale-s98: var(--seed-scale-s98);
   --shadow-s1: var(--seed-shadow-s1);
   --shadow-s2: var(--seed-shadow-s2);
   --shadow-s3: var(--seed-shadow-s3);

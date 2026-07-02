@@ -930,6 +930,20 @@
     --seed-shadow-s3: 0px 4px 16px 0px #000c;
   }
 
+  :root {
+    --seed-scale-s95: .95;
+    --seed-scale-s97: .97;
+    --seed-scale-s98: .98;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --seed-scale-s95: 1;
+      --seed-scale-s97: 1;
+      --seed-scale-s98: 1;
+    }
+  }
+
   @keyframes seed-enter {
     from {
       opacity: var(--seed-enter-opacity, 1);
@@ -1547,7 +1561,8 @@
   }
 
   .seed-action-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    scale: 1;
   }
 
   .seed-action-button--variant_brandSolid {
@@ -1815,6 +1830,10 @@
     --seed-icon-size: var(--seed-dimension-x3_5);
   }
 
+  .seed-action-button--size_xsmall:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s95);
+  }
+
   .seed-action-button--size_small {
     height: var(--seed-dimension-x9);
     border-radius: var(--seed-radius-r2);
@@ -1823,6 +1842,10 @@
     --seed-prefix-icon-size: var(--seed-dimension-x3_5);
     --seed-suffix-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-size: var(--seed-dimension-x4);
+  }
+
+  .seed-action-button--size_small:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
   }
 
   .seed-action-button--size_medium {
@@ -1835,6 +1858,10 @@
     --seed-icon-size: 18px;
   }
 
+  .seed-action-button--size_medium:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
+  }
+
   .seed-action-button--size_large {
     height: var(--seed-dimension-x13);
     border-radius: var(--seed-radius-r3);
@@ -1843,6 +1870,10 @@
     --seed-prefix-icon-size: 22px;
     --seed-suffix-icon-size: 22px;
     --seed-icon-size: 22px;
+  }
+
+  .seed-action-button--size_large:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s98);
   }
 
   .seed-action-button--size_xsmall-layout_withText {
