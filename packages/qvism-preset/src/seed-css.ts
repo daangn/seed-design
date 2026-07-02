@@ -105,6 +105,10 @@ export default function generateSeedCss(
           value !== 0 ? `@media (min-width: ${value}px)` : ":root",
         ]),
       ),
+      motion: {
+        preferred: ":root",
+        reduced: "@media (prefers-reduced-motion: reduce)",
+      },
     },
     customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory
   };

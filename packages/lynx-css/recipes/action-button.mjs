@@ -103,6 +103,22 @@ const compoundVariants = [
     "pressed": true
   },
   {
+    "size": "xsmall",
+    "pressed": true
+  },
+  {
+    "size": "small",
+    "pressed": true
+  },
+  {
+    "size": "medium",
+    "pressed": true
+  },
+  {
+    "size": "large",
+    "pressed": true
+  },
+  {
     "variant": "brandSolid",
     "disabled": true
   },

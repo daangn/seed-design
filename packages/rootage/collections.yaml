@@ -10,6 +10,10 @@ data:
     modes:
       - id: theme-light
       - id: theme-dark
+  - name: motion
+    modes:
+      - id: preferred
+      - id: reduced
   - name: viewport-width
     modes:
       - id: base
