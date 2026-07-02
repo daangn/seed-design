@@ -5871,7 +5871,7 @@
     height: var(--seed-dimension-x6);
     color: var(--seed-color-palette-static-white);
     pointer-events: none;
-    filter: drop-shadow(0 2px 2px #0000001a);
+    filter: drop-shadow(0 2px 2px #00000026);
     margin: auto;
     position: absolute;
     inset: 0;

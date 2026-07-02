@@ -13,7 +13,7 @@ export declare const vars: {
         "gradient": "var(--seed-color-palette-static-black-alpha-600) 0%, var(--seed-color-palette-static-black-alpha-600) 100%",
         /** 보이는 버튼 크기입니다. */
         "size": "var(--seed-dimension-x6)",
-        "shadow": "0px 2px 4px 0px #0000001A"
+        "shadow": "0px 2px 4px 0px #00000026"
       },
       /** fillIcon 위로 올라가는 하트 아이콘입니다. */
       "lineIcon": {

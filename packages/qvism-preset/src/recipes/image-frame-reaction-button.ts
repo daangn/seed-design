@@ -68,7 +68,7 @@ export default defineSlotRecipe({
 
       // reactionButtonVars.base.enabled.fillIcon.shadow but without the unsupported spread value
       // NOTE: the blur value of filter: drop-shadow() is -2x blurrier than box-shadow's same value so halve the value to match of the original design
-      filter: "drop-shadow(0px 2px 2px #0000001A)",
+      filter: "drop-shadow(0px 2px 2px #00000026)",
     },
   },
   variants: {},

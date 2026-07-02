@@ -53,7 +53,7 @@ data:
                 offsetY: 2px
                 blur: 4px
                 spread: 0px
-                color: "#0000001A"
+                color: "#00000026" # 15%
         lineIcon:
           color: $color.palette.static-white
           size: $dimension.x6
