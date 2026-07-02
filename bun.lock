@@ -1021,6 +1021,7 @@
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-focus-scope": "^1.1.8",
         "@seed-design/dom-utils": "^2.0.1",
         "@seed-design/react-floating": "^1.0.1",
         "@seed-design/react-primitive": "^2.0.1",
