@@ -206,6 +206,7 @@ const HeartFillSvg = (props: React.SVGAttributes<SVGSVGElement>) => {
           y2="10.5391"
           gradientUnits="userSpaceOnUse"
         >
+          {/* NOTE: see image-frame-reaction-button.yaml for the colors */}
           <stop stopColor="#FF9A56" />
           <stop offset="1" stopColor="#FF6600" />
         </linearGradient>
@@ -224,6 +225,8 @@ const HeartLineSvg = (props: React.SVGAttributes<SVGSVGElement>) => (
     aria-hidden="true"
     {...props}
   >
+    {/* NOTE: see image-frame-reaction-button.yaml for the color */}
+    <path d={HeartFillPath} fill="#0000004c" />
     <path fillRule="evenodd" clipRule="evenodd" d={HeartOutlineStrokePath} fill="currentColor" />
   </svg>
 );

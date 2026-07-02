@@ -22,6 +22,8 @@ data:
             type: gradient
           size:
             type: dimension
+          shadow:
+            type: shadow
       lineIcon:
         description: fillIcon 위로 올라가는 하트 아이콘입니다.
         properties:
@@ -39,11 +41,19 @@ data:
           gradient:
             type: gradient
             value:
-              - color: $color.palette.static-black-alpha-300
+              - color: $color.palette.static-black-alpha-600
                 position: 0
-              - color: $color.palette.static-black-alpha-300
+              - color: $color.palette.static-black-alpha-600
                 position: 1
           size: $dimension.x6
+          shadow:
+            type: shadow
+            value:
+              - offsetX: 0px
+                offsetY: 2px
+                blur: 4px
+                spread: 0px
+                color: "#00000026" # 15%
         lineIcon:
           color: $color.palette.static-white
           size: $dimension.x6

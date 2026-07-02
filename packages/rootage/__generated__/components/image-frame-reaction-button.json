@@ -29,6 +29,9 @@
             },
             "size": {
               "type": "dimension"
+            },
+            "shadow": {
+              "type": "shadow"
             }
           },
           "description": "lineIcon 아래에 내려가는 하트 아이콘입니다."
@@ -71,11 +74,11 @@
                   "type": "gradient",
                   "value": [
                     {
-                      "color": "$color.palette.static-black-alpha-300",
+                      "color": "$color.palette.static-black-alpha-600",
                       "position": 0
                     },
                     {
-                      "color": "$color.palette.static-black-alpha-300",
+                      "color": "$color.palette.static-black-alpha-600",
                       "position": 1
                     }
                   ]
@@ -83,6 +86,30 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x6"
+                },
+                "shadow": {
+                  "type": "shadow",
+                  "value": [
+                    {
+                      "color": "#00000026",
+                      "offsetX": {
+                        "value": 0,
+                        "unit": "px"
+                      },
+                      "offsetY": {
+                        "value": 2,
+                        "unit": "px"
+                      },
+                      "blur": {
+                        "value": 4,
+                        "unit": "px"
+                      },
+                      "spread": {
+                        "value": 0,
+                        "unit": "px"
+                      }
+                    }
+                  ]
                 }
               },
               "lineIcon": {

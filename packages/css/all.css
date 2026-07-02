@@ -5622,13 +5622,10 @@
   height: var(--seed-dimension-x6);
   color: var(--seed-color-palette-static-white);
   pointer-events: none;
+  filter: drop-shadow(0 2px 2px #00000026);
   margin: auto;
   position: absolute;
   inset: 0;
-}
-
-.seed-image-frame-reaction-button__lineIcon:is([aria-pressed="true"], [data-pressed]) {
-  color: var(--seed-color-bg-transparent);
 }
 
 .seed-inline-banner__root {
