@@ -49,7 +49,7 @@
         "@sanity/table": "^2.0.1",
         "@sanity/vision": "^4.20.3",
         "@seed-design/css": "2.1.2",
-        "@seed-design/lynx-react": "0.2.0",
+        "@seed-design/lynx-react": "0.3.0",
         "@seed-design/migration-index": "2.0.0",
         "@seed-design/react": "2.0.1",
         "@seed-design/react-icon": "^0.7.4",
@@ -340,7 +340,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.5.0",
+      "version": "1.5.1",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
@@ -476,7 +476,7 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
