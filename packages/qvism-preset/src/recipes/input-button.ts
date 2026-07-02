@@ -41,10 +41,7 @@ const inputButton = defineSlotRecipe({
       position: "absolute",
       zIndex: -1,
 
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
 
       cursor: "pointer",
 
@@ -60,10 +57,7 @@ const inputButton = defineSlotRecipe({
       "&::after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         borderRadius: "inherit",
         borderStyle: "solid",
         borderColor: "transparent",
@@ -206,8 +200,7 @@ const inputButton = defineSlotRecipe({
         root: {
           height: vars.sizeLarge.enabled.root.height,
           gap: vars.sizeLarge.enabled.root.gap,
-          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+          paddingInline: vars.sizeLarge.enabled.root.paddingX,
         },
         button: {
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
@@ -244,8 +237,7 @@ const inputButton = defineSlotRecipe({
         root: {
           height: vars.sizeMedium.enabled.root.height,
           gap: vars.sizeMedium.enabled.root.gap,
-          paddingLeft: vars.sizeMedium.enabled.root.paddingX,
-          paddingRight: vars.sizeMedium.enabled.root.paddingX,
+          paddingInline: vars.sizeMedium.enabled.root.paddingX,
         },
         button: {
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
@@ -282,14 +274,12 @@ const inputButton = defineSlotRecipe({
         root: {
           height: vars.sizeLarge.enabled.root.height,
           gap: vars.sizeLarge.enabled.root.gap,
-          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+          paddingInline: vars.sizeLarge.enabled.root.paddingX,
 
           [breakpoints.up("lg")]: {
             height: vars.sizeMedium.enabled.root.height,
             gap: vars.sizeMedium.enabled.root.gap,
-            paddingLeft: vars.sizeMedium.enabled.root.paddingX,
-            paddingRight: vars.sizeMedium.enabled.root.paddingX,
+            paddingInline: vars.sizeMedium.enabled.root.paddingX,
           },
         },
         button: {

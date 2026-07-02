@@ -1,8 +1,7 @@
 @layer seed-components {
   .seed-attachment-input__root {
     gap: var(--seed-dimension-x2);
-    margin-left: calc(var(--seed-attachment-input-extend-x) * -1);
-    margin-right: calc(var(--seed-attachment-input-extend-x) * -1);
+    margin-inline: calc(var(--seed-attachment-input-extend-x) * -1);
     flex-direction: column;
     display: flex;
   }
@@ -14,10 +13,8 @@
     border: 1px dashed var(--seed-color-palette-gray-500);
     border-radius: var(--seed-radius-r3);
     height: 120px;
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
-    margin-left: var(--seed-attachment-input-extend-x);
-    margin-right: var(--seed-attachment-input-extend-x);
+    padding-inline: var(--seed-dimension-x4);
+    margin-inline: var(--seed-attachment-input-extend-x);
     flex-direction: column;
     transition: border-color .2s;
     display: flex;
@@ -48,8 +45,7 @@
     gap: var(--seed-dimension-x2);
     padding-top: var(--seed-dimension-x1);
     margin-top: calc(var(--seed-dimension-x1) * -1);
-    padding-left: var(--seed-attachment-input-extend-x);
-    padding-right: var(--seed-attachment-input-extend-x);
+    padding-inline: var(--seed-attachment-input-extend-x);
     display: flex;
     overflow-x: auto;
   }

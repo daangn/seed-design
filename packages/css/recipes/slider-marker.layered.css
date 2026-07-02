@@ -6,8 +6,7 @@
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
     position: absolute;
-    top: 0;
-    bottom: 0;
+    inset-block: 0;
   }
 
   .seed-slider-marker[data-dir="ltr"] {

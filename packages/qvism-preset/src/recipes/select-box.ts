@@ -53,10 +53,7 @@ export const selectBox = defineSlotRecipe({
       "&::after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         borderRadius: "inherit",
         borderStyle: "solid",
         borderColor: "transparent",
@@ -178,8 +175,7 @@ export const selectBox = defineSlotRecipe({
 
           paddingLeft: vars.layoutHorizontal.enabled.trigger.paddingLeft,
           paddingRight: vars.layoutHorizontal.enabled.trigger.paddingRight,
-          paddingTop: vars.layoutHorizontal.enabled.trigger.paddingY,
-          paddingBottom: vars.layoutHorizontal.enabled.trigger.paddingY,
+          paddingBlock: vars.layoutHorizontal.enabled.trigger.paddingY,
         },
         content: {
           alignItems: "center",
@@ -189,10 +185,8 @@ export const selectBox = defineSlotRecipe({
       },
       vertical: {
         trigger: {
-          paddingLeft: vars.layoutVertical.enabled.trigger.paddingX,
-          paddingRight: vars.layoutVertical.enabled.trigger.paddingX,
-          paddingTop: vars.layoutVertical.enabled.trigger.paddingY,
-          paddingBottom: vars.layoutVertical.enabled.trigger.paddingY,
+          paddingInline: vars.layoutVertical.enabled.trigger.paddingX,
+          paddingBlock: vars.layoutVertical.enabled.trigger.paddingY,
         },
         content: {
           flexDirection: "column",
@@ -223,10 +217,7 @@ export const selectBoxCheckmark = defineSlotRecipe({
       display: "block",
       position: "absolute",
       margin: "auto",
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
+      inset: 0,
       textAlign: "center",
       overflow: "initial",
 

@@ -13,10 +13,8 @@ export default defineRecipe({
     color: indicatorVars.base.enabled.label.color,
     borderRadius: indicatorVars.base.enabled.root.cornerRadius,
 
-    paddingLeft: indicatorVars.base.enabled.root.paddingX,
-    paddingRight: indicatorVars.base.enabled.root.paddingX,
-    paddingTop: indicatorVars.base.enabled.root.paddingY,
-    paddingBottom: indicatorVars.base.enabled.root.paddingY,
+    paddingInline: indicatorVars.base.enabled.root.paddingX,
+    paddingBlock: indicatorVars.base.enabled.root.paddingY,
 
     fontSize: indicatorVars.base.enabled.label.fontSize,
     lineHeight: indicatorVars.base.enabled.label.lineHeight,

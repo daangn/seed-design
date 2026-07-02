@@ -49,8 +49,7 @@
   .seed-menu__scrollArea {
     max-height: min(480px, var(--seed-menu-available-height, 480px));
     box-sizing: border-box;
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
+    padding-block: var(--seed-dimension-x2);
     gap: var(--seed-dimension-x2);
     flex-direction: column;
     display: flex;
@@ -64,8 +63,7 @@
 
   .seed-menu__group + .seed-menu__group:before {
     content: "";
-    margin-left: var(--seed-dimension-x4);
-    margin-right: var(--seed-dimension-x4);
+    margin-inline: var(--seed-dimension-x4);
     margin-bottom: var(--seed-dimension-x2);
     background-color: var(--seed-color-stroke-neutral-muted);
     flex-shrink: 0;
@@ -82,10 +80,8 @@
   }
 
   .seed-menu__groupLabel--size_medium {
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);
@@ -96,10 +92,8 @@
   }
 
   .seed-menu__groupLabel--size_small {
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x2);
+    padding-inline: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-regular);
@@ -116,10 +110,8 @@
   }
 
   .seed-menu__groupLabel--size_responsive {
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);
@@ -127,10 +119,8 @@
 
   @media (width >= 1280px) {
     .seed-menu__groupLabel--size_responsive {
-      padding-top: var(--seed-dimension-x2);
-      padding-bottom: var(--seed-dimension-x2);
-      padding-left: var(--seed-dimension-x4);
-      padding-right: var(--seed-dimension-x4);
+      padding-block: var(--seed-dimension-x2);
+      padding-inline: var(--seed-dimension-x4);
       font-size: var(--seed-font-size-t3);
       line-height: var(--seed-line-height-t3);
       font-weight: var(--seed-font-weight-regular);

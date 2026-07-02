@@ -73,8 +73,7 @@
     min-height: 36px;
     min-width: var(--seed-dimension-x12);
     font-size: var(--seed-font-size-t4);
-    padding-left: calc(var(--seed-dimension-x2) + var(--seed-dimension-x1_5));
-    padding-right: calc(var(--seed-dimension-x2) + var(--seed-dimension-x1_5));
+    padding-inline: calc(var(--seed-dimension-x2) + var(--seed-dimension-x1_5));
   }
 
   .seed-chip-tabs__list--size_large {
@@ -85,8 +84,7 @@
     min-height: 40px;
     min-width: var(--seed-dimension-x13);
     font-size: var(--seed-font-size-t4);
-    padding-left: calc(var(--seed-dimension-x2_5) + var(--seed-dimension-x1_5));
-    padding-right: calc(var(--seed-dimension-x2_5) + var(--seed-dimension-x1_5));
+    padding-inline: calc(var(--seed-dimension-x2_5) + var(--seed-dimension-x1_5));
   }
 
   .seed-chip-tabs__trigger--variant_neutralSolid {

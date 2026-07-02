@@ -166,8 +166,7 @@
   .seed-input-button__root--size_large {
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
   }
 
   .seed-input-button__button--size_large {
@@ -201,8 +200,7 @@
   .seed-input-button__root--size_medium {
     height: var(--seed-dimension-x10);
     gap: var(--seed-dimension-x2);
-    padding-left: var(--seed-dimension-x3_5);
-    padding-right: var(--seed-dimension-x3_5);
+    padding-inline: var(--seed-dimension-x3_5);
   }
 
   .seed-input-button__button--size_medium {
@@ -236,16 +234,14 @@
   .seed-input-button__root--size_responsive {
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
   }
 
   @media (width >= 1280px) {
     .seed-input-button__root--size_responsive {
       height: var(--seed-dimension-x10);
       gap: var(--seed-dimension-x2);
-      padding-left: var(--seed-dimension-x3_5);
-      padding-right: var(--seed-dimension-x3_5);
+      padding-inline: var(--seed-dimension-x3_5);
     }
   }
 

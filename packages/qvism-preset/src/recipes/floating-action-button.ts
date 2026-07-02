@@ -78,8 +78,7 @@ const floatingActionButton = defineSlotRecipe({
     extended: {
       true: {
         root: {
-          paddingLeft: vars.extendedTrue.enabled.root.paddingX,
-          paddingRight: vars.extendedTrue.enabled.root.paddingX,
+          paddingInline: vars.extendedTrue.enabled.root.paddingX,
           height: vars.extendedTrue.enabled.root.minHeight,
 
           // trick for width transition
