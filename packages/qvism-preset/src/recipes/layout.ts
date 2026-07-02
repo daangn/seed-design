@@ -15,8 +15,7 @@ const layout = defineSlotRecipe({
     content: {
       width: "100%",
 
-      marginLeft: "auto",
-      marginRight: "auto",
+      marginInline: "auto",
     },
   },
   variants: {

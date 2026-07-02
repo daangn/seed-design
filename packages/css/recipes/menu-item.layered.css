@@ -21,7 +21,7 @@
   .seed-menu-item__root:before {
     content: "";
     z-index: -1;
-    transition-property: background-color, left, right, border-radius;
+    transition-property: background-color, inset-inline, border-radius;
     transition-duration: var(--seed-duration-color-transition);
     transition-timing-function: var(--seed-timing-function-easing);
     position: absolute;
@@ -30,10 +30,8 @@
 
   .seed-menu-item__root:after {
     content: "";
-    top: 0;
-    right: var(--seed-dimension-x2);
-    bottom: 0;
-    left: var(--seed-dimension-x2);
+    inset-block: 0;
+    inset-inline: var(--seed-dimension-x2);
     border-radius: var(--seed-radius-r3);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
@@ -44,8 +42,7 @@
   @media (hover: hover) and (pointer: fine) {
     .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x2);
-      right: var(--seed-dimension-x2);
+      inset-inline: var(--seed-dimension-x2);
       border-radius: var(--seed-radius-r3);
     }
   }
@@ -53,8 +50,7 @@
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x2);
-      right: var(--seed-dimension-x2);
+      inset-inline: var(--seed-dimension-x2);
       border-radius: var(--seed-radius-r3);
     }
   }
@@ -95,10 +91,8 @@
   }
 
   .seed-menu-item__root--size_medium {
-    padding-top: var(--seed-dimension-x3);
-    padding-bottom: var(--seed-dimension-x3);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x3);
+    padding-inline: var(--seed-dimension-x4);
     gap: var(--seed-dimension-x3);
     --seed-prefix-icon-size: 22px;
     --seed-suffix-icon-size: 18px;
@@ -115,10 +109,8 @@
   }
 
   .seed-menu-item__root--size_small {
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x4);
     gap: var(--seed-dimension-x2);
     --seed-prefix-icon-size: 18px;
     --seed-suffix-icon-size: 16px;
@@ -135,10 +127,8 @@
   }
 
   .seed-menu-item__root--size_responsive {
-    padding-top: var(--seed-dimension-x3);
-    padding-bottom: var(--seed-dimension-x3);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x3);
+    padding-inline: var(--seed-dimension-x4);
     gap: var(--seed-dimension-x3);
     --seed-prefix-icon-size: 22px;
     --seed-suffix-icon-size: 18px;
@@ -146,10 +136,8 @@
 
   @media (width >= 1280px) {
     .seed-menu-item__root--size_responsive {
-      padding-top: var(--seed-dimension-x2_5);
-      padding-bottom: var(--seed-dimension-x2_5);
-      padding-left: var(--seed-dimension-x4);
-      padding-right: var(--seed-dimension-x4);
+      padding-block: var(--seed-dimension-x2_5);
+      padding-inline: var(--seed-dimension-x4);
       gap: var(--seed-dimension-x2);
       --seed-prefix-icon-size: 18px;
       --seed-suffix-icon-size: 16px;

@@ -17,10 +17,8 @@ const mannerTempBadge = defineRecipe({
 
     borderRadius: vars.base.enabled.root.cornerRadius,
     minHeight: vars.base.enabled.root.minHeight,
-    paddingLeft: vars.base.enabled.root.paddingX,
-    paddingRight: vars.base.enabled.root.paddingX,
-    paddingTop: vars.base.enabled.root.paddingY,
-    paddingBottom: vars.base.enabled.root.paddingY,
+    paddingInline: vars.base.enabled.root.paddingX,
+    paddingBlock: vars.base.enabled.root.paddingY,
 
     fontSize: vars.base.enabled.label.fontSize,
     lineHeight: vars.base.enabled.label.lineHeight,

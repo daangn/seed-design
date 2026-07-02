@@ -34,10 +34,8 @@ const helpBubble = defineSlotRecipe({
 
       background: vars.base.enabled.root.color,
 
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.enabled.root.paddingX,
+      paddingBlock: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
 
       "--seed-box-max-width--responsive": "initial",
@@ -124,8 +122,7 @@ const helpBubble = defineSlotRecipe({
 
       marginLeft: `calc(${vars.base.enabled.root.gap} - ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
       marginRight: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
-      marginTop: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
-      marginBottom: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
+      marginBlock: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
 
       color: vars.base.enabled.closeButton.color,
 

@@ -62,10 +62,8 @@ export const appBarMain = defineSlotRecipe({
           textAlign: "center",
           top: "var(--seed-safe-area-top)",
           bottom: 0,
-          left: 0,
-          right: 0,
-          paddingLeft: "var(--centered-title-padding-x, 0)",
-          paddingRight: "var(--centered-title-padding-x, 0)",
+          insetInline: 0,
+          paddingInline: "var(--centered-title-padding-x, 0)",
           pointerEvents: "none",
         },
       },
@@ -137,10 +135,7 @@ export const appBar = defineSlotRecipe({
     background: {
       position: "absolute",
       pointerEvents: "none",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       zIndex: -1,
     },
     left: {
@@ -179,8 +174,7 @@ export const appBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeIos.enabled.root.paddingX,
-          paddingRight: vars.themeIos.enabled.root.paddingX,
+          paddingInline: vars.themeIos.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -207,8 +201,7 @@ export const appBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeAndroid.enabled.root.paddingX,
-          paddingRight: vars.themeAndroid.enabled.root.paddingX,
+          paddingInline: vars.themeAndroid.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {

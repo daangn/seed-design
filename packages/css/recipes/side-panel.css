@@ -1,19 +1,13 @@
 .seed-side-panel__positioner {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     overscroll-behavior-y: none;
     --side-panel-z-index: 2;
     z-index: calc(var(--side-panel-z-index) + var(--layer-index, 0));
 }
 .seed-side-panel__backdrop {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     background: var(--seed-color-bg-overlay);
     z-index: calc(var(--side-panel-z-index) + var(--layer-index, 0));
 }
@@ -58,8 +52,7 @@
     --seed-box-max-width-lg: var(--seed-box-max-width-md);
     --seed-box-max-width-xl: var(--seed-box-max-width-lg);
     --seed-box-max-width: var(--seed-box-max-width-base);
-    top: 0;
-    bottom: 0;
+    inset-block: 0;
     width: var(--seed-box-width, calc(0.8 * 100vw));
     max-width: var(--seed-box-max-width);
     padding-bottom: var(--seed-safe-area-bottom);
@@ -72,8 +65,7 @@
 .seed-side-panel__content::after {
     content: "";
     position: absolute;
-    top: 0;
-    bottom: 0;
+    inset-block: 0;
     width: 100vw;
     background: inherit;
     z-index: -1;
@@ -140,8 +132,7 @@
     box-sizing: border-box;
     gap: var(--seed-dimension-x1_5);
     min-height: calc(70px + var(--seed-safe-area-top));
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: calc(var(--seed-dimension-x6) + var(--seed-safe-area-top));
     padding-bottom: var(--seed-dimension-x4);
 }
@@ -196,8 +187,7 @@
     --seed-box-max-height: var(--seed-box-max-height-base);
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
-    padding-left: var(--seed-box-padding-x);
-    padding-right: var(--seed-box-padding-x);
+    padding-inline: var(--seed-box-padding-x);
     padding-bottom: var(--seed-dimension-x12);
     height: var(--seed-box-height);
     min-height: var(--seed-box-min-height);
@@ -216,8 +206,7 @@
 .seed-side-panel__footer {
     display: flex;
     flex-direction: column;
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x6);
 }

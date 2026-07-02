@@ -33,8 +33,7 @@
     align-items: center;
     justify-content: center;
     font-weight: var(--seed-font-weight-medium);
-    padding-left: var(--seed-dimension-x1_5);
-    padding-right: var(--seed-dimension-x1_5);
+    padding-inline: var(--seed-dimension-x1_5);
 }
 .seed-chip__prefixIcon {
     display: inline-flex;
@@ -184,8 +183,7 @@
 }
 .seed-chip__root--size_large {
     height: 40px;
-    padding-left: var(--seed-dimension-x2_5);
-    padding-right: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x2_5);
     --seed-icon-size: var(--seed-dimension-x4);
 }
 .seed-chip__label--size_large {
@@ -200,8 +198,7 @@
 }
 .seed-chip__root--size_medium {
     height: 36px;
-    padding-left: var(--seed-dimension-x2);
-    padding-right: var(--seed-dimension-x2);
+    padding-inline: var(--seed-dimension-x2);
     --seed-icon-size: var(--seed-dimension-x4);
 }
 .seed-chip__label--size_medium {
@@ -216,8 +213,7 @@
 }
 .seed-chip__root--size_small {
     height: 32px;
-    padding-left: var(--seed-dimension-x1_5);
-    padding-right: var(--seed-dimension-x1_5);
+    padding-inline: var(--seed-dimension-x1_5);
     --seed-icon-size: var(--seed-dimension-x3_5);
 }
 .seed-chip__label--size_small {
