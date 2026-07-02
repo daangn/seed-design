@@ -9,10 +9,7 @@
 .seed-input-button__button {
     position: absolute;
     z-index: -1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     cursor: pointer;
     border: none;
     padding: 0;
@@ -23,10 +20,7 @@
 .seed-input-button__button::after {
     content: "";
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     border-radius: inherit;
     border-style: solid;
     border-color: transparent;
@@ -146,8 +140,7 @@
 .seed-input-button__root--size_large {
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
 }
 .seed-input-button__button--size_large {
     border-radius: var(--seed-radius-r3);
@@ -182,8 +175,7 @@
 .seed-input-button__root--size_medium {
     height: var(--seed-dimension-x10);
     gap: var(--seed-dimension-x2);
-    padding-left: var(--seed-dimension-x3_5);
-    padding-right: var(--seed-dimension-x3_5);
+    padding-inline: var(--seed-dimension-x3_5);
 }
 .seed-input-button__button--size_medium {
     border-radius: var(--seed-radius-r2);
@@ -218,15 +210,13 @@
 .seed-input-button__root--size_responsive {
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
 }
 @media (min-width: 1280px) {
     .seed-input-button__root--size_responsive {
         height: var(--seed-dimension-x10);
         gap: var(--seed-dimension-x2);
-        padding-left: var(--seed-dimension-x3_5);
-        padding-right: var(--seed-dimension-x3_5);
+        padding-inline: var(--seed-dimension-x3_5);
     }
 }
 .seed-input-button__button--size_responsive {

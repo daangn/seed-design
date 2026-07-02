@@ -29,16 +29,14 @@ export const field = defineSlotRecipe({
       justifyContent: "space-between",
       alignItems: "center",
 
-      paddingLeft: vars.base.enabled.header.paddingX,
-      paddingRight: vars.base.enabled.header.paddingX,
+      paddingInline: vars.base.enabled.header.paddingX,
       gap: vars.base.enabled.header.gap,
     },
     footer: {
       display: "flex",
       alignItems: "flex-start",
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.enabled.footer.paddingX,
       gap: vars.base.enabled.footer.gap,
     },
     description: {

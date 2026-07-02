@@ -21,10 +21,7 @@ const dialog = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       overscrollBehaviorY: "none",
 
       "--dialog-z-index": "2",
@@ -32,10 +29,7 @@ const dialog = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
     },
@@ -64,8 +58,7 @@ const dialog = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingLeft: vars.base.enabled.header.paddingX,
-      paddingRight: vars.base.enabled.header.paddingX,
+      paddingInline: vars.base.enabled.header.paddingX,
       paddingTop: vars.base.enabled.header.paddingTop,
       gap: vars.base.enabled.header.gap,
     },
@@ -91,8 +84,7 @@ const dialog = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },

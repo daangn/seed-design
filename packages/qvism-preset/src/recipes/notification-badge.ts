@@ -100,10 +100,8 @@ export const notificationBadge = defineRecipe({
         minHeight: vars.sizeLarge.enabled.root.minHeight,
         borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
 
-        paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-        paddingRight: vars.sizeLarge.enabled.root.paddingX,
-        paddingTop: vars.sizeLarge.enabled.root.paddingY,
-        paddingBottom: vars.sizeLarge.enabled.root.paddingY,
+        paddingInline: vars.sizeLarge.enabled.root.paddingX,
+        paddingBlock: vars.sizeLarge.enabled.root.paddingY,
 
         fontSize: vars.sizeLarge.enabled.label.fontSize,
         lineHeight: vars.sizeLarge.enabled.label.lineHeight,

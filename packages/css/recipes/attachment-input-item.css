@@ -19,10 +19,7 @@
 .seed-attachment-input-item__root::before {
     content: "";
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     border-radius: inherit;
     pointer-events: none;
     -webkit-mask-image: linear-gradient(black, black), url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/></svg>');
@@ -95,10 +92,7 @@
 }
 .seed-attachment-input-item__backdrop {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -191,8 +185,7 @@
 }
 .seed-attachment-input-item__root--type_general {
     width: 160px;
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
 }
 .seed-attachment-input-item__root--type_general::before {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
@@ -248,14 +241,12 @@
 .seed-attachment-input-item__badge--type_image {
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     height: var(--seed-dimension-x6);
-    padding-left: var(--seed-dimension-x1);
-    padding-right: var(--seed-dimension-x1);
+    padding-inline: var(--seed-dimension-x1);
     background-color: var(--seed-color-bg-overlay);
     border-radius: 0 0 var(--seed-radius-r3) var(--seed-radius-r3);
 }

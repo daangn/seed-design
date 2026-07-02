@@ -54,10 +54,7 @@ const avatar = defineSlotRecipe({
       "&:after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        inset: 0,
         pointerEvents: "none",
         borderRadius: vars.base.enabled.root.cornerRadius,
         boxShadow: `inset 0 0 0 var(--avatar-stroke-width) ${vars.base.enabled.root.strokeColor}`,

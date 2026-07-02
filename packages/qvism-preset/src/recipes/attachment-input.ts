@@ -169,10 +169,7 @@ const attachmentInputItem = defineSlotRecipe({
       "&::before": {
         content: '""',
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         borderRadius: "inherit",
 
         pointerEvents: "none",
@@ -242,10 +239,7 @@ const attachmentInputItem = defineSlotRecipe({
     },
     backdrop: {
       position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
 
       display: "flex",
       flexDirection: "column", // just in case
@@ -343,8 +337,7 @@ const attachmentInputItem = defineSlotRecipe({
       general: {
         root: {
           width: itemVars.typeFile.enabled.root.width,
-          paddingLeft: itemVars.typeFile.enabled.root.paddingX,
-          paddingRight: itemVars.typeFile.enabled.root.paddingX,
+          paddingInline: itemVars.typeFile.enabled.root.paddingX,
 
           "&::before": {
             boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeFile.enabled.root.strokeColor}`,
@@ -429,16 +422,14 @@ const attachmentInputItem = defineSlotRecipe({
         badge: {
           position: "absolute",
           bottom: 0,
-          left: 0,
-          right: 0,
+          insetInline: 0,
 
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
 
           height: itemVars.typeImage.enabled.badge.height,
-          paddingLeft: itemVars.typeImage.enabled.badge.paddingX,
-          paddingRight: itemVars.typeImage.enabled.badge.paddingX,
+          paddingInline: itemVars.typeImage.enabled.badge.paddingX,
 
           backgroundColor: itemVars.typeImage.enabled.badge.color,
           borderRadius: `0 0 ${itemVars.typeImage.enabled.badge.cornerRadius} ${itemVars.typeImage.enabled.badge.cornerRadius}`,
@@ -482,8 +473,7 @@ const attachmentInput = defineSlotRecipe({
 
       gap: vars.base.enabled.root.gap,
 
-      marginLeft: "calc(var(--seed-attachment-input-extend-x) * -1)",
-      marginRight: "calc(var(--seed-attachment-input-extend-x) * -1)",
+      marginInline: "calc(var(--seed-attachment-input-extend-x) * -1)",
     },
     dropzone: {
       display: "flex",
@@ -497,12 +487,10 @@ const attachmentInput = defineSlotRecipe({
       border: `${dropzoneVars.base.enabled.root.strokeWidth} dashed ${dropzoneVars.base.enabled.root.strokeColor}`,
       borderRadius: dropzoneVars.base.enabled.root.cornerRadius,
 
-      paddingLeft: dropzoneVars.base.enabled.root.paddingX,
-      paddingRight: dropzoneVars.base.enabled.root.paddingX,
+      paddingInline: dropzoneVars.base.enabled.root.paddingX,
 
       // counteract root's negative margin so the dropzone stays within the original bounds
-      marginLeft: "var(--seed-attachment-input-extend-x)",
-      marginRight: "var(--seed-attachment-input-extend-x)",
+      marginInline: "var(--seed-attachment-input-extend-x)",
 
       transition: "border-color 0.2s",
 
@@ -540,8 +528,7 @@ const attachmentInput = defineSlotRecipe({
       paddingTop: itemRemoveButtonVars.base.enabled.root.offset,
       marginTop: `calc(${itemRemoveButtonVars.base.enabled.root.offset} * -1)`,
 
-      paddingLeft: "var(--seed-attachment-input-extend-x)",
-      paddingRight: "var(--seed-attachment-input-extend-x)",
+      paddingInline: "var(--seed-attachment-input-extend-x)",
     },
     // wraps the file items
     itemGroup: {

@@ -3,20 +3,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     overscroll-behavior-y: none;
     --dialog-z-index: 2;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
 }
 .seed-dialog__backdrop {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     background: var(--seed-color-bg-overlay);
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
 }
@@ -40,8 +34,7 @@
 .seed-dialog__header {
     display: flex;
     flex-direction: column;
-    padding-left: var(--seed-dimension-x5);
-    padding-right: var(--seed-dimension-x5);
+    padding-inline: var(--seed-dimension-x5);
     padding-top: var(--seed-dimension-x5);
     gap: var(--seed-dimension-x1_5);
 }
@@ -64,8 +57,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding-left: var(--seed-dimension-x5);
-    padding-right: var(--seed-dimension-x5);
+    padding-inline: var(--seed-dimension-x5);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x5);
 }

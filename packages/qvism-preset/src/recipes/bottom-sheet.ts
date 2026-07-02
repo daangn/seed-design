@@ -28,10 +28,7 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "flex-end",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       overscrollBehaviorY: "none",
 
       "--sheet-z-index": "2",
@@ -39,10 +36,7 @@ const bottomSheet = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
@@ -100,8 +94,7 @@ const bottomSheet = defineSlotRecipe({
         height: "200vh",
         content: '""',
         position: "absolute",
-        left: 0,
-        right: 0,
+        insetInline: 0,
         background: "inherit",
         zIndex: -1,
       },
@@ -129,8 +122,7 @@ const bottomSheet = defineSlotRecipe({
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
 
-      paddingLeft: vars.base.enabled.description.paddingX,
-      paddingRight: vars.base.enabled.description.paddingX,
+      paddingInline: vars.base.enabled.description.paddingX,
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -146,8 +138,7 @@ const bottomSheet = defineSlotRecipe({
       "--seed-box-max-height--responsive": "none",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
-      paddingLeft: "var(--seed-box-padding-x)",
-      paddingRight: "var(--seed-box-padding-x)",
+      paddingInline: "var(--seed-box-padding-x)",
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",
@@ -158,8 +149,7 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.enabled.footer.paddingX,
 
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
@@ -188,10 +178,7 @@ const bottomSheet = defineSlotRecipe({
         content: '""',
 
         position: "absolute",
-        top: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        right: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        bottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        left: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        inset: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
 
         borderRadius: tokens.$radius.r1,
 

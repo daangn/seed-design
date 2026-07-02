@@ -61,8 +61,7 @@
     flex-direction: column;
     display: flex;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    inset-block: 0;
   }
 
   @media (width >= 768px) {
@@ -77,8 +76,7 @@
     z-index: -1;
     width: 100vw;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    inset-block: 0;
   }
 
   .seed-side-panel__content:is(:focus, [data-focus]) {
@@ -149,8 +147,7 @@
     box-sizing: border-box;
     gap: var(--seed-dimension-x1_5);
     min-height: calc(70px + var(--seed-safe-area-top));
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: calc(var(--seed-dimension-x6) + var(--seed-safe-area-top));
     padding-bottom: var(--seed-dimension-x4);
     flex-direction: column;
@@ -208,8 +205,7 @@
     --seed-box-max-height: var(--seed-box-max-height-base, initial);
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
-    padding-left: var(--seed-box-padding-x);
-    padding-right: var(--seed-box-padding-x);
+    padding-inline: var(--seed-box-padding-x);
     padding-bottom: var(--seed-dimension-x12);
     height: var(--seed-box-height);
     min-height: var(--seed-box-min-height);
@@ -240,8 +236,7 @@
   }
 
   .seed-side-panel__footer {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x6);
     flex-direction: column;

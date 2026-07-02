@@ -42,8 +42,7 @@
     overflow-y: auto;
     max-height: min(480px, var(--seed-menu-available-height, 480px));
     box-sizing: border-box;
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
+    padding-block: var(--seed-dimension-x2);
     display: flex;
     flex-direction: column;
     gap: var(--seed-dimension-x2);
@@ -55,8 +54,7 @@
 .seed-menu__group + .seed-menu__group::before {
     content: "";
     display: block;
-    margin-left: var(--seed-dimension-x4);
-    margin-right: var(--seed-dimension-x4);
+    margin-inline: var(--seed-dimension-x4);
     margin-bottom: var(--seed-dimension-x2);
     height: 1px;
     flex-shrink: 0;
@@ -69,10 +67,8 @@
     width: var(--seed-menu-reference-width, 240px);
 }
 .seed-menu__groupLabel--size_medium {
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);
@@ -81,10 +77,8 @@
     width: var(--seed-menu-reference-width, 200px);
 }
 .seed-menu__groupLabel--size_small {
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x2);
+    padding-inline: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-regular);
@@ -98,20 +92,16 @@
     }
 }
 .seed-menu__groupLabel--size_responsive {
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);
 }
 @media (min-width: 1280px) {
     .seed-menu__groupLabel--size_responsive {
-        padding-top: var(--seed-dimension-x2);
-        padding-bottom: var(--seed-dimension-x2);
-        padding-left: var(--seed-dimension-x4);
-        padding-right: var(--seed-dimension-x4);
+        padding-block: var(--seed-dimension-x2);
+        padding-inline: var(--seed-dimension-x4);
         font-size: var(--seed-font-size-t3);
         line-height: var(--seed-line-height-t3);
         font-weight: var(--seed-font-weight-regular);
