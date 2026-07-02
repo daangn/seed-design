@@ -1,5 +1,12 @@
 # @seed-design/lynx-css
 
+## 0.4.1
+
+### Patch Changes
+
+- 7224b94: ImageFrameReactionButton root에 반투명 배경색과 그림자를 추가하여 밝은 이미지 위에서의 가시성을 개선합니다.
+- c4ce431: Side Panel Close Button 및 Side Panel Header의 스타일을 디자인 스펙에 맞게 수정하고, Side Panel body에 `box-sizing: border-box`를 적용하여, body에 지정한 `height`/`minHeight`/`maxHeight`가 padding을 포함해 계산되도록 수정합니다.
+
 ## 0.4.0
 
 ### Minor Changes

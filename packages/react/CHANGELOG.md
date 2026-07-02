@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 2.0.1
+
+### Patch Changes
+
+- e97a89c: `@seed-design/react`에서 `@seed-design/css/vars/component` 의존을 제거하여 ImageFrame `offsetX` `offsetY` 및 ScrollFog `size`의 기본값을 기존과 동일한 값으로 하드코딩합니다.
+- 7224b94: ImageFrameReactionButton root에 반투명 배경색과 그림자를 추가하여 밝은 이미지 위에서의 가시성을 개선합니다.
+
 ## 2.0.0
 
 ### Major Changes
