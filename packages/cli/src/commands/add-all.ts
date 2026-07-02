@@ -10,7 +10,7 @@ import type { CAC } from "cac";
 import { BASE_URL } from "../constants";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
-import { resolveSeedVersion } from "../utils/registry-source";
+import { readRawOptionValue, resolveSeedVersion } from "../utils/registry-source";
 import {
   analyzeRegistryItemCompatibility,
   getProjectSeedPackageVersionSpecs,
@@ -65,7 +65,9 @@ export const addAllCommand = (cli: CAC) => {
       p.intro("seed-design add-all");
 
       try {
-        const parsed = addAllOptionsSchema.safeParse({ registryIds, ...opts });
+        // CAC가 --seed-react-version 값을 숫자로 뭉개므로 rawArgs에서 원본 문자열을 읽어 덮어쓴다.
+        const seedReactVersion = readRawOptionValue(cli.rawArgs, "--seed-react-version");
+        const parsed = addAllOptionsSchema.safeParse({ registryIds, ...opts, seedReactVersion });
         if (!parsed.success) {
           throw parsed.error;
         }
