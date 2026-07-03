@@ -129,17 +129,20 @@ export const globalCss = defineGlobalCss({
     "--seed-box-bleed-left--responsive": "0px",
     "--seed-box-bleed-right--responsive": "0px",
 
-    // `initial` keeps these as the guaranteed-invalid value so the
-    // `var(--margin, calc(bleed * -1))` fallback below resolves to bleed
-    // whenever margin is not explicitly set. `auto` passes through without
-    // getting trapped in a calc() expression.
+    // margin stays guaranteed-invalid when unset (so the `var(--margin, calc(bleed * -1))`
+    // fallback below resolves to bleed), but every cross-property reference carries a
+    // `, initial` fallback. On WebKit before the guaranteed-invalid fix (Safari <16.4 /
+    // iOS 15–16.3, webkit.org/b/241433) that turns "unset" into an explicit
+    // non-inheriting value instead of an IACVT that inherits an ancestor's margin.
+    // Bleed is preserved by the runtime emitting it as a real negative margin (see
+    // styled.tsx), which the consumer fallback here can't do under old WebKit.
     "--seed-box-margin--responsive": "initial",
-    "--seed-box-margin-y--responsive": "var(--seed-box-margin)",
-    "--seed-box-margin-x--responsive": "var(--seed-box-margin)",
-    "--seed-box-margin-top--responsive": "var(--seed-box-margin-y)",
-    "--seed-box-margin-bottom--responsive": "var(--seed-box-margin-y)",
-    "--seed-box-margin-left--responsive": "var(--seed-box-margin-x)",
-    "--seed-box-margin-right--responsive": "var(--seed-box-margin-x)",
+    "--seed-box-margin-y--responsive": "var(--seed-box-margin, initial)",
+    "--seed-box-margin-x--responsive": "var(--seed-box-margin, initial)",
+    "--seed-box-margin-top--responsive": "var(--seed-box-margin-y, initial)",
+    "--seed-box-margin-bottom--responsive": "var(--seed-box-margin-y, initial)",
+    "--seed-box-margin-left--responsive": "var(--seed-box-margin-x, initial)",
+    "--seed-box-margin-right--responsive": "var(--seed-box-margin-x, initial)",
 
     marginTop: "var(--seed-box-margin-top, calc(var(--seed-box-bleed-top) * -1))",
     marginBottom: "var(--seed-box-margin-bottom, calc(var(--seed-box-bleed-bottom) * -1))",

@@ -2,17 +2,17 @@
   .seed-skeleton {
     box-sizing: border-box;
     --seed-box-width-base: auto;
-    --seed-box-width-sm: var(--seed-box-width-base);
-    --seed-box-width-md: var(--seed-box-width-sm);
-    --seed-box-width-lg: var(--seed-box-width-md);
-    --seed-box-width-xl: var(--seed-box-width-lg);
-    --seed-box-width: var(--seed-box-width-base);
+    --seed-box-width-sm: var(--seed-box-width-base, initial);
+    --seed-box-width-md: var(--seed-box-width-sm, initial);
+    --seed-box-width-lg: var(--seed-box-width-md, initial);
+    --seed-box-width-xl: var(--seed-box-width-lg, initial);
+    --seed-box-width: var(--seed-box-width-base, initial);
     --seed-box-height-base: auto;
-    --seed-box-height-sm: var(--seed-box-height-base);
-    --seed-box-height-md: var(--seed-box-height-sm);
-    --seed-box-height-lg: var(--seed-box-height-md);
-    --seed-box-height-xl: var(--seed-box-height-lg);
-    --seed-box-height: var(--seed-box-height-base);
+    --seed-box-height-sm: var(--seed-box-height-base, initial);
+    --seed-box-height-md: var(--seed-box-height-sm, initial);
+    --seed-box-height-lg: var(--seed-box-height-md, initial);
+    --seed-box-height-xl: var(--seed-box-height-lg, initial);
+    --seed-box-height: var(--seed-box-height-base, initial);
     width: var(--seed-box-width);
     height: var(--seed-box-height);
     display: inline-block;
@@ -66,29 +66,29 @@
 
   @media (width >= 480px) {
     .seed-skeleton {
-      --seed-box-width: var(--seed-box-width-sm);
-      --seed-box-height: var(--seed-box-height-sm);
+      --seed-box-width: var(--seed-box-width-sm, initial);
+      --seed-box-height: var(--seed-box-height-sm, initial);
     }
   }
 
   @media (width >= 768px) {
     .seed-skeleton {
-      --seed-box-width: var(--seed-box-width-md);
-      --seed-box-height: var(--seed-box-height-md);
+      --seed-box-width: var(--seed-box-width-md, initial);
+      --seed-box-height: var(--seed-box-height-md, initial);
     }
   }
 
   @media (width >= 1280px) {
     .seed-skeleton {
-      --seed-box-width: var(--seed-box-width-lg);
-      --seed-box-height: var(--seed-box-height-lg);
+      --seed-box-width: var(--seed-box-width-lg, initial);
+      --seed-box-height: var(--seed-box-height-lg, initial);
     }
   }
 
   @media (width >= 1440px) {
     .seed-skeleton {
-      --seed-box-width: var(--seed-box-width-xl);
-      --seed-box-height: var(--seed-box-height-xl);
+      --seed-box-width: var(--seed-box-width-xl, initial);
+      --seed-box-height: var(--seed-box-height-xl, initial);
     }
   }
 }

@@ -77,12 +77,18 @@ export const postcssResponsive: PluginCreator<PluginOptions> = (opts) => {
           }),
         );
 
+        // Each chain link falls back to `initial`. On WebKit before the
+        // guaranteed-invalid fix (Safari <16.4 / iOS 15–16.3, webkit.org/b/241433)
+        // a custom property assigned from a guaranteed-invalid var() is treated as
+        // `unset` and inherits the ancestor's value. The `, initial` fallback turns
+        // "absent" into an explicit non-inheriting value instead of an IACVT that
+        // inherits. No-op for real-default vars (the fallback never triggers).
         let prevName = base.name;
         for (const bp of mqBreakpoints) {
           decl.before(
             new Declaration({
               prop: `${baseProp}-${bp.name}`,
-              value: `var(${baseProp}-${prevName})`,
+              value: `var(${baseProp}-${prevName}, initial)`,
             }),
           );
           prevName = bp.name;
@@ -91,7 +97,7 @@ export const postcssResponsive: PluginCreator<PluginOptions> = (opts) => {
         decl.before(
           new Declaration({
             prop: baseProp,
-            value: `var(${baseProp}-${base.name})`,
+            value: `var(${baseProp}-${base.name}, initial)`,
           }),
         );
 
@@ -102,7 +108,7 @@ export const postcssResponsive: PluginCreator<PluginOptions> = (opts) => {
           mqRules[bp.name]!.push({
             selector,
             prop: baseProp,
-            value: `var(${baseProp}-${bp.name})`,
+            value: `var(${baseProp}-${bp.name}, initial)`,
           });
         }
       });

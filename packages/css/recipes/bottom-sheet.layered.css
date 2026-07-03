@@ -95,29 +95,29 @@
 
   .seed-bottom-sheet__body {
     --seed-box-padding-x-base: var(--seed-dimension-spacing-x-global-gutter);
-    --seed-box-padding-x-sm: var(--seed-box-padding-x-base);
-    --seed-box-padding-x-md: var(--seed-box-padding-x-sm);
-    --seed-box-padding-x-lg: var(--seed-box-padding-x-md);
-    --seed-box-padding-x-xl: var(--seed-box-padding-x-lg);
-    --seed-box-padding-x: var(--seed-box-padding-x-base);
+    --seed-box-padding-x-sm: var(--seed-box-padding-x-base, initial);
+    --seed-box-padding-x-md: var(--seed-box-padding-x-sm, initial);
+    --seed-box-padding-x-lg: var(--seed-box-padding-x-md, initial);
+    --seed-box-padding-x-xl: var(--seed-box-padding-x-lg, initial);
+    --seed-box-padding-x: var(--seed-box-padding-x-base, initial);
     --seed-box-height-base: auto;
-    --seed-box-height-sm: var(--seed-box-height-base);
-    --seed-box-height-md: var(--seed-box-height-sm);
-    --seed-box-height-lg: var(--seed-box-height-md);
-    --seed-box-height-xl: var(--seed-box-height-lg);
-    --seed-box-height: var(--seed-box-height-base);
+    --seed-box-height-sm: var(--seed-box-height-base, initial);
+    --seed-box-height-md: var(--seed-box-height-sm, initial);
+    --seed-box-height-lg: var(--seed-box-height-md, initial);
+    --seed-box-height-xl: var(--seed-box-height-lg, initial);
+    --seed-box-height: var(--seed-box-height-base, initial);
     --seed-box-min-height-base: auto;
-    --seed-box-min-height-sm: var(--seed-box-min-height-base);
-    --seed-box-min-height-md: var(--seed-box-min-height-sm);
-    --seed-box-min-height-lg: var(--seed-box-min-height-md);
-    --seed-box-min-height-xl: var(--seed-box-min-height-lg);
-    --seed-box-min-height: var(--seed-box-min-height-base);
+    --seed-box-min-height-sm: var(--seed-box-min-height-base, initial);
+    --seed-box-min-height-md: var(--seed-box-min-height-sm, initial);
+    --seed-box-min-height-lg: var(--seed-box-min-height-md, initial);
+    --seed-box-min-height-xl: var(--seed-box-min-height-lg, initial);
+    --seed-box-min-height: var(--seed-box-min-height-base, initial);
     --seed-box-max-height-base: none;
-    --seed-box-max-height-sm: var(--seed-box-max-height-base);
-    --seed-box-max-height-md: var(--seed-box-max-height-sm);
-    --seed-box-max-height-lg: var(--seed-box-max-height-md);
-    --seed-box-max-height-xl: var(--seed-box-max-height-lg);
-    --seed-box-max-height: var(--seed-box-max-height-base);
+    --seed-box-max-height-sm: var(--seed-box-max-height-base, initial);
+    --seed-box-max-height-md: var(--seed-box-max-height-sm, initial);
+    --seed-box-max-height-lg: var(--seed-box-max-height-md, initial);
+    --seed-box-max-height-xl: var(--seed-box-max-height-lg, initial);
+    --seed-box-max-height: var(--seed-box-max-height-base, initial);
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
     padding-left: var(--seed-box-padding-x);
@@ -250,37 +250,37 @@
 
   @media (width >= 480px) {
     .seed-bottom-sheet__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-sm);
-      --seed-box-height: var(--seed-box-height-sm);
-      --seed-box-min-height: var(--seed-box-min-height-sm);
-      --seed-box-max-height: var(--seed-box-max-height-sm);
+      --seed-box-padding-x: var(--seed-box-padding-x-sm, initial);
+      --seed-box-height: var(--seed-box-height-sm, initial);
+      --seed-box-min-height: var(--seed-box-min-height-sm, initial);
+      --seed-box-max-height: var(--seed-box-max-height-sm, initial);
     }
   }
 
   @media (width >= 768px) {
     .seed-bottom-sheet__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-md);
-      --seed-box-height: var(--seed-box-height-md);
-      --seed-box-min-height: var(--seed-box-min-height-md);
-      --seed-box-max-height: var(--seed-box-max-height-md);
+      --seed-box-padding-x: var(--seed-box-padding-x-md, initial);
+      --seed-box-height: var(--seed-box-height-md, initial);
+      --seed-box-min-height: var(--seed-box-min-height-md, initial);
+      --seed-box-max-height: var(--seed-box-max-height-md, initial);
     }
   }
 
   @media (width >= 1280px) {
     .seed-bottom-sheet__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-lg);
-      --seed-box-height: var(--seed-box-height-lg);
-      --seed-box-min-height: var(--seed-box-min-height-lg);
-      --seed-box-max-height: var(--seed-box-max-height-lg);
+      --seed-box-padding-x: var(--seed-box-padding-x-lg, initial);
+      --seed-box-height: var(--seed-box-height-lg, initial);
+      --seed-box-min-height: var(--seed-box-min-height-lg, initial);
+      --seed-box-max-height: var(--seed-box-max-height-lg, initial);
     }
   }
 
   @media (width >= 1440px) {
     .seed-bottom-sheet__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-xl);
-      --seed-box-height: var(--seed-box-height-xl);
-      --seed-box-min-height: var(--seed-box-min-height-xl);
-      --seed-box-max-height: var(--seed-box-max-height-xl);
+      --seed-box-padding-x: var(--seed-box-padding-x-xl, initial);
+      --seed-box-height: var(--seed-box-height-xl, initial);
+      --seed-box-min-height: var(--seed-box-min-height-xl, initial);
+      --seed-box-max-height: var(--seed-box-max-height-xl, initial);
     }
   }
 }
