@@ -151,6 +151,30 @@ const ActivityIacvtMargin: StaticActivityComponentType<"ActivityIacvtMargin"> = 
               )}
             </LeakCase>
           </Box>
+
+          <Box mb="x8">
+            <Box color="palette.gray900" mb="x3" style={{ fontSize: 18, fontWeight: 700 }}>
+              4. bleed Box의 plain 자식 (Part 1이 Part 2를 가두는지)
+            </Box>
+            <LeakCase
+              title="부모 bleed=16px · 자식 margin 미지정"
+              note="부모 bleed는 런타임(Part 2)이 --seed-box-margin-*-base에 calc(-16px) 실값으로 심는다. 자식은 그걸 상속하면 안 되고 0이어야 한다. Part 1(var(x, initial))이 그 leaf-level 실값을 자식에 안 새게 가두는지 직접 확인 — 버전 스큐에서 'react만 올리면 새는' 바로 그 지점."
+              cssProp="margin-top"
+              expected="0px"
+              isLeak={(c) => c !== "0px"}
+            >
+              {(ref) => (
+                <Box bleed="16px" p="x4" style={ancestorBox}>
+                  <Box color="palette.gray700" mb="x1" style={mono}>
+                    부모(bleed=16px → 자식 방향 -16px 실 margin)
+                  </Box>
+                  <Box ref={ref} {...childBase} style={mono}>
+                    자식(margin 미지정)
+                  </Box>
+                </Box>
+              )}
+            </LeakCase>
+          </Box>
         </Box>
       </AppScreenContent>
     </AppScreen>
