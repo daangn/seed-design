@@ -109,6 +109,11 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "IACVT Leak Check (구형 iOS)", onClick: () => push("ActivityIacvtLeak", {}) },
         { title: "SidePanel IACVT (구형 iOS)", onClick: () => push("ActivityIacvtSidePanel", {}) },
         { title: "Overlay IACVT (구형 iOS)", onClick: () => push("ActivityIacvtOverlay", {}) },
+        { title: "Margin/Bleed IACVT (구형 iOS)", onClick: () => push("ActivityIacvtMargin", {}) },
+        {
+          title: "IACVT initial-fallback 실험 (구형 iOS)",
+          onClick: () => push("ActivityIacvtExperiment", {}),
+        },
       ],
     },
     {

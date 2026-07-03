@@ -38,6 +38,8 @@ export const config = defineConfig({
     { route: "/iacvt-leak", name: "ActivityIacvtLeak" },
     { route: "/iacvt-side-panel", name: "ActivityIacvtSidePanel" },
     { route: "/iacvt-overlay", name: "ActivityIacvtOverlay" },
+    { route: "/iacvt-margin", name: "ActivityIacvtMargin" },
+    { route: "/iacvt-experiment", name: "ActivityIacvtExperiment" },
     { route: "/layer-bar", name: "ActivityLayerBar" },
     { route: "/list-item-button", name: "ActivityListButtonItem" },
     { route: "/list-item-check", name: "ActivityListCheckItem" },
