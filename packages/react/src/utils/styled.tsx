@@ -770,6 +770,39 @@ export function useStyleProps<T extends UseStyleProps>(
         resolveResponsive("--seed-box-bleed-left", bleedLeft ?? bleedX ?? bleed, (v) =>
           handleBleed(v, "left"),
         )),
+
+      // Also emit bleed as a real negative margin. On WebKit before the
+      // guaranteed-invalid fix (iOS 15–16.3, webkit.org/b/241433) the CSS
+      // `var(--seed-box-margin-*, calc(-bleed))` fallback is bypassed once the
+      // margin chain resolves to the non-inheriting `initial` token, so bleed must
+      // arrive as a real value in the margin var itself to survive. No-op on modern
+      // engines (identical computed margin). Placed before the margin props so a
+      // same-side margin override still wins on the (unsupported) mixed usage.
+      ...((bleedTop ?? bleedY ?? bleed) !== undefined &&
+        resolveResponsive(
+          "--seed-box-margin-top",
+          bleedTop ?? bleedY ?? bleed,
+          (v) => `calc(${handleBleed(v, "top")} * -1)`,
+        )),
+      ...((bleedRight ?? bleedX ?? bleed) !== undefined &&
+        resolveResponsive(
+          "--seed-box-margin-right",
+          bleedRight ?? bleedX ?? bleed,
+          (v) => `calc(${handleBleed(v, "right")} * -1)`,
+        )),
+      ...((bleedBottom ?? bleedY ?? bleed) !== undefined &&
+        resolveResponsive(
+          "--seed-box-margin-bottom",
+          bleedBottom ?? bleedY ?? bleed,
+          (v) => `calc(${handleBleed(v, "bottom")} * -1)`,
+        )),
+      ...((bleedLeft ?? bleedX ?? bleed) !== undefined &&
+        resolveResponsive(
+          "--seed-box-margin-left",
+          bleedLeft ?? bleedX ?? bleed,
+          (v) => `calc(${handleBleed(v, "left")} * -1)`,
+        )),
+
       ...((margin ?? m) !== undefined &&
         resolveResponsive("--seed-box-margin", margin ?? m, handleDimension)),
       ...((marginX ?? mx) !== undefined &&

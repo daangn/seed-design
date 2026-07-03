@@ -67,14 +67,20 @@ const sidePanel = defineSlotRecipe({
       touchAction: "none",
       willChange: "transform",
 
-      "--seed-box-width--responsive": "initial",
+      // Default width routed through a real-valued custom property so the responsive var
+      // chain never links `--foo: var(<guaranteed-invalid>)`. On WebKit before the
+      // guaranteed-invalid fix (Safari <16.4, incl. iOS 16.0.x) such a link leaks the
+      // inherited ancestor value instead of staying guaranteed-invalid — see
+      // https://webkit.org/b/241433. Mobile-first: viewport fraction on sm-, size token on
+      // md+ (overridden below). A consumer `width` StyleProp still wins via the chain.
+      "--side-panel-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      "--seed-box-width--responsive": "var(--side-panel-default-width)",
       "--seed-box-max-width--responsive": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
 
       // Full height, anchored top/bottom; the left/right edge is set per direction.
-      // Mobile-first: width fraction on sm-, token width on md+.
       top: 0,
       bottom: 0,
-      width: `var(--seed-box-width, calc(${vars.base.enabled.content.widthFraction} * 100vw))`,
+      width: "var(--seed-box-width)",
       maxWidth: "var(--seed-box-max-width)",
 
       // Respect device safe-area on bottom edge (e.g. iOS home indicator);
@@ -82,7 +88,7 @@ const sidePanel = defineSlotRecipe({
       paddingBottom: "var(--seed-safe-area-bottom)",
 
       [breakpoints.up("md")]: {
-        width: "var(--seed-box-width, var(--side-panel-size-width))",
+        "--side-panel-default-width": "var(--side-panel-size-width)",
       },
 
       // Bleed the panel background past the anchored edge (direction sets the side).
@@ -178,9 +184,10 @@ const sidePanel = defineSlotRecipe({
       overflowY: "auto",
 
       "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
-      "--seed-box-height--responsive": "initial",
-      "--seed-box-min-height--responsive": "initial",
-      "--seed-box-max-height--responsive": "initial",
+      // real values, not `initial` — see https://webkit.org/b/241433
+      "--seed-box-height--responsive": "auto",
+      "--seed-box-min-height--responsive": "auto",
+      "--seed-box-max-height--responsive": "none",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
       paddingLeft: "var(--seed-box-padding-x)",
