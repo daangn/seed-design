@@ -127,10 +127,8 @@
 .seed-next-list-item__content::after {
     content: '';
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset-block: calc(-1 * var(--seed-dimension-x3));
+    inset-inline: calc(-1 * var(--seed-dimension-spacing-x-global-gutter));
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);

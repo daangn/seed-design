@@ -7254,11 +7254,12 @@
 
 .seed-next-list-item__content:after {
   content: "";
+  inset-block: calc(-1 * var(--seed-dimension-x3));
+  inset-inline: calc(-1 * var(--seed-dimension-spacing-x-global-gutter));
   outline: var(--seed-dimension-x0_5) solid transparent;
   outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   position: absolute;
-  inset: 0;
 }
 
 .seed-next-list-item__content:is(:focus, [data-focus]) {

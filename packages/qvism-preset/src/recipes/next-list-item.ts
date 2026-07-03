@@ -173,14 +173,17 @@ const nextListItem = defineSlotRecipe({
 
       textDecoration: "none",
 
-      // this ensures the touch size of the content to be the size of the row
+      // Full-row touch target + focus ring for button/anchor items. The `layout`
+      // slot has a non-`none` `scale`, so it is a containing block for this
+      // absolutely positioned pseudo — an `inset: 0` here would only cover the
+      // layout box, which is inset from the row by the root's padding. Expand it
+      // back out by that padding so the hit area and focus ring span the whole row
+      // as they did before the 2-layer split. Do not revert to `inset: 0`.
       "&::after": {
         content: "''",
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        insetBlock: `calc(-1 * ${vars.base.enabled.root.paddingY})`,
+        insetInline: `calc(-1 * ${vars.base.enabled.root.paddingX})`,
         ...createFocusRingRestStyles({ position: "inside" }),
         transition: FOCUS_RING_TRANSITION,
       },
