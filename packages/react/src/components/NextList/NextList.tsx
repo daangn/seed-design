@@ -17,7 +17,7 @@ import { forwardRef } from "react";
 
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { withStyleProps, type StyleProps } from "../../utils/styled";
+import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 // ────────────────────────────────────────────────────────────────────────────
 // Interaction context
@@ -87,7 +87,9 @@ const NextListLayout = withContext<HTMLDivElement, NextListLayoutProps>(
   "layout",
 );
 
-export interface NextListContentProps extends React.HTMLAttributes<HTMLElement> {}
+export interface NextListContentProps
+  extends Pick<StyleProps, "gap" | "pr" | "paddingRight">,
+    React.HTMLAttributes<HTMLElement> {}
 
 // content slot. renders <button>/<a> when inside an interactive item (wiring the
 // press handlers + interactive props from context), otherwise a plain <div>.
@@ -103,12 +105,15 @@ export const NextListContent = forwardRef<HTMLElement, NextListContentProps>(
       ...useSwitchContext({ strict: false })?.stateProps,
     };
 
+    const { style, restProps } = useStyleProps(props);
+
     if (interaction?.contentTag === "button") {
       return (
         <Primitive.button
           ref={composeRefs(interaction.contentRef, ref)}
+          style={style}
           {...interaction.contentProps}
-          {...props}
+          {...restProps}
           className={clsx(contentClassName, interaction.contentProps.className)}
         >
           {children}
@@ -120,8 +125,9 @@ export const NextListContent = forwardRef<HTMLElement, NextListContentProps>(
       return (
         <Primitive.a
           ref={composeRefs(interaction.contentRef, ref)}
+          style={style}
           {...interaction.contentProps}
-          {...props}
+          {...restProps}
           className={clsx(contentClassName, interaction.contentProps.className)}
         >
           {children}
@@ -132,9 +138,10 @@ export const NextListContent = forwardRef<HTMLElement, NextListContentProps>(
     return (
       <Primitive.div
         ref={composeRefs(interaction?.contentRef, ref)}
+        style={style}
         className={contentClassName}
         {...stateProps}
-        {...props}
+        {...restProps}
       >
         {children}
       </Primitive.div>
