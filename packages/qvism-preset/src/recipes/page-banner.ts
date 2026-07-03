@@ -497,7 +497,7 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient.serialized})`,
 
           ...prefixIcon({
             color: vars.toneMagicVariantWeak.enabled.prefixIcon.color,
@@ -507,7 +507,7 @@ const pageBanner = defineSlotRecipe({
           }),
 
           [pseudo(":is(button)", engaged)]: {
-            backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient})`,
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
           },
         },
         title: {

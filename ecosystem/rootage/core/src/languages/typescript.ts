@@ -1,11 +1,27 @@
 import { camelCase } from "change-case";
 import type {
   ComponentSpecDeclaration,
+  GradientLit,
+  PropertyDeclaration,
   StateExpression,
   TokenDeclaration,
+  TokenLit,
+  ValueLit,
   VariantExpression,
 } from "../parser/ast";
 import { createStringifier as createCssStringifier } from "./css";
+
+interface GradientStopVars {
+  color: string;
+  position: number;
+}
+
+/**
+ * A property value exposed through component vars.
+ * Gradients include a serialized CSS value for static use and structured stops for dynamic use.
+ * All other values remain flattened CSS strings.
+ */
+type PropertyValue = string | { serialized: string; stops?: GradientStopVars[] };
 
 interface TokenDefinition {
   key: string;
@@ -45,35 +61,95 @@ function stringifyStateKey(state: StateExpression[]): string {
   return camelCase(state.map((s) => s.value).join("-"));
 }
 
-export function createStringifier(options: { prefix?: string } = {}) {
+export function createStringifier(
+  options: {
+    prefix?: string;
+    /**
+     * Resolves a token reference to one value per collection mode.
+     * Values follow the collection's declared mode order; unresolved tokens return `undefined`.
+     */
+    resolveTokenValues?: (token: TokenLit) => ValueLit[] | undefined;
+  } = {},
+) {
   const cssStringifier = createCssStringifier(options);
+  const { resolveTokenValues } = options;
+
+  function stringifyStops(gradient: GradientLit): GradientStopVars[] {
+    return gradient.stops.map((stop) => ({
+      color:
+        stop.color.kind === "TokenLit"
+          ? cssStringifier.tokenReference(stop.color)
+          : stop.color.value,
+      position: stop.position.value,
+    }));
+  }
+
+  /**
+   * Returns stops when a gradient token has the same stops in every mode.
+   * Mode-dependent gradients cannot be represented by one stops array and return `undefined`.
+   */
+  function resolveModeInvariantStops(token: TokenLit): GradientStopVars[] | undefined {
+    const values = resolveTokenValues?.(token);
+
+    if (!values?.length || values.some((value) => value.kind !== "GradientLit")) {
+      return undefined;
+    }
+
+    const [first, ...rest] = (values as GradientLit[]).map(stringifyStops);
+
+    if (!first) return undefined;
+
+    return rest.every((stops) => JSON.stringify(stops) === JSON.stringify(first))
+      ? first
+      : undefined;
+  }
+
+  function stringifyProperty(decl: PropertyDeclaration): PropertyValue {
+    // Gradients expose both a serialized CSS value and structured stops for dynamic operations
+    // such as per-stop calc interpolation. Positions preserve their raw values between 0 and 1.
+    // Inline values and token references share the same AST kind, so their output shape is stable.
+    if (decl.kind === "GradientPropertyDeclaration") {
+      const { value } = decl;
+
+      if (value.kind === "GradientLit") {
+        return { serialized: cssStringifier.valueOrToken(value), stops: stringifyStops(value) };
+      }
+
+      const serialized = cssStringifier.tokenReference(value);
+      const stops = resolveModeInvariantStops(value);
+
+      return stops ? { serialized, stops } : { serialized };
+    }
+
+    return cssStringifier.valueOrToken(decl.value);
+  }
 
   function getComponentSpec(decl: ComponentSpecDeclaration) {
     const body = decl.body;
 
-    const result: Record<string, Record<string, Record<string, Record<string, string>>>> = {};
+    const result: Record<
+      string,
+      Record<string, Record<string, Record<string, PropertyValue>>>
+    > = {};
 
     for (const variantDecl of body) {
       const variantKey = stringifyVariantKey(variantDecl.variants);
-      const variant: Record<string, Record<string, Record<string, string>>> = {};
+      const variant: Record<string, Record<string, Record<string, PropertyValue>>> = {};
 
       for (const stateDecl of variantDecl.body) {
         const stateKey = stringifyStateKey(stateDecl.states);
-        const slot: Record<string, Record<string, string>> = {};
+        const slot: Record<string, Record<string, PropertyValue>> = {};
 
         for (const slotDecl of stateDecl.body) {
           const slotKey = slotDecl.slot;
-          const property: Record<string, string> = {};
+          const property: Record<string, PropertyValue> = {};
 
           for (const propertyDecl of slotDecl.body) {
             // An enum records a design decision rather than a value CSS can
             // consume, so it never becomes a custom property.
             if (propertyDecl.value.kind === "EnumLit") continue;
 
-            const propertyKey = propertyDecl.property;
-            const expr = propertyDecl.value;
-
-            property[propertyKey] = cssStringifier.valueOrToken(expr);
+            property[propertyDecl.property] = stringifyProperty(propertyDecl);
           }
 
           // A slot holding nothing but enums, or a state left with no slots, would
@@ -166,20 +242,25 @@ export function createStringifier(options: { prefix?: string } = {}) {
 
     let json = JSON.stringify(result, null, 2);
 
+    // Anchor JSDoc injection to the JSON indentation depth: variant 2, slot 6, property 8.
+    // ponytail: An unanchored replaceAll also injects into matching keys such as "color" or
+    // "position" inside gradient stops. The depth prefix limits matches to declaration lines and
+    // relies on the vars object retaining this fixed structure.
+
     // Add JSDoc for variant keys (indent: 2 spaces)
     for (const [key, descriptions] of variantKeyDescMap) {
       const jsdoc = `/**\n   * ${descriptions.join("\n   * ")}\n   */`;
-      json = json.replaceAll(`"${key}":`, `${jsdoc}\n  "${key}":`);
+      json = json.replaceAll(`\n  "${key}":`, `\n  ${jsdoc}\n  "${key}":`);
     }
 
     // Add JSDoc for slots (indent: 6 spaces)
     for (const [key, desc] of slotDescMap) {
-      json = json.replaceAll(`"${key}":`, `/** ${desc} */\n      "${key}":`);
+      json = json.replaceAll(`\n      "${key}":`, `\n      /** ${desc} */\n      "${key}":`);
     }
 
     // Add JSDoc for properties (indent: 8 spaces)
     for (const [key, desc] of propertyDescMap) {
-      json = json.replaceAll(`"${key}":`, `/** ${desc} */\n        "${key}":`);
+      json = json.replaceAll(`\n        "${key}":`, `\n        /** ${desc} */\n        "${key}":`);
     }
 
     return `export declare const vars: ${json}`;

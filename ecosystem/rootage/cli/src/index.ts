@@ -3,6 +3,7 @@
 import {
   Authoring,
   buildContext,
+  createTokenValuesResolver,
   css,
   exchange,
   getComponentSpecDeclarations,
@@ -130,6 +131,7 @@ async function writeComponentSpec(prefix?: string) {
 
   const tsStringifier = typescript.createStringifier({
     prefix,
+    resolveTokenValues: createTokenValuesResolver(ctx),
   });
 
   const specs = getComponentSpecDeclarations(ctx);

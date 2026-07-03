@@ -286,7 +286,7 @@ const callout = defineSlotRecipe({
       },
       magic: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient.serialized})`,
 
           ...prefixIcon({
             color: vars.toneMagic.enabled.prefixIcon.color,
@@ -296,7 +296,7 @@ const callout = defineSlotRecipe({
           }),
 
           [pseudo(":is(button, a)", engaged)]: {
-            backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient})`,
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient.serialized})`,
           },
         },
         title: {

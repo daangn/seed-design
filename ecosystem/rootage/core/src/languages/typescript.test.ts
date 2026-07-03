@@ -1,7 +1,58 @@
 import { describe, expect, it, test } from "bun:test";
 import YAML from "yaml";
-import { Authoring } from "../parser";
+import { Authoring, factory } from "../parser";
 import { createStringifier, getExchangeDts, getExchangeMjs } from "./typescript";
+
+/** Creates a gradient value matching the per-mode values returned by resolveTokenValues. */
+function fakeGradient(...stops: [string, number][]) {
+  return factory.createGradientLit(
+    stops.map(([color, position]) =>
+      factory.createGradientStopLit(
+        { kind: "ColorHexLit", value: color as `#${string}` },
+        { kind: "NumberLit", value: position },
+      ),
+    ),
+  );
+}
+
+/**
+ * Creates a minimal spec that references a gradient token.
+ * The parser leaves token references as `UnresolvedPropertyDeclaration`, and the analyzer's
+ * `transformResolvedType` assigns their final kind through `getComponentSpecDeclarations`.
+ * This fixture uses the factory to represent that analyzed state directly.
+ */
+function tokenRefGradientSpec() {
+  return factory.createComponentSpecDeclaration(
+    "test",
+    "test",
+    factory.createSchemaDeclaration(
+      [
+        factory.createSlotSchemaDeclaration("root", [
+          factory.createPropertySchemaDeclaration("gradient", "gradient"),
+        ]),
+      ],
+      [],
+    ),
+    [
+      factory.createVariantDeclaration(
+        [],
+        [
+          factory.createStateDeclaration(
+            [],
+            [
+              factory.createSlotDeclaration("root", [
+                factory.createGradientPropertyDeclaration(
+                  "gradient",
+                  factory.createTokenLit("$gradient.mask-fade"),
+                ),
+              ]),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+}
 
 const { getComponentSpecDts, getComponentSpecMjs, getTokenDts, getTokenMjs } = createStringifier({
   prefix: "test",
@@ -323,6 +374,162 @@ data:
       }
     }"
   `);
+});
+
+test("getComponentSpecMjs exposes inline gradient as structured stops and serialized", () => {
+  const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gradient:
+            type: gradient
+  definitions:
+    base:
+      enabled:
+        root:
+          gradient:
+            type: gradient
+            value:
+              - color: "#00000000"
+                position: 0
+              - color: "#00000014"
+                position: 0.29
+              - color: "#000000ff"
+                position: 1
+`;
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(yaml));
+
+  const result = getComponentSpecMjs(model.data);
+
+  // Structured stops preserve raw position values between 0 and 1.
+  expect(result).toContain('"stops"');
+  expect(result).toContain('"position": 0.29');
+  // A serialized CSS value remains available for static use.
+  expect(result).toContain('"serialized"');
+});
+
+test("getComponentSpecDts injects property JSDoc on the real property only, not gradient stop keys", () => {
+  const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+            description: COLOR_DESC
+          gradient:
+            type: gradient
+  definitions:
+    base:
+      enabled:
+        root:
+          color: "#ffffff"
+          gradient:
+            type: gradient
+            value:
+              - color: "#00000000"
+                position: 0
+              - color: "#000000ff"
+                position: 1
+`;
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(yaml));
+
+  const result = getComponentSpecDts(model.data);
+
+  // The color property description must be injected exactly once on the property declaration.
+  // An unanchored replacement would also inject it into the gradient stop's "color" key.
+  expect((result.match(/COLOR_DESC/g) || []).length).toBe(1);
+});
+
+const TOKEN_REF_GRADIENT_YAML = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gradient:
+            type: gradient
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          gradient: $gradient.mask-fade
+          color: $color.fg.neutral
+`;
+
+test("getComponentSpecMjs resolves a mode-invariant gradient token into serialized and stops", () => {
+  // A mode-invariant gradient includes stops for dynamic operations.
+  const { getComponentSpecMjs: generate } = createStringifier({
+    prefix: "test",
+    resolveTokenValues: () => [
+      fakeGradient(["#00000000", 0], ["#000000ff", 1]),
+      fakeGradient(["#00000000", 0], ["#000000ff", 1]),
+    ],
+  });
+
+  const result = generate(tokenRefGradientSpec());
+
+  expect(result).toContain('"serialized": "var(--test-gradient-mask-fade)"');
+  expect(result).toContain('"stops"');
+  expect(result).toContain('"position": 1');
+});
+
+test("getComponentSpecMjs omits stops for a theme-dependent gradient token", () => {
+  // A mode-dependent gradient exposes only its serialized form because one stops array is invalid.
+  const { getComponentSpecMjs: generate } = createStringifier({
+    prefix: "test",
+    resolveTokenValues: () => [
+      fakeGradient(["#00000000", 0], ["#000000ff", 1]),
+      fakeGradient(["#ffffff00", 0], ["#ffffffff", 1]),
+    ],
+  });
+
+  const result = generate(tokenRefGradientSpec());
+
+  expect(result).toContain('"serialized": "var(--test-gradient-mask-fade)"');
+  expect(result).not.toContain('"stops"');
+});
+
+test("getComponentSpecMjs keeps non-gradient token references as plain strings", () => {
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(TOKEN_REF_GRADIENT_YAML));
+
+  // Non-gradient properties remain var() strings regardless of the resolver.
+  const { getComponentSpecMjs: generate } = createStringifier({
+    prefix: "test",
+    resolveTokenValues: () => [fakeGradient(["#00000000", 0], ["#000000ff", 1])],
+  });
+
+  const result = generate(model.data);
+
+  expect(result).toContain('"color": "var(--test-color-fg-neutral)"');
+});
+
+test("getComponentSpecMjs keeps the gradient shape stable without a resolver", () => {
+  // Gradient properties keep their object shape without a resolver. Switching between strings and
+  // objects based on caller configuration would make consumer `.serialized` access silently fail.
+  const { getComponentSpecMjs: generate } = createStringifier({ prefix: "test" });
+
+  const result = generate(tokenRefGradientSpec());
+
+  expect(result).toContain('"serialized": "var(--test-gradient-mask-fade)"');
+  expect(result).not.toContain('"stops"');
 });
 
 test("getComponentSpecDts should generate typescript definitions", () => {
