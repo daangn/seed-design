@@ -6,6 +6,48 @@ metadata:
 data:
   collection: color
   tokens:
+    $gradient.fade-mask:
+      # 색상이 아닌 불투명도(alpha) easing 곡선입니다. 스크롤 가장자리 등 콘텐츠를 부드럽게 가리는
+      # 마스크 용도의 internal(개발용) 토큰이며, 마스크는 alpha만 사용하므로 테마와 무관하게 동일합니다.
+      # 각 stop 주석의 퍼센트는 alpha 진행도이며 position이 아닙니다.
+      description: 콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선입니다.
+      values:
+        theme-light: &fade-mask
+          type: gradient
+          value:
+            - color: "#00000000" # alpha 0%
+              position: 0
+            - color: "#00000003" # alpha 1%
+              position: 0.08
+            - color: "#00000005" # alpha 2%
+              position: 0.16
+            - color: "#0000000d" # alpha 5%
+              position: 0.22
+            - color: "#00000014" # alpha 8%
+              position: 0.29
+            - color: "#00000021" # alpha 13%
+              position: 0.35
+            - color: "#0000002e" # alpha 18%
+              position: 0.41
+            - color: "#00000040" # alpha 25%
+              position: 0.47
+            - color: "#00000052" # alpha 32%
+              position: 0.53
+            - color: "#00000066" # alpha 40%
+              position: 0.59
+            - color: "#0000007a" # alpha 48%
+              position: 0.65
+            - color: "#00000094" # alpha 58%
+              position: 0.71
+            - color: "#000000ab" # alpha 67%
+              position: 0.78
+            - color: "#000000c7" # alpha 78%
+              position: 0.84
+            - color: "#000000e3" # alpha 89%
+              position: 0.92
+            - color: "#000000ff" # alpha 100%
+              position: 1
+        theme-dark: *fade-mask
     $gradient.glow-magic:
       description: 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러입니다.
       values:

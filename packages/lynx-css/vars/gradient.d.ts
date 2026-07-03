@@ -1,3 +1,5 @@
+/** 콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선입니다. */
+export declare const fadeMask = "var(--seed-gradient-fade-mask)";
 /** 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러입니다. */
 export declare const glowMagic = "var(--seed-gradient-glow-magic)";
 /** 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러의 pressed컬러입니다. */
