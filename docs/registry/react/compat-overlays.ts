@@ -106,5 +106,29 @@ export const compatOverlays: CompatOverlay[] = [
     notes: "react 1.2.0과 동일",
   },
 
+  // 2.0.0은 SemVer 준수의 시작점 — 이후로는 메이저 버전 자체가 경계 역할을 하므로
+  // 여기서의 큐레이션은 1.x에서 넘어오는 구간까지만 한다.
+  // 근거: docs/content/react/updates/upgrade/v2.mdx, 각 패키지 CHANGELOG 2.0.0 항목
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/react",
+    version: "2.0.0",
+    notes:
+      "SemVer 준수 시작. BoxProps 등 레이아웃 prop 타입 discriminated union 전환, Bottom Sheet 옵션 정리, Chip Tabs brandSolid 제거 — chip-tabs·snackbar snippet 재설치 권장",
+  },
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/css",
+    version: "2.0.0",
+    notes:
+      "react 2.0.0과 동시 릴리즈. $gradient.fade-layer-* 제거, selectBoxCheckmark recipe 경로 select-box-checkmark로 개명. $color.bg.layer-fill은 2.0.0에서 제거됐다 2.1.0에서 복원 — 업그레이드 가이드 권장 최소는 2.1.0",
+  },
+  {
+    kind: "breaking-boundary",
+    package: "@seed-design/stackflow",
+    version: "2.0.0",
+    notes: "css peer 메이저 상승(^2.0.0). AppScreen 포커스/키보드 동작 변경",
+  },
+
   // known-bad: 기록된 사고 조합 아직 없음 — 실제 깨진 조합이 확인되면 여기에 추가
 ];

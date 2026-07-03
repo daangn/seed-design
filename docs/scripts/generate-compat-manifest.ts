@@ -18,8 +18,10 @@ import type { Registry } from "../registry/schema.js";
  * 이 manifest는 1.x SemVer가 정상화되지 않은 동안의 **한시적 스냅샷**입니다.
  * 지속 자동 생성(릴리즈 파이프라인 체이닝)을 하지 않고, 필요할 때 수동으로 1회 박제합니다:
  *   bun --filter @seed-design/docs generate:compat
- * 완전한 1.x 호환표는 1.x가 끝나는 2.0 직전에 최종 박제하면 됩니다. 2.0 이후 SemVer가
- * 지켜지면 Layer 1의 가치는 사라지고(npm 선언이 곧 정답), 마이그레이션 메타만 migration-index로 이관합니다.
+ * 2.0 배포 이후 1.x 전체 + 2.x 초기 버전을 포함해 최종 박제를 마쳤습니다. 2.0부터는 SemVer가
+ * 지켜져 npm 선언이 곧 정답이므로, 스냅샷 이후 릴리즈는 CLI가 설치본 package.json의 peer 선언으로
+ * 대신 판정합니다(재생성이 필수가 아님). 새 known-bad 사고나 correction이 기록될 때만
+ * overlays 수정 후 재생성하면 됩니다.
  * 네트워크(registry.npmjs.org)에 의존하므로 generate:all에는 포함하지 않습니다.
  */
 

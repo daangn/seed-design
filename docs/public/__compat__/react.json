@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "framework": "react",
-  "generatedAt": "2026-06-16T08:39:29.371Z",
+  "generatedAt": "2026-07-03T04:04:38.855Z",
   "packages": {
     "@seed-design/css": {
       "versions": [
@@ -473,6 +473,31 @@
         {
           "version": "1.2.15",
           "publishedAt": "2026-06-12T07:58:38.434Z",
+          "peers": {}
+        },
+        {
+          "version": "1.2.16",
+          "publishedAt": "2026-06-17T12:19:48.122Z",
+          "peers": {}
+        },
+        {
+          "version": "2.0.0",
+          "publishedAt": "2026-06-23T00:58:37.973Z",
+          "peers": {}
+        },
+        {
+          "version": "2.1.0",
+          "publishedAt": "2026-06-23T08:20:37.067Z",
+          "peers": {}
+        },
+        {
+          "version": "2.1.1",
+          "publishedAt": "2026-06-25T09:20:13.992Z",
+          "peers": {}
+        },
+        {
+          "version": "2.1.2",
+          "publishedAt": "2026-07-02T08:38:53.334Z",
           "peers": {}
         }
       ]
@@ -1164,6 +1189,34 @@
           "peers": {
             "@seed-design/css": ">=1.1.17"
           }
+        },
+        {
+          "version": "1.2.14",
+          "publishedAt": "2026-06-17T12:19:49.201Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "1.2.15",
+          "publishedAt": "2026-06-22T07:42:09.958Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.17"
+          }
+        },
+        {
+          "version": "2.0.0",
+          "publishedAt": "2026-06-23T00:58:38.075Z",
+          "peers": {
+            "@seed-design/css": "^2.0.0"
+          }
+        },
+        {
+          "version": "2.0.1",
+          "publishedAt": "2026-07-02T08:38:52.794Z",
+          "peers": {
+            "@seed-design/css": "^2.0.0"
+          }
         }
       ]
     },
@@ -1539,6 +1592,20 @@
           "peers": {
             "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11"
           }
+        },
+        {
+          "version": "1.1.24",
+          "publishedAt": "2026-06-22T07:42:08.127Z",
+          "peers": {
+            "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11"
+          }
+        },
+        {
+          "version": "2.0.0",
+          "publishedAt": "2026-06-23T01:00:23.511Z",
+          "peers": {
+            "@seed-design/css": "^2.0.0"
+          }
         }
       ]
     }
@@ -1546,11 +1613,20 @@
   "snippets": [
     {
       "registryId": "ui",
+      "itemId": "accordion",
+      "snippetPath": "accordion.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
       "itemId": "app-screen",
       "snippetPath": "app-screen.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1558,8 +1634,8 @@
       "itemId": "app-screen",
       "snippetPath": "app-bar.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1567,8 +1643,8 @@
       "itemId": "error-state",
       "snippetPath": "error-state.tsx",
       "requires": {
-        "@seed-design/react": "~1.1.0",
-        "@seed-design/css": "~1.1.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1576,8 +1652,8 @@
       "itemId": "field-button",
       "snippetPath": "field-button.tsx",
       "requires": {
-        "@seed-design/react": "~1.1.0",
-        "@seed-design/css": "~1.1.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1585,8 +1661,8 @@
       "itemId": "manner-temp",
       "snippetPath": "manner-temp.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1594,8 +1670,8 @@
       "itemId": "manner-temp-badge",
       "snippetPath": "manner-temp-badge.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1603,8 +1679,8 @@
       "itemId": "alert-dialog",
       "snippetPath": "alert-dialog.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1612,8 +1688,27 @@
       "itemId": "bottom-sheet",
       "snippetPath": "bottom-sheet.tsx",
       "requires": {
-        "@seed-design/react": "~1.1.0",
-        "@seed-design/css": "~1.1.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "side-panel",
+      "snippetPath": "side-panel.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0",
+        "@karrotmarket/react-monochrome-icon": "^1.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "responsive-side-panel",
+      "snippetPath": "responsive-side-panel.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1621,8 +1716,8 @@
       "itemId": "action-sheet",
       "snippetPath": "action-sheet.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1630,8 +1725,8 @@
       "itemId": "extended-action-sheet",
       "snippetPath": "extended-action-sheet.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1639,8 +1734,8 @@
       "itemId": "avatar",
       "snippetPath": "avatar.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1648,8 +1743,8 @@
       "itemId": "pull-to-refresh",
       "snippetPath": "pull-to-refresh.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1657,8 +1752,8 @@
       "itemId": "loading-indicator",
       "snippetPath": "loading-indicator.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1666,8 +1761,8 @@
       "itemId": "action-button",
       "snippetPath": "action-button.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1675,8 +1770,8 @@
       "itemId": "toggle-button",
       "snippetPath": "toggle-button.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1684,8 +1779,8 @@
       "itemId": "reaction-button",
       "snippetPath": "reaction-button.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1693,8 +1788,8 @@
       "itemId": "callout",
       "snippetPath": "callout.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1702,8 +1797,8 @@
       "itemId": "control-chip",
       "snippetPath": "control-chip.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1711,8 +1806,8 @@
       "itemId": "chip",
       "snippetPath": "chip.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1720,8 +1815,8 @@
       "itemId": "checkbox",
       "snippetPath": "checkbox.tsx",
       "requires": {
-        "@seed-design/react": "~1.2.0",
-        "@seed-design/css": "~1.2.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1729,8 +1824,8 @@
       "itemId": "content-placeholder",
       "snippetPath": "content-placeholder.tsx",
       "requires": {
-        "@seed-design/react": "~1.2.8",
-        "@seed-design/css": "~1.2.6"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1738,8 +1833,8 @@
       "itemId": "identity-placeholder",
       "snippetPath": "identity-placeholder.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1747,8 +1842,17 @@
       "itemId": "inline-banner",
       "snippetPath": "inline-banner.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "menu",
+      "snippetPath": "menu.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1756,8 +1860,26 @@
       "itemId": "menu-sheet",
       "snippetPath": "menu-sheet.tsx",
       "requires": {
-        "@seed-design/react": "~1.2.0",
-        "@seed-design/css": "~1.2.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "swipeable-menu-sheet",
+      "snippetPath": "swipeable-menu-sheet.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "navigation-menu",
+      "snippetPath": "navigation-menu.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1765,8 +1887,8 @@
       "itemId": "slider",
       "snippetPath": "slider.tsx",
       "requires": {
-        "@seed-design/react": "~1.1.0",
-        "@seed-design/css": "~1.1.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1774,8 +1896,8 @@
       "itemId": "snackbar",
       "snippetPath": "snackbar.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1783,8 +1905,17 @@
       "itemId": "help-bubble",
       "snippetPath": "help-bubble.tsx",
       "requires": {
-        "@seed-design/react": "~1.2.0",
-        "@seed-design/css": "~1.2.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "help-bubble-tooltip",
+      "snippetPath": "help-bubble-tooltip.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1792,8 +1923,8 @@
       "itemId": "tabs",
       "snippetPath": "tabs.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1801,8 +1932,8 @@
       "itemId": "chip-tabs",
       "snippetPath": "chip-tabs.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1810,8 +1941,8 @@
       "itemId": "tag-group",
       "snippetPath": "tag-group.tsx",
       "requires": {
-        "@seed-design/react": "~1.2.0",
-        "@seed-design/css": "~1.2.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1819,8 +1950,8 @@
       "itemId": "page-banner",
       "snippetPath": "page-banner.tsx",
       "requires": {
-        "@seed-design/react": "~1.1.0",
-        "@seed-design/css": "~1.1.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1828,8 +1959,8 @@
       "itemId": "progress-circle",
       "snippetPath": "progress-circle.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1837,8 +1968,8 @@
       "itemId": "radio-group",
       "snippetPath": "radio-group.tsx",
       "requires": {
-        "@seed-design/react": "~1.2.0",
-        "@seed-design/css": "~1.2.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1846,8 +1977,8 @@
       "itemId": "select-box",
       "snippetPath": "select-box.tsx",
       "requires": {
-        "@seed-design/react": "~1.2.0",
-        "@seed-design/css": "~1.2.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1855,8 +1986,8 @@
       "itemId": "segmented-control",
       "snippetPath": "segmented-control.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1864,8 +1995,8 @@
       "itemId": "switch",
       "snippetPath": "switch.tsx",
       "requires": {
-        "@seed-design/react": "~1.2.0",
-        "@seed-design/css": "~1.2.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1873,8 +2004,68 @@
       "itemId": "text-field",
       "snippetPath": "text-field.tsx",
       "requires": {
-        "@seed-design/react": "~1.1.0",
-        "@seed-design/css": "~1.1.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "attachment-display-field",
+      "snippetPath": "attachment-display-field.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "attachment-display-field-reorderable",
+      "snippetPath": "attachment-display-field.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "attachment-display-field-reorderable",
+      "snippetPath": "attachment-display-field-reorderable.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0",
+        "@dnd-kit/react": "^0.4.0",
+        "@dnd-kit/abstract": "^0.4.0",
+        "@dnd-kit/dom": "^0.4.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "attachment-field",
+      "snippetPath": "attachment-field.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "attachment-field-reorderable",
+      "snippetPath": "attachment-field.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "attachment-field-reorderable",
+      "snippetPath": "attachment-field-reorderable.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0",
+        "@dnd-kit/react": "^0.4.0",
+        "@dnd-kit/abstract": "^0.4.0",
+        "@dnd-kit/dom": "^0.4.0"
       }
     },
     {
@@ -1882,8 +2073,8 @@
       "itemId": "contextual-floating-button",
       "snippetPath": "contextual-floating-button.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1891,8 +2082,8 @@
       "itemId": "floating-action-button",
       "snippetPath": "floating-action-button.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1900,8 +2091,8 @@
       "itemId": "list",
       "snippetPath": "list.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1909,8 +2100,8 @@
       "itemId": "list",
       "snippetPath": "list-header.tsx",
       "requires": {
-        "@seed-design/react": "~1.0.0",
-        "@seed-design/css": "~1.0.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
@@ -1918,14 +2109,29 @@
       "itemId": "result-section",
       "snippetPath": "result-section.tsx",
       "requires": {
-        "@seed-design/react": "~1.1.0",
-        "@seed-design/css": "~1.1.0"
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "ui",
+      "itemId": "side-navigation",
+      "snippetPath": "side-navigation.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
       }
     },
     {
       "registryId": "lib",
       "itemId": "manner-temp-level",
       "snippetPath": "manner-temp-level.ts",
+      "requires": {}
+    },
+    {
+      "registryId": "lib",
+      "itemId": "format-bytes",
+      "snippetPath": "format-bytes.ts",
       "requires": {}
     },
     {
@@ -1939,6 +2145,78 @@
       "itemId": "animate-number",
       "snippetPath": "animate-number/animate-number.module.css",
       "requires": {}
+    },
+    {
+      "registryId": "block",
+      "itemId": "footer-01",
+      "snippetPath": "footer-01.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "block",
+      "itemId": "footer-02",
+      "snippetPath": "footer-02.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "block",
+      "itemId": "footer-03",
+      "snippetPath": "footer-03.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "block",
+      "itemId": "footer-04",
+      "snippetPath": "footer-04.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "block",
+      "itemId": "side-navigation-01",
+      "snippetPath": "side-navigation-01.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "block",
+      "itemId": "side-navigation-02",
+      "snippetPath": "side-navigation-02.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "block",
+      "itemId": "layout-01",
+      "snippetPath": "layout-01.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    },
+    {
+      "registryId": "block",
+      "itemId": "layout-02",
+      "snippetPath": "layout-02.tsx",
+      "requires": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
     }
   ],
   "overlays": [
@@ -1995,6 +2273,24 @@
       "package": "@seed-design/css",
       "version": "1.2.0",
       "notes": "react 1.2.0과 동일"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/react",
+      "version": "2.0.0",
+      "notes": "SemVer 준수 시작. BoxProps 등 레이아웃 prop 타입 discriminated union 전환, Bottom Sheet 옵션 정리, Chip Tabs brandSolid 제거 — chip-tabs·snackbar snippet 재설치 권장"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/css",
+      "version": "2.0.0",
+      "notes": "react 2.0.0과 동시 릴리즈. $gradient.fade-layer-* 제거, selectBoxCheckmark recipe 경로 select-box-checkmark로 개명. $color.bg.layer-fill은 2.0.0에서 제거됐다 2.1.0에서 복원 — 업그레이드 가이드 권장 최소는 2.1.0"
+    },
+    {
+      "kind": "breaking-boundary",
+      "package": "@seed-design/stackflow",
+      "version": "2.0.0",
+      "notes": "css peer 메이저 상승(^2.0.0). AppScreen 포커스/키보드 동작 변경"
     }
   ]
 }
