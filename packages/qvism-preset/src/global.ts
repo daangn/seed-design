@@ -146,12 +146,17 @@ export const globalCss = defineGlobalCss({
     marginLeft: "var(--seed-box-margin-left, calc(var(--seed-box-bleed-left) * -1))",
     marginRight: "var(--seed-box-margin-right, calc(var(--seed-box-bleed-right) * -1))",
 
-    "--seed-box-min-height--responsive": "initial",
-    "--seed-box-max-height--responsive": "initial",
-    "--seed-box-height--responsive": "initial",
-    "--seed-box-min-width--responsive": "initial",
-    "--seed-box-max-width--responsive": "initial",
-    "--seed-box-width--responsive": "initial",
+    // Real initial-value keywords, not `initial`. WebKit before the
+    // guaranteed-invalid fix (Safari <16.4, incl. iOS 16.0.x) treats a custom
+    // property resolving to a guaranteed-invalid var() as `unset`, so it
+    // inherits the ancestor value instead of resetting. See
+    // https://webkit.org/b/241433.
+    "--seed-box-min-height--responsive": "auto",
+    "--seed-box-max-height--responsive": "none",
+    "--seed-box-height--responsive": "auto",
+    "--seed-box-min-width--responsive": "auto",
+    "--seed-box-max-width--responsive": "none",
+    "--seed-box-width--responsive": "auto",
     minHeight: "var(--seed-box-min-height)",
     maxHeight: "var(--seed-box-max-height)",
     height: "var(--seed-box-height)",
@@ -203,14 +208,16 @@ export const globalCss = defineGlobalCss({
     flexGrow: "var(--seed-box-flex-grow)",
     flexShrink: "var(--seed-box-flex-shrink)",
 
-    "--seed-box-flex-direction--responsive": "initial",
+    "--seed-box-flex-direction--responsive": "row",
     "--seed-box-flex-wrap": "initial",
     "--seed-box-justify-content": "initial",
     "--seed-box-justify-self": "auto",
     "--seed-box-align-items": "stretch",
     "--seed-box-align-content": "stretch",
     "--seed-box-align-self": "auto",
-    "--seed-box-gap--responsive": "initial",
+    // 0px, not `normal`/`initial`: ResponsivePair divides var(--seed-box-gap, 0px)
+    // inside a calc(), which needs a length. See the WebKit note above.
+    "--seed-box-gap--responsive": "0px",
     flexDirection: "var(--seed-box-flex-direction)",
     flexWrap: "var(--seed-box-flex-wrap)",
     justifyContent: "var(--seed-box-justify-content)",
@@ -234,9 +241,9 @@ export const globalCss = defineGlobalCss({
     },
   },
   ".seed-grid": {
-    "--seed-grid-columns--responsive": "initial",
+    "--seed-grid-columns--responsive": "none",
     gridTemplateColumns: "var(--seed-grid-columns)",
-    "--seed-grid-rows--responsive": "initial",
+    "--seed-grid-rows--responsive": "none",
     gridTemplateRows: "var(--seed-grid-rows)",
     "--seed-grid-auto-flow": "initial",
     gridAutoFlow: "var(--seed-grid-auto-flow)",

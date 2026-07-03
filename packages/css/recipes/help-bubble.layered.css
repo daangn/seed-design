@@ -12,7 +12,7 @@
     padding-top: var(--seed-dimension-x2_5);
     padding-bottom: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
-    --seed-box-max-width-base: initial;
+    --seed-box-max-width-base: none;
     --seed-box-max-width-sm: var(--seed-box-max-width-base);
     --seed-box-max-width-md: var(--seed-box-max-width-sm);
     --seed-box-max-width-lg: var(--seed-box-max-width-md);

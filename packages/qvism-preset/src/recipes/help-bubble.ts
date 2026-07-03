@@ -40,7 +40,8 @@ const helpBubble = defineSlotRecipe({
       paddingBottom: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      "--seed-box-max-width--responsive": "initial",
+      // real value, not `initial` — see https://webkit.org/b/241433
+      "--seed-box-max-width--responsive": "none",
       maxWidth: "var(--seed-box-max-width)",
 
       [pseudo(open)]: {
