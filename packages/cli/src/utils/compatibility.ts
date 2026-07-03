@@ -1,9 +1,9 @@
 import type { CompatManifest, PublicRegistry } from "@/src/schema";
-import { getInstalledPackageVersion, getPackageInfo } from "@/src/utils/get-package-info";
+import { getInstalledPackageJson, getPackageInfo } from "@/src/utils/get-package-info";
 import * as p from "@clack/prompts";
 import fs from "fs-extra";
 import path from "path";
-import { gt, intersects, minVersion, satisfies, valid, validRange } from "semver";
+import { gt, gtr, intersects, ltr, minVersion, satisfies, valid, validRange } from "semver";
 import { highlight } from "./color";
 
 const REACT_COMPAT_PACKAGES = ["@seed-design/react", "@seed-design/css"] as const;
@@ -321,6 +321,10 @@ function isCompatPackageName(
 // 서로 만족되는지(예: react@1.1.12 가 요구하는 css 범위를 설치된 css 가 만족하는지)를
 // compat manifest 로 판정해요. manifest 의 선언(Layer 1)에 overlay(Layer 2)를 덮어
 // "effective 범위"를 계산해요.
+//
+// manifest 에 없는 버전(스냅샷 이후 릴리즈, 2.0 부터는 SemVer 가 지켜져 npm 선언이 곧 정답)은
+// 설치본 package.json 의 peer 선언으로 대신 판정하고, 그마저 없으면(예: --with 가정 버전)
+// 조용히 통과시키는 대신 unchecked 로 보고해요.
 ///////////////////////////////////////////////////////////////
 
 export interface PackagePeerIssue {
@@ -335,6 +339,12 @@ export interface PackagePeerIssue {
   /** 설치된 대상 버전 (미설치면 null) */
   installed: string | null;
   type: "incompatible" | "missing";
+  /**
+   * 위반 방향. installed-too-low 는 대상을 올리면 풀리고,
+   * installed-too-high 는 요구하는 쪽(fromPackage)을 올려야 풀려요.
+   * 복합 범위 등으로 방향을 판정할 수 없으면 생략돼요.
+   */
+  direction?: "installed-too-low" | "installed-too-high";
 }
 
 export interface KnownBadIssue {
@@ -343,46 +353,80 @@ export interface KnownBadIssue {
   reason: string;
 }
 
+/** manifest 로도 설치본 선언으로도 판정할 수 없어 검사를 건너뛴 패키지 */
+export interface UncheckedPackage {
+  package: string;
+  version: string;
+}
+
 export interface PackagePeerReport {
   installed: Record<string, string>;
   issues: PackagePeerIssue[];
   knownBad: KnownBadIssue[];
-  /** 대상 패키지별로 "어디까지 올리면 모두 풀리나" (위반 범위들의 최대 하한) */
+  /** 검사하지 못한 패키지 — ok 판정에는 포함되지 않지만 반드시 사용자에게 노출해요 */
+  unchecked: UncheckedPackage[];
+  /** 대상 패키지별로 "어디까지 올리면 모두 풀리나" (installed-too-low 위반 범위들의 최대 하한) */
   resolution: Record<string, string>;
   ok: boolean;
 }
 
-/** manifest 에 등재된 패키지들의 실제 설치 버전을 node_modules 에서 읽어요. */
-export function getInstalledManifestPackageVersions({
+export interface InstalledManifestPackage {
+  version: string;
+  /** 설치본 package.json 의 peerDependencies 중 manifest 가 추적하는 패키지만 */
+  declaredPeers: Record<string, string>;
+}
+
+/**
+ * manifest 에 등재된 패키지들의 실제 설치 버전과 peer 선언을 node_modules 에서 읽어요.
+ * peer 선언은 manifest 미등재 버전(스냅샷 이후 릴리즈)의 fallback 판정에 사용해요.
+ */
+export function getInstalledManifestPackages({
   manifest,
   cwd,
 }: {
   manifest: CompatManifest;
   cwd: string;
-}): Record<string, string> {
-  const installed: Record<string, string> = {};
-  for (const packageName of Object.keys(manifest.packages)) {
-    const version = getInstalledPackageVersion(packageName, cwd);
-    if (version) installed[packageName] = version;
+}): Record<string, InstalledManifestPackage> {
+  const trackedPackages = new Set(Object.keys(manifest.packages));
+  const installed: Record<string, InstalledManifestPackage> = {};
+
+  for (const packageName of trackedPackages) {
+    const pkg = getInstalledPackageJson(packageName, cwd);
+    if (typeof pkg?.version !== "string") continue;
+
+    const declaredPeers: Record<string, string> = {};
+    for (const [peerName, range] of Object.entries(pkg.peerDependencies ?? {})) {
+      if (typeof range === "string" && trackedPackages.has(peerName)) {
+        declaredPeers[peerName] = range;
+      }
+    }
+
+    installed[packageName] = { version: pkg.version, declaredPeers };
   }
+
   return installed;
 }
 
 /**
  * 특정 패키지 버전의 effective peer 범위를 계산해요.
  * declared(Layer 1) 위에 correction(override) → backfill(빈 곳 채움) 순으로 overlay 를 적용해요.
+ * manifest 에 해당 버전이 없으면 declaredFallback(설치본 package.json 선언)을 Layer 1 로 사용해요.
  */
 export function resolveEffectivePeers({
   packageName,
   version,
   manifest,
+  declaredFallback,
 }: {
   packageName: string;
   version: string;
   manifest: CompatManifest;
+  declaredFallback?: Record<string, string>;
 }): Record<string, string> {
   const declared =
-    manifest.packages[packageName]?.versions.find((v) => v.version === version)?.peers ?? {};
+    manifest.packages[packageName]?.versions.find((v) => v.version === version)?.peers ??
+    declaredFallback ??
+    {};
   const peers: Record<string, string> = { ...declared };
 
   const matches = (range: string) => valid(version) !== null && satisfies(version, range);
@@ -416,14 +460,35 @@ export function resolveEffectivePeers({
 export function analyzePackagePeerCompatibility({
   manifest,
   installedVersions,
+  declaredPeers = {},
 }: {
   manifest: CompatManifest;
   installedVersions: Record<string, string>;
+  /** 패키지별 설치본 package.json peer 선언 — manifest 미등재 버전의 fallback Layer 1 */
+  declaredPeers?: Record<string, Record<string, string>>;
 }): PackagePeerReport {
   const issues: PackagePeerIssue[] = [];
+  const unchecked: UncheckedPackage[] = [];
 
   for (const [packageName, version] of Object.entries(installedVersions)) {
-    const peers = resolveEffectivePeers({ packageName, version, manifest });
+    const hasManifestEntry =
+      manifest.packages[packageName]?.versions.some((v) => v.version === version) ?? false;
+    const declaredFallback = declaredPeers[packageName];
+    const hasOverlayCoverage = manifest.overlays.some(
+      (overlay) =>
+        (overlay.kind === "correction" || overlay.kind === "backfill") &&
+        overlay.package === packageName &&
+        valid(version) !== null &&
+        satisfies(version, overlay.versionRange),
+    );
+
+    // 판정 근거가 전혀 없으면 조용히 통과시키지 않고 unchecked 로 보고해요.
+    if (!hasManifestEntry && !declaredFallback && !hasOverlayCoverage) {
+      unchecked.push({ package: packageName, version });
+      continue;
+    }
+
+    const peers = resolveEffectivePeers({ packageName, version, manifest, declaredFallback });
 
     for (const [requires, range] of Object.entries(peers)) {
       const installedTarget = installedVersions[requires];
@@ -442,6 +507,11 @@ export function analyzePackagePeerCompatibility({
       }
 
       if (!satisfies(installedTarget, range)) {
+        const direction = ltr(installedTarget, range)
+          ? "installed-too-low"
+          : gtr(installedTarget, range)
+            ? "installed-too-high"
+            : undefined;
         issues.push({
           from: `${packageName}@${version}`,
           fromPackage: packageName,
@@ -450,6 +520,7 @@ export function analyzePackagePeerCompatibility({
           range,
           installed: installedTarget,
           type: "incompatible",
+          ...(direction ? { direction } : {}),
         });
       }
     }
@@ -475,16 +546,21 @@ export function analyzePackagePeerCompatibility({
     installed: installedVersions,
     issues,
     knownBad,
+    unchecked,
     resolution: computePeerResolution(issues),
     ok: issues.length === 0 && knownBad.length === 0,
   };
 }
 
-/** 대상 패키지별로 위반 범위들의 "최대 하한"을 모아 `>=x.y.z` 형태로 돌려줘요. */
+/**
+ * 대상 패키지별로 위반 범위들의 "최대 하한"을 모아 `>=x.y.z` 형태로 돌려줘요.
+ * installed-too-high 위반은 대상을 올려도 풀리지 않으므로(요구하는 쪽을 올려야 함) 제외해요.
+ */
 function computePeerResolution(issues: PackagePeerIssue[]): Record<string, string> {
   const highestMinByTarget = new Map<string, string>();
 
   for (const issue of issues) {
+    if (issue.direction === "installed-too-high") continue;
     const min = minVersion(issue.range);
     if (!min) continue;
     const current = highestMinByTarget.get(issue.requires);
@@ -504,8 +580,19 @@ export function logPackagePeerReport({ report }: { report: PackagePeerReport }) 
     .join(", ");
   p.log.info(`설치된 버전: ${installedLine || "없음"}`);
 
+  // 검사하지 못한 패키지를 조용히 통과로 오인하지 않도록 항상 먼저 노출해요.
+  for (const item of report.unchecked) {
+    p.log.warn(
+      `${item.package}@${highlight(item.version)} 는 매니페스트에 없는 버전이라 검사하지 못했어요.`,
+    );
+  }
+
   if (report.ok) {
-    p.log.success("설치된 seed 패키지들이 서로 호환돼요.");
+    p.log.success(
+      report.unchecked.length
+        ? "검사할 수 있었던 seed 패키지들끼리는 서로 호환돼요."
+        : "설치된 seed 패키지들이 서로 호환돼요.",
+    );
     return;
   }
 
@@ -513,6 +600,12 @@ export function logPackagePeerReport({ report }: { report: PackagePeerReport }) 
     if (issue.type === "missing") {
       p.log.warn(
         `${issue.from} 는 ${issue.requires} ${issue.range} 를 요구하나 설치되어 있지 않아요.`,
+      );
+      continue;
+    }
+    if (issue.direction === "installed-too-high") {
+      p.log.warn(
+        `${issue.from} 는 ${issue.requires} ${issue.range} 를 요구하나 더 높은 ${issue.installed} 가 설치됐어요. ${highlight(issue.fromPackage)} 업그레이드를 고려해주세요.`,
       );
       continue;
     }
@@ -533,6 +626,11 @@ export function logPackagePeerReport({ report }: { report: PackagePeerReport }) 
     const suggestion = resolutionEntries
       .map(([target, range]) => `${target} ${highlight(range)}`)
       .join(", ");
-    p.log.info(`→ ${suggestion} 로 올리면 모두 해결돼요.`);
+    const hasTooHighIssue = report.issues.some((issue) => issue.direction === "installed-too-high");
+    p.log.info(
+      hasTooHighIssue
+        ? `→ ${suggestion} 로 올리면 일부 이슈가 해결돼요.`
+        : `→ ${suggestion} 로 올리면 모두 해결돼요.`,
+    );
   }
 }

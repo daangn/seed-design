@@ -15,7 +15,7 @@ import {
   type CompatibilityReport,
   findInstalledSnippetItemKeys,
   getCompatPackageNames,
-  getInstalledManifestPackageVersions,
+  getInstalledManifestPackages,
   getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
   logPackagePeerReport,
@@ -275,11 +275,23 @@ export const compatCommand = (cli: CAC) => {
 
         let peerReport: PackagePeerReport | null = null;
         if (manifest) {
-          const installedVersions = {
-            ...getInstalledManifestPackageVersions({ manifest, cwd: options.cwd }),
-            ...withOverrides,
-          };
-          peerReport = analyzePackagePeerCompatibility({ manifest, installedVersions });
+          const installedPackages = getInstalledManifestPackages({ manifest, cwd: options.cwd });
+          const installedVersions: Record<string, string> = {};
+          const declaredPeers: Record<string, Record<string, string>> = {};
+          for (const [name, info] of Object.entries(installedPackages)) {
+            installedVersions[name] = info.version;
+            declaredPeers[name] = info.declaredPeers;
+          }
+          // --with 로 가정한 버전은 설치본과 다르므로 설치본의 peer 선언을 fallback 으로 쓰지 않아요.
+          for (const [name, version] of Object.entries(withOverrides)) {
+            installedVersions[name] = version;
+            if (installedPackages[name]?.version !== version) delete declaredPeers[name];
+          }
+          peerReport = analyzePackagePeerCompatibility({
+            manifest,
+            installedVersions,
+            declaredPeers,
+          });
         }
 
         // 스니펫 호환 (가상 조회 모드에서는 설치본과 무관하므로 생략)

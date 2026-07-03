@@ -261,12 +261,60 @@ describe("analyzePackagePeerCompatibility", () => {
     expect(report.resolution).toEqual({ "@seed-design/css": ">=1.2.0" });
   });
 
-  it("manifest에 없는 버전은 크래시 없이 건너뛴다", () => {
+  it("manifest에 없고 fallback 선언도 없는 버전은 unchecked로 보고한다", () => {
     const report = analyzePackagePeerCompatibility({
       manifest,
       installedVersions: { "@seed-design/react": "9.9.9", "@seed-design/css": "1.1.10" },
     });
+    // 검사 불가와 통과를 구분: ok는 유지하되 unchecked로 노출
     expect(report.ok).toBe(true);
+    expect(report.unchecked).toEqual([{ package: "@seed-design/react", version: "9.9.9" }]);
+  });
+
+  it("manifest에 없는 버전은 설치본 peer 선언(declaredPeers)으로 판정한다", () => {
+    // 2.0 이후 시나리오: 스냅샷 이후 릴리즈된 버전은 npm 선언이 곧 정답
+    const report = analyzePackagePeerCompatibility({
+      manifest,
+      installedVersions: { "@seed-design/react": "2.0.1", "@seed-design/css": "1.1.16" },
+      declaredPeers: { "@seed-design/react": { "@seed-design/css": "^2.0.0" } },
+    });
+    expect(report.ok).toBe(false);
+    expect(report.unchecked).toHaveLength(0);
+    expect(report.issues[0]).toMatchObject({
+      from: "@seed-design/react@2.0.1",
+      requires: "@seed-design/css",
+      range: "^2.0.0",
+      direction: "installed-too-low",
+    });
+    expect(report.resolution).toEqual({ "@seed-design/css": ">=2.0.0" });
+  });
+
+  it("설치본이 요구 범위보다 높으면 installed-too-high로 표시하고 resolution에서 제외한다", () => {
+    // react 1.1.5는 backfill(~1.1.0)로 css 상한이 있는데 css가 그보다 높음 — 해법은 react 업그레이드
+    const report = analyzePackagePeerCompatibility({
+      manifest,
+      installedVersions: { "@seed-design/react": "1.1.5", "@seed-design/css": "1.2.5" },
+    });
+    expect(report.ok).toBe(false);
+    expect(report.issues[0]).toMatchObject({
+      from: "@seed-design/react@1.1.5",
+      direction: "installed-too-high",
+    });
+    // 대상(css)을 올리라는 제안은 오답이므로 나오지 않아야 함
+    expect(report.resolution).toEqual({});
+    // css 1.2.5 자체는 manifest에 없어 unchecked
+    expect(report.unchecked).toEqual([{ package: "@seed-design/css", version: "1.2.5" }]);
+  });
+
+  it("manifest에 없어도 overlay 범위에 걸리면 overlay로 판정한다", () => {
+    // --with 가정 버전 등 설치본 선언이 없어도 correction(>=1.2.0 <1.3.0)이 커버
+    const report = analyzePackagePeerCompatibility({
+      manifest,
+      installedVersions: { "@seed-design/react": "1.2.7", "@seed-design/css": "1.1.17" },
+    });
+    expect(report.unchecked).toHaveLength(0);
+    expect(report.ok).toBe(false);
+    expect(report.resolution).toEqual({ "@seed-design/css": ">=1.2.0" });
   });
 
   it("미설치 대상은 missing 이슈로 보고한다", () => {
