@@ -1060,14 +1060,14 @@
           ]
         },
         {
-          "id": "develop-with-seed",
-          "label": "develop-with-seed",
+          "id": "library-authors",
+          "label": "library-authors",
           "items": [
             {
-              "id": "develop-with-seed",
-              "title": "Develop with SEED",
+              "id": "library-authors",
+              "title": "Library Authors",
               "description": "Seed Design을 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.",
-              "docUrl": "/react/develop-with-seed"
+              "docUrl": "/react/library-authors"
             }
           ]
         }

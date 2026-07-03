@@ -10,7 +10,7 @@
 - **버전 업그레이드**: 현재 → 목표 버전 사이의 변경사항과 마이그레이션 경로 (`docs ... changelog`)
 
 소비자용 업그레이드 문서는 https://seed-design.io/react/updates/upgrade 를 참고하세요.
-SDK·공유 라이브러리 저자용 문서는 https://seed-design.io/react/develop-with-seed 를 참고하세요.
+SDK·공유 라이브러리 저자용 문서는 https://seed-design.io/react/library-authors 를 참고하세요.
 
 ## 2.0 전후 버저닝 정책 (먼저 판단)
 
@@ -173,7 +173,7 @@ bun add @seed-design/react@{목표} @seed-design/css@{목표}
 
 ## SDK·공유 라이브러리 진단
 
-SDK·공유 라이브러리는 `/react/develop-with-seed` 문서의 기준을 함께 적용합니다.
+SDK·공유 라이브러리는 `/react/library-authors` 문서의 기준을 함께 적용합니다.
 
 - `@seed-design/*`는 `peerDependencies`로 선언하고 `dependencies`에 넣지 않습니다.
 - 빌드 결과물에 `@seed-design/*`를 포함하지 않도록 external 처리합니다.
