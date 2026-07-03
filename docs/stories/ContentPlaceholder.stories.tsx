@@ -61,8 +61,8 @@ const conditionMap = {
       contentPlaceholderVariantMap.type.map((value) => [value, { type: value }]),
     ),
     custom: { children: <IconSparkle2Fill /> },
-    cafe: { children: <IconCupHeatwaveFill /> },
-    apartment: { children: <IconBuilding2Fill /> },
+    cafe: { children: <IconCupHeatwaveFill style={{ stroke: "none" }} /> },
+    apartment: { children: <IconBuilding2Fill style={{ stroke: "none" }} /> },
   },
 };
 
