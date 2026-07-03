@@ -97,6 +97,12 @@ export const NextListContent = forwardRef<HTMLElement, NextListContentProps>(
     const interaction = useNextListInteractionContext();
     const contentClassName = clsx(classNames.content, className);
 
+    const stateProps = {
+      ...useCheckboxContext({ strict: false })?.stateProps,
+      ...useRadioGroupItemContext({ strict: false })?.stateProps,
+      ...useSwitchContext({ strict: false })?.stateProps,
+    };
+
     if (interaction?.contentTag === "button") {
       return (
         <Primitive.button
@@ -127,6 +133,7 @@ export const NextListContent = forwardRef<HTMLElement, NextListContentProps>(
       <Primitive.div
         ref={composeRefs(interaction?.contentRef, ref)}
         className={contentClassName}
+        {...stateProps}
         {...props}
       >
         {children}
