@@ -15,6 +15,9 @@ export interface GetSeedClassNameOptions {
  *
  * 테마(dark/light)를 자동 감지하여 렌더링 전에 올바른 CSS 변수가 적용되도록 한다.
  *
+ * 호출 시점의 테마를 한 번만 읽는 순수 함수다. 런타임 테마 변경에 반응해야 하면
+ * reactive 버전인 `useSeedClassName` 훅을 사용한다.
+ *
  * @example
  * ```tsx
  * import { getSeedClassName } from "@seed-design/lynx-react";

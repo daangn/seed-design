@@ -1,6 +1,6 @@
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useNullableActivity } from "@stackflow/react-ui-core";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { type UseSwipeBackProps, useSwipeBack } from "../GlobalInteraction/useSwipeBack";
 import { useActivityZIndexBase } from "../../hooks";
 import { appScreenAnatomy } from "./anatomy";
@@ -11,6 +11,7 @@ export type UseAppScreenReturn = ReturnType<typeof useAppScreen>;
 
 export function useAppScreen(props: UseAppScreenProps) {
   const activity = useNullableActivity();
+  const layerRef = useRef<HTMLDivElement>(null);
 
   const transitionState = activity?.transitionState ?? "enter-done";
 
@@ -37,6 +38,7 @@ export function useAppScreen(props: UseAppScreenProps) {
   return useMemo(
     () => ({
       activity,
+      layerRef,
       stateProps,
       activityProps: elementProps({
         "data-part": appScreenAnatomy.activity,

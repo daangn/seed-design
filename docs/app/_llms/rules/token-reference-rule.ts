@@ -1,12 +1,14 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
 import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
   MdxJsxFlowElement,
 } from "mdast-util-mdx-jsx";
 import type { Exchange } from "@seed-design/rootage-core";
-import type { Rule } from "./types";
+import index from "@seed-design/rootage-artifacts/index.json";
+import type { Rule, RuleNode } from "./types";
 import { markdownRow } from "./markdown-utils";
 import {
   type ArrayExpressionNode,
@@ -34,7 +36,7 @@ function decodeHtmlEntities(str: string): string {
   <TokenReference groups={["color", "palette"]} /> 에서 groups 배열을 파싱합니다.
   fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
-function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
+function getGroupsFromNode(node: RuleNode): string[] {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "groups",
   );
@@ -73,7 +75,7 @@ function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
   <TokenReference regex={/\$color\..*-pressed$/} /> 에서 regex를 파싱합니다.
   fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
-function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
+function getRegexFromNode(node: RuleNode): RegExp | null {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "regex",
   );
@@ -106,10 +108,6 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   if (!isRegexLiteral(expr)) return null;
 
   return new RegExp(expr.regex.pattern, expr.regex.flags);
-}
-
-interface RootageIndex {
-  resources: { path: string }[];
 }
 
 /*
@@ -182,39 +180,21 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
   tokenDataCache = new Map();
-  // Next.js 빌드 시 cwd는 docs/, bun test는 루트에서 실행
-  const candidates = [
-    join(process.cwd(), "public/rootage"),
-    join(process.cwd(), "docs/public/rootage"),
-  ];
-  const rootageDir = candidates.find((dir) => {
+  const rootageDir = join(
+    dirname(createRequire(import.meta.url).resolve("@seed-design/rootage-artifacts/package.json")),
+    "__generated__",
+  );
+
+  for (const resource of index.resources) {
+    const { path } = resource;
+    if (path.startsWith("/components/") || path === "/collections.json") continue;
+
     try {
-      readFileSync(join(dir, "index.json"), "utf-8");
-      return true;
+      const content = readFileSync(join(rootageDir, path.slice(1)), "utf-8");
+      tokenDataCache.set(path, JSON.parse(content) as Exchange.TokensModel);
     } catch {
-      return false;
+      // 읽지 못한 파일은 건너뜀
     }
-  });
-  if (!rootageDir) return tokenDataCache;
-
-  try {
-    const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
-    const index = JSON.parse(indexContent) as RootageIndex;
-
-    for (const resource of index.resources) {
-      const { path } = resource;
-      if (path.startsWith("/components/") || path === "/collections.json") continue;
-
-      try {
-        const filePath = join(rootageDir, path.slice(1));
-        const content = readFileSync(filePath, "utf-8");
-        tokenDataCache.set(path, JSON.parse(content) as Exchange.TokensModel);
-      } catch {
-        // 읽지 못한 파일은 건너뜀
-      }
-    }
-  } catch {
-    // index.json 읽기 실패 시 빈 캐시 반환
   }
 
   return tokenDataCache;

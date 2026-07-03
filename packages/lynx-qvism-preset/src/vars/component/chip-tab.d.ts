@@ -117,46 +117,5 @@ export declare const vars: {
         "color": "var(--seed-color-fg-disabled)"
       }
     }
-  },
-  "variantBrandSolid": {
-    "enabled": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-neutral-muted)"
-      }
-    },
-    "enabledPressed": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
-      }
-    },
-    "selected": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
-      },
-      "label": {
-        "color": "var(--seed-color-palette-static-white)"
-      }
-    },
-    "selectedPressed": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
-      }
-    },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-bg-disabled)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-disabled)"
-      }
-    },
-    "selectedDisabled": {
-      "root": {
-        "color": "var(--seed-color-bg-disabled)"
-      }
-    }
   }
 }

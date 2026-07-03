@@ -9,6 +9,7 @@ import { z } from "zod";
 import type { CAC } from "cac";
 import { BASE_URL } from "../constants";
 import { highlight } from "../utils/color";
+import { readRawOptionValue, resolveSeedVersion } from "../utils/registry-source";
 import { installDependencies } from "../utils/install";
 import { analytics } from "../utils/analytics";
 import {
@@ -32,6 +33,7 @@ const addOptionsSchema = z.object({
   all: z.boolean(),
   cwd: z.string(),
   baseUrl: z.string().default(BASE_URL),
+  seedReactVersion: z.string().optional(),
   framework: z.enum(["react", "lynx"]).optional(),
   onDiff: z.enum(["overwrite", "backup"]).optional(),
 });
@@ -50,6 +52,7 @@ export const addCommand = (cli: CAC) => {
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
     )
+    .option("--seed-react-version <version>", "지정한 SEED React 버전의 레지스트리 사용 (예: 1.2)")
     .option("-f, --framework <framework>", "프레임워크 (react 또는 lynx)")
     .option("--on-diff <mode>", "Action when file differs: overwrite or backup")
     .example("seed-design add ui:action-button")
@@ -61,7 +64,9 @@ export const addCommand = (cli: CAC) => {
       p.intro("seed-design add");
 
       try {
-        const parsed = addOptionsSchema.safeParse({ itemIds, ...opts });
+        // CAC가 --seed-react-version 값을 숫자로 뭉개므로 rawArgs에서 원본 문자열을 읽어 덮어쓴다.
+        const seedReactVersion = readRawOptionValue(cli.rawArgs, "--seed-react-version");
+        const parsed = addOptionsSchema.safeParse({ itemIds, ...opts, seedReactVersion });
         if (!parsed.success) {
           throw parsed.error;
         }
@@ -78,9 +83,10 @@ export const addCommand = (cli: CAC) => {
         }
 
         const cwd = options.cwd;
-        const baseUrl = options.baseUrl;
+        const versionSource = resolveSeedVersion(options);
+        const baseUrl = versionSource?.baseUrl ?? options.baseUrl;
         const config = await getConfig(cwd);
-        const framework = options.framework ?? config.framework;
+        const framework = versionSource?.framework ?? options.framework ?? config.framework;
         const rootPath = path.resolve(cwd, config.path);
 
         const { start, stop } = p.spinner();

@@ -1,5 +1,12 @@
 # @seed-design/react-switch
 
+## 2.0.0
+
+### Patch Changes
+
+- Updated dependencies [ec33023]
+  - @seed-design/react-primitive@2.0.0
+
 ## 1.0.1
 
 ### Patch Changes

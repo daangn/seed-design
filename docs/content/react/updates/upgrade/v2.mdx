@@ -1,0 +1,262 @@
+---
+title: SEED React 2
+description: SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.
+---
+
+SEED React 2로 업그레이드하는 방법을 안내합니다. 신규 기능 등 전체 변경사항은 [Changelog](/react/updates/changelog)에서 확인할 수 있습니다.
+
+<Callout type="info">
+  이 가이드는 **`1.2.x`에서 `2`로 업그레이드**하는 경우를 기준으로
+  작성되었습니다. 1.2보다 낮은 버전을 사용 중이라면 [v1 이하
+  업그레이드](/react/updates/upgrade/v1) 가이드를 따른 뒤 이 문서로 돌아와
+  주세요.
+</Callout>
+
+## 2.0.0부터 시맨틱 버저닝을 준수합니다
+
+1.x에서는 마이너 버전에 breaking change가 포함되었으나, 2.0.0부터는 시맨틱 버저닝을 준수하여 각 패키지가 메이저 버전에서만 breaking change를 갖습니다. 시맨틱 버저닝 준수의 시작점을 나타내는 의미로 메이저를 2로 업데이트합니다.
+
+<Callout type="info">
+  모든 패키지가 항상 같은 메이저로 움직이는 것은 아닙니다. CSS 변경 없이 React
+  패키지에만 breaking change가 있는 경우처럼, 각 패키지의 버전은 독립적으로
+  올라갑니다. 문서와 가이드는 React 패키지의 버전을 기준으로 소통합니다. (예:
+  "SEED React 2")
+</Callout>
+
+---
+
+<Steps>
+
+<Step>
+
+## 패키지 업그레이드
+
+프로젝트에서 사용하는 `@seed-design/*` 패키지를 아래 버전 이상으로 업그레이드합니다.
+
+| 패키지                          | 최소 버전 | 비고                                                                                                          |
+| ------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------- |
+| `@seed-design/css`              | `2.1.0`   |                                                                                                               |
+| `@seed-design/react`            | `2.0.0`   |                                                                                                               |
+| `@seed-design/stackflow`        | `2.0.0`   |                                                                                                               |
+| `@seed-design/tailwind4-theme`  | `2.1.0`   |                                                                                                               |
+| `@seed-design/tailwind3-plugin` | `2.1.0`   |                                                                                                               |
+| `@seed-design/vite-plugin`      | `2.0.0`   | 변경사항이 없으며 `1.1.1`과 동일합니다. `@seed-design/css` peer 메이저 상승에 맞춰 버전이 업데이트되었습니다. |
+| `@seed-design/webpack-plugin`   | `2.0.0`   | 변경사항이 없으며 `1.1.0`과 동일합니다. `@seed-design/css` peer 메이저 상승에 맞춰 버전이 업데이트되었습니다. |
+| `@seed-design/rsbuild-plugin`   | `2.0.0`   | 변경사항이 없으며 `1.2.1`과 동일합니다. `@seed-design/css` peer 메이저 상승에 맞춰 버전이 업데이트되었습니다. |
+
+현재 프로젝트에서 사용하는 패키지만 업그레이드하면 됩니다. 사용하지 않는 패키지를 새로 설치할 필요는 없습니다.
+
+```package-install
+@seed-design/react@latest @seed-design/css@latest @seed-design/stackflow@latest
+```
+
+</Step>
+
+<Step>
+
+## 코드 변경
+
+### 디자인 변경사항이 있는 항목
+
+화면에 보이는 결과가 달라질 수 있어 디자인 결정이 필요할 수 있는 항목입니다.
+
+#### 1. 그라디언트 토큰 `$gradient.fade-layer-*` 제거
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+`$gradient.fade-layer-floating`, `$gradient.fade-layer-default`가 제거되었습니다. 스크롤 영역에 자연스러운 페이드를 주고자 하는 경우 [Scroll Fog](/react/components/scroll-fog) 컴포넌트를 대신 사용해주세요.
+
+<Callout type="warn">
+  Tailwind 유틸리티 클래스나 CSS Variable을 하드코딩하여 사용하고 있는 경우 이
+  변경은 에러로 잡히지 않습니다. 사용처를 직접 검색해주세요.
+</Callout>
+
+#### 2. Chip Tabs `variant="brandSolid"` 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`variant="neutralSolid"`를 사용해주세요.
+
+<Callout type="warn">
+
+`seed-design/ui/chip-tabs.tsx` snippet의 deprecate 경고만을 위해 존재하던 분기에서 아래와 같은 타입 에러가 발생할 수 있습니다.
+
+```text
+This comparison appears to be unintentional because the types
+'"neutralSolid" | "neutralOutline" | undefined' and '"brandSolid"' have no overlap. ts(2367)
+```
+
+snippet을 다시 받거나 해당 분기를 제거해주세요.
+
+```package-install
+npx @seed-design/cli@latest add --on-diff backup ui:chip-tabs
+```
+
+</Callout>
+
+#### 3. App Bar `divider` 옵션 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+App Bar 하단 구분선은 더 이상 표시되지 않습니다. 구분선이나 그림자 없이도 영역 구분이 충분하다는 디자인 판단에 따라 제거되었습니다.
+
+#### 참고: `$color.bg.layer-fill` 색상 토큰
+
+이 토큰은 SEED React 2에서 제거될 예정이었으나 대체 토큰의 부재로 3에서 제거될 예정입니다. `@seed-design/css`, `tailwind3-plugin`, `tailwind4-theme` `2.0.0`에서는 실제로 제거되었으나 `2.1.0`에서 다시 추가되었습니다.
+
+### 코드 수정이 필요한 항목
+
+#### 1. Snackbar 내부 버튼이 항상 스낵바를 닫도록 변경
+
+<Badge tone="informative">snippet 업데이트 권장</Badge>
+
+Snackbar 내부 버튼을 누르면 항상 스낵바가 닫히도록 변경합니다. 이 동작은 `@seed-design/react`의 `SeedSnackbar.ActionButton`에 기본으로 내장됩니다.
+
+`seed-design/ui/snackbar.tsx` snippet의 `shouldCloseOnAction` 관련 코드는 이제 중복입니다. 동작에는 문제가 없지만, snippet을 다시 받아 중복 로직을 제거하는 것을 권장합니다. 기존 `shouldCloseOnAction`의 기본값도 `true`였습니다.
+
+```package-install
+npx @seed-design/cli@latest add --on-diff backup ui:snackbar
+```
+
+#### 2. 레이아웃 컴포넌트 prop이 discriminated union으로 전환
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+레이아웃 컴포넌트에 margin 지원을 추가하면서, `margin`과 `bleed`를 동시에 사용할 수 없도록 타입을 discriminated union으로 제한했습니다.
+
+이로 인해 `BoxProps`, `FlexProps`, `VStackProps` 등을 그대로 `extends`하던 `interface`는 `type`으로 전환해야 할 수 있습니다.
+
+```tsx
+interface MyBoxProps extends BoxProps {} // [!code --]
+type MyBoxProps = BoxProps & {}; // [!code ++]
+```
+
+#### 3. Bottom Sheet 옵션 정리
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+- `BottomSheetRoot`의 `noBodyStyles`, `preventScrollRestoration` 제거: 새 스크롤 락 구현이 각 옵션의 기본값(`noBodyStyles: true`, `preventScrollRestoration: false`)처럼 동작합니다.
+- `BottomSheetRoot`의 `direction` 제거: Bottom Sheet는 항상 아래에서만 열립니다.
+- `BottomSheetBackdrop`의 `forceMount` 제거
+  - `DrawerRoot`의 `lazyMount` / `unmountOnExit`로 대체할 수 있습니다.
+- `BottomSheetContent`의 `onPointerDownOutside`, `onFocusOutside`, `onInteractOutside`, `onEscapeKeyDown`, `onOpenAutoFocus`, `onCloseAutoFocus`, `forceMount` 제거
+  - `DrawerRoot`의 `onOpenChange` 두 번째 인자 `details`로 대체할 수 있습니다.
+
+#### 4. Select Box Checkmark 클래스명 및 import 경로
+
+`selectBoxCheckmark` 클래스명 import 경로를 kebab-case로 변경합니다.
+
+**커스텀 스타일시트에서 selector를 사용 중인 경우**
+
+class를 kebab-case로 변경합니다.
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+```css
+/* [!code --] */
+.seed-selectBoxCheckmark__root {
+  /* [!code --] */
+  /* ... */
+  /* [!code --] */
+}
+/* [!code --] */
+.seed-selectBoxCheckmark__icon {
+  /* [!code --] */
+  /* ... */
+  /* [!code --] */
+}
+/* [!code ++] */
+.seed-select-box-checkmark__root {
+  /* [!code ++] */
+  /* ... */
+  /* [!code ++] */
+}
+/* [!code ++] */
+.seed-select-box-checkmark__icon {
+  /* [!code ++] */
+  /* ... */
+  /* [!code ++] */
+}
+```
+
+**커스텀 컴포넌트에서 recipe를 import하는 경우**
+
+경로를 변경합니다.
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+```ts
+import { selectBoxCheckmark } from "@seed-design/css/recipes/selectBoxCheckmark"; // [!code --]
+import { selectBoxCheckmark } from "@seed-design/css/recipes/select-box-checkmark"; // [!code ++]
+```
+
+#### 5. 오버레이 컴포넌트 관련 버그 수정 및 개선
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+Alert Dialog, Bottom Sheet, Menu Sheet 관련 버그들을 수정했습니다.
+
+- `pointer-events`로 클릭을 막던 코드가 모두 제거되었습니다. 이를 오버라이드하던 우회 코드가 있다면 함께 제거할 수 있습니다.
+- 여러 오버레이가 겹친 상황에서 하위 오버레이가 닫히면 `onOpenChange` reason으로 `"cascadeDismiss"`를 제공합니다.
+- 트리거 클릭으로 Bottom Sheet가 열릴 때 `onOpenChange` reason `"trigger"`를 제공합니다.
+- iOS에서 Bottom Sheet 내부 버튼으로 시트를 스와이프할 때 의도치 않은 클릭이 발생하던 문제를 수정했습니다.
+- AppScreen, Drawer가 열릴 때 포커스가 컴포넌트 안으로 이동하고 그 안에서만 움직이도록 수정했습니다.
+
+`@seed-design/react`에서 Stackflow 환경과 잘 맞지 않던 `@radix-ui/react-dialog` 의존성과 패치가 제거되었습니다. pnpm 환경에서 SEED React를 위해서만 이 패키지를 설치했었다면 제거할 수 있습니다.
+
+```shell
+pnpm why @radix-ui/react-dialog
+pnpm remove @radix-ui/react-dialog
+```
+
+#### 6. 대체 옵션이 존재하는 일부 API 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+**Image Frame `rounded` 제거**
+
+`borderRadius="r2"`를 사용해주세요. 스타일은 동일합니다.
+
+```tsx
+<ImageFrame rounded /> // [!code --]
+<ImageFrame borderRadius="r2" /> // [!code ++]
+```
+
+**Switch `size="small" | "medium"` 제거**
+
+각각 `size="16"`, `size="32"`를 사용해주세요. 스타일은 동일합니다.
+
+```tsx
+<Switch size="small" />  // [!code --]
+<Switch size="16" />     // [!code ++]
+<Switch size="medium" /> // [!code --]
+<Switch size="32" />     // [!code ++]
+```
+
+**Checkbox `weight="default" | "stronger"` 제거**
+
+각각 `weight="regular"`, `weight="bold"`를 사용해주세요. 스타일은 동일합니다.
+
+```tsx
+<Checkbox weight="default" />  // [!code --]
+<Checkbox weight="regular" />  // [!code ++]
+<Checkbox weight="stronger" /> // [!code --]
+<Checkbox weight="bold" />     // [!code ++]
+```
+
+**레이아웃 컴포넌트 prop의 camelCase 값 제거**
+
+`Box`, `Flex`, `VStack`, `HStack` 등 레이아웃 컴포넌트의 `justifyContent`, `alignItems`, `flexDirection`, `display` 등에서 camelCase 값이 제거되었습니다. kebab-case 값을 사용해주세요. 스타일은 동일합니다.
+
+```tsx
+<Box justifyContent="spaceBetween" />  // [!code --]
+<Box justifyContent="space-between" /> // [!code ++]
+```
+
+#### 7. Menu Sheet deprecate 안내
+
+기존 Menu Sheet 관련 API는 SEED React 2에서도 계속 동작하지만 deprecated 되었습니다. Menu Sheet를 새롭게 사용하는 경우 [Swipeable Menu Sheet](/react/components/swipeable-menu-sheet) 컴포넌트를 사용해주세요.
+
+</Step>
+
+</Steps>

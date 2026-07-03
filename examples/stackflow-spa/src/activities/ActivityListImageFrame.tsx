@@ -31,7 +31,7 @@ const IMAGE_CASES: ImageCase[] = [
     detail: "src 320x180",
     width: "96px",
     ratio: 1,
-    src: "https://placehold.co/320x180/ff7a00/ffffff?text=16:9",
+    src: "https://avatars.githubusercontent.com/u/54893898?v=4",
   },
   {
     key: "landscape-frame-portrait-image",
@@ -39,7 +39,7 @@ const IMAGE_CASES: ImageCase[] = [
     detail: "src 180x320",
     width: "120px",
     ratio: 4 / 3,
-    src: "https://placehold.co/180x320/4c6fff/ffffff?text=9:16",
+    src: "https://avatars.githubusercontent.com/u/54893898?v=4",
   },
   {
     key: "wide-frame-square-image",
@@ -47,7 +47,7 @@ const IMAGE_CASES: ImageCase[] = [
     detail: "src 240x240",
     width: "160px",
     ratio: 16 / 9,
-    src: "https://placehold.co/240x240/00b894/ffffff?text=1:1",
+    src: "https://avatars.githubusercontent.com/u/54893898?v=4",
   },
   {
     key: "width-height-match",
@@ -56,7 +56,7 @@ const IMAGE_CASES: ImageCase[] = [
     width: "160px",
     height: "120px",
     ratio: 4 / 3,
-    src: "https://placehold.co/320x180/ffb300/ffffff?text=16:9",
+    src: "https://avatars.githubusercontent.com/u/54893898?v=4",
   },
   {
     key: "width-height-mismatch",
@@ -65,7 +65,7 @@ const IMAGE_CASES: ImageCase[] = [
     width: "120px",
     height: "80px",
     ratio: 1,
-    src: "https://placehold.co/320x180/8e44ad/ffffff?text=16:9",
+    src: "https://avatars.githubusercontent.com/u/54893898?v=4",
   },
   {
     key: "portrait-frame-portrait-image",
@@ -73,7 +73,7 @@ const IMAGE_CASES: ImageCase[] = [
     detail: "src 180x320",
     width: "120px",
     ratio: 3 / 4,
-    src: "https://placehold.co/180x320/2d3436/ffffff?text=9:16",
+    src: "https://avatars.githubusercontent.com/u/54893898?v=4",
   },
 ];
 
@@ -117,7 +117,6 @@ const ActivityListImageFrame: StaticActivityComponentType<"ActivityListImageFram
                     ratio={item.ratio}
                     width={item.width}
                     height={item.height}
-                    rounded
                     stroke
                     src={item.src}
                     alt={item.title}

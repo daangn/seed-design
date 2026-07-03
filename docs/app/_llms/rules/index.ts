@@ -1,3 +1,4 @@
+import { badgeRule } from "./badge-rule";
 import { changelogPageRule } from "./changelog-page-rule";
 import { codeBlockTabsRule } from "./codeblock-tabs-rule";
 import { componentExampleRule } from "./component-example-rule";
@@ -11,6 +12,7 @@ import { iconLibraryRule } from "./icon-library-rule";
 import type { Rule } from "./types";
 
 export const activeRules: Rule[] = [
+  badgeRule,
   componentExampleRule,
   codeBlockTabsRule,
   typeTableRule,
@@ -24,6 +26,7 @@ export const activeRules: Rule[] = [
 ];
 
 export {
+  badgeRule,
   changelogPageRule,
   codeBlockTabsRule,
   componentExampleRule,

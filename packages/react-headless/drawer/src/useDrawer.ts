@@ -1,6 +1,7 @@
 import { useControllableState } from "@seed-design/react-use-controllable-state";
+import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import type React from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { isAndroid, isIOS, isMobileFirefox } from "./browser";
 import {
   CLOSE_THRESHOLD,
@@ -11,16 +12,17 @@ import {
   WINDOW_TOP_OFFSET,
 } from "./constants";
 import { dampenValue, getTranslate, isInput, isVertical, reset, set } from "./helpers";
-import { usePositionFixed } from "./use-position-fixed";
 import { useSnapPoints } from "./use-snap-points";
 
 interface DrawerReasonToDetailMap {
-  // we might add synthetic events later if needed; currently we aim consistency; DismissableLayer gives us native events
+  // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
+  trigger: { event: MouseEvent };
   closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
-  interactOutside: { event: PointerEvent | FocusEvent };
+  interactOutside: { event: PointerEvent | TouchEvent | FocusEvent };
   drag: { event: PointerEvent };
   handleClickOnLastSnapPoint: { event: MouseEvent };
+  cascadeDismiss: { dismissedParent: HTMLElement };
 }
 
 type DrawerChangeDetails = {
@@ -40,11 +42,6 @@ export interface UseDrawerProps {
    * @default 0.25
    */
   closeThreshold?: number;
-  /**
-   * When `true` the `body` doesn't get any styles assigned from Drawer
-   * @default true
-   */
-  noBodyStyles?: boolean;
   onOpenChange?: (open: boolean, details?: DrawerChangeDetails) => void;
   /**
    * Duration for which the drawer is not draggable after scrolling content inside of the drawer.
@@ -104,7 +101,6 @@ export interface UseDrawerProps {
    * Useful to revert any state changes for example.
    */
   onAnimationEnd?: (open: boolean) => void;
-  preventScrollRestoration?: boolean;
   autoFocus?: boolean;
 
   /**
@@ -132,6 +128,18 @@ export interface UseDrawerProps {
    * @default true
    */
   closeOnEscape?: boolean;
+
+  /**
+   * Whether to lazy mount the drawer content on first open.
+   * @default false
+   */
+  lazyMount?: boolean;
+
+  /**
+   * Whether to unmount the drawer content on exit.
+   * @default false
+   */
+  unmountOnExit?: boolean;
 }
 
 export function useDrawer(props: UseDrawerProps) {
@@ -151,19 +159,22 @@ export function useDrawer(props: UseDrawerProps) {
     fixed,
     modal = true,
     onClose,
-    nested,
-    noBodyStyles = true,
     direction = "bottom",
     defaultOpen = false,
     snapToSequentialPoint = false,
-    preventScrollRestoration = false,
     repositionInputs = true,
     onAnimationEnd,
     container,
-    autoFocus = false,
+    autoFocus = true,
     closeOnInteractOutside = true,
     closeOnEscape = true,
+    lazyMount: lazyMountProp = false,
+    unmountOnExit: unmountOnExitProp = false,
   } = props;
+
+  const drawerId = useId();
+  const titleId = `${drawerId}-title`;
+  const descriptionId = `${drawerId}-description`;
 
   const [isOpen = false, setIsOpen] = useControllableState<boolean, DrawerChangeDetails>({
     defaultProp: defaultOpen,
@@ -171,25 +182,9 @@ export function useDrawer(props: UseDrawerProps) {
     onChange: (o: boolean, details?: DrawerChangeDetails) => {
       onOpenChange?.(o, details);
 
-      if (!o && !nested) {
-        restorePositionSetting();
-      }
-
       setTimeout(() => {
         onAnimationEnd?.(o);
       }, TRANSITIONS.EXIT_DURATION * 1000);
-
-      if (o && !modal) {
-        if (typeof window !== "undefined") {
-          window.requestAnimationFrame(() => {
-            document.body.style.pointerEvents = "auto";
-          });
-        }
-      }
-
-      if (!o) {
-        document.body.style.pointerEvents = "auto";
-      }
     },
   });
 
@@ -197,11 +192,6 @@ export function useDrawer(props: UseDrawerProps) {
   const [hasAnimationDone, setHasAnimationDone] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [shouldOverlayAnimate, setShouldOverlayAnimate] = useState<boolean>(false);
-
-  const [isCloseButtonRendered, setIsCloseButtonRendered] = useState<boolean>(false);
-  const closeButtonRef = useCallback((node: HTMLButtonElement | null) => {
-    setIsCloseButtonRendered(!!node);
-  }, []);
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const openTime = useRef<Date | null>(null);
@@ -245,15 +235,6 @@ export function useDrawer(props: UseDrawerProps) {
     onSnapPointChange,
     direction,
     snapToSequentialPoint,
-  });
-
-  const { restorePositionSetting } = usePositionFixed({
-    isOpen,
-    modal,
-    nested: nested ?? false,
-    hasBeenOpened,
-    preventScrollRestoration,
-    noBodyStyles,
   });
 
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
@@ -622,14 +603,6 @@ export function useDrawer(props: UseDrawerProps) {
     return () => window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
   }, [activeSnapPointIndex, snapPoints, snapPointsOffset, repositionInputs, fixed]);
 
-  useEffect(() => {
-    if (!modal) {
-      window.requestAnimationFrame(() => {
-        document.body.style.pointerEvents = "auto";
-      });
-    }
-  }, [modal]);
-
   // Effect 1: Track drawer open state
   useEffect(() => {
     if (isOpen) {
@@ -670,6 +643,14 @@ export function useDrawer(props: UseDrawerProps) {
     setShouldOverlayAnimate(false);
   }, [isOpen, snapPoints, fadeFromIndex]);
 
+  const stateProps = useMemo(
+    () =>
+      elementProps({
+        "data-open": dataAttr(isOpen),
+      }),
+    [isOpen],
+  );
+
   return useMemo(
     () => ({
       activeSnapPoint,
@@ -693,16 +674,52 @@ export function useDrawer(props: UseDrawerProps) {
       snapPointsOffset,
       activeSnapPointIndex,
       direction,
-      noBodyStyles,
       container,
       autoFocus,
       setHasBeenOpened,
       setIsOpen,
       closeOnInteractOutside,
       closeOnEscape,
+      titleId,
+      descriptionId,
+      lazyMount: lazyMountProp,
+      unmountOnExit: unmountOnExitProp,
       hasAnimationDone,
-      closeButtonRef,
-      isCloseButtonRendered,
+
+      triggerProps: buttonProps({
+        ...stateProps,
+        onClick: (e) => {
+          if (e.defaultPrevented) return;
+          setIsOpen(true, { reason: "trigger", event: e.nativeEvent });
+        },
+      }),
+      positionerProps: elementProps({
+        ...stateProps,
+        style: {
+          pointerEvents: isOpen && modal ? undefined : "none",
+        },
+      }),
+      backdropProps: elementProps({
+        ...stateProps,
+      }),
+      titleProps: elementProps({
+        id: titleId,
+        ...stateProps,
+      }),
+      descriptionProps: elementProps({
+        id: descriptionId,
+        ...stateProps,
+      }),
+      headerProps: elementProps({
+        ...stateProps,
+      }),
+      closeButtonProps: buttonProps({
+        ...stateProps,
+        onClick: (e) => {
+          if (e.defaultPrevented) return;
+          setIsOpen(false, { reason: "closeButton", event: e.nativeEvent });
+        },
+      }),
     }),
     [
       activeSnapPoint,
@@ -720,7 +737,6 @@ export function useDrawer(props: UseDrawerProps) {
       snapPointsOffset,
       activeSnapPointIndex,
       direction,
-      noBodyStyles,
       container,
       autoFocus,
       setIsOpen,
@@ -729,9 +745,12 @@ export function useDrawer(props: UseDrawerProps) {
       onRelease,
       onDrag,
       onPress,
+      titleId,
+      descriptionId,
+      lazyMountProp,
+      unmountOnExitProp,
       hasAnimationDone,
-      closeButtonRef,
-      isCloseButtonRendered,
+      stateProps,
     ],
   );
 }

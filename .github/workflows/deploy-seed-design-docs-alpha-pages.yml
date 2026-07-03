@@ -18,6 +18,11 @@ on:
         required: false
         type: boolean
         default: false
+      bypass-cache-node-ids:
+        description: "Comma-separated Figma node IDs to bypass cache for (fetch fresh)"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -66,6 +71,7 @@ jobs:
         env:
           # docs uses Next static export, so NEXT_PUBLIC_* values must be present at build time.
           FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
+          FIGMA_BYPASS_CACHE_NODE_IDS: ${{ inputs.bypass-cache-node-ids }}
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
         run: |
@@ -79,7 +85,7 @@ jobs:
 
       - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Alpha)
         id: deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}

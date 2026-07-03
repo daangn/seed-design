@@ -73,7 +73,7 @@ export async function fetchFigmaImageUrls({
   imageUrlCache.load(CACHE_ID, cacheDir);
 
   for (const nodeId of nodeIds) {
-    const cached = env.figmaCacheDisabled
+    const cached = shouldBypassCache(nodeId)
       ? undefined
       : imageUrlCache.get<string>(getCacheKey(nodeId, options));
 
@@ -104,7 +104,7 @@ export async function fetchFigmaImageUrls({
     // Recheck cache after acquiring semaphore — earlier calls may have populated it while we waited
     imageUrlCache.load(CACHE_ID, cacheDir);
     const pendingIds = uncachedIds.filter((nodeId) => {
-      const cached = env.figmaCacheDisabled
+      const cached = shouldBypassCache(nodeId)
         ? undefined
         : imageUrlCache.get<string>(getCacheKey(nodeId, options));
 
@@ -161,6 +161,10 @@ export async function fetchFigmaImageUrls({
 }
 
 // Helpers
+
+function shouldBypassCache(nodeId: string): boolean {
+  return env.figmaCacheDisabled || env.figmaBypassCacheNodeIds.includes(nodeId);
+}
 
 function getCacheKey(nodeId: string, options: FetchFigmaImageUrlsOptions): string {
   const optionsKey = JSON.stringify(options, Object.keys(options).sort());

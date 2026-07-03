@@ -141,6 +141,14 @@ export function createStringifier(
   }) {
     const declarations = decls.map((decl) => declaration({ decl, mode }));
 
+    if (selector.startsWith("@")) {
+      return `${selector} {
+  :root {
+    ${declarations.join("\n    ")}
+  }
+}`;
+    }
+
     return `${selector} {
   ${declarations.join("\n  ")}
 }`;
@@ -187,7 +195,8 @@ export function getTokenCss(
 
   const rules = tokenCollections.flatMap((collection) => {
     const inCollection = tokens.filter((token) => token.collection === collection.name);
-    return collection.modes.map((mode) => {
+    if (inCollection.length === 0) return [];
+    return collection.modes.map(({ id: mode }) => {
       const selector = options.selectors[collection.name]?.[mode];
 
       if (!selector) {

@@ -1,7 +1,6 @@
 import { scrollFog, type ScrollFogVariantProps } from "@seed-design/css/recipes/scroll-fog";
 import clsx from "clsx";
 import { forwardRef, useMemo } from "react";
-import { scrollFog as vars } from "@seed-design/css/vars/component";
 
 type ScrollPlacement = "top" | "bottom" | "left" | "right";
 
@@ -35,15 +34,7 @@ export interface ScrollFogProps
 
 export const ScrollFog = forwardRef<HTMLDivElement, ScrollFogProps>(
   (
-    {
-      className,
-      hideScrollBar,
-      placement = ["top", "bottom"],
-      size = vars.base.enabled.root.size,
-      sizes,
-      style,
-      ...props
-    },
+    { className, hideScrollBar, placement = ["top", "bottom"], size = 20, sizes, style, ...props },
     ref,
   ) => {
     const [variantProps, restProps] = scrollFog.splitVariantProps({
@@ -51,7 +42,7 @@ export const ScrollFog = forwardRef<HTMLDivElement, ScrollFogProps>(
       ...props,
     });
     const scrollFogClassName = scrollFog(variantProps);
-    const sizePx = typeof size === "number" ? `${size}px` : size;
+    const sizePx = typeof size === "number" ? `${size}px` : size; // TODO: redundant typeof?
 
     const sizeStyle = useMemo(() => {
       const finalSizes = {

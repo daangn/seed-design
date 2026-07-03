@@ -5,7 +5,8 @@ import { reactSource } from "@/app/source";
 export const revalidate = false;
 
 export async function GET() {
-  const pages = (reactSource.getPages())
+  const pages = reactSource
+    .getPages()
     .filter((page) => shouldIncludeInFullText("react", page.path))
     .sort((a, b) => a.path.localeCompare(b.path));
 

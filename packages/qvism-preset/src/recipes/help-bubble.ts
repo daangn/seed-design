@@ -40,7 +40,7 @@ const helpBubble = defineSlotRecipe({
       paddingBottom: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      "--seed-box-max-width": "initial",
+      "--seed-box-max-width--responsive": "initial",
       maxWidth: "var(--seed-box-max-width)",
 
       [pseudo(open)]: {
@@ -59,6 +59,12 @@ const helpBubble = defineSlotRecipe({
           duration: vars.base.enabled.root.exitDuration,
           timingFunction: vars.base.enabled.root.exitTimingFunction,
         }),
+      },
+
+      // Skip the enter/exit animation while a `TooltipDelayGroup` is switching
+      // between tooltips, so the swap reads as instant.
+      [pseudo("[data-instant]")]: {
+        animationDuration: "0s",
       },
 
       [pseudo(hidden)]: {

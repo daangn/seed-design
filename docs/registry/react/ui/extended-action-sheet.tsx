@@ -5,13 +5,13 @@ import { forwardRef } from "react";
 import type * as React from "react";
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export interface ExtendedActionSheetRootProps extends SeedExtendedActionSheet.RootProps {}
 
 /**
  * @see https://seed-design.io/react/components/extended-action-sheet
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export const ExtendedActionSheetRoot = (props: ExtendedActionSheetRootProps) => {
   const { children, ...otherProps } = props;
@@ -23,17 +23,17 @@ export const ExtendedActionSheetRoot = (props: ExtendedActionSheetRootProps) => 
 };
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export interface ExtendedActionSheetTriggerProps extends SeedExtendedActionSheet.TriggerProps {}
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export const ExtendedActionSheetTrigger = SeedExtendedActionSheet.Trigger;
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export interface ExtendedActionSheetContentProps
   extends Omit<SeedExtendedActionSheet.ContentProps, "title"> {
@@ -43,7 +43,7 @@ export interface ExtendedActionSheetContentProps
 }
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export const ExtendedActionSheetContent = forwardRef<
   HTMLDivElement,
@@ -82,21 +82,21 @@ export const ExtendedActionSheetContent = forwardRef<
 });
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export interface ExtendedActionSheetGroupProps extends SeedExtendedActionSheet.GroupProps {}
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export const ExtendedActionSheetGroup = SeedExtendedActionSheet.Group;
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export interface ExtendedActionSheetItemProps extends SeedExtendedActionSheet.ItemProps {}
 
 /**
- * @deprecated Use menu-sheet instead.
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export const ExtendedActionSheetItem = SeedExtendedActionSheet.Item;

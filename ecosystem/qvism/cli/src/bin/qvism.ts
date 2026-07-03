@@ -3,7 +3,7 @@
 import { cac } from "cac";
 import { cosmiconfig } from "cosmiconfig";
 import pkg from "../../package.json" with { type: "json" };
-import fs from "fs-extra";
+import fs from "node:fs";
 import path from "node:path";
 import {
   generateAllBundle,
@@ -17,10 +17,6 @@ import {
 
 function resolveGenerateLayeredCss(config: Partial<Config>, cliLayered?: boolean): boolean {
   return cliLayered ?? config.generateLayeredCss ?? true;
-}
-
-function removeFileIfExists(filePath: string) {
-  fs.removeSync(filePath);
 }
 
 async function writeBundles(outputDir: string, config: Config) {
@@ -41,14 +37,7 @@ async function writeBundles(outputDir: string, config: Config) {
   console.log("Writing minified base css bundle to", path.join(outputDir, "base.min.css"));
   fs.writeFileSync(path.join(outputDir, "base.min.css"), minifiedBaseCss);
 
-  if (!generateLayeredCss) {
-    // Remove stale layered bundles from earlier runs.
-    removeFileIfExists(path.join(outputDir, "all.layered.css"));
-    removeFileIfExists(path.join(outputDir, "all.layered.min.css"));
-    removeFileIfExists(path.join(outputDir, "base.layered.css"));
-    removeFileIfExists(path.join(outputDir, "base.layered.min.css"));
-    return;
-  }
+  if (!generateLayeredCss) return;
 
   const layeredBundles = [
     {
@@ -100,14 +89,9 @@ async function writeRecipes(recipesDir: string, config: Config) {
       console.log("Writing", name, "to", path.join(recipesDir, `${name}.d.ts`));
       fs.writeFileSync(path.join(recipesDir, `${name}.d.ts`), dtsCode);
 
+      if (!generateLayeredCss) return;
+
       const layeredJsPath = path.join(recipesDir, `${name}.layered.mjs`);
-
-      if (!generateLayeredCss) {
-        // Remove stale layered recipe JS from earlier runs.
-        removeFileIfExists(layeredJsPath);
-        return;
-      }
-
       const layeredJsCode = generateJs(definition, {
         ...options,
         cssImportPath: `./${name}.layered.css`,
@@ -123,18 +107,13 @@ async function writeRecipes(recipesDir: string, config: Config) {
     console.log("Writing", name, "to", path.join(recipesDir, `${name}.css`));
     fs.writeFileSync(path.join(recipesDir, `${name}.css`), css);
 
-    const layeredCssPath = path.join(recipesDir, `${name}.layered.css`);
-
-    if (!generateLayeredCss) {
-      // Remove stale layered recipe CSS from earlier runs.
-      removeFileIfExists(layeredCssPath);
-      continue;
-    }
+    if (!generateLayeredCss) continue;
 
     if (layeredCss == null) {
       throw new Error(`Layered CSS was not generated for ${name}.`);
     }
 
+    const layeredCssPath = path.join(recipesDir, `${name}.layered.css`);
     console.log("Writing", name, "to", layeredCssPath);
     fs.writeFileSync(layeredCssPath, layeredCss);
   }

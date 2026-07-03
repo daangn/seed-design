@@ -1,4 +1,5 @@
-import { getRootage, stringifyValueLit } from "@/components/rootage";
+import { getRootage } from "@/lib/rootage";
+import { stringifyValueLit } from "@/components/rootage";
 import { TokenLink } from "@/components/token-link";
 import { TypeIndicator } from "@/components/type-indicator";
 import { IconArrowRightLine } from "@karrotmarket/react-monochrome-icon";
@@ -20,7 +21,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const collection = decl.collection;
   const modes = rootage.tokenCollectionEntities[collection].modes;
 
-  const resolvedTokens = modes.map((mode) => {
+  const resolvedTokens = modes.map(({ id: mode }) => {
     const resolved = resolveToken(rootage, tokenId, {
       [collection]: mode,
     });

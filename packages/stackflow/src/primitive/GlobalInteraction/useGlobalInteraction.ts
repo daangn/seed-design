@@ -1,3 +1,4 @@
+import { useStack } from "@stackflow/react";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useTopActivity } from "../private/useTopActivity";
 import {
@@ -7,6 +8,7 @@ import {
   readTransitionStyle,
   applySwipeStyles,
   clearAllStyles,
+  clearTopActivityStyles,
   setIdlePositions,
   setPostExitPositions,
 } from "./dom";
@@ -257,6 +259,7 @@ export function useGlobalInteraction() {
   }, [stopRunningAnims, stopAppBarBgScrub, setSwipeBackState]);
 
   const topActivity = useTopActivity();
+  const stack = useStack();
 
   // ── WAAPI push/pop transitions triggered by stackflow state changes ──
   const prevTransitionStateRef = useRef<string>(topActivity.transitionState);
@@ -325,6 +328,26 @@ export function useGlobalInteraction() {
       });
     }
   }, [topActivity.transitionState, stopRunningAnims, cancelPendingPushRAF]);
+
+  // ── Settle safety-net ──
+  // The top + behind pair model only handles the single immediately adjacent
+  // behind layer. When transitions overlap (concurrent pop, swipe-back race,
+  // etc.) and end on a path the pair model didn't unwind, the landing screen
+  // can get stuck with temporary styles — the layer stays at -30% and shifts
+  // by 1/3, or the appBar root stays at opacity 0 (setPostExitPositions) and
+  // the whole app bar disappears.
+  //
+  // Guarantee: once everything settles (globalTransitionState === "idle") the
+  // top must always be in a clean default state. Wipe all leftover inline
+  // styles from the top activity — the behind is left untouched (stays at
+  // -30%), this only runs at idle, and it's a no-op if already clean.
+  useLayoutEffect(() => {
+    if (stack?.globalTransitionState !== "idle") return;
+    const stackEl = stackRef.current;
+    if (stackEl) {
+      clearTopActivityStyles(stackEl);
+    }
+  }, [stack?.globalTransitionState]);
 
   // Cancel any pending push rAF and running animations on unmount so
   // late-firing finished handlers can't run against a torn-down stack.

@@ -1,5 +1,16 @@
 # @seed-design/figma
 
+## 2.0.0
+
+이 패키지의 코드 변경은 없으며, SEED React 2 릴리즈에 맞춰 앞으로의 semver 정합성을 위해 버전을 올립니다.
+
+## 1.3.18
+
+### Patch Changes
+
+- Updated dependencies [234e8c7]
+  - @seed-design/css@1.2.16
+
 ## 1.3.17
 
 ### Patch Changes

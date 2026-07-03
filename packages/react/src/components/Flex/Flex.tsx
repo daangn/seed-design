@@ -1,11 +1,13 @@
 import * as React from "react";
+import type { ResponsiveValue } from "../../types/responsive";
+import type { DistributiveOmit } from "../../utils/styled";
 import { Box, type BoxProps } from "../Box/Box";
 
-export interface FlexProps extends Omit<BoxProps, "display"> {
+export type FlexProps = DistributiveOmit<BoxProps, "display"> & {
   /**
    * @default "flex"
    */
-  display?: "flex" | "none";
+  display?: ResponsiveValue<"flex" | "none">;
 
   /**
    * Shorthand for `flexDirection`.
@@ -36,7 +38,7 @@ export interface FlexProps extends Omit<BoxProps, "display"> {
    * Shorthand for `flexShrink`.
    */
   shrink?: BoxProps["flexShrink"];
-}
+};
 
 export const Flex = React.forwardRef<HTMLDivElement, FlexProps>((props, ref) => {
   const { direction, wrap, align, justify, grow, shrink, ...rest } = props;

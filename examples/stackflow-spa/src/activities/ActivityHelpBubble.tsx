@@ -16,6 +16,10 @@ import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import { Slider } from "seed-design/ui/slider";
+import {
+  HelpBubbleTooltipTrigger,
+  HelpBubbleTooltipTriggerPortal,
+} from "seed-design/ui/help-bubble-tooltip";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -217,6 +221,24 @@ const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = ()
           >
             <ActionButton>Portal (right)</ActionButton>
           </PortalHelpBubbleTrigger>
+        </div>
+        <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "center" }}>
+          <HelpBubbleTooltipTrigger
+            title="Hover 트리거 테스트"
+            description={"포인터를 올리거나 키보드로 포커스해보세요."}
+            contentProps={{ maxWidth: "200px" }}
+          >
+            <ActionButton>Hover 트리거 테스트</ActionButton>
+          </HelpBubbleTooltipTrigger>
+        </div>
+        <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "center" }}>
+          <HelpBubbleTooltipTriggerPortal
+            title="Portal 트리거 테스트"
+            description={"포털로 body에 렌더되는 변종이에요."}
+            contentProps={{ maxWidth: "200px" }}
+          >
+            <ActionButton>Portal 트리거 테스트</ActionButton>
+          </HelpBubbleTooltipTriggerPortal>
         </div>
         <div style={{ height: "100vh" }} />
       </AppScreenContent>

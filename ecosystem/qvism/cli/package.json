@@ -25,11 +25,9 @@
   "dependencies": {
     "@seed-design/qvism-core": "0.0.0",
     "cac": "^7.0.0",
-    "cosmiconfig": "^9.0.0",
-    "fs-extra": "^11.3.0"
+    "cosmiconfig": "^9.0.0"
   },
   "devDependencies": {
-    "@types/fs-extra": "^11.0.4",
     "@types/node": "^25.0.0",
     "typescript": "^6.0.0"
   },

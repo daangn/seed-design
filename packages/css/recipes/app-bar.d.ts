@@ -11,10 +11,6 @@ declare interface AppBarVariant {
   * @default "layer"
   */
   tone: "layer" | "transparent";
-/**
-  * @default false
-  */
-  divider: boolean;
 }
 
 declare type AppBarVariantMap = {

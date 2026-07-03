@@ -18,7 +18,11 @@ const withStateProps = createWithStateProps([
   { useContext: useSwitchContext, strict: false },
 ]);
 
-export interface ListRootProps extends VStackProps {
+export interface ListRootProps
+  extends Omit<
+    VStackProps,
+    "bleed" | "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
+  > {
   itemBorderRadius?: StyleProps["borderRadius"];
 }
 

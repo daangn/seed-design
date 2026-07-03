@@ -1,11 +1,11 @@
 import type { Root, RootContent } from "mdast";
-import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxTextElement } from "mdast-util-mdx-jsx";
 import remarkMdx from "remark-mdx";
 import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
 import { unified } from "unified";
 import { activeRules } from "./rules";
-import type { Rule, RuleContext } from "./rules/types";
+import type { Rule, RuleContext, RuleNode } from "./rules/types";
 
 const processor = unified().use(remarkParse).use(remarkMdx).use(remarkStringify, {
   bullet: "-",
@@ -31,8 +31,8 @@ export function normalizeCodeIndent(code: string): string {
     .trimEnd();
 }
 
-function isMdxJsxFlowElement(node: RootContent): node is MdxJsxFlowElement {
-  return node.type === "mdxJsxFlowElement";
+function isMdxJsxElement(node: RootContent): node is MdxJsxFlowElement | MdxJsxTextElement {
+  return node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement";
 }
 
 function isMdxJsxAttribute(
@@ -41,7 +41,7 @@ function isMdxJsxAttribute(
   return attribute.type === "mdxJsxAttribute";
 }
 
-export function getStringAttribute(node: MdxJsxFlowElement, name: string): string | undefined {
+export function getStringAttribute(node: RuleNode, name: string): string | undefined {
   for (const attribute of node.attributes) {
     if (!isMdxJsxAttribute(attribute) || attribute.name !== name) continue;
     if (typeof attribute.value === "string") return attribute.value;
@@ -58,7 +58,7 @@ function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContex
   const transformed: RootContent[] = [];
 
   for (const node of nodes) {
-    if (isMdxJsxFlowElement(node)) {
+    if (isMdxJsxElement(node)) {
       const matchedRule = rules.find((rule) => rule.match(node));
       if (matchedRule) {
         try {

@@ -41,6 +41,22 @@ const compoundVariants = [
   {
     "variant": "outline",
     "size": "medium"
+  },
+  {
+    "variant": "outline",
+    "size": "responsive"
+  },
+  {
+    "variant": "underline",
+    "size": "large"
+  },
+  {
+    "variant": "underline",
+    "size": "medium"
+  },
+  {
+    "variant": "underline",
+    "size": "responsive"
   }
 ];
 
@@ -51,7 +67,8 @@ export const textInputVariantMap = {
   ],
   "size": [
     "large",
-    "medium"
+    "medium",
+    "responsive"
   ]
 };
 
