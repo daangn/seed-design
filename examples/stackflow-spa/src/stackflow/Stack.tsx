@@ -59,6 +59,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityChipToggle: lazy(() => import("../activities/ActivityChipToggle")),
     ActivityCodegenTest: lazy(() => import("../activities/ActivityCodegenTest")),
     ActivityDetail: lazy(() => import("../activities/ActivityDetail")),
+    ActivityDialog: lazy(() => import("../activities/ActivityDialog")),
     ActivityErrorState: lazy(() => import("../activities/ActivityErrorState")),
     ActivityFontScaling: lazy(() => import("../activities/ActivityFontScaling")),
     ActivityHelpBubble: lazy(() => import("../activities/ActivityHelpBubble")),
