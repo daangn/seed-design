@@ -1999,6 +1999,12 @@
               "docUrl": "/lynx/hooks/use-safe-area"
             },
             {
+              "id": "use-seed-class-name",
+              "title": "useSeedClassName",
+              "description": "root `<page>`에 적용할 테마 className을 반환하고 테마 변경을 구독하는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-seed-class-name"
+            },
+            {
               "id": "v-stack",
               "title": "VStack",
               "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
