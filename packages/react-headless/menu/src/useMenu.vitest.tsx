@@ -198,6 +198,31 @@ describe("useMenu", () => {
       const label = getByText("Group 1");
       expect(label).toHaveAttribute("id", labelledBy);
     });
+
+    it("does not set a dangling aria-labelledby on a group without a label", async () => {
+      function MenuWithUnlabeledGroup() {
+        return (
+          <Menu>
+            <MenuTrigger>Open Menu</MenuTrigger>
+            <MenuPositioner>
+              <MenuContent>
+                <MenuGroup>
+                  <MenuItem>Item A</MenuItem>
+                  <MenuItem>Item B</MenuItem>
+                </MenuGroup>
+              </MenuContent>
+            </MenuPositioner>
+          </Menu>
+        );
+      }
+
+      const user = userEvent.setup();
+      const { getAllByRole, getByText } = render(<MenuWithUnlabeledGroup />);
+      await waitForPositioning();
+      await user.click(getByText("Open Menu"));
+      const group = getAllByRole("group")[0];
+      expect(group).not.toHaveAttribute("aria-labelledby");
+    });
   });
 
   describe("open/close state", () => {
