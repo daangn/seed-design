@@ -33,7 +33,7 @@ export const vars = {
       },
       "body": {
         "paddingX": "var(--seed-dimension-x6)",
-        "paddingBottom": "var(--seed-dimension-x5)",
+        "paddingBottom": "var(--seed-dimension-x12)",
         "strokeDuration": "var(--seed-duration-color-transition)",
         "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },

@@ -71,7 +71,7 @@ data:
             type: dimension
           paddingBottom:
             type: dimension
-            description: body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다.
+            description: body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다.
           strokeWidth:
             type: dimension
             description: 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 두께입니다.
@@ -150,7 +150,7 @@ data:
           closeButtonGap: $dimension.x1_5
         body:
           paddingX: $dimension.x6
-          paddingBottom: $dimension.x5
+          paddingBottom: $dimension.x12
           strokeDuration: $duration.color-transition
           strokeTimingFunction: $timing-function.easing
         footer:

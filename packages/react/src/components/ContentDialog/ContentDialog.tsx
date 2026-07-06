@@ -138,12 +138,20 @@ export const ContentDialogBody = React.forwardRef<HTMLDivElement, ContentDialogB
 
     const ref = React.useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = React.useState(false);
+    const [overflowing, setOverflowing] = React.useState(false);
 
     React.useEffect(() => {
       const element = ref.current;
       if (!element) return;
 
-      const check = () => setScrolled(element.scrollTop > 0);
+      const check = () => {
+        setScrolled(element.scrollTop > 0);
+        // Subtract the current bottom padding so overflow detection stays independent
+        // of the padding we conditionally apply — otherwise that padding would count as
+        // overflow and the state would never settle (padding -> overflow -> padding...).
+        const paddingBottom = Number.parseFloat(getComputedStyle(element).paddingBottom) || 0;
+        setOverflowing(element.scrollHeight - paddingBottom > element.clientHeight);
+      };
       check();
 
       element.addEventListener("scroll", check);
@@ -161,6 +169,7 @@ export const ContentDialogBody = React.forwardRef<HTMLDivElement, ContentDialogB
       <Primitive.div
         ref={composeRefs(ref, forwardedRef)}
         data-scrolled={dataAttr(scrolled)}
+        data-overflow={dataAttr(overflowing)}
         className={clsx(classNames.body, className)}
         {...props}
       />

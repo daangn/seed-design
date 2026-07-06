@@ -106,7 +106,7 @@
             },
             "paddingBottom": {
               "type": "dimension",
-              "description": "body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다."
+              "description": "body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다."
             },
             "strokeWidth": {
               "type": "dimension",
@@ -311,7 +311,7 @@
                 },
                 "paddingBottom": {
                   "type": "dimension",
-                  "value": "$dimension.x5"
+                  "value": "$dimension.x12"
                 },
                 "strokeDuration": {
                   "type": "duration",

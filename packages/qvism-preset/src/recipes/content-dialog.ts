@@ -116,18 +116,31 @@ const contentDialog = defineSlotRecipe({
       flexDirection: "column",
       flex: 1,
       minHeight: 0,
-      overflowY: "auto",
+      // overflow-x hidden: overflow-y:auto alone computes overflow-x to auto,
+      // which paints a phantom horizontal scrollbar / bottom bar in some browsers.
+      overflow: "hidden auto",
 
       paddingInline: vars.base.enabled.body.paddingX,
-      paddingBottom: vars.base.enabled.body.paddingBottom,
 
       transition: `box-shadow ${vars.base.enabled.body.strokeDuration} ${vars.base.enabled.body.strokeTimingFunction}`,
       [pseudo("[data-scrolled]", not(":first-child"))]: {
         boxShadow: `inset 0 ${vars.base.scrolled.body.strokeWidth} 0 0 ${vars.base.scrolled.body.strokeColor}`,
       },
 
-      maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
-      WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+      // Bottom padding + fade apply only while the body overflows (is scrollable),
+      // toggled by data-overflow from the styled layer. Applying them unconditionally
+      // fades near-fitting content that can never be scrolled clear of the fade band.
+      [pseudo("[data-overflow]")]: {
+        paddingBottom: vars.base.enabled.body.paddingBottom,
+        maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+        WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+      },
+
+      // body can have focus when it overflows
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: {
+        ...createFocusRingStyles({ position: "inside" }),
+      },
     },
     title: {
       color: vars.base.enabled.title.color,

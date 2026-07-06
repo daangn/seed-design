@@ -30,15 +30,15 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x1_5)",
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x6)",
-        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
+        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다. */
         "paddingBottom": "var(--seed-dimension-x4)",
         /** closeButton이 표시되는 경우 paddingRight에 추가되는 여백입니다. */
         "closeButtonGap": "var(--seed-dimension-x1_5)"
       },
       "body": {
         "paddingX": "var(--seed-dimension-x6)",
-        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
-        "paddingBottom": "var(--seed-dimension-x5)",
+        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다. */
+        "paddingBottom": "var(--seed-dimension-x12)",
         "strokeDuration": "var(--seed-duration-color-transition)",
         "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
@@ -46,7 +46,7 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x2)",
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x4)",
-        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
+        /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다. */
         "paddingBottom": "var(--seed-dimension-x6)"
       },
       "title": {
