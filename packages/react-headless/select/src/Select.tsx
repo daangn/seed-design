@@ -246,9 +246,16 @@ export interface SelectGroupLabelProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectGroupLabel = forwardRef<HTMLDivElement, SelectGroupLabelProps>((props, ref) => {
-  const { getGroupLabelProps } = useSelectContext();
+  const { getGroupLabelProps, registerGroupLabel, unregisterGroupLabel } = useSelectContext();
   const labelId = useContext(SelectGroupLabelIdContext);
   if (!labelId) throw new Error("SelectGroupLabel must be used within a SelectGroup");
+
+  // Report this label so the enclosing group references it via aria-labelledby
+  // only when it is actually rendered (see useSelect.getGroupProps).
+  useEffect(() => {
+    registerGroupLabel(labelId);
+    return () => unregisterGroupLabel(labelId);
+  }, [labelId, registerGroupLabel, unregisterGroupLabel]);
 
   return <Primitive.div ref={ref} {...mergeProps(getGroupLabelProps(labelId), props)} />;
 });

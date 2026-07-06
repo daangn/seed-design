@@ -135,6 +135,11 @@ function useSelectState(props: UseSelectStateProps) {
   // value -> display label, kept for the trigger Value slot and the hidden native <select> options.
   const [nativeOptions, setNativeOptions] = useState<Map<string, ReactNode>>(() => new Map());
 
+  // Ids of group labels that have actually rendered. A group only advertises
+  // aria-labelledby once its label registers here, so a group with no rendered
+  // label never points at a non-existent id.
+  const [groupLabelIds, setGroupLabelIds] = useState<ReadonlySet<string>>(() => new Set());
+
   const elementsRef = useRef<(HTMLElement | null)[]>([]);
   const labelsRef = useRef<(string | null)[]>([]);
   const triggerRef = useRef<HTMLElement | null>(null);
@@ -155,6 +160,8 @@ function useSelectState(props: UseSelectStateProps) {
     setSelectedIndex,
     nativeOptions,
     setNativeOptions,
+    groupLabelIds,
+    setGroupLabelIds,
     elementsRef,
     labelsRef,
     triggerRef,
@@ -175,6 +182,8 @@ export function useSelect(props: UseSelectProps) {
     setSelectedIndex,
     nativeOptions,
     setNativeOptions,
+    groupLabelIds,
+    setGroupLabelIds,
     elementsRef,
     labelsRef,
     triggerRef,
@@ -252,6 +261,32 @@ export function useSelect(props: UseSelectProps) {
       });
     },
     [setNativeOptions],
+  );
+
+  // A group label reports its presence here so the group can reference it via
+  // aria-labelledby only when it is actually rendered (see getGroupProps).
+  const registerGroupLabel = useCallback(
+    (labelId: string) => {
+      setGroupLabelIds((prev) => {
+        if (prev.has(labelId)) return prev;
+        const next = new Set(prev);
+        next.add(labelId);
+        return next;
+      });
+    },
+    [setGroupLabelIds],
+  );
+
+  const unregisterGroupLabel = useCallback(
+    (labelId: string) => {
+      setGroupLabelIds((prev) => {
+        if (!prev.has(labelId)) return prev;
+        const next = new Set(prev);
+        next.delete(labelId);
+        return next;
+      });
+    },
+    [setGroupLabelIds],
   );
 
   const handleFloatingOpenChange = useCallback(
@@ -336,6 +371,25 @@ export function useSelect(props: UseSelectProps) {
     );
     setSelectedIndex(index === -1 ? null : index);
   }, [value, nativeOptions, elementsRef, setSelectedIndex]);
+
+  // APG: when the listbox opens, seed the active option from the current
+  // selection so aria-activedescendant points at the selected option
+  // immediately, instead of only after the first arrow key. Fires on the open
+  // rising edge (via wasOpenRef) so it never overrides in-list navigation.
+  //
+  // The index is resolved from the live elementsRef rather than selectedIndex
+  // state: item registration can lag, so the state can still read null at open.
+  const wasOpenRef = useRef(false);
+  useEffect(() => {
+    if (open && !wasOpenRef.current) {
+      const index = elementsRef.current.findIndex(
+        (element) => element?.getAttribute("data-value") === value,
+      );
+      setActiveIndex(index === -1 ? null : index);
+    }
+    wasOpenRef.current = open;
+    // elementsRef is stable; listed for parity with the selectedIndex sync effect above.
+  }, [open, value, elementsRef, setActiveIndex]);
 
   const click = useClick(context, {
     enabled: interactive,
@@ -432,6 +486,8 @@ export function useSelect(props: UseSelectProps) {
     nativeOptions,
     registerOption,
     unregisterOption,
+    registerGroupLabel,
+    unregisterGroupLabel,
     selectValue,
 
     // exposed as `stateProps` for createWithStateProps consumers (trigger sub-slots).
@@ -454,6 +510,10 @@ export function useSelect(props: UseSelectProps) {
     triggerProps: buttonProps({
       ...triggerStateProps,
       disabled,
+      // Surface validation state on the combobox itself (kept in sync with the
+      // hidden native <select>), matching Ark — always present, false included.
+      "aria-required": required,
+      "aria-invalid": invalid,
       ...triggerInteractions.getReferenceProps({
         onKeyDown: handleTriggerKeyDown,
       }),
@@ -512,7 +572,9 @@ export function useSelect(props: UseSelectProps) {
         labelId,
         rootProps: elementProps({
           role: "group",
-          "aria-labelledby": labelId,
+          // Reference the label only once it has actually rendered; a group
+          // without a label must not point aria-labelledby at a missing id.
+          ...(groupLabelIds.has(labelId) && { "aria-labelledby": labelId }),
         }),
       };
     },

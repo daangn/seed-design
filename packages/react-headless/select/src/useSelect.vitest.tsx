@@ -19,6 +19,8 @@ import {
   SelectContent,
   SelectScrollArea,
   SelectItem,
+  SelectGroup,
+  SelectGroupLabel,
   SelectHiddenSelect,
   type SelectRootProps,
 } from "./index";
@@ -231,6 +233,125 @@ describe("useSelect", () => {
         nativeSelect.dispatchEvent(new Event("change", { bubbles: true }));
       });
       expect(onValueChange).toHaveBeenCalledWith("apple");
+    });
+  });
+
+  describe("grouping (aria-labelledby)", () => {
+    function SelectWithLabeledGroup(props: SelectRootProps) {
+      return (
+        <Select {...props}>
+          <SelectTrigger>
+            <SelectValue />
+            <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectGroup>
+                  <SelectGroupLabel>Fruits</SelectGroupLabel>
+                  <SelectItem value="apple" label="Apple">
+                    Apple
+                  </SelectItem>
+                  <SelectItem value="banana" label="Banana">
+                    Banana
+                  </SelectItem>
+                </SelectGroup>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+        </Select>
+      );
+    }
+
+    function SelectWithUnlabeledGroup(props: SelectRootProps) {
+      return (
+        <Select {...props}>
+          <SelectTrigger>
+            <SelectValue />
+            <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectGroup>
+                  <SelectItem value="apple" label="Apple">
+                    Apple
+                  </SelectItem>
+                  <SelectItem value="banana" label="Banana">
+                    Banana
+                  </SelectItem>
+                </SelectGroup>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+        </Select>
+      );
+    }
+
+    it("labels a group via aria-labelledby resolving to the rendered group label", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole, getByText } = render(<SelectWithLabeledGroup />);
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      const group = getAllByRole("group")[0];
+      const labelledBy = group.getAttribute("aria-labelledby");
+      expect(labelledBy).toBeTruthy();
+      expect(getByText("Fruits")).toHaveAttribute("id", labelledBy as string);
+    });
+
+    it("does not set a dangling aria-labelledby on a group without a label", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<SelectWithUnlabeledGroup />);
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      const group = getAllByRole("group")[0];
+      expect(group).not.toHaveAttribute("aria-labelledby");
+    });
+  });
+
+  describe("form a11y (aria-required / aria-invalid on trigger)", () => {
+    it("reflects required as aria-required='true' on the trigger", async () => {
+      const { getByRole } = render(<BasicSelect required />);
+      await waitForPositioning();
+      expect(getByRole("combobox")).toHaveAttribute("aria-required", "true");
+    });
+
+    it("reflects invalid as aria-invalid='true' on the trigger", async () => {
+      const { getByRole } = render(<BasicSelect invalid />);
+      await waitForPositioning();
+      expect(getByRole("combobox")).toHaveAttribute("aria-invalid", "true");
+    });
+
+    it("always exposes aria-required and aria-invalid on the trigger (matching Ark)", async () => {
+      const { getByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      expect(trigger).toHaveAttribute("aria-required", "false");
+      expect(trigger).toHaveAttribute("aria-invalid", "false");
+    });
+  });
+
+  describe("active option on open (aria-activedescendant)", () => {
+    it("points aria-activedescendant at the selected option as soon as the listbox opens", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue="banana" />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      await user.click(trigger);
+      // no arrow key pressed yet — the selection alone should seed the active option
+      const options = getAllByRole("option");
+      expect(options[1]).toHaveAttribute("data-highlighted");
+      expect(options[1].id).toBeTruthy();
+      expect(trigger).toHaveAttribute("aria-activedescendant", options[1].id);
+    });
+
+    it("leaves no active option on open when nothing is selected", async () => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      await user.click(trigger);
+      expect(trigger).not.toHaveAttribute("aria-activedescendant");
     });
   });
 });
