@@ -7,10 +7,6 @@ import {
 } from "@seed-design/react-select";
 import { mergeProps } from "@seed-design/dom-utils";
 import { select, type SelectVariantProps } from "@seed-design/css/recipes/select";
-import {
-  selectTrigger,
-  type SelectTriggerVariantProps,
-} from "@seed-design/css/recipes/select-trigger";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
@@ -18,39 +14,22 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { ClassNamesProvider, withContext, useClassNames } = createSlotRecipeContext(select);
-const { ClassNamesProvider: TriggerClassNamesProvider, withContext: withTriggerContext } =
-  createSlotRecipeContext(selectTrigger);
+const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(select);
 
 const withStateProps = createWithStateProps([useSelectContext]);
 const withItemStateProps = createWithStateProps([useSelectItemContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectRootProps
-  extends SelectVariantProps,
-    SelectTriggerVariantProps,
-    SelectPrimitive.RootProps {}
+export interface SelectRootProps extends SelectVariantProps, SelectPrimitive.RootProps {}
 
-export const SelectRoot = (props: SelectRootProps) => {
-  const [variantProps, otherProps] = select.splitVariantProps(props);
-  const classNames = select(variantProps);
-  const triggerClassNames = selectTrigger(variantProps);
-
-  return (
-    <ClassNamesProvider value={classNames}>
-      <TriggerClassNamesProvider value={triggerClassNames}>
-        <SelectPrimitive.Root {...otherProps} />
-      </TriggerClassNamesProvider>
-    </ClassNamesProvider>
-  );
-};
+export const SelectRoot = withRootProvider<SelectRootProps>(SelectPrimitive.Root);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectTriggerProps extends SelectPrimitive.TriggerProps {}
 
-export const SelectTrigger = withTriggerContext<HTMLButtonElement, SelectTriggerProps>(
+export const SelectTrigger = withContext<HTMLButtonElement, SelectTriggerProps>(
   SelectPrimitive.Trigger,
   "root",
 );
@@ -59,7 +38,7 @@ export const SelectTrigger = withTriggerContext<HTMLButtonElement, SelectTrigger
 
 export interface SelectValueProps extends SelectPrimitive.ValueProps {}
 
-export const SelectValue = withTriggerContext<HTMLSpanElement, SelectValueProps>(
+export const SelectValue = withContext<HTMLSpanElement, SelectValueProps>(
   withStateProps(SelectPrimitive.Value),
   "value",
 );
@@ -68,7 +47,7 @@ export const SelectValue = withTriggerContext<HTMLSpanElement, SelectValueProps>
 
 export interface SelectPlaceholderProps extends SelectPrimitive.PlaceholderProps {}
 
-export const SelectPlaceholder = withTriggerContext<HTMLSpanElement, SelectPlaceholderProps>(
+export const SelectPlaceholder = withContext<HTMLSpanElement, SelectPlaceholderProps>(
   withStateProps(SelectPrimitive.Placeholder),
   "placeholder",
 );
@@ -77,14 +56,14 @@ export const SelectPlaceholder = withTriggerContext<HTMLSpanElement, SelectPlace
 
 export interface SelectPrefixIconProps extends InternalIconProps {}
 
-export const SelectPrefixIcon = withTriggerContext<SVGSVGElement, SelectPrefixIconProps>(
+export const SelectPrefixIcon = withContext<SVGSVGElement, SelectPrefixIconProps>(
   withStateProps(InternalIcon),
   "prefixIcon",
 );
 
 export interface SelectSuffixIconProps extends InternalIconProps {}
 
-export const SelectSuffixIcon = withTriggerContext<SVGSVGElement, SelectSuffixIconProps>(
+export const SelectSuffixIcon = withContext<SVGSVGElement, SelectSuffixIconProps>(
   withStateProps(InternalIcon),
   "suffixIcon",
 );

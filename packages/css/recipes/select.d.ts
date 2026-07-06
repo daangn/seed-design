@@ -15,7 +15,7 @@ declare type SelectVariantMap = {
 
 export declare type SelectVariantProps = Partial<SelectVariant>;
 
-export declare type SelectSlotName = "positioner" | "content" | "scrollArea" | "group" | "groupLabel" | "item" | "itemBody" | "itemLabel" | "itemDescription" | "itemIndicator";
+export declare type SelectSlotName = "root" | "value" | "placeholder" | "prefixIcon" | "suffixIcon" | "positioner" | "content" | "scrollArea" | "group" | "groupLabel" | "item" | "itemBody" | "itemLabel" | "itemDescription" | "itemIndicator";
 
 export declare const selectVariantMap: SelectVariantMap;
 

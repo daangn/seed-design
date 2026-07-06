@@ -3,6 +3,26 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 
 const selectSlotNames = [
   [
+    "root",
+    "seed-select__root"
+  ],
+  [
+    "value",
+    "seed-select__value"
+  ],
+  [
+    "placeholder",
+    "seed-select__placeholder"
+  ],
+  [
+    "prefixIcon",
+    "seed-select__prefixIcon"
+  ],
+  [
+    "suffixIcon",
+    "seed-select__suffixIcon"
+  ],
+  [
     "positioner",
     "seed-select__positioner"
   ],
