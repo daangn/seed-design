@@ -209,6 +209,12 @@ const sidePanel = defineSlotRecipe({
       // bottom scroll fog: always fades the last bit of content into the panel surface; its height equals the body's paddingBottom
       maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
       WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+
+      // body can have focus when it overflows
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: {
+        ...createFocusRingStyles({ position: "inside" }),
+      },
     },
     footer: {
       display: "flex",
