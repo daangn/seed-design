@@ -5,6 +5,7 @@ import {
   useSelectContext,
   useSelectItemContext,
 } from "@seed-design/react-select";
+import { mergeProps } from "@seed-design/dom-utils";
 import { select, type SelectVariantProps } from "@seed-design/css/recipes/select";
 import {
   selectTrigger,
@@ -81,29 +82,11 @@ export const SelectPrefixIcon = withTriggerContext<SVGSVGElement, SelectPrefixIc
   "prefixIcon",
 );
 
-export interface SelectPrefixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const SelectPrefixText = withTriggerContext<HTMLSpanElement, SelectPrefixTextProps>(
-  withStateProps(Primitive.span),
-  "prefixText",
-);
-
 export interface SelectSuffixIconProps extends InternalIconProps {}
 
 export const SelectSuffixIcon = withTriggerContext<SVGSVGElement, SelectSuffixIconProps>(
   withStateProps(InternalIcon),
   "suffixIcon",
-);
-
-export interface SelectSuffixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const SelectSuffixText = withTriggerContext<HTMLSpanElement, SelectSuffixTextProps>(
-  withStateProps(Primitive.span),
-  "suffixText",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -206,12 +189,36 @@ export const SelectItemDescription = withContext<HTMLSpanElement, SelectItemDesc
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectItemIndicatorProps extends SelectPrimitive.ItemIndicatorProps {}
+export interface SelectItemIndicatorProps extends React.SVGAttributes<SVGSVGElement> {
+  /**
+   * The icon to display when the item is selected.
+   */
+  selected: React.ReactNode;
 
-export const SelectItemIndicator = withContext<HTMLSpanElement, SelectItemIndicatorProps>(
-  withItemStateProps(SelectPrimitive.ItemIndicator),
-  "itemIndicator",
+  /**
+   * The icon to display when the item is not selected.
+   */
+  unselected?: React.ReactNode;
+}
+
+export const SelectItemIndicator = React.forwardRef<SVGSVGElement, SelectItemIndicatorProps>(
+  ({ selected: selectedSvg, unselected: unselectedSvg, ...otherProps }, ref) => {
+    const { isSelected, stateProps } = useSelectItemContext();
+    const classNames = useClassNames();
+
+    const mergedProps = mergeProps(
+      stateProps,
+      { className: classNames.itemIndicator },
+      otherProps as React.HTMLAttributes<HTMLElement>,
+    );
+
+    const svg = isSelected ? selectedSvg : unselectedSvg;
+    if (!svg) return null;
+
+    return <InternalIcon ref={ref} svg={svg} {...mergedProps} />;
+  },
 );
+SelectItemIndicator.displayName = "SelectItemIndicator";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

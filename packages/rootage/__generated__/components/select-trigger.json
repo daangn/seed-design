@@ -79,42 +79,10 @@
             }
           }
         },
-        "prefixText": {
-          "properties": {
-            "fontSize": {
-              "type": "dimension"
-            },
-            "lineHeight": {
-              "type": "dimension"
-            },
-            "fontWeight": {
-              "type": "number"
-            },
-            "color": {
-              "type": "color"
-            }
-          }
-        },
         "prefixIcon": {
           "properties": {
             "size": {
               "type": "dimension"
-            },
-            "color": {
-              "type": "color"
-            }
-          }
-        },
-        "suffixText": {
-          "properties": {
-            "fontSize": {
-              "type": "dimension"
-            },
-            "lineHeight": {
-              "type": "dimension"
-            },
-            "fontWeight": {
-              "type": "number"
             },
             "color": {
               "type": "color"
@@ -128,6 +96,12 @@
             },
             "color": {
               "type": "color"
+            },
+            "rotateDuration": {
+              "type": "duration"
+            },
+            "rotateTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         }
@@ -211,36 +185,24 @@
                   "value": "$color.fg.placeholder"
                 }
               },
-              "prefixText": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
-                }
-              },
               "prefixIcon": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
                 }
               },
-              "suffixText": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
-                }
-              },
               "suffixIcon": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
+                },
+                "rotateDuration": {
+                  "type": "duration",
+                  "value": "$duration.d6"
+                },
+                "rotateTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               }
             }
@@ -301,19 +263,7 @@
                   "value": "$color.fg.disabled"
                 }
               },
-              "prefixText": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
               "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "suffixText": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
@@ -402,30 +352,10 @@
                   "value": "$line-height.t5"
                 }
               },
-              "prefixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              },
               "prefixIcon": {
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x5"
-                }
-              },
-              "suffixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
                 }
               },
               "suffixIcon": {
@@ -486,30 +416,10 @@
                   "value": "$line-height.t4"
                 }
               },
-              "prefixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                }
-              },
               "prefixIcon": {
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x4"
-                }
-              },
-              "suffixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
                 }
               },
               "suffixIcon": {

@@ -15,7 +15,7 @@ declare type SelectTriggerVariantMap = {
 
 export declare type SelectTriggerVariantProps = Partial<SelectTriggerVariant>;
 
-export declare type SelectTriggerSlotName = "root" | "value" | "placeholder" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon";
+export declare type SelectTriggerSlotName = "root" | "value" | "placeholder" | "prefixIcon" | "suffixIcon";
 
 export declare const selectTriggerVariantMap: SelectTriggerVariantMap;
 

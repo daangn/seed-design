@@ -9,7 +9,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectGroupLabel,
-  SelectHiddenSelect,
   SelectItem,
   SelectRoot,
   SelectTrigger,
@@ -32,7 +31,6 @@ const SectionTitle = ({ children }: { children: string }) => (
 
 const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
   const [value, setValue] = useState<string | null>("apple");
-  const [lastReason, setLastReason] = useState<string>("-");
   const [submitted, setSubmitted] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
@@ -53,9 +51,11 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
                 <SelectRoot size="large" defaultValue="apple">
                   <SelectTrigger aria-label="과일 large" placeholder="과일 선택" />
                   <SelectContent>
-                    <SelectItem value="apple" label="사과" prefixIcon={<IconStarLine />} />
-                    <SelectItem value="banana" label="바나나" />
-                    <SelectItem value="cherry" label="체리" />
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" prefixIcon={<IconStarLine />} />
+                      <SelectItem value="banana" label="바나나" />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
                   </SelectContent>
                 </SelectRoot>
               </div>
@@ -63,9 +63,11 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
                 <SelectRoot size="medium" defaultValue="apple">
                   <SelectTrigger aria-label="과일 medium" placeholder="과일 선택" />
                   <SelectContent>
-                    <SelectItem value="apple" label="사과" />
-                    <SelectItem value="banana" label="바나나" />
-                    <SelectItem value="cherry" label="체리" />
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" />
+                      <SelectItem value="banana" label="바나나" />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
                   </SelectContent>
                 </SelectRoot>
               </div>
@@ -102,29 +104,25 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
             <SectionTitle>Controlled + onValueChange</SectionTitle>
             <HStack align="center" gap="x4">
               <div style={{ width: 200 }}>
-                <SelectRoot
-                  value={value}
-                  onValueChange={(next, details) => {
-                    setValue(next);
-                    if (details?.reason) setLastReason(details.reason);
-                  }}
-                >
+                <SelectRoot value={value} onValueChange={(next) => setValue(next)}>
                   <SelectTrigger aria-label="과일 제어" placeholder="과일 선택" />
                   <SelectContent>
-                    <SelectItem value="apple" label="사과" prefixIcon={<IconHeartLine />} />
-                    <SelectItem value="banana" label="바나나" />
-                    <SelectItem value="cherry" label="체리" />
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" prefixIcon={<IconHeartLine />} />
+                      <SelectItem value="banana" label="바나나" />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
                   </SelectContent>
                 </SelectRoot>
               </div>
               <Text fontSize="t3" color="fg.neutralMuted">
-                값: {value ?? "없음"} / reason: {lastReason}
+                값: {value ?? "없음"}
               </Text>
             </HStack>
           </VStack>
 
           <VStack gap="x3">
-            <SectionTitle>Many Items (Scroll) & Typeahead</SectionTitle>
+            <SectionTitle>Many Items (Scroll)</SectionTitle>
             <div style={{ width: 220 }}>
               <SelectRoot>
                 <SelectTrigger aria-label="트랙" placeholder="트랙 선택" />
@@ -144,6 +142,29 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
           </VStack>
 
           <VStack gap="x3">
+            <SectionTitle>Typeahead</SectionTitle>
+            <div style={{ width: 220 }}>
+              <SelectRoot>
+                <SelectTrigger aria-label="타입어헤드" placeholder="과일 선택" />
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="apple" label="Apple" />
+                    <SelectItem value="banana" label="Banana" />
+                    <SelectItem value="cherry" label="Cherry" />
+                    <SelectItem value="durian" label="Durian" />
+                    <SelectItem value="elderberry" label="Elderberry" />
+                    <SelectItem value="fig" label="Fig" />
+                    <SelectItem value="grape" label="Grape" />
+                    <SelectItem value="honeydew" label="Honeydew" />
+                    <SelectItem value="kiwi" label="Kiwi" />
+                    <SelectItem value="lemon" label="Lemon" />
+                  </SelectGroup>
+                </SelectContent>
+              </SelectRoot>
+            </div>
+          </VStack>
+
+          <VStack gap="x3">
             <SectionTitle>Form Integration</SectionTitle>
             <form
               style={{ display: "flex", flexDirection: "column", gap: 8, width: 220 }}
@@ -156,11 +177,12 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
               <SelectRoot name="fruit" required>
                 <SelectTrigger aria-label="과일 폼" placeholder="과일 선택" />
                 <SelectContent>
-                  <SelectItem value="apple" label="사과" />
-                  <SelectItem value="banana" label="바나나" />
-                  <SelectItem value="cherry" label="체리" />
+                  <SelectGroup>
+                    <SelectItem value="apple" label="사과" />
+                    <SelectItem value="banana" label="바나나" />
+                    <SelectItem value="cherry" label="체리" />
+                  </SelectGroup>
                 </SelectContent>
-                <SelectHiddenSelect />
               </SelectRoot>
               <ActionButton type="submit">제출</ActionButton>
               {submitted && (
@@ -189,9 +211,11 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
                       <SelectRoot defaultValue="apple">
                         <SelectTrigger aria-label="과일 시트" placeholder="과일 선택" />
                         <SelectContent>
-                          <SelectItem value="apple" label="사과" />
-                          <SelectItem value="banana" label="바나나" />
-                          <SelectItem value="cherry" label="체리" />
+                          <SelectGroup>
+                            <SelectItem value="apple" label="사과" />
+                            <SelectItem value="banana" label="바나나" />
+                            <SelectItem value="cherry" label="체리" />
+                          </SelectGroup>
                         </SelectContent>
                       </SelectRoot>
                     </div>

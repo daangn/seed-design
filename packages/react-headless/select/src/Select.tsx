@@ -8,7 +8,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { createContext, forwardRef, useContext, useEffect } from "react";
 import { useSelect, type UseSelectItemProps, type UseSelectProps } from "./useSelect";
 import { SelectProvider, useSelectContext } from "./useSelectContext";
-import { SelectItemProvider, useSelectItemContext } from "./useSelectItemContext";
+import { SelectItemProvider } from "./useSelectItemContext";
 
 const SelectGroupLabelIdContext = createContext<string | null>(null);
 
@@ -157,18 +157,18 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>((pro
       <DismissibleLayer
         enabled={open}
         pressBehavior="drag"
-        onEscapeKeyDown={(event) => {
-          setOpen(false, { reason: "escapeKeyDown", event });
+        onEscapeKeyDown={() => {
+          setOpen(false);
         }}
-        onPressOutside={(event) => {
-          setOpen(false, { reason: "interactOutside", event });
+        onPressOutside={() => {
+          setOpen(false);
         }}
         onFocusOutside={() => {
           // Tab away from the combobox closes the listbox.
           setOpen(false);
         }}
-        onCascadeDismiss={({ dismissedParent }) => {
-          setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+        onCascadeDismiss={() => {
+          setOpen(false);
         }}
         exclude={(target) => {
           const reference = floatingContext.refs.reference.current;
@@ -227,24 +227,6 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
 );
 SelectItem.displayName = "SelectItem";
 
-export interface SelectItemIndicatorProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-/**
- * Renders its children only when the enclosing item is selected.
- */
-export const SelectItemIndicator = forwardRef<HTMLSpanElement, SelectItemIndicatorProps>(
-  (props, ref) => {
-    const { isSelected } = useSelectItemContext();
-
-    if (!isSelected) return null;
-
-    return <Primitive.span aria-hidden ref={ref} {...props} />;
-  },
-);
-SelectItemIndicator.displayName = "SelectItemIndicator";
-
 export interface SelectGroupProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>((props, ref) => {
@@ -293,7 +275,7 @@ export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSele
         disabled={disabled}
         value={value ?? ""}
         onChange={(event) => {
-          setValue(event.target.value, { reason: "hiddenSelect", event: event.nativeEvent });
+          setValue(event.target.value);
         }}
         style={visuallyHidden}
         {...props}

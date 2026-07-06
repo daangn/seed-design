@@ -51,30 +51,10 @@ data:
             type: number
           color:
             type: color
-      prefixText:
-        properties:
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-          fontWeight:
-            type: number
-          color:
-            type: color
       prefixIcon:
         properties:
           size:
             type: dimension
-          color:
-            type: color
-      suffixText:
-        properties:
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-          fontWeight:
-            type: number
           color:
             type: color
       suffixIcon:
@@ -83,6 +63,10 @@ data:
             type: dimension
           color:
             type: color
+          rotateDuration:
+            type: duration
+          rotateTimingFunction:
+            type: cubicBezier
     variants:
       size:
         values:
@@ -112,19 +96,13 @@ data:
           fontWeight: $font-weight.regular
           color: $color.fg.placeholder
 
-        prefixText:
-          fontWeight: $font-weight.regular
-
-          color: $color.fg.neutral-subtle
         prefixIcon:
           color: $color.fg.neutral-muted
-        suffixText:
-          fontWeight: $font-weight.regular
-
-          color: $color.fg.neutral-subtle
 
         suffixIcon:
           color: $color.fg.neutral-muted
+          rotateDuration: $duration.d6
+          rotateTimingFunction: $timing-function.easing
 
       pressed:
         root:
@@ -142,11 +120,7 @@ data:
           color: $color.fg.disabled
         placeholder:
           color: $color.fg.disabled
-        prefixText:
-          color: $color.fg.disabled
         prefixIcon:
-          color: $color.fg.disabled
-        suffixText:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
@@ -171,14 +145,8 @@ data:
         placeholder:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-        prefixText:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
         prefixIcon:
           size: $dimension.x5
-        suffixText:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
         suffixIcon:
           size: $dimension.x5
     size=medium:
@@ -194,13 +162,7 @@ data:
         placeholder:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-        prefixText:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
         prefixIcon:
           size: $dimension.x4
-        suffixText:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
         suffixIcon:
           size: $dimension.x4

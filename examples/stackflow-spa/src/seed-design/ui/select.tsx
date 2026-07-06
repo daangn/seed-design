@@ -1,5 +1,8 @@
-import { Icon, PrefixIcon, Select as SeedSelect } from "@seed-design/react";
-import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
+import { PrefixIcon, Select as SeedSelect } from "@seed-design/react";
+import {
+  IconCheckmarkFatFill,
+  IconChevronDownSmallLine,
+} from "@karrotmarket/react-monochrome-icon";
 import * as React from "react";
 
 export interface SelectRootProps extends SeedSelect.RootProps {}
@@ -7,15 +10,20 @@ export interface SelectRootProps extends SeedSelect.RootProps {}
 /**
  * @see https://seed-design.io/react/components/select
  */
-export const SelectRoot = SeedSelect.Root;
+export const SelectRoot = ({ children, ...props }: SelectRootProps) => (
+  <SeedSelect.Root {...props}>
+    {children}
+    <SeedSelect.HiddenSelect />
+  </SeedSelect.Root>
+);
 
-export interface SelectTriggerProps extends SeedSelect.TriggerProps {
+export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "children"> {
   placeholder?: React.ReactNode;
 
   prefixIcon?: React.ReactNode;
 
   /**
-   * @default <IconChevronDownLine />
+   * @default <IconChevronDownSmallLine />
    */
   suffixIcon?: React.ReactNode;
 }
@@ -24,14 +32,13 @@ export interface SelectTriggerProps extends SeedSelect.TriggerProps {
  * @see https://seed-design.io/react/components/select
  */
 export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ placeholder, prefixIcon, suffixIcon, children, ...props }, ref) => {
+  ({ placeholder, prefixIcon, suffixIcon, ...props }, ref) => {
     return (
       <SeedSelect.Trigger ref={ref} {...props}>
         {prefixIcon && <SeedSelect.PrefixIcon svg={prefixIcon} />}
         <SeedSelect.Value />
         {placeholder && <SeedSelect.Placeholder>{placeholder}</SeedSelect.Placeholder>}
-        {children}
-        <SeedSelect.SuffixIcon svg={suffixIcon ?? <IconChevronDownLine />} />
+        <SeedSelect.SuffixIcon svg={suffixIcon ?? <IconChevronDownSmallLine />} />
       </SeedSelect.Trigger>
     );
   },
@@ -92,18 +99,9 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
           <SeedSelect.ItemLabel>{label}</SeedSelect.ItemLabel>
           {description && <SeedSelect.ItemDescription>{description}</SeedSelect.ItemDescription>}
         </SeedSelect.ItemBody>
-        <SeedSelect.ItemIndicator>
-          <Icon svg={<IconCheckmarkLine />} />
-        </SeedSelect.ItemIndicator>
+        <SeedSelect.ItemIndicator selected={<IconCheckmarkFatFill />} />
       </SeedSelect.Item>
     );
   },
 );
 SelectItem.displayName = "SelectItem";
-
-export interface SelectHiddenSelectProps extends SeedSelect.HiddenSelectProps {}
-
-/**
- * @see https://seed-design.io/react/components/select
- */
-export const SelectHiddenSelect = SeedSelect.HiddenSelect;

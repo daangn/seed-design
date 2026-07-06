@@ -19,7 +19,6 @@ import {
   SelectContent,
   SelectScrollArea,
   SelectItem,
-  SelectItemIndicator,
   SelectHiddenSelect,
   type SelectRootProps,
 } from "./index";
@@ -38,15 +37,12 @@ function BasicSelect(props: SelectRootProps) {
           <SelectScrollArea>
             <SelectItem value="apple" label="Apple">
               Apple
-              <SelectItemIndicator>✓</SelectItemIndicator>
             </SelectItem>
             <SelectItem value="banana" label="Banana">
               Banana
-              <SelectItemIndicator>✓</SelectItemIndicator>
             </SelectItem>
             <SelectItem value="cherry" label="Cherry" disabled>
               Cherry
-              <SelectItemIndicator>✓</SelectItemIndicator>
             </SelectItem>
           </SelectScrollArea>
         </SelectContent>
@@ -95,7 +91,7 @@ describe("useSelect", () => {
       expect(getByRole("listbox")).not.toHaveAttribute("data-open");
     });
 
-    it("closes on Escape with reason 'escapeKeyDown'", async () => {
+    it("closes on Escape", async () => {
       const user = userEvent.setup();
       const onOpenChange = vi.fn();
       const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
@@ -103,10 +99,7 @@ describe("useSelect", () => {
       await user.click(getByRole("combobox"));
       onOpenChange.mockClear();
       await user.keyboard("{Escape}");
-      expect(onOpenChange).toHaveBeenCalledWith(
-        false,
-        expect.objectContaining({ reason: "escapeKeyDown" }),
-      );
+      expect(onOpenChange).toHaveBeenCalledWith(false);
     });
 
     it("does not open when disabled", async () => {
@@ -127,17 +120,14 @@ describe("useSelect", () => {
   });
 
   describe("selection", () => {
-    it("selects a value on option click, closes, and reports reason 'itemSelect'", async () => {
+    it("selects a value on option click and closes", async () => {
       const user = userEvent.setup();
       const onValueChange = vi.fn();
       const { getByRole, getAllByRole } = render(<BasicSelect onValueChange={onValueChange} />);
       await waitForPositioning();
       await user.click(getByRole("combobox"));
       await user.click(getAllByRole("option")[1]);
-      expect(onValueChange).toHaveBeenCalledWith(
-        "banana",
-        expect.objectContaining({ reason: "itemSelect" }),
-      );
+      expect(onValueChange).toHaveBeenCalledWith("banana");
       expect(getByRole("listbox")).not.toHaveAttribute("data-open");
     });
 
@@ -150,16 +140,6 @@ describe("useSelect", () => {
       expect(options[1]).toHaveAttribute("aria-selected", "true");
       expect(options[1]).toHaveAttribute("data-selected");
       expect(options[0]).toHaveAttribute("aria-selected", "false");
-    });
-
-    it("renders the item indicator only for the selected option", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue="apple" />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      const options = getAllByRole("option");
-      expect(options[0].textContent).toContain("✓");
-      expect(options[1].textContent).not.toContain("✓");
     });
 
     it("displays the selected option's label in the trigger value", async () => {
@@ -189,7 +169,7 @@ describe("useSelect", () => {
       await user.click(getByRole("combobox"));
       await user.click(getAllByRole("option")[1]);
       // controlled: value stays "apple" until the prop changes
-      expect(onValueChange).toHaveBeenCalledWith("banana", expect.anything());
+      expect(onValueChange).toHaveBeenCalledWith("banana");
       rerender(<BasicSelect value="banana" onValueChange={onValueChange} />);
       expect(getByRole("combobox").textContent).toContain("Banana");
     });
@@ -217,10 +197,7 @@ describe("useSelect", () => {
       await user.click(getByRole("combobox"));
       await user.keyboard("{ArrowDown}");
       await user.keyboard("{Enter}");
-      expect(onValueChange).toHaveBeenCalledWith(
-        "apple",
-        expect.objectContaining({ reason: "itemSelect" }),
-      );
+      expect(onValueChange).toHaveBeenCalledWith("apple");
       expect(getByRole("listbox")).not.toHaveAttribute("data-open");
     });
 
@@ -253,10 +230,7 @@ describe("useSelect", () => {
         nativeSelect.value = "apple";
         nativeSelect.dispatchEvent(new Event("change", { bubbles: true }));
       });
-      expect(onValueChange).toHaveBeenCalledWith(
-        "apple",
-        expect.objectContaining({ reason: "hiddenSelect" }),
-      );
+      expect(onValueChange).toHaveBeenCalledWith("apple");
     });
   });
 });

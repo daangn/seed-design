@@ -3,7 +3,7 @@
 import * as React from "react";
 import {
   SelectContent,
-  SelectHiddenSelect,
+  SelectGroup,
   SelectItem,
   SelectRoot,
   SelectTrigger,
@@ -24,11 +24,12 @@ export default function SelectForm() {
       <SelectRoot name="fruit" required>
         <SelectTrigger aria-label="과일" placeholder="과일 선택" />
         <SelectContent>
-          <SelectItem value="apple" label="사과" />
-          <SelectItem value="banana" label="바나나" />
-          <SelectItem value="cherry" label="체리" />
+          <SelectGroup>
+            <SelectItem value="apple" label="사과" />
+            <SelectItem value="banana" label="바나나" />
+            <SelectItem value="cherry" label="체리" />
+          </SelectGroup>
         </SelectContent>
-        <SelectHiddenSelect />
       </SelectRoot>
       <button type="submit">제출</button>
       {submitted && <span>제출된 값: {submitted}</span>}

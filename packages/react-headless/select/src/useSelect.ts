@@ -15,7 +15,7 @@ import {
   useTransitionStatus,
   type Placement,
 } from "@floating-ui/react";
-import { useControllableState } from "@seed-design/react-use-controllable-state";
+import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { type ReactNode, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
@@ -38,42 +38,17 @@ function getTransformOrigin(placement: string) {
   return `${x} ${y}`;
 }
 
-interface SelectReasonToDetailMap {
-  trigger: { event: MouseEvent | KeyboardEvent };
-  escapeKeyDown: { event: KeyboardEvent };
-  interactOutside: { event: PointerEvent | TouchEvent };
-  cascadeDismiss: { dismissedParent: HTMLElement };
-  itemSelect: { event: Event };
-}
-
-type SelectOpenChangeDetails = {
-  [R in keyof SelectReasonToDetailMap]: {
-    reason?: R;
-  } & SelectReasonToDetailMap[R];
-}[keyof SelectReasonToDetailMap];
-
-interface SelectValueReasonToDetailMap {
-  itemSelect: { event: Event };
-  hiddenSelect: { event: Event };
-}
-
-export type SelectValueChangeDetails = {
-  [R in keyof SelectValueReasonToDetailMap]: {
-    reason?: R;
-  } & SelectValueReasonToDetailMap[R];
-}[keyof SelectValueReasonToDetailMap];
-
 interface UseSelectStateProps {
   open?: boolean;
   defaultOpen?: boolean;
-  onOpenChange?: (open: boolean, details?: SelectOpenChangeDetails) => void;
+  onOpenChange?: (open: boolean) => void;
 
   /**
    * The selected value. `null` means nothing is selected.
    */
   value?: string | null;
   defaultValue?: string | null;
-  onValueChange?: (value: string | null, details?: SelectValueChangeDetails) => void;
+  onValueChange?: (value: string | null) => void;
 }
 
 export interface UseSelectProps extends UseSelectStateProps {
@@ -142,19 +117,13 @@ export type UseSelectReturn = ReturnType<typeof useSelect>;
 export type GetItemPropsReturn = ReturnType<UseSelectReturn["getItemProps"]>;
 
 function useSelectState(props: UseSelectStateProps) {
-  const [open = false, setOpenState] = useControllableState<
-    boolean,
-    Parameters<NonNullable<UseSelectStateProps["onOpenChange"]>>[1]
-  >({
+  const [open = false, setOpenState] = useControllableState<boolean>({
     prop: props.open,
     defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
   });
 
-  const [value = null, setValueState] = useControllableState<
-    string | null,
-    SelectValueChangeDetails
-  >({
+  const [value = null, setValueState] = useControllableState<string | null>({
     prop: props.value,
     defaultProp: props.defaultValue ?? null,
     onChange: props.onValueChange,
@@ -239,24 +208,24 @@ export function useSelect(props: UseSelectProps) {
   };
 
   const setOpen = useCallback(
-    (nextOpen: boolean, details?: SelectOpenChangeDetails) => {
+    (nextOpen: boolean) => {
       if (!interactive && nextOpen) return;
-      setOpenState(nextOpen, details);
+      setOpenState(nextOpen);
     },
     [interactive, setOpenState],
   );
 
   const setValue = useCallback(
-    (nextValue: string | null, details?: SelectValueChangeDetails) => {
-      setValueState(nextValue, details);
+    (nextValue: string | null) => {
+      setValueState(nextValue);
     },
     [setValueState],
   );
 
   const selectValue = useCallback(
-    (nextValue: string, event: Event) => {
-      setValue(nextValue, { reason: "itemSelect", event });
-      setOpen(false, { reason: "itemSelect", event });
+    (nextValue: string) => {
+      setValue(nextValue);
+      setOpen(false);
     },
     [setValue, setOpen],
   );
@@ -286,11 +255,7 @@ export function useSelect(props: UseSelectProps) {
   );
 
   const handleFloatingOpenChange = useCallback(
-    (nextOpen: boolean, event?: Event, reason?: string) => {
-      if (reason === "click" && event) {
-        setOpen(nextOpen, { reason: "trigger", event: event as MouseEvent | KeyboardEvent });
-        return;
-      }
+    (nextOpen: boolean) => {
       setOpen(nextOpen);
     },
     [setOpen],
@@ -439,12 +404,12 @@ export function useSelect(props: UseSelectProps) {
         const nextValue = node?.getAttribute("data-value");
         const isDisabled = node?.hasAttribute("data-disabled") ?? false;
         if (nextValue != null && !isDisabled) {
-          selectValue(nextValue, event.nativeEvent);
+          selectValue(nextValue);
           return;
         }
       }
 
-      setOpen(false, { reason: "trigger", event: event.nativeEvent });
+      setOpen(false);
     }
   };
 
@@ -532,7 +497,7 @@ export function useSelect(props: UseSelectProps) {
             onClick(event) {
               if (itemProps.disabled) return;
               if (event.defaultPrevented) return;
-              selectValue(itemProps.value, event.nativeEvent);
+              selectValue(itemProps.value);
             },
           }),
           "aria-disabled": ariaAttr(itemProps.disabled),

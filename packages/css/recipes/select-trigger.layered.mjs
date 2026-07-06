@@ -15,16 +15,8 @@ const selectTriggerSlotNames = [
     "seed-select-trigger__placeholder"
   ],
   [
-    "prefixText",
-    "seed-select-trigger__prefixText"
-  ],
-  [
     "prefixIcon",
     "seed-select-trigger__prefixIcon"
-  ],
-  [
-    "suffixText",
-    "seed-select-trigger__suffixText"
   ],
   [
     "suffixIcon",

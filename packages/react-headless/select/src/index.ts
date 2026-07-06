@@ -7,7 +7,6 @@ export {
   SelectContent,
   SelectScrollArea,
   SelectItem,
-  SelectItemIndicator,
   SelectGroup,
   SelectGroupLabel,
   SelectHiddenSelect,
@@ -19,7 +18,6 @@ export {
   type SelectContentProps,
   type SelectScrollAreaProps,
   type SelectItemProps,
-  type SelectItemIndicatorProps,
   type SelectGroupProps,
   type SelectGroupLabelProps,
   type SelectHiddenSelectProps,
@@ -30,9 +28,4 @@ export { useSelectItemContext, type UseSelectItemContext } from "./useSelectItem
 
 export * as Select from "./Select.namespace";
 
-export type {
-  UseSelectProps,
-  UseSelectItemProps,
-  UseSelectReturn,
-  SelectValueChangeDetails,
-} from "./useSelect";
+export type { UseSelectProps, UseSelectItemProps, UseSelectReturn } from "./useSelect";

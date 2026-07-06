@@ -41,7 +41,7 @@ const SELECT_REFERENCE_WIDTH = "--seed-select-reference-width";
  */
 export const selectTrigger = defineSlotRecipe({
   name: "select-trigger",
-  slots: ["root", "value", "placeholder", "prefixText", "prefixIcon", "suffixText", "suffixIcon"],
+  slots: ["root", "value", "placeholder", "prefixIcon", "suffixIcon"],
   base: {
     root: {
       display: "flex",
@@ -147,17 +147,6 @@ export const selectTrigger = defineSlotRecipe({
         color: triggerVars.base.readonly.placeholder.color,
       },
     },
-    prefixText: {
-      fontWeight: triggerVars.base.enabled.prefixText.fontWeight,
-
-      color: triggerVars.base.enabled.prefixText.color,
-
-      pointerEvents: "none",
-
-      [pseudo("[data-disabled]")]: {
-        color: triggerVars.base.disabled.prefixText.color,
-      },
-    },
     prefixIcon: {
       flexShrink: 0,
 
@@ -169,23 +158,19 @@ export const selectTrigger = defineSlotRecipe({
         color: triggerVars.base.disabled.prefixIcon.color,
       },
     },
-    suffixText: {
-      fontWeight: triggerVars.base.enabled.suffixText.fontWeight,
-
-      color: triggerVars.base.enabled.suffixText.color,
-
-      pointerEvents: "none",
-
-      [pseudo("[data-disabled]")]: {
-        color: triggerVars.base.disabled.suffixText.color,
-      },
-    },
     suffixIcon: {
       flexShrink: 0,
 
       color: triggerVars.base.enabled.suffixIcon.color,
 
       pointerEvents: "none",
+
+      transform: "rotate(0deg)",
+      transition: `transform ${triggerVars.base.enabled.suffixIcon.rotateDuration} ${triggerVars.base.enabled.suffixIcon.rotateTimingFunction}`,
+
+      [pseudo(open)]: {
+        transform: "rotate(180deg)",
+      },
 
       [pseudo("[data-disabled]")]: {
         color: triggerVars.base.disabled.suffixIcon.color,
@@ -210,17 +195,9 @@ export const selectTrigger = defineSlotRecipe({
           fontSize: triggerVars.sizeLarge.enabled.placeholder.fontSize,
           lineHeight: triggerVars.sizeLarge.enabled.placeholder.lineHeight,
         },
-        prefixText: {
-          fontSize: triggerVars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: triggerVars.sizeLarge.enabled.prefixText.lineHeight,
-        },
         prefixIcon: {
           width: triggerVars.sizeLarge.enabled.prefixIcon.size,
           height: triggerVars.sizeLarge.enabled.prefixIcon.size,
-        },
-        suffixText: {
-          fontSize: triggerVars.sizeLarge.enabled.suffixText.fontSize,
-          lineHeight: triggerVars.sizeLarge.enabled.suffixText.lineHeight,
         },
         suffixIcon: {
           width: triggerVars.sizeLarge.enabled.suffixIcon.size,
@@ -243,17 +220,9 @@ export const selectTrigger = defineSlotRecipe({
           fontSize: triggerVars.sizeMedium.enabled.placeholder.fontSize,
           lineHeight: triggerVars.sizeMedium.enabled.placeholder.lineHeight,
         },
-        prefixText: {
-          fontSize: triggerVars.sizeMedium.enabled.prefixText.fontSize,
-          lineHeight: triggerVars.sizeMedium.enabled.prefixText.lineHeight,
-        },
         prefixIcon: {
           width: triggerVars.sizeMedium.enabled.prefixIcon.size,
           height: triggerVars.sizeMedium.enabled.prefixIcon.size,
-        },
-        suffixText: {
-          fontSize: triggerVars.sizeMedium.enabled.suffixText.fontSize,
-          lineHeight: triggerVars.sizeMedium.enabled.suffixText.lineHeight,
         },
         suffixIcon: {
           width: triggerVars.sizeMedium.enabled.suffixIcon.size,
@@ -294,15 +263,6 @@ export const selectTrigger = defineSlotRecipe({
             lineHeight: triggerVars.sizeMedium.enabled.placeholder.lineHeight,
           },
         },
-        prefixText: {
-          fontSize: triggerVars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: triggerVars.sizeLarge.enabled.prefixText.lineHeight,
-
-          [breakpoints.up("lg")]: {
-            fontSize: triggerVars.sizeMedium.enabled.prefixText.fontSize,
-            lineHeight: triggerVars.sizeMedium.enabled.prefixText.lineHeight,
-          },
-        },
         prefixIcon: {
           width: triggerVars.sizeLarge.enabled.prefixIcon.size,
           height: triggerVars.sizeLarge.enabled.prefixIcon.size,
@@ -310,15 +270,6 @@ export const selectTrigger = defineSlotRecipe({
           [breakpoints.up("lg")]: {
             width: triggerVars.sizeMedium.enabled.prefixIcon.size,
             height: triggerVars.sizeMedium.enabled.prefixIcon.size,
-          },
-        },
-        suffixText: {
-          fontSize: triggerVars.sizeLarge.enabled.suffixText.fontSize,
-          lineHeight: triggerVars.sizeLarge.enabled.suffixText.lineHeight,
-
-          [breakpoints.up("lg")]: {
-            fontSize: triggerVars.sizeMedium.enabled.suffixText.fontSize,
-            lineHeight: triggerVars.sizeMedium.enabled.suffixText.lineHeight,
           },
         },
         suffixIcon: {
