@@ -7,7 +7,8 @@ import {
 } from "seed-design/ui/bottom-sheet";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Checkmark } from "seed-design/ui/checkbox";
-import { NextList, NextListCheckItem } from "seed-design/ui/next-list";
+import { List } from "seed-design/ui/list";
+import { NextListCheckItem } from "seed-design/ui/next-list-item";
 import { PrefixIcon, VStack } from "@seed-design/react";
 import { useState } from "react";
 import { IconArrowClockwiseCircularFill } from "@karrotmarket/react-monochrome-icon";
@@ -36,7 +37,7 @@ export default function ListBottomSheet() {
             }}
           >
             <BottomSheetBody paddingX="0" asChild>
-              <NextList as="fieldset">
+              <List as="fieldset">
                 {TYPES.map((type) => (
                   <NextListCheckItem
                     key={type}
@@ -50,7 +51,7 @@ export default function ListBottomSheet() {
                     }}
                   />
                 ))}
-              </NextList>
+              </List>
             </BottomSheetBody>
             <BottomSheetFooter>
               <VStack gap="x2">

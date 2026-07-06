@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Fragment } from "react";
 
-import { NextList, NextListCheckItem, NextListDivider } from "seed-design/ui/next-list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListCheckItem } from "seed-design/ui/next-list-item";
 import { Checkmark } from "seed-design/ui/checkbox";
 
 import { SeedThemeDecorator } from "./components/decorator";
@@ -75,7 +76,7 @@ const CommonTemplate: Story = {
           {stateVariants.map((state) => (
             <div key={state.key}>
               <ListHeader>{state.key}</ListHeader>
-              <NextList as="fieldset">
+              <List as="fieldset">
                 {contentVariants.map((content) => {
                   if (position.position === "prefix") {
                     return suffixVariants.map((suffix, suffixIndex) => {
@@ -97,7 +98,7 @@ const CommonTemplate: Story = {
                             highlighted={state.highlighted}
                             suffix={suffix.element}
                           />
-                          {showDivider && <NextListDivider as="div" />}
+                          {showDivider && <ListDivider as="div" />}
                         </Fragment>
                       );
                     });
@@ -121,12 +122,12 @@ const CommonTemplate: Story = {
                           highlighted={state.highlighted}
                           prefix={prefix.element}
                         />
-                        {showDivider && <NextListDivider as="div" />}
+                        {showDivider && <ListDivider as="div" />}
                       </Fragment>
                     );
                   });
                 })}
-              </NextList>
+              </List>
             </div>
           ))}
         </div>

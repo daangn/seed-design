@@ -59,11 +59,9 @@ const withStateProps = createWithStateProps([
 // Structural slots
 // ────────────────────────────────────────────────────────────────────────────
 
-// NextList shares List's container: Root is byte-identical to `ListRoot` (same
-// `--list-item-border-radius` var), so re-export it instead of duplicating. The
-// "Next" delta lives entirely in the items below.
-export { ListRoot as NextListRoot, type ListRootProps as NextListRootProps } from "../List/List";
-
+// NextList has no container of its own: reuse `List` / `ListDivider` as the
+// container and divider. Only the items below differ (pressed-scale recipe +
+// interaction context), so only they carry the `Next` name.
 interface NextListItemRootBaseProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLElement>,

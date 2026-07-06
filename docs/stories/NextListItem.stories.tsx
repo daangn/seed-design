@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Fragment } from "react";
 
-import { NextList, NextListItem, NextListDivider } from "seed-design/ui/next-list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListItem } from "seed-design/ui/next-list-item";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
@@ -76,7 +77,7 @@ const CommonTemplate: Story = {
       {highlightedVariants.map((highlightedState) => (
         <div key={highlightedState.key}>
           <ListHeader>{highlightedState.key}</ListHeader>
-          <NextList>
+          <List>
             {prefixVariants.map((prefix) =>
               contentVariants.map((content) =>
                 suffixVariants.map((suffix, suffixIndex) => {
@@ -97,13 +98,13 @@ const CommonTemplate: Story = {
                         prefix={prefix.element}
                         suffix={suffix.element}
                       />
-                      {showDivider && <NextListDivider />}
+                      {showDivider && <ListDivider />}
                     </Fragment>
                   );
                 }),
               ),
             )}
-          </NextList>
+          </List>
         </div>
       ))}
     </>

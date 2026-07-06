@@ -7,14 +7,15 @@ import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
-import { NextList, NextListDivider, NextListItem } from "seed-design/ui/next-list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListItem } from "seed-design/ui/next-list-item";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 
 export default function ListAffixes() {
   const [isToggleButtonPressed, setIsToggleButtonPressed] = useState(false);
 
   return (
-    <NextList width="360px">
+    <List width="360px">
       <NextListItem
         prefix={
           <Avatar
@@ -26,13 +27,13 @@ export default function ListAffixes() {
         title="Prefix에 Avatar 넣기"
         detail="Amet elit ullamco magna."
       />
-      <NextListDivider />
+      <ListDivider />
       <NextListItem
         title="Prefix에 아이콘 넣기"
         detail="Deserunt nulla elit est."
         prefix={<Icon svg={<IconILowercaseSerifCircleLine />} />}
       />
-      <NextListDivider />
+      <ListDivider />
       <NextListItem
         title="Suffix에 Action Button 넣기"
         detail="Veniam non est non ut consequat."
@@ -42,7 +43,7 @@ export default function ListAffixes() {
           </ActionButton>
         }
       />
-      <NextListDivider />
+      <ListDivider />
       <NextListItem
         title="Suffix에 Action Button (Ghost) 넣기"
         detail="Deserunt nulla elit est."
@@ -52,7 +53,7 @@ export default function ListAffixes() {
           </ActionButton>
         }
       />
-      <NextListDivider />
+      <ListDivider />
       <NextListItem
         title="Suffix에 Toggle Button 넣기"
         detail="Sit eu incididunt aute ea elit ex."
@@ -66,6 +67,6 @@ export default function ListAffixes() {
           </ToggleButton>
         }
       />
-    </NextList>
+    </List>
   );
 }

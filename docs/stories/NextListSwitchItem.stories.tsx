@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Fragment } from "react";
 
-import { NextList, NextListSwitchItem, NextListDivider } from "seed-design/ui/next-list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListSwitchItem } from "seed-design/ui/next-list-item";
 import { Switchmark } from "seed-design/ui/switch";
 
 import { SeedThemeDecorator } from "./components/decorator";
@@ -75,7 +76,7 @@ const CommonTemplate: Story = {
           {stateVariants.map((state) => (
             <div key={state.key}>
               <ListHeader>{state.key}</ListHeader>
-              <NextList>
+              <List>
                 {contentVariants.map((content) => {
                   if (position.position === "prefix") {
                     return suffixVariants.map((suffix, suffixIndex) => {
@@ -96,7 +97,7 @@ const CommonTemplate: Story = {
                             disabled={state.disabled}
                             suffix={suffix.element}
                           />
-                          {showDivider && <NextListDivider />}
+                          {showDivider && <ListDivider />}
                         </Fragment>
                       );
                     });
@@ -119,12 +120,12 @@ const CommonTemplate: Story = {
                           disabled={state.disabled}
                           prefix={prefix.element}
                         />
-                        {showDivider && <NextListDivider />}
+                        {showDivider && <ListDivider />}
                       </Fragment>
                     );
                   });
                 })}
-              </NextList>
+              </List>
             </div>
           ))}
         </div>

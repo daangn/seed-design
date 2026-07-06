@@ -12,7 +12,8 @@ import {
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { NextList, NextListDivider, NextListRadioItem } from "seed-design/ui/next-list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListRadioItem } from "seed-design/ui/next-list-item";
 import { Radiomark } from "seed-design/ui/radio-group";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Avatar } from "seed-design/ui/avatar";
@@ -89,7 +90,7 @@ const ActivityNextListRadioItem: StaticActivityComponentType<"ActivityNextListRa
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <NextList asChild>
+        <List asChild>
           <RadioGroup.Root
             defaultValue="prefix-title-unchecked-suffix-none"
             aria-label="NextListRadioItem 예시"
@@ -127,7 +128,7 @@ const ActivityNextListRadioItem: StaticActivityComponentType<"ActivityNextListRa
                               suffix={suffix.element}
                               highlighted={content.highlighted}
                             />
-                            {showDivider && <NextListDivider as="div" />}
+                            {showDivider && <ListDivider as="div" />}
                           </Fragment>
                         );
                       });
@@ -162,7 +163,7 @@ const ActivityNextListRadioItem: StaticActivityComponentType<"ActivityNextListRa
                               prefix={prefix.element}
                               highlighted={content.highlighted}
                             />
-                            {showDivider && <NextListDivider as="div" />}
+                            {showDivider && <ListDivider as="div" />}
                           </Fragment>
                         );
                       });
@@ -175,7 +176,7 @@ const ActivityNextListRadioItem: StaticActivityComponentType<"ActivityNextListRa
               ),
             )}
           </RadioGroup.Root>
-        </NextList>
+        </List>
       </AppScreenContent>
     </AppScreen>
   );

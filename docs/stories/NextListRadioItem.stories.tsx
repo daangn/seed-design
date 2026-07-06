@@ -4,7 +4,8 @@ import { Fragment } from "react";
 import { Icon } from "@seed-design/react";
 import { RadioGroup } from "@seed-design/react/primitive";
 
-import { NextList, NextListRadioItem, NextListDivider } from "seed-design/ui/next-list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListRadioItem } from "seed-design/ui/next-list-item";
 import { Radiomark } from "seed-design/ui/radio-group";
 
 import { SeedThemeDecorator } from "./components/decorator";
@@ -76,7 +77,7 @@ const CommonTemplate: Story = {
           {stateVariants.map((state) => (
             <div key={state.key}>
               <ListHeader>{state.key}</ListHeader>
-              <NextList asChild>
+              <List asChild>
                 <RadioGroup.Root
                   defaultValue={`${position.key}-title-${state.key}-${position.position === "prefix" ? "suffix" : "prefix"}-none`}
                   aria-label={`NextListRadioItem ${position.key} ${state.key}`}
@@ -102,7 +103,7 @@ const CommonTemplate: Story = {
                               highlighted={state.highlighted}
                               suffix={suffix.element}
                             />
-                            {showDivider && <NextListDivider as="div" />}
+                            {showDivider && <ListDivider as="div" />}
                           </Fragment>
                         );
                       });
@@ -126,13 +127,13 @@ const CommonTemplate: Story = {
                             highlighted={state.highlighted}
                             prefix={prefix.element}
                           />
-                          {showDivider && <NextListDivider as="div" />}
+                          {showDivider && <ListDivider as="div" />}
                         </Fragment>
                       );
                     });
                   })}
                 </RadioGroup.Root>
-              </NextList>
+              </List>
             </div>
           ))}
         </div>

@@ -1,4 +1,5 @@
-import { NextList, NextListButtonItem } from "seed-design/ui/next-list";
+import { List } from "seed-design/ui/list";
+import { NextListButtonItem } from "seed-design/ui/next-list-item";
 import { ListHeader } from "seed-design/ui/list-header";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -16,7 +17,7 @@ export default function () {
         <ListHeader as="h2" variant="mediumWeak">
           variant="mediumWeak"
         </ListHeader>
-        <NextList>
+        <List>
           <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
@@ -29,14 +30,14 @@ export default function () {
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </NextList>
+        </List>
       </VStack>
       <Divider />
       <VStack>
         <ListHeader as="h2" variant="boldSolid">
           variant="boldSolid"
         </ListHeader>
-        <NextList>
+        <List>
           <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
@@ -49,7 +50,7 @@ export default function () {
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </NextList>
+        </List>
       </VStack>
       <Divider />
       <VStack>
@@ -66,7 +67,7 @@ export default function () {
             도움말
           </ActionButton>
         </ListHeader>
-        <NextList>
+        <List>
           <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
@@ -79,7 +80,7 @@ export default function () {
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </NextList>
+        </List>
       </VStack>
     </VStack>
   );

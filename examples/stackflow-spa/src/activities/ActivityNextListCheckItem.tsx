@@ -10,7 +10,8 @@ import {
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { NextList, NextListDivider, NextListCheckItem } from "seed-design/ui/next-list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListCheckItem } from "seed-design/ui/next-list-item";
 import { Checkmark } from "seed-design/ui/checkbox";
 import { Icon } from "@seed-design/react";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
@@ -90,7 +91,7 @@ const ActivityNextListCheckItem: StaticActivityComponentType<"ActivityNextListCh
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <NextList as="fieldset">
+        <List as="fieldset">
           {positionVariants.map((position) =>
             contentVariants.map((content) =>
               stateVariants.map((state) => {
@@ -123,7 +124,7 @@ const ActivityNextListCheckItem: StaticActivityComponentType<"ActivityNextListCh
                             suffix={suffix.element}
                             highlighted={content.highlighted}
                           />
-                          {showDivider && <NextListDivider as="div" />}
+                          {showDivider && <ListDivider as="div" />}
                         </Fragment>
                       );
                     });
@@ -157,7 +158,7 @@ const ActivityNextListCheckItem: StaticActivityComponentType<"ActivityNextListCh
                             prefix={prefix.element}
                             highlighted={content.highlighted}
                           />
-                          {showDivider && <NextListDivider as="div" />}
+                          {showDivider && <ListDivider as="div" />}
                         </Fragment>
                       );
                     });
@@ -169,7 +170,7 @@ const ActivityNextListCheckItem: StaticActivityComponentType<"ActivityNextListCh
               }),
             ),
           )}
-        </NextList>
+        </List>
       </AppScreenContent>
     </AppScreen>
   );
