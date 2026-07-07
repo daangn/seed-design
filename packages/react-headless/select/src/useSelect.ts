@@ -551,6 +551,7 @@ export function useSelect(props: UseSelectProps) {
     },
 
     triggerProps: buttonProps({
+      type: "button",
       ...triggerStateProps,
       disabled,
       // Surface validation state on the combobox itself (kept in sync with the
