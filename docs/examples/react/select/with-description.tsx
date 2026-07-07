@@ -9,7 +9,7 @@ import {
 export default function SelectWithDescription() {
   return (
     <div style={{ width: 280 }}>
-      <SelectRoot defaultValue="standard">
+      <SelectRoot defaultValue={["standard"]}>
         <SelectTrigger aria-label="배송 방법" placeholder="배송 방법 선택" />
         <SelectContent>
           <SelectGroup>

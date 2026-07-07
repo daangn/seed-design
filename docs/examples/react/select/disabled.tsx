@@ -9,7 +9,7 @@ import {
 export default function SelectDisabled() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16, width: 240 }}>
-      <SelectRoot defaultValue="apple">
+      <SelectRoot defaultValue={["apple"]}>
         <SelectTrigger aria-label="과일" placeholder="과일 선택" />
         <SelectContent>
           <SelectGroup>
@@ -19,7 +19,7 @@ export default function SelectDisabled() {
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-      <SelectRoot disabled defaultValue="apple">
+      <SelectRoot disabled defaultValue={["apple"]}>
         <SelectTrigger aria-label="비활성 과일" placeholder="과일 선택" />
         <SelectContent>
           <SelectGroup>

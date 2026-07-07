@@ -6,7 +6,12 @@ import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps, visuallyHidden } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { createContext, forwardRef, useContext, useEffect } from "react";
-import { useSelect, type UseSelectItemProps, type UseSelectProps } from "./useSelect";
+import {
+  useSelect,
+  type SelectedItem,
+  type UseSelectItemProps,
+  type UseSelectProps,
+} from "./useSelect";
 import { SelectProvider, useSelectContext } from "./useSelectContext";
 import { SelectItemProvider } from "./useSelectItemContext";
 
@@ -34,6 +39,7 @@ export const SelectRoot = ({
   overflowPadding,
   strategy,
   matchReferenceWidth,
+  multiple,
   children,
 }: SelectRootProps) => {
   const api = useSelect({
@@ -54,6 +60,7 @@ export const SelectRoot = ({
     overflowPadding,
     strategy,
     matchReferenceWidth,
+    multiple,
   });
 
   return <SelectProvider value={api}>{children}</SelectProvider>;
@@ -75,22 +82,37 @@ export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>((
 });
 SelectTrigger.displayName = "SelectTrigger";
 
-export interface SelectValueProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface SelectValueProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {
+  /**
+   * Customizes the rendered value from the selected items. Overrides the default
+   * (single-select: the option's `label` node; multi-select: the options'
+   * `textValue`s joined by `", "`). `children`, when provided, still wins.
+   */
+  format?: (items: SelectedItem[]) => React.ReactNode;
+}
 
 /**
- * Renders the selected option's label. Falls back to nothing when no value is
- * selected (see `SelectPlaceholder`). Pass `children` to override the displayed
- * content.
+ * Renders the selected value. Nothing is rendered while the selection is empty
+ * (see `SelectPlaceholder`). Precedence: `children` > `format` > default
+ * (single-select `label` node / multi-select `textValue` join).
  */
 export const SelectValue = forwardRef<HTMLSpanElement, SelectValueProps>(
-  ({ children, ...props }, ref) => {
-    const { value, selectedLabel } = useSelectContext();
+  ({ format, children, ...props }, ref) => {
+    const { value, selectedItems, multiple } = useSelectContext();
 
-    if (value === null) return null;
+    if (value.length === 0) return null;
+
+    const content =
+      children ??
+      (format
+        ? format(selectedItems)
+        : multiple
+          ? selectedItems.map((item) => item.textValue).join(", ")
+          : selectedItems[0]?.label);
 
     return (
       <Primitive.span ref={ref} {...props}>
-        {children ?? selectedLabel}
+        {content}
       </Primitive.span>
     );
   },
@@ -108,7 +130,7 @@ export const SelectPlaceholder = forwardRef<HTMLSpanElement, SelectPlaceholderPr
   (props, ref) => {
     const { value } = useSelectContext();
 
-    if (value !== null) return null;
+    if (value.length > 0) return null;
 
     return <Primitive.span ref={ref} {...props} />;
   },
@@ -198,25 +220,42 @@ export interface SelectItemProps
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "onClick"> {
   /**
-   * Display label registered for the trigger's value text and the hidden native
-   * `<select>` option. Also used as the typeahead label when `typeaheadLabel` is
-   * omitted.
+   * Rich display label. Rendered in the trigger value slot for single-select and
+   * used as the typeahead label when it is a string and `typeaheadLabel` is omitted.
    */
   label?: React.ReactNode;
+  /**
+   * Plain-string identity used for the multi-select trigger join and the hidden
+   * native `<option>` text. Defaults to `label` when it is a string, otherwise the
+   * option `value`. Provide it when `label` is a `ReactNode`. Does not affect typeahead.
+   */
+  textValue?: string;
 }
 
 export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ value, disabled, typeaheadLabel, label, ...restProps }, ref) => {
+  ({ value, disabled, typeaheadLabel, label, textValue, ...restProps }, ref) => {
     const { getItemProps, registerOption, unregisterOption } = useSelectContext();
     const { ref: listRef, index } = useListItem({
       label: typeaheadLabel ?? (typeof label === "string" ? label : undefined),
     });
     const api = getItemProps({ value, disabled, typeaheadLabel }, index);
 
+    const resolvedTextValue = textValue ?? (typeof label === "string" ? label : value);
+
     useEffect(() => {
-      registerOption(value, label ?? value);
+      if (
+        process.env.NODE_ENV !== "production" &&
+        textValue === undefined &&
+        label != null &&
+        typeof label !== "string"
+      ) {
+        console.warn(
+          `SelectItem "${value}": \`label\` is a ReactNode, so \`textValue\` falls back to the option value for the trigger text and hidden <option>. Pass \`textValue\` to set the display string.`,
+        );
+      }
+      registerOption(value, { label, textValue: resolvedTextValue });
       return () => unregisterOption(value);
-    }, [value, label, registerOption, unregisterOption]);
+    }, [value, label, resolvedTextValue, registerOption, unregisterOption]);
 
     return (
       <SelectItemProvider value={api}>
@@ -269,7 +308,8 @@ export interface SelectHiddenSelectProps extends React.SelectHTMLAttributes<HTML
  */
 export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSelectProps>(
   (props, ref) => {
-    const { value, setValue, name, form, required, disabled, nativeOptions } = useSelectContext();
+    const { value, setValue, name, form, required, disabled, multiple, nativeOptions } =
+      useSelectContext();
 
     return (
       <select
@@ -280,17 +320,24 @@ export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSele
         form={form}
         required={required}
         disabled={disabled}
-        value={value ?? ""}
+        multiple={multiple}
+        value={multiple ? value : (value[0] ?? "")}
         onChange={(event) => {
-          setValue(event.target.value);
+          setValue(
+            multiple
+              ? Array.from(event.target.selectedOptions, (option) => option.value)
+              : event.target.value === ""
+                ? []
+                : [event.target.value],
+          );
         }}
         style={visuallyHidden}
         {...props}
       >
-        <option value="" />
-        {[...nativeOptions].map(([optionValue, label]) => (
+        {!multiple && <option value="" />}
+        {[...nativeOptions].map(([optionValue, entry]) => (
           <option key={optionValue} value={optionValue}>
-            {typeof label === "string" ? label : optionValue}
+            {entry.textValue}
           </option>
         ))}
       </select>

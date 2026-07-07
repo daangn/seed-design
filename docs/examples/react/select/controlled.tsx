@@ -10,7 +10,7 @@ import {
 } from "seed-design/ui/select";
 
 export default function SelectControlled() {
-  const [value, setValue] = React.useState<string | null>("apple");
+  const [value, setValue] = React.useState<string[]>(["apple"]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8, width: 240 }}>
@@ -24,7 +24,7 @@ export default function SelectControlled() {
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-      <span>선택된 값: {value ?? "없음"}</span>
+      <span>선택된 값: {value.length > 0 ? value.join(", ") : "없음"}</span>
     </div>
   );
 }

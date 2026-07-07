@@ -9,7 +9,7 @@ import {
 export default function SelectPreview() {
   return (
     <div style={{ width: 240 }}>
-      <SelectRoot defaultValue="apple">
+      <SelectRoot defaultValue={["apple"]}>
         <SelectTrigger aria-label="과일" placeholder="과일을 선택하세요" />
         <SelectContent>
           <SelectGroup>

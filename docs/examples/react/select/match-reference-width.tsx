@@ -9,7 +9,7 @@ import {
 export default function SelectMatchReferenceWidth() {
   return (
     <div style={{ width: 320 }}>
-      <SelectRoot matchReferenceWidth={false} defaultValue="apple">
+      <SelectRoot matchReferenceWidth={false} defaultValue={["apple"]}>
         <SelectTrigger aria-label="과일" placeholder="과일 선택" />
         <SelectContent>
           <SelectGroup>

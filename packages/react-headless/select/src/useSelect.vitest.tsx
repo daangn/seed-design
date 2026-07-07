@@ -129,13 +129,13 @@ describe("useSelect", () => {
       await waitForPositioning();
       await user.click(getByRole("combobox"));
       await user.click(getAllByRole("option")[1]);
-      expect(onValueChange).toHaveBeenCalledWith("banana");
+      expect(onValueChange).toHaveBeenCalledWith(["banana"]);
       expect(getByRole("listbox")).not.toHaveAttribute("data-open");
     });
 
     it("marks the selected option with aria-selected and data-selected", async () => {
       const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue="banana" />);
+      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
       await waitForPositioning();
       await user.click(getByRole("combobox"));
       const options = getAllByRole("option");
@@ -145,7 +145,7 @@ describe("useSelect", () => {
     });
 
     it("displays the selected option's label in the trigger value", async () => {
-      const { getByRole } = render(<BasicSelect defaultValue="banana" />);
+      const { getByRole } = render(<BasicSelect defaultValue={["banana"]} />);
       await waitForPositioning();
       expect(getByRole("combobox").textContent).toContain("Banana");
     });
@@ -165,14 +165,14 @@ describe("useSelect", () => {
       const user = userEvent.setup();
       const onValueChange = vi.fn();
       const { getByRole, getAllByRole, rerender } = render(
-        <BasicSelect value="apple" onValueChange={onValueChange} />,
+        <BasicSelect value={["apple"]} onValueChange={onValueChange} />,
       );
       await waitForPositioning();
       await user.click(getByRole("combobox"));
       await user.click(getAllByRole("option")[1]);
-      // controlled: value stays "apple" until the prop changes
-      expect(onValueChange).toHaveBeenCalledWith("banana");
-      rerender(<BasicSelect value="banana" onValueChange={onValueChange} />);
+      // controlled: value stays ["apple"] until the prop changes
+      expect(onValueChange).toHaveBeenCalledWith(["banana"]);
+      rerender(<BasicSelect value={["banana"]} onValueChange={onValueChange} />);
       expect(getByRole("combobox").textContent).toContain("Banana");
     });
   });
@@ -199,7 +199,7 @@ describe("useSelect", () => {
       await user.click(getByRole("combobox"));
       await user.keyboard("{ArrowDown}");
       await user.keyboard("{Enter}");
-      expect(onValueChange).toHaveBeenCalledWith("apple");
+      expect(onValueChange).toHaveBeenCalledWith(["apple"]);
       expect(getByRole("listbox")).not.toHaveAttribute("data-open");
     });
 
@@ -216,7 +216,7 @@ describe("useSelect", () => {
 
   describe("form integration (hidden native select)", () => {
     it("renders a hidden native select carrying name and value", async () => {
-      const { container } = render(<BasicSelect name="fruit" defaultValue="banana" />);
+      const { container } = render(<BasicSelect name="fruit" defaultValue={["banana"]} />);
       await waitForPositioning();
       const nativeSelect = container.querySelector("select[name='fruit']") as HTMLSelectElement;
       expect(nativeSelect).toBeTruthy();
@@ -232,7 +232,7 @@ describe("useSelect", () => {
         nativeSelect.value = "apple";
         nativeSelect.dispatchEvent(new Event("change", { bubbles: true }));
       });
-      expect(onValueChange).toHaveBeenCalledWith("apple");
+      expect(onValueChange).toHaveBeenCalledWith(["apple"]);
     });
   });
 
@@ -334,7 +334,7 @@ describe("useSelect", () => {
   describe("active option on open (aria-activedescendant)", () => {
     it("points aria-activedescendant at the selected option as soon as the listbox opens", async () => {
       const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue="banana" />);
+      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
       await waitForPositioning();
       const trigger = getByRole("combobox");
       await user.click(trigger);
@@ -352,6 +352,163 @@ describe("useSelect", () => {
       const trigger = getByRole("combobox");
       await user.click(trigger);
       expect(trigger).not.toHaveAttribute("aria-activedescendant");
+    });
+  });
+
+  describe("multiple selection", () => {
+    function MultiSelect(props: SelectRootProps) {
+      return (
+        <Select {...props} multiple>
+          <SelectTrigger>
+            <SelectValue />
+            <SelectPlaceholder>Choose fruits</SelectPlaceholder>
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem value="apple" label="Apple">
+                  Apple
+                </SelectItem>
+                <SelectItem value="banana" label="Banana">
+                  Banana
+                </SelectItem>
+                <SelectItem value="cherry" label="Cherry" disabled>
+                  Cherry
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+          <SelectHiddenSelect />
+        </Select>
+      );
+    }
+
+    it("toggles multiple values on and keeps the listbox open", async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      const { getByRole, getAllByRole } = render(<MultiSelect onValueChange={onValueChange} />);
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      await user.click(getAllByRole("option")[0]);
+      await user.click(getAllByRole("option")[1]);
+      expect(getByRole("listbox")).toHaveAttribute("data-open");
+      const options = getAllByRole("option");
+      expect(options[0]).toHaveAttribute("aria-selected", "true");
+      expect(options[1]).toHaveAttribute("aria-selected", "true");
+      expect(onValueChange).toHaveBeenLastCalledWith(["apple", "banana"]);
+    });
+
+    it("deselects a selected value on re-click", async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      const { getByRole, getAllByRole } = render(
+        <MultiSelect defaultValue={["apple"]} onValueChange={onValueChange} />,
+      );
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      await user.click(getAllByRole("option")[0]);
+      expect(onValueChange).toHaveBeenLastCalledWith([]);
+      expect(getByRole("listbox")).toHaveAttribute("data-open");
+    });
+
+    it("marks the listbox as aria-multiselectable when multiple", async () => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<MultiSelect />);
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      expect(getByRole("listbox")).toHaveAttribute("aria-multiselectable", "true");
+    });
+
+    it("does not mark aria-multiselectable in single mode", async () => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      expect(getByRole("listbox")).not.toHaveAttribute("aria-multiselectable");
+    });
+
+    it("joins the selected options' text in the trigger value", async () => {
+      const { getByRole } = render(<MultiSelect defaultValue={["apple", "banana"]} />);
+      await waitForPositioning();
+      expect(getByRole("combobox").textContent).toContain("Apple, Banana");
+    });
+
+    it("renders a hidden multiple native select carrying every value", async () => {
+      const { container } = render(
+        <MultiSelect name="fruits" defaultValue={["apple", "banana"]} />,
+      );
+      await waitForPositioning();
+      const nativeSelect = container.querySelector("select[name='fruits']") as HTMLSelectElement;
+      expect(nativeSelect).toHaveAttribute("multiple");
+      expect(Array.from(nativeSelect.selectedOptions).map((option) => option.value)).toEqual([
+        "apple",
+        "banana",
+      ]);
+    });
+
+    it("toggles the highlighted option on Enter and keeps the listbox open", async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      const { getByRole } = render(<MultiSelect onValueChange={onValueChange} />);
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      await user.keyboard("{ArrowDown}");
+      await user.keyboard("{Enter}");
+      expect(onValueChange).toHaveBeenLastCalledWith(["apple"]);
+      expect(getByRole("listbox")).toHaveAttribute("data-open");
+    });
+  });
+
+  describe("value display (format & textValue)", () => {
+    it("renders format output over the default label join", async () => {
+      function FormatSelect() {
+        return (
+          <Select multiple defaultValue={["apple", "banana"]}>
+            <SelectTrigger>
+              <SelectValue format={(items) => `${items.length} selected`} />
+              <SelectPlaceholder>Choose</SelectPlaceholder>
+            </SelectTrigger>
+            <SelectPositioner>
+              <SelectContent>
+                <SelectScrollArea>
+                  <SelectItem value="apple" label="Apple">
+                    Apple
+                  </SelectItem>
+                  <SelectItem value="banana" label="Banana">
+                    Banana
+                  </SelectItem>
+                </SelectScrollArea>
+              </SelectContent>
+            </SelectPositioner>
+          </Select>
+        );
+      }
+      const { getByRole } = render(<FormatSelect />);
+      await waitForPositioning();
+      expect(getByRole("combobox").textContent).toContain("2 selected");
+    });
+
+    it("uses textValue for the native option text when the label is a ReactNode", async () => {
+      const { container } = render(
+        <Select name="fruit" defaultValue={["apple"]}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem value="apple" label={<b>Apple</b>} textValue="Apple">
+                  <b>Apple</b>
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+          <SelectHiddenSelect />
+        </Select>,
+      );
+      await waitForPositioning();
+      const option = container.querySelector("select[name='fruit'] option[value='apple']");
+      expect(option?.textContent).toBe("Apple");
     });
   });
 });

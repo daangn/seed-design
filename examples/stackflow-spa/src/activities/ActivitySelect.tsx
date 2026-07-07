@@ -30,7 +30,8 @@ const SectionTitle = ({ children }: { children: string }) => (
 );
 
 const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
-  const [value, setValue] = useState<string | null>("apple");
+  const [value, setValue] = useState<string[]>(["apple"]);
+  const [multiValue, setMultiValue] = useState<string[]>(["apple", "banana"]);
   const [submitted, setSubmitted] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
@@ -48,7 +49,7 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
             <SectionTitle>Size</SectionTitle>
             <HStack gap="x3">
               <div style={{ width: 200 }}>
-                <SelectRoot size="large" defaultValue="apple">
+                <SelectRoot size="large" defaultValue={["apple"]}>
                   <SelectTrigger aria-label="과일 large" placeholder="과일 선택" />
                   <SelectContent>
                     <SelectGroup>
@@ -60,7 +61,7 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
                 </SelectRoot>
               </div>
               <div style={{ width: 200 }}>
-                <SelectRoot size="medium" defaultValue="apple">
+                <SelectRoot size="medium" defaultValue={["apple"]}>
                   <SelectTrigger aria-label="과일 medium" placeholder="과일 선택" />
                   <SelectContent>
                     <SelectGroup>
@@ -77,7 +78,7 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
           <VStack gap="x3">
             <SectionTitle>With Description & Groups & Disabled</SectionTitle>
             <div style={{ width: 260 }}>
-              <SelectRoot defaultValue="standard">
+              <SelectRoot defaultValue={["standard"]}>
                 <SelectTrigger aria-label="배송" placeholder="배송 방법" />
                 <SelectContent>
                   <SelectGroup>
@@ -116,8 +117,42 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
                 </SelectRoot>
               </div>
               <Text fontSize="t3" color="fg.neutralMuted">
-                값: {value ?? "없음"}
+                값: {value.length > 0 ? value.join(", ") : "없음"}
               </Text>
+            </HStack>
+          </VStack>
+
+          <VStack gap="x3">
+            <SectionTitle>Multiple</SectionTitle>
+            <HStack align="center" gap="x4">
+              <div style={{ width: 200 }}>
+                <SelectRoot multiple value={multiValue} onValueChange={setMultiValue}>
+                  <SelectTrigger aria-label="과일 다중" placeholder="과일 선택" />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" />
+                      <SelectItem value="banana" label="바나나" />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+              <div style={{ width: 200 }}>
+                <SelectRoot multiple value={multiValue} onValueChange={setMultiValue}>
+                  <SelectTrigger
+                    aria-label="과일 다중 포맷"
+                    placeholder="과일 선택"
+                    format={(items) => `${items.length}개 선택됨`}
+                  />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" />
+                      <SelectItem value="banana" label="바나나" />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
             </HStack>
           </VStack>
 
@@ -208,7 +243,7 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
                   </BottomSheetBody>
                   <BottomSheetFooter>
                     <div style={{ width: "100%" }}>
-                      <SelectRoot defaultValue="apple">
+                      <SelectRoot defaultValue={["apple"]}>
                         <SelectTrigger aria-label="과일 시트" placeholder="과일 선택" />
                         <SelectContent>
                           <SelectGroup>

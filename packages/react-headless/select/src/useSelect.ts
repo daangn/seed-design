@@ -21,6 +21,9 @@ import { type ReactNode, useCallback, useEffect, useId, useMemo, useRef, useStat
 
 const MIN_HEIGHT = 200;
 
+// Stable empty-selection reference so uncontrolled Selects don't churn identity.
+const EMPTY_VALUE: string[] = [];
+
 // See the equivalent note in `@seed-design/react-menu`'s useMenu: flip/size/shift
 // derive collisions from numeric padding, so the safe-area insets have to reach
 // floating-ui as px numbers. The positioner re-declares them from env() via
@@ -44,11 +47,12 @@ interface UseSelectStateProps {
   onOpenChange?: (open: boolean) => void;
 
   /**
-   * The selected value. `null` means nothing is selected.
+   * The selected values. An empty array means nothing is selected. Single-select
+   * carries at most one entry; multi-select carries one per chosen option.
    */
-  value?: string | null;
-  defaultValue?: string | null;
-  onValueChange?: (value: string | null) => void;
+  value?: string[];
+  defaultValue?: string[];
+  onValueChange?: (value: string[]) => void;
 }
 
 export interface UseSelectProps extends UseSelectStateProps {
@@ -97,6 +101,14 @@ export interface UseSelectProps extends UseSelectStateProps {
    * @default true
    */
   matchReferenceWidth?: boolean;
+
+  /**
+   * Allows selecting more than one option. When enabled, choosing an option
+   * toggles its membership and the listbox stays open; single-select replaces the
+   * value and closes. The value is a `string[]` in both modes.
+   * @default false
+   */
+  multiple?: boolean;
 }
 
 export interface UseSelectItemProps {
@@ -112,6 +124,17 @@ export interface UseSelectItemProps {
   typeaheadLabel?: string;
 }
 
+/**
+ * A selected option projected for display: its `value`, the rich `label` node, and
+ * the plain `textValue` string used for the multi-select trigger join and the
+ * hidden native `<option>`.
+ */
+export interface SelectedItem {
+  value: string;
+  label: ReactNode;
+  textValue: string;
+}
+
 export type UseSelectReturn = ReturnType<typeof useSelect>;
 
 export type GetItemPropsReturn = ReturnType<UseSelectReturn["getItemProps"]>;
@@ -123,17 +146,21 @@ function useSelectState(props: UseSelectStateProps) {
     onChange: props.onOpenChange,
   });
 
-  const [value = null, setValueState] = useControllableState<string | null>({
+  const [value = EMPTY_VALUE, setValueState] = useControllableState<string[]>({
     prop: props.value,
-    defaultProp: props.defaultValue ?? null,
+    defaultProp: props.defaultValue ?? EMPTY_VALUE,
     onChange: props.onValueChange,
   });
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // value -> display label, kept for the trigger Value slot and the hidden native <select> options.
-  const [nativeOptions, setNativeOptions] = useState<Map<string, ReactNode>>(() => new Map());
+  // value -> { label, textValue }, kept for the trigger Value slot and the hidden
+  // native <select> options. `label` is the rich display node; `textValue` is the
+  // plain string used for the multi-select join and the native <option> text.
+  const [nativeOptions, setNativeOptions] = useState<
+    Map<string, { label: ReactNode; textValue: string }>
+  >(() => new Map());
 
   // Ids of group labels that have actually rendered. A group only advertises
   // aria-labelledby once its label registers here, so a group with no rendered
@@ -203,6 +230,7 @@ export function useSelect(props: UseSelectProps) {
     overflowPadding = 8,
     strategy = "absolute",
     matchReferenceWidth = true,
+    multiple = false,
   } = props;
 
   const interactive = !disabled && !readOnly;
@@ -225,26 +253,35 @@ export function useSelect(props: UseSelectProps) {
   );
 
   const setValue = useCallback(
-    (nextValue: string | null) => {
+    (nextValue: string[]) => {
       setValueState(nextValue);
     },
     [setValueState],
   );
 
   const selectValue = useCallback(
-    (nextValue: string) => {
-      setValue(nextValue);
-      setOpen(false);
+    (optionValue: string) => {
+      setValue(
+        multiple
+          ? value.includes(optionValue)
+            ? value.filter((v) => v !== optionValue)
+            : [...value, optionValue]
+          : [optionValue],
+      );
+      if (!multiple) setOpen(false);
     },
-    [setValue, setOpen],
+    [multiple, value, setValue, setOpen],
   );
 
   const registerOption = useCallback(
-    (optionValue: string, label: ReactNode) => {
+    (optionValue: string, entry: { label: ReactNode; textValue: string }) => {
       setNativeOptions((prev) => {
-        if (prev.get(optionValue) === label) return prev;
+        const existing = prev.get(optionValue);
+        if (existing && existing.label === entry.label && existing.textValue === entry.textValue) {
+          return prev;
+        }
         const next = new Map(prev);
-        next.set(optionValue, label);
+        next.set(optionValue, entry);
         return next;
       });
     },
@@ -366,9 +403,10 @@ export function useSelect(props: UseSelectProps) {
   // controlled updates and defaultValue-on-mount both resolve to a list index
   // (used by floating-ui to highlight the selected option when the list opens).
   useEffect(() => {
-    const index = elementsRef.current.findIndex(
-      (element) => element?.getAttribute("data-value") === value,
-    );
+    const index = elementsRef.current.findIndex((element) => {
+      const optionValue = element?.getAttribute("data-value");
+      return optionValue != null && value.includes(optionValue);
+    });
     setSelectedIndex(index === -1 ? null : index);
   }, [value, nativeOptions, elementsRef, setSelectedIndex]);
 
@@ -382,9 +420,10 @@ export function useSelect(props: UseSelectProps) {
   const wasOpenRef = useRef(false);
   useEffect(() => {
     if (open && !wasOpenRef.current) {
-      const index = elementsRef.current.findIndex(
-        (element) => element?.getAttribute("data-value") === value,
-      );
+      const index = elementsRef.current.findIndex((element) => {
+        const optionValue = element?.getAttribute("data-value");
+        return optionValue != null && value.includes(optionValue);
+      });
       setActiveIndex(index === -1 ? null : index);
     }
     wasOpenRef.current = open;
@@ -444,7 +483,10 @@ export function useSelect(props: UseSelectProps) {
     [status],
   );
 
-  const selectedLabel = value !== null ? (nativeOptions.get(value) ?? null) : null;
+  const selectedItems: SelectedItem[] = value.flatMap((optionValue) => {
+    const entry = nativeOptions.get(optionValue);
+    return entry ? [{ value: optionValue, label: entry.label, textValue: entry.textValue }] : [];
+  });
 
   const handleTriggerKeyDown: React.KeyboardEventHandler = (event) => {
     if (!interactive) return;
@@ -472,7 +514,8 @@ export function useSelect(props: UseSelectProps) {
     setOpen,
     value,
     setValue,
-    selectedLabel,
+    multiple,
+    selectedItems,
     activeIndex,
     selectedIndex,
 
@@ -526,6 +569,7 @@ export function useSelect(props: UseSelectProps) {
 
     contentProps: elementProps({
       ...contentStateProps,
+      ...(multiple && { "aria-multiselectable": true }),
       style: {
         "--seed-select-transform-origin": getTransformOrigin(context.placement),
       } as React.CSSProperties,
@@ -534,7 +578,7 @@ export function useSelect(props: UseSelectProps) {
 
     getItemProps: (itemProps: UseSelectItemProps, index: number) => {
       const isActive = activeIndex === index;
-      const isSelected = value !== null && value === itemProps.value;
+      const isSelected = value.includes(itemProps.value);
 
       const itemStateProps = elementProps({
         "data-highlighted": dataAttr(isActive),

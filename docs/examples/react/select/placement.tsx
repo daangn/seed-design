@@ -9,7 +9,7 @@ import {
 export default function SelectPlacement() {
   return (
     <div style={{ width: 240 }}>
-      <SelectRoot placement="top" defaultValue="apple">
+      <SelectRoot placement="top" defaultValue={["apple"]}>
         <SelectTrigger aria-label="과일" placeholder="과일 선택" />
         <SelectContent>
           <SelectGroup>
