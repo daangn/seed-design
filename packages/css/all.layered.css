@@ -8807,25 +8807,7 @@
     inset: 0;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    .seed-select__item:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]):before {
-      background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x2);
-      right: var(--seed-dimension-x2);
-      border-radius: var(--seed-radius-r3);
-    }
-  }
-
-  @media not all and (hover: hover) and (pointer: fine) {
-    .seed-select__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
-      background-color: var(--seed-color-bg-transparent-pressed);
-      left: var(--seed-dimension-x2);
-      right: var(--seed-dimension-x2);
-      border-radius: var(--seed-radius-r3);
-    }
-  }
-
-  .seed-select__item:not(:is(:disabled, [disabled], [data-disabled]))[data-highlighted]:before {
+  .seed-select__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before, .seed-select__item:not(:is(:disabled, [disabled], [data-disabled]))[data-highlighted]:before {
     background-color: var(--seed-color-bg-transparent-pressed);
     left: var(--seed-dimension-x2);
     right: var(--seed-dimension-x2);

@@ -234,6 +234,34 @@ describe("useSelect", () => {
       });
       expect(onValueChange).toHaveBeenCalledWith(["apple"]);
     });
+
+    // Regression: the trigger is a <button> with no explicit type, so inside a
+    // <form> it defaulted to type="submit". Clicking it submitted the form, which
+    // ran constraint validation on the required hidden <select> and popped the
+    // native "please select an item" bubble the instant the listbox opened.
+    it("renders the trigger as type='button' so it never submits an enclosing form", async () => {
+      const { getByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+      expect(getByRole("combobox")).toHaveAttribute("type", "button");
+    });
+
+    it("does not trigger native form validation when the required trigger is clicked", async () => {
+      const user = userEvent.setup();
+      const onInvalid = vi.fn();
+      const { getByRole, container } = render(
+        <form>
+          <BasicSelect name="fruit" required />
+        </form>,
+      );
+      await waitForPositioning();
+      const nativeSelect = container.querySelector("select[name='fruit']") as HTMLSelectElement;
+      nativeSelect.addEventListener("invalid", onInvalid);
+
+      await user.click(getByRole("combobox"));
+
+      expect(onInvalid).not.toHaveBeenCalled();
+      expect(getByRole("listbox")).toHaveAttribute("data-open");
+    });
   });
 
   describe("grouping (aria-labelledby)", () => {
@@ -331,18 +359,32 @@ describe("useSelect", () => {
     });
   });
 
-  describe("active option on open (aria-activedescendant)", () => {
-    it("points aria-activedescendant at the selected option as soon as the listbox opens", async () => {
+  describe("active option on open (keyboard-gated aria-activedescendant)", () => {
+    it("seeds the selected option as the active option when opened via keyboard", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      trigger.focus();
+      // opening with the keyboard seeds the active option from the current selection
+      await user.keyboard("{ArrowDown}");
+      const options = getAllByRole("option");
+      expect(options[1]).toHaveAttribute("data-highlighted");
+      expect(options[1].id).toBeTruthy();
+      expect(trigger).toHaveAttribute("aria-activedescendant", options[1].id);
+    });
+
+    it("does not seed an active option when opened via pointer", async () => {
       const user = userEvent.setup();
       const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
       await waitForPositioning();
       const trigger = getByRole("combobox");
       await user.click(trigger);
-      // no arrow key pressed yet — the selection alone should seed the active option
+      // pointer/tap open must not highlight the selection — a seeded highlight reads as a
+      // "stuck pressed" state on touch (mobile-first). Keyboard users still get the seed above.
       const options = getAllByRole("option");
-      expect(options[1]).toHaveAttribute("data-highlighted");
-      expect(options[1].id).toBeTruthy();
-      expect(trigger).toHaveAttribute("aria-activedescendant", options[1].id);
+      expect(options[1]).not.toHaveAttribute("data-highlighted");
+      expect(trigger).not.toHaveAttribute("aria-activedescendant");
     });
 
     it("leaves no active option on open when nothing is selected", async () => {
@@ -352,6 +394,30 @@ describe("useSelect", () => {
       const trigger = getByRole("combobox");
       await user.click(trigger);
       expect(trigger).not.toHaveAttribute("aria-activedescendant");
+    });
+  });
+
+  describe("pointer hover (single active option)", () => {
+    it("moves the highlight to the hovered option and clears it from the previously highlighted one", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      trigger.focus();
+      // open via keyboard so the selection (banana) is seeded as the active option —
+      // gives us a prior highlight for hover to move off of.
+      await user.keyboard("{ArrowDown}");
+
+      const options = getAllByRole("option");
+      expect(options[1]).toHaveAttribute("data-highlighted");
+
+      await user.hover(options[0]);
+      await waitForPositioning();
+
+      // Hovering moves the single active option to the hovered item; exactly one is ever highlighted.
+      expect(options.filter((option) => option.hasAttribute("data-highlighted"))).toHaveLength(1);
+      expect(options[0]).toHaveAttribute("data-highlighted");
+      expect(options[1]).not.toHaveAttribute("data-highlighted");
     });
   });
 

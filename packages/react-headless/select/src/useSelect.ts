@@ -13,6 +13,7 @@ import {
   useTypeahead,
   useInteractions,
   useTransitionStatus,
+  type OpenChangeReason,
   type Placement,
 } from "@floating-ui/react";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
@@ -326,8 +327,23 @@ export function useSelect(props: UseSelectProps) {
     [setGroupLabelIds],
   );
 
+  // Tracks whether the current open was initiated by the keyboard. Read below to gate
+  // the open-time active-option seed to keyboard opens: the manual seed effect (selection
+  // present) and navSelectedIndex (which hides the selection from useListNavigation on
+  // pointer opens so floating-ui's own seed stays off). Arrow-open reports reason
+  // "list-navigation"; Enter/Space on the <button> trigger dispatch a synthetic click
+  // whose detail is 0 (floating-ui's own isVirtualClick heuristic), while a real
+  // pointer/tap click carries detail >= 1 so it never reads as keyboard.
+  const openViaKeyboardRef = useRef(false);
+
   const handleFloatingOpenChange = useCallback(
-    (nextOpen: boolean) => {
+    (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
+      if (nextOpen) {
+        openViaKeyboardRef.current =
+          reason === "list-navigation" ||
+          event instanceof KeyboardEvent ||
+          (event instanceof MouseEvent && event.detail === 0);
+      }
       setOpen(nextOpen);
     },
     [setOpen],
@@ -410,21 +426,24 @@ export function useSelect(props: UseSelectProps) {
     setSelectedIndex(index === -1 ? null : index);
   }, [value, nativeOptions, elementsRef, setSelectedIndex]);
 
-  // APG: when the listbox opens, seed the active option from the current
-  // selection so aria-activedescendant points at the selected option
-  // immediately, instead of only after the first arrow key. Fires on the open
-  // rising edge (via wasOpenRef) so it never overrides in-list navigation.
+  // APG: when the listbox is opened via the keyboard, seed the active option from the
+  // current selection so aria-activedescendant points at it immediately (before the
+  // first arrow key). Fires on the open rising edge so it never overrides in-list
+  // navigation. Pointer/tap opens are excluded (openViaKeyboardRef) so they show no
+  // highlight — a seeded highlight reads as a stuck "pressed" state on touch.
   //
-  // The index is resolved from the live elementsRef rather than selectedIndex
-  // state: item registration can lag, so the state can still read null at open.
+  // Only seeds when a selection exists, and reads the index from the live elementsRef
+  // rather than selectedIndex state (item registration lags, so the state can still be
+  // null at open). The no-selection keyboard case — first-item highlight — is left to
+  // useListNavigation's focusItemOnOpen="auto", which resolves it from the live list.
   const wasOpenRef = useRef(false);
   useEffect(() => {
-    if (open && !wasOpenRef.current) {
+    if (open && !wasOpenRef.current && openViaKeyboardRef.current) {
       const index = elementsRef.current.findIndex((element) => {
         const optionValue = element?.getAttribute("data-value");
         return optionValue != null && value.includes(optionValue);
       });
-      setActiveIndex(index === -1 ? null : index);
+      if (index !== -1) setActiveIndex(index);
     }
     wasOpenRef.current = open;
     // elementsRef is stable; listed for parity with the selectedIndex sync effect above.
@@ -441,23 +460,35 @@ export function useSelect(props: UseSelectProps) {
     role: "select",
   });
 
+  // Keyboard-gated open seeding. focusItemOnOpen defaults to "auto", so on open
+  // useListNavigation seeds the selected option as the active option for every
+  // modality. We only want that highlight on keyboard opens — on a pointer/tap open a
+  // seeded highlight reads as a stuck "pressed" state (mobile-first). Hiding the
+  // selection from navigation while a pointer-opened listbox is open suppresses the
+  // seed; the exposed selectedIndex and the option's data-selected/checkmark are
+  // driven by `value` and stay intact. Keyboard nav (arrow/typeahead) resumes from the
+  // real selection because openViaKeyboardRef is set before this recomputes.
+  const navSelectedIndex = open && !openViaKeyboardRef.current ? null : selectedIndex;
+
   // virtual: keep DOM focus on the trigger and expose the active option through
   // aria-activedescendant (the APG combobox pattern), instead of moving focus
-  // into the list. focusItemOnHover stays off so pointer hover is handled by CSS.
+  // into the list. focusItemOnHover moves that single active option to the hovered
+  // item so pointer hover and keyboard navigation share one highlight — the visual
+  // highlight must track aria-activedescendant, so it can never sit on two options.
   const listNavigation = useListNavigation(context, {
     listRef: elementsRef,
     activeIndex,
-    selectedIndex,
+    selectedIndex: navSelectedIndex,
     onNavigate: setActiveIndex,
     virtual: true,
     loop: true,
-    focusItemOnHover: false,
+    focusItemOnHover: true,
   });
 
   const typeahead = useTypeahead(context, {
     listRef: labelsRef,
     activeIndex,
-    selectedIndex,
+    selectedIndex: navSelectedIndex,
     onMatch: setActiveIndex,
   });
 

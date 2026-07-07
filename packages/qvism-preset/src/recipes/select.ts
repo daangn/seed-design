@@ -4,6 +4,7 @@ import selectSpec from "@seed-design/rootage-artifacts/components/select.json" w
 import { select as selectVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
+  active,
   before,
   disabled,
   engaged,
@@ -29,10 +30,13 @@ const SELECT_TRANSFORM_ORIGIN = "--seed-select-transform-origin";
 const SELECT_AVAILABLE_HEIGHT = "--seed-select-available-height";
 const SELECT_REFERENCE_WIDTH = "--seed-select-reference-width";
 
-// Selected/keyboard-highlighted option background. In a select-only combobox the
-// list items never receive real DOM focus (focus stays on the combobox via
-// `aria-activedescendant`), so the keyboard highlight is keyed off
-// `[data-highlighted]` rather than `:focus-visible`, and pointer press off `engaged`.
+// Active-option / pressed background. In a select-only combobox the list items
+// never receive real DOM focus (focus stays on the combobox via
+// `aria-activedescendant`), so the highlight is keyed off `[data-highlighted]`
+// rather than `:focus-visible`. That single active option is moved by both keyboard
+// navigation and pointer hover (focusItemOnHover), so the highlight always tracks
+// exactly one option — never two. `:active` layers press feedback on top; on touch,
+// where there is no hover, it is the only pointer feedback an option gets.
 const highlightedItem = {
   backgroundColor: selectVars.base.pressed.item.color,
   left: selectVars.base.pressed.item.marginX,
@@ -322,7 +326,7 @@ export const select = defineSlotRecipe({
         transitionTimingFunction: selectVars.base.enabled.item.colorTimingFunction,
       },
 
-      [pseudo(not(disabled), engaged, before)]: highlightedItem,
+      [pseudo(not(disabled), active, before)]: highlightedItem,
       [pseudo(not(disabled), "[data-highlighted]", before)]: highlightedItem,
 
       [pseudo(disabled)]: {
