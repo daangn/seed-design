@@ -1,4 +1,4 @@
-import { ResponsivePair } from "@seed-design/react";
+import { HStack, ResponsivePair } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -44,13 +44,16 @@ const DialogConfirmBeforeClose = () => {
         <DialogContent title="글 작성" description="ESC 키를 눌러 닫아보세요">
           <DialogBody>작성 중인 내용이 있을 때 실수로 닫는 것을 막습니다.</DialogBody>
           <DialogFooter>
-            <DialogAction variant="neutralSolid">저장</DialogAction>
+            <HStack gap="x2" justify="flex-end">
+              <DialogAction variant="neutralWeak">취소</DialogAction>
+              <DialogAction variant="neutralSolid">저장</DialogAction>
+            </HStack>
           </DialogFooter>
         </DialogContent>
       </DialogRoot>
 
       <AlertDialogRoot open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <AlertDialogContent layerIndex={10}>
+        <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>정말 닫을까요?</AlertDialogTitle>
             <AlertDialogDescription>작성 중인 내용은 저장되지 않습니다.</AlertDialogDescription>

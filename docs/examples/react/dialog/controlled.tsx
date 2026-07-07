@@ -1,3 +1,4 @@
+import { HStack } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -22,7 +23,10 @@ const DialogControlled = () => {
             외부 상태로 Dialog를 열고 닫을 때도 본문과 푸터 구조는 동일하게 유지됩니다.
           </DialogBody>
           <DialogFooter>
-            <DialogAction variant="neutralSolid">확인</DialogAction>
+            <HStack gap="x2" justify="flex-end">
+              <DialogAction variant="neutralWeak">취소</DialogAction>
+              <DialogAction variant="neutralSolid">확인</DialogAction>
+            </HStack>
           </DialogFooter>
         </DialogContent>
       </DialogRoot>

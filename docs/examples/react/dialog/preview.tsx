@@ -1,3 +1,4 @@
+import { HStack } from "@seed-design/react";
 import {
   DialogAction,
   DialogBody,
@@ -19,7 +20,10 @@ const DialogPreview = () => {
           본문에는 사용자가 확인해야 할 내용이나 추가 입력 폼을 배치할 수 있습니다.
         </DialogBody>
         <DialogFooter>
-          <DialogAction variant="neutralSolid">확인</DialogAction>
+          <HStack gap="x2" justify="flex-end">
+            <DialogAction variant="neutralWeak">취소</DialogAction>
+            <DialogAction variant="neutralSolid">확인</DialogAction>
+          </HStack>
         </DialogFooter>
       </DialogContent>
     </DialogRoot>

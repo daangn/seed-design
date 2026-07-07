@@ -1,4 +1,12 @@
-import { DialogBody, DialogContent, DialogRoot, DialogTrigger } from "seed-design/ui/dialog";
+import { HStack } from "@seed-design/react";
+import {
+  DialogAction,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogRoot,
+  DialogTrigger,
+} from "seed-design/ui/dialog";
 import { ActionButton } from "seed-design/ui/action-button";
 
 const DialogTriggerExample = () => {
@@ -9,6 +17,12 @@ const DialogTriggerExample = () => {
       </DialogTrigger>
       <DialogContent title="Trigger 패턴">
         <DialogBody>Trigger를 클릭하면 현재 화면 위에 Dialog가 열립니다.</DialogBody>
+        <DialogFooter>
+          <HStack gap="x2" justify="flex-end">
+            <DialogAction variant="neutralWeak">취소</DialogAction>
+            <DialogAction variant="neutralSolid">확인</DialogAction>
+          </HStack>
+        </DialogFooter>
       </DialogContent>
     </DialogRoot>
   );

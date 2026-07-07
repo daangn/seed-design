@@ -1,5 +1,5 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Text, VStack } from "@seed-design/react";
+import { HStack, Text, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
@@ -80,7 +80,10 @@ const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
                 </VStack>
               </DialogBody>
               <DialogFooter>
-                <DialogAction variant="neutralSolid">확인</DialogAction>
+                <HStack gap="x2" justify="flex-end">
+                  <DialogAction variant="neutralWeak">취소</DialogAction>
+                  <DialogAction variant="neutralSolid">확인</DialogAction>
+                </HStack>
               </DialogFooter>
             </DialogContent>
           </DialogRoot>
