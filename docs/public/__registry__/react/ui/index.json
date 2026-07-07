@@ -854,8 +854,8 @@
         {
           "path": "select.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.1.0",
+            "@seed-design/css": "^2.2.0"
           }
         }
       ],
