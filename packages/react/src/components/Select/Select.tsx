@@ -5,6 +5,7 @@ import {
   useSelectContext,
   useSelectItemContext,
 } from "@seed-design/react-select";
+import { useFieldContext } from "@seed-design/react-field";
 import { mergeProps } from "@seed-design/dom-utils";
 import { select, type SelectVariantProps } from "@seed-design/css/recipes/select";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -29,10 +30,46 @@ export const SelectRoot = withRootProvider<SelectRootProps>(SelectPrimitive.Root
 
 export interface SelectTriggerProps extends SelectPrimitive.TriggerProps {}
 
-export const SelectTrigger = withContext<HTMLButtonElement, SelectTriggerProps>(
-  SelectPrimitive.Trigger,
-  "root",
+export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
+  ({ className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
+    const fieldContext = useFieldContext({ strict: false });
+
+    // Pull only the field's labelledby/describedby: `useSelect` owns the
+    // combobox's aria-invalid/required and native disabled, so we don't merge
+    // those from the field (avoids duplicate ownership and aria-disabled on top
+    // of the native disabled button).
+    const mergedProps = mergeProps(
+      fieldContext
+        ? {
+            "aria-labelledby": fieldContext.inputAriaAttributes["aria-labelledby"],
+            "aria-describedby": fieldContext.inputAriaAttributes["aria-describedby"],
+          }
+        : {},
+      otherProps,
+    );
+
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !fieldContext &&
+      !otherProps["aria-label"] &&
+      !otherProps["aria-labelledby"]
+    ) {
+      console.warn(
+        "SelectTrigger: Please provide `aria-label` or `aria-labelledby` for accessibility, or put `SelectTrigger` inside a `Field` where a `FieldLabel` is provided.",
+      );
+    }
+
+    return (
+      <SelectPrimitive.Trigger
+        ref={ref}
+        className={clsx(classNames.root, className)}
+        {...mergedProps}
+      />
+    );
+  },
 );
+SelectTrigger.displayName = "SelectTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -94,10 +131,26 @@ SelectPositioner.displayName = "SelectPositioner";
 
 export interface SelectContentProps extends SelectPrimitive.ContentProps {}
 
-export const SelectContent = withContext<HTMLDivElement, SelectContentProps>(
-  SelectPrimitive.Content,
-  "content",
+export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
+  ({ className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
+    const fieldContext = useFieldContext({ strict: false });
+
+    // Label the listbox popup with the same field label (APG combobox pattern).
+    const labelledby = fieldContext?.inputAriaAttributes["aria-labelledby"];
+
+    const mergedProps = mergeProps(labelledby ? { "aria-labelledby": labelledby } : {}, otherProps);
+
+    return (
+      <SelectPrimitive.Content
+        ref={ref}
+        className={clsx(classNames.content, className)}
+        {...mergedProps}
+      />
+    );
+  },
 );
+SelectContent.displayName = "SelectContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

@@ -76,6 +76,46 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
           </VStack>
 
           <VStack gap="x3">
+            <SectionTitle>With Field (Label / Description / Error)</SectionTitle>
+            <HStack gap="x4" align="flex-start">
+              <div style={{ width: 260 }}>
+                <SelectRoot
+                  label="과일"
+                  description="가장 좋아하는 과일을 골라주세요"
+                  required
+                  showRequiredIndicator
+                  defaultValue={["apple"]}
+                >
+                  <SelectTrigger placeholder="과일 선택" />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" />
+                      <SelectItem value="banana" label="바나나" />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+              <div style={{ width: 260 }}>
+                <SelectRoot
+                  label="배송 방법"
+                  description="배송 옵션을 선택하세요"
+                  invalid
+                  errorMessage="배송 방법을 선택해야 해요"
+                >
+                  <SelectTrigger placeholder="배송 방법" />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="standard" label="일반 배송" />
+                      <SelectItem value="express" label="빠른 배송" />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+            </HStack>
+          </VStack>
+
+          <VStack gap="x3">
             <SectionTitle>With Description & Groups & Disabled</SectionTitle>
             <div style={{ width: 260 }}>
               <SelectRoot defaultValue={["standard"]}>
