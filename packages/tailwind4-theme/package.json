@@ -34,7 +34,7 @@
     "tailwindcss": "^4.1.4"
   },
   "peerDependencies": {
-    "@seed-design/css": "^2.1.0",
+    "@seed-design/css": "^2.2.0",
     "tailwindcss": "4"
   }
 }
