@@ -163,19 +163,9 @@ function useSelectState(props: UseSelectStateProps) {
     Map<string, { label: ReactNode; textValue: string }>
   >(() => new Map());
 
-  // Ids of group labels that have actually rendered. A group only advertises
-  // aria-labelledby once its label registers here, so a group with no rendered
-  // label never points at a non-existent id.
-  const [groupLabelIds, setGroupLabelIds] = useState<ReadonlySet<string>>(() => new Set());
-
   const elementsRef = useRef<(HTMLElement | null)[]>([]);
   const labelsRef = useRef<(string | null)[]>([]);
   const triggerRef = useRef<HTMLElement | null>(null);
-
-  const groupIndexCounter = useRef(0);
-  groupIndexCounter.current = 0;
-
-  const selectId = useId();
 
   return {
     open,
@@ -188,13 +178,9 @@ function useSelectState(props: UseSelectStateProps) {
     setSelectedIndex,
     nativeOptions,
     setNativeOptions,
-    groupLabelIds,
-    setGroupLabelIds,
     elementsRef,
     labelsRef,
     triggerRef,
-    groupIndexCounter,
-    selectId,
   };
 }
 
@@ -210,13 +196,9 @@ export function useSelect(props: UseSelectProps) {
     setSelectedIndex,
     nativeOptions,
     setNativeOptions,
-    groupLabelIds,
-    setGroupLabelIds,
     elementsRef,
     labelsRef,
     triggerRef,
-    groupIndexCounter,
-    selectId,
   } = useSelectState(props);
 
   const {
@@ -299,32 +281,6 @@ export function useSelect(props: UseSelectProps) {
       });
     },
     [setNativeOptions],
-  );
-
-  // A group label reports its presence here so the group can reference it via
-  // aria-labelledby only when it is actually rendered (see getGroupProps).
-  const registerGroupLabel = useCallback(
-    (labelId: string) => {
-      setGroupLabelIds((prev) => {
-        if (prev.has(labelId)) return prev;
-        const next = new Set(prev);
-        next.add(labelId);
-        return next;
-      });
-    },
-    [setGroupLabelIds],
-  );
-
-  const unregisterGroupLabel = useCallback(
-    (labelId: string) => {
-      setGroupLabelIds((prev) => {
-        if (!prev.has(labelId)) return prev;
-        const next = new Set(prev);
-        next.delete(labelId);
-        return next;
-      });
-    },
-    [setGroupLabelIds],
   );
 
   // Tracks whether the current open was initiated by the keyboard. Read below to gate
@@ -560,8 +516,6 @@ export function useSelect(props: UseSelectProps) {
     nativeOptions,
     registerOption,
     unregisterOption,
-    registerGroupLabel,
-    unregisterGroupLabel,
     selectValue,
 
     // exposed as `stateProps` for createWithStateProps consumers (trigger sub-slots).
@@ -640,26 +594,39 @@ export function useSelect(props: UseSelectProps) {
         }),
       };
     },
+  };
+}
 
-    getGroupProps: () => {
-      const groupIndex = groupIndexCounter.current++;
-      const labelId = `select:${selectId}:group-${groupIndex}:label`;
-      return {
-        labelId,
-        rootProps: elementProps({
-          role: "group",
-          // Reference the label only once it has actually rendered; a group
-          // without a label must not point aria-labelledby at a missing id.
-          ...(groupLabelIds.has(labelId) && { "aria-labelledby": labelId }),
-        }),
-      };
+export type UseSelectGroupReturn = ReturnType<typeof useSelectGroup>;
+
+// A group advertises aria-labelledby only while its label is actually rendered.
+// Mirrors useFieldset: a callback ref flips a boolean synchronously at commit, so
+// the attribute is present on first paint and never points at a missing id — no
+// select-global registry or render-order ids needed. Each group owns its own id and
+// presence flag, so conditionally rendering or reordering groups can never make one
+// group inherit another's label reference.
+export function useSelectGroup() {
+  const id = useId();
+  const labelId = `select-group:${id}:label`;
+
+  const [isLabelRendered, setIsLabelRendered] = useState(false);
+  const labelRef = useCallback((node: HTMLDivElement | null) => {
+    setIsLabelRendered(!!node);
+  }, []);
+
+  return {
+    refs: {
+      label: labelRef,
     },
 
-    getGroupLabelProps: (labelId: string) => {
-      return elementProps({
-        role: "presentation",
-        id: labelId,
-      });
-    },
+    rootProps: elementProps({
+      role: "group",
+      ...(isLabelRendered && { "aria-labelledby": labelId }),
+    }),
+
+    labelProps: elementProps({
+      role: "presentation",
+      id: labelId,
+    }),
   };
 }

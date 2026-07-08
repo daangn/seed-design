@@ -8,14 +8,16 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { createContext, forwardRef, useContext, useEffect } from "react";
 import {
   useSelect,
+  useSelectGroup,
   type SelectedItem,
+  type UseSelectGroupReturn,
   type UseSelectItemProps,
   type UseSelectProps,
 } from "./useSelect";
 import { SelectProvider, useSelectContext } from "./useSelectContext";
 import { SelectItemProvider } from "./useSelectItemContext";
 
-const SelectGroupLabelIdContext = createContext<string | null>(null);
+const SelectGroupContext = createContext<UseSelectGroupReturn | null>(null);
 
 export interface SelectRootProps extends UseSelectProps {
   children?: React.ReactNode;
@@ -269,13 +271,12 @@ SelectItem.displayName = "SelectItem";
 export interface SelectGroupProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>((props, ref) => {
-  const { getGroupProps } = useSelectContext();
-  const { labelId, rootProps } = getGroupProps();
+  const group = useSelectGroup();
 
   return (
-    <SelectGroupLabelIdContext.Provider value={labelId}>
-      <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />
-    </SelectGroupLabelIdContext.Provider>
+    <SelectGroupContext.Provider value={group}>
+      <Primitive.div ref={ref} {...mergeProps(group.rootProps, props)} />
+    </SelectGroupContext.Provider>
   );
 });
 SelectGroup.displayName = "SelectGroup";
@@ -285,18 +286,17 @@ export interface SelectGroupLabelProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectGroupLabel = forwardRef<HTMLDivElement, SelectGroupLabelProps>((props, ref) => {
-  const { getGroupLabelProps, registerGroupLabel, unregisterGroupLabel } = useSelectContext();
-  const labelId = useContext(SelectGroupLabelIdContext);
-  if (!labelId) throw new Error("SelectGroupLabel must be used within a SelectGroup");
+  const group = useContext(SelectGroupContext);
+  if (!group) throw new Error("SelectGroupLabel must be used within a SelectGroup");
 
-  // Report this label so the enclosing group references it via aria-labelledby
-  // only when it is actually rendered (see useSelect.getGroupProps).
-  useEffect(() => {
-    registerGroupLabel(labelId);
-    return () => unregisterGroupLabel(labelId);
-  }, [labelId, registerGroupLabel, unregisterGroupLabel]);
-
-  return <Primitive.div ref={ref} {...mergeProps(getGroupLabelProps(labelId), props)} />;
+  // Compose the group's label ref so the group advertises aria-labelledby only
+  // while this label is actually rendered (see useSelectGroup).
+  return (
+    <Primitive.div
+      ref={composeRefs(group.refs.label, ref)}
+      {...mergeProps(group.labelProps, props)}
+    />
+  );
 });
 SelectGroupLabel.displayName = "SelectGroupLabel";
 
