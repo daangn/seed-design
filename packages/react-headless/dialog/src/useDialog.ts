@@ -1,6 +1,6 @@
 import { useControllableState } from "@seed-design/react-use-controllable-state";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useId, useMemo } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 
 interface DialogReasonToDetailMap {
   // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
@@ -90,6 +90,19 @@ export function useDialog(props: UseDialogProps = {}) {
   const titleId = `${id}-title`;
   const descriptionId = `${id}-description`;
 
+  // Presence-aware aria wiring: the content references a title/description id only
+  // when that part is actually rendered, mirroring useField/usePopover — a dialog
+  // without a DialogTitle/DialogDescription must not point aria-labelledby/
+  // aria-describedby at a missing id.
+  const [isTitleRendered, setIsTitleRendered] = useState(false);
+  const titleRef = useCallback((node: HTMLElement | null) => {
+    setIsTitleRendered(!!node);
+  }, []);
+  const [isDescriptionRendered, setIsDescriptionRendered] = useState(false);
+  const descriptionRef = useCallback((node: HTMLElement | null) => {
+    setIsDescriptionRendered(!!node);
+  }, []);
+
   const stateProps = useMemo(
     () =>
       elementProps({
@@ -109,6 +122,10 @@ export function useDialog(props: UseDialogProps = {}) {
       lazyMount: props.lazyMount ?? false,
       unmountOnExit: props.unmountOnExit ?? false,
       stateProps,
+      refs: {
+        title: titleRef,
+        description: descriptionRef,
+      },
       triggerProps: buttonProps({
         "aria-haspopup": "dialog",
         "aria-expanded": open,
@@ -131,8 +148,8 @@ export function useDialog(props: UseDialogProps = {}) {
         ...stateProps,
         role: props.role ?? "dialog",
         "aria-modal": modal,
-        "aria-labelledby": titleId,
-        "aria-describedby": descriptionId,
+        ...(isTitleRendered && { "aria-labelledby": titleId }),
+        ...(isDescriptionRendered && { "aria-describedby": descriptionId }),
       }),
       titleProps: elementProps({
         id: titleId,
@@ -157,6 +174,10 @@ export function useDialog(props: UseDialogProps = {}) {
       stateProps,
       titleId,
       descriptionId,
+      isTitleRendered,
+      isDescriptionRendered,
+      titleRef,
+      descriptionRef,
       props.role,
       props.closeOnInteractOutside,
       props.closeOnEscape,
