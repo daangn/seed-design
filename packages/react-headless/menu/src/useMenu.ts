@@ -142,11 +142,6 @@ function useMenuState(props: UseMenuStateProps) {
   const labelsRef = useRef<(string | null)[]>([]);
   const triggerRef = useRef<Element | null>(null);
 
-  const groupIndexCounter = useRef(0);
-  groupIndexCounter.current = 0;
-
-  const menuId = useId();
-
   return {
     open,
     setOpenState,
@@ -155,23 +150,12 @@ function useMenuState(props: UseMenuStateProps) {
     elementsRef,
     labelsRef,
     triggerRef,
-    groupIndexCounter,
-    menuId,
   };
 }
 
 export function useMenu(props: UseMenuProps) {
-  const {
-    open,
-    setOpenState,
-    activeIndex,
-    setActiveIndex,
-    elementsRef,
-    labelsRef,
-    triggerRef,
-    groupIndexCounter,
-    menuId,
-  } = useMenuState(props);
+  const { open, setOpenState, activeIndex, setActiveIndex, elementsRef, labelsRef, triggerRef } =
+    useMenuState(props);
 
   const {
     disabled = false,
@@ -443,24 +427,39 @@ export function useMenu(props: UseMenuProps) {
     //     }),
     //   };
     // },
+  };
+}
 
-    getGroupProps: () => {
-      const groupIndex = groupIndexCounter.current++;
-      const labelId = `menu:${menuId}:group-${groupIndex}:label`;
-      return {
-        labelId,
-        rootProps: elementProps({
-          role: "group",
-          "aria-labelledby": labelId,
-        }),
-      };
+export type UseMenuGroupReturn = ReturnType<typeof useMenuGroup>;
+
+// A group advertises aria-labelledby only while its label is actually rendered.
+// Mirrors useFieldset: a callback ref flips a boolean synchronously at commit, so
+// the attribute is present on first paint and never points at a missing id — no
+// menu-global registry or render-order ids needed. Each group owns its own id and
+// presence flag, so conditionally rendering or reordering groups can never make one
+// group inherit another's label reference.
+export function useMenuGroup() {
+  const id = useId();
+  const labelId = `menu-group:${id}:label`;
+
+  const [isLabelRendered, setIsLabelRendered] = useState(false);
+  const labelRef = useCallback((node: HTMLDivElement | null) => {
+    setIsLabelRendered(!!node);
+  }, []);
+
+  return {
+    refs: {
+      label: labelRef,
     },
 
-    getGroupLabelProps: (labelId: string) => {
-      return elementProps({
-        role: "presentation",
-        id: labelId,
-      });
-    },
+    rootProps: elementProps({
+      role: "group",
+      ...(isLabelRendered && { "aria-labelledby": labelId }),
+    }),
+
+    labelProps: elementProps({
+      role: "presentation",
+      id: labelId,
+    }),
   };
 }
