@@ -97,3 +97,45 @@ describe("useNavigationMenu (disclosure semantics)", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 });
+
+function GroupHarness() {
+  return (
+    <NavigationMenu.Provider>
+      <NavigationMenu.Root value="products">
+        <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+        <NavigationMenu.Positioner>
+          <NavigationMenu.Content>
+            <NavigationMenu.Group>
+              <NavigationMenu.GroupLabel>Group One</NavigationMenu.GroupLabel>
+              <NavigationMenu.Item>Item A</NavigationMenu.Item>
+            </NavigationMenu.Group>
+            <NavigationMenu.Group>
+              <NavigationMenu.Item>Item B</NavigationMenu.Item>
+            </NavigationMenu.Group>
+          </NavigationMenu.Content>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Root>
+    </NavigationMenu.Provider>
+  );
+}
+
+describe("useNavigationMenu (group labelling)", () => {
+  it("labels a group via aria-labelledby resolving to the rendered group label", () => {
+    render(<GroupHarness />);
+
+    const labelledGroup = document.querySelectorAll('[role="group"]')[0];
+    const labelledBy = labelledGroup.getAttribute("aria-labelledby");
+    expect(labelledBy).toBeTruthy();
+
+    const label = document.getElementById(labelledBy ?? "");
+    expect(label).not.toBeNull();
+    expect(label?.textContent).toBe("Group One");
+  });
+
+  it("does not set a dangling aria-labelledby on a group without a label", () => {
+    render(<GroupHarness />);
+
+    const unlabeledGroup = document.querySelectorAll('[role="group"]')[1];
+    expect(unlabeledGroup).not.toHaveAttribute("aria-labelledby");
+  });
+});

@@ -174,9 +174,6 @@ export function useNavigationMenuRoot(
   const triggerId = `navigation-menu-trigger-${id}`;
   const contentId = `navigation-menu-content-${id}`;
 
-  const groupIndexCounter = useRef(0);
-  groupIndexCounter.current = 0;
-
   const placement: Placement = props.placement ?? rootPlacement;
 
   const onOpenChange = useCallback(
@@ -341,23 +338,39 @@ export function useNavigationMenuRoot(
         }),
       };
     },
+  };
+}
 
-    getGroupProps: () => {
-      const groupIndex = groupIndexCounter.current++;
-      const labelId = `navigation-menu:${id}:group-${groupIndex}:label`;
-      return {
-        labelId,
-        rootProps: elementProps({
-          role: "group",
-          "aria-labelledby": labelId,
-        }),
-      };
+export type UseNavigationMenuGroupReturn = ReturnType<typeof useNavigationMenuGroup>;
+
+// A group advertises aria-labelledby only while its label is actually rendered.
+// Mirrors useFieldset: a callback ref flips a boolean synchronously at commit, so
+// the attribute is present on first paint and never points at a missing id — no
+// render-order ids needed. Each group owns its own id and presence flag, so
+// conditionally rendering or reordering groups can never make one group inherit
+// another's label reference.
+export function useNavigationMenuGroup() {
+  const id = useId();
+  const labelId = `navigation-menu-group:${id}:label`;
+
+  const [isLabelRendered, setIsLabelRendered] = useState(false);
+  const labelRef = useCallback((node: HTMLDivElement | null) => {
+    setIsLabelRendered(!!node);
+  }, []);
+
+  return {
+    refs: {
+      label: labelRef,
     },
 
-    getGroupLabelProps: (labelId: string) =>
-      elementProps({
-        role: "presentation",
-        id: labelId,
-      }),
+    rootProps: elementProps({
+      role: "group",
+      ...(isLabelRendered && { "aria-labelledby": labelId }),
+    }),
+
+    labelProps: elementProps({
+      role: "presentation",
+      id: labelId,
+    }),
   };
 }

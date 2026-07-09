@@ -10,7 +10,9 @@ import {
   DEFAULT_CLOSE_DELAY,
   DEFAULT_OPEN_DELAY,
   useNavigationMenu,
+  useNavigationMenuGroup,
   useNavigationMenuRoot,
+  type UseNavigationMenuGroupReturn,
   type UseNavigationMenuProps,
   type UseNavigationMenuRootProps,
 } from "./useNavigationMenu";
@@ -159,7 +161,7 @@ NavigationMenuContent.displayName = "NavigationMenuContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-const NavigationMenuGroupLabelIdContext = createContext<string | null>(null);
+const NavigationMenuGroupContext = createContext<UseNavigationMenuGroupReturn | null>(null);
 
 export interface NavigationMenuGroupProps
   extends PrimitiveProps,
@@ -167,13 +169,12 @@ export interface NavigationMenuGroupProps
 
 export const NavigationMenuGroup = forwardRef<HTMLDivElement, NavigationMenuGroupProps>(
   (props, ref) => {
-    const { getGroupProps } = useNavigationMenuRootContext();
-    const { labelId, rootProps } = getGroupProps();
+    const group = useNavigationMenuGroup();
 
     return (
-      <NavigationMenuGroupLabelIdContext.Provider value={labelId}>
-        <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />
-      </NavigationMenuGroupLabelIdContext.Provider>
+      <NavigationMenuGroupContext.Provider value={group}>
+        <Primitive.div ref={ref} {...mergeProps(group.rootProps, props)} />
+      </NavigationMenuGroupContext.Provider>
     );
   },
 );
@@ -187,13 +188,17 @@ export interface NavigationMenuGroupLabelProps
 
 export const NavigationMenuGroupLabel = forwardRef<HTMLDivElement, NavigationMenuGroupLabelProps>(
   (props, ref) => {
-    const { getGroupLabelProps } = useNavigationMenuRootContext();
-    const labelId = useContext(NavigationMenuGroupLabelIdContext);
-    if (!labelId) {
+    const group = useContext(NavigationMenuGroupContext);
+    if (!group) {
       throw new Error("NavigationMenuGroupLabel must be used within a NavigationMenuGroup");
     }
 
-    return <Primitive.div ref={ref} {...mergeProps(getGroupLabelProps(labelId), props)} />;
+    return (
+      <Primitive.div
+        ref={composeRefs(group.refs.label, ref)}
+        {...mergeProps(group.labelProps, props)}
+      />
+    );
   },
 );
 NavigationMenuGroupLabel.displayName = "NavigationMenuGroupLabel";
