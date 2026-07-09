@@ -6,7 +6,7 @@
     "moduleResolution": "Bundler",
     "verbatimModuleSyntax": true,
     "typeRoots": ["../../node_modules/@types", "../../types"],
-    "types": ["bun", "bun-jest-dom", "node"],
+    "types": ["bun", "bun-jest-dom"],
 
     "strict": true,
     "skipLibCheck": true,
