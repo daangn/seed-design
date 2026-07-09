@@ -1,17 +1,6 @@
-// this file is .vitest.tsx, not .test.tsx — so bun test won't pick it up.
-//
-// @floating-ui/react defers focus via requestAnimationFrame (enqueueFocus).
-// bun test preloads happydom, which doesn't fire rAF the way we need.
-// vitest + jsdom (pretendToBeVisual) gives us a real rAF that ticks at ~16ms,
-// letting waitForFocus() actually flush the deferred .focus() calls.
-//
-// see vitest.config.ts for the jsdom environment setup.
-
-/// <reference types="@testing-library/jest-dom/vitest" />
-
 import { render, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, jest } from "bun:test";
 
 import * as React from "react";
 
@@ -33,8 +22,8 @@ type UseMenuProps = MenuRootProps;
 const waitForPositioning = () => act(async () => {});
 
 // Flush rAF-deferred focus from FloatingFocusManager / useListNavigation.
-// jsdom (pretendToBeVisual) fires rAF callbacks every ~16 ms via setInterval,
-// so a short timer is needed for enqueueFocus() in @floating-ui/react to land.
+// happy-dom mocks rAF with setImmediate, so a short timer is needed for
+// enqueueFocus() in @floating-ui/react to land.
 const waitForFocus = () =>
   act(async () => {
     await new Promise((resolve) => setTimeout(resolve, 50));
@@ -247,7 +236,7 @@ describe("useMenu", () => {
 
     it("supports controlled open state", async () => {
       const user = userEvent.setup();
-      const onOpenChange = vi.fn();
+      const onOpenChange = jest.fn();
       const { getByText } = render(<ControlledMenu onOpenChange={onOpenChange} />);
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
@@ -262,7 +251,7 @@ describe("useMenu", () => {
 
     it("calls onOpenChange when toggled", async () => {
       const user = userEvent.setup();
-      const onOpenChange = vi.fn();
+      const onOpenChange = jest.fn();
       const { getByText } = render(<BasicMenu onOpenChange={onOpenChange} />);
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
@@ -274,7 +263,7 @@ describe("useMenu", () => {
 
     it("reports reason 'escapeKeyDown' when closed by Escape", async () => {
       const user = userEvent.setup();
-      const onOpenChange = vi.fn();
+      const onOpenChange = jest.fn();
       const { getByText } = render(<BasicMenu onOpenChange={onOpenChange} />);
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
@@ -288,7 +277,7 @@ describe("useMenu", () => {
 
     it("reports reason 'interactOutside' when closed by outside click", async () => {
       const user = userEvent.setup();
-      const onOpenChange = vi.fn();
+      const onOpenChange = jest.fn();
       const { getByText } = render(
         <div>
           <BasicMenu onOpenChange={onOpenChange} />
@@ -307,7 +296,7 @@ describe("useMenu", () => {
 
     it("reports reason 'itemClick' when closed by item selection", async () => {
       const user = userEvent.setup();
-      const onOpenChange = vi.fn();
+      const onOpenChange = jest.fn();
       const { getByText } = render(<BasicMenu onOpenChange={onOpenChange} />);
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
@@ -554,7 +543,7 @@ describe("useMenu", () => {
   describe("item interaction", () => {
     it("calls onClick on item when clicked", async () => {
       const user = userEvent.setup();
-      const onClick = vi.fn();
+      const onClick = jest.fn();
       const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
@@ -591,7 +580,7 @@ describe("useMenu", () => {
 
     it("activates focused item on Enter key", async () => {
       const user = userEvent.setup();
-      const onClick = vi.fn();
+      const onClick = jest.fn();
       const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
@@ -604,14 +593,14 @@ describe("useMenu", () => {
       );
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
-      getByText("Activatable").focus();
+      act(() => getByText("Activatable").focus());
       await user.keyboard("{Enter}");
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
     it("activates focused item on Space key", async () => {
       const user = userEvent.setup();
-      const onClick = vi.fn();
+      const onClick = jest.fn();
       const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
@@ -624,14 +613,14 @@ describe("useMenu", () => {
       );
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
-      getByText("Activatable").focus();
+      act(() => getByText("Activatable").focus());
       await user.keyboard(" ");
       expect(onClick).toHaveBeenCalledTimes(1);
     });
 
     it("does not activate disabled item on click or keyboard", async () => {
       const user = userEvent.setup();
-      const onClick = vi.fn();
+      const onClick = jest.fn();
       const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
@@ -761,7 +750,7 @@ describe("useMenu", () => {
 
     it("does not cascade-dismiss Menu B when Menu A's layer is removed", async () => {
       const user = userEvent.setup();
-      const onMenuBOpenChange = vi.fn();
+      const onMenuBOpenChange = jest.fn();
       const { getByText } = render(<TwoSiblingMenus onMenuBOpenChange={onMenuBOpenChange} />);
       await waitForPositioning();
 
@@ -810,7 +799,7 @@ describe("useMenu", () => {
 
     it("does not cascade-dismiss Menu B on touch switch (touch)", async () => {
       const user = userEvent.setup();
-      const onMenuBOpenChange = vi.fn();
+      const onMenuBOpenChange = jest.fn();
       const { getByText } = render(<TwoSiblingMenus onMenuBOpenChange={onMenuBOpenChange} />);
       await waitForPositioning();
 
@@ -838,7 +827,7 @@ describe("useMenu", () => {
 
     it("keeps Menu B open and interactive after switching from Menu A", async () => {
       const user = userEvent.setup();
-      const onClick = vi.fn();
+      const onClick = jest.fn();
       const { getByText } = render(
         <div>
           <Menu>
@@ -873,7 +862,7 @@ describe("useMenu", () => {
 
   describe("mouse interaction", () => {
     it("activates item on mouse-up after drag from trigger", async () => {
-      const onClick = vi.fn();
+      const onClick = jest.fn();
       const { getByText } = render(
         <Menu>
           <MenuTrigger>Open Menu</MenuTrigger>
