@@ -91,7 +91,7 @@ npx @seed-design/cli@latest add ui:responsive-dialog
 
 ### Trigger
 
-`<DialogTrigger>`는 `asChild` 패턴을 사용해 자식 요소가 Dialog를 열 수 있도록 합니다.
+`<DialogTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, Dialog의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
 
 <ComponentExample name="react/dialog/trigger">
   ```json doc-gen:file
@@ -213,7 +213,7 @@ Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마
 
 ### Prevent Close
 
-`DialogAction`의 `onClick`에서 `e.preventDefault()`를 호출하면 Dialog가 닫히지 않습니다.
+`DialogAction`의 `onClick`에서 `e.preventDefault()`를 호출하면 다이얼로그가 닫히지 않습니다.
 
 <ComponentExample name="react/dialog/prevent-close">
   ```json doc-gen:file
@@ -240,7 +240,7 @@ Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마
 - `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
 - `"interactOutside"`: 외부 영역 클릭
   - `DialogRoot`는 기본적으로 `closeOnInteractOutside={false}`입니다. `interactOutside`는 이 옵션을 `true`로 설정한 경우에만 발생할 수 있습니다.
-- `"cascadeDismiss"`: 상위 레이어가 닫힐 때 함께 닫힘
+- `"cascadeDismiss"`: 상위 레이어 닫힘으로 인한 연쇄 닫힘
 
 <ComponentExample name="react/dialog/open-change-reason">
   ```json doc-gen:file

@@ -1,4 +1,5 @@
-import { HStack, Text } from "@seed-design/react";
+import { HStack, Text, useResponsiveDialogContext } from "@seed-design/react";
+import { forwardRef } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   ResponsiveDialogAction,
@@ -7,7 +8,31 @@ import {
   ResponsiveDialogFooter,
   ResponsiveDialogRoot,
   ResponsiveDialogTrigger,
+  type ResponsiveDialogFooterProps,
 } from "seed-design/ui/responsive-dialog";
+
+const Footer = forwardRef<HTMLDivElement, ResponsiveDialogFooterProps>((props, ref) => {
+  const { shouldUseBottomSheet } = useResponsiveDialogContext();
+
+  return (
+    <ResponsiveDialogFooter ref={ref} {...props}>
+      <HStack gap="x2" justify="flex-end">
+        <ResponsiveDialogAction
+          variant="neutralWeak"
+          flexGrow={shouldUseBottomSheet ? 1 : undefined}
+        >
+          취소
+        </ResponsiveDialogAction>
+        <ResponsiveDialogAction
+          variant="neutralSolid"
+          flexGrow={shouldUseBottomSheet ? 1 : undefined}
+        >
+          확인
+        </ResponsiveDialogAction>
+      </HStack>
+    </ResponsiveDialogFooter>
+  );
+});
 
 const DialogResponsive = () => {
   return (
@@ -25,16 +50,7 @@ const DialogResponsive = () => {
             Sheet로 표시됩니다.
           </Text>
         </ResponsiveDialogBody>
-        <ResponsiveDialogFooter>
-          <HStack gap="x2">
-            <ResponsiveDialogAction variant="neutralWeak" flexGrow>
-              취소
-            </ResponsiveDialogAction>
-            <ResponsiveDialogAction variant="neutralSolid" flexGrow>
-              확인
-            </ResponsiveDialogAction>
-          </HStack>
-        </ResponsiveDialogFooter>
+        <Footer />
       </ResponsiveDialogContent>
     </ResponsiveDialogRoot>
   );
