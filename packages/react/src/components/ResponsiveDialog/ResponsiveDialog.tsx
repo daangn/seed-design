@@ -124,6 +124,7 @@ export const ResponsiveDialogRoot = ({
     </ResponsiveDialogContext.Provider>
   );
 };
+ResponsiveDialogRoot.displayName = "ResponsiveDialogRoot";
 
 export interface ResponsiveDialogTriggerProps
   extends SharedProps<ContentDialog.TriggerProps, BottomSheet.TriggerProps> {}
