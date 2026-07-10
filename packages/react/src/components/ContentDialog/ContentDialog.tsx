@@ -4,17 +4,15 @@ import {
   type ContentDialogVariantProps,
 } from "@seed-design/css/recipes/content-dialog";
 import { dataAttr } from "@seed-design/dom-utils";
-import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
+import { Dialog as DialogPrimitive } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { createWithStateProps } from "../../utils/createWithStateProps";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(contentDialog);
-const withStateProps = createWithStateProps([useDialogContext]);
 
 const closeButtonTracker = createRenderTrackingContext("ContentDialogCloseButton");
 
@@ -107,27 +105,21 @@ ContentDialogHeader.displayName = "ContentDialogHeader";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-// NOTE: uses DialogPrimitive.TitleProps,
-// but actual rendered component is a Primitive.span rather than a DialogPrimitive.Title
-// find out why later; misses h2 and some a11y features
 export interface ContentDialogTitleProps extends DialogPrimitive.TitleProps {}
 
 export const ContentDialogTitle = withContext<HTMLHeadingElement, ContentDialogTitleProps>(
-  withStateProps(Primitive.span),
+  DialogPrimitive.Title,
   "title",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-// NOTE: uses DialogPrimitive.DescriptionProps,
-// but actual rendered component is a Primitive.div rather than a DialogPrimitive.Description
-// find out why later; misses p and some a11y features
 export interface ContentDialogDescriptionProps extends DialogPrimitive.DescriptionProps {}
 
 export const ContentDialogDescription = withContext<
   HTMLParagraphElement,
   ContentDialogDescriptionProps
->(withStateProps(Primitive.div), "description");
+>(DialogPrimitive.Description, "description");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
