@@ -123,6 +123,7 @@ const popover = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
+      boxSizing: "border-box",
       flex: 1,
       overflowY: "auto",
 

@@ -9133,6 +9133,7 @@
   }
 
   .seed-popover__body {
+    box-sizing: border-box;
     --seed-box-padding-x-base: var(--seed-dimension-x6);
     --seed-box-padding-x-sm: var(--seed-box-padding-x-base, initial);
     --seed-box-padding-x-md: var(--seed-box-padding-x-sm, initial);
