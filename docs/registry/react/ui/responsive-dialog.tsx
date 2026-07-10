@@ -22,7 +22,7 @@ export const ResponsiveDialogRoot = ({
 }: ResponsiveDialogRootProps) => {
   return (
     <SeedResponsiveDialog.Root
-      dialogRootProps={{ size: "medium", closeOnInteractOutside: false, ...dialogRootProps }}
+      dialogRootProps={{ closeOnInteractOutside: false, ...dialogRootProps }}
       {...otherProps}
     />
   );

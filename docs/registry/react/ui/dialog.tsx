@@ -21,7 +21,7 @@ export interface DialogRootProps extends ContentDialog.RootProps {
  * @see https://seed-design.io/react/components/dialog
  */
 export const DialogRoot = (props: DialogRootProps) => {
-  return <ContentDialog.Root size="medium" closeOnInteractOutside={false} {...props} />;
+  return <ContentDialog.Root closeOnInteractOutside={false} {...props} />;
 };
 DialogRoot.displayName = "DialogRoot";
 
