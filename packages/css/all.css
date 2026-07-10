@@ -8765,6 +8765,12 @@
   background: var(--seed-color-bg-layer-floating);
   border-radius: var(--seed-radius-r5);
   box-shadow: var(--seed-shadow-s3);
+  --seed-box-width-base: auto;
+  --seed-box-width-sm: var(--seed-box-width-base, initial);
+  --seed-box-width-md: var(--seed-box-width-sm, initial);
+  --seed-box-width-lg: var(--seed-box-width-md, initial);
+  --seed-box-width-xl: var(--seed-box-width-lg, initial);
+  --seed-box-width: var(--seed-box-width-base, initial);
   --seed-box-min-width-base: 320px;
   --seed-box-min-width-sm: var(--seed-box-min-width-base, initial);
   --seed-box-min-width-md: var(--seed-box-min-width-sm, initial);
@@ -8783,6 +8789,7 @@
   --seed-box-max-height-lg: var(--seed-box-max-height-md, initial);
   --seed-box-max-height-xl: var(--seed-box-max-height-lg, initial);
   --seed-box-max-height: var(--seed-box-max-height-base, initial);
+  width: var(--seed-box-width);
   min-width: var(--seed-box-min-width);
   max-width: var(--seed-box-max-width);
   max-height: var(--seed-box-max-height);
@@ -13962,6 +13969,7 @@
   }
 
   .seed-popover__content {
+    --seed-box-width: var(--seed-box-width-sm, initial);
     --seed-box-min-width: var(--seed-box-min-width-sm, initial);
     --seed-box-max-width: var(--seed-box-max-width-sm, initial);
     --seed-box-max-height: var(--seed-box-max-height-sm, initial);
@@ -14077,6 +14085,7 @@
   }
 
   .seed-popover__content {
+    --seed-box-width: var(--seed-box-width-md, initial);
     --seed-box-min-width: var(--seed-box-min-width-md, initial);
     --seed-box-max-width: var(--seed-box-max-width-md, initial);
     --seed-box-max-height: var(--seed-box-max-height-md, initial);
@@ -14192,6 +14201,7 @@
   }
 
   .seed-popover__content {
+    --seed-box-width: var(--seed-box-width-lg, initial);
     --seed-box-min-width: var(--seed-box-min-width-lg, initial);
     --seed-box-max-width: var(--seed-box-max-width-lg, initial);
     --seed-box-max-height: var(--seed-box-max-height-lg, initial);
@@ -14307,6 +14317,7 @@
   }
 
   .seed-popover__content {
+    --seed-box-width: var(--seed-box-width-xl, initial);
     --seed-box-min-width: var(--seed-box-min-width-xl, initial);
     --seed-box-max-width: var(--seed-box-max-width-xl, initial);
     --seed-box-max-height: var(--seed-box-max-height-xl, initial);
