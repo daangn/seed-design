@@ -71,13 +71,22 @@ const contentDialog = defineSlotRecipe({
       background: vars.base.enabled.content.color,
       borderRadius: vars.base.enabled.content.cornerRadius,
 
-      // Mobile-first: fixed viewport fraction below md, capped token width at md+
-      // (the cap itself is the only value that differs by size — see variants).
-      width: `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      // Default width routed through real-valued custom properties so the responsive var
+      // chain never links `--foo: var(<guaranteed-invalid>)` — see https://webkit.org/b/241433
+      // and the same pattern in side-panel. Mobile-first: viewport fraction below md,
+      // size-capped token width at md+ (the cap is the only value that differs by size —
+      // see variants). A consumer `width`/`maxWidth` StyleProp still wins via the chain.
+      "--content-dialog-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      "--content-dialog-default-max-width": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
+      "--seed-box-width--responsive": "var(--content-dialog-default-width)",
+      "--seed-box-max-width--responsive": "var(--content-dialog-default-max-width)",
+      width: "var(--seed-box-width)",
+      maxWidth: "var(--seed-box-max-width)",
       // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
       maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
       [breakpoints.up("md")]: {
-        maxWidth: `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,
+        "--content-dialog-default-width": "var(--content-dialog-size-width)",
+        "--content-dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,
       },
 
       [pseudo(open)]: enterAnimation({
@@ -115,12 +124,21 @@ const contentDialog = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       flex: 1,
-      minHeight: 0,
-      // overflow-x hidden: overflow-y:auto alone computes overflow-x to auto,
-      // which paints a phantom horizontal scrollbar / bottom bar in some browsers.
-      overflow: "hidden auto",
+      boxSizing: "border-box",
 
-      paddingInline: vars.base.enabled.body.paddingX,
+      "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
+      // real values, not `initial` — see https://webkit.org/b/241433
+      // min-height 0, not auto: lets the flexed body shrink below its content size
+      // so it scrolls within the content's maxHeight cap instead of stretching it.
+      "--seed-box-min-height--responsive": "0",
+      "--seed-box-max-height--responsive": "none",
+      "--seed-box-justify-content": "initial",
+      "--seed-box-align-items": "initial",
+      paddingInline: "var(--seed-box-padding-x)",
+      minHeight: "var(--seed-box-min-height)",
+      maxHeight: "var(--seed-box-max-height)",
+      justifyContent: "var(--seed-box-justify-content)",
+      alignItems: "var(--seed-box-align-items)",
 
       transition: `box-shadow ${vars.base.enabled.body.strokeDuration} ${vars.base.enabled.body.strokeTimingFunction}`,
       [pseudo("[data-scrolled]", not(":first-child"))]: {
@@ -202,19 +220,16 @@ const contentDialog = defineSlotRecipe({
   },
   variants: {
     size: {
-      // medium and large differ only in the md+ capped width.
+      // medium and large differ only in the md+ capped width,
+      // consumed by the base `--content-dialog-default-width` switch at md+.
       medium: {
         content: {
-          [breakpoints.up("md")]: {
-            width: vars.sizeMedium.enabled.content.maxWidth,
-          },
+          "--content-dialog-size-width": vars.sizeMedium.enabled.content.maxWidth,
         },
       },
       large: {
         content: {
-          [breakpoints.up("md")]: {
-            width: vars.sizeLarge.enabled.content.maxWidth,
-          },
+          "--content-dialog-size-width": vars.sizeLarge.enabled.content.maxWidth,
         },
       },
     },

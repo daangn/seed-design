@@ -11,6 +11,7 @@ import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(contentDialog);
 const withStateProps = createWithStateProps([useDialogContext]);
@@ -71,10 +72,12 @@ export const ContentDialogBackdrop = withContext<HTMLDivElement, ContentDialogBa
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogContentProps extends DialogPrimitive.ContentProps {}
+export interface ContentDialogContentProps
+  extends DialogPrimitive.ContentProps,
+    Pick<StyleProps, "width" | "maxWidth"> {}
 
 export const ContentDialogContent = withContext<HTMLDivElement, ContentDialogContentProps>(
-  DialogPrimitive.Content,
+  withStyleProps(DialogPrimitive.Content),
   "content",
 );
 
@@ -130,11 +133,14 @@ export const ContentDialogDescription = withContext<
 
 export interface ContentDialogBodyProps
   extends PrimitiveProps,
+    Pick<StyleProps, "paddingX" | "minHeight" | "maxHeight" | "justifyContent" | "alignItems">,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const ContentDialogBody = React.forwardRef<HTMLDivElement, ContentDialogBodyProps>(
-  ({ className, ...props }, forwardedRef) => {
+  (props, forwardedRef) => {
     const classNames = useClassNames();
+    const { style, restProps } = useStyleProps(props);
+    const { className, ...otherProps } = restProps;
 
     const ref = React.useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = React.useState(false);
@@ -171,7 +177,8 @@ export const ContentDialogBody = React.forwardRef<HTMLDivElement, ContentDialogB
         data-scrolled={dataAttr(scrolled)}
         data-overflow={dataAttr(overflowing)}
         className={clsx(classNames.body, className)}
-        {...props}
+        style={style}
+        {...otherProps}
       />
     );
   },
