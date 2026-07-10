@@ -360,6 +360,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           title: "ResponsiveSidePanel",
           onClick: () => push("ActivityResponsiveSidePanel", {}),
         },
+        {
+          title: "ResponsiveDialog",
+          onClick: () => push("ActivityResponsiveDialog", {}),
+        },
       ],
     },
     {

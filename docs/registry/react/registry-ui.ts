@@ -81,6 +81,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "responsive-dialog",
+      snippets: [
+        {
+          path: "responsive-dialog.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.2.0" },
+        },
+      ],
+    },
+    {
       id: "bottom-sheet",
       snippets: [
         {

@@ -822,6 +822,30 @@
     {
       "snippets": [
         {
+          "path": "responsive-dialog.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.1.0",
+            "@seed-design/css": "^2.2.0"
+          }
+        }
+      ],
+      "id": "responsive-dialog",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "responsive-side-panel.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
