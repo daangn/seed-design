@@ -22,7 +22,7 @@ const closeButtonTracker = createRenderTrackingContext("ContentDialogCloseButton
 
 export interface ContentDialogRootProps
   extends ContentDialogVariantProps,
-    DialogPrimitive.RootProps {
+    Omit<DialogPrimitive.RootProps, "role"> {
   /**
    * @default true
    */
