@@ -8891,7 +8891,7 @@
   --seed-box-padding-x-lg: var(--seed-box-padding-x-md, initial);
   --seed-box-padding-x-xl: var(--seed-box-padding-x-lg, initial);
   --seed-box-padding-x: var(--seed-box-padding-x-base, initial);
-  --seed-box-height-base: initial;
+  --seed-box-height-base: auto;
   --seed-box-height-sm: var(--seed-box-height-base, initial);
   --seed-box-height-md: var(--seed-box-height-sm, initial);
   --seed-box-height-lg: var(--seed-box-height-md, initial);
@@ -8903,7 +8903,7 @@
   --seed-box-min-height-lg: var(--seed-box-min-height-md, initial);
   --seed-box-min-height-xl: var(--seed-box-min-height-lg, initial);
   --seed-box-min-height: var(--seed-box-min-height-base, initial);
-  --seed-box-max-height-base: initial;
+  --seed-box-max-height-base: none;
   --seed-box-max-height-sm: var(--seed-box-max-height-base, initial);
   --seed-box-max-height-md: var(--seed-box-max-height-sm, initial);
   --seed-box-max-height-lg: var(--seed-box-max-height-md, initial);
