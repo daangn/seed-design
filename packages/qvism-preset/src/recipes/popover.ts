@@ -42,12 +42,15 @@ const popover = defineSlotRecipe({
       borderRadius: vars.base.enabled.content.cornerRadius,
       boxShadow: vars.base.enabled.content.shadow,
 
-      // Width/height bounds go through the box responsive vars so StyleProps can override them.
+      // The width family goes through the box responsive vars so StyleProps can override it
+      // (height is not exposed — the content grows with the body, capped below).
       // maxWidth/maxHeight fall back to the design cap, but shrink to the space floating-ui's
       // size() middleware leaves once the viewport (minus overflowPadding + safe-area) is smaller.
+      "--seed-box-width--responsive": "auto", // real value, not `initial` — see https://webkit.org/b/241433
       "--seed-box-min-width--responsive": vars.base.enabled.content.minWidth,
       "--seed-box-max-width--responsive": `min(${vars.base.enabled.content.maxWidth}, var(--seed-popover-available-width, ${vars.base.enabled.content.maxWidth}))`,
       "--seed-box-max-height--responsive": `min(${vars.base.enabled.content.maxHeight}, var(--seed-popover-available-height, ${vars.base.enabled.content.maxHeight}))`,
+      width: "var(--seed-box-width)",
       minWidth: "var(--seed-box-min-width)",
       maxWidth: "var(--seed-box-max-width)",
       maxHeight: "var(--seed-box-max-height)",
