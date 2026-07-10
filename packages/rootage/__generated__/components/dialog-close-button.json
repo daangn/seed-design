@@ -1,12 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "content-dialog-close-button",
-    "name": "Content Dialog Close Button"
+    "id": "dialog-close-button",
+    "name": "Dialog Close Button"
   },
   "data": {
-    "id": "content-dialog-close-button",
-    "name": "Content Dialog Close Button",
+    "id": "dialog-close-button",
+    "name": "Dialog Close Button",
     "schema": {
       "slots": {
         "root": {

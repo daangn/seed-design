@@ -1,12 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "content-dialog",
-    "name": "Content Dialog"
+    "id": "alert-dialog",
+    "name": "Alert Dialog"
   },
   "data": {
-    "id": "content-dialog",
-    "name": "Content Dialog",
+    "id": "alert-dialog",
+    "name": "Alert Dialog",
     "schema": {
       "slots": {
         "backdrop": {
@@ -42,18 +42,13 @@
             "cornerRadius": {
               "type": "dimension"
             },
-            "maxWidth": {
+            "marginX": {
               "type": "dimension"
             },
-            "widthFraction": {
-              "type": "number",
-              "description": "viewport width 또는 parent width에 대한 비율입니다. viewport `md` 미만에서 적용합니다."
+            "marginY": {
+              "type": "dimension"
             },
-            "maxHeightFraction": {
-              "type": "number",
-              "description": "viewport height 또는 parent height에 대한 최대 비율입니다."
-            },
-            "marginX": {
+            "maxWidth": {
               "type": "dimension"
             },
             "enterDuration": {
@@ -89,38 +84,6 @@
             },
             "paddingTop": {
               "type": "dimension"
-            },
-            "paddingBottom": {
-              "type": "dimension"
-            },
-            "closeButtonGap": {
-              "type": "dimension",
-              "description": "closeButton이 표시되는 경우 paddingRight에 추가되는 여백입니다."
-            }
-          }
-        },
-        "body": {
-          "properties": {
-            "paddingX": {
-              "type": "dimension"
-            },
-            "paddingBottom": {
-              "type": "dimension",
-              "description": "body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다."
-            },
-            "strokeWidth": {
-              "type": "dimension",
-              "description": "본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 두께입니다."
-            },
-            "strokeColor": {
-              "type": "color",
-              "description": "본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다."
-            },
-            "strokeDuration": {
-              "type": "duration"
-            },
-            "strokeTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         },
@@ -171,27 +134,9 @@
               "type": "number"
             }
           }
-        },
-        "closeButton": {
-          "properties": {
-            "fromTop": {
-              "type": "dimension"
-            },
-            "fromRight": {
-              "type": "dimension"
-            }
-          }
         }
       },
-      "variants": {
-        "size": {
-          "values": {
-            "medium": {},
-            "large": {}
-          },
-          "defaultValue": "medium"
-        }
-      }
+      "variants": {}
     },
     "definitions": [
       {
@@ -241,17 +186,20 @@
                   "type": "dimension",
                   "value": "$radius.r5"
                 },
-                "widthFraction": {
-                  "type": "number",
-                  "value": 0.9
-                },
-                "maxHeightFraction": {
-                  "type": "number",
-                  "value": 0.8
-                },
                 "marginX": {
                   "type": "dimension",
-                  "value": "$dimension.x5"
+                  "value": "$dimension.x8"
+                },
+                "marginY": {
+                  "type": "dimension",
+                  "value": "$dimension.x16"
+                },
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 272,
+                    "unit": "px"
+                  }
                 },
                 "enterDuration": {
                   "type": "duration",
@@ -289,37 +237,11 @@
                 },
                 "paddingX": {
                   "type": "dimension",
-                  "value": "$dimension.x6"
+                  "value": "$dimension.x5"
                 },
                 "paddingTop": {
                   "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "paddingBottom": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
-                "closeButtonGap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1_5"
-                }
-              },
-              "body": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "paddingBottom": {
-                  "type": "dimension",
-                  "value": "$dimension.x12"
-                },
-                "strokeDuration": {
-                  "type": "duration",
-                  "value": "$duration.color-transition"
-                },
-                "strokeTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
+                  "value": "$dimension.x5"
                 }
               },
               "footer": {
@@ -329,7 +251,7 @@
                 },
                 "paddingX": {
                   "type": "dimension",
-                  "value": "$dimension.x6"
+                  "value": "$dimension.x5"
                 },
                 "paddingTop": {
                   "type": "dimension",
@@ -337,7 +259,7 @@
                 },
                 "paddingBottom": {
                   "type": "dimension",
-                  "value": "$dimension.x6"
+                  "value": "$dimension.x5"
                 }
               },
               "title": {
@@ -347,11 +269,11 @@
                 },
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t8"
+                  "value": "$font-size.t7"
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t8"
+                  "value": "$line-height.t7"
                 },
                 "fontWeight": {
                   "type": "number",
@@ -361,7 +283,7 @@
               "description": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-muted"
+                  "value": "$color.fg.neutral"
                 },
                 "fontSize": {
                   "type": "dimension",
@@ -374,82 +296,6 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
-                }
-              },
-              "closeButton": {
-                "fromTop": {
-                  "type": "dimension",
-                  "value": "$dimension.x7"
-                },
-                "fromRight": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "scrolled"
-            ],
-            "slots": {
-              "body": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-muted"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "size": "medium"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "content": {
-                "maxWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 480,
-                    "unit": "px"
-                  }
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "size": "large"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "content": {
-                "maxWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 800,
-                    "unit": "px"
-                  }
                 }
               }
             }

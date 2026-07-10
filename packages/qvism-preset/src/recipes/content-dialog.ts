@@ -1,7 +1,4 @@
-import {
-  contentDialog as vars,
-  contentDialogCloseButton as closeButtonVars,
-} from "../vars/component";
+import { dialog as vars, dialogCloseButton as closeButtonVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { breakpoints } from "../utils/breakpoint";
 import { defineSlotRecipe } from "../utils/define";

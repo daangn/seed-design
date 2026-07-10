@@ -1,4 +1,4 @@
-import { dialog as vars } from "../vars/component";
+import { alertDialog as vars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { not, open, pseudo, focus } from "../utils/pseudo";

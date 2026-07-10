@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=./schema.json
 kind: ComponentSpec
 metadata:
-  id: content-dialog-close-button
-  name: Content Dialog Close Button
+  id: dialog-close-button
+  name: Dialog Close Button
 data:
   schema:
     slots:

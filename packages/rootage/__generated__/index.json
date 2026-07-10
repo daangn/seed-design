@@ -30,6 +30,9 @@
       "path": "/components/action-sheet.json"
     },
     {
+      "path": "/components/alert-dialog.json"
+    },
+    {
       "path": "/components/attachment-input-dropzone.json"
     },
     {
@@ -84,12 +87,6 @@
       "path": "/components/chip.json"
     },
     {
-      "path": "/components/content-dialog-close-button.json"
-    },
-    {
-      "path": "/components/content-dialog.json"
-    },
-    {
       "path": "/components/content-placeholder.json"
     },
     {
@@ -97,6 +94,9 @@
     },
     {
       "path": "/components/control-chip.json"
+    },
+    {
+      "path": "/components/dialog-close-button.json"
     },
     {
       "path": "/components/dialog.json"
