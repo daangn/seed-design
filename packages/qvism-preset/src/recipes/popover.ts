@@ -128,11 +128,12 @@ const popover = defineSlotRecipe({
       overflowY: "auto",
 
       "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
-      "--seed-box-height--responsive": "initial",
+      // real values, not `initial` — see https://webkit.org/b/241433
+      "--seed-box-height--responsive": "auto",
       // min-height 0 lets the scroll container shrink inside the content's max-height so it can
       // actually scroll; header/footer keep their intrinsic height via flex-shrink: 0.
       "--seed-box-min-height--responsive": "0",
-      "--seed-box-max-height--responsive": "initial",
+      "--seed-box-max-height--responsive": "none",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
       paddingLeft: "var(--seed-box-padding-x)",
