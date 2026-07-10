@@ -115,6 +115,7 @@
 .seed-popover__body {
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
     flex: 1;
     overflow-y: auto;
     --seed-box-padding-x-base: var(--seed-dimension-x6);
