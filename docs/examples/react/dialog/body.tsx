@@ -19,7 +19,7 @@ const DialogBodyExample = () => {
         <DialogBody>
           <VStack gap="x4" align="stretch">
             {Array.from({ length: 16 }, (_, index) => (
-              <Text key={index} fontSize="t4" color="fg.neutral">
+              <Text key={index} textStyle="articleBody">
                 {index + 1}. 본문이 길어지면 Body 영역만 스크롤됩니다. 스크롤이 시작되면 헤더 아래에
                 구분선이 나타나고, 하단은 서서히 사라지는 마스크가 적용됩니다.
               </Text>

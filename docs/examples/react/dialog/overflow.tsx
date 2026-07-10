@@ -21,7 +21,7 @@ const DialogOverflowExample = () => {
           description="Body가 넘치지 않으면 하단 fade와 padding-bottom이 적용되지 않습니다"
         >
           <DialogBody>
-            <Text fontSize="t4" color="fg.neutral">
+            <Text textStyle="articleBody">
               내용이 짧아 스크롤이 없으면 하단 마스크가 적용되지 않아, 마지막 줄이 흐려지지
               않습니다.
             </Text>
@@ -46,7 +46,7 @@ const DialogOverflowExample = () => {
           <DialogBody>
             <VStack gap="x4" align="stretch">
               {Array.from({ length: 16 }, (_, index) => (
-                <Text key={index} fontSize="t4" color="fg.neutral">
+                <Text key={index} textStyle="articleBody">
                   {index + 1}. Body가 넘치면 하단에 fade 마스크와 padding-bottom이 적용되고,
                   스크롤하면 헤더 아래에 구분선이 나타납니다.
                 </Text>

@@ -1,4 +1,4 @@
-import { HStack } from "@seed-design/react";
+import { HStack, Text } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -20,7 +20,12 @@ const DialogControlled = () => {
       <DialogRoot open={open} onOpenChange={setOpen}>
         <DialogContent title="제목" description="설명을 작성할 수 있어요">
           <DialogBody>
-            외부 상태로 Dialog를 열고 닫을 때도 본문과 푸터 구조는 동일하게 유지됩니다.
+            <Text textStyle="articleBody">
+              Labore do culpa dolore irure nisi dolor dolor laboris veniam ipsum excepteur
+              adipisicing laboris non quis. Velit ea ut minim. Magna dolore culpa velit incididunt
+              consequat sint. Fugiat ad culpa labore dolore esse dolore ex aliquip duis aute aliquip
+              ad velit et.
+            </Text>
           </DialogBody>
           <DialogFooter>
             <HStack gap="x2" justify="flex-end">

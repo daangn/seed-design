@@ -1,4 +1,4 @@
-import { HStack, ResponsivePair } from "@seed-design/react";
+import { HStack, ResponsivePair, VStack } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -17,32 +17,67 @@ import {
   DialogFooter,
   DialogRoot,
   DialogTrigger,
+  type DialogRootProps,
 } from "seed-design/ui/dialog";
+import { Switch } from "seed-design/ui/switch";
+
+const closeReasons = [
+  "closeButton",
+  "escapeKeyDown",
+  "interactOutside",
+] as const satisfies NonNullable<
+  Parameters<NonNullable<DialogRootProps["onOpenChange"]>>[1]
+>["reason"][];
 
 const DialogConfirmBeforeClose = () => {
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmReasons, setConfirmReasons] = useState<
+    Record<(typeof closeReasons)[number], boolean>
+  >({ closeButton: true, escapeKeyDown: true, interactOutside: true });
 
   return (
     <>
       <DialogRoot
         open={open}
+        closeOnInteractOutside
         onOpenChange={(nextOpen, details) => {
-          // 바깥 클릭은 기본적으로 닫히지 않습니다.
-          // ESC 키로 닫으려 할 때만 바로 닫지 않고 확인 Dialog를 띄웁니다.
-          if (!nextOpen && details?.reason === "escapeKeyDown") {
-            setConfirmOpen(true);
+          if (nextOpen) {
+            setOpen(true);
+
             return;
           }
 
-          setOpen(nextOpen);
+          const reason = closeReasons.find((reason) => reason === details?.reason);
+
+          if (reason && confirmReasons[reason]) {
+            setConfirmOpen(true);
+
+            return;
+          }
+
+          setOpen(false);
         }}
       >
         <DialogTrigger asChild>
           <ActionButton variant="neutralSolid">작성 폼 열기</ActionButton>
         </DialogTrigger>
-        <DialogContent title="글 작성" description="ESC 키를 눌러 닫아보세요">
-          <DialogBody>작성 중인 내용이 있을 때 실수로 닫는 것을 막습니다.</DialogBody>
+        <DialogContent title="글 작성" description="스위치를 켠 방식으로 닫아보세요">
+          <DialogBody>
+            <VStack>
+              {closeReasons.map((reason) => (
+                <Switch
+                  key={reason}
+                  label={reason}
+                  size="16"
+                  checked={confirmReasons[reason]}
+                  onCheckedChange={(checked) =>
+                    setConfirmReasons((prev) => ({ ...prev, [reason]: checked }))
+                  }
+                />
+              ))}
+            </VStack>
+          </DialogBody>
           <DialogFooter>
             <HStack gap="x2" justify="flex-end">
               <DialogAction variant="neutralWeak">취소</DialogAction>

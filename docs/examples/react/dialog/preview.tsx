@@ -1,4 +1,4 @@
-import { HStack } from "@seed-design/react";
+import { HStack, Text } from "@seed-design/react";
 import {
   DialogAction,
   DialogBody,
@@ -17,7 +17,9 @@ const DialogPreview = () => {
       </DialogTrigger>
       <DialogContent title="제목" description="설명을 작성할 수 있어요">
         <DialogBody>
-          본문에는 사용자가 확인해야 할 내용이나 추가 입력 폼을 배치할 수 있습니다.
+          <Text textStyle="articleBody">
+            본문에는 사용자가 확인해야 할 내용이나 추가 입력 폼을 배치할 수 있습니다.
+          </Text>
         </DialogBody>
         <DialogFooter>
           <HStack gap="x2" justify="flex-end">

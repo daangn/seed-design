@@ -1,4 +1,4 @@
-import { Flex, HStack } from "@seed-design/react";
+import { Flex, HStack, Text } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   DialogAction,
@@ -17,7 +17,11 @@ const DialogSize = () => {
           <ActionButton variant="neutralSolid">Medium (480px)</ActionButton>
         </DialogTrigger>
         <DialogContent title="Medium Dialog">
-          <DialogBody>기본 너비로 상세 정보와 주요 액션을 함께 제공합니다.</DialogBody>
+          <DialogBody>
+            <Text textStyle="articleBody">
+              기본 너비로 상세 정보와 주요 액션을 함께 제공합니다.
+            </Text>
+          </DialogBody>
           <DialogFooter>
             <HStack gap="x2" justify="flex-end">
               <DialogAction variant="neutralWeak">취소</DialogAction>
@@ -32,7 +36,11 @@ const DialogSize = () => {
           <ActionButton variant="neutralSolid">Large (800px)</ActionButton>
         </DialogTrigger>
         <DialogContent title="Large Dialog">
-          <DialogBody>넓은 다이얼로그에서 더 많은 폼 필드나 상세 콘텐츠를 다룹니다.</DialogBody>
+          <DialogBody>
+            <Text textStyle="articleBody">
+              넓은 다이얼로그에서 더 많은 폼 필드나 상세 콘텐츠를 다룹니다.
+            </Text>
+          </DialogBody>
           <DialogFooter>
             <HStack gap="x2" justify="flex-end">
               <DialogAction variant="neutralWeak">취소</DialogAction>

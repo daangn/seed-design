@@ -26,6 +26,16 @@ npx @seed-design/cli@latest add ui:dialog
 
 <ManualInstallation name="dialog" />
 
+### Responsive
+
+뷰포트에 따라 Bottom Sheet로 자동 전환되는 반응형 변형입니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:responsive-dialog
+```
+
+<ManualInstallation name="responsive-dialog" />
+
 ## Props
 
 ### `DialogRoot`
@@ -70,6 +80,13 @@ npx @seed-design/cli@latest add ui:dialog
   name="DialogActionProps"
 />
 
+### `ResponsiveDialogRoot`
+
+<react-type-table
+  path="./registry/react/ui/responsive-dialog.tsx"
+  name="ResponsiveDialogRootProps"
+/>
+
 ## Examples
 
 ### Trigger
@@ -102,12 +119,26 @@ Trigger 외의 방식으로 Dialog를 열고 닫을 수 있습니다. 이 경우
 
 `<DialogRoot>`에 `size` prop을 설정하여 Dialog의 너비를 변경할 수 있습니다. `"medium"` (480px, 기본값)과 `"large"` (800px)를 지원합니다.
 `md` 미만 화면에서는 뷰포트 너비의 90%를 차지하고, `md` 이상에서 각 size의 최대 너비가 적용됩니다. content의 높이는 뷰포트의 80%로 제한됩니다.
-`alert` size는 Alert Dialog 전용이라 이 스니펫에서는 노출되지 않습니다.
 
 <ComponentExample name="react/dialog/size">
   ```json doc-gen:file
   {
     "file": "examples/react/dialog/size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Size
+
+`<DialogContent>`에 `width`, `maxWidth` prop을 전달하여 너비를 직접 제어할 수 있습니다.
+프리셋 size 대신 뷰포트 기반의 유동적인 너비가 필요할 때 사용합니다.
+단일 값은 모든 breakpoint에 적용되므로, md 미만의 기본 너비(뷰포트의 90%)를 유지하려면 `width={{ md: "560px" }}`처럼 breakpoint 객체로 전달하세요.
+
+<ComponentExample name="react/dialog/custom-size">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/custom-size.tsx",
     "codeblock": true
   }
   ```
@@ -134,6 +165,20 @@ Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마
   ```json doc-gen:file
   {
     "file": "examples/react/dialog/overflow.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Body
+
+`<DialogBody>`에 `paddingX`, `minHeight`, `maxHeight`, `justifyContent`, `alignItems` prop을 전달하여 본문 영역을 직접 제어할 수 있습니다.
+기본 캡(뷰포트의 80%)보다 낮게 스크롤 높이를 제한하거나, 짧은 내용에서도 높이를 고정하거나, 가로 패딩을 제거해 콘텐츠를 가장자리까지 배치할 때 사용합니다.
+
+<ComponentExample name="react/dialog/custom-body">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/custom-body.tsx",
     "codeblock": true
   }
   ```
@@ -166,11 +211,54 @@ Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마
   ```
 </ComponentExample>
 
+### Prevent Close
+
+`DialogAction`의 `onClick`에서 `e.preventDefault()`를 호출하면 Dialog가 닫히지 않습니다.
+
+<ComponentExample name="react/dialog/prevent-close">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/prevent-close.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `DialogTrigger`로 열림
+
+**닫힐 때** (`open: false`)
+
+- `"closeButton"`: `DialogAction` 또는 우측 상단 닫기 버튼으로 닫힘
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+  - `DialogRoot`는 기본적으로 `closeOnInteractOutside={false}`입니다. `interactOutside`는 이 옵션을 `true`로 설정한 경우에만 발생할 수 있습니다.
+- `"cascadeDismiss"`: 상위 레이어가 닫힐 때 함께 닫힘
+
+<ComponentExample name="react/dialog/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Confirm Before Close
 
-`DialogRoot`는 기본적으로 `closeOnInteractOutside={false}`라 바깥 영역을 클릭해도 닫히지 않습니다. 반면 <kbd>ESC</kbd> 키는 기본적으로 Dialog를 닫습니다.
-작성 중인 내용을 실수로 닫는 것을 막고 싶다면, `onOpenChange`의 `details.reason`이 `"escapeKeyDown"`일 때 바로 닫지 않고 확인용 Alert Dialog를 띄워 사용자에게 되물을 수 있습니다.
-`open`을 제어 상태로 두고, `reason`이 `"escapeKeyDown"`이면 `open`을 유지한 채 확인 Dialog만 엽니다.
+작성 중인 내용을 실수로 닫는 것을 막고 싶다면, `open`을 제어 상태로 두고 특정 `reason`일 때 `open`을 유지한 채 확인용 Alert Dialog를 띄워 사용자에게 되물을 수 있습니다.
+
+<Callout>
+  아래 예시는 `closeOnInteractOutside={true}`를 설정하여 외부 영역 클릭에
+  닫히도록 설정되어 있습니다.
+</Callout>
 
 <ComponentExample name="react/dialog/confirm-before-close">
   ```json doc-gen:file
@@ -181,10 +269,37 @@ Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마
   ```
 </ComponentExample>
 
+### Portalled
+
+Portal은 기본적으로 `document.body`에 렌더링됩니다.
+
+<ComponentExample name="react/dialog/portalled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/portalled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Responsive
+
+`ResponsiveDialog`를 사용하면 md 이상에서는 Dialog, sm 이하에서는 Bottom Sheet로 자동 전환됩니다. 뷰포트를 줄여서 전환 동작을 확인해보세요.
+`onOpenChange`는 열림 상태만 전달하며, Dialog 또는 Bottom Sheet에만 적용되는 Root 옵션은 `dialogRootProps`, `bottomSheetRootProps`로 전달합니다.
+
+<ComponentExample name="react/dialog/responsive">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/responsive.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ## Keyboard Interactions
 
-| Key | Behavior |
-| --- | --- |
-| `Escape` | `closeOnEscape=true`(기본값)일 때 Dialog를 닫습니다. |
-| `Tab` | `modal=true`일 때 Dialog 내부 요소들 사이로 포커스를 순환합니다. |
-| `Shift + Tab` | `modal=true`일 때 역방향으로 포커스를 순환합니다. |
+| Key           | Behavior                                                         |
+| ------------- | ---------------------------------------------------------------- |
+| `Escape`      | `closeOnEscape=true`(기본값)일 때 Dialog를 닫습니다.             |
+| `Tab`         | `modal=true`일 때 Dialog 내부 요소들 사이로 포커스를 순환합니다. |
+| `Shift + Tab` | `modal=true`일 때 역방향으로 포커스를 순환합니다.                |
