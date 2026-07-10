@@ -120,6 +120,10 @@ Trigger 외의 방식으로 Dialog를 열고 닫을 수 있습니다. 이 경우
 `<DialogRoot>`에 `size` prop을 설정하여 Dialog의 너비를 변경할 수 있습니다. `"medium"` (480px, 기본값)과 `"large"` (800px)를 지원합니다.
 `md` 미만 화면에서는 뷰포트 너비의 90%를 차지하고, `md` 이상에서 각 size의 최대 너비가 적용됩니다. content의 높이는 뷰포트의 80%로 제한됩니다.
 
+`<DialogContent>`에 `width`, `maxWidth` prop을 전달하여 너비를 직접 제어할 수도 있습니다.
+프리셋 size 대신 뷰포트 기반의 유동적인 너비가 필요할 때 사용합니다.
+단일 값은 모든 breakpoint에 적용되므로, md 미만의 기본 너비(뷰포트의 90%)를 유지하려면 `width={{ md: "560px" }}`처럼 breakpoint 객체로 전달하세요.
+
 <ComponentExample name="react/dialog/size">
   ```json doc-gen:file
   {
@@ -129,42 +133,15 @@ Trigger 외의 방식으로 Dialog를 열고 닫을 수 있습니다. 이 경우
   ```
 </ComponentExample>
 
-### Custom Size
-
-`<DialogContent>`에 `width`, `maxWidth` prop을 전달하여 너비를 직접 제어할 수 있습니다.
-프리셋 size 대신 뷰포트 기반의 유동적인 너비가 필요할 때 사용합니다.
-단일 값은 모든 breakpoint에 적용되므로, md 미만의 기본 너비(뷰포트의 90%)를 유지하려면 `width={{ md: "560px" }}`처럼 breakpoint 객체로 전달하세요.
-
-<ComponentExample name="react/dialog/custom-size">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/dialog/custom-size.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
 ### Body
 
 `<DialogBody>`는 본문 영역을 스크롤 가능하게 만듭니다. 본문이 길어 스크롤되면 헤더 아래에 구분선이 나타나고, 하단은 서서히 사라지는 마스크가 적용됩니다.
+Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마스크와 `padding-bottom`이 적용됩니다. 본문이 짧아 넘치지 않으면 마스크가 적용되지 않아 마지막 줄이 흐려지지 않습니다.
 
 <ComponentExample name="react/dialog/body">
   ```json doc-gen:file
   {
     "file": "examples/react/dialog/body.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Overflow
-
-Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마스크와 `padding-bottom`이 적용됩니다. 본문이 짧아 넘치지 않으면 마스크가 적용되지 않아 마지막 줄이 흐려지지 않습니다.
-
-<ComponentExample name="react/dialog/overflow">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/dialog/overflow.tsx",
     "codeblock": true
   }
   ```
@@ -255,11 +232,6 @@ Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마
 
 작성 중인 내용을 실수로 닫는 것을 막고 싶다면, `open`을 제어 상태로 두고 특정 `reason`일 때 `open`을 유지한 채 확인용 Alert Dialog를 띄워 사용자에게 되물을 수 있습니다.
 
-<Callout>
-  아래 예시는 `closeOnInteractOutside={true}`를 설정하여 외부 영역 클릭에
-  닫히도록 설정되어 있습니다.
-</Callout>
-
 <ComponentExample name="react/dialog/confirm-before-close">
   ```json doc-gen:file
   {
@@ -295,11 +267,3 @@ Portal은 기본적으로 `document.body`에 렌더링됩니다.
   }
   ```
 </ComponentExample>
-
-## Keyboard Interactions
-
-| Key           | Behavior                                                         |
-| ------------- | ---------------------------------------------------------------- |
-| `Escape`      | `closeOnEscape=true`(기본값)일 때 Dialog를 닫습니다.             |
-| `Tab`         | `modal=true`일 때 Dialog 내부 요소들 사이로 포커스를 순환합니다. |
-| `Shift + Tab` | `modal=true`일 때 역방향으로 포커스를 순환합니다.                |

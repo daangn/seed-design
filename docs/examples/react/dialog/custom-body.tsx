@@ -14,17 +14,17 @@ const DialogCustomBody = () => {
     <Flex gap="x3" wrap="wrap">
       <DialogRoot>
         <DialogTrigger asChild>
-          <ActionButton variant="neutralSolid">maxHeight 320px</ActionButton>
+          <ActionButton variant="neutralSolid">maxHeight 200px</ActionButton>
         </DialogTrigger>
         <DialogContent
           title="본문 최대 높이"
-          description="기본 캡(뷰포트의 80%)보다 낮게 제한합니다"
+          description="본문(Body)의 스크롤 높이를 200px로 제한합니다"
         >
-          <DialogBody maxHeight="320px">
+          <DialogBody maxHeight="200px">
             <VStack gap="x4" align="stretch">
               {Array.from({ length: 12 }, (_, index) => (
                 <Text key={index} textStyle="articleBody">
-                  {index + 1}. 본문이 320px을 넘으면 그 안에서 스크롤됩니다.
+                  {index + 1}. 본문이 200px을 넘으면 그 안에서 스크롤됩니다.
                 </Text>
               ))}
             </VStack>
@@ -66,18 +66,9 @@ const DialogCustomBody = () => {
           description="가로 패딩을 제거해 콘텐츠를 가장자리까지 배치합니다"
         >
           <DialogBody paddingX={0}>
-            <VStack align="stretch">
-              {["항목 1", "항목 2", "항목 3"].map((label) => (
-                <Box
-                  key={label}
-                  paddingX="x6"
-                  paddingY="x3"
-                  _active={{ bg: "bg.transparentPressed" }}
-                >
-                  <Text textStyle="articleBody">{label}</Text>
-                </Box>
-              ))}
-            </VStack>
+            <Box bg="palette.gray200" paddingY="x8">
+              <Text textStyle="articleBody">가장자리까지 닿는 영역입니다</Text>
+            </Box>
           </DialogBody>
           <DialogFooter>
             <HStack gap="x2" justify="flex-end">
