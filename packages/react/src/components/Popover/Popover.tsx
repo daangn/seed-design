@@ -83,7 +83,7 @@ export const PopoverPositionerPortal = withContext<HTMLDivElement, PopoverPositi
 
 export interface PopoverContentProps
   extends PrimitiveProps,
-    Pick<StyleProps, "width" | "minWidth" | "maxWidth" | "height" | "minHeight" | "maxHeight">,
+    Pick<StyleProps, "width" | "minWidth" | "maxWidth">,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const PopoverContent = withContext<HTMLDivElement, PopoverContentProps>(
