@@ -18,7 +18,7 @@ const SidePanelResponsive = () => {
         title="반응형 패널"
         description="화면 크기에 따라 적합한 컴포넌트로 자동 전환됩니다."
       >
-        <ResponsiveSidePanelBody paddingX="x6">
+        <ResponsiveSidePanelBody>
           <VStack gap="x3">
             <Box>본문 영역은 Header/Body/Footer 구조로 동일합니다.</Box>
             <Box>md 이상에서는 화면 우측에서 슬라이드되는 Side Panel로,</Box>
