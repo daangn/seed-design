@@ -105,8 +105,9 @@
 .seed-content-dialog__body {
     display: flex;
     flex-direction: column;
-    flex: 1;
     box-sizing: border-box;
+    flex: 1;
+    overflow-y: auto;
     --seed-box-padding-x-base: var(--seed-dimension-x6);
     --seed-box-padding-x-sm: var(--seed-box-padding-x-base, initial);
     --seed-box-padding-x-md: var(--seed-box-padding-x-sm, initial);

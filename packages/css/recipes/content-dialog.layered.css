@@ -145,6 +145,7 @@
     flex-direction: column;
     flex: 1;
     display: flex;
+    overflow-y: auto;
   }
 
   .seed-content-dialog__body[data-scrolled]:not(:first-child) {

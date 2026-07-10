@@ -125,8 +125,9 @@ const contentDialog = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
-      flex: 1,
       boxSizing: "border-box",
+      flex: 1,
+      overflowY: "auto",
 
       "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
       // real values, not `initial` — see https://webkit.org/b/241433
