@@ -3,7 +3,14 @@ export declare const vars: {
     "enabled": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s95)"
       }
     }
   },

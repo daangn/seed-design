@@ -6,7 +6,9 @@ export const vars = {
         "strokeWidth": "1px",
         "color": "var(--seed-color-bg-transparent)",
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)",
@@ -105,6 +107,11 @@ export const vars = {
         "size": "14px",
         "thickness": "2px"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s95)"
+      }
     }
   },
   "sizeSmall": {
@@ -130,6 +137,11 @@ export const vars = {
       "progressCircle": {
         "size": "14px",
         "thickness": "2px"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
       }
     }
   }

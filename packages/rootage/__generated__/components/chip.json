@@ -39,6 +39,15 @@
             "colorTimingFunction": {
               "type": "cubicBezier"
             },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
+            },
             "opacity": {
               "type": "number"
             }
@@ -157,6 +166,14 @@
                 "colorTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 },
                 "cornerRadius": {
                   "type": "dimension",
@@ -666,6 +683,19 @@
                 }
               }
             }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s95"
+                }
+              }
+            }
           }
         ]
       },
@@ -724,6 +754,19 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x4"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s95"
                 }
               }
             }
@@ -789,6 +832,19 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x4"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

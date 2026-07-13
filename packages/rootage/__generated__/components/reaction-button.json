@@ -20,6 +20,15 @@
             "colorTimingFunction": {
               "type": "cubicBezier"
             },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
+            },
             "strokeColor": {
               "type": "color"
             },
@@ -144,6 +153,14 @@
                 "colorTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "label": {
@@ -415,6 +432,19 @@
                 }
               }
             }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s95"
+                }
+              }
+            }
           }
         ]
       },
@@ -493,6 +523,19 @@
                     "value": 2,
                     "unit": "px"
                   }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

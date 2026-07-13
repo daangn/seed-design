@@ -18,6 +18,12 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
           layoutDuration:
             type: duration
           layoutTimingFunction:
@@ -68,6 +74,8 @@ data:
           shadow: $shadow.s3
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
           layoutDuration: $duration.d4
           layoutTimingFunction: $timing-function.easing
         icon:
@@ -91,9 +99,15 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold
+      pressed:
+        root:
+          scale: $scale.s97
     extended=false:
       enabled:
         root:
           size: 56px
         icon:
           size: $dimension.x6
+      pressed:
+        root:
+          scale: $scale.s98

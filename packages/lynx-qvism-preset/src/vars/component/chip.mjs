@@ -4,6 +4,8 @@ export const vars = {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)",
         "cornerRadius": "var(--seed-radius-full)"
       },
       "prefixIcon": {
@@ -207,6 +209,11 @@ export const vars = {
       "icon": {
         "size": "var(--seed-dimension-x3_5)"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s95)"
+      }
     }
   },
   "sizeMedium": {
@@ -230,6 +237,11 @@ export const vars = {
       },
       "icon": {
         "size": "var(--seed-dimension-x4)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s95)"
       }
     }
   },
@@ -255,6 +267,11 @@ export const vars = {
       },
       "icon": {
         "size": "var(--seed-dimension-x4)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },

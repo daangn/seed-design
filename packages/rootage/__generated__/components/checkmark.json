@@ -17,6 +17,15 @@
             "colorTimingFunction": {
               "type": "cubicBezier"
             },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
+            },
             "size": {
               "type": "dimension"
             },
@@ -96,6 +105,27 @@
                 "colorTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s95"
                 }
               }
             }

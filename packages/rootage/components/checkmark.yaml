@@ -12,6 +12,12 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
           size:
             type: dimension
           color:
@@ -45,6 +51,11 @@ data:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
+      pressed:
+        root:
+          scale: $scale.s95
     variant=square:
       enabled:
         root:

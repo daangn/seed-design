@@ -7,6 +7,8 @@ export const vars = {
         "shadow": "var(--seed-shadow-s3)",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)",
         "layoutDuration": "var(--seed-duration-d4)",
         "layoutTimingFunction": "var(--seed-timing-function-easing)"
       },
@@ -39,6 +41,11 @@ export const vars = {
         "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-bold)"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
+      }
     }
   },
   "extendedFalse": {
@@ -48,6 +55,11 @@ export const vars = {
       },
       "icon": {
         "size": "var(--seed-dimension-x6)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s98)"
       }
     }
   }

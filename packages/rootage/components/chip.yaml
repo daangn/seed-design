@@ -27,6 +27,12 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
           opacity:
             type: number
       label:
@@ -83,6 +89,8 @@ data:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
           cornerRadius: $radius.full
         prefixIcon:
           paddingLeft: $dimension.x1_5
@@ -217,6 +225,9 @@ data:
           size: $dimension.x5
         icon:
           size: $dimension.x3_5
+      pressed:
+        root:
+          scale: $scale.s95
     size=medium:
       enabled:
         root:
@@ -233,6 +244,9 @@ data:
           size: $dimension.x6
         icon:
           size: $dimension.x4
+      pressed:
+        root:
+          scale: $scale.s95
     size=large:
       enabled:
         root:
@@ -250,6 +264,9 @@ data:
           size: $dimension.x7
         icon:
           size: $dimension.x4
+      pressed:
+        root:
+          scale: $scale.s97
 
     size=small,layout=withText:
       enabled:

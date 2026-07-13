@@ -4,6 +4,8 @@ export declare const vars: {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)",
         "cornerRadius": "var(--seed-radius-full)"
       },
       /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
@@ -223,6 +225,11 @@ export declare const vars: {
       "icon": {
         "size": "var(--seed-dimension-x3_5)"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s95)"
+      }
     }
   },
   "sizeMedium": {
@@ -247,6 +254,11 @@ export declare const vars: {
       },
       "icon": {
         "size": "var(--seed-dimension-x4)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s95)"
       }
     }
   },
@@ -273,6 +285,11 @@ export declare const vars: {
       },
       "icon": {
         "size": "var(--seed-dimension-x4)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },

@@ -12,6 +12,12 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
           size:
             type: dimension
           color:
@@ -36,6 +42,8 @@ data:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak
           cornerRadius: $radius.full
@@ -44,6 +52,7 @@ data:
       enabled,pressed:
         root:
           color: $color.bg.transparent-pressed
+          scale: $scale.s95
       enabled,selected:
         root:
           strokeWidth: 0px
