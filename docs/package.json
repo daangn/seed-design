@@ -81,7 +81,8 @@
     "styled-components": "6",
     "tailwind-merge": "^3.5.0",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",
