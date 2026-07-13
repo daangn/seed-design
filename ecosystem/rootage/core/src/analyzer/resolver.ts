@@ -110,7 +110,13 @@ export function transformResolvedType<T extends AST.Node | AST.Node[]>(
         }
       }) as AST.TokenDeclaration["values"];
 
-      return factory.createTokenDeclaration(node.collection, node.token, values, node.description);
+      return factory.createTokenDeclaration(
+        node.collection,
+        node.token,
+        values,
+        node.description,
+        node.excludeFromExchange,
+      );
     }
 
     if (node.kind === "UnresolvedPropertyDeclaration") {

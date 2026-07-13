@@ -125,6 +125,8 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
   }
 
   for (const decl of ast.data) {
+    if (decl.excludeFromExchange) continue;
+
     const tokenRef = decl.token.identifier;
     const description = decl.description;
     const valueMap = buildValues(decl);

@@ -69,6 +69,7 @@ export interface TokensData {
         [mode: string]: Value;
       };
       description?: string;
+      excludeFromExchange?: boolean;
     };
   };
 }

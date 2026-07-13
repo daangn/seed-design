@@ -88,6 +88,7 @@ export interface ColorTokenDeclaration {
   token: TokenLit;
   values: ColorTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface ColorTokenValueDeclaration {
@@ -102,6 +103,7 @@ export interface DimensionTokenDeclaration {
   token: TokenLit;
   values: DimensionTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface DimensionTokenValueDeclaration {
@@ -116,6 +118,7 @@ export interface NumberTokenDeclaration {
   token: TokenLit;
   values: NumberTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface NumberTokenValueDeclaration {
@@ -130,6 +133,7 @@ export interface DurationTokenDeclaration {
   token: TokenLit;
   values: DurationTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface DurationTokenValueDeclaration {
@@ -144,6 +148,7 @@ export interface CubicBezierTokenDeclaration {
   token: TokenLit;
   values: CubicBezierTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface CubicBezierTokenValueDeclaration {
@@ -158,6 +163,7 @@ export interface ShadowTokenDeclaration {
   token: TokenLit;
   values: ShadowTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface ShadowTokenValueDeclaration {
@@ -172,6 +178,7 @@ export interface GradientTokenDeclaration {
   token: TokenLit;
   values: GradientTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface GradientTokenValueDeclaration {
@@ -188,6 +195,7 @@ export interface UnresolvedTokenDeclaration {
   token: TokenLit;
   values: UnresolvedTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface UnresolvedTokenValueDeclaration {

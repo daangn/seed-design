@@ -495,6 +495,7 @@ export function createColorTokenDeclaration(
   token: TokenLit,
   values: ColorTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): ColorTokenDeclaration {
   return {
     kind: "ColorTokenDeclaration",
@@ -502,6 +503,7 @@ export function createColorTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -513,6 +515,7 @@ export function createDimensionTokenDeclaration(
   token: TokenLit,
   values: DimensionTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): DimensionTokenDeclaration {
   return {
     kind: "DimensionTokenDeclaration",
@@ -520,6 +523,7 @@ export function createDimensionTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -531,6 +535,7 @@ export function createNumberTokenDeclaration(
   token: TokenLit,
   values: NumberTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): NumberTokenDeclaration {
   return {
     kind: "NumberTokenDeclaration",
@@ -538,6 +543,7 @@ export function createNumberTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -549,6 +555,7 @@ export function createDurationTokenDeclaration(
   token: TokenLit,
   values: DurationTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): DurationTokenDeclaration {
   return {
     kind: "DurationTokenDeclaration",
@@ -556,6 +563,7 @@ export function createDurationTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -567,6 +575,7 @@ export function createCubicBezierTokenDeclaration(
   token: TokenLit,
   values: CubicBezierTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): CubicBezierTokenDeclaration {
   return {
     kind: "CubicBezierTokenDeclaration",
@@ -574,6 +583,7 @@ export function createCubicBezierTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -585,6 +595,7 @@ export function createShadowTokenDeclaration(
   token: TokenLit,
   values: ShadowTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): ShadowTokenDeclaration {
   return {
     kind: "ShadowTokenDeclaration",
@@ -592,6 +603,7 @@ export function createShadowTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -603,6 +615,7 @@ export function createGradientTokenDeclaration(
   token: TokenLit,
   values: GradientTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): GradientTokenDeclaration {
   return {
     kind: "GradientTokenDeclaration",
@@ -610,6 +623,7 @@ export function createGradientTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -621,6 +635,7 @@ export function createUnresolvedTokenDeclaration(
   token: TokenLit,
   values: UnresolvedTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): UnresolvedTokenDeclaration {
   return {
     kind: "UnresolvedTokenDeclaration",
@@ -628,6 +643,7 @@ export function createUnresolvedTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -647,6 +663,7 @@ export function createTokenDeclaration(
     | GradientTokenValueDeclaration[]
     | UnresolvedTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): TokenDeclaration {
   switch (values[0]!.kind) {
     case "ColorTokenValueDeclaration":
@@ -655,6 +672,7 @@ export function createTokenDeclaration(
         token,
         values as ColorTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "DimensionTokenValueDeclaration":
       return createDimensionTokenDeclaration(
@@ -662,6 +680,7 @@ export function createTokenDeclaration(
         token,
         values as DimensionTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "NumberTokenValueDeclaration":
       return createNumberTokenDeclaration(
@@ -669,6 +688,7 @@ export function createTokenDeclaration(
         token,
         values as NumberTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "DurationTokenValueDeclaration":
       return createDurationTokenDeclaration(
@@ -676,6 +696,7 @@ export function createTokenDeclaration(
         token,
         values as DurationTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "CubicBezierTokenValueDeclaration":
       return createCubicBezierTokenDeclaration(
@@ -683,6 +704,7 @@ export function createTokenDeclaration(
         token,
         values as CubicBezierTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "ShadowTokenValueDeclaration":
       return createShadowTokenDeclaration(
@@ -690,6 +712,7 @@ export function createTokenDeclaration(
         token,
         values as ShadowTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "GradientTokenValueDeclaration":
       return createGradientTokenDeclaration(
@@ -697,6 +720,7 @@ export function createTokenDeclaration(
         token,
         values as GradientTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "UnresolvedTokenValueDeclaration":
       return createUnresolvedTokenDeclaration(
@@ -704,6 +728,7 @@ export function createTokenDeclaration(
         token,
         values as UnresolvedTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
   }
 }
