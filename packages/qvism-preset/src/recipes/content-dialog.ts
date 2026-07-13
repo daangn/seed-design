@@ -84,7 +84,13 @@ const contentDialog = defineSlotRecipe({
       width: "var(--seed-box-width)",
       maxWidth: "var(--seed-box-max-width)",
       // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
-      maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
+      // dvh tracks the mobile browser UI collapse; vh is listed first as the fallback for engines
+      // without dynamic-viewport-unit support. The array emits both declarations, so the cascade
+      // keeps dvh where parsed and falls back to vh where it isn't.
+      maxHeight: [
+        `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
+        `calc(${vars.base.enabled.content.maxHeightFraction} * 100dvh)`,
+      ],
       [breakpoints.up("md")]: {
         "--content-dialog-default-width": "var(--content-dialog-size-width)",
         "--content-dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,

@@ -61,6 +61,7 @@
     width: var(--seed-box-width);
     max-width: var(--seed-box-max-width);
     max-height: calc(0.8 * 100vh);
+    max-height: calc(0.8 * 100dvh);
 }
 @media (min-width: 768px) {
     .seed-content-dialog__content {

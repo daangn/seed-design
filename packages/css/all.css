@@ -4087,7 +4087,7 @@
   outline: none;
   flex-direction: column;
   flex: none;
-  max-height: 80vh;
+  max-height: 80dvh;
   display: flex;
   position: relative;
 }
