@@ -96,10 +96,6 @@
     animation-fill-mode: forwards;
   }
 
-  .seed-content-dialog__content:is(:focus, [data-focus]) {
-    outline: none;
-  }
-
   .seed-content-dialog__header {
     gap: var(--seed-dimension-x1_5);
     padding-inline: var(--seed-dimension-x6);

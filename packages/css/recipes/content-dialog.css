@@ -87,9 +87,6 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 1;
 }
-.seed-content-dialog__content:is(:focus, [data-focus]) {
-    outline: none;
-}
 .seed-content-dialog__header {
     display: flex;
     flex-direction: column;

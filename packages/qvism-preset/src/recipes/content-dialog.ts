@@ -13,7 +13,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 
 const contentDialog = defineSlotRecipe({
   name: "content-dialog",
@@ -24,7 +24,6 @@ const contentDialog = defineSlotRecipe({
     "header",
     "body",
     "footer",
-    "action",
     "title",
     "description",
     "closeButton",
@@ -102,10 +101,6 @@ const contentDialog = defineSlotRecipe({
         duration: vars.base.enabled.content.exitDuration,
         opacity: vars.base.enabled.content.exitOpacity,
       }),
-
-      [pseudo(focus)]: {
-        outline: "none",
-      },
     },
     header: {
       display: "flex",

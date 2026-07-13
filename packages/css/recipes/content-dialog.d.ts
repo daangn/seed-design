@@ -11,7 +11,7 @@ declare type ContentDialogVariantMap = {
 
 export declare type ContentDialogVariantProps = Partial<ContentDialogVariant>;
 
-export declare type ContentDialogSlotName = "positioner" | "backdrop" | "content" | "header" | "body" | "footer" | "action" | "title" | "description" | "closeButton";
+export declare type ContentDialogSlotName = "positioner" | "backdrop" | "content" | "header" | "body" | "footer" | "title" | "description" | "closeButton";
 
 export declare const contentDialogVariantMap: ContentDialogVariantMap;
 

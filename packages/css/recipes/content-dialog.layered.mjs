@@ -27,10 +27,6 @@ const contentDialogSlotNames = [
     "seed-content-dialog__footer"
   ],
   [
-    "action",
-    "seed-content-dialog__action"
-  ],
-  [
     "title",
     "seed-content-dialog__title"
   ],
