@@ -12,7 +12,7 @@ import { createRenderTrackingContext } from "../../utils/createRenderTrackingCon
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(contentDialog);
+const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(contentDialog);
 
 const closeButtonTracker = createRenderTrackingContext("ContentDialogCloseButton");
 
@@ -31,18 +31,22 @@ export interface ContentDialogRootProps
   unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
 }
 
-const ContentDialogRootBase = (props: DialogPrimitive.RootProps) => (
-  <closeButtonTracker.Provider>
-    <DialogPrimitive.Root {...props} />
-  </closeButtonTracker.Provider>
-);
-
-export const ContentDialogRoot = withRootProvider<ContentDialogRootProps>(ContentDialogRootBase, {
-  defaultProps: {
+export function ContentDialogRoot(props: ContentDialogRootProps) {
+  const [variantProps, otherProps] = contentDialog.splitVariantProps({
     lazyMount: true,
     unmountOnExit: true,
-  },
-});
+    ...props,
+  });
+  const classNames = contentDialog(variantProps);
+
+  return (
+    <ClassNamesProvider value={classNames}>
+      <closeButtonTracker.Provider>
+        <DialogPrimitive.Root {...otherProps} />
+      </closeButtonTracker.Provider>
+    </ClassNamesProvider>
+  );
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
