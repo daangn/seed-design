@@ -188,6 +188,19 @@
           },
           {
             "states": [
+              "pressed"
+            ],
+            "slots": {
+              "thumb": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
+                }
+              }
+            }
+          },
+          {
+            "states": [
               "disabled"
             ],
             "slots": {

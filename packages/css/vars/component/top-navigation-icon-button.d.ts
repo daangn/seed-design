@@ -2,10 +2,17 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "size": "44px"
+        "size": "44px",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "icon": {
         "size": "24px"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },

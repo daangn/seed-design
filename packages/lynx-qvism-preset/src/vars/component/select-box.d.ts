@@ -10,7 +10,9 @@ export declare const vars: {
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         /** enabled 상태의 stroke 위에 selected 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다. */
         "strokeDuration": "0.1s",
-        "strokeTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeTimingFunction": "var(--seed-timing-function-easing)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "trigger": {
         "gap": "var(--seed-dimension-x1_5)"
@@ -77,7 +79,8 @@ export declare const vars: {
     },
     "enabledPressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)",
+        "contentScale": "var(--seed-scale-s97)"
       }
     }
   },

@@ -6,7 +6,9 @@ export declare const vars: {
         /** 보이는 버튼 크기입니다. */
         "size": "var(--seed-dimension-x6)",
         /** 터치 영역 크기입니다. */
-        "targetSize": "var(--seed-dimension-x10)"
+        "targetSize": "var(--seed-dimension-x10)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       /** lineIcon 아래에 내려가는 하트 아이콘입니다. */
       "fillIcon": {
@@ -20,6 +22,12 @@ export declare const vars: {
         "color": "var(--seed-color-palette-static-white)",
         /** 보이는 버튼 크기입니다. */
         "size": "var(--seed-dimension-x6)"
+      }
+    },
+    "pressed": {
+      /** 하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다. */
+      "root": {
+        "scale": "var(--seed-scale-s97)"
       }
     },
     "selected": {

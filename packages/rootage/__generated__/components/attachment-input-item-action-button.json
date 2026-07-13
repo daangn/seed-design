@@ -13,6 +13,15 @@
           "properties": {
             "gap": {
               "type": "dimension"
+            },
+            "contentScale": {
+              "type": "number"
+            },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -66,6 +75,14 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1"
+                },
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "icon": {
@@ -86,6 +103,19 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.medium"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "contentScale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

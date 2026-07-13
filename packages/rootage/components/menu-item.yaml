@@ -26,6 +26,12 @@ data:
             type: duration
           borderRadiusTimingFunction:
             type: cubicBezier
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
           paddingX:
             type: dimension
           paddingY:
@@ -91,6 +97,8 @@ data:
           marginTimingFunction: $timing-function.easing
           borderRadiusDuration: $duration.d3
           borderRadiusTimingFunction: $timing-function.easing
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         body:
           gap: $dimension.x0_5
         label:
@@ -103,6 +111,7 @@ data:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x2
           cornerRadius: $radius.r3
+          contentScale: $scale.s97
       disabled:
         prefixIcon:
           color: $color.fg.disabled

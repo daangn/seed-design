@@ -25,6 +25,12 @@ data:
             description: enabled 상태의 stroke 위에 selected 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
           strokeTimingFunction:
             type: cubicBezier
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
       trigger:
         properties:
           gap:
@@ -109,6 +115,8 @@ data:
           colorTimingFunction: $timing-function.easing
           strokeDuration: 0.1s
           strokeTimingFunction: $timing-function.easing
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         trigger:
           gap: $dimension.x1_5
         prefixIcon:
@@ -157,6 +165,7 @@ data:
       enabled,pressed:
         root:
           color: $color.bg.transparent-pressed
+          contentScale: $scale.s97
 
     layout=horizontal:
       enabled:

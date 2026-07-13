@@ -18,6 +18,12 @@ data:
             type: color
           gradient:
             type: gradient
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
       prefixIcon:
         description: 아이콘은 Fill 타입 사용을 권장합니다.
         properties:
@@ -63,6 +69,12 @@ data:
             type: number
           color:
             type: color
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
       suffixIcon:
         properties:
           size:
@@ -73,6 +85,12 @@ data:
             type: dimension
           color:
             type: color
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
     variants:
       variant:
         values:
@@ -91,6 +109,8 @@ data:
           paddingX: $dimension.x4
           paddingY: $dimension.x2_5
           minHeight: $dimension.x10
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         prefixIcon:
           size: $dimension.x4
           marginRight: $dimension.x2
@@ -109,10 +129,21 @@ data:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
           fontWeight: $font-weight.bold
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
         suffixIcon:
           size: $dimension.x4
           targetSize: $dimension.x10
           marginLeft: $dimension.x2
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
+      pressed:
+        root:
+          contentScale: $scale.s97
+        button:
+          scale: $scale.s97
+        suffixIcon:
+          contentScale: $scale.s97
     tone=neutral, variant=weak:
       enabled:
         root:

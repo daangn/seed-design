@@ -18,6 +18,12 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
       label:
         properties:
           color:
@@ -37,6 +43,8 @@ data:
           cornerRadius: $radius.r3
           paddingX: $dimension.x5
           paddingY: $dimension.x3_5
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
         label:
           color: $color.fg.neutral
           fontSize: $font-size.t5
@@ -45,3 +53,4 @@ data:
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
+          scale: $scale.s97

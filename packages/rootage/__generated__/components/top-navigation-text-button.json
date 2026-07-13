@@ -20,6 +20,15 @@
             },
             "paddingX": {
               "type": "dimension"
+            },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -89,6 +98,14 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "label": {
@@ -119,6 +136,19 @@
                 "minLineHeightScale": {
                   "type": "number",
                   "value": 1
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

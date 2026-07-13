@@ -16,6 +16,12 @@ data:
             type: dimension
           paddingX:
             type: dimension
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
       label:
         properties:
           color:
@@ -40,6 +46,8 @@ data:
         root:
           height: 44px
           paddingX: $dimension.x2_5
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
@@ -48,6 +56,9 @@ data:
           minFontSizeScale: 1
           maxLineHeightScale: 1.2
           minLineHeightScale: 1
+      pressed:
+        root:
+          scale: $scale.s97
     tone=layer:
       enabled:
         label:

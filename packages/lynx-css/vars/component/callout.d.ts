@@ -6,7 +6,9 @@ export declare const vars: {
         "paddingY": "var(--seed-dimension-x3_5)",
         "gap": "var(--seed-dimension-x3)",
         "cornerRadius": "var(--seed-radius-r2_5)",
-        "minHeight": "50px"
+        "minHeight": "50px",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
@@ -26,11 +28,27 @@ export declare const vars: {
       "link": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "suffixIcon": {
         "size": "var(--seed-dimension-x4)",
-        "targetSize": "var(--seed-dimension-x10)"
+        "targetSize": "var(--seed-dimension-x10)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "contentScale": "var(--seed-scale-s97)"
+      },
+      /** root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다. */
+      "link": {
+        "scale": "var(--seed-scale-s97)"
+      },
+      "suffixIcon": {
+        "contentScale": "var(--seed-scale-s97)"
       }
     }
   },

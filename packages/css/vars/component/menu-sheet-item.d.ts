@@ -6,7 +6,9 @@ export declare const vars: {
         "minHeight": "52px",
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x3_5)",
-        "gap": "var(--seed-dimension-x3_5)"
+        "gap": "var(--seed-dimension-x3_5)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "prefixIcon": {
         "size": "22px"
@@ -28,7 +30,8 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-neutral-weak-pressed)",
+        "contentScale": "var(--seed-scale-s97)"
       }
     }
   },

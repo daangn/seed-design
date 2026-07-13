@@ -34,6 +34,12 @@ data:
             type: dimension
           cornerRadius:
             type: dimension
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
       prefix:
         properties:
           paddingRight:
@@ -109,6 +115,8 @@ data:
           colorTimingFunction: $timing-function.easing
         trigger:
           paddingX: $dimension.spacing-x.global-gutter
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         body:
           gap: $dimension.x0_5
         prefixIcon:
@@ -142,6 +150,7 @@ data:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x1_5
           cornerRadius: $dimension.x2_5
+          contentScale: $scale.s97
 
     size=medium:
       enabled:

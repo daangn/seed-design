@@ -31,6 +31,15 @@
             },
             "gradient": {
               "type": "gradient"
+            },
+            "contentScale": {
+              "type": "number"
+            },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -90,6 +99,15 @@
             },
             "color": {
               "type": "color"
+            },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           },
           "description": "root가 클릭 영역인 Actionable Callout에서는 표시를 권장하지 않습니다."
@@ -104,6 +122,15 @@
             },
             "color": {
               "type": "color"
+            },
+            "contentScale": {
+              "type": "number"
+            },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         }
@@ -166,6 +193,14 @@
                     "value": 50,
                     "unit": "px"
                   }
+                },
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "prefixIcon": {
@@ -214,6 +249,14 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "suffixIcon": {
@@ -224,6 +267,39 @@
                 "targetSize": {
                   "type": "dimension",
                   "value": "$dimension.x10"
+                },
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "contentScale": {
+                  "type": "number",
+                  "value": "$scale.s97"
+                }
+              },
+              "link": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
+                }
+              },
+              "suffixIcon": {
+                "contentScale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

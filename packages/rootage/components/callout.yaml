@@ -22,6 +22,12 @@ data:
             type: color
           gradient:
             type: gradient
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
       prefixIcon:
         description: 아이콘은 Fill 타입 사용을 권장합니다.
         properties:
@@ -60,6 +66,12 @@ data:
             type: number
           color:
             type: color
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
       suffixIcon:
         properties:
           size:
@@ -68,6 +80,12 @@ data:
             type: dimension
           color:
             type: color
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
     variants:
       tone:
         values:
@@ -92,6 +110,8 @@ data:
           gap: $dimension.x3
           cornerRadius: $radius.r2_5
           minHeight: 50px
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         prefixIcon:
           size: $dimension.x4
         title:
@@ -106,9 +126,20 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.regular
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
         suffixIcon:
           size: $dimension.x4
           targetSize: $dimension.x10
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
+      pressed:
+        root:
+          contentScale: $scale.s97
+        link:
+          scale: $scale.s97
+        suffixIcon:
+          contentScale: $scale.s97
     tone=neutral:
       enabled:
         root:

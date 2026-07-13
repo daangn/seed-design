@@ -18,6 +18,15 @@
             "targetSize": {
               "type": "dimension",
               "description": "터치 영역 크기입니다."
+            },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           },
           "description": "하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다."
@@ -67,6 +76,14 @@
                 "targetSize": {
                   "type": "dimension",
                   "value": "$dimension.x10"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "fillIcon": {
@@ -120,6 +137,19 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x6"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

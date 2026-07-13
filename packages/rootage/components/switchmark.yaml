@@ -80,6 +80,9 @@ data:
           colorDuration: $duration.d1
           colorTimingFunction: $timing-function.easing
           colorDelay: 20ms
+      pressed:
+        thumb:
+          scale: $scale.s97
       disabled:
         root:
           opacity: 0.38

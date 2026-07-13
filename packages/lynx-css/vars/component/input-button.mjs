@@ -8,7 +8,9 @@ export const vars = {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "strokeDuration": "0.1s",
-        "strokeTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeTimingFunction": "var(--seed-timing-function-easing)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "value": {
         "fontWeight": "var(--seed-font-weight-regular)",
@@ -33,12 +35,18 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "clearButton": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
+        "color": "var(--seed-color-fg-neutral-subtle)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)",
+        "contentScale": "var(--seed-scale-s97)"
+      },
+      "clearButton": {
+        "scale": "var(--seed-scale-s97)"
       }
     },
     "invalid": {

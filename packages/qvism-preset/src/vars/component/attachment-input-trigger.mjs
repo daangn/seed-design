@@ -7,7 +7,9 @@ export const vars = {
         "color": "var(--seed-color-bg-transparent)",
         "cornerRadius": "var(--seed-radius-r3)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "icon": {
         "size": "var(--seed-dimension-x6)",
@@ -28,7 +30,8 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)",
+        "scale": "var(--seed-scale-s97)"
       }
     },
     "disabled": {

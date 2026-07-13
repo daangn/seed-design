@@ -3,7 +3,9 @@ export const vars = {
     "enabled": {
       "root": {
         "height": "44px",
-        "paddingX": "var(--seed-dimension-x2_5)"
+        "paddingX": "var(--seed-dimension-x2_5)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t5)",
@@ -13,6 +15,11 @@ export const vars = {
         "minFontSizeScale": "1",
         "maxLineHeightScale": "1.2",
         "minLineHeightScale": "1"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },

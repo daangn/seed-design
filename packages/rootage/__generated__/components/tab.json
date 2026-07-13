@@ -19,6 +19,15 @@
             },
             "paddingY": {
               "type": "dimension"
+            },
+            "contentScale": {
+              "type": "number"
+            },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -58,10 +67,33 @@
               "enabled"
             ],
             "slots": {
+              "root": {
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
+                }
+              },
               "label": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-subtle"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "contentScale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

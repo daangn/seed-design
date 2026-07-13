@@ -26,6 +26,12 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
           strokeWidth:
             type: dimension
           strokeColor:
@@ -56,6 +62,8 @@ data:
           gap: $dimension.x1_5
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
@@ -68,6 +76,7 @@ data:
           color: $color.bg.neutral-weak-pressed
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-muted
+          contentScale: $scale.s97
       selected:
         label:
           color: $color.fg.neutral

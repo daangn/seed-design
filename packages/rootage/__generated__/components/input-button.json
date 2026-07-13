@@ -44,6 +44,15 @@
             },
             "strokeTimingFunction": {
               "type": "cubicBezier"
+            },
+            "contentScale": {
+              "type": "number"
+            },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -138,6 +147,15 @@
             },
             "color": {
               "type": "color"
+            },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         }
@@ -199,6 +217,14 @@
                 "strokeTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
+                },
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "value": {
@@ -257,6 +283,14 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-subtle"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               }
             }
@@ -270,6 +304,16 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.transparent-pressed"
+                },
+                "contentScale": {
+                  "type": "number",
+                  "value": "$scale.s97"
+                }
+              },
+              "clearButton": {
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

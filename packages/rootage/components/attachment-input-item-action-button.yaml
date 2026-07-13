@@ -10,6 +10,12 @@ data:
         properties:
           gap:
             type: dimension
+          contentScale:
+            type: number
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
       icon:
         properties:
           color:
@@ -31,12 +37,17 @@ data:
       enabled:
         root:
           gap: $dimension.x1
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         icon:
           size: $dimension.x6
         label:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.medium
+      pressed:
+        root:
+          contentScale: $scale.s97
 
     type=file:
       enabled:

@@ -20,6 +20,11 @@ export const vars = {
         "colorDelay": "20ms"
       }
     },
+    "pressed": {
+      "thumb": {
+        "scale": "var(--seed-scale-s97)"
+      }
+    },
     "disabled": {
       "root": {
         "opacity": "0.38",

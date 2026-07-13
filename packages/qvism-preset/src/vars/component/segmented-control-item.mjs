@@ -9,7 +9,9 @@ export const vars = {
         "cornerRadius": "var(--seed-radius-full)",
         "gap": "var(--seed-dimension-x1_5)",
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t5)",
@@ -24,7 +26,8 @@ export const vars = {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "contentScale": "var(--seed-scale-s97)"
       }
     },
     "selected": {

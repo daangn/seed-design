@@ -25,6 +25,15 @@
             },
             "paddingY": {
               "type": "dimension"
+            },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -79,6 +88,14 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x3_5"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "label": {
@@ -110,6 +127,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak-pressed"
+                },
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

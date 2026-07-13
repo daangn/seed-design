@@ -6,7 +6,9 @@ export const vars = {
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "trigger": {
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
+        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "body": {
         "gap": "var(--seed-dimension-x0_5)"
@@ -52,7 +54,8 @@ export const vars = {
       "trigger": {
         "color": "var(--seed-color-bg-transparent-pressed)",
         "marginX": "var(--seed-dimension-x1_5)",
-        "cornerRadius": "var(--seed-dimension-x2_5)"
+        "cornerRadius": "var(--seed-dimension-x2_5)",
+        "contentScale": "var(--seed-scale-s97)"
       }
     }
   },

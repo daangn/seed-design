@@ -9,7 +9,9 @@ export declare const vars: {
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         /** enabled 상태의 stroke 위에 invalid 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다. */
         "strokeDuration": "0.1s",
-        "strokeTimingFunction": "var(--seed-timing-function-easing)"
+        "strokeTimingFunction": "var(--seed-timing-function-easing)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "value": {
         "fontWeight": "var(--seed-font-weight-regular)",
@@ -34,12 +36,18 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "clearButton": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
+        "color": "var(--seed-color-fg-neutral-subtle)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)"
+        "color": "var(--seed-color-bg-transparent-pressed)",
+        "contentScale": "var(--seed-scale-s97)"
+      },
+      "clearButton": {
+        "scale": "var(--seed-scale-s97)"
       }
     },
     "invalid": {

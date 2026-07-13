@@ -43,7 +43,14 @@ export declare const vars: {
         "color": "var(--seed-color-fg-brand)",
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--seed-font-weight-bold)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+      }
+    },
+    "pressed": {
+      "actionButton": {
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },

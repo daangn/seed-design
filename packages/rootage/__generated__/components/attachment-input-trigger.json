@@ -28,6 +28,15 @@
             },
             "strokeColor": {
               "type": "color"
+            },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -115,6 +124,14 @@
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-weak"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "icon": {
@@ -174,6 +191,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.transparent-pressed"
+                },
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s97"
                 }
               }
             }

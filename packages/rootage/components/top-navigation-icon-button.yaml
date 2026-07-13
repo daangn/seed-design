@@ -10,6 +10,12 @@ data:
         properties:
           size:
             type: dimension
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
       icon:
         properties:
           size:
@@ -21,8 +27,13 @@ data:
       enabled:
         root:
           size: 44px
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
         icon:
           size: 24px
+      pressed:
+        root:
+          scale: $scale.s97
     tone=layer:
       enabled:
         icon:
