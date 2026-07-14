@@ -22,6 +22,15 @@
             },
             "size": {
               "type": "dimension"
+            },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -69,6 +78,14 @@
                     "value": 28,
                     "unit": "px"
                   }
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "icon": {
@@ -95,6 +112,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak-pressed"
+                },
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s95"
                 }
               }
             }

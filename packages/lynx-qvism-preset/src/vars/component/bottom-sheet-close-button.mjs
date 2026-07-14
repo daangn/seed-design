@@ -5,7 +5,9 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)",
         "targetSize": "44px",
-        "size": "28px"
+        "size": "28px",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral)",
@@ -14,7 +16,8 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-neutral-weak-pressed)",
+        "scale": "var(--seed-scale-s95)"
       }
     }
   }

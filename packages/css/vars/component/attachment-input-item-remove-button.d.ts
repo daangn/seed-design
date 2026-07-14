@@ -7,7 +7,9 @@ export declare const vars: {
         "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
-        "offset": "var(--seed-dimension-x1)"
+        "offset": "var(--seed-dimension-x1)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "icon": {
         "size": "var(--seed-dimension-x2_5)",
@@ -16,7 +18,8 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-color-bg-layer-default-pressed)",
+        "scale": "var(--seed-scale-s95)"
       }
     },
     "disabled": {

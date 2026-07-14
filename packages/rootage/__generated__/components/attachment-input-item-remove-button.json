@@ -28,6 +28,15 @@
             },
             "offset": {
               "type": "dimension"
+            },
+            "scale": {
+              "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -80,6 +89,14 @@
                 "offset": {
                   "type": "dimension",
                   "value": "$dimension.x1"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "icon": {
@@ -103,6 +120,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-default-pressed"
+                },
+                "scale": {
+                  "type": "number",
+                  "value": "$scale.s95"
                 }
               }
             }
