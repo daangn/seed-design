@@ -61,8 +61,14 @@
     justify-content: space-between;
     gap: var(--seed-dimension-x1_5);
     --seed-focus-ring: none;
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     flex-grow: 1;
     display: flex;
+    scale: 1;
+  }
+
+  .seed-select-box__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
   }
 
   .seed-select-box__content {

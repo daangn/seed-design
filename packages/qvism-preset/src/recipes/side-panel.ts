@@ -7,7 +7,7 @@ import {
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { breakpoints } from "../utils/breakpoint";
-import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { active, engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { sidePanelCloseButton as closeButtonVars, sidePanel as vars } from "../vars/component";
 
 const sidePanel = defineSlotRecipe({
@@ -231,7 +231,10 @@ const sidePanel = defineSlotRecipe({
 
       cursor: "pointer",
 
-      transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, scale ${closeButtonVars.base.enabled.root.scaleDuration} ${closeButtonVars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,
@@ -243,6 +246,10 @@ const sidePanel = defineSlotRecipe({
 
       [pseudo(engaged)]: {
         background: closeButtonVars.base.pressed.root.color,
+      },
+
+      [pseudo(active)]: {
+        scale: closeButtonVars.base.pressed.root.scale,
       },
     },
   },

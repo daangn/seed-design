@@ -1,7 +1,7 @@
 import { snackbar as vars } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { focus, focusVisible, pseudo } from "../utils/pseudo";
+import { active, focus, focusVisible, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -111,6 +111,15 @@ export const snackbar = defineSlotRecipe({
       fontSize: vars.base.enabled.actionButton.fontSize,
       lineHeight: vars.base.enabled.actionButton.lineHeight,
       fontWeight: vars.base.enabled.actionButton.fontWeight,
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${vars.base.enabled.actionButton.scaleDuration} ${vars.base.enabled.actionButton.scaleTimingFunction}`,
+
+      [pseudo(active)]: {
+        scale: vars.base.pressed.actionButton.scale,
+      },
 
       // target size
       "&:after": {

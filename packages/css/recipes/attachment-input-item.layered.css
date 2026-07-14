@@ -129,7 +129,7 @@
     font: inherit;
     cursor: pointer;
     border-radius: inherit;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     background: none;
@@ -139,6 +139,7 @@
     align-items: center;
     padding: 0;
     display: flex;
+    scale: 1;
   }
 
   .seed-attachment-input-item__actionButton:is(:focus-visible, [data-focus-visible]) {
@@ -152,6 +153,10 @@
     font-weight: var(--seed-font-weight-medium);
     gap: var(--seed-dimension-x1);
     --seed-icon-size: var(--seed-dimension-x6);
+  }
+
+  .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
   }
 
   .seed-attachment-input-item__removeButton {

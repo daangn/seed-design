@@ -1,6 +1,6 @@
 import { callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, pseudo } from "../utils/pseudo";
+import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -95,10 +95,17 @@ const callout = defineSlotRecipe({
       textDecoration: "underline",
       textUnderlineOffset: "2px",
 
-      transition: FOCUS_RING_TRANSITION,
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${vars.base.enabled.link.scaleDuration} ${vars.base.enabled.link.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
       borderRadius: tokens.$radius.r1,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
+
+      [pseudo(active)]: {
+        scale: vars.base.pressed.link.scale,
+      },
     },
     closeButton: {
       border: "none",
@@ -118,9 +125,19 @@ const callout = defineSlotRecipe({
       margin: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: FOCUS_RING_TRANSITION,
+
+      // The button itself is transparent, so scaling the whole button scales only
+      // its content (the icon) — the pressed contentScale of the suffixIcon.
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${vars.base.enabled.suffixIcon.contentScaleDuration} ${vars.base.enabled.suffixIcon.contentScaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
+
+      [pseudo(active)]: {
+        scale: vars.base.pressed.suffixIcon.contentScale,
+      },
     },
   },
   defaultVariants: {

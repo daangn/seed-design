@@ -146,12 +146,13 @@
   .seed-input-button__clearButton {
     cursor: pointer;
     border-radius: var(--seed-radius-full);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
     background-color: #0000;
     border: none;
     padding: 0;
+    scale: 1;
   }
 
   .seed-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
@@ -161,6 +162,10 @@
 
   .seed-input-button__clearButton {
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
+  }
+
+  .seed-input-button__clearButton:is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
   }
 
   .seed-input-button__root--size_large {

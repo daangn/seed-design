@@ -8,8 +8,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     border-radius: var(--seed-radius-full);
-    transition-duration: var(--seed-duration-color-transition);
-    transition-timing-function: var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), color var(--seed-duration-color-transition) var(--seed-timing-function-easing), border-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
     border: none;
@@ -18,9 +17,9 @@
     align-items: center;
     font-family: inherit;
     line-height: 1;
-    transition-property: background-color, color, border-color, box-shadow, outline-color;
     display: inline-flex;
     position: relative;
+    scale: 1;
   }
 
   .seed-chip__root:is(:focus-visible, [data-focus-visible]) {
@@ -211,6 +210,10 @@
     --seed-icon-size: var(--seed-dimension-x4);
   }
 
+  .seed-chip__root--size_large:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+    scale: var(--seed-scale-s97);
+  }
+
   .seed-chip__label--size_large {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
@@ -224,6 +227,10 @@
     height: 36px;
     padding-inline: var(--seed-dimension-x2);
     --seed-icon-size: var(--seed-dimension-x4);
+  }
+
+  .seed-chip__root--size_medium:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+    scale: var(--seed-scale-s95);
   }
 
   .seed-chip__label--size_medium {
@@ -243,6 +250,10 @@
     height: 32px;
     padding-inline: var(--seed-dimension-x1_5);
     --seed-icon-size: var(--seed-dimension-x3_5);
+  }
+
+  .seed-chip__root--size_small:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+    scale: var(--seed-scale-s95);
   }
 
   .seed-chip__label--size_small {

@@ -29,8 +29,9 @@
   }
 
   .seed-toggle-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     font-weight: var(--seed-font-weight-bold);
+    scale: 1;
   }
 
   .seed-toggle-button--variant_brandSolid {
@@ -163,6 +164,10 @@
     --seed-suffix-icon-size: var(--seed-dimension-x3_5);
   }
 
+  .seed-toggle-button--size_xsmall:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s95);
+  }
+
   .seed-toggle-button--size_small {
     height: var(--seed-dimension-x9);
     border-radius: var(--seed-radius-full);
@@ -175,5 +180,9 @@
     --thickness: 2px;
     --seed-prefix-icon-size: var(--seed-dimension-x3_5);
     --seed-suffix-icon-size: var(--seed-dimension-x3_5);
+  }
+
+  .seed-toggle-button--size_small:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
   }
 }

@@ -4,7 +4,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { focus, focusVisible, pressed, pseudo } from "../utils/pseudo";
+import { active, focus, focusVisible, pseudo } from "../utils/pseudo";
 import { imageFrameReactionButton as reactionButtonVars } from "../vars/component";
 import { vars as tokens } from "../vars";
 
@@ -26,6 +26,15 @@ export default defineSlotRecipe({
       height: reactionButtonVars.base.enabled.root.size,
 
       background: "transparent",
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${reactionButtonVars.base.enabled.root.scaleDuration} ${reactionButtonVars.base.enabled.root.scaleTimingFunction}`,
+
+      [pseudo(active)]: {
+        scale: reactionButtonVars.base.pressed.root.scale,
+      },
 
       "&::before": {
         content: "''",

@@ -5,7 +5,16 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { prefixIcon } from "../utils/icon";
-import { engaged, checked, disabled, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import {
+  active,
+  engaged,
+  checked,
+  disabled,
+  focusVisible,
+  not,
+  open,
+  pseudo,
+} from "../utils/pseudo";
 import { selectBox as vars } from "../vars/component";
 import { selectBoxGroup as groupVars } from "../vars/component";
 import { selectBoxCheckmark as checkmarkVars } from "../vars/component";
@@ -98,6 +107,17 @@ export const selectBox = defineSlotRecipe({
       flexGrow: 1,
 
       "--seed-focus-ring": "none",
+
+      // The trigger wraps all the visible row content while the pressed background
+      // stays on root, so scaling it implements the pressed contentScale.
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
+
+      [pseudo(not(disabled), active)]: {
+        scale: vars.base.enabledPressed.root.contentScale,
+      },
     },
     content: {
       display: "flex",

@@ -4,6 +4,7 @@
     cursor: pointer;
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     background: none;
     border: none;
     justify-content: center;
@@ -11,6 +12,11 @@
     padding: 0;
     display: inline-flex;
     position: relative;
+    scale: 1;
+  }
+
+  .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
   }
 
   .seed-image-frame-reaction-button__root:before {

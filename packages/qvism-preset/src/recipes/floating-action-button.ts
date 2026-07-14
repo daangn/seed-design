@@ -1,7 +1,7 @@
 import { floatingActionButton as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, disabled, focusVisible, pseudo } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -44,11 +44,15 @@ const floatingActionButton = defineSlotRecipe({
       lineHeight: vars.extendedTrue.enabled.label.lineHeight,
       fontWeight: vars.extendedTrue.enabled.label.fontWeight,
 
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
       transition: [
         `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
         `max-width ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `height ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `padding ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
+        `scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}`,
         FOCUS_RING_TRANSITION,
       ].join(", "),
 
@@ -84,6 +88,10 @@ const floatingActionButton = defineSlotRecipe({
           // trick for width transition
           width: "fit-content",
           maxWidth: "999px",
+
+          [pseudo(not(disabled), active)]: {
+            scale: vars.extendedTrue.pressed.root.scale,
+          },
         },
         icon: {
           width: vars.extendedTrue.enabled.icon.size,
@@ -101,6 +109,10 @@ const floatingActionButton = defineSlotRecipe({
           minWidth: vars.extendedFalse.enabled.root.size,
           maxWidth: vars.extendedFalse.enabled.root.size,
           height: vars.extendedFalse.enabled.root.size,
+
+          [pseudo(not(disabled), active)]: {
+            scale: vars.extendedFalse.pressed.root.scale,
+          },
         },
         icon: {
           position: "absolute",

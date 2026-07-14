@@ -7,8 +7,8 @@ export const vars = {
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x5)",
         "paddingY": "var(--seed-dimension-x3_5)",
-        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
-        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)",
@@ -20,7 +20,7 @@ export const vars = {
     "pressed": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)",
-        "contentScale": "var(--seed-scale-s97)"
+        "scale": "var(--seed-scale-s97)"
       }
     }
   }

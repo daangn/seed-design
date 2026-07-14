@@ -1,6 +1,6 @@
 import { tablist as vars, tab as triggerVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { active, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -105,9 +105,18 @@ const tabs = defineSlotRecipe({
         backgroundColor: vars.base.enabled.indicator.color,
       },
 
-      transition: FOCUS_RING_TRANSITION,
+      // The trigger is transparent (the pressed feedback is only the content scale),
+      // so scaling the whole trigger scales only its content.
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${triggerVars.base.enabled.root.contentScaleDuration} ${triggerVars.base.enabled.root.contentScaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+
+      [pseudo(not(disabled), active)]: {
+        scale: triggerVars.base.pressed.root.contentScale,
+      },
     },
   },
   variants: {

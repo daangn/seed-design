@@ -55,6 +55,11 @@
     gap: var(--seed-dimension-x1_5);
     flex-grow: 1;
     --seed-focus-ring: none;
+    scale: 1;
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+}
+.seed-select-box__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
 }
 .seed-select-box__content {
     display: flex;

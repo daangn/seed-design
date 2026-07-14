@@ -1,6 +1,6 @@
 import { helpBubble as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { active, hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import {
@@ -133,9 +133,17 @@ const helpBubble = defineSlotRecipe({
       }),
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: FOCUS_RING_TRANSITION,
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${vars.base.enabled.closeButton.scaleDuration} ${vars.base.enabled.closeButton.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+
+      [pseudo(active)]: {
+        scale: vars.base.pressed.closeButton.scale,
+      },
     },
   },
   variants: {},

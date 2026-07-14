@@ -6,7 +6,7 @@
     border-color: var(--seed-color-stroke-neutral-weak);
     border-radius: var(--seed-radius-full);
     margin-top: var(--radiomark-margin-top, 0);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-focus-ring, var(--seed-dimension-x0_5) solid transparent);
     outline-offset: var(--seed-dimension-x0_5);
     flex: none;
@@ -14,6 +14,7 @@
     align-items: center;
     display: flex;
     position: relative;
+    scale: 1;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -26,6 +27,10 @@
     .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
+  }
+
+  .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s95);
   }
 
   .seed-radiomark__root:is(:checked, [data-checked]) {

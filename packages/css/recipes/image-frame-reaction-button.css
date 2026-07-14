@@ -10,6 +10,11 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
     background: transparent;
+    scale: 1;
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+}
+.seed-image-frame-reaction-button__root:is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
 }
 .seed-image-frame-reaction-button__root::before {
     content: '';

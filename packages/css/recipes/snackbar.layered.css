@@ -76,6 +76,7 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     border: none;
     flex-shrink: 0;
     justify-content: center;
@@ -83,6 +84,11 @@
     text-decoration: none;
     display: inline-flex;
     position: relative;
+    scale: 1;
+  }
+
+  .seed-snackbar__actionButton:is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
   }
 
   .seed-snackbar__actionButton:after {

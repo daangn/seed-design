@@ -112,11 +112,12 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-medium);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     border: none;
     justify-content: center;
     align-items: center;
     display: flex;
+    scale: 1;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -129,6 +130,10 @@
     .seed-menu-sheet__closeButton:is(:active, [data-active]) {
       background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
+  }
+
+  .seed-menu-sheet__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
   }
 
   .seed-menu-sheet__closeButton {

@@ -5,7 +5,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, not, pseudo, readOnly } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, not, pseudo, readOnly } from "../utils/pseudo";
 import {
   attachmentInput as vars,
   attachmentInputItem as itemVars,
@@ -69,13 +69,21 @@ const attachmentInputTrigger = defineSlotRecipe({
       cursor: "pointer",
       backgroundColor: "transparent",
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
-      transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `background-color 0.2s, scale ${triggerVars.base.enabled.root.scaleDuration} ${triggerVars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: triggerVars.base.pressed.root.color,
+      },
+
+      [pseudo(not(disabled), active)]: {
+        scale: triggerVars.base.pressed.root.scale,
       },
 
       [pseudo(disabled)]: {
@@ -267,7 +275,13 @@ const attachmentInputItem = defineSlotRecipe({
       background: "transparent",
       cursor: "pointer",
       borderRadius: "inherit",
-      transition: FOCUS_RING_TRANSITION,
+
+      // The button itself is transparent (the backdrop slot carries the overlay),
+      // so scaling the whole button scales only its content.
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${itemActionButtonVars.base.enabled.root.contentScaleDuration} ${itemActionButtonVars.base.enabled.root.contentScaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
@@ -281,6 +295,10 @@ const attachmentInputItem = defineSlotRecipe({
       ...onlyIcon({
         size: itemActionButtonVars.base.enabled.icon.size,
       }),
+
+      [pseudo(not(disabled), active)]: {
+        scale: itemActionButtonVars.base.pressed.root.contentScale,
+      },
     },
     removeButton: {
       position: "absolute",

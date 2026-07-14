@@ -3,7 +3,7 @@ import spec from "@seed-design/rootage-artifacts/components/input-button.json" w
 };
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
+import { active, pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -185,13 +185,21 @@ const inputButton = defineSlotRecipe({
       padding: 0,
 
       borderRadius: tokens.$radius.full,
-      transition: FOCUS_RING_TRANSITION,
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${vars.base.enabled.clearButton.scaleDuration} ${vars.base.enabled.clearButton.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
       ...onlyIcon({
         color: vars.base.enabled.clearButton.color,
       }),
+
+      [pseudo(active)]: {
+        scale: vars.base.pressed.clearButton.scale,
+      },
     },
   },
   variants: {

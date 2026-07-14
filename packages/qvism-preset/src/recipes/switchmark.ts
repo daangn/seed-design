@@ -1,7 +1,7 @@
 import spec from "@seed-design/rootage-artifacts/components/switchmark.json" with { type: "json" };
 import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, focusVisible, pseudo } from "../utils/pseudo";
+import { active, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -35,10 +35,18 @@ const switchmarkRecipe = defineSlotRecipe({
       borderRadius: vars.base.enabled.thumb.cornerRadius,
 
       // translateDuration & translateTimingFunction are defined in vars but not used
-      transition: `transform ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}, background-color ${vars.base.enabled.thumb.colorDuration} ${vars.base.enabled.thumb.colorTimingFunction} ${vars.base.enabled.thumb.colorDelay}`,
+      transition: `transform ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}, background-color ${vars.base.enabled.thumb.colorDuration} ${vars.base.enabled.thumb.colorTimingFunction} ${vars.base.enabled.thumb.colorDelay}, scale ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}`,
 
       // defining 'scale' / 'translate' and else independently from 'transform' -> requires Chrome 104~ && Safari 14.1~
       transform: `scale(${vars.base.enabled.thumb.scale})`,
+
+      // The individual `scale` multiplies with the transform's scale, so the pressed
+      // scale applies relative to both the unchecked (0.8) and checked (1) thumb.
+      scale: "1",
+
+      [pseudo(not(disabled), active)]: {
+        scale: vars.base.pressed.thumb.scale,
+      },
     },
   },
   variants: {

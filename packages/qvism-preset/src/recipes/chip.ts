@@ -2,7 +2,7 @@ import { chip as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { active, engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
 import spec from "@seed-design/rootage-artifacts/components/chip.json" with { type: "json" };
 
@@ -28,9 +28,17 @@ const chip = defineSlotRecipe({
       lineHeight: 1,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transitionDuration: vars.base.enabled.root.colorDuration,
-      transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
-      transitionProperty: "background-color, color, border-color, box-shadow, outline-color",
+      transition: [
+        `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `border-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `outline-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}`,
+      ].join(", "),
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -187,6 +195,10 @@ const chip = defineSlotRecipe({
           ...onlyIcon({
             size: vars.sizeLarge.enabled.icon.size,
           }),
+
+          [pseudo(active, not(disabled))]: {
+            scale: vars.sizeLarge.pressed.root.scale,
+          },
         },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
@@ -211,6 +223,10 @@ const chip = defineSlotRecipe({
           ...onlyIcon({
             size: vars.sizeMedium.enabled.icon.size,
           }),
+
+          [pseudo(active, not(disabled))]: {
+            scale: vars.sizeMedium.pressed.root.scale,
+          },
         },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
@@ -235,6 +251,10 @@ const chip = defineSlotRecipe({
           ...onlyIcon({
             size: vars.sizeSmall.enabled.icon.size,
           }),
+
+          [pseudo(active, not(disabled))]: {
+            scale: vars.sizeSmall.pressed.root.scale,
+          },
         },
         label: {
           fontSize: vars.sizeSmall.enabled.label.fontSize,
