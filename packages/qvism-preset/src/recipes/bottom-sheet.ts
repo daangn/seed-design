@@ -5,7 +5,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { active, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
 import { vars as tokens } from "../vars";
 
@@ -168,6 +168,15 @@ const bottomSheet = defineSlotRecipe({
       width: closeButtonVars.base.enabled.root.size,
       height: closeButtonVars.base.enabled.root.size,
       cursor: "pointer",
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `scale ${closeButtonVars.base.enabled.root.scaleDuration} ${closeButtonVars.base.enabled.root.scaleTimingFunction}`,
+
+      [pseudo(active)]: {
+        scale: closeButtonVars.base.pressed.root.scale,
+      },
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,

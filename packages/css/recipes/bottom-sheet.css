@@ -137,6 +137,13 @@
     width: 28px;
     height: 28px;
     cursor: pointer;
+    scale: 1;
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+}
+.seed-bottom-sheet__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-scale-s95);
+}
+.seed-bottom-sheet__closeButton {
     --seed-icon-size: 14px;
     --seed-icon-color: var(--seed-color-fg-neutral);
 }

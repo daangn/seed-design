@@ -317,7 +317,11 @@ const attachmentInputItem = defineSlotRecipe({
       backgroundColor: itemRemoveButtonVars.base.enabled.root.color,
       borderRadius: itemRemoveButtonVars.base.enabled.root.cornerRadius,
       cursor: "pointer",
-      transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
+
+      transition: `background-color 0.2s, scale ${itemRemoveButtonVars.base.enabled.root.scaleDuration} ${itemRemoveButtonVars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
@@ -331,6 +335,10 @@ const attachmentInputItem = defineSlotRecipe({
 
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: itemRemoveButtonVars.base.pressed.root.color,
+      },
+
+      [pseudo(not(disabled), active)]: {
+        scale: itemRemoveButtonVars.base.pressed.root.scale,
       },
 
       [pseudo(disabled)]: {

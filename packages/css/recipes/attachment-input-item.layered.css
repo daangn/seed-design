@@ -167,7 +167,7 @@
     background-color: var(--seed-color-bg-layer-default);
     border-radius: var(--seed-radius-full);
     cursor: pointer;
-    transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color .2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     border: none;
@@ -176,6 +176,7 @@
     padding: 0;
     display: flex;
     position: absolute;
+    scale: 1;
   }
 
   .seed-attachment-input-item__removeButton:is(:focus-visible, [data-focus-visible]) {
@@ -199,6 +200,10 @@
     .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
       background-color: var(--seed-color-bg-layer-default-pressed);
     }
+  }
+
+  .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s95);
   }
 
   .seed-attachment-input-item__removeButton:is(:disabled, [disabled], [data-disabled]) {
