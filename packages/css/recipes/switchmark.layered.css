@@ -30,7 +30,7 @@
   }
 
   .seed-switchmark__thumb:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-scale-s97);
+    scale: var(--seed-pressed-scale, var(--seed-scale-s97));
   }
 
   .seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {

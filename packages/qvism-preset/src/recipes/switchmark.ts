@@ -44,8 +44,9 @@ const switchmarkRecipe = defineSlotRecipe({
       // scale applies relative to both the unchecked (0.8) and checked (1) thumb.
       scale: "1",
 
+      // --seed-pressed-scale lets a containing component (e.g. ListItem) opt out with `1`
       [pseudo(not(disabled), active)]: {
-        scale: vars.base.pressed.thumb.scale,
+        scale: `var(--seed-pressed-scale, ${vars.base.pressed.thumb.scale})`,
       },
     },
   },

@@ -3387,7 +3387,7 @@
 }
 
 .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-scale-s95);
+  scale: var(--seed-pressed-scale, var(--seed-scale-s95));
 }
 
 .seed-checkmark__icon {
@@ -6286,6 +6286,7 @@
   --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
   padding-right: var(--seed-box-padding-right);
   --seed-focus-ring: none;
+  --seed-pressed-scale: 1;
   --seed-icon-size: 22px;
   --seed-icon-color: var(--seed-color-fg-neutral);
   flex-shrink: 0;
@@ -6309,6 +6310,7 @@
   align-items: center;
   gap: var(--seed-box-gap);
   --seed-focus-ring: none;
+  --seed-pressed-scale: 1;
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-regular);
@@ -7781,7 +7783,7 @@
 }
 
 .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-scale-s95);
+  scale: var(--seed-pressed-scale, var(--seed-scale-s95));
 }
 
 .seed-radiomark__root:is(:checked, [data-checked]) {
@@ -9547,7 +9549,7 @@
 }
 
 .seed-switchmark__thumb:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-scale-s97);
+  scale: var(--seed-pressed-scale, var(--seed-scale-s97));
 }
 
 .seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {

@@ -35,8 +35,9 @@ const checkmark = defineSlotRecipe({
       ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
 
+      // --seed-pressed-scale lets a containing component (e.g. ListItem) opt out with `1`
       [pseudo(not(disabled), active)]: {
-        scale: vars.base.pressed.root.scale,
+        scale: `var(--seed-pressed-scale, ${vars.base.pressed.root.scale})`,
       },
     },
     icon: {

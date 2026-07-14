@@ -30,7 +30,7 @@
   }
 
   .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-scale-s95);
+    scale: var(--seed-pressed-scale, var(--seed-scale-s95));
   }
 
   .seed-radiomark__root:is(:checked, [data-checked]) {

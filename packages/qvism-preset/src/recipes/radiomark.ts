@@ -40,8 +40,9 @@ const radiomark = defineSlotRecipe({
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
+      // --seed-pressed-scale lets a containing component (e.g. ListItem) opt out with `1`
       [pseudo(not(disabled), active)]: {
-        scale: vars.base.enabledPressed.root.scale,
+        scale: `var(--seed-pressed-scale, ${vars.base.enabledPressed.root.scale})`,
       },
 
       [pseudo(checked)]: {
