@@ -8,6 +8,7 @@ import {
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 import clsx from "clsx";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(menuSheet);
@@ -227,7 +228,7 @@ export interface MenuSheetItemProps
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemProps>(
-  ({ className: propClassName, ...props }, ref) => {
+  ({ className: propClassName, children, ...props }, ref) => {
     const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
     const parentProps = useItemProps();
 
@@ -241,7 +242,14 @@ export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemPr
           className={clsx(classNames.root, propClassName)}
           {...stateProps}
           {...otherProps}
-        />
+        >
+          {/* layout layer — scales as a whole on press while the pressed background
+              stays on root. With asChild it is injected inside the consumer's
+              element instead. */}
+          {wrapSlotChildren(otherProps.asChild, children, (layoutChildren) => (
+            <div className={classNames.layout}>{layoutChildren}</div>
+          ))}
+        </Primitive.button>
       </ItemClassNamesProvider>
     );
   },

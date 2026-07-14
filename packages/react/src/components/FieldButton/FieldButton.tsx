@@ -225,6 +225,20 @@ export const FieldButtonControl = withProvider<HTMLDivElement, FieldButtonContro
   "root",
 );
 
+export interface FieldButtonLayoutProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+/**
+ * Wraps the control's visible content (everything except `FieldButton.Button`) so it
+ * scales as a whole on press while the background stays on the button overlay.
+ * Compositions without it simply skip the pressed scale.
+ */
+export const FieldButtonLayout = withContext<HTMLDivElement, FieldButtonLayoutProps>(
+  Primitive.div,
+  "layout",
+);
+
 export interface FieldButtonClearButtonProps extends FieldButton.ClearButtonProps {}
 
 export const FieldButtonClearButton = withContext<HTMLButtonElement, FieldButtonClearButtonProps>(

@@ -8,6 +8,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { ClassNamesProvider, withContext, useClassNames } = createSlotRecipeContext(menu);
 const {
@@ -108,7 +109,7 @@ export const MenuGroupLabel = withContext<HTMLDivElement, MenuGroupLabelProps>(
 export interface MenuItemProps extends MenuItemVariantProps, MenuPrimitive.ItemProps {}
 
 export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
-  ({ className: propClassName, ...props }, ref) => {
+  ({ className: propClassName, children, ...props }, ref) => {
     const [variantProps, otherProps] = menuItem.splitVariantProps(props);
     const parentProps = useItemProps();
 
@@ -120,7 +121,14 @@ export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
           ref={ref}
           className={clsx(classNames.root, propClassName)}
           {...otherProps}
-        />
+        >
+          {/* layout layer — scales as a whole on press while the pressed background
+              stays on root::before. With asChild it is injected inside the
+              consumer's element instead. */}
+          {wrapSlotChildren(otherProps.asChild, children, (layoutChildren) => (
+            <div className={classNames.layout}>{layoutChildren}</div>
+          ))}
+        </MenuPrimitive.Item>
       </ItemClassNamesProvider>
     );
   },
