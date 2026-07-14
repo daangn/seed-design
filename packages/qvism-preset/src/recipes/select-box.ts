@@ -40,7 +40,7 @@ export const selectBoxGroup = defineRecipe({
 
 export const selectBox = defineSlotRecipe({
   name: "select-box",
-  slots: ["root", "trigger", "content", "body", "label", "description", "footer"],
+  slots: ["root", "inner", "trigger", "content", "body", "label", "description", "footer"],
   base: {
     root: {
       cursor: "pointer",
@@ -78,6 +78,12 @@ export const selectBox = defineSlotRecipe({
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
+      // press signal for the inner layer — custom properties inherit, so the inner
+      // slot can consume this without any state forwarding in React.
+      [pseudo(not(disabled), active)]: {
+        "--select-box-pressed-scale": vars.base.enabledPressed.root.contentScale,
+      },
+
       [pseudo(not(disabled), checked)]: {
         "&::after": {
           borderWidth: vars.base.selected.root.strokeWidth,
@@ -98,6 +104,21 @@ export const selectBox = defineSlotRecipe({
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },
+    // inner layer — wraps trigger + footer so they scale as one unit on press while
+    // the pressed background, stroke, and selected border stay fixed on root.
+    // ("layout" is taken by the layout variant, hence "inner".)
+    inner: {
+      display: "flex",
+      flexDirection: "column",
+      flexGrow: 1,
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      // The pressed value is inherited from root, so press detection stays on the
+      // interactive element itself (same signal as the pressed background).
+      scale: "var(--select-box-pressed-scale, 1)",
+
+      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
+    },
     trigger: {
       display: "flex",
       justifyContent: "space-between",
@@ -107,17 +128,6 @@ export const selectBox = defineSlotRecipe({
       flexGrow: 1,
 
       "--seed-focus-ring": "none",
-
-      // The trigger wraps all the visible row content while the pressed background
-      // stays on root, so scaling it implements the pressed contentScale.
-      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
-      scale: "1",
-
-      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
-
-      [pseudo(not(disabled), active)]: {
-        scale: vars.base.enabledPressed.root.contentScale,
-      },
     },
     content: {
       display: "flex",

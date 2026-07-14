@@ -7,6 +7,10 @@ const selectBoxSlotNames = [
     "seed-select-box__root"
   ],
   [
+    "inner",
+    "seed-select-box__inner"
+  ],
+  [
     "trigger",
     "seed-select-box__trigger"
   ],

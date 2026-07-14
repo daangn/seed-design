@@ -39,6 +39,18 @@
     cursor: not-allowed;
   }
 
+  .seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    --accordion-pressed-scale: var(--seed-scale-s97);
+  }
+
+  .seed-accordion__layout {
+    scale: var(--accordion-pressed-scale, 1);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+    flex-grow: 1;
+    align-items: center;
+    display: flex;
+  }
+
   .seed-accordion__prefix {
     --seed-icon-color: var(--seed-color-fg-neutral);
     flex-shrink: 0;

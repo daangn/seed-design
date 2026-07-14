@@ -38,6 +38,16 @@
 .seed-accordion__trigger:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
+.seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    --accordion-pressed-scale: var(--seed-scale-s97);
+}
+.seed-accordion__layout {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    scale: var(--accordion-pressed-scale, 1);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+}
 .seed-accordion__prefix {
     display: inline-flex;
     align-items: center;

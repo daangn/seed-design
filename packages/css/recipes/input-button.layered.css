@@ -8,6 +8,20 @@
     position: relative;
   }
 
+  .seed-input-button__root:not([data-disabled]):not([data-readonly])[data-active] {
+    --input-button-pressed-scale: var(--seed-scale-s97);
+  }
+
+  .seed-input-button__layout {
+    align-items: center;
+    gap: inherit;
+    min-width: 0;
+    scale: var(--input-button-pressed-scale, 1);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+    flex-grow: 1;
+    display: flex;
+  }
+
   .seed-input-button__button {
     z-index: -1;
     cursor: pointer;

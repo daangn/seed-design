@@ -1,6 +1,6 @@
 import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, pseudo } from "../utils/pseudo";
+import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -13,7 +13,7 @@ import spec from "@seed-design/rootage-artifacts/components/menu-sheet-item.json
 
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
-  slots: ["root", "content", "label", "description"],
+  slots: ["root", "layout", "content", "label", "description"],
   base: {
     root: {
       display: "flex",
@@ -23,7 +23,6 @@ const menuSheetItem = defineSlotRecipe({
       minHeight: vars.base.enabled.root.minHeight,
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
-      gap: vars.base.enabled.root.gap,
       boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
 
       // iOS 15 has default margin on buttons
@@ -34,6 +33,12 @@ const menuSheetItem = defineSlotRecipe({
 
       [pseudo(engaged)]: {
         backgroundColor: vars.base.pressed.root.color,
+      },
+
+      // press signal for the layout layer — custom properties inherit, so the layout
+      // slot can consume this without any state forwarding in React.
+      [pseudo(active)]: {
+        "--menu-sheet-item-pressed-scale": vars.base.pressed.root.contentScale,
       },
 
       "&:first-child": {
@@ -56,6 +61,22 @@ const menuSheetItem = defineSlotRecipe({
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,
       }),
+    },
+    // layout layer — flex row holding prefixIcon/content; scales as a whole on press
+    // while the pressed background stays on root.
+    layout: {
+      display: "flex",
+      alignItems: "center",
+      flexGrow: 1,
+
+      gap: vars.base.enabled.root.gap,
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      // The pressed value is inherited from root, so press detection stays on the
+      // interactive element itself (same signal as the pressed background).
+      scale: "var(--menu-sheet-item-pressed-scale, 1)",
+
+      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
     },
     content: {
       display: "flex",
@@ -106,7 +127,7 @@ const menuSheetItem = defineSlotRecipe({
         },
       },
       center: {
-        root: {
+        layout: {
           justifyContent: "center",
         },
         content: {

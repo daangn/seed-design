@@ -5,7 +5,6 @@
     min-height: 52px;
     padding-inline: var(--seed-dimension-x4);
     padding-block: var(--seed-dimension-x3_5);
-    gap: var(--seed-dimension-x3_5);
     box-shadow: inset 0 calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-muted);
     margin: 0;
     border: none;
@@ -20,6 +19,9 @@
     .seed-menu-sheet-item__root:is(:active, [data-active]) {
         background-color: var(--seed-color-bg-neutral-weak-pressed);
     }
+}
+.seed-menu-sheet-item__root:is(:active, [data-active]) {
+    --menu-sheet-item-pressed-scale: var(--seed-scale-s97);
 }
 .seed-menu-sheet-item__root:first-child {
     border-top-left-radius: var(--seed-radius-r4);
@@ -41,6 +43,14 @@
 }
 .seed-menu-sheet-item__root {
     --seed-prefix-icon-size: 22px;
+}
+.seed-menu-sheet-item__layout {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: var(--seed-dimension-x3_5);
+    scale: var(--menu-sheet-item-pressed-scale, 1);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 .seed-menu-sheet-item__content {
     display: flex;
@@ -73,7 +83,7 @@
 .seed-menu-sheet-item__content--labelAlign_left {
     text-align: start;
 }
-.seed-menu-sheet-item__root--labelAlign_center {
+.seed-menu-sheet-item__layout--labelAlign_center {
     justify-content: center;
 }
 .seed-menu-sheet-item__content--labelAlign_center {

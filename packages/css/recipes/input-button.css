@@ -6,6 +6,18 @@
     position: relative;
     isolation: isolate;
 }
+.seed-input-button__root:not([data-disabled]):not(:is([data-readonly]))[data-active] {
+    --input-button-pressed-scale: var(--seed-scale-s97);
+}
+.seed-input-button__layout {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: inherit;
+    min-width: 0;
+    scale: var(--input-button-pressed-scale, 1);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+}
 .seed-input-button__button {
     position: absolute;
     z-index: -1;

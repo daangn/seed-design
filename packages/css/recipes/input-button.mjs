@@ -7,6 +7,10 @@ const inputButtonSlotNames = [
     "seed-input-button__root"
   ],
   [
+    "layout",
+    "seed-input-button__layout"
+  ],
+  [
     "value",
     "seed-input-button__value"
   ],
