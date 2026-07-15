@@ -1,6 +1,6 @@
 import { chipTablist as vars, chip as chipVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -68,7 +68,14 @@ const chipTabs = defineSlotRecipe({
       borderRadius: chipVars.base.enabled.root.cornerRadius,
       fontWeight: chipVars.base.enabled.label.fontWeight,
 
-      transition: `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: [
+        `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}`,
+        `scale ${chipVars.base.enabled.root.scaleDuration} ${chipVars.base.enabled.root.scaleTimingFunction}`,
+        FOCUS_RING_TRANSITION,
+      ].join(", "),
+
+      // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
+      scale: "1",
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -86,6 +93,10 @@ const chipTabs = defineSlotRecipe({
           minWidth: chipVars.sizeMediumLayoutWithText.enabled.root.minWidth,
           fontSize: chipVars.sizeMedium.enabled.label.fontSize,
           paddingInline: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+
+          [pseudo(active, not(disabled))]: {
+            scale: chipVars.sizeMedium.pressed.root.scale,
+          },
         },
       },
       large: {
@@ -98,6 +109,10 @@ const chipTabs = defineSlotRecipe({
           minWidth: chipVars.sizeLargeLayoutWithText.enabled.root.minWidth,
           fontSize: chipVars.sizeLarge.enabled.label.fontSize,
           paddingInline: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+
+          [pseudo(active, not(disabled))]: {
+            scale: chipVars.sizeLarge.pressed.root.scale,
+          },
         },
       },
     },
