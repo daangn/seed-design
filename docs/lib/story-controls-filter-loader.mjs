@@ -46,19 +46,21 @@ function filterControls(ctx, source) {
       const options = call.getArguments()[0]?.asKind(SyntaxKind.ObjectLiteralExpression);
       if (!options) continue;
 
-      const allowed = getAllowedPropNames(ctx, options);
-      if (!allowed) continue;
+      const resolved = getAllowedPropNames(ctx, options);
+      if (!resolved) continue;
+      const { allowed, defaults } = resolved;
 
-      const controlsLiteral = options
+      const generatedObj = options
         .getProperty("_generated")
         ?.asKind(SyntaxKind.PropertyAssignment)
         ?.getInitializer()
-        ?.asKind(SyntaxKind.ObjectLiteralExpression)
+        ?.asKind(SyntaxKind.ObjectLiteralExpression);
+      const controlsLiteral = generatedObj
         ?.getProperty("controls")
         ?.asKind(SyntaxKind.PropertyAssignment)
         ?.getInitializer()
         ?.asKind(SyntaxKind.StringLiteral);
-      if (!controlsLiteral) continue;
+      if (!generatedObj || !controlsLiteral) continue;
 
       const node = parse(controlsLiteral.getLiteralValue());
       if (node?.type !== "object") continue;
@@ -67,6 +69,23 @@ function filterControls(ctx, source) {
       // JSON.stringify for correct escaping — setLiteralValue mangles backslashes
       controlsLiteral.replaceWithText(JSON.stringify(stringify(node)));
       changed = true;
+
+      // Seed the story's initial data with each prop's `@default` (from JSDoc, read
+      // in getAllowedPropNames) so controls reflect the component's real defaults —
+      // e.g. a Chip Radio / Switch preselects the actual default instead of the
+      // first member. Scoped to props that survived the filter; `initial`/`fixed`
+      // still override these in factory.getProps.
+      const scopedDefaults = Object.fromEntries(
+        node.properties
+          .filter((property) => property.name in defaults)
+          .map((property) => [property.name, defaults[property.name]]),
+      );
+      if (Object.keys(scopedDefaults).length > 0 && !generatedObj.getProperty("defaults")) {
+        generatedObj.addPropertyAssignment({
+          name: "defaults",
+          initializer: JSON.stringify(JSON.stringify(scopedDefaults)),
+        });
+      }
     }
   }
 
@@ -89,6 +108,7 @@ function getAllowedPropNames(ctx, options) {
   if (!propsParam) return;
 
   const allowed = new Set();
+  const defaults = {};
   for (const property of propsParam.getTypeAtLocation(componentExpr).getProperties()) {
     const name = property.getName();
 
@@ -110,11 +130,45 @@ function getAllowedPropNames(ctx, options) {
       continue;
 
     allowed.add(name);
+    const defaultValue = readDefault(property);
+    if (defaultValue !== undefined) defaults[name] = defaultValue;
     // re-run the loader when in-repo prop declarations change
     for (const src of sources) {
       if (!src.includes("node_modules")) ctx.addDependency(src);
     }
   }
 
-  return allowed;
+  return { allowed, defaults };
+}
+
+/**
+ * Reads a prop's `@default` JSDoc tag and parses it into a primitive. SEED recipe
+ * types tag their variants (e.g. `@default "medium"`, `@default false`), and the
+ * tag lives on the workspace declaration reachable from the resolved prop symbol.
+ * Only JSON primitives (string/number/boolean) are returned; anything else
+ * (functions, objects, unparseable text) is skipped so nothing garbage is seeded.
+ */
+function readDefault(property) {
+  for (const declaration of property.getDeclarations() ?? []) {
+    if (typeof declaration.getJsDocs !== "function") continue;
+
+    for (const doc of declaration.getJsDocs()) {
+      for (const tag of doc.getTags()) {
+        if (tag.getTagName() !== "default") continue;
+
+        const text = tag.getCommentText()?.trim();
+        if (!text) return undefined;
+
+        try {
+          const value = JSON.parse(text);
+          const type = typeof value;
+          if (type === "string" || type === "number" || type === "boolean") return value;
+        } catch {}
+
+        return undefined;
+      }
+    }
+  }
+
+  return undefined;
 }

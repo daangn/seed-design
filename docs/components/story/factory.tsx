@@ -22,6 +22,12 @@ export interface StoryOptions<C extends FC<any>> {
   _generated?: {
     exportName: string;
     controls: string;
+    /**
+     * JSON map of each control's `@default` (captured from JSDoc by
+     * `story-controls-filter-loader.mjs`). Merged under `initial` so controls
+     * preselect the component's real defaults.
+     */
+    defaults?: string;
   };
 }
 
@@ -76,6 +82,9 @@ export function defineStoryFactory(): StoryFactory {
   return {
     defineStory({ Component, args = {}, _generated }) {
       let generatedControls: TypeNode | undefined;
+      const generatedDefaults = _generated?.defaults
+        ? (JSON.parse(_generated.defaults) as Record<string, unknown>)
+        : undefined;
 
       function getProps(): WithControlProps {
         const normalized = Array.isArray(args) ? args : [{ ...args, variant: "default" }];
@@ -99,13 +108,16 @@ export function defineStoryFactory(): StoryFactory {
               );
             }
 
+            // precedence: component @default (lowest) < story initial < fixed
+            const defaultValues = [generatedDefaults, initial, fixedValues]
+              .filter((values): values is Record<string, unknown> => values != null)
+              .reduce((merged, values) => propsDeepmerge(merged, values), {} as object);
+
             return {
               variant: preset.variant,
               description: preset.description,
               controls,
-              defaultValues: (fixedValues
-                ? propsDeepmerge(initial, fixedValues)
-                : initial) as Record<string, unknown>,
+              defaultValues: defaultValues as Record<string, unknown>,
             };
           }),
         };
