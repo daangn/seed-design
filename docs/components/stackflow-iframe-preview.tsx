@@ -81,6 +81,59 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   );
 }
 
+/**
+ * The embedded stackflow app focuses its active AppScreen layer once the enter
+ * animation completes (an a11y behavior). When focus lands inside a cross-origin
+ * iframe, the browser scrolls this parent document to bring the focused iframe
+ * into view — so the docs page jumps down to the preview right after it loads.
+ *
+ * There is no CSS or spec-level way to opt out of this cross-frame focus scroll
+ * (w3c/csswg-drafts#7134), and the old `backface-visibility` hack no longer works
+ * in current Chrome. So we undo it here: the moment the iframe takes focus we
+ * remember the scroll position, and any scroll that fires within a short window
+ * after that — while the iframe still holds focus — is reverted. The window is
+ * tight enough that genuine user scrolling afterwards is left alone. Reverting
+ * synchronously inside the scroll handler coalesces before paint, so there is no
+ * visible flash.
+ */
+function useSuppressIframeFocusScroll(
+  iframeRef: React.RefObject<HTMLIFrameElement | null>,
+  enabled: boolean,
+) {
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!enabled || !iframe) return;
+
+    let savedY = window.scrollY;
+    let armedUntil = 0;
+
+    const arm = () => {
+      if (document.activeElement !== iframe) return;
+
+      savedY = window.scrollY;
+      armedUntil = performance.now() + 250;
+    };
+
+    const restore = () => {
+      if (performance.now() > armedUntil || document.activeElement !== iframe) return;
+
+      window.scrollTo({ top: savedY, behavior: "instant" });
+    };
+
+    // `blur` on window fires (capture) when focus moves into the iframe; the
+    // iframe's own `focus` event is a belt-and-suspenders signal for the same.
+    window.addEventListener("blur", arm, true);
+    iframe.addEventListener("focus", arm);
+    window.addEventListener("scroll", restore, { passive: true });
+
+    return () => {
+      window.removeEventListener("blur", arm, true);
+      iframe.removeEventListener("focus", arm);
+      window.removeEventListener("scroll", restore);
+    };
+  }, [iframeRef, enabled]);
+}
+
 function IframePreview({
   path,
   onLoad,
@@ -93,6 +146,8 @@ function IframePreview({
   const [rendered, setRendered] = useState(false);
 
   useEffect(() => setRendered(true), []);
+
+  useSuppressIframeFocusScroll(iframeRef, rendered);
 
   if (!rendered) return null;
 
