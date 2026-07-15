@@ -766,7 +766,7 @@
               "root": {
                 "scale": {
                   "type": "number",
-                  "value": "$scale.s95"
+                  "value": "$scale.s97"
                 }
               }
             }

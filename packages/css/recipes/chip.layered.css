@@ -230,7 +230,7 @@
   }
 
   .seed-chip__root--size_medium:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    scale: var(--seed-scale-s95);
+    scale: var(--seed-scale-s97);
   }
 
   .seed-chip__label--size_medium {

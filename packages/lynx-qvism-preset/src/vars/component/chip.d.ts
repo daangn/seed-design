@@ -258,7 +258,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "scale": "var(--seed-scale-s95)"
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },

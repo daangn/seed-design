@@ -246,7 +246,7 @@ data:
           size: $dimension.x4
       pressed:
         root:
-          scale: $scale.s95
+          scale: $scale.s97
     size=large:
       enabled:
         root:
