@@ -90,15 +90,26 @@ function getAllowedPropNames(ctx, options) {
 
   const allowed = new Set();
   for (const property of propsParam.getTypeAtLocation(componentExpr).getProperties()) {
+    const name = property.getName();
+
     // intersections merge symbols, so a prop redeclared in the repo (e.g. an
     // inline `& { children?: string }`) carries the node_modules declaration
     // too — drop only when every declaration is external
     const sources = (property.getDeclarations() ?? []).map((declaration) =>
       declaration.getSourceFile().getFilePath(),
     );
-    if (sources.length > 0 && sources.every((src) => src.includes("node_modules"))) continue;
+    // `children` is React-declared (node_modules) but it's the component's
+    // content, not an HTML/aria attribute — always keep it so it renders as a
+    // control (ReplaceReactNode gives it a string widget). This removes the need
+    // for a per-story `withStoryPreview<{ children?: string }>()` override.
+    if (
+      name !== "children" &&
+      sources.length > 0 &&
+      sources.every((src) => src.includes("node_modules"))
+    )
+      continue;
 
-    allowed.add(property.getName());
+    allowed.add(name);
     // re-run the loader when in-repo prop declarations change
     for (const src of sources) {
       if (!src.includes("node_modules")) ctx.addDependency(src);
