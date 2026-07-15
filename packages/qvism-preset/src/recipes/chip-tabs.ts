@@ -66,9 +66,9 @@ const chipTabs = defineSlotRecipe({
       fontFamily: "inherit",
 
       // Keep chips at their natural width when the list overflows.
-      // The explicit `minWidth` below overrides the flex `min-width: auto`
-      // (min-content) floor, so without this the chips would shrink past
-      // their text + padding and the label would bleed into the padding.
+      // Each size variant sets an explicit `minWidth`, which overrides the flex
+      // `min-width: auto` (min-content) floor. Without `flexShrink: 0`, that lets
+      // chips shrink past their text + padding, so the label bleeds into the padding.
       flexShrink: 0,
 
       borderRadius: chipVars.base.enabled.root.cornerRadius,
