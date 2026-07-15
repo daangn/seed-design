@@ -1,7 +1,7 @@
 "use client";
 
 import { type ComponentProps, type HTMLAttributes, type ReactNode, useState } from "react";
-import { ChevronRight, Plus, Trash2, X } from "lucide-react";
+import { Plus, Trash2, X } from "lucide-react";
 import {
   FieldKey,
   useArray,
@@ -10,8 +10,10 @@ import {
   useNamespace,
   useObject,
 } from "@fumari/stf";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { Input } from "./input";
+import { Chip } from "seed-design/ui/chip";
+import { Switch } from "seed-design/ui/switch";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import {
   FormatFlags,
   getDefaultValue,
@@ -152,72 +154,48 @@ export function FieldInput({
   }
 
   if (field.type === "enum") {
+    // RadioGroup values are strings, so members map to their index. When the
+    // field is unset we fall back to the default member (index 0), mirroring the
+    // Switch's default-off state — there is no separate "unset" chip.
     const idx = field.members.findIndex((m) => m.value === value);
-    const items: { label: ReactNode; value: number }[] = field.members.map((member, i) => ({
-      value: i,
-      label: member.label,
-    }));
-
-    if (!isRequired) {
-      items.push({
-        value: -1,
-        label: <span className="text-fd-muted-foreground">{t("Unset")}</span>,
-      });
-    }
+    const selected = String(idx >= 0 ? idx : 0);
 
     return (
-      <Select
-        items={items}
-        value={idx === -1 && isRequired ? null : idx}
-        onValueChange={(index) => {
-          if (index === null) return;
-          if (index >= 0 && index < field.members.length) {
-            setValue(field.members[index]!.value);
-          } else {
-            setValue(undefined);
-          }
+      <Chip.RadioRoot
+        id={id}
+        aria-label={stringifyFieldKey(fieldName)}
+        value={selected}
+        onValueChange={(next) => {
+          const i = Number(next);
+          if (i >= 0 && i < field.members.length) setValue(field.members[i]!.value);
         }}
+        className="flex flex-row flex-wrap gap-1.5"
       >
-        <SelectTrigger id={id} {...props}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {items.map((item) => (
-            <SelectItem key={item.value} value={item.value}>
-              {item.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        {field.members.map((member, i) => (
+          <Chip.RadioItem
+            key={String(member.value)}
+            value={String(i)}
+            variant="outlineWeak"
+            size="small"
+          >
+            <Chip.Label>{member.label}</Chip.Label>
+          </Chip.RadioItem>
+        ))}
+      </Chip.RadioRoot>
     );
   }
 
   if (field.type === "boolean") {
-    const items = [
-      { value: true, label: t("True") },
-      { value: false, label: t("False") },
-      ...(!isRequired
-        ? [{ value: null, label: <span className="text-fd-muted-foreground">{t("Unset")}</span> }]
-        : []),
-    ];
-
+    // A Switch is binary, so the optional tri-state (true/false/unset) collapses
+    // to on/off. The engine is seeded from the story preset's `initial`, so an
+    // unset field defaults to off — matching getDefaultValue(boolean) === false.
     return (
-      <Select
-        items={items}
-        value={typeof value === "boolean" ? value : null}
-        onValueChange={(val) => setValue(val === null ? undefined : val)}
-      >
-        <SelectTrigger id={id} {...props}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {items.map((item) => (
-            <SelectItem key={String(item.value)} value={item.value}>
-              {item.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <Switch
+        size="16"
+        inputProps={{ id }}
+        checked={value === true}
+        onCheckedChange={(checked) => setValue(checked)}
+      />
     );
   }
   if (field.type === "date") {
@@ -235,31 +213,38 @@ export function FieldInput({
   }
 
   return renderUnset(
-    <Input
-      id={id}
-      placeholder={
-        field.type === "number"
-          ? t("Enter number")
-          : field.type === "bigint"
-            ? t("Enter bigint")
-            : t("Enter text")
-      }
-      type={field.type === "number" || field.type === "bigint" ? "number" : "text"}
+    <TextField
+      size="medium"
       value={String(value ?? "")}
-      onChange={(e) => {
+      onValueChange={({ value: next }) => {
         if (field.type === "bigint") {
           try {
-            setValue(BigInt(e.target.value));
+            setValue(BigInt(next));
           } catch {
             setValue(undefined);
           }
         } else if (field.type === "number") {
-          setValue(Number.isNaN(e.target.valueAsNumber) ? undefined : e.target.valueAsNumber);
+          const parsed = next === "" ? Number.NaN : Number(next);
+          setValue(Number.isNaN(parsed) ? undefined : parsed);
         } else {
-          setValue(e.target.value);
+          setValue(next);
         }
       }}
-    />,
+      className="flex-1"
+    >
+      <TextFieldInput
+        id={id}
+        aria-label={id}
+        type={field.type === "number" || field.type === "bigint" ? "number" : "text"}
+        placeholder={
+          field.type === "number"
+            ? t("Enter number")
+            : field.type === "bigint"
+              ? t("Enter bigint")
+              : t("Enter text")
+        }
+      />
+    </TextField>,
   );
 }
 
@@ -271,7 +256,6 @@ export function FieldSet({
   name,
   isRequired,
   slotType,
-  collapsible = true,
   ...rest
 }: HTMLAttributes<HTMLElement> & {
   isRequired?: boolean;
@@ -282,17 +266,10 @@ export function FieldSet({
 
   slotType?: ReactNode;
   toolbar?: ReactNode;
-  collapsible?: boolean;
 }) {
   const field = _field.type === "intersection" ? _field.intersection : _field;
-  const [show, setShow] = useState(!collapsible);
   const { info, updateInfo } = useFieldInfo(fieldName, field, depth);
   const id = stringifyFieldKey(fieldName);
-  const dataEngine = useDataEngine();
-  const onShow = () => {
-    dataEngine.init(fieldName, getDefaultValue(field));
-    setShow((prev) => !prev);
-  };
 
   if (field.type === "never") return;
 
@@ -342,35 +319,18 @@ export function FieldSet({
         className={cn("flex flex-col gap-1.5 col-span-full @container", rest.className)}
       >
         <FieldLabel htmlFor={id}>
-          {collapsible && (
-            <button
-              type="button"
-              onClick={onShow}
-              className={cn(
-                buttonVariants({
-                  size: "icon-xs",
-                  color: "ghost",
-                  className: "text-fd-muted-foreground",
-                }),
-              )}
-            >
-              <ChevronRight className={cn(show && "rotate-90")} />
-            </button>
-          )}
-          <button type="button" onClick={onShow} className={cn(labelVariants(), "me-auto")}>
+          <span className={cn(labelVariants(), "me-auto")}>
             {name}
             {isRequired && <FieldLabelRequired />}
-          </button>
+          </span>
           {slotType ?? <FieldLabelType>{typeToString(field)}</FieldLabelType>}
           {toolbar}
         </FieldLabel>
-        {show && (
-          <ObjectInput
-            field={field}
-            fieldName={fieldName}
-            className="rounded-lg border border-fd-primary/20 bg-fd-background/50 p-2 shadow-sm"
-          />
-        )}
+        <ObjectInput
+          field={field}
+          fieldName={fieldName}
+          className="rounded-lg border border-fd-primary/20 bg-fd-background/50 p-2 shadow-sm"
+        />
       </fieldset>
     );
   }
@@ -379,35 +339,18 @@ export function FieldSet({
     return (
       <fieldset {...rest} className={cn("flex flex-col gap-1.5 col-span-full", rest.className)}>
         <FieldLabel htmlFor={id}>
-          {collapsible && (
-            <button
-              type="button"
-              onClick={onShow}
-              className={cn(
-                buttonVariants({
-                  size: "icon-xs",
-                  color: "ghost",
-                  className: "text-fd-muted-foreground -ms-1",
-                }),
-              )}
-            >
-              <ChevronRight className={cn(show && "rotate-90")} />
-            </button>
-          )}
-          <button type="button" onClick={onShow} className={cn(labelVariants(), "me-auto")}>
+          <span className={cn(labelVariants(), "me-auto")}>
             {name}
             {isRequired && <FieldLabelRequired />}
-          </button>
+          </span>
           {slotType ?? <FieldLabelType>{typeToString(field)}</FieldLabelType>}
           {toolbar}
         </FieldLabel>
-        {show && (
-          <ArrayInput
-            fieldName={fieldName}
-            items={field.elementType}
-            className="rounded-lg border border-fd-primary/20 bg-fd-background/50 p-2 shadow-sm"
-          />
-        )}
+        <ArrayInput
+          fieldName={fieldName}
+          items={field.elementType}
+          className="rounded-lg border border-fd-primary/20 bg-fd-background/50 p-2 shadow-sm"
+        />
       </fieldset>
     );
   }

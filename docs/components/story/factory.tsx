@@ -7,7 +7,6 @@ import { type VariantInfo, WithControl, type WithControlProps } from "./with-con
 import { parse as deserialize } from "@ungap/structured-clone/json";
 
 export interface StoryOptions<C extends FC<any>> {
-  displayName?: string;
   Component: C;
 
   /**
@@ -75,7 +74,7 @@ export function defineStoryFactory(): StoryFactory {
   });
 
   return {
-    defineStory({ Component, displayName, args = {}, _generated }) {
+    defineStory({ Component, args = {}, _generated }) {
       let generatedControls: TypeNode | undefined;
 
       function getProps(): WithControlProps {
@@ -83,7 +82,6 @@ export function defineStoryFactory(): StoryFactory {
 
         return {
           Component,
-          displayName,
           presets: normalized.map((preset) => {
             const fixedValues = typeof preset.fixed === "function" ? preset.fixed() : preset.fixed;
             const initial =

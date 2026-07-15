@@ -2,7 +2,7 @@
 
 import { cn } from "./cn";
 import { useStf, StfProvider, useDataEngine, useListener } from "@fumari/stf";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./select";
+import { Chip } from "seed-design/ui/chip";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { AlertCircle } from "lucide-react";
 import { FC, useState, useRef, useDeferredValue, Suspense } from "react";
@@ -12,7 +12,6 @@ import type { TypeNode } from "@fumadocs/story/type-tree";
 import { useTranslations } from "@fuma-translate/react";
 
 export interface WithControlProps {
-  displayName?: string;
   Component: FC;
   presets: (VariantInfo & {
     controls: TypeNode;
@@ -25,7 +24,7 @@ export interface VariantInfo {
   description?: string;
 }
 
-export function WithControl({ presets, displayName, Component }: WithControlProps) {
+export function WithControl({ presets, Component }: WithControlProps) {
   const t = useTranslations({ note: "story controls" });
   const [variant, setVariant] = useState(presets[0].variant);
   const preset = presets.find((preset) => preset.variant === variant);
@@ -37,34 +36,30 @@ export function WithControl({ presets, displayName, Component }: WithControlProp
     <StfProvider value={stf}>
       <div className="not-prose flex flex-col gap-1 p-1 border rounded-md shadow-sm bg-fd-card text-fd-card-foreground">
         <div className="flex flex-row items-center gap-2 empty:hidden">
-          {displayName && <p className="text-sm font-medium px-1.5">{displayName}</p>}
           {presets.length > 1 && (
-            <Select
+            <Chip.RadioRoot
+              aria-label={t("Variant")}
               value={variant}
               onValueChange={(value) => {
-                if (value === null) return;
                 const preset = presets.find((preset) => preset.variant === value);
                 if (preset) {
                   setVariant(value);
                   stf.dataEngine.reset(preset.defaultValues ?? {});
                 }
               }}
+              className="ms-auto flex flex-row flex-wrap gap-1.5"
             >
-              <SelectTrigger
-                variant="ghost"
-                className="w-fit ms-auto text-fd-muted-foreground text-xs font-medium"
-              >
-                <SelectValue placeholder={t("No Variant")} />
-              </SelectTrigger>
-              <SelectContent>
-                {presets.map((item) => (
-                  <SelectItem key={item.variant} value={item.variant}>
-                    <p className="text-xs font-medium">{item.variant}</p>
-                    <p className="text-xs text-fd-muted-foreground">{item.description}</p>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              {presets.map((item) => (
+                <Chip.RadioItem
+                  key={item.variant}
+                  value={item.variant}
+                  variant="outlineWeak"
+                  size="small"
+                >
+                  <Chip.Label>{item.variant}</Chip.Label>
+                </Chip.RadioItem>
+              ))}
+            </Chip.RadioRoot>
           )}
         </div>
         <StoryComponent Component={Component} />
@@ -73,7 +68,6 @@ export function WithControl({ presets, displayName, Component }: WithControlProp
             field={preset.controls}
             fieldName={[]}
             name={t("Props")}
-            collapsible={false}
             className="max-h-[600px] overflow-auto"
           />
         )}
