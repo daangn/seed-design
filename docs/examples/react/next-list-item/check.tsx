@@ -1,11 +1,12 @@
 import { Badge, HStack } from "@seed-design/react";
-import { List, ListDivider, ListCheckItem } from "seed-design/ui/list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListCheckItem } from "seed-design/ui/next-list-item";
 import { Checkmark } from "seed-design/ui/checkbox";
 
 export default function ListCheckbox() {
   return (
     <List as="fieldset" width="360px">
-      <ListCheckItem
+      <NextListCheckItem
         title={
           <HStack gap="x1_5">
             <span>알림 수신 동의</span>
@@ -17,14 +18,14 @@ export default function ListCheckbox() {
         defaultChecked
       />
       <ListDivider as="div" />
-      <ListCheckItem
+      <NextListCheckItem
         prefix={<Checkmark tone="neutral" size="large" />}
         title="마케팅 정보 수신 동의"
         detail="마케팅 정보를 받으시겠습니까?"
         defaultChecked
       />
       <ListDivider as="div" />
-      <ListCheckItem
+      <NextListCheckItem
         prefix={<Checkmark tone="neutral" size="large" variant="ghost" />}
         title="Ghost Variant"
       />

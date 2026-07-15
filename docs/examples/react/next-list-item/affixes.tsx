@@ -7,7 +7,8 @@ import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
-import { List, ListDivider, ListItem } from "seed-design/ui/list";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListItem } from "seed-design/ui/next-list-item";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 
 export default function ListAffixes() {
@@ -15,7 +16,7 @@ export default function ListAffixes() {
 
   return (
     <List width="360px">
-      <ListItem
+      <NextListItem
         prefix={
           <Avatar
             size="48"
@@ -27,13 +28,13 @@ export default function ListAffixes() {
         detail="Amet elit ullamco magna."
       />
       <ListDivider />
-      <ListItem
+      <NextListItem
         title="Prefix에 아이콘 넣기"
         detail="Deserunt nulla elit est."
         prefix={<Icon svg={<IconILowercaseSerifCircleLine />} />}
       />
       <ListDivider />
-      <ListItem
+      <NextListItem
         title="Suffix에 Action Button 넣기"
         detail="Veniam non est non ut consequat."
         suffix={
@@ -43,7 +44,7 @@ export default function ListAffixes() {
         }
       />
       <ListDivider />
-      <ListItem
+      <NextListItem
         title="Suffix에 Action Button (Ghost) 넣기"
         detail="Deserunt nulla elit est."
         suffix={
@@ -53,7 +54,7 @@ export default function ListAffixes() {
         }
       />
       <ListDivider />
-      <ListItem
+      <NextListItem
         title="Suffix에 Toggle Button 넣기"
         detail="Sit eu incididunt aute ea elit ex."
         suffix={

@@ -49,6 +49,7 @@ import mannerTempBadge from "./recipes/manner-temp-badge";
 import { menu, menuItem } from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
+import nextListItem from "./recipes/next-list-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import pageBanner from "./recipes/page-banner";
 import progressCircle from "./recipes/progress-circle";
@@ -134,6 +135,7 @@ export const recipes = {
   menuItem,
   menuSheet,
   menuSheetItem,
+  nextListItem,
   notificationBadge,
   notificationBadgePositioner,
   pageBanner,

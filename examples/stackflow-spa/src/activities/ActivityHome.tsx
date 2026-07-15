@@ -261,6 +261,17 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
+      title: "NextList",
+      items: [
+        { title: "NextListItem", onClick: () => push("ActivityNextListItem", {}) },
+        { title: "NextListButtonItem", onClick: () => push("ActivityNextListButtonItem", {}) },
+        { title: "NextListLinkItem", onClick: () => push("ActivityNextListLinkItem", {}) },
+        { title: "NextListSwitchItem", onClick: () => push("ActivityNextListSwitchItem", {}) },
+        { title: "NextListCheckItem", onClick: () => push("ActivityNextListCheckItem", {}) },
+        { title: "NextListRadioItem", onClick: () => push("ActivityNextListRadioItem", {}) },
+      ],
+    },
+    {
       title: "Snackbars",
       items: [
         {
