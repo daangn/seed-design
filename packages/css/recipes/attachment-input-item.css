@@ -7,6 +7,8 @@
     gap: var(--seed-dimension-x2_5);
     height: 80px;
     border-radius: var(--seed-radius-r3);
+    scale: 1;
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     --remove-button-mask-size: var(--seed-dimension-x6);
     --remove-button-mask-offset: var(--seed-dimension-x1_5);
     outline: var(--seed-dimension-x0_5) solid transparent;
@@ -38,6 +40,7 @@
     cursor: grab;
 }
 .seed-attachment-input-item__root[aria-grabbed=true] {
+    scale: var(--seed-scale-s97);
     --remove-button-mask-size: 0px;
     --remove-button-mask-offset: 0px;
 }
@@ -228,7 +231,7 @@
 }
 .seed-attachment-input-item__root--type_image {
     width: 80px;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 .seed-attachment-input-item__root--type_image::before {
     z-index: 1;

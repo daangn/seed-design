@@ -4906,13 +4906,15 @@
   align-items: center;
   gap: var(--seed-dimension-x2_5);
   border-radius: var(--seed-radius-r3);
+  height: 80px;
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   --remove-button-mask-size: var(--seed-dimension-x6);
   --remove-button-mask-offset: var(--seed-dimension-x1_5);
   outline: var(--seed-dimension-x0_5) solid transparent;
   outline-offset: var(--seed-dimension-x0_5);
-  height: 80px;
   display: flex;
   position: relative;
+  scale: 1;
 }
 
 .seed-attachment-input-item__root:is(:focus-visible, [data-focus-visible]) {
@@ -4944,6 +4946,7 @@
 }
 
 .seed-attachment-input-item__root[aria-grabbed="true"] {
+  scale: var(--seed-scale-s97);
   --remove-button-mask-size: 0px;
   --remove-button-mask-offset: 0px;
 }
@@ -5148,7 +5151,7 @@
 
 .seed-attachment-input-item__root--type_image {
   width: 80px;
-  transition: opacity .2s;
+  transition: opacity .2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 
 .seed-attachment-input-item__root--type_image:before {

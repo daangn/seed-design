@@ -168,6 +168,15 @@ const attachmentInputItem = defineSlotRecipe({
       height: itemVars.base.enabled.root.height,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
+      // Scales the whole item down while it is being dragged (dnd-kit sets
+      // [aria-grabbed=true]). Individual `scale` over `transform: scale()` —
+      // progressive enhancement for Chrome 104+, and it composes with the
+      // `transform: translate` dnd-kit applies to move the item instead of
+      // clobbering it (older browsers just skip the dragging scale).
+      scale: "1",
+
+      transition: `scale ${itemVars.base.enabled.root.scaleDuration} ${itemVars.base.enabled.root.scaleTimingFunction}`,
+
       "--remove-button-mask-size": itemVars.base.enabled.removeButtonMask.size,
       "--remove-button-mask-offset": itemVars.base.enabled.removeButtonMask.offset,
 
@@ -190,6 +199,8 @@ const attachmentInputItem = defineSlotRecipe({
       },
 
       [pseudo("[aria-grabbed=true]")]: {
+        scale: itemVars.base.dragging.root.scale,
+
         // Disable the remove button mask while dragging — see the slot's
         // description in attachment-input-item.yaml.
         "--remove-button-mask-size": "0px",
@@ -421,7 +432,9 @@ const attachmentInputItem = defineSlotRecipe({
         root: {
           width: itemVars.typeImage.enabled.root.width,
 
-          transition: "opacity 0.2s",
+          // Keep the base scale transition (image type overrides `transition`,
+          // which would otherwise drop the dragging scale animation).
+          transition: `opacity 0.2s, scale ${itemVars.base.enabled.root.scaleDuration} ${itemVars.base.enabled.root.scaleTimingFunction}`,
 
           "&::before": {
             // The image and ::before both carry translateZ(0) (via removeButtonMask),
