@@ -6,7 +6,9 @@ export const vars = {
         "color": "var(--seed-color-bg-transparent)",
         "cornerRadius": "var(--seed-radius-r3)",
         "strokeWidth": "1px",
-        "gap": "var(--seed-dimension-x2_5)"
+        "gap": "var(--seed-dimension-x2_5)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "thumbnail": {
         "color": "var(--seed-color-bg-neutral-weak)",
@@ -32,6 +34,11 @@ export const vars = {
       "removeButtonMask": {
         "offset": "var(--seed-dimension-x1_5)",
         "size": "var(--seed-dimension-x6)"
+      }
+    },
+    "dragging": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },
