@@ -2,50 +2,29 @@
 
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import { ActionButton } from "seed-design/ui/action-button";
-import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "seed-design/ui/snackbar";
+import type { ComponentPropsWithoutRef } from "react";
+import { Snackbar, SnackbarProvider } from "seed-design/ui/snackbar";
 
-function SnackbarTrigger({
-  triggerLabel,
-  message,
-  actionLabel,
-}: {
-  triggerLabel: string;
-  message: string;
-  actionLabel: string;
-}) {
-  const adapter = useSnackbarAdapter();
-
-  return (
-    <ActionButton
-      onClick={() =>
-        adapter.create({
-          onClose: () => {},
-          render: () => (
-            <Snackbar message={message} actionLabel={actionLabel} onAction={() => {}} />
-          ),
-        })
-      }
-    >
-      {triggerLabel}
-    </ActionButton>
-  );
-}
-
-function SnackbarPreview(props: { triggerLabel: string; message: string; actionLabel: string }) {
+// Snackbar is normally shown imperatively via the adapter, but the panel can
+// only drive one component's real props — so it's rendered statically here and
+// controls come from the real Snackbar props (message/actionLabel/variant/…).
+// `Snackbar` reads `useSnackbarContext`, so it still needs a `SnackbarProvider`
+// ancestor even when rendered statically. The imperative `adapter.create()`
+// usage is documented in the page body.
+function SnackbarPreview(props: ComponentPropsWithoutRef<typeof Snackbar>) {
   return (
     <SnackbarProvider>
-      <SnackbarTrigger {...props} />
+      <Snackbar {...props} onAction={() => {}} />
     </SnackbarProvider>
   );
 }
 
 export const story = defineStory({
-  displayName: "Snackbar",
-  Component: withStoryPreview()(SnackbarPreview),
+  Component: withStoryPreview<{ children?: never; asChild?: never; onAction?: never }>()(
+    SnackbarPreview,
+  ),
   args: {
     initial: {
-      triggerLabel: "실행",
       message: "알림 메세지",
       actionLabel: "확인",
     },
