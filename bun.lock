@@ -1582,6 +1582,7 @@
   },
   "patchedDependencies": {
     "@figma/plugin-typings@1.123.0": "patches/@figma%2Fplugin-typings@1.123.0.patch",
+    "@fumadocs/story@1.2.0": "patches/@fumadocs%2Fstory@1.2.0.patch",
     "@figma/rest-api-spec@0.36.0": "patches/@figma%2Frest-api-spec@0.36.0.patch",
   },
   "overrides": {

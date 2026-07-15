@@ -14,14 +14,14 @@ import { Input } from "./input";
 import { Chip } from "seed-design/ui/chip";
 import { Switch } from "seed-design/ui/switch";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
-import {
-  FormatFlags,
-  getDefaultValue,
-  type ObjectNode,
-  type TypeNode,
-  typeToString,
-  validate,
-} from "@fumadocs/story/type-tree";
+// Import runtime helpers from the client-safe type-tree submodules (like upstream's
+// own client arg-form) instead of the barrel, whose `builder.js` re-export drags
+// `ts-morph` (a Node-only compiler) into the browser bundle. Types stay on the barrel
+// since `import type` is erased at build time.
+import { getDefaultValue } from "@fumadocs/story/type-tree/sampler";
+import { FormatFlags, typeToString } from "@fumadocs/story/type-tree/stringify";
+import { validate } from "@fumadocs/story/type-tree/validator";
+import type { ObjectNode, TypeNode } from "@fumadocs/story/type-tree";
 import { cn } from "./cn";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { stringifyFieldKey } from "@fumari/stf/lib/utils";

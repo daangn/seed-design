@@ -1,0 +1,14 @@
+diff --git a/package.json b/package.json
+index 69364b8626cb85dc41cc7b4cd589553c1e0a8d14..8b0a17f9283d87d7e290888c1a629839a7d95d16 100644
+--- a/package.json
++++ b/package.json
+@@ -20,6 +20,9 @@
+     "./next": "./dist/next/index.js",
+     "./next/client": "./dist/next/client.js",
+     "./type-tree": "./dist/type-tree/index.js",
++    "./type-tree/sampler": "./dist/type-tree/sampler.js",
++    "./type-tree/stringify": "./dist/type-tree/stringify.js",
++    "./type-tree/validator": "./dist/type-tree/validator.js",
+     "./vite": "./dist/vite/index.js",
+     "./vite/client": "./dist/vite/client.js",
+     "./webpack/story": "./dist/webpack/story.js",
