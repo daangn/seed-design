@@ -35,7 +35,6 @@ function HStackPreview({ gap, align, justify, count = 3 }: HStackPreviewProps) {
 }
 
 export const story = defineStory({
-  displayName: "HStack",
   Component: withStoryPreview()(HStackPreview),
   args: {
     initial: {

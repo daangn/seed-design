@@ -7,6 +7,7 @@ import {
   IconPlusLine,
   IconTrashcanLine,
 } from "@karrotmarket/react-monochrome-icon";
+import type { ComponentPropsWithoutRef } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuContent,
@@ -17,42 +18,29 @@ import {
   MenuTrigger,
 } from "seed-design/ui/menu";
 
-function MenuPreview({
-  triggerLabel,
-  groupLabel,
-  addLabel,
-  editLabel,
-  editDescription,
-  deleteLabel,
-  deleteDescription,
-}: {
-  triggerLabel: string;
-  groupLabel: string;
-  addLabel: string;
-  editLabel: string;
-  editDescription: string;
-  deleteLabel: string;
-  deleteDescription: string;
-}) {
+// Controls come from MenuRoot's real props (its `size` axis); the trigger and
+// item tree are fixed so the panel drives the actual component rather than a
+// made-up interface.
+function MenuPreview(props: ComponentPropsWithoutRef<typeof MenuRoot>) {
   return (
-    <MenuRoot>
+    <MenuRoot {...props}>
       <MenuTrigger asChild>
-        <ActionButton variant="neutralSolid">{triggerLabel}</ActionButton>
+        <ActionButton variant="neutralSolid">열기</ActionButton>
       </MenuTrigger>
       <MenuContent>
         <MenuGroup>
-          <MenuGroupLabel>{groupLabel}</MenuGroupLabel>
-          <MenuItem label={addLabel} prefixIcon={<IconPlusLine />} />
+          <MenuGroupLabel>작업</MenuGroupLabel>
+          <MenuItem label="라이브러리에 추가" prefixIcon={<IconPlusLine />} />
           <MenuItem
-            label={editLabel}
-            description={editDescription}
+            label="수정"
+            description="현재 항목을 수정합니다"
             prefixIcon={<IconPencilLine />}
           />
         </MenuGroup>
         <MenuGroup>
           <MenuItem
-            label={deleteLabel}
-            description={deleteDescription}
+            label="삭제"
+            description="이 작업은 되돌릴 수 없습니다"
             tone="critical"
             prefixIcon={<IconTrashcanLine />}
           />
@@ -63,17 +51,12 @@ function MenuPreview({
 }
 
 export const story = defineStory({
-  displayName: "Menu",
-  Component: withStoryPreview()(MenuPreview),
+  Component: withStoryPreview<{ children?: never; open?: never; onOpenChange?: never }>()(
+    MenuPreview,
+  ),
   args: {
     initial: {
-      triggerLabel: "열기",
-      groupLabel: "작업",
-      addLabel: "라이브러리에 추가",
-      editLabel: "수정",
-      editDescription: "현재 항목을 수정합니다",
-      deleteLabel: "삭제",
-      deleteDescription: "이 작업은 되돌릴 수 없습니다",
+      size: "medium",
     },
   },
 });

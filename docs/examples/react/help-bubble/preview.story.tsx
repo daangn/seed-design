@@ -4,16 +4,17 @@ import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
+import type { ComponentPropsWithoutRef } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 
-function HelpBubblePreview({ title, defaultOpen }: { title: string; defaultOpen?: boolean }) {
-  // The original ComponentExample used `isolate` to create a new stacking
-  // context so the popover stacks correctly. withStoryPreview's canvas does
-  // not isolate, so restore it here.
+// Controls come from HelpBubbleTrigger's real props (title/description/placement/
+// …); the wrapped trigger button is fixed. `isolation: isolate` creates a
+// stacking context so the popover stacks correctly on the story canvas.
+function HelpBubblePreview(props: ComponentPropsWithoutRef<typeof HelpBubbleTrigger>) {
   return (
     <div style={{ isolation: "isolate" }}>
-      <HelpBubbleTrigger defaultOpen={defaultOpen} title={title}>
+      <HelpBubbleTrigger {...props}>
         <ActionButton variant="ghost" size="small" layout="iconOnly" aria-label="도움말">
           <Icon svg={<IconILowercaseSerifCircleFill />} />
         </ActionButton>
@@ -23,8 +24,13 @@ function HelpBubblePreview({ title, defaultOpen }: { title: string; defaultOpen?
 }
 
 export const story = defineStory({
-  displayName: "HelpBubble",
-  Component: withStoryPreview()(HelpBubblePreview),
+  // contentProps is object plumbing, not a usable control widget
+  Component: withStoryPreview<{
+    children?: never;
+    open?: never;
+    onOpenChange?: never;
+    contentProps?: never;
+  }>()(HelpBubblePreview),
   args: {
     initial: {
       title: "아래 버튼이나 바깥 영역을 클릭해서 닫아보세요.",

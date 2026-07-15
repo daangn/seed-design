@@ -2,7 +2,8 @@
 
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import { HStack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
+import type { ComponentPropsWithoutRef } from "react";
 import {
   CheckSelectBox,
   CheckSelectBoxCheckmark,
@@ -12,48 +13,60 @@ import {
   RadioSelectBoxRoot,
 } from "seed-design/ui/select-box";
 
-function SelectBoxPreview({ disabled }: { disabled?: boolean }) {
-  return (
-    <HStack gap="x6" align="flex-start">
-      <CheckSelectBoxGroup aria-label="Fruit">
-        <CheckSelectBox
-          label="Apple"
-          defaultChecked
-          disabled={disabled}
-          suffix={<CheckSelectBoxCheckmark />}
-        />
-        <CheckSelectBox
-          label="Melon"
-          description="Elit cupidatat dolore fugiat enim veniam culpa."
-          disabled={disabled}
-          suffix={<CheckSelectBoxCheckmark />}
-        />
-        <CheckSelectBox label="Mango" disabled={disabled} suffix={<CheckSelectBoxCheckmark />} />
-      </CheckSelectBoxGroup>
+// select-box ships two distinct components; each gets its own panel bound to its
+// real group-level props (a single panel can only drive one component).
 
-      <RadioSelectBoxRoot defaultValue="apple" disabled={disabled} aria-label="Fruit">
-        <RadioSelectBoxItem value="apple" label="Apple" suffix={<RadioSelectBoxRadiomark />} />
-        <RadioSelectBoxItem
-          value="melon"
-          label="Melon"
-          description="Elit cupidatat dolore fugiat enim veniam culpa."
-          suffix={<RadioSelectBoxRadiomark />}
+// Panel 1 — CheckSelectBoxGroup (multi-select).
+function CheckSelectBoxPreview(props: ComponentPropsWithoutRef<typeof CheckSelectBoxGroup>) {
+  return (
+    <VStack gap="x2" width="320px">
+      <CheckSelectBoxGroup {...props} aria-label="과일">
+        <CheckSelectBox label="사과" defaultChecked suffix={<CheckSelectBoxCheckmark />} />
+        <CheckSelectBox
+          label="멜론"
+          description="달콤한 여름 과일"
+          suffix={<CheckSelectBoxCheckmark />}
         />
-        <RadioSelectBoxItem value="mango" label="Mango" suffix={<RadioSelectBoxRadiomark />} />
-      </RadioSelectBoxRoot>
-    </HStack>
+        <CheckSelectBox label="망고" suffix={<CheckSelectBoxCheckmark />} />
+      </CheckSelectBoxGroup>
+    </VStack>
   );
 }
 
-export const story = defineStory({
-  displayName: "SelectBox",
-  Component: withStoryPreview()(SelectBoxPreview),
-  args: {
-    initial: {
-      disabled: false,
-    },
-  },
+export const checkStory = defineStory({
+  Component: withStoryPreview<{ children?: never; asChild?: never }>()(CheckSelectBoxPreview),
+  args: {},
 });
 
-// MDX can't dot into a client module (`story.WithControl`), so re-export it
-export const Preview = story.WithControl;
+export const CheckPreview = checkStory.WithControl;
+
+// Panel 2 — RadioSelectBoxRoot (single-select).
+function RadioSelectBoxPreview(props: ComponentPropsWithoutRef<typeof RadioSelectBoxRoot>) {
+  return (
+    <VStack gap="x2" width="320px">
+      <RadioSelectBoxRoot {...props} defaultValue="apple" aria-label="과일">
+        <RadioSelectBoxItem value="apple" label="사과" suffix={<RadioSelectBoxRadiomark />} />
+        <RadioSelectBoxItem
+          value="melon"
+          label="멜론"
+          description="달콤한 여름 과일"
+          suffix={<RadioSelectBoxRadiomark />}
+        />
+        <RadioSelectBoxItem value="mango" label="망고" suffix={<RadioSelectBoxRadiomark />} />
+      </RadioSelectBoxRoot>
+    </VStack>
+  );
+}
+
+export const radioStory = defineStory({
+  // value/defaultValue are the controlled selection (a fixed one is hardcoded)
+  Component: withStoryPreview<{
+    children?: never;
+    asChild?: never;
+    value?: never;
+    defaultValue?: never;
+  }>()(RadioSelectBoxPreview),
+  args: {},
+});
+
+export const RadioPreview = radioStory.WithControl;

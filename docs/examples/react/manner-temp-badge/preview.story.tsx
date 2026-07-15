@@ -5,7 +5,6 @@ import { defineStory } from "@/lib/story";
 import { MannerTempBadge } from "seed-design/ui/manner-temp-badge";
 
 export const story = defineStory({
-  displayName: "MannerTempBadge",
   Component: withStoryPreview()(MannerTempBadge),
   args: {
     initial: {

@@ -40,7 +40,6 @@ function FlexPreview({ direction, gap, align, justify, wrap }: FlexPreviewProps)
 }
 
 export const story = defineStory({
-  displayName: "Flex",
   Component: withStoryPreview()(FlexPreview),
   args: {
     initial: {

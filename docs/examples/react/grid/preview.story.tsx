@@ -36,7 +36,6 @@ function GridPreview({ columns = 3, gap, autoFlow, count = 6 }: GridPreviewProps
 }
 
 export const story = defineStory({
-  displayName: "Grid",
   Component: withStoryPreview()(GridPreview),
   args: {
     initial: {

@@ -4,31 +4,27 @@ import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon } from "@seed-design/react";
-import {
-  ContextualFloatingButton,
-  type ContextualFloatingButtonProps,
-} from "seed-design/ui/contextual-floating-button";
+import type { ComponentPropsWithoutRef } from "react";
+import { ContextualFloatingButton } from "seed-design/ui/contextual-floating-button";
 
-function ContextualFloatingButtonDemo({
-  children,
-  ...props
-}: Pick<ContextualFloatingButtonProps, "variant" | "loading"> & { children?: string }) {
+// Controls come from ContextualFloatingButton's real props (variant/layout/
+// loading/disabled); the icon and label are fixed.
+function ContextualFloatingButtonDemo(
+  props: ComponentPropsWithoutRef<typeof ContextualFloatingButton>,
+) {
   return (
     <ContextualFloatingButton {...props}>
       <PrefixIcon svg={<IconBellFill />} />
-      {children}
+      알림 설정
     </ContextualFloatingButton>
   );
 }
 
 export const story = defineStory({
-  displayName: "ContextualFloatingButton",
-  Component: withStoryPreview()(ContextualFloatingButtonDemo),
-  args: {
-    initial: {
-      children: "알림 설정",
-    },
-  },
+  Component: withStoryPreview<{ children?: never; asChild?: never }>()(
+    ContextualFloatingButtonDemo,
+  ),
+  args: {},
 });
 
 // MDX can't dot into a client module (`story.WithControl`), so re-export it

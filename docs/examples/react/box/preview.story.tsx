@@ -32,7 +32,6 @@ function BoxPreview({ paddingX, paddingY, borderRadius, boxShadow }: BoxPreviewP
 }
 
 export const story = defineStory({
-  displayName: "Box",
   Component: withStoryPreview()(BoxPreview),
   args: {
     initial: {

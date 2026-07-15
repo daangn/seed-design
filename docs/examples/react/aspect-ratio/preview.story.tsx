@@ -18,7 +18,6 @@ function AspectRatioPreview({
 }
 
 export const story = defineStory({
-  displayName: "AspectRatio",
   Component: withStoryPreview()(AspectRatioPreview),
   args: {
     initial: {

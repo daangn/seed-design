@@ -27,7 +27,6 @@ function ArticlePreview({
 }
 
 export const story = defineStory({
-  displayName: "Article",
   Component: withStoryPreview()(ArticlePreview),
   args: {
     initial: {

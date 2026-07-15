@@ -2,47 +2,29 @@
 
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import { TextField, TextFieldInput, type TextFieldProps } from "seed-design/ui/text-field";
+import type { ComponentPropsWithoutRef } from "react";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
-interface TextFieldInputStoryProps {
-  label?: string;
-  description?: string;
-  errorMessage?: string;
-  placeholder?: string;
-  size?: TextFieldProps["size"];
-  invalid?: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
-}
-
-function TextFieldInputStory({
-  label,
-  description,
-  errorMessage,
-  placeholder,
-  size,
-  invalid,
-  disabled,
-  readOnly,
-}: TextFieldInputStoryProps) {
+// Controls come from TextField's real field-level props (label/description/
+// errorMessage/size/maxGraphemeCount/…); the input is fixed.
+function TextFieldInputStory(props: ComponentPropsWithoutRef<typeof TextField>) {
   return (
-    <TextField
-      label={label}
-      description={description}
-      errorMessage={errorMessage}
-      size={size}
-      invalid={invalid}
-      disabled={disabled}
-      readOnly={readOnly}
-    >
-      <TextFieldInput autoFocus placeholder={placeholder} />
+    <TextField {...props}>
+      <TextFieldInput autoFocus placeholder="입력하세요" />
     </TextField>
   );
 }
 
 export const story = defineStory({
-  displayName: "TextFieldInput",
-  Component: withStoryPreview()(TextFieldInputStory),
+  // value is controlled; fieldRef is a ref; prefixIcon/suffixIcon are icon slots
+  // (not meaningful as string widgets — prefix/suffix text addons stay)
+  Component: withStoryPreview<{
+    children?: never;
+    value?: never;
+    fieldRef?: never;
+    prefixIcon?: never;
+    suffixIcon?: never;
+  }>()(TextFieldInputStory),
   args: {
     initial: {
       label: "라벨",

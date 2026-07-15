@@ -18,7 +18,6 @@ function ToggleButtonDemo(
 }
 
 export const story = defineStory({
-  displayName: "ToggleButton",
   Component: withStoryPreview()(ToggleButtonDemo),
 });
 

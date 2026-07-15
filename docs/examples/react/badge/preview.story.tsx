@@ -5,8 +5,7 @@ import { defineStory } from "@/lib/story";
 import { Badge } from "@seed-design/react";
 
 export const story = defineStory({
-  displayName: "Badge",
-  Component: withStoryPreview()(Badge),
+  Component: withStoryPreview<{ asChild?: never }>()(Badge),
   args: {
     initial: {
       tone: "neutral",

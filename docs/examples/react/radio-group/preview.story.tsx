@@ -3,52 +3,36 @@
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { VStack } from "@seed-design/react";
+import type { ComponentPropsWithoutRef } from "react";
 import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 
-interface RadioGroupPreviewProps {
-  label: string;
-  description: string;
-  indicator: string;
-  size: "large" | "medium";
-  tone: "neutral" | "brand";
-  disabled: boolean;
-}
-
-function RadioGroupPreview({
-  label,
-  description,
-  indicator,
-  size,
-  tone,
-  disabled,
-}: RadioGroupPreviewProps) {
+// Controls come from RadioGroup's real group-level props; the items are fixed
+// representatives (item-level props aren't misrepresented as group controls).
+function RadioGroupPreview(props: ComponentPropsWithoutRef<typeof RadioGroup>) {
   return (
     <VStack p="x6">
-      <RadioGroup
-        defaultValue="apple"
-        label={label}
-        description={description}
-        indicator={indicator}
-      >
-        <RadioGroupItem value="apple" label="Apple" tone={tone} size={size} disabled={disabled} />
-        <RadioGroupItem value="banana" label="Banana" tone={tone} size={size} disabled={disabled} />
-        <RadioGroupItem value="orange" label="Orange" tone={tone} size={size} disabled={disabled} />
+      <RadioGroup {...props} defaultValue="apple">
+        <RadioGroupItem value="apple" label="사과" />
+        <RadioGroupItem value="banana" label="바나나" />
+        <RadioGroupItem value="orange" label="오렌지" />
       </RadioGroup>
     </VStack>
   );
 }
 
 export const story = defineStory({
-  displayName: "RadioGroup",
-  Component: withStoryPreview()(RadioGroupPreview),
+  // value/defaultValue are the controlled selection (a fixed one is hardcoded)
+  Component: withStoryPreview<{
+    children?: never;
+    asChild?: never;
+    value?: never;
+    defaultValue?: never;
+  }>()(RadioGroupPreview),
   args: {
     initial: {
       label: "좋아하는 과일",
       description: "좋아하는 과일을 선택해 주세요.",
       indicator: "선택",
-      size: "large",
-      tone: "neutral",
-      disabled: false,
     },
   },
 });

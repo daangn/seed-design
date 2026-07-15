@@ -3,6 +3,7 @@
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
+import type { ComponentPropsWithoutRef } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SwipeableMenuSheetContent,
@@ -12,41 +13,26 @@ import {
   SwipeableMenuSheetTrigger,
 } from "seed-design/ui/swipeable-menu-sheet";
 
-function SwipeableMenuSheetPreview({
-  triggerLabel,
-  title,
-  description,
-}: {
-  triggerLabel: string;
-  title: string;
-  description: string;
-}) {
+// Controls come from SwipeableMenuSheetRoot's real props; the trigger and item
+// tree are fixed.
+function SwipeableMenuSheetPreview(props: ComponentPropsWithoutRef<typeof SwipeableMenuSheetRoot>) {
   return (
-    <SwipeableMenuSheetRoot>
+    <SwipeableMenuSheetRoot {...props}>
       <SwipeableMenuSheetTrigger asChild>
-        <ActionButton variant="neutralSolid">{triggerLabel}</ActionButton>
+        <ActionButton variant="neutralSolid">열기</ActionButton>
       </SwipeableMenuSheetTrigger>
-      <SwipeableMenuSheetContent
-        title={title}
-        description={description}
-        aria-label="Swipeable Menu Sheet"
-      >
+      <SwipeableMenuSheetContent title="메뉴" description="항목을 선택하세요" aria-label="메뉴">
         <SwipeableMenuSheetGroup>
           <SwipeableMenuSheetItem
-            label="Action 1"
-            description="Est commodo veniam magna officia ad dolor esse aliquip laboris nisi do."
+            label="첫 번째 작업"
+            description="항목에 대한 부가 설명을 배치할 수 있습니다."
             prefixIcon={<IconEyeSlashLine />}
           />
-          <SwipeableMenuSheetItem label="Action 2" prefixIcon={<IconEyeSlashLine />} />
-          <SwipeableMenuSheetItem label="Action 3" prefixIcon={<IconEyeSlashLine />} />
+          <SwipeableMenuSheetItem label="두 번째 작업" prefixIcon={<IconEyeSlashLine />} />
+          <SwipeableMenuSheetItem label="세 번째 작업" prefixIcon={<IconEyeSlashLine />} />
         </SwipeableMenuSheetGroup>
         <SwipeableMenuSheetGroup>
-          <SwipeableMenuSheetItem label="Action 4" prefixIcon={<IconEyeSlashLine />} />
-          <SwipeableMenuSheetItem
-            label="Action 5"
-            prefixIcon={<IconEyeSlashLine />}
-            tone="critical"
-          />
+          <SwipeableMenuSheetItem label="삭제" prefixIcon={<IconEyeSlashLine />} tone="critical" />
         </SwipeableMenuSheetGroup>
       </SwipeableMenuSheetContent>
     </SwipeableMenuSheetRoot>
@@ -54,15 +40,10 @@ function SwipeableMenuSheetPreview({
 }
 
 export const story = defineStory({
-  displayName: "SwipeableMenuSheet",
-  Component: withStoryPreview()(SwipeableMenuSheetPreview),
-  args: {
-    initial: {
-      triggerLabel: "Open",
-      title: "proident irure",
-      description: "Aliqua fugiat adipisicing magna dolor laborum.",
-    },
-  },
+  Component: withStoryPreview<{ children?: never; open?: never; onOpenChange?: never }>()(
+    SwipeableMenuSheetPreview,
+  ),
+  args: {},
 });
 
 // MDX can't dot into a client module (`story.WithControl`), so re-export it

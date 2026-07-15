@@ -1,20 +1,24 @@
 "use client";
 
+import { Box, Divider, type DividerProps, HStack, VStack } from "@seed-design/react";
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import { Box, Divider, type DividerProps, HStack, VStack } from "@seed-design/react";
 
-function DividerPreview({ orientation, inset }: Pick<DividerProps, "orientation" | "inset">) {
-  if (orientation === "vertical") {
+// Divider is a style-prop bag, so controls are curated to the meaningful axes
+// (orientation drives the demo layout; thickness/color/inset are the real props
+// worth tuning).
+function DividerPreview(
+  props: Pick<DividerProps, "orientation" | "inset" | "thickness" | "color">,
+) {
+  if (props.orientation === "vertical") {
     return (
       <HStack width="full" bg="bg.layerDefault" p="x4">
         <Box p="x4" flexGrow>
-          Nisi elit pariatur incididunt quis fugiat mollit ipsum fugiat duis culpa esse incididunt
-          cupidatat.
+          왼쪽 영역의 내용입니다.
         </Box>
-        <Divider orientation="vertical" inset={inset} />
+        <Divider {...props} />
         <Box p="x4" flexGrow>
-          Consectetur voluptate quis do culpa et culpa.
+          오른쪽 영역의 내용입니다.
         </Box>
       </HStack>
     );
@@ -22,18 +26,14 @@ function DividerPreview({ orientation, inset }: Pick<DividerProps, "orientation"
 
   return (
     <VStack width="full" bg="bg.layerDefault" p="x4">
-      <Box p="x4">
-        Nisi elit pariatur incididunt quis fugiat mollit ipsum fugiat duis culpa esse incididunt
-        cupidatat.
-      </Box>
-      <Divider inset={inset} />
-      <Box p="x4">Consectetur voluptate quis do culpa et culpa.</Box>
+      <Box p="x4">위쪽 영역의 내용입니다.</Box>
+      <Divider {...props} />
+      <Box p="x4">아래쪽 영역의 내용입니다.</Box>
     </VStack>
   );
 }
 
 export const story = defineStory({
-  displayName: "Divider",
   Component: withStoryPreview()(DividerPreview),
   args: {
     initial: {

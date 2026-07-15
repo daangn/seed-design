@@ -5,7 +5,6 @@ import { defineStory } from "@/lib/story";
 import { Text } from "@seed-design/react";
 
 export const story = defineStory({
-  displayName: "Text",
   Component: withStoryPreview()(Text),
   args: {
     initial: {

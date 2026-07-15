@@ -1,15 +1,9 @@
 "use client";
 
-import type { PropsWithChildren } from "react";
+import type { ComponentPropsWithoutRef, PropsWithChildren } from "react";
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import {
-  TabsContent,
-  TabsList,
-  TabsRoot,
-  type TabsRootProps,
-  TabsTrigger,
-} from "seed-design/ui/tabs";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 const Content = ({ children }: PropsWithChildren) => (
   <div
@@ -25,16 +19,12 @@ const Content = ({ children }: PropsWithChildren) => (
   </div>
 );
 
-function TabsPreview({
-  size,
-  triggerLayout,
-}: {
-  size?: TabsRootProps["size"];
-  triggerLayout?: TabsRootProps["triggerLayout"];
-}) {
+// Controls come from TabsRoot's real group-level props (size/triggerLayout/
+// contentLayout/…); the triggers and content panels are fixed.
+function TabsPreview(props: ComponentPropsWithoutRef<typeof TabsRoot>) {
   return (
     <div style={{ width: "360px" }}>
-      <TabsRoot defaultValue="1" size={size} triggerLayout={triggerLayout}>
+      <TabsRoot {...props} defaultValue="1">
         <TabsList>
           <TabsTrigger value="1">라벨1</TabsTrigger>
           <TabsTrigger value="2">라벨2</TabsTrigger>
@@ -55,14 +45,14 @@ function TabsPreview({
 }
 
 export const story = defineStory({
-  displayName: "Tabs",
-  Component: withStoryPreview()(TabsPreview),
-  args: {
-    initial: {
-      size: "small",
-      triggerLayout: "fill",
-    },
-  },
+  // value/defaultValue are the controlled selection (a fixed one is hardcoded)
+  Component: withStoryPreview<{
+    children?: never;
+    asChild?: never;
+    value?: never;
+    defaultValue?: never;
+  }>()(TabsPreview),
+  args: {},
 });
 
 // MDX can't dot into a client module (`story.WithControl`), so re-export it

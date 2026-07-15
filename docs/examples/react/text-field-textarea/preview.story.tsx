@@ -2,47 +2,27 @@
 
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import { TextField, TextFieldTextarea, type TextFieldProps } from "seed-design/ui/text-field";
+import type { ComponentPropsWithoutRef } from "react";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
-interface TextFieldTextareaStoryProps {
-  label?: string;
-  description?: string;
-  errorMessage?: string;
-  placeholder?: string;
-  size?: TextFieldProps["size"];
-  invalid?: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
-}
-
-function TextFieldTextareaStory({
-  label,
-  description,
-  errorMessage,
-  placeholder,
-  size,
-  invalid,
-  disabled,
-  readOnly,
-}: TextFieldTextareaStoryProps) {
+// Controls come from TextField's real field-level props; the textarea is fixed.
+function TextFieldTextareaStory(props: ComponentPropsWithoutRef<typeof TextField>) {
   return (
-    <TextField
-      label={label}
-      description={description}
-      errorMessage={errorMessage}
-      size={size}
-      invalid={invalid}
-      disabled={disabled}
-      readOnly={readOnly}
-    >
-      <TextFieldTextarea autoFocus placeholder={placeholder} />
+    <TextField {...props}>
+      <TextFieldTextarea autoFocus placeholder="입력하세요" />
     </TextField>
   );
 }
 
 export const story = defineStory({
-  displayName: "TextFieldTextarea",
-  Component: withStoryPreview()(TextFieldTextareaStory),
+  // value is controlled; fieldRef is a ref; prefixIcon/suffixIcon are icon slots
+  Component: withStoryPreview<{
+    children?: never;
+    value?: never;
+    fieldRef?: never;
+    prefixIcon?: never;
+    suffixIcon?: never;
+  }>()(TextFieldTextareaStory),
   args: {
     initial: {
       label: "라벨",

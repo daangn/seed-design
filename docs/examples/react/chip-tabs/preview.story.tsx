@@ -1,27 +1,19 @@
 "use client";
 
 import * as React from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import {
-  ChipTabsList,
-  ChipTabsRoot,
-  type ChipTabsRootProps,
-  ChipTabsTrigger,
-} from "seed-design/ui/chip-tabs";
+import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
 
-function ChipTabsPreview({
-  variant,
-  size,
-}: {
-  variant?: ChipTabsRootProps["variant"];
-  size?: ChipTabsRootProps["size"];
-}) {
+// Controls come from ChipTabsRoot's real group-level props (variant/size/…); the
+// triggers and content are fixed, and the selection is kept in local state.
+function ChipTabsPreview(props: ComponentPropsWithoutRef<typeof ChipTabsRoot>) {
   const [value, setValue] = React.useState("1");
 
   return (
     <>
-      <ChipTabsRoot variant={variant} size={size} value={value} onValueChange={setValue}>
+      <ChipTabsRoot {...props} value={value} onValueChange={setValue}>
         <ChipTabsList>
           <ChipTabsTrigger value="1">라벨1</ChipTabsTrigger>
           <ChipTabsTrigger value="2">라벨2</ChipTabsTrigger>
@@ -36,14 +28,15 @@ function ChipTabsPreview({
 }
 
 export const story = defineStory({
-  displayName: "ChipTabs",
-  Component: withStoryPreview()(ChipTabsPreview),
-  args: {
-    initial: {
-      variant: "neutralSolid",
-      size: "medium",
-    },
-  },
+  // value/onValueChange are the controlled selection (kept in local state)
+  Component: withStoryPreview<{
+    children?: never;
+    asChild?: never;
+    value?: never;
+    onValueChange?: never;
+    defaultValue?: never;
+  }>()(ChipTabsPreview),
+  args: {},
 });
 
 // MDX can't dot into a client module (`story.WithControl`), so re-export it

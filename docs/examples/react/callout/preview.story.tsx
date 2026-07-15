@@ -4,24 +4,13 @@ import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { Callout } from "seed-design/ui/callout";
 
-type Tone = "neutral" | "informative" | "positive" | "warning" | "critical" | "magic";
-
-interface CalloutPreviewProps {
-  tone?: Tone;
-  description: string;
-}
-
-function CalloutPreview({ tone, description }: CalloutPreviewProps) {
-  return <Callout tone={tone} description={description} />;
-}
-
 export const story = defineStory({
-  displayName: "Callout",
-  Component: withStoryPreview()(CalloutPreview),
+  // prefixIcon is an icon slot; linkProps is object plumbing
+  Component: withStoryPreview<{ prefixIcon?: never; linkProps?: never }>()(Callout),
   args: {
     initial: {
       tone: "neutral",
-      description: "Aute nulla proident tempor minim eiusmod. In nostrud officia irure laborum.",
+      description: "사용자가 알아야 할 정보를 강조해 보여주는 문구입니다.",
     },
   },
 });

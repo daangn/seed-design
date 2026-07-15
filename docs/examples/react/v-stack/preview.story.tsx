@@ -35,7 +35,6 @@ function VStackPreview({ gap, align, justify, count = 3 }: VStackPreviewProps) {
 }
 
 export const story = defineStory({
-  displayName: "VStack",
   Component: withStoryPreview()(VStackPreview),
   args: {
     initial: {

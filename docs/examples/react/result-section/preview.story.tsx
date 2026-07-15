@@ -52,7 +52,6 @@ function ResultSectionPreview({
 }
 
 export const story = defineStory({
-  displayName: "ResultSection",
   Component: withStoryPreview()(ResultSectionPreview),
   args: {
     initial: {

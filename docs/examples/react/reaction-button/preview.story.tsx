@@ -4,34 +4,27 @@ import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { IconFaceSmileCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Count, PrefixIcon } from "@seed-design/react";
-import { ReactionButton, type ReactionButtonProps } from "seed-design/ui/reaction-button";
+import type { ComponentPropsWithoutRef } from "react";
+import { ReactionButton } from "seed-design/ui/reaction-button";
 
-function ReactionButtonDemo({
-  children,
-  count,
-  ...props
-}: Pick<ReactionButtonProps, "size" | "loading" | "disabled"> & {
-  children?: string;
-  count?: string;
-}) {
+// Controls come from ReactionButton's real props (pressed/size/loading/disabled);
+// the icon, label, and count are fixed.
+function ReactionButtonDemo(props: ComponentPropsWithoutRef<typeof ReactionButton>) {
   return (
     <ReactionButton {...props}>
       <PrefixIcon svg={<IconFaceSmileCircleFill />} />
-      {children}
-      {count && <Count>{count}</Count>}
+      도움돼요
+      <Count>1</Count>
     </ReactionButton>
   );
 }
 
 export const story = defineStory({
-  displayName: "ReactionButton",
-  Component: withStoryPreview()(ReactionButtonDemo),
-  args: {
-    initial: {
-      children: "도움돼요",
-      count: "1",
-    },
-  },
+  // pressed is controlled state (keep defaultPressed instead)
+  Component: withStoryPreview<{ children?: never; asChild?: never; pressed?: never }>()(
+    ReactionButtonDemo,
+  ),
+  args: {},
 });
 
 // MDX can't dot into a client module (`story.WithControl`), so re-export it

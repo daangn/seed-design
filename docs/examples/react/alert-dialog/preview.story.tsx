@@ -3,6 +3,7 @@
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { ResponsivePair } from "@seed-design/react";
+import type { ComponentPropsWithoutRef } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
@@ -15,33 +16,23 @@ import {
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
 
-function AlertDialogPreview({
-  triggerLabel,
-  title,
-  description,
-  cancelLabel,
-  confirmLabel,
-}: {
-  triggerLabel: string;
-  title: string;
-  description: string;
-  cancelLabel: string;
-  confirmLabel: string;
-}) {
+// Controls come from AlertDialogRoot's real props; the trigger and content tree
+// are fixed.
+function AlertDialogPreview(props: ComponentPropsWithoutRef<typeof AlertDialogRoot>) {
   return (
-    <AlertDialogRoot>
+    <AlertDialogRoot {...props}>
       <AlertDialogTrigger asChild>
-        <ActionButton variant="neutralSolid">{triggerLabel}</ActionButton>
+        <ActionButton variant="neutralSolid">열기</ActionButton>
       </AlertDialogTrigger>
       <AlertDialogContent layerIndex={50}>
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogTitle>주의</AlertDialogTitle>
+          <AlertDialogDescription>이 작업은 되돌릴 수 없습니다.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <ResponsivePair gap="x2">
-            <AlertDialogAction variant="neutralWeak">{cancelLabel}</AlertDialogAction>
-            <AlertDialogAction variant="neutralSolid">{confirmLabel}</AlertDialogAction>
+            <AlertDialogAction variant="neutralWeak">취소</AlertDialogAction>
+            <AlertDialogAction variant="neutralSolid">확인</AlertDialogAction>
           </ResponsivePair>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -50,17 +41,10 @@ function AlertDialogPreview({
 }
 
 export const story = defineStory({
-  displayName: "AlertDialog",
-  Component: withStoryPreview()(AlertDialogPreview),
-  args: {
-    initial: {
-      triggerLabel: "열기",
-      title: "주의",
-      description: "이 작업은 되돌릴 수 없습니다.",
-      cancelLabel: "취소",
-      confirmLabel: "확인",
-    },
-  },
+  Component: withStoryPreview<{ children?: never; open?: never; onOpenChange?: never }>()(
+    AlertDialogPreview,
+  ),
+  args: {},
 });
 
 // MDX can't dot into a client module (`story.WithControl`), so re-export it

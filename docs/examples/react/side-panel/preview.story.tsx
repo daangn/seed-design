@@ -2,6 +2,7 @@
 
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
+import type { ComponentPropsWithoutRef } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SidePanelBody,
@@ -11,30 +12,20 @@ import {
   SidePanelTrigger,
 } from "seed-design/ui/side-panel";
 
-function SidePanelPreview({
-  direction,
-  triggerLabel,
-  title,
-  description,
-  bodyText,
-  confirmLabel,
-}: {
-  direction: "left" | "right";
-  triggerLabel: string;
-  title: string;
-  description: string;
-  bodyText: string;
-  confirmLabel: string;
-}) {
+// Controls come from SidePanelRoot's real props (its `direction` axis); the
+// trigger and content tree are fixed.
+function SidePanelPreview(props: ComponentPropsWithoutRef<typeof SidePanelRoot>) {
   return (
-    <SidePanelRoot direction={direction}>
+    <SidePanelRoot {...props}>
       <SidePanelTrigger asChild>
-        <ActionButton variant="neutralSolid">{triggerLabel}</ActionButton>
+        <ActionButton variant="neutralSolid">사이드 패널 열기</ActionButton>
       </SidePanelTrigger>
-      <SidePanelContent title={title} description={description}>
-        <SidePanelBody paddingX="x6">{bodyText}</SidePanelBody>
+      <SidePanelContent title="제목" description="설명을 작성할 수 있어요">
+        <SidePanelBody paddingX="x6">
+          패널 본문에는 사용자가 확인해야 할 내용이나 추가 입력 폼을 배치할 수 있습니다.
+        </SidePanelBody>
         <SidePanelFooter>
-          <ActionButton variant="neutralSolid">{confirmLabel}</ActionButton>
+          <ActionButton variant="neutralSolid">확인</ActionButton>
         </SidePanelFooter>
       </SidePanelContent>
     </SidePanelRoot>
@@ -42,16 +33,12 @@ function SidePanelPreview({
 }
 
 export const story = defineStory({
-  displayName: "SidePanel",
-  Component: withStoryPreview()(SidePanelPreview),
+  Component: withStoryPreview<{ children?: never; open?: never; onOpenChange?: never }>()(
+    SidePanelPreview,
+  ),
   args: {
     initial: {
       direction: "right",
-      triggerLabel: "Open Side Panel",
-      title: "제목",
-      description: "설명을 작성할 수 있어요",
-      bodyText: "패널 본문에는 사용자가 확인해야 할 내용이나 추가 입력 폼을 배치할 수 있습니다.",
-      confirmLabel: "확인",
     },
   },
 });

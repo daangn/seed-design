@@ -17,7 +17,6 @@ function SkeletonPreview({ tone, radius }: Pick<SkeletonProps, "tone" | "radius"
 }
 
 export const story = defineStory({
-  displayName: "Skeleton",
   Component: withStoryPreview()(SkeletonPreview),
   args: {
     initial: {

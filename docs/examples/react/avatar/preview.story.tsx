@@ -30,7 +30,6 @@ function AvatarPreview({
 }
 
 export const story = defineStory({
-  displayName: "Avatar",
   Component: withStoryPreview()(AvatarPreview),
   args: {
     initial: {

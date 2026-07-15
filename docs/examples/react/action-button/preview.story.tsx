@@ -5,8 +5,7 @@ import { defineStory } from "@/lib/story";
 import { ActionButton } from "seed-design/ui/action-button";
 
 export const story = defineStory({
-  displayName: "ActionButton",
-  Component: withStoryPreview()(ActionButton),
+  Component: withStoryPreview<{ asChild?: never }>()(ActionButton),
   args: {
     initial: {
       children: "라벨",

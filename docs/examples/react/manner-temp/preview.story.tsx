@@ -5,7 +5,6 @@ import { defineStory } from "@/lib/story";
 import { MannerTemp } from "seed-design/ui/manner-temp";
 
 export const story = defineStory({
-  displayName: "MannerTemp",
   Component: withStoryPreview()(MannerTemp),
   args: {
     initial: {

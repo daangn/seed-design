@@ -12,7 +12,6 @@ const ContentPlaceholderPreview = ({ type }: Pick<ContentPlaceholderProps, "type
 );
 
 export const story = defineStory({
-  displayName: "ContentPlaceholder",
   Component: withStoryPreview()(ContentPlaceholderPreview),
   args: {
     initial: {

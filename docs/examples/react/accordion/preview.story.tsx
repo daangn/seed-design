@@ -1,5 +1,6 @@
 "use client";
 
+import type { ComponentPropsWithoutRef } from "react";
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { Box } from "@seed-design/react";
@@ -7,13 +8,12 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  type AccordionProps,
   AccordionTrigger,
 } from "seed-design/ui/accordion";
 
-function AccordionPreview(
-  props: Pick<AccordionProps, "variant" | "size" | "multiple" | "disabled">,
-) {
+// Controls come from Accordion's real group-level props (variant/size/multiple/
+// …); the items are fixed representatives.
+function AccordionPreview(props: ComponentPropsWithoutRef<typeof Accordion>) {
   return (
     <Accordion {...props}>
       <AccordionItem value="item-1">
@@ -45,16 +45,14 @@ function AccordionPreview(
 }
 
 export const story = defineStory({
-  displayName: "Accordion",
-  Component: withStoryPreview()(AccordionPreview),
-  args: {
-    initial: {
-      variant: "inline",
-      size: "medium",
-      multiple: false,
-      disabled: false,
-    },
-  },
+  // values/defaultValues are the controlled expansion state (array<string>)
+  Component: withStoryPreview<{
+    children?: never;
+    asChild?: never;
+    values?: never;
+    defaultValues?: never;
+  }>()(AccordionPreview),
+  args: {},
 });
 
 // MDX can't dot into a client module (`story.WithControl`), so re-export it

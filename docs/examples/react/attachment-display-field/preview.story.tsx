@@ -4,6 +4,7 @@ import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
 import { VStack } from "@seed-design/react";
 import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import type { ComponentPropsWithoutRef } from "react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 
 const sampleEntries: DisplayItemEntry[] = [
@@ -31,10 +32,14 @@ async function openMediaPicker(): Promise<DisplayItemEntry[]> {
   ];
 }
 
-function AttachmentDisplayFieldPreview({ maxEntries }: { maxEntries: number }) {
+// Controls come from AttachmentDisplayField's real props; the display body and
+// the seed entries are fixed.
+function AttachmentDisplayFieldPreview(
+  props: ComponentPropsWithoutRef<typeof AttachmentDisplayField>,
+) {
   return (
     <VStack gap="x4" p="x6" width="100%">
-      <AttachmentDisplayField defaultEntries={sampleEntries} maxEntries={maxEntries}>
+      <AttachmentDisplayField {...props} defaultEntries={sampleEntries}>
         <AttachmentDisplay
           onTriggerClick={async ({ addEntries }) => {
             addEntries(await openMediaPicker());
@@ -46,13 +51,13 @@ function AttachmentDisplayFieldPreview({ maxEntries }: { maxEntries: number }) {
 }
 
 export const story = defineStory({
-  displayName: "AttachmentDisplayField",
-  Component: withStoryPreview()(AttachmentDisplayFieldPreview),
-  args: {
-    initial: {
-      maxEntries: 5,
-    },
-  },
+  // entries/defaultEntries are the controlled item state (a fixed seed is used)
+  Component: withStoryPreview<{
+    children?: never;
+    entries?: never;
+    defaultEntries?: never;
+  }>()(AttachmentDisplayFieldPreview),
+  args: {},
 });
 
 // MDX can't dot into a client module (`story.WithControl`), so re-export it

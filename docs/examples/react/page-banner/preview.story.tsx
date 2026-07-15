@@ -2,25 +2,14 @@
 
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import { PageBanner, type PageBannerProps } from "seed-design/ui/page-banner";
-
-interface PageBannerPreviewProps {
-  tone?: PageBannerProps["tone"];
-  description?: string;
-}
-
-function PageBannerPreview({ tone, description }: PageBannerPreviewProps) {
-  return <PageBanner tone={tone} description={description} />;
-}
+import { PageBanner } from "seed-design/ui/page-banner";
 
 export const story = defineStory({
-  displayName: "PageBanner",
-  Component: withStoryPreview()(PageBannerPreview),
+  Component: withStoryPreview<{ prefixIcon?: never }>()(PageBanner),
   args: {
     initial: {
       tone: "neutral",
-      description:
-        "Ut veniam in ea ea anim laborum magna dolore ea laborum duis ut aute mollit amet.",
+      description: "페이지 상단에 표시되는 배너 문구입니다.",
     },
   },
 });

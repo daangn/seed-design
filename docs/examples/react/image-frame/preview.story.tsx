@@ -32,7 +32,6 @@ function ImageFramePreview({
 }
 
 export const story = defineStory({
-  displayName: "ImageFrame",
   Component: withStoryPreview()(ImageFramePreview),
   args: {
     initial: {

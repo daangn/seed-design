@@ -40,7 +40,6 @@ function FloatPreview({ placement = "top-start", offsetX, offsetY }: FloatPrevie
 }
 
 export const story = defineStory({
-  displayName: "Float",
   Component: withStoryPreview()(FloatPreview),
   args: {
     initial: {

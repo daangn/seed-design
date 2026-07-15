@@ -9,7 +9,6 @@ function SwitchPreview(props: Pick<SwitchProps, "size" | "tone" | "disabled">) {
 }
 
 export const story = defineStory({
-  displayName: "Switch",
   Component: withStoryPreview()(SwitchPreview),
   args: {
     initial: {

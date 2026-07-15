@@ -16,7 +16,6 @@ function FloatingActionButtonDemo({
 }
 
 export const story = defineStory({
-  displayName: "FloatingActionButton",
   Component: withStoryPreview()(FloatingActionButtonDemo),
   args: {
     initial: {
