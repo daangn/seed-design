@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
+@import "@fumadocs/story/css/preset.css";
 @import "@seed-design/tailwind4-theme";
 
 @source ".";
@@ -100,7 +101,9 @@ article .prose {
 }
 
 /* Enable text selection in code blocks */
-pre, code, pre code {
+pre,
+code,
+pre code {
   user-select: text !important;
   -webkit-user-select: text !important;
 }

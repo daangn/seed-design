@@ -79,7 +79,7 @@ export const blogDocs = defineDocs({
   docs: {
     async: true,
     schema: frontmatterSchema.extend({
-      publishedAt: z.iso.date().or(z.date()).optional(),
+      publishedAt: z.coerce.date().optional(),
       coverImageFigmaId: z.string().optional(),
     }),
     postprocess: {
