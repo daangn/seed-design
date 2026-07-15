@@ -1,7 +1,7 @@
 "use client";
 
-import { type ComponentProps, type HTMLAttributes, type ReactNode, useState } from "react";
-import { Plus, Trash2, X } from "lucide-react";
+import { type ComponentProps, type HTMLAttributes, type ReactNode } from "react";
+import { Plus, Trash2 } from "lucide-react";
 import {
   FieldKey,
   useArray,
@@ -10,8 +10,11 @@ import {
   useNamespace,
   useObject,
 } from "@fumari/stf";
+import { Icon, ScrollFog } from "@seed-design/react";
 import { Input } from "./input";
+import { ActionButton } from "seed-design/ui/action-button";
 import { Chip } from "seed-design/ui/chip";
+import { NO_ICON, prettifyIconName, resolveStoryIcon } from "./icon-set";
 import { Switch } from "seed-design/ui/switch";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 // Import runtime helpers from the client-safe type-tree submodules (like upstream's
@@ -32,6 +35,10 @@ import { useTranslations } from "@fuma-translate/react";
 const labelVariants = cva(
   "text-xs font-mono font-medium text-fd-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
 );
+
+// Literal-enum member labels are JSON.stringify'd by the type-tree builder
+// (e.g. `"outline"`), so strip the wrapping quotes for display.
+const unquote = (label: string) => label.replace(/^"(.*)"$/, "$1");
 
 function FieldLabel(props: ComponentProps<"label">) {
   return (
@@ -67,7 +74,7 @@ export function ObjectInput({
   });
 
   return (
-    <div {...props} className={cn("grid grid-cols-1 gap-4 @md:grid-cols-2", props.className)}>
+    <div {...props} className={cn("grid grid-cols-1 gap-4", props.className)}>
       {properties.map((child) => {
         const prop = node.properties.find((p) => p.name === child.key);
         if (!prop) return null;
@@ -82,31 +89,6 @@ export function ObjectInput({
           />
         );
       })}
-    </div>
-  );
-}
-
-export function JsonInput({ fieldName }: { fieldName: FieldKey }) {
-  const engine = useDataEngine();
-  const [error, setError] = useState<string | null>(null);
-  const [value, setValue] = useState(() => JSON.stringify(engine.init(fieldName, {}), null, 2));
-
-  return (
-    <div className="flex flex-col bg-fd-secondary text-fd-secondary-foreground overflow-hidden border rounded-lg">
-      <textarea
-        value={value}
-        className="p-2 h-[240px] text-sm font-mono resize-none focus-visible:outline-none"
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          setValue(e.target.value);
-          try {
-            engine.update(fieldName, JSON.parse(e.target.value));
-            setError(null);
-          } catch (err) {
-            if (err instanceof Error) setError(err.message);
-          }
-        }}
-      />
-      <p className="p-2 text-xs font-mono border-t text-red-400 empty:hidden">{error}</p>
     </div>
   );
 }
@@ -131,13 +113,15 @@ export function FieldInput({
       <div {...props} className={cn("flex flex-row gap-2", props.className)}>
         {children}
         {value !== undefined && !isRequired && (
-          <button
+          // Same height as the medium TextField (both --seed-dimension-x10, 40px).
+          <ActionButton
+            size="medium"
+            variant="neutralWeak"
             type="button"
             onClick={() => engine.delete(fieldName)}
-            className="text-fd-muted-foreground"
           >
-            <X className="size-4" />
-          </button>
+            {t("Unset")}
+          </ActionButton>
         )}
       </div>
     );
@@ -153,42 +137,17 @@ export function FieldInput({
     return null;
   }
 
-  if (field.type === "enum") {
-    // RadioGroup values are strings, so members map to their index. When the
-    // field is unset we fall back to the default member (index 0), mirroring the
-    // Switch's default-off state — there is no separate "unset" chip.
-    const idx = field.members.findIndex((m) => m.value === value);
-    const selected = String(idx >= 0 ? idx : 0);
+  // A Switch is binary, so an optional boolean collapses to on/off. The engine is
+  // seeded with the prop's `@default` (via the controls loader), so the Switch
+  // reflects the real default. SEED boolean props arrive as a `true | false`
+  // literal enum (see the type-tree builder's literalEnumHandler), so treat those
+  // the same as a plain boolean node.
+  const isBooleanEnum =
+    field.type === "enum" &&
+    field.members.length > 0 &&
+    field.members.every((m) => typeof m.value === "boolean");
 
-    return (
-      <Chip.RadioRoot
-        id={id}
-        aria-label={stringifyFieldKey(fieldName)}
-        value={selected}
-        onValueChange={(next) => {
-          const i = Number(next);
-          if (i >= 0 && i < field.members.length) setValue(field.members[i]!.value);
-        }}
-        className="flex flex-row flex-wrap gap-1.5"
-      >
-        {field.members.map((member, i) => (
-          <Chip.RadioItem
-            key={String(member.value)}
-            value={String(i)}
-            variant="outlineWeak"
-            size="small"
-          >
-            <Chip.Label>{member.label}</Chip.Label>
-          </Chip.RadioItem>
-        ))}
-      </Chip.RadioRoot>
-    );
-  }
-
-  if (field.type === "boolean") {
-    // A Switch is binary, so the optional tri-state (true/false/unset) collapses
-    // to on/off. The engine is seeded from the story preset's `initial`, so an
-    // unset field defaults to off — matching getDefaultValue(boolean) === false.
+  if (field.type === "boolean" || isBooleanEnum) {
     return (
       <Switch
         size="16"
@@ -196,6 +155,62 @@ export function FieldInput({
         checked={value === true}
         onCheckedChange={(checked) => setValue(checked)}
       />
+    );
+  }
+
+  if (field.type === "enum") {
+    // RadioGroup values are strings, so members map to their index. The engine is
+    // seeded with the prop's `@default`, so the matching chip is preselected.
+    const idx = field.members.findIndex((m) => m.value === value);
+    const selected = String(idx >= 0 ? idx : 0);
+
+    // An icon enum (a story exposing an icon slot as fill/line set keys) renders
+    // the actual glyph as a chip prefix, with a cleaned-up name as the label. It
+    // is detected — not tagged — by every member resolving to a known icon (or the
+    // `NO_ICON` sentinel of an optional slot, rendered as an "Unset" chip), so
+    // ordinary enums (tone/size/variant) are untouched.
+    const isIconEnum =
+      field.members.some((m) => resolveStoryIcon(String(m.value))) &&
+      field.members.every((m) => resolveStoryIcon(String(m.value)) || String(m.value) === NO_ICON);
+
+    // Chips never wrap — the row scrolls horizontally with a fog on both edges.
+    // `min-w-0` lets the fog shrink to the field column so the row scrolls inside
+    // it instead of widening the whole props panel.
+    return (
+      <ScrollFog placement={["left", "right"]} size={16} hideScrollBar className="min-w-0">
+        <Chip.RadioRoot
+          id={id}
+          aria-label={stringifyFieldKey(fieldName)}
+          value={selected}
+          onValueChange={(next) => {
+            const i = Number(next);
+            if (i >= 0 && i < field.members.length) setValue(field.members[i]!.value);
+          }}
+          className="flex w-max flex-row gap-1.5"
+        >
+          {field.members.map((member, i) => (
+            <Chip.RadioItem
+              key={String(member.value)}
+              value={String(i)}
+              variant="outlineWeak"
+              size="small"
+            >
+              {isIconEnum && resolveStoryIcon(String(member.value)) && (
+                <Chip.PrefixIcon>
+                  <Icon svg={resolveStoryIcon(String(member.value))} />
+                </Chip.PrefixIcon>
+              )}
+              <Chip.Label>
+                {isIconEnum
+                  ? String(member.value) === NO_ICON
+                    ? t("Unset")
+                    : prettifyIconName(String(member.value))
+                  : unquote(member.label)}
+              </Chip.Label>
+            </Chip.RadioItem>
+          ))}
+        </Chip.RadioRoot>
+      </ScrollFog>
     );
   }
   if (field.type === "date") {
@@ -316,7 +331,7 @@ export function FieldSet({
     return (
       <fieldset
         {...rest}
-        className={cn("flex flex-col gap-1.5 col-span-full @container", rest.className)}
+        className={cn("flex flex-col gap-1.5 col-span-full min-w-0", rest.className)}
       >
         <FieldLabel htmlFor={id}>
           <span className={cn(labelVariants(), "me-auto")}>
@@ -337,7 +352,10 @@ export function FieldSet({
 
   if (field.type === "array") {
     return (
-      <fieldset {...rest} className={cn("flex flex-col gap-1.5 col-span-full", rest.className)}>
+      <fieldset
+        {...rest}
+        className={cn("flex flex-col gap-1.5 col-span-full min-w-0", rest.className)}
+      >
         <FieldLabel htmlFor={id}>
           <span className={cn(labelVariants(), "me-auto")}>
             {name}
@@ -355,7 +373,7 @@ export function FieldSet({
     );
   }
   return (
-    <fieldset {...rest} className={cn("flex flex-col gap-1.5", rest.className)}>
+    <fieldset {...rest} className={cn("flex flex-col gap-1.5 min-w-0", rest.className)}>
       <FieldLabel htmlFor={id}>
         <span className={cn(labelVariants(), "me-auto")}>
           {name}

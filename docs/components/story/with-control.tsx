@@ -2,6 +2,7 @@
 
 import { cn } from "./cn";
 import { useStf, StfProvider, useDataEngine, useListener } from "@fumari/stf";
+import { ScrollFog } from "@seed-design/react";
 import { Chip } from "seed-design/ui/chip";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { AlertCircle } from "lucide-react";
@@ -37,29 +38,36 @@ export function WithControl({ presets, Component }: WithControlProps) {
       <div className="not-prose flex flex-col gap-1 p-1 border rounded-md shadow-sm bg-fd-card text-fd-card-foreground">
         <div className="flex flex-row items-center gap-2 empty:hidden">
           {presets.length > 1 && (
-            <Chip.RadioRoot
-              aria-label={t("Variant")}
-              value={variant}
-              onValueChange={(value) => {
-                const preset = presets.find((preset) => preset.variant === value);
-                if (preset) {
-                  setVariant(value);
-                  stf.dataEngine.reset(preset.defaultValues ?? {});
-                }
-              }}
-              className="ms-auto flex flex-row flex-wrap gap-1.5"
+            <ScrollFog
+              placement={["left", "right"]}
+              size={16}
+              hideScrollBar
+              className="ms-auto min-w-0"
             >
-              {presets.map((item) => (
-                <Chip.RadioItem
-                  key={item.variant}
-                  value={item.variant}
-                  variant="outlineWeak"
-                  size="small"
-                >
-                  <Chip.Label>{item.variant}</Chip.Label>
-                </Chip.RadioItem>
-              ))}
-            </Chip.RadioRoot>
+              <Chip.RadioRoot
+                aria-label={t("Variant")}
+                value={variant}
+                onValueChange={(value) => {
+                  const preset = presets.find((preset) => preset.variant === value);
+                  if (preset) {
+                    setVariant(value);
+                    stf.dataEngine.reset(preset.defaultValues ?? {});
+                  }
+                }}
+                className="flex w-max flex-row gap-1.5"
+              >
+                {presets.map((item) => (
+                  <Chip.RadioItem
+                    key={item.variant}
+                    value={item.variant}
+                    variant="outlineWeak"
+                    size="small"
+                  >
+                    <Chip.Label>{item.variant}</Chip.Label>
+                  </Chip.RadioItem>
+                ))}
+              </Chip.RadioRoot>
+            </ScrollFog>
           )}
         </div>
         <StoryComponent Component={Component} />

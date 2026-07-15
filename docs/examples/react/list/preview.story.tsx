@@ -1,19 +1,27 @@
 "use client";
 
+import { type OptionalLineIconName, resolveStoryIcon } from "@/components/story/icon-set";
 import { withStoryPreview } from "@/components/story-preview";
 import { defineStory } from "@/lib/story";
-import {
-  IconILowercaseSerifCircleLine,
-  IconPersonCircleLine,
-} from "@karrotmarket/react-monochrome-icon";
 import { Icon, VStack } from "@seed-design/react";
 import type { ComponentPropsWithoutRef } from "react";
 import { List, ListDivider, ListItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
 
-// Controls come from ListItem's real props (title/detail/highlighted/…); a
-// sibling item and the prefix/suffix slots are fixed. List is just the container.
-function ListItemPreview(props: ComponentPropsWithoutRef<typeof ListItem>) {
+// Controls come from ListItem's real props. `prefix`/`suffix` are genuine
+// ReactNode slots, narrowed here to an optional icon picker (with an "Unset"
+// chip since both are optional); a sibling item is fixed.
+function ListItemPreview({
+  prefix = "IconPersonCircleLine",
+  suffix = "IconILowercaseSerifCircleLine",
+  ...props
+}: Omit<ComponentPropsWithoutRef<typeof ListItem>, "prefix" | "suffix"> & {
+  prefix?: OptionalLineIconName;
+  suffix?: OptionalLineIconName;
+}) {
+  const prefixIcon = resolveStoryIcon(prefix);
+  const suffixIcon = resolveStoryIcon(suffix);
+
   return (
     <VStack width="360px">
       <ListHeader as="h2">리스트 헤더</ListHeader>
@@ -22,8 +30,8 @@ function ListItemPreview(props: ComponentPropsWithoutRef<typeof ListItem>) {
         <ListDivider />
         <ListItem
           {...props}
-          prefix={<Icon svg={<IconPersonCircleLine />} />}
-          suffix={<Icon svg={<IconILowercaseSerifCircleLine />} />}
+          prefix={prefixIcon && <Icon svg={prefixIcon} />}
+          suffix={suffixIcon && <Icon svg={suffixIcon} />}
         />
       </List>
     </VStack>
@@ -31,12 +39,13 @@ function ListItemPreview(props: ComponentPropsWithoutRef<typeof ListItem>) {
 }
 
 export const story = defineStory({
-  // prefix/suffix are ReactNode slots (fixed icons), not usable control widgets
-  Component: withStoryPreview<{ prefix?: never; suffix?: never }>()(ListItemPreview),
+  Component: withStoryPreview()(ListItemPreview),
   args: {
     initial: {
       title: "아이콘이 있는 리스트 아이템",
       detail: "부가 정보가 포함된 설명",
+      prefix: "IconPersonCircleLine",
+      suffix: "IconILowercaseSerifCircleLine",
     },
   },
 });
