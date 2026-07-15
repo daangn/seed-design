@@ -4130,6 +4130,7 @@
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
     border: none;
+    flex-shrink: 0;
     justify-content: center;
     align-items: center;
     display: flex;

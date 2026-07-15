@@ -45,6 +45,7 @@
     box-sizing: border-box;
     white-space: nowrap;
     font-family: inherit;
+    flex-shrink: 0;
     border-radius: var(--seed-radius-full);
     font-weight: var(--seed-font-weight-medium);
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
