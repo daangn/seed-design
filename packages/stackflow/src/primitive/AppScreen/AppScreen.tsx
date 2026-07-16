@@ -40,7 +40,10 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
   // transitionState, so the effect won't re-fire.
   useEffect(() => {
     if (api.activity?.transitionState === "enter-done") {
-      api.layerRef.current?.focus();
+      // `preventScroll` so moving focus never scrolls an ancestor. The layer already fills
+      // the viewport, so the browser's default scroll-into-view is at best a no-op — and at
+      // worst a jarring jump when the app is embedded in a scrollable host (e.g. an iframe).
+      api.layerRef.current?.focus({ preventScroll: true });
     }
   }, [api.activity?.transitionState, api.layerRef]);
 
