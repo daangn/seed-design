@@ -81,6 +81,8 @@ export function StackflowIframePreview({ path }: StackflowIframePreviewProps) {
   );
 }
 
+const FOCUS_SCROLL_SUPPRESSION_WINDOW_MS = 250;
+
 /**
  * The embedded stackflow app focuses its active AppScreen layer once the enter
  * animation completes (an a11y behavior). When focus lands inside a cross-origin
@@ -111,7 +113,7 @@ function useSuppressIframeFocusScroll(
       if (document.activeElement !== iframe) return;
 
       savedY = window.scrollY;
-      armedUntil = performance.now() + 250;
+      armedUntil = performance.now() + FOCUS_SCROLL_SUPPRESSION_WINDOW_MS;
     };
 
     const restore = () => {
