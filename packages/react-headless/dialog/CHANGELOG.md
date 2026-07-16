@@ -1,5 +1,11 @@
 # @seed-design/react-dialog
 
+## 2.0.1
+
+### Patch Changes
+
+- 34586b6: `DialogTitle`/`DialogDescription`이 실제로 렌더된 경우에만 `DialogContent`가 각각 `aria-labelledby`/`aria-describedby`를 노출하도록 수정합니다.
+
 ## 2.0.0
 
 ### Major Changes
