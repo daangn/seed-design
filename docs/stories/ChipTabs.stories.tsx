@@ -12,13 +12,17 @@ import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 
+const TAB_VALUES = Array.from({ length: 20 }, (_, i) => String(i + 1));
+
 const Component = (props: ChipTabsRootProps) => {
   return (
     <ChipTabsRoot {...props}>
       <ChipTabsList>
-        <ChipTabsTrigger value="1">Tab 1</ChipTabsTrigger>
-        <ChipTabsTrigger value="2">Tab 2</ChipTabsTrigger>
-        <ChipTabsTrigger value="3">Tab 3</ChipTabsTrigger>
+        {TAB_VALUES.map((value) => (
+          <ChipTabsTrigger key={value} value={value}>
+            Tab {value}
+          </ChipTabsTrigger>
+        ))}
       </ChipTabsList>
     </ChipTabsRoot>
   );
