@@ -76,6 +76,8 @@ jobs:
           FIGMA_BYPASS_CACHE_NODE_IDS: ${{ inputs.bypass-cache-node-ids }}
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
+          # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
+          NODE_OPTIONS: --max-old-space-size=6144
         run: |
           bun run build
 
