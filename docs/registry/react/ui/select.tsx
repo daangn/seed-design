@@ -103,12 +103,6 @@ export const SelectRoot = ({
 export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "children"> {
   placeholder?: React.ReactNode;
 
-  /**
-   * Static prefix icon. While exactly one item is selected, that item's
-   * `prefixIcon` takes precedence; otherwise (empty, multi, or a selected item
-   * without an icon) this static icon shows. Using it together with `prefixText`
-   * is not recommended.
-   */
   prefixIcon?: React.ReactNode;
 
   prefixText?: React.ReactNode;
@@ -125,14 +119,24 @@ export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "child
  * @see https://seed-design.io/react/components/select
  */
 export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ placeholder, prefixIcon, prefixText, suffixIcon, format, ...props }, ref) => {
+  (
+    {
+      placeholder,
+      prefixIcon,
+      prefixText,
+      suffixIcon = <IconChevronDownSmallLine />,
+      format,
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <SeedSelect.Trigger ref={ref} {...props}>
         <SeedSelect.PrefixIcon svg={prefixIcon} />
         {prefixText && <SeedSelect.PrefixText>{prefixText}</SeedSelect.PrefixText>}
         <SeedSelect.Value format={format} />
         {placeholder && <SeedSelect.Placeholder>{placeholder}</SeedSelect.Placeholder>}
-        <SeedSelect.SuffixIcon svg={suffixIcon ?? <IconChevronDownSmallLine />} />
+        <SeedSelect.SuffixIcon svg={suffixIcon} />
       </SeedSelect.Trigger>
     );
   },
