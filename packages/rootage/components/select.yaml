@@ -8,77 +8,6 @@ data:
     slots:
       root:
         properties:
-          height:
-            type: dimension
-          cornerRadius:
-            type: dimension
-          gap:
-            type: dimension
-          paddingX:
-            type: dimension
-          strokeWidth:
-            type: dimension
-          strokeColor:
-            type: color
-          color:
-            type: color
-          colorDuration:
-            type: duration
-          colorTimingFunction:
-            type: cubicBezier
-          strokeDuration:
-            type: duration
-            description: enabled 상태의 stroke 위에 invalid 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
-          strokeTimingFunction:
-            type: cubicBezier
-      value:
-        properties:
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-          fontWeight:
-            type: number
-          color:
-            type: color
-      placeholder:
-        properties:
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-          fontWeight:
-            type: number
-          color:
-            type: color
-      prefixText:
-        properties:
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-          fontWeight:
-            type: number
-          color:
-            type: color
-      prefixIcon:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
-      suffixIcon:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
-          rotateDuration:
-            type: duration
-          rotateTimingFunction:
-            type: cubicBezier
-      content:
-        properties:
           cornerRadius:
             type: dimension
           color:
@@ -139,74 +68,6 @@ data:
             type: dimension
           color:
             type: color
-      item:
-        properties:
-          color:
-            type: color
-          marginX:
-            type: dimension
-          cornerRadius:
-            type: dimension
-          colorDuration:
-            type: duration
-          colorTimingFunction:
-            type: cubicBezier
-          marginDuration:
-            type: duration
-          marginTimingFunction:
-            type: cubicBezier
-          borderRadiusDuration:
-            type: duration
-          borderRadiusTimingFunction:
-            type: cubicBezier
-          paddingX:
-            type: dimension
-          paddingY:
-            type: dimension
-          gap:
-            type: dimension
-      itemPrefixIcon:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
-      itemSuffixIcon:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
-      itemBody:
-        properties:
-          gap:
-            type: dimension
-      itemLabel:
-        properties:
-          color:
-            type: color
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-          fontWeight:
-            type: number
-      itemDescription:
-        properties:
-          color:
-            type: color
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-          fontWeight:
-            type: number
-      itemIndicator:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
     variants:
       size:
         values:
@@ -219,37 +80,6 @@ data:
     base:
       enabled:
         root:
-          strokeWidth: 1px
-          strokeColor: $color.stroke.neutral-weak
-
-          color: $color.bg.transparent
-          colorDuration: $duration.color-transition
-          colorTimingFunction: $timing-function.easing
-          strokeDuration: 0.1s
-          strokeTimingFunction: $timing-function.easing
-
-        value:
-          fontWeight: $font-weight.regular
-
-          color: $color.fg.neutral
-
-        placeholder:
-          fontWeight: $font-weight.regular
-          color: $color.fg.placeholder
-
-        prefixText:
-          fontWeight: $font-weight.regular
-          color: $color.fg.neutral-subtle
-
-        prefixIcon:
-          color: $color.fg.neutral-muted
-
-        suffixIcon:
-          color: $color.fg.neutral-muted
-          rotateDuration: $duration.d6
-          rotateTimingFunction: $timing-function.easing
-
-        content:
           cornerRadius: $radius.r5
           color: $color.bg.layer-floating
           shadow: $shadow.s3
@@ -272,93 +102,9 @@ data:
           marginX: $dimension.x4
           height: 1px
           color: $color.stroke.neutral-muted
-        item:
-          colorDuration: $duration.color-transition
-          colorTimingFunction: $timing-function.easing
-          marginDuration: $duration.d3
-          marginTimingFunction: $timing-function.easing
-          borderRadiusDuration: $duration.d3
-          borderRadiusTimingFunction: $timing-function.easing
-        itemPrefixIcon:
-          color: $color.fg.neutral
-        itemSuffixIcon:
-          color: $color.fg.neutral
-        itemBody:
-          gap: $dimension.x0_5
-        itemLabel:
-          fontWeight: $font-weight.regular
-          color: $color.fg.neutral
-        itemDescription:
-          fontWeight: $font-weight.regular
-          color: $color.fg.neutral-subtle
-        itemIndicator:
-          color: $color.fg.neutral
-
-      pressed:
-        root:
-          color: $color.bg.transparent-pressed
-        item:
-          color: $color.bg.transparent-pressed
-          marginX: $dimension.x2
-          cornerRadius: $radius.r3
-
-      invalid:
-        root:
-          strokeWidth: 2px
-          strokeColor: $color.stroke.critical-solid
-
-      disabled:
-        root:
-          color: $color.bg.disabled
-        value:
-          color: $color.fg.disabled
-        placeholder:
-          color: $color.fg.disabled
-        prefixText:
-          color: $color.fg.disabled
-        prefixIcon:
-          color: $color.fg.disabled
-        suffixIcon:
-          color: $color.fg.disabled
-        itemPrefixIcon:
-          color: $color.fg.disabled
-        itemSuffixIcon:
-          color: $color.fg.disabled
-        itemLabel:
-          color: $color.fg.disabled
-        itemDescription:
-          color: $color.fg.disabled
-        itemIndicator:
-          color: $color.fg.disabled
-
-      readonly:
-        root:
-          color: $color.bg.disabled
-        value:
-          color: $color.fg.neutral
-        placeholder:
-          color: $color.fg.placeholder
     size=large:
       enabled:
         root:
-          height: $dimension.x13
-          gap: $dimension.x2_5
-          cornerRadius: $radius.r3
-          paddingX: $dimension.x4
-        value:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        placeholder:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        prefixText:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        prefixIcon:
-          size: $dimension.x5
-        suffixIcon:
-          size: $dimension.x5
-        content:
           width: 240px
         groupLabel:
           paddingY: $dimension.x2_5
@@ -366,43 +112,9 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.medium
-        item:
-          paddingX: $dimension.x4
-          paddingY: $dimension.x3
-          gap: $dimension.x3
-        itemPrefixIcon:
-          size: 22px
-        itemSuffixIcon:
-          size: 18px
-        itemLabel:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        itemDescription:
-          fontSize: $font-size.t3
-          lineHeight: $line-height.t3
-        itemIndicator:
-          size: 18px
     size=medium:
       enabled:
         root:
-          height: $dimension.x10
-          gap: $dimension.x2
-          cornerRadius: $radius.r2
-          paddingX: $dimension.x3_5
-        value:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        placeholder:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        prefixText:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        prefixIcon:
-          size: $dimension.x4
-        suffixIcon:
-          size: $dimension.x4
-        content:
           width: 200px
         groupLabel:
           paddingY: $dimension.x2
@@ -410,19 +122,3 @@ data:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
           fontWeight: $font-weight.regular
-        item:
-          paddingX: $dimension.x4
-          paddingY: $dimension.x2_5
-          gap: $dimension.x2
-        itemPrefixIcon:
-          size: 18px
-        itemSuffixIcon:
-          size: 16px
-        itemLabel:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        itemDescription:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        itemIndicator:
-          size: 16px

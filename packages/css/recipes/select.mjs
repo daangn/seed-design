@@ -3,30 +3,6 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 
 const selectSlotNames = [
   [
-    "root",
-    "seed-select__root"
-  ],
-  [
-    "value",
-    "seed-select__value"
-  ],
-  [
-    "placeholder",
-    "seed-select__placeholder"
-  ],
-  [
-    "prefixText",
-    "seed-select__prefixText"
-  ],
-  [
-    "prefixIcon",
-    "seed-select__prefixIcon"
-  ],
-  [
-    "suffixIcon",
-    "seed-select__suffixIcon"
-  ],
-  [
     "positioner",
     "seed-select__positioner"
   ],
@@ -45,26 +21,6 @@ const selectSlotNames = [
   [
     "groupLabel",
     "seed-select__groupLabel"
-  ],
-  [
-    "item",
-    "seed-select__item"
-  ],
-  [
-    "itemBody",
-    "seed-select__itemBody"
-  ],
-  [
-    "itemLabel",
-    "seed-select__itemLabel"
-  ],
-  [
-    "itemDescription",
-    "seed-select__itemDescription"
-  ],
-  [
-    "itemIndicator",
-    "seed-select__itemIndicator"
   ]
 ];
 

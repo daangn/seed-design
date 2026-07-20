@@ -1,7 +1,17 @@
 import selectSpec from "@seed-design/rootage-artifacts/components/select.json" with {
   type: "json",
 };
-import { select as selectVars } from "../vars/component";
+import selectTriggerSpec from "@seed-design/rootage-artifacts/components/select-trigger.json" with {
+  type: "json",
+};
+import selectItemSpec from "@seed-design/rootage-artifacts/components/select-item.json" with {
+  type: "json",
+};
+import {
+  select as selectVars,
+  selectTrigger as selectTriggerVars,
+  selectItem as selectItemVars,
+} from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
   active,
@@ -38,41 +48,20 @@ const SELECT_REFERENCE_WIDTH = "--seed-select-reference-width";
 // exactly one option — never two. `:active` layers press feedback on top; on touch,
 // where there is no hover, it is the only pointer feedback an option gets.
 const highlightedItem = {
-  backgroundColor: selectVars.base.pressed.item.color,
-  left: selectVars.base.pressed.item.marginX,
-  right: selectVars.base.pressed.item.marginX,
-  borderRadius: selectVars.base.pressed.item.cornerRadius,
+  backgroundColor: selectItemVars.base.pressed.root.color,
+  left: selectItemVars.base.pressed.root.marginX,
+  right: selectItemVars.base.pressed.root.marginX,
+  borderRadius: selectItemVars.base.pressed.root.cornerRadius,
 };
 
 /**
- * Select — one recipe covering both surfaces of a select-only combobox:
- *
- * - The trigger (`root`, `value`, `placeholder`, `prefixText`, `prefix/suffixIcon`)
- *   is a single `role="combobox"` button whose text content is the selected value.
- *   Because it holds its value directly, the interactive layer is merged into `root`.
- * - The popup (`content` and the `item*` slots) is a floating listbox that folds the
- *   option slots in, since a select option has no independent use or `tone`.
+ * Select trigger — the `role="combobox"` button whose text content is the
+ * selected value. It contains its value directly, so the interactive layer is
+ * merged into `root` (there is no separate absolute-overlay interactive slot).
  */
-export const select = defineSlotRecipe({
-  name: "select",
-  slots: [
-    "root",
-    "value",
-    "placeholder",
-    "prefixText",
-    "prefixIcon",
-    "suffixIcon",
-    "positioner",
-    "content",
-    "scrollArea",
-    "group",
-    "groupLabel",
-    "item",
-    "itemBody",
-    "itemLabel",
-    "itemDescription",
-    "itemIndicator",
-  ],
+export const selectTrigger = defineSlotRecipe({
+  name: "select-trigger",
+  slots: ["root", "value", "placeholder", "prefixText", "prefixIcon", "suffixIcon"],
   base: {
     root: {
       display: "flex",
@@ -89,11 +78,11 @@ export const select = defineSlotRecipe({
       border: "none",
       fontFamily: "inherit",
 
-      backgroundColor: selectVars.base.enabled.root.color,
+      backgroundColor: selectTriggerVars.base.enabled.root.color,
 
-      boxShadow: `inset 0 0 0 ${selectVars.base.enabled.root.strokeWidth} ${selectVars.base.enabled.root.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${selectTriggerVars.base.enabled.root.strokeWidth} ${selectTriggerVars.base.enabled.root.strokeColor}`,
 
-      transition: `background-color ${selectVars.base.enabled.root.colorDuration} ${selectVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${selectTriggerVars.base.enabled.root.colorDuration} ${selectTriggerVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       "&::after": {
         content: '""',
@@ -105,39 +94,39 @@ export const select = defineSlotRecipe({
         borderRadius: "inherit",
         borderStyle: "solid",
         borderColor: "transparent",
-        borderWidth: selectVars.base.invalid.root.strokeWidth,
+        borderWidth: selectTriggerVars.base.invalid.root.strokeWidth,
 
-        transition: `border-color ${selectVars.base.enabled.root.strokeDuration} ${selectVars.base.enabled.root.strokeTimingFunction}`,
+        transition: `border-color ${selectTriggerVars.base.enabled.root.strokeDuration} ${selectTriggerVars.base.enabled.root.strokeTimingFunction}`,
 
         pointerEvents: "none",
       },
 
       [pseudo("[data-disabled]")]: {
         cursor: "not-allowed",
-        backgroundColor: selectVars.base.disabled.root.color,
+        backgroundColor: selectTriggerVars.base.disabled.root.color,
       },
 
       [pseudo(not("[data-disabled]"), not(readOnly), engaged)]: {
-        backgroundColor: selectVars.base.pressed.root.color,
+        backgroundColor: selectTriggerVars.base.pressed.root.color,
       },
 
       [pseudo(readOnly, not("[data-disabled]"))]: {
         cursor: "default",
-        backgroundColor: selectVars.base.readonly.root.color,
+        backgroundColor: selectTriggerVars.base.readonly.root.color,
       },
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
       [pseudo(invalid, "::after")]: {
-        borderWidth: selectVars.base.invalid.root.strokeWidth,
-        borderColor: selectVars.base.invalid.root.strokeColor,
+        borderWidth: selectTriggerVars.base.invalid.root.strokeWidth,
+        borderColor: selectTriggerVars.base.invalid.root.strokeColor,
       },
     },
     value: {
-      fontWeight: selectVars.base.enabled.value.fontWeight,
+      fontWeight: selectTriggerVars.base.enabled.value.fontWeight,
 
-      color: selectVars.base.enabled.value.color,
+      color: selectTriggerVars.base.enabled.value.color,
 
       overflow: "hidden",
       textOverflow: "ellipsis",
@@ -149,17 +138,17 @@ export const select = defineSlotRecipe({
       pointerEvents: "none",
 
       [pseudo("[data-disabled]")]: {
-        color: selectVars.base.disabled.value.color,
+        color: selectTriggerVars.base.disabled.value.color,
       },
 
       [pseudo(readOnly, not("[data-disabled]"))]: {
-        color: selectVars.base.readonly.value.color,
+        color: selectTriggerVars.base.readonly.value.color,
       },
     },
     placeholder: {
-      fontWeight: selectVars.base.enabled.placeholder.fontWeight,
+      fontWeight: selectTriggerVars.base.enabled.placeholder.fontWeight,
 
-      color: selectVars.base.enabled.placeholder.color,
+      color: selectTriggerVars.base.enabled.placeholder.color,
 
       overflow: "hidden",
       textOverflow: "ellipsis",
@@ -171,55 +160,208 @@ export const select = defineSlotRecipe({
       pointerEvents: "none",
 
       [pseudo("[data-disabled]")]: {
-        color: selectVars.base.disabled.placeholder.color,
+        color: selectTriggerVars.base.disabled.placeholder.color,
       },
 
       [pseudo(readOnly, not("[data-disabled]"))]: {
-        color: selectVars.base.readonly.placeholder.color,
+        color: selectTriggerVars.base.readonly.placeholder.color,
       },
     },
     prefixText: {
       flexShrink: 0,
 
-      fontWeight: selectVars.base.enabled.prefixText.fontWeight,
+      fontWeight: selectTriggerVars.base.enabled.prefixText.fontWeight,
 
-      color: selectVars.base.enabled.prefixText.color,
+      color: selectTriggerVars.base.enabled.prefixText.color,
 
       pointerEvents: "none",
 
       [pseudo("[data-disabled]")]: {
-        color: selectVars.base.disabled.prefixText.color,
+        color: selectTriggerVars.base.disabled.prefixText.color,
       },
     },
     prefixIcon: {
       flexShrink: 0,
 
-      color: selectVars.base.enabled.prefixIcon.color,
+      color: selectTriggerVars.base.enabled.prefixIcon.color,
 
       pointerEvents: "none",
 
       [pseudo("[data-disabled]")]: {
-        color: selectVars.base.disabled.prefixIcon.color,
+        color: selectTriggerVars.base.disabled.prefixIcon.color,
       },
     },
     suffixIcon: {
       flexShrink: 0,
 
-      color: selectVars.base.enabled.suffixIcon.color,
+      color: selectTriggerVars.base.enabled.suffixIcon.color,
 
       pointerEvents: "none",
 
       transform: "rotate(0deg)",
-      transition: `transform ${selectVars.base.enabled.suffixIcon.rotateDuration} ${selectVars.base.enabled.suffixIcon.rotateTimingFunction}`,
+      transition: `transform ${selectTriggerVars.base.enabled.suffixIcon.rotateDuration} ${selectTriggerVars.base.enabled.suffixIcon.rotateTimingFunction}`,
 
       [pseudo(open)]: {
         transform: "rotate(180deg)",
       },
 
       [pseudo("[data-disabled]")]: {
-        color: selectVars.base.disabled.suffixIcon.color,
+        color: selectTriggerVars.base.disabled.suffixIcon.color,
       },
     },
+  },
+  variants: {
+    size: {
+      large: {
+        root: {
+          height: selectTriggerVars.sizeLarge.enabled.root.height,
+          gap: selectTriggerVars.sizeLarge.enabled.root.gap,
+          paddingLeft: selectTriggerVars.sizeLarge.enabled.root.paddingX,
+          paddingRight: selectTriggerVars.sizeLarge.enabled.root.paddingX,
+          borderRadius: selectTriggerVars.sizeLarge.enabled.root.cornerRadius,
+        },
+        value: {
+          fontSize: selectTriggerVars.sizeLarge.enabled.value.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.enabled.value.lineHeight,
+        },
+        placeholder: {
+          fontSize: selectTriggerVars.sizeLarge.enabled.placeholder.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.enabled.placeholder.lineHeight,
+        },
+        prefixText: {
+          fontSize: selectTriggerVars.sizeLarge.enabled.prefixText.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.enabled.prefixText.lineHeight,
+        },
+        prefixIcon: {
+          width: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
+          height: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
+        },
+        suffixIcon: {
+          width: selectTriggerVars.sizeLarge.enabled.suffixIcon.size,
+          height: selectTriggerVars.sizeLarge.enabled.suffixIcon.size,
+        },
+      },
+      medium: {
+        root: {
+          height: selectTriggerVars.sizeMedium.enabled.root.height,
+          gap: selectTriggerVars.sizeMedium.enabled.root.gap,
+          paddingLeft: selectTriggerVars.sizeMedium.enabled.root.paddingX,
+          paddingRight: selectTriggerVars.sizeMedium.enabled.root.paddingX,
+          borderRadius: selectTriggerVars.sizeMedium.enabled.root.cornerRadius,
+        },
+        value: {
+          fontSize: selectTriggerVars.sizeMedium.enabled.value.fontSize,
+          lineHeight: selectTriggerVars.sizeMedium.enabled.value.lineHeight,
+        },
+        placeholder: {
+          fontSize: selectTriggerVars.sizeMedium.enabled.placeholder.fontSize,
+          lineHeight: selectTriggerVars.sizeMedium.enabled.placeholder.lineHeight,
+        },
+        prefixText: {
+          fontSize: selectTriggerVars.sizeMedium.enabled.prefixText.fontSize,
+          lineHeight: selectTriggerVars.sizeMedium.enabled.prefixText.lineHeight,
+        },
+        prefixIcon: {
+          width: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
+          height: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
+        },
+        suffixIcon: {
+          width: selectTriggerVars.sizeMedium.enabled.suffixIcon.size,
+          height: selectTriggerVars.sizeMedium.enabled.suffixIcon.size,
+        },
+      },
+      responsive: {
+        root: {
+          height: selectTriggerVars.sizeLarge.enabled.root.height,
+          gap: selectTriggerVars.sizeLarge.enabled.root.gap,
+          paddingLeft: selectTriggerVars.sizeLarge.enabled.root.paddingX,
+          paddingRight: selectTriggerVars.sizeLarge.enabled.root.paddingX,
+          borderRadius: selectTriggerVars.sizeLarge.enabled.root.cornerRadius,
+
+          [breakpoints.up("lg")]: {
+            height: selectTriggerVars.sizeMedium.enabled.root.height,
+            gap: selectTriggerVars.sizeMedium.enabled.root.gap,
+            paddingLeft: selectTriggerVars.sizeMedium.enabled.root.paddingX,
+            paddingRight: selectTriggerVars.sizeMedium.enabled.root.paddingX,
+            borderRadius: selectTriggerVars.sizeMedium.enabled.root.cornerRadius,
+          },
+        },
+        value: {
+          fontSize: selectTriggerVars.sizeLarge.enabled.value.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.enabled.value.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: selectTriggerVars.sizeMedium.enabled.value.fontSize,
+            lineHeight: selectTriggerVars.sizeMedium.enabled.value.lineHeight,
+          },
+        },
+        placeholder: {
+          fontSize: selectTriggerVars.sizeLarge.enabled.placeholder.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.enabled.placeholder.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: selectTriggerVars.sizeMedium.enabled.placeholder.fontSize,
+            lineHeight: selectTriggerVars.sizeMedium.enabled.placeholder.lineHeight,
+          },
+        },
+        prefixText: {
+          fontSize: selectTriggerVars.sizeLarge.enabled.prefixText.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.enabled.prefixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: selectTriggerVars.sizeMedium.enabled.prefixText.fontSize,
+            lineHeight: selectTriggerVars.sizeMedium.enabled.prefixText.lineHeight,
+          },
+        },
+        prefixIcon: {
+          width: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
+          height: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
+            height: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
+          },
+        },
+        suffixIcon: {
+          width: selectTriggerVars.sizeLarge.enabled.suffixIcon.size,
+          height: selectTriggerVars.sizeLarge.enabled.suffixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: selectTriggerVars.sizeMedium.enabled.suffixIcon.size,
+            height: selectTriggerVars.sizeMedium.enabled.suffixIcon.size,
+          },
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    size: "large",
+  },
+  metadata: {
+    variants: {
+      size: {
+        ...selectTriggerSpec.data.schema.variants.size,
+        values: {
+          ...selectTriggerSpec.data.schema.variants.size.values,
+          responsive: {
+            description:
+              "뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `lg` 미만에서는 `large`, `lg` 이상에서는 `medium`으로 적용됩니다.",
+          },
+        },
+      },
+    },
+  },
+});
+
+/**
+ * Select — the floating listbox container. `content`/`positioner`/`scrollArea`
+ * hold the popup surface and scrolling; `group`/`groupLabel` (and the `divider`
+ * between groups) organize the options folded in from `selectItem`.
+ */
+export const select = defineSlotRecipe({
+  name: "select",
+  slots: ["positioner", "content", "scrollArea", "group", "groupLabel"],
+  base: {
     positioner: {
       // helps the listbox open at the top of the stackflow stack; it won't have any AppScreen on top of it
       "--select-z-index": "99999",
@@ -227,28 +369,28 @@ export const select = defineSlotRecipe({
       outline: "none",
     },
     content: {
-      borderRadius: selectVars.base.enabled.content.cornerRadius,
-      background: selectVars.base.enabled.content.color,
-      boxShadow: selectVars.base.enabled.content.shadow,
+      borderRadius: selectVars.base.enabled.root.cornerRadius,
+      background: selectVars.base.enabled.root.color,
+      boxShadow: selectVars.base.enabled.root.shadow,
       transformOrigin: `var(${SELECT_TRANSFORM_ORIGIN})`,
 
       overflow: "hidden",
 
       [pseudo(open)]: {
         ...enterAnimation({
-          scale: selectVars.base.enabled.content.enterScale,
-          opacity: selectVars.base.enabled.content.enterOpacity,
-          duration: selectVars.base.enabled.content.enterDuration,
-          timingFunction: selectVars.base.enabled.content.enterTimingFunction,
+          scale: selectVars.base.enabled.root.enterScale,
+          opacity: selectVars.base.enabled.root.enterOpacity,
+          duration: selectVars.base.enabled.root.enterDuration,
+          timingFunction: selectVars.base.enabled.root.enterTimingFunction,
         }),
       },
 
       [pseudo(not(open))]: {
         ...exitAnimation({
-          scale: selectVars.base.enabled.content.exitScale,
-          opacity: selectVars.base.enabled.content.exitOpacity,
-          duration: selectVars.base.enabled.content.exitDuration,
-          timingFunction: selectVars.base.enabled.content.exitTimingFunction,
+          scale: selectVars.base.enabled.root.exitScale,
+          opacity: selectVars.base.enabled.root.exitOpacity,
+          duration: selectVars.base.enabled.root.exitDuration,
+          timingFunction: selectVars.base.enabled.root.exitTimingFunction,
         }),
       },
 
@@ -266,15 +408,15 @@ export const select = defineSlotRecipe({
     },
     scrollArea: {
       overflowY: "auto",
-      maxHeight: `min(${selectVars.base.enabled.content.maxHeight}, var(${SELECT_AVAILABLE_HEIGHT}, ${selectVars.base.enabled.content.maxHeight}))`,
+      maxHeight: `min(${selectVars.base.enabled.root.maxHeight}, var(${SELECT_AVAILABLE_HEIGHT}, ${selectVars.base.enabled.root.maxHeight}))`,
       boxSizing: "border-box",
 
-      paddingTop: selectVars.base.enabled.content.paddingY,
-      paddingBottom: selectVars.base.enabled.content.paddingY,
+      paddingTop: selectVars.base.enabled.root.paddingY,
+      paddingBottom: selectVars.base.enabled.root.paddingY,
 
       display: "flex",
       flexDirection: "column",
-      gap: selectVars.base.enabled.content.gap,
+      gap: selectVars.base.enabled.root.gap,
     },
     group: {
       display: "flex",
@@ -285,7 +427,7 @@ export const select = defineSlotRecipe({
         display: "block",
         marginLeft: selectVars.base.enabled.divider.marginX,
         marginRight: selectVars.base.enabled.divider.marginX,
-        marginBottom: selectVars.base.enabled.content.gap,
+        marginBottom: selectVars.base.enabled.root.gap,
         height: selectVars.base.enabled.divider.height,
         flexShrink: 0,
         backgroundColor: selectVars.base.enabled.divider.color,
@@ -294,130 +436,12 @@ export const select = defineSlotRecipe({
     groupLabel: {
       color: selectVars.base.enabled.groupLabel.color,
     },
-    item: {
-      position: "relative",
-      scrollMarginTop: selectVars.base.enabled.content.paddingY,
-      scrollMarginBottom: selectVars.base.enabled.content.paddingY,
-
-      display: "flex",
-      alignItems: "center",
-
-      outline: "none",
-      cursor: "default",
-      userSelect: "none",
-      background: "none",
-      border: "none",
-      fontFamily: "inherit",
-      color: "inherit",
-      textDecoration: "none",
-      margin: 0,
-      textAlign: "start",
-
-      isolation: "isolate",
-
-      ...prefixIcon({
-        color: selectVars.base.enabled.itemPrefixIcon.color,
-      }),
-      ...suffixIcon({
-        color: selectVars.base.enabled.itemSuffixIcon.color,
-      }),
-
-      "&::before": {
-        content: '""',
-        position: "absolute",
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: -1,
-
-        transitionProperty: "background-color, left, right, border-radius",
-        transitionDuration: selectVars.base.enabled.item.colorDuration,
-        transitionTimingFunction: selectVars.base.enabled.item.colorTimingFunction,
-      },
-
-      [pseudo(not(disabled), active, before)]: highlightedItem,
-      [pseudo(not(disabled), "[data-highlighted]", before)]: highlightedItem,
-
-      [pseudo(disabled)]: {
-        cursor: "not-allowed",
-
-        ...prefixIcon({
-          color: selectVars.base.disabled.itemPrefixIcon.color,
-        }),
-
-        ...suffixIcon({
-          color: selectVars.base.disabled.itemSuffixIcon.color,
-        }),
-      },
-    },
-    itemBody: {
-      display: "flex",
-      flexDirection: "column",
-
-      flexGrow: 1,
-      gap: selectVars.base.enabled.itemBody.gap,
-    },
-    itemLabel: {
-      fontWeight: selectVars.base.enabled.itemLabel.fontWeight,
-      color: selectVars.base.enabled.itemLabel.color,
-
-      [pseudo(disabled)]: {
-        color: selectVars.base.disabled.itemLabel.color,
-      },
-    },
-    itemDescription: {
-      fontWeight: selectVars.base.enabled.itemDescription.fontWeight,
-      color: selectVars.base.enabled.itemDescription.color,
-
-      [pseudo(disabled)]: {
-        color: selectVars.base.disabled.itemDescription.color,
-      },
-    },
-    itemIndicator: {
-      flexShrink: 0,
-
-      ...onlyIcon({
-        color: selectVars.base.enabled.itemIndicator.color,
-      }),
-
-      [pseudo(disabled)]: onlyIcon({
-        color: selectVars.base.disabled.itemIndicator.color,
-      }),
-    },
   },
   variants: {
     size: {
       large: {
-        root: {
-          height: selectVars.sizeLarge.enabled.root.height,
-          gap: selectVars.sizeLarge.enabled.root.gap,
-          paddingLeft: selectVars.sizeLarge.enabled.root.paddingX,
-          paddingRight: selectVars.sizeLarge.enabled.root.paddingX,
-          borderRadius: selectVars.sizeLarge.enabled.root.cornerRadius,
-        },
-        value: {
-          fontSize: selectVars.sizeLarge.enabled.value.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.value.lineHeight,
-        },
-        placeholder: {
-          fontSize: selectVars.sizeLarge.enabled.placeholder.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.placeholder.lineHeight,
-        },
-        prefixText: {
-          fontSize: selectVars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.prefixText.lineHeight,
-        },
-        prefixIcon: {
-          width: selectVars.sizeLarge.enabled.prefixIcon.size,
-          height: selectVars.sizeLarge.enabled.prefixIcon.size,
-        },
-        suffixIcon: {
-          width: selectVars.sizeLarge.enabled.suffixIcon.size,
-          height: selectVars.sizeLarge.enabled.suffixIcon.size,
-        },
         content: {
-          width: `var(${SELECT_REFERENCE_WIDTH}, ${selectVars.sizeLarge.enabled.content.width})`,
+          width: `var(${SELECT_REFERENCE_WIDTH}, ${selectVars.sizeLarge.enabled.root.width})`,
         },
         groupLabel: {
           paddingTop: selectVars.sizeLarge.enabled.groupLabel.paddingY,
@@ -429,64 +453,10 @@ export const select = defineSlotRecipe({
           lineHeight: selectVars.sizeLarge.enabled.groupLabel.lineHeight,
           fontWeight: selectVars.sizeLarge.enabled.groupLabel.fontWeight,
         },
-        item: {
-          paddingTop: selectVars.sizeLarge.enabled.item.paddingY,
-          paddingBottom: selectVars.sizeLarge.enabled.item.paddingY,
-          paddingLeft: selectVars.sizeLarge.enabled.item.paddingX,
-          paddingRight: selectVars.sizeLarge.enabled.item.paddingX,
-
-          gap: selectVars.sizeLarge.enabled.item.gap,
-
-          ...prefixIcon({
-            size: selectVars.sizeLarge.enabled.itemPrefixIcon.size,
-          }),
-
-          ...suffixIcon({
-            size: selectVars.sizeLarge.enabled.itemSuffixIcon.size,
-          }),
-        },
-        itemLabel: {
-          fontSize: selectVars.sizeLarge.enabled.itemLabel.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.itemLabel.lineHeight,
-        },
-        itemDescription: {
-          fontSize: selectVars.sizeLarge.enabled.itemDescription.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.itemDescription.lineHeight,
-        },
-        itemIndicator: onlyIcon({
-          size: selectVars.sizeLarge.enabled.itemIndicator.size,
-        }),
       },
       medium: {
-        root: {
-          height: selectVars.sizeMedium.enabled.root.height,
-          gap: selectVars.sizeMedium.enabled.root.gap,
-          paddingLeft: selectVars.sizeMedium.enabled.root.paddingX,
-          paddingRight: selectVars.sizeMedium.enabled.root.paddingX,
-          borderRadius: selectVars.sizeMedium.enabled.root.cornerRadius,
-        },
-        value: {
-          fontSize: selectVars.sizeMedium.enabled.value.fontSize,
-          lineHeight: selectVars.sizeMedium.enabled.value.lineHeight,
-        },
-        placeholder: {
-          fontSize: selectVars.sizeMedium.enabled.placeholder.fontSize,
-          lineHeight: selectVars.sizeMedium.enabled.placeholder.lineHeight,
-        },
-        prefixText: {
-          fontSize: selectVars.sizeMedium.enabled.prefixText.fontSize,
-          lineHeight: selectVars.sizeMedium.enabled.prefixText.lineHeight,
-        },
-        prefixIcon: {
-          width: selectVars.sizeMedium.enabled.prefixIcon.size,
-          height: selectVars.sizeMedium.enabled.prefixIcon.size,
-        },
-        suffixIcon: {
-          width: selectVars.sizeMedium.enabled.suffixIcon.size,
-          height: selectVars.sizeMedium.enabled.suffixIcon.size,
-        },
         content: {
-          width: `var(${SELECT_REFERENCE_WIDTH}, ${selectVars.sizeMedium.enabled.content.width})`,
+          width: `var(${SELECT_REFERENCE_WIDTH}, ${selectVars.sizeMedium.enabled.root.width})`,
         },
         groupLabel: {
           paddingTop: selectVars.sizeMedium.enabled.groupLabel.paddingY,
@@ -498,100 +468,13 @@ export const select = defineSlotRecipe({
           lineHeight: selectVars.sizeMedium.enabled.groupLabel.lineHeight,
           fontWeight: selectVars.sizeMedium.enabled.groupLabel.fontWeight,
         },
-        item: {
-          paddingTop: selectVars.sizeMedium.enabled.item.paddingY,
-          paddingBottom: selectVars.sizeMedium.enabled.item.paddingY,
-          paddingLeft: selectVars.sizeMedium.enabled.item.paddingX,
-          paddingRight: selectVars.sizeMedium.enabled.item.paddingX,
-
-          gap: selectVars.sizeMedium.enabled.item.gap,
-
-          ...prefixIcon({
-            size: selectVars.sizeMedium.enabled.itemPrefixIcon.size,
-          }),
-
-          ...suffixIcon({
-            size: selectVars.sizeMedium.enabled.itemSuffixIcon.size,
-          }),
-        },
-        itemLabel: {
-          fontSize: selectVars.sizeMedium.enabled.itemLabel.fontSize,
-          lineHeight: selectVars.sizeMedium.enabled.itemLabel.lineHeight,
-        },
-        itemDescription: {
-          fontSize: selectVars.sizeMedium.enabled.itemDescription.fontSize,
-          lineHeight: selectVars.sizeMedium.enabled.itemDescription.lineHeight,
-        },
-        itemIndicator: onlyIcon({
-          size: selectVars.sizeMedium.enabled.itemIndicator.size,
-        }),
       },
       responsive: {
-        root: {
-          height: selectVars.sizeLarge.enabled.root.height,
-          gap: selectVars.sizeLarge.enabled.root.gap,
-          paddingLeft: selectVars.sizeLarge.enabled.root.paddingX,
-          paddingRight: selectVars.sizeLarge.enabled.root.paddingX,
-          borderRadius: selectVars.sizeLarge.enabled.root.cornerRadius,
-
-          [breakpoints.up("lg")]: {
-            height: selectVars.sizeMedium.enabled.root.height,
-            gap: selectVars.sizeMedium.enabled.root.gap,
-            paddingLeft: selectVars.sizeMedium.enabled.root.paddingX,
-            paddingRight: selectVars.sizeMedium.enabled.root.paddingX,
-            borderRadius: selectVars.sizeMedium.enabled.root.cornerRadius,
-          },
-        },
-        value: {
-          fontSize: selectVars.sizeLarge.enabled.value.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.value.lineHeight,
-
-          [breakpoints.up("lg")]: {
-            fontSize: selectVars.sizeMedium.enabled.value.fontSize,
-            lineHeight: selectVars.sizeMedium.enabled.value.lineHeight,
-          },
-        },
-        placeholder: {
-          fontSize: selectVars.sizeLarge.enabled.placeholder.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.placeholder.lineHeight,
-
-          [breakpoints.up("lg")]: {
-            fontSize: selectVars.sizeMedium.enabled.placeholder.fontSize,
-            lineHeight: selectVars.sizeMedium.enabled.placeholder.lineHeight,
-          },
-        },
-        prefixText: {
-          fontSize: selectVars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.prefixText.lineHeight,
-
-          [breakpoints.up("lg")]: {
-            fontSize: selectVars.sizeMedium.enabled.prefixText.fontSize,
-            lineHeight: selectVars.sizeMedium.enabled.prefixText.lineHeight,
-          },
-        },
-        prefixIcon: {
-          width: selectVars.sizeLarge.enabled.prefixIcon.size,
-          height: selectVars.sizeLarge.enabled.prefixIcon.size,
-
-          [breakpoints.up("lg")]: {
-            width: selectVars.sizeMedium.enabled.prefixIcon.size,
-            height: selectVars.sizeMedium.enabled.prefixIcon.size,
-          },
-        },
-        suffixIcon: {
-          width: selectVars.sizeLarge.enabled.suffixIcon.size,
-          height: selectVars.sizeLarge.enabled.suffixIcon.size,
-
-          [breakpoints.up("lg")]: {
-            width: selectVars.sizeMedium.enabled.suffixIcon.size,
-            height: selectVars.sizeMedium.enabled.suffixIcon.size,
-          },
-        },
         content: {
-          width: `var(${SELECT_REFERENCE_WIDTH}, ${selectVars.sizeLarge.enabled.content.width})`,
+          width: `var(${SELECT_REFERENCE_WIDTH}, ${selectVars.sizeLarge.enabled.root.width})`,
 
           [breakpoints.up("lg")]: {
-            width: `var(${SELECT_REFERENCE_WIDTH}, ${selectVars.sizeMedium.enabled.content.width})`,
+            width: `var(${SELECT_REFERENCE_WIDTH}, ${selectVars.sizeMedium.enabled.root.width})`,
           },
         },
         groupLabel: {
@@ -615,66 +498,6 @@ export const select = defineSlotRecipe({
             fontWeight: selectVars.sizeMedium.enabled.groupLabel.fontWeight,
           },
         },
-        item: {
-          paddingTop: selectVars.sizeLarge.enabled.item.paddingY,
-          paddingBottom: selectVars.sizeLarge.enabled.item.paddingY,
-          paddingLeft: selectVars.sizeLarge.enabled.item.paddingX,
-          paddingRight: selectVars.sizeLarge.enabled.item.paddingX,
-
-          gap: selectVars.sizeLarge.enabled.item.gap,
-
-          ...prefixIcon({
-            size: selectVars.sizeLarge.enabled.itemPrefixIcon.size,
-          }),
-
-          ...suffixIcon({
-            size: selectVars.sizeLarge.enabled.itemSuffixIcon.size,
-          }),
-
-          [breakpoints.up("lg")]: {
-            paddingTop: selectVars.sizeMedium.enabled.item.paddingY,
-            paddingBottom: selectVars.sizeMedium.enabled.item.paddingY,
-            paddingLeft: selectVars.sizeMedium.enabled.item.paddingX,
-            paddingRight: selectVars.sizeMedium.enabled.item.paddingX,
-
-            gap: selectVars.sizeMedium.enabled.item.gap,
-
-            ...prefixIcon({
-              size: selectVars.sizeMedium.enabled.itemPrefixIcon.size,
-            }),
-
-            ...suffixIcon({
-              size: selectVars.sizeMedium.enabled.itemSuffixIcon.size,
-            }),
-          },
-        },
-        itemLabel: {
-          fontSize: selectVars.sizeLarge.enabled.itemLabel.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.itemLabel.lineHeight,
-
-          [breakpoints.up("lg")]: {
-            fontSize: selectVars.sizeMedium.enabled.itemLabel.fontSize,
-            lineHeight: selectVars.sizeMedium.enabled.itemLabel.lineHeight,
-          },
-        },
-        itemDescription: {
-          fontSize: selectVars.sizeLarge.enabled.itemDescription.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.itemDescription.lineHeight,
-
-          [breakpoints.up("lg")]: {
-            fontSize: selectVars.sizeMedium.enabled.itemDescription.fontSize,
-            lineHeight: selectVars.sizeMedium.enabled.itemDescription.lineHeight,
-          },
-        },
-        itemIndicator: {
-          ...onlyIcon({
-            size: selectVars.sizeLarge.enabled.itemIndicator.size,
-          }),
-
-          [breakpoints.up("lg")]: onlyIcon({
-            size: selectVars.sizeMedium.enabled.itemIndicator.size,
-          }),
-        },
       },
     },
   },
@@ -687,6 +510,250 @@ export const select = defineSlotRecipe({
         ...selectSpec.data.schema.variants.size,
         values: {
           ...selectSpec.data.schema.variants.size.values,
+          responsive: {
+            description:
+              "뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `lg` 미만에서는 `large`, `lg` 이상에서는 `medium`으로 적용됩니다.",
+          },
+        },
+      },
+    },
+  },
+});
+
+/**
+ * Select item — a single option row. Its prefix/suffix icons fold into `root`
+ * via the icon utilities (a select option has no independent use or `tone`);
+ * `indicator` marks the selected option.
+ */
+export const selectItem = defineSlotRecipe({
+  name: "select-item",
+  slots: ["root", "body", "label", "description", "indicator"],
+  base: {
+    root: {
+      position: "relative",
+      scrollMarginTop: selectVars.base.enabled.root.paddingY,
+      scrollMarginBottom: selectVars.base.enabled.root.paddingY,
+
+      display: "flex",
+      alignItems: "center",
+
+      outline: "none",
+      cursor: "default",
+      userSelect: "none",
+      background: "none",
+      border: "none",
+      fontFamily: "inherit",
+      color: "inherit",
+      textDecoration: "none",
+      margin: 0,
+      textAlign: "start",
+
+      isolation: "isolate",
+
+      ...prefixIcon({
+        color: selectItemVars.base.enabled.prefixIcon.color,
+      }),
+      ...suffixIcon({
+        color: selectItemVars.base.enabled.suffixIcon.color,
+      }),
+
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: -1,
+
+        transitionProperty: "background-color, left, right, border-radius",
+        transitionDuration: selectItemVars.base.enabled.root.colorDuration,
+        transitionTimingFunction: selectItemVars.base.enabled.root.colorTimingFunction,
+      },
+
+      [pseudo(not(disabled), active, before)]: highlightedItem,
+      [pseudo(not(disabled), "[data-highlighted]", before)]: highlightedItem,
+
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+
+        ...prefixIcon({
+          color: selectItemVars.base.disabled.prefixIcon.color,
+        }),
+
+        ...suffixIcon({
+          color: selectItemVars.base.disabled.suffixIcon.color,
+        }),
+      },
+    },
+    body: {
+      display: "flex",
+      flexDirection: "column",
+
+      flexGrow: 1,
+      gap: selectItemVars.base.enabled.body.gap,
+    },
+    label: {
+      fontWeight: selectItemVars.base.enabled.label.fontWeight,
+      color: selectItemVars.base.enabled.label.color,
+
+      [pseudo(disabled)]: {
+        color: selectItemVars.base.disabled.label.color,
+      },
+    },
+    description: {
+      fontWeight: selectItemVars.base.enabled.description.fontWeight,
+      color: selectItemVars.base.enabled.description.color,
+
+      [pseudo(disabled)]: {
+        color: selectItemVars.base.disabled.description.color,
+      },
+    },
+    indicator: {
+      flexShrink: 0,
+
+      ...onlyIcon({
+        color: selectItemVars.base.enabled.indicator.color,
+      }),
+
+      [pseudo(disabled)]: onlyIcon({
+        color: selectItemVars.base.disabled.indicator.color,
+      }),
+    },
+  },
+  variants: {
+    size: {
+      large: {
+        root: {
+          paddingTop: selectItemVars.sizeLarge.enabled.root.paddingY,
+          paddingBottom: selectItemVars.sizeLarge.enabled.root.paddingY,
+          paddingLeft: selectItemVars.sizeLarge.enabled.root.paddingX,
+          paddingRight: selectItemVars.sizeLarge.enabled.root.paddingX,
+
+          gap: selectItemVars.sizeLarge.enabled.root.gap,
+
+          ...prefixIcon({
+            size: selectItemVars.sizeLarge.enabled.prefixIcon.size,
+          }),
+
+          ...suffixIcon({
+            size: selectItemVars.sizeLarge.enabled.suffixIcon.size,
+          }),
+        },
+        label: {
+          fontSize: selectItemVars.sizeLarge.enabled.label.fontSize,
+          lineHeight: selectItemVars.sizeLarge.enabled.label.lineHeight,
+        },
+        description: {
+          fontSize: selectItemVars.sizeLarge.enabled.description.fontSize,
+          lineHeight: selectItemVars.sizeLarge.enabled.description.lineHeight,
+        },
+        indicator: onlyIcon({
+          size: selectItemVars.sizeLarge.enabled.indicator.size,
+        }),
+      },
+      medium: {
+        root: {
+          paddingTop: selectItemVars.sizeMedium.enabled.root.paddingY,
+          paddingBottom: selectItemVars.sizeMedium.enabled.root.paddingY,
+          paddingLeft: selectItemVars.sizeMedium.enabled.root.paddingX,
+          paddingRight: selectItemVars.sizeMedium.enabled.root.paddingX,
+
+          gap: selectItemVars.sizeMedium.enabled.root.gap,
+
+          ...prefixIcon({
+            size: selectItemVars.sizeMedium.enabled.prefixIcon.size,
+          }),
+
+          ...suffixIcon({
+            size: selectItemVars.sizeMedium.enabled.suffixIcon.size,
+          }),
+        },
+        label: {
+          fontSize: selectItemVars.sizeMedium.enabled.label.fontSize,
+          lineHeight: selectItemVars.sizeMedium.enabled.label.lineHeight,
+        },
+        description: {
+          fontSize: selectItemVars.sizeMedium.enabled.description.fontSize,
+          lineHeight: selectItemVars.sizeMedium.enabled.description.lineHeight,
+        },
+        indicator: onlyIcon({
+          size: selectItemVars.sizeMedium.enabled.indicator.size,
+        }),
+      },
+      responsive: {
+        root: {
+          paddingTop: selectItemVars.sizeLarge.enabled.root.paddingY,
+          paddingBottom: selectItemVars.sizeLarge.enabled.root.paddingY,
+          paddingLeft: selectItemVars.sizeLarge.enabled.root.paddingX,
+          paddingRight: selectItemVars.sizeLarge.enabled.root.paddingX,
+
+          gap: selectItemVars.sizeLarge.enabled.root.gap,
+
+          ...prefixIcon({
+            size: selectItemVars.sizeLarge.enabled.prefixIcon.size,
+          }),
+
+          ...suffixIcon({
+            size: selectItemVars.sizeLarge.enabled.suffixIcon.size,
+          }),
+
+          [breakpoints.up("lg")]: {
+            paddingTop: selectItemVars.sizeMedium.enabled.root.paddingY,
+            paddingBottom: selectItemVars.sizeMedium.enabled.root.paddingY,
+            paddingLeft: selectItemVars.sizeMedium.enabled.root.paddingX,
+            paddingRight: selectItemVars.sizeMedium.enabled.root.paddingX,
+
+            gap: selectItemVars.sizeMedium.enabled.root.gap,
+
+            ...prefixIcon({
+              size: selectItemVars.sizeMedium.enabled.prefixIcon.size,
+            }),
+
+            ...suffixIcon({
+              size: selectItemVars.sizeMedium.enabled.suffixIcon.size,
+            }),
+          },
+        },
+        label: {
+          fontSize: selectItemVars.sizeLarge.enabled.label.fontSize,
+          lineHeight: selectItemVars.sizeLarge.enabled.label.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: selectItemVars.sizeMedium.enabled.label.fontSize,
+            lineHeight: selectItemVars.sizeMedium.enabled.label.lineHeight,
+          },
+        },
+        description: {
+          fontSize: selectItemVars.sizeLarge.enabled.description.fontSize,
+          lineHeight: selectItemVars.sizeLarge.enabled.description.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: selectItemVars.sizeMedium.enabled.description.fontSize,
+            lineHeight: selectItemVars.sizeMedium.enabled.description.lineHeight,
+          },
+        },
+        indicator: {
+          ...onlyIcon({
+            size: selectItemVars.sizeLarge.enabled.indicator.size,
+          }),
+
+          [breakpoints.up("lg")]: onlyIcon({
+            size: selectItemVars.sizeMedium.enabled.indicator.size,
+          }),
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    size: "large",
+  },
+  metadata: {
+    variants: {
+      size: {
+        ...selectItemSpec.data.schema.variants.size,
+        values: {
+          ...selectItemSpec.data.schema.variants.size.values,
           responsive: {
             description:
               "뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `lg` 미만에서는 `large`, `lg` 이상에서는 `medium`으로 적용됩니다.",

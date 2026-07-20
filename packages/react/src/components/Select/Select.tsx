@@ -8,6 +8,8 @@ import {
 import { useFieldContext } from "@seed-design/react-field";
 import { mergeProps } from "@seed-design/dom-utils";
 import { select, type SelectVariantProps } from "@seed-design/css/recipes/select";
+import { selectTrigger } from "@seed-design/css/recipes/select-trigger";
+import { selectItem } from "@seed-design/css/recipes/select-item";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
@@ -15,7 +17,27 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(select);
+// A select-only combobox spans three specs — the trigger, the floating listbox
+// container, and the option rows — each with its own independent states. Their
+// classNames are provided together from `SelectRoot` (they all share one `size`),
+// so every descendant reads from the matching context.
+const {
+  ClassNamesProvider: TriggerClassNamesProvider,
+  withContext: withTriggerContext,
+  useClassNames: useTriggerClassNames,
+} = createSlotRecipeContext(selectTrigger);
+
+const {
+  ClassNamesProvider: ContentClassNamesProvider,
+  withContext: withContentContext,
+  useClassNames: useContentClassNames,
+} = createSlotRecipeContext(select);
+
+const {
+  ClassNamesProvider: ItemClassNamesProvider,
+  withContext: withItemContext,
+  useClassNames: useItemClassNames,
+} = createSlotRecipeContext(selectItem);
 
 const withStateProps = createWithStateProps([useSelectContext]);
 const withItemStateProps = createWithStateProps([useSelectItemContext]);
@@ -24,7 +46,23 @@ const withItemStateProps = createWithStateProps([useSelectItemContext]);
 
 export interface SelectRootProps extends SelectVariantProps, SelectPrimitive.RootProps {}
 
-export const SelectRoot = withRootProvider<SelectRootProps>(SelectPrimitive.Root);
+export const SelectRoot = (props: SelectRootProps) => {
+  const [variantProps, otherProps] = select.splitVariantProps(props);
+
+  const contentClassNames = select(variantProps);
+  const triggerClassNames = selectTrigger(variantProps);
+  const itemClassNames = selectItem(variantProps);
+
+  return (
+    <ContentClassNamesProvider value={contentClassNames}>
+      <TriggerClassNamesProvider value={triggerClassNames}>
+        <ItemClassNamesProvider value={itemClassNames}>
+          <SelectPrimitive.Root {...otherProps} />
+        </ItemClassNamesProvider>
+      </TriggerClassNamesProvider>
+    </ContentClassNamesProvider>
+  );
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +70,7 @@ export interface SelectTriggerProps extends SelectPrimitive.TriggerProps {}
 
 export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   ({ className, ...otherProps }, ref) => {
-    const classNames = useClassNames();
+    const classNames = useTriggerClassNames();
     const fieldContext = useFieldContext({ strict: false });
 
     // Pull only the field's labelledby/describedby: `useSelect` owns the
@@ -75,7 +113,7 @@ SelectTrigger.displayName = "SelectTrigger";
 
 export interface SelectValueProps extends SelectPrimitive.ValueProps {}
 
-export const SelectValue = withContext<HTMLSpanElement, SelectValueProps>(
+export const SelectValue = withTriggerContext<HTMLSpanElement, SelectValueProps>(
   withStateProps(SelectPrimitive.Value),
   "value",
 );
@@ -84,7 +122,7 @@ export const SelectValue = withContext<HTMLSpanElement, SelectValueProps>(
 
 export interface SelectPlaceholderProps extends SelectPrimitive.PlaceholderProps {}
 
-export const SelectPlaceholder = withContext<HTMLSpanElement, SelectPlaceholderProps>(
+export const SelectPlaceholder = withTriggerContext<HTMLSpanElement, SelectPlaceholderProps>(
   withStateProps(SelectPrimitive.Placeholder),
   "placeholder",
 );
@@ -93,7 +131,7 @@ export const SelectPlaceholder = withContext<HTMLSpanElement, SelectPlaceholderP
 
 export interface SelectPrefixIconProps extends InternalIconProps {}
 
-export const SelectPrefixIcon = withContext<SVGSVGElement, SelectPrefixIconProps>(
+export const SelectPrefixIcon = withTriggerContext<SVGSVGElement, SelectPrefixIconProps>(
   withStateProps(InternalIcon),
   "prefixIcon",
 );
@@ -102,14 +140,14 @@ export interface SelectPrefixTextProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const SelectPrefixText = withContext<HTMLSpanElement, SelectPrefixTextProps>(
+export const SelectPrefixText = withTriggerContext<HTMLSpanElement, SelectPrefixTextProps>(
   withStateProps(Primitive.span),
   "prefixText",
 );
 
 export interface SelectSuffixIconProps extends InternalIconProps {}
 
-export const SelectSuffixIcon = withContext<SVGSVGElement, SelectSuffixIconProps>(
+export const SelectSuffixIcon = withTriggerContext<SVGSVGElement, SelectSuffixIconProps>(
   withStateProps(InternalIcon),
   "suffixIcon",
 );
@@ -123,7 +161,7 @@ export interface SelectPositionerProps
 
 export const SelectPositioner = React.forwardRef<HTMLDivElement, SelectPositionerProps>(
   ({ className, ...props }, ref) => {
-    const classNames = useClassNames();
+    const classNames = useContentClassNames();
 
     return (
       <SelectPrimitive.Positioner
@@ -142,7 +180,7 @@ export interface SelectContentProps extends SelectPrimitive.ContentProps {}
 
 export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
   ({ className, ...otherProps }, ref) => {
-    const classNames = useClassNames();
+    const classNames = useContentClassNames();
     const fieldContext = useFieldContext({ strict: false });
 
     // Label the listbox popup with the same field label (APG combobox pattern).
@@ -165,7 +203,7 @@ SelectContent.displayName = "SelectContent";
 
 export interface SelectScrollAreaProps extends SelectPrimitive.ScrollAreaProps {}
 
-export const SelectScrollArea = withContext<HTMLDivElement, SelectScrollAreaProps>(
+export const SelectScrollArea = withContentContext<HTMLDivElement, SelectScrollAreaProps>(
   SelectPrimitive.ScrollArea,
   "scrollArea",
 );
@@ -174,7 +212,7 @@ export const SelectScrollArea = withContext<HTMLDivElement, SelectScrollAreaProp
 
 export interface SelectGroupProps extends SelectPrimitive.GroupProps {}
 
-export const SelectGroup = withContext<HTMLDivElement, SelectGroupProps>(
+export const SelectGroup = withContentContext<HTMLDivElement, SelectGroupProps>(
   SelectPrimitive.Group,
   "group",
 );
@@ -183,7 +221,7 @@ export const SelectGroup = withContext<HTMLDivElement, SelectGroupProps>(
 
 export interface SelectGroupLabelProps extends SelectPrimitive.GroupLabelProps {}
 
-export const SelectGroupLabel = withContext<HTMLDivElement, SelectGroupLabelProps>(
+export const SelectGroupLabel = withContentContext<HTMLDivElement, SelectGroupLabelProps>(
   SelectPrimitive.GroupLabel,
   "groupLabel",
 );
@@ -192,18 +230,18 @@ export const SelectGroupLabel = withContext<HTMLDivElement, SelectGroupLabelProp
 
 export interface SelectItemProps extends SelectPrimitive.ItemProps {}
 
-export const SelectItem = withContext<HTMLDivElement, SelectItemProps>(
+export const SelectItem = withItemContext<HTMLDivElement, SelectItemProps>(
   SelectPrimitive.Item,
-  "item",
+  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectItemBodyProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const SelectItemBody = withContext<HTMLDivElement, SelectItemBodyProps>(
+export const SelectItemBody = withItemContext<HTMLDivElement, SelectItemBodyProps>(
   withItemStateProps(Primitive.div),
-  "itemBody",
+  "body",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -212,9 +250,9 @@ export interface SelectItemLabelProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const SelectItemLabel = withContext<HTMLSpanElement, SelectItemLabelProps>(
+export const SelectItemLabel = withItemContext<HTMLSpanElement, SelectItemLabelProps>(
   withItemStateProps(Primitive.span),
-  "itemLabel",
+  "label",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -223,9 +261,9 @@ export interface SelectItemDescriptionProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const SelectItemDescription = withContext<HTMLSpanElement, SelectItemDescriptionProps>(
+export const SelectItemDescription = withItemContext<HTMLSpanElement, SelectItemDescriptionProps>(
   withItemStateProps(Primitive.span),
-  "itemDescription",
+  "description",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -245,11 +283,11 @@ export interface SelectItemIndicatorProps extends React.SVGAttributes<SVGSVGElem
 export const SelectItemIndicator = React.forwardRef<SVGSVGElement, SelectItemIndicatorProps>(
   ({ selected: selectedSvg, unselected: unselectedSvg, ...otherProps }, ref) => {
     const { isSelected, stateProps } = useSelectItemContext();
-    const classNames = useClassNames();
+    const classNames = useItemClassNames();
 
     const mergedProps = mergeProps(
       stateProps,
-      { className: classNames.itemIndicator },
+      { className: classNames.indicator },
       otherProps as React.HTMLAttributes<HTMLElement>,
     );
 
