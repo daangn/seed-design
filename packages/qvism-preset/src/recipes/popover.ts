@@ -96,8 +96,7 @@ const popover = defineSlotRecipe({
       boxSizing: "border-box",
 
       gap: vars.base.enabled.header.gap,
-      paddingLeft: vars.base.enabled.header.paddingX,
-      paddingRight: vars.base.enabled.header.paddingX,
+      paddingInline: vars.base.enabled.header.paddingX,
       paddingTop: vars.base.enabled.header.paddingTop,
       paddingBottom: vars.base.enabled.header.paddingBottom,
 
@@ -139,8 +138,7 @@ const popover = defineSlotRecipe({
       "--seed-box-max-height--responsive": "none",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
-      paddingLeft: "var(--seed-box-padding-x)",
-      paddingRight: "var(--seed-box-padding-x)",
+      paddingInline: "var(--seed-box-padding-x)",
       paddingBottom: vars.base.enabled.body.paddingBottom, // reserve room for the bottom scroll fog
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
@@ -170,8 +168,7 @@ const popover = defineSlotRecipe({
       flexDirection: "column",
       flexShrink: 0,
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },

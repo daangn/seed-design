@@ -9107,8 +9107,7 @@
   .seed-popover__header {
     box-sizing: border-box;
     gap: var(--seed-dimension-x1_5);
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x6);
     padding-bottom: var(--seed-dimension-x4);
     flex-direction: column;
@@ -9167,8 +9166,7 @@
     --seed-box-max-height: var(--seed-box-max-height-base, initial);
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
-    padding-left: var(--seed-box-padding-x);
-    padding-right: var(--seed-box-padding-x);
+    padding-inline: var(--seed-box-padding-x);
     padding-bottom: var(--seed-dimension-x8);
     height: var(--seed-box-height);
     min-height: var(--seed-box-min-height);
@@ -9200,8 +9198,7 @@
   }
 
   .seed-popover__footer {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x6);
     flex-direction: column;
