@@ -5,7 +5,10 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps, visuallyHidden } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import React, { createContext, forwardRef, useContext, useEffect } from "react";
+// SSR-safe (no-op on the server): item registration runs in a layout effect so the
+// trigger value paints in the same frame items mount, instead of one frame late.
+import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
+import React, { createContext, forwardRef, useContext } from "react";
 import {
   useSelect,
   useSelectGroup,
@@ -221,7 +224,8 @@ export interface SelectItemProps
   /**
    * Plain-string identity used for the multi-select trigger join and the hidden
    * native `<option>` text. Defaults to `label` when it is a string, otherwise the
-   * option `value`. Provide it when `label` is a `ReactNode`. Does not affect typeahead.
+   * option `value`. Provide it when `label` is a `ReactNode` — it then also serves
+   * as the typeahead match string unless `typeaheadLabel` overrides it.
    */
   textValue?: string;
   /**
@@ -236,14 +240,20 @@ export interface SelectItemProps
 export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
   ({ value, disabled, typeaheadLabel, label, textValue, prefixIcon, ...restProps }, ref) => {
     const { getItemProps, registerOption, unregisterOption } = useSelectContext();
+    const resolvedTextValue = textValue ?? (typeof label === "string" ? label : value);
+
+    // `null` excludes disabled options from typeahead (APG: they are not typeable).
+    // A ReactNode label falls back to `textValue` rather than letting floating-ui
+    // read the DOM textContent, which would concatenate every rendered part
+    // (label + description) into the match string.
     const { ref: listRef, index } = useListItem({
-      label: typeaheadLabel ?? (typeof label === "string" ? label : undefined),
+      label: disabled
+        ? null
+        : (typeaheadLabel ?? (typeof label === "string" ? label : resolvedTextValue)),
     });
     const api = getItemProps({ value, disabled, typeaheadLabel }, index);
 
-    const resolvedTextValue = textValue ?? (typeof label === "string" ? label : value);
-
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (
         process.env.NODE_ENV !== "production" &&
         textValue === undefined &&

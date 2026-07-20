@@ -658,4 +658,273 @@ describe("useSelect", () => {
       expect(options[0]).not.toHaveAttribute("prefixicon");
     });
   });
+
+  describe("keyboard resume from selection", () => {
+    it("reveals the selection on the first arrow press after a pointer open", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      await user.click(trigger);
+      const options = getAllByRole("option");
+      expect(trigger).not.toHaveAttribute("aria-activedescendant");
+
+      await user.keyboard("{ArrowDown}");
+      expect(options[1]).toHaveAttribute("data-highlighted");
+      expect(trigger).toHaveAttribute("aria-activedescendant", options[1].id);
+    });
+
+    it("starts from the first option on arrow press when nothing is selected", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      await user.keyboard("{ArrowDown}");
+      expect(getAllByRole("option")[0]).toHaveAttribute("data-highlighted");
+    });
+
+    it("seeds the first enabled option when opened via keyboard with no selection", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      trigger.focus();
+      await user.keyboard("{ArrowDown}");
+      const options = getAllByRole("option");
+      expect(options[0]).toHaveAttribute("data-highlighted");
+      expect(trigger).toHaveAttribute("aria-activedescendant", options[0].id);
+    });
+
+    it("jumps to the first and last enabled options on Home and End", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+      getByRole("combobox").focus();
+      await user.keyboard("{ArrowDown}");
+      const options = getAllByRole("option");
+
+      await user.keyboard("{End}");
+      // cherry is disabled — the last enabled option is banana
+      expect(options[1]).toHaveAttribute("data-highlighted");
+
+      await user.keyboard("{Home}");
+      expect(options[0]).toHaveAttribute("data-highlighted");
+    });
+  });
+
+  describe("typeahead details", () => {
+    function StateSelect(props: SelectRootProps) {
+      return (
+        <Select {...props}>
+          <SelectTrigger>
+            <SelectValue />
+            <SelectPlaceholder>Choose a state</SelectPlaceholder>
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem value="new-jersey" label="New Jersey">
+                  New Jersey
+                </SelectItem>
+                <SelectItem value="new-york" label="New York">
+                  New York
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+          <SelectHiddenSelect />
+        </Select>
+      );
+    }
+
+    it("treats Space inside an in-progress match as typing, not selection", async () => {
+      const user = userEvent.setup();
+      const onValueChange = jest.fn();
+      const { getByRole, getAllByRole } = render(<StateSelect onValueChange={onValueChange} />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      await user.click(trigger);
+      const options = getAllByRole("option");
+
+      await user.keyboard("new york");
+      expect(onValueChange).not.toHaveBeenCalled();
+      expect(trigger).toHaveAttribute("aria-expanded", "true");
+      expect(options[1]).toHaveAttribute("data-highlighted");
+
+      await user.keyboard("{Enter}");
+      expect(onValueChange).toHaveBeenCalledWith(["new-york"]);
+    });
+
+    it("commits a match typed on the closed trigger (single-select)", async () => {
+      const user = userEvent.setup();
+      const onValueChange = jest.fn();
+      const { getByRole, getAllByRole } = render(<BasicSelect onValueChange={onValueChange} />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      trigger.focus();
+      await user.keyboard("b");
+      expect(onValueChange).toHaveBeenCalledWith(["banana"]);
+      expect(trigger).toHaveAttribute("aria-expanded", "false");
+      expect(trigger).toHaveTextContent("Banana");
+
+      // the closed-state match must not leak a stale highlight into the next pointer open
+      await user.click(trigger);
+      const options = getAllByRole("option");
+      expect(options[1]).not.toHaveAttribute("data-highlighted");
+      expect(trigger).not.toHaveAttribute("aria-activedescendant");
+    });
+
+    it("does not commit closed-trigger typeahead when readOnly", async () => {
+      const user = userEvent.setup();
+      const onValueChange = jest.fn();
+      const { getByRole } = render(<BasicSelect readOnly onValueChange={onValueChange} />);
+      await waitForPositioning();
+      getByRole("combobox").focus();
+      await user.keyboard("b");
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it("does not commit closed-trigger typeahead when multiple", async () => {
+      const user = userEvent.setup();
+      const onValueChange = jest.fn();
+      const { getByRole } = render(<BasicSelect multiple onValueChange={onValueChange} />);
+      await waitForPositioning();
+      getByRole("combobox").focus();
+      await user.keyboard("b");
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it("never matches a disabled option", async () => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      await user.click(trigger);
+      await user.keyboard("c");
+      expect(trigger).not.toHaveAttribute("aria-activedescendant");
+    });
+
+    it("matches a ReactNode-labeled option by its textValue", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(
+        <Select>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem value="apple" label="Apple">
+                  Apple
+                </SelectItem>
+                <SelectItem value="durian" label={<b>Rich Durian</b>} textValue="Durian">
+                  Rich Durian
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+        </Select>,
+      );
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      await user.click(trigger);
+      // "Rich Durian" starts with "r" — a DOM-textContent fallback would not match "d"
+      await user.keyboard("d");
+      const options = getAllByRole("option");
+      expect(options[1]).toHaveAttribute("data-highlighted");
+    });
+  });
+
+  describe("dynamic options (selected item removed)", () => {
+    function DynamicSelect({
+      showBanana = true,
+      ...props
+    }: SelectRootProps & { showBanana?: boolean }) {
+      return (
+        <Select {...props}>
+          <SelectTrigger>
+            <SelectValue />
+            <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem value="apple" label="Apple">
+                  Apple
+                </SelectItem>
+                {showBanana && (
+                  <SelectItem value="banana" label="Banana">
+                    Banana
+                  </SelectItem>
+                )}
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+          <SelectHiddenSelect />
+        </Select>
+      );
+    }
+
+    it("prunes the value and restores the placeholder when the selected option unmounts", async () => {
+      const onValueChange = jest.fn();
+      const { getByRole, getByText, rerender } = render(
+        <DynamicSelect defaultValue={["banana"]} onValueChange={onValueChange} />,
+      );
+      await waitForPositioning();
+      const trigger = getByRole("combobox");
+      expect(trigger).toHaveTextContent("Banana");
+
+      rerender(
+        <DynamicSelect
+          defaultValue={["banana"]}
+          onValueChange={onValueChange}
+          showBanana={false}
+        />,
+      );
+      await waitForPositioning();
+      expect(onValueChange).toHaveBeenCalledWith([]);
+      expect(getByText("Choose a fruit")).toBeInTheDocument();
+    });
+
+    it("keeps the remaining selected values when one option unmounts (multiple)", async () => {
+      const onValueChange = jest.fn();
+      const { getByRole, rerender } = render(
+        <DynamicSelect multiple defaultValue={["apple", "banana"]} onValueChange={onValueChange} />,
+      );
+      await waitForPositioning();
+
+      rerender(
+        <DynamicSelect
+          multiple
+          defaultValue={["apple", "banana"]}
+          onValueChange={onValueChange}
+          showBanana={false}
+        />,
+      );
+      await waitForPositioning();
+      expect(onValueChange).toHaveBeenCalledWith(["apple"]);
+      expect(getByRole("combobox")).toHaveTextContent("Apple");
+    });
+  });
+
+  describe("multi-select highlight stability", () => {
+    it("keeps the highlight on the toggled option when deselecting", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(
+        <BasicSelect multiple defaultValue={["apple", "banana"]} />,
+      );
+      await waitForPositioning();
+      getByRole("combobox").focus();
+      await user.keyboard("{ArrowDown}");
+      const options = getAllByRole("option");
+      // keyboard open seeds the first selected option (apple)
+      expect(options[0]).toHaveAttribute("data-highlighted");
+
+      await user.keyboard("{Enter}");
+      // apple is deselected but the highlight must not jump to the other selected option
+      expect(options[0]).toHaveAttribute("data-highlighted");
+      expect(options[0]).not.toHaveAttribute("data-selected");
+      expect(options[1]).toHaveAttribute("data-selected");
+    });
+  });
 });

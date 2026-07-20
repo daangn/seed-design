@@ -121,7 +121,8 @@ export interface UseSelectItemProps {
   disabled?: boolean;
   /**
    * Overrides the text used when matching the option during keyboard typeahead.
-   * Falls back to the item's text content if not provided.
+   * Falls back to `label` when it is a string, then to `textValue`. Disabled
+   * options are never matched.
    */
   typeaheadLabel?: string;
 }
@@ -147,13 +148,13 @@ export type UseSelectReturn = ReturnType<typeof useSelect>;
 export type GetItemPropsReturn = ReturnType<UseSelectReturn["getItemProps"]>;
 
 function useSelectState(props: UseSelectStateProps) {
-  const [open = false, setOpenState] = useControllableState<boolean>({
+  const [open, setOpenState] = useControllableState<boolean>({
     prop: props.open,
     defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
   });
 
-  const [value = EMPTY_VALUE, setValueState] = useControllableState<string[]>({
+  const [value, setValueState] = useControllableState<string[]>({
     prop: props.value,
     defaultProp: props.defaultValue ?? EMPTY_VALUE,
     onChange: props.onValueChange,
@@ -172,7 +173,6 @@ function useSelectState(props: UseSelectStateProps) {
 
   const elementsRef = useRef<(HTMLElement | null)[]>([]);
   const labelsRef = useRef<(string | null)[]>([]);
-  const triggerRef = useRef<HTMLElement | null>(null);
 
   return {
     open,
@@ -187,7 +187,6 @@ function useSelectState(props: UseSelectStateProps) {
     setNativeOptions,
     elementsRef,
     labelsRef,
-    triggerRef,
   };
 }
 
@@ -205,7 +204,6 @@ export function useSelect(props: UseSelectProps) {
     setNativeOptions,
     elementsRef,
     labelsRef,
-    triggerRef,
   } = useSelectState(props);
 
   const {
@@ -242,16 +240,9 @@ export function useSelect(props: UseSelectProps) {
     [interactive, setOpenState],
   );
 
-  const setValue = useCallback(
-    (nextValue: string[]) => {
-      setValueState(nextValue);
-    },
-    [setValueState],
-  );
-
   const selectValue = useCallback(
     (optionValue: string) => {
-      setValue(
+      setValueState(
         multiple
           ? value.includes(optionValue)
             ? value.filter((v) => v !== optionValue)
@@ -260,7 +251,7 @@ export function useSelect(props: UseSelectProps) {
       );
       if (!multiple) setOpen(false);
     },
-    [multiple, value, setValue, setOpen],
+    [multiple, value, setValueState, setOpen],
   );
 
   const registerOption = useCallback(
@@ -298,22 +289,22 @@ export function useSelect(props: UseSelectProps) {
     [setNativeOptions],
   );
 
-  // Tracks whether the current open was initiated by the keyboard. Read below to gate
-  // the open-time active-option seed to keyboard opens: the manual seed effect (selection
-  // present) and navSelectedIndex (which hides the selection from useListNavigation on
-  // pointer opens so floating-ui's own seed stays off). Arrow-open reports reason
-  // "list-navigation"; Enter/Space on the <button> trigger dispatch a synthetic click
-  // whose detail is 0 (floating-ui's own isVirtualClick heuristic), while a real
-  // pointer/tap click carries detail >= 1 so it never reads as keyboard.
-  const openViaKeyboardRef = useRef(false);
+  // Whether the current open was initiated by the keyboard. Gates the open-time
+  // active-option seed below to keyboard opens. State rather than a ref so everything
+  // reading it sees a committed value. Arrow-open reports reason "list-navigation";
+  // Enter/Space on the <button> trigger dispatch a synthetic click whose detail is 0
+  // (floating-ui's own isVirtualClick heuristic), while a real pointer/tap click
+  // carries detail >= 1 so it never reads as keyboard.
+  const [openedViaKeyboard, setOpenedViaKeyboard] = useState(false);
 
   const handleFloatingOpenChange = useCallback(
     (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
       if (nextOpen) {
-        openViaKeyboardRef.current =
+        setOpenedViaKeyboard(
           reason === "list-navigation" ||
-          event instanceof KeyboardEvent ||
-          (event instanceof MouseEvent && event.detail === 0);
+            event instanceof KeyboardEvent ||
+            (event instanceof MouseEvent && event.detail === 0),
+        );
       }
       setOpen(nextOpen);
     },
@@ -383,40 +374,64 @@ export function useSelect(props: UseSelectProps) {
     return () => window.removeEventListener("resize", read);
   }, [floatingElement]);
 
+  // Index of the selected option in the live rendered list, scanned by data-value.
+  // Read from the DOM rather than selectedIndex state because item registration lags
+  // (the state can still be null at the moment the listbox opens).
+  const findSelectedElementIndex = useCallback(
+    () =>
+      elementsRef.current.findIndex((element) => {
+        const optionValue = element?.getAttribute("data-value");
+        return optionValue != null && value.includes(optionValue);
+      }),
+    [value, elementsRef],
+  );
+
   // Keep selectedIndex in sync with the selected value by scanning the rendered
   // options' data-value. Runs when the value or the set of options changes, so
   // controlled updates and defaultValue-on-mount both resolve to a list index
-  // (used by floating-ui to highlight the selected option when the list opens).
+  // (used by floating-ui as the closed-trigger arrow-open seed and typeahead base).
   useEffect(() => {
-    const index = elementsRef.current.findIndex((element) => {
-      const optionValue = element?.getAttribute("data-value");
-      return optionValue != null && value.includes(optionValue);
-    });
+    const index = findSelectedElementIndex();
     setSelectedIndex(index === -1 ? null : index);
-  }, [value, nativeOptions, elementsRef, setSelectedIndex]);
+  }, [findSelectedElementIndex, nativeOptions, setSelectedIndex]);
 
-  // APG: when the listbox is opened via the keyboard, seed the active option from the
-  // current selection so aria-activedescendant points at it immediately (before the
-  // first arrow key). Fires on the open rising edge so it never overrides in-list
-  // navigation. Pointer/tap opens are excluded (openViaKeyboardRef) so they show no
-  // highlight — a seeded highlight reads as a stuck "pressed" state on touch.
-  //
-  // Only seeds when a selection exists, and reads the index from the live elementsRef
-  // rather than selectedIndex state (item registration lags, so the state can still be
-  // null at open). The no-selection keyboard case — first-item highlight — is left to
-  // useListNavigation's focusItemOnOpen="auto", which resolves it from the live list.
+  // Prune selected values whose option unregistered (a dynamic list removing the
+  // selected item) — otherwise the trigger renders a blank value while the hidden
+  // <select> submits nothing. Skipped while the registry is empty: on mount, items
+  // register in effects after `value` is already set, and pruning then would wipe a
+  // defaultValue/controlled value before its option had a chance to register. (A
+  // partially loaded async list can still prune a not-yet-registered value —
+  // Base UI accepts the same tradeoff.)
+  useEffect(() => {
+    if (nativeOptions.size === 0) return;
+    if (value.length === 0) return;
+
+    const pruned = value.filter((optionValue) => nativeOptions.has(optionValue));
+    if (pruned.length !== value.length) setValueState(pruned);
+  }, [nativeOptions, value, setValueState]);
+
+  // APG: when the listbox is opened via the keyboard, seed the active option so
+  // aria-activedescendant points somewhere before the first arrow key: the current
+  // selection when one exists, the first enabled option otherwise. Fires on the open
+  // rising edge so it never overrides in-list navigation. Pointer/tap opens are
+  // excluded (openedViaKeyboard) so they show no highlight — a seeded highlight reads
+  // as a stuck "pressed" state on touch. floating-ui's own open-time seeding is fully
+  // disabled (focusItemOnOpen: false below); this effect owns all of it.
   const wasOpenRef = useRef(false);
   useEffect(() => {
-    if (open && !wasOpenRef.current && openViaKeyboardRef.current) {
-      const index = elementsRef.current.findIndex((element) => {
-        const optionValue = element?.getAttribute("data-value");
-        return optionValue != null && value.includes(optionValue);
-      });
+    if (open && !wasOpenRef.current && openedViaKeyboard) {
+      const selectionIndex = findSelectedElementIndex();
+      const index =
+        selectionIndex !== -1
+          ? selectionIndex
+          : elementsRef.current.findIndex(
+              (element) => element != null && !element.hasAttribute("data-disabled"),
+            );
       if (index !== -1) setActiveIndex(index);
     }
     wasOpenRef.current = open;
     // elementsRef is stable; listed for parity with the selectedIndex sync effect above.
-  }, [open, value, elementsRef, setActiveIndex]);
+  }, [open, openedViaKeyboard, findSelectedElementIndex, elementsRef, setActiveIndex]);
 
   const click = useClick(context, {
     enabled: interactive,
@@ -429,16 +444,6 @@ export function useSelect(props: UseSelectProps) {
     role: "select",
   });
 
-  // Keyboard-gated open seeding. focusItemOnOpen defaults to "auto", so on open
-  // useListNavigation seeds the selected option as the active option for every
-  // modality. We only want that highlight on keyboard opens — on a pointer/tap open a
-  // seeded highlight reads as a stuck "pressed" state (mobile-first). Hiding the
-  // selection from navigation while a pointer-opened listbox is open suppresses the
-  // seed; the exposed selectedIndex and the option's data-selected/checkmark are
-  // driven by `value` and stay intact. Keyboard nav (arrow/typeahead) resumes from the
-  // real selection because openViaKeyboardRef is set before this recomputes.
-  const navSelectedIndex = open && !openViaKeyboardRef.current ? null : selectedIndex;
-
   // virtual: keep DOM focus on the trigger and expose the active option through
   // aria-activedescendant (the APG combobox pattern), instead of moving focus
   // into the list. focusItemOnHover moves that single active option to the hovered
@@ -447,18 +452,37 @@ export function useSelect(props: UseSelectProps) {
   const listNavigation = useListNavigation(context, {
     listRef: elementsRef,
     activeIndex,
-    selectedIndex: navSelectedIndex,
+    selectedIndex,
     onNavigate: setActiveIndex,
     virtual: true,
     loop: true,
     focusItemOnHover: true,
+    // The open-time highlight seed is owned by the keyboard-gated effect above.
+    // Disabling it here also keeps mid-session selectedIndex changes (multi-select
+    // toggles) from yanking the highlight to another selected option.
+    focusItemOnOpen: false,
   });
 
   const typeahead = useTypeahead(context, {
     listRef: labelsRef,
     activeIndex,
-    selectedIndex: navSelectedIndex,
-    onMatch: setActiveIndex,
+    selectedIndex,
+    onMatch: (index) => {
+      if (open) {
+        setActiveIndex(index);
+        return;
+      }
+
+      // Closed-trigger typeahead commits the match directly, matching the native
+      // <select>. Multi-select has no closed-state commit gesture, and readOnly
+      // must not change the value.
+      if (multiple || !interactive) return;
+      const element = elementsRef.current[index];
+      const optionValue = element?.getAttribute("data-value");
+      if (optionValue != null && !element?.hasAttribute("data-disabled")) {
+        selectValue(optionValue);
+      }
+    },
   });
 
   const triggerInteractions = useInteractions([click, role, listNavigation, typeahead]);
@@ -501,7 +525,24 @@ export function useSelect(props: UseSelectProps) {
     if (!interactive) return;
     // When closed, let useClick / useListNavigation open the listbox.
     if (!open) return;
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      // Runs after floating-ui's handler, which starts from the top when no option
+      // is active (its internal base index resets on open). On a pointer-opened
+      // session no seed ran, so the first arrow press reveals the selection instead
+      // of jumping to the first option; this override wins within the same batch.
+      if (activeIndex !== null) return;
+
+      const index = findSelectedElementIndex();
+      if (index !== -1) setActiveIndex(index);
+      return;
+    }
+
     if (event.key === "Enter" || event.key === " ") {
+      // useTypeahead preventDefaults a Space that belongs to an in-progress typed
+      // string — treat it as typing input, not a selection commit.
+      if (event.defaultPrevented) return;
+
       event.preventDefault();
 
       if (activeIndex !== null) {
@@ -522,7 +563,7 @@ export function useSelect(props: UseSelectProps) {
     open,
     setOpen,
     value,
-    setValue,
+    setValue: setValueState,
     multiple,
     selectedItems,
     formatValue,
@@ -543,7 +584,6 @@ export function useSelect(props: UseSelectProps) {
 
     // exposed as `stateProps` for createWithStateProps consumers (trigger sub-slots).
     stateProps: triggerStateProps,
-    triggerStateProps,
     contentStateProps,
 
     floatingContext: context,
@@ -551,10 +591,9 @@ export function useSelect(props: UseSelectProps) {
     labelsRef,
 
     refs: {
-      trigger: (node: HTMLElement | null) => {
-        floatingRefs.setReference(node);
-        triggerRef.current = node;
-      },
+      // Wrapped so the inferred return type stays free of floating-ui's ReferenceType
+      // generic, which dts bundling cannot reference portably.
+      trigger: (node: HTMLElement | null) => floatingRefs.setReference(node),
       positioner: floatingRefs.setFloating,
     },
 
