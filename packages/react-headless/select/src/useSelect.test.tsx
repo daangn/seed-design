@@ -1,14 +1,6 @@
-// this file is .vitest.tsx, not .test.tsx — so bun test won't pick it up.
-// vitest + jsdom is used because floating-ui defers work via rAF, which happy-dom
-// under bun test doesn't tick.
-
-/// <reference types="@testing-library/jest-dom/vitest" />
-
 import { render, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
-
-import * as React from "react";
+import { describe, expect, it, jest } from "bun:test";
 
 import {
   SelectRoot as Select,
@@ -95,7 +87,7 @@ describe("useSelect", () => {
 
     it("closes on Escape", async () => {
       const user = userEvent.setup();
-      const onOpenChange = vi.fn();
+      const onOpenChange = jest.fn();
       const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
       await waitForPositioning();
       await user.click(getByRole("combobox"));
@@ -124,7 +116,7 @@ describe("useSelect", () => {
   describe("selection", () => {
     it("selects a value on option click and closes", async () => {
       const user = userEvent.setup();
-      const onValueChange = vi.fn();
+      const onValueChange = jest.fn();
       const { getByRole, getAllByRole } = render(<BasicSelect onValueChange={onValueChange} />);
       await waitForPositioning();
       await user.click(getByRole("combobox"));
@@ -152,7 +144,7 @@ describe("useSelect", () => {
 
     it("does not select a disabled option on click", async () => {
       const user = userEvent.setup();
-      const onValueChange = vi.fn();
+      const onValueChange = jest.fn();
       const { getByRole, getAllByRole } = render(<BasicSelect onValueChange={onValueChange} />);
       await waitForPositioning();
       await user.click(getByRole("combobox"));
@@ -163,7 +155,7 @@ describe("useSelect", () => {
 
     it("supports controlled value", async () => {
       const user = userEvent.setup();
-      const onValueChange = vi.fn();
+      const onValueChange = jest.fn();
       const { getByRole, getAllByRole, rerender } = render(
         <BasicSelect value={["apple"]} onValueChange={onValueChange} />,
       );
@@ -193,7 +185,7 @@ describe("useSelect", () => {
 
     it("selects the highlighted option on Enter", async () => {
       const user = userEvent.setup();
-      const onValueChange = vi.fn();
+      const onValueChange = jest.fn();
       const { getByRole } = render(<BasicSelect onValueChange={onValueChange} />);
       await waitForPositioning();
       await user.click(getByRole("combobox"));
@@ -224,7 +216,7 @@ describe("useSelect", () => {
     });
 
     it("updates the value when the hidden select changes (autofill path)", async () => {
-      const onValueChange = vi.fn();
+      const onValueChange = jest.fn();
       const { container } = render(<BasicSelect name="fruit" onValueChange={onValueChange} />);
       await waitForPositioning();
       const nativeSelect = container.querySelector("select[name='fruit']") as HTMLSelectElement;
@@ -247,7 +239,7 @@ describe("useSelect", () => {
 
     it("does not trigger native form validation when the required trigger is clicked", async () => {
       const user = userEvent.setup();
-      const onInvalid = vi.fn();
+      const onInvalid = jest.fn();
       const { getByRole, container } = render(
         <form>
           <BasicSelect name="fruit" required />
@@ -451,7 +443,7 @@ describe("useSelect", () => {
 
     it("toggles multiple values on and keeps the listbox open", async () => {
       const user = userEvent.setup();
-      const onValueChange = vi.fn();
+      const onValueChange = jest.fn();
       const { getByRole, getAllByRole } = render(<MultiSelect onValueChange={onValueChange} />);
       await waitForPositioning();
       await user.click(getByRole("combobox"));
@@ -466,7 +458,7 @@ describe("useSelect", () => {
 
     it("deselects a selected value on re-click", async () => {
       const user = userEvent.setup();
-      const onValueChange = vi.fn();
+      const onValueChange = jest.fn();
       const { getByRole, getAllByRole } = render(
         <MultiSelect defaultValue={["apple"]} onValueChange={onValueChange} />,
       );
@@ -514,7 +506,7 @@ describe("useSelect", () => {
 
     it("toggles the highlighted option on Enter and keeps the listbox open", async () => {
       const user = userEvent.setup();
-      const onValueChange = vi.fn();
+      const onValueChange = jest.fn();
       const { getByRole } = render(<MultiSelect onValueChange={onValueChange} />);
       await waitForPositioning();
       await user.click(getByRole("combobox"));
