@@ -15,6 +15,10 @@ const selectSlotNames = [
     "seed-select__placeholder"
   ],
   [
+    "prefixText",
+    "seed-select__prefixText"
+  ],
+  [
     "prefixIcon",
     "seed-select__prefixIcon"
   ],

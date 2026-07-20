@@ -1,6 +1,6 @@
 // this file is .vitest.tsx, not .test.tsx — so bun test won't pick it up.
-// See @seed-design/react-menu's useMenu.vitest.tsx for why vitest + jsdom is used
-// (floating-ui defers work via rAF, which happy-dom under bun test doesn't tick).
+// vitest + jsdom is used because floating-ui defers work via rAF, which happy-dom
+// under bun test doesn't tick.
 
 /// <reference types="@testing-library/jest-dom/vitest" />
 

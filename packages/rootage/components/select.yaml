@@ -51,6 +51,16 @@ data:
             type: number
           color:
             type: color
+      prefixText:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
       prefixIcon:
         properties:
           size:
@@ -227,6 +237,10 @@ data:
           fontWeight: $font-weight.regular
           color: $color.fg.placeholder
 
+        prefixText:
+          fontWeight: $font-weight.regular
+          color: $color.fg.neutral-subtle
+
         prefixIcon:
           color: $color.fg.neutral-muted
 
@@ -300,6 +314,8 @@ data:
           color: $color.fg.disabled
         placeholder:
           color: $color.fg.disabled
+        prefixText:
+          color: $color.fg.disabled
         prefixIcon:
           color: $color.fg.disabled
         suffixIcon:
@@ -333,6 +349,9 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
         placeholder:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixText:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
         prefixIcon:
@@ -374,6 +393,9 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
         placeholder:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixText:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
         prefixIcon:

@@ -98,6 +98,15 @@ export const SelectPrefixIcon = withContext<SVGSVGElement, SelectPrefixIconProps
   "prefixIcon",
 );
 
+export interface SelectPrefixTextProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const SelectPrefixText = withContext<HTMLSpanElement, SelectPrefixTextProps>(
+  withStateProps(Primitive.span),
+  "prefixText",
+);
+
 export interface SelectSuffixIconProps extends InternalIconProps {}
 
 export const SelectSuffixIcon = withContext<SVGSVGElement, SelectSuffixIconProps>(

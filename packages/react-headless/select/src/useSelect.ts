@@ -25,10 +25,9 @@ const MIN_HEIGHT = 200;
 // Stable empty-selection reference so uncontrolled Selects don't churn identity.
 const EMPTY_VALUE: string[] = [];
 
-// See the equivalent note in `@seed-design/react-menu`'s useMenu: flip/size/shift
-// derive collisions from numeric padding, so the safe-area insets have to reach
-// floating-ui as px numbers. The positioner re-declares them from env() via
-// SAFE_AREA_STYLE and the hook reads them back below, keeping this layer
+// flip/size/shift derive collisions from numeric padding, so the safe-area insets
+// have to reach floating-ui as px numbers. The positioner re-declares them from
+// env() via SAFE_AREA_STYLE and the hook reads them back below, keeping this layer
 // self-contained from the global SEED safe-area tokens.
 const SAFE_AREA_STYLE = {
   "--seed-safe-area-top": "env(safe-area-inset-top)",

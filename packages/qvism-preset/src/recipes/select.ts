@@ -47,15 +47,11 @@ const highlightedItem = {
 /**
  * Select — one recipe covering both surfaces of a select-only combobox:
  *
- * - The trigger (`root`, `value`, `placeholder`, `prefix/suffixIcon`) copies the
- *   Input Button visual, applied to a single `role="combobox"` button whose text
- *   content is the selected value. The Input Button uses an absolute-overlay
- *   `button` slot to allow rich value content; a select-only combobox instead
- *   contains its value directly, so the interactive layer is merged into `root`.
- * - The popup (`content` and the `item*` slots) copies the Menu container visual
- *   (floating listbox) and folds the option slots in, since a select option has no
- *   independent use or `tone`. Sizes are remapped to the Select vocabulary:
- *   `large` = Menu `medium`, `medium` = Menu `small`.
+ * - The trigger (`root`, `value`, `placeholder`, `prefixText`, `prefix/suffixIcon`)
+ *   is a single `role="combobox"` button whose text content is the selected value.
+ *   Because it holds its value directly, the interactive layer is merged into `root`.
+ * - The popup (`content` and the `item*` slots) is a floating listbox that folds the
+ *   option slots in, since a select option has no independent use or `tone`.
  */
 export const select = defineSlotRecipe({
   name: "select",
@@ -63,6 +59,7 @@ export const select = defineSlotRecipe({
     "root",
     "value",
     "placeholder",
+    "prefixText",
     "prefixIcon",
     "suffixIcon",
     "positioner",
@@ -179,6 +176,19 @@ export const select = defineSlotRecipe({
 
       [pseudo(readOnly, not("[data-disabled]"))]: {
         color: selectVars.base.readonly.placeholder.color,
+      },
+    },
+    prefixText: {
+      flexShrink: 0,
+
+      fontWeight: selectVars.base.enabled.prefixText.fontWeight,
+
+      color: selectVars.base.enabled.prefixText.color,
+
+      pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: selectVars.base.disabled.prefixText.color,
       },
     },
     prefixIcon: {
@@ -394,6 +404,10 @@ export const select = defineSlotRecipe({
           fontSize: selectVars.sizeLarge.enabled.placeholder.fontSize,
           lineHeight: selectVars.sizeLarge.enabled.placeholder.lineHeight,
         },
+        prefixText: {
+          fontSize: selectVars.sizeLarge.enabled.prefixText.fontSize,
+          lineHeight: selectVars.sizeLarge.enabled.prefixText.lineHeight,
+        },
         prefixIcon: {
           width: selectVars.sizeLarge.enabled.prefixIcon.size,
           height: selectVars.sizeLarge.enabled.prefixIcon.size,
@@ -458,6 +472,10 @@ export const select = defineSlotRecipe({
         placeholder: {
           fontSize: selectVars.sizeMedium.enabled.placeholder.fontSize,
           lineHeight: selectVars.sizeMedium.enabled.placeholder.lineHeight,
+        },
+        prefixText: {
+          fontSize: selectVars.sizeMedium.enabled.prefixText.fontSize,
+          lineHeight: selectVars.sizeMedium.enabled.prefixText.lineHeight,
         },
         prefixIcon: {
           width: selectVars.sizeMedium.enabled.prefixIcon.size,
@@ -540,6 +558,15 @@ export const select = defineSlotRecipe({
           [breakpoints.up("lg")]: {
             fontSize: selectVars.sizeMedium.enabled.placeholder.fontSize,
             lineHeight: selectVars.sizeMedium.enabled.placeholder.lineHeight,
+          },
+        },
+        prefixText: {
+          fontSize: selectVars.sizeLarge.enabled.prefixText.fontSize,
+          lineHeight: selectVars.sizeLarge.enabled.prefixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: selectVars.sizeMedium.enabled.prefixText.fontSize,
+            lineHeight: selectVars.sizeMedium.enabled.prefixText.lineHeight,
           },
         },
         prefixIcon: {
