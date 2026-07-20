@@ -60,9 +60,6 @@
             },
             "maxHeight": {
               "type": "dimension"
-            },
-            "width": {
-              "type": "dimension"
             }
           }
         },
@@ -234,15 +231,6 @@
               "enabled"
             ],
             "slots": {
-              "root": {
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 240,
-                    "unit": "px"
-                  }
-                }
-              },
               "groupLabel": {
                 "paddingY": {
                   "type": "dimension",
@@ -279,15 +267,6 @@
               "enabled"
             ],
             "slots": {
-              "root": {
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 200,
-                    "unit": "px"
-                  }
-                }
-              },
               "groupLabel": {
                 "paddingY": {
                   "type": "dimension",

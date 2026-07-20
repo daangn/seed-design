@@ -42,8 +42,6 @@ data:
             description: 목록과 뷰포트 경계 사이의 최소 간격을 정의합니다.
           maxHeight:
             type: dimension
-          width:
-            type: dimension
       group:
         properties: {}
       groupLabel:
@@ -104,8 +102,6 @@ data:
           color: $color.stroke.neutral-muted
     size=large:
       enabled:
-        root:
-          width: 240px
         groupLabel:
           paddingY: $dimension.x2_5
           paddingX: $dimension.x4
@@ -114,8 +110,6 @@ data:
           fontWeight: $font-weight.medium
     size=medium:
       enabled:
-        root:
-          width: 200px
         groupLabel:
           paddingY: $dimension.x2
           paddingX: $dimension.x4

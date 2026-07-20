@@ -36,9 +36,6 @@ export declare const vars: {
    */
   "sizeLarge": {
     "enabled": {
-      "root": {
-        "width": "240px"
-      },
       "groupLabel": {
         "paddingY": "var(--seed-dimension-x2_5)",
         "paddingX": "var(--seed-dimension-x4)",
@@ -53,9 +50,6 @@ export declare const vars: {
    */
   "sizeMedium": {
     "enabled": {
-      "root": {
-        "width": "200px"
-      },
       "groupLabel": {
         "paddingY": "var(--seed-dimension-x2)",
         "paddingX": "var(--seed-dimension-x4)",

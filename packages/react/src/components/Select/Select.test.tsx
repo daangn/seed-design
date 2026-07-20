@@ -87,12 +87,17 @@ describe("Select", () => {
       expect(queryByTestId("apple-icon")).toBeInTheDocument();
     });
 
-    it("hides the static svg when the single selected item has no icon", async () => {
-      const { getByRole, queryByTestId } = render(
+    it("falls back to the static svg when the single selected item has no icon", async () => {
+      const { queryByTestId } = render(
         <TestSelect staticIcon={<svg data-testid="static-icon" />} defaultValue={["banana"]} />,
       );
       await waitForPositioning();
-      expect(queryByTestId("static-icon")).not.toBeInTheDocument();
+      expect(queryByTestId("static-icon")).toBeInTheDocument();
+    });
+
+    it("renders nothing when the single selected item has no icon and no static svg is given", async () => {
+      const { getByRole } = render(<TestSelect defaultValue={["banana"]} />);
+      await waitForPositioning();
       expect(getByRole("combobox").querySelector("svg")).toBeNull();
     });
 

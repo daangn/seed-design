@@ -143,9 +143,9 @@ export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIcon
     const { value, selectedItems, stateProps } = useSelectContext();
     const classNames = useTriggerClassNames();
 
-    // With exactly one selection, prefix slot ownership moves to that item. An item
-    // without an icon hides the static one too; empty/multi selections show it.
-    const svg = value.length === 1 ? selectedItems[0]?.prefixIcon : staticSvg;
+    // A single selected item's own icon wins; otherwise the static prefix shows —
+    // including when that item has no icon, or on empty/multi selections.
+    const svg = (value.length === 1 ? selectedItems[0]?.prefixIcon : undefined) ?? staticSvg;
     if (!svg) return null;
 
     const mergedProps = mergeProps(

@@ -38,12 +38,6 @@ data:
             type: dimension
           color:
             type: color
-      suffixIcon:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
       body:
         properties:
           gap:
@@ -86,6 +80,7 @@ data:
     base:
       enabled:
         root:
+          paddingX: $dimension.x4
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
           marginDuration: $duration.d3
@@ -93,8 +88,6 @@ data:
           borderRadiusDuration: $duration.d3
           borderRadiusTimingFunction: $timing-function.easing
         prefixIcon:
-          color: $color.fg.neutral
-        suffixIcon:
           color: $color.fg.neutral
         body:
           gap: $dimension.x0_5
@@ -116,8 +109,6 @@ data:
       disabled:
         prefixIcon:
           color: $color.fg.disabled
-        suffixIcon:
-          color: $color.fg.disabled
         label:
           color: $color.fg.disabled
         description:
@@ -127,13 +118,10 @@ data:
     size=large:
       enabled:
         root:
-          paddingX: $dimension.x4
           paddingY: $dimension.x3
           gap: $dimension.x3
         prefixIcon:
           size: 22px
-        suffixIcon:
-          size: 18px
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
@@ -141,17 +129,14 @@ data:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
         indicator:
-          size: 18px
+          size: $dimension.x3_5
     size=medium:
       enabled:
         root:
-          paddingX: $dimension.x4
           paddingY: $dimension.x2_5
           gap: $dimension.x2
         prefixIcon:
-          size: 18px
-        suffixIcon:
-          size: 16px
+          size: $dimension.x4_5
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
@@ -159,4 +144,4 @@ data:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
         indicator:
-          size: 16px
+          size: $dimension.x3

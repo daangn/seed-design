@@ -2,6 +2,7 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
+        "paddingX": "var(--seed-dimension-x4)",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "marginDuration": "var(--seed-duration-d3)",
@@ -10,9 +11,6 @@ export declare const vars: {
         "borderRadiusTimingFunction": "var(--seed-timing-function-easing)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "suffixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
       "body": {
@@ -41,9 +39,6 @@ export declare const vars: {
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
       },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
-      },
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       },
@@ -61,15 +56,11 @@ export declare const vars: {
   "sizeLarge": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x3)",
         "gap": "var(--seed-dimension-x3)"
       },
       "prefixIcon": {
         "size": "22px"
-      },
-      "suffixIcon": {
-        "size": "18px"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t5)",
@@ -80,7 +71,7 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t3)"
       },
       "indicator": {
-        "size": "18px"
+        "size": "var(--seed-dimension-x3_5)"
       }
     }
   },
@@ -90,15 +81,11 @@ export declare const vars: {
   "sizeMedium": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
         "gap": "var(--seed-dimension-x2)"
       },
       "prefixIcon": {
-        "size": "18px"
-      },
-      "suffixIcon": {
-        "size": "16px"
+        "size": "var(--seed-dimension-x4_5)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t4)",
@@ -109,7 +96,7 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t2)"
       },
       "indicator": {
-        "size": "16px"
+        "size": "var(--seed-dimension-x3)"
       }
     }
   }

@@ -16,10 +16,7 @@
 .seed-select-trigger__root::after {
     content: "";
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     border-radius: inherit;
     border-style: solid;
     border-color: transparent;
@@ -122,8 +119,7 @@
 .seed-select-trigger__root--size_large {
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-r3);
 }
 .seed-select-trigger__value--size_large {
@@ -149,8 +145,7 @@
 .seed-select-trigger__root--size_medium {
     height: var(--seed-dimension-x10);
     gap: var(--seed-dimension-x2);
-    padding-left: var(--seed-dimension-x3_5);
-    padding-right: var(--seed-dimension-x3_5);
+    padding-inline: var(--seed-dimension-x3_5);
     border-radius: var(--seed-radius-r2);
 }
 .seed-select-trigger__value--size_medium {
@@ -176,16 +171,14 @@
 .seed-select-trigger__root--size_responsive {
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-r3);
 }
 @media (min-width: 1280px) {
     .seed-select-trigger__root--size_responsive {
         height: var(--seed-dimension-x10);
         gap: var(--seed-dimension-x2);
-        padding-left: var(--seed-dimension-x3_5);
-        padding-right: var(--seed-dimension-x3_5);
+        padding-inline: var(--seed-dimension-x3_5);
         border-radius: var(--seed-radius-r2);
     }
 }

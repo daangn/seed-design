@@ -97,12 +97,6 @@ export interface UseSelectProps extends UseSelectStateProps {
   strategy?: "absolute" | "fixed";
 
   /**
-   * Whether the listbox width should match the trigger width.
-   * @default true
-   */
-  matchReferenceWidth?: boolean;
-
-  /**
    * Allows selecting more than one option. When enabled, choosing an option
    * toggles its membership and the listbox stays open; single-select replaces the
    * value and closes. The value is a `string[]` in both modes.
@@ -217,7 +211,6 @@ export function useSelect(props: UseSelectProps) {
     gutter = 8,
     overflowPadding = 8,
     strategy = "absolute",
-    matchReferenceWidth = true,
     multiple = false,
   } = props;
 
@@ -336,12 +329,10 @@ export function useSelect(props: UseSelectProps) {
             "--seed-select-available-height",
             `${Math.max(MIN_HEIGHT, availableHeight)}px`,
           );
-          if (matchReferenceWidth) {
-            elements.floating.style.setProperty(
-              "--seed-select-reference-width",
-              `${rects.reference.width}px`,
-            );
-          }
+          elements.floating.style.setProperty(
+            "--seed-select-reference-width",
+            `${rects.reference.width}px`,
+          );
         },
       }),
       flip({ padding: collisionPadding, fallbackStrategy: "initialPlacement" }),

@@ -40,7 +40,6 @@ export const SelectRoot = ({
   gutter,
   overflowPadding,
   strategy,
-  matchReferenceWidth,
   multiple,
   children,
 }: SelectRootProps) => {
@@ -61,7 +60,6 @@ export const SelectRoot = ({
     gutter,
     overflowPadding,
     strategy,
-    matchReferenceWidth,
     multiple,
   });
 

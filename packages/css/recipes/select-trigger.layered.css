@@ -140,8 +140,7 @@
   .seed-select-trigger__root--size_large {
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-r3);
   }
 
@@ -158,8 +157,7 @@
   .seed-select-trigger__root--size_medium {
     height: var(--seed-dimension-x10);
     gap: var(--seed-dimension-x2);
-    padding-left: var(--seed-dimension-x3_5);
-    padding-right: var(--seed-dimension-x3_5);
+    padding-inline: var(--seed-dimension-x3_5);
     border-radius: var(--seed-radius-r2);
   }
 
@@ -176,8 +174,7 @@
   .seed-select-trigger__root--size_responsive {
     height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-r3);
   }
 
@@ -185,8 +182,7 @@
     .seed-select-trigger__root--size_responsive {
       height: var(--seed-dimension-x10);
       gap: var(--seed-dimension-x2);
-      padding-left: var(--seed-dimension-x3_5);
-      padding-right: var(--seed-dimension-x3_5);
+      padding-inline: var(--seed-dimension-x3_5);
       border-radius: var(--seed-radius-r2);
     }
   }

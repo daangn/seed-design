@@ -3,7 +3,12 @@ import { useState } from "react";
 
 import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { IconStarLine, IconHeartLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconStarLine,
+  IconHeartLine,
+  IconDiamondLine,
+  IconPlusLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   SelectContent,
@@ -158,6 +163,78 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
               </div>
               <Text fontSize="t3" color="fg.neutralMuted">
                 값: {value.length > 0 ? value.join(", ") : "없음"}
+              </Text>
+            </HStack>
+          </VStack>
+
+          <VStack gap="x3">
+            <SectionTitle>Prefix Icon 우선순위 (static vs 선택 item)</SectionTitle>
+            <HStack align="center" gap="x4">
+              <div style={{ width: 220 }}>
+                <SelectRoot>
+                  <SelectTrigger
+                    aria-label="prefix 우선순위"
+                    placeholder="과일 선택"
+                    prefixIcon={<IconStarLine />}
+                  />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" prefixIcon={<IconHeartLine />} />
+                      <SelectItem value="banana" label="바나나" prefixIcon={<IconDiamondLine />} />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+              <Text fontSize="t3" color="fg.neutralMuted">
+                미선택: star · 사과/바나나: 각 item 아이콘이 star를 이김 · 체리(무아이콘): static
+                star로 fallback
+              </Text>
+            </HStack>
+          </VStack>
+
+          <VStack gap="x3">
+            <SectionTitle>Prefix Text (지속 라벨)</SectionTitle>
+            <HStack align="center" gap="x4">
+              <div style={{ width: 220 }}>
+                <SelectRoot defaultValue={["newest"]}>
+                  <SelectTrigger aria-label="정렬" prefixText="정렬:" placeholder="선택" />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="newest" label="최신순" />
+                      <SelectItem value="popular" label="인기순" />
+                      <SelectItem value="price" label="가격순" />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+              <Text fontSize="t3" color="fg.neutralMuted">
+                선택과 무관하게 "정렬:" 라벨이 항상 값 앞에 유지됨
+              </Text>
+            </HStack>
+          </VStack>
+
+          <VStack gap="x3">
+            <SectionTitle>Multiple × Prefix Icon</SectionTitle>
+            <HStack align="center" gap="x4">
+              <div style={{ width: 220 }}>
+                <SelectRoot multiple defaultValue={["apple"]}>
+                  <SelectTrigger
+                    aria-label="다중 아이콘"
+                    placeholder="과일 선택"
+                    prefixIcon={<IconStarLine />}
+                  />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" prefixIcon={<IconHeartLine />} />
+                      <SelectItem value="banana" label="바나나" prefixIcon={<IconDiamondLine />} />
+                      <SelectItem value="cherry" label="체리" prefixIcon={<IconPlusLine />} />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+              <Text fontSize="t3" color="fg.neutralMuted">
+                1개 선택: 그 item 아이콘 미러 · 2개 이상: static star로 복귀
               </Text>
             </HStack>
           </VStack>

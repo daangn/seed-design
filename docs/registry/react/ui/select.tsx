@@ -105,9 +105,9 @@ export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "child
 
   /**
    * Static prefix icon. While exactly one item is selected, that item's
-   * `prefixIcon` takes precedence (and the slot is hidden when the item has no
-   * icon); this prop only shows for empty and multi selections. Using it together
-   * with `prefixText` is not recommended.
+   * `prefixIcon` takes precedence; otherwise (empty, multi, or a selected item
+   * without an icon) this static icon shows. Using it together with `prefixText`
+   * is not recommended.
    */
   prefixIcon?: React.ReactNode;
 

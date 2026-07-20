@@ -59,16 +59,6 @@
             }
           }
         },
-        "suffixIcon": {
-          "properties": {
-            "size": {
-              "type": "dimension"
-            },
-            "color": {
-              "type": "color"
-            }
-          }
-        },
         "body": {
           "properties": {
             "gap": {
@@ -143,6 +133,10 @@
             ],
             "slots": {
               "root": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
                 "colorDuration": {
                   "type": "duration",
                   "value": "$duration.color-transition"
@@ -169,12 +163,6 @@
                 }
               },
               "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "suffixIcon": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral"
@@ -246,12 +234,6 @@
                   "value": "$color.fg.disabled"
                 }
               },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
               "label": {
                 "color": {
                   "type": "color",
@@ -285,10 +267,6 @@
             ],
             "slots": {
               "root": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x3"
@@ -303,15 +281,6 @@
                   "type": "dimension",
                   "value": {
                     "value": 22,
-                    "unit": "px"
-                  }
-                }
-              },
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 18,
                     "unit": "px"
                   }
                 }
@@ -339,10 +308,7 @@
               "indicator": {
                 "size": {
                   "type": "dimension",
-                  "value": {
-                    "value": 18,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x3_5"
                 }
               }
             }
@@ -360,10 +326,6 @@
             ],
             "slots": {
               "root": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
@@ -376,19 +338,7 @@
               "prefixIcon": {
                 "size": {
                   "type": "dimension",
-                  "value": {
-                    "value": 18,
-                    "unit": "px"
-                  }
-                }
-              },
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 16,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x4_5"
                 }
               },
               "label": {
@@ -414,10 +364,7 @@
               "indicator": {
                 "size": {
                   "type": "dimension",
-                  "value": {
-                    "value": 16,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x3"
                 }
               }
             }
