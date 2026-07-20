@@ -9190,6 +9190,13 @@
     -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x8));
     mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x8));
     -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x8));
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
+  .seed-popover__body:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-popover__footer {
