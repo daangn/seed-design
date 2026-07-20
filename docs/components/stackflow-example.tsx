@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { SeedTab as Tab, SeedTabs as Tabs } from "@/components/tabs/seed-tabs";
 import type * as React from "react";
 
 import ErrorBoundary from "./error-boundary";
@@ -22,9 +22,9 @@ interface StackflowExampleProps {
 export function StackflowExample({ path, children }: StackflowExampleProps) {
   return (
     <ErrorBoundary>
-      <Tabs items={["미리보기", "코드"]}>
+      <Tabs card items={["미리보기", "코드"]}>
         <Tab value="미리보기">
-          <Box p="x2">
+          <Box p="x5">
             <StackflowIframePreview path={path} />
           </Box>
         </Tab>

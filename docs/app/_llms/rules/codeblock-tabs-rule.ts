@@ -1,6 +1,6 @@
 import type { Code, List, ListItem, Paragraph, RootContent } from "mdast";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
-import type { Rule, RuleContext, RuleNode } from "./types";
+import type { Rule, RuleContext } from "./types";
 
 interface PackageInstallTab {
   command: string;
@@ -13,7 +13,10 @@ function isCodeBlockTab(node: RootContent): node is MdxJsxFlowElement {
   return node.type === "mdxJsxFlowElement" && node.name === "CodeBlockTab";
 }
 
-function extractPackageInstallTabs(node: RuleNode, context: RuleContext): PackageInstallTab[] {
+function extractPackageInstallTabs(
+  node: MdxJsxFlowElement,
+  context: RuleContext,
+): PackageInstallTab[] {
   const tabs: PackageInstallTab[] = [];
 
   for (const child of node.children as RootContent[]) {
@@ -67,7 +70,7 @@ function createPackageInstallList(tabs: PackageInstallTab[]): List {
   };
 }
 
-export const codeBlockTabsRule: Rule = {
+export const codeBlockTabsRule: Rule<MdxJsxFlowElement> = {
   name: "CodeBlockTabs",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "CodeBlockTabs",

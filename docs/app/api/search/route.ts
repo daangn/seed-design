@@ -1,4 +1,15 @@
-import { breezeSource, reactSource, docsSource, lynxSource, blogSource } from "@/app/source";
+import {
+  aiIntegrationSource,
+  breezeSource,
+  componentsSource,
+  docsSource,
+  foundationsSource,
+  getStartedSource,
+  lynxSource,
+  patternsSource,
+  reactSource,
+  updatesSource,
+} from "@/app/source";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { tokenize } from "@/components/search/tokenizer";
 import { TAGS } from "@/app/api/search/constants";
@@ -8,6 +19,34 @@ import { parseChangelog } from "@/lib/parse-changelog";
 
 // it should be cached forever
 export const revalidate = false;
+
+type IndexableSource = {
+  getPages: () => {
+    url: string;
+    data: {
+      title: string;
+      description?: string;
+      load: () => Promise<{ structuredData: AdvancedIndex["structuredData"] }>;
+    };
+  }[];
+};
+
+/** Map a docs source's pages into search indexes under a single tag. */
+async function indexSource(source: IndexableSource, tag: string): Promise<AdvancedIndex[]> {
+  return Promise.all(
+    source.getPages().map(async (page) => {
+      const { structuredData } = await page.data.load();
+      return {
+        id: page.url,
+        title: page.data.title,
+        description: page.data.description,
+        structuredData,
+        tag,
+        url: page.url,
+      } satisfies AdvancedIndex;
+    }),
+  );
+}
 
 async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
   const entries = await parseChangelog(process.cwd());
@@ -35,7 +74,7 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
           headings: [],
           contents: items.map((item) => ({ heading: "", content: item })),
         },
-        tag: TAGS.react.value,
+        tag: TAGS.updates.value,
         url: versionUrl,
       };
     });
@@ -44,84 +83,25 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
 
 export const { staticGET: GET } = createSearchAPI("advanced", {
   indexes: async () => {
-    const [docsPages, reactPages, breezePages, lynxPages, blogPages, changelogIndexes] =
-      await Promise.all([
-        Promise.all(
-          docsSource.getPages().map(async (page) => {
-            const { structuredData } = await page.data.load();
-            return {
-              id: page.url,
-              title: page.data.title,
-              description: page.data.description,
-              structuredData,
-              tag: TAGS.design.value,
-              url: page.url,
-            } satisfies AdvancedIndex;
-          }),
-        ),
-        Promise.all(
-          reactSource.getPages().map(async (page) => {
-            const { structuredData } = await page.data.load();
-            return {
-              id: page.url,
-              title: page.data.title,
-              description: page.data.description,
-              structuredData,
-              tag: TAGS.react.value,
-              url: page.url,
-            } satisfies AdvancedIndex;
-          }),
-        ),
-        Promise.all(
-          breezeSource.getPages().map(async (page) => {
-            const { structuredData } = await page.data.load();
-            return {
-              id: page.url,
-              title: page.data.title,
-              description: page.data.description,
-              structuredData,
-              tag: TAGS.breeze.value,
-              url: page.url,
-            } satisfies AdvancedIndex;
-          }),
-        ),
-        Promise.all(
-          lynxSource.getPages().map(async (page) => {
-            const { structuredData } = await page.data.load();
-            return {
-              id: page.url,
-              title: page.data.title,
-              description: page.data.description,
-              structuredData,
-              tag: TAGS.lynx.value,
-              url: page.url,
-            } satisfies AdvancedIndex;
-          }),
-        ),
-        Promise.all(
-          blogSource.getPages().map(async (page) => {
-            const { structuredData } = await page.data.load();
-            return {
-              id: page.url,
-              title: page.data.title,
-              description: page.data.description,
-              structuredData,
-              tag: TAGS.blog.value,
-              url: page.url,
-            } satisfies AdvancedIndex;
-          }),
-        ),
-        getChangelogIndexes(),
-      ]);
+    const groups = await Promise.all([
+      // Sections without a filter chip (legacy /docs tree, get-started, breeze) keep
+      // their own tag so they only surface under the "All" filter.
+      indexSource(docsSource, "design"),
+      indexSource(getStartedSource, "get-started"),
+      indexSource(breezeSource, "breeze"),
+      // Header sections — each maps to its own filter chip (see search/constants.ts).
+      indexSource(foundationsSource, TAGS.foundations.value),
+      indexSource(componentsSource, TAGS.components.value),
+      indexSource(patternsSource, TAGS.patterns.value),
+      indexSource(reactSource, TAGS.react.value),
+      indexSource(lynxSource, TAGS.lynx.value),
+      indexSource(aiIntegrationSource, TAGS.aiIntegration.value),
+      indexSource(updatesSource, TAGS.updates.value),
+      // Package changelogs belong to Updates.
+      getChangelogIndexes(),
+    ]);
 
-    return [
-      ...docsPages,
-      ...reactPages,
-      ...breezePages,
-      ...lynxPages,
-      ...blogPages,
-      ...changelogIndexes,
-    ];
+    return groups.flat();
   },
   tokenizer: {
     language: "english",

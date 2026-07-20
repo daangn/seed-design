@@ -1,0 +1,7 @@
+{
+  "title": "Color",
+  "description": "SEED 색상 시스템은 접근성을 고려하며 제품의 계층, 상태, 브랜드를 표현할 수 있도록 돕습니다.",
+  "coverImage": "/og/foundations/color",
+  "layout": "tabs",
+  "pages": ["color-role", "palette"]
+}

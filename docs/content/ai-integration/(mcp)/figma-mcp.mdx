@@ -5,10 +5,10 @@ description: AI Agent를 활용해 Figma 디자인을 React 코드로 변환하�
 
 ## 빠른 설치
 
-[Figma 설정](https://www.figma.com/settings)에서 **Personal Access Token** (PAT)을 발급받을 수 있습니다.
+[Figma 설정](https://www.figma.com/settings)에서 Personal Access Token (PAT)을 발급받을 수 있습니다.
 
-- **PAT가 있는 경우**: Figma URL을 복사해서 AI Agent에게 전달하는 **REST API** 방식으로 사용할 수 있습니다.
-- **PAT가 없는 경우**: Figma 플러그인을 통해 실시간으로 선택한 레이어를 가져오는 **WebSocket** 방식을 사용해야 합니다.
+- **PAT가 있는 경우**: Figma URL을 복사해서 AI Agent에게 전달하는 REST API 방식으로 사용할 수 있습니다.
+- **PAT가 없는 경우**: Figma 플러그인을 통해 실시간으로 선택한 레이어를 가져오는 WebSocket 방식을 사용해야 합니다.
 
 각 방식의 상세한 차이점은 아래 [설치](#설치) 섹션을 참고하세요.
 
@@ -327,7 +327,7 @@ Figma URL 또는 `fileKey` + `nodeId`를 전달하면 REST API로, `nodeId`만 �
 | `get_node_react_code`           | 레이어의 React 코드를 생성합니다.             |
 | `get_component_info`            | 컴포넌트의 key와 속성 정의를 반환합니다.      |
 | `find_nodes`                   | 하위 레이어를 이름(정규식)으로 검색하여 ID 목록을 반환합니다. |
-| `retrieve_color_variable_names` | SEED Design 색상 변수 이름 목록을 반환합니다. |
+| `retrieve_color_variable_names` | SEED 색상 변수 이름 목록을 반환합니다. |
 
 ### WebSocket 전용
 
@@ -347,7 +347,7 @@ Figma 플러그인과 통신이 필요합니다. `websocket` 또는 `all` 모드
 
 ## 커스텀 설정 사용하기
 
-`get_node_react_code`는 기본적으로 SEED Figma 컴포넌트만 인식합니다. 팀 내부 디자인 시스템이나 커스텀 컴포넌트를 사용하는 경우, **ComponentHandler**를 작성해 Figma 컴포넌트를 원하는 React 컴포넌트로 매핑할 수 있습니다.
+`get_node_react_code`는 기본적으로 SEED Figma 컴포넌트만 인식합니다. 팀 내부 디자인 시스템이나 커스텀 컴포넌트를 사용하는 경우, ComponentHandler를 작성해 Figma 컴포넌트를 원하는 React 컴포넌트로 매핑할 수 있습니다.
 
 MCP 서버 설정에 `--config` flag를 추가해 커스텀 설정 파일이 로드될 수 있도록 합니다.
 

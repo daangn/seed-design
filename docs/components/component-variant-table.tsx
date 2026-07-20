@@ -4,6 +4,7 @@ import { AST, resolveToken, RootageCtx } from "@seed-design/rootage-core";
 import { useMemo, useState } from "react";
 import { DescriptionButton } from "./description-button";
 import { getDefaultModes, stringifyStates, stringifyTokenLit, stringifyValueLit } from "./rootage";
+import { TableRoot } from "./table";
 import { TokenCell, TokenValue } from "./token-cell";
 
 interface ComponentVariantTableProps {
@@ -89,48 +90,45 @@ export function ComponentVariantTable(props: ComponentVariantTableProps) {
   }, [rootage, variant, schema]);
 
   return (
-    <div className="overflow-x-auto max-w-screen -mx-4 px-4 md:mx-0 md:px-0 my-[2em] [scrollbar-width:thin]">
-      <table style={{ marginBlock: 0 }}>
-        <colgroup>
-          <col style={{ width: "15%" }} />
-          <col style={{ width: "15%" }} />
-          <col style={{ width: "15%" }} />
-          <col />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>상태</th>
-            <th>슬롯</th>
-            <th>속성</th>
-            <th>값</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableItems.map((item, index) => {
-            const prevItem = tableItems[index - 1];
-            const shouldRenderState = item.stateKey !== prevItem?.stateKey;
-            const shouldRenderSlot = shouldRenderState || item.slotKey !== prevItem?.slotKey;
-            const shouldRenderProperty =
-              shouldRenderSlot || item.propertyKey !== prevItem?.propertyKey;
-            return (
-              <ComponentVariantRow
-                key={item.id}
-                item={item}
-                shouldRenderState={shouldRenderState}
-                shouldRenderSlot={shouldRenderSlot}
-                shouldRenderProperty={shouldRenderProperty}
-                isHighlighted={
-                  hoveredRow?.slotKey === item.slotKey &&
-                  hoveredRow?.propertyKey === item.propertyKey
-                }
-                onHoverStart={setHoveredRow}
-                onHoverEnd={() => setHoveredRow(null)}
-              />
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <TableRoot wrapperClassName="max-w-screen -mx-4 px-4 md:mx-0 md:px-0 [scrollbar-width:thin]">
+      <colgroup>
+        <col style={{ width: "15%" }} />
+        <col style={{ width: "15%" }} />
+        <col style={{ width: "15%" }} />
+        <col />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>상태</th>
+          <th>슬롯</th>
+          <th>속성</th>
+          <th>값</th>
+        </tr>
+      </thead>
+      <tbody>
+        {tableItems.map((item, index) => {
+          const prevItem = tableItems[index - 1];
+          const shouldRenderState = item.stateKey !== prevItem?.stateKey;
+          const shouldRenderSlot = shouldRenderState || item.slotKey !== prevItem?.slotKey;
+          const shouldRenderProperty =
+            shouldRenderSlot || item.propertyKey !== prevItem?.propertyKey;
+          return (
+            <ComponentVariantRow
+              key={item.id}
+              item={item}
+              shouldRenderState={shouldRenderState}
+              shouldRenderSlot={shouldRenderSlot}
+              shouldRenderProperty={shouldRenderProperty}
+              isHighlighted={
+                hoveredRow?.slotKey === item.slotKey && hoveredRow?.propertyKey === item.propertyKey
+              }
+              onHoverStart={setHoveredRow}
+              onHoverEnd={() => setHoveredRow(null)}
+            />
+          );
+        })}
+      </tbody>
+    </TableRoot>
   );
 }
 
@@ -168,7 +166,7 @@ function ComponentVariantRow(props: {
 
   return (
     <tr
-      className={`${isHighlighted ? "bg-fd-muted" : ""} ${canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}`}
+      className={`${isHighlighted ? "bg-bg-neutral-weak" : ""} ${canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}`}
       key={id}
       onMouseEnter={() => onHoverStart({ slotKey, propertyKey })}
       onMouseLeave={() => onHoverEnd()}

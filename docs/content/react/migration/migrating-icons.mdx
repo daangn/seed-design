@@ -56,11 +56,11 @@ npm install @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-i
 2개 패키지 중 필요한 패키지만 설치해요.
 
 - [`@karrotmarket/react-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-monochrome-icon)
-  - 단색 아이콘 패키지에요. **일반** 아이콘, **카테고리** 아이콘, **서비스** 아이콘이 포함되어 있어요.
+  - 단색 아이콘 패키지에요. 일반 아이콘, 카테고리 아이콘, 서비스 아이콘이 포함되어 있어요.
   - 이 패키지에서 제공되는 서비스 아이콘은 검은색으로만 사용할 수 있어요.
   - codemod 실행 시, 기존 패키지들의 아이콘은 모두 이 패키지의 아이콘으로 대체돼요.
 - [`@karrotmarket/react-multicolor-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-multicolor-icon)
-  - 멀티컬러 아이콘 패키지에요. **카테고리** 아이콘과 **서비스** 아이콘이 포함되어 있어요.
+  - 멀티컬러 아이콘 패키지에요. 카테고리 아이콘과 서비스 아이콘이 포함되어 있어요.
   - 이 패키지에서 제공되는 카테고리 아이콘과 서비스 아이콘은 패키지에서 제공되는 색상 그대로만 사용할 수 있어요.
   - 기존에 SVG로 사용하던 멀티컬러 아이콘들을 이 패키지로 직접 대체할 수 있어요. 따라서, 필요한 경우에만 설치해도 좋아요.
 
@@ -207,11 +207,11 @@ npm install @daangn/vue3-monochrome-icon @daangn/vue3-multicolor-icon
 2개 패키지 중 필요한 패키지만 설치해요.
 
 - `@daangn/*-monochrome-icon`
-  - 단색 아이콘 패키지에요. **일반** 아이콘, **카테고리** 아이콘, **서비스** 아이콘이 포함되어 있어요.
+  - 단색 아이콘 패키지에요. 일반 아이콘, 카테고리 아이콘, 서비스 아이콘이 포함되어 있어요.
   - 이 패키지에서 제공되는 서비스 아이콘은 검은색으로만 사용할 수 있어요.
   - codemod 실행 시, 기존 패키지들의 아이콘은 모두 이 패키지의 아이콘으로 대체돼요.
 - `@daangn/*-multicolor-icon`
-  - 멀티컬러 아이콘 패키지에요. **카테고리** 아이콘과 **서비스** 아이콘이 포함되어 있어요.
+  - 멀티컬러 아이콘 패키지에요. 카테고리 아이콘과 서비스 아이콘이 포함되어 있어요.
   - 이 패키지에서 제공되는 카테고리 아이콘과 서비스 아이콘은 패키지에서 제공되는 색상 그대로만 사용할 수 있어요.
   - 기존에 SVG로 사용하던 멀티컬러 아이콘들을 이 패키지로 직접 대체할 수 있어요. 따라서, 필요한 경우에만 설치해도 좋아요.
 
@@ -259,7 +259,7 @@ npm install @daangn/vue3-monochrome-icon @daangn/vue3-multicolor-icon
 ### 정확히 대응되는 리뉴얼된 아이콘이 없는 경우
 
 - 이전 아이콘 중 아래 5개 아이콘(총 15개 variant)은 리뉴얼된 아이콘 패키지에 시각적으로 정확히 대응되는 항목이 없어요.
-- codemod 스크립트 실행 시 **추천되는 아이콘으로 변환되지만**, 시각적인 차이가 크기 때문에 변경 후 확인이 필요해요.
+- codemod 스크립트 실행 시 추천되는 아이콘으로 변환되지만, 시각적인 차이가 크기 때문에 변경 후 확인이 필요해요.
 
 | 이전 아이콘 이름                        | 리뉴얼된 아이콘 이름                                                                     |
 | --------------------------------------- | ---------------------------------------------------------------------------------------- |
@@ -309,7 +309,7 @@ git grep -E '(IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thi
 **이전 아이콘과 리뉴얼된 아이콘은 `n:1`로 대응돼요.** 따라서, 같은 페이지에 표시되었던 서로 다른 여러 개의 아이콘이, 동일한 리뉴얼된 아이콘으로 대체되는 경우가 있어요. 의도한 목적대로 아이콘이 표시되는지 확인해요.
 
 - 한 이전 아이콘의 3개 variant 중 `Thin` variant와 `Regular` variant는 리뉴얼된 아이콘에서 모두 `Line` variant로 대체돼요.
-  - 예를 들면, `IconForwardThin`, `IconForwardRegular`는 모두 [`IconArrowRightLine`](/docs/foundation/iconography/library?icon=icon_arrow_right_line)으로 대체돼요.
+  - 예를 들면, `IconForwardThin`, `IconForwardRegular`는 모두 [`IconArrowRightLine`](/foundations/iconography/library?icon=icon_arrow_right_line)으로 대체돼요.
   - 이전 아이콘의 `Fill` variant는 리뉴얼된 아이콘에서도 `Fill` variant로 대체돼요.
 - 여러 개의 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우도 있어요.
-  - 예를 들면, `IconHeadphoneRegular`, `IconHelpcenterRegular`, `IconHelperRegular`는 모두 [`IconHeadsetLine`](/docs/foundation/iconography/library?icon=icon_headset_line)으로 대체돼요.
+  - 예를 들면, `IconHeadphoneRegular`, `IconHelpcenterRegular`, `IconHelperRegular`는 모두 [`IconHeadsetLine`](/foundations/iconography/library?icon=icon_headset_line)으로 대체돼요.

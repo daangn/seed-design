@@ -1,0 +1,174 @@
+---
+title: Snackbar
+description: 화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.
+coverImage: /og/components/snackbar
+---
+
+## Anatomy
+
+<FigmaImage
+  id="32:92509"
+  alt="Snackbar의 Anatomy 이미지. Container, Text, Prefix Icon, Action으로 구성됩니다."
+/>
+
+Snackbar 컴포넌트는 텍스트와 컨테이너로 구성되며 필요에 따라 Prefix Icon과 Action을 표시할 수 있습니다.
+
+## Properties
+
+### Variant
+
+<FigmaImage
+  id="32:92525"
+  alt="Snackbar의 Variant Property - Default, Positive, Critical"
+/>
+
+Snackbar 컴포넌트는 기본적인 메시지 전달을 위한 Default, 완료나 성공 메시지를 표현하는 Positive, 오류나 실패 메시지를 표현하는 Critical 총 세 가지 타입을 제공합니다.
+
+### Action Property
+
+<FigmaImage id="32:92546" alt="Snackbar의 Action Property - Text 버튼" />
+
+Text로 구성된 보조 Action을 표시할 수 있습니다.
+
+## Guidelines
+
+### Snackbar 사용하기
+
+<FigmaImage id="32:92573" alt="Snackbar 사용 예시" />
+
+Snackbar는 텍스트를 통해 간결한 피드백을 제공하는 컴포넌트입니다.
+
+저장/업로드/동기화 등 백그라운드 작업 완료 알림이나 사용자가 방금 수행한 액션에 대한 안내 용도로 사용할 수 있습니다. 또한 '되돌리기' 등 짧은 시간 동안만 유효한 보조 액션을 제공합니다.
+
+Snackbar는 낮은 심각도의 상태를 공유하는 용도로만 사용해야 하며, 다음 상황에서는 사용을 피해야 합니다.
+
+| 사용을 피해야 할 상황              | 대안                                                                                         |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- |
+| 사용자의 결정이 필요한 중요한 선택 | [Bottom Sheet](/components/bottom-sheet), [Alert Dialog](/components/alert-dialog) |
+| 지속적으로 표시되어야 하는 경고    | [Page Banner](/components/page-banner), [Callout](/components/callout)             |
+| 여러 단계 안내나 긴 텍스트         | [Help Bubble](/components/help-bubble), [Callout](/components/callout)             |
+
+### Snackbar의 위치와 레이아웃
+
+<FigmaImage id="32:92812" alt="Snackbar 위치와 레이아웃 - Safe Area" />
+
+Snackbar는 기본적으로 화면 하단 중앙에 배치되며, 컴포넌트 자체에 여백을 포함합니다. 배치 시 OS의 세이프 에어리어를 고려해야 합니다.
+
+<FigmaImage
+  id="32:92818"
+  alt="Snackbar 위치와 레이아웃 - Floating Action Button 위에 표시된 경우"
+/>
+
+화면에 [Floating Action Button](/components/floating-action-button)이 있을 때 Snackbar가 나타나면, Snackbar는 항상 [Floating Action Button](/components/floating-action-button) 위에 표시됩니다.
+
+텍스트가 길어 줄바꿈이 발생할 경우, 아이콘과 보조 버튼은 중앙 정렬됩니다.
+
+<FigmaImage id="32:92828" alt="Snackbar 최대 너비 예시" />
+
+Snackbar에는 최대 너비가 지정되어 있으며, 화면 너비가 이를 초과할 경우 화면 중앙에 배치됩니다.
+
+### 내용 작성하기
+
+#### 간결하게 작성하기
+
+<Grid>
+  <DoImage
+    figmaId="32:92844"
+    alt="Snackbar 내용으로 '게시글을 저장했어요'가 표시된 예시"
+    body="결과를 짧고 분명하게 전달합니다."
+  />
+  <DontImage
+    figmaId="32:92851"
+    alt="Snackbar 내용으로 '게시글 저장 처리가 완료되었습니다'가 표시된 예시"
+    body="길고 시스템 관점의 표현이라 한눈에 들어오지 않습니다."
+  />
+</Grid>
+
+메시지는 핵심만 짧게 작성합니다. 명사+동사 형식으로 사용자 액션의 결과를 먼저 보여주면 한눈에 이해할 수 있습니다.
+
+#### 마침표는 문장 수에 따라
+
+<Grid>
+  <DoImage
+    figmaId="32:92859"
+    alt="Snackbar 내용으로 '주문을 취소했어요. 환불은 3일 안에 처리돼요.'가 표시된 예시"
+    body="두 문장 이상이면 모든 문장에 마침표를 붙입니다."
+  />
+  <DontImage
+    figmaId="32:92866"
+    alt="Snackbar 내용으로 '주문을 취소했어요 환불은 3일 안에 처리돼요'가 표시된 예시"
+    body="문장이 둘인데 마침표가 없어 읽기 어렵습니다."
+  />
+</Grid>
+
+한 문장이면 마침표를 생략하고, 두 문장 이상이면 모든 문장 끝에 마침표를 붙입니다.
+
+#### 긍정문으로 표현하기
+
+<Grid>
+  <DoImage
+    figmaId="2011:1765"
+    alt="Snackbar 내용으로 '업로드를 완료했어요'가 표시된 예시"
+    body="무엇이 됐는지 바로 알 수 있습니다."
+  />
+  <DontImage
+    figmaId="2011:1775"
+    alt="Snackbar 내용으로 '업로드에 실패하지 않았어요'가 표시된 예시"
+    body="이중 부정이라 결과를 한 번 더 해석해야 합니다."
+  />
+</Grid>
+
+명확하고 긍정적인 표현으로 혼란을 방지합니다. "실패하지 않았어요"와 같은 이중 부정보다 "업로드를 완료했어요"처럼 직접적으로 표현합니다.
+
+### Snackbar의 동작
+
+<FigmaImage
+  id="32:92882"
+  alt="Snackbar 동작 - 4초 후 자동 닫힘, Snackbar 내용이 긴 경우 4초보다 길게 설정"
+/>
+
+Snackbar는 기본적으로 4초 동안 표시됩니다. 메시지 내용이 길 경우, 사용자가 충분히 인지할 수 있도록 표시 시간을 적절히 조정해주세요.
+
+<Grid>
+
+<FigmaImage
+  id="32:92892"
+  alt="Snackbar 동작 - 사용자가 터치를 유지하는 경우 타이머 일시정지"
+/>
+<DontImage
+  figmaId="32:92898"
+  alt="한 화면에 3개의 Snackbar가 동시에 표시된 예시"
+  body="한 번에 여러 개의 Snackbar를 표시하지 않습니다."
+/>
+
+</Grid>
+
+사용자가 Snackbar에 터치를 유지하는 경우 타이머가 일시정지됩니다. 이를 통해 메시지를 더 오래 확인하고 싶을 때 Snackbar를 화면에 계속 표시할 수 있습니다.
+
+화면에는 한 번에 1개의 Snackbar만 표시합니다. 새로운 Snackbar가 발생하면 자동으로 큐에 추가되어, 현재 표시 중인 항목이 사라진 후 순차적으로 표시됩니다.
+
+### 액션 사용하기
+
+<Grid>
+
+<FigmaImage
+  id="32:92916"
+  alt="Snackbar Action 레이블로 '되돌리기'가 표시된 예시"
+/>
+<DontImage
+  figmaId="32:92920"
+  alt="Snackbar Action 레이블로 '확인'이 표시된 예시"
+  body="구체적인 액션을 명확하게 담은 단어를 사용해주세요."
+/>
+
+</Grid>
+
+최대 1개의 보조 액션 버튼을 Snackbar에 표시할 수 있습니다. 사용자가 빠르게 인지할 수 있도록 1-2단어로 간결하게 작성하는 것을 권장합니다.
+
+액션 라벨에는 '취소', '확인' 등의 일반적이고 모호한 단어보다는 '되돌리기', '목록보기'와 같이 더 구체적인 액션을 명확하게 담은 단어를 사용해주세요.
+
+내용의 추가 또는 삭제와 같은 중요한 변경 사항이 발생했을 때는 사용자가 쉽게 되돌릴 수 있도록 '되돌리기' 옵션을 함께 표시하는 것이 좋습니다.
+
+## Specification
+
+<ComponentSpecBlock id="snackbar" />

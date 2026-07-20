@@ -1,9 +1,9 @@
 import type { DocEntry, GeneratedDoc } from "fumadocs-typescript";
 import type { List, ListItem, Paragraph, PhrasingContent, RootContent } from "mdast";
 import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
-import type { Rule, RuleNode } from "./types";
+import type { Rule } from "./types";
 
-function parseTypeTableJson(node: RuleNode): GeneratedDoc | undefined {
+function parseTypeTableJson(node: MdxJsxFlowElement): GeneratedDoc | undefined {
   const typeAttr = node.attributes.find(
     (attr): attr is MdxJsxAttribute => attr.type === "mdxJsxAttribute" && attr.name === "type",
   );
@@ -76,7 +76,7 @@ export function docToMdastList(doc: GeneratedDoc): List {
   };
 }
 
-export const typeTableRule: Rule = {
+export const typeTableRule: Rule<MdxJsxFlowElement> = {
   name: "TypeTable",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "TypeTable",

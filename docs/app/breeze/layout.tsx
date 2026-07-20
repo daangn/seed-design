@@ -14,7 +14,6 @@ export default function Layout({ children }: { children: ReactNode }) {
         search={{
           SearchDialog: DefaultSearchDialog,
           options: {
-            defaultTag: TAGS.breeze.value,
             tags: Object.values(TAGS),
           },
         }}

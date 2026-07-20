@@ -9,10 +9,12 @@ export interface RuleContext {
   normalizeCodeIndent: (code: string) => string;
 }
 
-export interface Rule {
+export interface Rule<TNode extends RuleNode = RuleNode> {
   name: string;
-  match: (node: RootContent) => node is RuleNode;
-  transform: (node: RuleNode, context: RuleContext) => RootContent[];
+  match: (node: RootContent) => node is TNode;
+  transform: (node: TNode, context: RuleContext) => RootContent[];
   /** 비동기 사전 초기화가 필요한 룰에서 구현합니다. normalizeLLMBody 호출 전 await해야 합니다. */
   init?: () => Promise<void>;
 }
+
+export type AnyRule = Rule<any>;

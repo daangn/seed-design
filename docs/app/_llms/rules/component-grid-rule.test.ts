@@ -7,17 +7,17 @@ const sampleEntries: ComponentEntry[] = [
   {
     title: "Checkbox",
     description: "옵션 선택 컴포넌트입니다.",
-    url: "https://example.com/llms/docs/components/checkbox.txt",
+    url: "https://example.com/llms/components/checkbox.txt",
   },
   {
     title: "Floating Action Button",
     description: "",
-    url: "https://example.com/llms/docs/components/floating-action-button.txt",
+    url: "https://example.com/llms/components/floating-action-button.txt",
   },
   {
     title: "Action Button",
     description: "기본 인터랙션 컴포넌트입니다.",
-    url: "https://example.com/llms/docs/components/action-button.txt",
+    url: "https://example.com/llms/components/action-button.txt",
   },
 ];
 
