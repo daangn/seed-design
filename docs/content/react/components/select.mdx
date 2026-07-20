@@ -183,6 +183,21 @@ Select는 [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
   ```
 </ComponentExample>
 
+### Custom Value Format
+
+`SelectRoot`의 `formatValue` prop으로 트리거에 표시되는 선택 값을 커스텀합니다. 지정하지 않으면 단일 선택은 옵션의 `label`, 다중 선택(`multiple`)은 옵션들의 `textValue`를 `", "`로 이어 표시합니다.
+
+다중 선택에서 [`Intl.ListFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat)을 사용하면 locale에 맞는 접속사로 목록을 조합할 수 있습니다.
+
+<ComponentExample name="react/select/format-value">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/format-value.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Form Integration
 
 `SelectRoot`에 `name`, `required`를 지정하면, `SelectRoot`가 내부에서 렌더링하는 숨겨진 native `<select>`를 통해 폼 제출에 참여합니다.
