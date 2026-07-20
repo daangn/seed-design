@@ -62,7 +62,7 @@ export function HeroVideo({
     <>
       <ManagedVideo
         playbackEnabled={playbackEnabled}
-        poster={poster}
+        poster={resolved && prefersReducedMotion ? poster : undefined}
         src={src}
         sources={sources}
         wrapperClassName={wrapperClassName}

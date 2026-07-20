@@ -20,35 +20,35 @@ export function LandingResponsiveSections({
 }: LandingResponsiveSectionsProps) {
   const lottieMotionEnabled = environmentResolved && !prefersReducedMotion;
 
-  if (layout === "mobile") {
-    return (
-      <SectionBento
-        lottieEnabled={environmentResolved}
-        lottieMotionEnabled={lottieMotionEnabled}
-        mode="compact"
-        mp4PlaybackEnabled={lottieMotionEnabled}
-        prefersReducedMotion={prefersReducedMotion}
-      />
-    );
-  }
-
   return (
     <>
       <SectionHero prefersReducedMotion={prefersReducedMotion} resolved={environmentResolved} />
-      {layout === "tablet" && <h1 className="sr-only">{INTRO_TITLE.replace(/\n/g, " ")}</h1>}
-      <SectionBento
-        lottieEnabled={environmentResolved}
-        lottieMotionEnabled={lottieMotionEnabled}
-        mode="desktop"
-        mp4PlaybackEnabled={lottieMotionEnabled}
-        prefersReducedMotion={prefersReducedMotion}
-      />
-      {layout === "desktop" && (
-        <SectionLottieIntro
+      {layout === "mobile" ? (
+        <SectionBento
           lottieEnabled={environmentResolved}
           lottieMotionEnabled={lottieMotionEnabled}
-          onLottieReady={onLottieReady}
+          mode="compact"
+          mp4PlaybackEnabled={lottieMotionEnabled}
+          prefersReducedMotion={prefersReducedMotion}
         />
+      ) : (
+        <>
+          {layout === "tablet" && <h1 className="sr-only">{INTRO_TITLE.replace(/\n/g, " ")}</h1>}
+          <SectionBento
+            lottieEnabled={environmentResolved}
+            lottieMotionEnabled={lottieMotionEnabled}
+            mode="desktop"
+            mp4PlaybackEnabled={lottieMotionEnabled}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+          {layout === "desktop" && (
+            <SectionLottieIntro
+              lottieEnabled={environmentResolved}
+              lottieMotionEnabled={lottieMotionEnabled}
+              onLottieReady={onLottieReady}
+            />
+          )}
+        </>
       )}
     </>
   );

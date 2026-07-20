@@ -23,7 +23,13 @@ export function SectionHero({
   resolved: boolean;
 }) {
   return (
-    <SectionLayer id="hero" z={Z.hero} regionVh={REGIONS.hero} panelClassName="bg-white">
+    <SectionLayer
+      id="hero"
+      z={Z.hero}
+      regionVh={REGIONS.hero}
+      sectionClassName="hidden md:block"
+      panelClassName="bg-white"
+    >
       <div data-hero-frame className="box-border size-full">
         <div data-hero-video className="relative size-full overflow-hidden">
           <HeroVideo
@@ -31,7 +37,7 @@ export function SectionHero({
             resolved={resolved}
             src={HERO_VIDEO}
             poster={HERO_POSTER}
-            wrapperClassName="size-full"
+            wrapperClassName="size-full bg-[#f3f3f3]"
             videoClassName="size-full object-cover"
             buttonClassName="bottom-4 right-4"
           />
