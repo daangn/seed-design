@@ -35,7 +35,7 @@ export function LandingResponsiveSections({
   return (
     <>
       <SectionHero prefersReducedMotion={prefersReducedMotion} resolved={environmentResolved} />
-      {layout === "tablet" && <h1 className="sr-only">{INTRO_TITLE.replace("\n", " ")}</h1>}
+      {layout === "tablet" && <h1 className="sr-only">{INTRO_TITLE.replace(/\n/g, " ")}</h1>}
       <SectionBento
         lottieEnabled={environmentResolved}
         lottieMotionEnabled={lottieMotionEnabled}

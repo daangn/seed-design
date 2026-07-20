@@ -57,7 +57,7 @@ export function SectionValues({ motionEnabled, onValueLottieReady }: SectionValu
               {/* Mobile: one line at 28px. Desktop: keeps the two-line break + clamp scale. */}
               <RevealText
                 as="h2"
-                text={VALUES_TITLE.replace("\n", " ")}
+                text={VALUES_TITLE.replace(/\n/g, " ")}
                 className="font-bold leading-[1.2] text-white text-[28px] md:hidden"
               />
               <RevealText
