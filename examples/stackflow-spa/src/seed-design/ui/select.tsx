@@ -178,10 +178,10 @@ export interface SelectItemProps extends Omit<SeedSelect.ItemProps, "children"> 
  * @see https://seed-design.io/react/components/select
  */
 export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ prefixIcon, label, description, ...props }, ref) => {
+  ({ label, description, ...props }, ref) => {
     return (
-      <SeedSelect.Item ref={ref} label={label} prefixIcon={prefixIcon} {...props}>
-        {prefixIcon && <PrefixIcon svg={prefixIcon} />}
+      <SeedSelect.Item ref={ref} label={label} {...props}>
+        {props.prefixIcon && <PrefixIcon svg={props.prefixIcon} />}
         <SeedSelect.ItemBody>
           <SeedSelect.ItemLabel>{label}</SeedSelect.ItemLabel>
           {description && <SeedSelect.ItemDescription>{description}</SeedSelect.ItemDescription>}
