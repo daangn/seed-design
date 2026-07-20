@@ -1,5 +1,21 @@
 # @seed-design/react
 
+## 2.0.3
+
+### Patch Changes
+
+- fb4459e: `DialogTitle`/`DialogDescription`을 시맨틱 요소(`h2`/`p`)로 렌더하고, 렌더된 경우 `DialogContent`에 `aria-labelledby`/`aria-describedby`로 연결되도록 수정합니다.
+- Updated dependencies [34586b6]
+- Updated dependencies [34586b6]
+- Updated dependencies [73cd380]
+- Updated dependencies [1d3e8c6]
+- Updated dependencies [176ff81]
+  - @seed-design/react-navigation-menu@2.0.0
+  - @seed-design/react-dialog@2.0.1
+  - @seed-design/react-menu@2.0.0
+  - @seed-design/react-drawer@2.0.1
+  - @seed-design/react-segmented-control@2.0.1
+
 ## 2.0.2
 
 ### Patch Changes

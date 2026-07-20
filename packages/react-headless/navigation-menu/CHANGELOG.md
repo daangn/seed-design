@@ -1,5 +1,11 @@
 # @seed-design/react-navigation-menu
 
+## 2.0.0
+
+### Major Changes
+
+- 34586b6: `NavigationMenuGroupLabel`이 실제로 렌더된 경우에만 `NavigationMenuGroup`이 `aria-labelledby`를 노출하도록 수정합니다.
+
 ## 1.0.0
 
 ### Major Changes
