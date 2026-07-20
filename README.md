@@ -6,18 +6,6 @@ SEED는 당근 제품을 위한 통합된 디자인 언어입니다. 하나의 �
 
 [문서 사이트](https://seed-design.io)
 
-## 아키텍처
-
-SEED는 **디자인 토큰 → 스타일 → 컴포넌트** 파이프라인을 따릅니다.
-
-```text
-rootage (토큰·스키마 정의, YAML)
-   ↓
-qvism-preset (레시피)  +  css (토큰·CSS)
-   ↓
-react (컴포넌트)  ←  react-headless (로직)
-```
-
 ## 패키지
 
 **Definitions** — 토큰·레시피 소스
