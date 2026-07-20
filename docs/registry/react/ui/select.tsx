@@ -103,6 +103,12 @@ export const SelectRoot = ({
 export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "children"> {
   placeholder?: React.ReactNode;
 
+  /**
+   * Static prefix icon. While exactly one item is selected, that item's
+   * `prefixIcon` takes precedence (and the slot is hidden when the item has no
+   * icon); this prop only shows for empty and multi selections. Using it together
+   * with `prefixText` is not recommended.
+   */
   prefixIcon?: React.ReactNode;
 
   prefixText?: React.ReactNode;
@@ -122,7 +128,7 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
   ({ placeholder, prefixIcon, prefixText, suffixIcon, format, ...props }, ref) => {
     return (
       <SeedSelect.Trigger ref={ref} {...props}>
-        {prefixIcon && <SeedSelect.PrefixIcon svg={prefixIcon} />}
+        <SeedSelect.PrefixIcon svg={prefixIcon} />
         {prefixText && <SeedSelect.PrefixText>{prefixText}</SeedSelect.PrefixText>}
         <SeedSelect.Value format={format} />
         {placeholder && <SeedSelect.Placeholder>{placeholder}</SeedSelect.Placeholder>}
@@ -181,7 +187,7 @@ export interface SelectItemProps extends Omit<SeedSelect.ItemProps, "children"> 
 export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
   ({ prefixIcon, label, description, ...props }, ref) => {
     return (
-      <SeedSelect.Item ref={ref} label={label} {...props}>
+      <SeedSelect.Item ref={ref} label={label} prefixIcon={prefixIcon} {...props}>
         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
         <SeedSelect.ItemBody>
           <SeedSelect.ItemLabel>{label}</SeedSelect.ItemLabel>

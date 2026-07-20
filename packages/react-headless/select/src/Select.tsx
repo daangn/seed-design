@@ -232,10 +232,17 @@ export interface SelectItemProps
    * option `value`. Provide it when `label` is a `ReactNode`. Does not affect typeahead.
    */
   textValue?: string;
+  /**
+   * The option's prefix icon. The headless item does not render it — it is only
+   * registered, and re-rendered in the trigger prefix slot while this is the only
+   * selected item. Expects a single `svg` element; a ref attached to that element
+   * connects to only one of the two render locations.
+   */
+  prefixIcon?: React.ReactNode;
 }
 
 export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ value, disabled, typeaheadLabel, label, textValue, ...restProps }, ref) => {
+  ({ value, disabled, typeaheadLabel, label, textValue, prefixIcon, ...restProps }, ref) => {
     const { getItemProps, registerOption, unregisterOption } = useSelectContext();
     const { ref: listRef, index } = useListItem({
       label: typeaheadLabel ?? (typeof label === "string" ? label : undefined),
@@ -255,9 +262,9 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
           `SelectItem "${value}": \`label\` is a ReactNode, so \`textValue\` falls back to the option value for the trigger text and hidden <option>. Pass \`textValue\` to set the display string.`,
         );
       }
-      registerOption(value, { label, textValue: resolvedTextValue });
+      registerOption(value, { label, textValue: resolvedTextValue, prefixIcon });
       return () => unregisterOption(value);
-    }, [value, label, resolvedTextValue, registerOption, unregisterOption]);
+    }, [value, label, resolvedTextValue, prefixIcon, registerOption, unregisterOption]);
 
     return (
       <SelectItemProvider value={api}>

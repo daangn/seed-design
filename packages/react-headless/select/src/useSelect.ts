@@ -133,6 +133,11 @@ export interface SelectedItem {
   value: string;
   label: ReactNode;
   textValue: string;
+  /**
+   * The option's prefix icon, mirrored into the trigger prefix slot when this is
+   * the only selected item.
+   */
+  prefixIcon?: ReactNode;
 }
 
 export type UseSelectReturn = ReturnType<typeof useSelect>;
@@ -155,11 +160,12 @@ function useSelectState(props: UseSelectStateProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // value -> { label, textValue }, kept for the trigger Value slot and the hidden
-  // native <select> options. `label` is the rich display node; `textValue` is the
-  // plain string used for the multi-select join and the native <option> text.
+  // value -> { label, textValue, prefixIcon }, kept for the trigger Value slot and
+  // the hidden native <select> options. `label` is the rich display node; `textValue`
+  // is the plain string used for the multi-select join and the native <option> text;
+  // `prefixIcon` is mirrored into the trigger prefix slot on single selection.
   const [nativeOptions, setNativeOptions] = useState<
-    Map<string, { label: ReactNode; textValue: string }>
+    Map<string, { label: ReactNode; textValue: string; prefixIcon?: ReactNode }>
   >(() => new Map());
 
   const elementsRef = useRef<(HTMLElement | null)[]>([]);
@@ -256,10 +262,18 @@ export function useSelect(props: UseSelectProps) {
   );
 
   const registerOption = useCallback(
-    (optionValue: string, entry: { label: ReactNode; textValue: string }) => {
+    (
+      optionValue: string,
+      entry: { label: ReactNode; textValue: string; prefixIcon?: ReactNode },
+    ) => {
       setNativeOptions((prev) => {
         const existing = prev.get(optionValue);
-        if (existing && existing.label === entry.label && existing.textValue === entry.textValue) {
+        if (
+          existing &&
+          existing.label === entry.label &&
+          existing.textValue === entry.textValue &&
+          existing.prefixIcon === entry.prefixIcon
+        ) {
           return prev;
         }
         const next = new Map(prev);
@@ -471,7 +485,16 @@ export function useSelect(props: UseSelectProps) {
 
   const selectedItems: SelectedItem[] = value.flatMap((optionValue) => {
     const entry = nativeOptions.get(optionValue);
-    return entry ? [{ value: optionValue, label: entry.label, textValue: entry.textValue }] : [];
+    return entry
+      ? [
+          {
+            value: optionValue,
+            label: entry.label,
+            textValue: entry.textValue,
+            prefixIcon: entry.prefixIcon,
+          },
+        ]
+      : [];
   });
 
   const handleTriggerKeyDown: React.KeyboardEventHandler = (event) => {

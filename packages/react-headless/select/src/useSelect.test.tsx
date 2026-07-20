@@ -569,4 +569,89 @@ describe("useSelect", () => {
       expect(option?.textContent).toBe("Apple");
     });
   });
+
+  describe("prefix icon registration (mirrored via selectedItems)", () => {
+    // The headless layer only carries the registration channel: an item's
+    // `prefixIcon` must surface on `selectedItems`. Where and when it is shown
+    // (the exactly-one-selected branch) is the styled layer's concern.
+    function PrefixIconSelect({
+      showApple = true,
+      ...props
+    }: SelectRootProps & { showApple?: boolean }) {
+      return (
+        <Select {...props}>
+          <SelectTrigger>
+            <SelectValue format={(items) => items[0]?.prefixIcon} />
+            <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                {showApple && (
+                  <SelectItem
+                    value="apple"
+                    label="Apple"
+                    prefixIcon={<svg data-testid="apple-icon" />}
+                  >
+                    Apple
+                  </SelectItem>
+                )}
+                <SelectItem
+                  value="banana"
+                  label="Banana"
+                  prefixIcon={<svg data-testid="banana-icon" />}
+                >
+                  Banana
+                </SelectItem>
+                <SelectItem value="cherry" label="Cherry">
+                  Cherry
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+        </Select>
+      );
+    }
+
+    it("carries the selected item's prefixIcon on selectedItems", async () => {
+      const { getByRole, queryByTestId } = render(<PrefixIconSelect defaultValue={["apple"]} />);
+      await waitForPositioning();
+      const icon = queryByTestId("apple-icon");
+      expect(icon).toBeInTheDocument();
+      expect(getByRole("combobox").contains(icon)).toBe(true);
+    });
+
+    it("swaps the mirrored node when the selection changes and drops it when cleared", async () => {
+      const { queryByTestId, rerender } = render(<PrefixIconSelect value={["apple"]} />);
+      await waitForPositioning();
+      expect(queryByTestId("apple-icon")).toBeInTheDocument();
+
+      rerender(<PrefixIconSelect value={["banana"]} />);
+      expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
+      expect(queryByTestId("banana-icon")).toBeInTheDocument();
+
+      rerender(<PrefixIconSelect value={[]} />);
+      expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
+      expect(queryByTestId("banana-icon")).not.toBeInTheDocument();
+    });
+
+    it("unregisters the prefixIcon when the item unmounts", async () => {
+      const { queryByTestId, rerender } = render(<PrefixIconSelect value={["apple"]} />);
+      await waitForPositioning();
+      expect(queryByTestId("apple-icon")).toBeInTheDocument();
+
+      rerender(<PrefixIconSelect value={["apple"]} showApple={false} />);
+      expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
+    });
+
+    it("does not leak prefixIcon as a DOM attribute on the item", async () => {
+      const user = userEvent.setup();
+      const { getByRole, getAllByRole } = render(<PrefixIconSelect />);
+      await waitForPositioning();
+      await user.click(getByRole("combobox"));
+      const options = getAllByRole("option");
+      expect(options[0]).not.toHaveAttribute("prefixIcon");
+      expect(options[0]).not.toHaveAttribute("prefixicon");
+    });
+  });
 });

@@ -129,12 +129,35 @@ export const SelectPlaceholder = withTriggerContext<HTMLSpanElement, SelectPlace
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectPrefixIconProps extends InternalIconProps {}
+export interface SelectPrefixIconProps extends React.SVGAttributes<SVGSVGElement> {
+  /**
+   * The static icon to display. While exactly one item is selected, that item's
+   * `prefixIcon` takes over the slot instead (hiding this icon entirely when the
+   * item has none); this prop shows for empty and multi selections.
+   */
+  svg?: React.ReactNode;
+}
 
-export const SelectPrefixIcon = withTriggerContext<SVGSVGElement, SelectPrefixIconProps>(
-  withStateProps(InternalIcon),
-  "prefixIcon",
+export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIconProps>(
+  ({ svg: staticSvg, ...otherProps }, ref) => {
+    const { value, selectedItems, stateProps } = useSelectContext();
+    const classNames = useTriggerClassNames();
+
+    // With exactly one selection, prefix slot ownership moves to that item. An item
+    // without an icon hides the static one too; empty/multi selections show it.
+    const svg = value.length === 1 ? selectedItems[0]?.prefixIcon : staticSvg;
+    if (!svg) return null;
+
+    const mergedProps = mergeProps(
+      stateProps,
+      { className: classNames.prefixIcon },
+      otherProps as React.HTMLAttributes<HTMLElement>,
+    );
+
+    return <InternalIcon ref={ref} svg={svg} {...mergedProps} />;
+  },
 );
+SelectPrefixIcon.displayName = "SelectPrefixIcon";
 
 export interface SelectPrefixTextProps
   extends PrimitiveProps,
