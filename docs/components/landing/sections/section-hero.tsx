@@ -37,7 +37,7 @@ export function SectionHero({
             resolved={resolved}
             src={HERO_VIDEO}
             poster={HERO_POSTER}
-            wrapperClassName="size-full"
+            wrapperClassName="size-full bg-[#f3f3f3]"
             videoClassName="size-full object-cover"
             buttonClassName="bottom-4 right-4"
           />

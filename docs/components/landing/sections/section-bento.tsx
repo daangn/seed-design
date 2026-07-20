@@ -78,7 +78,7 @@ function CompactBento({
           resolved={lottieEnabled}
           src={HERO_VIDEO_MOBILE}
           poster={HERO_POSTER_MOBILE}
-          wrapperClassName="aspect-[1074/1344] w-full"
+          wrapperClassName="aspect-[1074/1344] w-full bg-[#f3f3f3]"
           videoClassName="size-full scale-[1.002] object-cover"
           buttonClassName="bottom-3 right-3"
         />
