@@ -136,7 +136,7 @@ export const SHOWCASE_ROW_TOP: ShowcaseItem[] = [
   {
     title: "Color",
     image: "/landing/showcase/color.webp",
-    href: "/foundations/color/color-system",
+    href: "/foundations/color",
   },
   {
     title: "Iconography",
