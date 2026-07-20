@@ -9,7 +9,6 @@ import React, { createContext, forwardRef, useContext, useEffect } from "react";
 import {
   useSelect,
   useSelectGroup,
-  type SelectedItem,
   type UseSelectGroupReturn,
   type UseSelectItemProps,
   type UseSelectProps,
@@ -41,6 +40,7 @@ export const SelectRoot = ({
   overflowPadding,
   strategy,
   multiple,
+  formatValue,
   children,
 }: SelectRootProps) => {
   const api = useSelect({
@@ -61,6 +61,7 @@ export const SelectRoot = ({
     overflowPadding,
     strategy,
     multiple,
+    formatValue,
   });
 
   return <SelectProvider value={api}>{children}</SelectProvider>;
@@ -82,30 +83,23 @@ export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>((
 });
 SelectTrigger.displayName = "SelectTrigger";
 
-export interface SelectValueProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {
-  /**
-   * Customizes the rendered value from the selected items. Overrides the default
-   * (single-select: the option's `label` node; multi-select: the options'
-   * `textValue`s joined by `", "`). `children`, when provided, still wins.
-   */
-  format?: (items: SelectedItem[]) => React.ReactNode;
-}
+export interface SelectValueProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
  * Renders the selected value. Nothing is rendered while the selection is empty
- * (see `SelectPlaceholder`). Precedence: `children` > `format` > default
+ * (see `SelectPlaceholder`). Precedence: `children` > root `formatValue` > default
  * (single-select `label` node / multi-select `textValue` join).
  */
 export const SelectValue = forwardRef<HTMLSpanElement, SelectValueProps>(
-  ({ format, children, ...props }, ref) => {
-    const { value, selectedItems, multiple } = useSelectContext();
+  ({ children, ...props }, ref) => {
+    const { value, selectedItems, multiple, formatValue } = useSelectContext();
 
     if (value.length === 0) return null;
 
     const content =
       children ??
-      (format
-        ? format(selectedItems)
+      (formatValue
+        ? formatValue(selectedItems)
         : multiple
           ? selectedItems.map((item) => item.textValue).join(", ")
           : selectedItems[0]?.label);

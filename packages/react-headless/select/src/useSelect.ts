@@ -103,6 +103,14 @@ export interface UseSelectProps extends UseSelectStateProps {
    * @default false
    */
   multiple?: boolean;
+
+  /**
+   * Customizes the value rendered by `SelectValue` from the selected items.
+   * Overrides the default (single-select: the option's `label` node;
+   * multi-select: the options' `textValue`s joined by `", "`). `SelectValue`'s
+   * `children`, when provided, still wins.
+   */
+  formatValue?: (items: SelectedItem[]) => ReactNode;
 }
 
 export interface UseSelectItemProps {
@@ -212,6 +220,7 @@ export function useSelect(props: UseSelectProps) {
     overflowPadding = 8,
     strategy = "absolute",
     multiple = false,
+    formatValue,
   } = props;
 
   const interactive = !disabled && !readOnly;
@@ -516,6 +525,7 @@ export function useSelect(props: UseSelectProps) {
     setValue,
     multiple,
     selectedItems,
+    formatValue,
     activeIndex,
     selectedIndex,
 

@@ -255,12 +255,13 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
                 </SelectRoot>
               </div>
               <div style={{ width: 200 }}>
-                <SelectRoot multiple value={multiValue} onValueChange={setMultiValue}>
-                  <SelectTrigger
-                    aria-label="과일 다중 포맷"
-                    placeholder="과일 선택"
-                    format={(items) => `${items.length}개 선택됨`}
-                  />
+                <SelectRoot
+                  multiple
+                  value={multiValue}
+                  onValueChange={setMultiValue}
+                  formatValue={(items) => `${items.length}개 선택됨`}
+                >
+                  <SelectTrigger aria-label="과일 다중 포맷" placeholder="과일 선택" />
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="apple" label="사과" />

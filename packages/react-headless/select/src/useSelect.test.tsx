@@ -517,13 +517,17 @@ describe("useSelect", () => {
     });
   });
 
-  describe("value display (format & textValue)", () => {
-    it("renders format output over the default label join", async () => {
+  describe("value display (formatValue & textValue)", () => {
+    it("renders formatValue output over the default label join", async () => {
       function FormatSelect() {
         return (
-          <Select multiple defaultValue={["apple", "banana"]}>
+          <Select
+            multiple
+            defaultValue={["apple", "banana"]}
+            formatValue={(items) => `${items.length} selected`}
+          >
             <SelectTrigger>
-              <SelectValue format={(items) => `${items.length} selected`} />
+              <SelectValue />
               <SelectPlaceholder>Choose</SelectPlaceholder>
             </SelectTrigger>
             <SelectPositioner>
@@ -579,9 +583,9 @@ describe("useSelect", () => {
       ...props
     }: SelectRootProps & { showApple?: boolean }) {
       return (
-        <Select {...props}>
+        <Select {...props} formatValue={(items) => items[0]?.prefixIcon}>
           <SelectTrigger>
-            <SelectValue format={(items) => items[0]?.prefixIcon} />
+            <SelectValue />
             <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
           </SelectTrigger>
           <SelectPositioner>

@@ -109,8 +109,6 @@ export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "child
    * @default <IconChevronDownSmallLine />
    */
   suffixIcon?: React.ReactNode;
-
-  format?: SeedSelect.ValueProps["format"];
 }
 
 /**
@@ -118,21 +116,14 @@ export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "child
  */
 export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
   (
-    {
-      placeholder,
-      prefixIcon,
-      prefixText,
-      suffixIcon = <IconChevronDownSmallLine />,
-      format,
-      ...props
-    },
+    { placeholder, prefixIcon, prefixText, suffixIcon = <IconChevronDownSmallLine />, ...props },
     ref,
   ) => {
     return (
       <SeedSelect.Trigger ref={ref} {...props}>
         <SeedSelect.PrefixIcon svg={prefixIcon} />
         {prefixText && <SeedSelect.PrefixText>{prefixText}</SeedSelect.PrefixText>}
-        <SeedSelect.Value format={format} />
+        <SeedSelect.Value />
         {placeholder && <SeedSelect.Placeholder>{placeholder}</SeedSelect.Placeholder>}
         <SeedSelect.SuffixIcon svg={suffixIcon} />
       </SeedSelect.Trigger>
