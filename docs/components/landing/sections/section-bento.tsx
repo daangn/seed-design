@@ -232,6 +232,7 @@ export function SectionBento({
       mobileStack
       forceStacked={mode === "compact"}
       pinFrom="lg"
+      sectionClassName={mode === "compact" ? "md:hidden" : undefined}
       panelClassName="flex flex-col justify-start rounded-b-[20px] bg-white"
       behindClassName="bg-[#121212]"
     >

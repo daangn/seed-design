@@ -24,7 +24,7 @@ interface ManagedVideoProps
   > {
   onFirstLoop?: () => void;
   playbackEnabled: boolean;
-  poster: string;
+  poster?: string;
   sources?: ManagedVideoSource[];
   src?: string;
   wrapperClassName?: string;
@@ -156,10 +156,12 @@ export function ManagedVideo({
         overflow: "hidden",
         lineHeight: 0,
         transform: "translateZ(0)",
-        backgroundImage: `url(${JSON.stringify(poster)})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
+        ...(poster && {
+          backgroundImage: `url(${JSON.stringify(poster)})`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }),
         ...wrapperStyle,
       }}
     >
