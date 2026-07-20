@@ -5,7 +5,7 @@ import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
 import { unified } from "unified";
 import { activeRules } from "./rules";
-import type { Rule, RuleContext, RuleNode } from "./rules/types";
+import type { AnyRule, RuleContext, RuleNode } from "./rules/types";
 
 const processor = unified().use(remarkParse).use(remarkMdx).use(remarkStringify, {
   bullet: "-",
@@ -54,7 +54,7 @@ function hasChildren(node: RootContent): node is RootContent & { children: RootC
   return "children" in node && Array.isArray(node.children);
 }
 
-function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContext): RootContent[] {
+function transformNodes(nodes: RootContent[], rules: AnyRule[], context: RuleContext): RootContent[] {
   const transformed: RootContent[] = [];
 
   for (const node of nodes) {
@@ -85,7 +85,7 @@ function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContex
   return transformed;
 }
 
-export function normalizeLLMBodyWithRules(content: string | undefined, rules: Rule[]): string {
+export function normalizeLLMBodyWithRules(content: string | undefined, rules: AnyRule[]): string {
   if (!content) return "";
 
   const context: RuleContext = {

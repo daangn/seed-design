@@ -3,10 +3,10 @@ import { baseUrl } from "@/app/metadata";
 export const revalidate = false;
 
 export async function GET() {
-  return new Response(`# SEED Design - Documentation for LLMs
+  return new Response(`# SEED Design System - Documentation for LLMs
 
-SEED Design은 당근마켓의 디자인 시스템입니다.
-이 문서는 대규모 언어 모델(LLM)이 SEED Design을 쉽게 이해할 수 있도록 구조화되어 있습니다.
+SEED는 당근의 디자인 시스템입니다.
+이 문서는 대규모 언어 모델(LLM)이 SEED를 쉽게 이해할 수 있도록 구조화되어 있습니다.
 
 ## Requirements
 
@@ -33,7 +33,7 @@ SEED Design은 당근마켓의 디자인 시스템입니다.
 
 예시:
 - ${new URL("/llms/react/components/action-button.txt", baseUrl)} - Action Button 컴포넌트 문서
-- ${new URL("/llms/docs/foundation/color/palette.txt", baseUrl)} - Color Palette 문서
+- ${new URL("/llms/foundations/color/palette.txt", baseUrl)} - Color Palette 문서
 - ${new URL("/llms/ai-integration/figma-mcp.txt", baseUrl)} - Figma MCP 문서
 
 ## Notes

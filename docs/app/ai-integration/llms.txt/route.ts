@@ -8,7 +8,7 @@ export const revalidate = false;
 const categoryOrder = ["docs-mcp", "figma-mcp", "cli"];
 
 const categoryDescriptions: Record<string, string> = {
-  "docs-mcp": "SEED Design MCP 서버 연동",
+  "docs-mcp": "SEED MCP 서버 연동",
   "figma-mcp": "Figma MCP 서버 연동",
   cli: "CLI 스킬 및 도구",
 };
@@ -47,7 +47,7 @@ ${pageList}`;
     })
     .join("\n\n");
 
-  return new Response(`# SEED Design AI Integration - LLM Reference
+  return new Response(`# SEED AI Integration - LLM Reference
 
 AI 도구 연동 가이드 문서입니다.
 

@@ -1,3 +1,4 @@
+import type { MouseEvent } from "react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -14,7 +15,7 @@ const SidePanelNonModal = () => {
     <SidePanelRoot modal={false} open={open} onOpenChange={setOpen}>
       <SidePanelTrigger
         asChild
-        onClick={(event) => {
+        onClick={(event: MouseEvent) => {
           event.preventDefault();
           setOpen((open) => !open);
         }}

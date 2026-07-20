@@ -2,7 +2,7 @@
 
 import type { Activity } from "@stackflow/core";
 import { Box, Flex, HStack, Text, VStack } from "@seed-design/react";
-import { IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
+import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { useEffect, useRef, useState } from "react";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { useSimpleReveal } from "simple-reveal";
@@ -144,7 +144,7 @@ function ActivityStackPanel({
                 >
                   {activity.name}
                 </Text>
-                <IconArrowUpRightFill size={10} className="flex-none" />
+                <IconSeedArrow external className="size-2.5 flex-none" />
               </a>
             </HStack>
             <Text

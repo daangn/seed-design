@@ -1,9 +1,9 @@
-import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
+import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { docsSource } from "@/app/source";
-import { LLMOptions, ViewOptions } from "@/components/page-actions";
+import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { mdxComponents } from "@/components/mdx-components";
 import { getComponentStatus } from "@/lib/rootage";
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
+import { buildDocsPageMetadata, deprecatedTitle } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -19,21 +19,22 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     deprecated: page.data.deprecated,
   });
 
-  const displayTitle = deprecated ? `${page.data.title} (Deprecated)` : page.data.title;
+  const displayTitle = deprecatedTitle(page.data.title, deprecated);
   const markdownUrl = getLLMMarkdownUrl("docs", page.slugs);
 
   return (
-    <DocsPage toc={toc} full={page.data.full} lastUpdate={lastModified}>
-      <DocsTitle>{displayTitle}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
-      <div className="flex flex-row gap-2 items-center mb-3 justify-end">
-        <LLMOptions markdownUrl={markdownUrl} />
-        <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("docs", page.path)} />
-      </div>
-      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
-        <MDX components={mdxComponents} />
-      </DocsBody>
-    </DocsPage>
+    <DocsPageRenderer
+      title={displayTitle}
+      description={page.data.description}
+      layout={page.data.layout}
+      full={page.data.full}
+      toc={toc}
+      lastUpdate={lastModified}
+      showPageActions={page.slugs.length > 0}
+      markdownUrl={markdownUrl}
+    >
+      <MDX components={mdxComponents} />
+    </DocsPageRenderer>
   );
 }
 
@@ -48,17 +49,11 @@ export async function generateMetadata(props: {
   const page = docsSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
-  const loadedData = await page.data.load();
-  const frontmatterDeprecated = (loadedData as { deprecated?: boolean }).deprecated;
-  const { deprecated } = await getComponentStatus(params, { deprecated: frontmatterDeprecated });
+  const { deprecated } = await getComponentStatus(params, { deprecated: page.data.deprecated });
 
-  const displayTitle =
-    deprecated && !page.data.title.includes("(Deprecated)")
-      ? `${page.data.title} (Deprecated)`
-      : page.data.title;
-
-  return {
-    title: displayTitle,
+  return buildDocsPageMetadata({
+    title: page.data.title,
     description: page.data.description,
-  } satisfies Metadata;
+    deprecated,
+  });
 }

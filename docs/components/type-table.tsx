@@ -62,7 +62,9 @@ export function TypeTable({
     <div
       id={id}
       className={cn(
-        "@container flex flex-col p-1 bg-fd-card text-fd-card-foreground rounded-2xl border my-6 text-sm overflow-hidden",
+        // SEED table surface: radius/r3 card with a 1px stroke-neutral-muted border,
+        // matching the code card and markdown tables (see `TableRoot` in ./table).
+        "rounded-r3 border border-solid border-stroke-neutral-muted @container flex flex-col p-1 bg-fd-card text-fd-card-foreground my-6 text-sm overflow-hidden",
         className,
       )}
       {...props}
@@ -114,12 +116,18 @@ function Item({
   );
 
   const typeLabel = typeDescriptionLink ? (
-    <Link href={typeDescriptionLink} className="underline @max-xl:hidden">
+    <Link href={typeDescriptionLink} className="no-underline hover:underline @max-xl:hidden">
       {type}
     </Link>
   ) : (
     <span className="@max-xl:hidden">{type}</span>
   );
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!id || !hash) return;
+    if (`#${id}` === hash) setOpen(true);
+  }, [id]);
 
   if (!hasContent) {
     return (
@@ -132,12 +140,6 @@ function Item({
       </div>
     );
   }
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (!id || !hash) return;
-    if (`#${id}` === hash) setOpen(true);
-  }, [id]);
 
   return (
     <Collapsible

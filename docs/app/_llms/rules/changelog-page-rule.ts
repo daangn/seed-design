@@ -35,7 +35,7 @@ async function init(): Promise<void> {
   await initPromise;
 }
 
-export const changelogPageRule: Rule = {
+export const changelogPageRule: Rule<MdxJsxFlowElement> = {
   name: "ChangelogPage",
   init,
   match: (node): node is MdxJsxFlowElement =>

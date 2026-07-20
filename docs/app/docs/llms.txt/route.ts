@@ -55,7 +55,7 @@ ${pageList}`;
     })
     .join("\n\n");
 
-  return new Response(`# SEED Design Guidelines - LLM Reference
+  return new Response(`# SEED Guidelines - LLM Reference
 
 디자인 가이드라인 문서입니다.
 
@@ -72,7 +72,7 @@ ${categoryList}
 개별 페이지는 /llms/docs/{path}.txt 형태로 접근할 수 있습니다.
 
 예시:
-- ${new URL("/llms/docs/components/button.txt", baseUrl)}
-- ${new URL("/llms/docs/foundation/color.txt", baseUrl)}
+- ${new URL("/llms/components/button.txt", baseUrl)}
+- ${new URL("/llms/foundations/color.txt", baseUrl)}
 `);
 }

@@ -4,7 +4,7 @@ export default function ScrollFogPreview() {
   return (
     <div
       style={{
-        maxHeight: "200px",
+        height: "200px",
         width: "300px",
         border: "1px solid var(--seed-color-stroke-neutral-weak)",
         borderRadius: "8px",

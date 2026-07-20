@@ -8,7 +8,7 @@ import type {
 } from "mdast-util-mdx-jsx";
 import type { Exchange } from "@seed-design/rootage-core";
 import index from "@seed-design/rootage-artifacts/index.json";
-import type { Rule, RuleNode } from "./types";
+import type { Rule } from "./types";
 import { markdownRow } from "./markdown-utils";
 import {
   type ArrayExpressionNode,
@@ -36,7 +36,7 @@ function decodeHtmlEntities(str: string): string {
   <TokenReference groups={["color", "palette"]} /> 에서 groups 배열을 파싱합니다.
   fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
-function getGroupsFromNode(node: RuleNode): string[] {
+function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "groups",
   );
@@ -75,7 +75,7 @@ function getGroupsFromNode(node: RuleNode): string[] {
   <TokenReference regex={/\$color\..*-pressed$/} /> 에서 regex를 파싱합니다.
   fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
-function getRegexFromNode(node: RuleNode): RegExp | null {
+function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "regex",
   );
@@ -200,7 +200,7 @@ function loadTokenData(): Map<string, Exchange.TokensModel> {
   return tokenDataCache;
 }
 
-export const tokenReferenceRule: Rule = {
+export const tokenReferenceRule: Rule<MdxJsxFlowElement> = {
   name: "TokenReference",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "TokenReference",

@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { SeedTab as Tab, SeedTabs as Tabs } from "@/components/tabs/seed-tabs";
 import * as React from "react";
 
 import { ComponentPreview } from "./component-preview";
@@ -27,9 +27,9 @@ export function ComponentExample(props: ComponentExampleProps) {
 
   return (
     <ErrorBoundary>
-      <Tabs items={["미리보기", "코드"]}>
+      <Tabs card items={["미리보기", "코드"]}>
         <Tab value="미리보기">
-          <div className="flex min-h-80">
+          <div className="flex min-h-80 items-center justify-center p-x5">
             <ComponentPreview name={name} isolate={isolate} />
           </div>
         </Tab>
