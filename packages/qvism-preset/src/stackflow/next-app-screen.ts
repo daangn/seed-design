@@ -150,7 +150,7 @@ export const nextAppScreen = defineSlotRecipe({
       horizontalSlide: {
         dim: {
           height: "100%",
-          background: vars.$color.bg.overlay,
+          background: vars.$color.palette.staticBlackAlpha400,
 
           [push]: enterAnimation({ ...HORIZONTAL, opacity: "0" }),
           [pop]: exitAnimation({ ...HORIZONTAL, opacity: "0" }),
@@ -221,8 +221,8 @@ export const nextAppScreen = defineSlotRecipe({
       },
       verticalSlide: {
         dim: {
-          height: "160px",
-          background: `linear-gradient(${vars.$color.bg.overlay}, #00000000)`,
+          height: "100%",
+          background: vars.$color.palette.staticBlackAlpha400,
 
           [push]: enterAnimation({ ...VERTICAL_ENTER, opacity: "0", translateY: "-8vh" }),
           [pop]: exitAnimation({ ...VERTICAL_EXIT, opacity: "0", translateY: "-8vh" }),
