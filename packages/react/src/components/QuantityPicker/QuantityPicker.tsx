@@ -119,7 +119,7 @@ QuantityPickerRoot.displayName = "QuantityPickerRoot";
 
 interface QuantityPickerButtonProps
   extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "type"> {
   icon?: React.ReactNode;
   loadingIndicator?: React.ReactNode;
 }
