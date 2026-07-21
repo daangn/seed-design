@@ -42,7 +42,7 @@ function getTransformOrigin(placement: string) {
 const isSameValue = (a: string[], b: string[]) =>
   a.length === b.length && a.every((entry, index) => entry === b[index]);
 
-// Disabled state is read off the rendered elements (aria-disabled per REQ-16)
+// Disabled state is read off the rendered elements (aria-disabled)
 // rather than a parallel registry: item registration lags render, so the DOM is
 // the one source that is always in sync with the indices in `elementsRef`.
 const isDisabledElement = (element: HTMLElement | null) =>
