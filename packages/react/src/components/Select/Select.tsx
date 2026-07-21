@@ -215,10 +215,12 @@ SelectContent.displayName = "SelectContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectScrollAreaProps extends SelectPrimitive.ScrollAreaProps {}
+export interface SelectScrollAreaProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectScrollArea = withContentContext<HTMLDivElement, SelectScrollAreaProps>(
-  SelectPrimitive.ScrollArea,
+  Primitive.div,
   "scrollArea",
 );
 

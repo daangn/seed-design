@@ -235,15 +235,6 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>((pro
 });
 SelectContent.displayName = "SelectContent";
 
-export interface SelectScrollAreaProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const SelectScrollArea = forwardRef<HTMLDivElement, SelectScrollAreaProps>((props, ref) => {
-  return <Primitive.div ref={ref} {...props} />;
-});
-SelectScrollArea.displayName = "SelectScrollArea";
-
 export interface SelectItemProps
   extends UseSelectItemProps,
     PrimitiveProps,

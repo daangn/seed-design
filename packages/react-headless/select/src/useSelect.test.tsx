@@ -11,7 +11,6 @@ import {
   SelectPlaceholder,
   SelectPositioner,
   SelectContent,
-  SelectScrollArea,
   SelectItem,
   SelectGroup,
   SelectGroupLabel,
@@ -50,17 +49,15 @@ function BasicSelect({
       </SelectTrigger>
       <SelectPositioner data-testid="positioner">
         <SelectContent>
-          <SelectScrollArea>
-            <SelectItem value="apple" label="Apple">
-              Apple
-            </SelectItem>
-            <SelectItem value="banana" label="Banana">
-              Banana
-            </SelectItem>
-            <SelectItem value="cherry" label="Cherry">
-              Cherry
-            </SelectItem>
-          </SelectScrollArea>
+          <SelectItem value="apple" label="Apple">
+            Apple
+          </SelectItem>
+          <SelectItem value="banana" label="Banana">
+            Banana
+          </SelectItem>
+          <SelectItem value="cherry" label="Cherry">
+            Cherry
+          </SelectItem>
         </SelectContent>
       </SelectPositioner>
     </SelectRoot>
