@@ -30,10 +30,24 @@ describe("QuantityPicker", () => {
     expect(getByLabelText("줄이기").firstElementChild).toHaveClass(
       "seed-quantity-picker__decrementIcon",
     );
+    expect(getByLabelText("줄이기").firstElementChild).toHaveAttribute("aria-hidden", "true");
     expect(getByLabelText("늘리기").firstElementChild).toHaveClass(
       "seed-quantity-picker__incrementIcon",
     );
     expect(container.querySelectorAll(".seed-quantity-picker__divider")).toHaveLength(2);
+  });
+
+  it("fallback children은 버튼의 접근 가능한 이름으로 유지한다", () => {
+    const { getByRole } = render(
+      <QuantityPicker.Root min={0} max={5} aria-label="수량">
+        <QuantityPicker.DecrementButton>수량 줄이기</QuantityPicker.DecrementButton>
+        <QuantityPicker.ValueDisplay />
+        <QuantityPicker.IncrementButton>수량 늘리기</QuantityPicker.IncrementButton>
+      </QuantityPicker.Root>,
+    );
+
+    expect(getByRole("button", { name: "수량 줄이기" })).toBeInTheDocument();
+    expect(getByRole("button", { name: "수량 늘리기" })).toBeInTheDocument();
   });
 
   it("직접 인접한 action과 값 표시 사이에만 divider를 삽입한다", () => {

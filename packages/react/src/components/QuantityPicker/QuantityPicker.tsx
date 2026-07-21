@@ -59,6 +59,7 @@ function renderIcon(
   icon: React.ReactNode,
   className: string,
   stateProps: { "data-disabled"?: string },
+  ariaHidden: boolean,
 ) {
   if (!React.isValidElement<{ className?: string }>(icon)) return icon;
 
@@ -69,7 +70,7 @@ function renderIcon(
       "data-disabled"?: string;
     }>,
     {
-      "aria-hidden": true,
+      ...(ariaHidden ? { "aria-hidden": true } : {}),
       className: clsx(icon.props.className, className),
       "data-disabled": stateProps["data-disabled"],
     },
@@ -140,6 +141,7 @@ export const QuantityPickerDecrementButton = React.forwardRef<
     : isRemoveButton
       ? (removeIcon ?? icon)
       : icon;
+  const contentIsIcon = content !== null && content !== undefined;
 
   return (
     <QuantityPickerPrimitive.DecrementButton
@@ -147,7 +149,12 @@ export const QuantityPickerDecrementButton = React.forwardRef<
       className={clsx(classNames.decrementButton, className)}
       {...props}
     >
-      {renderIcon(content ?? children, classNames.decrementIcon, decrementIconProps)}
+      {renderIcon(
+        content ?? children,
+        classNames.decrementIcon,
+        decrementIconProps,
+        contentIsIcon,
+      )}
     </QuantityPickerPrimitive.DecrementButton>
   );
 });
@@ -192,6 +199,7 @@ export const QuantityPickerIncrementButton = React.forwardRef<
   const classNames = useClassNames();
   const { incrementIconProps, incrementLoading } = useQuantityPickerContext();
   const content = incrementLoading ? loadingIndicator : icon;
+  const contentIsIcon = content !== null && content !== undefined;
 
   return (
     <QuantityPickerPrimitive.IncrementButton
@@ -199,7 +207,12 @@ export const QuantityPickerIncrementButton = React.forwardRef<
       className={clsx(classNames.incrementButton, className)}
       {...props}
     >
-      {renderIcon(content ?? children, classNames.incrementIcon, incrementIconProps)}
+      {renderIcon(
+        content ?? children,
+        classNames.incrementIcon,
+        incrementIconProps,
+        contentIsIcon,
+      )}
     </QuantityPickerPrimitive.IncrementButton>
   );
 });
