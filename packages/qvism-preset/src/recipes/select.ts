@@ -531,9 +531,9 @@ export const selectItem = defineSlotRecipe({
         inset: 0,
         zIndex: -1,
 
-        transitionProperty: "background-color, inset-inline, border-radius",
-        transitionDuration: selectItemVars.base.enabled.root.colorDuration,
-        transitionTimingFunction: selectItemVars.base.enabled.root.colorTimingFunction,
+        transitionProperty: "background-color, inset-inline",
+        transitionDuration: `${selectItemVars.base.enabled.root.colorDuration}, ${selectItemVars.base.enabled.root.marginDuration}`,
+        transitionTimingFunction: `${selectItemVars.base.enabled.root.colorTimingFunction}, ${selectItemVars.base.enabled.root.marginTimingFunction}`,
       },
 
       [pseudo(not(disabled), active, before)]: highlightedItem,

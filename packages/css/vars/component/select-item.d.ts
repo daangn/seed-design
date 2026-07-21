@@ -6,9 +6,7 @@ export declare const vars: {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "marginDuration": "var(--seed-duration-d3)",
-        "marginTimingFunction": "var(--seed-timing-function-easing)",
-        "borderRadiusDuration": "var(--seed-duration-d3)",
-        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)"
+        "marginTimingFunction": "var(--seed-timing-function-easing)"
       },
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"

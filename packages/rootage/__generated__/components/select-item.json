@@ -32,12 +32,6 @@
             "marginTimingFunction": {
               "type": "cubicBezier"
             },
-            "borderRadiusDuration": {
-              "type": "duration"
-            },
-            "borderRadiusTimingFunction": {
-              "type": "cubicBezier"
-            },
             "paddingX": {
               "type": "dimension"
             },
@@ -150,14 +144,6 @@
                   "value": "$duration.d3"
                 },
                 "marginTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                },
-                "borderRadiusDuration": {
-                  "type": "duration",
-                  "value": "$duration.d3"
-                },
-                "borderRadiusTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
                 }

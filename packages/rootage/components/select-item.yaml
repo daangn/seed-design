@@ -22,10 +22,6 @@ data:
             type: duration
           marginTimingFunction:
             type: cubicBezier
-          borderRadiusDuration:
-            type: duration
-          borderRadiusTimingFunction:
-            type: cubicBezier
           paddingX:
             type: dimension
           paddingY:
@@ -85,8 +81,6 @@ data:
           colorTimingFunction: $timing-function.easing
           marginDuration: $duration.d3
           marginTimingFunction: $timing-function.easing
-          borderRadiusDuration: $duration.d3
-          borderRadiusTimingFunction: $timing-function.easing
         prefixIcon:
           color: $color.fg.neutral
         body:
