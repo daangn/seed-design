@@ -410,6 +410,19 @@
               ]
             },
             {
+              "id": "quantity-picker",
+              "title": "Quantity Picker",
+              "description": "수량을 정수 단위로 늘리거나 줄일 때 사용하는 컴포넌트입니다.",
+              "docUrl": "/docs/components/quantity-picker",
+              "snippetKey": "react/ui:quantity-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "quantity-picker.tsx"
+                }
+              ]
+            },
+            {
               "id": "radio",
               "title": "Radio",
               "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
@@ -1324,6 +1337,19 @@
                 {
                   "label": "react",
                   "path": "pull-to-refresh.tsx"
+                }
+              ]
+            },
+            {
+              "id": "quantity-picker",
+              "title": "Quantity Picker",
+              "description": "정수 단위의 수량을 늘리거나 줄일 때 사용하는 컴포넌트입니다.",
+              "docUrl": "/react/components/quantity-picker",
+              "snippetKey": "react/ui:quantity-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "quantity-picker.tsx"
                 }
               ]
             },
