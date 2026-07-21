@@ -132,8 +132,8 @@ export const SelectPlaceholder = withTriggerContext<HTMLSpanElement, SelectPlace
 export interface SelectPrefixIconProps extends React.SVGAttributes<SVGSVGElement> {
   /**
    * The static icon to display. While exactly one item is selected, that item's
-   * `prefixIcon` takes over the slot instead (hiding this icon entirely when the
-   * item has none); this prop shows for empty and multi selections.
+   * `prefixIcon` takes over the slot; when that item has no icon — and for empty
+   * or multi selections — this static icon shows instead.
    */
   svg?: React.ReactNode;
 }

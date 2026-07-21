@@ -133,7 +133,7 @@ Select는 [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
 
 ### With Prefix Icon
 
-`SelectItem`의 `prefixIcon` prop으로 옵션에 아이콘을 표시합니다. 정확히 하나의 옵션이 선택되면 해당 옵션의 아이콘이 트리거의 prefix 자리에 함께 표시되며, 아이콘이 없는 옵션을 선택하면 prefix 자리는 비워집니다. `SelectTrigger`의 `prefixIcon` prop은 선택이 없거나 여러 개일 때만 표시됩니다.
+`SelectItem`의 `prefixIcon` prop으로 옵션에 아이콘을 표시합니다. 정확히 하나의 옵션이 선택되면 해당 옵션의 아이콘이 트리거의 prefix 자리에 함께 표시됩니다. 그 외의 경우 — 선택된 옵션에 아이콘이 없거나, 선택이 없거나 여러 개일 때 — 에는 `SelectTrigger`의 `prefixIcon`이 표시되며, 없으면 prefix 자리는 비워집니다.
 
 <ComponentExample name="react/select/with-prefix-icon">
   ```json doc-gen:file

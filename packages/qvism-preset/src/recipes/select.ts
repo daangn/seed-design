@@ -44,8 +44,8 @@ const SELECT_REFERENCE_WIDTH = "--seed-select-reference-width";
 // never receive real DOM focus (focus stays on the combobox via
 // `aria-activedescendant`), so the highlight is keyed off `[data-highlighted]`
 // rather than `:focus-visible`. That single active option is moved by both keyboard
-// navigation and pointer hover (focusItemOnHover), so the highlight always tracks
-// exactly one option — never two. `:active` layers press feedback on top; on touch,
+// navigation and pointer hover, so the highlight always tracks exactly one option —
+// never two. `:active` layers press feedback on top; on touch,
 // where there is no hover, it is the only pointer feedback an option gets.
 const highlightedItem = {
   backgroundColor: selectItemVars.base.pressed.root.color,
