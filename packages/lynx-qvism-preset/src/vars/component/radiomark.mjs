@@ -4,8 +4,6 @@ export const vars = {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
-        "scaleDuration": "var(--seed-duration-pressed-scale)",
-        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)"

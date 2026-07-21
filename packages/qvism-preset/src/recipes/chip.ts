@@ -2,9 +2,13 @@ import { chip as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { active, engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
-import { createPressScaleStyles } from "../utils/press-scale";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import spec from "@seed-design/rootage-artifacts/components/chip.json" with { type: "json" };
 
 const chip = defineSlotRecipe({
@@ -30,7 +34,8 @@ const chip = defineSlotRecipe({
 
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      ...createPressScaleStyles(),
+      ...createPressScaleRestStyles(),
+      [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
       transition: [
         `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
@@ -38,7 +43,7 @@ const chip = defineSlotRecipe({
         `border-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
         `box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
         `outline-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
-        `scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}`,
+        PRESS_SCALE_TRANSITION,
       ].join(", "),
 
       ...createFocusRingRestStyles(),

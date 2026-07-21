@@ -36,6 +36,7 @@
   .seed-select-box__root {
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --select-box-pressed-scale: 1;
   }
 
   .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {

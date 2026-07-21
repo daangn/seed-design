@@ -1239,6 +1239,7 @@
   .seed-accordion__trigger {
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --accordion-pressed-scale: 1;
   }
 
   .seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -3655,7 +3656,7 @@
   }
 
   .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-mark-pressed-scale, var(--seed-pressed-scale, 1));
+    scale: var(--seed-checkmark-pressed-scale, var(--seed-pressed-scale, 1));
   }
 
   .seed-checkmark__root {
@@ -5171,22 +5172,14 @@
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
     height: 80px;
-    display: flex;
-    position: relative;
-    scale: 1;
-  }
-
-  .seed-attachment-input-item__root[aria-grabbed="true"] {
-    --remove-button-mask-size: 0px;
-    --remove-button-mask-offset: 0px;
-  }
-
-  .seed-attachment-input-item__root {
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     --remove-button-mask-size: var(--seed-dimension-x6);
     --remove-button-mask-offset: var(--seed-dimension-x1_5);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
+    display: flex;
+    position: relative;
+    scale: 1;
   }
 
   .seed-attachment-input-item__root:is(:focus-visible, [data-focus-visible]) {
@@ -5215,6 +5208,12 @@
 
   .seed-attachment-input-item__root[role="button"]:not([aria-grabbed="true"]):not([data-readonly]) {
     cursor: grab;
+  }
+
+  .seed-attachment-input-item__root[aria-grabbed="true"] {
+    scale: var(--seed-pressed-scale, 1);
+    --remove-button-mask-size: 0px;
+    --remove-button-mask-offset: 0px;
   }
 
   .seed-attachment-input-item__image {
@@ -6160,6 +6159,7 @@
     isolation: isolate;
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --input-button-pressed-scale: 1;
     align-items: center;
     width: 100%;
     display: flex;
@@ -6637,7 +6637,9 @@
     --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
     padding-right: var(--seed-box-padding-right);
     --seed-focus-ring: none;
-    --seed-mark-pressed-scale: 1;
+    --seed-checkmark-pressed-scale: 1;
+    --seed-radiomark-pressed-scale: 1;
+    --seed-switchmark-pressed-scale: 1;
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral);
     flex-shrink: 0;
@@ -6661,7 +6663,9 @@
     align-items: center;
     gap: var(--seed-box-gap);
     --seed-focus-ring: none;
-    --seed-mark-pressed-scale: 1;
+    --seed-checkmark-pressed-scale: 1;
+    --seed-radiomark-pressed-scale: 1;
+    --seed-switchmark-pressed-scale: 1;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
@@ -7126,6 +7130,7 @@
   .seed-menu-item__root {
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --menu-item-pressed-scale: 1;
   }
 
   .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -7494,6 +7499,7 @@
   .seed-menu-sheet-item__root {
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --menu-sheet-item-pressed-scale: 1;
   }
 
   .seed-menu-sheet-item__root:is(:active, [data-active]) {
@@ -8171,7 +8177,7 @@
   }
 
   .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-mark-pressed-scale, var(--seed-pressed-scale, 1));
+    scale: var(--seed-radiomark-pressed-scale, var(--seed-pressed-scale, 1));
   }
 
   .seed-radiomark__root {
@@ -8555,6 +8561,7 @@
   .seed-segmented-control__item {
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --segmented-control-pressed-scale: 1;
   }
 
   .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -8608,6 +8615,7 @@
   .seed-select-box__root {
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --select-box-pressed-scale: 1;
   }
 
   .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -9997,7 +10005,7 @@
   }
 
   .seed-switchmark__thumb:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-mark-pressed-scale, var(--seed-pressed-scale, 1));
+    scale: var(--seed-switchmark-pressed-scale, var(--seed-pressed-scale, 1));
   }
 
   .seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {

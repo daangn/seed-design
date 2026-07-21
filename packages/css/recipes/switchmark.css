@@ -27,7 +27,7 @@
     scale: 1;
 }
 .seed-switchmark__thumb:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-mark-pressed-scale, var(--seed-pressed-scale, 1));
+    scale: var(--seed-switchmark-pressed-scale, var(--seed-pressed-scale, 1));
 }
 .seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-neutral-inverted);

@@ -4,6 +4,7 @@
     isolation: isolate;
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --input-button-pressed-scale: 1;
     align-items: center;
     width: 100%;
     display: flex;

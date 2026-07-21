@@ -22,12 +22,6 @@
             },
             "size": {
               "type": "dimension"
-            },
-            "scaleDuration": {
-              "type": "duration"
-            },
-            "scaleTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         },
@@ -75,14 +69,6 @@
                     "value": 28,
                     "unit": "px"
                   }
-                },
-                "scaleDuration": {
-                  "type": "duration",
-                  "value": "$duration.pressed-scale"
-                },
-                "scaleTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.pressed-scale"
                 }
               },
               "icon": {

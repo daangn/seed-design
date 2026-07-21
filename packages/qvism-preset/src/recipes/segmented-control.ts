@@ -4,8 +4,12 @@ import {
   segmentedControlIndicator as indicatorVars,
 } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
-import { createPressScaleVarStyles } from "../utils/press-scale";
+import { active, engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -113,7 +117,10 @@ const segmentedControl = defineSlotRecipe({
 
       // press signal for the layout layer — custom properties inherit, so the layout
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleVarStyles("--segmented-control-pressed-scale"),
+      ...createPressScaleRestStyles({ as: "--segmented-control-pressed-scale" }),
+      [pseudo(not(disabled), active)]: {
+        ...createPressScaleStyles({ as: "--segmented-control-pressed-scale" }),
+      },
     },
     // layout layer — wraps the item's content (hidden input + label); scales as a
     // whole on press while the pressed background stays on item.
@@ -131,7 +138,7 @@ const segmentedControl = defineSlotRecipe({
       // interactive element itself (same signal as the pressed background).
       scale: "var(--segmented-control-pressed-scale, 1)",
 
-      transition: `scale ${itemVars.base.enabled.root.contentScaleDuration} ${itemVars.base.enabled.root.contentScaleTimingFunction}`,
+      transition: PRESS_SCALE_TRANSITION,
     },
   },
   variants: {},

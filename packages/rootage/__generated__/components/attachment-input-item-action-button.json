@@ -13,12 +13,6 @@
           "properties": {
             "gap": {
               "type": "dimension"
-            },
-            "contentScaleDuration": {
-              "type": "duration"
-            },
-            "contentScaleTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         },
@@ -72,14 +66,6 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1"
-                },
-                "contentScaleDuration": {
-                  "type": "duration",
-                  "value": "$duration.pressed-scale"
-                },
-                "contentScaleTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.pressed-scale"
                 }
               },
               "icon": {

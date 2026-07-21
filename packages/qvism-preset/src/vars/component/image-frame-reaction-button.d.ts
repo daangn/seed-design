@@ -6,9 +6,7 @@ export declare const vars: {
         /** 보이는 버튼 크기입니다. */
         "size": "var(--seed-dimension-x6)",
         /** 터치 영역 크기입니다. */
-        "targetSize": "var(--seed-dimension-x10)",
-        "scaleDuration": "var(--seed-duration-pressed-scale)",
-        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "targetSize": "var(--seed-dimension-x10)"
       },
       /** lineIcon 아래에 내려가는 하트 아이콘입니다. */
       "fillIcon": {

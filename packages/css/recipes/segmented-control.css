@@ -92,6 +92,7 @@
 .seed-segmented-control__item {
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --segmented-control-pressed-scale: 1;
 }
 .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     --segmented-control-pressed-scale: var(--seed-pressed-scale, 1);

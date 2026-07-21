@@ -1,13 +1,13 @@
 import spec from "@seed-design/rootage-artifacts/components/switchmark.json" with { type: "json" };
 import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, focusVisible, pseudo } from "../utils/pseudo";
+import { active, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { createPressScaleStyles, MARK_PRESSED_SCALE_VAR } from "../utils/press-scale";
+import { createPressScaleRestStyles, createPressScaleStyles } from "../utils/press-scale";
 
 const switchmarkRecipe = defineSlotRecipe({
   name: "switchmark",
@@ -41,11 +41,14 @@ const switchmarkRecipe = defineSlotRecipe({
       // defining 'scale' / 'translate' and else independently from 'transform' -> requires Chrome 104~ && Safari 14.1~
       transform: `scale(${vars.base.enabled.thumb.scale})`,
 
+      ...createPressScaleRestStyles(),
       // The individual `scale` multiplies with the transform's scale, so the
       // pressed scale applies relative to both the unchecked (0.8) and checked
       // (1) thumb. A containing component (e.g. ListItem) opts out by setting
-      // MARK_PRESSED_SCALE_VAR to 1.
-      ...createPressScaleStyles({ overridableBy: MARK_PRESSED_SCALE_VAR }),
+      // --seed-switchmark-pressed-scale to 1.
+      [pseudo(not(disabled), active)]: {
+        ...createPressScaleStyles({ overridableBy: "--seed-switchmark-pressed-scale" }),
+      },
     },
   },
   variants: {

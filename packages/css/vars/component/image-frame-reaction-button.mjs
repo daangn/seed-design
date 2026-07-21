@@ -3,9 +3,7 @@ export const vars = {
     "enabled": {
       "root": {
         "size": "var(--seed-dimension-x6)",
-        "targetSize": "var(--seed-dimension-x10)",
-        "scaleDuration": "var(--seed-duration-pressed-scale)",
-        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "targetSize": "var(--seed-dimension-x10)"
       },
       "fillIcon": {
         "gradient": "var(--seed-color-palette-static-black-alpha-600) 0%, var(--seed-color-palette-static-black-alpha-600) 100%",

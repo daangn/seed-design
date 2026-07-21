@@ -5,9 +5,7 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)",
         "targetSize": "44px",
-        "size": "28px",
-        "scaleDuration": "var(--seed-duration-pressed-scale)",
-        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "size": "28px"
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral)",

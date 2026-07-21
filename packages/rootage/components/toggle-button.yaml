@@ -12,10 +12,6 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
           color:
             type: color
           minHeight:
@@ -73,8 +69,6 @@ data:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         label:
           fontWeight: $font-weight.bold
     variant=brandSolid:

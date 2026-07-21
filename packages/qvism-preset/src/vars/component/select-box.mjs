@@ -9,9 +9,7 @@ export const vars = {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "strokeDuration": "0.1s",
-        "strokeTimingFunction": "var(--seed-timing-function-easing)",
-        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
-        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "trigger": {
         "gap": "var(--seed-dimension-x1_5)"

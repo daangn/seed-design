@@ -6,9 +6,7 @@ export const vars = {
         "cornerRadius": "var(--seed-radius-r3)",
         "size": "52px",
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)",
-        "scaleDuration": "var(--seed-duration-pressed-scale)",
-        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral-subtle)",

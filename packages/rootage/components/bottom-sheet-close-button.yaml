@@ -16,10 +16,6 @@ data:
             type: dimension
           size:
             type: dimension
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
       icon:
         properties:
           color:
@@ -34,8 +30,6 @@ data:
           cornerRadius: $radius.full
           targetSize: 44px
           size: 28px
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         icon:
           color: $color.fg.neutral
           size: 14px

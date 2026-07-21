@@ -28,9 +28,7 @@ export const vars = {
       },
       "suffixIcon": {
         "size": "var(--seed-dimension-x4)",
-        "targetSize": "var(--seed-dimension-x10)",
-        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
-        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "targetSize": "var(--seed-dimension-x10)"
       }
     }
   },

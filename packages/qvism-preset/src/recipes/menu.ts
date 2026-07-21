@@ -4,8 +4,13 @@ import menuItemSpec from "@seed-design/rootage-artifacts/components/menu-item.js
 };
 import { menu as menuVars, menuItem as menuItemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { createPressScaleVarStyles } from "../utils/press-scale";
 import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
+import {
+  active,
   disabled,
   engaged,
   focus,
@@ -240,7 +245,10 @@ export const menuItem = defineSlotRecipe({
 
       // press signal for the layout layer — custom properties inherit, so the layout
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleVarStyles("--menu-item-pressed-scale"),
+      ...createPressScaleRestStyles({ as: "--menu-item-pressed-scale" }),
+      [pseudo(not(disabled), active)]: {
+        ...createPressScaleStyles({ as: "--menu-item-pressed-scale" }),
+      },
 
       [pseudo(focusVisible)]: {
         "&::after": createFocusRingStyles({ position: "inside" }),
@@ -273,7 +281,7 @@ export const menuItem = defineSlotRecipe({
       // interactive element itself (same signal as the pressed background).
       scale: "var(--menu-item-pressed-scale, 1)",
 
-      transition: `scale ${menuItemVars.base.enabled.root.contentScaleDuration} ${menuItemVars.base.enabled.root.contentScaleTimingFunction}`,
+      transition: PRESS_SCALE_TRANSITION,
     },
     body: {
       display: "flex",

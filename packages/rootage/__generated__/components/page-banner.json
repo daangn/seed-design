@@ -97,12 +97,6 @@
             },
             "color": {
               "type": "color"
-            },
-            "scaleDuration": {
-              "type": "duration"
-            },
-            "scaleTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         },
@@ -119,12 +113,6 @@
             },
             "color": {
               "type": "color"
-            },
-            "contentScaleDuration": {
-              "type": "duration"
-            },
-            "contentScaleTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         }
@@ -239,14 +227,6 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.bold"
-                },
-                "scaleDuration": {
-                  "type": "duration",
-                  "value": "$duration.pressed-scale"
-                },
-                "scaleTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.pressed-scale"
                 }
               },
               "suffixIcon": {
@@ -261,14 +241,6 @@
                 "marginLeft": {
                   "type": "dimension",
                   "value": "$dimension.x2"
-                },
-                "contentScaleDuration": {
-                  "type": "duration",
-                  "value": "$duration.pressed-scale"
-                },
-                "contentScaleTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.pressed-scale"
                 }
               }
             }

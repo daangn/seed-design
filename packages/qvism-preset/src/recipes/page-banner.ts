@@ -2,7 +2,11 @@ import spec from "@seed-design/rootage-artifacts/components/page-banner.json" wi
 import { pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
-import { createPressScaleStyles } from "../utils/press-scale";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -105,9 +109,10 @@ const pageBanner = defineSlotRecipe({
 
       borderRadius: tokens.$radius.r1,
 
-      ...createPressScaleStyles({ gate: pseudo(active) }),
+      ...createPressScaleRestStyles(),
+      [pseudo(active)]: { ...createPressScaleStyles() },
 
-      transition: `scale ${vars.base.enabled.button.scaleDuration} ${vars.base.enabled.button.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
@@ -139,9 +144,10 @@ const pageBanner = defineSlotRecipe({
 
       // The button itself is transparent, so scaling the whole button scales only
       // its content (the icon).
-      ...createPressScaleStyles({ gate: pseudo(active) }),
+      ...createPressScaleRestStyles(),
+      [pseudo(active)]: { ...createPressScaleStyles() },
 
-      transition: `scale ${vars.base.enabled.suffixIcon.contentScaleDuration} ${vars.base.enabled.suffixIcon.contentScaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },

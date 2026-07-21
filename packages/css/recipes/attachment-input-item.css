@@ -10,12 +10,6 @@
     --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
     --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
     scale: 1;
-}
-.seed-attachment-input-item__root[aria-grabbed=true] {
-    --remove-button-mask-size: 0px;
-    --remove-button-mask-offset: 0px;
-}
-.seed-attachment-input-item__root {
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     --remove-button-mask-size: var(--seed-dimension-x6);
     --remove-button-mask-offset: var(--seed-dimension-x1_5);
@@ -46,6 +40,11 @@
 }
 .seed-attachment-input-item__root[role='button']:not([aria-grabbed=true]):not([data-readonly]) {
     cursor: grab;
+}
+.seed-attachment-input-item__root[aria-grabbed=true] {
+    scale: var(--seed-pressed-scale, 1);
+    --remove-button-mask-size: 0px;
+    --remove-button-mask-offset: 0px;
 }
 .seed-attachment-input-item__image {
     width: 100%;

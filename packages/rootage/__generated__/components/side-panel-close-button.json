@@ -25,12 +25,6 @@
             },
             "colorTimingFunction": {
               "type": "cubicBezier"
-            },
-            "scaleDuration": {
-              "type": "duration"
-            },
-            "scaleTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         },
@@ -85,14 +79,6 @@
                 "colorTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
-                },
-                "scaleDuration": {
-                  "type": "duration",
-                  "value": "$duration.pressed-scale"
-                },
-                "scaleTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.pressed-scale"
                 }
               },
               "icon": {

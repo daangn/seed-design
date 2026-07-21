@@ -3,9 +3,7 @@ export const vars = {
     "enabled": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)",
-        "scaleDuration": "var(--seed-duration-pressed-scale)",
-        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)"
       }
     }
   },

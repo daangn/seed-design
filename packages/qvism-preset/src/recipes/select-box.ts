@@ -5,8 +5,21 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { prefixIcon } from "../utils/icon";
-import { engaged, checked, disabled, focusVisible, not, open, pseudo } from "../utils/pseudo";
-import { createPressScaleVarStyles } from "../utils/press-scale";
+import {
+  active,
+  engaged,
+  checked,
+  disabled,
+  focusVisible,
+  not,
+  open,
+  pseudo,
+} from "../utils/pseudo";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import { selectBox as vars } from "../vars/component";
 import { selectBoxGroup as groupVars } from "../vars/component";
 import { selectBoxCheckmark as checkmarkVars } from "../vars/component";
@@ -72,7 +85,10 @@ export const selectBox = defineSlotRecipe({
 
       // press signal for the inner layer — custom properties inherit, so the inner
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleVarStyles("--select-box-pressed-scale"),
+      ...createPressScaleRestStyles({ as: "--select-box-pressed-scale" }),
+      [pseudo(not(disabled), active)]: {
+        ...createPressScaleStyles({ as: "--select-box-pressed-scale" }),
+      },
 
       [pseudo(not(disabled), checked)]: {
         "&::after": {
@@ -106,7 +122,7 @@ export const selectBox = defineSlotRecipe({
       // interactive element itself (same signal as the pressed background).
       scale: "var(--select-box-pressed-scale, 1)",
 
-      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
+      transition: PRESS_SCALE_TRANSITION,
     },
     trigger: {
       display: "flex",

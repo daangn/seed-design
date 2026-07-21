@@ -31,10 +31,6 @@ data:
             description: enabled 상태의 stroke 위에 invalid 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
           strokeTimingFunction:
             type: cubicBezier
-          contentScaleDuration:
-            type: duration
-          contentScaleTimingFunction:
-            type: cubicBezier
       value:
         properties:
           fontSize:
@@ -93,10 +89,6 @@ data:
             type: dimension
           color:
             type: color
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
     variants:
       size:
         values:
@@ -116,8 +108,6 @@ data:
           colorTimingFunction: $timing-function.easing
           strokeDuration: 0.1s
           strokeTimingFunction: $timing-function.easing
-          contentScaleDuration: $duration.pressed-scale
-          contentScaleTimingFunction: $timing-function.pressed-scale
 
         value:
           fontWeight: $font-weight.regular
@@ -143,8 +133,6 @@ data:
           color: $color.fg.neutral-muted
         clearButton:
           color: $color.fg.neutral-subtle
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
 
       pressed:
         root:

@@ -2,13 +2,17 @@ import { contextualFloatingButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, loading, not, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { createPressScaleStyles } from "../utils/press-scale";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import spec from "@seed-design/rootage-artifacts/components/contextual-floating-button.json" with {
   type: "json",
 };
@@ -62,9 +66,10 @@ const contextualFloatingButton = defineRecipe({
     "--size": vars.base.enabled.progressCircle.size,
     "--thickness": vars.base.enabled.progressCircle.thickness,
 
-    ...createPressScaleStyles(),
+    ...createPressScaleRestStyles(),
+    [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {

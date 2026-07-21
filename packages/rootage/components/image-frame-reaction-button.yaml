@@ -15,10 +15,6 @@ data:
           targetSize:
             type: dimension
             description: 터치 영역 크기입니다.
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
       fillIcon:
         description: lineIcon 아래에 내려가는 하트 아이콘입니다.
         properties:
@@ -41,8 +37,6 @@ data:
         root:
           size: $dimension.x6
           targetSize: $dimension.x10
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         fillIcon:
           gradient:
             type: gradient

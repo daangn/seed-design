@@ -6,9 +6,7 @@ export declare const vars: {
         "minHeight": "52px",
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x3_5)",
-        "gap": "var(--seed-dimension-x3_5)",
-        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
-        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "gap": "var(--seed-dimension-x3_5)"
       },
       "prefixIcon": {
         "size": "22px"

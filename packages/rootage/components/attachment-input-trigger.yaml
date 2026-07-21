@@ -20,10 +20,6 @@ data:
             type: dimension
           strokeColor:
             type: color
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
       icon:
         properties:
           size:
@@ -60,8 +56,6 @@ data:
           cornerRadius: $radius.r3
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         icon:
           size: $dimension.x6
           color: $color.fg.neutral-subtle

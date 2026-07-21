@@ -4,7 +4,11 @@ import spec from "@seed-design/rootage-artifacts/components/input-button.json" w
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
-import { createPressScaleStyles, createPressScaleVarStyles } from "../utils/press-scale";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -44,9 +48,10 @@ const inputButton = defineSlotRecipe({
       // [data-active] only (not native :active): the press state comes from the
       // button overlay, matching the pressed background, and must not fire when a
       // sibling like clearButton is pressed.
-      ...createPressScaleVarStyles("--input-button-pressed-scale", {
-        gate: pseudo(not("[data-disabled]"), not(readOnly), "[data-active]"),
-      }),
+      ...createPressScaleRestStyles({ as: "--input-button-pressed-scale" }),
+      [pseudo(not("[data-disabled]"), not(readOnly), "[data-active]")]: {
+        ...createPressScaleStyles({ as: "--input-button-pressed-scale" }),
+      },
     },
     // layout layer — flex row holding the field content (everything but the button
     // overlay); scales as a whole on press while the background stays on button.
@@ -67,7 +72,7 @@ const inputButton = defineSlotRecipe({
       // interactive element itself (same signal as the pressed background).
       scale: "var(--input-button-pressed-scale, 1)",
 
-      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
+      transition: PRESS_SCALE_TRANSITION,
     },
     button: {
       position: "absolute",
@@ -218,9 +223,10 @@ const inputButton = defineSlotRecipe({
 
       borderRadius: tokens.$radius.full,
 
-      ...createPressScaleStyles({ gate: pseudo(active) }),
+      ...createPressScaleRestStyles(),
+      [pseudo(active)]: { ...createPressScaleStyles() },
 
-      transition: `scale ${vars.base.enabled.clearButton.scaleDuration} ${vars.base.enabled.clearButton.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 

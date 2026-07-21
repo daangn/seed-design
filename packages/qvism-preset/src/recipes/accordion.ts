@@ -6,8 +6,12 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon, suffixIcon } from "../utils/icon";
-import { disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
-import { createPressScaleVarStyles } from "../utils/press-scale";
+import { active, disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import { breakpoints } from "../utils/breakpoint";
 import spec from "@seed-design/rootage-artifacts/components/accordion.json" with { type: "json" };
 
@@ -67,7 +71,10 @@ const accordion = defineSlotRecipe({
 
       // press signal for the layout layer — custom properties inherit, so the layout
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleVarStyles("--accordion-pressed-scale"),
+      ...createPressScaleRestStyles({ as: "--accordion-pressed-scale" }),
+      [pseudo(not(disabled), active)]: {
+        ...createPressScaleStyles({ as: "--accordion-pressed-scale" }),
+      },
     },
     // layout layer — flex row holding prefix/body/suffixIcon; scales as a whole on
     // press while the pressed background stays on trigger::before.
@@ -80,7 +87,7 @@ const accordion = defineSlotRecipe({
       // interactive element itself (same signal as the pressed background).
       scale: "var(--accordion-pressed-scale, 1)",
 
-      transition: `scale ${itemVars.base.enabled.trigger.contentScaleDuration} ${itemVars.base.enabled.trigger.contentScaleTimingFunction}`,
+      transition: PRESS_SCALE_TRANSITION,
     },
     prefix: {
       display: "inline-flex",

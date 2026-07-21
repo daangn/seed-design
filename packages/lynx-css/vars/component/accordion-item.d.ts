@@ -6,9 +6,7 @@ export declare const vars: {
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "trigger": {
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
-        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
-        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
       },
       "body": {
         "gap": "var(--seed-dimension-x0_5)"

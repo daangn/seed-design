@@ -2,7 +2,11 @@ import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component"
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
-import { createPressScaleVarStyles } from "../utils/press-scale";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -38,7 +42,10 @@ const menuSheetItem = defineSlotRecipe({
 
       // press signal for the layout layer — custom properties inherit, so the layout
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleVarStyles("--menu-sheet-item-pressed-scale", { gate: pseudo(active) }),
+      ...createPressScaleRestStyles({ as: "--menu-sheet-item-pressed-scale" }),
+      [pseudo(active)]: {
+        ...createPressScaleStyles({ as: "--menu-sheet-item-pressed-scale" }),
+      },
 
       "&:first-child": {
         // TODO: since we have this, overflow: hidden; from the group slot can be removed
@@ -74,7 +81,7 @@ const menuSheetItem = defineSlotRecipe({
       // interactive element itself (same signal as the pressed background).
       scale: "var(--menu-sheet-item-pressed-scale, 1)",
 
-      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
+      transition: PRESS_SCALE_TRANSITION,
     },
     content: {
       display: "flex",

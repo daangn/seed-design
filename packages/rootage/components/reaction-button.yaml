@@ -14,10 +14,6 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
           strokeColor:
             type: color
           strokeWidth:
@@ -77,8 +73,6 @@ data:
           color: $color.bg.transparent
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         label:
           color: $color.fg.neutral
           fontWeight: $font-weight.medium

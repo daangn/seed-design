@@ -63,10 +63,6 @@ data:
             type: number
           color:
             type: color
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
       suffixIcon:
         properties:
           size:
@@ -77,10 +73,6 @@ data:
             type: dimension
           color:
             type: color
-          contentScaleDuration:
-            type: duration
-          contentScaleTimingFunction:
-            type: cubicBezier
     variants:
       variant:
         values:
@@ -117,14 +109,10 @@ data:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
           fontWeight: $font-weight.bold
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         suffixIcon:
           size: $dimension.x4
           targetSize: $dimension.x10
           marginLeft: $dimension.x2
-          contentScaleDuration: $duration.pressed-scale
-          contentScaleTimingFunction: $timing-function.pressed-scale
     tone=neutral, variant=weak:
       enabled:
         root:

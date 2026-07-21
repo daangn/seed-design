@@ -10,9 +10,7 @@ export const vars = {
         "marginDuration": "var(--seed-duration-d3)",
         "marginTimingFunction": "var(--seed-timing-function-easing)",
         "borderRadiusDuration": "var(--seed-duration-d3)",
-        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)",
-        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
-        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)"
       },
       "body": {
         "gap": "var(--seed-dimension-x0_5)",

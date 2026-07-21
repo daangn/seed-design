@@ -1,5 +1,7 @@
 import { actionButton as vars } from "../vars/component";
+import * as duration from "../vars/duration";
 import * as scaleVars from "../vars/scale";
+import * as timingFunction from "../vars/timing-function";
 
 import { defineSlotRecipe } from "../utils/define";
 
@@ -47,7 +49,7 @@ const actionButton = defineSlotRecipe({
 
       transform: "scale(1)",
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${duration.pressedScale} ${timingFunction.pressedScale}`,
     },
     text: {
       fontWeight: vars.base.enabled.label.fontWeight,

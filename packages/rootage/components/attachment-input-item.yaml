@@ -26,10 +26,6 @@ data:
             type: color
           opacity:
             type: number
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
       thumbnail:
         properties:
           color:
@@ -105,8 +101,6 @@ data:
           cornerRadius: $radius.r3
           strokeWidth: 1px
           gap: $dimension.x2_5
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         thumbnail:
           color: $color.bg.neutral-weak
           size: $dimension.x12

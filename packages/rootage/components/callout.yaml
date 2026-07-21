@@ -68,10 +68,6 @@ data:
             type: dimension
           color:
             type: color
-          contentScaleDuration:
-            type: duration
-          contentScaleTimingFunction:
-            type: cubicBezier
     variants:
       tone:
         values:
@@ -113,8 +109,6 @@ data:
         suffixIcon:
           size: $dimension.x4
           targetSize: $dimension.x10
-          contentScaleDuration: $duration.pressed-scale
-          contentScaleTimingFunction: $timing-function.pressed-scale
     tone=neutral:
       enabled:
         root:

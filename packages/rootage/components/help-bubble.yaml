@@ -84,10 +84,6 @@ data:
             type: dimension
           marginTop:
             type: dimension
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
   definitions:
     base:
       enabled:
@@ -129,5 +125,3 @@ data:
           size: $dimension.x3_5
           targetSize: 38px
           marginTop: $dimension.x0_5
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale

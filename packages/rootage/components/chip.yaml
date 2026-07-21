@@ -27,10 +27,6 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
           opacity:
             type: number
       label:
@@ -87,8 +83,6 @@ data:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
           cornerRadius: $radius.full
         prefixIcon:
           paddingLeft: $dimension.x1_5

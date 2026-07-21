@@ -19,12 +19,6 @@
             },
             "paddingY": {
               "type": "dimension"
-            },
-            "contentScaleDuration": {
-              "type": "duration"
-            },
-            "contentScaleTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         },
@@ -64,16 +58,6 @@
               "enabled"
             ],
             "slots": {
-              "root": {
-                "contentScaleDuration": {
-                  "type": "duration",
-                  "value": "$duration.pressed-scale"
-                },
-                "contentScaleTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.pressed-scale"
-                }
-              },
               "label": {
                 "color": {
                   "type": "color",

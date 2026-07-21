@@ -1,12 +1,16 @@
 import { tablist as vars, tab as triggerVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { active, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { createPressScaleStyles } from "../utils/press-scale";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 
 const tabs = defineSlotRecipe({
   name: "tabs",
@@ -108,9 +112,10 @@ const tabs = defineSlotRecipe({
 
       // The trigger is transparent (the pressed feedback is only the content
       // scale), so scaling the whole trigger scales only its content.
-      ...createPressScaleStyles(),
+      ...createPressScaleRestStyles(),
+      [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
-      transition: `scale ${triggerVars.base.enabled.root.contentScaleDuration} ${triggerVars.base.enabled.root.contentScaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },

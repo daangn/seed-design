@@ -10,10 +10,6 @@ data:
         properties:
           gap:
             type: dimension
-          contentScaleDuration:
-            type: duration
-          contentScaleTimingFunction:
-            type: cubicBezier
       icon:
         properties:
           color:
@@ -35,8 +31,6 @@ data:
       enabled:
         root:
           gap: $dimension.x1
-          contentScaleDuration: $duration.pressed-scale
-          contentScaleTimingFunction: $timing-function.pressed-scale
         icon:
           size: $dimension.x6
         label:
