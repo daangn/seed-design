@@ -6,10 +6,9 @@ import * as React from "react";
 import { useQuantityPicker, type UseQuantityPickerProps } from "./useQuantityPicker";
 import { QuantityPickerProvider, useQuantityPickerContext } from "./useQuantityPickerContext";
 
-export interface QuantityPickerRootProps
-  extends UseQuantityPickerProps,
-    PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue" | "dir"> {}
+export type QuantityPickerRootProps = UseQuantityPickerProps &
+  PrimitiveProps &
+  Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue" | "dir">;
 
 export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPickerRootProps>(
   ({ children, ...props }, ref) => {
@@ -25,13 +24,13 @@ export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPicke
       onRemove,
       onValueChange,
       readOnly,
-      removable,
-      removeAriaLabel,
+      removable: _removable,
+      removeAriaLabel: _removeAriaLabel,
       step,
       value,
       ...otherProps
     } = props;
-    const api = useQuantityPicker({
+    const quantityPickerProps = {
       defaultValue,
       dir,
       disabled,
@@ -43,11 +42,21 @@ export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPicke
       onRemove,
       onValueChange,
       readOnly,
-      removable,
-      removeAriaLabel,
       step,
       value,
-    });
+    };
+    const api = useQuantityPicker(
+      props.removable
+        ? {
+            ...quantityPickerProps,
+            removable: true,
+            removeAriaLabel: props.removeAriaLabel,
+          }
+        : {
+            ...quantityPickerProps,
+            removable: false,
+          },
+    );
     const childrenArray = React.Children.toArray(children);
     const hiddenInputs = childrenArray.filter(
       (child) => React.isValidElement(child) && child.type === QuantityPickerHiddenInput,

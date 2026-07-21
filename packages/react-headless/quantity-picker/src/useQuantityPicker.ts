@@ -11,7 +11,7 @@ export type QuantityPickerLoading =
 
 export type QuantityPickerGetValueText = (value: number) => string;
 
-export interface UseQuantityPickerProps {
+interface UseQuantityPickerBaseProps {
   value?: number;
   defaultValue?: number;
   onValueChange?: (value: number) => void;
@@ -35,13 +35,8 @@ export interface UseQuantityPickerProps {
    * @default false
    */
   readOnly?: boolean;
-  /**
-   * @default false
-   */
-  removable?: boolean;
   loading?: QuantityPickerLoading;
 
-  removeAriaLabel?: string;
   onRemove?: () => void;
   getValueText?: QuantityPickerGetValueText;
   /**
@@ -49,6 +44,25 @@ export interface UseQuantityPickerProps {
    */
   dir?: "ltr" | "rtl";
 }
+
+type QuantityPickerRemovableProps = {
+  /**
+   * @default false
+   */
+  removable: true;
+  removeAriaLabel: string;
+};
+
+type QuantityPickerNonRemovableProps = {
+  /**
+   * @default false
+   */
+  removable?: false;
+  removeAriaLabel?: string;
+};
+
+export type UseQuantityPickerProps = UseQuantityPickerBaseProps &
+  (QuantityPickerRemovableProps | QuantityPickerNonRemovableProps);
 
 export type UseQuantityPickerReturn = ReturnType<typeof useQuantityPicker>;
 
@@ -108,6 +122,7 @@ export function useQuantityPicker(props: UseQuantityPickerProps) {
     onRemove,
     onValueChange,
     readOnly = false,
+    removeAriaLabel,
     removable = false,
     step = 1,
     value: propValue,
@@ -203,7 +218,7 @@ export function useQuantityPicker(props: UseQuantityPickerProps) {
       disabled: decrementDisabled,
       "aria-busy": ariaAttr(loadingState.decrement),
       "aria-disabled": ariaAttr(decrementBlocked),
-      "aria-label": isRemoveButton ? props.removeAriaLabel : undefined,
+      "aria-label": isRemoveButton ? removeAriaLabel : undefined,
       "data-disabled": dataAttr(decrementDisabled || readOnly),
       "data-loading": dataAttr(loadingState.decrement),
       "data-remove": dataAttr(isRemoveButton),

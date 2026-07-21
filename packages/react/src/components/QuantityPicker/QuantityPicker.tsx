@@ -76,22 +76,37 @@ function renderIcon(
   );
 }
 
-export interface QuantityPickerRootProps
-  extends QuantityPickerVariantProps,
-    QuantityPickerPrimitive.RootProps {}
+export type QuantityPickerRootProps = QuantityPickerVariantProps &
+  QuantityPickerPrimitive.RootProps;
 
 export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPickerRootProps>(
   (props, ref) => {
     const [variantProps, otherProps] = quantityPicker.splitVariantProps(props);
-    const { children, className, ...rootProps } = otherProps;
+    const {
+      children,
+      className,
+      removable: _removable,
+      removeAriaLabel: _removeAriaLabel,
+      ...rootProps
+    } = otherProps;
     const classNames = quantityPicker(variantProps);
+    const quantityPickerRootProps: QuantityPickerPrimitive.RootProps = props.removable
+      ? {
+          ...rootProps,
+          removable: true,
+          removeAriaLabel: props.removeAriaLabel,
+        }
+      : {
+          ...rootProps,
+          removable: false,
+        };
 
     return (
       <ClassNamesProvider value={classNames}>
         <QuantityPickerPrimitive.Root
           ref={ref}
           className={clsx(classNames.root, className)}
-          {...rootProps}
+          {...quantityPickerRootProps}
         >
           {withDividers(children, classNames.divider)}
         </QuantityPickerPrimitive.Root>
