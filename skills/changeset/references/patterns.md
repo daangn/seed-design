@@ -49,7 +49,7 @@ SEED는 **2.0부터 strict semver**를 따른다. breaking change는 **major에�
 - 기존 snippet이 새 npm 패키지와 함께 더 이상 동작하지 않는 경우 (재설치 강제)
 - 패키지 전체 구조 변경, 런타임/프레임워크 요구사항 변경 (예: React 버전 요구 변경)
 
-> **예외 — 내부 배선은 breaking이 아니다.** SEED의 styling 전용 `data-*`(css와 styled react를 잇는 비공개 연결)는 옮기거나 지워도 공개 표면이 아니므로 `patch`/`minor`다. 지원 표면은 **컴포넌트 + props + recipe 클래스**다. (`version-matrix.md`의 "`data-*`는 내부 배선")
+> **예외 — 내부 배선은 breaking이 아니다.** SEED의 styling 전용 `data-*`(css와 styled react를 잇는 비공개 연결)와 `typography`를 제외한 `vars/component/*`(rootage spec에서 생성되는 recipe 구현용 값)는 옮기거나 지워도 공개 표면이 아니므로 `patch`/`minor`다. 지원 표면은 **컴포넌트 + props + recipe 클래스**다. (`version-matrix.md`의 "`data-*`는 내부 배선", "컴포넌트 vars도 내부 배선")
 
 ## BREAKING CHANGE 접두사
 

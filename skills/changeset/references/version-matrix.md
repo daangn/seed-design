@@ -65,6 +65,12 @@ css가 깨지면 react가 깨지지만, 그 역은 없다 (react는 css를 소�
 
 SEED의 `data-*`는 css와 styled react를 잇는 비공개 연결이고, 지원 표면은 **컴포넌트 + props + recipe 클래스**다. 그래서 styling 전용 data attr는 옮기거나 지워도 안 깨진다 (major 아님). 단 소비자가 자기 CSS로 타겟해도 되는 **공개 contract** data attr라면 제거·이름변경은 major다.
 
+### 컴포넌트 vars도 내부 배선
+
+`@seed-design/css/vars/component/*`(및 `lynx-css`)는 rootage component spec에서 생성되는 recipe 구현용 값이라 지원 표면이 아니다. spec이 바뀌어 이름·구조가 달라져도 `patch`/`minor`다.
+
+단 **`typography`는 예외**다. 값 객체를 CSS-in-JS에 그대로 펼쳐 쓰는 용도가 있고 마이그레이션 가이드가 직접 import를 안내해왔으므로 SemVer를 지킨다. (사용자 대상 안내는 `packages/css/README.md`의 Stability 절과 Upgrade Guides에 있다.)
+
 ## peer floor 수동 bump 함정 ⚠️
 
 `.changeset/config.json`에 `onlyUpdatePeerDependentsWhenOutOfRange: true`가 켜져 있다. 결과:

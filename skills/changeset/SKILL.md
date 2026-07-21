@@ -43,7 +43,7 @@ perl -pe 's/\e\[[0-9;?]*[a-zA-Z]//g' /tmp/changeset-detect.txt \
    - `안함(제외)`은 그 패키지를 changeset에서 빼는 선택지다. stacked로 딸려온 무관 패키지나 changeset이 불필요한 패키지에 사용한다.
 3. AskUserQuestion은 호출당 질문 4개까지 가능하므로, 후보가 5개 이상이면 4개씩 나눠 여러 번 호출한다.
 4. `안함`으로 답한 패키지는 제외하고, 나머지를 **확정 목록**으로 삼는다.
-   - **주의 (2.0)**: 공개 표면을 깨는 변경(공개 prop/API·recipe·slot·variant·토큰·공개 data attr 이름변경·삭제, headless breaking을 extend 등)은 **`major`**다. 1.x처럼 minor로 답하지 않는다. 반대로 내부 배선(styling 전용 `data-*`) 이동·삭제는 비공개라 breaking이 아니다(`patch`/`minor`). 판단이 헷갈리면 `references/version-matrix.md`로 확인한다.
+   - **주의 (2.0)**: 공개 표면을 깨는 변경(공개 prop/API·recipe·slot·variant·토큰·공개 data attr 이름변경·삭제, headless breaking을 extend 등)은 **`major`**다. 1.x처럼 minor로 답하지 않는다. 반대로 내부 배선(styling 전용 `data-*`, `typography`를 제외한 `vars/component/*`) 이동·삭제는 비공개라 breaking이 아니다(`patch`/`minor`). 판단이 헷갈리면 `references/version-matrix.md`로 확인한다.
 
 ### Phase 3: 메시지 작성
 
