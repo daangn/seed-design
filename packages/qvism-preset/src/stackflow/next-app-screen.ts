@@ -64,9 +64,11 @@ const SWIPE_DIM_OPACITY = "calc(1 - var(--seed-swipe-back-displacement-ratio, 0)
 const RELEASE_TRANSFORM_TRANSITION = `transform ${HORIZONTAL.duration} ${HORIZONTAL.timingFunction}`;
 const RELEASE_OPACITY_TRANSITION = `opacity ${HORIZONTAL.duration} ${HORIZONTAL.timingFunction}`;
 
+// clip-path over border-radius + overflow: no scroll-container or
+// containing-block side effects on the layer, and it degrades further back
+// than `overflow: clip` (Chrome 90+/Safari 16+).
 const CLIP_STYLES = {
-  borderRadius: "var(--seed-next-app-screen-clip-radius, 0px)",
-  overflow: "clip",
+  clipPath: "inset(0 round var(--seed-next-app-screen-clip-radius, 0px))",
 };
 
 export const nextAppScreen = defineSlotRecipe({

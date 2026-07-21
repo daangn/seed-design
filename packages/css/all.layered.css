@@ -8541,8 +8541,7 @@
   }
 
   [data-screen-state]:not([data-screen-state="idle"]):not([data-screen-state="idle-behind"]) > .seed-next-app-screen__layer, [data-swipe-back-state] > .seed-next-app-screen__layer {
-    border-radius: var(--seed-next-app-screen-clip-radius, 0px);
-    overflow: clip;
+    clip-path: inset(0 round var(--seed-next-app-screen-clip-radius, 0px));
   }
 
   .seed-next-app-screen__content {
