@@ -9,7 +9,7 @@ afterEach(() => {
 describe("QuantityPicker", () => {
   it("값 표시 슬롯 양옆에 divider DOM을 배치하고 action icon slot을 연결한다", () => {
     const { getByLabelText, getByText, container } = render(
-      <QuantityPicker.Root min={0} max={5} aria-label="수량">
+      <QuantityPicker.Root defaultValue={1} min={0} max={5} aria-label="수량">
         <QuantityPicker.DecrementButton aria-label="줄이기" icon={<svg />} />
         <QuantityPicker.ValueDisplay />
         <QuantityPicker.IncrementButton aria-label="늘리기" icon={<svg />} />
