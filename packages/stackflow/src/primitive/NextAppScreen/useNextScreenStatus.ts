@@ -25,13 +25,18 @@ function deriveScreenState({
 }: DeriveScreenStateArgs): NextScreenState {
   if (!activity) return "idle";
 
+  // Own exit wins over every positional branch: a screen popped while the
+  // screen above it is still exiting (pop during pop) must run its own exit
+  // in parallel — its unmount timer (own pop + transitionDuration) doesn't
+  // wait for the top screen either.
+  if (activity.transitionState === "exit-active" || activity.transitionState === "exit-done") {
+    return "pop";
+  }
+
   if (isTop) {
     switch (activity.transitionState) {
       case "enter-active":
         return "push";
-      case "exit-active":
-      case "exit-done":
-        return "pop";
       default:
         return "idle";
     }
