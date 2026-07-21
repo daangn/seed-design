@@ -46,13 +46,14 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
     });
 
     const classNames = attachmentInputItem(variantProps);
+    const { pressScaleRef } = usePressScale();
 
     return (
       <ClassNamesProvider value={classNames}>
         <FileUploadItemProvider value={api}>
           <overlayTracker.Provider>
             <Primitive.li
-              ref={ref}
+              ref={composeRefs(pressScaleRef, ref)}
               className={clsx(classNames.root, className)}
               {...stateProps}
               {...otherProps}

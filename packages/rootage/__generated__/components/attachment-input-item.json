@@ -37,6 +37,12 @@
             },
             "opacity": {
               "type": "number"
+            },
+            "scaleDuration": {
+              "type": "duration"
+            },
+            "scaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -191,6 +197,14 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
+                },
+                "scaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "scaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "thumbnail": {

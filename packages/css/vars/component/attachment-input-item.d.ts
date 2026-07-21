@@ -6,7 +6,9 @@ export declare const vars: {
         "color": "var(--seed-color-bg-transparent)",
         "cornerRadius": "var(--seed-radius-r3)",
         "strokeWidth": "1px",
-        "gap": "var(--seed-dimension-x2_5)"
+        "gap": "var(--seed-dimension-x2_5)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "thumbnail": {
         "color": "var(--seed-color-bg-neutral-weak)",
