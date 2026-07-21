@@ -130,7 +130,7 @@ export function useQuantityPicker(props: UseQuantityPickerProps) {
 
   validateProps({ ...props, step });
 
-  const initialValue = defaultValue ?? 1;
+  const initialValue = defaultValue ?? min;
   assertSafeInteger(initialValue, "defaultValue");
   if (initialValue < min || initialValue > max) {
     throw new Error("QuantityPicker: defaultValue must be between min and max.");

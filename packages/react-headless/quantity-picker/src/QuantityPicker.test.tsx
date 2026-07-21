@@ -25,11 +25,17 @@ function renderQuantityPicker(props: Partial<QuantityPickerRootProps> = {}): Ren
 }
 
 describe("QuantityPicker", () => {
-  it("value와 defaultValue가 없으면 1로 초기화한다", () => {
+  it("value와 defaultValue가 없으면 min으로 초기화한다", () => {
     const { getByLabelText, getByText } = renderQuantityPicker();
 
-    expect(getByText("1")).toHaveAttribute("aria-live", "polite");
-    expect(getByLabelText("수량")).not.toHaveAttribute("data-min");
+    expect(getByText("0")).toHaveAttribute("aria-live", "polite");
+    expect(getByLabelText("수량")).toHaveAttribute("data-min");
+  });
+
+  it("min이 1보다 커도 value와 defaultValue 없이 초기화한다", () => {
+    const { getByText } = renderQuantityPicker({ min: 2, max: 5 });
+
+    expect(getByText("2")).toBeInTheDocument();
   });
 
   it("비제어 값은 increment와 decrement로 변경한다", () => {
@@ -126,7 +132,7 @@ describe("QuantityPicker", () => {
 
     expect(getByLabelText("수량")).toHaveAttribute("data-disabled");
     expect(getByLabelText("늘리기")).toBeDisabled();
-    expect(getByDisplayValue("1")).toBeDisabled();
+    expect(getByDisplayValue("0")).toBeDisabled();
   });
 
   it("HiddenInput은 name과 form으로 raw integer를 제출한다", () => {
@@ -180,7 +186,6 @@ describe("QuantityPicker", () => {
     [{ min: 5, max: 0 }, "min must be less than or equal to max"],
     [{ min: 0, max: 5, value: 6 }, "value must be between min and max"],
     [{ min: 0, max: 5, defaultValue: -1 }, "defaultValue must be between min and max"],
-    [{ min: 2, max: 5 }, "defaultValue must be between min and max"],
   ] as const)("유효하지 않은 숫자와 논리 규칙은 Error를 던진다: %o", (props, message) => {
     expect(() => renderQuantityPicker(props)).toThrow(`QuantityPicker: ${message}`);
   });
