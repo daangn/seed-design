@@ -7,6 +7,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createPressScaleStyles, MARK_PRESSED_SCALE_VAR } from "../utils/press-scale";
 
 const switchmarkRecipe = defineSlotRecipe({
   name: "switchmark",
@@ -35,10 +36,16 @@ const switchmarkRecipe = defineSlotRecipe({
       borderRadius: vars.base.enabled.thumb.cornerRadius,
 
       // translateDuration & translateTimingFunction are defined in vars but not used
-      transition: `transform ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}, background-color ${vars.base.enabled.thumb.colorDuration} ${vars.base.enabled.thumb.colorTimingFunction} ${vars.base.enabled.thumb.colorDelay}`,
+      transition: `transform ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}, background-color ${vars.base.enabled.thumb.colorDuration} ${vars.base.enabled.thumb.colorTimingFunction} ${vars.base.enabled.thumb.colorDelay}, scale ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}`,
 
       // defining 'scale' / 'translate' and else independently from 'transform' -> requires Chrome 104~ && Safari 14.1~
       transform: `scale(${vars.base.enabled.thumb.scale})`,
+
+      // The individual `scale` multiplies with the transform's scale, so the
+      // pressed scale applies relative to both the unchecked (0.8) and checked
+      // (1) thumb. A containing component (e.g. ListItem) opts out by setting
+      // MARK_PRESSED_SCALE_VAR to 1.
+      ...createPressScaleStyles({ overridableBy: MARK_PRESSED_SCALE_VAR }),
     },
   },
   variants: {

@@ -55,8 +55,7 @@ export const vars = {
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)",
         "marginX": "var(--seed-dimension-x1_5)",
-        "cornerRadius": "var(--seed-dimension-x2_5)",
-        "contentScale": "var(--seed-scale-s97)"
+        "cornerRadius": "var(--seed-dimension-x2_5)"
       }
     },
     "highlighted": {

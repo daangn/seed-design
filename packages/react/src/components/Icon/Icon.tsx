@@ -55,7 +55,7 @@ export const IconRequired = ({
   const parentContext = useContext(IconContext);
 
   const register = useCallback(() => {
-    // @ts-expect-error
+    // @ts-ignore
     if (process.env.NODE_ENV !== "production") {
       if (registeredRef.current) {
         throw new Error(
@@ -74,7 +74,7 @@ export const IconRequired = ({
     if (!enabled) {
       return;
     }
-    // @ts-expect-error
+    // @ts-ignore
     if (process.env.NODE_ENV !== "production") {
       if (parentContext) {
         throw new Error(

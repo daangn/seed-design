@@ -4,6 +4,7 @@ import { switchmark, type SwitchmarkVariantProps } from "@seed-design/css/recipe
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withPressScale } from "../../utils/pressScale";
 import React from "react";
 import clsx from "clsx";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
@@ -58,9 +59,8 @@ export const SwitchControl = withControlProvider<HTMLDivElement, SwitchControlPr
 
 export interface SwitchThumbProps extends SwitchPrimitive.ThumbProps {}
 
-export const SwitchThumb = withControlContext<HTMLDivElement, SwitchThumbProps>(
-  SwitchPrimitive.Thumb,
-  "thumb",
+export const SwitchThumb = withPressScale(
+  withControlContext<HTMLDivElement, SwitchThumbProps>(SwitchPrimitive.Thumb, "thumb"),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

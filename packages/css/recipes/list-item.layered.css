@@ -24,6 +24,7 @@
     --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
     padding-right: var(--seed-box-padding-right);
     --seed-focus-ring: none;
+    --seed-mark-pressed-scale: 1;
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral);
     flex-shrink: 0;
@@ -47,6 +48,7 @@
     align-items: center;
     gap: var(--seed-box-gap);
     --seed-focus-ring: none;
+    --seed-mark-pressed-scale: 1;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);

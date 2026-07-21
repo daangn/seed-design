@@ -14,6 +14,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createPressScaleStyles, MARK_PRESSED_SCALE_VAR } from "../utils/press-scale";
 
 const checkmark = defineSlotRecipe({
   name: "checkmark",
@@ -26,7 +27,11 @@ const checkmark = defineSlotRecipe({
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      // A containing component (e.g. ListItem) opts out of the mark's pressed
+      // scale by setting MARK_PRESSED_SCALE_VAR to 1.
+      ...createPressScaleStyles({ overridableBy: MARK_PRESSED_SCALE_VAR }),
+
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),

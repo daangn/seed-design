@@ -5,6 +5,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
+import { MARK_PRESSED_SCALE_VAR } from "../utils/press-scale";
 import { engaged, disabled, focus, focusVisible, media, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
 
@@ -47,6 +48,8 @@ const listItem = defineSlotRecipe({
       paddingRight: "var(--seed-box-padding-right)",
 
       "--seed-focus-ring": "none",
+      // the engaged background on the row is enough press feedback; nested marks shouldn't scale
+      [MARK_PRESSED_SCALE_VAR]: "1",
 
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
@@ -70,6 +73,8 @@ const listItem = defineSlotRecipe({
       gap: "var(--seed-box-gap)",
 
       "--seed-focus-ring": "none",
+      // the engaged background on the row is enough press feedback; nested marks shouldn't scale
+      [MARK_PRESSED_SCALE_VAR]: "1",
 
       fontSize: vars.base.enabled.suffixText.fontSize,
       lineHeight: vars.base.enabled.suffixText.lineHeight,
