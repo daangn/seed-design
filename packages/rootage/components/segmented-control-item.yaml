@@ -26,6 +26,10 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
           strokeWidth:
             type: dimension
           strokeColor:
@@ -56,6 +60,8 @@ data:
           gap: $dimension.x1_5
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5

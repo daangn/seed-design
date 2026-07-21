@@ -24,6 +24,7 @@ import {
   type PropsWithChildren,
 } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { usePressScale } from "../../utils/pressScale";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 
@@ -121,20 +122,29 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
       ...variantProps,
     });
 
+    const content =
+      footerVisibility === "always" ? (
+        children
+      ) : (
+        <FooterVisibilityProvider footerVisibility={footerVisibility}>
+          {children}
+        </FooterVisibilityProvider>
+      );
+
+    const { pressScaleRef } = usePressScale();
+
     return (
       <ClassNamesProvider value={classNames}>
         <RadioGroupPrimitive.Item
-          ref={ref}
+          ref={composeRefs(pressScaleRef, ref)}
           className={clsx(classNames.root, className)}
           {...otherProps}
         >
-          {footerVisibility === "always" ? (
-            children
-          ) : (
-            <FooterVisibilityProvider footerVisibility={footerVisibility}>
-              {children}
-            </FooterVisibilityProvider>
-          )}
+          {/* inner layer — scales trigger + footer as one unit on press while the
+              pressed background stays on root. asChild replaces the root element
+              with the consumer's child, so skip the layer (no pressed scale)
+              instead of breaking Slot's contract. */}
+          {otherProps.asChild ? content : <div className={classNames.inner}>{content}</div>}
         </RadioGroupPrimitive.Item>
       </ClassNamesProvider>
     );

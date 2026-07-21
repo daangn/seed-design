@@ -35,6 +35,12 @@
             },
             "strokeTimingFunction": {
               "type": "cubicBezier"
+            },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -209,6 +215,14 @@
                 "strokeTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
+                },
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "trigger": {

@@ -5,6 +5,7 @@ import {
 } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { createPressScaleVarStyles } from "../utils/press-scale";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -13,7 +14,7 @@ import {
 
 const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
-  slots: ["root", "indicator", "item"],
+  slots: ["root", "indicator", "item", "itemLayout"],
   base: {
     root: {
       display: "grid",
@@ -66,8 +67,6 @@ const segmentedControl = defineSlotRecipe({
       minWidth: itemVars.base.enabled.root.minWidth,
       minHeight: itemVars.base.enabled.root.minHeight,
 
-      gap: itemVars.base.enabled.root.gap,
-
       // ensures every item has the height of the tallest item (e.g. item with 2+ lines of label)
       height: "100%",
 
@@ -111,6 +110,28 @@ const segmentedControl = defineSlotRecipe({
         backgroundColor: itemVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },
+
+      // press signal for the layout layer — custom properties inherit, so the layout
+      // slot can consume this without any state forwarding in React.
+      ...createPressScaleVarStyles("--segmented-control-pressed-scale"),
+    },
+    // layout layer — wraps the item's content (hidden input + label); scales as a
+    // whole on press while the pressed background stays on item.
+    itemLayout: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+
+      gap: itemVars.base.enabled.root.gap,
+
+      // allow shrinking below max-content so multi-line labels keep wrapping
+      minWidth: 0,
+
+      // The pressed value is inherited from item, so press detection stays on the
+      // interactive element itself (same signal as the pressed background).
+      scale: "var(--segmented-control-pressed-scale, 1)",
+
+      transition: `scale ${itemVars.base.enabled.root.contentScaleDuration} ${itemVars.base.enabled.root.contentScaleTimingFunction}`,
     },
   },
   variants: {},

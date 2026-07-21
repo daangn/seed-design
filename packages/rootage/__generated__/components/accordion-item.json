@@ -50,6 +50,12 @@
             },
             "cornerRadius": {
               "type": "dimension"
+            },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -189,6 +195,14 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.spacing-x.global-gutter"
+                },
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "body": {

@@ -6,8 +6,10 @@ import {
   type MenuSheetItemVariantProps,
 } from "@seed-design/css/recipes/menu-sheet-item";
 import * as React from "react";
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withPressScale } from "../../utils/pressScale";
+import { usePressScale, withPressScale } from "../../utils/pressScale";
+import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 
@@ -228,21 +230,29 @@ export interface MenuSheetItemProps
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemProps>(
-  ({ className: propClassName, ...props }, ref) => {
+  ({ className: propClassName, children, ...props }, ref) => {
     const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
     const parentProps = useItemProps();
 
     const classNames = menuSheetItem({ ...parentProps, ...variantProps });
     const { stateProps } = useDialogContext();
+    const { pressScaleRef } = usePressScale();
 
     return (
       <ItemClassNamesProvider value={classNames}>
         <Primitive.button
-          ref={ref}
+          ref={composeRefs(pressScaleRef, ref)}
           className={clsx(classNames.root, propClassName)}
           {...stateProps}
           {...otherProps}
-        />
+        >
+          {/* layout layer — scales as a whole on press while the pressed background
+              stays on root. With asChild it is injected inside the consumer's
+              element instead. */}
+          {wrapSlotChildren(otherProps.asChild, children, (layoutChildren) => (
+            <div className={classNames.layout}>{layoutChildren}</div>
+          ))}
+        </Primitive.button>
       </ItemClassNamesProvider>
     );
   },

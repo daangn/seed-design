@@ -4,7 +4,7 @@ import spec from "@seed-design/rootage-artifacts/components/input-button.json" w
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
-import { createPressScaleStyles } from "../utils/press-scale";
+import { createPressScaleStyles, createPressScaleVarStyles } from "../utils/press-scale";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -18,6 +18,7 @@ const inputButton = defineSlotRecipe({
   name: "input-button",
   slots: [
     "root",
+    "layout",
     "value",
     "placeholder",
     "button",
@@ -37,6 +38,36 @@ const inputButton = defineSlotRecipe({
 
       position: "relative",
       isolation: "isolate",
+
+      // press signal for the layout layer — custom properties inherit, so the layout
+      // slot can consume this without any state forwarding in React. Keyed on
+      // [data-active] only (not native :active): the press state comes from the
+      // button overlay, matching the pressed background, and must not fire when a
+      // sibling like clearButton is pressed.
+      ...createPressScaleVarStyles("--input-button-pressed-scale", {
+        gate: pseudo(not("[data-disabled]"), not(readOnly), "[data-active]"),
+      }),
+    },
+    // layout layer — flex row holding the field content (everything but the button
+    // overlay); scales as a whole on press while the background stays on button.
+    // Composed explicitly via FieldButton.Layout; compositions without it skip the scale.
+    layout: {
+      display: "flex",
+      alignItems: "center",
+      flexGrow: 1,
+
+      // gap is defined per size variant on root (a no-op there once content moves
+      // into this slot) — inherit it instead of duplicating the size variants.
+      gap: "inherit",
+
+      // allow shrinking below max-content so the value keeps truncating
+      minWidth: 0,
+
+      // The pressed value is inherited from root, so press detection stays on the
+      // interactive element itself (same signal as the pressed background).
+      scale: "var(--input-button-pressed-scale, 1)",
+
+      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
     },
     button: {
       position: "absolute",

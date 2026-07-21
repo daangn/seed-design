@@ -38,6 +38,12 @@
             "borderRadiusTimingFunction": {
               "type": "cubicBezier"
             },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -167,6 +173,14 @@
                 "borderRadiusTimingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
+                },
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               },
               "body": {

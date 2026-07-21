@@ -4,6 +4,7 @@ import menuItemSpec from "@seed-design/rootage-artifacts/components/menu-item.js
 };
 import { menu as menuVars, menuItem as menuItemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
+import { createPressScaleVarStyles } from "../utils/press-scale";
 import {
   disabled,
   engaged,
@@ -187,7 +188,7 @@ export const menu = defineSlotRecipe({
 
 export const menuItem = defineSlotRecipe({
   name: "menu-item",
-  slots: ["root", "body", "label", "description"],
+  slots: ["root", "layout", "body", "label", "description"],
   base: {
     root: {
       position: "relative",
@@ -237,6 +238,10 @@ export const menuItem = defineSlotRecipe({
         borderRadius: menuItemVars.base.pressed.root.cornerRadius,
       },
 
+      // press signal for the layout layer — custom properties inherit, so the layout
+      // slot can consume this without any state forwarding in React.
+      ...createPressScaleVarStyles("--menu-item-pressed-scale"),
+
       [pseudo(focusVisible)]: {
         "&::after": createFocusRingStyles({ position: "inside" }),
       },
@@ -252,6 +257,23 @@ export const menuItem = defineSlotRecipe({
           color: menuItemVars.base.disabled.suffixIcon.color,
         }),
       },
+    },
+    // layout layer — flex row holding prefixIcon/body/suffixIcon; scales as a whole
+    // on press while the pressed background stays on root::before.
+    layout: {
+      display: "flex",
+      alignItems: "center",
+      flexGrow: 1,
+
+      // gap is defined per size variant on root (a no-op there now that layout is
+      // root's only child) — inherit it instead of duplicating the size variants.
+      gap: "inherit",
+
+      // The pressed value is inherited from root, so press detection stays on the
+      // interactive element itself (same signal as the pressed background).
+      scale: "var(--menu-item-pressed-scale, 1)",
+
+      transition: `scale ${menuItemVars.base.enabled.root.contentScaleDuration} ${menuItemVars.base.enabled.root.contentScaleTimingFunction}`,
     },
     body: {
       display: "flex",

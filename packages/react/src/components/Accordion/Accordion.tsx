@@ -6,11 +6,16 @@ import {
   useAccordionItemContext,
 } from "@seed-design/react-accordion";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import clsx from "clsx";
 import type * as React from "react";
+import { forwardRef } from "react";
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { usePressScale } from "../../utils/pressScale";
+import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
-const { withProvider, withContext } = createSlotRecipeContext(accordion);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(accordion);
 const withStateProps = createWithStateProps([useAccordionItemContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -47,9 +52,26 @@ AccordionHeader.displayName = "AccordionHeader";
 
 export interface AccordionTriggerProps extends AccordionPrimitive.TriggerProps {}
 
-export const AccordionTrigger = withContext<HTMLButtonElement, AccordionTriggerProps>(
-  AccordionPrimitive.Trigger,
-  "trigger",
+export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
+  ({ className, children, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { pressScaleRef } = usePressScale();
+
+    return (
+      <AccordionPrimitive.Trigger
+        ref={composeRefs(pressScaleRef, ref)}
+        className={clsx(classNames.trigger, className)}
+        {...props}
+      >
+        {/* layout layer — scales the trigger's content as a whole on press while the
+            pressed background stays on trigger::before. With asChild it is injected
+            inside the consumer's element instead. */}
+        {wrapSlotChildren(props.asChild, children, (layoutChildren) => (
+          <div className={classNames.layout}>{layoutChildren}</div>
+        ))}
+      </AccordionPrimitive.Trigger>
+    );
+  },
 );
 AccordionTrigger.displayName = "AccordionTrigger";
 

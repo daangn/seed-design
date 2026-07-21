@@ -18,6 +18,10 @@ data:
             type: dimension
           gap:
             type: dimension
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
       prefixIcon:
         properties:
           size:
@@ -70,6 +74,8 @@ data:
           paddingX: $dimension.x4
           paddingY: $dimension.x3_5
           gap: $dimension.x3_5
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         prefixIcon:
           size: 22px
         content:

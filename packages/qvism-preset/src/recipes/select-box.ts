@@ -6,6 +6,7 @@ import {
 } from "../utils/focus-ring";
 import { prefixIcon } from "../utils/icon";
 import { engaged, checked, disabled, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { createPressScaleVarStyles } from "../utils/press-scale";
 import { selectBox as vars } from "../vars/component";
 import { selectBoxGroup as groupVars } from "../vars/component";
 import { selectBoxCheckmark as checkmarkVars } from "../vars/component";
@@ -31,7 +32,7 @@ export const selectBoxGroup = defineRecipe({
 
 export const selectBox = defineSlotRecipe({
   name: "select-box",
-  slots: ["root", "trigger", "content", "body", "label", "description", "footer"],
+  slots: ["root", "inner", "trigger", "content", "body", "label", "description", "footer"],
   base: {
     root: {
       cursor: "pointer",
@@ -69,6 +70,10 @@ export const selectBox = defineSlotRecipe({
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
+      // press signal for the inner layer — custom properties inherit, so the inner
+      // slot can consume this without any state forwarding in React.
+      ...createPressScaleVarStyles("--select-box-pressed-scale"),
+
       [pseudo(not(disabled), checked)]: {
         "&::after": {
           borderWidth: vars.base.selected.root.strokeWidth,
@@ -88,6 +93,20 @@ export const selectBox = defineSlotRecipe({
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
+    },
+    // inner layer — wraps trigger + footer so they scale as one unit on press while
+    // the pressed background, stroke, and selected border stay fixed on root.
+    // ("layout" is taken by the layout variant, hence "inner".)
+    inner: {
+      display: "flex",
+      flexDirection: "column",
+      flexGrow: 1,
+
+      // The pressed value is inherited from root, so press detection stays on the
+      // interactive element itself (same signal as the pressed background).
+      scale: "var(--select-box-pressed-scale, 1)",
+
+      transition: `scale ${vars.base.enabled.root.contentScaleDuration} ${vars.base.enabled.root.contentScaleTimingFunction}`,
     },
     trigger: {
       display: "flex",
