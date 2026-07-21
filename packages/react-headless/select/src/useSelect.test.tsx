@@ -1,9 +1,11 @@
-import { render, act } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, jest } from "bun:test";
 
+import * as React from "react";
+
 import {
-  SelectRoot as Select,
+  SelectRoot,
   SelectTrigger,
   SelectValue,
   SelectPlaceholder,
@@ -14,19 +16,39 @@ import {
   SelectGroup,
   SelectGroupLabel,
   SelectHiddenSelect,
+  useSelectContext,
   type SelectRootProps,
+  type UseSelectReturn,
 } from "./index";
 
+// Flush microtasks so Floating UI position state settles.
+// See: https://floating-ui.com/docs/react#testing
 const waitForPositioning = () => act(async () => {});
 
-function BasicSelect(props: SelectRootProps) {
+function getHighlightedItems(container: ParentNode = document) {
+  return Array.from(container.querySelectorAll("[data-highlighted]"));
+}
+
+/** Reads the hook return from inside the tree without rendering anything. */
+function ApiProbe({ apiRef }: { apiRef: React.RefObject<UseSelectReturn | null> }) {
+  apiRef.current = useSelectContext();
+  return null;
+}
+
+const createApiRef = (): React.RefObject<UseSelectReturn | null> => ({ current: null });
+
+function BasicSelect({
+  apiRef,
+  ...props
+}: SelectRootProps & { apiRef?: React.RefObject<UseSelectReturn | null> }) {
   return (
-    <Select {...props}>
-      <SelectTrigger>
+    <SelectRoot {...props}>
+      {apiRef && <ApiProbe apiRef={apiRef} />}
+      <SelectTrigger aria-label="Fruit">
         <SelectValue />
         <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
       </SelectTrigger>
-      <SelectPositioner>
+      <SelectPositioner data-testid="positioner">
         <SelectContent>
           <SelectScrollArea>
             <SelectItem value="apple" label="Apple">
@@ -35,896 +57,1995 @@ function BasicSelect(props: SelectRootProps) {
             <SelectItem value="banana" label="Banana">
               Banana
             </SelectItem>
-            <SelectItem value="cherry" label="Cherry" disabled>
+            <SelectItem value="cherry" label="Cherry">
               Cherry
             </SelectItem>
           </SelectScrollArea>
         </SelectContent>
       </SelectPositioner>
-      <SelectHiddenSelect />
-    </Select>
+    </SelectRoot>
   );
 }
 
-describe("useSelect", () => {
-  describe("rendering & structure (select-only combobox)", () => {
-    it("renders a trigger with role='combobox' and aria-haspopup='listbox'", async () => {
-      const { getByRole } = render(<BasicSelect name="fruit" />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      expect(trigger).toHaveAttribute("aria-haspopup", "listbox");
-      expect(trigger).toHaveAttribute("aria-expanded", "false");
-    });
+function SelectWithDisabledItem(props: SelectRootProps) {
+  return (
+    <SelectRoot {...props}>
+      <SelectTrigger aria-label="Fruit">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          <SelectItem value="apple" label="Apple">
+            Apple
+          </SelectItem>
+          <SelectItem value="banana" label="Banana" disabled>
+            Banana
+          </SelectItem>
+          <SelectItem value="cherry" label="Cherry">
+            Cherry
+          </SelectItem>
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
+  );
+}
 
-    it("renders listbox content and option items when open", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      expect(getByRole("listbox")).toHaveAttribute("data-open");
-      expect(getAllByRole("option")).toHaveLength(3);
-    });
+async function openWithClick(user: ReturnType<typeof userEvent.setup>, trigger: HTMLElement) {
+  await user.click(trigger);
+  await waitForPositioning();
+}
 
-    it("shows placeholder when nothing is selected", async () => {
-      const { getByText } = render(<BasicSelect />);
-      await waitForPositioning();
-      expect(getByText("Choose a fruit")).toBeInTheDocument();
-    });
+// ===========================================================================
+// Rendering & ARIA basics
+// ===========================================================================
+
+describe("useSelect rendering & ARIA", () => {
+  // REQ-13
+  it("renders the trigger as a combobox with listbox popup wiring", async () => {
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    expect(trigger.tagName).toBe("BUTTON");
+    expect(trigger).toHaveAttribute("aria-haspopup", "listbox");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(trigger).toHaveAttribute("aria-autocomplete", "none");
+
+    const listbox = getByRole("listbox");
+    expect(trigger.getAttribute("aria-controls")).toBe(listbox.id);
   });
 
-  describe("open/close state", () => {
-    it("opens and closes on trigger click", async () => {
-      const user = userEvent.setup();
-      const { getByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      expect(getByRole("listbox")).not.toHaveAttribute("data-open");
-      await user.click(trigger);
-      expect(getByRole("listbox")).toHaveAttribute("data-open");
-      await user.click(trigger);
-      expect(getByRole("listbox")).not.toHaveAttribute("data-open");
-    });
+  // REQ-13
+  it("sets aria-expanded='true' while open", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
 
-    it("closes on Escape", async () => {
-      const user = userEvent.setup();
-      const onOpenChange = jest.fn();
-      const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      onOpenChange.mockClear();
-      await user.keyboard("{Escape}");
-      expect(onOpenChange).toHaveBeenCalledWith(false);
-    });
-
-    it("does not open when disabled", async () => {
-      const user = userEvent.setup();
-      const { getByRole } = render(<BasicSelect disabled />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      expect(getByRole("listbox")).not.toHaveAttribute("data-open");
-    });
-
-    it("does not open when readOnly", async () => {
-      const user = userEvent.setup();
-      const { getByRole } = render(<BasicSelect readOnly />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      expect(getByRole("listbox")).not.toHaveAttribute("data-open");
-    });
+    await openWithClick(user, getByRole("combobox"));
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "true");
   });
 
-  describe("selection", () => {
-    it("selects a value on option click and closes", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole, getAllByRole } = render(<BasicSelect onValueChange={onValueChange} />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.click(getAllByRole("option")[1]);
-      expect(onValueChange).toHaveBeenCalledWith(["banana"]);
-      expect(getByRole("listbox")).not.toHaveAttribute("data-open");
-    });
+  // REQ-14
+  it("always exposes aria-required and aria-invalid, explicitly 'false' when off", async () => {
+    const { getByRole, rerender } = render(<BasicSelect />);
+    await waitForPositioning();
 
-    it("marks the selected option with aria-selected and data-selected", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      const options = getAllByRole("option");
-      expect(options[1]).toHaveAttribute("aria-selected", "true");
-      expect(options[1]).toHaveAttribute("data-selected");
-      expect(options[0]).toHaveAttribute("aria-selected", "false");
-    });
+    expect(getByRole("combobox")).toHaveAttribute("aria-required", "false");
+    expect(getByRole("combobox")).toHaveAttribute("aria-invalid", "false");
 
-    it("displays the selected option's label in the trigger value", async () => {
-      const { getByRole } = render(<BasicSelect defaultValue={["banana"]} />);
-      await waitForPositioning();
-      expect(getByRole("combobox").textContent).toContain("Banana");
-    });
-
-    it("does not select a disabled option on click", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole, getAllByRole } = render(<BasicSelect onValueChange={onValueChange} />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.click(getAllByRole("option")[2]);
-      expect(onValueChange).not.toHaveBeenCalled();
-      expect(getByRole("listbox")).toHaveAttribute("data-open");
-    });
-
-    it("supports controlled value", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole, getAllByRole, rerender } = render(
-        <BasicSelect value={["apple"]} onValueChange={onValueChange} />,
-      );
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.click(getAllByRole("option")[1]);
-      // controlled: value stays ["apple"] until the prop changes
-      expect(onValueChange).toHaveBeenCalledWith(["banana"]);
-      rerender(<BasicSelect value={["banana"]} onValueChange={onValueChange} />);
-      expect(getByRole("combobox").textContent).toContain("Banana");
-    });
+    rerender(<BasicSelect required invalid />);
+    expect(getByRole("combobox")).toHaveAttribute("aria-required", "true");
+    expect(getByRole("combobox")).toHaveAttribute("aria-invalid", "true");
   });
 
-  describe("keyboard (aria-activedescendant, virtual focus)", () => {
-    it("keeps DOM focus on the trigger and highlights via aria-activedescendant", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      await user.click(trigger);
-      await user.keyboard("{ArrowDown}");
-      const options = getAllByRole("option");
-      expect(trigger).toHaveFocus();
-      expect(options[0]).toHaveAttribute("data-highlighted");
-      expect(trigger.getAttribute("aria-activedescendant")).toBe(options[0].id);
-    });
+  // REQ-15
+  it("renders content as a listbox without aria-multiselectable in single mode", async () => {
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
 
-    it("selects the highlighted option on Enter", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole } = render(<BasicSelect onValueChange={onValueChange} />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.keyboard("{ArrowDown}");
-      await user.keyboard("{Enter}");
-      expect(onValueChange).toHaveBeenCalledWith(["apple"]);
-      expect(getByRole("listbox")).not.toHaveAttribute("data-open");
-    });
-
-    it("matches an option by typeahead", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.keyboard("b");
-      const options = getAllByRole("option");
-      expect(options[1]).toHaveAttribute("data-highlighted");
-    });
+    const listbox = getByRole("listbox");
+    expect(listbox).not.toHaveAttribute("aria-multiselectable");
   });
 
-  describe("form integration (hidden native select)", () => {
-    it("renders a hidden native select carrying name and value", async () => {
-      const { container } = render(<BasicSelect name="fruit" defaultValue={["banana"]} />);
-      await waitForPositioning();
-      const nativeSelect = container.querySelector("select[name='fruit']") as HTMLSelectElement;
-      expect(nativeSelect).toBeTruthy();
-      expect(nativeSelect).toHaveValue("banana");
-    });
+  // REQ-15
+  it("sets aria-multiselectable='true' in multiple mode", async () => {
+    const { getByRole } = render(<BasicSelect multiple />);
+    await waitForPositioning();
 
-    it("updates the value when the hidden select changes (autofill path)", async () => {
-      const onValueChange = jest.fn();
-      const { container } = render(<BasicSelect name="fruit" onValueChange={onValueChange} />);
-      await waitForPositioning();
-      const nativeSelect = container.querySelector("select[name='fruit']") as HTMLSelectElement;
-      await act(async () => {
-        nativeSelect.value = "apple";
-        nativeSelect.dispatchEvent(new Event("change", { bubbles: true }));
-      });
-      expect(onValueChange).toHaveBeenCalledWith(["apple"]);
-    });
-
-    // Regression: the trigger is a <button> with no explicit type, so inside a
-    // <form> it defaulted to type="submit". Clicking it submitted the form, which
-    // ran constraint validation on the required hidden <select> and popped the
-    // native "please select an item" bubble the instant the listbox opened.
-    it("renders the trigger as type='button' so it never submits an enclosing form", async () => {
-      const { getByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      expect(getByRole("combobox")).toHaveAttribute("type", "button");
-    });
-
-    it("does not trigger native form validation when the required trigger is clicked", async () => {
-      const user = userEvent.setup();
-      const onInvalid = jest.fn();
-      const { getByRole, container } = render(
-        <form>
-          <BasicSelect name="fruit" required />
-        </form>,
-      );
-      await waitForPositioning();
-      const nativeSelect = container.querySelector("select[name='fruit']") as HTMLSelectElement;
-      nativeSelect.addEventListener("invalid", onInvalid);
-
-      await user.click(getByRole("combobox"));
-
-      expect(onInvalid).not.toHaveBeenCalled();
-      expect(getByRole("listbox")).toHaveAttribute("data-open");
-    });
+    expect(getByRole("listbox")).toHaveAttribute("aria-multiselectable", "true");
   });
 
-  describe("grouping (aria-labelledby)", () => {
-    function SelectWithLabeledGroup(props: SelectRootProps) {
+  // REQ-16
+  it("renders items as options with aria-selected, data-value, and state attributes", async () => {
+    const { getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
+    await waitForPositioning();
+
+    const options = getAllByRole("option");
+    expect(options).toHaveLength(3);
+    expect(options[0]).toHaveAttribute("aria-selected", "false");
+    expect(options[0]).toHaveAttribute("data-value", "apple");
+    expect(options[0]).not.toHaveAttribute("data-selected");
+    expect(options[1]).toHaveAttribute("aria-selected", "true");
+    expect(options[1]).toHaveAttribute("data-value", "banana");
+    expect(options[1]).toHaveAttribute("data-selected");
+  });
+
+  // REQ-16
+  it("marks disabled items with aria-disabled and data-disabled, absent otherwise", async () => {
+    const { getAllByRole } = render(<SelectWithDisabledItem />);
+    await waitForPositioning();
+
+    const options = getAllByRole("option");
+    expect(options[1]).toHaveAttribute("aria-disabled", "true");
+    expect(options[1]).toHaveAttribute("data-disabled");
+    expect(options[0]).not.toHaveAttribute("aria-disabled");
+    expect(options[0]).not.toHaveAttribute("data-disabled");
+  });
+
+  // REQ-07
+  it("carries presence-style state attributes on the trigger", async () => {
+    const user = userEvent.setup();
+    const { getByRole, rerender } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    expect(trigger).not.toHaveAttribute("data-open");
+    expect(trigger).not.toHaveAttribute("data-disabled");
+    expect(trigger).not.toHaveAttribute("data-invalid");
+    expect(trigger).not.toHaveAttribute("data-readonly");
+
+    await openWithClick(user, trigger);
+    expect(trigger).toHaveAttribute("data-open");
+
+    rerender(<BasicSelect disabled invalid readOnly />);
+    expect(trigger).toHaveAttribute("data-disabled");
+    expect(trigger).toHaveAttribute("data-invalid");
+    expect(trigger).toHaveAttribute("data-readonly");
+  });
+
+  // REQ-08
+  it("carries data-hidden on positioner and content while never opened", async () => {
+    const { getByRole, getByTestId } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    expect(getByTestId("positioner")).toHaveAttribute("data-hidden");
+    expect(getByRole("listbox")).toHaveAttribute("data-hidden");
+    expect(getByTestId("positioner")).not.toHaveAttribute("data-open");
+  });
+
+  // REQ-08
+  it("carries data-open on positioner and content while open, and data-hidden again after the close transition", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getByTestId } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    expect(getByTestId("positioner")).toHaveAttribute("data-open");
+    expect(getByRole("listbox")).toHaveAttribute("data-open");
+    expect(getByTestId("positioner")).not.toHaveAttribute("data-hidden");
+
+    await user.click(getByRole("combobox"));
+    expect(getByTestId("positioner")).not.toHaveAttribute("data-open");
+    // stays mounted during the close transition, then flips to hidden
+    await waitFor(() => expect(getByTestId("positioner")).toHaveAttribute("data-hidden"));
+    expect(getByRole("listbox")).toHaveAttribute("data-hidden");
+  });
+});
+
+// ===========================================================================
+// Open / close state
+// ===========================================================================
+
+describe("useSelect open/close", () => {
+  // REQ-04
+  it("toggles open/closed on trigger click", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-01
+  it("supports uncontrolled open with defaultOpen and fires onOpenChange", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect defaultOpen onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "true");
+    await user.click(getByRole("combobox"));
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "false");
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  // REQ-01 (controlled open pinned — reference note)
+  it("keeps a controlled open prop pinned while still firing onOpenChange", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect open onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    await user.keyboard("{Escape}");
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "true");
+  });
+
+  // REQ-05
+  it("closes on Escape", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.keyboard("{Escape}");
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-05 (Escape never clears the value)
+  it("does not clear the value when closed via Escape", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(
+      <BasicSelect defaultValue={["apple"]} onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.keyboard("{Escape}");
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(getByRole("combobox")).toHaveTextContent("Apple");
+  });
+
+  // REQ-05
+  it("closes on outside press", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getByText } = render(
+      <div>
+        <BasicSelect />
+        <button type="button">Outside</button>
+      </div>,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.click(getByText("Outside"));
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-05
+  it("closes when focus moves outside (Tab away)", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
+      <div>
+        <BasicSelect />
+        <button type="button">After</button>
+      </div>,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.tab();
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-02
+  it("never opens while disabled", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect disabled />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    expect(trigger).toBeDisabled();
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-02
+  it("never opens while readOnly (click, keyboard), but closing still works", async () => {
+    const user = userEvent.setup();
+    const { getByRole, rerender } = render(<BasicSelect readOnly />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    trigger.focus();
+    await user.keyboard("{ArrowDown}");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    // a select forced open can always close
+    rerender(<BasicSelect readOnly defaultOpen />);
+    await waitForPositioning();
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-05 (cascade dismiss from a parent dismissible layer)
+  it("closes when a parent dismissible layer is removed", async () => {
+    const user = userEvent.setup();
+    const { DismissibleLayer } = await import("@seed-design/react-dismissible-layer");
+
+    function Wrapper() {
+      const [outerEnabled, setOuterEnabled] = React.useState(true);
       return (
-        <Select {...props}>
-          <SelectTrigger>
+        <div>
+          <button type="button" onClick={() => setOuterEnabled(false)}>
+            Remove parent
+          </button>
+          <DismissibleLayer
+            enabled={outerEnabled}
+            onEscapeKeyDown={() => {}}
+            onPressOutside={() => {}}
+            onFocusOutside={() => {}}
+            onCascadeDismiss={() => {}}
+          >
+            <div>
+              <BasicSelect />
+            </div>
+          </DismissibleLayer>
+        </div>
+      );
+    }
+
+    const { getByRole, getByText } = render(<Wrapper />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    // fireEvent.click dispatches no pointerdown, so press-outside cannot close
+    // the select first — only the cascade from the removed parent layer can.
+    await act(async () => {
+      fireEvent.click(getByText("Remove parent"));
+    });
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-06
+  it("does not submit an enclosing form or fire native constraint validation on trigger click", async () => {
+    const user = userEvent.setup();
+    const onSubmit = jest.fn();
+    const onInvalid = jest.fn();
+    const { getByRole, container } = render(
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSubmit();
+        }}
+      >
+        <SelectRoot name="fruit" required>
+          <SelectTrigger aria-label="Fruit">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectItem value="apple" label="Apple">
+                Apple
+              </SelectItem>
+            </SelectContent>
+          </SelectPositioner>
+          <SelectHiddenSelect onInvalid={onInvalid} />
+        </SelectRoot>
+      </form>,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    expect(trigger).toHaveAttribute("type", "button");
+    await openWithClick(user, trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(onInvalid).not.toHaveBeenCalled();
+    expect(container.querySelector("select")).toBeRequired();
+  });
+});
+
+// ===========================================================================
+// Selection
+// ===========================================================================
+
+describe("useSelect selection (single)", () => {
+  // REQ-31
+  it("commits on item click: sets the value and closes the listbox", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(<BasicSelect onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.click(getAllByRole("option")[1]);
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(["banana"]);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(trigger).toHaveTextContent("Banana");
+  });
+
+  // REQ-01 (controlled value)
+  it("keeps a controlled value pinned while still firing onValueChange", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <BasicSelect value={["apple"]} onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.click(getAllByRole("option")[1]);
+
+    expect(onValueChange).toHaveBeenCalledWith(["banana"]);
+    expect(getByRole("combobox")).toHaveTextContent("Apple");
+    expect(getAllByRole("option")[0]).toHaveAttribute("aria-selected", "true");
+  });
+
+  // REQ-33
+  it("does nothing when a disabled option is clicked", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <SelectWithDisabledItem onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.click(getAllByRole("option")[1]);
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+  });
+
+  // REQ-34
+  it("does not commit an item click whose default was prevented", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <SelectRoot onValueChange={onValueChange}>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem
+              value="apple"
+              label="Apple"
+              // consumer handler runs before the hook's and vetoes the commit
+              onClickCapture={(event) => event.preventDefault()}
+            >
+              Apple
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.click(getAllByRole("option")[0]);
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  // reference note: same-value reselect must not re-fire onValueChange
+  it("does not fire onValueChange when re-committing the already selected value", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <BasicSelect defaultValue={["apple"]} onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.click(getAllByRole("option")[0]);
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // reference note: closing without commit never changes the value
+  it("does not commit the highlighted option on outside click", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getByText } = render(
+      <div>
+        <BasicSelect onValueChange={onValueChange} />
+        <button type="button">Outside</button>
+      </div>,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("{ArrowDown}{ArrowDown}");
+    await user.click(getByText("Outside"));
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+});
+
+describe("useSelect selection (multiple)", () => {
+  // REQ-32 + reference note (exact payloads, insertion order, toggle regression)
+  it("toggles membership preserving insertion order and keeps the listbox open", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <BasicSelect multiple onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    const options = getAllByRole("option");
+
+    await user.click(options[1]);
+    expect(onValueChange).toHaveBeenLastCalledWith(["banana"]);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    await user.click(options[0]);
+    expect(onValueChange).toHaveBeenLastCalledWith(["banana", "apple"]);
+
+    await user.click(options[1]);
+    expect(onValueChange).toHaveBeenLastCalledWith(["apple"]);
+    expect(onValueChange).toHaveBeenCalledTimes(3);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+  });
+
+  // REQ-37 (multiple default display: textValue join)
+  it("renders the selected textValues joined with ', ' in the trigger", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getAllByRole } = render(<BasicSelect multiple />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.click(getAllByRole("option")[0]);
+    await user.click(getAllByRole("option")[2]);
+
+    expect(trigger).toHaveTextContent("Apple, Cherry");
+  });
+});
+
+// ===========================================================================
+// Value display & selectedItems
+// ===========================================================================
+
+describe("useSelect value display", () => {
+  // REQ-35
+  it("projects value through the option registry into selectedItems, omitting unregistered values", async () => {
+    const apiRef = createApiRef();
+    render(<BasicSelect multiple defaultValue={["banana", "ghost"]} apiRef={apiRef} />);
+    await waitForPositioning();
+
+    expect(apiRef.current?.selectedItems).toHaveLength(1);
+    expect(apiRef.current?.selectedItems[0]).toMatchObject({
+      value: "banana",
+      label: "Banana",
+      textValue: "Banana",
+    });
+  });
+
+  // REQ-36
+  it("reflects the first selected option's rendered index in selectedIndex", async () => {
+    const apiRef = createApiRef();
+    const { rerender } = render(<BasicSelect apiRef={apiRef} multiple value={[]} />);
+    await waitForPositioning();
+
+    expect(apiRef.current?.selectedIndex).toBeNull();
+
+    rerender(<BasicSelect apiRef={apiRef} multiple value={["cherry"]} />);
+    await waitForPositioning();
+    expect(apiRef.current?.selectedIndex).toBe(2);
+
+    rerender(<BasicSelect apiRef={apiRef} multiple value={["banana", "cherry"]} />);
+    await waitForPositioning();
+    expect(apiRef.current?.selectedIndex).toBe(1);
+  });
+
+  // REQ-03
+  it("keeps a stable [] reference for the uncontrolled empty selection", async () => {
+    const apiRef = createApiRef();
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect apiRef={apiRef} />);
+    await waitForPositioning();
+
+    const first = apiRef.current?.value;
+    if (!first) throw new Error("api probe not ready");
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.keyboard("{Escape}");
+    const second = apiRef.current?.value;
+
+    expect(first).toEqual([]);
+    expect(second).toBe(first);
+  });
+
+  // REQ-37 (default single display: label node)
+  it("renders the selected option's label in the trigger for single-select", async () => {
+    const { getByRole } = render(<BasicSelect defaultValue={["cherry"]} />);
+    await waitForPositioning();
+
+    expect(getByRole("combobox")).toHaveTextContent("Cherry");
+  });
+
+  // REQ-37 (placeholder only while empty; SelectValue nothing while empty)
+  it("renders the placeholder only while the selection is empty", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getAllByRole, queryByText } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    expect(queryByText("Choose a fruit")).toBeInTheDocument();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.click(getAllByRole("option")[0]);
+    expect(queryByText("Choose a fruit")).not.toBeInTheDocument();
+  });
+
+  // REQ-37 (formatValue precedence over default)
+  it("renders formatValue output instead of the default display", async () => {
+    const { getByRole } = render(
+      <BasicSelect
+        multiple
+        defaultValue={["apple", "banana"]}
+        formatValue={(items) => `${items.length} selected`}
+      />,
+    );
+    await waitForPositioning();
+
+    expect(getByRole("combobox")).toHaveTextContent("2 selected");
+  });
+
+  // REQ-37 (children precedence over formatValue)
+  it("prefers SelectValue children over formatValue", async () => {
+    const { getByRole } = render(
+      <SelectRoot defaultValue={["apple"]} formatValue={() => "from formatValue"}>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue>from children</SelectValue>
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="apple" label="Apple">
+              Apple
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    expect(getByRole("combobox")).toHaveTextContent("from children");
+    expect(getByRole("combobox")).not.toHaveTextContent("from formatValue");
+  });
+
+  // REQ-38 (textValue resolution: textValue ?? string label ?? value)
+  it("resolves the registered textValue from textValue prop, string label, then value", async () => {
+    // the rich label without textValue below intentionally triggers the dev warning
+    const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const apiRef = createApiRef();
+    render(
+      <SelectRoot>
+        <ApiProbe apiRef={apiRef} />
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="a" label="Label A" textValue="Text A" />
+            <SelectItem value="b" label="Label B" />
+            <SelectItem value="c" label={<b>Rich C</b>} />
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    expect(apiRef.current?.nativeOptions.get("a")?.textValue).toBe("Text A");
+    expect(apiRef.current?.nativeOptions.get("b")?.textValue).toBe("Label B");
+    expect(apiRef.current?.nativeOptions.get("c")?.textValue).toBe("c");
+    warn.mockRestore();
+  });
+
+  // REQ-38 (dev warning for ReactNode label without textValue)
+  it("warns in dev when label is a ReactNode and textValue is omitted", async () => {
+    const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
+    render(
+      <SelectRoot>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="rich" label={<b>Rich</b>} />
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('SelectItem "rich"'));
+    warn.mockRestore();
+  });
+});
+
+// ===========================================================================
+// Keyboard & highlight model
+// ===========================================================================
+
+function expectSingleHighlight(trigger: HTMLElement) {
+  const highlighted = getHighlightedItems();
+  expect(highlighted).toHaveLength(1);
+  expect(trigger.getAttribute("aria-activedescendant")).toBe(highlighted[0].id);
+  return highlighted[0];
+}
+
+function expectNoHighlight(trigger: HTMLElement) {
+  expect(getHighlightedItems()).toHaveLength(0);
+  expect(trigger).not.toHaveAttribute("aria-activedescendant");
+}
+
+describe("useSelect keyboard open & highlight seeding", () => {
+  // REQ-25 + REQ-18 (no selection → first enabled)
+  it.each([
+    "{ArrowDown}",
+    "{ArrowUp}",
+    "{Enter}",
+    " ",
+  ])("opens on %s from the closed trigger and seeds the first enabled option", async (key) => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<SelectWithDisabledItem />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard(key);
+    await waitForPositioning();
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    const highlighted = expectSingleHighlight(trigger);
+    expect(highlighted).toHaveAttribute("data-value", "apple");
+  });
+
+  // REQ-18 (selection seeds)
+  it("seeds the selected option on keyboard open", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect defaultValue={["cherry"]} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+
+    const highlighted = expectSingleHighlight(trigger);
+    expect(highlighted).toHaveAttribute("data-value", "cherry");
+  });
+
+  // REQ-18 (multiple: first selected in DOM order)
+  it("seeds the first selected option in DOM order for multiple selects", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect multiple defaultValue={["cherry", "banana"]} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+
+    const highlighted = expectSingleHighlight(trigger);
+    expect(highlighted).toHaveAttribute("data-value", "banana");
+  });
+
+  // REQ-19
+  it("seeds no highlight on pointer open", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect defaultValue={["banana"]} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expectNoHighlight(trigger);
+  });
+
+  // REQ-20
+  it("reveals the current selection on the first arrow press after a pointer open", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect defaultValue={["banana"]} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("{ArrowDown}");
+
+    const highlighted = expectSingleHighlight(trigger);
+    expect(highlighted).toHaveAttribute("data-value", "banana");
+  });
+
+  // REQ-20 (nothing selected → first option; ArrowUp too)
+  it("highlights the first option on the first arrow press after a pointer open with no selection", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("{ArrowUp}");
+
+    const highlighted = expectSingleHighlight(trigger);
+    expect(highlighted).toHaveAttribute("data-value", "apple");
+  });
+
+  // REQ-24
+  it("clears the highlight on close so reopening starts clean", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("{ArrowDown}{ArrowDown}");
+    await user.keyboard("{Escape}");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(trigger).not.toHaveAttribute("aria-activedescendant");
+
+    await openWithClick(user, trigger);
+    expectNoHighlight(trigger);
+  });
+});
+
+describe("useSelect arrow navigation", () => {
+  // REQ-21 (skip disabled: 1 → 3 over disabled 2)
+  it("skips disabled options while navigating", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<SelectWithDisabledItem />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
+
+    await user.keyboard("{ArrowDown}");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
+  });
+
+  // REQ-21 (wraps at both ends, never clearing the highlight)
+  it("wraps from last to first and from first to last", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<SelectWithDisabledItem />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}{ArrowDown}");
+    await waitForPositioning();
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
+
+    await user.keyboard("{ArrowDown}");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
+
+    await user.keyboard("{ArrowUp}");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
+  });
+
+  // REQ-21 (Home/End jump to first/last enabled)
+  it("jumps to the first/last enabled option on Home/End", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
+      <SelectRoot>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="a" label="A" disabled>
+              A
+            </SelectItem>
+            <SelectItem value="b" label="B">
+              B
+            </SelectItem>
+            <SelectItem value="c" label="C">
+              C
+            </SelectItem>
+            <SelectItem value="d" label="D" disabled>
+              D
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+
+    await user.keyboard("{End}");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "c");
+
+    await user.keyboard("{Home}");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "b");
+  });
+
+  // REQ-17
+  it("keeps DOM focus on the trigger while navigating (virtual focus)", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("{ArrowDown}{ArrowDown}");
+
+    expect(document.activeElement).toBe(trigger);
+    expectSingleHighlight(trigger);
+  });
+});
+
+describe("useSelect hover highlight", () => {
+  // REQ-22
+  it("moves the single highlight to the hovered option", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getAllByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.hover(getAllByRole("option")[2]);
+
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
+  });
+
+  // REQ-22 + reference note (hover and keyboard share one highlight)
+  it("continues arrow navigation from the hovered option", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getAllByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.hover(getAllByRole("option")[1]);
+    await user.keyboard("{ArrowDown}");
+
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
+  });
+
+  // REQ-26 (hover cannot highlight disabled)
+  it("does not highlight a disabled option on hover", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getAllByRole } = render(<SelectWithDisabledItem />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.hover(getAllByRole("option")[1]);
+
+    expectNoHighlight(trigger);
+  });
+});
+
+describe("useSelect keyboard commit", () => {
+  // REQ-26 + reference note (exactly one commit per Enter)
+  it("commits the highlighted option on Enter exactly once", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+    await user.keyboard("{ArrowDown}");
+    await user.keyboard("{Enter}");
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(["banana"]);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-26 (Space commits when no typeahead is in progress)
+  it("commits the highlighted option on Space", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+    await user.keyboard(" ");
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(["apple"]);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-26 (nothing highlighted → just closes)
+  it("closes without selecting on Enter/Space when nothing is highlighted", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("{Enter}");
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    await openWithClick(user, trigger);
+    await user.keyboard(" ");
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-23
+  it("keeps the highlight in place when toggling selection in multiple mode", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect multiple defaultValue={["apple"]} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
+
+    await user.keyboard("{ArrowDown}");
+    await user.keyboard(" ");
+    const afterSelect = expectSingleHighlight(trigger);
+    expect(afterSelect).toHaveAttribute("data-value", "banana");
+    expect(afterSelect).toHaveAttribute("data-selected");
+
+    // deselecting the highlighted option keeps the highlight there
+    await user.keyboard(" ");
+    const afterDeselect = expectSingleHighlight(trigger);
+    expect(afterDeselect).toHaveAttribute("data-value", "banana");
+    expect(afterDeselect).not.toHaveAttribute("data-selected");
+  });
+});
+
+// ===========================================================================
+// Typeahead
+// ===========================================================================
+
+function CitySelect(props: SelectRootProps) {
+  return (
+    <SelectRoot {...props}>
+      <SelectTrigger aria-label="City">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          <SelectItem value="new-york" label="New York">
+            New York
+          </SelectItem>
+          <SelectItem value="new-jersey" label="New Jersey">
+            New Jersey
+          </SelectItem>
+          <SelectItem value="newark" label="Newark">
+            Newark
+          </SelectItem>
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
+  );
+}
+
+function LetterSelect(props: SelectRootProps) {
+  return (
+    <SelectRoot {...props}>
+      <SelectTrigger aria-label="Fruit">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          <SelectItem value="apple" label="Apple">
+            Apple
+          </SelectItem>
+          <SelectItem value="apricot" label="Apricot">
+            Apricot
+          </SelectItem>
+          <SelectItem value="banana" label="Banana">
+            Banana
+          </SelectItem>
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
+  );
+}
+
+describe("useSelect typeahead (open)", () => {
+  // REQ-28
+  it("moves the highlight to the multi-character prefix match", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<LetterSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("apr");
+
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apricot");
+  });
+
+  // REQ-28 (disabled options are never matched)
+  it("never matches disabled options", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
+      <SelectRoot>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="apple" label="Apple" disabled>
+              Apple
+            </SelectItem>
+            <SelectItem value="avocado" label="Avocado">
+              Avocado
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("a");
+
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "avocado");
+  });
+
+  // REQ-27
+  it("treats Space during an in-progress typeahead as typing, not a commit", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(<CitySelect onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("new j");
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "new-jersey");
+
+    await user.keyboard("{Enter}");
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(["new-jersey"]);
+  });
+
+  // reference note (typeahead wrap-around past the current highlight)
+  it("wraps the match search past the end of the list", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getAllByRole } = render(<LetterSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.hover(getAllByRole("option")[1]); // highlight Apricot
+    await user.keyboard("a");
+
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
+  });
+
+  // reference note (repeated same char cycles through matches)
+  it("cycles through options sharing the same first letter on repeated presses", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<LetterSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+
+    await user.keyboard("a");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
+    await user.keyboard("a");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apricot");
+    await user.keyboard("a");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
+  });
+
+  // reference note (values where one is a string prefix of another)
+  it("keeps narrowing across prefix-adjacent options", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
+      <SelectRoot>
+        <SelectTrigger aria-label="Word">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="alpha" label="Alpha">
+              Alpha
+            </SelectItem>
+            <SelectItem value="alphabet" label="Alphabet">
+              Alphabet
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("alphab");
+
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "alphabet");
+  });
+
+  // REQ-30 — each case renders fresh so the 750ms typeahead buffer never
+  // couples the searches ("z" then "c" would otherwise search for "zc").
+  function MatchStringSelect(props: SelectRootProps) {
+    return (
+      <SelectRoot {...props}>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="first" label="Apple" typeaheadLabel="Zucchini">
+              Apple
+            </SelectItem>
+            <SelectItem value="second" label={<b>Fancy</b>} textValue="Cherry">
+              Wrong Words
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>
+    );
+  }
+
+  it("matches typeaheadLabel over the string label", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<MatchStringSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("z");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "first");
+  });
+
+  it("matches the textValue when the label is a ReactNode", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<MatchStringSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("c");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "second");
+  });
+
+  it("never matches the rendered children textContent", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<MatchStringSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    // "Wrong Words" is the second item's DOM text; it must not be typeable
+    await user.keyboard("w");
+    expectNoHighlight(trigger);
+  });
+});
+
+describe("useSelect typeahead (closed trigger)", () => {
+  // REQ-29
+  it("commits the matched value directly without opening (single-select)", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("b");
+
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(["banana"]);
+    expect(trigger).toHaveTextContent("Banana");
+  });
+
+  // REQ-29 (no-op when multiple)
+  it("does nothing while closed in multiple mode", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(<BasicSelect multiple onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("b");
+
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  // REQ-29 (no-op when readOnly)
+  it("does nothing while readOnly", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(<BasicSelect readOnly onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("b");
+
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  // REQ-27 (closed: Space inside an in-progress search must not open)
+  it("keeps a mid-search Space from opening the listbox", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(<CitySelect onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("new j");
+
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(onValueChange).toHaveBeenLastCalledWith(["new-jersey"]);
+  });
+
+  // REQ-24 (no stale highlight leaks into the next open)
+  it("leaves no highlight behind for the next pointer open after a closed commit", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("b");
+    expect(trigger).toHaveTextContent("Banana");
+
+    await openWithClick(user, trigger);
+    expectNoHighlight(trigger);
+  });
+});
+
+// ===========================================================================
+// Option registry & dynamic options
+// ===========================================================================
+
+describe("useSelect option registry", () => {
+  // REQ-39
+  it("re-registering identical entries causes no registry churn", async () => {
+    const apiRef = createApiRef();
+    const { rerender } = render(<BasicSelect apiRef={apiRef} />);
+    await waitForPositioning();
+
+    const before = apiRef.current?.nativeOptions;
+    if (!before) throw new Error("api probe not ready");
+
+    expect(before.size).toBe(3);
+
+    rerender(<BasicSelect apiRef={apiRef} />);
+    await waitForPositioning();
+
+    expect(apiRef.current?.nativeOptions).toBe(before);
+  });
+
+  // reference note (label updates propagate to the closed trigger)
+  it("updates the trigger text when a selected item's label changes while closed", async () => {
+    function Wrapper({ label }: { label: string }) {
+      return (
+        <SelectRoot defaultValue={["a"]}>
+          <SelectTrigger aria-label="Fruit">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectItem value="a" label={label}>
+                {label}
+              </SelectItem>
+            </SelectContent>
+          </SelectPositioner>
+        </SelectRoot>
+      );
+    }
+
+    const { getByRole, rerender } = render(<Wrapper label="Apple" />);
+    await waitForPositioning();
+    expect(getByRole("combobox")).toHaveTextContent("Apple");
+
+    rerender(<Wrapper label="Golden Apple" />);
+    await waitForPositioning();
+    expect(getByRole("combobox")).toHaveTextContent("Golden Apple");
+  });
+
+  // REQ-40 (single: prune to empty, placeholder returns)
+  it("prunes the value when the selected option unregisters", async () => {
+    const onValueChange = jest.fn();
+
+    function Wrapper({ showBanana }: { showBanana: boolean }) {
+      return (
+        <SelectRoot defaultValue={["banana"]} onValueChange={onValueChange}>
+          <SelectTrigger aria-label="Fruit">
             <SelectValue />
             <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
           </SelectTrigger>
           <SelectPositioner>
             <SelectContent>
-              <SelectScrollArea>
-                <SelectGroup>
-                  <SelectGroupLabel>Fruits</SelectGroupLabel>
-                  <SelectItem value="apple" label="Apple">
-                    Apple
-                  </SelectItem>
-                  <SelectItem value="banana" label="Banana">
-                    Banana
-                  </SelectItem>
-                </SelectGroup>
-              </SelectScrollArea>
-            </SelectContent>
-          </SelectPositioner>
-        </Select>
-      );
-    }
-
-    function SelectWithUnlabeledGroup(props: SelectRootProps) {
-      return (
-        <Select {...props}>
-          <SelectTrigger>
-            <SelectValue />
-            <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
-          </SelectTrigger>
-          <SelectPositioner>
-            <SelectContent>
-              <SelectScrollArea>
-                <SelectGroup>
-                  <SelectItem value="apple" label="Apple">
-                    Apple
-                  </SelectItem>
-                  <SelectItem value="banana" label="Banana">
-                    Banana
-                  </SelectItem>
-                </SelectGroup>
-              </SelectScrollArea>
-            </SelectContent>
-          </SelectPositioner>
-        </Select>
-      );
-    }
-
-    it("labels a group via aria-labelledby resolving to the rendered group label", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole, getByText } = render(<SelectWithLabeledGroup />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      const group = getAllByRole("group")[0];
-      const labelledBy = group.getAttribute("aria-labelledby");
-      expect(labelledBy).toBeTruthy();
-      expect(getByText("Fruits")).toHaveAttribute("id", labelledBy as string);
-    });
-
-    it("does not set a dangling aria-labelledby on a group without a label", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<SelectWithUnlabeledGroup />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      const group = getAllByRole("group")[0];
-      expect(group).not.toHaveAttribute("aria-labelledby");
-    });
-  });
-
-  describe("form a11y (aria-required / aria-invalid on trigger)", () => {
-    it("reflects required as aria-required='true' on the trigger", async () => {
-      const { getByRole } = render(<BasicSelect required />);
-      await waitForPositioning();
-      expect(getByRole("combobox")).toHaveAttribute("aria-required", "true");
-    });
-
-    it("reflects invalid as aria-invalid='true' on the trigger", async () => {
-      const { getByRole } = render(<BasicSelect invalid />);
-      await waitForPositioning();
-      expect(getByRole("combobox")).toHaveAttribute("aria-invalid", "true");
-    });
-
-    it("always exposes aria-required and aria-invalid on the trigger (matching Ark)", async () => {
-      const { getByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      expect(trigger).toHaveAttribute("aria-required", "false");
-      expect(trigger).toHaveAttribute("aria-invalid", "false");
-    });
-  });
-
-  describe("active option on open (keyboard-gated aria-activedescendant)", () => {
-    it("seeds the selected option as the active option when opened via keyboard", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      trigger.focus();
-      // opening with the keyboard seeds the active option from the current selection
-      await user.keyboard("{ArrowDown}");
-      const options = getAllByRole("option");
-      expect(options[1]).toHaveAttribute("data-highlighted");
-      expect(options[1].id).toBeTruthy();
-      expect(trigger).toHaveAttribute("aria-activedescendant", options[1].id);
-    });
-
-    it("does not seed an active option when opened via pointer", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      await user.click(trigger);
-      // pointer/tap open must not highlight the selection — a seeded highlight reads as a
-      // "stuck pressed" state on touch (mobile-first). Keyboard users still get the seed above.
-      const options = getAllByRole("option");
-      expect(options[1]).not.toHaveAttribute("data-highlighted");
-      expect(trigger).not.toHaveAttribute("aria-activedescendant");
-    });
-
-    it("leaves no active option on open when nothing is selected", async () => {
-      const user = userEvent.setup();
-      const { getByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      await user.click(trigger);
-      expect(trigger).not.toHaveAttribute("aria-activedescendant");
-    });
-  });
-
-  describe("pointer hover (single active option)", () => {
-    it("moves the highlight to the hovered option and clears it from the previously highlighted one", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      trigger.focus();
-      // open via keyboard so the selection (banana) is seeded as the active option —
-      // gives us a prior highlight for hover to move off of.
-      await user.keyboard("{ArrowDown}");
-
-      const options = getAllByRole("option");
-      expect(options[1]).toHaveAttribute("data-highlighted");
-
-      await user.hover(options[0]);
-      await waitForPositioning();
-
-      // Hovering moves the single active option to the hovered item; exactly one is ever highlighted.
-      expect(options.filter((option) => option.hasAttribute("data-highlighted"))).toHaveLength(1);
-      expect(options[0]).toHaveAttribute("data-highlighted");
-      expect(options[1]).not.toHaveAttribute("data-highlighted");
-    });
-  });
-
-  describe("multiple selection", () => {
-    function MultiSelect(props: SelectRootProps) {
-      return (
-        <Select {...props} multiple>
-          <SelectTrigger>
-            <SelectValue />
-            <SelectPlaceholder>Choose fruits</SelectPlaceholder>
-          </SelectTrigger>
-          <SelectPositioner>
-            <SelectContent>
-              <SelectScrollArea>
-                <SelectItem value="apple" label="Apple">
-                  Apple
-                </SelectItem>
+              <SelectItem value="apple" label="Apple">
+                Apple
+              </SelectItem>
+              {showBanana && (
                 <SelectItem value="banana" label="Banana">
                   Banana
                 </SelectItem>
-                <SelectItem value="cherry" label="Cherry" disabled>
-                  Cherry
-                </SelectItem>
-              </SelectScrollArea>
+              )}
             </SelectContent>
           </SelectPositioner>
-          <SelectHiddenSelect />
-        </Select>
+        </SelectRoot>
       );
     }
 
-    it("toggles multiple values on and keeps the listbox open", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole, getAllByRole } = render(<MultiSelect onValueChange={onValueChange} />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.click(getAllByRole("option")[0]);
-      await user.click(getAllByRole("option")[1]);
-      expect(getByRole("listbox")).toHaveAttribute("data-open");
-      const options = getAllByRole("option");
-      expect(options[0]).toHaveAttribute("aria-selected", "true");
-      expect(options[1]).toHaveAttribute("aria-selected", "true");
-      expect(onValueChange).toHaveBeenLastCalledWith(["apple", "banana"]);
-    });
+    const { getByRole, rerender, queryByText } = render(<Wrapper showBanana />);
+    await waitForPositioning();
+    expect(getByRole("combobox")).toHaveTextContent("Banana");
 
-    it("deselects a selected value on re-click", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole, getAllByRole } = render(
-        <MultiSelect defaultValue={["apple"]} onValueChange={onValueChange} />,
-      );
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.click(getAllByRole("option")[0]);
-      expect(onValueChange).toHaveBeenLastCalledWith([]);
-      expect(getByRole("listbox")).toHaveAttribute("data-open");
-    });
+    rerender(<Wrapper showBanana={false} />);
+    await waitForPositioning();
 
-    it("marks the listbox as aria-multiselectable when multiple", async () => {
-      const user = userEvent.setup();
-      const { getByRole } = render(<MultiSelect />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      expect(getByRole("listbox")).toHaveAttribute("aria-multiselectable", "true");
-    });
-
-    it("does not mark aria-multiselectable in single mode", async () => {
-      const user = userEvent.setup();
-      const { getByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      expect(getByRole("listbox")).not.toHaveAttribute("aria-multiselectable");
-    });
-
-    it("joins the selected options' text in the trigger value", async () => {
-      const { getByRole } = render(<MultiSelect defaultValue={["apple", "banana"]} />);
-      await waitForPositioning();
-      expect(getByRole("combobox").textContent).toContain("Apple, Banana");
-    });
-
-    it("renders a hidden multiple native select carrying every value", async () => {
-      const { container } = render(
-        <MultiSelect name="fruits" defaultValue={["apple", "banana"]} />,
-      );
-      await waitForPositioning();
-      const nativeSelect = container.querySelector("select[name='fruits']") as HTMLSelectElement;
-      expect(nativeSelect).toHaveAttribute("multiple");
-      expect(Array.from(nativeSelect.selectedOptions).map((option) => option.value)).toEqual([
-        "apple",
-        "banana",
-      ]);
-    });
-
-    it("toggles the highlighted option on Enter and keeps the listbox open", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole } = render(<MultiSelect onValueChange={onValueChange} />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.keyboard("{ArrowDown}");
-      await user.keyboard("{Enter}");
-      expect(onValueChange).toHaveBeenLastCalledWith(["apple"]);
-      expect(getByRole("listbox")).toHaveAttribute("data-open");
-    });
+    expect(onValueChange).toHaveBeenCalledWith([]);
+    expect(queryByText("Choose a fruit")).toBeInTheDocument();
   });
 
-  describe("value display (formatValue & textValue)", () => {
-    it("renders formatValue output over the default label join", async () => {
-      function FormatSelect() {
-        return (
-          <Select
-            multiple
-            defaultValue={["apple", "banana"]}
-            formatValue={(items) => `${items.length} selected`}
-          >
-            <SelectTrigger>
-              <SelectValue />
-              <SelectPlaceholder>Choose</SelectPlaceholder>
-            </SelectTrigger>
-            <SelectPositioner>
-              <SelectContent>
-                <SelectScrollArea>
-                  <SelectItem value="apple" label="Apple">
-                    Apple
-                  </SelectItem>
-                  <SelectItem value="banana" label="Banana">
-                    Banana
-                  </SelectItem>
-                </SelectScrollArea>
-              </SelectContent>
-            </SelectPositioner>
-          </Select>
-        );
-      }
-      const { getByRole } = render(<FormatSelect />);
-      await waitForPositioning();
-      expect(getByRole("combobox").textContent).toContain("2 selected");
-    });
+  // REQ-40 (multiple: survivors kept)
+  it("keeps the surviving values when one of several selected options unregisters", async () => {
+    const onValueChange = jest.fn();
 
-    it("uses textValue for the native option text when the label is a ReactNode", async () => {
-      const { container } = render(
-        <Select name="fruit" defaultValue={["apple"]}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectPositioner>
-            <SelectContent>
-              <SelectScrollArea>
-                <SelectItem value="apple" label={<b>Apple</b>} textValue="Apple">
-                  <b>Apple</b>
-                </SelectItem>
-              </SelectScrollArea>
-            </SelectContent>
-          </SelectPositioner>
-          <SelectHiddenSelect />
-        </Select>,
-      );
-      await waitForPositioning();
-      const option = container.querySelector("select[name='fruit'] option[value='apple']");
-      expect(option?.textContent).toBe("Apple");
-    });
-  });
-
-  describe("prefix icon registration (mirrored via selectedItems)", () => {
-    // The headless layer only carries the registration channel: an item's
-    // `prefixIcon` must surface on `selectedItems`. Where and when it is shown
-    // (the exactly-one-selected branch) is the styled layer's concern.
-    function PrefixIconSelect({
-      showApple = true,
-      ...props
-    }: SelectRootProps & { showApple?: boolean }) {
+    function Wrapper({ showBanana }: { showBanana: boolean }) {
       return (
-        <Select {...props} formatValue={(items) => items[0]?.prefixIcon}>
-          <SelectTrigger>
+        <SelectRoot multiple defaultValue={["banana", "apple"]} onValueChange={onValueChange}>
+          <SelectTrigger aria-label="Fruit">
             <SelectValue />
-            <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
           </SelectTrigger>
           <SelectPositioner>
             <SelectContent>
-              <SelectScrollArea>
-                {showApple && (
-                  <SelectItem
-                    value="apple"
-                    label="Apple"
-                    prefixIcon={<svg data-testid="apple-icon" />}
-                  >
-                    Apple
-                  </SelectItem>
-                )}
-                <SelectItem
-                  value="banana"
-                  label="Banana"
-                  prefixIcon={<svg data-testid="banana-icon" />}
-                >
+              <SelectItem value="apple" label="Apple">
+                Apple
+              </SelectItem>
+              {showBanana && (
+                <SelectItem value="banana" label="Banana">
                   Banana
                 </SelectItem>
-                <SelectItem value="cherry" label="Cherry">
-                  Cherry
-                </SelectItem>
-              </SelectScrollArea>
+              )}
             </SelectContent>
           </SelectPositioner>
-        </Select>
+        </SelectRoot>
       );
     }
 
-    it("carries the selected item's prefixIcon on selectedItems", async () => {
-      const { getByRole, queryByTestId } = render(<PrefixIconSelect defaultValue={["apple"]} />);
-      await waitForPositioning();
-      const icon = queryByTestId("apple-icon");
-      expect(icon).toBeInTheDocument();
-      expect(getByRole("combobox").contains(icon)).toBe(true);
-    });
+    const { rerender } = render(<Wrapper showBanana />);
+    await waitForPositioning();
 
-    it("swaps the mirrored node when the selection changes and drops it when cleared", async () => {
-      const { queryByTestId, rerender } = render(<PrefixIconSelect value={["apple"]} />);
-      await waitForPositioning();
-      expect(queryByTestId("apple-icon")).toBeInTheDocument();
+    rerender(<Wrapper showBanana={false} />);
+    await waitForPositioning();
 
-      rerender(<PrefixIconSelect value={["banana"]} />);
-      expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
-      expect(queryByTestId("banana-icon")).toBeInTheDocument();
-
-      rerender(<PrefixIconSelect value={[]} />);
-      expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
-      expect(queryByTestId("banana-icon")).not.toBeInTheDocument();
-    });
-
-    it("unregisters the prefixIcon when the item unmounts", async () => {
-      const { queryByTestId, rerender } = render(<PrefixIconSelect value={["apple"]} />);
-      await waitForPositioning();
-      expect(queryByTestId("apple-icon")).toBeInTheDocument();
-
-      rerender(<PrefixIconSelect value={["apple"]} showApple={false} />);
-      expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
-    });
-
-    it("does not leak prefixIcon as a DOM attribute on the item", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<PrefixIconSelect />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      const options = getAllByRole("option");
-      expect(options[0]).not.toHaveAttribute("prefixIcon");
-      expect(options[0]).not.toHaveAttribute("prefixicon");
-    });
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(["apple"]);
   });
 
-  describe("keyboard resume from selection", () => {
-    it("reveals the selection on the first arrow press after a pointer open", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect defaultValue={["banana"]} />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      await user.click(trigger);
-      const options = getAllByRole("option");
-      expect(trigger).not.toHaveAttribute("aria-activedescendant");
+  // REQ-41
+  it("does not prune a defaultValue before any option has registered", async () => {
+    const onValueChange = jest.fn();
+    const { getByRole } = render(
+      <BasicSelect defaultValue={["cherry"]} onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
 
-      await user.keyboard("{ArrowDown}");
-      expect(options[1]).toHaveAttribute("data-highlighted");
-      expect(trigger).toHaveAttribute("aria-activedescendant", options[1].id);
-    });
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(getByRole("combobox")).toHaveTextContent("Cherry");
+  });
+});
 
-    it("starts from the first option on arrow press when nothing is selected", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      await user.click(getByRole("combobox"));
-      await user.keyboard("{ArrowDown}");
-      expect(getAllByRole("option")[0]).toHaveAttribute("data-highlighted");
-    });
+// ===========================================================================
+// Form integration (hidden select)
+// ===========================================================================
 
-    it("seeds the first enabled option when opened via keyboard with no selection", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      trigger.focus();
-      await user.keyboard("{ArrowDown}");
-      const options = getAllByRole("option");
-      expect(options[0]).toHaveAttribute("data-highlighted");
-      expect(trigger).toHaveAttribute("aria-activedescendant", options[0].id);
-    });
+describe("useSelect hidden select", () => {
+  // REQ-42
+  it("mirrors name/form/required/disabled/multiple and the current value", async () => {
+    const { container, rerender } = render(
+      <BasicSelectWithHiddenSelect
+        name="fruit"
+        form="fruit-form"
+        required
+        defaultValue={["banana"]}
+      />,
+    );
+    await waitForPositioning();
 
-    it("jumps to the first and last enabled options on Home and End", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      getByRole("combobox").focus();
-      await user.keyboard("{ArrowDown}");
-      const options = getAllByRole("option");
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
 
-      await user.keyboard("{End}");
-      // cherry is disabled — the last enabled option is banana
-      expect(options[1]).toHaveAttribute("data-highlighted");
+    expect(hidden).toHaveAttribute("name", "fruit");
+    expect(hidden).toHaveAttribute("form", "fruit-form");
+    expect(hidden).toBeRequired();
+    expect(hidden).not.toBeDisabled();
+    expect(hidden.multiple).toBe(false);
+    expect(hidden.value).toBe("banana");
+    expect(hidden).toHaveAttribute("aria-hidden");
+    expect(hidden.tabIndex).toBe(-1);
 
-      await user.keyboard("{Home}");
-      expect(options[0]).toHaveAttribute("data-highlighted");
-    });
+    // options come from the registry with textValue as text, plus a leading
+    // empty option so `required` constraint validation can fail
+    const options = Array.from(hidden.querySelectorAll("option"));
+    expect(options.map((option) => option.value)).toEqual(["", "apple", "banana", "cherry"]);
+    expect(options[2]).toHaveTextContent("Banana");
+
+    rerender(<BasicSelectWithHiddenSelect name="fruit" disabled defaultValue={["banana"]} />);
+    expect(container.querySelector("select")).toBeDisabled();
   });
 
-  describe("typeahead details", () => {
-    function StateSelect(props: SelectRootProps) {
+  // REQ-42 (multiple: every selected value via selectedOptions)
+  it("carries every selected value on the multiple hidden select", async () => {
+    const user = userEvent.setup();
+    const { container, getByRole, getAllByRole } = render(
+      <BasicSelectWithHiddenSelect name="fruits" multiple />,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.click(getAllByRole("option")[0]);
+    await user.click(getAllByRole("option")[2]);
+
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
+
+    expect(hidden.multiple).toBe(true);
+    // no leading empty option in multiple mode
+    const options = Array.from(hidden.querySelectorAll("option"));
+    expect(options.map((option) => option.value)).toEqual(["apple", "banana", "cherry"]);
+    expect(Array.from(hidden.selectedOptions).map((option) => option.value)).toEqual([
+      "apple",
+      "cherry",
+    ]);
+  });
+
+  // REQ-43 (autofill bridge, single)
+  it("propagates native change events back into the component (single)", async () => {
+    const { container, getByRole } = render(<BasicSelectWithHiddenSelect name="fruit" />);
+    await waitForPositioning();
+
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
+
+    fireEvent.change(hidden, { target: { value: "cherry" } });
+    await waitForPositioning();
+    expect(getByRole("combobox")).toHaveTextContent("Cherry");
+
+    fireEvent.change(hidden, { target: { value: "" } });
+    await waitForPositioning();
+    expect(getByRole("combobox")).not.toHaveTextContent("Cherry");
+  });
+
+  // REQ-43 (autofill bridge, multiple)
+  it("propagates native change events back into the component (multiple)", async () => {
+    const apiRef = createApiRef();
+    const { container } = render(<BasicSelectWithHiddenSelect apiRef={apiRef} multiple />);
+    await waitForPositioning();
+
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
+
+    const options = Array.from(hidden.querySelectorAll("option"));
+    for (const option of options) option.selected = option.value !== "banana";
+    fireEvent.change(hidden);
+    await waitForPositioning();
+
+    expect(apiRef.current?.value).toEqual(["apple", "cherry"]);
+  });
+});
+
+function BasicSelectWithHiddenSelect({
+  apiRef,
+  ...props
+}: SelectRootProps & { apiRef?: React.RefObject<UseSelectReturn | null> }) {
+  return (
+    <SelectRoot {...props}>
+      {apiRef && <ApiProbe apiRef={apiRef} />}
+      <SelectTrigger aria-label="Fruit">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          <SelectItem value="apple" label="Apple">
+            Apple
+          </SelectItem>
+          <SelectItem value="banana" label="Banana">
+            Banana
+          </SelectItem>
+          <SelectItem value="cherry" label="Cherry">
+            Cherry
+          </SelectItem>
+        </SelectContent>
+      </SelectPositioner>
+      <SelectHiddenSelect />
+    </SelectRoot>
+  );
+}
+
+// ===========================================================================
+// Groups
+// ===========================================================================
+
+describe("useSelectGroup", () => {
+  // REQ-44
+  it("labels each group with its own rendered label", async () => {
+    const { getAllByRole, getByText } = render(
+      <SelectRoot>
+        <SelectTrigger aria-label="Food">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectGroup>
+              <SelectGroupLabel>Fruits</SelectGroupLabel>
+              <SelectItem value="apple" label="Apple">
+                Apple
+              </SelectItem>
+            </SelectGroup>
+            <SelectGroup>
+              <SelectGroupLabel>Vegetables</SelectGroupLabel>
+              <SelectItem value="carrot" label="Carrot">
+                Carrot
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    const groups = getAllByRole("group");
+    expect(groups).toHaveLength(2);
+
+    const fruitsLabel = getByText("Fruits");
+    const vegetablesLabel = getByText("Vegetables");
+    expect(fruitsLabel).toHaveAttribute("role", "presentation");
+    expect(groups[0].getAttribute("aria-labelledby")).toBe(fruitsLabel.id);
+    expect(groups[1].getAttribute("aria-labelledby")).toBe(vegetablesLabel.id);
+    expect(fruitsLabel.id).not.toBe(vegetablesLabel.id);
+  });
+
+  // REQ-44 (aria-labelledby only while the label is rendered)
+  it("drops aria-labelledby while the label is not rendered and restores it when it returns", async () => {
+    function Wrapper({ showLabel }: { showLabel: boolean }) {
       return (
-        <Select {...props}>
-          <SelectTrigger>
-            <SelectValue />
-            <SelectPlaceholder>Choose a state</SelectPlaceholder>
-          </SelectTrigger>
-          <SelectPositioner>
-            <SelectContent>
-              <SelectScrollArea>
-                <SelectItem value="new-jersey" label="New Jersey">
-                  New Jersey
-                </SelectItem>
-                <SelectItem value="new-york" label="New York">
-                  New York
-                </SelectItem>
-              </SelectScrollArea>
-            </SelectContent>
-          </SelectPositioner>
-          <SelectHiddenSelect />
-        </Select>
-      );
-    }
-
-    it("treats Space inside an in-progress match as typing, not selection", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole, getAllByRole } = render(<StateSelect onValueChange={onValueChange} />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      await user.click(trigger);
-      const options = getAllByRole("option");
-
-      await user.keyboard("new york");
-      expect(onValueChange).not.toHaveBeenCalled();
-      expect(trigger).toHaveAttribute("aria-expanded", "true");
-      expect(options[1]).toHaveAttribute("data-highlighted");
-
-      await user.keyboard("{Enter}");
-      expect(onValueChange).toHaveBeenCalledWith(["new-york"]);
-    });
-
-    it("commits a match typed on the closed trigger (single-select)", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole, getAllByRole } = render(<BasicSelect onValueChange={onValueChange} />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      trigger.focus();
-      await user.keyboard("b");
-      expect(onValueChange).toHaveBeenCalledWith(["banana"]);
-      expect(trigger).toHaveAttribute("aria-expanded", "false");
-      expect(trigger).toHaveTextContent("Banana");
-
-      // the closed-state match must not leak a stale highlight into the next pointer open
-      await user.click(trigger);
-      const options = getAllByRole("option");
-      expect(options[1]).not.toHaveAttribute("data-highlighted");
-      expect(trigger).not.toHaveAttribute("aria-activedescendant");
-    });
-
-    it("does not commit closed-trigger typeahead when readOnly", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole } = render(<BasicSelect readOnly onValueChange={onValueChange} />);
-      await waitForPositioning();
-      getByRole("combobox").focus();
-      await user.keyboard("b");
-      expect(onValueChange).not.toHaveBeenCalled();
-    });
-
-    it("does not commit closed-trigger typeahead when multiple", async () => {
-      const user = userEvent.setup();
-      const onValueChange = jest.fn();
-      const { getByRole } = render(<BasicSelect multiple onValueChange={onValueChange} />);
-      await waitForPositioning();
-      getByRole("combobox").focus();
-      await user.keyboard("b");
-      expect(onValueChange).not.toHaveBeenCalled();
-    });
-
-    it("never matches a disabled option", async () => {
-      const user = userEvent.setup();
-      const { getByRole } = render(<BasicSelect />);
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      await user.click(trigger);
-      await user.keyboard("c");
-      expect(trigger).not.toHaveAttribute("aria-activedescendant");
-    });
-
-    it("matches a ReactNode-labeled option by its textValue", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(
-        <Select>
-          <SelectTrigger>
+        <SelectRoot>
+          <SelectTrigger aria-label="Food">
             <SelectValue />
           </SelectTrigger>
           <SelectPositioner>
             <SelectContent>
-              <SelectScrollArea>
+              <SelectGroup>
+                {showLabel && <SelectGroupLabel>Fruits</SelectGroupLabel>}
                 <SelectItem value="apple" label="Apple">
                   Apple
                 </SelectItem>
-                <SelectItem value="durian" label={<b>Rich Durian</b>} textValue="Durian">
-                  Rich Durian
-                </SelectItem>
-              </SelectScrollArea>
+              </SelectGroup>
             </SelectContent>
           </SelectPositioner>
-        </Select>,
-      );
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      await user.click(trigger);
-      // "Rich Durian" starts with "r" — a DOM-textContent fallback would not match "d"
-      await user.keyboard("d");
-      const options = getAllByRole("option");
-      expect(options[1]).toHaveAttribute("data-highlighted");
-    });
-  });
-
-  describe("dynamic options (selected item removed)", () => {
-    function DynamicSelect({
-      showBanana = true,
-      ...props
-    }: SelectRootProps & { showBanana?: boolean }) {
-      return (
-        <Select {...props}>
-          <SelectTrigger>
-            <SelectValue />
-            <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
-          </SelectTrigger>
-          <SelectPositioner>
-            <SelectContent>
-              <SelectScrollArea>
-                <SelectItem value="apple" label="Apple">
-                  Apple
-                </SelectItem>
-                {showBanana && (
-                  <SelectItem value="banana" label="Banana">
-                    Banana
-                  </SelectItem>
-                )}
-              </SelectScrollArea>
-            </SelectContent>
-          </SelectPositioner>
-          <SelectHiddenSelect />
-        </Select>
+        </SelectRoot>
       );
     }
 
-    it("prunes the value and restores the placeholder when the selected option unmounts", async () => {
-      const onValueChange = jest.fn();
-      const { getByRole, getByText, rerender } = render(
-        <DynamicSelect defaultValue={["banana"]} onValueChange={onValueChange} />,
-      );
-      await waitForPositioning();
-      const trigger = getByRole("combobox");
-      expect(trigger).toHaveTextContent("Banana");
+    const { getByRole, getByText, rerender } = render(<Wrapper showLabel />);
+    await waitForPositioning();
 
-      rerender(
-        <DynamicSelect
-          defaultValue={["banana"]}
-          onValueChange={onValueChange}
-          showBanana={false}
-        />,
-      );
-      await waitForPositioning();
-      expect(onValueChange).toHaveBeenCalledWith([]);
-      expect(getByText("Choose a fruit")).toBeInTheDocument();
-    });
+    expect(getByRole("group").getAttribute("aria-labelledby")).toBe(getByText("Fruits").id);
 
-    it("keeps the remaining selected values when one option unmounts (multiple)", async () => {
-      const onValueChange = jest.fn();
-      const { getByRole, rerender } = render(
-        <DynamicSelect multiple defaultValue={["apple", "banana"]} onValueChange={onValueChange} />,
-      );
-      await waitForPositioning();
+    rerender(<Wrapper showLabel={false} />);
+    expect(getByRole("group")).not.toHaveAttribute("aria-labelledby");
 
-      rerender(
-        <DynamicSelect
-          multiple
-          defaultValue={["apple", "banana"]}
-          onValueChange={onValueChange}
-          showBanana={false}
-        />,
-      );
-      await waitForPositioning();
-      expect(onValueChange).toHaveBeenCalledWith(["apple"]);
-      expect(getByRole("combobox")).toHaveTextContent("Apple");
-    });
+    rerender(<Wrapper showLabel />);
+    expect(getByRole("group").getAttribute("aria-labelledby")).toBe(getByText("Fruits").id);
+  });
+});
+
+// ===========================================================================
+// prefixIcon channel
+// ===========================================================================
+
+describe("useSelect prefixIcon channel", () => {
+  function IconSelect({
+    apiRef,
+    showBanana = true,
+    ...props
+  }: SelectRootProps & {
+    apiRef?: React.RefObject<UseSelectReturn | null>;
+    showBanana?: boolean;
+  }) {
+    return (
+      <SelectRoot {...props}>
+        {apiRef && <ApiProbe apiRef={apiRef} />}
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="apple" label="Apple" prefixIcon={<svg data-icon="apple" />}>
+              Apple
+            </SelectItem>
+            {showBanana && (
+              <SelectItem value="banana" label="Banana" prefixIcon={<svg data-icon="banana" />}>
+                Banana
+              </SelectItem>
+            )}
+            <SelectItem value="cherry" label="Cherry">
+              Cherry
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>
+    );
+  }
+
+  // REQ-45 (registered, not rendered; no DOM attribute leak)
+  it("registers prefixIcon without rendering it or leaking it as a DOM attribute", async () => {
+    const apiRef = createApiRef();
+    const { getAllByRole } = render(<IconSelect apiRef={apiRef} />);
+    await waitForPositioning();
+
+    const options = getAllByRole("option");
+    expect(options[0]).not.toHaveAttribute("prefixIcon");
+    expect(options[0]).not.toHaveAttribute("prefixicon");
+    expect(options[0].querySelector("svg")).toBeNull();
+
+    expect(apiRef.current?.nativeOptions.get("apple")?.prefixIcon).toBeTruthy();
+    expect(apiRef.current?.nativeOptions.get("cherry")?.prefixIcon).toBeUndefined();
   });
 
-  describe("multi-select highlight stability", () => {
-    it("keeps the highlight on the toggled option when deselecting", async () => {
-      const user = userEvent.setup();
-      const { getByRole, getAllByRole } = render(
-        <BasicSelect multiple defaultValue={["apple", "banana"]} />,
-      );
-      await waitForPositioning();
-      getByRole("combobox").focus();
-      await user.keyboard("{ArrowDown}");
-      const options = getAllByRole("option");
-      // keyboard open seeds the first selected option (apple)
-      expect(options[0]).toHaveAttribute("data-highlighted");
+  // REQ-45 (surfaces on selectedItems; selection changes swap it; unmount drops it)
+  it("surfaces the selected item's prefixIcon and drops it with the selection", async () => {
+    const user = userEvent.setup();
+    const apiRef = createApiRef();
+    const { getByRole, getAllByRole, rerender } = render(<IconSelect apiRef={apiRef} />);
+    await waitForPositioning();
 
-      await user.keyboard("{Enter}");
-      // apple is deselected but the highlight must not jump to the other selected option
-      expect(options[0]).toHaveAttribute("data-highlighted");
-      expect(options[0]).not.toHaveAttribute("data-selected");
-      expect(options[1]).toHaveAttribute("data-selected");
+    const getIconName = () => {
+      const icon = apiRef.current?.selectedItems[0]?.prefixIcon;
+      if (!React.isValidElement<{ "data-icon"?: string }>(icon)) return undefined;
+
+      return icon.props["data-icon"];
+    };
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.click(getAllByRole("option")[0]);
+    expect(getIconName()).toBe("apple");
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.click(getAllByRole("option")[1]);
+    expect(getIconName()).toBe("banana");
+
+    // unmounting the selected item prunes the value and drops the icon
+    rerender(<IconSelect apiRef={apiRef} showBanana={false} />);
+    await waitForPositioning();
+    expect(apiRef.current?.selectedItems).toHaveLength(0);
+  });
+});
+
+// ===========================================================================
+// Positioning attributes
+// ===========================================================================
+
+describe("useSelect positioning", () => {
+  // REQ-09 (strategy default / override reflected in floating styles)
+  it("positions with strategy 'absolute' by default and 'fixed' when requested", async () => {
+    const user = userEvent.setup();
+    const first = render(<BasicSelect />);
+    await waitForPositioning();
+    await openWithClick(user, first.getByRole("combobox"));
+    expect(first.getByTestId("positioner").style.position).toBe("absolute");
+    first.unmount();
+
+    const second = render(<BasicSelect strategy="fixed" />);
+    await waitForPositioning();
+    await openWithClick(user, second.getByRole("combobox"));
+    expect(second.getByTestId("positioner").style.position).toBe("fixed");
+  });
+
+  // REQ-09 (gutter feeds the offset middleware)
+  it("offsets the positioner from the trigger by the gutter", async () => {
+    const user = userEvent.setup();
+    const first = render(<BasicSelect />);
+    await waitForPositioning();
+    await openWithClick(user, first.getByRole("combobox"));
+    const defaultTransform = first.getByTestId("positioner").style.transform;
+    first.unmount();
+
+    const second = render(<BasicSelect gutter={100} />);
+    await waitForPositioning();
+    await openWithClick(user, second.getByRole("combobox"));
+    const customTransform = second.getByTestId("positioner").style.transform;
+
+    expect(defaultTransform).toContain("8px");
+    expect(customTransform).toContain("100px");
+  });
+
+  // REQ-10
+  it("exposes --seed-select-available-height and --seed-select-reference-width on the floating element", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getByTestId } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+
+    const positioner = getByTestId("positioner");
+    // happy-dom has no layout, so availableHeight clamps to the 200px floor
+    // and the reference width reads as 0.
+    expect(positioner.style.getPropertyValue("--seed-select-available-height")).toBe("200px");
+    expect(positioner.style.getPropertyValue("--seed-select-reference-width")).toBe("0px");
+  });
+
+  // REQ-11 (y from side, x from alignment)
+  it.each([
+    ["bottom", "center top"],
+    ["bottom-start", "left top"],
+    ["bottom-end", "right top"],
+    ["right", "center center"],
+  ] as const)("derives --seed-select-transform-origin from the resolved placement (%s)", async (placement, expected) => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect placement={placement} />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    expect(getByRole("listbox").style.getPropertyValue("--seed-select-transform-origin")).toBe(
+      expected,
+    );
+  });
+
+  // REQ-12
+  it("declares the safe-area inset custom properties on the positioner", async () => {
+    const { getByTestId } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const positioner = getByTestId("positioner");
+    expect(positioner.style.getPropertyValue("--seed-safe-area-top")).toBe(
+      "env(safe-area-inset-top)",
+    );
+    expect(positioner.style.getPropertyValue("--seed-safe-area-bottom")).toBe(
+      "env(safe-area-inset-bottom)",
+    );
+  });
+});
+
+// ===========================================================================
+// Remaining edges
+// ===========================================================================
+
+describe("useSelect edges", () => {
+  // reference note (defaultOpen renders open and can select-then-close normally)
+  it("supports selecting from a defaultOpen listbox", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <BasicSelect defaultOpen onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    await user.click(getAllByRole("option")[2]);
+    expect(onValueChange).toHaveBeenCalledWith(["cherry"]);
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // REQ-26 (commit on a highlighted option that turned disabled is a no-op, no crash)
+  it("ignores Enter on a highlighted option that became disabled", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+
+    function Wrapper({ bananaDisabled }: { bananaDisabled: boolean }) {
+      return (
+        <SelectRoot onValueChange={onValueChange}>
+          <SelectTrigger aria-label="Fruit">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectItem value="apple" label="Apple">
+                Apple
+              </SelectItem>
+              <SelectItem value="banana" label="Banana" disabled={bananaDisabled}>
+                Banana
+              </SelectItem>
+            </SelectContent>
+          </SelectPositioner>
+        </SelectRoot>
+      );
+    }
+
+    const { getByRole, rerender } = render(<Wrapper bananaDisabled={false} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+    await user.keyboard("{ArrowDown}");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "banana");
+
+    rerender(<Wrapper bananaDisabled />);
+    await user.keyboard("{Enter}");
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+  });
+
+  // reference note (setting the same value must not fire callbacks)
+  it("suppresses no-op setValue calls", async () => {
+    const apiRef = createApiRef();
+    const onValueChange = jest.fn();
+    render(<BasicSelect apiRef={apiRef} defaultValue={["apple"]} onValueChange={onValueChange} />);
+    await waitForPositioning();
+
+    await act(async () => {
+      apiRef.current?.setValue(["apple"]);
     });
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    await act(async () => {
+      apiRef.current?.setValue(["banana"]);
+    });
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(["banana"]);
+  });
+
+  // REQ-17 (virtual focus survives item clicks — mousedown must not steal focus)
+  it("keeps DOM focus on the trigger across item clicks in multiple mode", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getAllByRole } = render(<BasicSelect multiple />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.click(getAllByRole("option")[0]);
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(document.activeElement).toBe(trigger);
+
+    // keyboard interaction keeps working right after the pointer commit
+    await user.keyboard("{ArrowDown}");
+    expectSingleHighlight(trigger);
+  });
+});
+
+describe("useSelect virtual click", () => {
+  // REQ-25 (assistive-tech activation surfaces as a detail-0 click → keyboard open)
+  it("treats a detail-0 click as a keyboard open and seeds the highlight", async () => {
+    const { getByRole } = render(<BasicSelect defaultValue={["banana"]} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    // fireEvent.click dispatches a MouseEvent with detail 0, like a screen
+    // reader virtual click or a programmatic element.click()
+    await act(async () => {
+      fireEvent.click(trigger);
+    });
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "banana");
   });
 });
