@@ -1055,6 +1055,26 @@ describe("useSelect hover highlight", () => {
 
     expectNoHighlight(trigger);
   });
+
+  // A touch tap fires a compatibility mouse sequence (mouseover/mousemove/…)
+  // after touchend; that synthetic mousemove must not be mistaken for a hover
+  // and leave a highlight stuck under the finger. Multiple mode keeps the
+  // listbox open after a commit, so the leak is observable there (mobile-first:
+  // a stuck highlight reads as a pressed state).
+  it("leaves no highlight after a touch tap on an option in multiple mode", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getAllByRole } = render(<BasicSelect multiple />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+
+    const banana = getAllByRole("option")[1];
+    await user.pointer([{ keys: "[TouchA]", target: banana }]);
+
+    expect(banana).toHaveAttribute("data-selected");
+    expectNoHighlight(trigger);
+  });
 });
 
 describe("useSelect keyboard commit", () => {

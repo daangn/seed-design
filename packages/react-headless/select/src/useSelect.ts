@@ -676,9 +676,13 @@ export function useSelect(props: UseSelectProps) {
 
             selectValue(itemProps.value);
           },
-          onMouseMove() {
+          onPointerMove(event) {
             // Pointer hover and keyboard navigation share the single highlight;
-            // hover never highlights disabled options.
+            // hover never highlights disabled options. Only a real mouse move
+            // highlights: a touch tap fires a compatibility mousemove after
+            // touchend, and touch scrolling fires pointermove under the finger —
+            // both would otherwise leave a highlight stuck as a pressed state.
+            if (event.pointerType !== "mouse") return;
             if (itemProps.disabled) return;
             if (index === -1 || activeIndex === index) return;
 
