@@ -50,7 +50,7 @@ root.render(<Root />);
 
 className 매핑 로직은 순수 함수인 `getSeedClassName()`과 동일합니다. 차이는 테마 변경 구독 여부뿐입니다.
 
-- `useSeedClassName()`: 테마 변경을 구독하는 훅. **root `<page>`처럼 테마 변경에 반응해야 하는 곳에 사용합니다.**
+- `useSeedClassName()`: 테마 변경을 구독하는 훅. root `<page>`처럼 테마 변경에 반응해야 하는 곳에 사용합니다.
 - `getSeedClassName()`: 호출 시점의 테마를 한 번만 읽는 순수 함수. 테마 변경에 반응할 필요가 없는 정적 컨텍스트에서 사용합니다.
 
 <Callout>

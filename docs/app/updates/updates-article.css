@@ -1,0 +1,35 @@
+/* Updates 아티클 공용 프리셋. 이 파일에는 "유틸/MDX로 옮기면 회귀가 나는" 규칙만 남긴다. 나머지
+   소제목·본문 크기·색은 `[slug]/page.tsx`의 bodyClassName(prose 유틸)로, 코어밸류 들여쓰기·CTA 간격은
+   MDX className으로, 이미지 radius·다크 fringe 교정은 전역 mdx-components.tsx img로 옮겼다
+   (radius는 Updates 전용이 아니라 docs 전체가 랜딩과 같은 10/12px을 쓴다).
+   `docs/app/updates/layout.tsx` 최상단의 `import "./updates-article.css"`로 Updates 라우트
+   세그먼트에만 스코프되어 로드된다(전역 global.css가 아님 — 다른 docs 라우트엔 로드되지 않는다).
+
+   ⚠️ 모든 규칙은 반드시 언레이어드(top-level, @layer 밖)로 유지해야 한다. 언레이어드는 layer를
+   무조건 이기므로 Tailwind `@layer utilities`와 fumadocs `:where()` 타이포그래피 프리셋을 모두
+   이긴다. 여기 규칙은 모두 `.updates-article`(또는 그 하위) 스코프라 다른 페이지엔 무영향이고,
+   global.css보다 먼저/나중에 로드되더라도 specificity로 승부가 나므로 우선순위가 보존된다.
+   절대 @layer로 감싸지 말 것. */
+
+/* 소제목 위쪽 여백을 본문과 넉넉히 띄운다. fumadocs 기본 prose typography(built CSS에서
+   `.prose :where(h2):not(:where(...)){margin-top:2em}` = h2 24px 기준 48px, h3는
+   `margin-top:1.6em` = 20px 기준 32px)의 marginTop을 기준값으로 삼아 2배로 키운다: h2 48px×2
+   = 96px(6rem), h3 32px×2 = 64px(4rem). page.tsx bodyClassName에서 h2/h3 font-size를 키웠으므로
+   (h2 1.75rem / h3 1.5rem) em이 아닌 rem 절대값으로 고정해, 폰트 크기와 무관하게 "기본 대비 2배
+   간격"을 유지한다. em은 부모 font-size에 연동돼 크기를 만질 때마다 간격이 딸려 움직이므로 쓰지 않는다.
+
+   ▶ 왜 CSS에 남기고 prose-* 유틸로 안 옮겼나: 유틸(`prose-h2:mt-[6rem]`)은 `:not(:first-child)`를
+   표현할 수 없다. fumadocs는 prose 첫 자식 소제목의 margin-top을 0으로 리셋하는데, 유틸로 옮기면
+   아티클 맨 앞에 소제목이 오는 (다른) Updates 글에서 그 리셋을 덮어써 첫 소제목이 6rem/4rem만큼
+   밀리는 회귀가 난다. 아래 `:not(:first-child)`로 그 리셋을 보존한다.
+   `:not([data-card="true"] *)`는 CTA 카드(DocsCard) 내부 제목 h3(카드는 `data-card="true"`)를
+   제외해 카드 제목엔 이 여백이 붙지 않게 한다(소제목 앵커의 `data-card=""`와 값이 달라 소제목
+   자신엔 무영향). specificity: `.updates-article`(0,1,0)+`.prose`(0,1,0)+`h2`(0,0,1)
+   +`:not([data-card="true"] *)`(0,1,0)+`:not(:first-child)`(0,1,0) = (0,4,1)로 fumadocs `.prose
+   :where(h2)`(0,1,0)를 확실히 이긴다. */
+.updates-article .prose h2:not([data-card="true"] *):not(:first-child) {
+  margin-top: 6rem; /* 48px(fumadocs 기본) x2 */
+}
+.updates-article .prose h3:not([data-card="true"] *):not(:first-child) {
+  margin-top: 4rem; /* 32px(fumadocs 기본) x2 */
+}

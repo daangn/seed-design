@@ -1,7 +1,15 @@
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
+import {
+  SidebarCollapseTrigger,
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
+} from "fumadocs-ui/layouts/notebook/slots/sidebar";
 import type { PropsWithChildren } from "react";
+import { DocsHeader } from "@/components/header/docs-header";
+import { DocsSideNavigation } from "@/components/layout/docs-side-navigation";
 
 function SidebarTabIconContainer({
   children,
@@ -30,11 +38,43 @@ function SidebarTabIconContainer({
 export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   githubUrl: "https://github.com/daangn/seed-design",
   sidebar: {
+    // Sidebar tab switcher. Kept in sync with the custom header nav (nav-items.ts):
+    // design-spec sections + platforms + AI & Tools + Updates. (Breeze lives in the footer.)
     tabs: [
       {
-        title: "Docs",
-        description: "당근 제품을 위한 디자인 언어",
-        url: "/docs",
+        title: "Get Started",
+        description: "SEED 시작하기",
+        url: "/get-started",
+        icon: (
+          <SidebarTabIconContainer>
+            <img src="/logo.webp" alt="" className="size-full" />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
+        title: "Foundations",
+        description: "색상·타이포그래피·간격 등 파운데이션",
+        url: "/foundations",
+        icon: (
+          <SidebarTabIconContainer>
+            <img src="/logo.webp" alt="" className="size-full" />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
+        title: "Components",
+        description: "컴포넌트 디자인 스펙",
+        url: "/components",
+        icon: (
+          <SidebarTabIconContainer>
+            <img src="/logo.webp" alt="" className="size-full" />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
+        title: "Patterns",
+        description: "디자인 패턴과 가이드라인",
+        url: "/patterns",
         icon: (
           <SidebarTabIconContainer>
             <img src="/logo.webp" alt="" className="size-full" />
@@ -62,7 +102,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         ),
       },
       {
-        title: "AI Integration",
+        title: "AI & Tools",
         description: "AI 도구 연동 가이드",
         url: "/ai-integration",
         icon: (
@@ -72,9 +112,9 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
         ),
       },
       {
-        title: "Breeze",
-        description: "유용한 UI 유틸리티 컴포넌트",
-        url: "/breeze",
+        title: "Updates",
+        description: "업데이트 소식과 릴리스 노트",
+        url: "/updates",
         icon: (
           <SidebarTabIconContainer>
             <IconTree />
@@ -102,8 +142,24 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
             fill="currentColor"
           />
         </svg>
-        <div>SEED Design</div>
+        <div>SEED Design System</div>
       </div>
     ),
+  },
+  // Custom top header for docs detail pages (shared with the landing header).
+  // Replaces the default navbar entirely; theme/search live inside DocsHeader.
+  slots: {
+    header: DocsHeader,
+    // Swap the sidebar root for one built on the SEED SideNavigation component.
+    // The other sidebar slots stay as fumadocs' defaults so routing/mobile/collapse
+    // machinery is untouched — only the rendered tree changes. NoSidebarDocsLayout
+    // (get-started, updates) overrides this slot again, so it keeps no sidebar.
+    sidebar: {
+      provider: SidebarProvider,
+      root: DocsSideNavigation,
+      trigger: SidebarTrigger,
+      collapseTrigger: SidebarCollapseTrigger,
+      useSidebar,
+    },
   },
 };

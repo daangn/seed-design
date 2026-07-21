@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "bun:test";
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import type { ComponentData } from "../../../sanity-studio/lib/types";
 import { normalizeLLMBodyWithRules } from "../normalize-llm-body";
 import { normalizeForAssert, readFixture } from "../test-utils";
@@ -46,15 +46,19 @@ const edgeCaseComponents: ComponentData[] = [
   },
 ];
 
+// normalize-llm-body는 import 시 모든 규칙의 init()(Sanity fetch)을 비동기로 시작한다.
+// 네트워크가 되는 환경에서 그 fetch가 완료되면 componentsCache가 실데이터로 채워지므로,
+// "빈 캐시" 테스트가 async init 미완료 레이스에 의존하지 않도록 매 테스트 전에 명시적으로 비운다.
+beforeEach(() => {
+  __setComponentsCacheForTests(null);
+});
+
 afterEach(() => {
   __setComponentsCacheForTests(null);
 });
 
 describe("progressBoardRule", () => {
   it("keeps the original node when cache is empty", () => {
-    // 모듈 로드 시 _rulesInit가 sanity fetch를 fire-and-forget으로 돌려 전역 캐시를 채울 수 있어,
-    // "비어 있을 것"이라는 타이밍에 의존하지 않고 명시적으로 비운다.
-    __setComponentsCacheForTests(null);
     const input = "<ProgressBoardTable />";
 
     const actual = normalizeLLMBodyWithRules(input, [progressBoardRule]);

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useIcon } from "./icon-context";
-import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
+import { SeedClientCodeBlock } from "@/components/codeblock/client-code-block";
 
 export const IconDetailSvgPreview = React.forwardRef<HTMLDivElement>(
   function IconDetailSvgPreview(_, ref) {
@@ -15,7 +15,7 @@ export const IconDetailSvgPreview = React.forwardRef<HTMLDivElement>(
         <h4 className="text-xs font-semibold text-fd-muted-foreground uppercase tracking-wider">
           SVG
         </h4>
-        <DynamicCodeBlock lang="xml" code={selectedIcon.svg} />
+        <SeedClientCodeBlock lang="xml" code={selectedIcon.svg} className="!my-0" />
       </div>
     );
   },

@@ -1,3 +1,3 @@
-- [Action Button](https://example.com/llms/docs/components/action-button.txt) — 기본 인터랙션 컴포넌트입니다.
-- [Checkbox](https://example.com/llms/docs/components/checkbox.txt) — 옵션 선택 컴포넌트입니다.
-- [Floating Action Button](https://example.com/llms/docs/components/floating-action-button.txt)
+- [Action Button](https://example.com/llms/components/action-button.txt) — 기본 인터랙션 컴포넌트입니다.
+- [Checkbox](https://example.com/llms/components/checkbox.txt) — 옵션 선택 컴포넌트입니다.
+- [Floating Action Button](https://example.com/llms/components/floating-action-button.txt)

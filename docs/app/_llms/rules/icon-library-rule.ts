@@ -129,7 +129,7 @@ function buildSection(title: string, rows: IconRow[]): string | null {
   return `## ${title}\n\n${buildTable(rows)}`;
 }
 
-export const iconLibraryRule: Rule = {
+export const iconLibraryRule: Rule<MdxJsxFlowElement> = {
   name: "IconLibrary",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "IconLibrary",

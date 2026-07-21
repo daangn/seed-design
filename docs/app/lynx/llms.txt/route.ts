@@ -15,7 +15,7 @@ export async function GET() {
     .sort()
     .join("\n");
 
-  return new Response(`# SEED Design Lynx - LLM Reference
+  return new Response(`# SEED Lynx - LLM Reference
 
 Lynx 프레임워크 문서입니다.
 

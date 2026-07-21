@@ -1,12 +1,14 @@
-import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
+import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { reactSource } from "@/app/source";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
+import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { mdxComponents } from "@/components/mdx-components";
-import { LLMOptions, ViewOptions } from "@/components/page-actions";
 import { getComponentStatus } from "@/lib/rootage";
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
+import { buildDocsPageMetadata, deprecatedTitle, resolveCoverImage } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-static";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
@@ -18,35 +20,38 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     deprecated: page.data.deprecated,
   });
 
-  const displayTitle = deprecated ? `${page.data.title} (Deprecated)` : page.data.title;
+  const heading = page.data.heading ?? page.data.title;
+  const displayTitle = deprecatedTitle(heading, deprecated);
 
   const markdownUrl = getLLMMarkdownUrl("react", page.slugs);
   const isChangelog = page.slugs.join("/") === "updates/changelog";
+  const cover = page.data.coverImage ? resolveCoverImage(page.data.coverImage) : null;
 
   return (
-    <DocsPage
-      toc={toc}
-      tableOfContent={{
-        style: "clerk",
-        single: false,
-      }}
-      full={page.data.full}
+    <DocsPageRenderer
+      title={displayTitle}
+      description={page.data.description}
+      coverImage={
+        cover
+          ? {
+              src: cover.thumbnail,
+              alt: `${displayTitle} cover image`,
+              width: cover.og.width,
+              height: cover.og.height,
+            }
+          : undefined
+      }
+      layout={page.data.layout}
+      full={isChangelog ? true : page.data.full}
+      toc={isChangelog ? [] : toc}
       lastUpdate={lastModified}
+      tableOfContent={isChangelog ? { enabled: false } : { single: false }}
+      showPageActions={page.slugs.length > 0}
+      markdownUrl={markdownUrl}
+      llmOptions={isChangelog ? <ChangelogLLMOptions fallbackUrl={markdownUrl} /> : undefined}
     >
-      <DocsTitle>{displayTitle}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
-      <div className="flex flex-row gap-2 items-center mb-3 justify-end">
-        {isChangelog ? (
-          <ChangelogLLMOptions fallbackUrl={markdownUrl} />
-        ) : (
-          <LLMOptions markdownUrl={markdownUrl} />
-        )}
-        <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("react", page.path)} />
-      </div>
-      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
-        <MDX components={mdxComponents} />
-      </DocsBody>
-    </DocsPage>
+      <MDX components={mdxComponents} />
+    </DocsPageRenderer>
   );
 }
 
@@ -61,17 +66,13 @@ export async function generateMetadata(props: {
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
-  const loadedData = await page.data.load();
-  const frontmatterDeprecated = (loadedData as { deprecated?: boolean }).deprecated;
-  const { deprecated } = await getComponentStatus(params, { deprecated: frontmatterDeprecated });
+  const { deprecated } = await getComponentStatus(params, { deprecated: page.data.deprecated });
 
-  const displayTitle =
-    deprecated && !page.data.title.includes("(Deprecated)")
-      ? `${page.data.title} (Deprecated)`
-      : page.data.title;
-
-  return {
-    title: displayTitle,
+  return buildDocsPageMetadata({
+    title: page.data.title,
+    heading: page.data.heading,
     description: page.data.description,
-  } satisfies Metadata;
+    coverImage: page.data.coverImage,
+    deprecated,
+  });
 }

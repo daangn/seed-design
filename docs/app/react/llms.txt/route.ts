@@ -62,7 +62,7 @@ ${pageList}`;
     })
     .join("\n\n");
 
-  return new Response(`# SEED Design React - LLM Reference
+  return new Response(`# SEED React - LLM Reference
 
 React 컴포넌트 라이브러리 문서입니다.
 

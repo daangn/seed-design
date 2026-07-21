@@ -8,7 +8,7 @@ import type { Rule } from "./types";
   스펙 전문은 JSON이 소스 오브 트루스이므로 URL 참조가 더 정확합니다.
   variants prop은 llms.txt 출력에서는 무시합니다.
 */
-export const componentSpecBlockRule: Rule = {
+export const componentSpecBlockRule: Rule<MdxJsxFlowElement> = {
   name: "ComponentSpecBlock",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "ComponentSpecBlock",

@@ -1,10 +1,12 @@
-import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
+import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { lynxSource } from "@/app/source";
-import { LLMOptions, ViewOptions } from "@/components/page-actions";
+import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { mdxComponents } from "@/components/mdx-components";
-import { DocsPage, DocsBody, DocsTitle, DocsDescription } from "fumadocs-ui/page";
+import { buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-static";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
@@ -13,19 +15,32 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   const { body: MDX, toc, lastModified } = await page.data.load();
   const markdownUrl = getLLMMarkdownUrl("lynx", page.slugs);
+  const cover = page.data.coverImage ? resolveCoverImage(page.data.coverImage) : null;
+  const displayTitle = page.data.heading ?? page.data.title;
 
   return (
-    <DocsPage toc={toc} full={page.data.full} lastUpdate={lastModified}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
-      <div className="flex flex-row gap-2 items-center mb-3 justify-end">
-        <LLMOptions markdownUrl={markdownUrl} />
-        <ViewOptions markdownUrl={markdownUrl} githubUrl={getGitHubSourceUrl("lynx", page.path)} />
-      </div>
-      <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
-        <MDX components={mdxComponents} />
-      </DocsBody>
-    </DocsPage>
+    <DocsPageRenderer
+      title={displayTitle}
+      description={page.data.description}
+      coverImage={
+        cover
+          ? {
+              src: cover.thumbnail,
+              alt: `${displayTitle} cover image`,
+              width: cover.og.width,
+              height: cover.og.height,
+            }
+          : undefined
+      }
+      layout={page.data.layout}
+      full={page.data.full}
+      toc={toc}
+      lastUpdate={lastModified}
+      showPageActions={page.slugs.length > 0}
+      markdownUrl={markdownUrl}
+    >
+      <MDX components={mdxComponents} />
+    </DocsPageRenderer>
   );
 }
 
@@ -40,8 +55,10 @@ export async function generateMetadata(props: {
   const page = lynxSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
-  return {
+  return buildDocsPageMetadata({
     title: page.data.title,
+    heading: page.data.heading,
     description: page.data.description,
-  };
+    coverImage: page.data.coverImage,
+  });
 }
