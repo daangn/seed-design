@@ -42,6 +42,7 @@ const maxConditionMap = {
 };
 
 const Template: Story = {
+  args: defaultProps,
   render: () => (
     <VariantTable
       Component={QuantityPicker}
@@ -52,6 +53,7 @@ const Template: Story = {
 };
 
 const MaxValuesTemplate: Story = {
+  args: defaultProps,
   render: () => (
     <VariantTable
       Component={QuantityPicker}
