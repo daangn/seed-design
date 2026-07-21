@@ -169,8 +169,6 @@ export interface SelectGroupLabelProps extends SeedSelect.GroupLabelProps {}
 export const SelectGroupLabel = SeedSelect.GroupLabel;
 
 export interface SelectItemProps extends Omit<SeedSelect.ItemProps, "children"> {
-  prefixIcon?: React.ReactNode;
-
   label: React.ReactNode;
 
   description?: React.ReactNode;
