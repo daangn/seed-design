@@ -14,9 +14,11 @@ export interface UseNextAppScreenProps extends UseNextSwipeBackProps {
    * the result down.
    *
    * NOTE: the CSS transition durations are fixed (350ms for horizontalSlide,
-   * 300ms/150ms for verticalSlide, 300ms/150ms for fadeIn) while stackflow's
-   * configured `transitionDuration` governs unmount timing — keep them
-   * consistent (apps usually configure 350ms).
+   * 300ms enter / 150ms exit for verticalSlide and fadeIn) while stackflow's
+   * configured `transitionDuration` governs unmount timing. Enter tolerates
+   * any mismatch (the target holds, the transition finishes on its own), but
+   * an exit gets cut off by unmount — keep `transitionDuration` at or above
+   * the largest CSS exit duration (350ms covers every style).
    *
    * @default "horizontalSlide"
    */
