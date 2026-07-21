@@ -1,6 +1,10 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      "root": {
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+      },
       "label": {
         "color": "var(--seed-color-fg-neutral-subtle)"
       }

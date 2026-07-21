@@ -14,6 +14,10 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          contentScaleDuration:
+            type: duration
+          contentScaleTimingFunction:
+            type: cubicBezier
       label:
         properties:
           color:
@@ -27,6 +31,9 @@ data:
   definitions:
     base:
       enabled:
+        root:
+          contentScaleDuration: $duration.pressed-scale
+          contentScaleTimingFunction: $timing-function.pressed-scale
         label:
           color: $color.fg.neutral-subtle
       selected:

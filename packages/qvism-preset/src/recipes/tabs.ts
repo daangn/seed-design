@@ -6,6 +6,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createPressScaleStyles } from "../utils/press-scale";
 
 const tabs = defineSlotRecipe({
   name: "tabs",
@@ -105,7 +106,11 @@ const tabs = defineSlotRecipe({
         backgroundColor: vars.base.enabled.indicator.color,
       },
 
-      transition: FOCUS_RING_TRANSITION,
+      // The trigger is transparent (the pressed feedback is only the content
+      // scale), so scaling the whole trigger scales only its content.
+      ...createPressScaleStyles(),
+
+      transition: `scale ${triggerVars.base.enabled.root.contentScaleDuration} ${triggerVars.base.enabled.root.contentScaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
