@@ -163,10 +163,11 @@ describe("QuantityPicker", () => {
   it("getValueText는 표시값에만 적용하고 hidden input에는 raw integer를 유지한다", () => {
     const { getByText, getByDisplayValue } = renderQuantityPicker({
       defaultValue: 2,
-      getValueText: (value) => `${value}개`,
+      getValueText: (valueText, value) => <span data-value={value}>{valueText}개</span>,
     });
 
     expect(getByText("2개")).toBeInTheDocument();
+    expect(getByText("2개")).toHaveAttribute("data-value", "2");
     expect(getByDisplayValue("2")).toHaveAttribute("name", "quantity");
   });
 

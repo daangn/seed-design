@@ -1,6 +1,6 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { ariaAttr, buttonProps, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
-import { useCallback } from "react";
+import { useCallback, type ReactNode } from "react";
 
 export type QuantityPickerLoading =
   | boolean
@@ -9,7 +9,9 @@ export type QuantityPickerLoading =
       increment?: boolean;
     };
 
-export type QuantityPickerGetValueText = (value: number) => string;
+export type QuantityPickerGetValueText = (valueText: string, value: number | string) => ReactNode;
+
+const defaultGetValueText: QuantityPickerGetValueText = (valueText) => valueText;
 
 interface UseQuantityPickerBaseProps {
   value?: number;
@@ -114,7 +116,7 @@ export function useQuantityPicker(props: UseQuantityPickerProps) {
     defaultValue,
     dir = "ltr",
     disabled = false,
-    getValueText = String,
+    getValueText = defaultGetValueText,
     invalid = false,
     loading,
     max,
@@ -205,6 +207,7 @@ export function useQuantityPicker(props: UseQuantityPickerProps) {
     decrement,
     remove,
     stateProps,
+    getValueText,
 
     rootProps: elementProps({
       ...stateProps,
@@ -250,7 +253,7 @@ export function useQuantityPicker(props: UseQuantityPickerProps) {
       ...stateProps,
       "aria-atomic": "true",
       "aria-live": "polite",
-      children: getValueText(value),
+      children: getValueText(String(value), value),
     }),
     hiddenInputProps: inputProps({
       ...stateProps,

@@ -149,12 +149,7 @@ export const QuantityPickerDecrementButton = React.forwardRef<
       className={clsx(classNames.decrementButton, className)}
       {...props}
     >
-      {renderIcon(
-        content ?? children,
-        classNames.decrementIcon,
-        decrementIconProps,
-        contentIsIcon,
-      )}
+      {renderIcon(content ?? children, classNames.decrementIcon, decrementIconProps, contentIsIcon)}
     </QuantityPickerPrimitive.DecrementButton>
   );
 });
@@ -167,7 +162,8 @@ export const QuantityPickerValueDisplay = withStateProps(
   React.forwardRef<HTMLSpanElement, QuantityPickerValueDisplayProps>(
     ({ className, ...props }, ref) => {
       const classNames = useClassNames();
-      const { max, valueDisplayProps } = useQuantityPickerContext();
+      const { getValueText, max, valueDisplayProps } = useQuantityPickerContext();
+      const placeholder = getValueDisplayPlaceholder(max);
 
       return (
         <Primitive.span
@@ -176,7 +172,7 @@ export const QuantityPickerValueDisplay = withStateProps(
           className={clsx(classNames.valueDisplay, className)}
         >
           <Primitive.span aria-hidden="true" className={classNames.valueDisplayPlaceholder}>
-            {getValueDisplayPlaceholder(max)}
+            {getValueText(placeholder, placeholder)}
           </Primitive.span>
           <Primitive.span className={classNames.valueDisplayText}>
             {valueDisplayProps.children}
@@ -207,12 +203,7 @@ export const QuantityPickerIncrementButton = React.forwardRef<
       className={clsx(classNames.incrementButton, className)}
       {...props}
     >
-      {renderIcon(
-        content ?? children,
-        classNames.incrementIcon,
-        incrementIconProps,
-        contentIsIcon,
-      )}
+      {renderIcon(content ?? children, classNames.incrementIcon, incrementIconProps, contentIsIcon)}
     </QuantityPickerPrimitive.IncrementButton>
   );
 });

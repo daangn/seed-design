@@ -77,6 +77,23 @@ describe("QuantityPicker", () => {
     expect(placeholder).toHaveTextContent("000");
   });
 
+  it("숨김 요소에도 getValueText를 적용해 포매팅된 값의 너비를 확보한다", () => {
+    const { container } = render(
+      <QuantityPicker.Root
+        min={0}
+        max={123}
+        getValueText={(valueText, value) => `${valueText}개(${value.toString()})`}
+        aria-label="수량"
+      >
+        <QuantityPicker.ValueDisplay />
+      </QuantityPicker.Root>,
+    );
+
+    const placeholder = container.querySelector(".seed-quantity-picker__valueDisplayPlaceholder");
+
+    expect(placeholder).toHaveTextContent("000개(000)");
+  });
+
   it("범위 끝에서는 해당 action icon에도 disabled state를 전달한다", () => {
     const { getByLabelText } = render(
       <QuantityPicker.Root min={0} max={1} value={1} aria-label="수량">
