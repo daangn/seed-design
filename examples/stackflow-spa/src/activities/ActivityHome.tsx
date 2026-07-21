@@ -100,6 +100,16 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
+      title: "NextAppScreen",
+      items: [
+        { title: "NextAppScreen", onClick: () => push("ActivityNextAppScreen", {}) },
+        {
+          title: "NextAppScreen (transparent)",
+          onClick: () => push("ActivityNextAppScreenTransparent", {}),
+        },
+      ],
+    },
+    {
       title: "Avatars",
       items: [
         { title: "AvatarStack", onClick: () => push("ActivityAvatarStack", {}) },
