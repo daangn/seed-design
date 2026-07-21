@@ -8575,169 +8575,120 @@
   .seed-next-app-screen__dim--transitionStyle_horizontalSlide {
     background: var(--seed-color-palette-static-black-alpha-400);
     height: 100%;
+    transition: opacity .35s cubic-bezier(.2, .1, .21, .99);
   }
 
-  [data-screen-state="push"] > .seed-next-app-screen__dim--transitionStyle_horizontalSlide {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
-  }
-
-  [data-screen-state="pop"] > .seed-next-app-screen__dim--transitionStyle_horizontalSlide {
-    --seed-exit-translate-x: 0;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
+  [data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__dim--transitionStyle_horizontalSlide, [data-screen-state="pop"] > .seed-next-app-screen__dim--transitionStyle_horizontalSlide {
+    opacity: 0;
   }
 
   [data-swipe-back-state="swiping"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_horizontalSlide {
     opacity: calc(1 - var(--seed-swipe-back-displacement-ratio, 0));
     transition: none;
-    animation: none;
   }
 
   [data-swipe-back-state="canceling"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_horizontalSlide {
     opacity: 1;
     transition: opacity .35s cubic-bezier(.2, .1, .21, .99);
-    animation: none;
   }
 
   [data-swipe-back-state="completing"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_horizontalSlide {
     opacity: 0;
     transition: opacity .35s cubic-bezier(.2, .1, .21, .99);
-    animation: none;
   }
 
-  [data-screen-state="push"] > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
-    --seed-enter-translate-x: 100%;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 1;
-    --seed-enter-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
+  .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
+    transition: transform .35s cubic-bezier(.2, .1, .21, .99);
   }
 
-  [data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
-    --seed-exit-translate-x: 100%;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 1;
-    --seed-exit-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
+  [data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__layer--transitionStyle_horizontalSlide, [data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
+    transform: translate3d(100%, 0, 0);
   }
 
-  [data-screen-state="push-behind"] > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
-    --seed-exit-translate-x: -30%;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 1;
-    --seed-exit-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
-  }
-
-  [data-screen-state="pop-behind"] > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
-    --seed-enter-translate-x: -30%;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 1;
-    --seed-enter-scale: 1;
-    animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
-  }
-
-  [data-screen-state="idle-behind"] > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
+  [data-screen-state="push-behind"] > .seed-next-app-screen__layer--transitionStyle_horizontalSlide, [data-screen-state="idle-behind"] > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
     transform: translate3d(-30%, 0, 0);
   }
 
   [data-swipe-back-state="swiping"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
     transform: translate3d(var(--seed-swipe-back-displacement, 0px), 0, 0);
     transition: none;
-    animation: none;
   }
 
   [data-swipe-back-state="swiping"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
     transform: translate3d(calc(-30% + var(--seed-swipe-back-displacement-ratio, 0) * 30%), 0, 0);
     transition: none;
-    animation: none;
   }
 
   [data-swipe-back-state="canceling"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
     transition: transform .35s cubic-bezier(.2, .1, .21, .99);
-    animation: none;
     transform: translate3d(0, 0, 0);
   }
 
   [data-swipe-back-state="canceling"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
     transition: transform .35s cubic-bezier(.2, .1, .21, .99);
-    animation: none;
     transform: translate3d(-30%, 0, 0);
   }
 
   [data-swipe-back-state="completing"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
     transition: transform .35s cubic-bezier(.2, .1, .21, .99);
-    animation: none;
     transform: translate3d(100%, 0, 0);
   }
 
   [data-swipe-back-state="completing"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_horizontalSlide {
     transition: transform .35s cubic-bezier(.2, .1, .21, .99);
-    animation: none;
     transform: translate3d(0, 0, 0);
   }
 
   .seed-next-app-screen__dim--transitionStyle_verticalSlide {
     background: var(--seed-color-palette-static-black-alpha-400);
     height: 100%;
+    transition: transform .3s cubic-bezier(.23, .1, .32, 1), opacity .3s cubic-bezier(.23, .1, .32, 1);
   }
 
-  [data-screen-state="push"] > .seed-next-app-screen__dim--transitionStyle_verticalSlide {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: -8vh;
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 1;
-    animation: .3s cubic-bezier(.23, .1, .32, 1) seed-enter;
+  [data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__dim--transitionStyle_verticalSlide {
+    opacity: 0;
+    transform: translate3d(0, -8vh, 0);
   }
 
   [data-screen-state="pop"] > .seed-next-app-screen__dim--transitionStyle_verticalSlide {
-    --seed-exit-translate-x: 0;
-    --seed-exit-translate-y: -8vh;
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
-    animation: .15s linear forwards seed-exit;
+    opacity: 0;
+    transition-duration: .15s;
+    transition-timing-function: linear;
+    transform: translate3d(0, -8vh, 0);
   }
 
-  [data-screen-state="push"] > .seed-next-app-screen__layer--transitionStyle_verticalSlide {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: 8vh;
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 1;
-    animation: .3s cubic-bezier(.23, .1, .32, 1) seed-enter;
+  .seed-next-app-screen__layer--transitionStyle_verticalSlide {
+    transition: transform .3s cubic-bezier(.23, .1, .32, 1), opacity .3s cubic-bezier(.23, .1, .32, 1);
+  }
+
+  [data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__layer--transitionStyle_verticalSlide {
+    opacity: 0;
+    transform: translate3d(0, 8vh, 0);
   }
 
   [data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_verticalSlide {
-    --seed-exit-translate-x: 0;
-    --seed-exit-translate-y: 8vh;
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
-    animation: .15s linear forwards seed-exit;
+    opacity: 0;
+    transition-duration: .15s;
+    transition-timing-function: linear;
+    transform: translate3d(0, 8vh, 0);
   }
 
   .seed-next-app-screen__edge--transitionStyle_verticalSlide, .seed-next-app-screen__dim--transitionStyle_fadeIn {
     display: none;
   }
 
-  [data-screen-state="push"] > .seed-next-app-screen__layer--transitionStyle_fadeIn {
-    --seed-enter-translate-x: 0;
-    --seed-enter-translate-y: 0;
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 1;
-    animation: .3s ease-out seed-enter;
+  .seed-next-app-screen__layer--transitionStyle_fadeIn {
+    transition: opacity .3s ease-out;
+  }
+
+  [data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__layer--transitionStyle_fadeIn {
+    opacity: 0;
   }
 
   [data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_fadeIn {
-    --seed-exit-translate-x: 0;
-    --seed-exit-translate-y: 0;
-    --seed-exit-opacity: 0;
-    --seed-exit-scale: 1;
-    animation: .15s ease-in forwards seed-exit;
+    opacity: 0;
+    transition-duration: .15s;
+    transition-timing-function: ease-in;
   }
 
   .seed-next-app-screen__edge--transitionStyle_fadeIn {
