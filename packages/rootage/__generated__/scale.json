@@ -42,6 +42,18 @@
             "value": 1
           }
         }
+      },
+      "$scale.press-depth": {
+        "values": {
+          "preferred": {
+            "type": "number",
+            "value": 2
+          },
+          "reduced": {
+            "type": "number",
+            "value": 0
+          }
+        }
       }
     }
   }

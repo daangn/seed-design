@@ -106,6 +106,8 @@ export const tokens = {
   --seed-line-height-t12-static: 42px;
   --seed-line-height-t13-static: 52px;
   --seed-line-height-t14-static: 60px;
+  --seed-press-scale-width-divisor: 4;
+  --seed-press-scale-min-perspective: 24;
   --seed-radius-r0_5: 2px;
   --seed-radius-r1: 4px;
   --seed-radius-r1_5: 6px;
@@ -557,6 +559,7 @@ export const tokens = {
   --seed-scale-s95: 0.95;
   --seed-scale-s97: 0.97;
   --seed-scale-s98: 0.98;
+  --seed-scale-press-depth: 2;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -564,6 +567,7 @@ export const tokens = {
     --seed-scale-s95: 1;
     --seed-scale-s97: 1;
     --seed-scale-s98: 1;
+    --seed-scale-press-depth: 0;
   }
 }`
 };

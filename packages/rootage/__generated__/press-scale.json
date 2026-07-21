@@ -1,0 +1,28 @@
+{
+  "kind": "Tokens",
+  "metadata": {
+    "id": "press-scale",
+    "name": "Press Scale"
+  },
+  "data": {
+    "collection": "global",
+    "tokens": {
+      "$press-scale.width-divisor": {
+        "values": {
+          "default": {
+            "type": "number",
+            "value": 4
+          }
+        }
+      },
+      "$press-scale.min-perspective": {
+        "values": {
+          "default": {
+            "type": "number",
+            "value": 24
+          }
+        }
+      }
+    }
+  }
+}
