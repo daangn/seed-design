@@ -1,6 +1,6 @@
 import type { StackflowReactPlugin } from "@stackflow/react";
-import { AppScreenPropsProvider } from "./components";
-import { GlobalInteraction } from "./primitive";
+import { AppScreenPropsProvider, NextAppScreenPropsProvider } from "./components";
+import { GlobalInteraction, NextScreenRegistryProvider } from "./primitive";
 
 export interface SeedPluginOptions {
   theme: "android" | "cupertino";
@@ -20,7 +20,11 @@ export const seedPlugin =
 
       return (
         <AppScreenPropsProvider value={resolved}>
-          <GlobalInteraction>{stack.render()}</GlobalInteraction>
+          <NextAppScreenPropsProvider value={resolved}>
+            <NextScreenRegistryProvider>
+              <GlobalInteraction>{stack.render()}</GlobalInteraction>
+            </NextScreenRegistryProvider>
+          </NextAppScreenPropsProvider>
         </AppScreenPropsProvider>
       );
     },
