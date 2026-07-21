@@ -6,8 +6,10 @@ data:
   collection: global
   tokens:
     $press-scale.width-divisor:
+      excludeFromExchange: true
       values:
         default: 4
     $press-scale.min-perspective:
+      excludeFromExchange: true
       values:
         default: 24

@@ -18,6 +18,7 @@ data:
         preferred: 0.98
         reduced: 1
     $scale.press-depth:
+      excludeFromExchange: true
       values:
         preferred: 2
         reduced: 0
