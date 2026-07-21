@@ -147,6 +147,36 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
           </VStack>
 
           <VStack gap="x3">
+            <SectionTitle>Disabled / ReadOnly</SectionTitle>
+            <HStack gap="x4" align="flex-start">
+              <div style={{ width: 200 }}>
+                <SelectRoot label="비활성" disabled defaultValue={["apple"]}>
+                  <SelectTrigger placeholder="과일 선택" />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" />
+                      <SelectItem value="banana" label="바나나" />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+              <div style={{ width: 200 }}>
+                <SelectRoot label="읽기 전용" readOnly defaultValue={["banana"]}>
+                  <SelectTrigger placeholder="과일 선택" />
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="apple" label="사과" />
+                      <SelectItem value="banana" label="바나나" />
+                      <SelectItem value="cherry" label="체리" />
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+            </HStack>
+          </VStack>
+
+          <VStack gap="x3">
             <SectionTitle>Controlled + onValueChange</SectionTitle>
             <HStack align="center" gap="x4">
               <div style={{ width: 200 }}>
