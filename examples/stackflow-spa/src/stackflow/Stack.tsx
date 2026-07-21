@@ -131,6 +131,10 @@ export const { Stack, actions, stepActions } = stackflow({
 
     ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
     ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
+    ActivityNextAppScreen: lazy(() => import("../activities/ActivityNextAppScreen")),
+    ActivityNextAppScreenTransparent: lazy(
+      () => import("../activities/ActivityNextAppScreenTransparent"),
+    ),
     ActivityAppScreenIntersectionObserver: lazy(
       () => import("../activities/ActivityAppScreenIntersectionObserver"),
     ),

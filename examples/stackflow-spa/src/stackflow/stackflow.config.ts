@@ -96,6 +96,8 @@ export const config = defineConfig({
 
     { route: "/app-screen-preview", name: "ActivityAppScreenPreview" },
     { route: "/app-screen-transparent", name: "ActivityAppScreenTransparent" },
+    { route: "/next-app-screen", name: "ActivityNextAppScreen" },
+    { route: "/next-app-screen-transparent", name: "ActivityNextAppScreenTransparent" },
     { route: "/app-screen-intersection-observer", name: "ActivityAppScreenIntersectionObserver" },
     { route: "/app-screen-app-bar-customization", name: "ActivityAppScreenAppBarCustomization" },
     { route: "/alert-dialog-stackflow", name: "ActivityAlertDialogStackflow" },

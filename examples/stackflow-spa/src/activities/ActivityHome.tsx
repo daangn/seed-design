@@ -52,6 +52,7 @@ import {
   CompassIcon,
   ImageIcon,
   LayersIcon,
+  LayoutTemplateIcon,
   ListIcon,
   MessageSquareDashedIcon,
   MousePointerClickIcon,
@@ -116,6 +117,14 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           title: `전환: ${transitionStyle}`,
           ...to("ActivityTransitionStyle", { transitionStyle }),
         })),
+      ],
+    },
+    {
+      title: "NextAppScreen",
+      icon: LayoutTemplateIcon,
+      items: [
+        { title: "기본", ...to("ActivityNextAppScreen", {}) },
+        { title: "투명", ...to("ActivityNextAppScreenTransparent", {}) },
       ],
     },
     {
