@@ -1,4 +1,3 @@
-import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
@@ -24,20 +23,29 @@ const BEHIND_TRANSLATE_X = "-30%";
 // (data-part="screen"); every animated slot is a direct child of the root, so
 // `[state] > &` scopes each rule to its own screen.
 //
-// `idle` / `idle-behind` intentionally have NO animation rules: the resting
-// state must be plain CSS defaults (never animation-fill-mode), so re-showing
-// a screen from `display: none` (e.g. future React <Activity>) cannot replay
-// a transition.
+// Every state rule declares only TARGET values; the `transition` shorthand
+// lives unconditionally on each transitionStyle variant. css-transitions
+// cancels a running transition when the after-change style stops declaring
+// its transition-property, so keeping it resident lets an early state flip
+// (e.g. core marks `idle` before the CSS duration elapses) finish the run
+// instead of snapping — and any interrupt retargets from the current
+// computed value.
+//
+// `push` matches only until `data-screen-ready` lands (one frame after
+// mount): the enter start offset is pinned there, and dropping it is what
+// starts the slide-in. States whose target IS the resting position (`push`
+// after ready, `idle`, `pop-behind`) need no rule at all — the resting state
+// stays plain CSS defaults, so re-showing a screen from `display: none`
+// (e.g. future React <Activity>) cannot replay a transition.
 
-const push = '[data-screen-state="push"] > &';
+const pushStart = '[data-screen-state="push"]:not([data-screen-ready]) > &';
 const pop = '[data-screen-state="pop"] > &';
 const pushBehind = '[data-screen-state="push-behind"] > &';
-const popBehind = '[data-screen-state="pop-behind"] > &';
 const idleBehind = '[data-screen-state="idle-behind"] > &';
 
-// Swipe rules must beat the state animation rules regardless of source order
-// (e.g. `completing` keeps suppressing the `pop` animation after the consumer
-// pops), so force specificity with :not(#\#).
+// Swipe rules must beat the state rules regardless of source order (e.g.
+// `swiping` must pin the var-driven transform over the `pop` target while the
+// consumer pops mid-gesture), so force specificity with :not(#\#).
 const isTopScreen = ':not([data-screen-state$="-behind"])';
 const isBehindScreen = '[data-screen-state$="-behind"]';
 const swiping = `[data-swipe-back-state="swiping"]${isTopScreen}:not(#\\#) > &`;
@@ -151,69 +159,64 @@ export const nextAppScreen = defineSlotRecipe({
         dim: {
           height: "100%",
           background: vars.$color.palette.staticBlackAlpha400,
+          transition: `opacity ${HORIZONTAL.duration} ${HORIZONTAL.timingFunction}`,
 
-          [push]: enterAnimation({ ...HORIZONTAL, opacity: "0" }),
-          [pop]: exitAnimation({ ...HORIZONTAL, opacity: "0" }),
+          [pushStart]: { opacity: "0" },
+          [pop]: { opacity: "0" },
 
           [swiping]: {
-            animation: "none",
             transition: "none",
             opacity: SWIPE_DIM_OPACITY,
           },
           [canceling]: {
-            animation: "none",
             opacity: "1",
             transition: RELEASE_OPACITY_TRANSITION,
           },
           [completing]: {
-            animation: "none",
             opacity: "0",
             transition: RELEASE_OPACITY_TRANSITION,
           },
         },
         layer: {
-          // top
-          [push]: enterAnimation({ ...HORIZONTAL, translateX: "100%" }),
-          [pop]: exitAnimation({ ...HORIZONTAL, translateX: "100%" }),
+          transition: `transform ${HORIZONTAL.duration} ${HORIZONTAL.timingFunction}`,
 
-          // behind
-          [pushBehind]: exitAnimation({ ...HORIZONTAL, translateX: BEHIND_TRANSLATE_X }),
-          [popBehind]: enterAnimation({ ...HORIZONTAL, translateX: BEHIND_TRANSLATE_X }),
+          // top
+          [pushStart]: { transform: "translate3d(100%, 0, 0)" },
+          [pop]: { transform: "translate3d(100%, 0, 0)" },
+
+          // behind (`pop-behind` targets the resting position — no rule)
+          [pushBehind]: {
+            transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
+          },
           [idleBehind]: {
             transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
           },
 
           // swipe interaction (vars written imperatively on the elements)
           [swiping]: {
-            animation: "none",
             transition: "none",
             transform: SWIPE_TOP_TRANSFORM,
           },
           [swipingBehind]: {
-            animation: "none",
             transition: "none",
             transform: SWIPE_BEHIND_TRANSFORM,
           },
 
-          // swipe release — plain CSS transition from the current var-driven
-          // computed value to the target position
+          // swipe release — retargets from the current var-driven computed
+          // value to the target position
           [canceling]: {
-            animation: "none",
             transform: "translate3d(0, 0, 0)",
             transition: RELEASE_TRANSFORM_TRANSITION,
           },
           [cancelingBehind]: {
-            animation: "none",
             transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
             transition: RELEASE_TRANSFORM_TRANSITION,
           },
           [completing]: {
-            animation: "none",
             transform: "translate3d(100%, 0, 0)",
             transition: RELEASE_TRANSFORM_TRANSITION,
           },
           [completingBehind]: {
-            animation: "none",
             transform: "translate3d(0, 0, 0)",
             transition: RELEASE_TRANSFORM_TRANSITION,
           },
@@ -223,13 +226,26 @@ export const nextAppScreen = defineSlotRecipe({
         dim: {
           height: "100%",
           background: vars.$color.palette.staticBlackAlpha400,
+          transition: `transform ${VERTICAL_ENTER.duration} ${VERTICAL_ENTER.timingFunction}, opacity ${VERTICAL_ENTER.duration} ${VERTICAL_ENTER.timingFunction}`,
 
-          [push]: enterAnimation({ ...VERTICAL_ENTER, opacity: "0", translateY: "-8vh" }),
-          [pop]: exitAnimation({ ...VERTICAL_EXIT, opacity: "0", translateY: "-8vh" }),
+          [pushStart]: { opacity: "0", transform: "translate3d(0, -8vh, 0)" },
+          [pop]: {
+            opacity: "0",
+            transform: "translate3d(0, -8vh, 0)",
+            transitionDuration: VERTICAL_EXIT.duration,
+            transitionTimingFunction: VERTICAL_EXIT.timingFunction,
+          },
         },
         layer: {
-          [push]: enterAnimation({ ...VERTICAL_ENTER, opacity: "0", translateY: "8vh" }),
-          [pop]: exitAnimation({ ...VERTICAL_EXIT, opacity: "0", translateY: "8vh" }),
+          transition: `transform ${VERTICAL_ENTER.duration} ${VERTICAL_ENTER.timingFunction}, opacity ${VERTICAL_ENTER.duration} ${VERTICAL_ENTER.timingFunction}`,
+
+          [pushStart]: { opacity: "0", transform: "translate3d(0, 8vh, 0)" },
+          [pop]: {
+            opacity: "0",
+            transform: "translate3d(0, 8vh, 0)",
+            transitionDuration: VERTICAL_EXIT.duration,
+            transitionTimingFunction: VERTICAL_EXIT.timingFunction,
+          },
         },
         edge: {
           display: "none",
@@ -240,8 +256,14 @@ export const nextAppScreen = defineSlotRecipe({
           display: "none",
         },
         layer: {
-          [push]: enterAnimation({ ...FADE_IN_ENTER, opacity: "0" }),
-          [pop]: exitAnimation({ ...FADE_IN_EXIT, opacity: "0" }),
+          transition: `opacity ${FADE_IN_ENTER.duration} ${FADE_IN_ENTER.timingFunction}`,
+
+          [pushStart]: { opacity: "0" },
+          [pop]: {
+            opacity: "0",
+            transitionDuration: FADE_IN_EXIT.duration,
+            transitionTimingFunction: FADE_IN_EXIT.timingFunction,
+          },
         },
         edge: {
           display: "none",
