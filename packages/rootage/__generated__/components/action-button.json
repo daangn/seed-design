@@ -17,9 +17,6 @@
             "colorTimingFunction": {
               "type": "cubicBezier"
             },
-            "scale": {
-              "type": "number"
-            },
             "scaleDuration": {
               "type": "duration"
             },
@@ -1101,19 +1098,6 @@
                 }
               }
             }
-          },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number",
-                  "value": "$scale.s95"
-                }
-              }
-            }
           }
         ]
       },
@@ -1237,19 +1221,6 @@
                     "value": 2,
                     "unit": "px"
                   }
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number",
-                  "value": "$scale.s97"
                 }
               }
             }
@@ -1379,19 +1350,6 @@
                 }
               }
             }
-          },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number",
-                  "value": "$scale.s97"
-                }
-              }
-            }
           }
         ]
       },
@@ -1518,19 +1476,6 @@
                     "value": 2,
                     "unit": "px"
                   }
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number",
-                  "value": "$scale.s98"
                 }
               }
             }

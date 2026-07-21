@@ -1,4 +1,5 @@
 import { actionButton as vars } from "../vars/component";
+import * as scaleVars from "../vars/scale";
 
 import { defineSlotRecipe } from "../utils/define";
 
@@ -445,26 +446,28 @@ const actionButton = defineSlotRecipe({
     // Lynx has no individual `scale:` property and does not evaluate
     // prefers-reduced-motion, so scale is applied via the `transform` shorthand
     // and always animates on-device (the reduced-motion guard is dropped in
-    // lynx-css at the token layer).
+    // lynx-css at the token layer). Web derives the pressed scale at runtime,
+    // so the static per-size values reference the global scale tokens directly
+    // instead of component vars.
     {
       size: "xsmall",
       pressed: true,
-      css: { root: { transform: `scale(${vars.sizeXsmall.pressed.root.scale})` } },
+      css: { root: { transform: `scale(${scaleVars.s95})` } },
     },
     {
       size: "small",
       pressed: true,
-      css: { root: { transform: `scale(${vars.sizeSmall.pressed.root.scale})` } },
+      css: { root: { transform: `scale(${scaleVars.s97})` } },
     },
     {
       size: "medium",
       pressed: true,
-      css: { root: { transform: `scale(${vars.sizeMedium.pressed.root.scale})` } },
+      css: { root: { transform: `scale(${scaleVars.s97})` } },
     },
     {
       size: "large",
       pressed: true,
-      css: { root: { transform: `scale(${vars.sizeLarge.pressed.root.scale})` } },
+      css: { root: { transform: `scale(${scaleVars.s98})` } },
     },
 
     // ── variant × disabled — all slots ──────────────────────────────────────
