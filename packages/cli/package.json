@@ -33,7 +33,7 @@
     "cac": "^7.0.0",
     "cosmiconfig": "^9.0.0",
     "dedent": "^1.7.0",
-    "diff": "^8.0.3",
+    "diff": "^9.0.0",
     "execa": "^9.5.2",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.3.0",
