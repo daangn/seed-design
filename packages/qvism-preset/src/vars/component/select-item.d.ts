@@ -3,6 +3,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
+        "cornerRadius": "var(--seed-radius-r3)",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
         "marginDuration": "var(--seed-duration-d3)",
@@ -29,8 +30,7 @@ export declare const vars: {
     "pressed": {
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)",
-        "marginX": "var(--seed-dimension-x2)",
-        "cornerRadius": "var(--seed-radius-r3)"
+        "marginX": "var(--seed-dimension-x2)"
       }
     },
     "disabled": {

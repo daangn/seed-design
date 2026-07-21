@@ -131,6 +131,10 @@
                   "type": "dimension",
                   "value": "$dimension.x4"
                 },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
+                },
                 "colorDuration": {
                   "type": "duration",
                   "value": "$duration.color-transition"
@@ -201,10 +205,6 @@
                 "marginX": {
                   "type": "dimension",
                   "value": "$dimension.x2"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r3"
                 }
               }
             }

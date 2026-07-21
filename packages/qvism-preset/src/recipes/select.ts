@@ -40,19 +40,6 @@ const SELECT_TRANSFORM_ORIGIN = "--seed-select-transform-origin";
 const SELECT_AVAILABLE_HEIGHT = "--seed-select-available-height";
 const SELECT_REFERENCE_WIDTH = "--seed-select-reference-width";
 
-// Active-option / pressed background. In a select-only combobox the list items
-// never receive real DOM focus (focus stays on the combobox via
-// `aria-activedescendant`), so the highlight is keyed off `[data-highlighted]`
-// rather than `:focus-visible`. That single active option is moved by both keyboard
-// navigation and pointer hover, so the highlight always tracks exactly one option —
-// never two. `:active` layers press feedback on top; on touch,
-// where there is no hover, it is the only pointer feedback an option gets.
-const highlightedItem = {
-  backgroundColor: selectItemVars.base.pressed.root.color,
-  insetInline: selectItemVars.base.pressed.root.marginX,
-  borderRadius: selectItemVars.base.pressed.root.cornerRadius,
-};
-
 /**
  * Select trigger — the `role="combobox"` button whose text content is the
  * selected value. It contains its value directly, so the interactive layer is
@@ -527,11 +514,26 @@ export const selectItem = defineSlotRecipe({
         inset: 0,
         zIndex: -1,
 
+        borderRadius: selectItemVars.base.enabled.root.cornerRadius,
+
         transition: `background-color ${selectItemVars.base.enabled.root.colorDuration} ${selectItemVars.base.enabled.root.colorTimingFunction}, inset-inline ${selectItemVars.base.enabled.root.marginDuration} ${selectItemVars.base.enabled.root.marginTimingFunction}`,
       },
 
-      [pseudo(not(disabled), active, before)]: highlightedItem,
-      [pseudo(not(disabled), "[data-highlighted]", before)]: highlightedItem,
+      // Active-option / pressed background. In a select-only combobox the list items
+      // never receive real DOM focus (focus stays on the combobox via
+      // `aria-activedescendant`), so the highlight is keyed off `[data-highlighted]`
+      // rather than `:focus-visible`. That single active option is moved by both keyboard
+      // navigation and pointer hover, so the highlight always tracks exactly one option —
+      // never two. `:active` layers press feedback on top; on touch,
+      // where there is no hover, it is the only pointer feedback an option gets.
+      [pseudo(not(disabled), active, before)]: {
+        backgroundColor: selectItemVars.base.pressed.root.color,
+        insetInline: selectItemVars.base.pressed.root.marginX,
+      },
+      [pseudo(not(disabled), "[data-highlighted]", before)]: {
+        backgroundColor: selectItemVars.base.pressed.root.color,
+        insetInline: selectItemVars.base.pressed.root.marginX,
+      },
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",

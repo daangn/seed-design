@@ -22,17 +22,16 @@
     position: absolute;
     inset: 0;
     z-index: -1;
+    border-radius: var(--seed-radius-r3);
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), inset-inline var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-select-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active])::before {
     background-color: var(--seed-color-bg-transparent-pressed);
     inset-inline: var(--seed-dimension-x2);
-    border-radius: var(--seed-radius-r3);
 }
 .seed-select-item__root:not(:is(:disabled, [disabled], [data-disabled]))[data-highlighted]::before {
     background-color: var(--seed-color-bg-transparent-pressed);
     inset-inline: var(--seed-dimension-x2);
-    border-radius: var(--seed-radius-r3);
 }
 .seed-select-item__root:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
