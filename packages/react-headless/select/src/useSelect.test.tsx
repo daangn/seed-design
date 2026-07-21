@@ -518,6 +518,54 @@ describe("useSelect selection (single)", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "true");
   });
 
+  // A readOnly select never commits, even when forced open: `open` is
+  // controllable, so defaultOpen/open bypasses the setOpen guard and renders
+  // the listbox. The commit itself must still refuse.
+  it("does not commit an item click while readOnly, even when forced open", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <BasicSelect readOnly defaultOpen onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    await user.click(getAllByRole("option")[1]);
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "true");
+  });
+
+  // Same guarantee for disabled: a forced-open disabled select must not commit.
+  it("does not commit an item click while disabled, even when forced open", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getAllByRole } = render(
+      <BasicSelect disabled defaultOpen onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    await user.click(getAllByRole("option")[1]);
+
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  // The keyboard commit path (Enter over the highlighted option) shares the
+  // same guard, so a forced-open readOnly select refuses it too.
+  it("does not commit via keyboard while readOnly, even when forced open", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(
+      <BasicSelect readOnly defaultOpen onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    const content = getByRole("listbox");
+    content.focus();
+    await user.keyboard("{ArrowDown}{Enter}");
+
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
   // REQ-34
   it("does not commit an item click whose default was prevented", async () => {
     const user = userEvent.setup();

@@ -324,6 +324,8 @@ export function useSelect(props: UseSelectProps) {
 
   const selectValue = useCallback(
     (optionValue: string) => {
+      if (!interactive) return;
+
       if (multiple) {
         // Toggle membership preserving insertion order; the listbox stays open.
         setValue(
@@ -337,7 +339,7 @@ export function useSelect(props: UseSelectProps) {
       setValue([optionValue]);
       setOpen(false);
     },
-    [multiple, value, setValue, setOpen],
+    [interactive, multiple, value, setValue, setOpen],
   );
 
   const registerOption = useCallback((optionValue: string, entry: OptionEntry) => {
