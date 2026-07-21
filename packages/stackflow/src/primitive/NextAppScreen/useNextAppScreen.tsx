@@ -1,5 +1,5 @@
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useActivityZIndexBase } from "../../hooks";
 import { nextAppScreenAnatomy } from "./anatomy";
 import { useNextScreenRegistry } from "./registry";
@@ -52,6 +52,20 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
     return () => registry.unregister(activityId);
   }, [registry, activityId, transitionStyle]);
 
+  // Flips one frame AFTER the mounting paint (double rAF — a single rAF can
+  // fire within the same frame). While absent, the recipe pins the enter
+  // start position, so the slide-in transition departs from the offset
+  // instead of the resting position. Re-mounts (StrictMode, future
+  // <Activity> restore) reset to false, which doubles as "no transition on
+  // restore" protection.
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let rafId = requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => setReady(true));
+    });
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
   const { rootProps: swipeBackRootProps, edgeProps: swipeBackEdgeProps } = useNextSwipeBack({
     ...swipeBackProps,
     swipeBackArea,
@@ -90,6 +104,7 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
         "data-screen-transition-style": effectiveTransitionStyle,
         "data-screen-is-top": dataAttr(isTop),
         "data-screen-is-active": dataAttr(isActive),
+        "data-screen-ready": dataAttr(ready),
         ...swipeBackRootProps,
         style: zIndexStyle,
       }),
@@ -113,6 +128,7 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
       activity,
       isTop,
       isActive,
+      ready,
       screenState,
       effectiveTransitionStyle,
       swipeBackArea,

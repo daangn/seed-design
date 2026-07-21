@@ -73,6 +73,20 @@ describe("data-screen-state derivation", () => {
     expect(getScreen(container, "a").dataset["screenState"]).toBe("idle");
   });
 
+  it("data-screen-ready: 마운트 직후에는 없고, 프레임이 지나면 붙는다", async () => {
+    const { container } = renderStack({
+      activities: {
+        A: makeActivity({ testId: "a" }),
+      },
+      initialActivity: "A",
+    });
+
+    expect(getScreen(container, "a").dataset["screenReady"]).toBeUndefined();
+    await poll(() => {
+      expect(getScreen(container, "a").dataset["screenReady"]).toBeDefined();
+    });
+  });
+
   it("3-깊이 스택: 모든 비-top 화면이 behind 상태를 가진다", async () => {
     const { container, push } = renderStack({
       activities: {
