@@ -1,3 +1,4 @@
+import { Box } from "@seed-design/react";
 import {
   SelectContent,
   SelectGroup,
@@ -8,7 +9,7 @@ import {
 
 export default function SelectPlacement() {
   return (
-    <div style={{ width: 240 }}>
+    <Box width="240px">
       <SelectRoot placement="top" defaultValue={["apple"]}>
         <SelectTrigger aria-label="과일" placeholder="과일 선택" />
         <SelectContent>
@@ -19,6 +20,6 @@ export default function SelectPlacement() {
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-    </div>
+    </Box>
   );
 }

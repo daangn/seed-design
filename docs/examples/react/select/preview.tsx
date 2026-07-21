@@ -1,3 +1,4 @@
+import { Box } from "@seed-design/react";
 import {
   SelectContent,
   SelectGroup,
@@ -8,7 +9,7 @@ import {
 
 export default function SelectPreview() {
   return (
-    <div style={{ width: 240 }}>
+    <Box width="240px">
       <SelectRoot defaultValue={["apple"]}>
         <SelectTrigger aria-label="과일" placeholder="과일을 선택하세요" />
         <SelectContent>
@@ -19,6 +20,6 @@ export default function SelectPreview() {
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-    </div>
+    </Box>
   );
 }

@@ -1,3 +1,4 @@
+import { Box } from "@seed-design/react";
 import {
   SelectContent,
   SelectGroup,
@@ -8,7 +9,7 @@ import {
 
 export default function SelectWithDescription() {
   return (
-    <div style={{ width: 280 }}>
+    <Box width="280px">
       <SelectRoot defaultValue={["standard"]}>
         <SelectTrigger aria-label="배송 방법" placeholder="배송 방법 선택" />
         <SelectContent>
@@ -19,6 +20,6 @@ export default function SelectWithDescription() {
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-    </div>
+    </Box>
   );
 }

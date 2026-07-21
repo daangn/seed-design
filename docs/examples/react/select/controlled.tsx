@@ -1,5 +1,6 @@
 "use client";
 
+import { VStack } from "@seed-design/react";
 import * as React from "react";
 import {
   SelectContent,
@@ -13,7 +14,7 @@ export default function SelectControlled() {
   const [value, setValue] = React.useState<string[]>(["apple"]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, width: 240 }}>
+    <VStack gap="x2" width="240px">
       <SelectRoot value={value} onValueChange={setValue}>
         <SelectTrigger aria-label="과일" placeholder="과일 선택" />
         <SelectContent>
@@ -25,6 +26,6 @@ export default function SelectControlled() {
         </SelectContent>
       </SelectRoot>
       <span>선택된 값: {value.length > 0 ? value.join(", ") : "없음"}</span>
-    </div>
+    </VStack>
   );
 }

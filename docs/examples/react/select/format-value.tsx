@@ -1,5 +1,6 @@
 "use client";
 
+import { Box } from "@seed-design/react";
 import {
   SelectContent,
   SelectGroup,
@@ -12,7 +13,7 @@ const listFormat = new Intl.ListFormat("ko", { type: "conjunction" });
 
 export default function SelectFormatValue() {
   return (
-    <div style={{ width: 240 }}>
+    <Box width="240px">
       <SelectRoot
         multiple
         defaultValue={["apple", "banana"]}
@@ -27,6 +28,6 @@ export default function SelectFormatValue() {
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-    </div>
+    </Box>
   );
 }

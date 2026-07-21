@@ -1,3 +1,4 @@
+import { VStack } from "@seed-design/react";
 import {
   SelectContent,
   SelectGroup,
@@ -8,7 +9,7 @@ import {
 
 export default function SelectSize() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16, width: 240 }}>
+    <VStack gap="x4" width="240px">
       <SelectRoot size="large" defaultValue={["apple"]}>
         <SelectTrigger aria-label="과일 (large)" placeholder="과일 선택" />
         <SelectContent>
@@ -27,6 +28,6 @@ export default function SelectSize() {
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
-    </div>
+    </VStack>
   );
 }

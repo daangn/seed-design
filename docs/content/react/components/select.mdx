@@ -1,6 +1,6 @@
 ---
 title: Select
-description: 트리거를 눌러 열리는 목록에서 하나의 값을 선택하는 컴포넌트입니다.
+description: 트리거를 눌러 열리는 목록에서 값을 선택하는 컴포넌트입니다.
 ---
 
 <ComponentExample name="react/select/preview">
@@ -21,8 +21,6 @@ npx @seed-design/cli@latest add ui:select
 <ManualInstallation name="select" />
 
 ## Usage
-
-Select는 아래와 같은 구조로 구성됩니다. 트리거는 Input Button, 목록은 Menu의 스타일을 따릅니다.
 
 ```tsx
 import {
@@ -49,13 +47,11 @@ import {
 ```
 
 - `SelectRoot`: 선택 값(`value`)과 열림 상태를 관리합니다.
-- `SelectTrigger`: 선택된 값 또는 placeholder를 표시하며, 클릭 시 목록을 엽니다. `role="combobox"`로 동작합니다.
-- `SelectContent`: 옵션 목록을 감싸는 플로팅 컨테이너입니다. 기본적으로 트리거 너비에 맞춰집니다.
+- `SelectTrigger`: 선택된 값 또는 placeholder를 표시하며, 클릭 시 목록을 엽니다.
+- `SelectContent`: 옵션 목록을 감싸는 플로팅 컨테이너입니다.
 - `SelectGroup`: 관련된 옵션들을 그룹으로 묶습니다. 모든 `SelectItem`은 `SelectGroup` 안에 있어야 합니다.
 - `SelectGroupLabel`: 그룹의 제목을 표시합니다.
 - `SelectItem`: 개별 옵션입니다. `value`가 필요하며, 선택되면 체크마크가 표시됩니다.
-
-Select는 [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) 패턴을 따릅니다. 목록이 열려 있어도 DOM 포커스는 트리거에 유지되고, 활성 옵션은 `aria-activedescendant`로 표시됩니다.
 
 ## Props
 
@@ -105,7 +101,7 @@ Select는 [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
 
 ### Size
 
-`size`로 트리거와 목록의 크기를 함께 정합니다. (default: `large`)
+`size`로 트리거와 목록의 크기를 정합니다. (default: `large`)
 
 `responsive`는 화면 너비에 따라 size가 자동으로 전환되는 값입니다.
 
@@ -133,7 +129,9 @@ Select는 [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
 
 ### With Prefix Icon
 
-`SelectItem`의 `prefixIcon` prop으로 옵션에 아이콘을 표시합니다. 정확히 하나의 옵션이 선택되면 해당 옵션의 아이콘이 트리거의 prefix 자리에 함께 표시됩니다. 그 외의 경우 — 선택된 옵션에 아이콘이 없거나, 선택이 없거나 여러 개일 때 — 에는 `SelectTrigger`의 `prefixIcon`이 표시되며, 없으면 prefix 자리는 비워집니다.
+`SelectItem`의 `prefixIcon` prop으로 옵션에 아이콘을 표시합니다.
+
+정확히 1개의 옵션이 선택되면 해당 옵션의 아이콘이 트리거의 prefix 자리에 표시됩니다. 선택된 옵션이 없거나, 선택된 옵션에 아이콘이 없거나, 여러 옵션이 선택된 경우 트리거에는 `SelectTrigger`에 지정한 `prefixIcon`이 표시됩니다.
 
 <ComponentExample name="react/select/with-prefix-icon">
   ```json doc-gen:file
@@ -198,6 +196,19 @@ Select는 [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
   ```
 </ComponentExample>
 
+### Field Integration
+
+`label`, `description`, `errorMessage` 등의 Field 관련 prop을 사용할 수 있습니다.
+
+<ComponentExample name="react/select/field">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/field.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Form Integration
 
 `SelectRoot`에 `name`, `required`를 지정하면, `SelectRoot`가 내부에서 렌더링하는 숨겨진 native `<select>`를 통해 폼 제출에 참여합니다.
@@ -206,6 +217,19 @@ Select는 [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combob
   ```json doc-gen:file
   {
     "file": "examples/react/select/form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### React Hook Form
+
+`value`, `onValueChange`, `invalid`, `errorMessage`를 연결하면 [React Hook Form](https://react-hook-form.com/)의 `useController`로 검증 상태를 제어할 수 있습니다.
+
+<ComponentExample name="react/select/react-hook-form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/react-hook-form.tsx",
     "codeblock": true
   }
   ```
