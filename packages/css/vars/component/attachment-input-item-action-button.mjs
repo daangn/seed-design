@@ -2,7 +2,9 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1)"
+        "gap": "var(--seed-dimension-x1)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "icon": {
         "size": "var(--seed-dimension-x6)"

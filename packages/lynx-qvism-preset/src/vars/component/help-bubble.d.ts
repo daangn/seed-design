@@ -45,7 +45,9 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-inverted)",
         "size": "var(--seed-dimension-x3_5)",
         "targetSize": "38px",
-        "marginTop": "var(--seed-dimension-x0_5)"
+        "marginTop": "var(--seed-dimension-x0_5)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       }
     }
   }

@@ -18,6 +18,10 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
           layoutDuration:
             type: duration
           layoutTimingFunction:
@@ -68,6 +72,8 @@ data:
           shadow: $shadow.s3
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
           layoutDuration: $duration.d4
           layoutTimingFunction: $timing-function.easing
         icon:

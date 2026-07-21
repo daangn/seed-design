@@ -4,6 +4,8 @@
     cursor: pointer;
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
+    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
     background: none;
     border: none;
     justify-content: center;
@@ -11,6 +13,15 @@
     padding: 0;
     display: inline-flex;
     position: relative;
+    scale: 1;
+  }
+
+  .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
+    scale: var(--seed-pressed-scale, 1);
+  }
+
+  .seed-image-frame-reaction-button__root {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   }
 
   .seed-image-frame-reaction-button__root:before {

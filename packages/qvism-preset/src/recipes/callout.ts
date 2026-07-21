@@ -1,6 +1,7 @@
 import { callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, pseudo } from "../utils/pseudo";
+import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
+import { createPressScaleStyles } from "../utils/press-scale";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -118,7 +119,12 @@ const callout = defineSlotRecipe({
       margin: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: FOCUS_RING_TRANSITION,
+
+      // The button itself is transparent, so scaling the whole button scales only
+      // its content (the icon).
+      ...createPressScaleStyles({ gate: pseudo(active) }),
+
+      transition: `scale ${vars.base.enabled.suffixIcon.contentScaleDuration} ${vars.base.enabled.suffixIcon.contentScaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },

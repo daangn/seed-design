@@ -104,6 +104,12 @@
             },
             "color": {
               "type": "color"
+            },
+            "contentScaleDuration": {
+              "type": "duration"
+            },
+            "contentScaleTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         }
@@ -224,6 +230,14 @@
                 "targetSize": {
                   "type": "dimension",
                   "value": "$dimension.x10"
+                },
+                "contentScaleDuration": {
+                  "type": "duration",
+                  "value": "$duration.pressed-scale"
+                },
+                "contentScaleTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.pressed-scale"
                 }
               }
             }

@@ -97,14 +97,24 @@
     --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
     border-radius: var(--seed-radius-r3);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
     background: none;
     border: none;
     justify-content: center;
     align-items: center;
     display: flex;
+    scale: 1;
+  }
+
+  .seed-help-bubble__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-pressed-scale, 1);
+  }
+
+  .seed-help-bubble__closeButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-help-bubble__closeButton:is(:focus-visible, [data-focus-visible]) {

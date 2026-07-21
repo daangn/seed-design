@@ -75,6 +75,15 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
+    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    scale: 1;
+}
+.seed-snackbar__actionButton:is(:active, [data-active]) {
+    scale: var(--seed-pressed-scale, 1);
+}
+.seed-snackbar__actionButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 .seed-snackbar__actionButton:after {
     content: '';

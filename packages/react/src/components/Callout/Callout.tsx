@@ -3,6 +3,7 @@ import type * as React from "react";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { callout, type CalloutVariantProps } from "@seed-design/css/recipes/callout";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withPressScale } from "../../utils/pressScale";
 import {
   DismissibleCloseButton,
   DismissibleRoot,
@@ -51,7 +52,6 @@ export interface CalloutCloseButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const CalloutCloseButton = withContext<HTMLButtonElement, CalloutCloseButtonProps>(
-  DismissibleCloseButton,
-  "closeButton",
+export const CalloutCloseButton = withPressScale(
+  withContext<HTMLButtonElement, CalloutCloseButtonProps>(DismissibleCloseButton, "closeButton"),
 );

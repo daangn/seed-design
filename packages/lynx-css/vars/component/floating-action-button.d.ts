@@ -7,6 +7,8 @@ export declare const vars: {
         "shadow": "var(--seed-shadow-s3)",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)",
         "layoutDuration": "var(--seed-duration-d4)",
         "layoutTimingFunction": "var(--seed-timing-function-easing)"
       },

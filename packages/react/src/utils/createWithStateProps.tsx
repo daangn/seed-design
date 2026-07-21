@@ -22,7 +22,7 @@ export function createWithStateProps(useContexts: AtLeastOne<ContextConfig>) {
         }
       }
 
-      // @ts-ignore
+      // @ts-expect-error
       return <Component ref={ref} {...stateProps} {...props} />;
     });
 

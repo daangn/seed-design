@@ -3,7 +3,9 @@ export declare const vars: {
     "enabled": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"

@@ -5,7 +5,8 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { active, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { createPressScaleStyles } from "../utils/press-scale";
 import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
 import { vars as tokens } from "../vars";
 
@@ -168,6 +169,10 @@ const bottomSheet = defineSlotRecipe({
       width: closeButtonVars.base.enabled.root.size,
       height: closeButtonVars.base.enabled.root.size,
       cursor: "pointer",
+
+      ...createPressScaleStyles({ gate: pseudo(active) }),
+
+      transition: `scale ${closeButtonVars.base.enabled.root.scaleDuration} ${closeButtonVars.base.enabled.root.scaleTimingFunction}`,
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,

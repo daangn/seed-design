@@ -16,6 +16,10 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
           color:
             type: color
           minHeight:
@@ -81,6 +85,8 @@ data:
           shadow: $shadow.s3
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
         progressCircle:
           size: 16px
           thickness: 2px

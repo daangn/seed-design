@@ -4,6 +4,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createPressScaleStyles } from "../utils/press-scale";
 import { onlyIcon } from "../utils/icon";
 import { engaged, disabled, focusVisible, not, pseudo, readOnly } from "../utils/pseudo";
 import {
@@ -69,7 +70,10 @@ const attachmentInputTrigger = defineSlotRecipe({
       cursor: "pointer",
       backgroundColor: "transparent",
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
-      transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
+
+      ...createPressScaleStyles(),
+
+      transition: `background-color 0.2s, scale ${triggerVars.base.enabled.root.scaleDuration} ${triggerVars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
@@ -267,7 +271,12 @@ const attachmentInputItem = defineSlotRecipe({
       background: "transparent",
       cursor: "pointer",
       borderRadius: "inherit",
-      transition: FOCUS_RING_TRANSITION,
+
+      // The button itself is transparent (the backdrop slot carries the overlay),
+      // so scaling the whole button scales only its content.
+      ...createPressScaleStyles(),
+
+      transition: `scale ${itemActionButtonVars.base.enabled.root.contentScaleDuration} ${itemActionButtonVars.base.enabled.root.contentScaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
@@ -299,7 +308,10 @@ const attachmentInputItem = defineSlotRecipe({
       backgroundColor: itemRemoveButtonVars.base.enabled.root.color,
       borderRadius: itemRemoveButtonVars.base.enabled.root.cornerRadius,
       cursor: "pointer",
-      transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
+
+      ...createPressScaleStyles(),
+
+      transition: `background-color 0.2s, scale ${itemRemoveButtonVars.base.enabled.root.scaleDuration} ${itemRemoveButtonVars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),

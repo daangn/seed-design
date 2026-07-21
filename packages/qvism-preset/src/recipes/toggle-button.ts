@@ -11,6 +11,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createPressScaleStyles } from "../utils/press-scale";
 
 const toggleButton = defineRecipe({
   name: "toggle-button",
@@ -37,7 +38,9 @@ const toggleButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    ...createPressScaleStyles(),
+
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
     fontWeight: vars.base.enabled.label.fontWeight,
   },
   variants: {

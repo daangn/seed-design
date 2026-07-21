@@ -21,6 +21,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { usePressScale, withPressScale } from "../../utils/pressScale";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -115,10 +116,12 @@ AttachmentInputItemSize.displayName = "AttachmentInputItemSize";
 export interface AttachmentInputItemRemoveButtonProps
   extends FileUploadPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentInputItemRemoveButton = withContext<
-  HTMLButtonElement,
-  AttachmentInputItemRemoveButtonProps
->(FileUploadPrimitive.ItemRemoveButton, "removeButton");
+export const AttachmentInputItemRemoveButton = withPressScale(
+  withContext<HTMLButtonElement, AttachmentInputItemRemoveButtonProps>(
+    FileUploadPrimitive.ItemRemoveButton,
+    "removeButton",
+  ),
+);
 
 export interface AttachmentInputItemImageProps extends FileUploadPrimitive.ItemImageProps {}
 
@@ -184,11 +187,12 @@ export const AttachmentInputItemActionButton = React.forwardRef<
   AttachmentInputItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
+  const { pressScaleRef } = usePressScale();
 
   return (
     <Primitive.button
       type="button"
-      ref={ref}
+      ref={composeRefs(pressScaleRef, ref)}
       className={clsx(classNames.actionButton, className)}
       {...props}
     />

@@ -137,6 +137,15 @@
     width: 28px;
     height: 28px;
     cursor: pointer;
+    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    scale: 1;
+}
+.seed-bottom-sheet__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-pressed-scale, 1);
+}
+.seed-bottom-sheet__closeButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     --seed-icon-size: 14px;
     --seed-icon-color: var(--seed-color-fg-neutral);
 }

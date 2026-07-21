@@ -60,9 +60,9 @@ export function usePressScale() {
  * factory components (`withContext`/`withProvider` results). Hand-written
  * forwardRef components call `usePressScale` directly instead.
  */
-export function withPressScale<
-  C extends React.ForwardRefExoticComponent<React.RefAttributes<HTMLElement>>,
->(Component: C): C;
+export function withPressScale<P>(
+  Component: React.ForwardRefExoticComponent<P>,
+): React.ForwardRefExoticComponent<P>;
 export function withPressScale(
   Component: React.ForwardRefExoticComponent<React.RefAttributes<HTMLElement>>,
 ): React.ForwardRefExoticComponent<React.RefAttributes<HTMLElement>> {

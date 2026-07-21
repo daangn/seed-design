@@ -10,6 +10,15 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
     background: transparent;
+    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    scale: 1;
+}
+.seed-image-frame-reaction-button__root:is(:active, [data-active]) {
+    scale: var(--seed-pressed-scale, 1);
+}
+.seed-image-frame-reaction-button__root {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 .seed-image-frame-reaction-button__root::before {
     content: '';

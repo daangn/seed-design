@@ -2922,8 +2922,8 @@
   border-radius: var(--seed-radius-full);
   background: var(--seed-color-bg-neutral-weak);
   cursor: pointer;
-  --seed-icon-size: 14px;
-  --seed-icon-color: var(--seed-color-fg-neutral);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   border: none;
   justify-content: center;
   align-items: center;
@@ -2931,6 +2931,17 @@
   height: 28px;
   display: flex;
   position: absolute;
+  scale: 1;
+}
+
+.seed-bottom-sheet__closeButton:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-bottom-sheet__closeButton {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+  --seed-icon-size: 14px;
+  --seed-icon-color: var(--seed-color-fg-neutral);
 }
 
 .seed-bottom-sheet__closeButton:after {
@@ -3148,9 +3159,8 @@
   height: var(--seed-dimension-x10);
   margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
   border-radius: var(--seed-radius-r2_5);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: var(--seed-dimension-x0_5);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   background-color: #0000;
   border: none;
   flex-grow: 0;
@@ -3159,6 +3169,17 @@
   align-items: center;
   padding: 0;
   display: flex;
+  scale: 1;
+}
+
+.seed-callout__closeButton:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-callout__closeButton {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: var(--seed-dimension-x0_5);
 }
 
 .seed-callout__closeButton:is(:focus-visible, [data-focus-visible]) {
@@ -4092,7 +4113,17 @@
   --seed-icon-size: 22px;
   --size: 16px;
   --thickness: 2px;
-  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  scale: 1;
+}
+
+.seed-contextual-floating-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-contextual-floating-button {
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 
 .seed-contextual-floating-button--variant_solid {
@@ -4967,9 +4998,8 @@
   font: inherit;
   cursor: pointer;
   border-radius: inherit;
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   background: none;
   border: none;
   flex-direction: column;
@@ -4977,6 +5007,17 @@
   align-items: center;
   padding: 0;
   display: flex;
+  scale: 1;
+}
+
+.seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-attachment-input-item__actionButton {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-attachment-input-item__actionButton:is(:focus-visible, [data-focus-visible]) {
@@ -5000,15 +5041,25 @@
   background-color: var(--seed-color-bg-layer-default);
   border-radius: var(--seed-radius-full);
   cursor: pointer;
-  transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   border: none;
   justify-content: center;
   align-items: center;
   padding: 0;
   display: flex;
   position: absolute;
+  scale: 1;
+}
+
+.seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-attachment-input-item__removeButton {
+  transition: background-color .2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-attachment-input-item__removeButton:is(:focus-visible, [data-focus-visible]) {
@@ -5133,15 +5184,25 @@
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
   cursor: pointer;
   border-radius: var(--seed-radius-r3);
-  transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   background-color: #0000;
   border: none;
   flex-direction: column;
   flex-shrink: 0;
   padding: 0;
   display: flex;
+  scale: 1;
+}
+
+.seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-attachment-input-trigger__root {
+  transition: background-color .2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-attachment-input-trigger__root:is(:focus-visible, [data-focus-visible]) {
@@ -5240,9 +5301,19 @@
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-bold);
-  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   position: relative;
   overflow: hidden;
+  scale: 1;
+}
+
+.seed-floating-action-button__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-floating-action-button__root {
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding var(--seed-duration-d4) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -5455,14 +5526,24 @@
   --seed-icon-size: var(--seed-dimension-x3_5);
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   border-radius: var(--seed-radius-r3);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   background: none;
   border: none;
   justify-content: center;
   align-items: center;
   display: flex;
+  scale: 1;
+}
+
+.seed-help-bubble__closeButton:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-help-bubble__closeButton {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-help-bubble__closeButton:is(:focus-visible, [data-focus-visible]) {
@@ -5554,6 +5635,8 @@
   cursor: pointer;
   width: var(--seed-dimension-x6);
   height: var(--seed-dimension-x6);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   background: none;
   border: none;
   justify-content: center;
@@ -5561,6 +5644,15 @@
   padding: 0;
   display: inline-flex;
   position: relative;
+  scale: 1;
+}
+
+.seed-image-frame-reaction-button__root:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-image-frame-reaction-button__root {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 
 .seed-image-frame-reaction-button__root:before {
@@ -5909,12 +6001,22 @@
 .seed-input-button__clearButton {
   cursor: pointer;
   border-radius: var(--seed-radius-full);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: var(--seed-dimension-x0_5);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   background-color: #0000;
   border: none;
   padding: 0;
+  scale: 1;
+}
+
+.seed-input-button__clearButton:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-input-button__clearButton {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: var(--seed-dimension-x0_5);
 }
 
 .seed-input-button__clearButton:is(:focus-visible, [data-focus-visible]) {
@@ -6946,11 +7048,21 @@
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-medium);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   border: none;
   justify-content: center;
   align-items: center;
   display: flex;
+  scale: 1;
+}
+
+.seed-menu-sheet__closeButton:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-menu-sheet__closeButton {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -7256,13 +7368,23 @@
   line-height: var(--seed-line-height-t3);
   font-weight: var(--seed-font-weight-bold);
   border-radius: var(--seed-radius-r1);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   background-color: #0000;
   border: none;
   align-items: center;
   display: flex;
+  scale: 1;
+}
+
+.seed-page-banner__button:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-page-banner__button {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-page-banner__button:is(:focus-visible, [data-focus-visible]) {
@@ -7278,9 +7400,8 @@
   --seed-suffix-icon-margin-left: initial;
   cursor: pointer;
   border-radius: var(--seed-radius-r1);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   background-color: #0000;
   border: none;
   flex-grow: 0;
@@ -7290,6 +7411,17 @@
   align-items: center;
   padding: 0;
   display: flex;
+  scale: 1;
+}
+
+.seed-page-banner__closeButton:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-page-banner__closeButton {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-page-banner__closeButton:is(:focus-visible, [data-focus-visible]) {
@@ -7824,7 +7956,17 @@
 }
 
 .seed-reaction-button {
-  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  scale: 1;
+}
+
+.seed-reaction-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-reaction-button {
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   background: var(--seed-color-bg-transparent);
   font-weight: var(--seed-font-weight-medium);
   color: var(--seed-color-fg-neutral);
@@ -8785,11 +8927,8 @@
   top: calc(28px + var(--seed-safe-area-top));
   border-radius: var(--seed-radius-r3);
   cursor: pointer;
-  transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  --seed-icon-size: 22px;
-  --seed-icon-color: var(--seed-color-fg-neutral-subtle);
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: var(--seed-dimension-x0_5);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   border: none;
   justify-content: center;
   align-items: center;
@@ -8798,6 +8937,19 @@
   display: flex;
   position: absolute;
   right: 24px;
+  scale: 1;
+}
+
+.seed-side-panel__closeButton:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-side-panel__closeButton {
+  transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  --seed-icon-size: 22px;
+  --seed-icon-color: var(--seed-color-fg-neutral-subtle);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: var(--seed-dimension-x0_5);
 }
 
 .seed-side-panel__closeButton:is(:focus-visible, [data-focus-visible]) {
@@ -9282,6 +9434,8 @@
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t4);
   font-weight: var(--seed-font-weight-bold);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
   border: none;
   flex-shrink: 0;
   justify-content: center;
@@ -9289,6 +9443,15 @@
   text-decoration: none;
   display: inline-flex;
   position: relative;
+  scale: 1;
+}
+
+.seed-snackbar__actionButton:is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-snackbar__actionButton {
+  transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 
 .seed-snackbar__actionButton:after {
@@ -11026,7 +11189,17 @@
 }
 
 .seed-toggle-button {
-  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  scale: 1;
+}
+
+.seed-toggle-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  scale: var(--seed-pressed-scale, 1);
+}
+
+.seed-toggle-button {
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   font-weight: var(--seed-font-weight-bold);
 }
 

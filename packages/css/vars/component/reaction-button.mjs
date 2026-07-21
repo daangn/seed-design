@@ -6,7 +6,9 @@ export const vars = {
         "strokeWidth": "1px",
         "color": "var(--seed-color-bg-transparent)",
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)",

@@ -7,6 +7,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { usePressScale } from "../../utils/pressScale";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(sidePanel);
@@ -202,10 +203,11 @@ export const SidePanelCloseButton = React.forwardRef<HTMLButtonElement, SidePane
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
     const { trackRef } = closeButtonTracker.useRenderTracking();
+    const { pressScaleRef } = usePressScale();
 
     return (
       <Drawer.CloseButton
-        ref={composeRefs(ref, trackRef)}
+        ref={composeRefs(ref, trackRef, pressScaleRef)}
         className={clsx(classNames.closeButton, className)}
         {...props}
       />

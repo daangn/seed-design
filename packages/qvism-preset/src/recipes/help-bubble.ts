@@ -1,6 +1,7 @@
 import { helpBubble as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { active, hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { createPressScaleStyles } from "../utils/press-scale";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import {
@@ -133,7 +134,10 @@ const helpBubble = defineSlotRecipe({
       }),
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: FOCUS_RING_TRANSITION,
+
+      ...createPressScaleStyles({ gate: pseudo(active) }),
+
+      transition: `scale ${vars.base.enabled.closeButton.scaleDuration} ${vars.base.enabled.closeButton.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },

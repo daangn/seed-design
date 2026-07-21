@@ -6,7 +6,9 @@ export const vars = {
         "minHeight": "52px",
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x5)",
-        "paddingY": "var(--seed-dimension-x3_5)"
+        "paddingY": "var(--seed-dimension-x3_5)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)",

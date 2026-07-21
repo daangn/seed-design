@@ -18,6 +18,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { usePressScale, withPressScale } from "../../utils/pressScale";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -181,11 +182,12 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   AttachmentDisplayItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
+  const { pressScaleRef } = usePressScale();
 
   return (
     <Primitive.button
       type="button"
-      ref={ref}
+      ref={composeRefs(pressScaleRef, ref)}
       className={clsx(classNames.actionButton, className)}
       {...props}
     />
@@ -198,7 +200,9 @@ AttachmentDisplayItemActionButton.displayName = "AttachmentDisplayItemActionButt
 export interface AttachmentDisplayItemRemoveButtonProps
   extends AttachmentDisplayPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentDisplayItemRemoveButton = withContext<
-  HTMLButtonElement,
-  AttachmentDisplayItemRemoveButtonProps
->(AttachmentDisplayPrimitive.ItemRemoveButton, "removeButton");
+export const AttachmentDisplayItemRemoveButton = withPressScale(
+  withContext<HTMLButtonElement, AttachmentDisplayItemRemoveButtonProps>(
+    AttachmentDisplayPrimitive.ItemRemoveButton,
+    "removeButton",
+  ),
+);

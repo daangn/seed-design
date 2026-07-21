@@ -6,6 +6,7 @@ import { Snackbar as SnackbarPrimitive } from "@seed-design/react-snackbar";
 import { forwardRef } from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withPressScale } from "../../utils/pressScale";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { withContext: withRegionContext } = createRecipeContext(snackbarRegion);
@@ -69,9 +70,11 @@ export const SnackbarPrefixIcon = withContext<HTMLDivElement, SnackbarPrefixIcon
 
 export interface SnackbarActionButtonProps extends SnackbarPrimitive.ActionButtonProps {}
 
-export const SnackbarActionButton = withContext<HTMLButtonElement, SnackbarActionButtonProps>(
-  SnackbarPrimitive.ActionButton,
-  "actionButton",
+export const SnackbarActionButton = withPressScale(
+  withContext<HTMLButtonElement, SnackbarActionButtonProps>(
+    SnackbarPrimitive.ActionButton,
+    "actionButton",
+  ),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

@@ -129,9 +129,8 @@
     font: inherit;
     cursor: pointer;
     border-radius: inherit;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
     background: none;
     border: none;
     flex-direction: column;
@@ -139,6 +138,17 @@
     align-items: center;
     padding: 0;
     display: flex;
+    scale: 1;
+  }
+
+  .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-pressed-scale, 1);
+  }
+
+  .seed-attachment-input-item__actionButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-attachment-input-item__actionButton:is(:focus-visible, [data-focus-visible]) {
@@ -162,15 +172,25 @@
     background-color: var(--seed-color-bg-layer-default);
     border-radius: var(--seed-radius-full);
     cursor: pointer;
-    transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
     border: none;
     justify-content: center;
     align-items: center;
     padding: 0;
     display: flex;
     position: absolute;
+    scale: 1;
+  }
+
+  .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-pressed-scale, 1);
+  }
+
+  .seed-attachment-input-item__removeButton {
+    transition: background-color .2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-attachment-input-item__removeButton:is(:focus-visible, [data-focus-visible]) {

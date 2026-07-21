@@ -28,12 +28,16 @@ export declare const vars: {
         "targetHeight": "var(--seed-dimension-x10)",
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--seed-font-weight-bold)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "suffixIcon": {
         "size": "var(--seed-dimension-x4)",
         "targetSize": "var(--seed-dimension-x10)",
-        "marginLeft": "var(--seed-dimension-x2)"
+        "marginLeft": "var(--seed-dimension-x2)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       }
     }
   },

@@ -18,6 +18,10 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
       icon:
         properties:
           color:
@@ -37,6 +41,8 @@ data:
           size: 52px
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
         icon:
           color: $color.fg.neutral-subtle
           size: 22px
