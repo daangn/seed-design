@@ -18,10 +18,6 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-regular)",
         "color": "var(--seed-color-fg-placeholder)"
       },
-      "prefixText": {
-        "fontWeight": "var(--seed-font-weight-regular)",
-        "color": "var(--seed-color-fg-neutral-subtle)"
-      },
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
@@ -50,9 +46,6 @@ export const vars = {
         "color": "var(--seed-color-fg-disabled)"
       },
       "placeholder": {
-        "color": "var(--seed-color-fg-disabled)"
-      },
-      "prefixText": {
         "color": "var(--seed-color-fg-disabled)"
       },
       "prefixIcon": {
@@ -90,10 +83,6 @@ export const vars = {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)"
       },
-      "prefixText": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
       "prefixIcon": {
         "size": "var(--seed-dimension-x5)"
       },
@@ -115,10 +104,6 @@ export const vars = {
         "lineHeight": "var(--seed-line-height-t4)"
       },
       "placeholder": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "prefixText": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)"
       },

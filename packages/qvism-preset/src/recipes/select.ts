@@ -47,7 +47,7 @@ const SELECT_REFERENCE_WIDTH = "--seed-select-reference-width";
  */
 export const selectTrigger = defineSlotRecipe({
   name: "select-trigger",
-  slots: ["root", "value", "placeholder", "prefixText", "prefixIcon", "suffixIcon"],
+  slots: ["root", "value", "placeholder", "prefixIcon", "suffixIcon"],
   base: {
     root: {
       display: "flex",
@@ -150,19 +150,6 @@ export const selectTrigger = defineSlotRecipe({
         color: selectTriggerVars.base.readonly.placeholder.color,
       },
     },
-    prefixText: {
-      flexShrink: 0,
-
-      fontWeight: selectTriggerVars.base.enabled.prefixText.fontWeight,
-
-      color: selectTriggerVars.base.enabled.prefixText.color,
-
-      pointerEvents: "none",
-
-      [pseudo("[data-disabled]")]: {
-        color: selectTriggerVars.base.disabled.prefixText.color,
-      },
-    },
     prefixIcon: {
       flexShrink: 0,
 
@@ -210,10 +197,6 @@ export const selectTrigger = defineSlotRecipe({
           fontSize: selectTriggerVars.sizeLarge.enabled.placeholder.fontSize,
           lineHeight: selectTriggerVars.sizeLarge.enabled.placeholder.lineHeight,
         },
-        prefixText: {
-          fontSize: selectTriggerVars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: selectTriggerVars.sizeLarge.enabled.prefixText.lineHeight,
-        },
         prefixIcon: {
           width: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
           height: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
@@ -237,10 +220,6 @@ export const selectTrigger = defineSlotRecipe({
         placeholder: {
           fontSize: selectTriggerVars.sizeMedium.enabled.placeholder.fontSize,
           lineHeight: selectTriggerVars.sizeMedium.enabled.placeholder.lineHeight,
-        },
-        prefixText: {
-          fontSize: selectTriggerVars.sizeMedium.enabled.prefixText.fontSize,
-          lineHeight: selectTriggerVars.sizeMedium.enabled.prefixText.lineHeight,
         },
         prefixIcon: {
           width: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
@@ -281,15 +260,6 @@ export const selectTrigger = defineSlotRecipe({
           [breakpoints.up("lg")]: {
             fontSize: selectTriggerVars.sizeMedium.enabled.placeholder.fontSize,
             lineHeight: selectTriggerVars.sizeMedium.enabled.placeholder.lineHeight,
-          },
-        },
-        prefixText: {
-          fontSize: selectTriggerVars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: selectTriggerVars.sizeLarge.enabled.prefixText.lineHeight,
-
-          [breakpoints.up("lg")]: {
-            fontSize: selectTriggerVars.sizeMedium.enabled.prefixText.fontSize,
-            lineHeight: selectTriggerVars.sizeMedium.enabled.prefixText.lineHeight,
           },
         },
         prefixIcon: {

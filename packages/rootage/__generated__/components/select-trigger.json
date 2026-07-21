@@ -79,22 +79,6 @@
             }
           }
         },
-        "prefixText": {
-          "properties": {
-            "fontSize": {
-              "type": "dimension"
-            },
-            "lineHeight": {
-              "type": "dimension"
-            },
-            "fontWeight": {
-              "type": "number"
-            },
-            "color": {
-              "type": "color"
-            }
-          }
-        },
         "prefixIcon": {
           "properties": {
             "size": {
@@ -201,16 +185,6 @@
                   "value": "$color.fg.placeholder"
                 }
               },
-              "prefixText": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
-                }
-              },
               "prefixIcon": {
                 "color": {
                   "type": "color",
@@ -284,12 +258,6 @@
                 }
               },
               "placeholder": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "prefixText": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
@@ -384,16 +352,6 @@
                   "value": "$line-height.t5"
                 }
               },
-              "prefixText": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              },
               "prefixIcon": {
                 "size": {
                   "type": "dimension",
@@ -449,16 +407,6 @@
                 }
               },
               "placeholder": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                }
-              },
-              "prefixText": {
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t4"

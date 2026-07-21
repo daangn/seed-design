@@ -159,15 +159,6 @@ export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIcon
 );
 SelectPrefixIcon.displayName = "SelectPrefixIcon";
 
-export interface SelectPrefixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const SelectPrefixText = withTriggerContext<HTMLSpanElement, SelectPrefixTextProps>(
-  withStateProps(Primitive.span),
-  "prefixText",
-);
-
 export interface SelectSuffixIconProps extends InternalIconProps {}
 
 export const SelectSuffixIcon = withTriggerContext<SVGSVGElement, SelectSuffixIconProps>(
