@@ -30,9 +30,6 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 0.95;
 }
-.seed-select__content[data-instant] {
-    animation-duration: 0s;
-}
 .seed-select__content:is([hidden], [data-hidden]) {
     display: none !important;
 }

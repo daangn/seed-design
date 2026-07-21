@@ -387,10 +387,6 @@ export const select = defineSlotRecipe({
         }),
       },
 
-      [pseudo("[data-instant]")]: {
-        animationDuration: "0s",
-      },
-
       [pseudo(hidden)]: {
         display: "none !important",
       },
