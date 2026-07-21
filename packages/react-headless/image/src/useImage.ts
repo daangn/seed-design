@@ -56,13 +56,16 @@ export function useImage(props: UseImageProps) {
   const getContentProps = useCallback(
     ({ src }: { src?: string }) => {
       return imgProps({
-        hidden: !isLoaded,
+        // NOTE: 로딩 중에는 숨기지 않습니다. hidden은 display:none이라 레이아웃 박스가 사라지고,
+        // 그러면 loading="lazy" 이미지가 뷰포트 교차를 감지받지 못해 영원히 로드되지 않습니다.
+        // 페인트도 되지 않으므로 LCP가 이미지 도착 시각이 아니라 하이드레이션 시각에 묶입니다.
+        hidden: loadingStatus === "error",
         "data-visible": dataAttr(isLoaded),
         src,
         ...stateProps,
       });
     },
-    [isLoaded, stateProps],
+    [isLoaded, loadingStatus, stateProps],
   );
 
   const handleLoad = useCallback(() => {

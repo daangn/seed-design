@@ -5,6 +5,7 @@
     border-radius: var(--seed-radius-full);
     width: var(--avatar-size);
     height: var(--avatar-size);
+    isolation: isolate;
     justify-content: center;
     align-items: center;
     display: inline-flex;
@@ -50,11 +51,12 @@
     mask-composite: subtract;
   }
 
-  .seed-avatar__image:not([data-loading-state="loaded"]) {
+  .seed-avatar__image[data-loading-state="error"] {
     display: none;
   }
 
   .seed-avatar__fallback {
+    z-index: -1;
     object-fit: cover;
     border-radius: var(--seed-radius-full);
     width: 100%;
@@ -70,6 +72,8 @@
     justify-content: center;
     align-items: center;
     display: flex;
+    position: absolute;
+    inset: 0;
     overflow: hidden;
     transform: translateZ(0);
     mask-repeat: no-repeat;

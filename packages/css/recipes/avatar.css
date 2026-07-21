@@ -8,6 +8,7 @@
     border-radius: var(--seed-radius-full);
     width: var(--avatar-size);
     height: var(--avatar-size);
+    isolation: isolate;
 }
 .seed-avatar__root:after {
     content: "";
@@ -46,10 +47,13 @@
     mask-composite: subtract;
     transform: translateZ(0);
 }
-.seed-avatar__image:not([data-loading-state='loaded']) {
+.seed-avatar__image[data-loading-state='error'] {
     display: none;
 }
 .seed-avatar__fallback {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     display: flex;
     justify-content: center;
     align-items: center;
