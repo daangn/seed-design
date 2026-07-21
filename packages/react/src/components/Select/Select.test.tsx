@@ -14,8 +14,10 @@ import {
   SelectItem,
   SelectItemBody,
   SelectItemLabel,
+  SelectHiddenSelect,
   type SelectRootProps,
 } from "./Select";
+import { FieldRoot, FieldLabel } from "../Field/Field";
 
 const waitForPositioning = () => act(async () => {});
 
@@ -148,6 +150,55 @@ describe("Select", () => {
       rerender(<TestSelect staticIcon={<svg data-testid="static-icon" />} value={[]} />);
       expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
       expect(queryByTestId("static-icon")).toBeInTheDocument();
+    });
+  });
+
+  describe("Field composition", () => {
+    function FieldSelect() {
+      return (
+        <FieldRoot>
+          <FieldLabel>Fruit</FieldLabel>
+          <SelectRoot>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectPositioner>
+              <SelectContent>
+                <SelectScrollArea>
+                  <SelectItem value="apple" label="Apple">
+                    <SelectItemBody>
+                      <SelectItemLabel>Apple</SelectItemLabel>
+                    </SelectItemBody>
+                  </SelectItem>
+                </SelectScrollArea>
+              </SelectContent>
+            </SelectPositioner>
+            <SelectHiddenSelect />
+          </SelectRoot>
+        </FieldRoot>
+      );
+    }
+
+    it("associates the field label with the hidden select, not the trigger", async () => {
+      const { container } = render(<FieldSelect />);
+      await waitForPositioning();
+
+      const label = container.querySelector("label");
+      const hidden = container.querySelector("select");
+      if (!label || !hidden) throw new Error("label or hidden select not rendered");
+
+      // Label activation on the trigger button would open the listbox; targeting
+      // the hidden select instead forwards only focus (via its onFocus redirect).
+      expect(hidden.id).toBe(label.htmlFor);
+      expect(container.querySelector("button")?.id).not.toBe(label.htmlFor);
+    });
+
+    it("labels the trigger via the field label id", async () => {
+      const { container, getByRole } = render(<FieldSelect />);
+      await waitForPositioning();
+
+      const label = container.querySelector("label");
+      expect(getByRole("combobox")).toHaveAttribute("aria-labelledby", label?.id);
     });
   });
 });

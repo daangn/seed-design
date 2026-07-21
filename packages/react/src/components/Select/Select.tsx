@@ -326,4 +326,16 @@ SelectItemIndicator.displayName = "SelectItemIndicator";
 
 export interface SelectHiddenSelectProps extends SelectPrimitive.HiddenSelectProps {}
 
-export const SelectHiddenSelect = SelectPrimitive.HiddenSelect;
+export const SelectHiddenSelect = React.forwardRef<HTMLSelectElement, SelectHiddenSelectProps>(
+  (props, ref) => {
+    const fieldContext = useFieldContext({ strict: false });
+
+    // The field label's `htmlFor` targets the field input id. Carrying that id on
+    // the hidden native select — a labelable element whose label activation only
+    // focuses, never opens anything — makes label clicks reach the trigger through
+    // the hidden select's focus redirect. Associating the label with the trigger
+    // button instead would forward label clicks as activation and open the listbox.
+    return <SelectPrimitive.HiddenSelect ref={ref} id={fieldContext?.inputProps.id} {...props} />;
+  },
+);
+SelectHiddenSelect.displayName = "SelectHiddenSelect";
