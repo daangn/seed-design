@@ -1,7 +1,13 @@
 "use client";
 
-import { FloatingList, FloatingPortal, useListItem } from "@floating-ui/react";
+import {
+  FloatingFocusManager,
+  FloatingList,
+  FloatingPortal,
+  useListItem,
+} from "@floating-ui/react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps, visuallyHidden } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -168,37 +174,63 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>((pro
 
   const content = <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />;
 
-  // The select-only combobox keeps DOM focus on the trigger (virtual focus via
-  // aria-activedescendant), so there is no FloatingFocusManager/FocusScope here —
-  // only list registration (FloatingList) and dismissal (DismissibleLayer).
+  // DOM focus moves into the content while open (the content carries
+  // aria-activedescendant for the highlighted option). Mirrors MenuContent:
+  //
+  // FloatingFocusManager (disabled while closed — the content stays mounted for
+  // exit animations): focuses the content on open, returns focus to the trigger
+  // on close, closes on focus-out, and renders portal tab-order guards.
+  //
+  // FocusScope participates in Radix's focusScopesStack so parent FocusScopes
+  // (Dialog, BottomSheet, Drawer) pause their trap while this listbox is open —
+  // without it, focus could never reach content rendered in a portal. It is
+  // conditionally rendered (only when open) so it registers at the top of the
+  // stack above any Dialog that mounted earlier.
   return (
-    <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
-      <DismissibleLayer
-        enabled={open}
-        pressBehavior="drag"
-        onEscapeKeyDown={() => {
-          setOpen(false);
-        }}
-        onPressOutside={() => {
-          setOpen(false);
-        }}
-        onFocusOutside={() => {
-          // Tab away from the combobox closes the listbox.
-          setOpen(false);
-        }}
-        onCascadeDismiss={() => {
-          setOpen(false);
-        }}
-        exclude={(target) => {
-          const reference = floatingContext.refs.reference.current;
-          if (!(reference instanceof HTMLElement)) return false;
+    <FloatingFocusManager context={floatingContext} disabled={!open} modal={false}>
+      <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+        {/* DismissibleLayer must wrap FocusScope, not the other way around.
+            FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
+            DOM element; if DismissibleLayer sat between them, those props would be
+            swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
+        <DismissibleLayer
+          enabled={open}
+          pressBehavior="drag"
+          onEscapeKeyDown={() => {
+            setOpen(false);
+          }}
+          onPressOutside={() => {
+            setOpen(false);
+          }}
+          onFocusOutside={() => {
+            // Tab-away closing is handled by FloatingFocusManager (closeOnFocusOut).
+          }}
+          onCascadeDismiss={() => {
+            setOpen(false);
+          }}
+          exclude={(target) => {
+            const reference = floatingContext.refs.reference.current;
+            if (!(reference instanceof HTMLElement)) return false;
 
-          return reference.contains(target);
-        }}
-      >
-        {content}
-      </DismissibleLayer>
-    </FloatingList>
+            return reference.contains(target);
+          }}
+        >
+          {open ? (
+            <FocusScope
+              asChild
+              trapped={false}
+              loop={false}
+              onMountAutoFocus={(event) => event.preventDefault()}
+              onUnmountAutoFocus={(event) => event.preventDefault()}
+            >
+              {content}
+            </FocusScope>
+          ) : (
+            content
+          )}
+        </DismissibleLayer>
+      </FloatingList>
+    </FloatingFocusManager>
   );
 });
 SelectContent.displayName = "SelectContent";
@@ -317,7 +349,7 @@ export interface SelectHiddenSelectProps extends React.SelectHTMLAttributes<HTML
  */
 export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSelectProps>(
   (props, ref) => {
-    const { value, setValue, name, form, required, disabled, multiple, nativeOptions } =
+    const { value, setValue, name, form, required, disabled, multiple, nativeOptions, refs } =
       useSelectContext();
 
     return (
@@ -339,6 +371,34 @@ export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSele
                 ? []
                 : [event.target.value],
           );
+        }}
+        onFocus={() => {
+          // Label clicks (Field label's htmlFor targets this element), browser
+          // extensions, and autofill can land focus here; forward it to the
+          // visible trigger.
+          refs.getTriggerElement()?.focus({ preventScroll: true });
+        }}
+        onInvalid={(event) => {
+          // Native constraint validation must never surface on this element:
+          // the UA would focus into the aria-hidden subtree (Chrome blocks the
+          // aria-hidden and permanently exposes a nameless duplicate combobox
+          // in the accessibility tree) and anchor its bubble to the 1px clip.
+          // preventDefault cancels only the reporting step — submission stays
+          // blocked by `required` — and focus lands on the trigger instead when
+          // this is the form's first invalid control (native ordering).
+          event.preventDefault();
+
+          const select = event.currentTarget;
+          const firstInvalid =
+            Array.from(select.form?.elements ?? []).find(
+              (element) =>
+                (element instanceof HTMLInputElement ||
+                  element instanceof HTMLSelectElement ||
+                  element instanceof HTMLTextAreaElement) &&
+                element.willValidate &&
+                !element.validity.valid,
+            ) ?? select;
+          if (firstInvalid === select) refs.getTriggerElement()?.focus();
         }}
         style={visuallyHidden}
         {...props}

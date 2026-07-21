@@ -393,6 +393,27 @@ export function useSelect(props: UseSelectProps) {
     if (!open) setActiveIndex(null);
   }, [open]);
 
+  // Opening reveals the current position: the seeded highlight if a keyboard
+  // open placed one, otherwise the selected option (pointer opens seed no
+  // highlight). Deferred a frame because at open time the content is still
+  // display:none — scrollIntoView inside a hidden subtree is a no-op, and
+  // hiding also dropped the previous open's scroll position — so the seeding
+  // path's synchronous scroll (highlightWithKeyboard) cannot cover the open
+  // transition itself.
+  useEffect(() => {
+    if (!open) return;
+
+    const frame = requestAnimationFrame(() => {
+      const elements = elementsRef.current;
+      const target =
+        elements.find((element) => element?.hasAttribute("data-highlighted")) ??
+        elements.find((element) => element?.hasAttribute("data-selected"));
+      target?.scrollIntoView?.({ block: "nearest" });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [open]);
+
   const highlightWithKeyboard = (index: number | null) => {
     setActiveIndex(index);
     if (index == null) return;
@@ -433,25 +454,11 @@ export function useSelect(props: UseSelectProps) {
     enabled: open || (interactive && !multiple),
   });
 
-  const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    // An in-progress typeahead consumes Space as a search character by
-    // preventing it (the typeahead handler runs first); user handlers merged
-    // in front of this one get the same veto.
-    if (event.defaultPrevented) return;
-    if (!interactive) return;
-
+  // Open-state key handling, shared by the content (which holds DOM focus
+  // while open) and the trigger (an AT or programmatic focus may leave DOM
+  // focus there — same keys must keep working).
+  const handleOpenKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     const { key } = event;
-
-    if (!open) {
-      if (key !== "ArrowDown" && key !== "ArrowUp" && key !== "Enter" && key !== " ") return;
-
-      // preventDefault suppresses the native button activation click, so
-      // keyboard opens never double-toggle through the click handler.
-      event.preventDefault();
-      setOpen(true);
-      highlightWithKeyboard(getKeyboardSeedIndex());
-      return;
-    }
 
     switch (key) {
       case "ArrowDown":
@@ -490,6 +497,36 @@ export function useSelect(props: UseSelectProps) {
         return;
       }
     }
+  };
+
+  const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    // An in-progress typeahead consumes Space as a search character by
+    // preventing it (the typeahead handler runs first); user handlers merged
+    // in front of this one get the same veto.
+    if (event.defaultPrevented) return;
+    if (!interactive) return;
+
+    if (!open) {
+      const { key } = event;
+      if (key !== "ArrowDown" && key !== "ArrowUp" && key !== "Enter" && key !== " ") return;
+
+      // preventDefault suppresses the native button activation click, so
+      // keyboard opens never double-toggle through the click handler.
+      event.preventDefault();
+      setOpen(true);
+      highlightWithKeyboard(getKeyboardSeedIndex());
+      return;
+    }
+
+    handleOpenKeyDown(event);
+  };
+
+  const handleContentKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    // Same typeahead Space veto as the trigger handler.
+    if (event.defaultPrevented) return;
+    if (!open) return;
+
+    handleOpenKeyDown(event);
   };
 
   const handleTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -552,6 +589,12 @@ export function useSelect(props: UseSelectProps) {
     refs: {
       trigger: (node: HTMLElement | null) => floatingRefs.setReference(node),
       positioner: (node: HTMLElement | null) => floatingRefs.setFloating(node),
+      // The reference may be a floating-ui virtual element; only a real element
+      // can receive focus redirects.
+      getTriggerElement: () => {
+        const reference = floatingRefs.reference.current;
+        return reference instanceof HTMLElement ? reference : null;
+      },
     },
 
     triggerProps: buttonProps({
@@ -566,9 +609,8 @@ export function useSelect(props: UseSelectProps) {
       // the hidden select even when off.
       "aria-required": required ? "true" : "false",
       "aria-invalid": invalid ? "true" : "false",
-      // Virtual focus: DOM focus stays here; the highlighted option is exposed
-      // through its generated id.
-      "aria-activedescendant": open && activeIndex != null ? getItemId(activeIndex) : undefined,
+      // readOnly keeps the combobox focusable but refuses to open; expose why.
+      ...(readOnly && { "aria-readonly": "true" as const }),
       ...stateProps,
       onKeyDown: (event) => {
         typeahead.reference?.onKeyDown?.(event);
@@ -586,10 +628,20 @@ export function useSelect(props: UseSelectProps) {
       ...contentStateProps,
       id: contentId,
       role: "listbox",
+      // DOM focus moves here while open (FloatingFocusManager picks it up as
+      // the first tabbable inside the positioner); the highlighted option is
+      // exposed through aria-activedescendant. While closed the content is
+      // display:none, so the tabIndex never leaks into the page tab order.
+      tabIndex: 0,
+      "aria-activedescendant": open && activeIndex != null ? getItemId(activeIndex) : undefined,
       ...(multiple && { "aria-multiselectable": "true" }),
       style: {
         "--seed-select-transform-origin": getTransformOrigin(context.placement),
       } as React.CSSProperties,
+      onKeyDown: (event) => {
+        typeahead.floating?.onKeyDown?.(event);
+        handleContentKeyDown(event);
+      },
     }),
 
     getItemProps: (itemProps: UseSelectItemProps, index: number) => {

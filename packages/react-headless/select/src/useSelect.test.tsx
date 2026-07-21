@@ -138,6 +138,17 @@ describe("useSelect rendering & ARIA", () => {
     expect(getByRole("combobox")).toHaveAttribute("aria-invalid", "true");
   });
 
+  // REQ-14
+  it("exposes aria-readonly only while readOnly", async () => {
+    const { getByRole, rerender } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    expect(getByRole("combobox")).not.toHaveAttribute("aria-readonly");
+
+    rerender(<BasicSelect readOnly />);
+    expect(getByRole("combobox")).toHaveAttribute("aria-readonly", "true");
+  });
+
   // REQ-15
   it("renders content as a listbox without aria-multiselectable in single mode", async () => {
     const { getByRole } = render(<BasicSelect />);
@@ -358,8 +369,10 @@ describe("useSelect open/close", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
 
     trigger.focus();
-    await user.keyboard("{ArrowDown}");
-    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    for (const key of ["{ArrowDown}", "{ArrowUp}", "{Enter}", " ", "{Alt>}{ArrowDown}{/Alt}"]) {
+      await user.keyboard(key);
+      expect(trigger).toHaveAttribute("aria-expanded", "false");
+    }
 
     // a select forced open can always close
     rerender(<BasicSelect readOnly defaultOpen />);
@@ -775,16 +788,25 @@ describe("useSelect value display", () => {
 // Keyboard & highlight model
 // ===========================================================================
 
+// aria-activedescendant lives on the listbox content (which holds DOM focus
+// while open), resolved from the trigger through aria-controls.
+function getListbox(trigger: HTMLElement) {
+  const contentId = trigger.getAttribute("aria-controls");
+  const listbox = contentId ? document.getElementById(contentId) : null;
+  if (!listbox) throw new Error("listbox not found via aria-controls");
+  return listbox;
+}
+
 function expectSingleHighlight(trigger: HTMLElement) {
   const highlighted = getHighlightedItems();
   expect(highlighted).toHaveLength(1);
-  expect(trigger.getAttribute("aria-activedescendant")).toBe(highlighted[0].id);
+  expect(getListbox(trigger).getAttribute("aria-activedescendant")).toBe(highlighted[0].id);
   return highlighted[0];
 }
 
 function expectNoHighlight(trigger: HTMLElement) {
   expect(getHighlightedItems()).toHaveLength(0);
-  expect(trigger).not.toHaveAttribute("aria-activedescendant");
+  expect(getListbox(trigger)).not.toHaveAttribute("aria-activedescendant");
 }
 
 describe("useSelect keyboard open & highlight seeding", () => {
@@ -974,17 +996,21 @@ describe("useSelect arrow navigation", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "b");
   });
 
-  // REQ-17
-  it("keeps DOM focus on the trigger while navigating (virtual focus)", async () => {
+  // REQ-17 (revised: DOM focus moves into the listbox content on open;
+  // the highlighted option stays virtual via aria-activedescendant)
+  it("moves DOM focus into the listbox on open and keeps it there while navigating", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect />);
     await waitForPositioning();
 
     const trigger = getByRole("combobox");
     await openWithClick(user, trigger);
-    await user.keyboard("{ArrowDown}{ArrowDown}");
 
-    expect(document.activeElement).toBe(trigger);
+    const listbox = getListbox(trigger);
+    await waitFor(() => expect(listbox).toHaveFocus());
+
+    await user.keyboard("{ArrowDown}{ArrowDown}");
+    expect(listbox).toHaveFocus();
     expectSingleHighlight(trigger);
   });
 });
@@ -1658,6 +1684,39 @@ describe("useSelect hidden select", () => {
 
     expect(apiRef.current?.value).toEqual(["apple", "cherry"]);
   });
+
+  // REQ-45 (label clicks, extensions, and autofill land focus on the hidden select)
+  it("forwards focus on the hidden select to the trigger", async () => {
+    const { container, getByRole } = render(<BasicSelectWithHiddenSelect name="fruit" />);
+    await waitForPositioning();
+
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
+
+    act(() => hidden.focus());
+
+    expect(getByRole("combobox")).toHaveFocus();
+  });
+
+  // REQ-46 (native constraint validation must not surface on the hidden select)
+  it("suppresses native validation reporting and focuses the trigger instead", async () => {
+    const { container, getByRole } = render(
+      <form>
+        <BasicSelectWithHiddenSelect name="fruit" required />
+      </form>,
+    );
+    await waitForPositioning();
+
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
+
+    // fireEvent returns false when preventDefault was called — the reporting
+    // step (UA bubble + focus into the aria-hidden subtree) must be cancelled.
+    const reported = fireEvent.invalid(hidden);
+
+    expect(reported).toBe(false);
+    expect(getByRole("combobox")).toHaveFocus();
+  });
 });
 
 function BasicSelectWithHiddenSelect({
@@ -1687,6 +1746,63 @@ function BasicSelectWithHiddenSelect({
     </SelectRoot>
   );
 }
+
+// ===========================================================================
+// Open reveal (scroll the current position into view)
+// ===========================================================================
+
+describe("useSelect open reveal", () => {
+  async function withScrollReceivers(run: (received: HTMLElement[]) => Promise<void>) {
+    const received: HTMLElement[] = [];
+    const original = HTMLElement.prototype.scrollIntoView;
+    HTMLElement.prototype.scrollIntoView = function () {
+      received.push(this);
+    };
+    try {
+      await run(received);
+    } finally {
+      HTMLElement.prototype.scrollIntoView = original;
+    }
+  }
+
+  const flushFrame = () =>
+    act(async () => {
+      await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+    });
+
+  // REQ-47 (pointer opens seed no highlight, but the selection must be revealed)
+  it("scrolls the selected option into view on pointer open", async () => {
+    await withScrollReceivers(async (received) => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<BasicSelect defaultValue={["banana"]} />);
+      await waitForPositioning();
+
+      await openWithClick(user, getByRole("combobox"));
+      await flushFrame();
+
+      expect(received.some((element) => element.getAttribute("data-value") === "banana")).toBe(
+        true,
+      );
+    });
+  });
+
+  // REQ-47 (keyboard opens reveal the seeded highlight)
+  it("scrolls the seeded highlight into view on keyboard open", async () => {
+    await withScrollReceivers(async (received) => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<BasicSelect />);
+      await waitForPositioning();
+
+      act(() => getByRole("combobox").focus());
+      await user.keyboard("{Enter}");
+      await waitForPositioning();
+      await flushFrame();
+
+      // No selection: the keyboard seed lands on the first enabled option.
+      expect(received.some((element) => element.getAttribute("data-value") === "apple")).toBe(true);
+    });
+  });
+});
 
 // ===========================================================================
 // Groups
@@ -2013,18 +2129,22 @@ describe("useSelect edges", () => {
     expect(onValueChange).toHaveBeenCalledWith(["banana"]);
   });
 
-  // REQ-17 (virtual focus survives item clicks — mousedown must not steal focus)
-  it("keeps DOM focus on the trigger across item clicks in multiple mode", async () => {
+  // REQ-17 (revised: listbox focus survives item clicks — mousedown must not steal focus)
+  it("keeps DOM focus in the listbox across item clicks in multiple mode", async () => {
     const user = userEvent.setup();
     const { getByRole, getAllByRole } = render(<BasicSelect multiple />);
     await waitForPositioning();
 
     const trigger = getByRole("combobox");
     await openWithClick(user, trigger);
+
+    const listbox = getListbox(trigger);
+    await waitFor(() => expect(listbox).toHaveFocus());
+
     await user.click(getAllByRole("option")[0]);
 
     expect(trigger).toHaveAttribute("aria-expanded", "true");
-    expect(document.activeElement).toBe(trigger);
+    expect(listbox).toHaveFocus();
 
     // keyboard interaction keeps working right after the pointer commit
     await user.keyboard("{ArrowDown}");
