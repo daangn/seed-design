@@ -52,6 +52,8 @@ import { menu, menuItem } from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
+import { nextAppBar, nextAppBarMain } from "./stackflow/next-app-bar";
+import { nextAppScreen } from "./stackflow/next-app-screen";
 import pageBanner from "./recipes/page-banner";
 import paginationButton from "./recipes/pagination-button";
 import paginationPageItem from "./recipes/pagination-page-item";
@@ -145,6 +147,9 @@ export const recipes = {
   menuItem,
   menuSheet,
   menuSheetItem,
+  nextAppBar,
+  nextAppBarMain,
+  nextAppScreen,
   notificationBadge,
   notificationBadgePositioner,
   pageBanner,
