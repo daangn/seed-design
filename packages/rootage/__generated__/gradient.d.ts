@@ -149,7 +149,7 @@ declare const artifact: {
             ];
           };
         };
-        "description": "콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선입니다.";
+        "description": "콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선입니다. Figma에 없는 개발 전용 토큰입니다.";
       };
       "$gradient.glow-magic": {
         "values": {
