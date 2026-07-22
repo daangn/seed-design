@@ -1,34 +1,101 @@
 ---
 title: Quantity Picker
-description: 수량을 정수 단위로 늘리거나 줄일 때 사용하는 컴포넌트입니다.
+description: 버튼으로 수치 값을 한 단계씩 늘리거나 줄일 수 있는 입력 컴포넌트입니다.
 ---
+
+## Anatomy
+
+<FigmaImage
+  id="2170:11199"
+  alt="Quantity Picker의 Anatomy 이미지. Decrement Button, Value Display, Increment Button으로 구성됩니다."
+/>
+
+Quantity Picker는 값을 한 단계 늘리는 Increment Button, 한 단계 줄이는 Decrement Button, 현재 값을 표시하는 Value Display 영역으로 구성됩니다.
 
 ## Properties
 
-Quantity Picker는 Size, State, Value, Removable 속성을 제공합니다.
-
 ### Size
 
-Quantity Picker는 Small, Medium, Large 크기를 제공합니다.
+<FigmaImage id="2145:19529" alt="Quantity Picker의 Size Property - Small, Medium, Large" />
+
+Small, Medium, Large 세 가지 사이즈를 제공합니다. [Action Button](/components/action-button), [Text Input](/components/text-input) 등 다른 입력 요소와 함께 배치할 때는 사이즈를 맞춰 일관성을 유지합니다.
+
+### Value State
+
+<FigmaImage id="2145:19550" alt="Quantity Picker의 Value State - Min, InRange, Max" />
+
+입력 가능한 값의 범위를 prop으로 제한하여 범위를 벗어난 값을 입력하지 않도록 합니다.
+
+- **Min**: 최소값에 도달해 Decrement가 불가능한 상태
+- **InRange**: Increment / Decrement 모두 가능한 상태
+- **Max**: 최대값에 도달해 Increment가 불가능한 상태
 
 ### State
 
-Quantity Picker는 Enabled, Disabled, Error 상태를 제공합니다.
+<FigmaImage id="2145:19568" alt="Quantity Picker의 State - Enabled, Disabled, Error" />
 
-### Value
+Quantity Picker는 Enabled, Disabled, Error 상태를 가집니다.
 
-Value는 Min, InRange, Max(~99), Max(~999) 상태로 구성됩니다.
+- **Enabled**: 값 변경이 가능한 기본 상태
+- **Disabled**: 값 변경이 불가능한 상태
+- **Error**: 입력된 값이 허용 범위를 벗어난 상태
 
-### Removable
+### Button State
 
-Removable은 False와 True를 제공합니다.
+<FigmaImage
+  id="2145:19587"
+  alt="Quantity Picker의 Button State - Enabled, Hover/Pressed, Loading, Focused, Disabled"
+/>
 
-## Specification
+Decrement Button과 Increment Button은 각각 Enabled, Hover/Pressed, Loading, Focused, Disabled 다섯 가지 상태를 가집니다.
 
-### Quantity Picker
+- **Enabled**: 선택 가능한 기본 상태
+- **Hover/Pressed**: 마우스 오버, 클릭/터치 시 옅은 배경색 강조
+- **Loading**: 수량 변경 요청에 대한 서버 응답을 기다리는 상태
+- **Focused**: 키보드 포커스 시 포커스링 표시
+- **Disabled**: 선택이 불가능한 상태
 
-<ComponentSpecBlock id="quantity-picker" headingComponent="h4" />
+### Removable Property
 
-### Quantity Picker Button
+<FigmaImage id="2145:19621" alt="Quantity Picker의 Removable Property - Removable OFF, Removable ON" />
 
-<ComponentSpecBlock id="quantity-picker-button" headingComponent="h4" />
+Removable 옵션을 활성화한 경우, 입력된 값이 최소값에 도달했을 때 Decrement 버튼을 Remove 버튼으로 교체합니다.
+
+## Guidelines
+
+### Quantity Picker 기본 사용하기
+
+<FigmaImage
+  id="2145:19638"
+  alt="장바구니 화면에서 Value Min과 Max 상태로 사용된 Quantity Picker 예시"
+/>
+
+Quantity Picker는 장바구니, 상품 상세, 주문서 등 수량을 변경해야 하는 화면에서 사용합니다.
+
+Quantity Picker는 Min·Max prop으로 입력 가능한 값의 범위를 제한합니다. 경계에 도달한 버튼은 자동으로 비활성화되어, 잘못된 값이 입력되는 것을 사전에 막습니다.
+
+### Removable 활성화하기
+
+<FigmaImage
+  id="2145:19719"
+  alt="장바구니 화면에서 Removable OFF와 Removable ON을 비교한 Quantity Picker 예시"
+/>
+
+Removable은 값이 최소값에 도달했을 때 Decrement 버튼을 Remove 버튼으로 교체하는 기능입니다. 값을 더 줄이는 동작이 곧 항목 삭제를 의미하는 맥락에서 사용합니다.
+
+### Size 선택하기
+
+<Grid>
+
+<FigmaImage id="2145:20030" alt="Small 사이즈 Quantity Picker를 사용한 예시" />
+<FigmaImage id="2145:20047" alt="Medium 사이즈 Quantity Picker를 사용한 예시" />
+
+</Grid>
+
+[Action Button](/components/action-button), [Text Input](/components/text-input) 등 다른 입력 요소와 함께 배치할 때는 사이즈를 맞춰 일관성을 유지합니다.
+
+### Quantity Picker 터치 영역
+
+<FigmaImage id="2145:20072" alt="Increment·Decrement 버튼에만 터치 영역이 적용된 Quantity Picker 예시" />
+
+Quantity Picker의 터치 영역은 양쪽 Increment·Decrement 버튼에 한정됩니다. Value Display는 터치에 반응하지 않습니다.
