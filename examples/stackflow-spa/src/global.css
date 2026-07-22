@@ -1,3 +1,7 @@
+:root {
+  --seed-next-app-screen-clip-radius: 55px;
+}
+
 body {
   font-family: var(--seed-font-family);
   background-color: var(--seed-color-bg-layer-default);
