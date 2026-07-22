@@ -24,7 +24,7 @@ import {
   type PropsWithChildren,
 } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale } from "../../utils/pressScale";
+import { useElementSizeVars } from "../../utils/elementSizeVars";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 
@@ -131,12 +131,12 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
         </FooterVisibilityProvider>
       );
 
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <ClassNamesProvider value={classNames}>
         <RadioGroupPrimitive.Item
-          ref={composeRefs(pressScaleRef, ref)}
+          ref={composeRefs(sizeVarsRef, ref)}
           className={clsx(classNames.root, className)}
           {...otherProps}
         >

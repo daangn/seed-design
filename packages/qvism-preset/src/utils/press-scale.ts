@@ -7,9 +7,10 @@ import * as timingFunction from "../vars/timing-function";
 /**
  * Runtime press scale.
  *
- * `--seed-press-width` / `--seed-press-height` are unitless layout sizes kept
- * in sync by `usePressScale` in `@seed-design/react`. Everything else is
- * derived here so the policy stays token-driven:
+ * `--seed-element-width` / `--seed-element-height` are the element's rendered
+ * size, published by `useElementSizeVars` in `@seed-design/react`. That side
+ * knows nothing about pressing — it only reports size, and everything specific
+ * to this mechanism is derived here so the policy stays token-driven:
  *
  *   p = max(height, width / $press-scale.width-divisor, $press-scale.min-perspective)
  *   scale = (p - $scale.press-depth) / p
@@ -20,16 +21,18 @@ import * as timingFunction from "../vars/timing-function";
  * computed scale resolves to 1 with no per-recipe media query.
  *
  * Without JS the size vars are unset, which makes the whole derivation chain
- * guaranteed-invalid; every consumer reads `var(--seed-pressed-scale, 1)` and
+ * guaranteed-invalid; every consumer reads `var(--seed-press-scale, 1)` and
  * falls back to 1 — no scale, no breakage.
  *
  * The gate belongs to the consumer: `createPressScaleRestStyles` seeds the
  * derivation plus the resting value, and `createPressScaleStyles` is dropped
- * into whatever selector the recipe owns (usually `pseudo(not(disabled), active)`).
+ * into whatever selector the recipe owns — usually `pseudo(not(disabled),
+ * active)`, but attachment-input gates on `[aria-grabbed=true]` to shrink a
+ * dragged item by the same depth.
  */
 const derivationStyles = {
-  "--seed-press-perspective": `max(var(--seed-press-height), var(--seed-press-width) / ${pressScale.widthDivisor}, ${pressScale.minPerspective})`,
-  "--seed-pressed-scale": `calc((var(--seed-press-perspective) - ${scale.pressDepth}) / var(--seed-press-perspective))`,
+  "--seed-press-scale-perspective": `max(var(--seed-element-height), var(--seed-element-width) / ${pressScale.widthDivisor}, ${pressScale.minPerspective})`,
+  "--seed-press-scale": `calc((var(--seed-press-scale-perspective) - ${scale.pressDepth}) / var(--seed-press-scale-perspective))`,
 };
 
 export const PRESS_SCALE_TRANSITION = `scale ${duration.pressedScale} ${timingFunction.pressedScale}`;
@@ -64,15 +67,15 @@ export function createPressScaleRestStyles({
  * through a custom property instead of the `scale` property. Pass `overridableBy`
  * to route the consumed value through an inherited custom property so an ancestor
  * can opt the slot out — mark recipes use this so a wrapper can set e.g.
- * `--seed-checkmark-pressed-scale: 1` to keep a nested mark from scaling.
+ * `--seed-checkmark-press-scale: 1` to keep a nested mark from scaling.
  */
 export function createPressScaleStyles({
   as = "scale",
   overridableBy,
 }: { as?: "scale" | `--${string}`; overridableBy?: `--${string}` } | undefined = {}): StyleObject {
   const value = overridableBy
-    ? (`var(${overridableBy}, var(--seed-pressed-scale, 1))` as const)
-    : "var(--seed-pressed-scale, 1)";
+    ? (`var(${overridableBy}, var(--seed-press-scale, 1))` as const)
+    : "var(--seed-press-scale, 1)";
 
   if (as === "scale") return { scale: value };
 

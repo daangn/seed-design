@@ -48,9 +48,9 @@ const inputButton = defineSlotRecipe({
       // [data-active] only (not native :active): the press state comes from the
       // button overlay, matching the pressed background, and must not fire when a
       // sibling like clearButton is pressed.
-      ...createPressScaleRestStyles({ as: "--input-button-pressed-scale" }),
+      ...createPressScaleRestStyles({ as: "--input-button-press-scale" }),
       [pseudo(not("[data-disabled]"), not(readOnly), "[data-active]")]: {
-        ...createPressScaleStyles({ as: "--input-button-pressed-scale" }),
+        ...createPressScaleStyles({ as: "--input-button-press-scale" }),
       },
     },
     // layout layer — flex row holding the field content (everything but the button
@@ -70,7 +70,7 @@ const inputButton = defineSlotRecipe({
 
       // The pressed value is inherited from root, so press detection stays on the
       // interactive element itself (same signal as the pressed background).
-      scale: "var(--input-button-pressed-scale, 1)",
+      scale: "var(--input-button-press-scale, 1)",
 
       transition: PRESS_SCALE_TRANSITION,
     },

@@ -34,9 +34,9 @@ const checkmark = defineSlotRecipe({
 
       ...createPressScaleRestStyles(),
       // A containing component (e.g. ListItem) opts the mark out of the pressed
-      // scale by setting --seed-checkmark-pressed-scale to 1.
+      // scale by setting --seed-checkmark-press-scale to 1.
       [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ overridableBy: "--seed-checkmark-pressed-scale" }),
+        ...createPressScaleStyles({ overridableBy: "--seed-checkmark-press-scale" }),
       },
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,

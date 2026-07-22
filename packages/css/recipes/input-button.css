@@ -5,12 +5,12 @@
     box-sizing: border-box;
     position: relative;
     isolation: isolate;
-    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
-    --input-button-pressed-scale: 1;
+    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
+    --input-button-press-scale: 1;
 }
 .seed-input-button__root:not([data-disabled]):not(:is([data-readonly]))[data-active] {
-    --input-button-pressed-scale: var(--seed-pressed-scale, 1);
+    --input-button-press-scale: var(--seed-press-scale, 1);
 }
 .seed-input-button__layout {
     display: flex;
@@ -18,7 +18,7 @@
     flex-grow: 1;
     gap: inherit;
     min-width: 0;
-    scale: var(--input-button-pressed-scale, 1);
+    scale: var(--input-button-press-scale, 1);
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 .seed-input-button__button {
@@ -141,12 +141,12 @@
     background-color: transparent;
     padding: 0;
     border-radius: var(--seed-radius-full);
-    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     scale: 1;
 }
 .seed-input-button__clearButton:is(:active, [data-active]) {
-    scale: var(--seed-pressed-scale, 1);
+    scale: var(--seed-press-scale, 1);
 }
 .seed-input-button__clearButton {
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);

@@ -74,8 +74,8 @@
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-bold);
     border-radius: var(--seed-radius-r1);
-    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     background-color: #0000;
     border: none;
     align-items: center;
@@ -84,7 +84,7 @@
   }
 
   .seed-page-banner__button:is(:active, [data-active]) {
-    scale: var(--seed-pressed-scale, 1);
+    scale: var(--seed-press-scale, 1);
   }
 
   .seed-page-banner__button {
@@ -106,8 +106,8 @@
     --seed-suffix-icon-margin-left: initial;
     cursor: pointer;
     border-radius: var(--seed-radius-r1);
-    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     background-color: #0000;
     border: none;
     flex-grow: 0;
@@ -121,7 +121,7 @@
   }
 
   .seed-page-banner__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-pressed-scale, 1);
+    scale: var(--seed-press-scale, 1);
   }
 
   .seed-page-banner__closeButton {

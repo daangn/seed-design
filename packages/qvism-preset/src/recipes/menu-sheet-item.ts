@@ -42,9 +42,9 @@ const menuSheetItem = defineSlotRecipe({
 
       // press signal for the layout layer — custom properties inherit, so the layout
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--menu-sheet-item-pressed-scale" }),
+      ...createPressScaleRestStyles({ as: "--menu-sheet-item-press-scale" }),
       [pseudo(active)]: {
-        ...createPressScaleStyles({ as: "--menu-sheet-item-pressed-scale" }),
+        ...createPressScaleStyles({ as: "--menu-sheet-item-press-scale" }),
       },
 
       "&:first-child": {
@@ -79,7 +79,7 @@ const menuSheetItem = defineSlotRecipe({
 
       // The pressed value is inherited from root, so press detection stays on the
       // interactive element itself (same signal as the pressed background).
-      scale: "var(--menu-sheet-item-pressed-scale, 1)",
+      scale: "var(--menu-sheet-item-press-scale, 1)",
 
       transition: PRESS_SCALE_TRANSITION,
     },

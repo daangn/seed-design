@@ -26,7 +26,7 @@ import {
   type PropsWithChildren,
 } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale } from "../../utils/pressScale";
+import { useElementSizeVars } from "../../utils/elementSizeVars";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
@@ -132,12 +132,12 @@ export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRoo
         </FooterVisibilityProvider>
       );
 
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <ClassNamesProvider value={classNames}>
         <CheckboxPrimitive.Root
-          ref={composeRefs(pressScaleRef, ref)}
+          ref={composeRefs(sizeVarsRef, ref)}
           className={clsx(classNames.root, className)}
           {...otherProps}
         >

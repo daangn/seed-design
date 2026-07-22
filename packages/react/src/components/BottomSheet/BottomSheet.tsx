@@ -5,7 +5,7 @@ import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { forwardRef } from "react";
-import { usePressScale } from "../../utils/pressScale";
+import { useElementSizeVars } from "../../utils/elementSizeVars";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
@@ -145,11 +145,11 @@ export const BottomSheetCloseButton = forwardRef<HTMLButtonElement, BottomSheetC
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
     const { trackRef } = closeButtonTracker.useRenderTracking();
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <Drawer.CloseButton
-        ref={composeRefs(ref, trackRef, pressScaleRef)}
+        ref={composeRefs(ref, trackRef, sizeVarsRef)}
         className={clsx(classNames.closeButton, className)}
         {...props}
       />

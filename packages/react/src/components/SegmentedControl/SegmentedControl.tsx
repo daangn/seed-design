@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale } from "../../utils/pressScale";
+import { useElementSizeVars } from "../../utils/elementSizeVars";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(segmentedControl);
@@ -36,11 +36,11 @@ export interface SegmentedControlItemProps extends SegmentedControlPrimitive.Ite
 export const SegmentedControlItem = forwardRef<HTMLLabelElement, SegmentedControlItemProps>(
   ({ className, children, ...props }, ref) => {
     const classNames = useClassNames();
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <SegmentedControlPrimitive.Item
-        ref={composeRefs(pressScaleRef, ref)}
+        ref={composeRefs(sizeVarsRef, ref)}
         className={clsx(classNames.item, className)}
         {...props}
       >

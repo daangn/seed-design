@@ -10,7 +10,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale } from "../../utils/pressScale";
+import { useElementSizeVars } from "../../utils/elementSizeVars";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(menuSheet);
@@ -207,12 +207,12 @@ export const SwipeableMenuSheetItem = React.forwardRef<
   const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
   const parentProps = useItemProps();
   const classNames = menuSheetItem({ ...parentProps, ...variantProps });
-  const { pressScaleRef } = usePressScale();
+  const { sizeVarsRef } = useElementSizeVars();
 
   return (
     <ItemClassNamesProvider value={classNames}>
       <Primitive.button
-        ref={composeRefs(pressScaleRef, ref)}
+        ref={composeRefs(sizeVarsRef, ref)}
         className={clsx(classNames.root, propClassName)}
         {...otherProps}
       >

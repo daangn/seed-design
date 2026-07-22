@@ -6,7 +6,7 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
-import { usePressScale } from "../../utils/pressScale";
+import { useElementSizeVars } from "../../utils/elementSizeVars";
 import {
   PendingButtonProvider,
   usePendingButton,
@@ -22,12 +22,12 @@ export const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProp
   ({ variant = "brandSolid", size = "small", loading = false, className, ...otherProps }, ref) => {
     const recipeClassName = toggleButton({ variant, size });
     const api = usePendingButton({ loading, disabled: otherProps.disabled });
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <PendingButtonProvider value={api}>
         <TogglePrimitive.Root
-          ref={composeRefs(pressScaleRef, ref)}
+          ref={composeRefs(sizeVarsRef, ref)}
           className={clsx(recipeClassName, className)}
           {...api.stateProps}
           {...otherProps}

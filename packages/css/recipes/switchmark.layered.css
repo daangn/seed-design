@@ -26,13 +26,13 @@
   .seed-switchmark__thumb {
     border-radius: var(--seed-radius-full);
     transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, scale var(--seed-duration-d3) var(--seed-timing-function-easing);
-    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     transform: scale(.8) scale3d(1, 1, 1);
   }
 
   .seed-switchmark__thumb:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-switchmark-pressed-scale, var(--seed-pressed-scale, 1));
+    scale: var(--seed-switchmark-press-scale, var(--seed-press-scale, 1));
   }
 
   .seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {

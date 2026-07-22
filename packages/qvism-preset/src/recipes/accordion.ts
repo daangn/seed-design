@@ -71,9 +71,9 @@ const accordion = defineSlotRecipe({
 
       // press signal for the layout layer — custom properties inherit, so the layout
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--accordion-pressed-scale" }),
+      ...createPressScaleRestStyles({ as: "--accordion-press-scale" }),
       [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ as: "--accordion-pressed-scale" }),
+        ...createPressScaleStyles({ as: "--accordion-press-scale" }),
       },
     },
     // layout layer — flex row holding prefix/body/suffixIcon; scales as a whole on
@@ -85,7 +85,7 @@ const accordion = defineSlotRecipe({
 
       // The pressed value is inherited from trigger, so press detection stays on the
       // interactive element itself (same signal as the pressed background).
-      scale: "var(--accordion-pressed-scale, 1)",
+      scale: "var(--accordion-press-scale, 1)",
 
       transition: PRESS_SCALE_TRANSITION,
     },

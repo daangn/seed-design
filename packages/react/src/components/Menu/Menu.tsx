@@ -9,7 +9,7 @@ import * as React from "react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { usePressScale } from "../../utils/pressScale";
+import { useElementSizeVars } from "../../utils/elementSizeVars";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { ClassNamesProvider, withContext, useClassNames } = createSlotRecipeContext(menu);
@@ -116,12 +116,12 @@ export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
     const parentProps = useItemProps();
 
     const classNames = menuItem({ ...parentProps, ...variantProps });
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <ItemClassNamesProvider value={classNames}>
         <MenuPrimitive.Item
-          ref={composeRefs(pressScaleRef, ref)}
+          ref={composeRefs(sizeVarsRef, ref)}
           className={clsx(classNames.root, propClassName)}
           {...otherProps}
         >

@@ -45,9 +45,9 @@ const switchmarkRecipe = defineSlotRecipe({
       // The individual `scale` multiplies with the transform's scale, so the
       // pressed scale applies relative to both the unchecked (0.8) and checked
       // (1) thumb. A containing component (e.g. ListItem) opts out by setting
-      // --seed-switchmark-pressed-scale to 1.
+      // --seed-switchmark-press-scale to 1.
       [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ overridableBy: "--seed-switchmark-pressed-scale" }),
+        ...createPressScaleStyles({ overridableBy: "--seed-switchmark-press-scale" }),
       },
     },
   },

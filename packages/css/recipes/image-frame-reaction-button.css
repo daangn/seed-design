@@ -10,12 +10,12 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
     background: transparent;
-    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     scale: 1;
 }
 .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
-    scale: var(--seed-pressed-scale, 1);
+    scale: var(--seed-press-scale, 1);
 }
 .seed-image-frame-reaction-button__root {
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);

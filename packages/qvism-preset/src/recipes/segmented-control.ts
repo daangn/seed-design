@@ -117,9 +117,9 @@ const segmentedControl = defineSlotRecipe({
 
       // press signal for the layout layer — custom properties inherit, so the layout
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--segmented-control-pressed-scale" }),
+      ...createPressScaleRestStyles({ as: "--segmented-control-press-scale" }),
       [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ as: "--segmented-control-pressed-scale" }),
+        ...createPressScaleStyles({ as: "--segmented-control-press-scale" }),
       },
     },
     // layout layer — wraps the item's content (hidden input + label); scales as a
@@ -136,7 +136,7 @@ const segmentedControl = defineSlotRecipe({
 
       // The pressed value is inherited from item, so press detection stays on the
       // interactive element itself (same signal as the pressed background).
-      scale: "var(--segmented-control-pressed-scale, 1)",
+      scale: "var(--segmented-control-press-scale, 1)",
 
       transition: PRESS_SCALE_TRANSITION,
     },

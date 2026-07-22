@@ -112,8 +112,8 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-medium);
-    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     border: none;
     justify-content: center;
     align-items: center;
@@ -122,7 +122,7 @@
   }
 
   .seed-menu-sheet__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-pressed-scale, 1);
+    scale: var(--seed-press-scale, 1);
   }
 
   .seed-menu-sheet__closeButton {

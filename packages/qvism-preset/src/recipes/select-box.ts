@@ -85,9 +85,9 @@ export const selectBox = defineSlotRecipe({
 
       // press signal for the inner layer — custom properties inherit, so the inner
       // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--select-box-pressed-scale" }),
+      ...createPressScaleRestStyles({ as: "--select-box-press-scale" }),
       [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ as: "--select-box-pressed-scale" }),
+        ...createPressScaleStyles({ as: "--select-box-press-scale" }),
       },
 
       [pseudo(not(disabled), checked)]: {
@@ -120,7 +120,7 @@ export const selectBox = defineSlotRecipe({
 
       // The pressed value is inherited from root, so press detection stays on the
       // interactive element itself (same signal as the pressed background).
-      scale: "var(--select-box-pressed-scale, 1)",
+      scale: "var(--select-box-press-scale, 1)",
 
       transition: PRESS_SCALE_TRANSITION,
     },

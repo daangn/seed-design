@@ -36,9 +36,9 @@ const radiomark = defineSlotRecipe({
 
       ...createPressScaleRestStyles(),
       // A containing component (e.g. ListItem) opts the mark out of the pressed
-      // scale by setting --seed-radiomark-pressed-scale to 1.
+      // scale by setting --seed-radiomark-press-scale to 1.
       [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ overridableBy: "--seed-radiomark-pressed-scale" }),
+        ...createPressScaleStyles({ overridableBy: "--seed-radiomark-press-scale" }),
       },
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,

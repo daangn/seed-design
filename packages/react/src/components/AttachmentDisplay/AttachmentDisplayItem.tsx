@@ -18,7 +18,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale, withPressScale } from "../../utils/pressScale";
+import { useElementSizeVars, withElementSizeVars } from "../../utils/elementSizeVars";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -45,14 +45,14 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
     });
 
     const classNames = attachmentInputItem(variantProps);
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <ClassNamesProvider value={classNames}>
         <AttachmentDisplayItemProvider value={api}>
           <overlayTracker.Provider>
             <Primitive.li
-              ref={composeRefs(pressScaleRef, ref)}
+              ref={composeRefs(sizeVarsRef, ref)}
               className={clsx(classNames.root, className)}
               {...stateProps}
               {...otherProps}
@@ -183,12 +183,12 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   AttachmentDisplayItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
-  const { pressScaleRef } = usePressScale();
+  const { sizeVarsRef } = useElementSizeVars();
 
   return (
     <Primitive.button
       type="button"
-      ref={composeRefs(pressScaleRef, ref)}
+      ref={composeRefs(sizeVarsRef, ref)}
       className={clsx(classNames.actionButton, className)}
       {...props}
     />
@@ -201,7 +201,7 @@ AttachmentDisplayItemActionButton.displayName = "AttachmentDisplayItemActionButt
 export interface AttachmentDisplayItemRemoveButtonProps
   extends AttachmentDisplayPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentDisplayItemRemoveButton = withPressScale(
+export const AttachmentDisplayItemRemoveButton = withElementSizeVars(
   withContext<HTMLButtonElement, AttachmentDisplayItemRemoveButtonProps>(
     AttachmentDisplayPrimitive.ItemRemoveButton,
     "removeButton",

@@ -21,7 +21,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale, withPressScale } from "../../utils/pressScale";
+import { useElementSizeVars, withElementSizeVars } from "../../utils/elementSizeVars";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -46,14 +46,14 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
     });
 
     const classNames = attachmentInputItem(variantProps);
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <ClassNamesProvider value={classNames}>
         <FileUploadItemProvider value={api}>
           <overlayTracker.Provider>
             <Primitive.li
-              ref={composeRefs(pressScaleRef, ref)}
+              ref={composeRefs(sizeVarsRef, ref)}
               className={clsx(classNames.root, className)}
               {...stateProps}
               {...otherProps}
@@ -117,7 +117,7 @@ AttachmentInputItemSize.displayName = "AttachmentInputItemSize";
 export interface AttachmentInputItemRemoveButtonProps
   extends FileUploadPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentInputItemRemoveButton = withPressScale(
+export const AttachmentInputItemRemoveButton = withElementSizeVars(
   withContext<HTMLButtonElement, AttachmentInputItemRemoveButtonProps>(
     FileUploadPrimitive.ItemRemoveButton,
     "removeButton",
@@ -188,12 +188,12 @@ export const AttachmentInputItemActionButton = React.forwardRef<
   AttachmentInputItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
-  const { pressScaleRef } = usePressScale();
+  const { sizeVarsRef } = useElementSizeVars();
 
   return (
     <Primitive.button
       type="button"
-      ref={composeRefs(pressScaleRef, ref)}
+      ref={composeRefs(sizeVarsRef, ref)}
       className={clsx(classNames.actionButton, className)}
       {...props}
     />

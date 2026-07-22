@@ -12,7 +12,7 @@ import { forwardRef } from "react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { usePressScale } from "../../utils/pressScale";
+import { useElementSizeVars } from "../../utils/elementSizeVars";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(accordion);
@@ -55,11 +55,11 @@ export interface AccordionTriggerProps extends AccordionPrimitive.TriggerProps {
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   ({ className, children, ...props }, ref) => {
     const classNames = useClassNames();
-    const { pressScaleRef } = usePressScale();
+    const { sizeVarsRef } = useElementSizeVars();
 
     return (
       <AccordionPrimitive.Trigger
-        ref={composeRefs(pressScaleRef, ref)}
+        ref={composeRefs(sizeVarsRef, ref)}
         className={clsx(classNames.trigger, className)}
         {...props}
       >

@@ -988,17 +988,17 @@
 }
 
 .seed-accordion__trigger {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
-  --accordion-pressed-scale: 1;
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
+  --accordion-press-scale: 1;
 }
 
 .seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  --accordion-pressed-scale: var(--seed-pressed-scale, 1);
+  --accordion-press-scale: var(--seed-press-scale, 1);
 }
 
 .seed-accordion__layout {
-  scale: var(--accordion-pressed-scale, 1);
+  scale: var(--accordion-press-scale, 1);
   transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   flex-grow: 1;
   align-items: center;
@@ -1334,13 +1334,13 @@
 }
 
 .seed-action-button {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   scale: 1;
 }
 
 .seed-action-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-action-button {
@@ -2940,8 +2940,8 @@
   border-radius: var(--seed-radius-full);
   background: var(--seed-color-bg-neutral-weak);
   cursor: pointer;
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   border: none;
   justify-content: center;
   align-items: center;
@@ -2953,7 +2953,7 @@
 }
 
 .seed-bottom-sheet__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-bottom-sheet__closeButton {
@@ -3177,8 +3177,8 @@
   height: var(--seed-dimension-x10);
   margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
   border-radius: var(--seed-radius-r2_5);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   background-color: #0000;
   border: none;
   flex-grow: 0;
@@ -3191,7 +3191,7 @@
 }
 
 .seed-callout__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-callout__closeButton {
@@ -3399,15 +3399,15 @@
 .seed-checkmark__root {
   box-sizing: border-box;
   margin-top: var(--checkmark-margin-top, 0);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   flex: none;
   position: relative;
   scale: 1;
 }
 
 .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-checkmark-pressed-scale, var(--seed-pressed-scale, 1));
+  scale: var(--seed-checkmark-press-scale, var(--seed-press-scale, 1));
 }
 
 .seed-checkmark__root {
@@ -3601,8 +3601,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border-radius: var(--seed-radius-full);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   border: none;
   flex-shrink: 0;
   justify-content: center;
@@ -3615,7 +3615,7 @@
 }
 
 .seed-chip__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-chip__root {
@@ -3931,8 +3931,8 @@
   border-radius: var(--seed-radius-full);
   font-family: inherit;
   font-weight: var(--seed-font-weight-medium);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   border: none;
   flex-shrink: 0;
   justify-content: center;
@@ -3942,7 +3942,7 @@
 }
 
 .seed-chip-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-chip-tabs__trigger {
@@ -4159,13 +4159,13 @@
   --seed-icon-size: 22px;
   --size: 16px;
   --thickness: 2px;
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   scale: 1;
 }
 
 .seed-contextual-floating-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-contextual-floating-button {
@@ -4920,8 +4920,8 @@
   align-items: center;
   gap: var(--seed-dimension-x2_5);
   border-radius: var(--seed-radius-r3);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   height: 80px;
   transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   --remove-button-mask-size: var(--seed-dimension-x6);
@@ -4962,7 +4962,7 @@
 }
 
 .seed-attachment-input-item__root[aria-grabbed="true"] {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
   --remove-button-mask-size: 0px;
   --remove-button-mask-offset: 0px;
 }
@@ -5049,8 +5049,8 @@
   font: inherit;
   cursor: pointer;
   border-radius: inherit;
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   background: none;
   border: none;
   flex-direction: column;
@@ -5062,7 +5062,7 @@
 }
 
 .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-attachment-input-item__actionButton {
@@ -5092,8 +5092,8 @@
   background-color: var(--seed-color-bg-layer-default);
   border-radius: var(--seed-radius-full);
   cursor: pointer;
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   border: none;
   justify-content: center;
   align-items: center;
@@ -5104,7 +5104,7 @@
 }
 
 .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-attachment-input-item__removeButton {
@@ -5235,8 +5235,8 @@
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
   cursor: pointer;
   border-radius: var(--seed-radius-r3);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   background-color: #0000;
   border: none;
   flex-direction: column;
@@ -5247,7 +5247,7 @@
 }
 
 .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-attachment-input-trigger__root {
@@ -5352,15 +5352,15 @@
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-bold);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   position: relative;
   overflow: hidden;
   scale: 1;
 }
 
 .seed-floating-action-button__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-floating-action-button__root {
@@ -5577,8 +5577,8 @@
   --seed-icon-size: var(--seed-dimension-x3_5);
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   border-radius: var(--seed-radius-r3);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   background: none;
   border: none;
   justify-content: center;
@@ -5588,7 +5588,7 @@
 }
 
 .seed-help-bubble__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-help-bubble__closeButton {
@@ -5686,8 +5686,8 @@
   cursor: pointer;
   width: var(--seed-dimension-x6);
   height: var(--seed-dimension-x6);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   background: none;
   border: none;
   justify-content: center;
@@ -5699,7 +5699,7 @@
 }
 
 .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-image-frame-reaction-button__root {
@@ -5908,9 +5908,9 @@
 .seed-input-button__root {
   box-sizing: border-box;
   isolation: isolate;
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
-  --input-button-pressed-scale: 1;
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
+  --input-button-press-scale: 1;
   align-items: center;
   width: 100%;
   display: flex;
@@ -5918,14 +5918,14 @@
 }
 
 .seed-input-button__root:not([data-disabled]):not([data-readonly])[data-active] {
-  --input-button-pressed-scale: var(--seed-pressed-scale, 1);
+  --input-button-press-scale: var(--seed-press-scale, 1);
 }
 
 .seed-input-button__layout {
   align-items: center;
   gap: inherit;
   min-width: 0;
-  scale: var(--input-button-pressed-scale, 1);
+  scale: var(--input-button-press-scale, 1);
   transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   flex-grow: 1;
   display: flex;
@@ -6069,8 +6069,8 @@
 .seed-input-button__clearButton {
   cursor: pointer;
   border-radius: var(--seed-radius-full);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   background-color: #0000;
   border: none;
   padding: 0;
@@ -6078,7 +6078,7 @@
 }
 
 .seed-input-button__clearButton:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-input-button__clearButton {
@@ -6388,9 +6388,9 @@
   --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
   padding-right: var(--seed-box-padding-right);
   --seed-focus-ring: none;
-  --seed-checkmark-pressed-scale: 1;
-  --seed-radiomark-pressed-scale: 1;
-  --seed-switchmark-pressed-scale: 1;
+  --seed-checkmark-press-scale: 1;
+  --seed-radiomark-press-scale: 1;
+  --seed-switchmark-press-scale: 1;
   --seed-icon-size: 22px;
   --seed-icon-color: var(--seed-color-fg-neutral);
   flex-shrink: 0;
@@ -6414,9 +6414,9 @@
   align-items: center;
   gap: var(--seed-box-gap);
   --seed-focus-ring: none;
-  --seed-checkmark-pressed-scale: 1;
-  --seed-radiomark-pressed-scale: 1;
-  --seed-switchmark-pressed-scale: 1;
+  --seed-checkmark-press-scale: 1;
+  --seed-radiomark-press-scale: 1;
+  --seed-switchmark-press-scale: 1;
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-regular);
@@ -6879,13 +6879,13 @@
 }
 
 .seed-menu-item__root {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
-  --menu-item-pressed-scale: 1;
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
+  --menu-item-press-scale: 1;
 }
 
 .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  --menu-item-pressed-scale: var(--seed-pressed-scale, 1);
+  --menu-item-press-scale: var(--seed-press-scale, 1);
 }
 
 .seed-menu-item__root:is(:focus-visible, [data-focus-visible]):after {
@@ -6902,7 +6902,7 @@
 .seed-menu-item__layout {
   align-items: center;
   gap: inherit;
-  scale: var(--menu-item-pressed-scale, 1);
+  scale: var(--menu-item-press-scale, 1);
   transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   flex-grow: 1;
   display: flex;
@@ -7141,8 +7141,8 @@
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-medium);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   border: none;
   justify-content: center;
   align-items: center;
@@ -7151,7 +7151,7 @@
 }
 
 .seed-menu-sheet__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-menu-sheet__closeButton {
@@ -7248,13 +7248,13 @@
 }
 
 .seed-menu-sheet-item__root {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
-  --menu-sheet-item-pressed-scale: 1;
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
+  --menu-sheet-item-press-scale: 1;
 }
 
 .seed-menu-sheet-item__root:is(:active, [data-active]) {
-  --menu-sheet-item-pressed-scale: var(--seed-pressed-scale, 1);
+  --menu-sheet-item-press-scale: var(--seed-press-scale, 1);
 }
 
 .seed-menu-sheet-item__root:first-child {
@@ -7286,7 +7286,7 @@
 .seed-menu-sheet-item__layout {
   align-items: center;
   gap: var(--seed-dimension-x3_5);
-  scale: var(--menu-sheet-item-pressed-scale, 1);
+  scale: var(--menu-sheet-item-press-scale, 1);
   transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   flex-grow: 1;
   display: flex;
@@ -7479,8 +7479,8 @@
   line-height: var(--seed-line-height-t3);
   font-weight: var(--seed-font-weight-bold);
   border-radius: var(--seed-radius-r1);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   background-color: #0000;
   border: none;
   align-items: center;
@@ -7489,7 +7489,7 @@
 }
 
 .seed-page-banner__button:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-page-banner__button {
@@ -7511,8 +7511,8 @@
   --seed-suffix-icon-margin-left: initial;
   cursor: pointer;
   border-radius: var(--seed-radius-r1);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   background-color: #0000;
   border: none;
   flex-grow: 0;
@@ -7526,7 +7526,7 @@
 }
 
 .seed-page-banner__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-page-banner__closeButton {
@@ -7917,8 +7917,8 @@
   border-color: var(--seed-color-stroke-neutral-weak);
   border-radius: var(--seed-radius-full);
   margin-top: var(--radiomark-margin-top, 0);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   flex: none;
   justify-content: center;
   align-items: center;
@@ -7928,7 +7928,7 @@
 }
 
 .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-radiomark-pressed-scale, var(--seed-pressed-scale, 1));
+  scale: var(--seed-radiomark-press-scale, var(--seed-press-scale, 1));
 }
 
 .seed-radiomark__root {
@@ -8077,13 +8077,13 @@
 }
 
 .seed-reaction-button {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   scale: 1;
 }
 
 .seed-reaction-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-reaction-button {
@@ -8310,13 +8310,13 @@
 }
 
 .seed-segmented-control__item {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
-  --segmented-control-pressed-scale: 1;
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
+  --segmented-control-press-scale: 1;
 }
 
 .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  --segmented-control-pressed-scale: var(--seed-pressed-scale, 1);
+  --segmented-control-press-scale: var(--seed-press-scale, 1);
 }
 
 .seed-segmented-control__itemLayout {
@@ -8324,7 +8324,7 @@
   align-items: center;
   gap: var(--seed-dimension-x1_5);
   min-width: 0;
-  scale: var(--segmented-control-pressed-scale, 1);
+  scale: var(--segmented-control-press-scale, 1);
   transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   display: flex;
 }
@@ -8364,13 +8364,13 @@
 }
 
 .seed-select-box__root {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
-  --select-box-pressed-scale: 1;
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
+  --select-box-press-scale: 1;
 }
 
 .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  --select-box-pressed-scale: var(--seed-pressed-scale, 1);
+  --select-box-press-scale: var(--seed-press-scale, 1);
 }
 
 .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):after {
@@ -8398,7 +8398,7 @@
 }
 
 .seed-select-box__inner {
-  scale: var(--select-box-pressed-scale, 1);
+  scale: var(--select-box-press-scale, 1);
   transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   flex-direction: column;
   flex-grow: 1;
@@ -9085,8 +9085,8 @@
   top: calc(28px + var(--seed-safe-area-top));
   border-radius: var(--seed-radius-r3);
   cursor: pointer;
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   border: none;
   justify-content: center;
   align-items: center;
@@ -9099,7 +9099,7 @@
 }
 
 .seed-side-panel__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-side-panel__closeButton {
@@ -9592,8 +9592,8 @@
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t4);
   font-weight: var(--seed-font-weight-bold);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   border: none;
   flex-shrink: 0;
   justify-content: center;
@@ -9605,7 +9605,7 @@
 }
 
 .seed-snackbar__actionButton:is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-snackbar__actionButton {
@@ -9750,13 +9750,13 @@
 .seed-switchmark__thumb {
   border-radius: var(--seed-radius-full);
   transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, scale var(--seed-duration-d3) var(--seed-timing-function-easing);
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   transform: scale(.8) scale3d(1, 1, 1);
 }
 
 .seed-switchmark__thumb:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-switchmark-pressed-scale, var(--seed-pressed-scale, 1));
+  scale: var(--seed-switchmark-press-scale, var(--seed-press-scale, 1));
 }
 
 .seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {
@@ -9925,13 +9925,13 @@
 }
 
 .seed-tabs__trigger {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   scale: 1;
 }
 
 .seed-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-tabs__trigger {
@@ -11363,13 +11363,13 @@
 }
 
 .seed-toggle-button {
-  --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-  --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
+  --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+  --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
   scale: 1;
 }
 
 .seed-toggle-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-pressed-scale, 1);
+  scale: var(--seed-press-scale, 1);
 }
 
 .seed-toggle-button {

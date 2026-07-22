@@ -34,13 +34,13 @@
   }
 
   .seed-select-box__root {
-    --seed-press-perspective: max(var(--seed-press-height), var(--seed-press-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-pressed-scale: calc((var(--seed-press-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-perspective));
-    --select-box-pressed-scale: 1;
+    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
+    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
+    --select-box-press-scale: 1;
   }
 
   .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    --select-box-pressed-scale: var(--seed-pressed-scale, 1);
+    --select-box-press-scale: var(--seed-press-scale, 1);
   }
 
   .seed-select-box__root:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):after {
@@ -68,7 +68,7 @@
   }
 
   .seed-select-box__inner {
-    scale: var(--select-box-pressed-scale, 1);
+    scale: var(--select-box-press-scale, 1);
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     flex-direction: column;
     flex-grow: 1;
