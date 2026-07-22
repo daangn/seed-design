@@ -55,6 +55,18 @@ export function createSlotRecipeContext<
     const StyledComponent = (innerProps: any) => {
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         React.HTMLAttributes<HTMLElement>;
+
+      // Explicit `undefined` should not override component-level defaults.
+      if (defaultProps) {
+        const propsWithDefaults = props as Record<string, unknown>;
+
+        for (const key of Object.keys(defaultProps)) {
+          if (propsWithDefaults[key] === undefined) {
+            propsWithDefaults[key] = defaultProps[key as keyof P];
+          }
+        }
+      }
+
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const classNames = recipe(variantProps); // TODO: should we memoize this?
 
