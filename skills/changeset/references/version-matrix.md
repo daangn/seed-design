@@ -2,34 +2,23 @@
 
 SEED는 **2.0을 분기점으로 strict semver**를 따른다. breaking change는 **major에서만** 낸다 (1.x처럼 minor에서 내지 않는다).
 
-이 문서는 "어떤 패키지를 어떻게 바꾸면, 그 패키지와 그것을 의존하는 패키지들이 각각 어떤 bump를 받아야 하는지"를 정한다. changeset의 bump 추천(SKILL.md Phase 2)과 peer floor 체크(Phase 4.5)는 이 매트릭스를 따른다.
+이 문서는 "어떤 패키지를 어떻게 바꾸면, 그 패키지와 그것을 의존하는 패키지들이 각각 어떤 bump를 받아야 하는지"를 정한다. changeset 스킬의 bump 추천과 peer floor 체크는 이 매트릭스를 따른다.
 
 ## 패키지 트랙
 
-### npm 트랙 (changeset 대상, strict semver)
+changeset 후보에 뜨는 건 npm 배포 패키지뿐이다. private / 자체 버저닝 패키지는 `bun changeset`이 자동으로 걸러낸다.
 
-`@seed-design/` 접두사 생략:
-
-- **토큰/스타일**: `css`, `rootage-artifacts`, `tailwind3-plugin`, `tailwind4-theme`
-- **번들러 플러그인**: `vite-plugin`, `webpack-plugin`, `rsbuild-plugin`
-- **React**: `react`(umbrella), `stackflow`, react-headless 개별 패키지 약 37개(`react-*`, `dom-utils`)
-- **도구**: `figma`, `mcp`(figma와 linked), `cli`, `codemod`+`migration-index`(linked)
-
-### changeset 제외 (private / 자체 버저닝)
-
-`qvism-preset`, `qvism-core`, `qvism-cli`, `rootage-core`, `rootage-cli`, `postcss-*`, `figma-codegen` 및 figma 위젯들, `lynx-*`, `docs`, 예제 패키지. → `bun changeset`이 자동으로 제외하므로 후보에 뜨지 않는다.
-
-### 결합 방향 (단방향)
+매트릭스가 다루는 결합은 아래 넷이고, 방향은 단방향이다 (`@seed-design/` 접두사 생략):
 
 ```text
-css (leaf, deps 없음)
-  ↑ peerDependency
-react (umbrella)  ←  react-headless/* (react가 dependency로 소비: exact pin 또는 workspace:^)
+css (토큰·recipe 산출물, deps 없는 leaf)
+  ↑ peerDependency (^N.M.0)
+react (styled 컴포넌트 umbrella)  ←  react-headless/* (`react-*`, `dom-utils`를 `^` 범위 dependency로 소비)
   ↑ major 정렬
-figma (css/react를 직접 의존하진 않지만 codegen 출력이 특정 react 세대 전용)
+figma (react를 의존하진 않지만 codegen 출력이 특정 react 세대 전용)
 ```
 
-css가 깨지면 react가 깨지지만, 그 역은 없다 (react는 css를 소비할 뿐).
+css가 깨지면 react가 깨지지만, 그 역은 없다 (react는 css를 소비할 뿐). 여기 없는 npm 패키지는 이 결합 밖이라 자기 변경만 보고 정한다.
 
 ## 전파 매트릭스
 
@@ -54,16 +43,25 @@ css가 깨지면 react가 깨지지만, 그 역은 없다 (react는 css를 소�
 
 ## 핵심 원칙
 
-1. **버전은 "의존성 버전"이 아니라 "내 observable contract"로 정해진다.** 의존성을 bump했다는 사실만으로 내 버전이 오르지 않는다 — 그 변경이 **내 공개 표면(컴포넌트·props·recipe 클래스)으로 새어나갈 때만** 전파된다. 예) 내부 추적 코드를 제거해도 출력(DOM)이 보존되면 breaking이 아니다.
+### 기준은 "내 공개 표면"
 
-2. **react major ≥ 다른 모든 패키지 major.** 모든 css major에는 react도 major가 따라온다(css는 react의 런타임 substrate). 그래서 react 패키지의 major가 항상 가장 높거나 같다. `figma`는 major를 react에 정렬한다(codegen이 특정 react 세대 전용이므로). 문서 버저닝에도 react 버전을 기준으로 쓸 수 있다.
+버전은 의존성 버전이 아니라 내 공개 표면(컴포넌트·props·recipe 클래스)으로 정해진다. 의존성을 bump했다는 사실만으로 내 버전이 오르지 않는다 — 그 변경이 **공개 표면으로 새어나갈 때만** 전파된다. 예) 내부 추적 코드를 제거해도 출력(DOM)이 그대로면 breaking이 아니다.
 
-3. **floor와 ceiling은 비대칭.** `^N.M.0`이 맞고 `~`는 틀리다.
-   - **floor**(하한) = 내가 import하는 걸 다 담은 가장 낮은 버전. 새 기능을 채택할 때마다 **ratchet up**(올리기만).
-   - **ceiling**(상한) = 다음 major `<N+1`. minor는 additive superset이라 높은 버전이 낮은 소비자를 깨지 않으므로 ceiling은 안 내려간다.
-   - `~`(예: `~2.0.0`)는 "react 2.0.0은 css 2.1.0과 못 쓴다"는 거짓 선언이 되어, css 2.1.0이 나오는 순간 전원 강제 lockstep 업그레이드를 유발한다.
+### react major가 가장 높다
 
-4. **SEED의 `data-*`는 내부 plumbing이다.** css ↔ styled react 사이의 비공개 배선이고, 지원 표면은 **컴포넌트 + props + recipe 클래스**다. 그래서 styling 전용 data attr는 옮기거나 지워도 비공개라 안 깨진다(major 아님). 단 소비자가 자기 CSS로 타겟해도 되는 **공개 contract** data-*라면 제거·이름변경 = major.
+모든 css major에는 react major가 따라온다 (react가 동작하려면 css가 필요하므로). 그래서 react의 major는 항상 가장 높거나 같다. `figma`도 major를 react에 맞춘다 (codegen이 특정 react 세대 전용이므로). 문서 버저닝에도 react 버전을 기준으로 쓸 수 있다.
+
+### floor는 올리고 ceiling은 그대로
+
+`^N.M.0`이 맞고 `~`는 틀리다.
+
+- **floor**(하한) = 내가 import하는 걸 다 담은 가장 낮은 버전. 새 기능을 채택할 때마다 올리기만 하고 내리지 않는다.
+- **ceiling**(상한) = 다음 major `<N+1`. minor는 기능 추가만 하므로 높은 버전이 낮은 소비자를 깨지 않는다. ceiling은 안 내려간다.
+- `~`(예: `~2.0.0`)는 "react 2.0.0은 css 2.1.0과 못 쓴다"는 거짓 선언이 되어, css 2.1.0이 나오는 순간 전원 강제 lockstep 업그레이드를 유발한다.
+
+### `data-*`는 내부 배선
+
+SEED의 `data-*`는 css와 styled react를 잇는 비공개 연결이고, 지원 표면은 **컴포넌트 + props + recipe 클래스**다. 그래서 styling 전용 data attr는 옮기거나 지워도 안 깨진다 (major 아님). 단 소비자가 자기 CSS로 타겟해도 되는 **공개 contract** data attr라면 제거·이름변경은 major다.
 
 ## peer floor 수동 bump 함정 ⚠️
 
