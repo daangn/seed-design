@@ -22,7 +22,6 @@ SEED는 **2.0부터 strict semver**를 따른다. breaking change는 **major에�
 
 - 버그 수정 (기존 동작이 의도와 달랐던 것을 바로잡음)
 - 스타일/레이아웃 미세 조정 (padding, margin, font-weight 등) — 단 **의도된 시각적 디자인 변경**이면 `minor`
-- 기존 컴포넌트에 variant **값** 추가 (새 API가 아닌 기존 옵션의 확장)
 - 의존성 floor 갱신 / peer 범위 정리 — 의존 패키지가 올랐어도 **내 코드·출력이 그대로**면 patch
 - 내부 리팩토링 (공개 표면·DOM 출력 변화 없음)
 - 성능 개선 / 접근성 개선 (기존 동작 유지)
@@ -32,7 +31,7 @@ SEED는 **2.0부터 strict semver**를 따른다. breaking change는 **major에�
 - 새 컴포넌트 / 서브컴포넌트 추가
 - 새 기능 / 훅 추가
 - 기존 컴포넌트에 새 prop/API 추가 (하위 호환 유지)
-- 새 CSS recipe / variant 추가
+- 새 CSS recipe / variant 추가 — 기존 variant에 **값**만 더하는 것도 포함 (css 산출물이 늘고 prop 타입이 넓어지는 additive 변경)
 - 새 data attribute 기반 스타일링 추가 (기존 selector는 유지)
 - headless non-breaking 추가기능, 그리고 그것을 채택한 react/스타일 업데이트
 - **snippet에 새 기능/스타일 추가** — 기존 코드는 안 깨지고 새 걸 쓰려면 재설치만 하면 되는 경우 (→ "snippet 변경 분류" 참조)
@@ -107,10 +106,6 @@ BottomSheet title 영역의 padding을 수정합니다.
 
 ```text
 iOS의 폰트 스케일링 max limit을 135%에서 160%로 늘립니다.
-```
-
-```text
-Avatar 및 Avatar Stack의 `size=56` variant를 추가합니다.
 ```
 
 ### patch — 1줄 제목 + 불릿 리스트

@@ -28,6 +28,8 @@ css가 깨지면 react가 깨지지만, 그 역은 없다 (react는 css를 소�
 |---|---|---|---|---|
 | 스타일만 변경 (css 산출물 추가 X) | `patch` ¹ | – | – | – (`^`로 커버됨) |
 | 새 (서브)컴포넌트 (recipe/vars 동반) | `minor` | `minor` | 신규=`1.0.0`/`0.x`, 서브컴포넌트 추가=`minor` | css peer floor ↑ + headless dep floor ↑/신규 추가 |
+| 기존 variant에 **값** 추가 (recipe 산출물 동반) | `minor` | `minor` ² | – | css peer floor ↑ |
+| 새 토큰 추가 (컴포넌트와 무관) | `minor` | – | – | – (`^`로 커버됨) |
 | headless non-breaking 추가기능 | – | `minor` ² | `minor` | headless dep floor ↑ |
 | headless 추가기능 + 스타일링 | `minor` | `minor` | `minor` | css peer floor ↑ + headless dep floor ↑ |
 | React 로직 추가 기반 스타일 업데이트 | `minor` | `minor` | – | css peer floor ↑ |
@@ -37,7 +39,7 @@ css가 깨지면 react가 깨지지만, 그 역은 없다 (react는 css를 소�
 | 스타일링용 **data attr 이름변경·삭제** | **`major`** ⁴ | **`major`** | 변경한 게 headless면 `major` | css 소비 전 패키지 `^N+1` (+headless 새 major 재선언) |
 
 ¹ 단순 버그/미세 조정은 `patch`. 단 **의도된 시각적 기능**(디자인 의도가 있는 변경)이면 `minor`.
-² react가 그 추가기능을 **채택(사용)하거나 인터페이스로 제공**할 때만 react가 오른다. 안 쓰면 react는 변화 없음.
+² react가 그것을 **채택(사용)하거나 인터페이스로 제공**할 때만 react가 오른다. 안 쓰면 react는 변화 없음. variant 값의 경우 그 값을 prop 타입으로 노출하면 react도 `minor`, css 산출물만 늘고 react 타입이 그대로면 react는 변화 없음.
 ³ 토큰은 단독으로 보면 major가 아닐 것 같지만, 컴포넌트 스타일과 결합돼 있어 css/react가 함께 major.
 ⁴ selector가 바뀌므로 css major. headless major로 data attr 계약이 깨졌거나 react 자체가 제공하던 data attr 값이 바뀐 것이므로 react도 major.
 
