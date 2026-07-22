@@ -51,6 +51,22 @@ describe("createStyleContext", () => {
     expect(receivedProps).toMatchObject({ active: true });
   });
 
+  it("restores default props overwritten with undefined slot props", () => {
+    render(<Slot active={undefined} />);
+
+    expect(receivedProps).toMatchObject({ active: true });
+  });
+
+  it("preserves explicitly provided false context props", () => {
+    render(
+      <PropsProvider value={{ active: false }}>
+        <Slot />
+      </PropsProvider>,
+    );
+
+    expect(receivedProps).toMatchObject({ active: false });
+  });
+
   it("preserves explicitly provided false values", () => {
     render(<Root active={false} />);
 
