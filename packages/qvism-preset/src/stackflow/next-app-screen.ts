@@ -11,8 +11,8 @@ const HORIZONTAL = { duration: "350ms", timingFunction: "cubic-bezier(0.2, 0.1, 
 const VERTICAL_ENTER = { duration: "300ms", timingFunction: "cubic-bezier(0.23, 0.1, 0.32, 1)" };
 const VERTICAL_EXIT = { duration: "150ms", timingFunction: "linear" };
 
-const FADE_IN_ENTER = { duration: "300ms", timingFunction: "ease-out" };
-const FADE_IN_EXIT = { duration: "150ms", timingFunction: "ease-in" };
+const CROSSFADE_ENTER = { duration: "300ms", timingFunction: "ease-out" };
+const CROSSFADE_EXIT = { duration: "150ms", timingFunction: "ease-in" };
 
 /** Behind layer park position while a horizontalSlide top covers it. */
 const BEHIND_TRANSLATE_X = "-30%";
@@ -251,18 +251,18 @@ export const nextAppScreen = defineSlotRecipe({
           display: "none",
         },
       },
-      fadeIn: {
+      crossfade: {
         dim: {
           display: "none",
         },
         layer: {
-          transition: `opacity ${FADE_IN_ENTER.duration} ${FADE_IN_ENTER.timingFunction}`,
+          transition: `opacity ${CROSSFADE_ENTER.duration} ${CROSSFADE_ENTER.timingFunction}`,
 
           [pushStart]: { opacity: "0" },
           [pop]: {
             opacity: "0",
-            transitionDuration: FADE_IN_EXIT.duration,
-            transitionTimingFunction: FADE_IN_EXIT.timingFunction,
+            transitionDuration: CROSSFADE_EXIT.duration,
+            transitionTimingFunction: CROSSFADE_EXIT.timingFunction,
           },
         },
         edge: {
