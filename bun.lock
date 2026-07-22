@@ -254,7 +254,7 @@
         "@karrotmarket/icon-data": "^1.34.0",
         "@karrotmarket/lynx-monochrome-icon": "1.10.0",
         "@karrotmarket/lynx-multicolor-icon": "1.13.0",
-        "@lynx-js/lynx-ui-sheet": "^3.130.1",
+        "@lynx-js/lynx-ui-sheet": "^3.134.0",
         "@lynx-js/react": "^0.117.0",
         "@seed-design/lynx-css": "0.5.0",
         "@seed-design/lynx-react": "0.3.0",
@@ -483,7 +483,7 @@
       "version": "0.3.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
-        "@lynx-js/lynx-ui-sheet": "^3.130.1",
+        "@lynx-js/lynx-ui-sheet": "^3.134.0",
         "clsx": "^2.1.1",
       },
       "devDependencies": {
@@ -2298,13 +2298,13 @@
 
     "@lynx-js/lynx-ui-common": ["@lynx-js/lynx-ui-common@3.133.1", "", { "dependencies": { "@lynx-js/gesture-runtime": "2.1.1", "@lynx-js/react-use": "0.1.3" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-xV+GoixE/FK4DvjqYNJxZBeF+Jk1lCrUwvj7rd9cTzQV+xXiPDcP6BNnAu8q4jYDE5WKD/hgfHn9quUTcWvccQ=="],
 
-    "@lynx-js/lynx-ui-dialog": ["@lynx-js/lynx-ui-dialog@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-button": "3.133.1", "@lynx-js/lynx-ui-common": "3.133.1", "@lynx-js/lynx-ui-overlay": "3.133.1", "@lynx-js/lynx-ui-presence": "3.133.1", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-UrTKEePoA9KFyU4D15wFePxNswnU1RcPGgqShzYeDGJ2Cq/ua9Ddz+Bo5mPcIXTVAPNkSVs2DaEcbsNtZoULHQ=="],
+    "@lynx-js/lynx-ui-dialog": ["@lynx-js/lynx-ui-dialog@3.134.0", "", { "dependencies": { "@lynx-js/lynx-ui-button": "3.133.1", "@lynx-js/lynx-ui-common": "3.133.1", "@lynx-js/lynx-ui-overlay": "3.133.1", "@lynx-js/lynx-ui-presence": "3.134.0", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-n7i9DSZw4xMFFOE28N+pTL0nLg254hGIpBYHuNR3mVbH8gd/ZG4o7TU5PwZHr3TbOZEworSOj9nDQ1VC6ZkJaw=="],
 
     "@lynx-js/lynx-ui-overlay": ["@lynx-js/lynx-ui-overlay@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-PCfjmAUheL5USYCaJUZQVf8M+g6we0h7yOdi0Z0+5RJgjzn0WNuAQU6oNisId+H4W0tGmTlRvtXs1gZJ4+KcoQ=="],
 
-    "@lynx-js/lynx-ui-presence": ["@lynx-js/lynx-ui-presence@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-SjDLZPBmnAuFUekAMA8xl0y1iDlzc2JNP+wQcOJ+JyEdNy7V5v2apomPqLXNVtGoZ7eSIOTjxuzeO1e/kRYqSg=="],
+    "@lynx-js/lynx-ui-presence": ["@lynx-js/lynx-ui-presence@3.134.0", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-fJgP7QAKTGhF8lynY/ZdVdvQd4R9lLMyouRUq8dVdxo/NOhEZGhfR7r9eIsDD0QuZPzzP8BtH/In9aIMarD0iQ=="],
 
-    "@lynx-js/lynx-ui-sheet": ["@lynx-js/lynx-ui-sheet@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "@lynx-js/lynx-ui-dialog": "3.133.1", "@lynx-js/lynx-ui-overlay": "3.133.1", "@lynx-js/lynx-ui-presence": "3.133.1", "@lynx-js/motion": "0.0.3", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-mw5h6aD5cj72U+nQl6cCMPf+ZK9TkPQSAGIuiYwcMDRWabNF+nCBYgywaFh2ZGTDf0nspWTaYr9lDzzJyqmQ9g=="],
+    "@lynx-js/lynx-ui-sheet": ["@lynx-js/lynx-ui-sheet@3.134.0", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "@lynx-js/lynx-ui-dialog": "3.134.0", "@lynx-js/lynx-ui-overlay": "3.133.1", "@lynx-js/lynx-ui-presence": "3.134.0", "@lynx-js/motion": "0.0.3", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-uqa+aR8oAMlIPZzSR920HBtx9grXWkIDzyTAlIe8Ts6XBQPYyLsDLvefgXXRF5PgDh4yjjpdzBGCFWBKsnj3RA=="],
 
     "@lynx-js/motion": ["@lynx-js/motion@0.0.3", "", { "dependencies": { "framer-motion": "12.34.1", "motion-dom": "12.23.12", "motion-utils": "12.23.6" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-Kujwj1grxFTPjwr3IEO4Qca5YRsoJCeTctsEaUcVFYC5Ekb52LuUavJicMqUuswzW/HrARpJw9npLSiTjfcwYQ=="],
 
