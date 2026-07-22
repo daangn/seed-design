@@ -23,10 +23,9 @@ SEED는 **2.0부터 strict semver**를 따른다. breaking change는 **major에�
 - 버그 수정 (기존 동작이 의도와 달랐던 것을 바로잡음)
 - 스타일/레이아웃 미세 조정 (padding, margin, font-weight 등) — 단 **의도된 시각적 디자인 변경**이면 `minor`
 - 기존 컴포넌트에 variant **값** 추가 (새 API가 아닌 기존 옵션의 확장)
-- 의존성 floor 갱신 / peer 범위 정리 (공개 표면 변화 없음)
+- 의존성 floor 갱신 / peer 범위 정리 — 의존 패키지가 올랐어도 **내 코드·출력이 그대로**면 patch
 - 내부 리팩토링 (공개 표면·DOM 출력 변화 없음)
 - 성능 개선 / 접근성 개선 (기존 동작 유지)
-- 의존하는 headless가 minor 올랐지만 **내 코드·출력은 그대로**인 경우 (exact pin 재배포만 필요)
 
 ### minor (additive — 기존 소비자를 깨지 않음)
 
@@ -51,7 +50,7 @@ SEED는 **2.0부터 strict semver**를 따른다. breaking change는 **major에�
 - 기존 snippet이 새 npm 패키지와 함께 더 이상 동작하지 않는 경우 (재설치 강제)
 - 패키지 전체 구조 변경, 런타임/프레임워크 요구사항 변경 (예: React 버전 요구 변경)
 
-> **예외 — 내부 plumbing은 breaking이 아니다.** SEED의 styling 전용 `data-*`(css ↔ styled react 사이의 비공개 배선)는 옮기거나 지워도 공개 표면이 아니므로 `patch`/`minor`다. 지원 표면은 **컴포넌트 + props + recipe 클래스**다. (`version-matrix.md` 원칙 1·4)
+> **예외 — 내부 배선은 breaking이 아니다.** SEED의 styling 전용 `data-*`(css와 styled react를 잇는 비공개 연결)는 옮기거나 지워도 공개 표면이 아니므로 `patch`/`minor`다. 지원 표면은 **컴포넌트 + props + recipe 클래스**다. (`version-matrix.md`의 "`data-*`는 내부 배선")
 
 ## BREAKING CHANGE 접두사
 
@@ -88,7 +87,7 @@ SEED는 **2.0부터 strict semver**를 따른다. breaking change는 **major에�
 
 ## snippet 변경 분류
 
-snippet은 사용자가 자기 코드베이스로 **복사해간 코드**라 npm 공개 표면이 아니다. snippet 자체엔 버전이 없고, snippet이 `dependencies`로 가리키는 `@seed-design/react`·`@seed-design/css`의 changeset으로 추적된다. 분류는 observable-contract 원칙(`version-matrix.md` 원칙 1)을 따른다.
+snippet은 사용자가 자기 코드베이스로 **복사해간 코드**라 npm 공개 표면이 아니다. snippet 자체엔 버전이 없고, snippet이 `dependencies`로 가리키는 npm 패키지(`@seed-design/react`·`@seed-design/css`)의 changeset으로 추적된다. 분류는 `version-matrix.md`의 "기준은 내 공개 표면"을 따른다.
 
 판단 기준 한 줄: **"재설치 안 하면 기존 코드가 깨지나?"**
 
