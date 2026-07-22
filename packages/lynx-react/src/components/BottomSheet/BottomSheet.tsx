@@ -87,6 +87,27 @@ const SEED_EXIT_ANIMATION: SheetTransition = {
   damping: 40,
 };
 
+////////////////////////////////////////////////////////////////////////////////////
+// Android 스크롤 격리
+//
+// Lynx Android는 터치를 Lynx 이벤트 시스템과 플랫폼(네이티브) 디스패치 양쪽으로 흘린다.
+// 시트가 Lynx 쪽에서 드래그를 처리해도 네이티브 이벤트는 그대로 흘러 뒤의 list/scroll-view가
+// 같이 스크롤된다. `consume-slide-event`는 지정한 각도의 스와이프에서 플랫폼 제스처만 막고
+// Lynx 터치 이벤트는 건드리지 않으므로, 시트 드래그를 유지한 채 배경만 멈춘다.
+//
+// 주의: Body(`<scroll-view>`)의 조상에는 넣지 않는다. Body 스크롤은 네이티브 스크롤이라
+// 플랫폼 제스처가 막히면 같이 죽는다. Body는 대신 `enable-nested-scroll`로 격리한다.
+////////////////////////////////////////////////////////////////////////////////////
+
+/** 세로 스와이프 각도. 시트 드래그 방향이며, 배경 리스트가 스크롤되는 방향이기도 하다. */
+const VERTICAL_SLIDE_ANGLES: Array<[number, number]> = [
+  [46, 134],
+  [-134, -46],
+];
+
+/** 전 방향. dim 영역 위에서는 어떤 방향 스와이프도 배경에 닿으면 안 된다. */
+const ALL_SLIDE_ANGLES: Array<[number, number]> = [[-180, 180]];
+
 /**
  * Trigger와 Content가 Root의 imperative API와 동작 옵션을 공유하는 내부 컨텍스트.
  */
@@ -271,8 +292,29 @@ BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 export interface BottomSheetBackdropProps extends SheetBackdropProps {}
 
+/**
+ * @remarks
+ * `SheetBackdrop`은 rest props를 native `<view>`에 전달하지 않아 스크롤 격리 속성을
+ * 직접 넘길 수 없다. 대신 dim 영역을 채우는 자식 `<view>`를 두어 거기에 적용한다.
+ * tap은 자식에서 backdrop으로 버블되므로 `clickToClose`는 그대로 동작한다.
+ */
 export const BottomSheetBackdrop: LynxForwardRefComponent<unknown, BottomSheetBackdropProps> =
-  withContext<unknown, BottomSheetBackdropProps>(SheetBackdrop, "backdrop");
+  forwardRef<unknown, BottomSheetBackdropProps>((props, ref) => {
+    const { children, className, ...restProps } = props;
+    const classNames = useClassNames();
+
+    return (
+      <SheetBackdrop
+        {...(ref ? ({ ref } as Record<string, unknown>) : {})}
+        {...restProps}
+        className={clsx(classNames.backdrop, className)}
+      >
+        <view style={{ width: "100%", height: "100%" }} consume-slide-event={ALL_SLIDE_ANGLES}>
+          {children}
+        </view>
+      </SheetBackdrop>
+    );
+  });
 BottomSheetBackdrop.displayName = "BottomSheetBackdrop";
 
 export interface BottomSheetContentProps extends SheetContentProps {}
@@ -291,6 +333,9 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
       <SheetContent
         {...(ref ? { ref } : {})}
         {...restProps}
+        // LynxView 바깥의 네이티브 조상(Lynx 화면을 감싸는 네이티브 스크롤 컨테이너)으로
+        // 제스처가 새는 것을 막는다. Lynx 내부 디스패치는 그대로라 Body 스크롤에 영향이 없다.
+        {...({ "block-native-event": true } as Record<string, unknown>)}
         className={clsx(classNames.content, className)}
         innerStyle={{
           display: "flex",
@@ -324,7 +369,11 @@ export function BottomSheetHandle(props: BottomSheetHandleProps): ReactElement {
   const classNames = bottomSheetHandle();
 
   return (
-    <SheetHandle className={classNames.touchArea} {...rest}>
+    <SheetHandle
+      className={classNames.touchArea}
+      {...rest}
+      {...({ "consume-slide-event": VERTICAL_SLIDE_ANGLES } as Record<string, unknown>)}
+    >
       <view className={clsx(classNames.root, className)} style={style as never}>
         {children}
       </view>
@@ -355,6 +404,7 @@ function createViewSlot(
     return (
       <view
         {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        consume-slide-event={VERTICAL_SLIDE_ANGLES}
         className={clsx(classNames[slotName], className)}
         style={style as never}
       >
@@ -400,6 +450,9 @@ export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyPr
   return (
     <scroll-view
       {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+      // Android는 nested scroll이 기본 켜짐이라, body가 스크롤 끝에 닿으면 남은 스크롤이
+      // 조상 스크롤 컨테이너로 넘어간다. `<scroll-view>` 타입에 없는 속성이라 spread로 넘긴다.
+      {...({ "enable-nested-scroll": false } as Record<string, unknown>)}
       scroll-y
       className={clsx(classNames.body, className)}
       style={style as never}
