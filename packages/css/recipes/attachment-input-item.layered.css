@@ -5,8 +5,6 @@
     align-items: center;
     gap: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
-    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     height: 80px;
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     --remove-button-mask-size: var(--seed-dimension-x6);
@@ -134,8 +132,6 @@
     font: inherit;
     cursor: pointer;
     border-radius: inherit;
-    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     background: none;
     border: none;
     flex-direction: column;
@@ -177,8 +173,6 @@
     background-color: var(--seed-color-bg-layer-default);
     border-radius: var(--seed-radius-full);
     cursor: pointer;
-    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     border: none;
     justify-content: center;
     align-items: center;

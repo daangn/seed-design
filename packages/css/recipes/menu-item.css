@@ -50,8 +50,6 @@
     }
 }
 .seed-menu-item__root {
-    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     --menu-item-press-scale: 1;
 }
 .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {

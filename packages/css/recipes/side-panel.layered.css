@@ -248,8 +248,6 @@
     top: calc(28px + var(--seed-safe-area-top));
     border-radius: var(--seed-radius-r3);
     cursor: pointer;
-    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     border: none;
     justify-content: center;
     align-items: center;

@@ -85,8 +85,6 @@
     height: var(--seed-dimension-x10);
     margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -0.5);
     border-radius: var(--seed-radius-r2_5);
-    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     scale: 1;
 }
 .seed-callout__closeButton:is(:active, [data-active]) {

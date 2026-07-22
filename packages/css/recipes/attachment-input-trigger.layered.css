@@ -9,8 +9,6 @@
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     cursor: pointer;
     border-radius: var(--seed-radius-r3);
-    --seed-press-scale-perspective: max(var(--seed-element-height), var(--seed-element-width) / var(--seed-press-scale-width-divisor), var(--seed-press-scale-min-perspective));
-    --seed-press-scale: calc((var(--seed-press-scale-perspective) - var(--seed-scale-press-depth)) / var(--seed-press-scale-perspective));
     background-color: #0000;
     border: none;
     flex-direction: column;

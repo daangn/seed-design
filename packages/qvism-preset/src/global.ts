@@ -1,5 +1,6 @@
 import { vars } from "./vars";
 import { defineGlobalCss } from "./utils/define";
+import { pressScaleGlobalStyles } from "./utils/press-scale";
 import { active, pseudo } from "./utils/pseudo";
 
 export const globalCss = defineGlobalCss({
@@ -274,4 +275,6 @@ export const globalCss = defineGlobalCss({
       fontWeight: vars.$fontWeight.bold,
     },
   },
+
+  ...pressScaleGlobalStyles,
 });

@@ -296,8 +296,6 @@
   --line-height-t12-static: var(--seed-line-height-t12-static);
   --line-height-t13-static: var(--seed-line-height-t13-static);
   --line-height-t14-static: var(--seed-line-height-t14-static);
-  --press-scale-width-divisor: var(--seed-press-scale-width-divisor);
-  --press-scale-min-perspective: var(--seed-press-scale-min-perspective);
   --radius-r0_5: var(--seed-radius-r0_5);
   --radius-r1: var(--seed-radius-r1);
   --radius-r1_5: var(--seed-radius-r1_5);
@@ -312,7 +310,6 @@
   --scale-s95: var(--seed-scale-s95);
   --scale-s97: var(--seed-scale-s97);
   --scale-s98: var(--seed-scale-s98);
-  --scale-press-depth: var(--seed-scale-press-depth);
   --shadow-s1: var(--seed-shadow-s1);
   --shadow-s2: var(--seed-shadow-s2);
   --shadow-s3: var(--seed-shadow-s3);
