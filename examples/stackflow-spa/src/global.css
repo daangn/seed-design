@@ -1,3 +1,13 @@
+:root {
+  /*
+   * NextAppScreen clips its layer while a transition or swipe runs, matching
+   * the device display corners. 55px = iPhone 15 Pro's UIScreen
+   * _displayCornerRadius (55.0pt, same on 15 Pro Max / 14 Pro); an iOS point
+   * maps 1:1 to a CSS px.
+   */
+  --seed-next-app-screen-clip-radius: 55px;
+}
+
 body {
   font-family:
     -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
