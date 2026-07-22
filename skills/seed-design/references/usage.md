@@ -75,6 +75,8 @@ npx @seed-design/cli@latest compat --with react@2.0.0 --with css@2.0.0
 npx @seed-design/cli@latest compat --json
 ```
 
+> **패키지 간 peer 호환 진단은 현재 react 계열(`react`↔`css`)만 지원합니다.** 호환성 매니페스트가 react만 배포되어 있어서, lynx 프로젝트에서는 `--with`가 매니페스트를 못 찾아 실패하고 `--json`의 `packages`도 `null`로 나옵니다. lynx에서는 스니펫 검사(`compat`, `compat --all`)만 사용하세요.
+
 ### 5) Docs 조회
 
 컴포넌트/파운데이션에 대한 문서 링크, LLM용 텍스트 링크, 스니펫 링크를 조회합니다.

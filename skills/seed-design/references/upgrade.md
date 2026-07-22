@@ -75,6 +75,8 @@ npx @seed-design/cli@latest compat --json
   npx @seed-design/cli@latest compat --with react@2.0.0 --with css@2.0.0
   ```
 
+> ⚠️ **react 계열 전용**: 이 진단은 호환성 매니페스트에 의존하고 매니페스트는 react만 배포됩니다. lynx 프로젝트에서는 `--with`가 매니페스트 fetch 실패로 끝나고, `--json`의 `packages`는 `null`입니다 — **`packages.issues`를 바로 파싱하지 말고 `packages`가 `null`인지 먼저 확인하세요.** lynx는 스니펫 검사와 changelog 기반 진단(Step 3 이후)으로 진행합니다.
+
 **effective peer 해소** (compat 내부 로직 — 매니페스트를 직접 읽을 때 참고): `packages[pkg].versions[v].peers`(declared) → `correction` overlay(해당 범위면 덮어씀) → `backfill` overlay(비어있으면 채움) 순으로 호환 범위를 결정합니다. `known-bad` overlay는 알려진 사고 조합입니다.
 
 ### Step 3: Changelog fetch
