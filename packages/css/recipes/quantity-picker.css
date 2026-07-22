@@ -1,5 +1,6 @@
 .seed-quantity-picker__root {
     display: inline-flex;
+    width: fit-content;
     align-items: center;
     box-sizing: border-box;
     background-color: var(--seed-color-bg-layer-default);

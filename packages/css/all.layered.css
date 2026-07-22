@@ -7863,6 +7863,7 @@
   .seed-quantity-picker__root {
     box-sizing: border-box;
     background-color: var(--seed-color-bg-layer-default);
+    width: fit-content;
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     align-items: center;
     display: inline-flex;

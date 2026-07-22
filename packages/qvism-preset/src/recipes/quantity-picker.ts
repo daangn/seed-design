@@ -28,6 +28,7 @@ const quantityPicker = defineSlotRecipe({
   base: {
     root: {
       display: "inline-flex",
+      width: "fit-content",
       alignItems: "center",
       boxSizing: "border-box",
 
