@@ -150,21 +150,21 @@
 .seed-next-app-screen__edge--transitionStyle_verticalSlide {
     display: none;
 }
-.seed-next-app-screen__dim--transitionStyle_fadeIn {
+.seed-next-app-screen__dim--transitionStyle_crossfade {
     display: none;
 }
-.seed-next-app-screen__layer--transitionStyle_fadeIn {
+.seed-next-app-screen__layer--transitionStyle_crossfade {
     transition: opacity 300ms ease-out;
 }
-[data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__layer--transitionStyle_fadeIn {
+[data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__layer--transitionStyle_crossfade {
     opacity: 0;
 }
-[data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_fadeIn {
+[data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_crossfade {
     opacity: 0;
     transition-duration: 150ms;
     transition-timing-function: ease-in;
 }
-.seed-next-app-screen__edge--transitionStyle_fadeIn {
+.seed-next-app-screen__edge--transitionStyle_crossfade {
     display: none;
 }
 .seed-next-app-screen__content--contentOffsetTop_safeArea {

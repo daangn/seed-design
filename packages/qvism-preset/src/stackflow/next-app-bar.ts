@@ -86,7 +86,7 @@ export const nextAppBarMain = defineSlotRecipe({
     transitionStyle: {
       horizontalSlide: {},
       verticalSlide: {},
-      fadeIn: {},
+      crossfade: {},
     },
     tone: {
       layer: {
@@ -228,7 +228,7 @@ export const nextAppBar = defineSlotRecipe({
     transitionStyle: {
       horizontalSlide: {},
       verticalSlide: {},
-      fadeIn: {},
+      crossfade: {},
     },
     tone: {
       layer: {
