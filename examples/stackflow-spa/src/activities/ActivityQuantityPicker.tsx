@@ -9,8 +9,8 @@ import {
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { QuantityPicker } from "seed-design/ui/quantity-picker";
-import { HStack, Text, VStack } from "@seed-design/react";
-import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import { Field, HStack, PrefixIcon, Text, VStack } from "@seed-design/react";
+import { IconExclamationmarkCircleFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 
@@ -43,9 +43,11 @@ function QuantityPickerCase({ title, description, children }: QuantityPickerCase
 const ActivityQuantityPicker: StaticActivityComponentType<"ActivityQuantityPicker"> = () => {
   const { push } = useFlow();
   const [controlledValue, setControlledValue] = React.useState(2);
+  const [fieldValue, setFieldValue] = React.useState(10);
   const [removableValue, setRemovableValue] = React.useState(1);
   const [isRemoved, setIsRemoved] = React.useState(false);
   const [submittedValue, setSubmittedValue] = React.useState<number | null>(null);
+  const isFieldValueInvalid = fieldValue === 11;
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -202,6 +204,39 @@ const ActivityQuantityPicker: StaticActivityComponentType<"ActivityQuantityPicke
                 getValueText={(value) => `${value}개`}
               />
             </HStack>
+          </QuantityPickerCase>
+
+          <QuantityPickerCase
+            title="Field 통합"
+            description="11개를 선택하면 Field와 Quantity Picker에 오류 상태를 함께 표시합니다."
+          >
+            <Field.Root required invalid={isFieldValueInvalid}>
+              <Field.Header>
+                <Field.Label>
+                  구매 수량
+                  <Field.RequiredIndicator />
+                </Field.Label>
+              </Field.Header>
+              <QuantityPicker
+                min={1}
+                max={99}
+                value={fieldValue}
+                onValueChange={setFieldValue}
+                invalid={isFieldValueInvalid}
+                aria-label="구매 수량"
+                getValueText={(value) => `${value}개`}
+              />
+              <Field.Footer>
+                {isFieldValueInvalid ? (
+                  <Field.ErrorMessage>
+                    <PrefixIcon svg={<IconExclamationmarkCircleFill />} />
+                    11개는 구매할 수 없어요.
+                  </Field.ErrorMessage>
+                ) : (
+                  <Field.Description>11개를 제외한 수량을 선택할 수 있습니다.</Field.Description>
+                )}
+              </Field.Footer>
+            </Field.Root>
           </QuantityPickerCase>
 
           <QuantityPickerCase
