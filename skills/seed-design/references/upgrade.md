@@ -131,7 +131,7 @@ changelog 섹션 형식: `## {version}` 아래 `### Major Changes` / `### Minor 
 
 ```md
 @seed-design/react: {버전} = 최신. 업그레이드 불필요.
-(다른 패키지도 확인하려면 `compat --all`)
+(설치된 스니펫 외에 모든 registry 항목까지 검사하려면 `compat --all`)
 ```
 
 **C. 다패키지** — 패키지별 요약 테이블 + 통합 breaking + 단계별 경로
@@ -145,6 +145,8 @@ changelog 섹션 형식: `## {version}` 아래 `### Major Changes` / `### Minor 
 
 ### Step 8: 업그레이드 안내
 
+1단계에서 감지한 패키지 매니저에 맞춰 안내합니다 (아래는 bun 예시).
+
 ```bash
 bun add @seed-design/react@{목표} @seed-design/css@{목표}
 ```
@@ -157,7 +159,7 @@ bun add @seed-design/react@{목표} @seed-design/css@{목표}
 | --- | --- |
 | `compat --json` | 설치된 패키지들의 peer 호환 진단(구조화 출력) |
 | `compat --with {pkg}@{ver}` | 가정한 버전 조합의 호환을 미리 검증 |
-| `compat --all` | 스니펫 호환까지 포함 |
+| `compat --all` | 설치 여부와 무관하게 모든 registry 항목의 스니펫 호환 검사 |
 | `docs react/updates/changelog/{slug}/{ver} --raw` | from 버전 이후 changelog |
 | `docs react/updates/changelog/{slug} --raw` | 버전 인덱스(버전 목록) |
 | `docs react/updates/changelog --raw` | 전체 changelog(모든 패키지) |
@@ -178,7 +180,7 @@ SDK·공유 라이브러리는 `/react/library-authors` 문서의 기준을 함�
 - `@seed-design/*`는 `peerDependencies`로 선언하고 `dependencies`에 넣지 않습니다.
 - 빌드 결과물에 `@seed-design/*`를 포함하지 않도록 external 처리합니다.
 - 라이브러리 코드에서 `@seed-design/css/*.css`를 직접 import하지 않습니다.
-- SEED 2.0 transition에서는 검증 후 `~1.x || ^2.0.0` 같은 dual-compat 범위로 프로젝트 전환을 막지 않도록 합니다.
+- SEED 2.0 transition에서는 검증 후 `~1.2.0 || ^2.0.0` 같은 dual-compat 범위로 프로젝트 전환을 막지 않도록 합니다. 1.x 구간은 minor에 breaking이 있을 수 있어 caret(`^1.2.0`)이 아니라 tilde를 씁니다.
 
 ## 다패키지 진단
 

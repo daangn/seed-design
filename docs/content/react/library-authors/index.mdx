@@ -79,15 +79,21 @@ Seed는 [**2.0을 분기점**으로 버저닝 정책](/react/updates/upgrade#버
 
 </Callout>
 
-검증된 구간이 여러 개라면 OR(`||`)로 연결해 범위를 넓힐 수 있어요. 실제로 `@seed-design/stackflow`는 아래처럼 선언하고 있어요.
+검증된 구간이 여러 개라면 OR(`||`)로 연결해 범위를 넓힐 수 있어요. 예를 들어 1.2 구간과 2.0 이상을 함께 지원한다면 이렇게 선언해요.
 
 ```json title="package.json"
 {
   "peerDependencies": {
-    "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11"
+    "@seed-design/css": "~1.2.0 || ^2.0.0"
   }
 }
 ```
+
+<Callout type="warn">
+
+OR로 넓힐 때도 각 구간에 **상한**을 두세요. `>=1.2.11`처럼 상한이 없으면 아직 검증하지 않은 미래 major까지 받아들이겠다는 선언이 돼요.
+
+</Callout>
 
 **react와 css는 각각 선언해요.** `@seed-design/react`는 [css를 런타임 기반으로 사용](/react/updates/upgrade#호환성-react--css)하므로, css를 peer에서 빠뜨리면 프로젝트가 호환되지 않는 css를 설치해도 막을 수 없어요. 또 두 패키지의 major는 독립적으로 올라갈 수 있어서(css 변경 없이 react만 major가 되는 경우 등), `^2` 한 묶음으로 가정하지 말고 각 패키지의 범위를 따로 검증해 선언해요.
 
@@ -251,7 +257,13 @@ B(한 코드베이스로 1.x·2.0 동시 지원)는 컴포넌트가 양쪽에 �
 
 </Callout>
 
-라이브러리 공개 API나 런타임 로직에서 이 경로를 직접 사용하면, 프로젝트의 Seed minor·patch 업그레이드만으로도 깨질 수 있어요. 필요한 스타일은 공개 컴포넌트, recipe, CSS variable, 또는 foundation token을 우선 사용해주세요.
+라이브러리 공개 API나 런타임 로직에서 이 경로를 직접 사용하면, 프로젝트의 Seed minor·patch 업그레이드만으로도 깨질 수 있어요. 필요한 스타일은 공개 컴포넌트와 recipe 클래스를 쓰거나, 값이 직접 필요하면 [디자인 토큰](/docs/foundation/color/color-system)(`@seed-design/css/vars`)에서 찾아 쓰세요.
+
+<Callout type="warn">
+
+컴포넌트 내부 CSS 변수(`--seed-action-button-*` 등)도 같은 `--seed-` 접두사를 갖지만 이건 공개 표면이 아니에요. 버튼 배경색이 필요하다면 버튼의 내부 변수를 꺼내 쓰지 말고, 같은 값을 디자인 토큰(`fg`/`bg`/`palette`)에서 찾아 쓰세요.
+
+</Callout>
 
 ## 스니펫을 라이브러리에 설치할 때
 

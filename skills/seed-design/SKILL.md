@@ -1,6 +1,6 @@
 ---
 name: seed-design
-description: SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs/upgrade), 스니펫 버전 호환성, 업그레이드 진단까지 커버. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업" 같은 질문을 하면 반드시 이 스킬을 로드한다.
+description: SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs), 스니펫 버전 호환성, 업그레이드 진단까지 커버. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업" 같은 질문을 하면 반드시 이 스킬을 로드한다.
 user-invocable: true
 argument-hint: "[질문 또는 주제]"
 ---
@@ -88,7 +88,7 @@ npx @seed-design/cli@latest docs {component-name}
 # 출력:
 # - docs: https://seed-design.io/react/components/action-button
 # - llms.txt: https://seed-design.io/llms/react/components/action-button.txt
-# - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/ui/action-button.tsx
+# - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/react/ui/action-button.tsx
 ```
 
 ## Reference Files
