@@ -46,6 +46,7 @@ const ActivityQuantityPicker: StaticActivityComponentType<"ActivityQuantityPicke
   const [fieldValue, setFieldValue] = React.useState(10);
   const [removableValue, setRemovableValue] = React.useState(1);
   const [isRemoved, setIsRemoved] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [submittedValue, setSubmittedValue] = React.useState<number | null>(null);
   const isFieldValueInvalid = fieldValue === 11;
 
@@ -152,14 +153,17 @@ const ActivityQuantityPicker: StaticActivityComponentType<"ActivityQuantityPicke
 
           <QuantityPickerCase
             title="Loading"
-            description="전체 action과 Increment action의 loading 상태를 각각 확인합니다."
+            description="버튼으로 전체 action과 Increment action의 loading 상태를 각각 확인합니다."
           >
             <HStack gap="x3" align="center" wrap="wrap">
+              <ActionButton variant="neutralWeak" onClick={() => setIsLoading((value) => !value)}>
+                {isLoading ? "로딩 해제" : "로딩 시작"}
+              </ActionButton>
               <QuantityPicker
                 min={1}
                 max={99}
                 defaultValue={2}
-                loading
+                loading={isLoading}
                 aria-label="전체 로딩 수량"
                 getValueText={(value) => `${value}개`}
               />
@@ -167,7 +171,7 @@ const ActivityQuantityPicker: StaticActivityComponentType<"ActivityQuantityPicke
                 min={1}
                 max={99}
                 defaultValue={2}
-                loading={{ increment: true }}
+                loading={{ increment: isLoading }}
                 aria-label="증가 로딩 수량"
                 getValueText={(value) => `${value}개`}
               />
