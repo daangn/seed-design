@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { createContext, forwardRef, useContext } from "react";
+import { restoreDefaultProps } from "./restoreDefaultProps";
 
 type SlotRecipe<
   Props extends Record<string, string | boolean | undefined>,
@@ -56,16 +57,7 @@ export function createSlotRecipeContext<
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         React.HTMLAttributes<HTMLElement>;
 
-      // Explicit `undefined` should not override component-level defaults.
-      if (defaultProps) {
-        const propsWithDefaults = props as Record<string, unknown>;
-
-        for (const key of Object.keys(defaultProps)) {
-          if (propsWithDefaults[key] === undefined) {
-            propsWithDefaults[key] = defaultProps[key as keyof P];
-          }
-        }
-      }
+      restoreDefaultProps(props as Record<string, unknown>, defaultProps);
 
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const classNames = recipe(variantProps); // TODO: should we memoize this?
@@ -95,6 +87,9 @@ export function createSlotRecipeContext<
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         React.HTMLAttributes<HTMLElement>;
+
+      restoreDefaultProps(props as Record<string, unknown>, defaultProps);
+
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const classNames = recipe(variantProps); // TODO: should we memoize this?
       const className = classNames[slot as keyof typeof classNames];

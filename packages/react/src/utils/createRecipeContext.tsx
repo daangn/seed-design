@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { createContext, forwardRef, useContext } from "react";
+import { restoreDefaultProps } from "./restoreDefaultProps";
 
 type Recipe<Props extends Record<string, string | boolean | undefined>> = ((
   props?: Props,
@@ -31,6 +32,9 @@ export function createRecipeContext<Props extends Record<string, string | boolea
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         React.HTMLAttributes<HTMLElement>;
+
+      restoreDefaultProps(props as Record<string, unknown>, defaultProps);
+
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const className = recipe(variantProps); // TODO: should we memoize this?
 

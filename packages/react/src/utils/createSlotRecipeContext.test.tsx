@@ -27,8 +27,14 @@ const testRecipe = Object.assign(
   },
 );
 
-const { PropsProvider, withRootProvider } = createSlotRecipeContext(testRecipe);
+const { PropsProvider, withProvider, withRootProvider } = createSlotRecipeContext(testRecipe);
 const Root = withRootProvider<TestRecipeProps>(() => null, {
+  defaultProps: {
+    lazyMount: true,
+    unmountOnExit: true,
+  },
+});
+const Slot = withProvider<unknown, TestRecipeProps>(() => null, "root", {
   defaultProps: {
     lazyMount: true,
     unmountOnExit: true,
@@ -65,6 +71,21 @@ describe("createSlotRecipeContext", () => {
       expect(receivedProps).toMatchObject({
         lazyMount: false,
         unmountOnExit: false,
+      });
+    });
+  });
+
+  describe("withProvider", () => {
+    it("restores default props overwritten with undefined context props", () => {
+      render(
+        <PropsProvider value={{ lazyMount: undefined, unmountOnExit: undefined }}>
+          <Slot />
+        </PropsProvider>,
+      );
+
+      expect(receivedProps).toMatchObject({
+        lazyMount: true,
+        unmountOnExit: true,
       });
     });
   });
