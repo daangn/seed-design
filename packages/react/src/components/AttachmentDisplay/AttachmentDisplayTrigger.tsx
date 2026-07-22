@@ -14,7 +14,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { InternalIcon } from "../private/Icon";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withElementSizeVars } from "../../utils/elementSizeVars";
+import { withPressScale } from "../../utils/pressScale";
 
 const { withProvider, useClassNames } = createSlotRecipeContext(attachmentInputTrigger);
 
@@ -23,7 +23,7 @@ export interface AttachmentDisplayTriggerProps
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const AttachmentDisplayTrigger = withElementSizeVars(
+export const AttachmentDisplayTrigger = withPressScale(
   withProvider<HTMLButtonElement, AttachmentDisplayTriggerProps>(
     AttachmentDisplayPrimitive.Trigger,
     "root",

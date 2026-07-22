@@ -9,10 +9,10 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef } from "react";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { useElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale } from "../../utils/pressScale";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(accordion);
@@ -55,12 +55,12 @@ export interface AccordionTriggerProps extends AccordionPrimitive.TriggerProps {
 export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   ({ className, children, ...props }, ref) => {
     const classNames = useClassNames();
-    const { sizeVarsRef } = useElementSizeVars();
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
       <AccordionPrimitive.Trigger
-        ref={composeRefs(sizeVarsRef, ref)}
-        className={clsx(classNames.trigger, className)}
+        ref={useComposedRefs(pressScaleRef, ref)}
+        className={clsx(classNames.trigger, pressScaleClassName, className)}
         {...props}
       >
         {/* layout layer — scales the trigger's content as a whole on press while the

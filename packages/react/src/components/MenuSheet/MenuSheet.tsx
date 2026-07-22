@@ -6,9 +6,9 @@ import {
   type MenuSheetItemVariantProps,
 } from "@seed-design/css/recipes/menu-sheet-item";
 import * as React from "react";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { useElementSizeVars, withElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale, withPressScale } from "../../utils/pressScale";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
@@ -236,13 +236,13 @@ export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemPr
 
     const classNames = menuSheetItem({ ...parentProps, ...variantProps });
     const { stateProps } = useDialogContext();
-    const { sizeVarsRef } = useElementSizeVars();
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
       <ItemClassNamesProvider value={classNames}>
         <Primitive.button
-          ref={composeRefs(sizeVarsRef, ref)}
-          className={clsx(classNames.root, propClassName)}
+          ref={useComposedRefs(pressScaleRef, ref)}
+          className={clsx(classNames.root, pressScaleClassName, propClassName)}
           {...stateProps}
           {...otherProps}
         >
@@ -330,7 +330,7 @@ export interface MenuSheetCloseButtonProps extends DialogPrimitive.CloseButtonPr
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
-export const MenuSheetCloseButton = withElementSizeVars(
+export const MenuSheetCloseButton = withPressScale(
   withContext<HTMLDivElement, MenuSheetCloseButtonProps>(
     DialogPrimitive.CloseButton,
     "closeButton",

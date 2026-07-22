@@ -3,7 +3,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { helpBubble, type HelpBubbleVariantProps } from "@seed-design/css/recipes/help-bubble";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withElementSizeVars } from "../../utils/elementSizeVars";
+import { withPressScale } from "../../utils/pressScale";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 import { getHelpBubbleArrowTipPath } from "../../utils/getHelpBubbleArrowTipPath";
@@ -138,7 +138,7 @@ HelpBubbleArrowTip.displayName = "HelpBubbleArrowTip";
 
 export interface HelpBubbleCloseButtonProps extends PopoverPrimitive.CloseButtonProps {}
 
-export const HelpBubbleCloseButton = withElementSizeVars(
+export const HelpBubbleCloseButton = withPressScale(
   withContext<HTMLButtonElement, HelpBubbleCloseButtonProps>(
     PopoverPrimitive.CloseButton,
     "closeButton",

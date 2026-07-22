@@ -14,10 +14,10 @@ import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-r
 import { mergeProps } from "@seed-design/dom-utils";
 import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 import * as React from "react";
-import { useElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale } from "../../utils/pressScale";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import type { DistributiveOmit } from "../../utils/styled";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
@@ -251,13 +251,13 @@ export const ImageFrameReactionButton = React.forwardRef<
   ImageFrameReactionButtonProps
 >(({ className, ...rest }, ref) => {
   const classNames = imageFrameReactionButton();
-  const { sizeVarsRef } = useElementSizeVars();
+  const { pressScaleRef, pressScaleClassName } = usePressScale();
 
   return (
     <ImageFrameReactionButtonClassNamesProvider value={classNames}>
       <TogglePrimitive.Root
-        ref={composeRefs(sizeVarsRef, ref)}
-        className={clsx(classNames.root, className)}
+        ref={useComposedRefs(pressScaleRef, ref)}
+        className={clsx(classNames.root, pressScaleClassName, className)}
         {...rest}
       >
         <ReactionButtonIcon />

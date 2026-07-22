@@ -2,11 +2,11 @@ import {
   actionButton,
   type ActionButtonVariantProps,
 } from "@seed-design/css/recipes/action-button";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { useElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale } from "../../utils/pressScale";
 import { handleColor, useStyleProps, type StyleProps } from "../../utils/styled";
 import { IconRequired } from "../Icon/Icon";
 import {
@@ -60,7 +60,7 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
     const recipeClassName = actionButton({ variant, layout, size });
     const api = usePendingButton({ loading, disabled: otherProps.disabled });
     const { style, restProps } = useStyleProps(otherProps);
-    const { sizeVarsRef } = useElementSizeVars();
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     if (layout === "iconOnly" && !(otherProps["aria-label"] || otherProps["aria-labelledby"])) {
       console.warn(
@@ -72,8 +72,8 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
       <PendingButtonProvider value={api}>
         <IconRequired enabled={layout === "iconOnly"}>
           <Primitive.button
-            ref={composeRefs(sizeVarsRef, ref)}
-            className={clsx(recipeClassName, className)}
+            ref={useComposedRefs(pressScaleRef, ref)}
+            className={clsx(recipeClassName, pressScaleClassName, className)}
             // NOTE: Should we handle color as a style prop?
             style={
               {

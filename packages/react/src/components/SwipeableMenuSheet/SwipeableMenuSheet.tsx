@@ -8,9 +8,9 @@ import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { useElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale } from "../../utils/pressScale";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(menuSheet);
@@ -207,13 +207,13 @@ export const SwipeableMenuSheetItem = React.forwardRef<
   const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
   const parentProps = useItemProps();
   const classNames = menuSheetItem({ ...parentProps, ...variantProps });
-  const { sizeVarsRef } = useElementSizeVars();
+  const { pressScaleRef, pressScaleClassName } = usePressScale();
 
   return (
     <ItemClassNamesProvider value={classNames}>
       <Primitive.button
-        ref={composeRefs(sizeVarsRef, ref)}
-        className={clsx(classNames.root, propClassName)}
+        ref={useComposedRefs(pressScaleRef, ref)}
+        className={clsx(classNames.root, pressScaleClassName, propClassName)}
         {...otherProps}
       >
         {/* layout layer — scales as a whole on press while the pressed background

@@ -1,4 +1,4 @@
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import { selectBox, type SelectBoxVariantProps } from "@seed-design/css/recipes/select-box";
 import {
   selectBoxCheckmark,
@@ -26,7 +26,7 @@ import {
   type PropsWithChildren,
 } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { useElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale } from "../../utils/pressScale";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
@@ -132,13 +132,13 @@ export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRoo
         </FooterVisibilityProvider>
       );
 
-    const { sizeVarsRef } = useElementSizeVars();
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
       <ClassNamesProvider value={classNames}>
         <CheckboxPrimitive.Root
-          ref={composeRefs(sizeVarsRef, ref)}
-          className={clsx(classNames.root, className)}
+          ref={useComposedRefs(pressScaleRef, ref)}
+          className={clsx(classNames.root, pressScaleClassName, className)}
           {...otherProps}
         >
           {/* inner layer — scales trigger + footer as one unit on press while the

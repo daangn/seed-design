@@ -6,10 +6,10 @@ import { menuItem, type MenuItemVariantProps } from "@seed-design/css/recipes/me
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { useElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale } from "../../utils/pressScale";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { ClassNamesProvider, withContext, useClassNames } = createSlotRecipeContext(menu);
@@ -116,13 +116,13 @@ export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
     const parentProps = useItemProps();
 
     const classNames = menuItem({ ...parentProps, ...variantProps });
-    const { sizeVarsRef } = useElementSizeVars();
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
       <ItemClassNamesProvider value={classNames}>
         <MenuPrimitive.Item
-          ref={composeRefs(sizeVarsRef, ref)}
-          className={clsx(classNames.root, propClassName)}
+          ref={useComposedRefs(pressScaleRef, ref)}
+          className={clsx(classNames.root, pressScaleClassName, propClassName)}
           {...otherProps}
         >
           {/* layout layer — scales as a whole on press while the pressed background

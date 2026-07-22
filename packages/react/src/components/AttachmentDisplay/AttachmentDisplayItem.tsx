@@ -4,7 +4,7 @@ import {
   attachmentInputItem,
   type AttachmentInputItemVariantProps,
 } from "@seed-design/css/recipes/attachment-input-item";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import {
   AttachmentDisplay as AttachmentDisplayPrimitive,
@@ -18,7 +18,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { useElementSizeVars, withElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale, withPressScale } from "../../utils/pressScale";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -45,15 +45,15 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
     });
 
     const classNames = attachmentInputItem(variantProps);
-    const { sizeVarsRef } = useElementSizeVars();
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
       <ClassNamesProvider value={classNames}>
         <AttachmentDisplayItemProvider value={api}>
           <overlayTracker.Provider>
             <Primitive.li
-              ref={composeRefs(sizeVarsRef, ref)}
-              className={clsx(classNames.root, className)}
+              ref={useComposedRefs(pressScaleRef, ref)}
+              className={clsx(classNames.root, pressScaleClassName, className)}
               {...stateProps}
               {...otherProps}
             />
@@ -183,13 +183,13 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   AttachmentDisplayItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
-  const { sizeVarsRef } = useElementSizeVars();
+  const { pressScaleRef, pressScaleClassName } = usePressScale();
 
   return (
     <Primitive.button
       type="button"
-      ref={composeRefs(sizeVarsRef, ref)}
-      className={clsx(classNames.actionButton, className)}
+      ref={useComposedRefs(pressScaleRef, ref)}
+      className={clsx(classNames.actionButton, pressScaleClassName, className)}
       {...props}
     />
   );
@@ -201,7 +201,7 @@ AttachmentDisplayItemActionButton.displayName = "AttachmentDisplayItemActionButt
 export interface AttachmentDisplayItemRemoveButtonProps
   extends AttachmentDisplayPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentDisplayItemRemoveButton = withElementSizeVars(
+export const AttachmentDisplayItemRemoveButton = withPressScale(
   withContext<HTMLButtonElement, AttachmentDisplayItemRemoveButtonProps>(
     AttachmentDisplayPrimitive.ItemRemoveButton,
     "removeButton",

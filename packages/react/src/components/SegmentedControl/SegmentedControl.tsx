@@ -6,9 +6,9 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { SegmentedControl as SegmentedControlPrimitive } from "@seed-design/react-segmented-control";
 import clsx from "clsx";
 import { forwardRef } from "react";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { useElementSizeVars } from "../../utils/elementSizeVars";
+import { usePressScale } from "../../utils/pressScale";
 import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(segmentedControl);
@@ -36,12 +36,12 @@ export interface SegmentedControlItemProps extends SegmentedControlPrimitive.Ite
 export const SegmentedControlItem = forwardRef<HTMLLabelElement, SegmentedControlItemProps>(
   ({ className, children, ...props }, ref) => {
     const classNames = useClassNames();
-    const { sizeVarsRef } = useElementSizeVars();
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
       <SegmentedControlPrimitive.Item
-        ref={composeRefs(sizeVarsRef, ref)}
-        className={clsx(classNames.item, className)}
+        ref={useComposedRefs(pressScaleRef, ref)}
+        className={clsx(classNames.item, pressScaleClassName, className)}
         {...props}
       >
         {/* layout layer — scales the item's content as a whole on press while the
