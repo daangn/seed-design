@@ -35,7 +35,7 @@ function fireTransitionEnd(el: HTMLElement) {
 
 interface SwipeSetupOptions {
   swipeBackArea?: "edge" | "full" | "none";
-  transitionStyle?: "horizontalSlide" | "verticalSlide" | "fadeIn";
+  transitionStyle?: "horizontalSlide" | "verticalSlide" | "crossfade";
   onSwipeBackStart?: () => void;
   onSwipeBackMove?: (props: { displacement: number; displacementRatio: number }) => void;
   onSwipeBackEnd?: (props: { swiped: boolean }) => void;

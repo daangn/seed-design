@@ -1,4 +1,4 @@
-export type NextAppScreenTransitionStyle = "horizontalSlide" | "verticalSlide" | "fadeIn";
+export type NextAppScreenTransitionStyle = "horizontalSlide" | "verticalSlide" | "crossfade";
 
 /**
  * Per-screen transition state, derived in React from the activity's own
