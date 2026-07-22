@@ -31,20 +31,20 @@ describe("transitionStyle 결정", () => {
 
   it("화면 단위 prop이 테마 기본값을 override한다", async () => {
     const { container } = renderStack({
-      activities: { A: makeActivity({ testId: "a", transitionStyle: "fadeIn" }) },
+      activities: { A: makeActivity({ testId: "a", transitionStyle: "crossfade" }) },
       initialActivity: "A",
       theme: "cupertino",
     });
     await settle(container);
 
-    expect(getScreen(container, "a").dataset["screenTransitionStyle"]).toBe("fadeIn");
+    expect(getScreen(container, "a").dataset["screenTransitionStyle"]).toBe("crossfade");
   });
 
   it("behind 화면 스타일은 top 화면의 transitionStyle을 따라간다", async () => {
     const { container, push, pop } = renderStack({
       activities: {
         A: makeActivity({ testId: "a" }), // horizontalSlide (cupertino 기본값)
-        B: makeActivity({ testId: "b", transitionStyle: "fadeIn" }),
+        B: makeActivity({ testId: "b", transitionStyle: "crossfade" }),
       },
       initialActivity: "A",
       theme: "cupertino",
@@ -52,10 +52,10 @@ describe("transitionStyle 결정", () => {
     await push("B");
     await settle(container);
 
-    // A는 자기 스타일(horizontalSlide)이 아니라 top(B)의 fadeIn을 따라가야 한다
+    // A는 자기 스타일(horizontalSlide)이 아니라 top(B)의 crossfade를 따라가야 한다
     const behind = getScreen(container, "a");
-    expect(behind.dataset["screenTransitionStyle"]).toBe("fadeIn");
-    expect(getPart(behind, "screen-layer")?.className).toContain("transitionStyle_fadeIn");
+    expect(behind.dataset["screenTransitionStyle"]).toBe("crossfade");
+    expect(getPart(behind, "screen-layer")?.className).toContain("transitionStyle_crossfade");
     expect(getPart(behind, "screen-layer")?.className).not.toContain(
       "transitionStyle_horizontalSlide",
     );

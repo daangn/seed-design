@@ -54,7 +54,7 @@ export const nextAppBarVariantMap = {
   "transitionStyle": [
     "horizontalSlide",
     "verticalSlide",
-    "fadeIn"
+    "crossfade"
   ],
   "tone": [
     "layer",
