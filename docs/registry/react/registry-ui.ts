@@ -359,6 +359,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "quantity-picker",
+      snippets: [
+        {
+          path: "quantity-picker.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+        },
+      ],
+    },
+    {
       id: "radio-group",
       snippets: [
         {

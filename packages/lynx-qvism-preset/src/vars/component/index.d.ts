@@ -57,6 +57,8 @@ export { vars as menu } from "./menu";
 export { vars as notificationBadge } from "./notification-badge";
 export { vars as pageBanner } from "./page-banner";
 export { vars as progressCircle } from "./progress-circle";
+export { vars as quantityPickerButton } from "./quantity-picker-button";
+export { vars as quantityPicker } from "./quantity-picker";
 export { vars as radioGroup } from "./radio-group";
 export { vars as radio } from "./radio";
 export { vars as radiomark } from "./radiomark";
