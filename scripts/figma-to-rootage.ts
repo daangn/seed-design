@@ -495,6 +495,9 @@ function resolveStopColor(
   return rgbaToHex(stop.color.r, stop.color.g, stop.color.b, stop.color.a);
 }
 
+/** Figma 스타일에 대응물이 없어 코드가 소유하는 gradient 토큰. figma:sync가 이 키만 보존한다. */
+const CODE_OWNED_GRADIENT_TOKEN_KEYS = new Set(["$gradient.fade-mask"]);
+
 async function generateGradientTokensFromStyles(): Promise<string> {
   const styles = await fetchFigmaStyles();
   const variables = await fetchFigmaVariables();
@@ -574,13 +577,16 @@ async function generateGradientTokensFromStyles(): Promise<string> {
 
   // figma:sync는 gradient.yaml을 통째로 재생성하므로, 병합하지 않으면 Figma 스타일로 존재하지 않는
   // 코드 소유 토큰(예: $gradient.fade-mask)이 사라진다. Figma에 같은 키가 있으면 Figma를 우선하고,
-  // Figma에 없는 키만 기존 파일에서 보존한다.
+  // 아래 목록의 코드 소유 키만 기존 파일에서 보존한다. 나머지는 Figma가 단일 출처이므로,
+  // Figma에서 삭제되거나 이름이 바뀐 토큰은 그대로 산출물에서 빠진다.
   const gradientYamlPath = path.join(import.meta.dirname, "../packages/rootage/gradient.yaml");
   const existingTokens: Record<string, unknown> = fs.existsSync(gradientYamlPath)
     ? (YAML.parse(fs.readFileSync(gradientYamlPath, "utf-8"))?.data?.tokens ?? {})
     : {};
 
-  const preservedTokens = Object.entries(existingTokens).filter(([key]) => !(key in tokens));
+  const preservedTokens = Object.entries(existingTokens).filter(
+    ([key]) => CODE_OWNED_GRADIENT_TOKEN_KEYS.has(key) && !(key in tokens),
+  );
 
   const mergedTokens = Object.fromEntries(
     [...Object.entries(tokens), ...preservedTokens].sort(([a], [b]) => a.localeCompare(b)),
