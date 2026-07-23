@@ -10,11 +10,17 @@ import * as timingFunction from "../vars/timing-function";
  * knows nothing about pressing — it only reports size, and everything specific
  * to this mechanism is derived here:
  *
- *   p = max(height, width / WIDTH_DIVISOR, MIN_PERSPECTIVE)
- *   scale = (p - PRESS_DEPTH) / p
+ *   basis = max(height, width / WIDTH_DIVISOR, MIN_BASIS)
+ *   scale = (basis - PRESS_DEPTH) / basis
  *
- * The pressed size lands exactly PRESS_DEPTH px smaller along the dimension
- * that decided p (first-order variant of react-spectrum S2's p / (p + depth)).
+ * `basis` is the length PRESS_DEPTH is measured against — whichever term wins
+ * shrinks by exactly PRESS_DEPTH px, so height-driven elements always lose 2px
+ * of height and width-driven ones always lose 8px of width.
+ *
+ * This is a first-order variant of react-spectrum S2's `p / (p + depth)`, where
+ * `p` is a literal `perspective()` distance. We compute a plain scale with no 3D
+ * transform involved, so the value is a length to compare against rather than a
+ * viewing distance — hence `basis`, not `perspective`.
  *
  * The three parameters are plain constants rather than tokens on purpose. They
  * describe the shape of the curve for every pressable in the system and in
@@ -35,7 +41,7 @@ import * as timingFunction from "../vars/timing-function";
  * and the element opts in by carrying `PRESS_SCALE_CLASS_NAME`.
  */
 const WIDTH_DIVISOR = 4;
-const MIN_PERSPECTIVE = 24;
+const MIN_BASIS = 24;
 const PRESS_DEPTH = 2;
 
 /**
@@ -53,8 +59,8 @@ export const PRESS_SCALE_CLASS_NAME = "seed-press-scale";
  */
 export const pressScaleGlobalStyles = {
   [`.${PRESS_SCALE_CLASS_NAME}`]: {
-    "--seed-press-scale-perspective": `max(var(--seed-element-height), var(--seed-element-width) / ${WIDTH_DIVISOR}, ${MIN_PERSPECTIVE})`,
-    "--seed-press-scale": `calc((var(--seed-press-scale-perspective) - ${PRESS_DEPTH}) / var(--seed-press-scale-perspective))`,
+    "--seed-press-scale-basis": `max(var(--seed-element-height), var(--seed-element-width) / ${WIDTH_DIVISOR}, ${MIN_BASIS})`,
+    "--seed-press-scale": `calc((var(--seed-press-scale-basis) - ${PRESS_DEPTH}) / var(--seed-press-scale-basis))`,
 
     // Pin the output rather than zeroing a depth parameter: this is declared on
     // the same element as the derivation and after it, so no value a consumer
