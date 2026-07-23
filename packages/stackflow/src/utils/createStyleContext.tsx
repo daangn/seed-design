@@ -8,20 +8,6 @@ type Recipe<
   splitVariantProps: <T extends Props>(props: T) => [Props, Omit<T, keyof Props>];
 };
 
-function restoreDefaultProps<P>(
-  props: Record<string, unknown>,
-  defaultProps: Partial<P> | undefined,
-) {
-  if (!defaultProps) return;
-
-  // Explicit `undefined` should not override component-level defaults.
-  for (const key of Object.keys(defaultProps)) {
-    if (props[key] === undefined) {
-      props[key] = defaultProps[key as keyof P];
-    }
-  }
-}
-
 export function createStyleContext<
   Props extends Record<string, string | boolean | undefined>,
   Classnames extends Record<string, string>,
@@ -69,9 +55,6 @@ export function createStyleContext<
     const StyledComponent = (innerProps: any) => {
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         React.HTMLAttributes<HTMLElement>;
-
-      restoreDefaultProps(props as Record<string, unknown>, defaultProps);
-
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const classNames = recipe(variantProps); // TODO: should we memoize this?
 
@@ -100,9 +83,6 @@ export function createStyleContext<
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         React.HTMLAttributes<HTMLElement>;
-
-      restoreDefaultProps(props as Record<string, unknown>, defaultProps);
-
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const classNames = recipe(variantProps); // TODO: should we memoize this?
       const className = classNames[slot as keyof typeof classNames];
