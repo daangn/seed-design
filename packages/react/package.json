@@ -60,7 +60,6 @@
     "@seed-design/react-primitive": "^2.0.0",
     "@seed-design/react-progress": "^2.0.0",
     "@seed-design/react-pull-to-refresh": "^2.0.0",
-    "@seed-design/react-quantity-picker": "^1.0.0",
     "@seed-design/react-radio-group": "^2.0.0",
     "@seed-design/react-segmented-control": "^2.0.1",
     "@seed-design/react-side-navigation": "^1.0.0",
