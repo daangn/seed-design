@@ -36,7 +36,8 @@
             "strokeTimingFunction": {
               "type": "cubicBezier"
             }
-          }
+          },
+          "description": "pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, trigger와 footer를 감싸는 콘텐츠 레이어만 한 덩어리로 축소됩니다."
         },
         "trigger": {
           "properties": {

@@ -1,6 +1,7 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, trigger와 footer를 감싸는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "cornerRadius": "var(--seed-radius-r3)",
         "color": "var(--seed-color-bg-transparent)",
@@ -52,16 +53,19 @@ export declare const vars: {
       }
     },
     "selected": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, trigger와 footer를 감싸는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "strokeWidth": "2px"
       }
     },
     "enabledSelected": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, trigger와 footer를 감싸는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-contrast)"
       }
     },
     "disabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, trigger와 footer를 감싸는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
@@ -76,6 +80,7 @@ export declare const vars: {
       }
     },
     "enabledPressed": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, trigger와 footer를 감싸는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }

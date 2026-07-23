@@ -1,6 +1,7 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
@@ -12,23 +13,27 @@ export declare const vars: {
    */
   "variantSquare": {
     "enabled": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       }
     },
     "pressed": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "enabledSelected": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "strokeWidth": "0px",
         "strokeColor": "#00000000"
       }
     },
     "disabled": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-disabled)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)"
@@ -48,6 +53,7 @@ export declare const vars: {
    */
   "variantSquareToneBrand": {
     "enabledSelected": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -56,6 +62,7 @@ export declare const vars: {
       }
     },
     "pressedSelected": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
@@ -66,6 +73,7 @@ export declare const vars: {
    */
   "variantSquareToneNeutral": {
     "enabledSelected": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -74,6 +82,7 @@ export declare const vars: {
       }
     },
     "pressedSelected": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
@@ -91,6 +100,7 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
@@ -116,6 +126,7 @@ export declare const vars: {
       }
     },
     "pressedSelected": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-palette-carrot-200)"
       }
@@ -131,6 +142,7 @@ export declare const vars: {
       }
     },
     "pressedSelected": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-palette-gray-200)"
       }
@@ -138,6 +150,7 @@ export declare const vars: {
   },
   "sizeMedium": {
     "enabled": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "size": "var(--seed-dimension-x5)",
         "cornerRadius": "var(--seed-radius-r1)"
@@ -146,6 +159,7 @@ export declare const vars: {
   },
   "sizeLarge": {
     "enabled": {
+      /** pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "size": "var(--seed-dimension-x6)",
         "cornerRadius": "var(--seed-radius-r1)"

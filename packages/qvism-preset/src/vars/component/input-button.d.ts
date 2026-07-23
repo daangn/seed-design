@@ -1,6 +1,7 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
@@ -33,22 +34,26 @@ export declare const vars: {
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
+      /** 콘텐츠 레이어와 별개로 이 슬롯만 따로 축소됩니다. */
       "clearButton": {
         "color": "var(--seed-color-fg-neutral-subtle)"
       }
     },
     "pressed": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "invalid": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "strokeWidth": "2px",
         "strokeColor": "var(--seed-color-stroke-critical-solid)"
       }
     },
     "disabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "color": "var(--seed-color-bg-disabled)"
       },
@@ -72,6 +77,7 @@ export declare const vars: {
       }
     },
     "readonly": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "color": "var(--seed-color-bg-disabled)"
       },
@@ -88,6 +94,7 @@ export declare const vars: {
    */
   "sizeLarge": {
     "enabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "height": "var(--seed-dimension-x13)",
         "gap": "var(--seed-dimension-x2_5)",
@@ -116,6 +123,7 @@ export declare const vars: {
       "suffixIcon": {
         "size": "var(--seed-dimension-x5)"
       },
+      /** 콘텐츠 레이어와 별개로 이 슬롯만 따로 축소됩니다. */
       "clearButton": {
         "size": "22px"
       }
@@ -126,6 +134,7 @@ export declare const vars: {
    */
   "sizeMedium": {
     "enabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색과 stroke는 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "height": "var(--seed-dimension-x10)",
         "gap": "var(--seed-dimension-x2)",
@@ -154,6 +163,7 @@ export declare const vars: {
       "suffixIcon": {
         "size": "var(--seed-dimension-x4)"
       },
+      /** 콘텐츠 레이어와 별개로 이 슬롯만 따로 축소됩니다. */
       "clearButton": {
         "size": "var(--seed-dimension-x4_5)"
       }

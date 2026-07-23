@@ -45,7 +45,7 @@
               "type": "dimension"
             }
           },
-          "description": "pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다."
+          "description": "pressed 시 root 전체가 축소됩니다."
         },
         "label": {
           "properties": {

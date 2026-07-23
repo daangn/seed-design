@@ -32,7 +32,8 @@
             "cornerRadius": {
               "type": "dimension"
             }
-          }
+          },
+          "description": "pressed 시 root가 축소됩니다. 누르는 영역은 Checkbox root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다."
         },
         "icon": {
           "properties": {

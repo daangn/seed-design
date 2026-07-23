@@ -1,6 +1,7 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      /** pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
         "color": "var(--seed-color-palette-gray-600)",
@@ -10,6 +11,7 @@ export declare const vars: {
       },
       "thumb": {
         "cornerRadius": "var(--seed-radius-full)",
+        /** selected 여부에 따른 thumb 크기입니다. pressed 축소는 root에 적용되므로 이 값과 무관합니다. */
         "scale": "0.8",
         "scaleDuration": "var(--seed-duration-d3)",
         "scaleTimingFunction": "var(--seed-timing-function-easing)",
@@ -21,6 +23,7 @@ export declare const vars: {
       }
     },
     "disabled": {
+      /** pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "opacity": "0.38",
         "opacityDuration": "var(--seed-duration-d1)",
@@ -29,6 +32,7 @@ export declare const vars: {
     },
     "selected": {
       "thumb": {
+        /** selected 여부에 따른 thumb 크기입니다. pressed 축소는 root에 적용되므로 이 값과 무관합니다. */
         "scale": "1"
       }
     }
@@ -40,6 +44,7 @@ export declare const vars: {
       }
     },
     "enabledSelected": {
+      /** pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       }
@@ -52,6 +57,7 @@ export declare const vars: {
       }
     },
     "enabledSelected": {
+      /** pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       }
@@ -62,6 +68,7 @@ export declare const vars: {
       }
     },
     "disabledSelected": {
+      /** pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-palette-gray-600)"
       }
@@ -69,6 +76,7 @@ export declare const vars: {
   },
   "size32": {
     "enabled": {
+      /** pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "height": "32px",
         "width": "52px",
@@ -83,6 +91,7 @@ export declare const vars: {
   },
   "size24": {
     "enabled": {
+      /** pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "height": "24px",
         "width": "38px",
@@ -97,6 +106,7 @@ export declare const vars: {
   },
   "size16": {
     "enabled": {
+      /** pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다. */
       "root": {
         "height": "16px",
         "width": "26px",

@@ -7,7 +7,7 @@ data:
   schema:
     slots:
       root:
-        description: pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. 배경 레이어는 좌우 폭이 marginX만큼 줄어들고, 그 위에 요소들이 위치하는 콘텐츠 레이어는 전체가 축소됩니다. 콘텐츠 레이어의 축소 배율은 렌더된 크기로부터 런타임에 계산되어 항상 2px만큼 작아지므로 spec에 값을 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 콘텐츠 레이어는 축소되지 않습니다.
+        description: pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. 배경 레이어는 좌우 폭이 marginX만큼 줄어들고, 그 위에 요소들이 위치하는 콘텐츠 레이어는 전체가 축소됩니다.
         properties:
           paddingY:
             type: dimension
@@ -21,7 +21,7 @@ data:
             type: color
           marginX:
             type: dimension
-            description: 배경 레이어가 좁아지는 폭입니다. 콘텐츠 레이어의 축소와 달리 OS 동작 줄이기 설정의 영향을 받지 않습니다.
+            description: 배경 레이어가 좁아지는 폭입니다.
           cornerRadius:
             type: dimension
           marginDuration:

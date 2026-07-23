@@ -9,6 +9,7 @@ data:
   schema:
     slots:
       root:
+        description: pressed 시 thumb를 포함한 root 전체가 축소됩니다. 누르는 영역은 Switch root 전체이지만 축소되는 것은 이 슬롯뿐입니다. 감싸는 컴포넌트가 이미 자체 pressed 피드백을 주는 경우(List Item 등)에는 축소되지 않습니다.
         properties:
           cornerRadius:
             type: dimension
@@ -52,6 +53,7 @@ data:
             type: dimension
           scale:
             type: number
+            description: selected 여부에 따른 thumb 크기입니다. pressed 축소는 root에 적용되므로 이 값과 무관합니다.
           scaleDuration:
             type: duration
           scaleTimingFunction:

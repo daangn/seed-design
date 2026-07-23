@@ -1,6 +1,7 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색은 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -21,6 +22,7 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색은 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)",
         "marginX": "var(--seed-dimension-x2)",
@@ -47,6 +49,7 @@ export declare const vars: {
    */
   "sizeMedium": {
     "enabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색은 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x3)",
@@ -73,6 +76,7 @@ export declare const vars: {
    */
   "sizeSmall": {
     "enabled": {
+      /** pressed 시 배경 레이어와 콘텐츠 레이어가 별개로 동작합니다. root의 배경색은 그대로 있고, 그 위에 요소들이 위치하는 콘텐츠 레이어만 한 덩어리로 축소됩니다. */
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
