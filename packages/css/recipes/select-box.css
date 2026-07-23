@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     border-radius: var(--seed-radius-r3);
+    --seed-radiomark-press-scale: 1;
     isolation: isolate;
 }
 .seed-select-box__root::before {

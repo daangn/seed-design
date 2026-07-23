@@ -2,6 +2,7 @@
   .seed-select-box__root {
     cursor: pointer;
     border-radius: var(--seed-radius-r3);
+    --seed-radiomark-press-scale: 1;
     isolation: isolate;
     flex-direction: column;
     display: flex;

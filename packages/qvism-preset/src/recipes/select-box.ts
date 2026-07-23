@@ -58,6 +58,13 @@ export const selectBox = defineSlotRecipe({
 
       borderRadius: vars.base.enabled.root.cornerRadius,
 
+      // The shared Radiomark is a pressable in its own right — it derives a scale
+      // from its own size and picks up `data-active` from the radio item, so
+      // inside a card that already scales it would shrink twice over. The card's
+      // own scale is the press feedback; the mark rides along with it.
+      // The card's checkmark has its own recipe with no scale, so it needs nothing.
+      "--seed-radiomark-press-scale": "1",
+
       // The card scales as a whole on press; the background, stroke and selected
       // border live on the two pseudos and cancel that scale, so they stay put
       // while trigger and footer shrink together.
