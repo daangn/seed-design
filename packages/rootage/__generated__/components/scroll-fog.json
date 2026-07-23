@@ -11,12 +11,6 @@
       "slots": {
         "root": {
           "properties": {
-            "fromColor": {
-              "type": "color"
-            },
-            "toColor": {
-              "type": "color"
-            },
             "size": {
               "type": "dimension"
             }
@@ -35,14 +29,6 @@
             ],
             "slots": {
               "root": {
-                "fromColor": {
-                  "type": "color",
-                  "value": "#00000000"
-                },
-                "toColor": {
-                  "type": "color",
-                  "value": "#000000ff"
-                },
                 "size": {
                   "type": "dimension",
                   "value": {
