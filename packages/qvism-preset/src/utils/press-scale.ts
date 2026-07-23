@@ -47,6 +47,15 @@ import * as timingFunction from "../vars/timing-function";
  * pseudo with `createPressScaleCounter*Styles`. The size vars are unitless, so
  * the inverse is an exact `number / number` and the two scales multiply back to
  * 1 with no rounding drift.
+ *
+ * One constraint comes with that: the scaling element and its ancestors must not
+ * clip at the counter-scaled layer's edges. `overflow` clips in the clipping
+ * element's *untransformed* coordinate space, so a layer scaled back up by
+ * 1/scale is a couple of percent larger than the clip box and loses its outer
+ * edge — which is exactly where an `inset` stroke sits, so the stroke disappears
+ * for as long as the press lasts while the background looks unaffected. If a
+ * component genuinely needs the clip, it cannot use the counter-scale and should
+ * scale as a whole instead.
  */
 const WIDTH_DIVISOR = 4;
 const MIN_BASIS = 24;

@@ -58,11 +58,16 @@ export const selectBox = defineSlotRecipe({
 
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      overflow: "hidden",
-
       // The card scales as a whole on press; the background, stroke and selected
       // border live on the two pseudos and cancel that scale, so they stay put
       // while trigger and footer shrink together.
+      //
+      // No `overflow: hidden` here: it would clip in this element's untransformed
+      // coordinate space, cutting the outer edge off the counter-scaled pseudos —
+      // and the inset stroke lives exactly on that edge, so it vanished while
+      // pressed. Nothing needs the clip anyway; trigger and footer paint no
+      // background or border, and both pseudos round themselves via
+      // `border-radius: inherit`. The collapsible footer clips itself.
       isolation: "isolate",
 
       "&::before": {
@@ -139,10 +144,19 @@ export const selectBox = defineSlotRecipe({
 
       flexGrow: 1,
 
+      // Every box between the card and its text is a flex item, and a flex item's
+      // automatic minimum size refuses to go below min-content — one long
+      // unbreakable token would otherwise push the whole chain wider than the
+      // card. The group's grid track is already `minmax(0, 1fr)`, so the card
+      // itself cannot grow; without these the text just escapes it.
+      minWidth: 0,
+
       "--seed-focus-ring": "none",
     },
     content: {
       display: "flex",
+
+      minWidth: 0,
 
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,
@@ -161,6 +175,8 @@ export const selectBox = defineSlotRecipe({
 
       gap: vars.base.enabled.body.gap,
 
+      minWidth: 0,
+
       marginRight: "auto",
     },
     label: {
@@ -168,6 +184,14 @@ export const selectBox = defineSlotRecipe({
       alignItems: "center",
       gap: vars.base.enabled.label.gap,
       justifyContent: "flex-start",
+
+      minWidth: 0,
+
+      // `anywhere`, not `break-word`: the label is itself a flex container, so its
+      // text sits in an anonymous flex item that will not shrink below min-content
+      // either. Only `anywhere` lowers min-content, which is what actually lets the
+      // token break instead of overflowing the card.
+      overflowWrap: "anywhere",
 
       color: vars.base.enabled.label.color,
 
@@ -180,6 +204,10 @@ export const selectBox = defineSlotRecipe({
       },
     },
     description: {
+      // A plain block, so it already shrinks to its container — this only decides
+      // what happens to a token too long to fit on a line of its own.
+      overflowWrap: "anywhere",
+
       color: vars.base.enabled.description.color,
 
       fontSize: vars.base.enabled.description.fontSize,
