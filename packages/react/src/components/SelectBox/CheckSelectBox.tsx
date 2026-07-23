@@ -123,15 +123,6 @@ export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRoo
       ...variantProps,
     });
 
-    const content =
-      footerVisibility === "always" ? (
-        children
-      ) : (
-        <FooterVisibilityProvider footerVisibility={footerVisibility}>
-          {children}
-        </FooterVisibilityProvider>
-      );
-
     const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
@@ -141,11 +132,13 @@ export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRoo
           className={clsx(classNames.root, pressScaleClassName, className)}
           {...otherProps}
         >
-          {/* inner layer — scales trigger + footer as one unit on press while the
-              pressed background stays on root. asChild replaces the root element
-              with the consumer's child, so skip the layer (no pressed scale)
-              instead of breaking Slot's contract. */}
-          {otherProps.asChild ? content : <div className={classNames.inner}>{content}</div>}
+          {footerVisibility === "always" ? (
+            children
+          ) : (
+            <FooterVisibilityProvider footerVisibility={footerVisibility}>
+              {children}
+            </FooterVisibilityProvider>
+          )}
         </CheckboxPrimitive.Root>
       </ClassNamesProvider>
     );

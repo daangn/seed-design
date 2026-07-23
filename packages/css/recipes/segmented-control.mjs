@@ -13,10 +13,6 @@ const segmentedControlSlotNames = [
   [
     "item",
     "seed-segmented-control__item"
-  ],
-  [
-    "itemLayout",
-    "seed-segmented-control__itemLayout"
   ]
 ];
 

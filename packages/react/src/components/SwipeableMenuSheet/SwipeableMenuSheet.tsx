@@ -11,7 +11,6 @@ import * as React from "react";
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { usePressScale } from "../../utils/pressScale";
-import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(menuSheet);
 const {
@@ -203,7 +202,7 @@ export interface SwipeableMenuSheetItemProps
 export const SwipeableMenuSheetItem = React.forwardRef<
   HTMLButtonElement,
   SwipeableMenuSheetItemProps
->(({ className: propClassName, children, ...props }, ref) => {
+>(({ className: propClassName, ...props }, ref) => {
   const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
   const parentProps = useItemProps();
   const classNames = menuSheetItem({ ...parentProps, ...variantProps });
@@ -215,14 +214,7 @@ export const SwipeableMenuSheetItem = React.forwardRef<
         ref={useComposedRefs(pressScaleRef, ref)}
         className={clsx(classNames.root, pressScaleClassName, propClassName)}
         {...otherProps}
-      >
-        {/* layout layer — scales as a whole on press while the pressed background
-            stays on root. With asChild it is injected inside the consumer's
-            element instead. */}
-        {wrapSlotChildren(otherProps.asChild, children, (layoutChildren) => (
-          <div className={classNames.layout}>{layoutChildren}</div>
-        ))}
-      </Primitive.button>
+      />
     </ItemClassNamesProvider>
   );
 });

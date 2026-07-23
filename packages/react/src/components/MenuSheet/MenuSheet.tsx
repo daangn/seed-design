@@ -9,7 +9,6 @@ import * as React from "react";
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { usePressScale, withPressScale } from "../../utils/pressScale";
-import { wrapSlotChildren } from "../../utils/wrapSlotChildren";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 
@@ -230,7 +229,7 @@ export interface MenuSheetItemProps
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemProps>(
-  ({ className: propClassName, children, ...props }, ref) => {
+  ({ className: propClassName, ...props }, ref) => {
     const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
     const parentProps = useItemProps();
 
@@ -245,14 +244,7 @@ export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemPr
           className={clsx(classNames.root, pressScaleClassName, propClassName)}
           {...stateProps}
           {...otherProps}
-        >
-          {/* layout layer — scales as a whole on press while the pressed background
-              stays on root. With asChild it is injected inside the consumer's
-              element instead. */}
-          {wrapSlotChildren(otherProps.asChild, children, (layoutChildren) => (
-            <div className={classNames.layout}>{layoutChildren}</div>
-          ))}
-        </Primitive.button>
+        />
       </ItemClassNamesProvider>
     );
   },

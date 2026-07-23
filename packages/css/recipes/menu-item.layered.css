@@ -21,11 +21,10 @@
   .seed-menu-item__root:before {
     content: "";
     z-index: -1;
-    transition-property: background-color, inset-inline, border-radius;
-    transition-duration: var(--seed-duration-color-transition);
-    transition-timing-function: var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), inset-inline var(--seed-duration-color-transition) var(--seed-timing-function-easing), border-radius var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     position: absolute;
     inset: 0;
+    scale: 1;
   }
 
   .seed-menu-item__root:after {
@@ -35,8 +34,9 @@
     border-radius: var(--seed-radius-r3);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     position: absolute;
+    scale: 1;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -56,11 +56,16 @@
   }
 
   .seed-menu-item__root {
-    --menu-item-press-scale: 1;
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+    scale: 1;
   }
 
   .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    --menu-item-press-scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale, 1);
+  }
+
+  .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before, .seed-menu-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):after {
+    scale: var(--seed-press-scale-inverse, 1);
   }
 
   .seed-menu-item__root:is(:focus-visible, [data-focus-visible]):after {
@@ -72,15 +77,6 @@
     cursor: not-allowed;
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
-  }
-
-  .seed-menu-item__layout {
-    align-items: center;
-    gap: inherit;
-    scale: var(--menu-item-press-scale, 1);
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
-    flex-grow: 1;
-    display: flex;
   }
 
   .seed-menu-item__body {

@@ -122,15 +122,6 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
       ...variantProps,
     });
 
-    const content =
-      footerVisibility === "always" ? (
-        children
-      ) : (
-        <FooterVisibilityProvider footerVisibility={footerVisibility}>
-          {children}
-        </FooterVisibilityProvider>
-      );
-
     const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
@@ -140,11 +131,13 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
           className={clsx(classNames.root, pressScaleClassName, className)}
           {...otherProps}
         >
-          {/* inner layer — scales trigger + footer as one unit on press while the
-              pressed background stays on root. asChild replaces the root element
-              with the consumer's child, so skip the layer (no pressed scale)
-              instead of breaking Slot's contract. */}
-          {otherProps.asChild ? content : <div className={classNames.inner}>{content}</div>}
+          {footerVisibility === "always" ? (
+            children
+          ) : (
+            <FooterVisibilityProvider footerVisibility={footerVisibility}>
+              {children}
+            </FooterVisibilityProvider>
+          )}
         </RadioGroupPrimitive.Item>
       </ClassNamesProvider>
     );

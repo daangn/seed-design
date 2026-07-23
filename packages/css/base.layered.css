@@ -384,11 +384,13 @@
   .seed-press-scale {
     --seed-press-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
     --seed-press-scale: calc((var(--seed-press-scale-basis) - 2) / var(--seed-press-scale-basis));
+    --seed-press-scale-inverse: calc(var(--seed-press-scale-basis) / (var(--seed-press-scale-basis) - 2));
   }
 
   @media (prefers-reduced-motion: reduce) {
     .seed-press-scale {
       --seed-press-scale: 1;
+      --seed-press-scale-inverse: 1;
     }
   }
 

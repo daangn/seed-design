@@ -7,10 +7,6 @@ const menuItemSlotNames = [
     "seed-menu-item__root"
   ],
   [
-    "layout",
-    "seed-menu-item__layout"
-  ],
-  [
     "body",
     "seed-menu-item__body"
   ],

@@ -7,10 +7,6 @@ const menuSheetItemSlotNames = [
     "seed-menu-sheet-item__root"
   ],
   [
-    "layout",
-    "seed-menu-sheet-item__layout"
-  ],
-  [
     "content",
     "seed-menu-sheet-item__content"
   ],

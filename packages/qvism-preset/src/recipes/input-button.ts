@@ -5,6 +5,8 @@ import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
 import {
+  createPressScaleCounterRestStyles,
+  createPressScaleCounterStyles,
   createPressScaleRestStyles,
   createPressScaleStyles,
   PRESS_SCALE_TRANSITION,
@@ -22,7 +24,6 @@ const inputButton = defineSlotRecipe({
   name: "input-button",
   slots: [
     "root",
-    "layout",
     "value",
     "placeholder",
     "button",
@@ -43,36 +44,18 @@ const inputButton = defineSlotRecipe({
       position: "relative",
       isolation: "isolate",
 
-      // press signal for the layout layer — custom properties inherit, so the layout
-      // slot can consume this without any state forwarding in React. Keyed on
-      // [data-active] only (not native :active): the press state comes from the
-      // button overlay, matching the pressed background, and must not fire when a
-      // sibling like clearButton is pressed.
-      ...createPressScaleRestStyles({ as: "--input-button-press-scale" }),
-      [pseudo(not("[data-disabled]"), not(readOnly), "[data-active]")]: {
-        ...createPressScaleStyles({ as: "--input-button-press-scale" }),
-      },
-    },
-    // layout layer — flex row holding the field content (everything but the button
-    // overlay); scales as a whole on press while the background stays on button.
-    // Composed explicitly via FieldButton.Layout; compositions without it skip the scale.
-    layout: {
-      display: "flex",
-      alignItems: "center",
-      flexGrow: 1,
-
-      // gap is defined per size variant on root (a no-op there once content moves
-      // into this slot) — inherit it instead of duplicating the size variants.
-      gap: "inherit",
-
-      // allow shrinking below max-content so the value keeps truncating
-      minWidth: 0,
-
-      // The pressed value is inherited from root, so press detection stays on the
-      // interactive element itself (same signal as the pressed background).
-      scale: "var(--input-button-press-scale, 1)",
-
+      // The field scales as a whole on press. Its background, stroke and invalid
+      // border all live on the `button` overlay, which cancels the scale so they
+      // stay put — no extra box needed, the overlay is already there.
+      //
+      // Keyed on [data-active] only (not native :active): the press state comes
+      // from the button overlay, matching the pressed background, and must not
+      // fire when a sibling like clearButton is pressed. `button` carries the same
+      // state props, so the two stay in lockstep.
       transition: PRESS_SCALE_TRANSITION,
+
+      ...createPressScaleRestStyles(),
+      [pseudo(not("[data-disabled]"), not(readOnly), "[data-active]")]: createPressScaleStyles(),
     },
     button: {
       position: "absolute",
@@ -89,7 +72,14 @@ const inputButton = defineSlotRecipe({
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      // Cancels root's press scale so the field's background and stroke stay put
+      // while the content shrinks. Same gate as root, and the state props driving
+      // it are the same object, so the two scales are always exact inverses.
+      ...createPressScaleCounterRestStyles(),
+      [pseudo(not("[data-disabled]"), not(readOnly), "[data-active]")]:
+        createPressScaleCounterStyles(),
+
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       "&::after": {
         content: '""',

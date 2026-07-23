@@ -6,6 +6,8 @@ import {
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import {
+  createPressScaleCounterRestStyles,
+  createPressScaleCounterStyles,
   createPressScaleRestStyles,
   createPressScaleStyles,
   PRESS_SCALE_TRANSITION,
@@ -18,7 +20,7 @@ import {
 
 const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
-  slots: ["root", "indicator", "item", "itemLayout"],
+  slots: ["root", "indicator", "item"],
   base: {
     root: {
       display: "grid",
@@ -77,13 +79,32 @@ const segmentedControl = defineSlotRecipe({
       paddingInline: itemVars.base.enabled.root.paddingX,
       paddingBlock: itemVars.base.enabled.root.paddingY,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
+      gap: itemVars.base.enabled.root.gap,
 
       fontWeight: itemVars.base.enabled.label.fontWeight,
       fontSize: itemVars.base.enabled.label.fontSize,
       lineHeight: itemVars.base.enabled.label.lineHeight,
       color: itemVars.base.enabled.label.color,
 
-      transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}, box-shadow ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      // The item scales as a whole on press; its pressed background lives on
+      // ::before and cancels that scale, so the background keeps covering the
+      // indicator sliding behind it instead of letting it peek out at the edges.
+      position: "relative",
+      isolation: "isolate",
+
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        zIndex: -1,
+        borderRadius: "inherit",
+
+        transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, box-shadow ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}`,
+
+        ...createPressScaleCounterRestStyles(),
+      },
+
+      transition: `color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
@@ -97,7 +118,7 @@ const segmentedControl = defineSlotRecipe({
         color: itemVars.base.disabled.label.color,
       },
 
-      [pseudo(disabled, checked)]: {
+      [pseudo(disabled, checked, "::before")]: {
         // this covers the indicator
         backgroundColor: indicatorVars.base.disabled.root.color,
 
@@ -105,40 +126,19 @@ const segmentedControl = defineSlotRecipe({
         boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
-      [pseudo(not(disabled), checked, engaged)]: {
+      [pseudo(not(disabled), checked, engaged, "::before")]: {
         backgroundColor: indicatorVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
-      [pseudo(not(disabled), not(checked), engaged)]: {
+      [pseudo(not(disabled), not(checked), engaged, "::before")]: {
         backgroundColor: itemVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },
 
-      // press signal for the layout layer — custom properties inherit, so the layout
-      // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--segmented-control-press-scale" }),
-      [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ as: "--segmented-control-press-scale" }),
-      },
-    },
-    // layout layer — wraps the item's content (hidden input + label); scales as a
-    // whole on press while the pressed background stays on item.
-    itemLayout: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-
-      gap: itemVars.base.enabled.root.gap,
-
-      // allow shrinking below max-content so multi-line labels keep wrapping
-      minWidth: 0,
-
-      // The pressed value is inherited from item, so press detection stays on the
-      // interactive element itself (same signal as the pressed background).
-      scale: "var(--segmented-control-press-scale, 1)",
-
-      transition: PRESS_SCALE_TRANSITION,
+      ...createPressScaleRestStyles(),
+      [pseudo(not(disabled), active)]: createPressScaleStyles(),
+      [pseudo(not(disabled), active, "::before")]: createPressScaleCounterStyles(),
     },
   },
   variants: {},

@@ -3,6 +3,8 @@ import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 import {
+  createPressScaleCounterRestStyles,
+  createPressScaleCounterStyles,
   createPressScaleRestStyles,
   createPressScaleStyles,
   PRESS_SCALE_TRANSITION,
@@ -18,17 +20,16 @@ import spec from "@seed-design/rootage-artifacts/components/menu-sheet-item.json
 
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
-  slots: ["root", "layout", "content", "label", "description"],
+  slots: ["root", "content", "label", "description"],
   base: {
     root: {
       display: "flex",
       alignItems: "center",
 
-      backgroundColor: vars.base.enabled.root.color,
       minHeight: vars.base.enabled.root.minHeight,
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
-      boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
+      gap: vars.base.enabled.root.gap,
 
       // iOS 15 has default margin on buttons
       margin: 0,
@@ -36,52 +37,53 @@ const menuSheetItem = defineSlotRecipe({
       border: "none",
       fontFamily: "inherit",
 
-      [pseudo(engaged)]: {
+      // The row scales as a whole on press; the background and divider live on
+      // ::before and cancel that scale, so they stay flush with the neighbouring
+      // rows instead of opening gaps between them.
+      position: "relative",
+      isolation: "isolate",
+
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        zIndex: -1,
+
+        backgroundColor: vars.base.enabled.root.color,
+        boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
+
+        ...createPressScaleCounterRestStyles(),
+        transition: PRESS_SCALE_TRANSITION,
+      },
+
+      [pseudo(engaged, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
       },
 
-      // press signal for the layout layer — custom properties inherit, so the layout
-      // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--menu-sheet-item-press-scale" }),
-      [pseudo(active)]: {
-        ...createPressScaleStyles({ as: "--menu-sheet-item-press-scale" }),
-      },
+      ...createPressScaleRestStyles(),
+      [pseudo(active)]: createPressScaleStyles(),
+      [pseudo(active, "::before")]: createPressScaleCounterStyles(),
 
-      "&:first-child": {
+      "&:first-child::before": {
         // TODO: since we have this, overflow: hidden; from the group slot can be removed
         borderTopLeftRadius: rootVars.base.enabled.group.cornerRadius,
         borderTopRightRadius: rootVars.base.enabled.group.cornerRadius,
       },
 
-      "&:last-child": {
+      "&:last-child::before": {
         // TODO: since we have this, overflow: hidden; from the group slot can be removed
         borderBottomLeftRadius: rootVars.base.enabled.group.cornerRadius,
         borderBottomRightRadius: rootVars.base.enabled.group.cornerRadius,
         boxShadow: "none",
       },
 
-      transition: FOCUS_RING_TRANSITION,
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,
       }),
-    },
-    // layout layer — flex row holding prefixIcon/content; scales as a whole on press
-    // while the pressed background stays on root.
-    layout: {
-      display: "flex",
-      alignItems: "center",
-      flexGrow: 1,
-
-      gap: vars.base.enabled.root.gap,
-
-      // The pressed value is inherited from root, so press detection stays on the
-      // interactive element itself (same signal as the pressed background).
-      scale: "var(--menu-sheet-item-press-scale, 1)",
-
-      transition: PRESS_SCALE_TRANSITION,
     },
     content: {
       display: "flex",
@@ -132,7 +134,7 @@ const menuSheetItem = defineSlotRecipe({
         },
       },
       center: {
-        layout: {
+        root: {
           justifyContent: "center",
         },
         content: {

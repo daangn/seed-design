@@ -16,6 +16,8 @@ import {
   pseudo,
 } from "../utils/pseudo";
 import {
+  createPressScaleCounterRestStyles,
+  createPressScaleCounterStyles,
   createPressScaleRestStyles,
   createPressScaleStyles,
   PRESS_SCALE_TRANSITION,
@@ -45,7 +47,7 @@ export const selectBoxGroup = defineRecipe({
 
 export const selectBox = defineSlotRecipe({
   name: "select-box",
-  slots: ["root", "inner", "trigger", "content", "body", "label", "description", "footer"],
+  slots: ["root", "trigger", "content", "body", "label", "description", "footer"],
   base: {
     root: {
       cursor: "pointer",
@@ -56,13 +58,28 @@ export const selectBox = defineSlotRecipe({
 
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      backgroundColor: vars.base.enabled.root.color,
-
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
-
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
-
       overflow: "hidden",
+
+      // The card scales as a whole on press; the background, stroke and selected
+      // border live on the two pseudos and cancel that scale, so they stay put
+      // while trigger and footer shrink together.
+      isolation: "isolate",
+
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        zIndex: -1,
+        borderRadius: "inherit",
+
+        backgroundColor: vars.base.enabled.root.color,
+
+        boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+
+        transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}`,
+
+        ...createPressScaleCounterRestStyles(),
+      },
 
       "&::after": {
         content: '""',
@@ -74,21 +91,23 @@ export const selectBox = defineSlotRecipe({
 
         borderWidth: vars.base.selected.root.strokeWidth,
 
-        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
+        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}, ${PRESS_SCALE_TRANSITION}`,
 
         pointerEvents: "none",
+
+        ...createPressScaleCounterRestStyles(),
       },
 
-      [pseudo(not(disabled), engaged)]: {
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+
+      [pseudo(not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
-      // press signal for the inner layer — custom properties inherit, so the inner
-      // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--select-box-press-scale" }),
-      [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ as: "--select-box-press-scale" }),
-      },
+      ...createPressScaleRestStyles(),
+      [pseudo(not(disabled), active)]: createPressScaleStyles(),
+      [pseudo(not(disabled), active, "::before")]: createPressScaleCounterStyles(),
+      [pseudo(not(disabled), active, "::after")]: createPressScaleCounterStyles(),
 
       [pseudo(not(disabled), checked)]: {
         "&::after": {
@@ -100,29 +119,17 @@ export const selectBox = defineSlotRecipe({
       [pseudo(disabled)]: {
         cursor: "not-allowed",
 
-        boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
+        "&::before": {
+          boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
+        },
       },
 
-      [pseudo(disabled, checked)]: {
+      [pseudo(disabled, checked, "::before")]: {
         boxShadow: `inset 0 0 0 ${vars.base.selected.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
       },
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
-    },
-    // inner layer — wraps trigger + footer so they scale as one unit on press while
-    // the pressed background, stroke, and selected border stay fixed on root.
-    // ("layout" is taken by the layout variant, hence "inner".)
-    inner: {
-      display: "flex",
-      flexDirection: "column",
-      flexGrow: 1,
-
-      // The pressed value is inherited from root, so press detection stays on the
-      // interactive element itself (same signal as the pressed background).
-      scale: "var(--select-box-press-scale, 1)",
-
-      transition: PRESS_SCALE_TRANSITION,
     },
     trigger: {
       display: "flex",

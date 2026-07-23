@@ -19,7 +19,7 @@
     width: 100%;
     padding: 0;
     padding-inline: var(--seed-dimension-spacing-x-global-gutter);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
     background: none;
@@ -39,20 +39,16 @@
     cursor: not-allowed;
   }
 
-  .seed-accordion__trigger {
-    --accordion-press-scale: 1;
+  .seed-accordion__trigger:before, .seed-accordion__trigger {
+    scale: 1;
   }
 
   .seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    --accordion-press-scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale, 1);
   }
 
-  .seed-accordion__layout {
-    scale: var(--accordion-press-scale, 1);
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
-    flex-grow: 1;
-    align-items: center;
-    display: flex;
+  .seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+    scale: var(--seed-press-scale-inverse, 1);
   }
 
   .seed-accordion__prefix {
@@ -139,9 +135,7 @@
   .seed-accordion__trigger--variant_inline:before {
     content: "";
     z-index: -1;
-    transition-property: background-color, inset-inline, border-radius;
-    transition-duration: var(--seed-duration-color-transition);
-    transition-timing-function: var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), inset-inline var(--seed-duration-color-transition) var(--seed-timing-function-easing), border-radius var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     position: absolute;
     inset: 0;
   }
@@ -171,9 +165,7 @@
   .seed-accordion__trigger--variant_separated:before {
     content: "";
     z-index: -1;
-    transition-property: background-color;
-    transition-duration: var(--seed-duration-color-transition);
-    transition-timing-function: var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     position: absolute;
     inset: 0;
   }

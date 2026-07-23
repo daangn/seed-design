@@ -8,6 +8,8 @@ import {
 import { onlyIcon, suffixIcon } from "../utils/icon";
 import { active, disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import {
+  createPressScaleCounterRestStyles,
+  createPressScaleCounterStyles,
   createPressScaleRestStyles,
   createPressScaleStyles,
   PRESS_SCALE_TRANSITION,
@@ -22,7 +24,6 @@ const accordion = defineSlotRecipe({
     "item",
     "header",
     "trigger",
-    "layout",
     "prefix",
     "body",
     "title",
@@ -61,7 +62,7 @@ const accordion = defineSlotRecipe({
       textAlign: "start",
       paddingInline: itemVars.base.enabled.trigger.paddingX,
 
-      transition: FOCUS_RING_TRANSITION,
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
@@ -69,25 +70,15 @@ const accordion = defineSlotRecipe({
         cursor: "not-allowed",
       },
 
-      // press signal for the layout layer — custom properties inherit, so the layout
-      // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--accordion-press-scale" }),
-      [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ as: "--accordion-press-scale" }),
-      },
-    },
-    // layout layer — flex row holding prefix/body/suffixIcon; scales as a whole on
-    // press while the pressed background stays on trigger::before.
-    layout: {
-      display: "flex",
-      alignItems: "center",
-      flexGrow: 1,
+      // The trigger scales as a whole on press; the pressed background lives on
+      // ::before (defined per variant) and cancels that scale, so it keeps its own
+      // inset-inline motion — or stays flush with the separated card's edge —
+      // while the content shrinks.
+      "&::before": createPressScaleCounterRestStyles(),
 
-      // The pressed value is inherited from trigger, so press detection stays on the
-      // interactive element itself (same signal as the pressed background).
-      scale: "var(--accordion-press-scale, 1)",
-
-      transition: PRESS_SCALE_TRANSITION,
+      ...createPressScaleRestStyles(),
+      [pseudo(not(disabled), active)]: createPressScaleStyles(),
+      [pseudo(not(disabled), active, "::before")]: createPressScaleCounterStyles(),
     },
     prefix: {
       display: "inline-flex",
@@ -180,9 +171,14 @@ const accordion = defineSlotRecipe({
             position: "absolute",
             inset: 0,
             zIndex: -1,
-            transitionProperty: "background-color, inset-inline, border-radius",
-            transitionDuration: itemVars.base.enabled.root.colorDuration,
-            transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
+            // `scale` keeps the press-scale timing so it stays in lockstep with the
+            // trigger it cancels; the rest use the colour timing.
+            transition: [
+              `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}`,
+              `inset-inline ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}`,
+              `border-radius ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}`,
+              PRESS_SCALE_TRANSITION,
+            ].join(", "),
           },
           [pseudo(not(disabled), engaged, "::before")]: {
             backgroundColor: itemVars.base.pressed.trigger.color,
@@ -203,9 +199,7 @@ const accordion = defineSlotRecipe({
             position: "absolute",
             inset: 0,
             zIndex: -1,
-            transitionProperty: "background-color",
-            transitionDuration: itemVars.base.enabled.root.colorDuration,
-            transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
+            transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}`,
           },
           [pseudo(not(disabled), engaged, "::before")]: {
             backgroundColor: itemVars.base.pressed.trigger.color,

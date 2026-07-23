@@ -40,11 +40,25 @@
     padding-inline: var(--seed-dimension-x6);
     padding-block: var(--seed-dimension-x1_5);
     border-radius: var(--seed-radius-full);
+    gap: var(--seed-dimension-x1_5);
     font-weight: var(--seed-font-weight-bold);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     color: var(--seed-color-fg-neutral-subtle);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    position: relative;
+    isolation: isolate;
+}
+.seed-segmented-control__item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+    scale: 1;
+}
+.seed-segmented-control__item {
+    transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-segmented-control__item:is(:checked, [data-checked]) {
     color: var(--seed-color-fg-neutral);
@@ -61,46 +75,40 @@
     cursor: not-allowed;
     color: var(--seed-color-fg-disabled);
 }
-.seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+.seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked])::before {
     background-color: var(--seed-color-bg-disabled);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
 }
 @media (hover: hover) and (pointer: fine) {
-    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
+    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover])::before {
         background-color: var(--seed-color-palette-gray-100);
         box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
 }
 @media not all and (hover: hover) and (pointer: fine) {
-    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
+    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active])::before {
         background-color: var(--seed-color-palette-gray-100);
         box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
 }
 @media (hover: hover) and (pointer: fine) {
-    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:hover, [data-hover]) {
+    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:hover, [data-hover])::before {
         background-color: var(--seed-color-bg-neutral-weak-pressed);
         box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
 }
 @media not all and (hover: hover) and (pointer: fine) {
-    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:active, [data-active]) {
+    .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):not(:is(:checked, [data-checked])):is(:active, [data-active])::before {
         background-color: var(--seed-color-bg-neutral-weak-pressed);
         box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
 }
 .seed-segmented-control__item {
-    --segmented-control-press-scale: 1;
+    scale: 1;
 }
 .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    --segmented-control-press-scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale, 1);
 }
-.seed-segmented-control__itemLayout {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--seed-dimension-x1_5);
-    min-width: 0;
-    scale: var(--segmented-control-press-scale, 1);
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+.seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active])::before {
+    scale: var(--seed-press-scale-inverse, 1);
 }

@@ -5,12 +5,15 @@ import menuItemSpec from "@seed-design/rootage-artifacts/components/menu-item.js
 import { menu as menuVars, menuItem as menuItemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
+  createPressScaleCounterRestStyles,
+  createPressScaleCounterStyles,
   createPressScaleRestStyles,
   createPressScaleStyles,
   PRESS_SCALE_TRANSITION,
 } from "../utils/press-scale";
 import {
   active,
+  after,
   disabled,
   engaged,
   focus,
@@ -193,7 +196,7 @@ export const menu = defineSlotRecipe({
 
 export const menuItem = defineSlotRecipe({
   name: "menu-item",
-  slots: ["root", "layout", "body", "label", "description"],
+  slots: ["root", "body", "label", "description"],
   base: {
     root: {
       position: "relative",
@@ -216,15 +219,26 @@ export const menuItem = defineSlotRecipe({
 
       isolation: "isolate",
 
+      // The row scales as a whole on press. Both pseudos cancel that scale so the
+      // pressed background keeps its own inset-inline motion and the focus ring
+      // keeps hugging the same box, independent of the content shrinking.
       "&::before": {
         content: '""',
         position: "absolute",
         inset: 0,
         zIndex: -1,
 
-        transitionProperty: "background-color, inset-inline, border-radius",
-        transitionDuration: menuItemVars.base.enabled.root.colorDuration,
-        transitionTimingFunction: menuItemVars.base.enabled.root.colorTimingFunction,
+        // `scale` has to keep the press-scale timing rather than the colour timing
+        // the other properties use — the element and this layer must move as one
+        // or the cancellation is only exact at the two endpoints.
+        transition: [
+          `background-color ${menuItemVars.base.enabled.root.colorDuration} ${menuItemVars.base.enabled.root.colorTimingFunction}`,
+          `inset-inline ${menuItemVars.base.enabled.root.colorDuration} ${menuItemVars.base.enabled.root.colorTimingFunction}`,
+          `border-radius ${menuItemVars.base.enabled.root.colorDuration} ${menuItemVars.base.enabled.root.colorTimingFunction}`,
+          PRESS_SCALE_TRANSITION,
+        ].join(", "),
+
+        ...createPressScaleCounterRestStyles(),
       },
 
       "&::after": {
@@ -234,7 +248,9 @@ export const menuItem = defineSlotRecipe({
         insetInline: menuItemVars.base.pressed.root.marginX,
         borderRadius: menuItemVars.base.pressed.root.cornerRadius,
         ...createFocusRingRestStyles({ position: "inside" }),
-        transition: FOCUS_RING_TRANSITION,
+        transition: `${FOCUS_RING_TRANSITION}, ${PRESS_SCALE_TRANSITION}`,
+
+        ...createPressScaleCounterRestStyles(),
       },
 
       [pseudo(not(disabled), engaged, before)]: {
@@ -243,12 +259,12 @@ export const menuItem = defineSlotRecipe({
         borderRadius: menuItemVars.base.pressed.root.cornerRadius,
       },
 
-      // press signal for the layout layer — custom properties inherit, so the layout
-      // slot can consume this without any state forwarding in React.
-      ...createPressScaleRestStyles({ as: "--menu-item-press-scale" }),
-      [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ as: "--menu-item-press-scale" }),
-      },
+      transition: PRESS_SCALE_TRANSITION,
+
+      ...createPressScaleRestStyles(),
+      [pseudo(not(disabled), active)]: createPressScaleStyles(),
+      [pseudo(not(disabled), active, before)]: createPressScaleCounterStyles(),
+      [pseudo(not(disabled), active, after)]: createPressScaleCounterStyles(),
 
       [pseudo(focusVisible)]: {
         "&::after": createFocusRingStyles({ position: "inside" }),
@@ -265,23 +281,6 @@ export const menuItem = defineSlotRecipe({
           color: menuItemVars.base.disabled.suffixIcon.color,
         }),
       },
-    },
-    // layout layer — flex row holding prefixIcon/body/suffixIcon; scales as a whole
-    // on press while the pressed background stays on root::before.
-    layout: {
-      display: "flex",
-      alignItems: "center",
-      flexGrow: 1,
-
-      // gap is defined per size variant on root (a no-op there now that layout is
-      // root's only child) — inherit it instead of duplicating the size variants.
-      gap: "inherit",
-
-      // The pressed value is inherited from root, so press detection stays on the
-      // interactive element itself (same signal as the pressed background).
-      scale: "var(--menu-item-press-scale, 1)",
-
-      transition: PRESS_SCALE_TRANSITION,
     },
     body: {
       display: "flex",

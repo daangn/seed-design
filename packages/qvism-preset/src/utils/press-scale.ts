@@ -39,6 +39,14 @@ import * as timingFunction from "../vars/timing-function";
  * attachment-input gates on `[aria-grabbed=true]` to shrink a dragged item by
  * the same depth. Neither emits the derivation: that lives once in base.css,
  * and the element opts in by carrying `PRESS_SCALE_CLASS_NAME`.
+ *
+ * Some components want the background to stay put while only the content
+ * shrinks. That needs two boxes at different scales, but the fixed one is always
+ * pure paint (background, stroke, divider), so it can be a pseudo-element rather
+ * than a wrapper in the DOM: scale the element itself and cancel it on the
+ * pseudo with `createPressScaleCounter*Styles`. The size vars are unitless, so
+ * the inverse is an exact `number / number` and the two scales multiply back to
+ * 1 with no rounding drift.
  */
 const WIDTH_DIVISOR = 4;
 const MIN_BASIS = 24;
@@ -61,17 +69,37 @@ export const pressScaleGlobalStyles = {
   [`.${PRESS_SCALE_CLASS_NAME}`]: {
     "--seed-press-scale-basis": `max(var(--seed-element-height), var(--seed-element-width) / ${WIDTH_DIVISOR}, ${MIN_BASIS})`,
     "--seed-press-scale": `calc((var(--seed-press-scale-basis) - ${PRESS_DEPTH}) / var(--seed-press-scale-basis))`,
+    "--seed-press-scale-inverse": `calc(var(--seed-press-scale-basis) / (var(--seed-press-scale-basis) - ${PRESS_DEPTH}))`,
 
-    // Pin the output rather than zeroing a depth parameter: this is declared on
-    // the same element as the derivation and after it, so no value a consumer
+    // Pin the outputs rather than zeroing a depth parameter: these are declared
+    // on the same element as the derivation and after it, so no value a consumer
     // can set upstream brings the scale back.
     "@media (prefers-reduced-motion: reduce)": {
       "--seed-press-scale": "1",
+      "--seed-press-scale-inverse": "1",
     },
   },
 } satisfies Record<string, StyleObject>;
 
 export const PRESS_SCALE_TRANSITION = `scale ${duration.pressedScale} ${timingFunction.pressedScale}`;
+
+/**
+ * Resting styles for the paint-only layer that must stay put while its element
+ * scales — a `::before` carrying the background, or an absolutely positioned
+ * overlay element such as input-button's `button` slot. Pair with
+ * `createPressScaleCounterStyles` in the same selector the element uses.
+ */
+export const createPressScaleCounterRestStyles = (): StyleObject => ({ scale: "1" });
+
+/**
+ * Pressed styles for that layer: exactly cancels the element's own press scale,
+ * so the background renders at its original size and position while everything
+ * else inside the element shrinks. Both scales share a transform-origin of
+ * center and are uniform, so the composition is an exact identity.
+ */
+export const createPressScaleCounterStyles = (): StyleObject => ({
+  scale: "var(--seed-press-scale-inverse, 1)",
+});
 
 /**
  * Resting styles for a slot that scales while pressed. Pair with
