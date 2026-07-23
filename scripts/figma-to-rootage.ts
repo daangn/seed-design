@@ -572,6 +572,20 @@ async function generateGradientTokensFromStyles(): Promise<string> {
       ]),
   );
 
+  // figma:sync는 gradient.yaml을 통째로 재생성하므로, 병합하지 않으면 Figma 스타일로 존재하지 않는
+  // 코드 소유 토큰(예: $gradient.fade-mask)이 사라진다. Figma에 같은 키가 있으면 Figma를 우선하고,
+  // Figma에 없는 키만 기존 파일에서 보존한다.
+  const gradientYamlPath = path.join(import.meta.dirname, "../packages/rootage/gradient.yaml");
+  const existingTokens: Record<string, unknown> = fs.existsSync(gradientYamlPath)
+    ? (YAML.parse(fs.readFileSync(gradientYamlPath, "utf-8"))?.data?.tokens ?? {})
+    : {};
+
+  const preservedTokens = Object.entries(existingTokens).filter(([key]) => !(key in tokens));
+
+  const mergedTokens = Object.fromEntries(
+    [...Object.entries(tokens), ...preservedTokens].sort(([a], [b]) => a.localeCompare(b)),
+  );
+
   return YAML.stringify({
     kind: "Tokens",
     metadata: {
@@ -579,7 +593,7 @@ async function generateGradientTokensFromStyles(): Promise<string> {
       name: "Gradient",
       lastUpdated: getKoreanDateString(),
     },
-    data: { collection: "color", tokens },
+    data: { collection: "color", tokens: mergedTokens },
   });
 }
 
