@@ -571,7 +571,6 @@
         "@seed-design/react-primitive": "^2.0.0",
         "@seed-design/react-progress": "^2.0.0",
         "@seed-design/react-pull-to-refresh": "^2.0.0",
-        "@seed-design/react-quantity-picker": "^1.0.0",
         "@seed-design/react-radio-group": "^2.0.0",
         "@seed-design/react-segmented-control": "^2.0.1",
         "@seed-design/react-side-navigation": "^1.0.0",
@@ -1047,24 +1046,6 @@
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/dom-utils": "^2.0.0",
-        "@seed-design/react-primitive": "^2.0.0",
-      },
-      "devDependencies": {
-        "@types/react": "^19.1.6",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
-      },
-      "peerDependencies": {
-        "react": ">=18.0.0",
-        "react-dom": ">=18.0.0",
-      },
-    },
-    "packages/react-headless/quantity-picker": {
-      "name": "@seed-design/react-quantity-picker",
-      "version": "1.0.0",
-      "dependencies": {
-        "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "^2.0.0",
         "@seed-design/react-primitive": "^2.0.0",
       },
@@ -3110,8 +3091,6 @@
     "@seed-design/react-progress": ["@seed-design/react-progress@workspace:packages/react-headless/progress"],
 
     "@seed-design/react-pull-to-refresh": ["@seed-design/react-pull-to-refresh@workspace:packages/react-headless/pull-to-refresh"],
-
-    "@seed-design/react-quantity-picker": ["@seed-design/react-quantity-picker@workspace:packages/react-headless/quantity-picker"],
 
     "@seed-design/react-radio-group": ["@seed-design/react-radio-group@workspace:packages/react-headless/radio-group"],
 
