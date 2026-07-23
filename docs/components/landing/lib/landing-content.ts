@@ -223,14 +223,14 @@ export const BLOG_HEADING = "SEED가 자라나는 과정";
 // 1·2번은 내부 /updates 글(→), 3번만 외부 팀블로그(↗). slug를 바꾸면 href도 함께 고친다.
 export const BLOG_POSTS: BlogPost[] = [
   {
-    title: "디자인 시스템에도 브랜드가 필요할까?",
+    title: "디자인 시스템에도 브랜딩이 필요할까",
     description: "SEED 리브랜딩을 시작한 이유",
     image: "/landing/blog/branding.webp",
     href: "/updates/why-design-system-needs-branding",
     external: false,
   },
   {
-    title: "더 당근답게 : SEED는 어떻게 진화했나",
+    title: "더 당근답게: SEED는 어떻게 진화했나",
     description: "'당근스러움'을 시스템에 담는 법",
     image: "/landing/blog/v2-to-v3.webp",
     href: "/updates/how-seed-evolved",
