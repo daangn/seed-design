@@ -11,6 +11,9 @@
       "slots": {
         "root": {
           "properties": {
+            "gradient": {
+              "type": "gradient"
+            },
             "size": {
               "type": "dimension"
             }
@@ -29,6 +32,10 @@
             ],
             "slots": {
               "root": {
+                "gradient": {
+                  "type": "gradient",
+                  "value": "$gradient.fade-mask"
+                },
                 "size": {
                   "type": "dimension",
                   "value": {

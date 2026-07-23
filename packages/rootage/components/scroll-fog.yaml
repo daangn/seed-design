@@ -9,11 +9,14 @@ data:
     slots:
       root:
         properties:
+          gradient:
+            type: gradient
           size:
             type: dimension
   definitions:
     base:
       enabled:
         root:
+          gradient: $gradient.fade-mask
           # NOTE: do not move/remove this property unless you're bumping the major version of @seed-design/react; vars generated from here have been imported in react/src/components/ScrollFog/ScrollFog.tsx
           size: 20px
