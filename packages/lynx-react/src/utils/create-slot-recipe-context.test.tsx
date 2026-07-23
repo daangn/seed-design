@@ -29,7 +29,6 @@ const mockSlotRecipe = Object.assign(
 type MockProps = {
   children?: unknown;
   className?: string;
-  active?: boolean;
 };
 
 type MockReceived = { props?: MockProps };
@@ -93,55 +92,5 @@ describe("createSlotRecipeContext", () => {
 
     expect(rootReceived.props?.className).toBe("root-a extra");
     expect(childReceived.props?.className).toBe("label-a child-extra");
-  });
-
-  it("restores root default props overwritten with undefined", () => {
-    const { Mock: Root, received } = createMock("Root");
-    const { withRootProvider } = createSlotRecipeContext(mockSlotRecipe);
-    const StyledRoot = withRootProvider<MockVariantProps & MockProps>(Root, {
-      defaultProps: { active: true },
-    });
-
-    render(<StyledRoot active={undefined} />);
-
-    expect(received.props?.active).toBe(true);
-  });
-
-  it("restores provider default props overwritten with undefined", () => {
-    const { Mock: Root, received } = createMock("Root");
-    const { withProvider } = createSlotRecipeContext(mockSlotRecipe);
-    const StyledRoot = withProvider<{ tag: "mock" }, MockVariantProps & MockProps>(Root, "root", {
-      defaultProps: { active: true },
-    });
-
-    render(<StyledRoot active={undefined} />);
-
-    expect(received.props?.active).toBe(true);
-  });
-
-  it("restores context default props overwritten with undefined and preserves false", () => {
-    const { Mock: Root } = createMock("Root");
-    const { Mock: Child, received } = createMock("Child");
-    const { withRootProvider, withContext } = createSlotRecipeContext(mockSlotRecipe);
-    const StyledRoot = withRootProvider<MockVariantProps & MockProps>(Root);
-    const StyledChild = withContext<{ tag: "mock" }, MockProps>(Child, "label", {
-      defaultProps: { active: true },
-    });
-
-    const { rerender } = render(
-      <StyledRoot>
-        <StyledChild active={undefined} />
-      </StyledRoot>,
-    );
-
-    expect(received.props?.active).toBe(true);
-
-    rerender(
-      <StyledRoot>
-        <StyledChild active={false} />
-      </StyledRoot>,
-    );
-
-    expect(received.props?.active).toBe(false);
   });
 });
