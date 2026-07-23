@@ -62,9 +62,7 @@ const accordion = defineSlotRecipe({
       textAlign: "start",
       paddingInline: itemVars.base.enabled.trigger.paddingX,
 
-      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      transition: PRESS_SCALE_TRANSITION,
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
@@ -76,9 +74,29 @@ const accordion = defineSlotRecipe({
       // while the content shrinks.
       "&::before": createPressScaleCounterRestStyles(),
 
+      // The focus ring is an `outline`, so it is painted with whatever box it sits
+      // on and inherits that box's scale. On the trigger itself it would shrink
+      // with the content and detach inward from the fixed background; on this
+      // counter-scaled layer it stays glued to it. ::after rather than ::before
+      // because the background pseudo sits at `z-index: -1`, behind the content.
+      "&::after": {
+        content: "''",
+        position: "absolute",
+        inset: 0,
+        pointerEvents: "none",
+
+        ...createFocusRingRestStyles(),
+        transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+
+        ...createPressScaleCounterRestStyles(),
+      },
+
+      [pseudo(focusVisible, "::after")]: createFocusRingStyles(),
+
       ...createPressScaleRestStyles(),
       [pseudo(not(disabled), active)]: createPressScaleStyles(),
       [pseudo(not(disabled), active, "::before")]: createPressScaleCounterStyles(),
+      [pseudo(not(disabled), active, "::after")]: createPressScaleCounterStyles(),
     },
     prefix: {
       display: "inline-flex",

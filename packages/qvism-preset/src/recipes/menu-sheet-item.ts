@@ -37,6 +37,12 @@ const menuSheetItem = defineSlotRecipe({
       border: "none",
       fontFamily: "inherit",
 
+      // Both consumers render a real <button>, and the row's own background now
+      // lives on ::before. Without this reset the UA `buttonface` fill paints on
+      // the element itself, square-cornered, and shows past the pseudo's rounded
+      // first/last-child corners.
+      background: "none",
+
       // The row scales as a whole on press; the background and divider live on
       // ::before and cancel that scale, so they stay flush with the neighbouring
       // rows instead of opening gaps between them.
@@ -60,26 +66,47 @@ const menuSheetItem = defineSlotRecipe({
         backgroundColor: vars.base.pressed.root.color,
       },
 
+      // The focus ring is an `outline`, so it is painted with whatever box it sits
+      // on and inherits that box's scale. On the row itself it would shrink with
+      // the content and detach inward from the fixed background; on this
+      // counter-scaled layer it stays glued to it. ::after rather than ::before
+      // because the background pseudo sits at `z-index: -1` — an inside ring there
+      // would be occluded by the content.
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        pointerEvents: "none",
+
+        ...createFocusRingRestStyles({ position: "inside" }),
+        transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+
+        ...createPressScaleCounterRestStyles(),
+      },
+
+      [pseudo(focusVisible, "::after")]: createFocusRingStyles({ position: "inside" }),
+
       ...createPressScaleRestStyles(),
       [pseudo(active)]: createPressScaleStyles(),
       [pseudo(active, "::before")]: createPressScaleCounterStyles(),
+      [pseudo(active, "::after")]: createPressScaleCounterStyles(),
 
+      // The group's corners are rounded here rather than by the group's own
+      // `overflow: hidden`, which is therefore redundant and could be dropped —
+      // but only as long as the element itself paints nothing square, i.e. only
+      // while the `background: none` reset above stays. Verify both together.
       "&:first-child::before": {
-        // TODO: since we have this, overflow: hidden; from the group slot can be removed
         borderTopLeftRadius: rootVars.base.enabled.group.cornerRadius,
         borderTopRightRadius: rootVars.base.enabled.group.cornerRadius,
       },
 
       "&:last-child::before": {
-        // TODO: since we have this, overflow: hidden; from the group slot can be removed
         borderBottomLeftRadius: rootVars.base.enabled.group.cornerRadius,
         borderBottomRightRadius: rootVars.base.enabled.group.cornerRadius,
         boxShadow: "none",
       },
 
-      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
-      ...createFocusRingRestStyles({ position: "inside" }),
-      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+      transition: PRESS_SCALE_TRANSITION,
 
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,

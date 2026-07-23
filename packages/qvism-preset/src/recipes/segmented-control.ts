@@ -68,7 +68,15 @@ const segmentedControl = defineSlotRecipe({
       cursor: "pointer",
       userSelect: "none",
       boxSizing: "border-box",
-      overflowWrap: "break-word",
+
+      // `anywhere`, not `break-word`: the label is passed as bare children, so it
+      // sits in an anonymous flex item whose automatic minimum size refuses to go
+      // below min-content. `break-word` breaks the token but leaves min-content at
+      // the full word, so the anonymous item stays wide and the text escapes the
+      // segment once the grid squeezes it to `minWidth`. Only `anywhere` lowers
+      // min-content, which is what the removed inner layout slot's `min-width: 0`
+      // used to achieve.
+      overflowWrap: "anywhere",
 
       minWidth: itemVars.base.enabled.root.minWidth,
       minHeight: itemVars.base.enabled.root.minHeight,
@@ -104,14 +112,31 @@ const segmentedControl = defineSlotRecipe({
         ...createPressScaleCounterRestStyles(),
       },
 
-      transition: `color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      // The focus ring is an `outline`, so it is painted with whatever box it sits
+      // on and inherits that box's scale. On the item itself it would shrink with
+      // the content and detach inward from the fixed background; on this
+      // counter-scaled layer it stays glued to it. ::after rather than ::before
+      // because the background pseudo sits at `z-index: -1`, behind the content.
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        borderRadius: "inherit",
+        pointerEvents: "none",
+
+        ...createFocusRingRestStyles(),
+        transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+
+        ...createPressScaleCounterRestStyles(),
+      },
+
+      transition: `color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}`,
 
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
       },
 
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      [pseudo(focusVisible, "::after")]: createFocusRingStyles(),
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
@@ -139,6 +164,7 @@ const segmentedControl = defineSlotRecipe({
       ...createPressScaleRestStyles(),
       [pseudo(not(disabled), active)]: createPressScaleStyles(),
       [pseudo(not(disabled), active, "::before")]: createPressScaleCounterStyles(),
+      [pseudo(not(disabled), active, "::after")]: createPressScaleCounterStyles(),
     },
   },
   variants: {},

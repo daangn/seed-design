@@ -6,6 +6,7 @@
     align-items: center;
     gap: var(--seed-dimension-x3_5);
     isolation: isolate;
+    background: none;
     border: none;
     margin: 0;
     font-family: inherit;
@@ -36,6 +37,22 @@
     }
   }
 
+  .seed-menu-sheet-item__root:after {
+    content: "";
+    pointer-events: none;
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    position: absolute;
+    inset: 0;
+    scale: 1;
+  }
+
+  .seed-menu-sheet-item__root:is(:focus-visible, [data-focus-visible]):after {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
   .seed-menu-sheet-item__root {
     scale: 1;
   }
@@ -44,7 +61,7 @@
     scale: var(--seed-press-scale, 1);
   }
 
-  .seed-menu-sheet-item__root:is(:active, [data-active]):before {
+  .seed-menu-sheet-item__root:is(:active, [data-active]):before, .seed-menu-sheet-item__root:is(:active, [data-active]):after {
     scale: var(--seed-press-scale-inverse, 1);
   }
 
@@ -60,17 +77,7 @@
   }
 
   .seed-menu-sheet-item__root {
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-  }
-
-  .seed-menu-sheet-item__root:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-  }
-
-  .seed-menu-sheet-item__root {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     --seed-prefix-icon-size: 22px;
   }
 

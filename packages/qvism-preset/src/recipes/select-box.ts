@@ -86,6 +86,12 @@ export const selectBox = defineSlotRecipe({
         ...createPressScaleCounterRestStyles(),
       },
 
+      // Also carries the focus ring: an `outline` is painted with the box it sits
+      // on and inherits that box's scale, so on the card itself it would shrink
+      // with the content and detach inward from the fixed stroke. Here it rides
+      // the counter-scale instead. `outline` and `border` do not conflict on the
+      // same box — the ring draws outside the border box, clear of the selected
+      // border — and ::before is not an option because it sits at `z-index: -1`.
       "&::after": {
         content: '""',
         position: "absolute",
@@ -96,14 +102,15 @@ export const selectBox = defineSlotRecipe({
 
         borderWidth: vars.base.selected.root.strokeWidth,
 
-        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}, ${PRESS_SCALE_TRANSITION}`,
+        ...createFocusRingRestStyles(),
+        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
         pointerEvents: "none",
 
         ...createPressScaleCounterRestStyles(),
       },
 
-      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      transition: PRESS_SCALE_TRANSITION,
 
       [pseudo(not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.enabledPressed.root.color,
@@ -133,8 +140,7 @@ export const selectBox = defineSlotRecipe({
         boxShadow: `inset 0 0 0 ${vars.base.selected.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
       },
 
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      [pseudo(focusVisible, "::after")]: createFocusRingStyles(),
     },
     trigger: {
       display: "flex",

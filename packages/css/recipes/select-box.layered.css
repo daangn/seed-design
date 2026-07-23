@@ -23,7 +23,9 @@
   .seed-select-box__root:after {
     content: "";
     border-radius: inherit;
-    transition: border-color .1s var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+    transition: border-color .1s var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     pointer-events: none;
     border: 2px solid #0000;
     position: absolute;
@@ -32,7 +34,7 @@
   }
 
   .seed-select-box__root {
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -76,12 +78,7 @@
     box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-muted);
   }
 
-  .seed-select-box__root {
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
-  }
-
-  .seed-select-box__root:is(:focus-visible, [data-focus-visible]) {
+  .seed-select-box__root:is(:focus-visible, [data-focus-visible]):after {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
   }
