@@ -52,6 +52,10 @@ export const vars = {
       }
     }
   },
-  "labelAlignLeft": {},
-  "labelAlignCenter": {}
+  "labelAlignLeft": {
+    "enabled": {}
+  },
+  "labelAlignCenter": {
+    "enabled": {}
+  }
 }
