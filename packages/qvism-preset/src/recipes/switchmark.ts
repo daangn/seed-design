@@ -7,7 +7,11 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { createPressScaleRestStyles, createPressScaleStyles } from "../utils/press-scale";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 
 const switchmarkRecipe = defineSlotRecipe({
   name: "switchmark",
@@ -23,7 +27,15 @@ const switchmarkRecipe = defineSlotRecipe({
 
       margin: "var(--switchmark-margin-top, 0) 0", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+
+      // Scales the whole track, thumb included — the thumb's own `transform: scale()`
+      // stays the selected-state size and is unaffected. A containing component
+      // (e.g. ListItem) opts out by setting --seed-switchmark-press-scale to 1.
+      ...createPressScaleRestStyles(),
+      [pseudo(not(disabled), active)]: {
+        ...createPressScaleStyles({ overridableBy: "--seed-switchmark-press-scale" }),
+      },
 
       [pseudo(disabled)]: {
         opacity: vars.base.disabled.root.opacity,
@@ -36,19 +48,10 @@ const switchmarkRecipe = defineSlotRecipe({
       borderRadius: vars.base.enabled.thumb.cornerRadius,
 
       // translateDuration & translateTimingFunction are defined in vars but not used
-      transition: `transform ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}, background-color ${vars.base.enabled.thumb.colorDuration} ${vars.base.enabled.thumb.colorTimingFunction} ${vars.base.enabled.thumb.colorDelay}, scale ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}`,
+      transition: `transform ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}, background-color ${vars.base.enabled.thumb.colorDuration} ${vars.base.enabled.thumb.colorTimingFunction} ${vars.base.enabled.thumb.colorDelay}`,
 
       // defining 'scale' / 'translate' and else independently from 'transform' -> requires Chrome 104~ && Safari 14.1~
       transform: `scale(${vars.base.enabled.thumb.scale})`,
-
-      ...createPressScaleRestStyles(),
-      // The individual `scale` multiplies with the transform's scale, so the
-      // pressed scale applies relative to both the unchecked (0.8) and checked
-      // (1) thumb. A containing component (e.g. ListItem) opts out by setting
-      // --seed-switchmark-press-scale to 1.
-      [pseudo(not(disabled), active)]: {
-        ...createPressScaleStyles({ overridableBy: "--seed-switchmark-press-scale" }),
-      },
     },
   },
   variants: {

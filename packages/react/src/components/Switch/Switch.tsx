@@ -50,17 +50,17 @@ SwitchRoot.displayName = "SwitchRoot";
 
 export interface SwitchControlProps extends SwitchmarkVariantProps, SwitchPrimitive.ControlProps {}
 
-export const SwitchControl = withControlProvider<HTMLDivElement, SwitchControlProps>(
-  SwitchPrimitive.Control,
-  "root",
+export const SwitchControl = withPressScale(
+  withControlProvider<HTMLDivElement, SwitchControlProps>(SwitchPrimitive.Control, "root"),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwitchThumbProps extends SwitchPrimitive.ThumbProps {}
 
-export const SwitchThumb = withPressScale(
-  withControlContext<HTMLDivElement, SwitchThumbProps>(SwitchPrimitive.Thumb, "thumb"),
+export const SwitchThumb = withControlContext<HTMLDivElement, SwitchThumbProps>(
+  SwitchPrimitive.Thumb,
+  "thumb",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
