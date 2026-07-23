@@ -112,40 +112,31 @@ export const createPressScaleCounterStyles = (): StyleObject => ({
 
 /**
  * Resting styles for a slot that scales while pressed. Pair with
- * `createPressScaleStyles` in the pressed selector. Pass `as` to publish through
- * a custom property instead of the `scale` property — an inner layout slot can
- * then consume it with `scale: var(<as>, 1)` and no state forwarding in React.
+ * `createPressScaleStyles` in the pressed selector.
+ *
+ * The identity value is load-bearing rather than a transition seed — `scale`
+ * interpolates from `none` on its own. A non-`none` `scale` makes the element a
+ * stacking context and a containing block for `position: fixed` descendants, and
+ * the pressed value is always a number (reduced motion and the no-JS fallback
+ * both resolve to 1). Declaring it at rest too keeps that constant instead of
+ * toggling it on every press, which would move fixed descendants mid-gesture.
+ *
+ * Individual `scale` over `transform: scale()` — progressive enhancement for
+ * Chrome 104+ (older browsers just skip the pressed scale).
  */
-export function createPressScaleRestStyles({
-  as = "scale",
-}: { as?: "scale" | `--${string}` } | undefined = {}): StyleObject {
-  // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
-  if (as === "scale") return { scale: "1" };
-
-  const styles: StyleObject = {};
-  styles[as] = "1";
-  return styles;
-}
+export const createPressScaleRestStyles = (): StyleObject => ({ scale: "1" });
 
 /**
  * Pressed styles for a slot that scales while pressed. Drop this into the gate
- * the recipe owns (e.g. `pseudo(not(disabled), active)`). Pass `as` to publish
- * through a custom property instead of the `scale` property. Pass `overridableBy`
+ * the recipe owns (e.g. `pseudo(not(disabled), active)`). Pass `overridableBy`
  * to route the consumed value through an inherited custom property so an ancestor
  * can opt the slot out — mark recipes use this so a wrapper can set e.g.
  * `--seed-checkmark-press-scale: 1` to keep a nested mark from scaling.
  */
-export function createPressScaleStyles({
-  as = "scale",
+export const createPressScaleStyles = ({
   overridableBy,
-}: { as?: "scale" | `--${string}`; overridableBy?: `--${string}` } | undefined = {}): StyleObject {
-  const value = overridableBy
-    ? (`var(${overridableBy}, var(--seed-press-scale, 1))` as const)
-    : "var(--seed-press-scale, 1)";
-
-  if (as === "scale") return { scale: value };
-
-  const styles: StyleObject = {};
-  styles[as] = value;
-  return styles;
-}
+}: { overridableBy?: `--${string}` } | undefined = {}): StyleObject => ({
+  scale: overridableBy
+    ? `var(${overridableBy}, var(--seed-press-scale, 1))`
+    : "var(--seed-press-scale, 1)",
+});
