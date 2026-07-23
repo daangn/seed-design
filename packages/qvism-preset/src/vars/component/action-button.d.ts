@@ -1,6 +1,7 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
@@ -15,6 +16,7 @@ export declare const vars: {
    */
   "variantBrandSolid": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -39,11 +41,13 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
     },
     "disabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-disabled)"
       },
@@ -64,6 +68,7 @@ export declare const vars: {
       }
     },
     "loading": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
@@ -74,6 +79,7 @@ export declare const vars: {
    */
   "variantNeutralSolid": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -98,11 +104,13 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
     },
     "disabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-disabled)"
       },
@@ -123,6 +131,7 @@ export declare const vars: {
       }
     },
     "loading": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
@@ -133,6 +142,7 @@ export declare const vars: {
    */
   "variantNeutralWeak": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -157,11 +167,13 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       }
     },
     "disabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-disabled)"
       },
@@ -182,6 +194,7 @@ export declare const vars: {
       }
     },
     "loading": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       }
@@ -192,6 +205,7 @@ export declare const vars: {
    */
   "variantCriticalSolid": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },
@@ -216,11 +230,13 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-critical-solid-pressed)"
       }
     },
     "disabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-disabled)"
       },
@@ -241,6 +257,7 @@ export declare const vars: {
       }
     },
     "loading": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-critical-solid-pressed)"
       }
@@ -251,6 +268,7 @@ export declare const vars: {
    */
   "variantNeutralOutline": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -277,11 +295,13 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)"
@@ -303,6 +323,7 @@ export declare const vars: {
       }
     },
     "loading": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent)"
       }
@@ -313,6 +334,7 @@ export declare const vars: {
    */
   "variantBrandOutline": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -339,11 +361,13 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)"
@@ -365,6 +389,7 @@ export declare const vars: {
       }
     },
     "loading": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent)"
       }
@@ -375,6 +400,7 @@ export declare const vars: {
    */
   "variantGhost": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "#ffffff00"
       },
@@ -399,11 +425,13 @@ export declare const vars: {
       }
     },
     "pressed": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "disabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "#ffffff00"
       },
@@ -424,6 +452,7 @@ export declare const vars: {
       }
     },
     "loading": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
@@ -434,6 +463,7 @@ export declare const vars: {
    */
   "sizeXsmall": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "minHeight": "var(--seed-dimension-x8)",
         "cornerRadius": "var(--seed-radius-full)"
@@ -450,6 +480,7 @@ export declare const vars: {
    */
   "sizeXsmallLayoutWithText": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x3_5)",
@@ -475,6 +506,7 @@ export declare const vars: {
    */
   "sizeXsmallLayoutIconOnly": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "minWidth": "var(--seed-dimension-x8)",
         "paddingX": "var(--seed-dimension-x1_5)",
@@ -491,6 +523,7 @@ export declare const vars: {
    */
   "sizeSmall": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
         "cornerRadius": "var(--seed-radius-r2)"
@@ -507,6 +540,7 @@ export declare const vars: {
    */
   "sizeSmallLayoutWithText": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x3_5)",
@@ -532,6 +566,7 @@ export declare const vars: {
    */
   "sizeSmallLayoutIconOnly": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "minWidth": "var(--seed-dimension-x9)",
         "paddingX": "var(--seed-dimension-x2)",
@@ -548,6 +583,7 @@ export declare const vars: {
    */
   "sizeMedium": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "minHeight": "var(--seed-dimension-x10)",
         "cornerRadius": "var(--seed-radius-r2)"
@@ -564,6 +600,7 @@ export declare const vars: {
    */
   "sizeMediumLayoutWithText": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "gap": "var(--seed-dimension-x1_5)",
         "paddingX": "var(--seed-dimension-x4)",
@@ -589,6 +626,7 @@ export declare const vars: {
    */
   "sizeMediumLayoutIconOnly": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "minWidth": "var(--seed-dimension-x10)",
         "paddingX": "var(--seed-dimension-x2_5)",
@@ -605,6 +643,7 @@ export declare const vars: {
    */
   "sizeLarge": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "minHeight": "var(--seed-dimension-x13)",
         "cornerRadius": "var(--seed-radius-r3)"
@@ -621,6 +660,7 @@ export declare const vars: {
    */
   "sizeLargeLayoutWithText": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "gap": "var(--seed-dimension-x2)",
         "paddingX": "var(--seed-dimension-x5)",
@@ -646,6 +686,7 @@ export declare const vars: {
    */
   "sizeLargeLayoutIconOnly": {
     "enabled": {
+      /** pressed 시 root 전체가 축소됩니다. 배율은 렌더된 크기로부터 런타임에 계산되어 요소가 항상 2px만큼 작아지므로 사이즈별 값을 spec에 정의하지 않습니다. OS 동작 줄이기 설정이 켜져 있으면 축소되지 않습니다. */
       "root": {
         "minWidth": "var(--seed-dimension-x13)",
         "paddingX": "var(--seed-dimension-x3_5)",
