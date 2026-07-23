@@ -30,7 +30,7 @@ data:
         root:
           size: $dimension.x5
           cornerRadius: $radius.full
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
 
           scaleDuration: $duration.d3
           scaleTimingFunction: $timing-function.easing

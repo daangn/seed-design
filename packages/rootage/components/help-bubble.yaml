@@ -88,7 +88,7 @@ data:
     base:
       enabled:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
           cornerRadius: $radius.r3
           paddingX: $dimension.x3
           paddingY: $dimension.x2_5
@@ -102,7 +102,7 @@ data:
           exitDuration: $duration.d4
           exitTimingFunction: $timing-function.easing
         arrow:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
           width: 12px
           height: 8px
           cornerRadius: 2px

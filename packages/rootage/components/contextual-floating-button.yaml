@@ -87,7 +87,7 @@ data:
     variant=solid:
       enabled:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         progressCircle:
           trackColor: $color.palette.gray-700
           rangeColor: $color.fg.neutral-inverted
@@ -99,7 +99,7 @@ data:
           color: $color.fg.neutral-inverted
       pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
       disabled:
         root:
           color: $color.bg.disabled
@@ -111,7 +111,7 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
     variant=layer:
       enabled:
         root:

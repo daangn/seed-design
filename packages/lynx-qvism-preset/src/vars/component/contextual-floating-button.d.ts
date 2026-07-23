@@ -19,7 +19,7 @@ export declare const vars: {
   "variantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-gray-700)",
@@ -37,7 +37,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     },
     "disabled": {
@@ -56,7 +56,7 @@ export declare const vars: {
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     }
   },
