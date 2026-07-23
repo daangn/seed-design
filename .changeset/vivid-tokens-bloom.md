@@ -1,0 +1,22 @@
+---
+"@seed-design/css": minor
+"@seed-design/lynx-css": minor
+"@seed-design/react": minor
+"@seed-design/react-quantity-picker": minor
+"@seed-design/rootage-artifacts": minor
+---
+
+QuantityPicker 컴포넌트를 추가합니다.
+
+- 지정한 최소·최대 수량 범위에서 값을 증감할 수 있으며, 최소 수량에서 제거 동작을 지원합니다.
+- `size`, `disabled`, `readOnly`, `invalid`, 증감 중 loading 상태를 지원합니다.
+- 폼 제출에 사용할 수 있는 `QuantityPicker.HiddenInput`을 제공합니다.
+
+```tsx
+<QuantityPicker.Root min={0} max={99} defaultValue={1}>
+  <QuantityPicker.DecrementButton icon={<IconMinusLine />} />
+  <QuantityPicker.ValueDisplay />
+  <QuantityPicker.IncrementButton icon={<IconPlusLine />} />
+  <QuantityPicker.HiddenInput name="quantity" />
+</QuantityPicker.Root>
+```

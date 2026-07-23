@@ -186,6 +186,12 @@
       "path": "/components/progress-circle.json"
     },
     {
+      "path": "/components/quantity-picker-button.json"
+    },
+    {
+      "path": "/components/quantity-picker.json"
+    },
+    {
       "path": "/components/radio-group.json"
     },
     {
