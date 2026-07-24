@@ -334,6 +334,11 @@ export const SelectGroupLabel = forwardRef<HTMLDivElement, SelectGroupLabelProps
 });
 SelectGroupLabel.displayName = "SelectGroupLabel";
 
+// Unlike sibling hidden inputs (Checkbox/Switch/etc.), this deliberately skips
+// `PrimitiveProps` and renders a raw `<select>` instead of `Primitive.select`.
+// `asChild` (Radix `Slot`) requires a single child, but the hidden select renders
+// multiple `<option>` children alongside native form handlers, so slotting it would
+// break — advertising `asChild` here would be a lie. Keep it a plain native element.
 export interface SelectHiddenSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
 
 /**
