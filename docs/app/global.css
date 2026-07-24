@@ -105,7 +105,7 @@ html {
    font-medium / t*-medium directly; this rule matches in-content prose headings to the
    page title (fumadocs defaults them to 600, which would otherwise outweigh the title).
    :is() lifts specificity over fumadocs' :where() typography. */
-.prose :is(h1, h2, h3, h4, h5, h6) {
+.prose :is(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   font-weight: 500;
 }
 
