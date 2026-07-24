@@ -116,7 +116,7 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
   ({ placeholder, prefixIcon, suffixIcon = <IconChevronDownSmallLine />, ...props }, ref) => {
     return (
       <SeedSelect.Trigger ref={ref} {...props}>
-        <SeedSelect.PrefixIcon svg={prefixIcon} />
+        <SeedSelect.PrefixIcon fallback={prefixIcon} />
         <SeedSelect.Value />
         {placeholder && <SeedSelect.Placeholder>{placeholder}</SeedSelect.Placeholder>}
         <SeedSelect.SuffixIcon svg={suffixIcon} />
