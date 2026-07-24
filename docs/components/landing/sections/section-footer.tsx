@@ -48,7 +48,7 @@ export function SectionFooter() {
     >
       <div className="mx-auto flex w-full max-w-[1760px] flex-col gap-8 px-spacing-x-global-gutter md:flex-row md:justify-between md:gap-12 md:px-12">
         <div className="flex flex-col gap-3">
-          <SeedSymbol className="h-7 w-auto self-start md:h-8" />
+          <SeedSymbol className="h-auto w-4 shrink-0 self-start md:w-5" />
           <div className="flex flex-col gap-1.5">
             <span className="t12-bold text-[26px] font-bold md:text-[28px]">Rooted in Daangn.</span>
             {/* output: export라 연도는 빌드 시점에 구워진다. 연도 경계에서만 클라이언트와

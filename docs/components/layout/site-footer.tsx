@@ -15,7 +15,7 @@ export function SiteFooter() {
   return (
     <footer className="border-fd-border mt-12 flex flex-col gap-10 border-t pt-10 md:flex-row md:justify-between">
       <div className="flex flex-col gap-3">
-        <SeedSymbol className="text-fd-foreground h-7 w-auto self-start md:h-8" />
+        <SeedSymbol className="text-fd-foreground h-auto w-4 shrink-0 self-start md:w-5" />
         <div>
           <p className="text-fd-foreground text-[26px] font-bold tracking-tight lg:text-[28px]">
             {FOOTER_BRAND.tagline}
