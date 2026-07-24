@@ -40,11 +40,6 @@ const SELECT_TRANSFORM_ORIGIN = "--seed-select-transform-origin";
 const SELECT_AVAILABLE_HEIGHT = "--seed-select-available-height";
 const SELECT_REFERENCE_WIDTH = "--seed-select-reference-width";
 
-/**
- * Select trigger — the `role="combobox"` button whose text content is the
- * selected value. It contains its value directly, so the interactive layer is
- * merged into `root` (there is no separate absolute-overlay interactive slot).
- */
 export const selectTrigger = defineSlotRecipe({
   name: "select-trigger",
   slots: ["root", "value", "placeholder", "prefixIcon", "suffixIcon"],
@@ -302,11 +297,6 @@ export const selectTrigger = defineSlotRecipe({
   },
 });
 
-/**
- * Select — the floating listbox container. `content`/`positioner`/`scrollArea`
- * hold the popup surface and scrolling; `group`/`groupLabel` (and the `divider`
- * between groups) organize the options folded in from `selectItem`.
- */
 export const select = defineSlotRecipe({
   name: "select",
   slots: ["positioner", "content", "scrollArea", "group", "groupLabel"],
@@ -443,11 +433,6 @@ export const select = defineSlotRecipe({
   },
 });
 
-/**
- * Select item — a single option row. Its prefix icon folds into `root`
- * via the icon utilities (a select option has no independent use or `tone`);
- * `indicator` marks the selected option.
- */
 export const selectItem = defineSlotRecipe({
   name: "select-item",
   slots: ["root", "body", "label", "description", "indicator"],
