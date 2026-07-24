@@ -272,6 +272,66 @@ describe("useSelect open/close", () => {
     expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "true");
   });
 
+  // controlled open that actually tracks onOpenChange (the counterpart to the
+  // pinned case above): the listbox opens and closes as the parent state flips.
+  it("opens and closes when a controlled open prop tracks onOpenChange", async () => {
+    const user = userEvent.setup();
+
+    function Controlled() {
+      const [open, setOpen] = React.useState(false);
+      return <BasicSelect open={open} onOpenChange={setOpen} />;
+    }
+
+    const { getByRole } = render(<Controlled />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    await openWithClick(user, trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    await user.keyboard("{Escape}");
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("fires onOpenChange(true) when opening from the closed trigger", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+  });
+
+  it("fires onOpenChange(true) when opening via keyboard", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+  });
+
+  // The single-select commit path closes the listbox via setOpen(false), so the
+  // consumer callback must fire — not just the aria-expanded flip.
+  it("fires onOpenChange(false) when a single-select commit closes the listbox", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getAllByRole } = render(<BasicSelect defaultOpen onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    await user.click(getAllByRole("option")[1]);
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
   it("closes on Escape", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect />);
@@ -280,6 +340,20 @@ describe("useSelect open/close", () => {
     await openWithClick(user, getByRole("combobox"));
     await user.keyboard("{Escape}");
     expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "false");
+  });
+
+  // FloatingFocusManager returns focus to the trigger on close so keyboard users
+  // land back on the combobox rather than the top of the document.
+  it("returns focus to the trigger when closed via Escape", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.keyboard("{Escape}");
+
+    await waitFor(() => expect(trigger).toHaveFocus());
   });
 
   // Escape never clears the value
@@ -650,6 +724,31 @@ describe("useSelect selection (multiple)", () => {
 
     expect(trigger).toHaveTextContent("Apple, Cherry");
   });
+
+  // controlled multiple: the toggle payload reaches onValueChange but the
+  // rendered selection stays pinned to the controlled value (parity with the
+  // single-select controlled case).
+  it("keeps a controlled multiple value pinned while still firing onValueChange", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <BasicSelect multiple value={["apple"]} onValueChange={onValueChange} />,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.click(getAllByRole("option")[1]);
+
+    expect(onValueChange).toHaveBeenCalledWith(["apple", "banana"]);
+    // value is controlled and the parent never updates it, so it stays pinned
+    const options = getAllByRole("option");
+    expect(options[0]).toHaveAttribute("aria-selected", "true");
+    expect(options[1]).toHaveAttribute("aria-selected", "false");
+    expect(trigger).toHaveTextContent("Apple");
+    // multiple never closes on commit
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+  });
 });
 
 // ===========================================================================
@@ -930,10 +1029,50 @@ describe("useSelect keyboard open & highlight seeding", () => {
     await user.keyboard("{ArrowDown}{ArrowDown}");
     await user.keyboard("{Escape}");
     expect(trigger).toHaveAttribute("aria-expanded", "false");
-    expect(trigger).not.toHaveAttribute("aria-activedescendant");
+    // aria-activedescendant lives on the listbox, not the trigger — assert it
+    // there so the check can't pass vacuously.
+    expect(getListbox(trigger)).not.toHaveAttribute("aria-activedescendant");
 
     await openWithClick(user, trigger);
     expectNoHighlight(trigger);
+  });
+
+  // Every option disabled: the seed resolves to null (findFirstEnabledIndex),
+  // so opening leaves no highlight and navigation stays inert without crashing.
+  it("seeds no highlight and keeps navigation inert when every option is disabled", async () => {
+    const user = userEvent.setup();
+    const onValueChange = jest.fn();
+    const { getByRole } = render(
+      <SelectRoot onValueChange={onValueChange}>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="apple" label="Apple" disabled>
+              Apple
+            </SelectItem>
+            <SelectItem value="banana" label="Banana" disabled>
+              Banana
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    act(() => trigger.focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expectNoHighlight(trigger);
+
+    // arrows/Home/End all no-op, never highlighting a disabled option
+    await user.keyboard("{ArrowDown}{ArrowUp}{Home}{End}");
+    expectNoHighlight(trigger);
+    expect(onValueChange).not.toHaveBeenCalled();
   });
 });
 
@@ -2060,6 +2199,38 @@ describe("useSelect positioning", () => {
     );
   });
 
+  // container routes the FloatingPortal to a custom root instead of document.body
+  it("renders the listbox into a custom container", async () => {
+    const user = userEvent.setup();
+
+    function Wrapper() {
+      const containerRef = React.useRef<HTMLDivElement>(null);
+      return (
+        <div>
+          <div ref={containerRef} data-testid="portal-root" />
+          <SelectRoot>
+            <SelectTrigger aria-label="Fruit">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectPositioner container={containerRef}>
+              <SelectContent>
+                <SelectItem value="apple" label="Apple">
+                  Apple
+                </SelectItem>
+              </SelectContent>
+            </SelectPositioner>
+          </SelectRoot>
+        </div>
+      );
+    }
+
+    const { getByRole, getByTestId } = render(<Wrapper />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    expect(getByTestId("portal-root")).toContainElement(getByRole("listbox"));
+  });
+
   it("declares the safe-area inset custom properties on the positioner", async () => {
     const { getByTestId } = render(<BasicSelect />);
     await waitForPositioning();
@@ -2192,5 +2363,20 @@ describe("useSelect virtual click", () => {
 
     expect(trigger).toHaveAttribute("aria-expanded", "true");
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "banana");
+  });
+
+  // no selection to seed from → the keyboard seed falls through to the first
+  // enabled option, skipping the disabled one.
+  it("seeds the first enabled option on a detail-0 click with no selection", async () => {
+    const { getByRole } = render(<SelectWithDisabledItem />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await act(async () => {
+      fireEvent.click(trigger);
+    });
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
   });
 });
