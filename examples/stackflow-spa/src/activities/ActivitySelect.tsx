@@ -224,27 +224,6 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
           </VStack>
 
           <VStack gap="x3">
-            <SectionTitle>Prefix Text (지속 라벨)</SectionTitle>
-            <HStack align="center" gap="x4">
-              <div style={{ width: 220 }}>
-                <SelectRoot defaultValue={["newest"]}>
-                  <SelectTrigger aria-label="정렬" prefixText="정렬:" placeholder="선택" />
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="newest" label="최신순" />
-                      <SelectItem value="popular" label="인기순" />
-                      <SelectItem value="price" label="가격순" />
-                    </SelectGroup>
-                  </SelectContent>
-                </SelectRoot>
-              </div>
-              <Text fontSize="t3" color="fg.neutralMuted">
-                선택과 무관하게 "정렬:" 라벨이 항상 값 앞에 유지됨
-              </Text>
-            </HStack>
-          </VStack>
-
-          <VStack gap="x3">
             <SectionTitle>Multiple × Prefix Icon</SectionTitle>
             <HStack align="center" gap="x4">
               <div style={{ width: 220 }}>
