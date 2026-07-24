@@ -3,8 +3,9 @@ import { forwardRef } from "react";
 
 import { pageBanner, type PageBannerVariantProps } from "@seed-design/css/recipes/page-banner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withPressScale } from "../../utils/pressScale";
+import { usePressScale, withPressScale } from "../../utils/pressScale";
 import {
   DismissibleCloseButton,
   DismissibleRoot,
@@ -27,9 +28,18 @@ export const PageBannerRoot = forwardRef<HTMLDivElement, PageBannerRootProps>(
     const [variantProps, otherProps] = pageBanner.splitVariantProps(props);
     const classNames = pageBanner(variantProps);
 
+    // The root only scales when the consumer makes it actionable (`asChild` with a
+    // button) — the recipe gates the scale on `:is(button)`. Publishing the size
+    // vars unconditionally costs a plain banner nothing.
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
+
     return (
       <ClassNamesProvider value={classNames}>
-        <DismissibleRoot className={clsx(classNames.root, className)} ref={ref} {...otherProps} />
+        <DismissibleRoot
+          className={clsx(classNames.root, pressScaleClassName, className)}
+          ref={useComposedRefs(pressScaleRef, ref)}
+          {...otherProps}
+        />
       </ClassNamesProvider>
     );
   },

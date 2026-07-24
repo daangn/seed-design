@@ -14,7 +14,12 @@ const { withContext, withProvider } = createSlotRecipeContext(callout);
 
 export interface CalloutRootProps extends CalloutVariantProps, DismissibleRootProps {}
 
-export const CalloutRoot = withProvider<HTMLDivElement, CalloutRootProps>(DismissibleRoot, "root");
+// The root only scales when the consumer makes it actionable (`asChild` with a
+// button or anchor) — the recipe gates the scale on `:is(button, a)`. Publishing
+// the size vars unconditionally costs a plain callout nothing.
+export const CalloutRoot = withPressScale(
+  withProvider<HTMLDivElement, CalloutRootProps>(DismissibleRoot, "root"),
+);
 
 export interface CalloutContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 

@@ -2,6 +2,8 @@ import { callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import {
+  createPressScaleCounterRestStyles,
+  createPressScaleCounterStyles,
   createPressScaleRestStyles,
   createPressScaleStyles,
   PRESS_SCALE_TRANSITION,
@@ -28,6 +30,8 @@ const callout = defineSlotRecipe({
       // remove line-height difference on actionable callouts (<button>)
       fontSize: "unset",
 
+      position: "relative",
+
       display: "flex",
       alignItems: "center",
       textAlign: "start",
@@ -44,6 +48,42 @@ const callout = defineSlotRecipe({
 
       textDecoration: "none",
 
+      // An actionable callout scales as a whole on press, so the background sits
+      // on a pseudo that cancels that scale: the card keeps its size while the
+      // icon and text shrink together. The tone variants paint this layer — a
+      // plain callout gets the same background, it just never scales.
+      //
+      // `isolation` and not a scale-induced stacking context: only the actionable
+      // root scales, and a `z-index: -1` pseudo with no stacking context above it
+      // paints behind the parent's own background instead of behind the content.
+      isolation: "isolate",
+
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        zIndex: -1,
+        borderRadius: "inherit",
+
+        transition: PRESS_SCALE_TRANSITION,
+        ...createPressScaleCounterRestStyles(),
+      },
+
+      // The focus ring rides the counter-scale on a layer of its own: an `outline`
+      // is painted with the box it sits on, so left on the root it would shrink
+      // with the content and detach inward from the fixed background.
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        borderRadius: "inherit",
+        pointerEvents: "none",
+
+        transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+        ...createPressScaleCounterRestStyles(),
+        ...createFocusRingRestStyles(),
+      },
+
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,
       }),
@@ -53,11 +93,16 @@ const callout = defineSlotRecipe({
 
       [pseudo(":is(button, a)")]: {
         cursor: "pointer",
-        transition: FOCUS_RING_TRANSITION,
+        transition: PRESS_SCALE_TRANSITION,
 
-        ...createFocusRingRestStyles(),
-        [pseudo(focusVisible)]: createFocusRingStyles(),
+        ...createPressScaleRestStyles(),
       },
+
+      [pseudo(":is(button, a)", active)]: createPressScaleStyles(),
+      [pseudo(":is(button, a)", active, "::before")]: createPressScaleCounterStyles(),
+      [pseudo(":is(button, a)", active, "::after")]: createPressScaleCounterStyles(),
+
+      [pseudo(":is(button, a)", focusVisible, "::after")]: createFocusRingStyles(),
     },
     content: {
       marginRight: "auto",
@@ -141,7 +186,9 @@ const callout = defineSlotRecipe({
     tone: {
       neutral: {
         root: {
-          backgroundColor: vars.toneNeutral.enabled.root.color,
+          "&::before": {
+            backgroundColor: vars.toneNeutral.enabled.root.color,
+          },
 
           ...prefixIcon({
             color: vars.toneNeutral.enabled.prefixIcon.color,
@@ -150,7 +197,7 @@ const callout = defineSlotRecipe({
             color: vars.toneNeutral.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", engaged)]: {
+          [pseudo(":is(button, a)", engaged, "::before")]: {
             backgroundColor: vars.toneNeutral.pressed.root.color,
           },
         },
@@ -166,7 +213,9 @@ const callout = defineSlotRecipe({
       },
       informative: {
         root: {
-          backgroundColor: vars.toneInformative.enabled.root.color,
+          "&::before": {
+            backgroundColor: vars.toneInformative.enabled.root.color,
+          },
 
           ...prefixIcon({
             color: vars.toneInformative.enabled.prefixIcon.color,
@@ -175,7 +224,7 @@ const callout = defineSlotRecipe({
             color: vars.toneInformative.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", engaged)]: {
+          [pseudo(":is(button, a)", engaged, "::before")]: {
             backgroundColor: vars.toneInformative.pressed.root.color,
           },
         },
@@ -191,7 +240,9 @@ const callout = defineSlotRecipe({
       },
       positive: {
         root: {
-          backgroundColor: vars.tonePositive.enabled.root.color,
+          "&::before": {
+            backgroundColor: vars.tonePositive.enabled.root.color,
+          },
 
           ...prefixIcon({
             color: vars.tonePositive.enabled.prefixIcon.color,
@@ -200,7 +251,7 @@ const callout = defineSlotRecipe({
             color: vars.tonePositive.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", engaged)]: {
+          [pseudo(":is(button, a)", engaged, "::before")]: {
             backgroundColor: vars.tonePositive.pressed.root.color,
           },
         },
@@ -216,7 +267,9 @@ const callout = defineSlotRecipe({
       },
       warning: {
         root: {
-          backgroundColor: vars.toneWarning.enabled.root.color,
+          "&::before": {
+            backgroundColor: vars.toneWarning.enabled.root.color,
+          },
 
           ...prefixIcon({
             color: vars.toneWarning.enabled.prefixIcon.color,
@@ -225,7 +278,7 @@ const callout = defineSlotRecipe({
             color: vars.toneWarning.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", engaged)]: {
+          [pseudo(":is(button, a)", engaged, "::before")]: {
             backgroundColor: vars.toneWarning.pressed.root.color,
           },
         },
@@ -241,7 +294,9 @@ const callout = defineSlotRecipe({
       },
       critical: {
         root: {
-          backgroundColor: vars.toneCritical.enabled.root.color,
+          "&::before": {
+            backgroundColor: vars.toneCritical.enabled.root.color,
+          },
 
           ...prefixIcon({
             color: vars.toneCritical.enabled.prefixIcon.color,
@@ -250,7 +305,7 @@ const callout = defineSlotRecipe({
             color: vars.toneCritical.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", engaged)]: {
+          [pseudo(":is(button, a)", engaged, "::before")]: {
             backgroundColor: vars.toneCritical.pressed.root.color,
           },
         },
@@ -266,7 +321,9 @@ const callout = defineSlotRecipe({
       },
       magic: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient})`,
+          "&::before": {
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient})`,
+          },
 
           ...prefixIcon({
             color: vars.toneMagic.enabled.prefixIcon.color,
@@ -275,7 +332,7 @@ const callout = defineSlotRecipe({
             color: vars.toneMagic.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", engaged)]: {
+          [pseudo(":is(button, a)", engaged, "::before")]: {
             backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient})`,
           },
         },
