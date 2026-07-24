@@ -1,5 +1,5 @@
 import { render, act } from "@testing-library/react";
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it, jest } from "bun:test";
 import * as React from "react";
 
 import {
@@ -15,6 +15,7 @@ import {
   SelectItemPrefixIcon,
   SelectItemBody,
   SelectItemLabel,
+  SelectItemIndicator,
   SelectHiddenSelect,
   type SelectRootProps,
 } from "./Select";
@@ -152,6 +153,22 @@ describe("Select", () => {
       expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
       expect(queryByTestId("static-icon")).toBeInTheDocument();
     });
+
+    it("renders nothing with two or more selections and no static svg", async () => {
+      const { getByRole } = render(<TestSelect multiple defaultValue={["apple", "cherry"]} />);
+      await waitForPositioning();
+      // neither item icon mirrors (only exactly-one mirrors) and there is no
+      // fallback, so the prefix slot renders nothing
+      expect(getByRole("combobox").querySelector("svg")).toBeNull();
+    });
+
+    it("forwards the disabled state to the prefix icon", async () => {
+      const { getByTestId } = render(
+        <TestSelect disabled staticIcon={<svg data-testid="static-icon" />} />,
+      );
+      await waitForPositioning();
+      expect(getByTestId("static-icon")).toHaveAttribute("data-disabled");
+    });
   });
 
   describe("item row: context-driven label & prefix", () => {
@@ -216,6 +233,55 @@ describe("Select", () => {
       await waitForPositioning();
       expect(getByRole("option", { name: "Banana" }).querySelector("svg")).toBeNull();
     });
+
+    it("lets an explicit svg prop override the item's context prefixIcon", async () => {
+      const { getByTestId, queryByTestId } = render(
+        <SelectRoot defaultOpen>
+          <SelectTrigger aria-label="Fruit">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem value="apple" label="Apple" prefixIcon={<svg data-testid="ctx-icon" />}>
+                  <SelectItemPrefixIcon svg={<svg data-testid="override-icon" />} />
+                  <SelectItemBody>
+                    <SelectItemLabel />
+                  </SelectItemBody>
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+        </SelectRoot>,
+      );
+      await waitForPositioning();
+      expect(getByTestId("override-icon")).toBeInTheDocument();
+      expect(queryByTestId("ctx-icon")).not.toBeInTheDocument();
+    });
+
+    it("forwards the disabled item state to the item body and label", async () => {
+      const { getByTestId, getByText } = render(
+        <SelectRoot defaultOpen>
+          <SelectTrigger aria-label="Fruit">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem value="apple" label="Apple" disabled>
+                  <SelectItemBody data-testid="apple-body">
+                    <SelectItemLabel />
+                  </SelectItemBody>
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+        </SelectRoot>,
+      );
+      await waitForPositioning();
+      expect(getByTestId("apple-body")).toHaveAttribute("data-disabled");
+      expect(getByText("Apple")).toHaveAttribute("data-disabled");
+    });
   });
 
   describe("Field composition", () => {
@@ -264,6 +330,105 @@ describe("Select", () => {
 
       const label = container.querySelector("label");
       expect(getByRole("combobox")).toHaveAttribute("aria-labelledby", label?.id);
+    });
+
+    // APG combobox pattern: the listbox popup carries the same field label so
+    // screen readers announce the group name when focus enters the options.
+    it("labels the listbox popup via the field label id", async () => {
+      const { container, getByRole } = render(<FieldSelect />);
+      await waitForPositioning();
+
+      const label = container.querySelector("label");
+      expect(getByRole("listbox")).toHaveAttribute("aria-labelledby", label?.id);
+    });
+  });
+
+  describe("SelectItemIndicator", () => {
+    function IndicatorSelect(props: SelectRootProps) {
+      return (
+        <SelectRoot defaultOpen {...props}>
+          <SelectTrigger aria-label="Fruit">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem value="apple" label="Apple">
+                  <SelectItemBody>
+                    <SelectItemLabel />
+                  </SelectItemBody>
+                  <SelectItemIndicator
+                    selected={<svg data-testid="apple-selected" />}
+                    unselected={<svg data-testid="apple-unselected" />}
+                  />
+                </SelectItem>
+                <SelectItem value="banana" label="Banana">
+                  <SelectItemBody>
+                    <SelectItemLabel />
+                  </SelectItemBody>
+                  <SelectItemIndicator selected={<svg data-testid="banana-selected" />} />
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+        </SelectRoot>
+      );
+    }
+
+    it("shows the selected icon on the selected item, kept aria-hidden", async () => {
+      const { getByTestId, queryByTestId } = render(<IndicatorSelect defaultValue={["apple"]} />);
+      await waitForPositioning();
+
+      expect(getByTestId("apple-selected")).toBeInTheDocument();
+      expect(getByTestId("apple-selected")).toHaveAttribute("aria-hidden", "true");
+      expect(queryByTestId("apple-unselected")).not.toBeInTheDocument();
+    });
+
+    it("shows the unselected icon while the item is not selected", async () => {
+      const { getByTestId, queryByTestId } = render(<IndicatorSelect />);
+      await waitForPositioning();
+
+      expect(getByTestId("apple-unselected")).toBeInTheDocument();
+      expect(queryByTestId("apple-selected")).not.toBeInTheDocument();
+    });
+
+    it("renders nothing for an unselected item that has no unselected icon", async () => {
+      const { queryByTestId } = render(<IndicatorSelect defaultValue={["apple"]} />);
+      await waitForPositioning();
+
+      // banana is unselected and provides no `unselected` icon
+      expect(queryByTestId("banana-selected")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("SelectTrigger accessibility warning", () => {
+    it("warns when there is no Field and no aria-label", async () => {
+      const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
+      render(
+        <SelectRoot>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea />
+            </SelectContent>
+          </SelectPositioner>
+        </SelectRoot>,
+      );
+      await waitForPositioning();
+
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("SelectTrigger"));
+      warn.mockRestore();
+    });
+
+    it("stays silent when an aria-label is provided", async () => {
+      const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
+      render(<TestSelect />);
+      await waitForPositioning();
+
+      expect(warn).not.toHaveBeenCalled();
+      warn.mockRestore();
     });
   });
 });
