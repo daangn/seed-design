@@ -141,21 +141,27 @@ export declare const privateComponentContentPlaceholder: {
   "name": "privateComponentContentPlaceholder",
   "key": "49e110c31e4a7e6e9872d369f889dc48c0f5cef4",
   "componentPropertyDefinitions": {
+    "Custom Icon#16102:0": {
+      "type": "INSTANCE_SWAP"
+    },
     "Type": {
       "type": "VARIANT",
       "variantOptions": [
         "Default",
-        "Coupon",
+        "Buy-sell",
         "Realty",
         "Car",
         "Jobs",
-        "Buy-sell",
-        "Business",
         "Post",
         "Group",
         "Image",
+        "Business",
+        "Coupon",
         "Food",
-        "Commerce"
+        "Commerce",
+        "Cafe",
+        "Custom",
+        "Apartment"
       ]
     }
   }
@@ -1440,6 +1446,13 @@ export declare const privateComponentTopNavigationRightTextButton: {
       "variantOptions": [
         "Enable",
         "Disabled"
+      ]
+    },
+    "OS (Figma Only)": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Android",
+        "iOS"
       ]
     }
   }
@@ -3046,6 +3059,102 @@ export declare const componentFloatingActionButton: {
   }
 };
 
+export declare const componentFooterPreset: {
+  "name": "componentFooterPreset",
+  "key": "a872131de683d596911a8c900f9c3531adeda4bf",
+  "componentPropertyDefinitions": {
+    "Product": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "비즈프로필",
+        "당근비즈니스",
+        "어바웃당근",
+        "당근닷컴"
+      ]
+    },
+    "Platform": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Desktop",
+        "Mobile"
+      ]
+    }
+  }
+};
+
+export declare const componentHeader: {
+  "name": "componentHeader",
+  "key": "161e2ac88e023e18c9657ee699aad2a24f5a10e2",
+  "componentPropertyDefinitions": {
+    "Left 1st Slot#4518:20": {
+      "type": "SLOT"
+    },
+    "Left 2nd Slot#4518:25": {
+      "type": "SLOT"
+    },
+    "Center Slot#4518:30": {
+      "type": "SLOT"
+    },
+    "Right 1st Slot#4518:35": {
+      "type": "SLOT"
+    },
+    "Right 2nd Slot#4518:40": {
+      "type": "SLOT"
+    },
+    "Has Left 2nd Slot#4518:45": {
+      "type": "BOOLEAN"
+    },
+    "Has Center Slot#4518:50": {
+      "type": "BOOLEAN"
+    },
+    "Has Right 2nd Slot#4518:55": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Layer Default",
+        "Transparent"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderPreset: {
+  "name": "componentHeaderPreset",
+  "key": "c7cf19e6fe7134a7d2ccc9bba5f9f2fd0686ed74",
+  "componentPropertyDefinitions": {
+    "Show Divider#1072:0": {
+      "type": "BOOLEAN"
+    },
+    "Product": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "당근닷컴",
+        "어바웃당근",
+        "당근비즈니스",
+        "비즈프로필",
+        "판매자센터",
+        "Realty"
+      ]
+    },
+    "Platform": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Desktop",
+        "Mobile"
+      ]
+    }
+  }
+};
+
 export declare const componentHelpBubble: {
   "name": "componentHelpBubble",
   "key": "eb1f8c5cb33de231bf3352d44a5abf05fe19a9a2",
@@ -3347,6 +3456,9 @@ export declare const componentMenuSheet: {
   "name": "componentMenuSheet",
   "key": "0e0597f2ea3f9dde6c17bf0e4d8eebe3a95e3942",
   "componentPropertyDefinitions": {
+    "Show Close Button#13640:0": {
+      "type": "BOOLEAN"
+    },
     "Title Text#14599:0": {
       "type": "TEXT"
     },
@@ -4766,6 +4878,192 @@ export declare const templateEmbedViewType: {
       "variantOptions": [
         "Title First",
         "Description First"
+      ]
+    }
+  }
+};
+
+export declare const componentFooterItemLinkText: {
+  "name": "componentFooterItemLinkText",
+  "key": "9d55bd82eebca210db9fed9e0a36705a392db1da",
+  "componentPropertyDefinitions": {
+    "Text#911:0": {
+      "type": "TEXT"
+    },
+    "Has Suffix Icon#911:3": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large"
+      ]
+    }
+  }
+};
+
+export declare const componentFooterItemLogoButton: {
+  "name": "componentFooterItemLogoButton",
+  "key": "27c57186907e4d20d49de0974b0b21afd8d263ba",
+  "componentPropertyDefinitions": {
+    "Icon#937:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemIconButton: {
+  "name": "componentHeaderItemIconButton",
+  "key": "510f9b3920d37a67855dfec1e247d991241d1d5c",
+  "componentPropertyDefinitions": {
+    "Icon#1019:1": {
+      "type": "INSTANCE_SWAP"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "State2"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemLogo: {
+  "name": "componentHeaderItemLogo",
+  "key": "e84ba1b5c2e23048e31c267f5c8d76650b7c54a3",
+  "componentPropertyDefinitions": {
+    "Product": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Daangn",
+        "Business",
+        "Service",
+        "Commerce",
+        "Realty"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemMenu: {
+  "name": "componentHeaderItemMenu",
+  "key": "c09d80c557caff256d65b3275a8906049a50bbdc",
+  "componentPropertyDefinitions": {
+    "Slot#4518:74": {
+      "type": "SLOT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemProfile: {
+  "name": "componentHeaderItemProfile",
+  "key": "cfa0fcc57f8d1cd8abd11d8db755659f8a4ba35d",
+  "componentPropertyDefinitions": {
+    "Property 1": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Right",
+        "Variant2"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemMenuButtonAction: {
+  "name": "componentHeaderItemMenuButtonAction",
+  "key": "48205ed4ff40531b0a5eaa3f602ddacb5cfca2d9",
+  "componentPropertyDefinitions": {
+    "Label#286:2": {
+      "type": "TEXT"
+    },
+    "Suffix Icon#287:2": {
+      "type": "INSTANCE_SWAP"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabeld",
+        "Pressed",
+        "Disabled"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text Only",
+        "Icon Last"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemMenuButtonToggle: {
+  "name": "componentHeaderItemMenuButtonToggle",
+  "key": "b22e14e44e7d06587a01ae8e87a1f448a6a46e7d",
+  "componentPropertyDefinitions": {
+    "Label#286:2": {
+      "type": "TEXT"
+    },
+    "Suffix Icon#287:2": {
+      "type": "INSTANCE_SWAP"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabeld",
+        "Pressed",
+        "Disabled"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text Only",
+        "Icon Last"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
       ]
     }
   }

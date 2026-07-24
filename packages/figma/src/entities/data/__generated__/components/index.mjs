@@ -237,6 +237,12 @@ export const componentChipItemPrefixMediumImage = {
   "componentPropertyDefinitions": {}
 };
 
+export const componentChipItemPrefixMediumSlot = {
+  "name": "componentChipItemPrefixMediumSlot",
+  "key": "79bf189f66f777d8e5a881842baf84580171d00a",
+  "componentPropertyDefinitions": {}
+};
+
 export const componentChipItemPrefixSmallAvatar = {
   "name": "componentChipItemPrefixSmallAvatar",
   "key": "4949a78c7f9c5aff60135ec34a9e5b1e9bc0ee82",
@@ -256,6 +262,12 @@ export const componentChipItemPrefixSmallIcon = {
 export const componentChipItemPrefixSmallImage = {
   "name": "componentChipItemPrefixSmallImage",
   "key": "71710fc8ad7af696a8d04a511eb25cc1e18d6212",
+  "componentPropertyDefinitions": {}
+};
+
+export const componentChipItemPrefixSmallSlot = {
+  "name": "componentChipItemPrefixSmallSlot",
+  "key": "fa04bbf76667bb3dacf74726380d705d4595d69a",
   "componentPropertyDefinitions": {}
 };
 
@@ -292,6 +304,18 @@ export const componentChipItemSuffixSmallCustom = {
 export const componentChipItemSuffixSmallDismiss = {
   "name": "componentChipItemSuffixSmallDismiss",
   "key": "e32de98f1011177d585439cd1364d087f1ab90da",
+  "componentPropertyDefinitions": {}
+};
+
+export const componentFooterItemLinkTitle = {
+  "name": "componentFooterItemLinkTitle",
+  "key": "d2c5cec9232dc4b83d2b64198b976df56e9b1af2",
+  "componentPropertyDefinitions": {}
+};
+
+export const componentFooterItemLogo = {
+  "name": "componentFooterItemLogo",
+  "key": "9a0fdf6421122ec0b44788ba4ffd16f89f3ab22e",
   "componentPropertyDefinitions": {}
 };
 
