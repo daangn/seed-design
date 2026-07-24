@@ -26,7 +26,7 @@ function TestSelect({ staticIcon, ...props }: SelectRootProps & { staticIcon?: R
   return (
     <SelectRoot {...props}>
       <SelectTrigger aria-label="Fruit">
-        <SelectPrefixIcon svg={staticIcon} />
+        <SelectPrefixIcon fallback={staticIcon} />
         <SelectValue />
         <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
       </SelectTrigger>

@@ -131,21 +131,23 @@ export const SelectPlaceholder = withTriggerContext<HTMLSpanElement, SelectPlace
 
 export interface SelectPrefixIconProps extends React.SVGAttributes<SVGSVGElement> {
   /**
-   * The static icon to display. While exactly one item is selected, that item's
-   * `icon` takes over the slot; when that item has no icon — and for empty
-   * or multi selections — this static icon shows instead.
+   * The fallback icon shown when the current selection supplies no icon of its
+   * own. While exactly one item is selected, that item's `icon` takes over the
+   * slot; this fallback shows when that item has no icon — and for empty or
+   * multi selections. Named `fallback` (not `svg`) because a selected item's own
+   * icon outranks it, so what you pass here may not be what renders.
    */
-  svg?: React.ReactNode;
+  fallback?: React.ReactNode;
 }
 
 export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIconProps>(
-  ({ svg: staticSvg, ...otherProps }, ref) => {
+  ({ fallback, ...otherProps }, ref) => {
     const { value, selectedItems, stateProps } = useSelectContext();
     const classNames = useTriggerClassNames();
 
-    // A single selected item's own icon wins; otherwise the static prefix shows —
+    // A single selected item's own icon wins; otherwise the fallback shows —
     // including when that item has no icon, or on empty/multi selections.
-    const svg = (value.length === 1 ? selectedItems[0]?.icon : undefined) ?? staticSvg;
+    const svg = (value.length === 1 ? selectedItems[0]?.icon : undefined) ?? fallback;
     if (!svg) return null;
 
     const mergedProps = mergeProps(
