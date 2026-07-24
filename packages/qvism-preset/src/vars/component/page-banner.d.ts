@@ -74,7 +74,7 @@ export declare const vars: {
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
@@ -95,7 +95,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     }
   },

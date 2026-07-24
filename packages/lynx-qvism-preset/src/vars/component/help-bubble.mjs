@@ -2,7 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x3)",
         "paddingY": "var(--seed-dimension-x2_5)",
@@ -17,7 +17,7 @@ export const vars = {
         "exitTimingFunction": "var(--seed-timing-function-easing)"
       },
       "arrow": {
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "width": "12px",
         "height": "8px",
         "cornerRadius": "2px",

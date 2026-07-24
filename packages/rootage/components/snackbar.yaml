@@ -94,7 +94,7 @@ data:
           offsetDuration: $duration.d4
           offsetTimingFunction: $timing-function.easing
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
           cornerRadius: $radius.r2
           minHeight: 44px
           maxWidth: 560px

@@ -1354,7 +1354,7 @@
 }
 
 .seed-action-button--variant_neutralSolid {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   color: var(--seed-color-fg-neutral-inverted);
   font-weight: var(--seed-font-weight-bold);
   --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
@@ -1366,13 +1366,13 @@
 
 @media (hover: hover) and (pointer: fine) {
   .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -1385,7 +1385,7 @@
 }
 
 .seed-action-button--variant_neutralSolid[data-loading] {
-  background: var(--seed-color-bg-neutral-inverted-pressed);
+  background: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-action-button--variant_neutralWeak {
@@ -3457,18 +3457,18 @@
 }
 
 .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -3616,7 +3616,7 @@
 
 .seed-chip__root--variant_solid:is(:checked, [data-checked]) {
   box-shadow: none;
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
 }
 
@@ -3634,13 +3634,13 @@
 
 @media (hover: hover) and (pointer: fine) {
   .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-chip__root--variant_solid:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -3679,19 +3679,19 @@
 }
 
 .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]) {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -3922,7 +3922,7 @@
 }
 
 .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]) {
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
   color: var(--seed-color-fg-neutral-inverted);
 }
 
@@ -3940,13 +3940,13 @@
 
 @media (hover: hover) and (pointer: fine) {
   .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -3962,7 +3962,7 @@
 }
 
 .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]) {
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
   color: var(--seed-color-fg-neutral-inverted);
   border-color: #0000;
 }
@@ -3981,13 +3981,13 @@
 
 @media (hover: hover) and (pointer: fine) {
   .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -4101,7 +4101,7 @@
 }
 
 .seed-contextual-floating-button--variant_solid {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   color: var(--seed-color-fg-neutral-inverted);
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
@@ -4111,13 +4111,13 @@
 
 @media (hover: hover) and (pointer: fine) {
   .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -4129,7 +4129,7 @@
 }
 
 .seed-contextual-floating-button--variant_solid[data-loading] {
-  background: var(--seed-color-bg-neutral-inverted-pressed);
+  background: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-contextual-floating-button--variant_layer {
@@ -4588,12 +4588,12 @@
 }
 
 .seed-extended-fab--variant_neutralSolid {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   color: var(--seed-color-fg-neutral-inverted);
 }
 
 .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
-  background: var(--seed-color-bg-neutral-inverted-pressed);
+  background: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-extended-fab--variant_neutralSolid {
@@ -5369,7 +5369,7 @@
 }
 
 .seed-help-bubble__content {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   padding-inline: var(--seed-dimension-x3);
   padding-block: var(--seed-dimension-x2_5);
   border-radius: var(--seed-radius-r3);
@@ -5419,7 +5419,7 @@
 }
 
 .seed-help-bubble__arrowTip {
-  fill: var(--seed-color-bg-neutral-inverted);
+  fill: var(--seed-color-bg-neutral-solid);
   width: 12px;
   height: 8px;
   display: block;
@@ -7325,20 +7325,20 @@
 }
 
 .seed-page-banner__root--tone_neutral-variant_solid {
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
   --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
   --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-page-banner__root--tone_neutral-variant_solid:is(button):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -7734,18 +7734,18 @@
 }
 
 .seed-radiomark__root--tone_neutral:is(:checked, [data-checked]) {
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
 @media not all and (hover: hover) and (pointer: fine) {
   .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
   }
 }
 
@@ -8983,7 +8983,7 @@
 
 .seed-slider__thumb:after {
   content: "";
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
   border-radius: var(--seed-radius-full);
   outline: var(--seed-dimension-x0_5) solid transparent;
   outline-offset: var(--seed-dimension-x0_5);
@@ -9025,7 +9025,7 @@
   box-sizing: border-box;
   transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), right var(--seed-duration-d3) var(--seed-timing-function-easing);
   will-change: left, right;
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   padding-inline: var(--seed-dimension-x2);
   padding-block: var(--seed-dimension-x1);
   border-radius: var(--seed-radius-r1_5);
@@ -9128,7 +9128,7 @@
 }
 
 .seed-slider__valueIndicatorArrowTip {
-  fill: var(--seed-color-bg-neutral-inverted);
+  fill: var(--seed-color-bg-neutral-solid);
   width: var(--seed-dimension-x2);
   height: var(--seed-dimension-x1_5);
   display: block;
@@ -9212,7 +9212,7 @@
 
 .seed-snackbar__root {
   box-sizing: border-box;
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   border-radius: var(--seed-radius-r2);
   width: 100%;
   max-width: 560px;
@@ -9438,7 +9438,7 @@
 }
 
 .seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
 }
 
 .seed-switchmark__root--tone_neutral:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {

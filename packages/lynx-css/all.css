@@ -652,7 +652,7 @@ text {
 }
 
 .seed-action-button__root--variant_neutralSolid {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
   --track-color: var(--seed-color-palette-static-white-alpha-300);
   --range-color: var(--seed-color-palette-static-white);
 }
@@ -890,7 +890,7 @@ text {
 }
 
 .seed-action-button__root--variant_neutralSolid-pressed_true {
-  background: var(--seed-color-bg-neutral-inverted-pressed);
+  background: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-action-button__root--variant_neutralWeak-pressed_true {
@@ -980,7 +980,7 @@ text {
 }
 
 .seed-action-button__root--variant_neutralSolid-loading_true {
-  background: var(--seed-color-bg-neutral-inverted-pressed);
+  background: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-action-button__root--variant_neutralWeak-loading_true {
@@ -1631,7 +1631,7 @@ text {
 }
 
 .seed-checkmark__root--variant_square-tone_neutral-checked_true-disabled_false {
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
 }
 
 .seed-checkmark__icon--variant_square-tone_neutral-checked_true-disabled_false {
@@ -1647,7 +1647,7 @@ text {
 }
 
 .seed-checkmark__root--variant_square-tone_neutral-indeterminate_true-disabled_false {
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
 }
 
 .seed-checkmark__icon--variant_square-tone_neutral-indeterminate_true-disabled_false {
@@ -1684,7 +1684,7 @@ text {
 }
 
 .seed-checkmark__root--variant_square-tone_neutral-pressed_true-checked_true-disabled_false {
-  background-color: var(--seed-color-bg-neutral-inverted-pressed);
+  background-color: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-checkmark__root--variant_square-tone_brand-pressed_true-indeterminate_true-disabled_false {
@@ -1692,7 +1692,7 @@ text {
 }
 
 .seed-checkmark__root--variant_square-tone_neutral-pressed_true-indeterminate_true-disabled_false {
-  background-color: var(--seed-color-bg-neutral-inverted-pressed);
+  background-color: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-checkmark__root--variant_ghost-pressed_true-checked_false-indeterminate_false-disabled_false {
@@ -1810,7 +1810,7 @@ text {
 }
 
 .seed-radiomark__root--tone_neutral-checked_true-disabled_false {
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
   border-width: 0;
   border-color: #0000;
 }
@@ -1865,7 +1865,7 @@ text {
 }
 
 .seed-radiomark__root--tone_neutral-pressed_true-checked_true-disabled_false {
-  background-color: var(--seed-color-bg-neutral-inverted-pressed);
+  background-color: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-switch__root {
@@ -1987,7 +1987,7 @@ text {
 }
 
 .seed-switchmark__root--tone_neutral-checked_true-disabled_false {
-  background-color: var(--seed-color-bg-neutral-inverted);
+  background-color: var(--seed-color-bg-neutral-solid);
 }
 
 .seed-switchmark__root--tone_neutral-checked_true-disabled_true {
