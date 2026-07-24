@@ -25,8 +25,8 @@ export function ProsePage({ title, description, hero, children, footer = true }:
       {hero ? <div className="mb-10 w-full md:mb-14">{hero}</div> : null}
       <div className="mx-auto w-full max-w-[1100px]">
         <header className="not-prose mb-10 md:mb-14">
-          {/* Unified doc-page title scale (see OverviewLayout): SemiBold 600, text-3xl→md:text-4xl. */}
-          <h1 className="text-fd-foreground text-3xl font-medium tracking-tight text-balance md:text-4xl">
+          {/* get-started/updates 제목 스케일: text-3xl→md:text-[40px] (데스크탑 40px 고정). */}
+          <h1 className="text-fd-foreground text-3xl font-medium tracking-tight text-balance md:text-[40px]">
             {title}
           </h1>
           {description ? (
