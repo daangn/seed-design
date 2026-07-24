@@ -170,10 +170,7 @@ export const SelectSuffixIcon = withTriggerContext<SVGSVGElement, SelectSuffixIc
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectPositionerProps
-  extends SelectPrimitive.PositionerProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface SelectPositionerProps extends SelectPrimitive.PositionerProps {}
 
 export const SelectPositioner = React.forwardRef<HTMLDivElement, SelectPositionerProps>(
   ({ className, ...props }, ref) => {
