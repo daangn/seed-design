@@ -8931,6 +8931,10 @@
   overflow: hidden;
 }
 
+.seed-slider__track:is(:disabled, [disabled], [data-disabled]) {
+  background-color: var(--seed-color-bg-disabled);
+}
+
 .seed-slider__range {
   background-color: var(--seed-color-fg-neutral);
   height: 100%;

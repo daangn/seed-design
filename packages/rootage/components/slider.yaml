@@ -161,6 +161,8 @@ data:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
       disabled:
+        track:
+          color: $color.bg.disabled
         range:
           color: $color.fg.disabled
         thumb:
