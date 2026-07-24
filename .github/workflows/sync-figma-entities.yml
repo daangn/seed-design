@@ -263,3 +263,30 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload-file-path: /tmp/slack-payload.json
+
+      - name: 실패하면 Slack payload를 빌드해요
+        if: failure()
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          jq -n \
+            --arg channel "$SLACK_CHANNEL_ID" \
+            --arg run_url "$RUN_URL" \
+            '{
+              channel: $channel,
+              text: "Figma Entity 동기화가 실패했어요.",
+              blocks: [
+                {type: "header", text: {type: "plain_text", text: "Figma Entity 동기화가 실패했어요"}},
+                {type: "section", text: {type: "mrkdwn", text: "실패 원인은 실행 로그를 확인해주세요."}},
+                {type: "actions", elements: [{type: "button", style: "danger", text: {type: "plain_text", text: "로그 보기"}, url: $run_url}]}
+              ]
+            }' > /tmp/slack-failure-payload.json
+
+      - name: 실패를 Slack에 알려요
+        if: failure()
+        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload-file-path: /tmp/slack-failure-payload.json
