@@ -12,6 +12,7 @@ import {
   SelectContent,
   SelectScrollArea,
   SelectItem,
+  SelectItemPrefixIcon,
   SelectItemBody,
   SelectItemLabel,
   SelectHiddenSelect,
@@ -150,6 +151,70 @@ describe("Select", () => {
       rerender(<TestSelect staticIcon={<svg data-testid="static-icon" />} value={[]} />);
       expect(queryByTestId("apple-icon")).not.toBeInTheDocument();
       expect(queryByTestId("static-icon")).toBeInTheDocument();
+    });
+  });
+
+  describe("item row: context-driven label & prefix", () => {
+    function RowSelect(props: SelectRootProps) {
+      return (
+        <SelectRoot defaultOpen {...props}>
+          <SelectTrigger aria-label="Fruit">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              <SelectScrollArea>
+                <SelectItem
+                  value="apple"
+                  label="Apple"
+                  prefixIcon={<svg data-testid="apple-row-icon" />}
+                >
+                  <SelectItemPrefixIcon />
+                  <SelectItemBody>
+                    <SelectItemLabel />
+                  </SelectItemBody>
+                </SelectItem>
+                <SelectItem value="banana" label="Banana">
+                  <SelectItemPrefixIcon />
+                  <SelectItemBody>
+                    <SelectItemLabel />
+                  </SelectItemBody>
+                </SelectItem>
+                <SelectItem value="cherry" label={<em>Cherry</em>} textValue="Cherry">
+                  <SelectItemBody>
+                    <SelectItemLabel>Override</SelectItemLabel>
+                  </SelectItemBody>
+                </SelectItem>
+              </SelectScrollArea>
+            </SelectContent>
+          </SelectPositioner>
+        </SelectRoot>
+      );
+    }
+
+    it("renders the item's context label when SelectItemLabel has no children", async () => {
+      const { getByRole } = render(<RowSelect />);
+      await waitForPositioning();
+      expect(getByRole("option", { name: "Apple" })).toBeInTheDocument();
+      expect(getByRole("option", { name: "Banana" })).toBeInTheDocument();
+    });
+
+    it("lets explicit SelectItemLabel children win over the context label", async () => {
+      const { getByRole } = render(<RowSelect />);
+      await waitForPositioning();
+      expect(getByRole("option", { name: "Override" })).toBeInTheDocument();
+    });
+
+    it("renders the item's context prefixIcon in the row, kept aria-hidden", async () => {
+      const { getByTestId } = render(<RowSelect />);
+      await waitForPositioning();
+      expect(getByTestId("apple-row-icon")).toHaveAttribute("aria-hidden", "true");
+    });
+
+    it("renders no row prefix icon when the item has no prefixIcon", async () => {
+      const { getByRole } = render(<RowSelect />);
+      await waitForPositioning();
+      expect(getByRole("option", { name: "Banana" }).querySelector("svg")).toBeNull();
     });
   });
 

@@ -132,7 +132,7 @@ export const SelectPlaceholder = withTriggerContext<HTMLSpanElement, SelectPlace
 export interface SelectPrefixIconProps extends React.SVGAttributes<SVGSVGElement> {
   /**
    * The static icon to display. While exactly one item is selected, that item's
-   * `prefixIcon` takes over the slot; when that item has no icon — and for empty
+   * `icon` takes over the slot; when that item has no icon — and for empty
    * or multi selections — this static icon shows instead.
    */
   svg?: React.ReactNode;
@@ -145,7 +145,7 @@ export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIcon
 
     // A single selected item's own icon wins; otherwise the static prefix shows —
     // including when that item has no icon, or on empty/multi selections.
-    const svg = (value.length === 1 ? selectedItems[0]?.prefixIcon : undefined) ?? staticSvg;
+    const svg = (value.length === 1 ? selectedItems[0]?.icon : undefined) ?? staticSvg;
     if (!svg) return null;
 
     const mergedProps = mergeProps(
@@ -244,12 +244,64 @@ export const SelectGroupLabel = withContentContext<HTMLDivElement, SelectGroupLa
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectItemProps extends SelectPrimitive.ItemProps {}
+export interface SelectItemProps extends Omit<SelectPrimitive.ItemProps, "icon"> {
+  /**
+   * The option's prefix icon. Forwarded to the headless item's position-agnostic
+   * `icon`, which registers it for the trigger prefix slot and exposes it to the
+   * styled `ItemPrefixIcon` rendered in the row.
+   */
+  prefixIcon?: React.ReactNode;
+}
 
-export const SelectItem = withItemContext<HTMLDivElement, SelectItemProps>(
-  SelectPrimitive.Item,
-  "root",
+// Public API keeps the presentational `prefixIcon`; the headless item speaks the
+// position-agnostic `icon`, so this boundary maps one to the other. The `root` slot
+// className is applied inline — exactly what `withItemContext(..., "root")` does.
+export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
+  ({ prefixIcon, className, ...otherProps }, ref) => {
+    const classNames = useItemClassNames();
+
+    return (
+      <SelectPrimitive.Item
+        ref={ref}
+        icon={prefixIcon}
+        {...otherProps}
+        className={clsx(classNames.root, className)}
+      />
+    );
+  },
 );
+SelectItem.displayName = "SelectItem";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface SelectItemPrefixIconProps extends React.SVGAttributes<SVGSVGElement> {
+  /**
+   * Overrides the icon to render. Defaults to the item's own `icon` (read
+   * from item context), so the row shows the icon the item registered.
+   */
+  svg?: React.ReactNode;
+}
+
+export const SelectItemPrefixIcon = React.forwardRef<SVGSVGElement, SelectItemPrefixIconProps>(
+  ({ svg: svgOverride, ...otherProps }, ref) => {
+    const { icon } = useSelectItemContext();
+
+    const svg = svgOverride ?? icon;
+    if (!svg) return null;
+
+    // The item prefix has no recipe slot: it inherits size/color from the item
+    // root's `--seed-prefix-icon-*` vars through the shared `seed-prefix-icon`
+    // class (same as the generic PrefixIcon). No stateProps — the disabled color
+    // flows down from the root, so the icon needs no `data-disabled` of its own.
+    const mergedProps = mergeProps(
+      { className: "seed-prefix-icon" },
+      otherProps as React.HTMLAttributes<HTMLElement>,
+    );
+
+    return <InternalIcon ref={ref} svg={svg} {...mergedProps} />;
+  },
+);
+SelectItemPrefixIcon.displayName = "SelectItemPrefixIcon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -266,10 +318,28 @@ export interface SelectItemLabelProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const SelectItemLabel = withItemContext<HTMLSpanElement, SelectItemLabelProps>(
-  withItemStateProps(Primitive.span),
-  "label",
+export const SelectItemLabel = React.forwardRef<HTMLSpanElement, SelectItemLabelProps>(
+  ({ children, ...otherProps }, ref) => {
+    const { label, stateProps } = useSelectItemContext();
+    const classNames = useItemClassNames();
+
+    // Defaults to the item's own `label` (from context) so the caller doesn't have
+    // to re-thread it; explicit children still win. stateProps stays because the
+    // label's disabled style targets its own `data-disabled`.
+    const mergedProps = mergeProps(
+      stateProps,
+      { className: classNames.label },
+      otherProps as React.HTMLAttributes<HTMLElement>,
+    );
+
+    return (
+      <Primitive.span ref={ref} {...mergedProps}>
+        {children ?? label}
+      </Primitive.span>
+    );
+  },
 );
+SelectItemLabel.displayName = "SelectItemLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

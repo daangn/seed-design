@@ -1,7 +1,19 @@
-import { createContext, useContext } from "react";
+import { createContext, type ReactNode, useContext } from "react";
 import type { GetItemPropsReturn } from "./useSelect";
 
-export interface UseSelectItemContext extends GetItemPropsReturn {}
+export interface UseSelectItemContext extends GetItemPropsReturn {
+  /**
+   * The item's rich display label. Registered by `SelectItem` and passed straight
+   * down here from its own props (no round-trip through the root registry), so a
+   * styled `ItemLabel` can render it as its default children.
+   */
+  label?: ReactNode;
+  /**
+   * The item's icon. Same direct pass-down as `label`; a styled `ItemPrefixIcon`
+   * reads it from here instead of being handed the icon explicitly.
+   */
+  icon?: ReactNode;
+}
 
 const SelectItemContext = createContext<UseSelectItemContext | null>(null);
 

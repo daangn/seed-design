@@ -161,8 +161,6 @@ export interface SelectGroupLabelProps extends SeedSelect.GroupLabelProps {}
 export const SelectGroupLabel = SeedSelect.GroupLabel;
 
 export interface SelectItemProps extends Omit<SeedSelect.ItemProps, "children"> {
-  label: React.ReactNode;
-
   description?: React.ReactNode;
 }
 
@@ -170,12 +168,12 @@ export interface SelectItemProps extends Omit<SeedSelect.ItemProps, "children"> 
  * @see https://seed-design.io/react/components/select
  */
 export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ label, description, ...props }, ref) => {
+  ({ description, ...props }, ref) => {
     return (
-      <SeedSelect.Item ref={ref} label={label} {...props}>
-        {props.prefixIcon && <PrefixIcon svg={props.prefixIcon} />}
+      <SeedSelect.Item ref={ref} {...props}>
+        <SeedSelect.ItemPrefixIcon />
         <SeedSelect.ItemBody>
-          <SeedSelect.ItemLabel>{label}</SeedSelect.ItemLabel>
+          <SeedSelect.ItemLabel />
           {description && <SeedSelect.ItemDescription>{description}</SeedSelect.ItemDescription>}
         </SeedSelect.ItemBody>
         <SeedSelect.ItemIndicator selected={<IconCheckmarkFatFill />} />

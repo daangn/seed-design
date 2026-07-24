@@ -252,16 +252,16 @@ export interface SelectItemProps
    */
   textValue?: string;
   /**
-   * The option's prefix icon. The headless item does not render it — it is only
+   * The option's icon. The headless item does not render it — it is only
    * registered, and re-rendered in the trigger prefix slot while this is the only
    * selected item. Expects a single `svg` element; a ref attached to that element
    * connects to only one of the two render locations.
    */
-  prefixIcon?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ value, disabled, typeaheadLabel, label, textValue, prefixIcon, ...restProps }, ref) => {
+  ({ value, disabled, typeaheadLabel, label, textValue, icon, ...restProps }, ref) => {
     const { getItemProps, registerOption, unregisterOption } = useSelectContext();
     const resolvedTextValue = textValue ?? (typeof label === "string" ? label : value);
 
@@ -287,12 +287,14 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
           `SelectItem "${value}": \`label\` is a ReactNode, so \`textValue\` falls back to the option value for the trigger text and hidden <option>. Pass \`textValue\` to set the display string.`,
         );
       }
-      registerOption(value, { label, textValue: resolvedTextValue, prefixIcon });
+      registerOption(value, { label, textValue: resolvedTextValue, icon });
       return () => unregisterOption(value);
-    }, [value, label, resolvedTextValue, prefixIcon, registerOption, unregisterOption]);
+    }, [value, label, resolvedTextValue, icon, registerOption, unregisterOption]);
 
     return (
-      <SelectItemProvider value={api}>
+      // label/icon are the item's own props, forwarded straight down so styled
+      // `ItemLabel`/`ItemPrefixIcon` can consume them without the caller re-threading.
+      <SelectItemProvider value={{ ...api, label, icon }}>
         <Primitive.div ref={composeRefs(listRef, ref)} {...mergeProps(api.rootProps, restProps)} />
       </SelectItemProvider>
     );

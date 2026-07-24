@@ -1911,10 +1911,10 @@ describe("useSelectGroup", () => {
 });
 
 // ===========================================================================
-// prefixIcon channel
+// icon channel
 // ===========================================================================
 
-describe("useSelect prefixIcon channel", () => {
+describe("useSelect icon channel", () => {
   function IconSelect({
     apiRef,
     showBanana = true,
@@ -1931,11 +1931,11 @@ describe("useSelect prefixIcon channel", () => {
         </SelectTrigger>
         <SelectPositioner>
           <SelectContent>
-            <SelectItem value="apple" label="Apple" prefixIcon={<svg data-icon="apple" />}>
+            <SelectItem value="apple" label="Apple" icon={<svg data-icon="apple" />}>
               Apple
             </SelectItem>
             {showBanana && (
-              <SelectItem value="banana" label="Banana" prefixIcon={<svg data-icon="banana" />}>
+              <SelectItem value="banana" label="Banana" icon={<svg data-icon="banana" />}>
                 Banana
               </SelectItem>
             )}
@@ -1949,29 +1949,28 @@ describe("useSelect prefixIcon channel", () => {
   }
 
   // registered, not rendered; no DOM attribute leak
-  it("registers prefixIcon without rendering it or leaking it as a DOM attribute", async () => {
+  it("registers icon without rendering it or leaking it as a DOM attribute", async () => {
     const apiRef = createApiRef();
     const { getAllByRole } = render(<IconSelect apiRef={apiRef} />);
     await waitForPositioning();
 
     const options = getAllByRole("option");
-    expect(options[0]).not.toHaveAttribute("prefixIcon");
-    expect(options[0]).not.toHaveAttribute("prefixicon");
+    expect(options[0]).not.toHaveAttribute("icon");
     expect(options[0].querySelector("svg")).toBeNull();
 
-    expect(apiRef.current?.nativeOptions.get("apple")?.prefixIcon).toBeTruthy();
-    expect(apiRef.current?.nativeOptions.get("cherry")?.prefixIcon).toBeUndefined();
+    expect(apiRef.current?.nativeOptions.get("apple")?.icon).toBeTruthy();
+    expect(apiRef.current?.nativeOptions.get("cherry")?.icon).toBeUndefined();
   });
 
   // surfaces on selectedItems; selection changes swap it; unmount drops it
-  it("surfaces the selected item's prefixIcon and drops it with the selection", async () => {
+  it("surfaces the selected item's icon and drops it with the selection", async () => {
     const user = userEvent.setup();
     const apiRef = createApiRef();
     const { getByRole, getAllByRole, rerender } = render(<IconSelect apiRef={apiRef} />);
     await waitForPositioning();
 
     const getIconName = () => {
-      const icon = apiRef.current?.selectedItems[0]?.prefixIcon;
+      const icon = apiRef.current?.selectedItems[0]?.icon;
       if (!React.isValidElement<{ "data-icon"?: string }>(icon)) return undefined;
 
       return icon.props["data-icon"];

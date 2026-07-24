@@ -93,13 +93,13 @@ export interface SelectedItem {
   label: React.ReactNode;
   /** Plain string identity, used for the multi-select join and the hidden `<option>` text. */
   textValue: string;
-  prefixIcon?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 interface OptionEntry {
   label: React.ReactNode;
   textValue: string;
-  prefixIcon?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 export interface UseSelectProps {
@@ -350,7 +350,7 @@ export function useSelect(props: UseSelectProps) {
         existing &&
         existing.label === entry.label &&
         existing.textValue === entry.textValue &&
-        existing.prefixIcon === entry.prefixIcon
+        existing.icon === entry.icon
       ) {
         return prev;
       }
