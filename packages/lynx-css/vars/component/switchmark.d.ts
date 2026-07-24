@@ -53,7 +53,7 @@ export declare const vars: {
     },
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       }
     },
     "disabled": {

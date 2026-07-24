@@ -44,7 +44,7 @@
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-contextual-floating-button--variant_solid {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     color: var(--seed-color-fg-neutral-inverted);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
@@ -53,12 +53,12 @@
 }
 @media (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-neutral-inverted-pressed);
+        background: var(--seed-color-bg-neutral-solid-pressed);
     }
 }
 @media not all and (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
-        background: var(--seed-color-bg-neutral-inverted-pressed);
+        background: var(--seed-color-bg-neutral-solid-pressed);
     }
 }
 .seed-contextual-floating-button--variant_solid:is(:disabled, [disabled], [data-disabled]) {
@@ -68,7 +68,7 @@
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-contextual-floating-button--variant_solid[data-loading] {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
 }
 .seed-contextual-floating-button--variant_layer {
     background: var(--seed-color-bg-layer-floating);

@@ -66,7 +66,7 @@ export const vars = {
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
@@ -86,7 +86,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     }
   },

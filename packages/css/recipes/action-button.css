@@ -99,7 +99,7 @@
     background: var(--seed-color-bg-brand-solid-pressed);
 }
 .seed-action-button--variant_neutralSolid {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     color: var(--seed-color-fg-neutral-inverted);
     font-weight: var(--seed-font-weight-bold);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
@@ -110,12 +110,12 @@
 }
 @media (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralSolid:is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-neutral-inverted-pressed);
+        background: var(--seed-color-bg-neutral-solid-pressed);
     }
 }
 @media not all and (hover: hover) and (pointer: fine) {
     .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
-        background: var(--seed-color-bg-neutral-inverted-pressed);
+        background: var(--seed-color-bg-neutral-solid-pressed);
     }
 }
 .seed-action-button--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
@@ -126,7 +126,7 @@
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_neutralSolid[data-loading] {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
 }
 .seed-action-button--variant_neutralWeak {
     background: var(--seed-color-bg-neutral-weak);
