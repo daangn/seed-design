@@ -1,7 +1,7 @@
 /**
  * SEED 심볼 마크 (sprout + seed). footer 브랜드 로고.
  * `currentColor`를 써서 소비처의 text 색을 따른다(docs 라이트/다크, 랜딩 footer).
- * 비율은 viewBox로 보존 — 소비처는 height만 주고 `w-auto`로 쓴다.
+ * 비율은 viewBox로 보존 — 소비처는 width만 주고 `h-auto`로 쓴다(둘 다 주면 비율이 깨진다).
  */
 export function SeedSymbol({ className }: { className?: string }) {
   return (
