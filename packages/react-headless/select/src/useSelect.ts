@@ -87,8 +87,7 @@ function findEnabledIndex(
   return null;
 }
 
-export interface SelectedItem {
-  value: string;
+interface OptionEntry {
   /** Rich display node, rendered in the single-select trigger value slot. */
   label: React.ReactNode;
   /** Plain string identity, used for the multi-select join and the hidden `<option>` text. */
@@ -96,10 +95,8 @@ export interface SelectedItem {
   icon?: React.ReactNode;
 }
 
-interface OptionEntry {
-  label: React.ReactNode;
-  textValue: string;
-  icon?: React.ReactNode;
+export interface SelectedItem extends OptionEntry {
+  value: string;
 }
 
 export interface UseSelectProps {
