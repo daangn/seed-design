@@ -18,7 +18,7 @@ SEED는 **2.0을 분기점**으로 정책이 다르므로 진단 방식도 달�
 
 | 구간 | 정책 | 진단 방식 |
 | --- | --- | --- |
-| **2.0 이상** | strict SemVer. breaking은 major에서만. minor·patch는 하위 호환. | minor/patch 업그레이드는 안전. major를 넘을 때만 breaking을 확인. `peerDependencies` 선언을 신뢰. |
+| **2.0 이상** | strict SemVer. breaking은 major에서만. minor·patch는 하위 호환. 의도적인 색상·디자인 변경도 major에서만(틀린 값 수정은 patch). | minor/patch 업그레이드는 안전. major를 넘을 때만 breaking을 확인. `peerDependencies` 선언을 신뢰. |
 | **2.0 미만 (0.x·1.x)** | minor·patch에서도 breaking 가능. react↔css가 lockstep(같은 minor)이던 구간 존재. | `compat`의 호환 매니페스트로 react↔css 호환을 판단. minor 업그레이드도 breaking 확인 필요. |
 
 `@seed-design/css/vars/component/typography`를 제외한 `@seed-design/css/vars/component/*` 경로는 SemVer 보장 대상이 아닙니다. rootage component spec 변경에 따라 minor·patch에서도 이름이나 구조가 바뀔 수 있으므로, 프로젝트 영향도 분석에서 직접 import 여부를 확인합니다.
