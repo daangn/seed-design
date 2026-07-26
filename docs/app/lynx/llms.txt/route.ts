@@ -27,13 +27,6 @@ Lynx 프레임워크 문서입니다.
 
 ${pageList}
 
-## Usage
-
-개별 페이지는 /llms/lynx/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/lynx/icon.txt", baseUrl)}
-
 ## Related Sections
 
 - [React Library](${new URL("/react/llms.txt", baseUrl)}): React 컴포넌트 라이브러리

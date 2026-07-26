@@ -66,13 +66,5 @@ ${pageList}`;
 ## Categories
 
 ${categoryList}
-
-## Usage
-
-개별 페이지는 /llms/docs/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/components/button.txt", baseUrl)}
-- ${new URL("/llms/foundations/color.txt", baseUrl)}
 `);
 }

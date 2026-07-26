@@ -27,13 +27,6 @@ export async function GET() {
 
 ${pageList}
 
-## Usage
-
-개별 페이지는 /llms/breeze/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/breeze/components/animate-number.txt", baseUrl)}
-
 ## Related Sections
 
 - [React Library](${new URL("/react/llms.txt", baseUrl)}): React 컴포넌트 라이브러리
