@@ -42,6 +42,7 @@ bump 결정은 두 단계다. 순서대로 밟는다.
 | **deprecate** (경고만 붙이고 아직 동작) | `minor` | 제거가 아니다. 실제 제거는 다음 major |
 | styling 전용 `data-*` 이동·삭제 | `patch`/`minor` | 내부 배선이라 지원 표면이 아니다 (→ "`data-*`는 내부 배선") |
 | **공개 contract** `data-*` 이름변경·삭제 | `major` | 소비자가 자기 CSS로 타겟해도 된다고 안내한 것 |
+| `vars/component/*` 이름·구조 변경 (`typography` 제외) | `patch`/`minor` | rootage spec 생성물. 내부 배선이라 지원 표면이 아니다 (→ "컴포넌트 vars도 내부 배선") |
 | DOM 구조·시맨틱 요소 교체 (접근성 개선 등) | `patch` | 지원 표면은 컴포넌트·props·recipe 클래스지 DOM 트리가 아니다. 단 렌더 결과가 눈에 띄게 바뀌면 위의 재디자인 행을 따른다 |
 | headless breaking을 react가 **흡수** (내부에서 막음) | react `patch` | react 공개 표면이 그대로면 새어나가지 않는다 |
 | headless breaking을 react가 **extend** (그대로 노출) | react `major` | 공개 표면으로 그대로 나온다 |
@@ -50,6 +51,8 @@ bump 결정은 두 단계다. 순서대로 밟는다.
 | 패키지 export 경로·구조 변경 | `major` | import 경로가 깨진다 |
 
 snippet(`cli`로 복사해가는 코드)은 npm 공개 표면이 아니라 별도 기준을 쓴다 → `patterns.md`의 "snippet 변경 분류".
+
+**흡수인지 extend인지 헷갈릴 때**: `@seed-design/react/primitive`이 `export *`로 재-export하는 headless 17개(`packages/react/src/primitive.ts`)는 **항상 extend**다. react가 내부에서 안 쓰더라도 그 표면이 사용자에게 그대로 나가므로 흡수 판단 대상이 아니다.
 
 > 색상 계약은 사용자 대상 문서에도 선언돼 있다 — `docs/content/foundations/color/index.mdx`의 "Color Stability". **두 곳이 어긋나면 안 된다.** 여기 규칙을 바꾸면 그 문서도 같이 고친다.
 
@@ -122,6 +125,12 @@ css가 깨지면 소비자가 깨지지만 그 역은 없다.
 ### `data-*`는 내부 배선
 
 SEED의 `data-*`는 css와 styled react를 잇는 비공개 연결이고, 지원 표면은 **컴포넌트 + props + recipe 클래스**다. 그래서 styling 전용 data attr는 옮기거나 지워도 안 깨진다 (major 아님). 단 소비자가 자기 CSS로 타겟해도 되는 **공개 contract** data attr라면 제거·이름변경은 major다.
+
+### 컴포넌트 vars도 내부 배선
+
+`@seed-design/css/vars/component/*`(및 `lynx-css`)는 rootage component spec에서 생성되는 recipe 구현용 값이라 지원 표면이 아니다. spec이 바뀌어 이름·구조가 달라져도 `patch`/`minor`다.
+
+단 **`typography`는 예외**다. 값 객체를 CSS-in-JS에 그대로 펼쳐 쓰는 용도가 있고 마이그레이션 가이드가 직접 import를 안내해왔으므로 SemVer를 지킨다. (사용자 대상 안내는 `packages/css/README.md`의 Stability 절과 Upgrade Guides에 있다.)
 
 ---
 

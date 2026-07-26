@@ -45,7 +45,7 @@ perl -pe 's/\e\[[0-9;?]*[a-zA-Z]//g' /tmp/changeset-detect.txt \
 4. `안함`으로 답한 패키지는 제외하고, 나머지를 **확정 목록**으로 삼는다.
    - **주의 (2.0)**: 공개 표면을 깨는 변경(공개 prop/API·recipe·slot·variant·토큰·공개 data attr 이름변경·삭제, headless breaking을 extend 등)은 **`major`**다. 1.x처럼 minor로 답하지 않는다.
    - **주의 (시각 변경)**: **의도적인 색상 값 변경·재디자인도 `major`**다. 이름이 그대로여도 소비자 화면이 달라지고, minor는 `^` 범위에서 자동 설치되므로 보호가 되지 않는다. 반대로 **틀렸던 값을 고치는 것**(대비 미달, 스펙 불일치)은 `patch`다. 관절은 "원래 틀렸었나 / 맞았는데 바꾸는 건가" 하나다.
-   - 내부 배선(styling 전용 `data-*`) 이동·삭제는 비공개라 breaking이 아니다(`patch`/`minor`). 판단이 헷갈리면 `references/version-matrix.md`로 확인한다.
+   - 내부 배선(styling 전용 `data-*`, `typography`를 제외한 `vars/component/*`) 이동·삭제는 비공개라 breaking이 아니다(`patch`/`minor`). 판단이 헷갈리면 `references/version-matrix.md`로 확인한다.
 
 ### Phase 3: 메시지 작성
 
