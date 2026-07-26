@@ -54,7 +54,7 @@ snippet(`cli`로 복사해가는 코드)은 npm 공개 표면이 아니라 별�
 
 **흡수인지 extend인지 헷갈릴 때**: `@seed-design/react/primitive`이 `export *`로 재-export하는 headless 17개(`packages/react/src/primitive.ts`)는 **항상 extend**다. react가 내부에서 안 쓰더라도 그 표면이 사용자에게 그대로 나가므로 흡수 판단 대상이 아니다.
 
-> 색상 계약은 사용자 대상 문서에도 선언돼 있다 — `docs/content/foundations/color/index.mdx`의 "Color Stability". **두 곳이 어긋나면 안 된다.** 여기 규칙을 바꾸면 그 문서도 같이 고친다.
+> **사용자 대상 선언을 파운데이션 문서에 두지 않는다.** `docs/content/foundations/`는 플랫폼에 국한되지 않는 디자인 가치관만 담는 자리이고, 버저닝은 npm 패키지 관심사다. 색상 계약을 사용자에게 알리는 문구가 필요하면 `docs/content/react/updates/upgrade/`에 쓴다.
 
 ---
 
