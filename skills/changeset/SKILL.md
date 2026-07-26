@@ -37,13 +37,15 @@ perl -pe 's/\e\[[0-9;?]*[a-zA-Z]//g' /tmp/changeset-detect.txt \
 
 후보의 **각 패키지마다** 실제 변경 내용을 확인하고(`git diff <패키지_경로>` 또는 커밋 로그), `references/version-matrix.md`의 전파 매트릭스로 추천 bump를 정한 뒤, **AskUserQuestion으로 사용자에게 패키지별 bump를 확정받는다.**
 
-1. **전파 후보 확장**: 한 패키지를 bump하면 그것을 의존하는 패키지도 매트릭스대로 함께 후보에 올린다. css가 오르면 `react`(css를 peer로 소비), headless가 오르면 `react`(dependency로 소비), react가 major면 `figma`(major 정렬). `bun changeset`이 stacked 등으로 못 잡은 dependent도 여기서 직접 추가한다.
+1. **전파 후보 확장**: 한 패키지를 bump하면 그것을 의존하는 패키지도 매트릭스의 "2단계. 전파"대로 함께 후보에 올린다. css 소비자는 `react` 하나가 아니라 **7개**다 (`react`·`stackflow`·`tailwind3-plugin`·`tailwind4-theme`·`vite-plugin`·`rsbuild-plugin`·`webpack-plugin`) — 어느 게 해당하는지는 매트릭스의 "실제로 쓰는"의 판정 표로 가른다. headless가 오르면 `react`(dependency로 소비), react가 major면 `figma`(major 정렬). `bun changeset`이 stacked 등으로 못 잡은 dependent도 여기서 직접 추가한다.
 2. 패키지 1개당 질문 1개. 옵션은 `major` / `minor` / `patch` / `안함(제외)` 4개.
    - 모델이 분석한 추천 타입을 **첫 번째 옵션으로 두고 라벨에 `(추천)`**을 붙인다. 판단 근거(매트릭스의 어느 행인지)는 옵션 description에 적는다.
    - `안함(제외)`은 그 패키지를 changeset에서 빼는 선택지다. stacked로 딸려온 무관 패키지나 changeset이 불필요한 패키지에 사용한다.
 3. AskUserQuestion은 호출당 질문 4개까지 가능하므로, 후보가 5개 이상이면 4개씩 나눠 여러 번 호출한다.
 4. `안함`으로 답한 패키지는 제외하고, 나머지를 **확정 목록**으로 삼는다.
-   - **주의 (2.0)**: 공개 표면을 깨는 변경(공개 prop/API·recipe·slot·variant·토큰·공개 data attr 이름변경·삭제, headless breaking을 extend 등)은 **`major`**다. 1.x처럼 minor로 답하지 않는다. 반대로 내부 배선(styling 전용 `data-*`) 이동·삭제는 비공개라 breaking이 아니다(`patch`/`minor`). 판단이 헷갈리면 `references/version-matrix.md`로 확인한다.
+   - **주의 (2.0)**: 공개 표면을 깨는 변경(공개 prop/API·recipe·slot·variant·토큰·공개 data attr 이름변경·삭제, headless breaking을 extend 등)은 **`major`**다. 1.x처럼 minor로 답하지 않는다.
+   - **주의 (시각 변경)**: **의도적인 색상 값 변경·재디자인도 `major`**다. 이름이 그대로여도 소비자 화면이 달라지고, minor는 `^` 범위에서 자동 설치되므로 보호가 되지 않는다. 반대로 **틀렸던 값을 고치는 것**(대비 미달, 스펙 불일치)은 `patch`다. 관절은 "원래 틀렸었나 / 맞았는데 바꾸는 건가" 하나다.
+   - 내부 배선(styling 전용 `data-*`) 이동·삭제는 비공개라 breaking이 아니다(`patch`/`minor`). 판단이 헷갈리면 `references/version-matrix.md`로 확인한다.
 
 ### Phase 3: 메시지 작성
 
@@ -75,7 +77,7 @@ perl -pe 's/\e\[[0-9;?]*[a-zA-Z]//g' /tmp/changeset-detect.txt \
 
 ### Phase 5: peer floor 수동 bump 체크
 
-1. 확정 목록에 **css 또는 headless의 `minor`**가 있으면, 그걸 새로 소비하는 dependent(주로 `react`)의 peer/dep floor를 올려야 하는지 `references/version-matrix.md`로 확인한다.
+1. 확정 목록에 **css 또는 headless의 `minor`**가 있으면, 그걸 새로 소비하는 dependent의 peer/dep floor를 올려야 하는지 `references/version-matrix.md`의 "실제로 쓰는"의 판정 표로 확인한다. css minor면 소비자 7개를 모두 훑는다 — 특히 **새 토큰 추가는 `tailwind3-plugin`·`tailwind4-theme`가 항상 걸린다** (토큰 이름을 직접 매핑하므로).
    - `.changeset/config.json`의 `onlyUpdatePeerDependentsWhenOutOfRange`가 켜져 있어, floor가 새 버전 범위 **안**이면 changeset이 dependent를 자동으로 안 올린다. 안 올리면 `react@new + css@old` 조합이 허용되어 **런타임 silent 실패**가 난다.
    - 필요하면 dependent의 `package.json`에서 해당 floor를 `^N.M.0`로 직접 수정해 같은 PR에 포함한다 (패키지 설치가 아니라 **버전 정책 edit**이라 직접 수정이 정당하다). ceiling(`<N+1`)은 건드리지 않는다.
    - **`major` bump는 changeset이 자동 전파**하므로 이 단계는 **minor 전파에만** 해당한다.

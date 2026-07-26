@@ -16,40 +16,13 @@ SEED Design CHANGELOG 분석에서 추출한 메시지 작성 규칙과 예시.
 
 SEED는 **2.0부터 strict semver**를 따른다. breaking change는 **major에서만** 낸다 (1.x처럼 minor에 breaking을 싣지 않는다).
 
-### patch
+분류의 단일 기준은 **`version-matrix.md`의 "1단계. 분류"**다 (세 줄 규칙 + 케이스 표). 여기 옮겨 적지 않는다. 요지만 옮기면:
 
-기존 소비자에게 보이는 표면이 그대로인 변경.
+- 소비자가 코드를 안 고쳤는데 **깨지거나 결과가 달라진다** → `major`
+- 기존 동작은 그대로 두고 **새로 추가**했다 → `minor`
+- 원래 **틀렸던 것을 고쳤다** → `patch`
 
-- 버그 수정 (기존 동작이 의도와 달랐던 것을 바로잡음)
-- 스타일/레이아웃 미세 조정 (padding, margin, font-weight 등) — 단 **의도된 시각적 디자인 변경**이면 `minor`
-- 의존성 floor 갱신 / peer 범위 정리 — 의존 패키지가 올랐어도 **내 코드·출력이 그대로**면 patch
-- 내부 리팩토링 (공개 표면·DOM 출력 변화 없음)
-- 성능 개선 / 접근성 개선 (기존 동작 유지)
-
-### minor (additive — 기존 소비자를 깨지 않음)
-
-- 새 컴포넌트 / 서브컴포넌트 추가
-- 새 기능 / 훅 추가
-- 기존 컴포넌트에 새 prop/API 추가 (하위 호환 유지)
-- 새 CSS recipe / variant 추가 — 기존 variant에 **값**만 더하는 것도 포함 (css 산출물이 늘고 prop 타입이 넓어지는 additive 변경)
-- 새 data attribute 기반 스타일링 추가 (기존 selector는 유지)
-- headless non-breaking 추가기능, 그리고 그것을 채택한 react/스타일 업데이트
-- **snippet에 새 기능/스타일 추가** — 기존 코드는 안 깨지고 새 걸 쓰려면 재설치만 하면 되는 경우 (→ "snippet 변경 분류" 참조)
-
-### major (breaking — 공개 표면을 깨는 변경)
-
-1.x에선 minor로 냈지만 **2.0부터는 major**다.
-
-- 공개 API / prop 제거 또는 이름 변경
-- 컴포넌트 이름 변경
-- recipe / slot / variant **이름** 변경·삭제
-- 토큰 / css variable 이름 변경·삭제
-- **공개 contract** data attribute(소비자가 자기 CSS로 타겟하는 것) 이름 변경·삭제
-- headless 인터페이스 breaking을 react가 그대로 extend
-- 기존 snippet이 새 npm 패키지와 함께 더 이상 동작하지 않는 경우 (재설치 강제)
-- 패키지 전체 구조 변경, 런타임/프레임워크 요구사항 변경 (예: React 버전 요구 변경)
-
-> **예외 — 내부 배선은 breaking이 아니다.** SEED의 styling 전용 `data-*`(css와 styled react를 잇는 비공개 연결)는 옮기거나 지워도 공개 표면이 아니므로 `patch`/`minor`다. 지원 표면은 **컴포넌트 + props + recipe 클래스**다. (`version-matrix.md`의 "`data-*`는 내부 배선")
+**의도적인 시각 변경(색상 값·재디자인)은 `major`다.** minor는 `^` 범위에서 자동으로 설치되므로 보호가 되지 않는다. 메시지를 쓰기 전에 매트릭스에서 타입을 확정하고, 아래 구조를 그 타입에 맞춰 고른다.
 
 ## BREAKING CHANGE 접두사
 
@@ -178,7 +151,7 @@ BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
 Content Placeholder 컴포넌트를 추가합니다.
 ```
 
-> ⚠️ 위처럼 css가 minor 오를 때 **react의 css peer floor(`^N.M.0`)는 changeset이 자동으로 안 올린다** (`onlyUpdatePeerDependentsWhenOutOfRange`). 같은 PR에서 `react/package.json`을 손수 올려야 한다 — `version-matrix.md`의 "peer floor 수동 bump 함정" 참조.
+> ⚠️ 위처럼 css가 minor 오를 때 **css 소비자의 peer floor(`^N.M.0`)는 changeset이 자동으로 안 올린다** (`onlyUpdatePeerDependentsWhenOutOfRange`). 같은 PR에서 해당 `package.json`을 손수 올려야 한다. 소비자는 `react` 하나가 아니다 — 새 토큰이면 `tailwind3-plugin`·`tailwind4-theme`도 걸린다. `version-matrix.md`의 "실제로 쓰는"의 판정 표와 "peer floor 수동 bump 함정" 참조.
 
 ### 독립적 변경 — 별도 changeset으로 분리
 
