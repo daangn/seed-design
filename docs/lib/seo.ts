@@ -120,7 +120,7 @@ export interface SeoInput {
   image?: OgImage;
   /**
    * Canonical path for this page (`page.url`). Emits `<link rel="canonical">`, which matters
-   * because `public/_redirects` carries 22 permanent redirects into these URLs.
+   * because `public/_redirects` carries permanent redirects into these URLs.
    */
   url?: string;
   /** Set for blog-style pages so the OG type becomes `article` instead of `website`. */
