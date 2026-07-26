@@ -71,13 +71,14 @@ SEED Design의 모든 문서에는 llms.txt 형태의 LLM 최적화 문서가 �
 | 영역 | 인덱스 URL | 용도 |
 |------|-----------|------|
 | React | https://seed-design.io/react/llms.txt | 컴포넌트 목록, 설치/스타일링 가이드 |
-| Design | https://seed-design.io/docs/llms.txt | 파운데이션(색상, 타이포, 스페이싱 등) |
+| Foundations | https://seed-design.io/foundations/llms.txt | 파운데이션(색상, 타이포, 스페이싱 등) |
+| Components | https://seed-design.io/components/llms.txt | 컴포넌트 디자인 스펙(Anatomy, Properties, Guidelines) |
 
 ### 개별 문서 조회
 
 ```text
 https://seed-design.io/llms/react/components/{component-name}.txt
-https://seed-design.io/llms/docs/foundation/color/color-system.txt
+https://seed-design.io/llms/foundations/color.txt
 ```
 
 ### CLI docs 명령어
