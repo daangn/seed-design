@@ -58,13 +58,5 @@ AI 도구 연동 가이드 문서입니다.
 ## Categories
 
 ${categoryList}
-
-## Usage
-
-개별 페이지는 /llms/ai-integration/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/ai-integration/docs-mcp.txt", baseUrl)}
-- ${new URL("/llms/ai-integration/figma-mcp.txt", baseUrl)}
 `);
 }

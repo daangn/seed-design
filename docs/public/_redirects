@@ -20,3 +20,10 @@
 /foundations/design-token-reference /foundations/design-token/reference 301
 /foundations/iconography/overview /foundations/iconography 301
 /foundations/typography/overview /foundations/typography 301
+
+# AI Integration 통합: react/docs/breeze 아래 있던 문서를 `/ai-integration`으로 옮겼다.
+# `llms-txt` 페이지는 삭제되고 `/llms.txt` 라우트로 대체됐다.
+/react/ai-integration/llms-txt /llms.txt 301
+/docs/ai-integration/llms-txt /llms.txt 301
+/breeze/ai-integration/llms-txt /llms.txt 301
+/react/ai-integration/mcp /ai-integration/figma-mcp 301
