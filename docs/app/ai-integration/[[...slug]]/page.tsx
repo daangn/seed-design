@@ -2,7 +2,7 @@ import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { aiIntegrationSource } from "@/app/source";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { mdxComponents } from "@/components/mdx-components";
-import { buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
+import { buildDocsPageJsonLd, buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -20,6 +20,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   return (
     <DocsPageRenderer
+      jsonLd={buildDocsPageJsonLd(page)}
       title={displayTitle}
       description={page.data.description}
       coverImage={
@@ -56,6 +57,7 @@ export async function generateMetadata(props: {
   if (!page) notFound();
 
   return buildDocsPageMetadata({
+    url: page.url,
     title: page.data.title,
     heading: page.data.heading,
     description: page.data.description,

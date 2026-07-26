@@ -2,7 +2,7 @@ import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { breezeSource } from "@/app/source";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { mdxComponents } from "@/components/mdx-components";
-import { buildDocsPageMetadata } from "@/lib/seo";
+import { buildDocsPageJsonLd, buildDocsPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -18,6 +18,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   return (
     <DocsPageRenderer
+      jsonLd={buildDocsPageJsonLd(page)}
       title={page.data.title}
       description={page.data.description}
       layout={page.data.layout}
@@ -44,6 +45,7 @@ export async function generateMetadata(props: {
   if (!page) notFound();
 
   return buildDocsPageMetadata({
+    url: page.url,
     title: page.data.title,
     description: page.data.description,
   });
