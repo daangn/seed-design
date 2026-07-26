@@ -1,6 +1,5 @@
 import type { GeneratedRegistryItem } from "@/registry/schema";
-import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { SeedCodeTabs, SeedDynamicCodeBlock } from "@/components/codeblock";
 
 interface BlockCodeTabsProps {
   name: string;
@@ -35,16 +34,17 @@ export async function BlockCodeTabs({ name }: BlockCodeTabsProps) {
   const allFiles = [{ path: mainSnippet.path, content: mainSnippet.content }, ...depFiles];
 
   if (allFiles.length === 1) {
-    return <DynamicCodeBlock lang="tsx" code={allFiles[0].content} />;
+    return <SeedDynamicCodeBlock lang="tsx" code={allFiles[0].content} />;
   }
 
   return (
-    <Tabs items={allFiles.map((f) => f.path)}>
-      {allFiles.map((file) => (
-        <Tab key={file.path} value={file.path}>
-          <DynamicCodeBlock lang="tsx" code={file.content} />
-        </Tab>
-      ))}
-    </Tabs>
+    <SeedCodeTabs
+      items={allFiles.map((file) => ({
+        value: file.path,
+        label: file.path,
+        lang: "tsx",
+        code: file.content,
+      }))}
+    />
   );
 }

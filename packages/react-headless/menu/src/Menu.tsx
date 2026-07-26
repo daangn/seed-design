@@ -12,11 +12,17 @@ import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import React, { forwardRef, createContext } from "react";
-import { useMenu, type UseMenuItemProps, type UseMenuProps } from "./useMenu";
+import {
+  useMenu,
+  useMenuGroup,
+  type UseMenuGroupReturn,
+  type UseMenuItemProps,
+  type UseMenuProps,
+} from "./useMenu";
 import { MenuProvider, useMenuContext } from "./useMenuContext";
 import { MenuItemProvider } from "./useMenuItemContext";
 
-const MenuGroupLabelIdContext = createContext<string | null>(null);
+const MenuGroupContext = createContext<UseMenuGroupReturn | null>(null);
 
 export interface MenuRootProps extends UseMenuProps {
   children?: React.ReactNode;
@@ -198,13 +204,12 @@ MenuItem.displayName = "MenuItem";
 export interface MenuGroupProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuGroup = forwardRef<HTMLDivElement, MenuGroupProps>((props, ref) => {
-  const { getGroupProps } = useMenuContext();
-  const { labelId, rootProps } = getGroupProps();
+  const group = useMenuGroup();
 
   return (
-    <MenuGroupLabelIdContext.Provider value={labelId}>
-      <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />
-    </MenuGroupLabelIdContext.Provider>
+    <MenuGroupContext.Provider value={group}>
+      <Primitive.div ref={ref} {...mergeProps(group.rootProps, props)} />
+    </MenuGroupContext.Provider>
   );
 });
 MenuGroup.displayName = "MenuGroup";
@@ -212,10 +217,16 @@ MenuGroup.displayName = "MenuGroup";
 export interface MenuGroupLabelProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuGroupLabel = forwardRef<HTMLDivElement, MenuGroupLabelProps>((props, ref) => {
-  const { getGroupLabelProps } = useMenuContext();
-  const labelId = React.useContext(MenuGroupLabelIdContext);
-  if (!labelId) throw new Error("MenuGroupLabel must be used within a MenuGroup");
+  const group = React.useContext(MenuGroupContext);
+  if (!group) throw new Error("MenuGroupLabel must be used within a MenuGroup");
 
-  return <Primitive.div ref={ref} {...mergeProps(getGroupLabelProps(labelId), props)} />;
+  // Compose the group's label ref so the group advertises aria-labelledby only
+  // while this label is actually rendered (see useMenuGroup).
+  return (
+    <Primitive.div
+      ref={composeRefs(group.refs.label, ref)}
+      {...mergeProps(group.labelProps, props)}
+    />
+  );
 });
 MenuGroupLabel.displayName = "MenuGroupLabel";

@@ -22,10 +22,12 @@
   }
 
   .seed-side-navigation__content {
+    padding-top: 8px;
+    padding-inline: 8px;
     flex-direction: column;
     flex: 1;
     gap: 8px;
-    padding: 8px 8px 24px;
+    padding-bottom: 24px;
     display: flex;
     overflow-y: auto;
   }

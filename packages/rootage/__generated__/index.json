@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "resources": [
     {
       "path": "/collections.json"
@@ -298,6 +298,9 @@
     },
     {
       "path": "/radius.json"
+    },
+    {
+      "path": "/scale.json"
     },
     {
       "path": "/shadow.json"

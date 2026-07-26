@@ -15,7 +15,7 @@ export async function GET() {
     .sort()
     .join("\n");
 
-  return new Response(`# SEED Design Lynx - LLM Reference
+  return new Response(`# SEED Lynx - LLM Reference
 
 Lynx 프레임워크 문서입니다.
 
@@ -26,13 +26,6 @@ Lynx 프레임워크 문서입니다.
 ## Documents
 
 ${pageList}
-
-## Usage
-
-개별 페이지는 /llms/lynx/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/lynx/icon.txt", baseUrl)}
 
 ## Related Sections
 

@@ -86,6 +86,13 @@ export default function generateSeedCss(
 :root.seed-color-mode-dark-only,
 .seed-color-mode-dark-only`,
       },
+      motion: {
+        preferred: ":root",
+        // Lynx does not evaluate `@media (prefers-reduced-motion: reduce)`, so a
+        // reduced-motion guard would never apply on-device. `null` opts the mode
+        // out of emission entirely, so motion scales always apply under `:root`.
+        reduced: null,
+      },
     },
     customDeclaration: createSeedDeclaration(),
   };

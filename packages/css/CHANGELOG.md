@@ -1,5 +1,43 @@
 # @seed-design/css
 
+## 2.2.1
+
+### Patch Changes
+
+- 6c6d2c7: Chip Tabs가 가로로 넘칠 때 칩(trigger)이 축소되어 라벨이 좌우 패딩을 침범하던 문제를 수정합니다.
+
+## 2.2.0
+
+### Minor Changes
+
+- f523979: Action Button의 pressed 상태에 scale 모션을 추가합니다.
+
+  pressed 상태에 적절한 모션 피드백을 제공하기 위해 사용하는 `$scale.s95`, `$scale.s97`, `$scale.s98` 토큰을 추가합니다.
+
+  - `scale` 토큰은 플랫폼 별 동작 줄이기 설정에 따라 값이 `1`로 동작합니다.
+  - 웹 CSS 환경에서는 `(prefers-reduced-motion: reduce)` 미디어 쿼리가 매치되는 환경에서 `1`로 동작합니다.
+  - Tailwind 유틸리티 클래스 `scale-s*`를 통해 scale 토큰을 사용할 수 있습니다. 신규 토큰을 사용할 수 있도록 Tailwind 패키지의 `@seed-design/css` peerDependency 범위를 `^2.1.0`에서 `^2.2.0`으로 올립니다.
+
+### Patch Changes
+
+- 062ce26: 적절한 곳에서 physical property 대신 logical property를 사용하도록 수정합니다.
+
+## 2.1.4
+
+### Patch Changes
+
+- 7127a1f: 포커스 가능한 상태의 SidePanelBody에 적절한 포커스 스타일을 추가합니다.
+
+## 2.1.3
+
+### Patch Changes
+
+- d71f402: 구형 iOS Safari(16.4 미만)에서 중첩된 `Box` 및 일부 컴포넌트가 상위 요소의 레이아웃 값을 잘못 상속하던 문제를 수정합니다.
+
+  - 값을 지정하지 않은 자식 `Box`가 상위의 `width`, `height`, `gap`, `margin` 등을 물려받아 의도와 다르게 렌더링되던 문제를 해결합니다. 모던 브라우저의 동작에는 변화가 없습니다.
+  - `SidePanel`, `BottomSheet`, `Skeleton`, `HelpBubble`에서도 동일한 상속 문제를 바로잡습니다.
+  - `bleed`를 지정한 요소가 구형 Safari에서도 정상 동작하도록 개선합니다.
+
 ## 2.1.2
 
 ### Patch Changes

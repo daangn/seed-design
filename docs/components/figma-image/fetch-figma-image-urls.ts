@@ -5,7 +5,7 @@ import path from "node:path";
 import { env } from "@/app/env";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
-const MAX_RETRIES = 7;
+const DEFAULT_MAX_RETRIES = 7;
 const MAX_CONCURRENCY = 1;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 const CACHE_ID = "urls";
@@ -57,11 +57,13 @@ export async function fetchFigmaImageUrls({
   fileKey,
   nodeIds,
   options = {},
+  maxRetries = DEFAULT_MAX_RETRIES,
 }: {
   client: Figma;
   fileKey: string;
   nodeIds: string[];
   options?: FetchFigmaImageUrlsOptions;
+  maxRetries?: number;
 }): Promise<Map<string, string>> {
   if (nodeIds.length === 0) return new Map();
 
@@ -118,7 +120,7 @@ export async function fetchFigmaImageUrls({
 
     if (pendingIds.length === 0) return result;
 
-    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
         const response = await client.getImages(
           { file_key: fileKey },
@@ -142,12 +144,12 @@ export async function fetchFigmaImageUrls({
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
 
-        if (!isRetryableError(error)) throw error;
+        if (!isRetryableError(error) || attempt === maxRetries - 1) throw error;
 
         const waitTime = 2 ** attempt * 3000; // 3s, 6s, 12s
 
         console.log(
-          `${LOG_PREFIX} ${lastError.message}, waiting ${waitTime}ms (attempt ${attempt + 1}/${MAX_RETRIES})...`,
+          `${LOG_PREFIX} ${lastError.message}, waiting ${waitTime}ms (attempt ${attempt + 1}/${maxRetries})...`,
         );
 
         await delay(waitTime);

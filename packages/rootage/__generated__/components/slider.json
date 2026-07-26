@@ -368,6 +368,12 @@
               "disabled"
             ],
             "slots": {
+              "track": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.disabled"
+                }
+              },
               "range": {
                 "color": {
                   "type": "color",

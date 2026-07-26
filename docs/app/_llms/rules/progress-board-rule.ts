@@ -4,31 +4,21 @@ import { apiVersion, dataset, projectId } from "../../../sanity-studio/env";
 import { ALL_COMPONENTS_QUERY } from "../../../sanity-studio/lib/queries";
 import type { ComponentData, PlatformStatus } from "../../../sanity-studio/lib/types";
 import type { Rule } from "./types";
+import {
+  type PlatformKey,
+  PLATFORM_CONFIG,
+  PLATFORM_STATUS_LABELS,
+} from "../../../lib/platform-status";
 import { escapeCell, markdownRow } from "./markdown-utils";
 
 const sanityClient = createClient({ projectId, dataset, apiVersion, useCdn: false });
 
-const platformConfig = [
-  { key: "figma" as const, label: "Figma" },
-  { key: "react" as const, label: "React" },
-  { key: "ios" as const, label: "iOS" },
-  { key: "android" as const, label: "Android" },
-] as const;
-
-const statusLabel: Record<PlatformStatus, string> = {
-  ready: "Done",
-  "in-progress": "In Progress",
-  "not-ready": "Not Ready",
-  deprecated: "Deprecated",
-  "not-planned": "Not Planned",
-};
-
-function formatStatusCell(component: ComponentData, key: (typeof platformConfig)[number]["key"]) {
+function formatStatusCell(component: ComponentData, key: PlatformKey) {
   const status = component[`${key}Status`] as PlatformStatus | undefined;
   const url = component[`${key}Url`] as string | undefined;
   const note = component[`${key}Note`] as string | undefined;
 
-  const label = status ? statusLabel[status] : undefined;
+  const label = status ? PLATFORM_STATUS_LABELS[status] : undefined;
   if (!label) return "";
 
   const base = url ? `[${label}](${escapeCell(url)})` : label;
@@ -37,7 +27,7 @@ function formatStatusCell(component: ComponentData, key: (typeof platformConfig)
 
 function buildSummaryTable(components: ComponentData[]): string {
   const headers = ["Platform", "Progress", "Ready/Total"];
-  const rows = platformConfig.map(({ key, label }) => {
+  const rows = PLATFORM_CONFIG.map(({ key, label }) => {
     const statusKey = `${key}Status` as keyof ComponentData;
     const planned = components.filter((c) => c[statusKey] !== "not-planned");
     const ready = planned.filter((c) => c[statusKey] === "ready").length;
@@ -51,11 +41,11 @@ function buildSummaryTable(components: ComponentData[]): string {
 }
 
 function buildComponentTable(components: ComponentData[]): string {
-  const headers = ["Component", ...platformConfig.map(({ label }) => label)];
+  const headers = ["Component", ...PLATFORM_CONFIG.map(({ label }) => label)];
   const rows = components.map((component) =>
     markdownRow([
       escapeCell(component.name),
-      ...platformConfig.map(({ key }) => formatStatusCell(component, key)),
+      ...PLATFORM_CONFIG.map(({ key }) => formatStatusCell(component, key)),
     ]),
   );
 
@@ -93,7 +83,7 @@ export function __setComponentsCacheForTests(cache: ComponentData[] | null): voi
   componentsCache = cache;
 }
 
-export const progressBoardRule: Rule = {
+export const progressBoardRule: Rule<MdxJsxFlowElement> = {
   name: "ProgressBoardTable",
   init,
   match: (node): node is MdxJsxFlowElement =>

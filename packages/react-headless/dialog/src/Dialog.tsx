@@ -125,7 +125,9 @@ export interface DialogTitleProps
 
 export const DialogTitle = forwardRef<HTMLHeadingElement, DialogTitleProps>((props, ref) => {
   const api = useDialogContext();
-  return <Primitive.h2 ref={ref} {...mergeProps(api.titleProps, props)} />;
+  return (
+    <Primitive.h2 ref={composeRefs(api.refs.title, ref)} {...mergeProps(api.titleProps, props)} />
+  );
 });
 
 export interface DialogDescriptionProps
@@ -135,7 +137,12 @@ export interface DialogDescriptionProps
 export const DialogDescription = forwardRef<HTMLParagraphElement, DialogDescriptionProps>(
   (props, ref) => {
     const api = useDialogContext();
-    return <Primitive.p ref={ref} {...mergeProps(api.descriptionProps, props)} />;
+    return (
+      <Primitive.p
+        ref={composeRefs(api.refs.description, ref)}
+        {...mergeProps(api.descriptionProps, props)}
+      />
+    );
   },
 );
 

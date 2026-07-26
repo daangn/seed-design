@@ -1,5 +1,37 @@
 # @seed-design/react
 
+## 2.0.4
+
+### Patch Changes
+
+- 001f539: `DialogRoot` 등 컴포넌트에 `undefined` prop을 전달했을 때 각 컴포넌트의 기본값이 적용되지 않는 문제를 수정합니다.
+
+## 2.0.3
+
+### Patch Changes
+
+- fb4459e: `DialogTitle`/`DialogDescription`을 시맨틱 요소(`h2`/`p`)로 렌더하고, 렌더된 경우 `DialogContent`에 `aria-labelledby`/`aria-describedby`로 연결되도록 수정합니다.
+- Updated dependencies [34586b6]
+- Updated dependencies [34586b6]
+- Updated dependencies [73cd380]
+- Updated dependencies [1d3e8c6]
+- Updated dependencies [176ff81]
+  - @seed-design/react-navigation-menu@2.0.0
+  - @seed-design/react-dialog@2.0.1
+  - @seed-design/react-menu@2.0.0
+  - @seed-design/react-drawer@2.0.1
+  - @seed-design/react-segmented-control@2.0.1
+
+## 2.0.2
+
+### Patch Changes
+
+- d71f402: 구형 iOS Safari(16.4 미만)에서 중첩된 `Box` 및 일부 컴포넌트가 상위 요소의 레이아웃 값을 잘못 상속하던 문제를 수정합니다.
+
+  - 값을 지정하지 않은 자식 `Box`가 상위의 `width`, `height`, `gap`, `margin` 등을 물려받아 의도와 다르게 렌더링되던 문제를 해결합니다. 모던 브라우저의 동작에는 변화가 없습니다.
+  - `SidePanel`, `BottomSheet`, `Skeleton`, `HelpBubble`에서도 동일한 상속 문제를 바로잡습니다.
+  - `bleed`를 지정한 요소가 구형 Safari에서도 정상 동작하도록 개선합니다.
+
 ## 2.0.1
 
 ### Patch Changes

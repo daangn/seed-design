@@ -1,2 +1,29 @@
 /docs/design/* /docs/:splat 301
 /docs/react/* /react/:splat 301
+# 토큰 상세는 `design-token/reference/` 아래로 옮겼다. 아래 `/docs/foundation/*`보다 먼저 와야
+# `$id`가 `/foundations/design-token/<id>`(존재하지 않음)로 떨어지지 않는다.
+/docs/foundation/design-token/* /foundations/design-token/reference/:splat 301
+/docs/foundation/* /foundations/:splat 301
+# splat 규칙은 부모 경로 자체(`/docs/components`)를 매치하지 않아 목록 페이지가 따로 필요하다.
+/docs/components /components 301
+/docs/components/* /components/:splat 301
+/docs/guidelines/* /patterns/:splat 301
+/docs/progress-board /components/progress-board 301
+/docs/resources/* /get-started 301
+/docs /get-started 301
+/docs/ /get-started 301
+
+# Blog → Updates 개편
+/blog/* /updates/:splat 301
+
+# Foundations IA restructure: design-token/iconography → tabs, typography → single page
+/foundations/design-token-reference /foundations/design-token/reference 301
+/foundations/iconography/overview /foundations/iconography 301
+/foundations/typography/overview /foundations/typography 301
+
+# AI Integration 통합: react/docs/breeze 아래 있던 문서를 `/ai-integration`으로 옮겼다.
+# `llms-txt` 페이지는 삭제되고 `/llms.txt` 라우트로 대체됐다.
+/react/ai-integration/llms-txt /llms.txt 301
+/docs/ai-integration/llms-txt /llms.txt 301
+/breeze/ai-integration/llms-txt /llms.txt 301
+/react/ai-integration/mcp /ai-integration/figma-mcp 301

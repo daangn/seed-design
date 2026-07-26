@@ -30,16 +30,14 @@
   .seed-app-bar-main__root--theme_cupertino {
     text-align: center;
     top: var(--seed-safe-area-top);
-    padding-left: var(--centered-title-padding-x, 0);
-    padding-right: var(--centered-title-padding-x, 0);
+    bottom: 0;
+    padding-inline: var(--centered-title-padding-x, 0);
     pointer-events: none;
     justify-content: center;
     align-items: center;
     display: flex;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
   }
 
   .seed-app-bar-main__root--theme_android {

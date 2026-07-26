@@ -32,25 +32,31 @@
   --lynx-color: rgba(0, 0, 0, 1);
   --breeze-color: hsl(26, 100%, 46%);
 
+  /* Rebrand: fumadocs ships Tailwind *slate* (cool) for these fd tokens. Remap to SEED
+     neutral tokens so the docs chrome reads as true gray, not blue-tinted. Borders/input
+     use the hue-0 static-alpha token (stroke-neutral-muted); solid light surfaces use SEED
+     gray (bg-neutral-weak = gray-200, ≈neutral in light). Dark keeps its own neutral hex
+     values below — SEED palette-gray is cool in dark, so it isn't reused for dark solid
+     fills; only the border maps to the hue-0 static-alpha token there too. */
   --color-fd-background: #ffffff;
-  --color-fd-foreground: #0f172a;
-  --color-fd-muted: #f1f5f9;
-  --color-fd-muted-foreground: #64748b;
+  --color-fd-foreground: var(--seed-color-fg-neutral);
+  --color-fd-muted: var(--seed-color-bg-neutral-weak);
+  --color-fd-muted-foreground: var(--seed-color-fg-neutral-muted);
   --color-fd-card: #ffffff;
-  --color-fd-card-foreground: #0f172a;
+  --color-fd-card-foreground: var(--seed-color-fg-neutral);
   --color-fd-popover: #ffffff;
-  --color-fd-popover-foreground: #0f172a;
-  --color-fd-border: #e2e8f0;
-  --color-fd-input: #e2e8f0;
+  --color-fd-popover-foreground: var(--seed-color-fg-neutral);
+  --color-fd-border: var(--seed-color-stroke-neutral-muted);
+  --color-fd-input: var(--seed-color-stroke-neutral-muted);
   --color-fd-primary: #0f172a;
   --color-fd-primary-foreground: #f8fafc;
-  --color-fd-secondary: #f1f5f9;
-  --color-fd-secondary-foreground: #0f172a;
-  --color-fd-accent: #f1f5f9;
-  --color-fd-accent-foreground: #0f172a;
+  --color-fd-secondary: var(--seed-color-bg-neutral-weak);
+  --color-fd-secondary-foreground: var(--seed-color-fg-neutral);
+  --color-fd-accent: var(--seed-color-bg-neutral-weak);
+  --color-fd-accent-foreground: var(--seed-color-fg-neutral);
   --color-fd-destructive: #ff0000;
   --color-fd-destructive-foreground: #f8fafc;
-  --color-fd-ring: #94a3b8;
+  --color-fd-ring: var(--seed-color-stroke-neutral-weak);
 
   /* Lift Dialog, Sheet z-index for documentation */
   --layer-index: 100;
@@ -70,6 +76,11 @@
   --color-fd-popover-foreground: #e0e0e0;
   --color-fd-card: #1a1a1a;
   --color-fd-card-foreground: #fafafa;
+  /* Dark fd values already resolve to true neutral (no blue), so they stay as static hex.
+     We intentionally do NOT route the dark border through a SEED token: on a hard reload in
+     dark, `data-seed-user-color-scheme` starts at the SSR default ("light") and useThemeSync
+     flips it a beat later, so a SEED-token border would briefly composite with light alpha.
+     Only the light `:root` above maps to SEED tokens — that's where fumadocs' slate tint was. */
   --color-fd-border: #2e2e2e;
   --color-fd-primary: #fafafa;
   --color-fd-primary-foreground: #171717;
@@ -80,27 +91,140 @@
   --color-fd-ring: #262626;
 }
 
-.example-reset {
-  line-height: normal;
+/* Rebrand: Pretendard as the primary UI font (loaded via CDN in app/layout.tsx).
+   Unlayered so it wins over Tailwind's preflight html font-family. Pretendard covers
+   Latin + Korean, so it replaces the old Inter(latin)+system-Korean stack. */
+html {
   font-family:
-    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-    "Open Sans", "Helvetica Neue", sans-serif;
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
 }
 
+/* Rebrand: titles go one weight lighter (Medium 500) to sit calmly next to the
+   thin-stroke logo, while body copy stays at its normal weight. Title spots use
+   font-medium / t*-medium directly; this rule matches in-content prose headings to the
+   page title (fumadocs defaults them to 600, which would otherwise outweigh the title).
+   :is() lifts specificity over fumadocs' :where() typography. */
+.prose :is(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  font-weight: 500;
+}
+
+/* Rebrand: 문서 전체의 강조(<strong>, 마크다운 **...**)를 semibold(600)로 통일한다. 700(bold)은
+   본문에서 지나치게 눈에 띄어 가독성을 떨어뜨리므로, 얇은 획의 로고·타이틀(font-medium 500) 흐름과도
+   맞게 한 단계 낮춘다. fumadocs/tailwind typography는 strong을 별도로 강제하지 않으므로 이 전역
+   규칙 하나로 docs 전반이 일관되게 semibold가 된다. */
 strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 article .prose {
   padding-bottom: 3rem;
 }
 
+/* Changelog entries drop the doc-wide `article .prose` bottom padding. Paired with the rule
+   above and kept unlayered: a Tailwind utility (`@layer utilities`) can't beat the unlayered
+   `article .prose`, so this override stays in global.css with the layout rule it adjusts. */
 .changelog-page .prose {
   padding-bottom: 0;
 }
 
 /* Enable text selection in code blocks */
-pre, code, pre code {
+pre,
+code,
+pre code {
   user-select: text !important;
   -webkit-user-select: text !important;
+}
+
+/* Rebrand: SEED Callout은 MDX children(코드블록/Tabs/문단)을 인라인 description(span)으로 받는데,
+   recipe(@layer seed-components)에 flex 아이템 min-width:0도, 중첩 블록의 여백 리셋도 없다. packages/*는
+   daangn 소유라 못 고치니 여기서 언레이어드로 보정한다(언레이어드가 layer를 무조건 이겨 !important 불필요). */
+
+/* 긴 코드블록/Tabs가 Callout 밖으로 넘치지 않고 카드 안에서 스크롤되도록 flex 아이템이 줄어들 수 있게 한다. */
+.seed-callout__content {
+  min-width: 0;
+}
+
+/* Callout 안 첫/마지막 블록(문단·코드카드·리스트)의 바깥 여백 제거 — prose가 .prose 직계 자식에만 거는
+   리셋을 중첩된 Callout 콘텐츠에도 적용한다(문단 사이 간격은 유지). */
+.seed-callout__description > :first-child {
+  margin-top: 0;
+}
+.seed-callout__description > :last-child {
+  margin-bottom: 0;
+}
+
+/* 코드블록이 든 Callout은 아이콘을 상단 정렬 — 세로로 긴 콘텐츠에서 아이콘이 가운데 떠 보이는 것을 교정. */
+.seed-callout__root:has(pre) {
+  align-items: flex-start;
+}
+
+/* Rebrand: brand-tinted text selection — the same lime highlight everywhere so light
+   and dark modes read as one brand. Lime is a light color, so on light surfaces the
+   inherited dark text sits on it fine (background only). Unlayered so it wins over
+   fumadocs/Tailwind. The colors live on :root so the search-result <mark> highlight can
+   reuse the same lime — and, as :root vars, they resolve inside the portaled search dialog
+   (where the surface-scoped selection selectors below never match). */
+:root {
+  --selection-bg: #ccffa3;
+  --selection-fg: #212124;
+}
+::selection {
+  background-color: var(--selection-bg);
+}
+
+/* Dark surfaces — docs dark mode + the landing's dark sections (both carry light text).
+   Keep the lime highlight but flip the SELECTED text dark, mirroring light mode's
+   dark-on-lime, so the lime stays legible instead of light-on-light. Landing dark
+   sections are enumerated by the section ids the landing already uses for scroll/tone
+   logic; hero/bento and the orange footer (dark text) fall through to the base above. */
+.dark ::selection,
+#intro ::selection,
+#values ::selection,
+#showcase ::selection,
+#blog ::selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+/* Landing page: pin html/body to white + disable overscroll bounce. iOS 26 Safari has no
+   theme-color and tints the bottom toolbar from a fixed/sticky element at the viewport
+   edge, else from <body>. The footer is in-flow on mobile (not fixed, see section-footer),
+   so the toolbar falls back to this white body instead of the footer's orange. Also: the
+   landing <html> is outside fumadocs' themed scope (--color-fd-background unset), so
+   without this the body would be transparent and the toolbar would use the system canvas
+   (black in dark mode). */
+html:has(main[data-landing="true"]),
+body:has(main[data-landing="true"]) {
+  background-color: #ffffff;
+  overscroll-behavior: none;
+  /* Mobile syncs body bg to the section tone (landing-experience) so the iOS Safari edge
+     tint matches the page; ease the flip so it tracks the header tone change smoothly. */
+  transition: background-color 0.3s ease;
+}
+
+/* Lenis smooth scroll (landing page) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Landing page: hide the native cursor while the custom cursor is active */
+@media (pointer: fine) {
+  html.cursor-hidden,
+  html.cursor-hidden * {
+    cursor: none;
+  }
 }

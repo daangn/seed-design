@@ -17,12 +17,12 @@ alwaysApply: true
 - 룰은 `match`(대상 식별)와 `transform`(노드 변환)을 분리한다.
 - 변환 실패 시 예외를 전파하지 말고 원본 노드를 반환해 안전하게 실패한다.
 - 문자열 정규식 후처리보다 AST 변환을 우선한다.
-- 테스트 단언은 `contains`가 아니라 fixture 전체 일치로 작성한다.
+- 테스트 단언은 `contains`가 아니라 전체 일치(파이프라인은 fixture, 룰 단위는 inline snapshot 허용)로 작성한다.
 
 ## 필수 작업 절차
 
 1. 룰 추가/변경 시 `rules/`에 독립 모듈로 구현한다.
-2. `__fixtures__`에 `*.input.mdx` / `*.output.mdx`를 추가한다.
+2. 룰 단위 검증은 inline snapshot으로 충분하다. 파이프라인 fixture(`__fixtures__/pipeline`)에 케이스를 추가한다.
 3. 룰 단위 테스트와 파이프라인 테스트를 모두 갱신한다.
 4. 아래 검증을 통과시킨다.
    - `cd docs && bun test app/_llms`

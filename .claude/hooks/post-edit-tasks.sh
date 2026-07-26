@@ -53,7 +53,7 @@ elif [[ "$FILE_PATH" == *"packages/figma/"* ]]; then
 
 elif [[ "$FILE_PATH" == *"packages/cli/"* ]]; then
   run_with_feedback bun --filter @seed-design/cli build
-  run_with_feedback bun --filter @seed-design/cli test --dots
+  run_with_feedback bun test packages/cli --dots
   
 elif [[ "$FILE_PATH" == *"packages/stackflow/"* ]]; then
   run_with_feedback bun --filter @seed-design/stackflow build

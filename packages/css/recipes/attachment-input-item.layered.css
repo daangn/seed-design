@@ -207,8 +207,7 @@
 
   .seed-attachment-input-item__root--type_general {
     width: 160px;
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
   }
 
   .seed-attachment-input-item__root--type_general:before {
@@ -255,18 +254,16 @@
   }
 
   .seed-attachment-input-item__badge--type_image {
+    bottom: 0;
     height: var(--seed-dimension-x6);
-    padding-left: var(--seed-dimension-x1);
-    padding-right: var(--seed-dimension-x1);
+    padding-inline: var(--seed-dimension-x1);
     background-color: var(--seed-color-bg-overlay);
     border-radius: 0 0 var(--seed-radius-r3) var(--seed-radius-r3);
     justify-content: center;
     align-items: center;
     display: flex;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
   }
 
   .seed-attachment-input-item__badgeLabel--type_image {

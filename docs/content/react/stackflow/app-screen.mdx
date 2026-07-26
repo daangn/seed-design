@@ -211,14 +211,14 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
 
 **`@seed-design/stackflow@1.1.15`까지**
 
-최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 **각 AppScreen의 고유한 `transitionStyle`을 재생합니다**.
+최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 각 AppScreen의 고유한 `transitionStyle`을 재생합니다.
 
 - 예를 들면, `transitionStyle="fadeFromBottomAndroid"`인 0번 AppScreen 위에 `transitionStyle="slideFromLeftIOS"`인 1번 AppScreen이 push되는 경우, 0번 AppScreen은 `fadeFromBottomAndroid` 트랜지션을 재생합니다.
   - 0번 AppScreen이 위치 변화 없이 그대로 유지된 상태에서(`fadeFromBottomAndroid`) 1번 AppScreen이 우측에서 슬라이드 인(`slideFromLeftIOS`)
 
 **이후 버전**
 
-최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 **최상위 AppScreen의 `transitionStyle`을 재생합니다**.
+최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 최상위 AppScreen의 `transitionStyle`을 재생합니다.
 
 - 같은 스택 내에 여러 `transitionStyle`이 공존할 때 자연스러운 트랜지션을 제공합니다.
 - 예를 들면, `transitionStyle="fadeFromBottomAndroid"`인 0번 AppScreen 위에 `transitionStyle="slideFromLeftIOS"`인 1번 AppScreen이 push되는 경우, 0번 AppScreen은 `slideFromLeftIOS` 트랜지션을 재생합니다.

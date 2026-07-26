@@ -5,8 +5,7 @@
 }
 .seed-layout__content {
     width: 100%;
-    margin-left: auto;
-    margin-right: auto
+    margin-inline: auto
 }
 @media (min-width: 768px) {
     .seed-layout__content--density_low {

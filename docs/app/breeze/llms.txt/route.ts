@@ -15,7 +15,7 @@ export async function GET() {
     .sort()
     .join("\n");
 
-  return new Response(`# SEED Design Breeze - LLM Reference
+  return new Response(`# SEED Breeze - LLM Reference
 
 프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트입니다.
 
@@ -26,13 +26,6 @@ export async function GET() {
 ## Components
 
 ${pageList}
-
-## Usage
-
-개별 페이지는 /llms/breeze/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/breeze/components/animate-number.txt", baseUrl)}
 
 ## Related Sections
 

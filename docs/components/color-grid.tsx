@@ -1,6 +1,7 @@
 import { resolveToken } from "@seed-design/rootage-core";
 import { getRootage } from "@/lib/rootage";
 import { ColorSwatch } from "./color-swatch";
+import { getDefaultModes } from "./rootage";
 
 export interface ColorGridProps {
   scales: {
@@ -11,17 +12,18 @@ export interface ColorGridProps {
 
 export async function ColorGrid(props: ColorGridProps) {
   const rootage = await getRootage();
+  const defaultModes = getDefaultModes(rootage);
   const scales = props.scales;
   const rows = scales.map((scale) => {
     const tokens = rootage.tokenIds
       .filter((id) => id.startsWith(`$color.palette.${scale.prefix}`))
       .map((id) => {
         const { value: lightValue } = resolveToken(rootage, id, {
-          global: "default",
+          ...defaultModes,
           color: "theme-light",
         });
         const { value: darkValue } = resolveToken(rootage, id, {
-          global: "default",
+          ...defaultModes,
           color: "theme-dark",
         });
         return {

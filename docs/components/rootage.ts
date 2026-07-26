@@ -1,4 +1,23 @@
-import { AST, css } from "@seed-design/rootage-core";
+import { AST, css, type RootageCtx } from "@seed-design/rootage-core";
+
+/**
+ * Build a modes map covering every token collection, using each collection's
+ * first mode as the default (global → default, color → theme-light, motion →
+ * preferred, ...). Use this when resolving arbitrary tokens whose collection
+ * isn't known ahead of time, so a newly added collection can't break the build.
+ */
+export function getDefaultModes(
+  rootage: Pick<RootageCtx, "tokenCollectionEntities">,
+): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(rootage.tokenCollectionEntities).map(([collection, entity]) => {
+      const mode = entity.modes[0];
+      if (!mode) throw new Error(`Collection ${collection} has no modes`);
+
+      return [collection, mode.id];
+    }),
+  );
+}
 
 export function stringifyVariants(variants: AST.VariantExpression[]) {
   if (variants.length === 0) {

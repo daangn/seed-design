@@ -61,6 +61,9 @@ export const vars = {
       }
     },
     "disabled": {
+      "track": {
+        "color": "var(--seed-color-bg-disabled)"
+      },
       "range": {
         "color": "var(--seed-color-fg-disabled)"
       },

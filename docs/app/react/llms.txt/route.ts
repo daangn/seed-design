@@ -62,7 +62,7 @@ ${pageList}`;
     })
     .join("\n\n");
 
-  return new Response(`# SEED Design React - LLM Reference
+  return new Response(`# SEED React - LLM Reference
 
 React 컴포넌트 라이브러리 문서입니다.
 
@@ -73,13 +73,5 @@ React 컴포넌트 라이브러리 문서입니다.
 ## Categories
 
 ${categoryList}
-
-## Usage
-
-개별 페이지는 /llms/react/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/react/components/button.txt", baseUrl)}
-- ${new URL("/llms/react/getting-started/installation.txt", baseUrl)}
 `);
 }

@@ -9,8 +9,9 @@ const skeleton = defineRecipe({
     boxSizing: "border-box",
     overflow: "hidden",
 
-    "--seed-box-width--responsive": "initial",
-    "--seed-box-height--responsive": "initial",
+    // real values, not `initial` — see https://webkit.org/b/241433
+    "--seed-box-width--responsive": "auto",
+    "--seed-box-height--responsive": "auto",
     width: "var(--seed-box-width)",
     height: "var(--seed-box-height)",
 

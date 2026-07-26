@@ -141,3 +141,90 @@ test("getTokenCss should generate css code", () => {
     }"
   `);
 });
+
+test("getTokenCss skips a mode whose selector is null", () => {
+  const collections: Authoring.TokenCollectionsModel[] = [
+    {
+      kind: "TokenCollections",
+      metadata: { id: "1", name: "collection" },
+      data: [{ name: "motion", modes: [{ id: "preferred" }, { id: "reduced" }] }],
+    },
+  ];
+  const tokens: Authoring.TokensModel[] = [
+    {
+      kind: "Tokens",
+      metadata: { id: "2", name: "scale" },
+      data: {
+        collection: "motion",
+        tokens: {
+          "$scale.s95": { values: { preferred: 0.95, reduced: 1 } },
+        },
+      },
+    },
+  ];
+
+  const result = getTokenCss(
+    {
+      tokenCollections: collections.flatMap((x) => Authoring.parseTokenCollectionsDocument(x).data),
+      tokens: tokens.flatMap((x) => Authoring.parseTokensDocument(x).data),
+    },
+    {
+      prefix: "test",
+      banner: "",
+      selectors: {
+        motion: {
+          preferred: ":root",
+          reduced: null,
+        },
+      },
+    },
+  );
+
+  expect(result).toMatchInlineSnapshot(`
+    ":root {
+      --test-scale-s95: 0.95;
+    }"
+  `);
+});
+
+test("getTokenCss throws when a mode has no selector entry", () => {
+  const collections: Authoring.TokenCollectionsModel[] = [
+    {
+      kind: "TokenCollections",
+      metadata: { id: "1", name: "collection" },
+      data: [{ name: "motion", modes: [{ id: "preferred" }, { id: "reduced" }] }],
+    },
+  ];
+  const tokens: Authoring.TokensModel[] = [
+    {
+      kind: "Tokens",
+      metadata: { id: "2", name: "scale" },
+      data: {
+        collection: "motion",
+        tokens: {
+          "$scale.s95": { values: { preferred: 0.95, reduced: 1 } },
+        },
+      },
+    },
+  ];
+
+  expect(() =>
+    getTokenCss(
+      {
+        tokenCollections: collections.flatMap(
+          (x) => Authoring.parseTokenCollectionsDocument(x).data,
+        ),
+        tokens: tokens.flatMap((x) => Authoring.parseTokensDocument(x).data),
+      },
+      {
+        prefix: "test",
+        banner: "",
+        selectors: {
+          motion: {
+            preferred: ":root",
+          },
+        },
+      },
+    ),
+  ).toThrow("Selector for collection motion and mode reduced is not defined");
+});

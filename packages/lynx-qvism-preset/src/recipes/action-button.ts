@@ -44,7 +44,9 @@ const actionButton = defineSlotRecipe({
       marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
       marginRight: "calc(var(--seed-box-bleed-right) * -1)",
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transform: "scale(1)",
+
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}`,
     },
     text: {
       fontWeight: vars.base.enabled.label.fontWeight,
@@ -437,6 +439,32 @@ const actionButton = defineSlotRecipe({
       variant: "ghost",
       pressed: true,
       css: { root: { background: vars.variantGhost.pressed.root.color } },
+    },
+
+    // ── size × pressed — root scale ──────────────────────────────────────────
+    // Lynx has no individual `scale:` property and does not evaluate
+    // prefers-reduced-motion, so scale is applied via the `transform` shorthand
+    // and always animates on-device (the reduced-motion guard is dropped in
+    // lynx-css at the token layer).
+    {
+      size: "xsmall",
+      pressed: true,
+      css: { root: { transform: `scale(${vars.sizeXsmall.pressed.root.scale})` } },
+    },
+    {
+      size: "small",
+      pressed: true,
+      css: { root: { transform: `scale(${vars.sizeSmall.pressed.root.scale})` } },
+    },
+    {
+      size: "medium",
+      pressed: true,
+      css: { root: { transform: `scale(${vars.sizeMedium.pressed.root.scale})` } },
+    },
+    {
+      size: "large",
+      pressed: true,
+      css: { root: { transform: `scale(${vars.sizeLarge.pressed.root.scale})` } },
     },
 
     // ── variant × disabled — all slots ──────────────────────────────────────

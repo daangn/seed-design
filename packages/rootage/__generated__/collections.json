@@ -25,6 +25,17 @@
       ]
     },
     {
+      "name": "motion",
+      "modes": [
+        {
+          "id": "preferred"
+        },
+        {
+          "id": "reduced"
+        }
+      ]
+    },
+    {
       "name": "viewport-width",
       "modes": [
         {

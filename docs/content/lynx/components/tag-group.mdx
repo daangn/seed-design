@@ -84,7 +84,7 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 ### 레이아웃 모델 차이
 
 - **웹**: `display: inline` 기반 text flow. 컨테이너가 좁으면 마지막 item 내부 label text가 word 단위로 자연스럽게 wrap됩니다 (예: `"Ut minim laboris enim"` → `"Ut minim"` / `"laboris enim"` 두 줄로 쪼개짐).
-- **Lynx**: flex 기반 item 단위 wrap. item은 content-size를 유지하고, 한 줄에 들어가지 않으면 **item 전체가 다음 줄로** 이동합니다. item 내부 text가 item 경계를 넘어 word-break되는 동작은 재현할 수 없습니다. Lynx `TagGroupRoot`는 이를 자연스럽게 보이도록 **separator를 뒤따르는 item과 하나의 wrap 단위로 묶어** 다음 줄로 함께 이동시킵니다.
+- **Lynx**: flex 기반 item 단위 wrap. item은 content-size를 유지하고, 한 줄에 들어가지 않으면 item 전체가 다음 줄로 이동합니다. item 내부 text가 item 경계를 넘어 word-break되는 동작은 재현할 수 없습니다. Lynx `TagGroupRoot`는 이를 자연스럽게 보이도록 separator를 뒤따르는 item과 하나의 wrap 단위로 묶어 다음 줄로 함께 이동시킵니다.
 
 ### 미지원 prop
 

@@ -174,7 +174,12 @@ export interface CssOptions {
   banner?: string;
   selectors: {
     [collection: string]: {
-      [mode: string]: string;
+      /**
+       * The CSS selector or at-rule the mode's tokens are emitted under.
+       * `null` intentionally opts the mode out of emission (no block is
+       * produced). A missing key throws — a mode must be accounted for.
+       */
+      [mode: string]: string | null;
     };
   };
   customDeclaration?: DeclarationFunction;
@@ -196,16 +201,19 @@ export function getTokenCss(
   const rules = tokenCollections.flatMap((collection) => {
     const inCollection = tokens.filter((token) => token.collection === collection.name);
     if (inCollection.length === 0) return [];
-    return collection.modes.map(({ id: mode }) => {
+    return collection.modes.flatMap(({ id: mode }) => {
       const selector = options.selectors[collection.name]?.[mode];
 
-      if (!selector) {
+      // A missing selector is a mistake (e.g. a new mode without a mapping), so
+      // fail loudly; `null` is an explicit opt-out that skips the mode silently.
+      if (selector === undefined) {
         throw new Error(
           `Selector for collection ${collection.name} and mode ${mode} is not defined`,
         );
       }
+      if (selector === null) return [];
 
-      return { selector, decls: inCollection, mode };
+      return [{ selector, decls: inCollection, mode }];
     });
   });
 

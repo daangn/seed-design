@@ -6,7 +6,11 @@ import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { contentPlaceholderVariantMap } from "@seed-design/css/recipes/content-placeholder";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { IconSparkle2Fill } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconBuilding2Fill,
+  IconCupHeatwaveFill,
+  IconSparkle2Fill,
+} from "@karrotmarket/react-monochrome-icon";
 
 const meta = {
   component: ContentPlaceholder,
@@ -57,6 +61,8 @@ const conditionMap = {
       contentPlaceholderVariantMap.type.map((value) => [value, { type: value }]),
     ),
     custom: { children: <IconSparkle2Fill /> },
+    cafe: { children: <IconCupHeatwaveFill style={{ stroke: "none" }} /> },
+    apartment: { children: <IconBuilding2Fill style={{ stroke: "none" }} /> },
   },
 };
 

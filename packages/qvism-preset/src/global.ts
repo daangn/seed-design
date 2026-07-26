@@ -129,29 +129,37 @@ export const globalCss = defineGlobalCss({
     "--seed-box-bleed-left--responsive": "0px",
     "--seed-box-bleed-right--responsive": "0px",
 
-    // `initial` keeps these as the guaranteed-invalid value so the
-    // `var(--margin, calc(bleed * -1))` fallback below resolves to bleed
-    // whenever margin is not explicitly set. `auto` passes through without
-    // getting trapped in a calc() expression.
+    // margin stays guaranteed-invalid when unset (so the `var(--margin, calc(bleed * -1))`
+    // fallback below resolves to bleed), but every cross-property reference carries a
+    // `, initial` fallback. On WebKit before the guaranteed-invalid fix (Safari <16.4 /
+    // iOS 15–16.3, webkit.org/b/241433) that turns "unset" into an explicit
+    // non-inheriting value instead of an IACVT that inherits an ancestor's margin.
+    // Bleed is preserved by the runtime emitting it as a real negative margin (see
+    // styled.tsx), which the consumer fallback here can't do under old WebKit.
     "--seed-box-margin--responsive": "initial",
-    "--seed-box-margin-y--responsive": "var(--seed-box-margin)",
-    "--seed-box-margin-x--responsive": "var(--seed-box-margin)",
-    "--seed-box-margin-top--responsive": "var(--seed-box-margin-y)",
-    "--seed-box-margin-bottom--responsive": "var(--seed-box-margin-y)",
-    "--seed-box-margin-left--responsive": "var(--seed-box-margin-x)",
-    "--seed-box-margin-right--responsive": "var(--seed-box-margin-x)",
+    "--seed-box-margin-y--responsive": "var(--seed-box-margin, initial)",
+    "--seed-box-margin-x--responsive": "var(--seed-box-margin, initial)",
+    "--seed-box-margin-top--responsive": "var(--seed-box-margin-y, initial)",
+    "--seed-box-margin-bottom--responsive": "var(--seed-box-margin-y, initial)",
+    "--seed-box-margin-left--responsive": "var(--seed-box-margin-x, initial)",
+    "--seed-box-margin-right--responsive": "var(--seed-box-margin-x, initial)",
 
     marginTop: "var(--seed-box-margin-top, calc(var(--seed-box-bleed-top) * -1))",
     marginBottom: "var(--seed-box-margin-bottom, calc(var(--seed-box-bleed-bottom) * -1))",
     marginLeft: "var(--seed-box-margin-left, calc(var(--seed-box-bleed-left) * -1))",
     marginRight: "var(--seed-box-margin-right, calc(var(--seed-box-bleed-right) * -1))",
 
-    "--seed-box-min-height--responsive": "initial",
-    "--seed-box-max-height--responsive": "initial",
-    "--seed-box-height--responsive": "initial",
-    "--seed-box-min-width--responsive": "initial",
-    "--seed-box-max-width--responsive": "initial",
-    "--seed-box-width--responsive": "initial",
+    // Real initial-value keywords, not `initial`. WebKit before the
+    // guaranteed-invalid fix (Safari <16.4, incl. iOS 16.0.x) treats a custom
+    // property resolving to a guaranteed-invalid var() as `unset`, so it
+    // inherits the ancestor value instead of resetting. See
+    // https://webkit.org/b/241433.
+    "--seed-box-min-height--responsive": "auto",
+    "--seed-box-max-height--responsive": "none",
+    "--seed-box-height--responsive": "auto",
+    "--seed-box-min-width--responsive": "auto",
+    "--seed-box-max-width--responsive": "none",
+    "--seed-box-width--responsive": "auto",
     minHeight: "var(--seed-box-min-height)",
     maxHeight: "var(--seed-box-max-height)",
     height: "var(--seed-box-height)",
@@ -203,14 +211,16 @@ export const globalCss = defineGlobalCss({
     flexGrow: "var(--seed-box-flex-grow)",
     flexShrink: "var(--seed-box-flex-shrink)",
 
-    "--seed-box-flex-direction--responsive": "initial",
+    "--seed-box-flex-direction--responsive": "row",
     "--seed-box-flex-wrap": "initial",
     "--seed-box-justify-content": "initial",
     "--seed-box-justify-self": "auto",
     "--seed-box-align-items": "stretch",
     "--seed-box-align-content": "stretch",
     "--seed-box-align-self": "auto",
-    "--seed-box-gap--responsive": "initial",
+    // 0px, not `normal`/`initial`: ResponsivePair divides var(--seed-box-gap, 0px)
+    // inside a calc(), which needs a length. See the WebKit note above.
+    "--seed-box-gap--responsive": "0px",
     flexDirection: "var(--seed-box-flex-direction)",
     flexWrap: "var(--seed-box-flex-wrap)",
     justifyContent: "var(--seed-box-justify-content)",
@@ -234,9 +244,9 @@ export const globalCss = defineGlobalCss({
     },
   },
   ".seed-grid": {
-    "--seed-grid-columns--responsive": "initial",
+    "--seed-grid-columns--responsive": "none",
     gridTemplateColumns: "var(--seed-grid-columns)",
-    "--seed-grid-rows--responsive": "initial",
+    "--seed-grid-rows--responsive": "none",
     gridTemplateRows: "var(--seed-grid-rows)",
     "--seed-grid-auto-flow": "initial",
     gridAutoFlow: "var(--seed-grid-auto-flow)",

@@ -65,6 +65,12 @@ const chipTabs = defineSlotRecipe({
       whiteSpace: "nowrap",
       fontFamily: "inherit",
 
+      // Keep chips at their natural width when the list overflows.
+      // Each size variant sets an explicit `minWidth`, which overrides the flex
+      // `min-width: auto` (min-content) floor. Without `flexShrink: 0`, that lets
+      // chips shrink past their text + padding, so the label bleeds into the padding.
+      flexShrink: 0,
+
       borderRadius: chipVars.base.enabled.root.cornerRadius,
       fontWeight: chipVars.base.enabled.label.fontWeight,
 
@@ -85,8 +91,7 @@ const chipTabs = defineSlotRecipe({
           minHeight: chipVars.sizeMedium.enabled.root.height,
           minWidth: chipVars.sizeMediumLayoutWithText.enabled.root.minWidth,
           fontSize: chipVars.sizeMedium.enabled.label.fontSize,
-          paddingLeft: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
-          paddingRight: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+          paddingInline: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
         },
       },
       large: {
@@ -98,8 +103,7 @@ const chipTabs = defineSlotRecipe({
           minHeight: chipVars.sizeLarge.enabled.root.height,
           minWidth: chipVars.sizeLargeLayoutWithText.enabled.root.minWidth,
           fontSize: chipVars.sizeLarge.enabled.label.fontSize,
-          paddingLeft: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
-          paddingRight: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+          paddingInline: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
         },
       },
     },

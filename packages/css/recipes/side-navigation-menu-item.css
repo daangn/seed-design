@@ -4,8 +4,7 @@
     align-items: center;
     gap: 12px;
     height: 44px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-inline: 8px;
     width: 100%;
     overflow: hidden;
     text-align: left;
@@ -20,10 +19,7 @@
 .seed-side-navigation-menu-item__root::before {
     content: "";
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     border-radius: 10px;
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
@@ -67,8 +63,7 @@
     }
 }
 .seed-side-navigation-menu-item__root[data-side-navigation-state=collapsed] {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline: 10px;
 }
 .seed-side-navigation-menu-item__prefixIcon {
     width: 20px;

@@ -9,8 +9,7 @@
     gap: 12px;
     width: 100%;
     height: 44px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-inline: 8px;
     scroll-margin-top: 8px;
     scroll-margin-bottom: 24px;
     transition: padding .2s, background-color .2s;
@@ -76,8 +75,7 @@
   }
 
   .seed-side-navigation-menu-item__root[data-side-navigation-state="collapsed"] {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline: 10px;
   }
 
   .seed-side-navigation-menu-item__prefixIcon {
@@ -107,8 +105,9 @@
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);
+    padding: 6px;
     flex-grow: 1;
-    padding: 6px 6px 6px 32px;
+    padding-left: 32px;
     transition: opacity .2s, color .2s;
     overflow: hidden;
   }

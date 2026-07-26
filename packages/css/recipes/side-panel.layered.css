@@ -42,31 +42,31 @@
     background: var(--seed-color-bg-layer-floating);
     touch-action: none;
     will-change: transform;
-    --seed-box-width-base: initial;
-    --seed-box-width-sm: var(--seed-box-width-base);
-    --seed-box-width-md: var(--seed-box-width-sm);
-    --seed-box-width-lg: var(--seed-box-width-md);
-    --seed-box-width-xl: var(--seed-box-width-lg);
-    --seed-box-width: var(--seed-box-width-base);
+    --side-panel-default-width: calc(.8 * 100vw);
+    --seed-box-width-base: var(--side-panel-default-width);
+    --seed-box-width-sm: var(--seed-box-width-base, initial);
+    --seed-box-width-md: var(--seed-box-width-sm, initial);
+    --seed-box-width-lg: var(--seed-box-width-md, initial);
+    --seed-box-width-xl: var(--seed-box-width-lg, initial);
+    --seed-box-width: var(--seed-box-width-base, initial);
     --seed-box-max-width-base: calc(.8 * 100%);
-    --seed-box-max-width-sm: var(--seed-box-max-width-base);
-    --seed-box-max-width-md: var(--seed-box-max-width-sm);
-    --seed-box-max-width-lg: var(--seed-box-max-width-md);
-    --seed-box-max-width-xl: var(--seed-box-max-width-lg);
-    --seed-box-max-width: var(--seed-box-max-width-base);
-    width: var(--seed-box-width, calc(.8 * 100vw));
+    --seed-box-max-width-sm: var(--seed-box-max-width-base, initial);
+    --seed-box-max-width-md: var(--seed-box-max-width-sm, initial);
+    --seed-box-max-width-lg: var(--seed-box-max-width-md, initial);
+    --seed-box-max-width-xl: var(--seed-box-max-width-lg, initial);
+    --seed-box-max-width: var(--seed-box-max-width-base, initial);
+    width: var(--seed-box-width);
     max-width: var(--seed-box-max-width);
     padding-bottom: var(--seed-safe-area-bottom);
     flex-direction: column;
     display: flex;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    inset-block: 0;
   }
 
   @media (width >= 768px) {
     .seed-side-panel__content {
-      width: var(--seed-box-width, var(--side-panel-size-width));
+      --side-panel-default-width: var(--side-panel-size-width);
     }
   }
 
@@ -76,8 +76,7 @@
     z-index: -1;
     width: 100vw;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    inset-block: 0;
   }
 
   .seed-side-panel__content:is(:focus, [data-focus]) {
@@ -148,8 +147,7 @@
     box-sizing: border-box;
     gap: var(--seed-dimension-x1_5);
     min-height: calc(70px + var(--seed-safe-area-top));
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: calc(var(--seed-dimension-x6) + var(--seed-safe-area-top));
     padding-bottom: var(--seed-dimension-x4);
     flex-direction: column;
@@ -182,33 +180,32 @@
   .seed-side-panel__body {
     box-sizing: border-box;
     --seed-box-padding-x-base: var(--seed-dimension-x6);
-    --seed-box-padding-x-sm: var(--seed-box-padding-x-base);
-    --seed-box-padding-x-md: var(--seed-box-padding-x-sm);
-    --seed-box-padding-x-lg: var(--seed-box-padding-x-md);
-    --seed-box-padding-x-xl: var(--seed-box-padding-x-lg);
-    --seed-box-padding-x: var(--seed-box-padding-x-base);
-    --seed-box-height-base: initial;
-    --seed-box-height-sm: var(--seed-box-height-base);
-    --seed-box-height-md: var(--seed-box-height-sm);
-    --seed-box-height-lg: var(--seed-box-height-md);
-    --seed-box-height-xl: var(--seed-box-height-lg);
-    --seed-box-height: var(--seed-box-height-base);
-    --seed-box-min-height-base: initial;
-    --seed-box-min-height-sm: var(--seed-box-min-height-base);
-    --seed-box-min-height-md: var(--seed-box-min-height-sm);
-    --seed-box-min-height-lg: var(--seed-box-min-height-md);
-    --seed-box-min-height-xl: var(--seed-box-min-height-lg);
-    --seed-box-min-height: var(--seed-box-min-height-base);
-    --seed-box-max-height-base: initial;
-    --seed-box-max-height-sm: var(--seed-box-max-height-base);
-    --seed-box-max-height-md: var(--seed-box-max-height-sm);
-    --seed-box-max-height-lg: var(--seed-box-max-height-md);
-    --seed-box-max-height-xl: var(--seed-box-max-height-lg);
-    --seed-box-max-height: var(--seed-box-max-height-base);
+    --seed-box-padding-x-sm: var(--seed-box-padding-x-base, initial);
+    --seed-box-padding-x-md: var(--seed-box-padding-x-sm, initial);
+    --seed-box-padding-x-lg: var(--seed-box-padding-x-md, initial);
+    --seed-box-padding-x-xl: var(--seed-box-padding-x-lg, initial);
+    --seed-box-padding-x: var(--seed-box-padding-x-base, initial);
+    --seed-box-height-base: auto;
+    --seed-box-height-sm: var(--seed-box-height-base, initial);
+    --seed-box-height-md: var(--seed-box-height-sm, initial);
+    --seed-box-height-lg: var(--seed-box-height-md, initial);
+    --seed-box-height-xl: var(--seed-box-height-lg, initial);
+    --seed-box-height: var(--seed-box-height-base, initial);
+    --seed-box-min-height-base: auto;
+    --seed-box-min-height-sm: var(--seed-box-min-height-base, initial);
+    --seed-box-min-height-md: var(--seed-box-min-height-sm, initial);
+    --seed-box-min-height-lg: var(--seed-box-min-height-md, initial);
+    --seed-box-min-height-xl: var(--seed-box-min-height-lg, initial);
+    --seed-box-min-height: var(--seed-box-min-height-base, initial);
+    --seed-box-max-height-base: none;
+    --seed-box-max-height-sm: var(--seed-box-max-height-base, initial);
+    --seed-box-max-height-md: var(--seed-box-max-height-sm, initial);
+    --seed-box-max-height-lg: var(--seed-box-max-height-md, initial);
+    --seed-box-max-height-xl: var(--seed-box-max-height-lg, initial);
+    --seed-box-max-height: var(--seed-box-max-height-base, initial);
     --seed-box-justify-content: initial;
     --seed-box-align-items: initial;
-    padding-left: var(--seed-box-padding-x);
-    padding-right: var(--seed-box-padding-x);
+    padding-inline: var(--seed-box-padding-x);
     padding-bottom: var(--seed-dimension-x12);
     height: var(--seed-box-height);
     min-height: var(--seed-box-min-height);
@@ -229,11 +226,17 @@
   .seed-side-panel__body {
     mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x12));
     -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x12));
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
+  .seed-side-panel__body:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-side-panel__footer {
-    padding-left: var(--seed-dimension-x6);
-    padding-right: var(--seed-dimension-x6);
+    padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x6);
     flex-direction: column;
@@ -291,57 +294,57 @@
 
   @media (width >= 480px) {
     .seed-side-panel__content {
-      --seed-box-width: var(--seed-box-width-sm);
-      --seed-box-max-width: var(--seed-box-max-width-sm);
+      --seed-box-width: var(--seed-box-width-sm, initial);
+      --seed-box-max-width: var(--seed-box-max-width-sm, initial);
     }
 
     .seed-side-panel__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-sm);
-      --seed-box-height: var(--seed-box-height-sm);
-      --seed-box-min-height: var(--seed-box-min-height-sm);
-      --seed-box-max-height: var(--seed-box-max-height-sm);
+      --seed-box-padding-x: var(--seed-box-padding-x-sm, initial);
+      --seed-box-height: var(--seed-box-height-sm, initial);
+      --seed-box-min-height: var(--seed-box-min-height-sm, initial);
+      --seed-box-max-height: var(--seed-box-max-height-sm, initial);
     }
   }
 
   @media (width >= 768px) {
     .seed-side-panel__content {
-      --seed-box-width: var(--seed-box-width-md);
-      --seed-box-max-width: var(--seed-box-max-width-md);
+      --seed-box-width: var(--seed-box-width-md, initial);
+      --seed-box-max-width: var(--seed-box-max-width-md, initial);
     }
 
     .seed-side-panel__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-md);
-      --seed-box-height: var(--seed-box-height-md);
-      --seed-box-min-height: var(--seed-box-min-height-md);
-      --seed-box-max-height: var(--seed-box-max-height-md);
+      --seed-box-padding-x: var(--seed-box-padding-x-md, initial);
+      --seed-box-height: var(--seed-box-height-md, initial);
+      --seed-box-min-height: var(--seed-box-min-height-md, initial);
+      --seed-box-max-height: var(--seed-box-max-height-md, initial);
     }
   }
 
   @media (width >= 1280px) {
     .seed-side-panel__content {
-      --seed-box-width: var(--seed-box-width-lg);
-      --seed-box-max-width: var(--seed-box-max-width-lg);
+      --seed-box-width: var(--seed-box-width-lg, initial);
+      --seed-box-max-width: var(--seed-box-max-width-lg, initial);
     }
 
     .seed-side-panel__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-lg);
-      --seed-box-height: var(--seed-box-height-lg);
-      --seed-box-min-height: var(--seed-box-min-height-lg);
-      --seed-box-max-height: var(--seed-box-max-height-lg);
+      --seed-box-padding-x: var(--seed-box-padding-x-lg, initial);
+      --seed-box-height: var(--seed-box-height-lg, initial);
+      --seed-box-min-height: var(--seed-box-min-height-lg, initial);
+      --seed-box-max-height: var(--seed-box-max-height-lg, initial);
     }
   }
 
   @media (width >= 1440px) {
     .seed-side-panel__content {
-      --seed-box-width: var(--seed-box-width-xl);
-      --seed-box-max-width: var(--seed-box-max-width-xl);
+      --seed-box-width: var(--seed-box-width-xl, initial);
+      --seed-box-max-width: var(--seed-box-max-width-xl, initial);
     }
 
     .seed-side-panel__body {
-      --seed-box-padding-x: var(--seed-box-padding-x-xl);
-      --seed-box-height: var(--seed-box-height-xl);
-      --seed-box-min-height: var(--seed-box-min-height-xl);
-      --seed-box-max-height: var(--seed-box-max-height-xl);
+      --seed-box-padding-x: var(--seed-box-padding-x-xl, initial);
+      --seed-box-height: var(--seed-box-height-xl, initial);
+      --seed-box-min-height: var(--seed-box-min-height-xl, initial);
+      --seed-box-max-height: var(--seed-box-max-height-xl, initial);
     }
   }
 }
