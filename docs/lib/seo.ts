@@ -8,6 +8,24 @@ import {
 } from "@/lib/cover-image";
 
 const SITE_NAME = "SEED Design System";
+const SITE_LOCALE = "ko_KR";
+
+/**
+ * 섹션별 OG 폴백 카드. 페이지에 frontmatter `coverImage`가 없을 때 사이트 기본 카드 대신
+ * 그 섹션의 카드를 쓴다 — 폴백 순서는 `coverImage` → 섹션 카드 → `/og/default`.
+ *
+ * 여기 없는 섹션(`components`·`foundations`·`breeze`·`docs`)은 전용 카드 에셋이 없어서
+ * 자동으로 기본 카드로 떨어진다. `patterns`는 의도적으로 제외한다.
+ *
+ * `ai-integration`의 에셋 이름이 `ai-tools`인 것에 주의 — 섹션명과 다르다.
+ */
+const SECTION_OG_IMAGE_BASE: Record<string, string> = {
+  react: "/og/react",
+  lynx: "/og/lynx",
+  "ai-integration": "/og/ai-tools",
+  "get-started": "/og/get-started",
+  updates: "/og/updates",
+};
 
 export interface OgImage {
   url: string;
@@ -70,6 +88,29 @@ export function resolveCoverImage(cover: string): {
   };
 }
 
+/**
+ * 페이지 URL(`page.url`, 예: `/react/components/action-button`)에서 섹션을 뽑아 폴백 카드를
+ * 찾는다. 모든 fumadocs 소스의 baseUrl이 `/` + 섹션명이라(`app/source.tsx`) 첫 경로 세그먼트가
+ * 곧 섹션 키다. 에셋이 실제로 없으면 undefined를 돌려 기본 카드로 떨어뜨린다.
+ */
+function resolveSectionOgImage(url?: string): OgImage | undefined {
+  if (!url) return undefined;
+
+  const base = SECTION_OG_IMAGE_BASE[url.split("/")[1] ?? ""];
+  if (!base) return undefined;
+
+  const { png } = resolveCoverImagePaths(base);
+  if (!coverImageFileExists(png)) return undefined;
+
+  return {
+    url: png,
+    width: COVER_IMAGE_WIDTH,
+    height: COVER_IMAGE_HEIGHT,
+    alt: SITE_NAME,
+    type: "image/png",
+  };
+}
+
 export interface SeoInput {
   /** Page title. Omit to inherit (e.g. the root layout default). */
   title?: string;
@@ -77,6 +118,13 @@ export interface SeoInput {
   description?: string;
   /** Override the OG/Twitter image. Defaults to the SEED brand card. */
   image?: OgImage;
+  /**
+   * Canonical path for this page (`page.url`). Emits `<link rel="canonical">`, which matters
+   * because `public/_redirects` carries 22 permanent redirects into these URLs.
+   */
+  url?: string;
+  /** Set for blog-style pages so the OG type becomes `article` instead of `website`. */
+  publishedTime?: string;
 }
 
 /**
@@ -97,22 +145,31 @@ export function buildSeoMetadata({
   title,
   description,
   image = DEFAULT_OG_IMAGE,
+  url,
+  publishedTime,
 }: SeoInput = {}): Metadata {
-  return {
-    metadataBase: baseUrl,
+  const shared = {
     ...(title !== undefined ? { title } : {}),
     ...(description !== undefined ? { description } : {}),
+  };
+
+  return {
+    metadataBase: baseUrl,
+    ...shared,
+    ...(url !== undefined ? { alternates: { canonical: url } } : {}),
     openGraph: {
-      type: "website",
+      ...(publishedTime !== undefined
+        ? ({ type: "article", publishedTime } as const)
+        : ({ type: "website" } as const)),
       siteName: SITE_NAME,
-      ...(title !== undefined ? { title } : {}),
-      ...(description !== undefined ? { description } : {}),
+      locale: SITE_LOCALE,
+      ...(url !== undefined ? { url } : {}),
+      ...shared,
       images: [image],
     },
     twitter: {
       card: "summary_large_image",
-      ...(title !== undefined ? { title } : {}),
-      ...(description !== undefined ? { description } : {}),
+      ...shared,
       images: [image.url],
     },
   };
@@ -132,6 +189,10 @@ export interface DocsPageMetadataInput {
    * a "(Deprecated)" suffix unless it already carries one.
    */
   deprecated?: boolean;
+  /** Canonical path for this page — pass `page.url`. Also keys the section OG fallback. */
+  url?: string;
+  /** Blog-style pages only (frontmatter `publishedAt`). Switches the OG type to `article`. */
+  publishedTime?: string;
 }
 
 /**
@@ -156,6 +217,8 @@ export function buildDocsPageMetadata({
   description,
   coverImage,
   deprecated,
+  url,
+  publishedTime,
 }: DocsPageMetadataInput): Metadata {
   const displayTitle = deprecatedTitle(heading ?? title, deprecated);
   const cover = coverImage ? resolveCoverImage(coverImage) : null;
@@ -163,6 +226,46 @@ export function buildDocsPageMetadata({
   return buildSeoMetadata({
     title: displayTitle,
     description,
-    image: cover?.og,
+    // 폴백 순서: 페이지 커버 → 섹션 카드 → 사이트 기본 카드(buildSeoMetadata의 기본값).
+    // 본문 커버 이미지는 resolveCoverImage를 그대로 쓰므로 영향받지 않는다 — 섹션 폴백을
+    // 거기 넣으면 커버가 없던 페이지 상단에 갑자기 큰 배너가 생긴다.
+    image: cover?.og ?? resolveSectionOgImage(url),
+    url,
+    publishedTime,
   });
+}
+
+/**
+ * 문서 페이지의 schema.org JSON-LD. Next의 `metadata` API로는 `ld+json`을 못 내보내므로
+ * 반환값을 `<JsonLd>`(`components/json-ld.tsx`)로 렌더한다.
+ */
+export function buildDocsPageJsonLd(page: {
+  url: string;
+  data: { title: string; heading?: string; description?: string; publishedAt?: string | Date };
+}) {
+  const { title, heading, description, publishedAt } = page.data;
+  const absoluteUrl = new URL(page.url, baseUrl).toString();
+  const datePublished =
+    publishedAt instanceof Date ? publishedAt.toISOString() : (publishedAt ?? undefined);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: heading ?? title,
+    ...(description !== undefined ? { description } : {}),
+    url: absoluteUrl,
+    mainEntityOfPage: absoluteUrl,
+    ...(datePublished !== undefined ? { datePublished } : {}),
+    inLanguage: "ko-KR",
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: baseUrl.toString(),
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "당근",
+      url: baseUrl.toString(),
+    },
+  };
 }

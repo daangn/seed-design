@@ -2,7 +2,13 @@ import { getStartedSource } from "@/app/source";
 import { ProsePage } from "@/components/layout/prose-page";
 import { mdxComponents } from "@/components/mdx-components";
 import { getComponentStatus } from "@/lib/rootage";
-import { buildDocsPageMetadata, deprecatedTitle, resolveCoverImage } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
+import {
+  buildDocsPageJsonLd,
+  buildDocsPageMetadata,
+  deprecatedTitle,
+  resolveCoverImage,
+} from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -24,6 +30,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   return (
     <ProsePage title={displayTitle} description={page.data.description}>
+      <JsonLd data={buildDocsPageJsonLd(page)} />
       {cover ? (
         <div className="not-prose mb-8 md:mb-10">
           <img
@@ -55,6 +62,7 @@ export async function generateMetadata(props: {
   const { deprecated } = await getComponentStatus(params, { deprecated: page.data.deprecated });
 
   return buildDocsPageMetadata({
+    url: page.url,
     title: page.data.title,
     heading: page.data.heading,
     description: page.data.description,
