@@ -11,7 +11,9 @@ SEED는 당근의 디자인 시스템입니다.
 
 | 섹션 | 진입점 | 전체 문서 | 설명 |
 |------|--------|-----------|------|
-| Design Guidelines | [llms.txt](${new URL("/docs/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/docs/llms-full.txt", baseUrl)}) | 컴포넌트 디자인 가이드라인, Foundation |
+| Foundations | [llms.txt](${new URL("/foundations/llms.txt", baseUrl)}) | - | 색상, 타이포그래피, 간격 등 디자인 파운데이션 |
+| Components | [llms.txt](${new URL("/components/llms.txt", baseUrl)}) | - | 컴포넌트 디자인 스펙 (Anatomy, Properties, Guidelines) |
+| Design Guidelines | [llms.txt](${new URL("/docs/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/docs/llms-full.txt", baseUrl)}) | 마이그레이션 등 디자인 참고 문서 |
 | React Library | [llms.txt](${new URL("/react/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/react/llms-full.txt", baseUrl)}) | React 컴포넌트 라이브러리, API 레퍼런스 |
 | Breeze Utilities | [llms.txt](${new URL("/breeze/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/breeze/llms-full.txt", baseUrl)}) | 유틸리티 UI 컴포넌트 |
 | Lynx | [llms.txt](${new URL("/lynx/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/lynx/llms-full.txt", baseUrl)}) | Lynx 프레임워크 |
