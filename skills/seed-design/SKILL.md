@@ -77,7 +77,7 @@ SEED Design의 모든 문서에는 llms.txt 형태의 LLM 최적화 문서가 �
 
 ```text
 https://seed-design.io/llms/react/components/{component-name}.txt
-https://seed-design.io/llms/docs/foundation/color/color-system.txt
+https://seed-design.io/llms/foundations/color.txt
 ```
 
 ### CLI docs 명령어
