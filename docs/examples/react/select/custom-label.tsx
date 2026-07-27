@@ -1,5 +1,9 @@
-import { Box } from "@seed-design/react";
-import { vars } from "@seed-design/css/vars";
+import {
+  IconCarLine,
+  IconFigureBikeLine,
+  IconMetroFrontsideLine,
+} from "@karrotmarket/react-monochrome-icon";
+import { Badge, Box, HStack } from "@seed-design/react";
 import {
   SelectContent,
   SelectGroup,
@@ -8,39 +12,41 @@ import {
   SelectTrigger,
 } from "seed-design/ui/select";
 
-const STATUSES = [
-  { value: "on-sale", label: "판매중", color: vars.$color.palette.green500 },
-  { value: "reserved", label: "예약중", color: vars.$color.palette.carrot500 },
-  { value: "sold", label: "거래완료", color: vars.$color.palette.gray500 },
-];
-
 export default function SelectCustomLabel() {
   return (
-    <Box width="240px">
-      <SelectRoot defaultValue={["on-sale"]}>
-        <SelectTrigger aria-label="판매 상태" placeholder="상태 선택" />
+    <Box width="280px">
+      <SelectRoot defaultValue={["metro"]}>
+        <SelectTrigger aria-label="이동 수단" placeholder="이동 수단 선택" />
         <SelectContent>
           <SelectGroup>
-            {STATUSES.map((status) => (
-              <SelectItem
-                key={status.value}
-                value={status.value}
-                textValue={status.label}
-                label={
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                    <span
-                      style={{
-                        width: "8px",
-                        height: "8px",
-                        borderRadius: "50%",
-                        background: status.color,
-                      }}
-                    />
-                    {status.label}
-                  </span>
-                }
-              />
-            ))}
+            <SelectItem value="bike" label="자전거" prefixIcon={<IconFigureBikeLine />} />
+            <SelectItem
+              value="metro"
+              textValue="지하철"
+              prefixIcon={<IconMetroFrontsideLine />}
+              label={
+                <HStack as="span" align="center" gap="x1_5">
+                  지하철
+                  <Badge variant="weak" tone="informative">
+                    가장 빠름
+                  </Badge>
+                </HStack>
+              }
+            />
+            <SelectItem
+              value="car"
+              textValue="자동차"
+              disabled
+              prefixIcon={<IconCarLine />}
+              label={
+                <HStack as="span" align="center" gap="x1_5">
+                  자동차
+                  <Badge variant="weak" tone="warning">
+                    고객지원에 문의
+                  </Badge>
+                </HStack>
+              }
+            />
           </SelectGroup>
         </SelectContent>
       </SelectRoot>

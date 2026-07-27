@@ -15,16 +15,22 @@ export default function SelectGroups() {
         <SelectTrigger aria-label="지역" placeholder="지역 선택" />
         <SelectContent>
           <SelectGroup>
-            <SelectGroupLabel>수도권</SelectGroupLabel>
+            <SelectGroupLabel>아시아</SelectGroupLabel>
             <SelectItem value="seoul" label="서울" />
-            <SelectItem value="incheon" label="인천" />
-            <SelectItem value="gyeonggi" label="경기" />
+            <SelectItem value="tokyo" label="도쿄" />
+            <SelectItem value="singapore" label="싱가포르" />
+            <SelectItem value="dubai" label="두바이" />
           </SelectGroup>
           <SelectGroup>
-            <SelectGroupLabel>영남권</SelectGroupLabel>
-            <SelectItem value="busan" label="부산" />
-            <SelectItem value="daegu" label="대구" />
-            <SelectItem value="ulsan" label="울산" />
+            <SelectGroupLabel>유럽</SelectGroupLabel>
+            <SelectItem value="london" label="런던" />
+            <SelectItem value="paris" label="파리" />
+            <SelectItem value="berlin" label="베를린" />
+          </SelectGroup>
+          <SelectGroup>
+            <SelectGroupLabel>아메리카</SelectGroupLabel>
+            <SelectItem value="new-york" label="뉴욕" />
+            <SelectItem value="sao-paulo" label="상파울루" />
           </SelectGroup>
         </SelectContent>
       </SelectRoot>
