@@ -844,6 +844,29 @@ describe("useSelect value display", () => {
     expect(queryByText("Choose a fruit")).not.toBeInTheDocument();
   });
 
+  // selectedItem answers "the one selected entry" once, so consumers stop
+  // rederiving it from value.length and an index into selectedItems.
+  it("exposes the single resolved selection as selectedItem", async () => {
+    const apiRef = createApiRef();
+    const { rerender } = render(<BasicSelect apiRef={apiRef} value={["cherry"]} />);
+    await waitForPositioning();
+
+    expect(apiRef.current?.selectedItem).toMatchObject({ value: "cherry", textValue: "Cherry" });
+
+    rerender(<BasicSelect apiRef={apiRef} value={[]} />);
+    await waitForPositioning();
+    expect(apiRef.current?.selectedItem).toBeUndefined();
+
+    rerender(<BasicSelect apiRef={apiRef} multiple value={["apple", "cherry"]} />);
+    await waitForPositioning();
+    expect(apiRef.current?.selectedItem).toBeUndefined();
+
+    // a lone value the registry cannot resolve carries no entry to mirror
+    rerender(<BasicSelect apiRef={apiRef} value={["ghost"]} />);
+    await waitForPositioning();
+    expect(apiRef.current?.selectedItem).toBeUndefined();
+  });
+
   // The placeholder fallback is gated on a non-empty registry: the server render
   // and the frame before registration both see an empty one, and flipping
   // placeholder -> label there would be a hydration text mismatch.
@@ -920,9 +943,9 @@ describe("useSelect value display", () => {
     );
     await waitForPositioning();
 
-    expect(apiRef.current?.nativeOptions.get("a")?.textValue).toBe("Text A");
-    expect(apiRef.current?.nativeOptions.get("b")?.textValue).toBe("Label B");
-    expect(apiRef.current?.nativeOptions.get("c")?.textValue).toBe("c");
+    expect(apiRef.current?.optionRegistry.get("a")?.textValue).toBe("Text A");
+    expect(apiRef.current?.optionRegistry.get("b")?.textValue).toBe("Label B");
+    expect(apiRef.current?.optionRegistry.get("c")?.textValue).toBe("c");
     warn.mockRestore();
   });
 
@@ -1673,7 +1696,7 @@ describe("useSelect option registry", () => {
     const { rerender } = render(<BasicSelect apiRef={apiRef} />);
     await waitForPositioning();
 
-    const before = apiRef.current?.nativeOptions;
+    const before = apiRef.current?.optionRegistry;
     if (!before) throw new Error("api probe not ready");
 
     expect(before.size).toBe(3);
@@ -1681,7 +1704,7 @@ describe("useSelect option registry", () => {
     rerender(<BasicSelect apiRef={apiRef} />);
     await waitForPositioning();
 
-    expect(apiRef.current?.nativeOptions).toBe(before);
+    expect(apiRef.current?.optionRegistry).toBe(before);
   });
 
   // reference note (label updates propagate to the closed trigger)
@@ -2173,8 +2196,8 @@ describe("useSelect icon channel", () => {
     expect(options[0]).not.toHaveAttribute("icon");
     expect(options[0].querySelector("svg")).toBeNull();
 
-    expect(apiRef.current?.nativeOptions.get("apple")?.icon).toBeTruthy();
-    expect(apiRef.current?.nativeOptions.get("cherry")?.icon).toBeUndefined();
+    expect(apiRef.current?.optionRegistry.get("apple")?.icon).toBeTruthy();
+    expect(apiRef.current?.optionRegistry.get("cherry")?.icon).toBeUndefined();
   });
 
   // surfaces on selectedItems; selection changes swap it; unmount drops it

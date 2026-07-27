@@ -105,6 +105,14 @@ describe("Select", () => {
       expect(getByRole("combobox").querySelector("svg")).toBeNull();
     });
 
+    it("falls back to the static svg when the single selected value has no rendered option", async () => {
+      const { queryByTestId } = render(
+        <TestSelect staticIcon={<svg data-testid="static-icon" />} defaultValue={["ghost"]} />,
+      );
+      await waitForPositioning();
+      expect(queryByTestId("static-icon")).toBeInTheDocument();
+    });
+
     it("renders the static svg with two or more selections", async () => {
       const { queryByTestId } = render(
         <TestSelect

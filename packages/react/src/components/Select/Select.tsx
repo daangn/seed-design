@@ -142,12 +142,12 @@ export interface SelectPrefixIconProps extends React.SVGAttributes<SVGSVGElement
 
 export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIconProps>(
   ({ fallback, ...otherProps }, ref) => {
-    const { value, selectedItems, stateProps } = useSelectContext();
+    const { selectedItem, stateProps } = useSelectContext();
     const classNames = useTriggerClassNames();
 
     // A single selected item's own icon wins; otherwise the fallback shows —
     // including when that item has no icon, or on empty/multi selections.
-    const svg = (value.length === 1 ? selectedItems[0]?.icon : undefined) ?? fallback;
+    const svg = selectedItem?.icon ?? fallback;
     if (!svg) return null;
 
     const mergedProps = mergeProps(

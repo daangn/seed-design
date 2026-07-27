@@ -14,7 +14,8 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 // SSR-safe (no-op on the server): item registration runs in a layout effect so the
 // trigger value paints in the same frame items mount, instead of one frame late.
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import React, { createContext, forwardRef, useContext } from "react";
+import type React from "react";
+import { createContext, forwardRef, useContext } from "react";
 import {
   useSelect,
   useSelectGroup,
@@ -101,26 +102,13 @@ export interface SelectValueProps extends PrimitiveProps, React.HTMLAttributes<H
  */
 export const SelectValue = forwardRef<HTMLSpanElement, SelectValueProps>(
   ({ children, ...props }, ref) => {
-    const { selectedItems, multiple, formatValue, showPlaceholder } = useSelectContext();
+    const { displayValue, showPlaceholder } = useSelectContext();
 
     if (showPlaceholder) return null;
 
-    const content =
-      children ??
-      (formatValue
-        ? formatValue(selectedItems)
-        : multiple
-          ? // Unresolved entries hold a slot in selectedItems but carry an empty
-            // textValue, which would otherwise join into a stray separator.
-            selectedItems
-              .filter((item) => item.resolved)
-              .map((item) => item.textValue)
-              .join(", ")
-          : selectedItems[0]?.label);
-
     return (
       <Primitive.span ref={ref} {...props}>
-        {content}
+        {children ?? displayValue}
       </Primitive.span>
     );
   },
@@ -354,7 +342,7 @@ export interface SelectHiddenSelectProps extends React.SelectHTMLAttributes<HTML
  */
 export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSelectProps>(
   (props, ref) => {
-    const { value, setValue, name, form, required, disabled, multiple, nativeOptions, refs } =
+    const { value, setValue, name, form, required, disabled, multiple, optionRegistry, refs } =
       useSelectContext();
 
     return (
@@ -409,7 +397,7 @@ export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSele
         {...props}
       >
         {!multiple && <option value="" />}
-        {[...nativeOptions].map(([optionValue, entry]) => (
+        {[...optionRegistry].map(([optionValue, entry]) => (
           <option key={optionValue} value={optionValue}>
             {entry.textValue}
           </option>
@@ -419,7 +407,7 @@ export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSele
             or one seen before any option registered — needs a bare option of its
             own for the form to submit what the component reports. */}
         {value
-          .filter((entry) => !nativeOptions.has(entry))
+          .filter((entry) => !optionRegistry.has(entry))
           .map((entry) => (
             <option key={entry} value={entry} />
           ))}

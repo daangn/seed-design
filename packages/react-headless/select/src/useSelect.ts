@@ -105,6 +105,17 @@ export interface SelectedItem extends OptionEntry {
   resolved: boolean;
 }
 
+function getDefaultDisplayValue(items: SelectedItem[], multiple: boolean) {
+  if (!multiple) return items[0]?.label;
+
+  // Unresolved entries hold a slot but carry an empty textValue, which would
+  // otherwise join into a stray separator.
+  return items
+    .filter((item) => item.resolved)
+    .map((item) => item.textValue)
+    .join(", ");
+}
+
 export interface UseSelectProps {
   open?: boolean;
   defaultOpen?: boolean;
@@ -225,7 +236,11 @@ export function useSelect(props: UseSelectProps) {
   );
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [nativeOptions, setNativeOptions] = useState<ReadonlyMap<string, OptionEntry>>(
+  // What each rendered option contributes beyond its value: the display node,
+  // the plain string, the icon. Items register from a layout effect, so this
+  // fills in before the first paint but after `value` already exists — which is
+  // why nothing derived from it may decide whether a value exists.
+  const [optionRegistry, setOptionRegistry] = useState<ReadonlyMap<string, OptionEntry>>(
     () => new Map(),
   );
   const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
@@ -346,7 +361,7 @@ export function useSelect(props: UseSelectProps) {
   );
 
   const registerOption = useCallback((optionValue: string, entry: OptionEntry) => {
-    setNativeOptions((prev) => {
+    setOptionRegistry((prev) => {
       const existing = prev.get(optionValue);
       // Re-registering an identical entry must not churn state (render loops).
       if (
@@ -363,7 +378,7 @@ export function useSelect(props: UseSelectProps) {
   }, []);
 
   const unregisterOption = useCallback((optionValue: string) => {
-    setNativeOptions((prev) => {
+    setOptionRegistry((prev) => {
       if (!prev.has(optionValue)) return prev;
 
       const next = new Map(prev);
@@ -379,12 +394,12 @@ export function useSelect(props: UseSelectProps) {
   const selectedItems = useMemo(
     () =>
       value.map((entry): SelectedItem => {
-        const option = nativeOptions.get(entry);
+        const option = optionRegistry.get(entry);
         return option
           ? { ...option, value: entry, resolved: true }
           : { value: entry, label: null, textValue: "", resolved: false };
       }),
-    [value, nativeOptions],
+    [value, optionRegistry],
   );
 
   // An empty selection and one that no rendered option can resolve both read as
@@ -393,7 +408,23 @@ export function useSelect(props: UseSelectProps) {
   // registry because the server render and the frame before registration see one
   // too, and flipping placeholder -> label there would be a hydration mismatch.
   const showPlaceholder =
-    value.length === 0 || (nativeOptions.size > 0 && selectedItems.every((item) => !item.resolved));
+    value.length === 0 ||
+    (optionRegistry.size > 0 && selectedItems.every((item) => !item.resolved));
+
+  // The single entry a lone selection points at — undefined while nothing is
+  // selected, while several are, or while that one value resolves to no rendered
+  // option. Consumers mirroring the selection read this instead of pairing
+  // `value.length` with an index into `selectedItems`.
+  const selectedItem =
+    value.length === 1 && selectedItems[0]?.resolved ? selectedItems[0] : undefined;
+
+  // The trigger's default content, skipped entirely while the placeholder shows
+  // so `formatValue` never sees an empty or wholly unresolved selection.
+  const displayValue = showPlaceholder
+    ? undefined
+    : formatValue
+      ? formatValue(selectedItems)
+      : getDefaultDisplayValue(selectedItems, multiple);
 
   // Closing clears the highlight so it can never leak into the next open.
   useEffect(() => {
@@ -570,7 +601,9 @@ export function useSelect(props: UseSelectProps) {
     setValue,
     multiple,
     selectedItems,
+    selectedItem,
     showPlaceholder,
+    displayValue,
     formatValue,
     activeIndex,
     selectedIndex,
@@ -582,7 +615,7 @@ export function useSelect(props: UseSelectProps) {
     name,
     form,
 
-    nativeOptions,
+    optionRegistry,
     registerOption,
     unregisterOption,
     selectValue,
