@@ -103,7 +103,7 @@ import {
 
 `size`로 트리거와 목록의 크기를 정합니다. (default: `large`)
 
-`responsive`는 화면 너비에 따라 size가 자동으로 전환되는 값입니다.
+`responsive` 사용 시 화면 너비에 따라 size가 자동으로 전환됩니다.
 
 <ComponentExample name="react/select/size">
   ```json doc-gen:file
@@ -116,7 +116,7 @@ import {
 
 ### Groups
 
-`SelectGroup`으로 옵션을 묶고, `SelectGroupLabel`로 그룹의 제목을 표시합니다. 모든 `SelectItem`은 `SelectGroup` 안에 있어야 합니다.
+`SelectGroup`으로 옵션을 묶고, `SelectGroupLabel`로 그룹의 제목을 표시합니다. `SelectGroup`의 개수와 관계없이 모든 `SelectItem`은 `SelectGroup` 안에 있어야 합니다.
 
 그룹이 두 개 이상이면 그룹 사이에 구분선이 자동으로 그려집니다.
 
@@ -161,7 +161,7 @@ import {
 
 `SelectItem`의 `prefixIcon` prop으로 옵션에 아이콘을 표시합니다.
 
-정확히 1개의 옵션이 선택되면 해당 옵션의 아이콘이 트리거의 prefix 자리에 표시됩니다. 선택된 옵션이 없거나, 선택된 옵션에 아이콘이 없거나, 여러 옵션이 선택된 경우 트리거에는 `SelectTrigger`에 지정한 `prefixIcon`이 표시됩니다.
+1개의 옵션이 선택된 경우 해당 옵션의 아이콘이 트리거의 prefix 아이콘으로 표시됩니다. 선택된 옵션이 없거나, 선택된 옵션에 아이콘이 없거나, 여러 옵션이 선택된 경우 트리거에는 `SelectTrigger`에 지정한 `prefixIcon`이 표시됩니다.
 
 <ComponentExample name="react/select/with-prefix-icon">
   ```json doc-gen:file
@@ -174,13 +174,13 @@ import {
 
 ### Custom Item Label
 
-`SelectItem`의 `label`에는 ReactNode를 넘길 수 있습니다. 이 노드는 목록의 옵션에만 렌더링됩니다. 트리거에는 노드 대신 `textValue`가 표시됩니다. 노드가 가진 레이아웃이 트리거의 한 줄짜리 값 자리에 들어가면 트리거가 깨지기 때문입니다.
+`SelectItem`의 `label`에는 ReactNode를 넘길 수 있습니다. 이 노드는 목록의 옵션에만 렌더링됩니다.
 
-`label`이 문자열이 아닌 경우 `textValue`를 함께 지정하세요. `textValue`는 트리거에 표시되는 문구, 키보드로 타이핑해 옵션을 찾을 때 매칭되는 문자열, 폼 제출용 native `<option>`의 텍스트로 쓰입니다. 지정하지 않으면 이 값들이 모두 옵션의 `value`로 대체되고, 개발 모드에서 경고가 출력됩니다.
+`SelectItem`의 `label`로 string이 아닌 ReactNode를 지정하는 경우 트리거에는 `SelectItem`의 `textValue`가 표시됩니다. `textValue`는 `label`이 string이면 `label`, 아니면 `value`입니다.
 
-트리거에도 노드를 렌더링하려면 `SelectRoot`의 `formatValue`를 사용하세요. 아래 [Custom Value Format](#custom-value-format)을 참고하세요.
+따라서, `label`이 string이 아닌 경우 `textValue`를 함께 지정하는 것을 권장합니다. `textValue`는 트리거에 표시되는 문구, 키보드로 타이핑해 옵션을 찾을 때 매칭되는 문자열(typeahead), 폼 제출용 native `<option>`의 텍스트로 쓰입니다. `label`로 string이 아닌 ReactNode를 전달하면서 `textValue`를 지정하지 않는 경우 이 값들은 모두 기본적으로 `value`로 설정되며, 개발 모드에서 경고가 출력됩니다.
 
-타이핑 매칭 문자열만 따로 지정하려면 `typeaheadLabel`을 사용하세요.
+typeahead 문자열만 변경하고자 하는 경우 `typeaheadLabel`을 사용하세요.
 
 <ComponentExample name="react/select/custom-label">
   ```json doc-gen:file
@@ -206,9 +206,9 @@ import {
 
 ### Long List
 
-옵션이 많으면 목록 안에서 스크롤됩니다. 목록의 높이는 지정된 최대 높이와 트리거 주변에 남은 화면 공간 중 더 작은 값으로 정해지고, 노치와 홈 인디케이터 영역을 피해 배치됩니다.
+옵션이 많으면 목록 안에서 스크롤됩니다. 목록의 최대 높이는 지정된 최대 높이와 트리거 주변에 남은 화면 공간 중 더 작은 값으로 정해지고, 노치와 홈 인디케이터 영역을 피해 배치됩니다.
 
-목록을 열면 현재 선택된 옵션이 보이는 위치로 자동 스크롤됩니다.
+목록은 현재 선택된 옵션이 보이는 위치로 스크롤된 상태에서 열립니다.
 
 <ComponentExample name="react/select/long-list">
   ```json doc-gen:file
@@ -262,15 +262,16 @@ import {
 
 ### Custom Value Format
 
-`SelectRoot`의 `formatValue` prop으로 트리거에 표시되는 선택 값을 커스텀합니다. 지정하지 않으면 단일·다중 선택 모두 선택된 옵션들의 `textValue`를 `", "`로 이어 표시합니다.
+`SelectRoot`의 `formatValue` prop으로 트리거에 표시되는 선택 값을 커스텀합니다. 기본적으로는, 선택된 옵션들의 `textValue`를 `", "`로 join하여 표시합니다. `textValue`의 기본값은 `label`이 string이면 `label`, 아닌 경우 `value`입니다.
 
 `formatValue`가 받는 각 항목에는 `label`도 담겨 있으므로, ReactNode `label`을 트리거에 렌더링하고 싶다면 여기서 꺼내 쓰면 됩니다.
 
 ```tsx
+// 선택된 옵션 중 첫 번째 옵션의 label만 트리거에 표시
 <SelectRoot formatValue={(items) => items[0]?.label} />
 ```
 
-다중 선택에서 [`Intl.ListFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat)을 사용하면 locale에 맞는 접속사로 목록을 조합할 수 있습니다.
+[`Intl.ListFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat)을 사용하면 locale에 맞는 접속사로 목록을 조합할 수 있습니다.
 
 <ComponentExample name="react/select/format-value">
   ```json doc-gen:file
@@ -296,7 +297,7 @@ import {
 
 ### Form Integration
 
-`SelectRoot`에 `name`, `required`를 지정하면, `SelectRoot`가 내부에서 렌더링하는 숨겨진 native `<select>`를 통해 폼 제출에 참여합니다.
+`SelectRoot`가 내부에서 렌더링하는 숨겨진 native `<select>`를 통해 폼 제출에 참여할 수 있습니다.
 
 <ComponentExample name="react/select/form">
   ```json doc-gen:file
