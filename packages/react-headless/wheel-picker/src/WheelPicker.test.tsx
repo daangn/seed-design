@@ -1,0 +1,291 @@
+import { act, fireEvent, render } from "@testing-library/react";
+import { afterAll, beforeAll, describe, expect, it, jest, mock } from "bun:test";
+import * as React from "react";
+import { WheelPickerColumn, WheelPickerRoot } from "./WheelPicker";
+import { getCentralPhysicalIndex, getPhysicalOptionCount } from "./utils";
+
+const options = [
+  { value: "a", label: "A" },
+  { value: "b", label: "B" },
+  { value: "c", label: "C" },
+];
+
+function TestWheelPicker({
+  onValueChange,
+  value,
+  defaultValue = "a",
+  loop = false,
+  disabled,
+  readOnly,
+}: {
+  onValueChange?: (value: string) => void;
+  value?: string;
+  defaultValue?: string;
+  loop?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
+}) {
+  return (
+    <WheelPickerRoot
+      aria-label="테스트 피커"
+      itemSize={40}
+      visibleItemCount={5}
+      disabled={disabled}
+      readOnly={readOnly}
+    >
+      <WheelPickerColumn
+        aria-label="테스트 컬럼"
+        options={options}
+        value={value}
+        defaultValue={defaultValue}
+        onValueChange={onValueChange}
+        loop={loop}
+      />
+    </WheelPickerRoot>
+  );
+}
+
+describe("WheelPicker", () => {
+  const originalScrollTo = HTMLElement.prototype.scrollTo;
+  const originalMatchMedia = window.matchMedia;
+  const originalRequestAnimationFrame = window.requestAnimationFrame;
+  const originalCancelAnimationFrame = window.cancelAnimationFrame;
+
+  beforeAll(() => {
+    HTMLElement.prototype.scrollTo = function scrollTo(options) {
+      if (typeof options === "object" && options.top !== undefined) {
+        this.scrollTop = options.top;
+      }
+    };
+    window.matchMedia = mock(() => ({
+      matches: false,
+      media: "",
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }));
+    window.requestAnimationFrame = (callback) => {
+      callback(0);
+      return 1;
+    };
+    window.cancelAnimationFrame = () => {};
+  });
+
+  afterAll(() => {
+    HTMLElement.prototype.scrollTo = originalScrollTo;
+    window.matchMedia = originalMatchMedia;
+    window.requestAnimationFrame = originalRequestAnimationFrame;
+    window.cancelAnimationFrame = originalCancelAnimationFrame;
+  });
+
+  it("group과 spinbutton 접근성 속성을 제공한다", () => {
+    const { getByRole } = render(<TestWheelPicker defaultValue="b" />);
+    const group = getByRole("group");
+    const column = getByRole("spinbutton");
+
+    expect(group).toHaveAttribute("aria-label", "테스트 피커");
+    expect(column).toHaveAttribute("aria-valuemin", "0");
+    expect(column).toHaveAttribute("aria-valuemax", "2");
+    expect(column).toHaveAttribute("aria-valuenow", "1");
+    expect(column).toHaveAttribute("aria-valuetext", "B");
+    expect(column.children).toHaveLength(3);
+    expect(column.children[0]).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("반복 렌더링 개수를 제한된 공식으로 계산한다", () => {
+    expect(getPhysicalOptionCount(1, 5, true)).toBe(1);
+    expect(getPhysicalOptionCount(2, 5, true)).toBe(122);
+    expect(getPhysicalOptionCount(12, 5, true)).toBe(132);
+    expect(getPhysicalOptionCount(60, 5, true)).toBe(180);
+
+    const { getByRole } = render(<TestWheelPicker loop />);
+    const column = getByRole("spinbutton");
+    expect(column.children).toHaveLength(getPhysicalOptionCount(options.length, 5, true));
+    expect(column.querySelectorAll("[data-selected]")).toHaveLength(1);
+  });
+
+  it("스크롤이 정착한 뒤 논리값을 한 번만 변경한다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(<TestWheelPicker onValueChange={onValueChange} />);
+    const column = getByRole("spinbutton");
+
+    column.scrollTop = 40;
+    fireEvent.scroll(column);
+    fireEvent.scroll(column);
+
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(120);
+    });
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith("b");
+
+    fireEvent(column, new Event("scrollend"));
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    jest.useRealTimers();
+  });
+
+  it("터치 중에는 값을 커밋하지 않고 손을 뗀 뒤 스크롤이 정착하면 커밋한다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(<TestWheelPicker onValueChange={onValueChange} />);
+    const column = getByRole("spinbutton");
+
+    fireEvent.touchStart(column, { touches: [{ clientY: 100 }] });
+    column.scrollTop = 40;
+    fireEvent.scroll(column);
+    fireEvent(column, new Event("scrollend"));
+
+    act(() => {
+      jest.advanceTimersByTime(120);
+    });
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(column.children[1]).toHaveAttribute("data-selected");
+
+    fireEvent.touchEnd(column, { touches: [] });
+    act(() => {
+      jest.advanceTimersByTime(120);
+    });
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith("b");
+    jest.useRealTimers();
+  });
+
+  it("loop 모드에서 active scroll 중에는 재배치하지 않고 정착 후 중앙으로 이동한다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <TestWheelPicker loop defaultValue="a" onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+    const physicalOptionCount = getPhysicalOptionCount(options.length, 5, true);
+    const nearEndPhysicalIndex = physicalOptionCount - 2;
+
+    fireEvent.touchStart(column, { touches: [{ clientY: 100 }] });
+    column.scrollTop = nearEndPhysicalIndex * 40 + 10;
+    fireEvent.scroll(column);
+
+    const logicalIndex = nearEndPhysicalIndex % options.length;
+    const centralPhysicalIndex = getCentralPhysicalIndex(logicalIndex, options.length, 5, true);
+
+    expect(column.scrollTop).toBe(nearEndPhysicalIndex * 40 + 10);
+    expect(column.children[nearEndPhysicalIndex]).toHaveAttribute("data-selected");
+
+    act(() => {
+      jest.advanceTimersByTime(120);
+    });
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    fireEvent.touchEnd(column, { touches: [] });
+    act(() => {
+      jest.advanceTimersByTime(120);
+    });
+
+    expect(column.scrollTop).toBe(centralPhysicalIndex * 40);
+    expect(column.children[centralPhysicalIndex]).toHaveAttribute("data-selected");
+    expect(onValueChange).toHaveBeenCalledWith(options[logicalIndex].value);
+    jest.useRealTimers();
+  });
+
+  it("스크롤 중에는 React commit 없이 선택 표시만 갱신한다", () => {
+    jest.useFakeTimers();
+    const onRender = mock(() => {});
+    const { getByRole } = render(
+      <React.Profiler id="wheel-picker" onRender={onRender}>
+        <TestWheelPicker />
+      </React.Profiler>,
+    );
+    const initialCommitCount = onRender.mock.calls.length;
+    const column = getByRole("spinbutton");
+
+    column.scrollTop = 40;
+    fireEvent.scroll(column);
+
+    expect(onRender).toHaveBeenCalledTimes(initialCommitCount);
+    expect(column.children[1]).toHaveAttribute("data-selected");
+    jest.useRealTimers();
+  });
+
+  it("키보드로 이전·다음과 처음·끝 항목을 선택한다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <TestWheelPicker defaultValue="b" onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+
+    fireEvent.keyDown(column, { key: "End" });
+    act(() => jest.advanceTimersByTime(120));
+    expect(onValueChange).toHaveBeenLastCalledWith("c");
+
+    column.scrollTop = 80;
+    fireEvent.keyDown(column, { key: "Home" });
+    act(() => jest.advanceTimersByTime(120));
+    expect(onValueChange).toHaveBeenLastCalledWith("a");
+    jest.useRealTimers();
+  });
+
+  it("loop 모드에서 Arrow 키가 양 끝을 순환한다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <TestWheelPicker loop defaultValue="a" onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+
+    fireEvent.keyDown(column, { key: "ArrowUp" });
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(onValueChange).toHaveBeenCalledWith("c");
+    jest.useRealTimers();
+  });
+
+  it("disabled와 readOnly에서는 값 변경을 차단한다", () => {
+    jest.useFakeTimers();
+    const disabledChange = mock(() => {});
+    const readOnlyChange = mock(() => {});
+    const { getAllByRole } = render(
+      <>
+        <TestWheelPicker disabled onValueChange={disabledChange} />
+        <TestWheelPicker readOnly onValueChange={readOnlyChange} />
+      </>,
+    );
+    const [disabledColumn, readOnlyColumn] = getAllByRole("spinbutton");
+
+    expect(disabledColumn).toHaveAttribute("tabindex", "-1");
+    expect(disabledColumn).toHaveAttribute("aria-disabled", "true");
+    expect(readOnlyColumn).toHaveAttribute("aria-readonly", "true");
+
+    fireEvent.keyDown(disabledColumn, { key: "ArrowDown" });
+    fireEvent.keyDown(readOnlyColumn, { key: "ArrowDown" });
+    readOnlyColumn.scrollTop = 40;
+    fireEvent.scroll(readOnlyColumn);
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(disabledChange).not.toHaveBeenCalled();
+    expect(readOnlyChange).not.toHaveBeenCalled();
+    expect(readOnlyColumn.scrollTop).toBe(0);
+    jest.useRealTimers();
+  });
+
+  it("controlled value 변경은 callback 없이 스크롤 위치를 동기화한다", () => {
+    const onValueChange = mock(() => {});
+    const { getByRole, rerender } = render(
+      <TestWheelPicker value="a" onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+
+    rerender(<TestWheelPicker value="c" onValueChange={onValueChange} />);
+
+    expect(column.scrollTop).toBe(80);
+    expect(column).toHaveAttribute("aria-valuenow", "2");
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+});

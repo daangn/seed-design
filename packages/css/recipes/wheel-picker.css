@@ -1,0 +1,45 @@
+.seed-wheel-picker__root {
+    position: relative;
+    height: var(--seed-wheel-picker-viewport-size);
+    overflow: hidden;
+}
+.seed-wheel-picker__scrollFog {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    overflow: hidden;
+}
+.seed-wheel-picker__columns {
+    display: flex;
+    height: 100%;
+}
+.seed-wheel-picker__column {
+    box-sizing: border-box;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-y;
+    padding-block: var(--seed-wheel-picker-center-offset);
+}
+.seed-wheel-picker__column::-webkit-scrollbar {
+    display: none;
+}
+.seed-wheel-picker__item {
+    height: var(--seed-wheel-picker-item-size);
+    min-height: var(--seed-wheel-picker-item-size);
+    scroll-snap-align: center;
+}
+.seed-wheel-picker__selectionIndicator {
+    position: absolute;
+    z-index: 0;
+    inset-inline: 0;
+    top: 50%;
+    height: var(--seed-wheel-picker-item-size);
+    transform: translateY(-50%);
+    pointer-events: none;
+}

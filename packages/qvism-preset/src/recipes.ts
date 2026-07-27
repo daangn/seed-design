@@ -79,6 +79,7 @@ import { tagGroup, tagGroupItem } from "./recipes/tag-group";
 import text from "./recipes/text";
 import textInput from "./recipes/text-input";
 import toggleButton from "./recipes/toggle-button";
+import wheelPicker from "./recipes/wheel-picker";
 import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
 
@@ -174,4 +175,5 @@ export const recipes = {
   text,
   textInput,
   toggleButton,
+  wheelPicker,
 };
