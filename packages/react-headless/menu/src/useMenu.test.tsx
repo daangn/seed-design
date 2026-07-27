@@ -1,3 +1,4 @@
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { render, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, jest } from "bun:test";
@@ -904,6 +905,65 @@ describe("useMenu", () => {
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(getByText("Item 2 (disabled)")).toHaveAttribute("data-disabled");
+    });
+  });
+
+  // The content stays mounted while closing so the exit transition can play, and it
+  // has to keep the very same DOM nodes: a remount hands that transition a fresh
+  // scroll container starting at scrollTop 0, so a long menu visibly snaps back to
+  // the top the moment it starts closing. Both tests assert on DOM state React never
+  // renders — exactly what a remount throws away.
+  describe("close transition", () => {
+    it("preserves the content's scroll position through a close", async () => {
+      const user = userEvent.setup();
+      const { getByText, getByRole } = render(<BasicMenu />);
+      await waitForPositioning();
+
+      const trigger = getByText("Open Menu");
+      await user.click(trigger);
+      getByRole("menu").scrollTop = 120;
+
+      await user.click(trigger);
+      expect(getByRole("menu")).not.toHaveAttribute("data-open");
+      expect(getByRole("menu").scrollTop).toBe(120);
+    });
+
+    it("keeps the same item elements when closing by clicking an item", async () => {
+      const user = userEvent.setup();
+      const { getByText, getByRole, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
+
+      await user.click(getByText("Open Menu"));
+      getAllByRole("menuitem").forEach((item, index) =>
+        item.setAttribute("data-probe", String(index)),
+      );
+
+      await user.click(getByText("Item 2"));
+      expect(getByRole("menu")).not.toHaveAttribute("data-open");
+
+      const probes = getAllByRole("menuitem").map((item) => item.getAttribute("data-probe"));
+      expect(probes).toEqual(["0", "1", "2"]);
+    });
+  });
+
+  describe("focus scope participation", () => {
+    // The content renders in a portal, outside a parent FocusScope's container.
+    // Opening must register a scope on Radix's focusScopesStack so the parent trap
+    // pauses — otherwise the parent pulls focus straight back out of the menu.
+    it("pauses a trapped parent FocusScope while open", async () => {
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(
+        <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+          <BasicMenu />
+        </FocusScope>,
+      );
+      await waitForPositioning();
+
+      getByText("Open Menu").focus();
+      await user.keyboard("{ArrowDown}");
+      await waitForFocus();
+
+      expect(getAllByRole("menuitem")[0]).toHaveFocus();
     });
   });
 });
