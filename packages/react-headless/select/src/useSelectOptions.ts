@@ -2,9 +2,14 @@ import { useCallback, useMemo, useState } from "react";
 import type * as React from "react";
 
 export interface OptionEntry {
-  /** Rich display node, rendered in the single-select trigger value slot. */
+  /**
+   * Rich display node. Rendered in the option row only — never by the trigger's
+   * default display, which would drop the node's own layout into a slot sized for
+   * a single line of text. `formatValue` still receives it for callers that want
+   * it there anyway.
+   */
   label: React.ReactNode;
-  /** Plain string identity, used for the multi-select join and the hidden `<option>` text. */
+  /** Plain string identity, used for the trigger display and the hidden `<option>` text. */
   textValue: string;
   icon?: React.ReactNode;
 }
@@ -19,9 +24,11 @@ export interface SelectedItem extends OptionEntry {
   resolved: boolean;
 }
 
-function getDefaultDisplayValue(items: SelectedItem[], multiple: boolean) {
-  if (!multiple) return items[0]?.label;
-
+// The trigger's default content is always plain text, single or multi selection
+// alike: an option's `label` may be an arbitrary node whose own layout would not
+// survive the trigger's single-line value slot, so only `textValue` goes there.
+// Callers wanting the node in the trigger opt in through `formatValue`.
+function getDefaultDisplayValue(items: SelectedItem[]) {
   // Unresolved entries hold a slot but carry an empty textValue, which would
   // otherwise join into a stray separator.
   return items
@@ -33,7 +40,11 @@ function getDefaultDisplayValue(items: SelectedItem[], multiple: boolean) {
 export interface UseSelectOptionsProps {
   value: string[];
   multiple: boolean;
-  /** Custom trigger value rendering; overrides the default value display. */
+  /**
+   * Custom trigger value rendering; overrides the default `textValue` join. Also
+   * the way to put an option's `label` node in the trigger, which the default
+   * deliberately never does.
+   */
   formatValue?: (items: SelectedItem[]) => React.ReactNode;
 }
 
@@ -112,7 +123,7 @@ export function useSelectOptions({ value, multiple, formatValue }: UseSelectOpti
     ? undefined
     : formatValue
       ? formatValue(selectedItems)
-      : getDefaultDisplayValue(selectedItems, multiple);
+      : getDefaultDisplayValue(selectedItems);
 
   // What the hidden native `<select>` has to render as `<option>` children for
   // the current value to survive form submission.

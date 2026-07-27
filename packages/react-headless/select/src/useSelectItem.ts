@@ -9,15 +9,17 @@ export interface UseSelectItemProps {
   /** Overrides the string matched by keyboard typeahead. */
   typeaheadLabel?: string;
   /**
-   * Rich display label. Rendered in the trigger value slot for single-select and
-   * used as the typeahead label when it is a string and `typeaheadLabel` is omitted.
+   * Rich display label. Rendered in this option's row, and used as the typeahead
+   * label when it is a string and `typeaheadLabel` is omitted. The trigger shows
+   * `textValue` instead — a node's own layout would not survive the trigger's
+   * single-line value slot — so put it there through the root's `formatValue`.
    */
   label?: React.ReactNode;
   /**
-   * Plain-string identity used for the multi-select trigger join and the hidden
-   * native `<option>` text. Defaults to `label` when it is a string, otherwise the
-   * option `value`. Provide it when `label` is a `ReactNode` — it then also serves
-   * as the typeahead match string unless `typeaheadLabel` overrides it.
+   * Plain-string identity used for the trigger display and the hidden native
+   * `<option>` text. Defaults to `label` when it is a string, otherwise the option
+   * `value`. Provide it when `label` is a `ReactNode` — it then also serves as the
+   * typeahead match string unless `typeaheadLabel` overrides it.
    */
   textValue?: string;
   /**
@@ -33,7 +35,7 @@ export type UseSelectItemReturn = ReturnType<typeof useSelectItem>;
 
 // Registers one rendered option with the root: its position in the list (for
 // typeahead and aria-activedescendant) and its display payload (for the trigger
-// value slot and the hidden native `<option>`).
+// display and the hidden native `<option>`).
 export function useSelectItem(props: UseSelectItemProps) {
   const { value, disabled, typeaheadLabel, label, textValue, icon } = props;
   const { getItemProps, registerOption, unregisterOption } = useSelectContext();
@@ -60,7 +62,7 @@ export function useSelectItem(props: UseSelectItemProps) {
       typeof label !== "string"
     ) {
       console.warn(
-        `SelectItem "${value}": \`label\` is a ReactNode, so \`textValue\` falls back to the option value for the trigger text and hidden <option>. Pass \`textValue\` to set the display string.`,
+        `SelectItem "${value}": \`label\` is a ReactNode, so \`textValue\` falls back to the option value — and \`textValue\` is what the trigger and the hidden <option> show, since the trigger never renders the \`label\` node. Pass \`textValue\` to set the display string.`,
       );
     }
     registerOption(value, { label, textValue: resolvedTextValue, icon });

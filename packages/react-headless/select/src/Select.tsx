@@ -47,7 +47,9 @@ export interface SelectValueProps extends PrimitiveProps, React.HTMLAttributes<H
 /**
  * Renders the selected value. Nothing is rendered while there is nothing to show
  * (see `SelectPlaceholder`). Precedence: `children` > root `formatValue` > default
- * (single-select `label` node / multi-select `textValue` join).
+ * (the selection's `textValue` joined by `", "`, single and multi alike). An
+ * option's `label` node never reaches here on its own — the two overrides above
+ * are how a node gets into the trigger.
  */
 export const SelectValue = forwardRef<HTMLSpanElement, SelectValueProps>(
   ({ children, ...props }, ref) => {

@@ -174,9 +174,11 @@ import {
 
 ### Custom Item Label
 
-`SelectItem`의 `label`에는 ReactNode를 넘길 수 있습니다. 이 노드는 목록의 옵션에 렌더링되며, 하나만 선택된 경우 트리거의 값 자리에도 함께 렌더링됩니다.
+`SelectItem`의 `label`에는 ReactNode를 넘길 수 있습니다. 이 노드는 목록의 옵션에만 렌더링됩니다. 트리거에는 노드 대신 `textValue`가 표시됩니다. 노드가 가진 레이아웃이 트리거의 한 줄짜리 값 자리에 들어가면 트리거가 깨지기 때문입니다.
 
-`label`이 문자열이 아닌 경우 `textValue`를 함께 지정하세요. `textValue`는 다중 선택 시 트리거에 표시되는 문구, 키보드로 타이핑해 옵션을 찾을 때 매칭되는 문자열, 폼 제출용 native `<option>`의 텍스트로 쓰입니다. 지정하지 않으면 이 값들이 모두 옵션의 `value`로 대체되고, 개발 모드에서 경고가 출력됩니다.
+`label`이 문자열이 아닌 경우 `textValue`를 함께 지정하세요. `textValue`는 트리거에 표시되는 문구, 키보드로 타이핑해 옵션을 찾을 때 매칭되는 문자열, 폼 제출용 native `<option>`의 텍스트로 쓰입니다. 지정하지 않으면 이 값들이 모두 옵션의 `value`로 대체되고, 개발 모드에서 경고가 출력됩니다.
+
+트리거에도 노드를 렌더링하려면 `SelectRoot`의 `formatValue`를 사용하세요. 아래 [Custom Value Format](#custom-value-format)을 참고하세요.
 
 타이핑 매칭 문자열만 따로 지정하려면 `typeaheadLabel`을 사용하세요.
 
@@ -260,7 +262,13 @@ import {
 
 ### Custom Value Format
 
-`SelectRoot`의 `formatValue` prop으로 트리거에 표시되는 선택 값을 커스텀합니다. 지정하지 않으면 단일 선택은 옵션의 `label`, 다중 선택(`multiple`)은 옵션들의 `textValue`를 `", "`로 이어 표시합니다.
+`SelectRoot`의 `formatValue` prop으로 트리거에 표시되는 선택 값을 커스텀합니다. 지정하지 않으면 단일·다중 선택 모두 선택된 옵션들의 `textValue`를 `", "`로 이어 표시합니다.
+
+`formatValue`가 받는 각 항목에는 `label`도 담겨 있으므로, ReactNode `label`을 트리거에 렌더링하고 싶다면 여기서 꺼내 쓰면 됩니다.
+
+```tsx
+<SelectRoot formatValue={(items) => items[0]?.label} />
+```
 
 다중 선택에서 [`Intl.ListFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat)을 사용하면 locale에 맞는 접속사로 목록을 조합할 수 있습니다.
 

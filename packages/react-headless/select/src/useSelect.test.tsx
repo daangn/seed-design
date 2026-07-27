@@ -829,11 +829,57 @@ describe("useSelect value display", () => {
     expect(second).toBe(first);
   });
 
-  it("renders the selected option's label in the trigger for single-select", async () => {
+  it("renders the selected option's textValue in the trigger for single-select", async () => {
     const { getByRole } = render(<BasicSelect defaultValue={["cherry"]} />);
     await waitForPositioning();
 
     expect(getByRole("combobox")).toHaveTextContent("Cherry");
+  });
+
+  // A `label` node carries its own layout, which the trigger's single-line value
+  // slot cannot host — so the default display reads textValue for single-select
+  // too, and the node stays in the option row it was written for.
+  it("keeps a ReactNode label out of the trigger, showing textValue instead", async () => {
+    const { getByRole, queryByTestId } = render(
+      <SelectRoot defaultValue={["apple"]}>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem
+              value="apple"
+              textValue="Apple"
+              label={<span data-testid="rich-label">● Apple</span>}
+            />
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    expect(getByRole("combobox").textContent).toBe("Apple");
+    expect(queryByTestId("rich-label")).toBeNull();
+  });
+
+  // textValue is the plain-string identity, so it outranks even a string label
+  // that disagrees with it — one rule for the trigger, single and multi alike.
+  it("prefers textValue over a string label in the trigger", async () => {
+    const { getByRole } = render(
+      <SelectRoot defaultValue={["apple"]}>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="apple" label="Apple" textValue="Green apple" />
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    expect(getByRole("combobox")).toHaveTextContent("Green apple");
   });
 
   it("renders the placeholder only while the selection is empty", async () => {
