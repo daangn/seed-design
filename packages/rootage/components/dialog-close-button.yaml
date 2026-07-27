@@ -29,7 +29,6 @@ data:
           colorTimingFunction:
             type: cubicBezier
   definitions:
-    # TODO: side-panel-close-button 미러 placeholder입니다. Figma 스펙으로 확인해주세요.
     base:
       enabled:
         root:
