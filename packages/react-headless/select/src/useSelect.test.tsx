@@ -38,6 +38,21 @@ function ApiProbe({ apiRef }: { apiRef: React.RefObject<UseSelectReturn | null> 
 
 const createApiRef = (): React.RefObject<UseSelectReturn | null> => ({ current: null });
 
+/**
+ * Stands in for a modal ancestor (Dialog, Drawer, AppScreen). Those are all thin
+ * wrappers over exactly this scope, and what the listbox owes them is entry in
+ * Radix's focusScopesStack — so the raw scope is the mechanism under test, not a
+ * stand-in for one. Using it directly also keeps the ancestor free of the scroll
+ * locking, aria-hidden and presence gating those components would drag in.
+ */
+function TrappedAncestor({ children }: { children: React.ReactNode }) {
+  return (
+    <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+      {children}
+    </FocusScope>
+  );
+}
+
 function BasicSelect({
   apiRef,
   ...props
@@ -2303,15 +2318,15 @@ describe("useSelect close transition", () => {
 });
 
 describe("useSelect focus scope participation", () => {
-  // The content renders in a portal, outside a parent FocusScope's container.
-  // Opening must register a scope on Radix's focusScopesStack so the parent trap
-  // pauses — otherwise the parent pulls focus straight back out of the listbox.
-  it("pauses a trapped parent FocusScope while open", async () => {
+  // The content renders in a portal, outside the ancestor scope's container. Opening
+  // must register a scope on Radix's focusScopesStack so the ancestor trap pauses —
+  // otherwise the ancestor pulls focus straight back out of the listbox.
+  it("pauses a trapped ancestor while open", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(
-      <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+      <TrappedAncestor>
         <BasicSelect />
-      </FocusScope>,
+      </TrappedAncestor>,
     );
     await waitForPositioning();
 
@@ -2322,15 +2337,15 @@ describe("useSelect focus scope participation", () => {
   });
 
   // Pause and resume are one contract: the scope has to leave the stack when the
-  // listbox closes, or the parent stays paused forever and its trap never comes back.
-  it("lets a trapped parent FocusScope resume once closed", async () => {
+  // listbox closes, or the ancestor stays paused forever and its trap never comes back.
+  it("lets a trapped ancestor resume once closed", async () => {
     const user = userEvent.setup();
     const { getByRole, getByText } = render(
       <>
         <button type="button">Outside</button>
-        <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+        <TrappedAncestor>
           <BasicSelect />
-        </FocusScope>
+        </TrappedAncestor>
       </>,
     );
     await waitForPositioning();
