@@ -261,7 +261,6 @@ describe("useSelect open/close", () => {
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 
-  // controlled open pinned — reference note
   it("keeps a controlled open prop pinned while still firing onOpenChange", async () => {
     const user = userEvent.setup();
     const onOpenChange = jest.fn();
@@ -357,7 +356,6 @@ describe("useSelect open/close", () => {
     await waitFor(() => expect(trigger).toHaveFocus());
   });
 
-  // Escape never clears the value
   it("does not clear the value when closed via Escape", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -435,7 +433,6 @@ describe("useSelect open/close", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
-  // cascade dismiss from a parent dismissible layer
   it("closes when a parent dismissible layer is removed", async () => {
     const user = userEvent.setup();
     const { DismissibleLayer } = await import("@seed-design/react-dismissible-layer");
@@ -536,7 +533,6 @@ describe("useSelect selection (single)", () => {
     expect(trigger).toHaveTextContent("Banana");
   });
 
-  // controlled value
   it("keeps a controlled value pinned while still firing onValueChange", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -675,7 +671,6 @@ describe("useSelect selection (single)", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
-  // reference note: same-value reselect must not re-fire onValueChange
   it("does not fire onValueChange when re-committing the already selected value", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -692,7 +687,6 @@ describe("useSelect selection (single)", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
-  // reference note: closing without commit never changes the value
   it("does not commit the highlighted option on outside click", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -715,7 +709,6 @@ describe("useSelect selection (single)", () => {
 });
 
 describe("useSelect selection (multiple)", () => {
-  // reference note (exact payloads, insertion order, toggle regression)
   it("toggles membership preserving insertion order and keeps the listbox open", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -741,7 +734,6 @@ describe("useSelect selection (multiple)", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "true");
   });
 
-  // multiple default display: textValue join
   it("renders the selected textValues joined with ', ' in the trigger", async () => {
     const user = userEvent.setup();
     const { getByRole, getAllByRole } = render(<BasicSelect multiple />);
@@ -853,7 +845,6 @@ describe("useSelect value display", () => {
     expect(second).toBe(first);
   });
 
-  // default single display: label node
   it("renders the selected option's label in the trigger for single-select", async () => {
     const { getByRole } = render(<BasicSelect defaultValue={["cherry"]} />);
     await waitForPositioning();
@@ -861,7 +852,6 @@ describe("useSelect value display", () => {
     expect(getByRole("combobox")).toHaveTextContent("Cherry");
   });
 
-  // placeholder only while empty; SelectValue nothing while empty
   it("renders the placeholder only while the selection is empty", async () => {
     const user = userEvent.setup();
     const { getByRole, getAllByRole, queryByText } = render(<BasicSelect />);
@@ -918,7 +908,6 @@ describe("useSelect value display", () => {
     expect(getByRole("combobox")).toHaveTextContent("");
   });
 
-  // formatValue precedence over default
   it("renders formatValue output instead of the default display", async () => {
     const { getByRole } = render(
       <BasicSelect
@@ -932,7 +921,6 @@ describe("useSelect value display", () => {
     expect(getByRole("combobox")).toHaveTextContent("2 selected");
   });
 
-  // children precedence over formatValue
   it("prefers SelectValue children over formatValue", async () => {
     const { getByRole } = render(
       <SelectRoot defaultValue={["apple"]} formatValue={() => "from formatValue"}>
@@ -954,7 +942,6 @@ describe("useSelect value display", () => {
     expect(getByRole("combobox")).not.toHaveTextContent("from formatValue");
   });
 
-  // textValue resolution: textValue ?? string label ?? value
   it("resolves the registered textValue from textValue prop, string label, then value", async () => {
     // the rich label without textValue below intentionally triggers the dev warning
     const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
@@ -979,7 +966,6 @@ describe("useSelect value display", () => {
     warn.mockRestore();
   });
 
-  // dev warning for ReactNode label without textValue
   it("warns in dev when label is a ReactNode and textValue is omitted", async () => {
     const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
     render(
@@ -1024,7 +1010,6 @@ function expectNoHighlight(trigger: HTMLElement) {
 }
 
 describe("useSelect keyboard open & highlight seeding", () => {
-  // no selection → first enabled
   it.each([
     "{ArrowDown}",
     "{ArrowUp}",
@@ -1045,7 +1030,6 @@ describe("useSelect keyboard open & highlight seeding", () => {
     expect(highlighted).toHaveAttribute("data-value", "apple");
   });
 
-  // selection seeds
   it("seeds the selected option on keyboard open", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect defaultValue={["cherry"]} />);
@@ -1060,7 +1044,6 @@ describe("useSelect keyboard open & highlight seeding", () => {
     expect(highlighted).toHaveAttribute("data-value", "cherry");
   });
 
-  // multiple: first selected in DOM order
   it("seeds the first selected option in DOM order for multiple selects", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect multiple defaultValue={["cherry", "banana"]} />);
@@ -1100,7 +1083,6 @@ describe("useSelect keyboard open & highlight seeding", () => {
     expect(highlighted).toHaveAttribute("data-value", "banana");
   });
 
-  // nothing selected → first option; ArrowUp too
   it("highlights the first option on the first arrow press after a pointer open with no selection", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect />);
@@ -1172,7 +1154,6 @@ describe("useSelect keyboard open & highlight seeding", () => {
 });
 
 describe("useSelect arrow navigation", () => {
-  // skip disabled: 1 → 3 over disabled 2
   it("skips disabled options while navigating", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<SelectWithDisabledItem />);
@@ -1188,7 +1169,6 @@ describe("useSelect arrow navigation", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
   });
 
-  // wraps at both ends, never clearing the highlight
   it("wraps from last to first and from first to last", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<SelectWithDisabledItem />);
@@ -1207,7 +1187,6 @@ describe("useSelect arrow navigation", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
   });
 
-  // Home/End jump to first/last enabled
   it("jumps to the first/last enabled option on Home/End", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(
@@ -1247,8 +1226,6 @@ describe("useSelect arrow navigation", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "b");
   });
 
-  // (revised: DOM focus moves into the listbox content on open;
-  // the highlighted option stays virtual via aria-activedescendant)
   it("moves DOM focus into the listbox on open and keeps it there while navigating", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect />);
@@ -1279,7 +1256,6 @@ describe("useSelect hover highlight", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
   });
 
-  // reference note (hover and keyboard share one highlight)
   it("continues arrow navigation from the hovered option", async () => {
     const user = userEvent.setup();
     const { getByRole, getAllByRole } = render(<BasicSelect />);
@@ -1293,7 +1269,6 @@ describe("useSelect hover highlight", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "cherry");
   });
 
-  // hover cannot highlight disabled
   it("does not highlight a disabled option on hover", async () => {
     const user = userEvent.setup();
     const { getByRole, getAllByRole } = render(<SelectWithDisabledItem />);
@@ -1328,7 +1303,6 @@ describe("useSelect hover highlight", () => {
 });
 
 describe("useSelect keyboard commit", () => {
-  // reference note (exactly one commit per Enter)
   it("commits the highlighted option on Enter exactly once", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -1347,7 +1321,6 @@ describe("useSelect keyboard commit", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
-  // Space commits when no typeahead is in progress
   it("commits the highlighted option on Space", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -1365,7 +1338,6 @@ describe("useSelect keyboard commit", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
-  // nothing highlighted → just closes
   it("closes without selecting on Enter/Space when nothing is highlighted", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -1473,7 +1445,6 @@ describe("useSelect typeahead (open)", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apricot");
   });
 
-  // disabled options are never matched
   it("never matches disabled options", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(
@@ -1521,7 +1492,6 @@ describe("useSelect typeahead (open)", () => {
     expect(onValueChange).toHaveBeenCalledWith(["new-jersey"]);
   });
 
-  // reference note (typeahead wrap-around past the current highlight)
   it("wraps the match search past the end of the list", async () => {
     const user = userEvent.setup();
     const { getByRole, getAllByRole } = render(<LetterSelect />);
@@ -1535,7 +1505,6 @@ describe("useSelect typeahead (open)", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
   });
 
-  // reference note (repeated same char cycles through matches)
   it("cycles through options sharing the same first letter on repeated presses", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<LetterSelect />);
@@ -1552,7 +1521,6 @@ describe("useSelect typeahead (open)", () => {
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
   });
 
-  // reference note (values where one is a string prefix of another)
   it("keeps narrowing across prefix-adjacent options", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(
@@ -1655,7 +1623,6 @@ describe("useSelect typeahead (closed trigger)", () => {
     expect(trigger).toHaveTextContent("Banana");
   });
 
-  // no-op when multiple
   it("does nothing while closed in multiple mode", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -1670,7 +1637,6 @@ describe("useSelect typeahead (closed trigger)", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
-  // no-op when readOnly
   it("does nothing while readOnly", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -1685,7 +1651,6 @@ describe("useSelect typeahead (closed trigger)", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
-  // closed: Space inside an in-progress search must not open
   it("keeps a mid-search Space from opening the listbox", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -1700,7 +1665,6 @@ describe("useSelect typeahead (closed trigger)", () => {
     expect(onValueChange).toHaveBeenLastCalledWith(["new-jersey"]);
   });
 
-  // no stale highlight leaks into the next open
   it("leaves no highlight behind for the next pointer open after a closed commit", async () => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect />);
@@ -1737,7 +1701,6 @@ describe("useSelect option registry", () => {
     expect(apiRef.current?.optionRegistry).toBe(before);
   });
 
-  // reference note (label updates propagate to the closed trigger)
   it("updates the trigger text when a selected item's label changes while closed", async () => {
     function Wrapper({ label }: { label: string }) {
       return (
@@ -1808,7 +1771,6 @@ describe("useSelect option registry", () => {
     expect(queryByText("Choose a fruit")).toBeInTheDocument();
   });
 
-  // multiple: the whole value survives; only the display shrinks
   it("keeps every value when one of several selected options unregisters, showing the survivors", async () => {
     const onValueChange = jest.fn();
     const apiRef = createApiRef();
@@ -1923,7 +1885,6 @@ describe("useSelect hidden select", () => {
     ]);
   });
 
-  // multiple: every selected value via selectedOptions
   it("carries every selected value on the multiple hidden select", async () => {
     const user = userEvent.setup();
     const { container, getByRole, getAllByRole } = render(
@@ -1995,7 +1956,6 @@ describe("useSelect hidden select", () => {
     expect(getByRole("combobox")).toHaveFocus();
   });
 
-  // native constraint validation must not surface on the hidden select
   it("suppresses native validation reporting and focuses the trigger instead", async () => {
     const { container, getByRole } = render(
       <form>
@@ -2126,7 +2086,6 @@ describe("useSelect open reveal", () => {
     });
   });
 
-  // keyboard opens reveal the seeded highlight
   it("scrolls the seeded highlight into view on keyboard open", async () => {
     await withScrollReceivers(async (received) => {
       const user = userEvent.setup();
@@ -2186,7 +2145,6 @@ describe("useSelectGroup", () => {
     expect(fruitsLabel.id).not.toBe(vegetablesLabel.id);
   });
 
-  // aria-labelledby only while the label is rendered
   it("drops aria-labelledby while the label is not rendered and restores it when it returns", async () => {
     function Wrapper({ showLabel }: { showLabel: boolean }) {
       return (
@@ -2259,7 +2217,6 @@ describe("useSelect icon channel", () => {
     );
   }
 
-  // registered, not rendered; no DOM attribute leak
   it("registers icon without rendering it or leaking it as a DOM attribute", async () => {
     const apiRef = createApiRef();
     const { getAllByRole } = render(<IconSelect apiRef={apiRef} />);
@@ -2273,7 +2230,6 @@ describe("useSelect icon channel", () => {
     expect(apiRef.current?.optionRegistry.get("cherry")?.icon).toBeUndefined();
   });
 
-  // surfaces on selectedItems; selection changes swap it; unmount drops it
   it("surfaces the selected item's icon and drops it with the selection", async () => {
     const user = userEvent.setup();
     const apiRef = createApiRef();
@@ -2310,7 +2266,6 @@ describe("useSelect icon channel", () => {
 // ===========================================================================
 
 describe("useSelect positioning", () => {
-  // strategy default / override reflected in floating styles
   it("positions with strategy 'absolute' by default and 'fixed' when requested", async () => {
     const user = userEvent.setup();
     const first = render(<BasicSelect />);
@@ -2325,7 +2280,6 @@ describe("useSelect positioning", () => {
     expect(second.getByTestId("positioner").style.position).toBe("fixed");
   });
 
-  // gutter feeds the offset middleware
   it("offsets the positioner from the trigger by the gutter", async () => {
     const user = userEvent.setup();
     const first = render(<BasicSelect />);
@@ -2425,7 +2379,6 @@ describe("useSelect positioning", () => {
 // ===========================================================================
 
 describe("useSelect edges", () => {
-  // reference note (defaultOpen renders open and can select-then-close normally)
   it("supports selecting from a defaultOpen listbox", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -2439,7 +2392,6 @@ describe("useSelect edges", () => {
     expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "false");
   });
 
-  // commit on a highlighted option that turned disabled is a no-op, no crash
   it("ignores Enter on a highlighted option that became disabled", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -2481,7 +2433,6 @@ describe("useSelect edges", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "true");
   });
 
-  // reference note (setting the same value must not fire callbacks)
   it("suppresses no-op setValue calls", async () => {
     const apiRef = createApiRef();
     const onValueChange = jest.fn();
@@ -2500,7 +2451,6 @@ describe("useSelect edges", () => {
     expect(onValueChange).toHaveBeenCalledWith(["banana"]);
   });
 
-  // revised: listbox focus survives item clicks — mousedown must not steal focus
   it("keeps DOM focus in the listbox across item clicks in multiple mode", async () => {
     const user = userEvent.setup();
     const { getByRole, getAllByRole } = render(<BasicSelect multiple />);

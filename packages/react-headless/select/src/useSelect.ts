@@ -23,8 +23,6 @@ import {
 } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type * as React from "react";
-// Type-only on the way back (`import type { UseSelectReturn }`), so this pair of
-// modules never forms a runtime cycle.
 import { useSelectContext } from "./useSelectContext";
 
 const MIN_HEIGHT = 200;
