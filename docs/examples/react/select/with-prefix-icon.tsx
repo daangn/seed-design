@@ -8,7 +8,6 @@ import { Box } from "@seed-design/react";
 import {
   SelectContent,
   SelectGroup,
-  SelectGroupLabel,
   SelectItem,
   SelectRoot,
   SelectTrigger,
@@ -24,14 +23,12 @@ export default function SelectWithPrefixIcon() {
           prefixIcon={<IconPerson2Line />}
         />
         <SelectContent>
-          <SelectGroup>
-            <SelectGroupLabel>그룹</SelectGroupLabel>
+          <SelectGroup label="그룹">
             <SelectItem value="public" label="전체 공개" prefixIcon={<IconGlobeLine />} />
             <SelectItem value="followers" label="팔로워만" prefixIcon={<IconLockLine />} />
             <SelectItem value="private" label="나만" prefixIcon={<IconPersonLine />} />
           </SelectGroup>
-          <SelectGroup>
-            <SelectGroupLabel>사람</SelectGroupLabel>
+          <SelectGroup label="사람">
             <SelectItem value="kim" label="김하늘" />
             <SelectItem value="lee" label="이하늘" />
           </SelectGroup>

@@ -13,7 +13,6 @@ import { ActionButton } from "seed-design/ui/action-button";
 import {
   SelectContent,
   SelectGroup,
-  SelectGroupLabel,
   SelectItem,
   SelectRoot,
   SelectTrigger,
@@ -126,13 +125,11 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
               <SelectRoot defaultValue={["standard"]}>
                 <SelectTrigger aria-label="배송" placeholder="배송 방법" />
                 <SelectContent>
-                  <SelectGroup>
-                    <SelectGroupLabel>국내</SelectGroupLabel>
+                  <SelectGroup label="국내">
                     <SelectItem value="standard" label="일반 배송" description="3-5일 소요" />
                     <SelectItem value="express" label="빠른 배송" description="1-2일 소요" />
                   </SelectGroup>
-                  <SelectGroup>
-                    <SelectGroupLabel>기타</SelectGroupLabel>
+                  <SelectGroup label="기타">
                     <SelectItem value="pickup" label="직접 수령" />
                     <SelectItem
                       value="unavailable"

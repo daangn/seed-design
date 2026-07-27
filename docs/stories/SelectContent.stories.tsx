@@ -7,7 +7,6 @@ import * as React from "react";
 import {
   SelectContent,
   SelectGroup,
-  SelectGroupLabel,
   SelectItem,
   SelectRoot,
   SelectTrigger,
@@ -41,8 +40,7 @@ const SNAPSHOT_CSS = `
 // item, and a disabled item whose icon / label / description are all dimmed.
 const GroupedFruitItems = () => (
   <>
-    <SelectGroup>
-      <SelectGroupLabel>과일</SelectGroupLabel>
+    <SelectGroup label="과일">
       <SelectItem value="apple" label="사과" prefixIcon={<IconHeartLine />} />
       <SelectItem
         value="banana"
@@ -52,8 +50,7 @@ const GroupedFruitItems = () => (
       />
       <SelectItem value="cherry" label="체리" />
     </SelectGroup>
-    <SelectGroup>
-      <SelectGroupLabel>기타</SelectGroupLabel>
+    <SelectGroup label="기타">
       <SelectItem
         value="grape"
         label="포도"

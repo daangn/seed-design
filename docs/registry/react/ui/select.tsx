@@ -148,19 +148,24 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
 );
 SelectContent.displayName = "SelectContent";
 
-export interface SelectGroupProps extends SeedSelect.GroupProps {}
+export interface SelectGroupProps extends SeedSelect.GroupProps {
+  label?: React.ReactNode;
+}
 
 /**
  * @see https://seed-design.io/react/components/select
  */
-export const SelectGroup = SeedSelect.Group;
-
-export interface SelectGroupLabelProps extends SeedSelect.GroupLabelProps {}
-
-/**
- * @see https://seed-design.io/react/components/select
- */
-export const SelectGroupLabel = SeedSelect.GroupLabel;
+export const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
+  ({ label, children, ...props }, ref) => {
+    return (
+      <SeedSelect.Group ref={ref} {...props}>
+        {label && <SeedSelect.GroupLabel>{label}</SeedSelect.GroupLabel>}
+        {children}
+      </SeedSelect.Group>
+    );
+  },
+);
+SelectGroup.displayName = "SelectGroup";
 
 export interface SelectItemProps extends Omit<SeedSelect.ItemProps, "children"> {
   description?: React.ReactNode;
