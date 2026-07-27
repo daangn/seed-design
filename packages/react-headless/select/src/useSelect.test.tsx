@@ -251,7 +251,7 @@ describe("useSelect open/close", () => {
     await user.click(getByRole("combobox"));
     expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "false");
     expect(onOpenChange).toHaveBeenCalledTimes(1);
-    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(onOpenChange).toHaveBeenCalledWith(false, expect.anything());
   });
 
   it("keeps a controlled open prop pinned while still firing onOpenChange", async () => {
@@ -261,7 +261,7 @@ describe("useSelect open/close", () => {
     await waitForPositioning();
 
     await user.keyboard("{Escape}");
-    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(onOpenChange).toHaveBeenCalledWith(false, expect.anything());
     expect(getByRole("combobox")).toHaveAttribute("aria-expanded", "true");
   });
 
@@ -296,7 +296,7 @@ describe("useSelect open/close", () => {
 
     await openWithClick(user, getByRole("combobox"));
     expect(onOpenChange).toHaveBeenCalledTimes(1);
-    expect(onOpenChange).toHaveBeenCalledWith(true);
+    expect(onOpenChange).toHaveBeenCalledWith(true, expect.anything());
   });
 
   it("fires onOpenChange(true) when opening via keyboard", async () => {
@@ -309,7 +309,7 @@ describe("useSelect open/close", () => {
     act(() => trigger.focus());
     await user.keyboard("{ArrowDown}");
 
-    expect(onOpenChange).toHaveBeenCalledWith(true);
+    expect(onOpenChange).toHaveBeenCalledWith(true, expect.anything());
   });
 
   // The single-select commit path closes the listbox via setOpen(false), so the
@@ -322,7 +322,7 @@ describe("useSelect open/close", () => {
 
     await user.click(getAllByRole("option")[1]);
     expect(onOpenChange).toHaveBeenCalledTimes(1);
-    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(onOpenChange).toHaveBeenCalledWith(false, expect.anything());
   });
 
   it("closes on Escape", async () => {
@@ -502,6 +502,156 @@ describe("useSelect open/close", () => {
     expect(onSubmit).not.toHaveBeenCalled();
     expect(onInvalid).not.toHaveBeenCalled();
     expect(container.querySelector("select")).toBeRequired();
+  });
+});
+
+// Every open/close names why it happened, so a consumer can tell a commit from a
+// dismissal. Mirrors Menu's `onOpenChange(open, details)` contract.
+describe("useSelect onOpenChange details", () => {
+  it("reports reason 'trigger' with the native click when opened by trigger click", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    expect(onOpenChange).toHaveBeenCalledWith(true, expect.objectContaining({ reason: "trigger" }));
+    expect(onOpenChange.mock.calls[0][1].event.type).toBe("click");
+  });
+
+  it("reports reason 'trigger' when the open trigger is clicked again", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect defaultOpen onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    await user.click(getByRole("combobox"));
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({ reason: "trigger" }),
+    );
+  });
+
+  it("reports reason 'trigger' with the native keydown when opened by keyboard", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    act(() => getByRole("combobox").focus());
+    await user.keyboard("{ArrowDown}");
+
+    expect(onOpenChange).toHaveBeenCalledWith(true, expect.objectContaining({ reason: "trigger" }));
+    expect(onOpenChange.mock.calls[0][1].event.type).toBe("keydown");
+  });
+
+  it("reports reason 'itemSelect' when a click commit closes the listbox", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getAllByRole } = render(<BasicSelect defaultOpen onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    await user.click(getAllByRole("option")[1]);
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({ reason: "itemSelect" }),
+    );
+    expect(onOpenChange.mock.calls[0][1].event.type).toBe("click");
+  });
+
+  it("reports reason 'itemSelect' when a keyboard commit closes the listbox", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    act(() => getByRole("combobox").focus());
+    await user.keyboard("{ArrowDown}");
+    await waitForPositioning();
+    onOpenChange.mockClear();
+    await user.keyboard("{Enter}");
+
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({ reason: "itemSelect" }),
+    );
+    expect(onOpenChange.mock.calls[0][1].event.type).toBe("keydown");
+  });
+
+  // Enter/Space with nothing highlighted dismisses without committing, so it is
+  // its own reason rather than a selection.
+  it("reports reason 'keyboardClose' when Enter closes without a highlight", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    onOpenChange.mockClear();
+    await user.keyboard("{Enter}");
+
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({ reason: "keyboardClose" }),
+    );
+  });
+
+  it("reports reason 'escapeKeyDown' when closed by Escape", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(<BasicSelect onOpenChange={onOpenChange} />);
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    onOpenChange.mockClear();
+    await user.keyboard("{Escape}");
+
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({ reason: "escapeKeyDown" }),
+    );
+  });
+
+  it("reports reason 'interactOutside' when closed by outside press", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole, getByText } = render(
+      <div>
+        <BasicSelect onOpenChange={onOpenChange} />
+        <button type="button">Outside</button>
+      </div>,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    onOpenChange.mockClear();
+    await user.click(getByText("Outside"));
+
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({ reason: "interactOutside" }),
+    );
+  });
+
+  it("reports reason 'focusOut' when closed by tabbing away", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = jest.fn();
+    const { getByRole } = render(
+      <div>
+        <BasicSelect onOpenChange={onOpenChange} />
+        <button type="button">After</button>
+      </div>,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    onOpenChange.mockClear();
+    await user.tab();
+
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({ reason: "focusOut" }),
+    );
   });
 });
 
@@ -2169,6 +2319,33 @@ describe("useSelect focus scope participation", () => {
     await openWithClick(user, trigger);
 
     await waitFor(() => expect(getListbox(trigger)).toHaveFocus());
+  });
+
+  // Pause and resume are one contract: the scope has to leave the stack when the
+  // listbox closes, or the parent stays paused forever and its trap never comes back.
+  it("lets a trapped parent FocusScope resume once closed", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getByText } = render(
+      <>
+        <button type="button">Outside</button>
+        <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+          <BasicSelect />
+        </FocusScope>
+      </>,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    await user.click(trigger);
+    // Radix drops the scope from the stack in a timeout after unmount.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    });
+
+    // With the parent trap active again, focus cannot settle outside its container.
+    act(() => getByText("Outside").focus());
+    expect(getByText("Outside")).not.toHaveFocus();
   });
 });
 

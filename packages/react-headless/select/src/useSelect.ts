@@ -1,6 +1,10 @@
 "use client";
 
+// Open state runs on the SEED fork, the only one that forwards change details to
+// onChange. Value state stays on the Radix hook because the fork always passes a
+// second argument, and onValueChange is a single-argument callback.
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
+import { useControllableState as useControllableStateWithDetails } from "@seed-design/react-use-controllable-state";
 import {
   buttonProps,
   dataAttr,
@@ -22,12 +26,41 @@ const EMPTY_VALUE: string[] = [];
 const isSameValue = (a: string[], b: string[]) =>
   a.length === b.length && a.every((entry, index) => entry === b[index]);
 
+interface SelectOpenChangeReasonToDetailMap {
+  /** The trigger toggled the listbox — a click on it, or a key that activates it. */
+  trigger: { event: MouseEvent | KeyboardEvent };
+  /**
+   * An option was committed — a click on it, or a keyboard commit on the
+   * highlighted one (single-select closes on commit).
+   */
+  itemSelect: { event: MouseEvent | KeyboardEvent };
+  /** Enter/Space with nothing highlighted: dismisses without committing a value. */
+  keyboardClose: { event: KeyboardEvent };
+  escapeKeyDown: { event: KeyboardEvent };
+  interactOutside: { event: PointerEvent | TouchEvent };
+  /** Focus left the listbox (Tab away). */
+  focusOut: { event: FocusEvent };
+  /** A parent layer unmounted and cascade-dismissed this one. */
+  cascadeDismiss: { dismissedParent: HTMLElement };
+}
+
+// Named after the callback, not the component: unlike Menu/Dialog, Select has a
+// second change callback (onValueChange) that may grow details of its own.
+// Exported for the sibling hooks that take `setOpen`; it stays off the package's
+// public surface, where the shape is reachable through
+// `Parameters<NonNullable<UseSelectProps["onOpenChange"]>>[1]`.
+export type SelectOpenChangeDetails = {
+  [R in keyof SelectOpenChangeReasonToDetailMap]: {
+    reason?: R;
+  } & SelectOpenChangeReasonToDetailMap[R];
+}[keyof SelectOpenChangeReasonToDetailMap];
+
 export interface UseSelectProps
   extends UseSelectPositioningProps,
     Pick<UseSelectOptionsProps, "formatValue"> {
   open?: boolean;
   defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details?: SelectOpenChangeDetails) => void;
 
   /**
    * Selected option values. An empty array means nothing is selected;
@@ -73,7 +106,7 @@ export function useSelect(props: UseSelectProps) {
 
   const interactive = !disabled && !readOnly;
 
-  const [open, setOpenState] = useControllableState({
+  const [open, setOpenState] = useControllableStateWithDetails<boolean, SelectOpenChangeDetails>({
     prop: props.open,
     defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
@@ -88,10 +121,10 @@ export function useSelect(props: UseSelectProps) {
   });
 
   const setOpen = useCallback(
-    (nextOpen: boolean) => {
+    (nextOpen: boolean, details?: SelectOpenChangeDetails) => {
       if (nextOpen && !interactive) return;
 
-      setOpenState(nextOpen);
+      setOpenState(nextOpen, details);
     },
     [interactive, setOpenState],
   );
@@ -128,7 +161,7 @@ export function useSelect(props: UseSelectProps) {
   } = useSelectOptions({ value, multiple, formatValue });
 
   const selectValue = useCallback(
-    (optionValue: string) => {
+    (optionValue: string, event?: MouseEvent | KeyboardEvent) => {
       if (!interactive) return;
 
       if (multiple) {
@@ -142,7 +175,7 @@ export function useSelect(props: UseSelectProps) {
       }
 
       setValue([optionValue]);
-      setOpen(false);
+      setOpen(false, event && { reason: "itemSelect", event });
     },
     [interactive, multiple, value, setValue, setOpen],
   );
@@ -171,12 +204,12 @@ export function useSelect(props: UseSelectProps) {
     if (event.defaultPrevented) return;
 
     if (open) {
-      setOpen(false);
+      setOpen(false, { reason: "trigger", event: event.nativeEvent });
       return;
     }
     if (!interactive) return;
 
-    setOpen(true);
+    setOpen(true, { reason: "trigger", event: event.nativeEvent });
     // detail 0 means a keyboard/assistive-tech activation surfaced as a click
     // (e.g. a screen reader virtual click) — treat it as a keyboard open.
     if (event.detail === 0) seedHighlight();
@@ -354,7 +387,7 @@ export function useSelect(props: UseSelectProps) {
             if (event.defaultPrevented) return;
             if (itemProps.disabled) return;
 
-            selectValue(itemProps.value);
+            selectValue(itemProps.value, event.nativeEvent);
           },
           onPointerMove(event) {
             // Pointer hover and keyboard navigation share the single highlight;

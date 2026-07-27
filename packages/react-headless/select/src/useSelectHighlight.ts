@@ -9,6 +9,7 @@ import {
   getOptionValue,
   isDisabledElement,
 } from "./dom";
+import type { SelectOpenChangeDetails } from "./useSelect";
 
 export interface UseSelectHighlightProps {
   open: boolean;
@@ -16,9 +17,9 @@ export interface UseSelectHighlightProps {
   multiple: boolean;
   value: string[];
   floatingContext: FloatingContext;
-  setOpen: (open: boolean) => void;
+  setOpen: (open: boolean, details?: SelectOpenChangeDetails) => void;
   setValue: (value: string[]) => void;
-  selectValue: (optionValue: string) => void;
+  selectValue: (optionValue: string, event?: MouseEvent | KeyboardEvent) => void;
 }
 
 // Owns the single highlight shared by keyboard navigation, typeahead and hover,
@@ -134,7 +135,7 @@ export function useSelectHighlight(props: UseSelectHighlightProps) {
       case " ": {
         event.preventDefault();
         if (activeIndex == null) {
-          setOpen(false);
+          setOpen(false, { reason: "keyboardClose", event: event.nativeEvent });
           return;
         }
 
@@ -142,7 +143,7 @@ export function useSelectHighlight(props: UseSelectHighlightProps) {
         if (isDisabledElement(element)) return;
 
         const optionValue = getOptionValue(element);
-        if (optionValue != null) selectValue(optionValue);
+        if (optionValue != null) selectValue(optionValue, event.nativeEvent);
         return;
       }
     }
@@ -162,7 +163,7 @@ export function useSelectHighlight(props: UseSelectHighlightProps) {
       // preventDefault suppresses the native button activation click, so
       // keyboard opens never double-toggle through the click handler.
       event.preventDefault();
-      setOpen(true);
+      setOpen(true, { reason: "trigger", event: event.nativeEvent });
       highlightWithKeyboard(getKeyboardSeedIndex());
       return;
     }

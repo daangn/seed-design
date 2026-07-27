@@ -6,10 +6,12 @@ import {
   size,
   useFloating,
   useTransitionStatus,
+  type OpenChangeReason,
   type Placement,
 } from "@floating-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import type * as React from "react";
+import type { SelectOpenChangeDetails } from "./useSelect";
 
 const MIN_HEIGHT = 200;
 
@@ -58,7 +60,7 @@ export interface UseSelectPositioningProps {
 
 export interface UseSelectFloatingProps extends UseSelectPositioningProps {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  setOpen: (open: boolean, details?: SelectOpenChangeDetails) => void;
 }
 
 // Anchors the listbox to the trigger and keeps it inside the viewport: placement,
@@ -87,13 +89,27 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
     left: overflowPadding,
   };
 
+  // Every other open/close runs through our own handlers; the one state change
+  // floating-ui drives on its own is FloatingFocusManager's closeOnFocusOut.
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
+      if (reason === "focus-out" && event instanceof FocusEvent) {
+        setOpen(nextOpen, { reason: "focusOut", event });
+        return;
+      }
+
+      setOpen(nextOpen);
+    },
+    [setOpen],
+  );
+
   const {
     refs: floatingRefs,
     context,
     floatingStyles,
   } = useFloating({
     open,
-    onOpenChange: setOpen,
+    onOpenChange: handleOpenChange,
     strategy,
     placement,
     middleware: [

@@ -156,17 +156,17 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>((pro
           <DismissibleLayer
             enabled={open}
             pressBehavior="drag"
-            onEscapeKeyDown={() => {
-              setOpen(false);
+            onEscapeKeyDown={(event) => {
+              setOpen(false, { reason: "escapeKeyDown", event });
             }}
-            onPressOutside={() => {
-              setOpen(false);
+            onPressOutside={(event) => {
+              setOpen(false, { reason: "interactOutside", event });
             }}
             onFocusOutside={() => {
               // Tab-away closing is handled by FloatingFocusManager (closeOnFocusOut).
             }}
-            onCascadeDismiss={() => {
-              setOpen(false);
+            onCascadeDismiss={({ dismissedParent }) => {
+              setOpen(false, { reason: "cascadeDismiss", dismissedParent });
             }}
             exclude={(target) => {
               const reference = floatingContext.refs.reference.current;
