@@ -8,21 +8,29 @@ import {
 import { useFieldContext } from "@seed-design/react-field";
 import { mergeProps } from "@seed-design/dom-utils";
 import { select, type SelectVariantProps } from "@seed-design/css/recipes/select";
-import { selectTrigger } from "@seed-design/css/recipes/select-trigger";
-import { selectItem } from "@seed-design/css/recipes/select-item";
+import {
+  selectTrigger,
+  type SelectTriggerVariantProps,
+} from "@seed-design/css/recipes/select-trigger";
+import { selectItem, type SelectItemVariantProps } from "@seed-design/css/recipes/select-item";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 // A select-only combobox spans three specs — the trigger, the floating listbox
-// container, and the option rows — each with its own independent states. Their
-// classNames are provided together from `SelectRoot` (they all share one `size`),
-// so every descendant reads from the matching context.
+// container, and the option rows — each with its own independent states and its own
+// variant map. `SelectRoot` seeds defaults for all three, but only the container
+// resolves there, since its slots are spread across the portal subtree with no
+// single element to own them. The trigger and each option row resolve their own
+// recipe, so a per-instance variant can override the root's default.
 const {
   ClassNamesProvider: TriggerClassNamesProvider,
+  PropsProvider: TriggerPropsProvider,
+  useProps: useTriggerProps,
   withContext: withTriggerContext,
   useClassNames: useTriggerClassNames,
 } = createSlotRecipeContext(selectTrigger);
@@ -35,6 +43,8 @@ const {
 
 const {
   ClassNamesProvider: ItemClassNamesProvider,
+  PropsProvider: ItemPropsProvider,
+  useProps: useItemProps,
   withContext: withItemContext,
   useClassNames: useItemClassNames,
 } = createSlotRecipeContext(selectItem);
@@ -44,33 +54,53 @@ const withItemStateProps = createWithStateProps([useSelectItemContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectRootProps extends SelectVariantProps, SelectPrimitive.RootProps {}
+export interface SelectRootProps
+  extends SelectVariantProps,
+    SelectTriggerVariantProps,
+    SelectItemVariantProps,
+    SelectPrimitive.RootProps {}
 
+// The three specs share a single `size` today, but each owns its own variant map.
+// Routing per recipe keeps that a coincidence rather than a load-bearing fact: since
+// `@seed-design/css` is a peer dependency, a spec that grows a variant of its own must
+// reach the right recipe — and stay out of `otherProps` — without a change here.
 export const SelectRoot = (props: SelectRootProps) => {
-  const [variantProps, otherProps] = select.splitVariantProps(props);
+  const [
+    {
+      select: contentVariantProps,
+      selectTrigger: triggerVariantProps,
+      selectItem: itemVariantProps,
+    },
+    otherProps,
+  ] = splitMultipleVariantsProps(props, { select, selectTrigger, selectItem });
 
-  const contentClassNames = select(variantProps);
-  const triggerClassNames = selectTrigger(variantProps);
-  const itemClassNames = selectItem(variantProps);
+  const contentClassNames = select(contentVariantProps);
 
   return (
     <ContentClassNamesProvider value={contentClassNames}>
-      <TriggerClassNamesProvider value={triggerClassNames}>
-        <ItemClassNamesProvider value={itemClassNames}>
+      <TriggerPropsProvider value={triggerVariantProps}>
+        <ItemPropsProvider value={itemVariantProps}>
           <SelectPrimitive.Root {...otherProps} />
-        </ItemClassNamesProvider>
-      </TriggerClassNamesProvider>
+        </ItemPropsProvider>
+      </TriggerPropsProvider>
     </ContentClassNamesProvider>
   );
 };
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectTriggerProps extends SelectPrimitive.TriggerProps {}
+export interface SelectTriggerProps
+  extends SelectTriggerVariantProps,
+    SelectPrimitive.TriggerProps {}
 
 export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ className, ...otherProps }, ref) => {
-    const classNames = useTriggerClassNames();
+  ({ className, ...props }, ref) => {
+    const [variantProps, otherProps] = selectTrigger.splitVariantProps(props);
+    const rootProps = useTriggerProps();
+
+    // The trigger owns the only instance of this spec in the tree, so it resolves
+    // its own classNames and provides them to the parts it wraps.
+    const classNames = selectTrigger({ ...rootProps, ...variantProps });
     const fieldContext = useFieldContext({ strict: false });
 
     // Pull only the field's labelledby/describedby: `useSelect` owns the
@@ -99,11 +129,13 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
     }
 
     return (
-      <SelectPrimitive.Trigger
-        ref={ref}
-        className={clsx(classNames.root, className)}
-        {...mergedProps}
-      />
+      <TriggerClassNamesProvider value={classNames}>
+        <SelectPrimitive.Trigger
+          ref={ref}
+          className={clsx(classNames.root, className)}
+          {...mergedProps}
+        />
+      </TriggerClassNamesProvider>
     );
   },
 );
@@ -199,9 +231,12 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
     const fieldContext = useFieldContext({ strict: false });
 
     // Label the listbox popup with the same field label (APG combobox pattern).
-    const labelledby = fieldContext?.inputAriaAttributes["aria-labelledby"];
-
-    const mergedProps = mergeProps(labelledby ? { "aria-labelledby": labelledby } : {}, otherProps);
+    const mergedProps = mergeProps(
+      fieldContext
+        ? { "aria-labelledby": fieldContext.inputAriaAttributes["aria-labelledby"] }
+        : {},
+      otherProps,
+    );
 
     return (
       <SelectPrimitive.Content
@@ -245,7 +280,9 @@ export const SelectGroupLabel = withContentContext<HTMLDivElement, SelectGroupLa
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectItemProps extends Omit<SelectPrimitive.ItemProps, "icon"> {
+export interface SelectItemProps
+  extends SelectItemVariantProps,
+    Omit<SelectPrimitive.ItemProps, "icon"> {
   /**
    * The option's prefix icon. Forwarded to the headless item's position-agnostic
    * `icon`, which registers it for the trigger prefix slot and exposes it to the
@@ -255,19 +292,25 @@ export interface SelectItemProps extends Omit<SelectPrimitive.ItemProps, "icon">
 }
 
 // Public API keeps the presentational `prefixIcon`; the headless item speaks the
-// position-agnostic `icon`, so this boundary maps one to the other. The `root` slot
-// className is applied inline — exactly what `withItemContext(..., "root")` does.
+// position-agnostic `icon`, so this boundary maps one to the other. Each row resolves
+// the recipe itself so an option can override the root's defaults, then provides the
+// result to the parts it wraps.
 export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ prefixIcon, className, ...otherProps }, ref) => {
-    const classNames = useItemClassNames();
+  ({ prefixIcon, className, ...props }, ref) => {
+    const [variantProps, otherProps] = selectItem.splitVariantProps(props);
+    const rootProps = useItemProps();
+
+    const classNames = selectItem({ ...rootProps, ...variantProps });
 
     return (
-      <SelectPrimitive.Item
-        ref={ref}
-        icon={prefixIcon}
-        {...otherProps}
-        className={clsx(classNames.root, className)}
-      />
+      <ItemClassNamesProvider value={classNames}>
+        <SelectPrimitive.Item
+          ref={ref}
+          icon={prefixIcon}
+          {...otherProps}
+          className={clsx(classNames.root, className)}
+        />
+      </ItemClassNamesProvider>
     );
   },
 );
