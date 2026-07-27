@@ -108,20 +108,16 @@ export function useSelect(props: UseSelectProps) {
   const contentId = `select:${id}:content`;
   const getItemId = (index: number) => `select:${id}:item:${index}`;
 
+  // Spreading props keeps every positioning prop reaching the floating layer
+  // without a per-prop forward here; the resolved `open`/`setOpen` come last so
+  // they win over the raw controlled props they were derived from.
   const {
     context: floatingContext,
     status,
     transformOrigin,
     positionerStyle,
     refs,
-  } = useSelectFloating({
-    open,
-    setOpen,
-    placement: props.placement,
-    gutter: props.gutter,
-    overflowPadding: props.overflowPadding,
-    strategy: props.strategy,
-  });
+  } = useSelectFloating({ ...props, open, setOpen });
 
   const {
     optionRegistry,
