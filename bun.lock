@@ -581,6 +581,7 @@
         "@seed-design/react-text-field": "^2.0.0",
         "@seed-design/react-toggle": "^2.0.0",
         "@seed-design/react-tooltip": "^1.0.0",
+        "@seed-design/react-wheel-picker": "workspace:*",
         "clsx": "^2.1.1",
         "unicode-segmenter": "^0.14.4",
       },
@@ -1297,6 +1298,26 @@
       "dependencies": {
         "@radix-ui/react-use-effect-event": "^0.0.2",
         "@radix-ui/react-use-layout-effect": "^1.1.1",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/wheel-picker": {
+      "name": "@seed-design/react-wheel-picker",
+      "version": "1.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
+        "@radix-ui/react-use-layout-effect": "^1.1.1",
+        "@seed-design/dom-utils": "^2.0.0",
+        "@seed-design/react-primitive": "^2.0.0",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -3117,6 +3138,8 @@
     "@seed-design/react-tooltip": ["@seed-design/react-tooltip@workspace:packages/react-headless/tooltip"],
 
     "@seed-design/react-use-controllable-state": ["@seed-design/react-use-controllable-state@workspace:packages/react-headless/use-controllable-state"],
+
+    "@seed-design/react-wheel-picker": ["@seed-design/react-wheel-picker@workspace:packages/react-headless/wheel-picker"],
 
     "@seed-design/rootage-artifacts": ["@seed-design/rootage-artifacts@workspace:packages/rootage"],
 
