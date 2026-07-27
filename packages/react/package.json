@@ -63,7 +63,7 @@
     "@seed-design/react-quantity-picker": "^1.0.0",
     "@seed-design/react-radio-group": "^2.0.0",
     "@seed-design/react-segmented-control": "^2.0.1",
-    "@seed-design/react-select": "^1.0.0",
+    "@seed-design/react-select": "^0.0.0",
     "@seed-design/react-side-navigation": "^1.0.0",
     "@seed-design/react-slider": "^2.0.0",
     "@seed-design/react-snackbar": "^2.0.0",
