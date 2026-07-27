@@ -6,6 +6,7 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/lynx-react"
   },
+  "license": "Apache-2.0",
   "sideEffects": [
     "*.css"
   ],
@@ -19,7 +20,9 @@
   },
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",

@@ -6,6 +6,7 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "ecosystem/figma-extractor"
   },
+  "license": "Apache-2.0",
   "scripts": {
     "build": "bun build.mjs && tsc",
     "lint:publish": "bun publint"
@@ -24,7 +25,9 @@
   "files": [
     "bin",
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "dependencies": {
     "@figma/rest-api-spec": "0.27.0",

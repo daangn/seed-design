@@ -6,6 +6,7 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/stylesheet"
   },
+  "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
@@ -14,6 +15,8 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "*.css"
+    "*.css",
+    "LICENSE",
+    "NOTICE"
   ]
 }

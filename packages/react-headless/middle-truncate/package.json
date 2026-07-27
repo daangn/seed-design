@@ -6,6 +6,7 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/react-headless/middle-truncate"
   },
+  "license": "Apache-2.0",
   "sideEffects": false,
   "type": "module",
   "exports": {
@@ -19,7 +20,9 @@
   "main": "./lib/index.cjs",
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",
