@@ -141,7 +141,7 @@ export interface SelectPrefixIconProps extends React.SVGAttributes<SVGSVGElement
 }
 
 export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIconProps>(
-  ({ fallback, ...otherProps }, ref) => {
+  ({ fallback, className, ...otherProps }, ref) => {
     const { selectedItem, stateProps } = useSelectContext();
     const classNames = useTriggerClassNames();
 
@@ -150,13 +150,15 @@ export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIcon
     const svg = selectedItem?.icon ?? fallback;
     if (!svg) return null;
 
-    const mergedProps = mergeProps(
-      stateProps,
-      { className: classNames.prefixIcon },
-      otherProps as React.HTMLAttributes<HTMLElement>,
+    return (
+      <InternalIcon
+        ref={ref}
+        svg={svg}
+        className={clsx(classNames.prefixIcon, className)}
+        {...stateProps}
+        {...otherProps}
+      />
     );
-
-    return <InternalIcon ref={ref} svg={svg} {...mergedProps} />;
   },
 );
 SelectPrefixIcon.displayName = "SelectPrefixIcon";
@@ -282,20 +284,22 @@ export interface SelectItemPrefixIconProps extends React.SVGAttributes<SVGSVGEle
 }
 
 export const SelectItemPrefixIcon = React.forwardRef<SVGSVGElement, SelectItemPrefixIconProps>(
-  ({ svg: svgOverride, ...otherProps }, ref) => {
+  ({ svg: svgOverride, className, ...otherProps }, ref) => {
     const { icon, stateProps } = useSelectItemContext();
     const classNames = useItemClassNames();
 
     const svg = svgOverride ?? icon;
     if (!svg) return null;
 
-    const mergedProps = mergeProps(
-      stateProps,
-      { className: classNames.prefixIcon },
-      otherProps as React.HTMLAttributes<HTMLElement>,
+    return (
+      <InternalIcon
+        ref={ref}
+        svg={svg}
+        className={clsx(classNames.prefixIcon, className)}
+        {...stateProps}
+        {...otherProps}
+      />
     );
-
-    return <InternalIcon ref={ref} svg={svg} {...mergedProps} />;
   },
 );
 SelectItemPrefixIcon.displayName = "SelectItemPrefixIcon";
@@ -316,21 +320,20 @@ export interface SelectItemLabelProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const SelectItemLabel = React.forwardRef<HTMLSpanElement, SelectItemLabelProps>(
-  ({ children, ...otherProps }, ref) => {
+  ({ children, className, ...otherProps }, ref) => {
     const { label, stateProps } = useSelectItemContext();
     const classNames = useItemClassNames();
 
     // Defaults to the item's own `label` (from context) so the caller doesn't have
     // to re-thread it; explicit children still win. stateProps stays because the
     // label's disabled style targets its own `data-disabled`.
-    const mergedProps = mergeProps(
-      stateProps,
-      { className: classNames.label },
-      otherProps as React.HTMLAttributes<HTMLElement>,
-    );
-
     return (
-      <Primitive.span ref={ref} {...mergedProps}>
+      <Primitive.span
+        ref={ref}
+        className={clsx(classNames.label, className)}
+        {...stateProps}
+        {...otherProps}
+      >
         {children ?? label}
       </Primitive.span>
     );
@@ -364,20 +367,22 @@ export interface SelectItemIndicatorProps extends React.SVGAttributes<SVGSVGElem
 }
 
 export const SelectItemIndicator = React.forwardRef<SVGSVGElement, SelectItemIndicatorProps>(
-  ({ selected: selectedSvg, unselected: unselectedSvg, ...otherProps }, ref) => {
+  ({ selected: selectedSvg, unselected: unselectedSvg, className, ...otherProps }, ref) => {
     const { isSelected, stateProps } = useSelectItemContext();
     const classNames = useItemClassNames();
-
-    const mergedProps = mergeProps(
-      stateProps,
-      { className: classNames.indicator },
-      otherProps as React.HTMLAttributes<HTMLElement>,
-    );
 
     const svg = isSelected ? selectedSvg : unselectedSvg;
     if (!svg) return null;
 
-    return <InternalIcon ref={ref} svg={svg} {...mergedProps} />;
+    return (
+      <InternalIcon
+        ref={ref}
+        svg={svg}
+        className={clsx(classNames.indicator, className)}
+        {...stateProps}
+        {...otherProps}
+      />
+    );
   },
 );
 SelectItemIndicator.displayName = "SelectItemIndicator";
