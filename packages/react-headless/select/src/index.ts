@@ -26,4 +26,5 @@ export { useSelectItemContext, type UseSelectItemContext } from "./useSelectItem
 
 export * as Select from "./Select.namespace";
 
-export type { UseSelectProps, UseSelectItemProps, UseSelectReturn } from "./useSelect";
+export type { UseSelectProps, UseSelectReturn } from "./useSelect";
+export type { UseSelectItemProps } from "./useSelectItem";

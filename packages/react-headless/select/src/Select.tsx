@@ -8,15 +8,10 @@ import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type React from "react";
 import { createContext, forwardRef, useContext } from "react";
-import {
-  useSelect,
-  useSelectGroup,
-  useSelectItem,
-  type UseSelectGroupReturn,
-  type UseSelectItemProps,
-  type UseSelectProps,
-} from "./useSelect";
+import { useSelect, type UseSelectProps } from "./useSelect";
 import { SelectProvider, useSelectContext } from "./useSelectContext";
+import { useSelectGroup, type UseSelectGroupReturn } from "./useSelectGroup";
+import { useSelectItem, type UseSelectItemProps } from "./useSelectItem";
 import { SelectItemProvider } from "./useSelectItemContext";
 
 const SelectGroupContext = createContext<UseSelectGroupReturn | null>(null);
