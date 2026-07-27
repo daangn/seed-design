@@ -233,7 +233,7 @@ SelectContent.displayName = "SelectContent";
 export interface SelectItemProps
   extends UseSelectItemProps,
     PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "onClick"> {
+    React.HTMLAttributes<HTMLDivElement> {
   /**
    * Rich display label. Rendered in the trigger value slot for single-select and
    * used as the typeahead label when it is a string and `typeaheadLabel` is omitted.

@@ -616,6 +616,35 @@ describe("useSelect selection (single)", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
+  // The item's own onClick is merged, not replaced: mergeProps chains the
+  // consumer's handler ahead of the hook's, so both run on a single click.
+  it("runs an item's onClick alongside the commit", async () => {
+    const user = userEvent.setup();
+    const onClick = jest.fn();
+    const onValueChange = jest.fn();
+    const { getByRole, getAllByRole } = render(
+      <SelectRoot onValueChange={onValueChange}>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            <SelectItem value="apple" label="Apple" onClick={onClick}>
+              Apple
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    await openWithClick(user, getByRole("combobox"));
+    await user.click(getAllByRole("option")[0]);
+
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith(["apple"]);
+  });
+
   it("does not commit an item click whose default was prevented", async () => {
     const user = userEvent.setup();
     const onValueChange = jest.fn();
@@ -630,7 +659,7 @@ describe("useSelect selection (single)", () => {
               value="apple"
               label="Apple"
               // consumer handler runs before the hook's and vetoes the commit
-              onClickCapture={(event) => event.preventDefault()}
+              onClick={(event) => event.preventDefault()}
             >
               Apple
             </SelectItem>
