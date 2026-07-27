@@ -68,7 +68,7 @@ export function useSelectItem(props: UseSelectItemProps) {
   }, [value, label, resolvedTextValue, icon, registerOption, unregisterOption]);
 
   return {
-    ...getItemProps({ value, disabled, typeaheadLabel }, index),
+    ...getItemProps(props, index),
 
     // label/icon are the item's own props, handed straight back so styled
     // `ItemLabel`/`ItemPrefixIcon` can consume them without the caller
