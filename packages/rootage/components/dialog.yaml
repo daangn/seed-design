@@ -84,8 +84,6 @@ data:
             type: cubicBezier
       footer:
         properties:
-          gap:
-            type: dimension
           paddingX:
             type: dimension
           paddingTop:
@@ -154,7 +152,6 @@ data:
           strokeDuration: $duration.color-transition
           strokeTimingFunction: $timing-function.easing
         footer:
-          gap: $dimension.x2
           paddingX: $dimension.x6
           paddingTop: $dimension.x4
           paddingBottom: $dimension.x6

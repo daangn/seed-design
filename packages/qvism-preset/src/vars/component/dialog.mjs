@@ -38,7 +38,6 @@ export const vars = {
         "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "footer": {
-        "gap": "var(--seed-dimension-x2)",
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x4)",
         "paddingBottom": "var(--seed-dimension-x6)"

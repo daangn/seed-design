@@ -126,9 +126,6 @@
         },
         "footer": {
           "properties": {
-            "gap": {
-              "type": "dimension"
-            },
             "paddingX": {
               "type": "dimension"
             },
@@ -323,10 +320,6 @@
                 }
               },
               "footer": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                },
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x6"

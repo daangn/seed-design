@@ -43,7 +43,6 @@ export declare const vars: {
         "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
       "footer": {
-        "gap": "var(--seed-dimension-x2)",
         "paddingX": "var(--seed-dimension-x6)",
         "paddingTop": "var(--seed-dimension-x4)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다. */
