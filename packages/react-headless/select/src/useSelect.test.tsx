@@ -16,6 +16,7 @@ import {
   SelectGroupLabel,
   SelectHiddenSelect,
   useSelectContext,
+  type SelectHiddenSelectProps,
   type SelectRootProps,
   type UseSelectReturn,
 } from "./index";
@@ -2013,12 +2014,55 @@ describe("useSelect hidden select", () => {
     expect(reported).toBe(false);
     expect(getByRole("combobox")).toHaveFocus();
   });
+
+  // Only the form's *first* invalid control takes focus (native ordering), so a
+  // control failing ahead of the select must not have it stolen away.
+  it("leaves focus alone when another control is the form's first invalid", async () => {
+    const { container, getByRole } = render(
+      <form>
+        <input aria-label="Nickname" name="nickname" required />
+        <BasicSelectWithHiddenSelect name="fruit" required />
+      </form>,
+    );
+    await waitForPositioning();
+
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
+
+    const reported = fireEvent.invalid(hidden);
+
+    expect(reported).toBe(false);
+    expect(getByRole("combobox")).not.toHaveFocus();
+  });
+
+  // Consumer handlers chain onto the internal ones rather than replacing them —
+  // an onChange of the caller's own must not sever the native -> component sync.
+  it("chains a consumer onChange onto the internal value sync", async () => {
+    const onChange = jest.fn();
+    const { container, getByRole } = render(
+      <BasicSelectWithHiddenSelect name="fruit" hiddenSelectProps={{ onChange }} />,
+    );
+    await waitForPositioning();
+
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
+
+    fireEvent.change(hidden, { target: { value: "cherry" } });
+    await waitForPositioning();
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(getByRole("combobox")).toHaveTextContent("Cherry");
+  });
 });
 
 function BasicSelectWithHiddenSelect({
   apiRef,
+  hiddenSelectProps,
   ...props
-}: SelectRootProps & { apiRef?: React.RefObject<UseSelectReturn | null> }) {
+}: SelectRootProps & {
+  apiRef?: React.RefObject<UseSelectReturn | null>;
+  hiddenSelectProps?: SelectHiddenSelectProps;
+}) {
   return (
     <SelectRoot {...props}>
       {apiRef && <ApiProbe apiRef={apiRef} />}
@@ -2038,7 +2082,7 @@ function BasicSelectWithHiddenSelect({
           </SelectItem>
         </SelectContent>
       </SelectPositioner>
-      <SelectHiddenSelect />
+      <SelectHiddenSelect {...hiddenSelectProps} />
     </SelectRoot>
   );
 }

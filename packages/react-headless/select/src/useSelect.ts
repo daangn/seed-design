@@ -7,14 +7,25 @@ import {
   shift,
   size,
   useFloating,
+  useListItem,
   useTransitionStatus,
   useTypeahead,
   type Placement,
 } from "@floating-ui/react";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
+import {
+  buttonProps,
+  dataAttr,
+  elementProps,
+  selectProps,
+  visuallyHidden,
+} from "@seed-design/dom-utils";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type * as React from "react";
+// Type-only on the way back (`import type { UseSelectReturn }`), so this pair of
+// modules never forms a runtime cycle.
+import { useSelectContext } from "./useSelectContext";
 
 const MIN_HEIGHT = 200;
 
@@ -179,6 +190,25 @@ export interface UseSelectItemProps {
   disabled?: boolean;
   /** Overrides the string matched by keyboard typeahead. */
   typeaheadLabel?: string;
+  /**
+   * Rich display label. Rendered in the trigger value slot for single-select and
+   * used as the typeahead label when it is a string and `typeaheadLabel` is omitted.
+   */
+  label?: React.ReactNode;
+  /**
+   * Plain-string identity used for the multi-select trigger join and the hidden
+   * native `<option>` text. Defaults to `label` when it is a string, otherwise the
+   * option `value`. Provide it when `label` is a `ReactNode` — it then also serves
+   * as the typeahead match string unless `typeaheadLabel` overrides it.
+   */
+  textValue?: string;
+  /**
+   * The option's icon. The headless item does not render it — it is only
+   * registered, and re-rendered in the trigger prefix slot while this is the only
+   * selected item. Expects a single `svg` element; a ref attached to that element
+   * connects to only one of the two render locations.
+   */
+  icon?: React.ReactNode;
 }
 
 export type UseSelectReturn = ReturnType<typeof useSelect>;
@@ -291,6 +321,13 @@ export function useSelect(props: UseSelectProps) {
       }),
     ],
   });
+
+  // The reference may be a floating-ui virtual element; only a real element
+  // can receive focus redirects.
+  const getTriggerElement = useCallback(() => {
+    const reference = floatingRefs.reference.current;
+    return reference instanceof HTMLElement ? reference : null;
+  }, [floatingRefs.reference]);
 
   const { status } = useTransitionStatus(context);
 
@@ -425,6 +462,28 @@ export function useSelect(props: UseSelectProps) {
     : formatValue
       ? formatValue(selectedItems)
       : getDefaultDisplayValue(selectedItems, multiple);
+
+  // What the hidden native `<select>` has to render as `<option>` children for
+  // the current value to survive form submission.
+  const hiddenSelectOptions = useMemo(
+    () => [
+      // A leading empty option gives single-select a "nothing chosen" slot, so
+      // `required` constraint validation can actually fail.
+      ...(multiple ? [] : [{ value: "", textValue: "" }]),
+      ...[...optionRegistry].map(([optionValue, entry]) => ({
+        value: optionValue,
+        textValue: entry.textValue,
+      })),
+      // A controlled <select> silently drops a value that matches no option, so
+      // a value the registry cannot resolve — one whose option unmounted, or one
+      // seen before any option registered — needs a bare option of its own for
+      // the form to submit what the component reports.
+      ...value
+        .filter((entry) => !optionRegistry.has(entry))
+        .map((entry) => ({ value: entry, textValue: "" })),
+    ],
+    [multiple, optionRegistry, value],
+  );
 
   // Closing clears the highlight so it can never leak into the next open.
   useEffect(() => {
@@ -582,6 +641,39 @@ export function useSelect(props: UseSelectProps) {
     if (event.detail === 0) highlightWithKeyboard(getKeyboardSeedIndex());
   };
 
+  const handleHiddenSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue(
+      multiple
+        ? Array.from(event.target.selectedOptions, (option) => option.value)
+        : event.target.value === ""
+          ? []
+          : [event.target.value],
+    );
+  };
+
+  const handleHiddenSelectInvalid = (event: React.FormEvent<HTMLSelectElement>) => {
+    // Native constraint validation must never surface on the hidden select:
+    // the UA would focus into the aria-hidden subtree (Chrome blocks the
+    // aria-hidden and permanently exposes a nameless duplicate combobox in the
+    // accessibility tree) and anchor its bubble to the 1px clip. preventDefault
+    // cancels only the reporting step — submission stays blocked by `required`.
+    event.preventDefault();
+
+    // Focus lands on the trigger only when this is the form's first invalid
+    // control, matching where the UA would have put it (native ordering).
+    const select = event.currentTarget;
+    const firstInvalid =
+      Array.from(select.form?.elements ?? []).find(
+        (element) =>
+          (element instanceof HTMLInputElement ||
+            element instanceof HTMLSelectElement ||
+            element instanceof HTMLTextAreaElement) &&
+          element.willValidate &&
+          !element.validity.valid,
+      ) ?? select;
+    if (firstInvalid === select) getTriggerElement()?.focus();
+  };
+
   const stateProps = elementProps({
     "data-open": dataAttr(open),
     "data-disabled": dataAttr(disabled),
@@ -618,6 +710,7 @@ export function useSelect(props: UseSelectProps) {
     optionRegistry,
     registerOption,
     unregisterOption,
+    hiddenSelectOptions,
     selectValue,
 
     stateProps,
@@ -630,12 +723,7 @@ export function useSelect(props: UseSelectProps) {
     refs: {
       trigger: (node: HTMLElement | null) => floatingRefs.setReference(node),
       positioner: (node: HTMLElement | null) => floatingRefs.setFloating(node),
-      // The reference may be a floating-ui virtual element; only a real element
-      // can receive focus redirects.
-      getTriggerElement: () => {
-        const reference = floatingRefs.reference.current;
-        return reference instanceof HTMLElement ? reference : null;
-      },
+      getTriggerElement,
     },
 
     triggerProps: buttonProps({
@@ -683,6 +771,26 @@ export function useSelect(props: UseSelectProps) {
         typeahead.floating?.onKeyDown?.(event);
         handleContentKeyDown(event);
       },
+    }),
+
+    hiddenSelectProps: selectProps({
+      "aria-hidden": true,
+      tabIndex: -1,
+      name,
+      form,
+      required,
+      disabled,
+      multiple,
+      value: multiple ? value : (value[0] ?? ""),
+      style: visuallyHidden,
+      onChange: handleHiddenSelectChange,
+      onFocus: () => {
+        // Label clicks (Field label's htmlFor targets this element), browser
+        // extensions, and autofill can land focus here; forward it to the
+        // visible trigger.
+        getTriggerElement()?.focus({ preventScroll: true });
+      },
+      onInvalid: handleHiddenSelectInvalid,
     }),
 
     getItemProps: (itemProps: UseSelectItemProps, index: number) => {
@@ -735,6 +843,59 @@ export function useSelect(props: UseSelectProps) {
           },
         }),
       };
+    },
+  };
+}
+
+export type UseSelectItemReturn = ReturnType<typeof useSelectItem>;
+
+// Registers one rendered option with the root: its position in the list (for
+// typeahead and aria-activedescendant) and its display payload (for the trigger
+// value slot and the hidden native `<option>`).
+export function useSelectItem(props: UseSelectItemProps) {
+  const { value, disabled, typeaheadLabel, label, textValue, icon } = props;
+  const { getItemProps, registerOption, unregisterOption } = useSelectContext();
+
+  const resolvedTextValue = textValue ?? (typeof label === "string" ? label : value);
+
+  // `null` excludes disabled options from typeahead (APG: they are not typeable).
+  // A ReactNode label falls back to `textValue` rather than letting floating-ui
+  // read the DOM textContent, which would concatenate every rendered part
+  // (label + description) into the match string.
+  const { ref: listRef, index } = useListItem({
+    label: disabled
+      ? null
+      : (typeaheadLabel ?? (typeof label === "string" ? label : resolvedTextValue)),
+  });
+
+  // SSR-safe (no-op on the server): registration runs in a layout effect so the
+  // trigger value paints in the same frame items mount, instead of one frame late.
+  useLayoutEffect(() => {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      textValue === undefined &&
+      label != null &&
+      typeof label !== "string"
+    ) {
+      console.warn(
+        `SelectItem "${value}": \`label\` is a ReactNode, so \`textValue\` falls back to the option value for the trigger text and hidden <option>. Pass \`textValue\` to set the display string.`,
+      );
+    }
+    registerOption(value, { label, textValue: resolvedTextValue, icon });
+    return () => unregisterOption(value);
+  }, [value, label, resolvedTextValue, icon, registerOption, unregisterOption]);
+
+  return {
+    ...getItemProps({ value, disabled, typeaheadLabel }, index),
+
+    // label/icon are the item's own props, handed straight back so styled
+    // `ItemLabel`/`ItemPrefixIcon` can consume them without the caller
+    // re-threading them through the registry.
+    label,
+    icon,
+
+    refs: {
+      item: listRef,
     },
   };
 }
