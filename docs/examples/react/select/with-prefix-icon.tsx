@@ -1,8 +1,14 @@
-import { IconBellLine, IconGiftLine, IconHeartLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconGlobeLine,
+  IconLockLine,
+  IconPerson2Line,
+  IconPersonLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { Box } from "@seed-design/react";
 import {
   SelectContent,
   SelectGroup,
+  SelectGroupLabel,
   SelectItem,
   SelectRoot,
   SelectTrigger,
@@ -11,14 +17,23 @@ import {
 export default function SelectWithPrefixIcon() {
   return (
     <Box width="280px">
-      <SelectRoot defaultValue={["keyword"]}>
-        <SelectTrigger aria-label="알림 유형" placeholder="알림 유형 선택" />
+      <SelectRoot>
+        <SelectTrigger
+          aria-label="공유 대상"
+          placeholder="공유 대상"
+          prefixIcon={<IconPerson2Line />}
+        />
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="keyword" label="키워드 알림" prefixIcon={<IconBellLine />} />
-            <SelectItem value="favorite" label="관심 상품" prefixIcon={<IconHeartLine />} />
-            <SelectItem value="share" label="나눔 소식" prefixIcon={<IconGiftLine />} />
-            <SelectItem value="all" label="모든 알림" />
+            <SelectGroupLabel>그룹</SelectGroupLabel>
+            <SelectItem value="public" label="전체 공개" prefixIcon={<IconGlobeLine />} />
+            <SelectItem value="followers" label="팔로워만" prefixIcon={<IconLockLine />} />
+            <SelectItem value="private" label="나만" prefixIcon={<IconPersonLine />} />
+          </SelectGroup>
+          <SelectGroup>
+            <SelectGroupLabel>사람</SelectGroupLabel>
+            <SelectItem value="kim" label="김하늘" />
+            <SelectItem value="lee" label="이하늘" />
           </SelectGroup>
         </SelectContent>
       </SelectRoot>

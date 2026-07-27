@@ -114,6 +114,36 @@ import {
   ```
 </ComponentExample>
 
+### Groups
+
+`SelectGroup`으로 옵션을 묶고, `SelectGroupLabel`로 그룹의 제목을 표시합니다. 모든 `SelectItem`은 `SelectGroup` 안에 있어야 합니다.
+
+그룹이 두 개 이상이면 그룹 사이에 구분선이 자동으로 그려집니다.
+
+<ComponentExample name="react/select/groups">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/groups.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Multiple Selection
+
+`SelectRoot`에 `multiple`을 지정하면 여러 옵션을 선택할 수 있습니다. 옵션을 선택해도 목록이 닫히지 않으며, 이미 선택된 옵션을 다시 누르면 선택이 해제됩니다.
+
+트리거에는 선택된 옵션들의 `textValue`가 `", "`로 이어져 표시됩니다. 이 문구는 [Custom Value Format](#custom-value-format)으로 바꿀 수 있습니다.
+
+<ComponentExample name="react/select/multiple">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/multiple.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### With Description
 
 `SelectItem`의 `description` prop으로 옵션에 부가 설명을 추가합니다.
@@ -142,6 +172,23 @@ import {
   ```
 </ComponentExample>
 
+### Custom Item Label
+
+`SelectItem`의 `label`에는 ReactNode를 넘길 수 있습니다. 이 노드는 목록의 옵션에 렌더링되며, 하나만 선택된 경우 트리거의 값 자리에도 함께 렌더링됩니다.
+
+`label`이 문자열이 아닌 경우 `textValue`를 함께 지정하세요. `textValue`는 다중 선택 시 트리거에 표시되는 문구, 키보드로 타이핑해 옵션을 찾을 때 매칭되는 문자열, 폼 제출용 native `<option>`의 텍스트로 쓰입니다. 지정하지 않으면 이 값들이 모두 옵션의 `value`로 대체되고, 개발 모드에서 경고가 출력됩니다.
+
+타이핑 매칭 문자열만 따로 지정하려면 `typeaheadLabel`을 사용하세요.
+
+<ComponentExample name="react/select/custom-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/custom-label.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Disabled
 
 `SelectItem`의 `disabled`로 특정 옵션을, `SelectRoot`의 `disabled`로 Select 전체를 비활성화합니다.
@@ -150,6 +197,21 @@ import {
   ```json doc-gen:file
   {
     "file": "examples/react/select/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Long List
+
+옵션이 많으면 목록 안에서 스크롤됩니다. 목록의 높이는 지정된 최대 높이와 트리거 주변에 남은 화면 공간 중 더 작은 값으로 정해지고, 노치와 홈 인디케이터 영역을 피해 배치됩니다.
+
+목록을 열면 현재 선택된 옵션이 보이는 위치로 자동 스크롤됩니다.
+
+<ComponentExample name="react/select/long-list">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/long-list.tsx",
     "codeblock": true
   }
   ```
@@ -176,6 +238,21 @@ import {
   ```json doc-gen:file
   {
     "file": "examples/react/select/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled Open State
+
+`open`과 `onOpenChange`로 목록의 열림 상태를 제어할 수 있습니다. 초기 상태만 지정하려면 `defaultOpen`을 사용하세요.
+
+목록이 열리면 포커스가 목록으로 이동하고, 닫히면 트리거로 되돌아옵니다.
+
+<ComponentExample name="react/select/controlled-open">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/controlled-open.tsx",
     "codeblock": true
   }
   ```
