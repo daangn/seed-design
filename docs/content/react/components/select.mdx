@@ -260,6 +260,36 @@ typeahead 문자열만 변경하고자 하는 경우 `typeaheadLabel`을 사용�
   ```
 </ComponentExample>
 
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `SelectTrigger` 클릭 또는 `SelectTrigger`에 포커스된 상태에서 <kbd>↓</kbd>, <kbd>↑</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd> 키 사용
+
+**닫힐 때** (`open: false`)
+
+- `"trigger"`: 목록이 열린 상태에서 `SelectTrigger` 클릭
+- `"itemSelect"`: 옵션 선택
+  - `multiple`인 경우 옵션을 선택해도 목록이 닫히지 않으므로 발생하지 않습니다.
+- `"keyboardClose"`: 하이라이트된 옵션이 없는 상태에서 <kbd>Enter</kbd> 또는 <kbd>Space</kbd> 키 사용
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+- `"focusOut"`: <kbd>Tab</kbd> 등으로 포커스가 목록 밖으로 이동
+- `"cascadeDismiss"`: 상위 레이어 닫힘으로 인한 연쇄 닫힘
+
+<ComponentExample name="react/select/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Custom Value Format
 
 `SelectRoot`의 `formatValue` prop으로 트리거에 표시되는 선택 값을 커스텀합니다. 기본적으로는, 선택된 옵션들의 `textValue`를 `", "`로 join하여 표시합니다. `textValue`의 기본값은 `label`이 string이면 `label`, 아닌 경우 `value`입니다.
