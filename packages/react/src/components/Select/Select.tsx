@@ -60,10 +60,6 @@ export interface SelectRootProps
     SelectItemVariantProps,
     SelectPrimitive.RootProps {}
 
-// The three specs share a single `size` today, but each owns its own variant map.
-// Routing per recipe keeps that a coincidence rather than a load-bearing fact: since
-// `@seed-design/css` is a peer dependency, a spec that grows a variant of its own must
-// reach the right recipe — and stay out of `otherProps` — without a change here.
 export const SelectRoot = (props: SelectRootProps) => {
   const [
     {
@@ -98,8 +94,6 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
     const [variantProps, otherProps] = selectTrigger.splitVariantProps(props);
     const rootProps = useTriggerProps();
 
-    // The trigger owns the only instance of this spec in the tree, so it resolves
-    // its own classNames and provides them to the parts it wraps.
     const classNames = selectTrigger({ ...rootProps, ...variantProps });
     const fieldContext = useFieldContext({ strict: false });
 
@@ -177,8 +171,6 @@ export const SelectPrefixIcon = React.forwardRef<SVGSVGElement, SelectPrefixIcon
     const { selectedItem, stateProps } = useSelectContext();
     const classNames = useTriggerClassNames();
 
-    // A single selected item's own icon wins; otherwise the fallback shows —
-    // including when that item has no icon, or on empty/multi selections.
     const svg = selectedItem?.icon ?? fallback;
     if (!svg) return null;
 
@@ -291,10 +283,6 @@ export interface SelectItemProps
   prefixIcon?: React.ReactNode;
 }
 
-// Public API keeps the presentational `prefixIcon`; the headless item speaks the
-// position-agnostic `icon`, so this boundary maps one to the other. Each row resolves
-// the recipe itself so an option can override the root's defaults, then provides the
-// result to the parts it wraps.
 export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
   ({ prefixIcon, className, ...props }, ref) => {
     const [variantProps, otherProps] = selectItem.splitVariantProps(props);
@@ -367,9 +355,8 @@ export const SelectItemLabel = React.forwardRef<HTMLSpanElement, SelectItemLabel
     const { label, stateProps } = useSelectItemContext();
     const classNames = useItemClassNames();
 
-    // Defaults to the item's own `label` (from context) so the caller doesn't have
-    // to re-thread it; explicit children still win. stateProps stays because the
-    // label's disabled style targets its own `data-disabled`.
+    // stateProps stays because the label's disabled style targets its own
+    // `data-disabled`.
     return (
       <Primitive.span
         ref={ref}
