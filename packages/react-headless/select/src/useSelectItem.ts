@@ -65,7 +65,7 @@ export function useSelectItem(props: UseSelectItemProps) {
     }
     registerOption(value, { label, textValue: resolvedTextValue, icon });
     return () => unregisterOption(value);
-  }, [value, label, resolvedTextValue, icon, registerOption, unregisterOption]);
+  }, [value, label, textValue, resolvedTextValue, icon, registerOption, unregisterOption]);
 
   return {
     ...getItemProps(props, index),
