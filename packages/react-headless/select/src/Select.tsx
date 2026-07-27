@@ -112,71 +112,75 @@ export const SelectPositioner = forwardRef<HTMLDivElement, SelectPositionerProps
 );
 SelectPositioner.displayName = "SelectPositioner";
 
+/**
+ * Holds a Radix FocusScope registration for as long as the listbox is open, so
+ * parent FocusScopes (Dialog, BottomSheet, Drawer) pause their trap and focus can
+ * reach content rendered in a portal.
+ *
+ * The scope needs no behavior of its own — trapping and the tab loop stay off and
+ * both autofocus events are prevented — so all it does is enter Radix's
+ * focusScopesStack, which is keyed on mount, not on the element it wraps. Hence
+ * this empty hidden element rather than a wrapper around the content: wrapping
+ * swaps the element type at the content's position on every open/close, and React
+ * responds by remounting the whole listbox subtree, handing the exit transition a
+ * scroll container freshly reset to the top.
+ *
+ * Mounting only while open is what lands it on top of the stack — a permanently
+ * mounted scope would register at page load, below any Dialog opened later.
+ */
+const FocusScopeRegistration = () => (
+  <FocusScope
+    hidden
+    trapped={false}
+    loop={false}
+    onMountAutoFocus={(event) => event.preventDefault()}
+    onUnmountAutoFocus={(event) => event.preventDefault()}
+  />
+);
+
 export interface SelectContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>((props, ref) => {
   const { floatingContext, contentProps, open, setOpen, elementsRef, labelsRef } =
     useSelectContext();
 
-  const content = <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />;
-
   // DOM focus moves into the content while open (the content carries
   // aria-activedescendant for the highlighted option). Mirrors MenuContent:
-  //
   // FloatingFocusManager (disabled while closed — the content stays mounted for
-  // exit animations): focuses the content on open, returns focus to the trigger
-  // on close, closes on focus-out, and renders portal tab-order guards.
-  //
-  // FocusScope participates in Radix's focusScopesStack so parent FocusScopes
-  // (Dialog, BottomSheet, Drawer) pause their trap while this listbox is open —
-  // without it, focus could never reach content rendered in a portal. It is
-  // conditionally rendered (only when open) so it registers at the top of the
-  // stack above any Dialog that mounted earlier.
+  // exit animations) focuses the content on open, returns focus to the trigger on
+  // close, closes on focus-out, and renders portal tab-order guards.
   return (
-    <FloatingFocusManager context={floatingContext} disabled={!open} modal={false}>
-      <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
-        {/* DismissibleLayer must wrap FocusScope, not the other way around.
-            FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
-            DOM element; if DismissibleLayer sat between them, those props would be
-            swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
-        <DismissibleLayer
-          enabled={open}
-          pressBehavior="drag"
-          onEscapeKeyDown={() => {
-            setOpen(false);
-          }}
-          onPressOutside={() => {
-            setOpen(false);
-          }}
-          onFocusOutside={() => {
-            // Tab-away closing is handled by FloatingFocusManager (closeOnFocusOut).
-          }}
-          onCascadeDismiss={() => {
-            setOpen(false);
-          }}
-          exclude={(target) => {
-            const reference = floatingContext.refs.reference.current;
-            if (!(reference instanceof HTMLElement)) return false;
+    <>
+      <FloatingFocusManager context={floatingContext} disabled={!open} modal={false}>
+        <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+          <DismissibleLayer
+            enabled={open}
+            pressBehavior="drag"
+            onEscapeKeyDown={() => {
+              setOpen(false);
+            }}
+            onPressOutside={() => {
+              setOpen(false);
+            }}
+            onFocusOutside={() => {
+              // Tab-away closing is handled by FloatingFocusManager (closeOnFocusOut).
+            }}
+            onCascadeDismiss={() => {
+              setOpen(false);
+            }}
+            exclude={(target) => {
+              const reference = floatingContext.refs.reference.current;
+              if (!(reference instanceof HTMLElement)) return false;
 
-            return reference.contains(target);
-          }}
-        >
-          {open ? (
-            <FocusScope
-              asChild
-              trapped={false}
-              loop={false}
-              onMountAutoFocus={(event) => event.preventDefault()}
-              onUnmountAutoFocus={(event) => event.preventDefault()}
-            >
-              {content}
-            </FocusScope>
-          ) : (
-            content
-          )}
-        </DismissibleLayer>
-      </FloatingList>
-    </FloatingFocusManager>
+              return reference.contains(target);
+            }}
+          >
+            <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />
+          </DismissibleLayer>
+        </FloatingList>
+      </FloatingFocusManager>
+      {open && <FocusScopeRegistration />}
+    </>
   );
 });
 SelectContent.displayName = "SelectContent";

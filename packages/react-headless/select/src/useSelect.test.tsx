@@ -1,3 +1,4 @@
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, jest } from "bun:test";
@@ -2107,6 +2108,67 @@ describe("useSelect open reveal", () => {
       // No selection: the keyboard seed lands on the first enabled option.
       expect(received.some((element) => element.getAttribute("data-value") === "apple")).toBe(true);
     });
+  });
+});
+
+// The content stays mounted while closing so the exit transition can play. It has
+// to keep the very same DOM nodes: a remount hands that transition a fresh scroll
+// container starting at scrollTop 0, so a long list visibly snaps back to the top
+// the moment it starts closing. Both tests below assert on DOM state React never
+// renders — exactly what a remount throws away.
+describe("useSelect close transition", () => {
+  it("preserves the content's scroll position through a close", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+    getListbox(trigger).scrollTop = 120;
+
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(getListbox(trigger).scrollTop).toBe(120);
+  });
+
+  it("keeps the same option elements when closing by committing a value", async () => {
+    const user = userEvent.setup();
+    const { getByRole, getByText } = render(<BasicSelect />);
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+
+    const options = Array.from(getListbox(trigger).querySelectorAll("[role='option']"));
+    options.forEach((option, index) => option.setAttribute("data-probe", String(index)));
+
+    await user.click(getByText("Banana"));
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    const probes = Array.from(getListbox(trigger).querySelectorAll("[role='option']")).map(
+      (option) => option.getAttribute("data-probe"),
+    );
+    expect(probes).toEqual(["0", "1", "2"]);
+  });
+});
+
+describe("useSelect focus scope participation", () => {
+  // The content renders in a portal, outside a parent FocusScope's container.
+  // Opening must register a scope on Radix's focusScopesStack so the parent trap
+  // pauses — otherwise the parent pulls focus straight back out of the listbox.
+  it("pauses a trapped parent FocusScope while open", async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
+      <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+        <BasicSelect />
+      </FocusScope>,
+    );
+    await waitForPositioning();
+
+    const trigger = getByRole("combobox");
+    await openWithClick(user, trigger);
+
+    await waitFor(() => expect(getListbox(trigger)).toHaveFocus());
   });
 });
 
