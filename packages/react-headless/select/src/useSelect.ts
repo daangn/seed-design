@@ -247,7 +247,6 @@ export function useSelect(props: UseSelectProps) {
 
   const setOpen = useCallback(
     (nextOpen: boolean) => {
-      // Opening requires interactivity; closing is always allowed.
       if (nextOpen && !interactive) return;
 
       setOpenState(nextOpen);

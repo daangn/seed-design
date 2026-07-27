@@ -93,10 +93,6 @@ async function openWithClick(user: ReturnType<typeof userEvent.setup>, trigger: 
   await waitForPositioning();
 }
 
-// ===========================================================================
-// Rendering & ARIA basics
-// ===========================================================================
-
 describe("useSelect rendering & ARIA", () => {
   it("renders the trigger as a combobox with listbox popup wiring", async () => {
     const { getByRole } = render(<BasicSelect />);
@@ -229,10 +225,6 @@ describe("useSelect rendering & ARIA", () => {
     expect(getByRole("listbox")).toHaveAttribute("data-hidden");
   });
 });
-
-// ===========================================================================
-// Open / close state
-// ===========================================================================
 
 describe("useSelect open/close", () => {
   it("toggles open/closed on trigger click", async () => {
@@ -512,10 +504,6 @@ describe("useSelect open/close", () => {
   });
 });
 
-// ===========================================================================
-// Selection
-// ===========================================================================
-
 describe("useSelect selection (single)", () => {
   it("commits on item click: sets the value and closes the listbox", async () => {
     const user = userEvent.setup();
@@ -784,10 +772,6 @@ describe("useSelect selection (multiple)", () => {
   });
 });
 
-// ===========================================================================
-// Value display & selectedItems
-// ===========================================================================
-
 describe("useSelect value display", () => {
   // selectedItems is index-aligned with value: an unregistered value keeps its
   // slot as an unresolved entry rather than dropping out, so consumers never
@@ -983,10 +967,6 @@ describe("useSelect value display", () => {
     warn.mockRestore();
   });
 });
-
-// ===========================================================================
-// Keyboard & highlight model
-// ===========================================================================
 
 // aria-activedescendant lives on the listbox content (which holds DOM focus
 // while open), resolved from the trigger through aria-controls.
@@ -1382,10 +1362,6 @@ describe("useSelect keyboard commit", () => {
   });
 });
 
-// ===========================================================================
-// Typeahead
-// ===========================================================================
-
 function CitySelect(props: SelectRootProps) {
   return (
     <SelectRoot {...props}>
@@ -1680,10 +1656,6 @@ describe("useSelect typeahead (closed trigger)", () => {
   });
 });
 
-// ===========================================================================
-// Option registry & dynamic options
-// ===========================================================================
-
 describe("useSelect option registry", () => {
   it("re-registering identical entries causes no registry churn", async () => {
     const apiRef = createApiRef();
@@ -1824,10 +1796,6 @@ describe("useSelect option registry", () => {
   });
 });
 
-// ===========================================================================
-// Form integration (hidden select)
-// ===========================================================================
-
 describe("useSelect hidden select", () => {
   it("mirrors name/form/required/disabled/multiple and the current value", async () => {
     const { container, rerender } = render(
@@ -1909,7 +1877,6 @@ describe("useSelect hidden select", () => {
     ]);
   });
 
-  // autofill bridge, single
   it("propagates native change events back into the component (single)", async () => {
     const { container, getByRole } = render(<BasicSelectWithHiddenSelect name="fruit" />);
     await waitForPositioning();
@@ -1926,7 +1893,6 @@ describe("useSelect hidden select", () => {
     expect(getByRole("combobox")).not.toHaveTextContent("Cherry");
   });
 
-  // autofill bridge, multiple
   it("propagates native change events back into the component (multiple)", async () => {
     const apiRef = createApiRef();
     const { container } = render(<BasicSelectWithHiddenSelect apiRef={apiRef} multiple />);
@@ -2047,10 +2013,6 @@ function BasicSelectWithHiddenSelect({
   );
 }
 
-// ===========================================================================
-// Open reveal (scroll the current position into view)
-// ===========================================================================
-
 describe("useSelect open reveal", () => {
   async function withScrollReceivers(run: (received: HTMLElement[]) => Promise<void>) {
     const received: HTMLElement[] = [];
@@ -2070,7 +2032,6 @@ describe("useSelect open reveal", () => {
       await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
     });
 
-  // pointer opens seed no highlight, but the selection must be revealed
   it("scrolls the selected option into view on pointer open", async () => {
     await withScrollReceivers(async (received) => {
       const user = userEvent.setup();
@@ -2102,10 +2063,6 @@ describe("useSelect open reveal", () => {
     });
   });
 });
-
-// ===========================================================================
-// Groups
-// ===========================================================================
 
 describe("useSelectGroup", () => {
   it("labels each group with its own rendered label", async () => {
@@ -2178,10 +2135,6 @@ describe("useSelectGroup", () => {
     expect(getByRole("group").getAttribute("aria-labelledby")).toBe(getByText("Fruits").id);
   });
 });
-
-// ===========================================================================
-// icon channel
-// ===========================================================================
 
 describe("useSelect icon channel", () => {
   function IconSelect({
@@ -2261,10 +2214,6 @@ describe("useSelect icon channel", () => {
   });
 });
 
-// ===========================================================================
-// Positioning attributes
-// ===========================================================================
-
 describe("useSelect positioning", () => {
   it("positions with strategy 'absolute' by default and 'fixed' when requested", async () => {
     const user = userEvent.setup();
@@ -2328,7 +2277,6 @@ describe("useSelect positioning", () => {
     );
   });
 
-  // container routes the FloatingPortal to a custom root instead of document.body
   it("renders the listbox into a custom container", async () => {
     const user = userEvent.setup();
 
@@ -2373,10 +2321,6 @@ describe("useSelect positioning", () => {
     );
   });
 });
-
-// ===========================================================================
-// Remaining edges
-// ===========================================================================
 
 describe("useSelect edges", () => {
   it("supports selecting from a defaultOpen listbox", async () => {
