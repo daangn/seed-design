@@ -97,6 +97,12 @@ interface OptionEntry {
 
 export interface SelectedItem extends OptionEntry {
   value: string;
+  /**
+   * False while no rendered option matches `value` — either the option has not
+   * registered yet, or it unmounted while selected. Display paths must skip
+   * unresolved entries; `label` is `null` and `textValue` is `""` on those.
+   */
+  resolved: boolean;
 }
 
 export interface UseSelectProps {
@@ -366,26 +372,28 @@ export function useSelect(props: UseSelectProps) {
     });
   }, []);
 
-  // Prune values whose option unregistered so the trigger doesn't show a blank
-  // value while the hidden select submits nothing. Never prune while the registry
-  // is empty: on mount items register in effects after `value` is already set, and
-  // pruning then would wipe a defaultValue/controlled value before its option
-  // registered.
-  useEffect(() => {
-    if (nativeOptions.size === 0) return;
-    if (value.every((entry) => nativeOptions.has(entry))) return;
-
-    setValue(value.filter((entry) => nativeOptions.has(entry)));
-  }, [nativeOptions, value, setValue]);
-
+  // Index-aligned with `value` by construction: a value whose option has not
+  // registered — or has unmounted while selected — keeps its slot as an
+  // unresolved entry instead of dropping out. Consumers therefore never have to
+  // reconcile `value.length` against a shorter projection.
   const selectedItems = useMemo(
     () =>
-      value.flatMap((entry) => {
+      value.map((entry): SelectedItem => {
         const option = nativeOptions.get(entry);
-        return option ? [{ value: entry, ...option }] : [];
+        return option
+          ? { ...option, value: entry, resolved: true }
+          : { value: entry, label: null, textValue: "", resolved: false };
       }),
     [value, nativeOptions],
   );
+
+  // An empty selection and one that no rendered option can resolve both read as
+  // "nothing to show" in the trigger — an option can unmount while selected, and
+  // the value deliberately survives that (it still submits). Gated on a non-empty
+  // registry because the server render and the frame before registration see one
+  // too, and flipping placeholder -> label there would be a hydration mismatch.
+  const showPlaceholder =
+    value.length === 0 || (nativeOptions.size > 0 && selectedItems.every((item) => !item.resolved));
 
   // Closing clears the highlight so it can never leak into the next open.
   useEffect(() => {
@@ -562,6 +570,7 @@ export function useSelect(props: UseSelectProps) {
     setValue,
     multiple,
     selectedItems,
+    showPlaceholder,
     formatValue,
     activeIndex,
     selectedIndex,

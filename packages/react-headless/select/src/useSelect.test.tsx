@@ -725,6 +725,17 @@ describe("useSelect selection (multiple)", () => {
     expect(trigger).toHaveTextContent("Apple, Cherry");
   });
 
+  // unresolved entries hold a slot in selectedItems but must never reach the
+  // join, which would emit a stray separator around an empty textValue.
+  it("skips unresolved values in the joined trigger text", async () => {
+    const { getByRole } = render(
+      <BasicSelect multiple defaultValue={["apple", "ghost", "cherry"]} />,
+    );
+    await waitForPositioning();
+
+    expect(getByRole("combobox")).toHaveTextContent("Apple, Cherry");
+  });
+
   // controlled multiple: the toggle payload reaches onValueChange but the
   // rendered selection stays pinned to the controlled value (parity with the
   // single-select controlled case).
@@ -756,16 +767,26 @@ describe("useSelect selection (multiple)", () => {
 // ===========================================================================
 
 describe("useSelect value display", () => {
-  it("projects value through the option registry into selectedItems, omitting unregistered values", async () => {
+  // selectedItems is index-aligned with value: an unregistered value keeps its
+  // slot as an unresolved entry rather than dropping out, so consumers never
+  // have to reconcile two different lengths.
+  it("projects value through the option registry into selectedItems, keeping a slot for unregistered values", async () => {
     const apiRef = createApiRef();
     render(<BasicSelect multiple defaultValue={["banana", "ghost"]} apiRef={apiRef} />);
     await waitForPositioning();
 
-    expect(apiRef.current?.selectedItems).toHaveLength(1);
+    expect(apiRef.current?.selectedItems).toHaveLength(2);
     expect(apiRef.current?.selectedItems[0]).toMatchObject({
       value: "banana",
       label: "Banana",
       textValue: "Banana",
+      resolved: true,
+    });
+    expect(apiRef.current?.selectedItems[1]).toMatchObject({
+      value: "ghost",
+      label: null,
+      textValue: "",
+      resolved: false,
     });
   });
 
@@ -821,6 +842,27 @@ describe("useSelect value display", () => {
     await openWithClick(user, getByRole("combobox"));
     await user.click(getAllByRole("option")[0]);
     expect(queryByText("Choose a fruit")).not.toBeInTheDocument();
+  });
+
+  // The placeholder fallback is gated on a non-empty registry: the server render
+  // and the frame before registration both see an empty one, and flipping
+  // placeholder -> label there would be a hydration text mismatch.
+  it("does not fall back to the placeholder while no option has registered", async () => {
+    const { getByRole, queryByText } = render(
+      <SelectRoot defaultValue={["apple"]}>
+        <SelectTrigger aria-label="Fruit">
+          <SelectValue />
+          <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
+        </SelectTrigger>
+        <SelectPositioner>
+          <SelectContent />
+        </SelectPositioner>
+      </SelectRoot>,
+    );
+    await waitForPositioning();
+
+    expect(queryByText("Choose a fruit")).not.toBeInTheDocument();
+    expect(getByRole("combobox")).toHaveTextContent("");
   });
 
   // formatValue precedence over default
@@ -1670,13 +1712,17 @@ describe("useSelect option registry", () => {
     expect(getByRole("combobox")).toHaveTextContent("Golden Apple");
   });
 
-  // single: prune to empty, placeholder returns
-  it("prunes the value when the selected option unregisters", async () => {
+  // The value is the source of truth for submission and onValueChange, so an
+  // option unmounting never rewrites it — that would fire a change the consumer
+  // never asked for and fight a controlled parent. Display degrades instead.
+  it("keeps the value when the selected option unregisters, falling back to the placeholder", async () => {
     const onValueChange = jest.fn();
+    const apiRef = createApiRef();
 
     function Wrapper({ showBanana }: { showBanana: boolean }) {
       return (
         <SelectRoot defaultValue={["banana"]} onValueChange={onValueChange}>
+          <ApiProbe apiRef={apiRef} />
           <SelectTrigger aria-label="Fruit">
             <SelectValue />
             <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
@@ -1704,19 +1750,23 @@ describe("useSelect option registry", () => {
     rerender(<Wrapper showBanana={false} />);
     await waitForPositioning();
 
-    expect(onValueChange).toHaveBeenCalledWith([]);
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(apiRef.current?.value).toEqual(["banana"]);
     expect(queryByText("Choose a fruit")).toBeInTheDocument();
   });
 
-  // multiple: survivors kept
-  it("keeps the surviving values when one of several selected options unregisters", async () => {
+  // multiple: the whole value survives; only the display shrinks
+  it("keeps every value when one of several selected options unregisters, showing the survivors", async () => {
     const onValueChange = jest.fn();
+    const apiRef = createApiRef();
 
     function Wrapper({ showBanana }: { showBanana: boolean }) {
       return (
         <SelectRoot multiple defaultValue={["banana", "apple"]} onValueChange={onValueChange}>
+          <ApiProbe apiRef={apiRef} />
           <SelectTrigger aria-label="Fruit">
             <SelectValue />
+            <SelectPlaceholder>Choose a fruit</SelectPlaceholder>
           </SelectTrigger>
           <SelectPositioner>
             <SelectContent>
@@ -1734,17 +1784,20 @@ describe("useSelect option registry", () => {
       );
     }
 
-    const { rerender } = render(<Wrapper showBanana />);
+    const { getByRole, rerender, queryByText } = render(<Wrapper showBanana />);
     await waitForPositioning();
 
     rerender(<Wrapper showBanana={false} />);
     await waitForPositioning();
 
-    expect(onValueChange).toHaveBeenCalledTimes(1);
-    expect(onValueChange).toHaveBeenCalledWith(["apple"]);
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(apiRef.current?.value).toEqual(["banana", "apple"]);
+    // one entry still resolves, so the trigger shows it rather than the placeholder
+    expect(getByRole("combobox")).toHaveTextContent("Apple");
+    expect(queryByText("Choose a fruit")).not.toBeInTheDocument();
   });
 
-  it("does not prune a defaultValue before any option has registered", async () => {
+  it("never rewrites a defaultValue whose option has not registered", async () => {
     const onValueChange = jest.fn();
     const { getByRole } = render(
       <BasicSelect defaultValue={["cherry"]} onValueChange={onValueChange} />,
@@ -1792,6 +1845,29 @@ describe("useSelect hidden select", () => {
 
     rerender(<BasicSelectWithHiddenSelect name="fruit" disabled defaultValue={["banana"]} />);
     expect(container.querySelector("select")).toBeDisabled();
+  });
+
+  // A controlled <select> silently drops a value that matches no <option>, so a
+  // value the registry cannot resolve still needs an option of its own or the
+  // form would submit nothing.
+  it("submits a value whose option is not registered through a fallback option", async () => {
+    const { container } = render(
+      <BasicSelectWithHiddenSelect name="fruit" defaultValue={["ghost"]} />,
+    );
+    await waitForPositioning();
+
+    const hidden = container.querySelector("select");
+    if (!hidden) throw new Error("hidden select not rendered");
+
+    expect(hidden.value).toBe("ghost");
+    const options = Array.from(hidden.querySelectorAll("option"));
+    expect(options.map((option) => option.value)).toEqual([
+      "",
+      "apple",
+      "banana",
+      "cherry",
+      "ghost",
+    ]);
   });
 
   // multiple: every selected value via selectedOptions
@@ -2123,10 +2199,13 @@ describe("useSelect icon channel", () => {
     await user.click(getAllByRole("option")[1]);
     expect(getIconName()).toBe("banana");
 
-    // unmounting the selected item prunes the value and drops the icon
+    // unmounting the selected item keeps the value but drops the icon with the
+    // rest of the registered entry
     rerender(<IconSelect apiRef={apiRef} showBanana={false} />);
     await waitForPositioning();
-    expect(apiRef.current?.selectedItems).toHaveLength(0);
+    expect(apiRef.current?.selectedItems).toHaveLength(1);
+    expect(apiRef.current?.selectedItems[0]?.resolved).toBe(false);
+    expect(getIconName()).toBeUndefined();
   });
 });
 

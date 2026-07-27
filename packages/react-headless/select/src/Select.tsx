@@ -95,22 +95,27 @@ SelectTrigger.displayName = "SelectTrigger";
 export interface SelectValueProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
- * Renders the selected value. Nothing is rendered while the selection is empty
+ * Renders the selected value. Nothing is rendered while there is nothing to show
  * (see `SelectPlaceholder`). Precedence: `children` > root `formatValue` > default
  * (single-select `label` node / multi-select `textValue` join).
  */
 export const SelectValue = forwardRef<HTMLSpanElement, SelectValueProps>(
   ({ children, ...props }, ref) => {
-    const { value, selectedItems, multiple, formatValue } = useSelectContext();
+    const { selectedItems, multiple, formatValue, showPlaceholder } = useSelectContext();
 
-    if (value.length === 0) return null;
+    if (showPlaceholder) return null;
 
     const content =
       children ??
       (formatValue
         ? formatValue(selectedItems)
         : multiple
-          ? selectedItems.map((item) => item.textValue).join(", ")
+          ? // Unresolved entries hold a slot in selectedItems but carry an empty
+            // textValue, which would otherwise join into a stray separator.
+            selectedItems
+              .filter((item) => item.resolved)
+              .map((item) => item.textValue)
+              .join(", ")
           : selectedItems[0]?.label);
 
     return (
@@ -127,13 +132,15 @@ export interface SelectPlaceholderProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
- * Renders placeholder content while no value is selected.
+ * Renders placeholder content while nothing is selected — and also while the
+ * selection resolves to no rendered option, which reads the same to the user
+ * even though the value itself survives for form submission.
  */
 export const SelectPlaceholder = forwardRef<HTMLSpanElement, SelectPlaceholderProps>(
   (props, ref) => {
-    const { value } = useSelectContext();
+    const { showPlaceholder } = useSelectContext();
 
-    if (value.length > 0) return null;
+    if (!showPlaceholder) return null;
 
     return <Primitive.span ref={ref} {...props} />;
   },
@@ -407,6 +414,15 @@ export const SelectHiddenSelect = forwardRef<HTMLSelectElement, SelectHiddenSele
             {entry.textValue}
           </option>
         ))}
+        {/* A controlled <select> silently drops a value that matches no option,
+            so a value the registry cannot resolve — one whose option unmounted,
+            or one seen before any option registered — needs a bare option of its
+            own for the form to submit what the component reports. */}
+        {value
+          .filter((entry) => !nativeOptions.has(entry))
+          .map((entry) => (
+            <option key={entry} value={entry} />
+          ))}
       </select>
     );
   },
