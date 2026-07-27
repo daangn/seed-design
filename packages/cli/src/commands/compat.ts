@@ -265,11 +265,15 @@ export const compatCommand = (cli: CAC) => {
         const isVirtualQuery = withInputs.length > 0;
 
         // 패키지 간 호환 (manifest 기반). manifest 미배포/접근불가 시 패키지 검사는 건너뛰어요.
+        // 다만 "검사 못 함"을 "문제 없음"으로 읽히게 두지 않으려고 사유를 들고 다녀요.
         let manifest: CompatManifest | null = null;
+        let packagesUncheckedReason: string | null = null;
         try {
           manifest = await fetchCompatManifest({ baseUrl: options.baseUrl, framework });
         } catch (error) {
           if (isVirtualQuery) throw error; // --with 는 manifest 가 필수
+          packagesUncheckedReason =
+            error instanceof CliError ? error.message : "호환성 매니페스트를 가져오지 못했어요.";
           if (verbose) console.error("[compat] manifest fetch 실패:", error);
         }
 
@@ -300,12 +304,15 @@ export const compatCommand = (cli: CAC) => {
           : await runSnippetCheck({ options, framework, jsonMode });
 
         const ok = (peerReport?.ok ?? true) && (snippetReport?.issues.length ?? 0) === 0;
+        // 아무것도 검사하지 못했으면 ok(=true)를 "문제 없음"으로 보고하지 않아요.
+        const checkedNothing = !peerReport && !snippetReport;
 
         if (jsonMode) {
           console.log(
             JSON.stringify(
               {
                 ok,
+                packagesUnchecked: packagesUncheckedReason,
                 packages: peerReport,
                 snippets: snippetReport,
               },
@@ -316,6 +323,9 @@ export const compatCommand = (cli: CAC) => {
         } else {
           if (peerReport) {
             logPackagePeerReport({ report: peerReport });
+          }
+          if (packagesUncheckedReason) {
+            p.log.warn(`패키지 간 호환성은 검사하지 못했어요: ${packagesUncheckedReason}`);
           }
           if (snippetReport) {
             p.log.info(`스니펫 검사 대상: ${highlight(snippetReport.checkedItemKeys.join(", "))}`);
@@ -330,10 +340,14 @@ export const compatCommand = (cli: CAC) => {
                 `모든 스니펫이 현재 ${getCompatPackageNames(framework).join(", ")}와 호환돼요.`,
               );
             }
-          } else if (!isVirtualQuery && !manifest) {
-            p.log.info("검사할 스니펫이 없어요.");
           }
-          p.outro(ok ? "호환성 이슈가 없어요." : "호환성 이슈가 있어요.");
+          p.outro(
+            checkedNothing
+              ? "검사한 항목이 없어요."
+              : ok
+                ? "호환성 이슈가 없어요."
+                : "호환성 이슈가 있어요.",
+          );
         }
 
         // json 모드에서는 stdout 을 깨끗한 JSON 으로 유지하기 위해 telemetry 안내 출력을 생략해요.

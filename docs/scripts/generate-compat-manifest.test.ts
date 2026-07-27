@@ -1,8 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import type { Registry } from "../registry/schema.js";
 import {
   collectPackageVersions,
-  collectSnippets,
   compareSemver,
   extractSeedPeers,
   filterStableVersions,
@@ -59,36 +57,6 @@ describe("collectPackageVersions", () => {
         publishedAt: "2025-12-01T00:00:00.000Z",
         peers: { "@seed-design/css": ">=1.1.10" },
       },
-    ]);
-  });
-});
-
-describe("collectSnippets", () => {
-  test("registry 정의에서 스니펫별 요구 범위를 평탄화한다", () => {
-    const registry: Registry = {
-      id: "ui",
-      items: [
-        {
-          id: "app-screen",
-          snippets: [
-            {
-              path: "app-screen.tsx",
-              dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
-            },
-            { path: "app-bar.tsx" },
-          ],
-        },
-      ],
-    };
-
-    expect(collectSnippets([registry])).toEqual([
-      {
-        registryId: "ui",
-        itemId: "app-screen",
-        snippetPath: "app-screen.tsx",
-        requires: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
-      },
-      { registryId: "ui", itemId: "app-screen", snippetPath: "app-bar.tsx", requires: {} },
     ]);
   });
 });

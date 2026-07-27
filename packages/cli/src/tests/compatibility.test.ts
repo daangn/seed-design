@@ -172,7 +172,6 @@ const manifest: CompatManifest = {
       versions: [{ version: "1.1.16", publishedAt: "", peers: { "@seed-design/css": ">=1.1.16" } }],
     },
   },
-  snippets: [],
   overlays: [
     {
       kind: "backfill",

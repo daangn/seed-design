@@ -1,28 +1,35 @@
 import chalk from "chalk";
 import { promises as fs } from "fs";
 import path from "node:path";
-import { registryBreeze } from "../registry/react/registry-breeze.js";
-import { registryBlock } from "../registry/react/registry-block.js";
-import { registryLib } from "../registry/react/registry-lib.js";
-import { registryUI } from "../registry/react/registry-ui.js";
 import { compatOverlays, type CompatOverlay } from "../registry/react/compat-overlays.js";
-import type { Registry } from "../registry/schema.js";
 
 /**
- * Compat manifest의 Layer 1 — npm과 registry 정의에 박제된 호환성 선언을 수집합니다.
+ * Compat manifest — seed 패키지 간 호환성 데이터를 CLI가 읽을 수 있는 JSON으로 굽습니다.
  *
- * - 패키지 축: npm packument에서 모든 stable 버전의 peerDependencies(@seed-design/*만)와 배포일
- * - 스니펫 축: docs/registry/react/registry-*.ts 정의의 스니펫별 요구 범위
- * - Layer 2(compat-overlays.ts)는 그대로 overlays 필드에 병합되어 소비자가 declared ⊕ overlays로 계산
+ * - Layer 1(`packages`): npm packument에서 모든 stable 버전의 peerDependencies(@seed-design/*만)와 배포일
+ * - Layer 2(`overlays`): compat-overlays.ts를 그대로 실어 소비자가 declared ⊕ overlays로 계산
  *
- * 이 manifest는 1.x SemVer가 정상화되지 않은 동안의 **한시적 스냅샷**입니다.
- * 지속 자동 생성(릴리즈 파이프라인 체이닝)을 하지 않고, 필요할 때 수동으로 1회 박제합니다:
+ * ## 언제 다시 실행하나 — overlay를 편집했을 때만
+ *
+ * **버전이 배포될 때마다 돌릴 필요가 없습니다.** manifest에 없는 버전을 만나면 CLI가 설치본
+ * package.json의 peer 선언으로 대신 판정하기 때문입니다(`resolveEffectivePeers`의 declaredFallback).
+ * Layer 1도 결국 npm packument의 같은 선언이라 둘은 같은 아티팩트이고, 2.0부터는 SemVer가 지켜져
+ * 그 선언이 곧 정답입니다. Layer 1은 1.x(선언이 부정확·누락되던 시기)를 박제해 둔 아카이브이자,
+ * 설치돼 있지 않은 버전을 `compat --with`로 조회할 때 쓰는 근거입니다.
+ *
+ * 그래서 재실행 트리거는 "배포"가 아니라 "overlay 편집"입니다. compat-overlays.ts는 TS라
+ * CLI가 직접 읽을 수 없으므로, known-bad 사고나 correction, 새 breaking-boundary를 추가했다면
+ * 반드시 이 스크립트를 돌려 JSON에 반영하고 함께 커밋하세요:
  *   bun --filter @seed-design/docs generate:compat
- * 2.0 배포 이후 1.x 전체 + 2.x 초기 버전을 포함해 최종 박제를 마쳤습니다. 2.0부터는 SemVer가
- * 지켜져 npm 선언이 곧 정답이므로, 스냅샷 이후 릴리즈는 CLI가 설치본 package.json의 peer 선언으로
- * 대신 판정합니다(재생성이 필수가 아님). 새 known-bad 사고나 correction이 기록될 때만
- * overlays 수정 후 재생성하면 됩니다.
- * 네트워크(registry.npmjs.org)에 의존하므로 generate:all에는 포함하지 않습니다.
+ *
+ * ## 하지 말아야 할 것
+ *
+ * - **릴리즈 파이프라인(`version`/`release` 스크립트) 체이닝 금지.** `changeset version` 시점엔
+ *   해당 버전이 아직 npm에 없어 packument로 수집할 수 없습니다. 7423bfae에서 시도했다가
+ *   `publishedAt: null` in-tree 보충 해킹이 따라붙어 4decf7d에서 되돌렸습니다.
+ * - **generate:all 편입 금지.** 네트워크(registry.npmjs.org)에 의존해 CI/오프라인에서 깨집니다.
+ * - **registry에서 파생되는 데이터를 싣지 말 것.** registry는 계속 커지므로 박제하는 순간
+ *   낡습니다. 스니펫 요구 범위는 CLI가 라이브 `__registry__`에서 읽습니다.
  */
 
 const SEED_SCOPE = "@seed-design/";
@@ -32,8 +39,6 @@ const TARGET_PACKAGES = [
   "@seed-design/react",
   "@seed-design/stackflow",
 ] as const;
-
-const REACT_REGISTRIES: Registry[] = [registryUI, registryLib, registryBreeze, registryBlock];
 
 interface Packument {
   versions: Record<string, { peerDependencies?: Record<string, string> }>;
@@ -48,19 +53,11 @@ export interface VersionCompat {
   peers: Record<string, string>;
 }
 
-export interface SnippetCompat {
-  registryId: string;
-  itemId: string;
-  snippetPath: string;
-  requires: Record<string, string>;
-}
-
 export interface CompatManifest {
   schemaVersion: 1;
   framework: "react";
   generatedAt: string;
   packages: Record<string, { versions: VersionCompat[] }>;
-  snippets: SnippetCompat[];
   overlays: CompatOverlay[];
 }
 
@@ -94,19 +91,6 @@ export function collectPackageVersions(packument: Packument): VersionCompat[] {
     publishedAt: packument.time[version] ?? "",
     peers: extractSeedPeers(packument.versions[version].peerDependencies),
   }));
-}
-
-export function collectSnippets(registries: Registry[]): SnippetCompat[] {
-  return registries.flatMap((registry) =>
-    registry.items.flatMap((item) =>
-      item.snippets.map((snippet) => ({
-        registryId: registry.id,
-        itemId: item.id,
-        snippetPath: snippet.path,
-        requires: snippet.dependencies ?? {},
-      })),
-    ),
-  );
 }
 
 interface DeclarationEra {
@@ -177,20 +161,7 @@ function printSummary(manifest: CompatManifest) {
     console.log("");
   }
 
-  const requiresDistribution = new Map<string, number>();
-  for (const snippet of manifest.snippets) {
-    const key = JSON.stringify(snippet.requires);
-    requiresDistribution.set(key, (requiresDistribution.get(key) ?? 0) + 1);
-  }
-
-  console.log(chalk.bold(`## 스니펫 요구 범위 분포 — 총 ${manifest.snippets.length}개\n`));
-  console.log("| 요구 범위 | 스니펫 수 |");
-  console.log("|---|---|");
-  for (const [requires, count] of [...requiresDistribution.entries()].sort((a, b) => b[1] - a[1])) {
-    console.log(`| \`${requires}\` | ${count} |`);
-  }
-
-  console.log(chalk.bold(`\n## 오버레이 (Layer 2) — ${manifest.overlays.length}건\n`));
+  console.log(chalk.bold(`## 오버레이 (Layer 2) — ${manifest.overlays.length}건\n`));
 }
 
 async function main() {
@@ -205,7 +176,6 @@ async function main() {
     packages: Object.fromEntries(
       TARGET_PACKAGES.map((pkg, i) => [pkg, { versions: collectPackageVersions(packuments[i]) }]),
     ),
-    snippets: collectSnippets(REACT_REGISTRIES),
     overlays: compatOverlays,
   };
 

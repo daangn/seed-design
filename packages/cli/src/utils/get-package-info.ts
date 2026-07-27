@@ -36,12 +36,3 @@ export function getInstalledPackageJson(
     return null;
   }
 }
-
-/** node_modules에 실제로 설치된 패키지의 버전(예: `1.1.15`)을 읽어요. 미설치 시 null. */
-export function getInstalledPackageVersion(
-  packageName: string,
-  cwd = process.cwd(),
-): string | null {
-  const pkg = getInstalledPackageJson(packageName, cwd);
-  return typeof pkg?.version === "string" ? pkg.version : null;
-}

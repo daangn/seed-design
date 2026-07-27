@@ -148,14 +148,6 @@ export const compatManifestSchema = z.object({
   framework: z.string(),
   generatedAt: z.string(),
   packages: z.record(z.string(), z.object({ versions: z.array(compatVersionSchema) })),
-  snippets: z.array(
-    z.object({
-      registryId: z.string(),
-      itemId: z.string(),
-      snippetPath: z.string(),
-      requires: z.record(z.string(), z.string()),
-    }),
-  ),
   overlays: z.array(compatOverlaySchema),
 });
 

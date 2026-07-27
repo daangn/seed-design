@@ -63,6 +63,13 @@ export async function fetchCompatManifest({
   const url = `${baseUrl}/__compat__/${framework}.json`;
   const response = await fetchWithTimeout(url);
 
+  // 404는 네트워크 문제가 아니라 "그 프레임워크 매니페스트가 아직 없음"이므로 따로 안내해요.
+  if (response.status === 404)
+    throw new CliError({
+      message: `${framework} 프레임워크는 아직 호환성 매니페스트가 없어요.`,
+      hint: "패키지 간 호환성 검사는 현재 react 에서만 지원돼요.",
+    });
+
   if (!response.ok)
     throw new CliError({
       message: `호환성 매니페스트를 가져오지 못했어요: ${response.status} ${response.statusText}`,
