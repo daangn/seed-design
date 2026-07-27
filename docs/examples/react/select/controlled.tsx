@@ -1,5 +1,3 @@
-"use client";
-
 import { VStack } from "@seed-design/react";
 import * as React from "react";
 import {

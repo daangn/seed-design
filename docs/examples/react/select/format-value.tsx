@@ -1,5 +1,3 @@
-"use client";
-
 import { Box } from "@seed-design/react";
 import {
   SelectContent,
