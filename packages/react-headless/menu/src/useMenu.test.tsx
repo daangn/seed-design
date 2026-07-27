@@ -30,6 +30,21 @@ const waitForFocus = () =>
     await new Promise((resolve) => setTimeout(resolve, 50));
   });
 
+/**
+ * Stands in for a modal ancestor (Dialog, Drawer, AppScreen). Those are all thin
+ * wrappers over exactly this scope, and what the menu owes them is entry in Radix's
+ * focusScopesStack — so the raw scope is the mechanism under test, not a stand-in
+ * for one. Using it directly also keeps the ancestor free of the scroll locking,
+ * aria-hidden and presence gating those components would drag in.
+ */
+function TrappedAncestor({ children }: { children: React.ReactNode }) {
+  return (
+    <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+      {children}
+    </FocusScope>
+  );
+}
+
 function BasicMenu(props: UseMenuProps) {
   return (
     <Menu {...props}>
@@ -947,15 +962,12 @@ describe("useMenu", () => {
   });
 
   describe("focus scope participation", () => {
-    // The content renders in a portal, outside a parent FocusScope's container.
-    // Opening must register a scope on Radix's focusScopesStack so the parent trap
-    // pauses — otherwise the parent pulls focus straight back out of the menu.
-    it("pauses a trapped parent FocusScope while open", async () => {
+    it("pauses a trapped ancestor while open", async () => {
       const user = userEvent.setup();
       const { getByText, getAllByRole } = render(
-        <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+        <TrappedAncestor>
           <BasicMenu />
-        </FocusScope>,
+        </TrappedAncestor>,
       );
       await waitForPositioning();
 
@@ -964,6 +976,31 @@ describe("useMenu", () => {
       await waitForFocus();
 
       expect(getAllByRole("menuitem")[0]).toHaveFocus();
+    });
+
+    // Pause and resume are one contract: the scope has to leave the stack when the
+    // menu closes, or the ancestor stays paused forever and its trap never comes back.
+    it("lets a trapped ancestor resume once closed", async () => {
+      const user = userEvent.setup();
+      const { getByText } = render(
+        <>
+          <button type="button">Outside</button>
+          <TrappedAncestor>
+            <BasicMenu />
+          </TrappedAncestor>
+        </>,
+      );
+      await waitForPositioning();
+
+      const trigger = getByText("Open Menu");
+      trigger.focus();
+      await user.click(trigger);
+      await user.click(trigger);
+      await waitForFocus();
+
+      // With the ancestor trap active again, focus cannot settle outside its container.
+      act(() => getByText("Outside").focus());
+      expect(getByText("Outside")).not.toHaveFocus();
     });
   });
 });
