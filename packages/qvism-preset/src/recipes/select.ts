@@ -33,7 +33,6 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { prefixIcon } from "../utils/icon";
 import { breakpoints } from "../utils/breakpoint";
 
 const SELECT_TRANSFORM_ORIGIN = "--seed-select-transform-origin";
@@ -435,7 +434,7 @@ export const select = defineSlotRecipe({
 
 export const selectItem = defineSlotRecipe({
   name: "select-item",
-  slots: ["root", "body", "label", "description", "indicator"],
+  slots: ["root", "prefixIcon", "body", "label", "description", "indicator"],
   base: {
     root: {
       position: "relative",
@@ -458,10 +457,6 @@ export const selectItem = defineSlotRecipe({
       textAlign: "start",
 
       isolation: "isolate",
-
-      ...prefixIcon({
-        color: selectItemVars.base.enabled.prefixIcon.color,
-      }),
 
       "&::before": {
         content: '""',
@@ -492,10 +487,15 @@ export const selectItem = defineSlotRecipe({
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
+      },
+    },
+    prefixIcon: {
+      flexShrink: 0,
 
-        ...prefixIcon({
-          color: selectItemVars.base.disabled.prefixIcon.color,
-        }),
+      color: selectItemVars.base.enabled.prefixIcon.color,
+
+      [pseudo(disabled)]: {
+        color: selectItemVars.base.disabled.prefixIcon.color,
       },
     },
     body: {
@@ -538,10 +538,10 @@ export const selectItem = defineSlotRecipe({
           paddingBlock: selectItemVars.sizeLarge.enabled.root.paddingY,
 
           gap: selectItemVars.sizeLarge.enabled.root.gap,
-
-          ...prefixIcon({
-            size: selectItemVars.sizeLarge.enabled.prefixIcon.size,
-          }),
+        },
+        prefixIcon: {
+          width: selectItemVars.sizeLarge.enabled.prefixIcon.size,
+          height: selectItemVars.sizeLarge.enabled.prefixIcon.size,
         },
         label: {
           fontSize: selectItemVars.sizeLarge.enabled.label.fontSize,
@@ -561,10 +561,10 @@ export const selectItem = defineSlotRecipe({
           paddingBlock: selectItemVars.sizeMedium.enabled.root.paddingY,
 
           gap: selectItemVars.sizeMedium.enabled.root.gap,
-
-          ...prefixIcon({
-            size: selectItemVars.sizeMedium.enabled.prefixIcon.size,
-          }),
+        },
+        prefixIcon: {
+          width: selectItemVars.sizeMedium.enabled.prefixIcon.size,
+          height: selectItemVars.sizeMedium.enabled.prefixIcon.size,
         },
         label: {
           fontSize: selectItemVars.sizeMedium.enabled.label.fontSize,
@@ -585,18 +585,19 @@ export const selectItem = defineSlotRecipe({
 
           gap: selectItemVars.sizeLarge.enabled.root.gap,
 
-          ...prefixIcon({
-            size: selectItemVars.sizeLarge.enabled.prefixIcon.size,
-          }),
-
           [breakpoints.up("lg")]: {
             paddingBlock: selectItemVars.sizeMedium.enabled.root.paddingY,
 
             gap: selectItemVars.sizeMedium.enabled.root.gap,
+          },
+        },
+        prefixIcon: {
+          width: selectItemVars.sizeLarge.enabled.prefixIcon.size,
+          height: selectItemVars.sizeLarge.enabled.prefixIcon.size,
 
-            ...prefixIcon({
-              size: selectItemVars.sizeMedium.enabled.prefixIcon.size,
-            }),
+          [breakpoints.up("lg")]: {
+            width: selectItemVars.sizeMedium.enabled.prefixIcon.size,
+            height: selectItemVars.sizeMedium.enabled.prefixIcon.size,
           },
         },
         label: {

@@ -7,6 +7,10 @@ const selectItemSlotNames = [
     "seed-select-item__root"
   ],
   [
+    "prefixIcon",
+    "seed-select-item__prefixIcon"
+  ],
+  [
     "body",
     "seed-select-item__body"
   ],

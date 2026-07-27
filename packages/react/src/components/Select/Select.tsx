@@ -283,17 +283,15 @@ export interface SelectItemPrefixIconProps extends React.SVGAttributes<SVGSVGEle
 
 export const SelectItemPrefixIcon = React.forwardRef<SVGSVGElement, SelectItemPrefixIconProps>(
   ({ svg: svgOverride, ...otherProps }, ref) => {
-    const { icon } = useSelectItemContext();
+    const { icon, stateProps } = useSelectItemContext();
+    const classNames = useItemClassNames();
 
     const svg = svgOverride ?? icon;
     if (!svg) return null;
 
-    // The item prefix has no recipe slot: it inherits size/color from the item
-    // root's `--seed-prefix-icon-*` vars through the shared `seed-prefix-icon`
-    // class (same as the generic PrefixIcon). No stateProps — the disabled color
-    // flows down from the root, so the icon needs no `data-disabled` of its own.
     const mergedProps = mergeProps(
-      { className: "seed-prefix-icon" },
+      stateProps,
+      { className: classNames.prefixIcon },
       otherProps as React.HTMLAttributes<HTMLElement>,
     );
 

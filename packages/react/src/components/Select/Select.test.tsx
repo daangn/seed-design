@@ -1,6 +1,6 @@
 import { render, act } from "@testing-library/react";
 import { describe, expect, it, jest } from "bun:test";
-import * as React from "react";
+import type * as React from "react";
 
 import {
   SelectRoot,
@@ -259,7 +259,9 @@ describe("Select", () => {
       expect(queryByTestId("ctx-icon")).not.toBeInTheDocument();
     });
 
-    it("forwards the disabled item state to the item body and label", async () => {
+    // Every item slot carries its own `[data-disabled]` selector, so the disabled
+    // color only lands if the state reaches each element — the prefix icon included.
+    it("forwards the disabled item state to the item prefix icon, body and label", async () => {
       const { getByTestId, getByText } = render(
         <SelectRoot defaultOpen>
           <SelectTrigger aria-label="Fruit">
@@ -268,7 +270,13 @@ describe("Select", () => {
           <SelectPositioner>
             <SelectContent>
               <SelectScrollArea>
-                <SelectItem value="apple" label="Apple" disabled>
+                <SelectItem
+                  value="apple"
+                  label="Apple"
+                  prefixIcon={<svg data-testid="apple-row-icon" />}
+                  disabled
+                >
+                  <SelectItemPrefixIcon />
                   <SelectItemBody data-testid="apple-body">
                     <SelectItemLabel />
                   </SelectItemBody>
@@ -279,6 +287,7 @@ describe("Select", () => {
         </SelectRoot>,
       );
       await waitForPositioning();
+      expect(getByTestId("apple-row-icon")).toHaveAttribute("data-disabled");
       expect(getByTestId("apple-body")).toHaveAttribute("data-disabled");
       expect(getByText("Apple")).toHaveAttribute("data-disabled");
     });
