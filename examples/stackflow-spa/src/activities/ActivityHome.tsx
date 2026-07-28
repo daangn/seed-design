@@ -335,6 +335,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
         { title: "RadioGroup", onClick: () => push("ActivityRadioGroup", {}) },
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "TimePicker", onClick: () => push("ActivityTimePicker", {}) },
         { title: "AttachmentField", onClick: () => push("ActivityAttachmentField", {}) },
         {
           title: "AttachmentDisplayField",

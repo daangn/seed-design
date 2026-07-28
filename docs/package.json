@@ -95,6 +95,7 @@
     "@karrotmarket/lynx-multicolor-icon": "1.13.0",
     "@lynx-js/react": "0.117.0",
     "@seed-design/lynx-css": "0.5.0",
+    "@seed-design/react-wheel-picker": "workspace:*",
     "@storybook/builder-webpack5": "^10.1.10",
     "@storybook/nextjs": "^10.1.10",
     "@tailwindcss/postcss": "^4.0.6",

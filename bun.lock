@@ -106,6 +106,7 @@
         "@karrotmarket/lynx-multicolor-icon": "1.13.0",
         "@lynx-js/react": "0.117.0",
         "@seed-design/lynx-css": "0.5.0",
+        "@seed-design/react-wheel-picker": "workspace:*",
         "@storybook/builder-webpack5": "^10.1.10",
         "@storybook/nextjs": "^10.1.10",
         "@tailwindcss/postcss": "^4.0.6",
@@ -579,6 +580,7 @@
         "@seed-design/react-switch": "^2.0.0",
         "@seed-design/react-tabs": "^2.0.0",
         "@seed-design/react-text-field": "^2.0.0",
+        "@seed-design/react-time-picker": "workspace:*",
         "@seed-design/react-toggle": "^2.0.0",
         "@seed-design/react-tooltip": "^1.0.0",
         "@seed-design/react-wheel-picker": "workspace:*",
@@ -1243,6 +1245,22 @@
         "@seed-design/dom-utils": "^2.0.0",
         "@seed-design/react-primitive": "^2.0.0",
         "@seed-design/react-supports": "^1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/time-picker": {
+      "name": "@seed-design/react-time-picker",
+      "version": "1.0.0",
+      "dependencies": {
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -3132,6 +3150,8 @@
     "@seed-design/react-tabs": ["@seed-design/react-tabs@workspace:packages/react-headless/tabs"],
 
     "@seed-design/react-text-field": ["@seed-design/react-text-field@workspace:packages/react-headless/text-field"],
+
+    "@seed-design/react-time-picker": ["@seed-design/react-time-picker@workspace:packages/react-headless/time-picker"],
 
     "@seed-design/react-toggle": ["@seed-design/react-toggle@workspace:packages/react-headless/toggle"],
 

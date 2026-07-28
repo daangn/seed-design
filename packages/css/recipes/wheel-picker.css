@@ -15,6 +15,7 @@
 }
 .seed-wheel-picker__column {
     box-sizing: border-box;
+    width: max-content;
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -25,6 +26,9 @@
     -ms-overflow-style: none;
     touch-action: pan-y;
     padding-block: var(--seed-wheel-picker-center-offset);
+}
+.seed-wheel-picker__column[data-disabled] {
+    overflow-y: hidden;
 }
 .seed-wheel-picker__column::-webkit-scrollbar {
     display: none;

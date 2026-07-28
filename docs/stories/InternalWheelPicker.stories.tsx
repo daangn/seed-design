@@ -258,6 +258,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const CommonStory: Story = {
+  args: conditionMap.case["2개 컬럼 / 반복 없음"],
   render: (args) => (
     <VariantTable
       Component={meta.component}
