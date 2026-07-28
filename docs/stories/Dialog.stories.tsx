@@ -53,7 +53,7 @@ const DialogPreview = ({
       <DialogContent title={title} description={description} showCloseButton={showCloseButton}>
         {/* Body의 기본 스크롤 캡은 뷰포트 높이 기준이라 스냅샷이 캔버스 높이에 좌우된다.
             maxHeight를 고정하고 본문 길이로만 overflow 여부를 만들어 결정적으로 찍히게 한다. */}
-        <DialogBody maxHeight="200px">
+        <DialogBody maxHeight="120px">
           <VStack gap="x4" align="stretch">
             {BODY_LINES.slice(0, overflow ? BODY_LINES.length : 1).map((line) => (
               <Text key={line} textStyle="articleBody">
@@ -84,19 +84,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const TITLE = "이것은 매우 긴 제목 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있습니다.";
+const DESCRIPTION =
+  "이것은 매우 긴 설명 텍스트입니다. Deserunt id enim quis nisi est tempor officia.";
+
 const conditionMap = {
-  title: {
-    true: {
-      title: "이것은 매우 긴 제목 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있습니다.",
-    },
-    false: { title: undefined },
-  },
-  description: {
-    true: {
-      description:
-        "이것은 매우 긴 설명 텍스트입니다. Deserunt id enim quis nisi est tempor officia.",
-    },
-    false: { description: undefined },
+  header: {
+    title: { title: TITLE, description: undefined },
+    titleDescription: { title: TITLE, description: DESCRIPTION },
   },
   showCloseButton: {
     true: { showCloseButton: true },
