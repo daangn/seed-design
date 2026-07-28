@@ -27,3 +27,7 @@
 /docs/ai-integration/llms-txt /llms.txt 301
 /breeze/ai-integration/llms-txt /llms.txt 301
 /react/ai-integration/mcp /ai-integration/figma-mcp 301
+
+# Library Authors: 별도 섹션 → Getting Started 마지막 문서로 이동
+/react/library-authors /react/getting-started/library-authors 301
+/react/develop-with-seed /react/getting-started/library-authors 301
