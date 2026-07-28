@@ -12582,11 +12582,16 @@
     width: max-content;
     height: 100%;
     padding-block: var(--seed-wheel-picker-center-offset);
+    outline: none;
     overflow: hidden auto;
   }
 
   .seed-wheel-picker__column[data-disabled] {
     overflow-y: hidden;
+  }
+
+  .seed-wheel-picker__column[data-wheel-picker-scrolling] {
+    scroll-snap-type: none;
   }
 
   .seed-wheel-picker__column::-webkit-scrollbar {

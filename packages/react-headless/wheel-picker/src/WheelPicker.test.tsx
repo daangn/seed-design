@@ -50,6 +50,7 @@ describe("WheelPicker", () => {
   const originalMatchMedia = window.matchMedia;
   const originalRequestAnimationFrame = window.requestAnimationFrame;
   const originalCancelAnimationFrame = window.cancelAnimationFrame;
+  let animationFrameTime = 0;
 
   beforeAll(() => {
     HTMLElement.prototype.scrollTo = function scrollTo(options) {
@@ -68,7 +69,8 @@ describe("WheelPicker", () => {
       dispatchEvent: () => false,
     }));
     window.requestAnimationFrame = (callback) => {
-      callback(0);
+      animationFrameTime += 16;
+      callback(animationFrameTime);
       return 1;
     };
     window.cancelAnimationFrame = () => {};
@@ -158,7 +160,7 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
-  it("loop 모드에서 active scroll 중에는 재배치하지 않고 정착 후 중앙으로 이동한다", () => {
+  it("loop 모드에서 touch scroll 중에는 재배치하지 않고 정착 후 중앙으로 이동한다", () => {
     jest.useFakeTimers();
     const onValueChange = mock(() => {});
     const { getByRole } = render(
@@ -191,6 +193,87 @@ describe("WheelPicker", () => {
     expect(column.scrollTop).toBe(centralPhysicalIndex * 40);
     expect(column.children[centralPhysicalIndex]).toHaveAttribute("data-selected");
     expect(onValueChange).toHaveBeenCalledWith(options[logicalIndex].value);
+    jest.useRealTimers();
+  });
+
+  it("loop 모드에서 wheel 관성이 경계에 닿기 전에 동일한 논리 위치로 재배치한다", () => {
+    jest.useFakeTimers();
+    const requestAnimationFrame = window.requestAnimationFrame;
+    const cancelAnimationFrame = window.cancelAnimationFrame;
+    let frameTime = 0;
+    window.requestAnimationFrame = (callback) =>
+      setTimeout(() => {
+        frameTime += 16;
+        callback(frameTime);
+      }, 16) as unknown as number;
+    window.cancelAnimationFrame = (handle) => clearTimeout(handle);
+    const onRender = mock(() => {});
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <React.Profiler id="wheel-picker" onRender={onRender}>
+        <TestWheelPicker loop defaultValue="a" onValueChange={onValueChange} />
+      </React.Profiler>,
+    );
+    const column = getByRole("spinbutton");
+    const initialCommitCount = onRender.mock.calls.length;
+    const physicalOptionCount = getPhysicalOptionCount(options.length, 5, true);
+    const maxScrollTop = (physicalOptionCount - 1) * 40;
+
+    column.scrollTop = 50;
+    fireEvent.wheel(column, { deltaY: -160 });
+
+    expect(column).toHaveAttribute("data-wheel-picker-scrolling");
+    const recenteredNearEndIndex = Math.round(column.scrollTop / 40);
+    expect(column.scrollTop).toBeGreaterThan((physicalOptionCount / 2) * 40);
+    expect(recenteredNearEndIndex % options.length).toBe(1);
+    expect(column.children[recenteredNearEndIndex]).toHaveAttribute("data-selected");
+
+    column.scrollTop = (physicalOptionCount - 2) * 40 + 10;
+    fireEvent.wheel(column, { deltaY: 160 });
+
+    const recenteredNearStartIndex = Math.round(column.scrollTop / 40);
+    expect(column.scrollTop).toBeLessThan((physicalOptionCount / 2) * 40);
+    expect(recenteredNearStartIndex % options.length).toBe(1);
+    expect(column.children[recenteredNearStartIndex]).toHaveAttribute("data-selected");
+
+    let reachedPhysicalBoundary = false;
+    const applyWheelMomentum = (deltaY: number) => {
+      fireEvent.wheel(column, { deltaY });
+      column.scrollTop = Math.min(Math.max(column.scrollTop + deltaY, 0), maxScrollTop);
+      fireEvent.scroll(column);
+      reachedPhysicalBoundary ||= column.scrollTop <= 0 || column.scrollTop >= maxScrollTop;
+    };
+
+    column.scrollTop = getCentralPhysicalIndex(0, options.length, 5, true) * 40;
+    for (let index = 0; index < 80; index++) applyWheelMomentum(-160);
+    for (let index = 0; index < 160; index++) applyWheelMomentum(160);
+    column.scrollTop += 10;
+    fireEvent.scroll(column);
+
+    fireEvent(column, new Event("scrollend"));
+    expect(reachedPhysicalBoundary).toBe(false);
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(onRender).toHaveBeenCalledTimes(initialCommitCount);
+
+    act(() => {
+      jest.advanceTimersByTime(120);
+    });
+
+    expect(column).toHaveAttribute("data-wheel-picker-scrolling");
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    fireEvent(column, new Event("scrollend"));
+    expect(column).toHaveAttribute("data-wheel-picker-scrolling");
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    expect(column).not.toHaveAttribute("data-wheel-picker-scrolling");
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    window.requestAnimationFrame = requestAnimationFrame;
+    window.cancelAnimationFrame = cancelAnimationFrame;
     jest.useRealTimers();
   });
 

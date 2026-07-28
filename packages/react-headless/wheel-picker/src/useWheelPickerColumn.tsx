@@ -13,6 +13,8 @@ import {
 } from "./utils";
 
 const SCROLL_SETTLE_DELAY = 120;
+const WHEEL_ALIGNMENT_DURATION = 160;
+const LOOP_RECENTER_BUFFER_VIEWPORTS = 2;
 
 export interface WheelPickerOption {
   value: string;
@@ -40,6 +42,12 @@ function prefersReducedMotion() {
   return (
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
+}
+
+function getWheelDeltaInPixels(event: WheelEvent, itemSize: number, viewportSize: number) {
+  if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) return event.deltaY * itemSize;
+  if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return event.deltaY * viewportSize;
+  return event.deltaY;
 }
 
 export function useWheelPickerColumn({
@@ -95,8 +103,11 @@ export function useWheelPickerColumn({
   const columnRef = React.useRef<HTMLDivElement | null>(null);
   const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const animationFrameRef = React.useRef<number | null>(null);
+  const wheelAlignmentFrameRef = React.useRef<number | null>(null);
   const selectedElementRef = React.useRef<HTMLElement | null>(null);
   const isTouchingRef = React.useRef(false);
+  const isWheelingRef = React.useRef(false);
+  const isWheelAligningRef = React.useRef(false);
 
   const getNearestPhysicalIndex = React.useCallback(() => {
     const column = columnRef.current;
@@ -187,14 +198,85 @@ export function useWheelPickerColumn({
     visibleItemCount,
   ]);
 
+  const finishWheelSettle = React.useCallback(() => {
+    if (wheelAlignmentFrameRef.current !== null) {
+      cancelAnimationFrame(wheelAlignmentFrameRef.current);
+      wheelAlignmentFrameRef.current = null;
+    }
+    isWheelAligningRef.current = false;
+    isWheelingRef.current = false;
+    columnRef.current?.removeAttribute("data-wheel-picker-scrolling");
+    settle();
+  }, [settle]);
+
+  const alignWheelToPhysicalIndex = React.useCallback(
+    (physicalIndex: number) => {
+      const column = columnRef.current;
+      if (!column) return;
+
+      const startScrollTop = column.scrollTop;
+      const targetScrollTop = clampPhysicalIndex(physicalIndex, physicalOptionCount) * itemSize;
+      const distance = targetScrollTop - startScrollTop;
+      let startTime: number | undefined;
+      let previousTime: number | undefined;
+      let elapsed = 0;
+
+      const animate = (time: number) => {
+        if (!isWheelAligningRef.current) return;
+        startTime ??= time;
+        if (previousTime !== undefined) {
+          elapsed += Math.max(time - previousTime, 16);
+        }
+        previousTime = time;
+
+        const progress = Math.min(
+          Math.max(time - startTime, elapsed) / WHEEL_ALIGNMENT_DURATION,
+          1,
+        );
+        const easedProgress = 1 - (1 - progress) ** 3;
+        column.scrollTop = startScrollTop + distance * easedProgress;
+
+        if (progress < 1) {
+          wheelAlignmentFrameRef.current = requestAnimationFrame(animate);
+          return;
+        }
+
+        wheelAlignmentFrameRef.current = null;
+        finishWheelSettle();
+      };
+
+      wheelAlignmentFrameRef.current = requestAnimationFrame(animate);
+    },
+    [finishWheelSettle, itemSize, physicalOptionCount],
+  );
+
   const scheduleSettle = React.useCallback(() => {
     if (settleTimerRef.current) clearTimeout(settleTimerRef.current);
     if (isTouchingRef.current) {
       settleTimerRef.current = null;
       return;
     }
-    settleTimerRef.current = setTimeout(settle, SCROLL_SETTLE_DELAY);
-  }, [settle]);
+    settleTimerRef.current = setTimeout(() => {
+      const column = columnRef.current;
+      if (isWheelingRef.current && column) {
+        const nearestPhysicalIndex = getNearestPhysicalIndex();
+        const nearestScrollTop = nearestPhysicalIndex * itemSize;
+        if (
+          !prefersReducedMotion() &&
+          Math.abs(column.scrollTop - nearestScrollTop) > Number.EPSILON
+        ) {
+          isWheelAligningRef.current = true;
+          alignWheelToPhysicalIndex(nearestPhysicalIndex);
+          return;
+        }
+
+        finishWheelSettle();
+        return;
+      }
+
+      settle();
+    }, SCROLL_SETTLE_DELAY);
+  }, [alignWheelToPhysicalIndex, finishWheelSettle, getNearestPhysicalIndex, itemSize, settle]);
 
   const handleScroll = React.useCallback(() => {
     if (animationFrameRef.current === null) {
@@ -204,10 +286,69 @@ export function useWheelPickerColumn({
       });
     }
 
-    scheduleSettle();
+    if (!isWheelAligningRef.current) scheduleSettle();
   }, [getNearestPhysicalIndex, scheduleSettle, updateVisualSelection]);
 
+  const handleWheel = React.useCallback(
+    (event: WheelEvent) => {
+      const column = columnRef.current;
+      if (!column || event.deltaY === 0) return;
+
+      if (wheelAlignmentFrameRef.current !== null) {
+        cancelAnimationFrame(wheelAlignmentFrameRef.current);
+        wheelAlignmentFrameRef.current = null;
+      }
+      isWheelAligningRef.current = false;
+      if (!isWheelingRef.current) {
+        isWheelingRef.current = true;
+        column.setAttribute("data-wheel-picker-scrolling", "");
+      }
+      scheduleSettle();
+
+      if (!shouldLoop) return;
+
+      const viewportSize = visibleItemCount * itemSize;
+      const wheelDelta = getWheelDeltaInPixels(event, itemSize, viewportSize);
+      const maxScrollTop = (physicalOptionCount - 1) * itemSize;
+      const boundaryBuffer = viewportSize * LOOP_RECENTER_BUFFER_VIEWPORTS;
+      const projectedScrollTop = column.scrollTop + wheelDelta;
+      const isApproachingStart = wheelDelta < 0 && projectedScrollTop <= boundaryBuffer;
+      const isApproachingEnd =
+        wheelDelta > 0 && projectedScrollTop >= maxScrollTop - boundaryBuffer;
+
+      if (!isApproachingStart && !isApproachingEnd) return;
+
+      const cycleSize = options.length * itemSize;
+      const physicalCycleCount = physicalOptionCount / options.length;
+      const bufferCycleCount = Math.max(1, Math.ceil(boundaryBuffer / cycleSize));
+      const targetCycle = isApproachingStart
+        ? physicalCycleCount - 1 - bufferCycleCount
+        : bufferCycleCount;
+      const offsetInCycle = ((column.scrollTop % cycleSize) + cycleSize) % cycleSize;
+
+      column.scrollTop = targetCycle * cycleSize + offsetInCycle;
+      updateVisualSelection(getNearestPhysicalIndex());
+    },
+    [
+      getNearestPhysicalIndex,
+      itemSize,
+      options.length,
+      physicalOptionCount,
+      shouldLoop,
+      scheduleSettle,
+      updateVisualSelection,
+      visibleItemCount,
+    ],
+  );
+
   const handleTouchStart = React.useCallback(() => {
+    if (wheelAlignmentFrameRef.current !== null) {
+      cancelAnimationFrame(wheelAlignmentFrameRef.current);
+      wheelAlignmentFrameRef.current = null;
+    }
+    isWheelAligningRef.current = false;
+    isWheelingRef.current = false;
+    columnRef.current?.removeAttribute("data-wheel-picker-scrolling");
     isTouchingRef.current = true;
     if (settleTimerRef.current) {
       clearTimeout(settleTimerRef.current);
@@ -321,14 +462,27 @@ export function useWheelPickerColumn({
     const column = columnRef.current;
     if (!column) return;
 
-    column.addEventListener("scrollend", settle);
-    return () => column.removeEventListener("scrollend", settle);
-  }, [settle]);
+    const handleScrollEnd = () => {
+      if (isWheelAligningRef.current) return;
+      if (isWheelingRef.current) return;
+      settle();
+    };
+
+    column.addEventListener("wheel", handleWheel, { passive: true });
+    column.addEventListener("scrollend", handleScrollEnd);
+    return () => {
+      column.removeEventListener("wheel", handleWheel);
+      column.removeEventListener("scrollend", handleScrollEnd);
+    };
+  }, [handleWheel, settle]);
 
   React.useEffect(
     () => () => {
       if (settleTimerRef.current) clearTimeout(settleTimerRef.current);
       if (animationFrameRef.current !== null) cancelAnimationFrame(animationFrameRef.current);
+      if (wheelAlignmentFrameRef.current !== null) {
+        cancelAnimationFrame(wheelAlignmentFrameRef.current);
+      }
     },
     [],
   );
