@@ -163,10 +163,11 @@ export const selectTrigger = defineSlotRecipe({
       pointerEvents: "none",
 
       transform: "rotate(0deg)",
-      transition: `transform ${selectTriggerVars.base.enabled.suffixIcon.rotateDuration} ${selectTriggerVars.base.enabled.suffixIcon.rotateTimingFunction}`,
+      transition: `transform ${selectTriggerVars.base.enabled.suffixIcon.closeRotateDuration} ${selectTriggerVars.base.enabled.suffixIcon.closeRotateTimingFunction}`,
 
       [pseudo(open)]: {
         transform: "rotate(180deg)",
+        transition: `transform ${selectTriggerVars.base.enabled.suffixIcon.openRotateDuration} ${selectTriggerVars.base.enabled.suffixIcon.openRotateTimingFunction}`,
       },
 
       [pseudo("[data-disabled]")]: {

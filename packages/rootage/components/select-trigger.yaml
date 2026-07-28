@@ -63,9 +63,13 @@ data:
             type: dimension
           color:
             type: color
-          rotateDuration:
+          openRotateDuration:
             type: duration
-          rotateTimingFunction:
+          openRotateTimingFunction:
+            type: cubicBezier
+          closeRotateDuration:
+            type: duration
+          closeRotateTimingFunction:
             type: cubicBezier
     variants:
       size:
@@ -102,8 +106,10 @@ data:
 
         suffixIcon:
           color: $color.fg.neutral-muted
-          rotateDuration: $duration.d6
-          rotateTimingFunction: $timing-function.easing
+          openRotateDuration: $duration.d3
+          openRotateTimingFunction: $timing-function.enter
+          closeRotateDuration: $duration.d2
+          closeRotateTimingFunction: $timing-function.exit
 
       pressed:
         root:

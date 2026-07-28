@@ -113,12 +113,13 @@
   .seed-select-trigger__suffixIcon {
     color: var(--seed-color-fg-neutral-muted);
     pointer-events: none;
-    transition: transform var(--seed-duration-d6) var(--seed-timing-function-easing);
+    transition: transform var(--seed-duration-d2) var(--seed-timing-function-exit);
     flex-shrink: 0;
     transform: rotate(0);
   }
 
   .seed-select-trigger__suffixIcon:is([data-state="open"], [data-open]) {
+    transition: transform var(--seed-duration-d3) var(--seed-timing-function-enter);
     transform: rotate(180deg);
   }
 

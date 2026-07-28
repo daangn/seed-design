@@ -23,8 +23,10 @@ export const vars = {
       },
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral-muted)",
-        "rotateDuration": "var(--seed-duration-d6)",
-        "rotateTimingFunction": "var(--seed-timing-function-easing)"
+        "openRotateDuration": "var(--seed-duration-d3)",
+        "openRotateTimingFunction": "var(--seed-timing-function-enter)",
+        "closeRotateDuration": "var(--seed-duration-d2)",
+        "closeRotateTimingFunction": "var(--seed-timing-function-exit)"
       }
     },
     "pressed": {

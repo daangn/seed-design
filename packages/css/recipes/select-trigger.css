@@ -99,10 +99,11 @@
     color: var(--seed-color-fg-neutral-muted);
     pointer-events: none;
     transform: rotate(0deg);
-    transition: transform var(--seed-duration-d6) var(--seed-timing-function-easing);
+    transition: transform var(--seed-duration-d2) var(--seed-timing-function-exit);
 }
 .seed-select-trigger__suffixIcon:is([data-state="open"], [data-open]) {
     transform: rotate(180deg);
+    transition: transform var(--seed-duration-d3) var(--seed-timing-function-enter);
 }
 .seed-select-trigger__suffixIcon[data-disabled] {
     color: var(--seed-color-fg-disabled);

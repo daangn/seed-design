@@ -97,10 +97,16 @@
             "color": {
               "type": "color"
             },
-            "rotateDuration": {
+            "openRotateDuration": {
               "type": "duration"
             },
-            "rotateTimingFunction": {
+            "openRotateTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "closeRotateDuration": {
+              "type": "duration"
+            },
+            "closeRotateTimingFunction": {
               "type": "cubicBezier"
             }
           }
@@ -196,13 +202,21 @@
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
                 },
-                "rotateDuration": {
+                "openRotateDuration": {
                   "type": "duration",
-                  "value": "$duration.d6"
+                  "value": "$duration.d3"
                 },
-                "rotateTimingFunction": {
+                "openRotateTimingFunction": {
                   "type": "cubicBezier",
-                  "value": "$timing-function.easing"
+                  "value": "$timing-function.enter"
+                },
+                "closeRotateDuration": {
+                  "type": "duration",
+                  "value": "$duration.d2"
+                },
+                "closeRotateTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.exit"
                 }
               }
             }
