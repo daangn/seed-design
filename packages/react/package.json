@@ -6,6 +6,7 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/react"
   },
+  "license": "Apache-2.0",
   "sideEffects": [
     "*.css"
   ],
@@ -27,7 +28,9 @@
   "types": "./lib/index.d.ts",
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",

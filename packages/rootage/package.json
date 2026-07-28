@@ -6,6 +6,7 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/rootage"
   },
+  "license": "Apache-2.0",
   "scripts": {
     "rootage:generate": "bun rootage json-schema ./components && bun rootage json ./__generated__"
   },
@@ -13,7 +14,9 @@
   "files": [
     "*.yaml",
     "components/*.yaml",
-    "__generated__/**/*.json"
+    "__generated__/**/*.json",
+    "LICENSE",
+    "NOTICE"
   ],
   "exports": {
     ".": "./package.json",
