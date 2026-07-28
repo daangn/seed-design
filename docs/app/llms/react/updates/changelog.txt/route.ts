@@ -1,41 +1,23 @@
 import { baseUrl } from "@/app/metadata";
-import {
-  buildLookupFromSources,
-  groupEntriesByVersion,
-  renderVersionMarkdown,
-} from "@/lib/changelog-llms";
-import type { ChangelogSource } from "@/lib/parse-changelog";
-import { loadChangelogSources, splitVersionSections } from "@/lib/parse-changelog";
+import { getChangelogLlmData, type ChangelogLlmData } from "@/lib/changelog-llms";
 
 export const revalidate = false;
 
 const CHANGELOG_SOURCE_URL = "https://github.com/daangn/seed-design/tree/dev/packages";
 
-async function buildBody(sources: ChangelogSource[]): Promise<string> {
-  const { entries, lookup } = await buildLookupFromSources(sources);
-  const sorted = [...sources].sort((a, b) => a.packageName.localeCompare(b.packageName));
+function buildBody(data: ChangelogLlmData): string {
+  const sorted = [...data.packages.values()].sort((a, b) =>
+    a.packageName.localeCompare(b.packageName),
+  );
 
   return sorted
-    .map(({ packageName, raw }) => {
-      const versions = splitVersionSections(raw);
-      const versionGroups = groupEntriesByVersion(entries, packageName);
-
-      const versionBlocks = versions
-        .map(({ version }) => {
-          const group = versionGroups.get(version);
-          if (!group) return `## ${version}\n\n(no entries)`;
-          return renderVersionMarkdown(packageName, version, group, lookup);
-        })
-        .join("\n\n");
-
-      return `## ${packageName}\n\n${versionBlocks}`;
-    })
+    .map(({ packageName, renderedBlocks }) => `## ${packageName}\n\n${renderedBlocks.join("\n\n")}`)
     .join("\n\n---\n\n");
 }
 
 export async function GET() {
-  const sources = await loadChangelogSources(process.cwd());
-  const body = await buildBody(sources);
+  const data = await getChangelogLlmData();
+  const body = buildBody(data);
 
   const pageUrl = new URL("/react/updates/changelog", baseUrl).toString();
 
