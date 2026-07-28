@@ -7,9 +7,6 @@ const config = {
   output: "export",
   reactStrictMode: true,
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
-  experimental: {
-    cpus: 4,
-  },
   serverExternalPackages: [
     "ts-morph",
     "typescript",
