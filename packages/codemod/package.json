@@ -6,12 +6,10 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/codemod"
   },
-  "license": "Apache-2.0",
+  "license": "MIT",
   "bin": "./bin/index.cjs",
   "files": [
-    "bin",
-    "LICENSE",
-    "NOTICE"
+    "bin"
   ],
   "scripts": {
     "dev": "bun ./dev.mjs",

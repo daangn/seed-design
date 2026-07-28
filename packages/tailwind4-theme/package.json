@@ -10,9 +10,7 @@
   },
   "files": [
     "index.css",
-    "README.md",
-    "LICENSE",
-    "NOTICE"
+    "README.md"
   ],
   "scripts": {
     "rootage:generate": "rootage tailwind4 ./ --prefix seed"
@@ -28,7 +26,7 @@
     "seed-design",
     "design-system"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

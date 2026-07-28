@@ -8,14 +8,12 @@
     "directory": "packages/docs-mcp"
   },
   "homepage": "https://seed-design.io/",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "type": "module",
   "sideEffects": false,
   "files": [
     "dist",
-    "src",
-    "LICENSE",
-    "NOTICE"
+    "src"
   ],
   "bin": {
     "seed-docs-mcp": "./dist/stdio.js"

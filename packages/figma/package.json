@@ -7,7 +7,7 @@
     "directory": "packages/figma"
   },
   "author": "Asher <asher@daangn.com>",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
@@ -30,9 +30,7 @@
   "sideEffects": false,
   "files": [
     "lib",
-    "src",
-    "LICENSE",
-    "NOTICE"
+    "src"
   ],
   "scripts": {
     "clean": "rm -rf lib",

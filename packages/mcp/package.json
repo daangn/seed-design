@@ -7,16 +7,14 @@
     "directory": "packages/mcp"
   },
   "author": "Asher <asher@daangn.com>",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "type": "module",
   "sideEffects": false,
   "files": [
     "bin",
     "dist",
     "src",
-    "package.json",
-    "LICENSE",
-    "NOTICE"
+    "package.json"
   ],
   "bin": "./bin/index.mjs",
   "exports": {
