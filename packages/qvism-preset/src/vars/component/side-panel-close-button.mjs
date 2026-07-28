@@ -18,9 +18,6 @@ export const vars = {
     "pressed": {
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     }
   }

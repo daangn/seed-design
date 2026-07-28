@@ -114,12 +114,6 @@
                   "type": "color",
                   "value": "$color.bg.transparent-pressed"
                 }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
               }
             }
           }
