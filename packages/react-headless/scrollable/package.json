@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-scrollable",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.0.1",
-    "@seed-design/dom-utils": "^2.0.0",
-    "@seed-design/react-primitive": "^2.0.0"
+    "@seed-design/dom-utils": "^2.0.1",
+    "@seed-design/react-primitive": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

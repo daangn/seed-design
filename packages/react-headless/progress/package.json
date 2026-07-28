@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-progress",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,8 +30,8 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/dom-utils": "^2.0.0",
-    "@seed-design/react-primitive": "^2.0.0"
+    "@seed-design/dom-utils": "^2.0.1",
+    "@seed-design/react-primitive": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",
