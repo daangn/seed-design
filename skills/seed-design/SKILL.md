@@ -1,6 +1,6 @@
 ---
 name: seed-design
-description: SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs), 스니펫 버전 호환성, 업그레이드 진단까지 커버. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업" 같은 질문을 하면 반드시 이 스킬을 로드한다.
+description: SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs/doctor), 스니펫 버전 호환성, 사용 상태 진단과 업그레이드 진단까지 커버. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업" 같은 질문을 하면 반드시 이 스킬을 로드한다.
 user-invocable: true
 argument-hint: "[질문 또는 주제]"
 ---
@@ -41,6 +41,7 @@ argument-hint: "[질문 또는 주제]"
 | CLI 명령어 관련 (init, add, docs 등) | `references/usage.md` |
 | 스니펫 버전 맞추기/파일 충돌 | `references/migration.md` |
 | 버전 업그레이드·호환 진단 (react↔css, 마이그레이션 경로) | `references/upgrade.md` |
+| 사용 상태 진단 ("잘 쓰고 있나?", "뭘 고쳐야 하나?", 코드 리뷰) | `references/doctor.md` |
 
 사용자가 명시적으로 주제를 말한 경우 프로젝트 분석을 건너뛰고 해당 시나리오로 직행해도 됩니다.
 

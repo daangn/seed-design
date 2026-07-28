@@ -4,6 +4,7 @@ import { addCommand } from "@/src/commands/add";
 import { addAllCommand } from "@/src/commands/add-all";
 import { compatCommand } from "@/src/commands/compat";
 import { docsCommand } from "@/src/commands/docs";
+import { doctorCommand } from "@/src/commands/doctor";
 import { initCommand } from "@/src/commands/init";
 
 import { getPackageInfo } from "@/src/utils/get-package-info";
@@ -22,6 +23,7 @@ async function main() {
   addAllCommand(CLI);
   compatCommand(CLI);
   docsCommand(CLI);
+  doctorCommand(CLI);
   initCommand(CLI);
 
   CLI.version(packageInfo.version || "1.0.0", "-v, --version");

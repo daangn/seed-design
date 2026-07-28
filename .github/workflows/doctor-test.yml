@@ -1,0 +1,27 @@
+name: Test Doctor
+
+on:
+  push:
+    paths:
+      - "packages/doctor-core/**/*"
+      - "packages/doctor-preset/**/*"
+      - ".github/workflows/doctor-test.yml"
+      - ".github/actions/setup/action.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+
+      - name: Build doctor packages
+        run: bun --filter @seed-design/doctor-core build && bun --filter @seed-design/doctor-preset build
+
+      - name: Run tests
+        run: bun test packages/doctor-core packages/doctor-preset
