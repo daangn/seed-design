@@ -142,7 +142,7 @@ npx @seed-design/cli@latest add ui:text-field
 
 자소 단위로 쪼개진 `value`에 관한 정보를 `onValueChange` 콜백에서 `graphemes`와 `slicedGraphemes`로 제공합니다.
 
-자소 분리는 [unicode-segmenter](https://github.com/cometkim/unicode-segmenter)를 통해 이루어집니다.
+자소 분리는 브라우저 내장 [`Intl.Segmenter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter)를 통해 이루어집니다.
 
 <ComponentExample name="react/text-field-textarea/grapheme-count-controlled">
   ```json doc-gen:file
