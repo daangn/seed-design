@@ -24,9 +24,9 @@ export const vars = {
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral-muted)",
         "openRotateDuration": "var(--seed-duration-d3)",
-        "openRotateTimingFunction": "var(--seed-timing-function-enter)",
+        "openRotateTimingFunction": "var(--seed-timing-function-easing)",
         "closeRotateDuration": "var(--seed-duration-d2)",
-        "closeRotateTimingFunction": "var(--seed-timing-function-exit)"
+        "closeRotateTimingFunction": "var(--seed-timing-function-easing)"
       }
     },
     "pressed": {

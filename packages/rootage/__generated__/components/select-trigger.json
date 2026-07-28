@@ -208,7 +208,7 @@
                 },
                 "openRotateTimingFunction": {
                   "type": "cubicBezier",
-                  "value": "$timing-function.enter"
+                  "value": "$timing-function.easing"
                 },
                 "closeRotateDuration": {
                   "type": "duration",
@@ -216,7 +216,7 @@
                 },
                 "closeRotateTimingFunction": {
                   "type": "cubicBezier",
-                  "value": "$timing-function.exit"
+                  "value": "$timing-function.easing"
                 }
               }
             }

@@ -107,9 +107,9 @@ data:
         suffixIcon:
           color: $color.fg.neutral-muted
           openRotateDuration: $duration.d3
-          openRotateTimingFunction: $timing-function.enter
+          openRotateTimingFunction: $timing-function.easing
           closeRotateDuration: $duration.d2
-          closeRotateTimingFunction: $timing-function.exit
+          closeRotateTimingFunction: $timing-function.easing
 
       pressed:
         root:
