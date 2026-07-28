@@ -63,6 +63,7 @@ export const config = defineConfig({
     { route: "/radio-group", name: "ActivityRadioGroup" },
     { route: "/reaction-button", name: "ActivityReactionButton" },
     { route: "/segmented-control", name: "ActivitySegmentedControl" },
+    { route: "/select", name: "ActivitySelect" },
     { route: "/switch", name: "ActivitySwitch" },
     { route: "/side-navigation", name: "ActivitySideNavigation" },
     { route: "/side-panel", name: "ActivitySidePanel" },

@@ -574,6 +574,7 @@
         "@seed-design/react-quantity-picker": "^1.0.0",
         "@seed-design/react-radio-group": "^2.0.0",
         "@seed-design/react-segmented-control": "^2.0.1",
+        "@seed-design/react-select": "^0.0.0",
         "@seed-design/react-side-navigation": "^1.0.0",
         "@seed-design/react-slider": "^2.0.0",
         "@seed-design/react-snackbar": "^2.0.0",
@@ -1126,6 +1127,30 @@
         "@seed-design/dom-utils": "^2.0.0",
         "@seed-design/react-primitive": "^2.0.0",
         "@seed-design/react-supports": "^1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/select": {
+      "name": "@seed-design/react-select",
+      "version": "0.0.0",
+      "dependencies": {
+        "@floating-ui/react": "^0.27.0",
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-focus-scope": "^1.1.8",
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
+        "@radix-ui/react-use-layout-effect": "^1.1.1",
+        "@seed-design/dom-utils": "^2.0.0",
+        "@seed-design/react-dismissible-layer": "^1.0.0",
+        "@seed-design/react-primitive": "^2.0.0",
+        "@seed-design/react-use-controllable-state": "^2.0.0",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -3118,6 +3143,8 @@
     "@seed-design/react-scrollable": ["@seed-design/react-scrollable@workspace:packages/react-headless/scrollable"],
 
     "@seed-design/react-segmented-control": ["@seed-design/react-segmented-control@workspace:packages/react-headless/segmented-control"],
+
+    "@seed-design/react-select": ["@seed-design/react-select@workspace:packages/react-headless/select"],
 
     "@seed-design/react-side-navigation": ["@seed-design/react-side-navigation@workspace:packages/react-headless/side-navigation"],
 

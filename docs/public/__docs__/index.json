@@ -641,6 +641,19 @@
               ]
             },
             {
+              "id": "select",
+              "title": "Select",
+              "description": "트리거를 눌러 열리는 목록에서 값을 선택하는 컴포넌트입니다.",
+              "docUrl": "/react/components/select",
+              "snippetKey": "react/ui:select",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "select.tsx"
+                }
+              ]
+            },
+            {
               "id": "select-box",
               "title": "Select Box",
               "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
