@@ -32,8 +32,8 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@seed-design/cli": "1.5.1",
-    "@seed-design/vite-plugin": "^2.0.0",
+    "@seed-design/cli": "1.6.0",
+    "@seed-design/vite-plugin": "^2.1.0",
     "@types/node": "^25.0.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

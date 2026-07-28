@@ -57,7 +57,7 @@
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "2.0.2",
-        "@seed-design/tailwind4-theme": "2.2.0",
+        "@seed-design/tailwind4-theme": "2.3.0",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -344,7 +344,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.5.1",
+      "version": "1.6.0",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
@@ -381,7 +381,7 @@
     },
     "packages/codemod": {
       "name": "@seed-design/codemod",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "bin": "./bin/index.cjs",
       "dependencies": {
         "@seed-design/migration-index": "^2.0.0",
@@ -427,7 +427,7 @@
     },
     "packages/docs-mcp": {
       "name": "@seed-design/docs-mcp",
-      "version": "0.5.4",
+      "version": "0.6.0",
       "bin": {
         "seed-docs-mcp": "./dist/stdio.js",
       },
@@ -445,7 +445,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "dependencies": {
         "change-case": "^5.4.4",
         "ts-pattern": "^5.7.0",
@@ -504,7 +504,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.25.3",
@@ -1358,7 +1358,7 @@
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "devDependencies": {
         "@rsbuild/core": "^2.0.0",
         "@seed-design/css": "^2.0.0",
@@ -1370,7 +1370,7 @@
     },
     "packages/rsbuild-plugin-lynx-icon": {
       "name": "@seed-design/rsbuild-plugin-lynx-icon",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "sharp": "^0.34.5",
       },
@@ -1423,7 +1423,7 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "devDependencies": {
         "tailwindcss": "3",
       },
@@ -1434,7 +1434,7 @@
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "devDependencies": {
         "tailwindcss": "^4.1.4",
       },
@@ -1461,7 +1461,7 @@
     },
     "packages/vite-plugin": {
       "name": "@seed-design/vite-plugin",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "devDependencies": {
         "@seed-design/css": "^2.0.0",
         "vite": "^8.0.0",
@@ -1473,7 +1473,7 @@
     },
     "packages/webpack-plugin": {
       "name": "@seed-design/webpack-plugin",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "devDependencies": {
         "@rspack/core": "^2.0.0",
         "@seed-design/css": "^2.0.0",
