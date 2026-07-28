@@ -4,6 +4,7 @@ import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { mdxComponents } from "@/components/mdx-components";
 import { getComponentStatus } from "@/lib/rootage";
+import { findTabbedFolder, tabbedFolderLabel } from "@/lib/tabbed";
 import {
   buildDocsPageJsonLd,
   buildDocsPageMetadata,
@@ -25,8 +26,15 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     deprecated: page.data.deprecated,
   });
 
-  const heading = page.data.heading ?? page.data.title;
+  // 탭형 subject 폴더는 헤더(title/description)를 meta.json에서 온 고정 값으로 쓴다
+  // — 탭을 바꿔도 subject가 유지되도록(foundations 라우트와 같은 규칙).
+  const tabbedFolder = findTabbedFolder(reactSource.pageTree.children, page.url);
+  const heading =
+    (tabbedFolder ? tabbedFolderLabel(tabbedFolder) : page.data.heading) ?? page.data.title;
   const displayTitle = deprecatedTitle(heading, deprecated);
+  const displayDescription = tabbedFolder
+    ? (tabbedFolder.description ?? page.data.description)
+    : page.data.description;
 
   const markdownUrl = getLLMMarkdownUrl("react", page.slugs);
   const isChangelog = page.slugs.join("/") === "updates/changelog";
@@ -36,7 +44,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     <DocsPageRenderer
       jsonLd={buildDocsPageJsonLd(page)}
       title={displayTitle}
-      description={page.data.description}
+      description={displayDescription}
       coverImage={
         cover
           ? {
@@ -74,10 +82,15 @@ export async function generateMetadata(props: {
 
   const { deprecated } = await getComponentStatus(params, { deprecated: page.data.deprecated });
 
+  // 페이지 h1과 동일한 파생(탭형이면 폴더 이름) — og:title이 탭 전환에도 subject를 유지.
+  const tabbedFolder = findTabbedFolder(reactSource.pageTree.children, page.url);
+
   return buildDocsPageMetadata({
     url: page.url,
     title: page.data.title,
-    heading: page.data.heading,
+    heading:
+      page.data.heading ??
+      (tabbedFolder ? `${tabbedFolderLabel(tabbedFolder)} — ${page.data.title}` : undefined),
     description: page.data.description,
     coverImage: page.data.coverImage,
     deprecated,
