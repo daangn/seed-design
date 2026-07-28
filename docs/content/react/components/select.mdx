@@ -1,0 +1,345 @@
+---
+title: Select
+description: 트리거를 눌러 열리는 목록에서 값을 선택하는 컴포넌트입니다.
+---
+
+<ComponentExample name="react/select/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:select
+```
+
+<ManualInstallation name="select" />
+
+## Usage
+
+```tsx
+import {
+  SelectRoot,
+  SelectTrigger,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+} from "seed-design/ui/select";
+```
+
+```tsx
+<SelectRoot defaultValue={["apple"]}>
+  <SelectTrigger aria-label="과일" placeholder="과일을 선택하세요" />
+  <SelectContent>
+    <SelectGroup label="국산">
+      <SelectItem value="apple" label="사과" />
+      <SelectItem value="pear" label="배" />
+    </SelectGroup>
+    <SelectGroup label="수입산">
+      <SelectItem value="banana" label="바나나" />
+    </SelectGroup>
+  </SelectContent>
+</SelectRoot>
+```
+
+- `SelectRoot`: 선택 값(`value`)과 열림 상태를 관리합니다.
+- `SelectTrigger`: 선택된 값 또는 placeholder를 표시하며, 클릭 시 목록을 엽니다.
+- `SelectContent`: 옵션 목록을 감싸는 플로팅 컨테이너입니다.
+- `SelectGroup`: 관련된 옵션들을 그룹으로 묶습니다. 모든 `SelectItem`은 `SelectGroup` 안에 있어야 합니다. `label`로 그룹의 제목을 표시할 수 있습니다.
+- `SelectItem`: 개별 옵션입니다. `value`가 필요하며, 선택되면 체크마크가 표시됩니다.
+
+## Props
+
+### `SelectRoot`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectRootProps"
+/>
+
+### `SelectTrigger`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectTriggerProps"
+/>
+
+### `SelectContent`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectContentProps"
+/>
+
+### `SelectGroup`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectGroupProps"
+/>
+
+### `SelectItem`
+
+<react-type-table
+  path="./registry/react/ui/select.tsx"
+  name="SelectItemProps"
+/>
+
+## Examples
+
+### Size
+
+`size`로 트리거와 목록의 크기를 정합니다. (default: `large`)
+
+`responsive` 사용 시 화면 너비에 따라 size가 자동으로 전환됩니다.
+
+<ComponentExample name="react/select/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Groups
+
+`SelectGroup`으로 옵션을 묶고, `label`로 그룹의 제목을 표시합니다. `SelectGroup`의 개수와 관계없이 모든 `SelectItem`은 `SelectGroup` 안에 있어야 합니다.
+
+그룹이 두 개 이상이면 그룹 사이에 구분선이 자동으로 그려집니다.
+
+<ComponentExample name="react/select/groups">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/groups.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Multiple Selection
+
+`SelectRoot`에 `multiple`을 지정하면 여러 옵션을 선택할 수 있습니다. 옵션을 선택해도 목록이 닫히지 않으며, 이미 선택된 옵션을 다시 누르면 선택이 해제됩니다.
+
+트리거에는 선택된 옵션들의 `textValue`가 `", "`로 이어져 표시됩니다. 이 문구는 [Custom Value Format](#custom-value-format)으로 바꿀 수 있습니다.
+
+<ComponentExample name="react/select/multiple">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/multiple.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Description
+
+`SelectItem`의 `description` prop으로 옵션에 부가 설명을 추가합니다.
+
+<ComponentExample name="react/select/with-description">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/with-description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Prefix Icon
+
+`SelectItem`의 `prefixIcon` prop으로 옵션에 아이콘을 표시합니다.
+
+1개의 옵션이 선택된 경우 해당 옵션의 아이콘이 트리거의 prefix 아이콘으로 표시됩니다. 선택된 옵션이 없거나, 선택된 옵션에 아이콘이 없거나, 여러 옵션이 선택된 경우 트리거에는 `SelectTrigger`에 지정한 `prefixIcon`이 표시됩니다.
+
+<ComponentExample name="react/select/with-prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/with-prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Item Label
+
+`SelectItem`의 `label`에는 ReactNode를 넘길 수 있습니다. 이 노드는 목록의 옵션에만 렌더링됩니다.
+
+`SelectItem`의 `label`로 string이 아닌 ReactNode를 지정하는 경우 트리거에는 `SelectItem`의 `textValue`가 표시됩니다. `textValue`는 `label`이 string이면 `label`, 아니면 `value`입니다.
+
+따라서, `label`이 string이 아닌 경우 `textValue`를 함께 지정하는 것을 권장합니다. `textValue`는 트리거에 표시되는 문구, 키보드로 타이핑해 옵션을 찾을 때 매칭되는 문자열(typeahead), 폼 제출용 native `<option>`의 텍스트로 쓰입니다. `label`로 string이 아닌 ReactNode를 전달하면서 `textValue`를 지정하지 않는 경우 이 값들은 모두 기본적으로 `value`로 설정되며, 개발 모드에서 경고가 출력됩니다.
+
+typeahead 문자열만 변경하고자 하는 경우 `typeaheadLabel`을 사용하세요.
+
+<ComponentExample name="react/select/custom-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/custom-label.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+`SelectItem`의 `disabled`로 특정 옵션을, `SelectRoot`의 `disabled`로 Select 전체를 비활성화합니다.
+
+<ComponentExample name="react/select/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Long List
+
+옵션이 많으면 목록 안에서 스크롤됩니다. 목록의 최대 높이는 지정된 최대 높이와 트리거 주변에 남은 화면 공간 중 더 작은 값으로 정해지고, 노치와 홈 인디케이터 영역을 피해 배치됩니다.
+
+목록은 현재 선택된 옵션이 보이는 위치로 스크롤된 상태에서 열립니다.
+
+<ComponentExample name="react/select/long-list">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/long-list.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Placement
+
+`SelectRoot`의 `placement` prop으로 목록의 위치를 설정합니다. 기본값은 `"bottom"`입니다.
+
+<ComponentExample name="react/select/placement">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/placement.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Listening to Value Changes
+
+`value`와 `onValueChange`로 선택 값을 제어할 수 있습니다.
+
+<ComponentExample name="react/select/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled Open State
+
+`open`과 `onOpenChange`로 목록의 열림 상태를 제어할 수 있습니다. 초기 상태만 지정하려면 `defaultOpen`을 사용하세요.
+
+목록이 열리면 포커스가 목록으로 이동하고, 닫히면 트리거로 되돌아옵니다.
+
+<ComponentExample name="react/select/controlled-open">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/controlled-open.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `SelectTrigger` 클릭 또는 `SelectTrigger`에 포커스된 상태에서 <kbd>↓</kbd>, <kbd>↑</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd> 키 사용
+
+**닫힐 때** (`open: false`)
+
+- `"trigger"`: 목록이 열린 상태에서 `SelectTrigger` 클릭
+- `"itemSelect"`: 옵션 선택
+  - `multiple`인 경우 옵션을 선택해도 목록이 닫히지 않으므로 발생하지 않습니다.
+- `"keyboardClose"`: 하이라이트된 옵션이 없는 상태에서 <kbd>Enter</kbd> 또는 <kbd>Space</kbd> 키 사용
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+- `"focusOut"`: <kbd>Tab</kbd> 등으로 포커스가 목록 밖으로 이동
+- `"cascadeDismiss"`: 상위 레이어 닫힘으로 인한 연쇄 닫힘
+
+<ComponentExample name="react/select/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Value Format
+
+`SelectRoot`의 `formatValue` prop으로 트리거에 표시되는 선택 값을 커스텀합니다. 기본적으로는, 선택된 옵션들의 `textValue`를 `", "`로 join하여 표시합니다. `textValue`의 기본값은 `label`이 string이면 `label`, 아닌 경우 `value`입니다.
+
+`formatValue`가 받는 각 항목에는 `label`도 담겨 있으므로, ReactNode `label`을 트리거에 렌더링하고 싶다면 여기서 꺼내 쓰면 됩니다.
+
+```tsx
+// 선택된 옵션 중 첫 번째 옵션의 label만 트리거에 표시
+<SelectRoot formatValue={(items) => items[0]?.label} />
+```
+
+[`Intl.ListFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat)을 사용하면 locale에 맞는 접속사로 목록을 조합할 수 있습니다.
+
+<ComponentExample name="react/select/format-value">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/format-value.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Field Integration
+
+`label`, `description`, `errorMessage` 등의 Field 관련 prop을 사용할 수 있습니다.
+
+<ComponentExample name="react/select/field">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/field.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Form Integration
+
+`SelectRoot`가 내부에서 렌더링하는 숨겨진 native `<select>`를 통해 폼 제출에 참여할 수 있습니다.
+
+<ComponentExample name="react/select/form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### React Hook Form
+
+`value`, `onValueChange`, `invalid`, `errorMessage`를 연결하면 [React Hook Form](https://react-hook-form.com/)의 `useController`로 검증 상태를 제어할 수 있습니다.
+
+<ComponentExample name="react/select/react-hook-form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/react-hook-form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

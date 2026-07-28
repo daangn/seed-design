@@ -63,6 +63,7 @@ export * from "./ResponsivePair";
 export * from "./ResponsiveSidePanel";
 export * from "./ScrollFog";
 export * from "./SegmentedControl";
+export * from "./Select";
 export * from "./SelectBox";
 export * from "./SideNavigation";
 export * from "./SidePanel";
