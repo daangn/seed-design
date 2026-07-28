@@ -7,13 +7,15 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/cli"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bin": {
     "seed-design": "./bin/index.mjs"
   },
   "files": [
     "bin",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "engines": {
     "node": ">=20.19.0"
