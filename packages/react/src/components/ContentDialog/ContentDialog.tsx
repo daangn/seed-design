@@ -195,9 +195,7 @@ export const ContentDialogFooter = withContext<HTMLDivElement, ContentDialogFoot
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogActionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+export interface ContentDialogActionProps extends DialogPrimitive.CloseButtonProps {}
 
 export const ContentDialogAction = DialogPrimitive.CloseButton;
 
