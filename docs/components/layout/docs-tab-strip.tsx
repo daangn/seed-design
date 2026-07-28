@@ -32,7 +32,7 @@ export function DocsTabStrip() {
   const { root } = useTreeContext();
   const pathname = usePathname();
   const router = useRouter();
-  const navRef = useRef<HTMLElement>(null);
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   const folder = findTabbedFolder(root.children, pathname);
   if (!folder?.index) return null;
@@ -46,36 +46,40 @@ export function DocsTabStrip() {
   const label = typeof folder.name === "string" ? folder.name : "Section";
 
   return (
-    <nav
-      ref={navRef}
-      aria-label={`${label} tabs`}
-      // 전 사이즈 sticky — 탭형 페이지에선 메뉴형 ToC 팝오버를 끄고(page-renderer) 탭이 그 자리를
-      // 차지한다. bg-fd-background: sticky 시 스크롤 본문이 뒤로 비치지 않게. 사이트 헤더(z-40) 아래.
-      // scroll-mt: 탭 클릭 시 scrollIntoView가 이 스트립을 sticky 시작 위치(--fd-docs-row-2)에 안착.
-      className="not-prose mb-4 bg-fd-background sticky top-(--fd-docs-row-2) z-30 scroll-mt-(--fd-docs-row-2)"
-    >
-      <TabsRoot
-        value={pathname}
-        onValueChange={(url) => {
-          if (url === pathname) return;
-          // scroll:false로 기본 top 리셋을 막고(고정 헤더라 위치 보존), 스트립을 sticky 시작점으로
-          // 부드럽게 스크롤 → 고정 헤더는 위로 사라지고 새 탭 본문이 바로 보인다.
-          router.push(url, { scroll: false });
-          requestAnimationFrame(() => {
-            navRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-          });
-        }}
-        triggerLayout="hug"
-        style={TAB_ROOT_STYLE}
+    <>
+      {/* 스크롤 기준점. 스트립이 sticky로 붙어 있으면 스트립 자신의 scrollIntoView는 이미 제자리라
+          아무 일도 하지 않아, 탭을 바꿔도 페이지 중간에 머문다. 흐름에 남는 이 앵커를 기준으로
+          잡으면 붙어 있든 아니든 같은 위치(스트립의 sticky 시작점)로 스크롤된다. */}
+      <div ref={anchorRef} aria-hidden className="scroll-mt-(--fd-docs-row-2)" />
+      <nav
+        aria-label={`${label} tabs`}
+        // 전 사이즈 sticky — 탭형 페이지에선 메뉴형 ToC 팝오버를 끄고(page-renderer) 탭이 그 자리를
+        // 차지한다. bg-fd-background: sticky 시 스크롤 본문이 뒤로 비치지 않게. 사이트 헤더(z-40) 아래.
+        className="not-prose mb-4 bg-fd-background sticky top-(--fd-docs-row-2) z-30"
       >
-        <TabsList style={TAB_LIST_STYLE}>
-          {tabs.map((tab) => (
-            <TabsTrigger key={tab.url} value={tab.url} style={TAB_TRIGGER_STYLE}>
-              {tab.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </TabsRoot>
-    </nav>
+        <TabsRoot
+          value={pathname}
+          onValueChange={(url) => {
+            if (url === pathname) return;
+            // 전환 "전에" 스크롤한다. 이 컴포넌트는 라우트마다 리마운트되므로 "도착 후 스크롤"
+            // 플래그를 ref에 남겨둘 수 없다. 스트립 위쪽(고정 헤더)은 탭이 바뀌어도 높이가 같아
+            // 지금 계산한 목표 위치가 전환 후에도 그대로 유효하다.
+            anchorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+            // scroll:false로 Next의 기본 top 리셋을 막아 방금 맞춘 위치를 유지한다.
+            router.push(url, { scroll: false });
+          }}
+          triggerLayout="hug"
+          style={TAB_ROOT_STYLE}
+        >
+          <TabsList style={TAB_LIST_STYLE}>
+            {tabs.map((tab) => (
+              <TabsTrigger key={tab.url} value={tab.url} style={TAB_TRIGGER_STYLE}>
+                {tab.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </TabsRoot>
+      </nav>
+    </>
   );
 }
