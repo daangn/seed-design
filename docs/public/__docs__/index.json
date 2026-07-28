@@ -277,6 +277,19 @@
               ]
             },
             {
+              "id": "dialog",
+              "title": "Dialog",
+              "description": "화면 중앙에 떠서 사용자의 주의를 모으는 다이얼로그입니다. 제목, 본문, 푸터와 닫기 버튼을 갖추어 폼이나 스크롤되는 콘텐츠 등 풍부한 내용을 담을 때 사용합니다.",
+              "docUrl": "/react/components/dialog",
+              "snippetKey": "react/ui:dialog",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "dialog.tsx"
+                }
+              ]
+            },
+            {
               "id": "divider",
               "title": "Divider",
               "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",

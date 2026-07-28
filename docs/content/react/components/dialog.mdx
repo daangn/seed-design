@@ -1,0 +1,273 @@
+---
+title: Dialog
+description: 화면 중앙에 떠서 사용자의 주의를 모으는 다이얼로그입니다. 제목, 본문, 푸터와 닫기 버튼을 갖추어 폼이나 스크롤되는 콘텐츠 등 풍부한 내용을 담을 때 사용합니다.
+---
+
+<ComponentExample name="react/dialog/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+<Card title="Alert Dialog" href="/react/components/alert-dialog" variant="example">
+
+사용자의 확인이나 경고가 목적이라면 Alert Dialog를 사용하세요.
+
+</Card>
+
+## Installation
+
+### Default
+
+화면 중앙에 떠서 제목, 본문, 푸터를 담는 기본 Dialog 컴포넌트를 포함합니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:dialog
+```
+
+<ManualInstallation name="dialog" />
+
+### Responsive
+
+뷰포트에 따라 Bottom Sheet로 자동 전환되는 반응형 변형입니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:responsive-dialog
+```
+
+<ManualInstallation name="responsive-dialog" />
+
+## Props
+
+### `DialogRoot`
+
+<react-type-table
+  path="./registry/react/ui/dialog.tsx"
+  name="DialogRootProps"
+/>
+
+### `DialogTrigger`
+
+<react-type-table
+  path="./registry/react/ui/dialog.tsx"
+  name="DialogTriggerProps"
+/>
+
+### `DialogContent`
+
+<react-type-table
+  path="./registry/react/ui/dialog.tsx"
+  name="DialogContentProps"
+/>
+
+### `DialogBody`
+
+<react-type-table
+  path="./registry/react/ui/dialog.tsx"
+  name="DialogBodyProps"
+/>
+
+### `DialogFooter`
+
+<react-type-table
+  path="./registry/react/ui/dialog.tsx"
+  name="DialogFooterProps"
+/>
+
+### `DialogAction`
+
+<react-type-table
+  path="./registry/react/ui/dialog.tsx"
+  name="DialogActionProps"
+/>
+
+### `ResponsiveDialogRoot`
+
+<react-type-table
+  path="./registry/react/ui/responsive-dialog.tsx"
+  name="ResponsiveDialogRootProps"
+/>
+
+## Examples
+
+### Trigger
+
+`<DialogTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, Dialog의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+<ComponentExample name="react/dialog/trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 Dialog를 열고 닫을 수 있습니다. 이 경우 `open` prop을 사용하여 Dialog의 상태를 제어합니다.
+
+<ComponentExample name="react/dialog/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Size
+
+`<DialogRoot>`에 `size` prop을 설정하여 Dialog의 너비를 변경할 수 있습니다. `"medium"` (480px, 기본값)과 `"large"` (800px)를 지원합니다.
+`md` 미만 화면에서는 뷰포트 너비의 90%를 차지하고, `md` 이상에서 각 size의 최대 너비가 적용됩니다. content의 높이는 뷰포트의 80%로 제한됩니다.
+
+`<DialogContent>`에 `width`, `maxWidth` prop을 전달하여 너비를 직접 제어할 수도 있습니다.
+프리셋 size 대신 뷰포트 기반의 유동적인 너비가 필요할 때 사용합니다.
+단일 값은 모든 breakpoint에 적용되므로, md 미만의 기본 너비(뷰포트의 90%)를 유지하려면 `width={{ md: "560px" }}`처럼 breakpoint 객체로 전달하세요.
+
+<ComponentExample name="react/dialog/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Body
+
+`<DialogBody>`는 본문 영역을 스크롤 가능하게 만듭니다. 본문이 길어 스크롤되면 헤더 아래에 구분선이 나타나고, 하단은 서서히 사라지는 마스크가 적용됩니다.
+Body가 뷰포트 높이를 넘겨 스크롤이 생길 때에만 하단 fade 마스크와 `padding-bottom`이 적용됩니다. 본문이 짧아 넘치지 않으면 마스크가 적용되지 않아 마지막 줄이 흐려지지 않습니다.
+
+<ComponentExample name="react/dialog/body">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/body.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Custom Body
+
+`<DialogBody>`에 `paddingX`, `minHeight`, `maxHeight`, `justifyContent`, `alignItems` prop을 전달하여 본문 영역을 직접 제어할 수 있습니다.
+기본 캡(뷰포트의 80%)보다 낮게 스크롤 높이를 제한하거나, 짧은 내용에서도 높이를 고정하거나, 가로 패딩을 제거해 콘텐츠를 가장자리까지 배치할 때 사용합니다.
+
+<ComponentExample name="react/dialog/custom-body">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/custom-body.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Show Close Button
+
+`<DialogContent>`에 `showCloseButton` prop을 전달하여 우측 상단 닫기 버튼을 표시할 수 있습니다.
+기본 값은 `true`입니다.
+
+<ComponentExample name="react/dialog/show-close-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/show-close-button.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Footer Layout
+
+`DialogFooter`는 flex 레이아웃만 제공하며, 버튼 배치는 `VStack`, `HStack` 등으로 직접 구성합니다.
+
+<ComponentExample name="react/dialog/footer-layout">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/footer-layout.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Prevent Close
+
+`DialogAction`의 `onClick`에서 `e.preventDefault()`를 호출하면 다이얼로그가 닫히지 않습니다.
+
+<ComponentExample name="react/dialog/prevent-close">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/prevent-close.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange` 두 번째 인자로 `details`가 제공됩니다.
+
+#### `reason`
+
+**열릴 때** (`open: true`)
+
+- `"trigger"`: `DialogTrigger`로 열림
+
+**닫힐 때** (`open: false`)
+
+- `"closeButton"`: `DialogAction` 또는 우측 상단 닫기 버튼으로 닫힘
+- `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
+- `"interactOutside"`: 외부 영역 클릭
+  - `DialogRoot`는 기본적으로 `closeOnInteractOutside={false}`입니다. `interactOutside`는 이 옵션을 `true`로 설정한 경우에만 발생할 수 있습니다.
+- `"cascadeDismiss"`: 상위 레이어 닫힘으로 인한 연쇄 닫힘
+
+<ComponentExample name="react/dialog/open-change-reason">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/open-change-reason.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Confirm Before Close
+
+작성 중인 내용을 실수로 닫는 것을 막고 싶다면, `open`을 제어 상태로 두고 특정 `reason`일 때 `open`을 유지한 채 확인용 Alert Dialog를 띄워 사용자에게 되물을 수 있습니다.
+
+<ComponentExample name="react/dialog/confirm-before-close">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/confirm-before-close.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Portalled
+
+Portal은 기본적으로 `document.body`에 렌더링됩니다.
+
+<ComponentExample name="react/dialog/portalled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/portalled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Responsive
+
+`ResponsiveDialog`를 사용하면 md 이상에서는 Dialog, sm 이하에서는 Bottom Sheet로 자동 전환됩니다. 뷰포트를 줄여서 전환 동작을 확인해보세요.
+`onOpenChange`는 열림 상태만 전달하며, Dialog 또는 Bottom Sheet에만 적용되는 Root 옵션은 `dialogRootProps`, `bottomSheetRootProps`로 전달합니다.
+
+<ComponentExample name="react/dialog/responsive">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/responsive.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

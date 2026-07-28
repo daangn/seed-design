@@ -1,0 +1,131 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: alert-dialog
+  name: Alert Dialog
+data:
+  schema:
+    slots:
+      backdrop:
+        properties:
+          color:
+            type: color
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      content:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          marginX:
+            type: dimension
+          marginY:
+            type: dimension
+          maxWidth:
+            type: dimension
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          enterScale:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      header:
+        properties:
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+      footer:
+        properties:
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      title:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      description:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        backdrop:
+          color: $color.bg.overlay
+          enterDuration: $duration.d2
+          enterTimingFunction: $timing-function.enter
+          enterOpacity: 0
+          exitDuration: $duration.d2
+          exitTimingFunction: $timing-function.exit
+          exitOpacity: 0
+        content:
+          color: $color.bg.layer-floating
+          cornerRadius: $radius.r5
+          marginX: $dimension.x8
+          marginY: $dimension.x16
+          maxWidth: 272px
+          enterDuration: $duration.d4
+          enterTimingFunction: $timing-function.enter-expressive
+          enterOpacity: 0
+          enterScale: 1.3
+          exitDuration: $duration.d2
+          exitTimingFunction: $timing-function.exit
+          exitOpacity: 0
+        header:
+          gap: $dimension.x1_5
+          paddingX: $dimension.x5
+          paddingTop: $dimension.x5
+        footer:
+          gap: $dimension.x2
+          paddingX: $dimension.x5
+          paddingTop: $dimension.x4
+          paddingBottom: $dimension.x5
+        title:
+          color: $color.fg.neutral
+          fontSize: $font-size.t7
+          lineHeight: $line-height.t7
+          fontWeight: $font-weight.bold
+        description:
+          color: $color.fg.neutral
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular

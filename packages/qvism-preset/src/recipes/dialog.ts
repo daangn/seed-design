@@ -1,4 +1,9 @@
-import { dialog as vars } from "../vars/component";
+// NOTE: dialog naming is mid-rename; rootage/vars already use the new names, recipes and react components still use the old ones.
+// Semantically (= snippet naming), this recipe is the AlertDialog:
+//   snippet AlertDialog → react Dialog        → recipe "dialog"         → vars alertDialog
+//   snippet Dialog      → react ContentDialog → recipe "content-dialog" → vars dialog
+
+import { alertDialog as vars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { not, open, pseudo, focus } from "../utils/pseudo";
