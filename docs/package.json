@@ -14,7 +14,6 @@
     "generate:all": "bun generate:registry && bun generate:docs-index",
     "generate:registry": "bun scripts/generate-registry.ts",
     "generate:docs-index": "bun scripts/generate-docs-index.ts",
-    "generate:compat": "bun scripts/generate-compat-manifest.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "images:og:generate": "bun scripts/generate-og-cover-assets.ts",
