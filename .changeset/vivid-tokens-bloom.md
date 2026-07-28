@@ -2,7 +2,7 @@
 "@seed-design/css": minor
 "@seed-design/lynx-css": minor
 "@seed-design/react": minor
-"@seed-design/react-quantity-picker": minor
+"@seed-design/react-quantity-picker": major
 "@seed-design/rootage-artifacts": minor
 ---
 
