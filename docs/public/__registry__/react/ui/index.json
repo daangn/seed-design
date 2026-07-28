@@ -406,6 +406,30 @@
     {
       "snippets": [
         {
+          "path": "dialog.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.1.0",
+            "@seed-design/css": "^2.3.0"
+          }
+        }
+      ],
+      "id": "dialog",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "error-state.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
@@ -767,6 +791,30 @@
           "registryId": "ui",
           "itemIds": [
             "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "responsive-dialog.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.1.0",
+            "@seed-design/css": "^2.3.0"
+          }
+        }
+      ],
+      "id": "responsive-dialog",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
           ]
         }
       ]
