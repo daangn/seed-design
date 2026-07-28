@@ -1,8 +1,6 @@
 import {
-  buildLookupFromSources,
+  getChangelogLlmData,
   getSources,
-  groupEntriesByVersion,
-  renderVersionMarkdown,
   toPackageName,
   toSlug,
   toVersionSlug,
@@ -36,29 +34,17 @@ export async function GET(
   const version = decodeURIComponent(params.version.replace(/\.txt$/, ""));
 
   const packageName = toPackageName(slug);
-  const sources = await getSources();
-  const source = sources.find((s) => s.packageName === packageName);
+  const data = await getChangelogLlmData();
+  const packageData = data.packages.get(packageName);
 
-  if (!source) notFound();
+  if (!packageData) notFound();
 
-  const versions = splitVersionSections(source.raw);
-  const idx = versions.findIndex((v) => v.version === version);
+  const idx = packageData.versionIndex.get(version);
 
-  if (idx === -1) notFound();
-
-  const { entries, lookup } = await buildLookupFromSources(sources);
-  const versionGroups = groupEntriesByVersion(entries, packageName);
+  if (idx === undefined) notFound();
 
   // versions는 최신순이므로 0..idx가 해당 버전 포함 이후 전체
-  const sinceVersions = versions.slice(0, idx + 1);
-
-  const body = sinceVersions
-    .map(({ version: v }) => {
-      const group = versionGroups.get(v);
-      if (!group) return `## ${v}\n\n(no entries)`;
-      return renderVersionMarkdown(packageName, v, group, lookup);
-    })
-    .join("\n\n---\n\n");
+  const body = packageData.renderedBlocks.slice(0, idx + 1).join("\n\n---\n\n");
 
   return new Response(
     `# ${packageName} — Changes since ${version}
