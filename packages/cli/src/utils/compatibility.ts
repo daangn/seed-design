@@ -53,6 +53,14 @@ export function getProjectSeedPackageVersionSpecs(
       const value = packageDeps[packageName];
       if (typeof value === "string") {
         result[packageName] = value;
+        continue;
+      }
+      // 모노레포처럼 선언이 상위 package.json에 있으면 여기선 안 잡혀요.
+      // 실제로 해소된 설치본이 있으면 그걸 쓰지 않으면 "미설치"로 오판해요.
+      // (패키지 간 호환 진단은 이미 node_modules를 보므로 한 출력에서 서로 어긋나기도 했어요)
+      const installed = getInstalledPackageJson(packageName, cwd)?.version;
+      if (typeof installed === "string") {
+        result[packageName] = installed;
       }
     }
 
