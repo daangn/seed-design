@@ -45,6 +45,7 @@ https://seed-design.io/foundations/llms.txt
 | 토픽 | URL |
 |------|-----|
 | 스페이싱 | https://seed-design.io/llms/foundations/spacing.txt |
+| 디자인 토큰 레퍼런스 (전체 토큰 표) | https://seed-design.io/llms/foundations/design-token/reference.txt |
 | 테마 | https://seed-design.io/llms/react/getting-started/styling/theming.txt |
 | Tailwind CSS 연동 | https://seed-design.io/llms/react/getting-started/styling/tailwind-css.txt |
 | Elevation (그림자) | https://seed-design.io/llms/foundations/elevation.txt |

@@ -1,0 +1,38 @@
+# Outdated Version
+
+설치된 `@seed-design/*` 패키지가 npm 최신 버전에서 얼마나 뒤졌는지 판정합니다. **major가 뒤지면 `warn`, minor/patch만 뒤지면 `info`.**
+
+## 왜
+
+SEED는 **2.0.0부터 strict SemVer를 따릅니다.** 그 이전(1.x)에는 minor/patch에도 breaking이 섞여 있어 버전 격차가 클수록 마이그레이션 비용이 비선형으로 커집니다. major가 뒤진 상태는 버그 수정과 신규 컴포넌트를 받지 못하는 상태이기도 합니다.
+
+## 판정 방법
+
+1. `package.json`의 `dependencies`/`devDependencies`에서 `@seed-design/*` 패키지를 전부 수집합니다.
+2. 각 패키지의 **실제 설치본** 버전을 읽습니다. 선언 범위(`^1.2.0`)가 아니라 설치본이 기준입니다.
+
+   ```bash
+   node -p "require('@seed-design/react/package.json').version"
+   ```
+
+3. npm 최신 버전과 비교합니다.
+
+   ```bash
+   npm view @seed-design/react version
+   ```
+
+4. major 차이 → `warn`, minor/patch 차이 → `info`. 네트워크가 막혀 조회에 실패하면 이 룰은 **판정하지 않고 건너뜁니다**(진단 전체를 중단하지 않습니다).
+
+## 수정 방법
+
+"업그레이드하세요"로 끝내지 않습니다. 격차에 따라 읽을 문서 순서까지 안내합니다.
+
+- 설치본이 **1.2 미만**이면 v1 가이드로 1.2까지 먼저 올린 뒤 v2 가이드를 진행합니다. 1.x 구간의 패키지 조합은 선언만으로 판단하면 안 되고 v1 문서의 호환표를 따릅니다.
+- 설치본이 **1.2 이상 2.0 미만**이면 v2 업그레이드 가이드를 따릅니다.
+- 스니펫도 세대가 함께 뒤졌을 가능성이 높으므로 [snippet-generation](./snippet-generation.md) 판정을 같이 봅니다.
+- 특정 버전 이후의 변경사항 목록이 필요하면: `npx @seed-design/cli@latest docs react/updates/changelog/react/{현재버전} --raw`
+
+## 읽어야 할 문서
+
+- [SEED React 2 업그레이드 가이드](https://seed-design.io/llms/react/updates/upgrade/v2.txt)
+- [SEED React 1 업그레이드 가이드 · 1.x 호환표](https://seed-design.io/llms/react/updates/upgrade/v1.txt)

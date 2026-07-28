@@ -127,4 +127,5 @@ function App() {
 - 컴포넌트 탐색/추가: `references/components.md` 참조
 - 파운데이션(색상, 타이포, 스페이싱) 활용: `references/foundation.md` 참조
 - 전체 React 문서 인덱스: https://seed-design.io/react/llms.txt
-- 디자인 가이드라인 인덱스: https://seed-design.io/docs/llms.txt
+- 파운데이션 인덱스: https://seed-design.io/foundations/llms.txt
+- 컴포넌트 디자인 가이드라인 인덱스: https://seed-design.io/components/llms.txt

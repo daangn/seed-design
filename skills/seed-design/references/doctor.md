@@ -1,68 +1,75 @@
 # 사용 상태 진단 (doctor)
 
-`doctor`는 프로젝트가 SEED를 어떻게 쓰고 있는지 진단하고, **무엇을 읽고 어떻게 고쳐야 하는지**까지 알려주는 명령어입니다. 린터가 아니라 가이드입니다 — 각 항목에 배경 맥락, 참조 문서 링크, 수정 방법이 함께 나옵니다.
+프로젝트가 SEED를 어떻게 쓰고 있는지 진단하고, **무엇을 읽고 어떻게 고쳐야 하는지**까지 알려주는 절차입니다. 린터가 아니라 가이드입니다 — 판정마다 배경 맥락, 참조 문서 링크, 수정 방법이 함께 나가야 합니다.
 
-`compat`(패키지 버전 호환성)·`upgrade.md`(changelog 기반 업그레이드 진단)와 역할이 다릅니다. doctor는 **코드 사용 상태**를 봅니다.
+`compat`(스니펫 버전 호환성 검사)·`upgrade.md`(changelog 기반 업그레이드 진단)와 역할이 다릅니다. doctor는 **코드 사용 상태**를 봅니다.
 
-## 실행
+## 원칙
 
-```bash
-npx @seed-design/cli@latest doctor
-```
+- **진단은 read-only입니다.** "수정 방법"은 사용자에게 전달할 안내이지 지금 실행할 명령이 아닙니다. 코드 변경·재설치는 사용자가 별도로 지시할 때만 합니다.
+- **판단 근거는 문서이지 기억이 아닙니다.** 각 룰이 가리키는 참조 문서를 실제로 읽고 대조합니다.
+- **확신이 없으면 보고하지 않습니다.** 모든 판정에는 코드 증거(파일:라인)가 있어야 합니다.
 
-경로를 지정해 범위를 좁힐 수 있습니다.
+## 지식 지도
 
-```bash
-npx @seed-design/cli@latest doctor src/pages
-```
+| 지식 | 위치 |
+|------|------|
+| 컴포넌트 디자인 가이드라인 (판정 기준의 출처) | `https://seed-design.io/llms/components/{id}.txt` — **원문(raw)으로 읽기** |
+| 가이드라인 문서 목록 | `https://seed-design.io/components/llms.txt` |
+| React API (Props 표) | `https://seed-design.io/llms/react/components/{id}.txt` |
+| Deprecated 현황 | `https://seed-design.io/llms/docs/migration/deprecations.txt` |
+| 업그레이드 가이드 | `https://seed-design.io/llms/react/updates/upgrade/v2.txt` · `v1.txt` |
+| 스니펫 canonical 세대 (`snippets[].dependencies`) | `https://seed-design.io/__registry__/{framework}/index.json` |
+| npm 최신 버전 | `npm view {pkg} version` |
 
-## 룰의 두 종류
+## Step 1: 프로젝트 사실 수집
 
-doctor의 룰은 **판정을 무엇이 하느냐**로 나뉩니다. 둘 다 같은 모양의 가이드(맥락·참조 문서·수정 방법)를 냅니다.
+판정 전에 프로젝트 상태를 파악합니다.
 
-- **결정론 룰** — 코드로 판정합니다. deprecated 사용, 최신 스펙에 없는 variant 값, 구버전 스니펫 등. 기본 출력과 `--json`에 포함되고 `--fail-on` 게이트의 대상입니다.
-- **에이전트 룰** — 판단이 필요해 결정론으로 못 푸는 영역입니다. 컴포넌트 사용이 가이드라인에 맞는지, 직접 구현한 동작을 제공되는 prop으로 대체할 수 있는지 등. doctor는 LLM을 호출하지 않고 **검토 요청 문서만 생성**하며, 실행은 사용자의 에이전트가 합니다. 집계와 게이트에서는 제외됩니다.
+1. `seed-design.json` — `framework`(기본 `react`)와 `path`(스니펫 디렉토리) 확인
+2. `package.json` — 설치된 `@seed-design/*` 패키지와 버전
+3. `path`가 가리키는 디렉토리 — 설치된 스니펫 목록
 
-## 에이전트로 검토하기
+사용자가 경로를 지정하면 그 범위만, 아니면 프로젝트 전체를 봅니다.
 
-`--prompt`는 결정론 룰이 알아낸 **사실**과 에이전트에게 위임할 **검토 요청**을 한 문서로 만듭니다. 이 문서만으로 작업이 되도록 자기완결적으로 작성됩니다.
+## Step 2: 룰 순회
 
-```bash
-npx @seed-design/cli@latest doctor --prompt
-```
+**`../rules/` 디렉토리의 모든 파일을 나열하고, 각 파일을 읽고 그 판정 방법대로 프로젝트를 검사합니다.** 룰 파일이 추가되면 이 절차에 자동으로 포함됩니다 — 이 문서에는 룰 목록을 복제하지 않습니다.
 
-이 스킬이 doctor를 다룰 때의 절차:
+각 룰은 공통 형식을 따릅니다: 무엇을 판정하는지(severity) → 왜 → 판정 방법 → 수정 방법 → 읽어야 할 문서. 판정이 나오면 해당 룰의 "수정 방법"과 "읽어야 할 문서"를 결과에 함께 싣습니다.
 
-1. `doctor --prompt`를 실행해 핸드오프 문서를 받습니다.
-2. 문서에 링크된 참조 문서를 **먼저 읽습니다**. 판단 근거는 그 문서여야 하고, 기억에 의존하지 않습니다.
-3. "확인된 사실"은 이미 검증된 내용이므로 다시 조사하지 않고 그대로 활용합니다.
-4. "검토 요청"은 acceptance criteria **항목별로 pass/fail**을 판정합니다. 자유 서술 총평이 아닙니다.
-5. 위반만 보고하되 파일·라인 증거를 답니다. 확신이 없으면 보고하지 않습니다.
+[component-guidelines](../rules/component-guidelines.md)는 컴포넌트별로 반복 적용합니다 — 코드에 등장하는 컴포넌트마다 가이드라인 문서를 읽고 기준을 도출해 판정합니다.
 
-## CI에서 쓰기
+## Step 3: 출력
 
-`--fail-on` 기준(기본 `error`) 이상이면 종료 코드 `1`입니다. 에이전트 룰은 게이트에 포함되지 않으므로 CI 결과는 결정론적입니다.
+**판정 표** — 도출한 기준 전 항목을 남깁니다. 통과한 것도 판정하지 못한 것도 숨기지 않습니다.
 
-```bash
-npx @seed-design/cli@latest doctor --fail-on warn
-```
+| # | 기준 | 판정 | 근거 |
+|---|------|------|------|
+| 1 | 기준 문장 그대로 (도출한 경우 출처 절도) | `pass` / `fail` / `unknown` | 파일:라인 또는 판정하지 못한 이유 |
 
-`--json`은 스키마 버저닝된 리포트를 출력합니다. 억제된 finding도 `suppressed: true`로 포함되고, 각 finding에 룰의 가이드(맥락·참조 문서·수정 방법)가 실려 있습니다.
+`unknown`은 정보가 부족해 판정할 수 없을 때 씁니다. **확인해서 통과한 것(`pass`)과 확인하지 못한 것을 같은 칸에 넣지 않습니다.**
 
-## 억제
+**위반 목록** — `fail` 항목만 JSON 배열로 정리합니다.
 
-정당한 사유가 있으면 주석으로 억제합니다. 사유를 함께 남기는 걸 권장합니다.
-
-```tsx
-// seed-doctor-ignore-next-line seed/no-deprecated-component -- 2.0 마이그레이션 진행 중
-import { Fab } from "@seed-design/react";
-```
-
-룰 전체를 끄거나 심각도를 바꾸려면 프로젝트 루트에 `seed-doctor.json`을 둡니다.
-
-```json
+```jsonc
 {
-  "ignore": ["src/legacy/**"],
-  "rules": { "seed/valid-variant": "warn" }
+  "ruleId": "<판정한 룰. 예: seed/component-guidelines/bottom-sheet>",
+  "severity": "error" | "warn" | "info",
+  "message": "<위반 내용 한 문장>",
+  "file": "<프로젝트 루트 기준 상대 경로 — 대상 파일이 아니라 실제로 고쳐야 할 위치>",
+  "line": 1,
+  "remediation": "<수정 방법 — 참조 문서 근거 포함. 지금 실행하지 말고 안내만>",
+  "data": { "criterion": "<위반한 기준 번호>" }
 }
 ```
+
+**severity 기준**:
+
+- `error` — 지금 사용자에게 실제 문제가 되는 것 (동작 오류, 깨진 접근성 참조, 잘못된 값)
+- `warn` — 지금 동작하지만 고쳐야 하는 것 (디자인 시스템 이탈, 제공되는 기능의 중복 구현, 다음 메이저에서 깨질 것)
+- `info` — 알고만 있으면 되는 것
+
+한 기준에 위반 근거가 여러 개면 **파일당 한 건으로 묶고** message에 요약, remediation에 각각을 적습니다.
+
+**요약** — severity별 카운트(error N · warn N · info N)로 마무리합니다. 점수나 등급은 매기지 않습니다.

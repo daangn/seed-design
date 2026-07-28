@@ -154,7 +154,7 @@ SEED CLI는 개선을 위해 익명 사용 데이터를 수집해요.
 4. 기본값 `true`
 
 #### 수집되는 데이터 예시
-- 실행 이벤트: `init`, `add`, `add-all`, `compat`, `doctor`
+- 실행 이벤트: `init`, `add`, `add-all`, `compat`
 - 실행 통계: 실행 시간(`duration_ms`), 추가된 항목 수
 - 설정 정보: `tsx`, `rsc`, `include_deprecated`, `yes_option` 등
 
@@ -184,25 +184,3 @@ export SEED_DISABLE_TELEMETRY=true
 
 `$schema`는 선택적으로 추가할 수 있는 문자열 필드예요.
 현재 CLI 동작에는 영향을 주지 않고, 에디터의 JSON 자동완성/검증 용도로만 사용할 수 있어요.
-
-## seed-doctor.json (선택)
-
-[`doctor` 명령어](/react/getting-started/cli/commands#doctor)의 동작을 조정하는 선택적 설정 파일이에요. 프로젝트 루트에 두면 자동으로 읽어요.
-
-`seed-design.json`은 엄격하게 파싱되기 때문에(위 Callout 참고) doctor 설정은 별도 파일로 분리돼 있어요.
-
-```json title="seed-doctor.json"
-{
-  "ignore": ["src/legacy/**"],
-  "rules": {
-    "seed/no-deprecated-component": "error",
-    "seed/snippet-generation": "off",
-    "seed/valid-variant": "off"
-  }
-}
-```
-
-| 옵션 | 타입 | 설명 |
-|------|------|------|
-| `ignore` | `string[]` | 검사에서 제외할 glob 패턴 |
-| `rules` | `Record<string, "error" \| "warn" \| "info" \| "off">` | 룰별 심각도 조정 또는 비활성화 |
