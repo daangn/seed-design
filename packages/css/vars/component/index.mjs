@@ -59,6 +59,8 @@ export { vars as menu } from "./menu.mjs";
 export { vars as notificationBadge } from "./notification-badge.mjs";
 export { vars as pageBanner } from "./page-banner.mjs";
 export { vars as progressCircle } from "./progress-circle.mjs";
+export { vars as quantityPickerButton } from "./quantity-picker-button.mjs";
+export { vars as quantityPicker } from "./quantity-picker.mjs";
 export { vars as radioGroup } from "./radio-group.mjs";
 export { vars as radio } from "./radio.mjs";
 export { vars as radiomark } from "./radiomark.mjs";

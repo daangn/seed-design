@@ -54,6 +54,7 @@ import { notificationBadge, notificationBadgePositioner } from "./recipes/notifi
 import pageBanner from "./recipes/page-banner";
 import progressCircle from "./recipes/progress-circle";
 import pullToRefresh from "./recipes/pull-to-refresh";
+import quantityPicker from "./recipes/quantity-picker";
 import radio from "./recipes/radio";
 import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
@@ -142,6 +143,7 @@ export const recipes = {
   pageBanner,
   progressCircle,
   pullToRefresh,
+  quantityPicker,
   radio,
   radioGroup,
   radiomark,
