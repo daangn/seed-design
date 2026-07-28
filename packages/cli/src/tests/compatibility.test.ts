@@ -316,6 +316,20 @@ describe("analyzePackagePeerCompatibility", () => {
     expect(report.resolution).toEqual({ "@seed-design/css": ">=1.2.0" });
   });
 
+  it("분리 구간(||)의 구멍에 빠지면 이미 만족하는 하한 대신 다음 하한을 제안한다", () => {
+    // stackflow 1.1.22+ 의 실제 선언 모양. css 1.2.5는 1.2.0~1.2.10 구멍에 빠진다.
+    const report = analyzePackagePeerCompatibility({
+      manifest,
+      installedVersions: { "@seed-design/stackflow": "1.1.22", "@seed-design/css": "1.2.5" },
+      declaredPeers: {
+        "@seed-design/stackflow": { "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11" },
+      },
+    });
+    expect(report.ok).toBe(false);
+    // >=1.1.25 는 css 1.2.5가 이미 넘긴 하한이라 제안이 되면 안 됨
+    expect(report.resolution).toEqual({ "@seed-design/css": ">=1.2.11" });
+  });
+
   it("미설치 대상은 missing 이슈로 보고한다", () => {
     const report = analyzePackagePeerCompatibility({
       manifest,

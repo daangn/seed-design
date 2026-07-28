@@ -556,16 +556,34 @@ export function analyzePackagePeerCompatibility({
  * 대상 패키지별로 위반 범위들의 "최대 하한"을 모아 `>=x.y.z` 형태로 돌려줘요.
  * installed-too-high 위반은 대상을 올려도 풀리지 않으므로(요구하는 쪽을 올려야 함) 제외해요.
  */
+/**
+ * 설치본에서 도달할 수 있는 가장 낮은 요구 하한을 고릅니다.
+ *
+ * `>=1.1.25 <1.2.0 || >=1.2.11` 처럼 분리된 범위는 사이에 구멍이 생기는데,
+ * 구멍에 빠진 설치본(css 1.2.5)에 범위 전체의 최소값(1.1.25)을 제안하면
+ * 이미 만족하는 버전을 올리라는 말이 돼요. 설치본보다 높은 하한만 후보로 둡니다.
+ */
+function lowestReachableMin(range: string, installed: string | null): string | null {
+  const mins = range
+    .split("||")
+    .map((part) => minVersion(part.trim())?.version)
+    .filter((version): version is string => !!version)
+    .filter((version) => installed === null || gt(version, installed))
+    .sort((a, b) => (gt(a, b) ? 1 : -1));
+
+  return mins[0] ?? null;
+}
+
 function computePeerResolution(issues: PackagePeerIssue[]): Record<string, string> {
   const highestMinByTarget = new Map<string, string>();
 
   for (const issue of issues) {
     if (issue.direction === "installed-too-high") continue;
-    const min = minVersion(issue.range);
+    const min = lowestReachableMin(issue.range, issue.installed);
     if (!min) continue;
     const current = highestMinByTarget.get(issue.requires);
-    if (!current || gt(min.version, current)) {
-      highestMinByTarget.set(issue.requires, min.version);
+    if (!current || gt(min, current)) {
+      highestMinByTarget.set(issue.requires, min);
     }
   }
 
