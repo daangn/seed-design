@@ -193,10 +193,15 @@ export const compatOverlays: CompatOverlay[] = [
   // css 1.1.25 / 1.2.11에 들어가면서, 그 이전 stackflow와 섞으면 전환 애니메이션과
   // AppBar 배경이 깨진다. stackflow 1.1.22+ 는 반대 방향을 선언(>=1.1.25 <1.2.0 || >=1.2.11)으로
   // 막고 있지만, css 쪽은 leaf라 peer 선언이 없어 이 방향은 overlay로만 표현할 수 있다.
+  //
+  // CHANGELOG는 범위를 "v1.1.16 ~ v1.1.21"로 적었지만, 짝이 되는 JS가 들어간 건 1.1.22라
+  // 그 미만은 전부 같은 이유로 깨진다. 1.1.15와 1.1.16이 한 칸 차이로 갈리지 않도록 1.1.0까지 넓힌다.
+  // 1.0 라인은 대상이 아니다 — css 1.0.7(2025-10-27)에서 멈춰 WAAPI(2026-05)가 백포트된 적이 없고,
+  // stackflow 1.0.x는 위 correction의 <1.1.0 상한 때문에 애초에 css 1.1.25에 닿지 않는다.
   {
     kind: "known-bad",
     packages: {
-      "@seed-design/stackflow": ">=1.1.16 <1.1.22",
+      "@seed-design/stackflow": ">=1.1.0 <1.1.22",
       "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11",
     },
     reason:

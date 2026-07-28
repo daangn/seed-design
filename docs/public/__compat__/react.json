@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "framework": "react",
-  "generatedAt": "2026-07-28T06:35:40.642Z",
+  "generatedAt": "2026-07-28T07:53:40.828Z",
   "packages": {
     "@seed-design/css": {
       "versions": [
@@ -518,6 +518,11 @@
         {
           "version": "2.2.1",
           "publishedAt": "2026-07-16T07:48:07.214Z",
+          "peers": {}
+        },
+        {
+          "version": "2.2.2",
+          "publishedAt": "2026-07-28T06:59:29.312Z",
           "peers": {}
         }
       ]
@@ -1258,6 +1263,13 @@
           "peers": {
             "@seed-design/css": "^2.0.0"
           }
+        },
+        {
+          "version": "2.0.5",
+          "publishedAt": "2026-07-28T06:59:31.424Z",
+          "peers": {
+            "@seed-design/css": "^2.0.0"
+          }
         }
       ]
     },
@@ -1654,6 +1666,13 @@
           "peers": {
             "@seed-design/css": "^2.0.0"
           }
+        },
+        {
+          "version": "2.0.2",
+          "publishedAt": "2026-07-28T07:00:52.179Z",
+          "peers": {
+            "@seed-design/css": "^2.0.0"
+          }
         }
       ]
     }
@@ -1833,7 +1852,7 @@
     {
       "kind": "known-bad",
       "packages": {
-        "@seed-design/stackflow": ">=1.1.16 <1.1.22",
+        "@seed-design/stackflow": ">=1.1.0 <1.1.22",
         "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11"
       },
       "reason": "css의 WAAPI AppScreen 전환 대응(1.1.25 / 1.2.11)과 그 이전 stackflow 조합 — 화면 전환 애니메이션·AppBar 배경이 깨져요. stackflow를 1.1.22 이상으로 함께 올려주세요"
