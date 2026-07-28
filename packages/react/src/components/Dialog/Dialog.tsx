@@ -90,8 +90,6 @@ export const DialogFooter = withContext<HTMLDivElement, DialogFooterProps>(Primi
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface DialogActionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+export interface DialogActionProps extends DialogPrimitive.CloseButtonProps {}
 
 export const DialogAction = DialogPrimitive.CloseButton;
