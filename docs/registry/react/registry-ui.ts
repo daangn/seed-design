@@ -368,6 +368,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "select",
+      snippets: [
+        {
+          path: "select.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+        },
+      ],
+    },
+    {
       id: "select-box",
       snippets: [
         {
