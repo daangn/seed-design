@@ -65,17 +65,13 @@ npx @seed-design/cli@latest compat -c action-button -c alert-dialog
 npx @seed-design/cli@latest compat --all
 ```
 
-설치된 패키지들끼리(react↔css)의 peer 호환을 검사하거나, 가정한 버전 조합을 미리 확인하고, 구조화 출력을 받을 수 있습니다.
+구조화 출력이 필요하면 `--json`을 사용합니다.
 
 ```bash
-# 가정한 버전 조합의 호환 미리 검증
-npx @seed-design/cli@latest compat --with react@2.0.0 --with css@2.0.0
-
-# JSON 출력 (스크립트·도구용)
 npx @seed-design/cli@latest compat --json
 ```
 
-> **패키지 간 peer 호환 진단은 현재 react 계열(`react`↔`css`)만 지원합니다.** 호환성 매니페스트가 react만 배포되어 있어서, lynx 프로젝트에서는 `--with`가 매니페스트를 못 찾아 실패하고 `--json`의 `packages`도 `null`로 나옵니다. lynx에서는 스니펫 검사(`compat`, `compat --all`)만 사용하세요.
+> `compat`은 **스니펫**이 요구하는 범위만 검사합니다. 설치된 패키지들끼리(react↔css) 맞는지는 CLI가 판정하지 않으니 `upgrade.md`의 Step 2를 참고하세요 — 2.x는 `peerDependencies` 선언이 정답이고, 1.x는 [v1 업그레이드 문서](https://seed-design.io/llms/react/updates/upgrade/v1.txt)의 호환표를 봐야 합니다.
 
 ### 5) Docs 조회
 

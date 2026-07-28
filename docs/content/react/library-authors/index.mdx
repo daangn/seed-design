@@ -79,6 +79,8 @@ Seed는 [**2.0을 분기점**으로 버저닝 정책](/react/updates/upgrade#버
 
 </Callout>
 
+1.x 구간의 하한을 정할 때는 [SEED React 1 and older](/react/updates/upgrade/v1)의 **패키지 간 버전 호환성** 표를 근거로 삼으세요. 이 시기의 `peerDependencies` 선언에는 상한이 없거나 누락된 구간이 있어서, 패키지의 선언을 그대로 옮겨오면 실제로는 맞지 않는 조합까지 받아들이게 돼요.
+
 검증된 구간이 여러 개라면 OR(`||`)로 연결해 범위를 넓힐 수 있어요. 예를 들어 1.2 구간과 2.0 이상을 함께 지원한다면 이렇게 선언해요.
 
 ```json title="package.json"
@@ -222,9 +224,11 @@ npx @seed-design/cli@latest compat
 
 </Callout>
 
-먼저 내 라이브러리가 2.0과 호환되는지 확인해요. 실제 설치 없이 가정 조합을 검사하려면 [`compat --with`](/react/updates/upgrade#호환성-확인하기)를 써서 `--with react@2.0.0 --with css@2.0.0` 조합을 검사해요. 호환되면 이슈가 없고, 안 되면 어떤 패키지를 어디로 올려야 하는지 알려줘요.
+먼저 내가 쓰는 컴포넌트가 2.0에서 바뀌었는지 [changelog로 확인](/react/updates/upgrade#변경사항-확인)해요. 그리고 개발 의존성의 Seed를 2.0으로 올린 뒤 라이브러리 테스트와 빌드가 통과하는지 보는 것이 가장 확실해요.
 
-그리고 내가 쓰는 컴포넌트가 2.0에서 바뀌었는지 [changelog로 확인](/react/updates/upgrade#변경사항-확인)해요.
+```package-install
+@seed-design/react@2 @seed-design/css@2
+```
 
 확인 결과에 따라 선택지가 갈려요.
 
@@ -275,7 +279,7 @@ B(한 코드베이스로 1.x·2.0 동시 지원)는 컴포넌트가 양쪽에 �
 npx @seed-design/cli@latest compat
 ```
 
-`compat`는 [호환 이슈가 있으면 종료 코드 `1`로 끝나므로](/react/updates/upgrade#호환성-확인하기) 라이브러리 CI에 추가해두면 Seed 버전을 올릴 때 스니펫 재설치가 필요한지 자동으로 알 수 있어요.
+`compat`는 [호환 이슈가 있으면 종료 코드 `1`로 끝나므로](/react/updates/upgrade#스니펫-호환성-확인하기) 라이브러리 CI에 추가해두면 Seed 버전을 올릴 때 스니펫 재설치가 필요한지 자동으로 알 수 있어요.
 
 ## AI로 자가진단하기
 
@@ -291,9 +295,10 @@ https://seed-design.io/react/library-authors 가이드를 기준으로 점검해
 3. 라이브러리 코드에서 @seed-design/css의 *.css를 직접 import하는 곳을 찾아줘.
 4. @seed-design/css/vars/component/* 직접 import가 있는지 찾고,
    typography를 제외한 component vars 사용이 공개 API나 런타임 로직에 새지 않았는지 확인해줘.
-5. 내가 실제로 사용하는 SEED 컴포넌트/훅을 찾고,
-   `npx @seed-design/cli@latest compat --with react@2.0.0 --with css@2.0.0`로
-   SEED 2.0 호환을 확인해줘.
+5. 내가 실제로 사용하는 SEED 컴포넌트/훅을 찾고, changelog에서 SEED 2.0의
+   breaking change 중 그 목록에 걸리는 게 있는지 확인해줘.
+   1.x 범위를 정할 때는 https://seed-design.io/react/updates/upgrade/v1 의
+   "패키지 간 버전 호환성" 표를 근거로 삼아줘 (1.x는 peer 선언만으로 판단 불가).
 6. 위 결과로 어떤 선택지(A 범위만 확장 / B 코드 조정 후 dual-compat /
    C major 갈라치기 / D 1.x 유지)가 적절한지 추천하고,
    package.json peer 범위 수정안을 제시해줘.

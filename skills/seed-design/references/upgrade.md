@@ -19,7 +19,7 @@ SEED는 **2.0을 분기점**으로 정책이 다르므로 진단 방식도 달�
 | 구간 | 정책 | 진단 방식 |
 | --- | --- | --- |
 | **2.0 이상** | strict SemVer. breaking은 major에서만. minor·patch는 하위 호환. 의도적인 색상·디자인 변경도 major에서만(틀린 값 수정은 patch). | minor/patch 업그레이드는 안전. major를 넘을 때만 breaking을 확인. `peerDependencies` 선언을 신뢰. |
-| **2.0 미만 (0.x·1.x)** | minor·patch에서도 breaking 가능. react↔css가 lockstep(같은 minor)이던 구간 존재. | `compat`의 호환 매니페스트로 react↔css 호환을 판단. minor 업그레이드도 breaking 확인 필요. |
+| **2.0 미만 (0.x·1.x)** | minor·patch에서도 breaking 가능. react↔css가 lockstep(같은 minor)이던 구간 존재. | v1 업그레이드 문서의 호환표로 react↔css 호환을 판단. minor 업그레이드도 breaking 확인 필요. |
 
 `@seed-design/css/vars/component/typography`를 제외한 `@seed-design/css/vars/component/*` 경로는 SemVer 보장 대상이 아닙니다. rootage component spec 변경에 따라 minor·patch에서도 이름이나 구조가 바뀔 수 있으므로, 프로젝트 영향도 분석에서 직접 import 여부를 확인합니다.
 
@@ -60,24 +60,31 @@ changelog fetch URL을 조립할 때:
 
 **질문 원칙**: 추측 금지(잘못된 패키지/버전은 무의미한 결과). 한 번에 하나씩. 프로젝트 환경이 있으면 package.json에서 읽어 질문 최소화.
 
-### Step 2: 현재 호환 진단 (compat)
+### Step 2: 현재 호환 진단
 
-프로젝트 환경이 있으면 먼저 설치된 패키지들이 서로 호환되는지 확인합니다.
+**패키지끼리(react↔css)의 호환은 CLI가 판정하지 않습니다.** `compat`은 설치된 **스니펫**이 요구하는 범위만 검사합니다.
 
 ```bash
 npx @seed-design/cli@latest compat --json
 ```
 
-- 설치된 react/css의 **실제 버전**(node_modules)을 읽어 peer 호환을 검사합니다.
-- `--json`의 `packages.issues`에 호환 위반이 담깁니다(예: react가 요구하는 css 범위를 설치된 css가 불만족). 사람용 출력은 `--json` 없이.
-- 목표 버전 조합을 **올리기 전에** 미리 검증하려면 `--with`:
-  ```bash
-  npx @seed-design/cli@latest compat --with react@2.0.0 --with css@2.0.0
-  ```
+- `--json`의 `snippets.issues`에 스니펫 호환 위반이 담깁니다. 사람용 출력은 `--json` 없이.
 
-> ⚠️ **react 계열 전용**: 이 진단은 호환성 매니페스트에 의존하고 매니페스트는 react만 배포됩니다. lynx 프로젝트에서는 `--with`가 매니페스트 fetch 실패로 끝나고, `--json`의 `packages`는 `null`입니다 — **`packages.issues`를 바로 파싱하지 말고 `packages`가 `null`인지 먼저 확인하세요.** lynx는 스니펫 검사와 changelog 기반 진단(Step 3 이후)으로 진행합니다.
+패키지 간 호환은 아래 기준으로 직접 판단합니다.
 
-**effective peer 해소** (compat 내부 로직 — 매니페스트를 직접 읽을 때 참고): `packages[pkg].versions[v].peers`(declared) → `correction` overlay(해당 범위면 덮어씀) → `backfill` overlay(비어있으면 채움) 순으로 호환 범위를 결정합니다. `known-bad` overlay는 알려진 사고 조합입니다.
+**2.0 이상 — `peerDependencies` 선언이 정답입니다.** strict SemVer를 따르므로 설치본의 선언을 그대로 신뢰합니다.
+
+```bash
+cat node_modules/@seed-design/react/package.json | grep -A5 peerDependencies
+```
+
+**1.x — 선언만으로 판단하면 안 됩니다.** 상한이 없거나 누락된 구간이 있어, 선언은 통과하지만 실제로는 스타일이 어긋나는 조합이 있습니다. 버전별 호환표와 알려진 비호환 조합을 아래 문서에서 읽고 대조합니다. 구간을 추측하지 말고 표를 실제로 확인하세요.
+
+- `https://seed-design.io/llms/react/updates/upgrade/v1.txt` (섹션: 패키지 간 버전 호환성)
+
+요약하면 `css`는 `react`와 **같은 마이너 라인**이면서 표의 하한 이상이어야 하고, `stackflow`는 1.2 라인이 없어 css 두 라인을 함께 지원하되 WAAPI 경계(stackflow 1.1.22 / css 1.1.25·1.2.11)를 섞으면 안 됩니다. 정확한 하한과 예외는 표를 따릅니다.
+
+> lynx 계열(`@seed-design/lynx-react`·`lynx-css`)은 이 호환표의 대상이 아닙니다. 스니펫 검사와 changelog 기반 진단(Step 3 이후)으로 진행합니다.
 
 ### Step 3: Changelog fetch
 
@@ -101,7 +108,7 @@ changelog 섹션 형식: `## {version}` 아래 `### Major Changes` / `### Minor 
 
 목표까지 가는 경로를 구성합니다.
 
-- **breaking 경계**: changelog의 Major/Minor Changes와 "BREAKING CHANGE"·"재설치 필요" 표시를 모읍니다. 1.x 구간에서는 매니페스트의 `breaking-boundary` overlay도 경계를 표시합니다.
+- **breaking 경계**: changelog의 Major/Minor Changes와 "BREAKING CHANGE"·"재설치 필요" 표시를 모읍니다. 1.x 구간의 경계(1.0.0·1.1.0·1.2.0)는 v1 업그레이드 문서에 구간별로 정리돼 있습니다.
 - **재설치 snippet**: 경계에서 재설치가 필요한 컴포넌트는 `add ui:{component}`로 다시 받도록 안내합니다.
 - **react↔css 함께 올리기**: 1.x 구간을 넘나들면 react와 css를 호환되는 버전으로 **함께** 올려야 합니다(한쪽만 올리면 클래스네임이 어긋나 스타일이 깨짐). Step 2의 호환 범위를 사용합니다.
 - **component vars 직접 import 확인**: `@seed-design/css/vars/component/typography`를 제외한 `@seed-design/css/vars/component/*` 사용처가 있으면 SemVer 비보장 경로로 분류하고, 공개 API나 런타임 로직 의존을 제거하도록 안내합니다.
@@ -159,8 +166,7 @@ bun add @seed-design/react@{목표} @seed-design/css@{목표}
 
 | 명령어 | 역할 |
 | --- | --- |
-| `compat --json` | 설치된 패키지들의 peer 호환 진단(구조화 출력) |
-| `compat --with {pkg}@{ver}` | 가정한 버전 조합의 호환을 미리 검증 |
+| `compat --json` | 설치된 스니펫의 호환 진단(구조화 출력) |
 | `compat --all` | 설치 여부와 무관하게 모든 registry 항목의 스니펫 호환 검사 |
 | `docs react/updates/changelog/{slug}/{ver} --raw` | from 버전 이후 changelog |
 | `docs react/updates/changelog/{slug} --raw` | 버전 인덱스(버전 목록) |

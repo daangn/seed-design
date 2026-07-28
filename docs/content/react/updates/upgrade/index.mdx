@@ -41,31 +41,34 @@ SEED는 **2.0을 분기점**으로 버저닝 정책이 다릅니다.
 
 `@seed-design/react`는 `@seed-design/css`를 런타임 기반(클래스네임·스타일)으로 사용합니다. **두 패키지를 호환되지 않는 버전으로 섞으면 클래스네임이 어긋나 스타일이 깨질 수 있습니다.**
 
-- **2.0 이상**: `react`가 `peerDependencies`로 호환되는 `css` 범위(`^N.M.0`)를 선언합니다. 선언을 따르면 안전합니다.
-- **2.0 미만**: 선언이 불완전하거나 같은 minor끼리 맞춰 릴리즈(lockstep)되던 구간이 있어, CLI가 호환성 매니페스트로 실제 호환 범위를 판단합니다.
+- **2.0 이상**: `react`가 `peerDependencies`로 호환되는 `css` 범위(`^N.M.0`)를 선언합니다. **선언을 그대로 신뢰하면 됩니다.**
+- **2.0 미만**: 선언에 상한이 없거나 아예 누락된 구간이 있어, 선언만 보면 통과하지만 실제로는 스타일이 어긋나는 조합이 존재합니다.
 
-### 호환성 확인하기
+### 2.0 이상
 
-설치된 조합이 맞는지 `compat`으로 확인합니다.
+설치된 패키지의 peer 선언을 확인합니다.
+
+```bash
+cat node_modules/@seed-design/react/package.json | grep -A5 peerDependencies
+```
+
+`^2.0.0`처럼 선언된 범위 안에 설치된 `css` 버전이 들어가면 호환됩니다. strict SemVer를 따르므로 minor·patch 업그레이드는 안전합니다.
+
+### 2.0 미만
+
+1.x 구간은 선언만으로 판단할 수 없습니다. 어떤 조합이 실제로 맞는지는 [SEED React 1 and older](/react/updates/upgrade/v1) 문서의 **패키지 간 버전 호환성** 섹션에 버전별 표로 정리돼 있습니다. `@seed-design/stackflow`를 함께 쓴다면 알려진 비호환 조합도 그 표에서 확인하세요.
+
+핵심 규칙만 옮기면, `css`는 `react`와 **같은 마이너 라인**이어야 하고 표에 적힌 하한 이상이어야 합니다. 정확한 하한과 예외는 표를 따르세요.
+
+### 스니펫 호환성 확인하기
+
+설치된 스니펫이 현재 패키지 버전과 맞는지는 `compat`으로 확인합니다.
 
 ```bash
 npx @seed-design/cli@latest compat
 ```
 
-- 설치된 `react`·`css`의 **실제 버전**을 읽어 서로 호환되는지 검사하고, 안 맞으면 어느 버전으로 올려야 하는지 알려줍니다.
-- 호환 이슈가 있으면 종료 코드 `1`로 끝나므로 CI 게이트로도 쓸 수 있습니다.
-
-올리기 **전에** 특정 버전 조합이 호환되는지 미리 확인하려면 `--with`를 사용합니다.
-
-```bash
-npx @seed-design/cli@latest compat --with react@2.0.0 --with css@2.0.0
-```
-
-스크립트나 도구에서 쓸 JSON 출력은 `--json`을 사용합니다.
-
-```bash
-npx @seed-design/cli@latest compat --json
-```
+호환 이슈가 있으면 종료 코드 `1`로 끝나므로 CI 게이트로도 쓸 수 있습니다.
 
 ## 버전 올리기
 
@@ -74,11 +77,13 @@ npx @seed-design/cli@latest compat --json
 <Step>
 ### 현재 호환 상태 확인
 
+설치된 스니펫이 현재 패키지 버전과 맞는지 확인합니다.
+
 ```bash
 npx @seed-design/cli@latest compat
 ```
 
-지금 설치된 조합에 문제가 없는지 먼저 확인합니다.
+`react`와 `css`가 서로 맞는지는 위 [호환성: react ↔ css](#호환성-react--css)를 따릅니다. 2.0 이상이면 peer 선언을, 1.x면 v1 문서의 호환표를 확인하세요.
 </Step>
 
 <Step>
@@ -118,7 +123,7 @@ npx @seed-design/cli@latest add ui:{component}
 <Step>
 ### 검증
 
-업그레이드 후 다시 `compat`으로 호환을 확인하고, 화면 스타일과 동작을 점검합니다.
+업그레이드 후 다시 `compat`으로 스니펫 호환을 확인하고, 화면 스타일과 동작을 점검합니다.
 </Step>
 
 </Steps>
