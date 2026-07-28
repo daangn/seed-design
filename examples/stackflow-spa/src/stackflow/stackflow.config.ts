@@ -76,6 +76,7 @@ export const config = defineConfig({
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },
     { route: "/tabs", name: "ActivityTabs" },
     { route: "/tabs-auto-height-lazy", name: "ActivityTabsAutoHeightLazy" },
+    { route: "/time-picker", name: "ActivityTimePicker" },
     { route: "/chip-tabs-scroll-fog", name: "ActivityChipTabsScrollFog" },
     { route: "/attachment-field", name: "ActivityAttachmentField" },
     { route: "/attachment-display-field", name: "ActivityAttachmentDisplayField" },

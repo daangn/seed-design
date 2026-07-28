@@ -1,0 +1,77 @@
+---
+title: Time Picker
+description: 휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.
+---
+
+<ComponentExample name="react/time-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Usage
+
+```tsx
+import { TimePicker } from "@seed-design/react";
+```
+
+```tsx
+<TimePicker defaultValue={{ hour: 10, minute: 30 }} />
+```
+
+`TimePicker`는 시간 선택 UI만 제공합니다. Trigger, Popover, Bottom Sheet, 확인·취소 버튼과 form 직렬화는 사용하는 화면에서 구성합니다.
+
+현재는 12시간제만 지원하며, 공개 값의 `hour`는 오전·오후를 포함한 0–23 범위입니다.
+
+## Props
+
+<react-type-table
+  path="../packages/react/src/components/TimePicker/TimePicker.tsx"
+  name="TimePickerProps"
+/>
+
+## Examples
+
+### Controlled
+
+`value`와 `onValueChange`를 사용하여 선택한 시간을 제어할 수 있습니다.
+
+<ComponentExample name="react/time-picker/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Minute Step
+
+`minuteStep`은 `1`, `5`, `10`, `15`, `30` 중 하나를 사용할 수 있으며 기본값은 `5`입니다.
+선택된 분이 step에 맞지 않으면 가장 가까운 값으로 반올림합니다. 예를 들어 9시 13분은
+`minuteStep={5}`에서 9시 15분으로 표시됩니다.
+
+<ComponentExample name="react/time-picker/minute-step">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/minute-step.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Localization
+
+`locale`에 따라 오전·오후와 숫자 표기, 컬럼 순서가 달라집니다. 기본 접근성 이름은 한국어이므로 다른 locale을 사용할 때는 컬럼의 접근성 이름도 함께 제공합니다.
+
+<ComponentExample name="react/time-picker/localization">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/localization.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

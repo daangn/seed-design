@@ -1,0 +1,71 @@
+@layer seed-components {
+  .seed-time-picker__root {
+    width: 100%;
+    height: 220px;
+  }
+
+  .seed-time-picker__columns {
+    justify-content: center;
+  }
+
+  .seed-time-picker__selectionIndicator {
+    border-radius: var(--seed-radius-r2);
+    background-color: var(--seed-color-bg-neutral-weak);
+    height: 44px;
+  }
+
+  .seed-time-picker__periodColumn {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+    flex: none;
+  }
+
+  .seed-time-picker__periodColumn:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
+  .seed-time-picker__hourColumn {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+    flex: none;
+  }
+
+  .seed-time-picker__hourColumn:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
+  .seed-time-picker__hourColumn {
+    --seed-time-picker-item-justify-content: flex-end;
+  }
+
+  .seed-time-picker__minuteColumn {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+    flex: none;
+  }
+
+  .seed-time-picker__minuteColumn:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
+  .seed-time-picker__item {
+    align-items: center;
+    justify-content: var(--seed-time-picker-item-justify-content, center);
+    height: 44px;
+    padding-inline: var(--seed-dimension-x4);
+    color: var(--seed-color-fg-disabled);
+    font-size: var(--seed-font-size-t10-static);
+    line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-medium);
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+    display: flex;
+  }
+
+  .seed-time-picker__item[data-selected] {
+    color: var(--seed-color-fg-neutral);
+  }
+}

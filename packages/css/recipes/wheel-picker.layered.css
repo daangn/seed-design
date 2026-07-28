@@ -25,9 +25,14 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
     touch-action: pan-y;
+    width: max-content;
     height: 100%;
     padding-block: var(--seed-wheel-picker-center-offset);
     overflow: hidden auto;
+  }
+
+  .seed-wheel-picker__column[data-disabled] {
+    overflow-y: hidden;
   }
 
   .seed-wheel-picker__column::-webkit-scrollbar {

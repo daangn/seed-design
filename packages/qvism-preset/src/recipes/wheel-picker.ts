@@ -21,6 +21,7 @@ const wheelPicker = defineSlotRecipe({
     },
     column: {
       boxSizing: "border-box",
+      width: "max-content",
       height: "100%",
       overflowX: "hidden",
       overflowY: "auto",
@@ -31,6 +32,9 @@ const wheelPicker = defineSlotRecipe({
       msOverflowStyle: "none",
       touchAction: "pan-y",
       paddingBlock: "var(--seed-wheel-picker-center-offset)",
+      "&[data-disabled]": {
+        overflowY: "hidden",
+      },
       "&::-webkit-scrollbar": {
         display: "none",
       },
