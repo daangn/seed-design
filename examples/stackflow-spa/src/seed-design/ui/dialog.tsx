@@ -6,10 +6,6 @@ import type * as React from "react";
 
 export interface DialogRootProps extends ContentDialog.RootProps {
   /**
-   * @default "medium"
-   */
-  size?: ContentDialog.RootProps["size"];
-  /**
    * @default false
    */
   closeOnInteractOutside?: ContentDialog.RootProps["closeOnInteractOutside"];
