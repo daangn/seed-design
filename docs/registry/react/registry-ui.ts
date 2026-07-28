@@ -363,7 +363,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "quantity-picker.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.3.0" },
         },
       ],
     },
