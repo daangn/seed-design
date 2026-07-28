@@ -56,8 +56,6 @@ export const compatOverlays: CompatOverlay[] = [
   // ── correction: 과대 선언 교정 ──
   // react 1.2.x의 선언(>=1.1.17, 상한 없음)은 css 1.1.x 조합도 통과시키지만,
   // 실제 정책은 same-minor 페어링이라 마크업↔스타일 드리프트가 생길 수 있다.
-  // 참고: react 1.1.10~1.1.28 구간(>=1.1.x 하한만 선언)도 상한이 없긴 하나,
-  // 버전마다 하한이 달라 단일 항목으로 교정하면 하한 정보가 약해지므로 v1 큐레이션에서 보류.
   {
     kind: "correction",
     package: "@seed-design/react",
@@ -65,6 +63,66 @@ export const compatOverlays: CompatOverlay[] = [
     peers: { "@seed-design/css": "~1.2.0" },
     reason: "선언(>=1.1.17)이 과대 — same-minor 페어링 정책 기준으로 교정",
   },
+
+  // react 1.0.x는 css를 같은 번호로 정확히 핀했다(react 1.0.5 → css "1.0.5").
+  // 릴리즈 툴링이 형제 패키지를 핀한 산물이지 호환 판단이 아니라서, 같은 1.0 라인 안의
+  // 패치 드리프트(react 1.0.5 + css 1.0.7)까지 비호환으로 잡히는 과잉 판정이 된다.
+  // 바로 위 1.1.0~1.1.9 lockstep 구간을 ~1.1.0으로 둔 것과 같은 기준으로 맞춘다.
+  {
+    kind: "correction",
+    package: "@seed-design/react",
+    versionRange: ">=1.0.0 <1.1.0",
+    peers: { "@seed-design/css": "~1.0.0" },
+    reason: "same-version 핀은 lockstep 릴리즈 툴링의 산물 — same-minor 페어링 정책 기준으로 완화",
+  },
+
+  // react 1.1.x는 하한만 선언하고 상한이 없어서 css 1.2.x·2.x까지 통과시킨다.
+  // css 1.2.0은 HelpBubble·RadioGroup의 내부 구조를 바꾼 breaking 경계라(아래 breaking-boundary 참고)
+  // react 1.1.x + css 1.2.x는 실제로 마크업↔스타일이 어긋난다.
+  // 1.2.0 릴리즈 이후에도 1.1 라인은 백포트로 계속 나갔고(css 1.1.23~1.1.27),
+  // 그 수정들은 1.2 라인에 별도 버전으로 포워드포트됐다(각각 1.2.5·1.2.4·1.2.11·1.2.14·1.2.15).
+  // 즉 하한만 있는 선언은 "백포트 수정이 아직 없는 1.2.x 초반"까지 통과시키는 구멍이기도 한데,
+  // css를 1.1 라인으로 묶는 상한을 씌우면 이 구멍도 함께 닫힌다.
+  // 하한은 선언마다 다르므로 선언 구간별로 하나씩 둔다(단일 항목으로 묶으면 하한 정보가 사라짐).
+  ...(
+    [
+      [">=1.1.10 <1.1.12", ">=1.1.10"],
+      [">=1.1.12 <1.1.13", ">=1.1.12"],
+      [">=1.1.13 <1.1.16", ">=1.1.13"],
+      [">=1.1.16 <1.1.17", ">=1.1.16"],
+      [">=1.1.17 <1.1.23", ">=1.1.17"],
+      [">=1.1.23 <1.1.24", ">=1.1.23"],
+      [">=1.1.24 <1.2.0", ">=1.1.24"],
+    ] as const
+  ).map(
+    ([versionRange, floor]): CompatOverlay => ({
+      kind: "correction",
+      package: "@seed-design/react",
+      versionRange,
+      peers: { "@seed-design/css": `${floor} <1.2.0` },
+      reason: "선언에 상한이 없어 css 1.2.x·2.x까지 통과 — 1.1 라인 페어링으로 상한 보정",
+    }),
+  ),
+
+  // stackflow 1.0.x도 하한만 선언한다. 1.0 유지보수 백포트(1.0.9)는 css 1.2.0이 나온 뒤인
+  // 2026-02-12에 배포됐는데 선언은 >=1.0.7이라 css 1.1.x·1.2.x까지 통과시킨다.
+  // stackflow 1.1.x와 달리 1.0.x는 1.0 라인 전용이므로 상한을 1.1.0으로 묶는다.
+  // (1.1.x는 css 1.1/1.2 두 라인을 함께 지원하므로 상한 대신 아래 known-bad로 다룬다)
+  ...(
+    [
+      [">=1.0.0 <1.0.5", ">=1.0.0"],
+      [">=1.0.5 <1.0.9", ">=1.0.5"],
+      [">=1.0.9 <1.1.0", ">=1.0.7"],
+    ] as const
+  ).map(
+    ([versionRange, floor]): CompatOverlay => ({
+      kind: "correction",
+      package: "@seed-design/stackflow",
+      versionRange,
+      peers: { "@seed-design/css": `${floor} <1.1.0` },
+      reason: "선언에 상한이 없어 css 1.1.x 이상까지 통과 — 1.0 라인 페어링으로 상한 보정",
+    }),
+  ),
 
   // ── breaking-boundary: 호환 단절 경계 ──
   // 1.0.0·1.1.0은 CHANGELOG의 "BREAKING CHANGE" 마커에서 기계 추출,
@@ -130,5 +188,29 @@ export const compatOverlays: CompatOverlay[] = [
     notes: "css peer 메이저 상승(^2.0.0). AppScreen 포커스/키보드 동작 변경",
   },
 
-  // known-bad: 기록된 사고 조합 아직 없음 — 실제 깨진 조합이 확인되면 여기에 추가
+  // ── known-bad: 실제로 깨지는 것이 확인된 조합 ──
+  // css 1.1.25 CHANGELOG(d71e6db)에 명시된 조합. WAAPI 기반 AppScreen 전환(PR #1444)이
+  // css 1.1.25 / 1.2.11에 들어가면서, 그 이전 stackflow와 섞으면 전환 애니메이션과
+  // AppBar 배경이 깨진다. stackflow 1.1.22+ 는 반대 방향을 선언(>=1.1.25 <1.2.0 || >=1.2.11)으로
+  // 막고 있지만, css 쪽은 leaf라 peer 선언이 없어 이 방향은 overlay로만 표현할 수 있다.
+  {
+    kind: "known-bad",
+    packages: {
+      "@seed-design/stackflow": ">=1.1.16 <1.1.22",
+      "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11",
+    },
+    reason:
+      "css의 WAAPI AppScreen 전환 대응(1.1.25 / 1.2.11)과 그 이전 stackflow 조합 — 화면 전환 애니메이션·AppBar 배경이 깨져요. stackflow를 1.1.22 이상으로 함께 올려주세요",
+  },
+  // stackflow 1.x는 하한만 선언해 css 2.x까지 통과시킨다. 2.0.0은 메이저 경계라 실제로 깨진다.
+  // (react 1.1.x·1.2.x는 위 correction의 상한으로 이미 막힘)
+  {
+    kind: "known-bad",
+    packages: {
+      "@seed-design/stackflow": ">=1.0.0 <2.0.0",
+      "@seed-design/css": ">=2.0.0",
+    },
+    reason:
+      "stackflow 1.x는 css peer에 상한이 없어 css 2.x도 선언상 통과하지만, 2.0.0은 메이저 경계예요. stackflow도 2.x로 함께 올려주세요",
+  },
 ];

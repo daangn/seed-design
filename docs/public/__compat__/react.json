@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "framework": "react",
-  "generatedAt": "2026-07-27T15:55:43.642Z",
+  "generatedAt": "2026-07-28T06:35:40.642Z",
   "packages": {
     "@seed-design/css": {
       "versions": [
@@ -1678,6 +1678,105 @@
       "reason": "선언(>=1.1.17)이 과대 — same-minor 페어링 정책 기준으로 교정"
     },
     {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.0.0 <1.1.0",
+      "peers": {
+        "@seed-design/css": "~1.0.0"
+      },
+      "reason": "same-version 핀은 lockstep 릴리즈 툴링의 산물 — same-minor 페어링 정책 기준으로 완화"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.1.10 <1.1.12",
+      "peers": {
+        "@seed-design/css": ">=1.1.10 <1.2.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.2.x·2.x까지 통과 — 1.1 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.1.12 <1.1.13",
+      "peers": {
+        "@seed-design/css": ">=1.1.12 <1.2.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.2.x·2.x까지 통과 — 1.1 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.1.13 <1.1.16",
+      "peers": {
+        "@seed-design/css": ">=1.1.13 <1.2.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.2.x·2.x까지 통과 — 1.1 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.1.16 <1.1.17",
+      "peers": {
+        "@seed-design/css": ">=1.1.16 <1.2.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.2.x·2.x까지 통과 — 1.1 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.1.17 <1.1.23",
+      "peers": {
+        "@seed-design/css": ">=1.1.17 <1.2.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.2.x·2.x까지 통과 — 1.1 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.1.23 <1.1.24",
+      "peers": {
+        "@seed-design/css": ">=1.1.23 <1.2.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.2.x·2.x까지 통과 — 1.1 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/react",
+      "versionRange": ">=1.1.24 <1.2.0",
+      "peers": {
+        "@seed-design/css": ">=1.1.24 <1.2.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.2.x·2.x까지 통과 — 1.1 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/stackflow",
+      "versionRange": ">=1.0.0 <1.0.5",
+      "peers": {
+        "@seed-design/css": ">=1.0.0 <1.1.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.1.x 이상까지 통과 — 1.0 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/stackflow",
+      "versionRange": ">=1.0.5 <1.0.9",
+      "peers": {
+        "@seed-design/css": ">=1.0.5 <1.1.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.1.x 이상까지 통과 — 1.0 라인 페어링으로 상한 보정"
+    },
+    {
+      "kind": "correction",
+      "package": "@seed-design/stackflow",
+      "versionRange": ">=1.0.9 <1.1.0",
+      "peers": {
+        "@seed-design/css": ">=1.0.7 <1.1.0"
+      },
+      "reason": "선언에 상한이 없어 css 1.1.x 이상까지 통과 — 1.0 라인 페어링으로 상한 보정"
+    },
+    {
       "kind": "breaking-boundary",
       "package": "@seed-design/react",
       "version": "1.0.0",
@@ -1730,6 +1829,22 @@
       "package": "@seed-design/stackflow",
       "version": "2.0.0",
       "notes": "css peer 메이저 상승(^2.0.0). AppScreen 포커스/키보드 동작 변경"
+    },
+    {
+      "kind": "known-bad",
+      "packages": {
+        "@seed-design/stackflow": ">=1.1.16 <1.1.22",
+        "@seed-design/css": ">=1.1.25 <1.2.0 || >=1.2.11"
+      },
+      "reason": "css의 WAAPI AppScreen 전환 대응(1.1.25 / 1.2.11)과 그 이전 stackflow 조합 — 화면 전환 애니메이션·AppBar 배경이 깨져요. stackflow를 1.1.22 이상으로 함께 올려주세요"
+    },
+    {
+      "kind": "known-bad",
+      "packages": {
+        "@seed-design/stackflow": ">=1.0.0 <2.0.0",
+        "@seed-design/css": ">=2.0.0"
+      },
+      "reason": "stackflow 1.x는 css peer에 상한이 없어 css 2.x도 선언상 통과하지만, 2.0.0은 메이저 경계예요. stackflow도 2.x로 함께 올려주세요"
     }
   ]
 }
