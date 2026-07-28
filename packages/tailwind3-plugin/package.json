@@ -8,7 +8,7 @@
     "directory": "packages/tailwind3-plugin"
   },
   "author": "Daangn",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "module",
   "exports": {
     ".": {
@@ -28,7 +28,9 @@
   "sideEffects": false,
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",
