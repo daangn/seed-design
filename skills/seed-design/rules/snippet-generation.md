@@ -14,11 +14,14 @@
    grep -r "@requires" {snippetRoot} --include="*.tsx" --include="*.ts"
    ```
 
-2. 최신 registry의 canonical 범위를 가져옵니다. `snippets[].dependencies`가 각 스니펫 파일의 현재 `@requires`입니다.
+2. 최신 registry의 canonical 범위를 가져옵니다. registry별 인덱스의 `items[].snippets[].dependencies`가 각 스니펫 파일의 현재 `@requires`입니다.
 
    ```text
-   https://seed-design.io/__registry__/{framework}/index.json
+   https://seed-design.io/__registry__/{framework}/{registryId}/index.json
+   (예: https://seed-design.io/__registry__/react/ui/index.json)
    ```
+
+   registry 목록 자체는 `__registry__/{framework}/index.json`에 있습니다 — 이 파일에는 dependencies가 없습니다.
 
 3. 같은 파일 경로(`{registryId}/{snippetPath}`)끼리 비교해, 범위가 다르면 구세대로 판정합니다. 해시 비교가 아니므로 **로컬 수정 여부는 이 룰이 판정하지 않습니다** — rsc/tsx 변환 때문에 단순 비교는 전부 오탐입니다.
 

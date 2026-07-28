@@ -21,6 +21,8 @@ SEED는 **2.0.0부터 strict SemVer를 따릅니다.** 그 이전(1.x)에는 min
    npm view @seed-design/react version
    ```
 
+   `npm` 실행이 막힌 환경(bun 전용 훅 등)이면 registry를 직접 조회합니다: `curl -s https://registry.npmjs.org/@seed-design%2freact/latest` 응답의 `version`.
+
 4. major 차이 → `warn`, minor/patch 차이 → `info`. 네트워크가 막혀 조회에 실패하면 이 룰은 **판정하지 않고 건너뜁니다**(진단 전체를 중단하지 않습니다).
 
 ## 수정 방법
