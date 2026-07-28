@@ -1,5 +1,48 @@
 # @seed-design/react
 
+## 2.0.5
+
+### Patch Changes
+
+- 26c8fac: `DialogActionProps`가 `DialogAction`이 실제로 받는 props를 나타내도록 수정합니다. `type`, `disabled`, `form`, `value` 등 button 전용 속성이 포함됩니다.
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- Updated dependencies [270c93d]
+- Updated dependencies [fb6f9c4]
+  - @seed-design/dom-utils@2.0.1
+  - @seed-design/react-accordion@1.0.1
+  - @seed-design/react-attachment-display@1.0.1
+  - @seed-design/react-avatar@2.0.1
+  - @seed-design/react-checkbox@2.0.1
+  - @seed-design/react-collapsible@1.0.1
+  - @seed-design/react-dialog@2.0.2
+  - @seed-design/react-drawer@2.0.2
+  - @seed-design/react-field@2.0.1
+  - @seed-design/react-field-button@2.0.1
+  - @seed-design/react-fieldset@1.0.1
+  - @seed-design/react-file-upload@1.0.1
+  - @seed-design/react-image@1.0.1
+  - @seed-design/react-menu@2.0.1
+  - @seed-design/react-middle-truncate@1.0.1
+  - @seed-design/react-navigation-menu@2.0.1
+  - @seed-design/react-popover@2.0.1
+  - @seed-design/react-portal@2.0.1
+  - @seed-design/react-primitive@2.0.1
+  - @seed-design/react-progress@2.0.1
+  - @seed-design/react-pull-to-refresh@2.0.1
+  - @seed-design/react-radio-group@2.0.1
+  - @seed-design/react-segmented-control@2.0.2
+  - @seed-design/react-side-navigation@1.0.1
+  - @seed-design/react-slider@2.0.1
+  - @seed-design/react-snackbar@2.0.1
+  - @seed-design/react-switch@2.0.1
+  - @seed-design/react-tabs@2.0.1
+  - @seed-design/react-text-field@2.0.1
+  - @seed-design/react-toggle@2.0.1
+  - @seed-design/react-tooltip@1.0.1
+
 ## 2.0.4
 
 ### Patch Changes
