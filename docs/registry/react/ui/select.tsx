@@ -27,6 +27,8 @@ export interface SelectRootProps extends SeedSelect.RootProps {
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
 
+  hiddenSelectProps?: SeedSelect.HiddenSelectProps;
+
   fieldRef?: React.Ref<HTMLDivElement>;
 }
 
@@ -40,6 +42,7 @@ export const SelectRoot = ({
   showRequiredIndicator,
   description,
   errorMessage,
+  hiddenSelectProps,
   fieldRef,
   children,
   ...props
@@ -76,7 +79,7 @@ export const SelectRoot = ({
       )}
       <SeedSelect.Root {...props}>
         {children}
-        <SeedSelect.HiddenSelect />
+        <SeedSelect.HiddenSelect {...hiddenSelectProps} />
       </SeedSelect.Root>
       {renderFooter && (
         <SeedField.Footer>
