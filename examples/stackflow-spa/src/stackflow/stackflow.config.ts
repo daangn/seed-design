@@ -60,6 +60,7 @@ export const config = defineConfig({
     { route: "/partial-dark-mode", name: "ActivityPartialDarkMode" },
     { route: "/perf-check", name: "ActivityPerfCheck" },
     { route: "/plugin-basic-ui", name: "ActivityPluginBasicUI" },
+    { route: "/quantity-picker", name: "ActivityQuantityPicker" },
     { route: "/radio-group", name: "ActivityRadioGroup" },
     { route: "/reaction-button", name: "ActivityReactionButton" },
     { route: "/segmented-control", name: "ActivitySegmentedControl" },

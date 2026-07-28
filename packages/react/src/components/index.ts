@@ -57,6 +57,7 @@ export * from "./PageBanner";
 export * from "./Portal";
 export * from "./ProgressCircle";
 export * from "./PullToRefresh";
+export * from "./QuantityPicker";
 export * from "./RadioGroup";
 export * from "./RadioGroupField";
 export * from "./ReactionButton";
