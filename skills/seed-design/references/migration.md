@@ -10,6 +10,28 @@ npx @seed-design/cli@latest compat
 
 호환성 이슈가 있으면 종료 코드 `1`로 끝나므로 CI에서도 게이트로 사용할 수 있습니다.
 
+## Package Version Compatibility
+
+`compat`은 **스니펫**이 요구하는 범위만 검사합니다. `@seed-design/react`·`@seed-design/css`·`@seed-design/stackflow` **패키지끼리** 맞는지는 아래 기준으로 판단합니다.
+
+**SEED React 2 이상이면 `peerDependencies` 선언이 곧 정답입니다.** 2.0.0부터 strict SemVer를 따르므로 설치본의 선언을 그대로 신뢰하면 됩니다.
+
+```bash
+cat node_modules/@seed-design/react/package.json | grep -A5 peerDependencies
+```
+
+**1.x 구간은 선언에 상한이 없거나 누락된 경우가 있어 선언만으로 판단하면 안 됩니다.** 이 시기의 호환표와 알려진 비호환 조합은 아래 문서에 정리돼 있으니, 1.x 조합을 판정해야 하면 반드시 먼저 읽습니다.
+
+- `https://seed-design.io/llms/react/updates/upgrade/v1.txt` (섹션: 패키지 간 버전 호환성)
+
+핵심 규칙만 요약하면 이렇습니다. 정확한 하한과 예외는 위 문서의 표를 따릅니다.
+
+- `@seed-design/css`는 `@seed-design/react`와 **같은 마이너 라인**이어야 하고, 표의 하한 이상이어야 합니다. 라인이 다르면(react 1.1.x + css 1.2.x) 호환되지 않습니다.
+- `@seed-design/stackflow`는 1.2 라인이 없어 1.1 라인이 css 1.1·1.2를 함께 지원합니다. 단 WAAPI 경계(stackflow 1.1.22 / css 1.1.25·1.2.11)를 섞으면 화면 전환이 깨집니다.
+- 표에 없는(문서 작성 이후 배포된) 버전은 위 `peerDependencies` 확인 방식으로 판정합니다.
+
+버전 구간을 추측하지 말고 문서의 표를 실제로 읽고 대조합니다.
+
 ## Install Compatible Snippets
 
 프로젝트에 설치된 SEED 버전과 맞는 스니펫이 필요하면 버전 옵션을 사용합니다. CLI가 해당 버전이 배포된 레지스트리 주소를 자동으로 찾아줍니다.

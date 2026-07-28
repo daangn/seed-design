@@ -4,6 +4,8 @@
 
 업그레이드 진단은 CLI 프리미티브(`docs`, `compat`)를 조합하여 수행합니다. CLI는 데이터 fetch만 담당하고, 이 스킬이 해석과 분석을 담당합니다.
 
+**패키지끼리의 버전 호환은 CLI가 판정하지 않습니다.** `compat`은 스니펫 요구 범위만 검사하므로, `@seed-design/react`·`@seed-design/css`·`@seed-design/stackflow` 조합이 맞는지는 이 스킬이 판단합니다. 2.x는 `peerDependencies` 선언이 정답이고, 1.x는 선언이 부정확하던 시기라 `references/migration.md`의 "Package Version Compatibility"와 거기서 가리키는 v1 업그레이드 문서의 호환표를 근거로 삼습니다.
+
 ## Upgrade Diagnosis Workflow
 
 ### Step 1: 패키지와 버전 결정
