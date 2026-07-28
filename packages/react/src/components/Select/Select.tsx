@@ -60,6 +60,13 @@ export interface SelectRootProps
     SelectItemVariantProps,
     SelectPrimitive.RootProps {}
 
+// NOTE: `gutter` and `overflowPadding` are specified in Rootage (`select.yaml`,
+// both `$dimension.x2`) and generated into `@seed-design/css`, but nothing reads
+// them: floating-ui's `offset`/`shift` take numbers, not CSS custom properties,
+// so the headless layer falls back to its own `8`. That default stays
+// design-system-agnostic on purpose — this layer is the one that owns the
+// Rootage binding, so seed the spec values from here when they need to win,
+// the way `HelpBubbleRoot` passes `gutter` through `defaultProps`.
 export const SelectRoot = (props: SelectRootProps) => {
   const [
     {
