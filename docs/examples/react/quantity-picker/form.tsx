@@ -1,16 +1,14 @@
-import { HStack, Text, VStack } from "@seed-design/react";
-import { useState, type FormEvent } from "react";
+import { VStack } from "@seed-design/react";
+import type { FormEvent } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { QuantityPicker } from "seed-design/ui/quantity-picker";
 
 export default function QuantityPickerForm() {
-  const [submittedQuantity, setSubmittedQuantity] = useState<number | null>(null);
-
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    setSubmittedQuantity(Number(formData.get("quantity")));
+    window.alert(`제출한 수량: ${formData.get("quantity")}개`);
   }
 
   return (
@@ -23,14 +21,9 @@ export default function QuantityPickerForm() {
           aria-label="상품 수량"
           inputProps={{ name: "quantity" }}
         />
-        <HStack gap="x2">
-          <ActionButton type="submit" variant="neutralSolid">
-            제출
-          </ActionButton>
-          {submittedQuantity !== null && (
-            <Text textStyle="t4Regular">제출한 수량: {submittedQuantity}개</Text>
-          )}
-        </HStack>
+        <ActionButton type="submit" variant="neutralSolid">
+          제출
+        </ActionButton>
       </form>
     </VStack>
   );

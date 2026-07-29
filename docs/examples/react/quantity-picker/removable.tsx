@@ -1,12 +1,20 @@
 import { Text, VStack } from "@seed-design/react";
 import { useState } from "react";
+import { ActionButton } from "seed-design/ui/action-button";
 import { QuantityPicker } from "seed-design/ui/quantity-picker";
 
 export default function QuantityPickerRemovable() {
   const [removed, setRemoved] = useState(false);
 
   if (removed) {
-    return <Text textStyle="t4Regular">상품을 삭제했습니다.</Text>;
+    return (
+      <VStack gap="x3" align="center">
+        <Text textStyle="t4Regular">상품을 삭제했습니다.</Text>
+        <ActionButton variant="neutralWeak" onClick={() => setRemoved(false)}>
+          되돌리기
+        </ActionButton>
+      </VStack>
+    );
   }
 
   return (
