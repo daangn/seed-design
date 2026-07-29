@@ -22,7 +22,6 @@ export default function QuantityPickerForm() {
           defaultValue={1}
           aria-label="상품 수량"
           inputProps={{ name: "quantity" }}
-          getValueText={(value) => `${value}개`}
         />
         <HStack gap="x2">
           <ActionButton type="submit" variant="neutralSolid">

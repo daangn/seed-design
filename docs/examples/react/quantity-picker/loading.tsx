@@ -18,7 +18,6 @@ export default function QuantityPickerLoading() {
         defaultValue={2}
         loading={{ increment: loading }}
         aria-label="상품 수량"
-        getValueText={(value) => `${value}개`}
       />
       <ActionButton variant="neutralWeak" onClick={toggleLoading}>
         Increment loading 전환

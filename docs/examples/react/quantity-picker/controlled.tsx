@@ -13,7 +13,6 @@ export default function QuantityPickerControlled() {
         value={quantity}
         onValueChange={setQuantity}
         aria-label="상품 수량"
-        getValueText={(value) => `${value}개`}
       />
       <Text textStyle="t4Regular">현재 수량: {quantity}개</Text>
     </VStack>

@@ -19,7 +19,6 @@ export default function QuantityPickerRemovable() {
         aria-label="상품 수량"
         removeAriaLabel="상품 삭제"
         onRemove={() => setRemoved(true)}
-        getValueText={(value) => `${value}개`}
       />
       <Text textStyle="t4Regular">최소 수량에서 Decrement 버튼이 Remove 버튼으로 전환됩니다.</Text>
     </VStack>
