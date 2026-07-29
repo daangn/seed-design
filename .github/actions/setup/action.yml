@@ -11,6 +11,11 @@ inputs:
     required: false
     default: 'false'
 
+outputs:
+  build-cache-primary-key:
+    description: 'Primary key used for the build output cache'
+    value: ${{ steps.cache-build.outputs.cache-primary-key }}
+
 runs:
   using: 'composite'
   steps:

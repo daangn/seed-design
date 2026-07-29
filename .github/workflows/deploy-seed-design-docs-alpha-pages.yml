@@ -56,6 +56,7 @@ jobs:
             ${{ runner.os }}-figma-images-
 
       - uses: ./.github/actions/setup
+        id: setup
         with:
           build-packages: true
           build-rootage: true
@@ -65,11 +66,11 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: docs/.next/cache
-          # Key the cache by actual docs inputs and workspace artifacts prepared by setup.
-          key: ${{ runner.os }}-nextjs-v2-${{ hashFiles('bun.lock') }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json', 'packages/**/CHANGELOG.md', 'packages/**/package.json', 'packages/css/**/*.css', 'packages/css/**/*.mjs', 'packages/css/**/*.d.ts', 'packages/rootage/__generated__/**/*.json', 'packages/migration-index/**/*.mjs', 'packages/migration-index/**/*.d.ts') }}-${{ hashFiles('packages/**/lib/**', 'packages/**/dist/**', 'packages/**/build/**', 'ecosystem/**/lib/**', 'ecosystem/**/dist/**', 'ecosystem/**/build/**') }}
-          # Rebuild from the nearest cache with the same dependency graph.
+          # Reuse the build inputs already hashed by setup, then add docs inputs only.
+          key: ${{ runner.os }}-nextjs-${{ steps.setup.outputs.build-cache-primary-key }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json') }}
+          # Rebuild from the nearest cache when build or docs inputs changed.
           restore-keys: |
-            ${{ runner.os }}-nextjs-v2-${{ hashFiles('bun.lock') }}-
+            ${{ runner.os }}-nextjs-
 
       - name: Build Docs
         working-directory: ./docs
