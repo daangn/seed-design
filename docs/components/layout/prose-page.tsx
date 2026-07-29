@@ -11,11 +11,6 @@ interface ProsePageProps {
   children: ReactNode;
   /** 하단 사이트 footer 표시 (기본 true) */
   footer?: boolean;
-  /**
-   * 본문이 짧아도 footer를 첫 화면 밖으로 밀어낸다(기본 false).
-   * min-height는 footer를 뺀 제목+본문 영역에만 건다 — main 전체에 걸면 footer 높이가
-   * 이미 그 값을 채워버려서 아무 효과가 없다.
-   */
   fullHeight?: boolean;
 }
 
@@ -38,7 +33,6 @@ export function ProsePage({
     <div className="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
       {hero ? <div className="mb-10 w-full md:mb-14">{hero}</div> : null}
       <div className="mx-auto w-full max-w-[1100px]">
-        {/* 사이트 헤더(64px)와 main 상단 패딩(40/64px)을 뺀 높이 — footer가 첫 화면 경계에 걸린다. */}
         <div
           className={clsx(fullHeight && "min-h-[calc(100dvh-104px)] md:min-h-[calc(100dvh-128px)]")}
         >
