@@ -53,21 +53,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-figma-images-
 
+      - uses: ./.github/actions/setup
+        with:
+          build-packages: true
+          build-rootage: true
+
       - name: Restore Next.js cache
         id: restore-nextjs-cache
         uses: actions/cache/restore@v5
         with:
           path: docs/.next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
+          # Key the cache by actual docs inputs and workspace artifacts prepared by setup.
+          key: ${{ runner.os }}-nextjs-v2-${{ hashFiles('bun.lock') }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json', 'packages/**/CHANGELOG.md', 'packages/**/package.json', 'packages/css/**/*.css', 'packages/css/**/*.mjs', 'packages/css/**/*.d.ts', 'packages/rootage/__generated__/**/*.json', 'packages/migration-index/**/*.mjs', 'packages/migration-index/**/*.d.ts') }}-${{ hashFiles('packages/**/lib/**', 'packages/**/dist/**', 'packages/**/build/**', 'ecosystem/**/lib/**', 'ecosystem/**/dist/**', 'ecosystem/**/build/**') }}
+          # Rebuild from the nearest cache with the same dependency graph.
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
-
-      - uses: ./.github/actions/setup
-        with:
-          build-packages: true
-          build-rootage: true
+            ${{ runner.os }}-nextjs-v2-${{ hashFiles('bun.lock') }}-
 
       - name: Build Docs
         working-directory: ./docs
