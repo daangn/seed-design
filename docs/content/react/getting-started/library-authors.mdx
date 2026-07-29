@@ -1,20 +1,20 @@
 ---
 title: Library Authors
-description: Seed Design을 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.
+description: SEED를 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.
 ---
 
-이 문서는 Seed Design으로 만든 컴포넌트를 **npm 패키지(SDK, 공유 컴포넌트 라이브러리 등)로 배포하는 팀**을 위한 가이드예요. 앱(프로젝트)에서 바로 사용하는 경우에는 [설치 가이드](/react/getting-started/installation/vite)를 참고해주세요.
+이 문서는 SEED로 만든 컴포넌트를 **npm 패키지(SDK, 공유 컴포넌트 라이브러리 등)로 배포하는 팀**을 위한 가이드예요. 앱(프로젝트)에서 바로 사용하는 경우에는 [설치 가이드](/react/getting-started/installation/vite)를 참고해주세요.
 
-이 문서에서는 Seed Design을 사용하는 패키지를 **라이브러리**, 그 라이브러리를 설치해 최종 번들을 만드는 앱을 **프로젝트**라고 불러요.
+이 문서에서는 SEED를 사용하는 패키지를 **라이브러리**, 그 라이브러리를 설치해 최종 번들을 만드는 앱을 **프로젝트**라고 불러요.
 
 ## 세 가지 핵심 원칙
 
 <Callout type="warn">
 
-이 중 하나라도 어기면 **프로젝트 번들에 Seed CSS가 두 벌 들어가서 스타일이 깨질 수 있어요.**
+이 중 하나라도 어기면 **프로젝트 번들에 SEED CSS가 두 벌 들어가서 스타일이 깨질 수 있어요.**
 
-1. Seed 패키지는 `peerDependencies`로만 선언해요. (`dependencies` 금지)
-2. 빌드 결과물(dist)에 Seed 코드를 포함하지 않아요. (external 처리)
+1. SEED 패키지는 `peerDependencies`로만 선언해요. (`dependencies` 금지)
+2. 빌드 결과물(dist)에 SEED 코드를 포함하지 않아요. (external 처리)
 3. CSS 파일 import는 프로젝트에 위임해요. (라이브러리 코드에서 `@seed-design/css/*.css` import 금지)
 
 </Callout>
@@ -23,11 +23,11 @@ description: Seed Design을 사용하는 공유 패키지와 SDK를 만들 때�
 
 ## 왜 이렇게 해야 하나요?
 
-Seed Design의 클래스명(`.seed-action-button`)과 토큰(`--seed-*`)은 **버전과 무관한 고정 문자열**이에요. 그리고 컴포넌트 CSS는 별도 import 없이도 따라 들어와요. `@seed-design/react`가 사용하는 recipe 모듈이 내부에서 자신의 CSS를 import하기 때문이에요.
+SEED의 클래스명(`.seed-action-button`)과 토큰(`--seed-*`)은 **버전과 무관한 고정 문자열**이에요. 그리고 컴포넌트 CSS는 별도 import 없이도 따라 들어와요. `@seed-design/react`가 사용하는 recipe 모듈이 내부에서 자신의 CSS를 import하기 때문이에요.
 
-그래서 라이브러리가 Seed를 `dependencies`로 선언하거나 번들에 포함하면, 프로젝트가 가진 Seed와 **서로 다른 두 벌의 CSS**가 같은 클래스명으로 로드돼요. 이때 어느 쪽 스타일이 이길지는 로드 순서가 결정하는데, 번들러의 프로덕션 CSS 순서는 개발 환경과 다를 수 있어서 **배포 후에야 깨짐을 발견**하는 경우가 많아요.
+그래서 라이브러리가 SEED를 `dependencies`로 선언하거나 번들에 포함하면, 프로젝트가 가진 SEED와 **서로 다른 두 벌의 CSS**가 같은 클래스명으로 로드돼요. 이때 어느 쪽 스타일이 이길지는 로드 순서가 결정하는데, 번들러의 프로덕션 CSS 순서는 개발 환경과 다를 수 있어서 **배포 후에야 깨짐을 발견**하는 경우가 많아요.
 
-`peerDependencies`로 선언하면 "이 라이브러리는 프로젝트가 가진 Seed를 함께 사용한다"는 계약이 되고, 번들에는 항상 한 벌의 Seed만 남아요.
+`peerDependencies`로 선언하면 "이 라이브러리는 프로젝트가 가진 SEED를 함께 사용한다"는 계약이 되고, 번들에는 항상 한 벌의 SEED만 남아요.
 
 ## 내 라이브러리 상태 진단하기
 
@@ -35,9 +35,9 @@ Seed Design의 클래스명(`.seed-action-button`)과 토큰(`--seed-*`)은 **�
 
 | 확인할 것 | 문제 상태 | 해야 할 작업 |
 | --- | --- | --- |
-| Seed를 어디에 선언했나요? | `dependencies`에 있음 | **이미 `dependencies`로 선언했다면** 섹션 — peer로 전환 |
+| SEED를 어디에 선언했나요? | `dependencies`에 있음 | **이미 `dependencies`로 선언했다면** 섹션 — peer로 전환 |
 | peer 범위가 정직한가요? | `>=1.x`처럼 상한이 없거나 `^1.x`로 1.x의 minor를 가로지름 | **버전 범위 정하기** 섹션 |
-| 빌드에 Seed가 포함되나요? | dist에서 `seed-*` 클래스가 보임 | **빌드에서 external 처리하기** 섹션 |
+| 빌드에 SEED가 포함되나요? | dist에서 `seed-*` 클래스가 보임 | **빌드에서 external 처리하기** 섹션 |
 | SEED 2.0을 지원하나요? | peer가 `^1`만 받아 2.0 프로젝트가 이 라이브러리를 못 씀 | **SEED 2.0으로 확장하기** 섹션 |
 
 ## 의존성 선언하고 빌드 설정하기
@@ -46,7 +46,7 @@ Seed Design의 클래스명(`.seed-action-button`)과 토큰(`--seed-*`)은 **�
 
 ### peerDependencies로 선언하기
 
-Seed 패키지는 `peerDependencies`에 선언하고, 개발·테스트용 설치는 `devDependencies`를 사용해요.
+SEED 패키지는 `peerDependencies`에 선언하고, 개발·테스트용 설치는 `devDependencies`를 사용해요.
 
 ```json title="package.json"
 {
@@ -65,7 +65,7 @@ Seed 패키지는 `peerDependencies`에 선언하고, 개발·테스트용 설�
 
 ### 버전 범위 정하기
 
-Seed는 [**2.0을 분기점**으로 버저닝 정책](/react/updates/upgrade#버저닝-정책)이 달라서, peer 범위도 그 분기점에 맞춰 정해요.
+SEED는 [**2.0을 분기점**으로 버저닝 정책](/react/updates/upgrade#버저닝-정책)이 달라서, peer 범위도 그 분기점에 맞춰 정해요.
 
 | 지원 대상 | 권장 범위 | 이유 |
 | --- | --- | --- |
@@ -99,11 +99,11 @@ OR로 넓힐 때도 각 구간에 **상한**을 두세요. `>=1.2.11`처럼 상�
 
 **react와 css는 각각 선언해요.** `@seed-design/react`는 [css를 런타임 기반으로 사용](/react/updates/upgrade#호환성-react--css)하므로, css를 peer에서 빠뜨리면 프로젝트가 호환되지 않는 css를 설치해도 막을 수 없어요. 또 두 패키지의 major는 독립적으로 올라갈 수 있어서(css 변경 없이 react만 major가 되는 경우 등), `^2` 한 묶음으로 가정하지 말고 각 패키지의 범위를 따로 검증해 선언해요.
 
-새 버전이 나오면 라이브러리에서 동작을 검증한 뒤 범위를 넓혀주세요. 지원하는 Seed 버전 범위는 라이브러리 README에도 명시하는 것을 권장해요.
+새 버전이 나오면 라이브러리에서 동작을 검증한 뒤 범위를 넓혀주세요. 지원하는 SEED 버전 범위는 라이브러리 README에도 명시하는 것을 권장해요.
 
 ### 빌드에서 external 처리하기
 
-빌드 결과물에 Seed 코드가 포함되지 않도록 `@seed-design/*`를 external 처리해요.
+빌드 결과물에 SEED 코드가 포함되지 않도록 `@seed-design/*`를 external 처리해요.
 
 <Tabs items={['Vite (lib mode)', 'tsup']}>
 <Tab value="Vite (lib mode)">
@@ -134,7 +134,7 @@ export default defineConfig({
 </Tab>
 <Tab value="tsup">
 
-tsup은 `dependencies`와 `peerDependencies`를 기본으로 external 처리해요. Seed를 `peerDependencies`에 올바르게 선언했다면 추가 설정 없이 동작하지만, 명시적으로 적어두면 더 안전해요.
+tsup은 `dependencies`와 `peerDependencies`를 기본으로 external 처리해요. SEED를 `peerDependencies`에 올바르게 선언했다면 추가 설정 없이 동작하지만, 명시적으로 적어두면 더 안전해요.
 
 ```ts title="tsup.config.ts"
 import { defineConfig } from "tsup";
@@ -149,7 +149,7 @@ export default defineConfig({
 </Tab>
 </Tabs>
 
-빌드 후에는 dist 산출물에 Seed 코드와 CSS가 포함되지 않았는지 확인해주세요.
+빌드 후에는 dist 산출물에 SEED 코드와 CSS가 포함되지 않았는지 확인해주세요.
 
 ```sh
 grep -r "seed-action-button" dist/ # 결과가 없어야 해요
@@ -168,7 +168,7 @@ import "@seed-design/css/base.css"; // [!code --]
 ````md title="README.md"
 ## 사전 준비
 
-이 패키지는 Seed Design을 peer dependency로 사용해요.
+이 패키지는 SEED를 peer dependency로 사용해요.
 프로젝트에 @seed-design/react, @seed-design/css가 설치되어 있어야 하고,
 앱 진입점에서 base.css를 한 번 import해야 해요.
 
@@ -179,11 +179,11 @@ import "@seed-design/css/base.css";
 
 ## 이미 `dependencies`로 선언했다면
 
-1.x의 호환 혼란을 피하려고 Seed를 `dependencies`에 넣거나 번들에 포함해 둔 경우가 있어요. 이건 두 벌 CSS 위험을 그대로 안고 있어서 `peerDependencies`로 옮겨야 해요.
+1.x의 호환 혼란을 피하려고 SEED를 `dependencies`에 넣거나 번들에 포함해 둔 경우가 있어요. 이건 두 벌 CSS 위험을 그대로 안고 있어서 `peerDependencies`로 옮겨야 해요.
 
 <Callout type="warn">
 
-`dependencies` → `peerDependencies` 전환은 **그 자체로 동작이 바뀌는 변경**이에요. 그동안 라이브러리가 자기 안에 가둬 쓰던 Seed가 이제 프로젝트의 Seed와 합쳐지면서, 숨어 있던 버전 불일치가 드러날 수 있어요. 아래 순서로 안전하게 전환하세요.
+`dependencies` → `peerDependencies` 전환은 **그 자체로 동작이 바뀌는 변경**이에요. 그동안 라이브러리가 자기 안에 가둬 쓰던 SEED가 이제 프로젝트의 SEED와 합쳐지면서, 숨어 있던 버전 불일치가 드러날 수 있어요. 아래 순서로 안전하게 전환하세요.
 
 </Callout>
 
@@ -196,7 +196,7 @@ import "@seed-design/css/base.css";
 <Step>
 ### 빌드에서 external 처리
 
-Seed를 external 처리해요(위 **빌드에서 external 처리하기** 참고). dist에 Seed 코드가 빠졌는지 확인해요.
+SEED를 external 처리해요(위 **빌드에서 external 처리하기** 참고). dist에 SEED 코드가 빠졌는지 확인해요.
 </Step>
 <Step>
 ### 호환 확인
@@ -210,7 +210,7 @@ npx @seed-design/cli@latest compat
 <Step>
 ### 라이브러리 major를 올려 배포
 
-소비자의 설치 방식이 바뀌므로(이제 프로젝트가 Seed를 직접 설치해야 함) **라이브러리 major를 올려 배포**해요. README에 "프로젝트에 Seed 설치 + `base.css` import 필요"를 안내해요.
+소비자의 설치 방식이 바뀌므로(이제 프로젝트가 SEED를 직접 설치해야 함) **라이브러리 major를 올려 배포**해요. README에 "프로젝트에 SEED 설치 + `base.css` import 필요"를 안내해요.
 </Step>
 </Steps>
 
@@ -224,7 +224,7 @@ npx @seed-design/cli@latest compat
 
 </Callout>
 
-먼저 내가 쓰는 컴포넌트가 2.0에서 바뀌었는지 [changelog로 확인](/react/updates/upgrade#변경사항-확인)해요. 그리고 개발 의존성의 Seed를 2.0으로 올린 뒤 라이브러리 테스트와 빌드가 통과하는지 보는 것이 가장 확실해요.
+먼저 내가 쓰는 컴포넌트가 2.0에서 바뀌었는지 [changelog로 확인](/react/updates/upgrade#변경사항-확인)해요. 그리고 개발 의존성의 SEED를 2.0으로 올린 뒤 라이브러리 테스트와 빌드가 통과하는지 보는 것이 가장 확실해요.
 
 ```package-install
 @seed-design/react@2 @seed-design/css@2
@@ -261,7 +261,7 @@ B(한 코드베이스로 1.x·2.0 동시 지원)는 컴포넌트가 양쪽에 �
 
 </Callout>
 
-라이브러리 공개 API나 런타임 로직에서 이 경로를 직접 사용하면, 프로젝트의 Seed minor·patch 업그레이드만으로도 깨질 수 있어요. 필요한 스타일은 공개 컴포넌트와 recipe 클래스를 쓰거나, 값이 직접 필요하면 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 쓰세요.
+라이브러리 공개 API나 런타임 로직에서 이 경로를 직접 사용하면, 프로젝트의 SEED minor·patch 업그레이드만으로도 깨질 수 있어요. 필요한 스타일은 공개 컴포넌트와 recipe 클래스를 쓰거나, 값이 직접 필요하면 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 쓰세요.
 
 디자인 토큰으로 옮기면 무엇을 보장받는지가 두 경로의 차이예요. 토큰은 **이름도 값도 major에서만 바뀝니다** — 이름이 바뀌거나 사라지는 것은 물론이고, 디자인 판단에 따라 색이 달라지는 것도 major에서만 일어나요. 반면 component vars는 minor·patch에서도 바뀝니다. 라이브러리는 자기 소비자에게 버전 약속을 다시 전달해야 하는 입장이라, 이 차이가 특히 중요해요. 자세한 규칙은 [버저닝 정책](/react/updates/upgrade#버저닝-정책)에 있어요.
 
@@ -273,17 +273,17 @@ B(한 코드베이스로 1.x·2.0 동시 지원)는 컴포넌트가 양쪽에 �
 
 ## 스니펫을 라이브러리에 설치할 때
 
-[CLI](/react/getting-started/cli/commands)로 설치한 스니펫은 라이브러리 소스의 일부가 돼요. 각 스니펫은 요구하는 Seed 버전 범위를 갖고 있어서, 패키지 버전과의 호환 여부를 `compat` 명령으로 검사할 수 있어요.
+[CLI](/react/getting-started/cli/commands)로 설치한 스니펫은 라이브러리 소스의 일부가 돼요. 각 스니펫은 요구하는 SEED 버전 범위를 갖고 있어서, 패키지 버전과의 호환 여부를 `compat` 명령으로 검사할 수 있어요.
 
 ```package-install
 npx @seed-design/cli@latest compat
 ```
 
-`compat`는 [호환 이슈가 있으면 종료 코드 `1`로 끝나므로](/react/updates/upgrade#스니펫-호환성-확인하기) 라이브러리 CI에 추가해두면 Seed 버전을 올릴 때 스니펫 재설치가 필요한지 자동으로 알 수 있어요.
+`compat`는 [호환 이슈가 있으면 종료 코드 `1`로 끝나므로](/react/updates/upgrade#스니펫-호환성-확인하기) 라이브러리 CI에 추가해두면 SEED 버전을 올릴 때 스니펫 재설치가 필요한지 자동으로 알 수 있어요.
 
 ## AI로 자가진단하기
 
-이 문서를 기준으로 AI(예: Claude Code)에게 아래 프롬프트를 주면, 라이브러리의 Seed 의존성 상태를 점검하고 마이그레이션 선택지를 제안받을 수 있어요.
+이 문서를 기준으로 AI(예: Claude Code)에게 아래 프롬프트를 주면, 라이브러리의 SEED 의존성 상태를 점검하고 마이그레이션 선택지를 제안받을 수 있어요.
 
 ```text title="프롬프트"
 내 라이브러리는 @seed-design/react(와 @seed-design/css)를 사용하는 공유 패키지야.
@@ -311,11 +311,11 @@ https://seed-design.io/react/getting-started/library-authors 가이드를 기준
 라이브러리를 쓰는 프로젝트(앱)가 확인해야 할 것들이에요. 라이브러리 README에도 함께 안내해주세요.
 
 - [ ] 번들에 `@seed-design/css`, `@seed-design/react`가 **각각 정확히 한 버전**만 존재해요. lockfile에서 중복 여부를 확인하고, 필요하면 패키지 매니저의 `overrides`(npm) / `resolutions`(yarn)로 강제해요.
-- [ ] 설치하는 라이브러리들의 peer 범위와 프로젝트의 Seed 버전이 **교집합**을 가져요. 패키지 매니저의 peer dependency 경고를 무시하지 마세요.
+- [ ] 설치하는 라이브러리들의 peer 범위와 프로젝트의 SEED 버전이 **교집합**을 가져요. 패키지 매니저의 peer dependency 경고를 무시하지 마세요.
 - [ ] `@seed-design/css/base.css`를 앱 진입점에서 **한 번만** import해요.
 
 <Callout>
 
-사용하는 라이브러리들이 서로 겹치지 않는 Seed 버전을 요구한다면, 한 화면에 두 벌의 스타일을 올리는 것으로는 해결되지 않아요. 라이브러리 제공팀과 버전 정렬을 조율하고, 어려운 경우 디자인시스템 팀 채널로 문의해주세요.
+사용하는 라이브러리들이 서로 겹치지 않는 SEED 버전을 요구한다면, 한 화면에 두 벌의 스타일을 올리는 것으로는 해결되지 않아요. 라이브러리 제공팀과 버전 정렬을 조율하고, 어려운 경우 디자인시스템 팀 채널로 문의해주세요.
 
 </Callout>
