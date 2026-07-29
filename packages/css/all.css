@@ -8496,8 +8496,12 @@
   border-radius: var(--seed-radius-full);
   background-color: var(--seed-color-palette-gray-00);
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-  transition: transform var(--seed-duration-d4) var(--seed-timing-function-easing);
+  transition: none;
   position: absolute;
+}
+
+[data-indicator-transition] .seed-segmented-control__indicator {
+  transition: transform var(--seed-duration-d4) var(--seed-timing-function-easing);
 }
 
 .seed-segmented-control__item {
