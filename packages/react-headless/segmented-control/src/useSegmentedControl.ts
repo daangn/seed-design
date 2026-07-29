@@ -16,7 +16,7 @@ interface UseSegmentedControlStateProps {
 function useSegmentedControlState(props: UseSegmentedControlStateProps) {
   const [value, setValue] = useControllableState({
     prop: props.value,
-    defaultProp: props.defaultValue,
+    defaultProp: props.defaultValue ?? "",
     onChange: props.onValueChange,
   });
 
