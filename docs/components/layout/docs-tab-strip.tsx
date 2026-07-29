@@ -32,7 +32,7 @@ export function DocsTabStrip() {
   const { root } = useTreeContext();
   const pathname = usePathname();
   const router = useRouter();
-  const navRef = useRef<HTMLElement>(null);
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   const folder = findTabbedFolder(root.children, pathname);
   if (!folder?.index) return null;
@@ -46,36 +46,36 @@ export function DocsTabStrip() {
   const label = typeof folder.name === "string" ? folder.name : "Section";
 
   return (
-    <nav
-      ref={navRef}
-      aria-label={`${label} tabs`}
-      // 전 사이즈 sticky — 탭형 페이지에선 메뉴형 ToC 팝오버를 끄고(page-renderer) 탭이 그 자리를
-      // 차지한다. bg-fd-background: sticky 시 스크롤 본문이 뒤로 비치지 않게. 사이트 헤더(z-40) 아래.
-      // scroll-mt: 탭 클릭 시 scrollIntoView가 이 스트립을 sticky 시작 위치(--fd-docs-row-2)에 안착.
-      className="not-prose mb-4 bg-fd-background sticky top-(--fd-docs-row-2) z-30 scroll-mt-(--fd-docs-row-2)"
-    >
-      <TabsRoot
-        value={pathname}
-        onValueChange={(url) => {
-          if (url === pathname) return;
-          // scroll:false로 기본 top 리셋을 막고(고정 헤더라 위치 보존), 스트립을 sticky 시작점으로
-          // 부드럽게 스크롤 → 고정 헤더는 위로 사라지고 새 탭 본문이 바로 보인다.
-          router.push(url, { scroll: false });
-          requestAnimationFrame(() => {
-            navRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-          });
-        }}
-        triggerLayout="hug"
-        style={TAB_ROOT_STYLE}
+    <>
+      {/* 스크롤 기준점. sticky로 붙은 스트립은 이미 제자리라 스스로는 스크롤되지 않는다. */}
+      <div ref={anchorRef} aria-hidden className="scroll-mt-(--fd-docs-row-2)" />
+      <nav
+        aria-label={`${label} tabs`}
+        // 전 사이즈 sticky — 탭형 페이지에선 메뉴형 ToC 팝오버를 끄고(page-renderer) 탭이 그 자리를
+        // 차지한다. bg-fd-background: sticky 시 스크롤 본문이 뒤로 비치지 않게. 사이트 헤더(z-40) 아래.
+        className="not-prose mb-4 bg-fd-background sticky top-(--fd-docs-row-2) z-30"
       >
-        <TabsList style={TAB_LIST_STYLE}>
-          {tabs.map((tab) => (
-            <TabsTrigger key={tab.url} value={tab.url} style={TAB_TRIGGER_STYLE}>
-              {tab.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </TabsRoot>
-    </nav>
+        <TabsRoot
+          value={pathname}
+          onValueChange={(url) => {
+            if (url === pathname) return;
+            // 전환 전에 즉시 스크롤한다. 이 컴포넌트는 라우트마다 리마운트되고,
+            // smooth는 뒤이은 본문 교체에 잘려 중간에 멈춘다.
+            anchorRef.current?.scrollIntoView({ block: "start" });
+            router.push(url, { scroll: false });
+          }}
+          triggerLayout="hug"
+          style={TAB_ROOT_STYLE}
+        >
+          <TabsList style={TAB_LIST_STYLE}>
+            {tabs.map((tab) => (
+              <TabsTrigger key={tab.url} value={tab.url} style={TAB_TRIGGER_STYLE}>
+                {tab.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </TabsRoot>
+      </nav>
+    </>
   );
 }
