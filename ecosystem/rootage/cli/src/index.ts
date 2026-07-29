@@ -4,7 +4,6 @@ import {
   Authoring,
   buildContext,
   css,
-  runGenerator,
   exchange,
   getComponentSpecDeclarations,
   getSourceFiles,
@@ -16,6 +15,7 @@ import {
   tailwind4,
   validate,
 } from "@seed-design/rootage-core";
+import { runGenerator } from "@seed-design/rootage-core/generator";
 import fs from "fs-extra";
 import path from "node:path";
 import YAML from "yaml";
