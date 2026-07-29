@@ -2,11 +2,12 @@
 
 ## Overview
 
-업그레이드 진단은 CLI 프리미티브(`docs`, `compat`)를 조합하여 수행합니다. **CLI는 데이터 fetch와 호환 판단을 담당하고, 이 스킬은 해석·경로 제시·마이그레이션 안내를 담당합니다.**
+업그레이드 진단은 CLI 프리미티브(`docs`, `compat`)를 조합하여 수행합니다. **CLI는 데이터 fetch를 담당하고, 이 스킬은 해석·판단·경로 제시를 담당합니다.**
 
-다루는 두 가지:
+다루는 세 가지:
 
-- **현재 호환 진단**: 설치된 `@seed-design/react`와 `@seed-design/css`가 서로 호환되는지 (`compat`)
+- **패키지 간 호환**: 설치된 `@seed-design/react`와 `@seed-design/css`가 서로 맞는지 — **CLI가 판정하지 않습니다.** 2.x는 peer 선언, 1.x는 v1 호환표로 이 스킬이 판단합니다 (Step 2)
+- **스니펫 호환**: 설치된 스니펫이 현재 패키지 버전을 만족하는지 (`compat`)
 - **버전 업그레이드**: 현재 → 목표 버전 사이의 변경사항과 마이그레이션 경로 (`docs ... changelog`)
 
 소비자용 업그레이드 문서는 https://seed-design.io/react/updates/upgrade 를 참고하세요.
@@ -54,9 +55,13 @@ changelog fetch URL을 조립할 때:
 └─ 특정 범위 지정 (예: "1.2.5에서 1.2.7까지")  → from으로 fetch 후 Step 4에서 필터
 ```
 
-**버전 확인**: `package.json`을 읽어 `@seed-design/react`, `@seed-design/css` 등의 버전을 확인합니다(source of truth).
+**버전 확인**: **실제로 설치된 버전**을 읽습니다. `package.json`의 `^1.1.0`은 "1.1.0이 설치됨"이 아니라 "1.1.x를 받아들임"이라, 이걸 from으로 쓰면 이미 적용된 변경까지 마이그레이션 대상으로 잘못 보고합니다.
 
-**semver range 처리**: 버전이 `^1.1.0`, `~1.2.3` 같은 range면 **명시된 최소 버전**을 from 버전으로 사용합니다(`^1.1.0`→`1.1.0`). 정확한 설치 버전이 필요하면 `compat`이 node_modules의 실제 버전을 읽습니다.
+```bash
+cat node_modules/@seed-design/react/package.json | grep '"version"'
+```
+
+**fallback**: node_modules나 lockfile을 읽을 수 없을 때만 선언 범위의 하한을 from으로 씁니다(`^1.1.0`→`1.1.0`). 이 경우 결과가 과다 보고일 수 있음을 함께 안내합니다.
 
 **질문 원칙**: 추측 금지(잘못된 패키지/버전은 무의미한 결과). 한 번에 하나씩. 프로젝트 환경이 있으면 package.json에서 읽어 질문 최소화.
 
@@ -157,10 +162,12 @@ changelog 섹션 형식: `## {version}` 아래 `### Major Changes` / `### Minor 
 1단계에서 감지한 패키지 매니저에 맞춰 안내합니다 (아래는 bun 예시).
 
 ```bash
-bun add @seed-design/react@{목표} @seed-design/css@{목표}
+bun add @seed-design/react@{react목표} @seed-design/css@{css목표}
 ```
 
-1.x 구간은 react·css를 함께 올립니다. 재설치가 필요한 snippet은 `add ui:{component}`로. 업그레이드 후 다시 `compat`으로 검증합니다.
+**두 패키지는 버전 번호가 다릅니다**(예: react 2.0.4 ↔ css 2.2.1). 같은 번호를 맞춰 설치하면 없는 버전이거나 호환되지 않는 조합이 됩니다. css 목표 버전은 Step 2의 기준으로 따로 산출하세요 — 2.x는 react의 peer 선언 범위에서, 1.x는 v1 호환표에서.
+
+1.x 구간은 react·css를 함께 올립니다. 재설치가 필요한 snippet은 `add ui:{component}`로. 업그레이드 후 다시 `compat`으로 스니펫을 검증합니다.
 
 ## CLI Primitives
 
@@ -176,7 +183,7 @@ bun add @seed-design/react@{목표} @seed-design/css@{목표}
 
 - 최신과 동일 → "이미 최신".
 - **2.0 이상**: minor/patch는 안전(strict semver). major를 넘을 때 breaking 확인.
-- **2.0 미만**: minor도 breaking 가능 → 항상 changelog 확인 + react↔css 호환(`compat`) 확인.
+- **2.0 미만**: minor도 breaking 가능 → 항상 changelog 확인 + react↔css 호환을 v1 호환표로 확인.
 - react↔css는 호환 범위 안에서 **함께** 올립니다.
 - Breaking이 있으면 수정 후 업그레이드.
 - `@seed-design/css/vars/component/typography`를 제외한 component vars 직접 import는 제거 또는 대체를 권장합니다.

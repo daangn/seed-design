@@ -29,12 +29,10 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   // 탭형 subject 폴더는 헤더(title/description)를 meta.json에서 온 고정 값으로 쓴다
   // — 탭을 바꿔도 subject가 유지되도록(foundations 라우트와 같은 규칙).
   const tabbedFolder = findTabbedFolder(reactSource.pageTree.children, page.url);
-  const heading =
-    (tabbedFolder ? tabbedFolderLabel(tabbedFolder) : page.data.heading) ?? page.data.title;
+  const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
+  const heading = folderLabel ?? page.data.heading ?? page.data.title;
   const displayTitle = deprecatedTitle(heading, deprecated);
-  const displayDescription = tabbedFolder
-    ? (tabbedFolder.description ?? page.data.description)
-    : page.data.description;
+  const displayDescription = tabbedFolder?.description ?? page.data.description;
 
   const markdownUrl = getLLMMarkdownUrl("react", page.slugs);
   const isChangelog = page.slugs.join("/") === "updates/changelog";
@@ -82,15 +80,15 @@ export async function generateMetadata(props: {
 
   const { deprecated } = await getComponentStatus(params, { deprecated: page.data.deprecated });
 
-  // 페이지 h1과 동일한 파생(탭형이면 폴더 이름) — og:title이 탭 전환에도 subject를 유지.
+  // h1과 같은 순서로 파생해야 og:title이 화면과 어긋나지 않는다.
+  // 탭형은 폴더 이름이 우선(탭을 바꿔도 subject 유지)이고, 이름이 없으면 페이지 제목으로 떨어진다.
   const tabbedFolder = findTabbedFolder(reactSource.pageTree.children, page.url);
+  const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
 
   return buildDocsPageMetadata({
     url: page.url,
     title: page.data.title,
-    heading:
-      page.data.heading ??
-      (tabbedFolder ? `${tabbedFolderLabel(tabbedFolder)} — ${page.data.title}` : undefined),
+    heading: folderLabel ? `${folderLabel} — ${page.data.title}` : page.data.heading,
     description: page.data.description,
     coverImage: page.data.coverImage,
     deprecated,

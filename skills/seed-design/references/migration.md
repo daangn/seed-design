@@ -10,7 +10,7 @@
 npx @seed-design/cli@latest compat
 ```
 
-호환성 이슈가 있으면 종료 코드 `1`로 끝나므로 CI에서도 게이트로 사용할 수 있습니다. 설치된 react↔css peer 호환까지 보려면 `upgrade.md`의 `compat --json`을 참고하세요.
+호환성 이슈가 있으면 종료 코드 `1`로 끝나므로 CI에서도 게이트로 사용할 수 있습니다. 이 명령은 **스니펫만** 검사합니다 — react↔css 패키지 간 호환은 아래 절차나 `upgrade.md` Step 2를 따르세요.
 
 ## Package Version Compatibility
 

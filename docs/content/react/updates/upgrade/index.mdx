@@ -105,8 +105,10 @@ npx @seed-design/cli@latest docs react/updates/changelog/react/{현재버전} --
 1.x 구간을 넘나들 때는 `react`와 `css`를 **호환되는 버전으로 함께** 올려야 합니다. 한쪽만 올리면 스타일이 깨질 수 있습니다.
 </Callout>
 
+**두 패키지의 버전 번호는 서로 다릅니다.** 각각 독립적으로 릴리즈되기 때문에 같은 번호를 맞춰 설치하면 안 됩니다(예: `react@2.0.4`의 짝은 `css@2.2.1`). `css` 목표 버전은 위 [호환성](#호환성-react--css) 절차로 따로 정하세요 — 2.0 이상이면 `react`의 peer 선언 범위에서, 1.x면 v1 문서의 호환표에서 고릅니다.
+
 ```package-install
-@seed-design/react@{목표버전} @seed-design/css@{목표버전}
+@seed-design/react@{react목표버전} @seed-design/css@{css목표버전}
 ```
 </Step>
 
