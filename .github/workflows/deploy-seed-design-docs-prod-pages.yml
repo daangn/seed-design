@@ -65,7 +65,7 @@ jobs:
         with:
           path: docs/.next/cache
           # Reuse the build inputs already hashed by setup, then add docs inputs only.
-          key: ${{ runner.os }}-nextjs-${{ steps.setup.outputs.build-cache-primary-key }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json') }}
+          key: ${{ runner.os }}-nextjs-${{ steps.setup.outputs.build-cache-key-suffix }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json') }}
           # Rebuild from the nearest cache when build or docs inputs changed.
           restore-keys: |
             ${{ runner.os }}-nextjs-

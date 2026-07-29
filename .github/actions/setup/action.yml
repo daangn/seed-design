@@ -12,9 +12,9 @@ inputs:
     default: 'false'
 
 outputs:
-  build-cache-primary-key:
-    description: 'Primary key used for the build output cache'
-    value: ${{ steps.build-cache-key.outputs.value }}
+  build-cache-key-suffix:
+    description: 'OS-independent suffix used for the build output cache key'
+    value: ${{ steps.build-cache-key.outputs.suffix }}
 
 runs:
   using: 'composite'
@@ -41,8 +41,8 @@ runs:
       if: ${{ inputs.build-packages == 'true' }}
       shell: bash
       env:
-        BUILD_CACHE_KEY: ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
-      run: echo "value=$BUILD_CACHE_KEY" >> "$GITHUB_OUTPUT"
+        BUILD_CACHE_KEY_SUFFIX: rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
+      run: echo "suffix=$BUILD_CACHE_KEY_SUFFIX" >> "$GITHUB_OUTPUT"
 
     - name: Cache build outputs
       if: ${{ inputs.build-packages == 'true' }}
@@ -56,7 +56,7 @@ runs:
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
-        key: ${{ steps.build-cache-key.outputs.value }}
+        key: ${{ runner.os }}-build-${{ steps.build-cache-key.outputs.suffix }}
 
     - name: Relink workspace after cache restore
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}
