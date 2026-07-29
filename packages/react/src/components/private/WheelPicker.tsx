@@ -62,7 +62,7 @@ export const InternalWheelPickerRoot = React.forwardRef<
         style={wheelPickerStyle}
         {...props}
       >
-        <div
+        <Primitive.div
           aria-hidden
           className={clsx(classNames.selectionIndicator, selectionIndicatorClassName)}
           data-wheel-picker-indicator=""
@@ -74,9 +74,12 @@ export const InternalWheelPickerRoot = React.forwardRef<
           hideScrollBar
           data-wheel-picker-scroll-fog=""
         >
-          <div className={clsx(classNames.columns, columnsClassName)} data-wheel-picker-columns="">
+          <Primitive.div
+            className={clsx(classNames.columns, columnsClassName)}
+            data-wheel-picker-columns=""
+          >
             {children}
-          </div>
+          </Primitive.div>
         </ScrollFog>
       </HeadlessWheelPicker.WheelPickerRoot>
     );
