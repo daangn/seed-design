@@ -64,7 +64,11 @@ export function DocsTabStrip() {
             // 전환 "전에" 스크롤한다. 이 컴포넌트는 라우트마다 리마운트되므로 "도착 후 스크롤"
             // 플래그를 ref에 남겨둘 수 없다. 스트립 위쪽(고정 헤더)은 탭이 바뀌어도 높이가 같아
             // 지금 계산한 목표 위치가 전환 후에도 그대로 유효하다.
-            anchorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+            //
+            // smooth가 아니라 즉시 스크롤인 이유: smooth는 애니메이션이 진행되는 동안 바로 아래
+            // router.push가 본문을 교체하므로, 새 문서 길이에 따라 목표가 잘려 중간에 멈출 수 있다.
+            // 어차피 본문이 통째로 바뀌는 전환이라 그 사이를 부드럽게 훑어봐야 얻는 것도 없다.
+            anchorRef.current?.scrollIntoView({ block: "start" });
             // scroll:false로 Next의 기본 top 리셋을 막아 방금 맞춘 위치를 유지한다.
             router.push(url, { scroll: false });
           }}
