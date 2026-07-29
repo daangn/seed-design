@@ -55,7 +55,7 @@
   "devDependencies": {
     "@types/node": "^25.0.0",
     "bunchee": "^6.3.2",
-    "typescript": "^6.0.0"
+    "typescript": "^6.0.3"
   },
   "keywords": [
     "seed-design",
