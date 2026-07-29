@@ -1,0 +1,135 @@
+---
+title: Overview
+description: SEED 패키지 버전을 올릴 때 호환성을 확인하고 안전하게 업그레이드하는 방법을 안내합니다.
+---
+
+SEED 패키지(`@seed-design/react`, `@seed-design/css` 등)의 버전을 올릴 때 호환성을 확인하고 안전하게 업그레이드하는 방법을 안내합니다.
+
+세부 변경 목록은 업그레이드하려는 목표 버전에 맞춰 확인하세요.
+
+<Cards>
+  <Card title="SEED React 2" href="/react/updates/upgrade/v2">
+    SEED React 1.2.x에서 2로 업그레이드할 때 필요한 패키지·코드 변경사항입니다.
+  </Card>
+  <Card title="SEED React 1 and older" href="/react/updates/upgrade/v1">
+    SEED React 2 이전 버전 간 업그레이드에 필요한 작업입니다.
+  </Card>
+</Cards>
+
+## 버저닝 정책
+
+SEED는 **2.0을 분기점**으로 버저닝 정책이 다릅니다.
+
+| 구간 | 정책 |
+| --- | --- |
+| **2.0 이상** | strict SemVer를 따릅니다. breaking change는 **major에서만** 발생하고, minor·patch는 하위 호환을 보장합니다. |
+| **2.0 미만 (0.x·1.x)** | minor·patch에서도 breaking이 있을 수 있었습니다. 이 구간은 아래 **호환성** 섹션의 방법으로 실제 호환 범위를 확인합니다. |
+
+<Callout>
+2.0 이상에서는 같은 major 안에서 minor·patch를 자유롭게 올릴 수 있습니다. 1.x 구간을 올릴 때 호환성 확인이 특히 중요합니다.
+</Callout>
+
+여기서 "하위 호환"은 코드뿐 아니라 **화면**에도 적용됩니다. 색상 토큰은 이름뿐 아니라 **값도 major에서만** 바뀝니다. 디자인 판단에 따른 색상·스타일 변경은 major에서만 일어나므로, minor·patch를 올려도 의도적으로 화면이 달라지지는 않습니다. 다만 잘못된 값을 바로잡는 조정(대비 기준 미달 등)은 patch에 포함될 수 있습니다.
+
+<Callout type="warn">
+
+`@seed-design/css/vars/component/typography`를 제외한 `@seed-design/css/vars/component/*` 경로는 SemVer 보장 대상이 아닙니다. rootage component spec이 바뀌면 minor·patch에서도 이름이나 구조가 바뀔 수 있으므로 앱·라이브러리 코드에서 직접 의존하지 않는 것을 권장합니다.
+
+</Callout>
+
+## 호환성: react ↔ css
+
+`@seed-design/react`는 `@seed-design/css`를 런타임 기반(클래스네임·스타일)으로 사용합니다. **두 패키지를 호환되지 않는 버전으로 섞으면 클래스네임이 어긋나 스타일이 깨질 수 있습니다.**
+
+- **2.0 이상**: `react`가 `peerDependencies`로 호환되는 `css` 범위(`^N.M.0`)를 선언합니다. **선언을 그대로 신뢰하면 됩니다.**
+- **2.0 미만**: 선언에 상한이 없거나 아예 누락된 구간이 있어, 선언만 보면 통과하지만 실제로는 스타일이 어긋나는 조합이 존재합니다.
+
+### 2.0 이상
+
+설치된 패키지의 peer 선언을 확인합니다.
+
+```bash
+cat node_modules/@seed-design/react/package.json | grep -A5 peerDependencies
+```
+
+`^2.0.0`처럼 선언된 범위 안에 설치된 `css` 버전이 들어가면 호환됩니다. strict SemVer를 따르므로 minor·patch 업그레이드는 안전합니다.
+
+### 2.0 미만
+
+1.x 구간은 선언만으로 판단할 수 없습니다. 어떤 조합이 실제로 맞는지는 [SEED React 1 and older](/react/updates/upgrade/v1) 문서의 **패키지 간 버전 호환성** 섹션에 버전별 표로 정리돼 있습니다. `@seed-design/stackflow`를 함께 쓴다면 알려진 비호환 조합도 그 표에서 확인하세요.
+
+핵심 규칙만 옮기면, `css`는 `react`와 **같은 마이너 라인**이어야 하고 표에 적힌 하한 이상이어야 합니다. 정확한 하한과 예외는 표를 따르세요.
+
+### 스니펫 호환성 확인하기
+
+설치된 스니펫이 현재 패키지 버전과 맞는지는 `compat`으로 확인합니다.
+
+```bash
+npx @seed-design/cli@latest compat
+```
+
+호환 이슈가 있으면 종료 코드 `1`로 끝나므로 CI 게이트로도 쓸 수 있습니다.
+
+## 버전 올리기
+
+<Steps>
+
+<Step>
+### 현재 호환 상태 확인
+
+설치된 스니펫이 현재 패키지 버전과 맞는지 확인합니다.
+
+```bash
+npx @seed-design/cli@latest compat
+```
+
+`react`와 `css`가 서로 맞는지는 위 [호환성: react ↔ css](#호환성-react--css)를 따릅니다. 2.0 이상이면 peer 선언을, 1.x면 v1 문서의 호환표를 확인하세요.
+</Step>
+
+<Step>
+### 변경사항 확인
+
+목표 버전까지 무엇이 바뀌는지(특히 breaking change) 확인합니다.
+
+```bash
+npx @seed-design/cli@latest docs react/updates/changelog/react/{현재버전} --raw
+```
+
+이 명령은 **현재 버전 이후 최신까지** 모든 변경사항을 반환합니다. 특정 목표 버전까지만 보려면 그보다 높은 버전 섹션은 건너뛰세요.
+</Step>
+
+<Step>
+### react와 css를 호환되는 조합으로 올리기
+
+<Callout type="warn">
+1.x 구간을 넘나들 때는 `react`와 `css`를 **호환되는 버전으로 함께** 올려야 합니다. 한쪽만 올리면 스타일이 깨질 수 있습니다.
+</Callout>
+
+**두 패키지의 버전 번호는 서로 다릅니다.** 각각 독립적으로 릴리즈되기 때문에 같은 번호를 맞춰 설치하면 안 됩니다(예: `react@2.0.4`의 짝은 `css@2.2.1`). `css` 목표 버전은 위 [호환성](#호환성-react--css) 절차로 따로 정하세요 — 2.0 이상이면 `react`의 peer 선언 범위에서, 1.x면 v1 문서의 호환표에서 고릅니다.
+
+```package-install
+@seed-design/react@{react목표버전} @seed-design/css@{css목표버전}
+```
+</Step>
+
+<Step>
+### snippet 재설치
+
+일부 버전 경계에서는 내부 구조 변경으로 snippet 재설치가 필요합니다. 변경사항에 "재설치 필요"로 표시된 컴포넌트는 다시 받습니다.
+
+```bash
+npx @seed-design/cli@latest add ui:{component}
+```
+</Step>
+
+<Step>
+### 검증
+
+업그레이드 후 다시 `compat`으로 스니펫 호환을 확인하고, 화면 스타일과 동작을 점검합니다.
+</Step>
+
+</Steps>
+
+<Callout>
+복잡한 버전 점프나 여러 패키지를 한 번에 올릴 때는 Claude Code 등에서 `/seed-design` 스킬에게 "현재 버전에서 X로 업그레이드하고 싶어"라고 요청하면 호환 진단, 업그레이드 경로, 재설치할 snippet 목록을 정리해 줍니다.
+</Callout>

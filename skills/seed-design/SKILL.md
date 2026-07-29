@@ -1,6 +1,6 @@
 ---
 name: seed-design
-description: SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs/upgrade), 스니펫 버전 호환성, 업그레이드 진단까지 커버. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업" 같은 질문을 하면 반드시 이 스킬을 로드한다.
+description: SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs), 스니펫 버전 호환성, 업그레이드 진단까지 커버. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업" 같은 질문을 하면 반드시 이 스킬을 로드한다.
 user-invocable: true
 argument-hint: "[질문 또는 주제]"
 ---
@@ -39,8 +39,8 @@ argument-hint: "[질문 또는 주제]"
 | 컴포넌트 관련 질문 (어떤 컴포넌트 있어?, 버튼 쓰고 싶은데) | `references/components.md` |
 | 파운데이션/토큰 질문 (색상, 타이포, 스페이싱, 테마) | `references/foundation.md` |
 | CLI 명령어 관련 (init, add, docs 등) | `references/usage.md` |
-| 버전 호환/마이그레이션 | `references/migration.md` |
-| 패키지 업그레이드 진단 | `references/upgrade.md` |
+| 스니펫 버전 맞추기/파일 충돌 | `references/migration.md` |
+| 버전 업그레이드·호환 진단 (react↔css, 마이그레이션 경로) | `references/upgrade.md` |
 
 사용자가 명시적으로 주제를 말한 경우 프로젝트 분석을 건너뛰고 해당 시나리오로 직행해도 됩니다.
 
@@ -88,7 +88,7 @@ npx @seed-design/cli@latest docs {component-name}
 # 출력:
 # - docs: https://seed-design.io/react/components/action-button
 # - llms.txt: https://seed-design.io/llms/react/components/action-button.txt
-# - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/ui/action-button.tsx
+# - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/react/ui/action-button.tsx
 ```
 
 ## Reference Files
@@ -99,5 +99,5 @@ npx @seed-design/cli@latest docs {component-name}
 | `references/components.md` | 컴포넌트 탐색/추가 방법 | 컴포넌트 관련 질문 시 |
 | `references/foundation.md` | 파운데이션 llms.txt 인덱스 | 색상, 타이포, 스페이싱, 테마 질문 시 |
 | `references/usage.md` | CLI 명령어 상세 | CLI 사용법 질문 시 |
-| `references/migration.md` | 스니펫 버전 호환/마이그레이션 | 버전 불일치 또는 마이그레이션 시 |
-| `references/upgrade.md` | 패키지 업그레이드 진단 | 업그레이드 질문 시 |
+| `references/migration.md` | 스니펫 버전 맞추기/파일 충돌 해결 | 스니펫 버전 불일치 시 |
+| `references/upgrade.md` | 버전 업그레이드·호환 진단 (react↔css, changelog, 마이그레이션 경로) | 업그레이드·호환 질문 시 |
