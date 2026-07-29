@@ -15,7 +15,7 @@ export default function QuantityPickerLoading() {
   }
 
   return (
-    <VStack gap="x3" align="flex-start" justify="center">
+    <VStack gap="x3" align="center">
       <QuantityPicker
         min={1}
         max={99}
