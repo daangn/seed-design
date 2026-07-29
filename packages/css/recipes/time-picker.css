@@ -54,6 +54,6 @@
     font-variant-numeric: tabular-nums;
     user-select: none;
 }
-.seed-time-picker__item[data-selected] {
+.seed-time-picker__item:is([aria-selected=true], [data-selected]) {
     color: var(--seed-color-fg-neutral);
 }

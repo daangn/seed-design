@@ -65,7 +65,7 @@
     display: flex;
   }
 
-  .seed-time-picker__item[data-selected] {
+  .seed-time-picker__item:is([aria-selected="true"], [data-selected]) {
     color: var(--seed-color-fg-neutral);
   }
 }

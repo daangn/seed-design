@@ -1,9 +1,7 @@
 import { timePicker as vars } from "../vars/component";
 import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
-import { focusVisible, pseudo } from "../utils/pseudo";
+import { focusVisible, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
-
-const selected = "[data-selected]";
 
 const columnBase = {
   flex: "0 0 auto",
