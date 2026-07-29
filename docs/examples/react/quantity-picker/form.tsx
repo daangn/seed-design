@@ -12,7 +12,7 @@ export default function QuantityPickerForm() {
   }
 
   return (
-    <VStack asChild gap="x3" align="flex-start">
+    <VStack asChild gap="x3" align="flex-start" justify="center">
       <form onSubmit={handleSubmit}>
         <QuantityPicker
           min={1}
