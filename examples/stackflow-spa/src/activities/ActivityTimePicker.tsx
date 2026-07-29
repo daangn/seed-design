@@ -20,8 +20,9 @@ declare module "@stackflow/config" {
 }
 
 const ActivityTimePicker: StaticActivityComponentType<"ActivityTimePicker"> = () => {
-  const { push } = useFlow();
+  const { pop } = useFlow();
   const [value, setValue] = useState<TimePickerValue>({ hour: 13, minute: 10 });
+  const formattedValue = `${String(value.hour).padStart(2, "0")}:${String(value.minute).padStart(2, "0")}`;
 
   return (
     <AppScreen>
@@ -31,7 +32,7 @@ const ActivityTimePicker: StaticActivityComponentType<"ActivityTimePicker"> = ()
         </AppBarLeft>
         <AppBarMain title="TimePicker" />
         <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+          <AppBarIconButton aria-label="Home" onClick={() => pop()}>
             <IconHouseLine />
           </AppBarIconButton>
         </AppBarRight>
@@ -44,10 +45,7 @@ const ActivityTimePicker: StaticActivityComponentType<"ActivityTimePicker"> = ()
             onValueChange={setValue}
             aria-label="약속 시간"
           />
-          <Text>
-            선택한 시간: {String(value.hour).padStart(2, "0")}:
-            {String(value.minute).padStart(2, "0")}
-          </Text>
+          <Text>선택한 시간: {formattedValue}</Text>
         </VStack>
       </AppScreenContent>
     </AppScreen>
