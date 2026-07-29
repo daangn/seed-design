@@ -280,7 +280,7 @@ describe("WheelPicker", () => {
   it("스크롤 중에는 React commit 없이 선택 표시만 갱신한다", () => {
     jest.useFakeTimers();
     const onRender = mock(() => {});
-    const { getByRole } = render(
+    const { getByRole, rerender } = render(
       <React.Profiler id="wheel-picker" onRender={onRender}>
         <TestWheelPicker />
       </React.Profiler>,
@@ -292,6 +292,15 @@ describe("WheelPicker", () => {
     fireEvent.scroll(column);
 
     expect(onRender).toHaveBeenCalledTimes(initialCommitCount);
+    expect(column.children[1]).toHaveAttribute("data-selected");
+
+    rerender(
+      <React.Profiler id="wheel-picker" onRender={onRender}>
+        <TestWheelPicker />
+      </React.Profiler>,
+    );
+
+    expect(column.querySelectorAll("[data-selected]")).toHaveLength(1);
     expect(column.children[1]).toHaveAttribute("data-selected");
     jest.useRealTimers();
   });

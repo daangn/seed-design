@@ -42,7 +42,6 @@ export interface WheelPickerOptionProps extends React.HTMLAttributes<HTMLDivElem
   "aria-hidden": true;
   "data-wheel-picker-index": number;
   "data-wheel-picker-value": string;
-  "data-selected": "" | undefined;
 }
 
 function prefersReducedMotion() {
@@ -447,7 +446,6 @@ export function useWheelPickerColumn({
         "aria-hidden": true,
         "data-wheel-picker-index": option.physicalIndex,
         "data-wheel-picker-value": option.value,
-        "data-selected": dataAttr(option.physicalIndex === centralPhysicalIndex),
         onClick: () => {
           if (disabled || readOnly) return;
 
