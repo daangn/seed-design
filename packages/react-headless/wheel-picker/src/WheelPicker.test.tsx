@@ -324,6 +324,27 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("smooth scroll 중 연속 Arrow 입력을 마지막 목표 위치부터 계산한다", () => {
+    jest.useFakeTimers();
+    const scrollTargets: number[] = [];
+    const previousScrollTo = HTMLElement.prototype.scrollTo;
+    HTMLElement.prototype.scrollTo = function scrollTo(options) {
+      if (typeof options === "object" && options.top !== undefined) {
+        scrollTargets.push(options.top);
+      }
+    };
+    const { getByRole } = render(<TestWheelPicker defaultValue="a" />);
+    const column = getByRole("spinbutton");
+
+    fireEvent.keyDown(column, { key: "ArrowDown" });
+    fireEvent.keyDown(column, { key: "ArrowDown" });
+
+    expect(scrollTargets).toEqual([40, 80]);
+    HTMLElement.prototype.scrollTo = previousScrollTo;
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
   it("loop 모드에서 Arrow 키가 양 끝을 순환한다", () => {
     jest.useFakeTimers();
     const onValueChange = mock(() => {});

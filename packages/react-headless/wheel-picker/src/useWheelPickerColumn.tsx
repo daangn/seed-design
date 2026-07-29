@@ -111,6 +111,7 @@ export function useWheelPickerColumn({
   const animationFrameRef = React.useRef<number | null>(null);
   const wheelAlignmentFrameRef = React.useRef<number | null>(null);
   const selectedElementRef = React.useRef<HTMLElement | null>(null);
+  const keyboardTargetPhysicalIndexRef = React.useRef<number | null>(null);
   const isTouchingRef = React.useRef(false);
   const isWheelingRef = React.useRef(false);
   const isWheelAligningRef = React.useRef(false);
@@ -170,6 +171,7 @@ export function useWheelPickerColumn({
         scrollToPhysicalIndex(centralPhysicalIndex, "auto");
         updateVisualSelection(centralPhysicalIndex);
       }
+      keyboardTargetPhysicalIndexRef.current = centralPhysicalIndex;
       return;
     }
 
@@ -189,6 +191,9 @@ export function useWheelPickerColumn({
         scrollToPhysicalIndex(nextCentralPhysicalIndex, "auto");
         updateVisualSelection(nextCentralPhysicalIndex);
       }
+      keyboardTargetPhysicalIndexRef.current = nextCentralPhysicalIndex;
+    } else {
+      keyboardTargetPhysicalIndexRef.current = nearestPhysicalIndex;
     }
   }, [
     disabled,
@@ -300,6 +305,7 @@ export function useWheelPickerColumn({
       const column = columnRef.current;
       if (!column || event.deltaY === 0) return;
 
+      keyboardTargetPhysicalIndexRef.current = null;
       if (wheelAlignmentFrameRef.current !== null) {
         cancelAnimationFrame(wheelAlignmentFrameRef.current);
         wheelAlignmentFrameRef.current = null;
@@ -348,6 +354,7 @@ export function useWheelPickerColumn({
   );
 
   const handleTouchStart = React.useCallback(() => {
+    keyboardTargetPhysicalIndexRef.current = null;
     if (wheelAlignmentFrameRef.current !== null) {
       cancelAnimationFrame(wheelAlignmentFrameRef.current);
       wheelAlignmentFrameRef.current = null;
@@ -385,7 +392,8 @@ export function useWheelPickerColumn({
         ? toLogicalIndex(nextLogicalIndex, options.length)
         : Math.min(Math.max(nextLogicalIndex, 0), options.length - 1);
 
-      const currentPhysicalIndex = getNearestPhysicalIndex();
+      const currentPhysicalIndex =
+        keyboardTargetPhysicalIndexRef.current ?? getNearestPhysicalIndex();
       const currentLogicalIndex = toLogicalIndex(currentPhysicalIndex, options.length);
       let nextPhysicalIndex = currentPhysicalIndex + (normalizedLogicalIndex - currentLogicalIndex);
 
@@ -397,6 +405,10 @@ export function useWheelPickerColumn({
         }
       }
 
+      keyboardTargetPhysicalIndexRef.current = clampPhysicalIndex(
+        nextPhysicalIndex,
+        physicalOptionCount,
+      );
       scrollToPhysicalIndex(nextPhysicalIndex, prefersReducedMotion() ? "auto" : "smooth");
       scheduleSettle();
     },
@@ -404,6 +416,7 @@ export function useWheelPickerColumn({
       disabled,
       getNearestPhysicalIndex,
       options.length,
+      physicalOptionCount,
       readOnly,
       scheduleSettle,
       scrollToPhysicalIndex,
@@ -415,7 +428,8 @@ export function useWheelPickerColumn({
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (disabled || readOnly) return;
 
-      const currentPhysicalIndex = getNearestPhysicalIndex();
+      const currentPhysicalIndex =
+        keyboardTargetPhysicalIndexRef.current ?? getNearestPhysicalIndex();
       const currentLogicalIndex = toLogicalIndex(currentPhysicalIndex, options.length);
 
       switch (event.key) {
@@ -449,6 +463,7 @@ export function useWheelPickerColumn({
         onClick: () => {
           if (disabled || readOnly) return;
 
+          keyboardTargetPhysicalIndexRef.current = null;
           scrollToPhysicalIndex(option.physicalIndex, prefersReducedMotion() ? "auto" : "smooth");
           scheduleSettle();
         },
@@ -461,6 +476,7 @@ export function useWheelPickerColumn({
 
     columnRef.current.scrollTop = centralPhysicalIndex * itemSize;
     updateVisualSelection(centralPhysicalIndex);
+    keyboardTargetPhysicalIndexRef.current = centralPhysicalIndex;
   }, [centralPhysicalIndex, itemSize, options.length, updateVisualSelection]);
 
   React.useEffect(() => {
