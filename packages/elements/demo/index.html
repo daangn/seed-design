@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SEED elements — demo</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; max-width: 480px; }
+      section { margin: 20px 0; }
+      h2 { font-size: 13px; color: #888; margin: 0 0 8px; }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h2>ActionButton</h2>
+      <seed-action-button id="ab" variant="brandSolid" size="medium">버튼 라벨</seed-action-button>
+      <seed-action-button variant="neutralWeak" size="small" disabled>비활성</seed-action-button>
+    </section>
+
+    <section>
+      <h2>Checkbox (in a form)</h2>
+      <form id="form">
+        <seed-checkbox id="cb" name="agree" value="yes">약관에 동의합니다</seed-checkbox>
+      </form>
+    </section>
+
+    <section>
+      <h2>Text / Skeleton / Badge</h2>
+      <p><seed-text text-style="t5Bold">제목 텍스트</seed-text></p>
+      <seed-skeleton radius="8" style="display:block;width:160px;height:16px;margin:8px 0"></seed-skeleton>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <seed-badge variant="solid" tone="positive">완료</seed-badge>
+        <seed-badge variant="weak" tone="warning">주의</seed-badge>
+        <seed-badge variant="outline" tone="critical">거절</seed-badge>
+      </div>
+    </section>
+
+    <section>
+      <h2>Switch</h2>
+      <seed-switch id="sw">알림 받기</seed-switch>
+    </section>
+
+    <section>
+      <h2>SegmentedControl</h2>
+      <seed-segmented-control id="seg" value="all">
+        <seed-segmented-control-item value="all">전체</seed-segmented-control-item>
+        <seed-segmented-control-item value="sell">판매중</seed-segmented-control-item>
+        <seed-segmented-control-item value="done">거래완료</seed-segmented-control-item>
+      </seed-segmented-control>
+    </section>
+
+    <section>
+      <h2>RadioGroup</h2>
+      <seed-radio-group id="rg" value="b" style="display:flex;flex-direction:column;gap:8px">
+        <seed-radio value="a">옵션 A</seed-radio>
+        <seed-radio value="b">옵션 B</seed-radio>
+        <seed-radio value="c">옵션 C</seed-radio>
+      </seed-radio-group>
+    </section>
+
+    <section>
+      <h2>TextField</h2>
+      <seed-text-field id="tf" placeholder="입력하세요"></seed-text-field>
+    </section>
+
+    <script type="module" src="/demo/main.ts"></script>
+  </body>
+</html>
