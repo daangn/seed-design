@@ -22,9 +22,6 @@ const config = {
     ignoreBuildErrors: process.env.NEXT_EXTERNAL_TYPECHECK === "1",
   },
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
-  experimental: {
-    turbopackFileSystemCacheForBuild: process.env.TURBOPACK_FILE_SYSTEM_CACHE === "1",
-  },
   serverExternalPackages: [
     "ts-morph",
     "typescript",

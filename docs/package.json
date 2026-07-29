@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "bun run typecheck && NEXT_EXTERNAL_TYPECHECK=1 next build --webpack",
+    "build": "bun run typecheck && NEXT_EXTERNAL_TYPECHECK=1 next build --turbopack",
     "dev": "concurrently \"bun --filter @seed-design/stackflow-spa dev\" \"next dev --webpack\"",
     "start": "concurrently \"bun --filter @seed-design/stackflow-spa dev\" \"next start\"",
     "sanity:dev": "sanity dev",
@@ -18,9 +18,7 @@
     "build-storybook": "storybook build",
     "typecheck": "fumadocs-mdx && next typegen && node node_modules/@typescript/native/bin/tsc --noEmit",
     "images:og:generate": "bun scripts/generate-og-cover-assets.ts",
-    "images:og:validate": "bun scripts/validate-og-cover-assets.ts",
-    "build:turbopack": "next build --turbopack",
-    "build:turbopack:cache": "TURBOPACK_FILE_SYSTEM_CACHE=1 next build --turbopack"
+    "images:og:validate": "bun scripts/validate-og-cover-assets.ts"
   },
   "dependencies": {
     "@dnd-kit/abstract": "^0.4.0",
