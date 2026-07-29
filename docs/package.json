@@ -18,7 +18,9 @@
     "build-storybook": "storybook build",
     "typecheck": "fumadocs-mdx && next typegen && node node_modules/@typescript/native/bin/tsc --noEmit",
     "images:og:generate": "bun scripts/generate-og-cover-assets.ts",
-    "images:og:validate": "bun scripts/validate-og-cover-assets.ts"
+    "images:og:validate": "bun scripts/validate-og-cover-assets.ts",
+    "build:turbopack": "next build --turbopack",
+    "build:turbopack:cache": "TURBOPACK_FILE_SYSTEM_CACHE=1 next build --turbopack"
   },
   "dependencies": {
     "@dnd-kit/abstract": "^0.4.0",
