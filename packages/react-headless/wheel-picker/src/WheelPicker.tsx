@@ -5,7 +5,12 @@ import { dataAttr, mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import * as React from "react";
 import { WheelPickerProvider } from "./WheelPickerContext";
-import { useWheelPickerColumn, type UseWheelPickerColumnProps } from "./useWheelPickerColumn";
+import {
+  useWheelPickerColumn,
+  type RenderedWheelPickerOption,
+  type UseWheelPickerColumnProps,
+  type WheelPickerOptionProps,
+} from "./useWheelPickerColumn";
 
 export interface WheelPickerRootProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   itemSize: number;
@@ -58,7 +63,10 @@ export interface WheelPickerColumnProps
   extends UseWheelPickerColumnProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue" | "onChange"> {
-  itemClassName?: string;
+  renderOption?: (
+    option: RenderedWheelPickerOption,
+    props: WheelPickerOptionProps,
+  ) => React.ReactNode;
 }
 
 export const WheelPickerColumn = React.forwardRef<HTMLDivElement, WheelPickerColumnProps>(
@@ -70,7 +78,7 @@ export const WheelPickerColumn = React.forwardRef<HTMLDivElement, WheelPickerCol
       onValueChange,
       loop,
       getAriaValueText,
-      itemClassName,
+      renderOption,
       ...props
     },
     ref,
@@ -90,13 +98,13 @@ export const WheelPickerColumn = React.forwardRef<HTMLDivElement, WheelPickerCol
         {...mergeProps(api.columnProps, props)}
       >
         {api.renderedOptions.map((option) => (
-          <Primitive.div
-            key={option.physicalIndex}
-            className={itemClassName}
-            {...api.getOptionProps(option)}
-          >
-            {option.label}
-          </Primitive.div>
+          <React.Fragment key={option.physicalIndex}>
+            {renderOption ? (
+              renderOption(option, api.getOptionProps(option))
+            ) : (
+              <Primitive.div {...api.getOptionProps(option)}>{option.label}</Primitive.div>
+            )}
+          </React.Fragment>
         ))}
       </Primitive.div>
     );

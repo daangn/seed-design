@@ -1,6 +1,7 @@
 "use client";
 
 import { wheelPicker } from "@seed-design/css/recipes/wheel-picker";
+import { Primitive } from "@seed-design/react-primitive";
 import * as HeadlessWheelPicker from "@seed-design/react-wheel-picker";
 import clsx from "clsx";
 import * as React from "react";
@@ -84,7 +85,9 @@ export const InternalWheelPickerRoot = React.forwardRef<
 InternalWheelPickerRoot.displayName = "InternalWheelPickerRoot";
 
 export interface InternalWheelPickerColumnProps
-  extends HeadlessWheelPicker.WheelPickerColumnProps {}
+  extends Omit<HeadlessWheelPicker.WheelPickerColumnProps, "renderOption"> {
+  itemClassName?: string;
+}
 
 export const InternalWheelPickerColumn = React.forwardRef<
   HTMLDivElement,
@@ -93,7 +96,11 @@ export const InternalWheelPickerColumn = React.forwardRef<
   <HeadlessWheelPicker.WheelPickerColumn
     ref={ref}
     className={clsx(classNames.column, className)}
-    itemClassName={clsx(classNames.item, itemClassName)}
+    renderOption={(option, optionProps) => (
+      <Primitive.div className={clsx(classNames.item, itemClassName)} {...optionProps}>
+        {option.label}
+      </Primitive.div>
+    )}
     {...props}
   />
 ));

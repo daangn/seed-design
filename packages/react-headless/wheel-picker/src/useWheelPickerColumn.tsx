@@ -33,9 +33,16 @@ export interface UseWheelPickerColumnProps {
   getAriaValueText?: (value: string) => string;
 }
 
-interface RenderedWheelPickerOption extends WheelPickerOption {
+export interface RenderedWheelPickerOption extends WheelPickerOption {
   logicalIndex: number;
   physicalIndex: number;
+}
+
+export interface WheelPickerOptionProps extends React.HTMLAttributes<HTMLDivElement> {
+  "aria-hidden": true;
+  "data-wheel-picker-index": number;
+  "data-wheel-picker-value": string;
+  "data-selected": "" | undefined;
 }
 
 function prefersReducedMotion() {
@@ -435,7 +442,7 @@ export function useWheelPickerColumn({
   );
 
   const getOptionProps = React.useCallback(
-    (option: RenderedWheelPickerOption) =>
+    (option: RenderedWheelPickerOption): WheelPickerOptionProps =>
       elementProps({
         "aria-hidden": true,
         "data-wheel-picker-index": option.physicalIndex,
