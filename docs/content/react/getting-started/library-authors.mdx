@@ -23,11 +23,11 @@ description: SEED를 사용하는 공유 패키지와 SDK를 만들 때의 의�
 
 ## 왜 이렇게 해야 하나요?
 
-SEED의 클래스명(`.seed-action-button`)과 토큰(`--seed-*`)은 **버전과 무관한 고정 문자열**이에요. 그리고 컴포넌트 CSS는 별도 import 없이도 따라 들어와요. `@seed-design/react`가 사용하는 recipe 모듈이 내부에서 자신의 CSS를 import하기 때문이에요.
+SEED의 클래스명(`.seed-action-button`)과 토큰(`--seed-*`)은 **버전이 달라도 같은 이름**이에요. 그리고 컴포넌트 CSS는 별도 import 없이도 따라 들어와요. `@seed-design/react`가 사용하는 recipe 모듈이 내부에서 자신의 CSS를 import하기 때문이에요.
 
 그래서 라이브러리가 SEED를 `dependencies`로 선언하거나 번들에 포함하면, 프로젝트가 가진 SEED와 **서로 다른 두 벌의 CSS**가 같은 클래스명으로 로드돼요. 이때 어느 쪽 스타일이 이길지는 로드 순서가 결정하는데, 번들러의 프로덕션 CSS 순서는 개발 환경과 다를 수 있어서 **배포 후에야 깨짐을 발견**하는 경우가 많아요.
 
-`peerDependencies`로 선언하면 "이 라이브러리는 프로젝트가 가진 SEED를 함께 사용한다"는 계약이 되고, 번들에는 항상 한 벌의 SEED만 남아요.
+`peerDependencies`로 선언하고 빌드에서 external 처리까지 하면 "이 라이브러리는 프로젝트가 가진 SEED를 함께 사용한다"는 계약이 되고, 번들에 한 벌의 SEED만 남아요. peer 선언은 계약일 뿐이라 번들러가 알아서 빼주지는 않아요 — external 처리는 따로 해야 해요.
 
 ## 내 라이브러리 상태 진단하기
 
@@ -149,11 +149,19 @@ export default defineConfig({
 </Tab>
 </Tabs>
 
-빌드 후에는 dist 산출물에 SEED 코드와 CSS가 포함되지 않았는지 확인해주세요.
+빌드 후에는 dist 산출물에 SEED 코드와 CSS가 포함되지 않았는지 확인해주세요. external 처리가 됐다면 dist에는 `@seed-design/*`를 가리키는 **import 문이 그대로 남아** 있어요.
 
 ```sh
-grep -r "seed-action-button" dist/ # 결과가 없어야 해요
+grep -rhoE '@seed-design/[a-z-]+' dist/ | sort -u
 ```
+
+라이브러리가 쓰는 패키지들이 목록에 나오면 정상이에요. 비어 있다면 import가 사라진 것 — 코드가 번들에 인라인됐다는 뜻이에요.
+
+```sh
+grep -rl '\.seed-' dist/ # 결과가 없어야 해요
+```
+
+이쪽은 SEED CSS가 번들에 섞여 들어갔는지 봐요. `.seed-` **클래스 정의**만 잡히므로, 라이브러리 자체 스타일에서 `var(--seed-*)` 토큰을 참조하는 건 걸리지 않아요.
 
 ### CSS import는 프로젝트에 위임하기
 
