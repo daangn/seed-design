@@ -12,10 +12,27 @@ import {
 
 const ITEM_SIZE = 44;
 const VISIBLE_ITEM_COUNT = 5;
-const DEFAULT_ARIA_LABEL = "시간 선택";
-const DEFAULT_PERIOD_ARIA_LABEL = "오전/오후";
-const DEFAULT_HOUR_ARIA_LABEL = "시";
-const DEFAULT_MINUTE_ARIA_LABEL = "분";
+const DEFAULT_ARIA_LABELS = {
+  ko: {
+    root: "시간 선택",
+    period: "오전/오후",
+    hour: "시",
+    minute: "분",
+  },
+  en: {
+    root: "Select time",
+    period: "AM/PM",
+    hour: "Hour",
+    minute: "Minute",
+  },
+} as const;
+
+function getDefaultAriaLabels(locale: string | string[] | undefined) {
+  const [canonicalLocale = "ko-KR"] = Intl.getCanonicalLocales(locale ?? "ko-KR");
+  const language = new Intl.Locale(canonicalLocale).language;
+
+  return language === "ko" ? DEFAULT_ARIA_LABELS.ko : DEFAULT_ARIA_LABELS.en;
+}
 
 const classNames = timePicker();
 
@@ -53,9 +70,9 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       minuteStep,
       locale,
       disabled,
-      periodAriaLabel = DEFAULT_PERIOD_ARIA_LABEL,
-      hourAriaLabel = DEFAULT_HOUR_ARIA_LABEL,
-      minuteAriaLabel = DEFAULT_MINUTE_ARIA_LABEL,
+      periodAriaLabel,
+      hourAriaLabel,
+      minuteAriaLabel,
       className,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledby,
@@ -71,10 +88,11 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       locale,
       disabled,
     });
+    const defaultAriaLabels = getDefaultAriaLabels(locale);
     const ariaLabels = {
-      period: periodAriaLabel,
-      hour: hourAriaLabel,
-      minute: minuteAriaLabel,
+      period: periodAriaLabel ?? defaultAriaLabels.period,
+      hour: hourAriaLabel ?? defaultAriaLabels.hour,
+      minute: minuteAriaLabel ?? defaultAriaLabels.minute,
     };
 
     return (
@@ -83,7 +101,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
         itemSize={ITEM_SIZE}
         visibleItemCount={VISIBLE_ITEM_COUNT}
         disabled={disabled}
-        aria-label={ariaLabelledby ? ariaLabel : (ariaLabel ?? DEFAULT_ARIA_LABEL)}
+        aria-label={ariaLabelledby ? ariaLabel : (ariaLabel ?? defaultAriaLabels.root)}
         aria-labelledby={ariaLabelledby}
         className={clsx(classNames.root, className)}
         columnsClassName={classNames.columns}

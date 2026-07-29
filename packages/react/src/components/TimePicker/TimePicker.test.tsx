@@ -58,20 +58,32 @@ describe("TimePicker", () => {
   });
 
   it("locale에 따라 컬럼 순서를 변경한다", () => {
-    const { getAllByRole } = render(
-      <TimePicker
-        locale="en-US"
-        aria-label="Select time"
-        periodAriaLabel="AM/PM"
-        hourAriaLabel="Hour"
-        minuteAriaLabel="Minute"
-      />,
-    );
+    const { getAllByRole, getByRole } = render(<TimePicker locale="en-US" />);
 
+    expect(getByRole("group")).toHaveAccessibleName("Select time");
     expect(getAllByRole("spinbutton").map((column) => column.getAttribute("aria-label"))).toEqual([
       "Hour",
       "Minute",
       "AM/PM",
+    ]);
+  });
+
+  it("기본 접근성 이름을 명시적인 값으로 재정의한다", () => {
+    const { getAllByRole, getByRole } = render(
+      <TimePicker
+        locale="en-US"
+        aria-label="Appointment time"
+        periodAriaLabel="Period"
+        hourAriaLabel="Hours"
+        minuteAriaLabel="Minutes"
+      />,
+    );
+
+    expect(getByRole("group")).toHaveAccessibleName("Appointment time");
+    expect(getAllByRole("spinbutton").map((column) => column.getAttribute("aria-label"))).toEqual([
+      "Hours",
+      "Minutes",
+      "Period",
     ]);
   });
 
