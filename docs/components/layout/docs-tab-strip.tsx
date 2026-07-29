@@ -47,9 +47,7 @@ export function DocsTabStrip() {
 
   return (
     <>
-      {/* 스크롤 기준점. 스트립이 sticky로 붙어 있으면 스트립 자신의 scrollIntoView는 이미 제자리라
-          아무 일도 하지 않아, 탭을 바꿔도 페이지 중간에 머문다. 흐름에 남는 이 앵커를 기준으로
-          잡으면 붙어 있든 아니든 같은 위치(스트립의 sticky 시작점)로 스크롤된다. */}
+      {/* 스크롤 기준점. sticky로 붙은 스트립은 이미 제자리라 스스로는 스크롤되지 않는다. */}
       <div ref={anchorRef} aria-hidden className="scroll-mt-(--fd-docs-row-2)" />
       <nav
         aria-label={`${label} tabs`}
@@ -61,15 +59,9 @@ export function DocsTabStrip() {
           value={pathname}
           onValueChange={(url) => {
             if (url === pathname) return;
-            // 전환 "전에" 스크롤한다. 이 컴포넌트는 라우트마다 리마운트되므로 "도착 후 스크롤"
-            // 플래그를 ref에 남겨둘 수 없다. 스트립 위쪽(고정 헤더)은 탭이 바뀌어도 높이가 같아
-            // 지금 계산한 목표 위치가 전환 후에도 그대로 유효하다.
-            //
-            // smooth가 아니라 즉시 스크롤인 이유: smooth는 애니메이션이 진행되는 동안 바로 아래
-            // router.push가 본문을 교체하므로, 새 문서 길이에 따라 목표가 잘려 중간에 멈출 수 있다.
-            // 어차피 본문이 통째로 바뀌는 전환이라 그 사이를 부드럽게 훑어봐야 얻는 것도 없다.
+            // 전환 전에 즉시 스크롤한다. 이 컴포넌트는 라우트마다 리마운트되고,
+            // smooth는 뒤이은 본문 교체에 잘려 중간에 멈춘다.
             anchorRef.current?.scrollIntoView({ block: "start" });
-            // scroll:false로 Next의 기본 top 리셋을 막아 방금 맞춘 위치를 유지한다.
             router.push(url, { scroll: false });
           }}
           triggerLayout="hug"
