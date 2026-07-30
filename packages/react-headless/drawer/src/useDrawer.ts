@@ -550,6 +550,10 @@ export function useDrawer(props: UseDrawerProps) {
   useEffect(() => {
     function onVisualViewportChange() {
       if (!drawerRef.current || !repositionInputs) return;
+      // Pinch zoom shrinks the visual viewport for reasons that have nothing to do with the
+      // keyboard, so `diffFromInitial` below would read the zoom as keyboard height and resize the
+      // drawer to match. Leave it alone until the zoom is released.
+      if ((window.visualViewport?.scale ?? 1) > 1) return;
 
       const focusedElement = document.activeElement as HTMLElement;
       if (isInput(focusedElement) || keyboardIsOpen.current) {
@@ -600,17 +604,21 @@ export function useDrawer(props: UseDrawerProps) {
       }
     }
 
-    // The keyboard's dismissal only reaches `visualViewport` once it has fully retracted — measured
-    // ~480ms after blur on iOS 27, against ~90ms in the opposite direction — so waiting for `resize`
-    // drops the drawer back down long after the keyboard is gone. Blur fires as the dismissal
-    // starts, so run the reset from there and leave the height restore to `resize` as before.
+    // On iOS the keyboard's dismissal only reaches `visualViewport` once it has fully retracted —
+    // measured ~480ms after blur on iOS 27, against ~90ms in the opposite direction — so waiting
+    // for `resize` drops the drawer back down long after the keyboard is gone. Blur fires as the
+    // dismissal starts, so run the reset from there and leave the height restore to `resize` as
+    // before. Other platforms report the dismissal promptly and stay on the `resize` path alone.
+    let focusOutFrame = 0;
+
     function onFocusOut(event: FocusEvent) {
       const target = event.target;
       if (!repositionInputs || !(target instanceof Element) || !isInput(target)) return;
+      if ((window.visualViewport?.scale ?? 1) > 1) return;
 
       // Moving between inputs keeps the keyboard up. `relatedTarget` is null on iOS, so wait for
       // the focus to settle and read what actually ended up focused.
-      requestAnimationFrame(() => {
+      focusOutFrame = requestAnimationFrame(() => {
         const activeElement = document.activeElement;
         if (activeElement && isInput(activeElement)) return;
         if (!drawerRef.current) return;
@@ -620,11 +628,19 @@ export function useDrawer(props: UseDrawerProps) {
     }
 
     window.visualViewport?.addEventListener("resize", onVisualViewportChange);
-    document.addEventListener("focusout", onFocusOut, true);
+    if (isIOS()) {
+      document.addEventListener("focusout", onFocusOut, true);
+    }
 
     return () => {
+      // This effect re-runs whenever the active snap point changes. Without cancelling, a blur that
+      // lands in the same frame as a snap change would let the stale closure write `bottom` on top
+      // of the reposition the new snap point just performed.
+      cancelAnimationFrame(focusOutFrame);
       window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
-      document.removeEventListener("focusout", onFocusOut, true);
+      if (isIOS()) {
+        document.removeEventListener("focusout", onFocusOut, true);
+      }
     };
   }, [activeSnapPointIndex, snapPoints, snapPointsOffset, repositionInputs, fixed]);
 
