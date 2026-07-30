@@ -12334,6 +12334,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   touch-action: pan-y;
+  cursor: grab;
   width: max-content;
   height: 100%;
   padding-block: var(--seed-wheel-picker-center-offset);
@@ -12342,7 +12343,16 @@
 }
 
 .seed-wheel-picker__column[data-disabled] {
+  cursor: default;
   overflow-y: hidden;
+}
+
+.seed-wheel-picker__column[data-readonly] {
+  cursor: default;
+}
+
+.seed-wheel-picker__column[data-wheel-picker-dragging] {
+  cursor: grabbing;
 }
 
 .seed-wheel-picker__column[data-wheel-picker-scrolling] {

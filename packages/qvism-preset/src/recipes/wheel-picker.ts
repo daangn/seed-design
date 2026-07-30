@@ -32,9 +32,17 @@ const wheelPicker = defineSlotRecipe({
       msOverflowStyle: "none",
       outline: "none",
       touchAction: "pan-y",
+      cursor: "grab",
       paddingBlock: "var(--seed-wheel-picker-center-offset)",
       "&[data-disabled]": {
         overflowY: "hidden",
+        cursor: "default",
+      },
+      "&[data-readonly]": {
+        cursor: "default",
+      },
+      "&[data-wheel-picker-dragging]": {
+        cursor: "grabbing",
       },
       "&[data-wheel-picker-scrolling]": {
         scrollSnapType: "none",

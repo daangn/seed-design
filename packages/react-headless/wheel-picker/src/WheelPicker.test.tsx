@@ -50,6 +50,8 @@ describe("WheelPicker", () => {
   const originalMatchMedia = window.matchMedia;
   const originalRequestAnimationFrame = window.requestAnimationFrame;
   const originalCancelAnimationFrame = window.cancelAnimationFrame;
+  const originalSetPointerCapture = HTMLElement.prototype.setPointerCapture;
+  const originalReleasePointerCapture = HTMLElement.prototype.releasePointerCapture;
   let animationFrameTime = 0;
 
   beforeAll(() => {
@@ -74,6 +76,8 @@ describe("WheelPicker", () => {
       return 1;
     };
     window.cancelAnimationFrame = () => {};
+    HTMLElement.prototype.setPointerCapture = mock(() => {});
+    HTMLElement.prototype.releasePointerCapture = mock(() => {});
   });
 
   afterAll(() => {
@@ -81,6 +85,8 @@ describe("WheelPicker", () => {
     window.matchMedia = originalMatchMedia;
     window.requestAnimationFrame = originalRequestAnimationFrame;
     window.cancelAnimationFrame = originalCancelAnimationFrame;
+    HTMLElement.prototype.setPointerCapture = originalSetPointerCapture;
+    HTMLElement.prototype.releasePointerCapture = originalReleasePointerCapture;
   });
 
   it("group과 spinbutton 접근성 속성을 제공한다", () => {
@@ -158,6 +164,64 @@ describe("WheelPicker", () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
     expect(onValueChange).toHaveBeenCalledWith("b");
     jest.useRealTimers();
+  });
+
+  it("마우스로 클릭하고 드래그해 가장 가까운 항목을 선택한다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(<TestWheelPicker onValueChange={onValueChange} />);
+    const column = getByRole("spinbutton");
+
+    fireEvent.pointerDown(column, {
+      pointerId: 1,
+      pointerType: "mouse",
+      button: 0,
+      clientY: 100,
+    });
+    expect(column).toHaveAttribute("data-wheel-picker-dragging");
+    expect(column).toHaveFocus();
+
+    fireEvent.pointerMove(column, {
+      pointerId: 1,
+      pointerType: "mouse",
+      clientY: 20,
+    });
+    expect(column.scrollTop).toBe(80);
+    expect(column.children[2]).toHaveAttribute("data-selected");
+
+    fireEvent.pointerUp(column, {
+      pointerId: 1,
+      pointerType: "mouse",
+      button: 0,
+      clientY: 20,
+    });
+    fireEvent.click(column.children[0]);
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(column).not.toHaveAttribute("data-wheel-picker-dragging");
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith("c");
+    jest.useRealTimers();
+  });
+
+  it("터치 포인터는 마우스 드래그 처리에 개입하지 않는다", () => {
+    const { getByRole } = render(<TestWheelPicker />);
+    const column = getByRole("spinbutton");
+
+    fireEvent.pointerDown(column, {
+      pointerId: 1,
+      pointerType: "touch",
+      button: 0,
+      clientY: 100,
+    });
+    fireEvent.pointerMove(column, {
+      pointerId: 1,
+      pointerType: "touch",
+      clientY: 20,
+    });
+
+    expect(column).not.toHaveAttribute("data-wheel-picker-dragging");
+    expect(column.scrollTop).toBe(0);
   });
 
   it("loop 모드에서 touch scroll 중에는 재배치하지 않고 정착 후 중앙으로 이동한다", () => {

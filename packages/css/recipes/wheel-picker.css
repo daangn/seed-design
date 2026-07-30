@@ -26,10 +26,18 @@
     -ms-overflow-style: none;
     outline: none;
     touch-action: pan-y;
+    cursor: grab;
     padding-block: var(--seed-wheel-picker-center-offset);
 }
 .seed-wheel-picker__column[data-disabled] {
     overflow-y: hidden;
+    cursor: default;
+}
+.seed-wheel-picker__column[data-readonly] {
+    cursor: default;
+}
+.seed-wheel-picker__column[data-wheel-picker-dragging] {
+    cursor: grabbing;
 }
 .seed-wheel-picker__column[data-wheel-picker-scrolling] {
     scroll-snap-type: none;

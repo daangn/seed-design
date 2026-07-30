@@ -15,6 +15,7 @@ import {
 const SCROLL_SETTLE_DELAY = 120;
 const WHEEL_ALIGNMENT_DURATION = 160;
 const LOOP_RECENTER_BUFFER_VIEWPORTS = 2;
+const POINTER_DRAG_THRESHOLD = 3;
 
 export interface WheelPickerOption {
   value: string;
@@ -114,6 +115,14 @@ export function useWheelPickerColumn({
   const indicatorOverlapElementsRef = React.useRef<HTMLElement[]>([]);
   const keyboardTargetPhysicalIndexRef = React.useRef<number | null>(null);
   const isTouchingRef = React.useRef(false);
+  const pointerDragRef = React.useRef<{
+    pointerId: number;
+    startClientY: number;
+    startScrollTop: number;
+    hasDragged: boolean;
+  } | null>(null);
+  const suppressClickRef = React.useRef(false);
+  const suppressClickTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const isWheelingRef = React.useRef(false);
   const isWheelAligningRef = React.useRef(false);
 
@@ -208,7 +217,7 @@ export function useWheelPickerColumn({
       settleTimerRef.current = null;
     }
 
-    if (isTouchingRef.current) return;
+    if (isTouchingRef.current || pointerDragRef.current) return;
     if (options.length === 0) return;
 
     const nearestPhysicalIndex = getNearestPhysicalIndex();
@@ -314,7 +323,7 @@ export function useWheelPickerColumn({
 
   const scheduleSettle = React.useCallback(() => {
     if (settleTimerRef.current) clearTimeout(settleTimerRef.current);
-    if (isTouchingRef.current) {
+    if (isTouchingRef.current || pointerDragRef.current) {
       settleTimerRef.current = null;
       return;
     }
@@ -434,6 +443,89 @@ export function useWheelPickerColumn({
     isTouchingRef.current = false;
     scheduleSettle();
   }, [scheduleSettle]);
+
+  const handlePointerDown = React.useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      if (event.pointerType !== "mouse" || event.button !== 0 || disabled || readOnly) return;
+
+      const column = columnRef.current;
+      if (!column) return;
+
+      event.preventDefault();
+      keyboardTargetPhysicalIndexRef.current = null;
+      if (settleTimerRef.current) {
+        clearTimeout(settleTimerRef.current);
+        settleTimerRef.current = null;
+      }
+      if (wheelAlignmentFrameRef.current !== null) {
+        cancelAnimationFrame(wheelAlignmentFrameRef.current);
+        wheelAlignmentFrameRef.current = null;
+      }
+      isWheelAligningRef.current = false;
+      isWheelingRef.current = false;
+      column.removeAttribute("data-wheel-picker-scrolling");
+      column.setAttribute("data-wheel-picker-dragging", "");
+      column.focus({ preventScroll: true });
+      column.setPointerCapture(event.pointerId);
+      pointerDragRef.current = {
+        pointerId: event.pointerId,
+        startClientY: event.clientY,
+        startScrollTop: column.scrollTop,
+        hasDragged: false,
+      };
+    },
+    [disabled, readOnly],
+  );
+
+  const handlePointerMove = React.useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      const column = columnRef.current;
+      const pointerDrag = pointerDragRef.current;
+      if (!column || !pointerDrag || pointerDrag.pointerId !== event.pointerId) return;
+
+      event.preventDefault();
+      const dragDistance = pointerDrag.startClientY - event.clientY;
+      pointerDrag.hasDragged ||= Math.abs(dragDistance) >= POINTER_DRAG_THRESHOLD;
+      column.scrollTop = pointerDrag.startScrollTop + dragDistance;
+      updateVisualSelection(getNearestPhysicalIndex());
+    },
+    [getNearestPhysicalIndex, updateVisualSelection],
+  );
+
+  const finishPointerDrag = React.useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      const column = columnRef.current;
+      const pointerDrag = pointerDragRef.current;
+      if (!column || !pointerDrag || pointerDrag.pointerId !== event.pointerId) return;
+
+      pointerDragRef.current = null;
+      column.removeAttribute("data-wheel-picker-dragging");
+      column.releasePointerCapture(event.pointerId);
+
+      if (!pointerDrag.hasDragged) return;
+
+      suppressClickRef.current = true;
+      if (suppressClickTimerRef.current) clearTimeout(suppressClickTimerRef.current);
+      suppressClickTimerRef.current = setTimeout(() => {
+        suppressClickRef.current = false;
+        suppressClickTimerRef.current = null;
+      }, 0);
+
+      const nearestPhysicalIndex = getNearestPhysicalIndex();
+      scrollToPhysicalIndex(nearestPhysicalIndex, "auto");
+      updateVisualSelection(nearestPhysicalIndex);
+      scheduleSettle();
+    },
+    [getNearestPhysicalIndex, scheduleSettle, scrollToPhysicalIndex, updateVisualSelection],
+  );
+
+  const handleClickCapture = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    if (!suppressClickRef.current) return;
+
+    suppressClickRef.current = false;
+    event.preventDefault();
+    event.stopPropagation();
+  }, []);
 
   const moveToLogicalIndex = React.useCallback(
     (nextLogicalIndex: number, behavior: ScrollBehavior) => {
@@ -572,6 +664,7 @@ export function useWheelPickerColumn({
       if (wheelAlignmentFrameRef.current !== null) {
         cancelAnimationFrame(wheelAlignmentFrameRef.current);
       }
+      if (suppressClickTimerRef.current) clearTimeout(suppressClickTimerRef.current);
     },
     [],
   );
@@ -615,6 +708,11 @@ export function useWheelPickerColumn({
       onTouchStart: handleTouchStart,
       onTouchEnd: handleTouchEnd,
       onTouchCancel: handleTouchCancel,
+      onPointerDown: handlePointerDown,
+      onPointerMove: handlePointerMove,
+      onPointerUp: finishPointerDrag,
+      onPointerCancel: finishPointerDrag,
+      onClickCapture: handleClickCapture,
       onScroll: handleScroll,
       onKeyDown: handleKeyDown,
     }),
