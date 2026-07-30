@@ -17,7 +17,6 @@ const MAINTAINERS: Contributor[] = [
   { name: "Lucas", koreanName: "신현성" },
   { name: "Tyler.joo", koreanName: "주찬휘" },
   { name: "Minnie.kim", koreanName: "김민효" },
-  { name: "Zen", koreanName: "김지수" },
   { name: "Tony.kim", koreanName: "김주성" },
   { name: "Antonio", koreanName: "정승원" },
   { name: "Owen.lee", koreanName: "이건우" },
@@ -27,6 +26,9 @@ const MAINTAINERS: Contributor[] = [
 const CONTRIBUTORS: Contributor[] = [
   { name: "Tony", koreanName: "원지혁" },
   { name: "Journy", koreanName: "김지현" },
+  { name: "Ray", koreanName: "오강훈" },
+  { name: "Zen", koreanName: "김지수" },
+  { name: "Gina", koreanName: "조은진" },
   { name: "Iseo", koreanName: "박이서" },
   { name: "Dion", koreanName: "국도연" },
   { name: "Hiko", koreanName: "박시은" },
