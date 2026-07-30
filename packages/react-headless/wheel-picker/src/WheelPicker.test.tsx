@@ -288,6 +288,31 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("loop 모드에서 경계와 먼 위치에 정착하면 현재 복제본을 유지한다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <TestWheelPicker loop defaultValue="a" onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+    const centralPhysicalIndex = getCentralPhysicalIndex(0, options.length, 5, true);
+    const settledPhysicalIndex = centralPhysicalIndex + options.length * 5 + 1;
+
+    fireEvent.touchStart(column, { touches: [{ clientY: 100 }] });
+    column.scrollTop = settledPhysicalIndex * 40;
+    fireEvent.scroll(column);
+    fireEvent.touchEnd(column, { touches: [] });
+
+    act(() => {
+      jest.advanceTimersByTime(120);
+    });
+
+    expect(column.scrollTop).toBe(settledPhysicalIndex * 40);
+    expect(column.children[settledPhysicalIndex]).toHaveAttribute("data-selected");
+    expect(onValueChange).toHaveBeenCalledWith("b");
+    jest.useRealTimers();
+  });
+
   it("loop 모드에서 wheel 관성이 경계에 닿기 전에 동일한 논리 위치로 재배치한다", () => {
     jest.useFakeTimers();
     const requestAnimationFrame = window.requestAnimationFrame;

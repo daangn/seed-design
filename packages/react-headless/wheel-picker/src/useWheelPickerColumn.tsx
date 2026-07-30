@@ -118,6 +118,7 @@ export function useWheelPickerColumn({
   const wheelAlignmentFrameRef = React.useRef<number | null>(null);
   const selectedElementRef = React.useRef<HTMLElement | null>(null);
   const indicatorOverlapElementsRef = React.useRef<HTMLElement[]>([]);
+  const hasInitializedScrollPositionRef = React.useRef(false);
   const keyboardTargetPhysicalIndexRef = React.useRef<number | null>(null);
   const isTouchingRef = React.useRef(false);
   const pointerDragRef = React.useRef<{
@@ -254,12 +255,18 @@ export function useWheelPickerColumn({
         visibleItemCount,
         true,
       );
+      const boundaryBuffer = visibleItemCount * LOOP_RECENTER_BUFFER_VIEWPORTS;
+      const shouldRecenter =
+        nearestPhysicalIndex <= boundaryBuffer ||
+        nearestPhysicalIndex >= physicalOptionCount - 1 - boundaryBuffer;
 
-      if (nearestPhysicalIndex !== nextCentralPhysicalIndex) {
+      if (shouldRecenter && nearestPhysicalIndex !== nextCentralPhysicalIndex) {
         scrollToPhysicalIndex(nextCentralPhysicalIndex, "auto");
         updateVisualSelection(nextCentralPhysicalIndex);
       }
-      keyboardTargetPhysicalIndexRef.current = nextCentralPhysicalIndex;
+      keyboardTargetPhysicalIndexRef.current = shouldRecenter
+        ? nextCentralPhysicalIndex
+        : nearestPhysicalIndex;
     } else {
       keyboardTargetPhysicalIndexRef.current = nearestPhysicalIndex;
     }
@@ -268,6 +275,7 @@ export function useWheelPickerColumn({
     centralPhysicalIndex,
     getNearestPhysicalIndex,
     options,
+    physicalOptionCount,
     readOnly,
     resolvedValue,
     scrollToPhysicalIndex,
@@ -692,10 +700,28 @@ export function useWheelPickerColumn({
   useLayoutEffect(() => {
     if (!columnRef.current || options.length === 0) return;
 
+    const currentPhysicalIndex = getNearestPhysicalIndex();
+    if (
+      hasInitializedScrollPositionRef.current &&
+      toLogicalIndex(currentPhysicalIndex, options.length) === logicalIndex
+    ) {
+      updateVisualSelection(currentPhysicalIndex);
+      keyboardTargetPhysicalIndexRef.current = currentPhysicalIndex;
+      return;
+    }
+
+    hasInitializedScrollPositionRef.current = true;
     columnRef.current.scrollTop = centralPhysicalIndex * itemSize;
     updateVisualSelection(centralPhysicalIndex);
     keyboardTargetPhysicalIndexRef.current = centralPhysicalIndex;
-  }, [centralPhysicalIndex, itemSize, options.length, updateVisualSelection]);
+  }, [
+    centralPhysicalIndex,
+    getNearestPhysicalIndex,
+    itemSize,
+    logicalIndex,
+    options.length,
+    updateVisualSelection,
+  ]);
 
   React.useEffect(() => {
     const column = columnRef.current;
