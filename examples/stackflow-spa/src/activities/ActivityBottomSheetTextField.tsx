@@ -37,7 +37,7 @@ const ActivityBottomSheetTextField: StaticActivityComponentType<
   };
 
   return (
-    <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()} modal={false}>
+    <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()}>
       <BottomSheetContent
         showHandle
         showCloseButton={false}
