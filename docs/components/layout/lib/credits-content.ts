@@ -25,6 +25,7 @@ const MAINTAINERS: Contributor[] = [
 
 const CONTRIBUTORS: Contributor[] = [
   { name: "Tony", koreanName: "원지혁" },
+  { name: "Tim", koreanName: "김혜성" },
   { name: "Journy", koreanName: "김지현" },
   { name: "Ray", koreanName: "오강훈" },
   { name: "Zen", koreanName: "김지수" },
