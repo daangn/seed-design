@@ -7,6 +7,7 @@ on:
     paths:
       - "docs/**"
       - "packages/css/**"
+      - "packages/react-headless/**"
       - "packages/react/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
