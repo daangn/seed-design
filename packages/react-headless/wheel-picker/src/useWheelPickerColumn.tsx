@@ -14,6 +14,11 @@ import {
 
 const SCROLL_SETTLE_DELAY = 120;
 const WHEEL_ALIGNMENT_DURATION = 160;
+const POINTER_RELEASE_MIN_DURATION = 220;
+const POINTER_RELEASE_MAX_DURATION = 360;
+const POINTER_MOMENTUM_DURATION = 180;
+const POINTER_MAX_MOMENTUM_ITEMS = 3;
+const POINTER_VELOCITY_MAX_AGE = 80;
 const LOOP_RECENTER_BUFFER_VIEWPORTS = 2;
 const POINTER_DRAG_THRESHOLD = 3;
 
@@ -119,6 +124,9 @@ export function useWheelPickerColumn({
     pointerId: number;
     startClientY: number;
     startScrollTop: number;
+    lastScrollTop: number;
+    lastTimestamp: number;
+    velocity: number;
     hasDragged: boolean;
   } | null>(null);
   const suppressClickRef = React.useRef(false);
@@ -281,7 +289,7 @@ export function useWheelPickerColumn({
   }, [settle]);
 
   const alignWheelToPhysicalIndex = React.useCallback(
-    (physicalIndex: number) => {
+    (physicalIndex: number, duration = WHEEL_ALIGNMENT_DURATION) => {
       const column = columnRef.current;
       if (!column) return;
 
@@ -300,10 +308,7 @@ export function useWheelPickerColumn({
         }
         previousTime = time;
 
-        const progress = Math.min(
-          Math.max(time - startTime, elapsed) / WHEEL_ALIGNMENT_DURATION,
-          1,
-        );
+        const progress = Math.min(Math.max(time - startTime, elapsed) / duration, 1);
         const easedProgress = 1 - (1 - progress) ** 3;
         column.scrollTop = startScrollTop + distance * easedProgress;
 
@@ -470,6 +475,9 @@ export function useWheelPickerColumn({
         pointerId: event.pointerId,
         startClientY: event.clientY,
         startScrollTop: column.scrollTop,
+        lastScrollTop: column.scrollTop,
+        lastTimestamp: Date.now(),
+        velocity: 0,
         hasDragged: false,
       };
     },
@@ -486,6 +494,16 @@ export function useWheelPickerColumn({
       const dragDistance = pointerDrag.startClientY - event.clientY;
       pointerDrag.hasDragged ||= Math.abs(dragDistance) >= POINTER_DRAG_THRESHOLD;
       column.scrollTop = pointerDrag.startScrollTop + dragDistance;
+
+      const timestamp = Date.now();
+      const elapsed = timestamp - pointerDrag.lastTimestamp;
+      if (elapsed > 0) {
+        const instantaneousVelocity = (column.scrollTop - pointerDrag.lastScrollTop) / elapsed;
+        pointerDrag.velocity = pointerDrag.velocity * 0.25 + instantaneousVelocity * 0.75;
+      }
+      pointerDrag.lastScrollTop = column.scrollTop;
+      pointerDrag.lastTimestamp = timestamp;
+
       updateVisualSelection(getNearestPhysicalIndex());
     },
     [getNearestPhysicalIndex, updateVisualSelection],
@@ -512,8 +530,22 @@ export function useWheelPickerColumn({
         suppressClickTimerRef.current = null;
       }, 0);
 
-      const nearestPhysicalIndex = getNearestPhysicalIndex();
+      const velocityAge = Date.now() - pointerDrag.lastTimestamp;
+      const releaseVelocity = velocityAge <= POINTER_VELOCITY_MAX_AGE ? pointerDrag.velocity : 0;
+      const momentumOffset = Math.min(
+        Math.max(
+          releaseVelocity * POINTER_MOMENTUM_DURATION,
+          -itemSize * POINTER_MAX_MOMENTUM_ITEMS,
+        ),
+        itemSize * POINTER_MAX_MOMENTUM_ITEMS,
+      );
+      const projectedScrollTop = column.scrollTop + momentumOffset;
+      const nearestPhysicalIndex = clampPhysicalIndex(
+        Math.round(projectedScrollTop / itemSize),
+        physicalOptionCount,
+      );
       const nearestScrollTop = nearestPhysicalIndex * itemSize;
+      const releaseDistance = Math.abs(nearestScrollTop - column.scrollTop);
 
       if (
         !prefersReducedMotion() &&
@@ -522,7 +554,11 @@ export function useWheelPickerColumn({
         column.setAttribute("data-wheel-picker-scrolling", "");
         column.removeAttribute("data-wheel-picker-dragging");
         isWheelAligningRef.current = true;
-        alignWheelToPhysicalIndex(nearestPhysicalIndex);
+        const releaseDuration = Math.min(
+          POINTER_RELEASE_MAX_DURATION,
+          POINTER_RELEASE_MIN_DURATION + (releaseDistance / itemSize) * 40,
+        );
+        alignWheelToPhysicalIndex(nearestPhysicalIndex, releaseDuration);
         return;
       }
 
@@ -533,8 +569,8 @@ export function useWheelPickerColumn({
     },
     [
       alignWheelToPhysicalIndex,
-      getNearestPhysicalIndex,
       itemSize,
+      physicalOptionCount,
       scrollToPhysicalIndex,
       settle,
       updateVisualSelection,

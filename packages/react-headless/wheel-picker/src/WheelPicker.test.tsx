@@ -17,6 +17,7 @@ function TestWheelPicker({
   loop = false,
   disabled,
   readOnly,
+  pickerOptions = options,
 }: {
   onValueChange?: (value: string) => void;
   value?: string;
@@ -24,6 +25,7 @@ function TestWheelPicker({
   loop?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
+  pickerOptions?: typeof options;
 }) {
   return (
     <WheelPickerRoot
@@ -35,7 +37,7 @@ function TestWheelPicker({
     >
       <WheelPickerColumn
         aria-label="테스트 컬럼"
-        options={options}
+        options={pickerOptions}
         value={value}
         defaultValue={defaultValue}
         onValueChange={onValueChange}
@@ -166,7 +168,7 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
-  it("마우스 드래그를 놓으면 가장 가까운 항목으로 부드럽게 정착한다", () => {
+  it("마우스 드래그를 놓으면 속도를 이어받아 부드럽게 정착한다", () => {
     jest.useFakeTimers();
     const requestAnimationFrame = window.requestAnimationFrame;
     const cancelAnimationFrame = window.cancelAnimationFrame;
@@ -178,7 +180,15 @@ describe("WheelPicker", () => {
       }, 16) as unknown as number;
     window.cancelAnimationFrame = (handle) => clearTimeout(handle);
     const onValueChange = mock(() => {});
-    const { getByRole } = render(<TestWheelPicker onValueChange={onValueChange} />);
+    const momentumOptions = [
+      ...options,
+      { value: "d", label: "D" },
+      { value: "e", label: "E" },
+      { value: "f", label: "F" },
+    ];
+    const { getByRole } = render(
+      <TestWheelPicker pickerOptions={momentumOptions} onValueChange={onValueChange} />,
+    );
     const column = getByRole("spinbutton");
 
     fireEvent.pointerDown(column, {
@@ -189,6 +199,7 @@ describe("WheelPicker", () => {
     });
     expect(column).toHaveAttribute("data-wheel-picker-dragging");
 
+    act(() => jest.advanceTimersByTime(16));
     fireEvent.pointerMove(column, {
       pointerId: 1,
       pointerType: "mouse",
@@ -197,6 +208,7 @@ describe("WheelPicker", () => {
     expect(column.scrollTop).toBe(70);
     expect(column.children[2]).toHaveAttribute("data-selected");
 
+    act(() => jest.advanceTimersByTime(16));
     fireEvent.pointerUp(column, {
       pointerId: 1,
       pointerType: "mouse",
@@ -208,13 +220,13 @@ describe("WheelPicker", () => {
     expect(column.scrollTop).toBe(70);
     expect(column).toHaveAttribute("data-wheel-picker-scrolling");
 
-    act(() => jest.advanceTimersByTime(200));
+    act(() => jest.advanceTimersByTime(400));
 
     expect(column).not.toHaveAttribute("data-wheel-picker-dragging");
     expect(column).not.toHaveAttribute("data-wheel-picker-scrolling");
-    expect(column.scrollTop).toBe(80);
+    expect(column.scrollTop).toBe(200);
     expect(onValueChange).toHaveBeenCalledTimes(1);
-    expect(onValueChange).toHaveBeenCalledWith("c");
+    expect(onValueChange).toHaveBeenCalledWith("f");
     window.requestAnimationFrame = requestAnimationFrame;
     window.cancelAnimationFrame = cancelAnimationFrame;
     jest.useRealTimers();
