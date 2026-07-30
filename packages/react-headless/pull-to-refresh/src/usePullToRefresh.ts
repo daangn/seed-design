@@ -31,6 +31,12 @@ interface UsePullToRefreshStateProps {
   /**
    * Callback when the pull-to-refresh is released.
    * It does not matter if it is ready or not. If you want to handle the refresh, use `onPtrRefresh`.
+   *
+   * The context depends on how the pull ended. Releasing the pointer reports the
+   * final coordinates, while a pull that is aborted — the finger travelling back
+   * above the start, `touchcancel`/`pointercancel`, or `disabled` flipping on —
+   * reports the already reset context (`y: -1`, `displacement: 0`) so that a
+   * cancelled pull never surfaces a stale or negative displacement.
    */
   onPtrPullEnd?: (ctx: PullToRefreshContext) => void;
 
@@ -174,10 +180,13 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
     if (state === "ready" && isPtrRefreshProvided) {
       setState("loading");
       setContext({ y0: 0, y: -1, displacement: threshold });
-      onPtrRefresh().then(() => {
+      // Settle on rejection too. `end` and `cancel` both no-op while loading, so
+      // an unhandled rejection would leave the state stuck at `loading` forever.
+      function settle() {
         setState("idle");
         setContext({ y0: 0, y: -1, displacement: 0 });
-      });
+      }
+      onPtrRefresh().then(settle, settle);
       return;
     }
     if (state === "ready" || state === "pulling") {
@@ -216,10 +225,9 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
 
     // If loading, we let props.onPtrRefresh handle the state change.
     if (state === "pulling" || state === "ready") {
-      setState("idle");
-      setContext({ y0: 0, y: -1, displacement: 0 });
+      abortPull();
     }
-  }, [disabled, state, setContext]);
+  }, [disabled, state, abortPull]);
 
   const events = {
     move: moveEvent,

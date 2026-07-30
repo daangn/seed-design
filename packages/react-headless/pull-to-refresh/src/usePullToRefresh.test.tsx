@@ -67,14 +67,20 @@ const displacementVar = (root: HTMLElement) => root.style.getPropertyValue("--pt
  */
 function createDeferredRefresh() {
   let settle = () => {};
+  let reject = () => {};
   const onPtrRefresh = mock(
     () =>
-      new Promise<void>((resolve) => {
+      new Promise<void>((resolve, rejectPromise) => {
         settle = () => resolve();
+        reject = () => rejectPromise(new Error("refresh failed"));
       }),
   );
 
-  return { onPtrRefresh, finish: () => act(async () => settle()) };
+  return {
+    onPtrRefresh,
+    finish: () => act(async () => settle()),
+    fail: () => act(async () => reject()),
+  };
 }
 
 describe("usePullToRefresh state machine", () => {
@@ -374,6 +380,27 @@ describe("usePullToRefresh callbacks", () => {
     expect(last().api.state).toBe("idle");
     expect(displacementVar(root)).toBe("0px");
   });
+
+  it("returns to idle when the onPtrRefresh promise rejects", async () => {
+    const { onPtrRefresh, fail } = createDeferredRefresh();
+    const { root, last } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
+
+    movePointer(root, 100);
+    movePointer(root, 110);
+    movePointer(root, 250);
+    releasePointer(root);
+    expect(last().api.state).toBe("loading");
+
+    // A failed refresh has to release the state too, otherwise `end` and `cancel`
+    // both no-op from loading and the gesture is dead for good.
+    await fail();
+    expect(last().api.state).toBe("idle");
+    expect(displacementVar(root)).toBe("0px");
+
+    movePointer(root, 300);
+    movePointer(root, 310);
+    expect(last().api.state).toBe("pulling");
+  });
 });
 
 describe("usePullToRefresh entry guards", () => {
@@ -604,6 +631,39 @@ describe("usePullToRefresh disabled transition", () => {
 
     await finish();
     expect(root).toHaveAttribute("data-ptr-state", "idle");
+  });
+
+  it("calls onPtrPullEnd so the interrupted pull is still paired with its start", () => {
+    const onPtrPullStart = mock((_ctx: PullContext) => {});
+    const onPtrPullEnd = mock((_ctx: PullContext) => {});
+    const { root, rerenderWith } = setup({
+      threshold: 100,
+      displacementMultiplier: 1,
+      onPtrPullStart,
+      onPtrPullEnd,
+    });
+
+    movePointer(root, 100);
+    movePointer(root, 110);
+    movePointer(root, 150);
+    expect(onPtrPullStart).toHaveBeenCalledTimes(1);
+    expect(onPtrPullEnd).not.toHaveBeenCalled();
+
+    rerenderWith({
+      threshold: 100,
+      displacementMultiplier: 1,
+      onPtrPullStart,
+      onPtrPullEnd,
+      disabled: true,
+    });
+
+    expect(onPtrPullEnd).toHaveBeenCalledTimes(1);
+    expect(onPtrPullEnd).toHaveBeenCalledWith({
+      y0: 0,
+      y: -1,
+      displacement: 0,
+      displacementRatio: 0,
+    });
   });
 
   it("resumes normally once disabled goes back to false", () => {
