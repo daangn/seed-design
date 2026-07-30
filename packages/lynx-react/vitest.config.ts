@@ -19,7 +19,7 @@ export default mergeConfig(
       ],
     },
     ssr: {
-      noExternal: ["@lynx-js/react", "preact", "@hongzhiyuan/preact"],
+      noExternal: ["@lynx-js/react", "preact", "@lynx-js/internal-preact"],
     },
   }),
 );
