@@ -1,6 +1,5 @@
 import { act, fireEvent, render } from "@testing-library/react";
 import { describe, expect, it, mock, spyOn } from "bun:test";
-import { useRef } from "react";
 
 import { pullToRefreshPreventPull } from "./dom";
 import {
@@ -59,28 +58,32 @@ describe("PullToRefreshRoot", () => {
   });
 
   it("composes the caller ref with the internal root ref", () => {
-    const seen: Array<HTMLDivElement | null> = [];
-    function Probe() {
-      const ref = useRef<HTMLDivElement>(null);
-      seen.push(ref.current);
+    // A callback ref records the node the caller actually received. Sampling
+    // `useRef().current` during render would only ever see the pre-commit null.
+    const seen: Array<HTMLElement | null> = [];
 
-      return (
-        <PullToRefreshRoot data-testid="root" ref={ref} threshold={100} displacementMultiplier={1}>
-          <PullToRefreshContent data-testid="content">child</PullToRefreshContent>
-        </PullToRefreshRoot>
-      );
-    }
-
-    const { getByTestId } = render(<Probe />);
+    const { getByTestId } = render(
+      <PullToRefreshRoot
+        data-testid="root"
+        ref={(node) => {
+          seen.push(node);
+        }}
+        threshold={100}
+        displacementMultiplier={1}
+      >
+        <PullToRefreshContent data-testid="content">child</PullToRefreshContent>
+      </PullToRefreshRoot>,
+    );
     const root = getByTestId("root");
 
     movePointer(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
 
-    // The CSS variable proves the internal ref is still attached alongside the caller ref.
+    // The caller ref got the root element...
+    expect(seen).toContain(root);
+    // ...and the CSS variable proves the internal ref is attached alongside it.
     expect(root.style.getPropertyValue("--ptr-displacement")).toBe("40px");
-    expect(seen).toContain(null);
   });
 
   it("renders the child element when asChild is set", () => {

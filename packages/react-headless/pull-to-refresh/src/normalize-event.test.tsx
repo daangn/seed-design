@@ -1,7 +1,14 @@
 import { fireEvent, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, mock } from "bun:test";
 
-import { getClientY, isLeftPress, touchEnd, touchMove, touchStart } from "./normalize-event";
+import {
+  getClientY,
+  isLeftPress,
+  touchCancel,
+  touchEnd,
+  touchMove,
+  touchStart,
+} from "./normalize-event";
 
 // `isLeftPress` / `getClientY` take React synthetic events, so drive them through a
 // real render instead of hand-rolling event objects.
@@ -33,6 +40,7 @@ describe("normalize-event handler names", () => {
     expect(touchStart).toBe("onPointerDown");
     expect(touchMove).toBe("onPointerMove");
     expect(touchEnd).toBe("onPointerUp");
+    expect(touchCancel).toBe("onPointerCancel");
   });
 
   it("binds touch handlers when the environment has touch support", async () => {
@@ -51,6 +59,7 @@ describe("normalize-event handler names", () => {
       expect(touchModule.touchStart).toBe("onTouchStart");
       expect(touchModule.touchMove).toBe("onTouchMove");
       expect(touchModule.touchEnd).toBe("onTouchEnd");
+      expect(touchModule.touchCancel).toBe("onTouchCancel");
     } finally {
       Reflect.deleteProperty(window, "ontouchstart");
     }
