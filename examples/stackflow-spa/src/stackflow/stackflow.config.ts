@@ -22,6 +22,7 @@ export const config = defineConfig({
     { route: "/bottom-sheet-step", name: "ActivityBottomSheetStep" },
     { route: "/bottom-sheet", name: "ActivityBottomSheet" },
     { route: "/bottom-sheet-modal-test", name: "ActivityBottomSheetModalTest" },
+    { route: "/bottom-sheet-text-field", name: "ActivityBottomSheetTextField" },
     {
       route: "/bottom-sheet-with-alert-dialog-step",
       name: "ActivityBottomSheetWithAlertDialogStep",

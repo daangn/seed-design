@@ -51,6 +51,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityBottomSheetActivity: lazy(() => import("../activities/ActivityBottomSheetActivity")),
     ActivityBottomSheetModalTest: lazy(() => import("../activities/ActivityBottomSheetModalTest")),
     ActivityBottomSheetStep: lazy(() => import("../activities/ActivityBottomSheetStep")),
+    ActivityBottomSheetTextField: lazy(() => import("../activities/ActivityBottomSheetTextField")),
     ActivityBottomSheetWithAlertDialogStep: lazy(
       () => import("../activities/ActivityBottomSheetWithAlertDialogStep"),
     ),
