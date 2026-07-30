@@ -166,8 +166,17 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
-  it("마우스로 클릭하고 드래그해 가장 가까운 항목을 선택한다", () => {
+  it("마우스 드래그를 놓으면 가장 가까운 항목으로 부드럽게 정착한다", () => {
     jest.useFakeTimers();
+    const requestAnimationFrame = window.requestAnimationFrame;
+    const cancelAnimationFrame = window.cancelAnimationFrame;
+    let frameTime = 0;
+    window.requestAnimationFrame = (callback) =>
+      setTimeout(() => {
+        frameTime += 16;
+        callback(frameTime);
+      }, 16) as unknown as number;
+    window.cancelAnimationFrame = (handle) => clearTimeout(handle);
     const onValueChange = mock(() => {});
     const { getByRole } = render(<TestWheelPicker onValueChange={onValueChange} />);
     const column = getByRole("spinbutton");
@@ -183,23 +192,31 @@ describe("WheelPicker", () => {
     fireEvent.pointerMove(column, {
       pointerId: 1,
       pointerType: "mouse",
-      clientY: 20,
+      clientY: 30,
     });
-    expect(column.scrollTop).toBe(80);
+    expect(column.scrollTop).toBe(70);
     expect(column.children[2]).toHaveAttribute("data-selected");
 
     fireEvent.pointerUp(column, {
       pointerId: 1,
       pointerType: "mouse",
       button: 0,
-      clientY: 20,
+      clientY: 30,
     });
     fireEvent.click(column.children[0]);
-    act(() => jest.advanceTimersByTime(120));
+
+    expect(column.scrollTop).toBe(70);
+    expect(column).toHaveAttribute("data-wheel-picker-scrolling");
+
+    act(() => jest.advanceTimersByTime(200));
 
     expect(column).not.toHaveAttribute("data-wheel-picker-dragging");
+    expect(column).not.toHaveAttribute("data-wheel-picker-scrolling");
+    expect(column.scrollTop).toBe(80);
     expect(onValueChange).toHaveBeenCalledTimes(1);
     expect(onValueChange).toHaveBeenCalledWith("c");
+    window.requestAnimationFrame = requestAnimationFrame;
+    window.cancelAnimationFrame = cancelAnimationFrame;
     jest.useRealTimers();
   });
 

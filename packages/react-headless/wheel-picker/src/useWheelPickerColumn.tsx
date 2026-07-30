@@ -498,10 +498,12 @@ export function useWheelPickerColumn({
       if (!column || !pointerDrag || pointerDrag.pointerId !== event.pointerId) return;
 
       pointerDragRef.current = null;
-      column.removeAttribute("data-wheel-picker-dragging");
       column.releasePointerCapture(event.pointerId);
 
-      if (!pointerDrag.hasDragged) return;
+      if (!pointerDrag.hasDragged) {
+        column.removeAttribute("data-wheel-picker-dragging");
+        return;
+      }
 
       suppressClickRef.current = true;
       if (suppressClickTimerRef.current) clearTimeout(suppressClickTimerRef.current);
@@ -511,11 +513,32 @@ export function useWheelPickerColumn({
       }, 0);
 
       const nearestPhysicalIndex = getNearestPhysicalIndex();
+      const nearestScrollTop = nearestPhysicalIndex * itemSize;
+
+      if (
+        !prefersReducedMotion() &&
+        Math.abs(column.scrollTop - nearestScrollTop) > Number.EPSILON
+      ) {
+        column.setAttribute("data-wheel-picker-scrolling", "");
+        column.removeAttribute("data-wheel-picker-dragging");
+        isWheelAligningRef.current = true;
+        alignWheelToPhysicalIndex(nearestPhysicalIndex);
+        return;
+      }
+
+      column.removeAttribute("data-wheel-picker-dragging");
       scrollToPhysicalIndex(nearestPhysicalIndex, "auto");
       updateVisualSelection(nearestPhysicalIndex);
-      scheduleSettle();
+      settle();
     },
-    [getNearestPhysicalIndex, scheduleSettle, scrollToPhysicalIndex, updateVisualSelection],
+    [
+      alignWheelToPhysicalIndex,
+      getNearestPhysicalIndex,
+      itemSize,
+      scrollToPhysicalIndex,
+      settle,
+      updateVisualSelection,
+    ],
   );
 
   const handleClickCapture = React.useCallback((event: React.MouseEvent<HTMLDivElement>) => {
