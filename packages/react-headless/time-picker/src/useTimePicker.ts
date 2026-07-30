@@ -8,10 +8,26 @@ const DEFAULT_LOCALE = "ko-KR";
 const DEFAULT_MINUTE_STEP = 5;
 
 export interface TimePickerValue {
+  /**
+   * 24시간 형식의 시입니다.
+   *
+   * @minimum 0
+   * @maximum 23
+   */
   hour: number;
+
+  /**
+   * 분입니다.
+   *
+   * @minimum 0
+   * @maximum 59
+   */
   minute: number;
 }
 
+/**
+ * 분 컬럼에서 선택할 수 있는 값의 간격입니다.
+ */
 export type MinuteStep = 1 | 5 | 10 | 15 | 30;
 
 export type TimePickerColumnType = "period" | "hour" | "minute";
@@ -30,11 +46,42 @@ export interface TimePickerColumn {
 }
 
 export interface UseTimePickerProps {
+  /**
+   * 제어할 시간 값입니다. 24시간 형식으로 전달합니다.
+   */
   value?: TimePickerValue;
+
+  /**
+   * 제어하지 않는 방식으로 사용할 때의 초기 시간 값입니다.
+   *
+   * @default { hour: 0, minute: 0 }
+   */
   defaultValue?: TimePickerValue;
+
+  /**
+   * 휠 스크롤이 선택 항목에 정착하여 값이 확정될 때 호출됩니다.
+   */
   onValueChange?: (value: TimePickerValue) => void;
+
+  /**
+   * 분 컬럼의 선택 간격입니다. 간격에 맞지 않는 값은 가장 가까운 값으로 반올림합니다.
+   *
+   * @default 5
+   */
   minuteStep?: MinuteStep;
+
+  /**
+   * 오전·오후와 숫자의 표기 및 컬럼 순서를 결정할 locale입니다.
+   *
+   * @default "ko-KR"
+   */
   locale?: string | string[];
+
+  /**
+   * 모든 컬럼의 조작과 포커스를 비활성화합니다.
+   *
+   * @default false
+   */
   disabled?: boolean;
 }
 

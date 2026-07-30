@@ -56,11 +56,30 @@ export interface TimePickerProps
       | "selectionIndicatorClassName"
       | "visibleItemCount"
     > {
+  /**
+   * 오전·오후 컬럼의 접근성 이름입니다.
+   * 지정하지 않으면 `locale`에 맞는 기본값을 사용합니다.
+   */
   periodAriaLabel?: string;
+
+  /**
+   * 시 컬럼의 접근성 이름입니다.
+   * 지정하지 않으면 `locale`에 맞는 기본값을 사용합니다.
+   */
   hourAriaLabel?: string;
+
+  /**
+   * 분 컬럼의 접근성 이름입니다.
+   * 지정하지 않으면 `locale`에 맞는 기본값을 사용합니다.
+   */
   minuteAriaLabel?: string;
 }
 
+/**
+ * 휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.
+ *
+ * 값은 오전·오후를 별도 필드로 나누지 않고 24시간 형식의 `TimePickerValue`로 주고받습니다.
+ */
 export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
   (
     {
