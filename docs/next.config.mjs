@@ -1,6 +1,17 @@
+import { readdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { createMDX } from "fumadocs-mdx/next";
 
 const withMDX = createMDX();
+const recipeDirectory = fileURLToPath(new URL("../packages/css/recipes", import.meta.url));
+const layeredRecipeAliases = Object.fromEntries(
+  readdirSync(recipeDirectory)
+    .filter((fileName) => fileName.endsWith(".layered.mjs"))
+    .map((fileName) => [
+      `@seed-design/css/recipes/${fileName.replace(".layered.mjs", "")}`,
+      `@seed-design/css/recipes/${fileName.replace(".layered.mjs", ".layered")}`,
+    ]),
+);
 
 /** @type {import('next').NextConfig} */
 const config = {
@@ -26,6 +37,11 @@ const config = {
   images: {
     // FIXME: temporal use for static export; will remove after image optimization setup
     unoptimized: true,
+  },
+  turbopack: {
+    // Turbopack은 아직 package exports의 커스텀 condition을 설정할 수 없다.
+    // Webpack의 `seed-layered` condition과 동일한 CSS 진입점을 직접 연결한다.
+    resolveAlias: layeredRecipeAliases,
   },
   webpack: (config) => {
     config.resolve.conditionNames = ["seed-layered", "..."];

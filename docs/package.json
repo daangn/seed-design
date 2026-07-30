@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "bun run typecheck && NEXT_EXTERNAL_TYPECHECK=1 next build --webpack",
+    "build": "bun run typecheck && NEXT_EXTERNAL_TYPECHECK=1 next build --turbopack",
     "dev": "concurrently \"bun --filter @seed-design/stackflow-spa dev\" \"next dev --webpack\"",
     "start": "concurrently \"bun --filter @seed-design/stackflow-spa dev\" \"next start\"",
     "sanity:dev": "sanity dev",
