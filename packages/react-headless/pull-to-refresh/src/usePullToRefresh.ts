@@ -1,7 +1,7 @@
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { getClientY, isLeftPress, touchEnd, touchMove } from "./normalize-event";
+import { getClientY, isLeftPress, touchCancel, touchEnd, touchMove } from "./normalize-event";
 import { Store } from "./store";
 import { isPullPrevented } from "./dom";
 
@@ -101,6 +101,16 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   const onPtrRefresh = useCallbackRef(props.onPtrRefresh);
   const isPtrRefreshProvided = !!props.onPtrRefresh;
 
+  /**
+   * Ends a pull without refreshing. The context is reset before `onPtrPullEnd`
+   * so that a cancelled pull never reports a stale or negative displacement.
+   */
+  const abortPull = useCallback(() => {
+    setState("idle");
+    setContext({ y0: 0, y: -1, displacement: 0 });
+    onPtrPullEnd?.(contextStore.getState());
+  }, [contextStore, setContext, onPtrPullEnd]);
+
   const moveEvent = useCallback(
     ({ y, scrollTop }: { y: number; scrollTop: number }) => {
       if (disabled) return;
@@ -118,6 +128,16 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
       if (state === "pulling" || state === "ready") {
         const { y0 } = contextStore.getState();
         const displacement = (y - y0) * displacementMultiplier;
+
+        // The finger travelled back above where the pull started, so this is not a
+        // pull anymore. Ending it here keeps a negative displacement from reaching
+        // the content transform, which would slide the content up and then animate
+        // back on release.
+        if (displacement < 0) {
+          abortPull();
+          return;
+        }
+
         setContext({ y0, y, displacement });
         onPtrPullMove?.(contextStore.getState());
 
@@ -136,6 +156,7 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
       threshold,
       disabled,
       setContext,
+      abortPull,
       onPtrPullStart,
       onPtrPullMove,
       onPtrReady,
@@ -144,6 +165,8 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
 
   const endEvent = useCallback(() => {
     if (disabled) return;
+    // While loading, props.onPtrRefresh owns the state and the context.
+    if (state === "loading") return;
 
     if (state === "pulling" || state === "ready") {
       onPtrPullEnd?.(contextStore.getState());
@@ -155,10 +178,16 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
         setState("idle");
         setContext({ y0: 0, y: -1, displacement: 0 });
       });
-    } else if (state === "ready" || state === "pulling") {
-      setState("idle");
-      setContext({ y0: 0, y: -1, displacement: 0 });
+      return;
     }
+    if (state === "ready" || state === "pulling") {
+      setState("idle");
+    }
+
+    // Reset even when the gesture never left idle. Otherwise its last y stays in
+    // the context and the next gesture, comparing its first move against it,
+    // starts pulling without the finger having moved down at all.
+    setContext({ y0: 0, y: -1, displacement: 0 });
   }, [
     state,
     contextStore,
@@ -169,6 +198,18 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
     onPtrPullEnd,
     onPtrRefresh,
   ]);
+
+  const cancelEvent = useCallback(() => {
+    if (disabled) return;
+    if (state === "loading") return;
+
+    if (state === "pulling" || state === "ready") {
+      abortPull();
+      return;
+    }
+
+    setContext({ y0: 0, y: -1, displacement: 0 });
+  }, [state, disabled, setContext, abortPull]);
 
   const disableEvent = useCallback(() => {
     if (!disabled) return;
@@ -183,6 +224,7 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   const events = {
     move: moveEvent,
     end: endEvent,
+    cancel: cancelEvent,
     disable: disableEvent,
   };
 
@@ -236,6 +278,9 @@ export function usePullToRefresh(props: UsePullToRefreshProps) {
       },
       [touchEnd]: () => {
         events.end();
+      },
+      [touchCancel]: () => {
+        events.cancel();
       },
       style: {
         overscrollBehaviorY: "none",

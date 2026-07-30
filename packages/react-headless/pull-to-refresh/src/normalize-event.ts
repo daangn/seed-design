@@ -8,6 +8,8 @@ export const touchMove = isTouchSupported ? "onTouchMove" : "onPointerMove";
 
 export const touchEnd = isTouchSupported ? "onTouchEnd" : "onPointerUp";
 
+export const touchCancel = isTouchSupported ? "onTouchCancel" : "onPointerCancel";
+
 function isTouchEvent(e: React.TouchEvent | React.PointerEvent): e is React.TouchEvent {
   return e.type === "touchstart" || e.type === "touchmove" || e.type === "touchend";
 }
