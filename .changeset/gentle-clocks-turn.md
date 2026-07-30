@@ -1,5 +1,5 @@
 ---
-"@seed-design/react-time-picker": minor
+"@seed-design/react-time-picker": major
 "@seed-design/react": minor
 "@seed-design/css": minor
 "@seed-design/lynx-css": minor

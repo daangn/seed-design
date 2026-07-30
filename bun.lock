@@ -1306,7 +1306,7 @@
     },
     "packages/react-headless/time-picker": {
       "name": "@seed-design/react-time-picker",
-      "version": "1.0.0",
+      "version": "0.0.0",
       "dependencies": {
         "@radix-ui/react-use-controllable-state": "^1.2.2",
       },
