@@ -68,6 +68,17 @@ describe("TimePicker", () => {
     ]);
   });
 
+  it("일본어 locale에 맞는 기본 접근성 이름을 제공한다", () => {
+    const { getAllByRole, getByRole } = render(<TimePicker locale="ja-JP" />);
+
+    expect(getByRole("group")).toHaveAccessibleName("時刻を選択");
+    expect(getAllByRole("spinbutton").map((column) => column.getAttribute("aria-label"))).toEqual([
+      "午前/午後",
+      "時",
+      "分",
+    ]);
+  });
+
   it("기본 접근성 이름을 명시적인 값으로 재정의한다", () => {
     const { getAllByRole, getByRole } = render(
       <TimePicker

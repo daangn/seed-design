@@ -25,13 +25,21 @@ const DEFAULT_ARIA_LABELS = {
     hour: "Hour",
     minute: "Minute",
   },
+  ja: {
+    root: "時刻を選択",
+    period: "午前/午後",
+    hour: "時",
+    minute: "分",
+  },
 } as const;
 
 function getDefaultAriaLabels(locale: string | string[] | undefined) {
   const [canonicalLocale = "ko-KR"] = Intl.getCanonicalLocales(locale ?? "ko-KR");
   const language = new Intl.Locale(canonicalLocale).language;
 
-  return language === "ko" ? DEFAULT_ARIA_LABELS.ko : DEFAULT_ARIA_LABELS.en;
+  if (language === "ko") return DEFAULT_ARIA_LABELS.ko;
+  if (language === "ja") return DEFAULT_ARIA_LABELS.ja;
+  return DEFAULT_ARIA_LABELS.en;
 }
 
 const classNames = timePicker();
