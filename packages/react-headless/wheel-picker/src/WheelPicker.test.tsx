@@ -305,6 +305,41 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("indicator와 겹치는 구간을 스크롤 중인 item에 노출한다", () => {
+    jest.useFakeTimers();
+    const { getByRole } = render(<TestWheelPicker />);
+    const column = getByRole("spinbutton");
+
+    column.scrollTop = 20;
+    fireEvent.scroll(column);
+
+    expect(column.children[0]?.hasAttribute("data-wheel-picker-indicator-overlap")).toBe(true);
+    expect(
+      (column.children[0] as HTMLElement).style.getPropertyValue(
+        "--seed-wheel-picker-indicator-overlap-start",
+      ),
+    ).toBe("50%");
+    expect(
+      (column.children[0] as HTMLElement).style.getPropertyValue(
+        "--seed-wheel-picker-indicator-overlap-end",
+      ),
+    ).toBe("100%");
+    expect(column.children[1]?.hasAttribute("data-wheel-picker-indicator-overlap")).toBe(true);
+    expect(
+      (column.children[1] as HTMLElement).style.getPropertyValue(
+        "--seed-wheel-picker-indicator-overlap-start",
+      ),
+    ).toBe("0%");
+    expect(
+      (column.children[1] as HTMLElement).style.getPropertyValue(
+        "--seed-wheel-picker-indicator-overlap-end",
+      ),
+    ).toBe("50%");
+
+    expect(column.children[2]?.hasAttribute("data-wheel-picker-indicator-overlap")).toBe(false);
+    jest.useRealTimers();
+  });
+
   it("키보드로 이전·다음과 처음·끝 항목을 선택한다", () => {
     jest.useFakeTimers();
     const onValueChange = mock(() => {});

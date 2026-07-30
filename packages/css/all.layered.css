@@ -12371,8 +12371,12 @@
     display: flex;
   }
 
-  .seed-time-picker__item:is([aria-selected="true"], [data-selected]) {
-    color: var(--seed-color-fg-neutral);
+  .seed-time-picker__item[data-wheel-picker-indicator-overlap] {
+    color: #0000;
+    background-image: linear-gradient(to bottom, var(--seed-color-fg-disabled) 0%, var(--seed-color-fg-disabled) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-color-fg-neutral) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-color-fg-neutral) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-color-fg-disabled) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-color-fg-disabled) 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
   }
 
   .seed-toggle-button {

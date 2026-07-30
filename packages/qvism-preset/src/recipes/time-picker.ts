@@ -1,6 +1,6 @@
 import { timePicker as vars } from "../vars/component";
 import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
-import { focusVisible, pseudo, selected } from "../utils/pseudo";
+import { focusVisible, pseudo } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
 
 const columnBase = {
@@ -59,8 +59,12 @@ const timePicker = defineSlotRecipe({
       fontVariantNumeric: "tabular-nums",
       userSelect: "none",
 
-      [pseudo(selected)]: {
-        color: vars.base.selected.item.color,
+      "&[data-wheel-picker-indicator-overlap]": {
+        color: "transparent",
+        backgroundImage: `linear-gradient(to bottom, ${vars.base.enabled.item.color} 0%, ${vars.base.enabled.item.color} var(--seed-wheel-picker-indicator-overlap-start), ${vars.base.selected.item.color} var(--seed-wheel-picker-indicator-overlap-start), ${vars.base.selected.item.color} var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.item.color} var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.item.color} 100%)`,
+        backgroundClip: "text",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
       },
     },
   },

@@ -111,6 +111,7 @@ export function useWheelPickerColumn({
   const animationFrameRef = React.useRef<number | null>(null);
   const wheelAlignmentFrameRef = React.useRef<number | null>(null);
   const selectedElementRef = React.useRef<HTMLElement | null>(null);
+  const indicatorOverlapElementsRef = React.useRef<HTMLElement[]>([]);
   const keyboardTargetPhysicalIndexRef = React.useRef<number | null>(null);
   const isTouchingRef = React.useRef(false);
   const isWheelingRef = React.useRef(false);
@@ -123,20 +124,70 @@ export function useWheelPickerColumn({
     return clampPhysicalIndex(Math.round(column.scrollTop / itemSize), physicalOptionCount);
   }, [itemSize, physicalOptionCount]);
 
-  const updateVisualSelection = React.useCallback((physicalIndex: number) => {
+  const updateIndicatorOverlap = React.useCallback(() => {
     const column = columnRef.current;
     if (!column) return;
 
-    const nextSelectedElement = column.querySelector<HTMLElement>(
-      `[data-wheel-picker-index="${physicalIndex}"]`,
+    const scrollTop = column.scrollTop;
+    const firstPhysicalIndex = clampPhysicalIndex(
+      Math.floor(scrollTop / itemSize),
+      physicalOptionCount,
     );
+    const nextOverlapElements: HTMLElement[] = [];
 
-    if (selectedElementRef.current !== nextSelectedElement) {
-      selectedElementRef.current?.removeAttribute("data-selected");
-      nextSelectedElement?.setAttribute("data-selected", "");
-      selectedElementRef.current = nextSelectedElement;
+    for (
+      let physicalIndex = firstPhysicalIndex;
+      physicalIndex <= Math.min(firstPhysicalIndex + 1, physicalOptionCount - 1);
+      physicalIndex++
+    ) {
+      const element = column.children.item(physicalIndex) as HTMLElement | null;
+      if (!element) continue;
+
+      const itemStart = physicalIndex * itemSize;
+      const overlapStart = Math.max(scrollTop - itemStart, 0);
+      const overlapEnd = Math.min(scrollTop + itemSize - itemStart, itemSize);
+      if (overlapEnd - overlapStart <= Number.EPSILON) continue;
+
+      element.setAttribute("data-wheel-picker-indicator-overlap", "");
+      element.style.setProperty(
+        "--seed-wheel-picker-indicator-overlap-start",
+        `${(overlapStart / itemSize) * 100}%`,
+      );
+      element.style.setProperty(
+        "--seed-wheel-picker-indicator-overlap-end",
+        `${(overlapEnd / itemSize) * 100}%`,
+      );
+      nextOverlapElements.push(element);
     }
-  }, []);
+
+    for (const element of indicatorOverlapElementsRef.current) {
+      if (nextOverlapElements.includes(element)) continue;
+
+      element.removeAttribute("data-wheel-picker-indicator-overlap");
+      element.style.removeProperty("--seed-wheel-picker-indicator-overlap-start");
+      element.style.removeProperty("--seed-wheel-picker-indicator-overlap-end");
+    }
+
+    indicatorOverlapElementsRef.current = nextOverlapElements;
+  }, [itemSize, physicalOptionCount]);
+
+  const updateVisualSelection = React.useCallback(
+    (physicalIndex: number) => {
+      const column = columnRef.current;
+      if (!column) return;
+
+      const nextSelectedElement = column.children.item(physicalIndex) as HTMLElement | null;
+
+      if (selectedElementRef.current !== nextSelectedElement) {
+        selectedElementRef.current?.removeAttribute("data-selected");
+        nextSelectedElement?.setAttribute("data-selected", "");
+        selectedElementRef.current = nextSelectedElement;
+      }
+
+      updateIndicatorOverlap();
+    },
+    [updateIndicatorOverlap],
+  );
 
   const scrollToPhysicalIndex = React.useCallback(
     (physicalIndex: number, behavior: ScrollBehavior) => {
@@ -485,7 +536,7 @@ export function useWheelPickerColumn({
           scheduleSettle();
         },
       }),
-    [centralPhysicalIndex, disabled, readOnly, scheduleSettle, scrollToPhysicalIndex],
+    [disabled, readOnly, scheduleSettle, scrollToPhysicalIndex],
   );
 
   useLayoutEffect(() => {
