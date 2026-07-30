@@ -12076,15 +12076,48 @@
   flex: none;
 }
 
+.seed-time-picker__periodColumn :is([aria-selected="true"], [data-selected]) {
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+
+.seed-time-picker__periodColumn.seed-time-picker__periodColumn:is(:focus-visible, [data-focus-visible]) :is([aria-selected="true"], [data-selected]) {
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+
 .seed-time-picker__hourColumn {
-  --seed-time-picker-item-justify-content: flex-end;
   outline: none;
   flex: none;
+}
+
+.seed-time-picker__hourColumn :is([aria-selected="true"], [data-selected]) {
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+
+.seed-time-picker__hourColumn.seed-time-picker__hourColumn:is(:focus-visible, [data-focus-visible]) :is([aria-selected="true"], [data-selected]) {
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+
+.seed-time-picker__hourColumn {
+  --seed-time-picker-item-justify-content: flex-end;
 }
 
 .seed-time-picker__minuteColumn {
   outline: none;
   flex: none;
+}
+
+.seed-time-picker__minuteColumn :is([aria-selected="true"], [data-selected]) {
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+
+.seed-time-picker__minuteColumn.seed-time-picker__minuteColumn:is(:focus-visible, [data-focus-visible]) :is([aria-selected="true"], [data-selected]) {
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-time-picker__item {
