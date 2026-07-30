@@ -33,6 +33,7 @@ export default function TimePickerBottomSheet() {
       <FieldButton
         label="영업 시작 시간"
         values={[formatTime(value)]}
+        style={{ width: "240px", maxWidth: "100%" }}
         buttonProps={{
           "aria-label": `영업 시작 시간, ${formatTime(value)}`,
           "aria-haspopup": "dialog",

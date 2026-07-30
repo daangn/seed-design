@@ -29,7 +29,7 @@ description: 휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12�
 
 ### Basic
 
-`TimePicker`는 휠 형태의 시간 선택 UI만 제공합니다. Trigger, Popover, Bottom Sheet, 확인·취소 버튼과 폼 직렬화는 사용하는 화면에서 구성합니다.
+`TimePicker`는 휠 형태의 시간 선택 UI만 제공합니다. Trigger, Bottom Sheet, 확인·취소 버튼과 폼 직렬화는 사용하는 화면에서 구성합니다.
 
 ```tsx
 import { TimePicker } from "@seed-design/react";
@@ -71,9 +71,8 @@ Time Picker가 화면에서 차지하는 비중과 플랫폼에 따라 레이아
 
 - 시간 선택이 화면의 주된 작업이면 **Inline**을 사용합니다.
 - 모바일 폼의 시간 입력 필드에는 **Bottom Sheet**를 우선 검토합니다.
-- 데스크톱 폼의 시간 입력 필드에는 **Popover**를 우선 검토합니다.
 
-Bottom Sheet와 Popover는 surface를 여는 trigger가 필요합니다. `FieldButton`처럼 현재 값을 표시하는 입력형 버튼과 합성할 수 있습니다. Inline의 확정은 화면의 액션 영역이, Bottom Sheet와 Popover의 확정은 surface 안의 확인 버튼이 담당합니다.
+Bottom Sheet는 surface를 여는 trigger가 필요합니다. `FieldButton`처럼 현재 값을 표시하는 입력형 버튼과 합성할 수 있습니다. Inline의 확정은 화면의 액션 영역이, Bottom Sheet의 확정은 surface 안의 확인 버튼이 담당합니다.
 
 #### Inline
 
@@ -96,19 +95,6 @@ Bottom Sheet와 Popover는 surface를 여는 trigger가 필요합니다. `FieldB
   ```json doc-gen:file
   {
     "file": "examples/react/time-picker/bottom-sheet.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Popover
-
-데스크톱 폼에서는 입력 필드에 anchor된 작은 Popover로 Time Picker를 표시합니다.
-
-<ComponentExample name="react/time-picker/popover">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/time-picker/popover.tsx",
     "codeblock": true
   }
   ```
