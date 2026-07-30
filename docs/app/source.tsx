@@ -19,6 +19,7 @@ import {
 } from "fumadocs-core/source";
 import type { ComponentType, SVGProps } from "react";
 import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
+import { markNewPage } from "@/lib/new-page";
 
 const iconMap: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   Lock: IconLockLine,
@@ -58,11 +59,27 @@ function createTabbedFolderTransformer<S extends ContentStorage>(): PageTreeTran
   };
 }
 
+// frontmatter `new: true`(source.config.ts baseDocsSchema)를 페이지 노드에 스탬프한다.
+// page tree 자체는 frontmatter를 들고 오지 않으므로 storage에서 다시 읽는다(async 컬렉션도
+// frontmatter는 동기 파싱되어 storage에 있고, 본문만 lazy).
+function createNewPageTransformer<S extends ContentStorage>(): PageTreeTransformer<S> {
+  return {
+    file(node, filePath) {
+      if (!filePath) return node;
+      const file = this.storage.read(filePath);
+      if (file?.format === "page" && (file.data as { new?: boolean }).new === true) {
+        markNewPage(node);
+      }
+      return node;
+    },
+  };
+}
+
 function createSource<TSrc extends StaticSource>(src: TSrc, baseUrl: string) {
   return loader(src, {
     baseUrl,
     icon: iconHandler,
-    pageTree: { transformers: [createTabbedFolderTransformer()] },
+    pageTree: { transformers: [createTabbedFolderTransformer(), createNewPageTransformer()] },
   });
 }
 

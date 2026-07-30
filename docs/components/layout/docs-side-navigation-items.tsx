@@ -10,6 +10,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { isTabbedFolder } from "@/lib/tabbed";
+import { isNewPage } from "@/lib/new-page";
+import { SidebarNewDot } from "./sidebar-new-dot";
 import {
   type SidebarFolderItem,
   type SidebarGroup,
@@ -113,6 +115,7 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
       // External links (e.g. `external:[llms.txt](/llms.txt)`) are never the current route.
       current: !external && page.url === pathname,
       external,
+      isNew: isNewPage(page),
       href: page.url,
     };
   };
@@ -150,6 +153,8 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
           label: node.name,
           level: 0,
           current: containsActive(node, pathname),
+          // 폴더 라벨은 meta.json `title`이지만 `new`는 인덱스 페이지 frontmatter에서 온다.
+          isNew: node.index ? isNewPage(node.index) : false,
           href: indexUrl,
         });
         return;
@@ -186,6 +191,7 @@ function DocsSideNavigationItem({ item }: { item: SidebarLeafItem }) {
           style={getSidebarItemLabelStyle(item.level)}
         >
           {item.label}
+          {item.isNew && <SidebarNewDot />}
         </SeedSideNavigation.ItemLabel>
         {item.external && (
           // A plain icon child, not `ItemSuffixIcon`: that slot is the collapsible folder chevron,

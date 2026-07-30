@@ -12,6 +12,7 @@ import {
   type SidebarLeafItem,
   isSidebarFolderItem,
 } from "../layout/lib/sidebar-items";
+import { SidebarNewDot } from "../layout/sidebar-new-dot";
 import { SeedMark } from "../landing/seed-mark";
 import { SeedWordmark } from "../landing/seed-wordmark";
 import {
@@ -129,7 +130,12 @@ function getSectionItemIndent(item: SidebarLeafItem) {
 function MobileSectionItem({ item, onClose }: { item: SidebarLeafItem; onClose: () => void }) {
   return (
     <DocsMobileNavLinkItem
-      title={item.label}
+      title={
+        <>
+          {item.label}
+          {item.isNew && <SidebarNewDot />}
+        </>
+      }
       href={item.href}
       external={item.external}
       current={item.current}
