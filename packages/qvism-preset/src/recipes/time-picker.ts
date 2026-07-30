@@ -18,7 +18,8 @@ const columnBase = {
     borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
     transition: FOCUS_RING_TRANSITION,
   },
-  [`&${pseudo(focusVisible)} ${selected}`]: createFocusRingStyles({ position: "inside" }),
+  [`&${pseudo(focusVisible)}:not([data-wheel-picker-pointer-focus]) ${selected}`]:
+    createFocusRingStyles({ position: "inside" }),
 };
 
 const timePicker = defineSlotRecipe({

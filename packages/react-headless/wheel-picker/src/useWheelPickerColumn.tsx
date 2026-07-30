@@ -465,6 +465,7 @@ export function useWheelPickerColumn({
       if (!column) return;
 
       event.preventDefault();
+      column.setAttribute("data-wheel-picker-pointer-focus", "");
       column.focus({ preventScroll: true });
       keyboardTargetPhysicalIndexRef.current = null;
       if (settleTimerRef.current) {
@@ -594,6 +595,10 @@ export function useWheelPickerColumn({
     suppressClickRef.current = false;
     event.preventDefault();
     event.stopPropagation();
+  }, []);
+
+  const handleBlur = React.useCallback((event: React.FocusEvent<HTMLDivElement>) => {
+    event.currentTarget.removeAttribute("data-wheel-picker-pointer-focus");
   }, []);
 
   const moveToLogicalIndex = React.useCallback(
@@ -800,6 +805,7 @@ export function useWheelPickerColumn({
       onPointerUp: finishPointerDrag,
       onPointerCancel: finishPointerDrag,
       onClickCapture: handleClickCapture,
+      onBlur: handleBlur,
       onScroll: handleScroll,
       onKeyDown: handleKeyDown,
     }),

@@ -244,8 +244,12 @@ describe("WheelPicker", () => {
     });
 
     expect(column).toHaveFocus();
+    expect(column).toHaveAttribute("data-wheel-picker-pointer-focus");
     fireEvent.keyDown(document.activeElement as HTMLElement, { key: "ArrowDown" });
     expect(column.scrollTop).toBe(40);
+
+    fireEvent.blur(column);
+    expect(column).not.toHaveAttribute("data-wheel-picker-pointer-focus");
   });
 
   it("드래그 임계값 전에는 스크롤 위치를 변경하지 않는다", () => {
