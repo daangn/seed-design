@@ -1,0 +1,138 @@
+---
+title: Dialog
+description: 사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다.
+coverImage: /og/components/dialog
+---
+
+<Card href="/components/alert-dialog" title="Alert Dialog">
+  사용자의 즉각적인 확인이나 경고가 필요한 경우에는 Alert Dialog를 사용합니다. 두
+  컴포넌트의 차이는 아래 Dialog vs Alert Dialog 섹션을 참고하세요.
+</Card>
+
+## Anatomy
+
+Dialog는 Backdrop 위에 Header · Content · Footer 세 영역으로 구성됩니다.
+
+- **Header**: Dialog의 제목과 설명을 제공하며, 닫기 버튼을 포함합니다.
+- **Content**: 실제 컨텐츠가 배치되는 영역입니다.
+- **Footer**: 작업을 완료하거나 취소하는 액션 버튼이 배치됩니다.
+- **Backdrop**: Dialog 뒤쪽의 메인 화면을 어둡게 처리하여 시선을 집중시킵니다.
+
+<FigmaImage
+  id="2272:4074"
+  alt="Dialog의 Anatomy 이미지. Backdrop 위에 Header, Content, Footer로 구성됩니다."
+/>
+
+## Properties
+
+### Size
+
+데스크탑 환경을 기준으로 두 가지 옵션을 제공합니다.
+
+- **Medium (480px)**: 일반적인 데이터 입력 폼
+- **Large (800px)**: 복잡한 설정, 대량의 데이터 조회
+
+<FigmaImage
+  id="2272:4109"
+  alt="Dialog의 Size Property - Medium(480px)과 Large(800px)"
+/>
+
+### Height
+
+Dialog는 컨텐츠 양에 따라 높이가 유동적으로 변하며, 가독성을 위해 최대 높이를 제한합니다. 최대 높이(Max Height)는 뷰포트 높이의 80%(80vh)로 설정하며, 항상 화면의 정중앙에 배치됩니다.
+
+<FigmaImage
+  id="2272:4093"
+  alt="Dialog의 Height - 컨텐츠 양에 따라 유동적으로 변하며 최대 높이는 80vh"
+/>
+
+## Guidelines
+
+### Elevation
+
+Dialog는 시스템 내에서 가장 높은 시각적 위계를 가지며, 사용자의 즉각적인 집중을 요구합니다.
+
+- **최상위 모달(Critical Modal)**: Dialog는 모든 UI 요소 중 가장 최상단에 위치합니다. (Level 3)
+- **계층 구조**: Level 2(Drawer, [Bottom Sheet](/components/bottom-sheet)) 상위에서 동작하며, 활성화 시 하위 레벨의 모든 인터랙션을 일시 중단시킵니다.
+
+<FigmaImage
+  id="2272:4130"
+  alt="Dialog의 Elevation - Snackbar, Backdrop, Dialog의 레이어 계층 구조"
+/>
+
+### Scroll Behavior
+
+- **Scroll Fog**: 스크롤이 발생하면 Content 영역 하단에 Scroll Fog를 표시합니다. Scroll Fog 높이만큼 하단 여백을 확보해 스크롤을 끝까지 내렸을 때 자연스럽게 표시되도록 합니다.
+- **Fixed Header & Footer**: 본문 내용이 길어져도 제목(Header)과 버튼(Footer)은 항상 제자리에 고정됩니다.
+- **Body Scroll**: 중앙의 Body 영역에만 세로 스크롤(`overflow-y: auto`)이 활성화됩니다.
+- **Divider Visibility**: 본문이 스크롤될 때 헤더 하단에 경계선(Divider)을 노출하여 영역 구분을 명확히 합니다.
+
+<FigmaImage
+  id="2272:4150"
+  alt="Footer가 있는 경우의 스크롤 동작 - Scroll Fog와 Divider가 표시됩니다"
+/>
+<FigmaImage id="2272:4160" alt="Footer가 없는 경우의 스크롤 동작" />
+
+### Dialog의 닫기 동작
+
+사용자가 작업을 중단하고 Dialog를 벗어나는 방법은 명확하고 일관되어야 합니다.
+
+- **Close Button (Header)**: 단순 정보 조회나 흐름 중단 시 사용합니다. 마우스 사용자에게 가장 직관적인 탈출구입니다.
+- **Cancel Button (Footer)**: 입력 폼이나 설정 변경처럼 '확인/저장'이라는 주 작업이 있을 때, 이에 대응하는 명시적인 거절 의사로 사용합니다.
+- **Backdrop Click / ESC**: 가장 빠른 종료 방식이며, 가벼운 알림이나 레이어에서 활용합니다.
+
+헤더의 '닫기 버튼'과 푸터의 '취소 버튼'을 동시에 제공하는 것은 지양합니다. 단순 안내 및 조회를 위한 Dialog에서는 헤더의 닫기 버튼을, 데이터 입력이나 수정을 위한 Dialog에서는 푸터의 취소 버튼 사용을 권장합니다. 입력 폼이 포함된 Dialog에서는 푸터 액션에 집중하기 위해 헤더의 'X' 버튼 사용을 지양합니다.
+
+<FigmaImage
+  id="2272:4180"
+  alt="Dialog를 닫는 세 가지 방법 - Close Button 클릭, Backdrop 클릭, Cancel Button 클릭"
+/>
+<FigmaImage
+  id="2272:4189"
+  alt="헤더의 닫기 버튼과 푸터의 취소 버튼을 동시에 제공하지 않는 예시"
+/>
+
+### Responsive Behavior
+
+Dialog는 화면 크기에 맞춰 너비가 자동으로 조정됩니다. 큰 화면에서는 Width 값을 그대로 사용하고, 화면이 좁아지면 Dialog는 화면 너비의 90%로 표시됩니다.
+
+- **md 이상 (768px+)**: Width 값 그대로 표시 (Medium = 480px, Large = 800px)
+- **md 미만 (~767px)**: 화면 너비의 90%로 표시 (좌우 여백 5%씩 확보)
+- **Scroll Behavior**: 모든 환경에서 Body 스크롤 방식이 동일하게 적용됩니다.
+- **Header/Footer Safe Area**: 모바일 가로 모드에서 노치/홈 인디케이터 회피를 위해 `safe-area-inset`을 적용합니다.
+
+<FigmaImage
+  id="2272:4201"
+  alt="화면 크기에 따라 너비가 조정되는 Dialog - md 이상에서는 Width 값 그대로, md 미만에서는 화면 너비의 90%"
+/>
+
+### Responsive Dialog
+
+데스크탑에서 Dialog를 사용하는 경우, 기본적으로 Responsive Dialog를 사용합니다. md 이상에서는 Dialog, sm 이하에서는 [Bottom Sheet](/components/bottom-sheet)로 자동 전환되어 각 환경에 적합한 사용성을 제공합니다.
+
+- **md 이상 (768px+)**: Dialog로 표시
+- **md 미만 (~767px)**: Bottom Sheet로 표시
+- **공통 제약**: Header/Body/Footer 구조는 양 컴포넌트에서 동일하게 유지됩니다.
+
+<FigmaImage
+  id="2272:4224"
+  alt="md 이상에서는 Dialog, md 미만에서는 Bottom Sheet로 전환되는 Responsive Dialog"
+/>
+
+## Dialog vs Alert Dialog
+
+Dialog와 [Alert Dialog](/components/alert-dialog)는 시각적으로 유사하지만, 사용 목적과 접근성 처리가 명확히 다릅니다. 컨텐츠의 성격과 사용자에게 요구되는 반응에 따라 선택합니다.
+
+Dialog는 작업 수행, 정보 조회, 폼 입력 등 사용자가 능동적으로 컨텐츠와 상호작용하는 경우에 사용합니다. 사용자는 Dialog를 닫고 원래 작업으로 돌아갈 수 있으며, 시스템은 즉각적인 응답을 강제하지 않습니다.
+
+Alert Dialog는 시스템 메시지 전달, 사용자의 확인/경고가 필요한 경우에 사용합니다. 사용자의 즉각적인 주의와 응답이 필요하며, 작업을 중단시키는 성격을 가집니다.
+
+| 구분              | Dialog                                    | [Alert Dialog](/components/alert-dialog)                       |
+| ----------------- | ----------------------------------------- | -------------------------------------------------------------- |
+| **사용 목적**     | 작업 수행, 정보 조회, 폼 입력             | 시스템 메시지 전달, 사용자 확인/경고                            |
+| **사용자 응답**   | 선택적 (닫고 원래 작업 복귀 가능)         | 필수 (즉각적인 응답 요구)                                       |
+| **스크린리더 인식** | 일반 다이얼로그로 안내 (`role="dialog"`) | 긴급 메시지로 안내, 컨텐츠를 즉시 읽어줌 (`role="alertdialog"`) |
+| **보조 기술 동작** | 사용자가 직접 탐색하여 내용 확인          | 열리는 즉시 사용자의 주의를 강제로 끌어옴                       |
+| **초기 Focus**    | 첫 번째 인터랙티브 요소                   | Action 버튼                                                     |
+| **Close Button**  | Header에 제공                             | 제공하지 않음                                                   |
+| **Size**          | Medium, Large                             | 단일 사이즈                                                     |
