@@ -385,7 +385,7 @@ export function useWheelPickerColumn({
   }, [scheduleSettle]);
 
   const moveToLogicalIndex = React.useCallback(
-    (nextLogicalIndex: number) => {
+    (nextLogicalIndex: number, behavior: ScrollBehavior) => {
       if (disabled || readOnly || options.length === 0) return;
 
       const normalizedLogicalIndex = shouldLoop
@@ -396,6 +396,7 @@ export function useWheelPickerColumn({
         keyboardTargetPhysicalIndexRef.current ?? getNearestPhysicalIndex();
       const currentLogicalIndex = toLogicalIndex(currentPhysicalIndex, options.length);
       let nextPhysicalIndex = currentPhysicalIndex + (normalizedLogicalIndex - currentLogicalIndex);
+      let nextBehavior = behavior;
 
       if (shouldLoop) {
         if (normalizedLogicalIndex === 0 && currentLogicalIndex === options.length - 1) {
@@ -403,13 +404,27 @@ export function useWheelPickerColumn({
         } else if (normalizedLogicalIndex === options.length - 1 && currentLogicalIndex === 0) {
           nextPhysicalIndex = currentPhysicalIndex - 1;
         }
+
+        const boundaryBuffer = visibleItemCount * LOOP_RECENTER_BUFFER_VIEWPORTS;
+        if (
+          nextPhysicalIndex <= boundaryBuffer ||
+          nextPhysicalIndex >= physicalOptionCount - 1 - boundaryBuffer
+        ) {
+          nextPhysicalIndex = getCentralPhysicalIndex(
+            normalizedLogicalIndex,
+            options.length,
+            visibleItemCount,
+            true,
+          );
+          nextBehavior = "auto";
+        }
       }
 
       keyboardTargetPhysicalIndexRef.current = clampPhysicalIndex(
         nextPhysicalIndex,
         physicalOptionCount,
       );
-      scrollToPhysicalIndex(nextPhysicalIndex, prefersReducedMotion() ? "auto" : "smooth");
+      scrollToPhysicalIndex(nextPhysicalIndex, nextBehavior);
       scheduleSettle();
     },
     [
@@ -421,6 +436,7 @@ export function useWheelPickerColumn({
       scheduleSettle,
       scrollToPhysicalIndex,
       shouldLoop,
+      visibleItemCount,
     ],
   );
 
@@ -431,23 +447,24 @@ export function useWheelPickerColumn({
       const currentPhysicalIndex =
         keyboardTargetPhysicalIndexRef.current ?? getNearestPhysicalIndex();
       const currentLogicalIndex = toLogicalIndex(currentPhysicalIndex, options.length);
+      const behavior = prefersReducedMotion() || event.repeat ? "auto" : "smooth";
 
       switch (event.key) {
         case "ArrowUp":
           event.preventDefault();
-          moveToLogicalIndex(currentLogicalIndex - 1);
+          moveToLogicalIndex(currentLogicalIndex - 1, behavior);
           break;
         case "ArrowDown":
           event.preventDefault();
-          moveToLogicalIndex(currentLogicalIndex + 1);
+          moveToLogicalIndex(currentLogicalIndex + 1, behavior);
           break;
         case "Home":
           event.preventDefault();
-          moveToLogicalIndex(0);
+          moveToLogicalIndex(0, behavior);
           break;
         case "End":
           event.preventDefault();
-          moveToLogicalIndex(options.length - 1);
+          moveToLogicalIndex(options.length - 1, behavior);
           break;
       }
     },

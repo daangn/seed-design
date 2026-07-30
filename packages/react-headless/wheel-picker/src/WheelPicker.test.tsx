@@ -345,6 +345,42 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("loop 모드에서 Arrow 키를 길게 눌러도 반복 렌더링 경계에 닿지 않는다", () => {
+    jest.useFakeTimers();
+    const scrollCalls: Array<{ top: number; behavior: ScrollBehavior | undefined }> = [];
+    const previousScrollTo = HTMLElement.prototype.scrollTo;
+    HTMLElement.prototype.scrollTo = function scrollTo(options) {
+      if (typeof options === "object" && options.top !== undefined) {
+        scrollCalls.push({ top: options.top, behavior: options.behavior });
+        this.scrollTop = options.top;
+      }
+    };
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <TestWheelPicker loop defaultValue="a" onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+    const physicalOptionCount = getPhysicalOptionCount(options.length, 5, true);
+    const maxScrollTop = (physicalOptionCount - 1) * 40;
+
+    fireEvent.keyDown(column, { key: "ArrowDown" });
+    for (let index = 0; index < physicalOptionCount * 2; index++) {
+      fireEvent.keyDown(column, { key: "ArrowDown", repeat: true });
+    }
+
+    expect(scrollCalls[0]?.behavior).toBe("smooth");
+    expect(scrollCalls.slice(1).every((call) => call.behavior === "auto")).toBe(true);
+    expect(scrollCalls.every((call) => call.top > 0 && call.top < maxScrollTop)).toBe(true);
+    expect(column.scrollTop).toBeGreaterThan(0);
+    expect(column.scrollTop).toBeLessThan(maxScrollTop);
+
+    act(() => jest.advanceTimersByTime(120));
+    expect(onValueChange).toHaveBeenLastCalledWith("b");
+
+    HTMLElement.prototype.scrollTo = previousScrollTo;
+    jest.useRealTimers();
+  });
+
   it("loop 모드에서 Arrow 키가 양 끝을 순환한다", () => {
     jest.useFakeTimers();
     const onValueChange = mock(() => {});
