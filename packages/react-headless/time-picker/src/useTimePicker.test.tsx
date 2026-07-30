@@ -45,6 +45,21 @@ describe("useTimePicker", () => {
     );
   });
 
+  it("uncontrolled 상태에서 minuteStep이 변경되면 값을 다시 반올림한다", () => {
+    const { result, rerender } = renderTimePicker({
+      defaultValue: { hour: 10, minute: 15 },
+      minuteStep: 5,
+    });
+
+    rerender({
+      defaultValue: { hour: 10, minute: 15 },
+      minuteStep: 30,
+    });
+
+    expect(result.current.value).toEqual({ hour: 10, minute: 30 });
+    expect(result.current.columns.minute.value).toBe("30");
+  });
+
   it("Period와 Hour 변경은 정규화된 minute 값을 보존한다", () => {
     const onValueChange = mock(() => {});
     const { result } = renderTimePicker({

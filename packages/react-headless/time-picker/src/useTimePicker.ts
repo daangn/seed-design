@@ -198,11 +198,12 @@ export function useTimePicker({
   );
   const normalizedValueProp =
     valueProp === undefined ? undefined : normalizeValueToMinuteStep(valueProp, minuteStep);
-  const [value = normalizedDefaultValue, setValue] = useControllableState({
+  const [rawValue = normalizedDefaultValue, setValue] = useControllableState({
     prop: normalizedValueProp,
     defaultProp: normalizedDefaultValue,
     onChange: onValueChange,
   });
+  const value = normalizeValueToMinuteStep(rawValue, minuteStep);
   const localeKey = Intl.getCanonicalLocales(locale).join(",");
   const { dateTimeFormatter, hourFormatter, minuteFormatter } = React.useMemo(
     () => createFormatters(localeKey),
