@@ -1,12 +1,23 @@
 import { timePicker as vars } from "../vars/component";
-import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { focusVisible, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
 
 const columnBase = {
   flex: "0 0 auto",
   outline: "none",
-  [`& ${selected}`]: createFocusRingRestStyles({ position: "inside" }),
+  "&[data-disabled]": {
+    "--seed-time-picker-selected-item-color": vars.base.enabled.item.color,
+  },
+  [`& ${selected}`]: {
+    ...createFocusRingRestStyles({ position: "inside" }),
+    borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
+    transition: FOCUS_RING_TRANSITION,
+  },
   [`&${pseudo(focusVisible)} ${selected}`]: createFocusRingStyles({ position: "inside" }),
 };
 
@@ -26,6 +37,7 @@ const timePicker = defineSlotRecipe({
     root: {
       width: "100%",
       height: vars.base.enabled.root.height,
+      "--seed-time-picker-selected-item-color": vars.base.selected.item.color,
     },
     scrollFog: {},
     columns: {
@@ -61,7 +73,7 @@ const timePicker = defineSlotRecipe({
 
       "&[data-wheel-picker-indicator-overlap]": {
         color: "transparent",
-        backgroundImage: `linear-gradient(to bottom, ${vars.base.enabled.item.color} 0%, ${vars.base.enabled.item.color} var(--seed-wheel-picker-indicator-overlap-start), ${vars.base.selected.item.color} var(--seed-wheel-picker-indicator-overlap-start), ${vars.base.selected.item.color} var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.item.color} var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.item.color} 100%)`,
+        backgroundImage: `linear-gradient(to bottom, ${vars.base.enabled.item.color} 0%, ${vars.base.enabled.item.color} var(--seed-wheel-picker-indicator-overlap-start), var(--seed-time-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-time-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.item.color} var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.item.color} 100%)`,
         backgroundClip: "text",
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
