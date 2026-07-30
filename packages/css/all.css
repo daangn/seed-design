@@ -12072,40 +12072,19 @@
 }
 
 .seed-time-picker__periodColumn {
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: var(--seed-dimension-x0_5);
+  outline: none;
   flex: none;
-}
-
-.seed-time-picker__periodColumn:is(:focus-visible, [data-focus-visible]) {
-  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: var(--seed-dimension-x0_5);
-}
-
-.seed-time-picker__hourColumn {
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: var(--seed-dimension-x0_5);
-  flex: none;
-}
-
-.seed-time-picker__hourColumn:is(:focus-visible, [data-focus-visible]) {
-  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: var(--seed-dimension-x0_5);
 }
 
 .seed-time-picker__hourColumn {
   --seed-time-picker-item-justify-content: flex-end;
-}
-
-.seed-time-picker__minuteColumn {
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: var(--seed-dimension-x0_5);
+  outline: none;
   flex: none;
 }
 
-.seed-time-picker__minuteColumn:is(:focus-visible, [data-focus-visible]) {
-  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: var(--seed-dimension-x0_5);
+.seed-time-picker__minuteColumn {
+  outline: none;
+  flex: none;
 }
 
 .seed-time-picker__item {
