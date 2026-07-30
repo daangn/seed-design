@@ -248,6 +248,34 @@ describe("WheelPicker", () => {
     expect(column.scrollTop).toBe(40);
   });
 
+  it("드래그 임계값 전에는 스크롤 위치를 변경하지 않는다", () => {
+    const { getByRole } = render(<TestWheelPicker />);
+    const column = getByRole("spinbutton");
+
+    fireEvent.pointerDown(column, {
+      pointerId: 1,
+      pointerType: "mouse",
+      button: 0,
+      clientY: 100,
+    });
+    fireEvent.pointerMove(column, {
+      pointerId: 1,
+      pointerType: "mouse",
+      clientY: 98,
+    });
+
+    expect(column.scrollTop).toBe(0);
+
+    fireEvent.pointerUp(column, {
+      pointerId: 1,
+      pointerType: "mouse",
+      button: 0,
+      clientY: 98,
+    });
+    expect(column).not.toHaveAttribute("data-wheel-picker-dragging");
+    expect(column.scrollTop).toBe(0);
+  });
+
   it("터치 포인터는 마우스 드래그 처리에 개입하지 않는다", () => {
     const { getByRole } = render(<TestWheelPicker />);
     const column = getByRole("spinbutton");

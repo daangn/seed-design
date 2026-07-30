@@ -501,7 +501,9 @@ export function useWheelPickerColumn({
 
       event.preventDefault();
       const dragDistance = pointerDrag.startClientY - event.clientY;
-      pointerDrag.hasDragged ||= Math.abs(dragDistance) >= POINTER_DRAG_THRESHOLD;
+      if (!pointerDrag.hasDragged && Math.abs(dragDistance) < POINTER_DRAG_THRESHOLD) return;
+
+      pointerDrag.hasDragged = true;
       column.scrollTop = pointerDrag.startScrollTop + dragDistance;
 
       const timestamp = Date.now();
