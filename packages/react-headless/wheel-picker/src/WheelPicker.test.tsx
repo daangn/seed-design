@@ -232,6 +232,22 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("마우스 조작 후 컬럼에 포커스를 유지해 키보드로 이어서 조작한다", () => {
+    const { getByRole } = render(<TestWheelPicker />);
+    const column = getByRole("spinbutton");
+
+    fireEvent.pointerDown(column, {
+      pointerId: 1,
+      pointerType: "mouse",
+      button: 0,
+      clientY: 100,
+    });
+
+    expect(column).toHaveFocus();
+    fireEvent.keyDown(document.activeElement as HTMLElement, { key: "ArrowDown" });
+    expect(column.scrollTop).toBe(40);
+  });
+
   it("터치 포인터는 마우스 드래그 처리에 개입하지 않는다", () => {
     const { getByRole } = render(<TestWheelPicker />);
     const column = getByRole("spinbutton");

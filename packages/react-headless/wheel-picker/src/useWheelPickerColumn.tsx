@@ -465,6 +465,7 @@ export function useWheelPickerColumn({
       if (!column) return;
 
       event.preventDefault();
+      column.focus({ preventScroll: true });
       keyboardTargetPhysicalIndexRef.current = null;
       if (settleTimerRef.current) {
         clearTimeout(settleTimerRef.current);
