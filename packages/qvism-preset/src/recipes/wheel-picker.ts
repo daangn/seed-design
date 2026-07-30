@@ -43,6 +43,7 @@ const wheelPicker = defineSlotRecipe({
       },
       "&[data-wheel-picker-dragging]": {
         cursor: "grabbing",
+        scrollSnapType: "none",
       },
       "&[data-wheel-picker-scrolling]": {
         scrollSnapType: "none",

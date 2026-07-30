@@ -179,7 +179,6 @@ describe("WheelPicker", () => {
       clientY: 100,
     });
     expect(column).toHaveAttribute("data-wheel-picker-dragging");
-    expect(column).toHaveFocus();
 
     fireEvent.pointerMove(column, {
       pointerId: 1,

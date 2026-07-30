@@ -465,7 +465,6 @@ export function useWheelPickerColumn({
       isWheelingRef.current = false;
       column.removeAttribute("data-wheel-picker-scrolling");
       column.setAttribute("data-wheel-picker-dragging", "");
-      column.focus({ preventScroll: true });
       column.setPointerCapture(event.pointerId);
       pointerDragRef.current = {
         pointerId: event.pointerId,

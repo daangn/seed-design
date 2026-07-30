@@ -44,6 +44,7 @@
 
   .seed-wheel-picker__column[data-wheel-picker-dragging] {
     cursor: grabbing;
+    scroll-snap-type: none;
   }
 
   .seed-wheel-picker__column[data-wheel-picker-scrolling] {
