@@ -67,12 +67,28 @@ const bottomSheet = defineSlotRecipe({
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
       paddingBottom: "var(--seed-safe-area-bottom)",
 
+      // The drawer writes `bottom` here to lift the sheet above the software keyboard. `auto` is
+      // not interpolatable, so without an explicit starting value the first reposition after the
+      // sheet mounts jumps instead of animating.
+      bottom: 0,
+
       // Performance and interaction
       touchAction: "none",
       willChange: "transform",
 
+      /**
+       * Keyboard reposition. Both iOS and Android report the software keyboard as a single
+       * `visualViewport` resize carrying the final height, with no intermediate frames, so the
+       * sheet has to animate to the new `bottom` on its own.
+       *
+       * Kept in a custom property because the drawer rewrites `transition` inline while dragging
+       * and when snapping back, which wins over this rule and would otherwise drop it — the drawer
+       * appends this property to every one of those writes.
+       */
+      "--drawer-keyboard-transition": `bottom ${tokens.$duration.d5} cubic-bezier(0.32, 0.72, 0, 1)`,
+
       // Base animation properties
-      transition: `transform ${vars.base.enabled.content.enterDuration} ${vars.base.enabled.content.enterTimingFunction}`,
+      transition: `transform ${vars.base.enabled.content.enterDuration} ${vars.base.enabled.content.enterTimingFunction}, var(--drawer-keyboard-transition)`,
 
       /** Snap Points - Initial State (before animation ready) */
       [pseudo("[data-snap-points='true']")]: {

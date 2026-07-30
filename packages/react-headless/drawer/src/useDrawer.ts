@@ -6,6 +6,7 @@ import { isAndroid, isIOS, isMobileFirefox } from "./browser";
 import {
   CLOSE_THRESHOLD,
   DRAG_CLASS,
+  KEYBOARD_TRANSITION,
   SCROLL_LOCK_TIMEOUT,
   TRANSITIONS,
   VELOCITY_THRESHOLD,
@@ -363,7 +364,7 @@ export function useDrawer(props: UseDrawerProps) {
 
       isAllowedToDrag.current = true;
       set(drawerRef.current, {
-        transition: "none",
+        transition: KEYBOARD_TRANSITION,
       });
 
       set(overlayRef.current, {
@@ -458,7 +459,7 @@ export function useDrawer(props: UseDrawerProps) {
 
     set(drawerRef.current, {
       transform: "translate3d(0, 0, 0)",
-      transition: `transform ${TRANSITIONS.EXIT_DURATION}s ${TRANSITIONS.CONTENT_EXIT_TIMING_FUNCTION}`,
+      transition: `transform ${TRANSITIONS.EXIT_DURATION}s ${TRANSITIONS.CONTENT_EXIT_TIMING_FUNCTION}, ${KEYBOARD_TRANSITION}`,
     });
 
     set(overlayRef.current, {
@@ -599,8 +600,32 @@ export function useDrawer(props: UseDrawerProps) {
       }
     }
 
+    // The keyboard's dismissal only reaches `visualViewport` once it has fully retracted — measured
+    // ~480ms after blur on iOS 27, against ~90ms in the opposite direction — so waiting for `resize`
+    // drops the drawer back down long after the keyboard is gone. Blur fires as the dismissal
+    // starts, so run the reset from there and leave the height restore to `resize` as before.
+    function onFocusOut(event: FocusEvent) {
+      const target = event.target;
+      if (!repositionInputs || !(target instanceof Element) || !isInput(target)) return;
+
+      // Moving between inputs keeps the keyboard up. `relatedTarget` is null on iOS, so wait for
+      // the focus to settle and read what actually ended up focused.
+      requestAnimationFrame(() => {
+        const activeElement = document.activeElement;
+        if (activeElement && isInput(activeElement)) return;
+        if (!drawerRef.current) return;
+
+        drawerRef.current.style.bottom = "0px";
+      });
+    }
+
     window.visualViewport?.addEventListener("resize", onVisualViewportChange);
-    return () => window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
+    document.addEventListener("focusout", onFocusOut, true);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
+      document.removeEventListener("focusout", onFocusOut, true);
+    };
   }, [activeSnapPointIndex, snapPoints, snapPointsOffset, repositionInputs, fixed]);
 
   // Effect 1: Track drawer open state

@@ -1,6 +1,6 @@
 import { useControllableState } from "@seed-design/react-use-controllable-state";
 import React from "react";
-import { TRANSITIONS, VELOCITY_THRESHOLD } from "./constants";
+import { KEYBOARD_TRANSITION, TRANSITIONS, VELOCITY_THRESHOLD } from "./constants";
 import { isVertical, set } from "./helpers";
 import type { DrawerDirection } from "./types";
 
@@ -139,7 +139,7 @@ export function useSnapPoints({
       onSnapPointChange(newSnapPointIndex);
 
       set(drawerRef.current, {
-        transition: `transform ${TRANSITIONS.ENTER_DURATION}s ${TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION}`,
+        transition: `transform ${TRANSITIONS.ENTER_DURATION}s ${TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION}, ${KEYBOARD_TRANSITION}`,
         transform: isVertical(direction)
           ? `translate3d(0, ${dimension}px, 0)`
           : `translate3d(${dimension}px, 0, 0)`,
