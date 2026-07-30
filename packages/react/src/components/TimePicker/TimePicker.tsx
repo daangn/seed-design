@@ -47,6 +47,7 @@ export interface TimePickerProps
     Omit<
       InternalWheelPickerRootProps,
       | keyof UseTimePickerProps
+      | "asChild"
       | "children"
       | "columnsClassName"
       | "fogSize"

@@ -17,7 +17,7 @@ type WheelPickerCssProperties = React.CSSProperties & {
 };
 
 export interface InternalWheelPickerRootProps
-  extends Omit<HeadlessWheelPicker.WheelPickerRootProps, "children"> {
+  extends Omit<HeadlessWheelPicker.WheelPickerRootProps, "asChild" | "children"> {
   children: React.ReactNode;
   columnsClassName?: string;
   scrollFogClassName?: string;
@@ -88,7 +88,7 @@ export const InternalWheelPickerRoot = React.forwardRef<
 InternalWheelPickerRoot.displayName = "InternalWheelPickerRoot";
 
 export interface InternalWheelPickerColumnProps
-  extends Omit<HeadlessWheelPicker.WheelPickerColumnProps, "renderOption"> {
+  extends Omit<HeadlessWheelPicker.WheelPickerColumnProps, "asChild" | "renderOption"> {
   itemClassName?: string;
 }
 
