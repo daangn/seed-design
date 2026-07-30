@@ -2,7 +2,7 @@ import { useControllableState } from "@seed-design/react-use-controllable-state"
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import type React from "react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
-import { isAndroid, isIOS, isMobileFirefox } from "./browser";
+import { isIOS } from "./browser";
 import {
   CLOSE_THRESHOLD,
   DRAG_CLASS,
@@ -561,12 +561,10 @@ export function useDrawer(props: UseDrawerProps) {
         const totalHeight = window.innerHeight;
         let diffFromInitial = totalHeight - visualViewportHeight;
         const drawerHeight = drawerRef.current.getBoundingClientRect().height || 0;
-        const isTallEnough = drawerHeight > totalHeight * 0.8;
 
         if (!initialDrawerHeight.current) {
           initialDrawerHeight.current = drawerHeight;
         }
-        const offsetFromTop = drawerRef.current.getBoundingClientRect().top;
 
         if (Math.abs(previousDiffFromInitial.current - diffFromInitial) > 60) {
           keyboardIsOpen.current = !keyboardIsOpen.current;
@@ -578,23 +576,21 @@ export function useDrawer(props: UseDrawerProps) {
         }
         previousDiffFromInitial.current = diffFromInitial;
 
-        if (drawerHeight > visualViewportHeight || keyboardIsOpen.current) {
-          const height = drawerRef.current.getBoundingClientRect().height;
-          let newDrawerHeight = height;
+        // Derive the height from the natural height and the viewport alone. Measuring the drawer
+        // here would be circular: `bottom` animates toward the keyboard position, so a rect read
+        // mid-flight describes where the drawer was rather than where it is headed, and folding
+        // that back into the height makes every resize compound the last one. Android emits
+        // several resizes per keyboard animation, so that compounding inflated the sheet until it
+        // filled the screen — and it never shrank back, because the restore branch skipped Android.
+        const naturalHeight = initialDrawerHeight.current;
+        // Once lifted, the drawer's bottom edge rests on top of the keyboard, so this is all the
+        // room it has left.
+        const availableHeight = visualViewportHeight - WINDOW_TOP_OFFSET;
+        const targetHeight = fixed
+          ? Math.max(naturalHeight - Math.max(diffFromInitial, 0), 0)
+          : Math.min(naturalHeight, availableHeight);
 
-          if (height > visualViewportHeight) {
-            newDrawerHeight =
-              visualViewportHeight - (isTallEnough ? offsetFromTop : WINDOW_TOP_OFFSET);
-          }
-
-          if (fixed) {
-            drawerRef.current.style.height = `${height - Math.max(diffFromInitial, 0)}px`;
-          } else {
-            drawerRef.current.style.height = `${Math.max(newDrawerHeight, visualViewportHeight - offsetFromTop)}px`;
-          }
-        } else if (!isMobileFirefox() && !isAndroid()) {
-          drawerRef.current.style.height = `${initialDrawerHeight.current}px`;
-        }
+        drawerRef.current.style.height = `${targetHeight}px`;
 
         if (snapPoints && snapPoints.length > 0 && !keyboardIsOpen.current) {
           drawerRef.current.style.bottom = "0px";

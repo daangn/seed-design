@@ -77,9 +77,9 @@ const bottomSheet = defineSlotRecipe({
       willChange: "transform",
 
       /**
-       * Keyboard reposition. Both iOS and Android report the software keyboard as a single
-       * `visualViewport` resize carrying the final height, with no intermediate frames, so the
-       * sheet has to animate to the new `bottom` on its own.
+       * Keyboard reposition. Neither platform gives us usable intermediate frames: iOS reports the
+       * keyboard as a single `visualViewport` resize carrying the final height, and Android reports
+       * a handful of coarse steps. Either way the sheet has to animate to the new `bottom` itself.
        *
        * Kept in a custom property because the drawer rewrites `transition` inline while dragging
        * and when snapping back, which wins over this rule and would otherwise drop it — the drawer
