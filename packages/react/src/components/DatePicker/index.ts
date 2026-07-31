@@ -1,5 +1,10 @@
 export {
+  ContinuousDatePicker,
   DatePicker,
+  TwoMonthDatePicker,
+  WeekDatePicker,
+  type ContinuousDatePickerProps,
+  type DatePickerActions,
   type DatePickerAriaLabels,
   type DatePickerCellContentRenderProps,
   type DatePickerConstraint,
@@ -12,7 +17,8 @@ export {
   type DatePickerSelectionMode,
   type DatePickerSingleProps,
   type DatePickerValue,
-  type DatePickerVisibleRange,
+  type TwoMonthDatePickerProps,
+  type WeekDatePickerProps,
 } from "./DatePicker";
 
 export {

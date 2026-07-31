@@ -2,8 +2,8 @@
 
 import {
   Box,
-  DatePicker,
   Text,
+  TwoMonthDatePicker,
   VStack,
   excludeDates,
   rangeDayCountAtLeast,
@@ -32,10 +32,9 @@ export default function DatePickerReservation() {
 
   return (
     <VStack gap="x3" align="center">
-      <Box width="358px" maxWidth="100%">
-        <DatePicker
+      <Box width="720px" maxWidth="100%">
+        <TwoMonthDatePicker
           selectionMode="range"
-          visibleRange="twoMonths"
           today={{ year: 2026, month: 7, day: 1 }}
           value={value}
           onValueChange={setValue}

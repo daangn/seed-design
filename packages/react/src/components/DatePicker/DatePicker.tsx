@@ -5,9 +5,11 @@ import { datePicker } from "@seed-design/css/recipes/date-picker";
 import { mergeProps } from "@seed-design/dom-utils";
 import {
   useDatePicker,
+  type DatePickerActions,
   type DatePickerCell,
   type DatePickerCellState,
   type DatePickerMonth,
+  type DatePickerVisibleRange,
   type UseDatePickerProps,
 } from "@seed-design/react-date-picker";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -30,13 +32,50 @@ type DatePickerRootProps = PrimitiveProps &
 
 export interface DatePickerCellContentRenderProps extends DatePickerCellState {}
 
-export type DatePickerProps = UseDatePickerProps &
+type DatePickerBehaviorProps = UseDatePickerProps extends infer Props
+  ? Props extends UseDatePickerProps
+    ? Omit<Props, "visibleRange">
+    : never
+  : never;
+
+type DatePickerCellCustomization =
+  | {
+      /**
+       * 기본 날짜 숫자 아래에 콘텐츠를 추가합니다.
+       */
+      renderDateCellSupplement?: (props: DatePickerCellContentRenderProps) => React.ReactNode;
+      renderDateCellContent?: never;
+    }
+  | {
+      /**
+       * 날짜 셀의 접근성·인터랙션 구조는 유지하면서 내부 콘텐츠를 교체합니다.
+       */
+      renderDateCellContent?: (props: DatePickerCellContentRenderProps) => React.ReactNode;
+      renderDateCellSupplement?: never;
+    };
+
+type DatePickerSharedProps = DatePickerBehaviorProps &
   DatePickerRootProps & {
-    /**
-     * 날짜 셀의 접근성·인터랙션 구조는 유지하면서 내부 콘텐츠를 교체합니다.
-     */
-    renderDateCellContent?: (props: DatePickerCellContentRenderProps) => React.ReactNode;
-  };
+    /** 날짜 이동과 포커스 action을 받는 ref입니다. */
+    actionsRef?: React.Ref<DatePickerActions>;
+  } & DatePickerCellCustomization;
+
+type ContinuousSizeConstraint =
+  | (Required<Pick<StyleProps, "height">> & Pick<StyleProps, "minHeight" | "maxHeight">)
+  | (Required<Pick<StyleProps, "minHeight">> & Pick<StyleProps, "height" | "maxHeight">)
+  | (Required<Pick<StyleProps, "maxHeight">> & Pick<StyleProps, "height" | "minHeight">);
+
+export type DatePickerProps = DatePickerSharedProps;
+export type TwoMonthDatePickerProps = DatePickerSharedProps;
+export type WeekDatePickerProps = DatePickerSharedProps;
+type DatePickerPropsWithoutSize<Props = DatePickerSharedProps> = Props extends DatePickerSharedProps
+  ? Omit<Props, "height" | "minHeight" | "maxHeight">
+  : never;
+export type ContinuousDatePickerProps = DatePickerPropsWithoutSize & ContinuousSizeConstraint;
+
+type DatePickerImplementationProps = DatePickerSharedProps & {
+  visibleRange: DatePickerVisibleRange;
+};
 
 function NavigationChevronIcon({ direction }: { direction: "left" | "right" }) {
   const path =
@@ -98,10 +137,12 @@ function DateCellView({
   cell,
   classNames,
   renderDateCellContent,
+  renderDateCellSupplement,
 }: {
   cell: DatePickerCell | null;
   classNames: ReturnType<typeof datePicker>;
-  renderDateCellContent: DatePickerProps["renderDateCellContent"];
+  renderDateCellContent: DatePickerImplementationProps["renderDateCellContent"];
+  renderDateCellSupplement: DatePickerImplementationProps["renderDateCellSupplement"];
 }) {
   if (cell === null) {
     return <Primitive.div role="gridcell" className={classNames.emptyCell} />;
@@ -116,7 +157,10 @@ function DateCellView({
           {renderDateCellContent ? (
             renderDateCellContent(renderProps)
           ) : (
-            <Primitive.span>{cell.formattedDay}</Primitive.span>
+            <>
+              <Primitive.span>{cell.formattedDay}</Primitive.span>
+              {renderDateCellSupplement?.(renderProps)}
+            </>
           )}
         </Primitive.span>
       </Primitive.button>
@@ -129,6 +173,7 @@ function MonthView({
   classNames,
   month,
   renderDateCellContent,
+  renderDateCellSupplement,
   showWeekdays,
   showMonthLabel,
   renderHeader,
@@ -137,7 +182,8 @@ function MonthView({
   api: ReturnType<typeof useDatePicker>;
   classNames: ReturnType<typeof datePicker>;
   month: DatePickerMonth;
-  renderDateCellContent: DatePickerProps["renderDateCellContent"];
+  renderDateCellContent: DatePickerImplementationProps["renderDateCellContent"];
+  renderDateCellSupplement: DatePickerImplementationProps["renderDateCellSupplement"];
   showWeekdays: boolean;
   showMonthLabel: boolean;
   renderHeader?: (labelId: string) => React.ReactNode;
@@ -178,6 +224,7 @@ function MonthView({
                 cell={cell}
                 classNames={classNames}
                 renderDateCellContent={renderDateCellContent}
+                renderDateCellSupplement={renderDateCellSupplement}
               />
             ))}
           </Primitive.div>
@@ -315,7 +362,7 @@ function WheelView({
   );
 }
 
-export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
+const DatePickerImplementation = React.forwardRef<HTMLDivElement, DatePickerImplementationProps>(
   (props, forwardedRef) => {
     const api = useDatePicker(props);
     const [variantProps, otherProps] = datePicker.splitVariantProps(props);
@@ -325,6 +372,8 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     });
     const {
       renderDateCellContent,
+      renderDateCellSupplement,
+      actionsRef,
       selectionMode: _selectionMode,
       value: _value,
       defaultValue: _defaultValue,
@@ -353,11 +402,11 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     React.useEffect(() => {
       if (process.env.NODE_ENV === "production" || api.visibleRange !== "continuous") return;
       if (!hasContinuousSizeConstraint) {
-        console.warn(
-          'DatePicker: visibleRange="continuous"는 height, minHeight 또는 maxHeight가 필요합니다.',
-        );
+        console.warn("ContinuousDatePicker: height, minHeight 또는 maxHeight가 필요합니다.");
       }
     }, [api.visibleRange, hasContinuousSizeConstraint]);
+
+    React.useImperativeHandle(actionsRef, () => api.actions, [api.actions]);
 
     const rootAriaLabel = ariaLabelledby
       ? ariaLabel
@@ -390,6 +439,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                   classNames={classNames}
                   month={month}
                   renderDateCellContent={renderDateCellContent}
+                  renderDateCellSupplement={renderDateCellSupplement}
                   showWeekdays={false}
                   showMonthLabel
                   monthRef={api.refs.continuousMonth(month.key)}
@@ -412,6 +462,7 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
                     classNames={classNames}
                     month={month}
                     renderDateCellContent={renderDateCellContent}
+                    renderDateCellSupplement={renderDateCellSupplement}
                     showWeekdays
                     showMonthLabel={false}
                     renderHeader={
@@ -440,9 +491,30 @@ export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
     );
   },
 );
+DatePickerImplementation.displayName = "DatePickerImplementation";
+
+export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>((props, ref) => (
+  <DatePickerImplementation ref={ref} {...props} visibleRange="month" />
+));
 DatePicker.displayName = "DatePicker";
 
+export const TwoMonthDatePicker = React.forwardRef<HTMLDivElement, TwoMonthDatePickerProps>(
+  (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="twoMonths" />,
+);
+TwoMonthDatePicker.displayName = "TwoMonthDatePicker";
+
+export const WeekDatePicker = React.forwardRef<HTMLDivElement, WeekDatePickerProps>(
+  (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="week" />,
+);
+WeekDatePicker.displayName = "WeekDatePicker";
+
+export const ContinuousDatePicker = React.forwardRef<HTMLDivElement, ContinuousDatePickerProps>(
+  (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="continuous" />,
+);
+ContinuousDatePicker.displayName = "ContinuousDatePicker";
+
 export type {
+  DatePickerActions,
   DatePickerAriaLabels,
   DatePickerConstraint,
   DatePickerConstraintContext,
@@ -453,5 +525,4 @@ export type {
   DatePickerSelectionMode,
   DatePickerSingleProps,
   DatePickerValue,
-  DatePickerVisibleRange,
 } from "@seed-design/react-date-picker";

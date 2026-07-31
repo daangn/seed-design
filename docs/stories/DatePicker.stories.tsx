@@ -1,36 +1,51 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
-import { Box, DatePicker, Text, type DatePickerProps } from "@seed-design/react";
+import {
+  Box,
+  ContinuousDatePicker,
+  DatePicker,
+  Text,
+  TwoMonthDatePicker,
+  WeekDatePicker,
+  type DatePickerProps,
+} from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "./utils/parameters";
 
 type DatePickerPreviewProps = DatePickerProps & {
   previewWidth?: string;
+  layout?: "month" | "twoMonths" | "week";
 };
 
 const customCellProps = {
   constraints: [(date) => date.day !== 13],
-  renderDateCellContent: ({ date, formattedDay, isUnavailable }) => (
-    <>
-      <Text as="span">{formattedDay}</Text>
-      <Box asChild maxWidth="full">
-        <Text as="span" textStyle="t1Regular" color="fg.neutralMuted" maxLines={1}>
-          {isUnavailable ? "마감" : date.day % 3 === 0 ? "9만원" : "예약 가능"}
-        </Text>
-      </Box>
-    </>
+  renderDateCellSupplement: ({ date, isUnavailable }) => (
+    <Box asChild maxWidth="full">
+      <Text as="span" textStyle="t1Regular" color="fg.neutralMuted" maxLines={1}>
+        {isUnavailable ? "마감" : date.day % 3 === 0 ? "9만원" : "예약 가능"}
+      </Text>
+    </Box>
   ),
 } satisfies DatePickerProps;
 
-const DatePickerPreview = ({ previewWidth = "358px", ...props }: DatePickerPreviewProps) => (
-  <Box width={previewWidth} maxWidth="100%">
-    <DatePicker
-      today={{ year: 2026, month: 7, day: 30 }}
-      yearRange={{ start: 2025, end: 2027 }}
-      {...props}
-    />
-  </Box>
-);
+const DatePickerPreview = ({
+  previewWidth = "358px",
+  layout = "month",
+  ...props
+}: DatePickerPreviewProps) => {
+  const Component =
+    layout === "twoMonths" ? TwoMonthDatePicker : layout === "week" ? WeekDatePicker : DatePicker;
+
+  return (
+    <Box width={previewWidth} maxWidth="100%">
+      <Component
+        today={{ year: 2026, month: 7, day: 30 }}
+        yearRange={{ start: 2025, end: 2027 }}
+        {...props}
+      />
+    </Box>
+  );
+};
 
 const meta = {
   component: DatePickerPreview,
@@ -63,11 +78,11 @@ const conditionMap = {
     },
     "Two Months": {
       selectionMode: "range",
-      visibleRange: "twoMonths",
+      layout: "twoMonths",
       previewWidth: "720px",
     },
     Week: {
-      visibleRange: "week",
+      layout: "week",
     },
     "Custom Cell": {
       ...customCellProps,
@@ -110,9 +125,8 @@ export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
 export const Continuous: Story = {
   render: () => (
     <Box width="358px" height="420px">
-      <DatePicker
+      <ContinuousDatePicker
         selectionMode="range"
-        visibleRange="continuous"
         height="full"
         today={{ year: 2026, month: 7, day: 30 }}
         yearRange={{ start: 2025, end: 2027 }}
@@ -124,8 +138,7 @@ export const Continuous: Story = {
 export const ContinuousCustomCell: Story = {
   render: () => (
     <Box width="358px" height="560px">
-      <DatePicker
-        visibleRange="continuous"
+      <ContinuousDatePicker
         height="full"
         today={{ year: 2026, month: 7, day: 30 }}
         yearRange={{ start: 2025, end: 2027 }}

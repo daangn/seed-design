@@ -28,6 +28,7 @@ import {
 } from "./date";
 import type {
   DatePickerAriaLabels,
+  DatePickerActions,
   DatePickerCell,
   DatePickerConstraintContext,
   DatePickerDate,
@@ -335,6 +336,31 @@ export function useDatePicker(props: UseDatePickerProps) {
       if (!isSameDate(normalized, viewDate)) setViewDateState(normalized);
     },
     [locale, props.weekStartsOn, setViewDateState, viewDate, visibleRange],
+  );
+
+  const navigateToDate = React.useCallback(
+    (date: DatePickerDate) => {
+      assertDateInYearRange(date, yearRange, "actions.navigateToDate(date)");
+      shouldMoveDomFocusRef.current = false;
+      setFocusedDate(date);
+      setViewDate(date);
+    },
+    [setViewDate, yearRange],
+  );
+
+  const focusDate = React.useCallback(
+    (date: DatePickerDate) => {
+      assertDateInYearRange(date, yearRange, "actions.focusDate(date)");
+      shouldMoveDomFocusRef.current = true;
+      setFocusedDate(date);
+      setViewDate(date);
+    },
+    [setViewDate, yearRange],
+  );
+
+  const actions: DatePickerActions = React.useMemo(
+    () => ({ navigateToDate, focusDate }),
+    [focusDate, navigateToDate],
   );
 
   const selectDate = React.useCallback(
@@ -877,6 +903,7 @@ export function useDatePicker(props: UseDatePickerProps) {
     headerLabel,
     isWheelOpen,
     ariaLabels,
+    actions,
     wheel: {
       yearOptions,
       monthOptions,

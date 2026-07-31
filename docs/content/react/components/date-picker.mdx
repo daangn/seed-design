@@ -20,9 +20,32 @@ description: 달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜�
 
 ## Props
 
+### DatePicker
+
 <react-type-table
   path="../packages/react/src/components/DatePicker/DatePicker.tsx"
   name="DatePickerProps"
+/>
+
+### TwoMonthDatePicker
+
+<react-type-table
+  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  name="TwoMonthDatePickerProps"
+/>
+
+### WeekDatePicker
+
+<react-type-table
+  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  name="WeekDatePickerProps"
+/>
+
+### ContinuousDatePicker
+
+<react-type-table
+  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  name="ContinuousDatePickerProps"
 />
 
 ## Examples
@@ -66,9 +89,11 @@ description: 달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜�
 
 ### 날짜 셀 콘텐츠 커스텀
 
-`renderDateCellContent`로 날짜 숫자 아래에 가격, 예약 가능 여부, 혼잡도 같은 정보를 표시할 수 있습니다. 함수에는 날짜와 포맷된 날짜 숫자, 선택·오늘·범위·사용 불가·포커스 상태가 전달됩니다.
+`renderDateCellSupplement`로 기본 날짜 숫자 아래에 가격, 예약 가능 여부, 혼잡도 같은 정보를 추가할 수 있습니다. 함수에는 날짜와 포맷된 날짜 숫자, 선택·오늘·범위·사용 불가·포커스 상태가 전달됩니다.
 
-컴포넌트는 날짜 셀의 DOM, ARIA, 이벤트, 상태 배경을 계속 소유합니다. 따라서 함수에서는 버튼이나 `gridcell`을 만들지 말고 콘텐츠만 반환합니다. 각 주의 셀 높이는 가장 높은 콘텐츠에 맞춰 늘어납니다. 좁은 화면에서 콘텐츠가 가로로 넘치는 경우에는 렌더 함수에서 `maxLines` 같은 말줄임 정책을 직접 적용합니다.
+날짜 숫자를 포함한 내부 콘텐츠 전체를 교체해야 하는 고급 사례에는 `renderDateCellContent`를 사용합니다. 두 prop은 동시에 사용할 수 없습니다.
+
+컴포넌트는 날짜 셀의 DOM, ARIA, 이벤트, 상태 배경을 계속 소유합니다. 따라서 두 함수에서는 버튼이나 `gridcell`을 만들지 말고 콘텐츠만 반환합니다. 각 주의 셀 높이는 가장 높은 콘텐츠에 맞춰 늘어납니다. 좁은 화면에서 콘텐츠가 가로로 넘치는 경우에는 렌더 함수에서 `maxLines` 같은 말줄임 정책을 직접 적용합니다.
 
 <ComponentExample name="react/date-picker/custom-cell">
   ```json doc-gen:file
@@ -94,14 +119,14 @@ Date Picker는 시간과 시간대를 해석하지 않는 달력 날짜인 `Date
   ```
 </ComponentExample>
 
-### Visible Range
+### Layout
 
-`visibleRange`는 다음 네 가지 레이아웃을 제공합니다.
+Date Picker는 레이아웃에 따라 다음 공개 컴포넌트로 나뉩니다.
 
-- `month`: 현재 월의 실제 주 수만 렌더링합니다.
-- `twoMonths`: 연속한 두 달을 가로로 표시합니다. 이전·다음 버튼은 한 달씩 이동합니다.
-- `week`: 한 주만 표시하며 이전·다음 버튼은 한 주씩 이동합니다.
-- `continuous`: `yearRange` 안의 월을 세로로 가상화합니다. 스크롤 영역이 생기도록 `height` 또는 `maxHeight`를 반드시 지정합니다.
+- `DatePicker`: 현재 월의 실제 주 수만 렌더링합니다.
+- `TwoMonthDatePicker`: 연속한 두 달을 가로로 표시합니다. 이전·다음 버튼은 한 달씩 이동합니다.
+- `WeekDatePicker`: 한 주만 표시하며 이전·다음 버튼은 한 주씩 이동합니다.
+- `ContinuousDatePicker`: `yearRange` 안의 월을 세로로 가상화합니다. `height`, `minHeight`, `maxHeight` 중 하나를 반드시 지정합니다.
 
 Month와 Two Months는 항상 6주 높이를 확보하지 않고 각 월에 필요한 4~6주만 렌더링합니다.
 
@@ -116,11 +141,27 @@ Date Picker는 자체적으로 고정 폭이나 최대 폭을 제한하지 않�
   ```
 </ComponentExample>
 
+### 날짜로 이동하고 포커스하기
+
+`viewDate`, `defaultViewDate`, `onViewDateChange`는 현재 표시하는 월·주·스크롤 기준점을 제어합니다. Month에서는 월의 첫날로 정규화되므로 특정 날짜 셀을 이동 대상으로 지정할 때는 `actionsRef`를 사용합니다.
+
+- `navigateToDate(date)`: 날짜가 보이도록 이동하고 다음 Tab 진입점을 갱신하지만 현재 DOM 포커스는 유지합니다. 외부의 “오늘” 버튼에는 이 action을 권장합니다.
+- `focusDate(date)`: 날짜가 보이도록 이동한 뒤 날짜 셀에 실제 DOM 포커스를 둡니다. 키보드 단축키나 사용자를 명시적으로 그리드 안으로 이동시키는 동작에 사용합니다.
+
+<ComponentExample name="react/date-picker/navigation-actions">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/navigation-actions.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### 월·연도 이동
 
 제목을 누르면 Time Picker와 같은 Wheel Picker로 전환합니다. 연도 휠은 반복하지 않고 `yearRange` 안에서 이동하며, 월 휠은 반복합니다. `yearRange`의 기본값은 `today`를 기준으로 앞뒤 100년입니다.
 
-`viewDate`, `defaultViewDate`, `onViewDateChange`로 표시 기준 날짜를 제어할 수 있습니다. Month 계열은 월의 첫날, Week는 locale의 주 시작일로 정규화합니다.
+Month 계열의 표시 기준 날짜는 월의 첫날, Week는 locale의 주 시작일로 정규화합니다.
 
 ### Locale
 

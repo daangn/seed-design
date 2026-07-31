@@ -210,6 +210,29 @@ describe("useDatePicker", () => {
     expect(getCell(result, 1).buttonProps.tabIndex).toBe(0);
   });
 
+  it("navigateToDate는 표시 범위와 roving focus 대상을 함께 갱신한다", () => {
+    const { result } = renderDatePicker();
+
+    act(() => {
+      result.current.actions.navigateToDate({ year: 2026, month: 8, day: 15 });
+    });
+
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 8, day: 1 });
+    expect(result.current.focusedDate).toEqual({ year: 2026, month: 8, day: 15 });
+    expect(getCell(result, 15).buttonProps.tabIndex).toBe(0);
+  });
+
+  it("날짜 이동 action은 yearRange 밖의 날짜를 거부한다", () => {
+    const { result } = renderDatePicker();
+
+    expect(() => result.current.actions.navigateToDate({ year: 2028, month: 1, day: 1 })).toThrow(
+      "actions.navigateToDate(date).year",
+    );
+    expect(() => result.current.actions.focusDate({ year: 2024, month: 1, day: 1 })).toThrow(
+      "actions.focusDate(date).year",
+    );
+  });
+
   it("Continuous는 현재 월의 라벨이 고정 요일 행 아래에 오도록 스크롤한다", () => {
     const OriginalResizeObserver = globalThis.ResizeObserver;
     globalThis.ResizeObserver = class ResizeObserver {

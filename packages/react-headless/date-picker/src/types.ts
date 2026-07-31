@@ -62,7 +62,29 @@ export interface DatePickerAriaLabels {
   monthWheel: string;
 }
 
+export interface DatePickerActions {
+  /**
+   * 해당 날짜가 보이도록 이동하고 roving tab stop을 갱신합니다.
+   * 현재 DOM 포커스는 이동하지 않습니다.
+   */
+  navigateToDate: (date: DatePickerDate) => void;
+  /**
+   * 해당 날짜가 보이도록 이동한 뒤 날짜 셀에 DOM 포커스를 둡니다.
+   */
+  focusDate: (date: DatePickerDate) => void;
+}
+
 interface DatePickerCommonProps {
+  /**
+   * 날짜 선택 방식입니다.
+   *
+   * - `single`: 하나의 날짜를 선택합니다.
+   * - `range`: 시작일과 종료일로 이루어진 날짜 범위를 선택합니다.
+   * - `multiple`: 여러 날짜를 선택합니다.
+   *
+   * @default "single"
+   */
+  selectionMode?: DatePickerSelectionMode;
   /**
    * 한 번에 표시할 달력 범위입니다.
    *
@@ -104,37 +126,35 @@ interface DatePickerCommonProps {
   ariaLabels?: Partial<DatePickerAriaLabels>;
 }
 
-export interface DatePickerSingleProps extends DatePickerCommonProps {
-  /** 하나의 날짜를 선택합니다. */
+interface DatePickerSelectionValueProps<Value, ChangeValue = Value> {
+  /** 제어할 선택 값입니다. 값의 형태는 `selectionMode`에 따라 결정됩니다. */
+  value?: Value;
+  /** 제어하지 않는 방식으로 사용할 때의 초기 선택 값입니다. */
+  defaultValue?: Value;
+  /**
+   * 선택 값이 바뀔 때 호출됩니다.
+   *
+   * `multiple`에서는 날짜가 오름차순으로 정렬된 배열을 전달합니다.
+   */
+  onValueChange?: (value: ChangeValue) => void;
+}
+
+export interface DatePickerSingleProps
+  extends DatePickerCommonProps,
+    DatePickerSelectionValueProps<DatePickerDate> {
   selectionMode?: "single";
-  /** 제어할 선택 날짜입니다. */
-  value?: DatePickerDate;
-  /** 제어하지 않는 방식으로 사용할 때의 초기 선택 날짜입니다. */
-  defaultValue?: DatePickerDate;
-  /** 날짜가 선택될 때 호출됩니다. */
-  onValueChange?: (value: DatePickerDate) => void;
 }
 
-export interface DatePickerRangeProps extends DatePickerCommonProps {
-  /** 시작일과 종료일로 이루어진 날짜 범위를 선택합니다. */
+export interface DatePickerRangeProps
+  extends DatePickerCommonProps,
+    DatePickerSelectionValueProps<DatePickerRangeValue> {
   selectionMode: "range";
-  /** 제어할 날짜 범위입니다. */
-  value?: DatePickerRangeValue;
-  /** 제어하지 않는 방식으로 사용할 때의 초기 날짜 범위입니다. */
-  defaultValue?: DatePickerRangeValue;
-  /** 시작일 또는 종료일이 선택될 때 호출됩니다. */
-  onValueChange?: (value: DatePickerRangeValue) => void;
 }
 
-export interface DatePickerMultipleProps extends DatePickerCommonProps {
-  /** 여러 날짜를 선택합니다. */
+export interface DatePickerMultipleProps
+  extends DatePickerCommonProps,
+    DatePickerSelectionValueProps<readonly DatePickerDate[], DatePickerDate[]> {
   selectionMode: "multiple";
-  /** 제어할 선택 날짜 배열입니다. 중복 날짜를 포함할 수 없습니다. */
-  value?: readonly DatePickerDate[];
-  /** 제어하지 않는 방식으로 사용할 때의 초기 선택 날짜 배열입니다. */
-  defaultValue?: readonly DatePickerDate[];
-  /** 선택 날짜가 바뀔 때 오름차순으로 정렬된 배열과 함께 호출됩니다. */
-  onValueChange?: (value: DatePickerDate[]) => void;
 }
 
 export type UseDatePickerProps =

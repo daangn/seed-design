@@ -1,6 +1,13 @@
-import { fireEvent, render } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
-import { DatePicker } from "./DatePicker";
+import * as React from "react";
+import {
+  ContinuousDatePicker,
+  DatePicker,
+  type DatePickerActions,
+  TwoMonthDatePicker,
+  WeekDatePicker,
+} from "./DatePicker";
 
 const commonProps = {
   today: { year: 2026, month: 7, day: 30 },
@@ -49,6 +56,21 @@ describe("DatePicker", () => {
     expect(dateButton.closest('[role="gridcell"]')).not.toBeNull();
   });
 
+  it("renderDateCellSupplement는 기본 날짜 숫자 아래에 콘텐츠를 추가한다", () => {
+    const { getByRole } = render(
+      <DatePicker
+        {...commonProps}
+        renderDateCellSupplement={({ date }) => (
+          <span>{date.day === 15 ? "12만원" : "예약 가능"}</span>
+        )}
+      />,
+    );
+    const dateButton = getByRole("button", { name: /2026년 7월 15일/ });
+
+    expect(dateButton).toHaveTextContent("15");
+    expect(dateButton).toHaveTextContent("12만원");
+  });
+
   it("constraint에 실패한 날짜는 aria-disabled를 유지하며 클릭을 무시한다", () => {
     const onValueChange = mock(() => {});
     const { getByRole } = render(
@@ -76,5 +98,56 @@ describe("DatePicker", () => {
     expect(getAllByRole("spinbutton")).toHaveLength(2);
     expect(getByRole("spinbutton", { name: "연도" })).toBeInTheDocument();
     expect(getByRole("spinbutton", { name: "월" })).toBeInTheDocument();
+  });
+
+  it("레이아웃별 공개 컴포넌트가 고정된 달력 범위를 렌더링한다", () => {
+    const twoMonths = render(<TwoMonthDatePicker {...commonProps} />);
+    expect(twoMonths.getAllByRole("grid")).toHaveLength(2);
+    twoMonths.unmount();
+
+    const week = render(<WeekDatePicker {...commonProps} />);
+    expect(week.getByRole("grid").querySelectorAll('[role="row"]')).toHaveLength(2);
+    week.unmount();
+
+    const continuous = render(<ContinuousDatePicker {...commonProps} height="400px" />);
+    expect(continuous.getByRole("group")).toHaveAttribute("data-visible-range", "continuous");
+  });
+
+  it("navigateToDate는 외부 포커스를 유지하고 오늘을 다음 tab 진입점으로 지정한다", () => {
+    const actionsRef = React.createRef<DatePickerActions>();
+    const { getByRole } = render(
+      <>
+        <button type="button" onClick={() => actionsRef.current?.navigateToDate(commonProps.today)}>
+          오늘로 이동
+        </button>
+        <DatePicker {...commonProps} actionsRef={actionsRef} />
+      </>,
+    );
+    const todayButton = getByRole("button", { name: "오늘로 이동" });
+
+    expect(actionsRef.current).toBeDefined();
+    todayButton.focus();
+    fireEvent.click(todayButton);
+
+    expect(document.activeElement).toBe(todayButton);
+    expect(getByRole("button", { name: /2026년 7월 30일/ }).getAttribute("tabindex")).toBe("0");
+  });
+
+  it("focusDate는 다른 달로 이동한 뒤 대상 날짜 셀에 DOM 포커스를 둔다", async () => {
+    const actionsRef = React.createRef<DatePickerActions>();
+    const onViewDateChange = mock(() => {});
+    const { getByRole } = render(
+      <DatePicker {...commonProps} actionsRef={actionsRef} onViewDateChange={onViewDateChange} />,
+    );
+
+    expect(actionsRef.current).toBeDefined();
+    act(() => {
+      actionsRef.current?.focusDate({ year: 2026, month: 8, day: 15 });
+    });
+    expect(onViewDateChange).toHaveBeenCalledWith({ year: 2026, month: 8, day: 1 });
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(getByRole("button", { name: /2026년 8월 15일/ }));
+    });
   });
 });

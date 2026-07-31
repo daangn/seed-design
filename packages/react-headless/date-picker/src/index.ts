@@ -13,6 +13,7 @@ export {
   isSameDate,
 } from "./date";
 export {
+  type DatePickerActions,
   type DatePickerAriaLabels,
   type DatePickerCell,
   type DatePickerCellState,
