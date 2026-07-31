@@ -30,15 +30,15 @@ export interface ImageContentProps
     React.ImgHTMLAttributes<HTMLImageElement> {}
 
 export const ImageContent = forwardRef<HTMLImageElement, ImageContentProps>((props, ref) => {
-  const { src, onLoad, onError, ...otherProps } = props;
+  const { src, srcSet, onLoad, onError, ...otherProps } = props;
 
   const { refs, setSrc, getContentProps, handleLoad, handleError } = useImageContext();
 
   useLayoutEffect(() => {
-    setSrc(src);
-  }, [src, setSrc]);
+    setSrc(src, srcSet);
+  }, [src, srcSet, setSrc]);
 
-  const contentProps = getContentProps({ src });
+  const contentProps = getContentProps({ src, srcSet });
 
   return (
     <Primitive.img

@@ -55,6 +55,11 @@ export interface UseAvatarProps extends UseAvatarStateProps {}
 
 export type UseAvatarReturn = ReturnType<typeof useAvatar>;
 
+// srcSet만 있는 반응형 이미지는 src 없이도 로드된다
+function hasSource(src?: string, srcSet?: string) {
+  return Boolean(src) || Boolean(srcSet);
+}
+
 export function useAvatar(props: UseAvatarProps) {
   const { loadingStatus, events } = useAvatarState(props);
 
@@ -88,10 +93,12 @@ export function useAvatar(props: UseAvatarProps) {
     }),
     getImageProps: ({
       src,
+      srcSet,
       onLoad,
       onError,
     }: {
       src?: string;
+      srcSet?: string;
       onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
       onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
     }) => {
@@ -100,10 +107,11 @@ export function useAvatar(props: UseAvatarProps) {
       }, [src]);
 
       return imgProps({
-        hidden: loadingStatus === "error" || (loadingStatus === "loading" && !src),
+        hidden: loadingStatus === "error" || (!isLoaded && !hasSource(src, srcSet)),
         "aria-hidden": ariaAttr(!isLoaded),
         "data-visible": dataAttr(isLoaded),
         src,
+        srcSet,
         onLoad: (e) => {
           events.loadSuccess();
           onLoad?.(e);

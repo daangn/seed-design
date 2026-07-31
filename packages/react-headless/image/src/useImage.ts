@@ -11,6 +11,11 @@ export interface UseImageProps {
 
 export type UseImageReturn = ReturnType<typeof useImage>;
 
+// srcSet만 있는 반응형 이미지는 src 없이도 로드된다
+function hasSource(src?: string, srcSet?: string) {
+  return Boolean(src) || Boolean(srcSet);
+}
+
 export function useImage(props: UseImageProps) {
   const onLoadingStatusChange = useCallbackRef(props.onLoadingStatusChange);
   const [loadingStatus, setLoadingStatus] = useState<ImageLoadingStatus>("loading");
@@ -41,8 +46,8 @@ export function useImage(props: UseImageProps) {
   );
 
   const setSrc = useCallback(
-    (src: string | undefined) => {
-      if (src === undefined || src === null) {
+    (src: string | undefined, srcSet?: string) => {
+      if (!hasSource(src, srcSet)) {
         setLoadingStatus("error");
         onLoadingStatusChange?.("error");
       } else {
@@ -54,12 +59,13 @@ export function useImage(props: UseImageProps) {
   );
 
   const getContentProps = useCallback(
-    ({ src }: { src?: string }) => {
+    ({ src, srcSet }: { src?: string; srcSet?: string }) => {
       return imgProps({
-        hidden: loadingStatus === "error" || (loadingStatus === "loading" && !src),
+        hidden: loadingStatus === "error" || (!isLoaded && !hasSource(src, srcSet)),
         "aria-hidden": ariaAttr(!isLoaded),
         "data-visible": dataAttr(isLoaded),
         src,
+        srcSet,
         ...stateProps,
       });
     },
