@@ -9,6 +9,7 @@ import { useImage, type UseImageProps } from "./useImage";
 const ROOT_TEST_ID = "image-root";
 const FALLBACK_TEXT = "AB";
 const IMAGE_ALT_TEXT = "Fake Image";
+const IMAGE_SRC = "fake-image.png";
 
 function setUp(jsx: ReactElement) {
   return {
@@ -17,12 +18,14 @@ function setUp(jsx: ReactElement) {
   };
 }
 
-function Image(props: UseImageProps) {
+// src에 기본값을 두지 않는다. 기본 파라미터는 `src={undefined}`를 삼켜서
+// "src 없음" 케이스를 검증할 수 없게 만든다.
+function Image({ src, ...props }: UseImageProps & { src?: string }) {
   const { rootProps, getContentProps, fallbackProps, handleLoad, handleError } = useImage(props);
   return (
     <div data-testid={ROOT_TEST_ID} {...rootProps}>
       <img
-        {...getContentProps({})}
+        {...getContentProps({ src })}
         alt={IMAGE_ALT_TEXT}
         onLoad={handleLoad}
         onError={handleError}
@@ -34,25 +37,31 @@ function Image(props: UseImageProps) {
 
 describe("useImage", () => {
   it("initial state is loading", () => {
-    const { getByAltText } = setUp(<Image />);
+    const { getByAltText } = setUp(<Image src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
     expect(image).toHaveAttribute("data-loading-state", "loading");
   });
 
   it("should not hide the image while loading", () => {
-    const { getByAltText } = setUp(<Image />);
+    const { getByAltText } = setUp(<Image src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
     expect(image).not.toHaveAttribute("hidden");
   });
 
   it("should render the fallback initially", () => {
-    const { queryByText } = setUp(<Image />);
+    const { queryByText } = setUp(<Image src={IMAGE_SRC} />);
     const fallback = queryByText(FALLBACK_TEXT);
     expect(fallback).toBeVisible();
   });
 
+  it("should hide the image when there is no src", () => {
+    const { getByAltText } = setUp(<Image />);
+    const image = getByAltText(IMAGE_ALT_TEXT);
+    expect(image).toHaveAttribute("hidden");
+  });
+
   it("should hide the image when loading fails", () => {
-    const { getByAltText, queryByText } = setUp(<Image />);
+    const { getByAltText, queryByText } = setUp(<Image src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
 
     fireEvent.error(image);
@@ -63,7 +72,7 @@ describe("useImage", () => {
   });
 
   it("should hide the fallback once the image is loaded", () => {
-    const { getByAltText, queryByText } = setUp(<Image />);
+    const { getByAltText, queryByText } = setUp(<Image src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
 
     fireEvent.load(image);

@@ -100,7 +100,7 @@ export function useAvatar(props: UseAvatarProps) {
       }, [src]);
 
       return imgProps({
-        hidden: loadingStatus === "error",
+        hidden: loadingStatus === "error" || !src,
         "data-visible": dataAttr(isLoaded),
         src,
         onLoad: (e) => {

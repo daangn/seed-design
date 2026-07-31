@@ -56,7 +56,7 @@ export function useImage(props: UseImageProps) {
   const getContentProps = useCallback(
     ({ src }: { src?: string }) => {
       return imgProps({
-        hidden: loadingStatus === "error",
+        hidden: loadingStatus === "error" || !src,
         "data-visible": dataAttr(isLoaded),
         src,
         ...stateProps,

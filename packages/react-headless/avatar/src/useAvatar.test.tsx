@@ -9,6 +9,7 @@ import { useAvatar, type UseAvatarProps } from "./useAvatar";
 const ROOT_TEST_ID = "avatar-root";
 const FALLBACK_TEXT = "AB";
 const IMAGE_ALT_TEXT = "Fake Avatar";
+const IMAGE_SRC = "fake-avatar.png";
 
 function setUp(jsx: ReactElement) {
   return {
@@ -17,11 +18,13 @@ function setUp(jsx: ReactElement) {
   };
 }
 
-function Avatar(props: UseAvatarProps) {
+// src에 기본값을 두지 않는다. 기본 파라미터는 `src={undefined}`를 삼켜서
+// "src 없음" 케이스를 검증할 수 없게 만든다.
+function Avatar({ src, ...props }: UseAvatarProps & { src?: string }) {
   const { rootProps, getImageProps, fallbackProps } = useAvatar(props);
   return (
     <div data-testid={ROOT_TEST_ID} {...rootProps}>
-      <img {...getImageProps({})} alt={IMAGE_ALT_TEXT} />
+      <img {...getImageProps({ src })} alt={IMAGE_ALT_TEXT} />
       <span {...fallbackProps}>{FALLBACK_TEXT}</span>
     </div>
   );
@@ -29,25 +32,31 @@ function Avatar(props: UseAvatarProps) {
 
 describe("useAvatar", () => {
   it("initial state is loading", () => {
-    const { getByAltText } = setUp(<Avatar />);
+    const { getByAltText } = setUp(<Avatar src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
     expect(image).toHaveAttribute("data-loading-state", "loading");
   });
 
   it("should not hide the image while loading", () => {
-    const { getByAltText } = setUp(<Avatar />);
+    const { getByAltText } = setUp(<Avatar src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
     expect(image).not.toHaveAttribute("hidden");
   });
 
   it("should render the fallback initially", () => {
-    const { queryByText } = setUp(<Avatar />);
+    const { queryByText } = setUp(<Avatar src={IMAGE_SRC} />);
     const fallback = queryByText(FALLBACK_TEXT);
     expect(fallback).toBeVisible();
   });
 
+  it("should hide the image when there is no src", () => {
+    const { getByAltText } = setUp(<Avatar />);
+    const image = getByAltText(IMAGE_ALT_TEXT);
+    expect(image).toHaveAttribute("hidden");
+  });
+
   it("should hide the image when loading fails", () => {
-    const { getByAltText, queryByText } = setUp(<Avatar />);
+    const { getByAltText, queryByText } = setUp(<Avatar src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
 
     fireEvent.error(image);
@@ -58,7 +67,7 @@ describe("useAvatar", () => {
   });
 
   it("should hide the fallback once the image is loaded", () => {
-    const { getByAltText, queryByText } = setUp(<Avatar />);
+    const { getByAltText, queryByText } = setUp(<Avatar src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
 
     fireEvent.load(image);
