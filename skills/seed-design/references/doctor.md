@@ -19,8 +19,8 @@
 | React API (Props 표) | `https://seed-design.io/llms/react/components/{id}.txt` |
 | Deprecated 현황 | `https://seed-design.io/llms/docs/migration/deprecations.txt` |
 | 업그레이드 가이드 | `https://seed-design.io/llms/react/updates/upgrade/v2.txt` · `v1.txt` |
-| 스니펫 canonical 세대 (`snippets[].dependencies`) | `https://seed-design.io/__registry__/{framework}/index.json` |
-| npm 최신 버전 | `npm view {pkg} version` |
+| 스니펫 canonical 세대 (`items[].snippets[].dependencies`) | `https://seed-design.io/__registry__/{framework}/{registryId}/index.json` (예: `react/ui`) |
+| 패키지 최신 버전 | `npm view {pkg} version` — 막힌 환경이면 `curl -s https://registry.npmjs.org/{pkg}/latest` |
 
 ## Step 1: 프로젝트 사실 수집
 
