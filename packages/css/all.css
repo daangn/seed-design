@@ -4893,21 +4893,15 @@
 
 .seed-date-picker__wheelView {
   width: 100%;
-  height: 308px;
-}
-
-.seed-date-picker__wheelColumns {
-  justify-content: center;
 }
 
 .seed-date-picker__wheelSelectionIndicator {
   border-radius: var(--seed-radius-r2);
   background-color: var(--seed-color-bg-neutral-weak);
-  height: 44px;
 }
 
 .seed-date-picker__yearColumn {
-  --seed-date-picker-wheel-item-justify-content: flex-end;
+  --seed-wheel-picker-item-justify-content: flex-end;
   outline: var(--seed-dimension-x0_5) solid transparent;
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   outline-offset: var(--seed-dimension-x0_5);
@@ -4920,7 +4914,7 @@
 }
 
 .seed-date-picker__monthColumn {
-  --seed-date-picker-wheel-item-justify-content: flex-start;
+  --seed-wheel-picker-item-justify-content: flex-start;
   outline: var(--seed-dimension-x0_5) solid transparent;
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   outline-offset: var(--seed-dimension-x0_5);
@@ -4933,24 +4927,12 @@
 }
 
 .seed-date-picker__wheelItem {
-  align-items: center;
-  justify-content: var(--seed-date-picker-wheel-item-justify-content);
-  height: 44px;
+  --seed-wheel-picker-item-color: var(--seed-color-fg-disabled);
+  --seed-wheel-picker-selected-item-color: var(--seed-color-fg-neutral);
   padding-inline: var(--seed-dimension-x4);
-  color: var(--seed-color-fg-disabled);
   font-size: var(--seed-font-size-t10-static);
   line-height: var(--seed-line-height-t10-static);
   font-weight: var(--seed-font-weight-medium);
-  user-select: none;
-  display: flex;
-}
-
-.seed-date-picker__wheelItem[data-wheel-picker-indicator-overlap] {
-  color: #0000;
-  background-image: linear-gradient(to bottom, var(--seed-color-fg-disabled) 0%, var(--seed-color-fg-disabled) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-color-fg-neutral) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-color-fg-neutral) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-color-fg-disabled) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-color-fg-disabled) 100%);
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
 }
 
 .seed-date-picker__liveRegion {
@@ -12526,19 +12508,13 @@
 }
 
 .seed-time-picker__root {
-  --seed-time-picker-selected-item-color: var(--seed-color-fg-neutral);
+  --seed-wheel-picker-selected-item-color: var(--seed-color-fg-neutral);
   width: 100%;
-  height: 220px;
-}
-
-.seed-time-picker__columns {
-  justify-content: center;
 }
 
 .seed-time-picker__selectionIndicator {
   border-radius: var(--seed-radius-r2);
   background-color: var(--seed-color-bg-neutral-weak);
-  height: 44px;
 }
 
 .seed-time-picker__periodColumn {
@@ -12547,7 +12523,7 @@
 }
 
 .seed-time-picker__periodColumn[data-disabled] {
-  --seed-time-picker-selected-item-color: var(--seed-color-fg-disabled);
+  --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
 }
 
 .seed-time-picker__periodColumn :is([aria-selected="true"], [data-selected]) {
@@ -12568,7 +12544,7 @@
 }
 
 .seed-time-picker__hourColumn[data-disabled] {
-  --seed-time-picker-selected-item-color: var(--seed-color-fg-disabled);
+  --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
 }
 
 .seed-time-picker__hourColumn :is([aria-selected="true"], [data-selected]) {
@@ -12584,7 +12560,7 @@
 }
 
 .seed-time-picker__hourColumn {
-  --seed-time-picker-item-justify-content: flex-end;
+  --seed-wheel-picker-item-justify-content: flex-end;
 }
 
 .seed-time-picker__minuteColumn {
@@ -12593,7 +12569,7 @@
 }
 
 .seed-time-picker__minuteColumn[data-disabled] {
-  --seed-time-picker-selected-item-color: var(--seed-color-fg-disabled);
+  --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
 }
 
 .seed-time-picker__minuteColumn :is([aria-selected="true"], [data-selected]) {
@@ -12609,25 +12585,12 @@
 }
 
 .seed-time-picker__item {
-  align-items: center;
-  justify-content: var(--seed-time-picker-item-justify-content, center);
-  height: 44px;
+  --seed-wheel-picker-item-color: var(--seed-color-fg-disabled);
   padding-inline: var(--seed-dimension-x4);
-  color: var(--seed-color-fg-disabled);
   font-size: var(--seed-font-size-t10-static);
   line-height: var(--seed-line-height-t10-static);
   font-weight: var(--seed-font-weight-medium);
   font-variant-numeric: tabular-nums;
-  user-select: none;
-  display: flex;
-}
-
-.seed-time-picker__item[data-wheel-picker-indicator-overlap] {
-  color: #0000;
-  background-image: linear-gradient(to bottom, var(--seed-color-fg-disabled) 0%, var(--seed-color-fg-disabled) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-time-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-time-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-color-fg-disabled) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-color-fg-disabled) 100%);
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
 }
 
 .seed-toggle-button {
@@ -12822,6 +12785,7 @@
 }
 
 .seed-wheel-picker__columns {
+  justify-content: center;
   height: 100%;
   display: flex;
 }
@@ -12867,7 +12831,20 @@
 .seed-wheel-picker__item {
   height: var(--seed-wheel-picker-item-size);
   min-height: var(--seed-wheel-picker-item-size);
+  align-items: center;
+  justify-content: var(--seed-wheel-picker-item-justify-content, center);
+  color: var(--seed-wheel-picker-item-color);
   scroll-snap-align: center;
+  user-select: none;
+  display: flex;
+}
+
+.seed-wheel-picker__item[data-wheel-picker-indicator-overlap] {
+  color: #0000;
+  background-image: linear-gradient(to bottom, var(--seed-wheel-picker-item-color) 0%, var(--seed-wheel-picker-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-wheel-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-wheel-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-wheel-picker-item-color) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-wheel-picker-item-color) 100%);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .seed-wheel-picker__selectionIndicator {

@@ -261,7 +261,7 @@ const datePicker = defineSlotRecipe({
       [pseudo(not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.pressed.dateVisual.color,
       },
-      [`${pseudo(not(disabled), selected, engaged)}:not([data-in-range])::before`]: {
+      [`${pseudo(not(disabled), selected, engaged)}:not([data-in-range])::before` as const]: {
         backgroundColor: vars.base.selected.dateVisual.color,
       },
       "&[data-in-range]": {
@@ -349,20 +349,16 @@ const datePicker = defineSlotRecipe({
     },
     wheelView: {
       width: "100%",
-      height: vars.base.enabled.wheelView.height,
     },
-    wheelColumns: {
-      justifyContent: "center",
-    },
+    wheelColumns: {},
     wheelSelectionIndicator: {
-      height: vars.base.enabled.wheelSelectionIndicator.height,
       borderRadius: vars.base.enabled.wheelSelectionIndicator.cornerRadius,
       backgroundColor: vars.base.enabled.wheelSelectionIndicator.color,
     },
     wheelScrollFog: {},
     yearColumn: {
       flex: "0 0 120px",
-      "--seed-date-picker-wheel-item-justify-content": "flex-end",
+      "--seed-wheel-picker-item-justify-content": "flex-end",
       outline: "none",
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
@@ -370,30 +366,19 @@ const datePicker = defineSlotRecipe({
     },
     monthColumn: {
       flex: "0 0 96px",
-      "--seed-date-picker-wheel-item-justify-content": "flex-start",
+      "--seed-wheel-picker-item-justify-content": "flex-start",
       outline: "none",
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     wheelItem: {
-      display: "flex",
-      height: vars.base.enabled.wheelItem.height,
-      alignItems: "center",
-      justifyContent: "var(--seed-date-picker-wheel-item-justify-content)",
+      "--seed-wheel-picker-item-color": vars.base.enabled.wheelItem.color,
+      "--seed-wheel-picker-selected-item-color": vars.base.selected.wheelItem.color,
       paddingInline: vars.base.enabled.wheelItem.paddingX,
-      color: vars.base.enabled.wheelItem.color,
       fontSize: vars.base.enabled.wheelItem.fontSize,
       lineHeight: vars.base.enabled.wheelItem.lineHeight,
       fontWeight: vars.base.enabled.wheelItem.fontWeight,
-      userSelect: "none",
-      "&[data-wheel-picker-indicator-overlap]": {
-        color: "transparent",
-        backgroundImage: `linear-gradient(to bottom, ${vars.base.enabled.wheelItem.color} 0%, ${vars.base.enabled.wheelItem.color} var(--seed-wheel-picker-indicator-overlap-start), ${vars.base.selected.wheelItem.color} var(--seed-wheel-picker-indicator-overlap-start), ${vars.base.selected.wheelItem.color} var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.wheelItem.color} var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.wheelItem.color} 100%)`,
-        backgroundClip: "text",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-      },
     },
     liveRegion: {
       position: "absolute",

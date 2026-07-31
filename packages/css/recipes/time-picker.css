@@ -1,14 +1,10 @@
 .seed-time-picker__root {
     width: 100%;
-    height: 220px;
-    --seed-time-picker-selected-item-color: var(--seed-color-fg-neutral);
+    --seed-wheel-picker-selected-item-color: var(--seed-color-fg-neutral);
 }
 .seed-time-picker__scrollFog {}
-.seed-time-picker__columns {
-    justify-content: center;
-}
+.seed-time-picker__columns {}
 .seed-time-picker__selectionIndicator {
-    height: 44px;
     border-radius: var(--seed-radius-r2);
     background-color: var(--seed-color-bg-neutral-weak);
 }
@@ -17,7 +13,7 @@
     outline: none;
 }
 .seed-time-picker__periodColumn[data-disabled] {
-    --seed-time-picker-selected-item-color: var(--seed-color-fg-disabled);
+    --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
 }
 .seed-time-picker__periodColumn :is([aria-selected=true], [data-selected]) {
     outline: var(--seed-dimension-x0_5) solid transparent;
@@ -34,7 +30,7 @@
     outline: none;
 }
 .seed-time-picker__hourColumn[data-disabled] {
-    --seed-time-picker-selected-item-color: var(--seed-color-fg-disabled);
+    --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
 }
 .seed-time-picker__hourColumn :is([aria-selected=true], [data-selected]) {
     outline: var(--seed-dimension-x0_5) solid transparent;
@@ -47,14 +43,14 @@
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-time-picker__hourColumn {
-    --seed-time-picker-item-justify-content: flex-end;
+    --seed-wheel-picker-item-justify-content: flex-end;
 }
 .seed-time-picker__minuteColumn {
     flex: 0 0 auto;
     outline: none;
 }
 .seed-time-picker__minuteColumn[data-disabled] {
-    --seed-time-picker-selected-item-color: var(--seed-color-fg-disabled);
+    --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
 }
 .seed-time-picker__minuteColumn :is([aria-selected=true], [data-selected]) {
     outline: var(--seed-dimension-x0_5) solid transparent;
@@ -67,22 +63,10 @@
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-time-picker__item {
-    display: flex;
-    align-items: center;
-    justify-content: var(--seed-time-picker-item-justify-content, center);
-    height: 44px;
+    --seed-wheel-picker-item-color: var(--seed-color-fg-disabled);
     padding-inline: var(--seed-dimension-x4);
-    color: var(--seed-color-fg-disabled);
     font-size: var(--seed-font-size-t10-static);
     line-height: var(--seed-line-height-t10-static);
     font-weight: var(--seed-font-weight-medium);
     font-variant-numeric: tabular-nums;
-    user-select: none;
-}
-.seed-time-picker__item[data-wheel-picker-indicator-overlap] {
-    color: transparent;
-    background-image: linear-gradient(to bottom, var(--seed-color-fg-disabled) 0%, var(--seed-color-fg-disabled) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-time-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-time-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-color-fg-disabled) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-color-fg-disabled) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }

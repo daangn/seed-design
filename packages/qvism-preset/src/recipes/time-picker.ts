@@ -11,14 +11,14 @@ const columnBase = {
   flex: "0 0 auto",
   outline: "none",
   "&[data-disabled]": {
-    "--seed-time-picker-selected-item-color": vars.base.enabled.item.color,
+    "--seed-wheel-picker-selected-item-color": vars.base.enabled.item.color,
   },
-  [`& ${selected}`]: {
+  [`& ${selected}` as const]: {
     ...createFocusRingRestStyles({ position: "inside" }),
     borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
     transition: FOCUS_RING_TRANSITION,
   },
-  [`&${pseudo(focusVisible)}:not([data-wheel-picker-pointer-focus]) ${selected}`]:
+  [`&${pseudo(focusVisible)}:not([data-wheel-picker-pointer-focus]) ${selected}` as const]:
     createFocusRingStyles({ position: "inside" }),
 };
 
@@ -37,15 +37,11 @@ const timePicker = defineSlotRecipe({
   base: {
     root: {
       width: "100%",
-      height: vars.base.enabled.root.height,
-      "--seed-time-picker-selected-item-color": vars.base.selected.item.color,
+      "--seed-wheel-picker-selected-item-color": vars.base.selected.item.color,
     },
     scrollFog: {},
-    columns: {
-      justifyContent: "center",
-    },
+    columns: {},
     selectionIndicator: {
-      height: vars.base.enabled.selectionIndicator.height,
       borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
       backgroundColor: vars.base.enabled.selectionIndicator.color,
     },
@@ -54,31 +50,18 @@ const timePicker = defineSlotRecipe({
     },
     hourColumn: {
       ...columnBase,
-      "--seed-time-picker-item-justify-content": "flex-end",
+      "--seed-wheel-picker-item-justify-content": "flex-end",
     },
     minuteColumn: {
       ...columnBase,
     },
     item: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "var(--seed-time-picker-item-justify-content, center)",
-      height: vars.base.enabled.item.height,
+      "--seed-wheel-picker-item-color": vars.base.enabled.item.color,
       paddingInline: vars.base.enabled.item.paddingX,
-      color: vars.base.enabled.item.color,
       fontSize: vars.base.enabled.item.fontSize,
       lineHeight: vars.base.enabled.item.lineHeight,
       fontWeight: vars.base.enabled.item.fontWeight,
       fontVariantNumeric: "tabular-nums",
-      userSelect: "none",
-
-      "&[data-wheel-picker-indicator-overlap]": {
-        color: "transparent",
-        backgroundImage: `linear-gradient(to bottom, ${vars.base.enabled.item.color} 0%, ${vars.base.enabled.item.color} var(--seed-wheel-picker-indicator-overlap-start), var(--seed-time-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-time-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.item.color} var(--seed-wheel-picker-indicator-overlap-end), ${vars.base.enabled.item.color} 100%)`,
-        backgroundClip: "text",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-      },
     },
   },
   variants: {},

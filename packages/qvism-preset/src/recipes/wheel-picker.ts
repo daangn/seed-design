@@ -18,6 +18,7 @@ const wheelPicker = defineSlotRecipe({
     columns: {
       display: "flex",
       height: "100%",
+      justifyContent: "center",
     },
     column: {
       boxSizing: "border-box",
@@ -53,9 +54,22 @@ const wheelPicker = defineSlotRecipe({
       },
     },
     item: {
+      display: "flex",
       height: "var(--seed-wheel-picker-item-size)",
       minHeight: "var(--seed-wheel-picker-item-size)",
+      alignItems: "center",
+      justifyContent: "var(--seed-wheel-picker-item-justify-content, center)",
+      color: "var(--seed-wheel-picker-item-color)",
       scrollSnapAlign: "center",
+      userSelect: "none",
+      "&[data-wheel-picker-indicator-overlap]": {
+        color: "transparent",
+        backgroundImage:
+          "linear-gradient(to bottom, var(--seed-wheel-picker-item-color) 0%, var(--seed-wheel-picker-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-wheel-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-wheel-picker-selected-item-color) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-wheel-picker-item-color) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-wheel-picker-item-color) 100%)",
+        backgroundClip: "text",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+      },
     },
     selectionIndicator: {
       position: "absolute",
