@@ -15,7 +15,7 @@ SEED에 기여해 주셔서 감사합니다. 이 문서는 개발 환경 셋업�
 
 ## 개발 환경
 
-Node 24(`.nvmrc`), Bun 1.3.13(CI 기준)이 필요합니다.
+Node 버전은 [`.nvmrc`](./.nvmrc)에, Bun 버전은 [CI 셋업](./.github/actions/setup/action.yml)에 고정돼 있습니다. `nvm`·`fnm`·`mise` 같은 도구를 쓰면 `.nvmrc`를 읽어 Node를 자동으로 맞춰 줍니다.
 
 ```bash
 bun install
