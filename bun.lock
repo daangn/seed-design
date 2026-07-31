@@ -608,7 +608,7 @@
         "vite-plugin-dts": "^5.0.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "^2.4.0",
+        "@seed-design/css": "^2.3.0",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
