@@ -1,6 +1,6 @@
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import { dataAttr, elementProps, imgProps } from "@seed-design/dom-utils";
+import { ariaAttr, dataAttr, elementProps, imgProps } from "@seed-design/dom-utils";
 import { useCallback, useMemo, useRef, useState } from "react";
 
 export type ImageLoadingStatus = "loading" | "loaded" | "error";
@@ -56,7 +56,8 @@ export function useImage(props: UseImageProps) {
   const getContentProps = useCallback(
     ({ src }: { src?: string }) => {
       return imgProps({
-        hidden: loadingStatus === "error" || !src,
+        hidden: loadingStatus === "error" || (loadingStatus === "loading" && !src),
+        "aria-hidden": ariaAttr(!isLoaded),
         "data-visible": dataAttr(isLoaded),
         src,
         ...stateProps,

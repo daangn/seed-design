@@ -55,6 +55,26 @@ describe("useAvatar", () => {
     expect(image).toHaveAttribute("hidden");
   });
 
+  // srcSet만 있는 반응형 이미지는 src 없이도 로드된다
+  it("should stop hiding the image once it loads without a src", () => {
+    const { getByAltText } = setUp(<Avatar />);
+    const image = getByAltText(IMAGE_ALT_TEXT);
+
+    fireEvent.load(image);
+
+    expect(image).not.toHaveAttribute("hidden");
+  });
+
+  it("should keep the image out of the accessibility tree until it is loaded", () => {
+    const { getByAltText } = setUp(<Avatar src={IMAGE_SRC} />);
+    const image = getByAltText(IMAGE_ALT_TEXT);
+    expect(image).toHaveAttribute("aria-hidden", "true");
+
+    fireEvent.load(image);
+
+    expect(image).not.toHaveAttribute("aria-hidden");
+  });
+
   it("should hide the image when loading fails", () => {
     const { getByAltText, queryByText } = setUp(<Avatar src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);

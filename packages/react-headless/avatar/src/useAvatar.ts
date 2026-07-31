@@ -5,7 +5,7 @@
 
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import { dataAttr, elementProps, imgProps } from "@seed-design/dom-utils";
+import { ariaAttr, dataAttr, elementProps, imgProps } from "@seed-design/dom-utils";
 import { useMemo, useRef, useState } from "react";
 
 /** @deprecated Use `ImageLoadingStatus` from `@seed-design/react-image` instead. */
@@ -100,7 +100,8 @@ export function useAvatar(props: UseAvatarProps) {
       }, [src]);
 
       return imgProps({
-        hidden: loadingStatus === "error" || !src,
+        hidden: loadingStatus === "error" || (loadingStatus === "loading" && !src),
+        "aria-hidden": ariaAttr(!isLoaded),
         "data-visible": dataAttr(isLoaded),
         src,
         onLoad: (e) => {
