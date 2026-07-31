@@ -39,9 +39,7 @@ describe("useImage", () => {
     expect(image).toHaveAttribute("data-loading-state", "loading");
   });
 
-  // 회귀 방지: hidden은 display:none이라 레이아웃 박스를 없앤다.
-  // 로딩 중에 이걸 붙이면 loading="lazy" 이미지가 뷰포트 교차를 감지받지 못해 영원히 로드되지 않고,
-  // 페인트되지 않아 LCP도 하이드레이션 시각까지 밀린다.
+  // 회귀 방지: 로딩 중 hidden이면 lazy 로드가 막히고 LCP가 밀린다 (#1791)
   it("should not hide the image while loading", () => {
     const { getByAltText } = setUp(<Image />);
     const image = getByAltText(IMAGE_ALT_TEXT);

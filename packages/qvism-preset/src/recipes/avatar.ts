@@ -51,7 +51,7 @@ const avatar = defineSlotRecipe({
       width: "var(--avatar-size)",
       height: "var(--avatar-size)",
 
-      // fallback의 음수 z-index가 조상 스택 컨텍스트로 새어나가지 않도록 가둡니다.
+      // fallback의 음수 z-index를 이 안에 가둔다
       isolation: "isolate",
 
       "&:after": {
@@ -74,17 +74,13 @@ const avatar = defineSlotRecipe({
 
       ...mask,
 
-      // NOTE: 로딩 중에는 숨기지 않습니다. display:none인 이미지는 레이아웃 박스가 없어
-      // IntersectionObserver가 교차를 감지하지 못하므로 loading="lazy" 이미지가 영원히 로드되지 않고,
-      // 페인트되지 않아 LCP 후보에서도 제외됩니다. 로드 전 이미지는 투명하므로 뒤에 깔린 fallback이 비쳐 보이고,
-      // 디코드되는 순간 브라우저가 그 위에 덮어 그립니다.
+      // 로딩 중에는 숨기지 않는다. 숨기면 lazy 로드가 막히고 LCP가 밀린다 (#1791)
       [pseudo("[data-loading-state='error']")]: {
         display: "none",
       },
     },
     fallback: {
-      // image 뒤에 깔리는 레이어입니다. image에 양수 z-index를 주면
-      // z-index: 1인 badge와 같은 층으로 올라오므로 fallback을 내리는 방향을 택했습니다.
+      // image 뒤에 깐다. image를 올리면 z-index: 1인 badge와 같은 층이 된다 (#1791)
       position: "absolute",
       inset: 0,
       zIndex: -1,
