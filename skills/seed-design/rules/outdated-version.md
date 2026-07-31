@@ -8,12 +8,14 @@ SEED는 **2.0.0부터 strict SemVer를 따릅니다.** 그 이전(1.x)에는 min
 
 ## 판정 방법
 
-1. `package.json`의 `dependencies`/`devDependencies`에서 `@seed-design/*` 패키지를 전부 수집합니다.
+1. `package.json`의 `dependencies`/`devDependencies`에서 `@seed-design/*` 패키지를 전부 수집합니다. **선언된 것만** 대상입니다 — 전이 의존성으로 딸려온 `@seed-design/react-*`는 상위 패키지가 범위를 고정하므로 판정하지 않습니다.
 2. 각 패키지의 **실제 설치본** 버전을 읽습니다. 선언 범위(`^1.2.0`)가 아니라 설치본이 기준입니다.
 
    ```bash
    node -p "require('@seed-design/react/package.json').version"
    ```
+
+   모노레포에서는 선언이 워크스페이스에 있어도 **설치본은 저장소 루트로 hoist**됩니다. 워크스페이스 디렉토리에서 실행하면 resolve에 실패하니, 루트까지 올라가며 `node_modules/@seed-design/{pkg}/package.json`을 직접 찾습니다.
 
 3. npm 최신 버전과 비교합니다.
 
@@ -24,6 +26,8 @@ SEED는 **2.0.0부터 strict SemVer를 따릅니다.** 그 이전(1.x)에는 min
    `npm` 실행이 막힌 환경(bun 전용 훅 등)이면 registry를 직접 조회합니다: `curl -s https://registry.npmjs.org/@seed-design%2freact/latest` 응답의 `version`.
 
 4. major 차이 → `warn`, minor/patch 차이 → `info`. 네트워크가 막혀 조회에 실패하면 이 룰은 **판정하지 않고 건너뜁니다**(진단 전체를 중단하지 않습니다).
+
+패키지가 여러 개면 하나로 묶어 보고합니다 — 원인이 같고 조치도 한 번이라, 패키지마다 한 건씩 내면 읽기만 어려워집니다.
 
 ## 수정 방법
 

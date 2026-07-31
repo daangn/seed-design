@@ -11,9 +11,21 @@ deprecated 항목은 다음 메이저에서 제거됩니다. 지금 당장 동�
 1. 출처 문서를 읽어 deprecated 목록과 대체안을 확보합니다. 출처는 둘입니다:
    - **컴포넌트 옵션·토큰**: deprecation 현황 문서 (아래 "읽어야 할 문서")
    - **컴포넌트 자체**: 컴포넌트 목록 `https://seed-design.io/components/llms.txt`의 `(Deprecated)` 마커 — 현황 문서에는 옵션·토큰만 있고 deprecated 컴포넌트 목록이 없습니다.
+
+   현황 문서에는 **"제거 완료 히스토리"** 표도 있습니다. **설치본이 그 제거 버전보다 낮으면 이 표도 검사 대상입니다** — 지금은 정상 동작하지만 업그레이드하는 순간 깨지는 것들이고, 그게 정확히 이 진단이 미리 알려줘야 할 내용입니다. 설치본이 제거 버전 이상이면 이미 지나간 일이니 건너뜁니다.
 2. **패키지 import 검사**: `@seed-design/react`(lynx는 `@seed-design/lynx-react`)에서 import하는 이름을 deprecated 컴포넌트 이름과 대조합니다. 매칭은 이름의 공백을 뺀 **prefix 매칭 + 최장 일치 우선**입니다 — `ActionSheetItem`은 `action-sheet`가 아니라 `action-sheet-item`으로 매칭돼야 합니다.
 3. **설치 스니펫 검사**: 스니펫 디렉토리에 deprecated 항목의 파일이 설치돼 있는지 경로로 판정합니다. 스니펫 디렉토리 **내부** 파일이 패키지에서 deprecated 컴포넌트를 import하거나 deprecated 옵션을 구현하는 건 검사하지 않습니다 — 스니펫이 패키지를 감싸는 건 정당한 사용이고, 스니펫 내부 문제는 재설치([snippet-generation](./snippet-generation.md))로 해소됩니다.
-4. **토큰·옵션 검사**: 현황 문서의 deprecated 토큰(예: `$color.bg.layer-fill`)과 컴포넌트 옵션을 **앱 코드**에서 사용하는지 검사합니다.
+4. **토큰·옵션 검사**: 현황 문서의 deprecated 토큰과 컴포넌트 옵션을 **앱 코드**에서 사용하는지 검사합니다.
+
+   토큰은 **문서 표기 그대로 찾으면 안 됩니다.** 같은 토큰이 코드에서 세 가지 형태로 나타나므로 전부 확인합니다.
+
+   | 표기 | 예 | 나타나는 곳 |
+   |------|-----|------------|
+   | 문서(kebab) | `$color.bg.layer-fill` | 문서·rootage |
+   | 코드(camelCase) | `vars.$color.bg.layerFill` | `@seed-design/css/vars` import |
+   | CSS 변수 | `--seed-color-bg-layer-fill` | 직접 작성한 CSS·인라인 스타일 |
+
+   문서 표기만 grep하면 실제로 쓰고 있어도 0건이 나와 **조용히 통과합니다.**
 
 ## Incorrect / Correct
 
