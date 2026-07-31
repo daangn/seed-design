@@ -56,7 +56,6 @@ export function useImage(props: UseImageProps) {
   const getContentProps = useCallback(
     ({ src }: { src?: string }) => {
       return imgProps({
-        // 로딩 중에는 숨기지 않는다. 숨기면 lazy 로드가 막히고 LCP가 밀린다 (#1791)
         hidden: loadingStatus === "error",
         "data-visible": dataAttr(isLoaded),
         src,

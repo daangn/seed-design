@@ -51,7 +51,6 @@ const avatar = defineSlotRecipe({
       width: "var(--avatar-size)",
       height: "var(--avatar-size)",
 
-      // fallback의 음수 z-index를 이 안에 가둔다
       isolation: "isolate",
 
       "&:after": {
@@ -74,13 +73,11 @@ const avatar = defineSlotRecipe({
 
       ...mask,
 
-      // 로딩 중에는 숨기지 않는다. 숨기면 lazy 로드가 막히고 LCP가 밀린다 (#1791)
       [pseudo("[data-loading-state='error']")]: {
         display: "none",
       },
     },
     fallback: {
-      // image 뒤에 깐다. image를 올리면 z-index: 1인 badge와 같은 층이 된다 (#1791)
       position: "absolute",
       inset: 0,
       zIndex: -1,

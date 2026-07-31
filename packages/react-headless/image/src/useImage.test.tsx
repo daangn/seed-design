@@ -39,7 +39,6 @@ describe("useImage", () => {
     expect(image).toHaveAttribute("data-loading-state", "loading");
   });
 
-  // 회귀 방지: 로딩 중 hidden이면 lazy 로드가 막히고 LCP가 밀린다 (#1791)
   it("should not hide the image while loading", () => {
     const { getByAltText } = setUp(<Image />);
     const image = getByAltText(IMAGE_ALT_TEXT);

@@ -1,6 +1,7 @@
 ---
 "@seed-design/css": patch
 "@seed-design/react-image": patch
+"@seed-design/react-avatar": patch
 ---
 
 ImageFrame과 Avatar가 로딩 중에 이미지를 숨기지 않도록 수정합니다.
@@ -9,3 +10,4 @@ ImageFrame과 Avatar가 로딩 중에 이미지를 숨기지 않도록 수정합
 - 이미지가 LCP 요소일 때 측정값이 이미지 도착 시각이 아니라 하이드레이션 시각으로 잡히던 문제를 수정합니다. `loading="eager"`에도 해당됩니다.
 - `fallback`은 이제 이미지 뒤에 깔리며, 이미지가 디코드되는 순간 JS 개입 없이 그 위에 그려집니다. 로딩 중 플레이스홀더가 보이고 완료 시 이미지가 보이는 동작은 그대로입니다.
 - 이미지를 숨기는 것은 로딩에 실패했을 때뿐입니다.
+- deprecated된 `useAvatar` 훅에도 같은 수정을 적용합니다.

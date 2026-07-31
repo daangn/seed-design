@@ -60,7 +60,6 @@ export function useAvatar(props: UseAvatarProps) {
 
   const imageRef = useRef<HTMLImageElement>(null);
 
-  // TODO: this is triggered after hydration, so image display is delayed in SSR environment. We might add "idle" status or adjust css to handle this.
   useLayoutEffect(() => {
     if (imageRef.current) {
       if (imageRef.current.complete) {
@@ -101,7 +100,7 @@ export function useAvatar(props: UseAvatarProps) {
       }, [src]);
 
       return imgProps({
-        hidden: !isLoaded,
+        hidden: loadingStatus === "error",
         "data-visible": dataAttr(isLoaded),
         src,
         onLoad: (e) => {
