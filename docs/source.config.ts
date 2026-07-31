@@ -13,12 +13,12 @@ import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "./lib/cov
  * 모든 docs 컬렉션이 공유하는 frontmatter 베이스.
  * - `deprecated`: 페이지/컴포넌트 deprecated 표시
  * - `layout`: 콘텐츠 영역 레이아웃 ("docs" 표준 아티클 | "overview" 자체 레이아웃)
- * - `new`: 사이드바 라벨 뒤에 "새 문서" 하이라이트 dot 표시 (lib/new-page.ts)
+ * - `featured`: 사이드바 라벨 뒤에 강조 dot 표시 (lib/featured.ts)
  */
 const baseDocsSchema = frontmatterSchema.extend({
   deprecated: z.boolean().optional(),
   layout: z.enum(["docs", "overview"]).default("docs"),
-  new: z.boolean().optional(),
+  featured: z.boolean().optional(),
 });
 
 const staticCoverImageSchema = {

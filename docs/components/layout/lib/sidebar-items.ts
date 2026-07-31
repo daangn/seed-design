@@ -16,8 +16,8 @@ export interface SidebarLeafItem {
   href: string;
   /** An `external:` meta entry — rendered with a ↗ suffix icon and opened in a new tab. */
   external?: boolean;
-  /** frontmatter `new: true` — rendered with a highlight dot after the label. */
-  isNew?: boolean;
+  /** frontmatter `featured: true` — rendered with an accent dot after the label. */
+  featured?: boolean;
 }
 
 export interface SidebarFolderItem {

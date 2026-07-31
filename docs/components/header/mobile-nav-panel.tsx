@@ -12,7 +12,7 @@ import {
   type SidebarLeafItem,
   isSidebarFolderItem,
 } from "../layout/lib/sidebar-items";
-import { SidebarNewDot } from "../layout/sidebar-new-dot";
+import { SidebarFeaturedDot } from "../layout/sidebar-featured-dot";
 import { SeedMark } from "../landing/seed-mark";
 import { SeedWordmark } from "../landing/seed-wordmark";
 import {
@@ -133,7 +133,7 @@ function MobileSectionItem({ item, onClose }: { item: SidebarLeafItem; onClose: 
       title={
         <>
           {item.label}
-          {item.isNew && <SidebarNewDot />}
+          {item.featured && <SidebarFeaturedDot />}
         </>
       }
       href={item.href}
