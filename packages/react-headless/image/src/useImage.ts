@@ -62,7 +62,6 @@ export function useImage(props: UseImageProps) {
     ({ src, srcSet }: { src?: string; srcSet?: string }) => {
       return imgProps({
         hidden: loadingStatus === "error" || (!isLoaded && !hasSource(src, srcSet)),
-        "aria-hidden": ariaAttr(!isLoaded),
         "data-visible": dataAttr(isLoaded),
         src,
         srcSet,
@@ -86,10 +85,12 @@ export function useImage(props: UseImageProps) {
     () =>
       elementProps({
         hidden: isLoaded,
+        // 로딩 중에는 이미지의 alt가 이름을 맡는다. 플레이스홀더까지 노출하면 중복 낭독된다.
+        "aria-hidden": ariaAttr(loadingStatus === "loading"),
         "data-visible": dataAttr(!isLoaded),
         ...stateProps,
       }),
-    [isLoaded, stateProps],
+    [isLoaded, loadingStatus, stateProps],
   );
 
   return {

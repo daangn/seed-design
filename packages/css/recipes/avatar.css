@@ -50,6 +50,12 @@
 .seed-avatar__image[data-loading-state='error'] {
     display: none;
 }
+.seed-avatar__image:is([hidden], [data-hidden]) {
+    display: none;
+}
+.seed-avatar__image:not([data-loading-state='loaded']) {
+    pointer-events: none;
+}
 .seed-avatar__fallback {
     position: absolute;
     inset: 0;

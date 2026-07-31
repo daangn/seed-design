@@ -2613,8 +2613,12 @@
     mask-composite: subtract;
   }
 
-  .seed-avatar__image[data-loading-state="error"] {
+  .seed-avatar__image[data-loading-state="error"], .seed-avatar__image:is([hidden], [data-hidden]) {
     display: none;
+  }
+
+  .seed-avatar__image:not([data-loading-state="loaded"]) {
+    pointer-events: none;
   }
 
   .seed-avatar__fallback {
@@ -5762,8 +5766,12 @@
     display: block;
   }
 
-  .seed-image-frame__content[data-loading-state="error"] {
+  .seed-image-frame__content[data-loading-state="error"], .seed-image-frame__content:is([hidden], [data-hidden]) {
     display: none;
+  }
+
+  .seed-image-frame__content:not([data-loading-state="loaded"]) {
+    pointer-events: none;
   }
 
   .seed-image-frame__fallback {

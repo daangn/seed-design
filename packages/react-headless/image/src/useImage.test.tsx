@@ -66,6 +66,7 @@ describe("useImage", () => {
   it("should not hide a srcSet-only image", () => {
     const { getByAltText } = setUp(<Image srcSet={IMAGE_SRC_SET} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
+    expect(image).toHaveAttribute("srcset", IMAGE_SRC_SET);
     expect(image).not.toHaveAttribute("hidden");
   });
 
@@ -78,14 +79,20 @@ describe("useImage", () => {
     expect(image).not.toHaveAttribute("hidden");
   });
 
-  it("should keep the image out of the accessibility tree until it is loaded", () => {
-    const { getByAltText } = setUp(<Image src={IMAGE_SRC} />);
-    const image = getByAltText(IMAGE_ALT_TEXT);
-    expect(image).toHaveAttribute("aria-hidden", "true");
+  // 로딩 중에는 alt와 fallback이 둘 다 낭독되지 않도록 fallback만 접근성 트리에서 뺀다.
+  // img를 빼면 하이드레이션 전까지 보이는 이미지에 접근 가능한 이름이 없어진다.
+  it("should announce the image, not the fallback, while loading", () => {
+    const { getByAltText, getByText } = setUp(<Image src={IMAGE_SRC} />);
+    expect(getByAltText(IMAGE_ALT_TEXT)).not.toHaveAttribute("aria-hidden");
+    expect(getByText(FALLBACK_TEXT)).toHaveAttribute("aria-hidden", "true");
+  });
 
-    fireEvent.load(image);
+  it("should announce the fallback when loading fails", () => {
+    const { getByAltText, getByText } = setUp(<Image src={IMAGE_SRC} />);
 
-    expect(image).not.toHaveAttribute("aria-hidden");
+    fireEvent.error(getByAltText(IMAGE_ALT_TEXT));
+
+    expect(getByText(FALLBACK_TEXT)).not.toHaveAttribute("aria-hidden");
   });
 
   it("should hide the image when loading fails", () => {

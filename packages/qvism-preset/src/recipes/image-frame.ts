@@ -1,5 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo } from "../utils/pseudo";
+import { hidden, not, pseudo } from "../utils/pseudo";
 import { imageFrame as vars } from "../vars/component";
 import spec from "@seed-design/rootage-artifacts/components/image-frame.json" with { type: "json" };
 
@@ -21,6 +21,14 @@ const imageFrame = defineSlotRecipe({
       borderRadius: "inherit",
       [pseudo("[data-loading-state='error']")]: {
         display: "none",
+      },
+      // 이 slot의 display가 UA의 [hidden] 규칙을 이기므로 직접 선언해야 한다
+      [pseudo(hidden)]: {
+        display: "none",
+      },
+      // 로드 전에는 투명하므로 뒤에 깔린 fallback의 클릭·선택을 가로채지 않는다
+      [pseudo(not("[data-loading-state='loaded']"))]: {
+        pointerEvents: "none",
       },
     },
     fallback: {
