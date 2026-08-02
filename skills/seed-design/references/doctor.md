@@ -55,7 +55,7 @@ meta:
   target: /path/to/project
   workspace: services/webview      # 모노레포일 때만. 단일 패키지면 생략
   framework: react
-  date: 2026-08-02
+  date: "2026-08-02"   # 따옴표 필수 — 없으면 파서에 따라 날짜 객체가 되어 스키마(string)를 어깁니다
   seed:
     installed: { "@seed-design/react": 1.2.0, "@seed-design/css": 1.2.0 }
     latest: { "@seed-design/react": 2.1.0, "@seed-design/css": 2.3.0 }
