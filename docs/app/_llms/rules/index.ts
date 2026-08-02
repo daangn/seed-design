@@ -1,3 +1,4 @@
+import { availableSinceRule } from "./available-since-rule";
 import { badgeRule } from "./badge-rule";
 import { changelogPageRule } from "./changelog-page-rule";
 import { codeBlockTabsRule } from "./codeblock-tabs-rule";
@@ -11,6 +12,7 @@ import { iconLibraryRule } from "./icon-library-rule";
 import type { AnyRule } from "./types";
 
 export const activeRules: AnyRule[] = [
+  availableSinceRule,
   badgeRule,
   componentExampleRule,
   codeBlockTabsRule,
@@ -24,6 +26,7 @@ export const activeRules: AnyRule[] = [
 ];
 
 export {
+  availableSinceRule,
   badgeRule,
   changelogPageRule,
   codeBlockTabsRule,
