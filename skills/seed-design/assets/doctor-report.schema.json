@@ -102,6 +102,10 @@
         "additionalProperties": true,
         "properties": {
           "rule": { "type": "string" },
+          "criterionId": {
+            "type": "string",
+            "description": "1단계(기계 수집) 기준이면 그 id. 예: bottom-sheet.dont-1. 문서 등장 순서로 붙으므로 실행이 달라도 같은 기준은 같은 id다 — 실행 간 비교가 이것으로 된다. 2단계(판단 보충) 기준에는 없다."
+          },
           "criterion": {
             "type": "string",
             "description": "기준 번호. 같은 이유로 묶인 항목들은 콤마로 나열한다. 예: \"1,4,8\""
@@ -125,6 +129,25 @@
           "evidence": {
             "type": "string",
             "description": "파일:줄, 또는 판정하지 못한 이유. 대상이 0개여서 통과했으면 그 사실."
+          }
+        }
+      }
+    },
+    "coverage": {
+      "type": "array",
+      "description": "component-guidelines를 판정한 컴포넌트마다 한 항목. expected(1단계 기계 수집 개수) ≠ judged(verdicts에 실제 나온 1단계 기준 수)면 기준을 건너뛴 실행이다 — 그 자체가 결함이다.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "expected", "judged"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": { "type": "string" },
+          "expected": { "type": "integer", "minimum": 0 },
+          "judged": { "type": "integer", "minimum": 0 },
+          "derived": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "2단계(판단 보충)로 얹은 기준 수"
           }
         }
       }

@@ -9,6 +9,7 @@
 - **진단은 read-only입니다.** "수정 방법"은 사용자에게 전달할 안내이지 지금 실행할 명령이 아닙니다. 코드 변경·재설치는 사용자가 별도로 지시할 때만 합니다.
 - **판단 근거는 문서이지 기억이 아닙니다.** 각 룰이 가리키는 참조 문서를 실제로 읽고 대조합니다.
 - **확신이 없으면 보고하지 않습니다.** 모든 판정에는 코드 증거(파일:라인)가 있어야 합니다.
+- **이 진단은 상위 모델을 전제합니다.** 경량 모델이 기준 수집과 기각 목록을 통째로 건너뛰는 것이 실측됐습니다 — 형식은 통과하므로 결과만 봐서는 모릅니다. 아래 `coverage`가 그걸 드러내는 장치입니다.
 
 ## 지식 지도
 
@@ -70,9 +71,19 @@ findings:
     references: [https://seed-design.io/llms/components/bottom-sheet.txt]
     remediation: |
       문서 근거와 수정 방법. 지금 실행하지 말고 안내만 합니다.
+coverage:
+  - rule: seed/component-guidelines/bottom-sheet
+    expected: 9    # 1단계 기계 수집 개수
+    judged: 9      # verdicts에 나온 1단계 기준 수 — expected와 다르면 그 자체가 결함
+    derived: 6     # 2단계 판단 보충 개수
 verdicts:
   - rule: seed/component-guidelines/bottom-sheet
-    criterion: "6"
+    criterionId: bottom-sheet.rule-1   # 1단계 기준이면 고정 id
+    text: Snap Point를 추가하는 경우 Handle을 반드시 표시해야 합니다.
+    verdict: pass
+    evidence: 스냅 포인트 미구현 — 조건 불성립
+  - rule: seed/component-guidelines/bottom-sheet
+    criterion: "6"                      # 2단계 도출분은 번호만
     text: Bottom Sheet는 화면 너비 최대 480px까지 보여집니다.
     verdict: fail
     evidence: FlexibleBottomSheet.css.ts:16 — maxWidth 없음
@@ -89,9 +100,19 @@ rejected:
 
 범위를 나눠 여러 번 돌렸으면 조각들을 하나로 합칩니다. `findings`·`verdicts`·`rejected`는 이어 붙이고, **`summary`는 합친 뒤 다시 셉니다**(조각별 카운트를 더하면 안 됩니다). `meta`는 어느 조각 것이든 같아야 하며, 다르면 서로 다른 대상을 진단한 것이니 합치지 않습니다.
 
+### coverage — 건너뛰기를 드러내는 장치
+
+component-guidelines를 판정했으면 **컴포넌트마다 `coverage`를 채웁니다.**
+
+- `expected` — 룰의 1단계(기계 수집)가 낸 기준 수. 같은 문서에 같은 명령이므로 누가 세도 같아야 합니다.
+- `judged` — verdicts에 실제로 나온 1단계 기준 수(`criterionId` 있는 것).
+- `derived` — 2단계(판단 보충)로 얹은 기준 수.
+
+**`expected ≠ judged`면 그 자체가 보고할 결함입니다** — 기준을 건너뛴 실행입니다. 채팅 요약에도 커버리지를 한 줄 남깁니다: "bottom-sheet: 기준 9+6개 판정".
+
 ### verdicts — 판정 표
 
-도출한 기준 전 항목이 들어갑니다. 통과한 것도 판정하지 못한 것도 숨기지 않습니다.
+도출한 기준 전 항목이 들어갑니다. 통과한 것도 판정하지 못한 것도 숨기지 않습니다. 1단계 기준에는 `criterionId`를 답니다.
 
 `unknown`은 정보가 부족해 판정할 수 없을 때 씁니다. **확인해서 통과한 것(`pass`)과 확인하지 못한 것을 같은 칸에 넣지 않습니다.** 왜 판정하지 못했는지는 `unknownReason`으로 구분합니다.
 
