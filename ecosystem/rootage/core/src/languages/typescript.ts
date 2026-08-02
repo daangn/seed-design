@@ -7,6 +7,12 @@ import type {
 } from "../parser/ast";
 import { createStringifier as createCssStringifier } from "./css";
 
+/**
+ * Returns the JSDoc block to prepend to a component spec's `.d.ts`,
+ * or `undefined` to emit no banner for that spec.
+ */
+export type ComponentSpecDtsBanner = (decl: ComponentSpecDeclaration) => string | undefined;
+
 interface TokenDefinition {
   key: string;
   value: string;
@@ -45,7 +51,9 @@ function stringifyStateKey(state: StateExpression[]): string {
   return camelCase(state.map((s) => s.value).join("-"));
 }
 
-export function createStringifier(options: { prefix?: string } = {}) {
+export function createStringifier(
+  options: { prefix?: string; componentSpecDtsBanner?: ComponentSpecDtsBanner } = {},
+) {
   const cssStringifier = createCssStringifier(options);
 
   function getComponentSpec(decl: ComponentSpecDeclaration) {
@@ -172,7 +180,10 @@ export function createStringifier(options: { prefix?: string } = {}) {
       json = json.replaceAll(`"${key}":`, `/** ${desc} */\n        "${key}":`);
     }
 
-    return `export declare const vars: ${json}`;
+    const bannerBlock = options.componentSpecDtsBanner?.(decl);
+    const banner = bannerBlock ? `${bannerBlock.replace(/\n+$/, "")}\n` : "";
+
+    return `${banner}export declare const vars: ${json}`;
   }
 
   function getComponentSpecIndexMjs(decls: ComponentSpecDeclaration[]) {

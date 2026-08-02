@@ -16,6 +16,7 @@ import {
   validate,
 } from "@seed-design/rootage-core";
 import { runGenerator } from "@seed-design/rootage-core/generator";
+import { composeDtsBanner, loadConfig, type DtsBanner } from "./config";
 import fs from "fs-extra";
 import path from "node:path";
 import YAML from "yaml";
@@ -125,11 +126,12 @@ async function writeTokenTs(prefix?: string) {
   }
 }
 
-async function writeComponentSpec(prefix?: string) {
+async function writeComponentSpec(prefix?: string, dtsBanner?: DtsBanner) {
   const { ctx } = await prepare();
 
   const tsStringifier = typescript.createStringifier({
     prefix,
+    componentSpecDtsBanner: dtsBanner && composeDtsBanner(dtsBanner),
   });
 
   const specs = getComponentSpecDeclarations(ctx);
@@ -311,6 +313,10 @@ async function writeTailwind4(prefix?: string): Promise<string> {
 // Legacy command support is now handled by yargs
 
 yargs(process.argv.slice(2))
+  .option("config", {
+    describe: "Path to a rootage config file (default: rootage.config.* in the current directory)",
+    type: "string",
+  })
   .command(
     "token-ts <dir>",
     "Generate TypeScript tokens",
@@ -328,7 +334,8 @@ yargs(process.argv.slice(2))
     },
     async (argv) => {
       console.log("Start");
-      await writeTokenTs(argv.prefix);
+      const config = await loadConfig(argv.config);
+      await writeTokenTs(argv.prefix ?? config.prefix);
       console.log("Done");
     },
   )
@@ -349,7 +356,8 @@ yargs(process.argv.slice(2))
     },
     async (argv) => {
       console.log("Start");
-      await writeComponentSpec(argv.prefix);
+      const config = await loadConfig(argv.config);
+      await writeComponentSpec(argv.prefix ?? config.prefix, config.componentSpec?.dtsBanner);
       console.log("Done");
     },
   )
@@ -374,7 +382,11 @@ yargs(process.argv.slice(2))
     },
     async (argv) => {
       console.log("Start");
-      await writeTokenCss(argv.generator, argv.prefix);
+      const config = await loadConfig(argv.config);
+      await writeTokenCss(
+        argv.generator ?? config.tokenCss?.generator,
+        argv.prefix ?? config.prefix,
+      );
       console.log("Done");
     },
   )
@@ -428,7 +440,8 @@ yargs(process.argv.slice(2))
     },
     async (argv) => {
       console.log("Start");
-      await writeTailwind3Plugin(argv.prefix);
+      const config = await loadConfig(argv.config);
+      await writeTailwind3Plugin(argv.prefix ?? config.prefix);
       console.log("Done");
     },
   )
@@ -450,7 +463,8 @@ yargs(process.argv.slice(2))
     },
     async (argv) => {
       console.log("Start");
-      await writeTailwind4(argv.prefix);
+      const config = await loadConfig(argv.config);
+      await writeTailwind4(argv.prefix ?? config.prefix);
       console.log("Done");
     },
   )

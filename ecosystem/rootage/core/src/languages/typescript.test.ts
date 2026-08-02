@@ -529,3 +529,60 @@ test("getTokenDts should generate JSDoc for token descriptions", () => {
     ]
   `);
 });
+
+const bannerSpec = (id: string) =>
+  Authoring.parseComponentSpecDocument(
+    YAML.parse(`
+kind: ComponentSpec
+metadata:
+  id: ${id}
+  name: ${id}
+data:
+  schema:
+    slots:
+      - name: root
+        properties:
+          - name: color
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          color: "#ffffff"
+`),
+  ).data;
+
+test("getComponentSpecDts should not add a banner without the option", () => {
+  const result = getComponentSpecDts(bannerSpec("test"));
+
+  expect(result.startsWith("export declare const vars:")).toBe(true);
+});
+
+test("getComponentSpecDts should prepend the banner returned by the option", () => {
+  const { getComponentSpecDts: withBanner } = createStringifier({
+    prefix: "test",
+    componentSpecDtsBanner: (decl) => `/** banner for ${decl.id} */`,
+  });
+
+  const result = withBanner(bannerSpec("test"));
+
+  expect(result.startsWith("/** banner for test */\nexport declare const vars:")).toBe(true);
+});
+
+test("getComponentSpecDts should skip the banner when the option returns undefined", () => {
+  const { getComponentSpecDts: withBanner } = createStringifier({
+    prefix: "test",
+    componentSpecDtsBanner: (decl) => (decl.id === "skipped" ? undefined : "/** banner */"),
+  });
+
+  expect(withBanner(bannerSpec("skipped")).startsWith("export declare const vars:")).toBe(true);
+});
+
+test("getComponentSpecMjs should not carry the banner", () => {
+  const { getComponentSpecMjs: withBanner } = createStringifier({
+    prefix: "test",
+    componentSpecDtsBanner: () => "/** banner */",
+  });
+
+  expect(withBanner(bannerSpec("test"))).not.toContain("banner");
+});
