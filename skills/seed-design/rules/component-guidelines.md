@@ -143,3 +143,5 @@ SEED 내부 구현이 충족해주는 기준은 근거를 두 개 답니다 — 
 
 - 디자인 가이드라인 (판정 기준의 출처): `https://seed-design.io/llms/components/{id}.txt`
 - React API: **가이드라인 문서 안의 Platform 표에 적힌 링크를 씁니다.** `[React](/react/components/radio-group)`처럼 정확한 경로가 거기 있습니다. `llms/react/components/{문서id}.txt`로 URL을 만들면 안 됩니다 — 이름이 다른 컴포넌트는 전부 404이고, registry id로 바꿔도 `text-field`(실제는 `text-field-input`·`text-field-textarea` 둘로 갈림)나 `app-screen`(`/react/stackflow/` 아래)처럼 여전히 안 맞는 것이 있습니다. Platform 표가 `Not Planned`면 React 구현이 아예 없는 것이니 재구현을 지적하지 않습니다.
+
+  Platform 표의 링크는 CMS에 손으로 적는 값이라 **가끔 낡습니다.** 열었는데 본문이 비어 있으면(404가 아니라 빈 페이지로 나올 수 있습니다) 그 링크를 믿지 말고 `react/llms.txt`에서 실제 이름을 찾습니다. 링크가 낡았다는 사실 자체는 `doc-conflict`로 남겨 SEED 쪽이 고치게 합니다.
