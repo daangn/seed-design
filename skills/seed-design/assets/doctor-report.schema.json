@@ -44,7 +44,7 @@
     },
     "summary": {
       "type": "object",
-      "description": "비억제 findings의 severity별 개수. 점수나 등급은 두지 않는다.",
+      "description": "findings의 severity별 개수. 손으로 세지 말고 findings에서 계산한다. 점수나 등급은 두지 않는다.",
       "required": ["error", "warn", "info"],
       "additionalProperties": false,
       "properties": {

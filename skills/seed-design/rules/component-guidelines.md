@@ -46,8 +46,10 @@ prop 조합이 적절한지, 가이드라인의 Do/Don't에 어긋나지 않는�
 
    **"없음"은 두 가지를 다 확인해야 성립합니다.** 패키지 export만 보면 스니펫으로 배포되는 컴포넌트를 놓칩니다 — 스니펫은 애초에 export에 나타나지 않습니다.
 
-   - **없음** = 패키지에 export 없음 **그리고** 그 세대 registry(`https://v{major}-{minor}.seed-design.io/__registry__/{framework}/{registryId}/index.json`)에 아이템 없음
+   - **없음** = 패키지에 export 없음 **그리고** 그 세대 registry에 아이템 없음
    - **있음** = 둘 중 **하나라도** 있으면. 한쪽에서 찾았으면 다른 쪽은 조회하지 않아도 됩니다
+
+   세대 registry는 **`v1-0`·`v1-1`·`v1-2` 세 개만 존재합니다**(`https://v1-2.seed-design.io/__registry__/{framework}/{registryId}/index.json`). 아카이브된 버전만 서브도메인이 있어서, `v2-0` 같은 주소는 404가 아니라 **도메인이 없어 연결 자체가 실패합니다.** 이걸 "registry에 없음"으로 읽으면 안 됩니다 — 설치본이 2.x 이상이면 세대 registry를 조회할 방법이 없으므로 **패키지 export만으로 판정하고**, 그 사실을 근거에 밝힙니다. 조회 실패와 아이템 부재는 다릅니다.
 
    **export를 찾을 때 진입점 `lib/index.d.ts`를 grep하면 안 됩니다 — barrel이라 모든 컴포넌트가 0건입니다.** `export * from './components'` 두어 줄이 전부라, 이걸 "없음"으로 읽으면 **설치본에 멀쩡히 있는 컴포넌트까지 면책되어** 재구현 위반이 통째로 사라집니다. `lib/components/index.d.ts`까지 따라가거나, 재export를 따라가는 방식으로 확인합니다.
 

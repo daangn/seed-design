@@ -22,8 +22,8 @@
 | 업그레이드 가이드 | `https://seed-design.io/llms/react/updates/upgrade/v2.txt` · `v1.txt` |
 | 스니펫 canonical 세대 (`items[].snippets[].dependencies`) | `https://seed-design.io/__registry__/{framework}/{registryId}/index.json` (예: `react/ui`) |
 | 개별 스니펫 본문 | `https://seed-design.io/__registry__/{framework}/{registryId}/{itemId}.json` — `{itemId}/index.json`은 404 |
-| **설치 세대의** registry (그때 뭐가 있었는지) | `https://v{major}-{minor}.seed-design.io/__registry__/...` (예: `v1-2`) |
-| 패키지 최신 버전 | `npm view {pkg} version` — 막힌 환경이면 `curl -s https://registry.npmjs.org/{pkg}/latest \| jq -r .version` (응답이 수백 KB라 필드만 뽑습니다) |
+| **설치 세대의** registry (그때 뭐가 있었는지) | `https://v1-0.seed-design.io` · `v1-1` · `v1-2` — **이 셋뿐입니다.** 아카이브된 버전만 서브도메인이 있고, 그 외(`v2-0` 등)는 도메인 자체가 없어 조회가 실패합니다 |
+| 패키지 최신 버전 | `npm view {pkg} version` — 막힌 환경이면 `curl -s https://registry.npmjs.org/{pkg}/latest \| jq -r .version` (`/latest` 없이 받으면 400KB가 넘으니 반드시 붙입니다) |
 
 ## Step 1: 프로젝트 사실 수집
 
@@ -60,21 +60,21 @@ meta:
     installed: { "@seed-design/react": 1.2.0, "@seed-design/css": 1.2.0 }
     latest: { "@seed-design/react": 2.1.0, "@seed-design/css": 2.3.0 }
     snippetRoot: ./src/seed-design
-summary: { error: 1, warn: 30, info: 21 }
+summary: { error: 0, warn: 1, info: 0 }   # findings에서 계산한 값 (아래는 축약 예시라 1건만 실었습니다)
 findings:
   - rule: seed/component-guidelines/bottom-sheet
     severity: warn
     message: 시트 너비에 480px 상한이 없습니다.
     file: services/webview/src/components/bottom-sheet/FlexibleBottomSheet.css.ts
-    line: 14
+    line: 16
     criterion: "6"
     references: [https://seed-design.io/llms/components/bottom-sheet.txt]
     remediation: |
       문서 근거와 수정 방법. 지금 실행하지 말고 안내만 합니다.
 coverage:
   - rule: seed/component-guidelines/bottom-sheet
-    expected: 9    # 1단계 기계 수집 개수
-    judged: 9      # verdicts에 나온 1단계 기준 수 — expected와 다르면 그 자체가 결함
+    expected: 2    # 1단계 기계 수집 개수 (bottom-sheet 문서 기준 실제 값)
+    judged: 2      # verdicts에 나온 1단계 기준 수 — expected와 다르면 그 자체가 결함
     derived: 6     # 2단계 판단 보충 개수
 verdicts:
   - rule: seed/component-guidelines/bottom-sheet
@@ -108,7 +108,7 @@ component-guidelines를 판정했으면 **컴포넌트마다 `coverage`를 채�
 - `judged` — verdicts에 실제로 나온 1단계 기준 수(`criterionId` 있는 것).
 - `derived` — 2단계(판단 보충)로 얹은 기준 수.
 
-**`expected ≠ judged`면 그 자체가 보고할 결함입니다** — 기준을 건너뛴 실행입니다. 채팅 요약에도 커버리지를 한 줄 남깁니다: "bottom-sheet: 기준 9+6개 판정".
+**`expected ≠ judged`면 그 자체가 보고할 결함입니다** — 기준을 건너뛴 실행입니다. 채팅 요약에도 커버리지를 한 줄 남깁니다: "bottom-sheet: 기준 2+6개 판정".
 
 ### verdicts — 판정 표
 

@@ -52,8 +52,8 @@ argument-hint: "[질문 또는 주제]"
 
 ### 3단계: 안내 + 실행
 
-- 기존 문서 링크 제공: `https://seed-design.io/react/components/{component-name}`
-- llms.txt URL로 상세 정보 참조: `https://seed-design.io/llms/react/components/{component-name}.txt`
+- 기존 문서 링크 제공: `https://seed-design.io/react/components/{component-name}` — 단 layout·typography 계열은 `.../components/layout/box`처럼 한 단계 더 들어갑니다. 경로는 `react/llms.txt`에서 확인합니다
+- llms.txt URL로 상세 정보 참조: `https://seed-design.io/llms/react/components/{component-name}.txt` (같은 중첩 규칙)
 - CLI `docs` 명령어로 문서/llms.txt/스니펫 링크 한 번에 조회:
   ```bash
   npx @seed-design/cli@latest docs {component-name}
@@ -93,7 +93,7 @@ https://seed-design.io/llms/foundations/color.txt
 |------|-----|
 | 설치·셋업 (번들러별) | `/llms/react/getting-started/installation/{vite\|rsbuild\|webpack\|manual}.txt` |
 | 테마 설정 | `/llms/react/getting-started/styling/theming.txt` |
-| CLI 명령어 (init·add·compat·docs) | `/llms/react/getting-started/cli/commands.txt` |
+| CLI 명령어 (init·add·add-all·compat·docs) | `/llms/react/getting-started/cli/commands.txt` |
 | `seed-design.json` 설정 | `/llms/react/getting-started/cli/configuration.txt` |
 | **색상 토큰 이름** | `/llms/foundations/color/color-role.txt` — `color.txt`는 개념 설명이라 토큰 이름이 없습니다 |
 | 그 외 파운데이션 | `/llms/foundations/{typography\|spacing\|radius\|elevation\|motion}.txt` |
@@ -101,7 +101,11 @@ https://seed-design.io/llms/foundations/color.txt
 
 셋업을 안내할 때는 1단계에서 감지한 번들러와 패키지 매니저에 맞춰 해당 문서를 읽고 답합니다 — **번들러가 설정 절차를 정하고 패키지 매니저가 실행 명령을 정하기 때문**입니다. 둘 중 하나라도 어긋나면 그대로 따라 할 수 없는 안내가 됩니다.
 
-컴포넌트 목록은 인덱스가 둘이고 **내용이 다릅니다.** 구현 질문("버튼 쓰고 싶은데")이면 `react/llms.txt`, 디자인 스펙 질문이면 `components/llms.txt`입니다. 후자에만 있는 이름(Field, Radio, Input Button 등)은 React 구현이 그 이름으로 존재하지 않으므로, 구현 질문에 이 목록을 쓰면 없는 컴포넌트를 안내하게 됩니다.
+컴포넌트 목록은 인덱스가 둘이고 **내용이 다릅니다.** 구현 질문("버튼 쓰고 싶은데")이면 `react/llms.txt`, 디자인 스펙 질문이면 `components/llms.txt`입니다.
+
+후자에만 있는 이름(Field, Radio, Input Button, Attachment Input, Top Navigation 등)은 **React 문서 페이지가 그 이름으로 없습니다** — `/llms/react/components/field.txt`는 404입니다. 구현 자체는 대개 존재하고 이름만 다릅니다(Radio → `RadioGroup`, Input Button → `FieldButton`, Top Navigation → `AppScreen`). 구현 질문에 디자인 목록의 이름을 그대로 쓰면 없는 문서를 가리키게 되니, `react/llms.txt`에서 대응하는 이름을 찾아 안내합니다.
+
+**문서 경로가 평면이 아닙니다.** layout·typography 계열은 한 단계 더 들어갑니다 — `/react/components/box`는 404이고 `/react/components/layout/box`가 맞습니다(Flex·Text도 같음). 경로를 지어내지 말고 `react/llms.txt`에서 실제 링크를 확인합니다.
 
 ### 토큰 표기는 세 가지입니다
 
@@ -131,5 +135,5 @@ npx @seed-design/cli@latest docs {component-name}
 
 - **[outdated-version](rules/outdated-version.md)** — 설치된 `@seed-design/*`가 npm 최신에서 major 뒤지면 `warn`. 격차에 따라 v1→v2 가이드 순서 안내.
 - **[snippet-generation](rules/snippet-generation.md)** — 설치 스니펫의 `@requires`가 registry 최신 세대와 다르면 `info`. `add --on-diff backup`으로 재설치.
-- **[no-deprecated-component](rules/no-deprecated-component.md)** — deprecated 컴포넌트·스니펫·토큰·옵션은 `warn`. 대체안은 deprecations 문서가 단일 출처.
+- **[no-deprecated-component](rules/no-deprecated-component.md)** — deprecated 컴포넌트·스니펫·토큰·옵션은 `warn`. 출처가 둘로 나뉩니다 — 토큰과 옵션은 deprecations 문서, **컴포넌트는 `components/llms.txt`의 `(Deprecated)` 마커**(현황 문서에는 컴포넌트가 한 줄도 없습니다).
 - **[component-guidelines](rules/component-guidelines.md)** — 컴포넌트 사용이 가이드라인 문서에 맞는지. **기준은 룰이 아니라 문서에서 도출** — 문서에 Do/Dont가 늘면 기준도 늘어납니다.

@@ -72,10 +72,10 @@ cat node_modules/@seed-design/react/package.json | grep '"version"'
 **패키지끼리(react↔css)의 호환은 CLI가 판정하지 않습니다.** `compat`은 설치된 **스니펫**이 요구하는 범위만 검사합니다.
 
 ```bash
-npx @seed-design/cli@latest compat --json
+npx @seed-design/cli@latest compat
 ```
 
-- `--json`의 `snippets.issues`에 스니펫 호환 위반이 담깁니다. 사람용 출력은 `--json` 없이.
+- 호환 위반이 있으면 종료 코드 `1`로 끝납니다. 범위를 좁히려면 `-c <component>`, 전체 registry를 보려면 `-a`를 씁니다.
 
 패키지 간 호환은 아래 기준으로 직접 판단합니다.
 
@@ -175,7 +175,7 @@ bun add @seed-design/react@{react목표} @seed-design/css@{css목표}
 
 | 명령어 | 역할 |
 | --- | --- |
-| `compat --json` | 설치된 스니펫의 호환 진단(구조화 출력) |
+| `compat` | 설치된 스니펫의 호환 진단 (위반 시 종료 코드 1) |
 | `compat --all` | 설치 여부와 무관하게 모든 registry 항목의 스니펫 호환 검사 |
 | `docs react/updates/changelog/{slug}/{ver} --raw` | from 버전 이후 changelog |
 | `docs react/updates/changelog/{slug} --raw` | 버전 인덱스(버전 목록) |
