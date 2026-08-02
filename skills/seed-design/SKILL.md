@@ -95,9 +95,25 @@ https://seed-design.io/llms/foundations/color.txt
 | 테마 설정 | `/llms/react/getting-started/styling/theming.txt` |
 | CLI 명령어 (init·add·compat·docs) | `/llms/react/getting-started/cli/commands.txt` |
 | `seed-design.json` 설정 | `/llms/react/getting-started/cli/configuration.txt` |
-| 파운데이션 (색상·타이포·스페이싱 등) | `/llms/foundations/{color\|typography\|spacing\|radius\|elevation\|motion}.txt` |
+| **색상 토큰 이름** | `/llms/foundations/color/color-role.txt` — `color.txt`는 개념 설명이라 토큰 이름이 없습니다 |
+| 그 외 파운데이션 | `/llms/foundations/{typography\|spacing\|radius\|elevation\|motion}.txt` |
+| **토큰을 코드에서 쓰는 법** | `/llms/react/components/layout/box.txt`, `/llms/react/components/typography/text.txt` |
 
 셋업을 안내할 때는 1단계에서 감지한 번들러와 패키지 매니저에 맞춰 해당 문서를 읽고 답합니다.
+
+컴포넌트 목록은 인덱스가 둘이고 **내용이 다릅니다.** 구현 질문("버튼 쓰고 싶은데")이면 `react/llms.txt`, 디자인 스펙 질문이면 `components/llms.txt`입니다. 후자에만 있는 이름(Field, Radio, Input Button 등)은 React 구현이 그 이름으로 존재하지 않으므로, 구현 질문에 이 목록을 쓰면 없는 컴포넌트를 안내하게 됩니다.
+
+### 토큰 표기는 세 가지입니다
+
+같은 토큰이 자리마다 다르게 쓰입니다. 문서에서 본 이름을 그대로 코드에 옮기면 조용히 실패합니다.
+
+| 자리 | 표기 |
+|------|------|
+| 문서·rootage | `$color.bg.brand-solid` |
+| CSS 변수 | `--seed-color-bg-brand-solid` |
+| React prop·JS export | `bg="bg.brandSolid"` / `brandSolid` |
+
+코드를 검색할 때도 마찬가지입니다 — 문서 표기로만 grep하면 실제로 쓰고 있어도 0건이 나옵니다.
 
 ### CLI docs 명령어
 
