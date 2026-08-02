@@ -1,3 +1,4 @@
+import { AvailableSince } from "@/components/available-since";
 import { ColorGrid } from "@/components/color-grid";
 import { Badge } from "@/components/mdx-badge";
 import { BlockCodeTabs } from "@/components/block-code-tabs";
@@ -87,6 +88,7 @@ export const mdxComponents: MDXComponents = {
   ),
 
   // Components
+  AvailableSince,
   Badge,
   Card: DocsCard,
   Cards: DocsCards,
