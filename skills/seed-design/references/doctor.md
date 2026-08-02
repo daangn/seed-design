@@ -20,7 +20,9 @@
 | Deprecated 현황 | `https://seed-design.io/llms/docs/migration/deprecations.txt` |
 | 업그레이드 가이드 | `https://seed-design.io/llms/react/updates/upgrade/v2.txt` · `v1.txt` |
 | 스니펫 canonical 세대 (`items[].snippets[].dependencies`) | `https://seed-design.io/__registry__/{framework}/{registryId}/index.json` (예: `react/ui`) |
-| 패키지 최신 버전 | `npm view {pkg} version` — 막힌 환경이면 `curl -s https://registry.npmjs.org/{pkg}/latest` |
+| 개별 스니펫 본문 | `https://seed-design.io/__registry__/{framework}/{registryId}/{itemId}.json` — `{itemId}/index.json`은 404 |
+| **설치 세대의** registry (그때 뭐가 있었는지) | `https://v{major}-{minor}.seed-design.io/__registry__/...` (예: `v1-2`) |
+| 패키지 최신 버전 | `npm view {pkg} version` — 막힌 환경이면 `curl -s https://registry.npmjs.org/{pkg}/latest \| jq -r .version` (응답이 수백 KB라 필드만 뽑습니다) |
 
 ## Step 1: 프로젝트 사실 수집
 
@@ -83,11 +85,24 @@ rejected:
 
 **채팅에는 요약과 "먼저 할 것"만 냅니다.** 파일에 전문이 있으므로 같은 내용을 반복하지 않습니다.
 
+**`summary`는 손으로 세지 말고 `findings`에서 계산합니다.** 스무 건이 넘어가면 사람이 틀립니다.
+
+범위를 나눠 여러 번 돌렸으면 조각들을 하나로 합칩니다. `findings`·`verdicts`·`rejected`는 이어 붙이고, **`summary`는 합친 뒤 다시 셉니다**(조각별 카운트를 더하면 안 됩니다). `meta`는 어느 조각 것이든 같아야 하며, 다르면 서로 다른 대상을 진단한 것이니 합치지 않습니다.
+
 ### verdicts — 판정 표
 
 도출한 기준 전 항목이 들어갑니다. 통과한 것도 판정하지 못한 것도 숨기지 않습니다.
 
-`unknown`은 정보가 부족해 판정할 수 없을 때 씁니다. **확인해서 통과한 것(`pass`)과 확인하지 못한 것을 같은 칸에 넣지 않습니다.** `unknown`으로 떨어지는 이유는 셋이고 성격이 다르므로 **어느 쪽인지를 `evidence`에 밝힙니다** — 문서가 임계값을 정하지 않았거나, 조건이 런타임 데이터로 결정되거나, 코드에서 확인할 수 없거나.
+`unknown`은 정보가 부족해 판정할 수 없을 때 씁니다. **확인해서 통과한 것(`pass`)과 확인하지 못한 것을 같은 칸에 넣지 않습니다.** 왜 판정하지 못했는지는 `unknownReason`으로 구분합니다.
+
+| 값 | 뜻 | 조치 주체 |
+|---|---|---|
+| `no-threshold` | 문서가 임계값을 정하지 않음 | — |
+| `runtime-dependent` | 조건이 런타임 데이터로 결정됨 | 프로젝트 |
+| `not-in-code` | 코드에서 확인할 수 없음 | 프로젝트 |
+| `doc-conflict` | **문서 문장끼리 모순되거나 두 가지로 읽힘** | **SEED** — 문서를 고쳐야 합니다 |
+
+`doc-conflict`만 조치 주체가 다릅니다. 나머지는 진단 대상 프로젝트의 사정이지만 이건 우리 문서의 결함이라, 같은 칸에 섞이면 고칠 사람에게 안 갑니다. 어느 문장이 어떻게 충돌하는지를 `evidence`에 적습니다.
 
 검사는 했는데 **대상이 0개**여서 통과한 경우(조건절 기준의 조건 불성립, 해당 패키지 없음 등)도 `pass`이되, 근거에 "대상 없음"이라고 밝힙니다. 통과했다는 사실보다 **무엇을 근거로 통과했는지**가 읽는 사람에게 중요합니다.
 

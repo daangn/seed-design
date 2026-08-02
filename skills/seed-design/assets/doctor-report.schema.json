@@ -114,9 +114,17 @@
             "description": "not-verified는 도구에 접근하지 못한 것(네트워크 차단 등)이고, unknown은 접근은 됐으나 판정할 수 없는 것이다. 코드 경로를 끝까지 추적했으면 확인한 것이며, 앱을 실행해볼 것을 요구하지 않는다.",
             "enum": ["pass", "fail", "unknown", "not-verified"]
           },
+          "unknownReason": {
+            "description": "verdict가 unknown일 때 왜인지. doc-conflict는 SEED 문서 자체의 결함이라 조치 주체가 다르다 — 나머지 셋은 진단 대상 프로젝트의 사정이지만 이것은 SEED가 문서를 고쳐야 한다.",
+            "enum": ["no-threshold", "runtime-dependent", "not-in-code", "doc-conflict"]
+          },
+          "scope": {
+            "type": "string",
+            "description": "여러 기준을 한 행으로 묶었을 때 그 묶음이 성립하는 이유. 예: \"자체 구현에 사용처가 0개라 조건이 성립하지 않음\". 표를 읽는 사람이 왜 한 줄로 뭉쳐 있는지 알 수 있어야 한다."
+          },
           "evidence": {
             "type": "string",
-            "description": "파일:줄, 또는 판정하지 못한 이유. 대상이 0개여서 통과했으면 그 사실. unknown이면 셋 중 어느 쪽인지 밝힌다 — 문서에 임계값이 없음 / 조건이 런타임 데이터로 결정됨 / 코드에서 확인 불가."
+            "description": "파일:줄, 또는 판정하지 못한 이유. 대상이 0개여서 통과했으면 그 사실."
           }
         }
       }
