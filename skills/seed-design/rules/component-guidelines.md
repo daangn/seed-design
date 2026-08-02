@@ -38,7 +38,14 @@ prop 조합이 적절한지, 가이드라인의 Do/Don't에 어긋나지 않는�
    | 없음 | **있음** | **`info`** — "업그레이드하면 {스니펫/컴포넌트}로 대체할 수 있습니다". remediation에서 [outdated-version](./outdated-version.md) 항목과 연결합니다 |
    | 있음 | — | 재구현 `warn` |
 
-   최신에 있는지는 registry 인덱스(`https://seed-design.io/__registry__/{framework}/{registryId}/index.json`)의 아이템 목록과 React API 문서로 확인합니다. 대체 수단이 스니펫이면 `add`로 설치하는 것이고 패키지 export면 import하면 되므로, 어느 쪽인지 remediation에 밝힙니다.
+   **"없음"은 두 가지를 다 확인해야 성립합니다.** 패키지 export만 보면 스니펫으로 배포되는 컴포넌트를 놓칩니다 — 스니펫은 애초에 export에 나타나지 않습니다.
+
+   - 설치 버전에 없음 = 패키지 `index.d.ts`에 export 없음 **그리고** 그 세대 registry(`https://v{major}-{minor}.seed-design.io/__registry__/{framework}/{registryId}/index.json`)에 아이템 없음
+   - 최신에 있음 = 최신 registry(`https://seed-design.io/__registry__/{framework}/{registryId}/index.json`) 또는 최신 패키지 API 문서에 있음
+
+   **문서 id로 registry를 조회하면 안 됩니다 — 이름이 다릅니다.** 가이드라인 문서 `attachment-input`의 실제 registry 아이템은 `attachment-field`입니다. 문서 id를 그대로 넣으면 404가 나고, 그걸 "최신에도 없음"으로 읽으면 **침묵으로 빠져 안내가 사라집니다.** 조회가 실패하면 없다고 결론내지 말고 **인덱스의 전체 아이템 id를 받아 부분 문자열로 다시 찾습니다.**
+
+   대체 수단이 스니펫이면 `add`로 설치하는 것이고 패키지 export면 import하면 되므로, 어느 쪽인지 remediation에 밝힙니다. 스니펫이면 canonical `@requires`를 함께 확인해 업그레이드가 선행인지도 적습니다.
 
 3. 가이드라인 문서가 존재하는 컴포넌트만 검토합니다. `https://seed-design.io/llms/components/{id}.txt`가 404면 **조용히 건너뜁니다** — 읽을 기준이 없으면 판정할 것도 없습니다. 문서 목록은 `https://seed-design.io/components/llms.txt`에서 확인할 수 있습니다. 목록에서 `(Deprecated)`로 표기된 컴포넌트를 쓰고 있다면 가이드라인 준수를 따지기 전에 [no-deprecated-component](./no-deprecated-component.md)의 대상입니다 — 어차피 걷어낼 것의 사용법을 교정할 이유가 없습니다.
 

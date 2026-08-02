@@ -69,12 +69,17 @@
           "message": { "type": "string", "description": "위반 내용 한 문장" },
           "file": {
             "type": "string",
-            "description": "target 기준 상대 경로. 대상 파일이 아니라 실제로 고쳐야 할 위치."
+            "description": "target 기준 상대 경로. 대상 파일이 아니라 실제로 고쳐야 할 위치. 원인이 하나여서 여러 파일을 한 건으로 묶었으면 대표 파일이나 그 파일들을 담은 디렉토리를 적고, 전체 목록은 files에 둔다."
+          },
+          "files": {
+            "type": "array",
+            "description": "한 건으로 묶인 파일 전체. 원인이 하나이고 조치도 한 번일 때만 쓴다(패키지가 뒤져 스니펫이 전건 구세대인 경우 등).",
+            "items": { "type": "string" }
           },
           "line": { "type": "integer", "minimum": 1 },
           "criterion": {
             "type": "string",
-            "description": "판정 기준 번호. verdicts의 같은 값과 이어진다."
+            "description": "판정 기준 번호. verdicts의 같은 값과 이어진다. 여러 기준을 묶었으면 콤마로 나열한다. 예: \"1,4,8\""
           },
           "references": {
             "type": "array",
@@ -97,18 +102,21 @@
         "additionalProperties": true,
         "properties": {
           "rule": { "type": "string" },
-          "criterion": { "type": "string" },
+          "criterion": {
+            "type": "string",
+            "description": "기준 번호. 같은 이유로 묶인 항목들은 콤마로 나열한다. 예: \"1,4,8\""
+          },
           "text": {
             "type": "string",
             "description": "문서에서 도출한 기준 문장 그대로. 도출한 절도 함께."
           },
           "verdict": {
-            "description": "not-verified는 도구에 접근하지 못한 것이고, unknown은 판정할 정보가 없는 것이다.",
+            "description": "not-verified는 도구에 접근하지 못한 것(네트워크 차단 등)이고, unknown은 접근은 됐으나 판정할 수 없는 것이다. 코드 경로를 끝까지 추적했으면 확인한 것이며, 앱을 실행해볼 것을 요구하지 않는다.",
             "enum": ["pass", "fail", "unknown", "not-verified"]
           },
           "evidence": {
             "type": "string",
-            "description": "파일:줄, 또는 판정하지 못한 이유. 대상이 0개여서 통과했으면 그 사실."
+            "description": "파일:줄, 또는 판정하지 못한 이유. 대상이 0개여서 통과했으면 그 사실. unknown이면 셋 중 어느 쪽인지 밝힌다 — 문서에 임계값이 없음 / 조건이 런타임 데이터로 결정됨 / 코드에서 확인 불가."
           }
         }
       }
