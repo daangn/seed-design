@@ -23,7 +23,7 @@
 | 스니펫 canonical 세대 (`items[].snippets[].dependencies`) | `https://seed-design.io/__registry__/{framework}/{registryId}/index.json` (예: `react/ui`) |
 | 개별 스니펫 본문 | `https://seed-design.io/__registry__/{framework}/{registryId}/{itemId}.json` — `{itemId}/index.json`은 404 |
 | **설치 세대의** registry (그때 뭐가 있었는지) | `https://v1-0.seed-design.io` · `v1-1` · `v1-2` — **이 셋뿐입니다.** 아카이브된 버전만 서브도메인이 있고, 그 외(`v2-0` 등)는 도메인 자체가 없어 조회가 실패합니다 |
-| 패키지 최신 버전 | `npm view {pkg} version` — 막힌 환경이면 `curl -s https://registry.npmjs.org/{pkg}/latest \| jq -r .version` (`/latest` 없이 받으면 400KB가 넘으니 반드시 붙입니다) |
+| 패키지 최신 버전 | `npm view {pkg} version` — 막힌 환경이면 `curl -s https://registry.npmjs.org/{pkg}/latest`에서 `version` 필드를 뽑습니다(`jq`가 없으면 다른 수단으로). `/latest` 없이 받으면 400KB가 넘으니 반드시 붙입니다 |
 
 ## Step 1: 프로젝트 사실 수집
 
@@ -133,7 +133,7 @@ component-guidelines를 판정했으면 **컴포넌트마다 `coverage`를 채�
 
 ### findings — 고칠 것
 
-`fail`인 항목만 들어갑니다. `criterion`으로 verdicts의 같은 항목과 이어지므로, 읽는 사람이 근거 기준을 찾아갈 수 있습니다.
+`fail`인 항목만 들어갑니다. verdicts와 이어지는 필드가 둘입니다 — 2단계 기준에서 나왔으면 `criterion`(번호), **1단계 기준에서 나왔으면 `criterionIds`**(id 배열). 섞지 않습니다. 읽는 사람이 근거 기준을 찾아갈 수 있어야 합니다.
 
 **severity 기준**:
 

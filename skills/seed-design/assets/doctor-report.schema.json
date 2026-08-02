@@ -79,7 +79,12 @@
           "line": { "type": "integer", "minimum": 1 },
           "criterion": {
             "type": "string",
-            "description": "판정 기준 번호. verdicts의 같은 값과 이어진다. 여러 기준을 묶었으면 콤마로 나열한다. 예: \"1,4,8\""
+            "description": "2단계(판단 보충) 기준 번호. verdicts의 같은 값과 이어진다. 여러 기준을 묶었으면 콤마로 나열한다. 예: \"1,4,8\""
+          },
+          "criterionIds": {
+            "type": "array",
+            "description": "1단계(기계 수집) 기준에서 나온 finding이면 그 id들. verdicts의 criterionId와 이어진다. criterion에 id 문자열을 섞어 넣지 않는다 — 그쪽은 번호용이다.",
+            "items": { "type": "string" }
           },
           "references": {
             "type": "array",
