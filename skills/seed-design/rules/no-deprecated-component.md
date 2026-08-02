@@ -8,9 +8,11 @@ deprecated 항목은 다음 메이저에서 제거됩니다. 지금 당장 동�
 
 ## 판정 방법
 
-1. 출처 문서를 읽어 deprecated 목록과 대체안을 확보합니다. 출처는 둘입니다:
+1. 출처 문서를 읽어 deprecated 목록과 대체안을 확보합니다. 출처는 둘이고, 담는 것이 다릅니다:
    - **컴포넌트 옵션·토큰**: deprecation 현황 문서 (아래 "읽어야 할 문서")
-   - **컴포넌트 자체**: 컴포넌트 목록 `https://seed-design.io/components/llms.txt`의 `(Deprecated)` 마커 — 현황 문서에는 옵션·토큰만 있고 deprecated 컴포넌트 목록이 없습니다.
+   - **컴포넌트 자체**: registry 인덱스(`https://seed-design.io/__registry__/{framework}/{registryId}/index.json`)의 **`deprecated: true` 플래그**. 현황 문서에는 컴포넌트가 한 줄도 없습니다.
+
+   대체안은 registry에 없으므로 rootage(`packages/rootage/components/{id}.yaml`의 `metadata.deprecated` 문자열)나 업그레이드 가이드에서 찾습니다.
 
    현황 문서에는 **"제거 완료 히스토리"** 표도 있습니다. **설치본이 그 제거 버전보다 낮으면 이 표도 검사 대상입니다** — 지금은 정상 동작하지만 업그레이드하는 순간 깨지는 것들이고, 그게 정확히 이 진단이 미리 알려줘야 할 내용입니다. 설치본이 제거 버전 이상이면 이미 지나간 일이니 건너뜁니다.
 
@@ -53,11 +55,11 @@ import { ContextualFloatingButton } from "seed-design/ui/contextual-floating-but
 npx @seed-design/cli@latest add --on-diff backup {registryId}:{대체 itemId}
 ```
 
-**대체안이 `-`이면** 문서가 정한 방법을 그대로 안내합니다. 대개 셋 중 하나입니다.
+**대체안 칸이 컴포넌트 이름이 아닐 때**는 그 칸이 시키는 대로 안내합니다.
 
-- **옵션 제거 후 기본 동작 사용** — 제거된 prop이 하던 일을 라이브러리가 이미 표준 동작으로 하는 경우(예: Snackbar `shouldCloseOnAction`은 자동 닫힘이 표준이 되어 사라졌습니다).
+- **"제거 (…)"** — 제거된 prop이 하던 일을 라이브러리가 이미 표준 동작으로 합니다. 괄호 안이 그 설명입니다(예: Snackbar `shouldCloseOnAction`의 대체안 칸은 `제거 (자동 닫힘이 표준 동작)`). 옵션만 지우면 됩니다.
 - **수동 마이그레이션** — 문서의 비고란에 절차가 적혀 있으면 그것을 인용합니다.
-- **아직 대체안이 없음** — 지금 할 수 있는 게 없다는 사실과 **제거 예정 버전**을 알리고, 문서를 추적하라고 안내합니다. 대안 없이 "고치세요"라고만 하면 사용자가 할 수 있는 게 없습니다. 이 경우 **업그레이드 경로의 함정을 함께 확인합니다** — 제거됐다가 되살아난 항목이 있어(`$color.bg.layer-fill`은 css 2.0.0에서 제거·2.1.0에서 복구) 중간 버전을 건너뛰어야 할 수 있습니다.
+- **`-` (아직 대체안이 없음)** — 지금 할 수 있는 게 없다는 사실과 **제거 예정 버전**을 알리고, 문서를 추적하라고 안내합니다. 실제로 `-`인 것은 AppBar `divider`, BottomSheet `direction`, Drawer의 두 옵션, `$color.bg.layer-fill`입니다. 대안 없이 "고치세요"라고만 하면 사용자가 할 수 있는 게 없습니다. 이 경우 **업그레이드 경로의 함정을 함께 확인합니다** — 제거됐다가 되살아난 항목이 있어(`$color.bg.layer-fill`은 css 2.0.0에서 제거·2.1.0에서 복구) 중간 버전을 건너뛰어야 할 수 있습니다.
 
 ## 읽어야 할 문서
 

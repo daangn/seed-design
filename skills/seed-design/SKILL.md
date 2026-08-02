@@ -135,5 +135,5 @@ npx @seed-design/cli@latest docs {component-name}
 
 - **[outdated-version](rules/outdated-version.md)** — 설치된 `@seed-design/*`가 npm 최신에서 major 뒤지면 `warn`. 격차에 따라 v1→v2 가이드 순서 안내.
 - **[snippet-generation](rules/snippet-generation.md)** — 설치 스니펫의 `@requires`가 registry 최신 세대와 다르면 `info`. `add --on-diff backup`으로 재설치.
-- **[no-deprecated-component](rules/no-deprecated-component.md)** — deprecated 컴포넌트·스니펫·토큰·옵션은 `warn`. 출처가 둘로 나뉩니다 — 토큰과 옵션은 deprecations 문서, **컴포넌트는 `components/llms.txt`의 `(Deprecated)` 마커**(현황 문서에는 컴포넌트가 한 줄도 없습니다).
+- **[no-deprecated-component](rules/no-deprecated-component.md)** — deprecated 컴포넌트·스니펫·토큰·옵션은 `warn`. 출처가 둘로 나뉩니다 — 토큰과 옵션은 deprecations 문서, **컴포넌트는 registry 인덱스의 `deprecated: true` 플래그**(현황 문서에는 컴포넌트가 한 줄도 없습니다).
 - **[component-guidelines](rules/component-guidelines.md)** — 컴포넌트 사용이 가이드라인 문서에 맞는지. **기준은 룰이 아니라 문서에서 도출** — 문서에 Do/Dont가 늘면 기준도 늘어납니다.

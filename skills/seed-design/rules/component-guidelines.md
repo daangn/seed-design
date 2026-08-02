@@ -65,7 +65,9 @@ prop 조합이 적절한지, 가이드라인의 Do/Don't에 어긋나지 않는�
    | `input-button` | `field-button` |
    | `top-navigation` | `app-screen` |
 
-   표에 없는 이름이 404면 **없다고 결론내지 말고 인덱스의 전체 아이템 id를 받아 부분 문자열로 다시 찾습니다.** 그래도 없으면, 스니펫이 아니라 **패키지 export로 제공되는 컴포넌트**일 수 있습니다(Divider·Badge·ImageFrame 등) — registry에 없다는 것이 곧 없다는 뜻은 아닙니다.
+   표에 없는 이름이 404면 **없다고 결론내지 말고** 인덱스의 전체 아이템 id를 받아 부분 문자열로 찾아봅니다. 다만 **부분 문자열은 오답을 잘 냅니다** — `top-navigation`은 `navigation-menu`·`side-navigation`에 걸리지만 정답은 `app-screen`이고, `input-button`은 `*-button` 여섯 개에 걸려 구별이 안 됩니다. **확실한 답은 가이드라인 문서의 Platform 표**이니 그걸 먼저 봅니다.
+
+   그래도 없으면 스니펫이 아니라 **패키지 export로 제공되는 컴포넌트**일 수 있습니다(Divider·Badge·ImageFrame 등) — registry에 없다는 것이 곧 없다는 뜻은 아닙니다. 셋 다 아니면 **React 구현이 없는 것**입니다(`bottom-navigation`이 그렇습니다 — Platform 표가 `Not Planned`).
 
    대체 수단이 스니펫이면 `add`로 설치하는 것이고 패키지 export면 import하면 되므로, 어느 쪽인지 remediation에 밝힙니다. 스니펫이면 canonical `@requires`를 함께 확인해 업그레이드가 선행인지도 적습니다.
 
@@ -89,13 +91,21 @@ curl -s https://seed-design.io/llms/components/{id}.txt -o /tmp/{id}.txt
    ```bash
    grep -o 'body="[^"]*"' /tmp/{id}.txt
    ```
-2. **볼드 규칙** — Guidelines 절 안의 `**…**` 중 **마침표로 끝나는 문장형만**(`…다.` / `…요.`). 단 `Figma`를 포함하는 문장은 제외합니다(디자인 툴 안내라 코드 판정 대상이 아님 — 이것도 문자열 매칭이지 판단이 아닙니다). 소제목(`**Bottom Sheet 최대 너비**`)은 문장형이 아니라 자동으로 탈락합니다.
+2. **볼드 규칙** — Guidelines 절 안의 `**…**` 중 **마침표로 끝나는 문장형만**(`…다.` / `…요.`). 소제목(`**High emphasis**`, `**Small (480px)**`)은 문장형이 아니라 자동으로 탈락합니다.
 
 수집한 항목에 **문서 등장 순서로 id를 붙입니다**: `{docId}.dont-1`, `{docId}.do-1`, `{docId}.rule-1`. 같은 문서에 같은 규칙이므로 누가 돌려도 같은 id가 나옵니다. 이 id를 verdicts의 `criterionId`에 답니다.
 
 **이 목록이 바닥(floor)입니다 — 전부 verdicts에 나와야 하고, 하나라도 건너뛰면 그 실행은 불완전합니다.** 개수가 `coverage.expected`가 됩니다. 내용이 겹쳐 보여도 합치지 않습니다 — 판단이 끼는 순간 id가 흔들립니다. 중복이면 둘 다에 같은 판정을 적으면 됩니다.
 
-목록에 들어왔다고 판정 규칙이 달라지지 않습니다 — **아래 "판정 규칙"이 1단계 항목에도 그대로 적용됩니다.** 허용문(`~할 수 있습니다`)은 `pass`(위반 불성립)로, **임계값 없는 문장**("글이 너무 길어지지 않도록")은 `pass`가 아니라 **`unknown`(`no-threshold`)**로 적습니다. 목록 유지는 커버리지를 위한 것이지 판정 완화가 아닙니다.
+`expected`는 **"수집된 후보 수"이지 "위반이 될 수 있는 기준 수"가 아닙니다.** 문서마다 `body`를 쓰는 방식이 달라서, 규칙 문장인 것도 있고("두 문장 이상이면 모든 문장에 마침표를 붙입니다.") 이미지 라벨이거나("박스 전체를 터치 영역으로 사용") 나쁜 예 해설인 것도 있습니다("길고 시스템 관점의 표현이라 한눈에 들어오지 않습니다."). **후보를 고르지 말고 전부 담되, 판정에서 가릅니다** — 고르는 순간 실행마다 개수가 달라져 바닥이 무너집니다.
+
+목록에 들어왔다고 판정 규칙이 달라지지 않습니다 — **아래 "판정 규칙"이 1단계 항목에도 그대로 적용됩니다.**
+
+- 허용문(`~할 수 있습니다`) → `pass`, 근거에 "허용문 — 위반 불성립"
+- 라벨·예시 해설처럼 **규범이 아닌 것** → `pass`, 근거에 "규칙 문장 아님"
+- 임계값 없는 문장("글이 너무 길어지지 않도록") → `pass`가 아니라 **`unknown`(`no-threshold`)**
+
+**바닥이 0건인 문서가 절반쯤 됩니다**(56개 중 27개 — Guidelines 절이 없거나 Do/Dont·볼드를 안 쓰는 문서). 그때는 `expected: 0`을 그대로 적고 2단계로만 판정합니다. 정상이지 결함이 아닙니다.
 
 ### 2단계: 판단 보충
 
@@ -132,4 +142,4 @@ SEED 내부 구현이 충족해주는 기준은 근거를 두 개 답니다 — 
 ## 읽어야 할 문서 (컴포넌트별)
 
 - 디자인 가이드라인 (판정 기준의 출처): `https://seed-design.io/llms/components/{id}.txt`
-- React API: `https://seed-design.io/llms/react/components/{id}.txt`
+- React API: **가이드라인 문서 안의 Platform 표에 적힌 링크를 씁니다.** `[React](/react/components/radio-group)`처럼 정확한 경로가 거기 있습니다. `llms/react/components/{문서id}.txt`로 URL을 만들면 안 됩니다 — 이름이 다른 컴포넌트는 전부 404이고, registry id로 바꿔도 `text-field`(실제는 `text-field-input`·`text-field-textarea` 둘로 갈림)나 `app-screen`(`/react/stackflow/` 아래)처럼 여전히 안 맞는 것이 있습니다. Platform 표가 `Not Planned`면 React 구현이 아예 없는 것이니 재구현을 지적하지 않습니다.
