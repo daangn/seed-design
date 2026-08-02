@@ -198,9 +198,10 @@ The link path is always `/components/{component-id}` — no category subfolder i
 
 ## Writing Guidelines that tools can check
 
-The `Guidelines` section is not just prose for humans — `seed-design doctor` sends it to an
-agent as the **source of its review criteria**, so writing a guideline is what turns on
-automated review for that component. Write it so each rule can be judged pass/fail:
+The `Guidelines` section is not just prose for humans — the `seed-design` skill's diagnosis
+reads this section as the **source of its review criteria** (it derives them from the published
+`/llms/components/{id}.txt`, not from a hardcoded list), so writing a guideline is what turns on
+review for that component. Write it so each rule can be judged pass/fail:
 
 - **State the rule, not the background.** "Snap Point를 추가하는 경우 Handle을 반드시 표시해야
   합니다." is checkable; "Handle은 시트를 확장하거나 축소할 수 있게 해줍니다." is not. Both can

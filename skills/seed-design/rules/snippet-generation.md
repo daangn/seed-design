@@ -23,7 +23,11 @@
 
    registry 목록 자체는 `__registry__/{framework}/index.json`에 있습니다 — 이 파일에는 dependencies가 없습니다.
 
-3. 같은 파일 경로(`{registryId}/{snippetPath}`)끼리 비교해, 범위가 다르면 구세대로 판정합니다. `registryId`는 디렉토리 이름이 아니라 **같은 헤더의 `@file ui:action-button`에서 읽습니다** — 설치 디렉토리 구조가 바뀌어도 안전합니다. 해시 비교가 아니므로 **로컬 수정 여부는 이 룰이 판정하지 않습니다** — rsc/tsx 변환 때문에 단순 비교는 전부 오탐입니다.
+3. **`(registryId, itemId, snippetPath)` 세 값이 모두 같은 것끼리** 비교해, 범위가 다르면 구세대로 판정합니다. 셋 다 파일 헤더의 `@file ui:action-button`과 파일 위치에서 나옵니다 — 디렉토리 이름으로 추측하지 마세요.
+
+   **itemId를 빼면 안 됩니다.** 한 스니펫 파일이 여러 item에 속할 수 있어서(`attachment-field.tsx`는 `attachment-field`와 `attachment-field-reorderable` 양쪽에 있습니다) 경로만으로는 어느 canonical과 대조할지 정해지지 않고, 엉뚱한 쪽과 비교해 통과나 오탐이 납니다.
+
+   해시 비교가 아니므로 **로컬 수정 여부는 이 룰이 판정하지 않습니다** — rsc/tsx 변환 때문에 단순 비교는 전부 오탐입니다.
 
 패키지 자체가 major 뒤진 상태면 설치 스니펫이 **전건 구세대로 나오는 게 정상**입니다(원인이 하나이므로). 이때는 파일마다 한 건씩 내지 말고 **요약 한 건 + 파일 목록**으로 묶습니다. 재설치가 필요한 특별한 이유가 있는 파일(업그레이드 가이드가 콕 집어 지목한 것 등)만 따로 적습니다.
 

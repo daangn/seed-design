@@ -8,7 +8,7 @@ SEED는 **2.0.0부터 strict SemVer를 따릅니다.** 그 이전(1.x)에는 min
 
 ## 판정 방법
 
-1. `package.json`의 `dependencies`/`devDependencies`에서 `@seed-design/*` 패키지를 전부 수집합니다. **선언된 것만** 대상입니다 — 전이 의존성으로 딸려온 `@seed-design/react-*`는 상위 패키지가 범위를 고정하므로 판정하지 않습니다.
+1. **SEED를 쓰는 워크스페이스의** `package.json`에서 `dependencies`/`devDependencies`의 `@seed-design/*` 패키지를 수집합니다. 모노레포면 루트가 아니라 그 워크스페이스에 선언이 있습니다(어느 워크스페이스인지는 `references/doctor.md`의 Step 1에서 이미 찾습니다). **선언된 것만** 대상입니다 — 전이 의존성으로 딸려온 `@seed-design/react-*`는 상위 패키지가 범위를 고정하므로 판정하지 않습니다.
 2. 각 패키지의 **실제 설치본** 버전을 읽습니다. 선언 범위(`^1.2.0`)가 아니라 설치본이 기준입니다.
 
    ```bash

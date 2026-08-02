@@ -33,15 +33,15 @@ argument-hint: "[질문 또는 주제]"
 
 파악한 상태와 사용자의 질문에 따라 적절한 가이드로 분기합니다.
 
-| 상황 | 참조 |
+| 언제 읽는가 | 참조 |
 |------|------|
-| `seed-design.json` 없음 → 처음 셋업이 필요 | `references/getting-started.md` |
-| 컴포넌트 관련 질문 (어떤 컴포넌트 있어?, 버튼 쓰고 싶은데) | `references/components.md` |
-| 파운데이션/토큰 질문 (색상, 타이포, 스페이싱, 테마) | `references/foundation.md` |
-| CLI 명령어 관련 (init, add, docs 등) | `references/usage.md` |
-| 스니펫 버전 맞추기/파일 충돌 | `references/migration.md` |
-| 버전 업그레이드·호환 진단 (react↔css, 마이그레이션 경로) | `references/upgrade.md` |
-| 사용 상태 진단 ("잘 쓰고 있나?", "뭘 고쳐야 하나?", 코드 리뷰) | `references/doctor.md` |
+| `seed-design.json`이 없거나 셋업 질문 | [getting-started.md](references/getting-started.md) |
+| 컴포넌트 탐색/추가 ("어떤 컴포넌트 있어?", "버튼 쓰고 싶은데") | [components.md](references/components.md) |
+| 파운데이션/토큰 (색상, 타이포, 스페이싱, 테마) | [foundation.md](references/foundation.md) |
+| CLI 명령어 상세 (init, add, docs 등) | [usage.md](references/usage.md) |
+| 스니펫 버전 맞추기/파일 충돌 해결 | [migration.md](references/migration.md) |
+| 버전 업그레이드·호환 진단 (react↔css, changelog, 마이그레이션 경로) | [upgrade.md](references/upgrade.md) |
+| 사용 상태 진단 ("잘 쓰고 있나?", "뭘 고쳐야 하나?", 코드 리뷰) | [doctor.md](references/doctor.md) |
 
 사용자가 명시적으로 주제를 말한 경우 프로젝트 분석을 건너뛰고 해당 시나리오로 직행해도 됩니다.
 
@@ -94,21 +94,9 @@ npx @seed-design/cli@latest docs {component-name}
 
 ## Rules
 
-`rules/`의 룰은 SEED 코드를 **작성할 때 항상 지키고**, 기존 코드는 `references/doctor.md`의 진단 절차가 같은 룰을 소급 적용해 판정합니다. 룰 파일 하나가 작성 가이드이자 진단 기준입니다.
+`rules/`의 룰은 SEED 코드를 **작성할 때 항상 지키고**, 기존 코드는 [doctor.md](references/doctor.md)의 진단 절차가 같은 룰을 소급 적용해 판정합니다. 룰 파일 하나가 작성 가이드이자 진단 기준입니다.
 
-- **[outdated-version](./rules/outdated-version.md)** — 설치된 `@seed-design/*`가 npm 최신에서 major 뒤지면 `warn`. 격차에 따라 v1→v2 가이드 순서 안내.
-- **[snippet-generation](./rules/snippet-generation.md)** — 설치 스니펫의 `@requires`가 registry 최신 세대와 다르면 `info`. `add --on-diff backup`으로 재설치.
-- **[no-deprecated-component](./rules/no-deprecated-component.md)** — deprecated 컴포넌트 import·스니펫은 `warn`. 대체안은 deprecations 문서가 단일 출처.
-- **[component-guidelines](./rules/component-guidelines.md)** — 컴포넌트 사용이 가이드라인 문서에 맞는지. **기준은 룰이 아니라 문서에서 도출** — 문서에 Do/Dont가 늘면 기준도 늘어납니다.
-
-## Reference Files
-
-| 파일 | 용도 | 읽는 시점 |
-|------|------|-----------|
-| `references/getting-started.md` | 처음 셋업 가이드 | seed-design.json이 없거나 셋업 질문 시 |
-| `references/components.md` | 컴포넌트 탐색/추가 방법 | 컴포넌트 관련 질문 시 |
-| `references/foundation.md` | 파운데이션 llms.txt 인덱스 | 색상, 타이포, 스페이싱, 테마 질문 시 |
-| `references/usage.md` | CLI 명령어 상세 | CLI 사용법 질문 시 |
-| `references/migration.md` | 스니펫 버전 맞추기/파일 충돌 해결 | 스니펫 버전 불일치 시 |
-| `references/upgrade.md` | 버전 업그레이드·호환 진단 (react↔css, changelog, 마이그레이션 경로) | 업그레이드·호환 질문 시 |
-| `references/doctor.md` | 사용 상태 진단 절차 (rules/ 순회) | "잘 쓰고 있나?", 코드 리뷰, 진단 요청 시 |
+- **[outdated-version](rules/outdated-version.md)** — 설치된 `@seed-design/*`가 npm 최신에서 major 뒤지면 `warn`. 격차에 따라 v1→v2 가이드 순서 안내.
+- **[snippet-generation](rules/snippet-generation.md)** — 설치 스니펫의 `@requires`가 registry 최신 세대와 다르면 `info`. `add --on-diff backup`으로 재설치.
+- **[no-deprecated-component](rules/no-deprecated-component.md)** — deprecated 컴포넌트·스니펫·토큰·옵션은 `warn`. 대체안은 deprecations 문서가 단일 출처.
+- **[component-guidelines](rules/component-guidelines.md)** — 컴포넌트 사용이 가이드라인 문서에 맞는지. **기준은 룰이 아니라 문서에서 도출** — 문서에 Do/Dont가 늘면 기준도 늘어납니다.

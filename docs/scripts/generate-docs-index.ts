@@ -35,8 +35,10 @@ const CATEGORY_ORDER = ["docs", "react", "breeze", "lynx", "ai-integration"];
 
 const SECTION_LABELS: Record<string, string> = {
   components: "컴포넌트",
-  foundation: "파운데이션",
+  foundations: "파운데이션",
   migration: "마이그레이션",
+  // get-started는 디자인 문서 디렉토리, getting-started는 react 문서의 slugs[0]에서 나온다.
+  "get-started": "시작하기",
   "getting-started": "시작하기",
   stackflow: "Stackflow",
   "developer-tools": "개발자 도구",
@@ -174,13 +176,13 @@ async function main() {
   const sources = [
     { dir: "docs", categoryId: "docs", baseUrl: "/docs" },
     { dir: "components", categoryId: "docs", baseUrl: "/components", sectionId: "components" },
-    { dir: "foundations", categoryId: "docs", baseUrl: "/foundations", sectionId: "foundation" },
+    { dir: "foundations", categoryId: "docs", baseUrl: "/foundations", sectionId: "foundations" },
     { dir: "patterns", categoryId: "docs", baseUrl: "/patterns", sectionId: "patterns" },
     {
       dir: "get-started",
       categoryId: "docs",
       baseUrl: "/get-started",
-      sectionId: "getting-started",
+      sectionId: "get-started",
     },
     { dir: "updates", categoryId: "docs", baseUrl: "/updates", sectionId: "updates" },
     { dir: "react", categoryId: "react", baseUrl: "/react" },
