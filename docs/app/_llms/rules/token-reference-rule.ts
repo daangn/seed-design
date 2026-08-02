@@ -1,6 +1,5 @@
-import { readFileSync } from "node:fs";
-import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
@@ -176,14 +175,28 @@ function generateMarkdownTable(
 */
 let tokenDataCache: Map<string, Exchange.TokensModel> | null = null;
 
+function resolveRootageDir(): string | null {
+  const candidates = [
+    join(process.cwd(), "..", "packages", "rootage", "__generated__"),
+    join(process.cwd(), "packages", "rootage", "__generated__"),
+  ];
+
+  return candidates.find((candidate) => existsSync(candidate)) ?? null;
+}
+
 function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
+  const rootageDir = resolveRootageDir();
+
+  if (!rootageDir) {
+    console.warn(
+      "[TokenReference] rootage __generated__ 디렉토리를 찾지 못해 토큰 표를 건너뜁니다",
+    );
+    return new Map();
+  }
+
   tokenDataCache = new Map();
-  const rootageDir = join(
-    dirname(createRequire(import.meta.url).resolve("@seed-design/rootage-artifacts/package.json")),
-    "__generated__",
-  );
 
   for (const resource of index.resources) {
     const { path } = resource;
