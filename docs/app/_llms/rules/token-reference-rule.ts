@@ -187,15 +187,16 @@ function resolveRootageDir(): string | null {
 function loadTokenData(): Map<string, Exchange.TokensModel> {
   if (tokenDataCache) return tokenDataCache;
 
-  tokenDataCache = new Map();
   const rootageDir = resolveRootageDir();
 
   if (!rootageDir) {
     console.warn(
       "[TokenReference] rootage __generated__ 디렉토리를 찾지 못해 토큰 표를 건너뜁니다",
     );
-    return tokenDataCache;
+    return new Map();
   }
+
+  tokenDataCache = new Map();
 
   for (const resource of index.resources) {
     const { path } = resource;
