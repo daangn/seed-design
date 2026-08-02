@@ -91,7 +91,8 @@ curl -s https://seed-design.io/llms/components/{id}.txt -o /tmp/{id}.txt
    ```bash
    grep -o 'body="[^"]*"' /tmp/{id}.txt
    ```
-2. **볼드 규칙** — Guidelines 절 안의 `**…**` 중 **마침표로 끝나는 문장형만**(`…다.` / `…요.`). 소제목(`**High emphasis**`, `**Small (480px)**`)은 문장형이 아니라 자동으로 탈락합니다.
+   **`{/* … */}`로 주석 처리된 블록 안의 것은 뺍니다.** 문서에 안 보이는 내용이라 판정할 수 없습니다(`text-input`에 실제로 있습니다). 이것도 눈으로 고르는 게 아니라 주석 범위를 보고 자르는 기계 작업입니다.
+2. **볼드 규칙** — **Guidelines 절**(문서에 따라 `Usage`) 안의 `**…**` 중 **마침표로 끝나는 문장형만**(`…다.` / `…요.`). 소제목(`**High emphasis**`, `**Small (480px)**`)은 문장형이 아니라 자동으로 탈락합니다. 절 이름을 하나로만 보면 `Usage`만 있는 문서(`result-section`)에서 바닥이 실행마다 갈립니다 — 2단계와 같은 범위를 봅니다.
 
 수집한 항목에 **문서 등장 순서로 id를 붙입니다**: `{docId}.dont-1`, `{docId}.do-1`, `{docId}.rule-1`. 같은 문서에 같은 규칙이므로 누가 돌려도 같은 id가 나옵니다. 이 id를 verdicts의 `criterionId`에 답니다.
 
@@ -144,4 +145,6 @@ SEED 내부 구현이 충족해주는 기준은 근거를 두 개 답니다 — 
 - 디자인 가이드라인 (판정 기준의 출처): `https://seed-design.io/llms/components/{id}.txt`
 - React API: **가이드라인 문서 안의 Platform 표에 적힌 링크를 씁니다.** `[React](/react/components/radio-group)`처럼 정확한 경로가 거기 있습니다. `llms/react/components/{문서id}.txt`로 URL을 만들면 안 됩니다 — 이름이 다른 컴포넌트는 전부 404이고, registry id로 바꿔도 `text-field`(실제는 `text-field-input`·`text-field-textarea` 둘로 갈림)나 `app-screen`(`/react/stackflow/` 아래)처럼 여전히 안 맞는 것이 있습니다. Platform 표가 `Not Planned`면 React 구현이 아예 없는 것이니 재구현을 지적하지 않습니다.
 
-  Platform 표의 링크는 CMS에 손으로 적는 값이라 **가끔 낡습니다.** 열었는데 본문이 비어 있으면(404가 아니라 빈 페이지로 나올 수 있습니다) 그 링크를 믿지 말고 `react/llms.txt`에서 실제 이름을 찾습니다. 링크가 낡았다는 사실 자체는 `doc-conflict`로 남겨 SEED 쪽이 고치게 합니다.
+  Platform 표의 링크는 CMS에 손으로 적는 값이라 **가끔 낡습니다.** 열었는데 본문이 비어 있으면(상태 코드가 200이어도 그럴 수 있습니다 — 제목도 본문도 없는 껍데기가 옵니다) 그 링크를 믿지 말고 `react/llms.txt`에서 실제 이름을 찾습니다. 링크가 낡았다는 사실 자체는 `doc-conflict`로 남겨 SEED 쪽이 고치게 합니다.
+
+  **Platform 표가 아예 없는 문서도 있습니다**(`text-input`). 그때도 `react/llms.txt`에서 이름을 찾습니다 — 표가 없다고 React 구현이 없는 게 아닙니다. 구현이 없다는 판단은 표에 `Not Planned`라고 적혀 있을 때만 합니다.
