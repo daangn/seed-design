@@ -44,11 +44,48 @@
 
 ## Step 3: 출력
 
-**판정 표** — 도출한 기준 전 항목을 남깁니다. 통과한 것도 판정하지 못한 것도 숨기지 않습니다.
+**결과는 YAML 파일 하나로 씁니다.** 채팅 요약과 HTML 리포트는 이 파일에서 파생되므로, 형태가 셋으로 갈리지 않고 하나가 원본입니다. 스키마는 `assets/doctor-report.schema.json`이고, 필드 설명이 거기 들어 있습니다.
 
-| # | 기준 | 판정 | 근거 |
-|---|------|------|------|
-| 1 | 기준 문장 그대로 (도출한 경우 출처 절도) | `pass` / `fail` / `unknown` | 파일:라인 또는 판정하지 못한 이유 |
+```yaml
+schemaVersion: 1
+meta:
+  target: /path/to/project
+  workspace: services/webview      # 모노레포일 때만. 단일 패키지면 생략
+  framework: react
+  date: 2026-08-02
+  seed:
+    installed: { "@seed-design/react": 1.2.0, "@seed-design/css": 1.2.0 }
+    latest: { "@seed-design/react": 2.1.0, "@seed-design/css": 2.3.0 }
+    snippetRoot: ./src/seed-design
+summary: { error: 1, warn: 30, info: 21 }
+findings:
+  - rule: seed/component-guidelines/bottom-sheet
+    severity: warn
+    message: 시트 너비에 480px 상한이 없습니다.
+    file: services/webview/src/components/bottom-sheet/FlexibleBottomSheet.css.ts
+    line: 14
+    criterion: "6"
+    references: [https://seed-design.io/llms/components/bottom-sheet.txt]
+    remediation: |
+      문서 근거와 수정 방법. 지금 실행하지 말고 안내만 합니다.
+verdicts:
+  - rule: seed/component-guidelines/bottom-sheet
+    criterion: "6"
+    text: Bottom Sheet는 화면 너비 최대 480px까지 보여집니다.
+    verdict: fail
+    evidence: FlexibleBottomSheet.css.ts:16 — maxWidth 없음
+rejected:
+  - candidate: aria-labelledby 미해결 참조
+    reason: 문서에 접근성 문장이 없어 "문서에 없는 규칙을 만들지 않는다"로 기각
+```
+
+**대상 프로젝트에 쓰지 않습니다.** 진단은 read-only입니다. 기본은 임시 디렉토리에 쓰고 경로를 알려주며, 저장 위치는 사용자가 정합니다.
+
+**채팅에는 요약과 "먼저 할 것"만 냅니다.** 파일에 전문이 있으므로 같은 내용을 반복하지 않습니다.
+
+### verdicts — 판정 표
+
+도출한 기준 전 항목이 들어갑니다. 통과한 것도 판정하지 못한 것도 숨기지 않습니다.
 
 `unknown`은 정보가 부족해 판정할 수 없을 때 씁니다. **확인해서 통과한 것(`pass`)과 확인하지 못한 것을 같은 칸에 넣지 않습니다.**
 
@@ -56,21 +93,11 @@
 
 **확인 자체를 못 했으면 `Not verified`로 적고, 무엇이 남았는지 씁니다.** 네트워크가 막혀 문서를 못 읽었거나 명령을 실행할 수 없었던 경우입니다. **검증 공백을 위반으로 바꾸지 않습니다** — 확인하지 못한 것은 "확인하지 못했다"이지 "잘못됐다"가 아닙니다. 진단을 못 돌린 영역이 있으면 그 사실을 밝히고, 안 본 곳을 본 것처럼 쓰지 않습니다.
 
-`Not verified`는 **도구에 접근하지 못한 경우**입니다. 코드를 읽어 경로를 끝까지 추적했으면 확인한 것입니다 — 진단은 정적으로 수행하며 앱을 실행해볼 것을 요구하지 않습니다.
+`not-verified`는 **도구에 접근하지 못한 경우**입니다. 코드를 읽어 경로를 끝까지 추적했으면 확인한 것입니다 — 진단은 정적으로 수행하며 앱을 실행해볼 것을 요구하지 않습니다.
 
-**위반 목록** — `fail` 항목만 JSON 배열로 정리합니다.
+### findings — 고칠 것
 
-```jsonc
-{
-  "ruleId": "<판정한 룰. 예: seed/component-guidelines/bottom-sheet>",
-  "severity": "error" | "warn" | "info",
-  "message": "<위반 내용 한 문장>",
-  "file": "<프로젝트 루트 기준 상대 경로 — 대상 파일이 아니라 실제로 고쳐야 할 위치>",
-  "line": 1,
-  "remediation": "<수정 방법 — 참조 문서 근거 포함. 지금 실행하지 말고 안내만>",
-  "data": { "criterion": "<위반한 기준 번호>" }
-}
-```
+`fail`인 항목만 들어갑니다. `criterion`으로 verdicts의 같은 항목과 이어지므로, 읽는 사람이 근거 기준을 찾아갈 수 있습니다.
 
 **severity 기준**:
 
@@ -80,7 +107,9 @@
 
 한 기준에 위반 근거가 여러 개면 **파일마다 한 건씩** 냅니다(한 파일 안의 여러 줄은 한 건으로 묶고 remediation에 각각을 적습니다). 단 원인이 하나이고 조치도 한 번이면 **전체를 한 건으로 묶고** 파일 목록을 remediation에 나열합니다 — 패키지가 뒤져서 스니펫이 전건 구세대인 경우가 그렇습니다.
 
-**검토했지만 기각한 것** — 위반으로 올릴까 하다가 뺀 후보를 짧게 남깁니다. 다음 중 하나면 기각입니다.
+### rejected — 검토했지만 기각한 것
+
+위반으로 올릴까 하다가 뺀 후보를 짧게 남깁니다. 다음 중 하나면 기각입니다.
 
 - 문서나 룰이 현재 구현을 **허용**한다
 - 증거가 부족하다
@@ -89,13 +118,15 @@
 
 **실제로 살펴본 후보만 적습니다.** 칸을 채우려고 지어내지 않습니다. 이 목록이 있어야 읽는 사람이 "이건 왜 지적 안 했지?"를 묻지 않습니다.
 
-**요약** — severity별 카운트(error N · warn N · info N)로 마무리합니다. 점수나 등급은 매기지 않습니다. **개수를 늘리려고 지적을 만들지 않습니다** — 짧은 결과나 위반 0건도 정상입니다.
+### summary
+
+severity별 카운트(error N · warn N · info N)입니다. 점수나 등급은 매기지 않습니다. **개수를 늘리려고 지적을 만들지 않습니다** — 짧은 결과나 위반 0건도 정상입니다.
 
 ## HTML 리포트
 
-진단 결과가 수십 건이 되면 텍스트로는 읽히지 않습니다. 판정 표가 길고, 원인이 하나인데 위반이 여러 건이고, remediation이 각각 한 문단이라 어디부터 봐야 할지 알기 어렵습니다. 사용자가 리포트를 원하면 `assets/report-template.html`의 구조를 그대로 쓰고 데이터만 채웁니다.
+진단 결과가 수십 건이 되면 텍스트로는 읽히지 않습니다. 판정 표가 길고, 원인이 하나인데 위반이 여러 건이고, remediation이 각각 한 문단이라 어디부터 봐야 할지 알기 어렵습니다. 사용자가 리포트를 원하면 **위 YAML을 입력으로 삼아** `assets/report-template.html`의 구조를 그대로 쓰고 데이터만 채웁니다.
 
 - **한 파일로 완결시킵니다.** CDN·외부 폰트·스크립트를 쓰지 않습니다. 진단 대상 프로젝트에 SEED가 설치돼 있지 않아도, 인터넷이 없어도 열려야 합니다. 접기는 `<details>`로 하고 JS를 넣지 않습니다.
-- **대상 프로젝트에 쓰지 않습니다.** 진단은 read-only입니다. 기본은 임시 디렉토리에 쓰고 경로를 알려주며, 저장 위치는 사용자가 정합니다.
+- YAML과 같은 디렉토리에 씁니다(대상 프로젝트에는 쓰지 않습니다).
 - **"먼저 할 것"을 맨 위에 둡니다.** finding 목록을 severity 순으로 늘어놓는 것으로는 부족합니다 — 원인이 같은 것끼리 묶어 순서를 제시해야 유저가 다음에 뭘 할지 압니다. 패키지가 뒤져서 스니펫이 전건 구세대인 경우처럼, 조치 하나가 여러 finding을 한꺼번에 지웁니다.
 - 텍스트 보고에 있던 것을 빼지 않습니다 — 판정 표(통과·판정 불가 포함), 기각한 후보, 카운트가 그대로 들어갑니다.

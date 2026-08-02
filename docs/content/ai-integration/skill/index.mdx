@@ -1,0 +1,83 @@
+---
+title: Skill
+description: SEED 통합 스킬. 셋업·컴포넌트·파운데이션·CLI는 공식 문서로 안내하고, 문서를 대조해야 답이 나오는 판단(버전 호환, 업그레이드 경로)과 사용 상태 진단을 직접 수행합니다.
+---
+
+`seed-design` 스킬은 AI 에이전트가 SEED를 쓰는 프로젝트를 도울 때 로드하는 가이드입니다.
+
+**문서에 이미 있는 것은 스킬에 옮겨 적지 않습니다.** 셋업 절차나 컴포넌트 목록, 토큰 이름은 공식 문서가 원본이고 복사본은 원본보다 먼저 낡습니다. 스킬이 담는 것은 **문서만으로는 나오지 않는 것** 두 가지입니다.
+
+- **여러 문서를 대조해야 결론이 나오는 판단** — 설치된 `react`와 `css`가 서로 맞는지, 어느 버전까지 어떤 순서로 올려야 하는지
+- **코드를 문서 기준으로 검사하는 진단** — 구버전 스니펫, deprecated 사용, 가이드라인 준수 여부 ([Doctor](/ai-integration/skill/doctor))
+
+## Installation
+
+`seed-design` 스킬을 설치하려면 다음 명령어를 사용하세요.
+
+```package-install
+npx skills add https://github.com/daangn/seed-design --skill seed-design
+```
+
+## File Structure
+
+<Files>
+  <Folder name="seed-design" defaultOpen>
+    <File name="SKILL.md" />
+    <Folder name="references" defaultOpen>
+      <File name="migration.md" />
+      <File name="upgrade.md" />
+      <File name="doctor.md" />
+    </Folder>
+    <Folder name="rules">
+      <File name="outdated-version.md" />
+      <File name="snippet-generation.md" />
+      <File name="no-deprecated-component.md" />
+      <File name="component-guidelines.md" />
+    </Folder>
+    <Folder name="assets">
+      <File name="doctor-report.schema.json" />
+      <File name="report-template.html" />
+    </Folder>
+  </Folder>
+</Files>
+
+| 파일 | 언제 읽는가 |
+| --- | --- |
+| `SKILL.md` | 진입점. 프로젝트 상태를 파악하고 아래로 분기합니다 |
+| `references/migration.md` | 스니펫 버전 맞추기, 파일 충돌 해결, 패키지 간 호환 판단 |
+| `references/upgrade.md` | 업그레이드 진단 — changelog 해석과 마이그레이션 경로 |
+| `references/doctor.md` | 사용 상태 진단 절차 — [Doctor 페이지](/ai-integration/skill/doctor)에서 다룹니다 |
+| `rules/*.md` | 진단의 판정 기준이자 코드 작성 가이드 — [Doctor 페이지](/ai-integration/skill/doctor)에서 다룹니다 |
+
+## SKILL.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/SKILL.md",
+  "codeblock": true
+}
+```
+
+## References
+
+### migration.md
+
+스니펫이 요구하는 버전과 설치된 패키지가 맞는지, 재설치할 때 커스터마이징을 어떻게 보존하는지를 다룹니다. 패키지끼리의 호환은 2.x는 `peerDependencies` 선언으로, 1.x는 v1 문서의 호환표로 판단합니다.
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/migration.md",
+  "codeblock": true
+}
+```
+
+### upgrade.md
+
+현재 버전에서 목표 버전까지의 변경사항을 읽고 마이그레이션 경로를 제시합니다. CLI는 데이터를 가져오기만 하고 해석과 판단은 스킬이 합니다.
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/upgrade.md",
+  "codeblock": true
+}
+```

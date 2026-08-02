@@ -13,6 +13,8 @@
 소비자용 업그레이드 문서는 https://seed-design.io/react/updates/upgrade 를 참고하세요.
 SDK·공유 라이브러리 저자용 문서는 https://seed-design.io/react/getting-started/library-authors 를 참고하세요.
 
+**`doctor.md`와의 경계**: 무엇이 얼마나 뒤졌고 코드의 어디가 문제인지 알아내는 것은 진단(`doctor.md`)이고, **실제로 올리는 절차가 여기**입니다. 진단이 "major 하나 뒤졌다"까지 말하면 그다음을 이 문서가 받습니다.
+
 ## 2.0 전후 버저닝 정책 (먼저 판단)
 
 SEED는 **2.0을 분기점**으로 정책이 다르므로 진단 방식도 달라집니다.

@@ -1,13 +1,15 @@
 ---
 name: seed-design
-description: SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs), 스니펫 버전 호환성, 사용 상태 진단(doctor)과 업그레이드 진단까지 커버. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업" 같은 질문을 하면 반드시 이 스킬을 로드한다.
+description: SEED Design 통합 가이드. 프로젝트 셋업·컴포넌트·파운데이션·CLI는 공식 문서로 안내하고, 문서를 대조해야 답이 나오는 것(스니펫 버전 호환, 업그레이드 경로)과 사용 상태 진단(doctor — 구버전 스니펫, deprecated 사용, 가이드라인 준수)을 직접 수행한다. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업", "잘 쓰고 있나?", "뭘 고쳐야 하나?" 같은 질문을 하면 반드시 이 스킬을 로드한다.
 user-invocable: true
 argument-hint: "[질문 또는 주제]"
 ---
 
 # SEED Design
 
-당근의 디자인 시스템 SEED Design을 프로젝트에 도입하고 활용할 때 사용하는 통합 가이드입니다. 처음 셋업부터 컴포넌트 사용, 파운데이션 활용, CLI 운영까지 모든 단계를 안내합니다.
+당근의 디자인 시스템 SEED Design을 프로젝트에 도입하고 활용할 때 사용하는 통합 가이드입니다.
+
+**문서에 이미 있는 것은 문서를 읽어 답하고, 이 스킬은 문서만으로는 안 나오는 것을 담습니다** — 여러 문서를 대조해야 결론이 나오는 판단(버전 호환, 업그레이드 경로)과 코드를 문서 기준으로 검사하는 진단입니다.
 
 ## 동작 방식
 
@@ -31,17 +33,20 @@ argument-hint: "[질문 또는 주제]"
 
 ### 2단계: 상황 분류 및 분기
 
-파악한 상태와 사용자의 질문에 따라 적절한 가이드로 분기합니다.
+질문은 세 층으로 갈립니다. **아래로 갈수록 스킬이 할 일이 많아집니다.**
+
+**① 문서에 답이 있는 것** — 셋업 절차, 컴포넌트 목록, 토큰 이름, CLI 옵션. 문서를 읽고 답하면 됩니다. 스킬에 옮겨 적지 않는 이유는 그 복사본이 문서보다 먼저 낡기 때문입니다. 어디를 읽을지는 아래 "정보 조회 도구"에 있습니다.
+
+**② 판단이 필요한 절차** — 문서 여러 곳을 대조해야 결론이 나오는 것들입니다.
 
 | 언제 읽는가 | 참조 |
 |------|------|
-| `seed-design.json`이 없거나 셋업 질문 | [getting-started.md](references/getting-started.md) |
-| 컴포넌트 탐색/추가 ("어떤 컴포넌트 있어?", "버튼 쓰고 싶은데") | [components.md](references/components.md) |
-| 파운데이션/토큰 (색상, 타이포, 스페이싱, 테마) | [foundation.md](references/foundation.md) |
-| CLI 명령어 상세 (init, add, docs 등) | [usage.md](references/usage.md) |
-| 스니펫 버전 맞추기/파일 충돌 해결 | [migration.md](references/migration.md) |
-| 버전 업그레이드·호환 진단 (react↔css, changelog, 마이그레이션 경로) | [upgrade.md](references/upgrade.md) |
-| 사용 상태 진단 ("잘 쓰고 있나?", "뭘 고쳐야 하나?", 코드 리뷰) | [doctor.md](references/doctor.md) |
+| 스니펫 버전 맞추기, 파일 충돌 해결, 패키지 간 호환 판단 | [migration.md](references/migration.md) |
+| 업그레이드 진단 (changelog 해석, 마이그레이션 경로) | [upgrade.md](references/upgrade.md) |
+
+**③ 진단** — "잘 쓰고 있나?", "뭘 고쳐야 하나?", 코드 리뷰 → [doctor.md](references/doctor.md)가 절차이고, `rules/`가 판정 기준입니다.
+
+②와 ③의 경계: **무엇이 문제인지 알아내는 것은 진단, 실제로 버전을 올리는 절차는 업그레이드**입니다. 진단이 "major 하나 뒤졌다"까지 말하면 그다음은 `upgrade.md`가 받습니다.
 
 사용자가 명시적으로 주제를 말한 경우 프로젝트 분석을 건너뛰고 해당 시나리오로 직행해도 됩니다.
 
@@ -81,6 +86,18 @@ SEED Design의 모든 문서에는 llms.txt 형태의 LLM 최적화 문서가 �
 https://seed-design.io/llms/react/components/{component-name}.txt
 https://seed-design.io/llms/foundations/color.txt
 ```
+
+자주 쓰는 것들입니다. 절차를 여기 옮겨 적지 않는 이유는 문서가 원본이고 복사본은 낡기 때문입니다.
+
+| 무엇 | URL |
+|------|-----|
+| 설치·셋업 (번들러별) | `/llms/react/getting-started/installation/{vite\|rsbuild\|webpack\|manual}.txt` |
+| 테마 설정 | `/llms/react/getting-started/styling/theming.txt` |
+| CLI 명령어 (init·add·compat·docs) | `/llms/react/getting-started/cli/commands.txt` |
+| `seed-design.json` 설정 | `/llms/react/getting-started/cli/configuration.txt` |
+| 파운데이션 (색상·타이포·스페이싱 등) | `/llms/foundations/{color\|typography\|spacing\|radius\|elevation\|motion}.txt` |
+
+셋업을 안내할 때는 1단계에서 감지한 번들러와 패키지 매니저에 맞춰 해당 문서를 읽고 답합니다.
 
 ### CLI docs 명령어
 

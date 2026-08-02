@@ -30,7 +30,15 @@ prop 조합이 적절한지, 가이드라인의 Do/Don't에 어긋나지 않는�
 
    자체 구현인지는 **이름이 아니라 렌더되는 UI의 역할**로 판단합니다 — 이름이 `NoResultCallout`이어도 실제로 텍스트만 그리면 Callout이 아니고, 이름에 Sheet가 없어도 하단에서 올라오는 모달이면 Bottom Sheet입니다. 한 자체 구현이 여러 문서에 걸치면 **주 역할 문서로 판정하고** 나머지는 근거에 병기합니다.
 
-   **"다시 만들었다"는 판정 전에 설치된 패키지가 그 컴포넌트를 실제로 export하는지 확인합니다.** 문서에 있어도 설치 버전에 없으면 자체 구현은 불가피한 선택이었으므로 위반이 아닙니다(그때는 [outdated-version](./outdated-version.md)의 업그레이드가 답입니다).
+   **"다시 만들었다"는 판정 전에 설치된 패키지가 그 컴포넌트를 실제로 export하는지 확인합니다.** 설치 버전에 없으면 자체 구현은 불가피한 선택이었으므로 재구현 위반이 아닙니다. 다만 **거기서 멈추면 안 됩니다** — 최신 버전에는 있을 수 있고, 그게 업그레이드해야 할 이유 중 하나입니다.
+
+   | 설치 버전에 | 최신에 | 판정 |
+   |---|---|---|
+   | 없음 | 없음 | 침묵 — 진짜로 만들 수밖에 없었습니다 |
+   | 없음 | **있음** | **`info`** — "업그레이드하면 {스니펫/컴포넌트}로 대체할 수 있습니다". remediation에서 [outdated-version](./outdated-version.md) 항목과 연결합니다 |
+   | 있음 | — | 재구현 `warn` |
+
+   최신에 있는지는 registry 인덱스(`https://seed-design.io/__registry__/{framework}/{registryId}/index.json`)의 아이템 목록과 React API 문서로 확인합니다. 대체 수단이 스니펫이면 `add`로 설치하는 것이고 패키지 export면 import하면 되므로, 어느 쪽인지 remediation에 밝힙니다.
 
 3. 가이드라인 문서가 존재하는 컴포넌트만 검토합니다. `https://seed-design.io/llms/components/{id}.txt`가 404면 **조용히 건너뜁니다** — 읽을 기준이 없으면 판정할 것도 없습니다. 문서 목록은 `https://seed-design.io/components/llms.txt`에서 확인할 수 있습니다. 목록에서 `(Deprecated)`로 표기된 컴포넌트를 쓰고 있다면 가이드라인 준수를 따지기 전에 [no-deprecated-component](./no-deprecated-component.md)의 대상입니다 — 어차피 걷어낼 것의 사용법을 교정할 이유가 없습니다.
 

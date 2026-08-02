@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://seed-design.io/schemas/doctor-report.json",
+  "title": "SEED Doctor Report",
+  "description": "SEED 사용 상태 진단의 결과. 채팅 요약과 HTML 리포트는 이 파일에서 파생되므로, 이것이 단일 소스다.",
+  "type": "object",
+  "required": ["schemaVersion", "meta", "summary", "findings", "verdicts", "rejected"],
+  "additionalProperties": true,
+  "properties": {
+    "schemaVersion": {
+      "description": "필드가 깨지는 변경에만 올린다.",
+      "const": 1
+    },
+    "meta": {
+      "type": "object",
+      "required": ["target", "framework", "date"],
+      "additionalProperties": true,
+      "properties": {
+        "target": { "type": "string", "description": "진단 대상 프로젝트 경로" },
+        "workspace": {
+          "type": "string",
+          "description": "모노레포일 때 SEED를 쓰는 워크스페이스. 단일 패키지면 생략."
+        },
+        "framework": { "enum": ["react", "lynx"] },
+        "date": { "type": "string", "description": "YYYY-MM-DD" },
+        "seed": {
+          "type": "object",
+          "description": "사실 수집 결과. 판정의 근거이자 재현에 필요한 상태.",
+          "additionalProperties": true,
+          "properties": {
+            "installed": {
+              "type": "object",
+              "description": "선언 범위가 아니라 실제 설치본",
+              "additionalProperties": { "type": "string" }
+            },
+            "latest": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "snippetRoot": { "type": "string" }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "비억제 findings의 severity별 개수. 점수나 등급은 두지 않는다.",
+      "required": ["error", "warn", "info"],
+      "additionalProperties": false,
+      "properties": {
+        "error": { "type": "integer", "minimum": 0 },
+        "warn": { "type": "integer", "minimum": 0 },
+        "info": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "고칠 것. verdict가 fail인 항목만 들어온다.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "severity", "message", "file"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": {
+            "type": "string",
+            "description": "네임스페이스 포함 룰 id. 예: seed/component-guidelines/bottom-sheet"
+          },
+          "severity": { "enum": ["error", "warn", "info"] },
+          "message": { "type": "string", "description": "위반 내용 한 문장" },
+          "file": {
+            "type": "string",
+            "description": "target 기준 상대 경로. 대상 파일이 아니라 실제로 고쳐야 할 위치."
+          },
+          "line": { "type": "integer", "minimum": 1 },
+          "criterion": {
+            "type": "string",
+            "description": "판정 기준 번호. verdicts의 같은 값과 이어진다."
+          },
+          "references": {
+            "type": "array",
+            "description": "판정 근거가 된 문서 URL",
+            "items": { "type": "string" }
+          },
+          "remediation": {
+            "type": "string",
+            "description": "수정 방법 안내. 실행이 아니라 안내다."
+          }
+        }
+      }
+    },
+    "verdicts": {
+      "type": "array",
+      "description": "판정 표 전체. 통과한 것과 판정하지 못한 것을 숨기지 않는다 — 무엇을 근거로 통과했는지가 결과의 신뢰도다.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "verdict"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": { "type": "string" },
+          "criterion": { "type": "string" },
+          "text": {
+            "type": "string",
+            "description": "문서에서 도출한 기준 문장 그대로. 도출한 절도 함께."
+          },
+          "verdict": {
+            "description": "not-verified는 도구에 접근하지 못한 것이고, unknown은 판정할 정보가 없는 것이다.",
+            "enum": ["pass", "fail", "unknown", "not-verified"]
+          },
+          "evidence": {
+            "type": "string",
+            "description": "파일:줄, 또는 판정하지 못한 이유. 대상이 0개여서 통과했으면 그 사실."
+          }
+        }
+      }
+    },
+    "rejected": {
+      "type": "array",
+      "description": "위반으로 올릴까 하다 뺀 후보. 실제로 살펴본 것만 적고 칸을 채우려고 지어내지 않는다.",
+      "items": {
+        "type": "object",
+        "required": ["candidate", "reason"],
+        "additionalProperties": true,
+        "properties": {
+          "candidate": { "type": "string" },
+          "reason": { "type": "string" },
+          "file": { "type": "string" }
+        }
+      }
+    }
+  }
+}
