@@ -22,7 +22,7 @@ argument-hint: "[질문 또는 주제]"
 - `seed-design.json` 존재 여부 → 초기 설정 완료 여부
 - `package.json`에서 `@seed-design/react`, `@seed-design/css` 설치 여부와 버전
 - 번들러 종류 감지 (`vite.config`, `rsbuild.config`, `webpack.config` 등)
-- `seed-design.json`의 `path`가 가리키는 디렉토리 존재 여부 → 스니펫 설치 여부 (기본 `./seed-design`, 프로젝트에 따라 `./src/seed-design` 등)
+- `seed-design.json`의 `path`가 가리키는 디렉토리에 **`@file` 헤더를 가진 파일이 하나라도 있는지** → 스니펫 설치 여부. 디렉토리 존재만으로 판정하면 비어 있거나 다른 파일만 있는 경우를 설치됨으로 오인합니다 (경로는 기본 `./seed-design`, 프로젝트에 따라 `./src/seed-design` 등)
 - 패키지 매니저 감지 (lock 파일 기준):
   - `bun.lockb` / `bun.lock` → bun
   - `pnpm-lock.yaml` → pnpm
@@ -99,7 +99,7 @@ https://seed-design.io/llms/foundations/color.txt
 | 그 외 파운데이션 | `/llms/foundations/{typography\|spacing\|radius\|elevation\|motion}.txt` |
 | **토큰을 코드에서 쓰는 법** | `/llms/react/components/layout/box.txt`, `/llms/react/components/typography/text.txt` |
 
-셋업을 안내할 때는 1단계에서 감지한 번들러와 패키지 매니저에 맞춰 해당 문서를 읽고 답합니다.
+셋업을 안내할 때는 1단계에서 감지한 번들러와 패키지 매니저에 맞춰 해당 문서를 읽고 답합니다 — **번들러가 설정 절차를 정하고 패키지 매니저가 실행 명령을 정하기 때문**입니다. 둘 중 하나라도 어긋나면 그대로 따라 할 수 없는 안내가 됩니다.
 
 컴포넌트 목록은 인덱스가 둘이고 **내용이 다릅니다.** 구현 질문("버튼 쓰고 싶은데")이면 `react/llms.txt`, 디자인 스펙 질문이면 `components/llms.txt`입니다. 후자에만 있는 이름(Field, Radio, Input Button 등)은 React 구현이 그 이름으로 존재하지 않으므로, 구현 질문에 이 목록을 쓰면 없는 컴포넌트를 안내하게 됩니다.
 

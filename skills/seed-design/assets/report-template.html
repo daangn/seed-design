@@ -68,6 +68,9 @@ details.rule[open] > summary::before { content: "▾"; }
 .finding details { margin-top: 10px; }
 .finding details > summary { cursor: pointer; font-size: 13px; color: var(--info); }
 .finding details > p { margin: 8px 0 0; padding: 12px 14px; background: var(--bg-layer); border-radius: 8px; font-size: 14px; }
+/* 근거 문서는 접지 않는다 — "무엇을 읽어야 하는지"가 이 도구의 본체다 */
+.refs { margin: 10px 0 0; font-size: 13px; }
+.refs a { color: var(--info); word-break: break-all; }
 
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--stroke); vertical-align: top; }
@@ -109,6 +112,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--stroke
       <span class="chip warn">warn</span>
       <span class="loc">{{파일:줄}}</span>
       <p class="msg">{{위반 내용 한 문장}}</p>
+      <p class="refs">읽어보기: <a href="{{references[0]}}">{{references[0]}}</a></p>
       <details>
         <summary>어떻게 고치나</summary>
         <p>{{remediation — 문서 근거 포함. 실행이 아니라 안내}}</p>

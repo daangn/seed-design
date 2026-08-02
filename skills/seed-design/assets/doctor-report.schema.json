@@ -58,7 +58,7 @@
       "description": "고칠 것. verdict가 fail인 항목만 들어온다.",
       "items": {
         "type": "object",
-        "required": ["rule", "severity", "message", "file"],
+        "required": ["rule", "severity", "message", "file", "references", "remediation"],
         "additionalProperties": true,
         "properties": {
           "rule": {
@@ -83,7 +83,8 @@
           },
           "references": {
             "type": "array",
-            "description": "판정 근거가 된 문서 URL",
+            "description": "판정 근거가 된 문서 URL. 필수다 — 무엇을 읽어야 하는지가 빠지면 사용자는 고칠 방법을 찾지 못한다. 리포트에도 접지 않고 노출한다.",
+            "minItems": 1,
             "items": { "type": "string" }
           },
           "remediation": {
