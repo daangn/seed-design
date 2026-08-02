@@ -49,8 +49,8 @@ Lynx 컴포넌트 문서를 작성할 때는 **웹 버전과의 차이점을 반
 
 ## 콘텐츠 작성 룰 (`content/`)
 
-- 컴포넌트/훅 문서를 신설하면 frontmatter 직후에 "추가된 버전" 불렛을 넣는다.
-  - 형식: `` - `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 사용할 수 있습니다. ``
+- 컴포넌트/훅 문서를 신설하면 frontmatter 직후에 `<AvailableSince />`를 넣는다.
+  - 형식: `<AvailableSince packages="@seed-design/react@2.1.0, @seed-design/css@2.3.0" />` (콤마로 구분)
   - 패키지 매핑: react components → react + css / react stackflow → stackflow + css / lynx components → lynx-react + lynx-css / lynx hooks → lynx-react
   - 버전은 **그 항목이 처음 사용 가능해진 버전**이다. 새로 만드는 컴포넌트/훅이면 그게 곧 문서와 함께 나갈 다음 릴리스(현재 버전 + changeset bump)이고, 이미 릴리스된 항목의 문서를 뒤늦게 추가하는 경우에는 문서가 나갈 버전이 아니라 그 항목이 실제로 나갔던 버전을 적는다.
 - 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 룰과 fixture를 함께 추가한다 ([app/\_llms/AGENTS.md](app/_llms/AGENTS.md) 참조). 룰이 없으면 llms.txt에 raw JSX가 그대로 새어나간다.
