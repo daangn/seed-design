@@ -128,6 +128,8 @@ function formatTokenValue(entry: Exchange.Value): string {
     }
     case "number":
       return String(entry.value);
+    case "enum":
+      return entry.value;
     case "cubicBezier": {
       if (typeof entry.value === "string") return entry.value;
       return `cubic-bezier(${entry.value.join(", ")})`;
