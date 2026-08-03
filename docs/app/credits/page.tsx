@@ -2,8 +2,6 @@ import {
   CREDITS_DESCRIPTION,
   CREDITS_GROUPS,
   CREDITS_TITLE,
-  SECRET_THANKS_LABEL,
-  SECRET_THANKS_NAMES,
   type Contributor,
   type CreditsGroup,
 } from "@/components/layout/lib/credits-content";
@@ -20,7 +18,6 @@ export default function CreditsPage() {
         {CREDITS_GROUPS.map((group) => (
           <ContributorGroup key={group.title} group={group} />
         ))}
-        <SecretThanks />
       </div>
     </ProsePage>
   );
@@ -53,17 +50,6 @@ function ContributorItem({ contributor }: { contributor: Contributor }) {
         <span className="text-fd-muted-foreground ml-2 text-xs font-light">{koreanName}</span>
       ) : null}
     </div>
-  );
-}
-
-function SecretThanks() {
-  return (
-    <section className="text-transparent selection:text-[var(--selection-fg)]">
-      <p className="text-base font-extralight">{SECRET_THANKS_LABEL}</p>
-      <p className="mt-6 text-xl font-medium tracking-tight md:text-2xl">
-        {atob(SECRET_THANKS_NAMES)}
-      </p>
-    </section>
   );
 }
 

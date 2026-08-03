@@ -39,8 +39,3 @@ export const CREDITS_GROUPS: CreditsGroup[] = [
   { title: "Maintainers", contributors: MAINTAINERS },
   { title: "Contributors", contributors: CONTRIBUTORS },
 ];
-
-export const SECRET_THANKS_LABEL = "Special thanks";
-export const SECRET_THANKS_NAMES =
-  "S2FpLCBBc2hlciwgWWVuaSwgWW9vbmksIFZhbiwgSm95Lnlvbywg" +
-  "TWFydHksIExvbm5pZSwgRGFpc3ksIFNlcCwgSmFtZXM=";
