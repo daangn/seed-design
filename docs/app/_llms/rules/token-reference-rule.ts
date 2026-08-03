@@ -5,6 +5,7 @@ import type {
   MdxJsxAttributeValueExpression,
   MdxJsxFlowElement,
 } from "mdast-util-mdx-jsx";
+import { match, P } from "ts-pattern";
 import type { Exchange } from "@seed-design/rootage-core";
 import index from "@seed-design/rootage-artifacts/index.json";
 import type { Rule } from "./types";
@@ -113,32 +114,29 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
 function formatTokenValue(entry: Exchange.Value): string {
-  switch (entry.type) {
-    case "color":
-      return entry.value; // ColorLit | TokenRef - 모두 string
-    case "dimension": {
-      if (typeof entry.value === "string") return entry.value;
-      const { value, unit } = entry.value;
-      if (unit === "rem") return `${value}rem (${Math.round(value * 16)}px)`;
-      return `${value}${unit}`;
-    }
-    case "duration": {
-      if (typeof entry.value === "string") return entry.value;
-      return `${entry.value.value}${entry.value.unit}`;
-    }
-    case "number":
-      return String(entry.value);
-    case "enum":
-      return entry.value;
-    case "cubicBezier": {
-      if (typeof entry.value === "string") return entry.value;
-      return `cubic-bezier(${entry.value.join(", ")})`;
-    }
-    case "shadow":
-    case "gradient":
-      if (typeof entry.value === "string") return entry.value;
-      return JSON.stringify(entry.value);
-  }
+  return (
+    match(entry)
+      .with({ type: "number" }, ({ value }) => String(value))
+      .with(
+        { type: "dimension", value: { unit: "rem" } },
+        ({ value }) => `${value.value}rem (${Math.round(value.value * 16)}px)`,
+      )
+      .with({ type: "dimension", value: { unit: "px" } }, ({ value }) => `${value.value}px`)
+      .with(
+        { type: "duration", value: { unit: P.union("ms", "s") } },
+        ({ value }) => `${value.value}${value.unit}`,
+      )
+      .with(
+        { type: "cubicBezier", value: P.array(P.number) },
+        ({ value }) => `cubic-bezier(${value.join(", ")})`,
+      )
+      .with({ type: P.union("shadow", "gradient"), value: P.array() }, ({ value }) =>
+        JSON.stringify(value),
+      )
+      // 남은 건 전부 문자열 그대로 출력한다 — TokenRef, ColorLit, enum 값.
+      .with({ value: P.string }, ({ value }) => value)
+      .exhaustive()
+  );
 }
 
 /*
