@@ -32,6 +32,13 @@ declare const artifact: {
             "gradient": {
               "type": "gradient";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "prefixIcon": {
@@ -224,6 +231,19 @@ declare const artifact: {
                 "targetSize": {
                   "type": "dimension";
                   "value": "$dimension.x10";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

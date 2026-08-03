@@ -10,6 +10,9 @@ data:
         properties:
           gap:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       icon:
         properties:
           color:
@@ -37,6 +40,9 @@ data:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.medium
+      pressed:
+        root:
+          scaleScope: self
 
     type=file:
       enabled:

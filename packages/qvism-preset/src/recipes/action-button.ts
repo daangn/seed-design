@@ -1,5 +1,8 @@
 import spec from "@seed-design/rootage-artifacts/components/action-button";
 import { actionButton as vars } from "../vars/component";
+import * as scale from "../vars/scale";
+import * as duration from "../vars/duration";
+import * as timingFunction from "../vars/timing-function";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
@@ -63,7 +66,7 @@ const actionButton = defineRecipe({
     // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
     scale: "1",
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${duration.pressedScale} ${timingFunction.pressedScale}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {
@@ -375,7 +378,7 @@ const actionButton = defineRecipe({
         }),
 
         [pseudo(not(disabled), active)]: {
-          scale: vars.sizeXsmall.pressed.root.scale,
+          scale: scale.s95,
         },
       },
       small: {
@@ -396,7 +399,7 @@ const actionButton = defineRecipe({
         }),
 
         [pseudo(not(disabled), active)]: {
-          scale: vars.sizeSmall.pressed.root.scale,
+          scale: scale.s97,
         },
       },
       medium: {
@@ -417,7 +420,7 @@ const actionButton = defineRecipe({
         }),
 
         [pseudo(not(disabled), active)]: {
-          scale: vars.sizeMedium.pressed.root.scale,
+          scale: scale.s97,
         },
       },
       large: {
@@ -438,7 +441,7 @@ const actionButton = defineRecipe({
         }),
 
         [pseudo(not(disabled), active)]: {
-          scale: vars.sizeLarge.pressed.root.scale,
+          scale: scale.s98,
         },
       },
     },

@@ -26,6 +26,13 @@ declare const artifact: {
             "gradient": {
               "type": "gradient";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "prefixIcon": {
@@ -97,6 +104,13 @@ declare const artifact: {
             };
             "color": {
               "type": "color";
+            };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
             };
           };
         };
@@ -241,6 +255,25 @@ declare const artifact: {
                 "marginLeft": {
                   "type": "dimension";
                   "value": "$dimension.x2";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
+                };
+              };
+              "button": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

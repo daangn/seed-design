@@ -129,6 +129,13 @@ declare const artifact: {
             "marginTop": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
       };
@@ -299,6 +306,19 @@ declare const artifact: {
                 "marginTop": {
                   "type": "dimension";
                   "value": "$dimension.x0_5";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "closeButton": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

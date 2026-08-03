@@ -31,6 +31,13 @@
             },
             "gradient": {
               "type": "gradient"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -224,6 +231,19 @@
                 "targetSize": {
                   "type": "dimension",
                   "value": "$dimension.x10"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

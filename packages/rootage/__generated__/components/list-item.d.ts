@@ -45,15 +45,12 @@ declare const artifact: {
             "borderRadiusTimingFunction": {
               "type": "cubicBezier";
             };
-            "contentScale": {
-              "type": "number";
-              "description": "pressed 시 배경 레이어는 좌우 폭이 marginX만큼 줄어들고, 배경 레이어 위 요소들이 위치하는 레이아웃 레이어는 scale로 인해 전체적으로 줄어드는 형태로 두 레이어가 별개로 작동합니다.";
-            };
-            "contentScaleDuration": {
-              "type": "duration";
-            };
-            "contentScaleTimingFunction": {
-              "type": "cubicBezier";
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
             };
           };
         };
@@ -198,14 +195,6 @@ declare const artifact: {
                   "type": "cubicBezier";
                   "value": "$timing-function.easing";
                 };
-                "contentScaleDuration": {
-                  "type": "duration";
-                  "value": "$duration.pressed-scale";
-                };
-                "contentScaleTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.pressed-scale";
-                };
               };
               "body": {
                 "gap": {
@@ -329,9 +318,9 @@ declare const artifact: {
                   "type": "dimension";
                   "value": "$dimension.x2_5";
                 };
-                "contentScale": {
-                  "type": "number";
-                  "value": "$scale.s97";
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
                 };
               };
             };

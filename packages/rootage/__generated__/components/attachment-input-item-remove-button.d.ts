@@ -29,6 +29,13 @@ declare const artifact: {
             "offset": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "icon": {
@@ -103,6 +110,10 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.layer-default-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

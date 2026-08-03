@@ -23,6 +23,13 @@ declare const artifact: {
             "size": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "icon": {
@@ -95,6 +102,10 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.neutral-weak-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };
