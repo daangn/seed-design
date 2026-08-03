@@ -1,7 +1,12 @@
 import spec from "@seed-design/rootage-artifacts/components/page-banner";
 import { pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, pseudo } from "../utils/pseudo";
+import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -103,7 +108,11 @@ const pageBanner = defineSlotRecipe({
       fontWeight: vars.base.enabled.button.fontWeight,
 
       borderRadius: tokens.$radius.r1,
-      transition: FOCUS_RING_TRANSITION,
+
+      ...createPressScaleRestStyles(),
+      [pseudo(active)]: createPressScaleStyles(),
+
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
@@ -132,7 +141,13 @@ const pageBanner = defineSlotRecipe({
       cursor: "pointer",
 
       borderRadius: tokens.$radius.r1,
-      transition: FOCUS_RING_TRANSITION,
+
+      // The button itself is transparent, so scaling the whole button scales only
+      // its content (the icon).
+      ...createPressScaleRestStyles(),
+      [pseudo(active)]: createPressScaleStyles(),
+
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },

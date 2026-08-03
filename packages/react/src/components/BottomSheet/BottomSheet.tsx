@@ -1,10 +1,11 @@
 import { bottomSheet, type BottomSheetVariantProps } from "@seed-design/css/recipes/bottom-sheet";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { forwardRef } from "react";
+import { usePressScale } from "../../utils/pressScale";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
@@ -144,11 +145,12 @@ export const BottomSheetCloseButton = forwardRef<HTMLButtonElement, BottomSheetC
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
     const { trackRef } = closeButtonTracker.useRenderTracking();
+    const { pressScaleRef, pressScaleClassName } = usePressScale();
 
     return (
       <Drawer.CloseButton
-        ref={composeRefs(ref, trackRef)}
-        className={clsx(classNames.closeButton, className)}
+        ref={useComposedRefs(ref, trackRef, pressScaleRef)}
+        className={clsx(classNames.closeButton, pressScaleClassName, className)}
         {...props}
       />
     );

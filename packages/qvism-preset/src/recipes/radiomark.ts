@@ -1,11 +1,16 @@
 import { radiomark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, engaged, pseudo, not, focusVisible } from "../utils/pseudo";
+import { active, checked, disabled, engaged, pseudo, not, focusVisible } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import spec from "@seed-design/rootage-artifacts/components/radiomark";
 
 const radiomark = defineSlotRecipe({
@@ -29,7 +34,14 @@ const radiomark = defineSlotRecipe({
 
       marginTop: "var(--radiomark-margin-top, 0)", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      ...createPressScaleRestStyles(),
+      // A containing component (e.g. ListItem) opts the mark out of the pressed
+      // scale by setting --seed-radiomark-press-scale to 1.
+      [pseudo(not(disabled), active)]: {
+        ...createPressScaleStyles({ overridableBy: "--seed-radiomark-press-scale" }),
+      },
+
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
 

@@ -4,9 +4,14 @@
     border-radius: var(--seed-radius-full);
     background: var(--seed-color-palette-gray-600);
     margin: var(--switchmark-margin-top, 0) 0;
-    transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     display: block;
     position: relative;
+    scale: 1;
+  }
+
+  .seed-switchmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-switchmark-press-scale, var(--seed-press-scale, 1));
   }
 
   .seed-switchmark__root:is(:disabled, [disabled], [data-disabled]) {

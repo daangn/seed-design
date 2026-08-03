@@ -1,11 +1,16 @@
 import { chipTablist as vars, chip as chipVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 
 const chipTabs = defineSlotRecipe({
   name: "chip-tabs",
@@ -74,7 +79,14 @@ const chipTabs = defineSlotRecipe({
       borderRadius: chipVars.base.enabled.root.cornerRadius,
       fontWeight: chipVars.base.enabled.label.fontWeight,
 
-      transition: `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      ...createPressScaleRestStyles(),
+      [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
+
+      transition: [
+        `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}`,
+        PRESS_SCALE_TRANSITION,
+        FOCUS_RING_TRANSITION,
+      ].join(", "),
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),

@@ -249,11 +249,6 @@
     top: calc(28px + var(--seed-safe-area-top));
     border-radius: var(--seed-radius-r3);
     cursor: pointer;
-    transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    --seed-icon-size: 22px;
-    --seed-icon-color: var(--seed-color-fg-neutral-subtle);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
     border: none;
     justify-content: center;
     align-items: center;
@@ -262,6 +257,19 @@
     display: flex;
     position: absolute;
     right: 24px;
+    scale: 1;
+  }
+
+  .seed-side-panel__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-press-scale, 1);
+  }
+
+  .seed-side-panel__closeButton {
+    transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    --seed-icon-size: 22px;
+    --seed-icon-color: var(--seed-color-fg-neutral-subtle);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
   }
 
   .seed-side-panel__closeButton:is(:focus-visible, [data-focus-visible]) {
