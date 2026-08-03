@@ -1,4 +1,11 @@
-import { useClick, useInteractions, useRole, useTransitionStatus } from "@floating-ui/react";
+import {
+  useClick,
+  useInteractions,
+  useRole,
+  useTransitionStatus,
+  type OpenChangeReason,
+  type ReferenceType,
+} from "@floating-ui/react";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useId, useMemo, useState } from "react";
 import {
@@ -7,7 +14,36 @@ import {
 } from "@seed-design/react-floating";
 import { getDescriptionId, getTitleId } from "./dom";
 
-export interface UsePopoverProps extends UsePositionedFloatingProps {
+interface PopoverReasonToDetailMap {
+  /** The trigger toggled the popover — a click on it, or a key that activates it. */
+  trigger: { event: MouseEvent | KeyboardEvent };
+  closeButton: { event: MouseEvent };
+  escapeKeyDown: { event: KeyboardEvent };
+  interactOutside: { event: PointerEvent | TouchEvent };
+  /** A parent layer unmounted and cascade-dismissed this one. */
+  cascadeDismiss: { dismissedParent: HTMLElement };
+}
+
+type PopoverChangeDetails = {
+  [R in keyof PopoverReasonToDetailMap]: {
+    reason?: R;
+  } & PopoverReasonToDetailMap[R];
+}[keyof PopoverReasonToDetailMap];
+
+// The trigger's `useClick` is the only open-state change floating-ui drives on its own;
+// everything else runs through `setOpen` below or the layer callbacks in Popover.tsx.
+// floating-ui reports it as "click" and hands over the click/mousedown/keydown that drove it.
+function getFloatingChangeDetails(
+  event: Event | undefined,
+  reason: OpenChangeReason | undefined,
+): PopoverChangeDetails | undefined {
+  if (reason !== "click") return undefined;
+  if (!(event instanceof MouseEvent) && !(event instanceof KeyboardEvent)) return undefined;
+
+  return { reason: "trigger", event };
+}
+
+export interface UsePopoverProps extends UsePositionedFloatingProps<PopoverChangeDetails> {
   /**
    * Whether to close the popover when clicking outside of it.
    * @default true
@@ -29,13 +65,13 @@ export function usePopover({ closeOnInteractOutside = true, ...props }: UsePopov
     floatingStyles,
     arrowStyles,
     rects,
-  } = usePositionedFloating(props);
+  } = usePositionedFloating<ReferenceType, PopoverChangeDetails>(props, getFloatingChangeDetails);
 
   // The single write path for open state, so every caller — the close button here and the
   // layer-stack callbacks in Popover.tsx — funnels through one place.
   const setOpen = useCallback(
-    (nextOpen: boolean) => {
-      onOpenChange?.(nextOpen);
+    (nextOpen: boolean, details?: PopoverChangeDetails) => {
+      onOpenChange(nextOpen, details);
     },
     [onOpenChange],
   );
@@ -130,7 +166,7 @@ export function usePopover({ closeOnInteractOutside = true, ...props }: UsePopov
         onClick: (e) => {
           if (e.defaultPrevented) return;
 
-          setOpen(false);
+          setOpen(false, { reason: "closeButton", event: e.nativeEvent });
         },
       }),
     }),
