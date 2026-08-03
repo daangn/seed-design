@@ -36,6 +36,13 @@ declare const artifact: {
             "strokeTimingFunction": {
               "type": "cubicBezier";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "trigger": {
@@ -393,6 +400,19 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.transparent-pressed";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
                 };
               };
             };

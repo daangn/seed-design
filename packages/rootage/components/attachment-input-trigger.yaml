@@ -20,6 +20,9 @@ data:
             type: dimension
           strokeColor:
             type: color
+          scaleScope:
+            type: enum
+            values: [self, content]
       icon:
         properties:
           size:
@@ -72,6 +75,7 @@ data:
       pressed:
         root:
           color: $color.bg.transparent-pressed
+          scaleScope: self
       disabled:
         icon:
           color: $color.fg.disabled

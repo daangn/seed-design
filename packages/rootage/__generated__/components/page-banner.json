@@ -25,6 +25,13 @@
             },
             "gradient": {
               "type": "gradient"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -97,6 +104,13 @@
             },
             "color": {
               "type": "color"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -241,6 +255,25 @@
                 "marginLeft": {
                   "type": "dimension",
                   "value": "$dimension.x2"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "content"
+                }
+              },
+              "button": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

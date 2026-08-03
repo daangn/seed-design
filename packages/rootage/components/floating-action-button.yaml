@@ -32,6 +32,9 @@ data:
             type: dimension
           size:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       icon:
         properties:
           color:
@@ -77,6 +80,7 @@ data:
       pressed:
         root:
           color: $color.bg.brand-solid-pressed
+          scaleScope: self
     extended=true:
       enabled:
         root:

@@ -28,6 +28,9 @@ data:
             type: dimension
           size:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       progressCircle:
         properties:
           size:
@@ -84,6 +87,9 @@ data:
         progressCircle:
           size: 16px
           thickness: 2px
+      pressed:
+        root:
+          scaleScope: self
     variant=solid:
       enabled:
         root:

@@ -51,6 +51,13 @@ declare const artifact: {
             "cornerRadius": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "prefix": {
@@ -305,6 +312,10 @@ declare const artifact: {
                 "cornerRadius": {
                   "type": "dimension";
                   "value": "$dimension.x2_5";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
                 };
               };
             };

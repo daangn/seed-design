@@ -129,6 +129,13 @@
             },
             "fontWeight": {
               "type": "number"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         }
@@ -303,6 +310,19 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.bold"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "actionButton": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }
