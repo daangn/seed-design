@@ -78,6 +78,21 @@ describe("useDatePicker", () => {
     expect(getCell(result, 13).cellProps["data-range-complete"]).toBe("");
   });
 
+  it("최소 1일 Range는 같은 날짜를 체크인·체크아웃으로 선택할 수 있다", () => {
+    const { result } = renderDatePicker({
+      selectionMode: "range",
+      constraints: [rangeDayCountAtLeast(1)],
+    });
+
+    act(() => clickCell(getCell(result, 10)));
+    act(() => clickCell(getCell(result, 10)));
+
+    expect(result.current.value).toEqual({
+      start: { year: 2026, month: 7, day: 10 },
+      end: { year: 2026, month: 7, day: 10 },
+    });
+  });
+
   it("multiple 모드에서 값을 날짜순으로 정렬하고 선택 해제를 허용한다", () => {
     const { result } = renderDatePicker({ selectionMode: "multiple" });
 

@@ -20,7 +20,7 @@ function toDateKey(date: DatePickerDate) {
 }
 
 const constraints = [
-  rangeDayCountAtLeast(2),
+  rangeDayCountAtLeast(1),
   rangeDayCountAtMost(14),
   excludeDates((date) => bookedDateKeys.has(toDateKey(date))),
 ];
@@ -48,7 +48,7 @@ export default function DatePickerReservation() {
       </Text>
       <VStack gap="x1" align="center">
         <Text textStyle="t2Regular" color="fg.neutralMuted">
-          선택 구간은 체크인·체크아웃을 포함해 2~14일이어야 합니다.
+          선택 구간은 체크인·체크아웃을 포함해 1~14일이어야 합니다.
         </Text>
         <Text textStyle="t2Regular" color="fg.neutralMuted">
           예약 완료일(7월 18일·19일·25일)이 포함된 구간은 선택할 수 없습니다.
