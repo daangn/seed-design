@@ -1,6 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/quantity-picker.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/quantity-picker";
 import { quantityPicker as vars } from "../vars/component";
 import { quantityPickerButton as buttonVars } from "../vars/component";
 

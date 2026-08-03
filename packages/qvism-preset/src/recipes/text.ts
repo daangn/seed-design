@@ -1,4 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/typography.json" with { type: "json" };
+import spec from "@seed-design/rootage-artifacts/components/typography";
 import { typography as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
