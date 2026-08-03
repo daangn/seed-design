@@ -1,0 +1,190 @@
+.seed-text-input__root {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    border-style: solid;
+    border-color: var(--seed-color-stroke-neutral-weak);
+    transition: border-color 0.1s var(--seed-timing-function-easing)
+}
+.seed-text-input__value {
+    flex-grow: 1;
+    color: var(--seed-color-fg-neutral);
+    font-weight: var(--seed-font-weight-regular)
+}
+.seed-text-input__prefixText {
+    color: var(--seed-color-fg-neutral-subtle);
+    font-weight: var(--seed-font-weight-regular);
+    flex-shrink: 0
+}
+.seed-text-input__prefixIcon {
+    color: var(--seed-color-fg-neutral-muted);
+    flex-shrink: 0
+}
+.seed-text-input__suffixText {
+    color: var(--seed-color-fg-neutral-subtle);
+    font-weight: var(--seed-font-weight-regular);
+    flex-shrink: 0
+}
+.seed-text-input__suffixIcon {
+    color: var(--seed-color-fg-neutral-muted);
+    flex-shrink: 0
+}
+.seed-text-input__root--variant_outline {
+    border-width: 1px
+}
+.seed-text-input__root--variant_underline {
+    border-width: 0;
+    border-bottom-style: solid;
+    border-bottom-width: 1px
+}
+.seed-text-input__root--focused_true {
+    border-color: var(--seed-color-stroke-neutral-contrast)
+}
+.seed-text-input__root--invalid_true {
+    border-color: var(--seed-color-stroke-critical-solid)
+}
+.seed-text-input__value--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-text-input__prefixText--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-text-input__prefixIcon--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-text-input__suffixText--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-text-input__suffixIcon--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-text-input__root--variant_outline-size_large {
+    gap: var(--seed-dimension-x2_5);
+    min-height: var(--seed-dimension-x13);
+    border-radius: var(--seed-radius-r3);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4)
+}
+.seed-text-input__value--variant_outline-size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-text-input__prefixText--variant_outline-size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-text-input__prefixIcon--variant_outline-size_large {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5)
+}
+.seed-text-input__suffixText--variant_outline-size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-text-input__suffixIcon--variant_outline-size_large {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5)
+}
+.seed-text-input__root--variant_outline-size_medium {
+    gap: var(--seed-dimension-x2);
+    min-height: var(--seed-dimension-x10);
+    border-radius: var(--seed-radius-r2);
+    padding-left: var(--seed-dimension-x3_5);
+    padding-right: var(--seed-dimension-x3_5)
+}
+.seed-text-input__value--variant_outline-size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4)
+}
+.seed-text-input__prefixText--variant_outline-size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4)
+}
+.seed-text-input__prefixIcon--variant_outline-size_medium {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4)
+}
+.seed-text-input__suffixText--variant_outline-size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4)
+}
+.seed-text-input__suffixIcon--variant_outline-size_medium {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4)
+}
+.seed-text-input__root--variant_underline-size_large {
+    gap: var(--seed-dimension-x2_5);
+    min-height: var(--seed-dimension-x10);
+    padding-top: var(--seed-dimension-x2);
+    padding-bottom: var(--seed-dimension-x2)
+}
+.seed-text-input__value--variant_underline-size_large {
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6)
+}
+.seed-text-input__prefixText--variant_underline-size_large {
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6)
+}
+.seed-text-input__prefixIcon--variant_underline-size_large {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6)
+}
+.seed-text-input__suffixText--variant_underline-size_large {
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6)
+}
+.seed-text-input__suffixIcon--variant_underline-size_large {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6)
+}
+.seed-text-input__root--variant_underline-size_medium {
+    gap: var(--seed-dimension-x2);
+    min-height: 34px;
+    padding-top: var(--seed-dimension-x1_5);
+    padding-bottom: var(--seed-dimension-x1_5)
+}
+.seed-text-input__value--variant_underline-size_medium {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-text-input__prefixText--variant_underline-size_medium {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-text-input__prefixIcon--variant_underline-size_medium {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5)
+}
+.seed-text-input__suffixText--variant_underline-size_medium {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-text-input__suffixIcon--variant_underline-size_medium {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5)
+}
+.seed-text-input__root--variant_outline-focused_true {
+    border-width: 2px
+}
+.seed-text-input__root--variant_underline-focused_true {
+    border-bottom-width: 2px
+}
+.seed-text-input__root--variant_outline-invalid_true {
+    border-width: 2px
+}
+.seed-text-input__root--variant_underline-invalid_true {
+    border-bottom-width: 2px
+}
+.seed-text-input__root--variant_outline-readOnly_true-disabled_false {
+    background: var(--seed-color-bg-disabled)
+}
+.seed-text-input__value--variant_underline-readOnly_true-disabled_false {
+    color: var(--seed-color-fg-neutral-muted)
+}
+.seed-text-input__root--variant_outline-disabled_true {
+    background: var(--seed-color-bg-disabled)
+}
