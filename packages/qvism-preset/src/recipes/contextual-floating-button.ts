@@ -8,9 +8,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import spec from "@seed-design/rootage-artifacts/components/contextual-floating-button.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/contextual-floating-button";
 
 const contextualFloatingButton = defineRecipe({
   name: "contextual-floating-button",

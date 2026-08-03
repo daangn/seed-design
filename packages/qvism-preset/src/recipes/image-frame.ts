@@ -1,7 +1,7 @@
 import { defineSlotRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 import { imageFrame as vars } from "../vars/component";
-import spec from "@seed-design/rootage-artifacts/components/image-frame.json" with { type: "json" };
+import spec from "@seed-design/rootage-artifacts/components/image-frame";
 
 const imageFrame = defineSlotRecipe({
   name: "image-frame",
