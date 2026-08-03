@@ -28,11 +28,22 @@ export type Gradient = {
   value: GradientStop[];
 };
 
+/**
+ * A value from an `enum` property's list, written bare.
+ *
+ * Widening the union to `string` swallows the template-literal members above, so
+ * this type no longer rejects a malformed colour or dimension. There is nothing
+ * shape-based left to check once a type's values are arbitrary words; the parser
+ * dispatches on the declared type and the analyzer checks list membership.
+ */
+export type Enum = string;
+
 export type Value =
   | Color
   | Dimension
   | Number
   | Duration
+  | Enum
   | CubicBezier
   | Shadow
   | Gradient
@@ -108,12 +119,15 @@ export interface ComponentSpecSlotSchema {
   };
 }
 
-export interface ComponentSpecPropertySchema {
-  [name: string]: {
-    type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
-    description?: string;
-  };
-}
+export type ComponentSpecPropertySchema = Record<
+  string,
+  | {
+      type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
+      values?: never;
+      description?: string;
+    }
+  | { type: "enum"; values: string[]; description?: string }
+>;
 
 export interface ComponentSpecVariantSchema {
   [name: string]: {

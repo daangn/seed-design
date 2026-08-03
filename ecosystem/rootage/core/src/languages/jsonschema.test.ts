@@ -143,13 +143,30 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
           "properties": {
             "type": {
               "type": "string",
-              "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]
+              "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient"]
             },
             "description": {
               "type": "string"
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
             }
           },
           "required": ["type"],
+          "if": {
+            "properties": { "type": { "const": "enum" } },
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["values"]
+          },
+          "else": {
+            "not": { "required": ["values"] }
+          },
           "additionalProperties": false
         },
         "variantsSchema": {
@@ -232,6 +249,9 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
               "$ref": "#/definitions/numberShorthand"
             },
             {
+              "$ref": "#/definitions/enumShorthand"
+            },
+            {
               "$ref": "#/definitions/cubicBezier"
             },
             {
@@ -259,6 +279,10 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
         },
         "numberShorthand": {
           "type": "number"
+        },
+        "enumShorthand": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$"
         },
         "cubicBezier": {
           "type": "object",

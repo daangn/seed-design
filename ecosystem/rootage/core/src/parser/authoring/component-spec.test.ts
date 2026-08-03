@@ -33,7 +33,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("color", "color"),
+            factory.createPropertySchemaDeclaration("color", { type: "color" }),
           ]),
         ],
         [],
@@ -93,7 +93,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("color", "color"),
+            factory.createPropertySchemaDeclaration("color", { type: "color" }),
           ]),
         ],
         [
@@ -171,7 +171,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("color", "color"),
+            factory.createPropertySchemaDeclaration("color", { type: "color" }),
           ]),
         ],
         [],
@@ -231,7 +231,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("color", "color"),
+            factory.createPropertySchemaDeclaration("color", { type: "color" }),
           ]),
         ],
         [
@@ -329,7 +329,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("shadow", "shadow"),
+            factory.createPropertySchemaDeclaration("shadow", { type: "shadow" }),
           ]),
         ],
         [],
@@ -420,6 +420,66 @@ data:
     expect(() => parseComponentSpecDeclaration(YAML.parse(yaml))).toThrow(
       'is declared as "color" but its value is not a valid color',
     );
+  });
+
+  it("should parse a bare word as an enum when the schema declares one", () => {
+    const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          scaleScope:
+            type: enum
+            values: [self, content]
+  definitions:
+    base:
+      pressed:
+        root:
+          scaleScope: content
+`;
+
+    const parsed = parseComponentSpecDeclaration(YAML.parse(yaml));
+
+    const expected = factory.createComponentSpecDeclaration(
+      "test",
+      "test",
+      factory.createSchemaDeclaration(
+        [
+          factory.createSlotSchemaDeclaration("root", [
+            factory.createPropertySchemaDeclaration("scaleScope", {
+              type: "enum",
+              values: ["self", "content"],
+            }),
+          ]),
+        ],
+        [],
+      ),
+      [
+        factory.createVariantDeclaration(
+          [],
+          [
+            factory.createStateDeclaration(
+              [factory.createStateExpression("pressed")],
+              [
+                factory.createSlotDeclaration("root", [
+                  factory.createEnumPropertyDeclaration(
+                    "scaleScope",
+                    factory.createEnumLit("content"),
+                  ),
+                ]),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+
+    expect(parsed).toEqual(expected);
   });
 
   it("should accept a token reference under any declared type", () => {

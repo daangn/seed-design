@@ -66,14 +66,24 @@ export function createStringifier(options: { prefix?: string } = {}) {
           const property: Record<string, string> = {};
 
           for (const propertyDecl of slotDecl.body) {
+            // An enum records a design decision rather than a value CSS can
+            // consume, so it never becomes a custom property.
+            if (propertyDecl.value.kind === "EnumLit") continue;
+
             const propertyKey = propertyDecl.property;
             const expr = propertyDecl.value;
 
             property[propertyKey] = cssStringifier.valueOrToken(expr);
           }
 
+          // A slot holding nothing but enums, or a state left with no slots, would
+          // publish an empty object where consumers expect values.
+          if (Object.keys(property).length === 0) continue;
+
           slot[slotKey] = property;
         }
+
+        if (Object.keys(slot).length === 0) continue;
 
         variant[stateKey] = slot;
       }

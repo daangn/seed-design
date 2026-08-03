@@ -75,6 +75,18 @@ function parseDuration(expr: unknown): AST.DurationLit | null {
   return null;
 }
 
+/**
+ * Deliberately absent from `parseValue`: a bare word has no shape to recognize, so
+ * sniffing would accept every unrecognized string and turn a typo into a silent
+ * enum value. Only the declared-type path can reach this.
+ */
+function parseEnum(expr: unknown): AST.EnumLit | null {
+  if (typeof expr === "string" && expr.length > 0) {
+    return factory.createEnumLit(expr);
+  }
+  return null;
+}
+
 function parseCubicBezier(expr: unknown): AST.CubicBezierLit | null {
   if (
     typeof expr === "object" &&
@@ -213,6 +225,7 @@ const PARSE_BY_TYPE = {
   dimension: parseDimension,
   number: parseNumber,
   duration: parseDuration,
+  enum: parseEnum,
   cubicBezier: parseCubicBezier,
   shadow: parseShadow,
   gradient: parseGradient,

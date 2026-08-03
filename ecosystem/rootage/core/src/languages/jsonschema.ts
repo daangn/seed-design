@@ -146,13 +146,30 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]${"" /* NOTE: this should be kept in sync with PropertySchemaDeclaration["type"] */}
+            "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient"]${"" /* NOTE: this should be kept in sync with PropertySchemaDeclaration["type"] */}
           },
           "description": {
             "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
           }
         },
         "required": ["type"],
+        "if": {
+          "properties": { "type": { "const": "enum" } },
+          "required": ["type"]
+        },
+        "then": {
+          "required": ["values"]
+        },
+        "else": {
+          "not": { "required": ["values"] }
+        },
         "additionalProperties": false
       },
       "variantsSchema": {
@@ -235,6 +252,9 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
             "$ref": "#/definitions/numberShorthand"
           },
           {
+            "$ref": "#/definitions/enumShorthand"
+          },
+          {
             "$ref": "#/definitions/cubicBezier"
           },
           {
@@ -262,6 +282,14 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
       },
       "numberShorthand": {
         "type": "number"
+      },${
+        "" /* An enum value is a bare word with no shape of its own. The pattern only
+              rules out the forms that belong to another type — a leading "#", "$", or
+              digit — so a malformed color or dimension can't pass as an enum. */
+      }
+      "enumShorthand": {
+        "type": "string",
+        "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$"
       },
       "cubicBezier": {
         "type": "object",

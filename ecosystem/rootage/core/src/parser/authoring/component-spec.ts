@@ -211,6 +211,9 @@ function parsePropertyDeclaration(
     case "DurationLit":
       return factory.createDurationPropertyDeclaration(property, valueLit);
 
+    case "EnumLit":
+      return factory.createEnumPropertyDeclaration(property, valueLit);
+
     case "CubicBezierLit":
       return factory.createCubicBezierPropertyDeclaration(property, valueLit);
 
@@ -225,8 +228,8 @@ function parsePropertyDeclaration(
 function parsePropertySchemaDeclaration(
   model: Document.ComponentSpecPropertySchema,
 ): PropertySchemaDeclaration[] {
-  return Object.entries(model).map(([name, { type, description }]) =>
-    factory.createPropertySchemaDeclaration(name, type, description),
+  return Object.entries(model).map(([name, schema]) =>
+    factory.createPropertySchemaDeclaration(name, schema),
   );
 }
 
