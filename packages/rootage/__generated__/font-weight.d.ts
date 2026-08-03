@@ -1,0 +1,37 @@
+declare const artifact: {
+  "kind": "Tokens";
+  "metadata": {
+    "id": "font-weight";
+    "name": "Font Weight";
+  };
+  "data": {
+    "collection": "global";
+    "tokens": {
+      "$font-weight.regular": {
+        "values": {
+          "default": {
+            "type": "number";
+            "value": 400;
+          };
+        };
+      };
+      "$font-weight.medium": {
+        "values": {
+          "default": {
+            "type": "number";
+            "value": 500;
+          };
+        };
+      };
+      "$font-weight.bold": {
+        "values": {
+          "default": {
+            "type": "number";
+            "value": 700;
+          };
+        };
+      };
+    };
+  };
+};
+export default artifact;

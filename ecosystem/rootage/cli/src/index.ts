@@ -254,6 +254,43 @@ async function writeJson() {
   });
 }
 
+// The `.mjs` re-exports its sibling `.json`, so the pair has to land in the same
+// directory the `json` command wrote to.
+function writeExchangeTs(withoutExt: string, value: unknown) {
+  const dtsName = `${withoutExt}.d.ts`;
+
+  writeFileSync({
+    filename: dtsName,
+    code: typescript.getExchangeDts(value),
+    writePath: path.join(process.cwd(), dir, dtsName),
+  });
+
+  const mjsName = `${withoutExt}.mjs`;
+
+  writeFileSync({
+    filename: mjsName,
+    code: typescript.getExchangeMjs(`${path.basename(withoutExt)}.json`),
+    writePath: path.join(process.cwd(), dir, mjsName),
+  });
+}
+
+async function writeJsonTs() {
+  const { ctx, models } = await prepare();
+
+  for (const { fileName, ast } of getSourceFiles(ctx)) {
+    const relativePath = path.relative(artifactsDir, fileName);
+    const withoutExt = relativePath.replace(path.extname(relativePath), "");
+
+    writeExchangeTs(withoutExt, exchange.getModel(ast));
+  }
+
+  const artifactsPkg = JSON.parse(
+    fs.readFileSync(path.join(artifactsDir, "package.json"), "utf-8"),
+  );
+
+  writeExchangeTs("index", exchange.getIndex(models, { version: artifactsPkg.version }));
+}
+
 async function writeFile(filePath: string, content: string) {
   try {
     await fs.mkdirp(path.dirname(filePath));
@@ -407,6 +444,22 @@ yargs(process.argv.slice(2))
     async () => {
       console.log("Start");
       await writeJson();
+      console.log("Done");
+    },
+  )
+  .command(
+    "json-ts <dir>",
+    "Generate typed declarations beside the JSON",
+    (yargs) => {
+      return yargs.positional("dir", {
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
+    },
+    async () => {
+      console.log("Start");
+      await writeJsonTs();
       console.log("Done");
     },
   )

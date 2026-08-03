@@ -1,0 +1,51 @@
+declare const artifact: {
+  "kind": "ComponentSpec";
+  "metadata": {
+    "id": "select-box-group";
+    "name": "Select Box Group";
+  };
+  "data": {
+    "id": "select-box-group";
+    "name": "Select Box Group";
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "gapX": {
+              "type": "dimension";
+            };
+            "gapY": {
+              "type": "dimension";
+            };
+          };
+        };
+      };
+      "variants": {};
+    };
+    "definitions": readonly [
+      {
+        "variants": {};
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "gapX": {
+                  "type": "dimension";
+                  "value": "$dimension.x3";
+                };
+                "gapY": {
+                  "type": "dimension";
+                  "value": "$dimension.spacing-y.component-default";
+                };
+              };
+            };
+          },
+        ];
+      },
+    ];
+  };
+};
+export default artifact;
