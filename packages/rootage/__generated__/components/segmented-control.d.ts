@@ -1,0 +1,58 @@
+declare const artifact: {
+  "kind": "ComponentSpec";
+  "metadata": {
+    "id": "segmented-control";
+    "name": "Segmented Control";
+  };
+  "data": {
+    "id": "segmented-control";
+    "name": "Segmented Control";
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "padding": {
+              "type": "dimension";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+            };
+            "color": {
+              "type": "color";
+            };
+          };
+        };
+      };
+      "variants": {};
+    };
+    "definitions": readonly [
+      {
+        "variants": {};
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "padding": {
+                  "type": "dimension";
+                  "value": "$dimension.x1";
+                };
+                "cornerRadius": {
+                  "type": "dimension";
+                  "value": "$radius.full";
+                };
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral-weak-alpha";
+                };
+              };
+            };
+          },
+        ];
+      },
+    ];
+  };
+};
+export default artifact;
