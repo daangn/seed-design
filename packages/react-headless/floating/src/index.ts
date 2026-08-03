@@ -11,14 +11,15 @@ import {
   type ExtendedRefs,
   type FloatingContext,
   type Middleware,
+  type OpenChangeReason,
   type Padding,
   type Placement,
   type Rect,
   type ReferenceType,
   type Side,
 } from "@floating-ui/react";
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useControllableState } from "@seed-design/react-use-controllable-state";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 
 export interface PositioningOptions {
   /**
@@ -139,7 +140,7 @@ const rectMiddleware: Middleware = {
   },
 };
 
-export interface UsePositionedFloatingProps extends PositioningOptions {
+export interface UsePositionedFloatingProps<Details = undefined> extends PositioningOptions {
   /**
    * Whether the floating element is initially open
    */
@@ -149,9 +150,11 @@ export interface UsePositionedFloatingProps extends PositioningOptions {
    */
   open?: boolean;
   /**
-   * Callback when the floating element is opened or closed
+   * Callback when the floating element is opened or closed. `details` is whatever the
+   * caller's `getChangeDetails` produced, or whatever it passed to the returned
+   * `onOpenChange`; a floating element that reports no reason leaves it undefined.
    */
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details?: Details) => void;
 }
 
 const ARROW_FLOATING_STYLE = {
@@ -162,9 +165,12 @@ const ARROW_FLOATING_STYLE = {
 } as const;
 
 // Explicit return type interface - leveraging @floating-ui/react types
-export interface UsePositionedFloatingReturn<RT extends ReferenceType = ReferenceType> {
+export interface UsePositionedFloatingReturn<
+  RT extends ReferenceType = ReferenceType,
+  Details = undefined,
+> {
   open: boolean;
-  onOpenChange: ((open: boolean) => void) | undefined;
+  onOpenChange: (open: boolean, details?: Details) => void;
   refs: ExtendedRefs<RT> & {
     arrow: HTMLElement | null;
     setArrow: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
@@ -184,17 +190,41 @@ export interface UsePositionedFloatingReturn<RT extends ReferenceType = Referenc
   arrowStyles: CSSProperties;
 }
 
-export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
-  props: UsePositionedFloatingProps,
-): UsePositionedFloatingReturn<RT> {
+export function usePositionedFloating<
+  RT extends ReferenceType = ReferenceType,
+  Details = undefined,
+>(
+  props: UsePositionedFloatingProps<Details>,
+  /**
+   * Translates the open-state changes floating-ui drives on its own — `useClick`,
+   * `useHover`, `useFocus`, `useDismiss` — into the caller's details shape. floating-ui
+   * reports them as `(open, event, reason)`, so a caller that wants the originating event
+   * has to name it here; without a mapper those two arguments have nowhere to go.
+   */
+  getChangeDetails?: (
+    event: Event | undefined,
+    reason: OpenChangeReason | undefined,
+  ) => Details | undefined,
+): UsePositionedFloatingReturn<RT, Details> {
   const options = { ...defaultPositioningOptions, ...props };
   const { safeAreaAware = false, overflowPadding = 8 } = options;
 
-  const [open, onOpenChange] = useControllableState({
+  const [open, onOpenChange] = useControllableState<boolean, Details>({
     prop: props.open,
     defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
   });
+
+  // Never hand `onOpenChange` to `useFloating` directly: floating-ui calls it as
+  // `(open, event, reason)`, so the event would land in the setter's `details` slot and
+  // reach the consumer's callback disguised as a reason payload.
+  const handleFloatingOpenChange = useCallback(
+    (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
+      onOpenChange(nextOpen, getChangeDetails?.(event, reason));
+    },
+    [onOpenChange, getChangeDetails],
+  );
+
   const [arrowEl, setArrowEl] = useState<HTMLElement | null>(null);
   const [arrowTipEl, setArrowTipEl] = useState<HTMLElement | null>(null);
   const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
@@ -220,7 +250,7 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
     strategy: options.strategy,
     open,
     placement: options.placement,
-    onOpenChange: onOpenChange,
+    onOpenChange: handleFloatingOpenChange,
     middleware: [
       getOffsetMiddleware(arrowTipOffset, options),
       getFlipMiddleware(options, collisionPadding),
