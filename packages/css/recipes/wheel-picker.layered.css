@@ -56,6 +56,18 @@
     display: none;
   }
 
+  .seed-wheel-picker__column :is([aria-selected="true"], [data-selected]) {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    border-radius: var(--seed-wheel-picker-selection-indicator-corner-radius, 0);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  }
+
+  .seed-wheel-picker__column.seed-wheel-picker__column:is(:focus-visible, [data-focus-visible]):not([data-wheel-picker-pointer-focus]) :is([aria-selected="true"], [data-selected]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
   .seed-wheel-picker__item {
     height: var(--seed-wheel-picker-item-size);
     min-height: var(--seed-wheel-picker-item-size);

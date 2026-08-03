@@ -1,3 +1,9 @@
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import { focusVisible, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
 
 export const WHEEL_PICKER_CUSTOM_PROPERTIES = {
@@ -7,6 +13,7 @@ export const WHEEL_PICKER_CUSTOM_PROPERTIES = {
   itemJustifyContent: "--seed-wheel-picker-item-justify-content",
   itemColor: "--seed-wheel-picker-item-color",
   selectedItemColor: "--seed-wheel-picker-selected-item-color",
+  selectionIndicatorCornerRadius: "--seed-wheel-picker-selection-indicator-corner-radius",
   indicatorOverlapStart: "--seed-wheel-picker-indicator-overlap-start",
   indicatorOverlapEnd: "--seed-wheel-picker-indicator-overlap-end",
 } as const;
@@ -63,6 +70,13 @@ const wheelPicker = defineSlotRecipe({
       "&::-webkit-scrollbar": {
         display: "none",
       },
+      [`& ${selected}` as const]: {
+        ...createFocusRingRestStyles({ position: "inside" }),
+        borderRadius: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius}, 0)`,
+        transition: FOCUS_RING_TRANSITION,
+      },
+      [`&${pseudo(focusVisible)}:not([data-wheel-picker-pointer-focus]) ${selected}` as const]:
+        createFocusRingStyles({ position: "inside" }),
     },
     item: {
       display: "flex",

@@ -276,7 +276,7 @@ function Header({
         id={`${api.rootProps.id}-header-label`}
         className={classNames.headerLabel}
       >
-        <span>{api.headerLabel}</span>
+        <Primitive.span data-date-picker-header-label="">{api.headerLabel}</Primitive.span>
         <Primitive.span className={classNames.headerChevron}>
           <Icon svg={<HeaderChevronIcon expanded={api.isWheelOpen} />} />
         </Primitive.span>
@@ -349,6 +349,7 @@ function WheelView({
         columnsClassName={classNames.wheelColumns}
         scrollFogClassName={classNames.wheelScrollFog}
         selectionIndicatorClassName={classNames.wheelSelectionIndicator}
+        fogSize={102}
       >
         <InternalWheelPickerColumn
           aria-label={api.ariaLabels.yearWheel}
@@ -469,36 +470,39 @@ const DatePickerImplementation = React.forwardRef<HTMLDivElement, DatePickerImpl
         ) : (
           <>
             {api.visibleRange !== "twoMonths" && <Header api={api} classNames={classNames} />}
-            {api.isWheelOpen && api.visibleRange !== "twoMonths" ? (
+            <Primitive.div
+              data-wheel-open={api.isWheelOpen && api.visibleRange !== "twoMonths" ? "" : undefined}
+              aria-hidden={api.isWheelOpen && api.visibleRange !== "twoMonths" ? true : undefined}
+              className={classNames.months}
+            >
+              {api.months.map((month, index) => (
+                <MonthView
+                  key={month.key}
+                  api={api}
+                  classNames={classNames}
+                  month={month}
+                  renderDateCellContent={renderDateCellContent}
+                  renderDateCellSupplement={renderDateCellSupplement}
+                  showWeekdays
+                  showMonthLabel={false}
+                  renderHeader={
+                    api.visibleRange === "twoMonths"
+                      ? (labelId) => (
+                          <TwoMonthHeader
+                            api={api}
+                            classNames={classNames}
+                            label={month.label}
+                            labelId={labelId}
+                            position={index === 0 ? "first" : "last"}
+                          />
+                        )
+                      : undefined
+                  }
+                />
+              ))}
+            </Primitive.div>
+            {api.isWheelOpen && api.visibleRange !== "twoMonths" && (
               <WheelView api={api} classNames={classNames} />
-            ) : (
-              <Primitive.div className={classNames.months}>
-                {api.months.map((month, index) => (
-                  <MonthView
-                    key={month.key}
-                    api={api}
-                    classNames={classNames}
-                    month={month}
-                    renderDateCellContent={renderDateCellContent}
-                    renderDateCellSupplement={renderDateCellSupplement}
-                    showWeekdays
-                    showMonthLabel={false}
-                    renderHeader={
-                      api.visibleRange === "twoMonths"
-                        ? (labelId) => (
-                            <TwoMonthHeader
-                              api={api}
-                              classNames={classNames}
-                              label={month.label}
-                              labelId={labelId}
-                              position={index === 0 ? "first" : "last"}
-                            />
-                          )
-                        : undefined
-                    }
-                  />
-                ))}
-              </Primitive.div>
             )}
           </>
         )}

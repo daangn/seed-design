@@ -49,6 +49,7 @@ const datePicker = defineSlotRecipe({
   ],
   base: {
     root: {
+      position: "relative",
       width: "100%",
       minWidth: 0,
       boxSizing: "border-box",
@@ -72,18 +73,22 @@ const datePicker = defineSlotRecipe({
       paddingBlock: 0,
       color: vars.base.enabled.headerLabel.color,
       background: "transparent",
+      fontFamily: "inherit",
       fontSize: vars.base.enabled.headerLabel.fontSize,
       lineHeight: vars.base.enabled.headerLabel.lineHeight,
       fontWeight: vars.base.enabled.headerLabel.fontWeight,
       whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
       cursor: "pointer",
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
       [pseudo(disabled)]: {
         cursor: "default",
+      },
+      "& > [data-date-picker-header-label]": {
+        minWidth: 0,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
       },
     },
     headerChevron: {
@@ -155,6 +160,9 @@ const datePicker = defineSlotRecipe({
       gridTemplateColumns: "minmax(0, 1fr)",
       alignItems: "start",
       minWidth: 0,
+      "&[data-wheel-open]": {
+        visibility: "hidden",
+      },
     },
     month: {
       minWidth: 0,
@@ -352,13 +360,20 @@ const datePicker = defineSlotRecipe({
       height: `var(${CONTINUOUS_SPACER_HEIGHT})`,
     },
     wheelContainer: {
+      position: "absolute",
+      zIndex: 1,
+      insetInline: 0,
+      top: vars.base.enabled.header.height,
+      bottom: 0,
       display: "flex",
-      height: vars.base.enabled.wheelContainer.height,
       alignItems: "center",
+      overflow: "hidden",
       backgroundColor: vars.base.enabled.root.color,
     },
     wheelView: {
       width: "100%",
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius]:
+        vars.base.enabled.wheelSelectionIndicator.cornerRadius,
     },
     wheelColumns: {},
     wheelSelectionIndicator: {
@@ -369,18 +384,10 @@ const datePicker = defineSlotRecipe({
     yearColumn: {
       flex: "0 0 120px",
       [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-end",
-      outline: "none",
-      transition: FOCUS_RING_TRANSITION,
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     monthColumn: {
       flex: "0 0 96px",
       [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-start",
-      outline: "none",
-      transition: FOCUS_RING_TRANSITION,
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     wheelItem: {
       [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.wheelItem.color,

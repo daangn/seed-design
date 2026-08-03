@@ -1,4 +1,5 @@
 .seed-date-picker__root {
+    position: relative;
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
@@ -22,12 +23,11 @@
     padding-block: 0;
     color: var(--seed-color-fg-neutral);
     background: transparent;
+    font-family: inherit;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
     white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
     cursor: pointer;
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
@@ -39,6 +39,11 @@
 }
 .seed-date-picker__headerLabel:is(:disabled, [disabled], [data-disabled]) {
     cursor: default;
+}
+.seed-date-picker__headerLabel > [data-date-picker-header-label] {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .seed-date-picker__headerChevron {
     display: inline-flex;
@@ -109,6 +114,9 @@
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
     min-width: 0;
+}
+.seed-date-picker__months[data-wheel-open] {
+    visibility: hidden;
 }
 .seed-date-picker__month {
     min-width: 0;
@@ -324,13 +332,19 @@
     height: var(--seed-date-picker-continuous-spacer-height);
 }
 .seed-date-picker__wheelContainer {
+    position: absolute;
+    z-index: 1;
+    inset-inline: 0;
+    top: var(--seed-dimension-x12);
+    bottom: 0;
     display: flex;
-    height: 336px;
     align-items: center;
+    overflow: hidden;
     background-color: var(--seed-color-bg-layer-floating);
 }
 .seed-date-picker__wheelView {
     width: 100%;
+    --seed-wheel-picker-selection-indicator-corner-radius: var(--seed-radius-r2);
 }
 .seed-date-picker__wheelColumns {}
 .seed-date-picker__wheelSelectionIndicator {
@@ -341,24 +355,10 @@
 .seed-date-picker__yearColumn {
     flex: 0 0 120px;
     --seed-wheel-picker-item-justify-content: flex-end;
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline-offset: var(--seed-dimension-x0_5);
-}
-.seed-date-picker__yearColumn:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-date-picker__monthColumn {
     flex: 0 0 96px;
     --seed-wheel-picker-item-justify-content: flex-start;
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline-offset: var(--seed-dimension-x0_5);
-}
-.seed-date-picker__monthColumn:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-date-picker__wheelItem {
     --seed-wheel-picker-item-color: var(--seed-color-fg-disabled);

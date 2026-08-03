@@ -1,10 +1,4 @@
 import { timePicker as vars } from "../vars/component";
-import {
-  createFocusRingRestStyles,
-  createFocusRingStyles,
-  FOCUS_RING_TRANSITION,
-} from "../utils/focus-ring";
-import { focusVisible, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
 import { WHEEL_PICKER_CUSTOM_PROPERTIES } from "./wheel-picker";
 
@@ -14,13 +8,6 @@ const columnBase = {
   "&[data-disabled]": {
     [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.enabled.item.color,
   },
-  [`& ${selected}` as const]: {
-    ...createFocusRingRestStyles({ position: "inside" }),
-    borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
-    transition: FOCUS_RING_TRANSITION,
-  },
-  [`&${pseudo(focusVisible)}:not([data-wheel-picker-pointer-focus]) ${selected}` as const]:
-    createFocusRingStyles({ position: "inside" }),
 };
 
 const timePicker = defineSlotRecipe({
@@ -39,6 +26,8 @@ const timePicker = defineSlotRecipe({
     root: {
       width: "100%",
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.item.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius]:
+        vars.base.enabled.selectionIndicator.cornerRadius,
     },
     scrollFog: {},
     columns: {},

@@ -105,10 +105,12 @@ describe("DatePicker", () => {
   it("월·연도 제목을 누르면 Wheel Picker로 전환한다", () => {
     const { getByRole, getAllByRole, queryByRole } = render(<DatePicker {...commonProps} />);
 
-    expect(getByRole("grid")).toBeInTheDocument();
+    const grid = getByRole("grid");
+    expect(grid).toBeInTheDocument();
     fireEvent.click(getByRole("button", { name: "2026년 7월" }));
 
     expect(queryByRole("grid")).not.toBeInTheDocument();
+    expect(grid.closest("[data-wheel-open]")).toHaveAttribute("aria-hidden", "true");
     expect(getAllByRole("spinbutton")).toHaveLength(2);
     expect(getByRole("spinbutton", { name: "연도" })).toBeInTheDocument();
     expect(getByRole("spinbutton", { name: "월" })).toBeInTheDocument();
@@ -120,6 +122,13 @@ describe("DatePicker", () => {
     expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-item-size")).toBe("44px");
     expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-visible-item-count")).toBe("7");
     expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-viewport-size")).toBe("308px");
+    expect(wheelRoot.querySelector("[data-wheel-picker-scroll-fog]")).toHaveStyle({
+      "--scroll-fog-size-top": "102px",
+      "--scroll-fog-size-bottom": "102px",
+    });
+    expect(
+      getByRole("button", { name: "2026년 7월" }).querySelector("[data-date-picker-header-label]"),
+    ).toBeInTheDocument();
   });
 
   it("레이아웃별 공개 컴포넌트가 고정된 달력 범위를 렌더링한다", () => {

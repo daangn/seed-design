@@ -4525,6 +4525,7 @@
   min-width: 0;
   color: var(--seed-color-fg-neutral-muted);
   background-color: var(--seed-color-bg-layer-floating);
+  position: relative;
 }
 
 .seed-date-picker__header {
@@ -4541,11 +4542,11 @@
   height: 100%;
   padding-inline: var(--seed-dimension-x1);
   color: var(--seed-color-fg-neutral);
+  font-family: inherit;
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-bold);
   white-space: nowrap;
-  text-overflow: ellipsis;
   cursor: pointer;
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   outline: var(--seed-dimension-x0_5) solid transparent;
@@ -4554,7 +4555,6 @@
   border: 0;
   padding-block: 0;
   display: inline-flex;
-  overflow: hidden;
 }
 
 .seed-date-picker__headerLabel:is(:focus-visible, [data-focus-visible]) {
@@ -4564,6 +4564,12 @@
 
 .seed-date-picker__headerLabel:is(:disabled, [disabled], [data-disabled]) {
   cursor: default;
+}
+
+.seed-date-picker__headerLabel > [data-date-picker-header-label] {
+  text-overflow: ellipsis;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .seed-date-picker__headerChevron {
@@ -4645,6 +4651,10 @@
   align-items: start;
   min-width: 0;
   display: grid;
+}
+
+.seed-date-picker__months[data-wheel-open] {
+  visibility: hidden;
 }
 
 .seed-date-picker__month {
@@ -4893,13 +4903,19 @@
 }
 
 .seed-date-picker__wheelContainer {
+  z-index: 1;
+  inset-inline: 0;
+  top: var(--seed-dimension-x12);
   background-color: var(--seed-color-bg-layer-floating);
   align-items: center;
-  height: 336px;
   display: flex;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
 }
 
 .seed-date-picker__wheelView {
+  --seed-wheel-picker-selection-indicator-corner-radius: var(--seed-radius-r2);
   width: 100%;
 }
 
@@ -4910,28 +4926,12 @@
 
 .seed-date-picker__yearColumn {
   --seed-wheel-picker-item-justify-content: flex-end;
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline-offset: var(--seed-dimension-x0_5);
   flex: 0 0 120px;
-}
-
-.seed-date-picker__yearColumn:is(:focus-visible, [data-focus-visible]) {
-  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: var(--seed-dimension-x0_5);
 }
 
 .seed-date-picker__monthColumn {
   --seed-wheel-picker-item-justify-content: flex-start;
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-  outline-offset: var(--seed-dimension-x0_5);
   flex: 0 0 96px;
-}
-
-.seed-date-picker__monthColumn:is(:focus-visible, [data-focus-visible]) {
-  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: var(--seed-dimension-x0_5);
 }
 
 .seed-date-picker__wheelItem {
@@ -12517,6 +12517,7 @@
 
 .seed-time-picker__root {
   --seed-wheel-picker-selected-item-color: var(--seed-color-fg-neutral);
+  --seed-wheel-picker-selection-indicator-corner-radius: var(--seed-radius-r2);
   width: 100%;
 }
 
@@ -12534,18 +12535,6 @@
   --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
 }
 
-.seed-time-picker__periodColumn :is([aria-selected="true"], [data-selected]) {
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-  border-radius: var(--seed-radius-r2);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-}
-
-.seed-time-picker__periodColumn.seed-time-picker__periodColumn:is(:focus-visible, [data-focus-visible]):not([data-wheel-picker-pointer-focus]) :is([aria-selected="true"], [data-selected]) {
-  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-}
-
 .seed-time-picker__hourColumn {
   outline: none;
   flex: none;
@@ -12553,18 +12542,6 @@
 
 .seed-time-picker__hourColumn[data-disabled] {
   --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
-}
-
-.seed-time-picker__hourColumn :is([aria-selected="true"], [data-selected]) {
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-  border-radius: var(--seed-radius-r2);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-}
-
-.seed-time-picker__hourColumn.seed-time-picker__hourColumn:is(:focus-visible, [data-focus-visible]):not([data-wheel-picker-pointer-focus]) :is([aria-selected="true"], [data-selected]) {
-  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-time-picker__hourColumn {
@@ -12578,18 +12555,6 @@
 
 .seed-time-picker__minuteColumn[data-disabled] {
   --seed-wheel-picker-selected-item-color: var(--seed-color-fg-disabled);
-}
-
-.seed-time-picker__minuteColumn :is([aria-selected="true"], [data-selected]) {
-  outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-  border-radius: var(--seed-radius-r2);
-  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-}
-
-.seed-time-picker__minuteColumn.seed-time-picker__minuteColumn:is(:focus-visible, [data-focus-visible]):not([data-wheel-picker-pointer-focus]) :is([aria-selected="true"], [data-selected]) {
-  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-time-picker__item {
@@ -12834,6 +12799,18 @@
 
 .seed-wheel-picker__column::-webkit-scrollbar {
   display: none;
+}
+
+.seed-wheel-picker__column :is([aria-selected="true"], [data-selected]) {
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  border-radius: var(--seed-wheel-picker-selection-indicator-corner-radius, 0);
+  transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+}
+
+.seed-wheel-picker__column.seed-wheel-picker__column:is(:focus-visible, [data-focus-visible]):not([data-wheel-picker-pointer-focus]) :is([aria-selected="true"], [data-selected]) {
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-wheel-picker__item {
