@@ -904,7 +904,7 @@
       "version": "1.0.1",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
-        "@radix-ui/react-use-controllable-state": "1.2.2",
+        "@seed-design/react-use-controllable-state": "^2.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",

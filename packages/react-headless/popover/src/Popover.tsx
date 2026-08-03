@@ -71,19 +71,19 @@ const PopoverDismissibleLayer = ({ children }: { children: React.ReactNode }) =>
     <DismissibleLayer
       enabled={open}
       pressBehavior="drag"
-      onEscapeKeyDown={() => {
-        setOpen(false);
+      onEscapeKeyDown={(event) => {
+        setOpen(false, { reason: "escapeKeyDown", event });
       }}
-      onPressOutside={() => {
+      onPressOutside={(event) => {
         if (!closeOnInteractOutside) return;
 
-        setOpen(false);
+        setOpen(false, { reason: "interactOutside", event });
       }}
       onFocusOutside={() => {
         // Focus containment is PopoverContent's trapped FocusScope — nothing to do here.
       }}
-      onCascadeDismiss={() => {
-        setOpen(false);
+      onCascadeDismiss={({ dismissedParent }) => {
+        setOpen(false, { reason: "cascadeDismiss", dismissedParent });
       }}
       exclude={(target) => {
         // The trigger lives outside the layer's DOM, but `useClick` already toggles the
