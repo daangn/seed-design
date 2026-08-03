@@ -8,7 +8,7 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "rootage:generate": "bun rootage json-schema ./components && bun rootage json ./__generated__ && bun rootage json-ts ./__generated__"
+    "rootage:generate": "bun rootage json-schema ./components && bun rootage json-ts ./__generated__"
   },
   "main": "package.json",
   "files": [

@@ -319,11 +319,7 @@ function stringifyLiteralType(value: unknown, depth: number): string {
     return `readonly [\n${items.join(",\n")},\n${pad}]`;
   }
 
-  // Undefined-valued keys are dropped to match `JSON.stringify`: the declaration has
-  // to describe the file that ships beside it, not the model it was built from.
-  const entries = Object.entries(value as Record<string, unknown>).filter(
-    ([_, item]) => item !== undefined,
-  );
+  const entries = Object.entries(value as Record<string, unknown>);
   if (entries.length === 0) return "{}";
 
   const props = entries.map(
@@ -341,9 +337,15 @@ function stringifyLiteralType(value: unknown, depth: number): string {
  * into a union that cannot be indexed. A declaration keeps both, and costs less to
  * check — its types resolve lazily from syntax, where a JSON module's are
  * synthesized in full the moment it is loaded.
+ *
+ * The value is put through `JSON.stringify` rather than read as given: the declaration
+ * has to describe the file that ships beside it, and only JSON itself knows what it
+ * does to an `undefined` property or a non-finite number.
  */
 export function getExchangeDts(value: unknown): string {
-  return `declare const artifact: ${stringifyLiteralType(value, 0)};\nexport default artifact;\n`;
+  const json: unknown = JSON.parse(JSON.stringify(value));
+
+  return `declare const artifact: ${stringifyLiteralType(json, 0)};\nexport default artifact;\n`;
 }
 
 /**

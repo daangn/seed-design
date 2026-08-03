@@ -648,6 +648,12 @@ describe("getExchangeDts", () => {
     );
   });
 
+  it("should write non-finite numbers as null, as JSON.stringify does", () => {
+    expect(getExchangeDts({ value: Number.POSITIVE_INFINITY })).toBe(
+      'declare const artifact: {\n  "value": null;\n};\nexport default artifact;\n',
+    );
+  });
+
   it("should render empty containers", () => {
     expect(getExchangeDts({ variants: {}, states: [] })).toBe(
       'declare const artifact: {\n  "variants": {};\n  "states": readonly [];\n};\nexport default artifact;\n',
