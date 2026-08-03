@@ -76,6 +76,10 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
       };
     case "TokenCollectionDeclaration":
       return node;
+    // Only reached when a caller starts from a mode: the collection above returns
+    // itself rather than mapping `modes`, so traversal never descends into one.
+    case "ModeDeclaration":
+      return node;
 
     // ComponentSpec
     case "ComponentSpecDocument":
