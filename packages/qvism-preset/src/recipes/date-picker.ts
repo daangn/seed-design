@@ -7,6 +7,7 @@ import {
 import { onlyIcon } from "../utils/icon";
 import { disabled, engaged, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
+import { WHEEL_PICKER_CUSTOM_PROPERTIES } from "./wheel-picker";
 
 const datePicker = defineSlotRecipe({
   name: "date-picker",
@@ -358,7 +359,7 @@ const datePicker = defineSlotRecipe({
     wheelScrollFog: {},
     yearColumn: {
       flex: "0 0 120px",
-      "--seed-wheel-picker-item-justify-content": "flex-end",
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-end",
       outline: "none",
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
@@ -366,15 +367,15 @@ const datePicker = defineSlotRecipe({
     },
     monthColumn: {
       flex: "0 0 96px",
-      "--seed-wheel-picker-item-justify-content": "flex-start",
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-start",
       outline: "none",
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     wheelItem: {
-      "--seed-wheel-picker-item-color": vars.base.enabled.wheelItem.color,
-      "--seed-wheel-picker-selected-item-color": vars.base.selected.wheelItem.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.wheelItem.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.wheelItem.color,
       paddingInline: vars.base.enabled.wheelItem.paddingX,
       fontSize: vars.base.enabled.wheelItem.fontSize,
       lineHeight: vars.base.enabled.wheelItem.lineHeight,

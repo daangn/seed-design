@@ -6,12 +6,13 @@ import {
 } from "../utils/focus-ring";
 import { focusVisible, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
+import { WHEEL_PICKER_CUSTOM_PROPERTIES } from "./wheel-picker";
 
 const columnBase = {
   flex: "0 0 auto",
   outline: "none",
   "&[data-disabled]": {
-    "--seed-wheel-picker-selected-item-color": vars.base.enabled.item.color,
+    [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.enabled.item.color,
   },
   [`& ${selected}` as const]: {
     ...createFocusRingRestStyles({ position: "inside" }),
@@ -37,7 +38,7 @@ const timePicker = defineSlotRecipe({
   base: {
     root: {
       width: "100%",
-      "--seed-wheel-picker-selected-item-color": vars.base.selected.item.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.item.color,
     },
     scrollFog: {},
     columns: {},
@@ -50,13 +51,13 @@ const timePicker = defineSlotRecipe({
     },
     hourColumn: {
       ...columnBase,
-      "--seed-wheel-picker-item-justify-content": "flex-end",
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-end",
     },
     minuteColumn: {
       ...columnBase,
     },
     item: {
-      "--seed-wheel-picker-item-color": vars.base.enabled.item.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.item.color,
       paddingInline: vars.base.enabled.item.paddingX,
       fontSize: vars.base.enabled.item.fontSize,
       lineHeight: vars.base.enabled.item.lineHeight,
