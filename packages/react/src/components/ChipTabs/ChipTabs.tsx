@@ -1,6 +1,7 @@
 import { chipTabs, type ChipTabsVariantProps } from "@seed-design/css/recipes/chip-tabs";
 import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withPressScale } from "../../utils/pressScale";
 import { forwardRef } from "react";
 import clsx from "clsx";
 
@@ -41,9 +42,8 @@ export const ChipTabsList = withContext<HTMLDivElement, ChipTabsListProps>(
 
 export interface ChipTabsTriggerProps extends TabsPrimitive.TriggerProps {}
 
-export const ChipTabsTrigger = withContext<HTMLButtonElement, ChipTabsTriggerProps>(
-  TabsPrimitive.Trigger,
-  "trigger",
+export const ChipTabsTrigger = withPressScale(
+  withContext<HTMLButtonElement, ChipTabsTriggerProps>(TabsPrimitive.Trigger, "trigger"),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

@@ -2,12 +2,26 @@ import { reactionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { prefixIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
+import {
+  active,
+  engaged,
+  disabled,
+  focusVisible,
+  loading,
+  not,
+  pressed,
+  pseudo,
+} from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import { count } from "../utils/count";
 
 const reactionButton = defineRecipe({
@@ -32,7 +46,10 @@ const reactionButton = defineRecipe({
     ...createFocusRingRestStyles(),
     [pseudo(focusVisible)]: createFocusRingStyles(),
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    ...createPressScaleRestStyles(),
+    [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
+
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
     background: vars.base.enabled.root.color,
     fontWeight: vars.base.enabled.label.fontWeight,
     color: vars.base.enabled.label.color,

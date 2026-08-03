@@ -1,6 +1,6 @@
-import * as scale from "../vars/scale";
 import { actionButton as vars } from "../vars/component";
 import * as duration from "../vars/duration";
+import * as scale from "../vars/scale";
 import * as timingFunction from "../vars/timing-function";
 
 import { defineSlotRecipe } from "../utils/define";
@@ -448,7 +448,9 @@ const actionButton = defineSlotRecipe({
     // Lynx has no individual `scale:` property and does not evaluate
     // prefers-reduced-motion, so scale is applied via the `transform` shorthand
     // and always animates on-device (the reduced-motion guard is dropped in
-    // lynx-css at the token layer).
+    // lynx-css at the token layer). Web derives the pressed scale at runtime,
+    // so the static per-size values reference the global scale tokens directly
+    // instead of component vars.
     {
       size: "xsmall",
       pressed: true,

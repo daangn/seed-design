@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 import { pageBanner, type PageBannerVariantProps } from "@seed-design/css/recipes/page-banner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withPressScale } from "../../utils/pressScale";
 import {
   DismissibleCloseButton,
   DismissibleRoot,
@@ -93,16 +94,14 @@ export interface PageBannerButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const PageBannerButton = withContext<HTMLButtonElement, PageBannerButtonProps>(
-  Primitive.button,
-  "button",
+export const PageBannerButton = withPressScale(
+  withContext<HTMLButtonElement, PageBannerButtonProps>(Primitive.button, "button"),
 );
 
 export interface PageBannerCloseButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const PageBannerCloseButton = withContext<HTMLButtonElement, PageBannerCloseButtonProps>(
-  DismissibleCloseButton,
-  "closeButton",
+export const PageBannerCloseButton = withPressScale(
+  withContext<HTMLButtonElement, PageBannerCloseButtonProps>(DismissibleCloseButton, "closeButton"),
 );

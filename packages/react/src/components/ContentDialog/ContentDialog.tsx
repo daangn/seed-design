@@ -1,4 +1,4 @@
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import {
   contentDialog,
   type ContentDialogVariantProps,
@@ -10,6 +10,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { usePressScale } from "../../utils/pressScale";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(contentDialog);
@@ -209,11 +210,12 @@ export const ContentDialogCloseButton = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
   const { trackRef } = closeButtonTracker.useRenderTracking();
+  const { pressScaleRef, pressScaleClassName } = usePressScale();
 
   return (
     <DialogPrimitive.CloseButton
-      ref={composeRefs(ref, trackRef)}
-      className={clsx(classNames.closeButton, className)}
+      ref={useComposedRefs(pressScaleRef, ref, trackRef)}
+      className={clsx(classNames.closeButton, pressScaleClassName, className)}
       {...props}
     />
   );

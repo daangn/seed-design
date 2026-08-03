@@ -1,6 +1,11 @@
 import { callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, pseudo } from "../utils/pseudo";
+import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -46,9 +51,14 @@ const callout = defineSlotRecipe({
         size: vars.base.enabled.suffixIcon.size,
       }),
 
+      // An actionable callout scales as a whole — background, stroke and content
+      // together — so the focus ring may stay on the root and scale with it.
       [pseudo(":is(button, a)")]: {
         cursor: "pointer",
-        transition: FOCUS_RING_TRANSITION,
+        transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+
+        ...createPressScaleRestStyles(),
+        [pseudo(active)]: createPressScaleStyles(),
 
         ...createFocusRingRestStyles(),
         [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -118,7 +128,13 @@ const callout = defineSlotRecipe({
       margin: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: FOCUS_RING_TRANSITION,
+
+      // The button itself is transparent, so scaling the whole button scales only
+      // its content (the icon).
+      ...createPressScaleRestStyles(),
+      [pseudo(active)]: createPressScaleStyles(),
+
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
     },

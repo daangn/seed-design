@@ -5,6 +5,7 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withPressScale } from "../../utils/pressScale";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { withProvider, withContext } = createSlotRecipeContext(floatingActionButton);
@@ -16,10 +17,9 @@ export interface FloatingActionButtonRootProps
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const FloatingActionButtonRoot = withProvider<
-  HTMLButtonElement,
-  FloatingActionButtonRootProps
->(Primitive.button, "root");
+export const FloatingActionButtonRoot = withPressScale(
+  withProvider<HTMLButtonElement, FloatingActionButtonRootProps>(Primitive.button, "root"),
+);
 
 export interface FloatingActionButtonIconProps extends InternalIconProps {}
 

@@ -1,8 +1,5 @@
 import spec from "@seed-design/rootage-artifacts/components/action-button";
 import { actionButton as vars } from "../vars/component";
-import * as scale from "../vars/scale";
-import * as duration from "../vars/duration";
-import * as timingFunction from "../vars/timing-function";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
@@ -12,6 +9,11 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
 
 const actionButton = defineRecipe({
   name: "action-button",
@@ -63,10 +65,10 @@ const actionButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
-    scale: "1",
+    ...createPressScaleRestStyles(),
+    [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${duration.pressedScale} ${timingFunction.pressedScale}, ${FOCUS_RING_TRANSITION}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {
@@ -376,10 +378,6 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeXsmallLayoutIconOnly.enabled.icon.size,
         }),
-
-        [pseudo(not(disabled), active)]: {
-          scale: scale.s95,
-        },
       },
       small: {
         height: vars.sizeSmall.enabled.root.minHeight,
@@ -397,10 +395,6 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
         }),
-
-        [pseudo(not(disabled), active)]: {
-          scale: scale.s97,
-        },
       },
       medium: {
         height: vars.sizeMedium.enabled.root.minHeight,
@@ -418,10 +412,6 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
         }),
-
-        [pseudo(not(disabled), active)]: {
-          scale: scale.s97,
-        },
       },
       large: {
         height: vars.sizeLarge.enabled.root.minHeight,
@@ -439,10 +429,6 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeLargeLayoutIconOnly.enabled.icon.size,
         }),
-
-        [pseudo(not(disabled), active)]: {
-          scale: scale.s98,
-        },
       },
     },
     layout: {

@@ -13,7 +13,12 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import {
+  createPressScaleRestStyles,
+  createPressScaleStyles,
+  PRESS_SCALE_TRANSITION,
+} from "../utils/press-scale";
+import { active, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 
 const contentDialog = defineSlotRecipe({
   name: "content-dialog",
@@ -207,16 +212,18 @@ const contentDialog = defineSlotRecipe({
 
       cursor: "pointer",
 
-      transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,
         size: closeButtonVars.base.enabled.icon.size,
       }),
 
+      ...createPressScaleRestStyles(),
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
+      [pseudo(active)]: { ...createPressScaleStyles() },
       [pseudo(engaged)]: {
         background: closeButtonVars.base.pressed.root.color,
       },
