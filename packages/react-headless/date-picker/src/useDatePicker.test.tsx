@@ -230,6 +230,31 @@ describe("useDatePicker", () => {
     expect(result.current.viewDate).toEqual({ year: 2026, month: 8, day: 1 });
   });
 
+  it("Wheel Picker에서 고른 연도와 월은 닫을 때 표시 날짜에 반영한다", () => {
+    const onViewDateChange = mock(() => {});
+    const { result } = renderDatePicker({ onViewDateChange });
+
+    act(() => result.current.monthYearButtonProps.onClick());
+    act(() => result.current.wheel.onMonthValueChange("8"));
+
+    expect(result.current.isWheelOpen).toBe(true);
+    expect(result.current.wheel.monthValue).toBe("8");
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 1 });
+    expect(result.current.months[0]?.weeks).toHaveLength(5);
+    expect(onViewDateChange).not.toHaveBeenCalled();
+    expect(result.current.nextButtonProps.disabled).toBe(true);
+
+    act(() => result.current.nextButtonProps.onClick());
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 1 });
+
+    act(() => result.current.monthYearButtonProps.onClick());
+
+    expect(result.current.isWheelOpen).toBe(false);
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 8, day: 1 });
+    expect(result.current.months[0]?.weeks).toHaveLength(6);
+    expect(onViewDateChange).toHaveBeenCalledWith({ year: 2026, month: 8, day: 1 });
+  });
+
   it("yearRange 밖으로 이어지는 Week와 Two Months의 날짜는 선택할 수 없다", () => {
     const week = renderDatePicker({
       visibleRange: "week",

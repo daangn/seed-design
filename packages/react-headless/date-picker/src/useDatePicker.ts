@@ -261,6 +261,7 @@ export function useDatePicker(props: UseDatePickerProps) {
     initialSelectedDate ?? viewDate,
   );
   const [isWheelOpen, setIsWheelOpen] = React.useState(false);
+  const [wheelViewDate, setWheelViewDate] = React.useState<DatePickerDate>(viewDate);
   const rootId = React.useId();
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const shouldMoveDomFocusRef = React.useRef(false);
@@ -823,13 +824,14 @@ export function useDatePicker(props: UseDatePickerProps) {
 
   const moveView = React.useCallback(
     (direction: -1 | 1) => {
+      if (isWheelOpen) return;
       const next =
         visibleRange === "week" ? addDays(viewDate, direction * 7) : addMonths(viewDate, direction);
       const clamped = clampDateToYearRange(next, yearRange);
       setViewDate(clamped);
       setFocusedDate(clamped);
     },
-    [setViewDate, viewDate, visibleRange, yearRange],
+    [isWheelOpen, setViewDate, viewDate, visibleRange, yearRange],
   );
 
   const headerLabel =
@@ -877,20 +879,22 @@ export function useDatePicker(props: UseDatePickerProps) {
     });
   }, [locale]);
 
-  const changeWheelYear = React.useCallback(
-    (yearValue: string) => {
-      const target = getDateForMonthAndDay(Number(yearValue), viewDate.month, 1);
-      setViewDate(target);
-    },
-    [setViewDate, viewDate.month],
-  );
-  const changeWheelMonth = React.useCallback(
-    (monthValue: string) => {
-      const target = getDateForMonthAndDay(viewDate.year, Number(monthValue), 1);
-      setViewDate(target);
-    },
-    [setViewDate, viewDate.year],
-  );
+  const changeWheelYear = React.useCallback((yearValue: string) => {
+    setWheelViewDate((current) => getDateForMonthAndDay(Number(yearValue), current.month, 1));
+  }, []);
+  const changeWheelMonth = React.useCallback((monthValue: string) => {
+    setWheelViewDate((current) => getDateForMonthAndDay(current.year, Number(monthValue), 1));
+  }, []);
+  const toggleWheel = React.useCallback(() => {
+    if (isWheelOpen) {
+      setIsWheelOpen(false);
+      setViewDate(wheelViewDate);
+      return;
+    }
+
+    setWheelViewDate(viewDate);
+    setIsWheelOpen(true);
+  }, [isWheelOpen, setViewDate, viewDate, wheelViewDate]);
 
   return {
     selectionMode,
@@ -917,8 +921,8 @@ export function useDatePicker(props: UseDatePickerProps) {
     wheel: {
       yearOptions,
       monthOptions,
-      yearValue: String(viewDate.year),
-      monthValue: String(viewDate.month),
+      yearValue: String(wheelViewDate.year),
+      monthValue: String(wheelViewDate.month),
       onYearValueChange: changeWheelYear,
       onMonthValueChange: changeWheelMonth,
     },
@@ -952,13 +956,13 @@ export function useDatePicker(props: UseDatePickerProps) {
     previousButtonProps: {
       type: "button" as const,
       "aria-label": previousLabel,
-      disabled: disabled || !canMovePrevious,
+      disabled: disabled || isWheelOpen || !canMovePrevious,
       onClick: () => moveView(-1),
     },
     nextButtonProps: {
       type: "button" as const,
       "aria-label": nextLabel,
-      disabled: disabled || !canMoveNext,
+      disabled: disabled || isWheelOpen || !canMoveNext,
       onClick: () => moveView(1),
     },
     monthYearButtonProps: {
@@ -966,7 +970,7 @@ export function useDatePicker(props: UseDatePickerProps) {
       "aria-expanded": isWheelOpen,
       "aria-controls": `${rootId}-wheel`,
       disabled,
-      onClick: () => setIsWheelOpen((open) => !open),
+      onClick: toggleWheel,
     },
     wheelProps: elementProps({
       id: `${rootId}-wheel`,
