@@ -1,10 +1,4 @@
-import {
-  useClick,
-  useDismiss,
-  useInteractions,
-  useRole,
-  useTransitionStatus,
-} from "@floating-ui/react";
+import { useClick, useInteractions, useRole, useTransitionStatus } from "@floating-ui/react";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useId, useMemo, useState } from "react";
 import {
@@ -23,7 +17,7 @@ export interface UsePopoverProps extends UsePositionedFloatingProps {
 
 export type UsePopoverReturn = ReturnType<typeof usePopover>;
 
-export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps = {}) {
+export function usePopover({ closeOnInteractOutside = true, ...props }: UsePopoverProps = {}) {
   const {
     open,
     onOpenChange,
@@ -36,6 +30,15 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
     arrowStyles,
     rects,
   } = usePositionedFloating(props);
+
+  // The single write path for open state, so every caller — the close button here and the
+  // layer-stack callbacks in Popover.tsx — funnels through one place.
+  const setOpen = useCallback(
+    (nextOpen: boolean) => {
+      onOpenChange?.(nextOpen);
+    },
+    [onOpenChange],
+  );
 
   const id = useId();
 
@@ -52,15 +55,15 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
     setIsDescriptionRendered(!!node);
   }, []);
 
+  // Deliberately absent: floating-ui's `useDismiss`. Dismissal is the layer stack's job
+  // (see `PopoverDismissibleLayer` in Popover.tsx) — running both would close the popover
+  // twice and bind an Escape handler that ignores which layer is on top.
   const role = useRole(context);
   const click = useClick(context);
-  const dismiss = useDismiss(context, {
-    outsidePress: closeOnInteractOutside ?? true,
-  });
 
   const { status } = useTransitionStatus(context);
-  const triggerInteractions = useInteractions([role, click, dismiss]);
-  const anchorInteractions = useInteractions([role, dismiss]);
+  const triggerInteractions = useInteractions([role, click]);
+  const anchorInteractions = useInteractions([role]);
 
   const stateProps = useMemo(
     () =>
@@ -77,6 +80,11 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
   return useMemo(
     () => ({
       open,
+      setOpen,
+      // Handed back rather than consumed here: the outside-press listener lives on the
+      // positioner's DismissibleLayer, which is the element that decides what "outside" is.
+      closeOnInteractOutside,
+      floatingContext: context,
       refs: {
         anchor: refs.setReference as (instance: HTMLElement | null) => void,
         trigger: refs.setReference as (instance: HTMLElement | null) => void,
@@ -122,13 +130,15 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
         onClick: (e) => {
           if (e.defaultPrevented) return;
 
-          onOpenChange?.(false);
+          setOpen(false);
         },
       }),
     }),
     [
       open,
-      onOpenChange,
+      setOpen,
+      closeOnInteractOutside,
+      context,
       id,
       isTitleRendered,
       isDescriptionRendered,
