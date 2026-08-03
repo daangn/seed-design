@@ -281,6 +281,9 @@ const datePicker = defineSlotRecipe({
       "&[data-unavailable] [data-date-picker-day]": {
         textDecoration: "line-through",
       },
+      "&[data-unavailable][data-range-start]:not([data-range-complete]) [data-date-picker-day]": {
+        textDecoration: "none",
+      },
       [pseudo(disabled)]: {
         color: vars.base.disabled.dateContent.color,
         cursor: "default",

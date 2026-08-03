@@ -4808,6 +4808,10 @@
   text-decoration: line-through;
 }
 
+.seed-date-picker__dateButton[data-unavailable][data-range-start]:not([data-range-complete]) [data-date-picker-day] {
+  text-decoration: none;
+}
+
 .seed-date-picker__dateButton:is(:disabled, [disabled], [data-disabled]) {
   color: var(--seed-color-fg-disabled);
   cursor: default;
