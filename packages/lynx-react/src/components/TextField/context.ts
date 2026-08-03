@@ -3,11 +3,15 @@ import type { NodesRef } from "@lynx-js/types";
 
 export interface TextFieldContextValue {
   rootRef: React.RefObject<NodesRef | null>;
+  value: string;
+  valueRevision: number;
   disabled: boolean;
   invalid: boolean;
   readOnly: boolean;
   required: boolean;
+  name?: string;
   focused: boolean;
+  setValue: (value: string) => void;
   setFocused: (focused: boolean) => void;
 }
 

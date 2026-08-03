@@ -68,7 +68,7 @@ const spacerProps = {
  * @platform Lynx
  *
  * 세로 `<scroll-view>` 안의 활성 입력 요소가 키보드에 가려지지 않도록 한다.
- * Field/TextField가 제공할 비공개 context 등록 계약을 먼저 수용하는 기반 구현이다.
+ * `TextField.Input`과 `TextField.Textarea`는 focus 시 자동으로 이 컴포넌트에 등록된다.
  *
  * 현재 미지원 기능:
  * - 가로 스크롤과 중첩 스크롤
@@ -84,9 +84,6 @@ export interface KeyboardAvoidingScrollViewProps
   scrollBehavior?: KeyboardAvoidingScrollBehavior;
 }
 
-/**
- * Field/TextField 연동 전까지 package root에서 공개하지 않는 기반 컴포넌트다.
- */
 export const KeyboardAvoidingScrollView: LynxForwardRefComponent<
   NodesRef,
   KeyboardAvoidingScrollViewProps

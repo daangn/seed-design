@@ -1,0 +1,47 @@
+---
+title: KeyboardAvoidingScrollView
+description: 소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.4.0" />
+
+## Installation
+
+```package-install
+@seed-design/lynx-react
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/KeyboardAvoidingScrollView/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewProps" />
+
+## Usage
+
+```tsx
+import { KeyboardAvoidingScrollView, TextField } from "@seed-design/lynx-react";
+
+export function Form() {
+  return (
+    <KeyboardAvoidingScrollView keyboardGap={24} scrollBehavior="smooth">
+      <TextField.Root>
+        <TextField.Input accessibility-label="제목" />
+      </TextField.Root>
+      <TextField.Root>
+        <TextField.Textarea accessibility-label="내용" />
+      </TextField.Root>
+    </KeyboardAvoidingScrollView>
+  );
+}
+```
+
+`TextField.Input`과 `TextField.Textarea`가 focus·blur·layout 변경을 자동으로 전달하므로 별도 등록 prop은 필요하지 않습니다.
+
+## Web Version Differences
+
+- 브라우저의 `visualViewport`나 CSS viewport unit 대신 Lynx keyboard global event와 native node 측정을 사용합니다.
+- 키보드가 열릴 때 필요한 하단 spacer만 추가하고, 사용자 스크롤 중에는 자동 이동을 잠시 중단합니다.
+
+## Unsupported Lynx Features
+
+- 가로·중첩 scroll view는 지원하지 않습니다.
+- 키보드 toolbar 높이와 큰 textarea의 caret 단위 회피는 아직 반영하지 않습니다.

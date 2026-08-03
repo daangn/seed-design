@@ -11,6 +11,18 @@ const textInputSlotNames = [
     "seed-text-input__value"
   ],
   [
+    "textareaRoot",
+    "seed-text-input__textareaRoot"
+  ],
+  [
+    "textareaControl",
+    "seed-text-input__textareaControl"
+  ],
+  [
+    "textareaMirror",
+    "seed-text-input__textareaMirror"
+  ],
+  [
     "prefixText",
     "seed-text-input__prefixText"
   ],

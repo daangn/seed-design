@@ -2198,9 +2198,38 @@ text {
 }
 
 .seed-text-input__value {
+  min-width: 0;
   color: var(--seed-color-fg-neutral);
   font-weight: var(--seed-font-weight-regular);
+  background-color: #0000;
+  border-width: 0;
   flex-grow: 1;
+  padding: 0;
+}
+
+.seed-text-input__textareaRoot {
+  flex-grow: 1;
+  align-self: stretch;
+  min-width: 0;
+  position: relative;
+}
+
+.seed-text-input__textareaControl {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.seed-text-input__textareaMirror {
+  visibility: hidden;
+  white-space: normal;
+  word-break: break-all;
+  pointer-events: none;
+  width: 100%;
 }
 
 .seed-text-input__prefixText {

@@ -16,7 +16,7 @@ export const KeyboardAvoidanceActionsContext: Context<KeyboardAvoidanceActions |
   createContext<KeyboardAvoidanceActions | null>(null);
 
 /**
- * 향후 Lynx TextField가 선택적으로 소비하는 비공개 연결점이다.
+ * Lynx TextField가 선택적으로 소비하는 내부 연결점이다.
  * Provider 밖에서는 `null`을 반환해 TextField 자체 동작을 방해하지 않는다.
  */
 export function useKeyboardAvoidanceActions(): KeyboardAvoidanceActions | null {
