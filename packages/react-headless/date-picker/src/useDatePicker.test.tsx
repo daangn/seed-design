@@ -125,6 +125,20 @@ describe("useDatePicker", () => {
     expect(getCell(result, 15).isUnavailable).toBe(true);
   });
 
+  it("완료된 range 이후에는 이전 시작일의 제약 없이 새 range를 시작한다", () => {
+    const { result } = renderDatePicker({
+      selectionMode: "range",
+      constraints: [rangeDayCountAtMost(5)],
+    });
+
+    act(() => clickCell(getCell(result, 10)));
+    act(() => clickCell(getCell(result, 13)));
+
+    expect(getCell(result, 15).isUnavailable).toBe(false);
+    act(() => clickCell(getCell(result, 15)));
+    expect(result.current.value).toEqual({ start: { year: 2026, month: 7, day: 15 } });
+  });
+
   it("maxSelectionCount에 도달해도 기존 날짜는 선택 해제할 수 있다", () => {
     const { result } = renderDatePicker({
       selectionMode: "multiple",

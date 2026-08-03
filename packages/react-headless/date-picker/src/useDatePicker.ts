@@ -304,6 +304,8 @@ export function useDatePicker(props: UseDatePickerProps) {
     (candidate: DatePickerDate): DatePickerConstraintContext => {
       const multipleValue =
         selectionMode === "multiple" ? (value as readonly DatePickerDate[]) : undefined;
+      const rangeValue =
+        selectionMode === "range" ? (value as DatePickerRangeValue | undefined) : undefined;
       const action =
         multipleValue?.some((selectedDate) => isSameDate(selectedDate, candidate)) === true
           ? "deselect"
@@ -311,10 +313,7 @@ export function useDatePicker(props: UseDatePickerProps) {
       return {
         selectionMode,
         value,
-        rangeStart:
-          selectionMode === "range"
-            ? (value as DatePickerRangeValue | undefined)?.start
-            : undefined,
+        rangeStart: rangeValue?.end === undefined ? rangeValue?.start : undefined,
         action,
       };
     },
