@@ -125,7 +125,7 @@ describe("DatePicker", () => {
     );
     const todayButton = getByRole("button", { name: "오늘로 이동" });
 
-    expect(actionsRef.current).toBeDefined();
+    expect(actionsRef.current).not.toBeNull();
     todayButton.focus();
     fireEvent.click(todayButton);
 
@@ -140,7 +140,7 @@ describe("DatePicker", () => {
       <DatePicker {...commonProps} actionsRef={actionsRef} onViewDateChange={onViewDateChange} />,
     );
 
-    expect(actionsRef.current).toBeDefined();
+    expect(actionsRef.current).not.toBeNull();
     act(() => {
       actionsRef.current?.focusDate({ year: 2026, month: 8, day: 15 });
     });
