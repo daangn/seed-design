@@ -46,6 +46,14 @@ export default function DatePickerReservation() {
         체크인 {toDateKey(value.start)}
         {value.end ? ` · 체크아웃 ${toDateKey(value.end)}` : " · 체크아웃을 선택하세요"}
       </Text>
+      <VStack gap="x1" align="center">
+        <Text textStyle="t2Regular" color="fg.neutralMuted">
+          선택 구간은 체크인·체크아웃을 포함해 2~14일이어야 합니다.
+        </Text>
+        <Text textStyle="t2Regular" color="fg.neutralMuted">
+          예약 완료일(7월 18일·19일·25일)이 포함된 구간은 선택할 수 없습니다.
+        </Text>
+      </VStack>
     </VStack>
   );
 }

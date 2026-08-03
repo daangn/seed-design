@@ -41,14 +41,16 @@ type DatePickerBehaviorProps = UseDatePickerProps extends infer Props
 type DatePickerCellCustomization =
   | {
       /**
-       * 기본 날짜 숫자 아래에 콘텐츠를 추가합니다.
+       * 기본 날짜 숫자 아래에 부가 콘텐츠를 추가합니다.
+       * 날짜 숫자를 유지하는 대부분의 사례에서는 이 prop을 우선 사용하세요.
        */
       renderDateCellSupplement?: (props: DatePickerCellContentRenderProps) => React.ReactNode;
       renderDateCellContent?: never;
     }
   | {
       /**
-       * 날짜 셀의 접근성·인터랙션 구조는 유지하면서 내부 콘텐츠를 교체합니다.
+       * `renderDateCellSupplement`로 표현할 수 없을 때 내부 콘텐츠 전체를 교체하는
+       * 저수준 이스케이프 해치입니다. 날짜 셀의 접근성·인터랙션 구조는 유지됩니다.
        */
       renderDateCellContent?: (props: DatePickerCellContentRenderProps) => React.ReactNode;
       renderDateCellSupplement?: never;

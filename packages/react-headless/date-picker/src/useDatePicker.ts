@@ -248,6 +248,8 @@ export function useDatePicker(props: UseDatePickerProps) {
   const rootId = React.useId();
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const shouldMoveDomFocusRef = React.useRef(false);
+  // 같은 날짜를 다시 요청해도 layout effect가 DOM 포커스를 이동하도록 commit을 보장합니다.
+  const [, requestDomFocusCommit] = React.useReducer((request) => request + 1, 0);
   const constraints = props.constraints ?? [];
   const defaultAriaLabels = getDefaultAriaLabels(locale);
   const ariaLabels = { ...defaultAriaLabels, ...props.ariaLabels };
@@ -353,6 +355,7 @@ export function useDatePicker(props: UseDatePickerProps) {
       shouldMoveDomFocusRef.current = true;
       setFocusedDate(date);
       setViewDate(date);
+      requestDomFocusCommit();
     },
     [setViewDate, yearRange],
   );

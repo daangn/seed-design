@@ -150,4 +150,32 @@ describe("DatePicker", () => {
       expect(document.activeElement).toBe(getByRole("button", { name: /2026년 8월 15일/ }));
     });
   });
+
+  it("focusDate는 표시 날짜와 roving focus 대상이 이미 같아도 DOM 포커스를 이동한다", async () => {
+    const actionsRef = React.createRef<DatePickerActions>();
+    const { getByRole } = render(
+      <>
+        <button type="button" onClick={() => actionsRef.current?.navigateToDate(commonProps.today)}>
+          오늘로 이동
+        </button>
+        <button type="button" onClick={() => actionsRef.current?.focusDate(commonProps.today)}>
+          오늘에 포커스
+        </button>
+        <DatePicker {...commonProps} actionsRef={actionsRef} />
+      </>,
+    );
+    const navigateButton = getByRole("button", { name: "오늘로 이동" });
+    const focusButton = getByRole("button", { name: "오늘에 포커스" });
+
+    navigateButton.focus();
+    fireEvent.click(navigateButton);
+    expect(document.activeElement).toBe(navigateButton);
+
+    focusButton.focus();
+    fireEvent.click(focusButton);
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(getByRole("button", { name: /2026년 7월 30일/ }));
+    });
+  });
 });
