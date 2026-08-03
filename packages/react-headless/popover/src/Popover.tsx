@@ -2,6 +2,7 @@
 
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
+import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
@@ -48,6 +49,57 @@ export const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>
 });
 PopoverTrigger.displayName = "PopoverTrigger";
 
+/**
+ * Registers the popover in SEED's shared layer stack for as long as it is open, so Escape
+ * and outside presses resolve against the top-most layer instead of every open layer at
+ * once, and an ancestor layer closing (Dialog, Drawer) cascades down to this one.
+ *
+ * The layer wraps the positioner rather than the content for two reasons. The positioner
+ * is the floating element, so "outside the layer" keeps meaning what it meant while
+ * dismissal lived in floating-ui's `useDismiss`. And it is the one part every consumer of
+ * `usePopover` renders — HelpBubble supplies its own content element, so a layer on
+ * `PopoverContent` would leave it out of the stack entirely.
+ *
+ * `pressBehavior="drag"` matches the other anchored surfaces (Menu, Select): a mouse press
+ * outside dismisses on pointerdown, while touch waits for a drag or a completed tap so a
+ * finger landing mid-scroll does not read as a dismiss.
+ */
+const PopoverDismissibleLayer = ({ children }: { children: React.ReactNode }) => {
+  const { open, setOpen, closeOnInteractOutside, floatingContext } = usePopoverContext();
+
+  return (
+    <DismissibleLayer
+      enabled={open}
+      pressBehavior="drag"
+      onEscapeKeyDown={() => {
+        setOpen(false);
+      }}
+      onPressOutside={() => {
+        if (!closeOnInteractOutside) return;
+
+        setOpen(false);
+      }}
+      onFocusOutside={() => {
+        // Focus containment is PopoverContent's trapped FocusScope — nothing to do here.
+      }}
+      onCascadeDismiss={() => {
+        setOpen(false);
+      }}
+      exclude={(target) => {
+        // The trigger lives outside the layer's DOM, but `useClick` already toggles the
+        // popover shut when it is pressed. Treating it as outside would close the popover
+        // on pointerdown and let that same press re-open it on click.
+        const reference = floatingContext.refs.reference.current;
+        if (!(reference instanceof HTMLElement)) return false;
+
+        return reference.contains(target);
+      }}
+    >
+      {children}
+    </DismissibleLayer>
+  );
+};
+
 export interface PopoverPositionerProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
@@ -56,10 +108,12 @@ export const PopoverPositioner = forwardRef<HTMLDivElement, PopoverPositionerPro
   (props, ref) => {
     const api = usePopoverContext();
     return (
-      <Primitive.div
-        ref={composeRefs(api.refs.positioner, ref)}
-        {...mergeProps(api.positionerProps, props)}
-      />
+      <PopoverDismissibleLayer>
+        <Primitive.div
+          ref={composeRefs(api.refs.positioner, ref)}
+          {...mergeProps(api.positionerProps, props)}
+        />
+      </PopoverDismissibleLayer>
     );
   },
 );
@@ -75,10 +129,12 @@ export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositio
 
     return (
       <FloatingPortal id={id} root={root} preserveTabOrder={preserveTabOrder}>
-        <Primitive.div
-          ref={composeRefs(api.refs.positioner, ref)}
-          {...mergeProps(api.positionerProps, otherProps)}
-        />
+        <PopoverDismissibleLayer>
+          <Primitive.div
+            ref={composeRefs(api.refs.positioner, ref)}
+            {...mergeProps(api.positionerProps, otherProps)}
+          />
+        </PopoverDismissibleLayer>
       </FloatingPortal>
     );
   },
