@@ -300,3 +300,56 @@ export function createStringifier(options: { prefix?: string } = {}) {
     getTokenDts,
   };
 }
+
+const INDENT = "  ";
+
+function stringifyLiteralType(value: unknown, depth: number): string {
+  if (value === null) return "null";
+  if (typeof value === "string") return JSON.stringify(value);
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+
+  const pad = INDENT.repeat(depth);
+  const padInner = INDENT.repeat(depth + 1);
+
+  if (Array.isArray(value)) {
+    if (value.length === 0) return "readonly []";
+
+    const items = value.map((item) => `${padInner}${stringifyLiteralType(item, depth + 1)}`);
+
+    return `readonly [\n${items.join(",\n")},\n${pad}]`;
+  }
+
+  // Undefined-valued keys are dropped to match `JSON.stringify`: the declaration has
+  // to describe the file that ships beside it, not the model it was built from.
+  const entries = Object.entries(value as Record<string, unknown>).filter(
+    ([_, item]) => item !== undefined,
+  );
+  if (entries.length === 0) return "{}";
+
+  const props = entries.map(
+    ([key, item]) => `${padInner}${JSON.stringify(key)}: ${stringifyLiteralType(item, depth + 1)}`,
+  );
+
+  return `{\n${props.join(";\n")};\n${pad}}`;
+}
+
+/**
+ * Declares an exchange artifact with every literal kept narrow.
+ *
+ * A `.json` import cannot: TypeScript widens each literal, so a token reference and
+ * an enum value both arrive as `string`, and an array of unlike entries collapses
+ * into a union that cannot be indexed. A declaration keeps both, and costs less to
+ * check — its types resolve lazily from syntax, where a JSON module's are
+ * synthesized in full the moment it is loaded.
+ */
+export function getExchangeDts(value: unknown): string {
+  return `declare const artifact: ${stringifyLiteralType(value, 0)};\nexport default artifact;\n`;
+}
+
+/**
+ * Re-exports the sibling JSON instead of inlining it, so the data lives in one file
+ * and the declaration beside this module is what supplies the narrow types.
+ */
+export function getExchangeMjs(jsonFileName: string): string {
+  return `import artifact from "./${jsonFileName}" with { type: "json" };\nexport default artifact;\n`;
+}
