@@ -147,7 +147,7 @@ function parseVariantDeclaration(
 
 function parseStateDeclaration(
   key: string,
-  decl: Record<string, Record<string, Document.Value>>,
+  decl: Record<string, Record<string, Document.PropertyValue>>,
   ctx: ParseContext,
 ): StateDeclaration {
   // We'll treat def.states as an array of strings => an array of StateExpression
@@ -186,7 +186,7 @@ function parseStateDeclaration(
  */
 function parsePropertyDeclaration(
   property: string,
-  lhValue: Document.Value,
+  lhValue: Document.PropertyValue,
   { declaredType, context }: { declaredType?: PropertySchemaDeclaration["type"]; context: string },
 ): PropertyDeclaration {
   if (!declaredType) {

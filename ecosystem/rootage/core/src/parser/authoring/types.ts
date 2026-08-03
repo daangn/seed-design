@@ -31,10 +31,9 @@ export type Gradient = {
 /**
  * A value from an `enum` property's list, written bare.
  *
- * Widening the union to `string` swallows the template-literal members above, so
- * this type no longer rejects a malformed colour or dimension. There is nothing
- * shape-based left to check once a type's values are arbitrary words; the parser
- * dispatches on the declared type and the analyzer checks list membership.
+ * Kept out of `Value`: being `string`, it would swallow the template-literal
+ * members and stop them rejecting a malformed color or dimension. Only a
+ * component spec property can hold one, so it joins at `PropertyValue` instead.
  */
 export type Enum = string;
 
@@ -43,11 +42,12 @@ export type Value =
   | Dimension
   | Number
   | Duration
-  | Enum
   | CubicBezier
   | Shadow
   | Gradient
   | TokenRef;
+
+export type PropertyValue = Value | Enum;
 
 export interface TokenCollectionsModel {
   kind: "TokenCollections";
@@ -103,7 +103,7 @@ export interface ComponentSpecData {
 export interface ComponentSpecVariantDefinitions {
   [state: string]: {
     [slot: string]: {
-      [property: string]: Value;
+      [property: string]: PropertyValue;
     };
   };
 }

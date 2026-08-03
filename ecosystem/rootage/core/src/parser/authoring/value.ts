@@ -242,7 +242,7 @@ const PARSE_BY_TYPE = {
  */
 export function parseValueAs(
   type: AST.PropertySchemaDeclaration["type"],
-  input: Document.Value,
+  input: Document.PropertyValue,
   context: string,
 ): AST.ValueLit {
   const result = PARSE_BY_TYPE[type](input);
