@@ -19,6 +19,7 @@
     height: 100%;
     min-width: 0;
     border: 0;
+    border-radius: var(--seed-radius-r2);
     padding-inline: var(--seed-dimension-x1);
     padding-block: 0;
     color: var(--seed-color-fg-neutral);
@@ -31,11 +32,11 @@
     cursor: pointer;
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-date-picker__headerLabel:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 .seed-date-picker__headerLabel:is(:disabled, [disabled], [data-disabled]) {
     cursor: default;

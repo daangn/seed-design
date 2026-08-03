@@ -4538,6 +4538,7 @@
 .seed-date-picker__headerLabel {
   align-items: center;
   gap: var(--seed-dimension-x1);
+  border-radius: var(--seed-radius-r2);
   min-width: 0;
   height: 100%;
   padding-inline: var(--seed-dimension-x1);
@@ -4550,7 +4551,7 @@
   cursor: pointer;
   transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   outline: var(--seed-dimension-x0_5) solid transparent;
-  outline-offset: var(--seed-dimension-x0_5);
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   background: none;
   border: 0;
   padding-block: 0;
@@ -4559,7 +4560,7 @@
 
 .seed-date-picker__headerLabel:is(:focus-visible, [data-focus-visible]) {
   outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-  outline-offset: var(--seed-dimension-x0_5);
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }
 
 .seed-date-picker__headerLabel:is(:disabled, [disabled], [data-disabled]) {

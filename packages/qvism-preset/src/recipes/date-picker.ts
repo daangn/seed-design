@@ -1,4 +1,5 @@
 import { datePicker as vars } from "../vars/component";
+import { vars as tokens } from "../vars";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -69,6 +70,7 @@ const datePicker = defineSlotRecipe({
       height: "100%",
       minWidth: 0,
       border: 0,
+      borderRadius: tokens.$radius.r2,
       paddingInline: vars.base.enabled.headerLabel.paddingX,
       paddingBlock: 0,
       color: vars.base.enabled.headerLabel.color,
@@ -80,8 +82,8 @@ const datePicker = defineSlotRecipe({
       whiteSpace: "nowrap",
       cursor: "pointer",
       transition: FOCUS_RING_TRANSITION,
-      ...createFocusRingRestStyles(),
-      [pseudo(focusVisible)]: createFocusRingStyles(),
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
       [pseudo(disabled)]: {
         cursor: "default",
       },
