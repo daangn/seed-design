@@ -1204,6 +1204,12 @@
               "docUrl": "/lynx/getting-started/installation"
             },
             {
+              "id": "keyboard-avoiding-scroll-view",
+              "title": "KeyboardAvoidingScrollView",
+              "description": "소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/keyboard-avoiding-scroll-view"
+            },
+            {
               "id": "progress-circle",
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
@@ -1266,6 +1272,19 @@
               "title": "Text",
               "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
               "docUrl": "/lynx/foundation/typography/text"
+            },
+            {
+              "id": "text-field",
+              "title": "TextField",
+              "description": "한 줄 또는 여러 줄 텍스트를 입력받고 Field의 레이블·설명·오류 상태와 조합하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/text-field",
+              "snippetKey": "lynx/ui:text-field",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "text-field.tsx"
+                }
+              ]
             },
             {
               "id": "theming",

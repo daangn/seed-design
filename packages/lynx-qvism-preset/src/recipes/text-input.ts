@@ -3,7 +3,17 @@ import { defineSlotRecipe } from "../utils/define";
 
 const textInput = defineSlotRecipe({
   name: "text-input",
-  slots: ["root", "value", "prefixText", "prefixIcon", "suffixText", "suffixIcon"],
+  slots: [
+    "root",
+    "value",
+    "textareaRoot",
+    "textareaControl",
+    "textareaMirror",
+    "prefixText",
+    "prefixIcon",
+    "suffixText",
+    "suffixIcon",
+  ],
   base: {
     root: {
       display: "flex",
@@ -18,8 +28,34 @@ const textInput = defineSlotRecipe({
     },
     value: {
       flexGrow: 1,
+      minWidth: 0,
+      padding: 0,
+      borderWidth: 0,
+      backgroundColor: "transparent",
       color: vars.base.enabled.value.color,
       fontWeight: vars.base.enabled.value.fontWeight,
+    },
+    textareaRoot: {
+      flexGrow: 1,
+      minWidth: 0,
+      position: "relative",
+      alignSelf: "stretch",
+    },
+    textareaControl: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+    },
+    textareaMirror: {
+      width: "100%",
+      visibility: "hidden",
+      whiteSpace: "normal",
+      wordBreak: "break-all",
+      pointerEvents: "none",
     },
     prefixText: {
       color: vars.base.enabled.prefixText.color,

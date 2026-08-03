@@ -11,8 +11,34 @@
 }
 .seed-text-input__value {
     flex-grow: 1;
+    min-width: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-regular)
+}
+.seed-text-input__textareaRoot {
+    flex-grow: 1;
+    min-width: 0;
+    position: relative;
+    align-self: stretch
+}
+.seed-text-input__textareaControl {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+}
+.seed-text-input__textareaMirror {
+    width: 100%;
+    visibility: hidden;
+    white-space: normal;
+    word-break: break-all;
+    pointer-events: none
 }
 .seed-text-input__prefixText {
     color: var(--seed-color-fg-neutral-subtle);

@@ -489,6 +489,7 @@
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
         "clsx": "^2.1.1",
+        "unicode-segmenter": "^0.14.4",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",

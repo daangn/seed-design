@@ -1,10 +1,11 @@
 import * as React from "@lynx-js/react";
-import type { NodesRef } from "@lynx-js/types";
+import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 import { textInput, type TextInputVariantProps } from "@seed-design/lynx-css/recipes/text-input";
 import clsx from "clsx";
 
 import type { LynxStyledElementProps, LynxTextRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { useKeyboardAvoidanceActions } from "../KeyboardAvoidingScrollView/context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { useFieldContext } from "../Field/context";
 import { TextFieldContext } from "./context";
@@ -16,22 +17,40 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(textInput)
 /**
  * @platform Lynx
  *
- * 이번 기반 구현에는 native `<input>`과 `<textarea>`가 포함되지 않는다.
- * 입력 값 상태, 키보드 회피 등록, autoresize는 후속 입력 primitive에서 연결한다.
+ * native `<input>`과 `<textarea>`의 값 상태를 소유한다.
+ * Lynx native 입력은 value attribute를 제공하지 않으므로 하위 입력 슬롯이
+ * `setValue` UI method로 controlled value를 동기화한다.
  */
 export interface TextFieldRootProps
   extends Omit<TextInputVariantProps, "focused">,
     LynxStyledElementProps {
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
   required?: boolean;
+  name?: string;
 }
 
 export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
   (props, forwardedRef) => {
     const [variantProps, otherProps] = textInput.splitVariantProps(props);
-    const { children, className, required: requiredProp, ...nativeProps } = otherProps;
+    const {
+      children,
+      className,
+      value: controlledValue,
+      defaultValue = "",
+      onValueChange,
+      required: requiredProp,
+      name,
+      ...nativeProps
+    } = otherProps;
     const fieldContext = useFieldContext({ strict: false });
     const rootRef = React.useRef<NodesRef | null>(null);
+    const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue);
+    const [valueRevision, setValueRevision] = React.useState(0);
     const [localFocused, setLocalFocused] = React.useState(false);
+    const isControlled = controlledValue !== undefined;
+    const value = isControlled ? controlledValue : uncontrolledValue;
     const disabled = variantProps.disabled ?? fieldContext?.disabled ?? false;
     const invalid = variantProps.invalid ?? fieldContext?.invalid ?? false;
     const readOnly = variantProps.readOnly ?? fieldContext?.readOnly ?? false;
@@ -69,17 +88,48 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
       [fieldContext],
     );
 
+    const setValue = React.useCallback(
+      (nextValue: string) => {
+        "background only";
+
+        if (!isControlled) {
+          setUncontrolledValue(nextValue);
+        } else {
+          setValueRevision((revision) => revision + 1);
+        }
+        if (nextValue !== value) {
+          onValueChange?.(nextValue);
+        }
+      },
+      [isControlled, onValueChange, value],
+    );
+
     const contextValue = React.useMemo(
       () => ({
         rootRef,
+        value,
+        valueRevision,
         disabled,
         invalid,
         readOnly,
         required,
+        name,
         focused,
+        setValue,
         setFocused,
       }),
-      [disabled, focused, invalid, readOnly, required, setFocused],
+      [
+        disabled,
+        focused,
+        invalid,
+        name,
+        readOnly,
+        required,
+        setFocused,
+        setValue,
+        value,
+        valueRevision,
+      ],
     );
 
     return (
@@ -94,6 +144,234 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
   },
 );
 TextFieldRoot.displayName = "TextFieldRoot";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+type NativeInputProps = IntrinsicElements["input"];
+type NativeTextareaProps = IntrinsicElements["textarea"];
+type NativeInputEvent = Parameters<NonNullable<NativeInputProps["bindinput"]>>[0];
+type NativeTextareaEvent = Parameters<NonNullable<NativeTextareaProps["bindinput"]>>[0];
+
+interface UseNativeTextControlOptions {
+  forwardedRef: React.Ref<NodesRef>;
+  bindinput?: (event: NativeInputEvent | NativeTextareaEvent) => void;
+  bindfocus?: NativeInputProps["bindfocus"] | NativeTextareaProps["bindfocus"];
+  bindblur?: NativeInputProps["bindblur"] | NativeTextareaProps["bindblur"];
+}
+
+function useNativeTextControl({
+  forwardedRef,
+  bindinput,
+  bindfocus,
+  bindblur,
+}: UseNativeTextControlOptions) {
+  const textFieldContext = React.useContext(TextFieldContext);
+  if (!textFieldContext) {
+    throw new Error("TextField input components must be rendered inside <TextField.Root>.");
+  }
+
+  const fieldContext = useFieldContext({ strict: false });
+  const keyboardAvoidance = useKeyboardAvoidanceActions();
+  const nativeRef = React.useRef<NodesRef | null>(null);
+  const ownerRef = React.useRef<object>({});
+  const lastNativeValueRef = React.useRef<string | null>(null);
+
+  const syncNativeValue = React.useCallback((node: NodesRef, value: string) => {
+    "background only";
+
+    if (lastNativeValueRef.current === value || typeof node.invoke !== "function") return;
+
+    lastNativeValueRef.current = value;
+
+    try {
+      node
+        .invoke({
+          method: "setValue",
+          params: { value },
+          fail() {
+            "background only";
+            if (lastNativeValueRef.current === value) {
+              lastNativeValueRef.current = null;
+            }
+          },
+        })
+        .exec();
+    } catch {
+      // Native node가 아직 commit되지 않았거나 UI method를 지원하지 않으면
+      // 다음 value commit에서 다시 동기화한다.
+      lastNativeValueRef.current = null;
+    }
+  }, []);
+
+  const mergedRef = React.useCallback(
+    (node: NodesRef | null) => {
+      "background only";
+
+      nativeRef.current = node;
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef],
+  );
+
+  React.useEffect(() => {
+    const node = nativeRef.current;
+    if (node) {
+      syncNativeValue(node, textFieldContext.value);
+    }
+  }, [syncNativeValue, textFieldContext.value, textFieldContext.valueRevision]);
+
+  React.useEffect(
+    () => () => {
+      keyboardAvoidance?.unregister(ownerRef.current);
+    },
+    [keyboardAvoidance],
+  );
+
+  const handleInput = React.useCallback(
+    (event: NativeInputEvent | NativeTextareaEvent) => {
+      "background only";
+
+      const nextValue = event.detail.value;
+      lastNativeValueRef.current = nextValue;
+      textFieldContext.setValue(nextValue);
+      bindinput?.(event);
+    },
+    [bindinput, textFieldContext],
+  );
+
+  const handleFocus = React.useCallback(
+    (event: Parameters<NonNullable<NativeInputProps["bindfocus"]>>[0]) => {
+      "background only";
+
+      textFieldContext.setFocused(true);
+      keyboardAvoidance?.focus({
+        owner: ownerRef.current,
+        nativeRef,
+        controlRef: textFieldContext.rootRef,
+        fieldRef: fieldContext?.rootRef,
+        enabled: !textFieldContext.disabled && !textFieldContext.readOnly,
+      });
+      bindfocus?.(event);
+    },
+    [bindfocus, fieldContext, keyboardAvoidance, textFieldContext],
+  );
+
+  const handleBlur = React.useCallback(
+    (event: Parameters<NonNullable<NativeInputProps["bindblur"]>>[0]) => {
+      "background only";
+
+      textFieldContext.setFocused(false);
+      keyboardAvoidance?.blur(ownerRef.current);
+      bindblur?.(event);
+    },
+    [bindblur, keyboardAvoidance, textFieldContext],
+  );
+
+  const notifyLayoutChanged = React.useCallback(() => {
+    "background only";
+
+    keyboardAvoidance?.layoutChanged(ownerRef.current);
+  }, [keyboardAvoidance]);
+
+  return {
+    context: textFieldContext,
+    mergedRef,
+    handleInput,
+    handleFocus,
+    handleBlur,
+    notifyLayoutChanged,
+  };
+}
+
+export interface TextFieldInputProps extends Omit<NativeInputProps, "children" | "ref"> {}
+
+export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((props, ref) => {
+  const classes = useClassNames();
+  const { className, disabled, readonly, name, bindinput, bindfocus, bindblur, ...nativeProps } =
+    props;
+  const control = useNativeTextControl({ forwardedRef: ref, bindinput, bindfocus, bindblur });
+
+  return (
+    <input
+      ref={control.mergedRef}
+      className={clsx(classes.value, className)}
+      disabled={disabled ?? control.context.disabled}
+      readonly={readonly ?? control.context.readOnly}
+      name={name ?? control.context.name}
+      bindinput={control.handleInput}
+      bindfocus={control.handleFocus}
+      bindblur={control.handleBlur}
+      {...nativeProps}
+    />
+  );
+});
+TextFieldInput.displayName = "TextFieldInput";
+
+export interface TextFieldTextareaProps extends Omit<NativeTextareaProps, "children" | "ref"> {
+  /** 내용에 맞춰 높이를 자동으로 조절한다. @defaultValue true */
+  autoresize?: boolean;
+}
+
+export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaProps>(
+  (props, ref) => {
+    const classes = useClassNames();
+    const {
+      className,
+      disabled,
+      readonly,
+      name,
+      bindinput,
+      bindfocus,
+      bindblur,
+      autoresize = true,
+      ...nativeProps
+    } = props;
+    const control = useNativeTextControl({
+      forwardedRef: ref,
+      bindinput,
+      bindfocus,
+      bindblur,
+    });
+
+    const textarea = (
+      <textarea
+        ref={control.mergedRef}
+        className={clsx(classes.value, autoresize && classes.textareaControl, className)}
+        disabled={disabled ?? control.context.disabled}
+        readonly={readonly ?? control.context.readOnly}
+        name={name ?? control.context.name}
+        bindinput={control.handleInput}
+        bindfocus={control.handleFocus}
+        bindblur={control.handleBlur}
+        {...nativeProps}
+      />
+    );
+
+    if (!autoresize) return textarea;
+
+    const mirrorValue = control.context.value.endsWith("\n")
+      ? `${control.context.value}\u200b`
+      : control.context.value || "\u200b";
+
+    return (
+      <view className={classes.textareaRoot}>
+        <text
+          className={clsx(classes.value, classes.textareaMirror)}
+          accessibility-elements-hidden={true}
+          bindlayout={control.notifyLayoutChanged}
+        >
+          {mirrorValue}
+        </text>
+        {textarea}
+      </view>
+    );
+  },
+);
+TextFieldTextarea.displayName = "TextFieldTextarea";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

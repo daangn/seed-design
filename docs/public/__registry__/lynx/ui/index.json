@@ -107,6 +107,21 @@
       "dependencies": [
         "@seed-design/lynx-react"
       ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "text-field.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "text-field",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
     }
   ]
 }
