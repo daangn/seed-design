@@ -131,7 +131,12 @@ export interface ComponentSpecVariantValueSchema {
 
 export interface ComponentSpecSchema {
   slots: ComponentSpecSlotSchema;
-  variants: ComponentSpecVariantSchema;
+  /**
+   * Optional because the parser infers the variant axes from the keys of
+   * `definitions` and only merges this in on top — most component documents
+   * declare nothing here.
+   */
+  variants?: ComponentSpecVariantSchema;
 }
 
 export type Model = TokenCollectionsModel | TokensModel | ComponentSpecModel;

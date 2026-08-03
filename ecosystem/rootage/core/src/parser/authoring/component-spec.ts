@@ -15,7 +15,12 @@ import * as factory from "../factory";
 import type * as Document from "./types";
 import { isTokenRef } from "./is-token-ref";
 import { parseMetadataDeclaration } from "./metadata";
-import { parseValue } from "./value";
+import { parseValueAs } from "./value";
+
+interface ParseContext {
+  componentId: string;
+  slotSchemas: Document.ComponentSpecSlotSchema;
+}
 
 export function parseComponentSpecDocument(
   model: Document.ComponentSpecModel,
@@ -30,10 +35,13 @@ export function parseComponentSpecDeclaration(
   model: Document.ComponentSpecModel,
 ): ComponentSpecDeclaration {
   const { id, name } = model.metadata;
+
+  const slotSchemas = model.data.schema?.slots ?? {};
+
   const body: VariantDeclaration[] = [];
 
   for (const [key, value] of Object.entries(model.data.definitions)) {
-    body.push(parseVariantDeclaration(key, value));
+    body.push(parseVariantDeclaration(key, value, { componentId: id, slotSchemas }));
   }
 
   const inferredVariants = inferVariantSchema(model.data.definitions);
@@ -123,6 +131,7 @@ function parseStateExpression(stateExpression: string) {
 function parseVariantDeclaration(
   key: string,
   decl: Document.ComponentSpecVariantDefinitions,
+  ctx: ParseContext,
 ): VariantDeclaration {
   const variantExprs = Object.entries(parseVariantExpression(key)).map(([k, v]) =>
     factory.createVariantExpression(k, v),
@@ -130,7 +139,7 @@ function parseVariantDeclaration(
 
   // Convert definitions => array of StateDeclaration
   const stateDecls: StateDeclaration[] = Object.entries(decl).map(([k, v]) =>
-    parseStateDeclaration(k, v),
+    parseStateDeclaration(k, v, ctx),
   );
 
   return factory.createVariantDeclaration(variantExprs, stateDecls);
@@ -139,6 +148,7 @@ function parseVariantDeclaration(
 function parseStateDeclaration(
   key: string,
   decl: Record<string, Record<string, Document.Value>>,
+  ctx: ParseContext,
 ): StateDeclaration {
   // We'll treat def.states as an array of strings => an array of StateExpression
   const stateExpressions = parseStateExpression(key).map((st) => factory.createStateExpression(st));
@@ -147,10 +157,16 @@ function parseStateDeclaration(
   const slotDecls: SlotDeclaration[] = [];
 
   for (const [slotName, props] of Object.entries(decl)) {
+    const propertySchemas = ctx.slotSchemas[slotName]?.properties;
     const propertyDecls: PropertyDeclaration[] = [];
 
     for (const [propKey, lhValue] of Object.entries(props)) {
-      propertyDecls.push(parsePropertyDeclaration(propKey, lhValue));
+      propertyDecls.push(
+        parsePropertyDeclaration(propKey, lhValue, {
+          declaredType: propertySchemas?.[propKey]?.type,
+          context: `Property "${propKey}" of slot "${slotName}" in component spec "${ctx.componentId}"`,
+        }),
+      );
     }
 
     slotDecls.push(factory.createSlotDeclaration(slotName, propertyDecls));
@@ -162,13 +178,26 @@ function parseStateDeclaration(
 /**
  * Turn a property name + Document.Value => one of property declarations
  * (ColorPropertyDeclaration, DimensionPropertyDeclaration, etc.).
+ *
+ * The token-reference check runs ahead of the type dispatch: an alias looks the
+ * same whatever it points at, so it is well-formed under every declared type, and
+ * whether the two actually agree is checked against the resolved token later (see
+ * analyzer/validate.ts).
  */
-function parsePropertyDeclaration(property: string, lhValue: Document.Value): PropertyDeclaration {
+function parsePropertyDeclaration(
+  property: string,
+  lhValue: Document.Value,
+  { declaredType, context }: { declaredType?: PropertySchemaDeclaration["type"]; context: string },
+): PropertyDeclaration {
+  if (!declaredType) {
+    throw new Error(`${context} is not declared in the slot schema.`);
+  }
+
   if (isTokenRef(lhValue)) {
     return factory.createUnresolvedPropertyDeclaration(property, factory.createTokenLit(lhValue));
   }
 
-  const valueLit = parseValue(lhValue);
+  const valueLit = parseValueAs(declaredType, lhValue, context);
   switch (valueLit.kind) {
     case "ColorHexLit":
       return factory.createColorPropertyDeclaration(property, valueLit);
@@ -234,7 +263,9 @@ function parseVariantSchemaDeclaration(
   });
 }
 
-function parseSchemaDeclaration(model: Document.ComponentSpecSchema): SchemaDeclaration {
+// `Required` because the caller has already merged the inferred variant axes in,
+// so both halves are resolved by the time they reach here.
+function parseSchemaDeclaration(model: Required<Document.ComponentSpecSchema>): SchemaDeclaration {
   return factory.createSchemaDeclaration(
     parseSlotSchemaDeclaration(model.slots),
     parseVariantSchemaDeclaration(model.variants),
