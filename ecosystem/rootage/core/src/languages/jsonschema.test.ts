@@ -282,7 +282,7 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
         },
         "enumShorthand": {
           "type": "string",
-          "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$"
+          "pattern": "^[^#$0-9-].*$"
         },
         "cubicBezier": {
           "type": "object",

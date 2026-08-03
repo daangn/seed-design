@@ -283,13 +283,14 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
       "numberShorthand": {
         "type": "number"
       },${
-        "" /* An enum value is a bare word with no shape of its own. The pattern only
-              rules out the forms that belong to another type — a leading "#", "$", or
-              digit — so a malformed color or dimension can't pass as an enum. */
+        "" /* An enum value is a bare word with no shape of its own, so the pattern can
+              only exclude the leading characters another type claims — "#", "$", a
+              digit, or a negative dimension's "-". Without that, a malformed color or
+              dimension would match this branch of the anyOf instead of being flagged. */
       }
       "enumShorthand": {
         "type": "string",
-        "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$"
+        "pattern": "^[^#$0-9-].*$"
       },
       "cubicBezier": {
         "type": "object",
