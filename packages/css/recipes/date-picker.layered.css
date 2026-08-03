@@ -284,7 +284,7 @@
     cursor: not-allowed;
   }
 
-  .seed-date-picker__dateButton[data-unavailable] > * > :first-child {
+  .seed-date-picker__dateButton[data-unavailable] [data-date-picker-day] {
     text-decoration: line-through;
   }
 
@@ -321,7 +321,7 @@
     position: relative;
   }
 
-  .seed-date-picker__dateContent > :first-child {
+  .seed-date-picker__dateContent > [data-date-picker-day] {
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
@@ -362,6 +362,10 @@
   .seed-date-picker__continuousContent {
     min-width: 0;
     position: relative;
+  }
+
+  .seed-date-picker__continuousSpacer {
+    height: var(--seed-date-picker-continuous-spacer-height);
   }
 
   .seed-date-picker__wheelContainer {

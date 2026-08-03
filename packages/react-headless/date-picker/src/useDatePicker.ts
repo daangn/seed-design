@@ -30,6 +30,7 @@ import type {
   DatePickerAriaLabels,
   DatePickerActions,
   DatePickerCell,
+  DatePickerConstraint,
   DatePickerConstraintContext,
   DatePickerDate,
   DatePickerMonth,
@@ -42,10 +43,12 @@ import type {
 } from "./types";
 
 const CONTINUOUS_OVERSCAN_MONTHS = 2;
+const EMPTY_CONSTRAINTS: readonly DatePickerConstraint[] = [];
 const RTL_LANGUAGES = new Set(["ar", "fa", "he", "ps", "ur"]);
 
 const DEFAULT_ARIA_LABELS = {
   ko: {
+    root: "날짜 선택",
     previousMonth: "이전 달",
     nextMonth: "다음 달",
     previousWeek: "이전 주",
@@ -54,6 +57,7 @@ const DEFAULT_ARIA_LABELS = {
     monthWheel: "월",
   },
   en: {
+    root: "Select date",
     previousMonth: "Previous month",
     nextMonth: "Next month",
     previousWeek: "Previous week",
@@ -192,6 +196,18 @@ function getDateForMonthAndDay(year: number, month: number, preferredDay: number
   return { ...first, day: Math.min(preferredDay, getDaysInMonth(first)) };
 }
 
+function getVisibleDateBounds(
+  viewDate: DatePickerDate,
+  visibleRange: DatePickerVisibleRange,
+): { start: DatePickerDate; end: DatePickerDate } | undefined {
+  if (visibleRange === "continuous") return undefined;
+  if (visibleRange === "week") return { start: viewDate, end: addDays(viewDate, 6) };
+
+  const start = startOfMonth(viewDate);
+  const endMonth = visibleRange === "twoMonths" ? addMonths(start, 1) : start;
+  return { start, end: { ...endMonth, day: getDaysInMonth(endMonth) } };
+}
+
 export type UseDatePickerReturn = ReturnType<typeof useDatePicker>;
 
 export function useDatePicker(props: UseDatePickerProps) {
@@ -250,9 +266,11 @@ export function useDatePicker(props: UseDatePickerProps) {
   const shouldMoveDomFocusRef = React.useRef(false);
   // 같은 날짜를 다시 요청해도 layout effect가 DOM 포커스를 이동하도록 commit을 보장합니다.
   const [, requestDomFocusCommit] = React.useReducer((request) => request + 1, 0);
-  const constraints = props.constraints ?? [];
-  const defaultAriaLabels = getDefaultAriaLabels(locale);
-  const ariaLabels = { ...defaultAriaLabels, ...props.ariaLabels };
+  const constraints = props.constraints ?? EMPTY_CONSTRAINTS;
+  const ariaLabels = React.useMemo(
+    () => ({ ...getDefaultAriaLabels(locale), ...props.ariaLabels }),
+    [locale, props.ariaLabels],
+  );
   const disabled = props.disabled ?? false;
   const readOnly = props.readOnly ?? false;
   const isRtl = isRtlLocale(locale);
@@ -445,28 +463,16 @@ export function useDatePicker(props: UseDatePickerProps) {
       shouldMoveDomFocusRef.current = true;
       setFocusedDate(clamped);
 
-      if (visibleRange === "continuous") {
+      const visibleBounds = getVisibleDateBounds(viewDate, visibleRange);
+      if (visibleBounds === undefined) {
         setViewDate(startOfMonth(clamped));
         return;
       }
 
-      if (visibleRange === "week") {
-        const start = viewDate;
-        const end = addDays(start, 6);
-        if (compareDates(clamped, start) < 0 || compareDates(clamped, end) > 0) {
-          setViewDate(clamped);
-        }
-        return;
-      }
-
-      const visibleStart = startOfMonth(viewDate);
-      const visibleEndMonth =
-        visibleRange === "twoMonths" ? addMonths(visibleStart, 1) : visibleStart;
-      const visibleEnd = {
-        ...visibleEndMonth,
-        day: getDaysInMonth(visibleEndMonth),
-      };
-      if (compareDates(clamped, visibleStart) < 0 || compareDates(clamped, visibleEnd) > 0) {
+      if (
+        compareDates(clamped, visibleBounds.start) < 0 ||
+        compareDates(clamped, visibleBounds.end) > 0
+      ) {
         setViewDate(clamped);
       }
     },
@@ -474,19 +480,13 @@ export function useDatePicker(props: UseDatePickerProps) {
   );
 
   React.useEffect(() => {
-    if (visibleRange === "continuous") return;
+    const visibleBounds = getVisibleDateBounds(viewDate, visibleRange);
+    if (visibleBounds === undefined) return;
 
-    const visibleStart = visibleRange === "week" ? viewDate : startOfMonth(viewDate);
-    const visibleEnd =
-      visibleRange === "week"
-        ? addDays(visibleStart, 6)
-        : (() => {
-            const endMonth =
-              visibleRange === "twoMonths" ? addMonths(visibleStart, 1) : visibleStart;
-            return { ...endMonth, day: getDaysInMonth(endMonth) };
-          })();
-
-    if (compareDates(focusedDate, visibleStart) < 0 || compareDates(focusedDate, visibleEnd) > 0) {
+    if (
+      compareDates(focusedDate, visibleBounds.start) < 0 ||
+      compareDates(focusedDate, visibleBounds.end) > 0
+    ) {
       setFocusedDate(viewDate);
     }
   }, [focusedDate, viewDate, visibleRange]);
@@ -674,8 +674,18 @@ export function useDatePicker(props: UseDatePickerProps) {
     ReadonlyMap<string, number>
   >(() => new Map());
   const { descriptors, totalHeight } = React.useMemo(
-    () => getMonthDescriptors(yearRange, locale, props.weekStartsOn, continuousMonthHeights),
-    [continuousMonthHeights, locale, props.weekStartsOn, yearRange.end, yearRange.start],
+    () =>
+      visibleRange === "continuous"
+        ? getMonthDescriptors(yearRange, locale, props.weekStartsOn, continuousMonthHeights)
+        : { descriptors: [], totalHeight: 0 },
+    [
+      continuousMonthHeights,
+      locale,
+      props.weekStartsOn,
+      visibleRange,
+      yearRange.end,
+      yearRange.start,
+    ],
   );
   const [continuousScrollElement, setContinuousScrollElement] =
     React.useState<HTMLDivElement | null>(null);
@@ -838,36 +848,34 @@ export function useDatePicker(props: UseDatePickerProps) {
       ? compareDates(addDays(viewDate, 6), { year: yearRange.end, month: 12, day: 31 }) < 0
       : viewDate.year < yearRange.end || viewDate.month < 12;
 
-  const yearOptions = React.useMemo(
-    () =>
-      Array.from({ length: yearRange.end - yearRange.start + 1 }, (_, index) => {
-        const year = yearRange.start + index;
-        const date = { year, month: 1, day: 1 };
-        return {
-          value: String(year),
-          label: new Intl.DateTimeFormat(locale, {
-            year: "numeric",
-            timeZone: "UTC",
-          }).format(toCalendarDate(date).toDate("UTC")),
-        };
-      }),
-    [locale, yearRange.end, yearRange.start],
-  );
-  const monthOptions = React.useMemo(
-    () =>
-      Array.from({ length: 12 }, (_, index) => {
-        const month = index + 1;
-        const date = { year: 2024, month, day: 1 };
-        return {
-          value: String(month),
-          label: new Intl.DateTimeFormat(locale, {
-            month: "long",
-            timeZone: "UTC",
-          }).format(toCalendarDate(date).toDate("UTC")),
-        };
-      }),
-    [locale],
-  );
+  const yearOptions = React.useMemo(() => {
+    const formatter = new Intl.DateTimeFormat(locale, {
+      year: "numeric",
+      timeZone: "UTC",
+    });
+    return Array.from({ length: yearRange.end - yearRange.start + 1 }, (_, index) => {
+      const year = yearRange.start + index;
+      const date = { year, month: 1, day: 1 };
+      return {
+        value: String(year),
+        label: formatter.format(toCalendarDate(date).toDate("UTC")),
+      };
+    });
+  }, [locale, yearRange.end, yearRange.start]);
+  const monthOptions = React.useMemo(() => {
+    const formatter = new Intl.DateTimeFormat(locale, {
+      month: "long",
+      timeZone: "UTC",
+    });
+    return Array.from({ length: 12 }, (_, index) => {
+      const month = index + 1;
+      const date = { year: 2024, month, day: 1 };
+      return {
+        value: String(month),
+        label: formatter.format(toCalendarDate(date).toDate("UTC")),
+      };
+    });
+  }, [locale]);
 
   const changeWheelYear = React.useCallback(
     (yearValue: string) => {

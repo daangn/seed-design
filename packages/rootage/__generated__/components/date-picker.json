@@ -145,9 +145,6 @@
         },
         "wheelSelectionIndicator": {
           "properties": {
-            "height": {
-              "type": "dimension"
-            },
             "cornerRadius": {
               "type": "dimension"
             },
@@ -163,18 +160,8 @@
             }
           }
         },
-        "wheelView": {
-          "properties": {
-            "height": {
-              "type": "dimension"
-            }
-          }
-        },
         "wheelItem": {
           "properties": {
-            "height": {
-              "type": "dimension"
-            },
             "paddingX": {
               "type": "dimension"
             },
@@ -353,13 +340,6 @@
                 }
               },
               "wheelSelectionIndicator": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                },
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r2"
@@ -378,23 +358,7 @@
                   }
                 }
               },
-              "wheelView": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 308,
-                    "unit": "px"
-                  }
-                }
-              },
               "wheelItem": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                },
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x4"

@@ -20,8 +20,17 @@ import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { ActionButton } from "../ActionButton";
 import { Icon } from "../Icon";
 
+// 44px × 7개 항목으로 308px viewport를 만들고, 336px 컨테이너 안에 중앙 정렬합니다.
 const WHEEL_ITEM_SIZE = 44;
 const WHEEL_VISIBLE_ITEM_COUNT = 7;
+
+type DatePickerCssProperties = React.CSSProperties & {
+  "--seed-date-picker-continuous-spacer-height"?: string;
+};
+
+function getContinuousSpacerStyle(height: number): DatePickerCssProperties {
+  return { "--seed-date-picker-continuous-spacer-height": `${height}px` };
+}
 
 type DatePickerRootProps = PrimitiveProps &
   Pick<StyleProps, "height" | "minHeight" | "maxHeight"> &
@@ -160,7 +169,7 @@ function DateCellView({
             renderDateCellContent(renderProps)
           ) : (
             <>
-              <Primitive.span>{cell.formattedDay}</Primitive.span>
+              <Primitive.span data-date-picker-day="">{cell.formattedDay}</Primitive.span>
               {renderDateCellSupplement?.(renderProps)}
             </>
           )}
@@ -410,10 +419,7 @@ const DatePickerImplementation = React.forwardRef<HTMLDivElement, DatePickerImpl
 
     React.useImperativeHandle(actionsRef, () => api.actions, [api.actions]);
 
-    const rootAriaLabel = ariaLabelledby
-      ? ariaLabel
-      : (ariaLabel ??
-        (new Intl.Locale(api.locale).language === "ko" ? "날짜 선택" : "Select date"));
+    const rootAriaLabel = ariaLabelledby ? ariaLabel : (ariaLabel ?? api.ariaLabels.root);
 
     return (
       <Primitive.div
@@ -433,7 +439,12 @@ const DatePickerImplementation = React.forwardRef<HTMLDivElement, DatePickerImpl
           >
             <WeekdayRow api={api} classNames={classNames} semantic={false} />
             <Primitive.div className={classNames.continuousContent}>
-              <Primitive.div aria-hidden="true" style={{ height: api.virtual.topHeight }} />
+              <Primitive.div
+                aria-hidden="true"
+                data-date-picker-continuous-spacer=""
+                className={classNames.continuousSpacer}
+                style={getContinuousSpacerStyle(api.virtual.topHeight)}
+              />
               {api.months.map((month) => (
                 <MonthView
                   key={month.key}
@@ -447,7 +458,12 @@ const DatePickerImplementation = React.forwardRef<HTMLDivElement, DatePickerImpl
                   monthRef={api.refs.continuousMonth(month.key)}
                 />
               ))}
-              <Primitive.div aria-hidden="true" style={{ height: api.virtual.bottomHeight }} />
+              <Primitive.div
+                aria-hidden="true"
+                data-date-picker-continuous-spacer=""
+                className={classNames.continuousSpacer}
+                style={getContinuousSpacerStyle(api.virtual.bottomHeight)}
+              />
             </Primitive.div>
           </Primitive.div>
         ) : (

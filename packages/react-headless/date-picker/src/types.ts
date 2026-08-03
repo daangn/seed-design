@@ -48,6 +48,8 @@ export type DatePickerConstraint = (
 ) => boolean;
 
 export interface DatePickerAriaLabels {
+  /** Date Picker 루트의 접근성 이름입니다. */
+  root: string;
   /** 이전 달 버튼의 접근성 이름입니다. */
   previousMonth: string;
   /** 다음 달 버튼의 접근성 이름입니다. */
@@ -122,7 +124,7 @@ interface DatePickerCommonProps {
   disabled?: boolean;
   /** 달력 이동과 날짜 포커스는 허용하되 값을 변경하지 못하게 합니다. */
   readOnly?: boolean;
-  /** 이전·다음 버튼과 연도·월 Wheel의 접근성 이름을 재정의합니다. */
+  /** 루트, 이전·다음 버튼, 연도·월 Wheel의 접근성 이름을 재정의합니다. */
   ariaLabels?: Partial<DatePickerAriaLabels>;
 }
 

@@ -90,8 +90,6 @@ data:
             type: color
       wheelSelectionIndicator:
         properties:
-          height:
-            type: dimension
           cornerRadius:
             type: dimension
           color:
@@ -100,14 +98,8 @@ data:
         properties:
           height:
             type: dimension
-      wheelView:
-        properties:
-          height:
-            type: dimension
       wheelItem:
         properties:
-          height:
-            type: dimension
           paddingX:
             type: dimension
           fontSize:
@@ -163,15 +155,12 @@ data:
         rangeBackground:
           color: $color.bg.neutral-weak
         wheelSelectionIndicator:
-          height: 44px
           cornerRadius: $radius.r2
           color: $color.bg.neutral-weak
         wheelContainer:
+          # 44px × 7개 항목(308px)을 중앙 정렬하고 위아래 14px 여백을 둡니다.
           height: 336px
-        wheelView:
-          height: 308px
         wheelItem:
-          height: 44px
           paddingX: $dimension.x4
           fontSize: $font-size.t10-static
           lineHeight: $line-height.t10-static

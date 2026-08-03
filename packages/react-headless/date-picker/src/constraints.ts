@@ -1,5 +1,5 @@
-import { compareDates, eachDateInclusive, inclusiveDayCount, isSameDate } from "./date";
-import type { DatePickerConstraint, DatePickerDate, DatePickerMultipleProps } from "./types";
+import { compareDates, eachDateInclusive, inclusiveDayCount } from "./date";
+import type { DatePickerConstraint, DatePickerDate } from "./types";
 
 /** 양끝 날짜를 포함하여 `minDate` 이후 날짜만 선택할 수 있게 합니다. */
 export function dateOnOrAfter(minDate: DatePickerDate): DatePickerConstraint {
@@ -80,12 +80,10 @@ export function maxSelectionCount(count: number): DatePickerConstraint {
     throw new RangeError("DatePicker: maxSelectionCount의 count는 1 이상의 정수여야 합니다.");
   }
 
-  return (candidate, context) => {
+  return (_candidate, context) => {
     if (context.selectionMode !== "multiple") return true;
-    const value = (context.value ?? []) as DatePickerMultipleProps["value"];
-    if (context.action === "deselect" || value?.some((date) => isSameDate(date, candidate))) {
-      return true;
-    }
-    return (value?.length ?? 0) < count;
+    if (context.action === "deselect") return true;
+    const value = (context.value ?? []) as readonly DatePickerDate[];
+    return value.length < count;
   };
 }

@@ -91,6 +91,10 @@ const datePickerSlotNames = [
     "seed-date-picker__continuousContent"
   ],
   [
+    "continuousSpacer",
+    "seed-date-picker__continuousSpacer"
+  ],
+  [
     "wheelContainer",
     "seed-date-picker__wheelContainer"
   ],

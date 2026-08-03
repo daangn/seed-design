@@ -148,6 +148,9 @@ describe("useDatePicker", () => {
 
     expect(getCell(result, 11).isUnavailable).toBe(true);
     expect(getCell(result, 10).isUnavailable).toBe(false);
+
+    act(() => clickCell(getCell(result, 10)));
+    expect(result.current.value).toEqual([]);
   });
 
   it("키보드 탐색은 roving tabindex와 현재 표시 범위를 함께 갱신한다", () => {
@@ -173,6 +176,35 @@ describe("useDatePicker", () => {
 
     expect(result.current.focusedDate).toEqual({ year: 2026, month: 6, day: 30 });
     expect(result.current.viewDate).toEqual({ year: 2026, month: 6, day: 1 });
+  });
+
+  it("Continuous 키보드 탐색은 월 경계를 넘으면 표시 기준 월도 갱신한다", () => {
+    const { result } = renderDatePicker({
+      visibleRange: "continuous",
+      yearRange: { start: 2026, end: 2027 },
+      defaultViewDate: { year: 2026, month: 1, day: 1 },
+    });
+    const januaryLastDay = result.current.months
+      .flatMap((month) => month.weeks)
+      .flatMap((week) => week.cells)
+      .find(
+        (cell): cell is DatePickerCell =>
+          cell?.date.year === 2026 && cell.date.month === 1 && cell.date.day === 31,
+      );
+    expect(januaryLastDay).toBeDefined();
+
+    act(() => {
+      januaryLastDay?.buttonProps.onKeyDown?.({
+        key: "ArrowRight",
+        shiftKey: false,
+        defaultPrevented: false,
+        nativeEvent: { isComposing: false },
+        preventDefault: () => {},
+      } as React.KeyboardEvent<HTMLButtonElement>);
+    });
+
+    expect(result.current.focusedDate).toEqual({ year: 2026, month: 2, day: 1 });
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 2, day: 1 });
   });
 
   it("twoMonths는 두 달을 렌더링하지만 이전·다음 버튼은 한 달씩 이동한다", () => {
@@ -248,31 +280,20 @@ describe("useDatePicker", () => {
   });
 
   it("Continuous는 현재 월의 라벨이 고정 요일 행 아래에 오도록 스크롤한다", () => {
-    const OriginalResizeObserver = globalThis.ResizeObserver;
-    globalThis.ResizeObserver = class ResizeObserver {
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-    } as typeof ResizeObserver;
+    const { result } = renderDatePicker({
+      visibleRange: "continuous",
+      yearRange: { start: 2026, end: 2027 },
+    });
+    const scrollElement = document.createElement("div");
+    Object.defineProperty(scrollElement, "clientHeight", { value: 420 });
 
-    try {
-      const { result } = renderDatePicker({
-        visibleRange: "continuous",
-        yearRange: { start: 2026, end: 2027 },
-      });
-      const scrollElement = document.createElement("div");
-      Object.defineProperty(scrollElement, "clientHeight", { value: 420 });
+    act(() => result.current.refs.continuousScroll(scrollElement));
 
-      act(() => result.current.refs.continuousScroll(scrollElement));
-
-      const currentMonth = result.current.months.find(
-        (month) => month.date.year === 2026 && month.date.month === 7,
-      );
-      expect(currentMonth).toBeDefined();
-      expect(scrollElement.scrollTop).toBe(currentMonth?.offset);
-    } finally {
-      globalThis.ResizeObserver = OriginalResizeObserver;
-    }
+    const currentMonth = result.current.months.find(
+      (month) => month.date.year === 2026 && month.date.month === 7,
+    );
+    expect(currentMonth).toBeDefined();
+    expect(scrollElement.scrollTop).toBe(currentMonth?.offset);
   });
 
   it("Continuous는 렌더링된 월의 실제 콘텐츠 높이로 가상 스크롤 크기를 갱신한다", () => {

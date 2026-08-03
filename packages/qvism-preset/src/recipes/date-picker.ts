@@ -9,6 +9,8 @@ import { disabled, engaged, focusVisible, not, pseudo, selected } from "../utils
 import { defineSlotRecipe } from "../utils/define";
 import { WHEEL_PICKER_CUSTOM_PROPERTIES } from "./wheel-picker";
 
+const CONTINUOUS_SPACER_HEIGHT = "--seed-date-picker-continuous-spacer-height";
+
 const datePicker = defineSlotRecipe({
   name: "date-picker",
   slots: [
@@ -34,6 +36,7 @@ const datePicker = defineSlotRecipe({
     "emptyCell",
     "continuousScroll",
     "continuousContent",
+    "continuousSpacer",
     "wheelContainer",
     "wheelView",
     "wheelColumns",
@@ -275,7 +278,7 @@ const datePicker = defineSlotRecipe({
         color: vars.base.disabled.dateContent.color,
         cursor: "not-allowed",
       },
-      "&[data-unavailable] > * > :first-child": {
+      "&[data-unavailable] [data-date-picker-day]": {
         textDecoration: "line-through",
       },
       [pseudo(disabled)]: {
@@ -304,7 +307,7 @@ const datePicker = defineSlotRecipe({
       lineHeight: vars.base.enabled.dateContent.lineHeight,
       fontWeight: vars.base.enabled.dateContent.fontWeight,
       fontVariantNumeric: "tabular-nums",
-      "& > :first-child": {
+      "& > [data-date-picker-day]": {
         display: "flex",
         minHeight: vars.base.enabled.dateVisual.size,
         flexShrink: 0,
@@ -341,6 +344,9 @@ const datePicker = defineSlotRecipe({
     continuousContent: {
       position: "relative",
       minWidth: 0,
+    },
+    continuousSpacer: {
+      height: `var(${CONTINUOUS_SPACER_HEIGHT})`,
     },
     wheelContainer: {
       display: "flex",

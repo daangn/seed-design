@@ -1,5 +1,5 @@
 import { CalendarDate, endOfWeek, startOfWeek } from "@internationalized/date";
-import type { DatePickerDate } from "./types";
+import type { DatePickerDate, DatePickerVisibleRange } from "./types";
 
 export const DEFAULT_DATE_CELL_HEIGHT = 48;
 export const CONTINUOUS_WEEKDAY_HEIGHT = 48;
@@ -43,11 +43,8 @@ export function startOfMonth(date: DatePickerDate): DatePickerDate {
 }
 
 export function getDaysInMonth(date: DatePickerDate) {
-  return toCalendarDate(startOfMonth(date)).calendar.getDaysInMonth(toCalendarDate(date));
-}
-
-function weekDayName(day: number) {
-  return (["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const)[day];
+  const calendarDate = toCalendarDate(date);
+  return calendarDate.calendar.getDaysInMonth(calendarDate);
 }
 
 export function getWeekStart(
@@ -95,7 +92,7 @@ export function getMonthWeekStarts(
 
 export function normalizeViewDate(
   date: DatePickerDate,
-  visibleRange: "month" | "twoMonths" | "continuous" | "week",
+  visibleRange: DatePickerVisibleRange,
   locale: string,
   weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6,
 ) {
@@ -154,11 +151,11 @@ export function eachDateInclusive(start: DatePickerDate, end: DatePickerDate) {
 }
 
 export function inclusiveDayCount(start: DatePickerDate, end: DatePickerDate) {
-  let count = 0;
-  for (let cursor = start; compareDates(cursor, end) <= 0; cursor = addDays(cursor, 1)) {
-    count++;
-  }
-  return count;
+  const startDate = toCalendarDate(start);
+  const endDate = toCalendarDate(end);
+  const difference =
+    endDate.calendar.toJulianDay(endDate) - startDate.calendar.toJulianDay(startDate);
+  return Math.max(difference + 1, 0);
 }
 
 export function clampDateToYearRange(
@@ -168,8 +165,4 @@ export function clampDateToYearRange(
   if (date.year < yearRange.start) return { year: yearRange.start, month: 1, day: 1 };
   if (date.year > yearRange.end) return { year: yearRange.end, month: 12, day: 31 };
   return date;
-}
-
-export function weekdayNameFromIndex(index: number) {
-  return weekDayName(index);
 }

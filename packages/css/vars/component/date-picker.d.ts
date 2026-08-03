@@ -54,18 +54,13 @@ export declare const vars: {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
       "wheelSelectionIndicator": {
-        "height": "44px",
         "cornerRadius": "var(--seed-radius-r2)",
         "color": "var(--seed-color-bg-neutral-weak)"
       },
       "wheelContainer": {
         "height": "336px"
       },
-      "wheelView": {
-        "height": "308px"
-      },
       "wheelItem": {
-        "height": "44px",
         "paddingX": "var(--seed-dimension-x4)",
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",

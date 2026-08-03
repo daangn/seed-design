@@ -26,6 +26,18 @@ describe("DatePicker", () => {
 
     rerender(<DatePicker {...commonProps} locale="en-US" />);
     expect(getByRole("group")).toHaveAccessibleName("Select date");
+
+    rerender(<DatePicker {...commonProps} ariaLabels={{ root: "예약 날짜 선택" }} />);
+    expect(getByRole("group")).toHaveAccessibleName("예약 날짜 선택");
+
+    rerender(
+      <DatePicker
+        {...commonProps}
+        aria-label="체크인 날짜 선택"
+        ariaLabels={{ root: "예약 날짜 선택" }}
+      />,
+    );
+    expect(getByRole("group")).toHaveAccessibleName("체크인 날짜 선택");
   });
 
   it("날짜를 선택하고 onValueChange를 호출한다", () => {
@@ -54,6 +66,7 @@ describe("DatePicker", () => {
     expect(dateButton).toHaveTextContent("15");
     expect(dateButton).toHaveTextContent("12만원");
     expect(dateButton.closest('[role="gridcell"]')).not.toBeNull();
+    expect(dateButton.querySelector("[data-date-picker-day]")).toBeNull();
   });
 
   it("renderDateCellSupplement는 기본 날짜 숫자 아래에 콘텐츠를 추가한다", () => {
@@ -69,6 +82,7 @@ describe("DatePicker", () => {
 
     expect(dateButton).toHaveTextContent("15");
     expect(dateButton).toHaveTextContent("12만원");
+    expect(dateButton.querySelector("[data-date-picker-day]")).toHaveTextContent("15");
   });
 
   it("constraint에 실패한 날짜는 aria-disabled를 유지하며 클릭을 무시한다", () => {
@@ -98,6 +112,14 @@ describe("DatePicker", () => {
     expect(getAllByRole("spinbutton")).toHaveLength(2);
     expect(getByRole("spinbutton", { name: "연도" })).toBeInTheDocument();
     expect(getByRole("spinbutton", { name: "월" })).toBeInTheDocument();
+
+    const wheelRoot = getByRole("spinbutton", { name: "연도" }).closest('[role="group"]');
+    expect(wheelRoot).toBeInstanceOf(HTMLElement);
+    if (!(wheelRoot instanceof HTMLElement))
+      throw new Error("Wheel Picker 루트를 찾지 못했습니다.");
+    expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-item-size")).toBe("44px");
+    expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-visible-item-count")).toBe("7");
+    expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-viewport-size")).toBe("308px");
   });
 
   it("레이아웃별 공개 컴포넌트가 고정된 달력 범위를 렌더링한다", () => {
@@ -111,6 +133,15 @@ describe("DatePicker", () => {
 
     const continuous = render(<ContinuousDatePicker {...commonProps} height="400px" />);
     expect(continuous.getByRole("group")).toHaveAttribute("data-visible-range", "continuous");
+    const spacers = continuous.container.querySelectorAll<HTMLElement>(
+      "[data-date-picker-continuous-spacer]",
+    );
+    expect(spacers).toHaveLength(2);
+    for (const spacer of spacers) {
+      expect(spacer.style.getPropertyValue("--seed-date-picker-continuous-spacer-height")).toMatch(
+        /px$/,
+      );
+    }
   });
 
   it("navigateToDate는 외부 포커스를 유지하고 오늘을 다음 tab 진입점으로 지정한다", () => {
