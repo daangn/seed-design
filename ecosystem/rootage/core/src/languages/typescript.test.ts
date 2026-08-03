@@ -287,9 +287,9 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
   definitions:
     base:
@@ -334,9 +334,9 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
   definitions:
     base:
@@ -527,5 +527,49 @@ test("getTokenDts should generate JSDoc for token descriptions", () => {
         "path": "color/bg.d.ts",
       },
     ]
+  `);
+});
+
+test("getComponentSpecMjs should omit enum properties and anything left empty by them", () => {
+  const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          scaleScope:
+            type: enum
+            values: [self, content]
+  definitions:
+    base:
+      enabled:
+        root:
+          color: "#ffffff"
+      pressed:
+        root:
+          scaleScope: content
+`;
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(yaml));
+
+  const result = getComponentSpecMjs(model.data);
+
+  // `pressed` disappears entirely: its only property is an enum, which leaves the
+  // slot empty, which leaves the state empty.
+  expect(result).toMatchInlineSnapshot(`
+    "export const vars = {
+      "base": {
+        "enabled": {
+          "root": {
+            "color": "#ffffff"
+          }
+        }
+      }
+    }"
   `);
 });

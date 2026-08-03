@@ -75,6 +75,18 @@ function parseDuration(expr: unknown): AST.DurationLit | null {
   return null;
 }
 
+/**
+ * Deliberately absent from `parseValue`: a bare word has no shape to recognize, so
+ * sniffing would accept every unrecognized string and turn a typo into a silent
+ * enum value. Only the declared-type path can reach this.
+ */
+function parseEnum(expr: unknown): AST.EnumLit | null {
+  if (typeof expr === "string" && expr.length > 0) {
+    return factory.createEnumLit(expr);
+  }
+  return null;
+}
+
 function parseCubicBezier(expr: unknown): AST.CubicBezierLit | null {
   if (
     typeof expr === "object" &&
@@ -175,6 +187,17 @@ function parseGradient(expr: unknown): AST.GradientLit | null {
   return null;
 }
 
+/**
+ * Shape-sniffing entry point: try every parser and take the first one that matches.
+ *
+ * Only `kind: Tokens` needs this. A token declares its type nowhere — the value is
+ * the sole evidence of what it is — so the shape has to be the discriminator, which
+ * is why composite values additionally carry an explicit `type` field to keep the
+ * guess honest (see `parseCubicBezier` / `parseShadow` / `parseGradient`).
+ *
+ * `kind: ComponentSpec` does not need it: its slot schema names the type of every
+ * property, so it goes through `parseValueAs` instead.
+ */
 export function parseValue(input: Document.Value): AST.ValueLit {
   const result =
     parseColor(input) ||
@@ -195,4 +218,48 @@ export function parseValue(input: Document.Value): AST.ValueLit {
   }
 
   throw new Error(`Invalid value expression ${JSON.stringify(input, null, 2)}`);
+}
+
+const PARSE_BY_TYPE = {
+  color: parseColor,
+  dimension: parseDimension,
+  number: parseNumber,
+  duration: parseDuration,
+  enum: parseEnum,
+  cubicBezier: parseCubicBezier,
+  shadow: parseShadow,
+  gradient: parseGradient,
+} as const satisfies Record<
+  AST.PropertySchemaDeclaration["type"],
+  (expr: unknown) => AST.ValueLit | AST.TokenLit | null
+>;
+
+/**
+ * Declared-type entry point: parse a value as the type its slot schema names.
+ *
+ * `context` names where the value came from, for the error message — only the
+ * caller knows the component, slot, and property.
+ */
+export function parseValueAs(
+  type: AST.PropertySchemaDeclaration["type"],
+  input: Document.PropertyValue,
+  context: string,
+): AST.ValueLit {
+  const result = PARSE_BY_TYPE[type](input);
+
+  if (!result) {
+    throw new Error(
+      `${context} is declared as "${type}" but its value is not a valid ${type}: ${JSON.stringify(input)}`,
+    );
+  }
+
+  // `parseColor` accepts token references as well as hex. Callers filter those out
+  // with `isTokenRef` before dispatching here, so reaching one is a caller bug.
+  if (result.kind === "TokenLit") {
+    throw new Error(
+      `${context} received a token reference; callers must detect token refs via isTokenRef before invoking parseValueAs.`,
+    );
+  }
+
+  return result;
 }
