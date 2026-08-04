@@ -752,10 +752,15 @@ export function useWheelPickerColumn({
     hasInitializedScrollPositionRef.current = true;
     if (hasInitialized) {
       scrollToPhysicalIndex(centralPhysicalIndex, behavior);
+      if (behavior === "smooth") {
+        scheduleSettle();
+      } else {
+        updateVisualSelection(centralPhysicalIndex);
+      }
     } else {
       columnRef.current.scrollTop = centralPhysicalIndex * itemSize;
+      updateVisualSelection(centralPhysicalIndex);
     }
-    updateVisualSelection(centralPhysicalIndex);
     lastSettledPhysicalIndexRef.current = centralPhysicalIndex;
     keyboardTargetPhysicalIndexRef.current = centralPhysicalIndex;
   }, [
@@ -764,6 +769,7 @@ export function useWheelPickerColumn({
     itemSize,
     logicalIndex,
     options.length,
+    scheduleSettle,
     scrollToPhysicalIndex,
     updateVisualSelection,
     valueChangeBehavior,

@@ -18,6 +18,7 @@ function TestWheelPicker({
   disabled,
   readOnly,
   pickerOptions = options,
+  valueChangeBehavior,
 }: {
   onValueChange?: (value: string) => void;
   value?: string;
@@ -26,6 +27,7 @@ function TestWheelPicker({
   disabled?: boolean;
   readOnly?: boolean;
   pickerOptions?: typeof options;
+  valueChangeBehavior?: ScrollBehavior;
 }) {
   return (
     <WheelPickerRoot
@@ -42,6 +44,7 @@ function TestWheelPicker({
         defaultValue={defaultValue}
         onValueChange={onValueChange}
         loop={loop}
+        valueChangeBehavior={valueChangeBehavior}
       />
     </WheelPickerRoot>
   );
@@ -638,5 +641,25 @@ describe("WheelPicker", () => {
     expect(column.scrollTop).toBe(80);
     expect(column).toHaveAttribute("aria-valuenow", "2");
     expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("controlled value를 smooth로 동기화할 때 실제 스크롤 전까지 선택 표시를 유지한다", () => {
+    jest.useFakeTimers();
+    const { getByRole, rerender } = render(
+      <TestWheelPicker value="a" valueChangeBehavior="smooth" />,
+    );
+    const column = getByRole("spinbutton");
+
+    rerender(<TestWheelPicker value="c" valueChangeBehavior="smooth" />);
+
+    expect(column.scrollTop).toBe(80);
+    expect(column.children[0]).toHaveAttribute("data-selected");
+    expect(column.children[2]).not.toHaveAttribute("data-selected");
+
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(column.children[0]).not.toHaveAttribute("data-selected");
+    expect(column.children[2]).toHaveAttribute("data-selected");
+    jest.useRealTimers();
   });
 });
