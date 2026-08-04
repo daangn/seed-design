@@ -126,7 +126,6 @@
     background-color: transparent;
     padding: 0;
     border-radius: var(--seed-radius-full);
-    scale: 1;
 }
 .seed-input-button__clearButton:is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);

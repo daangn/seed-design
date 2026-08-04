@@ -10,7 +10,6 @@
     border-color: var(--seed-color-stroke-neutral-weak);
     border-radius: var(--seed-radius-full);
     margin-top: var(--radiomark-margin-top, 0);
-    scale: 1;
 }
 .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-radiomark-press-scale, var(--seed-press-scale, 1));

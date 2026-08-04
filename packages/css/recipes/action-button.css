@@ -64,9 +64,6 @@
 .seed-action-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
-.seed-action-button {
-    scale: 1;
-}
 .seed-action-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);
 }

@@ -34,7 +34,6 @@
     font-weight: var(--seed-font-weight-bold);
     position: relative;
     overflow: hidden;
-    scale: 1;
   }
 
   .seed-floating-action-button__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {

@@ -149,7 +149,6 @@
     background-color: #0000;
     border: none;
     padding: 0;
-    scale: 1;
   }
 
   .seed-input-button__clearButton:is(:active, [data-active]) {

@@ -83,7 +83,6 @@
     text-decoration: none;
     display: inline-flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-snackbar__actionButton:is(:active, [data-active]) {

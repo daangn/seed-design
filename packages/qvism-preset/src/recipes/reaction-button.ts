@@ -17,11 +17,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 import { count } from "../utils/count";
 
 const reactionButton = defineRecipe({
@@ -46,7 +42,6 @@ const reactionButton = defineRecipe({
     ...createFocusRingRestStyles(),
     [pseudo(focusVisible)]: createFocusRingStyles(),
 
-    ...createPressScaleRestStyles(),
     [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
     transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,

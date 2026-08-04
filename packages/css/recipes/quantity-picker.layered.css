@@ -25,7 +25,6 @@
     align-items: center;
     padding: 0;
     display: inline-flex;
-    scale: 1;
   }
 
   .seed-quantity-picker__decrementButton:is(:focus-visible, [data-focus-visible]) {
@@ -113,7 +112,6 @@
     align-items: center;
     padding: 0;
     display: inline-flex;
-    scale: 1;
   }
 
   .seed-quantity-picker__incrementButton:is(:focus-visible, [data-focus-visible]) {

@@ -6,11 +6,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 
 const chipTabs = defineSlotRecipe({
   name: "chip-tabs",
@@ -79,7 +75,6 @@ const chipTabs = defineSlotRecipe({
       borderRadius: chipVars.base.enabled.root.cornerRadius,
       fontWeight: chipVars.base.enabled.label.fontWeight,
 
-      ...createPressScaleRestStyles(),
       [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
       transition: [

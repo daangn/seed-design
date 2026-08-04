@@ -384,6 +384,7 @@
 .seed-press-scale {
   --seed-press-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
   --seed-press-scale: calc((var(--seed-press-scale-basis) - 2) / var(--seed-press-scale-basis));
+  scale: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

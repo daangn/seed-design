@@ -2,11 +2,7 @@ import spec from "@seed-design/rootage-artifacts/components/page-banner";
 import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -109,7 +105,6 @@ const pageBanner = defineSlotRecipe({
 
       borderRadius: tokens.$radius.r1,
 
-      ...createPressScaleRestStyles(),
       [pseudo(active)]: createPressScaleStyles(),
 
       transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
@@ -147,7 +142,6 @@ const pageBanner = defineSlotRecipe({
         size: closeButtonVars.base.enabled.icon.size,
       }),
 
-      ...createPressScaleRestStyles(),
       [pseudo(active)]: createPressScaleStyles(),
 
       transition: `background-color ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,

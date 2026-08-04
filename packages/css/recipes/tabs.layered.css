@@ -95,10 +95,6 @@
     bottom: 0;
   }
 
-  .seed-tabs__trigger {
-    scale: 1;
-  }
-
   .seed-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);
   }

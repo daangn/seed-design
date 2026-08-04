@@ -385,6 +385,7 @@
   .seed-press-scale {
     --seed-press-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
     --seed-press-scale: calc((var(--seed-press-scale-basis) - 2) / var(--seed-press-scale-basis));
+    scale: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1587,10 +1588,6 @@
 
   .seed-action-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
-  }
-
-  .seed-action-button {
-    scale: 1;
   }
 
   .seed-action-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -3225,7 +3222,6 @@
     height: 28px;
     display: flex;
     position: absolute;
-    scale: 1;
   }
 
   .seed-bottom-sheet__closeButton:is(:active, [data-active]) {
@@ -3388,7 +3384,6 @@
   .seed-callout__root:is(button, a) {
     cursor: pointer;
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    scale: 1;
   }
 
   .seed-callout__root:is(button, a):is(:active, [data-active]) {
@@ -3470,7 +3465,6 @@
     align-items: center;
     padding: 0;
     display: flex;
-    scale: 1;
   }
 
   .seed-callout__closeButton:is(:active, [data-active]) {
@@ -3720,7 +3714,6 @@
     margin-top: var(--checkmark-margin-top, 0);
     flex: none;
     position: relative;
-    scale: 1;
   }
 
   .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -3926,7 +3919,6 @@
     line-height: 1;
     display: inline-flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-chip__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -4251,7 +4243,6 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    scale: 1;
   }
 
   .seed-chip-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -4612,7 +4603,6 @@
     padding: 15px;
     display: flex;
     position: absolute;
-    scale: 1;
   }
 
   .seed-content-dialog__closeButton:is(:focus-visible, [data-focus-visible]) {
@@ -4716,7 +4706,6 @@
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
-    scale: 1;
   }
 
   .seed-contextual-floating-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -5951,7 +5940,6 @@
     outline-offset: var(--seed-dimension-x0_5);
     display: flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-attachment-input-item__root:is(:focus-visible, [data-focus-visible]) {
@@ -6089,7 +6077,6 @@
     align-items: center;
     padding: 0;
     display: flex;
-    scale: 1;
   }
 
   .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -6129,7 +6116,6 @@
     padding: 0;
     display: flex;
     position: absolute;
-    scale: 1;
   }
 
   .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -6270,7 +6256,6 @@
     flex-shrink: 0;
     padding: 0;
     display: flex;
-    scale: 1;
   }
 
   .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -6381,7 +6366,6 @@
     font-weight: var(--seed-font-weight-bold);
     position: relative;
     overflow: hidden;
-    scale: 1;
   }
 
   .seed-floating-action-button__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -6607,7 +6591,6 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    scale: 1;
   }
 
   .seed-help-bubble__closeButton:is(:active, [data-active]) {
@@ -6724,7 +6707,6 @@
     padding: 0;
     display: inline-flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
@@ -7084,7 +7066,6 @@
     background-color: #0000;
     border: none;
     padding: 0;
-    scale: 1;
   }
 
   .seed-input-button__clearButton:is(:active, [data-active]) {
@@ -8137,7 +8118,6 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    scale: 1;
   }
 
   .seed-menu-sheet__closeButton:is(:active, [data-active]) {
@@ -8455,7 +8435,6 @@
     border: none;
     align-items: center;
     display: flex;
-    scale: 1;
   }
 
   .seed-page-banner__button:is(:active, [data-active]) {
@@ -8491,7 +8470,6 @@
     align-items: center;
     padding: 0;
     display: flex;
-    scale: 1;
   }
 
   .seed-page-banner__closeButton:is(:active, [data-active]) {
@@ -9098,7 +9076,6 @@
     align-items: center;
     padding: 0;
     display: inline-flex;
-    scale: 1;
   }
 
   .seed-quantity-picker__decrementButton:is(:focus-visible, [data-focus-visible]) {
@@ -9186,7 +9163,6 @@
     align-items: center;
     padding: 0;
     display: inline-flex;
-    scale: 1;
   }
 
   .seed-quantity-picker__incrementButton:is(:focus-visible, [data-focus-visible]) {
@@ -9430,7 +9406,6 @@
     align-items: center;
     display: flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -9580,10 +9555,6 @@
   .seed-reaction-button:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
-  }
-
-  .seed-reaction-button {
-    scale: 1;
   }
 
   .seed-reaction-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -11088,7 +11059,6 @@
     display: flex;
     position: absolute;
     right: 24px;
-    scale: 1;
   }
 
   .seed-side-panel__closeButton:is(:active, [data-active]) {
@@ -11597,7 +11567,6 @@
     text-decoration: none;
     display: inline-flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-snackbar__actionButton:is(:active, [data-active]) {
@@ -11727,7 +11696,6 @@
     transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     display: block;
     position: relative;
-    scale: 1;
   }
 
   .seed-switchmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -11917,10 +11885,6 @@
     height: 2px;
     position: absolute;
     bottom: 0;
-  }
-
-  .seed-tabs__trigger {
-    scale: 1;
   }
 
   .seed-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -13418,10 +13382,6 @@
 
   .seed-toggle-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
-  }
-
-  .seed-toggle-button {
-    scale: 1;
   }
 
   .seed-toggle-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {

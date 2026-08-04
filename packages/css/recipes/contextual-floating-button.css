@@ -41,7 +41,6 @@
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
-    scale: 1;
 }
 .seed-contextual-floating-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);

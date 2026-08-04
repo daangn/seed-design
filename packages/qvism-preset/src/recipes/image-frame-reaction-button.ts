@@ -5,11 +5,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { active, focus, focusVisible, pseudo } from "../utils/pseudo";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 import { imageFrameReactionButton as reactionButtonVars } from "../vars/component";
 import { vars as tokens } from "../vars";
 
@@ -32,7 +28,6 @@ export default defineSlotRecipe({
 
       background: "transparent",
 
-      ...createPressScaleRestStyles(),
       [pseudo(active)]: { ...createPressScaleStyles() },
 
       transition: PRESS_SCALE_TRANSITION,

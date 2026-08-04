@@ -2,11 +2,7 @@ import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/co
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -162,7 +158,6 @@ const menuSheet = defineSlotRecipe({
       lineHeight: closeVars.base.enabled.label.lineHeight,
       fontWeight: closeVars.base.enabled.label.fontWeight,
 
-      ...createPressScaleRestStyles(),
       [pseudo(active)]: { ...createPressScaleStyles() },
 
       transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,

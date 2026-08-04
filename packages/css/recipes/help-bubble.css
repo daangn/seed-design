@@ -90,7 +90,6 @@
     --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
     border-radius: var(--seed-radius-r3);
-    scale: 1;
 }
 .seed-help-bubble__closeButton:is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);

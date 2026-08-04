@@ -257,7 +257,6 @@
     display: flex;
     position: absolute;
     right: 24px;
-    scale: 1;
   }
 
   .seed-side-panel__closeButton:is(:active, [data-active]) {

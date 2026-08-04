@@ -48,7 +48,6 @@
     flex-shrink: 0;
     border-radius: var(--seed-radius-full);
     font-weight: var(--seed-font-weight-medium);
-    scale: 1;
 }
 .seed-chip-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);

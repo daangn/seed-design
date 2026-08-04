@@ -78,7 +78,6 @@
     border: none;
     align-items: center;
     display: flex;
-    scale: 1;
   }
 
   .seed-page-banner__button:is(:active, [data-active]) {
@@ -114,7 +113,6 @@
     align-items: center;
     padding: 0;
     display: flex;
-    scale: 1;
   }
 
   .seed-page-banner__closeButton:is(:active, [data-active]) {

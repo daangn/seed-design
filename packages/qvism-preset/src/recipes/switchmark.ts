@@ -7,11 +7,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 
 const switchmarkRecipe = defineSlotRecipe({
   name: "switchmark",
@@ -32,7 +28,6 @@ const switchmarkRecipe = defineSlotRecipe({
       // Scales the whole track, thumb included — the thumb's own `transform: scale()`
       // stays the selected-state size and is unaffected. A containing component
       // (e.g. ListItem) opts out by setting --seed-switchmark-press-scale to 1.
-      ...createPressScaleRestStyles(),
       [pseudo(not(disabled), active)]: {
         ...createPressScaleStyles({ overridableBy: "--seed-switchmark-press-scale" }),
       },

@@ -24,9 +24,6 @@
 .seed-toggle-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
-.seed-toggle-button {
-    scale: 1;
-}
 .seed-toggle-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);
 }

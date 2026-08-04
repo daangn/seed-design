@@ -13,7 +13,6 @@
     outline-offset: var(--seed-dimension-x0_5);
     display: flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-attachment-input-item__root:is(:focus-visible, [data-focus-visible]) {
@@ -151,7 +150,6 @@
     align-items: center;
     padding: 0;
     display: flex;
-    scale: 1;
   }
 
   .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
@@ -191,7 +189,6 @@
     padding: 0;
     display: flex;
     position: absolute;
-    scale: 1;
   }
 
   .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
