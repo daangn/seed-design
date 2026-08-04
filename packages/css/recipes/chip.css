@@ -15,7 +15,6 @@
     flex-shrink: 0;
     line-height: 1;
     border-radius: var(--seed-radius-full);
-    scale: 1;
 }
 .seed-chip__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);

@@ -3,7 +3,6 @@
     box-sizing: border-box;
     flex: none;
     margin-top: var(--checkmark-margin-top, 0);
-    scale: 1;
 }
 .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-checkmark-press-scale, var(--seed-press-scale, 1));

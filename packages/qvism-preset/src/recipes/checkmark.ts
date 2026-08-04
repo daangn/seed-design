@@ -15,11 +15,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 
 const checkmark = defineSlotRecipe({
   name: "checkmark",
@@ -32,7 +28,6 @@ const checkmark = defineSlotRecipe({
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
 
-      ...createPressScaleRestStyles(),
       // A containing component (e.g. ListItem) opts the mark out of the pressed
       // scale by setting --seed-checkmark-press-scale to 1.
       [pseudo(not(disabled), active)]: {

@@ -116,7 +116,6 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    scale: 1;
   }
 
   .seed-menu-sheet__closeButton:is(:active, [data-active]) {

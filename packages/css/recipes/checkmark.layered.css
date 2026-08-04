@@ -4,7 +4,6 @@
     margin-top: var(--checkmark-margin-top, 0);
     flex: none;
     position: relative;
-    scale: 1;
   }
 
   .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {

@@ -25,7 +25,6 @@ const PRESS_SCALE_CLASS_NAME = "seed-press-scale";
  * two rules lets them fire under different conditions:
  *
  *   .my-button {
- *     scale: 1;
  *     transition: background-color 0.2s, var(--seed-press-scale-transition);
  *   }
  *   .my-button:active {
@@ -33,9 +32,9 @@ const PRESS_SCALE_CLASS_NAME = "seed-press-scale";
  *     scale: var(--seed-press-scale, 1);
  *   }
  *
- * The resting `scale: 1` is not a transition seed — it keeps the element a
- * stacking context throughout, instead of becoming one mid-press and dragging
- * `position: fixed` descendants with it.
+ * The resting `scale: 1` comes with the class rather than with the rule above:
+ * it keeps the element a stacking context throughout, instead of becoming one
+ * mid-press and dragging `position: fixed` descendants with it.
  */
 export function usePressScale() {
   const { sizeVarsRef } = useElementSizeVars();

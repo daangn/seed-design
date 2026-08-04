@@ -11,7 +11,6 @@
     padding: 0;
     display: inline-flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-image-frame-reaction-button__root:is(:active, [data-active]) {

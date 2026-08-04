@@ -8,11 +8,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 import spec from "@seed-design/rootage-artifacts/components/contextual-floating-button";
 
 const contextualFloatingButton = defineRecipe({
@@ -64,7 +60,6 @@ const contextualFloatingButton = defineRecipe({
     "--size": vars.base.enabled.progressCircle.size,
     "--thickness": vars.base.enabled.progressCircle.thickness,
 
-    ...createPressScaleRestStyles(),
     [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
     transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,

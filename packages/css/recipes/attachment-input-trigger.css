@@ -14,7 +14,6 @@
     cursor: pointer;
     background-color: transparent;
     border-radius: var(--seed-radius-r3);
-    scale: 1;
 }
 .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);

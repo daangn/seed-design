@@ -139,7 +139,6 @@
     width: 28px;
     height: 28px;
     cursor: pointer;
-    scale: 1;
 }
 .seed-bottom-sheet__closeButton:is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);

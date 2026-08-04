@@ -13,11 +13,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 import { active, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 
 const contentDialog = defineSlotRecipe({
@@ -219,7 +215,6 @@ const contentDialog = defineSlotRecipe({
         size: closeButtonVars.base.enabled.icon.size,
       }),
 
-      ...createPressScaleRestStyles(),
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 

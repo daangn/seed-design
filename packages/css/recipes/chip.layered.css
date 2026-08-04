@@ -16,7 +16,6 @@
     line-height: 1;
     display: inline-flex;
     position: relative;
-    scale: 1;
   }
 
   .seed-chip__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {

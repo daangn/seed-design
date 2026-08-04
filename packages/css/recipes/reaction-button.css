@@ -21,9 +21,6 @@
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
-.seed-reaction-button {
-    scale: 1;
-}
 .seed-reaction-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);
 }

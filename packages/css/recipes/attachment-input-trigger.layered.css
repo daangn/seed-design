@@ -15,7 +15,6 @@
     flex-shrink: 0;
     padding: 0;
     display: flex;
-    scale: 1;
   }
 
   .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {

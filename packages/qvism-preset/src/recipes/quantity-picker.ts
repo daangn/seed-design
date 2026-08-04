@@ -18,11 +18,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 
 const quantityPicker = defineSlotRecipe({
   name: "quantity-picker",
@@ -64,7 +60,6 @@ const quantityPicker = defineSlotRecipe({
       backgroundColor: buttonVars.base.enabled.root.color,
       transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
-      ...createPressScaleRestStyles(),
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
@@ -133,7 +128,6 @@ const quantityPicker = defineSlotRecipe({
       backgroundColor: buttonVars.base.enabled.root.color,
       transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
-      ...createPressScaleRestStyles(),
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 

@@ -10,7 +10,6 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
     background: transparent;
-    scale: 1;
 }
 .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);

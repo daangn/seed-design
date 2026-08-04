@@ -4,11 +4,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 import { onlyIcon } from "../utils/icon";
 import { active, engaged, disabled, focusVisible, not, pseudo, readOnly } from "../utils/pseudo";
 import {
@@ -75,7 +71,6 @@ const attachmentInputTrigger = defineSlotRecipe({
       backgroundColor: "transparent",
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
 
-      ...createPressScaleRestStyles(),
       [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
       transition: `background-color 0.2s, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
@@ -169,12 +164,6 @@ const attachmentInputItem = defineSlotRecipe({
       height: itemVars.base.enabled.root.height,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
-      // Scales the whole item down while it is being dragged (dnd-kit sets
-      // [aria-grabbed=true]). The individual `scale` composes with the
-      // `transform: translate` dnd-kit applies to move the item instead of
-      // clobbering it.
-      ...createPressScaleRestStyles(),
-
       transition: PRESS_SCALE_TRANSITION,
 
       "--remove-button-mask-size": itemVars.base.enabled.removeButtonMask.size,
@@ -198,6 +187,10 @@ const attachmentInputItem = defineSlotRecipe({
         cursor: "grab",
       },
 
+      // Shrinks the whole item while it is being dragged (dnd-kit sets
+      // [aria-grabbed=true]). The individual `scale` composes with the
+      // `transform: translate` dnd-kit applies to move the item instead of
+      // clobbering it.
       [pseudo("[aria-grabbed=true]")]: {
         ...createPressScaleStyles(),
 
@@ -287,7 +280,6 @@ const attachmentInputItem = defineSlotRecipe({
       cursor: "pointer",
       borderRadius: "inherit",
 
-      ...createPressScaleRestStyles(),
       [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
       transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
@@ -323,7 +315,6 @@ const attachmentInputItem = defineSlotRecipe({
       borderRadius: itemRemoveButtonVars.base.enabled.root.cornerRadius,
       cursor: "pointer",
 
-      ...createPressScaleRestStyles(),
       [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
 
       transition: `background-color 0.2s, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,

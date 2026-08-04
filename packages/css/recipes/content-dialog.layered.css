@@ -209,7 +209,6 @@
     padding: 15px;
     display: flex;
     position: absolute;
-    scale: 1;
   }
 
   .seed-content-dialog__closeButton:is(:focus-visible, [data-focus-visible]) {

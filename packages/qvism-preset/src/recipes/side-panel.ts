@@ -8,11 +8,7 @@ import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { breakpoints } from "../utils/breakpoint";
 import { active, engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
-import {
-  createPressScaleRestStyles,
-  createPressScaleStyles,
-  PRESS_SCALE_TRANSITION,
-} from "../utils/press-scale";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
 import { sidePanelCloseButton as closeButtonVars, sidePanel as vars } from "../vars/component";
 
 const sidePanel = defineSlotRecipe({
@@ -236,7 +232,6 @@ const sidePanel = defineSlotRecipe({
 
       cursor: "pointer",
 
-      ...createPressScaleRestStyles(),
       [pseudo(active)]: { ...createPressScaleStyles() },
 
       transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
