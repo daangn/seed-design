@@ -1,6 +1,6 @@
 ---
 name: release-note
-description: docs 사이트 Updates 섹션에 실릴 릴리스 노트(`docs/content/updates/<slug>.mdx`, `category: release`)를 작성합니다. CHANGELOG·git 이력·PR 내용을 모아 하이라이트를 선별하고, 라이브 프리뷰와 캡쳐를 붙여 초안을 만듭니다. "릴리스 노트 써줘", "이번 달 업데이트 정리해줘", "SEED React N 릴리스 노트", "release note" 요청에 사용합니다.
+description: docs 사이트 Updates 섹션에 실릴 릴리즈 노트(`docs/content/updates/<slug>.mdx`, `category: release`)를 작성합니다. CHANGELOG·git 이력·PR 내용을 모아 하이라이트를 선별하고, 라이브 프리뷰와 캡쳐를 붙여 초안을 만듭니다. "릴리즈 노트 써줘", "이번 달 업데이트 정리해줘", "SEED React N 릴리즈 노트", "release note" 요청에 사용합니다.
 user-invocable: true
 argument-hint: "[버전·기간·주제]"
 ---
@@ -13,14 +13,14 @@ SEED 사용자에게 "무엇이 달라졌고 왜 달라졌는지"를 전하는 *
 
 이 스킬이 만드는 건 아래 표의 두 번째 줄이다. 나머지 셋과 내용을 복제하지 않는다.
 
-| 문서 | 성격 | 릴리스 노트와의 관계 |
+| 문서 | 성격 | 릴리즈 노트와의 관계 |
 |---|---|---|
-| `/react/updates/changelog` | 패키지·버전별 전수 나열 (기계 생성) | 릴리스 노트 마지막에 링크 |
-| **릴리스 노트 (이 스킬)** | **선별된 하이라이트 서사** | — |
+| `/react/updates/changelog` | 패키지·버전별 전수 나열 (기계 생성) | 릴리즈 노트 마지막에 링크 |
+| **릴리즈 노트 (이 스킬)** | **선별된 하이라이트 서사** | — |
 | `/react/updates/upgrade/vN` | 마이그레이션 작업 지시 | breaking change는 **설명만 하고 여기로 보낸다** |
 | `/updates/*` (`category: post`) | 에세이형 블로그 | 별개 |
 
-**업그레이드 절차를 릴리스 노트에 복제하지 않는다.** 두 벌이 되면 갈라진다.
+**업그레이드 절차를 릴리즈 노트에 복제하지 않는다.** 두 벌이 되면 갈라진다.
 
 ## 실행 절차
 
@@ -29,7 +29,7 @@ SEED 사용자에게 "무엇이 달라졌고 왜 달라졌는지"를 전하는 *
 발행 단위는 자유다 — 특정 React 버전일 수도, 문서 사이트 개편일 수도, 한 달치 묶음일 수도 있다. **추측하지 말고 물어본다.**
 
 물을 것:
-1. **무엇에 대한 릴리스 노트인가** — 버전 범위(`@seed-design/react@2.0.0..2.1.0`) / 기간(`2026-07-01..2026-08-04`) / 특정 주제
+1. **무엇에 대한 릴리즈 노트인가** — 버전 범위(`@seed-design/react@2.0.0..2.1.0`) / 기간(`2026-07-01..2026-08-04`) / 특정 주제
 2. 이미 같은 범위를 다룬 `docs/content/updates/*.mdx`(`category: release`)가 있으면 알리고, 새로 쓸지 고칠지 확인
 
 ### Phase 2. 변경 수집
@@ -90,7 +90,7 @@ category: release
 - **`category: release` 필수.** 빼면 블로그 카드로 렌더된다.
 - **`coverImage`는 넣지 않는다.** 생략하면 OG가 Updates 섹션 카드(`/og/updates.png`)로 폴백하고
   타이틀·설명은 이 글 자신의 frontmatter를 쓴다 (`docs/lib/seo.ts`의 `buildDocsPageMetadata`).
-  릴리스마다 3200×1680 커버를 만들 필요가 없다.
+  릴리즈마다 3200×1680 커버를 만들 필요가 없다.
 - 슬러그는 `content/updates/`가 **평면 네임스페이스**다 (`app/updates/[slug]`는 단일 세그먼트 라우트라
   하위 디렉토리를 만들면 404). `seed-react-2-1`, `docs-renewal-2026-08`처럼 짓는다.
 
@@ -98,9 +98,10 @@ category: release
 
 **라이브 프리뷰가 1순위다.** 캡쳐한 이미지는 컴포넌트가 바뀌면 낡지만 프리뷰는 안 낡는다.
 
-1. **컴포넌트** → `<ComponentExample name="react/<name>/preview" />`
-   먼저 `docs/registry/`에 그 preview가 실재하는지 확인한다. 없으면 문서 링크로 대체한다.
-2. **Blocks** → `<BlockPreview name="<block>-01">`
+1. **컴포넌트** → `ComponentExample`. 먼저 `docs/examples/react/<name>/preview.tsx`가 실재하는지 확인하고,
+   없으면 문서 링크로 대체한다. **children(코드블록)을 반드시 넘긴다** — 자세한 형태는 `references/writing.md`의
+   "라이브 프리뷰"에 있다.
+2. **Blocks** → 400px iframe이라 릴리즈 노트에는 무겁다. 문서 링크를 쓴다.
 3. **프리뷰로 표현 불가**(전/후 비교, 모션, Figma 원본, 이미 지워진 API) → 캡쳐
    ```bash
    bun --filter @seed-design/docs dev          # :3000

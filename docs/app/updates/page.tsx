@@ -20,7 +20,7 @@ const client = env.figmaPersonalAccessToken
 
 const UPDATES_COVER_IMAGE = "/og/updates";
 const UPDATES_TITLE = "Updates";
-const UPDATES_DESCRIPTION = "SEED 업데이트 소식과 릴리스 노트";
+const UPDATES_DESCRIPTION = "SEED 업데이트 소식과 릴리즈 노트";
 
 // Internal 카드 썸네일은 상세 페이지와 동일한 글 커버(coverImageFigmaId)를 그대로 쓴다.
 // index도 force-static이라 상세 페이지처럼 빌드 1회 페치로 끝(런타임 페치 아님).
@@ -98,7 +98,7 @@ async function buildCards(): Promise<UpdateCard[]> {
 }
 
 /**
- * 릴리스 노트 행: 썸네일 없이 제목·날짜·한 줄 설명만. 전부 내부 링크라 화살표를 달지 않는다
+ * 릴리즈 노트 행: 썸네일 없이 제목·날짜·한 줄 설명만. 전부 내부 링크라 화살표를 달지 않는다
  * — 카드와 달리 목록을 훑는 용도이고, 행마다 같은 화살표가 반복되면 잡음이 된다.
  */
 function ReleaseRow({ card }: { card: UpdateCard }) {
@@ -174,8 +174,8 @@ function UpdateCardLink({ card }: { card: UpdateCard }) {
 
 /**
  * Updates 섹션 랜딩 — 사이드바 없는 1컬럼.
- * 릴리스 노트(`category: release`)는 썸네일 없는 리스트로 위에, 블로그 글은 카드 그리드로 아래에.
- * 릴리스 노트는 버전마다 나가는 잦은 글이라 매번 16:9 커버를 만들지 않아도 되게 리스트로 둔다.
+ * 릴리즈 노트(`category: release`)는 썸네일 없는 리스트로 위에, 블로그 글은 카드 그리드로 아래에.
+ * 릴리즈 노트는 버전마다 나가는 잦은 글이라 매번 16:9 커버를 만들지 않아도 되게 리스트로 둔다.
  */
 export default async function Page() {
   const cover = resolveCoverImage(UPDATES_COVER_IMAGE);

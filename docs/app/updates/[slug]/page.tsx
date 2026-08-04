@@ -31,7 +31,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
 
   // 같은 라우트가 두 종류의 글을 렌더한다.
   // - `post`: 에세이. ToC 없이 중앙 정렬된 단독 컬럼으로 처음부터 끝까지 읽는다.
-  // - `release`: 릴리스 노트. 훑고 필요한 항목으로 점프하는 문서라 ToC를 켜고 docs 기본 조판을 쓴다.
+  // - `release`: 릴리즈 노트. 훑고 필요한 항목으로 점프하는 문서라 ToC를 켜고 docs 기본 조판을 쓴다.
   //   커버·중앙 정렬·확대 prose·`.updates-article`(h2 위 6rem 여백)은 섹션이 많은 글에 과하므로 전부 뺀다.
   const isRelease = page.data.category === "release";
 

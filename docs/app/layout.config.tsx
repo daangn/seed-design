@@ -113,7 +113,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       },
       {
         title: "Updates",
-        description: "업데이트 소식과 릴리스 노트",
+        description: "업데이트 소식과 릴리즈 노트",
         url: "/updates",
         icon: (
           <SidebarTabIconContainer>

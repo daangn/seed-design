@@ -1,4 +1,4 @@
-# 릴리스 노트 작성 가이드
+# 릴리즈 노트 작성 가이드
 
 ## 톤
 
@@ -12,7 +12,7 @@
 | `updates/how-seed-evolved.mdx` (2026) | 6 | 22 |
 | `updates/whats-new-in-action-button.mdx` (2024) | 12 | 0 |
 
-노션의 "친절한 SEED 릴리즈 노트"는 `~해요`체였다. 2024년 글도 그랬지만 2026년 문서는 전부 `~합니다`체로 옮겨왔다. **릴리스 노트는 `~합니다`체를 쓴다.**
+노션의 "친절한 SEED 릴리즈 노트"는 `~해요`체였다. 2024년 글도 그랬지만 2026년 문서는 전부 `~합니다`체로 옮겨왔다. **릴리즈 노트는 `~합니다`체를 쓴다.**
 
 한 문서 안에서 문체를 섞지 않는다.
 
@@ -49,7 +49,9 @@ category: release
 
 무엇이 달라졌는지 한두 문단. 필요하면 코드 예시.
 
-<ComponentExample name="react/menu/preview" />
+<ComponentExample name="react/menu/preview">   {/* 아래 "라이브 프리뷰" 참고 — children 필수 */}
+  ...
+</ComponentExample>
 
 ## [하이라이트 2]
 
@@ -67,7 +69,7 @@ category: release
 
 ### tl;dr
 
-**필수다.** 릴리스 노트는 처음부터 끝까지 읽는 글이 아니라 훑고 점프하는 글이다.
+**필수다.** 릴리즈 노트는 처음부터 끝까지 읽는 글이 아니라 훑고 점프하는 글이다.
 
 - 3~5개 항목. 그보다 많으면 하이라이트 선별이 덜 된 것이다.
 - 각 항목은 굵은 한 줄 + 본문 앵커 링크.
@@ -80,7 +82,7 @@ category: release
   - ❌ `## Grid 컴포넌트 responsive prop`
   - ✅ `## 넓은 화면과 마우스 환경`
 - h3는 그 안에서 항목이 여럿일 때만. 2단(h2 > h3)을 넘기지 않는다.
-- 각 하이라이트는 마지막에 문서 링크로 닫는다. 릴리스 노트는 진입점이지 레퍼런스가 아니다.
+- 각 하이라이트는 마지막에 문서 링크로 닫는다. 릴리즈 노트는 진입점이지 레퍼런스가 아니다.
 
 ### breaking change
 
@@ -109,7 +111,7 @@ category: release
 | `Card` / `Cards` | 마무리 CTA, 문서 링크 묶음 | `<Card href title description />` |
 | `Badge` | 상태 라벨 | `<Badge tone="brand">` — `neutral`/`warning`/`informative`/`positive`/`critical`/`brand` |
 | `Tabs` / `Tab` | 프레임워크·환경별 분기 | `<Tabs items={["React", "Lynx"]}>` |
-| `Steps` / `Step` | 순서 있는 절차 | 릴리스 노트에선 드물다. 업그레이드 가이드 쪽 도구다 |
+| `Steps` / `Step` | 순서 있는 절차 | 릴리즈 노트에선 드물다. 업그레이드 가이드 쪽 도구다 |
 | `TypeTable` | prop 표 | 새 API를 상세히 보여줄 때. 보통은 문서 링크로 충분하다 |
 | ` ```package-install ` | 패키지 설치 코드블록 | 버전 명시가 필요할 때 |
 
@@ -136,7 +138,7 @@ children 없이 `<ComponentExample name="..." />`만 쓰면 테두리 없는 320
 - `doc-gen:file`의 `file`은 `docs/` 기준 상대 경로다. `name`과 같은 파일을 가리켜야 한다.
 - 오버레이 컴포넌트(Side Panel, Menu Sheet 등)는 프리뷰가 트리거 버튼 하나만 보여준다.
   한 문서에 그런 프리뷰를 여러 개 넣지 말고 문서 링크로 대체한다.
-- Blocks(`BlockPreview`)는 400px iframe이라 릴리스 노트에는 무겁다. 문서 링크를 쓴다.
+- Blocks(`BlockPreview`)는 400px iframe이라 릴리즈 노트에는 무겁다. 문서 링크를 쓴다.
 
 ## 이미지
 
