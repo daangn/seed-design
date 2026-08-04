@@ -172,21 +172,13 @@ const MyButton = React.forwardRef<HTMLButtonElement, MyButtonProps>(
 
 ## 알아둘 점
 
-### `scale` 속성과 브라우저 지원
+### 개별 `scale` 속성
 
-SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transform 속성인 [`scale`](https://developer.mozilla.org/ko/docs/Web/CSS/scale)로 적용합니다. `transform`은 shorthand라서 다른 변형과 값을 공유해야 하지만, 개별 속성은 요소에 이미 걸린 `translate`나 `rotate`를 덮어쓰지 않기 때문입니다.
+SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transform 속성인 [`scale`](https://developer.mozilla.org/ko/docs/Web/CSS/scale)로 적용합니다. 커스텀 컴포넌트에서도 `scale`을 사용하세요.
 
-개별 `scale` 속성은 Chrome 104, Safari 14.1, Firefox 72부터 지원됩니다. 이보다 낮은 버전에서는 축소 효과만 나타나지 않고 나머지 스타일은 그대로 동작합니다.
+`transform`은 shorthand라서 한 요소에 하나의 값만 가집니다. 축소를 여기에 적으면 그 요소의 이동이나 회전을 같은 값에 함께 써야 하고, 변형을 추가할 때마다 축소 값을 다시 챙겨야 합니다. 개별 `scale`은 `translate`, `rotate`와 독립적으로 동작해서 이런 부담이 없고, `pressScaleClassName`이 이미 `scale`을 사용하므로 축소가 한 속성에 모입니다.
 
-커스텀 컴포넌트에서는 어느 쪽을 쓸지 직접 선택할 수 있습니다. 더 넓은 브라우저 지원이 필요하다면 같은 배율을 `transform`으로 적용해도 됩니다.
-
-```css title="MyButton.css"
-.my-button:active {
-  transform: scale(var(--seed-press-scale, 1));
-}
-```
-
-이 경우 `transform`에 다른 변형을 함께 적용한다면 한 값에 모아서 작성해야 합니다.
+개별 `scale` 속성은 Chrome 104, Safari 14.1, Firefox 72부터 지원됩니다. 이보다 낮은 버전에서는 축소만 나타나지 않고 나머지 스타일은 그대로 동작합니다.
 
 ### 중첩된 SEED 컴포넌트
 
@@ -200,7 +192,7 @@ SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transfor
 
 `pressScaleClassName`이 붙은 요소는 눌리지 않은 상태에서도 `scale: 1`을 유지합니다. `scale` 값이 있는 요소는 stacking context이자 `position: fixed` 자손의 containing block이 되므로, 이 요소 안에 `position: fixed` 요소가 있다면 뷰포트가 아니라 **이 요소를 기준으로 배치됩니다.**
 
-평상시에만 `scale`을 비워두면 눌리는 순간 기준이 바뀌면서 `position: fixed` 자손이 함께 움직이기 때문에, 기준을 계속 고정하는 쪽을 택했습니다.
+이 기준은 눌리기 전후로 바뀌지 않으므로 누르는 동안 자손이 따라 움직이지는 않습니다. 다만 배치 기준 자체가 뷰포트와 달라지는 것이므로, 이런 자손이 있다면 의도한 위치에 표시되는지 확인하세요.
 
 ### 마우스 환경
 
