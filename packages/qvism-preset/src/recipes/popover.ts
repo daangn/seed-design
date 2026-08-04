@@ -23,7 +23,8 @@ const popover = defineSlotRecipe({
   ],
   base: {
     positioner: {
-      "--popover-z-index": "99",
+      // helps the popover open at the top of the stackflow stack; it won't have any AppScreen on top of it
+      "--popover-z-index": "99999",
       zIndex: "calc(var(--popover-z-index) + var(--z-index-offset, 0))",
       outline: "none",
 
@@ -139,7 +140,6 @@ const popover = defineSlotRecipe({
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
       paddingInline: "var(--seed-box-padding-x)",
-      paddingBottom: vars.base.enabled.body.paddingBottom, // reserve room for the bottom scroll fog
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",
@@ -153,9 +153,14 @@ const popover = defineSlotRecipe({
         boxShadow: `inset 0 ${vars.base.scrolled.body.strokeWidth} 0 0 ${vars.base.scrolled.body.strokeColor}`,
       },
 
-      // bottom scroll fog: always fades the last bit of content into the surface; its height equals the body's paddingBottom
-      maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
-      WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+      // Bottom padding + scroll fog apply only while the body overflows (is scrollable),
+      // toggled by data-overflow from the styled layer. Applying them unconditionally
+      // fades content that can never be scrolled clear of the fade band.
+      [pseudo("[data-overflow]")]: {
+        paddingBottom: vars.base.enabled.body.paddingBottom,
+        maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+        WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+      },
 
       // body can have focus when it overflows
       ...createFocusRingRestStyles({ position: "inside" }),
