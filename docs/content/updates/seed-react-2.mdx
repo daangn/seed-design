@@ -1,0 +1,164 @@
+---
+title: SEED React 2
+description: 시맨틱 버저닝 준수를 시작하고, 넓은 화면·마우스 환경 지원과 10개의 신규 컴포넌트를 더했습니다.
+publishedAt: 2026-06-18T00:00:00+09:00
+category: release
+---
+
+<Callout type="info" title="tl;dr">
+
+1. **2.0.0부터 시맨틱 버저닝을 준수합니다.** breaking change는 이제 메이저 버전에서만 생깁니다. [자세히](#200부터-시맨틱-버저닝을-준수합니다)
+2. **넓은 화면과 마우스 환경을 지원합니다.** 반응형 스타일링, 큰 타이포 토큰, 폼 요소의 `medium` 크기가 추가됐습니다. [자세히](#넓은-화면과-마우스-환경)
+3. **신규 컴포넌트 10개를 추가했습니다.** [자세히](#신규-컴포넌트)
+4. **다이얼로그와 시트의 묵은 버그를 정리했습니다.** Radix Dialog 의존과 `pointer-events` 코드를 걷어냈습니다. [자세히](#다이얼로그와-시트)
+5. 업그레이드에 필요한 작업은 [SEED React 2 업그레이드 가이드](/react/updates/upgrade/v2)에 정리했습니다.
+
+</Callout>
+
+## 2.0.0부터 시맨틱 버저닝을 준수합니다
+
+1.x에서는 마이너 버전에도 breaking change가 들어갔습니다. 새 마이너가 나갈 때마다 공지로 변경사항을 설명하긴 했지만, 마이너에 breaking change가 있다는 사실 자체가 예상하기 어려웠습니다.
+
+여기에 더해 `@seed-design/react`가 실제로는 특정 범위의 `@seed-design/css`를 요구하는데도 `peerDependencies` 버전이 갱신되지 않고 있었습니다. 그래서 SEED를 쓰는 팀은 버전을 그냥 올려도 되는지 알기 어려웠고, SEED 위에 SDK나 라이브러리를 배포하는 팀은 자기 peer 범위를 어떻게 잡아야 할지가 특히 모호했습니다. 그 모호함을 피하려고 최종 소비자가 직접 스타일을 덮어쓰거나, SDK가 SEED를 `peerDependencies` 대신 `dependencies`로 선언하는 일이 생겼습니다.
+
+**예측 가능한 버저닝이 먼저라고 판단해, 시맨틱 버저닝 준수의 시작점을 나타내는 의미로 메이저를 2로 올렸습니다.**
+
+<Callout type="info">
+
+모든 패키지가 항상 같은 메이저로 움직이지는 않습니다. CSS 변경 없이 React 패키지에만 breaking change가 있는 경우처럼 각 패키지의 버전은 독립적으로 올라갑니다. 문서와 가이드는 React 패키지의 버전을 기준으로 소통합니다 (예: "SEED React 2").
+
+</Callout>
+
+1.x에서 곧바로 올리기 어려운 팀을 위해 1.x 버전 대상 호환 표를 제공하고, [CLI `compat` 명령어](/react/getting-started/cli/commands#compat)와 [업그레이드 스킬](/ai-integration/skill)로 각 상황에 맞는 마이그레이션 전략을 제시할 예정입니다.
+
+## 넓은 화면과 마우스 환경
+
+SEED는 모바일 웹뷰를 기준으로 자라왔습니다. 데스크톱과 마우스를 쓰는 제품이 늘면서, 화면 폭에 따라 달라지는 레이아웃과 정밀한 포인터에 맞는 크기가 필요해졌습니다.
+
+### 반응형 스타일링
+
+breakpoint 기반 반응형 prop을 쓸 수 있습니다.
+
+```tsx
+<Box padding={{ base: "x3", md: "x6" }} />
+<Grid columns={{ base: 1, md: 2, lg: 4 }} gap="x4" />
+```
+
+- min-width 기반 `base`, `sm`, `md`, `lg`, `xl` breakpoint를 지원합니다.
+- `Box`, `Grid`, `VStack`, `HStack` 등에서 레이아웃·sizing·padding 속성에 반응형 객체를 넣을 수 있습니다. CSS Variables 기반이라 런타임 측정이 없습니다.
+- JS 로직이 필요하면 `window.matchMedia` 기반 `useBreakpoint`, `useBreakpointValue`, `BreakpointProvider`를 씁니다.
+
+자세한 값과 API는 [반응형 디자인](/react/components/concepts/responsive-design) 문서를 참고해 주세요.
+
+### 타이포그래피 토큰 추가
+
+- 더 넓은 뷰포트를 지원하기 위해 `t11`–`t14` 텍스트 크기와 줄 간격 토큰, 그에 대응하는 텍스트 스타일을 추가했습니다.
+- `t8`–`t14` 구간에는 모든 폰트 두께에 대한 텍스트 스타일과 static variant를 채웠습니다.
+
+```tsx
+<Text textStyle="t12Regular">
+```
+
+### 폼 요소의 `size="medium"`
+
+정밀한 포인터를 쓰는 마우스 환경에서는 기존 폼 요소가 불필요하게 컸습니다. Text Field Input·Textarea와 Field Button에 `size="medium"` variant를 추가했습니다.
+
+## 신규 컴포넌트
+
+모바일 화면을 위해 추가된 것도 있고, 넓은 화면과 마우스 환경을 위해 추가된 것도 있습니다. 컴포넌트에 따라 디자인 가이드라인상 특정 뷰포트에서 특정 크기를 권장하기도 하니, 자세한 내용은 각 문서를 확인해 주세요.
+
+### Accordion
+
+각 섹션을 펼치거나 접어 정보를 탐색하는 컴포넌트입니다.
+
+<ComponentExample name="react/accordion/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/accordion/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Accordion 문서](/react/components/accordion)
+
+### Attachment Field
+
+`<input type="file">` 기반 파일 선택, 끌어놓아 업로드(Dropzone), 파일 유효성 검증, 업로드 목록 관리를 지원합니다. 항목 간 순서 변경이 필요하면 reorderable 버전을 쓸 수 있습니다 (프로젝트에 dnd-kit 의존성이 추가됩니다).
+
+<ComponentExample name="react/attachment-field/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-field/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Attachment Field 문서](/react/components/attachment-field)
+
+### Menu
+
+Menu Sheet와 달리 화면을 전부 덮지 않고, 맥락에 맞는 옵션을 그 자리에서 제공합니다.
+
+<ComponentExample name="react/menu/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/menu/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Menu 문서](/react/components/menu)
+
+### 그 밖의 컴포넌트
+
+- **[Attachment Display Field](/react/components/attachment-display-field)** — 외부 미디어 피커와 연동해 URL 기반으로 미디어 목록을 표시하고 관리합니다. reorderable 버전을 지원합니다.
+- **[Help Bubble Tooltip](/react/components/help-bubble-tooltip)** — 마우스로 호버하거나 키보드로 포커스했을 때 열리는 Help Bubble입니다. 툴팁이므로 닫기 버튼이나 내부 인터랙션이 필요하면 기존 Help Bubble을 씁니다.
+- **[Side Panel](/react/components/side-panel)** — 현재 페이지의 흐름을 유지하면서 많은 양의 정보를 보여줘야 할 때 씁니다.
+- **[Swipeable Menu Sheet](/react/components/swipeable-menu-sheet)** — 스와이프해서 닫을 수 있는 Menu Sheet입니다. 기존 Menu Sheet API는 2에서도 유지되지만 deprecate합니다.
+- **[Footer](/react/blocks/footer)** — 푸터의 권장 사용예에 가깝습니다. `Footer.LinkText`를 제외한 모든 구성요소를 직접 구성할 수 있습니다.
+- **[Layout](/react/blocks/layout)** — 데스크톱 제품의 Dashboard Layout과 Contents Layout을 `density` 옵션으로 제공합니다.
+- **[Side Navigation](/react/blocks/side-navigation)** — 넓은 뷰포트를 지원하는 제품에서 서비스 최상위 메뉴 탐색 경험을 제공합니다.
+
+## 다이얼로그와 시트
+
+Alert Dialog, Bottom Sheet, Menu Sheet의 묵은 버그를 정리했습니다.
+
+- **Stackflow 환경과 잘 맞지 않던 Radix Dialog 의존을 완전히 제거했습니다.** `@radix-ui/react-dialog` 의존성과 패치가 `@seed-design/react`에서 빠졌습니다. pnpm 환경에서 SEED 때문에 이 패키지를 설치하고 있었다면 제거할 수 있습니다.
+- **`pointer-events`로 클릭을 막던 코드를 모두 걷어냈습니다.** 이 동작을 오버라이드하려고 넣어 둔 workaround를 제거할 수 있습니다.
+- 여러 오버레이가 겹친 상황에서 하위 오버레이가 닫히면 `onOpenChange`의 reason으로 `"cascadeDismiss"`를 전달합니다.
+- 트리거 클릭으로 Bottom Sheet가 열릴 때 `onOpenChange`의 reason으로 `"trigger"`를 전달합니다.
+- iOS에서 Bottom Sheet 내부 버튼을 잡고 시트를 스와이프하면 의도하지 않은 클릭이 발생하던 문제를 수정했습니다.
+
+## 그 외
+
+**접근성**
+
+- AppScreen과 Drawer가 열릴 때 해당 컴포넌트로 포커스가 이동하고, 포커스가 그 안에서만 움직입니다. 스크린 리더 환경에서 AppScreen·Drawer를 연 뒤에도 뒤 화면과 상호작용할 수 있던 문제가 해결됩니다.
+- Alert Dialog와 Menu Sheet가 열릴 때 내부의 첫 포커스 가능 요소 대신 다이얼로그 컨테이너로 포커스가 갑니다.
+
+**DX**
+
+- 컴포넌트와 파운데이션 전반의 JSDoc을 보강했습니다. `<ActionButton variant="brandSolid">`와 `<ActionButton variant="neutralSolid">`가 어떻게 다른지 에이전트가 `.d.ts`만 읽고도 알 수 있습니다.
+- 레이아웃 컴포넌트에 margin 관련 프로퍼티를 추가했습니다. `"auto"` 리터럴과 반응형 스타일링을 지원합니다.
+- `bleedX`/`bleedY`를 지원하던 요소에 4방향 공통 `bleed` 프로퍼티를 추가했습니다.
+
+**버그 수정**
+
+- `<Grid display="none">`으로 Grid를 숨길 수 없던 문제를 수정했습니다.
+- Help Bubble이 좁은 화면에서 화면 밖으로 잘릴 수 있던 문제를 수정했습니다.
+
+<Cards>
+  <Card
+    href="/react/updates/upgrade/v2"
+    title="업그레이드 가이드"
+    description="1.2에서 2로 올릴 때 필요한 패키지 버전과 코드 변경"
+  />
+  <Card
+    href="/react/updates/changelog"
+    title="전체 변경사항"
+    description="패키지·버전별 changelog"
+  />
+</Cards>
