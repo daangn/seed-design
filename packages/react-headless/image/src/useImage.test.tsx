@@ -76,20 +76,6 @@ describe("useImage", () => {
     expect(image).not.toHaveAttribute("hidden");
   });
 
-  it("should announce the image, not the fallback, while loading", () => {
-    const { getByAltText, getByText } = setUp(<Image src={IMAGE_SRC} />);
-    expect(getByAltText(IMAGE_ALT_TEXT)).not.toHaveAttribute("aria-hidden");
-    expect(getByText(FALLBACK_TEXT)).toHaveAttribute("aria-hidden", "true");
-  });
-
-  it("should announce the fallback when loading fails", () => {
-    const { getByAltText, getByText } = setUp(<Image src={IMAGE_SRC} />);
-
-    fireEvent.error(getByAltText(IMAGE_ALT_TEXT));
-
-    expect(getByText(FALLBACK_TEXT)).not.toHaveAttribute("aria-hidden");
-  });
-
   it("should hide the image when loading fails", () => {
     const { getByAltText, queryByText } = setUp(<Image src={IMAGE_SRC} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
