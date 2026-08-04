@@ -1,7 +1,7 @@
 import { popover, type PopoverVariantProps } from "@seed-design/css/recipes/popover";
 import { Popover as PopoverPrimitive, usePopoverContext } from "@seed-design/react-popover";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import clsx from "clsx";
 import * as React from "react";
@@ -17,6 +17,13 @@ const withStateProps = createWithStateProps([usePopoverContext]);
 const closeButtonTracker = createRenderTrackingContext("PopoverCloseButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
+
+// `popover.yaml` declares these as `$dimension.x2` / `$dimension.x4`, but the generated
+// `@seed-design/css` vars publish them as `var(--seed-dimension-*)` strings, and floating-ui
+// positions with numbers — so the token cannot be read back here and the px values are
+// mirrored by hand. Move them together with the YAML.
+const DEFAULT_GUTTER = 8;
+const DEFAULT_OVERFLOW_PADDING = 16;
 
 export interface PopoverRootProps extends PopoverVariantProps, PopoverPrimitive.RootProps {
   /** @default "bottom" */
@@ -52,8 +59,8 @@ export function PopoverRoot(props: PopoverRootProps) {
       <closeButtonTracker.Provider>
         <PopoverPrimitive.Root
           placement="bottom"
-          gutter={8}
-          overflowPadding={16}
+          gutter={DEFAULT_GUTTER}
+          overflowPadding={DEFAULT_OVERFLOW_PADDING}
           safeAreaAware
           lazyMount
           {...otherProps}
@@ -166,14 +173,29 @@ export const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>((props, 
   const { style, restProps } = useStyleProps(props);
   const { className, ...otherProps } = restProps;
 
-  const ref = React.useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = React.useState(false);
+  const [overflowing, setOverflowing] = React.useState(false);
 
-  React.useEffect(() => {
-    const element = ref.current;
+  const teardownRef = React.useRef<(() => void) | null>(null);
+
+  // The node can attach at any point in the component's life: `lazyMount` holds the whole
+  // content subtree out of the DOM until the first open, and an `asChild` child may hand its
+  // node over later still. Measurement therefore hangs off the ref, which sees every attach
+  // and detach — a mount effect reads the node once and has no way to retry.
+  const observeRef = React.useCallback((element: HTMLDivElement | null) => {
+    teardownRef.current?.();
+    teardownRef.current = null;
+
     if (!element) return;
 
-    const check = () => setScrolled(element.scrollTop > 0);
+    const check = () => {
+      setScrolled(element.scrollTop > 0);
+      // Subtract the current bottom padding so overflow detection stays independent
+      // of the padding we conditionally apply — otherwise that padding would count as
+      // overflow and the state would never settle (padding -> overflow -> padding...).
+      const paddingBottom = Number.parseFloat(getComputedStyle(element).paddingBottom) || 0;
+      setOverflowing(element.scrollHeight - paddingBottom > element.clientHeight);
+    };
     check();
 
     element.addEventListener("scroll", check);
@@ -181,18 +203,21 @@ export const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>((props, 
     const observer = new ResizeObserver(check);
     observer.observe(element);
 
-    return () => {
+    teardownRef.current = () => {
       element.removeEventListener("scroll", check);
       observer.disconnect();
     };
   }, []);
 
+  const ref = useComposedRefs(observeRef, forwardedRef);
+
   return (
     <Primitive.div
-      ref={composeRefs(ref, forwardedRef)}
+      ref={ref}
+      data-scrolled={dataAttr(scrolled)}
+      data-overflow={dataAttr(overflowing)}
       className={clsx(classNames.body, className)}
       style={style}
-      {...{ "data-scrolled": dataAttr(scrolled) }}
       {...otherProps}
     />
   );
