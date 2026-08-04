@@ -7,12 +7,6 @@ import type {
 } from "../parser/ast";
 import { createStringifier as createCssStringifier } from "./css";
 
-/**
- * Returns the JSDoc block to prepend to a component spec's `.d.ts`,
- * or `undefined` to emit no banner for that spec.
- */
-export type ComponentSpecDtsBanner = (decl: ComponentSpecDeclaration) => string | undefined;
-
 interface TokenDefinition {
   key: string;
   value: string;
@@ -51,9 +45,7 @@ function stringifyStateKey(state: StateExpression[]): string {
   return camelCase(state.map((s) => s.value).join("-"));
 }
 
-export function createStringifier(
-  options: { prefix?: string; componentSpecDtsBanner?: ComponentSpecDtsBanner } = {},
-) {
+export function createStringifier(options: { prefix?: string } = {}) {
   const cssStringifier = createCssStringifier(options);
 
   function getComponentSpec(decl: ComponentSpecDeclaration) {
@@ -74,14 +66,24 @@ export function createStringifier(
           const property: Record<string, string> = {};
 
           for (const propertyDecl of slotDecl.body) {
+            // An enum records a design decision rather than a value CSS can
+            // consume, so it never becomes a custom property.
+            if (propertyDecl.value.kind === "EnumLit") continue;
+
             const propertyKey = propertyDecl.property;
             const expr = propertyDecl.value;
 
             property[propertyKey] = cssStringifier.valueOrToken(expr);
           }
 
+          // A slot holding nothing but enums, or a state left with no slots, would
+          // publish an empty object where consumers expect values.
+          if (Object.keys(property).length === 0) continue;
+
           slot[slotKey] = property;
         }
+
+        if (Object.keys(slot).length === 0) continue;
 
         variant[stateKey] = slot;
       }
@@ -180,10 +182,7 @@ export function createStringifier(
       json = json.replaceAll(`"${key}":`, `/** ${desc} */\n        "${key}":`);
     }
 
-    const bannerBlock = options.componentSpecDtsBanner?.(decl);
-    const banner = bannerBlock ? `${bannerBlock.replace(/\n+$/, "")}\n` : "";
-
-    return `${banner}export declare const vars: ${json}`;
+    return `export declare const vars: ${json}`;
   }
 
   function getComponentSpecIndexMjs(decls: ComponentSpecDeclaration[]) {
@@ -300,4 +299,59 @@ export function createStringifier(
     getTokenMjs,
     getTokenDts,
   };
+}
+
+const INDENT = "  ";
+
+function stringifyLiteralType(value: unknown, depth: number): string {
+  if (value === null) return "null";
+  if (typeof value === "string") return JSON.stringify(value);
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+
+  const pad = INDENT.repeat(depth);
+  const padInner = INDENT.repeat(depth + 1);
+
+  if (Array.isArray(value)) {
+    if (value.length === 0) return "readonly []";
+
+    const items = value.map((item) => `${padInner}${stringifyLiteralType(item, depth + 1)}`);
+
+    return `readonly [\n${items.join(",\n")},\n${pad}]`;
+  }
+
+  const entries = Object.entries(value as Record<string, unknown>);
+  if (entries.length === 0) return "{}";
+
+  const props = entries.map(
+    ([key, item]) => `${padInner}${JSON.stringify(key)}: ${stringifyLiteralType(item, depth + 1)}`,
+  );
+
+  return `{\n${props.join(";\n")};\n${pad}}`;
+}
+
+/**
+ * Declares an exchange artifact with every literal kept narrow.
+ *
+ * A `.json` import cannot: TypeScript widens each literal, so a token reference and
+ * an enum value both arrive as `string`, and an array of unlike entries collapses
+ * into a union that cannot be indexed. A declaration keeps both, and costs less to
+ * check — its types resolve lazily from syntax, where a JSON module's are
+ * synthesized in full the moment it is loaded.
+ *
+ * The value is put through `JSON.stringify` rather than read as given: the declaration
+ * has to describe the file that ships beside it, and only JSON itself knows what it
+ * does to an `undefined` property or a non-finite number.
+ */
+export function getExchangeDts(value: unknown): string {
+  const json: unknown = JSON.parse(JSON.stringify(value));
+
+  return `declare const artifact: ${stringifyLiteralType(json, 0)};\nexport default artifact;\n`;
+}
+
+/**
+ * Re-exports the sibling JSON instead of inlining it, so the data lives in one file
+ * and the declaration beside this module is what supplies the narrow types.
+ */
+export function getExchangeMjs(jsonFileName: string): string {
+  return `import artifact from "./${jsonFileName}" with { type: "json" };\nexport default artifact;\n`;
 }

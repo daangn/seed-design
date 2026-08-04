@@ -225,35 +225,49 @@ async function writeJsonSchema() {
   });
 }
 
-async function writeJson() {
+// The `.mjs` re-exports its sibling `.json` and the `.d.ts` describes it, so all three
+// are written together: split across commands, one could be generated without the others.
+function writeExchange(withoutExt: string, value: unknown) {
+  const jsonName = `${withoutExt}.json`;
+
+  writeFileSync({
+    filename: jsonName,
+    code: JSON.stringify(value, null, 2),
+    writePath: path.join(process.cwd(), dir, jsonName),
+  });
+
+  const dtsName = `${withoutExt}.d.ts`;
+
+  writeFileSync({
+    filename: dtsName,
+    code: typescript.getExchangeDts(value),
+    writePath: path.join(process.cwd(), dir, dtsName),
+  });
+
+  const mjsName = `${withoutExt}.mjs`;
+
+  writeFileSync({
+    filename: mjsName,
+    code: typescript.getExchangeMjs(`${path.basename(withoutExt)}.json`),
+    writePath: path.join(process.cwd(), dir, mjsName),
+  });
+}
+
+async function writeJsonTs() {
   const { ctx, models } = await prepare();
 
   for (const { fileName, ast } of getSourceFiles(ctx)) {
-    const content = exchange.getModel(ast);
-    const code = JSON.stringify(content, null, 2);
     const relativePath = path.relative(artifactsDir, fileName);
     const withoutExt = relativePath.replace(path.extname(relativePath), "");
-    const writePath = path.join(process.cwd(), dir, `${withoutExt}.json`);
 
-    writeFileSync({
-      filename: `${withoutExt}.json`,
-      code,
-      writePath: writePath,
-    });
+    writeExchange(withoutExt, exchange.getModel(ast));
   }
 
-  // Generate and write index.json
   const artifactsPkg = JSON.parse(
     fs.readFileSync(path.join(artifactsDir, "package.json"), "utf-8"),
   );
-  const indexContent = exchange.getIndex(models, { version: artifactsPkg.version });
-  const indexPath = path.join(process.cwd(), dir, "index.json");
 
-  writeFileSync({
-    filename: "index.json",
-    code: JSON.stringify(indexContent, null, 2),
-    writePath: indexPath,
-  });
+  writeExchange("index", exchange.getIndex(models, { version: artifactsPkg.version }));
 }
 
 async function writeFile(filePath: string, content: string) {
@@ -407,8 +421,8 @@ yargs(process.argv.slice(2))
     },
   )
   .command(
-    "json <dir>",
-    "Generate JSON",
+    "json-ts <dir>",
+    "Generate JSON artifacts with their typed declarations",
     (yargs) => {
       return yargs.positional("dir", {
         describe: "Output directory",
@@ -418,7 +432,7 @@ yargs(process.argv.slice(2))
     },
     async () => {
       console.log("Start");
-      await writeJson();
+      await writeJsonTs();
       console.log("Done");
     },
   )

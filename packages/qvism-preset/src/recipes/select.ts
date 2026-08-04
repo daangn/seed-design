@@ -1,12 +1,6 @@
-import selectSpec from "@seed-design/rootage-artifacts/components/select.json" with {
-  type: "json",
-};
-import selectTriggerSpec from "@seed-design/rootage-artifacts/components/select-trigger.json" with {
-  type: "json",
-};
-import selectItemSpec from "@seed-design/rootage-artifacts/components/select-item.json" with {
-  type: "json",
-};
+import selectSpec from "@seed-design/rootage-artifacts/components/select";
+import selectTriggerSpec from "@seed-design/rootage-artifacts/components/select-trigger";
+import selectItemSpec from "@seed-design/rootage-artifacts/components/select-item";
 import {
   select as selectVars,
   selectTrigger as selectTriggerVars,

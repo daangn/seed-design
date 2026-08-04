@@ -27,6 +27,7 @@
 - 새로운 상태 기반 선택자를 추가할 때, 동일 훅을 사용하는 다른 recipe의 선택자 패턴을 먼저 확인한다.
 - HTML 속성(`hidden`, `disabled`)보다 `data-*` 상태 속성(`data-loading-state` 등)을 우선 사용한다. HTML 속성은 프레임워크 레이어에서 override될 수 있어 불안정하다.
 - 예시: `useImage` 훅을 사용하는 Avatar와 ImageFrame은 모두 `data-loading-state` 기반 선택자를 사용한다.
+- 다만 **로딩 중 상태에 `display: none`을 걸지 않는다.** 레이아웃 박스가 사라지면 `loading="lazy"` 이미지가 뷰포트 교차를 감지받지 못해 영원히 로드되지 않고, 페인트되지 않아 LCP가 하이드레이션 시각까지 밀린다. 로딩 중 플레이스홀더가 필요하면 숨기는 대신 뒤에 깔 것 (`#1258` → `#1428` → `#1791`).
 
 ## defineRecipe vs defineSlotRecipe
 

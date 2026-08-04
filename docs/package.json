@@ -46,7 +46,7 @@
     "@seed-design/react-icon": "^0.7.4",
     "@seed-design/rootage-artifacts": "workspace:*",
     "@seed-design/rootage-core": "0.0.0",
-    "@seed-design/stackflow": "2.0.2",
+    "@seed-design/stackflow": "2.0.3",
     "@seed-design/tailwind4-theme": "2.3.0",
     "@stackflow/config": "^1.2.1",
     "@stackflow/core": "^1.2.0",

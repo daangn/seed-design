@@ -1,7 +1,7 @@
 import { describe, expect, it, test } from "bun:test";
 import YAML from "yaml";
 import { Authoring } from "../parser";
-import { createStringifier } from "./typescript";
+import { createStringifier, getExchangeDts, getExchangeMjs } from "./typescript";
 
 const { getComponentSpecDts, getComponentSpecMjs, getTokenDts, getTokenMjs } = createStringifier({
   prefix: "test",
@@ -287,9 +287,9 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
   definitions:
     base:
@@ -334,9 +334,9 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
   definitions:
     base:
@@ -530,59 +530,141 @@ test("getTokenDts should generate JSDoc for token descriptions", () => {
   `);
 });
 
-const bannerSpec = (id: string) =>
-  Authoring.parseComponentSpecDocument(
-    YAML.parse(`
+test("getComponentSpecMjs should omit enum properties and anything left empty by them", () => {
+  const yaml = `
 kind: ComponentSpec
 metadata:
-  id: ${id}
-  name: ${id}
+  id: test
+  name: test
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
+          scaleScope:
+            type: enum
+            values: [self, content]
   definitions:
     base:
       enabled:
         root:
           color: "#ffffff"
-`),
-  ).data;
+      pressed:
+        root:
+          scaleScope: content
+`;
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(yaml));
 
-test("getComponentSpecDts should not add a banner without the option", () => {
-  const result = getComponentSpecDts(bannerSpec("test"));
+  const result = getComponentSpecMjs(model.data);
 
-  expect(result.startsWith("export declare const vars:")).toBe(true);
+  // `pressed` disappears entirely: its only property is an enum, which leaves the
+  // slot empty, which leaves the state empty.
+  expect(result).toMatchInlineSnapshot(`
+    "export const vars = {
+      "base": {
+        "enabled": {
+          "root": {
+            "color": "#ffffff"
+          }
+        }
+      }
+    }"
+  `);
 });
 
-test("getComponentSpecDts should prepend the banner returned by the option", () => {
-  const { getComponentSpecDts: withBanner } = createStringifier({
-    prefix: "test",
-    componentSpecDtsBanner: (decl) => `/** banner for ${decl.id} */`,
+describe("getExchangeDts", () => {
+  it("should keep token references, enum values and unlike array entries narrow", () => {
+    const result = getExchangeDts({
+      schema: {
+        slots: {
+          label: {
+            properties: { textAlign: { type: "enum", values: ["leading", "center"] } },
+          },
+        },
+      },
+      definitions: [
+        { variants: {}, slots: { root: { color: { type: "color", value: "$color.bg.neutral" } } } },
+        {
+          variants: { labelAlign: "center" },
+          slots: { label: { textAlign: { type: "enum", value: "center" } } },
+        },
+      ],
+    });
+
+    expect(result).toMatchInlineSnapshot(`
+      "declare const artifact: {
+        "schema": {
+          "slots": {
+            "label": {
+              "properties": {
+                "textAlign": {
+                  "type": "enum";
+                  "values": readonly [
+                    "leading",
+                    "center",
+                  ];
+                };
+              };
+            };
+          };
+        };
+        "definitions": readonly [
+          {
+            "variants": {};
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral";
+                };
+              };
+            };
+          },
+          {
+            "variants": {
+              "labelAlign": "center";
+            };
+            "slots": {
+              "label": {
+                "textAlign": {
+                  "type": "enum";
+                  "value": "center";
+                };
+              };
+            };
+          },
+        ];
+      };
+      export default artifact;
+      "
+    `);
   });
 
-  const result = withBanner(bannerSpec("test"));
+  it("should drop undefined-valued keys, as JSON.stringify does", () => {
+    expect(getExchangeDts({ type: "color", description: undefined })).toBe(
+      'declare const artifact: {\n  "type": "color";\n};\nexport default artifact;\n',
+    );
+  });
 
-  expect(result.startsWith("/** banner for test */\nexport declare const vars:")).toBe(true);
+  it("should write non-finite numbers as null, as JSON.stringify does", () => {
+    expect(getExchangeDts({ value: Number.POSITIVE_INFINITY })).toBe(
+      'declare const artifact: {\n  "value": null;\n};\nexport default artifact;\n',
+    );
+  });
+
+  it("should render empty containers", () => {
+    expect(getExchangeDts({ variants: {}, states: [] })).toBe(
+      'declare const artifact: {\n  "variants": {};\n  "states": readonly [];\n};\nexport default artifact;\n',
+    );
+  });
 });
 
-test("getComponentSpecDts should skip the banner when the option returns undefined", () => {
-  const { getComponentSpecDts: withBanner } = createStringifier({
-    prefix: "test",
-    componentSpecDtsBanner: (decl) => (decl.id === "skipped" ? undefined : "/** banner */"),
+describe("getExchangeMjs", () => {
+  it("should re-export the sibling JSON", () => {
+    expect(getExchangeMjs("menu-sheet-item.json")).toBe(
+      'import artifact from "./menu-sheet-item.json" with { type: "json" };\nexport default artifact;\n',
+    );
   });
-
-  expect(withBanner(bannerSpec("skipped")).startsWith("export declare const vars:")).toBe(true);
-});
-
-test("getComponentSpecMjs should not carry the banner", () => {
-  const { getComponentSpecMjs: withBanner } = createStringifier({
-    prefix: "test",
-    componentSpecDtsBanner: () => "/** banner */",
-  });
-
-  expect(withBanner(bannerSpec("test"))).not.toContain("banner");
 });

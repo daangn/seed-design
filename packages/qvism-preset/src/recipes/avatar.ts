@@ -1,6 +1,6 @@
-import spec from "@seed-design/rootage-artifacts/components/avatar.json" with { type: "json" };
+import spec from "@seed-design/rootage-artifacts/components/avatar";
 import { defineSlotRecipe } from "../utils/define";
-import { not, pseudo } from "../utils/pseudo";
+import { hidden, not, pseudo } from "../utils/pseudo";
 import { avatar as vars } from "../vars/component";
 import type { Properties } from "csstype";
 
@@ -51,6 +51,8 @@ const avatar = defineSlotRecipe({
       width: "var(--avatar-size)",
       height: "var(--avatar-size)",
 
+      isolation: "isolate",
+
       "&:after": {
         content: '""',
         position: "absolute",
@@ -71,11 +73,20 @@ const avatar = defineSlotRecipe({
 
       ...mask,
 
-      [pseudo(not("[data-loading-state='loaded']"))]: {
+      [pseudo("[data-loading-state='error']")]: {
         display: "none",
+      },
+      [pseudo(hidden)]: {
+        display: "none",
+      },
+      [pseudo(not("[data-loading-state='loaded']"))]: {
+        pointerEvents: "none",
       },
     },
     fallback: {
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",

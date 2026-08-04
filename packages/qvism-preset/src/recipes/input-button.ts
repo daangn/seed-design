@@ -1,6 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/input-button.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/input-button";
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
