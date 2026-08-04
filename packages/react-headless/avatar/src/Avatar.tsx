@@ -33,10 +33,10 @@ export interface AvatarImageProps
     React.ImgHTMLAttributes<HTMLImageElement> {}
 
 export const AvatarImage = forwardRef<HTMLImageElement, AvatarImageProps>((props, ref) => {
-  const { src, srcSet, onLoad, onError, ...otherProps } = props;
+  const { src, onLoad, onError, ...otherProps } = props;
 
   const { refs, getImageProps } = useAvatarContext();
-  const imageProps = getImageProps({ src, srcSet, onLoad, onError });
+  const imageProps = getImageProps({ src, onLoad, onError });
 
   return (
     <Primitive.img ref={composeRefs(refs.image, ref)} {...mergeProps(imageProps, otherProps)} />

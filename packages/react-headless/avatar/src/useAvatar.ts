@@ -5,7 +5,7 @@
 
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import { ariaAttr, dataAttr, elementProps, imgProps } from "@seed-design/dom-utils";
+import { dataAttr, elementProps, imgProps } from "@seed-design/dom-utils";
 import { useMemo, useRef, useState } from "react";
 
 /** @deprecated Use `ImageLoadingStatus` from `@seed-design/react-image` instead. */
@@ -55,15 +55,12 @@ export interface UseAvatarProps extends UseAvatarStateProps {}
 
 export type UseAvatarReturn = ReturnType<typeof useAvatar>;
 
-function hasSource(src?: string, srcSet?: string) {
-  return Boolean(src) || Boolean(srcSet);
-}
-
 export function useAvatar(props: UseAvatarProps) {
   const { loadingStatus, events } = useAvatarState(props);
 
   const imageRef = useRef<HTMLImageElement>(null);
 
+  // TODO: this is triggered after hydration, so image display is delayed in SSR environment. We might add "idle" status or adjust css to handle this.
   useLayoutEffect(() => {
     if (imageRef.current) {
       if (imageRef.current.complete) {
@@ -92,12 +89,10 @@ export function useAvatar(props: UseAvatarProps) {
     }),
     getImageProps: ({
       src,
-      srcSet,
       onLoad,
       onError,
     }: {
       src?: string;
-      srcSet?: string;
       onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
       onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
     }) => {
@@ -106,10 +101,9 @@ export function useAvatar(props: UseAvatarProps) {
       }, [src]);
 
       return imgProps({
-        hidden: loadingStatus === "error" || (!isLoaded && !hasSource(src, srcSet)),
+        hidden: !isLoaded,
         "data-visible": dataAttr(isLoaded),
         src,
-        srcSet,
         onLoad: (e) => {
           events.loadSuccess();
           onLoad?.(e);
@@ -123,7 +117,6 @@ export function useAvatar(props: UseAvatarProps) {
     },
     fallbackProps: elementProps({
       hidden: isLoaded,
-      "aria-hidden": ariaAttr(loadingStatus === "loading"),
       "data-visible": dataAttr(!isLoaded),
       ...stateProps,
     }),

@@ -1,6 +1,5 @@
 ---
 "@seed-design/react-image": minor
-"@seed-design/react-avatar": minor
 "@seed-design/css": patch
 "@seed-design/react": patch
 ---
