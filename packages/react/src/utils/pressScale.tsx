@@ -1,13 +1,8 @@
+import { PRESS_SCALE_CLASS_NAME } from "@seed-design/css/class-names";
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 import * as React from "react";
 import { useElementSizeVars } from "./elementSizeVars";
-
-// Duplicated from packages/qvism-preset/src/utils/press-scale.ts
-// since @seed-design/react cannot depend on @seed-design/qvism-preset (it is private, and css is generated from it)
-// might export the global class names from @seed-design/css later
-
-const PRESS_SCALE_CLASS_NAME = "seed-press-scale";
 
 /**
  * Opts an element into the press scale: put `pressScaleRef` and
