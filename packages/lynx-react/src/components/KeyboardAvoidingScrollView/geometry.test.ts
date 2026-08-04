@@ -4,6 +4,7 @@ import {
   calculateSafeArea,
   calculateSignedScrollDelta,
   clampScrollOffset,
+  createFieldBodyRect,
   hasMeaningfulGeometryChange,
   selectLargestFittingTarget,
   type VerticalRect,
@@ -126,6 +127,17 @@ describe("selectLargestFittingTarget", () => {
 
   it.each([
     {
+      name: "Field body",
+      candidates: {
+        field: rect(0, 402),
+        fieldBody: rect(100, 350),
+        control: rect(0, 200),
+        native: rect(0, 80),
+        anchor: rect(0, 20),
+      },
+      expectedKind: "fieldBody",
+    },
+    {
       name: "control",
       candidates: {
         field: rect(0, 402),
@@ -183,6 +195,76 @@ describe("selectLargestFittingTarget", () => {
         safeArea,
       ),
     ).toBeNull();
+  });
+
+  it("falls back to the Field bottom when every semantic target is oversized", () => {
+    expect(
+      selectLargestFittingTarget(
+        {
+          field: rect(-206, 789),
+          fieldBody: rect(-176, 759),
+          control: rect(-176, 732),
+          native: rect(-176, 732),
+        },
+        { safeTop: 124, safeBottom: 491 },
+      ),
+    ).toEqual({
+      kind: "fieldBottom",
+      rect: { top: 583, bottom: 583 },
+    });
+  });
+
+  it("prioritizes the Field bottom over a fitting control when the Field body is oversized", () => {
+    expect(
+      selectLargestFittingTarget(
+        {
+          field: rect(100, 407),
+          fieldBody: rect(130, 377),
+          control: rect(130, 350),
+          native: rect(130, 350),
+        },
+        { safeTop: 124, safeBottom: 491 },
+      ),
+    ).toEqual({
+      kind: "fieldBottom",
+      rect: { top: 507, bottom: 507 },
+    });
+  });
+});
+
+describe("createFieldBodyRect", () => {
+  it("creates a target from the control top through the Field footer", () => {
+    expect(createFieldBodyRect({ top: 100, bottom: 500 }, { top: 180, bottom: 460 })).toEqual({
+      top: 180,
+      bottom: 500,
+    });
+  });
+
+  it("allows native measurement differences within the 1px containment epsilon", () => {
+    expect(createFieldBodyRect({ top: 100, bottom: 500 }, { top: 99, bottom: 501 })).toEqual({
+      top: 99,
+      bottom: 501,
+    });
+  });
+
+  it.each([
+    {
+      name: "control starts outside the Field",
+      field: { top: 100, bottom: 500 },
+      control: { top: 98.99, bottom: 460 },
+    },
+    {
+      name: "control ends outside the Field",
+      field: { top: 100, bottom: 500 },
+      control: { top: 180, bottom: 501.01 },
+    },
+    {
+      name: "Field has an invalid height",
+      field: { top: 500, bottom: 100 },
+      control: { top: 180, bottom: 460 },
+    },
+  ])("returns null when $name", ({ field, control }) => {
+    expect(createFieldBodyRect(field, control)).toBeNull();
   });
 });
 
