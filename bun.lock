@@ -478,6 +478,7 @@
       },
       "devDependencies": {
         "@lynx-js/types": "^3.7.0",
+        "@seed-design/rootage-artifacts": "2.3.0",
       },
     },
     "packages/lynx-react": {
