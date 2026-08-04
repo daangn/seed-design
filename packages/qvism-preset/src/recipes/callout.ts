@@ -1,4 +1,4 @@
-import { callout as vars } from "../vars/component";
+import { calloutCloseButton as closeButtonVars, callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import {
@@ -112,7 +112,7 @@ const callout = defineSlotRecipe({
     },
     closeButton: {
       border: "none",
-      backgroundColor: "transparent",
+      backgroundColor: closeButtonVars.base.enabled.root.color,
       padding: 0,
       cursor: "pointer",
 
@@ -122,21 +122,27 @@ const callout = defineSlotRecipe({
       justifyContent: "center",
       alignItems: "center",
 
-      width: vars.base.enabled.suffixIcon.targetSize,
-      height: vars.base.enabled.suffixIcon.targetSize,
+      width: closeButtonVars.base.enabled.root.size,
+      height: closeButtonVars.base.enabled.root.size,
 
-      margin: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
+      margin: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`,
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
 
-      // The button itself is transparent, so scaling the whole button scales only
-      // its content (the icon).
+      ...suffixIcon({
+        size: closeButtonVars.base.enabled.icon.size,
+      }),
+
       ...createPressScaleRestStyles(),
       [pseudo(active)]: createPressScaleStyles(),
 
-      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
+
+      [pseudo(engaged)]: {
+        backgroundColor: closeButtonVars.base.pressed.root.color,
+      },
     },
   },
   defaultVariants: {
@@ -168,6 +174,9 @@ const callout = defineSlotRecipe({
         link: {
           color: vars.toneNeutral.enabled.link.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneNeutral.enabled.icon.color,
+        }),
       },
       informative: {
         root: {
@@ -193,6 +202,9 @@ const callout = defineSlotRecipe({
         link: {
           color: vars.toneInformative.enabled.link.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneInformative.enabled.icon.color,
+        }),
       },
       positive: {
         root: {
@@ -218,6 +230,9 @@ const callout = defineSlotRecipe({
         link: {
           color: vars.tonePositive.enabled.link.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.tonePositive.enabled.icon.color,
+        }),
       },
       warning: {
         root: {
@@ -243,6 +258,9 @@ const callout = defineSlotRecipe({
         link: {
           color: vars.toneWarning.enabled.link.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneWarning.enabled.icon.color,
+        }),
       },
       critical: {
         root: {
@@ -268,6 +286,9 @@ const callout = defineSlotRecipe({
         link: {
           color: vars.toneCritical.enabled.link.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneCritical.enabled.icon.color,
+        }),
       },
       magic: {
         root: {
@@ -293,6 +314,9 @@ const callout = defineSlotRecipe({
         link: {
           color: vars.toneMagic.enabled.link.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneMagic.enabled.icon.color,
+        }),
       },
     },
   },

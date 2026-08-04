@@ -106,9 +106,6 @@ declare const artifact: {
             "size": {
               "type": "dimension";
             };
-            "targetSize": {
-              "type": "dimension";
-            };
             "color": {
               "type": "color";
             };
@@ -227,10 +224,6 @@ declare const artifact: {
                 "size": {
                   "type": "dimension";
                   "value": "$dimension.x4";
-                };
-                "targetSize": {
-                  "type": "dimension";
-                  "value": "$dimension.x10";
                 };
               };
             };

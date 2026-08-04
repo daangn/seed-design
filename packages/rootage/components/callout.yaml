@@ -67,8 +67,6 @@ data:
         properties:
           size:
             type: dimension
-          targetSize:
-            type: dimension
           color:
             type: color
     variants:
@@ -111,7 +109,6 @@ data:
           fontWeight: $font-weight.regular
         suffixIcon:
           size: $dimension.x4
-          targetSize: $dimension.x10
       pressed:
         root:
           scaleScope: self
