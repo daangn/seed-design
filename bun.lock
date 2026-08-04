@@ -478,6 +478,7 @@
       },
       "devDependencies": {
         "@lynx-js/types": "^3.7.0",
+        "@seed-design/rootage-artifacts": "2.3.0",
       },
     },
     "packages/lynx-react": {
@@ -541,7 +542,7 @@
         "@seed-design/rootage-core": "0.0.0",
       },
       "devDependencies": {
-        "@seed-design/rootage-artifacts": "workspace:*",
+        "@seed-design/rootage-artifacts": "2.3.0",
         "csstype": "^3.1.3",
       },
     },
