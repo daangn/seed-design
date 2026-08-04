@@ -1386,6 +1386,12 @@
               ]
             },
             {
+              "id": "pressed-scale",
+              "title": "Pressed Scale",
+              "description": "커스텀 컴포넌트에 SEED의 눌림 축소 효과를 적용하는 방법을 알아봅니다.",
+              "docUrl": "/react/components/concepts/pressed-scale"
+            },
+            {
               "id": "progress-circle",
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
