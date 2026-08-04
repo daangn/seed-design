@@ -66,6 +66,10 @@
       "types": "./class-names/index.d.ts",
       "import": "./class-names/index.mjs"
     },
+    "./press-scale": {
+      "types": "./press-scale/index.d.ts",
+      "import": "./press-scale/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -75,6 +79,7 @@
     "theming",
     "breakpoints",
     "class-names",
+    "press-scale",
     "utils",
     "*.css",
     "LICENSE",
