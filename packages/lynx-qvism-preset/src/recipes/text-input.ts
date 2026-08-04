@@ -5,8 +5,10 @@ const textInput = defineSlotRecipe({
   name: "text-input",
   slots: [
     "root",
+    "stroke",
     "value",
     "textareaRoot",
+    "textareaValue",
     "textareaControl",
     "textareaMirror",
     "prefixText",
@@ -22,13 +24,21 @@ const textInput = defineSlotRecipe({
       alignItems: "center",
       overflow: "hidden",
       position: "relative",
-      borderStyle: "solid",
-      borderColor: vars.base.enabled.root.strokeColor,
+    },
+    stroke: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      borderColor: "transparent",
       transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
+      pointerEvents: "none",
     },
     value: {
       flexGrow: 1,
       minWidth: 0,
+      alignSelf: "stretch",
       padding: 0,
       borderWidth: 0,
       backgroundColor: "transparent",
@@ -41,6 +51,7 @@ const textInput = defineSlotRecipe({
       position: "relative",
       alignSelf: "stretch",
     },
+    textareaValue: {},
     textareaControl: {
       position: "absolute",
       top: 0,
@@ -80,24 +91,43 @@ const textInput = defineSlotRecipe({
     variant: {
       outline: {
         root: {
-          borderWidth: vars.variantOutline.enabled.root.strokeWidth,
+          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+        },
+        stroke: {
+          borderStyle: "solid",
+          borderWidth: vars.variantOutline.focused.root.strokeWidth,
         },
       },
       underline: {
         root: {
+          boxShadow: `inset 0 calc(${vars.variantUnderline.enabled.root.strokeBottomWidth} * -1) 0 0 ${vars.base.enabled.root.strokeColor}`,
+        },
+        stroke: {
           borderWidth: 0,
           borderBottomStyle: "solid",
-          borderBottomWidth: vars.variantUnderline.enabled.root.strokeBottomWidth,
+          borderBottomWidth: vars.variantUnderline.focused.root.strokeBottomWidth,
         },
       },
     },
     size: {
-      large: {},
-      medium: {},
+      large: {
+        textareaValue: {
+          minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
+          paddingTop: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+          paddingBottom: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+        },
+      },
+      medium: {
+        textareaValue: {
+          minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
+          paddingTop: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+          paddingBottom: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+        },
+      },
     },
     focused: {
       true: {
-        root: {
+        stroke: {
           borderColor: vars.base.focused.root.strokeColor,
         },
       },
@@ -105,7 +135,7 @@ const textInput = defineSlotRecipe({
     },
     invalid: {
       true: {
-        root: {
+        stroke: {
           borderColor: vars.base.invalid.root.strokeColor,
         },
       },
@@ -137,6 +167,9 @@ const textInput = defineSlotRecipe({
           borderRadius: vars.variantOutlineSizeLarge.enabled.root.cornerRadius,
           paddingLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
           paddingRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+        },
+        stroke: {
+          borderRadius: vars.variantOutlineSizeLarge.enabled.root.cornerRadius,
         },
         value: {
           fontSize: vars.variantOutlineSizeLarge.enabled.value.fontSize,
@@ -170,6 +203,9 @@ const textInput = defineSlotRecipe({
           borderRadius: vars.variantOutlineSizeMedium.enabled.root.cornerRadius,
           paddingLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
           paddingRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+        },
+        stroke: {
+          borderRadius: vars.variantOutlineSizeMedium.enabled.root.cornerRadius,
         },
         value: {
           fontSize: vars.variantOutlineSizeMedium.enabled.value.fontSize,
@@ -255,34 +291,6 @@ const textInput = defineSlotRecipe({
           width: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
           height: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
         },
-      },
-    },
-    {
-      variant: "outline",
-      focused: true,
-      css: {
-        root: { borderWidth: vars.variantOutline.focused.root.strokeWidth },
-      },
-    },
-    {
-      variant: "underline",
-      focused: true,
-      css: {
-        root: { borderBottomWidth: vars.variantUnderline.focused.root.strokeBottomWidth },
-      },
-    },
-    {
-      variant: "outline",
-      invalid: true,
-      css: {
-        root: { borderWidth: vars.variantOutline.invalid.root.strokeWidth },
-      },
-    },
-    {
-      variant: "underline",
-      invalid: true,
-      css: {
-        root: { borderBottomWidth: vars.variantUnderline.invalid.root.strokeBottomWidth },
       },
     },
     {

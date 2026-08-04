@@ -50,6 +50,10 @@ describe("TextField", () => {
     expect(root).toHaveClass("custom-text-field");
     expect(root).toHaveClass("seed-text-input__root--variant_outline");
     expect(root).toHaveClass("seed-text-input__root--size_large");
+    expect(root.querySelector(".seed-text-input__stroke")).toHaveAttribute(
+      "accessibility-elements-hidden",
+      "true",
+    );
     expect(getByText("₩")).toHaveClass("seed-text-input__prefixText");
     expect(getByText("원")).toHaveClass("seed-text-input__suffixText");
   });
@@ -64,10 +68,13 @@ describe("TextField", () => {
 
     const root = getTextFieldRoot();
     const { getByText } = getRenderedQueries();
+    const stroke = root.querySelector(".seed-text-input__stroke");
 
     expect(root).toHaveClass("seed-text-input__root--variant_underline");
     expect(root).toHaveClass("seed-text-input__root--size_medium");
     expect(root).toHaveClass("seed-text-input__root--invalid_true");
+    expect(stroke).toHaveClass("seed-text-input__stroke--variant_underline");
+    expect(stroke).toHaveClass("seed-text-input__stroke--invalid_true");
     expect(getByText("앞")).toHaveClass("seed-text-input__prefixText--disabled_true");
     expect(getByText("뒤")).toHaveClass("seed-text-input__suffixText--disabled_true");
   });
@@ -144,10 +151,16 @@ describe("TextField", () => {
       nativeRef: { current: inputRef.current },
     });
     expect(getTextFieldRoot()).toHaveClass("seed-text-input__root--focused_true");
+    expect(getTextFieldRoot().querySelector(".seed-text-input__stroke")).toHaveClass(
+      "seed-text-input__stroke--focused_true",
+    );
 
     fireEvent.blur(inputRef.current as unknown as Element);
     expect(actions.blur).toHaveBeenCalledOnce();
     expect(getTextFieldRoot()).toHaveClass("seed-text-input__root--focused_false");
+    expect(getTextFieldRoot().querySelector(".seed-text-input__stroke")).toHaveClass(
+      "seed-text-input__stroke--focused_false",
+    );
   });
 
   it("inherits native disabled and readonly states from roots", () => {
@@ -178,7 +191,9 @@ describe("TextField", () => {
     const mirror = root.querySelector(".seed-text-input__textareaMirror");
 
     expect(textarea).toHaveClass("seed-text-input__textareaControl");
+    expect(textarea).toHaveClass("seed-text-input__textareaValue");
     expect(mirror).toHaveClass("seed-text-input__value");
+    expect(mirror).toHaveClass("seed-text-input__textareaValue");
     expect(mirror).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(mirror?.textContent).toBe("첫 줄\n둘째 줄\n\u200b");
   });
@@ -194,7 +209,40 @@ describe("TextField", () => {
     const textarea = root.querySelector("textarea");
 
     expect(textarea).toHaveClass("seed-text-input__value");
+    expect(textarea).toHaveClass("seed-text-input__textareaValue");
     expect(textarea).not.toHaveClass("seed-text-input__textareaControl");
     expect(root.querySelector(".seed-text-input__textareaMirror")).toBeNull();
+  });
+
+  it("preserves the native input while the disabled state changes", () => {
+    const renderTextField = (disabled: boolean) => (
+      <TextField.Root disabled={disabled}>
+        <TextField.Input />
+      </TextField.Root>
+    );
+    const { rerender } = render(renderTextField(true));
+    const input = getRenderedRoot().querySelector("input");
+
+    if (!input) throw new Error("Expected native input to exist.");
+
+    expect(input).toHaveAttribute("disabled");
+    expect(input).toHaveClass("seed-text-input__value");
+    expect(input).toHaveClass("seed-text-input__value--disabled_true");
+
+    rerender(renderTextField(false));
+
+    const enabledInput = getRenderedRoot().querySelector("input");
+    expect(enabledInput).toBe(input);
+    expect(enabledInput).toHaveAttribute("disabled", "false");
+    expect(enabledInput).toHaveClass("seed-text-input__value");
+    expect(enabledInput).toHaveClass("seed-text-input__value--disabled_false");
+
+    rerender(renderTextField(true));
+
+    const disabledInput = getRenderedRoot().querySelector("input");
+    expect(disabledInput).toBe(input);
+    expect(disabledInput).toHaveAttribute("disabled");
+    expect(disabledInput).toHaveClass("seed-text-input__value");
+    expect(disabledInput).toHaveClass("seed-text-input__value--disabled_true");
   });
 });

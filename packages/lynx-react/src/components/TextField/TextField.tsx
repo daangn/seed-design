@@ -136,6 +136,7 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
       <TextFieldContext.Provider value={contextValue}>
         <ClassNamesProvider value={classes}>
           <view ref={mergedRef} className={clsx(classes.root, className)} {...nativeProps}>
+            <view className={classes.stroke} accessibility-elements-hidden={true} />
             {children}
           </view>
         </ClassNamesProvider>
@@ -340,7 +341,12 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
     const textarea = (
       <textarea
         ref={control.mergedRef}
-        className={clsx(classes.value, autoresize && classes.textareaControl, className)}
+        className={clsx(
+          classes.value,
+          classes.textareaValue,
+          autoresize && classes.textareaControl,
+          className,
+        )}
         disabled={disabled ?? control.context.disabled}
         readonly={readonly ?? control.context.readOnly}
         name={name ?? control.context.name}
@@ -360,7 +366,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
     return (
       <view className={classes.textareaRoot}>
         <text
-          className={clsx(classes.value, classes.textareaMirror)}
+          className={clsx(classes.value, classes.textareaValue, classes.textareaMirror)}
           accessibility-elements-hidden={true}
           bindlayout={control.notifyLayoutChanged}
         >

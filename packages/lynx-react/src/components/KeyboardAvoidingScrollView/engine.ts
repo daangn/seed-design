@@ -2,6 +2,7 @@ import {
   calculateSafeArea,
   calculateSignedScrollDelta,
   clampScrollOffset,
+  createFieldBodyRect,
   hasMeaningfulGeometryChange,
   selectLargestFittingTarget,
   type AvoidanceTargetKind,
@@ -346,11 +347,16 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
     ]);
     if (!this.#isCurrent(transaction)) return;
 
-    const selected = selectLargestFittingTarget({ field, control, native, anchor }, safeArea);
+    const fieldBody = createFieldBodyRect(field, control);
+    const selected = selectLargestFittingTarget(
+      { field, fieldBody, control, native, anchor },
+      safeArea,
+    );
     const nextState: OwnerSessionState = {
       ...state,
       fieldDowngraded:
-        state.fieldDowngraded || (field !== null && selected !== null && selected.kind !== "field"),
+        state.fieldDowngraded ||
+        (fieldBody === null && field !== null && selected !== null && selected.kind !== "field"),
       lastTargetKind: selected?.kind ?? null,
       lastTargetHeight: selected ? targetHeight(selected.rect) : null,
     };
@@ -362,9 +368,10 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
 
     if (
       transaction.layoutOnly &&
-      state.lastTargetKind === selected.kind &&
-      state.lastTargetHeight !== null &&
-      targetHeight(selected.rect) < state.lastTargetHeight - 1
+      ((state.lastTargetKind === selected.kind &&
+        state.lastTargetHeight !== null &&
+        targetHeight(selected.rect) < state.lastTargetHeight - 1) ||
+        (state.lastTargetKind === "fieldBottom" && selected.kind !== "fieldBottom"))
     ) {
       this.#ownerStates.set(registration.owner, nextState);
       return;

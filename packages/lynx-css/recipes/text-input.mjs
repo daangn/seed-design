@@ -7,12 +7,20 @@ const textInputSlotNames = [
     "seed-text-input__root"
   ],
   [
+    "stroke",
+    "seed-text-input__stroke"
+  ],
+  [
     "value",
     "seed-text-input__value"
   ],
   [
     "textareaRoot",
     "seed-text-input__textareaRoot"
+  ],
+  [
+    "textareaValue",
+    "seed-text-input__textareaValue"
   ],
   [
     "textareaControl",
@@ -65,22 +73,6 @@ const compoundVariants = [
   {
     "variant": "underline",
     "size": "medium"
-  },
-  {
-    "variant": "outline",
-    "focused": true
-  },
-  {
-    "variant": "underline",
-    "focused": true
-  },
-  {
-    "variant": "outline",
-    "invalid": true
-  },
-  {
-    "variant": "underline",
-    "invalid": true
   },
   {
     "variant": "outline",
