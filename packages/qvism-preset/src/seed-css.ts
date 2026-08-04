@@ -1,4 +1,4 @@
-import collections from "@seed-design/rootage-artifacts/collections";
+import type collections from "@seed-design/rootage-artifacts/collections";
 import { css, type AST } from "@seed-design/rootage-core";
 import { breakpoints } from "./utils/breakpoint";
 

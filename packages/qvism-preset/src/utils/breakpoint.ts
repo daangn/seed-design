@@ -2,7 +2,7 @@
 // since qvism-preset cannot depend on @seed-design/css (css is generated from qvism-preset)
 // the names now come from rootage; only the pixel values are still duplicated
 
-import collections from "@seed-design/rootage-artifacts/collections";
+import type collections from "@seed-design/rootage-artifacts/collections";
 
 /**
  * Rootage declares which breakpoints exist, as the modes of its `viewport-width`
