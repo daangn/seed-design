@@ -51,7 +51,7 @@
         "@seed-design/react": "1.2.13",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "1.1.24",
+        "@seed-design/stackflow": "1.1.25",
         "@seed-design/tailwind4-theme": "1.1.19",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
@@ -1082,7 +1082,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "1.1.24",
+      "version": "1.1.25",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
