@@ -7,6 +7,7 @@ import {
   shift,
   size,
   useFloating,
+  useTransitionStatus,
   type Alignment,
   type ExtendedRefs,
   type FloatingContext,
@@ -262,20 +263,34 @@ export function usePositionedFloating<
     // instead of defining `whileElementsMounted` here, we use an effect below
   });
 
+  const { status } = useTransitionStatus(context);
+
+  // Gate anchoring on the transition rather than on `open`, so autoUpdate outlives the close
+  // and the floating element keeps following the reference while it animates out.
+  const mounted = status !== "unmounted";
+
+  // Key the effects below on the reactive `context.elements`, not `refs.*`: the ref objects'
+  // identity never changes, so an effect on them would run once before the positioner mounts,
+  // read null, bail, and never re-fire. `elements` updates as each element attaches.
+  const referenceElement = context.elements.reference;
+  const floatingElement = context.elements.floating;
+
+  // `context.update` rather than `context`: floating-ui rebuilds the context object on every
+  // position commit, so depending on it tears autoUpdate's scroll listeners and observers down
+  // and rebuilds them on every scroll frame. `update` is stable.
+  const { update } = context;
+
   // https://floating-ui.com/docs/react#anchoring
   useEffect(() => {
-    if (!open) return;
-    if (!refs.reference.current || !refs.floating.current) return;
+    if (!mounted) return;
+    if (!referenceElement || !floatingElement) return;
 
-    return autoUpdate(refs.reference.current, refs.floating.current, context.update);
-  }, [open, refs.reference, refs.floating, context]);
+    return autoUpdate(referenceElement, floatingElement, update);
+  }, [mounted, referenceElement, floatingElement, update]);
 
   // Read the env()-resolved insets off the positioner (it carries the env() declarations via
   // SAFE_AREA_STYLE merged into floatingStyles below) and feed them back as px to the collision
-  // boundary. Key on the reactive `context.elements.floating`, not `refs.floating`: the ref
-  // object's identity never changes, so an effect on it would run once before the positioner
-  // mounts, read null, and never re-fire. Re-read on resize for orientation changes.
-  const floatingElement = context.elements.floating;
+  // boundary. Re-read on resize for orientation changes.
   useEffect(() => {
     if (!safeAreaAware || !floatingElement) return;
 
