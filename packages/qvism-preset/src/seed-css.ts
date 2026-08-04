@@ -9,13 +9,6 @@ type ValueLit = AST.ValueLit;
 /**
  * Every collection rootage declares, mapped to the selector or at-rule each of
  * its modes is emitted under.
- *
- * `getTokenCss` throws on a mode it finds no mapping for, so a rootage change
- * already fails the build — but only once the generator runs, and only for the
- * missing half. Restating the shape here moves that to compile time and also
- * catches the direction the runtime cannot see: a collection or mode name that
- * exists here and nowhere in rootage is simply never read, so the throw lands on
- * the entry that was spelled correctly.
  */
 type Selectors = {
   [C in (typeof collections.data)[number] as C["name"]]: {
@@ -117,9 +110,6 @@ export default function generateSeedCss(
 :root[data-seed-color-mode="dark-only"],
 :root [data-seed-color-mode="dark-only"]`,
       },
-      // Spelled out rather than mapped over `breakpointValues`: `Object.fromEntries`
-      // widens to an index signature, which `satisfies` rejects for want of the
-      // named keys.
       "viewport-width": {
         base: ":root",
         sm: breakpoints.up("sm"),
