@@ -15,8 +15,8 @@ import {
   tailwind4,
   validate,
 } from "@seed-design/rootage-core";
-import { runGenerator } from "@seed-design/rootage-core/generator";
-import { composeDtsBanner, loadConfig, type DtsBanner } from "./config";
+import { loadConfig } from "./config";
+import type { GeneratedFile, PluginContext, RootagePlugin } from "@seed-design/rootage-core/config";
 import fs from "fs-extra";
 import path from "node:path";
 import YAML from "yaml";
@@ -47,16 +47,36 @@ function readYAMLFilesSync(dir: string, fileList: string[] = []) {
   return fileList;
 }
 
-function writeFileSync({
-  filename,
+// 커맨드 핸들러가 config 로드 후 채운다. 프로세스당 커맨드 하나라 모듈 상태로 충분하다.
+let activePlugins: RootagePlugin[] = [];
+let pluginContext: PluginContext = {};
+
+async function applyTransforms(file: GeneratedFile): Promise<string> {
+  let code = file.code;
+
+  for (const plugin of activePlugins) {
+    if (!plugin.transform) continue;
+
+    try {
+      const result = await plugin.transform({ ...file, code }, pluginContext);
+      if (typeof result === "string") code = result;
+    } catch (error) {
+      throw new Error(
+        `[${plugin.name}] transform failed for ${file.path}: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+
+  return code;
+}
+
+async function writeGenerated({
   writePath,
-  code,
-}: {
-  filename: string;
-  writePath: string;
-  code: string;
-}) {
-  console.log("Writing", filename, "to", writePath);
+  ...file
+}: Omit<GeneratedFile, "path"> & { path: string; writePath: string }) {
+  console.log("Writing", file.path, "to", writePath);
+
+  const code = await applyTransforms(file);
 
   if (!fs.existsSync(path.dirname(writePath))) {
     fs.mkdirpSync(path.dirname(writePath));
@@ -106,75 +126,70 @@ async function writeTokenTs(prefix?: string) {
   const dtsResults = tsStringifier.getTokenDts(getTokenDeclarations(ctx));
 
   for (const result of mjsResults) {
-    const writePath = path.join(process.cwd(), dir, result.path);
-
-    writeFileSync({
-      filename: result.path,
+    await writeGenerated({
+      path: result.path,
       code: result.code,
-      writePath: writePath,
+      type: "mjs",
+      kind: "Tokens",
+      writePath: path.join(process.cwd(), dir, result.path),
     });
   }
 
   for (const result of dtsResults) {
-    const writePath = path.join(process.cwd(), dir, result.path);
-
-    writeFileSync({
-      filename: result.path,
+    await writeGenerated({
+      path: result.path,
       code: result.code,
-      writePath: writePath,
+      type: "dts",
+      kind: "Tokens",
+      writePath: path.join(process.cwd(), dir, result.path),
     });
   }
 }
 
-async function writeComponentSpec(prefix?: string, dtsBanner?: DtsBanner) {
+async function writeComponentSpec(prefix?: string) {
   const { ctx } = await prepare();
 
-  const tsStringifier = typescript.createStringifier({
-    prefix,
-    componentSpecDtsBanner: dtsBanner && composeDtsBanner(dtsBanner),
-  });
+  const tsStringifier = typescript.createStringifier({ prefix });
 
   const specs = getComponentSpecDeclarations(ctx);
   for (const spec of specs) {
-    const mjsCode = tsStringifier.getComponentSpecMjs(spec);
-    const mjsWritePath = path.join(process.cwd(), dir, `${spec.id}.mjs`);
-
-    writeFileSync({
-      filename: spec.id,
-      code: mjsCode,
-      writePath: mjsWritePath,
+    await writeGenerated({
+      path: `${spec.id}.mjs`,
+      code: tsStringifier.getComponentSpecMjs(spec),
+      type: "mjs",
+      kind: "ComponentSpec",
+      id: spec.id,
+      writePath: path.join(process.cwd(), dir, `${spec.id}.mjs`),
     });
 
-    const dtsCode = tsStringifier.getComponentSpecDts(spec);
-    const dtsWritePath = path.join(process.cwd(), dir, `${spec.id}.d.ts`);
-
-    writeFileSync({
-      filename: spec.id,
-      code: dtsCode,
-      writePath: dtsWritePath,
+    await writeGenerated({
+      path: `${spec.id}.d.ts`,
+      code: tsStringifier.getComponentSpecDts(spec),
+      type: "dts",
+      kind: "ComponentSpec",
+      id: spec.id,
+      writePath: path.join(process.cwd(), dir, `${spec.id}.d.ts`),
     });
   }
 
-  const mjsIndexCode = tsStringifier.getComponentSpecIndexMjs(specs);
-  const mjsIndexWritePath = path.join(process.cwd(), dir, "index.mjs");
-
-  writeFileSync({
-    filename: "index",
-    code: mjsIndexCode,
-    writePath: mjsIndexWritePath,
+  await writeGenerated({
+    path: "index.mjs",
+    code: tsStringifier.getComponentSpecIndexMjs(specs),
+    type: "mjs",
+    kind: "ComponentSpec",
+    writePath: path.join(process.cwd(), dir, "index.mjs"),
   });
 
-  const dtsIndexCode = tsStringifier.getComponentSpecIndexDts(specs);
-  const dtsIndexWritePath = path.join(process.cwd(), dir, "index.d.ts");
-
-  writeFileSync({
-    filename: "index",
-    code: dtsIndexCode,
-    writePath: dtsIndexWritePath,
+  await writeGenerated({
+    path: "index.d.ts",
+    code: tsStringifier.getComponentSpecIndexDts(specs),
+    type: "dts",
+    kind: "ComponentSpec",
+    writePath: path.join(process.cwd(), dir, "index.d.ts"),
   });
 }
 
-async function writeTokenCss(generatorPath?: string, prefix?: string) {
+async function writeTokenCss(prefix?: string) {
   const { ctx } = await prepare();
 
   const ast = {
@@ -193,62 +208,71 @@ async function writeTokenCss(generatorPath?: string, prefix?: string) {
     },
   };
 
-  let code: string;
+  const generators = activePlugins.filter((plugin) => plugin.tokenCssGenerator);
 
-  if (generatorPath) {
-    // Use custom generator
-    code = await runGenerator(generatorPath, ast, options);
-  } else {
-    // Use default CSS generator from core
-    code = css.getTokenCss(ast, options);
+  if (generators.length > 1) {
+    console.warn(
+      `Multiple plugins provide tokenCssGenerator (${generators.map((p) => p.name).join(", ")}); using ${generators[0].name}`,
+    );
   }
 
-  const writePath = path.join(process.cwd(), dir, "token.css");
+  const generate = generators[0]?.tokenCssGenerator ?? css.getTokenCss;
+  const code = await generate(ast, options);
 
-  writeFileSync({
-    filename: "token.css",
+  await writeGenerated({
+    path: "token.css",
     code,
-    writePath: writePath,
+    type: "css",
+    kind: "Tokens",
+    writePath: path.join(process.cwd(), dir, "token.css"),
   });
 }
 
 async function writeJsonSchema() {
   const { ctx } = await prepare();
 
-  const jsonSchema = jsonschema.getJsonSchema(getTokenDeclarations(ctx));
-  const writePath = path.join(process.cwd(), dir, "schema.json");
-
-  writeFileSync({
-    filename: "schema.json",
-    code: jsonSchema,
-    writePath: writePath,
+  await writeGenerated({
+    path: "schema.json",
+    code: jsonschema.getJsonSchema(getTokenDeclarations(ctx)),
+    type: "json",
+    writePath: path.join(process.cwd(), dir, "schema.json"),
   });
 }
 
 // The `.mjs` re-exports its sibling `.json` and the `.d.ts` describes it, so all three
 // are written together: split across commands, one could be generated without the others.
-function writeExchange(withoutExt: string, value: unknown) {
+async function writeExchange(
+  withoutExt: string,
+  value: unknown,
+  meta: Pick<GeneratedFile, "kind" | "id"> = {},
+) {
   const jsonName = `${withoutExt}.json`;
 
-  writeFileSync({
-    filename: jsonName,
+  await writeGenerated({
+    path: jsonName,
     code: JSON.stringify(value, null, 2),
+    type: "json",
+    ...meta,
     writePath: path.join(process.cwd(), dir, jsonName),
   });
 
   const dtsName = `${withoutExt}.d.ts`;
 
-  writeFileSync({
-    filename: dtsName,
+  await writeGenerated({
+    path: dtsName,
     code: typescript.getExchangeDts(value),
+    type: "dts",
+    ...meta,
     writePath: path.join(process.cwd(), dir, dtsName),
   });
 
   const mjsName = `${withoutExt}.mjs`;
 
-  writeFileSync({
-    filename: mjsName,
+  await writeGenerated({
+    path: mjsName,
     code: typescript.getExchangeMjs(`${path.basename(withoutExt)}.json`),
+    type: "mjs",
+    ...meta,
     writePath: path.join(process.cwd(), dir, mjsName),
   });
 }
@@ -259,15 +283,16 @@ async function writeJsonTs() {
   for (const { fileName, ast } of getSourceFiles(ctx)) {
     const relativePath = path.relative(artifactsDir, fileName);
     const withoutExt = relativePath.replace(path.extname(relativePath), "");
+    const model = exchange.getModel(ast);
 
-    writeExchange(withoutExt, exchange.getModel(ast));
+    await writeExchange(withoutExt, model, { kind: model.kind, id: model.metadata.id });
   }
 
   const artifactsPkg = JSON.parse(
     fs.readFileSync(path.join(artifactsDir, "package.json"), "utf-8"),
   );
 
-  writeExchange("index", exchange.getIndex(models, { version: artifactsPkg.version }));
+  await writeExchange("index", exchange.getIndex(models, { version: artifactsPkg.version }));
 }
 
 async function writeFile(filePath: string, content: string) {
@@ -286,7 +311,11 @@ async function writeTailwind3Plugin(prefix?: string): Promise<string> {
   const tokens = getTokenDeclarations(ctx);
 
   const typographyTokens = getComponentSpecDeclarations(ctx);
-  const code = tailwind3.getTailwind3PluginCode(tokens, typographyTokens, { prefix });
+  const code = await applyTransforms({
+    path: "index.ts",
+    code: tailwind3.getTailwind3PluginCode(tokens, typographyTokens, { prefix }),
+    type: "ts",
+  });
 
   const pluginPath = path.join(process.cwd(), dir, "index.ts");
 
@@ -306,9 +335,10 @@ async function writeTailwind4(prefix?: string): Promise<string> {
     banner: "",
   });
 
+  const code = await applyTransforms({ path: "index.css", code: themeCode, type: "css" });
   const writePath = path.join(process.cwd(), dir, "index.css");
 
-  await writeFile(writePath, themeCode);
+  await writeFile(writePath, code);
   return writePath;
 }
 
@@ -349,6 +379,8 @@ yargs(process.argv.slice(2))
     async (argv) => {
       console.log("Start");
       const config = await loadConfig(argv.config);
+      activePlugins = config.plugins ?? [];
+      pluginContext = { prefix: argv.prefix ?? config.prefix };
       await writeTokenTs(argv.prefix ?? config.prefix);
       console.log("Done");
     },
@@ -371,7 +403,9 @@ yargs(process.argv.slice(2))
     async (argv) => {
       console.log("Start");
       const config = await loadConfig(argv.config);
-      await writeComponentSpec(argv.prefix ?? config.prefix, config.componentSpec?.dtsBanner);
+      activePlugins = config.plugins ?? [];
+      pluginContext = { prefix: argv.prefix ?? config.prefix };
+      await writeComponentSpec(argv.prefix ?? config.prefix);
       console.log("Done");
     },
   )
@@ -385,10 +419,6 @@ yargs(process.argv.slice(2))
           type: "string",
           default: "./",
         })
-        .option("generator", {
-          describe: "Path to custom generator module",
-          type: "string",
-        })
         .option("prefix", {
           describe: "Prefix for generated tokens",
           type: "string",
@@ -397,10 +427,9 @@ yargs(process.argv.slice(2))
     async (argv) => {
       console.log("Start");
       const config = await loadConfig(argv.config);
-      await writeTokenCss(
-        argv.generator ?? config.tokenCss?.generator,
-        argv.prefix ?? config.prefix,
-      );
+      activePlugins = config.plugins ?? [];
+      pluginContext = { prefix: argv.prefix ?? config.prefix };
+      await writeTokenCss(argv.prefix ?? config.prefix);
       console.log("Done");
     },
   )
@@ -430,8 +459,11 @@ yargs(process.argv.slice(2))
         default: "./",
       });
     },
-    async () => {
+    async (argv) => {
       console.log("Start");
+      const config = await loadConfig(argv.config);
+      activePlugins = config.plugins ?? [];
+      pluginContext = { prefix: config.prefix };
       await writeJsonTs();
       console.log("Done");
     },
@@ -455,6 +487,8 @@ yargs(process.argv.slice(2))
     async (argv) => {
       console.log("Start");
       const config = await loadConfig(argv.config);
+      activePlugins = config.plugins ?? [];
+      pluginContext = { prefix: argv.prefix ?? config.prefix };
       await writeTailwind3Plugin(argv.prefix ?? config.prefix);
       console.log("Done");
     },
@@ -478,6 +512,8 @@ yargs(process.argv.slice(2))
     async (argv) => {
       console.log("Start");
       const config = await loadConfig(argv.config);
+      activePlugins = config.plugins ?? [];
+      pluginContext = { prefix: argv.prefix ?? config.prefix };
       await writeTailwind4(argv.prefix ?? config.prefix);
       console.log("Done");
     },

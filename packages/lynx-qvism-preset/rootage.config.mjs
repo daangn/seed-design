@@ -1,6 +1,7 @@
+import seedCss from "./lib/seed-css.js";
+
+/** @type {import("@seed-design/rootage-core/config").RootageConfig} */
 export default {
   prefix: "seed",
-  tokenCss: {
-    generator: "./lib/seed-css.js",
-  },
+  plugins: [{ name: "seed-css", tokenCssGenerator: seedCss }],
 };

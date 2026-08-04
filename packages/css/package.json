@@ -77,7 +77,8 @@
   ],
   "devDependencies": {
     "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/qvism-preset": "0.0.0"
+    "@seed-design/qvism-preset": "0.0.0",
+    "@seed-design/rootage-core": "0.0.0"
   },
   "publishConfig": {
     "access": "public"
