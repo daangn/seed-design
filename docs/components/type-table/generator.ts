@@ -2,6 +2,18 @@ import { createGenerator, type Generator } from "fumadocs-typescript";
 
 const baseGenerator = createGenerator();
 
+// remarkAutoTypeTable은 문서 내 모든 테이블을 Promise.all로 병렬 생성하는데, 그러면
+// ts-morph 프로젝트에 소스 파일이 추가·해석되는 순서가 실행마다 달라져 union 멤버와
+// 엔트리 순서가 흔들린다. generate-package-docs.ts가 산출물을 git에 커밋하므로
+// (실행마다 가짜 diff 발생) 호출을 직렬화해 순서를 결정적으로 고정한다.
+let chain: Promise<unknown> = Promise.resolve();
+
+function enqueue<T>(task: () => Promise<T>): Promise<T> {
+  const run = chain.then(task);
+  chain = run.catch(() => undefined);
+  return run;
+}
+
 async function filteredGenerateDocumentation(
   ...args: Parameters<Generator["generateDocumentation"]>
 ): ReturnType<Generator["generateDocumentation"]> {
@@ -48,6 +60,6 @@ async function filteredGenerateDocumentation(
 export const filteredTypeTableGenerator: Generator = {
   generateDocumentation: filteredGenerateDocumentation,
   generateTypeTable(props, options) {
-    return baseGenerator.generateTypeTable.call(this, props, options);
+    return enqueue(() => baseGenerator.generateTypeTable.call(this, props, options));
   },
 };

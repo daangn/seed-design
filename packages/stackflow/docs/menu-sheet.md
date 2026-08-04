@@ -1,0 +1,648 @@
+file: stackflow/menu-sheet.mdx
+
+# Menu Sheet
+
+Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
+
+사용 가능 버전: @seed-design/stackflow@1.1.5, @seed-design/css@1.1.5
+
+<Card title="Menu Sheet" href="/react/components/menu-sheet">
+  Menu Sheet 컴포넌트에 대해 자세히 알아봅니다.
+</Card>
+
+## Making a Menu Sheet Activity \[#making-a-menu-sheet-activity]
+
+**일반적인 경우 Menu Sheet를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
+
+- Activity로 관리되므로, 하위 Activity보다 높고 상위 Activity보다는 낮은 z-index를 갖도록 관리하기 쉽습니다.
+- 딥링킹이 가능합니다. (URL 접속으로 Menu Sheet를 열 수 있습니다.)
+- [@stackflow/plugin-basic-ui](https://www.npmjs.com/package/@stackflow/plugin-basic-ui) `BottomSheet`에서의 마이그레이션이 쉽습니다.
+
+<StackflowExample path="/menu-sheet-activity">
+  ```tsx title='ActivityMenuSheetActivity.tsx'
+  import { VStack } from "@seed-design/react";
+  import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+  import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+  import {
+    AppBar,
+    AppBarBackButton,
+    AppBarIconButton,
+    AppBarLeft,
+    AppBarMain,
+    AppBarRight,
+  } from "seed-design/ui/app-bar";
+  import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  import { ActionButton } from "seed-design/ui/action-button";
+
+  declare module "@stackflow/config" {
+    interface Register {
+      ActivityMenuSheetActivity: {};
+    }
+  }
+
+  const ActivityMenuSheetActivity: StaticActivityComponentType<"ActivityMenuSheetActivity"> = () => {
+    const { push } = useFlow();
+
+    return (
+      <AppScreen>
+        <AppBar>
+          <AppBarLeft>
+            <AppBarBackButton />
+          </AppBarLeft>
+          <AppBarMain title="Activity" />
+          <AppBarRight>
+            <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+              <IconHouseLine />
+            </AppBarIconButton>
+          </AppBarRight>
+        </AppBar>
+        <AppScreenContent>
+          <VStack p="x5" justify="center" gap="x4">
+            <ActionButton
+              variant="neutralSolid"
+              flexGrow
+              onClick={() => push("ActivityMenuSheetSimple", {})}
+            >
+              ActivityMenuSheetSimple을 Push
+            </ActionButton>
+            <ActionButton
+              variant="neutralWeak"
+              flexGrow
+              onClick={() => push("ActivityMenuSheetActivity", {})}
+            >
+              지금 열린 이 Activity를 Push
+            </ActionButton>
+          </VStack>
+        </AppScreenContent>
+      </AppScreen>
+    );
+  };
+
+  export default ActivityMenuSheetActivity;
+  ```
+
+  ```tsx title='ActivityMenuSheetSimple.tsx'
+  import { Flex, VStack } from "@seed-design/react";
+  import { useActivityZIndexBase } from "@seed-design/stackflow";
+  import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+  import { useState } from "react";
+  import {
+    IconPencilLine,
+    IconPlusLine,
+    IconTrashcanLine,
+  } from "@karrotmarket/react-monochrome-icon";
+  import {
+    MenuSheetContent,
+    MenuSheetGroup,
+    MenuSheetItem,
+    MenuSheetRoot,
+  } from "seed-design/ui/menu-sheet";
+  import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
+  import { Switch } from "seed-design/ui/switch";
+
+  declare module "@stackflow/config" {
+    interface Register {
+      ActivityMenuSheetSimple: {};
+    }
+  }
+
+  const ActivityMenuSheetSimple: StaticActivityComponentType<"ActivityMenuSheetSimple"> = () => {
+    const { pop, push } = useFlow();
+    const activity = useActivity();
+    const snackbar = useSnackbarAdapter();
+
+    const [keepMounted, setKeepMounted] = useState(false);
+
+    const handleAction = (action: string) => {
+      snackbar.create({
+        render: () => <Snackbar variant="positive" message={`선택한 액션: ${action}`} />,
+      });
+      pop();
+    };
+
+    const open = keepMounted
+      ? activity.transitionState === "enter-active" || activity.transitionState === "enter-done"
+      : activity.isActive;
+
+    const onOpenChange = keepMounted
+      ? (open: boolean) => !open && activity.isActive && pop()
+      : (open: boolean) => !open && pop();
+
+    return (
+      <MenuSheetRoot
+        open={open}
+        modal={keepMounted ? activity.isActive : undefined}
+        onOpenChange={onOpenChange}
+      >
+        <MenuSheetContent title="Actions" layerIndex={useActivityZIndexBase()}>
+          <MenuSheetGroup>
+            <MenuSheetItem
+              onClick={() => handleAction("add")}
+              label="추가"
+              prefixIcon={<IconPlusLine />}
+            />
+            <MenuSheetItem
+              onClick={() => handleAction("edit")}
+              label="수정"
+              prefixIcon={<IconPencilLine />}
+            />
+            <MenuSheetItem
+              onClick={() => handleAction("delete")}
+              tone="critical"
+              label="삭제"
+              prefixIcon={<IconTrashcanLine />}
+            />
+          </MenuSheetGroup>
+          <VStack gap="x2">
+            <MenuSheetGroup>
+              <MenuSheetItem
+                onClick={() =>
+                  push("ActivityDetail", {
+                    title: "Activity",
+                    body: keepMounted
+                      ? "MenuSheet가 언마운트되지 않았으므로, 현재 Activity를 pop하는 경우 MenuSheet가 열린 상태로 표시됩니다."
+                      : "MenuSheet가 언마운트되었으므로, 현재 Activity를 pop하는 경우 MenuSheet가 다시 enter 트랜지션을 재생하며 마운트됩니다.",
+                  })
+                }
+                label="Push"
+              />
+            </MenuSheetGroup>
+            <Flex px="x2" py="x1_5">
+              <Switch
+                tone="neutral"
+                size="16"
+                label="Push 이후에도 MenuSheet 마운트 유지"
+                checked={keepMounted}
+                onCheckedChange={setKeepMounted}
+              />
+            </Flex>
+          </VStack>
+        </MenuSheetContent>
+      </MenuSheetRoot>
+    );
+  };
+
+  export default ActivityMenuSheetSimple;
+  ```
+</StackflowExample>
+
+### Usage \[#usage]
+
+```tsx
+import { useActivityZIndexBase } from "@seed-design/stackflow";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+// ... more imports
+
+const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
+  const { pop } = useFlow();
+
+  const handleAction = (action: string) => {
+    console.log("선택한 액션:", action);
+
+    pop();
+  };
+
+  return (
+    {/* [!code highlight] */}
+    <MenuSheetRoot open={useActivity().isActive} onOpenChange={(open) => !open && pop()}>
+      <MenuSheetContent
+        title="Actions"
+        // [!code highlight]
+        layerIndex={useActivityZIndexBase()}
+      >
+        <MenuSheetGroup>
+          <MenuSheetItem
+            onClick={() => handleAction("add")}
+            label="추가"
+            prefixIcon={<IconPlusLine />}
+          />
+          <MenuSheetItem
+            onClick={() => handleAction("edit")}
+            label="수정"
+            prefixIcon={<IconPencilLine />}
+          />
+          <MenuSheetItem
+            onClick={() => handleAction("delete")}
+            tone="critical"
+            label="삭제"
+            prefixIcon={<IconTrashcanLine />}
+          />
+        </MenuSheetGroup>
+      </MenuSheetContent>
+    </MenuSheetRoot>
+  );
+};
+```
+
+1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Menu Sheet가 열리도록 합니다.
+2. `onOpenChange`를 통해 Menu Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
+3. `layerIndex={useActivityZIndexBase()}`로 Menu Sheet Activity의 z-index 기준점을 전달합니다.
+
+- [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+
+#### Keeping Menu Sheet Mounted \[#keeping-menu-sheet-mounted]
+
+Menu Sheet Activity 위에 다른 Activity를 push할 때 Menu Sheet가 unmount되는 것을 방지하려면,
+
+- `open` 상태를 `isActive` 대신 `transitionState`로 관리하고
+- `modal` prop을 `isActive`로 설정하고
+- `onOpenChange` 핸들러에서 `!isOpen && isActive`인 경우 `pop()`을 실행하도록 합니다.
+
+이 패턴은 Menu Sheet 액티비티 위에 다른 오버레이 컴포넌트 액티비티를 중첩하여 표시하고 싶은 경우 유용합니다.
+
+```tsx
+const { isActive, transitionState } = useActivity();
+
+return (
+  <MenuSheetRoot
+    open={
+      // [!code highlight]
+      transitionState === "enter-active" || transitionState === "enter-done"
+    }
+    // [!code highlight]
+    modal={isActive}
+    // [!code highlight]
+    onOpenChange={(open) => !open && isActive && pop()}
+  >
+    {/* ... */}
+  </MenuSheetRoot>
+);
+```
+
+1. `open`을 `transitionState`로 관리하여 다른 Activity가 위에 push되어도 Menu Sheet가 unmount되지 않도록 합니다.
+2. `modal={isActive}`로 Menu Sheet Activity가 비활성 상태일 때 `modal`을 `false`로 설정합니다. 이렇게 하지 않으면, 위에 push된 Activity에서 포커스 및 스크린 리더 접근이 동작하지 않습니다.
+3. `onOpenChange` 핸들러에서 `isActive`인 경우에만 `pop()`을 실행하여, 비활성 상태에서의 의도치 않은 Activity 종료를 방지합니다.
+
+## Syncing Menu Sheet State with a Step \[#syncing-menu-sheet-state-with-a-step]
+
+Menu Sheet를 Activity로 만들 수 없는 경우, Menu Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)으로 만들 수 있습니다.
+
+- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Menu Sheet를 닫을 수 있습니다.
+- `MenuSheetTrigger`를 사용하여 Menu Sheet를 열고 닫을 수 있습니다.
+
+<Callout type="warn" title="제약 사항">
+  **Activity로 만들지 않은 Menu Sheet에서 다른 Activity를 push하는 경우, push하기 전 Menu Sheet를 닫으세요.**
+
+  Menu Sheet를 닫을 수 없거나, Menu Sheet를 연 Activity로 돌아왔을 때 Menu Sheet가 열린 상태를 유지해야 하는 경우 [Menu Sheet를 Activity로](#making-a-menu-sheet-activity) 만들어 사용하는 것을 권장합니다.
+
+  Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Menu Sheet는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
+</Callout>
+
+<StackflowExample path="/menu-sheet-step">
+  ```tsx title='ActivityMenuSheetStep.tsx'
+  import { Portal, VStack } from "@seed-design/react";
+  import { useActivityZIndexBase } from "@seed-design/stackflow";
+  import {
+    useActivityParams,
+    useFlow,
+    useStepFlow,
+    type StaticActivityComponentType,
+  } from "@stackflow/react/future";
+  import { useEffect, useState } from "react";
+  import { ActionButton } from "seed-design/ui/action-button";
+  import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+  import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  import {
+    MenuSheetContent,
+    MenuSheetGroup,
+    MenuSheetItem,
+    MenuSheetRoot,
+    MenuSheetTrigger,
+  } from "seed-design/ui/menu-sheet";
+  import {
+    IconHouseLine,
+    IconPencilLine,
+    IconPlusLine,
+    IconTrashcanLine,
+  } from "@karrotmarket/react-monochrome-icon";
+  import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
+
+  declare module "@stackflow/config" {
+    interface Register {
+      ActivityMenuSheetStep: {
+        "menu-sheet"?: "open";
+      };
+    }
+  }
+
+  const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"> = () => {
+    const [open, setOpen] = useState(false);
+    const { push } = useFlow();
+    const { pushStep, popStep } = useStepFlow("ActivityMenuSheetStep");
+    const params = useActivityParams<"ActivityMenuSheetStep">();
+    const isOverlayOpen = params["menu-sheet"] === "open";
+    const snackbar = useSnackbarAdapter();
+
+    useEffect(() => setOpen(isOverlayOpen), [isOverlayOpen]);
+
+    const onOpenChange = (newOpen: boolean) => {
+      setOpen(newOpen);
+
+      if (newOpen && !isOverlayOpen) {
+        pushStep((params) => ({ ...params, "menu-sheet": "open" }));
+        return;
+      }
+
+      if (!newOpen && isOverlayOpen) {
+        popStep();
+        return;
+      }
+    };
+
+    const handleAction = (action: string) => {
+      snackbar.create({
+        render: () => <Snackbar variant="positive" message={`선택한 액션: ${action}`} />,
+      });
+      setOpen(false);
+    };
+
+    return (
+      <AppScreen>
+        <AppBar>
+          <AppBarMain title="Step" />
+          <AppBarRight>
+            <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+              <IconHouseLine />
+            </AppBarIconButton>
+          </AppBarRight>
+        </AppBar>
+        <AppScreenContent>
+          <MenuSheetRoot open={open} onOpenChange={onOpenChange}>
+            <MenuSheetTrigger asChild>
+              <VStack p="x5" justify="center" gap="x4">
+                <ActionButton variant="neutralSolid" flexGrow>
+                  Menu Sheet 열기
+                </ActionButton>
+              </VStack>
+            </MenuSheetTrigger>
+            <Portal>
+              <MenuSheetContent
+                title="Step"
+                layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+              >
+                <MenuSheetGroup>
+                  <MenuSheetItem
+                    onClick={() => handleAction("add")}
+                    label="추가"
+                    prefixIcon={<IconPlusLine />}
+                  />
+                  <MenuSheetItem
+                    onClick={() => handleAction("edit")}
+                    label="수정"
+                    prefixIcon={<IconPencilLine />}
+                  />
+                  <MenuSheetItem
+                    onClick={() => handleAction("delete")}
+                    tone="critical"
+                    label="삭제"
+                    prefixIcon={<IconTrashcanLine />}
+                  />
+                </MenuSheetGroup>
+                <MenuSheetGroup labelAlign="center">
+                  <MenuSheetItem
+                    onClick={() => {
+                      // 이 Menu Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
+                      // Menu Sheet를 먼저 닫고 다음 Activity를 push해야 합니다.
+                      setOpen(false);
+                      push("ActivityDetail", {
+                        title: "Menu Sheet에서 이동한 화면",
+                        body: "Menu Sheet를 닫고 이동했습니다.",
+                      });
+                    }}
+                    label="Push"
+                  />
+                </MenuSheetGroup>
+              </MenuSheetContent>
+            </Portal>
+          </MenuSheetRoot>
+        </AppScreenContent>
+      </AppScreen>
+    );
+  };
+
+  export default ActivityMenuSheetStep;
+  ```
+</StackflowExample>
+
+### Usage \[#usage-1]
+
+```tsx
+import { useActivityZIndexBase } from "@seed-design/stackflow";
+import { Portal } from "@seed-design/react";
+import {
+  useActivity,
+  useActivityParams,
+  useFlow,
+  useStepFlow,
+  type ActivityComponentType,
+} from "@stackflow/react/future";
+import { useEffect, useState } from "react";
+// ... more imports
+
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityHome: {
+      "menu-sheet"?: "open";
+    };
+  }
+}
+
+const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
+  const [open, setOpen] = useState(false);
+
+  const { push } = useFlow();
+  const { pushStep, popStep } = useStepFlow("ActivityHome");
+  const params = useActivityParams<"ActivityHome">();
+  // [!code highlight]
+  const isOverlayOpen = params["menu-sheet"] === "open";
+
+  // [!code highlight]
+  useEffect(() => {
+    if (!isOverlayOpen) {
+      setOpen(false);
+    }
+  }, [isOverlayOpen]);
+
+  // [!code highlight]
+  const onOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+
+    if (newOpen && !isOverlayOpen) {
+      pushStep((params) => ({ ...params, "menu-sheet": "open" }));
+
+      return;
+    }
+
+    if (!newOpen && isOverlayOpen) {
+      popStep();
+
+      return;
+    }
+  };
+
+  const handleAction = (action: string) => {
+    console.log("선택한 액션:", action);
+    setOpen(false);
+  };
+
+  return (
+    <AppScreen>
+      <MenuSheetRoot open={open} onOpenChange={onOpenChange}>
+        <MenuSheetTrigger asChild>
+          <ActionButton>Open</ActionButton>
+        </MenuSheetTrigger>
+        {/* [!code highlight] */}
+        <Portal>
+          <MenuSheetContent
+            title="Actions"
+            // [!code highlight]
+            layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+          >
+            <MenuSheetGroup>
+              <MenuSheetItem onClick={() => handleAction("add")} label="추가" />
+              <MenuSheetItem onClick={() => handleAction("edit")} label="수정" />
+              <MenuSheetItem
+                onClick={() => {
+                  // [!code highlight]
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  push("ActivityNext");
+                }}
+                label="Push"
+              />
+              <MenuSheetItem
+                onClick={() => handleAction("delete")}
+                tone="critical"
+                label="삭제"
+              />
+            </MenuSheetGroup>
+          </MenuSheetContent>
+          {/* [!code highlight] */}
+        </Portal>
+      </MenuSheetRoot>
+    </AppScreen>
+  );
+};
+```
+
+1. `Portal`을 사용하여 Menu Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
+2. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
+3. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Menu Sheet의 `open` 상태를 동기화합니다.
+4. `layerIndex={useActivityZIndexBase({ activityOffset: 1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
+   - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+
+### `useStepOverlay` \[#usestepoverlay]
+
+\#2와 #3을 일반화하여 `useStepOverlay`를 사용하면 편리합니다. `useStepOverlay` 구현 예시는 [코드](https://github.com/daangn/seed-design/blob/dev/examples/stackflow-spa/src/seed-design/stackflow/use-step-overlay.ts)를 참고하세요.
+
+```tsx
+import { useActivityZIndexBase } from "@seed-design/stackflow";
+import { Portal } from "@seed-design/react";
+import { useStepOverlay } from "./use-step-overlay";
+// ... more imports
+
+const MyActivity: ActivityComponentType = () => {
+  // [!code highlight]
+  const { overlayProps, setOpen } = useStepOverlay();
+  const { popStep } = useStepFlow("MyActivity");
+  const { push } = useFlow();
+
+  const handleAction = (action: string) => {
+    console.log("선택한 액션:", action);
+    popStep();
+  };
+
+  return (
+    <AppScreen>
+      {/* [!code highlight] */}
+      <MenuSheetRoot {...overlayProps}>
+        <MenuSheetTrigger asChild>
+          <ActionButton>Open</ActionButton>
+        </MenuSheetTrigger>
+        {/* [!code highlight] */}
+        <Portal>
+          <MenuSheetContent
+            title="Actions"
+            // [!code highlight]
+            layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+          >
+            <MenuSheetGroup>
+              <MenuSheetItem onClick={() => handleAction("add")} label="추가" />
+              <MenuSheetItem onClick={() => handleAction("edit")} label="수정" />
+              <MenuSheetItem
+                onClick={() => {
+                  // [!code highlight]
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  push("ActivityNext");
+                }}
+                label="Push"
+              />
+              <MenuSheetItem
+                onClick={() => handleAction("delete")}
+                tone="critical"
+                label="삭제"
+              />
+            </MenuSheetGroup>
+          </MenuSheetContent>
+          {/* [!code highlight] */}
+        </Portal>
+      </MenuSheetRoot>
+    </AppScreen>
+  );
+};
+```
+
+## About `useActivityZIndexBase` \[#about-useactivityzindexbase]
+
+`useActivityZIndexBase`는 각 Activity의 z-index 기준점을 반환하는 훅입니다.
+
+<Accordions>
+  <Accordion title="useActivityZIndexBase는 어떤 값을 반환하나요?">
+    - `useActivity().zIndex * 5`를 반환합니다. `useActivity().zIndex`는 현재 Activity가 enter된 Activity 중 몇 번째 Activity인지를 나타내는 값입니다.
+    - AppScreen을 구성하는 요소들(layer, appbar, dim, edge)은 `useActivityZIndexBase()` 값을 바탕으로 계산된 z-index를 갖습니다.
+      ```
+      ┌─ 2번 BottomSheet Activity
+      │  └─ BottomSheet: 12 (2 × 5 + 2)
+      ├─ 1번 AppScreen Activity
+      │  ├─ appbar: 12 (1 × 5 + 7)
+      │  ├─ edge: 9 (1 × 5 + 4)
+      │  ├─ layer: 7 (1 × 5 + 2)
+      │  └─ dim: 5 (1 × 5 + 0)
+      └─ 0번 AppScreen Activity
+         ├─ appbar: 7 (0 × 5 + 7)
+         ├─ edge: 4 (0 × 5 + 4)
+         ├─ layer: 2 (0 × 5 + 2)
+         └─ dim: 0 (0 × 5 + 0)
+      ```
+  </Accordion>
+
+  <Accordion title="activityOffset 옵션은 무엇인가요?">
+    - `activityOffset` 옵션은 현재 Activity가 아닌 다음 Activity의 z-index 기준점을 사용하고 싶을 때 사용합니다.
+    - 예를 들어, `useActivityZIndexBase({ activityOffset: 1 })`는 다음 Activity의 z-index 기준점을 반환합니다.
+    - 이는 Step 패턴에서 현재 Activity 위에 BottomSheet를 표시할 때 유용합니다.
+      ```
+      ┌─ 1번 AppScreen Activity에서 activityOffset: 1로 띄운 BottomSheet (예: Step 패턴)
+      │  └─ BottomSheet: 12 ((1 + 1) × 5 + 2)
+      ├─ 1번 AppScreen Activity
+      │  ├─ appbar: 12 (1 × 5 + 7)
+      │  ├─ edge: 9 (1 × 5 + 4)
+      │  ├─ layer: 7 (1 × 5 + 2)
+      │  └─ dim: 5 (1 × 5 + 0)
+      └─ 0번 AppScreen Activity
+         ├─ appbar: 7 (0 × 5 + 7)
+         ├─ edge: 4 (0 × 5 + 4)
+         ├─ layer: 2 (0 × 5 + 2)
+         └─ dim: 0 (0 × 5 + 0)
+      ```
+  </Accordion>
+
+  <Accordion title="@stackflow/react-ui-core useZIndexBase와 @seed-design/stackflow useActivityZIndexBase는 어떻게 다른가요?">
+    - 두 훅 모두 현재 Activity가 enter된 Activity 중 몇 번째 Activity인지를 바탕으로 z-index 스타일링에 필요한 값을 반환하는 훅입니다.
+    - 두 훅이 반환하는 값은 같으나, [@stackflow/plugin-basic-ui](https://www.npmjs.com/package/@stackflow/plugin-basic-ui)가 아닌, SEED 컴포넌트를 사용하는 경우 SEED가 관리하는 `@seed-design/stackflow` 패키지의 `useActivityZIndexBase` 훅을 사용하는 것을 권장합니다.
+    - `@stackflow/react-ui-core` 패키지의 `useActivityZIndexBase`는 `activityOffset` 옵션을 제공하지 않습니다.
+    - `@seed-design/stackflow@1.1.1`부터 `useActivityZIndexBase` 훅이 제공됩니다.
+  </Accordion>
+
+  <Accordion title="기존에 layerIndex에 수동으로 z-index 값을 지정해주던 코드는 어떻게 변경해야 하나요?">
+    `layerIndex`를 `useActivity().zIndex * 5 + n` 형태로 지정하고 있었다면 `useActivityZIndexBase() + n`으로 변경할 수 있습니다. 변경 과정에서 `+ n`이 필요한지 함께 검토해보세요.
+  </Accordion>
+</Accordions>

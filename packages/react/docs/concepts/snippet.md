@@ -1,0 +1,97 @@
+file: components/concepts/snippet.mdx
+
+# Snippet
+
+자주 사용되는 UI 패턴을 스니펫으로 제공하여 개발 효율성을 높이는 방법을 안내합니다.
+
+## 개요 \[#개요]
+
+Snippet은 Compound Components를 기본으로 채택하면서도 개발자 경험(DX)을 최적화하기 위한 해결책입니다. 복잡한 compound components를 간단하게 사용할 수 있도록 도와주는 패턴입니다.
+
+## Compound Components \[#compound-components]
+
+기존의 닫힌 컴포넌트 방식에서는 컴포넌트의 커스터마이징이 제한적이었습니다. 예를 들어, 다음과 같은 닫힌 컴포넌트는:
+
+```tsx
+<Checkbox>Click me</Checkbox>
+```
+
+내부 구현이 숨겨져 있어 다음과 같은 커스터마이징 요구사항을 해결하기 어려웠습니다:
+
+- label에 스타일을 추가하는 방법
+- 체크박스의 아이콘을 변경하는 방법
+- ref를 div와 input에 각각 전달하는 방법
+
+이러한 문제를 해결하기 위해 compound components 패턴을 도입했습니다:
+
+```tsx
+<Checkbox.Root>
+  <Checkbox.Control>
+    <Checkbox.Indicator />
+  </Checkbox.Control>
+  <Checkbox.Label>Click me</Checkbox.Label>
+  <Checkbox.HiddenInput />
+</Checkbox.Root>
+```
+
+## Snippet의 필요성 \[#snippet의-필요성]
+
+Compound components는 뛰어난 유연성을 제공하지만, 매번 이렇게 자세한 구현을 작성하는 것은 번거로울 수 있습니다. 이러한 유연성과 DX간의 trade-off를 해결하기 위해 Snippet 개념이 도입되었습니다.
+
+## Snippet 사용하기 \[#snippet-사용하기]
+
+<Steps>
+  <Step>
+    ### CLI 실행 \[#cli-실행]
+
+    다음 명령어를 통해 필요한 컴포넌트의 snippet을 프로젝트에 추가할 수 있습니다:
+
+    ```bash
+    npx @seed-design/cli add
+    ```
+
+    <Card title="CLI Commands" href="/react/getting-started/cli/commands" icon="<IconTerminal/>">
+      CLI 명령어에 대해 더 알아봅니다.
+    </Card>
+  </Step>
+
+  <Step>
+    ### 생성된 Snippet 활용 \[#생성된-snippet-활용]
+
+    CLI 실행 후, `seed-design/ui/*` 디렉토리에 snippet이 생성됩니다. 예를 들어:
+
+    ```tsx
+    // seed-design/ui/checkbox.tsx
+
+    export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+      ({ inputProps, rootRef, label, variant = "square", ...otherProps }, ref) => {
+        return (
+          <SeedCheckbox.Root ref={rootRef} variant={variant} {...otherProps}>
+            <SeedCheckbox.Control>
+              <SeedCheckbox.Indicator
+                unchecked={variant === "ghost" ? <IconCheckmarkFatFill /> : null}
+                checked={<IconCheckmarkFatFill />}
+                indeterminate={<IconMinusFatFill />}
+              />
+            </SeedCheckbox.Control>
+            <SeedCheckbox.Label>{label}</SeedCheckbox.Label>
+            <SeedCheckbox.HiddenInput ref={ref} {...inputProps} />
+          </SeedCheckbox.Root>
+        );
+      }
+    );
+    ```
+  </Step>
+
+  <Step>
+    ### 사용 \[#사용]
+
+    Snippet을 통해 복잡한 compound components를 간단하게 사용할 수 있습니다:
+
+    ```tsx
+    import { Checkbox } from "@/seed-design/ui/checkbox";
+
+    const Demo = () => <Checkbox>Click me</Checkbox>;
+    ```
+  </Step>
+</Steps>

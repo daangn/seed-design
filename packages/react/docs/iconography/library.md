@@ -1,0 +1,18 @@
+file: components/(foundation)/iconography/library.mdx
+
+# Library
+
+리액트 아이콘 패키지는 아이콘을 사용할 때 필요한 컴포넌트를 제공합니다.
+
+## Overview \[#overview]
+
+<Card title="Iconography Library" href="/foundations/iconography/library" icon="<IconSprout />">
+  아이콘 라이브러리에 포함된 아이콘을 확인합니다.
+</Card>
+
+## Installation \[#installation]
+
+- npm: npm install @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-icon
+- pnpm: pnpm add @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-icon
+- yarn: yarn add @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-icon
+- bun: bun add @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-icon

@@ -19,6 +19,7 @@
   },
   "main": "./lib/index.cjs",
   "files": [
+    "docs",
     "lib",
     "src",
     "LICENSE",
