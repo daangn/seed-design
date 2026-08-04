@@ -49,11 +49,28 @@ export interface UsePopoverProps extends UsePositionedFloatingProps<PopoverChang
    * @default true
    */
   closeOnInteractOutside?: boolean;
+
+  /**
+   * Whether to enable lazy mounting
+   * @default false
+   */
+  lazyMount?: boolean;
+
+  /**
+   * Whether to unmount on exit.
+   * @default false
+   */
+  unmountOnExit?: boolean;
 }
 
 export type UsePopoverReturn = ReturnType<typeof usePopover>;
 
-export function usePopover({ closeOnInteractOutside = true, ...props }: UsePopoverProps = {}) {
+export function usePopover({
+  closeOnInteractOutside = true,
+  lazyMount = false,
+  unmountOnExit = false,
+  ...props
+}: UsePopoverProps = {}) {
   const {
     open,
     onOpenChange,
@@ -120,6 +137,10 @@ export function usePopover({ closeOnInteractOutside = true, ...props }: UsePopov
       // Handed back rather than consumed here: the outside-press listener lives on the
       // positioner's DismissibleLayer, which is the element that decides what "outside" is.
       closeOnInteractOutside,
+      // Presence gating stops at the content: the positioner has to stay mounted while closed
+      // so floating-ui keeps a real node to measure and reposition against.
+      lazyMount,
+      unmountOnExit,
       floatingContext: context,
       refs: {
         anchor: refs.setReference as (instance: HTMLElement | null) => void,
@@ -174,6 +195,8 @@ export function usePopover({ closeOnInteractOutside = true, ...props }: UsePopov
       open,
       setOpen,
       closeOnInteractOutside,
+      lazyMount,
+      unmountOnExit,
       context,
       id,
       isTitleRendered,

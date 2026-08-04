@@ -30,6 +30,17 @@ export interface PopoverRootProps extends PopoverVariantProps, PopoverPrimitive.
    * @default true
    */
   safeAreaAware?: PopoverPrimitive.RootProps["safeAreaAware"];
+  /**
+   * @default true
+   */
+  lazyMount?: PopoverPrimitive.RootProps["lazyMount"];
+  /**
+   * Kept off by default: a popover is an anchored surface like Menu and Select, which never
+   * unmount their content, and discarding it on close would throw away form state and the
+   * body's scroll position every time.
+   * @default false
+   */
+  unmountOnExit?: PopoverPrimitive.RootProps["unmountOnExit"];
 }
 
 export function PopoverRoot(props: PopoverRootProps) {
@@ -44,6 +55,7 @@ export function PopoverRoot(props: PopoverRootProps) {
           gutter={8}
           overflowPadding={16}
           safeAreaAware
+          lazyMount
           {...otherProps}
         />
       </closeButtonTracker.Provider>

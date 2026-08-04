@@ -4,12 +4,13 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
+import { Presence } from "@seed-design/react-presence";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef, useRef } from "react";
 import { usePopover, type UsePopoverProps } from "./usePopover";
 import { PopoverProvider, usePopoverContext } from "./usePopoverContext";
-import { FloatingPortal, type FloatingPortalProps } from "@floating-ui/react";
+import { FloatingFocusManager, FloatingPortal, type FloatingPortalProps } from "@floating-ui/react";
 
 export interface PopoverRootProps extends UsePopoverProps {
   children: React.ReactNode;
@@ -80,7 +81,8 @@ const PopoverDismissibleLayer = ({ children }: { children: React.ReactNode }) =>
         setOpen(false, { reason: "interactOutside", event });
       }}
       onFocusOutside={() => {
-        // Focus containment is PopoverContent's trapped FocusScope — nothing to do here.
+        // Focus leaving the popover is FloatingFocusManager's call (`closeOnFocusOut` on
+        // PopoverContent); the layer only owns pointer and Escape dismissal.
       }}
       onCascadeDismiss={({ dismissedParent }) => {
         setOpen(false, { reason: "cascadeDismiss", dismissedParent });
@@ -141,47 +143,70 @@ export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositio
 );
 PopoverPositionerPortal.displayName = "PopoverPositionerPortal";
 
+/**
+ * Holds a Radix FocusScope registration for as long as the popover is open, so parent
+ * FocusScopes (Dialog, Drawer, BottomSheet, the Stackflow AppScreen) pause their trap and
+ * focus can reach content rendered in a portal.
+ *
+ * The scope needs no behavior of its own — trapping and the tab loop stay off and both
+ * autofocus events are prevented — so all it does is enter Radix's focusScopesStack, which
+ * is keyed on mount, not on the element it wraps. Hence this empty hidden element rather
+ * than a wrapper around the content: wrapping swaps the element type at the content's
+ * position on every open/close, and React responds by remounting the whole popover subtree,
+ * throwing away form state and scroll position and handing the exit transition a node that
+ * was just built from scratch.
+ *
+ * Mounting only while open is what lands it on top of the stack — a permanently mounted
+ * scope would register at page load, below any Dialog opened later.
+ */
+const FocusScopeRegistration = () => (
+  <FocusScope
+    hidden
+    trapped={false}
+    loop={false}
+    onMountAutoFocus={(event) => event.preventDefault()}
+    onUnmountAutoFocus={(event) => event.preventDefault()}
+  />
+);
+
 export interface PopoverContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((props, ref) => {
   const api = usePopoverContext();
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const content = (
-    <Primitive.div
-      ref={composeRefs(contentRef, ref)}
-      tabIndex={-1}
-      {...mergeProps(api.contentProps, props)}
-    />
-  );
-
-  // Focus management via Radix FocusScope (mirrors Drawer). The dialog renders in a Portal, so:
-  // - Mounting a FocusScope registers it on Radix's focusScopesStack and pauses any trapped
-  //   parent scope (Dialog, Drawer, BottomSheet, or the Stackflow AppScreen) while open.
-  //   Without it the parent traps focus and yanks it back to the trigger, so focus could never
-  //   reach the portaled content.
-  // - trapped + loop keep focus inside the dialog (Radix/Ark parity): Tab wraps within the
-  //   content instead of escaping to the page. Non-modal is preserved — the background is not
-  //   inerted or scroll-locked, only keyboard focus is contained. Keeping focus in also means
-  //   Escape/keyboard dismissal always target this popover.
-  // - onMountAutoFocus focuses the content container (tabIndex=-1) rather than the first
-  //   tabbable, so focus doesn't land on the header close (X) button.
-  // Mounted only while open so mount/unmount maps to open/close: initial focus lands on open,
-  // and FocusScope's default return-focus sends focus back to the trigger on close.
-  return api.open ? (
-    <FocusScope
-      asChild
-      loop
-      trapped
-      onMountAutoFocus={(e) => {
-        e.preventDefault();
-        contentRef.current?.focus();
-      }}
-    >
-      {content}
-    </FocusScope>
-  ) : (
-    content
+  // Focus is managed, not trapped. Opening moves focus into the content, closing returns it
+  // to the trigger, and Tab past the last control leaves for the rest of the page instead of
+  // wrapping. The background stays live throughout: nothing is inerted or scroll-locked.
+  //
+  // `initialFocus` names the content container (tabIndex={-1}) instead of the default first
+  // tabbable, so opening never lands on the header close button.
+  //
+  // Disabled rather than unmounted while closed: FloatingFocusManager sits outside Presence so
+  // it survives an `unmountOnExit` unmount, and its return-focus cleanup still runs off the
+  // open flag rather than off whether the content happens to be in the DOM.
+  //
+  // Presence gates the content element alone. It reads `animation-name` off the node it holds
+  // to tell whether an exit animation is running, so it has to sit on the element the recipe
+  // animates, and that element has to survive the close it is animating.
+  return (
+    <>
+      <FloatingFocusManager
+        context={api.floatingContext}
+        disabled={!api.open}
+        modal={false}
+        initialFocus={contentRef}
+      >
+        <Presence present={api.open} lazyMount={api.lazyMount} unmountOnExit={api.unmountOnExit}>
+          <Primitive.div
+            ref={composeRefs(contentRef, ref)}
+            tabIndex={-1}
+            {...mergeProps(api.contentProps, props)}
+          />
+        </Presence>
+      </FloatingFocusManager>
+      {api.open && <FocusScopeRegistration />}
+    </>
   );
 });
 PopoverContent.displayName = "PopoverContent";
