@@ -20,8 +20,6 @@ function setUp(jsx: ReactElement) {
   };
 }
 
-// src에 기본값을 두지 않는다. 기본 파라미터는 `src={undefined}`를 삼켜서
-// "src 없음" 케이스를 검증할 수 없게 만든다.
 function Avatar({ src, srcSet, ...props }: UseAvatarProps & { src?: string; srcSet?: string }) {
   const { rootProps, getImageProps, fallbackProps } = useAvatar(props);
   return (
@@ -57,7 +55,6 @@ describe("useAvatar", () => {
     expect(image).toHaveAttribute("hidden");
   });
 
-  // srcSet만 있는 반응형 이미지는 src 없이도 로드된다
   it("should not hide a srcSet-only image", () => {
     const { getByAltText } = setUp(<Avatar srcSet={IMAGE_SRC_SET} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
@@ -74,8 +71,6 @@ describe("useAvatar", () => {
     expect(image).not.toHaveAttribute("hidden");
   });
 
-  // fallback이 이니셜 텍스트인 경우가 많아, 로딩 중 alt와 함께 중복 낭독되는 걸 막는다.
-  // 반대로 img를 빼면 하이드레이션 전까지 보이는 이미지에 접근 가능한 이름이 없어진다.
   it("should announce the image, not the fallback, while loading", () => {
     const { getByAltText, getByText } = setUp(<Avatar src={IMAGE_SRC} />);
     expect(getByAltText(IMAGE_ALT_TEXT)).not.toHaveAttribute("aria-hidden");
@@ -113,7 +108,6 @@ describe("useAvatar", () => {
   });
 });
 
-// 위 테스트는 훅을 직접 호출하므로 Avatar.Image가 프로퍼티를 훅에 넘기는지는 검증하지 못한다.
 describe("Avatar.Image", () => {
   function Compound(props: { src?: string; srcSet?: string }) {
     return (

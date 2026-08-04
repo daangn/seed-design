@@ -20,8 +20,6 @@ function setUp(jsx: ReactElement) {
   };
 }
 
-// src에 기본값을 두지 않는다. 기본 파라미터는 `src={undefined}`를 삼켜서
-// "src 없음" 케이스를 검증할 수 없게 만든다.
 function Image({ src, srcSet, ...props }: UseImageProps & { src?: string; srcSet?: string }) {
   const { rootProps, getContentProps, fallbackProps, handleLoad, handleError } = useImage(props);
   return (
@@ -62,7 +60,6 @@ describe("useImage", () => {
     expect(image).toHaveAttribute("hidden");
   });
 
-  // srcSet만 있는 반응형 이미지는 src 없이도 로드된다
   it("should not hide a srcSet-only image", () => {
     const { getByAltText } = setUp(<Image srcSet={IMAGE_SRC_SET} />);
     const image = getByAltText(IMAGE_ALT_TEXT);
@@ -79,8 +76,6 @@ describe("useImage", () => {
     expect(image).not.toHaveAttribute("hidden");
   });
 
-  // 로딩 중에는 alt와 fallback이 둘 다 낭독되지 않도록 fallback만 접근성 트리에서 뺀다.
-  // img를 빼면 하이드레이션 전까지 보이는 이미지에 접근 가능한 이름이 없어진다.
   it("should announce the image, not the fallback, while loading", () => {
     const { getByAltText, getByText } = setUp(<Image src={IMAGE_SRC} />);
     expect(getByAltText(IMAGE_ALT_TEXT)).not.toHaveAttribute("aria-hidden");
@@ -118,9 +113,6 @@ describe("useImage", () => {
   });
 });
 
-// 로딩 상태는 Image.Content가 setSrc로 정하므로 합성 컴포넌트로 확인한다.
-// recipe CSS가 `[data-loading-state='error']`를 숨기기 때문에, srcSet 전용이 error로
-// 분류되면 hidden 속성을 고쳐도 CSS가 다시 숨겨 lazy 데드락이 재발한다.
 describe("Image.Content", () => {
   function Compound(props: { src?: string; srcSet?: string }) {
     return (

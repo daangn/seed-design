@@ -55,7 +55,6 @@ export interface UseAvatarProps extends UseAvatarStateProps {}
 
 export type UseAvatarReturn = ReturnType<typeof useAvatar>;
 
-// srcSet만 있는 반응형 이미지는 src 없이도 로드된다
 function hasSource(src?: string, srcSet?: string) {
   return Boolean(src) || Boolean(srcSet);
 }
@@ -124,7 +123,6 @@ export function useAvatar(props: UseAvatarProps) {
     },
     fallbackProps: elementProps({
       hidden: isLoaded,
-      // 로딩 중에는 이미지의 alt가 이름을 맡는다. 플레이스홀더까지 노출하면 중복 낭독된다.
       "aria-hidden": ariaAttr(loadingStatus === "loading"),
       "data-visible": dataAttr(!isLoaded),
       ...stateProps,
