@@ -1,6 +1,8 @@
 import * as React from "@lynx-js/react";
 import { splitGraphemes } from "unicode-segmenter/grapheme";
 
+import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED } from "./context";
+
 export interface UseTextFieldWithGraphemesParams {
   maxGraphemeCount?: number;
   value?: string;
@@ -60,6 +62,12 @@ export function useTextFieldWithGraphemes({
     textFieldRootProps: {
       value,
       onValueChange: handleValueChange,
+      nativeInsertionMaxLength:
+        maxGraphemeCount === undefined
+          ? undefined
+          : graphemes.length >= maxGraphemeCount
+            ? value.length
+            : NATIVE_TEXT_MAX_LENGTH_UNLIMITED,
     },
     counterProps: {
       current: graphemes.length,

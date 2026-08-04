@@ -1,10 +1,14 @@
 import * as React from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 
+/** iOS와 Android의 32비트 `maxlength` setter에서 사용하는 무제한 센티널. */
+export const NATIVE_TEXT_MAX_LENGTH_UNLIMITED = 2_147_483_647;
+
 export interface TextFieldContextValue {
   rootRef: React.RefObject<NodesRef | null>;
   value: string;
   valueRevision: number;
+  nativeInsertionMaxLength?: number;
   disabled: boolean;
   invalid: boolean;
   readOnly: boolean;
