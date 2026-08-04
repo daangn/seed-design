@@ -1,5 +1,5 @@
 import spec from "@seed-design/rootage-artifacts/components/page-banner";
-import { pageBanner as vars } from "../vars/component";
+import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import {
@@ -15,7 +15,7 @@ import {
 } from "../utils/focus-ring";
 import { vars as tokens } from "../vars";
 
-const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5`;
+const closeButtonNegativeMargin = `(${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5`;
 const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
@@ -124,32 +124,39 @@ const pageBanner = defineSlotRecipe({
       justifyContent: "center",
       alignItems: "center",
 
-      width: vars.base.enabled.suffixIcon.targetSize,
-      height: vars.base.enabled.suffixIcon.targetSize,
+      width: closeButtonVars.base.enabled.root.size,
+      height: closeButtonVars.base.enabled.root.size,
 
       margin: `calc(${closeButtonNegativeMargin})`,
 
-      // Consume suffixIcon margin here, and reset suffix icon margin.
-      marginLeft: `calc(${closeButtonNegativeMargin} + ${vars.base.enabled.suffixIcon.marginLeft})`,
+      // The gap moves to the button, so the icon it wraps must drop the one the
+      // root publishes — otherwise the same gap is spent twice.
+      marginLeft: `calc(${closeButtonNegativeMargin} + ${closeButtonVars.base.enabled.root.marginLeft})`,
       "--seed-suffix-icon-margin-left": "initial",
 
       alignSelf: "center",
 
       border: "none",
-      backgroundColor: "transparent",
+      backgroundColor: closeButtonVars.base.enabled.root.color,
       padding: 0,
       cursor: "pointer",
 
-      borderRadius: tokens.$radius.r1,
+      borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
 
-      // The button itself is transparent, so scaling the whole button scales only
-      // its content (the icon).
+      ...suffixIcon({
+        size: closeButtonVars.base.enabled.icon.size,
+      }),
+
       ...createPressScaleRestStyles(),
       [pseudo(active)]: createPressScaleStyles(),
 
-      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+
+      [pseudo(engaged)]: {
+        backgroundColor: closeButtonVars.base.pressed.root.color,
+      },
     },
   },
   defaultVariants: {
@@ -198,6 +205,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneNeutralVariantWeak.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneNeutralVariantWeak.enabled.icon.color,
+        }),
       },
     },
     {
@@ -227,6 +237,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneNeutralVariantSolid.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneNeutralVariantSolid.enabled.icon.color,
+        }),
       },
     },
     {
@@ -256,6 +269,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneInformativeVariantWeak.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneInformativeVariantWeak.enabled.icon.color,
+        }),
       },
     },
     {
@@ -285,6 +301,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneInformativeVariantSolid.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneInformativeVariantSolid.enabled.icon.color,
+        }),
       },
     },
     {
@@ -314,6 +333,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.tonePositiveVariantWeak.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.tonePositiveVariantWeak.enabled.icon.color,
+        }),
       },
     },
     {
@@ -343,6 +365,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.tonePositiveVariantSolid.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.tonePositiveVariantSolid.enabled.icon.color,
+        }),
       },
     },
     {
@@ -372,6 +397,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneWarningVariantWeak.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneWarningVariantWeak.enabled.icon.color,
+        }),
       },
     },
     {
@@ -401,6 +429,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneWarningVariantSolid.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneWarningVariantSolid.enabled.icon.color,
+        }),
       },
     },
     {
@@ -430,6 +461,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneCriticalVariantWeak.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneCriticalVariantWeak.enabled.icon.color,
+        }),
       },
     },
     {
@@ -459,6 +493,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneCriticalVariantSolid.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneCriticalVariantSolid.enabled.icon.color,
+        }),
       },
     },
     {
@@ -488,6 +525,9 @@ const pageBanner = defineSlotRecipe({
         button: {
           color: vars.toneMagicVariantWeak.enabled.button.color,
         },
+        closeButton: suffixIcon({
+          color: closeButtonVars.toneMagicVariantWeak.enabled.icon.color,
+        }),
       },
     },
   ],

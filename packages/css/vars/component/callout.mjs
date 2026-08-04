@@ -27,8 +27,7 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x4)",
-        "targetSize": "var(--seed-dimension-x10)"
+        "size": "var(--seed-dimension-x4)"
       }
     }
   },

@@ -73,8 +73,6 @@ data:
         properties:
           size:
             type: dimension
-          targetSize:
-            type: dimension
           marginLeft:
             type: dimension
           color:
@@ -117,7 +115,6 @@ data:
           fontWeight: $font-weight.bold
         suffixIcon:
           size: $dimension.x4
-          targetSize: $dimension.x10
           marginLeft: $dimension.x2
       pressed:
         root:

@@ -31,7 +31,6 @@ export const vars = {
       },
       "suffixIcon": {
         "size": "var(--seed-dimension-x4)",
-        "targetSize": "var(--seed-dimension-x10)",
         "marginLeft": "var(--seed-dimension-x2)"
       }
     }
