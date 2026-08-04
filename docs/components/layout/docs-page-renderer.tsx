@@ -1,3 +1,4 @@
+import { JsonLd } from "@/components/json-ld";
 import { LLMOptions } from "@/components/page-actions";
 import { HiddenTocPopover, SeedTableOfContents } from "@/components/table-of-contents";
 import clsx from "clsx";
@@ -96,6 +97,11 @@ export interface DocsPageRendererProps {
    * 제외되므로, Updates 글의 소제목·본문 크기/색을 CSS 파일 없이 이 prop으로 스코프한다.
    */
   bodyClassName?: string;
+  /**
+   * schema.org 구조화 데이터. `lib/seo.ts`의 `buildDocsPageJsonLd(page)` 결과를 넘긴다.
+   * Next `metadata` API로는 `ld+json`을 못 내보내서 여기서 script 태그로 렌더한다.
+   */
+  jsonLd?: object;
   /** 렌더된 MDX 본문 (`<MDX components={mdxComponents} />`) */
   children: ReactNode;
 }
@@ -124,11 +130,13 @@ export function DocsPageRenderer({
   articleClassName,
   titleClassName,
   bodyClassName,
+  jsonLd,
   children,
 }: DocsPageRendererProps) {
   if (layout === "overview") {
     return (
       <>
+        {jsonLd ? <JsonLd data={jsonLd} /> : null}
         <OverviewLayout title={title} description={description} coverImage={coverImage} full={full}>
           {children}
         </OverviewLayout>
@@ -139,6 +147,7 @@ export function DocsPageRenderer({
 
   return (
     <>
+      {jsonLd ? <JsonLd data={jsonLd} /> : null}
       <DocsPage
         // articleClassName은 전달된 라우트(예: Updates)에서만 붙어, 그 라우트 전용 스코프 CSS의
         // 진입점이 된다. 미전달 시 클래스가 붙지 않아 다른 docs 페이지엔 영향이 없다.

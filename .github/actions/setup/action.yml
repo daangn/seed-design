@@ -11,6 +11,11 @@ inputs:
     required: false
     default: 'false'
 
+outputs:
+  build-cache-key-suffix:
+    description: 'OS-independent suffix used for the build output cache key'
+    value: ${{ steps.build-cache-key.outputs.suffix }}
+
 runs:
   using: 'composite'
   steps:
@@ -31,6 +36,14 @@ runs:
       shell: bash
       run: bun install --frozen-lockfile
 
+    - name: Generate build cache key
+      id: build-cache-key
+      if: ${{ inputs.build-packages == 'true' }}
+      shell: bash
+      env:
+        BUILD_CACHE_KEY_SUFFIX: rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
+      run: echo "suffix=$BUILD_CACHE_KEY_SUFFIX" >> "$GITHUB_OUTPUT"
+
     - name: Cache build outputs
       if: ${{ inputs.build-packages == 'true' }}
       id: cache-build
@@ -43,7 +56,7 @@ runs:
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
-        key: ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
+        key: ${{ runner.os }}-build-${{ steps.build-cache-key.outputs.suffix }}
 
     - name: Relink workspace after cache restore
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}

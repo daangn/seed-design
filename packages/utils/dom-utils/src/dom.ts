@@ -19,6 +19,10 @@ export const inputProps = (
   props: React.InputHTMLAttributes<HTMLInputElement> & DataAttr,
 ): WithoutRef<React.InputHTMLAttributes<HTMLInputElement>> => props;
 
+export const selectProps = (
+  props: React.SelectHTMLAttributes<HTMLSelectElement> & DataAttr,
+): WithoutRef<React.SelectHTMLAttributes<HTMLSelectElement>> => props;
+
 export const labelProps = (
   props: React.LabelHTMLAttributes<HTMLLabelElement> & DataAttr,
 ): WithoutRef<React.LabelHTMLAttributes<HTMLLabelElement>> => props;

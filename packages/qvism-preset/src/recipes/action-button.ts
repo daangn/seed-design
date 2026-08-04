@@ -1,6 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/action-button.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/action-button";
 import { actionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";

@@ -111,72 +111,71 @@ export const MenuPositioner = forwardRef<HTMLDivElement, MenuPositionerProps>(
 );
 MenuPositioner.displayName = "MenuPositioner";
 
+/**
+ * Holds a Radix FocusScope registration for as long as the menu is open, so parent
+ * FocusScopes (Dialog, Drawer) pause their trap and focus can reach content
+ * rendered in a portal.
+ *
+ * The scope needs no behavior of its own — trapping and the tab loop stay off and
+ * both autofocus events are prevented — so all it does is enter Radix's
+ * focusScopesStack, which is keyed on mount, not on the element it wraps. Hence
+ * this empty hidden element rather than a wrapper around the content: wrapping
+ * swaps the element type at the content's position on every open/close, and React
+ * responds by remounting the whole menu subtree, handing the exit transition a
+ * scroll container freshly reset to the top.
+ *
+ * Mounting only while open is what lands it on top of the stack — a permanently
+ * mounted scope would register at page load, below any Dialog opened later.
+ */
+const FocusScopeRegistration = () => (
+  <FocusScope
+    hidden
+    trapped={false}
+    loop={false}
+    onMountAutoFocus={(event) => event.preventDefault()}
+    onUnmountAutoFocus={(event) => event.preventDefault()}
+  />
+);
+
 export interface MenuContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, ref) => {
   const { floatingContext, contentProps, open, setOpen, elementsRef, labelsRef } = useMenuContext();
 
-  const content = <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />;
-
   // FloatingFocusManager: handles position-aware initial focus, return focus,
   // closeOnFocusOut, tab order guards, and useListNavigation coordination.
-  //
-  // FocusScope: participates in Radix's focusScopesStack so that parent
-  // FocusScopes (e.g. Dialog, Drawer) are automatically paused while this
-  // Menu is open. Without this, focus cannot leave a trapped parent scope
-  // to reach Menu content rendered in a Portal.
-  //
-  // FocusScope is conditionally rendered (only when open) because Menu
-  // content is always in the DOM (hidden via data-hidden). If FocusScope
-  // were always mounted, it would register in the stack at page load —
-  // before any Dialog — and could never re-register above a Dialog that
-  // mounts later. Mounting only when open ensures it lands at the top of
-  // the stack, pausing the parent scope.
   return (
-    <FloatingFocusManager context={floatingContext} disabled={!open} modal={false}>
-      <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
-        {/* DismissibleLayer must wrap FocusScope, not the other way around.
-            FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
-            DOM element; if DismissibleLayer sits between them, those props are
-            swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
-        <DismissibleLayer
-          enabled={open}
-          pressBehavior="drag"
-          onEscapeKeyDown={(event) => {
-            setOpen(false, { reason: "escapeKeyDown", event });
-          }}
-          onPressOutside={(event) => {
-            setOpen(false, { reason: "interactOutside", event });
-          }}
-          onCascadeDismiss={({ dismissedParent }) => {
-            setOpen(false, { reason: "cascadeDismiss", dismissedParent });
-          }}
-          onFocusOutside={() => {
-            // focus trapping is handled by FloatingFocusManager — nothing to do here
-          }}
-          exclude={(target) => {
-            const reference = floatingContext.refs.reference.current;
-            if (!(reference instanceof HTMLElement)) return false;
+    <>
+      <FloatingFocusManager context={floatingContext} disabled={!open} modal={false}>
+        <FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+          <DismissibleLayer
+            enabled={open}
+            pressBehavior="drag"
+            onEscapeKeyDown={(event) => {
+              setOpen(false, { reason: "escapeKeyDown", event });
+            }}
+            onPressOutside={(event) => {
+              setOpen(false, { reason: "interactOutside", event });
+            }}
+            onCascadeDismiss={({ dismissedParent }) => {
+              setOpen(false, { reason: "cascadeDismiss", dismissedParent });
+            }}
+            onFocusOutside={() => {
+              // focus trapping is handled by FloatingFocusManager — nothing to do here
+            }}
+            exclude={(target) => {
+              const reference = floatingContext.refs.reference.current;
+              if (!(reference instanceof HTMLElement)) return false;
 
-            return reference.contains(target);
-          }}
-        >
-          {open ? (
-            <FocusScope
-              asChild
-              trapped={false}
-              loop={false}
-              onMountAutoFocus={(e) => e.preventDefault()}
-              onUnmountAutoFocus={(e) => e.preventDefault()}
-            >
-              {content}
-            </FocusScope>
-          ) : (
-            content
-          )}
-        </DismissibleLayer>
-      </FloatingList>
-    </FloatingFocusManager>
+              return reference.contains(target);
+            }}
+          >
+            <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />
+          </DismissibleLayer>
+        </FloatingList>
+      </FloatingFocusManager>
+      {open && <FocusScopeRegistration />}
+    </>
   );
 });
 MenuContent.displayName = "MenuContent";

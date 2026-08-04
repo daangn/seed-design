@@ -65,6 +65,14 @@ npx @seed-design/cli@latest compat -c action-button -c alert-dialog
 npx @seed-design/cli@latest compat --all
 ```
 
+구조화 출력이 필요하면 `--json`을 사용합니다.
+
+```bash
+npx @seed-design/cli@latest compat --json
+```
+
+> `compat`은 **스니펫**이 요구하는 범위만 검사합니다. 설치된 패키지들끼리(react↔css) 맞는지는 CLI가 판정하지 않으니 `upgrade.md`의 Step 2를 참고하세요 — 2.x는 `peerDependencies` 선언이 정답이고, 1.x는 [v1 업그레이드 문서](https://seed-design.io/llms/react/updates/upgrade/v1.txt)의 호환표를 봐야 합니다.
+
 ### 5) Docs 조회
 
 컴포넌트/파운데이션에 대한 문서 링크, LLM용 텍스트 링크, 스니펫 링크를 조회합니다.

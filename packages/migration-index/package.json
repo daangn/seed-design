@@ -1,16 +1,19 @@
 {
   "name": "@seed-design/migration-index",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/migration-index"
   },
+  "license": "Apache-2.0",
   "type": "module",
   "main": "./index.mjs",
   "types": "./index.d.ts",
   "files": [
-    "*"
+    "*",
+    "LICENSE",
+    "NOTICE"
   ],
   "exports": {
     ".": {

@@ -3,7 +3,12 @@ import { patternsSource } from "@/app/source";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { mdxComponents } from "@/components/mdx-components";
 import { getComponentStatus } from "@/lib/rootage";
-import { buildDocsPageMetadata, deprecatedTitle, resolveCoverImage } from "@/lib/seo";
+import {
+  buildDocsPageJsonLd,
+  buildDocsPageMetadata,
+  deprecatedTitle,
+  resolveCoverImage,
+} from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -26,6 +31,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   return (
     <DocsPageRenderer
+      jsonLd={buildDocsPageJsonLd(page)}
       title={displayTitle}
       description={page.data.description}
       coverImage={
@@ -64,6 +70,7 @@ export async function generateMetadata(props: {
   const { deprecated } = await getComponentStatus(params, { deprecated: page.data.deprecated });
 
   return buildDocsPageMetadata({
+    url: page.url,
     title: page.data.title,
     heading: page.data.heading,
     description: page.data.description,

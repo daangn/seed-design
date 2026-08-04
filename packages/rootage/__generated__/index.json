@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "resources": [
     {
       "path": "/collections.json"
@@ -28,6 +28,9 @@
     },
     {
       "path": "/components/action-sheet.json"
+    },
+    {
+      "path": "/components/alert-dialog.json"
     },
     {
       "path": "/components/attachment-input-dropzone.json"
@@ -91,6 +94,9 @@
     },
     {
       "path": "/components/control-chip.json"
+    },
+    {
+      "path": "/components/dialog-close-button.json"
     },
     {
       "path": "/components/dialog.json"
@@ -186,6 +192,12 @@
       "path": "/components/progress-circle.json"
     },
     {
+      "path": "/components/quantity-picker-button.json"
+    },
+    {
+      "path": "/components/quantity-picker.json"
+    },
+    {
       "path": "/components/radio-group.json"
     },
     {
@@ -217,6 +229,15 @@
     },
     {
       "path": "/components/select-box.json"
+    },
+    {
+      "path": "/components/select-item.json"
+    },
+    {
+      "path": "/components/select-trigger.json"
+    },
+    {
+      "path": "/components/select.json"
     },
     {
       "path": "/components/side-panel-close-button.json"

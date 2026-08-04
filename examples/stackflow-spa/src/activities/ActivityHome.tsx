@@ -333,8 +333,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "Switch", onClick: () => push("ActivitySwitch", {}) },
         { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
+        { title: "Quantity Picker", onClick: () => push("ActivityQuantityPicker", {}) },
         { title: "RadioGroup", onClick: () => push("ActivityRadioGroup", {}) },
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "Select", onClick: () => push("ActivitySelect", {}) },
         { title: "AttachmentField", onClick: () => push("ActivityAttachmentField", {}) },
         {
           title: "AttachmentDisplayField",
@@ -357,6 +359,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         {
           title: "ResponsiveSidePanel",
           onClick: () => push("ActivityResponsiveSidePanel", {}),
+        },
+        {
+          title: "ResponsiveDialog",
+          onClick: () => push("ActivityResponsiveDialog", {}),
         },
       ],
     },

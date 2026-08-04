@@ -27,6 +27,6 @@ export default function HomePage() {
 export function generateMetadata(): Metadata {
   return buildSeoMetadata({
     title: "SEED Design System",
-    description: "SEED는 당근 제품을 위한 통합된 디자인 언어입니다.",
+    description: "SEED는 당근 제품을 위해 통합된 디자인 언어입니다.",
   });
 }

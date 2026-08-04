@@ -1,11 +1,12 @@
 {
   "name": "@seed-design/react-middle-truncate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/react-headless/middle-truncate"
   },
+  "license": "Apache-2.0",
   "sideEffects": false,
   "type": "module",
   "exports": {
@@ -19,7 +20,9 @@
   "main": "./lib/index.cjs",
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",
@@ -39,8 +42,8 @@
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.2",
-    "@seed-design/dom-utils": "^2.0.0",
-    "@seed-design/react-primitive": "^2.0.0"
+    "@seed-design/dom-utils": "^2.0.1",
+    "@seed-design/react-primitive": "^2.0.1"
   },
   "publishConfig": {
     "access": "public"

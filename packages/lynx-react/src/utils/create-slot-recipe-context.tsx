@@ -24,6 +24,20 @@ function assertNotIntrinsicComponent(Component: ElementType<any>, caller: string
   );
 }
 
+function restoreDefaultProps<P>(
+  props: Record<string, unknown>,
+  defaultProps: Partial<P> | undefined,
+) {
+  if (!defaultProps) return;
+
+  // Explicit `undefined` should not override component-level defaults.
+  for (const key of Object.keys(defaultProps)) {
+    if (props[key] === undefined) {
+      props[key] = defaultProps[key as keyof P];
+    }
+  }
+}
+
 export function createSlotRecipeContext<
   Props extends Record<string, string | boolean | undefined>,
   Classnames extends Record<string, string>,
@@ -93,6 +107,9 @@ export function createSlotRecipeContext<
     const StyledComponent = (innerProps: any) => {
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         Record<string, unknown>;
+
+      restoreDefaultProps(props, defaultProps);
+
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const classNames = recipe(variantProps);
 
@@ -123,6 +140,9 @@ export function createSlotRecipeContext<
 
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
       const props: any = { ...(defaultProps ?? {}), ...useProps(), ...innerProps };
+
+      restoreDefaultProps(props, defaultProps);
+
       const [variantProps, otherProps] = recipe.splitVariantProps(props as Props);
       const classNames = recipe(variantProps);
       const slotClassName: string | undefined = classNames[slot];
@@ -158,6 +178,9 @@ export function createSlotRecipeContext<
 
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
       const props: any = { ...(defaultProps ?? {}), ...innerProps };
+
+      restoreDefaultProps(props, defaultProps);
+
       const classNames = useClassNames();
       const slotClassName: string | undefined = slot ? classNames[slot] : undefined;
       const userClassName: string | undefined = props["className"];

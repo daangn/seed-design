@@ -1,13 +1,13 @@
 {
   "name": "@seed-design/webpack-plugin",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/webpack-plugin"
   },
   "author": "Asher <asher@daangn.com>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "module",
   "exports": {
     ".": {
@@ -26,7 +26,9 @@
   "sideEffects": false,
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",

@@ -51,11 +51,7 @@ function SlotVideo({ enabled, set }: { enabled: boolean; set: VideoSet }) {
       poster={set.poster}
       wrapperClassName="size-full"
       className="size-full scale-[1.04] object-cover"
-      sources={[
-        { media: "(max-width: 767px)", src: set.low, type: "video/mp4" },
-        ...(set.mid ? [{ media: "(max-width: 1439px)", src: set.mid, type: "video/mp4" }] : []),
-        { src: set.high, type: "video/mp4" },
-      ]}
+      src={set.src}
       muted
       loop
       playsInline

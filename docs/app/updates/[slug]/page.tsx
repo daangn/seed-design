@@ -8,7 +8,7 @@ import {
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { mdxComponents } from "@/components/mdx-components";
 import { formatPublishedDate } from "@/lib/format-date";
-import { buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
+import { buildDocsPageJsonLd, buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleShareButton } from "./share-button";
@@ -46,6 +46,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
 
   return (
     <DocsPageRenderer
+      jsonLd={buildDocsPageJsonLd(page)}
       title={page.data.title}
       coverImage={
         coverUrl
@@ -100,8 +101,13 @@ export async function generateMetadata(props: {
   if (!page) notFound();
 
   return buildDocsPageMetadata({
+    url: page.url,
     title: page.data.title,
     description: page.data.description,
     coverImage: page.data.coverImage,
+    // Updates는 블로그성 글이라 og:type을 article로 올리고 발행일을 노출한다.
+    publishedTime: page.data.publishedAt
+      ? new Date(page.data.publishedAt).toISOString()
+      : undefined,
   });
 }

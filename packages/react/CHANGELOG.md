@@ -1,5 +1,124 @@
 # @seed-design/react
 
+## 2.1.0
+
+### Minor Changes
+
+- 4dad2e9: 트리거를 눌러 열리는 목록에서 값을 선택하는 Select 컴포넌트를 추가합니다.
+
+  - `multiple`로 다중 선택을, `SelectGroup`으로 옵션 그룹과 그룹 라벨을 지원합니다.
+  - 키보드 탐색을 지원하며, `size`·`disabled`·`readOnly`·`invalid` 상태를 제공합니다.
+  - `label`, `description`, `errorMessage`로 Field와 연동되고, `name`으로 폼 제출 값의 키를 지정합니다.
+
+  ```tsx
+  <SelectRoot label="과일" defaultValue={["apple"]} name="fruit">
+    <SelectTrigger placeholder="과일을 선택하세요" />
+    <SelectContent>
+      <SelectGroup>
+        <SelectItem value="apple" label="사과" />
+        <SelectItem value="banana" label="바나나" />
+      </SelectGroup>
+    </SelectContent>
+  </SelectRoot>
+  ```
+
+- dbad313: Select, QuantityPicker, Dialog의 스타일을 사용할 수 있도록 `@seed-design/react`의 `@seed-design/css` peerDependency의 floor를 `^2.0.0`에서 `^2.3.0`으로 올립니다.
+- 6ba7292: 기존 Alert Dialog와 별개로, 범용 Dialog와 ResponsiveDialog를 추가합니다.
+
+  - `Dialog`: `medium`, `large` size를 지원하며, 본문이 길면 Body가 스크롤되고 상단에 divider와 하단 fade가 나타납니다.
+  - `ResponsiveDialog`: `md` 이상에서는 Dialog로, 그 아래에서는 Bottom Sheet로 렌더링합니다.
+  - `ui:dialog`, `ui:responsive-dialog` snippet으로 설치할 수 있습니다.
+
+  ```tsx
+  <DialogRoot size="medium">
+    <DialogTrigger asChild>
+      <ActionButton>열기</ActionButton>
+    </DialogTrigger>
+    <DialogContent title="제목" description="설명">
+      <DialogBody>{/* ... */}</DialogBody>
+      <DialogFooter>
+        <HStack gap="x2" justify="flex-end">
+          <DialogAction variant="neutralWeak">취소</DialogAction>
+          <DialogAction variant="neutralSolid">확인</DialogAction>
+        </HStack>
+      </DialogFooter>
+    </DialogContent>
+  </DialogRoot>
+  ```
+
+- 19f07f5: QuantityPicker 컴포넌트를 추가합니다.
+
+  - 지정한 최소·최대 수량 범위에서 값을 증감할 수 있으며, 최소 수량에서 제거 동작을 지원합니다.
+  - `size`, `disabled`, `readOnly`, `invalid`, 증감 중 loading 상태를 지원합니다.
+  - 폼 제출에 사용할 수 있는 `QuantityPicker.HiddenInput`을 제공합니다.
+  - `ui:quantity-picker` snippet으로 설치할 수 있으며, `@seed-design/css@^2.3.0`을 사용합니다.
+
+  ```tsx
+  <QuantityPicker.Root min={0} max={99} defaultValue={1}>
+    <QuantityPicker.DecrementButton icon={<IconMinusLine />} />
+    <QuantityPicker.ValueDisplay />
+    <QuantityPicker.IncrementButton icon={<IconPlusLine />} />
+    <QuantityPicker.HiddenInput name="quantity" />
+  </QuantityPicker.Root>
+  ```
+
+### Patch Changes
+
+- Updated dependencies [4dad2e9]
+- Updated dependencies [19f07f5]
+  - @seed-design/dom-utils@2.1.0
+  - @seed-design/react-select@1.0.0
+  - @seed-design/react-quantity-picker@1.0.0
+
+## 2.0.5
+
+### Patch Changes
+
+- 26c8fac: `DialogActionProps`가 `DialogAction`이 실제로 받는 props를 나타내도록 수정합니다. `type`, `disabled`, `form`, `value` 등 button 전용 속성이 포함됩니다.
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- Updated dependencies [270c93d]
+- Updated dependencies [fb6f9c4]
+  - @seed-design/dom-utils@2.0.1
+  - @seed-design/react-accordion@1.0.1
+  - @seed-design/react-attachment-display@1.0.1
+  - @seed-design/react-avatar@2.0.1
+  - @seed-design/react-checkbox@2.0.1
+  - @seed-design/react-collapsible@1.0.1
+  - @seed-design/react-dialog@2.0.2
+  - @seed-design/react-drawer@2.0.2
+  - @seed-design/react-field@2.0.1
+  - @seed-design/react-field-button@2.0.1
+  - @seed-design/react-fieldset@1.0.1
+  - @seed-design/react-file-upload@1.0.1
+  - @seed-design/react-image@1.0.1
+  - @seed-design/react-menu@2.0.1
+  - @seed-design/react-middle-truncate@1.0.1
+  - @seed-design/react-navigation-menu@2.0.1
+  - @seed-design/react-popover@2.0.1
+  - @seed-design/react-portal@2.0.1
+  - @seed-design/react-primitive@2.0.1
+  - @seed-design/react-progress@2.0.1
+  - @seed-design/react-pull-to-refresh@2.0.1
+  - @seed-design/react-radio-group@2.0.1
+  - @seed-design/react-segmented-control@2.0.2
+  - @seed-design/react-side-navigation@1.0.1
+  - @seed-design/react-slider@2.0.1
+  - @seed-design/react-snackbar@2.0.1
+  - @seed-design/react-switch@2.0.1
+  - @seed-design/react-tabs@2.0.1
+  - @seed-design/react-text-field@2.0.1
+  - @seed-design/react-toggle@2.0.1
+  - @seed-design/react-tooltip@1.0.1
+
+## 2.0.4
+
+### Patch Changes
+
+- 001f539: `DialogRoot` 등 컴포넌트에 `undefined` prop을 전달했을 때 각 컴포넌트의 기본값이 적용되지 않는 문제를 수정합니다.
+
 ## 2.0.3
 
 ### Patch Changes

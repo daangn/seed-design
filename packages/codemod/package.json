@@ -1,15 +1,17 @@
 {
   "name": "@seed-design/codemod",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/codemod"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bin": "./bin/index.cjs",
   "files": [
-    "bin"
+    "bin",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "dev": "bun ./dev.mjs",
@@ -37,7 +39,7 @@
     "csv-parse": "^6.0.0",
     "dotenv": "^17.0.0",
     "esbuild": "^0.27.0",
-    "typescript": "^6.0.0"
+    "typescript": "^7.0.2"
   },
   "optionalDependencies": {
     "@karrotmarket/react-monochrome-icon": "^1.17.0",

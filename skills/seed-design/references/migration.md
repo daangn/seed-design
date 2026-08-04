@@ -1,4 +1,6 @@
-# Migration
+# Migration (스니펫)
+
+> 패키지 버전 업그레이드·호환 진단(react↔css, changelog, 마이그레이션 경로)은 `upgrade.md`를 참고하세요. 이 문서는 **스니펫**을 프로젝트 버전에 맞추고 파일 충돌을 해결하는 방법입니다.
 
 ## Pre-Check Compatibility
 
@@ -8,7 +10,29 @@
 npx @seed-design/cli@latest compat
 ```
 
-호환성 이슈가 있으면 종료 코드 `1`로 끝나므로 CI에서도 게이트로 사용할 수 있습니다.
+호환성 이슈가 있으면 종료 코드 `1`로 끝나므로 CI에서도 게이트로 사용할 수 있습니다. 이 명령은 **스니펫만** 검사합니다 — react↔css 패키지 간 호환은 아래 절차나 `upgrade.md` Step 2를 따르세요.
+
+## Package Version Compatibility
+
+`compat`은 **스니펫**이 요구하는 범위만 검사합니다. `@seed-design/react`·`@seed-design/css`·`@seed-design/stackflow` **패키지끼리** 맞는지는 아래 기준으로 판단합니다.
+
+**SEED React 2 이상이면 `peerDependencies` 선언이 곧 정답입니다.** 2.0.0부터 strict SemVer를 따르므로 설치본의 선언을 그대로 신뢰하면 됩니다.
+
+```bash
+cat node_modules/@seed-design/react/package.json | grep -A5 peerDependencies
+```
+
+**1.x 구간은 선언에 상한이 없거나 누락된 경우가 있어 선언만으로 판단하면 안 됩니다.** 이 시기의 호환표와 알려진 비호환 조합은 아래 문서에 정리돼 있으니, 1.x 조합을 판정해야 하면 반드시 먼저 읽습니다.
+
+- `https://seed-design.io/llms/react/updates/upgrade/v1.txt` (섹션: 패키지 간 버전 호환성)
+
+핵심 규칙만 요약하면 이렇습니다. 정확한 하한과 예외는 위 문서의 표를 따릅니다.
+
+- `@seed-design/css`는 `@seed-design/react`와 **같은 마이너 라인**이어야 하고, 표의 하한 이상이어야 합니다. 라인이 다르면(react 1.1.x + css 1.2.x) 호환되지 않습니다.
+- `@seed-design/stackflow`는 1.2 라인이 없어 1.1 라인이 css 1.1·1.2를 함께 지원합니다. 단 WAAPI 경계(stackflow 1.1.22 / css 1.1.25·1.2.11)를 섞으면 화면 전환이 깨집니다.
+- 표에 없는(문서 작성 이후 배포된) 버전은 위 `peerDependencies` 확인 방식으로 판정합니다.
+
+버전 구간을 추측하지 말고 문서의 표를 실제로 읽고 대조합니다.
 
 ## Install Compatible Snippets
 
@@ -37,6 +61,14 @@ CLI는 파일 내용이 다르면 diff를 보여주고 아래 중 하나를 선�
 1. `overwrite`: 기존 파일을 새 내용으로 덮어쓰기
 2. `backup`: 기존 파일을 `legacy-<파일명>-<timestamp>`로 백업 후 교체
 3. `skip`: 현재 파일 유지
+
+비대화형(CI·스크립트)에서는 `--on-diff` 플래그로 미리 정합니다.
+
+```bash
+npx @seed-design/cli@latest add --on-diff backup ui:action-button
+```
+
+`--on-diff`는 `overwrite` | `backup`만 받습니다. `skip`은 인터랙티브 선택에서만 가능합니다.
 
 ## Decision Guide
 

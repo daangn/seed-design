@@ -1,0 +1,101 @@
+---
+title: Quantity Picker
+description: 정수 단위의 수량을 늘리거나 줄일 때 사용하는 컴포넌트입니다.
+featured: true
+---
+
+<AvailableSince packages="@seed-design/react@2.1.0, @seed-design/css@2.3.0" />
+
+<ComponentExample name="react/quantity-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:quantity-picker
+```
+
+<ManualInstallation name="quantity-picker" />
+
+## Props
+
+<react-type-table path="./registry/react/ui/quantity-picker.tsx" name="QuantityPickerProps" />
+
+## Examples
+
+### Value Text
+
+`getValueText`를 사용하면 표시되는 수량에 단위나 보조 설명을 덧붙일 수 있습니다.
+
+<ComponentExample name="react/quantity-picker/value-text">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/value-text.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+`value`와 `onValueChange`를 사용해 수량 상태를 외부에서 제어할 수 있습니다.
+
+<ComponentExample name="react/quantity-picker/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Removable
+
+`removable`을 사용하면 값이 `min`에 도달했을 때 Decrement 버튼이 Remove 버튼으로 전환됩니다. `onRemove`에서 제거 동작을 처리하세요.
+
+<ComponentExample name="react/quantity-picker/removable">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/removable.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Loading
+
+`loading`으로 모든 action 또는 특정 action의 실행을 일시적으로 막고 loading indicator를 표시할 수 있습니다.
+
+<ComponentExample name="react/quantity-picker/loading">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/loading.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Form
+
+`inputProps`에 `name`을 전달하면 현재 수량이 hidden input으로 제출됩니다.
+
+<ComponentExample name="react/quantity-picker/form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Accessibility
+
+Root에는 Quantity Picker의 용도를 설명하는 `aria-label` 또는 `aria-labelledby`를 제공하세요. 필요하면 `decrementAriaLabel`, `incrementAriaLabel`, `removeAriaLabel`로 각 action의 접근성 이름을 맥락에 맞게 변경할 수 있습니다.
+
+`getValueText`를 사용하면 ValueDisplay의 숫자를 사람이 읽기 쉬운 텍스트로 제공할 수 있습니다. 이 값은 hidden input에 제출되는 raw integer 값에 영향을 주지 않습니다.

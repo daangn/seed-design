@@ -27,6 +27,9 @@
     border-radius: var(--seed-radius-full);
     overflow: hidden;
 }
+.seed-slider__track:is(:disabled, [disabled], [data-disabled]) {
+    background-color: var(--seed-color-bg-disabled);
+}
 .seed-slider__range {
     position: absolute;
     height: 100%;
