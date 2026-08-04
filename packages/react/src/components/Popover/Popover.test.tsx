@@ -4,9 +4,12 @@ import { describe, expect, it } from "bun:test";
 
 import {
   PopoverBody,
+  PopoverCloseButton,
   PopoverContent,
+  PopoverHeader,
   PopoverPositionerPortal,
   PopoverRoot,
+  PopoverTitle,
   PopoverTrigger,
   type PopoverRootProps,
 } from "./Popover";
@@ -127,5 +130,63 @@ describe("PopoverBody", () => {
 
     setScrollMetrics(body, { scrollTop: 40, scrollHeight: 400, clientHeight: 200 });
     expect(body).toHaveAttribute("data-scrolled");
+  });
+
+  // The bottom padding the recipe applies off data-overflow is itself part of scrollHeight,
+  // so counting it as overflow would keep the flag latched on a body that already fits.
+  it("discounts the body's own bottom padding when measuring overflow", async () => {
+    const { getByTestId } = render(<BasicPopover defaultOpen />);
+    await waitForPositioning();
+
+    const body = getByTestId("body");
+    body.style.paddingBottom = "24px";
+    setScrollMetrics(body, { scrollHeight: 220, clientHeight: 200 });
+    expect(body).not.toHaveAttribute("data-overflow");
+
+    // Same box, less padding: the 20px the content actually overflows by is now uncovered.
+    body.style.paddingBottom = "10px";
+    setScrollMetrics(body, { scrollHeight: 220, clientHeight: 200 });
+    expect(body).toHaveAttribute("data-overflow");
+  });
+});
+
+describe("PopoverHeader", () => {
+  // The close button owns the header's trailing space, and it is optional — the header only
+  // reserves that space when one is actually rendered.
+  it("flags the header while a close button renders", async () => {
+    const { getByTestId } = render(
+      <PopoverRoot defaultOpen>
+        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverPositionerPortal>
+          <PopoverContent aria-label="Popover">
+            <PopoverHeader data-testid="header">
+              <PopoverTitle>Title</PopoverTitle>
+              <PopoverCloseButton>Close</PopoverCloseButton>
+            </PopoverHeader>
+          </PopoverContent>
+        </PopoverPositionerPortal>
+      </PopoverRoot>,
+    );
+    await waitForPositioning();
+
+    expect(getByTestId("header")).toHaveAttribute("data-show-close-button");
+  });
+
+  it("leaves the header unflagged without a close button", async () => {
+    const { getByTestId } = render(
+      <PopoverRoot defaultOpen>
+        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverPositionerPortal>
+          <PopoverContent aria-label="Popover">
+            <PopoverHeader data-testid="header">
+              <PopoverTitle>Title</PopoverTitle>
+            </PopoverHeader>
+          </PopoverContent>
+        </PopoverPositionerPortal>
+      </PopoverRoot>,
+    );
+    await waitForPositioning();
+
+    expect(getByTestId("header")).not.toHaveAttribute("data-show-close-button");
   });
 });

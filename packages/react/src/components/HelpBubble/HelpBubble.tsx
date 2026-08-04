@@ -15,7 +15,12 @@ const withStateProps = createWithStateProps([usePopoverContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleRootProps extends HelpBubbleVariantProps, PopoverPrimitive.RootProps {
+// `lazyMount` and `unmountOnExit` are dropped from the inherited popover props on purpose:
+// presence gating lives on `PopoverContent`, and HelpBubble builds its content out of a plain
+// `Primitive.div` instead, so both props would type-check and do nothing.
+export interface HelpBubbleRootProps
+  extends HelpBubbleVariantProps,
+    Omit<PopoverPrimitive.RootProps, "lazyMount" | "unmountOnExit"> {
   /**
    * @default "top"
    */
