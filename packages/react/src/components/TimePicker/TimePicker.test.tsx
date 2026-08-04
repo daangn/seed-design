@@ -121,6 +121,31 @@ describe("TimePicker", () => {
     jest.useRealTimers();
   });
 
+  it("Hour가 12시 경계를 지나면 Period를 부드럽게 전환한다", () => {
+    jest.useFakeTimers();
+    const previousScrollTo = HTMLElement.prototype.scrollTo;
+    const smoothScrolls: Array<{ element: HTMLElement; top: number }> = [];
+    HTMLElement.prototype.scrollTo = function scrollTo(options) {
+      if (typeof options !== "object" || options.top === undefined) return;
+
+      this.scrollTop = options.top;
+      if (options.behavior === "smooth") {
+        smoothScrolls.push({ element: this, top: options.top });
+      }
+    };
+    const { getAllByRole } = render(<TimePicker defaultValue={{ hour: 11, minute: 0 }} />);
+    const [periodColumn, hourColumn] = getAllByRole("spinbutton");
+
+    fireEvent.keyDown(hourColumn, { key: "ArrowDown" });
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(periodColumn).toHaveAttribute("aria-valuetext", "오후");
+    expect(smoothScrolls).toContainEqual({ element: periodColumn, top: 44 });
+
+    HTMLElement.prototype.scrollTo = previousScrollTo;
+    jest.useRealTimers();
+  });
+
   it("disabled는 컬럼을 tab 순서에서 제외한다", () => {
     const { getAllByRole } = render(<TimePicker disabled />);
 

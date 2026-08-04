@@ -134,7 +134,7 @@ describe("WheelPicker", () => {
     });
 
     expect(onValueChange).toHaveBeenCalledTimes(1);
-    expect(onValueChange).toHaveBeenCalledWith("b");
+    expect(onValueChange).toHaveBeenCalledWith("b", { stepDelta: 1 });
 
     fireEvent(column, new Event("scrollend"));
     expect(onValueChange).toHaveBeenCalledTimes(1);
@@ -164,7 +164,7 @@ describe("WheelPicker", () => {
     });
 
     expect(onValueChange).toHaveBeenCalledTimes(1);
-    expect(onValueChange).toHaveBeenCalledWith("b");
+    expect(onValueChange).toHaveBeenCalledWith("b", { stepDelta: 1 });
     jest.useRealTimers();
   });
 
@@ -226,7 +226,7 @@ describe("WheelPicker", () => {
     expect(column).not.toHaveAttribute("data-wheel-picker-scrolling");
     expect(column.scrollTop).toBe(200);
     expect(onValueChange).toHaveBeenCalledTimes(1);
-    expect(onValueChange).toHaveBeenCalledWith("f");
+    expect(onValueChange).toHaveBeenCalledWith("f", { stepDelta: 5 });
     window.requestAnimationFrame = requestAnimationFrame;
     window.cancelAnimationFrame = cancelAnimationFrame;
     jest.useRealTimers();
@@ -332,7 +332,9 @@ describe("WheelPicker", () => {
 
     expect(column.scrollTop).toBe(centralPhysicalIndex * 40);
     expect(column.children[centralPhysicalIndex]).toHaveAttribute("data-selected");
-    expect(onValueChange).toHaveBeenCalledWith(options[logicalIndex].value);
+    expect(onValueChange).toHaveBeenCalledWith(options[logicalIndex].value, {
+      stepDelta: expect.any(Number),
+    });
     jest.useRealTimers();
   });
 
@@ -357,7 +359,7 @@ describe("WheelPicker", () => {
 
     expect(column.scrollTop).toBe(settledPhysicalIndex * 40);
     expect(column.children[settledPhysicalIndex]).toHaveAttribute("data-selected");
-    expect(onValueChange).toHaveBeenCalledWith("b");
+    expect(onValueChange).toHaveBeenCalledWith("b", { stepDelta: 16 });
     jest.useRealTimers();
   });
 
@@ -515,12 +517,12 @@ describe("WheelPicker", () => {
 
     fireEvent.keyDown(column, { key: "End" });
     act(() => jest.advanceTimersByTime(120));
-    expect(onValueChange).toHaveBeenLastCalledWith("c");
+    expect(onValueChange).toHaveBeenLastCalledWith("c", { stepDelta: 1 });
 
     column.scrollTop = 80;
     fireEvent.keyDown(column, { key: "Home" });
     act(() => jest.advanceTimersByTime(120));
-    expect(onValueChange).toHaveBeenLastCalledWith("a");
+    expect(onValueChange).toHaveBeenLastCalledWith("a", { stepDelta: -2 });
     jest.useRealTimers();
   });
 
@@ -575,7 +577,7 @@ describe("WheelPicker", () => {
     expect(column.scrollTop).toBeLessThan(maxScrollTop);
 
     act(() => jest.advanceTimersByTime(120));
-    expect(onValueChange).toHaveBeenLastCalledWith("b");
+    expect(onValueChange).toHaveBeenLastCalledWith("b", { stepDelta: expect.any(Number) });
 
     HTMLElement.prototype.scrollTo = previousScrollTo;
     jest.useRealTimers();
@@ -592,7 +594,7 @@ describe("WheelPicker", () => {
     fireEvent.keyDown(column, { key: "ArrowUp" });
     act(() => jest.advanceTimersByTime(120));
 
-    expect(onValueChange).toHaveBeenCalledWith("c");
+    expect(onValueChange).toHaveBeenCalledWith("c", { stepDelta: -1 });
     jest.useRealTimers();
   });
 

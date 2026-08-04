@@ -42,7 +42,11 @@ export interface TimePickerColumn {
   options: readonly TimePickerOption[];
   value: string;
   loop: boolean;
-  onValueChange: (value: string) => void;
+  onValueChange: (value: string, details?: TimePickerColumnValueChangeDetails) => void;
+}
+
+export interface TimePickerColumnValueChangeDetails {
+  stepDelta: number;
 }
 
 export interface UseTimePickerProps {
@@ -130,6 +134,10 @@ function getDisplayHour(hour: number) {
 function getHourFromPeriod(displayHour: number, period: string) {
   if (displayHour === 12) return period === "am" ? 0 : 12;
   return period === "am" ? displayHour : displayHour + 12;
+}
+
+function addHours(hour: number, amount: number) {
+  return (hour + (amount % 24) + 24) % 24;
 }
 
 function getFormatDate(hour: number, minute = 0) {
@@ -254,9 +262,11 @@ export function useTimePicker({
     options: hourOptions,
     value: String(getDisplayHour(value.hour)),
     loop: true,
-    onValueChange: (hour) => {
+    onValueChange: (hour, details) => {
       if (!isInteractive) return;
-      const nextHour = getHourFromPeriod(Number(hour), getPeriod(value.hour));
+      const nextHour = details
+        ? addHours(value.hour, details.stepDelta)
+        : getHourFromPeriod(Number(hour), getPeriod(value.hour));
       if (nextHour === value.hour) return;
       setValue({ hour: nextHour, minute: value.minute });
     },

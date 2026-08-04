@@ -9,5 +9,6 @@ export type {
   UseWheelPickerColumnProps,
   WheelPickerOption,
   WheelPickerOptionProps,
+  WheelPickerValueChangeDetails,
 } from "./useWheelPickerColumn";
 export * as WheelPicker from "./WheelPicker.namespace";

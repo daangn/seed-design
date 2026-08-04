@@ -27,15 +27,29 @@ export interface WheelPickerOption {
   label: React.ReactNode;
 }
 
+export interface WheelPickerValueChangeDetails {
+  /**
+   * 이전에 정착한 항목에서 새 항목까지 이동한 단계 수입니다.
+   * 아래로 이동하면 양수, 위로 이동하면 음수입니다.
+   */
+  stepDelta: number;
+}
+
 export interface UseWheelPickerColumnProps {
   options: readonly WheelPickerOption[];
   value?: string;
   defaultValue?: string;
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: string, details: WheelPickerValueChangeDetails) => void;
   /**
    * @default false
    */
   loop?: boolean;
+  /**
+   * 외부에서 `value`가 변경되었을 때 컬럼이 새 값으로 이동하는 방식입니다.
+   *
+   * @default "auto"
+   */
+  valueChangeBehavior?: ScrollBehavior;
   getAriaValueText?: (value: string) => string;
 }
 
@@ -68,6 +82,7 @@ export function useWheelPickerColumn({
   defaultValue,
   onValueChange,
   loop = false,
+  valueChangeBehavior = "auto",
   getAriaValueText,
 }: UseWheelPickerColumnProps) {
   const { itemSize, visibleItemCount, disabled, readOnly } = useWheelPickerContext();
@@ -79,10 +94,11 @@ export function useWheelPickerColumn({
   const resolvedDefaultValue =
     defaultValue !== undefined && optionValues.has(defaultValue) ? defaultValue : fallbackValue;
 
+  const valueChangeDetailsRef = React.useRef<WheelPickerValueChangeDetails>({ stepDelta: 0 });
   const [value, setValue] = useControllableState({
     prop: valueProp,
     defaultProp: resolvedDefaultValue,
-    onChange: onValueChange,
+    onChange: (nextValue) => onValueChange?.(nextValue, valueChangeDetailsRef.current),
   });
 
   const resolvedValue = value !== undefined && optionValues.has(value) ? value : fallbackValue;
@@ -119,6 +135,7 @@ export function useWheelPickerColumn({
   const selectedElementRef = React.useRef<HTMLElement | null>(null);
   const indicatorOverlapElementsRef = React.useRef<HTMLElement[]>([]);
   const hasInitializedScrollPositionRef = React.useRef(false);
+  const lastSettledPhysicalIndexRef = React.useRef(centralPhysicalIndex);
   const keyboardTargetPhysicalIndexRef = React.useRef<number | null>(null);
   const isTouchingRef = React.useRef(false);
   const pointerDragRef = React.useRef<{
@@ -245,6 +262,9 @@ export function useWheelPickerColumn({
     }
 
     if (nextValue !== undefined && nextValue !== resolvedValue) {
+      valueChangeDetailsRef.current = {
+        stepDelta: nearestPhysicalIndex - lastSettledPhysicalIndexRef.current,
+      };
       setValue(nextValue);
     }
 
@@ -264,10 +284,14 @@ export function useWheelPickerColumn({
         scrollToPhysicalIndex(nextCentralPhysicalIndex, "auto");
         updateVisualSelection(nextCentralPhysicalIndex);
       }
+      lastSettledPhysicalIndexRef.current = shouldRecenter
+        ? nextCentralPhysicalIndex
+        : nearestPhysicalIndex;
       keyboardTargetPhysicalIndexRef.current = shouldRecenter
         ? nextCentralPhysicalIndex
         : nearestPhysicalIndex;
     } else {
+      lastSettledPhysicalIndexRef.current = nearestPhysicalIndex;
       keyboardTargetPhysicalIndexRef.current = nearestPhysicalIndex;
     }
   }, [
@@ -411,7 +435,11 @@ export function useWheelPickerColumn({
         : bufferCycleCount;
       const offsetInCycle = ((column.scrollTop % cycleSize) + cycleSize) % cycleSize;
 
+      const previousScrollTop = column.scrollTop;
       column.scrollTop = targetCycle * cycleSize + offsetInCycle;
+      lastSettledPhysicalIndexRef.current += Math.round(
+        (column.scrollTop - previousScrollTop) / itemSize,
+      );
       updateVisualSelection(getNearestPhysicalIndex());
     },
     [
@@ -714,13 +742,21 @@ export function useWheelPickerColumn({
       toLogicalIndex(currentPhysicalIndex, options.length) === logicalIndex
     ) {
       updateVisualSelection(currentPhysicalIndex);
+      lastSettledPhysicalIndexRef.current = currentPhysicalIndex;
       keyboardTargetPhysicalIndexRef.current = currentPhysicalIndex;
       return;
     }
 
+    const hasInitialized = hasInitializedScrollPositionRef.current;
+    const behavior = hasInitialized && !prefersReducedMotion() ? valueChangeBehavior : "auto";
     hasInitializedScrollPositionRef.current = true;
-    columnRef.current.scrollTop = centralPhysicalIndex * itemSize;
+    if (hasInitialized) {
+      scrollToPhysicalIndex(centralPhysicalIndex, behavior);
+    } else {
+      columnRef.current.scrollTop = centralPhysicalIndex * itemSize;
+    }
     updateVisualSelection(centralPhysicalIndex);
+    lastSettledPhysicalIndexRef.current = centralPhysicalIndex;
     keyboardTargetPhysicalIndexRef.current = centralPhysicalIndex;
   }, [
     centralPhysicalIndex,
@@ -728,7 +764,9 @@ export function useWheelPickerColumn({
     itemSize,
     logicalIndex,
     options.length,
+    scrollToPhysicalIndex,
     updateVisualSelection,
+    valueChangeBehavior,
   ]);
 
   React.useEffect(() => {

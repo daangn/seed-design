@@ -91,6 +91,38 @@ describe("useTimePicker", () => {
     expect(lateNight.result.current.columns.hour.value).toBe("11");
   });
 
+  it("Hour 컬럼이 12시 경계를 지나면 Period를 함께 전환한다", () => {
+    const noon = renderTimePicker({ defaultValue: { hour: 11, minute: 5 } });
+
+    act(() => noon.result.current.columns.hour.onValueChange("12", { stepDelta: 1 }));
+
+    expect(noon.result.current.value).toEqual({ hour: 12, minute: 5 });
+    expect(noon.result.current.columns.period.value).toBe("pm");
+
+    const midnight = renderTimePicker({ defaultValue: { hour: 23, minute: 5 } });
+
+    act(() => midnight.result.current.columns.hour.onValueChange("12", { stepDelta: 1 }));
+
+    expect(midnight.result.current.value).toEqual({ hour: 0, minute: 5 });
+    expect(midnight.result.current.columns.period.value).toBe("am");
+  });
+
+  it("Hour 컬럼을 역방향으로 12시 경계 너머 이동하면 Period를 되돌린다", () => {
+    const beforeNoon = renderTimePicker({ defaultValue: { hour: 12, minute: 5 } });
+
+    act(() => beforeNoon.result.current.columns.hour.onValueChange("11", { stepDelta: -1 }));
+
+    expect(beforeNoon.result.current.value).toEqual({ hour: 11, minute: 5 });
+    expect(beforeNoon.result.current.columns.period.value).toBe("am");
+
+    const previousDay = renderTimePicker({ defaultValue: { hour: 0, minute: 5 } });
+
+    act(() => previousDay.result.current.columns.hour.onValueChange("11", { stepDelta: -1 }));
+
+    expect(previousDay.result.current.value).toEqual({ hour: 23, minute: 5 });
+    expect(previousDay.result.current.columns.period.value).toBe("pm");
+  });
+
   it("locale에 따라 option label과 column 순서를 구성한다", () => {
     const ko = renderTimePicker({ locale: "ko-KR" });
     const en = renderTimePicker({ locale: "en-US" });

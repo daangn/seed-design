@@ -150,6 +150,7 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
               value={column.value}
               onValueChange={column.onValueChange}
               loop={column.loop}
+              valueChangeBehavior={type === "period" ? "smooth" : "auto"}
             />
           );
         })}

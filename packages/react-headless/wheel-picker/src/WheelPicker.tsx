@@ -77,6 +77,7 @@ export const WheelPickerColumn = React.forwardRef<HTMLDivElement, WheelPickerCol
       defaultValue,
       onValueChange,
       loop,
+      valueChangeBehavior,
       getAriaValueText,
       renderOption,
       ...props
@@ -89,6 +90,7 @@ export const WheelPickerColumn = React.forwardRef<HTMLDivElement, WheelPickerCol
       defaultValue,
       onValueChange,
       loop,
+      valueChangeBehavior,
       getAriaValueText,
     });
 
