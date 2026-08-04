@@ -8,7 +8,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { useKeyboardAvoidanceActions } from "../KeyboardAvoidingScrollView/context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { useFieldContext } from "../Field/context";
-import { TextFieldContext } from "./context";
+import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED, TextFieldContext } from "./context";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(textInput);
 
@@ -27,6 +27,8 @@ export interface TextFieldRootProps
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
+  /** @internal `useTextFieldWithGraphemes`가 전달하는 네이티브 입력 사전 제한 값. */
+  nativeInsertionMaxLength?: number;
   required?: boolean;
   name?: string;
 }
@@ -40,6 +42,7 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
       value: controlledValue,
       defaultValue = "",
       onValueChange,
+      nativeInsertionMaxLength,
       required: requiredProp,
       name,
       ...nativeProps
@@ -109,6 +112,7 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
         rootRef,
         value,
         valueRevision,
+        nativeInsertionMaxLength,
         disabled,
         invalid,
         readOnly,
@@ -123,6 +127,7 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
         focused,
         invalid,
         name,
+        nativeInsertionMaxLength,
         readOnly,
         required,
         setFocused,
@@ -153,6 +158,52 @@ type NativeTextareaProps = IntrinsicElements["textarea"];
 type NativeInputEvent = Parameters<NonNullable<NativeInputProps["bindinput"]>>[0];
 type NativeTextareaEvent = Parameters<NonNullable<NativeTextareaProps["bindinput"]>>[0];
 
+interface NativeSelectionDetail {
+  selectionStart: number;
+  selectionEnd: number;
+}
+
+interface NativeEditingState extends NativeSelectionDetail {
+  isComposing: boolean;
+}
+
+function resolveNativeMaxLength(
+  explicitMaxLength: number | undefined,
+  insertionMaxLength: number | undefined,
+): number | undefined {
+  if (explicitMaxLength === undefined) return insertionMaxLength;
+  if (insertionMaxLength === undefined) return explicitMaxLength;
+
+  return Math.min(explicitMaxLength, insertionMaxLength);
+}
+
+function useWasDefined(value: unknown): boolean {
+  const isDefined = value !== undefined;
+  const [wasDefined, setWasDefined] = React.useState(isDefined);
+
+  React.useEffect(() => {
+    if (isDefined) setWasDefined(true);
+  }, [isDefined]);
+
+  return wasDefined || isDefined;
+}
+
+function useResolvedNativeMaxLength(
+  explicitMaxLength: number | undefined,
+  insertionMaxLength: number | undefined,
+): number | undefined {
+  const wasManaged = useWasDefined(
+    explicitMaxLength !== undefined || insertionMaxLength !== undefined ? true : undefined,
+  );
+
+  if (!wasManaged) return undefined;
+
+  return resolveNativeMaxLength(
+    explicitMaxLength,
+    insertionMaxLength ?? NATIVE_TEXT_MAX_LENGTH_UNLIMITED,
+  );
+}
+
 interface UseNativeTextControlOptions {
   forwardedRef: React.Ref<NodesRef>;
   bindinput?: (event: NativeInputEvent | NativeTextareaEvent) => void;
@@ -176,6 +227,12 @@ function useNativeTextControl({
   const nativeRef = React.useRef<NodesRef | null>(null);
   const ownerRef = React.useRef<object>({});
   const lastNativeValueRef = React.useRef<string | null>(null);
+  const [editingState, setEditingState] = React.useState<NativeEditingState>(() => ({
+    selectionStart: textFieldContext.value.length,
+    selectionEnd: textFieldContext.value.length,
+    isComposing: false,
+  }));
+  const wasInsertionMaxLengthManaged = useWasDefined(textFieldContext.nativeInsertionMaxLength);
 
   const syncNativeValue = React.useCallback((node: NodesRef, value: string) => {
     "background only";
@@ -236,13 +293,28 @@ function useNativeTextControl({
     (event: NativeInputEvent | NativeTextareaEvent) => {
       "background only";
 
-      const nextValue = event.detail.value;
+      const { value: nextValue, selectionStart, selectionEnd, isComposing } = event.detail;
+      setEditingState({
+        selectionStart,
+        selectionEnd,
+        isComposing: isComposing === true,
+      });
       lastNativeValueRef.current = nextValue;
       textFieldContext.setValue(nextValue);
       bindinput?.(event);
     },
     [bindinput, textFieldContext],
   );
+
+  const handleSelectionChange = React.useCallback((detail: NativeSelectionDetail) => {
+    "background only";
+
+    setEditingState((current) => ({
+      ...current,
+      selectionStart: detail.selectionStart,
+      selectionEnd: detail.selectionEnd,
+    }));
+  }, []);
 
   const handleFocus = React.useCallback(
     (event: Parameters<NonNullable<NativeInputProps["bindfocus"]>>[0]) => {
@@ -285,6 +357,17 @@ function useNativeTextControl({
     handleFocus,
     handleBlur,
     notifyLayoutChanged,
+    handleSelectionChange,
+    nativeInsertionMaxLength:
+      wasInsertionMaxLengthManaged &&
+      !editingState.isComposing &&
+      editingState.selectionStart >= 0 &&
+      editingState.selectionStart === editingState.selectionEnd &&
+      textFieldContext.nativeInsertionMaxLength !== undefined
+        ? textFieldContext.nativeInsertionMaxLength
+        : wasInsertionMaxLengthManaged
+          ? NATIVE_TEXT_MAX_LENGTH_UNLIMITED
+          : undefined,
   };
 }
 
@@ -292,9 +375,29 @@ export interface TextFieldInputProps extends Omit<NativeInputProps, "children" |
 
 export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((props, ref) => {
   const classes = useClassNames();
-  const { className, disabled, readonly, name, bindinput, bindfocus, bindblur, ...nativeProps } =
-    props;
+  const {
+    className,
+    disabled,
+    readonly,
+    name,
+    maxlength,
+    bindinput,
+    bindselection,
+    bindfocus,
+    bindblur,
+    ...nativeProps
+  } = props;
   const control = useNativeTextControl({ forwardedRef: ref, bindinput, bindfocus, bindblur });
+  const resolvedMaxLength = useResolvedNativeMaxLength(maxlength, control.nativeInsertionMaxLength);
+  const handleSelection = React.useCallback<NonNullable<NativeInputProps["bindselection"]>>(
+    (event) => {
+      "background only";
+
+      control.handleSelectionChange(event.detail);
+      bindselection?.(event);
+    },
+    [bindselection, control.handleSelectionChange],
+  );
 
   return (
     <input
@@ -303,7 +406,9 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
       disabled={disabled ?? control.context.disabled}
       readonly={readonly ?? control.context.readOnly}
       name={name ?? control.context.name}
+      maxlength={resolvedMaxLength}
       bindinput={control.handleInput}
+      bindselection={handleSelection}
       bindfocus={control.handleFocus}
       bindblur={control.handleBlur}
       {...nativeProps}
@@ -325,7 +430,9 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       disabled,
       readonly,
       name,
+      maxlength,
       bindinput,
+      bindselection,
       bindfocus,
       bindblur,
       autoresize = true,
@@ -337,6 +444,19 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       bindfocus,
       bindblur,
     });
+    const resolvedMaxLength = useResolvedNativeMaxLength(
+      maxlength,
+      control.nativeInsertionMaxLength,
+    );
+    const handleSelection = React.useCallback<NonNullable<NativeTextareaProps["bindselection"]>>(
+      (event) => {
+        "background only";
+
+        control.handleSelectionChange(event.detail);
+        bindselection?.(event);
+      },
+      [bindselection, control.handleSelectionChange],
+    );
 
     const textarea = (
       <textarea
@@ -350,7 +470,9 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
         disabled={disabled ?? control.context.disabled}
         readonly={readonly ?? control.context.readOnly}
         name={name ?? control.context.name}
+        maxlength={resolvedMaxLength}
         bindinput={control.handleInput}
+        bindselection={handleSelection}
         bindfocus={control.handleFocus}
         bindblur={control.handleBlur}
         {...nativeProps}

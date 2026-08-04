@@ -1,6 +1,7 @@
 import { act, renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED } from "./context";
 import { useTextFieldWithGraphemes } from "./useTextFieldWithGraphemes";
 
 describe("useTextFieldWithGraphemes", () => {
@@ -44,5 +45,36 @@ describe("useTextFieldWithGraphemes", () => {
 
     expect(result.current.textFieldRootProps.value).toBe("고정");
     expect(onValueChange).toHaveBeenCalledOnce();
+  });
+
+  it("leaves native insertion maxlength unmanaged without a grapheme limit", () => {
+    const { result } = renderHook(() => useTextFieldWithGraphemes({ defaultValue: "제한 없음" }));
+
+    expect(result.current.textFieldRootProps.nativeInsertionMaxLength).toBeUndefined();
+  });
+
+  it("provides a UTF-16 native insertion cap only at the grapheme limit", () => {
+    const family = "👨‍👩‍👧‍👦";
+    const { result, rerender } = renderHook(
+      ({ value }: { value: string }) => useTextFieldWithGraphemes({ value, maxGraphemeCount: 2 }),
+      { initialProps: { value: family } },
+    );
+
+    expect(result.current.textFieldRootProps.nativeInsertionMaxLength).toBe(
+      NATIVE_TEXT_MAX_LENGTH_UNLIMITED,
+    );
+
+    const valueAtLimit = `${family}A`;
+    rerender({ value: valueAtLimit });
+
+    expect(result.current.graphemes).toEqual([family, "A"]);
+    expect(result.current.textFieldRootProps.nativeInsertionMaxLength).toBe(valueAtLimit.length);
+    expect(result.current.textFieldRootProps.nativeInsertionMaxLength).toBeGreaterThan(2);
+
+    rerender({ value: "A" });
+
+    expect(result.current.textFieldRootProps.nativeInsertionMaxLength).toBe(
+      NATIVE_TEXT_MAX_LENGTH_UNLIMITED,
+    );
   });
 });

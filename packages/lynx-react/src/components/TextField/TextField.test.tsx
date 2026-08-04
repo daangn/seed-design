@@ -6,6 +6,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { Field } from "../Field";
 import { KeyboardAvoidanceActionsContext } from "../KeyboardAvoidingScrollView/context";
+import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED } from "./context";
 import { TextField } from "./index";
 
 function getRenderedRoot() {
@@ -33,6 +34,15 @@ function getTextFieldRoot() {
   }
 
   return textFieldRoot;
+}
+
+function fireNativeEvent(nativeRef: NodesRef, element: Element, eventName: string, detail: object) {
+  const EventConstructor = element.ownerDocument.defaultView?.CustomEvent;
+  if (!EventConstructor) throw new Error("Expected CustomEvent constructor to exist.");
+
+  const event = new EventConstructor(`bindEvent:${eventName}`, { bubbles: true, detail });
+  Object.assign(event, { eventType: "bindEvent", eventName });
+  fireEvent(nativeRef as unknown as Element, event);
 }
 
 describe("TextField", () => {
@@ -121,6 +131,85 @@ describe("TextField", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
+  it("applies the native insertion cap only to collapsed input selections", () => {
+    const inputRef = createRef<NodesRef>();
+    render(
+      <TextField.Root nativeInsertionMaxLength={12}>
+        <TextField.Input ref={inputRef} />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input) throw new Error("Expected native input to exist.");
+
+    expect(input).toHaveAttribute("maxlength", "12");
+
+    if (!inputRef.current) throw new Error("Expected native input ref to exist.");
+
+    fireNativeEvent(inputRef.current, input, "selection", { selectionStart: 0, selectionEnd: 2 });
+    expect(input).toHaveAttribute("maxlength", String(NATIVE_TEXT_MAX_LENGTH_UNLIMITED));
+
+    fireNativeEvent(inputRef.current, input, "selection", { selectionStart: 2, selectionEnd: 2 });
+    expect(input).toHaveAttribute("maxlength", "12");
+  });
+
+  it("preserves a stricter explicit input maxlength for selection replacement", () => {
+    const inputRef = createRef<NodesRef>();
+    render(
+      <TextField.Root nativeInsertionMaxLength={12}>
+        <TextField.Input ref={inputRef} maxlength={8} />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input) throw new Error("Expected native input to exist.");
+
+    expect(input).toHaveAttribute("maxlength", "8");
+
+    if (!inputRef.current) throw new Error("Expected native input ref to exist.");
+
+    fireNativeEvent(inputRef.current, input, "selection", { selectionStart: 0, selectionEnd: 2 });
+    expect(input).toHaveAttribute("maxlength", "8");
+  });
+
+  it("relaxes a removed root insertion cap without replacing the native input", () => {
+    const renderTextField = (nativeInsertionMaxLength?: number) => (
+      <TextField.Root nativeInsertionMaxLength={nativeInsertionMaxLength}>
+        <TextField.Input />
+      </TextField.Root>
+    );
+    const { rerender } = render(renderTextField(12));
+    const input = getRenderedRoot().querySelector("input");
+    if (!input) throw new Error("Expected native input to exist.");
+
+    expect(input).toHaveAttribute("maxlength", "12");
+
+    rerender(renderTextField());
+
+    const relaxedInput = getRenderedRoot().querySelector("input");
+    expect(relaxedInput).toBe(input);
+    expect(relaxedInput).toHaveAttribute("maxlength", String(NATIVE_TEXT_MAX_LENGTH_UNLIMITED));
+  });
+
+  it("relaxes a removed explicit maxlength without replacing the native input", () => {
+    const renderTextField = (maxlength?: number) => (
+      <TextField.Root>
+        <TextField.Input maxlength={maxlength} />
+      </TextField.Root>
+    );
+    const { rerender } = render(renderTextField(8));
+    const input = getRenderedRoot().querySelector("input");
+    if (!input) throw new Error("Expected native input to exist.");
+
+    expect(input).toHaveAttribute("maxlength", "8");
+
+    rerender(renderTextField());
+
+    const relaxedInput = getRenderedRoot().querySelector("input");
+    expect(relaxedInput).toBe(input);
+    expect(relaxedInput).toHaveAttribute("maxlength", String(NATIVE_TEXT_MAX_LENGTH_UNLIMITED));
+  });
+
   it("registers focused inputs with KeyboardAvoidingScrollView context", () => {
     const inputRef = createRef<NodesRef>();
     const actions = {
@@ -196,6 +285,66 @@ describe("TextField", () => {
     expect(mirror).toHaveClass("seed-text-input__textareaValue");
     expect(mirror).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(mirror?.textContent).toBe("첫 줄\n둘째 줄\n\u200b");
+  });
+
+  it("uses the smaller textarea cap and restores explicit maxlength for a selection", () => {
+    const textareaRef = createRef<NodesRef>();
+    render(
+      <TextField.Root nativeInsertionMaxLength={10}>
+        <TextField.Textarea ref={textareaRef} maxlength={20} />
+      </TextField.Root>,
+    );
+
+    const textarea = getRenderedRoot().querySelector("textarea");
+    if (!textarea) throw new Error("Expected native textarea to exist.");
+
+    expect(textarea).toHaveAttribute("maxlength", "10");
+
+    if (!textareaRef.current) throw new Error("Expected native textarea ref to exist.");
+
+    fireNativeEvent(textareaRef.current, textarea, "selection", {
+      selectionStart: 0,
+      selectionEnd: 2,
+    });
+    expect(textarea).toHaveAttribute("maxlength", "20");
+
+    fireNativeEvent(textareaRef.current, textarea, "selection", {
+      selectionStart: 2,
+      selectionEnd: 2,
+    });
+    expect(textarea).toHaveAttribute("maxlength", "10");
+  });
+
+  it("disables the textarea insertion cap while native input is composing", () => {
+    const textareaRef = createRef<NodesRef>();
+    render(
+      <TextField.Root value="최대값" nativeInsertionMaxLength={3}>
+        <TextField.Textarea ref={textareaRef} />
+      </TextField.Root>,
+    );
+
+    const textarea = getRenderedRoot().querySelector("textarea");
+    if (!textarea) throw new Error("Expected native textarea to exist.");
+
+    expect(textarea).toHaveAttribute("maxlength", "3");
+
+    if (!textareaRef.current) throw new Error("Expected native textarea ref to exist.");
+
+    fireNativeEvent(textareaRef.current, textarea, "input", {
+      value: "최대값",
+      selectionStart: 3,
+      selectionEnd: 3,
+      isComposing: true,
+    });
+    expect(textarea).toHaveAttribute("maxlength", String(NATIVE_TEXT_MAX_LENGTH_UNLIMITED));
+
+    fireNativeEvent(textareaRef.current, textarea, "input", {
+      value: "최대값",
+      selectionStart: 3,
+      selectionEnd: 3,
+      isComposing: false,
+    });
+    expect(textarea).toHaveAttribute("maxlength", "3");
   });
 
   it("renders a textarea without the sizing mirror when autoresize is false", () => {
