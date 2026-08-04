@@ -1,9 +1,27 @@
+import collections from "@seed-design/rootage-artifacts/collections";
 import { css, type AST } from "@seed-design/rootage-core";
-import { breakpointValues } from "./utils/breakpoint";
+import { breakpoints } from "./utils/breakpoint";
 
 type TokenDeclaration = AST.TokenDeclaration;
 type TokenLit = AST.TokenLit;
 type ValueLit = AST.ValueLit;
+
+/**
+ * Every collection rootage declares, mapped to the selector or at-rule each of
+ * its modes is emitted under.
+ *
+ * `getTokenCss` throws on a mode it finds no mapping for, so a rootage change
+ * already fails the build — but only once the generator runs, and only for the
+ * missing half. Restating the shape here moves that to compile time and also
+ * catches the direction the runtime cannot see: a collection or mode name that
+ * exists here and nowhere in rootage is simply never read, so the throw lands on
+ * the entry that was spelled correctly.
+ */
+type Selectors = {
+  [C in (typeof collections.data)[number] as C["name"]]: {
+    [M in C["modes"][number]["id"]]: string | null;
+  };
+};
 
 /**
  * Creates a SEED-specific declaration function with platform-aware font scaling
@@ -99,17 +117,21 @@ export default function generateSeedCss(
 :root[data-seed-color-mode="dark-only"],
 :root [data-seed-color-mode="dark-only"]`,
       },
-      "viewport-width": Object.fromEntries(
-        Object.entries(breakpointValues).map(([breakpoint, value]) => [
-          breakpoint,
-          value !== 0 ? `@media (min-width: ${value}px)` : ":root",
-        ]),
-      ),
+      // Spelled out rather than mapped over `breakpointValues`: `Object.fromEntries`
+      // widens to an index signature, which `satisfies` rejects for want of the
+      // named keys.
+      "viewport-width": {
+        base: ":root",
+        sm: breakpoints.up("sm"),
+        md: breakpoints.up("md"),
+        lg: breakpoints.up("lg"),
+        xl: breakpoints.up("xl"),
+      },
       motion: {
         preferred: ":root",
         reduced: "@media (prefers-reduced-motion: reduce)",
       },
-    },
+    } satisfies Selectors,
     customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory
   };
 
