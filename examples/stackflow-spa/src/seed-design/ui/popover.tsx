@@ -79,3 +79,7 @@ export const PopoverBody = SeedPopover.Body;
 export interface PopoverFooterProps extends SeedPopover.FooterProps {}
 
 export const PopoverFooter = SeedPopover.Footer;
+
+export interface PopoverArrowProps extends SeedPopover.ArrowProps {}
+
+export const PopoverArrow = SeedPopover.Arrow;
