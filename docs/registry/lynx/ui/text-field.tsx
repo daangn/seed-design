@@ -29,7 +29,7 @@ export interface TextFieldProps
 }
 
 /**
- * @see https://seed-design.io/lynx/components/text-field
+ * @see https://seed-design.io/lynx/components/text-field-input
  */
 export const TextField = React.forwardRef<TextFieldRootRef, TextFieldProps>(
   (
@@ -117,8 +117,14 @@ TextField.displayName = "TextField";
 
 export interface TextFieldInputProps extends SeedTextField.InputProps {}
 
+/**
+ * @see https://seed-design.io/lynx/components/text-field-input
+ */
 export const TextFieldInput = SeedTextField.Input;
 
 export interface TextFieldTextareaProps extends SeedTextField.TextareaProps {}
 
+/**
+ * @see https://seed-design.io/lynx/components/text-field-textarea
+ */
 export const TextFieldTextarea = SeedTextField.Textarea;

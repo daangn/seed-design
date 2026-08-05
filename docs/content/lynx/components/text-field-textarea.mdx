@@ -1,0 +1,125 @@
+---
+title: Text Field Textarea
+description: 여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.4.0, @seed-design/lynx-css@0.7.0" />
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:text-field
+```
+
+<LynxManualInstallation name="text-field" />
+
+## Props
+
+### `TextField`
+
+<react-type-table path="./registry/lynx/ui/text-field.tsx" name="TextFieldProps" />
+
+### `TextFieldTextarea`
+
+<react-type-table path="./registry/lynx/ui/text-field.tsx" name="TextFieldTextareaProps" />
+
+## Usage
+
+Snippet의 `TextField`가 label, description, required indicator와 여러 줄 입력 영역을 조합합니다. Lynx에는 HTML `label for` 연결이 없으므로 native 입력에는 `accessibility-label`을 함께 지정합니다.
+
+```tsx
+import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
+
+export function IntroductionField() {
+  return (
+    <TextField label="소개">
+      <TextFieldTextarea accessibility-label="소개" placeholder="소개를 입력해 주세요" />
+    </TextField>
+  );
+}
+```
+
+### Controlled value
+
+`value`와 `onValueChange`를 전달하면 controlled mode로 동작합니다. Lynx native textarea에는 `value` attribute가 없으므로 컴포넌트가 `setValue` UI method로 값을 동기화합니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
+
+export function ControlledIntroduction() {
+  const [value, setValue] = useState("");
+
+  return (
+    <TextField value={value} onValueChange={({ value }) => setValue(value)}>
+      <TextFieldTextarea accessibility-label="소개" />
+    </TextField>
+  );
+}
+```
+
+### Autoresizing
+
+`TextFieldTextarea`는 기본적으로 입력과 같은 typography를 가진 보이지 않는 `<text>` 측정 노드를 겹쳐 렌더링합니다. 측정 노드가 내용과 줄바꿈에 맞춰 커지면서 textarea 높이도 함께 늘어납니다. 고정 높이가 필요하면 `autoresize={false}`를 사용합니다.
+
+```tsx
+<TextField label="소개">
+  <TextFieldTextarea accessibility-label="소개" placeholder="소개를 입력해 주세요" />
+</TextField>
+```
+
+### Grapheme limit
+
+이모지·조합 문자를 사용자에게 보이는 한 글자로 계산하려면 snippet의 `maxGraphemeCount`와 `onValueChange`를 사용합니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
+
+export function LimitedIntroductionField() {
+  const [value, setValue] = useState("");
+
+  return (
+    <TextField
+      label="소개"
+      value={value}
+      maxGraphemeCount={80}
+      onValueChange={({ slicedValue }) => setValue(slicedValue)}
+    >
+      <TextFieldTextarea accessibility-label="소개" />
+    </TextField>
+  );
+}
+```
+
+### Keyboard avoidance
+
+`KeyboardAvoidingScrollView` 안에 배치하면 `TextFieldTextarea`가 focus될 때 자동으로 등록됩니다. autoresize로 레이아웃이 바뀌면 활성 입력 위치를 다시 계산합니다.
+
+```tsx
+import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
+import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
+
+export function Form() {
+  return (
+    <KeyboardAvoidingScrollView>
+      <TextField label="내용">
+        <TextFieldTextarea accessibility-label="내용" />
+      </TextField>
+    </KeyboardAvoidingScrollView>
+  );
+}
+```
+
+## Web Version Differences
+
+- HTML `<textarea>` 대신 Lynx native `<textarea>` element를 렌더링합니다.
+- `onChange` 대신 snippet `TextField`의 `onValueChange`를 사용합니다. 원문과 grapheme 단위로 자른 값을 함께 제공합니다.
+- native `bindinput`은 `TextFieldTextarea`에 추가로 전달할 수 있습니다.
+- `Field.Label`과 입력의 DOM id 연결이 없으므로 `accessibility-label`을 입력에 직접 제공합니다.
+- autoresize는 DOM `scrollHeight` 대신 보이지 않는 `<text>` 측정 노드로 구현합니다.
+
+## Unsupported Lynx Features
+
+- HTML form submit, browser validation, `aria-describedby` id 연결은 지원하지 않습니다.
+- 큰 textarea에서 현재 caret 위치만 기준으로 키보드를 회피하는 기능은 지원하지 않습니다. 현재는 Field·TextField·native 입력 영역 중 안전 영역에 맞는 가장 큰 영역을 선택합니다.
