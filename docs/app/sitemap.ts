@@ -1,65 +1,23 @@
 import type { MetadataRoute } from "next";
+import { sectionSources } from "@/app/_llms/sources";
 import { baseUrl } from "@/app/metadata";
-import {
-  getDocsSource,
-  getGetStartedSource,
-  getFoundationsSource,
-  getComponentsSource,
-  getPatternsSource,
-  getReactSource,
-  getBreezeSource,
-  getLynxSource,
-  getAiIntegrationSource,
-  getUpdatesSource,
-} from "@/app/source";
 import { getMarkdownPageLastModified } from "@/lib/git-timestamps";
 
 export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [
-    docsSource,
-    getStartedSource,
-    foundationsSource,
-    componentsSource,
-    patternsSource,
-    reactSource,
-    breezeSource,
-    lynxSource,
-    aiIntegrationSource,
-    updatesSource,
-  ] = await Promise.all([
-    getDocsSource(),
-    getGetStartedSource(),
-    getFoundationsSource(),
-    getComponentsSource(),
-    getPatternsSource(),
-    getReactSource(),
-    getBreezeSource(),
-    getLynxSource(),
-    getAiIntegrationSource(),
-    getUpdatesSource(),
-  ]);
+  const sources = await Promise.all(Object.values(sectionSources).map((getSource) => getSource()));
 
   return await Promise.all(
-    [
-      ...docsSource.getPages(),
-      ...getStartedSource.getPages(),
-      ...foundationsSource.getPages(),
-      ...componentsSource.getPages(),
-      ...patternsSource.getPages(),
-      ...reactSource.getPages(),
-      ...breezeSource.getPages(),
-      ...lynxSource.getPages(),
-      ...aiIntegrationSource.getPages(),
-      ...updatesSource.getPages(),
-    ].map(async (page) => {
-      const lastModified = await getMarkdownPageLastModified(page.absolutePath);
+    sources
+      .flatMap((source) => source.getPages())
+      .map(async (page) => {
+        const lastModified = await getMarkdownPageLastModified(page.absolutePath);
 
-      return {
-        url: new URL(page.url, baseUrl).href,
-        ...(lastModified && { lastModified: new Date(lastModified) }),
-      };
-    }),
+        return {
+          url: new URL(page.url, baseUrl).href,
+          ...(lastModified && { lastModified: new Date(lastModified) }),
+        };
+      }),
   );
 }
