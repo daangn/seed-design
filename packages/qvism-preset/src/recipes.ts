@@ -20,6 +20,7 @@ import contentDialog from "./recipes/content-dialog";
 import contentPlaceholder from "./recipes/content-placeholder";
 import contextualFloatingButton from "./recipes/contextual-floating-button";
 import controlChip from "./recipes/control-chip";
+import datePicker from "./recipes/date-picker";
 import dialog from "./recipes/dialog";
 import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
@@ -110,6 +111,7 @@ export const recipes = {
   contentPlaceholder,
   contextualFloatingButton,
   controlChip,
+  datePicker,
   dialog,
   extendedActionSheet,
   extendedActionSheetItem,

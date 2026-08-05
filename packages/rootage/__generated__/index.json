@@ -96,6 +96,9 @@
       "path": "/components/control-chip.json"
     },
     {
+      "path": "/components/date-picker.json"
+    },
+    {
       "path": "/components/dialog-close-button.json"
     },
     {

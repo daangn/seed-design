@@ -277,6 +277,12 @@
               ]
             },
             {
+              "id": "date-picker",
+              "title": "Date Picker",
+              "description": "달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.",
+              "docUrl": "/react/components/date-picker"
+            },
+            {
               "id": "dialog",
               "title": "Dialog",
               "description": "화면 중앙에 떠서 사용자의 주의를 모으는 다이얼로그입니다. 제목, 본문, 푸터와 닫기 버튼을 갖추어 폼이나 스크롤되는 콘텐츠 등 풍부한 내용을 담을 때 사용합니다.",

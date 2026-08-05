@@ -561,6 +561,7 @@
         "@seed-design/react-avatar": "^2.0.1",
         "@seed-design/react-checkbox": "^2.0.1",
         "@seed-design/react-collapsible": "^1.0.1",
+        "@seed-design/react-date-picker": "workspace:*",
         "@seed-design/react-dialog": "^2.0.2",
         "@seed-design/react-drawer": "^2.0.2",
         "@seed-design/react-field": "^2.0.1",
@@ -700,6 +701,25 @@
         "@radix-ui/react-use-layout-effect": "^1.1.1",
         "@seed-design/dom-utils": "^2.0.1",
         "@seed-design/react-primitive": "^2.0.1",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/date-picker": {
+      "name": "@seed-design/react-date-picker",
+      "version": "0.0.0",
+      "dependencies": {
+        "@internationalized/date": "^3.12.2",
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
+        "@radix-ui/react-use-layout-effect": "^1.1.1",
+        "@seed-design/dom-utils": "^2.1.0",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -2279,6 +2299,8 @@
 
     "@inquirer/type": ["@inquirer/type@3.0.10", "", { "peerDependencies": { "@types/node": ">=18" }, "optionalPeers": ["@types/node"] }, "sha512-BvziSRxfz5Ov8ch0z/n3oijRSEcEsHnhggm4xFZe93DHcUCTlutlq9Ox4SVENAfcRD22UQq7T/atg9Wr3k09eA=="],
 
+    "@internationalized/date": ["@internationalized/date@3.12.2", "", { "dependencies": { "@swc/helpers": "^0.5.0" } }, "sha512-FY1Y+H64NDs+HAF6omlnWxm3mEpfgaCSWtL5l551ZZfImA+kGjPFgrnJrGjH6lfmLL0g8Z/mBu1R3kufeCp6Jw=="],
+
     "@isaacs/balanced-match": ["@isaacs/balanced-match@4.0.1", "", {}, "sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ=="],
 
     "@isaacs/brace-expansion": ["@isaacs/brace-expansion@5.0.0", "", { "dependencies": { "@isaacs/balanced-match": "^4.0.1" } }, "sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA=="],
@@ -3138,6 +3160,8 @@
     "@seed-design/react-checkbox": ["@seed-design/react-checkbox@workspace:packages/react-headless/checkbox"],
 
     "@seed-design/react-collapsible": ["@seed-design/react-collapsible@workspace:packages/react-headless/collapsible"],
+
+    "@seed-design/react-date-picker": ["@seed-design/react-date-picker@workspace:packages/react-headless/date-picker"],
 
     "@seed-design/react-dialog": ["@seed-design/react-dialog@workspace:packages/react-headless/dialog"],
 

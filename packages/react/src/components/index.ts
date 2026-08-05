@@ -20,6 +20,7 @@ export * from "./ContentPlaceholder";
 export * from "./ContextualFloatingButton";
 export * from "./ControlChip";
 export * from "./Count";
+export * from "./DatePicker";
 export * from "./Dialog";
 export * from "./Divider";
 export * from "./ExtendedActionSheet";

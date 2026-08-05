@@ -1,0 +1,185 @@
+---
+title: Date Picker
+description: 달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.
+---
+
+<ComponentExample name="react/date-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/react @seed-design/css
+```
+
+## Props
+
+### DatePicker
+
+<react-type-table
+  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  name="DatePickerProps"
+/>
+
+### TwoMonthDatePicker
+
+<react-type-table
+  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  name="TwoMonthDatePickerProps"
+/>
+
+### WeekDatePicker
+
+<react-type-table
+  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  name="WeekDatePickerProps"
+/>
+
+### ContinuousDatePicker
+
+<react-type-table
+  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  name="ContinuousDatePickerProps"
+/>
+
+## Examples
+
+### 레이아웃
+
+Date Picker는 레이아웃에 따라 다음 공개 컴포넌트로 나뉩니다.
+
+- `DatePicker`: 현재 월의 실제 주 수만 렌더링합니다.
+- `TwoMonthDatePicker`: 연속한 두 달을 가로로 표시합니다. 이전·다음 버튼은 한 달씩 이동합니다.
+- `WeekDatePicker`: 한 주만 표시하며 이전·다음 버튼은 한 주씩 이동합니다.
+- `ContinuousDatePicker`: `yearRange` 안의 월을 세로로 가상화합니다. `height`, `minHeight`, `maxHeight` 중 하나를 반드시 지정합니다.
+
+한 달과 두 달 레이아웃은 항상 6주 높이를 확보하지 않고 각 월에 필요한 4~6주만 렌더링합니다.
+
+Date Picker는 자체적으로 고정 폭이나 최대 폭을 제한하지 않고 부모 컨테이너의 너비를 채웁니다. 한 달과 두 달 레이아웃에 필요한 가로 크기는 사용하는 화면에서 적절한 너비의 컨테이너로 감싸서 결정하세요.
+
+<ComponentExample name="react/date-picker/visible-ranges">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/visible-ranges.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 선택 방식
+
+`selectionMode`에 따라 하나의 날짜(`single`), 날짜 범위(`range`), 여러 날짜(`multiple`)를 선택합니다. 기본값은 `single`입니다.
+
+- `single`의 값은 `DatePickerDate`입니다.
+- `range`는 시작일을 선택한 직후 `{ start }`, 종료일까지 선택하면 `{ start, end }`를 반환합니다.
+- `multiple`은 중복 없는 날짜 배열을 항상 오름차순으로 반환합니다.
+
+<ComponentExample name="react/date-picker/selection-modes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/selection-modes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 날짜 선택 제약 조건
+
+`constraints`는 후보 날짜를 선택할 수 있는지 판단하는 함수 배열입니다. 모든 함수가 `true`를 반환해야 선택할 수 있습니다. 직접 함수를 작성하거나 다음 helper를 조합할 수 있습니다.
+
+- `dateOnOrAfter`, `dateOnOrBefore`: 선택 가능한 날짜의 양끝을 포함해 제한합니다.
+- `excludeDates`: 예약 완료일, 휴무일처럼 선택할 수 없는 날짜를 제외합니다. Range에서는 기본적으로 시작일부터 후보 종료일까지의 전체 구간을 검사합니다.
+- `rangeDayCountAtLeast`, `rangeDayCountAtMost`: 시작일과 종료일을 모두 포함한 날짜 수를 제한합니다.
+- `maxSelectionCount`: Multiple에서 선택 가능한 최대 개수를 제한합니다. 이미 선택한 날짜의 해제는 허용합니다.
+
+조건을 만족하지 않는 날짜는 키보드로 포커스할 수 있지만 `aria-disabled` 상태이며 선택할 수 없습니다.
+
+아래 예시는 체크인·체크아웃을 포함한 선택 구간을 1~14일로 제한해 당일치기를 허용하고, 예약 완료일이 포함된 구간은 선택할 수 없도록 구성합니다.
+
+<ComponentExample name="react/date-picker/reservation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/reservation.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 날짜 셀에 추가 정보 표시
+
+기본 날짜 숫자를 유지하면서 가격, 예약 가능 여부, 혼잡도 같은 정보를 추가할 때는 `renderDateCellSupplement`를 우선 사용하세요. 함수에는 날짜와 포맷된 날짜 숫자, 선택·오늘·범위·사용 불가·포커스 상태가 전달됩니다.
+
+`renderDateCellSupplement`로 표현할 수 없어 날짜 숫자를 포함한 내부 콘텐츠 전체를 직접 구성해야 할 때만 `renderDateCellContent`를 사용합니다. 이 prop은 일반적인 확장 지점이 아니라 저수준 이스케이프 해치이며, 두 prop은 동시에 사용할 수 없습니다.
+
+컴포넌트는 날짜 셀의 DOM, ARIA, 이벤트, 상태 배경을 계속 소유합니다. 따라서 두 함수에서는 버튼이나 `gridcell`을 만들지 말고 콘텐츠만 반환합니다. 각 주의 셀 높이는 가장 높은 콘텐츠에 맞춰 늘어납니다. 좁은 화면에서 콘텐츠가 가로로 넘치는 경우에는 렌더 함수에서 `maxLines` 같은 말줄임 정책을 직접 적용합니다.
+
+<ComponentExample name="react/date-picker/custom-cell">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/custom-cell.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Time Picker와 조합
+
+Date Picker는 시간과 시간대를 해석하지 않는 달력 날짜인 `DatePickerDate`를 사용합니다. Time Picker의 `TimePickerValue`와 별도로 상태를 관리한 뒤, 서버 요청이나 도메인 모델 경계에서 두 값을 합칩니다.
+
+시간대가 필요한 서비스는 이 시점에 `CalendarDateTime`, `ZonedDateTime` 또는 서비스의 날짜·시간 DTO로 변환하세요. Date Picker 자체에 `CalendarDateTime`을 전달하면 날짜 선택 UI가 불필요하게 시간대 정책에 결합되므로 지원하지 않습니다.
+
+<ComponentExample name="react/date-picker/date-and-time">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/date-and-time.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 날짜로 이동하고 포커스하기
+
+`viewDate`, `defaultViewDate`, `onViewDateChange`는 현재 표시하는 월·주·스크롤 기준점을 제어합니다. Month에서는 월의 첫날로 정규화되므로 특정 날짜 셀을 이동 대상으로 지정할 때는 `actionsRef`를 사용합니다.
+
+- `navigateToDate(date)`: 날짜가 보이도록 이동하고 다음 Tab 진입점을 갱신하지만 현재 DOM 포커스는 유지합니다. 외부의 “오늘” 버튼에는 이 action을 권장합니다.
+- `focusDate(date)`: 날짜가 보이도록 이동한 뒤 날짜 셀에 실제 DOM 포커스를 둡니다. 키보드 단축키나 사용자를 명시적으로 그리드 안으로 이동시키는 동작에 사용합니다.
+
+<ComponentExample name="react/date-picker/navigation-actions">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/navigation-actions.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 월·연도 이동
+
+제목을 누르면 Time Picker와 같은 Wheel Picker로 전환합니다. 연도 휠은 반복하지 않고 `yearRange` 안에서 이동하며, 월 휠은 반복합니다. `yearRange`의 기본값은 `today`를 기준으로 앞뒤 100년입니다.
+
+Month 계열의 표시 기준 날짜는 월의 첫날, Week는 locale의 주 시작일로 정규화합니다.
+
+### Locale
+
+기본 locale은 `ko-KR`입니다. 월·요일·날짜·숫자 표기와 주 시작일은 locale을 따릅니다. `weekStartsOn`을 전달하면 주 시작일만 재정의합니다. RTL locale에서는 좌우 방향키와 이전·다음 아이콘 방향도 반전됩니다.
+
+루트, 이전·다음 버튼과 연도·월 휠의 기본 접근성 이름은 한국어와 영어로 제공됩니다. 제품 맥락에 맞는 이름이 필요하면 `ariaLabels`로 재정의합니다.
+
+### Accessibility
+
+Date Picker는 WAI-ARIA Grid 패턴을 사용합니다. 하나의 날짜만 `tab` 순서에 들어가며 방향키로 날짜를 이동합니다.
+
+- `ArrowLeft`, `ArrowRight`: 하루 전·후
+- `ArrowUp`, `ArrowDown`: 일주일 전·후
+- `Home`, `End`: 현재 주의 시작·끝
+- `PageUp`, `PageDown`: 현재 표시 단위의 이전·다음
+- `Shift + PageUp`, `Shift + PageDown`: 일 년 전·후
+- `Enter`, `Space`: 포커스한 날짜 선택
+
+화면에 Date Picker의 이름을 나타내는 요소가 있다면 `aria-labelledby`로 연결할 수 있습니다. 그렇지 않으면 locale에 따라 `"날짜 선택"` 또는 `"Select date"`가 사용됩니다.
