@@ -9,7 +9,6 @@ import {
 import { z } from "zod";
 import type { McpConfig } from "./config";
 import { parseFigmaUrl } from "./figma-rest-client";
-import { formatError } from "./logger";
 import {
   formatErrorResponse,
   formatImageResponse,
@@ -29,6 +28,12 @@ import {
   type ToolMode,
 } from "./tools-helpers";
 import type { FigmaWebSocketClient } from "./websocket";
+
+/**
+ * The codegen pipeline lives in `@seed-design/figma`, so a version skew there surfaces here as an
+ * otherwise unexplained generation failure.
+ */
+const FIGMA_LIBRARY_HINT = "⚠️ Please make sure you have the latest version of the Figma library.";
 
 const singleNodeBaseSchema = z.object({
   figmaUrl: z
@@ -226,9 +231,7 @@ export function registerTools(
           inferred: { data: inferred, description: "AutoLayout Inferred Figma node info" },
         });
       } catch (error) {
-        return formatTextResponse(
-          `Error in get_node_info: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
-        );
+        return formatErrorResponse("get_node_info", error, FIGMA_LIBRARY_HINT);
       }
     },
   );
@@ -287,9 +290,7 @@ export function registerTools(
 
         return formatObjectResponse(results);
       } catch (error) {
-        return formatTextResponse(
-          `Error in get_nodes_info: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
-        );
+        return formatErrorResponse("get_nodes_info", error, FIGMA_LIBRARY_HINT);
       }
     },
   );
@@ -319,17 +320,16 @@ export function registerTools(
           shouldPrintSource: false,
         });
 
-        if (!generated) {
-          return formatTextResponse(
-            "Failed to generate code\n\n⚠️ Please make sure you have the latest version of the Figma library.",
+        if (!generated)
+          return formatErrorResponse(
+            "get_node_react_code",
+            new Error("Failed to generate code"),
+            FIGMA_LIBRARY_HINT,
           );
-        }
 
         return formatTextResponse(`${generated.imports}\n\n${generated.jsx}`);
       } catch (error) {
-        return formatTextResponse(
-          `Error in get_node_react_code: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
-        );
+        return formatErrorResponse("get_node_react_code", error, FIGMA_LIBRARY_HINT);
       }
     },
   );
