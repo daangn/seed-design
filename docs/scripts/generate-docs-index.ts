@@ -4,8 +4,16 @@ import { promises as fs } from "fs";
 import matter from "gray-matter";
 import path from "node:path";
 import type { DocsCategory, DocsIndex, DocsItem, DocsSection } from "../../packages/cli/src/schema";
-import { type Section, sectionConfigs, sections } from "../app/_llms/config";
+import { type Section, getLLMMarkdownUrl, sectionConfigs, sections } from "../app/_llms/config";
 import { listSectionPages } from "./content-pages";
+
+/**
+ * Raw snippet host. Lives here rather than in the CLI so the branch a snippet is
+ * served from is a property of the published index, not of whichever CLI version
+ * happens to be installed.
+ */
+const GITHUB_SNIPPET_BASE =
+  "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
 
 type DocsSnippet = NonNullable<DocsItem["snippets"]>[number];
 
@@ -143,14 +151,23 @@ async function main() {
       const snippetKey = config.snippetRegistries
         .map((registryId) => `${registryId}:${itemId}`)
         .find((key) => registryMap.has(key));
+      const registryPath = snippetKey?.split(":")[0];
 
       const item: DocsItem = {
         id: itemId,
         title: frontmatter.title,
         ...(frontmatter.description && { description: frontmatter.description }),
         docUrl: `${config.baseUrl}/${slugs.join("/")}`,
+        llmsUrl: getLLMMarkdownUrl(section, slugs),
         ...(frontmatter.deprecated && { deprecated: true }),
-        ...(snippetKey && { snippetKey, snippets: registryMap.get(snippetKey) }),
+        ...(snippetKey &&
+          registryPath && {
+            snippetKey,
+            snippets: registryMap.get(snippetKey)?.map((snippet) => ({
+              ...snippet,
+              url: `${GITHUB_SNIPPET_BASE}/${registryPath}/${snippet.path}`,
+            })),
+          }),
       };
 
       const sectionId = resolveSectionId(section, slugs);
@@ -172,7 +189,12 @@ async function main() {
         items: items.sort(compareDocsItems),
       }));
 
-    categories.push({ id: section, label: config.label, sections: docsSections });
+    categories.push({
+      id: section,
+      label: config.label,
+      llmsIndexUrl: getLLMMarkdownUrl(section, []),
+      sections: docsSections,
+    });
   }
 
   const outDir = path.join(process.cwd(), "public", "__docs__");
