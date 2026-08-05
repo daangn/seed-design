@@ -1,5 +1,6 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
+import { renderRelatedSections } from "@/app/_llms/section-index";
 import { getDisplayTitle, sectionOverviewLine, sortCategories } from "@/app/_llms/utils";
 import { getDocsSource } from "@/app/source";
 
@@ -63,9 +64,5 @@ ${pageList}`;
 
 ${categoryList}
 
-## Related Sections
-
-- [Foundations](${new URL("/foundations/llms.txt", baseUrl)}): 색상, 타이포그래피 등 디자인 파운데이션
-- [Components](${new URL("/components/llms.txt", baseUrl)}): 컴포넌트 디자인 스펙
-`);
+${renderRelatedSections(["foundations", "components"])}`);
 }

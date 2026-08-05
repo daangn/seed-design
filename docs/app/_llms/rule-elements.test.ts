@@ -73,9 +73,7 @@ describe("preserveRuleElements", () => {
 describe("RULE_ELEMENT_NAMES", () => {
   // 부모 핸들러가 속성만 읽고 마는 자식. 스스로를 주장하는 핸들러는 없지만, 접히면
   // 부모가 탭 이름을 잃는다.
-  const PRESERVED_WITHOUT_OWN_HANDLER: readonly (typeof RULE_ELEMENT_NAMES)[number][] = [
-    "CodeBlockTab",
-  ];
+  const PRESERVED_WITHOUT_OWN_HANDLER = ["CodeBlockTab"];
 
   const claimed = [...handlers, ...placeholders].flatMap((entry) => entry.names);
 
@@ -86,8 +84,8 @@ describe("RULE_ELEMENT_NAMES", () => {
   });
 
   it("아무도 주장하지 않는 태그를 남겨 두지 않는다", () => {
-    const unclaimed = RULE_ELEMENT_NAMES.filter((name) => !claimed.includes(name));
+    const unclaimed: string[] = RULE_ELEMENT_NAMES.filter((name) => !claimed.includes(name));
 
-    expect([...unclaimed].sort()).toEqual(PRESERVED_WITHOUT_OWN_HANDLER);
+    expect(unclaimed.sort()).toEqual(PRESERVED_WITHOUT_OWN_HANDLER);
   });
 });
