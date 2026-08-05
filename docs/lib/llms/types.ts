@@ -1,4 +1,5 @@
 import type { LLMsOptions } from "fumadocs-core/mdx-plugins/remark-llms";
+import type { PlaceholderData } from "fumadocs-core/mdx-plugins/remark-llms.runtime";
 import type { MdxJsxFlowElement, MdxJsxTextElement } from "mdast-util-mdx-jsx";
 
 export type JsxNode = MdxJsxFlowElement | MdxJsxTextElement;
@@ -21,6 +22,28 @@ export interface RenderContext {
   attr: (name: string) => string | undefined;
   state: State;
   info: Info;
+}
+
+/**
+ * A tag whose replacement cannot be computed while stringifying, because the data has to
+ * be fetched or read asynchronously.
+ *
+ * `remarkLLMs` writes these out as `placeholder()` markers at compile time and
+ * `renderPlaceholder` fills them in when a page is read, which is the only point in the
+ * pipeline that can await. Everything else belongs in `LLMHandler` — going through a
+ * placeholder costs a second pass over the whole document.
+ */
+export interface LLMPlaceholder {
+  /** JSX tag names this placeholder owns. Two placeholders may not claim the same name. */
+  names: string[];
+  /**
+   * Markdown to put in the marker's place.
+   *
+   * `null` restores the original tag. Unlike `LLMHandler.render` there is no node left to
+   * fall back to by then, so the tag is rebuilt from the marker — same intent, worse
+   * fidelity, which is why only the failure path should use it.
+   */
+  render: (data: PlaceholderData) => Promise<string | null> | string | null;
 }
 
 export interface LLMHandler {

@@ -1,8 +1,20 @@
+import { renderLLMPlaceholders } from "@/lib/llms/options";
 import type { Section } from "./config";
 import type { LLMPage } from "./types";
 import { getGitHubSourceUrl } from "./config";
 import { ensureRulesReady, normalizeLLMBody } from "./normalize-llm-body";
 import { getPlatformStatusMarkdown } from "./rules/platform-status-rule";
+
+/**
+ * Placeholders first: they are NUL-delimited JSON, and the re-parse in `normalizeLLMBody`
+ * would not survive one intact. That re-parse goes away with the last old rule; this call
+ * stays, because filling the markers is the only step that can await.
+ */
+async function processedBody(page: LLMPage): Promise<string> {
+  const renderer = await page.data.load();
+  const { exports } = await renderer.render();
+  return normalizeLLMBody(await renderLLMPlaceholders(exports.processed ?? ""));
+}
 
 /**
  * 컴포넌트 문서 페이지는 본문에 <PlatformStatusTable> 노드가 없으므로(플랫폼 상태를
@@ -20,9 +32,7 @@ async function platformStatusBlock(page: LLMPage, section: Section): Promise<str
 
 export async function getLLMText(page: LLMPage, section: Section): Promise<string> {
   await ensureRulesReady();
-  const renderer = await page.data.load();
-  const { exports } = await renderer.render();
-  const processed = normalizeLLMBody(exports.processed);
+  const processed = await processedBody(page);
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
 

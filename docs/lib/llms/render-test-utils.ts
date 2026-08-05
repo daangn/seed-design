@@ -10,7 +10,7 @@ import { llmsHandlerOptions, removeForLLMs, tidyLLMMarkdown } from "./options";
  * The unified stand-in for the `_stringify` hint `remarkApplyLlmsFilter` writes in
  * `app/source.tsx`. Both call `removeForLLMs`; only the host API differs.
  */
-function remarkLLMRemovals() {
+export function remarkLLMRemovals() {
   return (tree: Root) => {
     visit(tree, (node) => {
       if (!removeForLLMs(node)) return;

@@ -123,6 +123,10 @@ const customMdastPlugins = [
       scale: 2,
     },
   }),
+  // `remarkApplyLlmsFilter`가 `remarkLlms` 바로 앞이자 태그를 만들어내는 플러그인들 뒤에
+  // 있어야 한다. 컴파일 타임 핸들러의 `remove`는 이 필터가 남기는 `_stringify` 힌트로만
+  // 반영되므로, 앞에 두면 `remarkAutoTypeTable`이 생성하는 `<TypeTable>`처럼 나중에
+  // 만들어지는 태그에는 조용히 아무 일도 하지 않는다.
   remarkApplyLlmsFilter(filterLlmsElement),
   remarkLlms(llmsOptions),
 ];
