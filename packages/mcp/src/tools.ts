@@ -22,6 +22,7 @@ import {
   fetchMultipleNodesData,
   fetchNodeData,
   fetchNodeImage,
+  fetchNodeSvg,
   IMAGE_FORMATS,
   requireWebSocket,
   type ImageFormat,
@@ -298,7 +299,7 @@ export function registerTools(
     "get_node_react_code",
     {
       description: getSingleNodeDescription(
-        "Get the React code for a specific node in Figma.",
+        "Get the React code for a specific node in Figma. Vectors that match the Karrot icon packs come back as React icon component names.",
         mode,
       ),
       inputSchema: singleNodeParamsSchema,
@@ -397,6 +398,48 @@ export function registerTools(
         return formatImageResponse(base64, mimeType);
       } catch (error) {
         return formatErrorResponse("export_node_as_image", error);
+      }
+    },
+  );
+
+  // Export Node as SVG Tool (REST API + WebSocket)
+  server.registerTool(
+    "export_node_as_svg",
+    {
+      description: getSingleNodeDescription(
+        "Export a Figma node as SVG markup and return it as text. Use it when you need the vector source itself — path data, viewBox, fill — to put into code. A whole screen frame runs to tens of thousands of tokens and may be cut short by the client, so target the smallest node that holds the artwork.",
+        mode,
+      ),
+      inputSchema: singleNodeParamsSchema.extend({
+        outlineText: z
+          .boolean()
+          .default(false)
+          .describe(
+            "Render text as vector paths instead of <text> elements. Figma defaults this to true; this tool defaults to false so the text stays readable and the output stays small. Set it to true only when the SVG has to match Figma exactly regardless of the viewer's font rendering.",
+          ),
+      }),
+    },
+    async (params: z.infer<typeof singleNodeBaseSchema> & { outlineText: boolean }) => {
+      try {
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const svg = await fetchNodeSvg(
+          { fileKey, nodeId, personalAccessToken, outlineText: params.outlineText },
+          context,
+        );
+
+        return formatTextResponse(svg);
+      } catch (error) {
+        // Plugin builds that predate this command reject with `Unknown command`, which reads as a
+        // server bug unless the stale plugin is named as the cause.
+        if (error instanceof Error && error.message.includes("Unknown command"))
+          return formatErrorResponse(
+            "export_node_as_svg",
+            new Error(
+              `${error.message}. The connected Figma plugin is too old for this tool — update it, or pass fileKey + personalAccessToken to go through the REST API instead.`,
+            ),
+          );
+
+        return formatErrorResponse("export_node_as_svg", error);
       }
     },
   );
