@@ -30,7 +30,7 @@
 ## 파일 작성 컨벤션
 
 - `src/tools.ts`: MCP 도구 정의 및 핸들러 (`registerTools`, `registerEditingTools`)
-- `src/tools-helpers.ts`: 도구 공통 헬퍼 (`fetchNodeData`, `fetchMultipleNodesData`, `fetchNodeImage`, `ToolMode`)
+- `src/tools-helpers.ts`: 도구 공통 헬퍼 (`fetchNodeData`, `fetchMultipleNodesData`, `fetchNodeImage`, `fetchNodeSvg`, `ToolMode`)
 - `src/figma-rest-client.ts`: Figma REST API 클라이언트
 - `src/websocket.ts`: Figma Plugin WebSocket 클라이언트
 - `src/responses.ts`: 응답 포맷팅 유틸리티

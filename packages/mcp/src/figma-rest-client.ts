@@ -6,7 +6,7 @@ export interface FigmaRestClient {
   getNodeImageUrl(
     fileKey: string,
     nodeId: string,
-    options: Pick<GetImagesQueryParams, "format" | "scale">,
+    options: Omit<GetImagesQueryParams, "ids">,
   ): Promise<string>;
 }
 
@@ -20,8 +20,8 @@ export function createFigmaRestClient(personalAccessToken: string): FigmaRestCli
       return response;
     },
 
-    async getNodeImageUrl(fileKey, nodeId, { format, scale }) {
-      const response = await api.getImages({ file_key: fileKey }, { ids: nodeId, format, scale });
+    async getNodeImageUrl(fileKey, nodeId, options) {
+      const response = await api.getImages({ file_key: fileKey }, { ids: nodeId, ...options });
 
       // The `images` map is keyed by the requested id, but Figma normalizes `:` to `-` in some
       // responses, so a direct lookup can miss even though exactly one node was requested.

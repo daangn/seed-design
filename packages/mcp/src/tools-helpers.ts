@@ -167,6 +167,46 @@ export async function fetchNodeImage(
   );
 }
 
+export async function fetchNodeSvg(
+  params: {
+    fileKey?: string;
+    nodeId: string;
+    personalAccessToken?: string;
+    outlineText: boolean;
+  },
+  context: ToolContext,
+) {
+  const { fileKey, nodeId, personalAccessToken, outlineText } = params;
+  const restClient = resolveRestClient(personalAccessToken, context);
+  const { sendCommandToFigma } = context;
+
+  if (restClient && fileKey) {
+    const svgUrl = await restClient.getNodeImageUrl(fileKey, nodeId, {
+      format: "svg",
+      svg_outline_text: outlineText,
+    });
+    const response = await fetch(svgUrl);
+
+    if (!response.ok)
+      throw new Error(`SVG download failed: ${response.status} ${response.statusText}`);
+
+    return await response.text();
+  }
+
+  if (sendCommandToFigma) {
+    const result = (await sendCommandToFigma("export_node_as_svg", {
+      nodeId,
+      outlineText,
+    })) as { svg: string };
+
+    return result.svg;
+  }
+
+  throw new Error(
+    "No connection available. Provide figmaUrl/fileKey with personalAccessToken or FIGMA_PERSONAL_ACCESS_TOKEN, or use WebSocket mode with Figma Plugin.",
+  );
+}
+
 export function requireWebSocket(context: ToolContext): asserts context is ToolContext & {
   sendCommandToFigma: NonNullable<ToolContext["sendCommandToFigma"]>;
 } {

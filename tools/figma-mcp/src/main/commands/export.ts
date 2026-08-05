@@ -73,3 +73,45 @@ export async function exportNodeAsImage(params: ExportNodeParams): Promise<Expor
     );
   }
 }
+
+export interface ExportNodeSvgParams {
+  nodeId: string;
+  outlineText?: boolean;
+}
+
+export interface ExportNodeSvgResult {
+  id: string;
+  svg: string;
+}
+
+export async function exportNodeAsSvg(params: ExportNodeSvgParams): Promise<ExportNodeSvgResult> {
+  const { nodeId, outlineText = false } = params || {};
+
+  if (!nodeId) {
+    throw new Error("Node ID is required");
+  }
+
+  const node = await figma.getNodeByIdAsync(nodeId);
+  if (!node) {
+    throw new Error(`Node not found with ID: ${nodeId}`);
+  }
+
+  if (!("exportAsync" in node)) {
+    throw new Error(`Node does not support export: ${nodeId}`);
+  }
+
+  try {
+    // `SVG_STRING` resolves to a string rather than the `Uint8Array` every other format returns,
+    // so there is no base64 round trip here.
+    const svg = await node.exportAsync({ format: "SVG_STRING", svgOutlineText: outlineText });
+
+    return {
+      id: node.id,
+      svg,
+    };
+  } catch (error) {
+    throw new Error(
+      `Error exporting node as SVG: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
+  }
+}
