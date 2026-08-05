@@ -1,16 +1,18 @@
+import { getLLMMarkdownUrl, shouldIncludeInFullText } from "@/app/_llms/config";
 import { baseUrl } from "@/app/metadata";
 import { getBreezeSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
-  const breezeSource = await getBreezeSource();
-  const pages = breezeSource.getPages().filter((page) => page.slugs.length > 0);
+  const source = await getBreezeSource();
+  const pages = source
+    .getPages()
+    .filter((page) => shouldIncludeInFullText("breeze", page.path));
 
   const pageList = pages
     .map((page) => {
-      const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
-      const llmsUrl = new URL(`/llms/breeze/${slugsWithExt.join("/")}`, baseUrl);
+      const llmsUrl = new URL(getLLMMarkdownUrl("breeze", page.slugs), baseUrl);
       return `- [${page.data.title}](${llmsUrl}): ${page.data.description ?? ""}`;
     })
     .sort()

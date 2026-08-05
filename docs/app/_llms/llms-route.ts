@@ -1,5 +1,5 @@
 import { getLLMText } from "@/app/_llms/get-llm-text";
-import type { Section } from "@/app/_llms/config";
+import { type Section, shouldIncludeInFullText } from "@/app/_llms/config";
 import type { LLMPage } from "@/app/_llms/types";
 import { notFound } from "next/navigation";
 
@@ -21,13 +21,26 @@ interface LLMTextRouteSource {
  * export const { GET, generateStaticParams } = createLLMTextRoute(componentsSource, "components");
  */
 export function createLLMTextRoute(getSource: () => Promise<LLMTextRouteSource>, section: Section) {
+  /**
+   * 섹션 루트 index.mdx는 slug가 없어 `getPage([])`로만 잡힌다. `index`를 그 자리에
+   * 쓰는 건 fumadocs가 `index.mdx`를 부모로 접기 때문 — 형제 slug로는 절대 나타날 수 없다.
+   * 본문이 카탈로그 컴포넌트뿐인 섹션은 excludePaths가 걸러 라우트도 생기지 않는다.
+   */
+  function getRootIndexPage(source: LLMTextRouteSource) {
+    const page = source.getPage([]);
+    return page && shouldIncludeInFullText(section, page.path) ? page : undefined;
+  }
+
   async function GET(_request: Request, context: { params: Promise<{ slug: string[] }> }) {
     const { slug } = await context.params;
 
     const actualSlug = slug.map((s, i) => (i === slug.length - 1 ? s.replace(/\.txt$/, "") : s));
 
     const source = await getSource();
-    const page = source.getPage(actualSlug);
+    const page =
+      actualSlug.length === 1 && actualSlug[0] === "index"
+        ? getRootIndexPage(source)
+        : source.getPage(actualSlug);
 
     if (!page) notFound();
 
@@ -40,12 +53,14 @@ export function createLLMTextRoute(getSource: () => Promise<LLMTextRouteSource>,
 
   async function generateStaticParams() {
     const source = await getSource();
-    return source
-      .generateParams()
-      .filter((p) => p.slug && p.slug.length > 0)
-      .map((p) => ({
-        slug: p.slug!.map((s, i) => (i === p.slug!.length - 1 ? `${s}.txt` : s)),
-      }));
+    const withExt = (segments: string[]) => ({
+      slug: segments.map((s, i) => (i === segments.length - 1 ? `${s}.txt` : s)),
+    });
+
+    return [
+      ...(getRootIndexPage(source) ? [withExt(["index"])] : []),
+      ...source.generateParams().flatMap(({ slug }) => (slug?.length ? [withExt(slug)] : [])),
+    ];
   }
 
   return { GET, generateStaticParams };

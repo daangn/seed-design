@@ -103,10 +103,11 @@ export async function fetchDocsList(sectionId: string, category?: string): Promi
     );
   }
 
-  // Paths stay relative to the section root, matching what get_doc accepts.
+  // Paths stay relative to the section root, matching what get_doc accepts. The section's
+  // own landing page has no path below the root, so it is addressed by id instead.
   return itemsOf(section, category).map(({ item, categoryId }) => ({
     title: item.title,
-    path: item.docUrl.replace(`/${section.id}/`, ""),
+    path: item.docUrl === `/${section.id}` ? item.id : item.docUrl.replace(`/${section.id}/`, ""),
     url: `${SEED_DOCS_BASE_URL}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`,
     category: categoryId,
     ...(item.description && { description: item.description }),
