@@ -1,4 +1,5 @@
-import type { LLMPage, Section } from "./types";
+import type { Section } from "./config";
+import type { LLMPage } from "./types";
 import { getGitHubSourceUrl } from "./config";
 import { ensureRulesReady, normalizeLLMBody } from "./normalize-llm-body";
 import { getPlatformStatusMarkdown } from "./rules/platform-status-rule";
