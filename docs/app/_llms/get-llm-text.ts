@@ -1,4 +1,5 @@
-import type { LLMPage, Section } from "./types";
+import type { Section } from "./config";
+import type { LLMPage } from "./types";
 import { getGitHubSourceUrl } from "./config";
 import { getLynxCompatibilityMarkdown } from "@/lib/lynx-compatibility";
 import type { LynxCompatibility } from "@/lib/lynx-compatibility";
