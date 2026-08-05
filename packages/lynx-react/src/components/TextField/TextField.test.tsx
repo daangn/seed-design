@@ -2,12 +2,18 @@ import "@testing-library/jest-dom";
 import { createRef } from "@lynx-js/react";
 import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Field } from "../Field";
 import { KeyboardAvoidanceActionsContext } from "../KeyboardAvoidingScrollView/context";
 import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED } from "./context";
 import { TextField } from "./index";
+
+const invokeMainThreadUIMethod = vi.fn(
+  (_element: unknown, _method: string, _params: object, callback: (result: object) => void) => {
+    callback({ code: 0, data: null });
+  },
+);
 
 function getRenderedRoot() {
   const root = elementTree.root;
@@ -45,7 +51,34 @@ function fireNativeEvent(nativeRef: NodesRef, element: Element, eventName: strin
   fireEvent(nativeRef as unknown as Element, event);
 }
 
+function fireMainThreadLayoutChange(element: Element) {
+  const EventConstructor = element.ownerDocument.defaultView?.CustomEvent;
+  if (!EventConstructor) throw new Error("Expected CustomEvent constructor to exist.");
+
+  const event = new EventConstructor("bindEvent:layoutchange", { bubbles: true });
+  Object.defineProperty(event, "currentTarget", {
+    configurable: true,
+    enumerable: true,
+    value: { elementRefptr: element },
+  });
+  Object.assign(event, { eventType: "bindEvent", eventName: "layoutchange" });
+
+  const listener = (
+    element as Element & {
+      eventMap?: Record<string, (event: Event) => void>;
+    }
+  ).eventMap?.["bindEvent:layoutchange"];
+  if (!listener) throw new Error("Expected main-thread layoutchange listener to exist.");
+
+  listener(event);
+}
+
 describe("TextField", () => {
+  beforeEach(() => {
+    invokeMainThreadUIMethod.mockClear();
+    lynxTestingEnv.mainThread["__InvokeUIMethod"] = invokeMainThreadUIMethod;
+  });
+
   it("renders root and text adornment slots with default classes", () => {
     render(
       <TextField.Root className="custom-text-field">
@@ -115,11 +148,13 @@ describe("TextField", () => {
 
   it("renders a native input with root-owned native props", () => {
     const onValueChange = vi.fn();
-    render(
+    const inputRef = createRef<NodesRef>();
+    const renderTextField = () => (
       <TextField.Root defaultValue="초기값" name="title" onValueChange={onValueChange}>
-        <TextField.Input placeholder="제목" />
-      </TextField.Root>,
+        <TextField.Input ref={inputRef} placeholder="제목" />
+      </TextField.Root>
     );
+    const { rerender } = render(renderTextField());
 
     const input = getRenderedRoot().querySelector("input");
     if (!input) throw new Error("Expected native input to exist.");
@@ -128,7 +163,125 @@ describe("TextField", () => {
     expect(input).toHaveAttribute("name", "title");
     expect(input).toHaveAttribute("placeholder", "제목");
 
+    fireMainThreadLayoutChange(input);
+    rerender(renderTextField());
+
+    const rerenderedInput = getRenderedRoot().querySelector("input");
+    if (!rerenderedInput) throw new Error("Expected native input to exist after rerender.");
+    expect(rerenderedInput).toBe(input);
+    fireMainThreadLayoutChange(rerenderedInput);
+
+    expect(invokeMainThreadUIMethod).toHaveBeenCalledTimes(1);
+    expect(invokeMainThreadUIMethod).toHaveBeenCalledWith(
+      expect.anything(),
+      "setValue",
+      { value: "초기값" },
+      expect.any(Function),
+    );
+
     expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("does not call setValue for an empty initial value", () => {
+    render(
+      <TextField.Root>
+        <TextField.Input />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input) throw new Error("Expected native input to exist.");
+
+    fireMainThreadLayoutChange(input);
+    fireMainThreadLayoutChange(input);
+
+    expect(invokeMainThreadUIMethod).not.toHaveBeenCalled();
+  });
+
+  it("does not reapply an accepted native input value on the main thread", () => {
+    const inputRef = createRef<NodesRef>();
+    render(
+      <TextField.Root defaultValue="초기값">
+        <TextField.Input ref={inputRef} />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+
+    fireMainThreadLayoutChange(input);
+    expect(invokeMainThreadUIMethod).toHaveBeenCalledTimes(1);
+
+    const invoke = vi.fn(() => ({ exec: vi.fn() }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+    fireNativeEvent(inputRef.current, input, "input", {
+      value: "수정값",
+      selectionStart: 3,
+      selectionEnd: 3,
+      isComposing: false,
+    });
+    fireMainThreadLayoutChange(input);
+
+    expect(invoke).not.toHaveBeenCalled();
+    expect(invokeMainThreadUIMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it("syncs a controlled value that changes after the initial layout", () => {
+    const inputRef = createRef<NodesRef>();
+    const renderTextField = (value: string) => (
+      <TextField.Root value={value}>
+        <TextField.Input ref={inputRef} />
+      </TextField.Root>
+    );
+    const { rerender } = render(renderTextField("초기값"));
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+
+    fireMainThreadLayoutChange(input);
+
+    const exec = vi.fn();
+    const invoke = vi.fn(() => ({ exec }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+    rerender(renderTextField("외부 변경값"));
+
+    expect(invoke).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "setValue",
+        params: { value: "외부 변경값" },
+      }),
+    );
+    expect(exec).toHaveBeenCalledTimes(1);
+  });
+
+  it("restores a rejected controlled value on the main thread", () => {
+    const inputRef = createRef<NodesRef>();
+    render(
+      <TextField.Root value="고정값">
+        <TextField.Input ref={inputRef} />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+
+    const exec = vi.fn();
+    const invoke = vi.fn(() => ({ exec }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+    fireNativeEvent(inputRef.current, input, "input", {
+      value: "거부할 값",
+      selectionStart: 4,
+      selectionEnd: 4,
+      isComposing: false,
+    });
+
+    expect(invoke).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "setValue",
+        params: { value: "고정값" },
+      }),
+    );
+    expect(exec).toHaveBeenCalledTimes(1);
   });
 
   it("applies the native insertion cap only to collapsed input selections", () => {
@@ -269,15 +422,17 @@ describe("TextField", () => {
   });
 
   it("renders an invisible sizing mirror for an autoresizing textarea", () => {
+    const textareaRef = createRef<NodesRef>();
     render(
       <TextField.Root defaultValue={"첫 줄\n둘째 줄\n"}>
-        <TextField.Textarea placeholder="내용" />
+        <TextField.Textarea ref={textareaRef} placeholder="내용" />
       </TextField.Root>,
     );
 
     const root = getRenderedRoot();
     const textarea = root.querySelector("textarea");
     const mirror = root.querySelector(".seed-text-input__textareaMirror");
+    if (!textarea) throw new Error("Expected native textarea to exist.");
 
     expect(textarea).toHaveClass("seed-text-input__textareaControl");
     expect(textarea).toHaveClass("seed-text-input__textareaValue");
@@ -285,6 +440,14 @@ describe("TextField", () => {
     expect(mirror).toHaveClass("seed-text-input__textareaValue");
     expect(mirror).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(mirror?.textContent).toBe("첫 줄\n둘째 줄\n\u200b");
+
+    fireMainThreadLayoutChange(textarea);
+    expect(invokeMainThreadUIMethod).toHaveBeenCalledWith(
+      expect.anything(),
+      "setValue",
+      { value: "첫 줄\n둘째 줄\n" },
+      expect.any(Function),
+    );
   });
 
   it("uses the smaller textarea cap and restores explicit maxlength for a selection", () => {
