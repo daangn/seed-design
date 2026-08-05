@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import type { ComponentData } from "../../../sanity-studio/lib/types";
-import { generateMarkdownTable } from "./platform-status-rule";
+import type { ComponentData } from "@/sanity-studio/lib/types";
+import { generateMarkdownTable } from "./platform-status";
 
 const base: ComponentData = {
   id: "button",

@@ -1,19 +1,17 @@
-import { renderLLMPlaceholders } from "@/lib/llms/options";
+import { renderLLMPlaceholders, tidyLLMMarkdown } from "@/lib/llms/options";
+import { getPlatformStatusMarkdown } from "@/lib/llms/platform-status";
 import type { Section } from "./config";
 import type { LLMPage } from "./types";
 import { getGitHubSourceUrl } from "./config";
-import { ensureRulesReady, normalizeLLMBody } from "./normalize-llm-body";
-import { getPlatformStatusMarkdown } from "./rules/platform-status-rule";
 
 /**
- * Placeholders first: they are NUL-delimited JSON, and the re-parse in `normalizeLLMBody`
- * would not survive one intact. That re-parse goes away with the last old rule; this call
- * stays, because filling the markers is the only step that can await.
+ * The page already exports markdown that the compile-time handlers rewrote; all that is
+ * left is filling the placeholder markers, which is the one step that has to await.
  */
 async function processedBody(page: LLMPage): Promise<string> {
   const renderer = await page.data.load();
   const { exports } = await renderer.render();
-  return normalizeLLMBody(await renderLLMPlaceholders(exports.processed ?? ""));
+  return tidyLLMMarkdown(await renderLLMPlaceholders(exports.processed ?? ""));
 }
 
 /**
@@ -31,7 +29,6 @@ async function platformStatusBlock(page: LLMPage, section: Section): Promise<str
 }
 
 export async function getLLMText(page: LLMPage, section: Section): Promise<string> {
-  await ensureRulesReady();
   const processed = await processedBody(page);
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);

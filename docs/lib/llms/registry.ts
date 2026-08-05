@@ -2,6 +2,7 @@ import { availableSinceHandler } from "./handlers/available-since";
 import { badgeHandler } from "./handlers/badge";
 import { codeBlockTabsHandler } from "./handlers/codeblock-tabs";
 import { componentExampleHandler } from "./handlers/component-example";
+import { catalogGridHandler } from "./handlers/catalog-grid";
 import { componentSpecBlockHandler } from "./handlers/component-spec-block";
 import { iconLibraryHandler } from "./handlers/icon-library";
 import { tokenReferenceHandler } from "./handlers/token-reference";
@@ -21,6 +22,7 @@ import type { LLMHandler, LLMPlaceholder } from "./types";
 export const handlers: LLMHandler[] = [
   availableSinceHandler,
   badgeHandler,
+  catalogGridHandler,
   codeBlockTabsHandler,
   componentExampleHandler,
   componentSpecBlockHandler,
