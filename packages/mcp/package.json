@@ -31,7 +31,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.25.3",
+    "@modelcontextprotocol/server": "^2.0.0",
     "@seed-design/figma": "2.1.0",
     "cac": "^7.0.0",
     "figma-api": "^2.1.2-beta",
