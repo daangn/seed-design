@@ -6,6 +6,9 @@ on:
       - ".github/release/**"
       - ".github/workflows/release-*.yml"
       - ".github/workflows/rootage-release-contract.yml"
+      - ".github/workflows/rootage-cdn-deploy.yml"
+      - ".github/workflows/rootage-cdn-operations.yml"
+      - "tools/rootage-cdn/**"
       - "scripts/release/**"
   workflow_dispatch:
 
@@ -28,7 +31,14 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Verify release unit and integration scenarios
-        run: bun test scripts/release
+        run: bun test scripts/release tools/rootage-cdn/src
+
+      - name: Typecheck and bundle the Rootage CDN Worker
+        env:
+          WRANGLER_LOG_PATH: /tmp/wrangler-rootage-e2e.log
+        run: |
+          bun --filter @seed-design/rootage-cdn typecheck
+          bun --filter @seed-design/rootage-cdn wrangler:dry-run
 
       - name: Generate all tracked artifacts
         run: bun generate:all

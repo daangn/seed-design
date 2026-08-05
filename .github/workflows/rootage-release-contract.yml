@@ -15,40 +15,54 @@ on:
         description: "Integrity from the published npm tarball"
         required: true
         type: string
+      source-sha:
+        description: "Approved commit recorded by npm as gitHead"
+        required: true
+        type: string
     outputs:
       manifest-sha:
         description: "SHA-256 of the immutable completion manifest"
-        value: ${{ jobs.unavailable.outputs.manifest-sha }}
+        value: ${{ jobs.publish.outputs.manifest-sha }}
       file-count:
         description: "Number of verified Rootage JSON files"
-        value: ${{ jobs.unavailable.outputs.file-count }}
+        value: ${{ jobs.publish.outputs.file-count }}
       pointer-before:
         description: "Stable pointer before compare-and-set"
-        value: ${{ jobs.unavailable.outputs.pointer-before }}
+        value: ${{ jobs.publish.outputs.pointer-before }}
       pointer-after:
         description: "Stable pointer after compare-and-set"
-        value: ${{ jobs.unavailable.outputs.pointer-after }}
+        value: ${{ jobs.publish.outputs.pointer-after }}
 
 jobs:
-  unavailable:
-    name: Require DES-2201
+  publish:
+    name: Publish and verify immutable artifacts
     runs-on: ubuntu-latest
-    permissions: {}
+    environment: rootage-production
+    permissions:
+      contents: read
     outputs:
-      manifest-sha: ${{ steps.contract.outputs.manifest-sha }}
-      file-count: ${{ steps.contract.outputs.file-count }}
-      pointer-before: ${{ steps.contract.outputs.pointer-before }}
-      pointer-after: ${{ steps.contract.outputs.pointer-after }}
+      manifest-sha: ${{ steps.publish.outputs.manifest-sha }}
+      file-count: ${{ steps.publish.outputs.file-count }}
+      pointer-before: ${{ steps.publish.outputs.pointer-before }}
+      pointer-after: ${{ steps.publish.outputs.pointer-after }}
     steps:
-      - name: Fail closed until immutable serving is implemented
-        id: contract
-        run: |
-          {
-            echo "manifest-sha="
-            echo "file-count=0"
-            echo "pointer-before="
-            echo "pointer-after="
-          } >> "$GITHUB_OUTPUT"
-          echo "DES-2201 must replace this contract before production activation."
-          echo "Requested version: ${{ inputs.version }}, integrity: ${{ inputs.npm-integrity }}, stable: ${{ inputs.stable }}"
-          exit 1
+      - name: Checkout approved source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.source-sha }}
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - name: Publish, read back and verify Rootage
+        id: publish
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+          ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+          ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
+          ROOTAGE_PUBLIC_BASE_URL: https://seed-design.io
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts publish
+          --version '${{ inputs.version }}'
+          --npm-integrity '${{ inputs.npm-integrity }}'
+          --source-sha '${{ inputs.source-sha }}'
+          --stable '${{ inputs.stable }}'
