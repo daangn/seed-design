@@ -21,7 +21,10 @@ import {
   createToolContext,
   fetchMultipleNodesData,
   fetchNodeData,
+  fetchNodeImage,
+  IMAGE_FORMATS,
   requireWebSocket,
+  type ImageFormat,
   type ToolMode,
 } from "./tools-helpers";
 import type { FigmaWebSocketClient } from "./websocket";
@@ -368,6 +371,36 @@ export function registerTools(
     },
   );
 
+  // Export Node as Image Tool (REST API + WebSocket)
+  server.registerTool(
+    "export_node_as_image",
+    {
+      description: getSingleNodeDescription(
+        "Render a Figma node as an image and return it inline. Use it to see what a node actually looks like, e.g. to compare generated UI against the design.",
+        mode,
+      ),
+      inputSchema: singleNodeParamsSchema.extend({
+        format: z.enum(IMAGE_FORMATS).default("PNG").describe("Export format"),
+        scale: z.number().min(0.01).max(4).default(1).describe("Render scale between 0.01 and 4"),
+      }),
+    },
+    async (
+      params: z.infer<typeof singleNodeBaseSchema> & { format: ImageFormat; scale: number },
+    ) => {
+      try {
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const { base64, mimeType } = await fetchNodeImage(
+          { fileKey, nodeId, personalAccessToken, format: params.format, scale: params.scale },
+          context,
+        );
+
+        return formatImageResponse(base64, mimeType);
+      } catch (error) {
+        return formatErrorResponse("export_node_as_image", error);
+      }
+    },
+  );
+
   // Utility Tools (No Figma connection required)
 
   // Retrieve Color Variable Names Tool
@@ -516,34 +549,6 @@ export function registerTools(
           return formatObjectResponse(result);
         } catch (error) {
           return formatErrorResponse("get_annotations", error);
-        }
-      },
-    );
-
-    // Export Node as Image Tool
-    server.registerTool(
-      "export_node_as_image",
-      {
-        description: "Export a node as an image from Figma (WebSocket mode only)",
-        inputSchema: z.object({
-          nodeId: z.string().describe("The ID of the node to export"),
-          format: z.enum(["PNG", "JPG", "SVG", "PDF"]).optional().describe("Export format"),
-          scale: z.number().positive().optional().describe("Export scale"),
-        }),
-      },
-      async ({ nodeId, format, scale }) => {
-        try {
-          requireWebSocket(context);
-          const result = await context.sendCommandToFigma("export_node_as_image", {
-            nodeId,
-            format: format || "PNG",
-            scale: scale || 1,
-          });
-
-          const typedResult = result as { base64: string; mimeType: string };
-          return formatImageResponse(typedResult.base64, typedResult.mimeType || "image/png");
-        } catch (error) {
-          return formatErrorResponse("export_node_as_image", error);
         }
       },
     );
