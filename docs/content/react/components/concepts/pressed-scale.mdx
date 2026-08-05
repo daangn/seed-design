@@ -198,6 +198,18 @@ SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transfor
 
 SEED 컴포넌트는 마우스 환경에서 hover 시 pressed **색상**을 표시하지만, 축소는 실제로 누른 동안에만 적용합니다. 커스텀 컴포넌트에서도 배율은 `:active`에만 연결하세요. 자세한 내용은 [Interaction States](/react/components/concepts/interaction-states) 문서를 참고하세요.
 
+## 프로젝트 전체에서 끄기
+
+배율을 `1`로 고정하는 규칙을 추가하고, **SEED CSS보다 뒤에 로드**하세요. 배율을 읽는 모든 곳이 이 변수 하나를 거치므로 SEED 컴포넌트와 커스텀 컴포넌트가 함께 꺼집니다.
+
+```css title="press-scale-off.css"
+.seed-press-scale {
+  --seed-press-scale: 1;
+}
+```
+
+평상시 `scale: 1`은 그대로 남으므로 [`position: fixed` 자손](#position-fixed-자손)의 배치 기준은 달라지지 않습니다.
+
 ## 관련 문서
 
 <Cards>
