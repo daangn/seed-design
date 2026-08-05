@@ -1,4 +1,3 @@
-import { availableSinceRule } from "./available-since-rule";
 import { changelogPageRule } from "./changelog-page-rule";
 import { codeBlockTabsRule } from "./codeblock-tabs-rule";
 import { componentExampleRule } from "./component-example-rule";
@@ -12,7 +11,6 @@ import { lynxComponentExampleRule } from "./lynx-component-example-rule";
 import type { AnyRule } from "./types";
 
 export const activeRules: AnyRule[] = [
-  availableSinceRule,
   componentExampleRule,
   lynxComponentExampleRule,
   codeBlockTabsRule,
@@ -26,7 +24,6 @@ export const activeRules: AnyRule[] = [
 ];
 
 export {
-  availableSinceRule,
   changelogPageRule,
   codeBlockTabsRule,
   componentExampleRule,

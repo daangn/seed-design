@@ -1,3 +1,4 @@
+import { availableSinceHandler } from "./handlers/available-since";
 import { badgeHandler } from "./handlers/badge";
 import type { LLMHandler } from "./types";
 
@@ -9,4 +10,4 @@ import type { LLMHandler } from "./types";
  * would find nothing — which reads as "the rule is dead" rather than "it moved".
  * The reverse order is safe, so migrate one tag at a time.
  */
-export const handlers: LLMHandler[] = [badgeHandler];
+export const handlers: LLMHandler[] = [availableSinceHandler, badgeHandler];
