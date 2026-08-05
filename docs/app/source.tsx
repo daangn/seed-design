@@ -17,6 +17,7 @@ import type { ComponentType, SVGProps } from "react";
 import z from "zod";
 import { env } from "@/app/env";
 import { preserveRuleElements } from "@/app/_llms/rule-elements";
+import { llmsHandlerOptions, removeForLLMs } from "@/lib/llms/options";
 import { readFigmaImageManifest } from "@/components/figma-image/figma-image-manifest";
 import { remarkFigmaImage } from "@/components/figma-image/remark-figma-image";
 import { filteredTypeTableGenerator } from "@/components/type-table/generator";
@@ -83,10 +84,18 @@ const designSchema = baseDocsSchema.extend({
   ...headingSchema,
 });
 
-/** 검색 본문과 달리 llms.txt는 룰이 변환할 컴포넌트 태그를 그대로 넘겨받아야 합니다. */
-const filterLlmsElement = preserveRuleElements(filterStructureElement);
+/**
+ * 검색 본문과 달리 llms.txt는 룰이 변환할 컴포넌트 태그를 그대로 넘겨받아야 합니다.
+ *
+ * 컴파일 타임 핸들러가 지우기로 한 노드만 예외로 접습니다. `remarkLlms`는 stringify가
+ * 돌려준 빈 문자열을 "처리 안 함"으로 읽어 원본 JSX로 되돌아가므로, 삭제는 여기서
+ * 정해야 합니다.
+ */
+const filterLlmsElement = (node: Parameters<typeof filterStructureElement>[0]) =>
+  removeForLLMs(node) ? false : preserveRuleElements(filterStructureElement)(node);
 
 const llmsOptions: LLMsOptions = {
+  ...llmsHandlerOptions,
   as: "processed",
   // 기본값 재지정이 아닙니다. `remarkLlms`가 heading 핸들러를 `#` 마커 없이 텍스트만
   // 돌려주는 것으로 덮어쓰므로, 되돌리지 않으면 출력에 heading이 하나도 남지 않습니다.
