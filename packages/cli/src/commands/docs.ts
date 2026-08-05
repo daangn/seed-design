@@ -182,14 +182,31 @@ function normalizeRegistryKeySegment(segment: string): string {
   return itemId ?? segment;
 }
 
+/**
+ * Whether scoping `segments` under `category` would actually resolve to something.
+ *
+ * Mirrors the lookup the category branch of `resolveFromIndex` performs, so a `true`
+ * here means the scoped query has somewhere to land.
+ */
+function categoryContains(category: DocsCategory, head: string): boolean {
+  const q = head.toLowerCase();
+  return category.sections.some(
+    (section) =>
+      section.id === head ||
+      section.items.some(
+        (item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q),
+      ),
+  );
+}
+
 function normalizeDocsQuery({
   query,
   framework,
-  categoryIds,
+  categories,
 }: {
   query?: string;
   framework?: string;
-  categoryIds: string[];
+  categories: DocsCategory[];
 }): string | undefined {
   if (!query) return undefined;
 
@@ -197,9 +214,15 @@ function normalizeDocsQuery({
   if (!segments.length) return undefined;
 
   const [firstSegment] = segments;
-  const isCategoryQuery = categoryIds.includes(firstSegment);
+  if (categories.some((category) => category.id === firstSegment)) {
+    return segments.join("/");
+  }
 
-  if (!isCategoryQuery && framework && categoryIds.includes(framework)) {
+  // Scope to the configured framework, but only when that scope has a match — otherwise
+  // a query like `spacing` (which lives under `foundations`) would be rewritten to
+  // `react/spacing` and hard-fail instead of falling through to the global search.
+  const frameworkCategory = categories.find((category) => category.id === framework);
+  if (frameworkCategory && categoryContains(frameworkCategory, firstSegment)) {
     return [framework, ...segments].join("/");
   }
 
@@ -333,7 +356,7 @@ export const docsCommand = (cli: CAC) => {
         const docsQuery = normalizeDocsQuery({
           query: options.query,
           framework,
-          categoryIds: categories.map((category) => category.id),
+          categories,
         });
         let selectedItem: DocsItem | undefined;
 
@@ -391,7 +414,18 @@ export const docsCommand = (cli: CAC) => {
                 // category/section — select item within section
                 return await selectItem(matchedSection.items);
               }
-              // category/??? — search within category
+              // category/??? — search within category.
+              // An exact id wins outright: `components` and `foundations` hold every page in
+              // one section, so `components/action-button` lands here rather than in the
+              // section branch above, and substring matching alone would prompt between
+              // `action-button` and `floating-action-button`.
+              const exactItem = matchedCategory.sections
+                .flatMap((s) => s.items)
+                .find((i) => i.id === segments[1]);
+              if (exactItem) {
+                return exactItem;
+              }
+
               const q = segments[1].toLowerCase();
               const matched = matchedCategory.sections.flatMap((s) =>
                 s.items
