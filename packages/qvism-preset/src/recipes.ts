@@ -78,7 +78,9 @@ import tabs from "./recipes/tabs";
 import { tagGroup, tagGroupItem } from "./recipes/tag-group";
 import text from "./recipes/text";
 import textInput from "./recipes/text-input";
+import timePicker from "./recipes/time-picker";
 import toggleButton from "./recipes/toggle-button";
+import wheelPicker from "./recipes/wheel-picker";
 import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
 
@@ -173,5 +175,7 @@ export const recipes = {
   tagGroupItem,
   text,
   textInput,
+  timePicker,
   toggleButton,
+  wheelPicker,
 };

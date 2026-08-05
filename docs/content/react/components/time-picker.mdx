@@ -1,0 +1,164 @@
+---
+title: Time Picker
+description: 휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.
+---
+
+<ComponentExample name="react/time-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/react @seed-design/css
+```
+
+## Props
+
+<react-type-table
+  path="../packages/react/src/components/TimePicker/TimePicker.tsx"
+  name="TimePickerProps"
+/>
+
+## Examples
+
+### Basic
+
+`TimePicker`는 휠 형태의 시간 선택 UI만 제공합니다. Trigger, Bottom Sheet, 확인·취소 버튼과 폼 직렬화는 사용하는 화면에서 구성합니다.
+
+```tsx
+import { TimePicker } from "@seed-design/react";
+
+<TimePicker defaultValue={{ hour: 10, minute: 30 }} />
+```
+
+### Controlled
+
+`value`와 `onValueChange`를 사용하여 선택한 시간을 제어할 수 있습니다. `onValueChange`는 스크롤이 선택 항목에 정착하여 값이 확정되었을 때 호출됩니다.
+
+현재는 12시간제 UI만 지원합니다. 다만 `value`, `defaultValue`, `onValueChange`에서 사용하는 `TimePickerValue`는 오전·오후를 별도 필드로 나누지 않고 24시간 형식으로 표현합니다.
+
+<react-type-table
+  path="../packages/react-headless/time-picker/src/useTimePicker.ts"
+  name="TimePickerValue"
+/>
+
+값을 지정하지 않으면 `00:00`에서 시작합니다. 선택된 시간이 없을 때 현재 시각에서 시작하려면 현재 시각의 `hour`와 `minute`을 `defaultValue`로 전달하세요.
+
+<Callout type="warning" title="유효한 값을 전달하세요">
+
+`hour`와 `minute`은 각각 유효한 범위의 정수여야 합니다. 유효하지 않은 `value`, `defaultValue`, `minuteStep`을 전달하면 `RangeError`가 발생합니다.
+
+</Callout>
+
+<ComponentExample name="react/time-picker/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Use Case
+
+Time Picker가 화면에서 차지하는 비중과 플랫폼에 따라 레이아웃을 정합니다.
+
+- 시간 선택이 화면의 주된 작업이면 **Inline**을 사용합니다.
+- 모바일 폼의 시간 입력 필드에는 **Bottom Sheet**를 우선 검토합니다.
+
+Bottom Sheet는 surface를 여는 trigger가 필요합니다. `FieldButton`처럼 현재 값을 표시하는 입력형 버튼과 합성할 수 있습니다. Inline의 확정은 화면의 액션 영역이, Bottom Sheet의 확정은 surface 안의 확인 버튼이 담당합니다.
+
+#### Inline
+
+글쓰기나 설정 플로우에서 시간 선택이 하나의 단계라면 화면 흐름 안에 Time Picker를 직접 배치합니다.
+
+<ComponentExample name="react/time-picker/inline">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/inline.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Bottom Sheet
+
+모바일 폼에서는 입력 필드를 누르면 화면 하단에서 Time Picker가 나타나도록 구성합니다. 사용자가 완료하기 전까지는 임시 값을 관리하고, 확인 버튼을 누를 때 입력 필드의 값으로 반영합니다.
+
+<ComponentExample name="react/time-picker/bottom-sheet">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/bottom-sheet.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Date 객체와 함께 사용하기
+
+`TimePicker`는 날짜나 시간대를 해석하지 않습니다. 애플리케이션에서 `Date`를 상태로 관리한다면 `hour`와 `minute`을 `TimePickerValue`로 변환하고, 변경된 시간을 기존 날짜에 반영하세요.
+
+<ComponentExample name="react/time-picker/date-value">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/date-value.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Minute Step
+
+`minuteStep`은 `1`, `5`, `10`, `15`, `30` 중 하나를 사용할 수 있으며 기본값은 `5`입니다.
+선택된 분이 간격에 맞지 않으면 가장 가까운 값으로 반올림합니다. 예를 들어 9시 13분은 `minuteStep={5}`에서 9시 15분으로 표시됩니다.
+
+반올림은 시각 전체를 기준으로 계산하므로 시가 함께 바뀔 수 있습니다. 예를 들어 23시 59분은 `minuteStep={5}`에서 0시 0분이 됩니다. `value`를 제어하는 경우 정규화 자체로 `onValueChange`가 호출되지는 않습니다.
+
+<ComponentExample name="react/time-picker/minute-step">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/minute-step.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+`disabled`를 사용하면 모든 컬럼을 조작하거나 포커스할 수 없습니다.
+
+<ComponentExample name="react/time-picker/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Locale
+
+`locale`에 따라 오전·오후와 숫자 표기, 컬럼 순서가 달라집니다.
+
+전체와 각 컬럼의 기본 접근성 이름도 `locale`에 따라 한국어 또는 영어로 제공됩니다. 기본값 외의 언어가 필요하거나 맥락을 더 구체적으로 설명하려면 `aria-label`, `periodAriaLabel`, `hourAriaLabel`, `minuteAriaLabel`을 직접 지정합니다.
+
+<ComponentExample name="react/time-picker/localization">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/localization.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Accessibility
+
+Time Picker 전체는 `group`, 오전·오후·시·분 컬럼은 각각 `spinbutton`으로 제공됩니다. 키보드에서는 `ArrowUp`과 `ArrowDown`으로 이전·다음 항목을, `Home`과 `End`로 처음·마지막 항목을 선택할 수 있습니다.
+
+화면에 Time Picker의 이름을 나타내는 요소가 있다면 `aria-labelledby`로 연결할 수 있습니다. `aria-labelledby`를 제공하지 않으면 전체 컴포넌트에는 기본값인 `"시간 선택"`이 사용됩니다.

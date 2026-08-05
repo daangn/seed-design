@@ -90,6 +90,7 @@ export { vars as tagGroupItem } from "./tag-group-item.mjs";
 export { vars as tagGroup } from "./tag-group.mjs";
 export { vars as textButton } from "./text-button.mjs";
 export { vars as textInput } from "./text-input.mjs";
+export { vars as timePicker } from "./time-picker.mjs";
 export { vars as toggleButton } from "./toggle-button.mjs";
 export { vars as topNavigationIconButton } from "./top-navigation-icon-button.mjs";
 export { vars as topNavigationTextButton } from "./top-navigation-text-button.mjs";

@@ -285,6 +285,9 @@
       "path": "/components/text-input.json"
     },
     {
+      "path": "/components/time-picker.json"
+    },
+    {
       "path": "/components/toggle-button.json"
     },
     {

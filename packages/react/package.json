@@ -73,8 +73,10 @@
     "@seed-design/react-switch": "^2.0.1",
     "@seed-design/react-tabs": "^2.0.1",
     "@seed-design/react-text-field": "^2.0.1",
+    "@seed-design/react-time-picker": "workspace:*",
     "@seed-design/react-toggle": "^2.0.1",
     "@seed-design/react-tooltip": "^1.0.1",
+    "@seed-design/react-wheel-picker": "workspace:*",
     "clsx": "^2.1.1",
     "unicode-segmenter": "^0.14.4"
   },
