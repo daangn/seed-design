@@ -1,9 +1,5 @@
-import { API_DOMAIN, API_VER, Api as FigmaApi } from "figma-api";
-import type {
-  GetFileNodesResponse,
-  GetImagesQueryParams,
-  GetImagesResponse,
-} from "@figma/rest-api-spec";
+import { Api as FigmaApi } from "figma-api";
+import type { GetFileNodesResponse, GetImagesQueryParams } from "@figma/rest-api-spec";
 
 export interface FigmaRestClient {
   getFileNodes(fileKey: string, nodeIds: string[]): Promise<GetFileNodesResponse>;
@@ -25,22 +21,9 @@ export function createFigmaRestClient(personalAccessToken: string): FigmaRestCli
     },
 
     async getNodeImageUrl(fileKey, nodeId, options) {
-      // `api.getImages` builds its query with figma-api's `toQueryParams`, which keeps an entry
-      // only when the value is truthy — so `svg_outline_text: false` is dropped and Figma applies
-      // its own default of `true`. Building the query here and going through the underlying
-      // `request` keeps the auth headers and error handling while serializing falsy values.
-      const query = new URLSearchParams({
-        ids: nodeId,
-        ...Object.fromEntries(
-          Object.entries(options)
-            .filter(([_, value]) => value !== undefined)
-            .map(([key, value]) => [key, String(value)]),
-        ),
-      });
-
-      const response = await api.request<GetImagesResponse>(
-        `${API_DOMAIN}/${API_VER}/images/${fileKey}?${query}`,
-      );
+      // Needs figma-api >= 2.1.4-beta: earlier releases drop a falsy query param, which silently
+      // turned `svg_outline_text: false` into Figma's own default of `true`.
+      const response = await api.getImages({ file_key: fileKey }, { ids: nodeId, ...options });
 
       // The `images` map is keyed by the requested id, but Figma normalizes `:` to `-` in some
       // responses, so a direct lookup can miss even though exactly one node was requested.
