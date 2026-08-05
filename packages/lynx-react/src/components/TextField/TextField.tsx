@@ -4,7 +4,7 @@ import type { IntrinsicElements, MainThread, NodesRef } from "@lynx-js/types";
 import { textInput, type TextInputVariantProps } from "@seed-design/lynx-css/recipes/text-input";
 import clsx from "clsx";
 
-import type { LynxStyledElementProps, LynxTextRef } from "../../types";
+import type { LynxAccessibilityProps, LynxStyledElementProps, LynxTextRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useKeyboardAvoidanceActions } from "../KeyboardAvoidingScrollView/context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
@@ -400,7 +400,36 @@ function useNativeTextControl({
   };
 }
 
-export interface TextFieldInputProps extends Omit<NativeInputProps, "children" | "ref"> {}
+interface NativeTextControlProps
+  extends Omit<LynxStyledElementProps, "children">,
+    LynxAccessibilityProps {
+  id?: NativeInputProps["id"];
+  name?: NativeInputProps["name"];
+  hidden?: NativeInputProps["hidden"];
+  flatten?: NativeInputProps["flatten"];
+  focusable?: NativeInputProps["focusable"];
+  bindlayoutchange?: NativeInputProps["bindlayoutchange"];
+  "main-thread:bindlayoutchange"?: NativeInputProps["main-thread:bindlayoutchange"];
+}
+
+export interface TextFieldInputProps extends NativeTextControlProps {
+  placeholder?: NativeInputProps["placeholder"];
+  "confirm-type"?: NativeInputProps["confirm-type"];
+  maxlength?: NativeInputProps["maxlength"];
+  readonly?: NativeInputProps["readonly"];
+  disabled?: NativeInputProps["disabled"];
+  "show-soft-input-on-focus"?: NativeInputProps["show-soft-input-on-focus"];
+  "input-filter"?: NativeInputProps["input-filter"];
+  type?: NativeInputProps["type"];
+  "ios-auto-correct"?: NativeInputProps["ios-auto-correct"];
+  "ios-spell-check"?: NativeInputProps["ios-spell-check"];
+  "android-fullscreen-mode"?: NativeInputProps["android-fullscreen-mode"];
+  bindfocus?: NativeInputProps["bindfocus"];
+  bindblur?: NativeInputProps["bindblur"];
+  bindconfirm?: NativeInputProps["bindconfirm"];
+  bindinput?: NativeInputProps["bindinput"];
+  bindselection?: NativeInputProps["bindselection"];
+}
 
 export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((props, ref) => {
   const classes = useClassNames();
@@ -454,9 +483,29 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
 });
 TextFieldInput.displayName = "TextFieldInput";
 
-export interface TextFieldTextareaProps extends Omit<NativeTextareaProps, "children" | "ref"> {
+export interface TextFieldTextareaProps extends NativeTextControlProps {
   /** 내용에 맞춰 높이를 자동으로 조절한다. @defaultValue true */
   autoresize?: boolean;
+  placeholder?: NativeTextareaProps["placeholder"];
+  "confirm-type"?: NativeTextareaProps["confirm-type"];
+  maxlength?: NativeTextareaProps["maxlength"];
+  maxlines?: NativeTextareaProps["maxlines"];
+  bounces?: NativeTextareaProps["bounces"];
+  "line-spacing"?: NativeTextareaProps["line-spacing"];
+  readonly?: NativeTextareaProps["readonly"];
+  disabled?: NativeTextareaProps["disabled"];
+  "show-soft-input-on-focus"?: NativeTextareaProps["show-soft-input-on-focus"];
+  "input-filter"?: NativeTextareaProps["input-filter"];
+  "enable-scroll-bar"?: NativeTextareaProps["enable-scroll-bar"];
+  type?: NativeTextareaProps["type"];
+  "ios-auto-correct"?: NativeTextareaProps["ios-auto-correct"];
+  "ios-spell-check"?: NativeTextareaProps["ios-spell-check"];
+  "android-fullscreen-mode"?: NativeTextareaProps["android-fullscreen-mode"];
+  bindfocus?: NativeTextareaProps["bindfocus"];
+  bindblur?: NativeTextareaProps["bindblur"];
+  bindconfirm?: NativeTextareaProps["bindconfirm"];
+  bindinput?: NativeTextareaProps["bindinput"];
+  bindselection?: NativeTextareaProps["bindselection"];
 }
 
 export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaProps>(

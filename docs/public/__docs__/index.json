@@ -1274,17 +1274,16 @@
               "docUrl": "/lynx/foundation/typography/text"
             },
             {
-              "id": "text-field",
-              "title": "TextField",
-              "description": "한 줄 또는 여러 줄 텍스트를 입력받고 Field의 레이블·설명·오류 상태와 조합하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/text-field",
-              "snippetKey": "lynx/ui:text-field",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "text-field.tsx"
-                }
-              ]
+              "id": "text-field-input",
+              "title": "Text Field Input",
+              "description": "한 줄 텍스트를 입력받고 Field의 레이블·설명·오류 상태와 조합하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/text-field-input"
+            },
+            {
+              "id": "text-field-textarea",
+              "title": "Text Field Textarea",
+              "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/text-field-textarea"
             },
             {
               "id": "theming",

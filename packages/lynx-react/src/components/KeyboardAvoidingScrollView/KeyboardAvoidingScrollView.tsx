@@ -6,12 +6,17 @@ import {
   useRef,
   type ForwardRefExoticComponent,
   type PropsWithoutRef,
-  type ReactNode,
   type RefAttributes,
 } from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 
-import type { LynxViewProps, LynxViewRef } from "../../types";
+import type {
+  LynxAccessibilityProps,
+  LynxStyledElementProps,
+  LynxTouchProps,
+  LynxViewProps,
+  LynxViewRef,
+} from "../../types";
 import { KeyboardAvoidanceActionsContext, type KeyboardAvoidanceActions } from "./context";
 import { createKeyboardAvoidingEngine, type KeyboardAvoidingScheduler } from "./engine";
 import { lynxKeyboardEventSource } from "./keyboard-event-source";
@@ -76,8 +81,25 @@ const spacerProps = {
  * - 큰 Textarea의 caret 단위 회피
  */
 export interface KeyboardAvoidingScrollViewProps
-  extends Omit<NativeScrollViewProps, "children" | "flatten" | "ref" | "scroll-orientation"> {
-  children?: ReactNode;
+  extends LynxStyledElementProps,
+    LynxAccessibilityProps,
+    LynxTouchProps {
+  id?: NativeScrollViewProps["id"];
+  hidden?: NativeScrollViewProps["hidden"];
+  focusable?: NativeScrollViewProps["focusable"];
+  bounces?: NativeScrollViewProps["bounces"];
+  "enable-scroll"?: NativeScrollViewProps["enable-scroll"];
+  "scroll-bar-enable"?: NativeScrollViewProps["scroll-bar-enable"];
+  "upper-threshold"?: NativeScrollViewProps["upper-threshold"];
+  "lower-threshold"?: NativeScrollViewProps["lower-threshold"];
+  "initial-scroll-offset"?: NativeScrollViewProps["initial-scroll-offset"];
+  "initial-scroll-to-index"?: NativeScrollViewProps["initial-scroll-to-index"];
+  bindlayoutchange?: NativeScrollViewProps["bindlayoutchange"];
+  bindscrolltoupper?: NativeScrollViewProps["bindscrolltoupper"];
+  bindscrolltolower?: NativeScrollViewProps["bindscrolltolower"];
+  bindscroll?: NativeScrollViewProps["bindscroll"];
+  bindscrollend?: NativeScrollViewProps["bindscrollend"];
+  bindcontentsizechanged?: NativeScrollViewProps["bindcontentsizechanged"];
   /** 키보드와 활성 입력 요소 사이에 확보할 간격(px). @defaultValue 24 */
   keyboardGap?: number;
   /** 회피 위치로 이동할 때 사용할 스크롤 방식. @defaultValue "smooth" */
