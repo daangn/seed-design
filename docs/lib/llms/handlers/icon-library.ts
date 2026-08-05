@@ -1,8 +1,7 @@
-import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
-import type { Rule } from "./types";
-import { escapeCell, markdownRow } from "@/lib/llms/markdown-table";
-import monochromeRaw from "@karrotmarket/icon-data/monochrome.json";
-import multicolorRaw from "@karrotmarket/icon-data/multicolor.json";
+import monochromeRaw from "@karrotmarket/icon-data/monochrome.json" with { type: "json" };
+import multicolorRaw from "@karrotmarket/icon-data/multicolor.json" with { type: "json" };
+import { escapeCell, markdownRow } from "../markdown-table";
+import type { LLMHandler } from "../types";
 
 export interface RawIconData {
   name: string;
@@ -92,11 +91,7 @@ function toSortedRows(icons: readonly RawIconData[]): IconRow[] {
   return icons.map(toRow).sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function formatList(values: string[]): string {
-  return values.join(", ");
-}
-
-export function buildTable(rows: IconRow[]): string {
+function buildTable(rows: IconRow[]): string {
   const headers = [
     "Icon Name",
     "React Component Name",
@@ -105,55 +100,57 @@ export function buildTable(rows: IconRow[]): string {
     "Services",
     "Tags",
   ];
-  const separator = headers.map(() => "---");
   const bodyRows = rows.map((row) =>
     markdownRow([
       escapeCell(row.name),
       escapeCell(row.reactComponentName),
       escapeCell(row.figmaName),
-      escapeCell(formatList(row.keywords)),
-      escapeCell(formatList(row.services)),
-      escapeCell(formatList(row.tags)),
+      escapeCell(row.keywords.join(", ")),
+      escapeCell(row.services.join(", ")),
+      escapeCell(row.tags.join(", ")),
     ]),
   );
 
-  return [markdownRow(headers), markdownRow(separator), ...bodyRows].join("\n");
+  return [markdownRow(headers), markdownRow(headers.map(() => "---")), ...bodyRows].join("\n");
 }
 
 export function buildSection(title: string, rows: IconRow[]): string | null {
   if (rows.length === 0) return null;
+
   return `## ${title}\n\n${buildTable(rows)}`;
 }
 
-export function createIconLibraryRule(
+/**
+ * `<IconLibrary />`를 아이콘 카탈로그 표로 바꾼다. 아이콘 이름·React 컴포넌트 이름·
+ * Figma 이름과 검색에 쓰는 키워드/서비스/태그를 세트별 `##` 절로 나눠 싣는다.
+ *
+ * 두 세트가 모두 비면 태그를 그대로 남긴다 — 이 페이지는 본문이 이 표뿐이라, 지우면
+ * 아이콘을 찾을 단서가 llms 출력에서 통째로 사라진다.
+ *
+ * 아이콘 데이터를 인자로 받는다. 테스트는 합성 데이터로 핸들러를 만들어 실제 아이콘
+ * 목록에 묶이지 않게 한다.
+ */
+export function createIconLibraryHandler(
   monochrome: readonly RawIconData[],
   multicolor: readonly RawIconData[],
-): Rule<MdxJsxFlowElement> {
+): LLMHandler {
   const monochromeRows = toSortedRows(monochrome);
   const multicolorRows = toSortedRows(multicolor);
 
   return {
-    name: "IconLibrary",
-    match: (node): node is MdxJsxFlowElement =>
-      node.type === "mdxJsxFlowElement" && node.name === "IconLibrary",
-    transform: (node) => {
-      try {
-        const sections = [
-          buildSection("Monochrome Icons", monochromeRows),
-          buildSection("Multicolor Icons", multicolorRows),
-        ].filter((section): section is string => Boolean(section));
+    names: ["IconLibrary"],
+    render: () => {
+      const sections = [
+        buildSection("Monochrome Icons", monochromeRows),
+        buildSection("Multicolor Icons", multicolorRows),
+      ].filter((section): section is string => Boolean(section));
 
-        if (sections.length === 0) return [node];
-
-        return [{ type: "html", value: sections.join("\n\n") }];
-      } catch {
-        return [node];
-      }
+      return sections.length > 0 ? sections.join("\n\n") : undefined;
     },
   };
 }
 
-export const iconLibraryRule = createIconLibraryRule(
+export const iconLibraryHandler = createIconLibraryHandler(
   Object.values(monochromeRaw as Record<string, RawIconData>),
   Object.values(multicolorRaw as Record<string, RawIconData>),
 );
