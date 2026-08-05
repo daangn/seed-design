@@ -1,6 +1,6 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
-import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
+import { getDisplayTitle, sectionOverviewLine, sortCategories } from "@/app/_llms/utils";
 import { getReactSource } from "@/app/source";
 
 export const revalidate = false;
@@ -69,7 +69,7 @@ React 컴포넌트 라이브러리 문서입니다.
 
 ## Quick Access
 
-- [전체 문서 (llms-full.txt)](${new URL("/react/llms-full.txt", baseUrl)}): 모든 React 문서를 하나의 파일로
+- [전체 문서 (llms-full.txt)](${new URL("/react/llms-full.txt", baseUrl)}): 모든 React 문서를 하나의 파일로${sectionOverviewLine("react", pages, baseUrl)}
 
 ## Categories
 

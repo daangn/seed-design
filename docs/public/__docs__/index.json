@@ -1,6 +1,26 @@
 {
   "categories": [
     {
+      "id": "get-started",
+      "label": "Get Started",
+      "llmsIndexUrl": "/get-started/llms.txt",
+      "sections": [
+        {
+          "id": "get-started",
+          "label": "시작하기",
+          "items": [
+            {
+              "id": "overview",
+              "title": "Get Started",
+              "description": "SEED는 당근 제품을 위한 통합 디자인 언어예요. 디자인과 코드가 하나의 소스를 바라보게 만들어, 누가 만들어도 같은 품질의 경험이 나오도록 돕는 것이 목표예요.",
+              "docUrl": "/get-started",
+              "llmsUrl": "/llms/get-started/index.txt"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "foundations",
       "label": "Foundations",
       "llmsIndexUrl": "/foundations/llms.txt",
@@ -11,7 +31,7 @@
           "items": [
             {
               "id": "color",
-              "title": "Overview",
+              "title": "Overview (color)",
               "description": "SEED 색상 시스템은 접근성을 고려하며 제품의 계층, 상태, 브랜드를 표현할 수 있도록 돕습니다.",
               "docUrl": "/foundations/color",
               "llmsUrl": "/llms/foundations/color.txt"
@@ -31,7 +51,7 @@
             },
             {
               "id": "design-token",
-              "title": "Overview",
+              "title": "Overview (design-token)",
               "description": "디자인 토큰은 디자인 결정을 사람과 기계가 이해할 수 있는 방식으로 인코딩하는 방법입니다.",
               "docUrl": "/foundations/design-token",
               "llmsUrl": "/llms/foundations/design-token.txt"
@@ -58,7 +78,7 @@
             },
             {
               "id": "iconography",
-              "title": "Overview",
+              "title": "Overview (iconography)",
               "description": "아이콘은 사용자가 복잡한 정보나 기능을 빠르게 이해할 수 있도록 도와주는 디자인 요소입니다.",
               "docUrl": "/foundations/iconography",
               "llmsUrl": "/llms/foundations/iconography.txt"
@@ -1037,6 +1057,13 @@
               "llmsUrl": "/llms/react/getting-started/installation/manual.txt"
             },
             {
+              "id": "overview",
+              "title": "Overview",
+              "description": "SEED를 React 프로젝트에서 사용하는 방법을 알아봅니다.",
+              "docUrl": "/react",
+              "llmsUrl": "/llms/react/index.txt"
+            },
+            {
               "id": "rsbuild",
               "title": "Rsbuild",
               "description": "Rsbuild 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
@@ -1302,14 +1329,14 @@
             },
             {
               "id": "composition",
-              "title": "Composition",
+              "title": "Composition (Concepts)",
               "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
               "docUrl": "/react/components/concepts/composition",
               "llmsUrl": "/llms/react/components/concepts/composition.txt"
             },
             {
               "id": "composition",
-              "title": "Composition",
+              "title": "Composition (Iconography)",
               "description": "아이콘을 사용하는 방법을 설명합니다.",
               "docUrl": "/react/components/iconography/composition",
               "llmsUrl": "/llms/react/components/iconography/composition.txt"
@@ -2290,6 +2317,13 @@
               ]
             },
             {
+              "id": "overview",
+              "title": "Overview",
+              "description": "프로젝트에 바로 사용할 수 있는 유용한 UI 컴포넌트 큐레이션",
+              "docUrl": "/breeze",
+              "llmsUrl": "/llms/breeze/index.txt"
+            },
+            {
               "id": "scroll-auto-hide",
               "title": "Scroll Auto Hide",
               "description": "스크롤 방향에 따라 고정 영역을 숨기고 드러내는 컴포넌트",
@@ -2343,6 +2377,13 @@
               "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
               "docUrl": "/lynx/getting-started/installation",
               "llmsUrl": "/llms/lynx/getting-started/installation.txt"
+            },
+            {
+              "id": "overview",
+              "title": "Overview",
+              "description": "SEED와 Lynx를 함께 사용하는 방법을 알아봅니다.",
+              "docUrl": "/lynx",
+              "llmsUrl": "/llms/lynx/index.txt"
             },
             {
               "id": "theming",
@@ -2679,6 +2720,13 @@
               "description": "AI Agent를 활용해 Figma 디자인을 React 코드로 변환하는 Model Context Protocol(MCP)를 제공합니다.",
               "docUrl": "/ai-integration/figma-mcp",
               "llmsUrl": "/llms/ai-integration/figma-mcp.txt"
+            },
+            {
+              "id": "overview",
+              "title": "Overview",
+              "description": "AI 도구와 SEED를 함께 활용하는 방법을 알아봅니다.",
+              "docUrl": "/ai-integration",
+              "llmsUrl": "/llms/ai-integration/index.txt"
             },
             {
               "id": "skill",
