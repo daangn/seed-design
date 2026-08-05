@@ -37,6 +37,9 @@
       "import": "./dist/stdio.js"
     }
   },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "clean": "rm -rf dist",
     "build": "bunchee",

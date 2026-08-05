@@ -25,6 +25,9 @@
       "import": "./dist/index.js"
     }
   },
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "clean": "rm -rf dist bin",
     "build": "bunchee",
