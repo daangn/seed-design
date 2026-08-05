@@ -84,6 +84,16 @@ https://seed-design.io/__registry__/{react|lynx}/{registryId}/{itemId}.json
 
 전체·플랫폼 인덱스에서 `CLI`, `Commands`, `Configuration`에 해당하는 현재 링크를 찾고 내용을 읽습니다. 문서가 어느 플랫폼 트리 아래에 있는지만으로 지원 플랫폼이나 옵션을 추론하지 않습니다. 명령·플래그·설정 필드는 연결된 문서 또는 설치한 CLI 소스가 명시한 값만 사용합니다.
 
+`docs` 명령의 첫 경로 조각은 문서 사이트의 최상위 섹션과 같고, 그 목록은 전체 인덱스에서
+읽습니다. 같은 컴포넌트라도 섹션에 따라 다른 문서를 가리킵니다: `components/{name}`은
+**디자인 스펙**이고, React 구현은 `react/components/{name}`입니다.
+
+```bash
+npx @seed-design/cli@latest docs components/action-button        # 디자인 스펙
+npx @seed-design/cli@latest docs react/components/action-button  # React 구현
+npx @seed-design/cli@latest docs foundations/color               # 파운데이션
+```
+
 ## 4. 판단이 필요한 절차
 
 | 요청 | 읽을 참조 |

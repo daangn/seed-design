@@ -282,6 +282,30 @@ npx @seed-design/cli@latest docs action-button
 npx @seed-design/cli@latest docs react/components/action-button
 ```
 
+카테고리는 문서 사이트의 최상위 섹션과 같아요. `get-started`, `foundations`,
+`components`, `patterns`, `docs`, `react`, `breeze`, `lynx`, `ai-integration`,
+`updates`를 쓸 수 있어요.
+
+<Callout type="info">
+  `components`는 **디자인 스펙**(Anatomy, Properties, Guidelines) 카테고리예요.
+  React 구현 문서는 `react/components` 아래에 있어요.
+
+  ```sh
+  # 디자인 스펙
+  npx @seed-design/cli@latest docs components/action-button
+
+  # React 구현
+  npx @seed-design/cli@latest docs react/components/action-button
+  ```
+
+  `--framework`(또는 설정 파일의 `framework`)를 지정했다면 카테고리 없이 이름만
+  써도 해당 프레임워크 문서로 찾아가요.
+
+  ```sh
+  npx @seed-design/cli@latest docs action-button --framework react
+  ```
+</Callout>
+
 카테고리만 지정하면 해당 카테고리의 섹션/항목을 선택할 수 있어요.
 
 ```package-install
