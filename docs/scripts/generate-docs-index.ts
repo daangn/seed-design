@@ -1,15 +1,11 @@
 import chalk from "chalk";
-import { existsSync, readFileSync, readdirSync, statSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { promises as fs } from "fs";
 import matter from "gray-matter";
 import path from "node:path";
 import type { DocsCategory, DocsIndex, DocsItem, DocsSection } from "../../packages/cli/src/schema";
-import {
-  type Section,
-  sectionConfigs,
-  sections,
-  shouldIncludeInFullText,
-} from "../app/_llms/config";
+import { type Section, sectionConfigs, sections } from "../app/_llms/config";
+import { listSectionPages } from "./content-pages";
 
 type DocsSnippet = NonNullable<DocsItem["snippets"]>[number];
 
@@ -28,44 +24,6 @@ type Frontmatter = {
   description?: string;
   deprecated?: boolean;
 };
-
-/**
- * Convert a file path relative to its content dir into URL slugs.
- * Strips route groups (parenthesized dirs) and the .mdx extension.
- * Returns null for index files at the content dir root.
- */
-export function filePathToSlugs(relPath: string): string[] | null {
-  // Remove .mdx extension
-  let clean = relPath.replace(/\.mdx$/, "");
-
-  // Remove route group directories (e.g., "(buttons)/")
-  clean = clean.replace(/\([^)]+\)\//g, "");
-
-  // Handle index files
-  if (clean === "index") return null;
-  if (clean.endsWith("/index")) {
-    clean = clean.replace(/\/index$/, "");
-  }
-
-  return clean.split("/").filter(Boolean);
-}
-
-/**
- * Recursively collect all .mdx files from a directory.
- */
-function collectMdxFiles(dir: string, base = ""): string[] {
-  const results: string[] = [];
-  for (const entry of readdirSync(dir)) {
-    const fullPath = path.join(dir, entry);
-    const relPath = base ? `${base}/${entry}` : entry;
-    if (statSync(fullPath).isDirectory()) {
-      results.push(...collectMdxFiles(fullPath, relPath));
-    } else if (entry.endsWith(".mdx")) {
-      results.push(relPath);
-    }
-  }
-  return results;
-}
 
 const SNIPPET_EXT_LABELS: Record<string, string> = {
   ".tsx": "react",
@@ -176,12 +134,7 @@ async function main() {
     // sectionId -> DocsItem[]
     const sectionsMap = new Map<string, DocsItem[]>();
 
-    for (const relPath of collectMdxFiles(sourceDir)) {
-      if (!shouldIncludeInFullText(section, relPath)) continue;
-
-      const slugs = filePathToSlugs(relPath);
-      if (!slugs || slugs.length === 0) continue;
-
+    for (const { relPath, slugs } of listSectionPages(section, contentDir)) {
       const frontmatter = matter(readFileSync(path.join(sourceDir, relPath), "utf-8"))
         .data as Frontmatter;
       if (!frontmatter.title) continue;
