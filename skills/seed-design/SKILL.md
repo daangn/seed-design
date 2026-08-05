@@ -111,6 +111,7 @@ https://seed-design.io/__registry__/{react|lynx}/{registryId}/{itemId}.json
 npx @seed-design/cli@latest docs components/action-button        # 디자인 스펙
 npx @seed-design/cli@latest docs react/components/action-button  # React 구현
 npx @seed-design/cli@latest docs foundations/color               # 파운데이션
+npx @seed-design/cli@latest docs react/overview                  # 카테고리 개요
 ```
 
 ## 4. 판단이 필요한 절차

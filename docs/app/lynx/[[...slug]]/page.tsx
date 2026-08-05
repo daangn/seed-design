@@ -1,4 +1,4 @@
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
+import { getPageMarkdownUrl } from "@/app/_llms/config";
 import { getLynxSource } from "@/app/source";
 import { LynxCompatibilityBadges } from "@/components/lynx-compatibility";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
@@ -16,7 +16,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   if (!page) notFound();
 
   const { body, toc, lastModified } = await loadMarkdownPage(page);
-  const markdownUrl = getLLMMarkdownUrl("lynx", page.slugs);
+  const markdownUrl = getPageMarkdownUrl("lynx", page);
   const cover = page.data.frontmatter.coverImage
     ? resolveCoverImage(page.data.frontmatter.coverImage)
     : null;

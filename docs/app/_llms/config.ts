@@ -25,7 +25,12 @@ export interface SectionConfig {
   /** 루트 llms.txt 표와 CLI 인덱스의 카테고리 라벨 */
   label: string;
   description: string;
-  /** llms-full.txt와 CLI 인덱스에서 제외할 콘텐츠 상대 경로. 없으면 빈 배열. */
+  /**
+   * llms-full.txt와 CLI 인덱스에서 제외할 콘텐츠 상대 경로. 없으면 빈 배열.
+   *
+   * 섹션 루트 `index.mdx`는 기본적으로 포함된다 — 개요 산문이 llms 출력 어디에도
+   * 안 나오던 문제 때문. 본문이 카탈로그 컴포넌트 한 줄뿐인 섹션만 여기서 뺀다.
+   */
   excludePaths: string[];
   /** `/{section}/llms-full.txt` 라우트 보유 여부 */
   fullText: boolean;
@@ -63,6 +68,7 @@ export const sectionConfigs = {
     baseUrl: "/foundations",
     label: "Foundations",
     description: "색상, 타이포그래피, 간격 등 디자인 파운데이션",
+    // index.mdx 본문은 카탈로그 컴포넌트 한 줄이라 마크다운으로 뽑을 내용이 없다.
     excludePaths: ["index.mdx"],
     fullText: false,
     // color/*, design-token/*, iconography/*는 중첩이지만 나머지는 평면이라
@@ -75,6 +81,7 @@ export const sectionConfigs = {
     baseUrl: "/components",
     label: "Components",
     description: "컴포넌트 디자인 스펙 (Anatomy, Properties, Guidelines)",
+    // index.mdx는 카탈로그 셸 (foundations 참고).
     excludePaths: ["index.mdx", "progress-board.mdx"],
     fullText: false,
     grouping: { kind: "flat", id: "components", label: "컴포넌트" },
@@ -85,6 +92,7 @@ export const sectionConfigs = {
     baseUrl: "/patterns",
     label: "Patterns",
     description: "디자인 패턴 및 가이드라인",
+    // index.mdx는 카탈로그 셸 (foundations 참고).
     excludePaths: ["index.mdx"],
     fullText: false,
     grouping: { kind: "flat", id: "patterns", label: "패턴" },
@@ -95,7 +103,7 @@ export const sectionConfigs = {
     baseUrl: "/docs",
     label: "Design Guidelines",
     description: "마이그레이션 등 디자인 참고 문서",
-    excludePaths: ["index.mdx"],
+    excludePaths: [],
     fullText: true,
     grouping: { kind: "byFirstSlug", labels: { migration: "마이그레이션" } },
     snippetRegistries: ["react/ui", "react/breeze"],
@@ -105,7 +113,7 @@ export const sectionConfigs = {
     baseUrl: "/react",
     label: "React",
     description: "React 컴포넌트 라이브러리, API 레퍼런스, 사용 예제",
-    excludePaths: ["index.mdx"],
+    excludePaths: [],
     fullText: true,
     grouping: {
       kind: "byFirstSlug",
@@ -126,7 +134,7 @@ export const sectionConfigs = {
     baseUrl: "/breeze",
     label: "Breeze",
     description: "프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트",
-    excludePaths: ["index.mdx"],
+    excludePaths: [],
     fullText: true,
     grouping: { kind: "flat", id: "components", label: "컴포넌트" },
     snippetRegistries: ["react/breeze"],
@@ -136,7 +144,7 @@ export const sectionConfigs = {
     baseUrl: "/lynx",
     label: "Lynx",
     description: "Lynx 프레임워크",
-    excludePaths: ["index.mdx"],
+    excludePaths: [],
     fullText: true,
     grouping: {
       kind: "byFirstSlug",
@@ -154,7 +162,7 @@ export const sectionConfigs = {
     baseUrl: "/ai-integration",
     label: "AI Integration",
     description: "MCP, llms.txt 활용법 등 AI 도구 연동 가이드",
-    excludePaths: ["index.mdx"],
+    excludePaths: [],
     fullText: true,
     // skill.mdx + (mcp)/ 2장뿐이라 byFirstSlug면 단일 항목 섹션 3개가 된다.
     grouping: { kind: "flat", id: "guides", label: "가이드" },
@@ -183,16 +191,46 @@ export function getGitHubSourceUrl(section: Section, pagePath: string): string {
   return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/docs/content/${config.contentDir}/${encodedPagePath}`;
 }
 
+/** 섹션의 문서 목록 llms.txt. 개별 페이지가 아니라 섹션 전체의 진입점이다. */
+export function getSectionLLMIndexUrl(section: Section): string {
+  return `${sectionConfigs[section].baseUrl}/llms.txt`;
+}
+
 /**
  * @description section 과 slugs 를 받아서 llms.txt 파일의 경로를 반환합니다.
- * @example /docs -> /docs/llms.txt
  * @example /components/button -> /llms/components/button.txt
+ * @example /react (섹션 루트 index.mdx) -> /llms/react/index.txt
  */
 export function getLLMMarkdownUrl(section: Section, slugs: string[]): string {
-  const config = sectionConfigs[section];
-  if (slugs.length === 0) return `${config.baseUrl}/llms.txt`;
-  const slugsWithExt = slugs.map((s, i) => (i === slugs.length - 1 ? `${s}.txt` : s));
+  // 섹션 루트 index.mdx는 slug가 없다. fumadocs가 `index.mdx`를 부모로 접기 때문에
+  // `index`는 형제 slug로 절대 나타날 수 없어, 충돌 없는 이름으로 쓸 수 있다.
+  const slugsWithExt = (slugs.length === 0 ? ["index"] : slugs).map((s, i, all) =>
+    i === all.length - 1 ? `${s}.txt` : s,
+  );
   return `/llms/${section}/${slugsWithExt.join("/")}`;
+}
+
+/** 섹션 루트 index.mdx가 사이트에서 갖는 URL. slug가 없어 baseUrl 자체가 된다. */
+export function getDocUrl(section: Section, slugs: string[]): string {
+  const { baseUrl } = sectionConfigs[section];
+  return slugs.length === 0 ? baseUrl : `${baseUrl}/${slugs.join("/")}`;
+}
+
+/**
+ * 페이지 헤더의 "Markdown으로 보기"가 가리킬 주소.
+ *
+ * 본문이 카탈로그 컴포넌트뿐인 섹션 루트는 마크다운으로 내보낼 게 없어 라우트가 없다.
+ * 그런 페이지만 섹션 문서 목록으로 대신 보낸다.
+ */
+export function getPageMarkdownUrl(
+  section: Section,
+  page: { slugs: string[]; path: string },
+): string {
+  if (page.slugs.length === 0 && !shouldIncludeInFullText(section, page.path)) {
+    return getSectionLLMIndexUrl(section);
+  }
+
+  return getLLMMarkdownUrl(section, page.slugs);
 }
 
 export function shouldIncludeInFullText(section: Section, pagePath: string): boolean {
