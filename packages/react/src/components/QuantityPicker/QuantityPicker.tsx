@@ -77,8 +77,15 @@ function renderIcon(
   );
 }
 
-export type QuantityPickerRootProps = QuantityPickerVariantProps &
-  QuantityPickerPrimitive.RootProps;
+export type QuantityPickerRootProps = Omit<QuantityPickerVariantProps, "layout"> &
+  QuantityPickerPrimitive.RootProps & {
+    /**
+     * 컴포넌트가 부모 Flex 레이아웃의 여유 공간을 채울지 지정합니다.
+     * @since 2.2.0
+     * @default "hug"
+     */
+    layout?: QuantityPickerVariantProps["layout"];
+  };
 
 export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPickerRootProps>(
   (props, ref) => {

@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { quantityPickerVariantMap } from "@seed-design/css/recipes/quantity-picker";
+import { HStack, ImageFrame, Text, VStack } from "@seed-design/react";
 
+import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 import { QuantityPicker } from "seed-design/ui/quantity-picker";
 
 import { SeedThemeDecorator } from "./components/decorator";
@@ -87,3 +89,28 @@ export const MaxValuesFontScalingExtraExtraExtraLarge = createStoryWithParameter
   ...MaxValuesTemplate,
   parameters: { fontScale: "Extra Extra Extra Large" },
 });
+
+export const LayoutFill: Story = {
+  args: { ...defaultProps, defaultValue: 1, layout: "fill" },
+  render: (args) => (
+    <VStack width="360px" gap="x3" align="stretch">
+      <ImageFrame
+        src="https://invalid-url"
+        alt="상품 이미지"
+        ratio={1}
+        borderRadius="r3"
+        style={{ width: "100%" }}
+        fallback={<ContentPlaceholder type="commerce" />}
+      />
+      <HStack width="full">
+        <QuantityPicker {...args} />
+      </HStack>
+      <VStack gap="x1">
+        <Text color="fg.neutral">새청무 쌀 500g</Text>
+        <Text color="fg.neutral" textStyle="t5Bold">
+          4,000원
+        </Text>
+      </VStack>
+    </VStack>
+  ),
+};

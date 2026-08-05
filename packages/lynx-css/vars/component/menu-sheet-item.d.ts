@@ -61,9 +61,13 @@ export declare const vars: {
   /**
    * 라벨을 왼쪽 정렬합니다.
    */
-  "labelAlignLeft": {},
+  "labelAlignLeft": {
+    "enabled": {}
+  },
   /**
    * 라벨을 중앙 정렬합니다.
    */
-  "labelAlignCenter": {}
+  "labelAlignCenter": {
+    "enabled": {}
+  }
 }
