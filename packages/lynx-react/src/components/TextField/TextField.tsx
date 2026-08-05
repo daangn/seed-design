@@ -1,5 +1,6 @@
 import * as React from "@lynx-js/react";
-import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
+import { useMainThreadRef } from "@lynx-js/react";
+import type { IntrinsicElements, MainThread, NodesRef } from "@lynx-js/types";
 import { textInput, type TextInputVariantProps } from "@seed-design/lynx-css/recipes/text-input";
 import clsx from "clsx";
 
@@ -209,6 +210,7 @@ interface UseNativeTextControlOptions {
   bindinput?: (event: NativeInputEvent | NativeTextareaEvent) => void;
   bindfocus?: NativeInputProps["bindfocus"] | NativeTextareaProps["bindfocus"];
   bindblur?: NativeInputProps["bindblur"] | NativeTextareaProps["bindblur"];
+  mainThreadBindLayoutChange?: NativeInputProps["main-thread:bindlayoutchange"];
 }
 
 function useNativeTextControl({
@@ -216,6 +218,7 @@ function useNativeTextControl({
   bindinput,
   bindfocus,
   bindblur,
+  mainThreadBindLayoutChange,
 }: UseNativeTextControlOptions) {
   const textFieldContext = React.useContext(TextFieldContext);
   if (!textFieldContext) {
@@ -225,8 +228,10 @@ function useNativeTextControl({
   const fieldContext = useFieldContext({ strict: false });
   const keyboardAvoidance = useKeyboardAvoidanceActions();
   const nativeRef = React.useRef<NodesRef | null>(null);
+  const didSyncInitialNativeValueRef = useMainThreadRef(false);
   const ownerRef = React.useRef<object>({});
   const lastNativeValueRef = React.useRef<string | null>(null);
+  const didSkipInitialValueEffectRef = React.useRef(false);
   const [editingState, setEditingState] = React.useState<NativeEditingState>(() => ({
     selectionStart: textFieldContext.value.length,
     selectionEnd: textFieldContext.value.length,
@@ -276,6 +281,12 @@ function useNativeTextControl({
   );
 
   React.useEffect(() => {
+    if (!didSkipInitialValueEffectRef.current) {
+      didSkipInitialValueEffectRef.current = true;
+      return;
+    }
+    if (lastNativeValueRef.current === textFieldContext.value) return;
+
     const node = nativeRef.current;
     if (node) {
       syncNativeValue(node, textFieldContext.value);
@@ -350,9 +361,27 @@ function useNativeTextControl({
     keyboardAvoidance?.layoutChanged(ownerRef.current);
   }, [keyboardAvoidance]);
 
+  const initialNativeValue = textFieldContext.value;
+
+  function handleMainThreadLayoutChange(event: MainThread.LayoutChangeEvent) {
+    "main thread";
+
+    if (!didSyncInitialNativeValueRef.current) {
+      didSyncInitialNativeValueRef.current = true;
+      if (initialNativeValue !== "") {
+        void event.currentTarget.invoke("setValue", { value: initialNativeValue });
+      }
+    }
+
+    if (typeof mainThreadBindLayoutChange === "function") {
+      mainThreadBindLayoutChange(event);
+    }
+  }
+
   return {
     context: textFieldContext,
     mergedRef,
+    handleMainThreadLayoutChange,
     handleInput,
     handleFocus,
     handleBlur,
@@ -385,9 +414,16 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
     bindselection,
     bindfocus,
     bindblur,
+    "main-thread:bindlayoutchange": mainThreadBindLayoutChange,
     ...nativeProps
   } = props;
-  const control = useNativeTextControl({ forwardedRef: ref, bindinput, bindfocus, bindblur });
+  const control = useNativeTextControl({
+    forwardedRef: ref,
+    bindinput,
+    bindfocus,
+    bindblur,
+    mainThreadBindLayoutChange,
+  });
   const resolvedMaxLength = useResolvedNativeMaxLength(maxlength, control.nativeInsertionMaxLength);
   const handleSelection = React.useCallback<NonNullable<NativeInputProps["bindselection"]>>(
     (event) => {
@@ -402,6 +438,7 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
   return (
     <input
       ref={control.mergedRef}
+      main-thread:bindlayoutchange={control.handleMainThreadLayoutChange}
       className={clsx(classes.value, className)}
       disabled={disabled ?? control.context.disabled}
       readonly={readonly ?? control.context.readOnly}
@@ -435,6 +472,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       bindselection,
       bindfocus,
       bindblur,
+      "main-thread:bindlayoutchange": mainThreadBindLayoutChange,
       autoresize = true,
       ...nativeProps
     } = props;
@@ -443,6 +481,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       bindinput,
       bindfocus,
       bindblur,
+      mainThreadBindLayoutChange,
     });
     const resolvedMaxLength = useResolvedNativeMaxLength(
       maxlength,
@@ -461,6 +500,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
     const textarea = (
       <textarea
         ref={control.mergedRef}
+        main-thread:bindlayoutchange={control.handleMainThreadLayoutChange}
         className={clsx(
           classes.value,
           classes.textareaValue,
