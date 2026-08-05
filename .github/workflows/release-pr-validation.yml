@@ -1,0 +1,36 @@
+name: Release lane PR validation
+
+on:
+  pull_request:
+    branches: [dev, minor, major]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate release lane
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR merge ref
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Validate changesets and automation identity
+        id: release-validation
+        run: bun scripts/release/cli.ts validate-pr --event "$GITHUB_EVENT_PATH"
+
+      - name: Test release automation
+        run: bun test scripts/release
+
+      - name: Run full trusted sync gate
+        if: steps.release-validation.outputs.type == 'sync'
+        run: |
+          bun generate:all
+          bun test:all
+          bun generate:all
+          git diff --exit-code

@@ -1,0 +1,54 @@
+name: Rootage release contract
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Exact @seed-design/rootage-artifacts version"
+        required: true
+        type: string
+      stable:
+        description: "Whether to update the stable pointer after verification"
+        required: true
+        type: boolean
+      npm-integrity:
+        description: "Integrity from the published npm tarball"
+        required: true
+        type: string
+    outputs:
+      manifest-sha:
+        description: "SHA-256 of the immutable completion manifest"
+        value: ${{ jobs.unavailable.outputs.manifest-sha }}
+      file-count:
+        description: "Number of verified Rootage JSON files"
+        value: ${{ jobs.unavailable.outputs.file-count }}
+      pointer-before:
+        description: "Stable pointer before compare-and-set"
+        value: ${{ jobs.unavailable.outputs.pointer-before }}
+      pointer-after:
+        description: "Stable pointer after compare-and-set"
+        value: ${{ jobs.unavailable.outputs.pointer-after }}
+
+jobs:
+  unavailable:
+    name: Require DES-2201
+    runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      manifest-sha: ${{ steps.contract.outputs.manifest-sha }}
+      file-count: ${{ steps.contract.outputs.file-count }}
+      pointer-before: ${{ steps.contract.outputs.pointer-before }}
+      pointer-after: ${{ steps.contract.outputs.pointer-after }}
+    steps:
+      - name: Fail closed until immutable serving is implemented
+        id: contract
+        run: |
+          {
+            echo "manifest-sha="
+            echo "file-count=0"
+            echo "pointer-before="
+            echo "pointer-after="
+          } >> "$GITHUB_OUTPUT"
+          echo "DES-2201 must replace this contract before production activation."
+          echo "Requested version: ${{ inputs.version }}, integrity: ${{ inputs.npm-integrity }}, stable: ${{ inputs.stable }}"
+          exit 1

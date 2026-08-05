@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SEED Design 릴리즈 운영 상태",
+  "description": "릴리즈 실행 모드, Rootage 계약 준비 상태, stable 승격 freeze를 정의한다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "mode", "rootageContractReady", "freeze"],
+  "properties": {
+    "$schema": {
+      "description": "이 설정 파일을 검증하는 로컬 JSON Schema 경로다.",
+      "const": "./control.schema.json"
+    },
+    "schemaVersion": {
+      "description": "릴리즈 운영 상태 형식의 버전이다. 파서가 지원하는 버전과 일치해야 한다.",
+      "const": 1
+    },
+    "mode": {
+      "description": "dry-run은 검증만 수행하고 production은 실제 npm·Rootage 게시를 허용한다.",
+      "enum": ["dry-run", "production"]
+    },
+    "rootageContractReady": {
+      "description": "DES-2201의 불변 Rootage 게시 계약이 production 사용 가능한 상태인지 나타낸다.",
+      "type": "boolean"
+    },
+    "freeze": {
+      "description": "진행 중인 stable 승격 상태다. 승격이 없으면 null이다.",
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/freeze" }]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "mode": { "const": "production" } },
+        "required": ["mode"]
+      },
+      "then": {
+        "properties": { "rootageContractReady": { "const": true } }
+      }
+    }
+  ],
+  "$defs": {
+    "freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["promotionLane", "candidateSha", "phase", "frozenLanes", "startedAt"],
+      "properties": {
+        "promotionLane": {
+          "description": "stable로 승격할 prerelease 레인이다.",
+          "enum": ["minor", "major"]
+        },
+        "candidateSha": {
+          "description": "승격 대상으로 고정한 레인 HEAD의 40자리 Git commit SHA다.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "phase": {
+          "description": "승격 작업의 현재 단계다.",
+          "enum": ["frozen", "integrating", "rebuilding"]
+        },
+        "frozenLanes": {
+          "description": "승격 완료 전 일반 PR merge와 prerelease publish를 차단할 레인 목록이다.",
+          "type": "array",
+          "items": {
+            "enum": ["minor", "major"]
+          },
+          "uniqueItems": true
+        },
+        "startedAt": {
+          "description": "승격 freeze를 시작한 RFC 3339 시각이다.",
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "promotionLane": { "const": "minor" } },
+            "required": ["promotionLane"]
+          },
+          "then": {
+            "properties": { "frozenLanes": { "const": ["minor"] } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "promotionLane": { "const": "major" } },
+            "required": ["promotionLane"]
+          },
+          "then": {
+            "properties": { "frozenLanes": { "const": ["minor", "major"] } }
+          }
+        }
+      ]
+    }
+  }
+}

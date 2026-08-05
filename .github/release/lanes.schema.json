@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SEED Design 릴리즈 레인 설정",
+  "description": "dev, minor, major 고정 레인의 버전 정책과 동기화 그래프를 정의한다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "repository",
+    "maintainerTeam",
+    "protectedDistTags",
+    "lanes",
+    "sync"
+  ],
+  "properties": {
+    "$schema": {
+      "description": "이 설정 파일을 검증하는 로컬 JSON Schema 경로다.",
+      "const": "./lanes.schema.json"
+    },
+    "schemaVersion": {
+      "description": "릴리즈 레인 설정 형식의 버전이다. 파서가 지원하는 버전과 일치해야 한다.",
+      "const": 1
+    },
+    "repository": {
+      "description": "릴리즈 자동화가 동작하는 GitHub 저장소의 owner/name이다.",
+      "const": "daangn/seed-design"
+    },
+    "maintainerTeam": {
+      "description": "동기화 충돌과 장기 대기 알림을 받을 GitHub 팀 이름이다.",
+      "type": "string",
+      "minLength": 1
+    },
+    "protectedDistTags": {
+      "description": "prerelease tag로 사용할 수 없도록 보호하는 npm dist-tag 목록이다.",
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]{0,31}$"
+      },
+      "allOf": [{ "contains": { "const": "latest" } }, { "contains": { "const": "stable" } }]
+    },
+    "lanes": {
+      "description": "고정 릴리즈 레인별 bump, prerelease 여부, 상위 동기화 source를 정의한다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dev", "minor", "major"],
+      "properties": {
+        "dev": {
+          "description": "일상 변경을 patch stable로 배포하는 기본 레인이다.",
+          "$ref": "#/$defs/devLane"
+        },
+        "minor": {
+          "description": "dev 변경을 받아 minor prerelease를 만드는 레인이다.",
+          "$ref": "#/$defs/minorLane"
+        },
+        "major": {
+          "description": "dev와 minor 변경을 받아 major prerelease를 만드는 레인이다.",
+          "$ref": "#/$defs/majorLane"
+        }
+      }
+    },
+    "sync": {
+      "description": "레인 간 PR 동기화 reconciler의 활성화와 실행 정책이다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["activation", "reconcileCron", "conflictAlertHours"],
+      "properties": {
+        "activation": {
+          "description": "동기화 대상으로 인정할 merge의 시작 시각이다. null이면 동기화를 비활성화한다.",
+          "oneOf": [{ "type": "null" }, { "type": "string", "format": "date-time" }]
+        },
+        "reconcileCron": {
+          "description": "누락된 동기화 이벤트를 재조회하는 GitHub Actions cron 표현식이다.",
+          "type": "string",
+          "minLength": 1
+        },
+        "conflictAlertHours": {
+          "description": "충돌 Draft PR이 이 시간 이상 열려 있을 때 담당자에게 다시 알린다.",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "devLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bump", "prerelease", "sources"],
+      "properties": {
+        "bump": {
+          "description": "이 레인 PR의 직접 changeset에 요구하는 bump다.",
+          "const": "patch"
+        },
+        "prerelease": {
+          "description": "이 레인이 prerelease 상태를 사용하는지 나타낸다.",
+          "const": false
+        },
+        "sources": { "description": "이 레인으로 변경을 전달하는 하위 레인 목록이다.", "const": [] }
+      }
+    },
+    "minorLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bump", "prerelease", "sources"],
+      "properties": {
+        "bump": {
+          "description": "이 레인 PR의 직접 changeset에 요구하는 bump다.",
+          "const": "minor"
+        },
+        "prerelease": {
+          "description": "이 레인이 prerelease 상태를 사용하는지 나타낸다.",
+          "const": true
+        },
+        "sources": {
+          "description": "이 레인으로 변경을 전달하는 하위 레인 목록이다.",
+          "const": ["dev"]
+        }
+      }
+    },
+    "majorLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bump", "prerelease", "sources"],
+      "properties": {
+        "bump": {
+          "description": "이 레인 PR의 직접 changeset에 요구하는 bump다.",
+          "const": "major"
+        },
+        "prerelease": {
+          "description": "이 레인이 prerelease 상태를 사용하는지 나타낸다.",
+          "const": true
+        },
+        "sources": {
+          "description": "이 레인으로 변경을 전달하는 하위 레인 목록이다.",
+          "const": ["dev", "minor"]
+        }
+      }
+    }
+  }
+}

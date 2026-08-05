@@ -231,6 +231,15 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 - `bun version` - 버전 업데이트
 - `bun release` - 배포
 
+### 릴리즈 레인 자동화
+
+- `dev`는 patch stable, `minor`는 minor pre-release, `major`는 major pre-release 레인이다.
+- 레인 정책은 `.github/release/lanes.json`, 운영 모드와 승격 freeze는 `.github/release/control.json`에서 관리한다. 각 파일은 같은 디렉토리의 Draft 2020-12 JSON Schema를 `$schema`로 참조한다.
+- 일반 PR은 read-only 검증만 수행하고 Version Packages PR의 사람 merge만 게시 승인이 된다.
+- `minor`·`major`의 `enter`·`retag`·`exit`와 stable 승격은 보호 브랜치를 직접 수정하지 않고 PR로 수행한다.
+- 레인 동기화는 원본 일반 PR의 최종 diff만 target별 FIFO로 전달하며, 충돌이나 사람 수정이 있으면 자동 merge를 중단한다.
+- `control.json`의 기본값은 `dry-run`이다. DES-2201의 불변 Rootage 게시 계약과 bootstrap E2E가 완료되기 전에는 production으로 전환하지 않는다.
+
 ---
 
 ## 환경 변수
