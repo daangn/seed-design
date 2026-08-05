@@ -15,9 +15,6 @@ import {
 } from "../utils/error";
 import type { DocsCategory, DocsItem, DocsSection } from "../schema";
 
-const GITHUB_SNIPPET_BASE =
-  "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
-
 const docsOptionsSchema = z.object({
   query: z
     .union([z.string(), z.array(z.string())])
@@ -33,27 +30,43 @@ const docsOptionsSchema = z.object({
   raw: z.boolean(),
 });
 
-function buildSnippetUrl(registryPath: string, snippetPath: string): string {
-  return `${GITHUB_SNIPPET_BASE}/${registryPath}/${snippetPath}`;
+/**
+ * Composing URLs from the index shape is what broke when the docs IA moved, so the
+ * index now carries them. These fallbacks only cover the skew window where a CLI
+ * update lands before the site redeploys — remove them once that window has passed.
+ */
+const LEGACY_SNIPPET_BASE =
+  "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
+
+function llmsUrlFor(item: DocsItem, baseUrl: string): string {
+  return `${baseUrl}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`;
+}
+
+function snippetUrlsFor(item: DocsItem): { label: string; url: string }[] {
+  const registryPath = item.snippetKey?.split(":")[0];
+
+  return (item.snippets ?? []).flatMap(({ label, path, url }) => {
+    if (url) return [{ label, url }];
+    if (!registryPath) return [];
+
+    return [{ label, url: `${LEGACY_SNIPPET_BASE}/${registryPath}/${path}` }];
+  });
 }
 
 function printDocsResult(item: DocsItem, baseUrl: string) {
-  const docLink = `${baseUrl}${item.docUrl}`;
-  const llmsLink = `${baseUrl}/llms${item.docUrl}.txt`;
+  const lines = [
+    item.id,
+    `- docs: ${baseUrl}${item.docUrl}`,
+    `- llms.txt: ${llmsUrlFor(item, baseUrl)}`,
+  ];
 
-  const lines = [item.id, `- docs: ${docLink}`, `- llms.txt: ${llmsLink}`];
-
-  if (item.snippetKey && item.snippets && item.snippets.length > 0) {
-    const [registryPath] = item.snippetKey.split(":");
-    if (registryPath) {
-      if (item.snippets.length === 1) {
-        lines.push(`- snippet: ${buildSnippetUrl(registryPath, item.snippets[0].path)}`);
-      } else {
-        lines.push("- snippet:");
-        for (const snippet of item.snippets) {
-          lines.push(`   - ${snippet.label}: ${buildSnippetUrl(registryPath, snippet.path)}`);
-        }
-      }
+  const snippets = snippetUrlsFor(item);
+  if (snippets.length === 1) {
+    lines.push(`- snippet: ${snippets[0].url}`);
+  } else if (snippets.length > 1) {
+    lines.push("- snippet:");
+    for (const snippet of snippets) {
+      lines.push(`   - ${snippet.label}: ${snippet.url}`);
     }
   }
 
@@ -524,13 +537,22 @@ export const docsCommand = (cli: CAC) => {
           return await selectItem(section.items);
         };
 
+        // A bare category has no single page to print. Resolving it would open a picker,
+        // which a non-TTY cancels immediately — that used to surface as a silent exit 0.
+        // Serve the section index instead, before any prompt can be reached.
+        const sectionIndexUrl = raw
+          ? categories.find((category) => category.id === docsQuery)?.llmsIndexUrl
+          : undefined;
+
         // In --raw mode, swallow index resolution errors and fall back to direct URL fetch
         if (raw) {
-          try {
-            selectedItem = await resolveFromIndex();
-          } catch (error) {
-            if (isCliCancelError(error)) throw error;
-            // index miss in raw mode → will use fallback
+          if (!sectionIndexUrl) {
+            try {
+              selectedItem = await resolveFromIndex();
+            } catch (error) {
+              if (isCliCancelError(error)) throw error;
+              // index miss in raw mode → will use fallback
+            }
           }
         } else {
           selectedItem = await resolveFromIndex();
@@ -538,9 +560,10 @@ export const docsCommand = (cli: CAC) => {
 
         if (raw) {
           let content: string;
-          if (selectedItem) {
-            const llmsUrl = `${baseUrl}/llms${selectedItem.docUrl}.txt`;
-            content = await fetchLlmsTxt({ url: llmsUrl });
+          if (sectionIndexUrl) {
+            content = await fetchLlmsTxt({ url: `${baseUrl}${sectionIndexUrl}` });
+          } else if (selectedItem) {
+            content = await fetchLlmsTxt({ url: llmsUrlFor(selectedItem, baseUrl) });
           } else {
             content = await tryFetchLlmsTxt({ baseUrl, query: docsQuery! });
           }
