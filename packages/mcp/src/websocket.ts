@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import WebSocket from "ws";
-import { logger } from "./logger";
+import { formatError, logger } from "./logger";
 import type { CommandProgressUpdate, FigmaCommand, FigmaResponse } from "./types";
 
 export interface FigmaWebSocketClient {
@@ -47,17 +47,27 @@ export function createFigmaWebSocketClient(serverUrl: string) {
       return;
     }
 
+    // A CONNECTING socket is a live attempt. Replacing it strands its `open`
+    // handler, which then joins a channel against whatever `ws` now points at.
+    if (ws && ws.readyState === WebSocket.CONNECTING) {
+      logger.info("Already connecting to Figma");
+      return;
+    }
+
     const wsUrl = serverUrl === "localhost" ? `${WS_URL}:${port}` : WS_URL;
     logger.info(`Connecting to Figma socket server at ${wsUrl}...`);
-    ws = new WebSocket(wsUrl);
 
-    ws.on("open", () => {
+    const socket = new WebSocket(wsUrl);
+    ws = socket;
+
+    socket.on("open", () => {
       logger.info("Connected to Figma socket server");
-      // Reset channel on new connection
-      joinChannel("local-default");
+      joinChannel("local-default").catch((error) => {
+        logger.error(`Failed to join default channel: ${formatError(error)}`);
+      });
     });
 
-    ws.on("message", (data: any) => {
+    socket.on("message", (data: any) => {
       try {
         const json = JSON.parse(data) as ProgressMessage;
 
@@ -139,13 +149,24 @@ export function createFigmaWebSocketClient(serverUrl: string) {
       }
     });
 
-    ws.on("error", (error) => {
+    socket.on("error", (error) => {
       logger.error(`Socket error: ${error}`);
     });
 
-    ws.on("close", () => {
+    socket.on("close", () => {
       logger.info("Disconnected from Figma socket server");
+
+      // A socket replaced while CLOSING still emits `close`; letting it run would
+      // null out the live connection and queue a redundant reconnect.
+      if (ws !== socket) return;
+
       ws = null;
+
+      // Channel membership belongs to the socket that just closed. Carrying it
+      // over lets `sendCommandToFigma` clear its channel guard on the reconnected
+      // socket before that socket has joined; the relay rejects such a command
+      // with a payload that has no request id, so it hangs until the timeout.
+      currentChannel = null;
 
       // Reject all pending requests
       for (const [id, request] of pendingRequests.entries()) {
