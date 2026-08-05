@@ -70,6 +70,8 @@ export type PublicAvailableRegistries = z.infer<typeof publicAvailableRegistries
 export const docsSnippetSchema = z.object({
   label: z.string(),
   path: z.string(),
+  /** Absolute URL to the raw snippet. Optional so older indexes still parse. */
+  url: z.string().optional(),
 });
 
 export const docsItemSchema = z.object({
@@ -77,6 +79,14 @@ export const docsItemSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
   docUrl: z.string(),
+  /**
+   * Site-relative path to this page's llms.txt, e.g. `/llms/foundations/color.txt`.
+   *
+   * Carried by the index so the CLI never has to know the route shape. Optional
+   * so an older index (or a self-hosted one) still parses; callers fall back to
+   * composing it from `docUrl`.
+   */
+  llmsUrl: z.string().optional(),
   deprecated: z.boolean().optional(),
   snippetKey: z.string().optional(),
   snippets: z.array(docsSnippetSchema).optional(),
@@ -91,6 +101,8 @@ export const docsSectionSchema = z.object({
 export const docsCategorySchema = z.object({
   id: z.string(),
   label: z.string(),
+  /** Site-relative path to the section index llms.txt, e.g. `/components/llms.txt`. */
+  llmsIndexUrl: z.string().optional(),
   sections: z.array(docsSectionSchema),
 });
 
