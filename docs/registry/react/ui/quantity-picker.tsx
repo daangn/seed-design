@@ -63,6 +63,7 @@ export interface QuantityPickerProps extends Omit<SeedQuantityPicker.RootProps, 
   size?: SeedQuantityPicker.RootProps["size"];
   /**
    * 컴포넌트가 부모 Flex 레이아웃의 여유 공간을 채울지 지정합니다.
+   * @since 2.2.0
    * @default "hug"
    */
   layout?: SeedQuantityPicker.RootProps["layout"];
