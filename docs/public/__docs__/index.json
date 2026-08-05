@@ -1,8 +1,138 @@
 {
   "categories": [
     {
-      "id": "docs",
-      "label": "Design",
+      "id": "foundations",
+      "label": "Foundations",
+      "sections": [
+        {
+          "id": "foundations",
+          "label": "파운데이션",
+          "items": [
+            {
+              "id": "color",
+              "title": "Overview",
+              "description": "SEED 색상 시스템은 접근성을 고려하며 제품의 계층, 상태, 브랜드를 표현할 수 있도록 돕습니다.",
+              "docUrl": "/foundations/color"
+            },
+            {
+              "id": "color-role",
+              "title": "Roles",
+              "description": "역할이 부여된 색상은 색상에 특정 기능적 역할(주요 액션, 오류, 정보 등)을 할당하여 사용자 인터페이스 전반에 걸쳐 일관성, 명확성, 접근성을 보장합니다.",
+              "docUrl": "/foundations/color/color-role"
+            },
+            {
+              "id": "design-token",
+              "title": "Overview",
+              "description": "디자인 토큰은 디자인 결정을 사람과 기계가 이해할 수 있는 방식으로 인코딩하는 방법입니다.",
+              "docUrl": "/foundations/design-token"
+            },
+            {
+              "id": "elevation",
+              "title": "Elevation",
+              "description": "UI 요소 간의 상대적인 깊이와 계층 구조를 시각적으로 표현하는 디자인 원칙입니다.",
+              "docUrl": "/foundations/elevation"
+            },
+            {
+              "id": "gradient",
+              "title": "Gradient",
+              "description": "그라디언트는 배경과 아이콘 등에서 입체감이나 AI 기능을 표현할 때 사용하는 색상 토큰입니다.",
+              "docUrl": "/foundations/gradient"
+            },
+            {
+              "id": "iconography",
+              "title": "Overview",
+              "description": "아이콘은 사용자가 복잡한 정보나 기능을 빠르게 이해할 수 있도록 도와주는 디자인 요소입니다.",
+              "docUrl": "/foundations/iconography"
+            },
+            {
+              "id": "inclusive-design",
+              "title": "Inclusive Design",
+              "description": "SEED는 모든 사용자가 제품을 쉽게 접근하고 사용할 수 있도록 돕습니다.",
+              "docUrl": "/foundations/inclusive-design"
+            },
+            {
+              "id": "international-design",
+              "title": "International Design",
+              "description": "SEED는 전 세계에서 똑같이 유용하고 가치있는 경험을 제공할 수 있도록 돕습니다.",
+              "docUrl": "/foundations/international-design"
+            },
+            {
+              "id": "layout",
+              "title": "Layout",
+              "description": "레이아웃은 제품의 콘텐츠를 구조화하고 일관된 사용자 경험을 제공하기 위한 시각적 뼈대입니다. SEED는 다양한 화면 밀도와 디바이스 환경에 대응할 수 있도록 유연한 그리드 시스템과 중단점(Breakpoint)을 제공합니다.",
+              "docUrl": "/foundations/layout"
+            },
+            {
+              "id": "library",
+              "title": "Library",
+              "docUrl": "/foundations/iconography/library"
+            },
+            {
+              "id": "motion",
+              "title": "Motion",
+              "description": "모션은 유저 인터페이스의 표현력을 높이고 쉽게 사용할 수 있도록 도와줍니다.",
+              "docUrl": "/foundations/motion"
+            },
+            {
+              "id": "palette",
+              "title": "Palette",
+              "docUrl": "/foundations/color/palette"
+            },
+            {
+              "id": "radius",
+              "title": "Radius",
+              "description": "Radius는 컴포넌트 혹은 콘텐츠 모서리의 둥글기를 표현합니다.",
+              "docUrl": "/foundations/radius"
+            },
+            {
+              "id": "reference",
+              "title": "Reference",
+              "description": "SEED 디자인 토큰의 전체 목록을 제공합니다.",
+              "docUrl": "/foundations/design-token/reference"
+            },
+            {
+              "id": "spacing",
+              "title": "Spacing",
+              "description": "Spacing은 컴포넌트 혹은 콘텐츠 간의 간격을 표현합니다.",
+              "docUrl": "/foundations/spacing"
+            },
+            {
+              "id": "state",
+              "title": "State",
+              "description": "상태 표현은 컴포넌트 또는 상호작용 가능한 요소의 상태 또는 가능성을 사용자에게 전달합니다.",
+              "docUrl": "/foundations/state"
+            },
+            {
+              "id": "typography",
+              "title": "Typography",
+              "description": "타이포그래피는 콘텐츠를 명확하고 효율적으로 표현하기 위한 디자인 요소입니다.",
+              "docUrl": "/foundations/typography"
+            },
+            {
+              "id": "usage",
+              "title": "Usage",
+              "description": "아이콘과 다른 디자인 요소 간의 상호작용 및 아이콘 사용 방법에 대해 설명합니다.",
+              "docUrl": "/foundations/iconography/usage"
+            },
+            {
+              "id": "voice-and-tone",
+              "title": "Voice and Tone",
+              "description": "당근에서 일관되게 말하는 방법을 소개합니다.",
+              "docUrl": "/foundations/voice-and-tone"
+            },
+            {
+              "id": "writing",
+              "title": "Writing",
+              "description": "당근에서 일관되게 글쓰는 방법을 소개합니다.",
+              "docUrl": "/foundations/writing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "components",
+      "label": "Components",
       "sections": [
         {
           "id": "components",
@@ -423,12 +553,6 @@
               ]
             },
             {
-              "id": "progress-board",
-              "title": "Progress Board",
-              "description": "플랫폼별 컴포넌트 구현 상태를 확인합니다.",
-              "docUrl": "/components/progress-board"
-            },
-            {
               "id": "progress-circle",
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
@@ -673,131 +797,31 @@
               ]
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "patterns",
+      "label": "Patterns",
+      "sections": [
         {
-          "id": "foundations",
-          "label": "파운데이션",
+          "id": "patterns",
+          "label": "패턴",
           "items": [
             {
-              "id": "color",
-              "title": "Overview",
-              "description": "SEED 색상 시스템은 접근성을 고려하며 제품의 계층, 상태, 브랜드를 표현할 수 있도록 돕습니다.",
-              "docUrl": "/foundations/color"
-            },
-            {
-              "id": "color-role",
-              "title": "Roles",
-              "description": "역할이 부여된 색상은 색상에 특정 기능적 역할(주요 액션, 오류, 정보 등)을 할당하여 사용자 인터페이스 전반에 걸쳐 일관성, 명확성, 접근성을 보장합니다.",
-              "docUrl": "/foundations/color/color-role"
-            },
-            {
-              "id": "design-token",
-              "title": "Overview",
-              "description": "디자인 토큰은 디자인 결정을 사람과 기계가 이해할 수 있는 방식으로 인코딩하는 방법입니다.",
-              "docUrl": "/foundations/design-token"
-            },
-            {
-              "id": "elevation",
-              "title": "Elevation",
-              "description": "UI 요소 간의 상대적인 깊이와 계층 구조를 시각적으로 표현하는 디자인 원칙입니다.",
-              "docUrl": "/foundations/elevation"
-            },
-            {
-              "id": "gradient",
-              "title": "Gradient",
-              "description": "그라디언트는 배경과 아이콘 등에서 입체감이나 AI 기능을 표현할 때 사용하는 색상 토큰입니다.",
-              "docUrl": "/foundations/gradient"
-            },
-            {
-              "id": "iconography",
-              "title": "Overview",
-              "description": "아이콘은 사용자가 복잡한 정보나 기능을 빠르게 이해할 수 있도록 도와주는 디자인 요소입니다.",
-              "docUrl": "/foundations/iconography"
-            },
-            {
-              "id": "inclusive-design",
-              "title": "Inclusive Design",
-              "description": "SEED는 모든 사용자가 제품을 쉽게 접근하고 사용할 수 있도록 돕습니다.",
-              "docUrl": "/foundations/inclusive-design"
-            },
-            {
-              "id": "international-design",
-              "title": "International Design",
-              "description": "SEED는 전 세계에서 똑같이 유용하고 가치있는 경험을 제공할 수 있도록 돕습니다.",
-              "docUrl": "/foundations/international-design"
-            },
-            {
-              "id": "layout",
-              "title": "Layout",
-              "description": "레이아웃은 제품의 콘텐츠를 구조화하고 일관된 사용자 경험을 제공하기 위한 시각적 뼈대입니다. SEED는 다양한 화면 밀도와 디바이스 환경에 대응할 수 있도록 유연한 그리드 시스템과 중단점(Breakpoint)을 제공합니다.",
-              "docUrl": "/foundations/layout"
-            },
-            {
-              "id": "library",
-              "title": "Library",
-              "docUrl": "/foundations/iconography/library"
-            },
-            {
-              "id": "motion",
-              "title": "Motion",
-              "description": "모션은 유저 인터페이스의 표현력을 높이고 쉽게 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/foundations/motion"
-            },
-            {
-              "id": "palette",
-              "title": "Palette",
-              "docUrl": "/foundations/color/palette"
-            },
-            {
-              "id": "radius",
-              "title": "Radius",
-              "description": "Radius는 컴포넌트 혹은 콘텐츠 모서리의 둥글기를 표현합니다.",
-              "docUrl": "/foundations/radius"
-            },
-            {
-              "id": "reference",
-              "title": "Reference",
-              "description": "SEED 디자인 토큰의 전체 목록을 제공합니다.",
-              "docUrl": "/foundations/design-token/reference"
-            },
-            {
-              "id": "spacing",
-              "title": "Spacing",
-              "description": "Spacing은 컴포넌트 혹은 콘텐츠 간의 간격을 표현합니다.",
-              "docUrl": "/foundations/spacing"
-            },
-            {
-              "id": "state",
-              "title": "State",
-              "description": "상태 표현은 컴포넌트 또는 상호작용 가능한 요소의 상태 또는 가능성을 사용자에게 전달합니다.",
-              "docUrl": "/foundations/state"
-            },
-            {
-              "id": "typography",
-              "title": "Typography",
-              "description": "타이포그래피는 콘텐츠를 명확하고 효율적으로 표현하기 위한 디자인 요소입니다.",
-              "docUrl": "/foundations/typography"
-            },
-            {
-              "id": "usage",
-              "title": "Usage",
-              "description": "아이콘과 다른 디자인 요소 간의 상호작용 및 아이콘 사용 방법에 대해 설명합니다.",
-              "docUrl": "/foundations/iconography/usage"
-            },
-            {
-              "id": "voice-and-tone",
-              "title": "Voice and Tone",
-              "description": "당근에서 일관되게 말하는 방법을 소개합니다.",
-              "docUrl": "/foundations/voice-and-tone"
-            },
-            {
-              "id": "writing",
-              "title": "Writing",
-              "description": "당근에서 일관되게 글쓰는 방법을 소개합니다.",
-              "docUrl": "/foundations/writing"
+              "id": "loading",
+              "title": "Loading",
+              "description": "로딩을 관리하는 데 필요한 요소, 시간에 따른 적합한 선택지와 단계별로 사용자 경험을 최적화하는 방법에 대해 소개합니다.",
+              "docUrl": "/patterns/loading"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "docs",
+      "label": "Design Guidelines",
+      "sections": [
         {
           "id": "migration",
           "label": "마이그레이션",
@@ -815,54 +839,6 @@
               "docUrl": "/docs/migration/migration-reference"
             }
           ]
-        },
-        {
-          "id": "updates",
-          "label": "업데이트",
-          "items": [
-            {
-              "id": "how-seed-evolved",
-              "title": "더 당근답게: SEED는 어떻게 진화했나",
-              "description": "자산 정리에서 멀티플랫폼·AI 시대까지, 당근 디자인 시스템 SEED가 V3로 진화하며 무엇을 '더 당근답게' 바꿨는지 담았습니다.",
-              "docUrl": "/updates/how-seed-evolved"
-            },
-            {
-              "id": "pickers-dialog-select",
-              "title": "선택하고, 확인하고, 탐색하는 경험을 더 쉽게",
-              "description": "Quantity Picker부터 ScrollAutoHide까지, 제품에서 반복되는 상호작용을 더 일관되게 만드는 새로운 구성 요소를 소개해요.",
-              "docUrl": "/updates/pickers-dialog-select"
-            },
-            {
-              "id": "whats-new-in-action-button",
-              "title": "What's New in Action Button",
-              "description": "SEED Action Button은 기존 Box Button의 주요 문제를 해결하며, 사용자 경험과 접근성을 한층 더 강화했어요.",
-              "docUrl": "/updates/whats-new-in-action-button"
-            },
-            {
-              "id": "why-design-system-needs-branding",
-              "title": "디자인 시스템에도 브랜딩이 필요할까",
-              "description": "우리끼리 쓰는 디자인 시스템에 정말 브랜딩이 필요할까요. SEED가 당근에 기반하면서도 전혀 다른 얼굴을 한 하나의 브랜드로 완성되기까지 과정을 담았습니다.",
-              "docUrl": "/updates/why-design-system-needs-branding"
-            },
-            {
-              "id": "why-we-hired-a-design-engineer",
-              "title": "우리는 왜 디자인 엔지니어를 찾게 됐을까",
-              "description": "당근 디자인 시스템 팀에 디자인 엔지니어라는 새로운 직군이 생겼습니다. 왜 이 역할이 필요했고, 어떤 기준으로 정의했는지 그 고민의 과정을 담았습니다.",
-              "docUrl": "/updates/why-we-hired-a-design-engineer"
-            }
-          ]
-        },
-        {
-          "id": "patterns",
-          "label": "패턴",
-          "items": [
-            {
-              "id": "loading",
-              "title": "Loading",
-              "description": "로딩을 관리하는 데 필요한 요소, 시간에 따른 적합한 선택지와 단계별로 사용자 경험을 최적화하는 방법에 대해 소개합니다.",
-              "docUrl": "/patterns/loading"
-            }
-          ]
         }
       ]
     },
@@ -870,6 +846,72 @@
       "id": "react",
       "label": "React",
       "sections": [
+        {
+          "id": "getting-started",
+          "label": "시작하기",
+          "items": [
+            {
+              "id": "cascade-layers",
+              "title": "Cascade Layers (Experimental)",
+              "description": "CSS Cascade Layers를 사용하여 SEED 스타일의 우선순위를 제어하는 방법을 알아봅니다.",
+              "docUrl": "/react/getting-started/styling/cascade-layers"
+            },
+            {
+              "id": "commands",
+              "title": "Commands",
+              "description": "@seed-design/cli 명령어를 안내해요.",
+              "docUrl": "/react/getting-started/cli/commands"
+            },
+            {
+              "id": "configuration",
+              "title": "Configuration",
+              "description": "seed-design.json 설정을 안내해요.",
+              "docUrl": "/react/getting-started/cli/configuration"
+            },
+            {
+              "id": "library-authors",
+              "title": "Library Authors",
+              "description": "SEED를 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.",
+              "docUrl": "/react/getting-started/library-authors"
+            },
+            {
+              "id": "manual",
+              "title": "Manual",
+              "description": "SEED를 번들러 통합 없이 설치하고 사용하는 방법을 알아봅니다.",
+              "docUrl": "/react/getting-started/installation/manual"
+            },
+            {
+              "id": "rsbuild",
+              "title": "Rsbuild",
+              "description": "Rsbuild 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+              "docUrl": "/react/getting-started/installation/rsbuild"
+            },
+            {
+              "id": "tailwind-css",
+              "title": "Tailwind CSS",
+              "description": "Tailwind CSS 프로젝트에서 SEED를 사용하는 방법을 알아봅니다.",
+              "docUrl": "/react/getting-started/styling/tailwind-css"
+            },
+            {
+              "id": "theming",
+              "title": "Theming",
+              "description": "SEED의 테마 시스템을 이해하고 활용하는 방법을 알아봅니다.",
+              "docUrl": "/react/getting-started/styling/theming"
+            },
+            {
+              "id": "vite",
+              "title": "Vite",
+              "description": "Vite 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+              "docUrl": "/react/getting-started/installation/vite"
+            },
+            {
+              "id": "webpack",
+              "title": "Webpack",
+              "description": "Webpack 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+              "docUrl": "/react/getting-started/installation/webpack"
+            }
+          ]
+        },
         {
           "id": "components",
           "label": "컴포넌트",
@@ -1728,86 +1770,33 @@
           ]
         },
         {
-          "id": "migration",
-          "label": "마이그레이션",
+          "id": "blocks",
+          "label": "블록",
           "items": [
             {
-              "id": "guide",
-              "title": "Guide",
-              "description": "Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
-              "docUrl": "/react/migration/guide"
+              "id": "footer",
+              "title": "Footer",
+              "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
+              "docUrl": "/react/blocks/footer"
             },
             {
-              "id": "migrating-icons",
-              "title": "Migrating Icons",
-              "description": "구형 아이콘을 신규 아이콘으로 쉽게 마이그레이션해요.",
-              "docUrl": "/react/migration/migrating-icons"
-            }
-          ]
-        },
-        {
-          "id": "getting-started",
-          "label": "시작하기",
-          "items": [
-            {
-              "id": "cascade-layers",
-              "title": "Cascade Layers (Experimental)",
-              "description": "CSS Cascade Layers를 사용하여 SEED 스타일의 우선순위를 제어하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/styling/cascade-layers"
+              "id": "layout",
+              "title": "Layout",
+              "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
+              "docUrl": "/react/blocks/layout"
             },
             {
-              "id": "commands",
-              "title": "Commands",
-              "description": "@seed-design/cli 명령어를 안내해요.",
-              "docUrl": "/react/getting-started/cli/commands"
-            },
-            {
-              "id": "configuration",
-              "title": "Configuration",
-              "description": "seed-design.json 설정을 안내해요.",
-              "docUrl": "/react/getting-started/cli/configuration"
-            },
-            {
-              "id": "library-authors",
-              "title": "Library Authors",
-              "description": "SEED를 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/library-authors"
-            },
-            {
-              "id": "manual",
-              "title": "Manual",
-              "description": "SEED를 번들러 통합 없이 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/installation/manual"
-            },
-            {
-              "id": "rsbuild",
-              "title": "Rsbuild",
-              "description": "Rsbuild 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/installation/rsbuild"
-            },
-            {
-              "id": "tailwind-css",
-              "title": "Tailwind CSS",
-              "description": "Tailwind CSS 프로젝트에서 SEED를 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/styling/tailwind-css"
-            },
-            {
-              "id": "theming",
-              "title": "Theming",
-              "description": "SEED의 테마 시스템을 이해하고 활용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/styling/theming"
-            },
-            {
-              "id": "vite",
-              "title": "Vite",
-              "description": "Vite 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/installation/vite"
-            },
-            {
-              "id": "webpack",
-              "title": "Webpack",
-              "description": "Webpack 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/installation/webpack"
+              "id": "side-navigation",
+              "title": "Side Navigation",
+              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+              "docUrl": "/react/blocks/side-navigation",
+              "snippetKey": "react/ui:side-navigation",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "side-navigation.tsx"
+                }
+              ]
             }
           ]
         },
@@ -1904,6 +1893,24 @@
           ]
         },
         {
+          "id": "migration",
+          "label": "마이그레이션",
+          "items": [
+            {
+              "id": "guide",
+              "title": "Guide",
+              "description": "Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
+              "docUrl": "/react/migration/guide"
+            },
+            {
+              "id": "migrating-icons",
+              "title": "Migrating Icons",
+              "description": "구형 아이콘을 신규 아이콘으로 쉽게 마이그레이션해요.",
+              "docUrl": "/react/migration/migrating-icons"
+            }
+          ]
+        },
+        {
           "id": "updates",
           "label": "업데이트",
           "items": [
@@ -1930,37 +1937,6 @@
               "title": "SEED React 2",
               "description": "SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.",
               "docUrl": "/react/updates/upgrade/v2"
-            }
-          ]
-        },
-        {
-          "id": "blocks",
-          "label": "blocks",
-          "items": [
-            {
-              "id": "footer",
-              "title": "Footer",
-              "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
-              "docUrl": "/react/blocks/footer"
-            },
-            {
-              "id": "layout",
-              "title": "Layout",
-              "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
-              "docUrl": "/react/blocks/layout"
-            },
-            {
-              "id": "side-navigation",
-              "title": "Side Navigation",
-              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
-              "docUrl": "/react/blocks/side-navigation",
-              "snippetKey": "react/ui:side-navigation",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "side-navigation.tsx"
-                }
-              ]
             }
           ]
         }
@@ -2017,6 +1993,36 @@
       "label": "Lynx",
       "sections": [
         {
+          "id": "getting-started",
+          "label": "시작하기",
+          "items": [
+            {
+              "id": "cli",
+              "title": "CLI",
+              "description": "Lynx 프로젝트에서 SEED CLI를 사용하는 방법을 안내해요.",
+              "docUrl": "/lynx/getting-started/cli"
+            },
+            {
+              "id": "feature-flags",
+              "title": "Feature Flags",
+              "description": "SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
+              "docUrl": "/lynx/getting-started/feature-flags"
+            },
+            {
+              "id": "installation",
+              "title": "Installation",
+              "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/getting-started/installation"
+            },
+            {
+              "id": "theming",
+              "title": "Theming",
+              "description": "Lynx 환경에서 SEED의 테마 시스템을 활용하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/getting-started/theming"
+            }
+          ]
+        },
+        {
           "id": "components",
           "label": "컴포넌트",
           "items": [
@@ -2072,12 +2078,6 @@
               ]
             },
             {
-              "id": "box",
-              "title": "Box",
-              "description": "Box 컴포넌트는 Lynx에서 가장 기초적인 레이아웃 표면을 구성하는 컴포넌트입니다.",
-              "docUrl": "/lynx/foundation/layout/box"
-            },
-            {
               "id": "callout",
               "title": "Callout",
               "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
@@ -2110,40 +2110,10 @@
               "docUrl": "/lynx/components/chip"
             },
             {
-              "id": "cli",
-              "title": "CLI",
-              "description": "Lynx 프로젝트에서 SEED CLI를 사용하는 방법을 안내해요.",
-              "docUrl": "/lynx/getting-started/cli"
-            },
-            {
               "id": "divider",
               "title": "Divider",
               "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
               "docUrl": "/lynx/components/divider"
-            },
-            {
-              "id": "feature-flags",
-              "title": "Feature Flags",
-              "description": "SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
-              "docUrl": "/lynx/getting-started/feature-flags"
-            },
-            {
-              "id": "h-stack",
-              "title": "HStack",
-              "description": "HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
-              "docUrl": "/lynx/foundation/layout/h-stack"
-            },
-            {
-              "id": "iconography",
-              "title": "Iconography",
-              "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
-              "docUrl": "/lynx/foundation/iconography"
-            },
-            {
-              "id": "installation",
-              "title": "Installation",
-              "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/lynx/getting-started/installation"
             },
             {
               "id": "keyboard-avoiding-scroll-view",
@@ -2176,12 +2146,6 @@
                   "path": "radio-group.tsx"
                 }
               ]
-            },
-            {
-              "id": "styling",
-              "title": "Styling with Tailwind",
-              "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
-              "docUrl": "/lynx/foundation/layout/styling"
             },
             {
               "id": "switch",
@@ -2223,12 +2187,6 @@
               ]
             },
             {
-              "id": "text",
-              "title": "Text",
-              "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
-              "docUrl": "/lynx/foundation/typography/text"
-            },
-            {
               "id": "text-field-input",
               "title": "Text Field Input",
               "description": "한 줄 텍스트를 입력받고 Field의 레이블·설명·오류 상태와 조합하는 컴포넌트입니다.",
@@ -2239,13 +2197,55 @@
               "title": "Text Field Textarea",
               "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
               "docUrl": "/lynx/components/text-field-textarea"
+            }
+          ]
+        },
+        {
+          "id": "foundation",
+          "label": "파운데이션",
+          "items": [
+            {
+              "id": "box",
+              "title": "Box",
+              "description": "Box 컴포넌트는 Lynx에서 가장 기초적인 레이아웃 표면을 구성하는 컴포넌트입니다.",
+              "docUrl": "/lynx/foundation/layout/box"
             },
             {
-              "id": "theming",
-              "title": "Theming",
-              "description": "Lynx 환경에서 SEED의 테마 시스템을 활용하는 방법을 알아봅니다.",
-              "docUrl": "/lynx/getting-started/theming"
+              "id": "h-stack",
+              "title": "HStack",
+              "description": "HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
+              "docUrl": "/lynx/foundation/layout/h-stack"
             },
+            {
+              "id": "iconography",
+              "title": "Iconography",
+              "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
+              "docUrl": "/lynx/foundation/iconography"
+            },
+            {
+              "id": "styling",
+              "title": "Styling with Tailwind",
+              "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
+              "docUrl": "/lynx/foundation/layout/styling"
+            },
+            {
+              "id": "text",
+              "title": "Text",
+              "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
+              "docUrl": "/lynx/foundation/typography/text"
+            },
+            {
+              "id": "v-stack",
+              "title": "VStack",
+              "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
+              "docUrl": "/lynx/foundation/layout/v-stack"
+            }
+          ]
+        },
+        {
+          "id": "hooks",
+          "label": "훅",
+          "items": [
             {
               "id": "use-controllable-state",
               "title": "useControllableState",
@@ -2275,12 +2275,6 @@
               "title": "useSeedClassName",
               "description": "root `<page>`에 적용할 테마 className을 반환하고 테마 변경을 구독하는 훅입니다.",
               "docUrl": "/lynx/hooks/use-seed-class-name"
-            },
-            {
-              "id": "v-stack",
-              "title": "VStack",
-              "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
-              "docUrl": "/lynx/foundation/layout/v-stack"
             }
           ]
         }
@@ -2291,8 +2285,8 @@
       "label": "AI Integration",
       "sections": [
         {
-          "id": "components",
-          "label": "컴포넌트",
+          "id": "guides",
+          "label": "가이드",
           "items": [
             {
               "id": "docs-mcp",
@@ -2317,6 +2311,48 @@
               "title": "Skill",
               "description": "SEED 통합 스킬. 공통 디자인 지식과 React·Lynx 구현 문서를 구분해 안내하고, 플랫폼별 진단 절차를 수행합니다.",
               "docUrl": "/ai-integration/skill"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "updates",
+      "label": "Updates",
+      "sections": [
+        {
+          "id": "updates",
+          "label": "업데이트",
+          "items": [
+            {
+              "id": "how-seed-evolved",
+              "title": "더 당근답게: SEED는 어떻게 진화했나",
+              "description": "자산 정리에서 멀티플랫폼·AI 시대까지, 당근 디자인 시스템 SEED가 V3로 진화하며 무엇을 '더 당근답게' 바꿨는지 담았습니다.",
+              "docUrl": "/updates/how-seed-evolved"
+            },
+            {
+              "id": "pickers-dialog-select",
+              "title": "선택하고, 확인하고, 탐색하는 경험을 더 쉽게",
+              "description": "Quantity Picker부터 ScrollAutoHide까지, 제품에서 반복되는 상호작용을 더 일관되게 만드는 새로운 구성 요소를 소개해요.",
+              "docUrl": "/updates/pickers-dialog-select"
+            },
+            {
+              "id": "whats-new-in-action-button",
+              "title": "What's New in Action Button",
+              "description": "SEED Action Button은 기존 Box Button의 주요 문제를 해결하며, 사용자 경험과 접근성을 한층 더 강화했어요.",
+              "docUrl": "/updates/whats-new-in-action-button"
+            },
+            {
+              "id": "why-design-system-needs-branding",
+              "title": "디자인 시스템에도 브랜딩이 필요할까",
+              "description": "우리끼리 쓰는 디자인 시스템에 정말 브랜딩이 필요할까요. SEED가 당근에 기반하면서도 전혀 다른 얼굴을 한 하나의 브랜드로 완성되기까지 과정을 담았습니다.",
+              "docUrl": "/updates/why-design-system-needs-branding"
+            },
+            {
+              "id": "why-we-hired-a-design-engineer",
+              "title": "우리는 왜 디자인 엔지니어를 찾게 됐을까",
+              "description": "당근 디자인 시스템 팀에 디자인 엔지니어라는 새로운 직군이 생겼습니다. 왜 이 역할이 필요했고, 어떤 기준으로 정의했는지 그 고민의 과정을 담았습니다.",
+              "docUrl": "/updates/why-we-hired-a-design-engineer"
             }
           ]
         }
