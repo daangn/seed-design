@@ -75,7 +75,7 @@ await initializeTools(server);
 
 ### Documentation
 
-- `list_docs` - List available documents in a section (react, docs, breeze, ai-integration, lynx) with optional category filter
+- `list_docs` - List available documents in a section, with optional category filter. Sections are read from the live site, so call `discover_seed_docs` for the current list rather than hardcoding one
 - `get_doc` - Get the content of a specific document by section and path
 - `get_full_docs` - Get all documents from a section combined into a single text
 
@@ -110,10 +110,16 @@ discover_seed_docs()
 // 2. List React components
 list_docs({ section: "react", category: "components" })
 
-// 3. Get specific component documentation
-get_doc({ section: "react", path: "components/button" })
+// 3. Get the React API for a component
+get_doc({ section: "react", path: "components/action-button" })
 
-// 4. Get AI integration guide
+// 4. Get its design spec (anatomy, properties, guidelines)
+get_doc({ section: "components", path: "action-button" })
+
+// 5. Get a foundation document
+get_doc({ section: "foundations", path: "color" })
+
+// 6. Get AI integration guide
 get_doc({ section: "ai-integration", path: "figma-mcp" })
 ```
 
