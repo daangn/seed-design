@@ -5,9 +5,11 @@ import { type Section, sectionConfigs, shouldIncludeInFullText } from "../app/_l
 /**
  * Convert a file path relative to its content dir into URL slugs.
  * Strips route groups (parenthesized dirs) and the .mdx extension.
- * Returns null for index files at the content dir root.
+ *
+ * The section root `index.mdx` yields an empty array — it is a real page (the section
+ * landing) that simply has no slug of its own, so callers must not read that as "skip".
  */
-export function filePathToSlugs(relPath: string): string[] | null {
+export function filePathToSlugs(relPath: string): string[] {
   // Remove .mdx extension
   let clean = relPath.replace(/\.mdx$/, "");
 
@@ -15,7 +17,7 @@ export function filePathToSlugs(relPath: string): string[] | null {
   clean = clean.replace(/\([^)]+\)\//g, "");
 
   // Handle index files
-  if (clean === "index") return null;
+  if (clean === "index") return [];
   if (clean.endsWith("/index")) {
     clean = clean.replace(/\/index$/, "");
   }
@@ -49,19 +51,14 @@ export interface ContentPage {
 }
 
 /**
- * Every routable page of a section, with `excludePaths` and root index files applied.
+ * Every routable page of a section, with `excludePaths` applied.
  * `contentRoot` defaults to `content/` under the current working directory.
  */
 export function listSectionPages(section: Section, contentRoot?: string): ContentPage[] {
   const root = contentRoot ?? path.join(process.cwd(), "content");
   const sourceDir = path.join(root, sectionConfigs[section].contentDir);
 
-  return collectMdxFiles(sourceDir).flatMap((relPath) => {
-    if (!shouldIncludeInFullText(section, relPath)) return [];
-
-    const slugs = filePathToSlugs(relPath);
-    if (!slugs || slugs.length === 0) return [];
-
-    return [{ relPath, slugs }];
-  });
+  return collectMdxFiles(sourceDir)
+    .filter((relPath) => shouldIncludeInFullText(section, relPath))
+    .map((relPath) => ({ relPath, slugs: filePathToSlugs(relPath) }));
 }

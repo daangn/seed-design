@@ -1,4 +1,4 @@
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
+import { getPageMarkdownUrl } from "@/app/_llms/config";
 import { getComponentsSource } from "@/app/source";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
@@ -28,7 +28,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   const heading = page.data.frontmatter.heading ?? page.data.title;
   const displayTitle = deprecatedTitle(heading, deprecated);
-  const markdownUrl = getLLMMarkdownUrl("components", page.slugs);
+  const markdownUrl = getPageMarkdownUrl("components", page);
   const cover = page.data.frontmatter.coverImage
     ? resolveCoverImage(page.data.frontmatter.coverImage)
     : null;
