@@ -1,7 +1,22 @@
 import { customBase64Encode } from "../utils/base64";
 
+const MIME_TYPE = {
+  PNG: "image/png",
+  JPG: "image/jpeg",
+} as const;
+
+function resolveFormat(format: unknown): keyof typeof MIME_TYPE {
+  // `@seed-design/mcp` releases before 2.2 offered SVG and PDF, which this command never honoured
+  // — it always exported PNG. Those clients label the response from their own request, so handing
+  // them real SVG bytes would leave the payload contradicting its `mimeType`.
+  if (format === "JPG") return "JPG";
+
+  return "PNG";
+}
+
 export interface ExportNodeParams {
   nodeId: string;
+  format?: string;
   scale?: number;
 }
 
@@ -13,6 +28,7 @@ export interface ExportNodeResult {
 
 export async function exportNodeAsImage(params: ExportNodeParams): Promise<ExportNodeResult> {
   const { nodeId, scale = 1 } = params || {};
+  const format = resolveFormat(params?.format);
 
   if (!nodeId) {
     throw new Error("Node ID is required");
@@ -26,7 +42,7 @@ export async function exportNodeAsImage(params: ExportNodeParams): Promise<Expor
   try {
     // Create export settings
     const settings: ExportSettings = {
-      format: "PNG",
+      format,
       constraint: {
         type: "SCALE",
         value: scale,
@@ -43,15 +59,13 @@ export async function exportNodeAsImage(params: ExportNodeParams): Promise<Expor
 
     const bytes = await exportableNode.exportAsync(settings);
 
-    const mimeType = "image/png";
-
     // Encode to base64
     const base64 = customBase64Encode(bytes);
 
     return {
       id: node.id,
       base64,
-      mimeType,
+      mimeType: MIME_TYPE[format],
     };
   } catch (error) {
     throw new Error(

@@ -1,4 +1,4 @@
-import type { GetFileNodesResponse } from "@figma/rest-api-spec";
+import type { GetFileNodesResponse, GetImagesQueryParams } from "@figma/rest-api-spec";
 import type { FigmaRestClient } from "./figma-rest-client";
 import { createFigmaRestClient } from "./figma-rest-client";
 import type { FigmaWebSocketClient } from "./websocket";
@@ -98,6 +98,68 @@ export async function fetchMultipleNodesData(
     );
 
     return results;
+  }
+
+  throw new Error(
+    "No connection available. Provide figmaUrl/fileKey with personalAccessToken or FIGMA_PERSONAL_ACCESS_TOKEN, or use WebSocket mode with Figma Plugin.",
+  );
+}
+
+export const IMAGE_FORMATS = ["PNG", "JPG"] as const;
+
+export type ImageFormat = (typeof IMAGE_FORMATS)[number];
+
+/**
+ * The plugin names formats in upper case and the REST API in lower case, so every format needs
+ * both spellings plus the MIME type the tool reports back.
+ */
+const IMAGE_FORMAT = {
+  PNG: { restFormat: "png", mimeType: "image/png" },
+  JPG: { restFormat: "jpg", mimeType: "image/jpeg" },
+} as const satisfies Record<
+  ImageFormat,
+  { restFormat: NonNullable<GetImagesQueryParams["format"]>; mimeType: string }
+>;
+
+export async function fetchNodeImage(
+  params: {
+    fileKey?: string;
+    nodeId: string;
+    personalAccessToken?: string;
+    format: ImageFormat;
+    scale: number;
+  },
+  context: ToolContext,
+) {
+  const { fileKey, nodeId, personalAccessToken, format, scale } = params;
+  const { restFormat, mimeType } = IMAGE_FORMAT[format];
+  const restClient = resolveRestClient(personalAccessToken, context);
+  const { sendCommandToFigma } = context;
+
+  if (restClient && fileKey) {
+    const imageUrl = await restClient.getNodeImageUrl(fileKey, nodeId, {
+      format: restFormat,
+      scale,
+    });
+    const response = await fetch(imageUrl);
+
+    if (!response.ok)
+      throw new Error(`Image download failed: ${response.status} ${response.statusText}`);
+
+    return {
+      base64: Buffer.from(await response.arrayBuffer()).toString("base64"),
+      mimeType,
+    };
+  }
+
+  if (sendCommandToFigma) {
+    const result = (await sendCommandToFigma("export_node_as_image", {
+      nodeId,
+      format,
+      scale,
+    })) as { base64: string };
+
+    return { base64: result.base64, mimeType };
   }
 
   throw new Error(
