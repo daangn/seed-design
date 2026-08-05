@@ -1,6 +1,13 @@
 import { LRUCache } from "lru-cache";
-import { SEED_DOCS_BASE_URL, ROOTAGE_ENDPOINTS } from "./constants.js";
-import { SECTIONS, type SectionId } from "./config.js";
+import { SEED_DOCS_BASE_URL, ROOTAGE_ENDPOINTS, DOCS_INDEX_ENDPOINT } from "./constants.js";
+import {
+  type DocsIndex,
+  type DocsIndexCategory,
+  docsIndexSchema,
+  findItem,
+  findSection,
+  itemsOf,
+} from "./docs-index.js";
 import type { DocInfo } from "./types.js";
 
 // biome-ignore lint/suspicious/noExplicitAny: cache stores various types
@@ -37,66 +44,89 @@ async function fetchWithCache<T>(url: string): Promise<T> {
   return data;
 }
 
-export async function fetchSectionOverview(section: SectionId): Promise<string> {
-  const config = SECTIONS[section];
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.overviewPath}`);
-}
+export async function fetchDocsIndex(): Promise<DocsIndex> {
+  const raw = await fetchWithCache<unknown>(`${SEED_DOCS_BASE_URL}${DOCS_INDEX_ENDPOINT}`);
+  const parsed = docsIndexSchema.safeParse(raw);
 
-export async function fetchSectionFull(section: SectionId): Promise<string> {
-  const config = SECTIONS[section];
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.fullPath}`);
-}
-
-function escapeRegExp(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-export async function fetchDocsList(section: SectionId, category?: string): Promise<DocInfo[]> {
-  const overview = await fetchSectionOverview(section);
-  const config = SECTIONS[section];
-
-  const lines = overview.split("\n").filter((line) => line.trim());
-  const docs: DocInfo[] = [];
-
-  const escapedBasePath = escapeRegExp(config.basePath);
-  const urlPattern = new RegExp(`${escapedBasePath}\\/([a-z0-9-/]+)\\.txt`, "i");
-
-  for (const line of lines) {
-    const match = line.match(urlPattern);
-    if (!match) continue;
-
-    const path = match[1];
-    const pathParts = path.split("/");
-    const docCategory = pathParts.length > 1 ? pathParts[0] : undefined;
-
-    if (category && docCategory !== category) continue;
-
-    const titleMatch = line.match(/\[([^\]]+)\]/);
-    const title = titleMatch
-      ? titleMatch[1]
-      : pathParts[pathParts.length - 1]
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ");
-
-    const urlMatch = line.match(/\((https?:\/\/[^)]+)\)/);
-    const url = urlMatch ? urlMatch[1] : `${SEED_DOCS_BASE_URL}${config.basePath}/${path}.txt`;
-
-    docs.push({
-      title,
-      path,
-      url,
-      category: docCategory,
-    });
+  if (!parsed.success) {
+    throw new Error(`Failed to parse the docs index: ${parsed.error.message}`);
   }
 
-  return docs;
+  return parsed.data;
 }
 
-export async function fetchDoc(section: SectionId, path: string): Promise<string> {
-  const config = SECTIONS[section];
-  const cleanPath = path.replace(/\.txt$/, "");
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.basePath}/${cleanPath}.txt`);
+/**
+ * Resolve a section, or throw with the live section list so a caller working from a
+ * stale prompt can correct itself instead of guessing.
+ */
+export async function requireSection(sectionId: string): Promise<DocsIndexCategory> {
+  const index = await fetchDocsIndex();
+  const section = findSection(index, sectionId);
+
+  if (!section) {
+    const available = index.categories.map((category) => category.id).join(", ");
+    throw new Error(`Unknown section '${sectionId}'. Available sections: ${available}`);
+  }
+
+  return section;
+}
+
+export async function fetchSectionOverview(sectionId: string): Promise<string> {
+  const section = await requireSection(sectionId);
+
+  if (!section.llmsIndexUrl) {
+    throw new Error(`Section '${sectionId}' has no llms.txt index.`);
+  }
+
+  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${section.llmsIndexUrl}`);
+}
+
+export async function fetchSectionFull(sectionId: string): Promise<string> {
+  const section = await requireSection(sectionId);
+
+  if (!section.llmsFullUrl) {
+    throw new Error(
+      `Section '${sectionId}' has no llms-full.txt. Use list_docs and get_doc instead.`,
+    );
+  }
+
+  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${section.llmsFullUrl}`);
+}
+
+export async function fetchDocsList(sectionId: string, category?: string): Promise<DocInfo[]> {
+  const section = await requireSection(sectionId);
+
+  if (category && !section.sections.some((s) => s.id === category)) {
+    const available = section.sections.map((s) => s.id).join(", ");
+    throw new Error(
+      `Unknown category '${category}' in section '${sectionId}'. Available: ${available}`,
+    );
+  }
+
+  // Paths stay relative to the section root, matching what get_doc accepts.
+  return itemsOf(section, category).map(({ item, categoryId }) => ({
+    title: item.title,
+    path: item.docUrl.replace(`/${section.id}/`, ""),
+    url: `${SEED_DOCS_BASE_URL}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`,
+    category: categoryId,
+    ...(item.description && { description: item.description }),
+    ...(item.deprecated && { deprecated: true }),
+  }));
+}
+
+export async function fetchDoc(sectionId: string, docPath: string): Promise<string> {
+  const section = await requireSection(sectionId);
+  const item = findItem(section, docPath);
+
+  if (!item) {
+    throw new Error(
+      `No document at '${docPath}' in section '${sectionId}'. Use list_docs to see available paths.`,
+    );
+  }
+
+  return fetchWithCache<string>(
+    `${SEED_DOCS_BASE_URL}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`,
+  );
 }
 
 export interface RootageIndex {

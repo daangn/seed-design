@@ -193,6 +193,7 @@ async function main() {
       id: section,
       label: config.label,
       llmsIndexUrl: getLLMMarkdownUrl(section, []),
+      ...(config.fullText && { llmsFullUrl: `${config.baseUrl}/llms-full.txt` }),
       sections: docsSections,
     });
   }
