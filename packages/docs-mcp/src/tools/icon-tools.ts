@@ -7,7 +7,7 @@
 
 import { z } from "zod";
 import { createRequire } from "node:module";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/server";
 import type { IconIndex, IconEntry, IconSearchResult } from "../types.js";
 
 const DOCS_BASE_URL = "https://seed-design.io/docs/foundation/iconography/library";
