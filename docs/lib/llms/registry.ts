@@ -3,6 +3,7 @@ import { badgeHandler } from "./handlers/badge";
 import { codeBlockTabsHandler } from "./handlers/codeblock-tabs";
 import { componentExampleHandler } from "./handlers/component-example";
 import { componentSpecBlockHandler } from "./handlers/component-spec-block";
+import { tokenReferenceHandler } from "./handlers/token-reference";
 import { typeTableHandler } from "./handlers/type-table";
 import { changelogPagePlaceholder } from "./placeholders/changelog-page";
 import { progressBoardPlaceholder } from "./placeholders/progress-board";
@@ -22,6 +23,7 @@ export const handlers: LLMHandler[] = [
   codeBlockTabsHandler,
   componentExampleHandler,
   componentSpecBlockHandler,
+  tokenReferenceHandler,
   typeTableHandler,
 ];
 

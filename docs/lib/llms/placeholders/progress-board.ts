@@ -1,5 +1,5 @@
 import { createClient } from "@sanity/client";
-import { escapeCell, markdownRow } from "@/app/_llms/rules/markdown-utils";
+import { escapeCell, markdownRow } from "../markdown-table";
 import { type PlatformKey, PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
 import { apiVersion, dataset, projectId } from "@/sanity-studio/env";
 import { ALL_COMPONENTS_QUERY } from "@/sanity-studio/lib/queries";

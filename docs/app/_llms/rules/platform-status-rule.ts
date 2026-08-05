@@ -3,7 +3,7 @@ import { apiVersion, dataset, projectId } from "../../../sanity-studio/env";
 import { ALL_COMPONENTS_QUERY } from "../../../sanity-studio/lib/queries";
 import type { ComponentData, PlatformStatus } from "../../../sanity-studio/lib/types";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "../../../lib/platform-status";
-import { escapeCell, markdownRow } from "./markdown-utils";
+import { escapeCell, markdownRow } from "@/lib/llms/markdown-table";
 
 // 컴포넌트 문서 페이지엔 본문 <PlatformStatusTable> 노드가 없다(플랫폼 상태를 헤더에서 렌더).
 // 그래서 이 파일은 llms.txt 조립 시 상태 테이블을 주입하기 위한 마크다운 헬퍼만 제공한다

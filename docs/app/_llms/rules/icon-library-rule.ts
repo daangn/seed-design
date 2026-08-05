@@ -1,6 +1,6 @@
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import type { Rule } from "./types";
-import { escapeCell, markdownRow } from "./markdown-utils";
+import { escapeCell, markdownRow } from "@/lib/llms/markdown-table";
 import monochromeRaw from "@karrotmarket/icon-data/monochrome.json";
 import multicolorRaw from "@karrotmarket/icon-data/multicolor.json";
 
