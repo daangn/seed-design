@@ -1,4 +1,4 @@
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
+import { getPageMarkdownUrl } from "@/app/_llms/config";
 import { getReactSource } from "@/app/source";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
@@ -35,7 +35,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   const displayTitle = deprecatedTitle(heading, deprecated);
   const displayDescription = tabbedFolder?.description ?? page.data.description;
 
-  const markdownUrl = getLLMMarkdownUrl("react", page.slugs);
+  const markdownUrl = getPageMarkdownUrl("react", page);
   const isChangelog = page.slugs.join("/") === "updates/changelog";
   const cover = page.data.frontmatter.coverImage
     ? resolveCoverImage(page.data.frontmatter.coverImage)

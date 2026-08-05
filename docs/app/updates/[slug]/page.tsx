@@ -1,4 +1,4 @@
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
+import { getPageMarkdownUrl } from "@/app/_llms/config";
 import { env } from "@/app/env";
 import { getUpdatesSource } from "@/app/source";
 import {
@@ -27,7 +27,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
   if (!page) notFound();
 
   const { body, toc, lastModified } = await loadMarkdownPage(page);
-  const markdownUrl = getLLMMarkdownUrl("updates", page.slugs);
+  const markdownUrl = getPageMarkdownUrl("updates", page);
   const publishedDate = page.data.frontmatter.publishedAt
     ? new Date(page.data.frontmatter.publishedAt)
     : null;

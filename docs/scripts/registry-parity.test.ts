@@ -1,7 +1,13 @@
 import { describe, expect, it } from "bun:test";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
-import { type Section, sectionConfigs, sections } from "../app/_llms/config";
+import {
+  type Section,
+  getDocUrl,
+  getLLMMarkdownUrl,
+  sectionConfigs,
+  sections,
+} from "../app/_llms/config";
 import { listSectionPages } from "./content-pages";
 import type { DocsIndex } from "../../packages/cli/src/schema";
 
@@ -16,9 +22,7 @@ const docsIndex = JSON.parse(
 /** `/llms/{section}/{...slugs}.txt` for every routable page in the content tree. */
 const servedLlmsUrls = new Set(
   sections.flatMap((section) =>
-    listSectionPages(section, contentRoot).map(
-      ({ slugs }) => `/llms/${section}/${slugs.join("/")}.txt`,
-    ),
+    listSectionPages(section, contentRoot).map(({ slugs }) => getLLMMarkdownUrl(section, slugs)),
   ),
 );
 
@@ -56,9 +60,7 @@ describe("docs index ↔ content", () => {
   it("holds every routable page exactly once", () => {
     const expected = sections
       .flatMap((section) =>
-        listSectionPages(section, contentRoot).map(
-          ({ slugs }) => `${sectionConfigs[section].baseUrl}/${slugs.join("/")}`,
-        ),
+        listSectionPages(section, contentRoot).map(({ slugs }) => getDocUrl(section, slugs)),
       )
       .sort();
     const indexed = docsIndex.categories
@@ -71,10 +73,21 @@ describe("docs index ↔ content", () => {
     expect(indexed.length).toBeGreaterThan(200);
   });
 
+  const allItems = docsIndex.categories.flatMap((c) => c.sections.flatMap((s) => s.items));
+
   it("points every item at a served llms.txt URL", () => {
-    const dangling = docsIndex.categories
-      .flatMap((c) => c.sections.flatMap((s) => s.items.map((i) => i.docUrl)))
-      .map((docUrl) => `/llms${docUrl}.txt`)
+    expect(allItems.filter((item) => !item.llmsUrl || !servedLlmsUrls.has(item.llmsUrl))).toEqual(
+      [],
+    );
+  });
+
+  // A CLI published before the index carried `llmsUrl` composes `/llms${docUrl}.txt` instead.
+  // Section overview items are new, so no already-published link breaks — but every item that
+  // existed under the old shape has to keep resolving for those installs.
+  it("keeps the legacy composed URL resolvable for every slugged page", () => {
+    const dangling = allItems
+      .filter((item) => item.id !== "overview")
+      .map((item) => `/llms${item.docUrl}.txt`)
       .filter((url) => !servedLlmsUrls.has(url));
 
     expect(dangling).toEqual([]);

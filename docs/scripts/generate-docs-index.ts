@@ -4,7 +4,15 @@ import { promises as fs } from "fs";
 import matter from "gray-matter";
 import path from "node:path";
 import type { DocsCategory, DocsIndex, DocsItem, DocsSection } from "../../packages/cli/src/schema";
-import { type Section, getLLMMarkdownUrl, sectionConfigs, sections } from "../app/_llms/config";
+import {
+  type Section,
+  getDocUrl,
+  getLLMMarkdownUrl,
+  getSectionLLMIndexUrl,
+  sectionConfigs,
+  sections,
+} from "../app/_llms/config";
+import { getDisplayTitle } from "../app/_llms/utils";
 import { listSectionPages } from "./content-pages";
 
 /**
@@ -90,6 +98,12 @@ function buildRegistryMap(): Map<string, DocsSnippet[]> {
 function resolveSectionId(section: Section, slugs: string[]): string {
   const { grouping } = sectionConfigs[section];
   if (grouping.kind === "flat") return grouping.id;
+
+  // 섹션 루트 index.mdx는 slug가 없어 묶일 첫 slug도 없다. 전용 섹션을 새로 만들면 그 id가
+  // 항목 id("overview")와 겹쳐, CLI가 항목을 바로 열지 않고 1개짜리 선택 목록을 띄운다.
+  // 선언 순서상 첫 섹션(대개 시작하기)에 넣으면 그 충돌 없이 자리를 찾는다.
+  if (slugs.length === 0) return Object.keys(grouping.labels)[0] ?? section;
+
   return slugs.length >= 2 ? slugs[0] : section;
 }
 
@@ -139,15 +153,17 @@ async function main() {
       );
     }
 
-    // sectionId -> DocsItem[]
-    const sectionsMap = new Map<string, DocsItem[]>();
+    // sectionId -> 항목 + 제목 중복 판정에 쓸 슬러그
+    const sectionsMap = new Map<string, { item: DocsItem; slugs: string[] }[]>();
 
     for (const { relPath, slugs } of listSectionPages(section, contentDir)) {
       const frontmatter = matter(readFileSync(path.join(sourceDir, relPath), "utf-8"))
         .data as Frontmatter;
       if (!frontmatter.title) continue;
 
-      const itemId = slugs[slugs.length - 1];
+      // 섹션 루트 index.mdx만 slug가 없다. frontmatter title이 죄다 "Overview"라
+      // 제목에서 뽑을 수도 없어서, CLI가 `docs react/overview`로 부를 이름을 여기서 준다.
+      const itemId = slugs.at(-1) ?? "overview";
       const snippetKey = config.snippetRegistries
         .map((registryId) => `${registryId}:${itemId}`)
         .find((key) => registryMap.has(key));
@@ -157,7 +173,7 @@ async function main() {
         id: itemId,
         title: frontmatter.title,
         ...(frontmatter.description && { description: frontmatter.description }),
-        docUrl: `${config.baseUrl}/${slugs.join("/")}`,
+        docUrl: getDocUrl(section, slugs),
         llmsUrl: getLLMMarkdownUrl(section, slugs),
         ...(frontmatter.deprecated && { deprecated: true }),
         ...(snippetKey &&
@@ -171,11 +187,11 @@ async function main() {
       };
 
       const sectionId = resolveSectionId(section, slugs);
-      const items = sectionsMap.get(sectionId);
-      if (items) {
-        items.push(item);
+      const entries = sectionsMap.get(sectionId);
+      if (entries) {
+        entries.push({ item, slugs });
       } else {
-        sectionsMap.set(sectionId, [item]);
+        sectionsMap.set(sectionId, [{ item, slugs }]);
       }
     }
 
@@ -183,16 +199,24 @@ async function main() {
 
     const docsSections: DocsSection[] = Array.from(sectionsMap.entries())
       .sort(([a], [b]) => compareSectionIds(section, a, b))
-      .map(([sectionId, items]) => ({
-        id: sectionId,
-        label: resolveSectionLabel(section, sectionId),
-        items: items.sort(compareDocsItems),
-      }));
+      .map(([sectionId, entries]) => {
+        // A section is what the CLI picker lists, so two pages titled "Overview" in one
+        // are indistinguishable there. Same disambiguation the llms.txt listings apply.
+        const pages = entries.map(({ item, slugs }) => ({ data: { title: item.title }, slugs }));
+
+        return {
+          id: sectionId,
+          label: resolveSectionLabel(section, sectionId),
+          items: entries
+            .map(({ item }, index) => ({ ...item, title: getDisplayTitle(pages[index], pages) }))
+            .sort(compareDocsItems),
+        };
+      });
 
     categories.push({
       id: section,
       label: config.label,
-      llmsIndexUrl: getLLMMarkdownUrl(section, []),
+      llmsIndexUrl: getSectionLLMIndexUrl(section),
       ...(config.fullText && { llmsFullUrl: `${config.baseUrl}/llms-full.txt` }),
       sections: docsSections,
     });

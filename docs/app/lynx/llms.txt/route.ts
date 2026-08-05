@@ -1,16 +1,18 @@
+import { getLLMMarkdownUrl, shouldIncludeInFullText } from "@/app/_llms/config";
 import { baseUrl } from "@/app/metadata";
 import { getLynxSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
-  const lynxSource = await getLynxSource();
-  const pages = lynxSource.getPages().filter((page) => page.slugs.length > 0);
+  const source = await getLynxSource();
+  const pages = source
+    .getPages()
+    .filter((page) => shouldIncludeInFullText("lynx", page.path));
 
   const pageList = pages
     .map((page) => {
-      const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
-      const llmsUrl = new URL(`/llms/lynx/${slugsWithExt.join("/")}`, baseUrl);
+      const llmsUrl = new URL(getLLMMarkdownUrl("lynx", page.slugs), baseUrl);
       return `- [${page.data.title}](${llmsUrl}): ${page.data.description ?? ""}`;
     })
     .sort()

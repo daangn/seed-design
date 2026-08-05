@@ -1,6 +1,6 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
-import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
+import { getDisplayTitle, sectionOverviewLine, sortCategories } from "@/app/_llms/utils";
 import { getDocsSource } from "@/app/source";
 
 export const revalidate = false;
@@ -57,7 +57,7 @@ ${pageList}`;
 
 ## Quick Access
 
-- [전체 문서 (llms-full.txt)](${new URL("/docs/llms-full.txt", baseUrl)}): 모든 참고 문서를 하나의 파일로
+- [전체 문서 (llms-full.txt)](${new URL("/docs/llms-full.txt", baseUrl)}): 모든 참고 문서를 하나의 파일로${sectionOverviewLine("docs", pages, baseUrl)}
 
 ## Categories
 
