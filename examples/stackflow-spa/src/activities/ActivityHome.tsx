@@ -208,6 +208,14 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           onClick: () => push("ActivityBottomSheetModalTest", {}),
         },
         {
+          title: "BottomSheet (TextField only)",
+          onClick: () => push("ActivityBottomSheetTextField", {}),
+        },
+        {
+          title: "BottomSheet Keyboard Playground",
+          onClick: () => push("ActivityBottomSheetKeyboardPlayground", {}),
+        },
+        {
           title: "BottomSheet × AlertDialog (Step)",
           onClick: () => push("ActivityBottomSheetWithAlertDialogStep", {}),
         },

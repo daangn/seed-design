@@ -2,10 +2,11 @@ import { useControllableState } from "@seed-design/react-use-controllable-state"
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import type React from "react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
-import { isAndroid, isIOS, isMobileFirefox } from "./browser";
+import { isIOS } from "./browser";
 import {
   CLOSE_THRESHOLD,
   DRAG_CLASS,
+  KEYBOARD_TRANSITION,
   SCROLL_LOCK_TIMEOUT,
   TRANSITIONS,
   VELOCITY_THRESHOLD,
@@ -363,7 +364,7 @@ export function useDrawer(props: UseDrawerProps) {
 
       isAllowedToDrag.current = true;
       set(drawerRef.current, {
-        transition: "none",
+        transition: KEYBOARD_TRANSITION,
       });
 
       set(overlayRef.current, {
@@ -458,7 +459,7 @@ export function useDrawer(props: UseDrawerProps) {
 
     set(drawerRef.current, {
       transform: "translate3d(0, 0, 0)",
-      transition: `transform ${TRANSITIONS.EXIT_DURATION}s ${TRANSITIONS.CONTENT_EXIT_TIMING_FUNCTION}`,
+      transition: `transform ${TRANSITIONS.EXIT_DURATION}s ${TRANSITIONS.CONTENT_EXIT_TIMING_FUNCTION}, ${KEYBOARD_TRANSITION}`,
     });
 
     set(overlayRef.current, {
@@ -549,6 +550,10 @@ export function useDrawer(props: UseDrawerProps) {
   useEffect(() => {
     function onVisualViewportChange() {
       if (!drawerRef.current || !repositionInputs) return;
+      // Pinch zoom shrinks the visual viewport for reasons that have nothing to do with the
+      // keyboard, so `diffFromInitial` below would read the zoom as keyboard height and resize the
+      // drawer to match. Leave it alone until the zoom is released.
+      if ((window.visualViewport?.scale ?? 1) > 1) return;
 
       const focusedElement = document.activeElement as HTMLElement;
       if (isInput(focusedElement) || keyboardIsOpen.current) {
@@ -556,12 +561,10 @@ export function useDrawer(props: UseDrawerProps) {
         const totalHeight = window.innerHeight;
         let diffFromInitial = totalHeight - visualViewportHeight;
         const drawerHeight = drawerRef.current.getBoundingClientRect().height || 0;
-        const isTallEnough = drawerHeight > totalHeight * 0.8;
 
         if (!initialDrawerHeight.current) {
           initialDrawerHeight.current = drawerHeight;
         }
-        const offsetFromTop = drawerRef.current.getBoundingClientRect().top;
 
         if (Math.abs(previousDiffFromInitial.current - diffFromInitial) > 60) {
           keyboardIsOpen.current = !keyboardIsOpen.current;
@@ -573,23 +576,21 @@ export function useDrawer(props: UseDrawerProps) {
         }
         previousDiffFromInitial.current = diffFromInitial;
 
-        if (drawerHeight > visualViewportHeight || keyboardIsOpen.current) {
-          const height = drawerRef.current.getBoundingClientRect().height;
-          let newDrawerHeight = height;
+        // Derive the height from the natural height and the viewport alone. Measuring the drawer
+        // here would be circular: `bottom` animates toward the keyboard position, so a rect read
+        // mid-flight describes where the drawer was rather than where it is headed, and folding
+        // that back into the height makes every resize compound the last one. Android emits
+        // several resizes per keyboard animation, so that compounding inflated the sheet until it
+        // filled the screen — and it never shrank back, because the restore branch skipped Android.
+        const naturalHeight = initialDrawerHeight.current;
+        // Once lifted, the drawer's bottom edge rests on top of the keyboard, so this is all the
+        // room it has left.
+        const availableHeight = visualViewportHeight - WINDOW_TOP_OFFSET;
+        const targetHeight = fixed
+          ? Math.max(naturalHeight - Math.max(diffFromInitial, 0), 0)
+          : Math.min(naturalHeight, availableHeight);
 
-          if (height > visualViewportHeight) {
-            newDrawerHeight =
-              visualViewportHeight - (isTallEnough ? offsetFromTop : WINDOW_TOP_OFFSET);
-          }
-
-          if (fixed) {
-            drawerRef.current.style.height = `${height - Math.max(diffFromInitial, 0)}px`;
-          } else {
-            drawerRef.current.style.height = `${Math.max(newDrawerHeight, visualViewportHeight - offsetFromTop)}px`;
-          }
-        } else if (!isMobileFirefox() && !isAndroid()) {
-          drawerRef.current.style.height = `${initialDrawerHeight.current}px`;
-        }
+        drawerRef.current.style.height = `${targetHeight}px`;
 
         if (snapPoints && snapPoints.length > 0 && !keyboardIsOpen.current) {
           drawerRef.current.style.bottom = "0px";
@@ -599,8 +600,45 @@ export function useDrawer(props: UseDrawerProps) {
       }
     }
 
+    // On iOS the keyboard's dismissal only reaches `visualViewport` once it has fully retracted —
+    // measured ~480ms after blur on iOS 27, against ~90ms in the opposite direction — so waiting
+    // for `resize` drops the drawer back down long after the keyboard is gone. Blur fires as the
+    // dismissal starts, so run the reset from there and leave the height restore to `resize` as
+    // before. Other platforms report the dismissal promptly and stay on the `resize` path alone.
+    let focusOutFrame = 0;
+
+    function onFocusOut(event: FocusEvent) {
+      const target = event.target;
+      if (!repositionInputs || !(target instanceof Element) || !isInput(target)) return;
+      if ((window.visualViewport?.scale ?? 1) > 1) return;
+
+      // Moving between inputs keeps the keyboard up. `relatedTarget` is null on iOS, so wait for
+      // the focus to settle and read what actually ended up focused.
+      cancelAnimationFrame(focusOutFrame);
+      focusOutFrame = requestAnimationFrame(() => {
+        const activeElement = document.activeElement;
+        if (activeElement && isInput(activeElement)) return;
+        if (!drawerRef.current) return;
+
+        drawerRef.current.style.bottom = "0px";
+      });
+    }
+
     window.visualViewport?.addEventListener("resize", onVisualViewportChange);
-    return () => window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
+    if (isIOS()) {
+      document.addEventListener("focusout", onFocusOut, true);
+    }
+
+    return () => {
+      // This effect re-runs whenever the active snap point changes. Without cancelling, a blur that
+      // lands in the same frame as a snap change would let the stale closure write `bottom` on top
+      // of the reposition the new snap point just performed.
+      cancelAnimationFrame(focusOutFrame);
+      window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
+      if (isIOS()) {
+        document.removeEventListener("focusout", onFocusOut, true);
+      }
+    };
   }, [activeSnapPointIndex, snapPoints, snapPointsOffset, repositionInputs, fixed]);
 
   // Effect 1: Track drawer open state

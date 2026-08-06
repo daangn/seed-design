@@ -1,11 +1,3 @@
-export function isMobileFirefox(): boolean | undefined {
-  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
-  return (
-    (/Firefox/.test(navigator.userAgent) && /Mobile/.test(navigator.userAgent)) ||
-    /FxiOS/.test(navigator.userAgent)
-  );
-}
-
 export function isMac(): boolean | undefined {
   return testPlatform(/^Mac/);
 }
@@ -24,12 +16,6 @@ export function isIPad(): boolean | undefined {
 
 export function isIOS(): boolean | undefined {
   return isIPhone() || isIPad();
-}
-
-export function isAndroid(): boolean | undefined {
-  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
-
-  return /Android/.test(navigator.userAgent);
 }
 
 // TODO: use userAgent instead?

@@ -35,9 +35,11 @@
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
     padding-bottom: var(--seed-safe-area-bottom);
+    bottom: 0;
     touch-action: none;
     will-change: transform;
-    transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive);
+    --drawer-keyboard-transition: bottom var(--seed-duration-d5) cubic-bezier(0.32, 0.72, 0, 1);
+    transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive), var(--drawer-keyboard-transition);
 }
 .seed-bottom-sheet__content[data-snap-points='true'] {
     transform: translate3d(0, var(--initial-transform, 100%), 0);

@@ -1,5 +1,16 @@
 import { act, fireEvent, render } from "@testing-library/react";
-import { afterAll, afterEach, beforeAll, describe, expect, it, jest, mock, spyOn } from "bun:test";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest,
+  mock,
+  spyOn,
+} from "bun:test";
 import * as React from "react";
 import { DRAG_CLASS, TRANSITIONS } from "./constants";
 import { DrawerContent, DrawerRoot } from "./Drawer";
@@ -351,5 +362,132 @@ describe("스크롤 락", () => {
       </DrawerRoot>,
     );
     expect(isScrollLocked()).toBe(false);
+  });
+});
+
+describe("키보드 리포지션", () => {
+  function KeyboardHarness(props: UseDrawerProps) {
+    const api = useDrawer(props);
+
+    return (
+      <div>
+        <button
+          type="button"
+          data-testid="next-snap"
+          onClick={() => api.setActiveSnapPoint(api.snapPoints?.[1] ?? null)}
+        />
+        <div data-testid="drawer" role="dialog" ref={api.drawerRef} />
+        <input data-testid="input-a" />
+        <input data-testid="input-b" />
+      </div>
+    );
+  }
+
+  const originalRaf = window.requestAnimationFrame;
+  const originalCaf = window.cancelAnimationFrame;
+  const originalPlatform = Object.getOwnPropertyDescriptor(window.navigator, "platform");
+
+  let pending: Map<number, () => void>;
+  let nextHandle: number;
+
+  function flushFrames() {
+    const callbacks = [...pending.values()];
+    pending.clear();
+    for (const callback of callbacks) callback();
+  }
+
+  function setPlatform(value: string) {
+    Object.defineProperty(window.navigator, "platform", { value, configurable: true });
+  }
+
+  beforeEach(() => {
+    pending = new Map();
+    nextHandle = 1;
+
+    window.requestAnimationFrame = ((callback: FrameRequestCallback) => {
+      const handle = nextHandle++;
+      pending.set(handle, () => callback(0));
+      return handle;
+    }) as typeof window.requestAnimationFrame;
+
+    window.cancelAnimationFrame = ((handle: number) => {
+      pending.delete(handle);
+    }) as typeof window.cancelAnimationFrame;
+
+    setPlatform("iPhone");
+  });
+
+  afterEach(() => {
+    window.requestAnimationFrame = originalRaf;
+    window.cancelAnimationFrame = originalCaf;
+    if (originalPlatform) {
+      Object.defineProperty(window.navigator, "platform", originalPlatform);
+    }
+  });
+
+  it("focusout 한 번이면 스냅 변경의 cleanup이 예약된 프레임을 취소한다", () => {
+    const { getByTestId } = render(<KeyboardHarness defaultOpen snapPoints={["200px", "400px"]} />);
+    const drawer = getByTestId("drawer");
+
+    // 키보드가 올라와 시트가 들려 있는 상태
+    drawer.style.bottom = "300px";
+
+    fireEvent.focusOut(getByTestId("input-a"));
+    expect(pending.size).toBe(1);
+
+    act(() => {
+      getByTestId("next-snap").click();
+    });
+    expect(pending.size).toBe(0);
+
+    // 새 스냅이 자기 위치로 재배치한 뒤, 남은 프레임이 그 위를 덮지 않아야 한다
+    drawer.style.bottom = "300px";
+    act(() => flushFrames());
+
+    expect(drawer.style.bottom).toBe("300px");
+  });
+
+  it("focusout이 같은 프레임에 두 번이어도 스냅 변경의 cleanup이 모든 프레임을 취소한다", () => {
+    const { getByTestId } = render(<KeyboardHarness defaultOpen snapPoints={["200px", "400px"]} />);
+    const drawer = getByTestId("drawer");
+
+    drawer.style.bottom = "300px";
+
+    fireEvent.focusOut(getByTestId("input-a"));
+    fireEvent.focusOut(getByTestId("input-b"));
+    // 프레임 핸들을 담는 슬롯이 하나뿐이라, 새로 예약하기 전에 직전 프레임을 취소해야
+    // cleanup이 취소할 수 없는 고아 프레임이 남지 않는다
+    expect(pending.size).toBe(1);
+
+    act(() => {
+      getByTestId("next-snap").click();
+    });
+    expect(pending.size).toBe(0);
+
+    drawer.style.bottom = "300px";
+    act(() => flushFrames());
+
+    expect(drawer.style.bottom).toBe("300px");
+  });
+
+  it("iOS가 아니면 focusout 리스너를 등록하지 않는다", () => {
+    setPlatform("Linux armv8l");
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen snapPoints={["200px", "400px"]} />);
+    const drawer = getByTestId("drawer");
+
+    drawer.style.bottom = "300px";
+
+    fireEvent.focusOut(getByTestId("input-a"));
+    fireEvent.focusOut(getByTestId("input-b"));
+    expect(pending.size).toBe(0);
+
+    act(() => {
+      getByTestId("next-snap").click();
+    });
+    drawer.style.bottom = "300px";
+    act(() => flushFrames());
+
+    expect(drawer.style.bottom).toBe("300px");
   });
 });
