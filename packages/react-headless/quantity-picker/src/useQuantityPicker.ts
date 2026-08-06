@@ -14,34 +14,47 @@ export type QuantityPickerGetValueText = (valueText: string, value: number | str
 const defaultGetValueText: QuantityPickerGetValueText = (valueText) => valueText;
 
 interface UseQuantityPickerBaseProps {
+  /** 제어 상태에서 현재 수량을 지정합니다. */
   value?: number;
+  /** 비제어 상태에서 초기 수량을 지정합니다. 지정하지 않으면 `min`을 사용합니다. */
   defaultValue?: number;
+  /** 수량이 변경될 때 호출됩니다. */
   onValueChange?: (value: number) => void;
 
+  /** 선택할 수 있는 최소 수량입니다. */
   min: number;
+  /** 선택할 수 있는 최대 수량입니다. */
   max: number;
   /**
+   * 한 번의 조작으로 변경할 수량입니다.
    * @default 1
    */
   step?: number;
 
   /**
+   * 모든 조작을 비활성화합니다.
    * @default false
    */
   disabled?: boolean;
   /**
+   * 수량이 유효하지 않은 상태임을 나타냅니다.
    * @default false
    */
   invalid?: boolean;
   /**
+   * 값을 표시하되 변경할 수 없도록 합니다.
    * @default false
    */
   readOnly?: boolean;
+  /** 전체 또는 특정 action을 loading 상태로 전환하고 해당 조작을 막습니다. */
   loading?: QuantityPickerLoading;
 
+  /** Remove 버튼을 누를 때 호출됩니다. */
   onRemove?: () => void;
+  /** 표시할 수량 텍스트를 반환합니다. 단위나 보조 설명을 덧붙일 때 사용합니다. */
   getValueText?: QuantityPickerGetValueText;
   /**
+   * 버튼과 값의 배치 방향입니다.
    * @default "ltr"
    */
   dir?: "ltr" | "rtl";
@@ -49,17 +62,21 @@ interface UseQuantityPickerBaseProps {
 
 type QuantityPickerRemovableProps = {
   /**
+   * 값이 `min`일 때 Decrement 버튼을 Remove 버튼으로 전환합니다.
    * @default false
    */
   removable: true;
+  /** Remove 버튼의 접근성 이름입니다. */
   removeAriaLabel: string;
 };
 
 type QuantityPickerNonRemovableProps = {
   /**
+   * 값이 `min`일 때 Decrement 버튼을 Remove 버튼으로 전환합니다.
    * @default false
    */
   removable?: false;
+  /** Remove 버튼의 접근성 이름입니다. */
   removeAriaLabel?: string;
 };
 
