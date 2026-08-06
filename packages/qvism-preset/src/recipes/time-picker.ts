@@ -25,6 +25,7 @@ const timePicker = defineSlotRecipe({
   base: {
     root: {
       width: "100%",
+      height: vars.base.enabled.root.height,
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.item.color,
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius]:
         vars.base.enabled.selectionIndicator.cornerRadius,

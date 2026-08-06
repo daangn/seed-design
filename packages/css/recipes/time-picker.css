@@ -1,5 +1,6 @@
 .seed-time-picker__root {
     width: 100%;
+    height: 220px;
     --seed-wheel-picker-selected-item-color: var(--seed-color-fg-neutral);
     --seed-wheel-picker-selection-indicator-corner-radius: var(--seed-radius-r2);
 }
