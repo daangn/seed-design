@@ -17,10 +17,20 @@ const { findTransitionTargets, setIdlePositions } = await import("./dom");
 
 // happy-dom ships no WAAPI. A `finished` that never settles models an
 // animation that is still in flight, which is all these tests need.
-Element.prototype.animate = (() => ({
+const animateSpy = mock(() => ({
   finished: new Promise<void>(() => {}),
   cancel() {},
-})) as Element["animate"];
+}));
+Element.prototype.animate = animateSpy as Element["animate"];
+
+/** Await `n` animation frames, always landing after callbacks queued earlier. */
+function frames(n: number): Promise<void> {
+  return new Promise((resolve) => {
+    let left = n;
+    const tick = () => (left-- > 0 ? requestAnimationFrame(tick) : resolve());
+    requestAnimationFrame(tick);
+  });
+}
 
 // ─── Real stack snapshots ───────────────────────────────────────────────────
 
@@ -65,6 +75,15 @@ const POP_WITH_ANIMATION = makeEvent("Popped", {
   eventDate: SETTLED_AT,
 });
 
+/** A third `push()`, still in `enter-active` at `SETTLED_AT`. */
+const PUSH_A3 = makeEvent("Pushed", {
+  id: String(POP_SEQ + 1).padStart(4, "0"),
+  eventDate: SETTLED_AT,
+  activityId: "a3",
+  activityName: "Screen",
+  activityParams: {},
+});
+
 // ─── Harness ────────────────────────────────────────────────────────────────
 
 function ActivityMarkup({ id, isTop }: { id: string; isTop: boolean }) {
@@ -86,7 +105,11 @@ function ActivityMarkup({ id, isTop }: { id: string; isTop: boolean }) {
   );
 }
 
-function Harness() {
+/**
+ * `hideTop` models an AppScreen held back by a gate or a Suspense boundary:
+ * the activity exists in the stack, but nothing of it is in the DOM yet.
+ */
+function Harness({ hideTop = false }: { hideTop?: boolean }) {
   const { stackRef } = useGlobalInteraction();
 
   // Mirrors the core's `visibleActivities` filter — exit-done is unmounted.
@@ -94,9 +117,11 @@ function Harness() {
 
   return (
     <div ref={stackRef} data-testid="stack">
-      {visible.map((activity) => (
-        <ActivityMarkup key={activity.id} id={activity.id} isTop={activity.isTop} />
-      ))}
+      {visible.map((activity) =>
+        hideTop && activity.isTop ? null : (
+          <ActivityMarkup key={activity.id} id={activity.id} isTop={activity.isTop} />
+        ),
+      )}
     </div>
   );
 }
@@ -155,5 +180,60 @@ describe("useGlobalInteraction — settle safety-net", () => {
     // The WAAPI pop animation owns the unwind from here — the safety-net must
     // stay out of the way until everything settles.
     expect(getByTestId("a1-layer").style.transform).toBe("translate3d(-30%, 0, 0)");
+  });
+});
+
+describe("useGlobalInteraction — late-mounting AppScreen", () => {
+  beforeEach(() => {
+    currentStack = stackAfter();
+    animateSpy.mockClear();
+  });
+
+  it("animates the push once the top AppScreen mounts a few frames late", async () => {
+    // The push branch only fires on a transition *into* enter-active, so the
+    // first render has to sit outside it.
+    const { rerender } = render(<Harness />);
+
+    currentStack = stackAfter(PUSH_A3);
+
+    // Premise: a3 is on top and still entering.
+    expect(currentStack.activities.find((a) => a.isTop)?.id).toBe("a3");
+    expect(currentStack.activities.find((a) => a.isTop)?.transitionState).toBe("enter-active");
+
+    rerender(<Harness hideTop />);
+    await frames(3);
+    expect(animateSpy).not.toHaveBeenCalled();
+
+    // The gate resolves — a3's markup finally lands, still within enter-active.
+    rerender(<Harness />);
+    await frames(2);
+    expect(animateSpy).toHaveBeenCalled();
+  });
+
+  it("stops retrying once the enter phase ends without the AppScreen", async () => {
+    const realWarn = console.warn;
+    const warnSpy = mock(() => {});
+    console.warn = warnSpy;
+
+    try {
+      const { rerender } = render(<Harness />);
+      currentStack = stackAfter(PUSH_A3);
+      rerender(<Harness hideTop />);
+      await frames(3);
+
+      // The enter phase runs out with a3 still unmounted.
+      currentStack = aggregate([...BASE_EVENTS, PUSH_A3], SETTLED_AT + TRANSITION_DURATION * 2);
+      expect(currentStack.globalTransitionState).toBe("idle");
+
+      rerender(<Harness hideTop />);
+      expect(warnSpy).toHaveBeenCalled();
+
+      // Mounting now must not resurrect the transition.
+      rerender(<Harness />);
+      await frames(3);
+      expect(animateSpy).not.toHaveBeenCalled();
+    } finally {
+      console.warn = realWarn;
+    }
   });
 });

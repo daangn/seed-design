@@ -238,3 +238,34 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
   }
   ```
 </StackflowExample>
+
+### Conditional Rendering
+
+트랜지션은 AppScreen이 DOM에 있어야 재생됩니다. 권한 확인이나 데이터 로딩 같은 게이트로 AppScreen 자체를 감싸면 push되는 순간 재생할 대상이 없어, 게이트가 해제될 때까지 트랜지션이 재생되지 않습니다.
+
+AppScreen은 항상 즉시 렌더링하고, 게이트는 AppScreen 안쪽에 두세요.
+
+```tsx
+// 권장하지 않음 — 게이트가 AppScreen 자체를 지연시킵니다
+<WithAuth>
+  <AppScreen theme="cupertino">{/* ... */}</AppScreen>
+</WithAuth>
+```
+
+```tsx
+// 권장 — AppScreen은 즉시 렌더링하고, 게이트는 콘텐츠만 감쌉니다
+<AppScreen theme="cupertino">
+  <AppBar>{/* ... */}</AppBar>
+  <AppScreenContent>
+    <WithAuth>{/* ... */}</WithAuth>
+  </AppScreenContent>
+</AppScreen>
+```
+
+이 구조는 트랜지션 외에도 이점이 있습니다. 로딩 중에도 AppBar가 보이므로 사용자가 화면의 맥락을 알 수 있고, 뒤로 가기를 바로 사용할 수 있습니다.
+
+<Callout type="info">
+  `@seed-design/stackflow@2.0.4`부터, 게이트가 트랜지션 시간(기본 350ms) 안에
+  해제되면 해제된 시점부터 트랜지션이 재생됩니다. 그보다 늦게 렌더링되면
+  트랜지션 없이 나타나며, 개발 환경에서 콘솔 경고를 출력합니다.
+</Callout>

@@ -8,6 +8,7 @@ export const config = defineConfig({
     { route: "/404", name: "ActivityNotFound" },
     { route: "/pop-test", name: "ActivityPopTest" },
     { route: "/animate-false-test", name: "ActivityAnimateFalseTest" },
+    { route: "/late-mount-test", name: "ActivityLateMountTest" },
     { route: "/accordion", name: "ActivityAccordion" },
     { route: "/action-button", name: "ActivityActionButton" },
     { route: "/app-bar-slot", name: "ActivityAppBarSlot" },

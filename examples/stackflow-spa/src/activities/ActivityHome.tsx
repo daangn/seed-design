@@ -89,6 +89,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           onClick: () => push("ActivityAnimateFalseTest", {}),
         },
         {
+          title: "Late Mount Test (게이트 뒤 AppScreen)",
+          onClick: () => push("ActivityLateMountTest", { delay: "0" }),
+        },
+        {
           title: `Push to here (current activityIndex: ${activityIndex})`,
           onClick: () => push("ActivityHome", {}),
         },

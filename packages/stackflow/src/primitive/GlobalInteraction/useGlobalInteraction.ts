@@ -274,6 +274,18 @@ export function useGlobalInteraction() {
 
     const swipeState = swipeBackStateRef.current;
 
+    // A still-pending rAF here means the push loop below never found its
+    // targets — the top AppScreen stayed unmounted for the whole enter phase.
+    // Give up: past enter-active there is no transition left to play.
+    if (prev === "enter-active" && next !== "enter-active" && pendingPushRAFRef.current !== null) {
+      cancelPendingPushRAF();
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(
+          "[seed-design] The top AppScreen did not mount before the enter transition ended, so the push animation was skipped. Render AppScreen outside any gate or Suspense boundary that can delay it.",
+        );
+      }
+    }
+
     if (next === "enter-active" && prev !== "enter-active") {
       if (swipeState !== "idle") return;
 
@@ -283,10 +295,20 @@ export function useGlobalInteraction() {
       // observable via data-activity-is-top. Sync dispatch inside
       // useLayoutEffect raced with stackflow subscription updates and left
       // findTransitionTargets empty on push.
-      pendingPushRAFRef.current = requestAnimationFrame(() => {
+      pendingPushRAFRef.current = requestAnimationFrame(function tryPush() {
         pendingPushRAFRef.current = null;
-        const style = readTransitionStyle(stackEl);
         const targets = findTransitionTargets(stackEl);
+        // The AppScreen may sit behind a gate or a Suspense boundary and not
+        // be committed yet. CSS-driven transitions (SEED 1.1) picked it up
+        // whenever it appeared because the selector stayed matched for the
+        // whole enter-active phase; WAAPI has to look for it again. Retry
+        // every frame — the give-up branch above stops this once the phase
+        // ends.
+        if (!targets.topLayer) {
+          pendingPushRAFRef.current = requestAnimationFrame(tryPush);
+          return;
+        }
+        const style = readTransitionStyle(stackEl);
         const { animations, finished } = animateTransition(targets, "push", style);
         runningAnimsRef.current = animations;
         finished.then(() => {
