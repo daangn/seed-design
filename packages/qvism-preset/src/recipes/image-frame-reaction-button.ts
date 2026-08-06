@@ -4,7 +4,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { focus, focusVisible, pseudo } from "../utils/pseudo";
+import { focus, focusVisible, pressed, pseudo } from "../utils/pseudo";
 import { imageFrameReactionButton as reactionButtonVars } from "../vars/component";
 import { vars as tokens } from "../vars";
 

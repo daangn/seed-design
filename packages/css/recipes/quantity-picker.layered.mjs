@@ -41,17 +41,12 @@ const quantityPickerSlotNames = [
 ];
 
 const defaultVariant = {
-  "layout": "hug",
   "size": "medium"
 };
 
 const compoundVariants = [];
 
 export const quantityPickerVariantMap = {
-  "layout": [
-    "hug",
-    "fill"
-  ],
   "size": [
     "small",
     "medium",

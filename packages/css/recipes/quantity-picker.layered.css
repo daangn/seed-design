@@ -67,7 +67,6 @@
     box-sizing: border-box;
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);
-    flex-grow: 1;
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
@@ -144,10 +143,6 @@
 
   .seed-quantity-picker__incrementIcon:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
-  }
-
-  .seed-quantity-picker__root--layout_fill {
-    flex-grow: 1;
   }
 
   .seed-quantity-picker__root--size_small {
