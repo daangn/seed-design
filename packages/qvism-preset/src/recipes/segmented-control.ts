@@ -51,7 +51,11 @@ const segmentedControl = defineSlotRecipe({
 
       boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
 
-      transition: `transform ${indicatorVars.base.enabled.root.transformDuration} ${indicatorVars.base.enabled.root.transformTimingFunction}`,
+      transition: "none",
+
+      "[data-indicator-transition] &": {
+        transition: `transform ${indicatorVars.base.enabled.root.transformDuration} ${indicatorVars.base.enabled.root.transformTimingFunction}`,
+      },
     },
     item: {
       display: "flex",
