@@ -56,7 +56,7 @@
         "@sanity/vision": "^4.20.3",
         "@seed-design/css": "1.1.27",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.1.28",
+        "@seed-design/react": "1.1.29",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.1.16",
@@ -428,7 +428,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.1.28",
+      "version": "1.1.29",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.15",
@@ -446,7 +446,7 @@
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-progress": "1.0.0",
-        "@seed-design/react-pull-to-refresh": "1.0.1",
+        "@seed-design/react-pull-to-refresh": "1.0.2",
         "@seed-design/react-radio-group": "1.0.1",
         "@seed-design/react-segmented-control": "1.0.1",
         "@seed-design/react-slider": "1.0.1",
@@ -686,7 +686,7 @@
     },
     "packages/react-headless/pull-to-refresh": {
       "name": "@seed-design/react-pull-to-refresh",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-callback-ref": "^1.1.1",

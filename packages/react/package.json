@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "1.1.28",
+  "version": "1.1.29",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -51,7 +51,7 @@
     "@seed-design/react-portal": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
     "@seed-design/react-progress": "1.0.0",
-    "@seed-design/react-pull-to-refresh": "1.0.1",
+    "@seed-design/react-pull-to-refresh": "1.0.2",
     "@seed-design/react-radio-group": "1.0.1",
     "@seed-design/react-segmented-control": "1.0.1",
     "@seed-design/react-slider": "1.0.1",
