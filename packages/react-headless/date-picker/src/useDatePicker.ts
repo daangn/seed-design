@@ -231,7 +231,12 @@ export function useDatePicker(props: UseDatePickerProps) {
   const visibleRange: DatePickerVisibleRange = props.visibleRange ?? "month";
   const locale = getCanonicalLocale(props.locale);
   const today = props.today ?? getLocalToday();
-  const yearRange = props.yearRange ?? { start: today.year - 100, end: today.year + 100 };
+  const yearRangeStart = props.yearRange?.start ?? today.year - 100;
+  const yearRangeEnd = props.yearRange?.end ?? today.year + 100;
+  const yearRange = React.useMemo(
+    () => ({ start: yearRangeStart, end: yearRangeEnd }),
+    [yearRangeEnd, yearRangeStart],
+  );
 
   validateYearRange(yearRange);
   assertDateInYearRange(today, yearRange, "today");
@@ -256,10 +261,20 @@ export function useDatePicker(props: UseDatePickerProps) {
     props.value ?? props.defaultValue,
   );
   const initialViewSource = props.viewDate ?? props.defaultViewDate ?? initialSelectedDate ?? today;
-  const normalizedViewProp =
-    props.viewDate === undefined
-      ? undefined
-      : normalizeViewDate(props.viewDate, visibleRange, locale, props.weekStartsOn);
+  const viewDateYear = props.viewDate?.year;
+  const viewDateMonth = props.viewDate?.month;
+  const viewDateDay = props.viewDate?.day;
+  const normalizedViewProp = React.useMemo(() => {
+    if (viewDateYear === undefined || viewDateMonth === undefined || viewDateDay === undefined) {
+      return undefined;
+    }
+    return normalizeViewDate(
+      { year: viewDateYear, month: viewDateMonth, day: viewDateDay },
+      visibleRange,
+      locale,
+      props.weekStartsOn,
+    );
+  }, [locale, props.weekStartsOn, viewDateDay, viewDateMonth, viewDateYear, visibleRange]);
   const normalizedDefaultView = normalizeViewDate(
     initialViewSource,
     visibleRange,

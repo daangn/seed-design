@@ -296,6 +296,21 @@ describe("useDatePicker", () => {
     expect(getCell(result, 1).buttonProps.tabIndex).toBe(0);
   });
 
+  it("동등한 객체 props로 다시 렌더링해도 view 상태와 action identity를 유지한다", () => {
+    const viewDate = { year: 2026, month: 7, day: 1 };
+    const { result, rerender } = renderDatePicker({ viewDate });
+    const actions = result.current.actions;
+
+    rerender({
+      today: { ...today },
+      yearRange: { ...yearRange },
+      viewDate: { ...viewDate },
+    });
+
+    expect(result.current.viewDate).toEqual(viewDate);
+    expect(result.current.actions).toBe(actions);
+  });
+
   it("navigateToDate는 표시 범위와 roving focus 대상을 함께 갱신한다", () => {
     const { result } = renderDatePicker();
 
