@@ -20,7 +20,7 @@ declare module "@stackflow/config" {
 }
 
 const ActivityTimePicker: StaticActivityComponentType<"ActivityTimePicker"> = () => {
-  const { pop } = useFlow();
+  const { push } = useFlow();
   const [value, setValue] = useState<TimePickerValue>({ hour: 13, minute: 10 });
   const formattedValue = `${String(value.hour).padStart(2, "0")}:${String(value.minute).padStart(2, "0")}`;
 
@@ -32,7 +32,7 @@ const ActivityTimePicker: StaticActivityComponentType<"ActivityTimePicker"> = ()
         </AppBarLeft>
         <AppBarMain title="TimePicker" />
         <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => pop()}>
+          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
           </AppBarIconButton>
         </AppBarRight>
