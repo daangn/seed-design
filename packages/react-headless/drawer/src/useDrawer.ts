@@ -614,6 +614,7 @@ export function useDrawer(props: UseDrawerProps) {
 
       // Moving between inputs keeps the keyboard up. `relatedTarget` is null on iOS, so wait for
       // the focus to settle and read what actually ended up focused.
+      cancelAnimationFrame(focusOutFrame);
       focusOutFrame = requestAnimationFrame(() => {
         const activeElement = document.activeElement;
         if (activeElement && isInput(activeElement)) return;
