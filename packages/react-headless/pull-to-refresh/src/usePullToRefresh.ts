@@ -1,9 +1,16 @@
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { getClientY, isLeftPress, touchCancel, touchEnd, touchMove } from "./normalize-event";
+import {
+  getClientY,
+  isLeftPress,
+  touchCancel,
+  touchEnd,
+  touchMove,
+  touchStart,
+} from "./normalize-event";
 import { Store } from "./store";
-import { isPullPrevented } from "./dom";
+import { findScroller, isPullPrevented } from "./dom";
 
 interface UsePullToRefreshStateProps {
   /**
@@ -33,10 +40,9 @@ interface UsePullToRefreshStateProps {
    * It does not matter if it is ready or not. If you want to handle the refresh, use `onPtrRefresh`.
    *
    * The context depends on how the pull ended. Releasing the pointer reports the
-   * final coordinates, while a pull that is aborted — the finger travelling back
-   * above the start, `touchcancel`/`pointercancel`, or `disabled` flipping on —
-   * reports the already reset context (`y: -1`, `displacement: 0`) so that a
-   * cancelled pull never surfaces a stale or negative displacement.
+   * final coordinates, while a pull aborted by `touchcancel`/`pointercancel` or by
+   * `disabled` flipping on reports the already reset context (`y: -1`,
+   * `displacement: 0`), so an interrupted pull never surfaces a stale displacement.
    */
   onPtrPullEnd?: (ctx: PullToRefreshContext) => void;
 
@@ -87,6 +93,14 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   const [state, setState] = useState<PullToRefreshState>("idle");
   const rootRef = useRef<HTMLDivElement | null>(null);
 
+  /**
+   * Where the finger currently in contact landed, and the element its scrolling
+   * belongs to. Null between gestures: every contact writes it and every release
+   * clears it — including while `disabled`, where the rest of the handlers bail
+   * out — so a pull can only ever start from a point this same gesture reported.
+   */
+  const originRef = useRef<{ y: number; scroller: Element } | null>(null);
+
   const setContext = useCallback(
     ({ y0, y, displacement }: Omit<PullToRefreshContext, "displacementRatio">) => {
       contextStore.setState({
@@ -117,30 +131,40 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
     onPtrPullEnd?.(contextStore.getState());
   }, [contextStore, setContext, onPtrPullEnd]);
 
+  const startEvent = useCallback((origin: { y: number; scroller: Element }) => {
+    originRef.current = origin;
+  }, []);
+
   const moveEvent = useCallback(
-    ({ y, scrollTop }: { y: number; scrollTop: number }) => {
+    ({ y }: { y: number }) => {
       if (disabled) return;
 
+      const origin = originRef.current;
+
       if (state === "idle") {
-        const ctx = contextStore.getState();
-        if (scrollTop <= 0 && ctx.y !== -1 && y > ctx.y) {
-          setContext({ y0: y, y, displacement: 0 });
-          onPtrPullStart?.(contextStore.getState());
-          setState("pulling");
-        } else {
-          contextStore.setState({ ...ctx, y });
-        }
+        if (!origin) return;
+        if (origin.scroller.scrollTop > 0) return;
+        if (y <= origin.y) return;
+
+        setContext({ y0: y, y, displacement: 0 });
+        onPtrPullStart?.(contextStore.getState());
+        setState("pulling");
+        return;
       }
+
       if (state === "pulling" || state === "ready") {
         const { y0 } = contextStore.getState();
         const displacement = (y - y0) * displacementMultiplier;
 
-        // The finger travelled back above where the pull started, so this is not a
-        // pull anymore. Ending it here keeps a negative displacement from reaching
-        // the content transform, which would slide the content up and then animate
-        // back on release.
-        if (displacement < 0) {
-          abortPull();
+        if (displacement <= 0) {
+          // Let the pull origin follow the finger while it sits at or above where
+          // the pull began. A negative displacement would slide the content up and
+          // animate back on release, and pinning the origin instead of tracking it
+          // would make the user retrace the whole overshoot before the indicator
+          // moved again.
+          setContext({ y0: y, y, displacement: 0 });
+          onPtrPullMove?.(contextStore.getState());
+          setState("pulling");
           return;
         }
 
@@ -162,7 +186,6 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
       threshold,
       disabled,
       setContext,
-      abortPull,
       onPtrPullStart,
       onPtrPullMove,
       onPtrReady,
@@ -170,6 +193,10 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   );
 
   const endEvent = useCallback(() => {
+    // Ahead of every guard below: the origin must not outlive the contact that
+    // reported it, or the next gesture could measure its first move against it.
+    originRef.current = null;
+
     if (disabled) return;
     // While loading, props.onPtrRefresh owns the state and the context.
     if (state === "loading") return;
@@ -191,12 +218,8 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
     }
     if (state === "ready" || state === "pulling") {
       setState("idle");
+      setContext({ y0: 0, y: -1, displacement: 0 });
     }
-
-    // Reset even when the gesture never left idle. Otherwise its last y stays in
-    // the context and the next gesture, comparing its first move against it,
-    // starts pulling without the finger having moved down at all.
-    setContext({ y0: 0, y: -1, displacement: 0 });
   }, [
     state,
     contextStore,
@@ -209,16 +232,15 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   ]);
 
   const cancelEvent = useCallback(() => {
+    originRef.current = null;
+
     if (disabled) return;
     if (state === "loading") return;
 
     if (state === "pulling" || state === "ready") {
       abortPull();
-      return;
     }
-
-    setContext({ y0: 0, y: -1, displacement: 0 });
-  }, [state, disabled, setContext, abortPull]);
+  }, [state, disabled, abortPull]);
 
   const disableEvent = useCallback(() => {
     if (!disabled) return;
@@ -230,6 +252,7 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   }, [disabled, state, abortPull]);
 
   const events = {
+    start: startEvent,
     move: moveEvent,
     end: endEvent,
     cancel: cancelEvent,
@@ -277,12 +300,23 @@ export function usePullToRefresh(props: UsePullToRefreshProps) {
     stateProps,
     rootProps: elementProps({
       ...stateProps,
+      [touchStart]: (e: React.TouchEvent | React.PointerEvent) => {
+        if (e.defaultPrevented) return;
+        if (!isLeftPress(e)) return;
+        if (!(e.target instanceof HTMLElement)) return;
+        if (isPullPrevented(e.target)) return;
+
+        events.start({
+          y: getClientY(e),
+          scroller: findScroller(e.target, e.currentTarget),
+        });
+      },
       [touchMove]: (e: React.TouchEvent | React.PointerEvent) => {
         if (e.defaultPrevented) return;
         if (!isLeftPress(e)) return;
         if (e.target instanceof HTMLElement && isPullPrevented(e.target)) return;
 
-        events.move({ y: getClientY(e), scrollTop: e.currentTarget.scrollTop });
+        events.move({ y: getClientY(e) });
       },
       [touchEnd]: () => {
         events.end();

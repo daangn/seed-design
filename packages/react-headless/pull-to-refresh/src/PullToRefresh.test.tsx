@@ -10,6 +10,12 @@ import {
 } from "./PullToRefresh";
 import { usePullToRefreshContext, type UsePullToRefreshContext } from "./usePullToRefreshContext";
 
+/** A gesture opens with `press`: the hook takes the pull origin from the contact. */
+function press(root: HTMLElement, clientY: number, { scrollTop = 0, buttons = 1 } = {}) {
+  root.scrollTop = scrollTop;
+  fireEvent.pointerDown(root, { buttons, clientY });
+}
+
 function movePointer(root: HTMLElement, clientY: number, { scrollTop = 0, buttons = 1 } = {}) {
   root.scrollTop = scrollTop;
   fireEvent.pointerMove(root, { buttons, clientY });
@@ -76,7 +82,7 @@ describe("PullToRefreshRoot", () => {
     );
     const root = getByTestId("root");
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
 
@@ -104,8 +110,9 @@ describe("PullToRefreshRoot", () => {
     const onPointerMove = mock(() => {});
     const { root } = renderPullToRefresh({ onPointerMove });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
+    movePointer(root, 150);
 
     expect(onPointerMove).toHaveBeenCalledTimes(2);
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
@@ -114,8 +121,9 @@ describe("PullToRefreshRoot", () => {
   it("lets a caller pointer handler suppress the pull with preventDefault", () => {
     const { root } = renderPullToRefresh({ onPointerMove: (e) => e.preventDefault() });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
+    movePointer(root, 150);
 
     expect(root).toHaveAttribute("data-ptr-state", "idle");
   });
@@ -140,7 +148,7 @@ describe("PullToRefreshIndicator", () => {
   it("updates the render props value as the pull grows", () => {
     const { root, getByTestId, values } = renderPullToRefresh();
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
 
@@ -167,7 +175,7 @@ describe("PullToRefreshContent", () => {
   it("switches to the dragging attributes while pulling", () => {
     const { root, getByTestId } = renderPullToRefresh();
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
 
     expect(getByTestId("content")).toHaveAttribute("data-ptr-state", "pulling");
@@ -260,7 +268,7 @@ describe("PullToRefresh composition", () => {
     const { root, getByTestId, values } = renderPullToRefresh({ onPtrRefresh });
     const content = getByTestId("content");
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     expect(root).toHaveAttribute("data-ptr-state", "ready");

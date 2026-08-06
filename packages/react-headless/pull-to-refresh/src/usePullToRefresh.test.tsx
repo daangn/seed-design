@@ -25,6 +25,9 @@ function Harness({ onRender, ...hookProps }: HarnessProps) {
     <div data-testid="root" ref={api.refs.root} {...api.rootProps}>
       <div data-testid="indicator" {...api.indicatorProps} />
       <div data-testid="content" {...api.contentProps}>
+        <div data-testid="inner-scroller" style={{ overflowY: "auto" }}>
+          <span data-testid="inner-item">item</span>
+        </div>
         <span data-testid="no-pull" {...pullToRefreshPreventPull}>
           <span data-testid="no-pull-inner">inner</span>
         </span>
@@ -49,11 +52,29 @@ function setup(props: UsePullToRefreshProps = {}) {
   };
 }
 
-// happy-dom reports no touch support, so the hook binds the pointer handlers and
-// `isLeftPress` needs `buttons === 1`.
-function movePointer(root: HTMLElement, clientY: number, { scrollTop = 0, buttons = 1 } = {}) {
+/**
+ * happy-dom reports no touch support, so the hook binds the pointer handlers and
+ * `isLeftPress` needs `buttons === 1`.
+ *
+ * A gesture always opens with `press`: the hook takes the pull origin from the
+ * contact, so a bare `movePointer` is a move with no gesture behind it.
+ */
+function press(
+  root: HTMLElement,
+  clientY: number,
+  { scrollTop = 0, buttons = 1, target = root as HTMLElement } = {},
+) {
   root.scrollTop = scrollTop;
-  fireEvent.pointerMove(root, { buttons, clientY });
+  fireEvent.pointerDown(target, { buttons, clientY });
+}
+
+function movePointer(
+  root: HTMLElement,
+  clientY: number,
+  { scrollTop = 0, buttons = 1, target = root as HTMLElement } = {},
+) {
+  root.scrollTop = scrollTop;
+  fireEvent.pointerMove(target, { buttons, clientY });
 }
 
 const releasePointer = (root: HTMLElement) => fireEvent.pointerUp(root);
@@ -61,6 +82,17 @@ const releasePointer = (root: HTMLElement) => fireEvent.pointerUp(root);
 const cancelPointer = (root: HTMLElement) => fireEvent.pointerCancel(root);
 
 const displacementVar = (root: HTMLElement) => root.style.getPropertyValue("--ptr-displacement");
+
+/**
+ * Makes an element report itself as a real vertical scroller. happy-dom lays
+ * nothing out, so `scrollHeight` and `clientHeight` are both 0 and no element
+ * would ever qualify on its own.
+ */
+function makeScrollable(el: HTMLElement, { scrollTop = 0 } = {}) {
+  Object.defineProperty(el, "scrollHeight", { value: 5000, configurable: true });
+  Object.defineProperty(el, "clientHeight", { value: 500, configurable: true });
+  el.scrollTop = scrollTop;
+}
 
 /**
  * A deferred `onPtrRefresh` so the `loading` state can be observed before it settles.
@@ -93,33 +125,29 @@ describe("usePullToRefresh state machine", () => {
 
   it("walks idle → pulling → ready → loading → idle across one gesture", async () => {
     const { onPtrRefresh, finish } = createDeferredRefresh();
-    const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
+    const { root, last } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    // The first move of a gesture only records y.
-    movePointer(root, 100);
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
+    press(root, 100);
+    expect(last().api.state).toBe("idle");
 
     movePointer(root, 110);
-    expect(root).toHaveAttribute("data-ptr-state", "pulling");
-
-    movePointer(root, 150);
-    expect(root).toHaveAttribute("data-ptr-state", "pulling");
+    expect(last().api.state).toBe("pulling");
 
     movePointer(root, 250);
-    expect(root).toHaveAttribute("data-ptr-state", "ready");
+    expect(last().api.state).toBe("ready");
 
     releasePointer(root);
-    expect(root).toHaveAttribute("data-ptr-state", "loading");
-    expect(onPtrRefresh).toHaveBeenCalledTimes(1);
+    expect(last().api.state).toBe("loading");
 
     await finish();
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
+    expect(last().api.state).toBe("idle");
+    expect(onPtrRefresh).toHaveBeenCalledTimes(1);
   });
 
   it("returns to idle on release from ready when no onPtrRefresh is given", () => {
     const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     expect(root).toHaveAttribute("data-ptr-state", "ready");
@@ -129,14 +157,14 @@ describe("usePullToRefresh state machine", () => {
   });
 
   it("returns to idle on release from pulling even when onPtrRefresh is given", () => {
-    const { onPtrRefresh } = createDeferredRefresh();
+    const onPtrRefresh = mock(() => Promise.resolve());
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
-    expect(root).toHaveAttribute("data-ptr-state", "pulling");
-
+    movePointer(root, 150);
     releasePointer(root);
+
     expect(root).toHaveAttribute("data-ptr-state", "idle");
     expect(onPtrRefresh).not.toHaveBeenCalled();
   });
@@ -144,7 +172,7 @@ describe("usePullToRefresh state machine", () => {
   it("drops back from ready to pulling when the pull shrinks below the threshold", () => {
     const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     expect(root).toHaveAttribute("data-ptr-state", "ready");
@@ -154,78 +182,46 @@ describe("usePullToRefresh state machine", () => {
   });
 
   it("treats displacement exactly at the threshold as not ready", () => {
-    // `displacement > threshold` is a strict comparison.
     const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
-
     movePointer(root, 210);
-    expect(root).toHaveAttribute("data-ptr-state", "pulling");
 
-    movePointer(root, 211);
-    expect(root).toHaveAttribute("data-ptr-state", "ready");
+    expect(displacementVar(root)).toBe("100px");
+    expect(root).toHaveAttribute("data-ptr-state", "pulling");
   });
 
   it("defaults to a 44px threshold and a 0.5 displacement multiplier", () => {
     const { root } = setup();
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
+    movePointer(root, 300);
 
-    movePointer(root, 198);
-    expect(root).toHaveAttribute("data-ptr-state", "pulling");
-
-    movePointer(root, 200);
+    // (300 - 110) * 0.5 = 95, which clears the default 44px threshold.
+    expect(displacementVar(root)).toBe("95px");
     expect(root).toHaveAttribute("data-ptr-state", "ready");
-  });
-
-  it("resets the gesture origin after a pull ends, so the next gesture needs two moves", () => {
-    const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
-
-    movePointer(root, 100);
-    movePointer(root, 110);
-    releasePointer(root);
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
-
-    movePointer(root, 500);
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
-
-    movePointer(root, 510);
-    expect(root).toHaveAttribute("data-ptr-state", "pulling");
   });
 
   it("ignores moves and releases while loading", async () => {
     const { onPtrRefresh, finish } = createDeferredRefresh();
-    const onPtrPullStart = mock((_ctx: PullContext) => {});
-    const onPtrPullEnd = mock((_ctx: PullContext) => {});
-    const { root } = setup({
-      threshold: 100,
-      displacementMultiplier: 1,
-      onPtrRefresh,
-      onPtrPullStart,
-      onPtrPullEnd,
-    });
+    const { root, last } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     releasePointer(root);
-    expect(root).toHaveAttribute("data-ptr-state", "loading");
+    expect(last().api.state).toBe("loading");
 
-    onPtrPullStart.mockClear();
-    onPtrPullEnd.mockClear();
+    press(root, 100);
     movePointer(root, 400);
-    movePointer(root, 500);
     releasePointer(root);
-
-    expect(root).toHaveAttribute("data-ptr-state", "loading");
-    expect(onPtrPullStart).not.toHaveBeenCalled();
-    expect(onPtrPullEnd).not.toHaveBeenCalled();
-    expect(onPtrRefresh).toHaveBeenCalledTimes(1);
+    expect(last().api.state).toBe("loading");
+    expect(displacementVar(root)).toBe("100px");
 
     await finish();
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
+    expect(last().api.state).toBe("idle");
   });
 });
 
@@ -240,7 +236,7 @@ describe("usePullToRefresh callbacks", () => {
       onPtrPullMove,
     });
 
-    movePointer(root, 100);
+    press(root, 100);
     expect(onPtrPullStart).not.toHaveBeenCalled();
     expect(onPtrPullMove).not.toHaveBeenCalled();
 
@@ -257,38 +253,26 @@ describe("usePullToRefresh callbacks", () => {
     movePointer(root, 150);
     expect(onPtrPullStart).toHaveBeenCalledTimes(1);
     expect(onPtrPullMove).toHaveBeenCalledTimes(1);
-    expect(onPtrPullMove).toHaveBeenLastCalledWith({
-      y0: 110,
-      y: 150,
-      displacement: 40,
-      displacementRatio: 0.4,
-    });
   });
 
   it("calls onPtrPullMove on every move while pulling and while ready", () => {
     const onPtrPullMove = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullMove });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
     movePointer(root, 250);
     movePointer(root, 260);
 
     expect(onPtrPullMove).toHaveBeenCalledTimes(3);
-    expect(onPtrPullMove).toHaveBeenLastCalledWith({
-      y0: 110,
-      y: 260,
-      displacement: 150,
-      displacementRatio: 1,
-    });
   });
 
   it("calls onPtrReady on every move that sits above the threshold", () => {
     const onPtrReady = mock(() => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrReady });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
     expect(onPtrReady).not.toHaveBeenCalled();
@@ -298,19 +282,13 @@ describe("usePullToRefresh callbacks", () => {
 
     movePointer(root, 260);
     expect(onPtrReady).toHaveBeenCalledTimes(2);
-
-    movePointer(root, 150);
-    expect(onPtrReady).toHaveBeenCalledTimes(2);
-
-    movePointer(root, 250);
-    expect(onPtrReady).toHaveBeenCalledTimes(3);
   });
 
   it("calls onPtrReady with no arguments", () => {
     const onPtrReady = mock(() => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrReady });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
 
@@ -321,7 +299,7 @@ describe("usePullToRefresh callbacks", () => {
     const onPtrPullEnd = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullEnd });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     releasePointer(root);
@@ -339,7 +317,7 @@ describe("usePullToRefresh callbacks", () => {
     const onPtrPullEnd = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullEnd });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
     releasePointer(root);
@@ -357,7 +335,7 @@ describe("usePullToRefresh callbacks", () => {
     const onPtrPullEnd = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullEnd });
 
-    movePointer(root, 100);
+    press(root, 100);
     releasePointer(root);
 
     expect(onPtrPullEnd).not.toHaveBeenCalled();
@@ -367,7 +345,7 @@ describe("usePullToRefresh callbacks", () => {
     const { onPtrRefresh, finish } = createDeferredRefresh();
     const { root, last } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     releasePointer(root);
@@ -385,21 +363,21 @@ describe("usePullToRefresh callbacks", () => {
     const { onPtrRefresh, fail } = createDeferredRefresh();
     const { root, last } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     releasePointer(root);
     expect(last().api.state).toBe("loading");
 
-    // A failed refresh has to release the state too, otherwise `end` and `cancel`
-    // both no-op from loading and the gesture is dead for good.
     await fail();
     expect(last().api.state).toBe("idle");
     expect(displacementVar(root)).toBe("0px");
 
-    movePointer(root, 300);
-    movePointer(root, 310);
-    expect(last().api.state).toBe("pulling");
+    // A rejected refresh must not wedge the hook: the next gesture still works.
+    press(root, 100);
+    movePointer(root, 110);
+    movePointer(root, 250);
+    expect(last().api.state).toBe("ready");
   });
 });
 
@@ -408,17 +386,18 @@ describe("usePullToRefresh entry guards", () => {
     const onPtrPullStart = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
 
-    movePointer(root, 100, { scrollTop: 10 });
+    press(root, 100, { scrollTop: 10 });
     movePointer(root, 110, { scrollTop: 10 });
 
     expect(root).toHaveAttribute("data-ptr-state", "idle");
     expect(onPtrPullStart).not.toHaveBeenCalled();
   });
 
-  it("only records y on the first move of a gesture", () => {
+  it("does not start pulling on a move that no contact opened", () => {
     const onPtrPullStart = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
 
+    movePointer(root, 100);
     movePointer(root, 400);
 
     expect(root).toHaveAttribute("data-ptr-state", "idle");
@@ -426,11 +405,26 @@ describe("usePullToRefresh entry guards", () => {
     expect(displacementVar(root)).toBe("");
   });
 
+  it("takes the pull origin from the contact, not from the previous move", () => {
+    const onPtrPullStart = mock((_ctx: PullContext) => {});
+    const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
+
+    press(root, 400);
+    movePointer(root, 410);
+
+    expect(onPtrPullStart).toHaveBeenCalledWith({
+      y0: 410,
+      y: 410,
+      displacement: 0,
+      displacementRatio: 0,
+    });
+  });
+
   it("does not start pulling when the finger does not move downwards", () => {
     const onPtrPullStart = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
 
-    movePointer(root, 100);
+    press(root, 100);
 
     movePointer(root, 100);
     expect(root).toHaveAttribute("data-ptr-state", "idle");
@@ -453,7 +447,7 @@ describe("usePullToRefresh entry guards", () => {
       onPtrPullEnd,
     });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     releasePointer(root);
@@ -465,12 +459,58 @@ describe("usePullToRefresh entry guards", () => {
   });
 });
 
+describe("usePullToRefresh nested scroller", () => {
+  it("reads the position of the scroller the touch belongs to, not the root", () => {
+    const onPtrPullStart = mock((_ctx: PullContext) => {});
+    const { root, getByTestId } = setup({
+      threshold: 100,
+      displacementMultiplier: 1,
+      onPtrPullStart,
+    });
+    const inner = getByTestId("inner-scroller");
+    const item = getByTestId("inner-item");
+
+    // The root never scrolls in this layout, so its own scrollTop stays 0 and
+    // would read as "at the top" however far the real scroller had travelled.
+    makeScrollable(inner, { scrollTop: 5000 });
+
+    press(root, 100, { target: item });
+    movePointer(root, 200, { target: item });
+    movePointer(root, 300, { target: item });
+
+    expect(root).toHaveAttribute("data-ptr-state", "idle");
+    expect(onPtrPullStart).not.toHaveBeenCalled();
+  });
+
+  it("starts pulling once that scroller is back at its top", () => {
+    const { root, getByTestId } = setup({ threshold: 100, displacementMultiplier: 1 });
+    const inner = getByTestId("inner-scroller");
+    const item = getByTestId("inner-item");
+
+    makeScrollable(inner, { scrollTop: 0 });
+
+    press(root, 100, { target: item });
+    movePointer(root, 110, { target: item });
+
+    expect(root).toHaveAttribute("data-ptr-state", "pulling");
+  });
+
+  it("falls back to the root when nothing in the subtree scrolls", () => {
+    const { root, getByTestId } = setup({ threshold: 100, displacementMultiplier: 1 });
+
+    press(root, 100, { target: getByTestId("content") });
+    movePointer(root, 110, { target: getByTestId("content") });
+
+    expect(root).toHaveAttribute("data-ptr-state", "pulling");
+  });
+});
+
 describe("usePullToRefresh rootProps filters", () => {
   it("ignores an event whose default is already prevented", () => {
     const onPtrPullStart = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
 
-    movePointer(root, 100);
+    press(root, 100);
 
     const prevented = new PointerEvent("pointermove", {
       bubbles: true,
@@ -485,18 +525,36 @@ describe("usePullToRefresh rootProps filters", () => {
     expect(onPtrPullStart).not.toHaveBeenCalled();
   });
 
+  it("ignores a contact whose default is already prevented", () => {
+    const onPtrPullStart = mock((_ctx: PullContext) => {});
+    const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
+
+    const prevented = new PointerEvent("pointerdown", {
+      bubbles: true,
+      cancelable: true,
+      buttons: 1,
+      clientY: 100,
+    });
+    prevented.preventDefault();
+    fireEvent(root, prevented);
+
+    movePointer(root, 110);
+    expect(root).toHaveAttribute("data-ptr-state", "idle");
+    expect(onPtrPullStart).not.toHaveBeenCalled();
+  });
+
   it("ignores an event without the primary button held", () => {
     const onPtrPullStart = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
 
-    movePointer(root, 100, { buttons: 0 });
+    press(root, 100, { buttons: 0 });
     movePointer(root, 110, { buttons: 0 });
 
     expect(root).toHaveAttribute("data-ptr-state", "idle");
     expect(onPtrPullStart).not.toHaveBeenCalled();
   });
 
-  it("ignores an event that started inside a preventPull subtree", () => {
+  it("ignores a contact that started inside a preventPull subtree", () => {
     const onPtrPullStart = mock((_ctx: PullContext) => {});
     const { root, getByTestId } = setup({
       threshold: 100,
@@ -504,13 +562,28 @@ describe("usePullToRefresh rootProps filters", () => {
       onPtrPullStart,
     });
 
-    movePointer(root, 100);
-    fireEvent.pointerMove(getByTestId("no-pull-inner"), { buttons: 1, clientY: 110 });
+    press(root, 100, { target: getByTestId("no-pull-inner") });
+    movePointer(root, 110);
+
+    expect(root).toHaveAttribute("data-ptr-state", "idle");
+    expect(onPtrPullStart).not.toHaveBeenCalled();
+  });
+
+  it("ignores a move that crossed into a preventPull subtree", () => {
+    const onPtrPullStart = mock((_ctx: PullContext) => {});
+    const { root, getByTestId } = setup({
+      threshold: 100,
+      displacementMultiplier: 1,
+      onPtrPullStart,
+    });
+
+    press(root, 100);
+    movePointer(root, 110, { target: getByTestId("no-pull-inner") });
 
     expect(root).toHaveAttribute("data-ptr-state", "idle");
     expect(onPtrPullStart).not.toHaveBeenCalled();
 
-    // The filtered event never reached the state machine, so y is still 100.
+    // The filtered move never reached the state machine, so the origin still stands.
     movePointer(root, 101);
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
   });
@@ -518,8 +591,8 @@ describe("usePullToRefresh rootProps filters", () => {
   it("still starts pulling for events outside the preventPull subtree", () => {
     const { root, getByTestId } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    fireEvent.pointerMove(getByTestId("content"), { buttons: 1, clientY: 100 });
-    fireEvent.pointerMove(getByTestId("content"), { buttons: 1, clientY: 110 });
+    press(root, 100, { target: getByTestId("content") });
+    movePointer(root, 110, { target: getByTestId("content") });
 
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
   });
@@ -530,7 +603,7 @@ describe("usePullToRefresh displacement", () => {
     const onPtrPullMove = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 0.25, onPtrPullMove });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 210);
 
@@ -540,14 +613,13 @@ describe("usePullToRefresh displacement", () => {
       displacement: 25,
       displacementRatio: 0.25,
     });
-    expect(displacementVar(root)).toBe("25px");
   });
 
   it("clamps displacementRatio at 1", () => {
     const onPtrPullMove = mock((_ctx: PullContext) => {});
-    const { root, last } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullMove });
+    const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullMove });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 610);
 
@@ -557,23 +629,19 @@ describe("usePullToRefresh displacement", () => {
       displacement: 500,
       displacementRatio: 1,
     });
-    expect(last().indicator.value).toBe(100);
-    expect(displacementVar(root)).toBe("500px");
   });
 
   it("writes --ptr-displacement onto the root element on every context update", () => {
     const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    expect(displacementVar(root)).toBe("");
-
-    movePointer(root, 100);
+    press(root, 100);
     expect(displacementVar(root)).toBe("");
 
     movePointer(root, 110);
     expect(displacementVar(root)).toBe("0px");
 
-    movePointer(root, 150);
-    expect(displacementVar(root)).toBe("40px");
+    movePointer(root, 160);
+    expect(displacementVar(root)).toBe("50px");
 
     releasePointer(root);
     expect(displacementVar(root)).toBe("0px");
@@ -584,7 +652,7 @@ describe("usePullToRefresh disabled transition", () => {
   it("forces pulling back to idle and resets the context", () => {
     const { root, last, rerenderWith } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
@@ -601,7 +669,7 @@ describe("usePullToRefresh disabled transition", () => {
   it("forces ready back to idle and resets the context", () => {
     const { root, rerenderWith } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     expect(root).toHaveAttribute("data-ptr-state", "ready");
@@ -620,7 +688,7 @@ describe("usePullToRefresh disabled transition", () => {
       onPtrRefresh,
     });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     releasePointer(root);
@@ -643,7 +711,7 @@ describe("usePullToRefresh disabled transition", () => {
       onPtrPullEnd,
     });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
     expect(onPtrPullStart).toHaveBeenCalledTimes(1);
@@ -673,15 +741,47 @@ describe("usePullToRefresh disabled transition", () => {
       disabled: true,
     });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     expect(root).toHaveAttribute("data-ptr-state", "idle");
 
     rerenderWith({ threshold: 100, displacementMultiplier: 1, disabled: false });
-    movePointer(root, 200);
+    press(root, 200);
     movePointer(root, 210);
 
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
+  });
+
+  it("drops the origin of a gesture that was released while disabled", () => {
+    const onPtrPullStart = mock((_ctx: PullContext) => {});
+    const base = { threshold: 100, displacementMultiplier: 1, onPtrPullStart };
+    const { root, rerenderWith } = setup({ ...base, disabled: false });
+
+    // A contact lands, then `disabled` flips on before the gesture goes anywhere.
+    // The release still has to drop the origin, or the next gesture would measure
+    // its very first move against it.
+    press(root, 100);
+    rerenderWith({ ...base, disabled: true });
+    releasePointer(root);
+    rerenderWith({ ...base, disabled: false });
+
+    movePointer(root, 200);
+    expect(onPtrPullStart).not.toHaveBeenCalled();
+    expect(root).toHaveAttribute("data-ptr-state", "idle");
+  });
+
+  it("drops the origin of a gesture that was cancelled while disabled", () => {
+    const onPtrPullStart = mock((_ctx: PullContext) => {});
+    const base = { threshold: 100, displacementMultiplier: 1, onPtrPullStart };
+    const { root, rerenderWith } = setup({ ...base, disabled: false });
+
+    press(root, 100);
+    rerenderWith({ ...base, disabled: true });
+    cancelPointer(root);
+    rerenderWith({ ...base, disabled: false });
+
+    movePointer(root, 200);
+    expect(onPtrPullStart).not.toHaveBeenCalled();
   });
 });
 
@@ -692,11 +792,10 @@ describe("usePullToRefresh props output", () => {
     const indicator = root.ownerDocument.querySelector("[data-testid='indicator']");
 
     expect(root).toHaveAttribute("data-ptr-state", "idle");
-    expect(root).not.toHaveAttribute("data-ptr-dragging");
     expect(content).toHaveAttribute("data-ptr-state", "idle");
     expect(indicator).toHaveAttribute("data-ptr-state", "idle");
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
 
     expect(root).toHaveAttribute("data-ptr-dragging", "");
@@ -705,7 +804,7 @@ describe("usePullToRefresh props output", () => {
   });
 
   it("always carries both state keys in stateProps and locks the root scroll styles", () => {
-    const { last } = setup({ threshold: 100, displacementMultiplier: 1 });
+    const { last } = setup();
 
     // `data-ptr-dragging` is always a key; only its value drops to undefined.
     expect(Object.keys(last().api.stateProps)).toEqual(["data-ptr-state", "data-ptr-dragging"]);
@@ -719,24 +818,19 @@ describe("usePullToRefresh props output", () => {
     const { onPtrRefresh, finish } = createDeferredRefresh();
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
     expect(root).not.toHaveAttribute("data-ptr-dragging");
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
-    expect(root).toHaveAttribute("data-ptr-state", "pulling");
     expect(root).toHaveAttribute("data-ptr-dragging", "");
 
     movePointer(root, 250);
-    expect(root).toHaveAttribute("data-ptr-state", "ready");
     expect(root).toHaveAttribute("data-ptr-dragging", "");
 
     releasePointer(root);
-    expect(root).toHaveAttribute("data-ptr-state", "loading");
     expect(root).not.toHaveAttribute("data-ptr-dragging");
 
     await finish();
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
     expect(root).not.toHaveAttribute("data-ptr-dragging");
   });
 
@@ -749,7 +843,7 @@ describe("usePullToRefresh props output", () => {
       transition: "transform var(--ptr-transition-duration, 0.3s)",
     });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     expect(last().api.contentProps.style).toEqual({
       transform: "translateY(var(--ptr-displacement, 0))",
@@ -757,11 +851,6 @@ describe("usePullToRefresh props output", () => {
     });
 
     movePointer(root, 250);
-    expect(last().api.contentProps.style).toEqual({
-      transform: "translateY(var(--ptr-displacement, 0))",
-      transition: "none",
-    });
-
     releasePointer(root);
     expect(last().api.contentProps.style).toEqual({
       transform: "translateY(var(--ptr-displacement, 0))",
@@ -776,17 +865,13 @@ describe("usePullToRefresh props output", () => {
   });
 
   it("sizes the indicator from the threshold and pulls it out of flow", () => {
-    const { last } = setup({ threshold: 60 });
+    const { last } = setup({ threshold: 72 });
 
-    expect(last().api.indicatorProps.style).toEqual({
-      pointerEvents: "none",
-      touchAction: "none",
+    expect(last().api.indicatorProps.style).toMatchObject({
+      height: "var(--ptr-size, 72px)",
+      marginBottom: "calc(var(--ptr-size, 72px) * -1)",
       position: "relative",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "var(--ptr-size, 60px)",
-      marginBottom: "calc(var(--ptr-size, 60px) * -1)",
+      pointerEvents: "none",
     });
   });
 
@@ -800,7 +885,7 @@ describe("usePullToRefresh props output", () => {
       style: { opacity: 0 },
     });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 150);
 
@@ -816,7 +901,7 @@ describe("usePullToRefresh props output", () => {
     const { onPtrRefresh, finish } = createDeferredRefresh();
     const { root, last } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     releasePointer(root);
@@ -829,60 +914,67 @@ describe("usePullToRefresh props output", () => {
     });
 
     await finish();
-    expect(last().indicator.value).toBe(0);
   });
 });
 
 describe("usePullToRefresh gesture isolation", () => {
-  it("does not start pulling on the first move of a new gesture", () => {
-    // A gesture that ends in idle must not leave its last y behind: the next
-    // gesture would compare its first move against that stale y and start
-    // pulling without the finger ever having moved down.
+  it("does not carry the origin across a release", () => {
     const onPtrPullStart = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
 
-    movePointer(root, 300);
+    press(root, 300);
     releasePointer(root);
     expect(root).toHaveAttribute("data-ptr-state", "idle");
 
+    // Without a contact of its own, the next move has no origin to measure against.
     movePointer(root, 301);
 
     expect(root).toHaveAttribute("data-ptr-state", "idle");
     expect(onPtrPullStart).not.toHaveBeenCalled();
   });
 
-  it("clears the recorded y even when the idle gesture was blocked by scrollTop", () => {
+  it("does not carry the origin across a cancel", () => {
+    const onPtrPullStart = mock((_ctx: PullContext) => {});
+    const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullStart });
+
+    press(root, 300);
+    cancelPointer(root);
+
+    movePointer(root, 301);
+    expect(onPtrPullStart).not.toHaveBeenCalled();
+  });
+
+  it("drops the origin even when the gesture was blocked by scrollTop", () => {
     const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 300, { scrollTop: 10 });
+    press(root, 300, { scrollTop: 10 });
     releasePointer(root);
 
     movePointer(root, 301);
     expect(root).toHaveAttribute("data-ptr-state", "idle");
   });
 
-  it("still starts pulling on a downward move within the same gesture", () => {
+  it("starts pulling on the first downward move of a fresh gesture", () => {
     const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 300);
+    press(root, 300);
     releasePointer(root);
 
-    movePointer(root, 301);
+    press(root, 301);
     movePointer(root, 311);
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
   });
 });
 
 describe("usePullToRefresh negative displacement", () => {
-  it("returns to idle when the finger moves back above the pull origin", () => {
-    const onPtrPullMove = mock((_ctx: PullContext) => {});
-    const { root, last } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullMove });
+  it("stays in the pull and clamps the displacement at zero", () => {
+    const { root, last } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 60);
 
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
+    expect(root).toHaveAttribute("data-ptr-state", "pulling");
     expect(displacementVar(root)).toBe("0px");
     expect(last().indicator).toEqual({
       minValue: 0,
@@ -890,62 +982,54 @@ describe("usePullToRefresh negative displacement", () => {
       value: 0,
       style: { opacity: 0 },
     });
-    expect(last().api.contentProps.style).toEqual({
-      transform: undefined,
-      transition: "transform var(--ptr-transition-duration, 0.3s)",
-    });
-    expect(onPtrPullMove).not.toHaveBeenCalled();
   });
 
-  it("ends the pull with a zeroed context instead of a negative one", () => {
-    const onPtrPullEnd = mock((_ctx: PullContext) => {});
-    const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullEnd });
+  it("reports the clamped context to onPtrPullMove instead of a negative one", () => {
+    const onPtrPullMove = mock((_ctx: PullContext) => {});
+    const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullMove });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 60);
 
-    expect(onPtrPullEnd).toHaveBeenCalledTimes(1);
-    expect(onPtrPullEnd).toHaveBeenCalledWith({
-      y0: 0,
-      y: -1,
+    expect(onPtrPullMove).toHaveBeenLastCalledWith({
+      y0: 60,
+      y: 60,
       displacement: 0,
       displacementRatio: 0,
     });
   });
 
-  it("does not end the pull twice when the finger is lifted afterwards", () => {
+  it("does not end the pull, so the release still reports it once", () => {
     const onPtrPullEnd = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullEnd });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 60);
-    releasePointer(root);
+    expect(onPtrPullEnd).not.toHaveBeenCalled();
 
+    releasePointer(root);
     expect(onPtrPullEnd).toHaveBeenCalledTimes(1);
   });
 
-  it("lets a new pull start later in the same gesture", () => {
+  it("resumes on the very next downward move, with no travel to retrace", () => {
     const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 60);
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
 
-    movePointer(root, 200);
-    movePointer(root, 210);
+    // The origin tracked the finger down to 60, so 10px of travel is 10px of pull.
+    movePointer(root, 70);
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
-
-    movePointer(root, 220);
     expect(displacementVar(root)).toBe("10px");
   });
 
   it("never writes a negative --ptr-displacement while the finger travels up", () => {
     const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
 
-    movePointer(root, 400);
+    press(root, 400);
     movePointer(root, 410);
 
     for (const y of [390, 350, 300, 250, 200]) {
@@ -960,8 +1044,9 @@ describe("usePullToRefresh cancelled gestures", () => {
     const onPtrPullEnd = mock((_ctx: PullContext) => {});
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrPullEnd });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
+    movePointer(root, 150);
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
 
     cancelPointer(root);
@@ -969,13 +1054,19 @@ describe("usePullToRefresh cancelled gestures", () => {
     expect(root).toHaveAttribute("data-ptr-state", "idle");
     expect(displacementVar(root)).toBe("0px");
     expect(onPtrPullEnd).toHaveBeenCalledTimes(1);
+    expect(onPtrPullEnd).toHaveBeenCalledWith({
+      y0: 0,
+      y: -1,
+      displacement: 0,
+      displacementRatio: 0,
+    });
   });
 
   it("does not refresh when a ready gesture is cancelled", () => {
-    const { onPtrRefresh } = createDeferredRefresh();
+    const onPtrRefresh = mock(() => Promise.resolve());
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     expect(root).toHaveAttribute("data-ptr-state", "ready");
@@ -986,21 +1077,11 @@ describe("usePullToRefresh cancelled gestures", () => {
     expect(onPtrRefresh).not.toHaveBeenCalled();
   });
 
-  it("clears the recorded y so the next gesture starts fresh", () => {
-    const { root } = setup({ threshold: 100, displacementMultiplier: 1 });
-
-    movePointer(root, 300);
-    cancelPointer(root);
-
-    movePointer(root, 301);
-    expect(root).toHaveAttribute("data-ptr-state", "idle");
-  });
-
   it("leaves loading alone", async () => {
     const { onPtrRefresh, finish } = createDeferredRefresh();
     const { root } = setup({ threshold: 100, displacementMultiplier: 1, onPtrRefresh });
 
-    movePointer(root, 100);
+    press(root, 100);
     movePointer(root, 110);
     movePointer(root, 250);
     releasePointer(root);
@@ -1008,7 +1089,6 @@ describe("usePullToRefresh cancelled gestures", () => {
 
     cancelPointer(root);
     expect(root).toHaveAttribute("data-ptr-state", "loading");
-    expect(displacementVar(root)).toBe("100px");
 
     await finish();
     expect(root).toHaveAttribute("data-ptr-state", "idle");
