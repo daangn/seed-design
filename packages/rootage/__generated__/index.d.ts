@@ -96,6 +96,9 @@ declare const artifact: {
       "path": "/components/control-chip.json";
     },
     {
+      "path": "/components/date-picker.json";
+    },
+    {
       "path": "/components/dialog-close-button.json";
     },
     {
@@ -283,6 +286,9 @@ declare const artifact: {
     },
     {
       "path": "/components/text-input.json";
+    },
+    {
+      "path": "/components/time-picker.json";
     },
     {
       "path": "/components/toggle-button.json";
