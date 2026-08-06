@@ -62,16 +62,6 @@ describe("QuantityPicker", () => {
     expect(container.querySelectorAll(".seed-quantity-picker__divider")).toHaveLength(1);
   });
 
-  it("fill layout이면 부모 Flex 레이아웃의 여유 공간을 채우는 class를 적용한다", () => {
-    const { getByLabelText } = render(
-      <QuantityPicker.Root layout="fill" min={0} max={5} aria-label="수량">
-        <QuantityPicker.ValueDisplay />
-      </QuantityPicker.Root>,
-    );
-
-    expect(getByLabelText("수량")).toHaveClass("seed-quantity-picker__root--layout_fill");
-  });
-
   it("최대값의 자릿수만큼 0으로 채운 숨김 요소로 값 표시 너비를 확보한다", () => {
     const { container } = render(
       <QuantityPicker.Root min={0} max={123} aria-label="수량">

@@ -11,7 +11,7 @@ async function filteredGenerateDocumentation(
     ...options,
     transform(entry, type, symbol) {
       options.transform?.call(this, entry, type, symbol);
-      const src = symbol.getDeclarations()?.[0]?.getSourceFile().getFilePath();
+      const src = symbol.getDeclarations()?.[0].getSourceFile().getFilePath();
       if (src?.includes("node_modules")) {
         entry.tags.push({ name: "external", text: src ?? "" });
       }
