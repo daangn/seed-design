@@ -47,9 +47,20 @@ export async function addAnnotations(params: AddAnnotationsParams) {
   };
 }
 
-export interface GetAnnotation {
+export interface ResolvedAnnotationCategory {
+  id: string;
+  label: string;
+  color: AnnotationCategoryColor;
+  isPreset: boolean;
+}
+
+export interface ResolvedAnnotation extends Omit<Annotation, "categoryId"> {
+  category?: ResolvedAnnotationCategory;
+}
+
+export interface AnnotatedNode {
   nodeId: string;
-  labelMarkdowns: string[];
+  annotations: ResolvedAnnotation[];
 }
 
 export interface GetAnnotationsParams {
@@ -57,10 +68,80 @@ export interface GetAnnotationsParams {
 }
 
 export interface GetAnnotationsResult {
-  annotations: GetAnnotation[];
+  nodes: AnnotatedNode[];
 }
 
-// Get annotations under given node id
+/**
+ * An `AnnotationCategory` carries `remove`/`setColor`/`setLabel`, so it has to be copied field by
+ * field to survive the JSON hop to the MCP server.
+ */
+function createCategoryResolver() {
+  const resolved = new Map<string, ResolvedAnnotationCategory | undefined>();
+
+  return async (categoryId: string) => {
+    // A whole subtree usually shares a handful of categories, so each id is looked up once.
+    if (!resolved.has(categoryId)) {
+      const category = await figma.annotations.getAnnotationCategoryByIdAsync(categoryId);
+
+      resolved.set(
+        categoryId,
+        category
+          ? {
+              id: category.id,
+              label: category.label,
+              color: category.color,
+              isPreset: category.isPreset,
+            }
+          : undefined,
+      );
+    }
+
+    return resolved.get(categoryId);
+  };
+}
+
+/**
+ * Deliberately not `node.findAll`: it skips the node it is called on, and it only exists on
+ * container nodes even though leaf nodes such as TEXT and RECTANGLE carry annotations too. Asking
+ * about a frame whose own annotation is the only one would come back empty, and asking about a
+ * TEXT node would throw.
+ */
+async function collectAnnotatedNodes(root: BaseNode) {
+  const collected: AnnotatedNode[] = [];
+  const resolveCategory = createCategoryResolver();
+
+  const resolveAnnotation = async ({ categoryId, ...annotation }: Annotation) => {
+    if (!categoryId) return annotation;
+
+    const category = await resolveCategory(categoryId);
+
+    return { ...annotation, ...(category && { category }) };
+  };
+
+  const visit = async (node: BaseNode) => {
+    // `documentAccess: "dynamic-page"` keeps a page's children unavailable until it is loaded.
+    if (node.type === "PAGE") await node.loadAsync();
+
+    if ("annotations" in node && node.annotations.length > 0) {
+      collected.push({
+        nodeId: node.id,
+        annotations: await Promise.all(node.annotations.map(resolveAnnotation)),
+      });
+    }
+
+    if (!("children" in node)) return;
+
+    for (const child of node.children) {
+      await visit(child);
+    }
+  };
+
+  await visit(root);
+
+  return collected;
+}
+
+// Get annotations on the given node and every node under it
 export async function getAnnotations(params: GetAnnotationsParams) {
   const { nodeId } = params;
 
@@ -69,20 +150,7 @@ export async function getAnnotations(params: GetAnnotationsParams) {
     throw new Error(`Node not found: ${nodeId}`);
   }
 
-  if (!("findAll" in node)) {
-    throw new Error(`Node does not support findAll: ${nodeId}`);
-  }
-
-  const nodeWithAnnotations = node.findAll(
-    (node) => "annotations" in node && node.annotations.length > 0,
-  ) as Array<SceneNode & AnnotationsMixin>;
-
-  const annotations = nodeWithAnnotations.map((node) => ({
-    nodeId: node.id,
-    labelMarkdowns: node.annotations.map((annotation) => annotation.labelMarkdown),
-  }));
-
   return {
-    annotations,
+    nodes: await collectAnnotatedNodes(node),
   };
 }

@@ -19,6 +19,7 @@ import type { FigmaRestClient } from "./figma-rest-client";
 import {
   createToolContext,
   fetchMultipleNodesData,
+  fetchNodeAnnotations,
   fetchNodeData,
   fetchNodeImage,
   fetchNodeSvg,
@@ -122,6 +123,17 @@ function getSingleNodeDescription(baseDescription: string, mode: ToolMode): stri
     case "all":
       return `${baseDescription} Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), (2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.`;
   }
+}
+
+function getAnnotationsDescription(mode: ToolMode): string {
+  const description = getSingleNodeDescription(
+    "Get annotations on a node and on every node under it in Figma.",
+    mode,
+  );
+
+  if (mode === "websocket") return description;
+
+  return `${description} Annotations read over REST carry only \`label\`, the plain-text rendering — markdown authored in Figma is flattened. \`labelMarkdown\`, holding the authored source, and \`category\` are only present on the WebSocket path.`;
 }
 
 function getMultiNodeDescription(baseDescription: string, mode: ToolMode): string {
@@ -574,28 +586,26 @@ export function registerTools(
         }
       },
     );
-
-    // Get Annotations Tool
-    server.registerTool(
-      "get_annotations",
-      {
-        description: "Get annotations for a specific node in Figma (WebSocket mode only)",
-        inputSchema: z.object({
-          nodeId: z.string().describe("The ID of the node to get annotations for"),
-        }),
-      },
-      async ({ nodeId }) => {
-        try {
-          requireWebSocket(context);
-          const result = await context.sendCommandToFigma("get_annotations", { nodeId });
-
-          return formatObjectResponse(result);
-        } catch (error) {
-          return formatErrorResponse("get_annotations", error);
-        }
-      },
-    );
   }
+
+  // Get Annotations Tool (REST API + WebSocket)
+  server.registerTool(
+    "get_annotations",
+    {
+      description: getAnnotationsDescription(mode),
+      inputSchema: singleNodeParamsSchema,
+    },
+    async (params: z.infer<typeof singleNodeBaseSchema>) => {
+      try {
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const nodes = await fetchNodeAnnotations({ fileKey, nodeId, personalAccessToken }, context);
+
+        return formatObjectResponse({ nodes });
+      } catch (error) {
+        return formatErrorResponse("get_annotations", error);
+      }
+    },
+  );
 }
 
 function collectMatchingNodes(
