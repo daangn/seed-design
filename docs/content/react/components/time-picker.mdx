@@ -122,6 +122,8 @@ Bottom Sheet는 surface를 여는 trigger가 필요합니다. `FieldButton`처�
 
 반올림은 시각 전체를 기준으로 계산하므로 시가 함께 바뀔 수 있습니다. 예를 들어 23시 59분은 `minuteStep={5}`에서 0시 0분이 됩니다. `value`를 제어하는 경우 정규화 자체로 `onValueChange`가 호출되지는 않습니다.
 
+분 컬럼은 순환하지만 경계를 넘어도 시는 유지됩니다. 예를 들어 10시 55분에서 다음 분 항목인 00을 선택하면 10시 00분이 됩니다.
+
 <ComponentExample name="react/time-picker/minute-step">
   ```json doc-gen:file
   {

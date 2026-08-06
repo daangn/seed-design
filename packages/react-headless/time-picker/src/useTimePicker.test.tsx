@@ -123,6 +123,20 @@ describe("useTimePicker", () => {
     expect(previousDay.result.current.columns.period.value).toBe("pm");
   });
 
+  it("Minute 컬럼의 순환은 시를 변경하지 않는다", () => {
+    const forward = renderTimePicker({ defaultValue: { hour: 10, minute: 55 } });
+
+    act(() => forward.result.current.columns.minute.onValueChange("0", { stepDelta: 1 }));
+
+    expect(forward.result.current.value).toEqual({ hour: 10, minute: 0 });
+
+    const backward = renderTimePicker({ defaultValue: { hour: 10, minute: 0 } });
+
+    act(() => backward.result.current.columns.minute.onValueChange("55", { stepDelta: -1 }));
+
+    expect(backward.result.current.value).toEqual({ hour: 10, minute: 55 });
+  });
+
   it("locale에 따라 option label과 column 순서를 구성한다", () => {
     const ko = renderTimePicker({ locale: "ko-KR" });
     const en = renderTimePicker({ locale: "en-US" });
