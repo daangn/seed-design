@@ -265,6 +265,21 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
+      title: "PullToRefresh",
+      items: [
+        { title: "PullToRefresh", onClick: () => push("ActivityPullToRefreshPreview", {}) },
+        { title: "PullToRefresh × Tabs", onClick: () => push("ActivityPullToRefreshTabs", {}) },
+        {
+          title: "PullToRefresh (preventPull)",
+          onClick: () => push("ActivityPullToRefreshPreventPull", {}),
+        },
+        {
+          title: "Article (preventPull)",
+          onClick: () => push("ActivityArticlePreventPull", {}),
+        },
+      ],
+    },
+    {
       title: "Snackbars",
       items: [
         {
