@@ -56,6 +56,7 @@ describe("WheelPicker", () => {
   const originalRequestAnimationFrame = window.requestAnimationFrame;
   const originalCancelAnimationFrame = window.cancelAnimationFrame;
   const originalSetPointerCapture = HTMLElement.prototype.setPointerCapture;
+  const originalHasPointerCapture = HTMLElement.prototype.hasPointerCapture;
   const originalReleasePointerCapture = HTMLElement.prototype.releasePointerCapture;
   let animationFrameTime = 0;
 
@@ -82,6 +83,7 @@ describe("WheelPicker", () => {
     };
     window.cancelAnimationFrame = () => {};
     HTMLElement.prototype.setPointerCapture = mock(() => {});
+    HTMLElement.prototype.hasPointerCapture = mock(() => true);
     HTMLElement.prototype.releasePointerCapture = mock(() => {});
   });
 
@@ -91,6 +93,7 @@ describe("WheelPicker", () => {
     window.requestAnimationFrame = originalRequestAnimationFrame;
     window.cancelAnimationFrame = originalCancelAnimationFrame;
     HTMLElement.prototype.setPointerCapture = originalSetPointerCapture;
+    HTMLElement.prototype.hasPointerCapture = originalHasPointerCapture;
     HTMLElement.prototype.releasePointerCapture = originalReleasePointerCapture;
   });
 
@@ -281,6 +284,39 @@ describe("WheelPicker", () => {
     });
     expect(column).not.toHaveAttribute("data-wheel-picker-dragging");
     expect(column.scrollTop).toBe(0);
+  });
+
+  it("포인터 캡처가 이미 해제된 경우에도 드래그 정리를 완료한다", () => {
+    const previousHasPointerCapture = HTMLElement.prototype.hasPointerCapture;
+    const previousReleasePointerCapture = HTMLElement.prototype.releasePointerCapture;
+    HTMLElement.prototype.hasPointerCapture = mock(() => false);
+    HTMLElement.prototype.releasePointerCapture = mock(() => {
+      throw new DOMException("Pointer capture is not active", "NotFoundError");
+    });
+
+    try {
+      const { getByRole } = render(<TestWheelPicker />);
+      const column = getByRole("spinbutton");
+
+      fireEvent.pointerDown(column, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientY: 100,
+      });
+      fireEvent.pointerUp(column, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientY: 100,
+      });
+
+      expect(column).not.toHaveAttribute("data-wheel-picker-dragging");
+      expect(HTMLElement.prototype.releasePointerCapture).not.toHaveBeenCalled();
+    } finally {
+      HTMLElement.prototype.hasPointerCapture = previousHasPointerCapture;
+      HTMLElement.prototype.releasePointerCapture = previousReleasePointerCapture;
+    }
   });
 
   it("터치 포인터는 마우스 드래그 처리에 개입하지 않는다", () => {

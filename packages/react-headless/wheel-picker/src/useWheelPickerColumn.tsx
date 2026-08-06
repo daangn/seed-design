@@ -556,7 +556,9 @@ export function useWheelPickerColumn({
       if (!column || !pointerDrag || pointerDrag.pointerId !== event.pointerId) return;
 
       pointerDragRef.current = null;
-      column.releasePointerCapture(event.pointerId);
+      if (column.hasPointerCapture(event.pointerId)) {
+        column.releasePointerCapture(event.pointerId);
+      }
 
       if (!pointerDrag.hasDragged) {
         column.removeAttribute("data-wheel-picker-dragging");
