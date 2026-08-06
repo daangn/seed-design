@@ -127,7 +127,7 @@ function getSingleNodeDescription(baseDescription: string, mode: ToolMode): stri
 
 function getAnnotationsDescription(mode: ToolMode): string {
   const description = getSingleNodeDescription(
-    "Get annotations on a node and on every node under it in Figma.",
+    "Get annotations on a node and on every node under it in Figma. Each result carries the annotated node's `name` and `type`, plus `path`: the `{ id, name }` of every ancestor between the queried node and it, outermost first.",
     mode,
   );
 

@@ -229,6 +229,23 @@ export interface ToolAnnotation extends Annotation {
 
 export interface AnnotatedNode {
   nodeId: string;
+  name: string;
+  /**
+   * Kept as `string` rather than `Node["type"]`: the WebSocket path answers in the Plugin API's
+   * vocabulary, which calls a page `PAGE` where REST calls it `CANVAS`, so neither union covers
+   * both transports.
+   */
+  type: string;
+  /**
+   * Ancestors between the queried node and this one, outermost first, and empty on the queried
+   * node itself. Relative rather than absolute because REST returns only the requested subtree,
+   * leaving nothing above it to name.
+   *
+   * Carries `id` because layer names are not unique — a page routinely repeats `Label` or `Slot`
+   * across hundreds of nodes — so the names alone read as a breadcrumb but cannot address the
+   * ancestor a caller wants to act on.
+   */
+  path: { id: string; name: string }[];
   annotations: ToolAnnotation[];
 }
 
@@ -239,19 +256,27 @@ export interface AnnotatedNode {
 function collectAnnotatedNodes(root: Node) {
   const collected: AnnotatedNode[] = [];
 
-  const visit = (node: Node) => {
+  const visit = (node: Node, path: AnnotatedNode["path"]) => {
     if ("annotations" in node && node.annotations && node.annotations.length > 0) {
-      collected.push({ nodeId: node.id, annotations: node.annotations });
+      collected.push({
+        nodeId: node.id,
+        name: node.name,
+        type: node.type,
+        path,
+        annotations: node.annotations,
+      });
     }
 
     if (!("children" in node)) return;
 
+    const childPath = [...path, { id: node.id, name: node.name }];
+
     for (const child of node.children) {
-      visit(child);
+      visit(child, childPath);
     }
   };
 
-  visit(root);
+  visit(root, []);
 
   return collected;
 }

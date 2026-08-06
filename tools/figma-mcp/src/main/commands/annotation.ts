@@ -60,6 +60,18 @@ export interface ResolvedAnnotation extends Omit<Annotation, "categoryId"> {
 
 export interface AnnotatedNode {
   nodeId: string;
+  name: string;
+  type: BaseNode["type"];
+  /**
+   * Ancestors between the queried node and this one, outermost first, and empty on the queried
+   * node itself. Relative rather than absolute so it matches what the REST path can build from its
+   * subtree-only response.
+   *
+   * Carries `id` because layer names are not unique — a page routinely repeats `Label` or `Slot`
+   * across hundreds of nodes — so the names alone read as a breadcrumb but cannot address the
+   * ancestor a caller wants to act on.
+   */
+  path: { id: string; name: string }[];
   annotations: ResolvedAnnotation[];
 }
 
@@ -118,25 +130,30 @@ async function collectAnnotatedNodes(root: BaseNode) {
     return { ...annotation, ...(category && { category }) };
   };
 
-  const visit = async (node: BaseNode) => {
+  const visit = async (node: BaseNode, path: AnnotatedNode["path"]) => {
     // `documentAccess: "dynamic-page"` keeps a page's children unavailable until it is loaded.
     if (node.type === "PAGE") await node.loadAsync();
 
     if ("annotations" in node && node.annotations.length > 0) {
       collected.push({
         nodeId: node.id,
+        name: node.name,
+        type: node.type,
+        path,
         annotations: await Promise.all(node.annotations.map(resolveAnnotation)),
       });
     }
 
     if (!("children" in node)) return;
 
+    const childPath = [...path, { id: node.id, name: node.name }];
+
     for (const child of node.children) {
-      await visit(child);
+      await visit(child, childPath);
     }
   };
 
-  await visit(root);
+  await visit(root, []);
 
   return collected;
 }
