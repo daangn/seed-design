@@ -45,6 +45,7 @@ SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md
 
 - ✅ **Always:**
   - `bun generate:all` 실행 후 변경사항 확인
+  - 패키지 수정 직후 해당 경로 테스트만 실행 (경로별 명령어는 @TECH.md의 「테스트」 표)
   - 테스트 실행 후 커밋 (`bun test:all`)
 
 - ⚠️ **Ask first:**
