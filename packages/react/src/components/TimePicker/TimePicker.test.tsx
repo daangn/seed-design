@@ -108,42 +108,51 @@ describe("TimePicker", () => {
 
   it("Wheel 정착 후 TimePickerValue를 전달한다", () => {
     jest.useFakeTimers();
-    const onValueChange = mock(() => {});
-    const { getAllByRole } = render(
-      <TimePicker value={{ hour: 10, minute: 13 }} minuteStep={10} onValueChange={onValueChange} />,
-    );
-    const hourColumn = getAllByRole("spinbutton")[1];
+    try {
+      const onValueChange = mock(() => {});
+      const { getAllByRole } = render(
+        <TimePicker
+          value={{ hour: 10, minute: 13 }}
+          minuteStep={10}
+          onValueChange={onValueChange}
+        />,
+      );
+      const hourColumn = getAllByRole("spinbutton")[1];
 
-    fireEvent.keyDown(hourColumn, { key: "ArrowDown" });
-    act(() => jest.advanceTimersByTime(120));
+      fireEvent.keyDown(hourColumn, { key: "ArrowDown" });
+      act(() => jest.advanceTimersByTime(120));
 
-    expect(onValueChange).toHaveBeenCalledWith({ hour: 11, minute: 10 });
-    jest.useRealTimers();
+      expect(onValueChange).toHaveBeenCalledWith({ hour: 11, minute: 10 });
+    } finally {
+      jest.useRealTimers();
+    }
   });
 
   it("Hour가 12시 경계를 지나면 Period를 부드럽게 전환한다", () => {
     jest.useFakeTimers();
     const previousScrollTo = HTMLElement.prototype.scrollTo;
     const smoothScrolls: Array<{ element: HTMLElement; top: number }> = [];
-    HTMLElement.prototype.scrollTo = function scrollTo(options) {
-      if (typeof options !== "object" || options.top === undefined) return;
+    try {
+      HTMLElement.prototype.scrollTo = function scrollTo(options) {
+        if (typeof options !== "object" || options.top === undefined) return;
 
-      this.scrollTop = options.top;
-      if (options.behavior === "smooth") {
-        smoothScrolls.push({ element: this, top: options.top });
-      }
-    };
-    const { getAllByRole } = render(<TimePicker defaultValue={{ hour: 11, minute: 0 }} />);
-    const [periodColumn, hourColumn] = getAllByRole("spinbutton");
+        this.scrollTop = options.top;
+        if (options.behavior === "smooth") {
+          smoothScrolls.push({ element: this, top: options.top });
+        }
+      };
+      const { getAllByRole } = render(<TimePicker defaultValue={{ hour: 11, minute: 0 }} />);
+      const [periodColumn, hourColumn] = getAllByRole("spinbutton");
 
-    fireEvent.keyDown(hourColumn, { key: "ArrowDown" });
-    act(() => jest.advanceTimersByTime(120));
+      fireEvent.keyDown(hourColumn, { key: "ArrowDown" });
+      act(() => jest.advanceTimersByTime(120));
 
-    expect(periodColumn).toHaveAttribute("aria-valuetext", "오후");
-    expect(smoothScrolls).toContainEqual({ element: periodColumn, top: 44 });
-
-    HTMLElement.prototype.scrollTo = previousScrollTo;
-    jest.useRealTimers();
+      expect(periodColumn).toHaveAttribute("aria-valuetext", "오후");
+      expect(smoothScrolls).toContainEqual({ element: periodColumn, top: 44 });
+    } finally {
+      HTMLElement.prototype.scrollTo = previousScrollTo;
+      jest.useRealTimers();
+    }
   });
 
   it("disabled는 컬럼을 tab 순서에서 제외한다", () => {
