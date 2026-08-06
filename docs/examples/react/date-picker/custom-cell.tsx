@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, DatePicker, Text } from "@seed-design/react";
 
 const prices = new Map([
