@@ -7,6 +7,9 @@
     "directory": "ecosystem/figma-extractor"
   },
   "license": "Apache-2.0",
+  "engines": {
+    "node": "^22.18 || >= 24"
+  },
   "scripts": {
     "build": "bun build.mjs && tsc",
     "lint:publish": "bun publint"
@@ -33,7 +36,7 @@
     "@figma/rest-api-spec": "0.27.0",
     "cac": "^7.0.0",
     "change-case": "^5.4.4",
-    "cosmiconfig": "^9.0.0",
+    "cosmiconfig": "^10.0.0",
     "dotenv": "^17.0.0",
     "es-toolkit": "^1.35.0",
     "figma-api": "2.1.4-beta",
