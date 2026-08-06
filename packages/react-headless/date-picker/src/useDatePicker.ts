@@ -75,6 +75,8 @@ interface MonthDescriptor {
   weekCount: number;
 }
 
+type MonthDescriptorBase = Pick<MonthDescriptor, "date" | "key" | "weekCount">;
+
 function getSelectionMode(props: UseDatePickerProps): DatePickerSelectionMode {
   return props.selectionMode ?? "single";
 }
@@ -148,26 +150,40 @@ function isRtlLocale(locale: string) {
   return RTL_LANGUAGES.has(new Intl.Locale(locale).language);
 }
 
-function getMonthDescriptors(
+function getMonthDescriptorBases(
   yearRange: { start: number; end: number },
   locale: string,
   weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined,
-  measuredHeights: ReadonlyMap<string, number>,
 ) {
-  const result: MonthDescriptor[] = [];
-  let offset = 0;
+  const result: MonthDescriptorBase[] = [];
 
   for (let year = yearRange.start; year <= yearRange.end; year++) {
     for (let month = 1; month <= 12; month++) {
       const date = { year, month, day: 1 };
       const key = dateKey(date);
       const weekCount = getMonthWeekStarts(date, locale, weekStartsOn).length;
-      const height =
-        measuredHeights.get(key) ??
-        CONTINUOUS_MONTH_LABEL_HEIGHT + weekCount * DEFAULT_DATE_CELL_HEIGHT + CONTINUOUS_MONTH_GAP;
-      result.push({ date, key, offset, height, weekCount });
-      offset += height;
+      result.push({ date, key, weekCount });
     }
+  }
+
+  return result;
+}
+
+function getMonthDescriptors(
+  bases: readonly MonthDescriptorBase[],
+  measuredHeights: ReadonlyMap<string, number>,
+) {
+  const result: MonthDescriptor[] = [];
+  let offset = 0;
+
+  for (const base of bases) {
+    const height =
+      measuredHeights.get(base.key) ??
+      CONTINUOUS_MONTH_LABEL_HEIGHT +
+        base.weekCount * DEFAULT_DATE_CELL_HEIGHT +
+        CONTINUOUS_MONTH_GAP;
+    result.push({ ...base, offset, height });
+    offset += height;
   }
 
   return { descriptors: result, totalHeight: offset };
@@ -674,19 +690,25 @@ export function useDatePicker(props: UseDatePickerProps) {
   const [continuousMonthHeights, setContinuousMonthHeights] = React.useState<
     ReadonlyMap<string, number>
   >(() => new Map());
+  const continuousYearStart = yearRange.start;
+  const continuousYearEnd = yearRange.end;
+  const continuousMonthDescriptorBases = React.useMemo(
+    () =>
+      visibleRange === "continuous"
+        ? getMonthDescriptorBases(
+            { start: continuousYearStart, end: continuousYearEnd },
+            locale,
+            props.weekStartsOn,
+          )
+        : [],
+    [continuousYearEnd, continuousYearStart, locale, props.weekStartsOn, visibleRange],
+  );
   const { descriptors, totalHeight } = React.useMemo(
     () =>
       visibleRange === "continuous"
-        ? getMonthDescriptors(yearRange, locale, props.weekStartsOn, continuousMonthHeights)
+        ? getMonthDescriptors(continuousMonthDescriptorBases, continuousMonthHeights)
         : { descriptors: [], totalHeight: 0 },
-    [
-      continuousMonthHeights,
-      locale,
-      props.weekStartsOn,
-      visibleRange,
-      yearRange.end,
-      yearRange.start,
-    ],
+    [continuousMonthDescriptorBases, continuousMonthHeights, visibleRange],
   );
   const [continuousScrollElement, setContinuousScrollElement] =
     React.useState<HTMLDivElement | null>(null);
