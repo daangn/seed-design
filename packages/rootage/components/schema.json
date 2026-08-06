@@ -83,30 +83,13 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient"]
+          "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]
         },
         "description": {
           "type": "string"
-        },
-        "values": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1
         }
       },
       "required": ["type"],
-      "if": {
-        "properties": { "type": { "const": "enum" } },
-        "required": ["type"]
-      },
-      "then": {
-        "required": ["values"]
-      },
-      "else": {
-        "not": { "required": ["values"] }
-      },
       "additionalProperties": false
     },
     "variantsSchema": {
@@ -189,9 +172,6 @@
           "$ref": "#/definitions/numberShorthand"
         },
         {
-          "$ref": "#/definitions/enumShorthand"
-        },
-        {
           "$ref": "#/definitions/cubicBezier"
         },
         {
@@ -219,10 +199,6 @@
     },
     "numberShorthand": {
       "type": "number"
-    },
-    "enumShorthand": {
-      "type": "string",
-      "pattern": "^[^#$0-9-].*$"
     },
     "cubicBezier": {
       "type": "object",

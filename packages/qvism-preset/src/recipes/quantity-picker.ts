@@ -75,6 +75,7 @@ const quantityPicker = defineSlotRecipe({
     },
     valueDisplay: {
       display: "grid",
+      flexGrow: 1,
       flexShrink: 0,
       alignItems: "center",
       justifyContent: "center",
@@ -141,6 +142,14 @@ const quantityPicker = defineSlotRecipe({
     },
   },
   variants: {
+    layout: {
+      hug: {},
+      fill: {
+        root: {
+          flexGrow: 1,
+        },
+      },
+    },
     size: {
       small: {
         root: {
@@ -256,6 +265,7 @@ const quantityPicker = defineSlotRecipe({
     },
   },
   defaultVariants: {
+    layout: "hug",
     size: "medium",
   },
   metadata: {

@@ -54,6 +54,7 @@
 }
 .seed-quantity-picker__valueDisplay {
     display: grid;
+    flex-grow: 1;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
@@ -122,6 +123,9 @@
 }
 .seed-quantity-picker__incrementIcon:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
+}
+.seed-quantity-picker__root--layout_fill {
+    flex-grow: 1;
 }
 .seed-quantity-picker__root--size_small {
     height: var(--seed-dimension-x9);
