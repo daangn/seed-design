@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 1.2.16
+
+### Patch Changes
+
+- Updated dependencies [cfdc254]
+  - @seed-design/react-pull-to-refresh@1.0.2
+
 ## 1.2.15
 
 ### Patch Changes
