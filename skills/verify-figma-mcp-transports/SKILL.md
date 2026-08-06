@@ -64,7 +64,7 @@ Build everything that does not need a person, so the person is interrupted exact
 1. Build the plugin. Editing the source without rebuilding leaves Figma reading the old `dist`.
 
    ```bash
-   cd tools/figma-mcp && bun run build
+   bun --filter figma-mcp build
    ```
 
 2. Start the relay in the background (`Bash` with `run_in_background: true`).
@@ -89,7 +89,7 @@ Then ask with **AskUserQuestion**. Do not write the question into chat and conti
 
 Spell out what to do and why each step matters; without the reason people skip the reload. Refer to the file by the key Phase 1 actually used. If they open a different file the two transports answer about different documents, and that difference gets reported as a code bug.
 
-```
+```text
 WebSocket side is ready. Two things in Figma:
 
 1. Quit the plugin and run it again — dist was just rebuilt, and a running
