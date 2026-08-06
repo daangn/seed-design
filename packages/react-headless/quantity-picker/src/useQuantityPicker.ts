@@ -61,10 +61,7 @@ interface UseQuantityPickerBaseProps {
 }
 
 type QuantityPickerRemovableProps = {
-  /**
-   * 값이 `min`일 때 Decrement 버튼을 Remove 버튼으로 전환합니다.
-   * @default false
-   */
+  /** 값이 `min`일 때 Decrement 버튼을 Remove 버튼으로 전환합니다. */
   removable: true;
   /** Remove 버튼의 접근성 이름입니다. */
   removeAriaLabel: string;
