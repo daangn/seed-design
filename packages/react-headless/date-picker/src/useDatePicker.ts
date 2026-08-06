@@ -730,7 +730,11 @@ export function useDatePicker(props: UseDatePickerProps) {
   const [continuousScrollTop, setContinuousScrollTop] = React.useState(0);
   const [continuousViewportHeight, setContinuousViewportHeight] = React.useState(0);
   const scrollFrameRef = React.useRef<number | null>(null);
-  const scrollDrivenViewRef = React.useRef(false);
+  const scrollDrivenViewKeyRef = React.useRef<string | null>(null);
+  const continuousSyncRef = React.useRef<{
+    element: HTMLDivElement;
+    viewKey: string;
+  } | null>(null);
   const continuousMonthObserversRef = React.useRef(new Map<string, ResizeObserver>());
   const continuousMonthRefsRef = React.useRef(
     new Map<string, (element: HTMLDivElement | null) => void>(),
@@ -823,8 +827,9 @@ export function useDatePicker(props: UseDatePickerProps) {
         const index = findMonthIndexAtOffset(descriptors, nextScrollTop);
         const nextViewDate = descriptors[index]?.date;
         if (nextViewDate && !isSameDate(nextViewDate, viewDate)) {
-          scrollDrivenViewRef.current = true;
+          scrollDrivenViewKeyRef.current = dateKey(nextViewDate);
           setViewDateState(nextViewDate);
+          setFocusedDate(nextViewDate);
         }
       });
     },
@@ -833,10 +838,18 @@ export function useDatePicker(props: UseDatePickerProps) {
 
   useLayoutEffect(() => {
     if (!continuousScrollElement || visibleRange !== "continuous") return;
-    if (scrollDrivenViewRef.current) {
-      scrollDrivenViewRef.current = false;
+    const viewKey = dateKey(startOfMonth(viewDate));
+    const previousSync = continuousSyncRef.current;
+    const shouldSync =
+      previousSync?.element !== continuousScrollElement || previousSync.viewKey !== viewKey;
+    if (!shouldSync) return;
+
+    continuousSyncRef.current = { element: continuousScrollElement, viewKey };
+    if (scrollDrivenViewKeyRef.current === viewKey) {
+      scrollDrivenViewKeyRef.current = null;
       return;
     }
+    scrollDrivenViewKeyRef.current = null;
     const index = Math.max(
       descriptors.findIndex(
         (descriptor) =>

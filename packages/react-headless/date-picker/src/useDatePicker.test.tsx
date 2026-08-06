@@ -351,6 +351,96 @@ describe("useDatePicker", () => {
     expect(scrollElement.scrollTop).toBe(currentMonth?.offset);
   });
 
+  it("Continuous 스크롤로 월이 바뀌면 roving focus를 새 월로 옮긴다", () => {
+    const previousRequestAnimationFrame = window.requestAnimationFrame;
+    window.requestAnimationFrame = (callback) => {
+      callback(0);
+      return 1;
+    };
+
+    try {
+      const { result } = renderDatePicker({
+        visibleRange: "continuous",
+        yearRange: { start: 2026, end: 2027 },
+      });
+      const scrollElement = document.createElement("div");
+      Object.defineProperty(scrollElement, "clientHeight", { value: 420 });
+      act(() => result.current.refs.continuousScroll(scrollElement));
+      const august = result.current.months.find(
+        (month) => month.date.year === 2026 && month.date.month === 8,
+      );
+
+      scrollElement.scrollTop = august?.offset ?? 0;
+      act(() =>
+        result.current.continuousScrollProps.onScroll({
+          currentTarget: scrollElement,
+        } as React.UIEvent<HTMLDivElement>),
+      );
+
+      expect(result.current.viewDate).toEqual({ year: 2026, month: 8, day: 1 });
+      expect(result.current.focusedDate).toEqual({ year: 2026, month: 8, day: 1 });
+      const tabStops = result.current.months
+        .flatMap((month) => month.weeks)
+        .flatMap((week) => week.cells)
+        .filter((cell) => cell?.buttonProps.tabIndex === 0);
+      expect(tabStops).toHaveLength(1);
+      expect(tabStops[0]?.date).toEqual({ year: 2026, month: 8, day: 1 });
+    } finally {
+      window.requestAnimationFrame = previousRequestAnimationFrame;
+    }
+  });
+
+  it("Continuous 같은 월 안의 사용자 스크롤은 높이 측정 후에도 유지한다", () => {
+    const previousRequestAnimationFrame = window.requestAnimationFrame;
+    window.requestAnimationFrame = (callback) => {
+      callback(0);
+      return 1;
+    };
+
+    try {
+      const { result } = renderDatePicker({
+        visibleRange: "continuous",
+        yearRange: { start: 2026, end: 2027 },
+      });
+      const scrollElement = document.createElement("div");
+      Object.defineProperty(scrollElement, "clientHeight", { value: 420 });
+      act(() => result.current.refs.continuousScroll(scrollElement));
+      const currentMonth = result.current.months.find(
+        (month) => month.date.year === 2026 && month.date.month === 7,
+      );
+      const userScrollTop = (currentMonth?.offset ?? 0) + 20;
+      scrollElement.scrollTop = userScrollTop;
+      act(() =>
+        result.current.continuousScrollProps.onScroll({
+          currentTarget: scrollElement,
+        } as React.UIEvent<HTMLDivElement>),
+      );
+
+      const precedingMonth = result.current.months.find(
+        (month) => month.date.year === 2026 && month.date.month === 6,
+      );
+      const measuredElement = document.createElement("div");
+      measuredElement.getBoundingClientRect = () =>
+        ({
+          width: 358,
+          height: 400,
+          top: 0,
+          right: 358,
+          bottom: 400,
+          left: 0,
+          x: 0,
+          y: 0,
+          toJSON: () => {},
+        }) satisfies DOMRect;
+      act(() => result.current.refs.continuousMonth(precedingMonth?.key ?? "")(measuredElement));
+
+      expect(scrollElement.scrollTop).toBe(userScrollTop);
+      act(() => result.current.refs.continuousMonth(precedingMonth?.key ?? "")(null));
+    } finally {
+      window.requestAnimationFrame = previousRequestAnimationFrame;
+    }
+  });
+
   it("Continuous는 렌더링된 월의 실제 콘텐츠 높이로 가상 스크롤 크기를 갱신한다", () => {
     const { result } = renderDatePicker({
       visibleRange: "continuous",
