@@ -25,16 +25,14 @@ export const CHROMATIC_PARAMETERS = {
   },
 };
 
-export function createStoryWithParameters<S extends { parameters?: Parameters }>(
-  story: S & {
-    parameters?: Parameters & { theme?: "light" | "dark"; fontScale?: FontScales };
-  },
-): S {
+type StoryParameters = Parameters & {
+  theme?: "light" | "dark";
+  fontScale?: FontScales;
+};
+
+export function createStoryParameters(parameters: StoryParameters = {}): Parameters {
   return {
-    ...story,
-    parameters: {
-      ...CHROMATIC_PARAMETERS,
-      ...story.parameters,
-    },
+    ...CHROMATIC_PARAMETERS,
+    ...parameters,
   };
 }

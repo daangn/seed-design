@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 import { quantityPickerVariantMap } from "@seed-design/css/recipes/quantity-picker";
 import { HStack, ImageFrame, Text, VStack } from "@seed-design/react";
 
@@ -7,17 +7,12 @@ import { QuantityPicker } from "seed-design/ui/quantity-picker";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "./utils/parameters";
+import { createStoryParameters } from "./utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: QuantityPicker,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof QuantityPicker>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const defaultProps = {
   "aria-label": "수량",
   min: 1,
@@ -43,7 +38,7 @@ const maxConditionMap = {
   },
 };
 
-const Template: Story = {
+const Template = meta.story({
   args: defaultProps,
   render: () => (
     <VariantTable
@@ -52,9 +47,9 @@ const Template: Story = {
       variantMap={quantityPickerVariantMap}
     />
   ),
-};
+});
 
-const MaxValuesTemplate: Story = {
+const MaxValuesTemplate = meta.story({
   args: defaultProps,
   render: () => (
     <VariantTable
@@ -63,34 +58,29 @@ const MaxValuesTemplate: Story = {
       variantMap={quantityPickerVariantMap}
     />
   ),
-};
-
-export const LightTheme = createStoryWithParameters(Template);
-export const DarkTheme = createStoryWithParameters({
-  ...Template,
-  parameters: { theme: "dark" },
-});
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...Template,
-  parameters: { fontScale: "Extra Small" },
-});
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...Template,
-  parameters: { fontScale: "Extra Extra Extra Large" },
-});
-export const MaxValues = createStoryWithParameters(MaxValuesTemplate);
-
-export const MaxValuesFontScalingExtraSmall = createStoryWithParameters({
-  ...MaxValuesTemplate,
-  parameters: { fontScale: "Extra Small" },
 });
 
-export const MaxValuesFontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...MaxValuesTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const LightTheme = Template.extend({ parameters: createStoryParameters() });
+export const DarkTheme = Template.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
+});
+export const FontScalingExtraSmall = Template.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+export const FontScalingExtraExtraExtraLarge = Template.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+export const MaxValues = MaxValuesTemplate.extend({ parameters: createStoryParameters() });
+
+export const MaxValuesFontScalingExtraSmall = MaxValuesTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
 });
 
-export const LayoutFill: Story = {
+export const MaxValuesFontScalingExtraExtraExtraLarge = MaxValuesTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+
+export const LayoutFill = meta.story({
   args: { ...defaultProps, defaultValue: 1, layout: "fill" },
   render: (args) => (
     <VStack width="360px" gap="x3" align="stretch">
@@ -113,4 +103,4 @@ export const LayoutFill: Story = {
       </VStack>
     </VStack>
   ),
-};
+});

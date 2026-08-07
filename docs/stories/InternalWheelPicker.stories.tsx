@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 import type { WheelPickerOption } from "@seed-design/react-wheel-picker";
 import { Grid, Text, VStack } from "@seed-design/react";
 import * as React from "react";
@@ -9,7 +9,7 @@ import {
 import "./InternalWheelPicker.css";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "./utils/parameters";
+import { createStoryParameters } from "./utils/parameters";
 
 interface ColumnCase {
   label: string;
@@ -247,41 +247,33 @@ function WheelPickerCase({ label, columns }: WheelPickerCaseProps) {
   );
 }
 
-const meta = {
+const meta = preview.meta({
   title: "Internal/WheelPicker",
   component: WheelPickerCase,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof WheelPickerCase>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStory: Story = {
+});
+const CommonStory = meta.story({
   args: conditionMap.case["2개 컬럼 / 반복 없음"],
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={WheelPickerCase}
       variantMap={{}}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStory;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStory,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStory,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStory.extend({});
+
+export const DarkTheme = CommonStory.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStory,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStory.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStory.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

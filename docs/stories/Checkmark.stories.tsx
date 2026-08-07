@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { Checkmark } from "seed-design/ui/checkbox";
 import {
   checkmark,
@@ -8,7 +7,7 @@ import {
 } from "@seed-design/css/recipes/checkmark";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { Checkbox } from "@seed-design/react/primitive";
 
 function CustomCheckbox(props: CheckmarkVariantProps & Checkbox.RootProps) {
@@ -22,15 +21,10 @@ function CustomCheckbox(props: CheckmarkVariantProps & Checkbox.RootProps) {
   );
 }
 
-const meta = {
+const meta = preview.meta({
   component: CustomCheckbox,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof CustomCheckbox>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   disabled: {
     false: {
@@ -56,30 +50,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={CustomCheckbox}
       variantMap={checkmarkVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

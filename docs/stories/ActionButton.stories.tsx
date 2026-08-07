@@ -1,23 +1,17 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { ActionButton } from "seed-design/ui/action-button";
 
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { IconBellFill, IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
 import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
 import { PrefixIcon, SuffixIcon, Icon } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
-const meta = {
+const meta = preview.meta({
   component: ActionButton,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ActionButton>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   disabled: {
     false: { disabled: false },
@@ -53,114 +47,102 @@ const conditionMap = {
 
 const { size, ...variantMapWithoutSize } = actionButtonVariantMap;
 
-const XSmallTemplate: Story = {
+const XSmallTemplate = meta.story({
   args: {
     size: "xsmall",
   },
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={ActionButton}
       variantMap={variantMapWithoutSize}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
+});
 
-const SmallTemplate: Story = {
+const SmallTemplate = meta.story({
   args: {
     size: "small",
   },
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={ActionButton}
       variantMap={variantMapWithoutSize}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
+});
 
-const MediumTemplate: Story = {
+const MediumTemplate = meta.story({
   args: {
     size: "medium",
   },
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={ActionButton}
       variantMap={variantMapWithoutSize}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
+});
 
-const LargeTemplate: Story = {
+const LargeTemplate = meta.story({
   args: {
     size: "large",
   },
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={ActionButton}
       variantMap={variantMapWithoutSize}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const XSmallLightTheme = XSmallTemplate;
-export const XSmallDarkTheme = createStoryWithParameters({
-  ...XSmallTemplate,
-  parameters: { theme: "dark" },
-});
-export const XSmallFontScalingExtraSmall = createStoryWithParameters({
-  ...XSmallTemplate,
-  parameters: { fontScale: "Extra Small" },
-});
-export const XSmallFontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...XSmallTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
 });
 
-export const SmallLightTheme = SmallTemplate;
-export const SmallDarkTheme = createStoryWithParameters({
-  ...SmallTemplate,
-  parameters: { theme: "dark" },
+export const XSmallLightTheme = XSmallTemplate.extend({});
+export const XSmallDarkTheme = XSmallTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
-export const SmallFontScalingExtraSmall = createStoryWithParameters({
-  ...SmallTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const XSmallFontScalingExtraSmall = XSmallTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
 });
-export const SmallFontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...SmallTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const XSmallFontScalingExtraExtraExtraLarge = XSmallTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
-export const MediumLightTheme = MediumTemplate;
-export const MediumDarkTheme = createStoryWithParameters({
-  ...MediumTemplate,
-  parameters: { theme: "dark" },
+export const SmallLightTheme = SmallTemplate.extend({});
+export const SmallDarkTheme = SmallTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
-export const MediumFontScalingExtraSmall = createStoryWithParameters({
-  ...MediumTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const SmallFontScalingExtraSmall = SmallTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
 });
-export const MediumFontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...MediumTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const SmallFontScalingExtraExtraExtraLarge = SmallTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
-export const LargeLightTheme = LargeTemplate;
-export const LargeDarkTheme = createStoryWithParameters({
-  ...LargeTemplate,
-  parameters: { theme: "dark" },
+export const MediumLightTheme = MediumTemplate.extend({});
+export const MediumDarkTheme = MediumTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
-export const LargeFontScalingExtraSmall = createStoryWithParameters({
-  ...LargeTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const MediumFontScalingExtraSmall = MediumTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
 });
-export const LargeFontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...LargeTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const MediumFontScalingExtraExtraExtraLarge = MediumTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+
+export const LargeLightTheme = LargeTemplate.extend({});
+export const LargeDarkTheme = LargeTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
+});
+export const LargeFontScalingExtraSmall = LargeTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+export const LargeFontScalingExtraExtraExtraLarge = LargeTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

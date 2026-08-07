@@ -1,23 +1,17 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { ControlChip } from "seed-design/ui/control-chip";
 
 import { IconBellFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
 import { controlChipVariantMap } from "@seed-design/css/recipes/control-chip";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { Count, Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
 
-const meta = {
+const meta = preview.meta({
   component: ControlChip.Toggle,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ControlChip.Toggle>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   checked: {
     false: { checked: false },
@@ -39,31 +33,28 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {},
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={ControlChip.Toggle}
       variantMap={controlChipVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

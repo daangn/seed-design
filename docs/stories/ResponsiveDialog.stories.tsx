@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 
 import { Box, HStack, Text } from "@seed-design/react";
 import {
@@ -69,14 +69,10 @@ const ResponsiveDialogPreview = ({
   </Box>
 );
 
-const meta = {
+const meta = preview.meta({
   component: ResponsiveDialogPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ResponsiveDialogPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+});
 
 const conditionMap = {
   showCloseButton: {
@@ -98,10 +94,10 @@ const conditionMap = {
  * 테마/폰트 스케일은 분기되는 Dialog, BottomSheet 각 story가 이미 덮으므로,
  * 여기서는 브레이크포인트 전환만 뷰포트별로 스냅샷한다.
  */
-export const LightTheme: Story = {
+export const LightTheme = meta.story({
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={ResponsiveDialogPreview}
       variantMap={{}}
       conditionMap={conditionMap}
       {...args}
@@ -110,4 +106,4 @@ export const LightTheme: Story = {
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
   },
-};
+});

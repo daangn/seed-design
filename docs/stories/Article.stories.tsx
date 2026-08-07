@@ -1,9 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { Article, Text, VStack } from "@seed-design/react";
 import type { ReactNode } from "react";
 
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 
 const LONG_URL =
@@ -65,32 +64,24 @@ const ArticleScene = () => (
   </VStack>
 );
 
-const meta = {
+const meta = preview.meta({
   component: Article,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Article>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
+});
+const CommonStoryTemplate = meta.story({
   render: () => <ArticleScene />,
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

@@ -1,8 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { Field, VisuallyHidden, PrefixIcon, Box } from "@seed-design/react";
 
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { fieldVariantMap } from "@seed-design/css/recipes/field";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
@@ -77,15 +76,10 @@ const FieldWrapper = React.forwardRef<HTMLDivElement, FieldWrapperProps>(
 );
 FieldWrapper.displayName = "FieldWrapper";
 
-const meta = {
+const meta = preview.meta({
   component: FieldWrapper,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof FieldWrapper>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const label =
   "Sunt nisi labore nostrud. Proident incididunt cillum ad ullamco aute amet excepteur ipsum aute excepteur ex sint tempor dolor.";
 const indicator =
@@ -113,33 +107,30 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     children: <Box bg="bg.brandWeak" height="x8" />,
   },
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={FieldWrapper}
       variantMap={fieldVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

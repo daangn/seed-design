@@ -1,23 +1,17 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { FooterLinkText, SuffixIcon } from "@seed-design/react";
 
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { IconArrowUpRightLine } from "@karrotmarket/react-monochrome-icon";
 import { footerVariantMap } from "@seed-design/css/recipes/footer";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
-const meta = {
+const meta = preview.meta({
   component: FooterLinkText,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof FooterLinkText>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
+});
+const CommonStoryTemplate = meta.story({
   args: {
     children: (
       <>
@@ -27,23 +21,20 @@ const CommonStoryTemplate: Story = {
     ),
   },
   render: (args) => (
-    <VariantTable Component={meta.component} variantMap={footerVariantMap} {...args} />
+    <VariantTable Component={FooterLinkText} variantMap={footerVariantMap} {...args} />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

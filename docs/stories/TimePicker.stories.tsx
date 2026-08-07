@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 import { Box, TimePicker, type TimePickerProps } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "./utils/parameters";
+import { createStoryParameters } from "./utils/parameters";
 
 type TimePickerPreviewProps = TimePickerProps & {
   previewWidth?: string;
@@ -14,15 +14,10 @@ const TimePickerPreview = ({ previewWidth = "358px", ...props }: TimePickerPrevi
   </Box>
 );
 
-const meta = {
+const meta = preview.meta({
   component: TimePickerPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof TimePickerPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   case: {
     "기본값 · minuteStep 5": {
@@ -60,20 +55,19 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={TimePickerPreview}
       variantMap={{}}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
+});
 
-export const LightTheme = CommonStoryTemplate;
+export const LightTheme = CommonStoryTemplate.extend({});
 
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });

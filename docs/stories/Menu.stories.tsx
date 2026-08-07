@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import preview from "../.storybook/preview";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import {
   IconDiamondLine,
   IconPlusLine,
@@ -74,44 +73,30 @@ const MenuPreview = ({ size }: MenuVariantProps) => {
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: MenuPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof MenuPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
+});
+const CommonStoryTemplate = meta.story({
   render: (args) => (
-    <VariantTable
-      Component={meta.component}
-      variantMap={menuVariantMap}
-      conditionMap={{}}
-      {...args}
-    />
+    <VariantTable Component={MenuPreview} variantMap={menuVariantMap} conditionMap={{}} {...args} />
   ),
-};
+});
 
-export const LightTheme: Story = {
-  ...CommonStoryTemplate,
+export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
   },
-};
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

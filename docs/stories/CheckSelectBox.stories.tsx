@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import {
   CheckSelectBox,
   CheckSelectBoxCheckmark,
@@ -10,17 +9,12 @@ import { Box, Text } from "@seed-design/react";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: CheckSelectBox,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof CheckSelectBox>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const CheckSelectBoxWrapper = ({ columns, ...props }: { columns?: number }) => {
   return (
     <CheckSelectBoxGroup columns={columns}>
@@ -82,7 +76,7 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     label: "Aliqua veniam ut nisi dolore velit deserunt excepteur adipisicing",
   },
@@ -94,21 +88,18 @@ const CommonStoryTemplate: Story = {
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

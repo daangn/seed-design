@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { IconCarrotFill } from "@karrotmarket/react-monochrome-icon";
 import {
   Flex,
@@ -15,7 +14,7 @@ import {
 import { useState } from "react";
 
 import { imageFrameVariantMap } from "@seed-design/css/recipes/image-frame";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -27,15 +26,10 @@ const BRIGHT_IMAGE = `data:image/svg+xml,${encodeURIComponent(
   "<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><rect width='240' height='240' fill='#ffffff'/><circle cx='48' cy='52' r='32' fill='#f4f6f8'/><circle cx='186' cy='76' r='44' fill='#f8fafb'/><rect x='28' y='150' width='184' height='48' rx='24' fill='#f1f3f5'/><path d='M20 122C72 84 112 166 166 118C194 94 212 98 230 114' fill='none' stroke='#e8ebee' stroke-width='10' stroke-linecap='round'/></svg>",
 )}`;
 
-const meta = {
+const meta = preview.meta({
   component: ImageFrame,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ImageFrame>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   ratio: {
     "1": { ratio: 1, style: { width: "96px" } },
@@ -50,20 +44,20 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     src: SAMPLE_IMAGE,
     alt: "ImageFrame placeholder",
   },
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={ImageFrame}
       variantMap={imageFrameVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
+});
 
 const OverlayExamples = () => {
   const [liked, setLiked] = useState(false);
@@ -151,27 +145,24 @@ const OverlayExamples = () => {
   );
 };
 
-export const LightTheme = CommonStoryTemplate;
+export const LightTheme = CommonStoryTemplate.extend({});
 
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
-export const Overlay = {
+export const Overlay = meta.story({
   args: {
     src: BRIGHT_IMAGE, // intentionally ignored, OverlayExamples renders its own frames
     alt: "",
   },
   render: () => <OverlayExamples />,
-} satisfies Story;
+});

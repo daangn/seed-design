@@ -1,23 +1,17 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { ActionablePageBanner } from "seed-design/ui/page-banner";
 
 import { pageBannerVariantMap } from "@seed-design/css/recipes/page-banner";
 import { VariantTable } from "./components/variant-table";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: ActionablePageBanner,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ActionablePageBanner>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
+});
+const CommonStoryTemplate = meta.story({
   args: {
     title: "enim consectetur",
     description:
@@ -25,23 +19,20 @@ const CommonStoryTemplate: Story = {
     prefixIcon: <IconBellFill />,
   },
   render: (args) => (
-    <VariantTable Component={meta.component} variantMap={pageBannerVariantMap} {...args} />
+    <VariantTable Component={ActionablePageBanner} variantMap={pageBannerVariantMap} {...args} />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

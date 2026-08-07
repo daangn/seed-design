@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import {
   Box,
   Icon,
@@ -9,19 +8,15 @@ import {
 } from "@seed-design/react";
 
 import type { NotificationBadgePositionerVariantProps } from "@seed-design/css/recipes/notification-badge-positioner";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 
-const meta = {
+const meta = preview.meta({
   component: NotificationBadge,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof NotificationBadge>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+});
 
 interface Case {
   attach: NonNullable<NotificationBadgePositionerVariantProps["attach"]>;
@@ -52,7 +47,7 @@ const NotificationBadgeCase = ({ attach, size, label }: Case) => (
   </Box>
 );
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   render: (args) => (
     <VariantTable
       Component={NotificationBadgeCase}
@@ -61,21 +56,18 @@ const CommonStoryTemplate: Story = {
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

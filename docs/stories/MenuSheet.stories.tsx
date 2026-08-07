@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import preview from "../.storybook/preview";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
 import { menuSheetVariantMap } from "@seed-design/css/recipes/menu-sheet";
 import { Box } from "@seed-design/react";
@@ -62,15 +61,10 @@ const MenuSheetPreview = ({
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: MenuSheetPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof MenuSheetPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const { skipAnimation: _skipAnimation, ...restVariantMap } = menuSheetVariantMap;
 
 const conditionMap = {
@@ -93,30 +87,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={MenuSheetPreview}
       variantMap={restVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

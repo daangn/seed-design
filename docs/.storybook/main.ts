@@ -1,8 +1,8 @@
+import { defineMain } from "@storybook/nextjs/node";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
-import type { StorybookConfig } from "@storybook/nextjs";
 
-const config: StorybookConfig = {
+export default defineMain({
   stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [getAbsolutePath("@chromatic-com/storybook")],
   framework: {
@@ -10,10 +10,8 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ["../public"],
-};
+});
 
-export default config;
-
-function getAbsolutePath(value: string): any {
+function getAbsolutePath(value: string): string {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
 }

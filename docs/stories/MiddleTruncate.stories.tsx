@@ -1,8 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { MiddleTruncate, type MiddleTruncateProps } from "@seed-design/react/primitive";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 import { VariantTable } from "./components/variant-table";
 
 const MiddleTruncateForStory = ({
@@ -16,15 +15,10 @@ const MiddleTruncateForStory = ({
   </div>
 );
 
-const meta = {
+const meta = preview.meta({
   component: MiddleTruncateForStory,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof MiddleTruncateForStory>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   width: {
     "100px": { rootProps: { style: { width: 100 } } },
@@ -55,29 +49,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     // ignored
     children: "",
   },
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={MiddleTruncateForStory}
       variantMap={{}}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

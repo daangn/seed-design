@@ -1,22 +1,16 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
 import { textInputVariantMap } from "@seed-design/css/recipes/text-input";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES, createStoryWithParameters } from "@/stories/utils/parameters";
+import { VIEWPORT_MODES, createStoryParameters } from "@/stories/utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: TextField,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof TextField>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   disabled: {
     false: {
@@ -52,7 +46,7 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     prefixIcon: <IconPaperplaneLine />,
     suffix: "Suffix",
@@ -60,32 +54,28 @@ const CommonStoryTemplate: Story = {
   },
   render: (args) => (
     <VariantTable
-      Component={meta.component}
+      Component={TextField}
       variantMap={textInputVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
+});
 
-export const LightTheme: Story = {
-  ...CommonStoryTemplate,
+export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
   },
-};
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
 });

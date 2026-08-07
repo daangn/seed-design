@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +11,7 @@ import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
 import { IconTruckLine } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { createStoryParameters } from "@/stories/utils/parameters";
 
 const AccordionDemo = ({ style, ...props }: React.ComponentProps<typeof Accordion>) => (
   <Accordion {...props} style={{ ...style, width: 360 }}>
@@ -45,25 +44,19 @@ const AccordionDemo = ({ style, ...props }: React.ComponentProps<typeof Accordio
   </Accordion>
 );
 
-const meta = {
+const meta = preview.meta({
   component: Accordion,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Accordion>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
+});
+const CommonStoryTemplate = meta.story({
   args: {},
   render: (args) => (
     <VariantTable Component={AccordionDemo} variantMap={accordionVariantMap} {...args} />
   ),
-};
+});
 
-export const LightTheme = CommonStoryTemplate;
+export const LightTheme = CommonStoryTemplate.extend({});
 
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: createStoryParameters({ theme: "dark" }),
 });
