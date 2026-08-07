@@ -1,19 +1,40 @@
 import "@testing-library/jest-dom";
-import { createRef } from "@lynx-js/react";
+import { createRef, useState } from "@lynx-js/react";
 import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Field } from "../Field";
 import { KeyboardAvoidanceActionsContext } from "../KeyboardAvoidingScrollView/context";
 import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED } from "./context";
 import { TextField } from "./index";
 
-const invokeMainThreadUIMethod = vi.fn(
-  (_element: unknown, _method: string, _params: object, callback: (result: object) => void) => {
-    callback({ code: 0, data: null });
-  },
-);
+type TestSystemInfo = { platform?: string };
+
+interface TestLynxGlobal {
+  SystemInfo?: TestSystemInfo;
+  lynxTestingEnv?: {
+    backgroundThread: { globalThis: TestLynxGlobal };
+    mainThread: { globalThis: TestLynxGlobal };
+  };
+}
+
+function setSystemInfo(systemInfo: TestSystemInfo | undefined) {
+  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
+  const globals = [
+    globalThis as TestLynxGlobal,
+    lynxTestingEnv?.backgroundThread.globalThis,
+    lynxTestingEnv?.mainThread.globalThis,
+  ].filter((global): global is TestLynxGlobal => Boolean(global));
+
+  for (const global of globals) {
+    if (systemInfo == null) {
+      delete global.SystemInfo;
+    } else {
+      global.SystemInfo = systemInfo;
+    }
+  }
+}
 
 function getRenderedRoot() {
   const root = elementTree.root;
@@ -51,34 +72,17 @@ function fireNativeEvent(nativeRef: NodesRef, element: Element, eventName: strin
   fireEvent(nativeRef as unknown as Element, event);
 }
 
-function fireMainThreadLayoutChange(element: Element) {
-  const EventConstructor = element.ownerDocument.defaultView?.CustomEvent;
-  if (!EventConstructor) throw new Error("Expected CustomEvent constructor to exist.");
-
-  const event = new EventConstructor("bindEvent:layoutchange", { bubbles: true });
-  Object.defineProperty(event, "currentTarget", {
-    configurable: true,
-    enumerable: true,
-    value: { elementRefptr: element },
-  });
-  Object.assign(event, { eventType: "bindEvent", eventName: "layoutchange" });
-
-  const listener = (
-    element as Element & {
-      eventMap?: Record<string, (event: Event) => void>;
-    }
-  ).eventMap?.["bindEvent:layoutchange"];
-  if (!listener) throw new Error("Expected main-thread layoutchange listener to exist.");
-
-  listener(event);
+async function flushControlledReconciliation() {
+  await Promise.resolve();
+  await Promise.resolve();
 }
 
-describe("TextField", () => {
-  beforeEach(() => {
-    invokeMainThreadUIMethod.mockClear();
-    lynxTestingEnv.mainThread["__InvokeUIMethod"] = invokeMainThreadUIMethod;
-  });
+afterEach(() => {
+  setSystemInfo(undefined);
+  vi.unstubAllGlobals();
+});
 
+describe("TextField", () => {
   it("renders root and text adornment slots with default classes", () => {
     render(
       <TextField.Root className="custom-text-field">
@@ -93,6 +97,10 @@ describe("TextField", () => {
     expect(root).toHaveClass("custom-text-field");
     expect(root).toHaveClass("seed-text-input__root--variant_outline");
     expect(root).toHaveClass("seed-text-input__root--size_large");
+    expect(root.querySelector(".seed-text-input__baseStroke")).toHaveAttribute(
+      "accessibility-elements-hidden",
+      "true",
+    );
     expect(root.querySelector(".seed-text-input__stroke")).toHaveAttribute(
       "accessibility-elements-hidden",
       "true",
@@ -146,7 +154,7 @@ describe("TextField", () => {
     );
   });
 
-  it("renders a native input with root-owned native props", () => {
+  it("renders a native input with root-owned native props and initial value", () => {
     const onValueChange = vi.fn();
     const inputRef = createRef<NodesRef>();
     const renderTextField = () => (
@@ -162,27 +170,20 @@ describe("TextField", () => {
     expect(input).toHaveClass("seed-text-input__value");
     expect(input).toHaveAttribute("name", "title");
     expect(input).toHaveAttribute("placeholder", "제목");
+    expect(input).toHaveAttribute("default-value", "초기값");
+    expect(input).not.toHaveAttribute("android-set-soft-input-mode");
 
-    fireMainThreadLayoutChange(input);
     rerender(renderTextField());
 
     const rerenderedInput = getRenderedRoot().querySelector("input");
     if (!rerenderedInput) throw new Error("Expected native input to exist after rerender.");
     expect(rerenderedInput).toBe(input);
-    fireMainThreadLayoutChange(rerenderedInput);
-
-    expect(invokeMainThreadUIMethod).toHaveBeenCalledTimes(1);
-    expect(invokeMainThreadUIMethod).toHaveBeenCalledWith(
-      expect.anything(),
-      "setValue",
-      { value: "초기값" },
-      expect.any(Function),
-    );
+    expect(rerenderedInput).toHaveAttribute("default-value", "초기값");
 
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
-  it("does not call setValue for an empty initial value", () => {
+  it("passes an empty initial value through the native default-value prop", () => {
     render(
       <TextField.Root>
         <TextField.Input />
@@ -192,25 +193,42 @@ describe("TextField", () => {
     const input = getRenderedRoot().querySelector("input");
     if (!input) throw new Error("Expected native input to exist.");
 
-    fireMainThreadLayoutChange(input);
-    fireMainThreadLayoutChange(input);
-
-    expect(invokeMainThreadUIMethod).not.toHaveBeenCalled();
+    expect(input).toHaveAttribute("default-value", "");
   });
 
-  it("does not reapply an accepted native input value on the main thread", () => {
-    const inputRef = createRef<NodesRef>();
+  it("initializes a non-empty value without invoking a native UI method", () => {
+    const invoke = vi.fn(() => ({ exec: vi.fn() }));
+    const setRef = (node: NodesRef | null) => {
+      if (node) node.invoke = invoke as unknown as NodesRef["invoke"];
+    };
+
     render(
       <TextField.Root defaultValue="초기값">
-        <TextField.Input ref={inputRef} />
+        <TextField.Input ref={setRef} />
       </TextField.Root>,
     );
 
+    expect(getRenderedRoot().querySelector("input")).toHaveAttribute("default-value", "초기값");
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("does not reapply an accepted controlled native input value", async () => {
+    const inputRef = createRef<NodesRef>();
+
+    function ControlledInput() {
+      const [value, setValue] = useState("초기값");
+
+      return (
+        <TextField.Root value={value} onValueChange={setValue}>
+          <TextField.Input ref={inputRef} />
+        </TextField.Root>
+      );
+    }
+
+    render(<ControlledInput />);
+
     const input = getRenderedRoot().querySelector("input");
     if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
-
-    fireMainThreadLayoutChange(input);
-    expect(invokeMainThreadUIMethod).toHaveBeenCalledTimes(1);
 
     const invoke = vi.fn(() => ({ exec: vi.fn() }));
     inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
@@ -220,10 +238,45 @@ describe("TextField", () => {
       selectionEnd: 3,
       isComposing: false,
     });
-    fireMainThreadLayoutChange(input);
+    await flushControlledReconciliation();
 
     expect(invoke).not.toHaveBeenCalled();
-    expect(invokeMainThreadUIMethod).toHaveBeenCalledTimes(1);
+  });
+
+  it("waits for a parent value update queued in a microtask", async () => {
+    const inputRef = createRef<NodesRef>();
+
+    function ControlledInput() {
+      const [value, setValue] = useState("초기값");
+
+      return (
+        <TextField.Root
+          value={value}
+          onValueChange={(nextValue) => {
+            void Promise.resolve().then(() => setValue(nextValue));
+          }}
+        >
+          <TextField.Input ref={inputRef} />
+        </TextField.Root>
+      );
+    }
+
+    render(<ControlledInput />);
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+
+    const invoke = vi.fn(() => ({ exec: vi.fn() }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+    fireNativeEvent(inputRef.current, input, "input", {
+      value: "수정값",
+      selectionStart: 3,
+      selectionEnd: 3,
+      isComposing: false,
+    });
+    await flushControlledReconciliation();
+
+    expect(invoke).not.toHaveBeenCalled();
   });
 
   it("syncs a controlled value that changes after the initial layout", () => {
@@ -237,8 +290,6 @@ describe("TextField", () => {
 
     const input = getRenderedRoot().querySelector("input");
     if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
-
-    fireMainThreadLayoutChange(input);
 
     const exec = vi.fn();
     const invoke = vi.fn(() => ({ exec }));
@@ -254,7 +305,7 @@ describe("TextField", () => {
     expect(exec).toHaveBeenCalledTimes(1);
   });
 
-  it("restores a rejected controlled value on the main thread", () => {
+  it("restores a rejected controlled value before the next frame", async () => {
     const inputRef = createRef<NodesRef>();
     render(
       <TextField.Root value="고정값">
@@ -275,12 +326,121 @@ describe("TextField", () => {
       isComposing: false,
     });
 
+    expect(invoke).not.toHaveBeenCalled();
+    await flushControlledReconciliation();
+
     expect(invoke).toHaveBeenCalledWith(
       expect.objectContaining({
         method: "setValue",
         params: { value: "고정값" },
       }),
     );
+    expect(exec).toHaveBeenCalledTimes(1);
+  });
+
+  it("syncs a transformed controlled value without restoring the stale value", async () => {
+    const inputRef = createRef<NodesRef>();
+
+    function ControlledInput() {
+      const [value, setValue] = useState("INITIAL");
+
+      return (
+        <TextField.Root
+          value={value}
+          onValueChange={(nextValue) => setValue(nextValue.toUpperCase())}
+        >
+          <TextField.Input ref={inputRef} />
+        </TextField.Root>
+      );
+    }
+
+    render(<ControlledInput />);
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+
+    const invoke = vi.fn(() => ({ exec: vi.fn() }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+    fireNativeEvent(inputRef.current, input, "input", {
+      value: "changed",
+      selectionStart: 7,
+      selectionEnd: 7,
+      isComposing: false,
+    });
+    await flushControlledReconciliation();
+
+    expect(invoke).toHaveBeenCalledTimes(1);
+    expect(invoke).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "setValue",
+        params: { value: "CHANGED" },
+      }),
+    );
+  });
+
+  it("does not reconcile a controlled input after it unmounts", async () => {
+    const inputRef = createRef<NodesRef>();
+    const { unmount } = render(
+      <TextField.Root value="고정값">
+        <TextField.Input ref={inputRef} />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+
+    const invoke = vi.fn(() => ({ exec: vi.fn() }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+    fireNativeEvent(inputRef.current, input, "input", {
+      value: "거부할 값",
+      selectionStart: 4,
+      selectionEnd: 4,
+      isComposing: false,
+    });
+    unmount();
+    await flushControlledReconciliation();
+
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("does not resync a disabled value after setValue emits the accepted input event", () => {
+    const inputRef = createRef<NodesRef>();
+    render(
+      <TextField.Root defaultValue="고정값" disabled>
+        <TextField.Input ref={inputRef} />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+
+    const exec = vi.fn();
+    const invoke = vi.fn(() => ({ exec }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+
+    fireNativeEvent(inputRef.current, input, "input", {
+      value: "변경값",
+      selectionStart: 3,
+      selectionEnd: 3,
+      isComposing: false,
+    });
+
+    expect(invoke).toHaveBeenCalledTimes(1);
+    expect(invoke).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "setValue",
+        params: { value: "고정값" },
+      }),
+    );
+
+    fireNativeEvent(inputRef.current, input, "input", {
+      value: "고정값",
+      selectionStart: 3,
+      selectionEnd: 3,
+      isComposing: false,
+    });
+
+    expect(invoke).toHaveBeenCalledTimes(1);
     expect(exec).toHaveBeenCalledTimes(1);
   });
 
@@ -383,6 +543,9 @@ describe("TextField", () => {
     );
 
     if (!inputRef.current) throw new Error("Expected native input ref to exist.");
+    expect(getRenderedRoot().querySelector("input")).not.toHaveAttribute(
+      "android-set-soft-input-mode",
+    );
 
     // ReactLynx Testing Library runtime accepts NodesRef, but its public fireEvent type
     // currently exposes only DOM Element inputs.
@@ -405,49 +568,250 @@ describe("TextField", () => {
     );
   });
 
-  it("inherits native disabled and readonly states from roots", () => {
+  it("renders readonly input and textarea values as non-editable text", () => {
+    const inputRef = createRef<NodesRef>();
+    const textareaRef = createRef<NodesRef>();
     render(
       <Field.Root disabled readOnly>
-        <TextField.Root>
-          <TextField.Input />
+        <TextField.Root defaultValue="고정값">
+          <TextField.Input ref={inputRef} />
+          <TextField.Textarea ref={textareaRef} />
         </TextField.Root>
       </Field.Root>,
     );
 
-    const input = getRenderedRoot().querySelector("input");
-    if (!input) throw new Error("Expected native input to exist.");
+    const values = getRenderedRoot().querySelectorAll("text.seed-text-input__value");
 
-    expect(input).toHaveAttribute("disabled");
-    expect(input).toHaveAttribute("readonly");
+    expect(getRenderedRoot().querySelector("input")).toBeNull();
+    expect(getRenderedRoot().querySelector("textarea")).toBeNull();
+    expect(values).toHaveLength(2);
+    expect(values[0]).toHaveTextContent("고정값");
+    expect(values[0]).toHaveClass("seed-text-input__value--disabled_true");
+    expect(values[1]).toHaveTextContent("고정값");
+    expect(values[1]).toHaveClass("seed-text-input__textareaValue");
+    expect(values[1]).toHaveClass("seed-text-input__textareaFixed");
+    expect(inputRef.current).not.toBeNull();
+    expect(textareaRef.current).not.toBeNull();
   });
 
-  it("renders an invisible sizing mirror for an autoresizing textarea", () => {
-    const textareaRef = createRef<NodesRef>();
+  it("renders readonly placeholders as text without native controls", () => {
     render(
-      <TextField.Root defaultValue={"첫 줄\n둘째 줄\n"}>
-        <TextField.Textarea ref={textareaRef} placeholder="내용" />
+      <Field.Root readOnly>
+        <TextField.Root>
+          <TextField.Input placeholder="한 줄 플레이스홀더" />
+          <TextField.Textarea placeholder="여러 줄 플레이스홀더" />
+        </TextField.Root>
+      </Field.Root>,
+    );
+
+    const { getByText } = getRenderedQueries();
+    expect(getByText("한 줄 플레이스홀더")).toHaveStyle({
+      color: "var(--seed-color-fg-placeholder)",
+    });
+    expect(getByText("여러 줄 플레이스홀더")).toHaveStyle({
+      color: "var(--seed-color-fg-placeholder)",
+    });
+  });
+
+  it("masks a readonly password value rendered as text", () => {
+    render(
+      <Field.Root readOnly>
+        <TextField.Root defaultValue="secret">
+          <TextField.Input type="password" />
+        </TextField.Root>
+      </Field.Root>,
+    );
+
+    expect(getRenderedRoot().querySelector("input")).toBeNull();
+    expect(getRenderedQueries().getByText("••••••")).toBeInTheDocument();
+    expect(getRenderedQueries().queryByText("secret")).toBeNull();
+  });
+
+  it("uses native intrinsic autoresize inside a padded sizing wrapper", () => {
+    const textareaRef = createRef<NodesRef>();
+    const actions = {
+      focus: vi.fn(),
+      blur: vi.fn(),
+      layoutChanged: vi.fn(),
+      unregister: vi.fn(),
+    };
+    render(
+      <KeyboardAvoidanceActionsContext.Provider value={actions}>
+        <TextField.Root defaultValue={"첫 줄\n둘째 줄\n"}>
+          <TextField.Textarea
+            ref={textareaRef}
+            placeholder="내용"
+            android-set-soft-input-mode="nothing"
+          />
+        </TextField.Root>
+      </KeyboardAvoidanceActionsContext.Provider>,
+    );
+
+    const root = getRenderedRoot();
+    const textarea = root.querySelector("textarea");
+    const textareaRoot = root.querySelector(".seed-text-input__textareaRoot");
+    if (!textarea) throw new Error("Expected native textarea to exist.");
+    if (!textareaRoot) throw new Error("Expected textarea sizing wrapper to exist.");
+    if (!textareaRef.current) throw new Error("Expected native textarea ref to exist.");
+
+    expect(textareaRoot).toHaveClass("seed-text-input__textareaAutoresizeRoot--size_large");
+    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(textarea).not.toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
+    expect(textarea).toHaveClass("seed-text-input__textareaValue");
+    expect(textarea).not.toHaveClass("seed-text-input__textareaFixed");
+    expect(textarea).toHaveAttribute("bounces", "false");
+    expect(textarea).toHaveAttribute("default-value", "첫 줄\n둘째 줄\n");
+    expect(textarea).toHaveAttribute("android-fullscreen-mode", "false");
+    expect(textarea).toHaveAttribute("android-set-soft-input-mode", "nothing");
+    expect(textareaRoot.querySelector("text")).toBeNull();
+
+    fireNativeEvent(textareaRoot as unknown as NodesRef, textareaRoot, "layoutchange", {
+      width: 200,
+      height: 120,
+    });
+    expect(actions.layoutChanged).toHaveBeenCalledOnce();
+
+    const exec = vi.fn();
+    const invoke = vi.fn(() => ({ exec }));
+    textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+    fireEvent.tap(textareaRef.current as unknown as Element);
+    expect(invoke).not.toHaveBeenCalled();
+
+    fireEvent.tap(textareaRoot);
+    expect(invoke).toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
+    expect(exec).toHaveBeenCalledOnce();
+  });
+
+  it("uses native intrinsic autoresize with the Android-only line-spacing correction", () => {
+    setSystemInfo({ platform: "Android" });
+
+    const { rerender } = render(
+      <TextField.Root defaultValue={"첫 줄\n"}>
+        <TextField.Textarea />
       </TextField.Root>,
     );
 
     const root = getRenderedRoot();
     const textarea = root.querySelector("textarea");
-    const mirror = root.querySelector(".seed-text-input__textareaMirror");
     if (!textarea) throw new Error("Expected native textarea to exist.");
 
-    expect(textarea).toHaveClass("seed-text-input__textareaControl");
-    expect(textarea).toHaveClass("seed-text-input__textareaValue");
-    expect(mirror).toHaveClass("seed-text-input__value");
-    expect(mirror).toHaveClass("seed-text-input__textareaValue");
-    expect(mirror).toHaveAttribute("accessibility-elements-hidden", "true");
-    expect(mirror?.textContent).toBe("첫 줄\n둘째 줄\n\u200b");
+    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(textarea).toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
+    expect(textarea).toHaveAttribute("line-spacing", "3.2px");
+    expect(root.querySelector(".seed-text-input__textareaAutoresizeRoot--size_large")).toBeNull();
+    expect(root.querySelector(".seed-text-input__textareaRoot text")).toBeNull();
 
-    fireMainThreadLayoutChange(textarea);
-    expect(invokeMainThreadUIMethod).toHaveBeenCalledWith(
-      expect.anything(),
-      "setValue",
-      { value: "첫 줄\n둘째 줄\n" },
-      expect.any(Function),
+    rerender(
+      <TextField.Root value={"첫 줄\n둘째 줄\n"}>
+        <TextField.Textarea />
+      </TextField.Root>,
     );
+
+    expect(getRenderedRoot().querySelector("textarea")).toBe(textarea);
+  });
+
+  it("uses the Android line-spacing correction and preserves an explicit override", () => {
+    setSystemInfo({ platform: "Android" });
+
+    const { rerender } = render(
+      <TextField.Root size="medium">
+        <TextField.Textarea autoresize={false} />
+      </TextField.Root>,
+    );
+
+    const textarea = getRenderedRoot().querySelector("textarea");
+    if (!textarea) throw new Error("Expected native textarea to exist.");
+    expect(textarea).toHaveAttribute("line-spacing", "3.2px");
+    expect(getRenderedRoot().querySelector(".seed-text-input__textareaRoot")).toBeNull();
+
+    rerender(
+      <TextField.Root size="medium">
+        <TextField.Textarea autoresize={false} line-spacing="7px" />
+      </TextField.Root>,
+    );
+    const overriddenTextarea = getRenderedRoot().querySelector("textarea");
+    expect(overriddenTextarea).toBe(textarea);
+    expect(overriddenTextarea).toHaveAttribute("line-spacing", "7px");
+
+    rerender(
+      <TextField.Root size="medium">
+        <TextField.Textarea autoresize={false} line-spacing={0} />
+      </TextField.Root>,
+    );
+    const uncorrectedTextarea = getRenderedRoot().querySelector("textarea");
+    expect(uncorrectedTextarea).toBe(textarea);
+    expect(uncorrectedTextarea).toHaveAttribute("line-spacing", "0");
+  });
+
+  it("keeps iOS native autoresize without the Android line-spacing correction", () => {
+    setSystemInfo({ platform: "iOS" });
+
+    render(
+      <TextField.Root defaultValue={"첫 줄\n"}>
+        <TextField.Textarea />
+      </TextField.Root>,
+    );
+
+    const root = getRenderedRoot();
+    const textarea = root.querySelector("textarea");
+    if (!textarea) throw new Error("Expected native textarea to exist.");
+
+    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(textarea).not.toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
+    expect(textarea).not.toHaveAttribute("line-spacing");
+    expect(
+      root.querySelector(".seed-text-input__textareaAutoresizeRoot--size_large"),
+    ).not.toBeNull();
+    expect(root.querySelector(".seed-text-input__textareaRoot text")).toBeNull();
+  });
+
+  it("does not restore the previous value after an accepted controlled textarea newline", async () => {
+    const textareaRef = createRef<NodesRef>();
+    const onValueChange = vi.fn();
+    const bindinput = vi.fn();
+
+    function ControlledTextarea() {
+      const [value, setValue] = useState("첫 줄");
+
+      return (
+        <TextField.Root
+          value={value}
+          onValueChange={(nextValue) => {
+            onValueChange(nextValue);
+            setValue(nextValue);
+          }}
+        >
+          <TextField.Textarea ref={textareaRef} bindinput={bindinput} />
+        </TextField.Root>
+      );
+    }
+
+    render(<ControlledTextarea />);
+
+    const root = getRenderedRoot();
+    const textarea = root.querySelector("textarea");
+    if (!textarea || !textareaRef.current) {
+      throw new Error("Expected native textarea to exist.");
+    }
+
+    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(root.querySelector(".seed-text-input__textareaRoot")).not.toBeNull();
+
+    const invoke = vi.fn(() => ({ exec: vi.fn() }));
+    textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+
+    fireNativeEvent(textareaRef.current, textarea, "input", {
+      value: "첫 줄\n",
+      selectionStart: 4,
+      selectionEnd: 4,
+      isComposing: false,
+    });
+    expect(onValueChange).toHaveBeenCalledWith("첫 줄\n");
+    expect(bindinput).toHaveBeenCalledOnce();
+    expect(invoke).not.toHaveBeenCalled();
+
+    await flushControlledReconciliation();
+    expect(invoke).not.toHaveBeenCalled();
   });
 
   it("uses the smaller textarea cap and restores explicit maxlength for a selection", () => {
@@ -481,7 +845,7 @@ describe("TextField", () => {
   it("disables the textarea insertion cap while native input is composing", () => {
     const textareaRef = createRef<NodesRef>();
     render(
-      <TextField.Root value="최대값" nativeInsertionMaxLength={3}>
+      <TextField.Root defaultValue="최대값" nativeInsertionMaxLength={3}>
         <TextField.Textarea ref={textareaRef} />
       </TextField.Root>,
     );
@@ -510,7 +874,7 @@ describe("TextField", () => {
     expect(textarea).toHaveAttribute("maxlength", "3");
   });
 
-  it("renders a textarea without the sizing mirror when autoresize is false", () => {
+  it("applies textarea sizing directly when autoresize is false", () => {
     render(
       <TextField.Root>
         <TextField.Textarea autoresize={false} />
@@ -522,8 +886,8 @@ describe("TextField", () => {
 
     expect(textarea).toHaveClass("seed-text-input__value");
     expect(textarea).toHaveClass("seed-text-input__textareaValue");
-    expect(textarea).not.toHaveClass("seed-text-input__textareaControl");
-    expect(root.querySelector(".seed-text-input__textareaMirror")).toBeNull();
+    expect(textarea).toHaveClass("seed-text-input__textareaFixed");
+    expect(root.querySelector(".seed-text-input__textareaRoot")).toBeNull();
   });
 
   it("preserves the native input while the disabled state changes", () => {

@@ -15,14 +15,11 @@ const fieldLabel = defineSlotRecipe({
       fontSize: fieldVars.base.enabled.indicatorText.fontSize,
       lineHeight: fieldVars.base.enabled.indicatorText.lineHeight,
       fontWeight: fieldVars.base.enabled.indicatorText.fontWeight,
-      paddingLeft: fieldVars.base.enabled.indicatorText.paddingLeft,
     },
     indicatorIcon: {
       color: fieldVars.base.enabled.indicatorIcon.color,
-      fontSize: fieldVars.base.enabled.indicatorIcon.size,
-      lineHeight: fieldVars.base.enabled.indicatorIcon.size,
-      paddingTop: fieldVars.base.enabled.indicatorIcon.paddingTop,
-      paddingLeft: fieldVars.base.enabled.indicatorIcon.paddingLeft,
+      fontSize: fieldVars.base.enabled.indicatorText.fontSize,
+      lineHeight: vars.base.enabled.root.lineHeight,
     },
   },
   variants: {

@@ -7,7 +7,8 @@ export const NATIVE_TEXT_MAX_LENGTH_UNLIMITED = 2_147_483_647;
 export interface TextFieldContextValue {
   rootRef: React.RefObject<NodesRef | null>;
   value: string;
-  valueRevision: number;
+  /** @internal controlled 입력의 native value 조정 여부를 판별한다. */
+  controlled: boolean;
   nativeInsertionMaxLength?: number;
   disabled: boolean;
   invalid: boolean;

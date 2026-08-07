@@ -60,7 +60,9 @@ export function ControlledIntroduction() {
 
 ### Autoresizing
 
-`TextFieldTextarea`는 기본적으로 입력과 같은 typography를 가진 보이지 않는 `<text>` 측정 노드를 겹쳐 렌더링합니다. 측정 노드가 내용과 줄바꿈에 맞춰 커지면서 textarea 높이도 함께 늘어납니다. 고정 높이가 필요하면 `autoresize={false}`를 사용합니다.
+`TextFieldTextarea`는 기본적으로 native textarea의 intrinsic height를 사용해 내용에 맞춰 높이가 늘어납니다. iOS에서는 wrapper가, Android에서는 native textarea가 최소 높이와 세로 여백을 담당합니다. 실제 wrapper 높이가 달라질 때만 Keyboard Avoiding 위치를 다시 계산합니다. 고정 높이가 필요하면 `autoresize={false}`와 명시적인 `height`를 함께 사용합니다.
+
+Android에서는 SEED typography의 줄 높이를 맞추기 위해 `line-spacing="3.2px"`를 기본 적용합니다. `line-spacing`을 명시하면 모든 플랫폼에서 해당 값이 우선하며, Android의 기본 보정은 `line-spacing={0}`으로 해제할 수 있습니다. `fontSize`나 `lineHeight`를 직접 변경한다면 이에 맞는 `line-spacing`도 함께 지정해야 합니다.
 
 ```tsx
 <TextField label="소개">
@@ -113,11 +115,17 @@ export function Form() {
 
 ## Web Version Differences
 
-- HTML `<textarea>` 대신 Lynx native `<textarea>` element를 렌더링합니다.
+- 편집 가능한 상태에서는 HTML `<textarea>` 대신 Lynx native `<textarea>` element를 렌더링합니다.
+- `readOnly` 상태에서는 native focus·selection·잘라내기 메뉴를 제거하기 위해 `<text>` element로 렌더링합니다. 이 상태의 ref는 `<text>`를 가리키며 textarea 전용 UI method와 이벤트는 사용할 수 없습니다.
 - `onChange` 대신 snippet `TextField`의 `onValueChange`를 사용합니다. 원문과 grapheme 단위로 자른 값을 함께 제공합니다.
 - native `bindinput`은 `TextFieldTextarea`에 추가로 전달할 수 있습니다.
 - `Field.Label`과 입력의 DOM id 연결이 없으므로 `accessibility-label`을 입력에 직접 제공합니다.
-- autoresize는 DOM `scrollHeight` 대신 보이지 않는 `<text>` 측정 노드로 구현합니다.
+- autoresize는 DOM `scrollHeight` 대신 native intrinsic height를 사용합니다. iOS는 wrapper가 세로 여백을 소유하고, Android는 `EditText` 자체가 세로 여백과 최소 높이를 소유해 native drawing 경계에서 첫 줄이 잘리지 않도록 합니다.
+- Android에서는 CSS `line-height`가 native textarea에 적용되지 않아 `line-spacing="3.2px"`를 기본 적용합니다. 명시적인 `line-spacing` 값이 이 기본값보다 우선합니다.
+- controlled textarea도 native 입력 이벤트를 그대로 유지하고, 외부에서 값이 달라진 경우에만 `setValue`로 동기화합니다. 입력마다 `readonly`를 토글하지 않아 줄 추가 시 native scroll offset과 높이 측정이 초기화되지 않습니다.
+- Android의 fullscreen extract input은 기본적으로 비활성화합니다. 필요한 경우 `android-fullscreen-mode={true}`를 명시합니다.
+- `KeyboardAvoidingScrollView`가 키보드 회피를 전담하는 화면에서는 Android host window의 별도 pan/resize를 막기 위해 `android-set-soft-input-mode="nothing"`을 명시할 수 있습니다. 이 값은 host window 전역에 영향을 주므로 컴포넌트가 자동으로 적용하지 않습니다.
+- `size="responsive"`는 CSS viewport breakpoint가 없는 Lynx에서 지원하지 않습니다. `large` 또는 `medium`을 명시합니다.
 
 ## Unsupported Lynx Features
 

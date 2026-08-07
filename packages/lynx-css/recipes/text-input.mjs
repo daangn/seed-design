@@ -7,6 +7,10 @@ const textInputSlotNames = [
     "seed-text-input__root"
   ],
   [
+    "baseStroke",
+    "seed-text-input__baseStroke"
+  ],
+  [
     "stroke",
     "seed-text-input__stroke"
   ],
@@ -19,16 +23,24 @@ const textInputSlotNames = [
     "seed-text-input__textareaRoot"
   ],
   [
+    "textareaAutoresizeRoot",
+    "seed-text-input__textareaAutoresizeRoot"
+  ],
+  [
     "textareaValue",
     "seed-text-input__textareaValue"
   ],
   [
-    "textareaControl",
-    "seed-text-input__textareaControl"
+    "textareaFixed",
+    "seed-text-input__textareaFixed"
   ],
   [
-    "textareaMirror",
-    "seed-text-input__textareaMirror"
+    "textareaNativeAutoresize",
+    "seed-text-input__textareaNativeAutoresize"
+  ],
+  [
+    "textareaAndroidAutoresize",
+    "seed-text-input__textareaAndroidAutoresize"
   ],
   [
     "prefixText",

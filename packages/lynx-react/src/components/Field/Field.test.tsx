@@ -45,7 +45,9 @@ describe("Field", () => {
     expect(root.querySelector(".seed-field__footer")).toBeInTheDocument();
     expect(getByText("제목")).toHaveClass("seed-field-label__root--weight_bold");
     expect(getByText("필수")).toHaveClass("seed-field-label__indicatorText");
+    expect(getByText("필수").textContent).toBe("\u00a0필수");
     expect(getByText("*")).toHaveAttribute("accessibility-elements-hidden", "true");
+    expect(getByText("*").textContent).toBe("\u200a*");
     expect(getByText("설명")).toHaveClass("seed-field__description");
     expect(root.querySelector(".seed-field__characterCount")).toHaveTextContent("3");
     expect(root.querySelector(".seed-field__maxCharacterCount")).toHaveTextContent("/10");

@@ -15,6 +15,5 @@ export {
   type FieldHeaderProps as HeaderProps,
   type FieldIndicatorTextProps as IndicatorTextProps,
   type FieldLabelProps as LabelProps,
-  type FieldRequiredIndicatorProps as RequiredIndicatorProps,
   type FieldRootProps as RootProps,
 } from "./Field";

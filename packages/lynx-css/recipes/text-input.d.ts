@@ -31,7 +31,7 @@ declare type TextInputVariantMap = {
 
 export declare type TextInputVariantProps = Partial<TextInputVariant>;
 
-export declare type TextInputSlotName = "root" | "stroke" | "value" | "textareaRoot" | "textareaValue" | "textareaControl" | "textareaMirror" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon";
+export declare type TextInputSlotName = "root" | "baseStroke" | "stroke" | "value" | "textareaRoot" | "textareaAutoresizeRoot" | "textareaValue" | "textareaFixed" | "textareaNativeAutoresize" | "textareaAndroidAutoresize" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon";
 
 export declare const textInputVariantMap: TextInputVariantMap;
 

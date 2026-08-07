@@ -11,7 +11,7 @@ type FieldRootRef = React.ComponentRef<typeof SeedField.Root>;
 
 export interface TextFieldProps
   extends Omit<SeedTextField.RootProps, "children" | "onValueChange"> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   label?: React.ReactNode;
   labelWeight?: SeedField.LabelProps["weight"];
   indicator?: React.ReactNode;

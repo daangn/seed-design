@@ -5,12 +5,15 @@ const textInput = defineSlotRecipe({
   name: "text-input",
   slots: [
     "root",
+    "baseStroke",
     "stroke",
     "value",
     "textareaRoot",
+    "textareaAutoresizeRoot",
     "textareaValue",
-    "textareaControl",
-    "textareaMirror",
+    "textareaFixed",
+    "textareaNativeAutoresize",
+    "textareaAndroidAutoresize",
     "prefixText",
     "prefixIcon",
     "suffixText",
@@ -24,6 +27,10 @@ const textInput = defineSlotRecipe({
       alignItems: "center",
       overflow: "hidden",
       position: "relative",
+    },
+    baseStroke: {
+      position: "absolute",
+      pointerEvents: "none",
     },
     stroke: {
       position: "absolute",
@@ -48,26 +55,20 @@ const textInput = defineSlotRecipe({
     textareaRoot: {
       flexGrow: 1,
       minWidth: 0,
-      position: "relative",
       alignSelf: "stretch",
+      display: "flex",
+      flexDirection: "column",
+      position: "relative",
     },
+    textareaAutoresizeRoot: {},
     textareaValue: {},
-    textareaControl: {
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+    textareaFixed: {},
+    textareaNativeAutoresize: {
       width: "100%",
-      height: "100%",
+      height: "auto",
+      flexShrink: 0,
     },
-    textareaMirror: {
-      width: "100%",
-      visibility: "hidden",
-      whiteSpace: "normal",
-      wordBreak: "break-all",
-      pointerEvents: "none",
-    },
+    textareaAndroidAutoresize: {},
     prefixText: {
       color: vars.base.enabled.prefixText.color,
       fontWeight: vars.base.enabled.prefixText.fontWeight,
@@ -90,8 +91,14 @@ const textInput = defineSlotRecipe({
   variants: {
     variant: {
       outline: {
-        root: {
-          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+        baseStroke: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          borderColor: vars.base.enabled.root.strokeColor,
+          borderStyle: "solid",
+          borderWidth: vars.variantOutline.enabled.root.strokeWidth,
         },
         stroke: {
           borderStyle: "solid",
@@ -100,7 +107,14 @@ const textInput = defineSlotRecipe({
       },
       underline: {
         root: {
-          boxShadow: `inset 0 calc(${vars.variantUnderline.enabled.root.strokeBottomWidth} * -1) 0 0 ${vars.base.enabled.root.strokeColor}`,
+          overflow: "visible",
+        },
+        baseStroke: {
+          right: 0,
+          bottom: 0,
+          left: 0,
+          height: vars.variantUnderline.enabled.root.strokeBottomWidth,
+          backgroundColor: vars.base.enabled.root.strokeColor,
         },
         stroke: {
           borderWidth: 0,
@@ -111,14 +125,34 @@ const textInput = defineSlotRecipe({
     },
     size: {
       large: {
-        textareaValue: {
+        textareaAutoresizeRoot: {
+          minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
+          paddingTop: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+          paddingBottom: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+        },
+        textareaAndroidAutoresize: {
+          minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
+          paddingTop: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+          paddingBottom: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+        },
+        textareaFixed: {
           minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
           paddingTop: vars.typeMultilineSizeLarge.enabled.root.paddingY,
           paddingBottom: vars.typeMultilineSizeLarge.enabled.root.paddingY,
         },
       },
       medium: {
-        textareaValue: {
+        textareaAutoresizeRoot: {
+          minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
+          paddingTop: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+          paddingBottom: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+        },
+        textareaAndroidAutoresize: {
+          minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
+          paddingTop: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+          paddingBottom: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+        },
+        textareaFixed: {
           minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
           paddingTop: vars.typeMultilineSizeMedium.enabled.root.paddingY,
           paddingBottom: vars.typeMultilineSizeMedium.enabled.root.paddingY,
@@ -171,6 +205,9 @@ const textInput = defineSlotRecipe({
         stroke: {
           borderRadius: vars.variantOutlineSizeLarge.enabled.root.cornerRadius,
         },
+        baseStroke: {
+          borderRadius: vars.variantOutlineSizeLarge.enabled.root.cornerRadius,
+        },
         value: {
           fontSize: vars.variantOutlineSizeLarge.enabled.value.fontSize,
           lineHeight: vars.variantOutlineSizeLarge.enabled.value.lineHeight,
@@ -205,6 +242,9 @@ const textInput = defineSlotRecipe({
           paddingRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
         },
         stroke: {
+          borderRadius: vars.variantOutlineSizeMedium.enabled.root.cornerRadius,
+        },
+        baseStroke: {
           borderRadius: vars.variantOutlineSizeMedium.enabled.root.cornerRadius,
         },
         value: {

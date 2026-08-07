@@ -103,10 +103,13 @@ export function Form() {
 
 ## Web Version Differences
 
-- HTML `<input>` 대신 Lynx native `<input>` element를 렌더링합니다.
+- 편집 가능한 상태에서는 HTML `<input>` 대신 Lynx native `<input>` element를 렌더링합니다.
+- `readOnly` 상태에서는 native focus·selection·잘라내기 메뉴를 제거하기 위해 `<text>` element로 렌더링합니다. 이 상태의 ref는 `<text>`를 가리키며 input 전용 UI method와 이벤트는 사용할 수 없습니다.
 - `onChange` 대신 snippet `TextField`의 `onValueChange`를 사용합니다. 원문과 grapheme 단위로 자른 값을 함께 제공합니다.
 - native `bindinput`은 `TextFieldInput`에 추가로 전달할 수 있습니다.
 - `Field.Label`과 입력의 DOM id 연결이 없으므로 `accessibility-label`을 입력에 직접 제공합니다.
+- `KeyboardAvoidingScrollView`가 키보드 회피를 전담하는 화면에서는 Android host window의 별도 pan/resize를 막기 위해 `android-set-soft-input-mode="nothing"`을 명시할 수 있습니다. 이 값은 host window 전역에 영향을 주므로 컴포넌트가 자동으로 적용하지 않습니다.
+- `size="responsive"`는 CSS viewport breakpoint가 없는 Lynx에서 지원하지 않습니다. `large` 또는 `medium`을 명시합니다.
 
 ## Unsupported Lynx Features
 

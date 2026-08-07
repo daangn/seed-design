@@ -136,6 +136,7 @@ export const FieldIndicatorText = React.forwardRef<unknown, FieldIndicatorTextPr
         className={clsx(classes.indicatorText, className)}
         {...nativeProps}
       >
+        {"\u00a0"}
         {children}
       </text>
     );
@@ -157,6 +158,7 @@ export const FieldRequiredIndicator = React.forwardRef<unknown, FieldRequiredInd
         className={clsx(classes.indicatorIcon, className)}
         {...nativeProps}
       >
+        {"\u200a"}
         {children}
       </text>
     );
