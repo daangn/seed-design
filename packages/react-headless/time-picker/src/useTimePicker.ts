@@ -195,7 +195,7 @@ export function useTimePicker({
   minuteStep = DEFAULT_MINUTE_STEP,
   locale = DEFAULT_LOCALE,
   disabled = false,
-}: UseTimePickerProps) {
+}: UseTimePickerProps = {}) {
   assertValidMinuteStep(minuteStep);
   if (valueProp !== undefined) assertValidValue(valueProp, "value");
   if (defaultValue !== undefined) assertValidValue(defaultValue, "defaultValue");

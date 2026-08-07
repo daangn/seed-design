@@ -9,6 +9,12 @@ function renderTimePicker(props: UseTimePickerProps = {}) {
 }
 
 describe("useTimePicker", () => {
+  it("인자 없이 호출할 수 있다", () => {
+    const { result } = renderHook(() => useTimePicker());
+
+    expect(result.current.value).toEqual({ hour: 0, minute: 0 });
+  });
+
   it("값이 없으면 00:00을 사용한다", () => {
     const { result } = renderTimePicker();
 
