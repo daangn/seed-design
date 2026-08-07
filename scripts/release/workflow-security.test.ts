@@ -85,6 +85,19 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(parsed.every((item) => Object.keys(item.jobs).length > 0)).toBe(true);
   });
 
+  test("bootstrap은 Daangn Bud로 브랜치만 생성하고 보호 규칙은 수동 설정한다", async () => {
+    const [bootstrapWorkflow, bootstrapScript] = await Promise.all([
+      readFile(".github/workflows/release-bootstrap.yml", "utf8"),
+      readFile("scripts/release/bootstrap.ts", "utf8"),
+    ]);
+
+    expect(bootstrapWorkflow).toContain("actions/create-github-app-token@v3");
+    expect(bootstrapWorkflow).toContain("vars.DAANGN_BUD_CLIENT_ID");
+    expect(bootstrapWorkflow).toContain("secrets.DAANGN_BUD_PRIVATE_KEY");
+    expect(bootstrapWorkflow).not.toContain("RELEASE_ADMIN_TOKEN");
+    expect(bootstrapScript).not.toContain("/protection");
+  });
+
   test("DES-2201 계약은 승인된 소스와 production 환경에서만 R2를 갱신한다", async () => {
     const contract = await readFile(".github/workflows/rootage-release-contract.yml", "utf8");
     expect(contract).toContain("environment: rootage-production");

@@ -239,6 +239,8 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 - `minor`·`major`의 `enter`·`retag`·`exit`와 stable 승격은 보호 브랜치를 직접 수정하지 않고 PR로 수행한다.
 - 레인 동기화는 원본 일반 PR의 최종 diff만 target별 FIFO로 전달하며, 충돌이나 사람 수정이 있으면 자동 merge를 중단한다.
 - `control.json`의 기본값은 `dry-run`이다. DES-2201의 불변 Rootage 게시 계약과 bootstrap E2E가 완료되기 전에는 production으로 전환하지 않는다.
+- 레인 bootstrap은 `DAANGN_BUD_CLIENT_ID`와 `DAANGN_BUD_PRIVATE_KEY`로 발급한 Daangn Bud installation token을 사용해 `minor`·`major` 브랜치만 생성한다.
+- `dev`·`minor`·`major`의 branch protection은 bootstrap 실행 후 저장소 관리자가 수동으로 설정한다. 세 레인 모두 최신 base 반영, `Validate release lane` 필수 검사, 대화 해결을 요구하고 force push와 삭제를 차단한다.
 
 ---
 

@@ -35,7 +35,7 @@ jobs:
           test -z "$OPEN_VERSION_PR"
 
   create-branches:
-    name: Create and protect fixed lanes
+    name: Create fixed lanes
     needs: preflight
     runs-on: ubuntu-latest
     permissions:
@@ -47,10 +47,30 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.3.13"
+      - name: Create Daangn Bud installation token
+        id: bud-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
+          private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
+          permission-contents: write
       - name: Create branches from the same dev SHA
         env:
-          GH_TOKEN: ${{ secrets.RELEASE_ADMIN_TOKEN }}
+          GH_TOKEN: ${{ steps.bud-token.outputs.token }}
         run: bun scripts/release/bootstrap.ts
+      - name: Summarize manual protection setup
+        run: |
+          cat <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          ## 수동 branch protection 설정 필요
+
+          `dev`, `minor`, `major`에 다음 보호 규칙을 설정한 뒤 bootstrap PR을 merge합니다.
+
+          - Require branches to be up to date before merging
+          - Required status check: `Validate release lane`
+          - Require conversation resolution before merging
+          - Block force pushes
+          - Block branch deletion
+          EOF
 
   configure:
     name: Configure ${{ matrix.lane }} beta lane
