@@ -1,5 +1,41 @@
 # @seed-design/react
 
+## 2.2.0
+
+### Minor Changes
+
+- c9acaa6: Time Picker와 Date Picker에서 재사용할 수 있는 Wheel Picker 기반을 추가합니다.
+
+  - 스크롤과 키보드로 값을 선택할 수 있는 headless Wheel Picker를 제공합니다.
+  - React 컴포넌트 내부에서 Scroll Fog와 Selection Indicator를 조합할 수 있는 기반을 추가합니다.
+
+- c9acaa6: Quantity Picker에 부모 Flex 레이아웃의 여유 공간을 채우는 `layout="fill"` 옵션을 추가합니다.
+
+  - 기본값 `layout="hug"`는 기존 크기를 유지합니다.
+  - `layout="fill"`에서는 양쪽 버튼 크기를 유지하고 Value Display 영역만 늘어납니다.
+
+- c9acaa6: `DatePicker` 컴포넌트를 추가합니다.
+
+  - Single, Range, Multiple 선택 모드를 지원합니다.
+  - Month, Two Months, Week, Continuous 레이아웃을 각각 `DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`로 제공합니다.
+  - 날짜 constraints와 예약·가격 표시를 위한 `renderDateCellSupplement`, 내부 콘텐츠 전체를 교체하는 `renderDateCellContent`를 제공합니다.
+  - `actionsRef`를 통해 특정 날짜로 이동하거나 날짜 셀에 포커스할 수 있습니다.
+  - locale 기반 달력, 키보드·스크린 리더 접근성, Wheel Picker를 이용한 월·연도 이동을 지원합니다.
+
+- c9acaa6: `TimePicker` 컴포넌트를 추가합니다.
+
+  - 12시간제 시간 선택 UI와 locale에 따른 컬럼 순서를 지원합니다.
+  - `minuteStep`으로 선택 가능한 분 간격을 설정할 수 있습니다.
+
+### Patch Changes
+
+- Updated dependencies [c9acaa6]
+- Updated dependencies [c9acaa6]
+- Updated dependencies [c9acaa6]
+  - @seed-design/react-wheel-picker@1.0.0
+  - @seed-design/react-date-picker@1.0.0
+  - @seed-design/react-time-picker@1.0.0
+
 ## 2.1.1
 
 ### Patch Changes

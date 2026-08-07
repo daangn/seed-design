@@ -1,6 +1,6 @@
 declare const artifact: {
   "name": "Rootage";
-  "version": "2.3.0";
+  "version": "2.4.0";
   "resources": readonly [
     {
       "path": "/collections.json";
