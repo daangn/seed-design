@@ -9,12 +9,33 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: release-publish
+  group: >-
+    ${{
+      (
+        github.event_name != 'pull_request_target' ||
+        (
+          github.event.pull_request.merged == true &&
+          github.event.pull_request.user.login == 'github-actions[bot]' &&
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          github.event.pull_request.head.ref == format('changeset-release/{0}', github.event.pull_request.base.ref)
+        )
+      )
+      && 'release-publish'
+      || format('release-publish-ignored-{0}', github.run_id)
+    }}
   cancel-in-progress: false
 
 jobs:
   select:
     name: Select oldest approved Version Packages PR
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      (
+        github.event.pull_request.merged == true &&
+        github.event.pull_request.user.login == 'github-actions[bot]' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event.pull_request.head.ref == format('changeset-release/{0}', github.event.pull_request.base.ref)
+      )
     runs-on: ubuntu-latest
     permissions:
       contents: read
