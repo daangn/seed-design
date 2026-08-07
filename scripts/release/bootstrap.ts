@@ -9,7 +9,7 @@ interface GitReference {
 const token = process.env.GH_TOKEN;
 const repository = process.env.GITHUB_REPOSITORY;
 if (!token || !repository)
-  throw new Error("Daangn Bud installation token과 GitHub 저장소 정보가 필요합니다.");
+  throw new Error("릴리즈 bootstrap token과 GitHub 저장소 정보가 필요합니다.");
 
 const control = await loadReleaseControl();
 if (control.mode !== "dry-run" || !control.rootageContractReady || control.freeze) {

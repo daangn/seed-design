@@ -47,16 +47,9 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.3.13"
-      - name: Create Daangn Bud installation token
-        id: bud-token
-        uses: actions/create-github-app-token@v3
-        with:
-          client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
-          private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
-          permission-contents: write
       - name: Create branches from the same dev SHA
         env:
-          GH_TOKEN: ${{ steps.bud-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.RELEASE_BOOTSTRAP_TOKEN }}
         run: bun scripts/release/bootstrap.ts
       - name: Summarize manual protection setup
         run: |

@@ -85,16 +85,15 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(parsed.every((item) => Object.keys(item.jobs).length > 0)).toBe(true);
   });
 
-  test("bootstrap은 Daangn Bud로 브랜치만 생성하고 보호 규칙은 수동 설정한다", async () => {
+  test("bootstrap token은 브랜치만 생성하고 보호 규칙은 수동 설정한다", async () => {
     const [bootstrapWorkflow, bootstrapScript] = await Promise.all([
       readFile(".github/workflows/release-bootstrap.yml", "utf8"),
       readFile("scripts/release/bootstrap.ts", "utf8"),
     ]);
 
-    expect(bootstrapWorkflow).toContain("actions/create-github-app-token@v3");
-    expect(bootstrapWorkflow).toContain("vars.DAANGN_BUD_CLIENT_ID");
-    expect(bootstrapWorkflow).toContain("secrets.DAANGN_BUD_PRIVATE_KEY");
+    expect(bootstrapWorkflow).toContain("secrets.RELEASE_BOOTSTRAP_TOKEN");
     expect(bootstrapWorkflow).not.toContain("RELEASE_ADMIN_TOKEN");
+    expect(bootstrapWorkflow).not.toContain("permission-administration");
     expect(bootstrapScript).not.toContain("/protection");
   });
 
