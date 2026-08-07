@@ -52,7 +52,7 @@
         "@seed-design/css": "2.3.1",
         "@seed-design/lynx-react": "0.3.1",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "2.1.1",
+        "@seed-design/react": "2.1.2",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
@@ -548,7 +548,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "2.1.1",
+      "version": "2.1.2",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -560,14 +560,14 @@
         "@seed-design/react-avatar": "^2.0.1",
         "@seed-design/react-checkbox": "^2.0.1",
         "@seed-design/react-collapsible": "^1.0.1",
-        "@seed-design/react-dialog": "^2.0.2",
-        "@seed-design/react-drawer": "^2.0.3",
+        "@seed-design/react-dialog": "^2.0.3",
+        "@seed-design/react-drawer": "^2.0.4",
         "@seed-design/react-field": "^2.0.1",
         "@seed-design/react-field-button": "^2.0.1",
         "@seed-design/react-fieldset": "^1.0.1",
         "@seed-design/react-file-upload": "^1.0.1",
         "@seed-design/react-image": "^1.1.0",
-        "@seed-design/react-menu": "^2.0.1",
+        "@seed-design/react-menu": "^2.0.2",
         "@seed-design/react-middle-truncate": "^1.0.1",
         "@seed-design/react-navigation-menu": "^2.0.1",
         "@seed-design/react-popover": "^2.0.1",
@@ -578,7 +578,7 @@
         "@seed-design/react-quantity-picker": "^1.0.0",
         "@seed-design/react-radio-group": "^2.0.1",
         "@seed-design/react-segmented-control": "^2.0.2",
-        "@seed-design/react-select": "^1.0.0",
+        "@seed-design/react-select": "^1.0.1",
         "@seed-design/react-side-navigation": "^1.0.1",
         "@seed-design/react-slider": "^2.0.1",
         "@seed-design/react-snackbar": "^2.0.1",
@@ -710,7 +710,7 @@
     },
     "packages/react-headless/dialog": {
       "name": "@seed-design/react-dialog",
-      "version": "2.0.2",
+      "version": "2.0.3",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-focus-scope": "^1.1.4",
@@ -751,7 +751,7 @@
     },
     "packages/react-headless/drawer": {
       "name": "@seed-design/react-drawer",
-      "version": "2.0.3",
+      "version": "2.0.4",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-focus-scope": "^1.1.4",
@@ -890,7 +890,7 @@
     },
     "packages/react-headless/menu": {
       "name": "@seed-design/react-menu",
-      "version": "2.0.1",
+      "version": "2.0.2",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
@@ -1144,7 +1144,7 @@
     },
     "packages/react-headless/select": {
       "name": "@seed-design/react-select",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
