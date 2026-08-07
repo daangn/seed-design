@@ -106,4 +106,13 @@ describe("릴리즈 workflow 권한 경계", () => {
     );
     expect(contract).not.toContain("pull_request_target");
   });
+
+  test("Rootage 계약 준비 상태는 activation workflow가 PR로 변경한다", async () => {
+    const activation = await readFile(".github/workflows/release-activation.yml", "utf8");
+    expect(activation).toContain(
+      "options: [enable-rootage-contract, enable-sync, enable-production]",
+    );
+    expect(activation).toContain("bun scripts/release/cli.ts activation");
+    expect(activation).toContain("git add .github/release/lanes.json .github/release/control.json");
+  });
 });
