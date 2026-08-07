@@ -1,0 +1,150 @@
+---
+title: Date Picker
+description: 캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.
+coverImage: /og/components/date-picker
+---
+
+Date Picker는 캘린더에서 날짜를 직접 골라 입력받는 컴포넌트입니다. 날짜 그리드를 핵심으로, Layout에 따라 화면에 바로 펼쳐지거나(Inline) 트리거를 눌러 Popover·Sheet로 떠오릅니다. Selection으로 하루·기간·여러 날짜 중 어떤 방식으로 고를지 정합니다.
+
+시간(시·분) 입력은 Date Picker에 포함되지 않습니다. 날짜와 시간을 함께 받아야 할 때는 Date Picker와 [Time Picker](/components/time-picker)를 나란히 배치합니다.
+
+## Anatomy
+
+<FigmaImage
+  id="2359:9559"
+  alt="Date Picker의 Anatomy 이미지. Header, Weekday Row, Date Grid로 구성됩니다."
+/>
+
+Date Picker는 선택 상태를 관리하는 root 아래에, 선택 UI를 담는 surface를 둡니다.
+
+- **Header**: monthYearLabel(현재 연·월, 누르면 월·연도 picker가 열림) · prevButton · nextButton로 구성됩니다.
+- **Weekday Row**: 일요일부터 토요일까지 요일 이름 7개입니다.
+- **Date Grid**: 한 달의 날짜를 요일에 맞춰 배치한 그리드입니다. 각 칸이 dateCell이며, 달의 앞뒤 빈 자리는 비워 둡니다. Visible Range가 Week이면 한 주(7칸)만 보여줍니다.
+
+### 월·연도 전환
+
+<FigmaImage
+  id="2359:9573"
+  alt="월·연도 picker가 닫힌 상태와 열린 상태 비교"
+/>
+<FigmaImage
+  id="2359:9580"
+  alt="Visible Range가 Week일 때 월·연도 picker가 monthYearLabel에 anchor된 popover로 떠오르는 닫힘·열림 비교"
+/>
+
+monthYearLabel을 누르면 캘린더 그리드 자리에 월·연도를 고르는 picker가 떠오릅니다. 연(년) 칼럼과 월 칼럼이 휠 형태로 나란히 표시되고, 가운데 강조된 행이 현재 선택된 연·월입니다. 휠을 굴려 선택을 바꾸고, monthYearLabel을 다시 누르면 캘린더 그리드로 돌아옵니다.
+
+Visible Range가 Week이면 대체할 캘린더 그리드가 한 주뿐이어서, picker가 그리드 자리 대신 monthYearLabel에 anchor된 popover 안에 떠오릅니다. 아래 콘텐츠는 그대로 두고 그 위에 겹쳐지며, 휠 동작과 chevron 방향 전환은 같습니다.
+
+monthYearLabel의 chevron은 picker가 닫혀 있을 때 ▾, 열려 있을 때 ▲로 방향을 뒤집어 현재 상태를 알려줍니다.
+
+prevButton·nextButton은 한 달씩 이동하며, 멀리 떨어진 월·연도로 갈 때는 picker를 씁니다.
+
+## Properties
+
+### Selection
+
+날짜를 어떤 방식으로 선택할지 정하는 Property입니다.
+
+<FigmaImage
+  id="2359:9597"
+  alt="Date Picker의 Selection Property — Single, Range, Multiple 각 선택 예시"
+/>
+
+- **Single**: 하루를 선택합니다. 칸을 누르면 Selected로 바뀌고 valueText가 갱신됩니다. Inline은 즉시 반영되고, Popover·Sheet는 confirmButton을 눌러 확정합니다. 입주 가능일·방문 약속일에 씁니다.
+- **Range**: 시작일과 종료일로 기간을 선택합니다. 첫 탭에서 Range Start를 지정하고, 두 번째 탭에서 시작일 이후면 Range End로 지정되어 사이가 In Range로 이어집니다. 시작일 이전을 누르면 그 날짜를 새 Range Start로 리셋합니다. 범위가 정해진 뒤 다시 탭하면 기존 범위를 해제하고 새로 시작합니다. 광고 기간·여행 일정에 씁니다.
+- **Multiple**: 여러 날짜를 따로따로 선택합니다. 칸을 누를 때마다 Selected가 토글되고, 이미 고른 날짜를 다시 누르면 선택이 풀립니다. 모임 후보일에 씁니다.
+
+Range는 시작·종료 칸을 채우고 그 사이를 연결된 띠로 잇습니다. Multiple은 고른 날짜를 각각 독립된 칸으로 표시하며 띠로 잇지 않습니다.
+
+### Visible Range
+
+캘린더가 한 번에 보여주는 날짜 범위를 정합니다.
+
+<FigmaImage
+  id="2359:9618"
+  alt="Visible Range 사용 맥락 — Month, Continuous, Week 적용 화면 예시"
+/>
+<FigmaImage
+  id="2359:9652"
+  alt="Visible Range Two Months — 데스크탑 Popover에서 두 달을 나란히 표시하는 예시"
+/>
+
+| Value            | 범위                                     | 대표 사용처                              |
+| ---------------- | ---------------------------------------- | ---------------------------------------- |
+| **Month** (기본) | 한 달의 날짜 그리드 전체                 | 입주 가능일·광고 기간·소비기한 등 대부분 |
+| **Two Months**   | 두 달을 가로로 나란히                    | 데스크탑에서 Range를 선택할 때           |
+| **Continuous**   | 여러 달을 세로로 이어 붙여 스크롤로 탐색 | 모바일 Sheet에서 Range를 선택할 때       |
+| **Week**         | 한 주(7칸)만 가로로                      | 모임 일정 캘린더처럼 날짜로 콘텐츠 탐색  |
+
+Layout·Selection과 직교하는 축입니다. 모바일 폼에서는 Month가 기본이고, 데스크탑에서 Range를 다룰 때는 Two Months, 모바일 Sheet에서 Range를 다룰 때는 Continuous를 검토합니다. Week은 캘린더가 화면 콘텐츠 탐색 인터랙션 자체를 담당할 때 씁니다. Week의 월·연도 picker는 그리드를 대체하는 대신 monthYearLabel에 anchor된 popover로 떠오릅니다.
+
+Continuous는 헤더의 prevButton·nextButton·monthYearLabel 대신 스크롤이 이동을 담당합니다. weekdayRow는 상단에 고정되어 어느 달로 스크롤해도 요일이 보이고, 각 달은 연·월 라벨 + dateGrid 묶음으로 반복됩니다. Selection이 Range일 때 footer에는 confirmButton(선택)과 함께 reset 버튼(초기화)을 둡니다.
+
+### Date Cell
+
+dateGrid의 각 칸(dateCell)이 가지는 상태입니다. 날짜의 성격을 색·배경으로 구분해, 고를 수 있는 날짜와 이미 고른 날짜를 한눈에 알 수 있게 합니다.
+
+<FigmaImage
+  id="2359:9664"
+  alt="Date Cell의 상태 — Enabled, Pressed, Today, Selected, Range, In Range, Disabled"
+/>
+
+| State                         | 설명                                                                      |
+| ----------------------------- | ------------------------------------------------------------------------- |
+| **Enabled**                   | 선택할 수 있는 기본 상태입니다.                                            |
+| **Pressed**                   | 칸을 누르고 있는 동안의 상태입니다.                                        |
+| **Today**                     | 오늘 날짜입니다. 옅은 배경으로 표시합니다.                                 |
+| **Selected**                  | 선택된 날짜입니다(Single·Multiple). 채운 배경으로 표시합니다.              |
+| **Range Start** / **Range End** | 기간의 시작·종료 날짜입니다(Range). 채운 배경으로 표시합니다.            |
+| **In Range**                  | 기간 사이의 날짜입니다(Range). 시작·종료를 잇는 연결된 띠로 표시합니다.    |
+| **Disabled**                  | 선택할 수 없는 날짜입니다. 지난 날짜나 예약 불가일에 사용합니다.           |
+
+데스크탑에서는 포인터가 올라간 Hover, 키보드 포커스를 받은 Focused 상태가 더해집니다.
+
+달의 앞뒤 빈 자리(이전·다음 달 날짜)는 흐리게 표시하지 않고 비워 둡니다.
+
+## Guidelines
+
+### Layout 선택하기
+
+<FigmaImage
+  id="2359:9686"
+  alt="Layout 선택 — Inline 사용 맥락 예시"
+/>
+<FigmaImage
+  id="2359:9721"
+  alt="Layout 선택 — Sheet 사용 맥락 예시"
+/>
+<FigmaImage
+  id="2359:9769"
+  alt="Layout 선택 — Popover 사용 맥락 예시"
+/>
+
+날짜 선택이 화면에서 차지하는 비중과 플랫폼에 따라 Layout을 정합니다.
+
+- **Inline**: 날짜 선택이 화면의 핵심 작업이거나, 글쓰기·설정 플로우의 한 단계일 때 사용합니다. 캘린더가 흐름 안에 바로 보여 추가 탭 없이 날짜를 고릅니다. 입주 가능일·광고 기간·모임 일정처럼 단계형 플로우에서 주로 쓰며, 확정은 화면의 액션 영역(다음·완료 등)이 담당합니다.
+- **Sheet**: 모바일 폼에서 입력 필드를 눌러 날짜를 고를 때 사용합니다. 캘린더가 하단 시트로 올라오고, 시트 안의 confirmButton으로 선택을 확정합니다.
+- **Popover**: 데스크탑 폼에서 입력 필드에 anchor된 패널로 캘린더를 띄울 때 사용합니다. 화면 공간이 부족하면 위쪽으로 자동 전환됩니다.
+
+Popover·Sheet의 트리거는 [Input Button](/components/input-button)이나 [Field](/components/field)를 합성해 만듭니다. 폼 라벨·헬퍼 등 폼 컨텍스트와의 연결은 해당 컴포넌트를 따릅니다. 트리거 상태는 해당 컴포넌트의 상태 체계를 그대로 따르고, surface가 열려 있는 동안 Open 상태가 더해집니다. 캘린더 아이콘 노출 같은 트리거 스타일링도 트리거 컴포넌트의 옵션으로 정합니다.
+
+### 진입 시 보여줄 월
+
+<FigmaImage
+  id="2359:9788"
+  alt="캘린더를 열면 오늘이 속한 월이 기본으로 표시되는 예시"
+/>
+
+캘린더를 처음 열면 오늘이 포함된 월을 기본으로 보여줍니다. 사용자가 현재 시점을 기준으로 빠르게 판단할 수 있습니다. 이미 선택된 날짜가 있으면 그 날짜가 속한 월을 먼저 보여줍니다.
+
+### 기간·여러 날짜 선택 안내
+
+<FigmaImage
+  id="2359:9808"
+  alt="Range와 Multiple의 helperText 안내 예시"
+/>
+
+Range에 최소·최대 기간 제약이 있으면 helperText로 미리 안내합니다. 사용자가 선택을 마친 뒤 에러를 마주하기 전에 제약을 알 수 있게 돕습니다. 시작일만 찍힌 미완성 범위에서는 confirmButton을 활성화하지 않습니다.
+
+Multiple의 최소·최대 개수 제약도 helperText로 안내합니다. 선택할 때마다 남은 개수를 알 수 있게 하면 좋습니다.
