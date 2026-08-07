@@ -3,8 +3,9 @@ import { readFile } from "node:fs/promises";
 import { parse } from "yaml";
 
 interface WorkflowJob {
+  if?: string;
   permissions?: Record<string, string> | string;
-  steps?: Array<{ uses?: string; with?: Record<string, string> }>;
+  steps?: Array<{ uses?: string; with?: Record<string, string | boolean> }>;
 }
 
 interface Workflow {
@@ -21,6 +22,19 @@ describe("릴리즈 workflow 권한 경계", () => {
     const validation = await workflow(".github/workflows/release-pr-validation.yml");
     expect(validation.permissions).toEqual({ contents: "read" });
     expect(validation.jobs.validate.permissions).toBeUndefined();
+  });
+
+  test("릴리즈 레인 PR만 검증하고 E2E는 내부 패키지를 빌드한다", async () => {
+    const [validation, e2e] = await Promise.all([
+      workflow(".github/workflows/release-pr-validation.yml"),
+      workflow(".github/workflows/release-e2e.yml"),
+    ]);
+
+    expect(validation.jobs.validate.if).toBe(
+      "github.base_ref == 'dev' || github.base_ref == 'minor' || github.base_ref == 'major'",
+    );
+    const setup = e2e.jobs.verify.steps?.find((step) => step.uses === "./.github/actions/setup");
+    expect(setup?.with?.["build-packages"]).toBe(true);
   });
 
   test("npm publish job만 OIDC를 가진다", async () => {

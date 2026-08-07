@@ -29,6 +29,8 @@ jobs:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
+        with:
+          build-packages: true
 
       - name: Verify release unit and integration scenarios
         run: bun test scripts/release tools/rootage-cdn/src
