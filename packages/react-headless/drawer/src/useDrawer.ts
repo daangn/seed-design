@@ -207,6 +207,7 @@ export function useDrawer(props: UseDrawerProps) {
   const drawerWidthRef = useRef(drawerRef.current?.getBoundingClientRect().width || 0);
   const initialDrawerHeight = useRef(0);
   const drawerHeightBeforeKeyboard = useRef<string | null>(null);
+  const drawerMinHeightBeforeKeyboard = useRef<string | null>(null);
 
   const onSnapPointChange = useCallback(
     (activeSnapPointIndex: number) => {
@@ -552,6 +553,7 @@ export function useDrawer(props: UseDrawerProps) {
       if (!drawerRef.current || drawerHeightBeforeKeyboard.current !== null) return;
 
       drawerHeightBeforeKeyboard.current = drawerRef.current.style.height;
+      drawerMinHeightBeforeKeyboard.current = drawerRef.current.style.minHeight;
       initialDrawerHeight.current = drawerRef.current.getBoundingClientRect().height || 0;
     }
 
@@ -559,7 +561,9 @@ export function useDrawer(props: UseDrawerProps) {
       if (!drawerRef.current || drawerHeightBeforeKeyboard.current === null) return;
 
       drawerRef.current.style.height = drawerHeightBeforeKeyboard.current;
+      drawerRef.current.style.minHeight = drawerMinHeightBeforeKeyboard.current ?? "";
       drawerHeightBeforeKeyboard.current = null;
+      drawerMinHeightBeforeKeyboard.current = null;
       initialDrawerHeight.current = 0;
     }
 
@@ -572,10 +576,12 @@ export function useDrawer(props: UseDrawerProps) {
 
       const focusedElement = document.activeElement as HTMLElement;
       const visualViewportHeight = window.visualViewport?.height || 0;
+      const visualViewportOffsetTop = window.visualViewport?.offsetTop || 0;
       const totalHeight = window.innerHeight;
-      let diffFromInitial = totalHeight - visualViewportHeight;
+      const viewportHeightReduction = totalHeight - visualViewportHeight;
+      let keyboardInset = viewportHeightReduction - visualViewportOffsetTop;
       const wasKeyboardOpen = keyboardIsOpen.current;
-      const isKeyboardOpen = diffFromInitial > 60;
+      const isKeyboardOpen = viewportHeightReduction > 60;
 
       keyboardIsOpen.current = isKeyboardOpen;
 
@@ -591,7 +597,7 @@ export function useDrawer(props: UseDrawerProps) {
 
       if (snapPoints && snapPoints.length > 0 && snapPointsOffset && activeSnapPointIndex) {
         const activeSnapPointHeight = snapPointsOffset[activeSnapPointIndex] || 0;
-        diffFromInitial += activeSnapPointHeight;
+        keyboardInset += activeSnapPointHeight;
       }
 
       // Derive the height from the natural height and the viewport alone. Measuring the drawer
@@ -605,12 +611,16 @@ export function useDrawer(props: UseDrawerProps) {
       // room it has left.
       const availableHeight = visualViewportHeight - WINDOW_TOP_OFFSET;
       const targetHeight = fixed
-        ? Math.max(naturalHeight - Math.max(diffFromInitial, 0), 0)
+        ? Math.max(naturalHeight - Math.max(keyboardInset, 0), 0)
         : Math.min(naturalHeight, availableHeight);
 
       drawerRef.current.style.height = `${targetHeight}px`;
+      drawerRef.current.style.minHeight = `${targetHeight}px`;
 
-      drawerRef.current.style.bottom = `${Math.max(diffFromInitial, 0)}px`;
+      // iOS can pan the visual viewport to reveal the focused input. That pan already moves the
+      // sheet up on screen, so only lift it by the keyboard-covered part that remains below the
+      // visual viewport. Ignoring offsetTop applies both movements and hides the sheet header.
+      drawerRef.current.style.bottom = `${Math.max(keyboardInset, 0)}px`;
     }
 
     function onFocusIn(event: FocusEvent) {
@@ -648,6 +658,7 @@ export function useDrawer(props: UseDrawerProps) {
     }
 
     window.visualViewport?.addEventListener("resize", onVisualViewportChange);
+    window.visualViewport?.addEventListener("scroll", onVisualViewportChange);
     document.addEventListener("focusin", onFocusIn, true);
     if (isIOS()) {
       document.addEventListener("focusout", onFocusOut, true);
@@ -659,6 +670,7 @@ export function useDrawer(props: UseDrawerProps) {
       // of the reposition the new snap point just performed.
       cancelAnimationFrame(focusOutFrame);
       window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
+      window.visualViewport?.removeEventListener("scroll", onVisualViewportChange);
       document.removeEventListener("focusin", onFocusIn, true);
       if (isIOS()) {
         document.removeEventListener("focusout", onFocusOut, true);

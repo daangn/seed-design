@@ -474,6 +474,39 @@ describe("키보드 리포지션", () => {
     rectSpy.mockRestore();
   });
 
+  it("iOS가 visual viewport를 패닝해도 시트 헤더가 화면 위로 밀려나지 않는다", () => {
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const rectSpy = mockRect(drawer, 560);
+
+    drawer.style.minHeight = "70vh";
+    input.focus();
+
+    visualViewport.height = window.innerHeight - 400;
+    visualViewport.dispatchEvent(new Event("resize"));
+
+    expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.minHeight).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.bottom).toBe("400px");
+
+    visualViewport.offsetTop = 120;
+    visualViewport.dispatchEvent(new Event("scroll"));
+
+    expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.minHeight).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.bottom).toBe("280px");
+
+    input.blur();
+    act(() => flushFrames());
+
+    expect(drawer.style.height).toBe("");
+    expect(drawer.style.minHeight).toBe("70vh");
+    expect(drawer.style.bottom).toBe("0px");
+
+    rectSpy.mockRestore();
+  });
+
   it("focusout 한 번이면 스냅 변경의 cleanup이 예약된 프레임을 취소한다", () => {
     const { getByTestId } = render(<KeyboardHarness defaultOpen snapPoints={["200px", "400px"]} />);
     const drawer = getByTestId("drawer");
