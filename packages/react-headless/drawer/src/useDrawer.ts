@@ -208,6 +208,14 @@ export function useDrawer(props: UseDrawerProps) {
   const initialDrawerHeight = useRef(0);
   const drawerHeightBeforeKeyboard = useRef<string | null>(null);
   const drawerMinHeightBeforeKeyboard = useRef<string | null>(null);
+  const layoutViewportHeightBeforeKeyboard = useRef(
+    typeof window === "undefined" ? 0 : window.innerHeight,
+  );
+  const layoutViewportWidthBeforeKeyboard = useRef(
+    typeof window === "undefined" ? 0 : window.innerWidth,
+  );
+  const keyboardAnimation = useRef<Animation | null>(null);
+  const keyboardDismissalPending = useRef(false);
 
   const onSnapPointChange = useCallback(
     (activeSnapPointIndex: number) => {
@@ -238,6 +246,13 @@ export function useDrawer(props: UseDrawerProps) {
     direction,
     snapToSequentialPoint,
   });
+
+  // useSnapPoints tracks window dimensions and consequently creates a new empty offsets array on
+  // every keyboard-driven window resize. A drawer without snap points must not restart the
+  // keyboard effect for that irrelevant array change: doing so creates a listener gap where both
+  // native autoFocus and the final visualViewport event can be missed.
+  const keyboardSnapPointsOffset = snapPoints?.length ? snapPointsOffset : undefined;
+  const keyboardActiveSnapPointIndex = snapPoints?.length ? activeSnapPointIndex : null;
 
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
     if (!dismissible && !snapPoints) return;
@@ -549,26 +564,284 @@ export function useDrawer(props: UseDrawerProps) {
   }, [isOpen]);
 
   useEffect(() => {
-    function captureDrawerHeight() {
-      if (!drawerRef.current || drawerHeightBeforeKeyboard.current !== null) return;
+    let keyboardRepositionFrame: number | null = null;
+    let keyboardRepositionTimeout: number | null = null;
 
-      drawerHeightBeforeKeyboard.current = drawerRef.current.style.height;
-      drawerMinHeightBeforeKeyboard.current = drawerRef.current.style.minHeight;
-      initialDrawerHeight.current = drawerRef.current.getBoundingClientRect().height || 0;
+    function updateLayoutViewportBaseline() {
+      const widthChanged =
+        Math.abs(layoutViewportWidthBeforeKeyboard.current - window.innerWidth) > 1;
+
+      if (widthChanged) {
+        // A real viewport-width change (for example device rotation) starts a new baseline. During
+        // ordinary keyboard transitions iOS can shrink innerHeight while width stays unchanged, so
+        // never let that transient height replace the larger keyboard-closed measurement.
+        layoutViewportWidthBeforeKeyboard.current = window.innerWidth;
+        layoutViewportHeightBeforeKeyboard.current = window.innerHeight;
+        return;
+      }
+
+      layoutViewportHeightBeforeKeyboard.current = Math.max(
+        layoutViewportHeightBeforeKeyboard.current,
+        window.innerHeight,
+      );
+    }
+
+    function getScrollableAncestor(target: Element): HTMLElement | null {
+      const drawer = drawerRef.current;
+      let ancestor = target.parentElement;
+
+      while (ancestor && ancestor !== drawer) {
+        const style = getComputedStyle(ancestor);
+        const scrollsVertically = /(auto|scroll)/.test(`${style.overflow} ${style.overflowY}`);
+
+        if (scrollsVertically && ancestor.scrollHeight > ancestor.clientHeight) {
+          return ancestor;
+        }
+
+        ancestor = ancestor.parentElement;
+      }
+
+      return null;
+    }
+
+    function scrollFocusedInputIntoView() {
+      const drawer = drawerRef.current;
+      const focusedElement = document.activeElement;
+      if (!drawer || !(focusedElement instanceof HTMLElement) || !isInput(focusedElement)) return;
+      if (!drawer.contains(focusedElement)) return;
+
+      // `scrollIntoView({ container: "nearest" })` would express this directly, but Safari does
+      // not support the container option yet. Moving only the closest overflowing ancestor keeps
+      // iOS from scrolling the page or the drawer itself while the keyboard changes the viewport.
+      const scrollable = getScrollableAncestor(focusedElement);
+      if (!scrollable) return;
+
+      const visualViewport = window.visualViewport;
+      const scrollableRect = scrollable.getBoundingClientRect();
+      const targetRect = focusedElement.getBoundingClientRect();
+      const viewportTop = visualViewport?.offsetTop ?? 0;
+      const viewportBottom = viewportTop + (visualViewport?.height ?? window.innerHeight);
+      const visibleTop = Math.max(scrollableRect.top, viewportTop);
+      const visibleBottom = Math.min(scrollableRect.bottom, viewportBottom);
+
+      if (visibleBottom <= visibleTop) return;
+
+      let adjustment = 0;
+      if (targetRect.top < visibleTop) {
+        adjustment = targetRect.top - visibleTop;
+      } else if (targetRect.bottom > visibleBottom) {
+        adjustment = targetRect.bottom - visibleBottom;
+      }
+
+      if (Math.abs(adjustment) < 0.5) return;
+
+      scrollable.scrollTo({
+        top: Math.max(
+          0,
+          Math.min(
+            scrollable.scrollHeight - scrollable.clientHeight,
+            scrollable.scrollTop + adjustment,
+          ),
+        ),
+        behavior: "smooth",
+      });
+    }
+
+    function getKeyboardAnimationOptions(drawer: HTMLDivElement): KeyframeAnimationOptions | null {
+      const transition = getComputedStyle(drawer)
+        .getPropertyValue("--drawer-keyboard-transition")
+        .trim();
+      const durationMatch = transition.match(/(?:^|\s)(\d*\.?\d+)(ms|s)(?=\s|$)/);
+
+      if (!durationMatch) return null;
+
+      const durationValue = Number.parseFloat(durationMatch[1]);
+      const duration = durationMatch[2] === "s" ? durationValue * 1000 : durationValue;
+
+      if (!Number.isFinite(duration) || duration <= 0) return null;
+
+      const easing = transition.match(
+        /cubic-bezier\([^)]*\)|steps\([^)]*\)|linear\([^)]*\)|ease-in-out|ease-in|ease-out|ease|linear/,
+      )?.[0];
+
+      return {
+        duration,
+        easing: easing || "ease",
+        fill: "both",
+      };
+    }
+
+    function updateDrawerGeometry(updateSize: (drawer: HTMLDivElement) => void, bottom: number) {
+      const drawer = drawerRef.current;
+      if (!drawer) return;
+
+      const animationOptions = getKeyboardAnimationOptions(drawer);
+      const previousRect = drawer.getBoundingClientRect();
+      const computedBottom = Number.parseFloat(getComputedStyle(drawer).bottom);
+      const previousBottom = Number.isFinite(computedBottom)
+        ? computedBottom
+        : Math.max(window.innerHeight - previousRect.bottom, 0);
+
+      keyboardAnimation.current?.cancel();
+      keyboardAnimation.current = null;
+
+      const previousKeyboardTransition = drawer.style.getPropertyValue(
+        "--drawer-keyboard-transition",
+      );
+
+      // First commit the final size and position without a CSS transition. Safari can otherwise
+      // paint the synchronous height change before it starts the `bottom` transition, exposing a
+      // frame where the sheet briefly shrinks toward the bottom or grows above the viewport.
+      drawer.style.setProperty("--drawer-keyboard-transition", "bottom 0s");
+      updateSize(drawer);
+      drawer.style.bottom = `${bottom}px`;
+      const nextRect = drawer.getBoundingClientRect();
+      const nextHeight = drawer.style.height;
+      const nextMinHeight = drawer.style.minHeight;
+      const nextBottom = drawer.style.bottom;
+
+      if (
+        !animationOptions ||
+        typeof drawer.animate !== "function" ||
+        (Math.abs(previousRect.height - nextRect.height) < 0.5 &&
+          Math.abs(previousBottom - bottom) < 0.5)
+      ) {
+        if (previousKeyboardTransition) {
+          drawer.style.setProperty("--drawer-keyboard-transition", previousKeyboardTransition);
+        } else {
+          drawer.style.removeProperty("--drawer-keyboard-transition");
+        }
+        return;
+      }
+
+      // WAAPI keeps height and bottom on one timeline. The underlying layout is already at its
+      // final geometry before playback, so canceling or finishing the animation cannot expose an
+      // intermediate CSS layout. Animating the individual geometry properties also leaves the
+      // drawer's transform available for its open, drag, and snap-point interactions.
+      //
+      // Safari does not necessarily sample a newly-created animation until the next frame. Keep
+      // the authored layout at the previous geometry, pause at the first keyframe, and force that
+      // keyframe to be sampled before committing the final underlying layout. Otherwise Safari
+      // can paint `final -> first keyframe -> final`, which looks like the sheet bouncing twice.
+      drawer.style.height = `${previousRect.height}px`;
+      drawer.style.minHeight = `${previousRect.height}px`;
+      drawer.style.bottom = `${previousBottom}px`;
+
+      const animation = drawer.animate(
+        [
+          {
+            height: `${previousRect.height}px`,
+            minHeight: `${previousRect.height}px`,
+            bottom: `${previousBottom}px`,
+          },
+          {
+            height: `${nextRect.height}px`,
+            minHeight: `${nextRect.height}px`,
+            bottom: `${bottom}px`,
+          },
+        ],
+        animationOptions,
+      );
+
+      animation.pause();
+      animation.currentTime = 0;
+      drawer.getBoundingClientRect();
+
+      drawer.style.height = nextHeight;
+      drawer.style.minHeight = nextMinHeight;
+      drawer.style.bottom = nextBottom;
+      drawer.getBoundingClientRect();
+
+      if (previousKeyboardTransition) {
+        drawer.style.setProperty("--drawer-keyboard-transition", previousKeyboardTransition);
+      } else {
+        drawer.style.removeProperty("--drawer-keyboard-transition");
+      }
+
+      keyboardAnimation.current = animation;
+      animation.play();
+      void animation.finished.then(
+        () => {
+          if (keyboardAnimation.current === animation) {
+            keyboardAnimation.current = null;
+            animation.cancel();
+            scrollFocusedInputIntoView();
+          }
+        },
+        () => {},
+      );
+    }
+
+    function captureDrawerHeight() {
+      const drawer = drawerRef.current;
+      if (!drawer) return false;
+      if (drawerHeightBeforeKeyboard.current !== null) {
+        return initialDrawerHeight.current > 0;
+      }
+
+      const drawerHeight = drawer.getBoundingClientRect().height || 0;
+      if (!Number.isFinite(drawerHeight) || drawerHeight <= 0) return false;
+
+      drawerHeightBeforeKeyboard.current = drawer.style.height;
+      drawerMinHeightBeforeKeyboard.current = drawer.style.minHeight;
+      initialDrawerHeight.current = drawerHeight;
+      return true;
     }
 
     function restoreDrawerHeight() {
       if (!drawerRef.current || drawerHeightBeforeKeyboard.current === null) return;
 
-      drawerRef.current.style.height = drawerHeightBeforeKeyboard.current;
-      drawerRef.current.style.minHeight = drawerMinHeightBeforeKeyboard.current ?? "";
+      updateDrawerGeometry((drawer) => {
+        drawer.style.height = drawerHeightBeforeKeyboard.current ?? "";
+        drawer.style.minHeight = drawerMinHeightBeforeKeyboard.current ?? "";
+      }, 0);
       drawerHeightBeforeKeyboard.current = null;
       drawerMinHeightBeforeKeyboard.current = null;
       initialDrawerHeight.current = 0;
     }
 
+    function reconcileFocusedInput() {
+      const focusedElement = document.activeElement;
+      if (
+        !(focusedElement instanceof HTMLElement) ||
+        !isInput(focusedElement) ||
+        !drawerRef.current?.contains(focusedElement)
+      ) {
+        return;
+      }
+
+      if (captureDrawerHeight()) onVisualViewportChange();
+    }
+
+    function scheduleKeyboardReposition() {
+      if (keyboardRepositionFrame === null) {
+        keyboardRepositionFrame = window.requestAnimationFrame(() => {
+          keyboardRepositionFrame = null;
+          reconcileFocusedInput();
+        });
+      }
+
+      if (keyboardRepositionTimeout === null) {
+        // A quick close-and-reopen can reverse the native keyboard animation without producing a
+        // final visualViewport event after this effect is attached. Reconcile once more after both
+        // drawer transition durations so the settled viewport always wins.
+        keyboardRepositionTimeout = window.setTimeout(
+          () => {
+            keyboardRepositionTimeout = null;
+            reconcileFocusedInput();
+          },
+          (TRANSITIONS.ENTER_DURATION + TRANSITIONS.EXIT_DURATION) * 1000,
+        );
+      }
+    }
+
     function onVisualViewportChange() {
-      if (!drawerRef.current || !repositionInputs) return;
+      if (!repositionInputs) return;
+      if (!isOpen) {
+        updateLayoutViewportBaseline();
+        return;
+      }
+      if (!drawerRef.current) return;
       // Pinch zoom shrinks the visual viewport for reasons that have nothing to do with the
       // keyboard, so `diffFromInitial` below would read the zoom as keyboard height and resize the
       // drawer to match. Leave it alone until the zoom is released.
@@ -577,11 +850,27 @@ export function useDrawer(props: UseDrawerProps) {
       const focusedElement = document.activeElement as HTMLElement;
       const visualViewportHeight = window.visualViewport?.height || 0;
       const visualViewportOffsetTop = window.visualViewport?.offsetTop || 0;
-      const totalHeight = window.innerHeight;
+      // During a quick keyboard close-and-reopen Safari can temporarily shrink window.innerHeight
+      // to the visual viewport as well. Comparing those two live values would then report no
+      // keyboard even though it is visible. Keep the layout viewport measured while the drawer was
+      // closed (or before focus) as the stable baseline for this keyboard session.
+      const totalHeight = Math.max(layoutViewportHeightBeforeKeyboard.current, window.innerHeight);
       const viewportHeightReduction = totalHeight - visualViewportHeight;
       let keyboardInset = viewportHeightReduction - visualViewportOffsetTop;
       const wasKeyboardOpen = keyboardIsOpen.current;
       const isKeyboardOpen = viewportHeightReduction > 60;
+
+      // focusout starts the downward animation before iOS reports the keyboard dismissal through
+      // visualViewport. Ignore the stale keyboard-open resize/scroll events in between, otherwise
+      // they cancel that animation and lift the sheet again. A new input focus cancels this guard.
+      if (keyboardDismissalPending.current) {
+        if (!isKeyboardOpen) {
+          keyboardDismissalPending.current = false;
+          keyboardIsOpen.current = false;
+          updateLayoutViewportBaseline();
+        }
+        return;
+      }
 
       keyboardIsOpen.current = isKeyboardOpen;
 
@@ -589,14 +878,17 @@ export function useDrawer(props: UseDrawerProps) {
 
       if (!isKeyboardOpen) {
         restoreDrawerHeight();
-        drawerRef.current.style.bottom = "0px";
         return;
       }
 
-      captureDrawerHeight();
+      if (!captureDrawerHeight()) {
+        scheduleKeyboardReposition();
+        return;
+      }
 
-      if (snapPoints && snapPoints.length > 0 && snapPointsOffset && activeSnapPointIndex) {
-        const activeSnapPointHeight = snapPointsOffset[activeSnapPointIndex] || 0;
+      if (keyboardSnapPointsOffset && keyboardActiveSnapPointIndex) {
+        const activeSnapPointHeight =
+          keyboardSnapPointsOffset[keyboardActiveSnapPointIndex] || 0;
         keyboardInset += activeSnapPointHeight;
       }
 
@@ -614,47 +906,92 @@ export function useDrawer(props: UseDrawerProps) {
         ? Math.max(naturalHeight - Math.max(keyboardInset, 0), 0)
         : Math.min(naturalHeight, availableHeight);
 
-      drawerRef.current.style.height = `${targetHeight}px`;
-      drawerRef.current.style.minHeight = `${targetHeight}px`;
-
       // iOS can pan the visual viewport to reveal the focused input. That pan already moves the
       // sheet up on screen, so only lift it by the keyboard-covered part that remains below the
       // visual viewport. Ignoring offsetTop applies both movements and hides the sheet header.
-      drawerRef.current.style.bottom = `${Math.max(keyboardInset, 0)}px`;
+      updateDrawerGeometry(
+        (drawer) => {
+          drawer.style.height = `${targetHeight}px`;
+          drawer.style.minHeight = `${targetHeight}px`;
+        },
+        Math.max(keyboardInset, 0),
+      );
+      scrollFocusedInputIntoView();
     }
+
+    let focusOutSequence = 0;
 
     function onFocusIn(event: FocusEvent) {
       const target = event.target;
       if (!repositionInputs || !(target instanceof Element) || !isInput(target)) return;
       if (!drawerRef.current?.contains(target)) return;
 
-      captureDrawerHeight();
-      if (keyboardIsOpen.current) onVisualViewportChange();
-    }
+      focusOutSequence += 1;
+      keyboardDismissalPending.current = false;
+      updateLayoutViewportBaseline();
+      if (!captureDrawerHeight()) scheduleKeyboardReposition();
 
-    // On iOS the keyboard's dismissal only reaches `visualViewport` once it has fully retracted —
-    // measured ~480ms after blur on iOS 27, against ~90ms in the opposite direction — so waiting
-    // for `resize` drops the drawer back down long after the keyboard is gone. Blur fires as the
-    // dismissal starts, so restore both the authored height and the resting position from there.
-    // Other platforms report the dismissal promptly and stay on the `resize` path alone.
-    let focusOutFrame = 0;
+      const visualViewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      if (keyboardIsOpen.current || window.innerHeight - visualViewportHeight > 60) {
+        onVisualViewportChange();
+      }
+      scheduleKeyboardReposition();
+    }
 
     function onFocusOut(event: FocusEvent) {
       const target = event.target;
       if (!repositionInputs || !(target instanceof Element) || !isInput(target)) return;
+      if (!drawerRef.current?.contains(target)) return;
       if ((window.visualViewport?.scale ?? 1) > 1) return;
 
-      // Moving between inputs keeps the keyboard up. `relatedTarget` is null on iOS, so wait for
-      // the focus to settle and read what actually ended up focused.
-      cancelAnimationFrame(focusOutFrame);
-      focusOutFrame = requestAnimationFrame(() => {
-        const activeElement = document.activeElement;
-        if (activeElement && isInput(activeElement)) return;
-        if (!drawerRef.current) return;
+      const relatedTarget = event.relatedTarget;
+      if (
+        relatedTarget instanceof Element &&
+        isInput(relatedTarget) &&
+        drawerRef.current?.contains(relatedTarget)
+      ) {
+        return;
+      }
 
+      // iOS reports a null relatedTarget for the keyboard Done button. Let focus settle in the
+      // current task so input-to-input moves can be detected, but start the restore before the next
+      // frame; visually this is immediate and does not wait for the delayed visualViewport resize.
+      const sequence = ++focusOutSequence;
+      queueMicrotask(() => {
+        if (sequence !== focusOutSequence) return;
+
+        const activeElement = document.activeElement;
+        if (
+          activeElement instanceof Element &&
+          isInput(activeElement) &&
+          drawerRef.current?.contains(activeElement)
+        ) {
+          return;
+        }
+
+        keyboardDismissalPending.current = true;
         restoreDrawerHeight();
-        drawerRef.current.style.bottom = "0px";
       });
+    }
+
+    if (!isOpen) {
+      const drawer = drawerRef.current;
+
+      keyboardAnimation.current?.cancel();
+      keyboardAnimation.current = null;
+
+      if (drawer && drawerHeightBeforeKeyboard.current !== null) {
+        drawer.style.height = drawerHeightBeforeKeyboard.current;
+        drawer.style.minHeight = drawerMinHeightBeforeKeyboard.current ?? "";
+        drawer.style.bottom = "0px";
+      }
+
+      drawerHeightBeforeKeyboard.current = null;
+      drawerMinHeightBeforeKeyboard.current = null;
+      initialDrawerHeight.current = 0;
+      updateLayoutViewportBaseline();
+      keyboardDismissalPending.current = false;
+      keyboardIsOpen.current = false;
     }
 
     window.visualViewport?.addEventListener("resize", onVisualViewportChange);
@@ -664,11 +1001,39 @@ export function useDrawer(props: UseDrawerProps) {
       document.addEventListener("focusout", onFocusOut, true);
     }
 
+    // Native `autoFocus` runs during the commit that opens the drawer. The focus and the first
+    // visualViewport resize can therefore both happen before this effect is re-attached for the
+    // open state. Reconcile the already-focused input once so that path does not leave the sheet
+    // underneath the keyboard.
+    const focusedElement = document.activeElement;
+    if (
+      isOpen &&
+      focusedElement instanceof HTMLElement &&
+      isInput(focusedElement) &&
+      drawerRef.current?.contains(focusedElement)
+    ) {
+      // The previous drawer can close before iOS reports that its keyboard finished dismissing.
+      // In that case the dismissal guard survives into the next open. Native autoFocus can also
+      // happen between this effect's cleanup and setup, so there may be no focusin event to clear
+      // the guard. Treat the already-focused input as a new focus sequence before reconciling the
+      // current viewport.
+      focusOutSequence += 1;
+      keyboardDismissalPending.current = false;
+      if (captureDrawerHeight()) onVisualViewportChange();
+      else scheduleKeyboardReposition();
+      scheduleKeyboardReposition();
+    }
+
     return () => {
-      // This effect re-runs whenever the active snap point changes. Without cancelling, a blur that
-      // lands in the same frame as a snap change would let the stale closure write `bottom` on top
-      // of the reposition the new snap point just performed.
-      cancelAnimationFrame(focusOutFrame);
+      focusOutSequence += 1;
+      if (keyboardRepositionFrame !== null) {
+        window.cancelAnimationFrame(keyboardRepositionFrame);
+      }
+      if (keyboardRepositionTimeout !== null) {
+        window.clearTimeout(keyboardRepositionTimeout);
+      }
+      keyboardAnimation.current?.cancel();
+      keyboardAnimation.current = null;
       window.visualViewport?.removeEventListener("resize", onVisualViewportChange);
       window.visualViewport?.removeEventListener("scroll", onVisualViewportChange);
       document.removeEventListener("focusin", onFocusIn, true);
@@ -676,7 +1041,7 @@ export function useDrawer(props: UseDrawerProps) {
         document.removeEventListener("focusout", onFocusOut, true);
       }
     };
-  }, [activeSnapPointIndex, snapPoints, snapPointsOffset, repositionInputs, fixed]);
+  }, [keyboardActiveSnapPointIndex, keyboardSnapPointsOffset, repositionInputs, fixed, isOpen]);
 
   // Effect 1: Track drawer open state
   useEffect(() => {
