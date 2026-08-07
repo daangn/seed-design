@@ -9,6 +9,10 @@ interface WorkflowJob {
 }
 
 interface Workflow {
+  concurrency?: {
+    group?: string;
+    "cancel-in-progress"?: boolean;
+  };
   permissions?: Record<string, string> | string;
   jobs: Record<string, WorkflowJob>;
 }
@@ -45,6 +49,24 @@ describe("릴리즈 workflow 권한 경계", () => {
       )
       .map(([name]) => name);
     expect(oidcJobs).toEqual(["publish-npm"]);
+  });
+
+  test("publish queue는 신뢰된 Version Packages merge만 PR 이벤트로 처리한다", async () => {
+    const publish = await workflow(".github/workflows/release-publish.yml");
+    const selectCondition = publish.jobs.select.if ?? "";
+    const concurrencyGroup = publish.concurrency?.group ?? "";
+
+    for (const fragment of [
+      "github.event.pull_request.merged == true",
+      "github.event.pull_request.user.login == 'github-actions[bot]'",
+      "github.event.pull_request.head.repo.full_name == github.repository",
+      "format('changeset-release/{0}', github.event.pull_request.base.ref)",
+    ]) {
+      expect(selectCondition).toContain(fragment);
+      expect(concurrencyGroup).toContain(fragment);
+    }
+    expect(concurrencyGroup).toContain("format('release-publish-ignored-{0}', github.run_id)");
+    expect(publish.concurrency?.["cancel-in-progress"]).toBe(false);
   });
 
   test("pull_request_target control workflow는 PR head를 checkout하지 않는다", async () => {
