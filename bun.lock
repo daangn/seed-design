@@ -1396,7 +1396,7 @@
     },
     "packages/react-headless/wheel-picker": {
       "name": "@seed-design/react-wheel-picker",
-      "version": "0.0.0",
+      "version": "1.0.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-controllable-state": "^1.2.2",
