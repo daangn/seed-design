@@ -5,7 +5,12 @@ import { parse } from "yaml";
 interface WorkflowJob {
   if?: string;
   permissions?: Record<string, string> | string;
-  steps?: Array<{ uses?: string; with?: Record<string, string | boolean> }>;
+  steps?: Array<{
+    name?: string;
+    run?: string;
+    uses?: string;
+    with?: Record<string, string | boolean>;
+  }>;
 }
 
 interface Workflow {
@@ -49,6 +54,15 @@ describe("릴리즈 workflow 권한 경계", () => {
       )
       .map(([name]) => name);
     expect(oidcJobs).toEqual(["publish-npm"]);
+  });
+
+  test("detached HEAD에서는 package tag만 원격에 게시한다", async () => {
+    const publish = await workflow(".github/workflows/release-publish.yml");
+    const pushTags = publish.jobs["publish-npm"].steps?.find(
+      (step) => step.name === "Push package tags",
+    );
+
+    expect(pushTags?.run).toBe("git push origin --tags");
   });
 
   test("publish queue는 신뢰된 Version Packages merge만 PR 이벤트로 처리한다", async () => {
