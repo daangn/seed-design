@@ -138,7 +138,7 @@ jobs:
         id: rootage
         run: bun scripts/release/rootage-input.ts "${{ steps.plan.outputs.rootageVersion }}"
       - name: Push package tags
-        run: git push --follow-tags
+        run: git push origin --tags
 
   publish-rootage:
     name: Publish immutable Rootage artifacts
