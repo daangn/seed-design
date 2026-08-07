@@ -371,6 +371,7 @@ describe("useDatePicker", () => {
       );
 
       scrollElement.scrollTop = august?.offset ?? 0;
+      act(() => result.current.continuousScrollProps.onPointerDown());
       act(() =>
         result.current.continuousScrollProps.onScroll({
           currentTarget: scrollElement,
@@ -410,6 +411,7 @@ describe("useDatePicker", () => {
       );
       const userScrollTop = (currentMonth?.offset ?? 0) + 20;
       scrollElement.scrollTop = userScrollTop;
+      act(() => result.current.continuousScrollProps.onPointerDown());
       act(() =>
         result.current.continuousScrollProps.onScroll({
           currentTarget: scrollElement,
@@ -435,6 +437,57 @@ describe("useDatePicker", () => {
       act(() => result.current.refs.continuousMonth(precedingMonth?.key ?? "")(measuredElement));
 
       expect(scrollElement.scrollTop).toBe(userScrollTop);
+      act(() => result.current.refs.continuousMonth(precedingMonth?.key ?? "")(null));
+    } finally {
+      window.requestAnimationFrame = previousRequestAnimationFrame;
+    }
+  });
+
+  it("Continuous 초기 정렬은 월 높이 측정 중 발생한 스크롤 이벤트에도 현재 월을 유지한다", () => {
+    const previousRequestAnimationFrame = window.requestAnimationFrame;
+    window.requestAnimationFrame = (callback) => {
+      callback(0);
+      return 1;
+    };
+
+    try {
+      const { result } = renderDatePicker({
+        visibleRange: "continuous",
+        yearRange: { start: 2026, end: 2027 },
+      });
+      const scrollElement = document.createElement("div");
+      Object.defineProperty(scrollElement, "clientHeight", { value: 420 });
+      act(() => result.current.refs.continuousScroll(scrollElement));
+      const precedingMonth = result.current.months.find(
+        (month) => month.date.year === 2026 && month.date.month === 6,
+      );
+      const measuredElement = document.createElement("div");
+      measuredElement.getBoundingClientRect = () =>
+        ({
+          width: 358,
+          height: 400,
+          top: 0,
+          right: 358,
+          bottom: 400,
+          left: 0,
+          x: 0,
+          y: 0,
+          toJSON: () => {},
+        }) satisfies DOMRect;
+
+      act(() => result.current.refs.continuousMonth(precedingMonth?.key ?? "")(measuredElement));
+      act(() =>
+        result.current.continuousScrollProps.onScroll({
+          currentTarget: scrollElement,
+        } as React.UIEvent<HTMLDivElement>),
+      );
+
+      expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 1 });
+      expect(scrollElement.scrollTop).toBe(
+        result.current.months.find((month) => month.date.year === 2026 && month.date.month === 7)
+          ?.offset,
+      );
+
       act(() => result.current.refs.continuousMonth(precedingMonth?.key ?? "")(null));
     } finally {
       window.requestAnimationFrame = previousRequestAnimationFrame;

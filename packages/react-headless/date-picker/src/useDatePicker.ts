@@ -750,6 +750,7 @@ export function useDatePicker(props: UseDatePickerProps) {
   const [continuousViewportHeight, setContinuousViewportHeight] = React.useState(0);
   const scrollFrameRef = React.useRef<number | null>(null);
   const scrollDrivenViewKeyRef = React.useRef<string | null>(null);
+  const continuousUserScrolledRef = React.useRef(false);
   const continuousSyncRef = React.useRef<{
     element: HTMLDivElement;
     viewKey: string;
@@ -843,6 +844,7 @@ export function useDatePicker(props: UseDatePickerProps) {
         scrollFrameRef.current = null;
         const nextScrollTop = element.scrollTop;
         setContinuousScrollTop(nextScrollTop);
+        if (!continuousUserScrolledRef.current) return;
         const index = findMonthIndexAtOffset(descriptors, nextScrollTop);
         const nextViewDate = descriptors[index]?.date;
         if (nextViewDate && !isSameDate(nextViewDate, viewDate)) {
@@ -854,6 +856,9 @@ export function useDatePicker(props: UseDatePickerProps) {
     },
     [descriptors, setViewDateState, viewDate],
   );
+  const handleContinuousUserScroll = React.useCallback(() => {
+    continuousUserScrolledRef.current = true;
+  }, []);
 
   useLayoutEffect(() => {
     if (!continuousScrollElement || visibleRange !== "continuous") return;
@@ -861,14 +866,17 @@ export function useDatePicker(props: UseDatePickerProps) {
     const previousSync = continuousSyncRef.current;
     const shouldSync =
       previousSync?.element !== continuousScrollElement || previousSync.viewKey !== viewKey;
-    if (!shouldSync) return;
-
-    continuousSyncRef.current = { element: continuousScrollElement, viewKey };
-    if (scrollDrivenViewKeyRef.current === viewKey) {
+    if (shouldSync) {
+      continuousSyncRef.current = { element: continuousScrollElement, viewKey };
+      if (scrollDrivenViewKeyRef.current === viewKey) {
+        scrollDrivenViewKeyRef.current = null;
+        return;
+      }
       scrollDrivenViewKeyRef.current = null;
+      continuousUserScrolledRef.current = false;
+    } else if (continuousUserScrolledRef.current) {
       return;
     }
-    scrollDrivenViewKeyRef.current = null;
     const index = Math.max(
       descriptors.findIndex(
         (descriptor) =>
@@ -877,6 +885,7 @@ export function useDatePicker(props: UseDatePickerProps) {
       0,
     );
     const target = descriptors[index]?.offset ?? 0;
+
     if (Math.abs(continuousScrollElement.scrollTop - target) > 1) {
       continuousScrollElement.scrollTop = target;
       setContinuousScrollTop(target);
@@ -1046,6 +1055,9 @@ export function useDatePicker(props: UseDatePickerProps) {
     }),
     continuousScrollProps: {
       onScroll: handleContinuousScroll,
+      onWheel: handleContinuousUserScroll,
+      onPointerDown: handleContinuousUserScroll,
+      onTouchStart: handleContinuousUserScroll,
     },
     liveRegionProps: elementProps({
       "aria-live": "polite",
