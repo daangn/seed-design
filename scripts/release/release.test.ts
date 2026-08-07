@@ -196,6 +196,42 @@ describe("자동화 PR marker", () => {
     expect(validateGeneratedPr({ ...identity, headRepository: "fork/seed-design" })).toBeNull();
     expect(validateGeneratedPr({ ...identity, author: "person" })).toBeNull();
   });
+
+  test("marker 추가 전 Version Packages PR을 신뢰한다", () => {
+    expect(
+      validateGeneratedPr({
+        author: "github-actions[bot]",
+        body: "This PR was opened by the Changesets release GitHub action.",
+        baseRef: "dev",
+        headRef: "changeset-release/dev",
+        baseRepository: "daangn/seed-design",
+        headRepository: "daangn/seed-design",
+      }),
+    ).toEqual({ schemaVersion: 1, type: "version", lane: "dev" });
+  });
+
+  test("marker 없는 Version Packages PR의 신뢰 조건을 엄격히 검사한다", () => {
+    const versionIdentity: PullRequestIdentity = {
+      author: "github-actions[bot]",
+      body: "This PR was opened by the Changesets release GitHub action.",
+      baseRef: "dev",
+      headRef: "changeset-release/dev",
+      baseRepository: "daangn/seed-design",
+      headRepository: "daangn/seed-design",
+    };
+
+    expect(validateGeneratedPr({ ...versionIdentity, author: "person" })).toBeNull();
+    expect(
+      validateGeneratedPr({ ...versionIdentity, headRepository: "fork/seed-design" }),
+    ).toBeNull();
+    expect(
+      validateGeneratedPr({ ...versionIdentity, headRef: "changeset-release/dev-spoof" }),
+    ).toBeNull();
+    expect(validateGeneratedPr({ ...versionIdentity, baseRef: "feature" })).toBeNull();
+    expect(
+      validateGeneratedPr({ ...versionIdentity, body: "<!-- seed-release:{invalid} -->" }),
+    ).toBeNull();
+  });
 });
 
 describe("pre-release 상태 전환", () => {
