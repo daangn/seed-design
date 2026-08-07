@@ -1681,6 +1681,13 @@
         "vite-plugin-singlefile": "^2.2.0",
       },
     },
+    "tools/rootage-cdn": {
+      "name": "@seed-design/rootage-cdn",
+      "version": "0.0.0",
+      "dependencies": {
+        "s3mini": "0.9.5",
+      },
+    },
   },
   "patchedDependencies": {
     "@figma/rest-api-spec@0.36.0": "patches/@figma%2Frest-api-spec@0.36.0.patch",
@@ -3238,6 +3245,8 @@
     "@seed-design/react-wheel-picker": ["@seed-design/react-wheel-picker@workspace:packages/react-headless/wheel-picker"],
 
     "@seed-design/rootage-artifacts": ["@seed-design/rootage-artifacts@workspace:packages/rootage"],
+
+    "@seed-design/rootage-cdn": ["@seed-design/rootage-cdn@workspace:tools/rootage-cdn"],
 
     "@seed-design/rootage-cli": ["@seed-design/rootage-cli@workspace:ecosystem/rootage/cli"],
 
@@ -5868,6 +5877,8 @@
     "rxjs-exhaustmap-with-trailing": ["rxjs-exhaustmap-with-trailing@2.1.1", "", { "peerDependencies": { "rxjs": "7.x" } }, "sha512-gK7nsKyPFsbjDeJ0NYTcZYGW5TbTFjT3iACa28Pwp3fIf9wT/JUR8vdlKYCjUOZKXYnXEk8eRZ4zcQyEURosIA=="],
 
     "rxjs-mergemap-array": ["rxjs-mergemap-array@0.1.0", "", { "peerDependencies": { "rxjs": "7.x" } }, "sha512-19fXxPXN4X8LPWu7fg/nyX+nr0G97qSNXhEvF32cdgWuoyUVQ4MrFr+UL4HGip6iO5kbZOL4puAjPeQ/D5qSlA=="],
+
+    "s3mini": ["s3mini@0.9.5", "", {}, "sha512-TQ6RXz4eFzCAappzwHSfjgZ4YZMrJ/+mtVcSlc7tkL1wrPf/INZ3eOcVPJk65MAYZf7ueMbHCYjYmzkdkCAPSg=="],
 
     "sade": ["sade@1.8.1", "", { "dependencies": { "mri": "^1.1.0" } }, "sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A=="],
 

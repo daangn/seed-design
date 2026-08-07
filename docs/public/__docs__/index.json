@@ -228,14 +228,14 @@
             {
               "id": "composition",
               "title": "Composition",
-              "description": "아이콘을 사용하는 방법을 설명합니다.",
-              "docUrl": "/react/components/iconography/composition"
+              "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
+              "docUrl": "/react/components/concepts/composition"
             },
             {
               "id": "composition",
               "title": "Composition",
-              "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
-              "docUrl": "/react/components/concepts/composition"
+              "description": "아이콘을 사용하는 방법을 설명합니다.",
+              "docUrl": "/react/components/iconography/composition"
             },
             {
               "id": "content-placeholder",

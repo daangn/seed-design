@@ -3,8 +3,9 @@ import { readFile } from "node:fs/promises";
 import { parse } from "yaml";
 
 interface WorkflowJob {
+  if?: string;
   permissions?: Record<string, string> | string;
-  steps?: Array<{ uses?: string; with?: Record<string, string> }>;
+  steps?: Array<{ uses?: string; with?: Record<string, string | boolean> }>;
 }
 
 interface Workflow {
@@ -21,6 +22,19 @@ describe("릴리즈 workflow 권한 경계", () => {
     const validation = await workflow(".github/workflows/release-pr-validation.yml");
     expect(validation.permissions).toEqual({ contents: "read" });
     expect(validation.jobs.validate.permissions).toBeUndefined();
+  });
+
+  test("릴리즈 레인 PR만 검증하고 E2E는 내부 패키지를 빌드한다", async () => {
+    const [validation, e2e] = await Promise.all([
+      workflow(".github/workflows/release-pr-validation.yml"),
+      workflow(".github/workflows/release-e2e.yml"),
+    ]);
+
+    expect(validation.jobs.validate.if).toBe(
+      "github.base_ref == 'dev' || github.base_ref == 'minor' || github.base_ref == 'major'",
+    );
+    const setup = e2e.jobs.verify.steps?.find((step) => step.uses === "./.github/actions/setup");
+    expect(setup?.with?.["build-packages"]).toBe(true);
   });
 
   test("npm publish job만 OIDC를 가진다", async () => {
@@ -64,14 +78,20 @@ describe("릴리즈 workflow 권한 경계", () => {
       ".github/workflows/release-bootstrap.yml",
       ".github/workflows/release-activation.yml",
       ".github/workflows/rootage-release-contract.yml",
+      ".github/workflows/rootage-cdn-deploy.yml",
+      ".github/workflows/rootage-cdn-operations.yml",
     ];
     const parsed = await Promise.all(paths.map(workflow));
     expect(parsed.every((item) => Object.keys(item.jobs).length > 0)).toBe(true);
   });
 
-  test("DES-2201 계약은 production 활성화 전에 fail-closed다", async () => {
+  test("DES-2201 계약은 승인된 소스와 production 환경에서만 R2를 갱신한다", async () => {
     const contract = await readFile(".github/workflows/rootage-release-contract.yml", "utf8");
-    expect(contract).toContain("DES-2201 must replace this contract");
-    expect(contract).toContain("exit 1");
+    expect(contract).toContain("environment: rootage-production");
+    expect(contract).toContain("ref: $" + "{{ inputs.source-sha }}");
+    expect(contract).toContain(
+      "ROOTAGE_R2_SECRET_ACCESS_KEY: $" + "{{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}",
+    );
+    expect(contract).not.toContain("pull_request_target");
   });
 });

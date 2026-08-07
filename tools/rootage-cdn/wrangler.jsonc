@@ -1,0 +1,33 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "seed-design-rootage",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-08-05",
+  "workers_dev": true,
+  "observability": {
+    "enabled": true,
+    "logs": { "invocation_logs": false }
+  },
+  "env": {
+    "preview": {
+      "name": "seed-design-rootage-preview",
+      "vars": { "ROOTAGE_ENVIRONMENT": "preview" },
+      "r2_buckets": [
+        { "binding": "ROOTAGE_BUCKET", "bucket_name": "seed-design-rootage-artifacts-preview" }
+      ],
+      "analytics_engine_datasets": [
+        { "binding": "ROOTAGE_ANALYTICS", "dataset": "seed_design_rootage_requests_preview" }
+      ]
+    },
+    "production": {
+      "name": "seed-design-rootage",
+      "vars": { "ROOTAGE_ENVIRONMENT": "production" },
+      "r2_buckets": [
+        { "binding": "ROOTAGE_BUCKET", "bucket_name": "seed-design-rootage-artifacts" }
+      ],
+      "analytics_engine_datasets": [
+        { "binding": "ROOTAGE_ANALYTICS", "dataset": "seed_design_rootage_requests" }
+      ]
+    }
+  }
+}

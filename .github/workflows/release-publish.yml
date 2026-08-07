@@ -121,13 +121,14 @@ jobs:
 
   publish-rootage:
     name: Publish immutable Rootage artifacts
-    needs: publish-npm
+    needs: [authorize, publish-npm]
     if: needs.publish-npm.outputs.rootage-version != ''
     uses: ./.github/workflows/rootage-release-contract.yml
     with:
       version: ${{ needs.publish-npm.outputs.rootage-version }}
       npm-integrity: ${{ needs.publish-npm.outputs.rootage-integrity }}
       stable: ${{ needs.publish-npm.outputs.stable == 'true' }}
+      source-sha: ${{ needs.authorize.outputs.merge-sha }}
     secrets: inherit
 
   record:
