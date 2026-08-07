@@ -22,13 +22,18 @@
     -webkit-mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     -webkit-mask-composite: source-out;
     -webkit-mask-repeat: no-repeat;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
     mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
+    -webkit-mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
     mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
+    -webkit-mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     position: absolute;
     inset: 0;
     transform: translateZ(0);
+    -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
     mask-composite: subtract;
   }
 
@@ -41,13 +46,18 @@
     -webkit-mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     -webkit-mask-composite: source-out;
     -webkit-mask-repeat: no-repeat;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
     mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
+    -webkit-mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
     mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
+    -webkit-mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     display: block;
     overflow: hidden;
     transform: translateZ(0);
+    -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
     mask-composite: subtract;
   }
 
@@ -70,8 +80,11 @@
     -webkit-mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     -webkit-mask-composite: source-out;
     -webkit-mask-repeat: no-repeat;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
     mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
+    -webkit-mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
     mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
+    -webkit-mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
     justify-content: center;
     align-items: center;
@@ -80,7 +93,9 @@
     inset: 0;
     overflow: hidden;
     transform: translateZ(0);
+    -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
     mask-composite: subtract;
   }
 
