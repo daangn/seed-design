@@ -1,0 +1,45 @@
+name: Release automation E2E
+
+on:
+  pull_request:
+    paths:
+      - ".github/release/**"
+      - ".github/workflows/release-*.yml"
+      - ".github/workflows/rootage-release-contract.yml"
+      - "scripts/release/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify release automation without production writes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Verify release unit and integration scenarios
+        run: bun test scripts/release
+
+      - name: Generate all tracked artifacts
+        run: bun generate:all
+
+      - name: Run repository test suite
+        run: bun test:all
+
+      - name: Re-run generation and require a clean diff
+        run: |
+          bun generate:all
+          git diff --exit-code
+
+      - name: Build and package Rootage without publishing
+        run: bun scripts/release/dry-run.ts

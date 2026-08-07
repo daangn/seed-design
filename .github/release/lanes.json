@@ -1,0 +1,29 @@
+{
+  "$schema": "./lanes.schema.json",
+  "schemaVersion": 1,
+  "repository": "daangn/seed-design",
+  "maintainerTeam": "design-system",
+  "protectedDistTags": ["latest", "stable"],
+  "lanes": {
+    "dev": {
+      "bump": "patch",
+      "prerelease": false,
+      "sources": []
+    },
+    "minor": {
+      "bump": "minor",
+      "prerelease": true,
+      "sources": ["dev"]
+    },
+    "major": {
+      "bump": "major",
+      "prerelease": true,
+      "sources": ["dev", "minor"]
+    }
+  },
+  "sync": {
+    "activation": null,
+    "reconcileCron": "*/10 * * * *",
+    "conflictAlertHours": 24
+  }
+}

@@ -1,0 +1,79 @@
+name: Release prerelease transition
+
+on:
+  workflow_dispatch:
+    inputs:
+      lane:
+        description: "Pre-release lane"
+        required: true
+        type: choice
+        options: [minor, major]
+      command:
+        description: "State transition"
+        required: true
+        type: choice
+        options: [enter, retag, exit]
+      tag:
+        description: "Pre-release tag for enter or retag"
+        required: false
+        default: beta
+        type: string
+
+concurrency:
+  group: release-transition-${{ inputs.lane }}
+  cancel-in-progress: false
+
+jobs:
+  create-pr:
+    name: Create transition PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout selected lane
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.lane }}
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Reject an equivalent open transition
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LANE: ${{ inputs.lane }}
+          COMMAND: ${{ inputs.command }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          MATCH=$(gh pr list --state open --base "$LANE" --json body --jq ".[] | select(.body | contains(\"\\\"type\\\":\\\"transition\\\"\") and contains(\"\\\"command\\\":\\\"$COMMAND\\\"\") and contains(\"\\\"tag\\\":\\\"$TAG\\\"\")) | .body" || true)
+          if [ -n "$MATCH" ]; then
+            echo "Equivalent transition PR is already open."
+            exit 1
+          fi
+
+      - name: Apply transition
+        id: transition
+        run: bun scripts/release/cli.ts transition --lane "${{ inputs.lane }}" --command "${{ inputs.command }}" --tag "${{ inputs.tag }}"
+
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LANE: ${{ inputs.lane }}
+          COMMAND: ${{ inputs.command }}
+          TAG: ${{ steps.transition.outputs.tag }}
+        run: |
+          BRANCH="release-transition/${LANE}/${COMMAND}-${GITHUB_RUN_ID}"
+          git switch -c "$BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .changeset/pre.json
+          git commit -m "chore(release): ${COMMAND} ${LANE} prerelease"
+          git push origin "$BRANCH"
+          MARKER=$(bun scripts/release/cli.ts marker --type transition --lane "$LANE" --command "$COMMAND" --tag "${TAG:-beta}")
+          PR_URL=$(gh pr create --base "$LANE" --head "$BRANCH" --title "chore(release): ${COMMAND} ${LANE} prerelease" --body "$MARKER")
+          PR_NUMBER=${PR_URL##*/}
+          gh api "repos/${GITHUB_REPOSITORY}/labels" -f name="release:transition" -f color="1f883d" -f description="Changesets prerelease state transition" >/dev/null 2>&1 || true
+          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/labels" -f labels[]="release:transition" >/dev/null

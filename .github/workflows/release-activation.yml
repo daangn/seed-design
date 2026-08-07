@@ -1,0 +1,46 @@
+name: Release automation activation
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "Activation step"
+        required: true
+        type: choice
+        options: [enable-sync, enable-production]
+
+concurrency:
+  group: release-activation
+  cancel-in-progress: false
+
+jobs:
+  create-pr:
+    name: Create activation PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Apply activation state
+        run: bun scripts/release/cli.ts activation --operation "${{ inputs.operation }}"
+      - name: Create activation PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          BRANCH="release-freeze/activation-${OPERATION}-${GITHUB_RUN_ID}"
+          git switch -c "$BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/release/lanes.json .github/release/control.json
+          git commit -m "chore(release): ${OPERATION}"
+          git push origin "$BRANCH"
+          MARKER=$(bun scripts/release/cli.ts marker --type freeze --lane dev --tag "$OPERATION")
+          gh pr create --base dev --head "$BRANCH" --title "chore(release): ${OPERATION}" --body "$MARKER"

@@ -1,104 +1,98 @@
-name: Release
+name: Release Version PR
 
 on:
   push:
-    branches:
-      - main
-      - dev
+    branches: [dev, minor, major]
     paths:
       - "packages/**"
       - "docs/**"
       - ".changeset/**"
+      - ".github/release/**"
       - ".github/workflows/release-packages.yml"
       - ".github/actions/setup/action.yml"
+      - "scripts/release/**"
   workflow_dispatch:
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+concurrency:
+  group: release-version-${{ github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
-  release:
-    name: Release Seed Design Packages
+  version:
+    name: Update Version Packages PR
+    if: contains(fromJSON('["dev", "minor", "major"]'), github.ref_name)
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      issues: write
       pull-requests: write
-      packages: read
-      id-token: write
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout lane
         uses: actions/checkout@v6
         with:
-          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
-
-      - uses: actions/setup-node@v6 # this is faster than `bun install -g npm@latest`
-        with:
-          node-version: "24"
 
       - uses: ./.github/actions/setup
 
-      - name: 릴리즈 Pull Request를 만들거나 패키지를 배포해요
-        id: changesets
-        uses: changesets/action@v1
+      - name: Create or update Version Packages PR
+        id: version
+        uses: changesets/action@3841a0683d3cfa6dae0f9bb335290003010fe3f0 # v1.9.0
         with:
-          publish: bun release
-          version: bun version
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version: bun scripts/release/version.ts
+          commit: "chore(release): version packages"
           title: "release: version packages"
+          branch: ${{ github.ref_name }}
+
+      - name: Mark trusted Version Packages PR
+        if: steps.version.outputs.pullRequestNumber
+        uses: actions/github-script@v9
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
-          POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
-
-      - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
-        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets == 'true'
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+          PR_NUMBER: ${{ steps.version.outputs.pullRequestNumber }}
+          LANE: ${{ github.ref_name }}
         with:
-          ref: changeset-release/${{ github.ref_name }}
-
-      - name: 배포 전인 경우 rootage json 파일의 버전을 @seed-design/rootage-artifacts 버전에 맞춰요
-        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets == 'true'
-        run: |
-          bun install --frozen-lockfile
-          bun rootage:build
-          bun install # link
-          bun rootage:generate
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add packages/rootage/__generated__
-          git commit -m "Update rootage generated json to match new package version" || echo "No changes to commit"
-          git push
-
-      - name: 배포된 버전을 가져와요
-        id: get-package-versions
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          PACKAGE_VERSIONS=$(echo '${{ steps.changesets.outputs.publishedPackages }}' | jq -c 'map({name: .name, value: .version}) | from_entries')
-          echo "packageVersions=$PACKAGE_VERSIONS" >> $GITHUB_OUTPUT
-
-      - name: rootage-artifacts가 배포된 경우 Slack에 알려요
-        if: steps.changesets.outputs.published == 'true' && contains(fromJson(steps.changesets.outputs.publishedPackages || '[]').*.name, '@seed-design/rootage-artifacts')
-        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
-        with:
-          method: chat.postMessage
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "새 Rootage 버전이 배포되었어요."
-            blocks:
-              - type: "header"
-                text:
-                  type: "plain_text"
-                  text: "새 Rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}"
-              - type: "section"
-                text:
-                  type: "plain_text"
-                  text: "문서 빌드까지는 시간이 조금 더 걸릴 수 있어요."
-              - type: "actions"
-                elements:
-                  - type: "button"
-                    style: "primary"
-                    text:
-                      type: "plain_text"
-                      text: "Changelog"
-                    url: "https://seed-design.io/react/updates/changelog"
+          script: |
+            const { stdout } = await exec.getExecOutput("bun", [
+              "scripts/release/cli.ts",
+              "marker",
+              "--type", "version",
+              "--lane", process.env.LANE,
+            ]);
+            const marker = stdout.trim();
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: Number(process.env.PR_NUMBER),
+            });
+            const bodyWithoutOldMarker = (pull.data.body ?? "").replace(
+              /<!-- seed-release:\{[^\n]+\} -->\n*/g,
+              "",
+            );
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: Number(process.env.PR_NUMBER),
+              body: `${marker}\n\n${bodyWithoutOldMarker}`,
+            });
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.PR_NUMBER),
+              labels: ["release:version"],
+            }).catch(async (error) => {
+              if (error.status !== 404 && error.status !== 422) throw error;
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: "release:version",
+                color: "8250df",
+                description: "Version Packages PR generated by release automation",
+              });
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: Number(process.env.PR_NUMBER),
+                labels: ["release:version"],
+              });
+            });
