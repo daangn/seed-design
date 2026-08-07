@@ -6,7 +6,8 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { disabled, engaged, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
+import { active, disabled, engaged, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
 import { WHEEL_PICKER_CUSTOM_PROPERTIES } from "./wheel-picker";
 
@@ -81,9 +82,10 @@ const datePicker = defineSlotRecipe({
       fontWeight: vars.base.enabled.headerLabel.fontWeight,
       whiteSpace: "nowrap",
       cursor: "pointer",
-      transition: FOCUS_RING_TRANSITION,
+      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+      [pseudo(not(disabled), active)]: createPressScaleStyles(),
       [pseudo(disabled)]: {
         cursor: "default",
       },
@@ -237,6 +239,7 @@ const datePicker = defineSlotRecipe({
       cursor: "pointer",
       font: "inherit",
       isolation: "isolate",
+      transition: PRESS_SCALE_TRANSITION,
       "&::before": {
         content: '""',
         position: "absolute",
@@ -275,6 +278,8 @@ const datePicker = defineSlotRecipe({
       [pseudo(not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.pressed.dateVisual.color,
       },
+      [`${pseudo(not(disabled), active)}:not([data-unavailable])` as const]:
+        createPressScaleStyles(),
       [`${pseudo(not(disabled), selected, engaged)}:not([data-in-range])::before` as const]: {
         backgroundColor: vars.base.selected.dateVisual.color,
       },

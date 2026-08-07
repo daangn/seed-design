@@ -4924,7 +4924,7 @@
     font-weight: var(--seed-font-weight-bold);
     white-space: nowrap;
     cursor: pointer;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     background: none;
@@ -4936,6 +4936,10 @@
   .seed-date-picker__headerLabel:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
+  .seed-date-picker__headerLabel:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-press-scale, 1);
   }
 
   .seed-date-picker__headerLabel:is(:disabled, [disabled], [data-disabled]) {
@@ -5103,6 +5107,7 @@
     cursor: pointer;
     font: inherit;
     isolation: isolate;
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     background: none;
     border: 0;
     justify-content: center;
@@ -5163,6 +5168,10 @@
     .seed-date-picker__dateButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
+  }
+
+  .seed-date-picker__dateButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):not([data-unavailable]) {
+    scale: var(--seed-press-scale, 1);
   }
 
   @media (hover: hover) and (pointer: fine) {

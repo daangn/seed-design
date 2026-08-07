@@ -16,6 +16,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
 import { InternalWheelPickerColumn, InternalWheelPickerRoot } from "../private/WheelPicker";
+import { usePressScale } from "../../utils/pressScale";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { ActionButton } from "../ActionButton";
 import { Icon } from "../Icon";
@@ -167,6 +168,8 @@ function DateCellView({
   renderDateCellContent: DatePickerImplementationProps["renderDateCellContent"];
   renderDateCellSupplement: DatePickerImplementationProps["renderDateCellSupplement"];
 }) {
+  const { pressScaleRef, pressScaleClassName } = usePressScale();
+
   if (cell === null) {
     return <Primitive.div role="gridcell" className={classNames.emptyCell} />;
   }
@@ -175,7 +178,11 @@ function DateCellView({
 
   return (
     <Primitive.div {...cellProps} className={classNames.dateCell}>
-      <Primitive.button {...buttonProps} className={classNames.dateButton}>
+      <Primitive.button
+        {...buttonProps}
+        ref={pressScaleRef}
+        className={clsx(classNames.dateButton, pressScaleClassName)}
+      >
         <Primitive.span className={classNames.dateContent}>
           {renderDateCellContent ? (
             renderDateCellContent(renderProps)
@@ -280,13 +287,15 @@ function Header({
 }) {
   const previousDirection = api.isRtl ? "right" : "left";
   const nextDirection = api.isRtl ? "left" : "right";
+  const { pressScaleRef, pressScaleClassName } = usePressScale();
 
   return (
     <Primitive.div className={classNames.header}>
       <Primitive.button
         {...api.monthYearButtonProps}
+        ref={pressScaleRef}
         id={`${api.rootProps.id}-header-label`}
-        className={classNames.headerLabel}
+        className={clsx(classNames.headerLabel, pressScaleClassName)}
       >
         <Primitive.span data-date-picker-header-label="">{api.headerLabel}</Primitive.span>
         <Primitive.span className={classNames.headerChevron}>

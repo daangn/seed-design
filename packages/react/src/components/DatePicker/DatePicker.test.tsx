@@ -16,6 +16,13 @@ const commonProps = {
 } as const;
 
 describe("DatePicker", () => {
+  it("월·연도 제목과 날짜 버튼에 pressed scale을 적용한다", () => {
+    const { getByRole } = render(<DatePicker {...commonProps} />);
+
+    expect(getByRole("button", { name: "2026년 7월" })).toHaveClass("seed-press-scale");
+    expect(getByRole("button", { name: /2026년 7월 15일/ })).toHaveClass("seed-press-scale");
+  });
+
   it("날짜 grid와 locale에 맞는 기본 접근성 이름을 제공한다", () => {
     const { getByRole, getAllByRole, rerender } = render(<DatePicker {...commonProps} />);
 
