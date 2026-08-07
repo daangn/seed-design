@@ -1,10 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 import type { DisplayItemEntry } from "@seed-design/react/primitive";
 import { AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 import { AttachmentDisplayReorderable } from "seed-design/ui/attachment-display-field-reorderable";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -30,15 +29,10 @@ const AttachmentDisplayReorderableForStory = (props: AttachmentDisplayReorderabl
   </AttachmentDisplayField>
 );
 
-const meta = {
+const meta = preview.meta({
   component: AttachmentDisplayReorderableForStory,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof AttachmentDisplayReorderableForStory>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   entries: {
     "0": { defaultEntries: [] },
@@ -74,20 +68,19 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={attachmentInputVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
+});
 
-export const LightTheme = CommonStoryTemplate;
+export const LightTheme = CommonStoryTemplate.extend({});
 
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });

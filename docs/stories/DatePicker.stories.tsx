@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 import {
   Box,
   ContinuousDatePicker,
@@ -10,7 +10,7 @@ import {
 } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "./utils/parameters";
+import { withChromaticParameters } from "./utils/parameters";
 
 type DatePickerPreviewProps = DatePickerProps & {
   previewWidth?: string;
@@ -47,15 +47,10 @@ const DatePickerPreview = ({
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: DatePickerPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof DatePickerPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   case: {
     Single: {
@@ -94,35 +89,27 @@ const conditionMap = {
   } satisfies Record<string, DatePickerPreviewProps>,
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
-    <VariantTable
-      Component={meta.component}
-      variantMap={{}}
-      conditionMap={conditionMap}
-      {...args}
-    />
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
-export const Continuous: Story = {
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+
+export const Continuous = meta.story({
   render: () => (
     <Box width="358px" height="420px">
       <ContinuousDatePicker
@@ -133,9 +120,9 @@ export const Continuous: Story = {
       />
     </Box>
   ),
-};
+});
 
-export const ContinuousCustomCell: Story = {
+export const ContinuousCustomCell = meta.story({
   render: () => (
     <Box width="358px" height="560px">
       <ContinuousDatePicker
@@ -146,4 +133,4 @@ export const ContinuousCustomCell: Story = {
       />
     </Box>
   ),
-};
+});
