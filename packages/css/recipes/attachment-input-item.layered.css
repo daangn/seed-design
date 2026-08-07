@@ -29,12 +29,16 @@
     -webkit-mask-composite: source-out;
     mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
     -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
     mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
     mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
     position: absolute;
     inset: 0;
     transform: translateZ(0);
+    -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
     mask-composite: subtract;
   }
 
@@ -58,10 +62,14 @@
     -webkit-mask-composite: source-out;
     mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
     -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
     mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
     mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
     transform: translateZ(0);
+    -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
     mask-composite: subtract;
   }
 
@@ -109,7 +117,9 @@
     -webkit-mask-composite: source-out;
     mask-image: linear-gradient(#000, #000), url("data:image/svg+xml;utf8,<svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"white\"/></svg>");
     -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
     mask-size: 100% 100%, var(--remove-button-mask-size) var(--remove-button-mask-size);
+    -webkit-mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
     mask-position: 0 0, right calc(0px - var(--remove-button-mask-offset)) top calc(0px - var(--remove-button-mask-offset));
     flex-direction: column;
     justify-content: center;
@@ -118,7 +128,9 @@
     position: absolute;
     inset: 0;
     transform: translateZ(0);
+    -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+    -webkit-mask-composite: source-out;
     mask-composite: subtract;
   }
 

@@ -96,7 +96,7 @@
     font-weight: var(--seed-font-weight-medium);
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-select__groupLabel--size_responsive {
       padding-block: var(--seed-dimension-x2);
       padding-inline: var(--seed-dimension-x4);

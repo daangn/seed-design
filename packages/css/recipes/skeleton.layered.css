@@ -64,28 +64,28 @@
     background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-magic));
   }
 
-  @media (width >= 480px) {
+  @media (min-width: 480px) {
     .seed-skeleton {
       --seed-box-width: var(--seed-box-width-sm, initial);
       --seed-box-height: var(--seed-box-height-sm, initial);
     }
   }
 
-  @media (width >= 768px) {
+  @media (min-width: 768px) {
     .seed-skeleton {
       --seed-box-width: var(--seed-box-width-md, initial);
       --seed-box-height: var(--seed-box-height-md, initial);
     }
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-skeleton {
       --seed-box-width: var(--seed-box-width-lg, initial);
       --seed-box-height: var(--seed-box-height-lg, initial);
     }
   }
 
-  @media (width >= 1440px) {
+  @media (min-width: 1440px) {
     .seed-skeleton {
       --seed-box-width: var(--seed-box-width-xl, initial);
       --seed-box-height: var(--seed-box-height-xl, initial);

@@ -31,6 +31,7 @@
   .seed-segmented-control__item {
     text-align: center;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
     box-sizing: border-box;
     overflow-wrap: break-word;

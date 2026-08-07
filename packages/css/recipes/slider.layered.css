@@ -2,6 +2,7 @@
   .seed-slider__root {
     align-items: stretch;
     gap: var(--seed-dimension-x0_5);
+    -webkit-user-select: none;
     user-select: none;
     touch-action: none;
     flex-direction: column;
