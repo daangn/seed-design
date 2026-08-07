@@ -35,13 +35,11 @@
     padding-bottom: var(--seed-safe-area-bottom);
     touch-action: none;
     will-change: transform;
-    --drawer-keyboard-transition: bottom var(--seed-duration-d5) cubic-bezier(.32, .72, 0, 1);
-    transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive), var(--drawer-keyboard-transition);
+    transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive);
     flex-direction: column;
     flex: 1;
     display: flex;
     position: relative;
-    bottom: 0;
   }
 
   .seed-bottom-sheet__content[data-snap-points="true"] {
