@@ -1,5 +1,5 @@
 ---
-"@seed-design/react-wheel-picker": minor
+"@seed-design/react-wheel-picker": major
 "@seed-design/react": minor
 ---
 
