@@ -1,5 +1,5 @@
 // import Seed Design
-import { definePreview } from "@storybook/nextjs";
+import { definePreview } from "@storybook/nextjs-vite";
 
 import "@seed-design/css/all.css";
 

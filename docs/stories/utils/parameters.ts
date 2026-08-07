@@ -1,4 +1,4 @@
-import type { Parameters } from "@storybook/nextjs";
+import type { Parameters } from "@storybook/nextjs-vite";
 import { breakpointNames } from "@seed-design/css/breakpoints";
 
 export const FONT_SCALE_MAP = {
