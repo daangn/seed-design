@@ -6,11 +6,17 @@
     "onlyUpdatePeerDependentsWhenOutOfRange": true
   },
   "linked": [
-    ["@seed-design/figma", "@seed-design/mcp"],
-    ["@seed-design/codemod", "@seed-design/migration-index"]
+    [
+      "@seed-design/figma",
+      "@seed-design/mcp"
+    ],
+    [
+      "@seed-design/codemod",
+      "@seed-design/migration-index"
+    ]
   ],
   "access": "public",
-  "baseBranch": "dev",
+  "baseBranch": "major",
   "updateInternalDependencies": "patch",
   "privatePackages": {
     "tag": false,
