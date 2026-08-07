@@ -4,8 +4,11 @@
   // fully supports: ES2022 would admit `Array.prototype.at` (Chrome 92 / Safari
   // 15.4) and `Object.hasOwn` (Chrome 93 / Safari 15.4).
   //
-  // This bounds APIs only. Emitted syntax is still governed by `target` and by
-  // each package's bundler target, which are not pinned to the baseline yet.
+  // Only the ES half tracks the baseline. `DOM` carries no version -- it ships
+  // whatever web platform the current TypeScript knows, so `structuredClone`
+  // (Chrome 98), `scrollend` (Chrome 114) and the like still typecheck, and no
+  // `lib` setting can bound them. Emitted syntax is unbounded too, governed by
+  // `target` and each package's bundler target.
   "compilerOptions": {
     "lib": ["ES2021", "DOM", "DOM.Iterable"]
   }
