@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { RadioGroupField, VisuallyHidden, PrefixIcon, Box } from "@seed-design/react";
 
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { fieldVariantMap } from "@seed-design/css/recipes/field";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
@@ -98,9 +98,9 @@ const CommonStoryTemplate = meta.story({
   args: {
     children: <Box bg="bg.brandWeak" height="x8" />,
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={RadioGroupFieldWrapper}
+      Component={component!}
       variantMap={fieldVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -111,13 +111,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

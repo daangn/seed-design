@@ -98,8 +98,8 @@ const conditionMap = {
 
 export const LightTheme = meta.story({
   args: { children },
-  render: (args) => (
-    <VariantTable Component={Box} variantMap={{}} conditionMap={conditionMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
@@ -199,8 +199,13 @@ const nestedConditionMap = {
 };
 
 export const Nested = meta.story({
-  render: (args) => (
-    <VariantTable Component={Box} variantMap={{}} conditionMap={nestedConditionMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable
+      Component={component!}
+      variantMap={{}}
+      conditionMap={nestedConditionMap}
+      {...args}
+    />
   ),
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },

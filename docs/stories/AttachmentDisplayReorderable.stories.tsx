@@ -3,7 +3,7 @@ import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-i
 import type { DisplayItemEntry } from "@seed-design/react/primitive";
 import { AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 import { AttachmentDisplayReorderable } from "seed-design/ui/attachment-display-field-reorderable";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -69,9 +69,9 @@ const conditionMap = {
 };
 
 const CommonStoryTemplate = meta.story({
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={AttachmentDisplayReorderableForStory}
+      Component={component!}
       variantMap={attachmentInputVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -82,5 +82,5 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });

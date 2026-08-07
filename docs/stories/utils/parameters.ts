@@ -1,4 +1,3 @@
-import type { Parameters } from "@storybook/nextjs-vite";
 import { breakpointNames } from "@seed-design/css/breakpoints";
 
 export const FONT_SCALE_MAP = {
@@ -13,11 +12,16 @@ export const FONT_SCALE_MAP = {
 
 export type FontScales = keyof typeof FONT_SCALE_MAP;
 
+export type StoryParameters = {
+  theme?: "light" | "dark";
+  fontScale?: FontScales;
+};
+
 export const VIEWPORT_MODES = Object.fromEntries(
   breakpointNames.map((name) => [name, { viewport: name }]),
 );
 
-export const CHROMATIC_PARAMETERS = {
+const CHROMATIC_PARAMETERS = {
   chromatic: {
     diffThreshold: 0.2, // 20% 미만의 픽셀 차이는 무시
     delay: 300, // 렌더링 안정화를 위한 딜레이 (ms)
@@ -25,12 +29,7 @@ export const CHROMATIC_PARAMETERS = {
   },
 };
 
-type StoryParameters = Parameters & {
-  theme?: "light" | "dark";
-  fontScale?: FontScales;
-};
-
-export function createStoryParameters(parameters: StoryParameters = {}): Parameters {
+export function withChromaticParameters<R>(parameters: R): R {
   return {
     ...CHROMATIC_PARAMETERS,
     ...parameters,

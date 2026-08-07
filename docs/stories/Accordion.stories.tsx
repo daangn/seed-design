@@ -11,7 +11,7 @@ import { accordionVariantMap } from "@seed-design/css/recipes/accordion";
 import { IconTruckLine } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 
 const AccordionDemo = ({ style, ...props }: React.ComponentProps<typeof Accordion>) => (
   <Accordion {...props} style={{ ...style, width: 360 }}>
@@ -58,5 +58,5 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });

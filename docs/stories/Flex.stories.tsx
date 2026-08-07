@@ -65,8 +65,8 @@ const conditionMap = {
 
 export const LightTheme = meta.story({
   args: { children },
-  render: (args) => (
-    <VariantTable Component={Flex} variantMap={{}} conditionMap={conditionMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },

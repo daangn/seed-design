@@ -4,7 +4,7 @@ import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 import { textInputVariantMap } from "@seed-design/css/recipes/text-input";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES, createStoryParameters } from "@/stories/utils/parameters";
+import { VIEWPORT_MODES, withChromaticParameters } from "@/stories/utils/parameters";
 
 const meta = preview.meta({
   component: TextField,
@@ -52,9 +52,9 @@ const CommonStoryTemplate = meta.story({
   args: {
     children: <TextFieldTextarea placeholder="Placeholder" />,
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={TextField}
+      Component={component!}
       variantMap={variantMap}
       conditionMap={conditionMap}
       {...args}
@@ -69,13 +69,13 @@ export const LightTheme = CommonStoryTemplate.extend({
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

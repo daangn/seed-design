@@ -1,5 +1,5 @@
 import preview from "../.storybook/preview";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { helpBubbleVariantMap } from "@seed-design/css/recipes/help-bubble";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
@@ -38,9 +38,9 @@ const CommonStoryTemplate = meta.story({
     open: true,
     placement: "bottom",
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={HelpBubbleTooltipTrigger}
+      Component={component!}
       variantMap={helpBubbleVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -51,13 +51,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

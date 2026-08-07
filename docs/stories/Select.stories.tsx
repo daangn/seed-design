@@ -9,7 +9,7 @@ import {
   SelectTrigger,
 } from "seed-design/ui/select";
 import type { SelectRootProps, SelectTriggerProps } from "seed-design/ui/select";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { VIEWPORT_MODES } from "./utils/parameters";
@@ -76,9 +76,9 @@ const CommonStoryTemplate = meta.story({
     placeholder: "과일 선택",
     children: <FruitItems />,
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ClosedSelect}
+      Component={component!}
       variantMap={selectTriggerVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -93,13 +93,13 @@ export const LightTheme = CommonStoryTemplate.extend({
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

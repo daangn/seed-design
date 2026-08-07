@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { MiddleTruncate, type MiddleTruncateProps } from "@seed-design/react/primitive";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { VariantTable } from "./components/variant-table";
 
 const MiddleTruncateForStory = ({
@@ -54,22 +54,17 @@ const CommonStoryTemplate = meta.story({
     // ignored
     children: "",
   },
-  render: (args) => (
-    <VariantTable
-      Component={MiddleTruncateForStory}
-      variantMap={{}}
-      conditionMap={conditionMap}
-      {...args}
-    />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
 });
 
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

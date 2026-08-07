@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { ActionButton } from "seed-design/ui/action-button";
 
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconBellFill, IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
 import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
 import { PrefixIcon, SuffixIcon, Icon } from "@seed-design/react";
@@ -51,9 +51,9 @@ const XSmallTemplate = meta.story({
   args: {
     size: "xsmall",
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ActionButton}
+      Component={component!}
       variantMap={variantMapWithoutSize}
       conditionMap={conditionMap}
       {...args}
@@ -65,9 +65,9 @@ const SmallTemplate = meta.story({
   args: {
     size: "small",
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ActionButton}
+      Component={component!}
       variantMap={variantMapWithoutSize}
       conditionMap={conditionMap}
       {...args}
@@ -79,9 +79,9 @@ const MediumTemplate = meta.story({
   args: {
     size: "medium",
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ActionButton}
+      Component={component!}
       variantMap={variantMapWithoutSize}
       conditionMap={conditionMap}
       {...args}
@@ -93,9 +93,9 @@ const LargeTemplate = meta.story({
   args: {
     size: "large",
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ActionButton}
+      Component={component!}
       variantMap={variantMapWithoutSize}
       conditionMap={conditionMap}
       {...args}
@@ -105,44 +105,44 @@ const LargeTemplate = meta.story({
 
 export const XSmallLightTheme = XSmallTemplate.extend({});
 export const XSmallDarkTheme = XSmallTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const XSmallFontScalingExtraSmall = XSmallTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const XSmallFontScalingExtraExtraExtraLarge = XSmallTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const SmallLightTheme = SmallTemplate.extend({});
 export const SmallDarkTheme = SmallTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const SmallFontScalingExtraSmall = SmallTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const SmallFontScalingExtraExtraExtraLarge = SmallTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const MediumLightTheme = MediumTemplate.extend({});
 export const MediumDarkTheme = MediumTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const MediumFontScalingExtraSmall = MediumTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const MediumFontScalingExtraExtraExtraLarge = MediumTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const LargeLightTheme = LargeTemplate.extend({});
 export const LargeDarkTheme = LargeTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const LargeFontScalingExtraSmall = LargeTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const LargeFontScalingExtraExtraExtraLarge = LargeTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

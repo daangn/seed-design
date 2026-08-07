@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { ResultSection } from "seed-design/ui/result-section";
 
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { Box, Icon } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { IconDiamond } from "@karrotmarket/react-multicolor-icon";
@@ -12,9 +12,9 @@ const meta = preview.meta({
   decorators: [SeedThemeDecorator],
 });
 const CommonStoryTemplate = meta.story({
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ResultSection}
+      Component={component!}
       variantMap={{
         size: ["large", "medium"],
       }}
@@ -77,13 +77,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

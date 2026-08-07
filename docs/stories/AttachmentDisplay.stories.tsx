@@ -2,7 +2,7 @@ import preview from "../.storybook/preview";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 import type { DisplayItemEntry } from "@seed-design/react/primitive";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -92,9 +92,9 @@ const CommonStoryTemplate = meta.story({
     description: "최대 3장까지 첨부할 수 있어요.",
     errorMessage: "최소 1장은 첨부해야 해요.",
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={AttachmentDisplayForStory}
+      Component={component!}
       variantMap={attachmentInputVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -105,13 +105,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

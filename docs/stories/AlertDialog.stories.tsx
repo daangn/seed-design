@@ -1,5 +1,5 @@
 import preview from "../.storybook/preview";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { dialogVariantMap } from "@seed-design/css/recipes/dialog";
 import { Box, ResponsivePair, VStack } from "@seed-design/react";
 import {
@@ -110,9 +110,9 @@ const conditionMap = {
 };
 
 const CommonStoryTemplate = meta.story({
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={AlertDialogPreview}
+      Component={component!}
       variantMap={restVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -123,13 +123,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

@@ -95,13 +95,8 @@ const conditionMap = {
  * 여기서는 브레이크포인트 전환만 뷰포트별로 스냅샷한다.
  */
 export const LightTheme = meta.story({
-  render: (args) => (
-    <VariantTable
-      Component={ResponsiveDialogPreview}
-      variantMap={{}}
-      conditionMap={conditionMap}
-      {...args}
-    />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },

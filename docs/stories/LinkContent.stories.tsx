@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { LinkContent } from "@seed-design/react";
 
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
 import { linkContentVariantMap } from "@seed-design/css/recipes/link-content";
 import { SuffixIcon } from "@seed-design/react";
@@ -28,9 +28,9 @@ const CommonStoryTemplate = meta.story({
       </LinkContent>
     ),
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={LinkContent}
+      Component={component!}
       variantMap={linkContentVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -41,13 +41,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

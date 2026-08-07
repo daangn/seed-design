@@ -4,7 +4,7 @@ import { tagGroupItemVariantMap } from "@seed-design/css/recipes/tag-group-item"
 
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconCheckmarkCircleFill, IconMegaphoneFill } from "@karrotmarket/react-monochrome-icon";
 import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 
@@ -74,9 +74,9 @@ const CommonStoryTemplate = meta.story({
       <TagGroupItem key="3" label="Ut minim laboris enim" />,
     ],
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={TagGroupRoot}
+      Component={component!}
       variantMap={{
         ...tagGroupItemVariantMap,
         ...tagGroupVariantMap,
@@ -90,13 +90,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

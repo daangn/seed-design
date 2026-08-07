@@ -4,7 +4,7 @@ import { MannerTemp } from "seed-design/ui/manner-temp";
 import { mannerTempVariantMap } from "@seed-design/css/recipes/manner-temp";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 
 const meta = preview.meta({
   component: MannerTemp,
@@ -49,9 +49,9 @@ const CommonStoryTemplate = meta.story({
   args: {
     temperature: 0, // intentionally ignored
   },
-  render: () => (
+  render: (_, { component }) => (
     <VariantTable
-      Component={MannerTemp}
+      Component={component!}
       variantMap={mannerTempVariantMap}
       conditionMap={conditionMap}
     />
@@ -61,13 +61,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

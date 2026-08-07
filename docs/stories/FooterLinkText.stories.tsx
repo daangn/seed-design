@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { FooterLinkText, SuffixIcon } from "@seed-design/react";
 
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconArrowUpRightLine } from "@karrotmarket/react-monochrome-icon";
 import { footerVariantMap } from "@seed-design/css/recipes/footer";
 import { SeedThemeDecorator } from "./components/decorator";
@@ -20,21 +20,21 @@ const CommonStoryTemplate = meta.story({
       </>
     ),
   },
-  render: (args) => (
-    <VariantTable Component={FooterLinkText} variantMap={footerVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={footerVariantMap} {...args} />
   ),
 });
 
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

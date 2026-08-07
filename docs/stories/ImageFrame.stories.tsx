@@ -14,7 +14,7 @@ import {
 import { useState } from "react";
 
 import { imageFrameVariantMap } from "@seed-design/css/recipes/image-frame";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -49,9 +49,9 @@ const CommonStoryTemplate = meta.story({
     src: SAMPLE_IMAGE,
     alt: "ImageFrame placeholder",
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ImageFrame}
+      Component={component!}
       variantMap={imageFrameVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -148,15 +148,15 @@ const OverlayExamples = () => {
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const Overlay = meta.story({

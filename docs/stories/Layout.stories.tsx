@@ -46,8 +46,8 @@ export const LightTheme = meta.story({
       border: "1px solid var(--seed-color-stroke-neutralWeak)",
     },
   },
-  render: (args) => (
-    <VariantTable Component={Layout.Root} variantMap={layoutVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={layoutVariantMap} {...args} />
   ),
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },

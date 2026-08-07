@@ -10,7 +10,7 @@ import {
   SelectRoot,
   SelectTrigger,
 } from "seed-design/ui/select";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { VIEWPORT_MODES } from "./utils/parameters";
@@ -100,9 +100,9 @@ const meta = preview.meta({
 // varies by size, but not by the select's own state (disabled/invalid/...), so
 // those are left to the closed Select story.
 const CommonStoryTemplate = meta.story({
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={OpenSelectContent}
+      Component={component!}
       variantMap={selectTriggerVariantMap}
       conditionMap={{}}
       {...args}
@@ -117,13 +117,13 @@ export const LightTheme = CommonStoryTemplate.extend({
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

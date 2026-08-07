@@ -9,7 +9,7 @@ import {
 import "./InternalWheelPicker.css";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryParameters } from "./utils/parameters";
+import { withChromaticParameters } from "./utils/parameters";
 
 interface ColumnCase {
   label: string;
@@ -254,26 +254,21 @@ const meta = preview.meta({
 });
 const CommonStory = meta.story({
   args: conditionMap.case["2개 컬럼 / 반복 없음"],
-  render: (args) => (
-    <VariantTable
-      Component={WheelPickerCase}
-      variantMap={{}}
-      conditionMap={conditionMap}
-      {...args}
-    />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
 });
 
 export const LightTheme = CommonStory.extend({});
 
 export const DarkTheme = CommonStory.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStory.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStory.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

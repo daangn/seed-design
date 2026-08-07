@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { contentPlaceholderVariantMap } from "@seed-design/css/recipes/content-placeholder";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
@@ -62,9 +62,9 @@ const conditionMap = {
 
 const CommonStoryTemplate = meta.story({
   args: {},
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ContentPlaceholder}
+      Component={component!}
       variantMap={variantMap}
       conditionMap={conditionMap}
       {...args}
@@ -75,13 +75,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

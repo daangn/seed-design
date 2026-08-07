@@ -7,7 +7,7 @@ import { QuantityPicker } from "seed-design/ui/quantity-picker";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryParameters } from "./utils/parameters";
+import { withChromaticParameters } from "./utils/parameters";
 
 const meta = preview.meta({
   component: QuantityPicker,
@@ -60,24 +60,24 @@ const MaxValuesTemplate = meta.story({
   ),
 });
 
-export const LightTheme = Template.extend({ parameters: createStoryParameters() });
+export const LightTheme = Template.extend({ parameters: withChromaticParameters({}) });
 export const DarkTheme = Template.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const FontScalingExtraSmall = Template.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const FontScalingExtraExtraExtraLarge = Template.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
-export const MaxValues = MaxValuesTemplate.extend({ parameters: createStoryParameters() });
+export const MaxValues = MaxValuesTemplate.extend({ parameters: withChromaticParameters({}) });
 
 export const MaxValuesFontScalingExtraSmall = MaxValuesTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const MaxValuesFontScalingExtraExtraExtraLarge = MaxValuesTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const LayoutFill = meta.story({

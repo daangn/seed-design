@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { Chip } from "seed-design/ui/chip";
 
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconHeartFill } from "@karrotmarket/react-monochrome-icon";
 import { chipVariantMap } from "@seed-design/css/recipes/chip";
 import { Icon } from "@seed-design/react";
@@ -33,9 +33,9 @@ const conditionMap = {
 
 const CommonStoryTemplate = meta.story({
   args: {},
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={Chip.Button}
+      Component={component!}
       variantMap={chipVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -46,13 +46,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

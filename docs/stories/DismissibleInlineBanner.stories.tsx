@@ -5,7 +5,7 @@ import { inlineBannerVariantMap } from "@seed-design/css/recipes/inline-banner";
 import { VariantTable } from "./components/variant-table";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 
 const meta = preview.meta({
   component: DismissibleInlineBanner,
@@ -18,25 +18,21 @@ const CommonStoryTemplate = meta.story({
       "Ex do aliqua est non ea adipisicing nostrud. Exercitation ea mollit sunt magna quis quis exercitation.",
     prefixIcon: <IconBellFill />,
   },
-  render: (args) => (
-    <VariantTable
-      Component={DismissibleInlineBanner}
-      variantMap={inlineBannerVariantMap}
-      {...args}
-    />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={inlineBannerVariantMap} {...args} />
   ),
 });
 
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

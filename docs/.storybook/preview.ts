@@ -5,6 +5,7 @@ import "@seed-design/css/all.css";
 
 import { breakpoints } from "@seed-design/css/breakpoints";
 import { ViewportMap } from "storybook/viewport";
+import type { StoryParameters } from "../stories/utils/parameters";
 
 const breakpointValues = Object.values(breakpoints);
 
@@ -39,5 +40,5 @@ export default definePreview({
     },
   },
 
-  addons: []
-});
+  addons: [],
+}).type<{ parameters: StoryParameters }>();

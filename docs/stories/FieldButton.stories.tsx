@@ -3,7 +3,7 @@ import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-desi
 import { inputButtonVariantMap } from "@seed-design/css/recipes/input-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES, createStoryParameters } from "@/stories/utils/parameters";
+import { VIEWPORT_MODES, withChromaticParameters } from "@/stories/utils/parameters";
 import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
 
 const meta = preview.meta({
@@ -64,9 +64,9 @@ const CommonStoryTemplate = meta.story({
       "aria-label": "버튼",
     },
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={FieldButton}
+      Component={component!}
       variantMap={inputButtonVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -81,13 +81,13 @@ export const LightTheme = CommonStoryTemplate.extend({
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

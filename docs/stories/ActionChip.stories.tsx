@@ -5,7 +5,7 @@ import { actionChipVariantMap } from "@seed-design/css/recipes/action-chip";
 import { VariantTable } from "./components/variant-table";
 import { IconBellFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { Count, Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
 
 const meta = preview.meta({
@@ -31,9 +31,9 @@ const conditionMap = {
 
 const CommonStoryTemplate = meta.story({
   args: {},
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={ActionChip}
+      Component={component!}
       variantMap={actionChipVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -44,13 +44,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

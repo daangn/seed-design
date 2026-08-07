@@ -2,7 +2,7 @@ import preview from "../.storybook/preview";
 import { Box, TimePicker, type TimePickerProps } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryParameters } from "./utils/parameters";
+import { withChromaticParameters } from "./utils/parameters";
 
 type TimePickerPreviewProps = TimePickerProps & {
   previewWidth?: string;
@@ -56,18 +56,13 @@ const conditionMap = {
 };
 
 const CommonStoryTemplate = meta.story({
-  render: (args) => (
-    <VariantTable
-      Component={TimePickerPreview}
-      variantMap={{}}
-      conditionMap={conditionMap}
-      {...args}
-    />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
 });
 
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });

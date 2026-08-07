@@ -7,7 +7,7 @@ import {
 } from "@seed-design/css/recipes/radiomark";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { RadioGroup } from "@seed-design/react/primitive";
 
 function CustomRadioGroup(
@@ -53,9 +53,9 @@ const conditionMap = {
 };
 
 const CommonStoryTemplate = meta.story({
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={CustomRadioGroup}
+      Component={component!}
       variantMap={radiomarkVariantMap}
       conditionMap={conditionMap}
       {...args}
@@ -66,13 +66,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: createStoryParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
