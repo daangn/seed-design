@@ -90,6 +90,24 @@ export function getMonthWeekStarts(
   return result;
 }
 
+export function resolveWeekStartsOn(
+  locale: string,
+  weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6,
+) {
+  if (weekStartsOn !== undefined) return weekStartsOn;
+
+  const knownSunday = { year: 2000, month: 1, day: 2 };
+  const localeWeekStart = getWeekStart(knownSunday, locale);
+  return toCalendarDate(localeWeekStart).toDate("UTC").getUTCDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+export function getMonthWeekCount(month: DatePickerDate, weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6) {
+  const first = startOfMonth(month);
+  const firstDay = toCalendarDate(first).toDate("UTC").getUTCDay();
+  const leadingDays = (firstDay - weekStartsOn + 7) % 7;
+  return Math.ceil((leadingDays + getDaysInMonth(first)) / 7);
+}
+
 export function normalizeViewDate(
   date: DatePickerDate,
   visibleRange: DatePickerVisibleRange,

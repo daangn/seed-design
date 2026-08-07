@@ -18,11 +18,13 @@ import {
   DEFAULT_DATE_CELL_HEIGHT,
   getDaysInMonth,
   getLocalToday,
+  getMonthWeekCount,
   getMonthWeekStarts,
   getWeekEnd,
   getWeekStart,
   isSameDate,
   normalizeViewDate,
+  resolveWeekStartsOn,
   startOfMonth,
   toCalendarDate,
 } from "./date";
@@ -76,6 +78,9 @@ interface MonthDescriptor {
 }
 
 type MonthDescriptorBase = Pick<MonthDescriptor, "date" | "key" | "weekCount">;
+
+const MONTH_DESCRIPTOR_BASES_CACHE_LIMIT = 10;
+const monthDescriptorBasesCache = new Map<string, readonly MonthDescriptorBase[]>();
 
 function getSelectionMode(props: UseDatePickerProps): DatePickerSelectionMode {
   return props.selectionMode ?? "single";
@@ -155,17 +160,31 @@ function getMonthDescriptorBases(
   locale: string,
   weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined,
 ) {
+  const cacheKey = `${yearRange.start}:${yearRange.end}:${locale}:${weekStartsOn ?? "locale"}`;
+  const cached = monthDescriptorBasesCache.get(cacheKey);
+  if (cached) {
+    monthDescriptorBasesCache.delete(cacheKey);
+    monthDescriptorBasesCache.set(cacheKey, cached);
+    return cached;
+  }
+
   const result: MonthDescriptorBase[] = [];
+  const resolvedWeekStartsOn = resolveWeekStartsOn(locale, weekStartsOn);
 
   for (let year = yearRange.start; year <= yearRange.end; year++) {
     for (let month = 1; month <= 12; month++) {
       const date = { year, month, day: 1 };
       const key = dateKey(date);
-      const weekCount = getMonthWeekStarts(date, locale, weekStartsOn).length;
+      const weekCount = getMonthWeekCount(date, resolvedWeekStartsOn);
       result.push({ date, key, weekCount });
     }
   }
 
+  if (monthDescriptorBasesCache.size >= MONTH_DESCRIPTOR_BASES_CACHE_LIMIT) {
+    const oldestKey = monthDescriptorBasesCache.keys().next().value;
+    if (oldestKey !== undefined) monthDescriptorBasesCache.delete(oldestKey);
+  }
+  monthDescriptorBasesCache.set(cacheKey, result);
   return result;
 }
 
