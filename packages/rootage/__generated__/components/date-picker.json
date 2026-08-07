@@ -45,6 +45,9 @@
             },
             "color": {
               "type": "color"
+            },
+            "backgroundColor": {
+              "type": "color"
             }
           }
         },
@@ -231,6 +234,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral"
+                },
+                "backgroundColor": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
                 }
               },
               "months": {
@@ -387,6 +394,12 @@
               "pressed"
             ],
             "slots": {
+              "headerLabel": {
+                "backgroundColor": {
+                  "type": "color",
+                  "value": "$color.bg.transparent-pressed"
+                }
+              },
               "dateVisual": {
                 "color": {
                   "type": "color",

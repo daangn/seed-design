@@ -46,6 +46,9 @@ declare const artifact: {
             "color": {
               "type": "color";
             };
+            "backgroundColor": {
+              "type": "color";
+            };
           };
         };
         "months": {
@@ -232,6 +235,10 @@ declare const artifact: {
                   "type": "color";
                   "value": "$color.fg.neutral";
                 };
+                "backgroundColor": {
+                  "type": "color";
+                  "value": "$color.bg.transparent";
+                };
               };
               "months": {
                 "gap": {
@@ -387,6 +394,12 @@ declare const artifact: {
               "pressed",
             ];
             "slots": {
+              "headerLabel": {
+                "backgroundColor": {
+                  "type": "color";
+                  "value": "$color.bg.transparent-pressed";
+                };
+              };
               "dateVisual": {
                 "color": {
                   "type": "color";

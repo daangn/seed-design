@@ -75,7 +75,7 @@ const datePicker = defineSlotRecipe({
       paddingInline: vars.base.enabled.headerLabel.paddingX,
       paddingBlock: 0,
       color: vars.base.enabled.headerLabel.color,
-      background: "transparent",
+      backgroundColor: vars.base.enabled.headerLabel.backgroundColor,
       fontFamily: "inherit",
       fontSize: vars.base.enabled.headerLabel.fontSize,
       lineHeight: vars.base.enabled.headerLabel.lineHeight,
@@ -86,6 +86,9 @@ const datePicker = defineSlotRecipe({
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
       [pseudo(not(disabled), active)]: createPressScaleStyles(),
+      [pseudo(not(disabled), engaged)]: {
+        backgroundColor: vars.base.pressed.headerLabel.backgroundColor,
+      },
       [pseudo(disabled)]: {
         cursor: "default",
       },

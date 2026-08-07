@@ -23,7 +23,7 @@
     padding-inline: var(--seed-dimension-x1);
     padding-block: 0;
     color: var(--seed-color-fg-neutral);
-    background: transparent;
+    background-color: var(--seed-color-bg-transparent);
     font-family: inherit;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
@@ -40,6 +40,16 @@
 }
 .seed-date-picker__headerLabel:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-press-scale, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+    .seed-date-picker__headerLabel:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media not all and (hover: hover) and (pointer: fine) {
+    .seed-date-picker__headerLabel:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
 }
 .seed-date-picker__headerLabel:is(:disabled, [disabled], [data-disabled]) {
     cursor: default;
