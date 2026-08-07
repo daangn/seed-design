@@ -101,6 +101,10 @@ const sampleSuccess = (id: string): DisplayItemEntry => ({
   status: "success",
 });
 
+// Annotated `T | undefined` because `noUncheckedIndexedAccess` is off, so the
+// indexed read alone would hide the empty-array case the callers guard against.
+const lastCall = <T,>(calls: T[]): T | undefined => calls[calls.length - 1];
+
 describe("useAttachmentDisplay", () => {
   describe("basic rendering", () => {
     it("renders trigger and items", () => {
@@ -371,7 +375,7 @@ describe("useAttachmentDisplay", () => {
       expect(queryAllByTestId(/^item-/)).toHaveLength(1);
 
       act(() => api.addEntries([sampleSuccess("b")]));
-      expect(onEntriesChange.mock.calls.at(-1)?.[0]).toEqual([
+      expect(lastCall(onEntriesChange.mock.calls)?.[0]).toEqual([
         sampleSuccess("a"),
         sampleSuccess("b"),
       ]);
@@ -380,7 +384,7 @@ describe("useAttachmentDisplay", () => {
       // Second call must read the now-current [a, b] (committed via the controlled prop),
       // not the [a] captured when the first render's setter was created.
       act(() => api.addEntries([sampleSuccess("c")]));
-      expect(onEntriesChange.mock.calls.at(-1)?.[0]).toEqual([
+      expect(lastCall(onEntriesChange.mock.calls)?.[0]).toEqual([
         sampleSuccess("a"),
         sampleSuccess("b"),
         sampleSuccess("c"),
@@ -527,8 +531,8 @@ describe("useAttachmentDisplay", () => {
 
       // map returns the same entries; useControllableState may or may not fire onChange for identity-equal results,
       // but the post-state must equal the pre-state.
-      const lastCall = onEntriesChange.mock.calls.at(-1);
-      if (lastCall) expect(lastCall[0]).toEqual([sampleSuccess("a")]);
+      const call = lastCall(onEntriesChange.mock.calls);
+      if (call) expect(call[0]).toEqual([sampleSuccess("a")]);
     });
 
     it("works regardless of disabled/readOnly (external push category)", () => {

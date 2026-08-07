@@ -1,0 +1,12 @@
+{
+  // Shared by every package that ships code to a browser. The oldest supported
+  // WebView is Chrome 88 / Safari 15, and ES2021 is the newest lib that baseline
+  // fully supports: ES2022 would admit `Array.prototype.at` (Chrome 92 / Safari
+  // 15.4) and `Object.hasOwn` (Chrome 93 / Safari 15.4).
+  //
+  // This bounds APIs only. Emitted syntax is still governed by `target` and by
+  // each package's bundler target, which are not pinned to the baseline yet.
+  "compilerOptions": {
+    "lib": ["ES2021", "DOM", "DOM.Iterable"]
+  }
+}
