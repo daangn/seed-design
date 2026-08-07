@@ -131,6 +131,19 @@ describe("DatePicker", () => {
     ).toBeInTheDocument();
   });
 
+  it("헤더 아이콘에 Icon의 크기와 접근성 속성을 전달한다", () => {
+    const { getByRole } = render(<DatePicker {...commonProps} />);
+
+    const headerIcon = getByRole("button", { name: "2026년 7월" }).querySelector("svg");
+    const previousIcon = getByRole("button", { name: "이전 달" }).querySelector("svg");
+    const nextIcon = getByRole("button", { name: "다음 달" }).querySelector("svg");
+
+    for (const icon of [headerIcon, previousIcon, nextIcon]) {
+      expect(icon).toHaveClass("seed-icon");
+      expect(icon).toHaveAttribute("aria-hidden", "true");
+    }
+  });
+
   it("레이아웃별 공개 컴포넌트가 고정된 달력 범위를 렌더링한다", () => {
     const twoMonths = render(<TwoMonthDatePicker {...commonProps} />);
     expect(twoMonths.getAllByRole("grid")).toHaveLength(2);

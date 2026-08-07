@@ -88,22 +88,45 @@ type DatePickerImplementationProps = DatePickerSharedProps & {
   visibleRange: DatePickerVisibleRange;
 };
 
-function NavigationChevronIcon({ direction }: { direction: "left" | "right" }) {
-  const path =
-    direction === "left"
-      ? "M22.7931 13.0704C23.0788 13.3703 23.0672 13.8451 22.7673 14.1307L16.5875 20.0166L22.7672 25.9017C23.0672 26.1873 23.0788 26.6621 22.7931 26.962C22.5075 27.262 22.0327 27.2736 21.7328 26.9879L14.9828 20.5598C14.8341 20.4182 14.75 20.2219 14.75 20.0167C14.75 19.8114 14.8341 19.6151 14.9827 19.4736L21.7327 13.0446C22.0327 12.7589 22.5074 12.7704 22.7931 13.0704Z"
-      : "M17.2069 13.0704C16.9212 13.3703 16.9328 13.8451 17.2327 14.1307L23.4125 20.0166L17.2328 25.9017C16.9328 26.1873 16.9212 26.6621 17.2069 26.962C17.4925 27.262 17.9673 27.2736 18.2672 26.9879L25.0172 20.5598C25.1659 20.4182 25.25 20.2219 25.25 20.0167C25.25 19.8114 25.1659 19.6151 25.0173 19.4736L18.2673 13.0446C17.9673 12.7589 17.4926 12.7704 17.2069 13.0704Z";
+type NavigationChevronIconProps = React.SVGProps<SVGSVGElement> & {
+  direction: "left" | "right";
+};
 
-  return (
-    <svg viewBox="8 8 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d={path} fill="currentColor" />
-    </svg>
-  );
-}
+const NavigationChevronIcon = React.forwardRef<SVGSVGElement, NavigationChevronIconProps>(
+  ({ direction, ...props }, ref) => {
+    const path =
+      direction === "left"
+        ? "M22.7931 13.0704C23.0788 13.3703 23.0672 13.8451 22.7673 14.1307L16.5875 20.0166L22.7672 25.9017C23.0672 26.1873 23.0788 26.6621 22.7931 26.962C22.5075 27.262 22.0327 27.2736 21.7328 26.9879L14.9828 20.5598C14.8341 20.4182 14.75 20.2219 14.75 20.0167C14.75 19.8114 14.8341 19.6151 14.9827 19.4736L21.7327 13.0446C22.0327 12.7589 22.5074 12.7704 22.7931 13.0704Z"
+        : "M17.2069 13.0704C16.9212 13.3703 16.9328 13.8451 17.2327 14.1307L23.4125 20.0166L17.2328 25.9017C16.9328 26.1873 16.9212 26.6621 17.2069 26.962C17.4925 27.262 17.9673 27.2736 18.2672 26.9879L25.0172 20.5598C25.1659 20.4182 25.25 20.2219 25.25 20.0167C25.25 19.8114 25.1659 19.6151 25.0173 19.4736L18.2673 13.0446C17.9673 12.7589 17.4926 12.7704 17.2069 13.0704Z";
 
-function HeaderChevronIcon({ expanded }: { expanded: boolean }) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    return (
+      <svg
+        ref={ref}
+        {...props}
+        viewBox="8 8 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path fillRule="evenodd" clipRule="evenodd" d={path} fill="currentColor" />
+      </svg>
+    );
+  },
+);
+NavigationChevronIcon.displayName = "NavigationChevronIcon";
+
+type HeaderChevronIconProps = React.SVGProps<SVGSVGElement> & {
+  expanded: boolean;
+};
+
+const HeaderChevronIcon = React.forwardRef<SVGSVGElement, HeaderChevronIconProps>(
+  ({ expanded, ...props }, ref) => (
+    <svg
+      ref={ref}
+      {...props}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -112,8 +135,9 @@ function HeaderChevronIcon({ expanded }: { expanded: boolean }) {
         transform={expanded ? "rotate(180 10 10)" : undefined}
       />
     </svg>
-  );
-}
+  ),
+);
+HeaderChevronIcon.displayName = "HeaderChevronIcon";
 
 function WeekdayRow({
   api,
