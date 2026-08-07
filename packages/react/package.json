@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -49,7 +49,7 @@
     "@seed-design/react-checkbox": "^2.0.1",
     "@seed-design/react-collapsible": "^1.0.1",
     "@seed-design/react-dialog": "^2.0.3",
-    "@seed-design/react-drawer": "^2.0.4",
+    "@seed-design/react-drawer": "^2.0.5",
     "@seed-design/react-field": "^2.0.1",
     "@seed-design/react-field-button": "^2.0.1",
     "@seed-design/react-fieldset": "^1.0.1",
