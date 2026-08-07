@@ -2,6 +2,7 @@
 
 import { IconChevronDownLine, IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
+import { IconLink } from "@/components/icons/IconLink";
 import {
   DocsMenuContent,
   DocsMenuGroup,
@@ -36,12 +37,20 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
   const [isLoading, setLoading] = useState(false);
   const adapter = useSnackbarAdapter();
 
-  const showCopiedSnackbar = () => {
+  const showCopiedSnackbar = (message: string) => {
     adapter.create({
       timeout: 2000,
       onClose: () => {},
-      render: () => <Snackbar message="복사되었습니다" />,
+      render: () => <Snackbar message={message} />,
     });
+  };
+
+  // markdownUrl은 루트 상대 경로(`/llms/...`)라 그대로 복사하면 붙여넣는 쪽에서 못 연다.
+  const handleCopyUrlClick = async () => {
+    setOpen(false);
+
+    await navigator.clipboard.writeText(new URL(markdownUrl, window.location.href).href);
+    showCopiedSnackbar("링크가 복사되었습니다");
   };
 
   const handleCopyClick = async () => {
@@ -50,7 +59,7 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
     const cached = cache.get(markdownUrl);
     if (cached) {
       await navigator.clipboard.writeText(cached);
-      showCopiedSnackbar();
+      showCopiedSnackbar("내용이 복사되었습니다");
       return;
     }
 
@@ -62,7 +71,7 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
 
       cache.set(markdownUrl, content);
       await navigator.clipboard.writeText(content);
-      showCopiedSnackbar();
+      showCopiedSnackbar("내용이 복사되었습니다");
     } finally {
       setLoading(false);
     }
@@ -83,8 +92,15 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
       <DocsMenuContent>
         <DocsMenuGroup>
           <DocsMenuItem
+            label="링크 복사"
+            suffixIcon={<IconLink />}
+            onClick={() => {
+              void handleCopyUrlClick();
+            }}
+          />
+          <DocsMenuItem
             disabled={isLoading}
-            label="복사하기"
+            label="내용 복사"
             suffixIcon={<IconSquare2StackedLine />}
             onClick={() => {
               void handleCopyClick();
