@@ -98,7 +98,16 @@ async function releaseControlFromDev(): Promise<ReturnType<typeof parseReleaseCo
 async function validatePr(values: Map<string, string>): Promise<void> {
   const event = await readEvent(required(values, "event"));
   const lane = event.pull_request.base.ref;
-  if (!isLaneName(lane)) throw new Error(`${lane}은 릴리즈 레인이 아닙니다.`);
+  if (!isLaneName(lane)) {
+    console.log(`::notice::${lane}은 릴리즈 레인이 아니므로 검증을 건너뜁니다.`);
+    await writeSummary([
+      "## 릴리즈 PR 검증",
+      "",
+      `- \`${lane}\`은 릴리즈 레인이 아니므로 검증을 건너뛰었습니다.`,
+    ]);
+    await writeOutput({ skipped: "true", lane });
+    return;
+  }
 
   const config = await loadLaneConfig();
   const generated = validateGeneratedPr(identityFromEvent(event));

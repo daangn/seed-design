@@ -143,6 +143,31 @@ describe("Changeset 검증", () => {
   });
 });
 
+describe("릴리즈 PR CLI", () => {
+  test("비릴리즈 레인 PR은 성공으로 건너뛴다", async () => {
+    const directory = await mkdtemp(join(tmpdir(), "release-cli-test-"));
+    temporaryDirectories.push(directory);
+    const eventPath = join(directory, "event.json");
+    await writeFile(
+      eventPath,
+      JSON.stringify({ pull_request: { base: { ref: "feature/des-2200" } } }),
+    );
+
+    const process = Bun.spawn(
+      ["bun", "scripts/release/cli.ts", "validate-pr", "--event", eventPath],
+      { stdout: "pipe", stderr: "pipe" },
+    );
+    const [exitCode, stdout, stderr] = await Promise.all([
+      process.exited,
+      new Response(process.stdout).text(),
+      new Response(process.stderr).text(),
+    ]);
+
+    expect(exitCode, stderr).toBe(0);
+    expect(stdout).toContain("릴리즈 레인이 아니므로 검증을 건너뜁니다");
+  });
+});
+
 describe("자동화 PR marker", () => {
   const marker: ReleaseMarker = {
     schemaVersion: 1,

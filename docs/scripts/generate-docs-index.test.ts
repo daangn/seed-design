@@ -35,3 +35,18 @@ describe("generated docs index snippet keys", () => {
     expect(findItem("lynx", "components", "action-button")?.snippetKey).toBeUndefined();
   });
 });
+
+describe("generated docs index order", () => {
+  it("uses the document URL as a stable tie-breaker for duplicate item IDs", () => {
+    const react = docsIndex.categories.find((category) => category.id === "react");
+    const components = react?.sections.find((section) => section.id === "components");
+    const compositionUrls = components?.items
+      .filter((item) => item.id === "composition")
+      .map((item) => item.docUrl);
+
+    expect(compositionUrls).toEqual([
+      "/react/components/concepts/composition",
+      "/react/components/iconography/composition",
+    ]);
+  });
+});
