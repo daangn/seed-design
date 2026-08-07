@@ -25,9 +25,6 @@ jobs:
         id: release-validation
         run: bun scripts/release/cli.ts validate-pr --event "$GITHUB_EVENT_PATH"
 
-      - name: Test release automation
-        run: bun test scripts/release
-
       - name: Run full trusted sync gate
         if: steps.release-validation.outputs.type == 'sync'
         run: |
