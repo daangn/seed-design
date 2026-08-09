@@ -20,4 +20,7 @@
 
 production 쓰기에는 `ROOTAGE_R2_ACCESS_KEY_ID`, `ROOTAGE_R2_SECRET_ACCESS_KEY`, `CF_ACCOUNT_ID`, `ROOTAGE_R2_BUCKET`이 필요하다.
 배포·route 변경·rollback·삭제는 GitHub의 `rootage-production` environment 승인을 거친 수동 workflow에서 실행한다.
-초기 전환은 production Worker 배포, `backfill-version`/`backfill-stable`, route cutover 순서로 수행한다. 백필 검증 URL은 environment secret `ROOTAGE_WORKER_BASE_URL`로 주입한다.
+production Worker 배포는 기존 단일 100% traffic deployment/version을 먼저 기록하고 `https://seed-design.io/rootage/latest/index.json`의 응답 shape와 exact Worker version header를 확인한다. smoke 실패 시 현재 deployment와 version이 방금 배포한 두 ID와 모두 일치할 때만 기록한 정확한 이전 version으로 자동 rollback한다.
+성공한 배포의 지연 장애는 `Operate Rootage CDN`의 `worker-rollback`으로 복구한다. target은 history의 과거 단일 100% Worker version이어야 하고, 현재 exact version과 target history deployment를 호출 직전에 다시 확인하며, rollback 뒤 새 100% deployment가 current인지 bounded 검증한다.
+
+현재 production처럼 기존 Worker deployment, stable pointer, route가 있는 환경의 교체만 자동화한다. deployment history가 전혀 없는 최초 bootstrap은 되돌릴 이전 version을 증명할 수 없어 fail-closed하며, 별도로 리뷰된 1회성 bootstrap 절차 없이는 이 workflow로 진행하지 않는다. 백필 검증 URL은 environment secret `ROOTAGE_WORKER_BASE_URL`로 주입한다.

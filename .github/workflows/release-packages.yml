@@ -2,7 +2,7 @@ name: Release Version PR
 
 on:
   push:
-    branches: [dev, minor, major]
+    branches: [dev]
     paths:
       - "packages/**"
       - "docs/**"
@@ -10,89 +10,230 @@ on:
       - ".github/release/**"
       - ".github/workflows/release-packages.yml"
       - ".github/actions/setup/action.yml"
-      - "scripts/release/**"
+      - "tools/release-automation/**"
+  pull_request_target:
+    branches: [minor, major]
+    types: [closed]
+  schedule:
+    - cron: "17 * * * *"
   workflow_dispatch:
+    inputs:
+      lane:
+        description: "Release lane to catch up"
+        required: true
+        default: all
+        type: choice
+        options: [all, dev, minor, major]
 
 concurrency:
   group: release-version-${{ github.ref_name }}
   cancel-in-progress: false
 
 jobs:
-  version:
-    name: Update Version Packages PR
-    if: contains(fromJSON('["dev", "minor", "major"]'), github.ref_name)
+  select-lanes:
+    name: Snapshot release lane heads
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/dev') ||
+      (github.event_name == 'schedule' && github.ref == 'refs/heads/dev') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev') ||
+      (github.event_name == 'pull_request_target' &&
+       github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     permissions:
+      contents: read
+    outputs:
+      control_sha: ${{ steps.select.outputs.control_sha }}
+      matrix: ${{ steps.select.outputs.matrix }}
+
+    steps:
+      - name: Checkout trusted dev workflow
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Select exact current lane heads
+        id: select
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_LANE: ${{ inputs.lane || 'all' }}
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref || '' }}
+          PR_MERGED: ${{ github.event.pull_request.merged || false }}
+        run: |
+          case "$EVENT_NAME" in
+            push)
+              SELECTED_LANES="dev"
+              ;;
+            schedule)
+              SELECTED_LANES="dev minor major"
+              ;;
+            workflow_dispatch)
+              case "$REQUESTED_LANE" in
+                all) SELECTED_LANES="dev minor major" ;;
+                dev|minor|major) SELECTED_LANES="$REQUESTED_LANE" ;;
+                *) echo "Unknown release lane: $REQUESTED_LANE" >&2; exit 1 ;;
+              esac
+              ;;
+            pull_request_target)
+              test "$PR_MERGED" = "true"
+              case "$PR_BASE_REF" in
+                minor|major) SELECTED_LANES="$PR_BASE_REF" ;;
+                *) echo "Unexpected merged release lane: $PR_BASE_REF" >&2; exit 1 ;;
+              esac
+              ;;
+            *)
+              echo "Unsupported event: $EVENT_NAME" >&2
+              exit 1
+              ;;
+          esac
+
+          CONTROL_SHA=$(git rev-parse HEAD)
+          MATRIX='[]'
+          for LANE in $SELECTED_LANES; do
+            if [ "$LANE" = "dev" ]; then
+              BASE_SHA="$CONTROL_SHA"
+            else
+              BASE_SHA=$(git rev-parse "refs/remotes/origin/${LANE}")
+            fi
+            MATRIX=$(jq -c \
+              --arg lane "$LANE" \
+              --arg base_sha "$BASE_SHA" \
+              '. + [{lane: $lane, base_sha: $base_sha}]' \
+              <<< "$MATRIX")
+          done
+          echo "control_sha=$CONTROL_SHA" >> "$GITHUB_OUTPUT"
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+
+  plan:
+    name: Plan ${{ matrix.lane }} Version Packages PR
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      github.event.pull_request.merged == true
+    needs: select-lanes
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.select-lanes.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      BUN_INSTALL_CACHE_DIR: /tmp/seed-release-bun-cache-${{ matrix.lane }}-${{ github.run_id }}
+
+    steps:
+      - name: Checkout exact lane without credentials
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ matrix.base_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Bind checkout to selected lane head
+        env:
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+        run: test "$(git rev-parse HEAD)" = "$RELEASE_PLAN_BASE_SHA"
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Install lane dependencies without shared cache
+        run: |
+          bun install --frozen-lockfile
+          bun ecosystem:build
+          bun install --frozen-lockfile
+
+      - name: Apply package versions without write credentials
+        run: bun tools/release-automation/src/lane/version.ts
+
+      - name: Checkout trusted dev plan helper
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.select-lanes.outputs.control_sha }}
+          path: .release-control
+          persist-credentials: false
+
+      - name: Create immutable Version Packages write plan
+        env:
+          RELEASE_PLAN_LANE: ${{ matrix.lane }}
+          RELEASE_PLAN_COMMAND: version
+          RELEASE_PLAN_TAG: ""
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+          RELEASE_PLAN_RUN_ID: ${{ github.run_id }}
+        run: |
+          echo '/.release-control/' >> .git/info/exclude
+          bun "$GITHUB_WORKSPACE/.release-control/tools/release-automation/src/lane/lane-write-plan.ts" create-version /tmp/seed-release-plan
+
+      - name: Upload immutable Version Packages write plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-version-plan-${{ matrix.lane }}
+          path: /tmp/seed-release-plan
+          if-no-files-found: error
+          retention-days: 1
+
+  write:
+    name: Write ${{ matrix.lane }} Version Packages PR
+    if: >-
+      always() &&
+      needs.select-lanes.result == 'success' &&
+      (
+        github.event_name != 'pull_request_target' ||
+        github.event.pull_request.merged == true
+      )
+    needs: [select-lanes, plan]
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.select-lanes.outputs.matrix) }}
+    concurrency:
+      group: release-version-write-${{ matrix.lane }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
       contents: write
       issues: write
       pull-requests: write
+    env:
+      BUN_INSTALL_CACHE_DIR: /tmp/seed-release-trusted-bun-cache-${{ matrix.lane }}-${{ github.run_id }}
 
     steps:
-      - name: Checkout lane
+      - name: Checkout trusted dev writer
         uses: actions/checkout@v6
         with:
+          ref: dev
           fetch-depth: 0
+          persist-credentials: false
 
-      - uses: ./.github/actions/setup
-
-      - name: Create or update Version Packages PR
-        id: version
-        uses: changesets/action@3841a0683d3cfa6dae0f9bb335290003010fe3f0 # v1.9.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: bun scripts/release/version.ts
-          commit: "chore(release): version packages"
-          title: "release: version packages"
-          branch: ${{ github.ref_name }}
-
-      - name: Mark trusted Version Packages PR
-        if: steps.version.outputs.pullRequestNumber
-        uses: actions/github-script@v9
+      - name: Bind writer to planned dev control SHA
         env:
-          PR_NUMBER: ${{ steps.version.outputs.pullRequestNumber }}
-          LANE: ${{ github.ref_name }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+        run: test "$(git rev-parse HEAD)" = "$RELEASE_PLAN_CONTROL_SHA"
+
+      - uses: oven-sh/setup-bun@v2
         with:
-          script: |
-            const { stdout } = await exec.getExecOutput("bun", [
-              "scripts/release/cli.ts",
-              "marker",
-              "--type", "version",
-              "--lane", process.env.LANE,
-            ]);
-            const marker = stdout.trim();
-            const pull = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: Number(process.env.PR_NUMBER),
-            });
-            const bodyWithoutOldMarker = (pull.data.body ?? "").replace(
-              /<!-- seed-release:\{[^\n]+\} -->\n*/g,
-              "",
-            );
-            await github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: Number(process.env.PR_NUMBER),
-              body: `${marker}\n\n${bodyWithoutOldMarker}`,
-            });
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: Number(process.env.PR_NUMBER),
-              labels: ["release:version"],
-            }).catch(async (error) => {
-              if (error.status !== 404 && error.status !== 422) throw error;
-              await github.rest.issues.createLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: "release:version",
-                color: "8250df",
-                description: "Version Packages PR generated by release automation",
-              });
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: Number(process.env.PR_NUMBER),
-                labels: ["release:version"],
-              });
-            });
+          bun-version: "1.3.13"
+
+      - name: Install trusted Changesets without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Download immutable Version Packages write plan
+        uses: actions/download-artifact@v5
+        with:
+          name: release-version-plan-${{ matrix.lane }}
+          path: /tmp/seed-release-plan
+
+      - name: Write Version Packages pull request
+        env:
+          RELEASE_PLAN_LANE: ${{ matrix.lane }}
+          RELEASE_PLAN_COMMAND: version
+          RELEASE_PLAN_TAG: ""
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+          RELEASE_PLAN_RUN_ID: ${{ github.run_id }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun tools/release-automation/src/lane/lane-write-plan.ts write-version /tmp/seed-release-plan
