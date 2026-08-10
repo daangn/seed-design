@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SEED Design 릴리즈 운영 상태",
-  "description": "릴리즈 실행 모드, Rootage 계약 준비 상태, stable 승격 freeze를 정의한다.",
+  "description": "릴리즈 실행 모드와 Rootage 계약 준비 상태를 정의한다.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["$schema", "schemaVersion", "mode", "rootageContractReady", "freeze"],
+  "required": ["$schema", "schemaVersion", "mode", "rootageContractReady"],
   "properties": {
     "$schema": {
       "description": "이 설정 파일을 검증하는 로컬 JSON Schema 경로다.",
@@ -23,8 +23,8 @@
       "type": "boolean"
     },
     "freeze": {
-      "description": "진행 중인 stable 승격 상태다. 승격이 없으면 null이다.",
-      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/freeze" }]
+      "description": "기존 dev 상태를 읽기 위한 마이그레이션 호환 필드다. 새 상태 파일에는 기록하지 않는다.",
+      "type": "null"
     }
   },
   "allOf": [
@@ -37,60 +37,5 @@
         "properties": { "rootageContractReady": { "const": true } }
       }
     }
-  ],
-  "$defs": {
-    "freeze": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["promotionLane", "candidateSha", "phase", "frozenLanes", "startedAt"],
-      "properties": {
-        "promotionLane": {
-          "description": "stable로 승격할 prerelease 레인이다.",
-          "enum": ["minor", "major"]
-        },
-        "candidateSha": {
-          "description": "승격 대상으로 고정한 레인 HEAD의 40자리 Git commit SHA다.",
-          "type": "string",
-          "pattern": "^[0-9a-f]{40}$"
-        },
-        "phase": {
-          "description": "승격 작업의 현재 단계다.",
-          "enum": ["frozen", "integrating", "rebuilding"]
-        },
-        "frozenLanes": {
-          "description": "승격 완료 전 일반 PR merge와 prerelease publish를 차단할 레인 목록이다.",
-          "type": "array",
-          "items": {
-            "enum": ["minor", "major"]
-          },
-          "uniqueItems": true
-        },
-        "startedAt": {
-          "description": "승격 freeze를 시작한 RFC 3339 시각이다.",
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "allOf": [
-        {
-          "if": {
-            "properties": { "promotionLane": { "const": "minor" } },
-            "required": ["promotionLane"]
-          },
-          "then": {
-            "properties": { "frozenLanes": { "const": ["minor"] } }
-          }
-        },
-        {
-          "if": {
-            "properties": { "promotionLane": { "const": "major" } },
-            "required": ["promotionLane"]
-          },
-          "then": {
-            "properties": { "frozenLanes": { "const": ["minor", "major"] } }
-          }
-        }
-      ]
-    }
-  }
+  ]
 }

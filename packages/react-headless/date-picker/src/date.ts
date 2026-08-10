@@ -90,10 +90,7 @@ export function getMonthWeekStarts(
   return result;
 }
 
-export function resolveWeekStartsOn(
-  locale: string,
-  weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6,
-) {
+export function resolveWeekStartsOn(locale: string, weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6) {
   if (weekStartsOn !== undefined) return weekStartsOn;
 
   const knownSunday = { year: 2000, month: 1, day: 2 };

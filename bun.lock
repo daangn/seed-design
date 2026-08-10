@@ -1680,6 +1680,13 @@
         "vite-plugin-singlefile": "^2.2.0",
       },
     },
+    "tools/release-automation": {
+      "name": "@seed-design/release-automation",
+      "version": "0.0.0",
+      "dependencies": {
+        "yaml": "^2.8.2",
+      },
+    },
     "tools/rootage-cdn": {
       "name": "@seed-design/rootage-cdn",
       "version": "0.0.0",
@@ -3234,6 +3241,8 @@
     "@seed-design/react-use-controllable-state": ["@seed-design/react-use-controllable-state@workspace:packages/react-headless/use-controllable-state"],
 
     "@seed-design/react-wheel-picker": ["@seed-design/react-wheel-picker@workspace:packages/react-headless/wheel-picker"],
+
+    "@seed-design/release-automation": ["@seed-design/release-automation@workspace:tools/release-automation"],
 
     "@seed-design/rootage-artifacts": ["@seed-design/rootage-artifacts@workspace:packages/rootage"],
 

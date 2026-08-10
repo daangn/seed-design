@@ -3,10 +3,7 @@
   "schemaVersion": 1,
   "repository": "daangn/seed-design",
   "maintainerTeam": "design-system",
-  "protectedDistTags": [
-    "latest",
-    "stable"
-  ],
+  "protectedDistTags": ["latest", "stable"],
   "lanes": {
     "dev": {
       "bump": "patch",
@@ -16,17 +13,12 @@
     "minor": {
       "bump": "minor",
       "prerelease": true,
-      "sources": [
-        "dev"
-      ]
+      "sources": ["dev"]
     },
     "major": {
       "bump": "major",
       "prerelease": true,
-      "sources": [
-        "dev",
-        "minor"
-      ]
+      "sources": ["dev", "minor"]
     }
   },
   "sync": {

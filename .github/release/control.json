@@ -1,7 +1,6 @@
 {
   "$schema": "./control.schema.json",
   "schemaVersion": 1,
-  "mode": "production",
-  "rootageContractReady": true,
-  "freeze": null
+  "mode": "dry-run",
+  "rootageContractReady": true
 }

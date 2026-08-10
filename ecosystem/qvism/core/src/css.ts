@@ -217,10 +217,7 @@ export async function generateEachRecipe(
   cssConfig: CssgenConfig = {},
 ): Promise<{ name: string; css: string; layeredCss?: string }[]> {
   const { prefix, theme } = config;
-  const {
-    minify = false,
-    generateLayeredCss = config.generateLayeredCss ?? true,
-  } = cssConfig;
+  const { minify = false, generateLayeredCss = config.generateLayeredCss ?? true } = cssConfig;
 
   if (minify) {
     throw new Error("Minification is not supported for individual recipe generation yet.");
