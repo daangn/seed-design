@@ -4,6 +4,7 @@ import {
   hasExpectedGeneratedHeadRef,
   isBaselineMarker,
   isCodePromotionMarker,
+  isLegacyNormalizationMarker,
   isPrereleaseMarker,
   isStablePromotionMarker,
   parseMarker,
@@ -60,6 +61,50 @@ describe("prerelease generated marker", () => {
       { ...marker, lane: "dev" },
       { ...marker, expectedHeadSha: "short" },
       { ...marker, enterPr: 0 },
+      { ...marker, extra: true },
+    ]) {
+      expect(parseMarker(`<!-- seed-release:${JSON.stringify(invalid)} -->`)).toBeNull();
+    }
+  });
+});
+
+describe("one-time legacy normalization marker", () => {
+  const marker: ReleaseMarker = {
+    schemaVersion: 1,
+    type: "legacy-normalization",
+    lane: "minor",
+    operationId: "789",
+    sourceRepository: repository,
+    expectedBaseSha: baseSha,
+    expectedHeadSha: headSha,
+    expectedPreSha256: digest,
+    patchSha256: stablePatchDigest,
+    controlSha,
+  };
+  const identity: PullRequestIdentity = {
+    author: "github-actions[bot]",
+    body: encodeMarker(marker),
+    baseRef: "minor",
+    headRef: "release-legacy-normalization/minor-789",
+    baseRepository: repository,
+    headRepository: repository,
+  };
+
+  test("repository와 bot, reserved branch, exact SHA/digest를 결속한다", () => {
+    const parsed = parseMarker(identity.body);
+    expect(parsed && isLegacyNormalizationMarker(parsed)).toBe(true);
+    expect(validateGeneratedPr(identity)).toEqual(marker);
+    expect(validateGeneratedPr({ ...identity, author: "maintainer" })).toBeNull();
+    expect(validateGeneratedPr({ ...identity, baseRepository: "fork/seed-design" })).toBeNull();
+    expect(validateGeneratedPr({ ...identity, headRef: `${identity.headRef}-retry` })).toBeNull();
+  });
+
+  test("추가 key와 unsafe identity를 fail-closed한다", () => {
+    for (const invalid of [
+      { ...marker, operationId: "0" },
+      { ...marker, lane: "dev" },
+      { ...marker, expectedBaseSha: "short" },
+      { ...marker, expectedPreSha256: "short" },
       { ...marker, extra: true },
     ]) {
       expect(parseMarker(`<!-- seed-release:${JSON.stringify(invalid)} -->`)).toBeNull();

@@ -8,6 +8,7 @@ export const generatedPrTypes = [
   "prerelease",
   "baseline",
   "code-promotion",
+  "legacy-normalization",
 ] as const;
 export const prereleaseOperations = ["enter", "exit"] as const;
 export const versionReleaseKinds = ["stable-promotion"] as const;
@@ -104,6 +105,7 @@ export interface ReleaseMarker {
   expectedCodeTreeSha?: string;
   expectedBaselineTreeSha?: string;
   codeMergeSha?: string;
+  expectedPreSha256?: string;
 }
 
 export interface PullRequestIdentity {

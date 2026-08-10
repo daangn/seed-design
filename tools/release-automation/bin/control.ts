@@ -12,6 +12,7 @@ import {
   encodeMarker,
   isBaselineMarker,
   isCodePromotionMarker,
+  isLegacyNormalizationMarker,
   isPrereleaseMarker,
   isStablePromotionMarker,
   validateGeneratedPr,
@@ -42,6 +43,10 @@ import { assertDevStablePublishReconciled } from "../src/publish/baseline-reconc
 import { verifyCodePromotionPull } from "../src/promotion/code-promotion-validation";
 import { assertNoCompetingOpenStablePromotion } from "../src/promotion/promotion-state";
 import { assertUniqueOpenReleasePullForHead } from "../src/validation/head-identity";
+import {
+  assertLegacyNormalizationBoundary,
+  verifyLegacyNormalizationPull,
+} from "../src/setup/legacy-prerelease-normalization";
 
 interface PullRequestEvent {
   repository: { full_name: string };
@@ -237,6 +242,19 @@ async function validatePr(values: Map<string, string>): Promise<void> {
   );
   const generated = validateGeneratedPr(identityFromPull(pull));
   const files = await changedFiles(lane, pull.head.sha);
+  await run([
+    "git",
+    "fetch",
+    "--no-tags",
+    "origin",
+    "+refs/heads/minor:refs/remotes/origin/minor",
+    "+refs/heads/major:refs/remotes/origin/major",
+  ]);
+  await assertLegacyNormalizationBoundary({
+    repository: event.repository.full_name,
+    client,
+    marker: generated,
+  });
   const promotionException =
     generated &&
     (isStablePromotionMarker(generated) ||
@@ -329,6 +347,13 @@ async function validatePr(values: Map<string, string>): Promise<void> {
         pull,
         allowDraft: false,
         client,
+      });
+    }
+    if (generated.type === "legacy-normalization" && isLegacyNormalizationMarker(generated)) {
+      await verifyLegacyNormalizationPull({
+        repository: event.repository.full_name,
+        marker: generated,
+        pull,
       });
     }
   }

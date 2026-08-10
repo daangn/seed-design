@@ -14,6 +14,7 @@ import {
   validationRunIdFromStatus,
 } from "../core/validation-status";
 import { assertNoCompetingOpenStablePromotion } from "../promotion/promotion-state";
+import { assertLegacyNormalizationBoundary } from "../setup/legacy-prerelease-normalization";
 
 const gitShaPattern = /^[0-9a-f]{40}$/;
 const operationIdPattern = /^[1-9][0-9]*$/;
@@ -232,6 +233,22 @@ export async function selectReleaseWork(input: {
   const requestedOperation = parseOperation(input.requestedOperation);
   if (!operationIdPattern.test(input.operationId))
     throw new Error("workflow run ID가 올바르지 않습니다.");
+  if (!input.client || !input.repository) {
+    throw new Error("release selection에는 trusted GitHub client와 repository가 필요합니다.");
+  }
+  await git([
+    "fetch",
+    "--no-tags",
+    "origin",
+    "+refs/heads/dev:refs/remotes/origin/dev",
+    "+refs/heads/minor:refs/remotes/origin/minor",
+    "+refs/heads/major:refs/remotes/origin/major",
+  ]);
+  await assertLegacyNormalizationBoundary({
+    repository: input.repository,
+    client: input.client,
+    marker: null,
+  });
 
   if (input.eventName === "push") {
     const item = await regularVersionItem("dev", input.controlSha, input);
