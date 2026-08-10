@@ -15,7 +15,7 @@ export function ReleaseCard({ href, title, description, publishedAt }: ReleaseCa
   return (
     <Link
       href={href}
-      className="group flex h-full min-h-[112px] flex-col rounded-r3 bg-bg-transparent-selected px-x5 py-x3_5 text-fg-neutral transition-colors duration-color-transition hover:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stroke-focus-ring"
+      className="group flex h-full flex-col rounded-r3 bg-bg-transparent-selected px-x5 py-x3_5 text-fg-neutral transition-colors duration-color-transition hover:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stroke-focus-ring"
     >
       <div className="min-w-0 space-y-x1">
         {published && (

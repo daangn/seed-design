@@ -24,6 +24,7 @@ describe("ReleaseCard", () => {
     expect(Array.from(metadataAndTitle, (element) => element.tagName)).toEqual(["TIME", "H3"]);
     expect(screen.getByRole("heading", { level: 3 }).className).toContain("text-lg");
     expect(screen.getByRole("heading", { level: 3 }).className).toContain("font-medium");
+    expect(link.className).not.toContain("min-h-");
     expect(link.querySelector("p")).toBeNull();
     expect(link.querySelector("svg")).toBeNull();
   });
