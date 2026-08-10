@@ -119,7 +119,7 @@
   }
 
   .seed-menu-sheet__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale);
   }
 
   .seed-menu-sheet__closeButton {

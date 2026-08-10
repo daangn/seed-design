@@ -6,16 +6,15 @@
 export { PRESS_SCALE_CLASS_NAME } from "../class-names/index.mjs";
 
 /**
- * The pressed scale ratio, with the resting fallback already applied.
+ * The pressed scale ratio.
  *
- * `--seed-press-scale` is deliberately not registered with `@property`, so
- * until the element is measured — no JS, SSR, the frame before the first
- * ResizeObserver callback — it holds the guaranteed-invalid value. Consuming it
- * without the fallback makes `scale` compute to `none`, dropping the stacking
- * context the resting `scale: 1` exists to hold. The fallback is baked in here
- * so it cannot be left out.
+ * base.css declares it on `:root` and again on every element carrying
+ * `PRESS_SCALE_CLASS_NAME`, so it is defined everywhere in the document and
+ * resolves to 1 wherever no measurement exists yet — before the first
+ * ResizeObserver callback, under SSR, or with no JS at all. Reading it needs no
+ * fallback of its own.
  */
-export const pressScale = "var(--seed-press-scale, 1)";
+export const pressScale = "var(--seed-press-scale)";
 
 /**
  * The `transition` list entry that animates the scale, carrying the

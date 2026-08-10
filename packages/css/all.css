@@ -23,6 +23,7 @@
   --seed-font-size-limit-max: 1.5;
   --seed-line-height-limit-min: .8;
   --seed-line-height-limit-max: 1.5;
+  --seed-press-scale: 1;
   --seed-press-scale-transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 
@@ -383,7 +384,8 @@
 
 .seed-press-scale {
   --seed-press-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
-  --seed-press-scale: calc((var(--seed-press-scale-basis) - 2) / var(--seed-press-scale-basis));
+  --seed-press-scale-measured: calc((var(--seed-press-scale-basis) - 2) / var(--seed-press-scale-basis));
+  --seed-press-scale: var(--seed-press-scale-measured, 1);
   scale: 1;
 }
 
@@ -1342,7 +1344,7 @@
 }
 
 .seed-action-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-action-button {
@@ -2976,7 +2978,7 @@
 }
 
 .seed-bottom-sheet__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-bottom-sheet__closeButton {
@@ -3138,7 +3140,7 @@
 }
 
 .seed-callout__root:is(button, a):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-callout__root:is(button, a) {
@@ -3219,7 +3221,7 @@
 }
 
 .seed-callout__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-callout__closeButton {
@@ -3468,7 +3470,7 @@
 }
 
 .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-checkmark-press-scale, var(--seed-press-scale, 1));
+  scale: var(--seed-checkmark-press-scale, var(--seed-press-scale));
 }
 
 .seed-checkmark__root {
@@ -3673,7 +3675,7 @@
 }
 
 .seed-chip__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-chip__root {
@@ -3997,7 +3999,7 @@
 }
 
 .seed-chip-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-chip-tabs__trigger {
@@ -4362,7 +4364,7 @@
 }
 
 .seed-content-dialog__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -4460,7 +4462,7 @@
 }
 
 .seed-contextual-floating-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-contextual-floating-button {
@@ -5726,7 +5728,7 @@
 }
 
 .seed-attachment-input-item__root[aria-grabbed="true"] {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
   --remove-button-mask-size: 0px;
   --remove-button-mask-offset: 0px;
 }
@@ -5831,7 +5833,7 @@
 }
 
 .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-attachment-input-item__actionButton {
@@ -5870,7 +5872,7 @@
 }
 
 .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-attachment-input-item__removeButton {
@@ -6010,7 +6012,7 @@
 }
 
 .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-attachment-input-trigger__root {
@@ -6120,7 +6122,7 @@
 }
 
 .seed-floating-action-button__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-floating-action-button__root {
@@ -6345,7 +6347,7 @@
 }
 
 .seed-help-bubble__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-help-bubble__closeButton {
@@ -6461,7 +6463,7 @@
 }
 
 .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-image-frame-reaction-button__root {
@@ -6820,7 +6822,7 @@
 }
 
 .seed-input-button__clearButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-input-button__clearButton {
@@ -7872,7 +7874,7 @@
 }
 
 .seed-menu-sheet__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-menu-sheet__closeButton {
@@ -8189,7 +8191,7 @@
 }
 
 .seed-page-banner__button:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-page-banner__button {
@@ -8224,7 +8226,7 @@
 }
 
 .seed-page-banner__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-page-banner__closeButton {
@@ -8835,7 +8837,7 @@
 }
 
 .seed-quantity-picker__decrementButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -8922,7 +8924,7 @@
 }
 
 .seed-quantity-picker__incrementButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -9160,7 +9162,7 @@
 }
 
 .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-radiomark-press-scale, var(--seed-press-scale, 1));
+  scale: var(--seed-radiomark-press-scale, var(--seed-press-scale));
 }
 
 .seed-radiomark__root {
@@ -9309,7 +9311,7 @@
 }
 
 .seed-reaction-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-reaction-button {
@@ -10813,7 +10815,7 @@
 }
 
 .seed-side-panel__closeButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-side-panel__closeButton {
@@ -11321,7 +11323,7 @@
 }
 
 .seed-snackbar__actionButton:is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-snackbar__actionButton {
@@ -11450,7 +11452,7 @@
 }
 
 .seed-switchmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-switchmark-press-scale, var(--seed-press-scale, 1));
+  scale: var(--seed-switchmark-press-scale, var(--seed-press-scale));
 }
 
 .seed-switchmark__root:is(:disabled, [disabled], [data-disabled]) {
@@ -11639,7 +11641,7 @@
 }
 
 .seed-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-tabs__trigger {
@@ -13136,7 +13138,7 @@
 }
 
 .seed-toggle-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 
 .seed-toggle-button {

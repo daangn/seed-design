@@ -48,7 +48,7 @@
   }
 
   .seed-attachment-input-item__root[aria-grabbed="true"] {
-    scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale);
     --remove-button-mask-size: 0px;
     --remove-button-mask-offset: 0px;
   }
@@ -153,7 +153,7 @@
   }
 
   .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale);
   }
 
   .seed-attachment-input-item__actionButton {
@@ -192,7 +192,7 @@
   }
 
   .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale);
   }
 
   .seed-attachment-input-item__removeButton {

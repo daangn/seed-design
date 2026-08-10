@@ -21,9 +21,12 @@ import * as timingFunction from "../vars/timing-function";
  * any element or ancestor could redeclare, including in ways that defeat the
  * reduced-motion rule below.
  *
- * Without JS the size vars are unset, which makes the whole derivation chain
- * guaranteed-invalid; every consumer reads `var(--seed-press-scale, 1)` and
- * falls back to 1 — no scale, no breakage.
+ * Two custom properties carry the result. `--seed-press-scale-measured` is the
+ * derivation, and is guaranteed-invalid whenever the size vars are unset — no
+ * JS, SSR, the frame before the first ResizeObserver callback, or one half of
+ * the ref/class pair missing. `--seed-press-scale` is the name everything reads,
+ * and absorbs that invalidity into 1 where it is declared, so no rule that
+ * consumes it carries a fallback of its own.
  *
  * The gate belongs to the consumer: `createPressScaleStyles` is dropped into
  * whatever selector the recipe owns — usually `pseudo(not(disabled), active)`,
@@ -59,17 +62,19 @@ export const PRESS_SCALE_CLASS_NAME = "seed-press-scale";
  * press — the declarations land on the same element either way, so the computed
  * result is identical.
  *
- * Not registered with `@property` (`<number>`, `inherits: false`,
- * `initial-value: 1`), which would retire the `var(…, 1)` fallbacks and keep the
- * ratio from inheriting into descendants. Both Safari and Firefox shipped
- * `@property` well after individual `scale` (16.4 vs 14.1, 128 vs 72), and on
- * those versions a fallback-less `scale` computes to `none` mid-press, dropping
- * the stacking context the resting `scale` below exists to hold.
+ * Registering `--seed-press-scale` with `@property` (`<number>`,
+ * `initial-value: 1`) would make the same guarantee the fallback below makes,
+ * without needing the second name. SEED supports Safari 15, which shipped
+ * individual `scale` in 14.1 but `@property` only in 16.4, so a registration
+ * would hold on newer engines alone — and a guarantee that holds only where it
+ * is easy to test is worse than none, since the `scale: none` it prevents would
+ * then reproduce on the old browsers exclusively.
  */
 export const pressScaleGlobalStyles = {
   [`.${PRESS_SCALE_CLASS_NAME}`]: {
     "--seed-press-scale-basis": `max(var(--seed-element-height), var(--seed-element-width) / ${WIDTH_DIVISOR}, ${MIN_BASIS})`,
-    "--seed-press-scale": `calc((var(--seed-press-scale-basis) - ${PRESS_DEPTH}) / var(--seed-press-scale-basis))`,
+    "--seed-press-scale-measured": `calc((var(--seed-press-scale-basis) - ${PRESS_DEPTH}) / var(--seed-press-scale-basis))`,
+    "--seed-press-scale": "var(--seed-press-scale-measured, 1)",
 
     // Not a transition seed — `scale` interpolates from `none` on its own. A
     // non-`none` `scale` makes the element a stacking context and a containing
@@ -93,10 +98,18 @@ export const pressScaleGlobalStyles = {
 export const PRESS_SCALE_TRANSITION = `scale ${duration.pressedScale} ${timingFunction.pressedScale}`;
 
 /**
+ * Document-wide defaults for the two names styles this package does not author
+ * are expected to reference.
+ *
+ * `--seed-press-scale` resolves to 1 outside any pressable, which is what lets
+ * every rule read it bare. It sits on `:root` rather than `*` so that the ratio a
+ * pressable declares still inherits into its own descendants — an element that
+ * scales a child instead of itself reads the same name.
+ *
  * `transition` is a shorthand, so a rule that animates anything else replaces it
- * whole — CSS gives no way to append to one. Published as a custom property so
- * that styles this package does not author can splice the scale into their own
- * transition list rather than choosing between it and their own:
+ * whole — CSS gives no way to append to one. Publishing the scale's entry
+ * separately lets those styles splice it into their own list rather than
+ * choosing between it and their own:
  *
  *   transition: background-color 0.2s, var(--seed-press-scale-transition);
  *
@@ -104,6 +117,7 @@ export const PRESS_SCALE_TRANSITION = `scale ${duration.pressedScale} ${timingFu
  * assemble the whole list themselves.
  */
 export const pressScaleRootVars = {
+  "--seed-press-scale": "1",
   "--seed-press-scale-transition": PRESS_SCALE_TRANSITION,
 } satisfies StyleObject;
 
@@ -118,6 +132,6 @@ export const createPressScaleStyles = ({
   overridableBy,
 }: { overridableBy?: `--${string}` } | undefined = {}): StyleObject => ({
   scale: overridableBy
-    ? `var(${overridableBy}, var(--seed-press-scale, 1))`
-    : "var(--seed-press-scale, 1)",
+    ? `var(${overridableBy}, var(--seed-press-scale))`
+    : "var(--seed-press-scale)",
 });

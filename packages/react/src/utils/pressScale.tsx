@@ -12,8 +12,8 @@ import { useElementSizeVars } from "./elementSizeVars";
  * The two halves belong together — the size vars `useElementSizeVars` publishes,
  * and the class that derives the ratio from them — so the hook hands them back
  * as a pair. If one goes missing the derivation stays guaranteed-invalid and
- * `var(--seed-press-scale, 1)` falls back to 1: a mistake costs the effect
- * rather than producing a wrong scale.
+ * `--seed-press-scale` resolves to 1: a mistake costs the effect rather than
+ * producing a wrong scale.
  *
  * Applying the ratio is yours, because the selector that scales the element is
  * usually the same one that changes its background, and splitting them across
@@ -24,7 +24,7 @@ import { useElementSizeVars } from "./elementSizeVars";
  *   }
  *   .my-button:active {
  *     background-color: ...;
- *     scale: var(--seed-press-scale, 1);
+ *     scale: var(--seed-press-scale);
  *   }
  *
  * The resting `scale: 1` comes with the class rather than with the rule above:
