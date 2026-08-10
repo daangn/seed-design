@@ -18,7 +18,7 @@ Date Picker는 캘린더에서 날짜를 직접 골라 입력받는 컴포넌트
 Date Picker는 선택 상태를 관리하는 root 아래에, 선택 UI를 담는 surface를 둡니다.
 
 - **Header**: monthYearLabel(현재 연·월, 누르면 월·연도 picker가 열림) · prevButton · nextButton로 구성됩니다.
-- **Weekday Row**: 일요일부터 토요일까지 요일 이름 7개입니다.
+- **Weekday Row**: 주 시작 요일부터 요일 이름 7개를 표시합니다. 시작 요일은 지역 설정(locale·weekStartsOn)을 따르며, 한국에서는 일요일이 기본입니다.
 - **Date Grid**: 한 달의 날짜를 요일에 맞춰 배치한 그리드입니다. 각 칸이 dateCell이며, 달의 앞뒤 빈 자리는 비워 둡니다. Visible Range가 Week이면 한 주(7칸)만 보여줍니다.
 
 ### 월·연도 전환
@@ -36,7 +36,7 @@ monthYearLabel을 누르면 캘린더 그리드 자리에 월·연도를 고르�
 
 Visible Range가 Week이면 대체할 캘린더 그리드가 한 주뿐이어서, picker가 그리드 자리 대신 monthYearLabel에 anchor된 popover 안에 떠오릅니다. 아래 콘텐츠는 그대로 두고 그 위에 겹쳐지며, 휠 동작과 chevron 방향 전환은 같습니다.
 
-monthYearLabel의 chevron은 picker가 닫혀 있을 때 ▾, 열려 있을 때 ▲로 방향을 뒤집어 현재 상태를 알려줍니다.
+monthYearLabel의 chevron은 picker가 닫혀 있을 때 ▼, 열려 있을 때 ▲로 방향을 뒤집어 현재 상태를 알려줍니다.
 
 prevButton·nextButton은 한 달씩 이동하며, 멀리 떨어진 월·연도로 갈 때는 picker를 씁니다.
 
@@ -136,7 +136,7 @@ Popover·Sheet의 트리거는 [Input Button](/components/input-button)이나 [F
   alt="캘린더를 열면 오늘이 속한 월이 기본으로 표시되는 예시"
 />
 
-캘린더를 처음 열면 오늘이 포함된 월을 기본으로 보여줍니다. 사용자가 현재 시점을 기준으로 빠르게 판단할 수 있습니다. 이미 선택된 날짜가 있으면 그 날짜가 속한 월을 먼저 보여줍니다.
+캘린더를 처음 열면 오늘이 포함된 월을 기본으로 보여줍니다. 사용자가 현재 시점을 기준으로 빠르게 판단할 수 있습니다. 이미 선택된 날짜가 있으면 그 날짜가 속한 월을 먼저 보여줍니다. Range는 시작일, Multiple은 가장 이른 선택일이 속한 월을 기준으로 합니다.
 
 ### 기간·여러 날짜 선택 안내
 
