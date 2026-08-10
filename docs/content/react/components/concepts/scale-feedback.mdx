@@ -47,13 +47,36 @@ function MyButton({ className, ...props }) {
 
 자식 요소는 하나여야 하며, 받은 `ref`와 `className`을 DOM 요소까지 전달해야 합니다. 직접 만든 컴포넌트를 자식으로 넘긴다면 [Composition](/react/components/concepts/composition) 문서의 조합 원칙을 함께 확인하세요.
 
+#### `ScaleFeedback` 없이 사용하기
+
+`ScaleFeedback`을 사용할 수 없는 경우 `useScaleFeedback`을 사용합니다. `scaleFeedbackRef`와 `scaleFeedbackClassName`을 같은 요소에 전달하세요.
+
+```tsx title="MyButton.tsx"
+import { useScaleFeedback } from "@seed-design/react";
+import clsx from "clsx";
+
+function MyButton({ className, ...props }) {
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
+  return (
+    <button
+      ref={scaleFeedbackRef} // [!code highlight]
+      className={clsx(scaleFeedbackClassName, className)} // [!code highlight]
+      {...props}
+    />
+  );
+}
+```
+
 </Step>
 
 <Step>
 
 ### 계산된 배율 사용하기
 
-계산된 배율은 `--seed-feedback-scale`, 트랜지션은 `--seed-feedback-scale-transition` CSS 변수로 공개되므로, 원하는 곳에 적용할 수 있습니다.
+계산된 배율은 `--seed-feedback-scale`, 트랜지션은 `--seed-feedback-scale-transition` CSS 변수로 공개됩니다.
+
+JS로 스타일을 작성한다면 `@seed-design/css/scale-feedback`에서 `feedbackScale`, `feedbackScaleTransition`으로 가져올 수 있습니다.
 
 <Tabs items={['Tailwind CSS 4', 'Tailwind CSS 3', 'vanilla-extract', 'CSS']}>
 
@@ -208,7 +231,22 @@ export const myButton = style({
 
 </Tabs>
 
+#### 선택자 고르기
+
+SEED 컴포넌트는 상호작용 가능한 요소에 호버할 때 색상을 변경하고, 마우스 왼쪽 버튼을 누르고 있는 동안 Scale Feedback을 적용합니다. 일관성을 위해 커스텀 컴포넌트에서도 이 기준을 유지하는 것을 권장합니다. 자세한 내용은 [Interaction States](/react/components/concepts/interaction-states) 문서를 참고하세요.
+
 `:active`는 비활성 상태의 요소에도 적용됩니다. 비활성 상태를 다루는 컴포넌트라면 선택자에서 제외하세요. SEED 컴포넌트는 `:disabled`, `[disabled]`, `[data-disabled]`를 제외하고 있습니다.
+
+#### 개별 `scale` 속성
+
+SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transform 속성인 [`scale`](https://developer.mozilla.org/ko/docs/Web/CSS/scale)로 적용합니다. 커스텀 컴포넌트에서도 `scale`을 사용하세요.
+
+`transform`은 shorthand라서 한 요소에 하나의 값만 가집니다. 축소를 여기에 적으면 그 요소의 이동이나 회전을 같은 값에 함께 써야 하고 변형을 추가할 때마다 축소 값을 다시 챙겨야 합니다. 개별 `scale`은 `translate`, `rotate`와 독립적으로 동작해서 이런 부담이 없고 `ScaleFeedback`이 이미 `scale`을 사용하므로 축소가 한 속성에 모입니다.
+
+<Callout type="info">
+  개별 `scale` 속성은 Chrome 104, Safari 14.1, Firefox 72부터 지원됩니다. 이보다
+  낮은 버전에서는 축소만 나타나지 않고 나머지 스타일은 그대로 동작합니다.
+</Callout>
 
 </Step>
 
@@ -225,27 +263,6 @@ export const myButton = style({
   ```
 </ComponentExample>
 
-### `ScaleFeedback` 없이 사용하기
-
-`ScaleFeedback`을 사용할 수 없는 경우 `useScaleFeedback`을 사용합니다. `scaleFeedbackRef`와 `scaleFeedbackClassName`을 같은 요소에 전달하세요.
-
-```tsx title="MyButton.tsx"
-import { useScaleFeedback } from "@seed-design/react";
-import clsx from "clsx";
-
-function MyButton({ className, ...props }) {
-  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
-
-  return (
-    <button
-      ref={scaleFeedbackRef} // [!code highlight]
-      className={clsx(scaleFeedbackClassName, className)} // [!code highlight]
-      {...props}
-    />
-  );
-}
-```
-
 ## 자동으로 처리되는 것
 
 아래 두 가지는 별도로 처리할 필요가 없습니다.
@@ -254,29 +271,6 @@ function MyButton({ className, ...props }) {
 - **크기를 알 수 없는 상황**: JavaScript가 실행되지 않았거나 첫 측정 전이라면 `--seed-feedback-scale`이 `1`이 됩니다. 잘못된 배율이 적용되는 대신 효과만 나타나지 않습니다.
 
 ## 알아둘 점
-
-### 개별 `scale` 속성
-
-SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transform 속성인 [`scale`](https://developer.mozilla.org/ko/docs/Web/CSS/scale)로 적용합니다. 커스텀 컴포넌트에서도 `scale`을 사용하세요.
-
-`transform`은 shorthand라서 한 요소에 하나의 값만 가집니다. 축소를 여기에 적으면 그 요소의 이동이나 회전을 같은 값에 함께 써야 하고 변형을 추가할 때마다 축소 값을 다시 챙겨야 합니다. 개별 `scale`은 `translate`, `rotate`와 독립적으로 동작해서 이런 부담이 없고 `ScaleFeedback`이 이미 `scale`을 사용하므로 축소가 한 속성에 모입니다.
-
-<Callout type="info">
-  개별 `scale` 속성은 Chrome 104, Safari 14.1, Firefox 72부터 지원됩니다. 이보다
-  낮은 버전에서는 축소만 나타나지 않고 나머지 스타일은 그대로 동작합니다.
-</Callout>
-
-### 마우스 환경
-
-SEED 컴포넌트는 상호작용 가능한 요소에 호버할 때 색상을 변경하고, 마우스 왼쪽 버튼을 누르고 있는 동안 Scale Feedback을 적용합니다. 일관성을 위해 커스텀 컴포넌트에서도 이 기준을 유지하는 것을 권장합니다.
-
-<Card
-  title="Interaction States"
-  href="/react/components/concepts/interaction-states"
->
-  SEED React 컴포넌트가 디바이스 환경에 따라 상호작용 스타일을 적용하는 방식을
-  설명합니다.
-</Card>
 
 ### 중첩된 SEED 컴포넌트
 
