@@ -396,16 +396,33 @@
 }
 
 :root, [data-seed-color-mode="system"] {
+  --lightningcss-light: initial;
+  --lightningcss-dark: ;
   color-scheme: light dark;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root, [data-seed-color-mode="system"] {
+    --lightningcss-light: ;
+    --lightningcss-dark: initial;
+  }
+}
+
 [data-seed-color-mode="light-only"] {
+  --lightningcss-light: initial;
+  --lightningcss-dark: ;
   color-scheme: light;
+  --lightningcss-light: initial;
+  --lightningcss-dark: ;
   color-scheme: light only;
 }
 
 [data-seed-color-mode="dark-only"] {
+  --lightningcss-light: ;
+  --lightningcss-dark: initial;
   color-scheme: dark;
+  --lightningcss-light: ;
+  --lightningcss-dark: initial;
   color-scheme: dark only;
 }
 
@@ -1056,7 +1073,7 @@
   }
 }
 
-@media (width >= 480px) {
+@media (min-width: 480px) {
   .seed-box {
     --seed-box-padding: var(--seed-box-padding-sm, initial);
     --seed-box-padding-y: var(--seed-box-padding-y-sm, initial);
@@ -1093,7 +1110,7 @@
   }
 }
 
-@media (width >= 768px) {
+@media (min-width: 768px) {
   .seed-box {
     --seed-box-padding: var(--seed-box-padding-md, initial);
     --seed-box-padding-y: var(--seed-box-padding-y-md, initial);
@@ -1130,7 +1147,7 @@
   }
 }
 
-@media (width >= 1280px) {
+@media (min-width: 1280px) {
   .seed-box {
     --seed-box-padding: var(--seed-box-padding-lg, initial);
     --seed-box-padding-y: var(--seed-box-padding-y-lg, initial);
@@ -1167,7 +1184,7 @@
   }
 }
 
-@media (width >= 1440px) {
+@media (min-width: 1440px) {
   .seed-box {
     --seed-box-padding: var(--seed-box-padding-xl, initial);
     --seed-box-padding-y: var(--seed-box-padding-y-xl, initial);

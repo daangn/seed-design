@@ -1,5 +1,19 @@
 # @seed-design/css
 
+## 2.4.2
+
+### Patch Changes
+
+- 225496c: `@seed-design/react-drawer@2.0.3`, `@seed-design/css@2.3.1`에서 추가된 키보드 리포지션 애니메이션과 높이 보정 동작을 제거합니다.
+
+## 2.4.1
+
+### Patch Changes
+
+- 29b6684: Chrome 104 / Safari 16.4 미만 버전에서 `@media (width >= npx)` 미디어 쿼리를 `(min-width: npx)`로 교체하여 미디어 쿼리가 의도대로 작동하도록 수정합니다.
+
+  Chrome 108 / Safari 15.4 미만 버전에서 Dialog(`ContentDialog`)의 `dvh` `max-height`가 `vh`로 폴백되도록 수정합니다.
+
 ## 2.4.0
 
 ### Minor Changes

@@ -36,10 +36,21 @@ export function parseMarker(body: string): ReleaseMarker | null {
 }
 
 export function validateGeneratedPr(identity: PullRequestIdentity): ReleaseMarker | null {
-  const marker = parseMarker(identity.body);
-  if (!marker) return null;
   if (identity.author !== "github-actions[bot]") return null;
   if (identity.headRepository !== identity.baseRepository) return null;
+
+  const marker = parseMarker(identity.body);
+  if (!marker) {
+    if (identity.body.includes("<!-- seed-release:")) return null;
+    const lane = laneNames.find((candidate) => candidate === identity.baseRef);
+    if (!lane || identity.headRef !== `changeset-release/${lane}`) return null;
+    return {
+      schemaVersion: 1,
+      type: "version",
+      lane,
+    };
+  }
+
   if (identity.baseRef !== marker.lane) return null;
   if (!identity.headRef.startsWith(prefixByType[marker.type])) return null;
   if (marker.type === "sync" && marker.targetLane !== marker.lane) return null;

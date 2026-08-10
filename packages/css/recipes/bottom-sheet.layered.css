@@ -35,13 +35,11 @@
     padding-bottom: var(--seed-safe-area-bottom);
     touch-action: none;
     will-change: transform;
-    --drawer-keyboard-transition: bottom var(--seed-duration-d5) cubic-bezier(.32, .72, 0, 1);
-    transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive), var(--drawer-keyboard-transition);
+    transition: transform var(--seed-duration-d6) var(--seed-timing-function-enter-expressive);
     flex-direction: column;
     flex: 1;
     display: flex;
     position: relative;
-    bottom: 0;
   }
 
   .seed-bottom-sheet__content[data-snap-points="true"] {
@@ -254,7 +252,7 @@
     animation-timing-function: var(--seed-timing-function-enter-expressive);
   }
 
-  @media (width >= 480px) {
+  @media (min-width: 480px) {
     .seed-bottom-sheet__body {
       --seed-box-padding-x: var(--seed-box-padding-x-sm, initial);
       --seed-box-height: var(--seed-box-height-sm, initial);
@@ -263,7 +261,7 @@
     }
   }
 
-  @media (width >= 768px) {
+  @media (min-width: 768px) {
     .seed-bottom-sheet__body {
       --seed-box-padding-x: var(--seed-box-padding-x-md, initial);
       --seed-box-height: var(--seed-box-height-md, initial);
@@ -272,7 +270,7 @@
     }
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-bottom-sheet__body {
       --seed-box-padding-x: var(--seed-box-padding-x-lg, initial);
       --seed-box-height: var(--seed-box-height-lg, initial);
@@ -281,7 +279,7 @@
     }
   }
 
-  @media (width >= 1440px) {
+  @media (min-width: 1440px) {
     .seed-bottom-sheet__body {
       --seed-box-padding-x: var(--seed-box-padding-x-xl, initial);
       --seed-box-height: var(--seed-box-height-xl, initial);

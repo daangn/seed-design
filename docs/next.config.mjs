@@ -38,6 +38,10 @@ const config = {
     // FIXME: temporal use for static export; will remove after image optimization setup
     unoptimized: true,
   },
+  experimental: {
+    // Next.js 16.2에서는 프로덕션 빌드용 Turbopack 파일 캐시가 기본으로 꺼져 있다.
+    turbopackFileSystemCacheForBuild: true,
+  },
   turbopack: {
     // Turbopack은 아직 package exports의 커스텀 condition을 설정할 수 없다.
     // Webpack의 `seed-layered` condition과 동일한 CSS 진입점을 직접 연결한다.

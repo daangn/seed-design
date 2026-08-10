@@ -7,7 +7,7 @@ on:
         description: "Activation step"
         required: true
         type: choice
-        options: [enable-sync, enable-production]
+        options: [enable-rootage-contract, enable-sync, enable-production]
 
 concurrency:
   group: release-activation

@@ -5,10 +5,19 @@ import { parse } from "yaml";
 interface WorkflowJob {
   if?: string;
   permissions?: Record<string, string> | string;
-  steps?: Array<{ uses?: string; with?: Record<string, string | boolean> }>;
+  steps?: Array<{
+    name?: string;
+    run?: string;
+    uses?: string;
+    with?: Record<string, string | boolean>;
+  }>;
 }
 
 interface Workflow {
+  concurrency?: {
+    group?: string;
+    "cancel-in-progress"?: boolean;
+  };
   permissions?: Record<string, string> | string;
   jobs: Record<string, WorkflowJob>;
 }
@@ -45,6 +54,33 @@ describe("릴리즈 workflow 권한 경계", () => {
       )
       .map(([name]) => name);
     expect(oidcJobs).toEqual(["publish-npm"]);
+  });
+
+  test("detached HEAD에서는 package tag만 원격에 게시한다", async () => {
+    const publish = await workflow(".github/workflows/release-publish.yml");
+    const pushTags = publish.jobs["publish-npm"].steps?.find(
+      (step) => step.name === "Push package tags",
+    );
+
+    expect(pushTags?.run).toBe("git push origin --tags");
+  });
+
+  test("publish queue는 신뢰된 Version Packages merge만 PR 이벤트로 처리한다", async () => {
+    const publish = await workflow(".github/workflows/release-publish.yml");
+    const selectCondition = publish.jobs.select.if ?? "";
+    const concurrencyGroup = publish.concurrency?.group ?? "";
+
+    for (const fragment of [
+      "github.event.pull_request.merged == true",
+      "github.event.pull_request.user.login == 'github-actions[bot]'",
+      "github.event.pull_request.head.repo.full_name == github.repository",
+      "format('changeset-release/{0}', github.event.pull_request.base.ref)",
+    ]) {
+      expect(selectCondition).toContain(fragment);
+      expect(concurrencyGroup).toContain(fragment);
+    }
+    expect(concurrencyGroup).toContain("format('release-publish-ignored-{0}', github.run_id)");
+    expect(publish.concurrency?.["cancel-in-progress"]).toBe(false);
   });
 
   test("pull_request_target control workflow는 PR head를 checkout하지 않는다", async () => {
@@ -85,6 +121,18 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(parsed.every((item) => Object.keys(item.jobs).length > 0)).toBe(true);
   });
 
+  test("bootstrap token은 브랜치만 생성하고 보호 규칙은 수동 설정한다", async () => {
+    const [bootstrapWorkflow, bootstrapScript] = await Promise.all([
+      readFile(".github/workflows/release-bootstrap.yml", "utf8"),
+      readFile("scripts/release/bootstrap.ts", "utf8"),
+    ]);
+
+    expect(bootstrapWorkflow).toContain("secrets.RELEASE_BOOTSTRAP_TOKEN");
+    expect(bootstrapWorkflow).not.toContain("RELEASE_ADMIN_TOKEN");
+    expect(bootstrapWorkflow).not.toContain("permission-administration");
+    expect(bootstrapScript).not.toContain("/protection");
+  });
+
   test("DES-2201 계약은 승인된 소스와 production 환경에서만 R2를 갱신한다", async () => {
     const contract = await readFile(".github/workflows/rootage-release-contract.yml", "utf8");
     expect(contract).toContain("environment: rootage-production");
@@ -93,5 +141,14 @@ describe("릴리즈 workflow 권한 경계", () => {
       "ROOTAGE_R2_SECRET_ACCESS_KEY: $" + "{{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}",
     );
     expect(contract).not.toContain("pull_request_target");
+  });
+
+  test("Rootage 계약 준비 상태는 activation workflow가 PR로 변경한다", async () => {
+    const activation = await readFile(".github/workflows/release-activation.yml", "utf8");
+    expect(activation).toContain(
+      "options: [enable-rootage-contract, enable-sync, enable-production]",
+    );
+    expect(activation).toContain("bun scripts/release/cli.ts activation");
+    expect(activation).toContain("git add .github/release/lanes.json .github/release/control.json");
   });
 });

@@ -1,5 +1,24 @@
 # @seed-design/react
 
+## 2.2.2
+
+### Patch Changes
+
+- 225496c: `@seed-design/react-drawer@2.0.3`, `@seed-design/css@2.3.1`에서 추가된 키보드 리포지션 애니메이션과 높이 보정 동작을 제거합니다.
+- Updated dependencies [225496c]
+  - @seed-design/react-drawer@2.0.5
+
+## 2.2.1
+
+### Patch Changes
+
+- 4e5fe66: `@seed-design/react-dismissible-layer`의 최소 요구 버전을 올려 Chrome 92 / iOS Safari 15.4 이전 버전에서 시트나 다이얼로그를 열 때 발생하던 `TypeError: layers.at is not a function` 크래시 수정이 반드시 설치되도록 합니다.
+- Updated dependencies [4e5fe66]
+  - @seed-design/react-dialog@2.0.3
+  - @seed-design/react-drawer@2.0.4
+  - @seed-design/react-menu@2.0.2
+  - @seed-design/react-select@1.0.1
+
 ## 2.2.0
 
 ### Minor Changes

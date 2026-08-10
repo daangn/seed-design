@@ -1,4 +1,5 @@
 import { appendFile, readFile, writeFile } from "node:fs/promises";
+import { applyActivation } from "./activation";
 import { authorizePublish } from "./publish";
 import { isLaneName, loadLaneConfig, parseReleaseControl } from "./config";
 import { validateChangesets } from "./changesets";
@@ -266,22 +267,12 @@ async function activation(values: Map<string, string>): Promise<void> {
   const operation = required(values, "operation");
   const control = await releaseControlFromDev();
   const config = await loadLaneConfig();
-  if (operation === "enable-sync") {
-    if (config.sync.activation) throw new Error("동기화가 이미 활성화되어 있습니다.");
-    config.sync.activation = new Date().toISOString();
-    await writeFile(".github/release/lanes.json", `${JSON.stringify(config, null, 2)}\n`);
-    return;
-  }
-  if (operation === "enable-production") {
-    if (!config.sync.activation) throw new Error("동기화를 먼저 활성화해야 합니다.");
-    if (!control.rootageContractReady) throw new Error("DES-2201 계약이 준비되지 않았습니다.");
-    if (control.freeze) throw new Error("승격 중에는 production을 활성화할 수 없습니다.");
-    if (control.mode === "production") throw new Error("production이 이미 활성화되어 있습니다.");
-    control.mode = "production";
-    await writeFile(".github/release/control.json", `${JSON.stringify(control, null, 2)}\n`);
-    return;
-  }
-  throw new Error(`지원하지 않는 activation 작업입니다: ${operation}`);
+  const result = applyActivation(operation, control, config, new Date().toISOString());
+  const [path, state] =
+    result.changed === "config"
+      ? [".github/release/lanes.json", result.config]
+      : [".github/release/control.json", result.control];
+  await writeFile(path, `${JSON.stringify(state, null, 2)}\n`);
 }
 
 async function main(): Promise<void> {

@@ -75,6 +75,7 @@
     justify-content: var(--seed-wheel-picker-item-justify-content, center);
     color: var(--seed-wheel-picker-item-color);
     scroll-snap-align: center;
+    -webkit-user-select: none;
     user-select: none;
     display: flex;
   }
