@@ -96,7 +96,7 @@ JS로 스타일을 작성한다면 `@seed-design/css/scale-feedback`에서 `feed
 
 #### 유틸리티 클래스 활용하기
 
-`active:scale-(--seed-feedback-scale)` 대신 `active:feedback-scale`로 작성할 수 있습니다.
+배율을 여러 컴포넌트에 적용한다면 프로젝트에 유틸리티를 등록해두세요. `active:scale-(--seed-feedback-scale)` 대신 `active:feedback-scale`로 쓸 수 있습니다.
 
 ```css title="style.css"
 @import "tailwindcss";
@@ -144,7 +144,7 @@ JS로 스타일을 작성한다면 `@seed-design/css/scale-feedback`에서 `feed
 
 #### 유틸리티 클래스 활용하기
 
-`active:[scale:var(--seed-feedback-scale)]` 대신 `active:feedback-scale`로 작성할 수 있습니다.
+배율을 여러 컴포넌트에 적용한다면 프로젝트에 유틸리티를 등록해두세요. `active:[scale:var(--seed-feedback-scale)]` 대신 `active:feedback-scale`로 쓸 수 있습니다.
 
 ```js title="tailwind.config.js"
 import plugin from "tailwindcss/plugin";
