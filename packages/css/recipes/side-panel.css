@@ -232,7 +232,7 @@
     cursor: pointer;
 }
 .seed-side-panel__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
 }
 .seed-side-panel__closeButton {
     transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);

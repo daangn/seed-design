@@ -152,7 +152,7 @@
   }
 
   .seed-bottom-sheet__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-bottom-sheet__closeButton {

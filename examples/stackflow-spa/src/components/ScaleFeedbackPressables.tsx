@@ -1,9 +1,9 @@
-import { PressScale, usePressScale } from "@seed-design/react";
+import { ScaleFeedback, useScaleFeedback } from "@seed-design/react";
 import clsx from "clsx";
 import * as React from "react";
 
-import "./PressScalePlainCss.css";
-import * as styles from "./PressScalePressables.css";
+import "./ScaleFeedbackPlainCss.css";
+import * as styles from "./ScaleFeedbackPressables.css";
 
 const SIZE_CLASS = {
   medium: styles.mediumSize,
@@ -15,32 +15,32 @@ type PressableProps = React.ComponentPropsWithoutRef<"button"> & {
   size?: keyof typeof SIZE_CLASS;
 };
 
-/** Applies the ratio from hand-written CSS: see PressScalePlainCss.css. */
+/** Applies the ratio from hand-written CSS: see ScaleFeedbackPlainCss.css. */
 export function PlainCssPressable({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"button">) {
-  const { pressScaleRef, pressScaleClassName } = usePressScale();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <button
       type="button"
-      ref={pressScaleRef}
-      className={clsx(pressScaleClassName, "press-scale-plain-css", className)}
+      ref={scaleFeedbackRef}
+      className={clsx(scaleFeedbackClassName, "scale-feedback-plain-css", className)}
       {...props}
     />
   );
 }
 
-/** Applies the ratio through `pressScale` / `pressScaleTransition`. */
+/** Applies the ratio through `feedbackScale` / `feedbackScaleTransition`. */
 export function ConstantPressable({ size = "medium", className, ...props }: PressableProps) {
-  const { pressScaleRef, pressScaleClassName } = usePressScale();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <button
       type="button"
-      ref={pressScaleRef}
-      className={clsx(pressScaleClassName, styles.pressable, SIZE_CLASS[size], className)}
+      ref={scaleFeedbackRef}
+      className={clsx(scaleFeedbackClassName, styles.pressable, SIZE_CLASS[size], className)}
       {...props}
     />
   );
@@ -49,14 +49,14 @@ export function ConstantPressable({ size = "medium", className, ...props }: Pres
 /** Opts in by wrapping, so its own `ref` is all this component has to pass down. */
 export const SlottedPressable = React.forwardRef<HTMLButtonElement, PressableProps>(
   ({ size = "medium", className, ...props }, ref) => (
-    <PressScale>
+    <ScaleFeedback>
       <button
         type="button"
         ref={ref}
         className={clsx(styles.pressable, SIZE_CLASS[size], className)}
         {...props}
       />
-    </PressScale>
+    </ScaleFeedback>
   ),
 );
 SlottedPressable.displayName = "SlottedPressable";
@@ -71,7 +71,7 @@ export function UnstableRefPressable({ size = "medium", className, ...props }: P
   const nodeRef = React.useRef<HTMLButtonElement | null>(null);
 
   return (
-    <PressScale>
+    <ScaleFeedback>
       <button
         type="button"
         ref={(node) => {
@@ -83,19 +83,19 @@ export function UnstableRefPressable({ size = "medium", className, ...props }: P
       >
         리렌더 {renderCount}회
       </button>
-    </PressScale>
+    </ScaleFeedback>
   );
 }
 
 /** Deliberately broken: the class without the ref, so no size is published. */
 export function ClassOnlyPressable({ size = "medium", className, ...props }: PressableProps) {
-  const { pressScaleClassName } = usePressScale();
+  const { scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <button
       type="button"
       className={clsx(
-        pressScaleClassName,
+        scaleFeedbackClassName,
         styles.pressable,
         styles.misconfigured,
         SIZE_CLASS[size],
@@ -108,12 +108,12 @@ export function ClassOnlyPressable({ size = "medium", className, ...props }: Pre
 
 /** Deliberately broken: the ref without the class, so no ratio is derived. */
 export function RefOnlyPressable({ size = "medium", className, ...props }: PressableProps) {
-  const { pressScaleRef } = usePressScale();
+  const { scaleFeedbackRef } = useScaleFeedback();
 
   return (
     <button
       type="button"
-      ref={pressScaleRef}
+      ref={scaleFeedbackRef}
       className={clsx(styles.pressable, styles.misconfigured, SIZE_CLASS[size], className)}
       {...props}
     />
@@ -127,12 +127,12 @@ export function NestedPressable({
   optOut?: boolean;
   children: React.ReactNode;
 }) {
-  const { pressScaleRef, pressScaleClassName } = usePressScale();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <div
-      ref={pressScaleRef}
-      className={clsx(pressScaleClassName, styles.nestedWrapper, optOut && styles.markOptOut)}
+      ref={scaleFeedbackRef}
+      className={clsx(scaleFeedbackClassName, styles.nestedWrapper, optOut && styles.markOptOut)}
     >
       {children}
     </div>

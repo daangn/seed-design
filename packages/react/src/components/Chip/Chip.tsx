@@ -2,7 +2,7 @@ import { chip, type ChipVariantProps } from "@seed-design/css/recipes/chip";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withPressScale } from "../../utils/pressScale";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 import { withIconRequired } from "../Icon/Icon";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { useCheckboxContext } from "@seed-design/react-checkbox";
@@ -22,7 +22,7 @@ export interface ChipRootProps
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const ChipRoot = withIconRequired(
-  withPressScale(withProvider<HTMLButtonElement, ChipRootProps>(Primitive.button, "root")),
+  withScaleFeedback(withProvider<HTMLButtonElement, ChipRootProps>(Primitive.button, "root")),
   (props: ChipRootProps) => props.layout === "iconOnly",
 );
 ChipRoot.displayName = "Chip.Root";

@@ -6,7 +6,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const tabs = defineSlotRecipe({
   name: "tabs",
@@ -106,9 +106,9 @@ const tabs = defineSlotRecipe({
         backgroundColor: vars.base.enabled.indicator.color,
       },
 
-      [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
 
-      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },

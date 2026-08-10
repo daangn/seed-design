@@ -28,7 +28,7 @@ import {
   RadioGroupItem,
 } from "seed-design/ui/radio-group";
 
-import * as styles from "../components/PressScalePlayground.css";
+import * as styles from "../components/ScaleFeedbackPlayground.css";
 import {
   ClassOnlyPressable,
   ConstantPressable,
@@ -37,11 +37,11 @@ import {
   RefOnlyPressable,
   SlottedPressable,
   UnstableRefPressable,
-} from "../components/PressScalePressables";
+} from "../components/ScaleFeedbackPressables";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityPressedScale: {};
+    ActivityScaleFeedback: {};
   }
 }
 
@@ -91,7 +91,7 @@ function Stage({
   );
 }
 
-const ActivityPressedScale: StaticActivityComponentType<"ActivityPressedScale"> = () => {
+const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"> = () => {
   const { push } = useFlow();
   const composedRefTarget = React.useRef<HTMLButtonElement>(null);
 
@@ -101,7 +101,7 @@ const ActivityPressedScale: StaticActivityComponentType<"ActivityPressedScale"> 
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain title="Pressed Scale" />
+        <AppBarMain title="Scale Feedback" />
         <AppBarRight>
           <AppBarIconButton aria-label="홈" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
@@ -198,7 +198,7 @@ const ActivityPressedScale: StaticActivityComponentType<"ActivityPressedScale"> 
               <Stage>
                 <SeedCallout.Root asChild>
                   {/* biome-ignore lint/a11y/useValidAnchor: the anchor exists to exercise the recipe's `:is(button, a)` press gate, so it must not navigate */}
-                  <a href="#pressed-scale" onClick={(event) => event.preventDefault()}>
+                  <a href="#scale-feedback" onClick={(event) => event.preventDefault()}>
                     <SeedCallout.Content>
                       <SeedCallout.Title>asChild anchor</SeedCallout.Title>
                       <SeedCallout.Description>a로 렌더해도 같습니다.</SeedCallout.Description>
@@ -229,13 +229,13 @@ const ActivityPressedScale: StaticActivityComponentType<"ActivityPressedScale"> 
           <Group name="커스텀 구현">
             <Section
               title="적용 방법 세 가지"
-              description="PressScale로 감싸거나 usePressScale()의 ref와 클래스를 같은 요소에 달고, 자기 셀렉터에서 배율을 읽습니다. 세 버튼의 동작은 같습니다."
+              description="ScaleFeedback으로 감싸거나 useScaleFeedback()의 ref와 클래스를 같은 요소에 달고, 자기 셀렉터에서 배율을 읽습니다. 세 버튼의 동작은 같습니다."
             >
               <Stage>
                 <HStack gap="x2" alignItems="center" flexWrap>
                   <PlainCssPressable>순수 CSS</PlainCssPressable>
-                  <ConstantPressable>press-scale 상수</ConstantPressable>
-                  <SlottedPressable ref={composedRefTarget}>PressScale</SlottedPressable>
+                  <ConstantPressable>scale-feedback 상수</ConstantPressable>
+                  <SlottedPressable ref={composedRefTarget}>ScaleFeedback</SlottedPressable>
                 </HStack>
               </Stage>
               <HStack>
@@ -308,4 +308,4 @@ const ActivityPressedScale: StaticActivityComponentType<"ActivityPressedScale"> 
   );
 };
 
-export default ActivityPressedScale;
+export default ActivityScaleFeedback;

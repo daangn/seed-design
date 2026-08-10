@@ -84,7 +84,7 @@
     background-color: var(--seed-color-fg-neutral);
 }
 .seed-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
 }
 .seed-tabs__trigger {
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);

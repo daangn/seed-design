@@ -3,7 +3,7 @@ import type * as React from "react";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { callout, type CalloutVariantProps } from "@seed-design/css/recipes/callout";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withPressScale } from "../../utils/pressScale";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 import {
   DismissibleCloseButton,
   DismissibleRoot,
@@ -17,7 +17,7 @@ export interface CalloutRootProps extends CalloutVariantProps, DismissibleRootPr
 // The root only scales when the consumer makes it actionable (`asChild` with a
 // button or anchor) — the recipe gates the scale on `:is(button, a)`. Publishing
 // the size vars unconditionally costs a plain callout nothing.
-export const CalloutRoot = withPressScale(
+export const CalloutRoot = withScaleFeedback(
   withProvider<HTMLDivElement, CalloutRootProps>(DismissibleRoot, "root"),
 );
 
@@ -57,6 +57,6 @@ export interface CalloutCloseButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const CalloutCloseButton = withPressScale(
+export const CalloutCloseButton = withScaleFeedback(
   withContext<HTMLButtonElement, CalloutCloseButtonProps>(DismissibleCloseButton, "closeButton"),
 );

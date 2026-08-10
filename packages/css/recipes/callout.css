@@ -23,7 +23,7 @@
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-callout__root:is(button, a):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
 }
 .seed-callout__root:is(button, a) {
     outline: var(--seed-dimension-x0_5) solid transparent;
@@ -93,7 +93,7 @@
     --seed-suffix-icon-size: var(--seed-dimension-x4);
 }
 .seed-callout__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
 }
 .seed-callout__closeButton {
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);

@@ -9,7 +9,7 @@ import * as React from "react";
  * values from those vars in CSS.
  *
  * The names must stay in sync with `@seed-design/qvism-preset`
- * (utils/press-scale.ts), which owns the formula that consumes them. Press
+ * (utils/scale-feedback.ts), which owns the formula that consumes them. Press
  * detection stays in CSS (`:active` gates), so nothing here tracks interaction;
  * without JS the vars are simply never set and consumers fall back to scale 1.
  */

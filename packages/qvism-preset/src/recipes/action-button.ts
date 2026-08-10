@@ -9,7 +9,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const actionButton = defineRecipe({
   name: "action-button",
@@ -61,9 +61,9 @@ const actionButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
+    [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {

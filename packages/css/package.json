@@ -62,9 +62,9 @@
       "types": "./breakpoints/index.d.ts",
       "import": "./breakpoints/index.mjs"
     },
-    "./press-scale": {
-      "types": "./press-scale/index.d.ts",
-      "import": "./press-scale/index.mjs"
+    "./scale-feedback": {
+      "types": "./scale-feedback/index.d.ts",
+      "import": "./scale-feedback/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -74,7 +74,7 @@
     "vars",
     "theming",
     "breakpoints",
-    "press-scale",
+    "scale-feedback",
     "utils",
     "*.css",
     "LICENSE",

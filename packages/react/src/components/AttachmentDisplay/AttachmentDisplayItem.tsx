@@ -18,7 +18,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale, withPressScale } from "../../utils/pressScale";
+import { useScaleFeedback, withScaleFeedback } from "../../utils/scaleFeedback";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -45,15 +45,15 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
     });
 
     const classNames = attachmentInputItem(variantProps);
-    const { pressScaleRef, pressScaleClassName } = usePressScale();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
     return (
       <ClassNamesProvider value={classNames}>
         <AttachmentDisplayItemProvider value={api}>
           <overlayTracker.Provider>
             <Primitive.li
-              ref={useComposedRefs(pressScaleRef, ref)}
-              className={clsx(classNames.root, pressScaleClassName, className)}
+              ref={useComposedRefs(scaleFeedbackRef, ref)}
+              className={clsx(classNames.root, scaleFeedbackClassName, className)}
               {...stateProps}
               {...otherProps}
             />
@@ -183,13 +183,13 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   AttachmentDisplayItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
-  const { pressScaleRef, pressScaleClassName } = usePressScale();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <Primitive.button
       type="button"
-      ref={useComposedRefs(pressScaleRef, ref)}
-      className={clsx(classNames.actionButton, pressScaleClassName, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref)}
+      className={clsx(classNames.actionButton, scaleFeedbackClassName, className)}
       {...props}
     />
   );
@@ -201,7 +201,7 @@ AttachmentDisplayItemActionButton.displayName = "AttachmentDisplayItemActionButt
 export interface AttachmentDisplayItemRemoveButtonProps
   extends AttachmentDisplayPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentDisplayItemRemoveButton = withPressScale(
+export const AttachmentDisplayItemRemoveButton = withScaleFeedback(
   withContext<HTMLButtonElement, AttachmentDisplayItemRemoveButtonProps>(
     AttachmentDisplayPrimitive.ItemRemoveButton,
     "removeButton",

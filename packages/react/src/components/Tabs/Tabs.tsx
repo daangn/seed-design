@@ -1,7 +1,7 @@
 import { tabs, type TabsVariantProps } from "@seed-design/css/recipes/tabs";
 import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withPressScale } from "../../utils/pressScale";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 
 const { withProvider, withContext } = createSlotRecipeContext(tabs);
 
@@ -21,7 +21,7 @@ export const TabsList = withContext<HTMLDivElement, TabsListProps>(TabsPrimitive
 
 export interface TabsTriggerProps extends TabsPrimitive.TriggerProps {}
 
-export const TabsTrigger = withPressScale(
+export const TabsTrigger = withScaleFeedback(
   withContext<HTMLButtonElement, TabsTriggerProps>(TabsPrimitive.Trigger, "trigger"),
 );
 

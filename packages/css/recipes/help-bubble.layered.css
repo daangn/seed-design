@@ -105,7 +105,7 @@
   }
 
   .seed-help-bubble__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-help-bubble__closeButton {

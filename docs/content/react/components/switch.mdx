@@ -125,14 +125,14 @@ npx @seed-design/cli@latest add ui:switch
   ```
 </ComponentExample>
 
-## Pressed Scale
+## Scale Feedback
 
 `Switch`는 눌렸을 때 `Switchmark`가 살짝 줄어드는 피드백을 제공합니다.
 
-`Switchmark`를 감싸는 요소에 [pressed scale](/react/components/concepts/pressed-scale)을 직접 적용하는 경우, 바깥 요소와 `Switchmark`가 함께 줄어들어 축소가 이중으로 나타납니다. `Switchmark`의 상위 요소에서 `--seed-switchmark-press-scale`을 `1`로 설정하면 `Switchmark`의 축소만 끌 수 있습니다. 이 변수는 상속되므로 `Switch` 전체를 감싸는 요소에 설정해도 됩니다.
+`Switchmark`를 감싸는 요소에 [Scale Feedback](/react/components/concepts/scale-feedback)을 직접 적용하는 경우, 바깥 요소와 `Switchmark`가 함께 줄어들어 축소가 이중으로 나타납니다. `Switchmark`의 상위 요소에서 `--seed-switchmark-feedback-scale`을 `1`로 설정하면 `Switchmark`의 축소만 끌 수 있습니다. 이 변수는 상속되므로 `Switch` 전체를 감싸는 요소에 설정해도 됩니다.
 
 ```css title="MyRow.css"
 .my-row {
-  --seed-switchmark-press-scale: 1;
+  --seed-switchmark-feedback-scale: 1;
 }
 ```

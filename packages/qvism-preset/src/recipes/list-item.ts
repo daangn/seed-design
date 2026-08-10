@@ -48,9 +48,9 @@ const listItem = defineSlotRecipe({
 
       "--seed-focus-ring": "none",
       // the engaged background on the row is enough press feedback; nested marks shouldn't scale
-      "--seed-checkmark-press-scale": "1",
-      "--seed-radiomark-press-scale": "1",
-      "--seed-switchmark-press-scale": "1",
+      "--seed-checkmark-feedback-scale": "1",
+      "--seed-radiomark-feedback-scale": "1",
+      "--seed-switchmark-feedback-scale": "1",
 
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
@@ -75,9 +75,9 @@ const listItem = defineSlotRecipe({
 
       "--seed-focus-ring": "none",
       // the engaged background on the row is enough press feedback; nested marks shouldn't scale
-      "--seed-checkmark-press-scale": "1",
-      "--seed-radiomark-press-scale": "1",
-      "--seed-switchmark-press-scale": "1",
+      "--seed-checkmark-feedback-scale": "1",
+      "--seed-radiomark-feedback-scale": "1",
+      "--seed-switchmark-feedback-scale": "1",
 
       fontSize: vars.base.enabled.suffixText.fontSize,
       lineHeight: vars.base.enabled.suffixText.lineHeight,
