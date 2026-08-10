@@ -20,10 +20,12 @@ let sharedObserver: ResizeObserver | null = null;
 
 function getSharedObserver() {
   sharedObserver ??= new ResizeObserver((entries) => {
-    // Read every entry before writing any property. `borderBoxSize` is absent
-    // on older engines, and the `offsetWidth` / `offsetHeight` fallback forces
-    // a synchronous layout — interleaved with the writes below that would
-    // thrash once per entry instead of once per callback.
+    // `borderBoxSize` is absent before Safari 15.4, inside the range SEED
+    // supports, so the `offsetWidth` / `offsetHeight` fallback is a live path
+    // rather than a formality. Reading every entry before writing any property
+    // is what keeps it free: layout is already clean when observations are
+    // broadcast, so the reads force nothing, while a write interleaved between
+    // them would dirty layout and make every later read reflow.
     const measurements = entries.map((entry) => {
       const element = entry.target as HTMLElement;
       const size = entry.borderBoxSize?.[0];
@@ -46,29 +48,65 @@ function getSharedObserver() {
 
 /**
  * Returns a callback ref that keeps the size vars in sync on the element it is
- * attached to. Compose it with the element's other refs using `useComposedRefs`
- * — a bare `composeRefs` returns a new function every render, which makes React
- * detach and re-attach the ref, and that re-registers the observation and
- * republishes the vars on every render rather than on every resize.
+ * attached to. Compose it with the element's other refs however you like: being
+ * handed an element it already watches is a no-op, so the observation survives a
+ * ref whose identity changes every render and the vars are republished on resize
+ * rather than on render.
+ *
+ * Teardown still runs when the ref genuinely leaves an element — it is unobserved
+ * and its vars removed — so an element that keeps the class but loses the ref
+ * falls back to a ratio of 1 instead of holding a stale one.
  */
 export function useElementSizeVars() {
-  const elementRef = React.useRef<HTMLElement | null>(null);
+  // What React last handed the ref, against what the observer is watching. The
+  // two disagree for exactly one commit whenever a ref identity changes, because
+  // React detaches with `null` before re-attaching the very same element.
+  const attachedRef = React.useRef<HTMLElement | null>(null);
+  const observedRef = React.useRef<HTMLElement | null>(null);
 
-  const sizeVarsRef = React.useCallback((node: HTMLElement | null) => {
-    const previous = elementRef.current;
-    if (previous && previous !== node) {
-      getSharedObserver().unobserve(previous);
-      previous.style.removeProperty("--seed-element-width");
-      previous.style.removeProperty("--seed-element-height");
-    }
+  const release = React.useCallback(() => {
+    const observed = observedRef.current;
+    if (!observed) return;
 
-    elementRef.current = node;
-    // `box` selects which box change marks the element active — it does not
-    // decide which sizes the entry carries (all of them are always present).
-    // Observing the content box would miss a border-box change that leaves the
-    // content box untouched, e.g. a variant that only alters padding.
-    if (node) getSharedObserver().observe(node, { box: "border-box" });
+    observedRef.current = null;
+    getSharedObserver().unobserve(observed);
+    observed.style.removeProperty("--seed-element-width");
+    observed.style.removeProperty("--seed-element-height");
   }, []);
+
+  const sizeVarsRef = React.useCallback(
+    (node: HTMLElement | null) => {
+      attachedRef.current = node;
+
+      if (!node) {
+        // A commit runs to completion synchronously, so this cannot land before
+        // the re-attach that an identity change performs within the same commit.
+        // By the time it runs, the two refs tell a detached element apart from
+        // one that never actually left.
+        queueMicrotask(() => {
+          if (attachedRef.current === observedRef.current) return;
+
+          release();
+        });
+        return;
+      }
+
+      if (observedRef.current === node) return;
+
+      release();
+      observedRef.current = node;
+      // `box` selects which box change marks the element active — it does not
+      // decide which sizes the entry carries (all of them are always present).
+      // Observing the content box would miss a border-box change that leaves the
+      // content box untouched, e.g. a variant that only alters padding.
+      //
+      // Before Safari 15.4 `observe` declares no options at all, so this argument
+      // is dropped and that miss is exactly what happens there. Bounded: the ratio
+      // stays valid, only derived from the last size whose content box moved.
+      getSharedObserver().observe(node, { box: "border-box" });
+    },
+    [release],
+  );
 
   return { sizeVarsRef };
 }
