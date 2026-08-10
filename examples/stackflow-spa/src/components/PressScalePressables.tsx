@@ -1,4 +1,4 @@
-import { usePressScale } from "@seed-design/react";
+import { PressScale, usePressScale } from "@seed-design/react";
 import clsx from "clsx";
 import * as React from "react";
 
@@ -46,42 +46,46 @@ export function ConstantPressable({ size = "medium", className, ...props }: Pres
   );
 }
 
-function assignRef<T>(ref: React.Ref<T>, node: T | null) {
-  if (typeof ref === "function") ref(node);
-  else if (ref) ref.current = node;
-}
-
-/**
- * Stands in for `useComposedRefs` from `@radix-ui/react-compose-refs`, which
- * this example app does not depend on. Memoized for the reason the real one is:
- * a fresh function every render makes React detach and re-attach the ref, which
- * re-registers the size observation instead of leaving it to fire on resize.
- */
-function useComposedRefs<T>(refA: React.Ref<T>, refB: React.Ref<T>) {
-  return React.useCallback(
-    (node: T | null) => {
-      assignRef(refA, node);
-      assignRef(refB, node);
-    },
-    [refA, refB],
-  );
-}
-
-export const ComposedRefPressable = React.forwardRef<HTMLButtonElement, PressableProps>(
-  ({ size = "medium", className, ...props }, ref) => {
-    const { pressScaleRef, pressScaleClassName } = usePressScale();
-
-    return (
+/** Opts in by wrapping, so its own `ref` is all this component has to pass down. */
+export const SlottedPressable = React.forwardRef<HTMLButtonElement, PressableProps>(
+  ({ size = "medium", className, ...props }, ref) => (
+    <PressScale>
       <button
         type="button"
-        ref={useComposedRefs<HTMLButtonElement>(pressScaleRef, ref)}
-        className={clsx(pressScaleClassName, styles.pressable, SIZE_CLASS[size], className)}
+        ref={ref}
+        className={clsx(styles.pressable, SIZE_CLASS[size], className)}
         {...props}
       />
-    );
-  },
+    </PressScale>
+  ),
 );
-ComposedRefPressable.displayName = "ComposedRefPressable";
+SlottedPressable.displayName = "SlottedPressable";
+
+/**
+ * Hands its child a fresh `ref` on every render, which is what makes React detach
+ * and re-attach it. Clicking re-renders, so the readout shows whether the
+ * published size survives the round trip.
+ */
+export function UnstableRefPressable({ size = "medium", className, ...props }: PressableProps) {
+  const [renderCount, setRenderCount] = React.useState(0);
+  const nodeRef = React.useRef<HTMLButtonElement | null>(null);
+
+  return (
+    <PressScale>
+      <button
+        type="button"
+        ref={(node) => {
+          nodeRef.current = node;
+        }}
+        className={clsx(styles.pressable, SIZE_CLASS[size], className)}
+        {...props}
+        onClick={() => setRenderCount((count) => count + 1)}
+      >
+        리렌더 {renderCount}회
+      </button>
+    </PressScale>
+  );
+}
 
 /** Deliberately broken: the class without the ref, so no size is published. */
 export function ClassOnlyPressable({ size = "medium", className, ...props }: PressableProps) {
@@ -128,7 +132,6 @@ export function NestedPressable({
   return (
     <div
       ref={pressScaleRef}
-      data-probe={optOut ? "wrapper·off" : "wrapper"}
       className={clsx(pressScaleClassName, styles.nestedWrapper, optOut && styles.markOptOut)}
     >
       {children}
