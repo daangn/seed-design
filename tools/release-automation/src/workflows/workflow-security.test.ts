@@ -414,6 +414,7 @@ describe("릴리즈 workflow 권한 경계", () => {
     const dryRun = publish.jobs["dry-run"];
     const oidc = publish.jobs["publish-npm"];
     const tags = publish.jobs["tag-packages"];
+    const artifactPath = ["$", "{{ runner.temp }}/release-package-artifact"].join("");
     const buildControl = build.steps?.find(
       (step) => step.name === "Checkout immutable trusted dev control plane",
     );
@@ -433,6 +434,9 @@ describe("릴리즈 workflow 권한 경계", () => {
     const dryPlan = dryRun.steps?.find(
       (step) => step.name === "Independently re-plan exact approved packages",
     );
+    const dryDownload = dryRun.steps?.find(
+      (step) => step.name === "Download package artifact",
+    );
     const dryVerify = dryRun.steps?.find(
       (step) => step.name === "Reverify package artifact without registry writes",
     );
@@ -444,6 +448,9 @@ describe("릴리즈 workflow 권한 경계", () => {
     );
     const oidcSource = oidc.steps?.find(
       (step) => step.name === "Checkout exact merge as inert gitHead root",
+    );
+    const oidcDownload = oidc.steps?.find(
+      (step) => step.name === "Download package artifact",
     );
     const publishArtifact = oidc.steps?.find(
       (step) => step.name === "Reverify and publish only sanitized missing packages",
@@ -501,6 +508,8 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(dryPlan?.env?.PUBLISH_PACKAGE_PATHS).toBe(
       ["$", "{{ needs.authorize.outputs.package-paths }}"].join(""),
     );
+    expect(dryDownload?.with?.path).toBe(artifactPath);
+    expect(dryVerify?.env?.PUBLISH_ARTIFACT_PATH).toBe(artifactPath);
     expect(dryVerify?.run).toBe(
       "bun tools/release-automation/src/publish/publish-artifact.ts verify",
     );
@@ -521,6 +530,9 @@ describe("릴리즈 workflow 권한 경계", () => {
       path: "source",
       "persist-credentials": false,
     });
+    expect(oidcDownload?.with?.path).toBe(artifactPath);
+    expect(artifactContract?.env?.PUBLISH_ARTIFACT_PATH).toBe(artifactPath);
+    expect(publishArtifact?.env?.PUBLISH_ARTIFACT_PATH).toBe(artifactPath);
     expect(
       oidc.steps?.find((step) => step.uses === "actions/setup-node@v6")?.with?.["node-version"],
     ).toBe("24");

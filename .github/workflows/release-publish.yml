@@ -192,7 +192,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: release-package-${{ needs.authorize.outputs.merge-sha }}
-          path: artifact
+          path: ${{ runner.temp }}/release-package-artifact
       - name: Bind immutable trusted dev state for dry-run policy
         working-directory: source
         env:
@@ -207,7 +207,7 @@ jobs:
         run: bun tools/release-automation/src/publish/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
       - name: Reverify package artifact without registry writes
         env:
-          PUBLISH_ARTIFACT_PATH: ${{ github.workspace }}/artifact
+          PUBLISH_ARTIFACT_PATH: ${{ runner.temp }}/release-package-artifact
           PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
           PUBLISH_LANE: ${{ needs.authorize.outputs.lane }}
           PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
@@ -259,7 +259,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: release-package-${{ needs.authorize.outputs.merge-sha }}
-          path: artifact
+          path: ${{ runner.temp }}/release-package-artifact
       - name: Bind immutable trusted dev state for publish policy
         working-directory: source
         env:
@@ -275,7 +275,7 @@ jobs:
       - name: Reverify artifact and bind registry integrity
         id: artifact
         env:
-          PUBLISH_ARTIFACT_PATH: ${{ github.workspace }}/artifact
+          PUBLISH_ARTIFACT_PATH: ${{ runner.temp }}/release-package-artifact
           PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
           PUBLISH_LANE: ${{ needs.authorize.outputs.lane }}
           PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
@@ -296,7 +296,7 @@ jobs:
           NPM_CONFIG_IGNORE_SCRIPTS: "true"
           NPM_CONFIG_PROVENANCE: "true"
           NPM_CONFIG_REGISTRY: https://registry.npmjs.org
-          PUBLISH_ARTIFACT_PATH: ${{ github.workspace }}/artifact
+          PUBLISH_ARTIFACT_PATH: ${{ runner.temp }}/release-package-artifact
           PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
           PUBLISH_LANE: ${{ needs.authorize.outputs.lane }}
           PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
