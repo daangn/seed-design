@@ -24,6 +24,11 @@ on:
         required: false
         type: string
         default: ""
+      benchmark-cache-key:
+        description: "Optional identifier for a reproducible cold/warm Turbopack benchmark"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -68,12 +73,16 @@ jobs:
         with:
           path: docs/.next/cache
           # Reuse the build inputs already hashed by setup, then add docs inputs only.
-          key: ${{ runner.os }}-nextjs-${{ steps.setup.outputs.build-cache-key-suffix }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json') }}
-          # Rebuild from the nearest cache when build or docs inputs changed.
+          # A benchmark key creates an isolated namespace. A new value starts cold;
+          # repeating it with the same sources must restore the exact cache entry.
+          key: ${{ runner.os }}-nextjs-${{ inputs.benchmark-cache-key && format('benchmark-{0}-', inputs.benchmark-cache-key) || '' }}${{ steps.setup.outputs.build-cache-key-suffix }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json') }}
+          # Normal deployments may reuse a nearby cache. Benchmarks only search their
+          # isolated namespace so the first run remains cold.
           restore-keys: |
-            ${{ runner.os }}-nextjs-
+            ${{ inputs.benchmark-cache-key && format('{0}-nextjs-benchmark-{1}-', runner.os, inputs.benchmark-cache-key) || format('{0}-nextjs-', runner.os) }}
 
       - name: Build Docs
+        id: build-docs
         working-directory: ./docs
         env:
           # docs uses Next static export, so NEXT_PUBLIC_* values must be present at build time.
@@ -84,7 +93,69 @@ jobs:
           # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
           NODE_OPTIONS: --max-old-space-size=6144
         run: |
-          bun run build
+          build_started_at="$(date +%s)"
+          turbopack_duration_seconds="not-run"
+          status=0
+
+          # Keep the package build sequence, while measuring only `next build --turbopack`.
+          set +e
+          bun run prepare:figma-images
+          status=$?
+
+          if [ "$status" -eq 0 ]; then
+            bun run typecheck
+            status=$?
+          fi
+
+          if [ "$status" -eq 0 ]; then
+            turbopack_started_at="$(date +%s)"
+            bun run build:turbopack
+            status=$?
+            turbopack_duration_seconds="$(( $(date +%s) - turbopack_started_at ))"
+          fi
+
+          if [ "$status" -eq 0 ]; then
+            bun run generate:changelog-llms
+            status=$?
+          fi
+
+          echo "duration-seconds=$(( $(date +%s) - build_started_at ))" >> "$GITHUB_OUTPUT"
+          echo "turbopack-duration-seconds=$turbopack_duration_seconds" >> "$GITHUB_OUTPUT"
+          echo "exit-code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+
+      - name: Report docs build benchmark
+        if: ${{ always() }}
+        env:
+          BENCHMARK_CACHE_KEY: ${{ inputs.benchmark-cache-key }}
+          NEXTJS_CACHE_HIT: ${{ steps.restore-nextjs-cache.outputs.cache-hit }}
+          NEXTJS_CACHE_MATCHED_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-matched-key }}
+          NEXTJS_CACHE_PRIMARY_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
+          BUILD_DURATION_SECONDS: ${{ steps.build-docs.outputs.duration-seconds }}
+          TURBOPACK_DURATION_SECONDS: ${{ steps.build-docs.outputs.turbopack-duration-seconds }}
+          BUILD_EXIT_CODE: ${{ steps.build-docs.outputs.exit-code }}
+        run: |
+          cache_result="miss"
+          if [ "$NEXTJS_CACHE_HIT" = "true" ]; then
+            cache_result="exact hit"
+          elif [ -n "$NEXTJS_CACHE_MATCHED_KEY" ]; then
+            cache_result="restore-key hit (not exact)"
+          fi
+
+          {
+            echo "## Docs build benchmark"
+            echo
+            echo "| Metric | Value |"
+            echo "| --- | --- |"
+            echo "| Benchmark cache key | ${BENCHMARK_CACHE_KEY:-default deployment cache} |"
+            echo "| Next.js Actions cache | $cache_result |"
+            echo "| Next.js cache exact hit | ${NEXTJS_CACHE_HIT:-false} |"
+            echo "| Next.js cache matched key | ${NEXTJS_CACHE_MATCHED_KEY:-none} |"
+            echo "| Next.js cache primary key | ${NEXTJS_CACHE_PRIMARY_KEY:-unknown} |"
+            echo "| Turbopack build time (seconds) | ${TURBOPACK_DURATION_SECONDS:-not-recorded} |"
+            echo "| Total docs build time (seconds) | ${BUILD_DURATION_SECONDS:-not-recorded} |"
+            echo "| Build exit code | ${BUILD_EXIT_CODE:-not-recorded} |"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Save Next.js cache
         if: ${{ steps.restore-nextjs-cache.outputs.cache-hit != 'true' }}
