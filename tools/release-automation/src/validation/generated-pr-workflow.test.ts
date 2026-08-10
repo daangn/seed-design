@@ -50,7 +50,7 @@ describe("generated release PR workflow dispatch", () => {
       contents: "write",
       issues: "write",
       "pull-requests": "write",
-      statuses: "read",
+      statuses: "write",
     });
     expect(writeCommand?.run).toBe(
       "bun tools/release-automation/src/lane/lane-write-plan.ts write-version /tmp/seed-release-plan",
@@ -112,7 +112,7 @@ describe("generated release PR workflow dispatch", () => {
     expect(laneWriter).toContain(
       "if (!deferValidation) await dispatchValidation(repository, token, branch, headSha)",
     );
-    expect(binder.match(/await dispatchValidation\(/g)).toHaveLength(1);
+    expect(binder).toContain("await advanceStablePromotion({");
     expect(stableBinder?.env).toMatchObject({
       RELEASE_PROMOTION_OPERATION_ID: ["$", "{{ matrix.operation_id }}"].join(""),
       RELEASE_PROMOTION_EXIT_PR: ["$", "{{ matrix.exit_pr }}"].join(""),
@@ -210,19 +210,19 @@ describe("generated release PR workflow dispatch", () => {
       expect(validator).toContain("verifyBootstrapReadiness");
       expect(validator).toContain("verifyGeneratedLaneWritePlan");
       expect(validator).toContain("verifyGeneratedPrereleasePlan");
-      expect(validator).toContain("verifyStablePromotionProvenance");
+      expect(validator).toContain("verifyStablePromotionPreflight");
       expect(validator).toContain("exiting lane에는 exact Stable Version Packages PR만 허용됩니다");
       expect(validator).toContain("proposedConfig");
       expect(validator).toContain("verifyTrustedGeneratedSync({");
     }
     expect(cli.indexOf("verifyGeneratedLaneWritePlan(")).toBeLessThan(
-      cli.indexOf('await writeOutput({ generated: "true"'),
+      cli.indexOf('generated: "true"'),
     );
     expect(generated.indexOf("verifyGeneratedLaneWritePlan(")).toBeLessThan(
       generated.indexOf("const output = process.env.GITHUB_OUTPUT"),
     );
     expect(cli.indexOf("verifyTrustedGeneratedSync({")).toBeLessThan(
-      cli.indexOf('await writeOutput({ generated: "true"'),
+      cli.indexOf('generated: "true"'),
     );
     expect(generated.indexOf("verifyTrustedGeneratedSync({")).toBeLessThan(
       generated.indexOf("const output = process.env.GITHUB_OUTPUT"),
@@ -238,14 +238,14 @@ describe("generated release PR workflow dispatch", () => {
       readFile("tools/release-automation/src/validation/baseline-reconciliation.ts", "utf8"),
       readFile("tools/release-automation/src/publish/baseline-reconciliation-state.ts", "utf8"),
     ]);
-    expect(creator).toContain('const targets: LaneName[] = ["dev", sibling]');
+    expect(creator).toContain("baselineTargets(process.env.BASELINE_TARGETS, sibling)");
     expect(creator).toContain('Bun.spawn(["git", "apply", "--3way", "--index", "-"]');
     expect(creator).not.toContain("changeset pre");
     expect(creator).toContain("inputs: { head_ref: branch, head_sha: headSha }");
     expect(validator).toContain("hasPublishReceiptReadyForBaseline");
     expect(validator).toContain("versionsDigest(published) !== marker.versionsSha256");
     expect(validator).toContain("baseline sibling target은 exact dormant 상태여야 합니다");
-    expect(gate).toContain('for (const target of ["dev", sibling] as const)');
+    expect(gate).toContain("stableMarker.promotionTargets");
     expect(gate).toContain("isValidationStatusBoundToRun");
   });
 

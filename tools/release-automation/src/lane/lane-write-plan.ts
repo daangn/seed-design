@@ -1293,6 +1293,7 @@ async function createOrUpdatePull(
   headSha: string,
   releases: VersionRelease[],
   expectedPullNumber: number | null,
+  draft: boolean,
 ): Promise<number> {
   const pulls = await openPulls(client, plan.lane);
   const exact = exactBranchPulls(pulls, client.repository, plan.lane, branch);
@@ -1304,7 +1305,9 @@ async function createOrUpdatePull(
   }
   if (
     exact[0] &&
-    (exact[0].user.login !== "github-actions[bot]" || exact[0].head.sha !== headSha)
+    (exact[0].user.login !== "github-actions[bot]" ||
+      exact[0].head.sha !== headSha ||
+      exact[0].draft !== draft)
   ) {
     throw new Error("Version Packages branch의 기존 PR author/head가 expected state와 다릅니다.");
   }
@@ -1322,7 +1325,7 @@ async function createOrUpdatePull(
   } else {
     const created = await client.request<GitHubPullRequest>(`/repos/${client.repository}/pulls`, {
       method: "POST",
-      body: JSON.stringify({ title, body, head: branch, base: plan.lane }),
+      body: JSON.stringify({ title, body, head: branch, base: plan.lane, draft }),
     });
     number = created.number;
   }
@@ -1478,6 +1481,7 @@ async function writePlan(artifactPath: string): Promise<void> {
     headSha,
     releases,
     expectedPullNumber,
+    deferValidation,
   );
   if (!deferValidation) await dispatchValidation(repository, token, branch, headSha);
   if (process.env.GITHUB_OUTPUT) {

@@ -36,6 +36,8 @@ import {
   trustedSyncMarkerForPull,
   type SyncReceiptComment,
 } from "./sync-policy";
+import { assertNoCompetingOpenStablePromotion } from "../promotion/promotion-state";
+import { assertDevStablePublishReconciled } from "../publish/baseline-reconciliation-state";
 
 interface IssueComment extends SyncReceiptComment {
   author_association: string;
@@ -69,6 +71,13 @@ if (!config.sync.activation) {
 const activation = config.sync.activation;
 const client = new GitHubClient(repository, token);
 const controlSha = (await run(["git", "rev-parse", "origin/dev"])).output;
+try {
+  await assertNoCompetingOpenStablePromotion({ repository, client });
+  await assertDevStablePublishReconciled({ repository, currentDevSha: controlSha, client });
+} catch (error) {
+  console.log(`${error instanceof Error ? error.message : String(error)} sync drain을 보류합니다.`);
+  process.exit(0);
+}
 const controlTreeSha256 = await controlPlaneFingerprint(repositoryPath, controlSha);
 
 async function run(

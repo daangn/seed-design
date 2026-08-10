@@ -7,6 +7,7 @@ import {
 export { releaseValidationWorkflowName };
 
 export const releaseValidationStatusContext = "Validate release lane";
+export const codePromotionPreflightStatusContext = "Validate code promotion preflight";
 export const releaseValidationRunPrefix = "seed-release-validation:";
 export const releaseValidationWorkflowPath = ".github/workflows/release-pr-validation.yml";
 export type ReleaseValidationEvent = "pull_request_target" | "workflow_dispatch";
@@ -36,21 +37,41 @@ export interface ReleaseValidationWorkflowRun {
   repository: { full_name: string };
 }
 
-export function releaseValidationRunName(headSha: string): string {
-  return `${releaseValidationRunPrefix}${headSha}`;
+export function releaseValidationRunName(
+  headSha: string,
+  context = releaseValidationStatusContext,
+): string {
+  const kind = validationKind(context);
+  if (!kind) throw new Error(`알 수 없는 validation context입니다: ${context}`);
+  return `${releaseValidationRunPrefix}${kind}:${headSha}`;
+}
+
+function validationKind(context: string): "lane" | "code-promotion-preflight" | null {
+  if (context === releaseValidationStatusContext) return "lane";
+  if (context === codePromotionPreflightStatusContext) return "code-promotion-preflight";
+  return null;
 }
 
 export function releaseValidationStatusDescription(
   event: ReleaseValidationEvent,
   headSha: string,
+  context = releaseValidationStatusContext,
 ): string {
-  return `${releaseValidationRunPrefix}${event}:${headSha}`;
+  const kind = validationKind(context);
+  if (!kind) throw new Error(`알 수 없는 validation context입니다: ${context}`);
+  return `${releaseValidationRunPrefix}${kind}:${event}:${headSha}`;
 }
 
-export function validationHeadShaFromRun(run: ReleaseValidationWorkflowRun): string | null {
-  if (!run.display_title.startsWith(releaseValidationRunPrefix)) return null;
-  const headSha = run.display_title.slice(releaseValidationRunPrefix.length);
-  return gitShaPattern.test(headSha) && releaseValidationRunName(headSha) === run.display_title
+export function validationHeadShaFromRun(
+  run: ReleaseValidationWorkflowRun,
+  context = releaseValidationStatusContext,
+): string | null {
+  const kind = validationKind(context);
+  if (!kind) return null;
+  const prefix = `${releaseValidationRunPrefix}${kind}:`;
+  if (!run.display_title.startsWith(prefix)) return null;
+  const headSha = run.display_title.slice(prefix.length);
+  return gitShaPattern.test(headSha) && run.display_title === `${prefix}${headSha}`
     ? headSha
     : null;
 }
@@ -63,6 +84,7 @@ export function isTrustedValidationWorkflowRun(
   run: ReleaseValidationWorkflowRun,
   repository: string,
   headSha: string,
+  context = releaseValidationStatusContext,
 ): boolean {
   return (
     run.name === releaseValidationWorkflowName &&
@@ -72,7 +94,7 @@ export function isTrustedValidationWorkflowRun(
     run.status === "completed" &&
     run.conclusion === "success" &&
     run.head_branch === "dev" &&
-    validationHeadShaFromRun(run) === headSha
+    validationHeadShaFromRun(run, context) === headSha
   );
 }
 
@@ -81,12 +103,13 @@ export function isValidationStatusForHead(
   repository: string,
   headSha: string,
   event: ReleaseValidationEvent,
+  context = releaseValidationStatusContext,
 ): boolean {
   return (
     gitShaPattern.test(headSha) &&
     status.creator?.login === releaseAutomationLogin &&
-    status.context === releaseValidationStatusContext &&
-    status.description === releaseValidationStatusDescription(event, headSha) &&
+    status.context === context &&
+    status.description === releaseValidationStatusDescription(event, headSha, context) &&
     typeof status.target_url === "string" &&
     new RegExp(
       `^https://github\\.com/${repository.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/actions/runs/[1-9][0-9]*$`,
@@ -111,10 +134,11 @@ export function latestValidationStatus(
   repository: string,
   headSha: string,
   event: ReleaseValidationEvent,
+  context = releaseValidationStatusContext,
 ): ReleaseValidationStatus | null {
   return (
     statuses
-      .filter((status) => isValidationStatusForHead(status, repository, headSha, event))
+      .filter((status) => isValidationStatusForHead(status, repository, headSha, event, context))
       .sort((left, right) => {
         const byUpdatedAt = Date.parse(right.updated_at) - Date.parse(left.updated_at);
         return byUpdatedAt === 0 ? right.id - left.id : byUpdatedAt;
@@ -145,12 +169,13 @@ export function isValidationStatusBoundToRun(
   run: ReleaseValidationWorkflowRun,
   repository: string,
   headSha: string,
+  context = releaseValidationStatusContext,
 ): boolean {
   return (
     status.state === "success" &&
-    isValidationStatusForHead(status, repository, headSha, "workflow_dispatch") &&
+    isValidationStatusForHead(status, repository, headSha, "workflow_dispatch", context) &&
     validationRunIdFromStatus(status, repository) === run.id &&
-    isTrustedValidationWorkflowRun(run, repository, headSha)
+    isTrustedValidationWorkflowRun(run, repository, headSha, context)
   );
 }
 
@@ -159,16 +184,17 @@ export function isValidationStatusConsistentWithRun(
   run: ReleaseValidationWorkflowRun,
   repository: string,
   headSha: string,
+  context = releaseValidationStatusContext,
 ): boolean {
   if (
-    !isValidationStatusForHead(status, repository, headSha, "workflow_dispatch") ||
+    !isValidationStatusForHead(status, repository, headSha, "workflow_dispatch", context) ||
     validationRunIdFromStatus(status, repository) !== run.id ||
     run.name !== releaseValidationWorkflowName ||
     run.path !== releaseValidationWorkflowPath ||
     run.repository.full_name !== repository ||
     run.event !== "workflow_dispatch" ||
     run.head_branch !== "dev" ||
-    validationHeadShaFromRun(run) !== headSha
+    validationHeadShaFromRun(run, context) !== headSha
   ) {
     return false;
   }

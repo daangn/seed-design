@@ -441,6 +441,49 @@ export async function hasPublishReceiptReadyForBaseline(
   );
 }
 
+export async function productionPublishRunIdReadyForBaseline(
+  client: PublishReceiptClient,
+  repository: string,
+  mergeSha: string,
+  expectedLane: "minor" | "major",
+  expectedHeadSha: string,
+): Promise<number | null> {
+  if (!gitShaPattern.test(mergeSha) || !gitShaPattern.test(expectedHeadSha)) return null;
+  const statuses = await client.paginate<PublishCommitStatus>(
+    `/repos/${repository}/commits/${mergeSha}/statuses`,
+  );
+  for (const status of statuses) {
+    if (status.description !== `seed-release-publish:${mergeSha}:production`) continue;
+    const runId = publishRunIdFromStatus(status, repository);
+    if (!runId) continue;
+    try {
+      const [run, jobs] = await Promise.all([
+        client.request<PublishWorkflowRun>(`/repos/${repository}/actions/runs/${runId}`),
+        client.paginate<PublishWorkflowJob>(
+          `/repos/${repository}/actions/runs/${runId}/jobs?filter=all`,
+        ),
+      ]);
+      if (
+        isPublishReceiptReadyForBaseline(
+          status,
+          run,
+          jobs,
+          repository,
+          mergeSha,
+          runId,
+          expectedLane,
+          expectedHeadSha,
+        )
+      ) {
+        return runId;
+      }
+    } catch {
+      // Stale or spoofed runs are ignored.
+    }
+  }
+  return null;
+}
+
 export function parsePublishPackages(value: string): PublishPackage[] {
   const parsed: unknown = JSON.parse(value);
   if (!Array.isArray(parsed)) throw new Error("게시 package 목록은 배열이어야 합니다.");

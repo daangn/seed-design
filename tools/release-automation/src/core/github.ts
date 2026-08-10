@@ -1,5 +1,6 @@
 export interface GitHubPullRequest {
   number: number;
+  node_id?: string;
   body: string | null;
   draft: boolean;
   merged_at: string | null;
@@ -35,6 +36,7 @@ export class GitHubClient {
         `GitHub API ${init.method ?? "GET"} ${path} 실패: ${response.status} ${await response.text()}`,
       );
     }
+    if (response.status === 204) return undefined as T;
     return (await response.json()) as T;
   }
 

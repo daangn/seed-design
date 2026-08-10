@@ -5,6 +5,7 @@ import { verifyGeneratedPrProvenance } from "../core/generated-pr-provenance";
 import { GitHubClient, type GitHubPullRequest } from "../core/github";
 import {
   isBaselineMarker,
+  isCodePromotionMarker,
   isPrereleaseMarker,
   isStablePromotionMarker,
   validateGeneratedPr,
@@ -24,10 +25,13 @@ import {
 } from "../sync/trusted-sync-validation";
 import {
   assertStablePromotionControlMode,
-  verifyStablePromotionProvenance,
+  verifyStablePromotionPreflight,
 } from "./stable-promotion";
 import { verifyBaselineReconciliation } from "./baseline-reconciliation";
 import { assertDevStablePublishReconciled } from "../publish/baseline-reconciliation-state";
+import { verifyCodePromotionPull } from "../promotion/code-promotion-validation";
+import { assertNoCompetingOpenStablePromotion } from "../promotion/promotion-state";
+import { assertUniqueOpenReleasePullForHead } from "./head-identity";
 
 type AssociatedPullRequest = GitHubPullRequest & { state: "open" | "closed" };
 
@@ -46,8 +50,12 @@ const token = process.env.GH_TOKEN;
 const repository = process.env.GITHUB_REPOSITORY;
 const headSha = process.env.VALIDATION_HEAD_SHA;
 const headRef = process.env.VALIDATION_HEAD_REF;
+const validationKind = process.env.VALIDATION_KIND ?? "lane";
 if (!token || !repository || !headSha || !headRef) {
   throw new Error("GitHub dispatch 검증 환경과 exact generated head 입력이 필요합니다.");
+}
+if (validationKind !== "lane" && validationKind !== "code-promotion-preflight") {
+  throw new Error(`알 수 없는 generated validation kind입니다: ${validationKind}`);
 }
 
 const client = new GitHubClient(repository, token);
@@ -103,6 +111,7 @@ async function resolveAssociatedPull(
       exactRepository,
       exactHeadSha,
       exactHeadRef,
+      { allowDraftCodePromotion: validationKind === "code-promotion-preflight" },
     );
     if (selected) return selected;
     if (attempt < 4) await Bun.sleep(500 * 2 ** attempt);
@@ -117,6 +126,18 @@ if (!selected) {
   );
 }
 const { pull, marker } = selected;
+await assertUniqueOpenReleasePullForHead({
+  client,
+  repository,
+  pullNumber: pull.number,
+  headSha,
+});
+if (
+  validationKind === "code-promotion-preflight" &&
+  (!pull.draft || !isCodePromotionMarker(marker))
+) {
+  throw new Error("code promotion preflight는 exact draft code-promotion PR만 허용합니다.");
+}
 
 await git([
   "fetch",
@@ -132,6 +153,13 @@ if (fetchedHeadSha !== headSha || pull.head.sha !== headSha || pull.head.ref !==
 const filesOutput = await git(["diff", "--name-only", `origin/${marker.lane}...${headSha}`, "--"]);
 const changedFiles = filesOutput ? filesOutput.split("\n") : [];
 const provenance = await verifyGeneratedPrProvenance({ marker, headSha, changedFiles });
+const promotionException =
+  isStablePromotionMarker(marker) || marker.type === "code-promotion" || marker.type === "baseline";
+if (!promotionException) {
+  await assertNoCompetingOpenStablePromotion({ repository, client });
+  const currentDevSha = await git(["rev-parse", "origin/dev"]);
+  await assertDevStablePublishReconciled({ repository, currentDevSha, client });
+}
 const basePreState =
   marker.lane === "dev"
     ? null
@@ -149,7 +177,13 @@ if (marker.type === "version") {
       throw new Error("exiting lane의 Version PR에는 exact stable promotion marker가 필요합니다.");
     }
     await assertDormantSibling(marker.lane);
-    await verifyStablePromotionProvenance({ repository, marker, versionPull: pull, client });
+    await verifyStablePromotionPreflight({
+      repositoryPath: process.cwd(),
+      repository,
+      marker,
+      versionPull: pull,
+      client,
+    });
   } else if (isStablePromotionMarker(marker)) {
     throw new Error("stable promotion Version PR의 base가 exact exit state가 아닙니다.");
   }
@@ -169,6 +203,16 @@ if (marker.type === "baseline" && isBaselineMarker(marker)) {
     marker,
     baseSha: pull.base.sha,
     headSha,
+    client,
+  });
+}
+if (marker.type === "code-promotion" && isCodePromotionMarker(marker)) {
+  await verifyCodePromotionPull({
+    repositoryPath: process.cwd(),
+    repository,
+    marker,
+    pull,
+    allowDraft: validationKind === "code-promotion-preflight",
     client,
   });
 }
@@ -266,9 +310,18 @@ if (marker.type === "sync") {
 
 const output = process.env.GITHUB_OUTPUT;
 if (output) {
+  const codePromotionOutput = isCodePromotionMarker(marker)
+    ? [
+        `stablePr=${marker.stablePr}`,
+        `stableBaseSha=${marker.exitMergeSha}`,
+        `stableHeadSha=${marker.stableVersionHeadSha}`,
+        `expectedCodeTreeSha=${marker.expectedCodeTreeSha}`,
+        `expectedBaselineTreeSha=${marker.expectedBaselineTreeSha}`,
+      ].join("\n")
+    : "";
   await appendFile(
     output,
-    `type=${marker.type}\nlane=${marker.lane}\npr=${pull.number}\nheadSha=${headSha}\n`,
+    `type=${marker.type}\nlane=${marker.lane}\npr=${pull.number}\nheadSha=${headSha}\n${codePromotionOutput ? `${codePromotionOutput}\n` : ""}`,
   );
 }
 const summary = process.env.GITHUB_STEP_SUMMARY;

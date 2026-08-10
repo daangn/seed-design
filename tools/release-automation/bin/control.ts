@@ -11,6 +11,7 @@ import { GitHubClient, type GitHubPullRequest } from "../src/core/github";
 import {
   encodeMarker,
   isBaselineMarker,
+  isCodePromotionMarker,
   isPrereleaseMarker,
   isStablePromotionMarker,
   validateGeneratedPr,
@@ -34,10 +35,13 @@ import {
 } from "../src/sync/trusted-sync-validation";
 import {
   assertStablePromotionControlMode,
-  verifyStablePromotionProvenance,
+  verifyStablePromotionPreflight,
 } from "../src/validation/stable-promotion";
 import { verifyBaselineReconciliation } from "../src/validation/baseline-reconciliation";
 import { assertDevStablePublishReconciled } from "../src/publish/baseline-reconciliation-state";
+import { verifyCodePromotionPull } from "../src/promotion/code-promotion-validation";
+import { assertNoCompetingOpenStablePromotion } from "../src/promotion/promotion-state";
+import { assertUniqueOpenReleasePullForHead } from "../src/validation/head-identity";
 
 interface PullRequestEvent {
   repository: { full_name: string };
@@ -126,7 +130,28 @@ async function releaseControlFromDev(): Promise<ReturnType<typeof parseReleaseCo
 }
 
 async function validatePr(values: Map<string, string>): Promise<void> {
-  const event = await readEvent(required(values, "event"));
+  const eventPath = values.get("event");
+  let event: PullRequestEvent;
+  if (eventPath) {
+    event = await readEvent(eventPath);
+  } else {
+    const repository = required(values, "repository");
+    const number = Number(required(values, "number"));
+    const headRef = required(values, "head-ref");
+    const headSha = required(values, "head-sha");
+    const token = process.env.GH_TOKEN;
+    if (!token || !Number.isSafeInteger(number) || number <= 0) {
+      throw new Error("dispatch PR identity와 GitHub read token이 필요합니다.");
+    }
+    const dispatchClient = new GitHubClient(repository, token);
+    const pull = await dispatchClient.request<GitHubPullRequest>(
+      `/repos/${repository}/pulls/${number}`,
+    );
+    if (pull.head.ref !== headRef || pull.head.sha !== headSha) {
+      throw new Error("dispatch PR number/head ref/SHA가 current GitHub PR과 다릅니다.");
+    }
+    event = { repository: { full_name: repository }, pull_request: pull };
+  }
   const eventLane = event.pull_request.base.ref;
   if (!isLaneName(eventLane)) {
     console.log(`::notice::${eventLane}은 릴리즈 레인이 아니므로 검증을 건너뜁니다.`);
@@ -184,6 +209,12 @@ async function validatePr(values: Map<string, string>): Promise<void> {
   ) {
     throw new Error("pull_request_target event가 GitHub API의 current PR head/ref와 다릅니다.");
   }
+  await assertUniqueOpenReleasePullForHead({
+    client,
+    repository: event.repository.full_name,
+    pullNumber: pull.number,
+    headSha: pull.head.sha,
+  });
   const lane = pull.base.ref;
   if (!isLaneName(lane)) throw new Error("GitHub API가 알 수 없는 release lane을 반환했습니다.");
 
@@ -206,6 +237,23 @@ async function validatePr(values: Map<string, string>): Promise<void> {
   );
   const generated = validateGeneratedPr(identityFromPull(pull));
   const files = await changedFiles(lane, pull.head.sha);
+  const promotionException =
+    generated &&
+    (isStablePromotionMarker(generated) ||
+      generated.type === "code-promotion" ||
+      generated.type === "baseline");
+  if (!promotionException) {
+    await assertNoCompetingOpenStablePromotion({
+      repository: event.repository.full_name,
+      client,
+    });
+    const currentDevSha = await run(["git", "rev-parse", "origin/dev"]);
+    await assertDevStablePublishReconciled({
+      repository: event.repository.full_name,
+      currentDevSha,
+      client,
+    });
+  }
   const basePreState =
     lane === "dev"
       ? null
@@ -213,6 +261,9 @@ async function validatePr(values: Map<string, string>): Promise<void> {
           await run(["git", "show", `origin/${lane}:.changeset/pre.json`]).catch(() => null),
           "PR base prerelease state",
         );
+  if (!generated && lane !== "dev" && classifyPrereleaseState(lane, basePreState) !== "active") {
+    throw new Error(`${lane} 직접 작업 PR은 active beta 기간에만 허용됩니다.`);
+  }
   if (basePreState?.mode === "exit" && generated?.type !== "version") {
     throw new Error("exiting lane에는 exact Stable Version Packages PR만 허용됩니다.");
   }
@@ -237,7 +288,8 @@ async function validatePr(values: Map<string, string>): Promise<void> {
           );
         }
         await assertDormantSibling(generated.lane);
-        await verifyStablePromotionProvenance({
+        await verifyStablePromotionPreflight({
+          repositoryPath: process.cwd(),
           repository: event.repository.full_name,
           marker: generated,
           versionPull: pull,
@@ -266,6 +318,16 @@ async function validatePr(values: Map<string, string>): Promise<void> {
         marker: generated,
         baseSha: pull.base.sha,
         headSha: pull.head.sha,
+        client,
+      });
+    }
+    if (generated.type === "code-promotion" && isCodePromotionMarker(generated)) {
+      await verifyCodePromotionPull({
+        repositoryPath: process.cwd(),
+        repository: event.repository.full_name,
+        marker: generated,
+        pull,
+        allowDraft: false,
         client,
       });
     }
@@ -346,7 +408,20 @@ async function validatePr(values: Map<string, string>): Promise<void> {
       `- 레인: \`${lane}\``,
       "- 자동화 생성 주체와 head/base 관계를 확인했습니다.",
     ]);
-    await writeOutput({ generated: "true", type: generated.type, lane });
+    await writeOutput({
+      generated: "true",
+      type: generated.type,
+      lane,
+      ...(isCodePromotionMarker(generated)
+        ? {
+            stablePr: String(generated.stablePr),
+            stableBaseSha: generated.exitMergeSha,
+            stableHeadSha: generated.stableVersionHeadSha,
+            expectedCodeTreeSha: generated.expectedCodeTreeSha,
+            expectedBaselineTreeSha: generated.expectedBaselineTreeSha,
+          }
+        : {}),
+    });
     return;
   }
 

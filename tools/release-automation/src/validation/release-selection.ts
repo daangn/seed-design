@@ -13,6 +13,7 @@ import {
   type ReleaseValidationWorkflowRun,
   validationRunIdFromStatus,
 } from "../core/validation-status";
+import { assertNoCompetingOpenStablePromotion } from "../promotion/promotion-state";
 
 const gitShaPattern = /^[0-9a-f]{40}$/;
 const operationIdPattern = /^[1-9][0-9]*$/;
@@ -108,6 +109,17 @@ async function regularVersionItem(
   },
 ): Promise<ReleaseMatrixItem | null> {
   const baseSha = await laneSha(lane, controlSha);
+  if (lane === "dev" && options.client && options.repository) {
+    await assertNoCompetingOpenStablePromotion({
+      repository: options.repository,
+      client: options.client,
+    });
+    await assertDevStablePublishReconciled({
+      repository: options.repository,
+      currentDevSha: controlSha,
+      client: options.client,
+    });
+  }
   const classification = classifyPrereleaseState(lane, await laneState(lane, baseSha));
   if (classification === "dormant") return null;
   if (classification === "exiting") {
@@ -249,10 +261,14 @@ export async function selectReleaseWork(input: {
       assertStablePromotionControlMode(input.controlMode);
     }
     await assertSiblingDormant(requestedLane, input.controlSha);
-    if (requestedOperation === "enter") {
-      if (!input.client || !input.repository) {
-        throw new Error("prerelease enter에는 trusted GitHub client가 필요합니다.");
-      }
+    if (!input.client || !input.repository) {
+      throw new Error("prerelease operation에는 trusted GitHub client가 필요합니다.");
+    }
+    await assertNoCompetingOpenStablePromotion({
+      repository: input.repository,
+      client: input.client,
+    });
+    if (requestedOperation === "enter" || requestedOperation === "exit") {
       await assertDevStablePublishReconciled({
         repository: input.repository,
         currentDevSha: input.controlSha,

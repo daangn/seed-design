@@ -2,6 +2,11 @@ import { describe, expect, test } from "bun:test";
 import { encodeMarker } from "../core/marker";
 import { assertDevStablePublishReconciled } from "./baseline-reconciliation-state";
 import { isPublishReceiptReadyForBaseline } from "./publish-state";
+import {
+  releaseValidationRunName,
+  releaseValidationStatusDescription,
+} from "../core/validation-status";
+import { promotionStatusContext, promotionStatusDescription } from "../promotion/promotion-status";
 
 const repository = "daangn/seed-design";
 const stableMergeSha = "a".repeat(40);
@@ -11,6 +16,12 @@ const baselineMergeSha = "d".repeat(40);
 const baselineHeadSha = "e".repeat(40);
 const devBaseSha = "f".repeat(40);
 const runId = 42;
+const enterMergeSha = "1".repeat(40);
+const promotionManifestSha256 = "2".repeat(64);
+const stablePatchSha256 = "3".repeat(64);
+const expectedCodeTreeSha = "4".repeat(40);
+const expectedBaselineTreeSha = "5".repeat(40);
+const emptyPatchSha256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 const stablePull = {
   number: 11,
   body: encodeMarker({
@@ -22,8 +33,33 @@ const stablePull = {
     expectedBaseSha: exitMergeSha,
     expectedHeadSha: stableHeadSha,
     controlSha: devBaseSha,
+    enterPr: 9,
+    enterMergeSha,
     exitPr: 10,
+    exitBaseSha: exitMergeSha,
     exitMergeSha,
+    promotionManifestSha256,
+    stablePatchSha256,
+    promotionTargets: [
+      {
+        lane: "dev",
+        expectedBaseSha: devBaseSha,
+        expectedHeadSha: devBaseSha,
+        expectedCodeTreeSha,
+        expectedBaselineTreeSha,
+        patchSha256: emptyPatchSha256,
+        noOp: true,
+      },
+      {
+        lane: "major",
+        expectedBaseSha: devBaseSha,
+        expectedHeadSha: devBaseSha,
+        expectedCodeTreeSha,
+        expectedBaselineTreeSha,
+        patchSha256: emptyPatchSha256,
+        noOp: true,
+      },
+    ],
   }),
   draft: false,
   merged_at: "2026-08-10T00:00:00Z",
@@ -46,6 +82,11 @@ function baselinePull(target: "dev" | "major", number: number, headSha: string, 
       publishRunId: runId,
       expectedBaseSha: devBaseSha,
       expectedHeadSha: headSha,
+      codeMergeSha: devBaseSha,
+      expectedCodeTreeSha,
+      expectedBaselineTreeSha,
+      promotionManifestSha256,
+      stablePatchSha256,
       controlSha: devBaseSha,
       versionsSha256: "1".repeat(64),
     }),
@@ -70,17 +111,40 @@ const siblingBaselinePull = baselinePull("major", 13, siblingHeadSha, siblingMer
 
 function mockClient(
   baselines: ReturnType<typeof baselinePull>[],
-  options: { includeValidation?: boolean; includeProductionReceipt?: boolean } = {},
+  options: {
+    corruptStableMarker?: boolean;
+    includeValidation?: boolean;
+    includeProductionReceipt?: boolean;
+  } = {},
 ) {
-  const { includeProductionReceipt = true, includeValidation = true } = options;
+  const {
+    corruptStableMarker = false,
+    includeProductionReceipt = true,
+    includeValidation = true,
+  } = options;
   return {
     async paginate<T>(path: string): Promise<T[]> {
-      if (path.includes("base=minor")) return [stablePull] as T[];
+      if (path.includes("base=minor")) {
+        return [corruptStableMarker ? { ...stablePull, body: "edited" } : stablePull] as T[];
+      }
       if (path.includes("base=major"))
         return baselines.filter((pull) => pull.base.ref === "major") as T[];
       if (path.includes("base=dev"))
         return baselines.filter((pull) => pull.base.ref === "dev") as T[];
       if (path.includes("/statuses")) {
+        if (path.includes(stableHeadSha) && corruptStableMarker) {
+          return [
+            {
+              id: 10,
+              context: promotionStatusContext,
+              state: "pending",
+              description: promotionStatusDescription(11, promotionManifestSha256),
+              target_url: null,
+              updated_at: "2026-08-10T00:30:00Z",
+              creator: { login: "github-actions[bot]" },
+            },
+          ] as T[];
+        }
         if (path.includes(stableMergeSha) && !includeProductionReceipt) return [];
         const validationHead = [baselineHeadSha, siblingHeadSha].find((head) =>
           path.includes(head),
@@ -93,7 +157,7 @@ function mockClient(
               id: 9,
               context: "Validate release lane",
               state: "success",
-              description: `seed-release-validation:workflow_dispatch:${validationHead}`,
+              description: releaseValidationStatusDescription("workflow_dispatch", validationHead),
               target_url: `https://github.com/${repository}/actions/runs/${validationRunId}`,
               updated_at: "2026-08-10T02:00:00Z",
               creator: { login: "github-actions[bot]" },
@@ -135,7 +199,7 @@ function mockClient(
           id: validationRunId,
           name: "Release lane PR validation",
           path: ".github/workflows/release-pr-validation.yml",
-          display_title: `seed-release-validation:${validationHead}`,
+          display_title: releaseValidationRunName(validationHead),
           event: "workflow_dispatch",
           status: "completed",
           conclusion: "success",
@@ -291,5 +355,15 @@ describe("dev baseline reconciliation receipt gate", () => {
         client: mockClient([devBaselinePull, siblingBaselinePull], { includeValidation: false }),
       }),
     ).rejects.toThrow("baseline reconciliation PR");
+  });
+
+  test("durable promotion receipt가 있는 merged Stable PR은 body marker가 손상돼도 skip하지 않는다", async () => {
+    await expect(
+      assertDevStablePublishReconciled({
+        repository,
+        currentDevSha: "9".repeat(40),
+        client: mockClient([], { corruptStableMarker: true }),
+      }),
+    ).rejects.toThrow("marker가 손상");
   });
 });

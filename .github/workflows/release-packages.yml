@@ -193,7 +193,7 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
-      statuses: read
+      statuses: write
     env:
       BUN_INSTALL_CACHE_DIR: /tmp/seed-release-trusted-bun-cache-${{ matrix.lane }}-${{ github.run_id }}
 

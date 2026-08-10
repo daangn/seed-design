@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
+  codePromotionPreflightStatusContext,
   isTrustedValidationWorkflowRun,
   isValidationStatusBoundToRun,
   isValidationStatusConsistentWithRun,
@@ -150,5 +151,36 @@ describe("trusted release validation status", () => {
         "workflow_dispatch",
       ),
     ).toBeNull();
+  });
+
+  test("lane run을 code promotion preflight receipt로 재사용하지 않는다", () => {
+    const preflightStatus = status({
+      context: codePromotionPreflightStatusContext,
+      description: releaseValidationStatusDescription(
+        "workflow_dispatch",
+        headSha,
+        codePromotionPreflightStatusContext,
+      ),
+    });
+    expect(
+      isValidationStatusBoundToRun(
+        preflightStatus,
+        workflowRun(),
+        repository,
+        headSha,
+        codePromotionPreflightStatusContext,
+      ),
+    ).toBe(false);
+    expect(
+      isValidationStatusBoundToRun(
+        preflightStatus,
+        workflowRun({
+          display_title: releaseValidationRunName(headSha, codePromotionPreflightStatusContext),
+        }),
+        repository,
+        headSha,
+        codePromotionPreflightStatusContext,
+      ),
+    ).toBe(true);
   });
 });

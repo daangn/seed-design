@@ -7,6 +7,7 @@ export const generatedPrTypes = [
   "bootstrap",
   "prerelease",
   "baseline",
+  "code-promotion",
 ] as const;
 export const prereleaseOperations = ["enter", "exit"] as const;
 export const versionReleaseKinds = ["stable-promotion"] as const;
@@ -59,6 +60,16 @@ export interface ReleaseControl {
   rootageContractReady: boolean;
 }
 
+export interface PromotionTargetPlan {
+  lane: LaneName;
+  expectedBaseSha: string;
+  expectedHeadSha: string;
+  expectedCodeTreeSha: string;
+  expectedBaselineTreeSha: string;
+  patchSha256: string;
+  noOp: boolean;
+}
+
 export interface ReleaseMarker {
   schemaVersion: 1;
   type: GeneratedPrType;
@@ -82,6 +93,17 @@ export interface ReleaseMarker {
   stableMergeSha?: string;
   publishRunId?: number;
   versionsSha256?: string;
+  enterPr?: number;
+  enterMergeSha?: string;
+  exitBaseSha?: string;
+  promotionManifestSha256?: string;
+  stablePatchSha256?: string;
+  promotionTargets?: PromotionTargetPlan[];
+  sourceLane?: "minor" | "major";
+  stableVersionHeadSha?: string;
+  expectedCodeTreeSha?: string;
+  expectedBaselineTreeSha?: string;
+  codeMergeSha?: string;
 }
 
 export interface PullRequestIdentity {

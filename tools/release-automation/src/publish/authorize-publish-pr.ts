@@ -19,7 +19,7 @@ import type { LaneName, ReleaseMarker } from "../core/types";
 import { isStablePromotionMarker } from "../core/marker";
 import {
   assertStablePromotionControlMode,
-  verifyStablePromotionProvenance,
+  verifyStablePromotionPreflight,
 } from "../validation/stable-promotion";
 import { assertDevStablePublishReconciled } from "./baseline-reconciliation-state";
 
@@ -103,7 +103,13 @@ export async function verifyPublishPullForAuthorization(options: {
   if (!marker) throw new Error(`PR #${number}은 신뢰할 수 있는 Version Packages PR이 아닙니다.`);
   const stablePromotion = isStablePromotionMarker(marker);
   if (stablePromotion) {
-    await verifyStablePromotionProvenance({ repository, marker, versionPull: pull, client });
+    await verifyStablePromotionPreflight({
+      repositoryPath: process.cwd(),
+      repository,
+      marker,
+      versionPull: pull,
+      client,
+    });
   }
   const legacyRecovery = isTrustedLegacyPublishRecovery(
     identity,

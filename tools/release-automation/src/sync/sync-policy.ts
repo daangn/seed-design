@@ -338,6 +338,7 @@ export function selectTrustedGeneratedPullForHead<T extends SyncPullCandidate>(
   repository: string,
   headSha: string,
   headRef?: string,
+  options: { allowDraftCodePromotion?: boolean } = {},
 ): { pull: T; marker: ReleaseMarker & { expectedHeadSha: string } } | null {
   const candidates = pulls.flatMap((pull) => {
     const marker = validateGeneratedPr({
@@ -348,8 +349,10 @@ export function selectTrustedGeneratedPullForHead<T extends SyncPullCandidate>(
       baseRepository: pull.base.repo.full_name,
       headRepository: pull.head.repo?.full_name ?? "",
     });
+    const allowedDraft =
+      options.allowDraftCodePromotion === true && marker?.type === "code-promotion";
     return pull.state === "open" &&
-      !pull.draft &&
+      (!pull.draft || allowedDraft) &&
       pull.head.sha === headSha &&
       pull.base.repo.full_name === repository &&
       pull.head.repo?.full_name === repository &&

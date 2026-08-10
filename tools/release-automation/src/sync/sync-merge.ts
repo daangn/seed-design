@@ -22,6 +22,8 @@ import {
   type ReleaseValidationStatus,
   type ReleaseValidationWorkflowRun,
 } from "../core/validation-status";
+import { assertNoCompetingOpenStablePromotion } from "../promotion/promotion-state";
+import { assertDevStablePublishReconciled } from "../publish/baseline-reconciliation-state";
 
 interface WorkflowRunEvent {
   workflow_run: ReleaseValidationWorkflowRun;
@@ -45,6 +47,20 @@ if (
 }
 
 const client = new GitHubClient(repository, token);
+try {
+  await assertNoCompetingOpenStablePromotion({ repository, client });
+  const dev = await client.request<{ commit: { sha: string } }>(
+    `/repos/${repository}/branches/dev`,
+  );
+  await assertDevStablePublishReconciled({
+    repository,
+    currentDevSha: dev.commit.sha,
+    client,
+  });
+} catch (error) {
+  console.log(`${error instanceof Error ? error.message : String(error)} sync merge를 보류합니다.`);
+  process.exit(0);
+}
 let validationStatus: ReleaseValidationStatus | null = null;
 for (let attempt = 0; attempt < 5; attempt += 1) {
   const statuses = await client.paginate<ReleaseValidationStatus>(

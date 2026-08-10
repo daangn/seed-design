@@ -2,6 +2,10 @@ import { describe, expect, test } from "bun:test";
 import { readFile } from "node:fs/promises";
 import { encodeMarker } from "../core/marker";
 import { recoverStablePromotionItem } from "./release-selection";
+import {
+  releaseValidationRunName,
+  releaseValidationStatusDescription,
+} from "../core/validation-status";
 
 const repository = "daangn/seed-design";
 const baseSha = "a".repeat(40);
@@ -20,6 +24,8 @@ const pull = {
     expectedHeadSha: headSha,
     controlSha,
     patchSha256: "e".repeat(64),
+    enterPr: 20,
+    enterMergeSha: "f".repeat(40),
   }),
   draft: false,
   merged_at: "2026-08-10T00:00:00Z",
@@ -45,7 +51,7 @@ function client(pulls = [pull]) {
             id: 1,
             state: "success",
             context: "Validate release lane",
-            description: `seed-release-validation:workflow_dispatch:${headSha}`,
+            description: releaseValidationStatusDescription("workflow_dispatch", headSha),
             target_url: `https://github.com/${repository}/actions/runs/${runId}`,
             updated_at: "2026-08-10T01:00:00Z",
             creator: { login: "github-actions[bot]" },
@@ -59,7 +65,7 @@ function client(pulls = [pull]) {
         id: runId,
         name: "Release lane PR validation",
         path: ".github/workflows/release-pr-validation.yml",
-        display_title: `seed-release-validation:${headSha}`,
+        display_title: releaseValidationRunName(headSha),
         event: "workflow_dispatch",
         status: "completed",
         conclusion: "success",

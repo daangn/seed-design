@@ -12,6 +12,7 @@ import { GitHubClient, type GitHubPullRequest } from "../core/github";
 import { hasPublishReceiptReadyForBaseline, trustedVersionMarker } from "./publish-state";
 import type { PublishPackage } from "./publish-state";
 import type { LaneName } from "../core/types";
+import { resolveCodePromotionReceipt } from "../promotion/code-promotion-state";
 
 const shaPattern = /^[0-9a-f]{40}$/;
 const allowedGenerated = new Set([
@@ -115,11 +116,47 @@ async function versionsDigestAt(
   return versionsDigest(packages);
 }
 
+export async function publishedPackagesAt(
+  repositoryPath: string,
+  ref: string,
+  files: string[],
+): Promise<PublishPackage[]> {
+  const packages: PublishPackage[] = [];
+  for (const path of files.filter(
+    (file) => file === "package.json" || file.endsWith("/package.json"),
+  )) {
+    const value = JSON.parse(await git(repositoryPath, ["show", `${ref}:${path}`])) as Record<
+      string,
+      unknown
+    >;
+    if (value.private === true) continue;
+    if (typeof value.name !== "string" || typeof value.version !== "string") {
+      throw new Error(`${path}의 published package identity가 올바르지 않습니다.`);
+    }
+    packages.push({ name: value.name, version: value.version });
+  }
+  return packages.sort((left, right) => left.name.localeCompare(right.name));
+}
+
 function siblingLane(lane: "minor" | "major"): "minor" | "major" {
   return lane === "minor" ? "major" : "minor";
 }
 
-async function main(): Promise<void> {
+function baselineTargets(value: string | undefined, sibling: "minor" | "major"): LaneName[] {
+  if (!value) return ["dev", sibling];
+  const parsed: unknown = JSON.parse(value);
+  if (
+    !Array.isArray(parsed) ||
+    parsed.length === 0 ||
+    parsed.some((target) => target !== "dev" && target !== sibling) ||
+    new Set(parsed).size !== parsed.length
+  ) {
+    throw new Error("BASELINE_TARGETS는 중복 없는 dev/sibling 배열이어야 합니다.");
+  }
+  return parsed as LaneName[];
+}
+
+export async function createBaselineReconciliation(): Promise<void> {
   const token = required("GH_TOKEN");
   const repository = required("GITHUB_REPOSITORY");
   const stablePr = Number(required("BASELINE_STABLE_PR"));
@@ -127,7 +164,6 @@ async function main(): Promise<void> {
   const publishRunId = Number(required("BASELINE_PUBLISH_RUN_ID"));
   const controlSha = required("BASELINE_CONTROL_SHA");
   const sourcePath = required("BASELINE_SOURCE_PATH");
-  const packages = parsePackages(required("BASELINE_PACKAGES"));
   if (
     !Number.isSafeInteger(stablePr) ||
     stablePr <= 0 ||
@@ -182,8 +218,6 @@ async function main(): Promise<void> {
       "baseline 생성 입력이 exact production publish receipt/run/record job과 다릅니다.",
     );
   }
-  await assertRegistryLatest(packages);
-
   const changed = (
     await git(sourcePath, [
       "diff",
@@ -199,6 +233,11 @@ async function main(): Promise<void> {
   if (files.length === 0 || !files.some((path) => path.endsWith("package.json"))) {
     throw new Error("baseline에 반영할 허용된 Version 산출물이 없습니다.");
   }
+  const packages = process.env.BASELINE_PACKAGES
+    ? parsePackages(process.env.BASELINE_PACKAGES)
+    : await publishedPackagesAt(sourcePath, stableMergeSha, files);
+  if (packages.length === 0) throw new Error("baseline published package 목록이 비었습니다.");
+  await assertRegistryLatest(packages);
   const patch = await git(sourcePath, [
     "diff",
     "--binary",
@@ -213,7 +252,7 @@ async function main(): Promise<void> {
     throw new Error("published package versions digest가 Stable Version 산출물과 다릅니다.");
   }
   const sibling = siblingLane(stableMarker.lane);
-  const targets: LaneName[] = ["dev", sibling];
+  const targets = baselineTargets(process.env.BASELINE_TARGETS, sibling);
   await git(process.cwd(), [
     "fetch",
     "--no-tags",
@@ -229,17 +268,41 @@ async function main(): Promise<void> {
   }
 
   for (const target of targets) {
+    const targetPlan = stableMarker.promotionTargets.find((plan) => plan.lane === target);
+    if (!targetPlan) throw new Error(`${target} Stable promotion target plan이 없습니다.`);
+    const codeReceipt = await resolveCodePromotionReceipt({
+      client,
+      repository,
+      repositoryPath: process.cwd(),
+      stablePr,
+      stableMarker,
+      target: targetPlan,
+    });
+    if (!codeReceipt) {
+      throw new Error(`${target} exact code promotion merge/no-op receipt가 없습니다.`);
+    }
     const targetBase = await git(process.cwd(), ["rev-parse", `refs/remotes/origin/${target}`]);
+    if (targetBase !== codeReceipt.mergeSha) {
+      throw new Error(`${target} current head가 exact code promotion receipt와 다릅니다.`);
+    }
+    const codeTree = await git(process.cwd(), ["rev-parse", `${targetBase}^{tree}`]);
+    if (codeTree !== targetPlan.expectedCodeTreeSha) {
+      throw new Error(`${target} current code tree가 preflight tree와 다릅니다.`);
+    }
     const temporary = await mkdtemp(join(tmpdir(), `seed-baseline-${target}-`));
     const worktree = join(temporary, "worktree");
     try {
       await git(process.cwd(), ["worktree", "add", "--detach", worktree, targetBase]);
       const apply = Bun.spawn(["git", "apply", "--3way", "--index", "-"], {
         cwd: worktree,
-        stdin: new Blob([`${patch}\n`]),
+        stdin: "pipe",
         stdout: "pipe",
         stderr: "pipe",
       });
+      if (apply.stdin && typeof apply.stdin !== "number") {
+        apply.stdin.write(`${patch}\n`);
+        apply.stdin.end();
+      }
       const applyError = await new Response(apply.stderr).text();
       if ((await apply.exited) !== 0) {
         throw new Error(
@@ -260,6 +323,10 @@ async function main(): Promise<void> {
         GIT_COMMITTER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com",
       });
       const headSha = await git(worktree, ["rev-parse", "HEAD"]);
+      const finalTree = await git(worktree, ["rev-parse", `${headSha}^{tree}`]);
+      if (finalTree !== targetPlan.expectedBaselineTreeSha) {
+        throw new Error(`${target} baseline tree가 게시 전 projected tree와 다릅니다.`);
+      }
       const branch = `release-baseline/${target}/${stableMergeSha.slice(0, 12)}-${publishRunId}`;
       const authorization = Buffer.from(`x-access-token:${token}`).toString("base64");
       const authEnv = {
@@ -292,7 +359,12 @@ async function main(): Promise<void> {
           existingMarker.lane !== target ||
           existingMarker.stablePr !== stablePr ||
           existingMarker.stableMergeSha !== stableMergeSha ||
-          existingMarker.publishRunId !== publishRunId
+          existingMarker.publishRunId !== publishRunId ||
+          existingMarker.codeMergeSha !== codeReceipt.mergeSha ||
+          existingMarker.expectedCodeTreeSha !== targetPlan.expectedCodeTreeSha ||
+          existingMarker.expectedBaselineTreeSha !== targetPlan.expectedBaselineTreeSha ||
+          existingMarker.promotionManifestSha256 !== stableMarker.promotionManifestSha256 ||
+          existingMarker.stablePatchSha256 !== stableMarker.stablePatchSha256
         ) {
           throw new Error(`기존 ${target} baseline branch/PR identity가 다릅니다.`);
         }
@@ -310,6 +382,11 @@ async function main(): Promise<void> {
         publishRunId,
         expectedBaseSha: targetBase,
         expectedHeadSha: headSha,
+        codeMergeSha: codeReceipt.mergeSha,
+        expectedCodeTreeSha: targetPlan.expectedCodeTreeSha,
+        expectedBaselineTreeSha: targetPlan.expectedBaselineTreeSha,
+        promotionManifestSha256: stableMarker.promotionManifestSha256,
+        stablePatchSha256: stableMarker.stablePatchSha256,
         controlSha,
         versionsSha256: digest,
       };
@@ -359,4 +436,4 @@ async function main(): Promise<void> {
   }
 }
 
-if (import.meta.main) await main();
+if (import.meta.main) await createBaselineReconciliation();

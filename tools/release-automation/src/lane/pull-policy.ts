@@ -102,6 +102,17 @@ export function assertLanePullAllowed(input: {
     return;
   }
 
+  if (marker.type === "code-promotion") {
+    assertDoesNotChange(files, releaseStateFiles, "code promotion");
+    const controlPlaneChanges = files.filter(isControlPlanePath);
+    if (controlPlaneChanges.length > 0) {
+      throw new Error(
+        `code promotion PR은 trusted dev release control plane을 변경할 수 없습니다: ${controlPlaneChanges.join(", ")}`,
+      );
+    }
+    return;
+  }
+
   if (marker.type === "version") {
     assertDoesNotChange(
       files,

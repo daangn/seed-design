@@ -63,9 +63,12 @@ describe("릴리즈 workflow 권한 경계", () => {
     });
     expect(validator).toContain("assertDevStablePublishReconciled");
     expect(reconciliationGate).toContain("/statuses");
-    expect(reconciliationGate).toContain("/actions/runs/${validationRunId}");
+    expect(reconciliationGate).toContain(["/actions/runs/", "$", "{validationRunId}"].join(""));
     expect(validation.jobs["mark-pending"].permissions).toEqual({ statuses: "write" });
-    expect(validation.jobs["record-result"].permissions).toEqual({ statuses: "write" });
+    expect(validation.jobs["record-result"].permissions).toEqual({
+      "pull-requests": "read",
+      statuses: "write",
+    });
     expect(
       validation.jobs["mark-pending"].steps?.some((step) => step.uses?.includes("checkout")),
     ).toBe(false);
@@ -112,9 +115,11 @@ describe("릴리즈 workflow 권한 경계", () => {
       (step) => step.name === "Validate current PR with trusted dev code",
     );
     const trustedValidationIndex = steps.indexOf(trustedValidation ?? {});
-    const syncCheckout = steps.find((step) => step.name === "Checkout exact validated sync head");
+    const syncCheckout = steps.find(
+      (step) => step.name === "Checkout exact validated generated head",
+    );
     const syncCheckoutIndex = steps.indexOf(syncCheckout ?? {});
-    const syncSetup = steps.find((step) => step.name === "Setup exact validated sync head");
+    const syncSetup = steps.find((step) => step.name === "Setup exact validated generated head");
     const finalStatus = record.steps?.find(
       (step) => step.name === "Record exact PR head validation result",
     );
@@ -148,6 +153,12 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(syncCheckout?.with?.ref).toBe(["$", "{{ env.VALIDATION_HEAD_SHA }}"].join(""));
     expect(syncCheckout?.with?.["persist-credentials"]).toBe(false);
     expect(syncSetup?.with?.["build-packages"]).toBe(true);
+    const projectedBaseline = steps.find(
+      (step) => step.name === "Materialize exact projected Stable baseline",
+    );
+    expect(projectedBaseline?.if).toContain("type == 'code-promotion'");
+    expect(projectedBaseline?.run).toContain("materialize-projected-baseline.ts");
+    expect(projectedBaseline?.env).not.toHaveProperty("GH_TOKEN");
     expect(trustedValidationIndex).toBeLessThan(syncCheckoutIndex);
     expect(syncCheckoutIndex).toBeLessThan(steps.indexOf(syncSetup ?? {}));
     expect(record.needs).toEqual(["mark-pending", "validate"]);
@@ -156,6 +167,8 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(String(finalStatus?.with?.script)).toContain(
       [
         "seed-release-validation:",
+        "$",
+        "{process.env.VALIDATION_KIND}:",
         "$",
         "{process.env.VALIDATION_EVENT_KIND}:",
         "$",
@@ -406,7 +419,7 @@ describe("릴리즈 workflow 권한 경계", () => {
       contents: "write",
       issues: "write",
       "pull-requests": "write",
-      statuses: "read",
+      statuses: "write",
     });
     expect(prereleaseWriter).toContain("assertDevStablePublishReconciled");
     expect(reconciliationGate).toContain("/statuses");
@@ -597,7 +610,13 @@ describe("릴리즈 workflow 권한 경계", () => {
       ["$", "{{ github.workspace }}/source"].join(""),
     );
 
-    expect(oidc.permissions).toEqual({ contents: "read", "id-token": "write" });
+    expect(oidc.permissions).toEqual({
+      actions: "read",
+      contents: "read",
+      "id-token": "write",
+      "pull-requests": "read",
+      statuses: "read",
+    });
     expect(oidc.environment).toBe("npm-production");
     expect(oidcControl?.with).toMatchObject({
       ref: ["$", "{{ needs.authorize.outputs.control-sha }}"].join(""),
@@ -735,18 +754,19 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(publish.jobs["notify-failure"].needs).toContain("record");
   });
 
-  test("baseline reconciliation은 completed record 뒤 최소 권한 trusted dev job에서만 실행한다", async () => {
+  test("code promotion reconciliation은 receipt와 code merge 뒤 최소 권한 trusted dev job에서 실행한다", async () => {
     const publish = await workflow(".github/workflows/release-publish.yml");
-    const job = publish.jobs["baseline-reconcile"];
-    expect(job.needs).toEqual(["authorize", "publish-npm", "record"]);
-    expect(job.if).toContain("needs.record.result == 'success'");
-    expect(job.if).toContain("needs.authorize.outputs.mode == 'production'");
-    expect(job.if).toContain("needs.authorize.outputs.stable-promotion == 'true'");
+    const job = publish.jobs["reconcile-code-promotions"];
+    expect(job.needs).toEqual(["authorize", "record", "activate-code-promotions"]);
+    expect(job.if).toContain("always()");
+    expect(job.if).toContain("needs.activate-code-promotions.result == 'success'");
+    expect(job.if).toContain("release-code-promotion/");
+    expect(job.if).toContain("release-baseline/");
     expect(job.permissions).toEqual({
       actions: "write",
       contents: "write",
       "pull-requests": "write",
-      statuses: "read",
+      statuses: "write",
     });
     expect(job.environment).toBeUndefined();
     expect((job as WorkflowJob & { secrets?: unknown }).secrets).toBeUndefined();
@@ -755,29 +775,20 @@ describe("릴리즈 workflow 권한 경계", () => {
     const checkouts = (job.steps ?? []).filter((step) =>
       step.uses?.startsWith("actions/checkout@"),
     );
-    expect(checkouts).toHaveLength(2);
+    expect(checkouts).toHaveLength(1);
     expect(checkouts[0]?.with).toMatchObject({
-      ref: ["$", "{{ needs.authorize.outputs.control-sha }}"].join(""),
-      path: "control",
-      "persist-credentials": false,
-    });
-    expect(checkouts[1]?.with).toMatchObject({
-      ref: ["$", "{{ needs.authorize.outputs.merge-sha }}"].join(""),
-      path: "baseline-source",
+      ref: "dev",
       "persist-credentials": false,
     });
     const writer = (job.steps ?? []).find(
-      (step) => step.name === "Reverify receipt and create baseline reconciliation pull request",
+      (step) => step.name === "Create pending baselines or unlock completed promotion",
     );
-    expect(writer?.["working-directory"]).toBe("control");
-    expect(writer?.env).toMatchObject({
-      GH_TOKEN: ["$", "{{ secrets.GITHUB_TOKEN }}"].join(""),
-      BASELINE_PUBLISH_RUN_ID: ["$", "{{ github.run_id }}"].join(""),
-      BASELINE_CONTROL_SHA: ["$", "{{ needs.authorize.outputs.control-sha }}"].join(""),
-      BASELINE_STABLE_MERGE_SHA: ["$", "{{ needs.authorize.outputs.merge-sha }}"].join(""),
-    });
+    expect(writer?.run).toBe(
+      "bun tools/release-automation/src/promotion/reconcile-code-promotion.ts",
+    );
+    expect(writer?.env?.GH_TOKEN).toBe(["$", "{{ secrets.GITHUB_TOKEN }}"].join(""));
     expect((job.steps ?? []).filter((step) => step.env?.GH_TOKEN).map((step) => step.name)).toEqual(
-      ["Reverify receipt and create baseline reconciliation pull request"],
+      ["Create pending baselines or unlock completed promotion"],
     );
     const creator = await readFile(
       "tools/release-automation/src/publish/create-baseline-reconciliation.ts",
@@ -785,7 +796,7 @@ describe("릴리즈 workflow 권한 경계", () => {
     );
     expect(creator).toContain("actions/workflows/release-pr-validation.yml/dispatches");
     expect(creator).toContain("inputs: { head_ref: branch, head_sha: headSha }");
-    expect(publish.jobs["notify-failure"].needs).toContain("baseline-reconcile");
+    expect(publish.jobs["notify-failure"].needs).toContain("reconcile-code-promotions");
   });
 
   test("publish queue는 신뢰된 Version Packages merge만 PR 이벤트로 처리한다", async () => {

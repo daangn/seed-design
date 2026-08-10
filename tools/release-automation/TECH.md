@@ -6,6 +6,7 @@
 - `src/setup`: 최초 branch bootstrap과 activation 상태 변경
 - `src/lane`: Version Packages read-plan과 trusted write 검증
 - `src/sync`: FIFO 선택, target tree 재구성, 검증, merge와 blocker alert
+- `src/promotion`: beta 주기의 squash source 선별, 코드 승격 tree와 durable 진행 상태, 게시 후 정렬
 - `src/publish`: 게시 승인, immutable tarball, npm, tag, Rootage 입력, receipt와 알림
 - `src/validation`: generated PR의 trusted `dev` 검증 진입점
 - `src/local`: credential-free 로컬 진단, 전체 검증, package dry-run
@@ -21,8 +22,8 @@
 | `release-activation.yml` | Rootage, sync와 dry-run·production mode 전환 | `dev` activation PR |
 | `release-sync.yml` | FIFO drain, trusted merge, blocker alert | job별 GitHub 최소 권한 |
 | `release-packages.yml` | lane별 Version Packages와 prerelease enter/exit plan/write | tokenless planner와 writer 분리 |
-| `release-pr-validation.yml` | generated PR exact-head 검증 | checkout 없는 status writer 분리 |
-| `release-publish.yml` | npm, tag, Rootage, durable receipt | OIDC와 Git write를 별도 job으로 분리 |
+| `release-pr-validation.yml` | 일반·generated PR exact-head 검증과 코드 승격 projected baseline gate | checkout 없는 status writer 분리 |
+| `release-publish.yml` | npm, tag, Rootage, durable receipt, 게시 후 코드·baseline 정렬 | OIDC와 Git write를 별도 job으로 분리 |
 | `release-notification.yml` | 완료된 production receipt 알림 | publish 결과와 실패 격리 |
 | `release-e2e.yml` | 로컬과 같은 read-only 검증 | production write 없음 |
 
@@ -44,12 +45,26 @@ Non-dev stable publish는 Exit PR 번호, merge SHA, operation ID, Stable Versio
 SHA를 exact marker로 증명한 경우에만 허용한다. Stable Version PR merge는 npm `latest` 이동이므로
 dry-run에서는 생성·검증·게시하지 않는다.
 
-Stable publish의 durable production receipt가 기록되면 별도 `baseline-reconcile` job이 npm
-`latest`를 확인하고 검토된 Version 산출물만 current dev와 dormant sibling lane에 각각 적용하는 PR을
-만든다. Minor publish의 sibling은 major이고 major publish의 sibling은 minor다. 이 job은 npm OIDC와
-Rootage credential을 갖지 않으며, target lane code나 lifecycle을 실행하지 않는다. 각 PR은 target
-lane과 exact base/head에 결속되고 trusted validation receipt가 있어야 한다. 두 Baseline PR을 사람이
-merge하기 전에는 dev production publish와 다음 stable promotion을 거부한다.
+Stable Version PR을 ready로 전환하기 전에 active Enter부터 Exit 직전까지 source lane에 squash merge된
+사람 PR을 first-parent 순서로 선별한다. Generated PR과 새 Changeset Markdown은 승격 입력에서 제외하고,
+direct push·rebase merge·기존 Changeset 변형·version/CHANGELOG/release control 변경은 fail-closed한다.
+선별한 실제 코드와 생성 산출물을 exact `dev`와 dormant sibling base에 재생해 target별 draft 코드 승격
+PR 또는 no-op을 만든다. 코드 tree에 Stable Version 산출물까지 적용한 projected baseline tree에서
+generator와 전체 테스트를 통과해야 Stable Version PR의 required validation을 시작한다.
+
+이 구간의 잠금은 관리자 권한 없이 구현한 논리 잠금이다. Stable head의 durable promotion status를
+진행 상태로 사용하고, 세 레인의 기존 open PR status를 pending으로 바꾸며, 새 일반·sync·Enter/Exit·Version
+작업을 전역 gate에서 거부한다. Stable 게시 authorize와 npm write 직전에 source/dev/sibling exact head와
+Stable squash merge base/tree를 다시 검사한다. SHA 단위 status를 다른 PR이 공유하지 못하도록 검증 시작과
+결과 기록 시 exact open PR/head 유일성도 확인한다.
+
+Durable production receipt가 기록된 뒤에만 코드 승격 PR을 ready로 전환하고 사람이 merge한다. 두 target의
+exact code merge/no-op receipt가 모이면 `release-publish.yml`의 reconciliation job이 Stable Version 산출물만
+적용하는 baseline PR을 아직 미완료인 target에 만든다. Baseline marker는 code merge SHA, promotion manifest,
+code tree, projected baseline tree와 Stable patch digest에 결속된다. 두 baseline의 human merge와 trusted
+validation receipt가 current target에 반영되면 durable promotion status를 완료하고 기존 open PR을 다시
+검증한다. 이 전까지 다음 dev publish, Enter와 stable promotion을 거부하며 npm/tag/Rootage 결과는 롤백하지
+않는다.
 
 Activation operation의 이름, 대상 상태 파일과 bootstrap-readiness 요구는 `src/core/types.ts`와 `src/setup/activation.ts`의 exhaustive spec으로 관리한다. Workflow choice 목록은 계약 테스트가 같은 operation 배열과 exact 비교한다.
 

@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { GitHubClient, type GitHubPullRequest } from "../core/github";
 import { encodeMarker, isPrereleaseMarker, validateGeneratedPr } from "../core/marker";
-import type { LaneName, PrereleaseOperation, ReleaseMarker } from "../core/types";
+import type { PrereleaseOperation, ReleaseMarker } from "../core/types";
 import {
   assertPrereleaseTransition,
   classifyPrereleaseState,
@@ -13,6 +13,8 @@ import {
   type PrereleaseState,
 } from "./prerelease-state";
 import { assertDevStablePublishReconciled } from "../publish/baseline-reconciliation-state";
+import { selectActiveEnterPull } from "../promotion/source-selection";
+import { assertNoCompetingOpenStablePromotion } from "../promotion/promotion-state";
 
 const gitShaPattern = /^[0-9a-f]{40}$/;
 const sha256Pattern = /^[0-9a-f]{64}$/;
@@ -571,13 +573,12 @@ async function writePlan(artifactPath: string): Promise<void> {
   ) {
     throw new Error(`sibling ${sibling} lane에 경쟁 중인 state/Version PR이 있습니다.`);
   }
-  if (plan.operation === "enter") {
-    await assertDevStablePublishReconciled({
-      repository,
-      currentDevSha: plan.controlSha,
-      client,
-    });
-  }
+  await assertNoCompetingOpenStablePromotion({ repository, client });
+  await assertDevStablePublishReconciled({
+    repository,
+    currentDevSha: plan.controlSha,
+    client,
+  });
   const headSha = await prepareCommit(repositoryPath, plan, patch);
   const branch = `release-prerelease/${plan.lane}/${plan.operation}-${plan.operationId}`;
   const pulls = await client.paginate<GitHubPullRequest>(
@@ -647,6 +648,23 @@ async function writePlan(artifactPath: string): Promise<void> {
     expectedHeadSha: headSha,
     controlSha: plan.controlSha,
     patchSha256: plan.patchSha256,
+    ...(plan.operation === "exit"
+      ? await (async () => {
+          const [closedPulls, history] = await Promise.all([
+            client.paginate<GitHubPullRequest>(
+              `/repos/${repository}/pulls?state=closed&base=${plan.lane}&sort=updated&direction=asc`,
+            ),
+            git(repositoryPath, ["rev-list", "--first-parent", "--reverse", plan.baseSha]),
+          ]);
+          const enter = selectActiveEnterPull({
+            repository,
+            sourceLane: plan.lane,
+            currentFirstParentHistory: history.stdout.split("\n").filter(Boolean),
+            pulls: closedPulls,
+          });
+          return { enterPr: enter.pull.number, enterMergeSha: enter.mergeSha };
+        })()
+      : {}),
   };
   const title = `release: ${plan.operation} ${plan.lane} prerelease`;
   const body = [

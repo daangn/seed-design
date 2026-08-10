@@ -2,10 +2,12 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { isBaselineMarker, isStablePromotionMarker, type BaselineMarker } from "../core/marker";
-import { type GitHubPullRequest } from "../core/github";
+import type { GitHubPullRequest } from "../core/github";
 import { trustedVersionMarker } from "../publish/publish-state";
 import { hasPublishReceiptReadyForBaseline } from "../publish/publish-state";
 import { versionsDigest } from "../publish/create-baseline-reconciliation";
+import { resolveCodePromotionReceipt } from "../promotion/code-promotion-state";
+import { assertPromotionPullMergeAllowed } from "../promotion/promotion-lock";
 
 interface Client {
   request<T>(path: string): Promise<T>;
@@ -30,10 +32,14 @@ function isAllowed(path: string): boolean {
 async function git(cwd: string, args: string[], stdin?: string): Promise<string> {
   const child = Bun.spawn(["git", ...args], {
     cwd,
-    ...(stdin === undefined ? {} : { stdin: new Blob([stdin]) }),
+    ...(stdin === undefined ? {} : { stdin: "pipe" }),
     stdout: "pipe",
     stderr: "pipe",
   });
+  if (stdin !== undefined && child.stdin && typeof child.stdin !== "number") {
+    child.stdin.write(stdin);
+    child.stdin.end();
+  }
   const [stdout, stderr, code] = await Promise.all([
     new Response(child.stdout).text(),
     new Response(child.stderr).text(),
@@ -86,6 +92,16 @@ export async function verifyBaselineReconciliation(options: {
   if (marker.lane !== "dev" && marker.lane !== sibling) {
     throw new Error("baseline target은 dev 또는 stable source의 dormant sibling이어야 합니다.");
   }
+  const targetPlan = stableMarker.promotionTargets.find((target) => target.lane === marker.lane);
+  if (
+    !targetPlan ||
+    marker.promotionManifestSha256 !== stableMarker.promotionManifestSha256 ||
+    marker.expectedCodeTreeSha !== targetPlan.expectedCodeTreeSha ||
+    marker.expectedBaselineTreeSha !== targetPlan.expectedBaselineTreeSha ||
+    marker.stablePatchSha256 !== stableMarker.stablePatchSha256
+  ) {
+    throw new Error("baseline marker가 Stable promotion target plan과 다릅니다.");
+  }
   if (
     marker.lane !== "dev" &&
     (await git(repositoryPath, ["show", `${baseSha}:.changeset/pre.json`]).catch(() => null))
@@ -104,6 +120,21 @@ export async function verifyBaselineReconciliation(options: {
   ) {
     throw new Error("baseline marker가 exact production publish receipt/run과 다릅니다.");
   }
+  const codeReceipt = await resolveCodePromotionReceipt({
+    client,
+    repository,
+    repositoryPath,
+    stablePr: marker.stablePr,
+    stableMarker,
+    target: targetPlan,
+  });
+  if (!codeReceipt || codeReceipt.mergeSha !== marker.codeMergeSha) {
+    throw new Error("baseline marker가 exact code promotion merge/no-op receipt와 다릅니다.");
+  }
+  assertPromotionPullMergeAllowed(
+    { phase: "code-complete-awaiting-baseline", sourceLane: stableMarker.lane },
+    { kind: "baseline", lane: marker.lane },
+  );
   await git(repositoryPath, [
     "fetch",
     "--no-tags",
@@ -149,6 +180,10 @@ export async function verifyBaselineReconciliation(options: {
   if ((await git(repositoryPath, ["rev-parse", `${headSha}^`])) !== baseSha) {
     throw new Error("baseline head는 exact target base의 단일 자식이어야 합니다.");
   }
+  const baseTree = await git(repositoryPath, ["rev-parse", `${baseSha}^{tree}`]);
+  if (baseTree !== targetPlan.expectedCodeTreeSha) {
+    throw new Error("baseline base tree가 preflight code tree와 다릅니다.");
+  }
   const patch = await git(repositoryPath, [
     "diff",
     "--binary",
@@ -164,7 +199,7 @@ export async function verifyBaselineReconciliation(options: {
     await git(worktree, ["apply", "--3way", "--index", "-"], `${patch}\n`);
     const expectedTree = await git(worktree, ["write-tree"]);
     const actualTree = await git(repositoryPath, ["rev-parse", `${headSha}^{tree}`]);
-    if (expectedTree !== actualTree) {
+    if (expectedTree !== actualTree || actualTree !== marker.expectedBaselineTreeSha) {
       throw new Error("baseline head tree가 trusted Stable Version patch replay와 다릅니다.");
     }
   } finally {

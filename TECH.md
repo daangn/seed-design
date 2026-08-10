@@ -239,13 +239,15 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 
 ### 릴리즈 레인 자동화
 
-- `dev`는 patch stable, `minor`는 minor beta, `major`는 major beta 레인이다. stable 승격과 prerelease 상태 전환은 초기 운영 범위에 포함하지 않는다.
+- `dev`는 patch stable, `minor`는 minor beta, `major`는 major beta 레인이다. Enter/Exit Intent로 beta 주기를 전환하고, Exit 뒤 Stable Version Packages PR을 사람이 squash merge하면 해당 버전이 npm `latest`가 된다.
 - 정적 레인 정책은 `.github/release/lanes.json`, 게시 모드와 Rootage 준비 상태는 `.github/release/control.json`에서 관리한다. 두 파일은 같은 디렉토리의 Draft 2020-12 JSON Schema를 참조한다.
 - 구현은 private workspace인 `tools/release-automation`에 `core`, `setup`, `lane`, `sync`, `publish`, `validation`, `local` 도메인으로 나눈다. 상세 구조와 신뢰 경계는 [`tools/release-automation/TECH.md`](./tools/release-automation/TECH.md)를 따른다.
 - 일상 PR은 `dev`에 merge한다. 동기화 worker가 원본 diff를 target별 FIFO로 전달하고 changeset bump를 레인 정책에 맞춘 뒤, exact source diff·trusted `dev` control plane·target tree가 모두 일치하는 sync PR만 자동 merge한다.
 - Version Packages 생성은 credential 없는 lane planner와 trusted `dev` writer로 분리한다. writer는 exact base/control/tree/patch와 package version, workspace dependency, `bun.lock`, Rootage generated version을 다시 검증하고 lane source lifecycle은 실행하지 않는다.
 - 사람이 merge한 trusted Version Packages PR만 게시 후보가 된다. npm OIDC 게시, Git tag write, Rootage 게시, durable receipt, Slack 알림은 각자 필요한 최소 권한의 job 또는 workflow로 분리한다.
 - generated PR 검증은 candidate branch의 검증 코드를 신뢰하지 않는다. `dev` workflow가 exact ref/SHA, bot·same-repository identity, current control SHA와 허용 파일을 확인하고 commit status를 기록한다.
+- Stable 승격은 beta 주기의 사람 squash merge 코드만 `dev`와 dormant sibling에 전달한다. 새 Changeset은 제외하지만 Rootage에서 파생된 CSS·Qvism·Lynx 생성물은 코드 결과에 포함한다. 게시 전에는 코드 승격 tree와 Stable Version 산출물을 합친 최종 baseline tree까지 credential 없이 생성·전체 검증한다.
+- Stable 게시 전에는 durable status와 required check를 이용해 세 레인을 논리적으로 잠근다. npm write 직전 source/dev/sibling SHA와 Stable squash tree를 다시 확인하며, production receipt 뒤에만 코드 승격 PR을 사람이 merge할 수 있다. 두 코드 승격과 두 baseline 정렬이 완료되기 전에는 다음 dev publish, Enter와 stable promotion을 차단한다.
 - 최초 설치는 `mode=dry-run`, `rootageContractReady=false`, `sync.activation=null`인 initial baseline에서 시작한다. `enable-rootage-contract` 뒤 `Release lane bootstrap`으로 exact `dev` baseline의 `minor`·`major`를 만들고, 두 bootstrap PR을 merge한 다음에만 `enable-sync`를 적용한다. 이후 dry-run canary를 완료하고 별도 go 결정 후 `enable-production`을 적용한다. Bootstrap readiness는 `bun tools/release-automation/bin/control.ts bootstrap-readiness`로도 확인할 수 있다.
 - 세 레인은 최신 base 반영, `Validate release lane` 필수 검사, 대화 해결을 요구하고 force push와 삭제를 차단한다. 구체적인 사람용 운영 및 복구 절차는 [RELEASING.md](./RELEASING.md)를 따른다.
 

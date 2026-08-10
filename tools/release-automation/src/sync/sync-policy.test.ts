@@ -304,8 +304,36 @@ describe("sync workflow 신뢰 정책", () => {
           stableMergeSha: "a".repeat(40),
           publishRunId: 100,
           expectedBaseSha: "b".repeat(40),
+          codeMergeSha: "b".repeat(40),
+          expectedCodeTreeSha: "e".repeat(40),
+          expectedBaselineTreeSha: "f".repeat(40),
+          promotionManifestSha256: "1".repeat(64),
+          stablePatchSha256: "2".repeat(64),
           controlSha: "c".repeat(40),
           versionsSha256: "d".repeat(64),
+        },
+      },
+      {
+        type: "code-promotion",
+        lane: "dev",
+        headRef: `release-code-promotion/dev/1956-${"1".repeat(12)}`,
+        fields: {
+          sourceLane: "major",
+          stablePr: 1956,
+          stableVersionHeadSha: "2".repeat(40),
+          enterPr: 1900,
+          enterMergeSha: "3".repeat(40),
+          exitPr: 1955,
+          exitBaseSha: "4".repeat(40),
+          exitMergeSha: "5".repeat(40),
+          expectedBaseSha: "6".repeat(40),
+          expectedCodeTreeSha: "7".repeat(40),
+          expectedBaselineTreeSha: "8".repeat(40),
+          promotionManifestSha256: "1".repeat(64),
+          patchSha256: "9".repeat(64),
+          stablePatchSha256: "a".repeat(64),
+          controlSha: "b".repeat(40),
+          controlTreeSha256: "c".repeat(64),
         },
       },
     ] as const;
@@ -351,6 +379,43 @@ describe("sync workflow 신뢰 정책", () => {
         ),
       ).toBeNull();
     }
+
+    const codePromotion = generated.at(-1);
+    if (!codePromotion) throw new Error("code promotion fixture가 없습니다.");
+    const codeMarker: ReleaseMarker = {
+      schemaVersion: 1,
+      type: "code-promotion",
+      lane: "dev",
+      expectedHeadSha: headSha,
+      ...codePromotion.fields,
+    };
+    const draftPromotion = {
+      number: 2199,
+      body: `<!-- seed-release:${JSON.stringify(codeMarker)} -->`,
+      user: { login: "github-actions[bot]" },
+      base: { ref: "dev", repo: { full_name: repository } },
+      head: { ref: codePromotion.headRef, sha: headSha, repo: { full_name: repository } },
+      state: "open",
+      draft: true,
+      merged_at: null,
+    };
+    expect(
+      selectTrustedGeneratedPullForHead(
+        [draftPromotion],
+        repository,
+        headSha,
+        codePromotion.headRef,
+      ),
+    ).toBeNull();
+    expect(
+      selectTrustedGeneratedPullForHead(
+        [draftPromotion],
+        repository,
+        headSha,
+        codePromotion.headRef,
+        { allowDraftCodePromotion: true },
+      ),
+    ).toMatchObject({ marker: { type: "code-promotion" } });
 
     const legacyVersion = {
       number: 2200,

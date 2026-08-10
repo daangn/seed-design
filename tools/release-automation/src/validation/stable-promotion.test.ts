@@ -14,6 +14,8 @@ const exitHeadSha = "b".repeat(40);
 const exitMergeSha = "c".repeat(40);
 const versionHeadSha = "d".repeat(40);
 const controlSha = "e".repeat(40);
+const enterMergeSha = "1".repeat(40);
+const emptyDigest = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 
 const exitMarker = {
   schemaVersion: 1,
@@ -25,6 +27,8 @@ const exitMarker = {
   expectedHeadSha: exitHeadSha,
   controlSha,
   patchSha256: "f".repeat(64),
+  enterPr: 1900,
+  enterMergeSha,
 } as const;
 const marker: StablePromotionMarker = {
   schemaVersion: 1,
@@ -33,10 +37,35 @@ const marker: StablePromotionMarker = {
   releaseKind: "stable-promotion",
   operationId: "123",
   exitPr: 2001,
+  exitBaseSha,
   exitMergeSha,
+  enterPr: 1900,
+  enterMergeSha,
   expectedBaseSha: exitMergeSha,
   expectedHeadSha: versionHeadSha,
   controlSha,
+  promotionManifestSha256: "2".repeat(64),
+  stablePatchSha256: "3".repeat(64),
+  promotionTargets: [
+    {
+      lane: "dev",
+      expectedBaseSha: controlSha,
+      expectedHeadSha: controlSha,
+      expectedCodeTreeSha: "4".repeat(40),
+      expectedBaselineTreeSha: "5".repeat(40),
+      patchSha256: emptyDigest,
+      noOp: true,
+    },
+    {
+      lane: "major",
+      expectedBaseSha: "6".repeat(40),
+      expectedHeadSha: "7".repeat(40),
+      expectedCodeTreeSha: "8".repeat(40),
+      expectedBaselineTreeSha: "9".repeat(40),
+      patchSha256: "a".repeat(64),
+      noOp: false,
+    },
+  ],
 };
 const exitPull: GitHubPullRequest = {
   number: 2001,
