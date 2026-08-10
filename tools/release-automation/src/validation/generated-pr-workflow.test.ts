@@ -27,6 +27,50 @@ async function readWorkflow(path: string): Promise<Workflow> {
 }
 
 describe("generated release PR workflow dispatch", () => {
+  test("legacy normalization은 별도 one-time workflow에서 두 lane PR만 생성한다", async () => {
+    const [workflow, writer, policy] = await Promise.all([
+      readWorkflow(".github/workflows/release-legacy-normalization.yml"),
+      readFile(
+        "tools/release-automation/src/setup/legacy-prerelease-normalization-write.ts",
+        "utf8",
+      ),
+      readFile("tools/release-automation/src/setup/legacy-prerelease-normalization.ts", "utf8"),
+    ]);
+    const preflight = workflow.jobs.preflight;
+    const create = workflow.jobs.create;
+    const createStep = create.steps?.find(
+      (step) => step.name === "Create exact state-deletion PR without lane code execution",
+    );
+    expect(workflow.concurrency).toEqual({
+      group: "release-version-global-operation",
+      "cancel-in-progress": false,
+    });
+    expect(Object.keys(workflow.jobs)).toEqual(["preflight", "create", "summarize"]);
+    expect(preflight.permissions).toEqual({
+      actions: "read",
+      contents: "read",
+      "pull-requests": "read",
+    });
+    expect(create.permissions).toEqual({
+      actions: "write",
+      contents: "write",
+      "pull-requests": "write",
+    });
+    expect(createStep?.run).toContain("legacy-prerelease-normalization-write.ts write");
+    expect(create.steps?.some((step) => step.uses === "./.github/actions/setup")).toBe(false);
+    expect(writer).toContain("matrix=${JSON.stringify([");
+    expect(writer).toContain('{ lane: "minor" }');
+    expect(writer).toContain('{ lane: "major" }');
+    expect(writer).toContain('"update-index", "--force-remove", ".changeset/pre.json"');
+    expect(writer).toContain("state=all&base=");
+    expect(writer).not.toContain("changeset pre enter");
+    expect(writer).not.toContain("changeset pre exit");
+    expect(policy).toContain("legacyLaneHeads");
+    expect(policy).toContain("legacyPreSha256");
+    expect(policy).toContain("isValidationStatusBoundToRun");
+    expect(policy).toContain("disabled_manually");
+  });
+
   test("Version Packages PR은 tokenless lane plan과 trusted dev writer를 분리한다", async () => {
     const workflow = await readWorkflow(".github/workflows/release-packages.yml");
     const plan = workflow.jobs.plan;
@@ -214,6 +258,8 @@ describe("generated release PR workflow dispatch", () => {
       expect(validator).toContain("exiting lane에는 exact Stable Version Packages PR만 허용됩니다");
       expect(validator).toContain("proposedConfig");
       expect(validator).toContain("verifyTrustedGeneratedSync({");
+      expect(validator).toContain("verifyLegacyNormalizationPull");
+      expect(validator).toContain("assertLegacyNormalizationBoundary");
     }
     expect(cli.indexOf("verifyGeneratedLaneWritePlan(")).toBeLessThan(
       cli.indexOf('generated: "true"'),

@@ -46,7 +46,9 @@ export function CatalogCard({
           />
         ) : null}
       </div>
-      <h2 className="t9-medium text-fg-neutral max-md:text-[16px]/[24px] md:text-[20px]/[30px]">{title}</h2>
+      <h2 className="t9-medium text-fg-neutral max-md:text-[16px]/[24px] md:text-[20px]/[30px]">
+        {title}
+      </h2>
     </Link>
   );
 }
