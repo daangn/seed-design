@@ -1,4 +1,4 @@
-import { pressScale, pressScaleTransition } from "@seed-design/css/press-scale";
+import { feedbackScale, feedbackScaleTransition } from "@seed-design/css/scale-feedback";
 import { vars } from "@seed-design/css/vars";
 import { style } from "@vanilla-extract/css";
 
@@ -22,12 +22,12 @@ export const pressable = style([
     alignItems: "center",
     justifyContent: "center",
 
-    transition: `background-color 0.2s, ${pressScaleTransition}`,
+    transition: `background-color 0.2s, ${feedbackScaleTransition}`,
 
     selectors: {
       "&:active": {
         backgroundColor: vars.$color.bg.layerDefaultPressed,
-        scale: pressScale,
+        scale: feedbackScale,
       },
     },
   },
@@ -63,12 +63,12 @@ export const nestedWrapper = style([
     width: "100%",
     padding: vars.$dimension.x3,
 
-    transition: `background-color 0.2s, ${pressScaleTransition}`,
+    transition: `background-color 0.2s, ${feedbackScaleTransition}`,
 
     selectors: {
       "&:active": {
         backgroundColor: vars.$color.bg.layerDefaultPressed,
-        scale: pressScale,
+        scale: feedbackScale,
       },
     },
   },
@@ -76,6 +76,6 @@ export const nestedWrapper = style([
 
 export const markOptOut = style({
   vars: {
-    "--seed-checkmark-press-scale": "1",
+    "--seed-checkmark-feedback-scale": "1",
   },
 });

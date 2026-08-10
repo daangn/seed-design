@@ -24,8 +24,8 @@
     --seed-font-size-limit-max: 1.5;
     --seed-line-height-limit-min: .8;
     --seed-line-height-limit-max: 1.5;
-    --seed-press-scale: 1;
-    --seed-press-scale-transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+    --seed-feedback-scale: 1;
+    --seed-feedback-scale-transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   }
 
   [data-seed-platform="ios"] {
@@ -383,16 +383,16 @@
     display: block;
   }
 
-  .seed-press-scale {
-    --seed-press-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
-    --seed-press-scale-measured: calc((var(--seed-press-scale-basis) - 2) / var(--seed-press-scale-basis));
-    --seed-press-scale: var(--seed-press-scale-measured, 1);
+  .seed-scale-feedback {
+    --seed-dynamic-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
+    --seed-dynamic-scale: calc((var(--seed-dynamic-scale-basis) - 2) / var(--seed-dynamic-scale-basis));
+    --seed-feedback-scale: var(--seed-dynamic-scale, 1);
     scale: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .seed-press-scale {
-      --seed-press-scale: 1;
+    .seed-scale-feedback {
+      --seed-feedback-scale: 1;
     }
   }
 
@@ -1593,7 +1593,7 @@
   }
 
   .seed-action-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-action-button {
@@ -3227,7 +3227,7 @@
   }
 
   .seed-bottom-sheet__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-bottom-sheet__closeButton {
@@ -3389,7 +3389,7 @@
   }
 
   .seed-callout__root:is(button, a):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-callout__root:is(button, a) {
@@ -3470,7 +3470,7 @@
   }
 
   .seed-callout__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-callout__closeButton {
@@ -3719,7 +3719,7 @@
   }
 
   .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-checkmark-press-scale, var(--seed-press-scale));
+    scale: var(--seed-checkmark-feedback-scale, var(--seed-feedback-scale));
   }
 
   .seed-checkmark__root {
@@ -3924,7 +3924,7 @@
   }
 
   .seed-chip__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-chip__root {
@@ -4248,7 +4248,7 @@
   }
 
   .seed-chip-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-chip-tabs__trigger {
@@ -4613,7 +4613,7 @@
   }
 
   .seed-content-dialog__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -4711,7 +4711,7 @@
   }
 
   .seed-contextual-floating-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-contextual-floating-button {
@@ -5977,7 +5977,7 @@
   }
 
   .seed-attachment-input-item__root[aria-grabbed="true"] {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
     --remove-button-mask-size: 0px;
     --remove-button-mask-offset: 0px;
   }
@@ -6082,7 +6082,7 @@
   }
 
   .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-attachment-input-item__actionButton {
@@ -6121,7 +6121,7 @@
   }
 
   .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-attachment-input-item__removeButton {
@@ -6261,7 +6261,7 @@
   }
 
   .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-attachment-input-trigger__root {
@@ -6371,7 +6371,7 @@
   }
 
   .seed-floating-action-button__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-floating-action-button__root {
@@ -6596,7 +6596,7 @@
   }
 
   .seed-help-bubble__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-help-bubble__closeButton {
@@ -6712,7 +6712,7 @@
   }
 
   .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-image-frame-reaction-button__root {
@@ -7071,7 +7071,7 @@
   }
 
   .seed-input-button__clearButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-input-button__clearButton {
@@ -7381,9 +7381,9 @@
     --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
     padding-right: var(--seed-box-padding-right);
     --seed-focus-ring: none;
-    --seed-checkmark-press-scale: 1;
-    --seed-radiomark-press-scale: 1;
-    --seed-switchmark-press-scale: 1;
+    --seed-checkmark-feedback-scale: 1;
+    --seed-radiomark-feedback-scale: 1;
+    --seed-switchmark-feedback-scale: 1;
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral);
     flex-shrink: 0;
@@ -7407,9 +7407,9 @@
     align-items: center;
     gap: var(--seed-box-gap);
     --seed-focus-ring: none;
-    --seed-checkmark-press-scale: 1;
-    --seed-radiomark-press-scale: 1;
-    --seed-switchmark-press-scale: 1;
+    --seed-checkmark-feedback-scale: 1;
+    --seed-radiomark-feedback-scale: 1;
+    --seed-switchmark-feedback-scale: 1;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
@@ -8123,7 +8123,7 @@
   }
 
   .seed-menu-sheet__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-menu-sheet__closeButton {
@@ -8440,7 +8440,7 @@
   }
 
   .seed-page-banner__button:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-page-banner__button {
@@ -8475,7 +8475,7 @@
   }
 
   .seed-page-banner__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-page-banner__closeButton {
@@ -9086,7 +9086,7 @@
   }
 
   .seed-quantity-picker__decrementButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -9173,7 +9173,7 @@
   }
 
   .seed-quantity-picker__incrementButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -9411,7 +9411,7 @@
   }
 
   .seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-radiomark-press-scale, var(--seed-press-scale));
+    scale: var(--seed-radiomark-feedback-scale, var(--seed-feedback-scale));
   }
 
   .seed-radiomark__root {
@@ -9560,7 +9560,7 @@
   }
 
   .seed-reaction-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-reaction-button {
@@ -11064,7 +11064,7 @@
   }
 
   .seed-side-panel__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-side-panel__closeButton {
@@ -11572,7 +11572,7 @@
   }
 
   .seed-snackbar__actionButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-snackbar__actionButton {
@@ -11701,7 +11701,7 @@
   }
 
   .seed-switchmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-switchmark-press-scale, var(--seed-press-scale));
+    scale: var(--seed-switchmark-feedback-scale, var(--seed-feedback-scale));
   }
 
   .seed-switchmark__root:is(:disabled, [disabled], [data-disabled]) {
@@ -11890,7 +11890,7 @@
   }
 
   .seed-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-tabs__trigger {
@@ -13387,7 +13387,7 @@
   }
 
   .seed-toggle-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-toggle-button {

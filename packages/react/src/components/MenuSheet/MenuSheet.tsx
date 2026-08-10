@@ -7,7 +7,7 @@ import {
 } from "@seed-design/css/recipes/menu-sheet-item";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withPressScale } from "../../utils/pressScale";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 
@@ -320,7 +320,7 @@ export interface MenuSheetCloseButtonProps extends DialogPrimitive.CloseButtonPr
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
-export const MenuSheetCloseButton = withPressScale(
+export const MenuSheetCloseButton = withScaleFeedback(
   withContext<HTMLDivElement, MenuSheetCloseButtonProps>(
     DialogPrimitive.CloseButton,
     "closeButton",

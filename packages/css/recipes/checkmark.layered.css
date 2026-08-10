@@ -7,7 +7,7 @@
   }
 
   .seed-checkmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-checkmark-press-scale, var(--seed-press-scale));
+    scale: var(--seed-checkmark-feedback-scale, var(--seed-feedback-scale));
   }
 
   .seed-checkmark__root {

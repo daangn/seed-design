@@ -10,7 +10,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale } from "../../utils/pressScale";
+import { useScaleFeedback } from "../../utils/scaleFeedback";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(contentDialog);
@@ -210,12 +210,12 @@ export const ContentDialogCloseButton = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
   const { trackRef } = closeButtonTracker.useRenderTracking();
-  const { pressScaleRef, pressScaleClassName } = usePressScale();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <DialogPrimitive.CloseButton
-      ref={useComposedRefs(pressScaleRef, ref, trackRef)}
-      className={clsx(classNames.closeButton, pressScaleClassName, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref, trackRef)}
+      className={clsx(classNames.closeButton, scaleFeedbackClassName, className)}
       {...props}
     />
   );

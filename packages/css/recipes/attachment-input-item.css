@@ -39,7 +39,7 @@
     cursor: grab;
 }
 .seed-attachment-input-item__root[aria-grabbed=true] {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
     --remove-button-mask-size: 0px;
     --remove-button-mask-offset: 0px;
 }
@@ -128,7 +128,7 @@
     border-radius: inherit;
 }
 .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
 }
 .seed-attachment-input-item__actionButton {
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
@@ -162,7 +162,7 @@
     cursor: pointer;
 }
 .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
 }
 .seed-attachment-input-item__removeButton {
     transition: background-color 0.2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);

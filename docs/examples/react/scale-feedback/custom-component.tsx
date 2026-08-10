@@ -5,25 +5,25 @@ import {
   IconClockLine,
   IconDot3HorizontalLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Icon, PressScale, VStack } from "@seed-design/react";
+import { HStack, Icon, ScaleFeedback, VStack } from "@seed-design/react";
 import clsx from "clsx";
 
 function PressableCard({ className, ...props }: ComponentPropsWithoutRef<"button">) {
   return (
-    <PressScale>
+    <ScaleFeedback>
       <button
         type="button"
         className={clsx(
-          "flex items-center rounded-r4 border border-stroke-neutral-muted bg-bg-layer-default text-left text-fg-neutral [transition:background-color_0.2s,var(--seed-press-scale-transition)] active:bg-bg-layer-default-pressed active:scale-(--seed-press-scale)",
+          "flex items-center rounded-r4 border border-stroke-neutral-muted bg-bg-layer-default text-left text-fg-neutral [transition:background-color_0.2s,var(--seed-feedback-scale-transition)] active:bg-bg-layer-default-pressed active:scale-(--seed-feedback-scale)",
           className,
         )}
         {...props}
       />
-    </PressScale>
+    </ScaleFeedback>
   );
 }
 
-export default function PressedScaleCustomComponent() {
+export default function ScaleFeedbackCustomComponent() {
   return (
     <VStack gap="x3" className="w-full max-w-80">
       <PressableCard className="w-full gap-x3 p-x3">

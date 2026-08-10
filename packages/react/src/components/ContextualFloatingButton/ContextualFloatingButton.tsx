@@ -6,7 +6,7 @@ import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { usePressScale } from "../../utils/pressScale";
+import { useScaleFeedback } from "../../utils/scaleFeedback";
 import { IconRequired } from "../Icon/Icon";
 import {
   PendingButtonProvider,
@@ -26,7 +26,7 @@ export const ContextualFloatingButton = React.forwardRef<
 >(({ variant, loading = false, layout = "withText", className, children, ...otherProps }, ref) => {
   const recipeClassName = contextualFloatingButton({ variant, layout });
   const api = usePendingButton({ loading, disabled: otherProps.disabled });
-  const { pressScaleRef, pressScaleClassName } = usePressScale();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   if (layout === "iconOnly" && !(otherProps["aria-label"] || otherProps["aria-labelledby"])) {
     console.warn(
@@ -38,8 +38,8 @@ export const ContextualFloatingButton = React.forwardRef<
     <PendingButtonProvider value={api}>
       <IconRequired enabled={layout === "iconOnly"}>
         <Primitive.button
-          ref={useComposedRefs(pressScaleRef, ref)}
-          className={clsx(recipeClassName, pressScaleClassName, className)}
+          ref={useComposedRefs(scaleFeedbackRef, ref)}
+          className={clsx(recipeClassName, scaleFeedbackClassName, className)}
           {...api.stateProps}
           {...otherProps}
         >

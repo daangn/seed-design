@@ -18,7 +18,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const quantityPicker = defineSlotRecipe({
   name: "quantity-picker",
@@ -58,12 +58,12 @@ const quantityPicker = defineSlotRecipe({
       border: "none",
       padding: 0,
       backgroundColor: buttonVars.base.enabled.root.color,
-      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
-      [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: buttonVars.base.pressed.root.color,
       },
@@ -126,12 +126,12 @@ const quantityPicker = defineSlotRecipe({
       border: "none",
       padding: 0,
       backgroundColor: buttonVars.base.enabled.root.color,
-      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
-      [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: buttonVars.base.pressed.root.color,
       },

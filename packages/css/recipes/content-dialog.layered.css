@@ -219,7 +219,7 @@
   }
 
   .seed-content-dialog__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   @media (hover: hover) and (pointer: fine) {

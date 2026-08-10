@@ -448,7 +448,7 @@ const actionButton = defineSlotRecipe({
     // Lynx has no individual `scale:` property and does not evaluate
     // prefers-reduced-motion, so scale is applied via the `transform` shorthand
     // and always animates on-device (the reduced-motion guard is dropped in
-    // lynx-css at the token layer). Web derives the pressed scale at runtime,
+    // lynx-css at the token layer). Web derives its feedback scale at runtime,
     // so the static per-size values reference the global scale tokens directly
     // instead of component vars.
     {

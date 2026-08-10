@@ -1,7 +1,7 @@
 import { calloutCloseButton as closeButtonVars, callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
-import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -51,9 +51,9 @@ const callout = defineSlotRecipe({
       // together — so the focus ring may stay on the root and scale with it.
       [pseudo(":is(button, a)")]: {
         cursor: "pointer",
-        transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+        transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
-        [pseudo(active)]: createPressScaleStyles(),
+        [pseudo(active)]: createScaleFeedbackStyles(),
 
         ...createFocusRingRestStyles(),
         [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -128,9 +128,9 @@ const callout = defineSlotRecipe({
         size: closeButtonVars.base.enabled.icon.size,
       }),
 
-      [pseudo(active)]: createPressScaleStyles(),
+      [pseudo(active)]: createScaleFeedbackStyles(),
 
-      transition: `background-color ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 

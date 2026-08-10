@@ -86,7 +86,7 @@
   }
 
   .seed-snackbar__actionButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-snackbar__actionButton {

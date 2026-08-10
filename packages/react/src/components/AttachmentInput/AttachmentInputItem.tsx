@@ -21,7 +21,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { usePressScale, withPressScale } from "../../utils/pressScale";
+import { useScaleFeedback, withScaleFeedback } from "../../utils/scaleFeedback";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -46,15 +46,15 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
     });
 
     const classNames = attachmentInputItem(variantProps);
-    const { pressScaleRef, pressScaleClassName } = usePressScale();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
     return (
       <ClassNamesProvider value={classNames}>
         <FileUploadItemProvider value={api}>
           <overlayTracker.Provider>
             <Primitive.li
-              ref={useComposedRefs(pressScaleRef, ref)}
-              className={clsx(classNames.root, pressScaleClassName, className)}
+              ref={useComposedRefs(scaleFeedbackRef, ref)}
+              className={clsx(classNames.root, scaleFeedbackClassName, className)}
               {...stateProps}
               {...otherProps}
             />
@@ -117,7 +117,7 @@ AttachmentInputItemSize.displayName = "AttachmentInputItemSize";
 export interface AttachmentInputItemRemoveButtonProps
   extends FileUploadPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentInputItemRemoveButton = withPressScale(
+export const AttachmentInputItemRemoveButton = withScaleFeedback(
   withContext<HTMLButtonElement, AttachmentInputItemRemoveButtonProps>(
     FileUploadPrimitive.ItemRemoveButton,
     "removeButton",
@@ -188,13 +188,13 @@ export const AttachmentInputItemActionButton = React.forwardRef<
   AttachmentInputItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
-  const { pressScaleRef, pressScaleClassName } = usePressScale();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <Primitive.button
       type="button"
-      ref={useComposedRefs(pressScaleRef, ref)}
-      className={clsx(classNames.actionButton, pressScaleClassName, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref)}
+      className={clsx(classNames.actionButton, scaleFeedbackClassName, className)}
       {...props}
     />
   );

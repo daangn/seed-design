@@ -14,7 +14,7 @@
   }
 
   .seed-image-frame-reaction-button__root:is(:active, [data-active]) {
-    scale: var(--seed-press-scale);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-image-frame-reaction-button__root {

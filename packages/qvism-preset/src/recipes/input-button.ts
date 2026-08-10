@@ -2,7 +2,7 @@ import spec from "@seed-design/rootage-artifacts/components/input-button";
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
-import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -185,9 +185,9 @@ const inputButton = defineSlotRecipe({
 
       borderRadius: tokens.$radius.full,
 
-      [pseudo(active)]: createPressScaleStyles(),
+      [pseudo(active)]: createScaleFeedbackStyles(),
 
-      transition: `${PRESS_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 

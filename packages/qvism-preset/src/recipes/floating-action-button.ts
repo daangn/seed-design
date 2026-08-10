@@ -7,7 +7,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { createPressScaleStyles, PRESS_SCALE_TRANSITION } from "../utils/press-scale";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import spec from "@seed-design/rootage-artifacts/components/floating-action-button";
 
 const floatingActionButton = defineSlotRecipe({
@@ -43,14 +43,14 @@ const floatingActionButton = defineSlotRecipe({
       lineHeight: vars.extendedTrue.enabled.label.lineHeight,
       fontWeight: vars.extendedTrue.enabled.label.fontWeight,
 
-      [pseudo(not(disabled), active)]: { ...createPressScaleStyles() },
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
 
       transition: [
         `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
         `max-width ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `height ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `padding ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
-        PRESS_SCALE_TRANSITION,
+        FEEDBACK_SCALE_TRANSITION,
         FOCUS_RING_TRANSITION,
       ].join(", "),
 

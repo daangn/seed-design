@@ -1,4 +1,4 @@
-.press-scale-plain-css {
+.scale-feedback-plain-css {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -18,10 +18,10 @@
 
   transition:
     background-color 0.2s,
-    var(--seed-press-scale-transition);
+    var(--seed-feedback-scale-transition);
 }
 
-.press-scale-plain-css:active {
+.scale-feedback-plain-css:active {
   background-color: var(--seed-color-bg-layer-default-pressed);
-  scale: var(--seed-press-scale);
+  scale: var(--seed-feedback-scale);
 }

@@ -10,7 +10,7 @@
   }
 
   .seed-switchmark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-switchmark-press-scale, var(--seed-press-scale));
+    scale: var(--seed-switchmark-feedback-scale, var(--seed-feedback-scale));
   }
 
   .seed-switchmark__root:is(:disabled, [disabled], [data-disabled]) {
