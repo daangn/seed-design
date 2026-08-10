@@ -16,8 +16,13 @@ import {
   VERSION_PATTERN,
 } from "./contract";
 import type { CompletionFile, CompletionManifest, ObjectStore, StablePointer } from "./types";
+import {
+  mutateStablePointer,
+  type StablePointerMutation,
+  verifyLatestWithRollback,
+} from "./stable-pointer-recovery";
 
-interface RegistryVersion {
+export interface RegistryVersion {
   name?: string;
   version?: string;
   gitHead?: string;
@@ -40,11 +45,26 @@ export interface PublishResult {
   reusedManifest: boolean;
 }
 
+export interface PublishArchiveSource {
+  metadata: RegistryVersion;
+  tarball: Uint8Array;
+  npmLatestVersion?: string;
+}
+
+export type PublicVerifier = (
+  baseUrl: string,
+  manifest: CompletionManifest,
+  alias?: "latest",
+) => Promise<void>;
+
 async function retryFetch(url: string, attempts = 12): Promise<Response> {
   let lastStatus = 0;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
-      const response = await fetch(url, { headers: { accept: "application/json" } });
+      const response = await fetch(url, {
+        headers: { accept: "application/json" },
+        signal: AbortSignal.timeout(15_000),
+      });
       lastStatus = response.status;
       if (response.ok) return response;
       if (response.status < 500 && response.status !== 429) break;
@@ -109,20 +129,53 @@ async function loadManifest(
   metadata: RegistryVersion,
   integrity: string,
 ): Promise<CompletionManifest> {
+  const packageManifest = JSON.parse(
+    await readFile(join(directory, "package", "package.json"), "utf8"),
+  ) as {
+    name?: unknown;
+    version?: unknown;
+  };
+  if (packageManifest.name !== PACKAGE_NAME || packageManifest.version !== metadata.version) {
+    throw new Error("Rootage package.json identity가 registry version과 다릅니다.");
+  }
   const root = join(directory, "package", "__generated__");
   const indexBytes = new Uint8Array(await readFile(join(root, "index.json")));
-  const index = JSON.parse(new TextDecoder().decode(indexBytes)) as {
-    version?: unknown;
-    resources?: Array<{ path?: unknown }>;
-  };
-  if (index.version !== metadata.version || !Array.isArray(index.resources)) {
-    throw new Error("Rootage index.json 버전 또는 resources가 올바르지 않습니다.");
+  const index: unknown = JSON.parse(new TextDecoder().decode(indexBytes));
+  if (!index || typeof index !== "object" || Array.isArray(index)) {
+    throw new Error("Rootage index.json이 객체가 아닙니다.");
   }
-  const paths: unknown[] = ["/index.json", ...index.resources.map((resource) => resource.path)];
-  if (paths.some((path) => typeof path !== "string" || !RESOURCE_PATTERN.test(path))) {
+  const indexRecord = index as Record<string, unknown>;
+  if (
+    JSON.stringify(Object.keys(indexRecord).sort()) !==
+      JSON.stringify(["name", "resources", "version"]) ||
+    indexRecord.name !== "Rootage" ||
+    indexRecord.version !== metadata.version ||
+    !Array.isArray(indexRecord.resources)
+  ) {
+    throw new Error("Rootage index.json identity 또는 resources가 올바르지 않습니다.");
+  }
+  const resources = indexRecord.resources.map((resource, index) => {
+    if (
+      !resource ||
+      typeof resource !== "object" ||
+      Array.isArray(resource) ||
+      JSON.stringify(Object.keys(resource).sort()) !== JSON.stringify(["path"]) ||
+      typeof (resource as { path?: unknown }).path !== "string"
+    ) {
+      throw new Error(`Rootage resource ${index} 계약이 올바르지 않습니다.`);
+    }
+    return (resource as { path: string }).path;
+  });
+  const indexTypes = await readFile(join(root, "index.d.ts"), "utf8");
+  const versionTypeToken = `"version": ${JSON.stringify(metadata.version)};`;
+  if (indexTypes.split(versionTypeToken).length !== 2) {
+    throw new Error("Rootage index.d.ts가 exact package version을 한 번 포함하지 않습니다.");
+  }
+  const paths = ["/index.json", ...resources];
+  if (paths.some((path) => !RESOURCE_PATTERN.test(path))) {
     throw new Error("Rootage resource 경로가 올바르지 않습니다.");
   }
-  const resourcePaths = paths as string[];
+  const resourcePaths = paths;
   if (new Set(resourcePaths).size !== resourcePaths.length)
     throw new Error("Rootage resource 경로가 중복되었습니다.");
   const generatedFiles = (await readdir(root, { recursive: true, withFileTypes: true }))
@@ -159,6 +212,23 @@ async function loadManifest(
   });
 }
 
+export async function verifyRootageArchiveContract(
+  tarball: Uint8Array,
+  version: string,
+): Promise<void> {
+  if (!VERSION_PATTERN.test(version)) throw new Error(`잘못된 Rootage 버전입니다: ${version}`);
+  const directory = await extractTarball(tarball);
+  try {
+    await loadManifest(
+      directory,
+      { name: PACKAGE_NAME, version, gitHead: "0".repeat(40) },
+      sha512Integrity(tarball),
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+}
+
 async function putImmutable(
   store: ObjectStore,
   key: string,
@@ -185,7 +255,10 @@ export async function verifyPublic(
     let verified = false;
     for (let attempt = 1; attempt <= 5; attempt += 1) {
       try {
-        const response = await fetch(url, { headers: { "cache-control": "no-cache" } });
+        const response = await fetch(url, {
+          headers: { "cache-control": "no-cache" },
+          signal: AbortSignal.timeout(10_000),
+        });
         const bytes = response.ok ? new Uint8Array(await response.arrayBuffer()) : null;
         verified = bytes !== null && (await sha256(bytes)) === file.sha256;
       } catch {
@@ -202,10 +275,11 @@ async function updateStable(
   store: ObjectStore,
   manifest: CompletionManifest,
   manifestSha: string,
-): Promise<{ before: string; after: string }> {
+  npmLatestVersion: string,
+): Promise<{ before: string; after: string; mutation: StablePointerMutation }> {
   if (!STABLE_VERSION_PATTERN.test(manifest.version))
     throw new Error("pre-release는 stable 포인터를 갱신할 수 없습니다.");
-  if ((await latestVersion()) !== manifest.version)
+  if (npmLatestVersion !== manifest.version)
     throw new Error("후보가 npm latest와 일치하지 않습니다.");
   const existing = await store.get(POINTER_KEY);
   let before = "";
@@ -215,7 +289,11 @@ async function updateStable(
     if (compareStableVersions(manifest.version, current.version) < 0)
       throw new Error("stable 포인터 역행을 거부했습니다.");
     if (current.version === manifest.version && current.manifestSha256 === manifestSha) {
-      return { before, after: current.version };
+      return {
+        before,
+        after: current.version,
+        mutation: { changed: false, previous: existing, applied: existing },
+      };
     }
   }
   const pointer: StablePointer = {
@@ -226,21 +304,23 @@ async function updateStable(
   };
   const bytes = jsonBytes(pointer);
   const checksum = await sha256(bytes);
-  const result = existing
-    ? await store.putIfMatch(POINTER_KEY, bytes, checksum, existing.etag)
-    : await store.putIfAbsent(POINTER_KEY, bytes, checksum);
-  if (result.status === "precondition-failed")
-    throw new Error("stable 포인터가 동시에 변경되었습니다.");
-  return { before, after: manifest.version };
+  const mutation = await mutateStablePointer(store, existing, bytes, checksum);
+  return {
+    before,
+    after: manifest.version,
+    mutation,
+  };
 }
 
-export async function publishRootage(
+export async function publishRootageArchive(
   store: ObjectStore,
   input: PublishInput,
+  source: PublishArchiveSource,
+  publicVerifier: PublicVerifier = verifyPublic,
 ): Promise<PublishResult> {
   if (!VERSION_PATTERN.test(input.version))
     throw new Error(`잘못된 Rootage 버전입니다: ${input.version}`);
-  const metadata = await registryVersion(input.version);
+  const { metadata, tarball } = source;
   if (
     metadata.name !== PACKAGE_NAME ||
     metadata.version !== input.version ||
@@ -253,7 +333,6 @@ export async function publishRootage(
     throw new Error("전달된 npm integrity가 registry와 다릅니다.");
   if (metadata.gitHead !== input.sourceSha)
     throw new Error("npm gitHead가 승인된 source SHA와 다릅니다.");
-  const tarball = new Uint8Array(await (await retryFetch(metadata.dist.tarball)).arrayBuffer());
   if (sha512Integrity(tarball) !== input.npmIntegrity)
     throw new Error("npm tarball integrity가 일치하지 않습니다.");
   const directory = await extractTarball(tarball);
@@ -275,11 +354,19 @@ export async function publishRootage(
       manifestBytes,
       manifestSha,
     );
-    await verifyPublic(input.publicBaseUrl, manifest);
+    await publicVerifier(input.publicBaseUrl, manifest);
     const pointer = input.stable
-      ? await updateStable(store, manifest, manifestSha)
-      : { before: "", after: "" };
-    if (input.stable) await verifyPublic(input.publicBaseUrl, manifest, "latest");
+      ? await updateStable(store, manifest, manifestSha, source.npmLatestVersion ?? "")
+      : {
+          before: "",
+          after: "",
+          mutation: { changed: false, previous: null, applied: null },
+        };
+    if (input.stable) {
+      await verifyLatestWithRollback(store, pointer.mutation, () =>
+        publicVerifier(input.publicBaseUrl, manifest, "latest"),
+      );
+    }
     return {
       manifestSha,
       fileCount: manifest.files.length,
@@ -290,4 +377,21 @@ export async function publishRootage(
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
+}
+
+export async function publishRootage(
+  store: ObjectStore,
+  input: PublishInput,
+): Promise<PublishResult> {
+  if (!VERSION_PATTERN.test(input.version)) {
+    throw new Error(`잘못된 Rootage 버전입니다: ${input.version}`);
+  }
+  const metadata = await registryVersion(input.version);
+  if (!metadata.dist?.tarball) throw new Error("npm Rootage metadata가 불완전합니다.");
+  const tarball = new Uint8Array(await (await retryFetch(metadata.dist.tarball)).arrayBuffer());
+  return publishRootageArchive(store, input, {
+    metadata,
+    tarball,
+    npmLatestVersion: input.stable ? await latestVersion() : undefined,
+  });
 }
