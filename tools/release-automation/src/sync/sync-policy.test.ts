@@ -295,6 +295,19 @@ describe("sync workflow 신뢰 정책", () => {
         headRef: "release-bootstrap/minor-100",
         fields: { targetLane: "minor", tag: "beta" },
       },
+      {
+        type: "baseline",
+        lane: "major",
+        headRef: `release-baseline/major/${"a".repeat(12)}-100`,
+        fields: {
+          stablePr: 1956,
+          stableMergeSha: "a".repeat(40),
+          publishRunId: 100,
+          expectedBaseSha: "b".repeat(40),
+          controlSha: "c".repeat(40),
+          versionsSha256: "d".repeat(64),
+        },
+      },
     ] as const;
 
     for (const { type, lane, headRef, fields } of generated) {

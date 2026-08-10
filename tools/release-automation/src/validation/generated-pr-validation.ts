@@ -3,9 +3,17 @@ import { validateChangesets } from "../core/changesets";
 import { parseLaneConfig, parseReleaseControl } from "../core/config";
 import { verifyGeneratedPrProvenance } from "../core/generated-pr-provenance";
 import { GitHubClient, type GitHubPullRequest } from "../core/github";
+import {
+  isBaselineMarker,
+  isPrereleaseMarker,
+  isStablePromotionMarker,
+  validateGeneratedPr,
+} from "../core/marker";
 import { isActivationOperation } from "../core/types";
 import { verifyGeneratedLaneWritePlan } from "../lane/lane-write-plan";
+import { verifyGeneratedPrereleasePlan } from "../lane/prerelease-write-plan";
 import { assertLanePullAllowed } from "../lane/pull-policy";
+import { classifyPrereleaseState, parseOptionalPrereleaseState } from "../lane/prerelease-state";
 import { activationOperationSpecs } from "../setup/activation";
 import { verifyBootstrapPull, verifyBootstrapReadiness } from "../setup/bootstrap-policy";
 import { selectTrustedGeneratedPullForHead, trustedSyncMarkerForPull } from "../sync/sync-policy";
@@ -14,6 +22,12 @@ import {
   createTrustedSyncValidationClient,
   verifyTrustedGeneratedSync,
 } from "../sync/trusted-sync-validation";
+import {
+  assertStablePromotionControlMode,
+  verifyStablePromotionProvenance,
+} from "./stable-promotion";
+import { verifyBaselineReconciliation } from "./baseline-reconciliation";
+import { assertDevStablePublishReconciled } from "../publish/baseline-reconciliation-state";
 
 type AssociatedPullRequest = GitHubPullRequest & { state: "open" | "closed" };
 
@@ -37,6 +51,44 @@ if (!token || !repository || !headSha || !headRef) {
 }
 
 const client = new GitHubClient(repository, token);
+async function assertDormantSibling(lane: "minor" | "major"): Promise<void> {
+  const sibling = lane === "minor" ? "major" : "minor";
+  await git([
+    "fetch",
+    "--no-tags",
+    "origin",
+    `+refs/heads/${sibling}:refs/remotes/origin/${sibling}`,
+  ]);
+  const state = parseOptionalPrereleaseState(
+    await git(["show", `origin/${sibling}:.changeset/pre.json`]).catch(() => null),
+    `${sibling} sibling prerelease state`,
+  );
+  if (classifyPrereleaseState(sibling, state) !== "dormant") {
+    throw new Error(`stable promotion 전 sibling ${sibling} lane은 dormant여야 합니다.`);
+  }
+  const open = await client.paginate<GitHubPullRequest>(
+    `/repos/${repository}/pulls?state=open&base=${sibling}&sort=created&direction=asc`,
+  );
+  if (
+    open.some((candidate) => {
+      const generated = validateGeneratedPr({
+        author: candidate.user.login,
+        body: candidate.body ?? "",
+        baseRef: candidate.base.ref,
+        headRef: candidate.head.ref,
+        baseRepository: candidate.base.repo.full_name,
+        headRepository: candidate.head.repo?.full_name ?? "",
+      });
+      return (
+        generated?.type === "version" ||
+        generated?.type === "prerelease" ||
+        generated?.type === "baseline"
+      );
+    })
+  ) {
+    throw new Error(`sibling ${sibling} lane에 경쟁 중인 state/Version PR이 있습니다.`);
+  }
+}
 async function resolveAssociatedPull(
   exactRepository: string,
   exactHeadSha: string,
@@ -80,8 +132,45 @@ if (fetchedHeadSha !== headSha || pull.head.sha !== headSha || pull.head.ref !==
 const filesOutput = await git(["diff", "--name-only", `origin/${marker.lane}...${headSha}`, "--"]);
 const changedFiles = filesOutput ? filesOutput.split("\n") : [];
 const provenance = await verifyGeneratedPrProvenance({ marker, headSha, changedFiles });
+const basePreState =
+  marker.lane === "dev"
+    ? null
+    : parseOptionalPrereleaseState(
+        await git(["show", `origin/${marker.lane}:.changeset/pre.json`]).catch(() => null),
+        "generated PR base prerelease state",
+      );
+if (basePreState?.mode === "exit" && marker.type !== "version") {
+  throw new Error("exiting lane에는 exact Stable Version Packages PR만 허용됩니다.");
+}
 if (marker.type === "version") {
   await verifyGeneratedLaneWritePlan(process.cwd(), marker, pull.base.sha, headSha);
+  if (basePreState?.mode === "exit") {
+    if (!isStablePromotionMarker(marker)) {
+      throw new Error("exiting lane의 Version PR에는 exact stable promotion marker가 필요합니다.");
+    }
+    await assertDormantSibling(marker.lane);
+    await verifyStablePromotionProvenance({ repository, marker, versionPull: pull, client });
+  } else if (isStablePromotionMarker(marker)) {
+    throw new Error("stable promotion Version PR의 base가 exact exit state가 아닙니다.");
+  }
+}
+if (marker.type === "prerelease" && isPrereleaseMarker(marker)) {
+  await assertDormantSibling(marker.lane);
+  if (marker.operation === "enter") {
+    const currentDevSha = await git(["rev-parse", "origin/dev"]);
+    await assertDevStablePublishReconciled({ repository, currentDevSha, client });
+  }
+  await verifyGeneratedPrereleasePlan(process.cwd(), marker, pull.base.sha, headSha);
+}
+if (marker.type === "baseline" && isBaselineMarker(marker)) {
+  await verifyBaselineReconciliation({
+    repositoryPath: process.cwd(),
+    repository,
+    marker,
+    baseSha: pull.base.sha,
+    headSha,
+    client,
+  });
 }
 if (marker.type === "bootstrap") {
   if (marker.lane !== "minor" && marker.lane !== "major") {
@@ -112,6 +201,10 @@ if (
 const control = parseReleaseControl(
   JSON.parse(await git(["show", "origin/dev:.github/release/control.json"])),
 );
+if (isStablePromotionMarker(marker)) assertStablePromotionControlMode(control.mode);
+if (marker.type === "prerelease" && marker.operation === "exit") {
+  assertStablePromotionControlMode(control.mode);
+}
 const proposedControl = activationOperation
   ? parseReleaseControl(JSON.parse(await git(["show", `${headSha}:.github/release/control.json`])))
   : undefined;
@@ -121,16 +214,18 @@ const proposedConfig = activationOperation
 const config = parseLaneConfig(
   JSON.parse(await git(["show", "origin/dev:.github/release/lanes.json"])),
 );
-assertLanePullAllowed({
-  lane: marker.lane,
-  marker,
-  files: changedFiles,
-  control,
-  config,
-  proposedControl,
-  proposedConfig,
-  headSha,
-});
+if (marker.type !== "prerelease" && marker.type !== "baseline") {
+  assertLanePullAllowed({
+    lane: marker.lane,
+    marker,
+    files: changedFiles,
+    control,
+    config,
+    proposedControl,
+    proposedConfig,
+    headSha,
+  });
+}
 
 let changesetCount: number | null = null;
 if (marker.type === "sync") {

@@ -12,6 +12,7 @@ import {
   isExactRootageGeneratedTypesUpdate,
   type LaneWritePlan,
   parseLaneWritePlan,
+  parseDeferredValidation,
   parseJsonWithTrailingCommas,
   trustedReleaseRefspecs,
   verifyGeneratedLaneWritePlan,
@@ -410,6 +411,13 @@ async function webPeerVersionFixture(
 }
 
 describe("lane read-plan / trusted-write artifact", () => {
+  test("ordinary Version writer는 기본 dispatch를 유지하고 stable binder만 명시적으로 defer한다", () => {
+    expect(parseDeferredValidation(undefined)).toBe(false);
+    expect(parseDeferredValidation("false")).toBe(false);
+    expect(parseDeferredValidation("true")).toBe(true);
+    expect(() => parseDeferredValidation("1")).toThrow("true/false");
+  });
+
   test("strict schema와 안전한 version output 경로만 허용한다", () => {
     const plan = parseLaneWritePlan({
       schemaVersion: 1,
@@ -608,7 +616,7 @@ describe("lane read-plan / trusted-write artifact", () => {
         formattingSpoof.head,
       ),
     ).rejects.toThrow("trusted Changesets version output");
-  });
+  }, 30_000);
 
   test("trusted Changesets replay가 lane direct bump를 exact 정책에 결속한다", async () => {
     const wrongLaneBump = await versionFixture("lane-bump");

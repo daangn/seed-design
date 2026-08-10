@@ -18,6 +18,7 @@ interface WorkflowJob {
 }
 
 interface Workflow {
+  concurrency?: { group?: string; "cancel-in-progress"?: boolean };
   jobs: Record<string, WorkflowJob>;
 }
 
@@ -40,6 +41,7 @@ describe("generated release PR workflow dispatch", () => {
     expect(plan.permissions).toEqual({ contents: "read" });
     expect(planCommand?.run).toContain("create-version /tmp/seed-release-plan");
     expect(planCommand?.env).not.toHaveProperty("GH_TOKEN");
+    expect(planCommand?.env).not.toHaveProperty("RELEASE_PLAN_DEFER_VALIDATION");
     expect(write.needs).toEqual(["select-lanes", "plan"]);
     expect(write.if).toContain("always()");
     expect(write.if).toContain("needs.select-lanes.result == 'success'");
@@ -48,12 +50,74 @@ describe("generated release PR workflow dispatch", () => {
       contents: "write",
       issues: "write",
       "pull-requests": "write",
+      statuses: "read",
     });
     expect(writeCommand?.run).toBe(
       "bun tools/release-automation/src/lane/lane-write-plan.ts write-version /tmp/seed-release-plan",
     );
     expect(writeCommand?.env?.GH_TOKEN).toBe(["$", "{{ secrets.GITHUB_TOKEN }}"].join(""));
     expect(write.steps?.filter((step) => step.uses === "./.github/actions/setup")).toHaveLength(0);
+  });
+
+  test("prerelease state와 stable promotion도 같은 workflow의 planner/writer 경계를 유지한다", async () => {
+    const workflow = await readWorkflow(".github/workflows/release-packages.yml");
+    const select = workflow.jobs["select-lanes"];
+    const plan = workflow.jobs.plan;
+    const write = workflow.jobs.write;
+    const selection = select.steps?.find((step) => step.name === "Select exact current lane heads");
+    expect(workflow.concurrency).toEqual({
+      group: "release-version-global-operation",
+      "cancel-in-progress": false,
+    });
+    expect(select.permissions).toEqual({
+      actions: "read",
+      contents: "read",
+      "pull-requests": "read",
+      statuses: "read",
+    });
+    expect(selection?.env?.GH_TOKEN).toBe(["$", "{{ secrets.GITHUB_TOKEN }}"].join(""));
+    const stateApply = plan.steps?.find(
+      (step) => step.name === "Apply prerelease state without write credentials",
+    );
+    const prereleasePlan = plan.steps?.find(
+      (step) => step.name === "Create immutable prerelease write plan",
+    );
+    const stableBinder = write.steps?.find(
+      (step) => step.name === "Bind Stable Version PR to exact Exit Intent merge",
+    );
+    const versionWriter = write.steps?.find(
+      (step) => step.name === "Write Version Packages pull request",
+    );
+    const prereleaseWrite = write.steps?.find(
+      (step) => step.name === "Write prerelease state pull request",
+    );
+
+    expect(selection?.run).toBe("bun tools/release-automation/src/validation/release-selection.ts");
+    expect(stateApply?.run).toContain("bun changeset pre exit");
+    expect(stateApply?.env).not.toHaveProperty("GH_TOKEN");
+    expect(prereleasePlan?.run).toContain("create-prerelease /tmp/seed-release-plan");
+    expect(prereleasePlan?.env).not.toHaveProperty("GH_TOKEN");
+    expect(prereleaseWrite?.run).toContain("write-prerelease /tmp/seed-release-plan");
+    expect(prereleaseWrite?.env?.GH_TOKEN).toBe(["$", "{{ secrets.GITHUB_TOKEN }}"].join(""));
+    expect(stableBinder?.run).toBe(
+      "bun tools/release-automation/src/validation/bind-stable-promotion.ts",
+    );
+    expect(versionWriter?.env?.RELEASE_PLAN_DEFER_VALIDATION).toBe(
+      ["$", "{{ matrix.release_kind == 'stable-promotion' }}"].join(""),
+    );
+    const [laneWriter, binder] = await Promise.all([
+      readFile("tools/release-automation/src/lane/lane-write-plan.ts", "utf8"),
+      readFile("tools/release-automation/src/validation/bind-stable-promotion.ts", "utf8"),
+    ]);
+    expect(laneWriter).toContain(
+      "if (!deferValidation) await dispatchValidation(repository, token, branch, headSha)",
+    );
+    expect(binder.match(/await dispatchValidation\(/g)).toHaveLength(1);
+    expect(stableBinder?.env).toMatchObject({
+      RELEASE_PROMOTION_OPERATION_ID: ["$", "{{ matrix.operation_id }}"].join(""),
+      RELEASE_PROMOTION_EXIT_PR: ["$", "{{ matrix.exit_pr }}"].join(""),
+      RELEASE_PROMOTION_EXIT_MERGE_SHA: ["$", "{{ matrix.exit_merge_sha }}"].join(""),
+    });
   });
 
   test.each([
@@ -145,6 +209,9 @@ describe("generated release PR workflow dispatch", () => {
       expect(validator).toContain("verifyBootstrapPull");
       expect(validator).toContain("verifyBootstrapReadiness");
       expect(validator).toContain("verifyGeneratedLaneWritePlan");
+      expect(validator).toContain("verifyGeneratedPrereleasePlan");
+      expect(validator).toContain("verifyStablePromotionProvenance");
+      expect(validator).toContain("exiting lane에는 exact Stable Version Packages PR만 허용됩니다");
       expect(validator).toContain("proposedConfig");
       expect(validator).toContain("verifyTrustedGeneratedSync({");
     }
@@ -163,5 +230,37 @@ describe("generated release PR workflow dispatch", () => {
     expect(generated.indexOf("fetchedHeadSha !== headSha")).toBeLessThan(
       generated.indexOf("assertLanePullAllowed({"),
     );
+  });
+
+  test("baseline validator는 두 target replay를 production receipt와 versions digest에 결속한다", async () => {
+    const [creator, validator, gate] = await Promise.all([
+      readFile("tools/release-automation/src/publish/create-baseline-reconciliation.ts", "utf8"),
+      readFile("tools/release-automation/src/validation/baseline-reconciliation.ts", "utf8"),
+      readFile("tools/release-automation/src/publish/baseline-reconciliation-state.ts", "utf8"),
+    ]);
+    expect(creator).toContain('const targets: LaneName[] = ["dev", sibling]');
+    expect(creator).toContain('Bun.spawn(["git", "apply", "--3way", "--index", "-"]');
+    expect(creator).not.toContain("changeset pre");
+    expect(creator).toContain("inputs: { head_ref: branch, head_sha: headSha }");
+    expect(validator).toContain("hasPublishReceiptReadyForBaseline");
+    expect(validator).toContain("versionsDigest(published) !== marker.versionsSha256");
+    expect(validator).toContain("baseline sibling target은 exact dormant 상태여야 합니다");
+    expect(gate).toContain('for (const target of ["dev", sibling] as const)');
+    expect(gate).toContain("isValidationStatusBoundToRun");
+  });
+
+  test("enter도 sibling dormant와 pending promotion 정렬을 selection/validation/writer에서 재확인한다", async () => {
+    const [selection, generated, control, writer] = await Promise.all([
+      readFile("tools/release-automation/src/validation/release-selection.ts", "utf8"),
+      readFile("tools/release-automation/src/validation/generated-pr-validation.ts", "utf8"),
+      readFile("tools/release-automation/bin/control.ts", "utf8"),
+      readFile("tools/release-automation/src/lane/prerelease-write-plan.ts", "utf8"),
+    ]);
+    for (const source of [selection, generated, control, writer]) {
+      expect(source).toContain("assertDevStablePublishReconciled");
+      expect(source).toContain("sibling");
+    }
+    expect(writer).toContain('plan.operation === "enter"');
+    expect(writer).toContain("경쟁 중인 state/Version PR");
   });
 });

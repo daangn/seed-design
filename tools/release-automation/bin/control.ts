@@ -8,11 +8,22 @@ import {
 } from "../src/core/config";
 import { verifyGeneratedPrProvenance } from "../src/core/generated-pr-provenance";
 import { GitHubClient, type GitHubPullRequest } from "../src/core/github";
-import { encodeMarker, validateGeneratedPr } from "../src/core/marker";
+import {
+  encodeMarker,
+  isBaselineMarker,
+  isPrereleaseMarker,
+  isStablePromotionMarker,
+  validateGeneratedPr,
+} from "../src/core/marker";
 import { generatedPrTypes, isActivationOperation } from "../src/core/types";
 import type { GeneratedPrType, PullRequestIdentity, ReleaseMarker } from "../src/core/types";
 import { verifyGeneratedLaneWritePlan } from "../src/lane/lane-write-plan";
+import { verifyGeneratedPrereleasePlan } from "../src/lane/prerelease-write-plan";
 import { assertLanePullAllowed } from "../src/lane/pull-policy";
+import {
+  classifyPrereleaseState,
+  parseOptionalPrereleaseState,
+} from "../src/lane/prerelease-state";
 import { activationOperationSpecs, applyActivation } from "../src/setup/activation";
 import { verifyBootstrapPull, verifyBootstrapReadiness } from "../src/setup/bootstrap-policy";
 import { trustedSyncMarkerForPull } from "../src/sync/sync-policy";
@@ -21,6 +32,12 @@ import {
   createTrustedSyncValidationClient,
   verifyTrustedGeneratedSync,
 } from "../src/sync/trusted-sync-validation";
+import {
+  assertStablePromotionControlMode,
+  verifyStablePromotionProvenance,
+} from "../src/validation/stable-promotion";
+import { verifyBaselineReconciliation } from "../src/validation/baseline-reconciliation";
+import { assertDevStablePublishReconciled } from "../src/publish/baseline-reconciliation-state";
 
 interface PullRequestEvent {
   repository: { full_name: string };
@@ -124,6 +141,36 @@ async function validatePr(values: Map<string, string>): Promise<void> {
   const token = process.env.GH_TOKEN;
   if (!token) throw new Error("PR current head 검증에 GitHub read token이 필요합니다.");
   const client = new GitHubClient(event.repository.full_name, token);
+  async function assertDormantSibling(sourceLane: "minor" | "major"): Promise<void> {
+    const sibling = sourceLane === "minor" ? "major" : "minor";
+    await run([
+      "git",
+      "fetch",
+      "--no-tags",
+      "origin",
+      `+refs/heads/${sibling}:refs/remotes/origin/${sibling}`,
+    ]);
+    const state = parseOptionalPrereleaseState(
+      await run(["git", "show", `origin/${sibling}:.changeset/pre.json`]).catch(() => null),
+      `${sibling} sibling prerelease state`,
+    );
+    if (classifyPrereleaseState(sibling, state) !== "dormant") {
+      throw new Error(`stable promotion 전 sibling ${sibling} lane은 dormant여야 합니다.`);
+    }
+    const open = await client.paginate<GitHubPullRequest>(
+      `/repos/${event.repository.full_name}/pulls?state=open&base=${sibling}&sort=created&direction=asc`,
+    );
+    if (
+      open.some((candidate) => {
+        const marker = validateGeneratedPr(identityFromPull(candidate));
+        return (
+          marker?.type === "version" || marker?.type === "prerelease" || marker?.type === "baseline"
+        );
+      })
+    ) {
+      throw new Error(`sibling ${sibling} lane에 경쟁 중인 state/Version PR이 있습니다.`);
+    }
+  }
   const pull = await client.request<GitHubPullRequest>(
     `/repos/${event.repository.full_name}/pulls/${event.pull_request.number}`,
   );
@@ -159,6 +206,16 @@ async function validatePr(values: Map<string, string>): Promise<void> {
   );
   const generated = validateGeneratedPr(identityFromPull(pull));
   const files = await changedFiles(lane, pull.head.sha);
+  const basePreState =
+    lane === "dev"
+      ? null
+      : parseOptionalPrereleaseState(
+          await run(["git", "show", `origin/${lane}:.changeset/pre.json`]).catch(() => null),
+          "PR base prerelease state",
+        );
+  if (basePreState?.mode === "exit" && generated?.type !== "version") {
+    throw new Error("exiting lane에는 exact Stable Version Packages PR만 허용됩니다.");
+  }
   if (generated) {
     if (
       pull.base.repo.full_name !== event.repository.full_name ||
@@ -173,6 +230,44 @@ async function validatePr(values: Map<string, string>): Promise<void> {
     });
     if (generated.type === "version") {
       await verifyGeneratedLaneWritePlan(process.cwd(), generated, pull.base.sha, pull.head.sha);
+      if (basePreState?.mode === "exit") {
+        if (!isStablePromotionMarker(generated)) {
+          throw new Error(
+            "exiting lane의 Version PR에는 exact stable promotion marker가 필요합니다.",
+          );
+        }
+        await assertDormantSibling(generated.lane);
+        await verifyStablePromotionProvenance({
+          repository: event.repository.full_name,
+          marker: generated,
+          versionPull: pull,
+          client,
+        });
+      } else if (isStablePromotionMarker(generated)) {
+        throw new Error("stable promotion Version PR의 base가 exact exit state가 아닙니다.");
+      }
+    }
+    if (generated.type === "prerelease" && isPrereleaseMarker(generated)) {
+      await assertDormantSibling(generated.lane);
+      if (generated.operation === "enter") {
+        const currentDevSha = await run(["git", "rev-parse", "origin/dev"]);
+        await assertDevStablePublishReconciled({
+          repository: event.repository.full_name,
+          currentDevSha,
+          client,
+        });
+      }
+      await verifyGeneratedPrereleasePlan(process.cwd(), generated, pull.base.sha, pull.head.sha);
+    }
+    if (generated.type === "baseline" && isBaselineMarker(generated)) {
+      await verifyBaselineReconciliation({
+        repositoryPath: process.cwd(),
+        repository: event.repository.full_name,
+        marker: generated,
+        baseSha: pull.base.sha,
+        headSha: pull.head.sha,
+        client,
+      });
     }
   }
   if (generated?.type === "sync") {
@@ -215,6 +310,12 @@ async function validatePr(values: Map<string, string>): Promise<void> {
     await verifyBootstrapReadiness();
   }
   const control = await releaseControlFromDev();
+  if (generated && isStablePromotionMarker(generated)) {
+    assertStablePromotionControlMode(control.mode);
+  }
+  if (generated?.type === "prerelease" && generated.operation === "exit") {
+    assertStablePromotionControlMode(control.mode);
+  }
   const proposedControl = activationOperation
     ? parseReleaseControl(
         JSON.parse(await run(["git", "show", `${pull.head.sha}:.github/release/control.json`])),
@@ -225,16 +326,18 @@ async function validatePr(values: Map<string, string>): Promise<void> {
         JSON.parse(await run(["git", "show", `${pull.head.sha}:.github/release/lanes.json`])),
       )
     : undefined;
-  assertLanePullAllowed({
-    lane,
-    marker: generated,
-    files,
-    control,
-    config,
-    proposedControl,
-    proposedConfig,
-    headSha: pull.head.sha,
-  });
+  if (generated?.type !== "prerelease" && generated?.type !== "baseline") {
+    assertLanePullAllowed({
+      lane,
+      marker: generated,
+      files,
+      control,
+      config,
+      proposedControl,
+      proposedConfig,
+      headSha: pull.head.sha,
+    });
+  }
   if (generated) {
     await writeSummary([
       "## 릴리즈 PR 검증",

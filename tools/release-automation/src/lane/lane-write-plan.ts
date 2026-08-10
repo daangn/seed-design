@@ -104,6 +104,14 @@ export interface LaneWritePlanIdentity {
   controlSha: string;
 }
 
+export function parseDeferredValidation(value: string | undefined): boolean {
+  const normalized = value ?? "false";
+  if (normalized !== "true" && normalized !== "false") {
+    throw new Error("RELEASE_PLAN_DEFER_VALIDATION은 true/false만 허용합니다.");
+  }
+  return normalized === "true";
+}
+
 function asRecord(value: unknown, label: string): Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     throw new Error(`${label}이 객체가 아닙니다.`);
@@ -1411,6 +1419,7 @@ async function writePlan(artifactPath: string): Promise<void> {
   const repositoryPath = process.cwd();
   const token = requiredEnvironment("GH_TOKEN");
   const repository = requiredEnvironment("GITHUB_REPOSITORY");
+  const deferValidation = parseDeferredValidation(process.env.RELEASE_PLAN_DEFER_VALIDATION);
   const { plan, patch } = await loadArtifact(artifactPath);
   await assertWritePlanEnvironment(plan);
   const environment = authenticatedEnvironment(token);
@@ -1470,7 +1479,7 @@ async function writePlan(artifactPath: string): Promise<void> {
     releases,
     expectedPullNumber,
   );
-  await dispatchValidation(repository, token, branch, headSha);
+  if (!deferValidation) await dispatchValidation(repository, token, branch, headSha);
   if (process.env.GITHUB_OUTPUT) {
     await appendFile(
       process.env.GITHUB_OUTPUT,

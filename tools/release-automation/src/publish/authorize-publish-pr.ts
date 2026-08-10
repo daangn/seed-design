@@ -16,6 +16,12 @@ import {
   validationRunIdFromStatus,
 } from "../core/validation-status";
 import type { LaneName, ReleaseMarker } from "../core/types";
+import { isStablePromotionMarker } from "../core/marker";
+import {
+  assertStablePromotionControlMode,
+  verifyStablePromotionProvenance,
+} from "../validation/stable-promotion";
+import { assertDevStablePublishReconciled } from "./baseline-reconciliation-state";
 
 interface PublishAuthorizationClient {
   request<T>(path: string): Promise<T>;
@@ -27,6 +33,38 @@ export interface VerifiedPublishPull {
   marker: ReleaseMarker;
   lane: LaneName;
   packagePaths: string[];
+  stablePromotion: boolean;
+}
+
+export function requiresStableBaselineReconciliation(
+  mode: "dry-run" | "production",
+  lane: LaneName,
+  stablePromotion: boolean,
+): boolean {
+  return mode === "production" && (lane === "dev" || stablePromotion);
+}
+
+async function assertCurrentSiblingDormant(lane: "minor" | "major"): Promise<void> {
+  const sibling = lane === "minor" ? "major" : "minor";
+  const fetch = Bun.spawn(
+    [
+      "git",
+      "fetch",
+      "--no-tags",
+      "origin",
+      `+refs/heads/${sibling}:refs/remotes/origin/${sibling}`,
+    ],
+    { stdout: "pipe", stderr: "pipe" },
+  );
+  if ((await fetch.exited) !== 0) throw new Error(`${sibling} sibling ref를 읽지 못했습니다.`);
+  const show = Bun.spawn(["git", "show", `origin/${sibling}:.changeset/pre.json`], {
+    stdout: "pipe",
+    stderr: "pipe",
+  });
+  await new Response(show.stdout).text();
+  if ((await show.exited) === 0) {
+    throw new Error(`stable promotion 전 sibling ${sibling} lane은 dormant여야 합니다.`);
+  }
 }
 
 export async function verifyPublishPullForAuthorization(options: {
@@ -63,6 +101,10 @@ export async function verifyPublishPullForAuthorization(options: {
     pull.merge_commit_sha,
   );
   if (!marker) throw new Error(`PR #${number}은 신뢰할 수 있는 Version Packages PR이 아닙니다.`);
+  const stablePromotion = isStablePromotionMarker(marker);
+  if (stablePromotion) {
+    await verifyStablePromotionProvenance({ repository, marker, versionPull: pull, client });
+  }
   const legacyRecovery = isTrustedLegacyPublishRecovery(
     identity,
     pull.head.sha,
@@ -97,7 +139,7 @@ export async function verifyPublishPullForAuthorization(options: {
       throw new Error(`PR #${number} validation status와 workflow run 결속이 올바르지 않습니다.`);
     }
   }
-  return { pull, marker, lane, packagePaths };
+  return { pull, marker, lane, packagePaths, stablePromotion };
 }
 
 async function main(): Promise<void> {
@@ -107,11 +149,9 @@ async function main(): Promise<void> {
   if (!token || !repository || !Number.isInteger(number)) {
     throw new Error("GitHub workflow 환경과 PR 번호가 필요합니다.");
   }
-  const { lane, marker, packagePaths, pull } = await verifyPublishPullForAuthorization({
-    repository,
-    number,
-    client: new GitHubClient(repository, token),
-  });
+  const client = new GitHubClient(repository, token);
+  const { lane, marker, packagePaths, pull, stablePromotion } =
+    await verifyPublishPullForAuthorization({ repository, number, client });
 
   const gitShow = Bun.spawn(["git", "show", "origin/dev:.github/release/control.json"], {
     stdout: "pipe",
@@ -121,6 +161,10 @@ async function main(): Promise<void> {
   if ((await gitShow.exited) !== 0) throw new Error("dev release control을 읽지 못했습니다.");
   const control = parseReleaseControl(JSON.parse(controlText));
   const mode = authorizePublish(marker, pull.merged_by?.login ?? "", lane, pull.head.ref, control);
+  if (stablePromotion) {
+    assertStablePromotionControlMode(mode);
+    await assertCurrentSiblingDormant(lane as "minor" | "major");
+  }
   const controlShaProcess = Bun.spawn(["git", "rev-parse", "HEAD"], {
     stdout: "pipe",
     stderr: "inherit",
@@ -128,6 +172,16 @@ async function main(): Promise<void> {
   const controlSha = (await new Response(controlShaProcess.stdout).text()).trim();
   if ((await controlShaProcess.exited) !== 0 || !/^[0-9a-f]{40}$/.test(controlSha)) {
     throw new Error("checkout한 trusted dev control SHA를 읽지 못했습니다.");
+  }
+  if (requiresStableBaselineReconciliation(mode, lane, stablePromotion)) {
+    await assertDevStablePublishReconciled({
+      repository,
+      currentDevSha: controlSha,
+      client,
+      allowedPendingStableMergeSha: stablePromotion
+        ? (pull.merge_commit_sha ?? undefined)
+        : undefined,
+    });
   }
 
   const outputPath = process.env.GITHUB_OUTPUT;
@@ -141,6 +195,7 @@ async function main(): Promise<void> {
         `controlSha=${controlSha}`,
         `packagePaths=${JSON.stringify(packagePaths)}`,
         `number=${pull.number}`,
+        `stablePromotion=${stablePromotion}`,
       ].join("\n")}\n`,
     );
   }

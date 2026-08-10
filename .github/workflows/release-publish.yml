@@ -81,6 +81,7 @@ jobs:
       control-sha: ${{ steps.authorize.outputs.controlSha }}
       package-paths: ${{ steps.authorize.outputs.packagePaths }}
       number: ${{ steps.authorize.outputs.number }}
+      stable-promotion: ${{ steps.authorize.outputs.stablePromotion }}
     steps:
       - name: Checkout trusted dev control plane
         uses: actions/checkout@v6
@@ -144,6 +145,7 @@ jobs:
           PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
           PUBLISH_PACKAGE_PATHS: ${{ needs.authorize.outputs.package-paths }}
           PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
+          PUBLISH_STABLE_PROMOTION: ${{ needs.authorize.outputs.stable-promotion }}
         run: bun tools/release-automation/src/publish/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
       - name: Pack strict package artifact
         working-directory: control
@@ -204,6 +206,7 @@ jobs:
           PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
           PUBLISH_PACKAGE_PATHS: ${{ needs.authorize.outputs.package-paths }}
           PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
+          PUBLISH_STABLE_PROMOTION: ${{ needs.authorize.outputs.stable-promotion }}
         run: bun tools/release-automation/src/publish/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
       - name: Reverify package artifact without registry writes
         env:
@@ -271,6 +274,7 @@ jobs:
           PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
           PUBLISH_PACKAGE_PATHS: ${{ needs.authorize.outputs.package-paths }}
           PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
+          PUBLISH_STABLE_PROMOTION: ${{ needs.authorize.outputs.stable-promotion }}
         run: bun tools/release-automation/src/publish/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
       - name: Reverify artifact and bind registry integrity
         id: artifact
@@ -439,9 +443,52 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh workflow run release-publish.yml
 
+  baseline-reconcile:
+    name: Create trusted dev baseline reconciliation
+    needs: [authorize, publish-npm, record]
+    if: >-
+      needs.record.result == 'success' &&
+      needs.authorize.outputs.mode == 'production' &&
+      needs.authorize.outputs.stable-promotion == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+      statuses: read
+    steps:
+      - name: Checkout immutable trusted dev control plane
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.authorize.outputs.control-sha }}
+          path: control
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Checkout exact stable promotion source as inert data
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.authorize.outputs.merge-sha }}
+          path: baseline-source
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Reverify receipt and create baseline reconciliation pull request
+        working-directory: control
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASELINE_STABLE_PR: ${{ needs.authorize.outputs.number }}
+          BASELINE_STABLE_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
+          BASELINE_PUBLISH_RUN_ID: ${{ github.run_id }}
+          BASELINE_CONTROL_SHA: ${{ needs.authorize.outputs.control-sha }}
+          BASELINE_SOURCE_PATH: ${{ github.workspace }}/baseline-source
+          BASELINE_PACKAGES: ${{ needs.publish-npm.outputs.packages }}
+        run: bun tools/release-automation/src/publish/create-baseline-reconciliation.ts
+
   notify-failure:
     name: Notify release failure
-    needs: [authorize, build-artifact, dry-run, publish-npm, tag-packages, publish-rootage, record]
+    needs: [authorize, build-artifact, dry-run, publish-npm, tag-packages, publish-rootage, record, baseline-reconcile]
     if: failure()
     runs-on: ubuntu-latest
     continue-on-error: true

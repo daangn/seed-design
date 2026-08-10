@@ -24,7 +24,11 @@ import {
   trustedPublishVersionMarker,
   trustedVersionMarker,
 } from "./publish-state";
-import { verifyPublishPullForAuthorization } from "./authorize-publish-pr";
+import {
+  requiresStableBaselineReconciliation,
+  verifyPublishPullForAuthorization,
+} from "./authorize-publish-pr";
+import { assertStablePromotionControlMode } from "../validation/stable-promotion";
 import { packagesFromAuthorizedPullFiles } from "./publish-plan";
 import { trustedPublishQueuePulls } from "./publish-queue";
 import {
@@ -302,6 +306,24 @@ describe("publish queue 신뢰 경계", () => {
     ];
     expect(isPublishStatusBoundToRun(status, run, jobs, repository, mergeSha)).toBe(true);
     expect(
+      isPublishStatusBoundToRun(
+        status,
+        { ...run, event: "pull_request_target", head_branch: "changeset-release/minor" },
+        jobs,
+        repository,
+        mergeSha,
+      ),
+    ).toBe(true);
+    expect(
+      isPublishStatusBoundToRun(
+        status,
+        { ...run, event: "pull_request_target", head_branch: "minor" },
+        jobs,
+        repository,
+        mergeSha,
+      ),
+    ).toBe(false);
+    expect(
       isPublishStatusBoundToRun(status, { ...run, event: "push" }, jobs, repository, mergeSha),
     ).toBe(false);
     expect(
@@ -361,6 +383,18 @@ describe("publish queue 신뢰 경계", () => {
 });
 
 describe("publish authorization validation receipt", () => {
+  test("stable promotion은 production mode에서만 승인한다", () => {
+    expect(() => assertStablePromotionControlMode("production")).not.toThrow();
+    expect(() => assertStablePromotionControlMode("dry-run")).toThrow("production mode");
+  });
+
+  test("dev publish와 다음 stable promotion은 이전 stable baseline 정렬을 요구한다", () => {
+    expect(requiresStableBaselineReconciliation("production", "dev", false)).toBe(true);
+    expect(requiresStableBaselineReconciliation("production", "major", true)).toBe(true);
+    expect(requiresStableBaselineReconciliation("production", "minor", false)).toBe(false);
+    expect(requiresStableBaselineReconciliation("dry-run", "dev", false)).toBe(false);
+  });
+
   const headSha = "b".repeat(40);
   const controlSha = "c".repeat(40);
   const approvedMergeSha = "d".repeat(40);

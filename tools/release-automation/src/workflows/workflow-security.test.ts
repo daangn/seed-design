@@ -49,12 +49,21 @@ async function workflow(path: string): Promise<Workflow> {
 
 describe("릴리즈 workflow 권한 경계", () => {
   test("PR 검증은 exact head status 외에는 read-only다", async () => {
-    const validation = await workflow(".github/workflows/release-pr-validation.yml");
+    const [validation, validator, reconciliationGate] = await Promise.all([
+      workflow(".github/workflows/release-pr-validation.yml"),
+      readFile("tools/release-automation/src/validation/generated-pr-validation.ts", "utf8"),
+      readFile("tools/release-automation/src/publish/baseline-reconciliation-state.ts", "utf8"),
+    ]);
     expect(validation.permissions).toEqual({ contents: "read" });
     expect(validation.jobs.validate.permissions).toEqual({
+      actions: "read",
       contents: "read",
       "pull-requests": "read",
+      statuses: "read",
     });
+    expect(validator).toContain("assertDevStablePublishReconciled");
+    expect(reconciliationGate).toContain("/statuses");
+    expect(reconciliationGate).toContain("/actions/runs/${validationRunId}");
     expect(validation.jobs["mark-pending"].permissions).toEqual({ statuses: "write" });
     expect(validation.jobs["record-result"].permissions).toEqual({ statuses: "write" });
     expect(
@@ -113,8 +122,10 @@ describe("릴리즈 workflow 권한 경계", () => {
       "Run release lane validation without write credentials",
     );
     expect(job.permissions).toEqual({
+      actions: "read",
       contents: "read",
       "pull-requests": "read",
+      statuses: "read",
     });
     expect(trustedCheckout?.with).toMatchObject({
       ref: "dev",
@@ -254,8 +265,12 @@ describe("릴리즈 workflow 권한 경계", () => {
   });
 
   test("Version Packages는 dev trust root에서 lane별 tokenless plan만 생성한다", async () => {
-    const version = await workflow(".github/workflows/release-packages.yml");
-    const raw = await readFile(".github/workflows/release-packages.yml", "utf8");
+    const [version, raw, prereleaseWriter, reconciliationGate] = await Promise.all([
+      workflow(".github/workflows/release-packages.yml"),
+      readFile(".github/workflows/release-packages.yml", "utf8"),
+      readFile("tools/release-automation/src/lane/prerelease-write-plan.ts", "utf8"),
+      readFile("tools/release-automation/src/publish/baseline-reconciliation-state.ts", "utf8"),
+    ]);
     const triggers = version.on as
       | {
           push?: { branches?: string[] };
@@ -263,6 +278,13 @@ describe("릴리즈 workflow 권한 경계", () => {
           schedule?: Array<{ cron?: string }>;
           workflow_dispatch?: {
             inputs?: {
+              operation?: {
+                description?: string;
+                required?: boolean;
+                default?: string;
+                options?: string[];
+                type?: string;
+              };
               lane?: {
                 description?: string;
                 required?: boolean;
@@ -277,6 +299,10 @@ describe("릴리즈 workflow 권한 경계", () => {
     const select = version.jobs["select-lanes"];
     const plan = version.jobs.plan;
     const write = version.jobs.write;
+    expect(version.concurrency).toEqual({
+      group: "release-version-global-operation",
+      "cancel-in-progress": false,
+    });
     const planCheckout = plan.steps?.find(
       (step) => step.name === "Checkout exact lane without credentials",
     );
@@ -310,17 +336,35 @@ describe("릴리즈 workflow 권한 경계", () => {
     });
     expect(triggers?.schedule?.length).toBeGreaterThan(0);
     expect(triggers?.workflow_dispatch?.inputs?.lane).toEqual({
-      description: "Release lane to catch up",
+      description: "Release lane to operate",
       required: true,
       default: "all",
       type: "choice",
       options: ["all", "dev", "minor", "major"],
     });
+    expect(triggers?.workflow_dispatch?.inputs?.operation).toEqual({
+      description: "Version packages or change prerelease state",
+      required: true,
+      default: "version",
+      type: "choice",
+      options: ["version", "enter", "exit"],
+    });
     expect(select.if).toContain("github.event_name == 'workflow_dispatch'");
     expect(select.if).toContain("github.ref == 'refs/heads/dev'");
     expect(select.if).toContain("github.event.pull_request.merged == true");
     const selection = select.steps?.find((step) => step.name === "Select exact current lane heads");
-    expect(selection?.run).toContain('minor|major) SELECTED_LANES="$PR_BASE_REF"');
+    expect(select.permissions).toEqual({
+      actions: "read",
+      contents: "read",
+      "pull-requests": "read",
+      statuses: "read",
+    });
+    expect(selection?.run).toBe("bun tools/release-automation/src/validation/release-selection.ts");
+    expect(selection?.env).toMatchObject({
+      GH_TOKEN: ["$", "{{ secrets.GITHUB_TOKEN }}"].join(""),
+      REQUESTED_OPERATION: ["$", "{{ inputs.operation || 'version' }}"].join(""),
+      RELEASE_OPERATION_ID: ["$", "{{ github.run_id }}"].join(""),
+    });
 
     expect(plan.permissions).toEqual({ contents: "read" });
     expect(plan.if).toContain("github.event.pull_request.merged == true");
@@ -344,7 +388,7 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(planCommand?.run).toContain("create-version /tmp/seed-release-plan");
     expect(planCommand?.env).not.toHaveProperty("GH_TOKEN");
     expect(upload?.with).toMatchObject({
-      name: ["release-version-plan-$", "{{ matrix.lane }}"].join(""),
+      name: ["release-$", "{{ matrix.kind }}-plan-$", "{{ matrix.lane }}"].join(""),
       path: "/tmp/seed-release-plan",
     });
 
@@ -362,7 +406,10 @@ describe("릴리즈 workflow 권한 경계", () => {
       contents: "write",
       issues: "write",
       "pull-requests": "write",
+      statuses: "read",
     });
+    expect(prereleaseWriter).toContain("assertDevStablePublishReconciled");
+    expect(reconciliationGate).toContain("/statuses");
     expect(writerCheckout?.with).toMatchObject({
       ref: "dev",
       "persist-credentials": false,
@@ -379,7 +426,7 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(trustedChangesetsInstall?.run).toBe("bun install --frozen-lockfile --ignore-scripts");
     expect(trustedChangesetsInstall?.env).not.toHaveProperty("GH_TOKEN");
     expect(download?.with).toMatchObject({
-      name: ["release-version-plan-$", "{{ matrix.lane }}"].join(""),
+      name: ["release-$", "{{ matrix.kind }}-plan-$", "{{ matrix.lane }}"].join(""),
       path: "/tmp/seed-release-plan",
     });
     expect(writerCommand?.run).toBe(
@@ -393,7 +440,30 @@ describe("릴리즈 workflow 권한 경계", () => {
       [...(select.steps ?? []), ...(plan.steps ?? []), ...(write.steps ?? [])]
         .filter((step) => step.env?.GH_TOKEN)
         .map((step) => step.name),
-    ).toEqual(["Write Version Packages pull request"]);
+    ).toEqual([
+      "Select exact current lane heads",
+      "Write Version Packages pull request",
+      "Bind Stable Version PR to exact Exit Intent merge",
+      "Write prerelease state pull request",
+    ]);
+    const prereleasePlan = plan.steps?.find(
+      (step) => step.name === "Create immutable prerelease write plan",
+    );
+    const prereleaseWrite = write.steps?.find(
+      (step) => step.name === "Write prerelease state pull request",
+    );
+    const stableBinder = write.steps?.find(
+      (step) => step.name === "Bind Stable Version PR to exact Exit Intent merge",
+    );
+    expect(prereleasePlan?.run).toContain("create-prerelease /tmp/seed-release-plan");
+    expect(prereleasePlan?.env).not.toHaveProperty("GH_TOKEN");
+    expect(prereleaseWrite?.run).toContain("write-prerelease /tmp/seed-release-plan");
+    expect(stableBinder?.if).toBe("matrix.release_kind == 'stable-promotion'");
+    expect(stableBinder?.env).toMatchObject({
+      RELEASE_PROMOTION_EXIT_PR: ["$", "{{ matrix.exit_pr }}"].join(""),
+      RELEASE_PROMOTION_EXIT_MERGE_SHA: ["$", "{{ matrix.exit_merge_sha }}"].join(""),
+      RELEASE_VERSION_HEAD_SHA: ["$", "{{ steps.write-version.outputs.headSha }}"].join(""),
+    });
     expect(raw).not.toContain("changesets/action");
   });
 
@@ -434,9 +504,7 @@ describe("릴리즈 workflow 권한 경계", () => {
     const dryPlan = dryRun.steps?.find(
       (step) => step.name === "Independently re-plan exact approved packages",
     );
-    const dryDownload = dryRun.steps?.find(
-      (step) => step.name === "Download package artifact",
-    );
+    const dryDownload = dryRun.steps?.find((step) => step.name === "Download package artifact");
     const dryVerify = dryRun.steps?.find(
       (step) => step.name === "Reverify package artifact without registry writes",
     );
@@ -449,9 +517,7 @@ describe("릴리즈 workflow 권한 경계", () => {
     const oidcSource = oidc.steps?.find(
       (step) => step.name === "Checkout exact merge as inert gitHead root",
     );
-    const oidcDownload = oidc.steps?.find(
-      (step) => step.name === "Download package artifact",
-    );
+    const oidcDownload = oidc.steps?.find((step) => step.name === "Download package artifact");
     const publishArtifact = oidc.steps?.find(
       (step) => step.name === "Reverify and publish only sanitized missing packages",
     );
@@ -483,6 +549,9 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(authorize.outputs?.["control-sha"]).toBe(
       ["$", "{{ steps.authorize.outputs.controlSha }}"].join(""),
     );
+    expect(authorize.outputs?.["stable-promotion"]).toBe(
+      ["$", "{{ steps.authorize.outputs.stablePromotion }}"].join(""),
+    );
     expect(authorize.permissions).toMatchObject({ actions: "read", statuses: "read" });
     expect(build.permissions).toEqual({ contents: "read" });
     expect(buildControl?.with).toMatchObject({
@@ -505,6 +574,15 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(buildPlan?.env?.PUBLISH_REPOSITORY_PATH).toBe(
       ["$", "{{ github.workspace }}/source"].join(""),
     );
+    for (const plan of [
+      buildPlan,
+      dryPlan,
+      oidc.steps?.find((step) => step.name === "Independently re-plan exact approved packages"),
+    ]) {
+      expect(plan?.env?.PUBLISH_STABLE_PROMOTION).toBe(
+        ["$", "{{ needs.authorize.outputs.stable-promotion }}"].join(""),
+      );
+    }
     expect(dryPlan?.env?.PUBLISH_PACKAGE_PATHS).toBe(
       ["$", "{{ needs.authorize.outputs.package-paths }}"].join(""),
     );
@@ -632,6 +710,7 @@ describe("릴리즈 workflow 권한 경계", () => {
     );
 
     expect(record.permissions).toMatchObject({
+      contents: "read",
       issues: "write",
       "pull-requests": "write",
       statuses: "write",
@@ -654,6 +733,59 @@ describe("릴리즈 workflow 권한 경계", () => {
     expect(checkpoint?.run).toContain(["statuses/", "$", "{PUBLISH_MERGE_SHA}"].join(""));
     expect(comment?.["continue-on-error"]).toBe(true);
     expect(publish.jobs["notify-failure"].needs).toContain("record");
+  });
+
+  test("baseline reconciliation은 completed record 뒤 최소 권한 trusted dev job에서만 실행한다", async () => {
+    const publish = await workflow(".github/workflows/release-publish.yml");
+    const job = publish.jobs["baseline-reconcile"];
+    expect(job.needs).toEqual(["authorize", "publish-npm", "record"]);
+    expect(job.if).toContain("needs.record.result == 'success'");
+    expect(job.if).toContain("needs.authorize.outputs.mode == 'production'");
+    expect(job.if).toContain("needs.authorize.outputs.stable-promotion == 'true'");
+    expect(job.permissions).toEqual({
+      actions: "write",
+      contents: "write",
+      "pull-requests": "write",
+      statuses: "read",
+    });
+    expect(job.environment).toBeUndefined();
+    expect((job as WorkflowJob & { secrets?: unknown }).secrets).toBeUndefined();
+    expect((job.permissions as Record<string, string>)["id-token"]).toBeUndefined();
+
+    const checkouts = (job.steps ?? []).filter((step) =>
+      step.uses?.startsWith("actions/checkout@"),
+    );
+    expect(checkouts).toHaveLength(2);
+    expect(checkouts[0]?.with).toMatchObject({
+      ref: ["$", "{{ needs.authorize.outputs.control-sha }}"].join(""),
+      path: "control",
+      "persist-credentials": false,
+    });
+    expect(checkouts[1]?.with).toMatchObject({
+      ref: ["$", "{{ needs.authorize.outputs.merge-sha }}"].join(""),
+      path: "baseline-source",
+      "persist-credentials": false,
+    });
+    const writer = (job.steps ?? []).find(
+      (step) => step.name === "Reverify receipt and create baseline reconciliation pull request",
+    );
+    expect(writer?.["working-directory"]).toBe("control");
+    expect(writer?.env).toMatchObject({
+      GH_TOKEN: ["$", "{{ secrets.GITHUB_TOKEN }}"].join(""),
+      BASELINE_PUBLISH_RUN_ID: ["$", "{{ github.run_id }}"].join(""),
+      BASELINE_CONTROL_SHA: ["$", "{{ needs.authorize.outputs.control-sha }}"].join(""),
+      BASELINE_STABLE_MERGE_SHA: ["$", "{{ needs.authorize.outputs.merge-sha }}"].join(""),
+    });
+    expect((job.steps ?? []).filter((step) => step.env?.GH_TOKEN).map((step) => step.name)).toEqual(
+      ["Reverify receipt and create baseline reconciliation pull request"],
+    );
+    const creator = await readFile(
+      "tools/release-automation/src/publish/create-baseline-reconciliation.ts",
+      "utf8",
+    );
+    expect(creator).toContain("actions/workflows/release-pr-validation.yml/dispatches");
+    expect(creator).toContain("inputs: { head_ref: branch, head_sha: headSha }");
+    expect(publish.jobs["notify-failure"].needs).toContain("baseline-reconcile");
   });
 
   test("publish queue는 신뢰된 Version Packages merge만 PR 이벤트로 처리한다", async () => {

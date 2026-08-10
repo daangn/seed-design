@@ -37,6 +37,7 @@ export interface PublishWorkflowRun {
   status: string;
   conclusion: string | null;
   head_branch: string | null;
+  head_sha?: string;
   repository: { full_name: string };
 }
 
@@ -279,7 +280,9 @@ export function isPublishStatusBoundToRun(
     run.event === "workflow_dispatch" || run.event === "schedule"
       ? run.head_branch === "dev"
       : run.event === "pull_request_target" &&
-        (run.head_branch === "dev" || run.head_branch === "minor" || run.head_branch === "major");
+        (run.head_branch === "changeset-release/dev" ||
+          run.head_branch === "changeset-release/minor" ||
+          run.head_branch === "changeset-release/major");
   return (
     isTrustedPublishStatus(status, mergeSha) &&
     publishRunIdFromStatus(status, repository) === run.id &&
@@ -332,6 +335,110 @@ export async function hasBoundPublishReceipt(
     }
   }
   return false;
+}
+
+export async function hasBoundPublishReceiptForRun(
+  client: PublishReceiptClient,
+  repository: string,
+  mergeSha: string,
+  runId: number,
+  requiredMode: PublishMode,
+): Promise<boolean> {
+  if (!gitShaPattern.test(mergeSha) || !Number.isSafeInteger(runId) || runId <= 0) return false;
+  const statuses = await client.paginate<PublishCommitStatus>(
+    `/repos/${repository}/commits/${mergeSha}/statuses`,
+  );
+  const status = statuses.find(
+    (candidate) =>
+      candidate.description === `seed-release-publish:${mergeSha}:${requiredMode}` &&
+      publishRunIdFromStatus(candidate, repository) === runId,
+  );
+  if (!status) return false;
+  try {
+    const [run, jobs] = await Promise.all([
+      client.request<PublishWorkflowRun>(`/repos/${repository}/actions/runs/${runId}`),
+      client.paginate<PublishWorkflowJob>(
+        `/repos/${repository}/actions/runs/${runId}/jobs?filter=all`,
+      ),
+    ]);
+    return isPublishStatusBoundToRun(status, run, jobs, repository, mergeSha);
+  } catch {
+    return false;
+  }
+}
+
+export function isPublishReceiptReadyForBaseline(
+  status: PublishCommitStatus,
+  run: PublishWorkflowRun,
+  jobs: PublishWorkflowJob[],
+  repository: string,
+  mergeSha: string,
+  runId: number,
+  expectedLane: "minor" | "major",
+  expectedHeadSha: string,
+): boolean {
+  const trustedBranch =
+    run.event === "workflow_dispatch" || run.event === "schedule"
+      ? run.head_branch === "dev"
+      : run.event === "pull_request_target" &&
+        run.head_branch === `changeset-release/${expectedLane}` &&
+        run.head_sha === expectedHeadSha;
+  return (
+    isTrustedPublishStatus(status, mergeSha) &&
+    status.description === `seed-release-publish:${mergeSha}:production` &&
+    publishRunIdFromStatus(status, repository) === runId &&
+    run.id === runId &&
+    run.name === "Release publish" &&
+    run.path === ".github/workflows/release-publish.yml" &&
+    (run.status === "in_progress" || run.status === "completed") &&
+    (run.conclusion === null || run.conclusion === "success") &&
+    run.repository.full_name === repository &&
+    trustedBranch &&
+    jobs.some(
+      (job) =>
+        job.run_id === runId &&
+        job.name === `Record successful queue item ${mergeSha}` &&
+        job.status === "completed" &&
+        job.conclusion === "success",
+    )
+  );
+}
+
+export async function hasPublishReceiptReadyForBaseline(
+  client: PublishReceiptClient,
+  repository: string,
+  mergeSha: string,
+  runId: number,
+  expectedLane: "minor" | "major",
+  expectedHeadSha: string,
+): Promise<boolean> {
+  if (
+    !gitShaPattern.test(mergeSha) ||
+    !gitShaPattern.test(expectedHeadSha) ||
+    !Number.isSafeInteger(runId) ||
+    runId <= 0
+  ) {
+    return false;
+  }
+  const [statuses, run, jobs] = await Promise.all([
+    client.paginate<PublishCommitStatus>(`/repos/${repository}/commits/${mergeSha}/statuses`),
+    client.request<PublishWorkflowRun>(`/repos/${repository}/actions/runs/${runId}`),
+    client.paginate<PublishWorkflowJob>(
+      `/repos/${repository}/actions/runs/${runId}/jobs?filter=all`,
+    ),
+  ]);
+  return statuses.some((status) =>
+    isPublishReceiptReadyForBaseline(
+      status,
+      run,
+      jobs,
+      repository,
+      mergeSha,
+      runId,
+      expectedLane,
+      expectedHeadSha,
+    ),
+  );
 }
 
 export function parsePublishPackages(value: string): PublishPackage[] {

@@ -39,6 +39,7 @@ function validatePrereleaseTag(tag: string, protectedTags: string[]): string {
 export function assertPublishLanePackageContract(
   lane: LaneName,
   packages: Array<{ name: string; version: string }>,
+  stablePromotion = false,
 ): void {
   const stable = packages.filter((item) => parseSemver(item.version).prerelease.length === 0);
   const prerelease = packages.filter((item) => parseSemver(item.version).prerelease.length > 0);
@@ -47,7 +48,10 @@ export function assertPublishLanePackageContract(
       `dev에서 pre-release package를 게시할 수 없습니다: ${prerelease.map((item) => item.name).join(", ")}`,
     );
   }
-  if (lane !== "dev" && stable.length > 0) {
+  if (stablePromotion && (lane === "dev" || stable.length === 0 || prerelease.length > 0)) {
+    throw new Error("stable promotion은 non-dev lane의 stable package만 게시할 수 있습니다.");
+  }
+  if (lane !== "dev" && stable.length > 0 && !stablePromotion) {
     throw new Error(
       `${lane} pre-release 레인에서 stable package를 게시할 수 없습니다: ${stable.map((item) => item.name).join(", ")}`,
     );
@@ -139,9 +143,14 @@ async function main(): Promise<void> {
   const mergeSha = process.env.PUBLISH_MERGE_SHA ?? "";
   const repositoryPath = process.env.PUBLISH_REPOSITORY_PATH ?? process.cwd();
   const packagePaths = parseAuthorizedPackageManifestPaths(process.env.PUBLISH_PACKAGE_PATHS ?? "");
+  const stablePromotionText = process.env.PUBLISH_STABLE_PROMOTION ?? "false";
+  if (stablePromotionText !== "true" && stablePromotionText !== "false") {
+    throw new Error("PUBLISH_STABLE_PROMOTION이 exact boolean이 아닙니다.");
+  }
+  const stablePromotion = stablePromotionText === "true";
 
   const packages = await packagesFromAuthorizedPullFiles(packagePaths, mergeSha, repositoryPath);
-  assertPublishLanePackageContract(lane, packages);
+  assertPublishLanePackageContract(lane, packages, stablePromotion);
   const registryEntries = await Promise.all(
     packages.map(async (item) => [item.name, await registryDocument(item.name)] as const),
   );

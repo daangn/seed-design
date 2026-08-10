@@ -52,8 +52,10 @@ jobs:
     if: needs.mark-pending.result == 'success'
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       contents: read
       pull-requests: read
+      statuses: read
     env:
       VALIDATION_HEAD_REF: ${{ inputs.head_ref || github.event.pull_request.head.ref }}
       VALIDATION_HEAD_SHA: ${{ inputs.head_sha || github.event.pull_request.head.sha }}

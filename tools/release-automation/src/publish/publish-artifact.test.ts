@@ -531,7 +531,7 @@ describe("publish runtime policy", () => {
     ).toThrow("보호");
   });
 
-  test("dev stable과 non-dev prerelease만 허용한다", () => {
+  test("dev stable, non-dev prerelease, exact stable promotion만 허용한다", () => {
     expect(() =>
       assertPublishLanePackageContract("dev", [{ name: "a", version: "1.0.0" }]),
     ).not.toThrow();
@@ -544,6 +544,18 @@ describe("publish runtime policy", () => {
     expect(() =>
       assertPublishLanePackageContract("major", [{ name: "a", version: "2.0.0" }]),
     ).toThrow("stable package");
+    expect(() =>
+      assertPublishLanePackageContract("minor", [{ name: "a", version: "1.0.0" }], true),
+    ).not.toThrow();
+    expect(() =>
+      assertPublishLanePackageContract("major", [{ name: "a", version: "2.0.0" }], true),
+    ).not.toThrow();
+    expect(() =>
+      assertPublishLanePackageContract("minor", [{ name: "a", version: "1.0.0-beta.1" }], true),
+    ).toThrow("stable promotion");
+    expect(() =>
+      assertPublishLanePackageContract("dev", [{ name: "a", version: "1.0.0" }], true),
+    ).toThrow("stable promotion");
     expect(() =>
       assertPublishLanePackageContract("dev", [{ name: "a", version: "1.0.0-beta.1" }]),
     ).toThrow("pre-release package");

@@ -1,6 +1,15 @@
 export const laneNames = ["dev", "minor", "major"] as const;
 export const bumpTypes = ["patch", "minor", "major"] as const;
-export const generatedPrTypes = ["version", "sync", "activation", "bootstrap"] as const;
+export const generatedPrTypes = [
+  "version",
+  "sync",
+  "activation",
+  "bootstrap",
+  "prerelease",
+  "baseline",
+] as const;
+export const prereleaseOperations = ["enter", "exit"] as const;
+export const versionReleaseKinds = ["stable-promotion"] as const;
 export const activationOperations = [
   "enable-rootage-contract",
   "enable-sync",
@@ -12,9 +21,15 @@ export type LaneName = (typeof laneNames)[number];
 export type BumpType = (typeof bumpTypes)[number];
 export type GeneratedPrType = (typeof generatedPrTypes)[number];
 export type ActivationOperation = (typeof activationOperations)[number];
+export type PrereleaseOperation = (typeof prereleaseOperations)[number];
+export type VersionReleaseKind = (typeof versionReleaseKinds)[number];
 
 export function isActivationOperation(value: unknown): value is ActivationOperation {
   return typeof value === "string" && (activationOperations as readonly string[]).includes(value);
+}
+
+export function isPrereleaseOperation(value: unknown): value is PrereleaseOperation {
+  return typeof value === "string" && (prereleaseOperations as readonly string[]).includes(value);
 }
 
 export interface LaneDefinition {
@@ -57,6 +72,16 @@ export interface ReleaseMarker {
   controlSha?: string;
   controlTreeSha256?: string;
   tag?: string;
+  operation?: PrereleaseOperation;
+  operationId?: string;
+  expectedBaseSha?: string;
+  releaseKind?: VersionReleaseKind;
+  exitPr?: number;
+  exitMergeSha?: string;
+  stablePr?: number;
+  stableMergeSha?: string;
+  publishRunId?: number;
+  versionsSha256?: string;
 }
 
 export interface PullRequestIdentity {
