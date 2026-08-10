@@ -1,4 +1,5 @@
 import { manifestKey, parseManifest, parsePointer, POINTER_KEY, sha256 } from "./contract";
+import { ROOTAGE_WORKER_VERSION_HEADER } from "./deployment-metadata";
 import { parseRootagePath, type RootageRoute } from "./request-path";
 
 interface R2ObjectBody {
@@ -15,8 +16,15 @@ interface AnalyticsLike {
   writeDataPoint(point: { blobs: string[]; doubles: number[]; indexes: string[] }): void;
 }
 
+interface WorkerVersionMetadataLike {
+  id: string;
+  tag: string;
+  timestamp: string;
+}
+
 export interface WorkerEnv {
   ROOTAGE_BUCKET: R2BucketLike;
+  CF_VERSION_METADATA: WorkerVersionMetadataLike;
   ROOTAGE_ANALYTICS?: AnalyticsLike;
   ROOTAGE_ENVIRONMENT?: string;
 }
@@ -108,6 +116,7 @@ export async function handleRequest(request: Request, env: WorkerEnv): Promise<R
       "content-type": JSON_TYPE,
       "cache-control": cacheControl(route),
       etag,
+      [ROOTAGE_WORKER_VERSION_HEADER]: env.CF_VERSION_METADATA.id,
     };
     if (request.headers.get("if-none-match") === etag) {
       const result = response(304, null, headers);
@@ -128,7 +137,13 @@ export async function handleRequest(request: Request, env: WorkerEnv): Promise<R
       record(env, route, result.status);
       return result;
     }
-    const result = response(200, object.body, { ...headers, "content-length": String(file.bytes) });
+    const bytes = new Uint8Array(await object.arrayBuffer());
+    if (bytes.byteLength !== file.bytes || (await sha256(bytes)) !== file.sha256) {
+      const result = response(503);
+      record(env, route, result.status);
+      return result;
+    }
+    const result = response(200, bytes, { ...headers, "content-length": String(file.bytes) });
     record(env, route, result.status);
     return result;
   } catch {

@@ -2,7 +2,7 @@ name: Release Version PR
 
 on:
   push:
-    branches: [dev, minor, major]
+    branches: [dev]
     paths:
       - "packages/**"
       - "docs/**"
@@ -10,89 +10,257 @@ on:
       - ".github/release/**"
       - ".github/workflows/release-packages.yml"
       - ".github/actions/setup/action.yml"
-      - "scripts/release/**"
+      - "tools/release-automation/**"
+  pull_request_target:
+    branches: [minor, major]
+    types: [closed]
+  schedule:
+    - cron: "17 * * * *"
   workflow_dispatch:
+    inputs:
+      operation:
+        description: "Version packages or change prerelease state"
+        required: true
+        default: version
+        type: choice
+        options: [version, enter, exit]
+      lane:
+        description: "Release lane to operate"
+        required: true
+        default: all
+        type: choice
+        options: [all, dev, minor, major]
 
 concurrency:
-  group: release-version-${{ github.ref_name }}
+  group: release-version-global-operation
   cancel-in-progress: false
 
 jobs:
-  version:
-    name: Update Version Packages PR
-    if: contains(fromJSON('["dev", "minor", "major"]'), github.ref_name)
+  select-lanes:
+    name: Snapshot release lane heads
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/dev') ||
+      (github.event_name == 'schedule' && github.ref == 'refs/heads/dev') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev') ||
+      (github.event_name == 'pull_request_target' &&
+       github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     permissions:
+      actions: read
+      contents: read
+      pull-requests: read
+      statuses: read
+    outputs:
+      control_sha: ${{ steps.select.outputs.control_sha }}
+      matrix: ${{ steps.select.outputs.matrix }}
+
+    steps:
+      - name: Checkout trusted dev workflow
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Select exact current lane heads
+        id: select
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_LANE: ${{ inputs.lane || 'all' }}
+          REQUESTED_OPERATION: ${{ inputs.operation || 'version' }}
+          RELEASE_OPERATION_ID: ${{ github.run_id }}
+        run: bun tools/release-automation/src/validation/release-selection.ts
+
+  plan:
+    name: Plan ${{ matrix.lane }} Version Packages PR
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      github.event.pull_request.merged == true
+    needs: select-lanes
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.select-lanes.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      BUN_INSTALL_CACHE_DIR: /tmp/seed-release-bun-cache-${{ matrix.lane }}-${{ github.run_id }}
+
+    steps:
+      - name: Checkout exact lane without credentials
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ matrix.base_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Bind checkout to selected lane head
+        env:
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+        run: test "$(git rev-parse HEAD)" = "$RELEASE_PLAN_BASE_SHA"
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Install lane dependencies without shared cache
+        run: |
+          bun install --frozen-lockfile
+          bun ecosystem:build
+          bun install --frozen-lockfile
+
+      - name: Apply package versions without write credentials
+        if: matrix.kind == 'version'
+        run: bun tools/release-automation/src/lane/version.ts
+
+      - name: Apply prerelease state without write credentials
+        if: matrix.kind == 'prerelease'
+        env:
+          PRERELEASE_OPERATION: ${{ matrix.operation }}
+        run: |
+          case "$PRERELEASE_OPERATION" in
+            enter) bun changeset pre enter beta ;;
+            exit) bun changeset pre exit ;;
+            *) echo "Unsupported prerelease operation: $PRERELEASE_OPERATION" >&2; exit 1 ;;
+          esac
+
+      - name: Checkout trusted dev plan helper
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.select-lanes.outputs.control_sha }}
+          path: .release-control
+          persist-credentials: false
+
+      - name: Create immutable Version Packages write plan
+        if: matrix.kind == 'version'
+        env:
+          RELEASE_PLAN_LANE: ${{ matrix.lane }}
+          RELEASE_PLAN_COMMAND: version
+          RELEASE_PLAN_TAG: ""
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+          RELEASE_PLAN_RUN_ID: ${{ github.run_id }}
+        run: |
+          echo '/.release-control/' >> .git/info/exclude
+          bun "$GITHUB_WORKSPACE/.release-control/tools/release-automation/src/lane/lane-write-plan.ts" create-version /tmp/seed-release-plan
+
+      - name: Create immutable prerelease write plan
+        if: matrix.kind == 'prerelease'
+        env:
+          RELEASE_PLAN_LANE: ${{ matrix.lane }}
+          RELEASE_PLAN_OPERATION: ${{ matrix.operation }}
+          RELEASE_PLAN_OPERATION_ID: ${{ matrix.operation_id }}
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+        run: |
+          echo '/.release-control/' >> .git/info/exclude
+          bun "$GITHUB_WORKSPACE/.release-control/tools/release-automation/src/lane/prerelease-write-plan.ts" create-prerelease /tmp/seed-release-plan
+
+      - name: Upload immutable Version Packages write plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.kind }}-plan-${{ matrix.lane }}
+          path: /tmp/seed-release-plan
+          if-no-files-found: error
+          retention-days: 1
+
+  write:
+    name: Write ${{ matrix.lane }} Version Packages PR
+    if: >-
+      always() &&
+      needs.select-lanes.result == 'success' &&
+      (
+        github.event_name != 'pull_request_target' ||
+        github.event.pull_request.merged == true
+      )
+    needs: [select-lanes, plan]
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.select-lanes.outputs.matrix) }}
+    concurrency:
+      group: release-version-write-${{ matrix.lane }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
       contents: write
       issues: write
       pull-requests: write
+      statuses: write
+    env:
+      BUN_INSTALL_CACHE_DIR: /tmp/seed-release-trusted-bun-cache-${{ matrix.lane }}-${{ github.run_id }}
 
     steps:
-      - name: Checkout lane
+      - name: Checkout trusted dev writer
         uses: actions/checkout@v6
         with:
+          ref: dev
           fetch-depth: 0
+          persist-credentials: false
 
-      - uses: ./.github/actions/setup
-
-      - name: Create or update Version Packages PR
-        id: version
-        uses: changesets/action@3841a0683d3cfa6dae0f9bb335290003010fe3f0 # v1.9.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: bun scripts/release/version.ts
-          commit: "chore(release): version packages"
-          title: "release: version packages"
-          branch: ${{ github.ref_name }}
-
-      - name: Mark trusted Version Packages PR
-        if: steps.version.outputs.pullRequestNumber
-        uses: actions/github-script@v9
+      - name: Bind writer to planned dev control SHA
         env:
-          PR_NUMBER: ${{ steps.version.outputs.pullRequestNumber }}
-          LANE: ${{ github.ref_name }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+        run: test "$(git rev-parse HEAD)" = "$RELEASE_PLAN_CONTROL_SHA"
+
+      - uses: oven-sh/setup-bun@v2
         with:
-          script: |
-            const { stdout } = await exec.getExecOutput("bun", [
-              "scripts/release/cli.ts",
-              "marker",
-              "--type", "version",
-              "--lane", process.env.LANE,
-            ]);
-            const marker = stdout.trim();
-            const pull = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: Number(process.env.PR_NUMBER),
-            });
-            const bodyWithoutOldMarker = (pull.data.body ?? "").replace(
-              /<!-- seed-release:\{[^\n]+\} -->\n*/g,
-              "",
-            );
-            await github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: Number(process.env.PR_NUMBER),
-              body: `${marker}\n\n${bodyWithoutOldMarker}`,
-            });
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: Number(process.env.PR_NUMBER),
-              labels: ["release:version"],
-            }).catch(async (error) => {
-              if (error.status !== 404 && error.status !== 422) throw error;
-              await github.rest.issues.createLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: "release:version",
-                color: "8250df",
-                description: "Version Packages PR generated by release automation",
-              });
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: Number(process.env.PR_NUMBER),
-                labels: ["release:version"],
-              });
-            });
+          bun-version: "1.3.13"
+
+      - name: Install trusted Changesets without lifecycle scripts
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Download immutable Version Packages write plan
+        uses: actions/download-artifact@v5
+        with:
+          name: release-${{ matrix.kind }}-plan-${{ matrix.lane }}
+          path: /tmp/seed-release-plan
+
+      - name: Write Version Packages pull request
+        id: write-version
+        if: matrix.kind == 'version'
+        env:
+          RELEASE_PLAN_LANE: ${{ matrix.lane }}
+          RELEASE_PLAN_COMMAND: version
+          RELEASE_PLAN_TAG: ""
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+          RELEASE_PLAN_RUN_ID: ${{ github.run_id }}
+          RELEASE_PLAN_DEFER_VALIDATION: ${{ matrix.release_kind == 'stable-promotion' }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun tools/release-automation/src/lane/lane-write-plan.ts write-version /tmp/seed-release-plan
+
+      - name: Bind Stable Version PR to exact Exit Intent merge
+        if: matrix.release_kind == 'stable-promotion'
+        env:
+          RELEASE_PLAN_LANE: ${{ matrix.lane }}
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+          RELEASE_PROMOTION_OPERATION_ID: ${{ matrix.operation_id }}
+          RELEASE_PROMOTION_EXIT_PR: ${{ matrix.exit_pr }}
+          RELEASE_PROMOTION_EXIT_MERGE_SHA: ${{ matrix.exit_merge_sha }}
+          RELEASE_VERSION_HEAD_SHA: ${{ steps.write-version.outputs.headSha }}
+          RELEASE_VERSION_PR: ${{ steps.write-version.outputs.pr }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun tools/release-automation/src/validation/bind-stable-promotion.ts
+
+      - name: Write prerelease state pull request
+        if: matrix.kind == 'prerelease'
+        env:
+          RELEASE_PLAN_LANE: ${{ matrix.lane }}
+          RELEASE_PLAN_OPERATION: ${{ matrix.operation }}
+          RELEASE_PLAN_OPERATION_ID: ${{ matrix.operation_id }}
+          RELEASE_PLAN_BASE_SHA: ${{ matrix.base_sha }}
+          RELEASE_PLAN_CONTROL_SHA: ${{ needs.select-lanes.outputs.control_sha }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun tools/release-automation/src/lane/prerelease-write-plan.ts write-prerelease /tmp/seed-release-plan
