@@ -97,6 +97,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityPluginBasicUI: lazy(() => import("../activities/ActivityPluginBasicUI")),
     ActivityPopTest: lazy(() => import("../activities/ActivityPopTest")),
     ActivityPagination: lazy(() => import("../activities/ActivityPagination")),
+    ActivityPressedScale: lazy(() => import("../activities/ActivityPressedScale")),
     ActivityQuantityPicker: lazy(() => import("../activities/ActivityQuantityPicker")),
     ActivityRadioGroup: lazy(() => import("../activities/ActivityRadioGroup")),
     ActivityReactionButton: lazy(() => import("../activities/ActivityReactionButton")),
