@@ -153,22 +153,34 @@ export const aiIntegrationDocs = defineDocs({
   meta: { schema: docsMetaSchema },
 });
 
+const updatesFrontmatterSchema = frontmatterSchema
+  .extend({
+    publishedAt: z.iso.date().or(z.date()).optional(),
+    // Updates 섹션은 두 종류의 글을 담는다.
+    // - `post`(기본): 에세이형 블로그 글. 인덱스에 썸네일 카드로, 본문은 ToC 없는 단독 컬럼으로.
+    // - `release`: 릴리즈 노트. 인덱스에 썸네일 없는 리스트 행으로, 본문은 ToC 있는 docs 레이아웃으로.
+    category: z.enum(["post", "release"]).default("post"),
+    // 커버는 정적 webp/png(노션 추출 등, `staticCoverImageSchema`) 또는 Figma id 중 하나.
+    // 정적 `coverImage`가 있으면 우선하고, 없으면 `coverImageFigmaId`로 폴백한다.
+    // 릴리즈 노트는 둘 다 생략해 Updates 섹션 OG 카드(`/og/updates`)로 폴백시킨다.
+    ...staticCoverImageSchema,
+    coverImageFigmaId: z.string().optional(),
+  })
+  .superRefine((data, context) => {
+    if (data.category === "post" && !data.description) {
+      context.addIssue({
+        code: "custom",
+        path: ["description"],
+        message: "Post updates require a description.",
+      });
+    }
+  });
+
 export const updatesDocs = defineDocs({
   dir: "content/updates",
   docs: {
     async: true,
-    schema: frontmatterSchema.extend({
-      publishedAt: z.iso.date().or(z.date()).optional(),
-      // Updates 섹션은 두 종류의 글을 담는다.
-      // - `post`(기본): 에세이형 블로그 글. 인덱스에 썸네일 카드로, 본문은 ToC 없는 단독 컬럼으로.
-      // - `release`: 릴리즈 노트. 인덱스에 썸네일 없는 리스트 행으로, 본문은 ToC 있는 docs 레이아웃으로.
-      category: z.enum(["post", "release"]).default("post"),
-      // 커버는 정적 webp/png(노션 추출 등, `staticCoverImageSchema`) 또는 Figma id 중 하나.
-      // 정적 `coverImage`가 있으면 우선하고, 없으면 `coverImageFigmaId`로 폴백한다.
-      // 릴리즈 노트는 둘 다 생략해 Updates 섹션 OG 카드(`/og/updates`)로 폴백시킨다.
-      ...staticCoverImageSchema,
-      coverImageFigmaId: z.string().optional(),
-    }),
+    schema: updatesFrontmatterSchema,
     postprocess: {
       includeProcessedMarkdown: true,
     },
