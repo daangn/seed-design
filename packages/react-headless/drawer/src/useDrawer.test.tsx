@@ -409,6 +409,8 @@ describe("키보드 리포지션", () => {
   const originalVisualViewport = Object.getOwnPropertyDescriptor(window, "visualViewport");
   const originalPlatform = Object.getOwnPropertyDescriptor(window.navigator, "platform");
   const originalInnerHeight = Object.getOwnPropertyDescriptor(window, "innerHeight");
+  const originalSafeAreaTop =
+    document.documentElement.style.getPropertyValue("--seed-safe-area-top");
 
   class MockVisualViewport extends EventTarget {
     height = window.innerHeight;
@@ -448,6 +450,12 @@ describe("키보드 리포지션", () => {
     } else {
       Reflect.deleteProperty(window, "innerHeight");
     }
+
+    if (originalSafeAreaTop) {
+      document.documentElement.style.setProperty("--seed-safe-area-top", originalSafeAreaTop);
+    } else {
+      document.documentElement.style.removeProperty("--seed-safe-area-top");
+    }
   });
 
   it("열림 커밋에서 autoFocus된 input이 이미 축소된 viewport를 즉시 반영한다", () => {
@@ -469,6 +477,44 @@ describe("키보드 리포지션", () => {
   it("autoFocus 중 layout viewport도 함께 축소되어도 닫힌 상태의 높이를 기준으로 계산한다", () => {
     const { getByTestId, rerender } = render(<AutoFocusKeyboardHarness open={false} />);
     const drawer = getByTestId("drawer");
+    let measuredDrawerHeight = 560;
+    const rectSpy = spyOn(drawer, "getBoundingClientRect").mockImplementation(() => ({
+      x: 0,
+      y: 0,
+      width: measuredDrawerHeight,
+      height: measuredDrawerHeight,
+      top: 0,
+      left: 0,
+      right: measuredDrawerHeight,
+      bottom: measuredDrawerHeight,
+      toJSON: () => {},
+    }));
+    const layoutViewportHeight = window.innerHeight;
+
+    visualViewport.height = layoutViewportHeight - 400;
+    measuredDrawerHeight = visualViewport.height * 0.7;
+    Object.defineProperty(window, "innerHeight", {
+      value: visualViewport.height,
+      configurable: true,
+    });
+    rerender(<AutoFocusKeyboardHarness open />);
+
+    expect(getByTestId("auto-focus-input")).toHaveFocus();
+    expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.minHeight).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.bottom).toBe("400px");
+
+    rectSpy.mockRestore();
+  });
+
+  it("Android adjustResize가 layout viewport를 축소하면 시트를 다시 들어 올리지 않는다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      value: "Linux armv8l",
+      configurable: true,
+    });
+
+    const { getByTestId, rerender } = render(<AutoFocusKeyboardHarness open={false} />);
+    const drawer = getByTestId("drawer");
     const rectSpy = mockRect(drawer, 560);
     const layoutViewportHeight = window.innerHeight;
 
@@ -482,7 +528,277 @@ describe("키보드 리포지션", () => {
     expect(getByTestId("auto-focus-input")).toHaveFocus();
     expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
     expect(drawer.style.minHeight).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
-    expect(drawer.style.bottom).toBe("400px");
+    expect(drawer.style.bottom).toBe("0px");
+
+    rectSpy.mockRestore();
+  });
+
+  it("Android에서 열린 시트의 input을 포커스해도 축소된 layout viewport 안에 유지한다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      value: "Linux armv8l",
+      configurable: true,
+    });
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const rectSpy = mockRect(drawer, 560);
+    const layoutViewportHeight = window.innerHeight;
+
+    act(() => {
+      input.focus();
+      visualViewport.height = layoutViewportHeight - 400;
+      Object.defineProperty(window, "innerHeight", {
+        value: visualViewport.height,
+        configurable: true,
+      });
+      window.dispatchEvent(new Event("resize"));
+      visualViewport.dispatchEvent(new Event("resize"));
+    });
+
+    expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.minHeight).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.bottom).toBe("0px");
+
+    rectSpy.mockRestore();
+  });
+
+  it("Android가 focusin 전에 viewport 단위 높이를 줄여도 열린 시트의 기준 높이를 보존한다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      value: "Linux armv8l",
+      configurable: true,
+    });
+
+    let measuredDrawerHeight = 560;
+    const rectSpy = spyOn(window.HTMLElement.prototype, "getBoundingClientRect").mockImplementation(
+      function () {
+        const size = this.dataset.testid === "drawer" ? measuredDrawerHeight : 0;
+
+        return {
+          x: 0,
+          y: 0,
+          width: size,
+          height: size,
+          top: 0,
+          left: 0,
+          right: size,
+          bottom: size,
+          toJSON: () => {},
+        };
+      },
+    );
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const layoutViewportHeight = window.innerHeight;
+
+    act(() => {
+      measuredDrawerHeight = 220;
+      visualViewport.height = layoutViewportHeight - 400;
+      Object.defineProperty(window, "innerHeight", {
+        value: visualViewport.height,
+        configurable: true,
+      });
+      input.focus();
+      window.dispatchEvent(new Event("resize"));
+      visualViewport.dispatchEvent(new Event("resize"));
+    });
+
+    expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.minHeight).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.bottom).toBe("0px");
+
+    rectSpy.mockRestore();
+  });
+
+  it("Android blur 후 첫 window resize에서 키보드가 열린 시트 위치부터 복원 애니메이션한다", async () => {
+    Object.defineProperty(window.navigator, "platform", {
+      value: "Linux armv8l",
+      configurable: true,
+    });
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const layoutViewportHeight = window.innerHeight;
+    const naturalHeight = 560;
+    const animation = {
+      cancel: mock(() => {}),
+      pause: mock(() => {}),
+      play: mock(() => {}),
+      currentTime: null,
+      finished: new Promise<void>(() => {}),
+    } as unknown as Animation;
+    const animate = mock(() => animation);
+
+    Object.defineProperty(drawer, "animate", {
+      value: animate,
+      configurable: true,
+    });
+    drawer.style.minHeight = "70vh";
+    drawer.style.bottom = "0px";
+    drawer.style.setProperty(
+      "--drawer-keyboard-transition",
+      "bottom 250ms cubic-bezier(0.32, 0.72, 0, 1)",
+    );
+    const rectSpy = spyOn(drawer, "getBoundingClientRect").mockImplementation(() => {
+      const height = Number.parseFloat(drawer.style.height) || naturalHeight;
+      const bottomOffset = Number.parseFloat(drawer.style.bottom) || 0;
+      const bottom = window.innerHeight - bottomOffset;
+
+      return {
+        x: 0,
+        y: bottom - height,
+        width: 100,
+        height,
+        top: bottom - height,
+        left: 0,
+        right: 100,
+        bottom,
+        toJSON: () => {},
+      };
+    });
+
+    act(() => {
+      input.focus();
+      visualViewport.height = layoutViewportHeight - 400;
+      Object.defineProperty(window, "innerHeight", {
+        value: visualViewport.height,
+        configurable: true,
+      });
+      window.dispatchEvent(new Event("resize"));
+    });
+
+    const keyboardOpenHeight = visualViewport.height - WINDOW_TOP_OFFSET;
+    expect(drawer.style.height).toBe(`${keyboardOpenHeight}px`);
+
+    await act(async () => {
+      input.blur();
+      await Promise.resolve();
+    });
+
+    animate.mockClear();
+    act(() => {
+      visualViewport.height = layoutViewportHeight;
+      Object.defineProperty(window, "innerHeight", {
+        value: layoutViewportHeight,
+        configurable: true,
+      });
+      window.dispatchEvent(new Event("resize"));
+    });
+
+    expect(animate).toHaveBeenCalledWith(
+      [
+        {
+          height: `${keyboardOpenHeight}px`,
+          minHeight: `${keyboardOpenHeight}px`,
+          bottom: "400px",
+        },
+        {
+          height: `${naturalHeight}px`,
+          minHeight: `${naturalHeight}px`,
+          bottom: "0px",
+        },
+      ],
+      {
+        duration: 250,
+        easing: "cubic-bezier(0.32, 0.72, 0, 1)",
+        fill: "both",
+      },
+    );
+    expect(drawer.style.height).toBe("");
+    expect(drawer.style.minHeight).toBe("70vh");
+    expect(drawer.style.bottom).toBe("0px");
+
+    rectSpy.mockRestore();
+  });
+
+  it("Android 40vh 시트는 input 포커스가 남아도 확장된 viewport 아래로 즉시 떨어지지 않는다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      value: "Linux armv8l",
+      configurable: true,
+    });
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const layoutViewportHeight = window.innerHeight;
+    const naturalHeight = Number((layoutViewportHeight * 0.4).toFixed(3));
+    const animation = {
+      cancel: mock(() => {}),
+      pause: mock(() => {}),
+      play: mock(() => {}),
+      currentTime: null,
+      finished: new Promise<void>(() => {}),
+    } as unknown as Animation;
+    const animate = mock(() => animation);
+
+    Object.defineProperty(drawer, "animate", {
+      value: animate,
+      configurable: true,
+    });
+    drawer.style.minHeight = "40vh";
+    drawer.style.bottom = "0px";
+    drawer.style.setProperty("--drawer-keyboard-transition", "bottom 250ms ease");
+    const rectSpy = spyOn(drawer, "getBoundingClientRect").mockImplementation(() => {
+      const height = Number.parseFloat(drawer.style.height) || naturalHeight;
+      const bottomOffset = Number.parseFloat(drawer.style.bottom) || 0;
+      const bottom = window.innerHeight - bottomOffset;
+
+      return {
+        x: 0,
+        y: bottom - height,
+        width: 100,
+        height,
+        top: bottom - height,
+        left: 0,
+        right: 100,
+        bottom,
+        toJSON: () => {},
+      };
+    });
+
+    act(() => {
+      input.focus();
+      visualViewport.height = layoutViewportHeight - 400;
+      Object.defineProperty(window, "innerHeight", {
+        value: visualViewport.height,
+        configurable: true,
+      });
+      window.dispatchEvent(new Event("resize"));
+    });
+    expect(drawer.style.height).toBe(`${naturalHeight}px`);
+
+    animate.mockClear();
+    act(() => {
+      visualViewport.height = layoutViewportHeight;
+      Object.defineProperty(window, "innerHeight", {
+        value: layoutViewportHeight,
+        configurable: true,
+      });
+      window.dispatchEvent(new Event("resize"));
+    });
+
+    expect(animate).toHaveBeenCalledWith(
+      [
+        {
+          height: `${naturalHeight}px`,
+          minHeight: `${naturalHeight}px`,
+          bottom: "400px",
+        },
+        {
+          height: `${naturalHeight}px`,
+          minHeight: `${naturalHeight}px`,
+          bottom: "0px",
+        },
+      ],
+      {
+        duration: 250,
+        easing: "ease",
+        fill: "both",
+      },
+    );
 
     rectSpy.mockRestore();
   });
@@ -630,6 +946,34 @@ describe("키보드 리포지션", () => {
     expect(drawer.style.height).toBe("");
     expect(drawer.style.minHeight).toBe("70vh");
     expect(drawer.style.bottom).toBe("0px");
+
+    rectSpy.mockRestore();
+  });
+
+  it("iOS의 상단 safe area보다 아래에 시트 헤더를 유지한다", () => {
+    document.documentElement.style.setProperty("--seed-safe-area-top", "59px");
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const rectSpy = mockRect(drawer, 560);
+
+    drawer.style.minHeight = "70vh";
+    input.focus();
+
+    visualViewport.height = window.innerHeight - 400;
+    visualViewport.dispatchEvent(new Event("resize"));
+
+    expect(drawer.style.height).toBe(`${visualViewport.height - 59}px`);
+    expect(drawer.style.minHeight).toBe(`${visualViewport.height - 59}px`);
+    expect(drawer.style.bottom).toBe("400px");
+
+    visualViewport.offsetTop = 120;
+    visualViewport.dispatchEvent(new Event("scroll"));
+
+    expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.minHeight).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.bottom).toBe("280px");
 
     rectSpy.mockRestore();
   });
