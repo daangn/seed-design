@@ -20,8 +20,15 @@ import {
 import type { GitHubPullRequest } from "../core/github";
 import { encodeMarker } from "../core/marker";
 import type { LaneConfig, LaneName, ReleaseControl, ReleaseMarker } from "../core/types";
+import {
+  applyCapturedChangesetsVersionPolicy,
+  captureChangesetsVersionPolicy,
+  runChangesetsVersion,
+} from "./trusted-changesets-version";
 
 const temporaryDirectories: string[] = [];
+const repositoryRoot = join(import.meta.dir, "..", "..", "..", "..");
+const changesetsCliPath = join(repositoryRoot, "node_modules", "@changesets", "cli", "bin.js");
 
 afterEach(async () => {
   await Promise.all(temporaryDirectories.splice(0).map((path) => rm(path, { recursive: true })));
@@ -130,8 +137,17 @@ async function repositoryFixture(): Promise<{ repository: string; baseline: stri
       packages: { "left-pad": ["left-pad@1.3.0"] },
     }),
     json(join(repository, ".changeset/config.json"), {
+      changelog: false,
+      commit: false,
+      fixed: [],
+      linked: [],
       access: "public",
       baseBranch: "minor",
+      updateInternalDependencies: "patch",
+      privatePackages: { version: false, tag: false },
+      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+        onlyUpdatePeerDependentsWhenOutOfRange: true,
+      },
     }),
     json(join(repository, ".github/release/control.json"), control),
     json(join(repository, ".github/release/lanes.json"), laneConfig),
@@ -284,10 +300,7 @@ async function versionFixture(
       },
       changesets: ["fresh-change"],
     }),
-    writeFile(join(repository, "packages/a/CHANGELOG.md"), `# @seed/a\n\n## ${plannedAVersion}\n`),
-    writeFile(join(repository, "packages/b/CHANGELOG.md"), "# @seed/b\n\n## 1.0.1-beta.0\n"),
   ]);
-  await rm(join(repository, ".changeset/fresh-change.md"));
   if (attack === "workflow") {
     await mkdir(join(repository, ".github/workflows"), { recursive: true });
     await writeFile(join(repository, ".github/workflows/pwn.yml"), "name: steal\n");
@@ -299,14 +312,95 @@ async function versionFixture(
       "export default stealToken();\n",
     );
   }
-  if (attack === "rootage-missing") {
-    await writeFile(
-      join(repository, "packages/rootage/CHANGELOG.md"),
-      `# @seed-design/rootage-artifacts\n\n## ${plannedRootageVersion}\n`,
-    );
-  }
   await git(repository, "add", "-A");
   await git(repository, "commit", "-m", "version packages");
+  const head = await git(repository, "rev-parse", "HEAD");
+  return {
+    repository,
+    head,
+    plan: await planFor(repository, versionBase, head, "minor"),
+  };
+}
+
+async function webPeerVersionFixture(
+  tamper: "none" | "upstream-major" | "format" = "none",
+): Promise<{ repository: string; plan: LaneWritePlan; head: string }> {
+  const { repository } = await repositoryFixture();
+  await Promise.all([
+    mkdir(join(repository, "packages/css"), { recursive: true }),
+    mkdir(join(repository, "packages/react"), { recursive: true }),
+  ]);
+  const baseLock = parseJsonWithTrailingCommas(
+    await readFile(join(repository, "bun.lock"), "utf8"),
+    "fixture bun.lock",
+  ) as { workspaces: Record<string, unknown> };
+  baseLock.workspaces["packages/css"] = {
+    name: "@seed-design/css",
+    version: "2.4.2",
+  };
+  baseLock.workspaces["packages/react"] = {
+    name: "@seed-design/react",
+    version: "2.2.2",
+    peerDependencies: { "@seed-design/css": "^2.4.0" },
+    devDependencies: { "@seed-design/css": "^2.4.0" },
+  };
+  await Promise.all([
+    json(join(repository, "packages/css/package.json"), {
+      name: "@seed-design/css",
+      version: "2.4.2",
+    }),
+    json(join(repository, "packages/react/package.json"), {
+      name: "@seed-design/react",
+      version: "2.2.2",
+      peerDependencies: { "@seed-design/css": "^2.4.0" },
+      devDependencies: { "@seed-design/css": "^2.4.0" },
+    }),
+    json(join(repository, "bun.lock"), baseLock),
+    json(join(repository, ".changeset/pre.json"), {
+      mode: "pre",
+      tag: "beta",
+      initialVersions: {
+        "@seed-design/css": "2.4.2",
+        "@seed-design/react": "2.2.2",
+      },
+      changesets: [],
+    }),
+    writeFile(
+      join(repository, ".changeset/css-change.md"),
+      '---\n"@seed-design/css": minor\n---\n\nCSS 기능 추가\n',
+    ),
+  ]);
+  await git(repository, "add", ".");
+  await git(repository, "commit", "-m", "web peer changeset");
+  const versionBase = await git(repository, "rev-parse", "HEAD");
+  await git(repository, "update-ref", "refs/heads/minor", versionBase);
+  await git(repository, "update-ref", "refs/remotes/origin/minor", versionBase);
+
+  const captured = await captureChangesetsVersionPolicy(repository, changesetsCliPath);
+  await runChangesetsVersion(repository, changesetsCliPath);
+  await applyCapturedChangesetsVersionPolicy(repository, captured);
+  const css = JSON.parse(await readFile(join(repository, "packages/css/package.json"), "utf8"));
+  const reactPath = join(repository, "packages/react/package.json");
+  const react = JSON.parse(await readFile(reactPath, "utf8"));
+  if (tamper === "upstream-major") react.version = "3.0.0-beta.0";
+  await json(reactPath, react);
+  const plannedLock = structuredClone(baseLock);
+  plannedLock.workspaces["packages/css"] = {
+    name: "@seed-design/css",
+    version: css.version,
+  };
+  plannedLock.workspaces["packages/react"] = {
+    name: "@seed-design/react",
+    version: react.version,
+    peerDependencies: react.peerDependencies,
+    devDependencies: react.devDependencies,
+  };
+  await json(join(repository, "bun.lock"), plannedLock);
+  if (tamper === "format") {
+    await writeFile(reactPath, `${await readFile(reactPath, "utf8")}\n`);
+  }
+  await git(repository, "add", "-A");
+  await git(repository, "commit", "-m", "version web peer packages");
   const head = await git(repository, "rev-parse", "HEAD");
   return {
     repository,
@@ -367,7 +461,7 @@ describe("lane read-plan / trusted-write artifact", () => {
     );
   });
 
-  test("현재 Changesets dependency range transform을 exact하게 재현한다", () => {
+  test("Changesets baseline과 internal peer/dev canonical range를 구분한다", () => {
     expect(isExactWorkspaceDependencyUpdate("^2.0.0", "^3.0.0", "3.0.0")).toBe(true);
     expect(isExactWorkspaceDependencyUpdate("workspace:~2.0.0", "workspace:~3.0.0", "3.0.0")).toBe(
       true,
@@ -380,6 +474,28 @@ describe("lane read-plan / trusted-write artifact", () => {
     expect(isExactWorkspaceDependencyUpdate("^2.0.0", "~3.0.0", "3.0.0")).toBe(false);
     expect(isExactWorkspaceDependencyUpdate("workspace:^", "workspace:^", "3.0.0")).toBe(true);
     expect(isExactWorkspaceDependencyUpdate("link:../a", "3.0.0", "3.0.0")).toBe(false);
+    expect(
+      isExactWorkspaceDependencyUpdate(
+        "^2.4.0",
+        "2.5.0-beta.0",
+        "2.5.0-beta.0",
+        "peerDependencies",
+      ),
+    ).toBe(true);
+    expect(
+      isExactWorkspaceDependencyUpdate("2.5.0-beta.1", "^2.5.0", "2.5.0", "peerDependencies"),
+    ).toBe(true);
+    expect(
+      isExactWorkspaceDependencyUpdate("2.5.0-beta.1", "2.5.0", "2.5.0", "devDependencies"),
+    ).toBe(true);
+    expect(
+      isExactWorkspaceDependencyUpdate(
+        "^2.4.0",
+        "^2.5.0-beta.0",
+        "2.5.0-beta.0",
+        "peerDependencies",
+      ),
+    ).toBe(false);
   });
 
   test("Rootage generated index는 package version literal만 exact하게 바꾼다", () => {
@@ -457,6 +573,41 @@ describe("lane read-plan / trusted-write artifact", () => {
         inflated.head,
       ),
     ).rejects.toThrow("trusted Changesets exact release plan");
+  });
+
+  test("trusted replay가 Web auto peer-major policy output을 exact 검증한다", async () => {
+    const valid = await webPeerVersionFixture();
+    await expect(
+      verifyGeneratedLaneWritePlan(
+        valid.repository,
+        markerFor(valid.plan, valid.head),
+        valid.plan.baseSha,
+        valid.head,
+      ),
+    ).resolves.toEqual([
+      { name: "@seed-design/css", from: "2.4.2", to: "2.5.0-beta.0" },
+      { name: "@seed-design/react", from: "2.2.2", to: "2.2.3-beta.0" },
+    ]);
+
+    const upstreamMajor = await webPeerVersionFixture("upstream-major");
+    await expect(
+      verifyGeneratedLaneWritePlan(
+        upstreamMajor.repository,
+        markerFor(upstreamMajor.plan, upstreamMajor.head),
+        upstreamMajor.plan.baseSha,
+        upstreamMajor.head,
+      ),
+    ).rejects.toThrow("trusted Changesets exact release plan");
+
+    const formattingSpoof = await webPeerVersionFixture("format");
+    await expect(
+      verifyGeneratedLaneWritePlan(
+        formattingSpoof.repository,
+        markerFor(formattingSpoof.plan, formattingSpoof.head),
+        formattingSpoof.plan.baseSha,
+        formattingSpoof.head,
+      ),
+    ).rejects.toThrow("trusted Changesets version output");
   });
 
   test("trusted Changesets replay가 lane direct bump를 exact 정책에 결속한다", async () => {

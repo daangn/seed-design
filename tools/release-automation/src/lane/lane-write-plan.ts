@@ -1,7 +1,16 @@
 import { createHash } from "node:crypto";
-import { appendFile, lstat, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import {
+  appendFile,
+  lstat,
+  mkdir,
+  mkdtemp,
+  readFile,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, relative } from "node:path";
+import { join } from "node:path";
 import { parseLaneConfig, parseReleaseControl } from "../core/config";
 import { GitHubClient, type GitHubPullRequest } from "../core/github";
 import { encodeMarker } from "../core/marker";
@@ -9,6 +18,13 @@ import type { LaneConfig, LaneName, ReleaseControl, ReleaseMarker } from "../cor
 import { compareSemver } from "../publish/publish";
 import { trustedVersionMarker } from "../publish/publish-state";
 import { assertLanePullAllowed } from "./pull-policy";
+import type { ChangesetsReleasePlan } from "./internal-dependent-release-policy";
+import {
+  applyCapturedChangesetsVersionPolicy,
+  captureChangesetsVersionPolicy,
+  readVersionPolicyPackages,
+  runChangesetsVersion,
+} from "./trusted-changesets-version";
 
 const gitShaPattern = /^[0-9a-f]{40}$/;
 const sha256Pattern = /^[0-9a-f]{64}$/;
@@ -75,18 +91,6 @@ interface PackageManifest {
   value: Record<string, unknown>;
   name: string;
   version: string;
-}
-
-interface TrustedChangesetsStatus {
-  changesets: Array<{
-    id: string;
-    releases: Array<{ name: string; type: "patch" | "minor" | "major" }>;
-  }>;
-  releases: Array<{
-    name: string;
-    oldVersion: string;
-    newVersion: string;
-  }>;
 }
 
 interface VersionTreeOptions {
@@ -357,16 +361,20 @@ async function releaseControlAt(
 
 async function assertLaneChangesetsConfig(
   repositoryPath: string,
-  ref: string,
+  laneRef: string,
+  controlRef: string,
   lane: LaneName,
 ): Promise<void> {
-  const value = asRecord(
-    await readJsonAt(repositoryPath, ref, ".changeset/config.json"),
-    `${lane} Changesets config`,
-  );
-  if (value.baseBranch !== lane) {
+  const [value, trusted] = await Promise.all([
+    readJsonAt(repositoryPath, laneRef, ".changeset/config.json"),
+    readJsonAt(repositoryPath, controlRef, ".changeset/config.json"),
+  ]);
+  const laneConfig = asRecord(value, `${lane} Changesets config`);
+  const trustedConfig = asRecord(trusted, "trusted dev Changesets config");
+  if (laneConfig.baseBranch !== lane) {
     throw new Error(`${lane} Changesets baseBranch가 exact lane과 다릅니다.`);
   }
+  assertSameJson(laneConfig, { ...trustedConfig, baseBranch: lane }, `${lane} Changesets config`);
 }
 
 function isPackageJsonPath(path: string): boolean {
@@ -558,8 +566,15 @@ export function isExactWorkspaceDependencyUpdate(
   before: string | undefined,
   after: string | undefined,
   toVersion: string,
+  field?: (typeof dependencyFields)[number],
 ): boolean {
   if (!before || !after) return false;
+  const policyField = field === "peerDependencies" || field === "devDependencies";
+  const workspacePrefix = before.startsWith("workspace:") ? "workspace:" : "";
+  if (policyField && !/^(?:file:|link:|npm:|git(?:\+|:)|https?:)/.test(before)) {
+    const policyPrefix = field === "peerDependencies" && !toVersion.includes("-") ? "^" : "";
+    return after === `${workspacePrefix}${policyPrefix}${toVersion}`;
+  }
   if (before === "workspace:*" || before === "workspace:^" || before === "workspace:~") {
     return after === before;
   }
@@ -570,7 +585,6 @@ export function isExactWorkspaceDependencyUpdate(
   ) {
     return after === before;
   }
-  const workspacePrefix = before.startsWith("workspace:") ? "workspace:" : "";
   const raw = workspacePrefix ? before.slice("workspace:".length) : before;
   if (!raw || /[\0\r\n]/.test(raw) || raw.length > 512) return false;
   const preservedPrefix =
@@ -582,9 +596,11 @@ async function assertVersionPreState(
   repositoryPath: string,
   plan: LaneWritePlan,
   plannedRef: string,
+  basePackages: Map<string, PackageManifest>,
 ): Promise<void> {
+  const changedChangesetPaths = plan.files.filter(isChangesetMarkdown);
   const deletedChangesets: string[] = [];
-  for (const path of plan.files.filter(isChangesetMarkdown)) {
+  for (const path of changedChangesetPaths) {
     if (!(await pathExists(repositoryPath, plan.baseSha, path))) {
       throw new Error(`Version plan이 base에 없는 changeset을 추가했습니다: ${path}`);
     }
@@ -611,14 +627,38 @@ async function assertVersionPreState(
     return;
   }
   if (plannedValue === null) throw new Error("pre Version plan이 pre.json을 삭제할 수 없습니다.");
-  if (deletedChangesets.length === 0 && plan.files.length > 0) {
-    throw new Error("pre Version plan에는 새로 소비된 changeset이 필요합니다.");
+  if (changedChangesetPaths.length > 0) {
+    throw new Error("pre Version plan은 changeset 원문을 보존해야 합니다.");
   }
   const proposed = parsePreState(plannedValue, "proposed Version pre state");
-  const expectedChangesets = [...new Set([...base.changesets, ...deletedChangesets])].sort();
+  const changesetTree = await git(repositoryPath, [
+    "ls-tree",
+    "-r",
+    "--name-only",
+    plan.baseSha,
+    "--",
+    ".changeset",
+  ]);
+  const expectedChangesets = changesetTree.stdout
+    .split("\n")
+    .filter(isChangesetMarkdown)
+    .map((path) => path.slice(".changeset/".length, -".md".length))
+    .sort();
+  const expectedInitialVersions = { ...base.initialVersions };
+  for (const packageManifest of basePackages.values()) {
+    if (packageManifest.path === "package.json") continue;
+    expectedInitialVersions[packageManifest.name] ??= packageManifest.version;
+  }
   assertSameJson(
-    proposed,
-    { ...base, changesets: expectedChangesets },
+    {
+      ...proposed,
+      changesets: [...proposed.changesets].sort(),
+    },
+    {
+      ...base,
+      initialVersions: expectedInitialVersions,
+      changesets: expectedChangesets,
+    },
     "Version proposed pre state",
   );
 }
@@ -638,71 +678,25 @@ async function assertRegularFileModes(
   }
 }
 
-function parseTrustedChangesetsStatus(value: unknown): TrustedChangesetsStatus {
-  const status = asRecord(value, "trusted Changesets status");
-  if (!Array.isArray(status.changesets) || !Array.isArray(status.releases)) {
-    throw new Error("trusted Changesets status의 changesets/releases가 배열이 아닙니다.");
-  }
-  const changesets = status.changesets.map((candidate, index) => {
-    const changeset = asRecord(candidate, `trusted Changesets status changesets[${index}]`);
-    if (typeof changeset.id !== "string" || !isSafePath(changeset.id)) {
-      throw new Error(
-        `trusted Changesets changeset id가 올바르지 않습니다: ${String(changeset.id)}`,
-      );
-    }
-    if (!Array.isArray(changeset.releases) || changeset.releases.length === 0) {
-      throw new Error(`trusted Changesets changeset ${changeset.id}의 release가 없습니다.`);
-    }
-    const releases = changeset.releases.map((candidateRelease, releaseIndex) => {
-      const release = asRecord(
-        candidateRelease,
-        `trusted Changesets changesets[${index}].releases[${releaseIndex}]`,
-      );
-      const type = release.type;
-      if (
-        typeof release.name !== "string" ||
-        (type !== "patch" && type !== "minor" && type !== "major")
-      ) {
-        throw new Error(
-          `trusted Changesets changeset ${changeset.id}의 release가 올바르지 않습니다.`,
-        );
-      }
-      return {
-        name: release.name,
-        type: type as "patch" | "minor" | "major",
-      };
-    });
-    return { id: changeset.id, releases };
-  });
-  if (new Set(changesets.map((changeset) => changeset.id)).size !== changesets.length) {
-    throw new Error("trusted Changesets changeset id가 중복됩니다.");
-  }
-
-  const releases = status.releases.map((candidate, index) => {
-    const release = asRecord(candidate, `trusted Changesets status releases[${index}]`);
-    if (
-      typeof release.name !== "string" ||
-      typeof release.oldVersion !== "string" ||
-      typeof release.newVersion !== "string"
-    ) {
-      throw new Error(`trusted Changesets status release[${index}]가 올바르지 않습니다.`);
-    }
-    return {
-      name: release.name,
-      oldVersion: release.oldVersion,
-      newVersion: release.newVersion,
-    };
-  });
-  if (new Set(releases.map((release) => release.name)).size !== releases.length) {
-    throw new Error("trusted Changesets release package가 중복됩니다.");
-  }
-  return { changesets, releases };
+function isTrustedChangesetsVersionPath(path: string): boolean {
+  return (
+    path === ".changeset/pre.json" ||
+    isChangesetMarkdown(path) ||
+    isPackageJsonPath(path) ||
+    path.endsWith("/CHANGELOG.md")
+  );
 }
 
-async function trustedChangesetsStatusAt(
+interface TrustedChangesetsVersionReplay {
+  releasePlan: ChangesetsReleasePlan;
+  releases: VersionRelease[];
+  files: Record<string, string | null>;
+}
+
+async function trustedChangesetsVersionAt(
   repositoryPath: string,
   baseSha: string,
-): Promise<TrustedChangesetsStatus> {
+): Promise<TrustedChangesetsVersionReplay> {
   const repositoryRoot = join(import.meta.dir, "..", "..", "..", "..");
   const cliPath = join(repositoryRoot, "node_modules", "@changesets", "cli", "bin.js");
   const cliStat = await lstat(cliPath).catch(() => null);
@@ -712,71 +706,64 @@ async function trustedChangesetsStatusAt(
     );
   }
 
-  const worktreePath = await mkdtemp(join(tmpdir(), "seed-release-changesets-base-"));
-  const outputDirectory = await mkdtemp(join(tmpdir(), "seed-release-changesets-status-"));
-  const outputPath = join(outputDirectory, "release-plan.json");
+  const worktreePath = await mkdtemp(join(tmpdir(), "seed-release-changesets-version-"));
   let worktreeAdded = false;
   try {
     await git(repositoryPath, ["worktree", "add", "--detach", worktreePath, baseSha]);
     worktreeAdded = true;
-    const changesetsConfigPath = join(worktreePath, ".changeset", "config.json");
-    const changesetsConfig = asRecord(
-      JSON.parse(await readFile(changesetsConfigPath, "utf8")) as unknown,
-      "trusted Changesets config",
+    await symlink(join(repositoryRoot, "node_modules"), join(worktreePath, "node_modules"), "dir");
+    const captured = await captureChangesetsVersionPolicy(worktreePath, cliPath, baseSha);
+    await runChangesetsVersion(worktreePath, cliPath);
+    await applyCapturedChangesetsVersionPolicy(worktreePath, captured);
+
+    const versionedPackages = await readVersionPolicyPackages(worktreePath);
+    const versionedByName = new Map(
+      versionedPackages.map((pkg) => [pkg.value.name as string, pkg.value.version as string]),
     );
-    changesetsConfig.baseBranch = baseSha;
-    await writeFile(changesetsConfigPath, `${JSON.stringify(changesetsConfig, null, 2)}\n`);
-    const outputArgument = relative(worktreePath, outputPath);
-    const child = Bun.spawn(["node", cliPath, "status", `--output=${outputArgument}`], {
-      cwd: worktreePath,
-      env: {
-        ...process.env,
-        CI: "true",
-        BUN_CONFIG: undefined,
-        BUN_OPTIONS: undefined,
-        GH_TOKEN: undefined,
-        GITHUB_TOKEN: undefined,
-        NODE_AUTH_TOKEN: undefined,
-        NODE_OPTIONS: undefined,
-        NODE_PATH: undefined,
-        NPM_TOKEN: undefined,
-      },
-      stdout: "pipe",
-      stderr: "pipe",
-    });
-    const [stdout, stderr, code] = await Promise.all([
-      new Response(child.stdout).text(),
-      new Response(child.stderr).text(),
-      child.exited,
+    const releases = captured.basePackages
+      .flatMap((pkg): VersionRelease[] => {
+        const name = pkg.value.name;
+        const from = pkg.value.version;
+        const to = typeof name === "string" ? versionedByName.get(name) : undefined;
+        return typeof name === "string" && typeof from === "string" && to && from !== to
+          ? [{ name, from, to }]
+          : [];
+      })
+      .sort((left, right) => left.name.localeCompare(right.name));
+    const [changed, untracked] = await Promise.all([
+      git(worktreePath, ["diff", "--name-only", "--"]),
+      git(worktreePath, ["ls-files", "--others", "--exclude-standard"]),
     ]);
-    if (code !== 0) {
-      throw new Error(
-        `trusted Changesets release plan 재계산이 실패했습니다 (${code}):\n${stderr.trim() || stdout.trim()}`,
-      );
+    const changedPaths = [
+      ...new Set([...changed.stdout.split("\n"), ...untracked.stdout.split("\n")]),
+    ]
+      .filter((path) => path.length > 0 && isTrustedChangesetsVersionPath(path))
+      .sort();
+    const files: Record<string, string | null> = {};
+    for (const path of changedPaths) {
+      files[path] = await readFile(join(worktreePath, path), "utf8").catch(() => null);
     }
-    return parseTrustedChangesetsStatus(JSON.parse(await readFile(outputPath, "utf8")) as unknown);
+    return { releasePlan: captured.releasePlan, releases, files };
   } finally {
     if (worktreeAdded) {
       await git(repositoryPath, ["worktree", "remove", "--force", worktreePath], {
         allowFailure: true,
       });
     }
-    await Promise.all([
-      rm(worktreePath, { recursive: true, force: true }),
-      rm(outputDirectory, { recursive: true, force: true }),
-    ]);
+    await rm(worktreePath, { recursive: true, force: true });
   }
 }
 
 async function assertTrustedChangesetsReleasePlan(
   repositoryPath: string,
   plan: LaneWritePlan,
+  plannedRef: string,
   releases: VersionRelease[],
   config: LaneConfig,
 ): Promise<void> {
-  const status = await trustedChangesetsStatusAt(repositoryPath, plan.baseSha);
+  const replay = await trustedChangesetsVersionAt(repositoryPath, plan.baseSha);
   const expectedBump = config.lanes[plan.lane].bump;
-  for (const changeset of status.changesets) {
+  for (const changeset of replay.releasePlan.changesets) {
     for (const release of changeset.releases) {
       if (release.type !== expectedBump) {
         throw new Error(
@@ -786,27 +773,20 @@ async function assertTrustedChangesetsReleasePlan(
     }
   }
 
-  const expectedReleases = status.releases
-    .map((release) => ({
-      name: release.name,
-      from: release.oldVersion,
-      to: release.newVersion,
-    }))
-    .sort((left, right) => left.name.localeCompare(right.name));
-  if (canonicalJson(releases) !== canonicalJson(expectedReleases)) {
+  if (canonicalJson(releases) !== canonicalJson(replay.releases)) {
     throw new Error(
-      `trusted Changesets exact release plan과 다릅니다: expected=${JSON.stringify(expectedReleases)} actual=${JSON.stringify(releases)}`,
+      `trusted Changesets exact release plan과 다릅니다: expected=${JSON.stringify(replay.releases)} actual=${JSON.stringify(releases)}`,
     );
   }
-
-  const expectedDeletedChangesets = status.changesets
-    .map((changeset) => `.changeset/${changeset.id}.md`)
-    .sort();
-  assertSameJson(
-    plan.files.filter(isChangesetMarkdown).sort(),
-    expectedDeletedChangesets,
-    "trusted Changesets consumed files",
-  );
+  const expectedPaths = Object.keys(replay.files).sort();
+  const proposedPaths = plan.files.filter(isTrustedChangesetsVersionPath).sort();
+  assertSameJson(proposedPaths, expectedPaths, "trusted Changesets version files");
+  for (const path of expectedPaths) {
+    const proposed = await readTextAt(repositoryPath, plannedRef, path, true, false);
+    if (proposed !== replay.files[path]) {
+      throw new Error(`trusted Changesets version output과 다릅니다: ${path}`);
+    }
+  }
 }
 
 async function assertVersionTree(
@@ -819,7 +799,7 @@ async function assertVersionTree(
   if (invalid.length > 0) {
     throw new Error(`Version plan이 실행 가능한/보호 경로를 변경했습니다: ${invalid.join(", ")}`);
   }
-  await assertLaneChangesetsConfig(repositoryPath, plan.baseSha, plan.lane);
+  await assertLaneChangesetsConfig(repositoryPath, plan.baseSha, plan.controlSha, plan.lane);
   await assertRegularFileModes(repositoryPath, plannedRef, plan.files);
   if (plan.files.length === 0) {
     if (
@@ -829,7 +809,7 @@ async function assertVersionTree(
     }
     if (options.verifyTrustedChangesets) {
       const { config } = await releaseControlAt(repositoryPath, plan.controlSha);
-      await assertTrustedChangesetsReleasePlan(repositoryPath, plan, [], config);
+      await assertTrustedChangesetsReleasePlan(repositoryPath, plan, plannedRef, [], config);
     }
     return [];
   }
@@ -881,7 +861,7 @@ async function assertVersionTree(
           !baseTarget ||
           !target ||
           !releaseNames.has(name) ||
-          !isExactWorkspaceDependencyUpdate(before[name], after[name], target.version)
+          !isExactWorkspaceDependencyUpdate(before[name], after[name], target.version, field)
         ) {
           throw new Error(
             `${path}의 ${field}.${name} 변경이 같은 plan의 workspace version 증가에 결속되지 않았습니다.`,
@@ -915,7 +895,7 @@ async function assertVersionTree(
       throw new Error(`CHANGELOG 변경이 같은 plan의 version 증가와 결속되지 않았습니다: ${path}`);
     }
   }
-  await assertVersionPreState(repositoryPath, plan, plannedRef);
+  await assertVersionPreState(repositoryPath, plan, plannedRef, basePackages);
   const marker: ReleaseMarker = { schemaVersion: 1, type: "version", lane: plan.lane };
   assertLanePullAllowed({
     lane: plan.lane,
@@ -926,7 +906,13 @@ async function assertVersionTree(
   });
   const sortedReleases = releases.sort((left, right) => left.name.localeCompare(right.name));
   if (options.verifyTrustedChangesets) {
-    await assertTrustedChangesetsReleasePlan(repositoryPath, plan, sortedReleases, state.config);
+    await assertTrustedChangesetsReleasePlan(
+      repositoryPath,
+      plan,
+      plannedRef,
+      sortedReleases,
+      state.config,
+    );
   }
   return sortedReleases;
 }
