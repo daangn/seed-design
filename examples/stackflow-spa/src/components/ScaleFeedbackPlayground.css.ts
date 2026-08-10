@@ -98,8 +98,14 @@ export const stage = style({
   padding: vars.$dimension.x4,
 });
 
-export const stageFlush = style({
-  padding: 0,
+/**
+ * Holds a full-bleed specimen — a List — the distance its pressed background is
+ * already held off the row's sides, and no further: the background then clears
+ * the panel by that same 6px on all four sides, which is what lets a radius of
+ * `panel - 6px` sit concentric inside the panel's corners.
+ */
+export const stageConcentric = style({
+  paddingBlock: vars.$dimension.x1_5,
 });
 
 /** Opts a single specimen out of the stage's intrinsic-width default. */
