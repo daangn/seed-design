@@ -2115,7 +2115,7 @@
             {
               "id": "doctor",
               "title": "Doctor",
-              "description": "프로젝트가 SEED를 어떻게 쓰고 있는지 진단합니다. 구버전 스니펫, deprecated 사용, 가이드라인 준수를 문서 기준으로 검사하고 무엇을 읽고 어떻게 고칠지까지 안내합니다.",
+              "description": "React 프로젝트의 구버전 스니펫, deprecated 사용, 가이드라인 준수를 문서 기준으로 진단합니다.",
               "docUrl": "/ai-integration/skill/doctor"
             },
             {
@@ -2127,7 +2127,7 @@
             {
               "id": "skill",
               "title": "Skill",
-              "description": "SEED 통합 스킬. 셋업·컴포넌트·파운데이션·CLI는 공식 문서로 안내하고, 문서를 대조해야 답이 나오는 판단(버전 호환, 업그레이드 경로)과 사용 상태 진단을 직접 수행합니다.",
+              "description": "SEED 통합 스킬. 공통 디자인 지식과 React·Lynx 구현 문서를 구분해 안내하고, 플랫폼별 진단 절차를 수행합니다.",
               "docUrl": "/ai-integration/skill"
             }
           ]

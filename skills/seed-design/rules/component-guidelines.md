@@ -10,12 +10,7 @@ prop 조합이 적절한지, 가이드라인의 Do/Don't에 어긋나지 않는�
 
 ## 대상 선정
 
-1. 코드에 컴포넌트 식별자가 등장하는 파일을 찾습니다. 식별자는 컴포넌트 이름에서 공백을 뺀 문자열이 **식별자 안에 포함되는지**로 찾습니다(앞이 아니라 어디에 있어도 됩니다) — `BottomSheet`가 `BottomSheetRoot`뿐 아니라 `FlexibleBottomSheet`도, `List`가 `RegionListItem`도 잡아야 자체 구현을 놓치지 않습니다. 예외 매핑:
-
-   | 문서 id | 식별자 |
-   |---|---|
-   | `floating-action-button` | `Fab`, `ExtendedFab`, `FloatingActionButton` |
-   | `text-input` | `TextField`, `TextInput`, `Textarea` |
+1. 코드에 컴포넌트 식별자가 등장하는 파일을 찾습니다. 식별자는 컴포넌트 이름에서 공백을 뺀 문자열이 **식별자 안에 포함되는지**로 찾습니다(앞이 아니라 어디에 있어도 됩니다) — `BottomSheet`가 `BottomSheetRoot`뿐 아니라 `FlexibleBottomSheet`도, `List`가 `RegionListItem`도 잡아야 자체 구현을 놓치지 않습니다. 공통 문서 id와 코드 식별자가 다른 예외는 **선택된 Doctor 프로필의 컴포넌트 매핑**을 사용합니다.
 
    스니펫 파일명이 문서 id와 다를 수 있습니다(`text-field.tsx`는 `text-input` 문서, `radio-group.tsx`는 `radio` 문서). 파일 상단의 **`@file ui:{name}` 주석**이 registry id이고, 거기서 문서 id를 찾는 게 파일명 추측보다 정확합니다.
 
@@ -55,19 +50,11 @@ prop 조합이 적절한지, 가이드라인의 Do/Don't에 어긋나지 않는�
 
    조회 URL은 두 가지이고 형태가 다릅니다. 인덱스는 `.../{registryId}/index.json`이지만 **개별 아이템은 `.../{registryId}/{itemId}.json`입니다** — `.../{itemId}/index.json`은 404입니다. 아이템 본문(스니펫 코드)까지 봐야 하는 경우에만 개별 조회를 씁니다.
 
-   **문서 id로 registry를 조회하면 안 됩니다 — 이름이 다릅니다.** 문서 id를 그대로 넣으면 404가 나고, 그걸 "최신에도 없음"으로 읽으면 **침묵으로 빠져 안내가 사라집니다.** 알려진 불일치:
+   **문서 id로 registry를 조회하면 안 됩니다 — 이름이 다를 수 있습니다.** 문서 id를 그대로 넣어 생긴 404를 "최신에도 없음"으로 읽으면 **침묵으로 빠져 안내가 사라집니다.** 공통 가이드라인 문서의 Platform 표를 먼저 보고, 선택된 Doctor 프로필의 컴포넌트 id 매핑과 구현 인덱스로 실제 이름을 찾습니다.
 
-   | 문서 id | registry item id |
-   |---|---|
-   | `attachment-input` | `attachment-field`, `attachment-display-field` (+`-reorderable`) |
-   | `text-input` | `text-field` |
-   | `radio` | `radio-group` |
-   | `input-button` | `field-button` |
-   | `top-navigation` | `app-screen` |
+   매핑에 없는 이름이 404면 **없다고 결론내지 말고** registry 전체 인덱스에서 후보를 확인합니다. 부분 문자열 후보만으로 확정하지 말고 Platform 표와 구현 인덱스로 검증합니다.
 
-   표에 없는 이름이 404면 **없다고 결론내지 말고** 인덱스의 전체 아이템 id를 받아 부분 문자열로 찾아봅니다. 다만 **부분 문자열은 오답을 잘 냅니다** — `top-navigation`은 `navigation-menu`·`side-navigation`에 걸리지만 정답은 `app-screen`이고, `input-button`은 `*-button` 여섯 개에 걸려 구별이 안 됩니다. **확실한 답은 가이드라인 문서의 Platform 표**이니 그걸 먼저 봅니다.
-
-   그래도 없으면 스니펫이 아니라 **패키지 export로 제공되는 컴포넌트**일 수 있습니다(Divider·Badge·ImageFrame 등) — registry에 없다는 것이 곧 없다는 뜻은 아닙니다. 셋 다 아니면 **React 구현이 없는 것**입니다(`bottom-navigation`이 그렇습니다 — Platform 표가 `Not Planned`).
+   그래도 없으면 스니펫이 아니라 **선택된 플랫폼 패키지의 export로 제공되는 컴포넌트**일 수 있습니다 — registry에 없다는 것이 곧 없다는 뜻은 아닙니다. 공통 문서, 플랫폼 구현 인덱스, registry, 패키지 export를 모두 확인한 뒤에만 해당 플랫폼 구현이 없다고 판정합니다.
 
    대체 수단이 스니펫이면 `add`로 설치하는 것이고 패키지 export면 import하면 되므로, 어느 쪽인지 remediation에 밝힙니다. 스니펫이면 canonical `@requires`를 함께 확인해 업그레이드가 선행인지도 적습니다.
 
@@ -135,7 +122,7 @@ curl -s https://seed-design.io/llms/components/{id}.txt -o /tmp/{id}.txt
 
 위반의 성격에 따라 안내가 달라집니다.
 
-- **자체 구현이 SEED와 겹칠 때** — 가이드라인 문서의 Guidelines 절과 React API 문서의 Props 표를 대조해, 직접 구현한 동작 중 제공되는 prop으로 대체할 수 있는 것부터 정리합니다. 한 컴포넌트를 교체하면 그 파일의 위반이 한꺼번에 사라지는 경우가 많으므로, 개별 위반을 하나씩 고치라고 안내하기 전에 교체부터 제안합니다.
+- **자체 구현이 SEED와 겹칠 때** — 가이드라인 문서의 Guidelines 절과 선택된 플랫폼 구현 API를 대조해, 직접 구현한 동작 중 제공되는 prop으로 대체할 수 있는 것부터 정리합니다. 한 컴포넌트를 교체하면 그 파일의 위반이 한꺼번에 사라지는 경우가 많으므로, 개별 위반을 하나씩 고치라고 안내하기 전에 교체부터 제안합니다.
 - **prop·값이 문서와 다를 때** — 문서가 규정한 값과 현재 값을 나란히 보여줍니다.
 - **문구·타이밍·에셋처럼 코드 밖 결정일 때** — 어느 문장이 근거인지 인용하고, 바꿔야 할 상수나 리소스의 위치를 짚습니다. prop으로 풀리지 않습니다.
 - **의도적 이탈로 보일 때** — 도메인 요구와 문서 권장이 충돌할 수 있습니다(설문에서 기본 선택을 주면 응답이 편향되는 등). 위반으로 적되 그 가능성을 함께 밝히고, 유지한다면 판단 근거를 코드에 남기라고 안내합니다.
@@ -145,8 +132,8 @@ SEED 내부 구현이 충족해주는 기준은 근거를 두 개 답니다 — 
 ## 읽어야 할 문서 (컴포넌트별)
 
 - 디자인 가이드라인 (판정 기준의 출처): `https://seed-design.io/llms/components/{id}.txt`
-- React API: **가이드라인 문서 안의 Platform 표에 적힌 링크를 씁니다.** `[React](/react/components/radio-group)`처럼 정확한 경로가 거기 있습니다. `llms/react/components/{문서id}.txt`로 URL을 만들면 안 됩니다 — 이름이 다른 컴포넌트는 전부 404이고, registry id로 바꿔도 `text-field`(실제는 `text-field-input`·`text-field-textarea` 둘로 갈림)나 `app-screen`(`/react/stackflow/` 아래)처럼 여전히 안 맞는 것이 있습니다. Platform 표가 `Not Planned`면 React 구현이 아예 없는 것이니 재구현을 지적하지 않습니다.
+- 선택된 플랫폼 구현 API: **가이드라인 문서 안의 Platform 표에서 선택된 플랫폼 링크를 우선합니다.** 공통 문서 id로 플랫폼 URL을 만들면 이름이나 중첩 경로가 달라 404가 날 수 있습니다. 링크가 없으면 선택된 Doctor 프로필의 구현 인덱스와 id 매핑에서 찾습니다. Platform 표가 선택된 플랫폼에 `Not Planned`라고 명시하면 구현이 없는 것이니 재구현을 지적하지 않습니다.
 
-  Platform 표의 링크는 CMS에 손으로 적는 값이라 **가끔 낡습니다.** 열었는데 본문이 비어 있으면(상태 코드가 200이어도 그럴 수 있습니다 — 제목도 본문도 없는 껍데기가 옵니다) 그 링크를 믿지 말고 `react/llms.txt`에서 실제 이름을 찾습니다. 링크가 낡았다는 사실 자체는 `doc-conflict`로 남겨 SEED 쪽이 고치게 합니다.
+  Platform 표의 링크는 CMS에 손으로 적는 값이라 **가끔 낡습니다.** 열었는데 본문이 비어 있으면(상태 코드가 200이어도 그럴 수 있습니다 — 제목도 본문도 없는 껍데기가 옵니다) 그 링크를 믿지 말고 프로필의 구현 인덱스에서 실제 이름을 찾습니다. 링크가 낡았다는 사실 자체는 `doc-conflict`로 남겨 SEED 쪽이 고치게 합니다.
 
-  **표가 없거나(`text-input`) 표는 있는데 React 칸이 링크가 아닌 문서도 있습니다**(`field`은 `| React | Done | … |`로 텍스트만). 그때도 `react/llms.txt`에서 이름을 찾습니다 — 링크가 없다고 React 구현이 없는 게 아닙니다. 구현이 없다는 판단은 표에 `Not Planned`라고 적혀 있을 때만 합니다.
+  **표가 없거나 선택된 플랫폼 칸이 링크가 아닌 문서도 있습니다.** 그때도 프로필의 구현 인덱스에서 이름을 찾습니다 — 링크가 없다고 구현이 없는 게 아닙니다. 구현이 없다는 판단은 `Not Planned` 명시 또는 프로필이 정한 전체 가용성 확인 뒤에만 합니다.

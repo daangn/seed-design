@@ -1,14 +1,32 @@
 ---
 title: Skill
-description: SEED 통합 스킬. 셋업·컴포넌트·파운데이션·CLI는 공식 문서로 안내하고, 문서를 대조해야 답이 나오는 판단(버전 호환, 업그레이드 경로)과 사용 상태 진단을 직접 수행합니다.
+description: SEED 통합 스킬. 공통 디자인 지식과 React·Lynx 구현 문서를 구분해 안내하고, 플랫폼별 진단 절차를 수행합니다.
 ---
 
 `seed-design` 스킬은 AI 에이전트가 SEED를 쓰는 프로젝트를 도울 때 로드하는 가이드입니다.
 
-**문서에 이미 있는 것은 스킬에 옮겨 적지 않습니다.** 셋업 절차나 컴포넌트 목록, 토큰 이름은 공식 문서가 원본이고 복사본은 원본보다 먼저 낡습니다. 스킬이 담는 것은 **문서만으로는 나오지 않는 것** 두 가지입니다.
+**문서에 이미 있는 것은 스킬에 옮겨 적지 않습니다.** 셋업 절차나 컴포넌트 목록, 토큰 이름은 공식 문서와 `docs` CLI가 원본이고 복사본은 원본보다 먼저 낡습니다. 스킬은 질문을 다음 세 층으로 나눠 필요한 원본을 찾습니다.
 
-- **여러 문서를 대조해야 결론이 나오는 판단** — 설치된 `react`와 `css`가 서로 맞는지, 어느 버전까지 어떤 순서로 올려야 하는지
-- **코드를 문서 기준으로 검사하는 진단** — 구버전 스니펫, deprecated 사용, 가이드라인 준수 여부 ([Doctor](/ai-integration/skill/doctor))
+1. **공통 디자인 지식** — 컴포넌트 Anatomy·Properties·Guidelines와 색상·타이포그래피·스페이싱 같은 Foundations
+2. **플랫폼 구현** — React 또는 Lynx의 API, 설치, 스니펫, 코드 작성
+3. **플랫폼별 Doctor** — 선택된 플랫폼 프로필로 구버전 스니펫, deprecated 사용, 가이드라인 준수 여부를 진단
+
+공통 컴포넌트 스펙과 Foundations는 프로젝트나 플랫폼을 확인하지 않고 바로 조회합니다. 구현·설치·Doctor처럼 결과가 달라지는 요청만 **사용자 명시 → 대상 워크스페이스의 `seed-design.json.framework` → 직접 의존성** 순으로 플랫폼을 판별합니다. 모노레포에서 React와 Lynx가 함께 발견되거나 단서가 없으면 에이전트가 React를 추측하지 않고 사용자에게 확인합니다.
+
+## Documentation routing
+
+| 필요한 정보 | `docs` CLI 경로 |
+| --- | --- |
+| 공통 컴포넌트 스펙 | `docs docs/components/{id} --raw` |
+| Foundations | `docs docs/foundations/{topic} --raw` |
+| React 구현 | `docs react/components/{id} --raw` |
+| Lynx 구현 | `docs lynx/components/{id} --raw` |
+
+스펙과 구현을 함께 묻는 경우 공통 문서를 먼저 읽고 판별된 플랫폼 문서를 결합합니다. 선택된 플랫폼의 문서나 registry 항목이 없으면 다른 플랫폼으로 대체하지 않고 그 플랫폼의 지원 부재를 안내합니다.
+
+CLI 명령어 문서는 현재 React 문서 트리 아래에 있지만, `init`, `add`, `add-all`, `compat`, `docs`와 `--framework react|lynx`는 두 플랫폼을 지원합니다. 문서 위치가 CLI 지원 범위를 뜻하지는 않습니다.
+
+Doctor는 현재 React만 지원합니다. Lynx Doctor 요청에는 React 룰을 대신 실행하지 않고 현재 지원 범위를 안내합니다. 자세한 내용은 [Doctor](/ai-integration/skill/doctor)를 참고하세요.
 
 ## Installation
 
@@ -27,6 +45,7 @@ npx skills add https://github.com/daangn/seed-design --skill seed-design
       <File name="migration.md" />
       <File name="upgrade.md" />
       <File name="doctor.md" />
+      <File name="doctor-react.md" />
     </Folder>
     <Folder name="rules">
       <File name="outdated-version.md" />
@@ -46,8 +65,9 @@ npx skills add https://github.com/daangn/seed-design --skill seed-design
 | `SKILL.md` | 진입점. 프로젝트 상태를 파악하고 아래로 분기합니다 |
 | `references/migration.md` | 스니펫 버전 맞추기, 파일 충돌 해결, 패키지 간 호환 판단 |
 | `references/upgrade.md` | 업그레이드 진단 — changelog 해석과 마이그레이션 경로 |
-| `references/doctor.md` | 사용 상태 진단 절차 — [Doctor 페이지](/ai-integration/skill/doctor)에서 다룹니다 |
-| `rules/*.md` | 진단의 판정 기준이자 코드 작성 가이드 — [Doctor 페이지](/ai-integration/skill/doctor)에서 다룹니다 |
+| `references/doctor.md` | 플랫폼 판별, 지원 확인, 공통 실행 절차와 리포트 계약 |
+| `references/doctor-react.md` | React Doctor의 패키지·API·registry·업그레이드 문서·적용 룰 |
+| `rules/*.md` | 선택된 Doctor 프로필이 입력을 제공하는 공통 판정 기준이자 코드 작성 가이드 |
 
 ## SKILL.md
 

@@ -14,7 +14,7 @@
    grep -r "@requires" {snippetRoot} --include="*.tsx" --include="*.ts"
    ```
 
-2. 최신 registry의 canonical 범위를 가져옵니다. registry별 인덱스의 `items[].snippets[].dependencies`가 각 스니펫 파일의 현재 `@requires`입니다.
+2. 선택된 Doctor 프로필이 가리키는 최신 registry에서 canonical 범위를 가져옵니다. registry별 인덱스의 `items[].snippets[].dependencies`가 각 스니펫 파일의 현재 `@requires`입니다.
 
    ```text
    https://seed-design.io/__registry__/{framework}/{registryId}/index.json
@@ -35,7 +35,7 @@
 
 메시지 형식에 주의하세요: "현재 X"라고 쓰면 프로젝트에 설치된 패키지 버전으로 오해됩니다. 비교 대상은 **스니펫 세대**(설치 시점 registry 기준 vs 최신 registry 기준)이지 프로젝트 패키지 버전이 아닙니다.
 
-> 예: `src/seed-design/ui/action-button.tsx:1` — 구버전 스니펫 (`@seed-design/react@~1.0.0` 기준으로 설치됨, 최신 스니펫은 `^2.0.0` 기준)
+> 예: `src/seed-design/ui/action-button.tsx:1` — 구버전 스니펫 (설치 세대의 구현 패키지 범위와 최신 스니펫 범위가 다름)
 
 ## 수정 방법
 
@@ -47,5 +47,5 @@ npx @seed-design/cli@latest add --on-diff backup {registryId}:{itemId}
 
 ## 읽어야 할 문서
 
-- [CLI 명령어 (add · compat)](https://seed-design.io/llms/react/getting-started/cli/commands.txt)
-- [SEED React 2 업그레이드 가이드](https://seed-design.io/llms/react/updates/upgrade/v2.txt)
+- [CLI 명령어 (add · compat)](https://seed-design.io/llms/react/getting-started/cli/commands.txt) — 문서 위치와 무관하게 React·Lynx를 지원합니다
+- 선택된 Doctor 프로필의 registry·업그레이드 문서

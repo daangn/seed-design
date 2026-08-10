@@ -1,51 +1,83 @@
 # 사용 상태 진단 (doctor)
 
-프로젝트가 SEED를 어떻게 쓰고 있는지 진단하고, **무엇을 읽고 어떻게 고쳐야 하는지**까지 알려주는 절차입니다. 린터가 아니라 가이드입니다 — 판정마다 배경 맥락, 참조 문서 링크, 수정 방법이 함께 나가야 합니다.
+프로젝트가 SEED를 어떻게 쓰고 있는지 진단하고, **무엇을 읽고 어떻게 고쳐야 하는지**까지 알려주는 공통 절차입니다. 플랫폼별 패키지·API·registry·룰 목록은 별도 Doctor 프로필에서 받습니다.
 
 `compat`(스니펫 버전 호환성 검사)·`upgrade.md`(changelog 기반 업그레이드 진단)와 역할이 다릅니다. doctor는 **코드 사용 상태**를 봅니다.
+
+## 목차
+
+- [지원 범위](#지원-범위)
+- [원칙](#원칙)
+- [공통 지식 지도](#공통-지식-지도)
+- [Step 1: 대상과 플랫폼 확정](#step-1-대상과-플랫폼-확정)
+- [Step 2: 프로필 로드와 사실 수집](#step-2-프로필-로드와-사실-수집)
+- [Step 3: 룰 순회](#step-3-룰-순회)
+- [Step 4: 출력](#step-4-출력)
+- [HTML 리포트](#html-리포트)
+
+## 지원 범위
+
+| 플랫폼 | Doctor 프로필 | 상태 |
+|---|---|---|
+| React | [doctor-react.md](doctor-react.md) | 지원 |
+| Lynx | `doctor-lynx.md` | 미지원 |
+
+Lynx Doctor를 요청하면 현재 지원되지 않는다고 알리고 중단합니다. **React 프로필·React 룰을 대신 실행하거나 React 판정을 Lynx 결과로 내지 않습니다.** 리포트 스키마가 `framework: lynx`를 허용하는 것은 향후 확장을 위한 계약이지 현재 지원을 뜻하지 않습니다.
+
+Lynx Doctor는 향후 `doctor-lynx.md`에 패키지·API·registry와 적용 룰 목록을 정의하고 위 표를 활성화하면 같은 공통 절차를 사용할 수 있습니다.
 
 ## 원칙
 
 - **진단은 read-only입니다.** "수정 방법"은 사용자에게 전달할 안내이지 지금 실행할 명령이 아닙니다. 코드 변경·재설치는 사용자가 별도로 지시할 때만 합니다.
 - **판단 근거는 문서이지 기억이 아닙니다.** 각 룰이 가리키는 참조 문서를 실제로 읽고 대조합니다.
 - **확신이 없으면 보고하지 않습니다.** 모든 판정에는 코드 증거(파일:라인)가 있어야 합니다.
+- **지원되는 플랫폼 프로필 없이는 실행하지 않습니다.** 다른 플랫폼 프로필을 대체재로 쓰지 않습니다.
 - **이 진단은 상위 모델을 전제합니다.** 경량 모델이 기준 수집과 기각 목록을 통째로 건너뛰는 것이 실측됐습니다 — 형식은 통과하므로 결과만 봐서는 모릅니다. 아래 `coverage`가 그걸 드러내는 장치입니다.
 
-## 지식 지도
+## 공통 지식 지도
 
 | 지식 | 위치 |
 |------|------|
 | 컴포넌트 디자인 가이드라인 (판정 기준의 출처) | `https://seed-design.io/llms/components/{id}.txt` — **원문(raw)으로 읽기** |
 | 가이드라인 문서 목록 | `https://seed-design.io/components/llms.txt` |
-| React API (Props 표) | `https://seed-design.io/llms/react/components/{id}.txt` |
 | Deprecated 현황 | `https://seed-design.io/llms/docs/migration/deprecations.txt` |
-| 업그레이드 가이드 | `https://seed-design.io/llms/react/updates/upgrade/v2.txt` · `v1.txt` |
-| 스니펫 canonical 세대 (`items[].snippets[].dependencies`) | `https://seed-design.io/__registry__/{framework}/{registryId}/index.json` (예: `react/ui`) |
-| 개별 스니펫 본문 | `https://seed-design.io/__registry__/{framework}/{registryId}/{itemId}.json` — `{itemId}/index.json`은 404 |
-| **설치 세대의** registry (그때 뭐가 있었는지) | `https://v1-0.seed-design.io` · `v1-1` · `v1-2` — **이 셋뿐입니다.** 아카이브된 버전만 서브도메인이 있고, 그 외(`v2-0` 등)는 도메인 자체가 없어 조회가 실패합니다 |
 | 패키지 최신 버전 | `npm view {pkg} version` — 막힌 환경이면 `curl -s https://registry.npmjs.org/{pkg}/latest`에서 `version` 필드를 뽑습니다(`jq`가 없으면 다른 수단으로). `/latest` 없이 받으면 400KB가 넘으니 반드시 붙입니다 |
 
-## Step 1: 프로젝트 사실 수집
+## Step 1: 대상과 플랫폼 확정
 
-판정 전에 프로젝트 상태를 파악합니다.
+사용자가 지정한 경로만 대상으로 삼습니다. 경로를 지정하지 않은 모노레포라면 먼저 SEED를 쓰는 워크스페이스를 찾습니다. `seed-design.json`과 `@seed-design/*` 직접 의존성이 워크스페이스마다 따로 있을 수 있고, SEED를 쓰지 않는 워크스페이스는 대상이 아닙니다.
 
-1. `seed-design.json` — `framework`(기본 `react`)와 `path`(스니펫 디렉토리) 확인
-2. `package.json` — 설치된 `@seed-design/*` 패키지와 버전
-3. `path`가 가리키는 디렉토리 — 설치된 스니펫 목록
+파일을 찾을 때 `node_modules`와 `.claude/worktrees`는 **반드시 제외합니다** — 워크트리 사본의 `seed-design.json`이 잡히면 같은 프로젝트를 중복 진단하게 됩니다.
 
-**모노레포라면 먼저 "어느 워크스페이스가 SEED를 쓰는가"를 찾습니다.** `seed-design.json`과 `@seed-design/*` 의존성이 워크스페이스마다 따로 있을 수 있고, SEED를 아예 안 쓰는 워크스페이스는 대상이 아닙니다. 파일을 찾을 때 `node_modules`와 `.claude/worktrees`는 **반드시 제외합니다** — 워크트리 사본의 `seed-design.json`이 잡히면 같은 프로젝트를 중복 진단하게 됩니다.
+대상 워크스페이스마다 `SKILL.md`의 플랫폼 판별 순서(사용자 명시 → `seed-design.json.framework` → 직접 의존성)를 적용합니다. 여러 플랫폼이나 여러 대상 워크스페이스가 잡히면 사용자에게 진단 대상을 확인합니다. 단서가 없을 때 React로 간주하지 않습니다.
 
-사용자가 경로를 지정하면 그 범위만, 아니면 프로젝트 전체를 봅니다.
+플랫폼이 정해지면 위 지원표를 확인합니다. 활성화된 프로필이 없으면 여기서 중단합니다.
 
-## Step 2: 룰 순회
+## Step 2: 프로필 로드와 사실 수집
 
-**`rules/` 디렉토리의 모든 파일을 나열하고, 각 파일을 읽고 그 판정 방법대로 프로젝트를 검사합니다.** 룰 파일이 추가되면 이 절차에 자동으로 포함됩니다 — 이 문서에는 룰 목록을 복제하지 않습니다.
+선택된 Doctor 프로필을 읽고 다음 값을 받습니다.
 
-각 룰은 공통 형식을 따릅니다: 무엇을 판정하는지(severity) → 왜 → 판정 방법 → 수정 방법 → 읽어야 할 문서. 판정이 나오면 해당 룰의 "수정 방법"과 "읽어야 할 문서"를 결과에 함께 싣습니다.
+- 구현·스타일링 패키지와 버전 기준 패키지
+- 구현 API 인덱스와 업그레이드 문서
+- canonical·설치 세대 registry
+- 컴포넌트 문서 id와 구현·registry id 매핑
+- 이 플랫폼에 적용할 룰 파일 목록
 
-[component-guidelines](rules/component-guidelines.md)는 컴포넌트별로 반복 적용합니다 — 코드에 등장하는 컴포넌트마다 가이드라인 문서를 읽고 기준을 도출해 판정합니다.
+그다음 프로젝트 상태를 파악합니다.
 
-## Step 3: 출력
+1. `seed-design.json` — `framework`와 `path`(스니펫 디렉토리) 확인
+2. `package.json` — 프로필에 속하는 직접 설치 `@seed-design/*` 패키지와 버전
+3. `path`가 가리키는 디렉토리 — `@file` 헤더가 있는 설치 스니펫 목록
+
+## Step 3: 룰 순회
+
+**프로필의 "적용 룰" 목록에 있는 파일만 읽고 검사합니다.** `rules/` 디렉토리의 모든 파일을 자동으로 실행하지 않습니다. 룰이 존재해도 선택된 플랫폼 프로필이 활성화하지 않았다면 그 Doctor의 판정 기준이 아닙니다.
+
+각 룰은 공통 형식을 따릅니다: 무엇을 판정하는지(severity) → 왜 → 판정 방법 → 수정 방법 → 읽어야 할 문서. 룰 안의 "선택된 플랫폼 프로필"은 Step 2에서 읽은 값입니다. 판정이 나오면 룰의 수정 방법과 근거 문서를 결과에 함께 싣습니다.
+
+[component-guidelines](../rules/component-guidelines.md)는 컴포넌트별로 반복 적용합니다 — 코드에 등장하는 컴포넌트마다 가이드라인 문서를 읽고 기준을 도출해 판정합니다.
+
+## Step 4: 출력
 
 **결과는 YAML 파일 하나로 씁니다.** 채팅 요약과 HTML 리포트는 이 파일에서 파생되므로, 형태가 셋으로 갈리지 않고 하나가 원본입니다. 스키마는 `assets/doctor-report.schema.json`이고, 필드 설명이 거기 들어 있습니다.
 
@@ -54,7 +86,7 @@ schemaVersion: 1
 meta:
   target: /path/to/project
   workspace: services/webview      # 모노레포일 때만. 단일 패키지면 생략
-  framework: react
+  framework: react        # 선택된 Doctor 프로필
   date: "2026-08-02"   # 따옴표 필수 — 없으면 파서에 따라 날짜 객체가 되어 스키마(string)를 어깁니다
   seed:
     installed: { "@seed-design/react": 1.2.0, "@seed-design/css": 1.2.0 }
