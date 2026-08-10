@@ -20,7 +20,7 @@
 | `release-bootstrap.yml` | 최초 `minor`·`major` 생성 | branch 생성과 bootstrap PR |
 | `release-activation.yml` | Rootage, sync와 dry-run·production mode 전환 | `dev` activation PR |
 | `release-sync.yml` | FIFO drain, trusted merge, blocker alert | job별 GitHub 최소 권한 |
-| `release-packages.yml` | lane별 Version Packages plan/write | tokenless planner와 writer 분리 |
+| `release-packages.yml` | lane별 Version Packages와 prerelease enter/exit plan/write | tokenless planner와 writer 분리 |
 | `release-pr-validation.yml` | generated PR exact-head 검증 | checkout 없는 status writer 분리 |
 | `release-publish.yml` | npm, tag, Rootage, durable receipt | OIDC와 Git write를 별도 job으로 분리 |
 | `release-notification.yml` | 완료된 production receipt 알림 | publish 결과와 실패 격리 |
@@ -34,9 +34,31 @@ GitHub write token, npm OIDC, 배포 credential은 서로 다른 job과 엔트�
 
 상태 전이와 게시 입력은 PR identity, exact head/merge SHA, trusted workflow run receipt와 결속한다. 로컬 검증과 테스트에는 production credential이나 네트워크 쓰기가 필요하지 않아야 한다.
 
+`minor`·`major` prerelease는 `dormant → active → exiting → dormant` 순서로 전이한다. Enter/Exit
+Intent PR은 `.changeset/pre.json`만 변경하고 publish queue에 들어가지 않는다. `exiting` lane에서는
+exact Exit merge에 결속된 Stable Version Packages PR 외의 일반·sync·version 작업을 거부한다.
+두 prerelease lane의 상태 작업은 전역 직렬화하며, Enter도 sibling dormant, pending stable promotion,
+미병합 baseline을 selection·validation·writer에서 반복 확인한다.
+
+Non-dev stable publish는 Exit PR 번호, merge SHA, operation ID, Stable Version PR base/head와 control
+SHA를 exact marker로 증명한 경우에만 허용한다. Stable Version PR merge는 npm `latest` 이동이므로
+dry-run에서는 생성·검증·게시하지 않는다.
+
+Stable publish의 durable production receipt가 기록되면 별도 `baseline-reconcile` job이 npm
+`latest`를 확인하고 검토된 Version 산출물만 current dev와 dormant sibling lane에 각각 적용하는 PR을
+만든다. Minor publish의 sibling은 major이고 major publish의 sibling은 minor다. 이 job은 npm OIDC와
+Rootage credential을 갖지 않으며, target lane code나 lifecycle을 실행하지 않는다. 각 PR은 target
+lane과 exact base/head에 결속되고 trusted validation receipt가 있어야 한다. 두 Baseline PR을 사람이
+merge하기 전에는 dev production publish와 다음 stable promotion을 거부한다.
+
 Activation operation의 이름, 대상 상태 파일과 bootstrap-readiness 요구는 `src/core/types.ts`와 `src/setup/activation.ts`의 exhaustive spec으로 관리한다. Workflow choice 목록은 계약 테스트가 같은 operation 배열과 exact 비교한다.
 
 `dev`를 release control-plane trust root로 사용한다. `minor`·`major` source는 data/worktree로만 다루며, write credential을 가진 프로세스가 lane의 Bun 설정, lifecycle 또는 임의 source script를 실행하지 않도록 한다.
+
+Changesets 2.29.7의 prerelease peer-dependent 자동 major는 제품의 BC 판단이 아니다. Trusted replay가
+실제 CLI 결과를 먼저 계산한 뒤, Web consumer는 explicit Changeset bump를 보존하고 peer-only 전파는
+최소 patch로 교정한다. Lynx allowlist의 peer-only major만 0.x minor로 교정한다. Beta 내부 peer와
+devDependency는 exact version, stable peer는 caret, stable devDependency는 exact version을 사용한다.
 
 ## 명령어
 
