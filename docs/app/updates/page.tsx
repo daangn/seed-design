@@ -9,6 +9,7 @@ import { ProsePage } from "@/components/layout/prose-page";
 import { formatPublishedDate } from "@/lib/format-date";
 import { buildSeoMetadata, resolveCoverImage } from "@/lib/seo";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
+import { ReleaseCard } from "./release-card";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -97,33 +98,6 @@ async function buildCards(): Promise<UpdateCard[]> {
   });
 }
 
-/**
- * 릴리즈 노트 행: 썸네일 없이 제목·날짜·한 줄 설명만. 전부 내부 링크라 화살표를 달지 않는다
- * — 카드와 달리 목록을 훑는 용도이고, 행마다 같은 화살표가 반복되면 잡음이 된다.
- */
-function ReleaseRow({ card }: { card: UpdateCard }) {
-  const published = card.publishedAt ? new Date(card.publishedAt) : null;
-
-  return (
-    <Link href={card.href} className="group block border-b border-fd-border py-4">
-      <div className="flex items-baseline justify-between gap-4">
-        <h3 className="font-medium group-hover:underline">{card.title}</h3>
-        {published && (
-          <time
-            dateTime={published.toISOString()}
-            className="shrink-0 text-sm text-fd-muted-foreground"
-          >
-            {formatPublishedDate(published)}
-          </time>
-        )}
-      </div>
-      {card.description && (
-        <p className="mt-1 line-clamp-1 text-sm text-fd-muted-foreground">{card.description}</p>
-      )}
-    </Link>
-  );
-}
-
 /** 블로그형 카드: 16:9 썸네일 + 날짜/제목/설명. 외부 글에만 ↗ 화살표를 단다. */
 function UpdateCardLink({ card }: { card: UpdateCard }) {
   const published = card.publishedAt ? new Date(card.publishedAt) : null;
@@ -174,8 +148,8 @@ function UpdateCardLink({ card }: { card: UpdateCard }) {
 
 /**
  * Updates 섹션 랜딩 — 사이드바 없는 1컬럼.
- * 릴리즈 노트(`category: release`)는 썸네일 없는 리스트로 위에, 블로그 글은 카드 그리드로 아래에.
- * 릴리즈 노트는 버전마다 나가는 잦은 글이라 매번 16:9 커버를 만들지 않아도 되게 리스트로 둔다.
+ * 릴리즈 노트(`category: release`)는 썸네일 없는 카드로 위에, 블로그 글은 카드 그리드로 아래에.
+ * 릴리즈 노트는 버전마다 나가는 잦은 글이라 매번 16:9 커버를 만들지 않는다.
  */
 export default async function Page() {
   const cover = resolveCoverImage(UPDATES_COVER_IMAGE);
@@ -198,9 +172,15 @@ export default async function Page() {
       {releases.length > 0 && (
         <section className="not-prose mb-12 md:mb-16">
           <h2 className={SECTION_HEADING_CLASS}>Release Notes</h2>
-          <div className="border-t border-fd-border">
+          <div className="grid grid-cols-1 gap-y-x4 sm:grid-cols-2 sm:gap-x-x6">
             {releases.map((card) => (
-              <ReleaseRow key={card.href} card={card} />
+              <ReleaseCard
+                key={card.href}
+                href={card.href}
+                title={card.title}
+                description={card.description}
+                publishedAt={card.publishedAt}
+              />
             ))}
           </div>
         </section>
