@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/stackflow",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -40,7 +40,7 @@
     "clsx": "^2.1.1"
   },
   "devDependencies": {
-    "@seed-design/css": "2.3.0",
+    "@seed-design/css": "2.4.2",
     "@stackflow/core": "^1.2.0",
     "@stackflow/react": "^1.5.1",
     "@types/react": "^19.2.2",

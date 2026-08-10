@@ -1,9 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 import type { DisplayItemEntry } from "@seed-design/react/primitive";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -31,15 +30,10 @@ const AttachmentDisplayForStory = (props: AttachmentDisplayStoryProps) => (
   </AttachmentDisplayField>
 );
 
-const meta = {
+const meta = preview.meta({
   component: AttachmentDisplayForStory,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof AttachmentDisplayForStory>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   entries: {
     "0": { defaultEntries: [] },
@@ -90,7 +84,7 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     label: "Attachment Display Field",
     indicator: "필수",
@@ -98,31 +92,26 @@ const CommonStoryTemplate: Story = {
     description: "최대 3장까지 첨부할 수 있어요.",
     errorMessage: "최소 1장은 첨부해야 해요.",
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={attachmentInputVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme: Story = {
-  ...CommonStoryTemplate,
-};
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

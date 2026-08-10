@@ -28,3 +28,14 @@
 - target platform을 `cross-platform`으로 판별한다.
 - shared Rootage/API 합의 후 React와 Lynx 구현/문서를 분리한다.
 - Lynx 미지원 기능은 타입과 `docs/content/lynx`에 별도 문서화하도록 안내한다.
+
+## 4. Storybook-only 리팩터링
+
+> 기존 React 컴포넌트 story의 공통 variant mapping을 CSF Next로 정리하고 custom parameters 타입도 맞춰줘. 컴포넌트 구현은 바꾸지 마.
+
+확인할 것:
+- Storybook-only fast path로 진입하고 Platform/Phase 0 질문을 요구하지 않는다.
+- `references/storybook.md`를 읽고 `preview.meta`, `meta.story`, `<Story>.extend`를 사용한다.
+- meta component가 필요한 custom render는 두 번째 context의 `component`를 사용한다.
+- wrapper·동적 component 예외와 기존 Chromatic 적용 범위를 보존한다.
+- docs typecheck, Storybook Vite build, 저장소 검증을 안내한다.

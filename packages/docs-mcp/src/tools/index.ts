@@ -1,4 +1,4 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/server";
 import { registerDiscoverSeedDocsTool } from "./discover.js";
 import { registerListDocsTool, registerGetDocTool, registerGetFullDocsTool } from "./docs.js";
 import { registerGetRootageTool } from "./get-rootage.js";

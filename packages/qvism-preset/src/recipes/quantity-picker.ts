@@ -1,6 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/quantity-picker.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/quantity-picker";
 import { quantityPicker as vars } from "../vars/component";
 import { quantityPickerButton as buttonVars } from "../vars/component";
 
@@ -77,6 +75,7 @@ const quantityPicker = defineSlotRecipe({
     },
     valueDisplay: {
       display: "grid",
+      flexGrow: 1,
       flexShrink: 0,
       alignItems: "center",
       justifyContent: "center",
@@ -143,6 +142,14 @@ const quantityPicker = defineSlotRecipe({
     },
   },
   variants: {
+    layout: {
+      hug: {},
+      fill: {
+        root: {
+          flexGrow: 1,
+        },
+      },
+    },
     size: {
       small: {
         root: {
@@ -258,6 +265,7 @@ const quantityPicker = defineSlotRecipe({
     },
   },
   defaultVariants: {
+    layout: "hug",
     size: "medium",
   },
   metadata: {

@@ -2,6 +2,7 @@
     position: relative;
     overflow: hidden;
     border-radius: inherit;
+    isolation: isolate;
 }
 .seed-image-frame__content {
     display: block;
@@ -10,10 +11,19 @@
     object-fit: cover;
     border-radius: inherit;
 }
-.seed-image-frame__content:not([data-loading-state='loaded']) {
+.seed-image-frame__content[data-loading-state='error'] {
     display: none;
 }
+.seed-image-frame__content:is([hidden], [data-hidden]) {
+    display: none;
+}
+.seed-image-frame__content:not([data-loading-state='loaded']) {
+    pointer-events: none;
+}
 .seed-image-frame__fallback {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     width: 100%;
     height: 100%;
 }

@@ -1,5 +1,5 @@
 name: 'Setup Seed Design'
-description: 'Setup Bun, install dependencies, and optionally build packages'
+description: 'Setup Bun, install dependencies, build ecosystem tools, and optionally build packages'
 
 inputs:
   build-packages:
@@ -35,6 +35,12 @@ runs:
     - name: Install Dependencies
       shell: bash
       run: bun install --frozen-lockfile
+
+    - name: Build Ecosystem Tools and Relink Workspace
+      shell: bash
+      run: |
+        bun ecosystem:build
+        bun install --frozen-lockfile
 
     - name: Generate build cache key
       id: build-cache-key

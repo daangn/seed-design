@@ -11,6 +11,7 @@ const LITERAL_KIND_TO_TYPE: Record<ValueLit["kind"], PropertySchemaDeclaration["
   ColorHexLit: "color",
   DimensionLit: "dimension",
   NumberLit: "number",
+  EnumLit: "enum",
   DurationLit: "duration",
   CubicBezierLit: "cubicBezier",
   ShadowLit: "shadow",
@@ -101,14 +102,34 @@ export function validate(ctx: RootageCtx): ValidationResult {
   }
 
   for (const componentSpec of componentSpecs) {
-    const slotSchemaMap = new Map<string, Map<string, PropertySchemaDeclaration["type"]>>();
+    const slotSchemaMap = new Map<string, Map<string, PropertySchemaDeclaration>>();
 
     for (const slotSchema of componentSpec.schema.slots) {
-      const propertyTypeMap = new Map<string, PropertySchemaDeclaration["type"]>();
+      const propertySchemaMap = new Map<string, PropertySchemaDeclaration>();
       for (const prop of slotSchema.properties) {
-        propertyTypeMap.set(prop.name, prop.type);
+        if (prop.type === "enum") {
+          if (prop.values.length === 0) {
+            return {
+              valid: false,
+              message: `Property "${prop.name}" in slot "${slotSchema.name}" is an enum with no values in component spec "${componentSpec.name}"`,
+            };
+          }
+
+          // A `$`-prefixed value is indistinguishable from a token reference, and
+          // the reference wins: the parser resolves it before it ever reaches the
+          // enum. Such a value could never be written, so reject the declaration.
+          const tokenLike = prop.values.find((value) => value.startsWith("$"));
+          if (tokenLike) {
+            return {
+              valid: false,
+              message: `Enum value "${tokenLike}" of property "${prop.name}" in slot "${slotSchema.name}" starts with "$" and would be read as a token reference in component spec "${componentSpec.name}"`,
+            };
+          }
+        }
+
+        propertySchemaMap.set(prop.name, prop);
       }
-      slotSchemaMap.set(slotSchema.name, propertyTypeMap);
+      slotSchemaMap.set(slotSchema.name, propertySchemaMap);
     }
 
     const usedProperties = new Map<string, Set<string>>();
@@ -119,19 +140,19 @@ export function validate(ctx: RootageCtx): ValidationResult {
     for (const variant of componentSpec.body) {
       for (const state of variant.body) {
         for (const slot of state.body) {
-          if (!slotSchemaMap.has(slot.slot)) {
+          const propertySchemaMap = slotSchemaMap.get(slot.slot);
+          if (!propertySchemaMap) {
             return {
               valid: false,
               message: `Slot "${slot.slot}" is not defined in schema but used in component spec "${componentSpec.name}"`,
             };
           }
 
-          const propertyTypeMap = slotSchemaMap.get(slot.slot)!;
-
           for (const property of slot.body) {
             usedProperties.get(slot.slot)?.add(property.property);
 
-            if (!propertyTypeMap.has(property.property)) {
+            const propertySchema = propertySchemaMap.get(property.property);
+            if (!propertySchema) {
               return {
                 valid: false,
                 message: `Property "${property.property}" is not defined in slot "${slot.slot}" schema but used in component spec "${componentSpec.name}"`,
@@ -148,7 +169,7 @@ export function validate(ctx: RootageCtx): ValidationResult {
               }
             }
 
-            const expectedType = propertyTypeMap.get(property.property)!;
+            const expectedType = propertySchema.type;
             const actualType = (() => {
               switch (property.value.kind) {
                 case "TokenLit":
@@ -163,6 +184,17 @@ export function validate(ctx: RootageCtx): ValidationResult {
               return {
                 valid: false,
                 message: `Property "${property.property}" expects type "${expectedType}" but got "${actualType}" in component spec "${componentSpec.name}"`,
+              };
+            }
+
+            if (
+              propertySchema.type === "enum" &&
+              property.value.kind === "EnumLit" &&
+              !propertySchema.values.includes(property.value.value)
+            ) {
+              return {
+                valid: false,
+                message: `Property "${property.property}" expects one of ${propertySchema.values.map((value) => `"${value}"`).join(", ")} but got "${property.value.value}" in component spec "${componentSpec.name}"`,
               };
             }
           }

@@ -1,0 +1,61 @@
+declare const artifact: {
+  "kind": "ComponentSpec";
+  "metadata": {
+    "id": "scroll-fog";
+    "name": "Scroll Fog";
+  };
+  "data": {
+    "id": "scroll-fog";
+    "name": "Scroll Fog";
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "fromColor": {
+              "type": "color";
+            };
+            "toColor": {
+              "type": "color";
+            };
+            "size": {
+              "type": "dimension";
+            };
+          };
+        };
+      };
+      "variants": {};
+    };
+    "definitions": readonly [
+      {
+        "variants": {};
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "fromColor": {
+                  "type": "color";
+                  "value": "#00000000";
+                };
+                "toColor": {
+                  "type": "color";
+                  "value": "#000000ff";
+                };
+                "size": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 20;
+                    "unit": "px";
+                  };
+                };
+              };
+            };
+          },
+        ];
+      },
+    ];
+  };
+};
+export default artifact;

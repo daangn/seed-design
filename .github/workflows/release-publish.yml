@@ -1,0 +1,204 @@
+name: Release publish
+
+on:
+  pull_request_target:
+    branches: [dev, minor, major]
+    types: [closed]
+  schedule:
+    - cron: "7,27,47 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: >-
+    ${{
+      (
+        github.event_name != 'pull_request_target' ||
+        (
+          github.event.pull_request.merged == true &&
+          github.event.pull_request.user.login == 'github-actions[bot]' &&
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          github.event.pull_request.head.ref == format('changeset-release/{0}', github.event.pull_request.base.ref)
+        )
+      )
+      && 'release-publish'
+      || format('release-publish-ignored-{0}', github.run_id)
+    }}
+  cancel-in-progress: false
+
+jobs:
+  select:
+    name: Select oldest approved Version Packages PR
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      (
+        github.event.pull_request.merged == true &&
+        github.event.pull_request.user.login == 'github-actions[bot]' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event.pull_request.head.ref == format('changeset-release/{0}', github.event.pull_request.base.ref)
+      )
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    outputs:
+      found: ${{ steps.queue.outputs.found }}
+      number: ${{ steps.queue.outputs.number }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Reconcile the durable publish queue
+        id: queue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun scripts/release/publish-queue.ts
+
+  authorize:
+    name: Authorize Version Packages merge
+    needs: select
+    if: needs.select.outputs.found == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      mode: ${{ steps.authorize.outputs.mode }}
+      lane: ${{ steps.authorize.outputs.lane }}
+      merge-sha: ${{ steps.authorize.outputs.mergeSha }}
+      base-sha: ${{ steps.authorize.outputs.baseSha }}
+      number: ${{ steps.authorize.outputs.number }}
+    steps:
+      - name: Checkout trusted dev control plane
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Authorize human-approved Version Packages PR
+        id: authorize
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun scripts/release/authorize-publish-pr.ts "${{ needs.select.outputs.number }}"
+
+  dry-run:
+    name: Version, build and package dry-run
+    needs: authorize
+    if: needs.authorize.outputs.mode == 'dry-run'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact merged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.authorize.outputs.merge-sha }}
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - name: Plan versions without registry writes
+        run: bun scripts/release/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
+      - name: Run real build and packaging code
+        run: bun scripts/release/dry-run.ts
+
+  publish-npm:
+    name: Publish npm packages
+    needs: authorize
+    if: needs.authorize.outputs.mode == 'production'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    outputs:
+      rootage-version: ${{ steps.plan.outputs.rootageVersion }}
+      rootage-integrity: ${{ steps.rootage.outputs.integrity }}
+      stable: ${{ steps.plan.outputs.stable }}
+    steps:
+      - name: Checkout exact merged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.authorize.outputs.merge-sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+      - uses: ./.github/actions/setup
+      - name: Verify monotonic versions and recovery plan
+        id: plan
+        run: bun scripts/release/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
+      - name: Publish missing versions from the approved commit
+        run: bun release
+      - name: Resolve published Rootage integrity
+        id: rootage
+        run: bun scripts/release/rootage-input.ts "${{ steps.plan.outputs.rootageVersion }}"
+      - name: Push package tags
+        run: git push origin --tags
+
+  publish-rootage:
+    name: Publish immutable Rootage artifacts
+    needs: [authorize, publish-npm]
+    if: needs.publish-npm.outputs.rootage-version != ''
+    uses: ./.github/workflows/rootage-release-contract.yml
+    with:
+      version: ${{ needs.publish-npm.outputs.rootage-version }}
+      npm-integrity: ${{ needs.publish-npm.outputs.rootage-integrity }}
+      stable: ${{ needs.publish-npm.outputs.stable == 'true' }}
+      source-sha: ${{ needs.authorize.outputs.merge-sha }}
+    secrets: inherit
+
+  record:
+    name: Record successful queue item
+    needs: [authorize, dry-run, publish-npm, publish-rootage]
+    if: >-
+      always() &&
+      !failure() &&
+      !cancelled() &&
+      (needs.dry-run.result == 'success' || needs.publish-npm.result == 'success') &&
+      (needs.publish-rootage.result == 'success' || needs.publish-rootage.result == 'skipped')
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: dev
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Persist idempotent publish result
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_PR_NUMBER: ${{ needs.authorize.outputs.number }}
+          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
+          PUBLISH_STATUS: ${{ needs.authorize.outputs.mode }}
+        run: bun scripts/release/record-publish.ts
+      - name: Drain the next FIFO item
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run release-publish.yml
+
+  notify-failure:
+    name: Notify release failure
+    needs: [authorize, dry-run, publish-npm, publish-rootage]
+    if: failure()
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions: {}
+    steps:
+      - name: Notify Slack without changing the release result
+        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: "Rootage release failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

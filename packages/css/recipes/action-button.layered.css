@@ -456,7 +456,7 @@
     --seed-box-padding-bottom: var(--seed-dimension-x3_5);
   }
 
-  @media (width >= 480px) {
+  @media (min-width: 480px) {
     .seed-action-button {
       --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-sm, initial);
       --seed-box-bleed-top: var(--seed-box-bleed-top-sm, initial);
@@ -465,7 +465,7 @@
     }
   }
 
-  @media (width >= 768px) {
+  @media (min-width: 768px) {
     .seed-action-button {
       --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-md, initial);
       --seed-box-bleed-top: var(--seed-box-bleed-top-md, initial);
@@ -474,7 +474,7 @@
     }
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-action-button {
       --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-lg, initial);
       --seed-box-bleed-top: var(--seed-box-bleed-top-lg, initial);
@@ -483,7 +483,7 @@
     }
   }
 
-  @media (width >= 1440px) {
+  @media (min-width: 1440px) {
     .seed-action-button {
       --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-xl, initial);
       --seed-box-bleed-top: var(--seed-box-bleed-top-xl, initial);

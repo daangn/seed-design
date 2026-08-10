@@ -1,0 +1,28 @@
+name: Release sync trusted merge
+
+on:
+  workflow_run:
+    workflows: ["Release lane PR validation"]
+    types: [completed]
+
+jobs:
+  merge:
+    name: Revalidate and merge trusted sync PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout trusted dev workflow
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Verify immutable automation diff and merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun scripts/release/sync-merge.ts

@@ -1,0 +1,37 @@
+name: Deploy Rootage CDN
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Isolated Worker and R2 environment"
+        required: true
+        type: choice
+        options: [preview, production]
+
+concurrency:
+  group: rootage-cdn-deploy-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.target }} Worker
+    runs-on: ubuntu-latest
+    environment: rootage-${{ inputs.target }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Test and bundle
+        env:
+          WRANGLER_LOG_PATH: /tmp/wrangler-rootage-deploy.log
+        run: |
+          bun --filter @seed-design/rootage-cdn test
+          bun --filter @seed-design/rootage-cdn typecheck
+          bun --filter @seed-design/rootage-cdn wrangler:dry-run
+      - name: Deploy Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: bunx wrangler deploy --config tools/rootage-cdn/wrangler.jsonc --env '${{ inputs.target }}'

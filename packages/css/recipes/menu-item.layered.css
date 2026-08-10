@@ -3,6 +3,7 @@
     scroll-margin-top: var(--seed-dimension-x2);
     scroll-margin-bottom: var(--seed-dimension-x2);
     cursor: default;
+    -webkit-user-select: none;
     user-select: none;
     color: inherit;
     text-align: start;
@@ -134,7 +135,7 @@
     --seed-suffix-icon-size: 18px;
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-menu-item__root--size_responsive {
       padding-block: var(--seed-dimension-x2_5);
       padding-inline: var(--seed-dimension-x4);
@@ -149,7 +150,7 @@
     line-height: var(--seed-line-height-t5);
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-menu-item__label--size_responsive {
       font-size: var(--seed-font-size-t4);
       line-height: var(--seed-line-height-t4);
@@ -161,7 +162,7 @@
     line-height: var(--seed-line-height-t3);
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-menu-item__description--size_responsive {
       font-size: var(--seed-font-size-t2);
       line-height: var(--seed-line-height-t2);

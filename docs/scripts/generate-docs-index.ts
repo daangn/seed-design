@@ -163,6 +163,12 @@ function findRegistryEntry(
   }
 }
 
+function compareDocsItems(a: DocsItem, b: DocsItem): number {
+  if (a.id !== b.id) return a.id < b.id ? -1 : 1;
+  if (a.docUrl === b.docUrl) return 0;
+  return a.docUrl < b.docUrl ? -1 : 1;
+}
+
 async function main() {
   console.log(chalk.gray("Generating Docs Index..."));
 
@@ -254,7 +260,7 @@ async function main() {
         sections.push({
           id: sectionId,
           label: SECTION_LABELS[sectionId] ?? sectionId,
-          items: items.sort((a, b) => a.id.localeCompare(b.id)),
+          items: items.sort(compareDocsItems),
         });
       }
     }

@@ -1,0 +1,95 @@
+name: Operate Rootage CDN
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "Explicit production operation"
+        required: true
+        type: choice
+        options:
+          [backfill-version, backfill-stable, route-cutover, route-rollback, stable-rollback, cleanup-report, cleanup-apply]
+      version:
+        description: "Stable rollback target version"
+        required: false
+        type: string
+      expected-current:
+        description: "Stable version expected before rollback"
+        required: false
+        type: string
+      npm-integrity:
+        description: "Exact npm tarball integrity for backfill"
+        required: false
+        type: string
+      source-sha:
+        description: "npm gitHead for backfill"
+        required: false
+        type: string
+      confirm:
+        description: "For cleanup-apply, enter DELETE-INCOMPLETE"
+        required: false
+        type: string
+
+concurrency:
+  group: rootage-cdn-production-operation
+  cancel-in-progress: false
+
+jobs:
+  operate:
+    name: ${{ inputs.operation }}
+    runs-on: ubuntu-latest
+    environment: rootage-production
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Backfill and verify an exact npm release
+        if: startsWith(inputs.operation, 'backfill-')
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+          ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+          ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
+          ROOTAGE_PUBLIC_BASE_URL: ${{ secrets.ROOTAGE_WORKER_BASE_URL }}
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts publish
+          --version '${{ inputs.version }}'
+          --npm-integrity '${{ inputs.npm-integrity }}'
+          --source-sha '${{ inputs.source-sha }}'
+          --stable '${{ inputs.operation == 'backfill-stable' }}'
+      - name: Change exact Worker route
+        if: startsWith(inputs.operation, 'route-')
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts route
+          --action '${{ inputs.operation == 'route-cutover' && 'cutover' || 'rollback' }}'
+          --script seed-design-rootage
+          --pattern 'seed-design.io/rootage/*'
+      - name: Move stable pointer with compare-and-set
+        if: inputs.operation == 'stable-rollback'
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+          ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+          ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
+          ROOTAGE_PUBLIC_BASE_URL: https://seed-design.io
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts set-stable
+          --version '${{ inputs.version }}'
+          --expected-current '${{ inputs.expected-current }}'
+          --allow-rollback true
+      - name: Report or delete incomplete uploads older than seven days
+        if: startsWith(inputs.operation, 'cleanup-')
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+          ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+          ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts cleanup
+          --older-than-days 7
+          --apply '${{ inputs.operation == 'cleanup-apply' }}'
+          --confirm '${{ inputs.confirm }}'

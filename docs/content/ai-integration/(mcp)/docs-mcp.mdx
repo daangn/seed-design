@@ -383,23 +383,26 @@ View this icon: https://seed-design.io/foundations/iconography/library?icon=icon
 
 ### 설치
 
+`server`는 MCP TypeScript SDK v2의 `McpServer` 인스턴스이므로, transport를 직접 연결하려면 `@modelcontextprotocol/server`도 함께 설치합니다.
+
 ```bash
-npm install @seed-design/docs-mcp
+npm install @seed-design/docs-mcp @modelcontextprotocol/server
 # 또는
-bun add @seed-design/docs-mcp
+bun add @seed-design/docs-mcp @modelcontextprotocol/server
 ```
 
 ### 사용 예시
 
 ```javascript
+import { StdioServerTransport } from "@modelcontextprotocol/server/stdio";
 import { server } from "@seed-design/docs-mcp/server";
 import { initializeTools } from "@seed-design/docs-mcp/tools";
 
 // 도구 초기화
 await initializeTools(server);
 
-// 원하는 transport와 함께 사용
-// 예: stdio, HTTP, SSE 등
+// 원하는 transport와 함께 사용 (stdio, Streamable HTTP 등)
+await server.connect(new StdioServerTransport());
 ```
 
 ---

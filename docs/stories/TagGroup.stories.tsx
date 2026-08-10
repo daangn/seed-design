@@ -1,23 +1,17 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { tagGroupVariantMap } from "@seed-design/css/recipes/tag-group";
 import { tagGroupItemVariantMap } from "@seed-design/css/recipes/tag-group-item";
 
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconCheckmarkCircleFill, IconMegaphoneFill } from "@karrotmarket/react-monochrome-icon";
 import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 
-const meta = {
+const meta = preview.meta({
   component: TagGroupRoot,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof TagGroupRoot>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const truncateStyle = { width: "250px" };
 
 const conditionMap = {
@@ -66,7 +60,7 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     // this can't be done with Fragment because separators are needed between items
     children: [
@@ -80,9 +74,9 @@ const CommonStoryTemplate: Story = {
       <TagGroupItem key="3" label="Ut minim laboris enim" />,
     ],
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={{
         ...tagGroupItemVariantMap,
         ...tagGroupVariantMap,
@@ -91,21 +85,18 @@ const CommonStoryTemplate: Story = {
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

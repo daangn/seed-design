@@ -156,8 +156,11 @@ snippet API가 바뀌면 target platform의 vendored copy와 example app build�
 
 **위치**: `docs/stories/[ComponentName].stories.tsx`
 **명령어**: `bun storybook` (docs 폴더에서)
+**작성 규칙**: `references/storybook.md`
 
 React 컴포넌트는 Storybook 스토리를 기본으로 추가한다. Lynx 컴포넌트는 Storybook 대신 `examples/lynx-spa`의 page/catalog에서 실제 사용 화면을 확인한다.
+
+React story를 작성하거나 기존 story를 리팩터링하기 전에 `references/storybook.md`를 읽는다. CSF Next의 `preview.meta`, `meta.story`, `<Story>.extend`를 사용하고, 공통 mapping render가 meta component를 필요로 하면 render context의 `component`를 전달한다. custom parameters 타입과 Chromatic 적용 범위는 preview 및 공통 helper에서 관리한다.
 
 필수 스토리:
 - `LightTheme` - 라이트 테마

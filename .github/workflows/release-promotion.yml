@@ -1,0 +1,130 @@
+name: Release stable promotion
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "Promotion operation"
+        required: true
+        type: choice
+        options: [start, integrate, rebuild, finish]
+      lane:
+        description: "Promotion lane"
+        required: true
+        type: choice
+        options: [minor, major]
+      rebuild-lane:
+        description: "Lane to rebuild from latest dev"
+        required: false
+        type: choice
+        options: [minor, major]
+
+concurrency:
+  group: release-promotion
+  cancel-in-progress: false
+
+jobs:
+  state-pr:
+    name: Create promotion state PR
+    if: inputs.operation == 'start' || inputs.operation == 'finish'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout dev control plane
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Ensure no pending state PR exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "$(gh pr list --state open --base dev --search 'head:release-freeze/' --json number --jq '.[0].number')" ]; then
+            echo "A promotion state PR is already open."
+            exit 1
+          fi
+
+      - name: Resolve candidate SHA
+        id: candidate
+        env:
+          LANE: ${{ inputs.lane }}
+        run: |
+          git fetch origin "$LANE"
+          echo "sha=$(git rev-parse "origin/$LANE")" >> "$GITHUB_OUTPUT"
+
+      - name: Update control state
+        run: bun scripts/release/cli.ts promotion --lane "${{ inputs.lane }}" --phase "${{ inputs.operation }}" --candidate-sha "${{ steps.candidate.outputs.sha }}"
+
+      - name: Create control-state PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LANE: ${{ inputs.lane }}
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          BRANCH="release-freeze/${LANE}-${OPERATION}-${GITHUB_RUN_ID}"
+          git switch -c "$BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/release/control.json
+          git commit -m "chore(release): ${OPERATION} ${LANE} promotion"
+          git push origin "$BRANCH"
+          MARKER=$(bun scripts/release/cli.ts marker --type freeze --lane dev --targetLane "$LANE" --tag "$OPERATION")
+          gh pr create --base dev --head "$BRANCH" --title "chore(release): ${OPERATION} ${LANE} promotion" --body "$MARKER"
+
+  integrate:
+    name: Integrate stable lane into dev
+    if: inputs.operation == 'integrate'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Create stable integration PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RECONCILE_MODE: integration
+          SOURCE_LANE: ${{ inputs.lane }}
+          TARGET_LANE: dev
+        run: bun scripts/release/reconcile-worker.ts
+
+  rebuild:
+    name: Rebuild lane from latest dev
+    if: inputs.operation == 'rebuild'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Require rebuild lane
+        if: inputs.rebuild-lane == ''
+        run: exit 1
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.rebuild-lane }}
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Create rebuild PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RECONCILE_MODE: rebuild
+          SOURCE_LANE: dev
+          TARGET_LANE: ${{ inputs.rebuild-lane }}
+        run: bun scripts/release/reconcile-worker.ts

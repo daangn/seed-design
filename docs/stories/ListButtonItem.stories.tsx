@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 import { Fragment } from "react";
 
 import { List, ListButtonItem, ListDivider } from "seed-design/ui/list";
 
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
@@ -20,15 +20,10 @@ const SAMPLE_IMAGE = `data:image/svg+xml,${encodeURIComponent(
   "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#6ba6ff'/><stop offset='1' stop-color='#b06bff'/></linearGradient></defs><rect width='200' height='200' fill='url(#g)'/></svg>",
 )}`;
 
-const meta = {
+const meta = preview.meta({
   component: ListButtonItem,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ListButtonItem>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const prefixVariants = [
   { key: "none", element: null },
   { key: "icon", element: <Icon svg={<IconPersonCircleLine />} /> },
@@ -69,7 +64,7 @@ const stateVariants = [
   { key: "highlighted & disabled", highlighted: true, disabled: true },
 ];
 
-const CommonTemplate: Story = {
+const CommonTemplate = meta.story({
   args: {
     title: "List Button Item",
   },
@@ -112,21 +107,18 @@ const CommonTemplate: Story = {
       ))}
     </>
   ),
-};
-
-export const LightTheme = CommonTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonTemplate.extend({});
+
+export const DarkTheme = CommonTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

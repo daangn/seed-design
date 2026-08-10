@@ -1,5 +1,58 @@
 # @seed-design/css
 
+## 2.4.2
+
+### Patch Changes
+
+- 225496c: `@seed-design/react-drawer@2.0.3`, `@seed-design/css@2.3.1`에서 추가된 키보드 리포지션 애니메이션과 높이 보정 동작을 제거합니다.
+
+## 2.4.1
+
+### Patch Changes
+
+- 29b6684: Chrome 104 / Safari 16.4 미만 버전에서 `@media (width >= npx)` 미디어 쿼리를 `(min-width: npx)`로 교체하여 미디어 쿼리가 의도대로 작동하도록 수정합니다.
+
+  Chrome 108 / Safari 15.4 미만 버전에서 Dialog(`ContentDialog`)의 `dvh` `max-height`가 `vh`로 폴백되도록 수정합니다.
+
+## 2.4.0
+
+### Minor Changes
+
+- c9acaa6: Quantity Picker에 부모 Flex 레이아웃의 여유 공간을 채우는 `layout="fill"` 옵션을 추가합니다.
+
+  - 기본값 `layout="hug"`는 기존 크기를 유지합니다.
+  - `layout="fill"`에서는 양쪽 버튼 크기를 유지하고 Value Display 영역만 늘어납니다.
+
+- c9acaa6: `DatePicker` 컴포넌트를 추가합니다.
+
+  - Single, Range, Multiple 선택 모드를 지원합니다.
+  - Month, Two Months, Week, Continuous 레이아웃을 각각 `DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`로 제공합니다.
+  - 날짜 constraints와 예약·가격 표시를 위한 `renderDateCellSupplement`, 내부 콘텐츠 전체를 교체하는 `renderDateCellContent`를 제공합니다.
+  - `actionsRef`를 통해 특정 날짜로 이동하거나 날짜 셀에 포커스할 수 있습니다.
+  - locale 기반 달력, 키보드·스크린 리더 접근성, Wheel Picker를 이용한 월·연도 이동을 지원합니다.
+
+- c9acaa6: `TimePicker` 컴포넌트를 추가합니다.
+
+  - 12시간제 시간 선택 UI와 locale에 따른 컬럼 순서를 지원합니다.
+  - `minuteStep`으로 선택 가능한 분 간격을 설정할 수 있습니다.
+
+## 2.3.1
+
+### Patch Changes
+
+- 3d5ecf4: 소프트웨어 키보드가 열릴 때 BottomSheet가 움직이는 방식을 개선합니다.
+
+  - iOS에서 시트가 한 프레임에 점프하지 않고 새 위치까지 애니메이션합니다.
+  - Android에서 입력 필드에 포커스하면 시트가 화면을 덮을 만큼 커지던 문제를 수정합니다.
+
+- f9456d6: ImageFrame과 Avatar가 로딩 중에 이미지를 숨기지 않습니다.
+
+  - `loading="lazy"` 이미지가 화면에 들어와도 끝내 로드되지 않던 문제를 수정합니다.
+  - 이미지가 LCP 요소일 때 측정값이 실제 도착 시각으로 잡힙니다. `loading="eager"`에도 해당됩니다.
+  - `src` 없이 `srcSet`만 지정한 반응형 이미지를 지원합니다.
+
+  로딩 중 플레이스홀더가 보이고 완료 시 이미지가 보이는 동작은 그대로입니다. 다만 로딩 중에는 이미지가 화면에 남아 있으므로, 스크린리더가 플레이스홀더와 함께 이미지의 `alt`도 읽습니다.
+
 ## 2.3.0
 
 ### Minor Changes

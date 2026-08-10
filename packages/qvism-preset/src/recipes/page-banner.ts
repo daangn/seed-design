@@ -1,4 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/page-banner.json" with { type: "json" };
+import spec from "@seed-design/rootage-artifacts/components/page-banner";
 import { pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { engaged, focusVisible, pseudo } from "../utils/pseudo";

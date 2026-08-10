@@ -1,0 +1,104 @@
+name: Release lanes bootstrap
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: release-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    name: Verify clean stable baseline
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Require DES-2201 and a clean dev baseline
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          test "$(jq -r '.rootageContractReady' .github/release/control.json)" = "true"
+          test "$(jq -r '.mode' .github/release/control.json)" = "dry-run"
+          test "$(jq -r '.freeze' .github/release/control.json)" = "null"
+          CHANGESETS=$(rg --files .changeset -g '*.md' | rg -v '^.changeset/README.md$' || true)
+          test -z "$CHANGESETS"
+          OPEN_VERSION_PR=$(gh pr list --state open --base dev --head changeset-release/dev --json number --jq '.[0].number')
+          test -z "$OPEN_VERSION_PR"
+
+  create-branches:
+    name: Create fixed lanes
+    needs: preflight
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: dev
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+      - name: Create branches from the same dev SHA
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_BOOTSTRAP_TOKEN }}
+        run: bun scripts/release/bootstrap.ts
+      - name: Summarize manual protection setup
+        run: |
+          cat <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          ## 수동 branch protection 설정 필요
+
+          `dev`, `minor`, `major`에 다음 보호 규칙을 설정한 뒤 bootstrap PR을 merge합니다.
+
+          - Require branches to be up to date before merging
+          - Required status check: `Validate release lane`
+          - Require conversation resolution before merging
+          - Block force pushes
+          - Block branch deletion
+          EOF
+
+  configure:
+    name: Configure ${{ matrix.lane }} beta lane
+    needs: create-branches
+    strategy:
+      matrix:
+        lane: [minor, major]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ matrix.lane }}
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - name: Configure baseBranch and enter beta
+        env:
+          LANE: ${{ matrix.lane }}
+        run: |
+          jq --arg lane "$LANE" '.baseBranch = $lane' .changeset/config.json > /tmp/changeset-config.json
+          cp /tmp/changeset-config.json .changeset/config.json
+          bun changeset pre enter beta
+      - name: Create bootstrap PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LANE: ${{ matrix.lane }}
+        run: |
+          BRANCH="release-rebuild/bootstrap-${LANE}-${GITHUB_RUN_ID}"
+          git switch -c "$BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .changeset/config.json .changeset/pre.json
+          git commit -m "chore(release): bootstrap ${LANE} beta lane"
+          git push origin "$BRANCH"
+          MARKER=$(bun scripts/release/cli.ts marker --type rebuild --lane "$LANE" --targetLane "$LANE" --tag beta)
+          gh pr create --base "$LANE" --head "$BRANCH" --title "chore(release): bootstrap ${LANE} beta lane" --body "$MARKER"
