@@ -54,7 +54,11 @@ function hasChildren(node: RootContent): node is RootContent & { children: RootC
   return "children" in node && Array.isArray(node.children);
 }
 
-function transformNodes(nodes: RootContent[], rules: AnyRule[], context: RuleContext): RootContent[] {
+function transformNodes(
+  nodes: RootContent[],
+  rules: AnyRule[],
+  context: RuleContext,
+): RootContent[] {
   const transformed: RootContent[] = [];
 
   for (const node of nodes) {

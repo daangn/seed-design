@@ -1,8 +1,4 @@
-import {
-  IconMinusLine,
-  IconPlusLine,
-  IconTrashcanLine,
-} from "@karrotmarket/react-monochrome-icon";
+import { IconMinusLine, IconPlusLine, IconTrashcanLine } from "@karrotmarket/react-monochrome-icon";
 import { QuantityPicker as SeedQuantityPicker } from "@seed-design/react";
 import * as React from "react";
 import { ProgressCircle } from "./progress-circle";
