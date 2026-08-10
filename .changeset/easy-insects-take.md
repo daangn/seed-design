@@ -1,5 +1,5 @@
 ---
-"@seed-design/react-text-field": patch
+"@seed-design/react": patch
 ---
 
-bump `unicode-segmenter` dependency version
+`unicode-segmenter` 의존성 버전을 업데이트하여 자모 개수 계산 속도를 개선합니다.
