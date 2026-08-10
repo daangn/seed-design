@@ -207,7 +207,7 @@ export const SidePanelCloseButton = React.forwardRef<HTMLButtonElement, SidePane
 
     return (
       <Drawer.CloseButton
-        ref={useComposedRefs(ref, trackRef, pressScaleRef)}
+        ref={useComposedRefs(pressScaleRef, ref, trackRef)}
         className={clsx(classNames.closeButton, pressScaleClassName, className)}
         {...props}
       />
