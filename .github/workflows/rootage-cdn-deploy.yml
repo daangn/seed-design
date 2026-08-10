@@ -10,18 +10,23 @@ on:
         options: [preview, production]
 
 concurrency:
-  group: rootage-cdn-deploy-${{ inputs.target }}
+  group: rootage-cdn-${{ inputs.target }}-mutation
   cancel-in-progress: false
 
 jobs:
   deploy:
     name: Deploy ${{ inputs.target }} Worker
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment: rootage-${{ inputs.target }}
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
       - uses: ./.github/actions/setup
       - name: Test and bundle
         env:
@@ -30,8 +35,48 @@ jobs:
           bun --filter @seed-design/rootage-cdn test
           bun --filter @seed-design/rootage-cdn typecheck
           bun --filter @seed-design/rootage-cdn wrangler:dry-run
-      - name: Deploy Worker
+      - name: Record exact production rollback target
+        id: record-production-rollback-target
+        if: inputs.target == 'production'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-        run: bunx wrangler deploy --config tools/rootage-cdn/wrangler.jsonc --env '${{ inputs.target }}'
+          ROOTAGE_DEPLOY_STATE: /tmp/rootage-production-deploy-state.json
+          WRANGLER_LOG_PATH: /tmp/wrangler-rootage-deploy.log
+        run: bun tools/rootage-cdn/src/deployment-guard.ts before
+      - name: Deploy Worker
+        id: deploy-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_DEPLOY_TARGET: ${{ inputs.target }}
+          WRANGLER_LOG_PATH: /tmp/wrangler-rootage-deploy.log
+          WRANGLER_OUTPUT_FILE_PATH: /tmp/wrangler-rootage-deploy.jsonl
+        run: bunx wrangler deploy --config tools/rootage-cdn/wrangler.jsonc --env "$ROOTAGE_DEPLOY_TARGET"
+      - name: Record exact deployed production version
+        id: record-production-deployment
+        if: inputs.target == 'production'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_DEPLOY_STATE: /tmp/rootage-production-deploy-state.json
+          WRANGLER_LOG_PATH: /tmp/wrangler-rootage-deploy.log
+          WRANGLER_OUTPUT_FILE_PATH: /tmp/wrangler-rootage-deploy.jsonl
+        run: bun tools/rootage-cdn/src/deployment-guard.ts after
+      - name: Smoke fixed production contract
+        id: production-smoke
+        if: inputs.target == 'production'
+        env:
+          ROOTAGE_DEPLOY_STATE: /tmp/rootage-production-deploy-state.json
+        run: bun tools/rootage-cdn/src/verify-deployment.ts
+      - name: Roll back only this job's production deployment
+        if: >-
+          failure() &&
+          inputs.target == 'production' &&
+          steps.record-production-rollback-target.outcome == 'success'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_DEPLOY_STATE: /tmp/rootage-production-deploy-state.json
+          WRANGLER_LOG_PATH: /tmp/wrangler-rootage-deploy.log
+        run: bun tools/rootage-cdn/src/deployment-guard.ts rollback-if-owned

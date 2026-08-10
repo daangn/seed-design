@@ -68,6 +68,17 @@
         "**/*.ui.{ts,tsx,js,jsx}"
       ]
     },
+    "tools/release-automation": {
+      "entry": [
+        "bin/**/*.ts",
+        "src/lane/{lane-write-plan,version}.ts",
+        "src/local/{doctor,dry-run,verify}.ts",
+        "src/publish/{authorize-publish-pr,publish-artifact,publish-plan,publish-queue,reconcile-publish-tags,record-publish,release-notification,rootage-input}.ts",
+        "src/setup/bootstrap.ts",
+        "src/sync/{sync-alert,sync-merge,sync-worker}.ts",
+        "src/validation/generated-pr-validation.ts"
+      ]
+    },
     "examples/*": {
       "entry": [
         "index.{ts,tsx,js,jsx}",

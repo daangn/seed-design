@@ -2,7 +2,7 @@
 
 ## 디렉토리 개요
 
-`dev`·`minor`·`major` 릴리즈 레인의 정적 설정과 중앙 운영 상태를 관리한다. 실제 판단과 변경 로직은 `scripts/release`에 두고 GitHub Actions가 이 설정을 읽어 실행한다.
+`dev`·`minor`·`major` 릴리즈 레인의 정적 설정과 중앙 운영 상태를 관리한다. 실제 판단과 변경 로직은 `tools/release-automation`에 두고 GitHub Actions가 이 설정을 읽어 실행한다.
 
 ## 파일 작성 컨벤션
 
@@ -14,5 +14,5 @@
 ## 코드 작성 컨벤션
 
 - 일반 PR은 `control.json`, `.changeset/config.json`, `.changeset/pre.json`을 변경하지 않는다.
-- production 활성화와 freeze를 포함한 상태 변경은 반드시 자동화가 만든 PR로 반영한다.
+- production 활성화 같은 상태 변경은 반드시 자동화가 만든 activation PR로 반영한다.
 - DES-2201 계약이 준비되지 않은 상태에서는 `mode`를 `production`으로 변경하지 않는다.
