@@ -62,10 +62,6 @@
       "types": "./breakpoints/index.d.ts",
       "import": "./breakpoints/index.mjs"
     },
-    "./class-names": {
-      "types": "./class-names/index.d.ts",
-      "import": "./class-names/index.mjs"
-    },
     "./press-scale": {
       "types": "./press-scale/index.d.ts",
       "import": "./press-scale/index.mjs"
@@ -78,7 +74,6 @@
     "vars",
     "theming",
     "breakpoints",
-    "class-names",
     "press-scale",
     "utils",
     "*.css",

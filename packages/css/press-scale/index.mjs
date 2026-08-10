@@ -3,7 +3,13 @@
 //
 // Unlike `@seed-design/css/vars/component/*`, these names are stable API — a
 // consumer's own CSS is expected to reference them.
-export { PRESS_SCALE_CLASS_NAME } from "../class-names/index.mjs";
+/**
+ * Duplicated in packages/qvism-preset/src/utils/press-scale.ts, which emits the
+ * matching rule and cannot import from here (css is generated from it). Edit
+ * both together — nothing checks, and drift silently leaves the derivation
+ * unapplied.
+ */
+export const PRESS_SCALE_CLASS_NAME = "seed-press-scale";
 
 /**
  * The pressed scale ratio.

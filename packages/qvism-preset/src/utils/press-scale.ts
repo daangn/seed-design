@@ -45,7 +45,7 @@ const WIDTH_DIVISOR = 4;
 const MIN_BASIS = 24;
 const PRESS_DEPTH = 2;
 
-// Duplicated from packages/css/class-names/index.mjs
+// Duplicated from packages/css/press-scale/index.mjs
 // since qvism-preset cannot depend on @seed-design/css (css is generated from qvism-preset)
 // edit both together — nothing checks, and drift silently leaves the derivation unapplied
 
