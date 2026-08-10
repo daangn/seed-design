@@ -1,8 +1,10 @@
 import { Api as Figma } from "figma-api";
-import * as FigmaRestAPI from "@figma/rest-api-spec";
 import { FlatCache } from "flat-cache";
 import path from "node:path";
 import { env } from "@/app/env";
+import { getFigmaImageCacheKey, type FetchFigmaImageUrlsOptions } from "./figma-image-manifest";
+
+export type { FetchFigmaImageUrlsOptions } from "./figma-image-manifest";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
 const DEFAULT_MAX_RETRIES = 7;
@@ -42,9 +44,11 @@ const imageUrlCache = new FlatCache({
   ttl: CACHE_TTL_MS,
 });
 
-// Figma API
+// 캐시 우회 대상도 한 프로세스에서는 한 번만 새로 받는다. 빌드 전 manifest 생성기는
+// 모든 ID를 한 프로세스에서 처리하므로 동일한 MDX가 다시 컴파일돼도 API를 재호출하지 않는다.
+const refreshedCacheKeys = new Set<string>();
 
-export type FetchFigmaImageUrlsOptions = Omit<FigmaRestAPI.GetImagesQueryParams, "ids" | "version">;
+// Figma API
 
 export function createFigmaClient(accessToken: string): Figma {
   if (!accessToken) throw new Error("FIGMA_PERSONAL_ACCESS_TOKEN is required");
@@ -75,9 +79,9 @@ export async function fetchFigmaImageUrls({
   imageUrlCache.load(CACHE_ID, cacheDir);
 
   for (const nodeId of nodeIds) {
-    const cached = shouldBypassCache(nodeId)
+    const cached = shouldBypassCache(nodeId, options)
       ? undefined
-      : imageUrlCache.get<string>(getCacheKey(nodeId, options));
+      : imageUrlCache.get<string>(getFigmaImageCacheKey(nodeId, options));
 
     if (cached) {
       result.set(nodeId, cached);
@@ -94,10 +98,6 @@ export async function fetchFigmaImageUrls({
     return result;
   }
 
-  console.log(
-    `${LOG_PREFIX} Fetching ${uncachedIds.length} image(s) from Figma API... (options: ${JSON.stringify(options)})`,
-  );
-
   await acquireSemaphore();
 
   let lastError: Error | null = null;
@@ -106,9 +106,9 @@ export async function fetchFigmaImageUrls({
     // Recheck cache after acquiring semaphore — earlier calls may have populated it while we waited
     imageUrlCache.load(CACHE_ID, cacheDir);
     const pendingIds = uncachedIds.filter((nodeId) => {
-      const cached = shouldBypassCache(nodeId)
+      const cached = shouldBypassCache(nodeId, options)
         ? undefined
-        : imageUrlCache.get<string>(getCacheKey(nodeId, options));
+        : imageUrlCache.get<string>(getFigmaImageCacheKey(nodeId, options));
 
       if (cached) {
         result.set(nodeId, cached);
@@ -119,6 +119,10 @@ export async function fetchFigmaImageUrls({
     });
 
     if (pendingIds.length === 0) return result;
+
+    console.log(
+      `${LOG_PREFIX} Fetching ${pendingIds.length} image(s) from Figma API... (options: ${JSON.stringify(options)})`,
+    );
 
     for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
@@ -135,7 +139,9 @@ export async function fetchFigmaImageUrls({
           if (!url) continue;
 
           result.set(nodeId, url);
-          imageUrlCache.set(getCacheKey(nodeId, options), url);
+          const cacheKey = getFigmaImageCacheKey(nodeId, options);
+          imageUrlCache.set(cacheKey, url);
+          if (isCacheBypassRequested(nodeId)) refreshedCacheKeys.add(cacheKey);
         }
 
         imageUrlCache.save();
@@ -164,13 +170,15 @@ export async function fetchFigmaImageUrls({
 
 // Helpers
 
-function shouldBypassCache(nodeId: string): boolean {
+function isCacheBypassRequested(nodeId: string): boolean {
   return env.figmaCacheDisabled || env.figmaBypassCacheNodeIds.includes(nodeId);
 }
 
-function getCacheKey(nodeId: string, options: FetchFigmaImageUrlsOptions): string {
-  const optionsKey = JSON.stringify(options, Object.keys(options).sort());
-  return `${nodeId}:${optionsKey}`;
+function shouldBypassCache(nodeId: string, options: FetchFigmaImageUrlsOptions): boolean {
+  return (
+    isCacheBypassRequested(nodeId) &&
+    !refreshedCacheKeys.has(getFigmaImageCacheKey(nodeId, options))
+  );
 }
 
 function delay(ms: number): Promise<void> {
