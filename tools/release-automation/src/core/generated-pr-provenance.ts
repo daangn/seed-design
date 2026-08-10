@@ -62,11 +62,13 @@ export async function verifyGeneratedPrProvenance(
   const [currentControlTree, recordedControlTree, headControlTree] = await Promise.all([
     controlPlaneFingerprint(repositoryPath, "origin/dev"),
     controlPlaneFingerprint(repositoryPath, input.marker.controlSha),
-    controlPlaneFingerprint(repositoryPath, input.headSha),
+    input.marker.type === "legacy-normalization"
+      ? Promise.resolve(null)
+      : controlPlaneFingerprint(repositoryPath, input.headSha),
   ]);
   if (
     recordedControlTree !== currentControlTree ||
-    headControlTree !== currentControlTree ||
+    (headControlTree !== null && headControlTree !== currentControlTree) ||
     (input.marker.controlTreeSha256 !== undefined &&
       input.marker.controlTreeSha256 !== currentControlTree)
   ) {

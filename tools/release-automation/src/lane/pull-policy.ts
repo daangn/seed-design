@@ -113,6 +113,14 @@ export function assertLanePullAllowed(input: {
     return;
   }
 
+  if (marker.type === "legacy-normalization") {
+    if (lane !== "minor" && lane !== "major") {
+      throw new Error("legacy normalization PR target은 minor 또는 major여야 합니다.");
+    }
+    assertExactFiles(files, [".changeset/pre.json"], "legacy normalization");
+    return;
+  }
+
   if (marker.type === "version") {
     assertDoesNotChange(
       files,

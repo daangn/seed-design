@@ -86,6 +86,18 @@ const codePromotionMarkerKeys = [
   "stableVersionHeadSha",
   "type",
 ] as const;
+const legacyNormalizationMarkerKeys = [
+  "controlSha",
+  "expectedBaseSha",
+  "expectedHeadSha",
+  "expectedPreSha256",
+  "lane",
+  "operationId",
+  "patchSha256",
+  "schemaVersion",
+  "sourceRepository",
+  "type",
+] as const;
 const promotionTargetKeys = [
   "expectedBaseSha",
   "expectedBaselineTreeSha",
@@ -184,6 +196,42 @@ export type BaselineMarker = ReleaseMarker & {
   controlSha: string;
   versionsSha256: string;
 };
+
+export type LegacyNormalizationMarker = ReleaseMarker & {
+  type: "legacy-normalization";
+  lane: "minor" | "major";
+  operationId: string;
+  sourceRepository: string;
+  expectedBaseSha: string;
+  expectedHeadSha: string;
+  expectedPreSha256: string;
+  patchSha256: string;
+  controlSha: string;
+};
+
+export function isLegacyNormalizationMarker(
+  marker: ReleaseMarker,
+): marker is LegacyNormalizationMarker {
+  return (
+    marker.type === "legacy-normalization" &&
+    (marker.lane === "minor" || marker.lane === "major") &&
+    typeof marker.operationId === "string" &&
+    runIdPattern.test(marker.operationId) &&
+    typeof marker.sourceRepository === "string" &&
+    /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(marker.sourceRepository) &&
+    typeof marker.expectedBaseSha === "string" &&
+    gitShaPattern.test(marker.expectedBaseSha) &&
+    typeof marker.expectedHeadSha === "string" &&
+    gitShaPattern.test(marker.expectedHeadSha) &&
+    marker.expectedHeadSha !== marker.expectedBaseSha &&
+    typeof marker.expectedPreSha256 === "string" &&
+    sha256Pattern.test(marker.expectedPreSha256) &&
+    typeof marker.patchSha256 === "string" &&
+    sha256Pattern.test(marker.patchSha256) &&
+    typeof marker.controlSha === "string" &&
+    gitShaPattern.test(marker.controlSha)
+  );
+}
 
 export function isBaselineMarker(marker: ReleaseMarker): marker is BaselineMarker {
   return (
@@ -376,6 +424,13 @@ export function hasExpectedGeneratedHeadRef(headRef: string, marker: ReleaseMark
     );
   }
 
+  if (marker.type === "legacy-normalization") {
+    return (
+      isLegacyNormalizationMarker(marker) &&
+      headRef === `release-legacy-normalization/${marker.lane}-${marker.operationId}`
+    );
+  }
+
   if (marker.type === "sync") {
     if (
       marker.targetLane !== marker.lane ||
@@ -463,6 +518,12 @@ export function parseMarker(body: string): ReleaseMarker | null {
     ) {
       return null;
     }
+    if (
+      parsed.type === "legacy-normalization" &&
+      (!hasExactKeys(parsed, legacyNormalizationMarkerKeys) || !isLegacyNormalizationMarker(parsed))
+    ) {
+      return null;
+    }
     return parsed;
   } catch {
     return null;
@@ -486,6 +547,12 @@ export function validateGeneratedPr(identity: PullRequestIdentity): ReleaseMarke
   }
 
   if (identity.baseRef !== marker.lane) return null;
+  if (
+    marker.type === "legacy-normalization" &&
+    marker.sourceRepository !== identity.baseRepository
+  ) {
+    return null;
+  }
   if (!hasExpectedGeneratedHeadRef(identity.headRef, marker)) return null;
   return marker;
 }

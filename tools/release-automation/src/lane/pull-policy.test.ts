@@ -67,6 +67,30 @@ describe("steady-state lane pull policy", () => {
     ).toThrow("릴리즈 상태 파일");
   });
 
+  test("legacy normalization은 target lane의 pre.json 하나만 허용한다", () => {
+    const marker: ReleaseMarker = {
+      schemaVersion: 1,
+      type: "legacy-normalization",
+      lane: "minor",
+    };
+    expect(() =>
+      assertLanePullAllowed({
+        lane: "minor",
+        marker,
+        files: [".changeset/pre.json"],
+        control,
+      }),
+    ).not.toThrow();
+    expect(() =>
+      assertLanePullAllowed({
+        lane: "minor",
+        marker,
+        files: [".changeset/pre.json", "packages/react/package.json"],
+        control,
+      }),
+    ).toThrow("만 변경");
+  });
+
   test("현재 범위 밖 generated marker를 fail closed한다", () => {
     expect(() =>
       assertLanePullAllowed({

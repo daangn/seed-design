@@ -6,6 +6,7 @@ import { GitHubClient, type GitHubPullRequest } from "../core/github";
 import {
   isBaselineMarker,
   isCodePromotionMarker,
+  isLegacyNormalizationMarker,
   isPrereleaseMarker,
   isStablePromotionMarker,
   validateGeneratedPr,
@@ -32,6 +33,10 @@ import { assertDevStablePublishReconciled } from "../publish/baseline-reconcilia
 import { verifyCodePromotionPull } from "../promotion/code-promotion-validation";
 import { assertNoCompetingOpenStablePromotion } from "../promotion/promotion-state";
 import { assertUniqueOpenReleasePullForHead } from "./head-identity";
+import {
+  assertLegacyNormalizationBoundary,
+  verifyLegacyNormalizationPull,
+} from "../setup/legacy-prerelease-normalization";
 
 type AssociatedPullRequest = GitHubPullRequest & { state: "open" | "closed" };
 
@@ -152,6 +157,14 @@ if (fetchedHeadSha !== headSha || pull.head.sha !== headSha || pull.head.ref !==
 }
 const filesOutput = await git(["diff", "--name-only", `origin/${marker.lane}...${headSha}`, "--"]);
 const changedFiles = filesOutput ? filesOutput.split("\n") : [];
+await git([
+  "fetch",
+  "--no-tags",
+  "origin",
+  "+refs/heads/minor:refs/remotes/origin/minor",
+  "+refs/heads/major:refs/remotes/origin/major",
+]);
+await assertLegacyNormalizationBoundary({ repository, client, marker });
 const provenance = await verifyGeneratedPrProvenance({ marker, headSha, changedFiles });
 const promotionException =
   isStablePromotionMarker(marker) || marker.type === "code-promotion" || marker.type === "baseline";
@@ -215,6 +228,9 @@ if (marker.type === "code-promotion" && isCodePromotionMarker(marker)) {
     allowDraft: validationKind === "code-promotion-preflight",
     client,
   });
+}
+if (marker.type === "legacy-normalization" && isLegacyNormalizationMarker(marker)) {
+  await verifyLegacyNormalizationPull({ repository, marker, pull });
 }
 if (marker.type === "bootstrap") {
   if (marker.lane !== "minor" && marker.lane !== "major") {

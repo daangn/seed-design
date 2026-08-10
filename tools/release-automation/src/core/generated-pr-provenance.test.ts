@@ -86,6 +86,7 @@ describe("generated PR validation control-plane provenance", () => {
     await git(repository, "add", "tools/release-automation/src/core/validator.ts");
     await git(repository, "commit", "-m", "advance control");
     await git(repository, "push", "origin", "dev");
+    const currentControlSha = await git(repository, "rev-parse", "HEAD");
     await expect(
       verifyGeneratedPrProvenance({
         marker,
@@ -94,5 +95,29 @@ describe("generated PR validation control-plane provenance", () => {
         repositoryPath: repository,
       }),
     ).rejects.toThrow("현재 trusted dev control plane");
+
+    const legacyMarker: ReleaseMarker = {
+      schemaVersion: 1,
+      type: "legacy-normalization",
+      lane: "minor",
+      expectedHeadSha: headSha,
+      controlSha: currentControlSha,
+    };
+    await expect(
+      verifyGeneratedPrProvenance({
+        marker: legacyMarker,
+        headSha,
+        changedFiles: ["package.txt"],
+        repositoryPath: repository,
+      }),
+    ).resolves.toMatchObject({ controlSha: currentControlSha });
+    await expect(
+      verifyGeneratedPrProvenance({
+        marker: legacyMarker,
+        headSha,
+        changedFiles: ["tools/release-automation/src/core/validator.ts"],
+        repositoryPath: repository,
+      }),
+    ).rejects.toThrow("legacy-normalization generated PR");
   });
 });

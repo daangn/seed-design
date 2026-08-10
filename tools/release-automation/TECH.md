@@ -26,8 +26,27 @@
 | `release-publish.yml` | npm, tag, Rootage, durable receipt, 게시 후 코드·baseline 정렬 | OIDC와 Git write를 별도 job으로 분리 |
 | `release-notification.yml` | 완료된 production receipt 알림 | publish 결과와 실패 격리 |
 | `release-e2e.yml` | 로컬과 같은 read-only 검증 | production write 없음 |
+| `release-legacy-normalization.yml` | 기존 `minor`·`major` bootstrap pre state를 dormant로 만드는 1회성 PR 생성 | exact `pre.json` 삭제 PR만 생성 |
 
 파일 수보다 권한을 섞지 않는 것을 우선한다. 특히 publish, notification, validation은 합치면 실패 결과나 credential 경계가 달라지므로 독립 workflow로 유지한다. Sync의 drain, merge, alert는 동일 도메인이고 job 권한으로 안전하게 분리할 수 있어 하나로 통합한다.
+
+## 1회성 legacy prerelease normalization
+
+`release-legacy-normalization.yml`은 기존 Changesets UI의 enter/exit를 호출하지 않는다. Trusted `dev` writer가 `minor@080815d86023ae8c0d3747e1482e634250263e3a`와 `major@44a6c1f3f53a0ad8a558565909c70fcfe499feb1`을 데이터로 읽고, 각 lane의 `.changeset/pre.json`만 삭제하는 별도 generated PR을 만든다. 원본 파일은 SHA-256 `edcbf1bcb9b4e2320be6041629ff423290106bb8c684d56c71fad2eb26a7872e`와 빈 `changesets` 배열로 함께 검증한다.
+
+실행 전과 PR 생성 직전에 `Release publish`, `Release Version PR`, `Release lane synchronization` workflow가 `disabled_manually`인지 재확인한다. Marker는 bot과 same-repository identity, repository 이름, workflow run ID, expected legacy base, generated head, 원본과 patch digest, current trusted `dev` control SHA를 고정한다. 이전 reserved branch나 열린 PR뿐 아니라 closed-unmerged PR도 발견하면 재실행하지 않는다.
+
+두 PR은 `Validate release lane` 성공 뒤 각각 사람이 **Squash and merge**한다. 한 PR만 병합된 동안 release selection과 PR validation은 남은 exact normalization PR 외의 작업을 거부한다. 두 lane의 current head가 human merge, single-parent tree, generated head tree, trusted validation receipt를 모두 증명해야 잠금이 풀린다. 이 경로는 package version, CHANGELOG, Changeset Markdown, 코드, 다른 상태 파일을 변경하지 않으며 npm, Git tag, Rootage 게시도 실행하지 않는다.
+
+두 PR이 모두 병합되어 `minor`와 `major`가 dormant임을 확인한 뒤 일회성 surface를 제거한다. 제거 PR에서는 다음 항목을 한 번에 삭제한다.
+
+1. `.github/workflows/release-legacy-normalization.yml`
+2. `src/setup/legacy-prerelease-normalization-write.ts`
+3. `src/setup/legacy-prerelease-normalization.ts`와 대응 테스트
+4. `legacy-normalization` marker 타입과 marker·provenance·pull policy 분기
+5. release selection과 두 PR validator의 normalization boundary 연결
+
+제거 전에는 active lane을 선택하거나 비활성 release workflow를 다시 활성화하지 않는다. 제거 뒤 `minor`를 active lane으로 선택하는 작업은 별도 운영 변경으로 진행한다.
 
 ## 신뢰 경계
 
