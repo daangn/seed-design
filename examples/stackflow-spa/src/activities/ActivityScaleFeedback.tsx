@@ -20,7 +20,7 @@ import {
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionableCallout, DismissibleCallout } from "seed-design/ui/callout";
 import { Checkbox, Checkmark } from "seed-design/ui/checkbox";
-import { List, ListCheckItem, ListDivider, ListRadioItem } from "seed-design/ui/list";
+import { List, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
 import { DismissiblePageBanner } from "seed-design/ui/page-banner";
 import {
   Radiomark,
@@ -77,16 +77,16 @@ function Section({
 function Stage({
   children,
   tone = "default",
-  flush = false,
+  concentric = false,
 }: {
   children: React.ReactNode;
   tone?: keyof typeof styles.panelTone;
-  /** Drops the stage's padding so a full-bleed specimen — a List — meets the panel's edges. */
-  flush?: boolean;
+  /** Insets a full-bleed specimen — a List — so its pressed background clears the panel evenly. */
+  concentric?: boolean;
 }) {
   return (
     <div className={`${styles.panel} ${styles.panelTone[tone]}`}>
-      <div className={flush ? styles.stageFlush : styles.stage}>{children}</div>
+      <div className={concentric ? styles.stageConcentric : styles.stage}>{children}</div>
     </div>
   );
 }
@@ -158,26 +158,24 @@ const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"
               title="Checkbox / RadioGroup — ListItem 안"
               description="행 배경만 바뀌고 마크는 줄지 않습니다. ListItem이 마크의 배율을 1로 고정합니다."
             >
-              <Stage flush>
-                <List as="fieldset">
+              <Stage concentric>
+                <List as="fieldset" itemBorderRadius="r1_5">
                   <ListCheckItem
                     title="prefix Checkmark"
                     prefix={<Checkmark size="large" />}
                     defaultChecked
                   />
-                  <ListDivider as="div" />
                   <ListCheckItem title="suffix Checkmark" suffix={<Checkmark size="large" />} />
                 </List>
               </Stage>
-              <Stage flush>
-                <List asChild>
+              <Stage concentric>
+                <List asChild itemBorderRadius="r1_5">
                   <RadioGroup.Root defaultValue="first" aria-label="ListItem 안의 RadioGroup">
                     <ListRadioItem
                       title="Radiomark 1"
                       value="first"
                       prefix={<Radiomark size="large" />}
                     />
-                    <ListDivider as="div" />
                     <ListRadioItem
                       title="Radiomark 2"
                       value="second"
