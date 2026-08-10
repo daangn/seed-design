@@ -472,12 +472,16 @@ jobs:
       pull-requests: write
       statuses: read
     steps:
-      - name: Checkout immutable trusted dev control plane
+      - name: Checkout trusted dev control plane
         uses: actions/checkout@v6
         with:
-          ref: ${{ needs.authorize.outputs.control-sha }}
+          ref: dev
           fetch-depth: 0
           persist-credentials: false
+      - name: Bind checkout to authorized trusted dev commit
+        env:
+          PUBLISH_CONTROL_SHA: ${{ needs.authorize.outputs.control-sha }}
+        run: test "$(git rev-parse HEAD)" = "$PUBLISH_CONTROL_SHA"
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.3.13"

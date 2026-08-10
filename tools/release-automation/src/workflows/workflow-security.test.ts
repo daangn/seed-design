@@ -756,6 +756,28 @@ describe("릴리즈 workflow 권한 경계", () => {
 
   test("code promotion reconciliation은 receipt와 code merge 뒤 최소 권한 trusted dev job에서 실행한다", async () => {
     const publish = await workflow(".github/workflows/release-publish.yml");
+    const activation = publish.jobs["activate-code-promotions"];
+    const activationCheckout = activation.steps?.find((step) =>
+      step.uses?.startsWith("actions/checkout@"),
+    );
+    const activationBinding = activation.steps?.find(
+      (step) => step.name === "Bind checkout to authorized trusted dev commit",
+    );
+    expect(activationCheckout?.with).toMatchObject({
+      ref: "dev",
+      "fetch-depth": 0,
+      "persist-credentials": false,
+    });
+    expect(activationBinding?.env?.PUBLISH_CONTROL_SHA).toBe(
+      ["$", "{{ needs.authorize.outputs.control-sha }}"].join(""),
+    );
+    expect(activationBinding?.run).toBe('test "$(git rev-parse HEAD)" = "$PUBLISH_CONTROL_SHA"');
+    expect(
+      activation.steps
+        ?.filter((step) => step.uses?.startsWith("actions/checkout@"))
+        .some((step) => step.with?.ref !== "dev"),
+    ).toBe(false);
+
     const job = publish.jobs["reconcile-code-promotions"];
     expect(job.needs).toEqual(["authorize", "record", "activate-code-promotions"]);
     expect(job.if).toContain("always()");
