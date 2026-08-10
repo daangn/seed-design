@@ -5,6 +5,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useSta
 import { isIOS } from "./browser";
 import {
   CLOSE_THRESHOLD,
+  DEFAULT_KEYBOARD_TRANSITION,
   DRAG_CLASS,
   KEYBOARD_TRANSITION,
   SCROLL_LOCK_TIMEOUT,
@@ -217,8 +218,25 @@ export function useDrawer(props: UseDrawerProps) {
     typeof window === "undefined" ? 0 : window.innerWidth,
   );
   const keyboardAnimation = useRef<Animation | null>(null);
+  const keyboardAnimationTarget = useRef<{
+    height: number;
+    minHeight: number;
+    bottom: number;
+  } | null>(null);
+  const keyboardEntryAnimation = useRef<Animation | null>(null);
+  const keyboardEntrySnapshot = useRef<{
+    top: number;
+    offsetTop: number;
+    target: Element | null;
+  } | null>(null);
+  const keyboardEntryConsumed = useRef(true);
   const keyboardDismissalPending = useRef(false);
   const keyboardDismissalGeometry = useRef<{ height: number; bottom: number } | null>(null);
+  // Android dispatches focusin before its IME has resized the layout viewport. Keep the
+  // keyboard-closed pixel geometry captured for that focus until the first actual keyboard
+  // resize; otherwise the focus RAF restores authored `vh` styles during the native gap.
+  const keyboardFocusPending = useRef(false);
+  const keyboardDebugSequence = useRef(0);
 
   const onSnapPointChange = useCallback(
     (activeSnapPointIndex: number) => {
@@ -256,6 +274,7 @@ export function useDrawer(props: UseDrawerProps) {
   // native autoFocus and the final visualViewport event can be missed.
   const keyboardSnapPointsOffset = snapPoints?.length ? snapPointsOffset : undefined;
   const keyboardActiveSnapPointIndex = snapPoints?.length ? activeSnapPointIndex : null;
+  const hasKeyboardEntryMotion = direction === "bottom" && !snapPoints?.length;
 
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
     if (!dismissible && !snapPoints) return;
@@ -379,6 +398,10 @@ export function useDrawer(props: UseDrawerProps) {
       }
 
       if (!isAllowedToDrag.current && !shouldDrag(event.target, isDraggingInDirection)) return;
+      keyboardEntryAnimation.current?.cancel();
+      keyboardEntryAnimation.current = null;
+      keyboardEntrySnapshot.current = null;
+      keyboardEntryConsumed.current = true;
       drawerRef.current.classList.add(DRAG_CLASS);
 
       isAllowedToDrag.current = true;
@@ -443,6 +466,10 @@ export function useDrawer(props: UseDrawerProps) {
 
   const closeDrawer = useCallback(
     (fromWithin?: boolean, details?: DrawerChangeDetails) => {
+      keyboardEntryAnimation.current?.cancel();
+      keyboardEntryAnimation.current = null;
+      keyboardEntrySnapshot.current = null;
+      keyboardEntryConsumed.current = true;
       cancelDrag();
       onClose?.();
 
@@ -576,11 +603,104 @@ export function useDrawer(props: UseDrawerProps) {
     if (Number.isFinite(drawerHeight) && drawerHeight > 0) {
       drawerHeightRef.current = drawerHeight;
     }
-  }, [isOpen, repositionInputs]);
+
+    // Capture the keyboard-closed screen position during the opening commit as well. Native
+    // autoFocus can run before the passive focus listener below is attached, but the FLIP start
+    // position still has to describe the sheet the user actually saw before the keyboard resize.
+    if (hasKeyboardEntryMotion && !keyboardIsOpen.current) {
+      const activeElement = document.activeElement;
+      const focusedInput =
+        activeElement instanceof Element &&
+        isInput(activeElement) &&
+        drawerRef.current.contains(activeElement)
+          ? activeElement
+          : null;
+      const top = drawerRef.current.getBoundingClientRect().top;
+      if (Number.isFinite(top)) {
+        keyboardEntrySnapshot.current = {
+          top,
+          offsetTop: window.visualViewport?.offsetTop ?? 0,
+          target: focusedInput,
+        };
+        // Keep an unfocused opening snapshot provisional. A later pointer/focus event replaces it;
+        // the passive autofocus reconciliation below activates it only when native autofocus ran
+        // between commit and listener setup.
+        keyboardEntryConsumed.current = focusedInput === null;
+      }
+    }
+  }, [hasKeyboardEntryMotion, isOpen, repositionInputs]);
 
   useEffect(() => {
     let keyboardRepositionFrame: number | null = null;
     let keyboardRepositionTimeout: number | null = null;
+    let focusedInputScrollFrame: number | null = null;
+    let focusedInputScrollTarget: { element: HTMLElement; top: number } | null = null;
+
+    function logKeyboardDebug(phase: string, detail: Record<string, unknown> = {}) {
+      const debugWindow = window as typeof window & { __SEED_DRAWER_DEBUG__?: boolean };
+      const debugEnabled =
+        debugWindow.__SEED_DRAWER_DEBUG__ === true ||
+        new URLSearchParams(window.location.search).has("seedDrawerDebug");
+      if (!debugEnabled) return;
+
+      const visualViewport = window.visualViewport;
+      const drawer = drawerRef.current;
+      const rect = drawer?.getBoundingClientRect();
+      const styles = drawer ? getComputedStyle(drawer) : null;
+
+      // Keep this payload primitive-only so Android WebView's CDP console output is directly
+      // comparable across runs and does not depend on remote object expansion.
+      console.info(
+        "[seed-drawer-keyboard]",
+        JSON.stringify({
+          sequence: ++keyboardDebugSequence.current,
+          phase,
+          timestamp: Math.round(performance.now()),
+          platform: isIOS() ? "ios" : "android",
+          window: {
+            innerHeight: Math.round(window.innerHeight),
+            innerWidth: Math.round(window.innerWidth),
+          },
+          visualViewport: visualViewport
+            ? {
+                height: Math.round(visualViewport.height),
+                width: Math.round(visualViewport.width),
+                offsetTop: Math.round(visualViewport.offsetTop),
+                scale: visualViewport.scale,
+              }
+            : null,
+          baseline: {
+            height: Math.round(layoutViewportHeightBeforeKeyboard.current),
+            width: Math.round(layoutViewportWidthBeforeKeyboard.current),
+          },
+          drawer: rect
+            ? {
+                top: Math.round(rect.top),
+                bottom: Math.round(rect.bottom),
+                height: Math.round(rect.height),
+                inlineHeight: drawer?.style.height || "",
+                inlineMinHeight: drawer?.style.minHeight || "",
+                inlineBottom: drawer?.style.bottom || "",
+                computedBottom: styles?.bottom || "",
+              }
+            : null,
+          keyboard: {
+            isOpen: keyboardIsOpen.current,
+            dismissalPending: keyboardDismissalPending.current,
+            focusPending: keyboardFocusPending.current,
+            initialDrawerHeight: Math.round(initialDrawerHeight.current),
+            animationPlaying: keyboardAnimation.current?.playState === "running",
+            animationTarget: keyboardAnimationTarget.current,
+            entryAnimationPlaying: keyboardEntryAnimation.current?.playState === "running",
+            entrySnapshotTop: keyboardEntrySnapshot.current
+              ? Math.round(keyboardEntrySnapshot.current.top)
+              : null,
+            entryConsumed: keyboardEntryConsumed.current,
+          },
+          ...detail,
+        }),
+      );
+    }
 
     function updateLayoutViewportBaseline() {
       const widthChanged =
@@ -627,6 +747,10 @@ export function useDrawer(props: UseDrawerProps) {
       return Number.isFinite(safeAreaTop) ? Math.max(safeAreaTop, 0) : 0;
     }
 
+    function prefersReducedMotion() {
+      return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
+    }
+
     function getKeyboardClosedViewportMinHeight(drawer: HTMLDivElement) {
       const match = drawer.style.minHeight.trim().match(/^(-?\d*\.?\d+)(?:d|s|l)?vh$/i);
       if (!match) return 0;
@@ -657,8 +781,13 @@ export function useDrawer(props: UseDrawerProps) {
       const visualViewport = window.visualViewport;
       const scrollableRect = scrollable.getBoundingClientRect();
       const targetRect = focusedElement.getBoundingClientRect();
-      const viewportTop = visualViewport?.offsetTop ?? 0;
-      const viewportBottom = viewportTop + (visualViewport?.height ?? window.innerHeight);
+      // Android `adjustResize` can update the layout viewport one event before VisualViewport.
+      // The smaller layout viewport is the only visible area in that interval.
+      const viewportTop = isIOS() ? (visualViewport?.offsetTop ?? 0) : 0;
+      const viewportHeight = isIOS()
+        ? (visualViewport?.height ?? window.innerHeight)
+        : Math.min(visualViewport?.height ?? window.innerHeight, window.innerHeight);
+      const viewportBottom = viewportTop + viewportHeight;
       const visibleTop = Math.max(scrollableRect.top, viewportTop);
       const visibleBottom = Math.min(scrollableRect.bottom, viewportBottom);
 
@@ -673,22 +802,47 @@ export function useDrawer(props: UseDrawerProps) {
 
       if (Math.abs(adjustment) < 0.5) return;
 
-      scrollable.scrollTo({
-        top: Math.max(
-          0,
-          Math.min(
-            scrollable.scrollHeight - scrollable.clientHeight,
-            scrollable.scrollTop + adjustment,
-          ),
+      const top = Math.max(
+        0,
+        Math.min(
+          scrollable.scrollHeight - scrollable.clientHeight,
+          scrollable.scrollTop + adjustment,
         ),
-        behavior: "smooth",
+      );
+
+      // Keyboard animation emits several viewport events. Reissuing the same smooth scroll on
+      // every event restarts WebKit's scroll animation, which makes the sheet arrive first and
+      // the focused input follow noticeably later. Keep a single in-flight destination instead.
+      if (
+        focusedInputScrollTarget?.element === scrollable &&
+        Math.abs(focusedInputScrollTarget.top - top) < 0.5
+      ) {
+        return;
+      }
+
+      focusedInputScrollTarget = { element: scrollable, top };
+      scrollable.scrollTo({ top, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    }
+
+    function scheduleFocusedInputScroll() {
+      if (focusedInputScrollFrame !== null) return;
+
+      // A focus event is delivered before React commits focus-driven content such as an
+      // autocomplete list. The first frame handles already-mounted content; the second catches
+      // the React commit without waiting for the drawer animation to finish.
+      focusedInputScrollFrame = window.requestAnimationFrame(() => {
+        scrollFocusedInputIntoView();
+        focusedInputScrollFrame = window.requestAnimationFrame(() => {
+          focusedInputScrollFrame = null;
+          scrollFocusedInputIntoView();
+        });
       });
     }
 
     function getKeyboardAnimationOptions(drawer: HTMLDivElement): KeyframeAnimationOptions | null {
-      const transition = getComputedStyle(drawer)
-        .getPropertyValue("--drawer-keyboard-transition")
-        .trim();
+      const transition =
+        getComputedStyle(drawer).getPropertyValue("--drawer-keyboard-transition").trim() ||
+        DEFAULT_KEYBOARD_TRANSITION;
       const durationMatch = transition.match(/(?:^|\s)(\d*\.?\d+)(ms|s)(?=\s|$)/);
 
       if (!durationMatch) return null;
@@ -709,10 +863,169 @@ export function useDrawer(props: UseDrawerProps) {
       };
     }
 
+    function getNonOvershootingEasing(easing: string | undefined) {
+      if (!easing) return TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION;
+      if (/^(linear|ease|ease-in|ease-out|ease-in-out|steps\([^)]*\))$/.test(easing)) {
+        return easing;
+      }
+
+      const cubicBezier = easing.match(
+        /^cubic-bezier\(\s*[-+]?\d*\.?\d+\s*,\s*([-+]?\d*\.?\d+)\s*,\s*[-+]?\d*\.?\d+\s*,\s*([-+]?\d*\.?\d+)\s*\)$/,
+      );
+      if (!cubicBezier) return TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION;
+
+      const firstY = Number.parseFloat(cubicBezier[1]);
+      const secondY = Number.parseFloat(cubicBezier[2]);
+      return firstY >= 0 && firstY <= 1 && secondY >= 0 && secondY <= 1
+        ? easing
+        : TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION;
+    }
+
+    function cancelKeyboardEntryAnimation() {
+      keyboardEntryAnimation.current?.cancel();
+      keyboardEntryAnimation.current = null;
+    }
+
+    function captureKeyboardEntrySnapshot(target: Element | null) {
+      if (
+        !hasKeyboardEntryMotion ||
+        keyboardIsOpen.current ||
+        keyboardEntryConsumed.current === false
+      ) {
+        return;
+      }
+
+      const drawer = drawerRef.current;
+      if (!drawer) return;
+
+      const top = drawer.getBoundingClientRect().top;
+      if (!Number.isFinite(top)) return;
+
+      cancelKeyboardEntryAnimation();
+      keyboardEntrySnapshot.current = {
+        top,
+        offsetTop: window.visualViewport?.offsetTop ?? 0,
+        target,
+      };
+      keyboardEntryConsumed.current = false;
+      logKeyboardDebug("entry:capture", { top: Math.round(top) });
+    }
+
+    function animateKeyboardEntry(finalTopInset: number) {
+      if (keyboardEntryConsumed.current) return false;
+
+      const drawer = drawerRef.current;
+      const snapshot = keyboardEntrySnapshot.current;
+      keyboardEntryConsumed.current = true;
+      keyboardEntrySnapshot.current = null;
+
+      if (!drawer || !snapshot || !hasKeyboardEntryMotion) {
+        logKeyboardDebug("entry:skip", { reason: "missing-snapshot-or-unsupported-layout" });
+        return false;
+      }
+
+      const animationOptions = getKeyboardAnimationOptions(drawer);
+      const finalRect = drawer.getBoundingClientRect();
+      const currentOffsetTop = window.visualViewport?.offsetTop ?? 0;
+      const deltaY = snapshot.top + snapshot.offsetTop - (finalRect.top + currentOffsetTop);
+      const computedTranslate = getComputedStyle(drawer).translate;
+      const hasAuthoredTranslate =
+        computedTranslate !== undefined &&
+        computedTranslate !== "" &&
+        computedTranslate !== "none" &&
+        computedTranslate !== "0px" &&
+        computedTranslate !== "0px 0px" &&
+        computedTranslate !== "0px 0px 0px";
+      const supportsTranslate =
+        typeof CSS === "undefined" ||
+        typeof CSS.supports !== "function" ||
+        CSS.supports("translate", "0px 1px");
+
+      if (
+        prefersReducedMotion() ||
+        !animationOptions ||
+        typeof drawer.animate !== "function" ||
+        !supportsTranslate ||
+        hasAuthoredTranslate ||
+        !Number.isFinite(deltaY) ||
+        deltaY < 0.5 ||
+        snapshot.top < finalTopInset - 0.5 ||
+        finalRect.top < finalTopInset - 0.5
+      ) {
+        logKeyboardDebug("entry:skip", {
+          reason: prefersReducedMotion()
+            ? "reduced-motion"
+            : hasAuthoredTranslate
+              ? "authored-translate"
+              : !supportsTranslate
+                ? "unsupported-translate"
+                : "invalid-or-unsafe-geometry",
+          startTop: Math.round(snapshot.top),
+          finalTop: Math.round(finalRect.top),
+          finalTopInset: Math.round(finalTopInset),
+          startOffsetTop: Math.round(snapshot.offsetTop),
+          finalOffsetTop: Math.round(currentOffsetTop),
+          deltaY: Math.round(deltaY),
+        });
+        return false;
+      }
+
+      cancelKeyboardEntryAnimation();
+
+      try {
+        const options = {
+          ...animationOptions,
+          easing: getNonOvershootingEasing(animationOptions.easing),
+        };
+        const animation = drawer.animate(
+          [{ translate: `0px ${deltaY}px` }, { translate: "0px 0px" }],
+          options,
+        );
+
+        // The final layout is already committed. Sample the first compositor keyframe in this
+        // task so neither WebKit nor Android WebView can paint the final position before playback.
+        animation.pause();
+        animation.currentTime = 0;
+        drawer.getBoundingClientRect();
+
+        keyboardEntryAnimation.current = animation;
+        logKeyboardDebug("entry:animation-start", {
+          startTop: Math.round(snapshot.top),
+          finalTop: Math.round(finalRect.top),
+          startOffsetTop: Math.round(snapshot.offsetTop),
+          finalOffsetTop: Math.round(currentOffsetTop),
+          deltaY: Math.round(deltaY),
+          duration: options.duration,
+          easing: options.easing,
+        });
+        animation.play();
+        void animation.finished.then(
+          () => {
+            if (keyboardEntryAnimation.current === animation) {
+              logKeyboardDebug("entry:animation-finish", {
+                finalTop: Math.round(finalRect.top),
+              });
+              keyboardEntryAnimation.current = null;
+              animation.cancel();
+              focusedInputScrollTarget = null;
+              scheduleFocusedInputScroll();
+            }
+          },
+          () => {},
+        );
+        return true;
+      } catch {
+        keyboardEntryAnimation.current = null;
+        logKeyboardDebug("entry:skip", { reason: "animation-error" });
+        return false;
+      }
+    }
+
     function updateDrawerGeometry(
       updateSize: (drawer: HTMLDivElement) => void,
       bottom: number,
       previousGeometry?: { height: number; bottom: number } | null,
+      shouldAnimate = true,
     ) {
       const drawer = drawerRef.current;
       if (!drawer) return;
@@ -727,9 +1040,6 @@ export function useDrawer(props: UseDrawerProps) {
           ? computedBottom
           : Math.max(window.innerHeight - previousRect.bottom, 0);
 
-      keyboardAnimation.current?.cancel();
-      keyboardAnimation.current = null;
-
       const previousKeyboardTransition = drawer.style.getPropertyValue(
         "--drawer-keyboard-transition",
       );
@@ -740,17 +1050,72 @@ export function useDrawer(props: UseDrawerProps) {
       drawer.style.setProperty("--drawer-keyboard-transition", "bottom 0s");
       updateSize(drawer);
       drawer.style.bottom = `${bottom}px`;
-      const nextRect = drawer.getBoundingClientRect();
       const nextHeight = drawer.style.height;
       const nextMinHeight = drawer.style.minHeight;
       const nextBottom = drawer.style.bottom;
+      const currentTarget = keyboardAnimationTarget.current;
+
+      logKeyboardDebug("geometry:target-committed", {
+        requestedBottom: Math.round(bottom),
+        previousHeight: Math.round(previousRect.height),
+        previousBottom: Math.round(previousBottom),
+        nextInlineHeight: nextHeight,
+        nextInlineMinHeight: nextMinHeight,
+      });
+      const nextHeightValue = Number.parseFloat(nextHeight);
+      const nextMinHeightValue = Number.parseFloat(nextMinHeight);
+
+      // Native keyboards emit multiple resize events while a single animation is in progress.
+      // The underlying layout is already committed to the final target, so recreating WAAPI here
+      // would restart the animation from an intermediate paint on every event. This is especially
+      // expensive on Android where `window.resize` and `visualViewport.resize` can be staggered.
+      if (
+        keyboardAnimation.current &&
+        currentTarget &&
+        Number.isFinite(nextHeightValue) &&
+        Number.isFinite(nextMinHeightValue) &&
+        Math.abs(currentTarget.height - nextHeightValue) < 0.5 &&
+        Math.abs(currentTarget.minHeight - nextMinHeightValue) < 0.5 &&
+        Math.abs(currentTarget.bottom - bottom) < 0.5
+      ) {
+        logKeyboardDebug("geometry:reuse-animation", { requestedBottom: Math.round(bottom) });
+        if (previousKeyboardTransition) {
+          drawer.style.setProperty("--drawer-keyboard-transition", previousKeyboardTransition);
+        } else {
+          drawer.style.removeProperty("--drawer-keyboard-transition");
+        }
+        return;
+      }
+
+      keyboardAnimation.current?.cancel();
+      keyboardAnimation.current = null;
+      keyboardAnimationTarget.current = null;
+
+      // An active WAAPI animation can still affect getBoundingClientRect() even after the target
+      // styles have been written. Read the final layout only after canceling it; otherwise the
+      // next keyboard event uses an in-between height as its target and Android visibly takes two
+      // or three steps to settle.
+      const nextRect = drawer.getBoundingClientRect();
+      const nextTarget = {
+        height: nextRect.height,
+        minHeight: nextRect.height,
+        bottom,
+      };
 
       if (
+        !shouldAnimate ||
         !animationOptions ||
         typeof drawer.animate !== "function" ||
         (Math.abs(previousRect.height - nextRect.height) < 0.5 &&
           Math.abs(previousBottom - bottom) < 0.5)
       ) {
+        logKeyboardDebug("geometry:commit-without-animation", {
+          requestedBottom: Math.round(bottom),
+          nextHeight: Math.round(nextRect.height),
+          shouldAnimate,
+          hasAnimationOptions: Boolean(animationOptions),
+          supportsAnimate: typeof drawer.animate === "function",
+        });
         if (previousKeyboardTransition) {
           drawer.style.setProperty("--drawer-keyboard-transition", previousKeyboardTransition);
         } else {
@@ -804,13 +1169,26 @@ export function useDrawer(props: UseDrawerProps) {
       }
 
       keyboardAnimation.current = animation;
+      keyboardAnimationTarget.current = nextTarget;
+      logKeyboardDebug("geometry:animation-start", {
+        fromHeight: Math.round(previousRect.height),
+        fromBottom: Math.round(previousBottom),
+        toHeight: Math.round(nextRect.height),
+        toBottom: Math.round(bottom),
+        duration: animationOptions.duration,
+        easing: animationOptions.easing,
+      });
       animation.play();
       void animation.finished.then(
         () => {
           if (keyboardAnimation.current === animation) {
+            logKeyboardDebug("geometry:animation-finish", {
+              targetHeight: Math.round(nextTarget.height),
+              targetBottom: Math.round(nextTarget.bottom),
+            });
             keyboardAnimation.current = null;
+            keyboardAnimationTarget.current = null;
             animation.cancel();
-            scrollFocusedInputIntoView();
           }
         },
         () => {},
@@ -837,6 +1215,17 @@ export function useDrawer(props: UseDrawerProps) {
       drawerHeightBeforeKeyboard.current = drawer.style.height;
       drawerMinHeightBeforeKeyboard.current = drawer.style.minHeight;
       initialDrawerHeight.current = drawerHeight;
+
+      // Android's adjustResize can re-evaluate a `vh` min-height before the first viewport event
+      // reaches JavaScript. Freeze the keyboard-closed geometry while it is still visible so the
+      // subsequent WAAPI animation starts from the sheet the user saw, not from that transient,
+      // shrunken layout.
+      drawer.style.height = `${drawerHeight}px`;
+      drawer.style.minHeight = `${drawerHeight}px`;
+      logKeyboardDebug("geometry:capture-natural-height", {
+        capturedHeight: Math.round(drawerHeight),
+        minHeightFromViewport: Math.round(getKeyboardClosedViewportMinHeight(drawer)),
+      });
       return true;
     }
 
@@ -906,14 +1295,18 @@ export function useDrawer(props: UseDrawerProps) {
       if ((window.visualViewport?.scale ?? 1) > 1) return;
 
       const focusedElement = document.activeElement as HTMLElement;
-      const visualViewportHeight = window.visualViewport?.height || 0;
-      const visualViewportOffsetTop = window.visualViewport?.offsetTop || 0;
+      const reportedVisualViewportHeight = window.visualViewport?.height || window.innerHeight;
+      const visualViewportHeight = isIOS()
+        ? reportedVisualViewportHeight
+        : Math.min(reportedVisualViewportHeight, window.innerHeight);
+      const visualViewportOffsetTop = isIOS() ? window.visualViewport?.offsetTop || 0 : 0;
       // During a quick keyboard close-and-reopen Safari can temporarily shrink window.innerHeight
       // to the visual viewport as well. Comparing those two live values would then report no
       // keyboard even though it is visible. Keep the layout viewport measured while the drawer was
       // closed (or before focus) as the stable baseline for this keyboard session.
       const totalHeight = Math.max(layoutViewportHeightBeforeKeyboard.current, window.innerHeight);
       const viewportHeightReduction = totalHeight - visualViewportHeight;
+      const layoutViewportHeightReduction = totalHeight - window.innerHeight;
       let keyboardInset = viewportHeightReduction - visualViewportOffsetTop;
       // Android WebView's adjustResize has already shortened the fixed positioner's layout viewport
       // to the area above the keyboard. Applying the stable-baseline inset once more would lift the
@@ -929,7 +1322,28 @@ export function useDrawer(props: UseDrawerProps) {
       // produces a second height transition near the end of dismissal.
       const isKeyboardOpen =
         viewportHeightReduction > 60 ||
-        (!isIOS() && wasKeyboardOpen && viewportHeightReduction > 1);
+        (!isIOS() &&
+          (layoutViewportHeightReduction > 60 ||
+            (wasKeyboardOpen &&
+              (viewportHeightReduction > 1 || layoutViewportHeightReduction > 1))));
+
+      const hasFocusedDrawerInput =
+        focusedElement instanceof HTMLElement &&
+        isInput(focusedElement) &&
+        drawerRef.current.contains(focusedElement);
+
+      logKeyboardDebug("viewport:reconcile", {
+        reportedVisualViewportHeight: Math.round(reportedVisualViewportHeight),
+        visualViewportHeight: Math.round(visualViewportHeight),
+        visualViewportOffsetTop: Math.round(visualViewportOffsetTop),
+        totalHeight: Math.round(totalHeight),
+        viewportHeightReduction: Math.round(viewportHeightReduction),
+        layoutViewportHeightReduction: Math.round(layoutViewportHeightReduction),
+        keyboardInset: Math.round(keyboardInset),
+        drawerBottom: Math.round(drawerBottom),
+        wasKeyboardOpen,
+        nextKeyboardOpen: isKeyboardOpen,
+      });
 
       // focusout starts the downward animation before iOS reports the keyboard dismissal through
       // visualViewport. Ignore the stale keyboard-open resize/scroll events in between, otherwise
@@ -945,9 +1359,38 @@ export function useDrawer(props: UseDrawerProps) {
 
       keyboardIsOpen.current = isKeyboardOpen;
 
-      if (!isInput(focusedElement) && !wasKeyboardOpen && !isKeyboardOpen) return;
+      if (isKeyboardOpen) {
+        keyboardFocusPending.current = false;
+      }
+
+      // focusin is delivered before Android starts adjustResize. The focus RAF below therefore
+      // observes a keyboard-closed viewport first. That state must not restore the authored
+      // `vh` size: Android will otherwise shrink it once, then this hook re-applies the old pixel
+      // height after resize, creating a visible three-step jump. Wait for the real resize or blur.
+      if (!isIOS() && keyboardFocusPending.current && hasFocusedDrawerInput && !isKeyboardOpen) {
+        logKeyboardDebug("viewport:awaiting-android-keyboard");
+        return;
+      }
+
+      if (!hasFocusedDrawerInput && !wasKeyboardOpen && !isKeyboardOpen) return;
+
+      // Native autofocus can run before the browser reports the keyboard viewport. Keep the
+      // provisional FLIP snapshot alive through that gap; blur/close still clears it if no
+      // keyboard ever opens (for example when a hardware keyboard is connected).
+      if (
+        hasFocusedDrawerInput &&
+        !isKeyboardOpen &&
+        !keyboardEntryConsumed.current &&
+        keyboardEntrySnapshot.current
+      ) {
+        logKeyboardDebug("entry:awaiting-keyboard");
+        return;
+      }
 
       if (!isKeyboardOpen) {
+        cancelKeyboardEntryAnimation();
+        keyboardEntrySnapshot.current = null;
+        keyboardEntryConsumed.current = true;
         restoreDrawerHeight(keyboardDismissalGeometry.current);
         keyboardDismissalGeometry.current = null;
         return;
@@ -983,6 +1426,14 @@ export function useDrawer(props: UseDrawerProps) {
         ? Math.max(naturalHeight - Math.max(keyboardInset, 0), 0)
         : Math.min(naturalHeight, availableHeight);
 
+      logKeyboardDebug("viewport:target", {
+        naturalHeight: Math.round(naturalHeight),
+        visualViewportTopInset: Math.round(visualViewportTopInset),
+        availableHeight: Math.round(availableHeight),
+        targetHeight: Math.round(targetHeight),
+        targetBottom: Math.round(Math.max(drawerBottom, 0)),
+      });
+
       // iOS can pan the visual viewport to reveal the focused input. That pan already moves the
       // sheet up on screen, so only lift it by the keyboard-covered part that remains below the
       // visual viewport. Ignoring offsetTop applies both movements and hides the sheet header.
@@ -992,7 +1443,24 @@ export function useDrawer(props: UseDrawerProps) {
           drawer.style.minHeight = `${targetHeight}px`;
         },
         Math.max(drawerBottom, 0),
+        undefined,
+        // The first keyboard-open geometry is synchronous on every platform. Its visible motion
+        // is handled below by the same compositor-only FLIP translate, avoiding an Android-only
+        // branch and keeping the real layout inside the safe viewport throughout playback.
+        wasKeyboardOpen,
       );
+      if (!wasKeyboardOpen) {
+        // Measure the focused input against the committed final layout before the temporary
+        // translate starts affecting getBoundingClientRect(). A second pass runs when the FLIP
+        // finishes to catch focus-driven content that React commits during the animation.
+        scrollFocusedInputIntoView();
+        if (!animateKeyboardEntry(visualViewportTopInset)) {
+          scheduleFocusedInputScroll();
+        }
+      } else {
+        scrollFocusedInputIntoView();
+        scheduleFocusedInputScroll();
+      }
       if (!isIOS()) {
         // Android can dismiss the IME while leaving the input focused (for example via the system
         // keyboard-down button), so focusout is not guaranteed. Keep the last keyboard-open screen
@@ -1002,7 +1470,23 @@ export function useDrawer(props: UseDrawerProps) {
           bottom: currentLayoutViewportHeight - Math.max(drawerBottom, 0),
         };
       }
-      scrollFocusedInputIntoView();
+    }
+
+    function onInputPointerDown(event: PointerEvent) {
+      const target = event.target;
+      if (!repositionInputs || !isOpen || !(target instanceof Element) || !isInput(target)) {
+        return;
+      }
+      if (!drawerRef.current?.contains(target)) return;
+
+      // Android can apply `adjustResize` before it dispatches focusin. Capture the visible,
+      // keyboard-closed geometry during pointerdown so a viewport-unit min-height cannot collapse
+      // before the keyboard resize handler receives it.
+      updateLayoutViewportBaseline();
+      logKeyboardDebug("input:pointerdown");
+      captureKeyboardEntrySnapshot(target);
+      keyboardFocusPending.current = !isIOS();
+      captureDrawerHeight();
     }
 
     let focusOutSequence = 0;
@@ -1015,7 +1499,10 @@ export function useDrawer(props: UseDrawerProps) {
       focusOutSequence += 1;
       keyboardDismissalPending.current = false;
       keyboardDismissalGeometry.current = null;
+      keyboardFocusPending.current = !isIOS();
       updateLayoutViewportBaseline();
+      logKeyboardDebug("input:focusin");
+      captureKeyboardEntrySnapshot(target);
       if (!captureDrawerHeight()) scheduleKeyboardReposition();
 
       const visualViewportHeight = window.visualViewport?.height ?? window.innerHeight;
@@ -1023,6 +1510,7 @@ export function useDrawer(props: UseDrawerProps) {
         onVisualViewportChange();
       }
       scheduleKeyboardReposition();
+      scheduleFocusedInputScroll();
     }
 
     function onFocusOut(event: FocusEvent) {
@@ -1044,6 +1532,8 @@ export function useDrawer(props: UseDrawerProps) {
       // current task so input-to-input moves can be detected, but start the restore before the next
       // frame; visually this is immediate and does not wait for the delayed visualViewport resize.
       const sequence = ++focusOutSequence;
+      focusedInputScrollTarget = null;
+      logKeyboardDebug("input:focusout", { focusOutSequence: sequence });
       queueMicrotask(() => {
         if (sequence !== focusOutSequence) return;
 
@@ -1056,8 +1546,13 @@ export function useDrawer(props: UseDrawerProps) {
           return;
         }
 
+        keyboardFocusPending.current = false;
+        const drawerRect = drawerRef.current?.getBoundingClientRect();
+        cancelKeyboardEntryAnimation();
+        keyboardEntrySnapshot.current = null;
+        keyboardEntryConsumed.current = true;
+
         if (!isIOS()) {
-          const drawerRect = drawerRef.current?.getBoundingClientRect();
           if (drawerRect) {
             // Android expands the adjustResize containing block before visualViewport.resize.
             // Preserve the last keyboard-open screen coordinates so the first resize handler can
@@ -1072,7 +1567,9 @@ export function useDrawer(props: UseDrawerProps) {
         }
 
         keyboardDismissalPending.current = true;
-        restoreDrawerHeight();
+        restoreDrawerHeight(
+          drawerRect ? { height: drawerRect.height, bottom: drawerRect.bottom } : null,
+        );
       });
     }
 
@@ -1081,6 +1578,10 @@ export function useDrawer(props: UseDrawerProps) {
 
       keyboardAnimation.current?.cancel();
       keyboardAnimation.current = null;
+      keyboardAnimationTarget.current = null;
+      cancelKeyboardEntryAnimation();
+      keyboardEntrySnapshot.current = null;
+      keyboardEntryConsumed.current = true;
 
       if (drawer && drawerHeightBeforeKeyboard.current !== null) {
         drawer.style.height = drawerHeightBeforeKeyboard.current;
@@ -1096,26 +1597,40 @@ export function useDrawer(props: UseDrawerProps) {
       keyboardDismissalPending.current = false;
       keyboardDismissalGeometry.current = null;
       keyboardIsOpen.current = false;
+      keyboardFocusPending.current = false;
     }
 
     let lastViewportResizeSignature: string | null = null;
-    function onViewportResize() {
+    function onViewportResize(source: "window" | "visualViewport") {
       const visualViewport = window.visualViewport;
       const signature = `${window.innerHeight}:${visualViewport?.height ?? 0}:${visualViewport?.offsetTop ?? 0}`;
-      if (signature === lastViewportResizeSignature) return;
+      if (signature === lastViewportResizeSignature) {
+        logKeyboardDebug("viewport:resize-ignored", { source, signature });
+        return;
+      }
 
       lastViewportResizeSignature = signature;
+      logKeyboardDebug("viewport:resize", { source, signature });
       onVisualViewportChange();
+    }
+
+    function onWindowResize() {
+      onViewportResize("window");
+    }
+
+    function onVisualViewportResize() {
+      onViewportResize("visualViewport");
     }
 
     // Android dispatches window.resize before visualViewport.resize while adjustResize restores
     // the layout viewport. Handling the first event closes the one-frame gap where the sheet would
     // otherwise be laid out against the expanded viewport using its keyboard-open pixel height.
     if (!isIOS()) {
-      window.addEventListener("resize", onViewportResize);
+      window.addEventListener("resize", onWindowResize);
     }
-    window.visualViewport?.addEventListener("resize", onViewportResize);
+    window.visualViewport?.addEventListener("resize", onVisualViewportResize);
     window.visualViewport?.addEventListener("scroll", onVisualViewportChange);
+    document.addEventListener("pointerdown", onInputPointerDown, true);
     document.addEventListener("focusin", onFocusIn, true);
     document.addEventListener("focusout", onFocusOut, true);
 
@@ -1137,6 +1652,18 @@ export function useDrawer(props: UseDrawerProps) {
       // current viewport.
       focusOutSequence += 1;
       keyboardDismissalPending.current = false;
+      keyboardFocusPending.current = !isIOS();
+      if (
+        hasKeyboardEntryMotion &&
+        keyboardEntryConsumed.current &&
+        keyboardEntrySnapshot.current?.target === null
+      ) {
+        keyboardEntrySnapshot.current.target = focusedElement;
+        keyboardEntryConsumed.current = false;
+        logKeyboardDebug("entry:activate-autofocus", {
+          top: Math.round(keyboardEntrySnapshot.current.top),
+        });
+      }
       if (captureDrawerHeight()) onVisualViewportChange();
       else scheduleKeyboardReposition();
       scheduleKeyboardReposition();
@@ -1150,17 +1677,30 @@ export function useDrawer(props: UseDrawerProps) {
       if (keyboardRepositionTimeout !== null) {
         window.clearTimeout(keyboardRepositionTimeout);
       }
+      if (focusedInputScrollFrame !== null) {
+        window.cancelAnimationFrame(focusedInputScrollFrame);
+      }
       keyboardAnimation.current?.cancel();
       keyboardAnimation.current = null;
+      keyboardAnimationTarget.current = null;
+      cancelKeyboardEntryAnimation();
       if (!isIOS()) {
-        window.removeEventListener("resize", onViewportResize);
+        window.removeEventListener("resize", onWindowResize);
       }
-      window.visualViewport?.removeEventListener("resize", onViewportResize);
+      window.visualViewport?.removeEventListener("resize", onVisualViewportResize);
       window.visualViewport?.removeEventListener("scroll", onVisualViewportChange);
+      document.removeEventListener("pointerdown", onInputPointerDown, true);
       document.removeEventListener("focusin", onFocusIn, true);
       document.removeEventListener("focusout", onFocusOut, true);
     };
-  }, [keyboardActiveSnapPointIndex, keyboardSnapPointsOffset, repositionInputs, fixed, isOpen]);
+  }, [
+    keyboardActiveSnapPointIndex,
+    keyboardSnapPointsOffset,
+    repositionInputs,
+    fixed,
+    hasKeyboardEntryMotion,
+    isOpen,
+  ]);
 
   // Effect 1: Track drawer open state
   useEffect(() => {

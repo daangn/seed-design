@@ -11,15 +11,16 @@ export const TRANSITIONS = {
 };
 
 /**
- * Transition that carries the drawer between keyboard-open and keyboard-closed positions. The value
- * itself belongs to the stylesheet layer (the bottom sheet recipe defines the custom property), but
- * every inline `transition` write on the content element has to append this — inline styles win
- * over the recipe, so dragging or snapping the drawer once would otherwise drop the transition.
- * The keyboard reposition logic also reads this value to configure its synchronized WAAPI timing.
+ * Transition that carries the drawer between keyboard-open and keyboard-closed positions.
+ * Consumers can override the default through the custom property, but every inline `transition`
+ * write on the content element has to append this — inline styles win over stylesheet rules, so
+ * dragging or snapping the drawer once would otherwise drop the transition. The keyboard
+ * reposition logic also reads this value to configure its synchronized WAAPI timing.
  *
  * The fallback keeps the declaration valid for consumers that don't define the property.
  */
-export const KEYBOARD_TRANSITION = "var(--drawer-keyboard-transition, bottom 0s)";
+export const DEFAULT_KEYBOARD_TRANSITION = `bottom ${TRANSITIONS.ENTER_DURATION}s ${TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION}`;
+export const KEYBOARD_TRANSITION = `var(--drawer-keyboard-transition, ${DEFAULT_KEYBOARD_TRANSITION})`;
 export const VELOCITY_THRESHOLD = 0.4;
 
 export const CLOSE_THRESHOLD = 0.25;

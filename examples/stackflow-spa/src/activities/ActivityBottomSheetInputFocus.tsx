@@ -66,6 +66,10 @@ const SCENARIOS = [
 ] as const;
 
 const SHEET_HEIGHTS = ["40vh", "70vh"] as const;
+// Keep QA content within the same minimum top inset that `useDrawer` reserves while the
+// keyboard is open. Android WebView resolves the safe-area custom property to zero, so relying
+// on it alone lets a long sheet reach the very top of the layout viewport.
+const DRAWER_TOP_OFFSET = "26px";
 const SUGGESTIONS = ["당근마켓", "당근알바", "당근비즈니스"] as const;
 const SCROLL_ITEMS = Array.from({ length: 16 }, (_, index) => `스크롤 항목 ${index + 1}`);
 const MIDDLE_BEFORE_ITEMS = ["상단 안내", "최근 검색어", "추천 검색어"] as const;
@@ -148,10 +152,22 @@ const ActivityBottomSheetInputFocus: StaticActivityComponentType<
           title={`${scenario.title} · ${sheetHeight}`}
           description={scenario.description}
           layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
-          style={{ minHeight: sheetHeight, maxHeight: "calc(100dvh - 48px)" }}
+          style={{
+            minHeight: sheetHeight,
+            // `dvh` can grow while Safari's browser controls collapse even though the fixed
+            // positioner has not adopted that larger viewport yet. `svh` is the stable lower
+            // bound, so long QA content cannot extend above the top safe area between those
+            // viewport updates.
+            maxHeight: `calc(100svh - max(${DRAWER_TOP_OFFSET}, var(--seed-safe-area-top)))`,
+          }}
         >
           <BottomSheetBody
-            style={{ minHeight: 0, overflowY: "auto", WebkitOverflowScrolling: "touch" }}
+            style={{
+              flex: "1 1 auto",
+              minHeight: 0,
+              overflowY: "auto",
+              WebkitOverflowScrolling: "touch",
+            }}
           >
             <VStack gap="x3">
               {scenario.id === "inputMiddle" &&

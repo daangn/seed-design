@@ -409,6 +409,8 @@ describe("키보드 리포지션", () => {
   const originalVisualViewport = Object.getOwnPropertyDescriptor(window, "visualViewport");
   const originalPlatform = Object.getOwnPropertyDescriptor(window.navigator, "platform");
   const originalInnerHeight = Object.getOwnPropertyDescriptor(window, "innerHeight");
+  const originalCssSupports = Object.getOwnPropertyDescriptor(CSS, "supports");
+  const originalMatchMedia = Object.getOwnPropertyDescriptor(window, "matchMedia");
   const originalSafeAreaTop =
     document.documentElement.style.getPropertyValue("--seed-safe-area-top");
 
@@ -430,6 +432,23 @@ describe("키보드 리포지션", () => {
       value: "iPhone",
       configurable: true,
     });
+    Object.defineProperty(CSS, "supports", {
+      value: mock(() => true),
+      configurable: true,
+    });
+    Object.defineProperty(window, "matchMedia", {
+      value: mock(() => ({
+        matches: false,
+        media: "",
+        onchange: null,
+        addListener: mock(() => {}),
+        removeListener: mock(() => {}),
+        addEventListener: mock(() => {}),
+        removeEventListener: mock(() => {}),
+        dispatchEvent: mock(() => true),
+      })),
+      configurable: true,
+    });
   });
 
   afterEach(() => {
@@ -449,6 +468,18 @@ describe("키보드 리포지션", () => {
       Object.defineProperty(window, "innerHeight", originalInnerHeight);
     } else {
       Reflect.deleteProperty(window, "innerHeight");
+    }
+
+    if (originalCssSupports) {
+      Object.defineProperty(CSS, "supports", originalCssSupports);
+    } else {
+      Reflect.deleteProperty(CSS, "supports");
+    }
+
+    if (originalMatchMedia) {
+      Object.defineProperty(window, "matchMedia", originalMatchMedia);
+    } else {
+      Reflect.deleteProperty(window, "matchMedia");
     }
 
     if (originalSafeAreaTop) {
@@ -507,6 +538,60 @@ describe("키보드 리포지션", () => {
     rectSpy.mockRestore();
   });
 
+  it("autoFocus도 플랫폼 공통 translate FLIP 진입 애니메이션을 사용한다", () => {
+    const { getByTestId, rerender } = render(<AutoFocusKeyboardHarness open={false} />);
+    const drawer = getByTestId("drawer");
+    const animation = {
+      cancel: mock(() => {}),
+      pause: mock(() => {}),
+      play: mock(() => {}),
+      currentTime: null,
+      finished: new Promise<void>(() => {}),
+    } as unknown as Animation;
+    const animate = mock(() => animation);
+
+    Object.defineProperty(drawer, "animate", {
+      value: animate,
+      configurable: true,
+    });
+    const rectSpy = spyOn(drawer, "getBoundingClientRect").mockImplementation(() => {
+      const height = Number.parseFloat(drawer.style.height) || 560;
+      const bottom = Number.parseFloat(drawer.style.bottom) || 0;
+
+      return {
+        x: 0,
+        y: window.innerHeight - bottom - height,
+        width: 100,
+        height,
+        top: window.innerHeight - bottom - height,
+        left: 0,
+        right: 100,
+        bottom: window.innerHeight - bottom,
+        toJSON: () => {},
+      };
+    });
+
+    rerender(<AutoFocusKeyboardHarness open />);
+    expect(getByTestId("auto-focus-input")).toHaveFocus();
+
+    visualViewport.height = window.innerHeight - 400;
+    visualViewport.dispatchEvent(new Event("resize"));
+
+    expect(animate).toHaveBeenCalledWith(
+      [
+        { translate: `0px ${window.innerHeight - 560 - WINDOW_TOP_OFFSET}px` },
+        { translate: "0px 0px" },
+      ],
+      {
+        duration: TRANSITIONS.ENTER_DURATION * 1000,
+        easing: TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION,
+        fill: "both",
+      },
+    );
+
+    rectSpy.mockRestore();
+  });
+
   it("Android adjustResize가 layout viewport를 축소하면 시트를 다시 들어 올리지 않는다", () => {
     Object.defineProperty(window.navigator, "platform", {
       value: "Linux armv8l",
@@ -547,6 +632,15 @@ describe("키보드 리포지션", () => {
 
     act(() => {
       input.focus();
+    });
+
+    // Keep the keyboard-closed geometry through Android's synchronous adjustResize layout.
+    // The resize event below must animate from this fixed pixel size rather than a newly-shrunken
+    // viewport-unit size.
+    expect(drawer.style.height).toBe("560px");
+    expect(drawer.style.minHeight).toBe("560px");
+
+    act(() => {
       visualViewport.height = layoutViewportHeight - 400;
       Object.defineProperty(window, "innerHeight", {
         value: visualViewport.height,
@@ -559,6 +653,173 @@ describe("키보드 리포지션", () => {
     expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
     expect(drawer.style.minHeight).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
     expect(drawer.style.bottom).toBe("0px");
+
+    rectSpy.mockRestore();
+  });
+
+  it("Android 포커스 직후 키보드 resize 전에는 viewport 단위 높이를 복원하지 않는다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      value: "Linux armv8l",
+      configurable: true,
+    });
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const rectSpy = mockRect(drawer, 560);
+
+    drawer.style.minHeight = "70vh";
+    input.focus();
+
+    // Android에서는 focusin과 IME의 adjustResize 사이에 한 프레임이 있다. 이 시점의
+    // viewport 이벤트가 authored vh 값을 복원하면, 실제 resize에서 시트가 한 번 더
+    // 점프한다. 키보드가 실제로 viewport를 줄일 때까지 캡처한 px 높이를 유지해야 한다.
+    act(() => {
+      window.dispatchEvent(new Event("resize"));
+    });
+
+    expect(drawer.style.height).toBe("560px");
+    expect(drawer.style.minHeight).toBe("560px");
+
+    rectSpy.mockRestore();
+  });
+
+  it("Android가 window.resize를 visualViewport보다 먼저 보내도 축소된 높이를 유지한다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      value: "Linux armv8l",
+      configurable: true,
+    });
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const layoutViewportHeight = window.innerHeight;
+    const naturalHeight = 560;
+    const animation = {
+      cancel: mock(() => {}),
+      pause: mock(() => {}),
+      play: mock(() => {}),
+      currentTime: null,
+      finished: new Promise<void>(() => {}),
+    } as unknown as Animation;
+    const animate = mock(() => animation);
+
+    Object.defineProperty(drawer, "animate", {
+      value: animate,
+      configurable: true,
+    });
+    drawer.style.minHeight = "70vh";
+    drawer.style.bottom = "0px";
+    const rectSpy = spyOn(drawer, "getBoundingClientRect").mockImplementation(() => {
+      const height = Number.parseFloat(drawer.style.height) || naturalHeight;
+      const bottom = Number.parseFloat(drawer.style.bottom) || 0;
+
+      return {
+        x: 0,
+        y: window.innerHeight - bottom - height,
+        width: 100,
+        height,
+        top: window.innerHeight - bottom - height,
+        left: 0,
+        right: 100,
+        bottom: window.innerHeight - bottom,
+        toJSON: () => {},
+      };
+    });
+
+    const keyboardViewportHeight = layoutViewportHeight - 400;
+    act(() => {
+      input.focus();
+      Object.defineProperty(window, "innerHeight", {
+        value: keyboardViewportHeight,
+        configurable: true,
+      });
+
+      // `window.resize` arrives while VisualViewport still reports the keyboard-closed height.
+      // It must use the shrunken layout viewport rather than restoring the 70vh authored style.
+      window.dispatchEvent(new Event("resize"));
+    });
+
+    expect(drawer.style.height).toBe(`${keyboardViewportHeight - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.minHeight).toBe(`${keyboardViewportHeight - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.bottom).toBe("0px");
+
+    // Android's first adjustResize event already moved the fixed containing block before this
+    // handler runs. The real geometry is committed synchronously, then a compositor-only
+    // translate animates from the captured keyboard-closed screen position. The matching
+    // VisualViewport event must not introduce a second transition afterwards.
+    act(() => {
+      visualViewport.height = keyboardViewportHeight;
+      visualViewport.dispatchEvent(new Event("resize"));
+    });
+
+    expect(animate).toHaveBeenCalledTimes(1);
+    expect(animate).toHaveBeenCalledWith(
+      [
+        {
+          translate: `0px ${layoutViewportHeight - naturalHeight - WINDOW_TOP_OFFSET}px`,
+        },
+        { translate: "0px 0px" },
+      ],
+      {
+        duration: TRANSITIONS.ENTER_DURATION * 1000,
+        easing: TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION,
+        fill: "both",
+      },
+    );
+    expect(animation.pause).toHaveBeenCalledTimes(1);
+    expect(animation.play).toHaveBeenCalledTimes(1);
+    expect(animation.cancel).not.toHaveBeenCalled();
+
+    rectSpy.mockRestore();
+  });
+
+  it("Android pointerdown에서 focusin 이전의 시트 높이를 고정한다", () => {
+    Object.defineProperty(window.navigator, "platform", {
+      value: "Linux armv8l",
+      configurable: true,
+    });
+
+    let measuredDrawerHeight = 560;
+    const rectSpy = spyOn(window.HTMLElement.prototype, "getBoundingClientRect").mockImplementation(
+      function () {
+        const size = this.dataset.testid === "drawer" ? measuredDrawerHeight : 0;
+
+        return {
+          x: 0,
+          y: 0,
+          width: size,
+          height: size,
+          top: 0,
+          left: 0,
+          right: size,
+          bottom: size,
+          toJSON: () => {},
+        };
+      },
+    );
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const layoutViewportHeight = window.innerHeight;
+
+    fireEvent.pointerDown(input);
+
+    expect(drawer.style.height).toBe("560px");
+    expect(drawer.style.minHeight).toBe("560px");
+
+    // Simulate Android shrinking the layout viewport before its later focusin event.
+    measuredDrawerHeight = 220;
+    visualViewport.height = layoutViewportHeight - 400;
+    Object.defineProperty(window, "innerHeight", {
+      value: visualViewport.height,
+      configurable: true,
+    });
+    input.focus();
+
+    expect(drawer.style.height).toBe("560px");
+    expect(drawer.style.minHeight).toBe("560px");
 
     rectSpy.mockRestore();
   });
@@ -662,6 +923,12 @@ describe("키보드 리포지션", () => {
 
     act(() => {
       input.focus();
+    });
+
+    expect(drawer.style.height).toBe(`${naturalHeight}px`);
+    expect(drawer.style.minHeight).toBe(`${naturalHeight}px`);
+
+    act(() => {
       visualViewport.height = layoutViewportHeight - 400;
       Object.defineProperty(window, "innerHeight", {
         value: visualViewport.height,
@@ -978,6 +1245,122 @@ describe("키보드 리포지션", () => {
     rectSpy.mockRestore();
   });
 
+  it("translate 진입 애니메이션이 safe area를 침범하지 않고 overshoot easing을 제거한다", () => {
+    document.documentElement.style.setProperty("--seed-safe-area-top", "59px");
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const animation = {
+      cancel: mock(() => {}),
+      pause: mock(() => {}),
+      play: mock(() => {}),
+      currentTime: null,
+      finished: new Promise<void>(() => {}),
+    } as unknown as Animation;
+    const animate = mock(() => animation);
+
+    Object.defineProperty(drawer, "animate", {
+      value: animate,
+      configurable: true,
+    });
+    drawer.style.minHeight = "70vh";
+    drawer.style.bottom = "0px";
+    drawer.style.setProperty(
+      "--drawer-keyboard-transition",
+      "bottom 250ms cubic-bezier(0.2, 1.4, 0.2, 1)",
+    );
+    const rectSpy = spyOn(drawer, "getBoundingClientRect").mockImplementation(() => {
+      const height = Number.parseFloat(drawer.style.height) || 560;
+      const bottom = Number.parseFloat(drawer.style.bottom) || 0;
+
+      return {
+        x: 0,
+        y: window.innerHeight - bottom - height,
+        width: 100,
+        height,
+        top: window.innerHeight - bottom - height,
+        left: 0,
+        right: 100,
+        bottom: window.innerHeight - bottom,
+        toJSON: () => {},
+      };
+    });
+
+    input.focus();
+    visualViewport.height = window.innerHeight - 400;
+    visualViewport.dispatchEvent(new Event("resize"));
+
+    expect(drawer.getBoundingClientRect().top).toBe(59);
+    expect(animate).toHaveBeenCalledWith(
+      [{ translate: `0px ${window.innerHeight - 560 - 59}px` }, { translate: "0px 0px" }],
+      {
+        duration: 250,
+        easing: TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION,
+        fill: "both",
+      },
+    );
+
+    rectSpy.mockRestore();
+  });
+
+  it("reduced motion에서는 최종 키보드 geometry만 적용하고 translate를 생략한다", () => {
+    Object.defineProperty(window, "matchMedia", {
+      value: mock(() => ({
+        matches: true,
+        media: "(prefers-reduced-motion: reduce)",
+        onchange: null,
+        addListener: mock(() => {}),
+        removeListener: mock(() => {}),
+        addEventListener: mock(() => {}),
+        removeEventListener: mock(() => {}),
+        dispatchEvent: mock(() => true),
+      })),
+      configurable: true,
+    });
+
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const animate = mock(() => ({
+      cancel: mock(() => {}),
+      finished: Promise.resolve(),
+    }));
+
+    Object.defineProperty(drawer, "animate", {
+      value: animate,
+      configurable: true,
+    });
+    drawer.style.minHeight = "70vh";
+    drawer.style.bottom = "0px";
+    const rectSpy = spyOn(drawer, "getBoundingClientRect").mockImplementation(() => {
+      const height = Number.parseFloat(drawer.style.height) || 560;
+      const bottom = Number.parseFloat(drawer.style.bottom) || 0;
+
+      return {
+        x: 0,
+        y: window.innerHeight - bottom - height,
+        width: 100,
+        height,
+        top: window.innerHeight - bottom - height,
+        left: 0,
+        right: 100,
+        bottom: window.innerHeight - bottom,
+        toJSON: () => {},
+      };
+    });
+
+    input.focus();
+    visualViewport.height = window.innerHeight - 400;
+    visualViewport.dispatchEvent(new Event("resize"));
+
+    expect(drawer.style.height).toBe(`${visualViewport.height - WINDOW_TOP_OFFSET}px`);
+    expect(drawer.style.bottom).toBe("400px");
+    expect(animate).not.toHaveBeenCalled();
+
+    rectSpy.mockRestore();
+  });
+
   it("Drawer 내부의 다른 input으로 포커스가 이동하면 열린 키보드 위치를 유지한다", async () => {
     const { getByTestId } = render(<KeyboardHarness defaultOpen />);
     const drawer = getByTestId("drawer");
@@ -1045,6 +1428,8 @@ describe("키보드 리포지션", () => {
     visualViewport.dispatchEvent(new Event("resize"));
 
     expect(scrollTo).toHaveBeenCalledWith({ top: 120, behavior: "smooth" });
+    visualViewport.dispatchEvent(new Event("resize"));
+    expect(scrollTo).toHaveBeenCalledTimes(1);
     expect(document.scrollingElement?.scrollTop ?? 0).toBe(0);
 
     inputRectSpy.mockRestore();
@@ -1052,7 +1437,7 @@ describe("키보드 리포지션", () => {
     drawerRectSpy.mockRestore();
   });
 
-  it("키보드 전환 양방향에서 높이와 위치를 하나의 WAAPI 타임라인으로 보간한다", async () => {
+  it("키보드 진입은 translate FLIP, 복원은 geometry WAAPI로 보간한다", async () => {
     const { getByTestId } = render(<KeyboardHarness defaultOpen />);
     const drawer = getByTestId("drawer");
     const input = getByTestId("input-a");
@@ -1120,16 +1505,8 @@ describe("키보드 리포지션", () => {
     expect(animate).toHaveBeenNthCalledWith(
       1,
       [
-        {
-          height: "560px",
-          minHeight: "560px",
-          bottom: "0px",
-        },
-        {
-          height: `${visualViewport.height - WINDOW_TOP_OFFSET}px`,
-          minHeight: `${visualViewport.height - WINDOW_TOP_OFFSET}px`,
-          bottom: "400px",
-        },
+        { translate: `0px ${window.innerHeight - 560 - WINDOW_TOP_OFFSET}px` },
+        { translate: "0px 0px" },
       ],
       {
         duration: 250,
@@ -1186,6 +1563,63 @@ describe("키보드 리포지션", () => {
     visualViewport.height = window.innerHeight;
     visualViewport.dispatchEvent(new Event("resize"));
     expect(animate).toHaveBeenCalledTimes(2);
+
+    rectSpy.mockRestore();
+  });
+
+  it("키보드 전환 커스텀 속성이 없으면 기본 WAAPI 타이밍을 사용한다", () => {
+    const { getByTestId } = render(<KeyboardHarness defaultOpen />);
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const animation = {
+      cancel: mock(() => {}),
+      pause: mock(() => {}),
+      play: mock(() => {}),
+      currentTime: null,
+      finished: new Promise<void>(() => {}),
+    } as unknown as Animation;
+    const animate = mock(() => animation);
+
+    Object.defineProperty(drawer, "animate", {
+      value: animate,
+      configurable: true,
+    });
+    drawer.style.minHeight = "70vh";
+    drawer.style.bottom = "0px";
+    const rectSpy = spyOn(drawer, "getBoundingClientRect").mockImplementation(() => {
+      const height = Number.parseFloat(drawer.style.height) || 560;
+      const bottom = Number.parseFloat(drawer.style.bottom) || 0;
+
+      return {
+        x: 0,
+        y: window.innerHeight - bottom - height,
+        width: 100,
+        height,
+        top: window.innerHeight - bottom - height,
+        left: 0,
+        right: 100,
+        bottom: window.innerHeight - bottom,
+        toJSON: () => {},
+      };
+    });
+
+    input.focus();
+    visualViewport.height = window.innerHeight - 400;
+    visualViewport.dispatchEvent(new Event("resize"));
+
+    expect(animate).toHaveBeenCalledWith(
+      [
+        { translate: `0px ${window.innerHeight - 560 - WINDOW_TOP_OFFSET}px` },
+        { translate: "0px 0px" },
+      ],
+      {
+        duration: TRANSITIONS.ENTER_DURATION * 1000,
+        easing: TRANSITIONS.CONTENT_ENTER_TIMING_FUNCTION,
+        fill: "both",
+      },
+    );
+    expect(animation.pause).toHaveBeenCalledTimes(1);
+    expect(animation.play).toHaveBeenCalledTimes(1);
 
     rectSpy.mockRestore();
   });
