@@ -1,6 +1,7 @@
 import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
 import { defineConfig, defineDocs, frontmatterSchema, metaSchema } from "fumadocs-mdx/config";
 import { remarkFigmaImage } from "./components/figma-image/remark-figma-image";
+import { readFigmaImageManifest } from "./components/figma-image/figma-image-manifest";
 import { filteredTypeTableGenerator } from "./components/type-table/generator";
 import { remarkAutoTypeTable } from "fumadocs-typescript";
 import { remarkFixObjectKeys } from "./components/type-table/remark-fix-object-keys";
@@ -243,6 +244,7 @@ export default defineConfig({
         {
           fileKey: env.figmaFileKey,
           accessToken: env.figmaPersonalAccessToken,
+          manifest: readFigmaImageManifest(),
           fetchUrlsOptions: {
             format: "png",
             scale: 2,
