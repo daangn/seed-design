@@ -5,6 +5,7 @@ metadata:
 data:
   collection: motion
   tokens:
+    # TODO: remove all three — superseded by the runtime press scale, no component spec references them.
     $scale.s95:
       values:
         preferred: 0.95
