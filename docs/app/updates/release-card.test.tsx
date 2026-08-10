@@ -10,7 +10,6 @@ describe("ReleaseCard", () => {
       <ReleaseCard
         href="/updates/pickers-dialog-select"
         title="Quantity Picker, Time Picker, Date Picker, Select, Dialog"
-        description="Quantity Picker, Time Picker, Date Picker, Select, Dialog로 입력과 선택 경험을 확장했습니다."
         publishedAt="2026-08-10T00:00:00+09:00"
       />,
     );
@@ -23,6 +22,9 @@ describe("ReleaseCard", () => {
     expect(link.getAttribute("href")).toBe("/updates/pickers-dialog-select");
     expect(screen.getByText("2026. 8. 10")).toBeDefined();
     expect(Array.from(metadataAndTitle, (element) => element.tagName)).toEqual(["TIME", "H3"]);
+    expect(screen.getByRole("heading", { level: 3 }).className).toContain("text-lg");
+    expect(screen.getByRole("heading", { level: 3 }).className).toContain("font-medium");
+    expect(link.querySelector("p")).toBeNull();
     expect(link.querySelector("svg")).toBeNull();
   });
 
