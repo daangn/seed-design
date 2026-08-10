@@ -71,7 +71,7 @@
     border-radius: var(--seed-radius-r1);
 }
 .seed-page-banner__button:is(:active, [data-active]) {
-    scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale);
 }
 .seed-page-banner__button {
     transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
@@ -102,7 +102,7 @@
     --seed-suffix-icon-size: var(--seed-dimension-x4);
 }
 .seed-page-banner__closeButton:is(:active, [data-active]) {
-    scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale);
 }
 .seed-page-banner__closeButton {
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);

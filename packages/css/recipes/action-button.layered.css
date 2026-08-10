@@ -69,7 +69,7 @@
   }
 
   .seed-action-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-press-scale, 1);
+    scale: var(--seed-press-scale);
   }
 
   .seed-action-button {
