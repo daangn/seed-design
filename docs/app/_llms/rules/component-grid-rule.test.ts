@@ -38,4 +38,13 @@ describe("componentGridRule", () => {
 
     expect(normalizeForAssert(actual)).toBe(normalizeForAssert(expected));
   });
+
+  it("renders entries from the generated manifest", () => {
+    const input = readFixture("component-grid", "manifest.input.mdx");
+    const expected = readFixture("component-grid", "manifest.output.mdx");
+
+    const actual = normalizeLLMBodyWithRules(input, [componentGridRule]);
+
+    expect(normalizeForAssert(actual)).toBe(normalizeForAssert(expected));
+  });
 });
