@@ -1,0 +1,769 @@
+file: stackflow/bottom-sheet.mdx
+
+# Bottom Sheet
+
+Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
+
+사용 가능 버전: @seed-design/stackflow@1.1.5, @seed-design/css@1.1.5
+
+<Card title="Bottom Sheet" href="/react/components/bottom-sheet">
+  Bottom Sheet 컴포넌트에 대해 자세히 알아봅니다.
+</Card>
+
+## Making a Bottom Sheet Activity \[#making-a-bottom-sheet-activity]
+
+**일반적인 경우 Bottom Sheet를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
+
+- Activity로 관리되므로, 하위 Activity보다 높고 상위 Activity보다는 낮은 z-index를 갖도록 관리하기 쉽습니다.
+- 딥링킹이 가능합니다. (URL 접속으로 Bottom Sheet를 열 수 있습니다.)
+- [@stackflow/plugin-basic-ui](https://www.npmjs.com/package/@stackflow/plugin-basic-ui) `BottomSheet`에서의 마이그레이션이 쉽습니다.
+
+<StackflowExample path="/bottom-sheet-activity">
+  ```tsx title='ActivityBottomSheetActivity.tsx'
+  import { VStack } from "@seed-design/react";
+  import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+  import {
+    AppBar,
+    AppBarBackButton,
+    AppBarLeft,
+    AppBarMain,
+    AppBarIconButton,
+    AppBarRight,
+  } from "seed-design/ui/app-bar";
+  import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  import { ActionButton } from "seed-design/ui/action-button";
+  import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+
+  declare module "@stackflow/config" {
+    interface Register {
+      ActivityBottomSheetActivity: {};
+    }
+  }
+
+  const ActivityBottomSheetActivity: StaticActivityComponentType<
+    "ActivityBottomSheetActivity"
+  > = () => {
+    const { push } = useFlow();
+
+    return (
+      <AppScreen>
+        <AppBar>
+          <AppBarLeft>
+            <AppBarBackButton />
+          </AppBarLeft>
+          <AppBarMain title="Activity" />
+          <AppBarRight>
+            <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+              <IconHouseLine />
+            </AppBarIconButton>
+          </AppBarRight>
+        </AppBar>
+        <AppScreenContent>
+          <VStack p="x5" justify="center" gap="x4">
+            <ActionButton
+              variant="neutralSolid"
+              flexGrow
+              onClick={() => push("ActivityBottomSheet", {})}
+            >
+              ActivityBottomSheet을 Push
+            </ActionButton>
+            <ActionButton
+              variant="neutralWeak"
+              flexGrow
+              onClick={() => push("ActivityBottomSheetActivity", {})}
+            >
+              지금 열린 이 Activity를 Push
+            </ActionButton>
+          </VStack>
+        </AppScreenContent>
+      </AppScreen>
+    );
+  };
+
+  export default ActivityBottomSheetActivity;
+  ```
+
+  ```tsx title='ActivityBottomSheet.tsx'
+  import { Box, Divider, HStack, VStack } from "@seed-design/react";
+  import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+  import { useRef, useState } from "react";
+  import { ActionButton } from "seed-design/ui/action-button";
+  import {
+    BottomSheetBody,
+    BottomSheetContent,
+    BottomSheetFooter,
+    BottomSheetRoot,
+  } from "seed-design/ui/bottom-sheet";
+  import { Checkbox } from "seed-design/ui/checkbox";
+  import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
+  import { TextField, TextFieldInput } from "seed-design/ui/text-field";
+  import { useActivityZIndexBase } from "@seed-design/stackflow";
+  import { Switch } from "seed-design/ui/switch";
+  import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
+  import { appScreenVariantMap, type AppScreenVariant } from "@seed-design/css/recipes/app-screen";
+
+  declare module "@stackflow/config" {
+    interface Register {
+      ActivityBottomSheet: {};
+    }
+  }
+
+  const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = () => {
+    const { push, pop } = useFlow();
+    const activity = useActivity();
+
+    const form = useRef<HTMLFormElement>(null);
+
+    const snackbar = useSnackbarAdapter();
+
+    const [nameError, setNameError] = useState<string | null>(null);
+    const [keepMounted, setKeepMounted] = useState(false);
+    const [transitionStyle, setTransitionStyle] =
+      useState<AppScreenVariant["transitionStyle"]>("slideFromRightIOS");
+
+    const handleSubmit = () => {
+      if (!form.current) return;
+      const formData = new FormData(form.current);
+
+      if (!formData.get("name")) {
+        setNameError("이름을 입력해주세요.");
+
+        return;
+      }
+
+      setNameError(null);
+      pop();
+
+      snackbar.create({
+        render: () => (
+          <Snackbar
+            variant="positive"
+            message={JSON.stringify({
+              name: formData.get("name"),
+              subscribe: formData.get("subscribe"),
+            })}
+          />
+        ),
+      });
+    };
+
+    const open = keepMounted
+      ? activity.transitionState === "enter-active" || activity.transitionState === "enter-done"
+      : activity.isActive;
+
+    const onOpenChange = keepMounted
+      ? (open: boolean) => !open && activity.isActive && pop()
+      : (open: boolean) => !open && pop();
+
+    return (
+      <BottomSheetRoot
+        open={open}
+        modal={keepMounted ? activity.isActive : undefined}
+        onOpenChange={onOpenChange}
+      >
+        <BottomSheetContent
+          showHandle
+          showCloseButton={false}
+          title="정보 입력"
+          layerIndex={useActivityZIndexBase()}
+        >
+          <form
+            ref={form}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <BottomSheetBody>
+              <VStack gap="spacingY.componentDefault">
+                <TextField
+                  required
+                  showRequiredIndicator
+                  name="name"
+                  label="이름"
+                  description="본명이 아니어도 괜찮아요."
+                  invalid={!!nameError}
+                  errorMessage={nameError}
+                >
+                  <TextFieldInput placeholder="이름을 입력하세요" />
+                </TextField>
+                <Checkbox
+                  label="뉴스레터 구독하기"
+                  tone="neutral"
+                  inputProps={{ name: "subscribe" }}
+                />
+              </VStack>
+            </BottomSheetBody>
+            <BottomSheetFooter>
+              <VStack gap="x4">
+                <HStack gap="x2">
+                  <ActionButton type="button" variant="neutralWeak" onClick={pop}>
+                    닫기
+                  </ActionButton>
+                  <ActionButton type="submit" variant="neutralSolid" flexGrow>
+                    제출
+                  </ActionButton>
+                </HStack>
+                <Divider as="div" />
+                <VStack gap="x2">
+                  <Switch
+                    tone="neutral"
+                    size="16"
+                    label="Push 이후에도 BottomSheet 마운트 유지"
+                    checked={keepMounted}
+                    onCheckedChange={setKeepMounted}
+                    style={{ alignSelf: "center" }}
+                  />
+                  <Box alignSelf="center">
+                    <SegmentedControl
+                      value={transitionStyle}
+                      onValueChange={(style) =>
+                        setTransitionStyle(style as AppScreenVariant["transitionStyle"])
+                      }
+                    >
+                      {appScreenVariantMap.transitionStyle.map((style) => (
+                        <SegmentedControlItem key={style} value={style}>
+                          {style}
+                        </SegmentedControlItem>
+                      ))}
+                    </SegmentedControl>
+                  </Box>
+                  <ActionButton
+                    flexGrow
+                    type="button"
+                    variant="neutralSolid"
+                    onClick={() =>
+                      push("ActivityDetail", {
+                        title: "ActivityDetail",
+                        body: keepMounted
+                          ? "BottomSheet가 언마운트되지 않았으므로, 현재 Activity를 pop하는 경우 uncontrolled 상태의 TextField와 Checkbox 값이 유지되며 BottomSheet가 열린 상태로 표시됩니다."
+                          : "BottomSheet가 언마운트되었으므로, 현재 Activity를 pop하는 경우 uncontrolled 상태의 TextField와 Checkbox 값이 초기화되며 BottomSheet가 다시 enter 트랜지션을 재생하며 마운트됩니다.",
+                        transitionStyle,
+                      })
+                    }
+                  >
+                    ActivityDetail
+                  </ActionButton>
+                  <ActionButton
+                    flexGrow
+                    type="button"
+                    variant="neutralSolid"
+                    onClick={() => push("ActivityHome", { transitionStyle })}
+                  >
+                    ActivityHome
+                  </ActionButton>
+                </VStack>
+              </VStack>
+            </BottomSheetFooter>
+          </form>
+        </BottomSheetContent>
+      </BottomSheetRoot>
+    );
+  };
+
+  export default ActivityBottomSheet;
+  ```
+</StackflowExample>
+
+### Usage \[#usage]
+
+```tsx
+import { useActivityZIndexBase } from "@seed-design/stackflow";
+import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
+// ... more imports
+
+const ActivityBottomSheetSimple: ActivityComponentType<"ActivityBottomSheetSimple"> = () => {
+  const { pop } = useFlow();
+
+  return (
+    {/* [!code highlight] */}
+    <BottomSheetRoot open={useActivity().isActive} onOpenChange={(open) => !open && pop()}>
+      <BottomSheetContent
+        title="Activity로 만들어진 BottomSheet"
+        // [!code highlight]
+        layerIndex={useActivityZIndexBase()}
+      >
+        <BottomSheetFooter>
+          <ActionButton onClick={pop}>
+            확인
+          </ActionButton>
+        </BottomSheetFooter>
+      </BottomSheetContent>
+    </BottomSheetRoot>
+  );
+};
+```
+
+1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Bottom Sheet가 열리도록 합니다.
+2. `onOpenChange`를 통해 Bottom Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
+3. `layerIndex={useActivityZIndexBase()}`로 Bottom Sheet Activity의 z-index 기준점을 전달합니다.
+
+- [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+
+#### Keeping Bottom Sheet Mounted \[#keeping-bottom-sheet-mounted]
+
+Bottom Sheet Activity 위에 다른 Activity를 push할 때 Bottom Sheet가 unmount되는 것을 방지하려면,
+
+- `open` 상태를 `isActive` 대신 `transitionState`로 관리하고
+- `modal` prop을 `isActive`로 설정하고
+- `onOpenChange` 핸들러에서 `!isOpen && isActive`인 경우 `pop()`을 실행하도록 합니다.
+
+이 패턴은 다음 상황에서 유용합니다.
+
+- Bottom Sheet 액티비티 위에 다른 오버레이 컴포넌트 액티비티를 중첩하여 표시하고 싶은 경우
+- 하위 Bottom Sheet 액티비티 내부에 존재하는 Uncontrolled 폼 요소의 상태를 유지하고 싶은 경우
+
+```tsx
+const { isActive, transitionState } = useActivity();
+
+return (
+  <BottomSheetRoot
+    open={
+      // [!code highlight]
+      transitionState === "enter-active" || transitionState === "enter-done"
+    }
+    // [!code highlight]
+    modal={isActive}
+    // [!code highlight]
+    onOpenChange={(open) => !open && isActive && pop()}
+  >
+    {/* ... */}
+  </BottomSheetRoot>
+);
+```
+
+1. `open`을 `transitionState`로 관리하여 다른 Activity가 위에 push되어도 Bottom Sheet가 unmount되지 않도록 합니다.
+2. `modal={isActive}`로 Bottom Sheet Activity가 비활성 상태일 때 `modal`을 `false`로 설정합니다. 이렇게 하지 않으면, 위에 push된 Activity에서 포커스, 스크린 리더 접근 및 스크롤 등의 상호작용이 동작하지 않습니다.
+3. `onOpenChange` 핸들러에서 `isActive`인 경우에만 `pop()`을 실행하여, 비활성 상태에서의 의도치 않은 Activity 종료를 방지합니다.
+
+#### Stacking Another Modal Overlay on Top \[#stacking-another-modal-overlay-on-top]
+
+Bottom Sheet Activity 위에 자체 backdrop을 갖는 또 다른 modal Activity(예: Alert Dialog Activity)를 push해 얹는 경우에는, `modal={isActive}` 대신 `modal`을 항상 `true`로 두는 것을 권장합니다.
+
+`modal={isActive}` 패턴은 위에 push되는 Activity가 일반 AppScreen일 때 스크롤 등의 상호작용을 보장하기 위한 것이지만, 위로 push되는 Activity가 자체 backdrop을 갖는 modal overlay라면 비활성 시점에 Bottom Sheet의 backdrop이 사라지면서 dim layering이 끊겨 보일 수 있습니다.
+
+<StackflowExample path="/nested-bottom-sheet">
+  ```tsx title='ActivityNestedBottomSheet.tsx'
+  import { VStack } from "@seed-design/react";
+  import { useActivityZIndexBase } from "@seed-design/stackflow";
+  import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+  import { ActionButton } from "seed-design/ui/action-button";
+  import {
+    BottomSheetBody,
+    BottomSheetContent,
+    BottomSheetFooter,
+    BottomSheetRoot,
+  } from "seed-design/ui/bottom-sheet";
+  import { Callout } from "seed-design/ui/callout";
+
+  declare module "@stackflow/config" {
+    interface Register {
+      ActivityNestedBottomSheet: {};
+    }
+  }
+
+  const ActivityNestedBottomSheet: StaticActivityComponentType<"ActivityNestedBottomSheet"> = () => {
+    const { pop, push } = useFlow();
+    const { isActive, transitionState } = useActivity();
+
+    const open = transitionState === "enter-active" || transitionState === "enter-done";
+    const onOpenChange = (next: boolean) => !next && isActive && pop();
+
+    return (
+      // 위에 AlertDialog Activity가 push되어 BottomSheet가 비활성(isActive=false)이 되더라도
+      // BottomSheet 자체의 modal 동작과 backdrop을 유지해 dim layering이 끊기지 않도록 modal을 항상 true로 둔다.
+      // outside close는 onOpenChange에서 isActive 가드로 막혀 비활성 상태에서는 pop이 발생하지 않는다.
+      <BottomSheetRoot open={open} onOpenChange={onOpenChange} modal>
+        <BottomSheetContent
+          showHandle
+          title="BottomSheet × AlertDialog (Activity)"
+          description="아래 버튼으로 AlertDialog Activity를 push해 위에 얹어보세요."
+          layerIndex={useActivityZIndexBase()}
+        >
+          <BottomSheetBody>
+            <Callout
+              tone="neutral"
+              description="Activity 패턴: BottomSheet가 자체 Activity로 떠 있고, 그 위에 AlertDialog Activity가 push되어 얹힙니다. 위에 떠 있는 AlertDialog의 Backdrop이나 Content 빈 영역을 클릭해 동작을 관찰해보세요."
+            />
+          </BottomSheetBody>
+          <BottomSheetFooter>
+            <VStack gap="x2">
+              <ActionButton
+                variant="neutralSolid"
+                flexGrow
+                onClick={() => push("ActivityAlertDialog", {})}
+              >
+                Open AlertDialog
+              </ActionButton>
+              <ActionButton variant="neutralWeak" onClick={pop}>
+                닫기
+              </ActionButton>
+            </VStack>
+          </BottomSheetFooter>
+        </BottomSheetContent>
+      </BottomSheetRoot>
+    );
+  };
+
+  export default ActivityNestedBottomSheet;
+  ```
+</StackflowExample>
+
+```tsx
+const { isActive, transitionState } = useActivity();
+
+return (
+  <BottomSheetRoot
+    open={
+      transitionState === "enter-active" || transitionState === "enter-done"
+    }
+    // [!code highlight]
+    modal
+    onOpenChange={(open) => !open && isActive && pop()}
+  >
+    {/* ... */}
+  </BottomSheetRoot>
+);
+```
+
+1. `modal`을 항상 `true`로 두어 위에 또 다른 modal Activity가 push되어도 Bottom Sheet의 backdrop layering이 끊기지 않도록 합니다.
+2. `onOpenChange`의 `isActive` 가드 덕분에 비활성 상태에서의 outside 상호작용으로 의도치 않게 `pop()`이 발생하지 않습니다.
+
+<Callout title="언제 `modal={isActive}`를 유지해야 하나요?">
+  위에 push되는 Activity가 Bottom Sheet 영역까지 덮는 backdrop을 갖지 않는 일반 AppScreen이라면, 위 Activity의 스크롤 등 상호작용을 위해 `modal={isActive}` 가이드가 적합합니다. modal overlay 두 개가 stack되는 경우에 한해 `modal`을 항상 `true`로 두는 변형을 사용하세요.
+</Callout>
+
+## Syncing BottomSheet State with a Step \[#syncing-bottomsheet-state-with-a-step]
+
+Bottom Sheet를 Activity로 만들 수 없는 경우, Bottom Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)으로 만들 수 있습니다.
+
+- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Bottom Sheet를 닫을 수 있습니다.
+- `BottomSheetTrigger`를 사용하여 Bottom Sheet를 열고 닫을 수 있습니다.
+
+<Callout type="warn" title="제약 사항">
+  **Activity로 만들지 않은 Bottom Sheet에서 다른 Activity를 push하기 전, z-index 문제를 방지하기 위해 Bottom Sheet를 닫으세요.**
+
+  Bottom Sheet를 닫을 수 없거나, Bottom Sheet를 연 Activity로 돌아왔을 때 Bottom Sheet가 열린 상태를 유지해야 하는 경우 [Bottom Sheet를 Activity로](#making-a-bottom-sheet-activity) 만들어 사용하는 것을 권장합니다.
+
+  Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Bottom Sheet는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
+</Callout>
+
+<StackflowExample path="/bottom-sheet-step">
+  ```tsx title='ActivityBottomSheetStep.tsx'
+  import { HStack, Portal, VStack } from "@seed-design/react";
+  import { useActivityZIndexBase } from "@seed-design/stackflow";
+  import {
+    useActivityParams,
+    useFlow,
+    useStepFlow,
+    type StaticActivityComponentType,
+  } from "@stackflow/react/future";
+  import { useEffect, useState } from "react";
+  import { ActionButton } from "seed-design/ui/action-button";
+  import { AppBar, AppBarMain, AppBarIconButton, AppBarRight } from "seed-design/ui/app-bar";
+  import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+  import {
+    BottomSheetContent,
+    BottomSheetFooter,
+    BottomSheetRoot,
+    BottomSheetTrigger,
+  } from "seed-design/ui/bottom-sheet";
+
+  declare module "@stackflow/config" {
+    interface Register {
+      ActivityBottomSheetStep: {
+        "bottom-sheet"?: "open";
+      };
+    }
+  }
+
+  const ActivityBottomSheetStep: StaticActivityComponentType<"ActivityBottomSheetStep"> = () => {
+    const [open, setOpen] = useState(false);
+    const { push } = useFlow();
+    const { pushStep, popStep } = useStepFlow("ActivityBottomSheetStep");
+    const params = useActivityParams<"ActivityBottomSheetStep">();
+    const isOverlayOpen = params["bottom-sheet"] === "open";
+
+    useEffect(() => setOpen(isOverlayOpen), [isOverlayOpen]);
+
+    const onOpenChange = (newOpen: boolean) => {
+      setOpen(newOpen);
+
+      if (newOpen && !isOverlayOpen) {
+        pushStep((params) => ({ ...params, "bottom-sheet": "open" }));
+        return;
+      }
+
+      if (!newOpen && isOverlayOpen) {
+        popStep();
+        return;
+      }
+    };
+
+    return (
+      <AppScreen>
+        <AppBar>
+          <AppBarMain title="Step" />
+          <AppBarRight>
+            <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+              <IconHouseLine />
+            </AppBarIconButton>
+          </AppBarRight>
+        </AppBar>
+        <AppScreenContent>
+          <BottomSheetRoot open={open} onOpenChange={onOpenChange}>
+            <BottomSheetTrigger asChild>
+              <VStack p="x5" justify="center" gap="x4">
+                <ActionButton variant="neutralSolid" flexGrow>
+                  Bottom Sheet 열기
+                </ActionButton>
+              </VStack>
+            </BottomSheetTrigger>
+            <Portal>
+              <BottomSheetContent
+                showHandle
+                title="Step"
+                description="Bottom Sheet가 Step으로 만들어져 있기 때문에 뒤로 가기로 닫을 수 있습니다."
+                layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+              >
+                <BottomSheetFooter>
+                  <HStack gap="x2">
+                    <ActionButton onClick={() => setOpen(false)} variant="neutralWeak">
+                      닫기
+                    </ActionButton>
+                    <ActionButton
+                      flexGrow
+                      variant="neutralSolid"
+                      onClick={() => {
+                        // 이 Bottom Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
+                        // BottomSheet를 먼저 닫고 다음 Activity를 push해야 합니다.
+                        setOpen(false);
+                        push("ActivityDetail", {
+                          title: "Bottom Sheet에서 이동한 화면",
+                          body: "Bottom Sheet를 닫고 이동했습니다.",
+                        });
+                      }}
+                    >
+                      Push
+                    </ActionButton>
+                  </HStack>
+                </BottomSheetFooter>
+              </BottomSheetContent>
+            </Portal>
+          </BottomSheetRoot>
+        </AppScreenContent>
+      </AppScreen>
+    );
+  };
+
+  export default ActivityBottomSheetStep;
+  ```
+</StackflowExample>
+
+### Usage \[#usage-1]
+
+```tsx
+import { useActivityZIndexBase } from "@seed-design/stackflow";
+import { Portal } from "@seed-design/react";
+import {
+  useActivity,
+  useActivityParams,
+  useFlow,
+  useStepFlow,
+  type ActivityComponentType,
+} from "@stackflow/react/future";
+import { useEffect, useState } from "react";
+// ... more imports
+
+declare module "@stackflow/config" {
+  interface Register {
+    ActivityHome: {
+      "bottom-sheet"?: "open";
+    };
+  }
+}
+
+const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
+  const [open, setOpen] = useState(false);
+
+  const { push } = useFlow();
+  const { pushStep, popStep } = useStepFlow("ActivityHome");
+  const params = useActivityParams<"ActivityHome">();
+  // [!code highlight]
+  const isOverlayOpen = params["bottom-sheet"] === "open";
+
+  // [!code highlight]
+  useEffect(() => {
+    if (!isOverlayOpen) {
+      setOpen(false);
+    }
+  }, [isOverlayOpen]);
+
+  // [!code highlight]
+  const onOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+
+    if (newOpen && !isOverlayOpen) {
+      pushStep((params) => ({ ...params, "bottom-sheet": "open" }));
+
+      return;
+    }
+
+    if (!newOpen && isOverlayOpen) {
+      popStep();
+
+      return;
+    }
+  };
+
+  return (
+    <AppScreen>
+      <BottomSheetRoot open={open} onOpenChange={onOpenChange}>
+        <BottomSheetTrigger asChild>
+          <ActionButton>Open</ActionButton>
+        </BottomSheetTrigger>
+        {/* [!code highlight] */}
+        <Portal>
+          <BottomSheetContent
+            title="Step으로 관리되는 Bottom Sheet"
+            // [!code highlight]
+            layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+          >
+            <BottomSheetFooter>
+              <HStack gap="x2">
+                <ActionButton onClick={() => setOpen(false)}>취소</ActionButton>
+                <ActionButton
+                  onClick={() => {
+                    // [!code highlight]
+                    setOpen(false); // 다른 Activity로 이동하기 전에는 Bottom Sheet를 닫으세요.
+                    push("ActivityNext");
+                  }}
+                >
+                  다음
+                </ActionButton>
+              </HStack>
+            </BottomSheetFooter>
+          </BottomSheetContent>
+          {/* [!code highlight] */}
+        </Portal>
+      </BottomSheetRoot>
+    </AppScreen>
+  );
+};
+```
+
+1. `Portal`을 사용하여 Bottom Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
+2. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
+3. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Bottom Sheet의 `open` 상태를 동기화합니다.
+4. `layerIndex={useActivityZIndexBase({ activityOffset: 1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
+   - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
+
+### `useStepOverlay` \[#usestepoverlay]
+
+\#2와 #3을 일반화하여 `useStepOverlay`를 사용하면 편리합니다. `useStepOverlay` 구현 예시는 [코드](https://github.com/daangn/seed-design/blob/dev/examples/stackflow-spa/src/seed-design/stackflow/use-step-overlay.ts)를 참고하세요.
+
+```tsx
+import { useActivityZIndexBase } from "@seed-design/stackflow";
+import { Portal } from "@seed-design/react";
+import { useStepOverlay } from "./use-step-overlay";
+// ... more imports
+
+const MyActivity: ActivityComponentType = () => {
+  // [!code highlight]
+  const { overlayProps, setOpen } = useStepOverlay();
+  const { popStep } = useStepFlow("MyActivity");
+  const { push } = useFlow();
+
+  return (
+    <AppScreen>
+      {/* [!code highlight] */}
+      <BottomSheetRoot {...overlayProps}>
+        <BottomSheetTrigger asChild>
+          <ActionButton>Open</ActionButton>
+        </BottomSheetTrigger>
+        {/* [!code highlight] */}
+        <Portal>
+          <BottomSheetContent
+            title="Step으로 관리되는 Bottom Sheet"
+            // [!code highlight]
+            layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
+          >
+            <BottomSheetFooter>
+              <HStack gap="x2">
+                <ActionButton onClick={() => setOpen(false)}>취소</ActionButton>
+                <ActionButton
+                  onClick={() => {
+                    // [!code highlight]
+                    setOpen(false); // 다른 Activity로 이동하기 전에는 Bottom Sheet를 닫으세요.
+                    push("ActivityNext");
+                  }}
+                >
+                  다음
+                </ActionButton>
+              </HStack>
+            </BottomSheetFooter>
+          </BottomSheetContent>
+          {/* [!code highlight] */}
+        </Portal>
+      </BottomSheetRoot>
+    </AppScreen>
+  );
+};
+```
+
+## About `useActivityZIndexBase` \[#about-useactivityzindexbase]
+
+`useActivityZIndexBase`는 각 Activity의 z-index 기준점을 반환하는 훅입니다.
+
+<Accordions>
+  <Accordion title="useActivityZIndexBase는 어떤 값을 반환하나요?">
+    - `useActivity().zIndex * 5`를 반환합니다. `useActivity().zIndex`는 현재 Activity가 enter된 Activity 중 몇 번째 Activity인지를 나타내는 값입니다.
+    - AppScreen을 구성하는 요소들(layer, appbar, dim, edge)은 `useActivityZIndexBase()` 값을 바탕으로 계산된 z-index를 갖습니다.
+      ```
+      ┌─ 2번 BottomSheet Activity
+      │  └─ BottomSheet: 12 (2 × 5 + 2)
+      ├─ 1번 AppScreen Activity
+      │  ├─ appbar: 12 (1 × 5 + 7)
+      │  ├─ edge: 9 (1 × 5 + 4)
+      │  ├─ layer: 7 (1 × 5 + 2)
+      │  └─ dim: 5 (1 × 5 + 0)
+      └─ 0번 AppScreen Activity
+         ├─ appbar: 7 (0 × 5 + 7)
+         ├─ edge: 4 (0 × 5 + 4)
+         ├─ layer: 2 (0 × 5 + 2)
+         └─ dim: 0 (0 × 5 + 0)
+      ```
+  </Accordion>
+
+  <Accordion title="activityOffset 옵션은 무엇인가요?">
+    - `activityOffset` 옵션은 현재 Activity가 아닌 다음 Activity의 z-index 기준점을 사용하고 싶을 때 사용합니다.
+    - 예를 들어, `useActivityZIndexBase({ activityOffset: 1 })`는 다음 Activity의 z-index 기준점을 반환합니다.
+    - 이는 Step 패턴에서 현재 Activity 위에 BottomSheet를 표시할 때 유용합니다.
+      ```
+      ┌─ 1번 AppScreen Activity에서 activityOffset: 1로 띄운 BottomSheet (예: Step 패턴)
+      │  └─ BottomSheet: 12 ((1 + 1) × 5 + 2)
+      ├─ 1번 AppScreen Activity
+      │  ├─ appbar: 12 (1 × 5 + 7)
+      │  ├─ edge: 9 (1 × 5 + 4)
+      │  ├─ layer: 7 (1 × 5 + 2)
+      │  └─ dim: 5 (1 × 5 + 0)
+      └─ 0번 AppScreen Activity
+         ├─ appbar: 7 (0 × 5 + 7)
+         ├─ edge: 4 (0 × 5 + 4)
+         ├─ layer: 2 (0 × 5 + 2)
+         └─ dim: 0 (0 × 5 + 0)
+      ```
+  </Accordion>
+
+  <Accordion title="@stackflow/react-ui-core useZIndexBase와 @seed-design/stackflow useActivityZIndexBase는 어떻게 다른가요?">
+    - 두 훅 모두 현재 Activity가 enter된 Activity 중 몇 번째 Activity인지를 바탕으로 z-index 스타일링에 필요한 값을 반환하는 훅입니다.
+    - 두 훅이 반환하는 값은 같으나, [@stackflow/plugin-basic-ui](https://www.npmjs.com/package/@stackflow/plugin-basic-ui)가 아닌, SEED 컴포넌트를 사용하는 경우 SEED가 관리하는 `@seed-design/stackflow` 패키지의 `useActivityZIndexBase` 훅을 사용하는 것을 권장합니다.
+    - `@stackflow/react-ui-core` 패키지의 `useActivityZIndexBase`는 `activityOffset` 옵션을 제공하지 않습니다.
+    - `@seed-design/stackflow@1.1.1`부터 `useActivityZIndexBase` 훅이 제공됩니다.
+  </Accordion>
+
+  <Accordion title="기존에 layerIndex에 수동으로 z-index 값을 지정해주던 코드는 어떻게 변경해야 하나요?">
+    `layerIndex`를 `useActivity().zIndex * 5 + n` 형태로 지정하고 있었다면 `useActivityZIndexBase() + n`으로 변경할 수 있습니다. 변경 과정에서 `+ n`이 필요한지 함께 검토해보세요.
+  </Accordion>
+</Accordions>

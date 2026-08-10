@@ -27,6 +27,7 @@
   "main": "./lib/index.cjs",
   "types": "./lib/index.d.ts",
   "files": [
+    "docs",
     "lib",
     "src",
     "LICENSE",
