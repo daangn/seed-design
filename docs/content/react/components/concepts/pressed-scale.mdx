@@ -68,7 +68,7 @@ function MyButton({ className, ...props }) {
     pressScaleClassName,
     "bg-bg-brand-solid p-x3 rounded-r2",
     "[transition:background-color_0.2s,var(--seed-press-scale-transition)]", // [!code highlight]
-    "active:[scale:var(--seed-press-scale,1)]", // [!code highlight]
+    "active:[scale:var(--seed-press-scale)]", // [!code highlight]
   )}
 />
 ```
@@ -110,21 +110,13 @@ export const myButton = style({
 }
 
 .my-button:active {
-  scale: var(--seed-press-scale, 1);
+  scale: var(--seed-press-scale);
 }
 ```
 
 </Tab>
 
 </Tabs>
-
-<Callout type="warn">
-
-CSS를 직접 작성할 때는 `var(--seed-press-scale, 1)`의 **폴백 값 `1`을 반드시 함께 적어야 합니다.** 아직 크기가 측정되지 않은 상태에서 폴백 없이 사용하면 `scale`이 `none`으로 계산되어, 눌리는 순간 요소가 stacking context에서 벗어납니다.
-
-`@seed-design/css/press-scale`의 `pressScale`에는 폴백이 이미 포함되어 있습니다.
-
-</Callout>
 
 </Step>
 
@@ -167,8 +159,8 @@ const MyButton = React.forwardRef<HTMLButtonElement, MyButtonProps>(
 
 아래 두 가지는 별도로 작성할 필요가 없습니다.
 
-- **동작 줄이기 설정**: `prefers-reduced-motion: reduce` 환경에서는 배율이 항상 `1`로 계산됩니다.
-- **크기를 알 수 없는 상황**: JavaScript가 실행되지 않았거나 첫 측정 전이라면 배율이 폴백 값 `1`로 떨어집니다. 잘못된 배율이 적용되는 대신 효과만 나타나지 않습니다.
+- **동작 줄이기 설정**: `prefers-reduced-motion: reduce` 환경에서는 배율이 항상 `1`이 됩니다.
+- **크기를 알 수 없는 상황**: JavaScript가 실행되지 않았거나 첫 측정 전이라면 배율이 `1`이 됩니다. 잘못된 배율이 적용되는 대신 효과만 나타나지 않습니다. `ref`나 클래스를 빠뜨렸을 때도 마찬가지입니다.
 
 ## 알아둘 점
 

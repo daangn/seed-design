@@ -14,7 +14,7 @@ function PressableCard({ className, children }: { className?: string; children: 
     <button
       type="button"
       ref={pressScaleRef}
-      className={`${pressScaleClassName} ${className} flex items-center rounded-r4 border border-stroke-neutral-muted bg-bg-layer-default text-left text-fg-neutral [transition:background-color_0.2s,var(--seed-press-scale-transition)] active:bg-bg-layer-default-pressed active:[scale:var(--seed-press-scale,1)]`}
+      className={`${pressScaleClassName} ${className} flex items-center rounded-r4 border border-stroke-neutral-muted bg-bg-layer-default text-left text-fg-neutral [transition:background-color_0.2s,var(--seed-press-scale-transition)] active:bg-bg-layer-default-pressed active:[scale:var(--seed-press-scale)]`}
     >
       {children}
     </button>
