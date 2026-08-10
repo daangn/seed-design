@@ -7,7 +7,7 @@ SEED 컴포넌트는 눌렸을 때 요소가 살짝 줄어드는 피드백을 �
 
 ## 배율이 정해지는 방식
 
-SEED는 축소 배율을 고정값으로 정하지 않습니다. 대신 **크기가 다른 요소도 눌렸을 때 비슷한 거리만큼 줄어들도록**, 배율을 요소의 실제 크기에서 계산합니다.
+SEED는 축소 배율을 고정값으로 정하지 않습니다. **크기가 다른 요소도 눌렸을 때 비슷한 거리만큼 줄어들도록**, 배율을 요소의 실제 크기에서 계산합니다.
 
 | 요소           | 높이 × 폭 | 계산된 배율 | 실제 축소            |
 | -------------- | --------- | ----------- | -------------------- |
@@ -20,7 +20,7 @@ SEED는 축소 배율을 고정값으로 정하지 않습니다. 대신 **크기
 
 ## 적용하기
 
-크기를 측정해 배율을 발행하는 일은 `usePressScale`이 담당하고, 그 배율을 **언제 어떤 요소에 적용할지는 직접 작성합니다.** 눌림 스타일은 보통 배경색 변화와 함께 걸리는데, 둘을 하나의 규칙으로 묶어두면 서로 다른 조건에서 각각 동작하도록 나눌 수 없기 때문입니다.
+크기를 측정해 배율을 발행하는 일은 `PressScale`이 담당하고 그 배율을 **언제 어떤 요소에 적용할지는 직접 작성합니다.** 눌림 스타일은 보통 배경색 변화와 함께 걸리는데, 둘을 하나의 규칙으로 묶어두면 서로 다른 조건에서 각각 동작하도록 나눌 수 없기 때문입니다.
 
 <Steps>
 
@@ -28,26 +28,24 @@ SEED는 축소 배율을 고정값으로 정하지 않습니다. 대신 **크기
 
 ### 요소 크기 발행하기
 
-`usePressScale`이 돌려주는 `pressScaleRef`와 `pressScaleClassName`을 **같은 요소에** 전달합니다.
+축소할 요소를 `PressScale`로 감쌉니다.
 
 ```tsx title="MyButton.tsx"
-import { usePressScale } from "@seed-design/react";
-import clsx from "clsx";
+import { PressScale } from "@seed-design/react";
 
 function MyButton({ className, ...props }) {
-  const { pressScaleRef, pressScaleClassName } = usePressScale();
-
   return (
-    <button
-      ref={pressScaleRef} // [!code highlight]
-      className={clsx(pressScaleClassName, className)} // [!code highlight]
-      {...props}
-    />
+    {/* [!code highlight] */}
+    <PressScale>
+      <button className={className} {...props} />
+    </PressScale>
   );
 }
 ```
 
-`ref`는 요소의 크기를 측정해 발행하고, 클래스는 그 크기에서 배율을 계산하는 규칙을 켭니다. 둘 중 하나라도 빠지면 배율이 계산되지 않고 축소가 일어나지 않습니다.
+`PressScale`은 자기 요소를 만들지 않고 자식에 그대로 합쳐지므로 레이아웃에 상자가 하나 늘어나지 않습니다. 자식이 이미 가진 `ref`와 `className`도 그대로 유지됩니다.
+
+자식은 요소 하나여야 하고 받은 `ref`와 `className`을 DOM 요소까지 전달해야 합니다. 직접 만든 컴포넌트를 자식으로 넘긴다면 [Composition](/react/components/concepts/composition) 문서의 조합 원칙을 함께 확인하세요.
 
 </Step>
 
@@ -62,18 +60,24 @@ function MyButton({ className, ...props }) {
 <Tab value="Tailwind CSS">
 
 ```tsx title="MyButton.tsx"
-<button
-  ref={pressScaleRef}
-  className={clsx(
-    pressScaleClassName,
-    "bg-bg-brand-solid p-x3 rounded-r2",
-    "[transition:background-color_0.2s,var(--seed-press-scale-transition)]", // [!code highlight]
-    "active:[scale:var(--seed-press-scale)]", // [!code highlight]
-  )}
-/>
+<PressScale>
+  <button
+    className={clsx(
+      "bg-bg-brand-solid p-x3 rounded-r2",
+      "[transition:background-color_0.2s,var(--seed-press-scale-transition)]", // [!code highlight]
+      "active:scale-(--seed-press-scale)", // [!code highlight]
+    )}
+  />
+</PressScale>
 ```
 
-`scale-*` 유틸리티는 Tailwind CSS 3에서 `transform`으로, 4에서 `scale` 속성으로 컴파일되므로 버전에 따라 결과가 다릅니다. 위처럼 arbitrary property 문법(`[scale:...]`)을 사용하면 두 버전에서 동일하게 동작합니다.
+Tailwind CSS 3에는 `scale-(...)` 문법이 없고 `scale-*` 유틸리티가 `transform`으로 컴파일되므로 개별 `scale` 속성을 쓰려면 arbitrary property 문법으로 바꿔야 합니다.
+
+```tsx
+"active:[scale:var(--seed-press-scale)]"
+```
+
+배율을 여러 곳에 적용한다면 [유틸리티로 등록](#tailwind-css-유틸리티로-등록하기)해서 짧게 쓸 수 있습니다.
 
 </Tab>
 
@@ -97,7 +101,9 @@ export const myButton = style({
 ```
 
 ```tsx title="MyButton.tsx"
-<button ref={pressScaleRef} className={clsx(pressScaleClassName, myButton)} />
+<PressScale>
+  <button className={myButton} />
+</PressScale>
 ```
 
 </Tab>
@@ -106,7 +112,9 @@ export const myButton = style({
 
 ```css title="MyButton.css"
 .my-button {
-  transition: background-color 0.2s, var(--seed-press-scale-transition);
+  transition:
+    background-color 0.2s,
+    var(--seed-press-scale-transition);
 }
 
 .my-button:active {
@@ -133,34 +141,95 @@ export const myButton = style({
   ```
 </ComponentExample>
 
-### 이미 `ref`를 사용하고 있다면
+### 감쌀 수 없다면
 
-`pressScaleRef`를 다른 `ref`와 함께 써야 한다면 `useComposedRefs`로 합성하세요. 렌더할 때마다 새로 만들어지는 함수를 `ref`로 넘기면 React가 매 렌더마다 ref를 분리하고 다시 연결하기 때문에, 크기 관찰이 매번 재등록됩니다.
+요소를 감싸는 대신 배선을 직접 하고 싶다면 `usePressScale`이 같은 두 가지를 돌려줍니다. `pressScaleRef`와 `pressScaleClassName`을 **같은 요소에** 전달하세요.
 
 ```tsx title="MyButton.tsx"
-import { useComposedRefs } from "@radix-ui/react-compose-refs";
+import { usePressScale } from "@seed-design/react";
+import clsx from "clsx";
 
-const MyButton = React.forwardRef<HTMLButtonElement, MyButtonProps>(
-  ({ className, ...props }, ref) => {
-    const { pressScaleRef, pressScaleClassName } = usePressScale();
+function MyButton({ className, ...props }) {
+  const { pressScaleRef, pressScaleClassName } = usePressScale();
 
-    return (
-      <button
-        ref={useComposedRefs(pressScaleRef, ref)} // [!code highlight]
-        className={clsx(pressScaleClassName, className)}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <button
+      ref={pressScaleRef} // [!code highlight]
+      className={clsx(pressScaleClassName, className)} // [!code highlight]
+      {...props}
+    />
+  );
+}
 ```
+
+`ref`는 요소의 크기를 측정해 발행하고 클래스는 그 크기에서 배율을 계산하는 규칙을 켭니다. 둘 중 하나라도 빠지거나 서로 다른 요소에 붙으면 배율이 계산되지 않고 축소가 일어나지 않습니다.
+
+## Tailwind CSS 유틸리티로 등록하기
+
+배율을 여러 컴포넌트에 적용한다면 프로젝트에 유틸리티를 하나 등록해두세요. 매번 배율 변수를 적는 대신 `active:press-scale`로 쓸 수 있고 Tailwind CSS 3과 4에서 같은 클래스를 씁니다.
+
+<Tabs items={['Tailwind CSS 4', 'Tailwind CSS 3']}>
+
+<Tab value="Tailwind CSS 4">
+
+```css title="style.css"
+@import "tailwindcss";
+
+@utility press-scale {
+  scale: var(--seed-press-scale);
+}
+```
+
+</Tab>
+
+<Tab value="Tailwind CSS 3">
+
+```js title="tailwind.config.js"
+import plugin from "tailwindcss/plugin";
+
+export default {
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".press-scale": { scale: "var(--seed-press-scale)" },
+      });
+    }),
+  ],
+};
+```
+
+</Tab>
+
+</Tabs>
+
+두 버전 모두 같은 CSS를 만들므로 컴포넌트 코드는 버전에 관계없이 동일합니다.
+
+```tsx title="MyButton.tsx"
+<PressScale>
+  <button
+    className={clsx(
+      "bg-bg-brand-solid p-x3 rounded-r2",
+      "[transition:background-color_0.2s,var(--seed-press-scale-transition)]",
+      "active:press-scale", // [!code highlight]
+    )}
+  />
+</PressScale>
+```
+
+<Callout type="warn">
+
+`@theme`이 아니라 `@utility`에 등록하세요. `@theme` 항목은 `:root`에서 값이 확정되므로 요소가 자기 크기에서 계산한 배율이 도달하지 못합니다. 클래스는 생성되는데 축소만 일어나지 않습니다.
+
+</Callout>
+
+트랜지션은 같은 방식으로 묶을 수 없습니다. `transition-*` 유틸리티는 Tailwind 자신의 duration과 timing function을 함께 적용해서 `--seed-press-scale-transition`에 담긴 값을 덮어버립니다. 위처럼 arbitrary property 문법을 그대로 사용하세요.
 
 ## 자동으로 처리되는 것
 
 아래 두 가지는 별도로 작성할 필요가 없습니다.
 
 - **동작 줄이기 설정**: `prefers-reduced-motion: reduce` 환경에서는 배율이 항상 `1`이 됩니다.
-- **크기를 알 수 없는 상황**: JavaScript가 실행되지 않았거나 첫 측정 전이라면 배율이 `1`이 됩니다. 잘못된 배율이 적용되는 대신 효과만 나타나지 않습니다. `ref`나 클래스를 빠뜨렸을 때도 마찬가지입니다.
+- **크기를 알 수 없는 상황**: JavaScript가 실행되지 않았거나 첫 측정 전이라면 배율이 `1`이 됩니다. 잘못된 배율이 적용되는 대신 효과만 나타나지 않습니다. 직접 배선하다 `ref`나 클래스를 빠뜨렸을 때도 마찬가지입니다.
 
 ## 알아둘 점
 
@@ -168,7 +237,7 @@ const MyButton = React.forwardRef<HTMLButtonElement, MyButtonProps>(
 
 SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transform 속성인 [`scale`](https://developer.mozilla.org/ko/docs/Web/CSS/scale)로 적용합니다. 커스텀 컴포넌트에서도 `scale`을 사용하세요.
 
-`transform`은 shorthand라서 한 요소에 하나의 값만 가집니다. 축소를 여기에 적으면 그 요소의 이동이나 회전을 같은 값에 함께 써야 하고, 변형을 추가할 때마다 축소 값을 다시 챙겨야 합니다. 개별 `scale`은 `translate`, `rotate`와 독립적으로 동작해서 이런 부담이 없고, `pressScaleClassName`이 이미 `scale`을 사용하므로 축소가 한 속성에 모입니다.
+`transform`은 shorthand라서 한 요소에 하나의 값만 가집니다. 축소를 여기에 적으면 그 요소의 이동이나 회전을 같은 값에 함께 써야 하고 변형을 추가할 때마다 축소 값을 다시 챙겨야 합니다. 개별 `scale`은 `translate`, `rotate`와 독립적으로 동작해서 이런 부담이 없고 `PressScale`이 이미 `scale`을 사용하므로 축소가 한 속성에 모입니다.
 
 개별 `scale` 속성은 Chrome 104, Safari 14.1, Firefox 72부터 지원됩니다. 이보다 낮은 버전에서는 축소만 나타나지 않고 나머지 스타일은 그대로 동작합니다.
 
@@ -182,17 +251,17 @@ SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transfor
 
 ### `position: fixed` 자손
 
-`pressScaleClassName`이 붙은 요소는 눌리지 않은 상태에서도 `scale: 1`을 유지합니다. `scale` 값이 있는 요소는 stacking context이자 `position: fixed` 자손의 containing block이 되므로, 이 요소 안에 `position: fixed` 요소가 있다면 뷰포트가 아니라 **이 요소를 기준으로 배치됩니다.**
+`PressScale`이 적용된 요소는 눌리지 않은 상태에서도 `scale: 1`을 유지합니다. `scale` 값이 있는 요소는 stacking context이자 `position: fixed` 자손의 containing block이 되므로, 이 요소 안에 `position: fixed` 요소가 있다면 뷰포트가 아니라 **이 요소를 기준으로 배치됩니다.**
 
-이 기준은 눌리기 전후로 바뀌지 않으므로 누르는 동안 자손이 따라 움직이지는 않습니다. 다만 배치 기준 자체가 뷰포트와 달라지는 것이므로, 이런 자손이 있다면 의도한 위치에 표시되는지 확인하세요.
+이 기준은 눌리기 전후로 바뀌지 않으므로 누르는 동안 자손이 따라 움직이지는 않습니다. 다만 배치 기준 자체가 뷰포트와 달라지므로 이런 자손이 있다면 의도한 위치에 표시되는지 확인하세요.
 
 ### 마우스 환경
 
-SEED 컴포넌트는 마우스 환경에서 hover 시 pressed **색상**을 표시하지만, 축소는 실제로 누른 동안에만 적용합니다. 커스텀 컴포넌트에서도 배율은 `:active`에만 연결하세요. 자세한 내용은 [Interaction States](/react/components/concepts/interaction-states) 문서를 참고하세요.
+SEED 컴포넌트는 마우스 환경에서 hover 시 pressed **색상**을 표시하지만 축소는 실제로 누른 동안에만 적용합니다. 커스텀 컴포넌트에서도 배율은 `:active`에만 연결하세요. 자세한 내용은 [Interaction States](/react/components/concepts/interaction-states) 문서를 참고하세요.
 
 ## 프로젝트 전체에서 끄기
 
-배율을 `1`로 고정하는 규칙을 추가하고, **SEED CSS보다 뒤에 로드**하세요. 배율을 읽는 모든 곳이 이 변수 하나를 거치므로 SEED 컴포넌트와 커스텀 컴포넌트가 함께 꺼집니다.
+배율을 `1`로 고정하는 규칙을 추가하고 **SEED CSS보다 뒤에 로드**하세요. 배율을 읽는 모든 곳이 이 변수 하나를 거치므로 SEED 컴포넌트와 커스텀 컴포넌트가 함께 꺼집니다.
 
 ```css title="press-scale-off.css"
 .seed-press-scale {
