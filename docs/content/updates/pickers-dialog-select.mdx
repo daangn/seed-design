@@ -1,55 +1,13 @@
 ---
-title: Pickers, Dialog, Select
-description: Date Picker, Time Picker, Quantity Picker, Dialog, Select로 입력과 선택 경험을 확장했습니다.
+title: Quantity Picker, Time Picker, Date Picker, Select, Dialog
+description: Quantity Picker, Time Picker, Date Picker, Select, Dialog로 입력과 선택 경험을 확장했습니다.
 publishedAt: 2026-08-10T00:00:00+09:00
 category: release
 ---
 
-<Callout type="info" title="tl;dr">
+## Quantity Picker
 
-1. **날짜·시간·수량을 목적에 맞게 입력합니다.** [자세히](#날짜시간수량을-고르는-picker)
-2. **목록에서 하나 또는 여러 값을 선택합니다.** [자세히](#목록에서-값을-선택하는-select)
-3. **화면 크기에 맞는 Dialog에 풍부한 내용을 담습니다.** [자세히](#풍부한-내용을-담는-dialog와-responsivedialog)
-
-</Callout>
-
-## 날짜·시간·수량을 고르는 Picker
-
-날짜와 시간, 수량처럼 입력 규칙이 뚜렷한 값은 목적에 맞는 Picker로 받을 수 있습니다. Quantity Picker는 `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터, Date Picker와 Time Picker는 `@seed-design/react@2.2.0`, `@seed-design/css@2.4.0`부터 제공합니다.
-
-### Date Picker
-
-달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택합니다. 한 달과 두 달 레이아웃을 제공해 화면 크기와 선택 맥락에 맞게 구성할 수 있습니다.
-
-<ComponentExample name="react/date-picker/preview">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/date-picker/preview.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-[Date Picker 디자인 가이드](/components/date-picker) · [React 문서](/react/components/date-picker)
-
-### Time Picker
-
-휠을 굴려 오전·오후와 시·분을 선택합니다. locale에 따른 칼럼 순서와 분 단위 간격을 설정할 수 있습니다.
-
-<ComponentExample name="react/time-picker/preview">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/time-picker/preview.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-[Time Picker 디자인 가이드](/components/time-picker) · [React 문서](/react/components/time-picker)
-
-### Quantity Picker
-
-버튼으로 정수 단위의 수량을 한 단계씩 늘리거나 줄입니다. 최소·최대 범위와 삭제 가능한 상태를 표현하고 Form 값으로 제출할 수 있습니다.
+버튼으로 정수 단위의 수량을 한 단계씩 늘리거나 줄입니다. 최소·최대 범위와 삭제 가능한 상태를 표현하고 Form 값으로 제출할 수 있습니다. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 제공합니다.
 
 <ComponentExample name="react/quantity-picker/preview">
   ```json doc-gen:file
@@ -62,7 +20,37 @@ category: release
 
 [Quantity Picker 디자인 가이드](/components/quantity-picker) · [React 문서](/react/components/quantity-picker)
 
-## 목록에서 값을 선택하는 Select
+## Time Picker
+
+휠을 굴려 오전·오후와 시·분을 선택합니다. locale에 따른 칼럼 순서와 분 단위 간격을 설정할 수 있습니다. `@seed-design/react@2.2.0`, `@seed-design/css@2.4.0`부터 제공합니다.
+
+<ComponentExample name="react/time-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Time Picker 디자인 가이드](/components/time-picker) · [React 문서](/react/components/time-picker)
+
+## Date Picker
+
+달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택합니다. 한 달과 두 달 레이아웃을 제공해 화면 크기와 선택 맥락에 맞게 구성할 수 있습니다. `@seed-design/react@2.2.0`, `@seed-design/css@2.4.0`부터 제공합니다.
+
+<ComponentExample name="react/date-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Date Picker 디자인 가이드](/components/date-picker) · [React 문서](/react/components/date-picker)
+
+## Select
 
 Select는 트리거를 눌러 연 목록에서 하나 또는 여러 값을 선택합니다. 항목을 그룹으로 나누거나 설명과 아이콘을 더할 수 있고, 선택값을 Form으로 제출할 수 있습니다. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 제공합니다.
 
@@ -77,7 +65,7 @@ Select는 트리거를 눌러 연 목록에서 하나 또는 여러 값을 선�
 
 [Select 디자인 가이드](/components/select) · [React 문서](/react/components/select)
 
-## 풍부한 내용을 담는 Dialog와 ResponsiveDialog
+## Dialog
 
 Dialog는 화면 중앙에서 사용자의 주의를 모으고, 제목·본문·푸터에 폼이나 스크롤되는 콘텐츠를 담습니다. ResponsiveDialog를 사용하면 넓은 화면에서는 Dialog, 작은 화면에서는 Bottom Sheet로 자동 전환됩니다. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 제공합니다.
 

@@ -17,16 +17,16 @@ export function ReleaseCard({ href, title, description, publishedAt }: ReleaseCa
       href={href}
       className="group flex h-full min-h-[112px] flex-col rounded-r3 bg-bg-transparent-selected px-x5 py-x3_5 text-fg-neutral transition-colors duration-color-transition hover:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stroke-focus-ring"
     >
-      <div className="flex items-baseline justify-between gap-x4">
-        <h3 className="t5-medium min-w-0">{title}</h3>
+      <div className="min-w-0 space-y-x1">
         {published && (
           <time
             dateTime={published.toISOString()}
-            className="t4-regular shrink-0 text-fg-neutral-muted"
+            className="t4-regular block text-fg-neutral-muted"
           >
             {formatPublishedDate(published)}
           </time>
         )}
+        <h3 className="t5-medium min-w-0 break-words text-balance">{title}</h3>
       </div>
       {description && (
         <p className="t4-regular mt-x2 line-clamp-2 break-words text-fg-neutral-muted">

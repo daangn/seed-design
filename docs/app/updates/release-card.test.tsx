@@ -9,16 +9,20 @@ describe("ReleaseCard", () => {
     render(
       <ReleaseCard
         href="/updates/pickers-dialog-select"
-        title="Pickers, Dialog, Select"
-        description="Date Picker, Time Picker, Quantity Picker, Dialog, Select로 입력과 선택 경험을 확장했습니다."
+        title="Quantity Picker, Time Picker, Date Picker, Select, Dialog"
+        description="Quantity Picker, Time Picker, Date Picker, Select, Dialog로 입력과 선택 경험을 확장했습니다."
         publishedAt="2026-08-10T00:00:00+09:00"
       />,
     );
 
-    const link = screen.getByRole("link", { name: /Pickers, Dialog, Select/ });
+    const link = screen.getByRole("link", {
+      name: /Quantity Picker, Time Picker, Date Picker, Select, Dialog/,
+    });
+    const metadataAndTitle = link.querySelectorAll("time, h3");
 
     expect(link.getAttribute("href")).toBe("/updates/pickers-dialog-select");
     expect(screen.getByText("2026. 8. 10")).toBeDefined();
+    expect(Array.from(metadataAndTitle, (element) => element.tagName)).toEqual(["TIME", "H3"]);
     expect(link.querySelector("svg")).toBeNull();
   });
 
@@ -26,7 +30,7 @@ describe("ReleaseCard", () => {
     render(
       <ReleaseCard
         href="/updates/pickers-dialog-select"
-        title="Pickers, Dialog, Select"
+        title="Quantity Picker, Time Picker, Date Picker, Select, Dialog"
         description="긴 설명은 카드 안에서 두 줄까지만 보입니다."
       />,
     );
