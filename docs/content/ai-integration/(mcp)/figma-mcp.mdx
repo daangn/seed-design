@@ -327,6 +327,9 @@ Figma URL 또는 `fileKey` + `nodeId`를 전달하면 REST API로, `nodeId`만 �
 | `get_node_react_code`           | 레이어의 React 코드를 생성합니다.             |
 | `get_component_info`            | 컴포넌트의 key와 속성 정의를 반환합니다.      |
 | `find_nodes`                   | 하위 레이어를 이름(정규식)으로 검색하여 ID 목록을 반환합니다. |
+| `export_node_as_image`          | 레이어를 이미지(PNG, JPG)로 렌더링해 반환합니다. |
+| `export_node_as_svg`            | 레이어를 SVG 마크업(텍스트)으로 반환합니다. |
+| `get_annotations`               | 레이어와 그 하위 레이어의 [Annotation](https://help.figma.com/hc/en-us/articles/20774752502935-Add-measurements-and-annotate-designs)을 가져옵니다. |
 | `retrieve_color_variable_names` | SEED 색상 변수 이름 목록을 반환합니다. |
 
 ### WebSocket 전용
@@ -337,9 +340,7 @@ Figma 플러그인과 통신이 필요합니다. `websocket` 또는 `all` 모드
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | `get_selection`        | 현재 선택한 레이어의 ID를 반환합니다.                                                                                              |
 | `get_document_info`    | 현재 열린 Figma 문서의 정보를 반환합니다.                                                                                          |
-| `export_node_as_image` | 레이어를 이미지(PNG, JPG, SVG, PDF)로 내보냅니다.                                                                                  |
 | `add_annotations`      | 레이어에 [Annotation](https://help.figma.com/hc/en-us/articles/20774752502935-Add-measurements-and-annotate-designs)을 추가합니다. |
-| `get_annotations`      | 레이어의 Annotation을 가져옵니다.                                                                                                  |
 | `join_channel`         | 특정 채널에 참가합니다.                                                                                                            |
 
 <Accordions type="single">

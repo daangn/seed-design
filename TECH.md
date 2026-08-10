@@ -89,11 +89,20 @@ react (스타일드 컴포넌트) ← react-headless (로직)
 
 ### 테스트
 
-| 명령어 | 설명 |
-|--------|------|
-| `bun headless:test` | react-headless 테스트 |
-| `bun react:test` | react 패키지 테스트 |
-| `bun test:all` | 전체 테스트 |
+수정한 경로에 해당하는 테스트만 돌린다. 전체 실행은 커밋 직전 한 번이면 충분하다.
+
+| 수정 경로 | 명령어 |
+|-----------|--------|
+| `packages/react-headless/` | `bun headless:test` |
+| `packages/react/` | `bun react:test` |
+| `packages/lynx-react/` | `bun test:lynx-react` |
+| `packages/cli/` | `bun test packages/cli` |
+| `packages/rootage/`, `ecosystem/rootage/` | `bun rootage:test` |
+| `ecosystem/qvism/` | `bun test ecosystem/qvism` |
+| `docs/` | `bun docs:test` |
+| 전체 | `bun test:all` |
+
+`bun test:all`은 `test:unit`(루트 `bun test`에서 `packages/lynx-react`만 제외)과 `test:lynx-react`(typecheck + vitest)를 합친 것이다. `bun rootage:test`가 함께 실행하는 `bun rootage:validate`는 여기 포함되지 않으므로, rootage YAML을 수정했으면 `bun rootage:test`를 따로 돌린다.
 
 **테스트 환경**: `bunfig.toml`의 `[test].preload`가 `scripts/happydom.ts`(DOM 환경)와 `scripts/testing-library.ts`를 로드한다. 후자가 `@testing-library/jest-dom` 매처를 등록하고 `afterEach(cleanup)`을 전역으로 걸어주므로, 테스트에서 `cleanup()`을 직접 호출하지 않는다.
 
@@ -221,6 +230,17 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 - `bun changeset` - 변경사항 기록
 - `bun version` - 버전 업데이트
 - `bun release` - 배포
+
+### 릴리즈 레인 자동화
+
+- `dev`는 patch stable, `minor`는 minor pre-release, `major`는 major pre-release 레인이다.
+- 레인 정책은 `.github/release/lanes.json`, 운영 모드와 승격 freeze는 `.github/release/control.json`에서 관리한다. 각 파일은 같은 디렉토리의 Draft 2020-12 JSON Schema를 `$schema`로 참조한다.
+- 일반 PR은 read-only 검증만 수행하고 Version Packages PR의 사람 merge만 게시 승인이 된다.
+- `minor`·`major`의 `enter`·`retag`·`exit`와 stable 승격은 보호 브랜치를 직접 수정하지 않고 PR로 수행한다.
+- 레인 동기화는 원본 일반 PR의 최종 diff만 target별 FIFO로 전달하며, 충돌이나 사람 수정이 있으면 자동 merge를 중단한다.
+- `control.json`의 기본값은 `dry-run`이다. DES-2201의 불변 Rootage 게시 계약과 bootstrap E2E가 완료되기 전에는 production으로 전환하지 않는다.
+- 레인 bootstrap은 Daangn Bud 도입 전까지 `Contents: write`만 가진 임시 fine-grained PAT를 `RELEASE_BOOTSTRAP_TOKEN` 저장소 시크릿으로 받아 `minor`·`major` 브랜치만 생성한다.
+- `dev`·`minor`·`major`의 branch protection은 bootstrap 실행 후 저장소 관리자가 수동으로 설정한다. 세 레인 모두 최신 base 반영, `Validate release lane` 필수 검사, 대화 해결을 요구하고 force push와 삭제를 차단한다.
 
 ---
 

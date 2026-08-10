@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { IconDiamondLine, IconHeartLine, IconStarLine } from "@karrotmarket/react-monochrome-icon";
 import { selectTriggerVariantMap } from "@seed-design/css/recipes/select-trigger";
 import type { SelectTriggerVariantProps } from "@seed-design/css/recipes/select-trigger";
@@ -11,7 +10,7 @@ import {
   SelectRoot,
   SelectTrigger,
 } from "seed-design/ui/select";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { VIEWPORT_MODES } from "./utils/parameters";
@@ -93,47 +92,38 @@ const OpenSelectContent = ({ size }: SelectTriggerVariantProps) => {
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: OpenSelectContent,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof OpenSelectContent>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 // One open select per size — the content layout (item / group-label padding)
 // varies by size, but not by the select's own state (disabled/invalid/...), so
 // those are left to the closed Select story.
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={selectTriggerVariantMap}
       conditionMap={{}}
       {...args}
     />
   ),
-};
+});
 
-export const LightTheme: Story = {
-  ...CommonStoryTemplate,
+export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
   },
-};
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

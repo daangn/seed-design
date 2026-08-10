@@ -228,14 +228,14 @@
             {
               "id": "composition",
               "title": "Composition",
-              "description": "아이콘을 사용하는 방법을 설명합니다.",
-              "docUrl": "/react/components/iconography/composition"
+              "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
+              "docUrl": "/react/components/concepts/composition"
             },
             {
               "id": "composition",
               "title": "Composition",
-              "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
-              "docUrl": "/react/components/concepts/composition"
+              "description": "아이콘을 사용하는 방법을 설명합니다.",
+              "docUrl": "/react/components/iconography/composition"
             },
             {
               "id": "content-placeholder",
@@ -275,6 +275,12 @@
                   "path": "control-chip.tsx"
                 }
               ]
+            },
+            {
+              "id": "date-picker",
+              "title": "Date Picker",
+              "description": "달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.",
+              "docUrl": "/react/components/date-picker"
             },
             {
               "id": "dialog",
@@ -806,6 +812,12 @@
               "title": "Text Field Textarea",
               "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
               "docUrl": "/react/components/text-field-textarea"
+            },
+            {
+              "id": "time-picker",
+              "title": "Time Picker",
+              "description": "휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.",
+              "docUrl": "/react/components/time-picker"
             },
             {
               "id": "toggle-button",

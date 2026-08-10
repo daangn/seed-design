@@ -1,0 +1,7 @@
+{
+  "$schema": "./control.schema.json",
+  "schemaVersion": 1,
+  "mode": "production",
+  "rootageContractReady": true,
+  "freeze": null
+}

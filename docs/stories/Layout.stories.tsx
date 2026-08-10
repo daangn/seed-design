@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 
 import { Layout, Box } from "@seed-design/react";
 import { layoutVariantMap } from "@seed-design/css/recipes/layout";
@@ -6,14 +6,10 @@ import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VIEWPORT_MODES } from "./utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: Layout.Root,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Layout.Root>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+});
 
 const Placeholder = ({ label, height }: { label: string; height?: string }) => (
   <Box
@@ -41,7 +37,7 @@ const children = (
   </Layout.Content>
 );
 
-export const LightTheme: Story = {
+export const LightTheme = meta.story({
   args: {
     children,
     style: {
@@ -50,10 +46,10 @@ export const LightTheme: Story = {
       border: "1px solid var(--seed-color-stroke-neutralWeak)",
     },
   },
-  render: (args) => (
-    <VariantTable Component={meta.component} variantMap={layoutVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={layoutVariantMap} {...args} />
   ),
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
   },
-};
+});

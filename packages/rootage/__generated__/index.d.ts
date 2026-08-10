@@ -1,6 +1,6 @@
 declare const artifact: {
   "name": "Rootage";
-  "version": "2.3.0";
+  "version": "2.4.0";
   "resources": readonly [
     {
       "path": "/collections.json";
@@ -94,6 +94,9 @@ declare const artifact: {
     },
     {
       "path": "/components/control-chip.json";
+    },
+    {
+      "path": "/components/date-picker.json";
     },
     {
       "path": "/components/dialog-close-button.json";
@@ -283,6 +286,9 @@ declare const artifact: {
     },
     {
       "path": "/components/text-input.json";
+    },
+    {
+      "path": "/components/time-picker.json";
     },
     {
       "path": "/components/toggle-button.json";

@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import {
   RadioSelectBoxItem,
   RadioSelectBoxRadiomark,
@@ -10,33 +9,47 @@ import { Box, Text } from "@seed-design/react";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 
-const meta = {
+type RadioSelectBoxStoryArgs = React.ComponentProps<typeof RadioSelectBoxItem> & {
+  columns?: number;
+};
+
+const meta = preview.type<{ args: RadioSelectBoxStoryArgs }>().meta({
   component: RadioSelectBoxItem,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof RadioSelectBoxItem>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const RadioSelectBoxWrapper = ({ columns, ...props }: { columns?: number }) => {
+});
+const RadioSelectBoxWrapper = ({
+  columns,
+  value: _value,
+  label,
+  ...props
+}: RadioSelectBoxStoryArgs) => {
   return (
     <RadioSelectBoxRoot columns={columns} defaultValue="item1" aria-label="선택 상자 예시">
-      <RadioSelectBoxItem value="item1" label="" {...props} />
-      <RadioSelectBoxItem value="item2" label="" description="보조 설명 텍스트입니다." {...props} />
-      <RadioSelectBoxItem value="item3" label="" prefixIcon={<IconPersonCircleLine />} {...props} />
+      <RadioSelectBoxItem value="item1" label={label} {...props} />
+      <RadioSelectBoxItem
+        value="item2"
+        label={label}
+        description="보조 설명 텍스트입니다."
+        {...props}
+      />
+      <RadioSelectBoxItem
+        value="item3"
+        label={label}
+        prefixIcon={<IconPersonCircleLine />}
+        {...props}
+      />
       <RadioSelectBoxItem
         value="item4"
-        label=""
+        label={label}
         description="보조 설명 텍스트입니다."
         prefixIcon={<IconPersonCircleLine />}
         {...props}
       />
       <RadioSelectBoxItem
         value="item5"
-        label=""
+        label={label}
         description="선택 시에만 footer가 보입니다."
         footer={
           <Box px="x5" pb="x5">
@@ -47,7 +60,7 @@ const RadioSelectBoxWrapper = ({ columns, ...props }: { columns?: number }) => {
       />
       <RadioSelectBoxItem
         value="item6"
-        label=""
+        label={label}
         description="항상 footer가 보입니다."
         footerVisibility="always"
         footer={
@@ -85,9 +98,9 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  // @ts-expect-error
+const CommonStoryTemplate = meta.story({
   args: {
+    value: "item1",
     label: "Aliqua veniam ut nisi dolore velit deserunt excepteur adipisicing",
   },
   render: (args) => (
@@ -98,21 +111,18 @@ const CommonStoryTemplate: Story = {
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

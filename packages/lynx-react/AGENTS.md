@@ -278,7 +278,7 @@ lynx-react는 vitest + ReactLynx Testing Library를 사용한다 (다른 패키�
 
 ```bash
 bun run test              # 패키지 내부
-bun lynx-react:test       # 루트에서
+bun test:lynx-react       # 루트에서 (typecheck + vitest)
 ```
 
 훅 테스트는 `@lynx-js/react/testing-library`의 `renderHook` / `act`를 쓴다.
