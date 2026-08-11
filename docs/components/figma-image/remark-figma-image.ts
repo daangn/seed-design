@@ -69,20 +69,18 @@ export function remarkFigmaImage({
     if (figmaNodes.size === 0) return tree;
 
     const nodeIds = [...figmaNodes.keys()];
-    if (!accessToken || !fileKey) {
-      applyFigmaImageUrls(
-        figmaNodes,
-        new Map(nodeIds.map((nodeId) => [nodeId, PLACEHOLDER_DATA_URI])),
-      );
-      return tree;
-    }
-
     const options = fetchUrlsOptions ?? {};
     const imageUrls = manifest
       ? getFigmaImageUrlsFromManifest(manifest, nodeIds, options)
       : new Map<string, string>();
-
     const missingIds = nodeIds.filter((nodeId) => !imageUrls.has(nodeId));
+
+    if (!accessToken || !fileKey) {
+      for (const nodeId of missingIds) imageUrls.set(nodeId, PLACEHOLDER_DATA_URI);
+      applyFigmaImageUrls(figmaNodes, imageUrls);
+      return tree;
+    }
+
     if (missingIds.length === 0) {
       applyFigmaImageUrls(figmaNodes, imageUrls);
       return tree;

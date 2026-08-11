@@ -66,4 +66,21 @@ describe("Figma image manifest", () => {
       new Map([["1:2", "https://example.com/image.png"]]),
     );
   });
+
+  it("인증 정보가 없어도 manifest의 이미지 URL을 사용한다", () => {
+    const manifest = createFigmaImageManifest([
+      [getFigmaImageCacheKey("1:2", options), "https://example.com/image.png"],
+    ]);
+    const processor = remark().use(remarkMdx).use(remarkFigmaImage, {
+      fetchUrlsOptions: options,
+      manifest,
+    });
+    const tree = processor.parse('<FigmaImage id="1:2" alt="example" />');
+
+    expect(processor.runSync(tree)).toBe(tree);
+    expect(tree.children[0]).toMatchObject({
+      type: "paragraph",
+      children: [{ type: "image", url: "https://example.com/image.png", alt: "example" }],
+    });
+  });
 });
