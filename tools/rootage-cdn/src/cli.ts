@@ -1,7 +1,12 @@
 import { appendFile } from "node:fs/promises";
-import { publishRootage, verifyPublic } from "./publisher";
+import { publishRootage, publishRootageSnapshot, verifyPublic } from "./publisher";
 import { R2ObjectStore } from "./r2-object-store";
-import { cleanupIncompleteVersions, setStablePointer, updateWorkerRoute } from "./operations";
+import {
+  cleanupCompletedSnapshots,
+  cleanupIncompleteVersions,
+  setStablePointer,
+  updateWorkerRoute,
+} from "./operations";
 import { manifestKey, parseManifest } from "./contract";
 
 function required(name: string): string {
@@ -39,7 +44,10 @@ if (command === "route") {
   await output({ result });
   process.exit(0);
 }
-if (!command || !["publish", "set-stable", "cleanup"].includes(command)) {
+if (
+  !command ||
+  !["publish", "publish-snapshot", "set-stable", "cleanup", "cleanup-snapshots"].includes(command)
+) {
   throw new Error(`지원하지 않는 명령입니다: ${command ?? ""}`);
 }
 const accountId = required("CF_ACCOUNT_ID");
@@ -73,6 +81,56 @@ if (command === "cleanup") {
     apply,
   });
   await output({ candidates: result.candidates.join(","), deleted: result.deleted });
+  process.exit(0);
+}
+if (command === "cleanup-snapshots") {
+  const apply = argument("apply") === "true";
+  if (apply && argument("confirm") !== "DELETE-SNAPSHOTS") {
+    throw new Error("Snapshot 삭제 확인 문구가 올바르지 않습니다.");
+  }
+  const githubToken = required("ROOTAGE_GITHUB_TOKEN");
+  const result = await cleanupCompletedSnapshots(store, {
+    olderThanDays: Number(argument("older-than-days")),
+    apply,
+    getPullRequest: async (prNumber) => {
+      const response = await fetch(
+        `https://api.github.com/repos/daangn/seed-design/pulls/${prNumber}`,
+        {
+          headers: {
+            accept: "application/vnd.github+json",
+            authorization: `Bearer ${githubToken}`,
+            "x-github-api-version": "2022-11-28",
+          },
+          signal: AbortSignal.timeout(15_000),
+        },
+      );
+      if (!response.ok) throw new Error(`GitHub PR #${prNumber} 조회 실패: ${response.status}`);
+      const pullRequest = (await response.json()) as { state?: unknown; closed_at?: unknown };
+      if (
+        (pullRequest.state !== "open" && pullRequest.state !== "closed") ||
+        (pullRequest.closed_at !== null && typeof pullRequest.closed_at !== "string")
+      ) {
+        throw new Error(`GitHub PR #${prNumber} 응답 형식이 올바르지 않습니다.`);
+      }
+      return { state: pullRequest.state, closedAt: pullRequest.closed_at };
+    },
+  });
+  await output({ candidates: result.candidates.join(","), deleted: result.deleted });
+  process.exit(0);
+}
+if (command === "publish-snapshot") {
+  const result = await publishRootageSnapshot(store, {
+    version: argument("version"),
+    packageUrl: argument("package-url"),
+    packageShasum: argument("package-shasum"),
+    sourceSha: argument("source-sha"),
+    publicBaseUrl: required("ROOTAGE_PUBLIC_BASE_URL"),
+  });
+  await output({
+    "manifest-sha": result.manifestSha,
+    "file-count": result.fileCount,
+    "reused-manifest": result.reusedManifest,
+  });
   process.exit(0);
 }
 const result = await publishRootage(store, {

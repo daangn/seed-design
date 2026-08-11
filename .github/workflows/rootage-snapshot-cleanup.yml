@@ -1,0 +1,44 @@
+name: Cleanup Rootage snapshots
+
+on:
+  schedule:
+    - cron: "17 18 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: rootage-cdn-production-mutation
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    name: Delete snapshots closed for 30 days
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: rootage-production
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Bind cleanup to trusted dev
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git merge-base --is-ancestor "$GITHUB_SHA" refs/remotes/origin/dev
+      - uses: ./.github/actions/setup
+      - name: Delete completed snapshots whose PR closed at least 30 days ago
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+          ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+          ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
+          ROOTAGE_GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts cleanup-snapshots
+          --older-than-days "30"
+          --apply "true"
+          --confirm "DELETE-SNAPSHOTS"

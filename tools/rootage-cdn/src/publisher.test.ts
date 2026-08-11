@@ -4,7 +4,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, test } from "bun:test";
 import { jsonBytes, sha256 } from "./contract";
-import { publishRootageArchive, type PublicVerifier } from "./publisher";
+import { publishRootageArchive, publishRootageSnapshot, type PublicVerifier } from "./publisher";
+import { createRootageSnapshotVersion } from "./snapshot";
 import type { ObjectStore, StoredObject } from "./types";
 import { handleRequest, type WorkerEnv } from "./worker";
 
@@ -147,6 +148,118 @@ describe("Rootage publisher offline E2E", () => {
     expect(retry.reusedManifest).toBe(true);
     expect(retry.pointerBefore).toBe(version);
     expect(retry.pointerAfter).toBe(version);
+  });
+
+  test("pkg.pr.new의 exact snapshot tarball을 stable 포인터 없이 게시한다", async () => {
+    const sourceSha = "4".repeat(40);
+    const version = createRootageSnapshotVersion("123", sourceSha);
+    const bytes = await tarball(version);
+    const packageShasum = createHash("sha1").update(bytes).digest("hex");
+    const store = new MemoryStore();
+
+    const result = await publishRootageSnapshot(
+      store,
+      {
+        version,
+        packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
+        packageShasum,
+        sourceSha,
+        publicBaseUrl: "https://offline.test",
+      },
+      {
+        fetch: async () =>
+          new Response(bytes.slice().buffer as ArrayBuffer, {
+            headers: {
+              "content-type": "application/tar+gzip",
+            },
+          }),
+        publicVerifier: workerVerifier(store),
+      },
+    );
+
+    expect(result).toMatchObject({ fileCount: 2, pointerBefore: "", pointerAfter: "" });
+    expect(store.objects.has(`manifests/v${version}.json`)).toBe(true);
+    expect(store.objects.has("pointers/stable.json")).toBe(false);
+    const manifest = JSON.parse(
+      new TextDecoder().decode(store.objects.get(`manifests/v${version}.json`)!.bytes),
+    );
+    expect(manifest.gitHead).toBe(sourceSha);
+    expect(manifest.npmIntegrity).toBe(integrity(bytes));
+  });
+
+  test("snapshot URL, source 결속과 tarball SHA-1 불일치를 거부한다", async () => {
+    const sourceSha = "5".repeat(40);
+    const version = createRootageSnapshotVersion("124", sourceSha);
+    const bytes = await tarball(version);
+    const store = new MemoryStore();
+    const baseInput = {
+      version,
+      packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
+      packageShasum: createHash("sha1").update(bytes).digest("hex"),
+      sourceSha,
+      publicBaseUrl: "https://offline.test",
+    };
+
+    await expect(
+      publishRootageSnapshot(store, { ...baseInput, packageUrl: "https://attacker.test/a.tgz" }),
+    ).rejects.toThrow("허용된 pkg.pr.new");
+    await expect(
+      publishRootageSnapshot(store, {
+        ...baseInput,
+        packageUrl: `https://pkg.pr.new/@seed-design/other-package@${sourceSha}`,
+      }),
+    ).rejects.toThrow("허용된 pkg.pr.new");
+    await expect(
+      publishRootageSnapshot(store, {
+        ...baseInput,
+        packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${"6".repeat(40)}`,
+      }),
+    ).rejects.toThrow("허용된 pkg.pr.new");
+    await expect(
+      publishRootageSnapshot(store, { ...baseInput, sourceSha: "6".repeat(40) }),
+    ).rejects.toThrow("source SHA");
+    await expect(
+      publishRootageSnapshot(
+        store,
+        { ...baseInput, packageShasum: "0".repeat(40) },
+        {
+          fetch: async () => new Response(bytes.slice().buffer as ArrayBuffer),
+        },
+      ),
+    ).rejects.toThrow("SHA-1");
+  });
+
+  test("Content-Length가 없는 tarball도 읽는 중 크기 제한을 적용한다", async () => {
+    const sourceSha = "7".repeat(40);
+    const version = createRootageSnapshotVersion("125", sourceSha);
+    let reads = 0;
+    let cancelled = false;
+    const body = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        reads += 1;
+        controller.enqueue(new Uint8Array(8 * 1024 * 1024));
+      },
+      cancel() {
+        cancelled = true;
+      },
+    });
+
+    await expect(
+      publishRootageSnapshot(
+        new MemoryStore(),
+        {
+          version,
+          packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
+          packageShasum: "0".repeat(40),
+          sourceSha,
+          publicBaseUrl: "https://offline.test",
+        },
+        { fetch: async () => new Response(body) },
+      ),
+    ).rejects.toThrow("허용 크기");
+    expect(reads).toBeGreaterThanOrEqual(3);
+    expect(reads).toBeLessThanOrEqual(4);
+    expect(cancelled).toBe(true);
   });
 
   test("재시도 중 immutable object 바이트가 다르면 fail-closed다", async () => {

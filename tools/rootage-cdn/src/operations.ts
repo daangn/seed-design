@@ -13,6 +13,7 @@ import {
 import type { ObjectStore, StablePointer } from "./types";
 import { mutateStablePointer, verifyLatestWithRollback } from "./stable-pointer-recovery";
 import { ROOTAGE_PRODUCTION_SMOKE_URL, ROOTAGE_WORKER_VERSION_HEADER } from "./deployment-metadata";
+import { parseRootageSnapshotVersion } from "./snapshot";
 
 export async function setStablePointer(
   store: ObjectStore,
@@ -81,6 +82,68 @@ export async function cleanupIncompleteVersions(
       }
   }
   return { candidates: candidates.sort(), deleted };
+}
+
+export interface SnapshotPullRequestState {
+  state: "open" | "closed";
+  closedAt: string | null;
+}
+
+export async function cleanupCompletedSnapshots(
+  store: ObjectStore,
+  options: {
+    olderThanDays: number;
+    apply: boolean;
+    now?: Date;
+    getPullRequest: (prNumber: number) => Promise<SnapshotPullRequestState>;
+  },
+): Promise<{ candidates: string[]; deleted: number }> {
+  if (!Number.isInteger(options.olderThanDays) || options.olderThanDays < 1) {
+    throw new Error("Snapshot 보존 기간은 1일 이상의 정수여야 합니다.");
+  }
+  const now = options.now ?? new Date();
+  const cutoff = now.getTime() - options.olderThanDays * 86_400_000;
+  const manifests = await store.list("manifests/v0.0.0-snapshot.");
+  const pullRequests = new Map<number, SnapshotPullRequestState>();
+  const candidates: string[] = [];
+  let deleted = 0;
+
+  for (const listed of manifests.sort((left, right) => left.key.localeCompare(right.key))) {
+    const match = /^manifests\/v(.+)\.json$/.exec(listed.key);
+    if (!match) continue;
+    const version = match[1]!;
+    const identity = parseRootageSnapshotVersion(version);
+    if (!identity) continue;
+    let pullRequest = pullRequests.get(identity.prNumber);
+    if (!pullRequest) {
+      pullRequest = await options.getPullRequest(identity.prNumber);
+      pullRequests.set(identity.prNumber, pullRequest);
+    }
+    if (pullRequest.state !== "closed" || !pullRequest.closedAt) continue;
+    const closedAt = Date.parse(pullRequest.closedAt);
+    if (!Number.isFinite(closedAt)) {
+      throw new Error(`PR #${identity.prNumber}의 closed_at 형식이 올바르지 않습니다.`);
+    }
+    if (closedAt > cutoff) continue;
+
+    const stored = await store.get(listed.key);
+    if (!stored) continue;
+    const manifest = parseManifest(JSON.parse(new TextDecoder().decode(stored.bytes)));
+    if (manifest.version !== version || manifest.gitHead !== identity.sourceSha) {
+      throw new Error(`Snapshot 완료 manifest identity가 버전과 다릅니다: ${version}`);
+    }
+    candidates.push(version);
+    if (!options.apply) continue;
+
+    await store.delete(listed.key);
+    deleted += 1;
+    for (const file of manifest.files) {
+      await store.delete(file.key);
+      deleted += 1;
+    }
+  }
+
+  return { candidates, deleted };
 }
 
 interface WorkerRoute {

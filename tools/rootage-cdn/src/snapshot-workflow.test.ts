@@ -1,0 +1,80 @@
+import { describe, expect, test } from "bun:test";
+import { join } from "node:path";
+
+const repositoryRoot = join(import.meta.dir, "../../..");
+
+describe("Rootage snapshot workflows", () => {
+  test("Rootage 변경 경로는 NUL 구분 Git 출력으로 읽는다", async () => {
+    const input = await Bun.file(
+      join(repositoryRoot, "tools/rootage-cdn/src/snapshot-input.ts"),
+    ).text();
+
+    expect(input).toContain('"diff", "--name-only", "-z"');
+    expect(input).toContain('.split("\\0")');
+    expect(input).not.toContain('.split("\\n")');
+  });
+
+  test("PR source 실행과 CDN credential을 서로 다른 job으로 격리한다", async () => {
+    const workflow = await Bun.file(
+      join(repositoryRoot, ".github/workflows/continuous-releases.yml"),
+    ).text();
+    const releaseStart = workflow.indexOf("  release:");
+    const publishStart = workflow.indexOf("  publish-rootage:");
+    const releaseJob = workflow.slice(releaseStart, publishStart);
+
+    expect(workflow).toContain("startsWith(github.event.comment.body, '/snapshot')");
+    expect(releaseJob).toContain("persist-credentials: false");
+    expect(releaseJob).toContain("snapshot-input.ts detect");
+    expect(releaseJob).toContain("snapshot-input.ts prepare");
+    expect(releaseJob).toContain(
+      'test "$(jq -r \'.version\' node_modules/pkg-pr-new/package.json)" = "0.0.87"',
+    );
+    expect(releaseJob).toContain(
+      "72dfe24919e316a388aa6893b840bba6fc2f7b9fc37df67e2b545d0a12c6e3b2",
+    );
+    expect(releaseJob).toContain(
+      "196586894e117c8d043310df05742ead273f12fb0575a88272e596a8c90a6658",
+    );
+    expect(releaseJob).toContain("bun node_modules/pkg-pr-new/bin/cli.js publish");
+    expect(releaseJob).not.toContain("bun run pkg-pr-new publish");
+    expect(releaseJob).not.toContain("bunx pkg-pr-new");
+    expect(releaseJob).not.toContain("ROOTAGE_R2_ACCESS_KEY_ID");
+    expect(releaseJob).not.toContain("ROOTAGE_R2_SECRET_ACCESS_KEY");
+    expect(workflow).toContain("uses: ./.github/workflows/rootage-snapshot-contract.yml");
+    expect(workflow).toContain("if: needs.release.outputs.rootage-changed == 'true'");
+  });
+
+  test("snapshot 게시기는 trusted dev control SHA와 production environment에 결속된다", async () => {
+    const workflow = await Bun.file(
+      join(repositoryRoot, ".github/workflows/rootage-snapshot-contract.yml"),
+    ).text();
+
+    expect(workflow).toContain("environment: rootage-production");
+    expect(workflow).toContain("ref: dev");
+    expect(workflow).toContain("ref: ${{ inputs.control-sha }}");
+    expect(workflow).toContain("git merge-base --is-ancestor");
+    expect(workflow).toContain("cli.ts publish-snapshot");
+    expect(workflow).not.toContain("secrets: inherit");
+    expect(workflow).not.toContain("--stable");
+  });
+
+  test("정기 정리는 dev와 production environment에서 snapshot 명령만 실행한다", async () => {
+    const workflow = await Bun.file(
+      join(repositoryRoot, ".github/workflows/rootage-snapshot-cleanup.yml"),
+    ).text();
+
+    expect(workflow).toContain("github.ref == 'refs/heads/dev'");
+    expect(workflow).toContain("environment: rootage-production");
+    expect(workflow).toContain("cli.ts cleanup-snapshots");
+    expect(workflow).toContain('--older-than-days "30"');
+    expect(workflow).toContain('--confirm "DELETE-SNAPSHOTS"');
+    expect(workflow).not.toContain("cleanup-incomplete");
+  });
+
+  test("pkg-pr-new CLI는 검토된 exact 개발 의존성과 실행 파일 checksum으로 고정한다", async () => {
+    const packageJson = (await Bun.file(join(repositoryRoot, "package.json")).json()) as {
+      devDependencies: Record<string, string>;
+    };
+    expect(packageJson.devDependencies["pkg-pr-new"]).toBe("0.0.87");
+  });
+});
