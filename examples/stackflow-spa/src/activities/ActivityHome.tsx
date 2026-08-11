@@ -385,10 +385,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Pagination", onClick: () => push("ActivityPagination", {}) },
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
         { title: "Popover", onClick: () => push("ActivityPopover", {}) },
-        {
-          title: "Popover Playground (a11y)",
-          onClick: () => push("ActivityPopoverPlayground", {}),
-        },
         { title: "Badge", onClick: () => push("ActivityBadge", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
