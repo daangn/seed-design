@@ -91,6 +91,27 @@ describe("resolveRootageIntegrity", () => {
     expect(calls).toBe(3);
   });
 
+  test("gitHead가 아직 없는 metadata는 source 불일치로 확정하지 않고 재시도한다", async () => {
+    let calls = 0;
+    const integrity = await resolveRootageIntegrity("2.5.0", sourceSha, {
+      allowSourceMismatch: true,
+      attempts: 2,
+      delayMs: 0,
+      fetchImpl: async () => {
+        calls += 1;
+        return Response.json(
+          calls === 1
+            ? registryVersion("2.5.0", { gitHead: undefined })
+            : registryVersion("2.5.0"),
+        );
+      },
+      sleep: async () => {},
+    });
+
+    expect(integrity).toBe("sha512-YWJjZA==");
+    expect(calls).toBe(2);
+  });
+
   test("다른 gitHead와 Rootage 계약 밖 integrity를 즉시 거부한다", async () => {
     await expect(
       resolveRootageIntegrity("2.5.0", sourceSha, {

@@ -107,6 +107,9 @@ function validateRegistryVersion(
       "npm Rootage metadata의 package identity가 후보와 다릅니다.",
     );
   }
+  if (typeof metadata.gitHead !== "string") {
+    throw new Error("npm Rootage metadata에 gitHead가 아직 없습니다.");
+  }
   if (metadata.gitHead !== sourceSha) {
     if (allowSourceMismatch) return null;
     throw new NonRetryableRegistryError(
