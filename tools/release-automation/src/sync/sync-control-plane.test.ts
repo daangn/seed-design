@@ -41,10 +41,12 @@ afterEach(async () => {
 
 describe("trusted dev control-plane overlay", () => {
   test("privileged workflows/actions/release/Rootage 도구를 control-plane으로 분류한다", () => {
+    expect(isControlPlanePath("package.json")).toBe(true);
     expect(isControlPlanePath(".github/workflows/release-pr-validation.yml")).toBe(true);
     expect(isControlPlanePath(".github/workflows/release-publish.yml")).toBe(true);
     expect(isControlPlanePath(".github/workflows/rootage-release-contract.yml")).toBe(true);
     expect(isControlPlanePath(".github/actions/setup/action.yml")).toBe(true);
+    expect(isControlPlanePath("scripts/release/workflow-security.test.ts")).toBe(true);
     expect(isControlPlanePath("tools/release-automation/src/sync/sync-worker.ts")).toBe(true);
     expect(isControlPlanePath("tools/rootage-cdn/src/publisher.ts")).toBe(true);
     expect(isControlPlanePath("scripts/notes/readme.md")).toBe(false);
@@ -61,6 +63,8 @@ describe("trusted dev control-plane overlay", () => {
     await write(repository, ".github/workflows/release-pr-validation.yml", "old workflow\n");
     await write(repository, ".github/workflows/target-only.yml", "target-only workflow\n");
     await write(repository, ".github/actions/setup/action.yml", "old setup\n");
+    await write(repository, "package.json", '{"scripts":{"release":"legacy"}}\n');
+    await write(repository, "scripts/release/legacy.ts", "legacy automation\n");
     await write(repository, "tools/release-automation/src/sync/old.ts", "old automation\n");
     await write(repository, "tools/rootage-cdn/src/old.ts", "old rootage tool\n");
     await write(repository, "package.txt", "target data\n");
@@ -72,6 +76,8 @@ describe("trusted dev control-plane overlay", () => {
     await write(repository, ".github/workflows/release-pr-validation.yml", "dispatch workflow\n");
     await rm(join(repository, ".github/workflows/target-only.yml"));
     await write(repository, ".github/actions/setup/action.yml", "new setup\n");
+    await write(repository, "package.json", '{"scripts":{"release:verify":"current"}}\n');
+    await rm(join(repository, "scripts/release/legacy.ts"));
     await rm(join(repository, "tools/release-automation/src/sync/old.ts"));
     await write(repository, "tools/release-automation/src/sync/new.ts", "new automation\n");
     await rm(join(repository, "tools/rootage-cdn/src/old.ts"));
@@ -96,6 +102,10 @@ describe("trusted dev control-plane overlay", () => {
     expect(
       await readFile(join(repository, "tools/release-automation/src/sync/new.ts"), "utf8"),
     ).toBe("new automation\n");
+    expect(await readFile(join(repository, "package.json"), "utf8")).toBe(
+      '{"scripts":{"release:verify":"current"}}\n',
+    );
+    expect(await Bun.file(join(repository, "scripts/release/legacy.ts")).exists()).toBe(false);
     expect(
       await Bun.file(join(repository, "tools/release-automation/src/sync/old.ts")).exists(),
     ).toBe(false);
