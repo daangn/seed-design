@@ -74,6 +74,7 @@
         "src/deployment-guard.ts",
         "src/release-input.ts",
         "src/validate-operation.ts",
+        "src/version-change-policy.ts",
         "src/verify-deployment.ts",
         "src/worker.ts"
       ]
