@@ -37,7 +37,7 @@ runs:
       if: ${{ inputs.build-packages == 'true' }}
       shell: bash
       env:
-        BUILD_CACHE_KEY_SUFFIX: rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'package.json', 'bunfig.toml', 'tsconfig*.json', 'bun.lock', 'bun.lockb', '!packages/**/dist/**', '!packages/**/build/**', '!packages/**/lib/**', '!ecosystem/**/dist/**', '!ecosystem/**/build/**', '!ecosystem/**/lib/**') }}
+        BUILD_CACHE_KEY_SUFFIX: rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'package.json', 'bunfig.toml', 'tsconfig*.json', 'bun.lock', 'bun.lockb', '.ultraignore', '!packages/**/dist/**', '!packages/**/build/**', '!packages/**/lib/**', '!ecosystem/**/dist/**', '!ecosystem/**/build/**', '!ecosystem/**/lib/**') }}
       run: echo "suffix=$BUILD_CACHE_KEY_SUFFIX" >> "$GITHUB_OUTPUT"
 
     - name: Cache build outputs
