@@ -59,11 +59,6 @@ SEED는 당근 제품을 위한 통합된 디자인 언어입니다. 하나의 �
 
 - [@seed-design/docs](./docs)
 
-## 개발과 릴리즈
-
-- [기술 상세와 테스트 명령](./TECH.md)
-- [dev/minor/major 패키지 릴리즈 가이드](./RELEASING.md)
-
 ## License
 
 [Apache-2.0](./LICENSE)
