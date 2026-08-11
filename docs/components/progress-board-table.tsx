@@ -85,11 +85,15 @@ export async function ProgressBoardTable() {
   return (
     <div className="not-prose my-6">
       {/* Components Table — SEED design via shared TableRoot (single source in ./table) */}
-      <TableRoot className="[&_thead_th:not(:first-child)]:text-center [&_tbody_tr:hover_td:first-child]:bg-bg-neutral-weak">
+      <TableRoot
+        stickyHeader
+        className="[&_thead_th:not(:first-child)]:text-center [&_tbody_tr:hover_td:first-child]:bg-bg-neutral-weak"
+      >
         <thead>
           <tr>
-            {/* sticky 좌상단 헤더 셀만 TableRoot의 [&_th]:bg-transparent를 이겨 불투명 유지 */}
-            <th className="sticky left-0 bg-bg-layer-default!">Component</th>
+            {/* 가로·세로 양축 고정이라, 가로 스크롤 시 미끄러져 들어오는 나머지 헤더 셀 위에 있어야 한다.
+                배경·z 모두 TableRoot의 `[&_thead_th]:` 규칙보다 명시도가 낮아 !important가 필요하다 */}
+            <th className="sticky left-0 z-20! bg-bg-layer-default!">Component</th>
             {PLATFORM_CONFIG.map(({ key, label }) => (
               <th key={key}>{label}</th>
             ))}
