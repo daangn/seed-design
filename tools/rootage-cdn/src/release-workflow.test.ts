@@ -76,7 +76,9 @@ describe("release publish workflow", () => {
     );
     expect(workflow).not.toContain("secrets: inherit");
 
-    const releaseJob = workflow.slice(0, workflow.indexOf("  prepare-rootage:"));
+    const prepareIndex = workflow.indexOf("  prepare-rootage:");
+    expect(prepareIndex).toBeGreaterThan(0);
+    const releaseJob = workflow.slice(0, prepareIndex);
     expect(releaseJob).not.toContain("slackapi/slack-github-action");
     expect(workflow).toContain("notify-rootage:");
     expect(workflow).toContain("continue-on-error: true");
