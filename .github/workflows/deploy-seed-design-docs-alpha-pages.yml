@@ -72,13 +72,16 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: docs/.next/cache
-          # Reuse the build inputs already hashed by setup, then add docs inputs only.
-          # A benchmark key creates an isolated namespace. A new value starts cold;
-          # repeating it with the same sources must restore the exact cache entry.
-          key: ${{ runner.os }}-nextjs-${{ inputs.benchmark-cache-key && format('benchmark-{0}-', inputs.benchmark-cache-key) || '' }}${{ steps.setup.outputs.build-cache-key-suffix }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json') }}
-          # Reuse only caches produced with the same package build inputs. This keeps
-          # incremental docs builds while avoiding incompatible Turbopack state.
+          # Keep the compatibility namespace stable across ordinary source changes.
+          # Turbopack tracks those inputs inside its cache and rebuilds only affected modules.
+          # The commit suffix makes each successful build publish refreshed incremental state.
+          key: ${{ runner.os }}-nextjs-v2-${{ inputs.benchmark-cache-key && format('benchmark-{0}-', inputs.benchmark-cache-key) || '' }}${{ hashFiles('bun.lock', 'package.json', 'bunfig.toml', 'docs/package.json', 'docs/next.config.mjs', 'docs/tsconfig.json') }}-${{ github.sha }}
+          # Restore the latest cache made with the same dependency and build configuration.
+          # Package sources, Ultra configuration, and generated Figma files intentionally do
+          # not change this prefix; Turbopack invalidates their affected modules incrementally.
+          # The second prefix migrates the latest cache created by the previous key format.
           restore-keys: |
+            ${{ runner.os }}-nextjs-v2-${{ inputs.benchmark-cache-key && format('benchmark-{0}-', inputs.benchmark-cache-key) || '' }}${{ hashFiles('bun.lock', 'package.json', 'bunfig.toml', 'docs/package.json', 'docs/next.config.mjs', 'docs/tsconfig.json') }}-
             ${{ inputs.benchmark-cache-key && format('{0}-nextjs-benchmark-{1}-{2}-', runner.os, inputs.benchmark-cache-key, steps.setup.outputs.build-cache-key-suffix) || format('{0}-nextjs-{1}-', runner.os, steps.setup.outputs.build-cache-key-suffix) }}
 
       - name: Build Docs
