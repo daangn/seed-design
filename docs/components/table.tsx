@@ -44,7 +44,13 @@ const seedTableWrapper = "relative w-full overflow-x-auto prose-no-margin my-6";
 const seedStickyHeaderWrapper = "md:overflow-visible";
 
 const seedStickyHeaderChrome = clsx(
-  "md:[&_thead_th]:sticky md:[&_thead_th]:top-(--fd-docs-row-2) md:[&_thead_th]:z-10",
+  /**
+   * 오프셋은 `--fd-docs-row-2`가 아니라 헤더 높이다. row-2는 배너와 헤더가 세로로 쌓인다고
+   * 보고 둘을 더하지만, 이 사이트는 배너·헤더가 모두 `sticky top-0`이라 겹쳐서 헤더가 배너를
+   * 덮는다. 실제로 비워야 할 높이는 헤더 하나뿐이고, row-2를 쓰면 배너 높이만큼 틈이 생겨
+   * 그 사이로 본문 행이 지나간다 (배너가 없는 배포에서는 둘이 같은 값이라 드러나지 않는다).
+   */
+  "md:[&_thead_th]:sticky md:[&_thead_th]:top-[var(--fd-header-height,4rem)] md:[&_thead_th]:z-10",
   // seedTableChrome의 `[&_th]:bg-transparent`를 이겨, 지나가는 본문 행이 헤더 뒤로 비치지 않게 한다
   "md:[&_thead_th]:bg-bg-layer-default",
   // 구분선은 `[&_tr]:border-b`로 tr에 그려지는데 고정되는 건 th뿐이라 선만 떨어져 스크롤된다. 셀로 옮겨야 헤더를 따라 남는다
