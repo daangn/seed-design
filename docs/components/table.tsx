@@ -32,26 +32,32 @@ const seedTableChrome = clsx(
 const seedTableWrapper = "relative w-full overflow-x-auto prose-no-margin my-6";
 
 /**
- * 헤더 고정은 래퍼가 세로로 스크롤될 때만 성립한다. `overflow-x-auto`가 나머지 축까지
- * `auto`로 계산시켜 래퍼를 스크롤 컨테이너로 만들기 때문에, 안쪽 `thead`의 sticky는
- * 뷰포트가 아니라 이 래퍼를 기준으로 잡힌다. 높이를 제한해야 래퍼가 실제로 스크롤되고,
- * 그 높이는 뷰포트를 넘으면 안 된다 — 넘으면 고정된 헤더째로 화면 밖으로 밀려난다.
+ * 스크롤 주체는 페이지(body)로 남고 헤더만 사이트 헤더 아래에 붙는다. 그러려면 래퍼가
+ * 스크롤 컨테이너가 아니어야 한다 — `overflow-x-auto`는 나머지 축까지 `auto`로 계산시켜
+ * 래퍼를 스크롤 컨테이너로 만들고, 그러면 안쪽 `thead`의 sticky가 뷰포트 대신 래퍼를
+ * 기준으로 잡혀 아무 일도 일어나지 않는다.
+ *
+ * 스크롤 컨테이너를 걷어내면 가로 스크롤도 같이 사라지므로, 표가 줄바꿈만으로 들어가는
+ * 폭에서만 전환한다. 상위 문서 레이아웃이 `overflow-x: clip`이라 넘치면 열이 스크롤바
+ * 없이 잘려 접근 자체가 불가능해진다.
  */
-const seedStickyHeaderWrapper =
-  "overflow-y-auto max-h-[calc(100dvh_-_var(--fd-docs-row-2,4rem)_-_2rem)]";
+const seedStickyHeaderWrapper = "md:overflow-visible";
 
 const seedStickyHeaderChrome = clsx(
-  "[&_thead_th]:sticky [&_thead_th]:top-0 [&_thead_th]:z-10",
+  "md:[&_thead_th]:sticky md:[&_thead_th]:top-(--fd-docs-row-2) md:[&_thead_th]:z-10",
   // seedTableChrome의 `[&_th]:bg-transparent`를 이겨, 지나가는 본문 행이 헤더 뒤로 비치지 않게 한다
-  "[&_thead_th]:bg-bg-layer-default",
+  "md:[&_thead_th]:bg-bg-layer-default",
   // 구분선은 `[&_tr]:border-b`로 tr에 그려지는데 고정되는 건 th뿐이라 선만 떨어져 스크롤된다. 셀로 옮겨야 헤더를 따라 남는다
-  "[&_thead_th]:border-b [&_thead_th]:border-stroke-neutral-muted",
+  "md:[&_thead_th]:border-b md:[&_thead_th]:border-stroke-neutral-muted",
 );
 
 interface TableRootProps extends ComponentPropsWithoutRef<"table"> {
   /** 래퍼 `<div>`에 추가할 클래스 (컨슈머별 레이아웃 확장, 예: 전면 bleed) */
   wrapperClassName?: string;
-  /** 헤더 행을 표 스크롤 박스 상단에 고정한다. 뷰포트를 넘길 만큼 긴 표에만 켠다 */
+  /**
+   * 헤더 행을 사이트 헤더 아래에 고정한다(`md` 이상). 가로 스크롤을 포기하는 대신이므로,
+   * `md` 폭에서 줄바꿈만으로 들어가는 표에만 켠다
+   */
   stickyHeader?: boolean;
 }
 

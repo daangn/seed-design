@@ -91,9 +91,8 @@ export async function ProgressBoardTable() {
       >
         <thead>
           <tr>
-            {/* 가로·세로 양축 고정이라, 가로 스크롤 시 미끄러져 들어오는 나머지 헤더 셀 위에 있어야 한다.
-                배경·z 모두 TableRoot의 `[&_thead_th]:` 규칙보다 명시도가 낮아 !important가 필요하다 */}
-            <th className="sticky left-0 z-20! bg-bg-layer-default!">Component</th>
+            {/* sticky 좌상단 헤더 셀만 TableRoot의 [&_th]:bg-transparent를 이겨 불투명 유지 */}
+            <th className="sticky left-0 bg-bg-layer-default!">Component</th>
             {PLATFORM_CONFIG.map(({ key, label }) => (
               <th key={key}>{label}</th>
             ))}
