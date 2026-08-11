@@ -43,6 +43,10 @@ function parseTranslateY(value: string) {
   return Number.isFinite(y) ? y : 0;
 }
 
+function hasTransitionDuration(value: string) {
+  return value.split(",").some((duration) => Number.parseFloat(duration) > 0);
+}
+
 export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>(
   function ScrollAutoHide({ asChild, scrollContainerRef, className, ...props }, forwardedRef) {
     const rootRef = React.useRef<HTMLElement>(null);
@@ -107,6 +111,14 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         clearSettleTimer();
         if (height === 0) return;
 
+        if (mediaQuery.matches) {
+          finishSettling();
+          root.style.transition = initialTransition;
+          applyTranslate(0);
+          skipNextSettleAnimation = false;
+          return;
+        }
+
         const visibleRatio = 1 + translateY / height;
         const minTranslate = computeMinTranslate(scrollContainer.scrollTop);
         const target = visibleRatio >= SNAP_THRESHOLD_RATIO ? 0 : clamp(-height, minTranslate);
@@ -117,7 +129,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
           return;
         }
 
-        if (mediaQuery.matches || skipNextSettleAnimation) {
+        if (skipNextSettleAnimation) {
           finishSettling();
           root.style.transition = initialTransition;
           applyTranslate(target);
@@ -126,15 +138,15 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         }
 
         settleTransition = root.style.transition;
-        const computedTransition = getComputedStyle(root).transition;
+        const computedStyle = getComputedStyle(root);
+        const computedTransition = computedStyle.transition;
         const translateTransition = `translate ${SNAP_DURATION_MS}ms ${vars.$timingFunction.enter}`;
 
         isSettling = true;
         root.style.willChange = "translate";
-        root.style.transition =
-          computedTransition && computedTransition !== "all 0s ease 0s"
-            ? `${computedTransition}, ${translateTransition}`
-            : translateTransition;
+        root.style.transition = hasTransitionDuration(computedStyle.transitionDuration)
+          ? `${computedTransition}, ${translateTransition}`
+          : translateTransition;
         applyTranslate(target);
       };
 
@@ -173,11 +185,18 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const handleScroll = () => {
         clearSettleTimer();
         cancelSettling();
-        root.style.willChange = "translate";
 
         const scrollTop = scrollContainer.scrollTop;
         const scrollDelta = scrollTop - previousScrollTop;
         previousScrollTop = scrollTop;
+
+        if (mediaQuery.matches) {
+          finishSettling();
+          applyTranslate(0);
+          return;
+        }
+
+        root.style.willChange = "translate";
         applyTranslate(
           clamp(translateY - scrollDelta, computeMinTranslate(scrollContainer.scrollTop)),
         );
@@ -188,7 +207,6 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         clearSettleTimer();
         cancelSettling();
         skipNextSettleAnimation = false;
-        previousScrollTop = scrollContainer.scrollTop;
       };
 
       const handleTouchStart = () => {
@@ -223,9 +241,15 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       };
 
       const handleReducedMotionChange = () => {
-        if (!mediaQuery.matches || !isSettling) return;
+        clearSettleTimer();
         cancelSettling();
-        settle();
+        finishSettling();
+        root.style.transition = initialTransition;
+        applyTranslate(0);
+        previousScrollTop = scrollContainer.scrollTop;
+        skipNextSettleAnimation = false;
+
+        if (!mediaQuery.matches) measure();
       };
 
       measure();

@@ -149,6 +149,16 @@ describe("ScrollAutoHide", () => {
     expect(root.style.translate).toBe("0px -15px");
   });
 
+  it("트랙패드가 scrollTop을 먼저 갱신해도 wheel 이벤트가 스크롤 기준점을 덮어쓰지 않는다", () => {
+    const { root, scrollContainer } = renderScrollAutoHide();
+
+    scrollContainer.scrollTop = 40;
+    fireEvent.wheel(scrollContainer, { deltaY: 40 });
+    fireEvent.scroll(scrollContainer);
+
+    expect(root.style.translate).toBe("0px -40px");
+  });
+
   it("스크롤 종료 시 50%를 기준으로 SEED easing을 적용해 스냅한다", () => {
     const { root, scrollContainer } = renderScrollAutoHide();
 
@@ -157,6 +167,7 @@ describe("ScrollAutoHide", () => {
 
     expect(root.style.translate).toBe("0px -100px");
     expect(root.style.transition).toContain(`translate 200ms ${vars.$timingFunction.enter}`);
+    expect(root.style.transition).not.toContain("all");
 
     endTranslateTransition(root);
     expect(root.style.transition).toBe("");
@@ -168,14 +179,14 @@ describe("ScrollAutoHide", () => {
     expect(root.style.translate).toBe("0px 0px");
   });
 
-  it("모션 감소 설정에서는 전환 없이 즉시 스냅한다", () => {
+  it("모션 감소 설정에서는 자동 숨김을 비활성화한다", () => {
     prefersReducedMotion = true;
     const { root, scrollContainer } = renderScrollAutoHide();
 
     partiallyHide(scrollContainer, 60);
     fireEvent(scrollContainer, new Event("scrollend"));
 
-    expect(root.style.translate).toBe("0px -100px");
+    expect(root.style.translate).toBe("0px 0px");
     expect(root.style.transition).toBe("");
   });
 
