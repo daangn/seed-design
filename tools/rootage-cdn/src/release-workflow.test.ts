@@ -61,20 +61,40 @@ describe("release publish workflow", () => {
     expect(workflow).toContain("needs.release.result != 'cancelled'");
     expect(workflow).toContain("ROOTAGE_SOURCE_SHA:");
     expect(workflow).toContain("run: bun tools/rootage-cdn/src/release-input.ts");
-    expect(workflow).toContain("uses: ./.github/workflows/rootage-release-contract.yml");
-    expect(workflow).toContain(
-      `version: ${githubExpression("needs.prepare-rootage.outputs.version")}`,
+    expect(workflow).not.toContain("uses: ./.github/workflows/rootage-release-contract.yml");
+
+    const publishStart = workflow.indexOf("  publish-rootage:");
+    const notifyStart = workflow.indexOf("  notify-rootage:");
+    const publishJob = workflow.slice(publishStart, notifyStart);
+    expect(publishJob).toContain("runs-on: ubuntu-latest");
+    expect(publishJob).toContain("environment: rootage-production");
+    expect(publishJob).toContain("group: rootage-cdn-production-mutation");
+    expect(publishJob).toContain("ref: dev");
+    expect(publishJob).toContain(
+      `ref: ${githubExpression("needs.prepare-rootage.outputs.control-sha")}`,
     );
-    expect(workflow).toContain(
-      `npm-integrity: ${githubExpression("needs.prepare-rootage.outputs.integrity")}`,
+    expect(publishJob).toContain("git merge-base --is-ancestor");
+    expect(publishJob).toContain("CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}");
+    expect(publishJob).toContain(
+      "ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}",
     );
-    expect(workflow).toContain(
-      `source-sha: ${githubExpression("needs.prepare-rootage.outputs.source-sha")}`,
+    expect(publishJob).toContain(
+      "ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}",
     );
-    expect(workflow).toContain(
-      `control-sha: ${githubExpression("needs.prepare-rootage.outputs.control-sha")}`,
+    expect(publishJob).toContain(
+      `ROOTAGE_VERSION: ${githubExpression("needs.prepare-rootage.outputs.version")}`,
     );
-    expect(workflow).not.toContain("secrets: inherit");
+    expect(publishJob).toContain(
+      `ROOTAGE_NPM_INTEGRITY: ${githubExpression("needs.prepare-rootage.outputs.integrity")}`,
+    );
+    expect(publishJob).toContain(
+      `ROOTAGE_SOURCE_SHA: ${githubExpression("needs.prepare-rootage.outputs.source-sha")}`,
+    );
+    expect(publishJob).toContain(
+      `ROOTAGE_STABLE: ${githubExpression("needs.prepare-rootage.outputs.stable")}`,
+    );
+    expect(publishJob).toContain("cli.ts publish");
+    expect(publishJob).not.toContain("secrets: inherit");
 
     const prepareIndex = workflow.indexOf("  prepare-rootage:");
     expect(prepareIndex).toBeGreaterThan(0);
