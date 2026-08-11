@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, Popover } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VIEWPORT_MODES } from "./utils/parameters";
 
@@ -45,37 +45,27 @@ const PopoverPreview = () => {
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: PopoverPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof PopoverPreview>;
+});
 
-export default meta;
+const CommonStoryTemplate = meta.story({});
 
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
-  render: () => <PopoverPreview />,
-};
-
-export const LightTheme: Story = {
-  ...CommonStoryTemplate,
+export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
   },
-};
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
