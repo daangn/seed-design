@@ -24,6 +24,18 @@ title: Test
 
     expect(ids).toEqual(["1:2", "3:4"]);
   });
+
+  it("FigmaImage의 ID가 빈 문자열이면 오류를 발생시킨다", () => {
+    expect(() => collectFigmaImageIdsFromMdx('<FigmaImage id="" alt="test" />')).toThrow(
+      "FigmaImage requires a static non-empty 'id' prop",
+    );
+  });
+
+  it("FigmaImage의 ID가 동적 표현식이면 오류를 발생시킨다", () => {
+    expect(() => collectFigmaImageIdsFromMdx('<FigmaImage id={imageId} alt="test" />')).toThrow(
+      "FigmaImage requires a static non-empty 'id' prop",
+    );
+  });
 });
 
 describe("Figma image manifest", () => {

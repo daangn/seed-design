@@ -27,8 +27,13 @@ export function extractFigmaId({ name, attributes }: MdxJsxFlowElement): string 
     );
 
     if (!idAttr) throw new Error("[remark-figma-image] FigmaImage requires an 'id' prop");
+    if (typeof idAttr.value !== "string" || idAttr.value.length === 0) {
+      throw new Error(
+        "[remark-figma-image] FigmaImage requires a static non-empty 'id' prop",
+      );
+    }
 
-    return typeof idAttr.value === "string" ? idAttr.value : null;
+    return idAttr.value;
   }
 
   if (FIGMA_ID_PROP_SUPPORTED_COMPONENTS.includes(name)) {
