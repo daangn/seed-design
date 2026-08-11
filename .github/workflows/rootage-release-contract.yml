@@ -23,6 +23,16 @@ on:
         description: "Immutable trusted dev commit that owns the Rootage publisher"
         required: true
         type: string
+    secrets:
+      CF_ACCOUNT_ID:
+        description: "Cloudflare account that owns the production Rootage bucket"
+        required: true
+      ROOTAGE_R2_ACCESS_KEY_ID:
+        description: "R2 access key for immutable Rootage objects"
+        required: true
+      ROOTAGE_R2_SECRET_ACCESS_KEY:
+        description: "R2 secret key for immutable Rootage objects"
+        required: true
     outputs:
       manifest-sha:
         description: "SHA-256 of the immutable completion manifest"
