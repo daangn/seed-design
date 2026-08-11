@@ -7,10 +7,18 @@ import { getFigmaImageCacheKey, type FetchFigmaImageUrlsOptions } from "./figma-
 export type { FetchFigmaImageUrlsOptions } from "./figma-image-manifest";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
-const DEFAULT_MAX_RETRIES = 7;
+const DEFAULT_MAX_RETRIES = 100;
 const MAX_CONCURRENCY = 1;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 const CACHE_ID = "urls";
+
+// Figma answers 429 with `Retry-After` in seconds, so that header decides how long to wait. The
+// fallback covers the retryable errors that carry no header.
+const FALLBACK_RETRY_DELAY_MS = 1000;
+const MAX_RETRY_DELAY_MS = 60_000;
+const MAX_TOTAL_RETRY_MS = 8 * 60 * 1000;
+
+const RETRY_JITTER_MS = 1000;
 
 // Simple semaphore to limit concurrent Figma API requests
 let activeRequests = 0;
@@ -100,8 +108,6 @@ export async function fetchFigmaImageUrls({
 
   await acquireSemaphore();
 
-  let lastError: Error | null = null;
-
   try {
     // Recheck cache after acquiring semaphore — earlier calls may have populated it while we waited
     imageUrlCache.load(CACHE_ID, cacheDir);
@@ -123,6 +129,8 @@ export async function fetchFigmaImageUrls({
     console.log(
       `${LOG_PREFIX} Fetching ${pendingIds.length} image(s) from Figma API... (options: ${JSON.stringify(options)})`,
     );
+
+    const retryDeadline = Date.now() + MAX_TOTAL_RETRY_MS;
 
     for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
@@ -148,27 +156,38 @@ export async function fetchFigmaImageUrls({
 
         return result;
       } catch (error) {
-        lastError = error instanceof Error ? error : new Error(String(error));
+        const waitTime = getRetryDelayMs(error);
 
-        if (!isRetryableError(error) || attempt === maxRetries - 1) throw error;
-
-        const waitTime = 2 ** attempt * 3000; // 3s, 6s, 12s
+        if (
+          waitTime === null ||
+          attempt === maxRetries - 1 ||
+          Date.now() + waitTime > retryDeadline
+        )
+          throw error;
 
         console.log(
-          `${LOG_PREFIX} ${lastError.message}, waiting ${waitTime}ms (attempt ${attempt + 1}/${maxRetries})...`,
+          `${LOG_PREFIX} ${error instanceof Error ? error.message : String(error)}, waiting ${waitTime}ms (attempt ${attempt + 1}/${maxRetries})...`,
         );
 
         await delay(waitTime);
       }
     }
 
-    throw lastError ?? new Error("Failed to fetch Figma images after retries");
+    throw new Error("Failed to fetch Figma images after retries");
   } finally {
     releaseSemaphore();
   }
 }
 
 // Helpers
+
+/**
+ * figma-api hangs the underlying axios error off `ApiError.error` and exports neither type, so the
+ * single field read here is declared locally.
+ */
+interface FigmaApiError {
+  error?: { response?: { headers?: Record<string, string | undefined> } };
+}
 
 function isCacheBypassRequested(nodeId: string): boolean {
   return env.figmaCacheDisabled || env.figmaBypassCacheNodeIds.includes(nodeId);
@@ -183,6 +202,29 @@ function shouldBypassCache(nodeId: string, options: FetchFigmaImageUrlsOptions):
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * How long to wait before retrying, or `null` when the request should not be retried at all.
+ */
+export function getRetryDelayMs(error: unknown): number | null {
+  if (!isRetryableError(error)) return null;
+
+  const retryAfterMs = getRetryAfterMs(error) ?? FALLBACK_RETRY_DELAY_MS;
+
+  // Figma has been observed handing out multi-day Retry-After values when it misclassifies a token's
+  // seat type. Waiting one out would outlast the build itself, so surface the 429 instead.
+  if (retryAfterMs > MAX_RETRY_DELAY_MS) return null;
+
+  return retryAfterMs + Math.floor(Math.random() * RETRY_JITTER_MS);
+}
+
+function getRetryAfterMs(error: unknown): number | null {
+  const seconds = Number((error as FigmaApiError).error?.response?.headers?.["retry-after"]);
+
+  if (!Number.isFinite(seconds) || seconds < 0) return null;
+
+  return seconds * 1000;
 }
 
 function isRetryableError(error: unknown): boolean {
