@@ -249,18 +249,69 @@ async function exactMergedNormalizationPull(input: {
     return marker.lane === input.lane &&
       pull.merged_at &&
       pull.merge_commit_sha === input.laneHead &&
-      pull.merged_by?.login &&
-      !pull.merged_by.login.endsWith("[bot]") &&
       pull.base.sha === marker.expectedBaseSha &&
       pull.head.sha === marker.expectedHeadSha
       ? [{ pull, marker }]
       : [];
   });
   if (matches.length === 0) return null;
-  if (matches.length !== 1) {
+  const detailedMatches = await Promise.all(
+    matches.map(async ({ pull: listedPull, marker: listedMarker }) => {
+      const pull = await input.client.request<GitHubPullRequest>(
+        `/repos/${input.repository}/pulls/${listedPull.number}`,
+      );
+      const marker = validateGeneratedPr(identityFromPull(pull));
+      const hasMatchingIdentity =
+        pull.number === listedPull.number &&
+        pull.user.login === listedPull.user.login &&
+        pull.body === listedPull.body &&
+        pull.merged_at === listedPull.merged_at &&
+        pull.merge_commit_sha === listedPull.merge_commit_sha &&
+        pull.base.ref === listedPull.base.ref &&
+        pull.base.sha === listedPull.base.sha &&
+        pull.base.repo.full_name === listedPull.base.repo.full_name &&
+        pull.head.ref === listedPull.head.ref &&
+        pull.head.sha === listedPull.head.sha &&
+        pull.head.repo?.full_name === listedPull.head.repo?.full_name;
+      if (
+        !hasMatchingIdentity ||
+        !marker ||
+        !isLegacyNormalizationMarker(marker) ||
+        marker.operationId !== listedMarker.operationId ||
+        marker.sourceRepository !== listedMarker.sourceRepository ||
+        marker.expectedBaseSha !== listedMarker.expectedBaseSha ||
+        marker.expectedHeadSha !== listedMarker.expectedHeadSha ||
+        marker.expectedPreSha256 !== listedMarker.expectedPreSha256 ||
+        marker.patchSha256 !== listedMarker.patchSha256 ||
+        marker.controlSha !== listedMarker.controlSha
+      ) {
+        throw new Error(`${input.lane} normalization 목록/개별 PR identity가 일치하지 않습니다.`);
+      }
+      try {
+        assertLegacyNormalizationMarkerContract(marker);
+      } catch {
+        throw new Error(`${input.lane} normalization 개별 PR marker가 exact 계약과 다릅니다.`);
+      }
+      if (
+        marker.lane !== input.lane ||
+        !pull.merged_at ||
+        pull.merge_commit_sha !== input.laneHead ||
+        !pull.merged_by?.login ||
+        pull.merged_by.login.endsWith("[bot]") ||
+        pull.base.sha !== marker.expectedBaseSha ||
+        pull.head.sha !== marker.expectedHeadSha
+      ) {
+        throw new Error(
+          `${input.lane} normalization 개별 PR merge identity가 exact 계약과 다릅니다.`,
+        );
+      }
+      return { pull, marker };
+    }),
+  );
+  if (detailedMatches.length !== 1) {
     throw new Error(`${input.lane} normalization merge 증명이 유일하지 않습니다.`);
   }
-  const { marker, pull } = matches[0];
+  const { marker, pull } = detailedMatches[0];
   await git(input.repositoryPath, [
     "fetch",
     "--no-tags",

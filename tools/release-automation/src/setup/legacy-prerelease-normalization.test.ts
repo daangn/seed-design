@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from "bun:test";
 import { createHash } from "node:crypto";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { GitHubPullRequest } from "../core/github";
@@ -164,14 +164,20 @@ async function generate(
   return generated;
 }
 
-function client(value: Fixture): LegacyNormalizationClient {
+function client(
+  value: Fixture,
+  options: {
+    listedPulls?: (pull: GitHubPullRequest) => GitHubPullRequest;
+    detailedPulls?: (pull: GitHubPullRequest) => GitHubPullRequest;
+  } = {},
+): LegacyNormalizationClient {
   return {
     async paginate<T>(path: string): Promise<T[]> {
       if (path.includes("pulls?")) {
         const lane = path.includes("base=minor") ? "minor" : "major";
         return value.generated
           .filter((item) => item.marker.lane === lane)
-          .map((item) => item.pull) as T[];
+          .map((item) => options.listedPulls?.(item.pull) ?? item.pull) as T[];
       }
       if (path.includes("/statuses")) {
         const item = value.generated.find((candidate) =>
@@ -182,6 +188,10 @@ function client(value: Fixture): LegacyNormalizationClient {
       throw new Error(`unexpected paginate path: ${path}`);
     },
     async request<T>(path: string): Promise<T> {
+      const pull = value.generated.find((candidate) =>
+        path.endsWith(`/pulls/${candidate.pull.number}`),
+      );
+      if (pull) return (options.detailedPulls?.(pull.pull) ?? pull.pull) as T;
       const item = value.generated.find((candidate) => path.endsWith(`/${candidate.run.id}`));
       if (!item) throw new Error(`unexpected request path: ${path}`);
       return item.run as T;
@@ -258,37 +268,119 @@ describe("one-time legacy prerelease normalization", () => {
     ).rejects.toThrow("exact one-time 계약");
   });
 
-  test("한 lane만 human squash merge된 중간 상태에서는 다른 operation을 잠근다", async () => {
-    const value = await fixture();
-    const minor = await generate(value, "minor", 201);
-    await merge(value, minor);
-    const status = await inspectLegacyNormalization({
-      repositoryPath: value.repository,
-      repository: legacyNormalizationRepository,
-      client: client(value),
-    });
-    expect(status).toEqual({
-      complete: false,
-      lanes: { minor: "normalized", major: "legacy" },
-    });
-    await expect(
-      assertLegacyNormalizationBoundary({
+  test(
+    "한 lane만 human squash merge된 중간 상태에서는 다른 operation을 잠근다",
+    async () => {
+      const value = await fixture();
+      const minor = await generate(value, "minor", 201);
+      await merge(value, minor);
+      const status = await inspectLegacyNormalization({
         repositoryPath: value.repository,
         repository: legacyNormalizationRepository,
         client: client(value),
-        marker: null,
-      }),
-    ).rejects.toThrow("다른 release operation");
+      });
+      expect(status).toEqual({
+        complete: false,
+        lanes: { minor: "normalized", major: "legacy" },
+      });
+      await expect(
+        assertLegacyNormalizationBoundary({
+          repositoryPath: value.repository,
+          repository: legacyNormalizationRepository,
+          client: client(value),
+          marker: null,
+        }),
+      ).rejects.toThrow("다른 release operation");
 
-    const major = await generate(value, "major", 202);
+      const major = await generate(value, "major", 202);
+      await merge(value, major);
+      await expect(
+        assertLegacyNormalizationBoundary({
+          repositoryPath: value.repository,
+          repository: legacyNormalizationRepository,
+          client: client(value),
+          marker: null,
+        }),
+      ).resolves.toBeUndefined();
+    },
+    { timeout: 30_000 },
+  );
+
+  test("목록의 merged_by가 null이어도 개별 PR의 human merge로 normalization 완료를 증명한다", async () => {
+    const value = await fixture();
+    const minor = await generate(value, "minor", 301);
+    const major = await generate(value, "major", 302);
+    await merge(value, minor);
     await merge(value, major);
+    const listMergedByNull = client(value, {
+      listedPulls: (pull) => ({ ...pull, merged_by: null }),
+    });
+
     await expect(
       assertLegacyNormalizationBoundary({
         repositoryPath: value.repository,
         repository: legacyNormalizationRepository,
-        client: client(value),
+        client: listMergedByNull,
         marker: null,
       }),
     ).resolves.toBeUndefined();
+
+    const [selection, validation] = await Promise.all([
+      readFile("tools/release-automation/src/validation/release-selection.ts", "utf8"),
+      readFile("tools/release-automation/src/validation/generated-pr-validation.ts", "utf8"),
+    ]);
+    expect(selection).toContain("await assertLegacyNormalizationBoundary({");
+    expect(validation).toContain(
+      "await assertLegacyNormalizationBoundary({ repository, client, marker });",
+    );
+  });
+
+  test("개별 PR의 bot merger 또는 목록과 다른 identity는 fail-closed한다", async () => {
+    const value = await fixture();
+    const minor = await generate(value, "minor", 401);
+    await merge(value, minor);
+
+    await expect(
+      inspectLegacyNormalization({
+        repositoryPath: value.repository,
+        repository: legacyNormalizationRepository,
+        client: client(value, {
+          listedPulls: (pull) => ({ ...pull, merged_by: null }),
+          detailedPulls: (pull) => ({ ...pull, merged_by: { login: "github-actions[bot]" } }),
+        }),
+      }),
+    ).rejects.toThrow("개별 PR merge identity");
+
+    await expect(
+      inspectLegacyNormalization({
+        repositoryPath: value.repository,
+        repository: legacyNormalizationRepository,
+        client: client(value, {
+          detailedPulls: (pull) => ({
+            ...pull,
+            head: { ...pull.head, sha: "f".repeat(40) },
+          }),
+        }),
+      }),
+    ).rejects.toThrow("목록/개별 PR identity");
+  });
+
+  test("복수의 immutable identity 후보는 individual PR 조회 뒤에도 거부한다", async () => {
+    const value = await fixture();
+    const minor = await generate(value, "minor", 501);
+    await merge(value, minor);
+    const duplicate: GeneratedNormalization = {
+      ...minor,
+      pull: { ...minor.pull, number: 502 },
+    };
+    value.generated.push(duplicate);
+
+    await expect(
+      inspectLegacyNormalization({
+        repositoryPath: value.repository,
+        repository: legacyNormalizationRepository,
+        client: client(value, { listedPulls: (pull) => ({ ...pull, merged_by: null }) }),
+      }),
+    ).rejects.toThrow("merge 증명이 유일하지 않습니다");
   });
 });
