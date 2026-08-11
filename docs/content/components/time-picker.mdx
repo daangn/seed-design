@@ -18,7 +18,7 @@ Time Picker는 선택 상태를 관리하는 root 아래에, 휠 UI를 담는 su
 시·분 휠은 시·분 같은 단위 접미사 없이 숫자만 보여주고, 단위는 오전·오후 칼럼과 선택 위치로 전달됩니다(예: 오전 10 00 = 오전 10시 00분).
 
 <FigmaImage
-  id="2249:6213"
+  id="2391:18134"
   alt="Time Picker의 Anatomy 이미지. Period Column, Hour Column, Minute Column, Selection Indicator로 구성됩니다."
 />
 
@@ -37,7 +37,7 @@ Time Picker는 선택 상태를 관리하는 root 아래에, 휠 UI를 담는 su
 간격이 넓을수록 고를 수 있는 분이 줄어 빠르게 선택할 수 있고, 좁을수록 정밀해집니다. 현재 시각으로 진입할 때는 선택된 분을 Minute Step에 맞춰 가까운 값으로 반올림합니다(예: Minute Step=5에서 9시 13분 → 9시 15분).
 
 <FigmaImage
-  id="2249:6230"
+  id="2391:18151"
   alt="Minute Step을 1, 5, 10, 15, 30으로 설정한 Time Picker 예시"
 />
 
@@ -54,12 +54,12 @@ Time Picker가 화면에서 차지하는 비중과 플랫폼에 따라 Layout을
 Popover와 Sheet는 surface를 여는 trigger가 필요하며, 트리거는 [Input Button](/components/input-button)이나 [Field](/components/field)를 합성해 만듭니다. 시간 선택이 화면의 주된 작업이면 Inline, 모바일 폼에서는 Sheet, 데스크탑 폼에서는 Popover를 기본으로 검토합니다. Inline의 확정은 화면의 액션 영역(다음·완료 등)이, Popover·Sheet의 확정은 confirmButton이 담당합니다.
 
 <FigmaImage
-  id="2249:6255"
+  id="2391:18176"
   alt="모바일 화면에서 Inline과 Sheet Layout으로 Time Picker를 사용한 예시"
 />
 
 <FigmaImage
-  id="2249:6363"
+  id="2391:18284"
   alt="데스크탑 화면에서 Popover Layout으로 Time Picker를 사용한 예시"
 />
 
@@ -68,7 +68,7 @@ Popover와 Sheet는 surface를 여는 trigger가 필요하며, 트리거는 [Inp
 휠을 처음 열면 이미 선택된 시간이 있으면 그 값을, 없으면 `00:00`을 가운데에 두고 엽니다. 현재 시각에서 시작하려면 현재 시각을 Minute Step에 맞춰 반올림한 값을 `defaultValue`로 전달합니다.
 
 <FigmaImage
-  id="2249:6535"
+  id="2391:18456"
   alt="선택된 시간과 현재 시각을 기준으로 Time Picker를 처음 연 예시"
 />
 
@@ -81,7 +81,7 @@ Popover와 Sheet는 surface를 여는 trigger가 필요하며, 트리거는 [Inp
 날짜 선택의 동작·가이드는 Date Picker가 담당하고, Time Picker는 시간 선택만 책임집니다.
 
 <FigmaImage
-  id="2249:6554"
+  id="2391:18475"
   alt="Date Picker를 Inline으로 펼치고 Time Picker를 Sheet로 함께 사용한 예시"
 />
 
