@@ -16,7 +16,7 @@ describe("release publish workflow", () => {
     expect(workflow).toContain("if: github.ref == 'refs/heads/dev'");
     expect(workflow).toContain("group: release-publish");
     expect(workflow).toContain("cancel-in-progress: false");
-    expect(workflow).toContain("environment: npm-production");
+    expect(workflow).not.toContain("environment: npm-production");
     expect(workflow).toContain("id-token: write");
     expect(workflow).toContain("publish: bun release");
     expect(workflow).toContain("version: bun version");

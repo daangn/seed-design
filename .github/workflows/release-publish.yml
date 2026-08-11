@@ -21,7 +21,6 @@ jobs:
     name: Release Seed Design Packages
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
-    environment: npm-production
     permissions:
       contents: write
       pull-requests: write
