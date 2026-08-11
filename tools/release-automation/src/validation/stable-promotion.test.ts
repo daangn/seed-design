@@ -5,7 +5,6 @@ import {
   releaseValidationRunName,
   releaseValidationStatusDescription,
 } from "../core/validation-status";
-import { releaseValidationWorkflowName } from "../sync/sync-policy";
 import { verifyStablePromotionProvenance } from "./stable-promotion";
 
 const repository = "daangn/seed-design";
@@ -109,7 +108,7 @@ const status = {
 };
 const run = {
   id: 101,
-  name: releaseValidationWorkflowName,
+  name: releaseValidationRunName(exitHeadSha),
   path: ".github/workflows/release-pr-validation.yml",
   display_title: releaseValidationRunName(exitHeadSha),
   event: "workflow_dispatch",

@@ -197,7 +197,7 @@ function mockClient(
         const validationHead = validationRunId === 100 ? siblingHeadSha : baselineHeadSha;
         return {
           id: validationRunId,
-          name: "Release lane PR validation",
+          name: releaseValidationRunName(validationHead),
           path: ".github/workflows/release-pr-validation.yml",
           display_title: releaseValidationRunName(validationHead),
           event: "workflow_dispatch",

@@ -133,7 +133,7 @@ async function generate(
   };
   const run: ReleaseValidationWorkflowRun = {
     id: number,
-    name: "Release lane PR validation",
+    name: releaseValidationRunName(headSha),
     path: ".github/workflows/release-pr-validation.yml",
     display_title: releaseValidationRunName(headSha),
     event: "workflow_dispatch",

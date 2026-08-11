@@ -35,7 +35,6 @@ import {
   releaseValidationRunName,
   releaseValidationStatusDescription,
 } from "../core/validation-status";
-import { releaseValidationWorkflowName } from "../sync/sync-policy";
 import type { PullRequestIdentity, ReleaseMarker } from "../core/types";
 import type { GitHubPullRequest } from "../core/github";
 
@@ -433,7 +432,7 @@ describe("publish authorization validation receipt", () => {
   };
   const run = {
     id: 101,
-    name: releaseValidationWorkflowName,
+    name: releaseValidationRunName(headSha),
     path: ".github/workflows/release-pr-validation.yml",
     display_title: releaseValidationRunName(headSha),
     event: "workflow_dispatch",

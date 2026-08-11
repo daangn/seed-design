@@ -24,13 +24,14 @@ import {
 const threshold = Date.parse("2026-08-08T00:00:00.000Z");
 
 function run(overrides: Partial<ValidationWorkflowRun> = {}): ValidationWorkflowRun {
+  const headSha = overrides.head_sha ?? "a".repeat(40);
   return {
     id: 1,
-    name: "Release lane PR validation",
+    name: `seed-release-validation:lane:${headSha}`,
     event: "pull_request",
     status: "completed",
     conclusion: "success",
-    head_sha: "a".repeat(40),
+    head_sha: headSha,
     created_at: "2026-08-07T00:00:00.000Z",
     updated_at: "2026-08-09T00:00:00.000Z",
     html_url: "https://github.com/daangn/seed-design/actions/runs/1",

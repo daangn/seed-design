@@ -23,7 +23,7 @@ function workflowRun(
 ): ReleaseValidationWorkflowRun {
   return {
     id: 1234,
-    name: "Release lane PR validation",
+    name: releaseValidationRunName(headSha),
     path: releaseValidationWorkflowPath,
     display_title: releaseValidationRunName(headSha),
     event: "workflow_dispatch",
@@ -54,6 +54,24 @@ describe("trusted release validation status", () => {
     const run = workflowRun();
     expect(validationHeadShaFromRun(run)).toBe(headSha);
     expect(isTrustedValidationWorkflowRun(run, repository, headSha)).toBe(true);
+    expect(
+      isTrustedValidationWorkflowRun(
+        workflowRun({ name: "Release lane PR validation" }),
+        repository,
+        headSha,
+      ),
+    ).toBe(false);
+    const preflightRunName = releaseValidationRunName(headSha, codePromotionPreflightStatusContext);
+    expect(
+      isTrustedValidationWorkflowRun(workflowRun({ name: preflightRunName }), repository, headSha),
+    ).toBe(false);
+    expect(
+      isTrustedValidationWorkflowRun(
+        workflowRun({ display_title: preflightRunName }),
+        repository,
+        headSha,
+      ),
+    ).toBe(false);
     expect(
       isTrustedValidationWorkflowRun(
         workflowRun({ display_title: `prefix-${headSha}` }),
@@ -175,6 +193,7 @@ describe("trusted release validation status", () => {
       isValidationStatusBoundToRun(
         preflightStatus,
         workflowRun({
+          name: releaseValidationRunName(headSha, codePromotionPreflightStatusContext),
           display_title: releaseValidationRunName(headSha, codePromotionPreflightStatusContext),
         }),
         repository,

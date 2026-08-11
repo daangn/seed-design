@@ -2,7 +2,7 @@ import { validateGeneratedPr } from "../core/marker";
 import type { ReleaseMarker } from "../core/types";
 
 export const releaseAutomationLogin = "github-actions[bot]";
-export const releaseValidationWorkflowName = "Release lane PR validation";
+const releaseLaneValidationRunPrefix = "seed-release-validation:lane:";
 
 export interface PullCommitIdentity {
   author: { login: string } | null;
@@ -94,7 +94,7 @@ export function latestValidationRun(
     runs
       .filter(
         (run) =>
-          run.name === releaseValidationWorkflowName &&
+          run.name === `${releaseLaneValidationRunPrefix}${headSha}` &&
           run.head_sha === headSha &&
           (!event || run.event === event),
       )

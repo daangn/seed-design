@@ -1,10 +1,4 @@
-import {
-  releaseAutomationLogin,
-  releaseValidationWorkflowName,
-  type ValidationWorkflowRun,
-} from "../sync/sync-policy";
-
-export { releaseValidationWorkflowName };
+import { releaseAutomationLogin, type ValidationWorkflowRun } from "../sync/sync-policy";
 
 export const releaseValidationStatusContext = "Validate release lane";
 export const codePromotionPreflightStatusContext = "Validate code promotion preflight";
@@ -41,15 +35,20 @@ export function releaseValidationRunName(
   headSha: string,
   context = releaseValidationStatusContext,
 ): string {
-  const kind = validationKind(context);
-  if (!kind) throw new Error(`알 수 없는 validation context입니다: ${context}`);
-  return `${releaseValidationRunPrefix}${kind}:${headSha}`;
+  const name = expectedValidationRunName(headSha, context);
+  if (!name) throw new Error(`알 수 없는 validation context입니다: ${context}`);
+  return name;
 }
 
 function validationKind(context: string): "lane" | "code-promotion-preflight" | null {
   if (context === releaseValidationStatusContext) return "lane";
   if (context === codePromotionPreflightStatusContext) return "code-promotion-preflight";
   return null;
+}
+
+function expectedValidationRunName(headSha: string, context: string): string | null {
+  const kind = validationKind(context);
+  return kind ? `${releaseValidationRunPrefix}${kind}:${headSha}` : null;
 }
 
 export function releaseValidationStatusDescription(
@@ -87,12 +86,25 @@ export function isTrustedValidationWorkflowRun(
   context = releaseValidationStatusContext,
 ): boolean {
   return (
-    run.name === releaseValidationWorkflowName &&
+    isValidationWorkflowRunIdentity(run, repository, headSha, context) &&
+    run.status === "completed" &&
+    run.conclusion === "success"
+  );
+}
+
+function isValidationWorkflowRunIdentity(
+  run: ReleaseValidationWorkflowRun,
+  repository: string,
+  headSha: string,
+  context: string,
+): boolean {
+  const expectedName = expectedValidationRunName(headSha, context);
+  return (
+    expectedName !== null &&
+    run.name === expectedName &&
     run.path === releaseValidationWorkflowPath &&
     run.repository.full_name === repository &&
     run.event === "workflow_dispatch" &&
-    run.status === "completed" &&
-    run.conclusion === "success" &&
     run.head_branch === "dev" &&
     validationHeadShaFromRun(run, context) === headSha
   );
@@ -153,7 +165,7 @@ export function validationStatusAsWorkflowRun(
   const completed = status.state !== "pending";
   return {
     id: status.id,
-    name: releaseValidationWorkflowName,
+    name: releaseValidationRunName(headSha),
     event: "workflow_dispatch",
     status: completed ? "completed" : "in_progress",
     conclusion: completed ? (status.state === "success" ? "success" : status.state) : null,
@@ -189,12 +201,7 @@ export function isValidationStatusConsistentWithRun(
   if (
     !isValidationStatusForHead(status, repository, headSha, "workflow_dispatch", context) ||
     validationRunIdFromStatus(status, repository) !== run.id ||
-    run.name !== releaseValidationWorkflowName ||
-    run.path !== releaseValidationWorkflowPath ||
-    run.repository.full_name !== repository ||
-    run.event !== "workflow_dispatch" ||
-    run.head_branch !== "dev" ||
-    validationHeadShaFromRun(run, context) !== headSha
+    !isValidationWorkflowRunIdentity(run, repository, headSha, context)
   ) {
     return false;
   }

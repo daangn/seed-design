@@ -145,7 +145,7 @@ describe("code promotion merge receipt", () => {
         if (path.includes(`/actions/runs/${runId}`)) {
           return {
             id: runId,
-            name: "Release lane PR validation",
+            name: releaseValidationRunName(repository.head),
             path: ".github/workflows/release-pr-validation.yml",
             display_title: releaseValidationRunName(repository.head),
             event: "workflow_dispatch",

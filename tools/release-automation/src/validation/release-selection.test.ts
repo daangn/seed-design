@@ -63,7 +63,7 @@ function client(pulls = [pull]) {
     async request<T>(): Promise<T> {
       return {
         id: runId,
-        name: "Release lane PR validation",
+        name: releaseValidationRunName(headSha),
         path: ".github/workflows/release-pr-validation.yml",
         display_title: releaseValidationRunName(headSha),
         event: "workflow_dispatch",
