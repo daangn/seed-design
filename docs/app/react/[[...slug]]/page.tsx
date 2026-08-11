@@ -95,7 +95,7 @@ export async function generateMetadata(props: {
   return buildDocsPageMetadata({
     url: page.url,
     title: page.data.title,
-    heading: folderLabel ? `${folderLabel} — ${page.data.title}` : page.data.frontmatter.heading,
+    heading: folderLabel ?? page.data.frontmatter.heading,
     description: page.data.description,
     coverImage: page.data.frontmatter.coverImage,
     deprecated,

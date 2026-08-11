@@ -90,9 +90,7 @@ export async function generateMetadata(props: {
   return buildDocsPageMetadata({
     url: page.url,
     title: page.data.title,
-    heading:
-      page.data.frontmatter.heading ??
-      (tabbedFolder ? `${tabbedFolderLabel(tabbedFolder)} — ${page.data.title}` : undefined),
+    heading: tabbedFolder ? tabbedFolderLabel(tabbedFolder) : page.data.frontmatter.heading,
     description: page.data.description,
     coverImage: page.data.frontmatter.coverImage,
     deprecated,
