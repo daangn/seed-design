@@ -5,11 +5,10 @@ import { type Commit, type Repository, RevwalkSort, openRepository } from "es-gi
 const globalGitTimestamps = globalThis as typeof globalThis & {
   __seedDesignGitTimestampsCache?: Map<string, Promise<Map<string, Date>>>;
 };
-let gitTimestampsCache = globalGitTimestamps.__seedDesignGitTimestampsCache;
-if (!gitTimestampsCache) {
-  gitTimestampsCache = new Map();
-  globalGitTimestamps.__seedDesignGitTimestampsCache = gitTimestampsCache;
-}
+const gitTimestampsCache =
+  globalGitTimestamps.__seedDesignGitTimestampsCache ??
+  new Map<string, Promise<Map<string, Date>>>();
+globalGitTimestamps.__seedDesignGitTimestampsCache = gitTimestampsCache;
 
 /** 문서 디렉터리의 Git 이력을 한 번 읽어 파일별 마지막 수정일을 조회합니다. */
 export async function getMarkdownPageLastModified(
