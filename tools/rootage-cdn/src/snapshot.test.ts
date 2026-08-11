@@ -31,10 +31,12 @@ describe("Rootage snapshot 입력", () => {
     expect(parseRootageSnapshotVersion("2.5.0-beta.1")).toBeNull();
   });
 
-  test("packages/rootage 아래의 정규 Git 경로만 변경으로 판단한다", () => {
+  test("packages/rootage 아래의 Git 경로를 파일명 문자와 무관하게 변경으로 판단한다", () => {
     expect(hasRootageChanges(["packages/react/Button.tsx", "packages/rootage/color.yaml"])).toBe(
       true,
     );
+    expect(hasRootageChanges(["packages/rootage/a\\b.yaml"])).toBe(true);
+    expect(hasRootageChanges(["packages/rootage/a\nb.yaml"])).toBe(true);
     expect(hasRootageChanges(["ecosystem/rootage/core/index.ts"])).toBe(false);
     expect(hasRootageChanges(["packages\\rootage\\color.yaml"])).toBe(false);
   });

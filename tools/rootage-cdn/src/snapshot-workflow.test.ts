@@ -4,6 +4,16 @@ import { join } from "node:path";
 const repositoryRoot = join(import.meta.dir, "../../..");
 
 describe("Rootage snapshot workflows", () => {
+  test("Rootage 변경 경로는 NUL 구분 Git 출력으로 읽는다", async () => {
+    const input = await Bun.file(
+      join(repositoryRoot, "tools/rootage-cdn/src/snapshot-input.ts"),
+    ).text();
+
+    expect(input).toContain('"diff", "--name-only", "-z"');
+    expect(input).toContain('.split("\\0")');
+    expect(input).not.toContain('.split("\\n")');
+  });
+
   test("PR source 실행과 CDN credential을 서로 다른 job으로 격리한다", async () => {
     const workflow = await Bun.file(
       join(repositoryRoot, ".github/workflows/continuous-releases.yml"),

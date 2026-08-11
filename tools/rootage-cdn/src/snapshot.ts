@@ -24,7 +24,7 @@ export function parseRootageSnapshotVersion(
 }
 
 export function hasRootageChanges(paths: Iterable<string>): boolean {
-  return [...paths].some((path) => !path.includes("\\") && path.startsWith("packages/rootage/"));
+  return [...paths].some((path) => path.startsWith("packages/rootage/"));
 }
 
 interface PackageManifest {
