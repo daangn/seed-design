@@ -53,6 +53,23 @@ export async function controlPlaneFingerprint(
   return sha256(`${tree.output}\n`);
 }
 
+export async function assertMatchingControlPlane(
+  repositoryPath: string,
+  targetSha: string,
+  controlSha: string,
+  label: string,
+): Promise<void> {
+  const [targetFingerprint, controlFingerprint] = await Promise.all([
+    controlPlaneFingerprint(repositoryPath, targetSha),
+    controlPlaneFingerprint(repositoryPath, controlSha),
+  ]);
+  if (targetFingerprint !== controlFingerprint) {
+    throw new Error(
+      `${label} release control plane이 current trusted dev와 다릅니다. Release lane synchronization을 먼저 drain하세요.`,
+    );
+  }
+}
+
 export async function isTrustedDevControlCommit(
   repositoryPath: string,
   controlSha: string,

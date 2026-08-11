@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import {
   applyControlPlaneOverlay,
+  assertMatchingControlPlane,
   controlPlaneFingerprint,
   isControlPlanePath,
   isTrustedDevControlCommit,
@@ -82,8 +83,14 @@ describe("trusted dev control-plane overlay", () => {
     await git(repository, "update-ref", "refs/remotes/origin/dev", controlSha);
     const fingerprint = await controlPlaneFingerprint(repository, controlSha);
 
+    await expect(
+      assertMatchingControlPlane(repository, targetSha, controlSha, "minor lane"),
+    ).rejects.toThrow("Release lane synchronization을 먼저 drain하세요");
+
     await git(repository, "switch", "--detach", targetSha);
     await applyControlPlaneOverlay(repository, controlSha);
+    await git(repository, "commit", "-m", "align control plane");
+    const alignedTargetSha = await git(repository, "rev-parse", "HEAD");
 
     expect(await readFile(join(repository, "package.txt"), "utf8")).toBe("target data\n");
     expect(
@@ -100,6 +107,9 @@ describe("trusted dev control-plane overlay", () => {
     );
     expect(await Bun.file(join(repository, "tools/rootage-cdn/src/old.ts")).exists()).toBe(false);
     expect(await controlPlaneFingerprint(repository, controlSha)).toBe(fingerprint);
+    await expect(
+      assertMatchingControlPlane(repository, alignedTargetSha, controlSha, "minor lane"),
+    ).resolves.toBeUndefined();
     expect(await isTrustedDevControlCommit(repository, controlSha)).toBe(true);
   });
 });

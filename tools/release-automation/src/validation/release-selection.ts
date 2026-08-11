@@ -15,6 +15,7 @@ import {
 } from "../core/validation-status";
 import { assertNoCompetingOpenStablePromotion } from "../promotion/promotion-state";
 import { assertLegacyNormalizationBoundary } from "../setup/legacy-prerelease-normalization";
+import { assertMatchingControlPlane } from "../sync/sync-control-plane";
 
 const gitShaPattern = /^[0-9a-f]{40}$/;
 const operationIdPattern = /^[1-9][0-9]*$/;
@@ -100,6 +101,15 @@ async function laneState(lane: LaneName, sha: string) {
   return parseOptionalPrereleaseState(text, `${lane}@${sha} prerelease state`);
 }
 
+async function assertCurrentLaneControlPlane(
+  lane: LaneName,
+  laneSha: string,
+  controlSha: string,
+): Promise<void> {
+  if (lane === "dev") return;
+  await assertMatchingControlPlane(process.cwd(), laneSha, controlSha, `${lane} lane`);
+}
+
 async function regularVersionItem(
   lane: LaneName,
   controlSha: string,
@@ -123,6 +133,7 @@ async function regularVersionItem(
   }
   const classification = classifyPrereleaseState(lane, await laneState(lane, baseSha));
   if (classification === "dormant") return null;
+  await assertCurrentLaneControlPlane(lane, baseSha, controlSha);
   if (classification === "exiting") {
     if (lane === "dev") throw new Error("dev lane은 exiting 상태일 수 없습니다.");
     assertStablePromotionControlMode(options.controlMode);
@@ -293,6 +304,7 @@ export async function selectReleaseWork(input: {
       });
     }
     const baseSha = await laneSha(requestedLane, input.controlSha);
+    await assertCurrentLaneControlPlane(requestedLane, baseSha, input.controlSha);
     const classification = classifyPrereleaseState(
       requestedLane,
       await laneState(requestedLane, baseSha),
@@ -328,6 +340,7 @@ export async function selectReleaseWork(input: {
   if (baseSha !== pull.merge_commit_sha) {
     throw new Error("merged PR의 merge SHA가 current exact lane head가 아닙니다.");
   }
+  await assertCurrentLaneControlPlane(lane, baseSha, input.controlSha);
   const classification = classifyPrereleaseState(lane, await laneState(lane, baseSha));
   if (classification === "dormant") return [];
   if (classification === "active") return [{ kind: "version", lane, base_sha: baseSha }];

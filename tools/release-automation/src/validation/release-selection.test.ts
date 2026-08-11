@@ -92,6 +92,15 @@ describe("exiting stable promotion recovery", () => {
     expect(authorize).toContain("await assertCurrentSiblingDormant");
   });
 
+  test("non-dev release 작업은 current dev control plane 정렬을 먼저 요구한다", async () => {
+    const selection = await readFile(
+      "tools/release-automation/src/validation/release-selection.ts",
+      "utf8",
+    );
+    expect(selection.match(/await assertCurrentLaneControlPlane\(/g)).toHaveLength(3);
+    expect(selection).toContain("await assertMatchingControlPlane(");
+  });
+
   test("current exiting head의 유일한 human-merged Exit와 validation receipt를 복원한다", async () => {
     await expect(
       recoverStablePromotionItem({ lane: "minor", baseSha, repository, client: client() }),
