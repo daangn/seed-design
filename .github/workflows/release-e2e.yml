@@ -9,7 +9,7 @@ on:
       - ".github/workflows/rootage-cdn-deploy.yml"
       - ".github/workflows/rootage-cdn-operations.yml"
       - "tools/rootage-cdn/**"
-      - "scripts/release/**"
+      - "tools/release-automation/**"
   workflow_dispatch:
 
 permissions:
@@ -29,29 +29,6 @@ jobs:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
-        with:
-          build-packages: true
 
-      - name: Verify release unit and integration scenarios
-        run: bun test scripts/release tools/rootage-cdn/src
-
-      - name: Typecheck and bundle the Rootage CDN Worker
-        env:
-          WRANGLER_LOG_PATH: /tmp/wrangler-rootage-e2e.log
-        run: |
-          bun --filter @seed-design/rootage-cdn typecheck
-          bun --filter @seed-design/rootage-cdn wrangler:dry-run
-
-      - name: Generate all tracked artifacts
-        run: bun generate:all
-
-      - name: Run repository test suite
-        run: bun test:all
-
-      - name: Re-run generation and require a clean diff
-        run: |
-          bun generate:all
-          git diff --exit-code
-
-      - name: Build and package Rootage without publishing
-        run: bun scripts/release/dry-run.ts
+      - name: Run the same release verification used locally
+        run: bun release:verify --skip-setup

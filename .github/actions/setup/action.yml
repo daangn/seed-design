@@ -32,22 +32,12 @@ runs:
         restore-keys: |
           ${{ runner.os }}-bun-
 
-    - name: Install Dependencies
-      shell: bash
-      run: bun install --frozen-lockfile
-
-    - name: Build Ecosystem Tools and Relink Workspace
-      shell: bash
-      run: |
-        bun ecosystem:build
-        bun install --frozen-lockfile
-
     - name: Generate build cache key
       id: build-cache-key
       if: ${{ inputs.build-packages == 'true' }}
       shell: bash
       env:
-        BUILD_CACHE_KEY_SUFFIX: rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
+        BUILD_CACHE_KEY_SUFFIX: rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'package.json', 'bunfig.toml', 'tsconfig*.json', 'bun.lock', 'bun.lockb', '.ultraignore', '!packages/**/dist/**', '!packages/**/build/**', '!packages/**/lib/**', '!ecosystem/**/dist/**', '!ecosystem/**/build/**', '!ecosystem/**/lib/**') }}
       run: echo "suffix=$BUILD_CACHE_KEY_SUFFIX" >> "$GITHUB_OUTPUT"
 
     - name: Cache build outputs
@@ -59,10 +49,26 @@ runs:
           packages/**/dist
           packages/**/build
           packages/**/lib
+          packages/**/.ultra.cache.json
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
+          ecosystem/**/.ultra.cache.json
         key: ${{ runner.os }}-build-${{ steps.build-cache-key.outputs.suffix }}
+        restore-keys: |
+          ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-
+
+    - name: Install Dependencies
+      if: ${{ inputs.build-packages != 'true' || steps.cache-build.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: bun install --frozen-lockfile
+
+    - name: Build Ecosystem Tools and Relink Workspace
+      if: ${{ inputs.build-packages != 'true' || steps.cache-build.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: |
+        bun ecosystem:build
+        bun install --frozen-lockfile
 
     - name: Relink workspace after cache restore
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}
