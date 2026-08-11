@@ -105,8 +105,6 @@ react (스타일드 컴포넌트) ← react-headless (로직)
 
 `bun test:all`은 `test:unit`(루트 `bun test`에서 `packages/lynx-react`만 제외)과 `test:lynx-react`(typecheck + vitest)를 합친 것이다. `bun rootage:test`가 함께 실행하는 `bun rootage:validate`는 여기 포함되지 않으므로, rootage YAML을 수정했으면 `bun rootage:test`를 따로 돌린다. 이 validator는 미사용 schema property를 정리할 수 있으므로 실행 뒤 `git diff`로 의도한 변경만 남았는지 확인한다.
 
-릴리즈 자동화 변경은 먼저 `bun release:doctor`로 로컬 상태를 확인하고 `bun release:verify`로 CI와 같은 credential-free 전체 gate를 실행한다. 사람용 레인 운영 순서와 장애 복구는 [RELEASING.md](./RELEASING.md)를 따른다.
-
 **테스트 환경**: `bunfig.toml`의 `[test].preload`가 `scripts/happydom.ts`(DOM 환경)와 `scripts/testing-library.ts`를 로드한다. 후자가 `@testing-library/jest-dom` 매처를 등록하고 `afterEach(cleanup)`을 전역으로 걸어주므로, 테스트에서 `cleanup()`을 직접 호출하지 않는다.
 
 ### 개발
@@ -231,25 +229,8 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 
 - **Changesets** 사용: `.changeset/` 디렉토리
 - `bun changeset` - 변경사항 기록
-- `bun version` - 버전 업데이트
-- `bun release:doctor` - credential과 네트워크 없이 로컬 릴리즈 상태 진단
-- `bun release:verify` - CI와 같은 build/generate/test/package dry-run 전체 검증
-
-사람이 수행하는 일상 릴리즈와 장애 복구 순서는 [RELEASING.md](./RELEASING.md)를 따른다. 로컬에서 package publish를 실행하는 루트 명령은 제공하지 않는다.
-
-### 릴리즈 레인 자동화
-
-- `dev`는 patch stable, `minor`는 minor beta, `major`는 major beta 레인이다. Enter/Exit Intent로 beta 주기를 전환하고, Exit 뒤 Stable Version Packages PR을 사람이 squash merge하면 해당 버전이 npm `latest`가 된다.
-- 정적 레인 정책은 `.github/release/lanes.json`, 게시 모드와 Rootage 준비 상태는 `.github/release/control.json`에서 관리한다. 두 파일은 같은 디렉토리의 Draft 2020-12 JSON Schema를 참조한다.
-- 구현은 private workspace인 `tools/release-automation`에 `core`, `setup`, `lane`, `sync`, `publish`, `validation`, `local` 도메인으로 나눈다. 상세 구조와 신뢰 경계는 [`tools/release-automation/TECH.md`](./tools/release-automation/TECH.md)를 따른다.
-- 일상 PR은 `dev`에 merge한다. 동기화 worker가 원본 diff를 target별 FIFO로 전달하고 changeset bump를 레인 정책에 맞춘 뒤, exact source diff·trusted `dev` control plane·target tree가 모두 일치하는 sync PR만 자동 merge한다.
-- Version Packages 생성은 credential 없는 lane planner와 trusted `dev` writer로 분리한다. writer는 exact base/control/tree/patch와 package version, workspace dependency, `bun.lock`, Rootage generated version을 다시 검증하고 lane source lifecycle은 실행하지 않는다.
-- 사람이 merge한 trusted Version Packages PR만 게시 후보가 된다. npm OIDC 게시, Git tag write, Rootage 게시, durable receipt, Slack 알림은 각자 필요한 최소 권한의 job 또는 workflow로 분리한다.
-- generated PR 검증은 candidate branch의 검증 코드를 신뢰하지 않는다. `dev` workflow가 exact ref/SHA, bot·same-repository identity, current control SHA와 허용 파일을 확인하고 commit status를 기록한다.
-- Stable 승격은 beta 주기의 사람 squash merge 코드만 `dev`와 dormant sibling에 전달한다. 새 Changeset은 제외하지만 Rootage에서 파생된 CSS·Qvism·Lynx 생성물은 코드 결과에 포함한다. 게시 전에는 코드 승격 tree와 Stable Version 산출물을 합친 최종 baseline tree까지 credential 없이 생성·전체 검증한다.
-- Stable 게시 전에는 durable status와 required check를 이용해 세 레인을 논리적으로 잠근다. npm write 직전 source/dev/sibling SHA와 Stable squash tree를 다시 확인하며, production receipt 뒤에만 코드 승격 PR을 사람이 merge할 수 있다. 두 코드 승격과 두 baseline 정렬이 완료되기 전에는 다음 dev publish, Enter와 stable promotion을 차단한다.
-- 최초 설치는 `mode=dry-run`, `rootageContractReady=false`, `sync.activation=null`인 initial baseline에서 시작한다. `enable-rootage-contract` 뒤 `Release lane bootstrap`으로 exact `dev` baseline의 `minor`·`major`를 만들고, 두 bootstrap PR을 merge한 다음에만 `enable-sync`를 적용한다. 이후 dry-run canary를 완료하고 별도 go 결정 후 `enable-production`을 적용한다. Bootstrap readiness는 `bun tools/release-automation/bin/control.ts bootstrap-readiness`로도 확인할 수 있다.
-- 세 레인은 최신 base 반영, `Validate release lane` 필수 검사, 대화 해결을 요구하고 force push와 삭제를 차단한다. 구체적인 사람용 운영 및 복구 절차는 [RELEASING.md](./RELEASING.md)를 따른다.
+- `bun version` - 버전·잠금파일을 업데이트하고 같은 Version Packages commit에 Rootage JSON 생성. Rootage package 범위만 생성하며 package metadata, changeset, lockfile, `packages/rootage/__generated__/**` 밖의 변경은 거부
+- `bun release` - 패키지 빌드 및 npm 배포
 
 ---
 

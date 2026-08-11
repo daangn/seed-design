@@ -6,7 +6,7 @@ export const VERSION_PATTERN = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
 export const STABLE_VERSION_PATTERN = /^\d+\.\d+\.\d+$/;
 export const RESOURCE_PATTERN = /^\/(?:[a-z0-9-]+\/)*[a-z0-9-]+\.json$/;
 const SHA256_PATTERN = /^[0-9a-f]{64}$/;
-const INTEGRITY_PATTERN = /^sha512-[A-Za-z0-9+/]+={0,2}$/;
+export const NPM_INTEGRITY_PATTERN = /^sha512-[A-Za-z0-9+/]+={0,2}$/;
 const SHA_PATTERN = /^[0-9a-f]{40}$/;
 
 function object(value: unknown, name: string): Record<string, unknown> {
@@ -37,7 +37,10 @@ export function parseManifest(value: unknown): CompletionManifest {
   if (typeof manifest.version !== "string" || !VERSION_PATTERN.test(manifest.version)) {
     throw new Error("완료 manifest 버전이 올바르지 않습니다.");
   }
-  if (typeof manifest.npmIntegrity !== "string" || !INTEGRITY_PATTERN.test(manifest.npmIntegrity)) {
+  if (
+    typeof manifest.npmIntegrity !== "string" ||
+    !NPM_INTEGRITY_PATTERN.test(manifest.npmIntegrity)
+  ) {
     throw new Error("완료 manifest npm integrity가 올바르지 않습니다.");
   }
   if (typeof manifest.gitHead !== "string" || !SHA_PATTERN.test(manifest.gitHead)) {
@@ -93,7 +96,10 @@ export function parsePointer(value: unknown): StablePointer {
   if (typeof pointer.manifestSha256 !== "string" || !SHA256_PATTERN.test(pointer.manifestSha256)) {
     throw new Error("stable 포인터 manifest checksum이 올바르지 않습니다.");
   }
-  if (typeof pointer.npmIntegrity !== "string" || !INTEGRITY_PATTERN.test(pointer.npmIntegrity)) {
+  if (
+    typeof pointer.npmIntegrity !== "string" ||
+    !NPM_INTEGRITY_PATTERN.test(pointer.npmIntegrity)
+  ) {
     throw new Error("stable 포인터 npm integrity가 올바르지 않습니다.");
   }
   return pointer as unknown as StablePointer;

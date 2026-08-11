@@ -17,6 +17,8 @@
 - `bun tools/rootage-cdn/src/cli.ts route ...`: 정확한 `/rootage/*` Worker route cutover/rollback
 - `bun tools/rootage-cdn/src/cli.ts set-stable ...`: ETag CAS를 사용한 명시적 stable rollback
 - `bun tools/rootage-cdn/src/cli.ts cleanup ...`: 완료 manifest가 없는 7일 이상 객체의 보고/확인 삭제
+- `PUBLISHED_PACKAGES=... ROOTAGE_SOURCE_SHA=<gitHead> GITHUB_OUTPUT=<path> bun tools/rootage-cdn/src/release-input.ts`: source의 현재 Rootage 버전을 npm의 exact `gitHead`·integrity와 대조해 재실행 가능한 workflow output으로 변환하며, Changesets 게시 결과가 있으면 일치 여부를 추가 검증
+- `bun tools/rootage-cdn/src/version-change-policy.ts`: Changesets Version command가 package metadata, changeset, lockfile, `packages/rootage/__generated__/**` 밖의 파일을 변경하지 않았는지 검증
 
 production 쓰기에는 `ROOTAGE_R2_ACCESS_KEY_ID`, `ROOTAGE_R2_SECRET_ACCESS_KEY`, `CF_ACCOUNT_ID`, `ROOTAGE_R2_BUCKET`이 필요하다.
 배포·route 변경·rollback·삭제는 GitHub의 `rootage-production` environment 승인을 거친 수동 workflow에서 실행한다.
