@@ -11,7 +11,7 @@ Date Picker는 캘린더에서 날짜를 직접 골라 입력받는 컴포넌트
 ## Anatomy
 
 <FigmaImage
-  id="2359:9559"
+  id="2391:10211"
   alt="Date Picker의 Anatomy 이미지. Header, Weekday Row, Date Grid로 구성됩니다."
 />
 
@@ -24,11 +24,11 @@ Date Picker는 선택 상태를 관리하는 root 아래에, 선택 UI를 담는
 ### 월·연도 전환
 
 <FigmaImage
-  id="2359:9573"
+  id="2391:10225"
   alt="월·연도 picker가 닫힌 상태와 열린 상태 비교"
 />
 <FigmaImage
-  id="2359:9580"
+  id="2391:10232"
   alt="Visible Range가 Week일 때 월·연도 picker가 monthYearLabel에 anchor된 popover로 떠오르는 닫힘·열림 비교"
 />
 
@@ -47,7 +47,7 @@ prevButton·nextButton은 한 달씩 이동하며, 멀리 떨어진 월·연도�
 날짜를 어떤 방식으로 선택할지 정하는 Property입니다.
 
 <FigmaImage
-  id="2359:9597"
+  id="2391:10249"
   alt="Date Picker의 Selection Property — Single, Range, Multiple 각 선택 예시"
 />
 
@@ -62,11 +62,11 @@ Range는 시작·종료 칸을 채우고 그 사이를 연결된 띠로 잇습�
 캘린더가 한 번에 보여주는 날짜 범위를 정합니다.
 
 <FigmaImage
-  id="2359:9618"
+  id="2391:10270"
   alt="Visible Range 사용 맥락 — Month, Continuous, Week 적용 화면 예시"
 />
 <FigmaImage
-  id="2359:9652"
+  id="2391:10304"
   alt="Visible Range Two Months — 데스크탑 Popover에서 두 달을 나란히 표시하는 예시"
 />
 
@@ -86,7 +86,7 @@ Continuous는 헤더의 prevButton·nextButton·monthYearLabel 대신 스크롤�
 dateGrid의 각 칸(dateCell)이 가지는 상태입니다. 날짜의 성격을 색·배경으로 구분해, 고를 수 있는 날짜와 이미 고른 날짜를 한눈에 알 수 있게 합니다.
 
 <FigmaImage
-  id="2359:9664"
+  id="2391:10316"
   alt="Date Cell의 상태 — Enabled, Pressed, Today, Selected, Range, In Range, Disabled"
 />
 
@@ -109,15 +109,15 @@ dateGrid의 각 칸(dateCell)이 가지는 상태입니다. 날짜의 성격을 
 ### Layout 선택하기
 
 <FigmaImage
-  id="2359:9686"
+  id="2391:10338"
   alt="Layout 선택 — Inline 사용 맥락 예시"
 />
 <FigmaImage
-  id="2359:9721"
+  id="2391:10373"
   alt="Layout 선택 — Sheet 사용 맥락 예시"
 />
 <FigmaImage
-  id="2359:9769"
+  id="2391:10421"
   alt="Layout 선택 — Popover 사용 맥락 예시"
 />
 
@@ -132,7 +132,7 @@ Popover·Sheet의 트리거는 [Input Button](/components/input-button)이나 [F
 ### 진입 시 보여줄 월
 
 <FigmaImage
-  id="2359:9788"
+  id="2391:10440"
   alt="캘린더를 열면 오늘이 속한 월이 기본으로 표시되는 예시"
 />
 
@@ -141,7 +141,7 @@ Popover·Sheet의 트리거는 [Input Button](/components/input-button)이나 [F
 ### 기간·여러 날짜 선택 안내
 
 <FigmaImage
-  id="2359:9808"
+  id="2391:10460"
   alt="Range와 Multiple의 제약을 Callout으로 안내하는 예시"
 />
 

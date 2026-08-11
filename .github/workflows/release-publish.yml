@@ -1,552 +1,179 @@
 name: Release publish
 
 on:
-  pull_request_target:
-    branches: [dev, minor, major]
-    types: [closed]
-  schedule:
-    - cron: "7,27,47 * * * *"
+  push:
+    branches:
+      - dev
+    paths:
+      - "packages/**"
+      - "docs/**"
+      - ".changeset/**"
+      - ".github/workflows/release-publish.yml"
+      - ".github/actions/setup/action.yml"
   workflow_dispatch:
 
 concurrency:
-  group: >-
-    ${{
-      (
-        (github.event_name == 'schedule' && github.ref == 'refs/heads/dev') ||
-        (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev') ||
-        (
-          github.event_name == 'pull_request_target' &&
-          github.event.pull_request.merged == true &&
-          github.event.pull_request.user.login == 'github-actions[bot]' &&
-          github.event.pull_request.head.repo.full_name == github.repository &&
-          (
-            github.event.pull_request.head.ref == format('changeset-release/{0}', github.event.pull_request.base.ref) ||
-            startsWith(github.event.pull_request.head.ref, 'release-code-promotion/') ||
-            startsWith(github.event.pull_request.head.ref, 'release-baseline/')
-          )
-        )
-      )
-      && 'release-publish'
-      || format('release-publish-ignored-{0}', github.run_id)
-    }}
+  group: release-publish
   cancel-in-progress: false
 
 jobs:
-  select:
-    name: Select oldest approved Version Packages PR
-    if: >-
-      (github.event_name == 'schedule' && github.ref == 'refs/heads/dev') ||
-      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev') ||
-      (
-        github.event_name == 'pull_request_target' &&
-        github.event.pull_request.merged == true &&
-        github.event.pull_request.user.login == 'github-actions[bot]' &&
-        github.event.pull_request.head.repo.full_name == github.repository &&
-        github.event.pull_request.head.ref == format('changeset-release/{0}', github.event.pull_request.base.ref)
-      )
+  release:
+    name: Release Seed Design Packages
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     permissions:
-      actions: read
-      contents: read
-      pull-requests: read
-      statuses: read
-    outputs:
-      found: ${{ steps.queue.outputs.found }}
-      number: ${{ steps.queue.outputs.number }}
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: dev
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.13"
-      - name: Reconcile the durable publish queue
-        id: queue
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bun tools/release-automation/src/publish/publish-queue.ts
-
-  authorize:
-    name: Authorize Version Packages merge
-    needs: select
-    if: needs.select.outputs.found == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      pull-requests: read
-      statuses: read
-    outputs:
-      mode: ${{ steps.authorize.outputs.mode }}
-      lane: ${{ steps.authorize.outputs.lane }}
-      merge-sha: ${{ steps.authorize.outputs.mergeSha }}
-      control-sha: ${{ steps.authorize.outputs.controlSha }}
-      package-paths: ${{ steps.authorize.outputs.packagePaths }}
-      number: ${{ steps.authorize.outputs.number }}
-      stable-promotion: ${{ steps.authorize.outputs.stablePromotion }}
-    steps:
-      - name: Checkout trusted dev control plane
-        uses: actions/checkout@v6
-        with:
-          ref: dev
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.13"
-      - name: Authorize human-approved Version Packages PR
-        id: authorize
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bun tools/release-automation/src/publish/authorize-publish-pr.ts "${{ needs.select.outputs.number }}"
-
-  build-artifact:
-    name: Build isolated package artifact without mutation credentials
-    needs: authorize
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout immutable trusted dev control plane
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ needs.authorize.outputs.control-sha }}
-          path: control
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.13"
-      - name: Checkout exact merged source without credentials
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ needs.authorize.outputs.merge-sha }}
-          path: source
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Install and build exact source without mutation credentials
-        working-directory: source
-        env:
-          BUN_INSTALL_CACHE_DIR: ${{ runner.temp }}/release-bun-cache
-        run: |
-          bun install --frozen-lockfile
-          bun ecosystem:build
-          bun install --frozen-lockfile
-          bun packages:build
-          bun rootage:build
-          bun rootage:generate
-      - name: Bind trusted dev state for release policy
-        working-directory: source
-        env:
-          PUBLISH_CONTROL_SHA: ${{ needs.authorize.outputs.control-sha }}
-        run: git fetch --no-tags ../control "+$PUBLISH_CONTROL_SHA:refs/remotes/origin/dev"
-      - name: Plan exact approved package versions
-        id: plan
-        working-directory: control
-        env:
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_PACKAGE_PATHS: ${{ needs.authorize.outputs.package-paths }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-          PUBLISH_STABLE_PROMOTION: ${{ needs.authorize.outputs.stable-promotion }}
-        run: bun tools/release-automation/src/publish/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
-      - name: Pack strict package artifact
-        working-directory: control
-        env:
-          PUBLISH_ARTIFACT_PATH: ${{ runner.temp }}/release-package-artifact
-          PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
-          PUBLISH_LANE: ${{ needs.authorize.outputs.lane }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_MODE: ${{ needs.authorize.outputs.mode }}
-          PUBLISH_PACKAGES: ${{ steps.plan.outputs.packages }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-        run: bun tools/release-automation/src/publish/publish-artifact.ts build
-      - name: Upload immutable package artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-package-${{ needs.authorize.outputs.merge-sha }}
-          path: ${{ runner.temp }}/release-package-artifact
-          if-no-files-found: error
-          retention-days: 1
-
-  dry-run:
-    name: Verify isolated package artifact dry-run
-    needs: [authorize, build-artifact]
-    if: needs.authorize.outputs.mode == 'dry-run'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout immutable trusted dev control plane
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ needs.authorize.outputs.control-sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.13"
-      - name: Checkout exact merged source without credentials
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ needs.authorize.outputs.merge-sha }}
-          path: source
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Download package artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: release-package-${{ needs.authorize.outputs.merge-sha }}
-          path: ${{ runner.temp }}/release-package-artifact
-      - name: Bind immutable trusted dev state for dry-run policy
-        working-directory: source
-        env:
-          PUBLISH_CONTROL_SHA: ${{ needs.authorize.outputs.control-sha }}
-        run: git fetch --no-tags .. "+$PUBLISH_CONTROL_SHA:refs/remotes/origin/dev"
-      - name: Independently re-plan exact approved packages
-        id: plan
-        env:
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_PACKAGE_PATHS: ${{ needs.authorize.outputs.package-paths }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-          PUBLISH_STABLE_PROMOTION: ${{ needs.authorize.outputs.stable-promotion }}
-        run: bun tools/release-automation/src/publish/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
-      - name: Reverify package artifact without registry writes
-        env:
-          PUBLISH_ARTIFACT_PATH: ${{ runner.temp }}/release-package-artifact
-          PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
-          PUBLISH_LANE: ${{ needs.authorize.outputs.lane }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_MODE: dry-run
-          PUBLISH_PACKAGES: ${{ steps.plan.outputs.packages }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-        run: bun tools/release-automation/src/publish/publish-artifact.ts verify
-
-  publish-npm:
-    name: Publish sanitized artifact with npm OIDC
-    needs: [authorize, build-artifact]
-    if: needs.authorize.outputs.mode == 'production'
-    runs-on: ubuntu-latest
-    environment: npm-production
-    permissions:
-      actions: read
-      contents: read
+      contents: write
+      pull-requests: write
       id-token: write
-      pull-requests: read
-      statuses: read
     outputs:
-      packages: ${{ steps.artifact.outputs.registryPackages }}
-      dist-tag: ${{ steps.plan.outputs.distTag }}
-      rootage-version: ${{ steps.plan.outputs.rootageVersion }}
-      rootage-integrity: ${{ steps.rootage.outputs.integrity }}
-      stable: ${{ steps.plan.outputs.stable }}
+      published: ${{ steps.changesets.outputs.published }}
+      published-packages: ${{ steps.changesets.outputs.publishedPackages }}
+
     steps:
-      - name: Checkout immutable trusted dev control plane
+      - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          ref: ${{ needs.authorize.outputs.control-sha }}
           fetch-depth: 0
-          persist-credentials: false
+
+      - name: Bind release execution to the protected dev commit
+        env:
+          RELEASE_SOURCE_SHA: ${{ github.sha }}
+        run: |
+          [[ "$RELEASE_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_REF" = "refs/heads/dev"
+          test "$(git rev-parse HEAD)" = "$RELEASE_SOURCE_SHA"
+
       - uses: actions/setup-node@v6
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
           package-manager-cache: false
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.13"
-      - name: Install reviewed Changesets CLI without lifecycle scripts
-        run: bun install --frozen-lockfile --ignore-scripts
-      - name: Checkout exact merge as inert gitHead root
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ needs.authorize.outputs.merge-sha }}
-          path: source
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Download package artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: release-package-${{ needs.authorize.outputs.merge-sha }}
-          path: ${{ runner.temp }}/release-package-artifact
-      - name: Bind immutable trusted dev state for publish policy
-        working-directory: source
-        env:
-          PUBLISH_CONTROL_SHA: ${{ needs.authorize.outputs.control-sha }}
-        run: git fetch --no-tags .. "+$PUBLISH_CONTROL_SHA:refs/remotes/origin/dev"
-      - name: Independently re-plan exact approved packages
-        id: plan
-        env:
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_PACKAGE_PATHS: ${{ needs.authorize.outputs.package-paths }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-          PUBLISH_STABLE_PROMOTION: ${{ needs.authorize.outputs.stable-promotion }}
-        run: bun tools/release-automation/src/publish/publish-plan.ts "${{ needs.authorize.outputs.lane }}"
-      - name: Reverify artifact and bind registry integrity
-        id: artifact
-        env:
-          PUBLISH_ARTIFACT_PATH: ${{ runner.temp }}/release-package-artifact
-          PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
-          PUBLISH_LANE: ${{ needs.authorize.outputs.lane }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_MODE: production
-          PUBLISH_PACKAGES: ${{ steps.plan.outputs.packages }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-        run: bun tools/release-automation/src/publish/publish-artifact.ts verify
-      - name: Reverify exact Stable promotion heads before external writes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_PR_NUMBER: ${{ needs.authorize.outputs.number }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-          PUBLISH_STABLE_PROMOTION: ${{ needs.authorize.outputs.stable-promotion }}
-        run: bun tools/release-automation/src/publish/verify-stable-promotion-prewrite.ts
-      - name: Fail before npm writes on wrong existing tags or gitHead
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_PACKAGES: ${{ steps.artifact.outputs.registryPackages }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-        run: bun tools/release-automation/src/publish/reconcile-publish-tags.ts check
-      - name: Reverify and publish only sanitized missing packages
-        env:
-          NPM_CONFIG_IGNORE_SCRIPTS: "true"
-          NPM_CONFIG_PROVENANCE: "true"
-          NPM_CONFIG_REGISTRY: https://registry.npmjs.org
-          PUBLISH_ARTIFACT_PATH: ${{ runner.temp }}/release-package-artifact
-          PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
-          PUBLISH_LANE: ${{ needs.authorize.outputs.lane }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_MODE: production
-          PUBLISH_PACKAGES: ${{ steps.plan.outputs.packages }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-        run: bun tools/release-automation/src/publish/publish-artifact.ts publish
-      - name: Verify every registry version has the exact merge gitHead
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_DIST_TAG: ${{ steps.plan.outputs.distTag }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_PACKAGES: ${{ steps.artifact.outputs.registryPackages }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-        run: bun tools/release-automation/src/publish/reconcile-publish-tags.ts verify
-      - name: Resolve published Rootage integrity
-        id: rootage
-        env:
-          PUBLISH_PACKAGES: ${{ steps.artifact.outputs.registryPackages }}
-        run: bun tools/release-automation/src/publish/rootage-input.ts "${{ steps.plan.outputs.rootageVersion }}"
 
-  tag-packages:
-    name: Reconcile package tags from trusted control plane
-    needs: [authorize, build-artifact, publish-npm]
-    if: needs.authorize.outputs.mode == 'production'
+      - uses: ./.github/actions/setup
+
+      - name: Create or update the Version Packages PR, or publish packages
+        id: changesets
+        uses: changesets/action@3841a0683d3cfa6dae0f9bb335290003010fe3f0 # v1.9.0
+        with:
+          publish: bun release
+          version: bun version
+          title: "release: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
+
+  prepare-rootage:
+    name: Reconcile the exact published Rootage release
+    needs: release
+    if: >-
+      always() &&
+      github.ref == 'refs/heads/dev' &&
+      needs.release.result != 'cancelled' &&
+      needs.release.result != 'skipped'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
+    outputs:
+      found: ${{ steps.rootage.outputs.found }}
+      version: ${{ steps.rootage.outputs.version }}
+      integrity: ${{ steps.rootage.outputs.integrity }}
+      stable: ${{ steps.rootage.outputs.stable }}
+      source-sha: ${{ steps.identity.outputs.sourceSha }}
+      control-sha: ${{ steps.identity.outputs.controlSha }}
     steps:
-      - name: Checkout immutable trusted dev control plane
+      - name: Checkout the exact release source without credentials
         uses: actions/checkout@v6
         with:
-          ref: ${{ needs.authorize.outputs.control-sha }}
-          path: control
+          ref: ${{ github.sha }}
           fetch-depth: 0
           persist-credentials: false
+
+      - name: Bind source and control identity before reconciliation
+        id: identity
+        env:
+          RELEASE_SOURCE_SHA: ${{ github.sha }}
+        run: |
+          [[ "$RELEASE_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_REF" = "refs/heads/dev"
+          test "$(git rev-parse HEAD)" = "$RELEASE_SOURCE_SHA"
+          git merge-base --is-ancestor "$RELEASE_SOURCE_SHA" refs/remotes/origin/dev
+          echo "sourceSha=$RELEASE_SOURCE_SHA" >> "$GITHUB_OUTPUT"
+          echo "controlSha=$RELEASE_SOURCE_SHA" >> "$GITHUB_OUTPUT"
+
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.3.13"
-      - name: Checkout exact approved merge as inert tag repository
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ needs.authorize.outputs.merge-sha }}
-          path: source
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Atomically reconcile exact package tags
-        working-directory: control
+
+      - name: Resolve or replay the exact Rootage release input
+        id: rootage
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_DIST_TAG: ${{ needs.publish-npm.outputs.dist-tag }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_PACKAGES: ${{ needs.publish-npm.outputs.packages }}
-          PUBLISH_REPOSITORY_PATH: ${{ github.workspace }}/source
-        run: bun tools/release-automation/src/publish/reconcile-publish-tags.ts write
+          PUBLISHED_PACKAGES: ${{ needs.release.outputs.published-packages }}
+          ROOTAGE_SOURCE_SHA: ${{ steps.identity.outputs.sourceSha }}
+        run: bun tools/rootage-cdn/src/release-input.ts
 
   publish-rootage:
     name: Publish immutable Rootage artifacts
-    needs: [authorize, build-artifact, publish-npm, tag-packages]
-    if: needs.publish-npm.outputs.rootage-version != ''
+    needs: prepare-rootage
+    if: >-
+      always() &&
+      needs.prepare-rootage.result == 'success' &&
+      needs.prepare-rootage.outputs.found == 'true'
     uses: ./.github/workflows/rootage-release-contract.yml
+    permissions:
+      contents: read
     with:
-      version: ${{ needs.publish-npm.outputs.rootage-version }}
-      npm-integrity: ${{ needs.publish-npm.outputs.rootage-integrity }}
-      stable: ${{ needs.publish-npm.outputs.stable == 'true' }}
-      source-sha: ${{ needs.authorize.outputs.merge-sha }}
-      control-sha: ${{ needs.authorize.outputs.control-sha }}
-    secrets: inherit
+      version: ${{ needs.prepare-rootage.outputs.version }}
+      npm-integrity: ${{ needs.prepare-rootage.outputs.integrity }}
+      stable: ${{ needs.prepare-rootage.outputs.stable == 'true' }}
+      source-sha: ${{ needs.prepare-rootage.outputs.source-sha }}
+      control-sha: ${{ needs.prepare-rootage.outputs.control-sha }}
+    secrets:
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+      ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
 
-  record:
-    name: Record successful queue item ${{ needs.authorize.outputs.merge-sha }}
-    needs: [authorize, build-artifact, dry-run, publish-npm, tag-packages, publish-rootage]
+  notify-rootage:
+    name: Notify published Rootage package
+    needs: release
     if: >-
-      always() &&
-      !failure() &&
-      !cancelled() &&
-      (
-        needs.dry-run.result == 'success' ||
-        (needs.publish-npm.result == 'success' && needs.tag-packages.result == 'success')
-      ) &&
-      (needs.publish-rootage.result == 'success' || needs.publish-rootage.result == 'skipped')
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      contents: read
-      issues: write
-      pull-requests: write
-      statuses: write
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: ${{ needs.authorize.outputs.control-sha }}
-          persist-credentials: false
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.13"
-      - name: Persist durable publish checkpoint
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_RECORD: seed-release-publish:${{ needs.authorize.outputs.merge-sha }}:${{ needs.authorize.outputs.mode }}
-          PUBLISH_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: >-
-          gh api --method POST
-          "repos/${GITHUB_REPOSITORY}/statuses/${PUBLISH_MERGE_SHA}"
-          -f state=success
-          -f context=seed-release/publish
-          -f "description=${PUBLISH_RECORD}"
-          -f "target_url=${PUBLISH_RUN_URL}"
-      - name: Persist human-readable publish result
-        id: publish-comment
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_PR_NUMBER: ${{ needs.authorize.outputs.number }}
-          PUBLISH_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PUBLISH_STATUS: ${{ needs.authorize.outputs.mode }}
-        run: bun tools/release-automation/src/publish/record-publish.ts
-      - name: Report comment permission failure without replaying publish
-        if: steps.publish-comment.outcome == 'failure'
-        run: echo "::warning::Durable publish status was recorded, but the PR summary comment failed."
-      - name: Dispatch isolated production success notification
-        if: needs.authorize.outputs.mode == 'production'
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_NOTIFICATION_PR_NUMBER: ${{ needs.authorize.outputs.number }}
-          RELEASE_NOTIFICATION_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          RELEASE_NOTIFICATION_CONTROL_SHA: ${{ needs.authorize.outputs.control-sha }}
-          RELEASE_NOTIFICATION_PUBLISH_RUN_ID: ${{ github.run_id }}
-        run: >-
-          gh workflow run release-notification.yml --ref dev
-          -f pr-number="$RELEASE_NOTIFICATION_PR_NUMBER"
-          -f merge-sha="$RELEASE_NOTIFICATION_MERGE_SHA"
-          -f control-sha="$RELEASE_NOTIFICATION_CONTROL_SHA"
-          -f publish-run-id="$RELEASE_NOTIFICATION_PUBLISH_RUN_ID"
-      - name: Drain the next FIFO item
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run release-publish.yml
-
-  activate-code-promotions:
-    name: Authorize exact code promotion merges
-    needs: [authorize, record]
-    if: >-
-      needs.record.result == 'success' &&
-      needs.authorize.outputs.mode == 'production' &&
-      needs.authorize.outputs.stable-promotion == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      contents: read
-      pull-requests: write
-      statuses: read
-    steps:
-      - name: Checkout trusted dev control plane
-        uses: actions/checkout@v6
-        with:
-          ref: dev
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Bind checkout to authorized trusted dev commit
-        env:
-          PUBLISH_CONTROL_SHA: ${{ needs.authorize.outputs.control-sha }}
-        run: test "$(git rev-parse HEAD)" = "$PUBLISH_CONTROL_SHA"
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.13"
-      - name: Reverify production receipt and authorize code promotion PRs
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROMOTION_STABLE_PR: ${{ needs.authorize.outputs.number }}
-          PROMOTION_STABLE_MERGE_SHA: ${{ needs.authorize.outputs.merge-sha }}
-          PROMOTION_PUBLISH_RUN_ID: ${{ github.run_id }}
-        run: bun tools/release-automation/src/promotion/activate-code-promotions.ts
-
-  reconcile-code-promotions:
-    name: Reconcile code promotion and stable baselines
-    needs: [authorize, record, activate-code-promotions]
-    if: >-
-      always() &&
-      (
-        needs.activate-code-promotions.result == 'success' ||
-        (github.event_name == 'schedule' && github.ref == 'refs/heads/dev') ||
-        (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev') ||
-        (
-          github.event_name == 'pull_request_target' &&
-          github.event.pull_request.merged == true &&
-          github.event.pull_request.user.login == 'github-actions[bot]' &&
-          github.event.pull_request.head.repo.full_name == github.repository &&
-          (
-            startsWith(github.event.pull_request.head.ref, 'release-code-promotion/') ||
-            startsWith(github.event.pull_request.head.ref, 'release-baseline/')
-          )
-        )
-      )
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      contents: write
-      pull-requests: write
-      statuses: write
-    steps:
-      - name: Checkout trusted dev promotion reconciler
-        uses: actions/checkout@v6
-        with:
-          ref: dev
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.13"
-      - name: Create pending baselines or unlock completed promotion
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bun tools/release-automation/src/promotion/reconcile-code-promotion.ts
-
-  notify-failure:
-    name: Notify release failure
-    needs: [authorize, build-artifact, dry-run, publish-npm, tag-packages, publish-rootage, record, activate-code-promotions, reconcile-code-promotions]
-    if: failure()
+      needs.release.result == 'success' &&
+      needs.release.outputs.published == 'true' &&
+      contains(fromJson(needs.release.outputs.published-packages || '[]').*.name, '@seed-design/rootage-artifacts')
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions: {}
     steps:
-      - name: Notify Slack without changing the release result
-        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c
+      - name: Collect published package versions
+        id: versions
+        env:
+          PUBLISHED_PACKAGES: ${{ needs.release.outputs.published-packages }}
+        run: |
+          PACKAGE_VERSIONS="$(jq -cn --argjson packages "$PUBLISHED_PACKAGES" '$packages | map({name: .name, value: .version}) | from_entries')"
+          echo "packageVersions=$PACKAGE_VERSIONS" >> "$GITHUB_OUTPUT"
+
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "SEED release failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            text: "새 Rootage 버전이 배포되었어요."
+            blocks:
+              - type: "header"
+                text:
+                  type: "plain_text"
+                  text: "새 Rootage 버전이 배포되었어요: v${{ fromJson(steps.versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}"
+              - type: "section"
+                text:
+                  type: "plain_text"
+                  text: "문서 빌드까지는 시간이 조금 더 걸릴 수 있어요."
+              - type: "actions"
+                elements:
+                  - type: "button"
+                    style: "primary"
+                    text:
+                      type: "plain_text"
+                      text: "Changelog"
+                    url: "https://seed-design.io/react/updates/changelog"

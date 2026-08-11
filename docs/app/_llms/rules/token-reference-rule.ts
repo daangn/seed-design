@@ -1,5 +1,3 @@
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
@@ -7,7 +5,17 @@ import type {
 } from "mdast-util-mdx-jsx";
 import { match, P } from "ts-pattern";
 import type { Exchange } from "@seed-design/rootage-core";
-import index from "@seed-design/rootage-artifacts/index.json";
+import color from "@seed-design/rootage-artifacts/color";
+import dimension from "@seed-design/rootage-artifacts/dimension";
+import duration from "@seed-design/rootage-artifacts/duration";
+import fontSize from "@seed-design/rootage-artifacts/font-size";
+import fontWeight from "@seed-design/rootage-artifacts/font-weight";
+import gradient from "@seed-design/rootage-artifacts/gradient";
+import lineHeight from "@seed-design/rootage-artifacts/line-height";
+import radius from "@seed-design/rootage-artifacts/radius";
+import scale from "@seed-design/rootage-artifacts/scale";
+import shadow from "@seed-design/rootage-artifacts/shadow";
+import timingFunction from "@seed-design/rootage-artifacts/timing-function";
 import type { Rule } from "./types";
 import { markdownRow } from "./markdown-utils";
 import {
@@ -113,7 +121,24 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
 /*
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
-function formatTokenValue(entry: Exchange.Value): string {
+type ArtifactValue =
+  | Exclude<Exchange.Value, Exchange.Gradient | Exchange.Shadow>
+  | { type: "gradient"; value: readonly Exchange.GradientStop[] | Exchange.TokenRef }
+  | { type: "shadow"; value: readonly Exchange.ShadowLayer[] | Exchange.TokenRef };
+
+type ArtifactTokensModel = {
+  kind: "Tokens";
+  metadata: Exchange.TokensModel["metadata"];
+  data: {
+    collection: string;
+    tokens: Record<
+      Exchange.TokenRef,
+      { values: Record<string, ArtifactValue>; description?: string }
+    >;
+  };
+};
+
+function formatTokenValue(entry: ArtifactValue): string {
   return (
     match(entry)
       .with({ type: "number" }, ({ value }) => String(value))
@@ -144,7 +169,7 @@ function formatTokenValue(entry: Exchange.Value): string {
   groups가 ["radius"]이면 "$radius." 로 시작하는 토큰만 포함합니다.
 */
 function generateMarkdownTable(
-  tokens: Exchange.TokensModel["data"]["tokens"],
+  tokens: ArtifactTokensModel["data"]["tokens"],
   groups: string[],
 ): string {
   const prefix = `$${groups.join(".")}.`;
@@ -170,48 +195,22 @@ function generateMarkdownTable(
 }
 
 /*
-  rootage 토큰 파일을 경로를 키로 캐싱합니다.
-  첫 번째 호출 시 readFileSync로 로드하고 이후에는 캐시를 재사용합니다.
+  TokenReference에서 사용하는 모든 rootage 토큰 데이터를 정적으로 포함합니다.
+  Turbopack이 런타임 파일 탐색 없이 의존성을 추적할 수 있습니다.
 */
-let tokenDataCache: Map<string, Exchange.TokensModel> | null = null;
-
-function resolveRootageDir(): string | null {
-  const candidates = [
-    join(process.cwd(), "..", "packages", "rootage", "__generated__"),
-    join(process.cwd(), "packages", "rootage", "__generated__"),
-  ];
-
-  return candidates.find((candidate) => existsSync(candidate)) ?? null;
-}
-
-function loadTokenData(): Map<string, Exchange.TokensModel> {
-  if (tokenDataCache) return tokenDataCache;
-
-  const rootageDir = resolveRootageDir();
-
-  if (!rootageDir) {
-    console.warn(
-      "[TokenReference] rootage __generated__ 디렉토리를 찾지 못해 토큰 표를 건너뜁니다",
-    );
-    return new Map();
-  }
-
-  tokenDataCache = new Map();
-
-  for (const resource of index.resources) {
-    const { path } = resource;
-    if (path.startsWith("/components/") || path === "/collections.json") continue;
-
-    try {
-      const content = readFileSync(join(rootageDir, path.slice(1)), "utf-8");
-      tokenDataCache.set(path, JSON.parse(content) as Exchange.TokensModel);
-    } catch {
-      // 읽지 못한 파일은 건너뜀
-    }
-  }
-
-  return tokenDataCache;
-}
+const tokenData = [
+  color,
+  dimension,
+  duration,
+  fontSize,
+  fontWeight,
+  gradient,
+  lineHeight,
+  radius,
+  scale,
+  shadow,
+  timingFunction,
+] satisfies readonly ArtifactTokensModel[];
 
 export const tokenReferenceRule: Rule<MdxJsxFlowElement> = {
   name: "TokenReference",
@@ -220,11 +219,10 @@ export const tokenReferenceRule: Rule<MdxJsxFlowElement> = {
   transform: (node) => {
     const regex = getRegexFromNode(node);
     const groups = getGroupsFromNode(node);
-    const tokenData = loadTokenData();
 
     if (regex) {
-      const matched: { id: string; entry: { values: Record<string, Exchange.Value> } }[] = [];
-      for (const data of tokenData.values()) {
+      const matched: { id: string; entry: { values: Record<string, ArtifactValue> } }[] = [];
+      for (const data of tokenData) {
         for (const [id, entry] of Object.entries(data.data.tokens)) {
           regex.lastIndex = 0;
           if (regex.test(id)) matched.push({ id, entry });
@@ -255,7 +253,7 @@ export const tokenReferenceRule: Rule<MdxJsxFlowElement> = {
 
     if (groups.length === 0) {
       const sections: string[] = [];
-      for (const data of tokenData.values()) {
+      for (const data of tokenData) {
         const table = generateMarkdownTable(data.data.tokens, [data.metadata.id]);
         if (table) sections.push(`## ${data.metadata.name}\n\n${table}`);
       }
@@ -264,8 +262,7 @@ export const tokenReferenceRule: Rule<MdxJsxFlowElement> = {
       return [{ type: "html", value: allTables }];
     }
 
-    const tokenPath = `/${groups[0]}.json`;
-    const data = tokenData.get(tokenPath);
+    const data = tokenData.find(({ metadata }) => metadata.id === groups[0]);
     if (!data) return [node];
 
     const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);

@@ -8,8 +8,8 @@ import {
   fetchFigmaImageUrls,
   type FetchFigmaImageUrlsOptions,
 } from "./fetch-figma-image-urls";
-
-const FIGMA_ID_PROP_SUPPORTED_COMPONENTS = ["DoImage", "DontImage"];
+import { extractFigmaId, FIGMA_ID_PROP_SUPPORTED_COMPONENTS } from "./collect-figma-image-ids";
+import { type FigmaImageManifest, getFigmaImageUrlsFromManifest } from "./figma-image-manifest";
 
 const DEFAULT_IMAGE_SIZE = {
   width: 1080,
@@ -24,6 +24,7 @@ export interface RemarkFigmaImageOptions {
   fileKey?: string;
   accessToken?: string;
   fetchUrlsOptions?: FetchFigmaImageUrlsOptions;
+  manifest?: FigmaImageManifest;
 }
 
 interface NodeEntry {
@@ -48,8 +49,9 @@ export function remarkFigmaImage({
   accessToken,
   fileKey,
   fetchUrlsOptions,
+  manifest,
 }: RemarkFigmaImageOptions): Transformer<Root, Root> {
-  return async (tree) => {
+  return (tree) => {
     const figmaNodes: Map<string, NodeEntry[]> = new Map();
 
     visit(tree, "mdxJsxFlowElement", (node, index, parent) => {
@@ -64,102 +66,92 @@ export function remarkFigmaImage({
       }
     });
 
-    if (figmaNodes.size === 0) return;
+    if (figmaNodes.size === 0) return tree;
 
-    const usePlaceholder = !accessToken || !fileKey;
+    const nodeIds = [...figmaNodes.keys()];
+    const options = fetchUrlsOptions ?? {};
+    const imageUrls = manifest
+      ? getFigmaImageUrlsFromManifest(manifest, nodeIds, options)
+      : new Map<string, string>();
+    const missingIds = nodeIds.filter((nodeId) => !imageUrls.has(nodeId));
 
-    const imageUrls: Map<string, string> = usePlaceholder
-      ? new Map(Array.from(figmaNodes.keys()).map((id) => [id, PLACEHOLDER_DATA_URI]))
-      : await fetchFigmaImageUrls({
-          client: createFigmaClient(accessToken),
-          fileKey,
-          nodeIds: Array.from(figmaNodes.keys()),
-          options: fetchUrlsOptions,
-        });
-
-    for (const [figmaId, entries] of figmaNodes) {
-      const url = imageUrls.get(figmaId);
-
-      if (!url)
-        throw new Error(`[remark-figma-image] Failed to get image URL for Figma node: ${figmaId}`);
-
-      for (const { node, index, parent } of entries) {
-        if (!node.name) continue;
-
-        if (node.name === "FigmaImage") {
-          const altAttr = node.attributes.find(
-            (attr): attr is MdxJsxAttribute =>
-              attr.type === "mdxJsxAttribute" && attr.name === "alt",
-          );
-
-          if (!altAttr?.value)
-            throw new Error(
-              "[remark-figma-image] FigmaImage requires an 'alt' prop for accessibility",
-            );
-
-          const image: Image = {
-            type: "image",
-            url,
-            alt: typeof altAttr.value === "string" ? altAttr.value : "",
-            data: {
-              // not the actual size, but prevent layout shift through Next.js Image
-              hProperties: DEFAULT_IMAGE_SIZE,
-            },
-          };
-
-          const paragraph: Paragraph = {
-            type: "paragraph",
-            children: [image],
-            position: node.position,
-          };
-
-          parent.children[index] = paragraph;
-
-          continue;
-        }
-
-        // replace figmaId with resolved src
-        if (FIGMA_ID_PROP_SUPPORTED_COMPONENTS.includes(node.name)) {
-          node.attributes = node.attributes.filter(
-            (attr): attr is MdxJsxAttribute =>
-              !(
-                attr.type === "mdxJsxAttribute" &&
-                (attr.name === "figmaId" || attr.name === "src")
-              ),
-          );
-
-          node.attributes.push({ type: "mdxJsxAttribute", name: "src", value: url });
-        }
-      }
+    if (!accessToken || !fileKey) {
+      for (const nodeId of missingIds) imageUrls.set(nodeId, PLACEHOLDER_DATA_URI);
+      applyFigmaImageUrls(figmaNodes, imageUrls);
+      return tree;
     }
+
+    if (missingIds.length === 0) {
+      applyFigmaImageUrls(figmaNodes, imageUrls);
+      return tree;
+    }
+
+    return fetchFigmaImageUrls({
+      client: createFigmaClient(accessToken),
+      fileKey,
+      nodeIds: missingIds,
+      options,
+    }).then((fetchedUrls) => {
+      for (const [nodeId, url] of fetchedUrls) imageUrls.set(nodeId, url);
+      applyFigmaImageUrls(figmaNodes, imageUrls);
+      return tree;
+    });
   };
 }
 
-/**
- * Extract Figma node ID from JSX element attributes
- */
-function extractFigmaId({ name, attributes }: MdxJsxFlowElement): string | null {
-  if (!name) return null;
+function applyFigmaImageUrls(
+  figmaNodes: Map<string, NodeEntry[]>,
+  imageUrls: ReadonlyMap<string, string>,
+): void {
+  for (const [figmaId, entries] of figmaNodes) {
+    const url = imageUrls.get(figmaId);
 
-  // For <FigmaImage id="..." />
-  if (name === "FigmaImage") {
-    const idAttr = attributes.find(
-      (attr): attr is MdxJsxAttribute => attr.type === "mdxJsxAttribute" && attr.name === "id",
-    );
+    if (!url)
+      throw new Error(`[remark-figma-image] Failed to get image URL for Figma node: ${figmaId}`);
 
-    if (!idAttr) throw new Error("[remark-figma-image] FigmaImage requires an 'id' prop");
+    for (const { node, index, parent } of entries) {
+      if (!node.name) continue;
 
-    return typeof idAttr?.value === "string" ? idAttr.value : null;
+      if (node.name === "FigmaImage") {
+        const altAttr = node.attributes.find(
+          (attr): attr is MdxJsxAttribute => attr.type === "mdxJsxAttribute" && attr.name === "alt",
+        );
+
+        if (!altAttr?.value)
+          throw new Error(
+            "[remark-figma-image] FigmaImage requires an 'alt' prop for accessibility",
+          );
+
+        const image: Image = {
+          type: "image",
+          url,
+          alt: typeof altAttr.value === "string" ? altAttr.value : "",
+          data: {
+            // not the actual size, but prevent layout shift through Next.js Image
+            hProperties: DEFAULT_IMAGE_SIZE,
+          },
+        };
+
+        const paragraph: Paragraph = {
+          type: "paragraph",
+          children: [image],
+          position: node.position,
+        };
+
+        parent.children[index] = paragraph;
+
+        continue;
+      }
+
+      // replace figmaId with resolved src
+      if (FIGMA_ID_PROP_SUPPORTED_COMPONENTS.includes(node.name)) {
+        node.attributes = node.attributes.filter(
+          (attr): attr is MdxJsxAttribute =>
+            !(attr.type === "mdxJsxAttribute" && (attr.name === "figmaId" || attr.name === "src")),
+        );
+
+        node.attributes.push({ type: "mdxJsxAttribute", name: "src", value: url });
+      }
+    }
   }
-
-  // For components like <DoImage figmaId="..." /> and <DontImage figmaId="..." />
-  if (FIGMA_ID_PROP_SUPPORTED_COMPONENTS.includes(name)) {
-    const figmaIdAttr = attributes.find(
-      (attr): attr is MdxJsxAttribute => attr.type === "mdxJsxAttribute" && attr.name === "figmaId",
-    );
-
-    return typeof figmaIdAttr?.value === "string" ? figmaIdAttr.value : null;
-  }
-
-  return null;
 }

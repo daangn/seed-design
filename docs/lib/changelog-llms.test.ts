@@ -5,6 +5,7 @@ import {
   createChangelogLlmDataLoader,
   renderVersionMarkdown,
 } from "./changelog-llms";
+import { buildChangelogLlmOutputFiles } from "./changelog-llms-output";
 
 const sources: ChangelogSource[] = [
   {
@@ -77,5 +78,37 @@ describe("createChangelogLlmDataLoader", () => {
     expect(first).toBe(second);
     expect(firstData).toBe(secondData);
     expect(loadCount).toBe(1);
+  });
+});
+
+describe("buildChangelogLlmOutputFiles", () => {
+  it("Next route와 같은 전체, 패키지별, 버전별 파일을 만든다", async () => {
+    const data = await buildChangelogLlmData(sources);
+    const files = buildChangelogLlmOutputFiles(data, new URL("https://seed-design.io"));
+    const output = new Map(files.map((file) => [file.path, file.content]));
+
+    expect(files).toHaveLength(6);
+    expect(output.get("llms/react/updates/changelog.txt")).toStartWith(
+      "# Changelog\nURL: https://seed-design.io/react/updates/changelog",
+    );
+    expect(output.get("llms/react/updates/changelog/react/llms.txt")).toBe(
+      `# @seed-design/react Changelog
+
+## Versions
+
+- [2.0.0](https://seed-design.io/llms/react/updates/changelog/react/2.0.0.txt) — changes since this version
+- [1.0.0](https://seed-design.io/llms/react/updates/changelog/react/1.0.0.txt) — changes since this version
+
+---
+
+${data.packages.get("@seed-design/react")?.renderedBlocks.join("\n\n---\n\n")}
+`,
+    );
+    expect(output.get("llms/react/updates/changelog/react/1.0.0.txt")).toBe(
+      `# @seed-design/react — Changes since 1.0.0
+
+${data.packages.get("@seed-design/react")?.renderedBlocks.join("\n\n---\n\n")}
+`,
+    );
   });
 });
