@@ -7,7 +7,9 @@ import { getFigmaImageCacheKey, type FetchFigmaImageUrlsOptions } from "./figma-
 export type { FetchFigmaImageUrlsOptions } from "./figma-image-manifest";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
-const DEFAULT_MAX_RETRIES = 20;
+// Each wait is a few seconds at most, so a high ceiling costs little: a cold cache leaves one
+// unlucky request losing round after round while the rest of the build drains the rate limit.
+const DEFAULT_MAX_RETRIES = 100;
 const MAX_CONCURRENCY = 1;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 const CACHE_ID = "urls";
