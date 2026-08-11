@@ -19,6 +19,10 @@ on:
         description: "Approved commit recorded by npm as gitHead"
         required: true
         type: string
+      control-sha:
+        description: "Immutable trusted dev commit that owns the Rootage publisher"
+        required: true
+        type: string
     outputs:
       manifest-sha:
         description: "SHA-256 of the immutable completion manifest"
@@ -33,10 +37,15 @@ on:
         description: "Stable pointer after compare-and-set"
         value: ${{ jobs.publish.outputs.pointer-after }}
 
+concurrency:
+  group: rootage-cdn-production-mutation
+  cancel-in-progress: false
+
 jobs:
   publish:
     name: Publish and verify immutable artifacts
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment: rootage-production
     permissions:
       contents: read
@@ -46,11 +55,29 @@ jobs:
       pointer-before: ${{ steps.publish.outputs.pointer-before }}
       pointer-after: ${{ steps.publish.outputs.pointer-after }}
     steps:
-      - name: Checkout approved source
+      - name: Resolve current trusted dev head
         uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.source-sha }}
+          ref: dev
           fetch-depth: 0
+          persist-credentials: false
+      - name: Record trusted dev head
+        id: dev
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Checkout immutable trusted control plane
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.control-sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify control commit belongs to trusted dev history
+        env:
+          ROOTAGE_CONTROL_SHA: ${{ inputs.control-sha }}
+          ROOTAGE_DEV_SHA: ${{ steps.dev.outputs.sha }}
+        run: |
+          [[ "$ROOTAGE_CONTROL_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$ROOTAGE_CONTROL_SHA"
+          git merge-base --is-ancestor "$ROOTAGE_CONTROL_SHA" "$ROOTAGE_DEV_SHA"
       - uses: ./.github/actions/setup
       - name: Publish, read back and verify Rootage
         id: publish
@@ -60,9 +87,13 @@ jobs:
           ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
           ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
           ROOTAGE_PUBLIC_BASE_URL: https://seed-design.io
+          ROOTAGE_VERSION: ${{ inputs.version }}
+          ROOTAGE_NPM_INTEGRITY: ${{ inputs.npm-integrity }}
+          ROOTAGE_SOURCE_SHA: ${{ inputs.source-sha }}
+          ROOTAGE_STABLE: ${{ inputs.stable }}
         run: >-
           bun tools/rootage-cdn/src/cli.ts publish
-          --version '${{ inputs.version }}'
-          --npm-integrity '${{ inputs.npm-integrity }}'
-          --source-sha '${{ inputs.source-sha }}'
-          --stable '${{ inputs.stable }}'
+          --version "$ROOTAGE_VERSION"
+          --npm-integrity "$ROOTAGE_NPM_INTEGRITY"
+          --source-sha "$ROOTAGE_SOURCE_SHA"
+          --stable "$ROOTAGE_STABLE"
