@@ -15,7 +15,7 @@ interface ProsePageProps {
 }
 
 /**
- * 사이드바 없는 1컬럼 섹션(get-started, updates, credits)용 콘텐츠 셸.
+ * 사이드바 없는 1컬럼 섹션(get-started, updates)용 콘텐츠 셸.
  * - `[grid-area:main]`을 점유하고 좌우 패딩을 헤더(px-4/6/8)와 맞춘다.
  * - `hero` 슬롯: main 컬럼 전체폭까지 넓게(하이라이트 에셋용).
  * - 제목/본문/footer: 가독성을 위해 1100px로 중앙 정렬.
