@@ -10,47 +10,60 @@ concurrency:
 jobs:
   preflight:
     name: Verify clean stable baseline
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
+    outputs:
+      dev_sha: ${{ steps.baseline.outputs.dev_sha }}
     steps:
       - uses: actions/checkout@v6
         with:
           ref: dev
           fetch-depth: 0
+          persist-credentials: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.3.13"
       - name: Require DES-2201 and a clean dev baseline
+        id: baseline
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           test "$(jq -r '.rootageContractReady' .github/release/control.json)" = "true"
           test "$(jq -r '.mode' .github/release/control.json)" = "dry-run"
-          test "$(jq -r '.freeze' .github/release/control.json)" = "null"
-          CHANGESETS=$(rg --files .changeset -g '*.md' | rg -v '^.changeset/README.md$' || true)
+          test "$(jq -r '.sync.activation' .github/release/lanes.json)" = "null"
+          CHANGESETS=$(rg --files .changeset -g '*.md' | rg -v '^\.changeset/README\.md$' || true)
           test -z "$CHANGESETS"
           OPEN_VERSION_PR=$(gh pr list --state open --base dev --head changeset-release/dev --json number --jq '.[0].number')
           test -z "$OPEN_VERSION_PR"
+          echo "dev_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
   create-branches:
     name: Create fixed lanes
+    if: github.ref == 'refs/heads/dev'
     needs: preflight
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    outputs:
+      dev_sha: ${{ steps.create.outputs.dev_sha }}
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: dev
+          ref: ${{ needs.preflight.outputs.dev_sha }}
+          fetch-depth: 0
+          persist-credentials: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.3.13"
       - name: Create branches from the same dev SHA
+        id: create
         env:
+          BOOTSTRAP_DEV_SHA: ${{ needs.preflight.outputs.dev_sha }}
           GH_TOKEN: ${{ secrets.RELEASE_BOOTSTRAP_TOKEN }}
-        run: bun scripts/release/bootstrap.ts
+        run: bun tools/release-automation/src/setup/bootstrap.ts
       - name: Summarize manual protection setup
         run: |
           cat <<'EOF' >> "$GITHUB_STEP_SUMMARY"
@@ -67,19 +80,31 @@ jobs:
 
   configure:
     name: Configure ${{ matrix.lane }} beta lane
-    needs: create-branches
+    if: github.ref == 'refs/heads/dev'
+    needs: [preflight, create-branches]
     strategy:
+      fail-fast: false
       matrix:
         lane: [minor, major]
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
       pull-requests: write
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ matrix.lane }}
+          ref: ${{ needs.create-branches.outputs.dev_sha }}
           fetch-depth: 0
+      - name: Bind checkout and remote lane to exact dev baseline
+        env:
+          BASELINE_SHA: ${{ needs.create-branches.outputs.dev_sha }}
+          LANE: ${{ matrix.lane }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$BASELINE_SHA"
+          git fetch --no-tags origin "+refs/heads/${LANE}:refs/remotes/origin/${LANE}"
+          REMOTE_LANE_SHA=$(git rev-parse "origin/${LANE}")
+          test "$REMOTE_LANE_SHA" = "$BASELINE_SHA"
       - uses: ./.github/actions/setup
       - name: Configure baseBranch and enter beta
         env:
@@ -90,15 +115,19 @@ jobs:
           bun changeset pre enter beta
       - name: Create bootstrap PR
         env:
+          BASELINE_SHA: ${{ needs.create-branches.outputs.dev_sha }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LANE: ${{ matrix.lane }}
         run: |
-          BRANCH="release-rebuild/bootstrap-${LANE}-${GITHUB_RUN_ID}"
+          CONTROL_SHA="$BASELINE_SHA"
+          BRANCH="release-bootstrap/${LANE}-${GITHUB_RUN_ID}"
           git switch -c "$BRANCH"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .changeset/config.json .changeset/pre.json
           git commit -m "chore(release): bootstrap ${LANE} beta lane"
           git push origin "$BRANCH"
-          MARKER=$(bun scripts/release/cli.ts marker --type rebuild --lane "$LANE" --targetLane "$LANE" --tag beta)
+          HEAD_SHA=$(git rev-parse HEAD)
+          MARKER=$(bun tools/release-automation/bin/control.ts marker --type bootstrap --lane "$LANE" --targetLane "$LANE" --tag beta --expectedHeadSha "$HEAD_SHA" --controlSha "$CONTROL_SHA")
           gh pr create --base "$LANE" --head "$BRANCH" --title "chore(release): bootstrap ${LANE} beta lane" --body "$MARKER"
+          gh workflow run release-pr-validation.yml --ref dev -f head_ref="$BRANCH" -f head_sha="$HEAD_SHA"

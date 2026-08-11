@@ -27,12 +27,14 @@ async function output(values: Record<string, string | number | boolean>): Promis
 
 const command = Bun.argv[2];
 if (command === "route") {
+  const action = argument("action") as "cutover" | "rollback";
   const result = await updateWorkerRoute({
     zoneId: required("CF_ZONE_ID"),
     apiToken: required("CLOUDFLARE_API_TOKEN"),
     script: argument("script"),
     pattern: argument("pattern"),
-    action: argument("action") as "cutover" | "rollback",
+    action,
+    smokeUrl: argument("smoke-url"),
   });
   await output({ result });
   process.exit(0);
@@ -57,8 +59,8 @@ if (command === "set-stable") {
   const result = await setStablePointer(store, version, {
     expectedCurrent: argument("expected-current"),
     allowRollback: argument("allow-rollback") === "true",
+    verifyLatest: () => verifyPublic(publicBaseUrl, manifest, "latest"),
   });
-  await verifyPublic(publicBaseUrl, manifest, "latest");
   await output({ "pointer-before": result.before, "pointer-after": result.after });
   process.exit(0);
 }
