@@ -299,7 +299,11 @@ function createSourceLoader<TSource extends DynamicSource>(source: TSource, base
 }
 
 function registerDevWatcher(source: SatteriLocalMarkdown<z.ZodType, z.ZodType>): void {
-  if (process.env.NODE_ENV === "development") void watchWithDevServer(source);
+  if (process.env.NODE_ENV !== "development") return;
+
+  void watchWithDevServer(source).catch((error) => {
+    console.error(`Failed to register Satteri dev watcher for ${source.dir}:`, error);
+  });
 }
 
 const localSources = [
