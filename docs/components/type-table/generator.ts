@@ -20,7 +20,7 @@ const TYPE_TABLE_CACHE_COMPATIBILITY_FILES = [
   resolve(DOCS_DIRECTORY, "../bun.lock"),
   resolve(DOCS_DIRECTORY, "package.json"),
   resolve(DOCS_DIRECTORY, "tsconfig.json"),
-  resolve(DOCS_DIRECTORY, "source.config.ts"),
+  resolve(DOCS_DIRECTORY, "app/source.tsx"),
   resolve(DOCS_DIRECTORY, "components/type-table/generator.ts"),
 ];
 const TYPE_TABLE_CACHE_DEPENDENCY_DIRECTORIES = [

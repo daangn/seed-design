@@ -35,18 +35,3 @@ ${page.data.description ?? ""}
 
 ${platformStatus}${processed}`;
 }
-
-export async function getLLMTextForFullCompilation(page: LLMPage): Promise<string> {
-  await _ready;
-  const renderer = await page.data.load();
-  const { exports } = await renderer.render();
-  const processed = normalizeLLMBody(exports.processed);
-
-  return `file: ${page.path}
-
-# ${page.data.title}
-
-${page.data.description ?? ""}
-
-${processed}`;
-}

@@ -1,6 +1,14 @@
-import { readdir } from "node:fs/promises";
+import { mkdir, readFile, readdir, rename, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { type Commit, type Repository, RevwalkSort, openRepository } from "es-git";
+
+const manifestVersion = 1;
+const defaultManifestPath = path.resolve(process.cwd(), ".cache/git-timestamps.json");
+
+interface GitTimestampsManifest {
+  version: typeof manifestVersion;
+  timestamps: Record<string, number>;
+}
 
 const globalGitTimestamps = globalThis as typeof globalThis & {
   __seedDesignGitTimestampsCache?: Map<string, Promise<Map<string, Date>>>;
@@ -36,9 +44,83 @@ function getGitTimestamps(contentDir: string): Promise<Map<string, Date>> {
   const cached = gitTimestampsCache.get(contentDir);
   if (cached) return cached;
 
-  const pending = loadGitTimestamps(contentDir);
+  const pending = loadPreparedGitTimestamps(contentDir);
   gitTimestampsCache.set(contentDir, pending);
   return pending;
+}
+
+async function loadPreparedGitTimestamps(contentDir: string): Promise<Map<string, Date>> {
+  if (process.env.SEED_USE_GIT_TIMESTAMPS_MANIFEST !== "1") {
+    return loadGitTimestamps(contentDir);
+  }
+
+  try {
+    return deserializeGitTimestampsManifest(
+      await readFile(defaultManifestPath, "utf8"),
+      contentDir,
+    );
+  } catch {
+    return loadGitTimestamps(contentDir);
+  }
+}
+
+/** Next 워커가 공유할 문서 수정일 매니페스트를 빌드 전에 한 번 생성합니다. */
+export async function prepareMarkdownGitTimestampsManifest(
+  contentDir: string,
+  manifestPath = defaultManifestPath,
+): Promise<number> {
+  const resolvedContentDir = path.resolve(contentDir);
+  const timestamps = await loadGitTimestamps(resolvedContentDir);
+  const output = serializeGitTimestampsManifest(timestamps, resolvedContentDir);
+  const temporaryPath = `${manifestPath}.${process.pid}.tmp`;
+
+  await mkdir(path.dirname(manifestPath), { recursive: true });
+  try {
+    await writeFile(temporaryPath, output);
+    await rename(temporaryPath, manifestPath);
+  } finally {
+    await unlink(temporaryPath).catch(() => undefined);
+  }
+
+  return timestamps.size;
+}
+
+export function serializeGitTimestampsManifest(
+  timestamps: ReadonlyMap<string, Date>,
+  contentDir: string,
+): string {
+  const entries = [...timestamps]
+    .map(([filePath, modifiedAt]) => [
+      toGitPath(path.relative(contentDir, filePath)),
+      modifiedAt.getTime(),
+    ])
+    .sort(([pathA], [pathB]) => String(pathA).localeCompare(String(pathB)));
+  const manifest: GitTimestampsManifest = {
+    version: manifestVersion,
+    timestamps: Object.fromEntries(entries),
+  };
+
+  return JSON.stringify(manifest);
+}
+
+export function deserializeGitTimestampsManifest(
+  input: string,
+  contentDir: string,
+): Map<string, Date> {
+  const manifest = JSON.parse(input) as Partial<GitTimestampsManifest>;
+  if (manifest.version !== manifestVersion || !manifest.timestamps) {
+    throw new Error("지원하지 않는 Git 타임스탬프 매니페스트입니다.");
+  }
+
+  const timestamps = new Map<string, Date>();
+  for (const [filePath, timestamp] of Object.entries(manifest.timestamps)) {
+    if (!Number.isFinite(timestamp)) {
+      throw new Error(`잘못된 Git 타임스탬프입니다: ${filePath}`);
+    }
+    timestamps.set(path.resolve(contentDir, filePath), new Date(timestamp));
+  }
+
+  return timestamps;
 }
 
 async function loadGitTimestamps(contentDir: string): Promise<Map<string, Date>> {
