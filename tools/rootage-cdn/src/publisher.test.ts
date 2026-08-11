@@ -195,7 +195,7 @@ describe("Rootage publisher offline E2E", () => {
     const store = new MemoryStore();
     const baseInput = {
       version,
-      packageUrl: "https://pkg.pr.new/rootage-artifacts@snapshot",
+      packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
       packageShasum: createHash("sha1").update(bytes).digest("hex"),
       sourceSha,
       publicBaseUrl: "https://offline.test",
@@ -203,6 +203,18 @@ describe("Rootage publisher offline E2E", () => {
 
     await expect(
       publishRootageSnapshot(store, { ...baseInput, packageUrl: "https://attacker.test/a.tgz" }),
+    ).rejects.toThrow("허용된 pkg.pr.new");
+    await expect(
+      publishRootageSnapshot(store, {
+        ...baseInput,
+        packageUrl: `https://pkg.pr.new/@seed-design/other-package@${sourceSha}`,
+      }),
+    ).rejects.toThrow("허용된 pkg.pr.new");
+    await expect(
+      publishRootageSnapshot(store, {
+        ...baseInput,
+        packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${"6".repeat(40)}`,
+      }),
     ).rejects.toThrow("허용된 pkg.pr.new");
     await expect(
       publishRootageSnapshot(store, { ...baseInput, sourceSha: "6".repeat(40) }),

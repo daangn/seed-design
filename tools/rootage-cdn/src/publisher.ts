@@ -109,7 +109,7 @@ function sha512Integrity(bytes: Uint8Array): string {
   return `sha512-${createHash("sha512").update(bytes).digest("base64")}`;
 }
 
-function validateSnapshotPackageUrl(value: string): URL {
+function validateSnapshotPackageUrl(value: string, sourceSha: string): URL {
   const url = new URL(value);
   if (
     url.protocol !== "https:" ||
@@ -119,7 +119,7 @@ function validateSnapshotPackageUrl(value: string): URL {
     url.password ||
     url.search ||
     url.hash ||
-    url.pathname === "/"
+    url.pathname !== `/@seed-design/rootage-artifacts@${sourceSha}`
   ) {
     throw new Error("허용된 pkg.pr.new snapshot tarball URL이 아닙니다.");
   }
@@ -439,7 +439,7 @@ export async function publishRootageSnapshot(
   if (!/^[0-9a-f]{40}$/.test(input.packageShasum)) {
     throw new Error("pkg.pr.new snapshot shasum은 40자리 소문자 SHA-1이어야 합니다.");
   }
-  const packageUrl = validateSnapshotPackageUrl(input.packageUrl);
+  const packageUrl = validateSnapshotPackageUrl(input.packageUrl, input.sourceSha);
   const response = await (options.fetch ?? fetch)(packageUrl, {
     headers: { accept: "application/tar+gzip, application/octet-stream" },
     redirect: "error",
