@@ -18,8 +18,6 @@ const FALLBACK_RETRY_DELAY_MS = 1000;
 const MAX_RETRY_DELAY_MS = 60_000;
 const MAX_TOTAL_RETRY_MS = 8 * 60 * 1000;
 
-// Turbopack transforms MDX in parallel workers that all draw from one rate limit bucket, so honoring
-// an identical Retry-After would wake them on the same tick and re-saturate it. Spread the retries.
 const RETRY_JITTER_MS = 1000;
 
 // Simple semaphore to limit concurrent Figma API requests
