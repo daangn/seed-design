@@ -7,8 +7,6 @@ import { getFigmaImageCacheKey, type FetchFigmaImageUrlsOptions } from "./figma-
 export type { FetchFigmaImageUrlsOptions } from "./figma-image-manifest";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
-// Each wait is a few seconds at most, so a high ceiling costs little: a cold cache leaves one
-// unlucky request losing round after round while the rest of the build drains the rate limit.
 const DEFAULT_MAX_RETRIES = 100;
 const MAX_CONCURRENCY = 1;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
@@ -18,6 +16,7 @@ const CACHE_ID = "urls";
 // fallback covers the retryable errors that carry no header.
 const FALLBACK_RETRY_DELAY_MS = 1000;
 const MAX_RETRY_DELAY_MS = 60_000;
+const MAX_TOTAL_RETRY_MS = 8 * 60 * 1000;
 
 // Turbopack transforms MDX in parallel workers that all draw from one rate limit bucket, so honoring
 // an identical Retry-After would wake them on the same tick and re-saturate it. Spread the retries.
@@ -133,6 +132,8 @@ export async function fetchFigmaImageUrls({
       `${LOG_PREFIX} Fetching ${pendingIds.length} image(s) from Figma API... (options: ${JSON.stringify(options)})`,
     );
 
+    const retryDeadline = Date.now() + MAX_TOTAL_RETRY_MS;
+
     for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
         const response = await client.getImages(
@@ -159,7 +160,12 @@ export async function fetchFigmaImageUrls({
       } catch (error) {
         const waitTime = getRetryDelayMs(error);
 
-        if (waitTime === null || attempt === maxRetries - 1) throw error;
+        if (
+          waitTime === null ||
+          attempt === maxRetries - 1 ||
+          Date.now() + waitTime > retryDeadline
+        )
+          throw error;
 
         console.log(
           `${LOG_PREFIX} ${error instanceof Error ? error.message : String(error)}, waiting ${waitTime}ms (attempt ${attempt + 1}/${maxRetries})...`,
@@ -212,7 +218,7 @@ export function getRetryDelayMs(error: unknown): number | null {
   // seat type. Waiting one out would outlast the build itself, so surface the 429 instead.
   if (retryAfterMs > MAX_RETRY_DELAY_MS) return null;
 
-  return Math.round(retryAfterMs + Math.random() * RETRY_JITTER_MS);
+  return retryAfterMs + Math.floor(Math.random() * RETRY_JITTER_MS);
 }
 
 function getRetryAfterMs(error: unknown): number | null {

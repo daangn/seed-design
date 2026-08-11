@@ -13,11 +13,14 @@ describe("getRetryDelayMs", () => {
     expect(getRetryDelayMs(new Error("FigmaImage requires an 'alt' prop"))).toBeNull();
   });
 
-  it("waits as long as Retry-After asks, plus jitter", () => {
-    const delay = getRetryDelayMs(rateLimitError({ "retry-after": "3" }));
+  it("waits as long as Retry-After asks and never past the jitter window", () => {
+    const delays = Array.from({ length: 10_000 }, () =>
+      getRetryDelayMs(rateLimitError({ "retry-after": "3" })),
+    ).filter((delay) => delay !== null);
 
-    expect(delay).toBeGreaterThanOrEqual(3000);
-    expect(delay).toBeLessThan(4000);
+    expect(delays).toHaveLength(10_000);
+    expect(Math.min(...delays)).toBeGreaterThanOrEqual(3000);
+    expect(Math.max(...delays)).toBeLessThan(4000);
   });
 
   it("falls back to a short delay when the response carries no Retry-After", () => {
