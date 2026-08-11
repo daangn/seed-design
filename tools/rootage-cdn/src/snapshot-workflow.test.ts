@@ -36,7 +36,7 @@ describe("Rootage snapshot workflows", () => {
     expect(releaseJob).not.toContain("bunx pkg-pr-new publish");
     expect(releaseJob).not.toContain("ROOTAGE_R2_ACCESS_KEY_ID");
     expect(releaseJob).not.toContain("ROOTAGE_R2_SECRET_ACCESS_KEY");
-    expect(workflow).toContain("uses: ./.github/workflows/rootage-snapshot-contract.yml");
+    expect(workflow).not.toContain("uses: ./.github/workflows/rootage-snapshot-contract.yml");
     expect(workflow).toContain("if: needs.release.outputs.rootage-changed == 'true'");
   });
 
@@ -54,16 +54,28 @@ describe("Rootage snapshot workflows", () => {
 
   test("snapshot 게시기는 trusted dev control SHA와 production environment에 결속된다", async () => {
     const workflow = await Bun.file(
-      join(repositoryRoot, ".github/workflows/rootage-snapshot-contract.yml"),
+      join(repositoryRoot, ".github/workflows/continuous-releases.yml"),
     ).text();
+    const publishStart = workflow.indexOf("  publish-rootage:");
+    const notifyStart = workflow.indexOf("  notify:");
+    const publishJob = workflow.slice(publishStart, notifyStart);
 
-    expect(workflow).toContain("environment: rootage-production");
-    expect(workflow).toContain("ref: dev");
-    expect(workflow).toContain("ref: ${{ inputs.control-sha }}");
-    expect(workflow).toContain("git merge-base --is-ancestor");
-    expect(workflow).toContain("cli.ts publish-snapshot");
-    expect(workflow).not.toContain("secrets: inherit");
-    expect(workflow).not.toContain("--stable");
+    expect(publishJob).toContain("runs-on: ubuntu-latest");
+    expect(publishJob).toContain("environment: rootage-production");
+    expect(publishJob).toContain("group: rootage-cdn-production-mutation");
+    expect(publishJob).toContain("ref: dev");
+    expect(publishJob).toContain("ref: ${{ needs.resolve.outputs.control-sha }}");
+    expect(publishJob).toContain("git merge-base --is-ancestor");
+    expect(publishJob).toContain("CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}");
+    expect(publishJob).toContain(
+      "ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}",
+    );
+    expect(publishJob).toContain(
+      "ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}",
+    );
+    expect(publishJob).toContain("cli.ts publish-snapshot");
+    expect(publishJob).not.toContain("secrets: inherit");
+    expect(publishJob).not.toContain("--stable");
   });
 
   test("정기 정리는 dev와 production environment에서 snapshot 명령만 실행한다", async () => {

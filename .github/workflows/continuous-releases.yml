@@ -139,15 +139,61 @@ jobs:
     name: Publish Rootage snapshot to CDN
     needs: [resolve, release]
     if: needs.release.outputs.rootage-changed == 'true'
-    uses: ./.github/workflows/rootage-snapshot-contract.yml
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: rootage-production
+    concurrency:
+      group: rootage-cdn-production-mutation
+      cancel-in-progress: false
     permissions:
       contents: read
-    with:
-      version: ${{ needs.release.outputs.rootage-version }}
-      package-url: ${{ needs.release.outputs.rootage-package-url }}
-      package-shasum: ${{ needs.release.outputs.rootage-package-shasum }}
-      source-sha: ${{ needs.resolve.outputs.source-sha }}
-      control-sha: ${{ needs.resolve.outputs.control-sha }}
+    steps:
+      - name: Resolve current trusted dev head
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Record trusted dev head
+        id: dev
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout immutable trusted control plane
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.resolve.outputs.control-sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify control commit belongs to trusted dev history
+        env:
+          ROOTAGE_CONTROL_SHA: ${{ needs.resolve.outputs.control-sha }}
+          ROOTAGE_DEV_SHA: ${{ steps.dev.outputs.sha }}
+        run: |
+          [[ "$ROOTAGE_CONTROL_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$ROOTAGE_CONTROL_SHA"
+          git merge-base --is-ancestor "$ROOTAGE_CONTROL_SHA" "$ROOTAGE_DEV_SHA"
+
+      - uses: ./.github/actions/setup
+
+      - name: Publish exact pkg.pr.new Rootage archive
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+          ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+          ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
+          ROOTAGE_PUBLIC_BASE_URL: https://seed-design.io
+          ROOTAGE_VERSION: ${{ needs.release.outputs.rootage-version }}
+          ROOTAGE_PACKAGE_URL: ${{ needs.release.outputs.rootage-package-url }}
+          ROOTAGE_PACKAGE_SHASUM: ${{ needs.release.outputs.rootage-package-shasum }}
+          ROOTAGE_SOURCE_SHA: ${{ needs.resolve.outputs.source-sha }}
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts publish-snapshot
+          --version "$ROOTAGE_VERSION"
+          --package-url "$ROOTAGE_PACKAGE_URL"
+          --package-shasum "$ROOTAGE_PACKAGE_SHASUM"
+          --source-sha "$ROOTAGE_SOURCE_SHA"
 
   notify:
     name: Comment snapshot result
