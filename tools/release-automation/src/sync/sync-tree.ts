@@ -8,6 +8,7 @@ import {
   controlPlaneFingerprint,
   isTrustedDevControlCommit,
 } from "./sync-control-plane";
+import { reconcileSyncLockfile } from "./sync-lockfile";
 import type { BumpType } from "../core/types";
 
 export interface SyncTreeVerification {
@@ -110,6 +111,7 @@ export async function verifyGeneratedSyncTree(
     }
     await normalizeChangesetsInDirectory(worktreePath, targetBump);
     await applyControlPlaneOverlay(worktreePath, controlSha);
+    await reconcileSyncLockfile(worktreePath);
     await run(["git", "add", "--all"], { cwd: worktreePath });
     const expectedTree = (await run(["git", "write-tree"], { cwd: worktreePath })).output;
     const actualTree = (

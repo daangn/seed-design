@@ -24,6 +24,7 @@ import {
   controlPlaneFingerprint,
   isTrustedDevControlCommit,
 } from "./sync-control-plane";
+import { reconcileSyncLockfile } from "./sync-lockfile";
 import {
   hasCurrentSyncControlPlane,
   hasTrustedSyncReceipt,
@@ -338,6 +339,7 @@ for (const file of protectedLaneFiles) {
 const targetBump = config.lanes[target].bump;
 const normalizedChangesets = await normalizeChangesetsInDirectory(repositoryPath, targetBump);
 await applyControlPlaneOverlay(repositoryPath, controlSha);
+await reconcileSyncLockfile(repositoryPath);
 await run(["git", "add", "--all"]);
 const diff = await run(["git", "diff", "--cached", "--quiet"], true);
 if (diff.code === 0 && !conflict) {
