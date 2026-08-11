@@ -7,6 +7,7 @@ import {
 } from "./fetch-figma-image-urls";
 import { extractFigmaId, FIGMA_ID_PROP_SUPPORTED_COMPONENTS } from "./collect-figma-image-ids";
 import { type FigmaImageManifest, getFigmaImageUrlsFromManifest } from "./figma-image-manifest";
+import { resolveFigmaImageUrls } from "./resolve-figma-image-urls";
 
 const DEFAULT_IMAGE_SIZE = {
   width: 1080,
@@ -20,9 +21,89 @@ export interface RemarkFigmaImageOptions {
   manifest?: FigmaImageManifest;
 }
 
+interface PendingUrlRequest {
+  promise: Promise<string>;
+  resolve: (url: string) => void;
+  reject: (error: Error) => void;
+}
+
+type FetchUrlBatch = (nodeIds: string[]) => Promise<ReadonlyMap<string, string>>;
+
 // Gray placeholder with "Figma" text
 const PLACEHOLDER_DATA_URI =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23e5e5e5' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,sans-serif' font-size='24' fill='%23737373'%3EFigma%3C/text%3E%3C/svg%3E";
+
+/** 같은 이벤트 루프에서 요청된 Figma ID를 한 번의 묶음 조회로 합칩니다. */
+export function createBatchedFigmaImageUrlResolver(fetchUrls: FetchUrlBatch) {
+  const cachedUrls = new Map<string, string>();
+  const pendingRequests = new Map<string, PendingUrlRequest>();
+  const queuedIds = new Set<string>();
+  let batchScheduled = false;
+
+  function scheduleBatch(): void {
+    if (batchScheduled) return;
+    batchScheduled = true;
+    queueMicrotask(() => void flushBatch());
+  }
+
+  async function flushBatch(): Promise<void> {
+    batchScheduled = false;
+    const nodeIds = [...queuedIds];
+    queuedIds.clear();
+    if (nodeIds.length === 0) return;
+
+    try {
+      const urls = await resolveFigmaImageUrls({ nodeIds, fetchUrls });
+
+      for (const nodeId of nodeIds) {
+        const pending = pendingRequests.get(nodeId);
+        if (!pending) continue;
+
+        pendingRequests.delete(nodeId);
+        const url = urls.get(nodeId);
+        if (!url) {
+          pending.reject(
+            new Error(`[remark-figma-image] Failed to get image URL for Figma node: ${nodeId}`),
+          );
+          continue;
+        }
+
+        cachedUrls.set(nodeId, url);
+        pending.resolve(url);
+      }
+    } catch (error) {
+      const cause = error instanceof Error ? error : new Error(String(error));
+      for (const nodeId of nodeIds) {
+        const pending = pendingRequests.get(nodeId);
+        if (!pending) continue;
+        pendingRequests.delete(nodeId);
+        pending.reject(cause);
+      }
+    }
+
+    if (queuedIds.size > 0) scheduleBatch();
+  }
+
+  return function resolveUrl(figmaId: string): Promise<string> {
+    const cached = cachedUrls.get(figmaId);
+    if (cached) return Promise.resolve(cached);
+
+    const existing = pendingRequests.get(figmaId);
+    if (existing) return existing.promise;
+
+    let resolve!: (url: string) => void;
+    let reject!: (error: Error) => void;
+    const promise = new Promise<string>((resolvePromise, rejectPromise) => {
+      resolve = resolvePromise;
+      reject = rejectPromise;
+    });
+
+    pendingRequests.set(figmaId, { promise, resolve, reject });
+    queuedIds.add(figmaId);
+    scheduleBatch();
+    return promise;
+  };
+}
 
 /**
  * Satteri plugin that transforms Figma node IDs into image URLs at compile time.
@@ -40,7 +121,13 @@ export function remarkFigmaImage({
 }: RemarkFigmaImageOptions) {
   const options = fetchUrlsOptions ?? {};
   const cachedUrls = new Map<string, string>();
-  const pendingUrls = new Map<string, Promise<string>>();
+  const client = accessToken ? createFigmaClient(accessToken) : undefined;
+  const fetchUrl =
+    client && fileKey
+      ? createBatchedFigmaImageUrlResolver((nodeIds) =>
+          fetchFigmaImageUrls({ client, fileKey, nodeIds, options }),
+        )
+      : undefined;
 
   async function resolveUrl(figmaId: string): Promise<string> {
     const cached = cachedUrls.get(figmaId);
@@ -54,26 +141,7 @@ export function remarkFigmaImage({
       return manifestUrl;
     }
 
-    if (!accessToken || !fileKey) return PLACEHOLDER_DATA_URI;
-
-    const pending = pendingUrls.get(figmaId);
-    if (pending) return pending;
-
-    const request = fetchFigmaImageUrls({
-      client: createFigmaClient(accessToken),
-      fileKey,
-      nodeIds: [figmaId],
-      options,
-    }).then((urls) => {
-      const url = urls.get(figmaId);
-      if (!url) {
-        throw new Error(`[remark-figma-image] Failed to get image URL for Figma node: ${figmaId}`);
-      }
-      cachedUrls.set(figmaId, url);
-      return url;
-    });
-    pendingUrls.set(figmaId, request);
-    return request;
+    return fetchUrl?.(figmaId) ?? PLACEHOLDER_DATA_URI;
   }
 
   return defineMdastPlugin({

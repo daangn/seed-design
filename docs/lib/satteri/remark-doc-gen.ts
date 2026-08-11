@@ -12,6 +12,13 @@ const DOC_GEN_META_PATTERN = /doc-gen:(.+)/;
  * generator 계약은 유지하고, 코드 블록 탐색과 노드 교체만 Satteri API로 수행합니다.
  */
 export function remarkDocGen({ generators = [] }: RemarkDocGenOptions = {}) {
+  const generatorWithFileHook = generators.find((generator) => generator.onFile);
+  if (generatorWithFileHook) {
+    throw new Error(
+      `[remark-doc-gen] Satteri adapter does not support the onFile hook: ${generatorWithFileHook.name}`,
+    );
+  }
+
   return defineMdastPlugin({
     name: "remark-doc-gen",
     async code(node, context) {
@@ -44,11 +51,14 @@ function replaceWithGeneratedNodes(
   if (!result) return;
 
   const generated = (Array.isArray(result) ? result : [result]) as MdastNode[];
-  const [first, ...rest] = generated;
-  if (!first) return;
-
   const parent = context.parent(node);
   const index = context.indexOf(node);
+  const [first, ...rest] = generated;
+  if (!first) {
+    context.removeNode(node);
+    return;
+  }
+
   context.replaceNode(node, first);
 
   if (parent && index !== undefined && rest.length > 0) {

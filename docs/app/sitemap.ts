@@ -12,7 +12,7 @@ import {
   getAiIntegrationSource,
   getUpdatesSource,
 } from "@/app/source";
-import { getMarkdownPageLastModified } from "@/lib/load-markdown-page";
+import { getMarkdownPageLastModified } from "@/lib/git-timestamps";
 
 export const dynamic = "force-static";
 

@@ -22,6 +22,7 @@ import { filteredTypeTableGenerator } from "@/components/type-table/generator";
 import { markFeatured } from "@/lib/featured";
 import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cover-image";
 import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
+import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
 import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
 
 interface SatteriExports extends Record<string, unknown> {
@@ -75,23 +76,25 @@ const designSchema = baseDocsSchema.extend({
   ...headingSchema,
 });
 
-const structureStringify: NonNullable<StructureOptions["stringify"]> = {
-  filterElement(node) {
-    if (node.type !== "mdxJsxFlowElement" && node.type !== "mdxJsxTextElement") return true;
+const filterStructureElement: NonNullable<LLMsOptions["filterElement"]> = (node) => {
+  if (node.type !== "mdxJsxFlowElement" && node.type !== "mdxJsxTextElement") return true;
 
-    switch (node.name) {
-      case "File":
-      case "Callout":
-      case "Card":
-      case "FigmaImage":
-      case "DoImage":
-      case "DontImage":
-        return true;
-      default:
-        // TypeTable의 거대한 type 속성과 UI 전용 컴포넌트 태그는 검색 본문에서 제외합니다.
-        return "children-only";
-    }
-  },
+  switch (node.name) {
+    case "File":
+    case "Callout":
+    case "Card":
+    case "FigmaImage":
+    case "DoImage":
+    case "DontImage":
+      return true;
+    default:
+      // TypeTable의 거대한 type 속성과 UI 전용 컴포넌트 태그는 검색 본문에서 제외합니다.
+      return "children-only";
+  }
+};
+
+const structureStringify: NonNullable<StructureOptions["stringify"]> = {
+  filterElement: filterStructureElement,
   filterMdxAttributes(node, attribute) {
     if (attribute.type !== "mdxJsxAttribute") return false;
 
@@ -127,6 +130,25 @@ const llmsOptions: LLMsOptions = {
 };
 
 const figmaImageManifest = readFigmaImageManifest();
+const customMdastPlugins = [
+  remarkDocGen({ generators: [fileGenerator()] }),
+  remarkAutoTypeTable({
+    generator: filteredTypeTableGenerator,
+    name: "react-type-table",
+    options: { basePath: process.cwd() },
+  }),
+  remarkFigmaImage({
+    fileKey: env.figmaFileKey,
+    accessToken: env.figmaPersonalAccessToken,
+    manifest: figmaImageManifest,
+    fetchUrlsOptions: {
+      format: "png",
+      scale: 2,
+    },
+  }),
+  remarkApplyLlmsFilter(filterStructureElement),
+  remarkLlms(llmsOptions),
+];
 
 function createSatteriOptions(): SatteriPresetOptions {
   return {
@@ -142,24 +164,8 @@ function createSatteriOptions(): SatteriPresetOptions {
         id: "package-manager",
       },
     },
-    mdastPlugins: [
-      remarkDocGen({ generators: [fileGenerator()] }),
-      remarkAutoTypeTable({
-        generator: filteredTypeTableGenerator,
-        name: "react-type-table",
-        options: { basePath: process.cwd() },
-      }),
-      remarkFigmaImage({
-        fileKey: env.figmaFileKey,
-        accessToken: env.figmaPersonalAccessToken,
-        manifest: figmaImageManifest,
-        fetchUrlsOptions: {
-          format: "png",
-          scale: 2,
-        },
-      }),
-      remarkLlms(llmsOptions),
-    ],
+    // 컬렉션 사이에서 같은 플러그인을 공유해 Figma URL 요청 상태를 재사용합니다.
+    mdastPlugins: customMdastPlugins,
     rehypeCodeOptions: {
       lazy: true,
       langs: ["ts", "js", "html", "tsx", "mdx"],
