@@ -44,6 +44,16 @@ describe("Rootage snapshot workflows", () => {
     expect(workflow).toContain("if: needs.release.outputs.rootage-changed == 'true'");
   });
 
+  test("댓글 반응 실패는 snapshot release를 중단하지 않는다", async () => {
+    const workflow = await Bun.file(
+      join(repositoryRoot, ".github/workflows/continuous-releases.yml"),
+    ).text();
+
+    expect(workflow.match(/reactions\.createForIssueComment/g)).toHaveLength(3);
+    expect(workflow.match(/catch \(error\)/g)).toHaveLength(3);
+    expect(workflow.match(/core\.warning/g)).toHaveLength(3);
+  });
+
   test("snapshot 게시기는 trusted dev control SHA와 production environment에 결속된다", async () => {
     const workflow = await Bun.file(
       join(repositoryRoot, ".github/workflows/rootage-snapshot-contract.yml"),
