@@ -3,8 +3,10 @@ import { join } from "node:path";
 import { sha256 } from "./sync";
 
 export const controlPlanePaths = [
+  "package.json",
   ".github/actions",
   ".github/workflows",
+  "scripts/release",
   "tools/release-automation",
   "tools/rootage-cdn",
 ] as const;
