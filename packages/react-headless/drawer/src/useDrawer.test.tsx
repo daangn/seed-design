@@ -1135,6 +1135,25 @@ describe("키보드 리포지션", () => {
     removeEventListener.mockRestore();
   });
 
+  it("첫 번째 snap point에서도 키보드 오프셋을 반영한다", () => {
+    const { getByTestId } = render(
+      <KeyboardHarness defaultOpen snapPoints={["100px", "300px"]} />,
+    );
+    const drawer = getByTestId("drawer");
+    const input = getByTestId("input-a");
+    const rectSpy = mockRect(drawer, 560);
+    const keyboardInset = 400;
+    const firstSnapPointOffset = window.innerHeight - 100;
+
+    input.focus();
+    visualViewport.height = window.innerHeight - keyboardInset;
+    visualViewport.dispatchEvent(new Event("resize"));
+
+    expect(drawer.style.bottom).toBe(`${keyboardInset + firstSnapPointOffset}px`);
+
+    rectSpy.mockRestore();
+  });
+
   it("focusout에서 viewport 닫힘을 기다리지 않고 원래 CSS 높이를 복원한다", async () => {
     const { getByTestId } = render(<KeyboardHarness defaultOpen />);
     const drawer = getByTestId("drawer");

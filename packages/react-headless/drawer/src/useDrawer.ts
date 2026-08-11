@@ -1401,7 +1401,7 @@ export function useDrawer(props: UseDrawerProps) {
         return;
       }
 
-      if (keyboardSnapPointsOffset && keyboardActiveSnapPointIndex) {
+      if (keyboardSnapPointsOffset && keyboardActiveSnapPointIndex !== null) {
         const activeSnapPointHeight = keyboardSnapPointsOffset[keyboardActiveSnapPointIndex] || 0;
         keyboardInset += activeSnapPointHeight;
         drawerBottom += activeSnapPointHeight;
