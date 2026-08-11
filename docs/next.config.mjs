@@ -22,6 +22,7 @@ const config = {
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
   serverExternalPackages: [
     "@fumadocs/satteri",
+    "es-git",
     "satteri",
     "ts-morph",
     "typescript",

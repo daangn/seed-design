@@ -61,6 +61,7 @@
     "change-case": "^5.4.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "es-git": "^0.7.0",
     "fumadocs-core": "^16.14.2",
     "fumadocs-docgen": "^3.1.0",
     "fumadocs-typescript": "^5.3.0",
