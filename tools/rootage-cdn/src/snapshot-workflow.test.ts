@@ -26,16 +26,9 @@ describe("Rootage snapshot workflows", () => {
     expect(releaseJob).toContain("persist-credentials: false");
     expect(releaseJob).toContain("snapshot-input.ts detect");
     expect(releaseJob).toContain("snapshot-input.ts prepare");
-    expect(releaseJob).toContain(
-      'test "$(jq -r \'.version\' node_modules/pkg-pr-new/package.json)" = "0.0.87"',
-    );
-    expect(releaseJob).toContain(
-      "72dfe24919e316a388aa6893b840bba6fc2f7b9fc37df67e2b545d0a12c6e3b2",
-    );
-    expect(releaseJob).toContain(
-      "196586894e117c8d043310df05742ead273f12fb0575a88272e596a8c90a6658",
-    );
     expect(releaseJob).toContain("bunx pkg-pr-new@0.0.87 publish");
+    expect(releaseJob).not.toContain("Verify trusted pkg-pr-new executable");
+    expect(releaseJob).not.toContain("node_modules/pkg-pr-new");
     expect(releaseJob).not.toContain("uses: actions/setup-node");
     expect(releaseJob).not.toContain("node node_modules/pkg-pr-new/bin/cli.js publish");
     expect(releaseJob).not.toContain("bun node_modules/pkg-pr-new/bin/cli.js publish");
@@ -86,10 +79,10 @@ describe("Rootage snapshot workflows", () => {
     expect(workflow).not.toContain("cleanup-incomplete");
   });
 
-  test("pkg-pr-new CLI는 검토된 exact 개발 의존성과 실행 파일 checksum으로 고정한다", async () => {
+  test("pkg-pr-new CLI는 개발 의존성 없이 bunx의 exact 버전으로 실행한다", async () => {
     const packageJson = (await Bun.file(join(repositoryRoot, "package.json")).json()) as {
       devDependencies: Record<string, string>;
     };
-    expect(packageJson.devDependencies["pkg-pr-new"]).toBe("0.0.87");
+    expect(packageJson.devDependencies).not.toHaveProperty("pkg-pr-new");
   });
 });
