@@ -18,8 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      issues: write
-      pull-requests: read
+      pull-requests: write
     outputs:
       base-sha: ${{ steps.pull.outputs.base-sha }}
       control-sha: ${{ steps.pull.outputs.control-sha }}
@@ -118,7 +117,7 @@ jobs:
 
       - name: Publish package snapshots
         run: >-
-          bun node_modules/pkg-pr-new/bin/cli.js publish
+          bunx pkg-pr-new@0.0.87 publish
           './packages/*'
           './packages/react-headless/*'
           './packages/utils/*'
@@ -163,7 +162,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: read
-      issues: write
+      pull-requests: write
     steps:
       - name: Download snapshot publish result
         uses: actions/download-artifact@v5
@@ -216,7 +215,7 @@ jobs:
       needs.notify.result == 'success'
     runs-on: ubuntu-latest
     permissions:
-      issues: write
+      pull-requests: write
     steps:
       - uses: actions/github-script@v9
         with:
@@ -238,7 +237,7 @@ jobs:
     if: always() && contains(needs.*.result, 'failure')
     runs-on: ubuntu-latest
     permissions:
-      issues: write
+      pull-requests: write
     steps:
       - uses: actions/github-script@v9
         with:

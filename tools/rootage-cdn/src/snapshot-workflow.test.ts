@@ -35,9 +35,12 @@ describe("Rootage snapshot workflows", () => {
     expect(releaseJob).toContain(
       "196586894e117c8d043310df05742ead273f12fb0575a88272e596a8c90a6658",
     );
-    expect(releaseJob).toContain("bun node_modules/pkg-pr-new/bin/cli.js publish");
+    expect(releaseJob).toContain("bunx pkg-pr-new@0.0.87 publish");
+    expect(releaseJob).not.toContain("uses: actions/setup-node");
+    expect(releaseJob).not.toContain("node node_modules/pkg-pr-new/bin/cli.js publish");
+    expect(releaseJob).not.toContain("bun node_modules/pkg-pr-new/bin/cli.js publish");
     expect(releaseJob).not.toContain("bun run pkg-pr-new publish");
-    expect(releaseJob).not.toContain("bunx pkg-pr-new");
+    expect(releaseJob).not.toContain("bunx pkg-pr-new publish");
     expect(releaseJob).not.toContain("ROOTAGE_R2_ACCESS_KEY_ID");
     expect(releaseJob).not.toContain("ROOTAGE_R2_SECRET_ACCESS_KEY");
     expect(workflow).toContain("uses: ./.github/workflows/rootage-snapshot-contract.yml");
@@ -52,6 +55,8 @@ describe("Rootage snapshot workflows", () => {
     expect(workflow.match(/reactions\.createForIssueComment/g)).toHaveLength(3);
     expect(workflow.match(/catch \(error\)/g)).toHaveLength(3);
     expect(workflow.match(/core\.warning/g)).toHaveLength(3);
+    expect(workflow.match(/pull-requests: write/g)).toHaveLength(4);
+    expect(workflow).not.toContain("issues: write");
   });
 
   test("snapshot 게시기는 trusted dev control SHA와 production environment에 결속된다", async () => {
