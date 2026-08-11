@@ -229,7 +229,7 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 
 - **Changesets** 사용: `.changeset/` 디렉토리
 - `bun changeset` - 변경사항 기록
-- `bun version` - 버전·잠금파일을 업데이트하고 같은 Version Packages commit에 Rootage JSON 생성. Rootage package 범위만 생성하며 package metadata, changeset, lockfile, `packages/rootage/__generated__/**` 밖의 변경은 거부
+- `bun version` - 버전·잠금파일을 업데이트하고 같은 Version Packages commit에 Rootage JSON 생성. Rootage package 범위만 생성하며 각 패키지의 `package.json`·`CHANGELOG.md`, changeset, lockfile, `packages/rootage/__generated__/**` 밖의 변경은 거부
 - `bun release` - 패키지 빌드 및 npm 배포
 
 ---
