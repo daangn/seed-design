@@ -59,10 +59,14 @@ runs:
           packages/**/dist
           packages/**/build
           packages/**/lib
+          packages/**/.ultra.cache.json
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
+          ecosystem/**/.ultra.cache.json
         key: ${{ runner.os }}-build-${{ steps.build-cache-key.outputs.suffix }}
+        restore-keys: |
+          ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-
 
     - name: Relink workspace after cache restore
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}
