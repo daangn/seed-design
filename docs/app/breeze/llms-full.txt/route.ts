@@ -1,10 +1,11 @@
 import { getLLMTextForFullCompilation } from "@/app/_llms/get-llm-text";
 import { shouldIncludeInFullText } from "@/app/_llms/config";
-import { breezeSource } from "@/app/source";
+import { getBreezeSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const breezeSource = await getBreezeSource();
   const pages = breezeSource
     .getPages()
     .filter((page) => shouldIncludeInFullText("breeze", page.path))

@@ -1,9 +1,10 @@
 import { baseUrl } from "@/app/metadata";
-import { lynxSource } from "@/app/source";
+import { getLynxSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const lynxSource = await getLynxSource();
   const pages = lynxSource.getPages().filter((page) => page.slugs.length > 0);
 
   const pageList = pages

@@ -1,5 +1,5 @@
 import { getLLMText } from "@/app/_llms/get-llm-text";
-import { getStartedSource } from "@/app/source";
+import { getGetStartedSource } from "@/app/source";
 import { notFound } from "next/navigation";
 
 export const revalidate = false;
@@ -8,6 +8,7 @@ export const revalidate = false;
 // 자기 자신만 담긴 목록을 내보내봐야 쓸모가 없어서 본문을 그대로 내보낸다.
 // (`/llms/get-started/*` 라우트가 없는 것도 같은 이유 — 하위 문서가 없다.)
 export async function GET() {
+  const getStartedSource = await getGetStartedSource();
   const page = getStartedSource.getPage([]);
 
   if (!page) notFound();

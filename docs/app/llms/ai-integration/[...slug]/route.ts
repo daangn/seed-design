@@ -1,9 +1,11 @@
 import { createLLMTextRoute } from "@/app/_llms/llms-route";
-import { aiIntegrationSource } from "@/app/source";
+import { getAiIntegrationSource } from "@/app/source";
 
 export const revalidate = false;
 
-export const { GET, generateStaticParams } = createLLMTextRoute(
-  aiIntegrationSource,
-  "ai-integration",
-);
+const route = createLLMTextRoute(getAiIntegrationSource, "ai-integration");
+
+export const GET = route.GET;
+export function generateStaticParams() {
+  return route.generateStaticParams();
+}

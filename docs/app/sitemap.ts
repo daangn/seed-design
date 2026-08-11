@@ -1,21 +1,46 @@
 import type { MetadataRoute } from "next";
 import { baseUrl } from "@/app/metadata";
 import {
-  docsSource,
-  getStartedSource,
-  foundationsSource,
-  componentsSource,
-  patternsSource,
-  reactSource,
-  breezeSource,
-  lynxSource,
-  aiIntegrationSource,
-  updatesSource,
+  getDocsSource,
+  getGetStartedSource,
+  getFoundationsSource,
+  getComponentsSource,
+  getPatternsSource,
+  getReactSource,
+  getBreezeSource,
+  getLynxSource,
+  getAiIntegrationSource,
+  getUpdatesSource,
 } from "@/app/source";
+import { getMarkdownPageLastModified } from "@/lib/load-markdown-page";
 
 export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [
+    docsSource,
+    getStartedSource,
+    foundationsSource,
+    componentsSource,
+    patternsSource,
+    reactSource,
+    breezeSource,
+    lynxSource,
+    aiIntegrationSource,
+    updatesSource,
+  ] = await Promise.all([
+    getDocsSource(),
+    getGetStartedSource(),
+    getFoundationsSource(),
+    getComponentsSource(),
+    getPatternsSource(),
+    getReactSource(),
+    getBreezeSource(),
+    getLynxSource(),
+    getAiIntegrationSource(),
+    getUpdatesSource(),
+  ]);
+
   return await Promise.all(
     [
       ...docsSource.getPages(),
@@ -29,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...aiIntegrationSource.getPages(),
       ...updatesSource.getPages(),
     ].map(async (page) => {
-      const { lastModified } = await page.data.load();
+      const lastModified = await getMarkdownPageLastModified(page.absolutePath);
 
       return {
         url: new URL(page.url, baseUrl).href,

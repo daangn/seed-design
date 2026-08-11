@@ -1,9 +1,9 @@
 "use client";
 
 import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
-import { create } from "@orama/orama";
 import clsx from "clsx";
 import { useDocsSearch } from "fumadocs-core/search/client";
+import { staticClient } from "fumadocs-core/search/client/orama-static";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import {
   SearchDialog,
@@ -19,7 +19,8 @@ import { RecentPages } from "./recent-pages";
 import { SearchResultItem } from "./search-result-item";
 import { SearchResultsState } from "./search-results-state";
 import { SearchTags } from "./tags";
-import { tokenize } from "./tokenizer";
+import { koreanTokenizer } from "./tokenizer";
+import { create } from "zbsearch";
 
 export interface DefaultSearchDialogProps extends SharedProps {
   /** Section tag preselected when the dialog opens (injected per-section layout). */
@@ -38,17 +39,14 @@ export interface DefaultSearchDialogProps extends SharedProps {
   contentClassName?: string;
 }
 
-const oramaClient = create({
+const searchDatabase = create({
   schema: { _: "string" },
   components: {
-    tokenizer: {
-      language: "english",
-      tokenize,
-    },
+    tokenizer: koreanTokenizer,
   },
 });
 
-const initOrama = () => oramaClient;
+const initSearchDatabase = () => searchDatabase;
 
 /** Search input rendered as a standalone pill above the results card (see mockup). */
 export const SEARCH_INPUT_PILL_CLASS_NAME =
@@ -80,10 +78,7 @@ export default function DefaultSearchDialog({
 }: DefaultSearchDialogProps): ReactNode {
   const [tag, setTag] = useState<string | undefined>(defaultTag);
   const { search, setSearch, query } = useDocsSearch({
-    type: "static",
-    initOrama,
-    from: api,
-    tag,
+    client: staticClient({ initDB: initSearchDatabase, from: api, tag }),
   });
 
   // Keep the tag in sync when navigating between sections re-mounts with a new defaultTag.

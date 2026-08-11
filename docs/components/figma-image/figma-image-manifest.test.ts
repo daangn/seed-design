@@ -6,8 +6,7 @@ import {
   getFigmaImageUrlsFromManifest,
 } from "./figma-image-manifest";
 import { remarkFigmaImage } from "./remark-figma-image";
-import { remark } from "remark";
-import remarkMdx from "remark-mdx";
+import { mdxToJs } from "satteri";
 
 const options = { format: "png", scale: 2 } as const;
 
@@ -45,42 +44,54 @@ describe("Figma image manifest", () => {
     );
   });
 
-  it("remark 변환에서 manifest를 동기적으로 사용한다", () => {
+  it("Satteri 변환에서 manifest를 사용한다", async () => {
     const manifest = createFigmaImageManifest([
       [getFigmaImageCacheKey("1:2", options), "https://example.com/image.png"],
     ]);
-    const processor = remark().use(remarkMdx).use(remarkFigmaImage, {
-      accessToken: "test-token",
-      fileKey: "test-file",
-      fetchUrlsOptions: options,
-      manifest,
+    const result = await mdxToJs('<FigmaImage id="1:2" alt="example" />', {
+      mdastPlugins: [
+        remarkFigmaImage({
+          accessToken: "test-token",
+          fileKey: "test-file",
+          fetchUrlsOptions: options,
+          manifest,
+        }),
+      ],
     });
-    const tree = processor.parse('<FigmaImage id="1:2" alt="example" />');
 
-    expect(processor.runSync(tree)).toBe(tree);
-    expect(tree.children[0]).toMatchObject({
-      type: "paragraph",
-      children: [{ type: "image", url: "https://example.com/image.png", alt: "example" }],
-    });
+    expect(result.code).toContain("https://example.com/image.png");
+    expect(result.code).toContain('alt: "example"');
     expect(getFigmaImageUrlsFromManifest(manifest, ["1:2"], options)).toEqual(
       new Map([["1:2", "https://example.com/image.png"]]),
     );
   });
 
-  it("인증 정보가 없어도 manifest의 이미지 URL을 사용한다", () => {
+  it("인증 정보가 없어도 manifest의 이미지 URL을 사용한다", async () => {
     const manifest = createFigmaImageManifest([
       [getFigmaImageCacheKey("1:2", options), "https://example.com/image.png"],
     ]);
-    const processor = remark().use(remarkMdx).use(remarkFigmaImage, {
-      fetchUrlsOptions: options,
-      manifest,
+    const result = await mdxToJs('<FigmaImage id="1:2" alt="example" />', {
+      mdastPlugins: [
+        remarkFigmaImage({
+          fetchUrlsOptions: options,
+          manifest,
+        }),
+      ],
     });
-    const tree = processor.parse('<FigmaImage id="1:2" alt="example" />');
 
-    expect(processor.runSync(tree)).toBe(tree);
-    expect(tree.children[0]).toMatchObject({
-      type: "paragraph",
-      children: [{ type: "image", url: "https://example.com/image.png", alt: "example" }],
+    expect(result.code).toContain("https://example.com/image.png");
+    expect(result.code).toContain('alt: "example"');
+  });
+
+  it("DoImage의 figmaId를 Satteri에서 src로 바꾼다", async () => {
+    const manifest = createFigmaImageManifest([
+      [getFigmaImageCacheKey("1:2", options), "https://example.com/image.png"],
+    ]);
+    const result = await mdxToJs('<DoImage figmaId="1:2" />', {
+      mdastPlugins: [remarkFigmaImage({ fetchUrlsOptions: options, manifest })],
     });
+
+    expect(result.code).toContain('src: "https://example.com/image.png"');
+    expect(result.code).not.toContain("figmaId");
   });
 });

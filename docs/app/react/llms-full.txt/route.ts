@@ -1,10 +1,11 @@
 import { getLLMTextForFullCompilation } from "@/app/_llms/get-llm-text";
 import { shouldIncludeInFullText } from "@/app/_llms/config";
-import { reactSource } from "@/app/source";
+import { getReactSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const reactSource = await getReactSource();
   const pages = reactSource
     .getPages()
     .filter((page) => shouldIncludeInFullText("react", page.path))

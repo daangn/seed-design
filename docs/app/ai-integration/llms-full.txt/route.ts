@@ -1,10 +1,11 @@
 import { getLLMTextForFullCompilation } from "@/app/_llms/get-llm-text";
 import { shouldIncludeInFullText } from "@/app/_llms/config";
-import { aiIntegrationSource } from "@/app/source";
+import { getAiIntegrationSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const aiIntegrationSource = await getAiIntegrationSource();
   const pages = aiIntegrationSource
     .getPages()
     .filter((page) => shouldIncludeInFullText("ai-integration", page.path))

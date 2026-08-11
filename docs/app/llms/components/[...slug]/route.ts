@@ -1,6 +1,11 @@
 import { createLLMTextRoute } from "@/app/_llms/llms-route";
-import { componentsSource } from "@/app/source";
+import { getComponentsSource } from "@/app/source";
 
 export const revalidate = false;
 
-export const { GET, generateStaticParams } = createLLMTextRoute(componentsSource, "components");
+const route = createLLMTextRoute(getComponentsSource, "components");
+
+export const GET = route.GET;
+export function generateStaticParams() {
+  return route.generateStaticParams();
+}

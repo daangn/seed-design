@@ -13,7 +13,7 @@ const _ready = ensureRulesReady();
 async function platformStatusBlock(page: LLMPage, section: Section): Promise<string> {
   if (section !== "components") return "";
   const slugId = page.slugs.at(-1);
-  const componentIds = page.data.componentIds ?? (slugId ? [slugId] : []);
+  const componentIds = page.data.frontmatter.componentIds ?? (slugId ? [slugId] : []);
   if (componentIds.length === 0) return "";
   const table = await getPlatformStatusMarkdown(componentIds);
   return table ? `${table}\n\n` : "";
@@ -21,7 +21,9 @@ async function platformStatusBlock(page: LLMPage, section: Section): Promise<str
 
 export async function getLLMText(page: LLMPage, section: Section): Promise<string> {
   await _ready;
-  const processed = normalizeLLMBody(await page.data.getText("processed"));
+  const renderer = await page.data.load();
+  const { exports } = await renderer.render();
+  const processed = normalizeLLMBody(exports.processed);
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
 
@@ -36,7 +38,9 @@ ${platformStatus}${processed}`;
 
 export async function getLLMTextForFullCompilation(page: LLMPage): Promise<string> {
   await _ready;
-  const processed = normalizeLLMBody(await page.data.getText("processed"));
+  const renderer = await page.data.load();
+  const { exports } = await renderer.render();
+  const processed = normalizeLLMBody(exports.processed);
 
   return `file: ${page.path}
 
