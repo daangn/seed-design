@@ -170,7 +170,6 @@ describe("Rootage publisher offline E2E", () => {
         fetch: async () =>
           new Response(bytes.slice().buffer as ArrayBuffer, {
             headers: {
-              "content-length": String(bytes.byteLength),
               "content-type": "application/tar+gzip",
             },
           }),
@@ -228,6 +227,39 @@ describe("Rootage publisher offline E2E", () => {
         },
       ),
     ).rejects.toThrow("SHA-1");
+  });
+
+  test("Content-Length가 없는 tarball도 읽는 중 크기 제한을 적용한다", async () => {
+    const sourceSha = "7".repeat(40);
+    const version = createRootageSnapshotVersion("125", sourceSha);
+    let reads = 0;
+    let cancelled = false;
+    const body = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        reads += 1;
+        controller.enqueue(new Uint8Array(8 * 1024 * 1024));
+      },
+      cancel() {
+        cancelled = true;
+      },
+    });
+
+    await expect(
+      publishRootageSnapshot(
+        new MemoryStore(),
+        {
+          version,
+          packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
+          packageShasum: "0".repeat(40),
+          sourceSha,
+          publicBaseUrl: "https://offline.test",
+        },
+        { fetch: async () => new Response(body) },
+      ),
+    ).rejects.toThrow("허용 크기");
+    expect(reads).toBeGreaterThanOrEqual(3);
+    expect(reads).toBeLessThanOrEqual(4);
+    expect(cancelled).toBe(true);
   });
 
   test("재시도 중 immutable object 바이트가 다르면 fail-closed다", async () => {

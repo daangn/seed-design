@@ -126,6 +126,42 @@ function validateSnapshotPackageUrl(value: string, sourceSha: string): URL {
   return url;
 }
 
+async function readBoundedResponseBody(
+  response: Response,
+  maximumBytes: number,
+): Promise<Uint8Array> {
+  if (!response.body) {
+    throw new Error("pkg.pr.new snapshot tarball 크기가 올바르지 않습니다.");
+  }
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > maximumBytes) {
+        await reader.cancel().catch(() => undefined);
+        throw new Error("pkg.pr.new snapshot tarball이 허용 크기를 초과했습니다.");
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  if (totalBytes === 0) {
+    throw new Error("pkg.pr.new snapshot tarball 크기가 올바르지 않습니다.");
+  }
+  const bytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return bytes;
+}
+
 async function extractTarball(bytes: Uint8Array): Promise<string> {
   const directory = await mkdtemp(join(tmpdir(), "rootage-cdn-"));
   const archive = join(directory, "package.tgz");
@@ -451,12 +487,10 @@ export async function publishRootageSnapshot(
   const declaredBytes = Number(response.headers.get("content-length") ?? "0");
   const maximumArchiveBytes = 20 * 1024 * 1024;
   if (Number.isFinite(declaredBytes) && declaredBytes > maximumArchiveBytes) {
+    await response.body?.cancel().catch(() => undefined);
     throw new Error("pkg.pr.new snapshot tarball이 허용 크기를 초과했습니다.");
   }
-  const tarball = new Uint8Array(await response.arrayBuffer());
-  if (tarball.byteLength === 0 || tarball.byteLength > maximumArchiveBytes) {
-    throw new Error("pkg.pr.new snapshot tarball 크기가 올바르지 않습니다.");
-  }
+  const tarball = await readBoundedResponseBody(response, maximumArchiveBytes);
   const actualShasum = createHash("sha1").update(tarball).digest("hex");
   if (actualShasum !== input.packageShasum) {
     throw new Error("pkg.pr.new snapshot tarball SHA-1이 게시 결과와 다릅니다.");
