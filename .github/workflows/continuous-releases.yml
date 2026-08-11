@@ -4,90 +4,232 @@ on:
   issue_comment:
     types: [created]
 
+concurrency:
+  group: snapshot-release-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
 jobs:
-  release:
-    name: Release Seed Design Packages
+  resolve:
+    name: Resolve exact snapshot source
     if: |
       github.event.issue.pull_request &&
       startsWith(github.event.comment.body, '/snapshot') &&
       contains(fromJson('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write
-
+      contents: read
+      issues: write
+      pull-requests: read
+    outputs:
+      base-sha: ${{ steps.pull.outputs.base-sha }}
+      control-sha: ${{ steps.pull.outputs.control-sha }}
+      source-sha: ${{ steps.pull.outputs.source-sha }}
     steps:
-      - name: Add reaction
+      - name: Add acknowledgement reaction and resolve PR identity
+        id: pull
         uses: actions/github-script@v9
         with:
           script: |
-            github.rest.reactions.createForIssueComment({
+            await github.rest.reactions.createForIssueComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: context.payload.comment.id,
               content: 'eyes'
             });
+            const { data: pull } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            const shaPattern = /^[0-9a-f]{40}$/;
+            if (!shaPattern.test(pull.head.sha) || !shaPattern.test(pull.base.sha)) {
+              throw new Error('PR base/head SHA 형식이 올바르지 않습니다.');
+            }
+            if (!shaPattern.test(context.sha)) {
+              throw new Error('신뢰된 workflow control SHA 형식이 올바르지 않습니다.');
+            }
+            core.setOutput('base-sha', pull.base.sha);
+            core.setOutput('control-sha', context.sha);
+            core.setOutput('source-sha', pull.head.sha);
 
-      - name: Checkout PR branch
+  release:
+    name: Release Seed Design package snapshots
+    needs: resolve
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      rootage-changed: ${{ steps.rootage-change.outputs.changed }}
+      rootage-package-shasum: ${{ steps.rootage-package.outputs.shasum }}
+      rootage-package-url: ${{ steps.rootage-package.outputs.url }}
+      rootage-version: ${{ steps.rootage-prepare.outputs.version }}
+    steps:
+      - name: Checkout exact PR head without credentials
         uses: actions/checkout@v6
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Bind checkout to resolved PR head
+        env:
+          SNAPSHOT_SOURCE_SHA: ${{ needs.resolve.outputs.source-sha }}
+        run: test "$(git rev-parse HEAD)" = "$SNAPSHOT_SOURCE_SHA"
 
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.3.13"
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Build
+      - name: Detect Rootage changes in the exact PR diff
+        id: rootage-change
+        env:
+          ROOTAGE_BASE_SHA: ${{ needs.resolve.outputs.base-sha }}
+          ROOTAGE_SOURCE_SHA: ${{ needs.resolve.outputs.source-sha }}
+        run: bun tools/rootage-cdn/src/snapshot-input.ts detect
+
+      - name: Prepare exact Rootage snapshot version
+        id: rootage-prepare
+        if: steps.rootage-change.outputs.changed == 'true'
+        env:
+          ROOTAGE_PR_NUMBER: ${{ github.event.issue.number }}
+          ROOTAGE_SOURCE_SHA: ${{ needs.resolve.outputs.source-sha }}
+        run: |
+          bun tools/rootage-cdn/src/snapshot-input.ts prepare
+          bun install --no-immutable
+          bun rootage:build
+          bun install --no-immutable
+          bun --filter @seed-design/rootage-artifacts rootage:generate
+
+      - name: Build packages
         run: bun packages:build
 
-      - name: Publish
-        run: bunx pkg-pr-new publish './packages/*' './packages/react-headless/*' './packages/utils/*' --compact --comment=off --json output.json
+      - name: Publish package snapshots
+        run: >-
+          bun run pkg-pr-new publish
+          './packages/*'
+          './packages/react-headless/*'
+          './packages/utils/*'
+          --compact
+          --comment=off
+          --json output.json
+
+      - name: Select the exact Rootage snapshot package
+        id: rootage-package
+        if: steps.rootage-change.outputs.changed == 'true'
+        run: |
+          ROOTAGE_PACKAGE="$(jq -ce '[.packages[] | select(.name == "@seed-design/rootage-artifacts")] | if length == 1 then .[0] else error("expected one Rootage package") end' output.json)"
+          echo "url=$(jq -r '.url' <<< "$ROOTAGE_PACKAGE")" >> "$GITHUB_OUTPUT"
+          echo "shasum=$(jq -r '.shasum' <<< "$ROOTAGE_PACKAGE")" >> "$GITHUB_OUTPUT"
+
+      - name: Upload snapshot publish result
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-release-output-${{ github.run_id }}
+          path: output.json
+          if-no-files-found: error
+          retention-days: 1
+
+  publish-rootage:
+    name: Publish Rootage snapshot to CDN
+    needs: [resolve, release]
+    if: needs.release.outputs.rootage-changed == 'true'
+    uses: ./.github/workflows/rootage-snapshot-contract.yml
+    permissions:
+      contents: read
+    with:
+      version: ${{ needs.release.outputs.rootage-version }}
+      package-url: ${{ needs.release.outputs.rootage-package-url }}
+      package-shasum: ${{ needs.release.outputs.rootage-package-shasum }}
+      source-sha: ${{ needs.resolve.outputs.source-sha }}
+      control-sha: ${{ needs.resolve.outputs.control-sha }}
+
+  notify:
+    name: Comment snapshot result
+    needs: [resolve, release, publish-rootage]
+    if: always() && needs.release.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      issues: write
+    steps:
+      - name: Download snapshot publish result
+        uses: actions/download-artifact@v5
+        with:
+          name: snapshot-release-output-${{ github.run_id }}
 
       - name: Comment on PR
         uses: actions/github-script@v9
+        env:
+          ROOTAGE_CHANGED: ${{ needs.release.outputs.rootage-changed }}
+          ROOTAGE_PUBLISH_RESULT: ${{ needs.publish-rootage.result }}
+          ROOTAGE_VERSION: ${{ needs.release.outputs.rootage-version }}
+          SNAPSHOT_SOURCE_SHA: ${{ needs.resolve.outputs.source-sha }}
         with:
           script: |
             const fs = require('fs');
             const output = JSON.parse(fs.readFileSync('output.json', 'utf8'));
-
             const packages = output.packages
-              .map(p => `\`${p.name}\`: \`${p.url}\``)
+              .map((item) => `\`${item.name}\`: \`${item.url}\``)
               .join('\n');
-
+            let rootage = 'Rootage 변경이 없어 CDN snapshot은 생략했어요.';
+            if (process.env.ROOTAGE_CHANGED === 'true') {
+              rootage = process.env.ROOTAGE_PUBLISH_RESULT === 'success'
+                ? `Rootage CDN: https://seed-design.io/rootage/v${process.env.ROOTAGE_VERSION}/index.json`
+                : 'Rootage CDN 게시에 실패했어요. 같은 SHA에서 `/snapshot`을 다시 실행할 수 있어요.';
+            }
             const body = `## 📦 Snapshot Release
 
             ${packages}
 
+            ${rootage}
+
+            > Source: \`${process.env.SNAPSHOT_SOURCE_SHA}\`
             > Triggered by @${{ github.event.comment.user.login }} via \`/snapshot\`
             `.replace(/^ +/gm, '');
-
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: ${{ github.event.issue.number }},
-              body
+              issue_number: context.issue.number,
+              body,
             });
 
-      - name: Add success reaction
-        if: success()
-        uses: actions/github-script@v9
+  success-reaction:
+    name: Mark snapshot success
+    needs: [release, publish-rootage, notify]
+    if: >-
+      always() &&
+      needs.release.result == 'success' &&
+      (needs.publish-rootage.result == 'success' || needs.publish-rootage.result == 'skipped') &&
+      needs.notify.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v9
         with:
           script: |
-            github.rest.reactions.createForIssueComment({
+            await github.rest.reactions.createForIssueComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: context.payload.comment.id,
               content: 'rocket'
             });
 
-      - name: Add failure reaction
-        if: failure()
-        uses: actions/github-script@v9
+  failure-reaction:
+    name: Mark snapshot failure
+    needs: [resolve, release, publish-rootage, notify]
+    if: always() && contains(needs.*.result, 'failure')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v9
         with:
           script: |
-            github.rest.reactions.createForIssueComment({
+            await github.rest.reactions.createForIssueComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: context.payload.comment.id,

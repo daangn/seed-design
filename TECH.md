@@ -231,6 +231,7 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 - `bun changeset` - 변경사항 기록
 - `bun version` - 버전·잠금파일을 업데이트하고 같은 Version Packages commit에 Rootage JSON 생성. Rootage package 범위만 생성하며 각 패키지의 `package.json`·`CHANGELOG.md`, changeset, lockfile, `packages/rootage/__generated__/**` 밖의 변경은 거부
 - `bun release` - 패키지 빌드 및 npm 배포
+- PR에서 `/snapshot` - `pkg.pr.new` 패키지 snapshot을 게시하고 `packages/rootage/**` 변경이 있으면 exact PR head용 Rootage CDN URL도 생성. snapshot은 stable 포인터를 변경하지 않으며 PR 종료 30일 뒤 정리
 
 ---
 

@@ -21,6 +21,7 @@ import {
   type StablePointerMutation,
   verifyLatestWithRollback,
 } from "./stable-pointer-recovery";
+import { parseRootageSnapshotVersion } from "./snapshot";
 
 export interface RegistryVersion {
   name?: string;
@@ -49,6 +50,19 @@ export interface PublishArchiveSource {
   metadata: RegistryVersion;
   tarball: Uint8Array;
   npmLatestVersion?: string;
+}
+
+export interface SnapshotPublishInput {
+  version: string;
+  packageUrl: string;
+  packageShasum: string;
+  sourceSha: string;
+  publicBaseUrl: string;
+}
+
+interface SnapshotPublishOptions {
+  fetch?: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
+  publicVerifier?: PublicVerifier;
 }
 
 export type PublicVerifier = (
@@ -93,6 +107,23 @@ async function latestVersion(): Promise<string> {
 
 function sha512Integrity(bytes: Uint8Array): string {
   return `sha512-${createHash("sha512").update(bytes).digest("base64")}`;
+}
+
+function validateSnapshotPackageUrl(value: string): URL {
+  const url = new URL(value);
+  if (
+    url.protocol !== "https:" ||
+    url.hostname !== "pkg.pr.new" ||
+    url.port ||
+    url.username ||
+    url.password ||
+    url.search ||
+    url.hash ||
+    url.pathname === "/"
+  ) {
+    throw new Error("허용된 pkg.pr.new snapshot tarball URL이 아닙니다.");
+  }
+  return url;
 }
 
 async function extractTarball(bytes: Uint8Array): Promise<string> {
@@ -394,4 +425,61 @@ export async function publishRootage(
     tarball,
     npmLatestVersion: input.stable ? await latestVersion() : undefined,
   });
+}
+
+export async function publishRootageSnapshot(
+  store: ObjectStore,
+  input: SnapshotPublishInput,
+  options: SnapshotPublishOptions = {},
+): Promise<PublishResult> {
+  const identity = parseRootageSnapshotVersion(input.version);
+  if (!identity || identity.sourceSha !== input.sourceSha) {
+    throw new Error("Rootage snapshot 버전이 승인된 source SHA와 일치하지 않습니다.");
+  }
+  if (!/^[0-9a-f]{40}$/.test(input.packageShasum)) {
+    throw new Error("pkg.pr.new snapshot shasum은 40자리 소문자 SHA-1이어야 합니다.");
+  }
+  const packageUrl = validateSnapshotPackageUrl(input.packageUrl);
+  const response = await (options.fetch ?? fetch)(packageUrl, {
+    headers: { accept: "application/tar+gzip, application/octet-stream" },
+    redirect: "error",
+    signal: AbortSignal.timeout(30_000),
+  });
+  if (!response.ok) {
+    throw new Error(`pkg.pr.new snapshot tarball을 받지 못했습니다: ${response.status}`);
+  }
+  const declaredBytes = Number(response.headers.get("content-length") ?? "0");
+  const maximumArchiveBytes = 20 * 1024 * 1024;
+  if (Number.isFinite(declaredBytes) && declaredBytes > maximumArchiveBytes) {
+    throw new Error("pkg.pr.new snapshot tarball이 허용 크기를 초과했습니다.");
+  }
+  const tarball = new Uint8Array(await response.arrayBuffer());
+  if (tarball.byteLength === 0 || tarball.byteLength > maximumArchiveBytes) {
+    throw new Error("pkg.pr.new snapshot tarball 크기가 올바르지 않습니다.");
+  }
+  const actualShasum = createHash("sha1").update(tarball).digest("hex");
+  if (actualShasum !== input.packageShasum) {
+    throw new Error("pkg.pr.new snapshot tarball SHA-1이 게시 결과와 다릅니다.");
+  }
+  const archiveIntegrity = sha512Integrity(tarball);
+  return publishRootageArchive(
+    store,
+    {
+      version: input.version,
+      npmIntegrity: archiveIntegrity,
+      sourceSha: input.sourceSha,
+      stable: false,
+      publicBaseUrl: input.publicBaseUrl,
+    },
+    {
+      metadata: {
+        name: PACKAGE_NAME,
+        version: input.version,
+        gitHead: input.sourceSha,
+        dist: { integrity: archiveIntegrity, tarball: packageUrl.href },
+      },
+      tarball,
+    },
+    options.publicVerifier,
+  );
 }

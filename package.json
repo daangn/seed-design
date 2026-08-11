@@ -74,6 +74,7 @@
     "bunchee": "^6.5.1",
     "figma-api": "2.1.4-beta",
     "knip": "^6.0.0",
+    "pkg-pr-new": "0.0.87",
     "publint": "^0.3.12",
     "typescript": "^6.0.3",
     "ultra-runner": "^3.10.5",

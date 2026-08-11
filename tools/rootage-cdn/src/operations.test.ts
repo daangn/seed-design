@@ -2,12 +2,14 @@ import { describe, expect, test } from "bun:test";
 import { jsonBytes, sha256 } from "./contract";
 import { ROOTAGE_WORKER_VERSION_HEADER } from "./deployment-metadata";
 import {
+  cleanupCompletedSnapshots,
   cleanupIncompleteVersions,
   type FetchImplementation,
   setStablePointer,
   updateWorkerRoute,
   verifyWorkerRoutePublic,
 } from "./operations";
+import { createRootageSnapshotVersion } from "./snapshot";
 import type { ObjectStore, StoredObject } from "./types";
 
 class MemoryStore implements ObjectStore {
@@ -122,6 +124,101 @@ describe("Rootage 운영 명령", () => {
     expect(report.candidates).toEqual(["0.9.0"]);
     await cleanupIncompleteVersions(store, { olderThanDays: 7, apply: true });
     expect(store.deleted).toEqual(["versions/v0.9.0/index.json"]);
+  });
+
+  test("닫힌 지 30일 지난 완료 snapshot만 manifest부터 정리한다", async () => {
+    const store = new MemoryStore();
+    const oldSourceSha = "1".repeat(40);
+    const recentSourceSha = "2".repeat(40);
+    const openSourceSha = "3".repeat(40);
+    const oldVersion = createRootageSnapshotVersion("10", oldSourceSha);
+    const recentVersion = createRootageSnapshotVersion("11", recentSourceSha);
+    const openVersion = createRootageSnapshotVersion("12", openSourceSha);
+    const addSnapshot = (version: string, sourceSha: string) => {
+      const key = `manifests/v${version}.json`;
+      store.uploaded.set(key, new Date("2026-01-01T00:00:00Z"));
+      store.objects.set(key, {
+        etag: version,
+        bytes: jsonBytes({
+          schemaVersion: 1,
+          package: "@seed-design/rootage-artifacts",
+          version,
+          npmIntegrity: integrity,
+          gitHead: sourceSha,
+          files: [
+            {
+              path: "/index.json",
+              key: `versions/v${version}/index.json`,
+              bytes: 2,
+              sha256: "a".repeat(64),
+            },
+          ],
+        }),
+      });
+      store.objects.set(`versions/v${version}/index.json`, {
+        etag: version,
+        bytes: jsonBytes({}),
+      });
+    };
+    addSnapshot(oldVersion, oldSourceSha);
+    addSnapshot(recentVersion, recentSourceSha);
+    addSnapshot(openVersion, openSourceSha);
+    store.uploaded.set("manifests/v2.4.0.json", new Date(0));
+
+    const states = new Map([
+      [10, { state: "closed" as const, closedAt: "2026-06-01T00:00:00Z" }],
+      [11, { state: "closed" as const, closedAt: "2026-07-25T00:00:00Z" }],
+      [12, { state: "open" as const, closedAt: "2026-05-01T00:00:00Z" }],
+    ]);
+    const result = await cleanupCompletedSnapshots(store, {
+      olderThanDays: 30,
+      apply: true,
+      now: new Date("2026-08-11T00:00:00Z"),
+      getPullRequest: async (prNumber) => states.get(prNumber)!,
+    });
+
+    expect(result).toEqual({ candidates: [oldVersion], deleted: 2 });
+    expect(store.deleted).toEqual([
+      `manifests/v${oldVersion}.json`,
+      `versions/v${oldVersion}/index.json`,
+    ]);
+    expect(store.objects.has(`manifests/v${recentVersion}.json`)).toBe(true);
+    expect(store.objects.has(`manifests/v${openVersion}.json`)).toBe(true);
+  });
+
+  test("snapshot manifest의 source identity가 버전과 다르면 삭제하지 않는다", async () => {
+    const store = new MemoryStore();
+    const version = createRootageSnapshotVersion("13", "4".repeat(40));
+    const key = `manifests/v${version}.json`;
+    store.uploaded.set(key, new Date(0));
+    store.objects.set(key, {
+      etag: "manifest",
+      bytes: jsonBytes({
+        schemaVersion: 1,
+        package: "@seed-design/rootage-artifacts",
+        version,
+        npmIntegrity: integrity,
+        gitHead: "5".repeat(40),
+        files: [
+          {
+            path: "/index.json",
+            key: `versions/v${version}/index.json`,
+            bytes: 2,
+            sha256: "a".repeat(64),
+          },
+        ],
+      }),
+    });
+
+    await expect(
+      cleanupCompletedSnapshots(store, {
+        olderThanDays: 30,
+        apply: true,
+        now: new Date("2026-08-11T00:00:00Z"),
+        getPullRequest: async () => ({ state: "closed", closedAt: "2026-01-01T00:00:00Z" }),
+      }),
+    ).rejects.toThrow("identity");
+    expect(store.deleted).toEqual([]);
   });
 
   test("route cutover 후 smoke가 성공해야 생성 완료로 보고한다", async () => {
