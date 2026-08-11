@@ -199,15 +199,14 @@ async function workspaceVersionsAt(
     const text = await readTextAt(repositoryPath, ref, path);
     if (!text) throw new Error(`${ref}:${path}을 읽지 못했습니다.`);
     const manifest = asRecord(JSON.parse(text) as unknown, `${ref}:${path}`);
-    if (manifest.private === true) continue;
     if (typeof manifest.name !== "string" || typeof manifest.version !== "string") {
-      throw new Error(`${ref}:${path}의 public package name/version이 올바르지 않습니다.`);
+      throw new Error(`${ref}:${path}의 workspace package name/version이 올바르지 않습니다.`);
     }
     if (versions[manifest.name])
       throw new Error(`workspace package name이 중복됩니다: ${manifest.name}`);
     versions[manifest.name] = manifest.version;
   }
-  if (Object.keys(versions).length === 0) throw new Error("public workspace package가 없습니다.");
+  if (Object.keys(versions).length === 0) throw new Error("workspace package가 없습니다.");
   return versions;
 }
 

@@ -55,10 +55,18 @@ async function fixture(operation: "enter" | "exit") {
     name: "@seed-design/a",
     version: "1.2.3",
   });
+  await write(repository, "packages/private/package.json", {
+    name: "@seed-design/private",
+    version: "0.0.0",
+    private: true,
+  });
   const active = {
     mode: "pre",
     tag: "beta",
-    initialVersions: { "@seed-design/a": "1.2.3" },
+    initialVersions: {
+      "@seed-design/a": "1.2.3",
+      "@seed-design/private": "0.0.0",
+    },
     changesets: [],
   };
   if (operation === "exit") await write(repository, ".changeset/pre.json", active);
