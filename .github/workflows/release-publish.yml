@@ -120,7 +120,8 @@ jobs:
       needs.prepare-rootage.result == 'success' &&
       needs.prepare-rootage.outputs.found == 'true'
     uses: ./.github/workflows/rootage-release-contract.yml
-    permissions: {}
+    permissions:
+      contents: read
     with:
       version: ${{ needs.prepare-rootage.outputs.version }}
       npm-integrity: ${{ needs.prepare-rootage.outputs.integrity }}
