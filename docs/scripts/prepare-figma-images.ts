@@ -11,9 +11,9 @@ import {
   getFigmaImageCacheKey,
   writeFigmaImageManifest,
 } from "@/components/figma-image/figma-image-manifest";
+import { resolveFigmaImageUrls } from "@/components/figma-image/resolve-figma-image-urls";
 
 const FIGMA_IMAGE_OPTIONS = { format: "png", scale: 2 } as const;
-const MAX_IDS_PER_REQUEST = 50;
 
 async function collectMdxPaths(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -32,10 +32,24 @@ async function main() {
   const startedAt = performance.now();
   const contentDir = path.resolve(process.cwd(), "content");
   const mdxPaths = await collectMdxPaths(contentDir);
-  const sources = await Promise.all(mdxPaths.map((filePath) => readFile(filePath, "utf-8")));
-  const nodeIds = [...new Set(sources.flatMap(collectFigmaImageIdsFromMdx))].sort();
+  const sources = await Promise.all(
+    mdxPaths.map(async (filePath) => ({ filePath, source: await readFile(filePath, "utf-8") })),
+  );
+  const sourcePathsByNodeId = new Map<string, string[]>();
 
-  if (!env.figmaFileKey || !env.figmaPersonalAccessToken) {
+  for (const { filePath, source } of sources) {
+    for (const nodeId of collectFigmaImageIdsFromMdx(source)) {
+      const sourcePaths = sourcePathsByNodeId.get(nodeId) ?? [];
+      sourcePaths.push(path.relative(contentDir, filePath));
+      sourcePathsByNodeId.set(nodeId, sourcePaths);
+    }
+  }
+
+  const nodeIds = [...sourcePathsByNodeId.keys()].sort();
+  const fileKey = env.figmaFileKey;
+  const accessToken = env.figmaPersonalAccessToken;
+
+  if (!fileKey || !accessToken) {
     await writeFigmaImageManifest(createFigmaImageManifest([]));
     console.log(
       `[figma-images] Prepared an empty manifest for ${nodeIds.length} image(s); placeholders will be used`,
@@ -43,24 +57,32 @@ async function main() {
     return;
   }
 
-  const client = createFigmaClient(env.figmaPersonalAccessToken);
-  const imageUrls = new Map<string, string>();
-
-  for (let index = 0; index < nodeIds.length; index += MAX_IDS_PER_REQUEST) {
-    const chunk = nodeIds.slice(index, index + MAX_IDS_PER_REQUEST);
-    const resolved = await fetchFigmaImageUrls({
-      client,
-      fileKey: env.figmaFileKey,
-      nodeIds: chunk,
-      options: FIGMA_IMAGE_OPTIONS,
-    });
-
-    for (const [nodeId, url] of resolved) imageUrls.set(nodeId, url);
-  }
+  const client = createFigmaClient(accessToken);
+  const imageUrls = await resolveFigmaImageUrls({
+    nodeIds,
+    fetchUrls: (batch) =>
+      fetchFigmaImageUrls({
+        client,
+        fileKey,
+        nodeIds: batch,
+        options: FIGMA_IMAGE_OPTIONS,
+      }),
+    onRetry: ({ batchSize, missingIds }) => {
+      console.warn(
+        `[figma-images] Retrying ${missingIds.length} unresolved image(s) in batches of ${batchSize}`,
+      );
+    },
+  });
 
   const missingIds = nodeIds.filter((nodeId) => !imageUrls.has(nodeId));
   if (missingIds.length > 0) {
-    throw new Error(`[figma-images] Failed to resolve ${missingIds.length} image(s)`);
+    const details = missingIds
+      .map((nodeId) => `- ${nodeId}: ${sourcePathsByNodeId.get(nodeId)?.join(", ") ?? "unknown"}`)
+      .join("\n");
+
+    throw new Error(
+      `[figma-images] Failed to resolve ${missingIds.length} image(s) after individual retries:\n${details}`,
+    );
   }
 
   await writeFigmaImageManifest(
