@@ -106,9 +106,15 @@ jobs:
       - name: Build packages
         run: bun packages:build
 
+      - name: Verify trusted pkg-pr-new executable
+        run: |
+          test "$(jq -r '.version' node_modules/pkg-pr-new/package.json)" = "0.0.87"
+          test "$(sha256sum node_modules/pkg-pr-new/bin/cli.js | cut -d ' ' -f 1)" = "72dfe24919e316a388aa6893b840bba6fc2f7b9fc37df67e2b545d0a12c6e3b2"
+          test "$(sha256sum node_modules/pkg-pr-new/dist/index.js | cut -d ' ' -f 1)" = "196586894e117c8d043310df05742ead273f12fb0575a88272e596a8c90a6658"
+
       - name: Publish package snapshots
         run: >-
-          bun run pkg-pr-new publish
+          bun node_modules/pkg-pr-new/bin/cli.js publish
           './packages/*'
           './packages/react-headless/*'
           './packages/utils/*'
