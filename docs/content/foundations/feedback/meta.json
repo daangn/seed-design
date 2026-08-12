@@ -1,0 +1,6 @@
+{
+  "title": "Feedback",
+  "description": "피드백은 사용자의 입력에 대한 즉각적인 반응입니다. 요소가 조작 가능하다는 사실과 입력이 전달되었다는 사실을 알려줍니다.",
+  "layout": "tabs",
+  "pages": ["scale"]
+}
