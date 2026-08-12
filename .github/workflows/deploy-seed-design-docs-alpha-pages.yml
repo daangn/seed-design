@@ -12,6 +12,7 @@ on:
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
+      - ".github/actions/nextjs-cache/**"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -70,20 +71,15 @@ jobs:
 
       - name: Restore Next.js cache
         id: restore-nextjs-cache
-        uses: actions/cache/restore@v5
+        uses: ./.github/actions/nextjs-cache
         with:
-          path: docs/.next/cache
-          # Keep the compatibility namespace stable across ordinary source changes.
-          # Turbopack tracks those inputs inside its cache and rebuilds only affected modules.
-          # The commit suffix makes each successful build publish refreshed incremental state.
-          key: ${{ runner.os }}-nextjs-v2-${{ inputs.benchmark-cache-key && format('benchmark-{0}-', inputs.benchmark-cache-key) || '' }}${{ hashFiles('bun.lock', 'package.json', 'bunfig.toml', 'docs/package.json', 'docs/next.config.mjs', 'docs/tsconfig.json') }}-${{ github.sha }}
-          # Restore the latest cache made with the same dependency and build configuration.
-          # Package sources, Ultra configuration, and generated Figma files intentionally do
-          # not change this prefix; Turbopack invalidates their affected modules incrementally.
-          # The second prefix migrates the latest cache created by the previous key format.
-          restore-keys: |
-            ${{ runner.os }}-nextjs-v2-${{ inputs.benchmark-cache-key && format('benchmark-{0}-', inputs.benchmark-cache-key) || '' }}${{ hashFiles('bun.lock', 'package.json', 'bunfig.toml', 'docs/package.json', 'docs/next.config.mjs', 'docs/tsconfig.json') }}-
-            ${{ inputs.benchmark-cache-key && format('{0}-nextjs-benchmark-{1}-{2}-', runner.os, inputs.benchmark-cache-key, steps.setup.outputs.build-cache-key-suffix) || format('{0}-nextjs-{1}-', runner.os, steps.setup.outputs.build-cache-key-suffix) }}
+          # A branch publishes one immutable baseline per compatibility namespace.
+          # Later pushes restore it exactly instead of creating a 0.7-1GB cache per SHA.
+          cache-generation: baseline
+          cache-scope: ${{ github.ref_name }}
+          default-branch: ${{ github.event.repository.default_branch }}
+          legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
+          benchmark-cache-key: ${{ inputs.benchmark-cache-key }}
 
       - name: Build Docs
         id: build-docs
@@ -167,6 +163,13 @@ jobs:
         with:
           path: docs/.next/cache
           key: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
+
+      - name: Save Fumadocs TypeScript cache
+        if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/fumadocs-typescript/**') != '' }}
+        uses: actions/cache/save@v5
+        with:
+          path: docs/.next/fumadocs-typescript
+          key: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-primary-key }}
 
       - name: Save Figma image cache
         uses: actions/cache/save@v5
