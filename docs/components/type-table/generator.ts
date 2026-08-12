@@ -18,6 +18,7 @@ const TYPE_TABLE_CACHE_DIRECTORY = resolve(DOCS_DIRECTORY, ".next/cache/fumadocs
 // generator 설정과 전이 타입 의존성이 바뀐 결과까지 재사용하지 않도록 별도 호환성 해시에 넣는다.
 const TYPE_TABLE_CACHE_COMPATIBILITY_FILES = [
   resolve(DOCS_DIRECTORY, "../bun.lock"),
+  resolve(DOCS_DIRECTORY, "package.json"),
   resolve(DOCS_DIRECTORY, "tsconfig.json"),
   resolve(DOCS_DIRECTORY, "source.config.ts"),
   resolve(DOCS_DIRECTORY, "components/type-table/generator.ts"),
