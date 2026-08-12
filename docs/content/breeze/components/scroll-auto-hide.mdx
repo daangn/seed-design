@@ -1,0 +1,72 @@
+---
+title: Scroll Auto Hide
+description: 스크롤 방향에 따라 고정 영역을 숨기고 드러내는 컴포넌트
+---
+
+`ScrollAutoHide`는 아래로 스크롤할 때 고정 영역을 숨깁니다. 위로 스크롤하면 같은 거리만큼 다시 드러납니다. 필터, 탭, 보조 헤더처럼 콘텐츠 공간을 더 넓게 쓰고 싶은 영역에 적합합니다.
+
+<ComponentExample name="breeze/scroll-auto-hide/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/breeze/scroll-auto-hide/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+Dependency:
+
+```package-install
+npm install @radix-ui/react-compose-refs @radix-ui/react-slot
+```
+
+Snippet:
+
+```package-install
+npx @seed-design/cli@latest add breeze:scroll-auto-hide
+```
+
+<BreezeManualInstallation name="scroll-auto-hide" />
+
+## Usage
+
+스크롤이 일어나는 요소의 ref를 `scrollContainerRef`로 전달합니다. 컴포넌트가 `position: sticky`와 `top: 0`을 적용하므로 스크롤 컨테이너 안에 배치해야 합니다.
+
+```tsx
+const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+return (
+  <div ref={scrollContainerRef} style={{ height: 480, overflowY: "auto" }}>
+    <ScrollAutoHide scrollContainerRef={scrollContainerRef}>
+      <nav>필터</nav>
+    </ScrollAutoHide>
+    <main>{/* 스크롤할 콘텐츠 */}</main>
+  </div>
+);
+```
+
+### 다른 요소를 루트로 사용하기
+
+`asChild`를 사용하면 불필요한 래퍼 없이 자식 요소를 루트로 사용합니다. 자식은 하나의 React 요소여야 합니다.
+
+```tsx
+<ScrollAutoHide scrollContainerRef={scrollContainerRef} asChild>
+  <header>필터</header>
+</ScrollAutoHide>
+```
+
+## 동작과 스타일
+
+- 스크롤 중에는 이동 거리를 그대로 따라갑니다. 스크롤이 끝나면 50% 지점을 기준으로 완전히 숨거나 드러납니다.
+- 스냅은 200ms 동안 SEED의 `enter` 타이밍 함수인 `cubic-bezier(0, 0, 0.15, 1)`을 사용합니다.
+- 모션 감소 설정에서는 위치 이동을 피하기 위해 자동 숨김을 비활성화합니다.
+- 숨겨진 영역 안으로 키보드 포커스가 이동하면 내용을 즉시 드러냅니다.
+- 컴포넌트는 넓은 웹뷰 버전에서 합성할 수 있도록 `translate3d()`를 사용합니다. `ScrollTimeline`을 지원하는 브라우저에서는 스크롤과 이동을 브라우저가 직접 연결하고, 그 외 환경에서는 같은 동작을 스크롤 이벤트로 처리합니다.
+- 루트 요소의 `transform`은 내부 이동에 사용합니다. 별도의 `transform`이 필요하면 자식 요소에 적용합니다.
+- 배경색과 `z-index`는 사용 환경에 맞게 직접 지정합니다. 배경색이 없으면 숨겨지는 동안 아래 콘텐츠가 비칠 수 있습니다.
+
+## Props
+
+<react-type-table path="./registry/react/breeze/scroll-auto-hide/scroll-auto-hide.tsx" name="ScrollAutoHideProps" />
