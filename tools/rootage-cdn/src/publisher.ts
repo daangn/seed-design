@@ -111,6 +111,7 @@ function sha512Integrity(bytes: Uint8Array): string {
 
 function validateSnapshotPackageUrl(value: string, sourceSha: string): URL {
   const url = new URL(value);
+  const snapshotUrlSha = sourceSha.slice(0, 7);
   if (
     url.protocol !== "https:" ||
     url.hostname !== "pkg.pr.new" ||
@@ -119,7 +120,7 @@ function validateSnapshotPackageUrl(value: string, sourceSha: string): URL {
     url.password ||
     url.search ||
     url.hash ||
-    url.pathname !== `/@seed-design/rootage-artifacts@${sourceSha}`
+    url.pathname !== `/@seed-design/rootage-artifacts@${snapshotUrlSha}`
   ) {
     throw new Error("허용된 pkg.pr.new snapshot tarball URL이 아닙니다.");
   }

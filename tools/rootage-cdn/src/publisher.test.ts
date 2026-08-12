@@ -161,7 +161,7 @@ describe("Rootage publisher offline E2E", () => {
       store,
       {
         version,
-        packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
+        packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha.slice(0, 7)}`,
         packageShasum,
         sourceSha,
         publicBaseUrl: "https://offline.test",
@@ -194,7 +194,7 @@ describe("Rootage publisher offline E2E", () => {
     const store = new MemoryStore();
     const baseInput = {
       version,
-      packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
+      packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha.slice(0, 7)}`,
       packageShasum: createHash("sha1").update(bytes).digest("hex"),
       sourceSha,
       publicBaseUrl: "https://offline.test",
@@ -206,13 +206,19 @@ describe("Rootage publisher offline E2E", () => {
     await expect(
       publishRootageSnapshot(store, {
         ...baseInput,
-        packageUrl: `https://pkg.pr.new/@seed-design/other-package@${sourceSha}`,
+        packageUrl: `https://pkg.pr.new/@seed-design/other-package@${sourceSha.slice(0, 7)}`,
       }),
     ).rejects.toThrow("허용된 pkg.pr.new");
     await expect(
       publishRootageSnapshot(store, {
         ...baseInput,
-        packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${"6".repeat(40)}`,
+        packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${"6".repeat(7)}`,
+      }),
+    ).rejects.toThrow("허용된 pkg.pr.new");
+    await expect(
+      publishRootageSnapshot(store, {
+        ...baseInput,
+        packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
       }),
     ).rejects.toThrow("허용된 pkg.pr.new");
     await expect(
@@ -249,7 +255,7 @@ describe("Rootage publisher offline E2E", () => {
         new MemoryStore(),
         {
           version,
-          packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha}`,
+          packageUrl: `https://pkg.pr.new/@seed-design/rootage-artifacts@${sourceSha.slice(0, 7)}`,
           packageShasum: "0".repeat(40),
           sourceSha,
           publicBaseUrl: "https://offline.test",
