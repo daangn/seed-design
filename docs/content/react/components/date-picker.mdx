@@ -119,6 +119,8 @@ Date Picker는 자체적으로 고정 폭이나 최대 폭을 제한하지 않�
 
 `rangeStartReadOnly`에는 시작일을 포함한 `value` 또는 `defaultValue`가 필요합니다. 제어 방식으로 사용할 때 외부에서 전달하는 시작일이 바뀌면 Date Picker에도 새 값이 반영됩니다.
 
+아래 광고 기간 예시는 시작일이 8월 7일이고 오늘이 8월 10일인 상황입니다. `dateOnOrAfter`를 함께 사용해 이미 지난 8일과 9일은 새 종료일로 선택할 수 없도록 제한합니다.
+
 <ComponentExample name="react/date-picker/read-only-range-start">
   ```json doc-gen:file
   {

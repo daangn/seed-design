@@ -1,11 +1,20 @@
 "use client";
 
-import { Box, DatePicker, Text, VStack, type DatePickerRangeValue } from "@seed-design/react";
+import {
+  Box,
+  DatePicker,
+  Text,
+  VStack,
+  dateOnOrAfter,
+  type DatePickerRangeValue,
+} from "@seed-design/react";
 import * as React from "react";
+
+const today = { year: 2026, month: 8, day: 10 } as const;
 
 const initialValue: DatePickerRangeValue = {
   start: { year: 2026, month: 8, day: 7 },
-  end: { year: 2026, month: 8, day: 9 },
+  end: { year: 2026, month: 8, day: 14 },
 };
 
 function formatDate(date: DatePickerRangeValue["start"]) {
@@ -21,7 +30,8 @@ export default function DatePickerReadOnlyRangeStart() {
         <DatePicker
           selectionMode="range"
           rangeStartReadOnly
-          today={{ year: 2026, month: 8, day: 8 }}
+          today={today}
+          constraints={[dateOnOrAfter(today)]}
           value={value}
           onValueChange={setValue}
         />
