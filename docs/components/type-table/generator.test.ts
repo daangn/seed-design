@@ -28,13 +28,33 @@ describe("filtered type table generator cache", () => {
     const directory = await createTemporaryDirectory();
     await mkdir(join(directory, "src"));
     await writeFile(join(directory, "src", "props.ts"), "export interface Props {}\n");
-    for (const skippedDirectory of ["node_modules", "dist", ".turbo", ".next"]) {
+    for (const skippedDirectory of [
+      "node_modules",
+      "dist",
+      "build",
+      "lib",
+      "coverage",
+      ".cache",
+      ".turbo",
+      ".next",
+    ]) {
       await mkdir(join(directory, skippedDirectory));
       await writeFile(join(directory, skippedDirectory, "generated.ts"), "export {};\n");
     }
+    await writeFile(join(directory, ".ultra.cache.json"), "{}\n");
 
     expect(collectTypeDependencyFiles(join(directory, "missing"))).toEqual([]);
     expect(collectTypeDependencyFiles(directory)).toEqual([join(directory, "src", "props.ts")]);
+  });
+
+  it("CI와 generator가 같은 호환성 해시 구현을 사용한다", async () => {
+    const action = await readFile(
+      join(import.meta.dir, "../../../.github/actions/nextjs-cache/action.yml"),
+      "utf8",
+    );
+
+    expect(action).toContain("components/type-table/cache-compatibility.ts");
+    expect(action).not.toContain("FUMADOCS_COMPATIBILITY_HASH: ${{ hashFiles");
   });
 
   it("generator transform과 this binding을 유지한 결과를 재사용한다", async () => {
