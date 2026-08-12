@@ -11,6 +11,11 @@ const SNAP_THRESHOLD_RATIO = 0.5;
 const SCROLL_SETTLE_DELAY_MS = 120;
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
+type ScrollTimelineConstructor = new (options: {
+  source: Element;
+  axis: "block";
+}) => AnimationTimeline;
+
 type ScrollAutoHideOwnProps = {
   /** 스크롤을 감지할 컨테이너의 ref */
   scrollContainerRef: React.RefObject<HTMLElement | null>;
@@ -63,6 +68,19 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const initialWillChange = root.style.willChange;
       const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
       const supportsScrollEnd = typeof scrollContainer.onscrollend !== "undefined";
+      const ScrollTimeline = Reflect.get(window, "ScrollTimeline") as unknown;
+      let scrollTimeline: AnimationTimeline | undefined;
+
+      if (typeof ScrollTimeline === "function") {
+        try {
+          scrollTimeline = new (ScrollTimeline as ScrollTimelineConstructor)({
+            source: scrollContainer,
+            axis: "block",
+          });
+        } catch {
+          scrollTimeline = undefined;
+        }
+      }
 
       const getScrollTop = () => {
         const maxScrollTop = Math.max(
@@ -78,6 +96,8 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       let previousScrollTop = getScrollTop();
       let isSettling = false;
       let isTouching = false;
+      let trackingAnimation: Animation | undefined;
+      let trackingDirection = 0;
       let settleTimer: ReturnType<typeof setTimeout> | undefined;
       let settleTransition = initialTransition;
       let skipNextSettleAnimation = false;
@@ -93,6 +113,77 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const applyTranslate = (value: number) => {
         translateY = value;
         root.style.transform = `translate3d(0px, ${value}px, 0px)`;
+      };
+
+      const stopTracking = () => {
+        trackingAnimation?.cancel();
+        trackingAnimation = undefined;
+        trackingDirection = 0;
+      };
+
+      const syncTracking = () => {
+        if (!trackingAnimation) return;
+
+        const renderedTranslateY = parseTranslateY(getComputedStyle(root).transform);
+        stopTracking();
+        applyTranslate(clamp(renderedTranslateY, computeMinTranslate(getScrollTop())));
+      };
+
+      const startTracking = (direction: number, scrollTop: number) => {
+        if (!scrollTimeline || direction === 0 || direction === trackingDirection) return;
+
+        stopTracking();
+
+        const maxScrollTop = Math.max(
+          0,
+          scrollContainer.scrollHeight - scrollContainer.clientHeight,
+        );
+        if (maxScrollTop === 0) return;
+
+        let rangeStart: number;
+        let rangeEnd: number;
+        let rangeStartTranslate: number;
+        let rangeEndTranslate: number;
+
+        if (direction > 0) {
+          rangeStart = translateY === 0 ? Math.max(scrollTop, naturalOffset) : scrollTop;
+          rangeEnd = Math.min(maxScrollTop, rangeStart + translateY + height);
+          rangeStartTranslate = translateY;
+          rangeEndTranslate = translateY - (rangeEnd - rangeStart);
+        } else {
+          rangeEnd = scrollTop;
+          rangeStart = Math.max(0, rangeEnd + translateY);
+          rangeStartTranslate = Math.min(0, translateY + rangeEnd - rangeStart);
+          rangeEndTranslate = translateY;
+        }
+
+        if (rangeStart === rangeEnd) {
+          applyTranslate(translateY);
+          return;
+        }
+
+        const startOffset = rangeStart / maxScrollTop;
+        const endOffset = rangeEnd / maxScrollTop;
+        const startTransform = `translate3d(0px, ${rangeStartTranslate}px, 0px)`;
+        const endTransform = `translate3d(0px, ${rangeEndTranslate}px, 0px)`;
+
+        applyTranslate(translateY);
+        try {
+          trackingAnimation = root.animate(
+            [
+              { transform: startTransform, offset: 0 },
+              { transform: startTransform, offset: startOffset },
+              { transform: endTransform, offset: endOffset },
+              { transform: endTransform, offset: 1 },
+            ],
+            { fill: "both", timeline: scrollTimeline },
+          );
+        } catch {
+          scrollTimeline = undefined;
+          applyTranslate(translateY);
+          return;
+        }
+        trackingDirection = direction;
       };
 
       const clearSettleTimer = () => {
@@ -118,6 +209,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
 
       const settle = () => {
         clearSettleTimer();
+        syncTracking();
         if (height === 0) return;
 
         if (mediaQuery.matches) {
@@ -166,6 +258,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       };
 
       const measure = () => {
+        syncTracking();
         cancelSettling();
 
         const previousPosition = root.style.position;
@@ -200,19 +293,28 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         previousScrollTop = scrollTop;
 
         if (mediaQuery.matches) {
+          stopTracking();
           finishSettling();
           applyTranslate(0);
           return;
         }
 
         root.style.willChange = "transform";
-        applyTranslate(clamp(translateY - scrollDelta, computeMinTranslate(scrollTop)));
+        translateY = clamp(translateY - scrollDelta, computeMinTranslate(scrollTop));
+
+        if (scrollTimeline && !skipNextSettleAnimation) {
+          startTracking(Math.sign(scrollDelta), scrollTop);
+        } else {
+          stopTracking();
+          applyTranslate(translateY);
+        }
         scheduleSettle();
       };
 
       const handleInteractionStart = () => {
         clearSettleTimer();
         cancelSettling();
+        syncTracking();
         skipNextSettleAnimation = false;
       };
 
@@ -229,6 +331,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const handleFocusIn = () => {
         clearSettleTimer();
         cancelSettling();
+        stopTracking();
         previousScrollTop = getScrollTop();
         root.style.transition = initialTransition;
         root.style.willChange = initialWillChange;
@@ -240,6 +343,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         if (!(event.target instanceof Node) || !scrollContainer.contains(event.target)) return;
         skipNextSettleAnimation = true;
         cancelSettling();
+        syncTracking();
       };
 
       const handleTransitionComplete = (event: TransitionEvent) => {
@@ -250,6 +354,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const handleReducedMotionChange = () => {
         clearSettleTimer();
         cancelSettling();
+        stopTracking();
         finishSettling();
         root.style.transition = initialTransition;
         applyTranslate(0);
@@ -279,6 +384,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
 
       return () => {
         clearSettleTimer();
+        stopTracking();
         resizeObserver.disconnect();
         scrollContainer.removeEventListener("scroll", handleScroll);
         scrollContainer.removeEventListener("scrollend", settle);

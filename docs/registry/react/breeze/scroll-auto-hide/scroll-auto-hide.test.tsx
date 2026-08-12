@@ -8,6 +8,8 @@ const originalGetBoundingClientRect = HTMLElement.prototype.getBoundingClientRec
 const originalMatchMedia = window.matchMedia;
 const originalResizeObserver = window.ResizeObserver;
 const originalGetComputedStyle = window.getComputedStyle;
+const originalAnimate = HTMLElement.prototype.animate;
+const originalScrollTimelineDescriptor = Object.getOwnPropertyDescriptor(window, "ScrollTimeline");
 
 let prefersReducedMotion = false;
 let rootHeight = 100;
@@ -88,6 +90,7 @@ function endTransformTransition(root: HTMLElement) {
 beforeEach(() => {
   prefersReducedMotion = false;
   rootHeight = 100;
+  Reflect.deleteProperty(window, "ScrollTimeline");
 
   window.ResizeObserver = ResizeObserverMock as unknown as typeof ResizeObserver;
   window.matchMedia = mock(() => ({
@@ -122,6 +125,12 @@ afterEach(() => {
   window.matchMedia = originalMatchMedia;
   window.ResizeObserver = originalResizeObserver;
   window.getComputedStyle = originalGetComputedStyle;
+  HTMLElement.prototype.animate = originalAnimate;
+  if (originalScrollTimelineDescriptor) {
+    Object.defineProperty(window, "ScrollTimeline", originalScrollTimelineDescriptor);
+  } else {
+    Reflect.deleteProperty(window, "ScrollTimeline");
+  }
   jest.useRealTimers();
 });
 
@@ -151,6 +160,43 @@ describe("ScrollAutoHide", () => {
 
     scrollTo(scrollContainer, 15);
     expect(root.style.transform).toBe("translate3d(0px, -15px, 0px)");
+  });
+
+  it("ScrollTimeline을 지원하면 스크롤 방향별 transform 구간을 브라우저에 위임한다", () => {
+    const cancel = mock();
+    const animate = mock(
+      (_keyframes: Keyframe[] | PropertyIndexedKeyframes, _options?: KeyframeAnimationOptions) =>
+        ({ cancel }) as unknown as Animation,
+    );
+    const timelines: Array<{ source: Element; axis: string }> = [];
+
+    class ScrollTimelineMock {
+      constructor(options: { source: Element; axis: string }) {
+        timelines.push(options);
+      }
+    }
+
+    Reflect.set(window, "ScrollTimeline", ScrollTimelineMock);
+    HTMLElement.prototype.animate = animate;
+
+    const { root, scrollContainer } = renderScrollAutoHide();
+
+    scrollTo(scrollContainer, 40);
+    scrollTo(scrollContainer, 60);
+
+    expect(timelines).toEqual([{ source: scrollContainer, axis: "block" }]);
+    expect(animate).toHaveBeenCalledTimes(1);
+    expect(animate.mock.calls[0]?.[0]).toEqual([
+      { transform: "translate3d(0px, -40px, 0px)", offset: 0 },
+      { transform: "translate3d(0px, -40px, 0px)", offset: 40 / 600 },
+      { transform: "translate3d(0px, -100px, 0px)", offset: 100 / 600 },
+      { transform: "translate3d(0px, -100px, 0px)", offset: 1 },
+    ]);
+    expect(root.style.transform).toBe("translate3d(0px, -40px, 0px)");
+
+    scrollTo(scrollContainer, 50);
+    expect(cancel).toHaveBeenCalledTimes(1);
+    expect(animate).toHaveBeenCalledTimes(2);
   });
 
   it("하단 탄성 스크롤이 복귀해도 역방향 스크롤로 처리하지 않는다", () => {
