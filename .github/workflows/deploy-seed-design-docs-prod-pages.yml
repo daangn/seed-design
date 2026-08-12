@@ -10,6 +10,7 @@ on:
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-prod-pages.yml"
       - ".github/actions/setup/action.yml"
+      - ".github/actions/nextjs-cache/**"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -62,14 +63,13 @@ jobs:
 
       - name: Restore Next.js cache
         id: restore-nextjs-cache
-        uses: actions/cache/restore@v5
+        uses: ./.github/actions/nextjs-cache
         with:
-          path: docs/.next/cache
-          # Reuse the build inputs already hashed by setup, then add docs inputs only.
-          key: ${{ runner.os }}-nextjs-${{ steps.setup.outputs.build-cache-key-suffix }}-${{ hashFiles('docs/**/*.js', 'docs/**/*.jsx', 'docs/**/*.mjs', 'docs/**/*.ts', 'docs/**/*.tsx', 'docs/**/*.mdx', 'docs/**/*.css', 'docs/**/*.json') }}
-          # Rebuild from the nearest cache when build or docs inputs changed.
-          restore-keys: |
-            ${{ runner.os }}-nextjs-
+          # Production keeps publishing refreshed state for the default-branch fallback.
+          cache-generation: ${{ github.sha }}
+          cache-scope: ${{ github.ref_name }}
+          default-branch: ${{ github.event.repository.default_branch }}
+          legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
 
       - name: Build Docs
         working-directory: ./docs
@@ -90,6 +90,13 @@ jobs:
         with:
           path: docs/.next/cache
           key: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
+
+      - name: Save Fumadocs TypeScript cache
+        if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/fumadocs-typescript/**') != '' }}
+        uses: actions/cache/save@v5
+        with:
+          path: docs/.next/fumadocs-typescript
+          key: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-primary-key }}
 
       - name: Save Figma image cache
         uses: actions/cache/save@v5
