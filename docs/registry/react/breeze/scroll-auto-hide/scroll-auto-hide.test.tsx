@@ -79,9 +79,10 @@ function partiallyHide(scrollContainer: HTMLElement, hiddenPixels: number) {
   scrollTo(scrollContainer, 100 + hiddenPixels);
 }
 
-function endTranslateTransition(root: HTMLElement) {
+function endTranslateTransition(root: HTMLElement, elapsedTime = 0.2) {
   const event = new Event("transitionend", { bubbles: true });
   Object.defineProperty(event, "propertyName", { value: "translate" });
+  Object.defineProperty(event, "elapsedTime", { value: elapsedTime });
   fireEvent(root, event);
 }
 
@@ -100,6 +101,17 @@ beforeEach(() => {
     removeListener: mock(),
     dispatchEvent: mock(() => false),
   }));
+  window.getComputedStyle = ((element: Element) => {
+    const styles = originalGetComputedStyle(element);
+    return new Proxy(styles, {
+      get(target, property) {
+        if (element instanceof HTMLElement && property === "translate") {
+          return element.style.translate || Reflect.get(target, property, target);
+        }
+        return Reflect.get(target, property, target);
+      },
+    });
+  }) as typeof window.getComputedStyle;
 
   HTMLElement.prototype.getBoundingClientRect = function getBoundingClientRect() {
     const isRoot = this.dataset.testid === "root";
@@ -148,6 +160,7 @@ describe("ScrollAutoHide", () => {
 
     scrollTo(scrollContainer, 40);
     expect(root.style.translate).toBe("0px -40px");
+    expect(root.style.transition).toContain("translate 24ms linear");
 
     scrollTo(scrollContainer, 15);
     expect(root.style.translate).toBe("0px -15px");
@@ -198,7 +211,11 @@ describe("ScrollAutoHide", () => {
 
     expect(root.style.translate).toBe("0px -100px");
     expect(root.style.transition).toContain(`translate 200ms ${vars.$timingFunction.enter}`);
+    expect(root.style.transition).not.toContain("translate 24ms linear");
     expect(root.style.transition).not.toContain("all");
+
+    endTranslateTransition(root, 0.024);
+    expect(root.style.transition).toContain(`translate 200ms ${vars.$timingFunction.enter}`);
 
     endTranslateTransition(root);
     expect(root.style.transition).toBe("");
@@ -253,9 +270,9 @@ describe("ScrollAutoHide", () => {
     window.getComputedStyle = ((element: Element) => {
       const styles = originalGetComputedStyle(element);
       return new Proxy(styles, {
-        get(target, property, receiver) {
+        get(target, property) {
           if (element === root && property === "translate") return "0px -70px";
-          return Reflect.get(target, property, receiver);
+          return Reflect.get(target, property, target);
         },
       });
     }) as typeof window.getComputedStyle;
@@ -263,7 +280,28 @@ describe("ScrollAutoHide", () => {
     scrollTo(scrollContainer, 170);
 
     expect(root.style.translate).toBe("0px -80px");
-    expect(root.style.transition).toBe("");
+    expect(root.style.transition).toContain("translate 24ms linear");
+  });
+
+  it("스크롤 종료 시 추적 애니메이션의 현재 화면 위치에서 스냅한다", () => {
+    const { root, scrollContainer } = renderScrollAutoHide();
+
+    partiallyHide(scrollContainer, 60);
+
+    window.getComputedStyle = ((element: Element) => {
+      const styles = originalGetComputedStyle(element);
+      return new Proxy(styles, {
+        get(target, property) {
+          if (element === root && property === "translate") return "0px -40px";
+          return Reflect.get(target, property, target);
+        },
+      });
+    }) as typeof window.getComputedStyle;
+
+    fireEvent(scrollContainer, new Event("scrollend"));
+
+    expect(root.style.translate).toBe("0px 0px");
+    expect(root.style.transition).toContain(`translate 200ms ${vars.$timingFunction.enter}`);
   });
 
   it("scrollend를 지원하지 않으면 마지막 스크롤 120ms 뒤 스냅한다", () => {
