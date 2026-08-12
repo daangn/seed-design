@@ -51,7 +51,7 @@ runs:
         CACHE_SCOPE: ${{ inputs.cache-scope }}
         LEGACY_BUILD_CACHE_KEY_SUFFIX: ${{ inputs.legacy-build-cache-key-suffix }}
         NEXTJS_COMPATIBILITY_HASH: ${{ hashFiles('bun.lock', 'package.json', 'bunfig.toml', 'docs/package.json', 'docs/next.config.mjs', 'docs/postcss.config.js', 'docs/tsconfig.json', '.github/actions/setup/action.yml') }}
-        FUMADOCS_COMPATIBILITY_HASH: ${{ hashFiles('bun.lock', 'docs/package.json', 'docs/tsconfig.json', 'docs/components/type-table/generator.ts', 'docs/source.config.ts') }}
+        FUMADOCS_COMPATIBILITY_HASH: ${{ hashFiles('bun.lock', 'docs/package.json', 'docs/tsconfig.json', 'docs/components/type-table/generator.ts', 'docs/source.config.ts', 'docs/registry/react/**', 'docs/registry/lynx/**', 'packages/css/**', 'packages/react/src/**', 'packages/react-headless/**', 'packages/lynx-react/src/**', 'packages/stackflow/src/**') }}
       run: |
         nextjs_namespace="${RUNNER_OS}-nextjs-v2-"
         nextjs_legacy_namespace="${RUNNER_OS}-nextjs-"
@@ -91,7 +91,7 @@ runs:
       id: restore-fumadocs
       uses: actions/cache/restore@v5
       with:
-        path: docs/.next/fumadocs-typescript
+        path: docs/.next/cache/fumadocs-typescript
         key: ${{ steps.keys.outputs.fumadocs-primary-key }}
         restore-keys: |
           ${{ steps.keys.outputs.fumadocs-restore-prefix }}

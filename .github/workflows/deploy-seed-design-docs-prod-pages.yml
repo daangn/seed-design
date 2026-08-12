@@ -92,10 +92,10 @@ jobs:
           key: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
 
       - name: Save Fumadocs TypeScript cache
-        if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/fumadocs-typescript/**') != '' }}
+        if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/cache/fumadocs-typescript/**') != '' }}
         uses: actions/cache/save@v5
         with:
-          path: docs/.next/fumadocs-typescript
+          path: docs/.next/cache/fumadocs-typescript
           key: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-primary-key }}
 
       - name: Save Figma image cache

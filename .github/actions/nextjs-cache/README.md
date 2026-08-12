@@ -1,6 +1,6 @@
 # Next.js 빌드 캐시
 
-문서 프리뷰와 Production 빌드는 이 액션을 통해 `docs/.next/cache`와 `docs/.next/fumadocs-typescript`를 공유한다. 두 경로는 별도 archive와 namespace로 관리한다. 경로 목록 변경으로 Actions 캐시 버전이 달라져 기존 Turbopack 캐시를 못 찾는 상황을 피하기 위해서다.
+문서 프리뷰와 Production 빌드는 이 액션을 통해 `docs/.next/cache`와 그 하위의 `docs/.next/cache/fumadocs-typescript`를 공유한다. Fumadocs 경로는 Next.js 캐시 archive에도 포함되지만 별도 archive와 namespace로 한 번 더 관리한다. 기존 Turbopack 캐시의 key가 정확히 일치해 저장 단계가 생략되더라도 새 Fumadocs 캐시는 독립적으로 저장하기 위해서다.
 
 Turbopack 호환성 namespace는 운영체제, 의존성, Next.js와 빌드 설정의 해시로 구성한다. 일반적인 문서와 패키지 소스는 해시에서 제외한다. 해당 변경은 Turbopack의 의존성 추적에 맡겨 영향받은 작업만 다시 실행한다. Fumadocs namespace는 의존성과 TypeScript 및 타입 테이블 생성 설정을 포함한다. Fumadocs 자체 캐시는 입력 파일 내용과 패키지 버전으로 항목을 무효화한다.
 
@@ -23,4 +23,4 @@ GitHub Actions 캐시는 같은 key의 내용을 갱신할 수 없다. Productio
 
 ## Fumadocs 타입 캐시
 
-현재 `dev`에는 `.next/fumadocs-typescript`를 만드는 구현이 없으므로 경로가 생기기 전까지 저장 단계는 건너뛴다. PR #1984가 반영되면 추가 워크플로 수정 없이 별도 캐시를 복원하고 저장한다.
+Fumadocs 타입 캐시는 `.next/cache/fumadocs-typescript`에 둔다. Next.js는 빌드를 시작할 때 `.next/cache` 밖의 `.next` 하위 경로를 지우므로, `.next/fumadocs-typescript`에 복원하면 타입 생성 전에 사라질 수 있다. 별도 Fumadocs archive는 의존성, TypeScript 설정, 타입 테이블 generator와 Fumadocs 설정이 같을 때만 재사용한다.
