@@ -26,6 +26,7 @@
   "dependencies": {
     "@seed-design/rootage-artifacts": "workspace:*",
     "@seed-design/rootage-core": "0.0.0",
+    "cosmiconfig": "^9.0.2",
     "fs-extra": "^11.3.0",
     "yaml": "^2.7.1",
     "yargs": "^18.0.0"

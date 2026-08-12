@@ -19,6 +19,16 @@
       "types": "./lib/generator.d.ts",
       "import": "./lib/generator.js",
       "require": "./lib/generator.cjs"
+    },
+    "./config": {
+      "types": "./lib/config.d.ts",
+      "import": "./lib/config.js",
+      "require": "./lib/config.cjs"
+    },
+    "./plugins/jsdoc": {
+      "types": "./lib/plugins/jsdoc.d.ts",
+      "import": "./lib/plugins/jsdoc.js",
+      "require": "./lib/plugins/jsdoc.cjs"
     }
   },
   "main": "./lib/index.cjs",

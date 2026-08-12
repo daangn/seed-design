@@ -35,7 +35,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
-    "rootage:generate": "rootage tailwind3-plugin ./src --prefix seed",
+    "rootage:generate": "rootage tailwind3-plugin ./src",
     "lint:publish": "bun publint"
   },
   "keywords": [
@@ -45,6 +45,7 @@
     "plugin"
   ],
   "devDependencies": {
+    "@seed-design/rootage-core": "0.0.0",
     "tailwindcss": "3"
   },
   "peerDependencies": {

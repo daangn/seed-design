@@ -154,3 +154,5 @@ export interface ComponentSpecSchema {
 }
 
 export type Model = TokenCollectionsModel | TokensModel | ComponentSpecModel;
+
+export type ModelKind = Model["kind"];

@@ -49,13 +49,14 @@
     "NOTICE"
   ],
   "scripts": {
-    "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
+    "rootage:generate": "bun rootage token-ts ./vars && rootage component-spec ./vars/component",
     "qvism:generate": "bun qvism ./ ./recipes",
     "lint:publish": "bun publint"
   },
   "devDependencies": {
+    "@seed-design/lynx-qvism-preset": "0.0.0",
     "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/lynx-qvism-preset": "0.0.0"
+    "@seed-design/rootage-core": "0.0.0"
   },
   "publishConfig": {
     "access": "public"

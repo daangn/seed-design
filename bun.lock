@@ -226,6 +226,7 @@
       "dependencies": {
         "@seed-design/rootage-artifacts": "2.3.0",
         "@seed-design/rootage-core": "0.0.0",
+        "cosmiconfig": "^9.0.2",
         "fs-extra": "^11.3.0",
         "yaml": "^2.7.1",
         "yargs": "^18.0.0",
@@ -420,6 +421,7 @@
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
+        "@seed-design/rootage-core": "0.0.0",
       },
     },
     "packages/design-token": {
@@ -468,6 +470,7 @@
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
+        "@seed-design/rootage-core": "0.0.0",
       },
     },
     "packages/lynx-qvism-preset": {
@@ -1489,6 +1492,7 @@
       "name": "@seed-design/tailwind3-plugin",
       "version": "2.3.0",
       "devDependencies": {
+        "@seed-design/rootage-core": "0.0.0",
         "tailwindcss": "3",
       },
       "peerDependencies": {
@@ -1500,6 +1504,7 @@
       "name": "@seed-design/tailwind4-theme",
       "version": "2.3.0",
       "devDependencies": {
+        "@seed-design/rootage-core": "0.0.0",
         "tailwindcss": "^4.1.4",
       },
       "peerDependencies": {
@@ -6591,11 +6596,15 @@
 
     "@seed-design/mcp/zod": ["zod@4.3.6", "", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
 
+    "@seed-design/qvism-cli/cosmiconfig": ["cosmiconfig@9.0.2", "", { "dependencies": { "env-paths": "^2.2.1", "import-fresh": "^3.3.0", "js-yaml": "^4.1.0", "parse-json": "^5.2.0" }, "peerDependencies": { "typescript": ">=4.9.5" }, "optionalPeers": ["typescript"] }, "sha512-gtTZxTDau1wL7Y7zifc2dd8jHSK/k6BTx/2Xp/BpdlAdnlYWFVt7qhJqgwi7637yRwRQ3qL4ZidbB4I8tA5VOg=="],
+
     "@seed-design/react/vite-plugin-dts": ["vite-plugin-dts@5.0.0", "", { "dependencies": { "unplugin-dts": "1.0.0" }, "peerDependencies": { "@microsoft/api-extractor": ">=7", "rollup": ">=3", "vite": ">=3" }, "optionalPeers": ["@microsoft/api-extractor", "rollup", "vite"] }, "sha512-VLNAUttBq7pLxxL/m/ztjd5zj5yiviiC7ijfPFVLK5c45FLcibvieBsdjSka3a4ag1qdrAF9K3OysH4/lW+rPQ=="],
 
     "@seed-design/react-attachment-display/@radix-ui/react-compose-refs": ["@radix-ui/react-compose-refs@1.1.2", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg=="],
 
     "@seed-design/react-file-upload/@radix-ui/react-compose-refs": ["@radix-ui/react-compose-refs@1.1.2", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg=="],
+
+    "@seed-design/rootage-cli/cosmiconfig": ["cosmiconfig@9.0.2", "", { "dependencies": { "env-paths": "^2.2.1", "import-fresh": "^3.3.0", "js-yaml": "^4.1.0", "parse-json": "^5.2.0" }, "peerDependencies": { "typescript": ">=4.9.5" }, "optionalPeers": ["typescript"] }, "sha512-gtTZxTDau1wL7Y7zifc2dd8jHSK/k6BTx/2Xp/BpdlAdnlYWFVt7qhJqgwi7637yRwRQ3qL4ZidbB4I8tA5VOg=="],
 
     "@seed-design/rootage-cli/typescript": ["typescript@7.0.2", "", { "optionalDependencies": { "@typescript/typescript-aix-ppc64": "7.0.2", "@typescript/typescript-darwin-arm64": "7.0.2", "@typescript/typescript-darwin-x64": "7.0.2", "@typescript/typescript-freebsd-arm64": "7.0.2", "@typescript/typescript-freebsd-x64": "7.0.2", "@typescript/typescript-linux-arm": "7.0.2", "@typescript/typescript-linux-arm64": "7.0.2", "@typescript/typescript-linux-loong64": "7.0.2", "@typescript/typescript-linux-mips64el": "7.0.2", "@typescript/typescript-linux-ppc64": "7.0.2", "@typescript/typescript-linux-riscv64": "7.0.2", "@typescript/typescript-linux-s390x": "7.0.2", "@typescript/typescript-linux-x64": "7.0.2", "@typescript/typescript-netbsd-arm64": "7.0.2", "@typescript/typescript-netbsd-x64": "7.0.2", "@typescript/typescript-openbsd-arm64": "7.0.2", "@typescript/typescript-openbsd-x64": "7.0.2", "@typescript/typescript-sunos-x64": "7.0.2", "@typescript/typescript-win32-arm64": "7.0.2", "@typescript/typescript-win32-x64": "7.0.2" }, "bin": { "tsc": "bin/tsc" } }, "sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA=="],
 

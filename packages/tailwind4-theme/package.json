@@ -15,7 +15,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "rootage:generate": "rootage tailwind4 ./ --prefix seed"
+    "rootage:generate": "rootage tailwind4 ./"
   },
   "exports": {
     ".": "./index.css"
@@ -33,6 +33,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@seed-design/rootage-core": "0.0.0",
     "tailwindcss": "^4.1.4"
   },
   "peerDependencies": {
