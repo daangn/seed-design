@@ -11,7 +11,11 @@ import {
 const TYPE_TABLE_CACHE_SCHEMA = "seed-filtered-type-table-v1";
 const DOCS_DIRECTORY =
   basename(process.cwd()) === "docs" ? process.cwd() : resolve(process.cwd(), "docs");
+// Next.js는 `.next/cache` 하위 파일을 빌드 뒤에도 유지하며, 문서 CI도 이 경로를 복원한다.
 const TYPE_TABLE_CACHE_DIRECTORY = resolve(DOCS_DIRECTORY, ".next/cache/fumadocs-typescript");
+
+// upstream cache key는 대상 파일과 export, fumadocs-typescript 버전만 반영한다.
+// generator 설정과 전이 타입 의존성이 바뀐 결과까지 재사용하지 않도록 별도 호환성 해시에 넣는다.
 const TYPE_TABLE_CACHE_COMPATIBILITY_FILES = [
   resolve(DOCS_DIRECTORY, "../bun.lock"),
   resolve(DOCS_DIRECTORY, "tsconfig.json"),
@@ -45,6 +49,7 @@ export const typeTableCacheCompatibilityHash = generateHash(
   [
     TYPE_TABLE_CACHE_SCHEMA,
     ...[...TYPE_TABLE_CACHE_COMPATIBILITY_FILES, ...TYPE_TABLE_CACHE_DEPENDENCY_FILES].map(
+      // 경로도 함께 hash해 파일 이동이나 이름 변경을 내용이 같은 경우에도 무효화한다.
       (file) => `${relative(DOCS_DIRECTORY, file)}\0${readFileSync(file, "utf8")}`,
     ),
   ].join("\0"),
@@ -58,13 +63,14 @@ export function createCompatibleTypeTableCache(
 
   return {
     read(hash) {
+      // upstream key를 그대로 보존하고 프로젝트 호환성 hash로 generation만 분리한다.
       return fileSystemCache.read(`${compatibilityHash}-${hash}`);
     },
     async write(hash, value) {
       try {
         await fileSystemCache.write(`${compatibilityHash}-${hash}`, value);
       } catch {
-        // A read-only or unavailable cache must not fail documentation generation.
+        // cache는 최적화일 뿐이므로 읽기 전용이거나 사용할 수 없어도 문서 생성은 계속한다.
       }
     },
   };
@@ -86,11 +92,12 @@ function removeIncompatibleTypeTableCacheFiles(directory: string) {
   }
 
   for (const file of files) {
+    // 호환성 hash가 바뀔 때마다 이전 generation이 CI cache에 계속 쌓이지 않도록 정리한다.
     if (!file.endsWith(".json") || file.startsWith(`${typeTableCacheCompatibilityHash}-`)) continue;
     try {
       unlinkSync(resolve(resolvedDirectory, file));
     } catch {
-      // Another Next.js worker may have removed the same stale cache file.
+      // 다른 Next.js worker가 같은 stale cache를 먼저 지운 경우는 정상적인 경쟁 상태다.
     }
   }
 }

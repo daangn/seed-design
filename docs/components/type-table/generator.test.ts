@@ -72,6 +72,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
       const sourcePath = join(directory, "props.ts");
       const cacheDirectory = join(directory, "cache");
       await writeFile(sourcePath, "export interface Props { value: string }\n");
+      // 로컬 빌드에서 확인한 3-worker 조건보다 하나 더 많은 writer로 공유 cache를 검증한다.
       const generators = Array.from({ length: 4 }, () =>
         createFilteredTypeTableGenerator(cacheDirectory),
       );
@@ -90,6 +91,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
       const cacheContents = await readFile(join(cacheDirectory, files[0]), "utf8");
       expect(() => JSON.parse(cacheContents)).not.toThrow();
     },
+    // GitHub runner에서는 여러 TypeScript project를 동시에 초기화하는 데 5초 이상 걸릴 수 있다.
     30_000,
   );
 
