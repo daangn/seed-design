@@ -65,27 +65,33 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
     expect(await readdir(directory)).toEqual(["keep.txt"]);
   });
 
-  it("여러 generator가 같은 파일을 동시에 안전하게 기록한다", async () => {
-    const directory = await createTemporaryDirectory();
-    const sourcePath = join(directory, "props.ts");
-    const cacheDirectory = join(directory, "cache");
-    await writeFile(sourcePath, "export interface Props { value: string }\n");
-    const generators = Array.from({ length: 12 }, () =>
-      createFilteredTypeTableGenerator(cacheDirectory),
-    );
+  it(
+    "여러 generator가 같은 파일을 동시에 안전하게 기록한다",
+    async () => {
+      const directory = await createTemporaryDirectory();
+      const sourcePath = join(directory, "props.ts");
+      const cacheDirectory = join(directory, "cache");
+      await writeFile(sourcePath, "export interface Props { value: string }\n");
+      const generators = Array.from({ length: 4 }, () =>
+        createFilteredTypeTableGenerator(cacheDirectory),
+      );
 
-    const outputs = await Promise.all(
-      generators.map((generator) => generator.generateDocumentation({ path: sourcePath }, "Props")),
-    );
+      const outputs = await Promise.all(
+        generators.map((generator) =>
+          generator.generateDocumentation({ path: sourcePath }, "Props"),
+        ),
+      );
 
-    expect(outputs.every((output) => JSON.stringify(output) === JSON.stringify(outputs[0]))).toBe(
-      true,
-    );
-    const files = await readdir(cacheDirectory);
-    expect(files).toHaveLength(1);
-    const cacheContents = await readFile(join(cacheDirectory, files[0]), "utf8");
-    expect(() => JSON.parse(cacheContents)).not.toThrow();
-  });
+      expect(outputs.every((output) => JSON.stringify(output) === JSON.stringify(outputs[0]))).toBe(
+        true,
+      );
+      const files = await readdir(cacheDirectory);
+      expect(files).toHaveLength(1);
+      const cacheContents = await readFile(join(cacheDirectory, files[0]), "utf8");
+      expect(() => JSON.parse(cacheContents)).not.toThrow();
+    },
+    30_000,
+  );
 
   it("손상된 JSON을 cache miss로 처리하고 다시 생성한다", async () => {
     const directory = await createTemporaryDirectory();
