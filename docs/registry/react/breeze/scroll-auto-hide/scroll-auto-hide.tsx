@@ -7,7 +7,6 @@ import * as React from "react";
 import styles from "./scroll-auto-hide.module.css";
 
 const SNAP_DURATION_MS = 200;
-const TRACKING_DURATION_MS = 24;
 const SNAP_THRESHOLD_RATIO = 0.5;
 const SCROLL_SETTLE_DELAY_MS = 120;
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
@@ -39,8 +38,9 @@ function joinClassNames(...classNames: Array<string | undefined>) {
 function parseTranslateY(value: string) {
   if (!value || value === "none") return 0;
 
-  const parts = value.split(" ");
-  const y = Number.parseFloat(parts[1] ?? parts[0]);
+  const values = value.slice(value.indexOf("(") + 1, -1).split(/[ ,]+/);
+  const yIndex = value.startsWith("matrix3d(") ? 13 : value.startsWith("matrix(") ? 5 : 1;
+  const y = Number.parseFloat(values[yIndex] ?? "0");
   return Number.isFinite(y) ? y : 0;
 }
 
@@ -58,7 +58,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const scrollContainer = scrollContainerRef.current;
       if (!root || !scrollContainer) return;
 
-      const initialTranslate = root.style.translate;
+      const initialTransform = root.style.transform;
       const initialTransition = root.style.transition;
       const initialWillChange = root.style.willChange;
       const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
@@ -77,11 +77,9 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       let translateY = 0;
       let previousScrollTop = getScrollTop();
       let isSettling = false;
-      let isTracking = false;
       let isTouching = false;
       let settleTimer: ReturnType<typeof setTimeout> | undefined;
       let settleTransition = initialTransition;
-      let trackingTransition = initialTransition;
       let skipNextSettleAnimation = false;
 
       const clamp = (value: number, min: number) => Math.min(0, Math.max(min, value));
@@ -94,7 +92,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
 
       const applyTranslate = (value: number) => {
         translateY = value;
-        root.style.translate = `0px ${value}px`;
+        root.style.transform = `translate3d(0px, ${value}px, 0px)`;
       };
 
       const clearSettleTimer = () => {
@@ -111,42 +109,15 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         root.style.willChange = initialWillChange;
       };
 
-      const finishTracking = () => {
-        if (!isTracking) return;
-        isTracking = false;
-        root.style.transition = trackingTransition;
-      };
-
-      const startTracking = () => {
-        if (isTracking) return;
-
-        trackingTransition = root.style.transition;
-        const computedStyle = getComputedStyle(root);
-        const translateTransition = `translate ${TRACKING_DURATION_MS}ms linear`;
-
-        isTracking = true;
-        root.style.transition = hasTransitionDuration(computedStyle.transitionDuration)
-          ? `${computedStyle.transition}, ${translateTransition}`
-          : translateTransition;
-      };
-
-      const cancelTracking = () => {
-        if (!isTracking) return;
-        const renderedTranslateY = parseTranslateY(getComputedStyle(root).translate);
-        finishTracking();
-        applyTranslate(clamp(renderedTranslateY, computeMinTranslate(getScrollTop())));
-      };
-
       const cancelSettling = () => {
         if (!isSettling) return;
-        const renderedTranslateY = parseTranslateY(getComputedStyle(root).translate);
+        const renderedTranslateY = parseTranslateY(getComputedStyle(root).transform);
         finishSettling();
         applyTranslate(clamp(renderedTranslateY, computeMinTranslate(getScrollTop())));
       };
 
       const settle = () => {
         clearSettleTimer();
-        cancelTracking();
         if (height === 0) return;
 
         if (mediaQuery.matches) {
@@ -178,10 +149,10 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         settleTransition = root.style.transition;
         const computedStyle = getComputedStyle(root);
         const computedTransition = computedStyle.transition;
-        const translateTransition = `translate ${SNAP_DURATION_MS}ms ${vars.$timingFunction.enter}`;
+        const translateTransition = `transform ${SNAP_DURATION_MS}ms ${vars.$timingFunction.enter}`;
 
         isSettling = true;
-        root.style.willChange = "translate";
+        root.style.willChange = "transform";
         root.style.transition = hasTransitionDuration(computedStyle.transitionDuration)
           ? `${computedTransition}, ${translateTransition}`
           : translateTransition;
@@ -196,16 +167,15 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
 
       const measure = () => {
         cancelSettling();
-        cancelTracking();
 
         const previousPosition = root.style.position;
         const previousTransition = root.style.transition;
-        const previousTranslate = root.style.translate;
+        const previousTransform = root.style.transform;
         const visibleRatio = height === 0 ? 1 : 1 + translateY / height;
 
         root.style.position = "relative";
         root.style.transition = "none";
-        root.style.translate = "none";
+        root.style.transform = "none";
 
         const rootRect = root.getBoundingClientRect();
         const scrollRect = scrollContainer.getBoundingClientRect();
@@ -215,7 +185,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
 
         root.style.position = previousPosition;
         root.style.transition = previousTransition;
-        root.style.translate = previousTranslate;
+        root.style.transform = previousTransform;
 
         const nextTranslate = height === 0 ? 0 : -(1 - visibleRatio) * height;
         applyTranslate(clamp(nextTranslate, computeMinTranslate(scrollTop)));
@@ -230,15 +200,12 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         previousScrollTop = scrollTop;
 
         if (mediaQuery.matches) {
-          finishTracking();
           finishSettling();
           applyTranslate(0);
           return;
         }
 
-        if (skipNextSettleAnimation) finishTracking();
-        else startTracking();
-        root.style.willChange = "translate";
+        root.style.willChange = "transform";
         applyTranslate(clamp(translateY - scrollDelta, computeMinTranslate(scrollTop)));
         scheduleSettle();
       };
@@ -262,7 +229,6 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const handleFocusIn = () => {
         clearSettleTimer();
         cancelSettling();
-        cancelTracking();
         previousScrollTop = getScrollTop();
         root.style.transition = initialTransition;
         root.style.willChange = initialWillChange;
@@ -274,19 +240,16 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         if (!(event.target instanceof Node) || !scrollContainer.contains(event.target)) return;
         skipNextSettleAnimation = true;
         cancelSettling();
-        cancelTracking();
       };
 
       const handleTransitionComplete = (event: TransitionEvent) => {
-        if (event.target !== root || event.propertyName !== "translate") return;
-        if (!isSettling || event.elapsedTime < SNAP_DURATION_MS / 1000) return;
+        if (event.target !== root || event.propertyName !== "transform") return;
         finishSettling();
       };
 
       const handleReducedMotionChange = () => {
         clearSettleTimer();
         cancelSettling();
-        cancelTracking();
         finishSettling();
         root.style.transition = initialTransition;
         applyTranslate(0);
@@ -310,6 +273,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       scrollContainer.addEventListener("wheel", handleInteractionStart, { passive: true });
       root.addEventListener("focusin", handleFocusIn);
       root.addEventListener("transitionend", handleTransitionComplete);
+      root.addEventListener("transitioncancel", handleTransitionComplete);
       root.ownerDocument.addEventListener("keydown", handleKeyDown);
       mediaQuery.addEventListener("change", handleReducedMotionChange);
 
@@ -324,9 +288,10 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         scrollContainer.removeEventListener("wheel", handleInteractionStart);
         root.removeEventListener("focusin", handleFocusIn);
         root.removeEventListener("transitionend", handleTransitionComplete);
+        root.removeEventListener("transitioncancel", handleTransitionComplete);
         root.ownerDocument.removeEventListener("keydown", handleKeyDown);
         mediaQuery.removeEventListener("change", handleReducedMotionChange);
-        root.style.translate = initialTranslate;
+        root.style.transform = initialTransform;
         root.style.transition = initialTransition;
         root.style.willChange = initialWillChange;
       };

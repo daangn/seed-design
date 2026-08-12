@@ -79,10 +79,9 @@ function partiallyHide(scrollContainer: HTMLElement, hiddenPixels: number) {
   scrollTo(scrollContainer, 100 + hiddenPixels);
 }
 
-function endTranslateTransition(root: HTMLElement, elapsedTime = 0.2) {
+function endTransformTransition(root: HTMLElement) {
   const event = new Event("transitionend", { bubbles: true });
-  Object.defineProperty(event, "propertyName", { value: "translate" });
-  Object.defineProperty(event, "elapsedTime", { value: elapsedTime });
+  Object.defineProperty(event, "propertyName", { value: "transform" });
   fireEvent(root, event);
 }
 
@@ -101,17 +100,6 @@ beforeEach(() => {
     removeListener: mock(),
     dispatchEvent: mock(() => false),
   }));
-  window.getComputedStyle = ((element: Element) => {
-    const styles = originalGetComputedStyle(element);
-    return new Proxy(styles, {
-      get(target, property) {
-        if (element instanceof HTMLElement && property === "translate") {
-          return element.style.translate || Reflect.get(target, property, target);
-        }
-        return Reflect.get(target, property, target);
-      },
-    });
-  }) as typeof window.getComputedStyle;
 
   HTMLElement.prototype.getBoundingClientRect = function getBoundingClientRect() {
     const isRoot = this.dataset.testid === "root";
@@ -159,26 +147,25 @@ describe("ScrollAutoHide", () => {
     const { root, scrollContainer } = renderScrollAutoHide();
 
     scrollTo(scrollContainer, 40);
-    expect(root.style.translate).toBe("0px -40px");
-    expect(root.style.transition).toContain("translate 24ms linear");
+    expect(root.style.transform).toBe("translate3d(0px, -40px, 0px)");
 
     scrollTo(scrollContainer, 15);
-    expect(root.style.translate).toBe("0px -15px");
+    expect(root.style.transform).toBe("translate3d(0px, -15px, 0px)");
   });
 
   it("하단 탄성 스크롤이 복귀해도 역방향 스크롤로 처리하지 않는다", () => {
     const { root, scrollContainer } = renderScrollAutoHide();
 
     scrollTo(scrollContainer, 600);
-    expect(root.style.translate).toBe("0px -100px");
+    expect(root.style.transform).toBe("translate3d(0px, -100px, 0px)");
 
     scrollTo(scrollContainer, 640);
     scrollTo(scrollContainer, 620);
     scrollTo(scrollContainer, 600);
-    expect(root.style.translate).toBe("0px -100px");
+    expect(root.style.transform).toBe("translate3d(0px, -100px, 0px)");
 
     scrollTo(scrollContainer, 580);
-    expect(root.style.translate).toBe("0px -80px");
+    expect(root.style.transform).toBe("translate3d(0px, -80px, 0px)");
   });
 
   it("상단 탄성 스크롤을 유효한 스크롤 거리로 누적하지 않는다", () => {
@@ -187,10 +174,10 @@ describe("ScrollAutoHide", () => {
     scrollTo(scrollContainer, -30);
     scrollTo(scrollContainer, -10);
     scrollTo(scrollContainer, 0);
-    expect(root.style.translate).toBe("0px 0px");
+    expect(root.style.transform).toBe("translate3d(0px, 0px, 0px)");
 
     scrollTo(scrollContainer, 20);
-    expect(root.style.translate).toBe("0px -20px");
+    expect(root.style.transform).toBe("translate3d(0px, -20px, 0px)");
   });
 
   it("트랙패드가 scrollTop을 먼저 갱신해도 wheel 이벤트가 스크롤 기준점을 덮어쓰지 않는다", () => {
@@ -200,7 +187,7 @@ describe("ScrollAutoHide", () => {
     fireEvent.wheel(scrollContainer, { deltaY: 40 });
     fireEvent.scroll(scrollContainer);
 
-    expect(root.style.translate).toBe("0px -40px");
+    expect(root.style.transform).toBe("translate3d(0px, -40px, 0px)");
   });
 
   it("스크롤 종료 시 50%를 기준으로 SEED easing을 적용해 스냅한다", () => {
@@ -209,22 +196,18 @@ describe("ScrollAutoHide", () => {
     partiallyHide(scrollContainer, 60);
     fireEvent(scrollContainer, new Event("scrollend"));
 
-    expect(root.style.translate).toBe("0px -100px");
-    expect(root.style.transition).toContain(`translate 200ms ${vars.$timingFunction.enter}`);
-    expect(root.style.transition).not.toContain("translate 24ms linear");
+    expect(root.style.transform).toBe("translate3d(0px, -100px, 0px)");
+    expect(root.style.transition).toContain(`transform 200ms ${vars.$timingFunction.enter}`);
     expect(root.style.transition).not.toContain("all");
 
-    endTranslateTransition(root, 0.024);
-    expect(root.style.transition).toContain(`translate 200ms ${vars.$timingFunction.enter}`);
-
-    endTranslateTransition(root);
+    endTransformTransition(root);
     expect(root.style.transition).toBe("");
     expect(root.style.willChange).toBe("");
 
     scrollTo(scrollContainer, 60);
     scrollTo(scrollContainer, 100);
     fireEvent(scrollContainer, new Event("scrollend"));
-    expect(root.style.translate).toBe("0px 0px");
+    expect(root.style.transform).toBe("translate3d(0px, 0px, 0px)");
   });
 
   it("모션 감소 설정에서는 자동 숨김을 비활성화한다", () => {
@@ -234,7 +217,7 @@ describe("ScrollAutoHide", () => {
     partiallyHide(scrollContainer, 60);
     fireEvent(scrollContainer, new Event("scrollend"));
 
-    expect(root.style.translate).toBe("0px 0px");
+    expect(root.style.transform).toBe("translate3d(0px, 0px, 0px)");
     expect(root.style.transition).toBe("");
   });
 
@@ -245,7 +228,7 @@ describe("ScrollAutoHide", () => {
     fireEvent(scrollContainer, new Event("scrollend"));
     fireEvent.focusIn(getByRole("button"));
 
-    expect(root.style.translate).toBe("0px 0px");
+    expect(root.style.transform).toBe("translate3d(0px, 0px, 0px)");
     expect(root.style.transition).toBe("");
   });
 
@@ -257,7 +240,7 @@ describe("ScrollAutoHide", () => {
     scrollTo(scrollContainer, 140);
     fireEvent(scrollContainer, new Event("scrollend"));
 
-    expect(root.style.translate).toBe("0px 0px");
+    expect(root.style.transform).toBe("translate3d(0px, 0px, 0px)");
     expect(root.style.transition).toBe("");
   });
 
@@ -270,38 +253,19 @@ describe("ScrollAutoHide", () => {
     window.getComputedStyle = ((element: Element) => {
       const styles = originalGetComputedStyle(element);
       return new Proxy(styles, {
-        get(target, property) {
-          if (element === root && property === "translate") return "0px -70px";
-          return Reflect.get(target, property, target);
+        get(target, property, receiver) {
+          if (element === root && property === "transform") {
+            return "matrix(1, 0, 0, 1, 0, -70)";
+          }
+          return Reflect.get(target, property, receiver);
         },
       });
     }) as typeof window.getComputedStyle;
 
     scrollTo(scrollContainer, 170);
 
-    expect(root.style.translate).toBe("0px -80px");
-    expect(root.style.transition).toContain("translate 24ms linear");
-  });
-
-  it("스크롤 종료 시 추적 애니메이션의 현재 화면 위치에서 스냅한다", () => {
-    const { root, scrollContainer } = renderScrollAutoHide();
-
-    partiallyHide(scrollContainer, 60);
-
-    window.getComputedStyle = ((element: Element) => {
-      const styles = originalGetComputedStyle(element);
-      return new Proxy(styles, {
-        get(target, property) {
-          if (element === root && property === "translate") return "0px -40px";
-          return Reflect.get(target, property, target);
-        },
-      });
-    }) as typeof window.getComputedStyle;
-
-    fireEvent(scrollContainer, new Event("scrollend"));
-
-    expect(root.style.translate).toBe("0px 0px");
-    expect(root.style.transition).toContain(`translate 200ms ${vars.$timingFunction.enter}`);
+    expect(root.style.transform).toBe("translate3d(0px, -80px, 0px)");
+    expect(root.style.transition).toBe("");
   });
 
   it("scrollend를 지원하지 않으면 마지막 스크롤 120ms 뒤 스냅한다", () => {
@@ -309,12 +273,12 @@ describe("ScrollAutoHide", () => {
     const { root, scrollContainer } = renderScrollAutoHide({ supportsScrollEnd: false });
 
     partiallyHide(scrollContainer, 60);
-    expect(root.style.translate).toBe("0px -60px");
+    expect(root.style.transform).toBe("translate3d(0px, -60px, 0px)");
 
     act(() => {
       jest.advanceTimersByTime(120);
     });
 
-    expect(root.style.translate).toBe("0px -100px");
+    expect(root.style.transform).toBe("translate3d(0px, -100px, 0px)");
   });
 });
