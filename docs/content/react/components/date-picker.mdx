@@ -113,6 +113,21 @@ Date Picker는 자체적으로 고정 폭이나 최대 폭을 제한하지 않�
   ```
 </ComponentExample>
 
+### 시작일을 유지하고 종료일만 변경
+
+이미 시작된 기간을 수정할 때는 `selectionMode="range"`와 `rangeStartReadOnly`를 함께 사용합니다. 기존 시작일은 선택 상태로 표시되지만 변경할 수 없고, 시작일보다 늦은 날짜만 새 종료일로 선택할 수 있습니다.
+
+`rangeStartReadOnly`에는 시작일을 포함한 `value` 또는 `defaultValue`가 필요합니다. 제어 방식으로 사용할 때 외부에서 전달하는 시작일이 바뀌면 Date Picker에도 새 값이 반영됩니다.
+
+<ComponentExample name="react/date-picker/read-only-range-start">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/read-only-range-start.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### 날짜 셀에 추가 정보 표시
 
 기본 날짜 숫자를 유지하면서 가격, 예약 가능 여부, 혼잡도 같은 정보를 추가할 때는 `renderDateCellSupplement`를 우선 사용하세요. 함수에는 날짜와 포맷된 날짜 숫자, 선택·오늘·범위·사용 불가·포커스 상태가 전달됩니다.

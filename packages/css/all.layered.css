@@ -5086,6 +5086,14 @@
     }
   }
 
+  .seed-date-picker__dateButton[data-range-start-readonly]:before {
+    background-color: var(--seed-color-palette-gray-600);
+  }
+
+  .seed-date-picker__dateButton[data-range-start-readonly] {
+    cursor: default;
+  }
+
   .seed-date-picker__dateButton[data-in-range] {
     color: var(--seed-color-fg-neutral-muted);
   }

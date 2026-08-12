@@ -63,6 +63,14 @@ const conditionMap = {
         end: { year: 2026, month: 7, day: 15 },
       },
     },
+    "Range Start Read Only": {
+      selectionMode: "range",
+      rangeStartReadOnly: true,
+      defaultValue: {
+        start: { year: 2026, month: 7, day: 7 },
+        end: { year: 2026, month: 7, day: 9 },
+      },
+    },
     Multiple: {
       selectionMode: "multiple",
       defaultValue: [

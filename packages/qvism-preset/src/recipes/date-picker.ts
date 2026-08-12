@@ -278,6 +278,12 @@ const datePicker = defineSlotRecipe({
       [`${pseudo(not(disabled), selected, engaged)}:not([data-in-range])::before` as const]: {
         backgroundColor: vars.base.selected.dateVisual.color,
       },
+      "&[data-range-start-readonly]::before": {
+        backgroundColor: vars.base.readOnly.dateVisual.color,
+      },
+      "&[data-range-start-readonly]": {
+        cursor: "default",
+      },
       "&[data-in-range]": {
         color: vars.base.enabled.dateContent.color,
       },
