@@ -63,10 +63,18 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
       const supportsScrollEnd = typeof scrollContainer.onscrollend !== "undefined";
 
+      const getScrollTop = () => {
+        const maxScrollTop = Math.max(
+          0,
+          scrollContainer.scrollHeight - scrollContainer.clientHeight,
+        );
+        return Math.min(maxScrollTop, Math.max(0, scrollContainer.scrollTop));
+      };
+
       let height = 0;
       let naturalOffset = 0;
       let translateY = 0;
-      let previousScrollTop = scrollContainer.scrollTop;
+      let previousScrollTop = getScrollTop();
       let isSettling = false;
       let isTouching = false;
       let settleTimer: ReturnType<typeof setTimeout> | undefined;
@@ -104,7 +112,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         if (!isSettling) return;
         const renderedTranslateY = parseTranslateY(getComputedStyle(root).translate);
         finishSettling();
-        applyTranslate(clamp(renderedTranslateY, computeMinTranslate(scrollContainer.scrollTop)));
+        applyTranslate(clamp(renderedTranslateY, computeMinTranslate(getScrollTop())));
       };
 
       const settle = () => {
@@ -120,7 +128,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         }
 
         const visibleRatio = 1 + translateY / height;
-        const minTranslate = computeMinTranslate(scrollContainer.scrollTop);
+        const minTranslate = computeMinTranslate(getScrollTop());
         const target = visibleRatio >= SNAP_THRESHOLD_RATIO ? 0 : clamp(-height, minTranslate);
 
         if (target === translateY) {
@@ -170,23 +178,23 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
 
         const rootRect = root.getBoundingClientRect();
         const scrollRect = scrollContainer.getBoundingClientRect();
+        const scrollTop = getScrollTop();
         height = rootRect.height;
-        naturalOffset =
-          scrollContainer.scrollTop + rootRect.top - scrollRect.top - scrollContainer.clientTop;
+        naturalOffset = scrollTop + rootRect.top - scrollRect.top - scrollContainer.clientTop;
 
         root.style.position = previousPosition;
         root.style.transition = previousTransition;
         root.style.translate = previousTranslate;
 
         const nextTranslate = height === 0 ? 0 : -(1 - visibleRatio) * height;
-        applyTranslate(clamp(nextTranslate, computeMinTranslate(scrollContainer.scrollTop)));
+        applyTranslate(clamp(nextTranslate, computeMinTranslate(scrollTop)));
       };
 
       const handleScroll = () => {
         clearSettleTimer();
         cancelSettling();
 
-        const scrollTop = scrollContainer.scrollTop;
+        const scrollTop = getScrollTop();
         const scrollDelta = scrollTop - previousScrollTop;
         previousScrollTop = scrollTop;
 
@@ -197,9 +205,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         }
 
         root.style.willChange = "translate";
-        applyTranslate(
-          clamp(translateY - scrollDelta, computeMinTranslate(scrollContainer.scrollTop)),
-        );
+        applyTranslate(clamp(translateY - scrollDelta, computeMinTranslate(scrollTop)));
         scheduleSettle();
       };
 
@@ -222,7 +228,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const handleFocusIn = () => {
         clearSettleTimer();
         cancelSettling();
-        previousScrollTop = scrollContainer.scrollTop;
+        previousScrollTop = getScrollTop();
         root.style.transition = initialTransition;
         root.style.willChange = initialWillChange;
         applyTranslate(0);
@@ -246,7 +252,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         finishSettling();
         root.style.transition = initialTransition;
         applyTranslate(0);
-        previousScrollTop = scrollContainer.scrollTop;
+        previousScrollTop = getScrollTop();
         skipNextSettleAnimation = false;
 
         if (!mediaQuery.matches) measure();

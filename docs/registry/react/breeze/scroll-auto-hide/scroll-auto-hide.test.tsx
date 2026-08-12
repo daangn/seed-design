@@ -34,6 +34,10 @@ function renderScrollAutoHide({
         configurable: true,
         value: supportsScrollEnd ? null : undefined,
       });
+      Object.defineProperties(node, {
+        clientHeight: { configurable: true, value: 400 },
+        scrollHeight: { configurable: true, value: 1000 },
+      });
     }
   };
 
@@ -147,6 +151,33 @@ describe("ScrollAutoHide", () => {
 
     scrollTo(scrollContainer, 15);
     expect(root.style.translate).toBe("0px -15px");
+  });
+
+  it("하단 탄성 스크롤이 복귀해도 역방향 스크롤로 처리하지 않는다", () => {
+    const { root, scrollContainer } = renderScrollAutoHide();
+
+    scrollTo(scrollContainer, 600);
+    expect(root.style.translate).toBe("0px -100px");
+
+    scrollTo(scrollContainer, 640);
+    scrollTo(scrollContainer, 620);
+    scrollTo(scrollContainer, 600);
+    expect(root.style.translate).toBe("0px -100px");
+
+    scrollTo(scrollContainer, 580);
+    expect(root.style.translate).toBe("0px -80px");
+  });
+
+  it("상단 탄성 스크롤을 유효한 스크롤 거리로 누적하지 않는다", () => {
+    const { root, scrollContainer } = renderScrollAutoHide();
+
+    scrollTo(scrollContainer, -30);
+    scrollTo(scrollContainer, -10);
+    scrollTo(scrollContainer, 0);
+    expect(root.style.translate).toBe("0px 0px");
+
+    scrollTo(scrollContainer, 20);
+    expect(root.style.translate).toBe("0px -20px");
   });
 
   it("트랙패드가 scrollTop을 먼저 갱신해도 wheel 이벤트가 스크롤 기준점을 덮어쓰지 않는다", () => {
