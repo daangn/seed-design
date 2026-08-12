@@ -3,11 +3,11 @@ title: Feedback
 description: 피드백은 사용자의 입력에 대한 즉각적인 반응입니다. 요소가 조작 가능하다는 사실과 입력이 전달되었다는 사실을 알려줍니다.
 ---
 
-사용자가 요소를 누르거나 조작할 때, 인터페이스는 그 입력이 전달되었음을 즉시 알려주어야 합니다. 이러한 반응은 [State](/foundations/state)가 정의하는 '상태'를 [Motion](/foundations/motion)의 언어로 전달하는 역할을 합니다.
+사용자가 요소를 누르면, 인터페이스는 그 입력이 전달되었음을 즉시 알려주어야 합니다. 이 즉각적인 반응이 피드백입니다. [State](/foundations/state)가 정의한 상태를 [Motion](/foundations/motion)의 언어로 드러내는 역할을 합니다.
 
-피드백을 한 가지 표현이 전담하지는 않습니다. 색상·축소·여백·모서리 같은 시각 표현부터 haptic 같은 촉각 채널까지, 여러 표현이 함께 눌림을 전달합니다. 요소마다 쓰는 조합이 다릅니다. [Action Button](/components/action-button)은 색상과 축소를 쓰고, [List Item](/components/list)은 시각 표현 네 가지를 모두 씁니다. 표현마다 시간과 이징을 따로 지정할 수 있어, 같은 누름 안에서도 각 표현이 자기 속도로 움직입니다.
+피드백을 전달하는 방법은 하나가 아닙니다. 색상·축소·여백처럼 눈으로 보이는 방법이 있고, haptic처럼 손끝으로 느껴지는 방법도 있습니다. 요소마다 쓰는 조합이 다릅니다. [Action Button](/components/action-button)은 색상과 축소를 쓰고, [List Item](/components/list)은 세 가지를 모두 씁니다. 각 표현은 시간과 이징을 따로 정할 수 있어, 같은 누름 안에서도 서로 다른 속도로 움직입니다.
 
-이 문서는 그중 **축소**를 정의합니다. 색상은 [Color](/foundations/color)에서, 표현이 움직이는 시간과 이징의 기준은 [Motion](/foundations/motion)에서 다룹니다.
+이 문서는 그중 **축소**를 정의합니다. 색상은 [Color](/foundations/color)에서, 시간과 이징의 기준은 [Motion](/foundations/motion)에서 다룹니다.
 
 ## Scale
 
