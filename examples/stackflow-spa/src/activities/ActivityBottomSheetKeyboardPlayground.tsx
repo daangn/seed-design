@@ -288,6 +288,10 @@ const ActivityBottomSheetKeyboardPlayground: StaticActivityComponentType<
         showCloseButton={false}
         title="Keyboard playground"
         layerIndex={useActivityZIndexBase()}
+        // The playground deliberately has a `tall` mode. Cap the sheet itself to the visible
+        // viewport so that mode exercises the body's scroll behavior instead of escaping above
+        // the status-bar safe area.
+        style={{ maxHeight: "calc(100dvh - var(--seed-safe-area-top))" }}
       >
         <BottomSheetBody
           // A snap point can leave less vertical space than the playground controls themselves.
@@ -341,7 +345,7 @@ const ActivityBottomSheetKeyboardPlayground: StaticActivityComponentType<
             </div>
           </VStack>
         </BottomSheetBody>
-        <BottomSheetFooter>
+        <BottomSheetFooter style={{ flexShrink: 0 }}>
           <ActionButton variant="neutralSolid" onClick={() => pop()}>
             Close
           </ActionButton>
