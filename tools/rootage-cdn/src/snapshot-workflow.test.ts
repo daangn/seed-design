@@ -97,4 +97,14 @@ describe("Rootage snapshot workflows", () => {
     };
     expect(packageJson.devDependencies).not.toHaveProperty("pkg-pr-new");
   });
+
+  test("Rootage 생성기는 snapshot 버전에서도 로컬 artifacts workspace를 사용한다", async () => {
+    const packageJson = (await Bun.file(
+      join(repositoryRoot, "ecosystem/rootage/cli/package.json"),
+    ).json()) as {
+      dependencies: Record<string, string>;
+    };
+
+    expect(packageJson.dependencies["@seed-design/rootage-artifacts"]).toBe("workspace:*");
+  });
 });
