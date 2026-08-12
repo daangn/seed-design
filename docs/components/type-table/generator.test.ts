@@ -1,9 +1,15 @@
 import { afterEach, describe, expect, it } from "bun:test";
-import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { createCompatibleTypeTableCache, createFilteredTypeTableGenerator } from "./generator";
+import {
+  collectTypeDependencyFiles,
+  createCompatibleTypeTableCache,
+  createFilteredTypeTableGenerator,
+} from "./generator";
 
 const temporaryDirectories: string[] = [];
+// GitHub runner에서는 여러 TypeScript project를 동시에 초기화하는 데 5초 이상 걸릴 수 있다.
+const CONCURRENT_GENERATOR_TEST_TIMEOUT = 30_000;
 
 async function createTemporaryDirectory() {
   const directory = await mkdtemp(join(import.meta.dir, ".generator-test-"));
@@ -18,6 +24,19 @@ afterEach(async () => {
 });
 
 describe("filtered type table generator cache", () => {
+  it("없는 경로와 생성물 디렉터리를 호환성 입력에서 제외한다", async () => {
+    const directory = await createTemporaryDirectory();
+    await mkdir(join(directory, "src"));
+    await writeFile(join(directory, "src", "props.ts"), "export interface Props {}\n");
+    for (const skippedDirectory of ["node_modules", "dist", ".turbo", ".next"]) {
+      await mkdir(join(directory, skippedDirectory));
+      await writeFile(join(directory, skippedDirectory, "generated.ts"), "export {};\n");
+    }
+
+    expect(collectTypeDependencyFiles(join(directory, "missing"))).toEqual([]);
+    expect(collectTypeDependencyFiles(directory)).toEqual([join(directory, "src", "props.ts")]);
+  });
+
   it("generator transform과 this binding을 유지한 결과를 재사용한다", async () => {
     const directory = await createTemporaryDirectory();
     const sourcePath = join(directory, "props.ts");
@@ -91,8 +110,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
       const cacheContents = await readFile(join(cacheDirectory, files[0]), "utf8");
       expect(() => JSON.parse(cacheContents)).not.toThrow();
     },
-    // GitHub runner에서는 여러 TypeScript project를 동시에 초기화하는 데 5초 이상 걸릴 수 있다.
-    30_000,
+    CONCURRENT_GENERATOR_TEST_TIMEOUT,
   );
 
   it("손상된 JSON을 cache miss로 처리하고 다시 생성한다", async () => {

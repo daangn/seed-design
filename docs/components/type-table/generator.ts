@@ -33,11 +33,24 @@ const TYPE_TABLE_CACHE_DEPENDENCY_DIRECTORIES = [
   resolve(DOCS_DIRECTORY, "../packages/stackflow/src"),
 ];
 const TYPE_DEPENDENCY_FILE = /\.(?:[cm]?[jt]sx?|json)$/;
+const TYPE_DEPENDENCY_SKIP_DIRECTORIES = new Set(["node_modules", "dist", ".turbo", ".next"]);
 
-function collectTypeDependencyFiles(directory: string): string[] {
-  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+export function collectTypeDependencyFiles(directory: string): string[] {
+  let entries;
+  try {
+    entries = readdirSync(directory, { withFileTypes: true });
+  } catch {
+    // 선택한 package가 이동하거나 제거되어도 문서 설정 모듈 자체는 계속 로드한다.
+    return [];
+  }
+
+  return entries.flatMap((entry) => {
     const path = resolve(directory, entry.name);
-    if (entry.isDirectory()) return collectTypeDependencyFiles(path);
+    if (entry.isDirectory()) {
+      return TYPE_DEPENDENCY_SKIP_DIRECTORIES.has(entry.name)
+        ? []
+        : collectTypeDependencyFiles(path);
+    }
     return TYPE_DEPENDENCY_FILE.test(entry.name) ? [path] : [];
   });
 }
