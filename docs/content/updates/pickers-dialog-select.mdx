@@ -8,10 +8,30 @@ category: release
 
 버튼으로 정수 단위의 수량을 한 단계씩 늘리거나 줄입니다. 최소·최대 범위와 삭제 가능한 상태를 표현하고 Form 값으로 제출할 수 있습니다. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 제공합니다.
 
+**주요 기능**
+
+- 최소·최대 수량을 정하고 controlled 또는 uncontrolled 방식으로 값을 관리할 수 있습니다.
+- 최소 수량에서 감소 버튼을 삭제 버튼으로 바꾸고, 삭제 후 되돌리기 같은 흐름을 만들 수 있습니다.
+- 값 텍스트와 버튼 배치를 바꾸거나 로딩 상태를 표시할 수 있습니다.
+- 숨겨진 input을 통해 네이티브 Form 값으로 제출할 수 있습니다.
+
+**기본 사용**
+
 <ComponentExample name="react/quantity-picker/preview">
   ```json doc-gen:file
   {
     "file": "examples/react/quantity-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+**최소 수량에서 항목 삭제하기**
+
+<ComponentExample name="react/quantity-picker/removable">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/removable.tsx",
     "codeblock": true
   }
   ```
@@ -23,10 +43,30 @@ category: release
 
 휠을 굴려 오전·오후와 시·분을 선택합니다. locale에 따른 칼럼 순서와 분 단위 간격을 설정할 수 있습니다. `@seed-design/react@2.2.0`, `@seed-design/css@2.4.0`부터 제공합니다.
 
+**주요 기능**
+
+- locale에 맞춰 오전·오후와 시·분 칼럼의 순서와 레이블을 바꿉니다.
+- `minuteStep`으로 선택 간격을 정하고 필요한 칼럼을 비활성화할 수 있습니다.
+- controlled 값이나 JavaScript `Date` 객체와 연결할 수 있습니다.
+- 인라인으로 배치하거나 Bottom Sheet 안에서 값을 확인한 뒤 확정하는 흐름을 만들 수 있습니다.
+
+**기본 사용**
+
 <ComponentExample name="react/time-picker/preview">
   ```json doc-gen:file
   {
     "file": "examples/react/time-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+**Bottom Sheet에서 시간 확정하기**
+
+<ComponentExample name="react/time-picker/bottom-sheet">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/bottom-sheet.tsx",
     "codeblock": true
   }
   ```
@@ -38,10 +78,30 @@ category: release
 
 달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택합니다. 한 달과 두 달 레이아웃을 제공해 화면 크기와 선택 맥락에 맞게 구성할 수 있습니다. `@seed-design/react@2.2.0`, `@seed-design/css@2.4.0`부터 제공합니다.
 
+**주요 기능**
+
+- 단일 날짜, 날짜 범위, 여러 날짜 선택 방식을 제공합니다.
+- 한 달·두 달·한 주·연속 스크롤 레이아웃으로 화면과 탐색 맥락에 맞게 구성합니다.
+- 최소·최대 기간과 예약 완료일 같은 선택 제약 조건을 조합할 수 있습니다.
+- 날짜 셀에 가격이나 예약 상태를 더하고, Time Picker와 날짜·시간 선택 흐름을 만들 수 있습니다.
+
+**기본 사용**
+
 <ComponentExample name="react/date-picker/preview">
   ```json doc-gen:file
   {
     "file": "examples/react/date-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+**예약 가능한 날짜 범위 선택하기**
+
+<ComponentExample name="react/date-picker/reservation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/reservation.tsx",
     "codeblock": true
   }
   ```
@@ -53,10 +113,30 @@ category: release
 
 Select는 트리거를 눌러 연 목록에서 하나 또는 여러 값을 선택합니다. 항목을 그룹으로 나누거나 설명과 아이콘을 더할 수 있고, 선택값을 Form으로 제출할 수 있습니다. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 제공합니다.
 
+**주요 기능**
+
+- 하나 또는 여러 값을 선택하고 선택된 값을 원하는 형식으로 표시할 수 있습니다.
+- 항목을 그룹으로 나누고 설명, 아이콘, 커스텀 레이블을 더할 수 있습니다.
+- 긴 목록의 스크롤, 팝오버 위치, 크기와 비활성 상태를 설정할 수 있습니다.
+- Field, 네이티브 Form, React Hook Form과 연결하고 열림 상태와 변경 이유를 제어할 수 있습니다.
+
+**기본 사용**
+
 <ComponentExample name="react/select/preview">
   ```json doc-gen:file
   {
     "file": "examples/react/select/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+**React Hook Form으로 검증하기**
+
+<ComponentExample name="react/select/react-hook-form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/react-hook-form.tsx",
     "codeblock": true
   }
   ```
@@ -68,10 +148,30 @@ Select는 트리거를 눌러 연 목록에서 하나 또는 여러 값을 선�
 
 Dialog는 화면 중앙에서 사용자의 주의를 모으고, 제목·본문·푸터에 폼이나 스크롤되는 콘텐츠를 담습니다. ResponsiveDialog를 사용하면 넓은 화면에서는 Dialog, 작은 화면에서는 Bottom Sheet로 자동 전환됩니다. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 제공합니다.
 
+**주요 기능**
+
+- 크기, 닫기 버튼, 본문 높이와 패딩, 푸터 액션 배치를 콘텐츠에 맞게 구성할 수 있습니다.
+- controlled 상태와 Portal을 사용해 열림 상태와 렌더링 위치를 관리할 수 있습니다.
+- 바깥 클릭이나 ESC 입력을 막고, 닫기 이유에 따라 확인 Dialog를 한 번 더 보여줄 수 있습니다.
+- ResponsiveDialog는 넓은 화면의 Dialog와 작은 화면의 Bottom Sheet를 자동으로 전환합니다.
+
+**기본 사용**
+
 <ComponentExample name="react/dialog/preview">
   ```json doc-gen:file
   {
     "file": "examples/react/dialog/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+**화면 크기에 맞춰 Dialog와 Bottom Sheet 전환하기**
+
+<ComponentExample name="react/dialog/responsive">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/responsive.tsx",
     "codeblock": true
   }
   ```
@@ -82,6 +182,15 @@ Dialog는 화면 중앙에서 사용자의 주의를 모으고, 제목·본문·
 ## ScrollAutoHide
 
 스크롤 방향에 따라 필터, 탭, 보조 헤더 같은 고정 영역을 자연스럽게 숨기고 드러냅니다. 아래로 스크롤하면 영역이 숨겨지고, 위로 올리면 이동한 거리만큼 다시 나타납니다. Breeze 스니펫으로 제공합니다.
+
+**주요 기능**
+
+- 터치와 트랙패드 스크롤을 모두 추적합니다.
+- 스크롤이 끝나면 SEED easing으로 영역을 완전히 숨기거나 드러냅니다.
+- Safari의 상·하단 탄성 스크롤이 잘못된 노출로 이어지지 않도록 처리합니다.
+- 숨겨진 영역으로 키보드 포커스가 이동하면 즉시 다시 보여주고, 모션 감소 설정에서는 자동 숨김을 비활성화합니다.
+
+**동작 예시**
 
 <ComponentExample name="breeze/scroll-auto-hide/preview">
   ```json doc-gen:file
