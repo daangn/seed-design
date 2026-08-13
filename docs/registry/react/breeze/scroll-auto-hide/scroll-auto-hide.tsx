@@ -238,7 +238,7 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
           return;
         }
 
-        settleTransition = root.style.transition;
+        if (!isSettling) settleTransition = root.style.transition;
         const computedStyle = getComputedStyle(root);
         const computedTransition = computedStyle.transition;
         const translateTransition = `transform ${SNAP_DURATION_MS}ms ${vars.$timingFunction.enter}`;
@@ -341,6 +341,12 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       const handleKeyDown = (event: KeyboardEvent) => {
         if (!SCROLL_KEYS.has(event.key)) return;
         if (!(event.target instanceof Node) || !scrollContainer.contains(event.target)) return;
+        if (
+          event.target instanceof HTMLElement &&
+          (event.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName))
+        ) {
+          return;
+        }
         skipNextSettleAnimation = true;
         cancelSettling();
         syncTracking();
@@ -378,7 +384,6 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       scrollContainer.addEventListener("wheel", handleInteractionStart, { passive: true });
       root.addEventListener("focusin", handleFocusIn);
       root.addEventListener("transitionend", handleTransitionComplete);
-      root.addEventListener("transitioncancel", handleTransitionComplete);
       root.ownerDocument.addEventListener("keydown", handleKeyDown);
       mediaQuery.addEventListener("change", handleReducedMotionChange);
 
@@ -394,7 +399,6 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         scrollContainer.removeEventListener("wheel", handleInteractionStart);
         root.removeEventListener("focusin", handleFocusIn);
         root.removeEventListener("transitionend", handleTransitionComplete);
-        root.removeEventListener("transitioncancel", handleTransitionComplete);
         root.ownerDocument.removeEventListener("keydown", handleKeyDown);
         mediaQuery.removeEventListener("change", handleReducedMotionChange);
         root.style.transform = initialTransform;
