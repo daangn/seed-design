@@ -233,6 +233,13 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 - `bun release` - 패키지 빌드 및 npm 배포
 - PR에서 `/snapshot` - `pkg.pr.new` 패키지 snapshot을 게시하고 `packages/rootage/**` 변경이 있으면 exact PR head용 Rootage CDN URL도 생성. snapshot은 stable 포인터를 변경하지 않으며 PR 종료 30일 뒤 정리
 
+### 릴리스 브랜치 Fast-forward
+
+- `minor → dev`, `major → dev` PR에서 저장소 쓰기 권한이 있는 사용자가 `/ff-merge` 댓글을 남기면 `dev`를 PR head로 fast-forward한다.
+- GitHub의 rebase merge를 사용하지 않는다. 기존 커밋과 SHA를 유지한 채 `dev` ref만 `force: false`로 갱신한다.
+- PR이 열려 있고 초안이 아니며 두 브랜치가 갈라지지 않은 경우에만 실행한다. 실행 중 SHA가 바뀌면 병합하지 않고 최신 상태에서 다시 실행하도록 안내한다.
+- 실행 결과와 이전·이후 SHA는 GitHub Actions Summary에서 확인한다. 실패한 경우 명령 댓글의 👎 반응과 PR 댓글에서도 원인을 확인할 수 있다.
+
 ---
 
 ## 환경 변수
