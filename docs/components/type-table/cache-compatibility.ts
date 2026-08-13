@@ -41,9 +41,10 @@ export function collectTypeDependencyFiles(directory: string): string[] {
   let entries: Dirent[];
   try {
     entries = readdirSync(directory, { withFileTypes: true });
-  } catch {
+  } catch (error) {
     // 선택한 package가 이동하거나 제거되어도 문서 설정 모듈 자체는 계속 로드한다.
-    return [];
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+    throw error;
   }
 
   return entries.flatMap((entry) => {
