@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "bun:test";
-import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import {
   collectTypeDependencyFiles,
@@ -24,17 +24,61 @@ afterEach(async () => {
 });
 
 describe("filtered type table generator cache", () => {
-  it("없는 경로와 생성물 디렉터리를 호환성 입력에서 제외한다", async () => {
+  it("없는 경로를 호환성 입력에서 제외한다", async () => {
+    const directory = await createTemporaryDirectory();
+
+    expect(collectTypeDependencyFiles(join(directory, "missing"))).toEqual([]);
+  });
+
+  it("디렉터리 읽기 권한 오류를 전파한다", async () => {
+    const directory = await createTemporaryDirectory();
+    const inaccessibleDirectory = join(directory, "inaccessible");
+    await mkdir(inaccessibleDirectory);
+    await chmod(inaccessibleDirectory, 0o000);
+
+    try {
+      let thrown: unknown;
+      try {
+        collectTypeDependencyFiles(inaccessibleDirectory);
+      } catch (error) {
+        thrown = error;
+      }
+      expect((thrown as NodeJS.ErrnoException | undefined)?.code).toBe("EACCES");
+    } finally {
+      await chmod(inaccessibleDirectory, 0o700);
+    }
+  });
+
+  it("생성물 디렉터리를 호환성 입력에서 제외한다", async () => {
     const directory = await createTemporaryDirectory();
     await mkdir(join(directory, "src"));
     await writeFile(join(directory, "src", "props.ts"), "export interface Props {}\n");
-    for (const skippedDirectory of ["node_modules", "dist", ".turbo", ".next"]) {
+    for (const skippedDirectory of [
+      "node_modules",
+      "dist",
+      "build",
+      "lib",
+      "coverage",
+      ".cache",
+      ".turbo",
+      ".next",
+    ]) {
       await mkdir(join(directory, skippedDirectory));
       await writeFile(join(directory, skippedDirectory, "generated.ts"), "export {};\n");
     }
+    await writeFile(join(directory, ".ultra.cache.json"), "{}\n");
 
-    expect(collectTypeDependencyFiles(join(directory, "missing"))).toEqual([]);
     expect(collectTypeDependencyFiles(directory)).toEqual([join(directory, "src", "props.ts")]);
+  });
+
+  it("CI와 generator가 같은 호환성 해시 구현을 사용한다", async () => {
+    const action = await readFile(
+      join(import.meta.dir, "../../../.github/actions/nextjs-cache/action.yml"),
+      "utf8",
+    );
+
+    expect(action).toContain("components/type-table/cache-compatibility.ts");
+    expect(action).not.toContain("FUMADOCS_COMPATIBILITY_HASH: ${{ hashFiles");
   });
 
   it("generator transform과 this binding을 유지한 결과를 재사용한다", async () => {

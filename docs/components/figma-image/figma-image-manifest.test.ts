@@ -1,13 +1,16 @@
 import { describe, expect, it } from "bun:test";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { collectFigmaImageIdsFromMdx } from "./collect-figma-image-ids";
 import {
   createFigmaImageManifest,
   getFigmaImageCacheKey,
   getFigmaImageUrlsFromManifest,
+  writeFigmaImageManifest,
 } from "./figma-image-manifest";
-import { remarkFigmaImage } from "./remark-figma-image";
-import { remark } from "remark";
-import remarkMdx from "remark-mdx";
+import { createBatchedFigmaImageUrlResolver, remarkFigmaImage } from "./remark-figma-image";
+import { mdxToJs } from "satteri";
 
 const options = { format: "png", scale: 2 } as const;
 
@@ -45,42 +48,101 @@ describe("Figma image manifest", () => {
     );
   });
 
-  it("remark 변환에서 manifest를 동기적으로 사용한다", () => {
+  it("내용이 같은 manifest는 다시 쓰지 않는다", async () => {
+    const directory = await mkdtemp(path.join(tmpdir(), "figma-image-manifest-"));
+    const manifestPath = path.join(directory, "manifest.json");
+    const manifest = createFigmaImageManifest([["key", "https://example.com/image.png"]]);
+
+    try {
+      expect(await writeFigmaImageManifest(manifest, manifestPath)).toBe(true);
+      expect(await writeFigmaImageManifest(manifest, manifestPath)).toBe(false);
+    } finally {
+      await rm(directory, { recursive: true });
+    }
+  });
+
+  it("Satteri 변환에서 manifest를 사용한다", async () => {
     const manifest = createFigmaImageManifest([
       [getFigmaImageCacheKey("1:2", options), "https://example.com/image.png"],
     ]);
-    const processor = remark().use(remarkMdx).use(remarkFigmaImage, {
-      accessToken: "test-token",
-      fileKey: "test-file",
-      fetchUrlsOptions: options,
-      manifest,
+    const result = await mdxToJs('<FigmaImage id="1:2" alt="example" />', {
+      mdastPlugins: [
+        remarkFigmaImage({
+          accessToken: "test-token",
+          fileKey: "test-file",
+          fetchUrlsOptions: options,
+          manifest,
+        }),
+      ],
     });
-    const tree = processor.parse('<FigmaImage id="1:2" alt="example" />');
 
-    expect(processor.runSync(tree)).toBe(tree);
-    expect(tree.children[0]).toMatchObject({
-      type: "paragraph",
-      children: [{ type: "image", url: "https://example.com/image.png", alt: "example" }],
-    });
+    expect(result.code).toContain("https://example.com/image.png");
+    expect(result.code).toContain('alt: "example"');
     expect(getFigmaImageUrlsFromManifest(manifest, ["1:2"], options)).toEqual(
       new Map([["1:2", "https://example.com/image.png"]]),
     );
   });
 
-  it("인증 정보가 없어도 manifest의 이미지 URL을 사용한다", () => {
+  it("인증 정보가 없어도 manifest의 이미지 URL을 사용한다", async () => {
     const manifest = createFigmaImageManifest([
       [getFigmaImageCacheKey("1:2", options), "https://example.com/image.png"],
     ]);
-    const processor = remark().use(remarkMdx).use(remarkFigmaImage, {
-      fetchUrlsOptions: options,
-      manifest,
+    const result = await mdxToJs('<FigmaImage id="1:2" alt="example" />', {
+      mdastPlugins: [
+        remarkFigmaImage({
+          fetchUrlsOptions: options,
+          manifest,
+        }),
+      ],
     });
-    const tree = processor.parse('<FigmaImage id="1:2" alt="example" />');
 
-    expect(processor.runSync(tree)).toBe(tree);
-    expect(tree.children[0]).toMatchObject({
-      type: "paragraph",
-      children: [{ type: "image", url: "https://example.com/image.png", alt: "example" }],
+    expect(result.code).toContain("https://example.com/image.png");
+    expect(result.code).toContain('alt: "example"');
+  });
+
+  it("DoImage의 figmaId를 Satteri에서 src로 바꾼다", async () => {
+    const manifest = createFigmaImageManifest([
+      [getFigmaImageCacheKey("1:2", options), "https://example.com/image.png"],
+    ]);
+    const result = await mdxToJs('<DoImage figmaId="1:2" />', {
+      mdastPlugins: [remarkFigmaImage({ fetchUrlsOptions: options, manifest })],
     });
+
+    expect(result.code).toContain('src: "https://example.com/image.png"');
+    expect(result.code).not.toContain("figmaId");
+  });
+});
+
+describe("createBatchedFigmaImageUrlResolver", () => {
+  it("같은 시점의 중복 요청을 하나의 묶음으로 조회한다", async () => {
+    const batches: string[][] = [];
+    const resolveUrl = createBatchedFigmaImageUrlResolver(async (nodeIds) => {
+      batches.push(nodeIds);
+      return new Map(nodeIds.map((nodeId) => [nodeId, `https://example.com/${nodeId}.png`]));
+    });
+
+    const first = resolveUrl("1:2");
+    const duplicate = resolveUrl("1:2");
+    const second = resolveUrl("3:4");
+
+    expect(await Promise.all([first, duplicate, second])).toEqual([
+      "https://example.com/1:2.png",
+      "https://example.com/1:2.png",
+      "https://example.com/3:4.png",
+    ]);
+    expect(batches).toEqual([["1:2", "3:4"]]);
+  });
+
+  it("실패한 요청을 캐시하지 않고 다음 호출에서 다시 시도한다", async () => {
+    let attempts = 0;
+    const resolveUrl = createBatchedFigmaImageUrlResolver(async (nodeIds) => {
+      attempts++;
+      if (attempts === 1) throw new Error("temporary failure");
+      return new Map(nodeIds.map((nodeId) => [nodeId, "https://example.com/retried.png"]));
+    });
+
+    await expect(resolveUrl("1:2")).rejects.toThrow("temporary failure");
+    expect(await resolveUrl("1:2")).toBe("https://example.com/retried.png");
+    expect(attempts).toBe(2);
   });
 });

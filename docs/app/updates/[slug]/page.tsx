@@ -1,13 +1,13 @@
 import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { env } from "@/app/env";
-import { updatesSource } from "@/app/source";
+import { getUpdatesSource } from "@/app/source";
 import {
   createFigmaClient,
   fetchFigmaImageUrls,
 } from "@/components/figma-image/fetch-figma-image-urls";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
-import { mdxComponents } from "@/components/mdx-components";
 import { formatPublishedDate } from "@/lib/format-date";
+import { loadMarkdownPage } from "@/lib/load-markdown-page";
 import { buildDocsPageJsonLd, buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
 import clsx from "clsx";
 import type { Metadata } from "next";
@@ -22,33 +22,36 @@ const client = env.figmaPersonalAccessToken
 
 export default async function Page(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
+  const updatesSource = await getUpdatesSource();
   const page = updatesSource.getPage([params.slug]);
   if (!page) notFound();
 
-  const { body: MDX, toc, lastModified } = await page.data.load();
+  const { body, toc, lastModified } = await loadMarkdownPage(page);
   const markdownUrl = getLLMMarkdownUrl("updates", page.slugs);
-  const publishedDate = page.data.publishedAt ? new Date(page.data.publishedAt) : null;
+  const publishedDate = page.data.frontmatter.publishedAt
+    ? new Date(page.data.frontmatter.publishedAt)
+    : null;
 
   // 같은 라우트가 두 종류의 글을 렌더한다.
   // - `post`: 에세이. ToC 없이 중앙 정렬된 단독 컬럼으로 처음부터 끝까지 읽는다.
   // - `release`: 릴리즈 노트. 훑고 필요한 항목으로 점프하는 문서라 ToC를 켜고 docs 기본 조판을 쓴다.
   //   커버·중앙 정렬·확대 prose·`.updates-article`(h2 위 6rem 여백)은 섹션이 많은 글에 과하므로 전부 뺀다.
-  const isRelease = page.data.category === "release";
+  const isRelease = page.data.frontmatter.category === "release";
 
   // 정적 커버(노션 추출 webp 등)를 우선하고, 없으면 Figma id로 폴백.
   const coverUrl = isRelease
     ? undefined
-    : page.data.coverImage
-      ? resolveCoverImage(page.data.coverImage).thumbnail
-      : page.data.coverImageFigmaId && client && env.figmaFileKey
+    : page.data.frontmatter.coverImage
+      ? resolveCoverImage(page.data.frontmatter.coverImage).thumbnail
+      : page.data.frontmatter.coverImageFigmaId && client && env.figmaFileKey
         ? (
             await fetchFigmaImageUrls({
               client,
               fileKey: env.figmaFileKey,
-              nodeIds: [page.data.coverImageFigmaId],
+              nodeIds: [page.data.frontmatter.coverImageFigmaId],
               options: { format: "png", scale: 2 },
             })
-          ).get(page.data.coverImageFigmaId)
+          ).get(page.data.frontmatter.coverImageFigmaId)
         : undefined;
 
   return (
@@ -101,12 +104,13 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
         ) : undefined
       }
     >
-      <MDX components={mdxComponents} />
+      {body}
     </DocsPageRenderer>
   );
 }
 
 export async function generateStaticParams() {
+  const updatesSource = await getUpdatesSource();
   return updatesSource.getPages().map((page) => ({ slug: page.slugs[0] }));
 }
 
@@ -114,6 +118,7 @@ export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
+  const updatesSource = await getUpdatesSource();
   const page = updatesSource.getPage([params.slug]);
   if (!page) notFound();
 
@@ -121,10 +126,10 @@ export async function generateMetadata(props: {
     url: page.url,
     title: page.data.title,
     description: page.data.description,
-    coverImage: page.data.coverImage,
+    coverImage: page.data.frontmatter.coverImage,
     // Updates는 블로그성 글이라 og:type을 article로 올리고 발행일을 노출한다.
-    publishedTime: page.data.publishedAt
-      ? new Date(page.data.publishedAt).toISOString()
+    publishedTime: page.data.frontmatter.publishedAt
+      ? new Date(page.data.frontmatter.publishedAt).toISOString()
       : undefined,
   });
 }

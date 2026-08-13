@@ -1,5 +1,5 @@
 import { env } from "@/app/env";
-import { updatesSource } from "@/app/source";
+import { getUpdatesSource } from "@/app/source";
 import {
   createFigmaClient,
   fetchFigmaImageUrls,
@@ -49,11 +49,12 @@ interface UpdateCard {
  * 자동으로 제자리 정렬된다.
  */
 async function buildCards(): Promise<UpdateCard[]> {
+  const updatesSource = await getUpdatesSource();
   const internalPages = updatesSource.getPages();
 
   // 상세 페이지와 동일한 Figma 커버를 한 번에 배치 페치(빌드타임).
   const figmaIds = internalPages
-    .map((post) => post.data.coverImageFigmaId)
+    .map((post) => post.data.frontmatter.coverImageFigmaId)
     .filter((id): id is string => Boolean(id));
   const coverMap =
     client && env.figmaFileKey && figmaIds.length > 0
@@ -70,13 +71,17 @@ async function buildCards(): Promise<UpdateCard[]> {
     description: post.data.description,
     // 정적 커버(노션 추출 webp) 우선 → Figma 커버 → Updates 섹션 폴백.
     image:
-      (post.data.coverImage && resolveCoverImage(post.data.coverImage).thumbnail) ||
-      (post.data.coverImageFigmaId && coverMap.get(post.data.coverImageFigmaId)) ||
+      (post.data.frontmatter.coverImage &&
+        resolveCoverImage(post.data.frontmatter.coverImage).thumbnail) ||
+      (post.data.frontmatter.coverImageFigmaId &&
+        coverMap.get(post.data.frontmatter.coverImageFigmaId)) ||
       INTERNAL_FALLBACK,
     href: post.url,
-    publishedAt: post.data.publishedAt ? new Date(post.data.publishedAt).toISOString() : undefined,
+    publishedAt: post.data.frontmatter.publishedAt
+      ? new Date(post.data.frontmatter.publishedAt).toISOString()
+      : undefined,
     external: false,
-    category: post.data.category,
+    category: post.data.frontmatter.category,
   }));
 
   // 외부 카드는 external:true 항목만 — 내부 글로 이관된 항목이 BLOG_POSTS에 남아 있어도
@@ -162,7 +167,7 @@ export default async function Page() {
       <div className="not-prose mb-8 md:mb-10">
         <img
           src={cover.thumbnail}
-          alt="Updates cover image"
+          alt="업데이트 표지"
           width={cover.og.width}
           height={cover.og.height}
           className="block h-auto w-full rounded-r4"

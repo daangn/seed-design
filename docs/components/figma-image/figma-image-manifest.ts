@@ -1,6 +1,6 @@
 import type * as FigmaRestAPI from "@figma/rest-api-spec";
 import { readFileSync } from "node:fs";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 export type FetchFigmaImageUrlsOptions = Omit<FigmaRestAPI.GetImagesQueryParams, "ids" | "version">;
@@ -46,9 +46,18 @@ export function readFigmaImageManifest(
 export async function writeFigmaImageManifest(
   manifest: FigmaImageManifest,
   manifestPath = FIGMA_IMAGE_MANIFEST_PATH,
-): Promise<void> {
+): Promise<boolean> {
+  const content = `${JSON.stringify(manifest, null, 2)}\n`;
+
+  try {
+    if ((await readFile(manifestPath, "utf-8")) === content) return false;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
+
   await mkdir(path.dirname(manifestPath), { recursive: true });
-  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf-8");
+  await writeFile(manifestPath, content, "utf-8");
+  return true;
 }
 
 export function getFigmaImageCacheKey(nodeId: string, options: FetchFigmaImageUrlsOptions): string {
