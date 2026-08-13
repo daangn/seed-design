@@ -6,12 +6,15 @@ import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
+import field from "./recipes/field";
+import fieldLabel from "./recipes/field-label";
 import radio from "./recipes/radio";
 import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
+import textInput from "./recipes/text-input";
 
 /**
  * Recipes used by the Lynx preset build.
@@ -26,6 +29,8 @@ export const recipes = {
   checkbox,
   checkboxGroup,
   checkmark,
+  field,
+  fieldLabel,
   radio,
   radioGroup,
   radiomark,
@@ -33,4 +38,5 @@ export const recipes = {
   switchmark: switchmarkRecipe,
   tagGroup: lynxTagGroup,
   tagGroupItem: lynxTagGroupItem,
+  textInput,
 };

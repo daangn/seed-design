@@ -75,5 +75,14 @@ export const registryUI: Registry = {
         },
       ],
     },
+    {
+      id: "text-field",
+      snippets: [
+        {
+          path: "text-field.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
   ],
 };
