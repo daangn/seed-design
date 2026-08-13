@@ -57,6 +57,7 @@ const DEFAULT_ARIA_LABELS = {
     nextWeek: "다음 주",
     yearWheel: "연도",
     monthWheel: "월",
+    readOnlyRangeStart: "읽기 전용 시작일",
   },
   en: {
     root: "Select date",
@@ -66,6 +67,7 @@ const DEFAULT_ARIA_LABELS = {
     nextWeek: "Next week",
     yearWheel: "Year",
     monthWheel: "Month",
+    readOnlyRangeStart: "read-only start date",
   },
 } satisfies Record<string, DatePickerAriaLabels>;
 
@@ -261,6 +263,16 @@ export function useDatePicker(props: UseDatePickerProps) {
   assertDateInYearRange(today, yearRange, "today");
   validateValue(selectionMode, props.value, yearRange, "value");
   validateValue(selectionMode, props.defaultValue, yearRange, "defaultValue");
+  if (
+    selectionMode === "range" &&
+    props.rangeStartReadOnly === true &&
+    props.value === undefined &&
+    props.defaultValue === undefined
+  ) {
+    throw new Error(
+      "DatePicker: rangeStartReadOnly가 true이면 value 또는 defaultValue가 필요합니다.",
+    );
+  }
   if (props.viewDate !== undefined) {
     assertDateInYearRange(props.viewDate, yearRange, "viewDate");
   }
@@ -324,6 +336,7 @@ export function useDatePicker(props: UseDatePickerProps) {
   );
   const disabled = props.disabled ?? false;
   const readOnly = props.readOnly ?? false;
+  const rangeStartReadOnly = selectionMode === "range" && props.rangeStartReadOnly === true;
   const isRtl = isRtlLocale(locale);
 
   const dayFormatter = React.useMemo(() => new Intl.NumberFormat(locale), [locale]);
@@ -384,20 +397,39 @@ export function useDatePicker(props: UseDatePickerProps) {
       return {
         selectionMode,
         value,
-        rangeStart: rangeValue?.end === undefined ? rangeValue?.start : undefined,
+        rangeStart:
+          rangeStartReadOnly || rangeValue?.end === undefined ? rangeValue?.start : undefined,
         action,
       };
     },
-    [selectionMode, value],
+    [rangeStartReadOnly, selectionMode, value],
   );
 
   const isUnavailable = React.useCallback(
     (date: DatePickerDate) => {
       if (date.year < yearRange.start || date.year > yearRange.end) return true;
+      const rangeValue =
+        selectionMode === "range" ? (value as DatePickerRangeValue | undefined) : undefined;
+      if (rangeStartReadOnly && isSameDate(date, rangeValue?.start)) return false;
+      if (
+        rangeStartReadOnly &&
+        rangeValue?.start !== undefined &&
+        compareDates(date, rangeValue.start) < 0
+      ) {
+        return true;
+      }
       const context = getConstraintContext(date);
       return constraints.some((constraint) => !constraint(date, context));
     },
-    [constraints, getConstraintContext, yearRange.end, yearRange.start],
+    [
+      constraints,
+      getConstraintContext,
+      rangeStartReadOnly,
+      selectionMode,
+      value,
+      yearRange.end,
+      yearRange.start,
+    ],
   );
 
   const setViewDate = React.useCallback(
@@ -456,6 +488,12 @@ export function useDatePicker(props: UseDatePickerProps) {
       }
 
       const range = value as DatePickerRangeValue | undefined;
+      if (rangeStartReadOnly) {
+        if (range === undefined || compareDates(date, range.start) <= 0) return;
+        if (isSameDate(date, range.end)) return;
+        setValue({ start: range.start, end: date });
+        return;
+      }
       if (range === undefined || range.end !== undefined) {
         setValue({ start: date });
       } else if (compareDates(date, range.start) < 0) {
@@ -464,7 +502,7 @@ export function useDatePicker(props: UseDatePickerProps) {
         setValue({ start: range.start, end: date });
       }
     },
-    [disabled, isUnavailable, readOnly, selectionMode, setValue, value],
+    [disabled, isUnavailable, rangeStartReadOnly, readOnly, selectionMode, setValue, value],
   );
 
   const getCellSelectionState = React.useCallback(
@@ -561,6 +599,7 @@ export function useDatePicker(props: UseDatePickerProps) {
       const key = dateKey(date);
       const isRangeComplete =
         selectionMode === "range" && (value as DatePickerRangeValue | undefined)?.end !== undefined;
+      const isRangeStartReadOnly = rangeStartReadOnly && selectionState.isRangeStart;
       const stateProps = {
         "data-today": dataAttr(todayState),
         "data-selected": dataAttr(selectionState.isSelected),
@@ -569,6 +608,7 @@ export function useDatePicker(props: UseDatePickerProps) {
         "data-in-range": dataAttr(selectionState.isInRange),
         "data-range-complete": dataAttr(isRangeComplete),
         "data-unavailable": dataAttr(unavailable),
+        "data-range-start-readonly": dataAttr(isRangeStartReadOnly),
         "data-focused": dataAttr(focused),
         "data-disabled": dataAttr(disabled),
         "data-readonly": dataAttr(readOnly),
@@ -581,6 +621,7 @@ export function useDatePicker(props: UseDatePickerProps) {
         isToday: todayState,
         ...selectionState,
         isUnavailable: unavailable,
+        isRangeStartReadOnly,
         isFocused: focused,
         cellProps: elementProps({
           role: "gridcell",
@@ -591,9 +632,11 @@ export function useDatePicker(props: UseDatePickerProps) {
           type: "button",
           tabIndex: disabled ? -1 : focused ? 0 : -1,
           disabled,
-          "aria-label": formatFullDate(date),
+          "aria-label": isRangeStartReadOnly
+            ? `${formatFullDate(date)}, ${ariaLabels.readOnlyRangeStart}`
+            : formatFullDate(date),
           "aria-current": todayState ? "date" : undefined,
-          "aria-disabled": ariaAttr(unavailable || disabled),
+          "aria-disabled": ariaAttr(unavailable || disabled || isRangeStartReadOnly),
           "data-date-picker-date": key,
           ...stateProps,
           onClick(event) {
@@ -664,10 +707,12 @@ export function useDatePicker(props: UseDatePickerProps) {
       getCellSelectionState,
       isRtl,
       isUnavailable,
+      ariaLabels.readOnlyRangeStart,
       locale,
       moveFocus,
       props.weekStartsOn,
       readOnly,
+      rangeStartReadOnly,
       selectionMode,
       selectDate,
       today,

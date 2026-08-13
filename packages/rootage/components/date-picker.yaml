@@ -179,6 +179,9 @@ data:
           color: $color.fg.neutral-inverted
         wheelItem:
           color: $color.fg.neutral
+      readOnly:
+        dateVisual:
+          color: $color.palette.gray-600
       disabled:
         dateContent:
           color: $color.fg.disabled

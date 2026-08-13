@@ -102,6 +102,56 @@ describe("DatePicker", () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
+  it("읽기 전용 Range 시작일의 상태와 접근성 이름을 노출하고 값 변경을 막는다", () => {
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <DatePicker
+        {...commonProps}
+        selectionMode="range"
+        rangeStartReadOnly
+        defaultValue={{
+          start: { year: 2026, month: 7, day: 7 },
+          end: { year: 2026, month: 7, day: 9 },
+        }}
+        onValueChange={onValueChange}
+      />,
+    );
+    const start = getByRole("button", { name: /2026년 7월 7일.*읽기 전용 시작일/ });
+
+    expect(start).toHaveAttribute("data-range-start-readonly");
+    expect(start.closest('[role="gridcell"]')).toHaveAttribute("data-range-start-readonly");
+    expect(start).toHaveAttribute("aria-disabled", "true");
+    expect(start).not.toBeDisabled();
+
+    fireEvent.click(start);
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    fireEvent.click(getByRole("button", { name: /2026년 7월 12일/ }));
+    expect(onValueChange).toHaveBeenCalledWith({
+      start: { year: 2026, month: 7, day: 7 },
+      end: { year: 2026, month: 7, day: 12 },
+    });
+  });
+
+  it("날짜 셀 render prop에 읽기 전용 Range 시작일 상태를 전달한다", () => {
+    const { getByRole } = render(
+      <DatePicker
+        {...commonProps}
+        selectionMode="range"
+        rangeStartReadOnly
+        defaultValue={{ start: { year: 2026, month: 7, day: 7 } }}
+        renderDateCellSupplement={({ isRangeStartReadOnly }) => (
+          <span>{isRangeStartReadOnly ? "고정" : "변경 가능"}</span>
+        )}
+      />,
+    );
+
+    expect(getByRole("button", { name: /2026년 7월 7일.*읽기 전용 시작일/ })).toHaveTextContent(
+      "고정",
+    );
+    expect(getByRole("button", { name: /2026년 7월 8일/ })).toHaveTextContent("변경 가능");
+  });
+
   it("월·연도 제목을 누르면 Wheel Picker로 전환한다", () => {
     const { getByRole, getAllByRole, queryByRole } = render(<DatePicker {...commonProps} />);
 

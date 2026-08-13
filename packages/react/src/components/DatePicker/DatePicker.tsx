@@ -412,6 +412,7 @@ const DatePickerImplementation = React.forwardRef<HTMLDivElement, DatePickerImpl
       constraints: _constraints,
       disabled: _disabled,
       readOnly: _readOnly,
+      rangeStartReadOnly: _rangeStartReadOnly,
       ariaLabels: _ariaLabels,
       className,
       "aria-label": ariaLabel,
