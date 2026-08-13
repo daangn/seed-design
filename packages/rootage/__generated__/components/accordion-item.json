@@ -50,6 +50,13 @@
             },
             "cornerRadius": {
               "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -305,6 +312,10 @@
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "content"
                 }
               }
             }

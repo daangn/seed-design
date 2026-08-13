@@ -85,6 +85,14 @@
     position: relative;
   }
 
+  .seed-snackbar__actionButton:is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-snackbar__actionButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+  }
+
   .seed-snackbar__actionButton:after {
     content: "";
     top: 50%;

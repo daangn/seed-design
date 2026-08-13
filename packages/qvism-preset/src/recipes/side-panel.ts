@@ -7,7 +7,8 @@ import {
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { breakpoints } from "../utils/breakpoint";
-import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { active, engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { sidePanelCloseButton as closeButtonVars, sidePanel as vars } from "../vars/component";
 
 const sidePanel = defineSlotRecipe({
@@ -231,7 +232,9 @@ const sidePanel = defineSlotRecipe({
 
       cursor: "pointer",
 
-      transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      [pseudo(active)]: { ...createScaleFeedbackStyles() },
+
+      transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,

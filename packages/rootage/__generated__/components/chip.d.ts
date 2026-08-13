@@ -42,6 +42,13 @@ declare const artifact: {
             "opacity": {
               "type": "number";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "label": {
@@ -195,6 +202,19 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.fg.neutral";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

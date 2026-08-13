@@ -27,6 +27,8 @@ data:
     $duration.color-transition:
       values:
         default: $duration.d3
+    # TODO: consider renaming to match the scale feedback naming. Held back because the token is
+    # already released as --seed-duration-pressed-scale.
     $duration.pressed-scale:
       values:
         default: $duration.d3

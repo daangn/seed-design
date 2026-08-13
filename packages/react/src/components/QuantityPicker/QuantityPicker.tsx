@@ -12,8 +12,10 @@ import {
 } from "@seed-design/css/recipes/quantity-picker";
 import clsx from "clsx";
 import * as React from "react";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { useScaleFeedback } from "../../utils/scaleFeedback";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(quantityPicker);
 const withStateProps = createWithStateProps([useQuantityPickerContext]);
@@ -154,11 +156,12 @@ export const QuantityPickerDecrementButton = React.forwardRef<
       ? (removeIcon ?? icon)
       : icon;
   const contentIsIcon = content !== null && content !== undefined;
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <QuantityPickerPrimitive.DecrementButton
-      ref={ref}
-      className={clsx(classNames.decrementButton, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref)}
+      className={clsx(classNames.decrementButton, scaleFeedbackClassName, className)}
       {...props}
     >
       {renderIcon(content ?? children, classNames.decrementIcon, decrementIconProps, contentIsIcon)}
@@ -208,11 +211,12 @@ export const QuantityPickerIncrementButton = React.forwardRef<
   const { incrementIconProps, incrementLoading } = useQuantityPickerContext();
   const content = incrementLoading ? loadingIndicator : icon;
   const contentIsIcon = content !== null && content !== undefined;
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <QuantityPickerPrimitive.IncrementButton
-      ref={ref}
-      className={clsx(classNames.incrementButton, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref)}
+      className={clsx(classNames.incrementButton, scaleFeedbackClassName, className)}
       {...props}
     >
       {renderIcon(content ?? children, classNames.incrementIcon, incrementIconProps, contentIsIcon)}

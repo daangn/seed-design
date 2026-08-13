@@ -84,6 +84,9 @@ data:
             type: dimension
           marginTop:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
   definitions:
     base:
       enabled:
@@ -125,3 +128,6 @@ data:
           size: $dimension.x3_5
           targetSize: 38px
           marginTop: $dimension.x0_5
+      pressed:
+        closeButton:
+          scaleScope: self

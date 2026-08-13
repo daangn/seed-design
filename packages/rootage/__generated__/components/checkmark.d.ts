@@ -32,6 +32,14 @@ declare const artifact: {
             "cornerRadius": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+              "description": "감싸는 컴포넌트가 자체 pressed 피드백을 주는 경우(List Item 등)에는 이 값이 적용되지 않습니다.";
+            };
           };
         };
         "icon": {
@@ -96,6 +104,19 @@ declare const artifact: {
                 "colorTimingFunction": {
                   "type": "cubicBezier";
                   "value": "$timing-function.easing";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

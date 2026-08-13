@@ -128,6 +128,13 @@
             },
             "marginTop": {
               "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         }
@@ -299,6 +306,19 @@
                 "marginTop": {
                   "type": "dimension",
                   "value": "$dimension.x0_5"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "closeButton": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

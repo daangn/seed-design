@@ -69,6 +69,9 @@ declare const artifact: {
       "path": "/components/bottom-sheet.json";
     },
     {
+      "path": "/components/callout-close-button.json";
+    },
+    {
       "path": "/components/callout.json";
     },
     {
@@ -187,6 +190,9 @@ declare const artifact: {
     },
     {
       "path": "/components/notification-badge.json";
+    },
+    {
+      "path": "/components/page-banner-close-button.json";
     },
     {
       "path": "/components/page-banner.json";

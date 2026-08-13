@@ -62,6 +62,10 @@
       "types": "./breakpoints/index.d.ts",
       "import": "./breakpoints/index.mjs"
     },
+    "./scale-feedback": {
+      "types": "./scale-feedback/index.d.ts",
+      "import": "./scale-feedback/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -70,6 +74,7 @@
     "vars",
     "theming",
     "breakpoints",
+    "scale-feedback",
     "utils",
     "*.css",
     "LICENSE",

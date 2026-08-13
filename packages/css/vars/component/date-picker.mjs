@@ -14,7 +14,8 @@ export const vars = {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-bold)",
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-fg-neutral)",
+        "backgroundColor": "var(--seed-color-bg-transparent)"
       },
       "months": {
         "gap": "var(--seed-dimension-x6)"
@@ -69,6 +70,9 @@ export const vars = {
       }
     },
     "pressed": {
+      "headerLabel": {
+        "backgroundColor": "var(--seed-color-bg-transparent-pressed)"
+      },
       "dateVisual": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }

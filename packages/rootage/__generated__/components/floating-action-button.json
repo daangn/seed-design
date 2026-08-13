@@ -46,6 +46,13 @@
             },
             "size": {
               "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -160,6 +167,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.brand-solid-pressed"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

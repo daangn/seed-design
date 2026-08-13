@@ -26,6 +26,13 @@ declare const artifact: {
             "gap": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "prefixIcon": {
@@ -195,6 +202,10 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.neutral-weak-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
                 };
               };
             };

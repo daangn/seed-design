@@ -30,6 +30,8 @@ data:
             type: number
           color:
             type: color
+          backgroundColor:
+            type: color
       months:
         properties:
           gap:
@@ -125,6 +127,7 @@ data:
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold
           color: $color.fg.neutral
+          backgroundColor: $color.bg.transparent
         months:
           gap: $dimension.x6
         continuousScroll:
@@ -167,6 +170,8 @@ data:
           fontWeight: $font-weight.medium
           color: $color.fg.disabled
       pressed:
+        headerLabel:
+          backgroundColor: $color.bg.transparent-pressed
         dateVisual:
           color: $color.bg.transparent-pressed
       today:

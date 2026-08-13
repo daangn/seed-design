@@ -16,6 +16,7 @@ export declare const vars: {
   },
   "size32": {
     "enabled": {
+      /** root 전체가 누르는 영역이며, pressed 피드백은 Switchmark의 축소로 표현됩니다. */
       "root": {
         "height": "var(--seed-dimension-x8)",
         "gap": "var(--seed-dimension-x2_5)"
@@ -28,6 +29,7 @@ export declare const vars: {
   },
   "size24": {
     "enabled": {
+      /** root 전체가 누르는 영역이며, pressed 피드백은 Switchmark의 축소로 표현됩니다. */
       "root": {
         "height": "var(--seed-dimension-x6)",
         "gap": "var(--seed-dimension-x2)"
@@ -40,6 +42,7 @@ export declare const vars: {
   },
   "size16": {
     "enabled": {
+      /** root 전체가 누르는 영역이며, pressed 피드백은 Switchmark의 축소로 표현됩니다. */
       "root": {
         "height": "var(--seed-dimension-x6)",
         "gap": "var(--seed-dimension-x1_5)"
