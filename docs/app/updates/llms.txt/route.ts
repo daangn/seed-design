@@ -1,16 +1,19 @@
 import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/app/_llms/config";
 import { getDisplayTitle } from "@/app/_llms/utils";
 import { baseUrl } from "@/app/metadata";
-import { updatesSource } from "@/app/source";
+import { getUpdatesSource } from "@/app/source";
 
 export const revalidate = false;
 
 /** 정렬 전용. publishedAt은 프론트매터 파싱에 따라 문자열/Date 양쪽으로 온다. */
-function publishedTime(page: { data: { publishedAt?: string | Date } }): number {
-  return page.data.publishedAt ? new Date(page.data.publishedAt).getTime() : 0;
+function publishedTime(page: { data: { frontmatter: { publishedAt?: string | Date } } }): number {
+  return page.data.frontmatter.publishedAt
+    ? new Date(page.data.frontmatter.publishedAt).getTime()
+    : 0;
 }
 
 export async function GET() {
+  const updatesSource = await getUpdatesSource();
   // updates는 섹션 인덱스 mdx가 없어 excludePaths도 비어있다(랜딩은 app/updates/page.tsx).
   const pages = updatesSource
     .getPages()

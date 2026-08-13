@@ -1,8 +1,5 @@
 import { readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { createMDX } from "fumadocs-mdx/next";
-
-const withMDX = createMDX();
 const recipeDirectory = fileURLToPath(new URL("../packages/css/recipes", import.meta.url));
 const layeredRecipeAliases = Object.fromEntries(
   readdirSync(recipeDirectory)
@@ -24,6 +21,9 @@ const config = {
   },
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
   serverExternalPackages: [
+    "@fumadocs/satteri",
+    "es-git",
+    "satteri",
     "ts-morph",
     "typescript",
     "oxc-transform",
@@ -54,4 +54,4 @@ const config = {
   },
 };
 
-export default withMDX(config);
+export default config;

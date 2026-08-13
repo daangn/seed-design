@@ -3,11 +3,11 @@
 @import "fumadocs-ui/css/preset.css";
 @import "@seed-design/tailwind4-theme";
 
-@source ".";
-@source "../components";
-@source "../content";
-@source "../examples";
-@source "../sanity";
+@source "./**/*.{js,jsx,ts,tsx,mdx}";
+@source "../components/**/*.{js,jsx,ts,tsx,mdx}";
+@source "../content/**/*.mdx";
+@source "../examples/**/*.{js,jsx,ts,tsx,mdx}";
+@source "../sanity/**/*.{js,jsx,ts,tsx,mdx}";
 @source "../../node_modules/fumadocs-ui/dist/**/*.js";
 
 .react {

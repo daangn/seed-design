@@ -241,9 +241,14 @@ export function buildDocsPageMetadata({
  */
 export function buildDocsPageJsonLd(page: {
   url: string;
-  data: { title: string; heading?: string; description?: string; publishedAt?: string | Date };
+  data: {
+    title: string;
+    description?: string;
+    frontmatter: Record<string, unknown> & { heading?: string; publishedAt?: string | Date };
+  };
 }) {
-  const { title, heading, description, publishedAt } = page.data;
+  const { title, description } = page.data;
+  const { heading, publishedAt } = page.data.frontmatter;
   const absoluteUrl = new URL(page.url, baseUrl).toString();
   const datePublished =
     publishedAt instanceof Date ? publishedAt.toISOString() : (publishedAt ?? undefined);

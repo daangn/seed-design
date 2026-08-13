@@ -3,7 +3,6 @@
 import { TOCItem, useTOCSelector } from "fumadocs-core/toc";
 import { TOCScrollArea, useTOCItems } from "fumadocs-ui/components/toc";
 import { TOCEmpty } from "fumadocs-ui/components/toc/default";
-import { I18nLabel } from "fumadocs-ui/contexts/i18n";
 import type { TOCProps } from "fumadocs-ui/layouts/notebook/page/slots/toc";
 import {
   useCallback,
@@ -222,7 +221,7 @@ export function SeedTableOfContents({ container, header, footer, list }: TOCProp
         <>
           {header}
           <h3 id="toc-title" className="text-xs font-light leading-4 text-fd-muted-foreground">
-            <I18nLabel label="toc" />
+            목차
           </h3>
           <TOCScrollArea>
             <TocList list={list} variant="desktop" />

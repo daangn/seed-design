@@ -1,11 +1,12 @@
 import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/app/_llms/config";
 import { getDisplayTitle } from "@/app/_llms/utils";
 import { baseUrl } from "@/app/metadata";
-import { componentsSource } from "@/app/source";
+import { getComponentsSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const componentsSource = await getComponentsSource();
   // 섹션 인덱스와 progress-board는 sectionConfigs.excludePaths가 이미 걸러준다.
   // `(deprecated)`는 라우트 그룹이라 slug에 안 들어간다 — frontmatter로만 구분된다.
   const pages = componentsSource
@@ -17,7 +18,7 @@ export async function GET() {
     .map((page) => {
       const displayTitle = getDisplayTitle(page, pages);
       const llmsUrl = new URL(getLLMMarkdownUrl("components", page.slugs), baseUrl);
-      const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+      const deprecatedLabel = page.data.frontmatter.deprecated ? " (Deprecated)" : "";
       const description = page.data.description ? `: ${page.data.description}` : "";
       return `- [${displayTitle}](${llmsUrl})${deprecatedLabel}${description}`;
     })

@@ -1,17 +1,18 @@
 import {
-  aiIntegrationSource,
-  breezeSource,
-  componentsSource,
-  docsSource,
-  foundationsSource,
-  getStartedSource,
-  lynxSource,
-  patternsSource,
-  reactSource,
-  updatesSource,
+  getAiIntegrationSource,
+  getBreezeSource,
+  getComponentsSource,
+  getDocsSource,
+  getFoundationsSource,
+  getGetStartedSource,
+  getLynxSource,
+  getPatternsSource,
+  getReactSource,
+  getUpdatesSource,
 } from "@/app/source";
+import type { MarkdownRenderer } from "@fumadocs/satteri/local-md";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
-import { tokenize } from "@/components/search/tokenizer";
+import { koreanTokenizer } from "@/components/search/tokenizer";
 import { TAGS } from "@/app/api/search/constants";
 import { getEntrySearchText } from "@/lib/changelog-entry";
 import { getChangelogHref } from "@/components/changelog-viewer/utils";
@@ -26,7 +27,7 @@ type IndexableSource = {
     data: {
       title: string;
       description?: string;
-      load: () => Promise<{ structuredData: AdvancedIndex["structuredData"] }>;
+      load: () => Promise<MarkdownRenderer<Record<string, unknown>>>;
     };
   }[];
 };
@@ -83,6 +84,30 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
 
 export const { staticGET: GET } = createSearchAPI("advanced", {
   indexes: async () => {
+    const [
+      docsSource,
+      getStartedSource,
+      breezeSource,
+      foundationsSource,
+      componentsSource,
+      patternsSource,
+      reactSource,
+      lynxSource,
+      aiIntegrationSource,
+      updatesSource,
+    ] = await Promise.all([
+      getDocsSource(),
+      getGetStartedSource(),
+      getBreezeSource(),
+      getFoundationsSource(),
+      getComponentsSource(),
+      getPatternsSource(),
+      getReactSource(),
+      getLynxSource(),
+      getAiIntegrationSource(),
+      getUpdatesSource(),
+    ]);
+
     const groups = await Promise.all([
       // Sections without a filter chip (legacy /docs tree, get-started, breeze) keep
       // their own tag so they only surface under the "All" filter.
@@ -103,8 +128,5 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
 
     return groups.flat();
   },
-  tokenizer: {
-    language: "english",
-    tokenize,
-  },
+  tokenizer: koreanTokenizer,
 });
