@@ -24,6 +24,7 @@ import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cov
 import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
 import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
 import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
+import { updatesFrontmatterSchema } from "@/lib/updates-frontmatter";
 
 interface SatteriExports extends Record<string, unknown> {
   processed?: string;
@@ -243,11 +244,7 @@ const aiIntegrationDocs = localMd({
 
 const updatesDocs = localMd({
   dir: "content/updates",
-  frontmatterSchema: pageSchema.extend({
-    publishedAt: z.iso.datetime({ offset: true }).or(z.date()).optional(),
-    ...staticCoverImageSchema,
-    coverImageFigmaId: z.string().optional(),
-  }),
+  frontmatterSchema: updatesFrontmatterSchema,
   metaSchema: docsMetaSchema,
   satteriOptions: createSatteriOptions,
 });

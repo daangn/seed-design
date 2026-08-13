@@ -8,7 +8,7 @@ const originalGetBoundingClientRect = HTMLElement.prototype.getBoundingClientRec
 const originalMatchMedia = window.matchMedia;
 const originalResizeObserver = window.ResizeObserver;
 const originalGetComputedStyle = window.getComputedStyle;
-const originalAnimate = HTMLElement.prototype.animate;
+const originalAnimateDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "animate");
 const originalScrollTimelineDescriptor = Object.getOwnPropertyDescriptor(window, "ScrollTimeline");
 
 let prefersReducedMotion = false;
@@ -131,7 +131,11 @@ afterEach(() => {
   window.matchMedia = originalMatchMedia;
   window.ResizeObserver = originalResizeObserver;
   window.getComputedStyle = originalGetComputedStyle;
-  HTMLElement.prototype.animate = originalAnimate;
+  if (originalAnimateDescriptor) {
+    Object.defineProperty(HTMLElement.prototype, "animate", originalAnimateDescriptor);
+  } else {
+    Reflect.deleteProperty(HTMLElement.prototype, "animate");
+  }
   if (originalScrollTimelineDescriptor) {
     Object.defineProperty(window, "ScrollTimeline", originalScrollTimelineDescriptor);
   } else {
