@@ -1,0 +1,162 @@
+---
+title: Doctor
+description: React 프로젝트의 구버전 스니펫, deprecated 사용, 가이드라인 준수를 문서 기준으로 진단합니다.
+---
+
+Doctor는 SEED를 쓰는 프로젝트를 진단합니다. **린터가 아니라 가이드입니다** — 각 항목에 왜 문제인지, 무엇을 읽어야 하는지, 어떻게 고치는지가 함께 나옵니다.
+
+진단은 **읽기 전용**입니다. 코드를 고치지 않고, 무엇을 고쳐야 하는지 알려주기만 합니다. 실제 수정은 사용자가 별도로 지시할 때만 합니다.
+
+## 지원 범위
+
+| 플랫폼 | 상태 |
+| --- | --- |
+| React | 지원 |
+| Lynx | 미지원 |
+
+Doctor를 실행하기 전에 에이전트는 **사용자 명시 → 대상 워크스페이스의 `seed-design.json.framework` → 직접 의존성** 순으로 플랫폼을 판별합니다. 모노레포에서 React와 Lynx 워크스페이스가 함께 발견되거나 단서가 없으면 대상을 먼저 확인합니다.
+
+현재 Lynx Doctor 프로필은 없습니다. Lynx 프로젝트에서 Doctor를 요청하면 React 규칙을 대신 실행하거나 React 판정을 Lynx 리포트로 만들지 않고, 현재 지원되지 않는다고 안내합니다. 일반 Lynx 컴포넌트 문서와 registry 조회는 계속 지원합니다.
+
+## 사용법
+
+스킬을 로드한 상태에서 진단을 요청하면 됩니다.
+
+```text
+SEED 잘 쓰고 있나 봐줘
+뭘 고쳐야 하는지 진단해줘
+```
+
+에이전트는 이 순서로 동작합니다.
+
+1. **대상과 플랫폼 확정** — 모노레포면 SEED를 쓰는 워크스페이스를 먼저 찾고, 플랫폼 단서가 여러 개면 사용자에게 확인합니다.
+2. **Doctor 프로필 로드** — React 패키지, 구현 API, registry, 업그레이드 문서, 적용 룰 목록을 불러옵니다.
+3. **프로젝트 사실 수집** — `seed-design.json`, 설치된 패키지 버전, 스니펫 디렉토리를 확인합니다.
+4. **룰 순회** — React 프로필이 활성화한 룰만 읽고 대상을 모아 항목별로 판정합니다.
+5. **결과 출력** — YAML 파일로 쓰고, 채팅에는 요약과 "먼저 할 것"만 냅니다.
+
+결과를 보기 좋게 정리한 HTML 리포트도 요청할 수 있습니다.
+
+## Rules
+
+룰 하나가 **코드를 작성할 때의 가이드이자 진단의 판정 기준**입니다. 룰 파일 자체는 플랫폼 공통 표현을 사용하고, 패키지·API·registry 같은 값은 선택된 Doctor 프로필에서 받습니다. 현재 React 프로필은 아래 네 룰을 모두 활성화합니다.
+
+| 룰 | 판단하는 것 | severity |
+| --- | --- | --- |
+| `outdated-version` | 설치된 `@seed-design/*`가 npm 최신에서 얼마나 뒤졌는지 | major 뒤짐 `warn` · minor/patch `info` |
+| `snippet-generation` | 설치 스니펫의 `@requires`가 registry 최신 세대와 같은지 | `info` |
+| `no-deprecated-component` | deprecated 컴포넌트·스니펫·토큰·옵션을 쓰는지 | `warn` |
+| `component-guidelines` | 컴포넌트 사용이 디자인 가이드라인에 맞는지 | 기본 `warn` · 동작이 깨지면 `error` |
+
+`component-guidelines`에는 **판정 기준이 들어 있지 않습니다.** 기준은 각 컴포넌트의 가이드라인 문서에서 그때그때 도출합니다. 그래서 [가이드라인 문서](/components)에 Do/Don't를 하나 추가하면 **그 컴포넌트의 판정 기준이 하나 늘어납니다.** 룰 파일은 그대로입니다.
+
+### outdated-version.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/outdated-version.md",
+  "codeblock": true
+}
+```
+
+### snippet-generation.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/snippet-generation.md",
+  "codeblock": true
+}
+```
+
+### no-deprecated-component.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/no-deprecated-component.md",
+  "codeblock": true
+}
+```
+
+### component-guidelines.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/component-guidelines.md",
+  "codeblock": true
+}
+```
+
+## 결과 형식
+
+진단 결과는 **YAML 파일 하나**로 나옵니다. 채팅 요약과 HTML 리포트는 이 파일에서 파생되므로, 형태가 여러 갈래로 갈리지 않고 하나가 원본입니다. 파일은 임시 디렉토리에 쓰이며 **진단 대상 프로젝트에는 아무것도 쓰지 않습니다.**
+
+```yaml
+schemaVersion: 1
+meta:
+  target: /path/to/project
+  workspace: services/webview # 모노레포일 때만
+  framework: react
+  date: "2026-08-02"
+  seed:
+    installed: { "@seed-design/react": 1.2.0, "@seed-design/css": 1.2.0 }
+    latest: { "@seed-design/react": 2.1.0, "@seed-design/css": 2.3.0 }
+summary: { error: 1, warn: 30, info: 21 }
+findings:
+  - rule: seed/component-guidelines/bottom-sheet
+    severity: warn
+    message: 시트 너비에 480px 상한이 없습니다.
+    file: src/components/bottom-sheet/FlexibleBottomSheet.css.ts
+    line: 14
+    criterion: "6"
+    references: [https://seed-design.io/llms/components/bottom-sheet.txt]
+    remediation: |
+      문서 근거와 수정 방법. 안내일 뿐 실행하지 않습니다.
+verdicts:
+  - rule: seed/component-guidelines/bottom-sheet
+    criterion: "6"
+    text: Bottom Sheet는 화면 너비 최대 480px까지 보여집니다.
+    verdict: fail
+    evidence: FlexibleBottomSheet.css.ts:16 — maxWidth 없음
+rejected:
+  - candidate: aria-labelledby 미해결 참조
+    reason: 문서에 접근성 문장이 없어 "문서에 없는 규칙을 만들지 않는다"로 기각
+```
+
+### 필드
+
+| 키 | 무엇 | 왜 |
+| --- | --- | --- |
+| `meta.seed` | 설치본과 최신 버전 | 판정의 근거이자, 나중에 같은 진단을 재현할 때 필요한 상태입니다 |
+| `summary` | severity별 개수 | 점수나 등급은 매기지 않습니다 |
+| `findings` | 고칠 것 (`fail`만) | `criterion`으로 `verdicts`의 같은 항목과 이어져 근거를 찾아갈 수 있습니다 |
+| `verdicts` | 판정 표 **전체** | 통과한 것과 판정하지 못한 것을 숨기지 않습니다. 통과했다는 사실보다 **무엇을 근거로 통과했는지**가 중요합니다 |
+| `rejected` | 검토했지만 뺀 후보 | 이게 없으면 "이건 왜 지적 안 했지?"에 답할 수 없습니다 |
+
+`verdict`는 네 가지입니다. `pass`와 `fail` 외에, 판정할 정보가 없으면 `unknown`, 도구에 접근하지 못했으면 `not-verified`입니다. **확인하지 못한 것을 위반으로 바꾸지 않습니다.**
+
+### 스키마
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/assets/doctor-report.schema.json",
+  "codeblock": true
+}
+```
+
+## doctor.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/doctor.md",
+  "codeblock": true
+}
+```
+
+## doctor-react.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/doctor-react.md",
+  "codeblock": true
+}
+```

@@ -35,10 +35,10 @@ const CATEGORY_ORDER = ["docs", "react", "breeze", "lynx", "ai-integration"];
 
 const SECTION_LABELS: Record<string, string> = {
   components: "컴포넌트",
-  foundation: "파운데이션",
-  guidelines: "가이드라인",
+  foundations: "파운데이션",
   migration: "마이그레이션",
-  resources: "리소스",
+  // get-started는 디자인 문서 디렉토리, getting-started는 react 문서의 slugs[0]에서 나온다.
+  "get-started": "시작하기",
   "getting-started": "시작하기",
   stackflow: "Stackflow",
   "developer-tools": "개발자 도구",
@@ -175,8 +175,22 @@ async function main() {
   const contentDir = path.join(process.cwd(), "content");
   const registryMap = buildRegistryMap();
 
+  // docs/app/_llms/config.ts의 sectionConfigs와 동일한 범위를 다뤄야 한다.
+  // 프레임워크 무관한 디자인 문서들(components·foundations·patterns·get-started·updates)은
+  // 각자 최상위 URL을 쓰지만 카테고리는 "Design"(docs) 하나로 묶고, 디렉토리가 평평해서
+  // slugs[0]으로 섹션을 유추할 수 없으므로 sectionId를 명시한다.
   const sources = [
     { dir: "docs", categoryId: "docs", baseUrl: "/docs" },
+    { dir: "components", categoryId: "docs", baseUrl: "/components", sectionId: "components" },
+    { dir: "foundations", categoryId: "docs", baseUrl: "/foundations", sectionId: "foundations" },
+    { dir: "patterns", categoryId: "docs", baseUrl: "/patterns", sectionId: "patterns" },
+    {
+      dir: "get-started",
+      categoryId: "docs",
+      baseUrl: "/get-started",
+      sectionId: "get-started",
+    },
+    { dir: "updates", categoryId: "docs", baseUrl: "/updates", sectionId: "updates" },
     { dir: "react", categoryId: "react", baseUrl: "/react" },
     { dir: "breeze", categoryId: "breeze", baseUrl: "/breeze" },
     { dir: "lynx", categoryId: "lynx", baseUrl: "/lynx" },
@@ -186,7 +200,7 @@ async function main() {
   // categoryId -> sectionId -> DocsItem[]
   const categorySectionsMap = new Map<string, Map<string, DocsItem[]>>();
 
-  for (const { dir, categoryId, baseUrl } of sources) {
+  for (const { dir, categoryId, baseUrl, sectionId: fixedSectionId } of sources) {
     const sourceDir = path.join(contentDir, dir);
     const mdxFiles = collectMdxFiles(sourceDir);
 
@@ -199,9 +213,11 @@ async function main() {
       const frontmatter = matter(content).data as Frontmatter;
       if (!frontmatter.title) continue;
 
-      // Section ID is the first slug for multi-level categories,
-      // or "components" as default for flat categories (breeze, lynx, ai-integration)
-      const sectionId = categoryId === "docs" || categoryId === "react" ? slugs[0] : "components";
+      // Explicit sectionId wins (flat design-doc dirs), then the first slug for
+      // multi-level categories, then "components" for flat categories (breeze, lynx, ai-integration)
+      const sectionId =
+        fixedSectionId ??
+        (categoryId === "docs" || categoryId === "react" ? slugs[0] : "components");
 
       const itemId = slugs[slugs.length - 1];
       const docUrl = `${baseUrl}/${slugs.join("/")}`;

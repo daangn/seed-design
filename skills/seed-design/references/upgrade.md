@@ -13,6 +13,8 @@
 소비자용 업그레이드 문서는 https://seed-design.io/react/updates/upgrade 를 참고하세요.
 SDK·공유 라이브러리 저자용 문서는 https://seed-design.io/react/getting-started/library-authors 를 참고하세요.
 
+**`references/doctor.md`와의 경계**: 무엇이 얼마나 뒤졌고 코드의 어디가 문제인지 알아내는 것은 진단(`references/doctor.md`)이고, **실제로 올리는 절차가 여기**입니다. 진단이 "major 하나 뒤졌다"까지 말하면 그다음을 이 문서가 받습니다.
+
 ## 2.0 전후 버저닝 정책 (먼저 판단)
 
 SEED는 **2.0을 분기점**으로 정책이 다르므로 진단 방식도 달라집니다.
@@ -70,10 +72,10 @@ cat node_modules/@seed-design/react/package.json | grep '"version"'
 **패키지끼리(react↔css)의 호환은 CLI가 판정하지 않습니다.** `compat`은 설치된 **스니펫**이 요구하는 범위만 검사합니다.
 
 ```bash
-npx @seed-design/cli@latest compat --json
+npx @seed-design/cli@latest compat
 ```
 
-- `--json`의 `snippets.issues`에 스니펫 호환 위반이 담깁니다. 사람용 출력은 `--json` 없이.
+- 호환 위반이 있으면 종료 코드 `1`로 끝납니다. 범위를 좁히려면 `-c <component>`, 전체 registry를 보려면 `-a`를 씁니다.
 
 패키지 간 호환은 아래 기준으로 직접 판단합니다.
 
@@ -173,7 +175,7 @@ bun add @seed-design/react@{react목표} @seed-design/css@{css목표}
 
 | 명령어 | 역할 |
 | --- | --- |
-| `compat --json` | 설치된 스니펫의 호환 진단(구조화 출력) |
+| `compat` | 설치된 스니펫의 호환 진단 (위반 시 종료 코드 1) |
 | `compat --all` | 설치 여부와 무관하게 모든 registry 항목의 스니펫 호환 검사 |
 | `docs react/updates/changelog/{slug}/{ver} --raw` | from 버전 이후 changelog |
 | `docs react/updates/changelog/{slug} --raw` | 버전 인덱스(버전 목록) |

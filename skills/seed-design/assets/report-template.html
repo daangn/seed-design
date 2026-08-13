@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SEED 진단 — {{프로젝트명}}</title>
+<style>
+/* SEED 팔레트를 직접 박아 둔다. 리포트는 SEED가 설치되지 않은 곳에서도 열려야 한다. */
+:root {
+  --fg: #2a3038; --fg-muted: #868b94;
+  --bg: #ffffff; --bg-layer: #f7f8f9; --stroke: #eeeff1;
+  --error: #fa342c; --warn: #9b7821; --info: #217cf9;
+  --error-bg: #fef1f0; --warn-bg: #fdf6e6; --info-bg: #eef5fe;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #e9eaec; --fg-muted: #b0b3ba;
+    --bg: #000000; --bg-layer: #16171b; --stroke: #2b2e35;
+    --error: #ff6e60; --warn: #ca901c; --info: #41a2f9;
+    --error-bg: #2a1614; --warn-bg: #241d0e; --info-bg: #101d2e;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 32px 20px 80px; background: var(--bg); color: var(--fg);
+  font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", sans-serif;
+}
+main { max-width: 860px; margin: 0 auto; }
+h1 { font-size: 22px; margin: 0 0 4px; letter-spacing: -0.01em; }
+h2 { font-size: 16px; margin: 40px 0 12px; letter-spacing: -0.01em; }
+.target { color: var(--fg-muted); font-size: 13px; margin: 0 0 24px; word-break: break-all; }
+
+/* 요약 — 제일 먼저 눈에 들어와야 하는 것 */
+.summary { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.stat { flex: 1 1 120px; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--stroke); background: var(--bg-layer); }
+.stat b { display: block; font-size: 26px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12px; color: var(--fg-muted); }
+.stat.error b { color: var(--error); } .stat.warn b { color: var(--warn); } .stat.info b { color: var(--info); }
+
+/* 조치 순서 — 유저가 "그래서 뭘 먼저?"에 답을 얻는 자리 */
+.next { border: 1px solid var(--stroke); border-radius: 10px; padding: 4px 20px; background: var(--bg-layer); }
+.next ol { padding-left: 20px; } .next li { margin: 10px 0; }
+
+/* 룰 그룹 — details/summary로 접는다(JS 없음) */
+details.rule { border: 1px solid var(--stroke); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+details.rule > summary {
+  cursor: pointer; padding: 13px 16px; background: var(--bg-layer);
+  display: flex; align-items: center; gap: 10px; list-style: none;
+}
+details.rule > summary::-webkit-details-marker { display: none; }
+details.rule > summary::before { content: "▸"; color: var(--fg-muted); font-size: 11px; }
+details.rule[open] > summary::before { content: "▾"; }
+.rule-id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+.rule-count { margin-left: auto; font-size: 12px; color: var(--fg-muted); font-variant-numeric: tabular-nums; }
+
+/* finding 하나 */
+.finding { padding: 16px; border-top: 1px solid var(--stroke); }
+.chip {
+  display: inline-block; padding: 1px 7px; border-radius: 5px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+}
+.chip.error { color: var(--error); background: var(--error-bg); }
+.chip.warn { color: var(--warn); background: var(--warn-bg); }
+.chip.info { color: var(--info); background: var(--info-bg); }
+.loc { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--fg-muted); word-break: break-all; }
+.msg { margin: 8px 0 0; }
+/* remediation은 길다 — 기본으로 접어 둔다 */
+.finding details { margin-top: 10px; }
+.finding details > summary { cursor: pointer; font-size: 13px; color: var(--info); }
+.finding details > p { margin: 8px 0 0; padding: 12px 14px; background: var(--bg-layer); border-radius: 8px; font-size: 14px; }
+/* 근거 문서는 접지 않는다 — "무엇을 읽어야 하는지"가 이 도구의 본체다 */
+.refs { margin: 10px 0 0; font-size: 13px; }
+.refs a { color: var(--info); word-break: break-all; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--stroke); vertical-align: top; }
+th { color: var(--fg-muted); font-weight: 600; }
+.verdict-pass { color: var(--fg-muted); } .verdict-fail { color: var(--error); font-weight: 600; }
+.wrap { overflow-x: auto; }
+footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--stroke); font-size: 12px; color: var(--fg-muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>SEED 진단</h1>
+  <p class="target">{{진단 대상 경로}} · {{날짜}}</p>
+
+  <div class="summary">
+    <div class="stat error"><b>{{N}}</b><span>error</span></div>
+    <div class="stat warn"><b>{{N}}</b><span>warn</span></div>
+    <div class="stat info"><b>{{N}}</b><span>info</span></div>
+  </div>
+
+  <!-- 점수·등급은 매기지 않는다. 카운트까지만. -->
+
+  <h2>먼저 할 것</h2>
+  <div class="next">
+    <ol>
+      <li>{{원인이 같은 것끼리 묶은 조치를 순서대로. 개별 finding 나열이 아니다.}}</li>
+    </ol>
+  </div>
+
+  <h2>진단 결과</h2>
+
+  <details class="rule" open>
+    <summary>
+      <span class="rule-id">{{룰 id}}</span>
+      <span class="rule-count">warn {{N}}</span>
+    </summary>
+
+    <div class="finding">
+      <span class="chip warn">warn</span>
+      <span class="loc">{{파일:줄}}</span>
+      <p class="msg">{{위반 내용 한 문장}}</p>
+      <p class="refs">읽어보기: <a href="{{references[0]}}">{{references[0]}}</a></p>
+      <details>
+        <summary>어떻게 고치나</summary>
+        <p>{{remediation — 문서 근거 포함. 실행이 아니라 안내}}</p>
+      </details>
+    </div>
+  </details>
+
+  <h2>판정 표</h2>
+  <!-- 통과·판정불가도 숨기지 않는다. 길면 컴포넌트별로 details에 접는다. -->
+  <details class="rule">
+    <summary><span class="rule-id">{{컴포넌트}}</span><span class="rule-count">pass {{N}} · fail {{N}}</span></summary>
+    <div class="wrap"><table>
+      <tr><th>#</th><th>기준</th><th>판정</th><th>근거</th></tr>
+      <tr><td>1</td><td>{{기준 문장 그대로}}</td><td class="verdict-pass">pass</td><td>{{파일:줄 또는 사유}}</td></tr>
+    </table></div>
+  </details>
+
+  <h2>검토했지만 기각한 것</h2>
+  <div class="wrap"><table>
+    <tr><th>후보</th><th>기각 사유</th></tr>
+    <tr><td>{{항목}}</td><td>{{왜 위반으로 올리지 않았는지}}</td></tr>
+  </table></div>
+
+  <footer>{{도구·버전}} · 이 리포트는 진단 결과이며 코드를 수정하지 않았습니다.</footer>
+</main>
+</body>
+</html>
