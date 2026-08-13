@@ -100,9 +100,7 @@ describe("resolveRootageIntegrity", () => {
       fetchImpl: async () => {
         calls += 1;
         return Response.json(
-          calls === 1
-            ? registryVersion("2.5.0", { gitHead: undefined })
-            : registryVersion("2.5.0"),
+          calls === 1 ? registryVersion("2.5.0", { gitHead: undefined }) : registryVersion("2.5.0"),
         );
       },
       sleep: async () => {},
