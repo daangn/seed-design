@@ -1136,9 +1136,7 @@ describe("키보드 리포지션", () => {
   });
 
   it("첫 번째 snap point에서도 키보드 오프셋을 반영한다", () => {
-    const { getByTestId } = render(
-      <KeyboardHarness defaultOpen snapPoints={["100px", "300px"]} />,
-    );
+    const { getByTestId } = render(<KeyboardHarness defaultOpen snapPoints={["100px", "300px"]} />);
     const drawer = getByTestId("drawer");
     const input = getByTestId("input-a");
     const rectSpy = mockRect(drawer, 560);

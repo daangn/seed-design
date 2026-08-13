@@ -28,9 +28,7 @@ export function extractFigmaId({ name, attributes }: MdxJsxFlowElement): string 
 
     if (!idAttr) throw new Error("[remark-figma-image] FigmaImage requires an 'id' prop");
     if (typeof idAttr.value !== "string" || idAttr.value.length === 0) {
-      throw new Error(
-        "[remark-figma-image] FigmaImage requires a static non-empty 'id' prop",
-      );
+      throw new Error("[remark-figma-image] FigmaImage requires a static non-empty 'id' prop");
     }
 
     return idAttr.value;

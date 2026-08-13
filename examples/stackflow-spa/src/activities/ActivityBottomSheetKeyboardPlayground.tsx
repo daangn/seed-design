@@ -297,7 +297,12 @@ const ActivityBottomSheetKeyboardPlayground: StaticActivityComponentType<
           // A snap point can leave less vertical space than the playground controls themselves.
           // Keep its intrinsic height for Drawer’s initial snap-point measurement, then allow it
           // to shrink into a scrolling region once the visible viewport becomes smaller.
-          style={{ flex: "1 1 auto", minHeight: 0, overflowY: "auto", overscrollBehavior: "contain" }}
+          style={{
+            flex: "1 1 auto",
+            minHeight: 0,
+            overflowY: "auto",
+            overscrollBehavior: "contain",
+          }}
         >
           <VStack gap="x4">
             <Readout metrics={metrics} />

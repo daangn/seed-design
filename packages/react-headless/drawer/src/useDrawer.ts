@@ -1447,7 +1447,7 @@ export function useDrawer(props: UseDrawerProps) {
     }
 
     let lastViewportResizeSignature: string | null = null;
-      function onViewportResize() {
+    function onViewportResize() {
       const visualViewport = window.visualViewport;
       const signature = `${window.innerHeight}:${visualViewport?.height ?? 0}:${visualViewport?.offsetTop ?? 0}`;
       if (signature === lastViewportResizeSignature) {
@@ -1458,13 +1458,13 @@ export function useDrawer(props: UseDrawerProps) {
       onVisualViewportChange();
     }
 
-      function onWindowResize() {
-        onViewportResize();
-      }
+    function onWindowResize() {
+      onViewportResize();
+    }
 
-      function onVisualViewportResize() {
-        onViewportResize();
-      }
+    function onVisualViewportResize() {
+      onViewportResize();
+    }
 
     // Android dispatches window.resize before visualViewport.resize while adjustResize restores
     // the layout viewport. Handling the first event closes the one-frame gap where the sheet would
