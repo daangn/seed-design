@@ -290,6 +290,32 @@ describe("ScrollAutoHide", () => {
     expect(root.style.transition).toBe("");
   });
 
+  it("편집 가능한 요소의 스페이스 입력은 키보드 스크롤로 처리하지 않는다", () => {
+    const { root, scrollContainer } = renderScrollAutoHide();
+    const input = document.createElement("input");
+    root.append(input);
+
+    partiallyHide(scrollContainer, 40);
+    fireEvent.keyDown(input, { key: " " });
+    fireEvent(scrollContainer, new Event("scrollend"));
+
+    expect(root.style.transform).toBe("translate3d(0px, 0px, 0px)");
+    expect(root.style.transition).toContain(`transform 200ms ${vars.$timingFunction.enter}`);
+  });
+
+  it("스냅 도중 다시 settle해도 최초 transition을 복원한다", () => {
+    const { root, scrollContainer } = renderScrollAutoHide();
+
+    partiallyHide(scrollContainer, 60);
+    fireEvent(scrollContainer, new Event("scrollend"));
+
+    scrollContainer.scrollTop = 0;
+    fireEvent(scrollContainer, new Event("scrollend"));
+    endTransformTransition(root);
+
+    expect(root.style.transition).toBe("");
+  });
+
   it("진행 중인 스냅을 현재 화면 위치에서 중단하고 새 스크롤을 따른다", () => {
     const { root, scrollContainer } = renderScrollAutoHide();
 
