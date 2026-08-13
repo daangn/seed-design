@@ -384,7 +384,6 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
       scrollContainer.addEventListener("wheel", handleInteractionStart, { passive: true });
       root.addEventListener("focusin", handleFocusIn);
       root.addEventListener("transitionend", handleTransitionComplete);
-      root.addEventListener("transitioncancel", handleTransitionComplete);
       root.ownerDocument.addEventListener("keydown", handleKeyDown);
       mediaQuery.addEventListener("change", handleReducedMotionChange);
 
@@ -400,7 +399,6 @@ export const ScrollAutoHide = React.forwardRef<HTMLElement, ScrollAutoHideProps>
         scrollContainer.removeEventListener("wheel", handleInteractionStart);
         root.removeEventListener("focusin", handleFocusIn);
         root.removeEventListener("transitionend", handleTransitionComplete);
-        root.removeEventListener("transitioncancel", handleTransitionComplete);
         root.ownerDocument.removeEventListener("keydown", handleKeyDown);
         mediaQuery.removeEventListener("change", handleReducedMotionChange);
         root.style.transform = initialTransform;

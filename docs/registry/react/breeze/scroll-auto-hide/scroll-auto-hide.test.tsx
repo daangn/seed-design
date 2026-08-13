@@ -87,6 +87,12 @@ function endTransformTransition(root: HTMLElement) {
   fireEvent(root, event);
 }
 
+function cancelTransformTransition(root: HTMLElement) {
+  const event = new Event("transitioncancel", { bubbles: true });
+  Object.defineProperty(event, "propertyName", { value: "transform" });
+  fireEvent(root, event);
+}
+
 beforeEach(() => {
   prefersReducedMotion = false;
   rootHeight = 100;
@@ -303,7 +309,7 @@ describe("ScrollAutoHide", () => {
     expect(root.style.transition).toContain(`transform 200ms ${vars.$timingFunction.enter}`);
   });
 
-  it("스냅 도중 다시 settle해도 최초 transition을 복원한다", () => {
+  it("이전 스냅의 transitioncancel이 재진입한 settle을 종료하지 않는다", () => {
     const { root, scrollContainer } = renderScrollAutoHide();
 
     partiallyHide(scrollContainer, 60);
@@ -311,6 +317,10 @@ describe("ScrollAutoHide", () => {
 
     scrollContainer.scrollTop = 0;
     fireEvent(scrollContainer, new Event("scrollend"));
+
+    cancelTransformTransition(root);
+    expect(root.style.transition).toContain(`transform 200ms ${vars.$timingFunction.enter}`);
+
     endTransformTransition(root);
 
     expect(root.style.transition).toBe("");
