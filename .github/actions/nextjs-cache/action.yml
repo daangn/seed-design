@@ -1,0 +1,143 @@
+name: Restore docs build caches
+description: Restore shared Next.js, Turbopack, and Fumadocs TypeScript caches
+
+inputs:
+  cache-generation:
+    description: Suffix that controls when the current branch publishes a new immutable cache
+    required: true
+  cache-scope:
+    description: Branch name recorded in the cache key for diagnostics
+    required: true
+  default-branch:
+    description: Repository default branch used to report the matched cache scope
+    required: true
+  legacy-build-cache-key-suffix:
+    description: Setup action suffix used to restore only compatible legacy Next.js caches
+    required: true
+  benchmark-cache-key:
+    description: Optional isolated namespace for reproducible cache benchmarks
+    required: false
+    default: ""
+
+outputs:
+  cache-hit:
+    description: Whether the primary key was restored exactly
+    value: ${{ steps.restore-nextjs.outputs.cache-hit }}
+  cache-matched-key:
+    description: Key of the cache that was restored
+    value: ${{ steps.restore-nextjs.outputs.cache-matched-key }}
+  cache-primary-key:
+    description: Primary key to use when saving the updated cache
+    value: ${{ steps.restore-nextjs.outputs.cache-primary-key }}
+  fumadocs-cache-hit:
+    description: Whether the Fumadocs TypeScript primary key was restored exactly
+    value: ${{ steps.restore-fumadocs.outputs.cache-hit }}
+  fumadocs-cache-matched-key:
+    description: Key of the Fumadocs TypeScript cache that was restored
+    value: ${{ steps.restore-fumadocs.outputs.cache-matched-key }}
+  fumadocs-cache-primary-key:
+    description: Primary key to use when saving the Fumadocs TypeScript cache
+    value: ${{ steps.restore-fumadocs.outputs.cache-primary-key }}
+
+runs:
+  using: composite
+  steps:
+    - name: Generate cache keys
+      id: keys
+      shell: bash
+      env:
+        BENCHMARK_CACHE_KEY: ${{ inputs.benchmark-cache-key }}
+        CACHE_GENERATION: ${{ inputs.cache-generation }}
+        CACHE_SCOPE: ${{ inputs.cache-scope }}
+        LEGACY_BUILD_CACHE_KEY_SUFFIX: ${{ inputs.legacy-build-cache-key-suffix }}
+        NEXTJS_COMPATIBILITY_HASH: ${{ hashFiles('bun.lock', 'package.json', 'bunfig.toml', 'docs/package.json', 'docs/next.config.mjs', 'docs/postcss.config.js', 'docs/tsconfig.json', '.github/actions/setup/action.yml') }}
+        FUMADOCS_COMPATIBILITY_HASH: ${{ hashFiles('bun.lock', 'docs/package.json', 'docs/tsconfig.json', 'docs/components/type-table/generator.ts', 'docs/source.config.ts', 'docs/registry/react/**', 'docs/registry/lynx/**', 'packages/css/**', 'packages/react/src/**', 'packages/react-headless/**', 'packages/lynx-react/src/**', 'packages/stackflow/src/**') }}
+      run: |
+        nextjs_namespace="${RUNNER_OS}-nextjs-v2-"
+        nextjs_legacy_namespace="${RUNNER_OS}-nextjs-"
+        fumadocs_namespace="${RUNNER_OS}-fumadocs-typescript-v1-"
+
+        if [ -n "$BENCHMARK_CACHE_KEY" ]; then
+          nextjs_namespace+="benchmark-${BENCHMARK_CACHE_KEY}-"
+          nextjs_legacy_namespace+="benchmark-${BENCHMARK_CACHE_KEY}-${LEGACY_BUILD_CACHE_KEY_SUFFIX}-"
+          fumadocs_namespace+="benchmark-${BENCHMARK_CACHE_KEY}-"
+        else
+          nextjs_legacy_namespace+="${LEGACY_BUILD_CACHE_KEY_SUFFIX}-"
+        fi
+
+        nextjs_namespace+="${NEXTJS_COMPATIBILITY_HASH}-"
+        fumadocs_namespace+="${FUMADOCS_COMPATIBILITY_HASH}-"
+
+        echo "nextjs-primary-key=${nextjs_namespace}scope-${CACHE_SCOPE}-${CACHE_GENERATION}" >> "$GITHUB_OUTPUT"
+        echo "nextjs-restore-prefix=${nextjs_namespace}" >> "$GITHUB_OUTPUT"
+        echo "nextjs-legacy-restore-prefix=${nextjs_legacy_namespace}" >> "$GITHUB_OUTPUT"
+        echo "fumadocs-primary-key=${fumadocs_namespace}scope-${CACHE_SCOPE}-${CACHE_GENERATION}" >> "$GITHUB_OUTPUT"
+        echo "fumadocs-restore-prefix=${fumadocs_namespace}" >> "$GITHUB_OUTPUT"
+
+    - name: Restore Next.js cache
+      id: restore-nextjs
+      uses: actions/cache/restore@v5
+      with:
+        path: docs/.next/cache
+        # Keep ordinary docs and package sources out of this compatibility hash.
+        # Turbopack tracks them in its own dependency graph. Dependencies and build
+        # configuration stay here because their caches are not safely interchangeable.
+        key: ${{ steps.keys.outputs.nextjs-primary-key }}
+        restore-keys: |
+          ${{ steps.keys.outputs.nextjs-restore-prefix }}
+          ${{ steps.keys.outputs.nextjs-legacy-restore-prefix }}
+
+    - name: Restore Fumadocs TypeScript cache
+      id: restore-fumadocs
+      uses: actions/cache/restore@v5
+      with:
+        path: docs/.next/cache/fumadocs-typescript
+        key: ${{ steps.keys.outputs.fumadocs-primary-key }}
+        restore-keys: |
+          ${{ steps.keys.outputs.fumadocs-restore-prefix }}
+
+    - name: Report cache restore
+      shell: bash
+      env:
+        NEXTJS_CACHE_HIT: ${{ steps.restore-nextjs.outputs.cache-hit }}
+        NEXTJS_CACHE_MATCHED_KEY: ${{ steps.restore-nextjs.outputs.cache-matched-key }}
+        NEXTJS_CACHE_PRIMARY_KEY: ${{ steps.restore-nextjs.outputs.cache-primary-key }}
+        FUMADOCS_CACHE_HIT: ${{ steps.restore-fumadocs.outputs.cache-hit }}
+        FUMADOCS_CACHE_MATCHED_KEY: ${{ steps.restore-fumadocs.outputs.cache-matched-key }}
+        FUMADOCS_CACHE_PRIMARY_KEY: ${{ steps.restore-fumadocs.outputs.cache-primary-key }}
+        CACHE_SCOPE: ${{ inputs.cache-scope }}
+        DEFAULT_BRANCH: ${{ inputs.default-branch }}
+      run: |
+        report_cache() {
+          local name="$1"
+          local hit="$2"
+          local matched_key="$3"
+          local primary_key="$4"
+          local result="miss"
+          local matched_scope="none"
+
+          if [ "$hit" = "true" ]; then
+            result="exact hit"
+            matched_scope="current branch ($CACHE_SCOPE)"
+          elif [ -n "$matched_key" ]; then
+            result="restore-key hit (not exact)"
+            case "$matched_key" in
+              *-scope-"$CACHE_SCOPE"-*) matched_scope="current branch ($CACHE_SCOPE)" ;;
+              *-scope-"$DEFAULT_BRANCH"-*) matched_scope="default branch ($DEFAULT_BRANCH)" ;;
+              *) matched_scope="legacy key (branch is not encoded)" ;;
+            esac
+          fi
+
+          echo "| $name | $result | $matched_scope | ${matched_key:-none} | ${primary_key:-unknown} |"
+        }
+
+        {
+          echo "## Docs build cache restore"
+          echo
+          echo "| Cache | Result | Matched scope | Matched key | Primary key |"
+          echo "| --- | --- | --- | --- | --- |"
+          report_cache "Next.js/Turbopack" "$NEXTJS_CACHE_HIT" "$NEXTJS_CACHE_MATCHED_KEY" "$NEXTJS_CACHE_PRIMARY_KEY"
+          report_cache "Fumadocs TypeScript" "$FUMADOCS_CACHE_HIT" "$FUMADOCS_CACHE_MATCHED_KEY" "$FUMADOCS_CACHE_PRIMARY_KEY"
+          echo
+          echo "Lookup order: current branch ($CACHE_SCOPE), then default branch ($DEFAULT_BRANCH)."
+        } >> "$GITHUB_STEP_SUMMARY"

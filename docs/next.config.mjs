@@ -15,6 +15,7 @@ const layeredRecipeAliases = Object.fromEntries(
 
 /** @type {import('next').NextConfig} */
 const config = {
+  allowedDevOrigins: ["**.test"],
   output: "export",
   reactStrictMode: true,
   typescript: {

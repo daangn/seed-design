@@ -45,7 +45,6 @@ export const FOOTER_MENU: FooterLink[] = [
 export const FOOTER_MORE: FooterLink[] = [
   { label: "Breeze", href: "/breeze" },
   { label: "Migration", href: "/docs/migration/migration-reference" },
-  { label: "Credits", href: "/credits" },
   { label: "GitHub", href: "https://github.com/daangn/seed-design", external: true },
 ];
 

@@ -119,19 +119,67 @@ jobs:
       always() &&
       needs.prepare-rootage.result == 'success' &&
       needs.prepare-rootage.outputs.found == 'true'
-    uses: ./.github/workflows/rootage-release-contract.yml
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: rootage-production
+    concurrency:
+      group: rootage-cdn-production-mutation
+      cancel-in-progress: false
     permissions:
       contents: read
-    with:
-      version: ${{ needs.prepare-rootage.outputs.version }}
-      npm-integrity: ${{ needs.prepare-rootage.outputs.integrity }}
-      stable: ${{ needs.prepare-rootage.outputs.stable == 'true' }}
-      source-sha: ${{ needs.prepare-rootage.outputs.source-sha }}
-      control-sha: ${{ needs.prepare-rootage.outputs.control-sha }}
-    secrets:
-      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-      ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
-      ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+    outputs:
+      manifest-sha: ${{ steps.publish.outputs.manifest-sha }}
+      file-count: ${{ steps.publish.outputs.file-count }}
+      pointer-before: ${{ steps.publish.outputs.pointer-before }}
+      pointer-after: ${{ steps.publish.outputs.pointer-after }}
+    steps:
+      - name: Resolve current trusted dev head
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Record trusted dev head
+        id: dev
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout immutable trusted control plane
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare-rootage.outputs.control-sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify control commit belongs to trusted dev history
+        env:
+          ROOTAGE_CONTROL_SHA: ${{ needs.prepare-rootage.outputs.control-sha }}
+          ROOTAGE_DEV_SHA: ${{ steps.dev.outputs.sha }}
+        run: |
+          [[ "$ROOTAGE_CONTROL_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$ROOTAGE_CONTROL_SHA"
+          git merge-base --is-ancestor "$ROOTAGE_CONTROL_SHA" "$ROOTAGE_DEV_SHA"
+
+      - uses: ./.github/actions/setup
+
+      - name: Publish, read back and verify Rootage
+        id: publish
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+          ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+          ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
+          ROOTAGE_PUBLIC_BASE_URL: https://seed-design.io
+          ROOTAGE_VERSION: ${{ needs.prepare-rootage.outputs.version }}
+          ROOTAGE_NPM_INTEGRITY: ${{ needs.prepare-rootage.outputs.integrity }}
+          ROOTAGE_SOURCE_SHA: ${{ needs.prepare-rootage.outputs.source-sha }}
+          ROOTAGE_STABLE: ${{ needs.prepare-rootage.outputs.stable }}
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts publish
+          --version "$ROOTAGE_VERSION"
+          --npm-integrity "$ROOTAGE_NPM_INTEGRITY"
+          --source-sha "$ROOTAGE_SOURCE_SHA"
+          --stable "$ROOTAGE_STABLE"
 
   notify-rootage:
     name: Notify published Rootage package

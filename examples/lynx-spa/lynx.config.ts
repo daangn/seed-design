@@ -50,6 +50,11 @@ export default defineConfig({
       // enableTextLayoutCache: true,
     }),
   ],
+  server: {
+    // portless picks a fresh port per run and passes it as PORT. Rspeedy reads only
+    // this config, so without it the proxy routes to a port nothing listens on.
+    port: Number(process.env.PORT) || 3000,
+  },
   output: {
     filename: "[name].[platform].bundle",
   },

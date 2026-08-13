@@ -10,6 +10,9 @@ export default defineMain({
     options: {},
   },
   staticDirs: ["../public"],
+  core: {
+    allowedHosts: [".test"],
+  },
 });
 
 function getAbsolutePath(value: string): string {
