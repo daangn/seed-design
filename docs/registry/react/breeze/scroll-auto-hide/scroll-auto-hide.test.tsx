@@ -87,6 +87,12 @@ function endTransformTransition(root: HTMLElement) {
   fireEvent(root, event);
 }
 
+function cancelTransformTransition(root: HTMLElement) {
+  const event = new Event("transitioncancel", { bubbles: true });
+  Object.defineProperty(event, "propertyName", { value: "transform" });
+  fireEvent(root, event);
+}
+
 beforeEach(() => {
   prefersReducedMotion = false;
   rootHeight = 100;
@@ -287,6 +293,36 @@ describe("ScrollAutoHide", () => {
     fireEvent(scrollContainer, new Event("scrollend"));
 
     expect(root.style.transform).toBe("translate3d(0px, 0px, 0px)");
+    expect(root.style.transition).toBe("");
+  });
+
+  it("편집 가능한 요소의 스페이스 입력은 키보드 스크롤로 처리하지 않는다", () => {
+    const { root, scrollContainer } = renderScrollAutoHide();
+    const input = document.createElement("input");
+    root.append(input);
+
+    partiallyHide(scrollContainer, 40);
+    fireEvent.keyDown(input, { key: " " });
+    fireEvent(scrollContainer, new Event("scrollend"));
+
+    expect(root.style.transform).toBe("translate3d(0px, 0px, 0px)");
+    expect(root.style.transition).toContain(`transform 200ms ${vars.$timingFunction.enter}`);
+  });
+
+  it("이전 스냅의 transitioncancel이 재진입한 settle을 종료하지 않는다", () => {
+    const { root, scrollContainer } = renderScrollAutoHide();
+
+    partiallyHide(scrollContainer, 60);
+    fireEvent(scrollContainer, new Event("scrollend"));
+
+    scrollContainer.scrollTop = 0;
+    fireEvent(scrollContainer, new Event("scrollend"));
+
+    cancelTransformTransition(root);
+    expect(root.style.transition).toContain(`transform 200ms ${vars.$timingFunction.enter}`);
+
+    endTransformTransition(root);
+
     expect(root.style.transition).toBe("");
   });
 
