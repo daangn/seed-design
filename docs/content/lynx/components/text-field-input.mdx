@@ -1,0 +1,116 @@
+---
+title: Text Field Input
+description: 한 줄 텍스트를 입력받고 Field의 레이블·설명·오류 상태와 조합하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.4.0, @seed-design/lynx-css@0.7.0" />
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:text-field
+```
+
+<LynxManualInstallation name="text-field" />
+
+## Props
+
+### `TextField`
+
+<react-type-table path="./registry/lynx/ui/text-field.tsx" name="TextFieldProps" />
+
+### `TextFieldInput`
+
+<react-type-table path="./registry/lynx/ui/text-field.tsx" name="TextFieldInputProps" />
+
+## Usage
+
+Snippet의 `TextField`가 label, description, required indicator와 한 줄 입력 영역을 조합합니다. Lynx에는 HTML `label for` 연결이 없으므로 native 입력에는 `accessibility-label`을 함께 지정합니다.
+
+```tsx
+import { TextField, TextFieldInput } from "@/components/ui/text-field";
+
+export function TitleField() {
+  return (
+    <TextField label="제목" required showRequiredIndicator name="title">
+      <TextFieldInput accessibility-label="제목" placeholder="제목을 입력해 주세요" />
+    </TextField>
+  );
+}
+```
+
+### Controlled value
+
+`value`와 `onValueChange`를 전달하면 controlled mode로 동작합니다. Lynx native 입력에는 `value` attribute가 없으므로 컴포넌트가 `setValue` UI method로 값을 동기화합니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { TextField, TextFieldInput } from "@/components/ui/text-field";
+
+export function ControlledTitle() {
+  const [value, setValue] = useState("");
+
+  return (
+    <TextField value={value} onValueChange={({ value }) => setValue(value)}>
+      <TextFieldInput accessibility-label="제목" />
+    </TextField>
+  );
+}
+```
+
+### Grapheme limit
+
+이모지·조합 문자를 사용자에게 보이는 한 글자로 계산하려면 snippet의 `maxGraphemeCount`와 `onValueChange`를 사용합니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { TextField, TextFieldInput } from "@/components/ui/text-field";
+
+export function LimitedTitleField() {
+  const [value, setValue] = useState("");
+
+  return (
+    <TextField
+      label="제목"
+      value={value}
+      maxGraphemeCount={40}
+      onValueChange={({ slicedValue }) => setValue(slicedValue)}
+    >
+      <TextFieldInput accessibility-label="제목" />
+    </TextField>
+  );
+}
+```
+
+### Keyboard avoidance
+
+`KeyboardAvoidingScrollView` 안에 배치하면 `TextFieldInput`이 focus될 때 자동으로 등록되어 키보드에 가려지지 않는 위치로 스크롤됩니다.
+
+```tsx
+import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
+import { TextField, TextFieldInput } from "@/components/ui/text-field";
+
+export function Form() {
+  return (
+    <KeyboardAvoidingScrollView>
+      <TextField label="제목">
+        <TextFieldInput accessibility-label="제목" />
+      </TextField>
+    </KeyboardAvoidingScrollView>
+  );
+}
+```
+
+## Web Version Differences
+
+- 편집 가능한 상태에서는 HTML `<input>` 대신 Lynx native `<input>` element를 렌더링합니다.
+- `readOnly` 상태에서는 native focus·selection·잘라내기 메뉴를 제거하기 위해 `<text>` element로 렌더링합니다. 이 상태의 ref는 `<text>`를 가리키며 input 전용 UI method와 이벤트는 사용할 수 없습니다.
+- `onChange` 대신 snippet `TextField`의 `onValueChange`를 사용합니다. 원문과 grapheme 단위로 자른 값을 함께 제공합니다.
+- native `bindinput`은 `TextFieldInput`에 추가로 전달할 수 있습니다.
+- `Field.Label`과 입력의 DOM id 연결이 없으므로 `accessibility-label`을 입력에 직접 제공합니다.
+- `KeyboardAvoidingScrollView`가 키보드 회피를 전담하는 화면에서는 Android host window의 별도 pan/resize를 막기 위해 `android-set-soft-input-mode="nothing"`을 명시할 수 있습니다. 이 값은 host window 전역에 영향을 주므로 컴포넌트가 자동으로 적용하지 않습니다.
+- `size="responsive"`는 CSS viewport breakpoint가 없는 Lynx에서 지원하지 않습니다. `large` 또는 `medium`을 명시합니다.
+
+## Unsupported Lynx Features
+
+- HTML form submit, browser validation, `aria-describedby` id 연결은 지원하지 않습니다.

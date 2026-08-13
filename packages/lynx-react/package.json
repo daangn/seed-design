@@ -51,8 +51,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "@lynx-js/lynx-ui-common": "^3.130.0",
-    "clsx": "^2.1.1"
+    "@lynx-js/lynx-ui-sheet": "^3.130.1",
+    "clsx": "^2.1.1",
+    "unicode-segmenter": "^0.14.4"
   }
 }

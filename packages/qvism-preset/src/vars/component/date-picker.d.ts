@@ -89,6 +89,11 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral)"
       }
     },
+    "readOnly": {
+      "dateVisual": {
+        "color": "var(--seed-color-palette-gray-600)"
+      }
+    },
     "disabled": {
       "dateContent": {
         "color": "var(--seed-color-fg-disabled)"

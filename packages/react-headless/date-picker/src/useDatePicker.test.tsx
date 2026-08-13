@@ -8,7 +8,7 @@ import {
   rangeDayCountAtMost,
 } from "./constraints";
 import { useDatePicker } from "./useDatePicker";
-import type { DatePickerCell, UseDatePickerProps } from "./types";
+import type { DatePickerCell, DatePickerConstraintContext, UseDatePickerProps } from "./types";
 
 const today = { year: 2026, month: 7, day: 30 };
 const yearRange = { start: 2025, end: 2027 };
@@ -152,6 +152,104 @@ describe("useDatePicker", () => {
     expect(getCell(result, 15).isUnavailable).toBe(false);
     act(() => clickCell(getCell(result, 15)));
     expect(result.current.value).toEqual({ start: { year: 2026, month: 7, day: 15 } });
+  });
+
+  it("읽기 전용 Range 시작일을 유지하고 종료일만 변경한다", () => {
+    const onValueChange = mock(() => {});
+    const { result } = renderDatePicker({
+      selectionMode: "range",
+      rangeStartReadOnly: true,
+      defaultValue: {
+        start: { year: 2026, month: 7, day: 7 },
+        end: { year: 2026, month: 7, day: 9 },
+      },
+      onValueChange,
+    });
+
+    expect(getCell(result, 7).isRangeStartReadOnly).toBe(true);
+    expect(getCell(result, 7).isUnavailable).toBe(false);
+    expect(getCell(result, 6).isUnavailable).toBe(true);
+
+    act(() => clickCell(getCell(result, 7)));
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    act(() => clickCell(getCell(result, 12)));
+    expect(result.current.value).toEqual({
+      start: { year: 2026, month: 7, day: 7 },
+      end: { year: 2026, month: 7, day: 12 },
+    });
+    expect(onValueChange).toHaveBeenCalledWith({
+      start: { year: 2026, month: 7, day: 7 },
+      end: { year: 2026, month: 7, day: 12 },
+    });
+  });
+
+  it("읽기 전용 Range 시작일은 constraint보다 우선하고 완료 후에도 context에 유지된다", () => {
+    const contexts: Array<DatePickerConstraintContext> = [];
+    const { result } = renderDatePicker({
+      selectionMode: "range",
+      rangeStartReadOnly: true,
+      defaultValue: {
+        start: { year: 2026, month: 7, day: 7 },
+        end: { year: 2026, month: 7, day: 9 },
+      },
+      constraints: [
+        (date, context) => {
+          if (date.day === 12) contexts.push(context);
+          return date.day !== 7;
+        },
+      ],
+    });
+
+    expect(getCell(result, 7).isUnavailable).toBe(false);
+    expect(getCell(result, 12).isUnavailable).toBe(false);
+    expect(contexts.at(-1)?.rangeStart).toEqual({ year: 2026, month: 7, day: 7 });
+  });
+
+  it("읽기 전용 Range 시작일은 포커스와 키보드 탐색을 허용하지만 선택은 막는다", () => {
+    const onValueChange = mock(() => {});
+    const { result } = renderDatePicker({
+      selectionMode: "range",
+      rangeStartReadOnly: true,
+      defaultValue: { start: { year: 2026, month: 7, day: 7 } },
+      onValueChange,
+    });
+    const start = getCell(result, 7);
+
+    expect(start.buttonProps["aria-disabled"]).toBe("true");
+    expect(start.buttonProps.disabled).toBe(false);
+    expect(start.buttonProps["aria-label"]).toContain("읽기 전용 시작일");
+
+    act(() => {
+      start.buttonProps.onKeyDown?.({
+        key: "Enter",
+        shiftKey: false,
+        defaultPrevented: false,
+        nativeEvent: { isComposing: false },
+        preventDefault: () => {},
+      } as React.KeyboardEvent<HTMLButtonElement>);
+    });
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    act(() => {
+      start.buttonProps.onKeyDown?.({
+        key: "ArrowRight",
+        shiftKey: false,
+        defaultPrevented: false,
+        nativeEvent: { isComposing: false },
+        preventDefault: () => {},
+      } as React.KeyboardEvent<HTMLButtonElement>);
+    });
+    expect(result.current.focusedDate).toEqual({ year: 2026, month: 7, day: 8 });
+  });
+
+  it("rangeStartReadOnly에는 초기 Range 값이 필요하다", () => {
+    expect(() =>
+      renderDatePicker({
+        selectionMode: "range",
+        rangeStartReadOnly: true,
+      } as UseDatePickerProps),
+    ).toThrow("value 또는 defaultValue가 필요합니다");
   });
 
   it("maxSelectionCount에 도달해도 기존 날짜는 선택 해제할 수 있다", () => {

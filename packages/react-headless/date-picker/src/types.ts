@@ -62,6 +62,8 @@ export interface DatePickerAriaLabels {
   yearWheel: string;
   /** 월 Wheel의 접근성 이름입니다. */
   monthWheel: string;
+  /** 변경할 수 없는 Range 시작일을 설명하는 접근성 이름입니다. */
+  readOnlyRangeStart: string;
 }
 
 export interface DatePickerActions {
@@ -145,18 +147,40 @@ export interface DatePickerSingleProps
   extends DatePickerCommonProps,
     DatePickerSelectionValueProps<DatePickerDate> {
   selectionMode?: "single";
+  rangeStartReadOnly?: never;
 }
 
-export interface DatePickerRangeProps
-  extends DatePickerCommonProps,
-    DatePickerSelectionValueProps<DatePickerRangeValue> {
+interface DatePickerRangeBaseProps extends DatePickerCommonProps {
   selectionMode: "range";
 }
+
+type DatePickerMutableRangeProps = DatePickerRangeBaseProps &
+  DatePickerSelectionValueProps<DatePickerRangeValue> & {
+    rangeStartReadOnly?: false;
+  };
+
+type DatePickerReadOnlyRangeProps = DatePickerRangeBaseProps & {
+  /** 현재 Range의 시작일을 유지하고 종료일만 변경할 수 있게 합니다. */
+  rangeStartReadOnly: true;
+  onValueChange?: (value: DatePickerRangeValue) => void;
+} & (
+    | {
+        value: DatePickerRangeValue;
+        defaultValue?: DatePickerRangeValue;
+      }
+    | {
+        value?: undefined;
+        defaultValue: DatePickerRangeValue;
+      }
+  );
+
+export type DatePickerRangeProps = DatePickerMutableRangeProps | DatePickerReadOnlyRangeProps;
 
 export interface DatePickerMultipleProps
   extends DatePickerCommonProps,
     DatePickerSelectionValueProps<readonly DatePickerDate[], DatePickerDate[]> {
   selectionMode: "multiple";
+  rangeStartReadOnly?: never;
 }
 
 export type UseDatePickerProps =
@@ -181,6 +205,8 @@ export interface DatePickerCellState {
   isInRange: boolean;
   /** constraint에 의해 선택할 수 없는지 여부입니다. */
   isUnavailable: boolean;
+  /** Range 시작일이 읽기 전용인지 여부입니다. */
+  isRangeStartReadOnly: boolean;
   /** roving focus의 현재 날짜인지 여부입니다. */
   isFocused: boolean;
 }

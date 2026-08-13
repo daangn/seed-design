@@ -49,6 +49,9 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityBadge: lazy(() => import("../activities/ActivityBadge")),
     ActivityBottomSheet: lazy(() => import("../activities/ActivityBottomSheet")),
     ActivityBottomSheetActivity: lazy(() => import("../activities/ActivityBottomSheetActivity")),
+    ActivityBottomSheetInputFocus: lazy(
+      () => import("../activities/ActivityBottomSheetInputFocus"),
+    ),
     ActivityBottomSheetModalTest: lazy(() => import("../activities/ActivityBottomSheetModalTest")),
     ActivityBottomSheetStep: lazy(() => import("../activities/ActivityBottomSheetStep")),
     ActivityBottomSheetKeyboardPlayground: lazy(

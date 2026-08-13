@@ -435,6 +435,19 @@ declare const artifact: {
           },
           {
             "states": readonly [
+              "readOnly",
+            ];
+            "slots": {
+              "dateVisual": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.palette.gray-600";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
               "disabled",
             ];
             "slots": {

@@ -212,6 +212,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           onClick: () => push("ActivityBottomSheetTextField", {}),
         },
         {
+          title: "BottomSheet Share (snapPoints)",
+          onClick: () => push("ActivityBottomSheetInputFocus", {}),
+        },
+        {
           title: "BottomSheet Keyboard Playground",
           onClick: () => push("ActivityBottomSheetKeyboardPlayground", {}),
         },

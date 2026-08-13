@@ -19,6 +19,7 @@ export const config = defineConfig({
     { route: "/avatar", name: "ActivityAvatar" },
     { route: "/badge", name: "ActivityBadge" },
     { route: "/bottom-sheet-activity", name: "ActivityBottomSheetActivity" },
+    { route: "/bottom-sheet-input-focus", name: "ActivityBottomSheetInputFocus" },
     { route: "/bottom-sheet-step", name: "ActivityBottomSheetStep" },
     { route: "/bottom-sheet", name: "ActivityBottomSheet" },
     { route: "/bottom-sheet-modal-test", name: "ActivityBottomSheetModalTest" },
