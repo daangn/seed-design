@@ -1,6 +1,6 @@
 ---
-title: Quantity Picker, Time Picker, Date Picker, Select, Dialog
-publishedAt: 2026-08-10T00:00:00+09:00
+title: Quantity Picker, Time Picker, Date Picker, Select, Dialog, ScrollAutoHide
+publishedAt: 2026-08-13T00:00:00+09:00
 category: release
 ---
 
@@ -78,6 +78,25 @@ Dialog는 화면 중앙에서 사용자의 주의를 모으고, 제목·본문·
 </ComponentExample>
 
 [Dialog 디자인 가이드](/components/dialog) · [Dialog·ResponsiveDialog React 문서](/react/components/dialog)
+
+## ScrollAutoHide
+
+스크롤 방향에 따라 필터, 탭, 보조 헤더 같은 고정 영역을 자연스럽게 숨기고 드러냅니다. 아래로 스크롤하면 영역이 숨겨지고, 위로 올리면 이동한 거리만큼 다시 나타납니다. Breeze 스니펫으로 제공합니다.
+
+<ComponentExample name="breeze/scroll-auto-hide/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/breeze/scroll-auto-hide/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+```package-install
+npx @seed-design/cli@latest add breeze:scroll-auto-hide
+```
+
+[Breeze 문서](/breeze/components/scroll-auto-hide)
 
 <Cards>
   <Card
