@@ -5,9 +5,8 @@ export default function ProgressCircleStaticWhite() {
     <div
       style={{
         display: "flex",
-        flex: 1,
-        width: "100vw",
-        height: "300px",
+        width: "100%",
+        minHeight: "200px",
         alignItems: "center",
         justifyContent: "center",
         background: "black",
