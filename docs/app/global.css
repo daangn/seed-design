@@ -132,8 +132,8 @@ article .prose {
 pre,
 code,
 pre code {
-  user-select: text !important;
-  -webkit-user-select: text !important;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 /* Rebrand: SEED Callout은 MDX children(코드블록/Tabs/문단)을 인라인 description(span)으로 받는데,
@@ -159,30 +159,16 @@ pre code {
   align-items: flex-start;
 }
 
-/* Rebrand: brand-tinted text selection — the same lime highlight everywhere so light
-   and dark modes read as one brand. Lime is a light color, so on light surfaces the
-   inherited dark text sits on it fine (background only). Unlayered so it wins over
-   fumadocs/Tailwind. The colors live on :root so the search-result <mark> highlight can
-   reuse the same lime — and, as :root vars, they resolve inside the portaled search dialog
-   (where the surface-scoped selection selectors below never match). */
+/* Rebrand: brand-tinted text selection — the same dark-on-lime treatment everywhere so
+   light and dark surfaces read as one brand. Setting both colors also keeps links and
+   inline code from carrying their resting text color into the selected state. Unlayered
+   so it wins over fumadocs/Tailwind. The colors live on :root so the search-result <mark>
+   highlight can reuse the same lime, including inside the portaled search dialog. */
 :root {
   --selection-bg: #ccffa3;
   --selection-fg: #212124;
 }
 ::selection {
-  background-color: var(--selection-bg);
-}
-
-/* Dark surfaces — docs dark mode + the landing's dark sections (both carry light text).
-   Keep the lime highlight but flip the SELECTED text dark, mirroring light mode's
-   dark-on-lime, so the lime stays legible instead of light-on-light. Landing dark
-   sections are enumerated by the section ids the landing already uses for scroll/tone
-   logic; hero/bento and the orange footer (dark text) fall through to the base above. */
-.dark ::selection,
-#intro ::selection,
-#values ::selection,
-#showcase ::selection,
-#blog ::selection {
   background-color: var(--selection-bg);
   color: var(--selection-fg);
 }
