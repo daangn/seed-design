@@ -9,6 +9,17 @@ import { extractFigmaId, FIGMA_ID_PROP_SUPPORTED_COMPONENTS } from "./collect-fi
 import { type FigmaImageManifest, getFigmaImageUrlsFromManifest } from "./figma-image-manifest";
 import { resolveFigmaImageUrls } from "./resolve-figma-image-urls";
 
+declare module "mdast" {
+  interface ImageData {
+    /**
+     * `<FigmaImage>`를 치환해 만든 이미지라는 표시입니다. 검색 색인(`remarkStructure`)은
+     * 이 플러그인 뒤에 돌면서 image를 빈 문자열로 직렬화하므로, 이 표시를 보고 원래
+     * 컴포넌트 형태를 되살려야 `alt`가 색인에 남습니다 (app/source.tsx).
+     */
+    figmaImage?: true;
+  }
+}
+
 const DEFAULT_IMAGE_SIZE = {
   width: 1080,
   height: 720,
@@ -167,6 +178,7 @@ export function remarkFigmaImage({
           url,
           alt: typeof altAttr.value === "string" ? altAttr.value : "",
           data: {
+            figmaImage: true,
             // 실제 크기는 아니지만 Next.js Image를 통해 레이아웃 이동을 방지합니다.
             hProperties: DEFAULT_IMAGE_SIZE,
           },
