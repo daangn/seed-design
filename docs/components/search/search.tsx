@@ -14,12 +14,15 @@ import {
 } from "fumadocs-ui/components/dialog/search";
 import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useMemo, useState } from "react";
+import { TAGS } from "@/app/api/search/constants";
 import { NoResults } from "./no-results";
 import { RecentPages } from "./recent-pages";
 import { SearchResultItem } from "./search-result-item";
 import { SearchResultsState } from "./search-results-state";
 import { SearchTags } from "./tags";
+import { TokenResults } from "./token-results";
 import { koreanTokenizer } from "./tokenizer";
+import { useTokenSearch } from "./use-token-search";
 import { create } from "zbsearch";
 
 export interface DefaultSearchDialogProps extends SharedProps {
@@ -86,6 +89,13 @@ export default function DefaultSearchDialog({
     setTag(v);
   });
 
+  // Tokens live under Foundations, so they only belong in the unfiltered view and in
+  // that section's own filter.
+  const tokens = useTokenSearch({
+    search,
+    enabled: tag === undefined || tag === TAGS.foundations.value,
+  });
+
   // Re-rank fumadocs' results before display. Its advanced search flattens title/heading/
   // body into one field with no field or all-terms weighting, so a partial ("Button"-only)
   // body snippet can outrank the "Action Button" pages. Push closer matches up — exact query
@@ -142,11 +152,17 @@ export default function DefaultSearchDialog({
               isLoading={query.isLoading}
               recent={<RecentPages />}
             >
+              <TokenResults matches={tokens} search={search} />
               <SearchDialogList
                 items={results}
-                Empty={() => <NoResults />}
+                // The token section already answers the query; a "no results" notice
+                // under it would contradict what's on screen.
+                Empty={() => (tokens.length > 0 ? null : <NoResults />)}
                 Item={(itemProps) => <SearchResultItem {...itemProps} />}
-                className="[&>div]:!max-h-[480px]"
+                // Give up most of the 480px budget to the token section when it's
+                // showing, so the card stays close to the height the pinned dialog top
+                // assumes instead of running off short viewports.
+                className={tokens.length > 0 ? "[&>div]:!max-h-[176px]" : "[&>div]:!max-h-[480px]"}
               />
             </SearchResultsState>
             {footer}

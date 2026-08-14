@@ -1,0 +1,229 @@
+"use client";
+
+import { useOnChange } from "fumadocs-core/utils/use-on-change";
+import { useSearch } from "fumadocs-ui/components/dialog/search";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { type CSSProperties, type KeyboardEvent, type ReactNode, useMemo, useState } from "react";
+import { TOKEN_KIND_ICON } from "@/components/token-kind-icon";
+import {
+  splitHighlights,
+  splitQueryTerms,
+  type ThemedCss,
+  TOKEN_RESULT_LIMIT,
+  type TokenSearchEntry,
+  tokenReferenceHref,
+} from "@/lib/token-search";
+
+/**
+ * Tall enough for two rows even when a token id wraps onto a second line, so the cut
+ * lands between rows instead of through a description. The grid auto-fills — 2 columns
+ * on a phone, 4 on desktop — and "더 보기" pours the remaining matches into this same
+ * scroll box rather than growing the dialog.
+ */
+const TOKEN_GRID_CLASS_NAME =
+  "grid max-h-[264px] grid-cols-[repeat(auto-fill,minmax(148px,1fr))] gap-2 overflow-y-auto";
+
+/**
+ * Colour roles read differently depending on where the token is meant to land, so each
+ * preview mimics the usage: a background fills the box, a foreground sits on the page
+ * background as a chip, and a stroke draws the 2px line it would draw.
+ */
+const COLOR_ROLE_PREVIEW: Record<string, "chip" | "line" | undefined> = {
+  "$color.fg": "chip",
+  "$color.stroke": "line",
+};
+
+const themed = ({ light, dark }: ThemedCss) =>
+  ({ "--token-preview-light": light, "--token-preview-dark": dark }) as CSSProperties;
+
+/**
+ * fumadocs' result list binds Enter on `window` to open whichever row it considers
+ * active. A focused tile would otherwise navigate to that row instead of itself.
+ */
+function stopEnterPropagation(event: KeyboardEvent) {
+  if (event.key === "Enter") event.stopPropagation();
+}
+
+function Highlighted({ text, terms }: { text: string; terms: string[] }) {
+  return splitHighlights(text, terms).map((chunk, index) =>
+    chunk.match ? (
+      <mark
+        // biome-ignore lint/suspicious/noArrayIndexKey: chunks are positional, and the list is rebuilt whenever the text or terms change
+        key={index}
+        className="bg-[var(--selection-bg)] text-[var(--selection-fg)]"
+      >
+        {chunk.text}
+      </mark>
+    ) : (
+      chunk.text
+    ),
+  );
+}
+
+/**
+ * Stand-in for the page canvas. Foreground, stroke and shadow tokens are all defined
+ * against `$color.bg.layer-default`, so previewing them on the dialog's own surface
+ * would misreport how they land. docs/AGENTS.md steers docs *chrome* away from opaque
+ * SEED greys; this box is content — the point is to show the real backdrop.
+ */
+function PreviewSurface({ children }: { children: ReactNode }) {
+  return (
+    <span
+      aria-hidden
+      className="flex h-11 w-full items-center justify-center overflow-hidden rounded-lg border border-stroke-neutral-muted bg-bg-layer-default"
+    >
+      {children}
+    </span>
+  );
+}
+
+function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
+  const { background, boxShadow, group, kind, label } = entry;
+
+  if (background) {
+    const role = COLOR_ROLE_PREVIEW[group];
+
+    if (role === "chip")
+      return (
+        <PreviewSurface>
+          <span
+            style={themed(background)}
+            className="size-5 rounded-full bg-[var(--token-preview-light)] dark:bg-[var(--token-preview-dark)]"
+          />
+        </PreviewSurface>
+      );
+
+    if (role === "line")
+      return (
+        <PreviewSurface>
+          <span
+            style={themed(background)}
+            className="h-0.5 w-2/3 bg-[var(--token-preview-light)] dark:bg-[var(--token-preview-dark)]"
+          />
+        </PreviewSurface>
+      );
+
+    return (
+      <span
+        aria-hidden
+        style={themed(background)}
+        className="block h-11 w-full rounded-lg border border-stroke-neutral-muted bg-[var(--token-preview-light)] dark:bg-[var(--token-preview-dark)]"
+      />
+    );
+  }
+
+  if (boxShadow)
+    return (
+      <PreviewSurface>
+        <span
+          style={themed(boxShadow)}
+          className="size-6 rounded-md bg-bg-layer-floating shadow-[var(--token-preview-light)] dark:shadow-[var(--token-preview-dark)]"
+        />
+      </PreviewSurface>
+    );
+
+  const Icon = TOKEN_KIND_ICON[kind];
+
+  return (
+    <span
+      aria-hidden
+      className="flex h-11 w-full flex-col items-center justify-center gap-1 rounded-lg bg-bg-transparent-selected px-1 text-fg-neutral-muted"
+    >
+      {Icon ? <Icon className="size-3.5 flex-none" /> : null}
+      <span className="w-full truncate text-center text-[11px] leading-none">{label}</span>
+    </span>
+  );
+}
+
+function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] }) {
+  const { onOpenChange } = useSearch();
+  const router = useRouter();
+  const href = tokenReferenceHref(entry.id);
+
+  return (
+    <Link
+      href={href}
+      // The name wraps across lines and splits into two colours, so spell the id out
+      // again for screen readers.
+      aria-label={entry.id}
+      title={`${entry.id}\n${entry.label}`}
+      onClick={(event) => {
+        // Keep cmd/ctrl-click opening a tab; a plain click routes through the client
+        // router and closes the dialog behind it.
+        if (event.metaKey || event.ctrlKey) return;
+
+        event.preventDefault();
+        onOpenChange(false);
+        router.push(href);
+      }}
+      onKeyDown={stopEnterPropagation}
+      className="flex flex-col gap-1.5 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
+    >
+      <TokenPreview entry={entry} />
+      <span className="min-w-0 px-0.5">
+        <span className="block wrap-anywhere text-[11px] leading-snug">
+          <span className="text-fg-neutral-subtle">
+            <Highlighted text={`${entry.group}.`} terms={terms} />
+          </span>
+          <span className="font-medium text-fg-neutral">
+            <Highlighted text={entry.key} terms={terms} />
+          </span>
+        </span>
+        {/* No `block` here — line-clamp needs to set `display: -webkit-box` itself, and a
+            display utility alongside it silently wins. Two thirds of the tokens have no
+            description; the reserved line keeps a row of those from collapsing to a
+            different height than its neighbours. */}
+        <span className="mt-0.5 line-clamp-2 min-h-4 text-[11px] leading-snug text-fg-neutral-subtle">
+          {entry.description ? <Highlighted text={entry.description} terms={terms} /> : null}
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+/**
+ * Design tokens matching the query, gathered above the document results so a search for
+ * `bg.neutral` surfaces the tokens themselves rather than only the pages mentioning
+ * them. Each tile links to that token's reference page.
+ */
+export function TokenResults({ matches, search }: { matches: TokenSearchEntry[]; search: string }) {
+  const [expanded, setExpanded] = useState(false);
+
+  // A new query is a new list; carrying the expansion over would dump hundreds of tiles
+  // on someone who only added a letter.
+  useOnChange(search, () => {
+    setExpanded(false);
+  });
+
+  const terms = useMemo(() => splitQueryTerms(search), [search]);
+
+  if (matches.length === 0) return null;
+
+  const hidden = matches.length - TOKEN_RESULT_LIMIT;
+
+  return (
+    <section aria-label="토큰 검색 결과" className="border-b border-stroke-neutral-muted p-3 pb-2">
+      <p className="px-0.5 pb-2 text-xs font-medium text-fg-neutral-muted">
+        토큰 <span className="text-fg-neutral-subtle">{matches.length}개</span>
+      </p>
+      <ul className={TOKEN_GRID_CLASS_NAME}>
+        {(expanded ? matches : matches.slice(0, TOKEN_RESULT_LIMIT)).map((entry) => (
+          <li key={entry.id}>
+            <TokenTile entry={entry} terms={terms} />
+          </li>
+        ))}
+      </ul>
+      {hidden > 0 ? (
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          onKeyDown={stopEnterPropagation}
+          className="mt-1.5 w-full cursor-pointer rounded-lg py-1.5 text-xs text-fg-neutral-subtle transition-colors hover:bg-bg-transparent-selected hover:text-fg-neutral focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
+        >
+          {expanded ? "접기" : `${hidden}개 더 보기`}
+        </button>
+      ) : null}
+    </section>
+  );
+}
