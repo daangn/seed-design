@@ -17,7 +17,7 @@ alwaysApply: true
 - 룰은 `match`(대상 식별)와 `transform`(노드 변환)을 분리한다.
 - 변환 실패 시 예외를 전파하지 말고 원본 노드를 반환해 안전하게 실패한다.
 - 문자열 정규식 후처리보다 AST 변환을 우선한다.
-- 테스트 단언은 `contains`가 아니라 전체 일치(파이프라인은 fixture, 룰 단위는 inline snapshot 허용)로 작성한다.
+- 테스트 단언은 TECH.md 「테스트 작성」을 따른다. 이 폴더에서는 파이프라인 검증에 fixture를, 룰 단위 검증에 inline snapshot을 쓴다.
 
 ## 필수 작업 절차
 
@@ -31,5 +31,5 @@ alwaysApply: true
 
 - 공개 인터페이스 `normalizeLLMBody(content?: string): string` 시그니처는 유지한다.
 - 룰 활성 순서는 `rules/index.ts`에서 단일 진입점으로 관리한다.
-- 출력 비교는 `normalizeForAssert`(개행 정규화 + trim) 기준 완전 일치로 검증한다.
+- fixture를 읽어 비교할 때는 `normalizeForAssert`(개행 정규화 + trim)를 양쪽에 적용한다. 기대값이 소스 안 문자열 리터럴이면 CRLF도 여백도 생길 수 없어 항등 연산이므로 쓰지 않는다.
 - llms.txt 변환 품질은 fixture를 소스 오브 트루스로 관리한다.

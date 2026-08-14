@@ -4,7 +4,7 @@ import { escapeCell, markdownRow } from "./markdown-utils";
 import monochromeRaw from "@karrotmarket/icon-data/monochrome.json";
 import multicolorRaw from "@karrotmarket/icon-data/multicolor.json";
 
-interface RawIconData {
+export interface RawIconData {
   name: string;
   metadatas: string[];
   figma?: {
@@ -14,7 +14,7 @@ interface RawIconData {
   };
 }
 
-interface IconRow {
+export interface IconRow {
   name: string;
   reactComponentName: string;
   figmaName: string;
@@ -75,7 +75,7 @@ function splitMetadatas(metadatas: string[]): {
   };
 }
 
-function toRow(icon: RawIconData): IconRow {
+export function toRow(icon: RawIconData): IconRow {
   const { keywords, services, tags } = splitMetadatas(icon.metadatas ?? []);
 
   return {
@@ -100,7 +100,7 @@ function formatList(values: string[]): string {
   return values.join(", ");
 }
 
-function buildTable(rows: IconRow[]): string {
+export function buildTable(rows: IconRow[]): string {
   const headers = [
     "Icon Name",
     "React Component Name",
@@ -124,7 +124,7 @@ function buildTable(rows: IconRow[]): string {
   return [markdownRow(headers), markdownRow(separator), ...bodyRows].join("\n");
 }
 
-function buildSection(title: string, rows: IconRow[]): string | null {
+export function buildSection(title: string, rows: IconRow[]): string | null {
   if (rows.length === 0) return null;
   return `## ${title}\n\n${buildTable(rows)}`;
 }
