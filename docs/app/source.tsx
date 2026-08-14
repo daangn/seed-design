@@ -16,6 +16,7 @@ import { fileGenerator } from "fumadocs-docgen";
 import type { ComponentType, SVGProps } from "react";
 import z from "zod";
 import { env } from "@/app/env";
+import { preserveRuleElements } from "@/app/_llms/rule-elements";
 import { readFigmaImageManifest } from "@/components/figma-image/figma-image-manifest";
 import { remarkFigmaImage } from "@/components/figma-image/remark-figma-image";
 import { filteredTypeTableGenerator } from "@/components/type-table/generator";
@@ -93,6 +94,9 @@ const filterStructureElement: NonNullable<LLMsOptions["filterElement"]> = (node)
   }
 };
 
+/** 검색 본문과 달리 llms.txt는 룰이 변환할 컴포넌트 태그를 그대로 넘겨받아야 합니다. */
+const filterLlmsElement = preserveRuleElements(filterStructureElement);
+
 /** `mdast-util-mdx-jsx`와 같은 규칙으로 속성값을 이스케이프합니다. */
 const escapeMdxAttributeValue = (value: string) => value.replace(/"/g, "&#x22;");
 
@@ -146,7 +150,7 @@ const structureOptions: StructureOptions = {
 
 const llmsOptions: LLMsOptions = {
   as: "processed",
-  filterElement: structureStringify.filterElement,
+  filterElement: filterLlmsElement,
   filterMdxAttributes: structureStringify.filterMdxAttributes,
 };
 
@@ -167,7 +171,7 @@ const customMdastPlugins = [
       scale: 2,
     },
   }),
-  remarkApplyLlmsFilter(filterStructureElement),
+  remarkApplyLlmsFilter(filterLlmsElement),
   remarkLlms(llmsOptions),
 ];
 

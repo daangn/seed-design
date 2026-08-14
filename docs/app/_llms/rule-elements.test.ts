@@ -1,0 +1,101 @@
+import { describe, expect, it } from "bun:test";
+import { compileMdx } from "@fumadocs/satteri/compile";
+import { remarkLlms } from "@fumadocs/satteri/remark-llms";
+import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import { type FilterElement, remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
+import { normalizeLLMBody } from "./normalize-llm-body";
+import { RULE_ELEMENT_NAMES, preserveRuleElements } from "./rule-elements";
+import { activeRules } from "./rules";
+import { normalizeForAssert } from "./test-utils";
+
+// source.tsx의 검색용 필터 자리에 놓는 대역. 실제 필터는 File·Callout 같은 몇 개를 살려 두지만,
+// 여기서는 전부 접어 보존이 preserveRuleElements 덕분임을 분명히 한다.
+const foldEveryElement: FilterElement = (node) =>
+  node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement" ? "children-only" : true;
+
+async function toProcessed(source: string): Promise<string> {
+  const result = await compileMdx({
+    source,
+    filePath: "/tmp/doc.mdx",
+    options: {
+      mdastPlugins: [
+        remarkApplyLlmsFilter(preserveRuleElements(foldEveryElement)),
+        remarkLlms({ as: "processed" }),
+      ],
+    },
+  });
+
+  return normalizeForAssert(result.data.markdown ?? "");
+}
+
+const jsxNode = (name: string): MdxJsxFlowElement => ({
+  type: "mdxJsxFlowElement",
+  name,
+  attributes: [],
+  children: [],
+});
+
+describe("preserveRuleElements", () => {
+  it("자식 없는 룰 컴포넌트도 processed에 JSX 그대로 남긴다", async () => {
+    const source = RULE_ELEMENT_NAMES.map((name) => `<${name} />`).join("\n\n");
+
+    expect(await toProcessed(source)).toBe(source);
+  });
+
+  it("룰이 다루지 않는 컴포넌트는 태그를 접고 자식만 남긴다", async () => {
+    expect(await toProcessed('<UiOnly title="지워야 함">본문은 남는다</UiOnly>')).toBe(
+      "본문은 남는다",
+    );
+  });
+
+  it("MDX 원문에서 룰 출력까지 이어진다", async () => {
+    const source = [
+      '<AvailableSince packages="@seed-design/react@2.0.0" />',
+      "",
+      "본문 안 <Badge>직접 판단</Badge> 배지.",
+    ].join("\n");
+
+    expect(normalizeLLMBody(await toProcessed(source))).toBe(
+      "사용 가능 버전: @seed-design/react@2.0.0\n\n본문 안 \\[직접 판단] 배지.",
+    );
+  });
+
+  // CodeBlockTabs 룰은 자식 <CodeBlockTab>의 value 속성으로 탭 이름을 읽는다. 부모만 살리면
+  // 자식이 접혀 value가 사라지고, 룰은 코드만 남은 원본 노드를 그대로 돌려준다.
+  it("CodeBlockTabs 안의 CodeBlockTab까지 남겨 탭 이름을 읽게 한다", async () => {
+    const source = [
+      '<CodeBlockTabs defaultValue="npm">',
+      "  <CodeBlockTabsList>",
+      '    <CodeBlockTabsTrigger value="npm">npm</CodeBlockTabsTrigger>',
+      "  </CodeBlockTabsList>",
+      '  <CodeBlockTab value="npm">',
+      "    ```bash",
+      "    npm i seed",
+      "    ```",
+      "  </CodeBlockTab>",
+      '  <CodeBlockTab value="pnpm">',
+      "    ```bash",
+      "    pnpm add seed",
+      "    ```",
+      "  </CodeBlockTab>",
+      "</CodeBlockTabs>",
+    ].join("\n");
+
+    expect(normalizeLLMBody(await toProcessed(source))).toBe(
+      "- npm: npm i seed\n- pnpm: pnpm add seed",
+    );
+  });
+});
+
+describe("RULE_ELEMENT_NAMES", () => {
+  // 예외 사유는 rule-elements.ts의 RULE_ELEMENT_NAMES 주석에 있다.
+  const RULE_NAMES_WITHOUT_PRESERVED_ELEMENT = ["TypeTable"];
+
+  it("활성 룰이 매치하는 컴포넌트를 빠짐없이 담는다", () => {
+    const unpreserved = activeRules
+      .filter((rule) => !RULE_ELEMENT_NAMES.some((name) => rule.match(jsxNode(name))))
+      .map((rule) => rule.name);
+
+    expect(unpreserved).toEqual(RULE_NAMES_WITHOUT_PRESERVED_ELEMENT);
+  });
+});
