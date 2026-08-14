@@ -183,6 +183,10 @@ pre code {
 html:has(main[data-landing="true"]),
 body:has(main[data-landing="true"]) {
   background-color: #ffffff;
+  /* The landing's own `light-only` scope starts at <main>, so it never reaches what the browser
+     paints for the document itself — the viewport scrollbar would stay dark on a dark OS, since
+     :root is `data-seed-color-mode="system"` and resolves to `light dark`. */
+  color-scheme: light;
   overscroll-behavior: none;
   /* Mobile syncs body bg to the section tone (landing-experience) so the iOS Safari edge
      tint matches the page; ease the flip so it tracks the header tone change smoothly. */
