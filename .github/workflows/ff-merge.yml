@@ -1,0 +1,66 @@
+name: Fast-forward merge
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  ff-merge:
+    name: Fast-forward minor or major into dev
+    if: >-
+      github.event.issue.pull_request &&
+      github.event.comment.body == '/ff-merge' &&
+      contains(fromJson('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: ff-merge-dev
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout trusted workflow scripts
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Validate command and fast-forward eligibility
+        id: preflight
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const command = require('./.github/scripts/ff-merge.js');
+            await command.preflight({ github, context, core });
+
+      - name: Create Daangn Bud token
+        id: app-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
+          private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
+          permission-contents: write
+
+      - name: Fast-forward dev to the exact PR head
+        if: always() && steps.preflight.outcome == 'success'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          FF_MERGE_APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          FF_MERGE_BASE_SHA: ${{ steps.preflight.outputs.base-sha }}
+          FF_MERGE_HEAD_SHA: ${{ steps.preflight.outputs.head-sha }}
+          FF_MERGE_SOURCE_BRANCH: ${{ steps.preflight.outputs.source-branch }}
+          FF_MERGE_PULL_URL: ${{ steps.preflight.outputs.pull-url }}
+        with:
+          script: |
+            const command = require('./.github/scripts/ff-merge.js');
+            await command.merge({
+              github,
+              context,
+              core,
+              getOctokit,
+              appToken: process.env.FF_MERGE_APP_TOKEN,
+            });
