@@ -3,57 +3,89 @@ import { normalizeLLMBodyWithRules } from "../normalize-llm-body";
 import {
   type ArtifactTokensModel,
   type ArtifactValue,
+  createTokenReferenceRule,
   formatTokenValue,
   generateMarkdownTable,
-  tokenReferenceRule,
 } from "./token-reference-rule";
 
-// 실제 rootage artifact 대신 쓰는 합성 토큰. 토큰을 재생성해도 이 기대값은 흔들리지 않는다.
-const tokens: ArtifactTokensModel["data"]["tokens"] = {
-  "$color.palette.gray-00": {
+// 실제 rootage artifact 대신 쓰는 합성 토큰. 아티팩트 이름부터 모드 이름까지 rootage에 없는
+// 형태라, 표에 찍힌 값이 실데이터에서 왔는지 읽는 사람이 되짚을 일이 없다.
+const alphaTokens: ArtifactTokensModel["data"]["tokens"] = {
+  "$fixture-alpha.solid.one": {
     values: {
-      "theme-light": { type: "color", value: "#ffffff" },
-      "theme-dark": { type: "color", value: "#000000" },
+      "mode-one": { type: "color", value: "#0a0b0c" },
+      "mode-two": { type: "color", value: "#0d0e0f" },
     },
   },
-  "$color.bg.neutral": {
+  "$fixture-alpha.solid.two": {
     values: {
-      "theme-light": { type: "color", value: "$color.palette.gray-00" },
-      "theme-dark": { type: "color", value: "$color.palette.gray-00" },
+      "mode-one": { type: "color", value: "$fixture-alpha.solid.one" },
+      "mode-two": { type: "color", value: "$fixture-alpha.solid.one" },
     },
   },
-  "$radius.r1": {
+  "$fixture-alpha.hollow.one": {
     values: {
-      "theme-light": { type: "dimension", value: { value: 4, unit: "px" } },
-      "theme-dark": { type: "dimension", value: { value: 4, unit: "px" } },
+      "mode-one": { type: "dimension", value: { value: 7, unit: "px" } },
+      "mode-two": { type: "dimension", value: { value: 0.5, unit: "rem" } },
     },
   },
 };
 
+const betaTokens: ArtifactTokensModel["data"]["tokens"] = {
+  "$fixture-beta.solid.one": {
+    values: {
+      "mode-one": { type: "number", value: 3 },
+      "mode-two": { type: "number", value: 5 },
+    },
+  },
+  "$fixture-beta.plain.one": {
+    values: {
+      "mode-one": { type: "duration", value: { value: 250, unit: "ms" } },
+      "mode-two": { type: "duration", value: { value: 1, unit: "s" } },
+    },
+  },
+};
+
+const allTokens: ArtifactTokensModel["data"]["tokens"] = { ...alphaTokens, ...betaTokens };
+
+const fixtureAlpha: ArtifactTokensModel = {
+  kind: "Tokens",
+  metadata: { id: "fixture-alpha", name: "Fixture Alpha" },
+  data: { collection: "fixture-alpha", tokens: alphaTokens },
+};
+
+const fixtureBeta: ArtifactTokensModel = {
+  kind: "Tokens",
+  metadata: { id: "fixture-beta", name: "Fixture Beta" },
+  data: { collection: "fixture-beta", tokens: betaTokens },
+};
+
 describe("generateMarkdownTable", () => {
   it("keeps only the tokens under the group prefix and names a column per theme", () => {
-    expect(generateMarkdownTable(tokens, ["radius"])).toBe(
+    expect(generateMarkdownTable(allTokens, ["fixture-beta"])).toBe(
       [
-        "| Token | theme-light | theme-dark |",
+        "| Token | mode-one | mode-two |",
         "| --- | --- | --- |",
-        "| $radius.r1 | 4px | 4px |",
+        "| $fixture-beta.solid.one | 3 | 5 |",
+        "| $fixture-beta.plain.one | 250ms | 1s |",
       ].join("\n"),
     );
   });
 
-  // 조인이 깨져 `$color.` 로 좁혀지면 `$color.bg.*` 까지 딸려 나온다.
+  // 조인이 깨져 `$fixture-alpha.` 로 좁혀지면 `$fixture-alpha.hollow.*` 까지 딸려 나온다.
   it("joins a multi-part group with dots so a sibling group cannot leak in", () => {
-    expect(generateMarkdownTable(tokens, ["color", "palette"])).toBe(
+    expect(generateMarkdownTable(allTokens, ["fixture-alpha", "solid"])).toBe(
       [
-        "| Token | theme-light | theme-dark |",
+        "| Token | mode-one | mode-two |",
         "| --- | --- | --- |",
-        "| $color.palette.gray-00 | #ffffff | #000000 |",
+        "| $fixture-alpha.solid.one | #0a0b0c | #0d0e0f |",
+        "| $fixture-alpha.solid.two | $fixture-alpha.solid.one | $fixture-alpha.solid.one |",
       ].join("\n"),
     );
   });
 
   it("returns an empty string when no token matches the prefix", () => {
-    expect(generateMarkdownTable(tokens, ["nonexistent"])).toBe("");
+    expect(generateMarkdownTable(allTokens, ["fixture-gamma"])).toBe("");
   });
 });
 
@@ -79,7 +111,7 @@ describe("formatTokenValue", () => {
         type: "shadow",
         value: [
           {
-            color: "#00000021",
+            color: "#0a0b0c21",
             offsetX: { value: 0, unit: "px" },
             offsetY: { value: 2, unit: "px" },
             blur: { value: 8, unit: "px" },
@@ -87,24 +119,24 @@ describe("formatTokenValue", () => {
           },
         ],
       },
-      '[{"color":"#00000021","offsetX":{"value":0,"unit":"px"},"offsetY":{"value":2,"unit":"px"},"blur":{"value":8,"unit":"px"},"spread":{"value":0,"unit":"px"}}]',
+      '[{"color":"#0a0b0c21","offsetX":{"value":0,"unit":"px"},"offsetY":{"value":2,"unit":"px"},"blur":{"value":8,"unit":"px"},"spread":{"value":0,"unit":"px"}}]',
     ],
     [
       "a gradient as JSON",
       {
         type: "gradient",
         value: [
-          { color: "#ffffff", position: 0 },
-          { color: "#000000", position: 1 },
+          { color: "#0a0b0c", position: 0 },
+          { color: "#0d0e0f", position: 1 },
         ],
       },
-      '[{"color":"#ffffff","position":0},{"color":"#000000","position":1}]',
+      '[{"color":"#0a0b0c","position":0},{"color":"#0d0e0f","position":1}]',
     ],
-    ["a color literal", { type: "color", value: "#ffffff" }, "#ffffff"],
+    ["a color literal", { type: "color", value: "#0a0b0c" }, "#0a0b0c"],
     [
       "a token reference",
-      { type: "color", value: "$color.palette.gray-00" },
-      "$color.palette.gray-00",
+      { type: "color", value: "$fixture-alpha.solid.one" },
+      "$fixture-alpha.solid.one",
     ],
     ["an enum", { type: "enum", value: "bold" }, "bold"],
   ];
@@ -116,115 +148,81 @@ describe("formatTokenValue", () => {
   }
 });
 
-// 아래는 transform 고유의 책임인 속성 파싱과 노드 라우팅만 검증한다.
-// 표 생성 자체는 위의 generateMarkdownTable 테스트가 합성 입력으로 덮는다.
+// 합성 아티팩트로 만든 룰이라 출력 전체를 그대로 단언할 수 있다.
+const rule = createTokenReferenceRule([fixtureAlpha, fixtureBeta]);
+const render = (input: string) => normalizeLLMBodyWithRules(input, [rule]);
+
 describe("tokenReferenceRule", () => {
-  it("reads a groups expression attribute", () => {
-    const input = `<TokenReference groups={["radius"]} />`;
-
-    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
-
-    expect(actual).toMatchInlineSnapshot(`
-      "| Token | default |
-      | --- | --- |
-      | $radius.r0_5 | 2px |
-      | $radius.r1 | 4px |
-      | $radius.r1_5 | 6px |
-      | $radius.r2 | 8px |
-      | $radius.r2_5 | 10px |
-      | $radius.r3 | 12px |
-      | $radius.r3_5 | 14px |
-      | $radius.r4 | 16px |
-      | $radius.r5 | 20px |
-      | $radius.r6 | 24px |
-      | $radius.full | 9999px |"
+  it("narrows the table to the group named by an expression attribute", () => {
+    expect(render(`<TokenReference groups={["fixture-alpha"]} />`)).toMatchInlineSnapshot(`
+      "| Token | mode-one | mode-two |
+      | --- | --- | --- |
+      | $fixture-alpha.solid.one | #0a0b0c | #0d0e0f |
+      | $fixture-alpha.solid.two | $fixture-alpha.solid.one | $fixture-alpha.solid.one |
+      | $fixture-alpha.hollow.one | 7px | 0.5rem (8px) |"
     `);
   });
 
   it("reads an HTML-escaped groups attribute", () => {
-    const input = `<TokenReference groups="[&#x22;radius&#x22;]" />`;
-
-    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
-
-    expect(actual).toMatchInlineSnapshot(`
-      "| Token | default |
-      | --- | --- |
-      | $radius.r0_5 | 2px |
-      | $radius.r1 | 4px |
-      | $radius.r1_5 | 6px |
-      | $radius.r2 | 8px |
-      | $radius.r2_5 | 10px |
-      | $radius.r3 | 12px |
-      | $radius.r3_5 | 14px |
-      | $radius.r4 | 16px |
-      | $radius.r5 | 20px |
-      | $radius.r6 | 24px |
-      | $radius.full | 9999px |"
+    expect(
+      render(`<TokenReference groups="[&#x22;fixture-alpha&#x22;]" />`),
+    ).toMatchInlineSnapshot(`
+      "| Token | mode-one | mode-two |
+      | --- | --- | --- |
+      | $fixture-alpha.solid.one | #0a0b0c | #0d0e0f |
+      | $fixture-alpha.solid.two | $fixture-alpha.solid.one | $fixture-alpha.solid.one |
+      | $fixture-alpha.hollow.one | 7px | 0.5rem (8px) |"
     `);
   });
 
-  it("reads a regex expression attribute", () => {
-    const input = String.raw`<TokenReference regex={/\$radius\.r[12]$/} />`;
-
-    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
-
-    expect(actual).toMatchInlineSnapshot(`
-      "| Token | default |
-      | --- | --- |
-      | $radius.r1 | 4px |
-      | $radius.r2 | 8px |"
+  it("keeps exactly the tokens the regex attribute matches across every artifact", () => {
+    expect(render(String.raw`<TokenReference regex={/\.solid\./} />`)).toMatchInlineSnapshot(`
+      "| Token | mode-one | mode-two |
+      | --- | --- | --- |
+      | $fixture-alpha.solid.one | #0a0b0c | #0d0e0f |
+      | $fixture-alpha.solid.two | $fixture-alpha.solid.one | $fixture-alpha.solid.one |
+      | $fixture-beta.solid.one | 3 | 5 |"
     `);
   });
 
   it("reads an HTML-escaped regex attribute", () => {
-    const input = String.raw`<TokenReference regex="/\$radius\.r[12]$/" />`;
+    expect(render(String.raw`<TokenReference regex="/\.solid\./" />`)).toMatchInlineSnapshot(`
+      "| Token | mode-one | mode-two |
+      | --- | --- | --- |
+      | $fixture-alpha.solid.one | #0a0b0c | #0d0e0f |
+      | $fixture-alpha.solid.two | $fixture-alpha.solid.one | $fixture-alpha.solid.one |
+      | $fixture-beta.solid.one | 3 | 5 |"
+    `);
+  });
 
-    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
+  it("emits one titled section per token artifact when no group is given", () => {
+    expect(render("<TokenReference />")).toMatchInlineSnapshot(`
+      "## Fixture Alpha
 
-    expect(actual).toMatchInlineSnapshot(`
-      "| Token | default |
-      | --- | --- |
-      | $radius.r1 | 4px |
-      | $radius.r2 | 8px |"
+      | Token | mode-one | mode-two |
+      | --- | --- | --- |
+      | $fixture-alpha.solid.one | #0a0b0c | #0d0e0f |
+      | $fixture-alpha.solid.two | $fixture-alpha.solid.one | $fixture-alpha.solid.one |
+      | $fixture-alpha.hollow.one | 7px | 0.5rem (8px) |
+
+      ## Fixture Beta
+
+      | Token | mode-one | mode-two |
+      | --- | --- | --- |
+      | $fixture-beta.solid.one | 3 | 5 |
+      | $fixture-beta.plain.one | 250ms | 1s |"
     `);
   });
 
   it("keeps the original node when the group is unknown", () => {
-    const input = `<TokenReference groups={["nonexistent"]} />`;
-
-    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
-
-    expect(actual).toMatchInlineSnapshot(`"<TokenReference groups={["nonexistent"]} />"`);
+    expect(render(`<TokenReference groups={["fixture-gamma"]} />`)).toMatchInlineSnapshot(
+      `"<TokenReference groups={["fixture-gamma"]} />"`,
+    );
   });
 
   it("keeps the original node when the regex matches nothing", () => {
-    const input = String.raw`<TokenReference regex={/\$nonexistent\..*/} />`;
-
-    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
-
-    expect(actual).toMatchInlineSnapshot(`"<TokenReference regex={/\\$nonexistent\\..*/} />"`);
-  });
-
-  // 실제 artifact 목록에 묶이는 유일한 단언이라, 표 내용이 아니라 섹션 헤딩만 완전 일치로 본다.
-  it("emits one titled section per token artifact when no group is given", () => {
-    const input = "<TokenReference />";
-
-    const actual = normalizeLLMBodyWithRules(input, [tokenReferenceRule]);
-
-    expect(actual.match(/^## .+$/gm)).toMatchInlineSnapshot(`
-      [
-        "## Color",
-        "## Dimension",
-        "## Duration",
-        "## Font Size",
-        "## Font Weight",
-        "## Gradient",
-        "## Line Height",
-        "## Radius",
-        "## Scale",
-        "## Shadow",
-        "## Timing Function",
-      ]
-    `);
+    expect(render(String.raw`<TokenReference regex={/\.nonexistent\./} />`)).toMatchInlineSnapshot(
+      `"<TokenReference regex={/\\.nonexistent\\./} />"`,
+    );
   });
 });

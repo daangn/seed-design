@@ -5,48 +5,49 @@ import {
   type RawIconData,
   buildSection,
   buildTable,
-  iconLibraryRule,
+  createIconLibraryRule,
   toRow,
 } from "./icon-library-rule";
 
-// 실제 @karrotmarket/icon-data 대신 쓰는 합성 아이콘. 아이콘 패키지를 올려도 이 기대값은 흔들리지 않는다.
+// 이 파일의 아이콘은 전부 합성이다. 실제 @karrotmarket/icon-data에는 `fixture_` 아이콘이 없으므로
+// 기대값이 아이콘 패키지 버전에 묶이지 않고, 값의 출처를 헷갈릴 일도 없다.
 const icon: RawIconData = {
-  name: "chevron_right_fill",
-  metadatas: ["arrow", "service:market", "tag:filled"],
-  figma: { name: "chevron/right/fill" },
+  name: "fixture_alpha_glyph",
+  metadatas: ["fixture-keyword", "service:fixture-service", "tag:fixture-tag"],
+  figma: { name: "fixture/alpha/glyph" },
 };
 
 describe("toRow", () => {
   it("upper-cases each underscore-separated part to build the React component name", () => {
-    expect(toRow(icon).reactComponentName).toBe("ChevronRightFill");
+    expect(toRow(icon).reactComponentName).toBe("FixtureAlphaGlyph");
   });
 
   it("routes metadata by prefix, trims the value, and drops duplicates and blanks", () => {
     const actual = toRow({
-      name: "star",
+      name: "fixture_solo",
       metadatas: [
-        "favorite",
-        "favorite",
-        "service:  market  ",
-        "service:market",
-        "tag:outlined",
+        "fixture-keyword",
+        "fixture-keyword",
+        "service:  fixture-service  ",
+        "service:fixture-service",
+        "tag:fixture-tag",
         "service:",
         "   ",
       ],
     });
 
     expect(actual).toEqual({
-      name: "star",
-      reactComponentName: "Star",
+      name: "fixture_solo",
+      reactComponentName: "FixtureSolo",
       figmaName: "",
-      keywords: ["favorite"],
-      services: ["market"],
-      tags: ["outlined"],
+      keywords: ["fixture-keyword"],
+      services: ["fixture-service"],
+      tags: ["fixture-tag"],
     });
   });
 
   it("falls back to an empty Figma name when the icon has no figma entry", () => {
-    expect(toRow({ name: "star", metadatas: [] }).figmaName).toBe("");
+    expect(toRow({ name: "fixture_solo", metadatas: [] }).figmaName).toBe("");
   });
 });
 
@@ -56,22 +57,24 @@ describe("buildTable", () => {
       [
         "| Icon Name | React Component Name | Figma Name | Keywords | Services | Tags |",
         "| --- | --- | --- | --- | --- | --- |",
-        "| chevron_right_fill | ChevronRightFill | chevron/right/fill | arrow | market | filled |",
+        "| fixture_alpha_glyph | FixtureAlphaGlyph | fixture/alpha/glyph | fixture-keyword | fixture-service | fixture-tag |",
       ].join("\n"),
     );
   });
 
   it("escapes pipes so an icon name cannot break the table", () => {
     const row: IconRow = {
-      name: "a|b",
-      reactComponentName: "AB",
+      name: "fixture|pipe",
+      reactComponentName: "FixturePipe",
       figmaName: "",
       keywords: [],
       services: [],
       tags: [],
     };
 
-    expect(buildTable([row]).split("\n").at(-1)).toBe("| a\\|b | AB |  |  |  |  |");
+    expect(buildTable([row]).split("\n").at(-1)).toBe(
+      "| fixture\\|pipe | FixturePipe |  |  |  |  |",
+    );
   });
 });
 
@@ -82,18 +85,69 @@ describe("buildSection", () => {
     );
   });
 
-  // 섹션이 비면 transform이 원본 노드를 그대로 돌려주는 분기로 이어진다.
   it("returns null when there is no icon to show", () => {
     expect(buildSection("Monochrome Icons", [])).toBeNull();
   });
 });
 
-// 실제 아이콘 데이터에 묶이는 유일한 단언이라, 표 내용이 아니라 섹션 구성만 완전 일치로 본다.
-// 표 렌더링 자체는 위의 buildTable 테스트가 합성 입력으로 덮는다.
-describe("iconLibraryRule", () => {
-  it("emits the monochrome and multicolor sections in order", () => {
-    const actual = normalizeLLMBodyWithRules("<IconLibrary />\n", [iconLibraryRule]);
+// 알파벳순 정렬이 룰 안에서 걸리는지 보려고 일부러 뒤집힌 순서로 넣는다.
+const monochromeIcons: RawIconData[] = [
+  {
+    name: "fixture_zeta_glyph",
+    metadatas: ["fixture-keyword", "service:fixture-service", "tag:fixture-tag"],
+    figma: { name: "fixture/zeta/glyph" },
+  },
+  {
+    name: "fixture_alpha_glyph",
+    metadatas: [],
+    figma: { name: "fixture/alpha/glyph" },
+  },
+];
 
-    expect(actual.match(/^## .+$/gm)).toEqual(["## Monochrome Icons", "## Multicolor Icons"]);
+const multicolorIcons: RawIconData[] = [
+  {
+    name: "fixture_hued_glyph",
+    metadatas: ["fixture-keyword"],
+    figma: { name: "fixture/hued/glyph" },
+  },
+];
+
+describe("createIconLibraryRule", () => {
+  it("emits the monochrome and multicolor sections in order, each sorted by icon name", () => {
+    const rule = createIconLibraryRule(monochromeIcons, multicolorIcons);
+
+    expect(normalizeLLMBodyWithRules("<IconLibrary />\n", [rule])).toMatchInlineSnapshot(`
+      "## Monochrome Icons
+
+      | Icon Name | React Component Name | Figma Name | Keywords | Services | Tags |
+      | --- | --- | --- | --- | --- | --- |
+      | fixture_alpha_glyph | FixtureAlphaGlyph | fixture/alpha/glyph |  |  |  |
+      | fixture_zeta_glyph | FixtureZetaGlyph | fixture/zeta/glyph | fixture-keyword | fixture-service | fixture-tag |
+
+      ## Multicolor Icons
+
+      | Icon Name | React Component Name | Figma Name | Keywords | Services | Tags |
+      | --- | --- | --- | --- | --- | --- |
+      | fixture_hued_glyph | FixtureHuedGlyph | fixture/hued/glyph | fixture-keyword |  |  |"
+    `);
+  });
+
+  it("omits the multicolor section when there is no multicolor icon", () => {
+    const rule = createIconLibraryRule(monochromeIcons, []);
+
+    expect(normalizeLLMBodyWithRules("<IconLibrary />\n", [rule])).toMatchInlineSnapshot(`
+      "## Monochrome Icons
+
+      | Icon Name | React Component Name | Figma Name | Keywords | Services | Tags |
+      | --- | --- | --- | --- | --- | --- |
+      | fixture_alpha_glyph | FixtureAlphaGlyph | fixture/alpha/glyph |  |  |  |
+      | fixture_zeta_glyph | FixtureZetaGlyph | fixture/zeta/glyph | fixture-keyword | fixture-service | fixture-tag |"
+    `);
+  });
+
+  it("keeps the original node when both datasets are empty", () => {
+    const rule = createIconLibraryRule([], []);
+
+    expect(normalizeLLMBodyWithRules("<IconLibrary />\n", [rule])).toBe("<IconLibrary />");
   });
 });
