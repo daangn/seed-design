@@ -34,8 +34,8 @@ export function SearchResultItem({
   /** Whether the trail keeps its section. Dropped under a filter, where it repeats the chip. */
   showSection: boolean;
 
-  /** Whether a header row above owns this one. Decided by the caller, which knows which
-   * headers a component card replaced. */
+  /** Whether a header row above owns this one. Decided by the caller, which is what groups
+   * the rows. */
   nested: boolean;
 
   /** Whether the list activates this row on its own — it does that to the first one of every
@@ -94,8 +94,7 @@ export function SearchResultItem({
       {isHeader ? (
         <Breadcrumbs trail={(item.breadcrumbs ?? []).slice(showSection ? 0 : 1)} />
       ) : null}
-      {/* The rail threads the rows matched inside a document onto the header above them. A row
-          whose header a component card replaced has nothing to thread onto, so it draws none. */}
+      {/* The rail threads the rows matched inside a document onto the header above them. */}
       {nested ? (
         <span aria-hidden className="absolute inset-y-0 start-3 w-px bg-stroke-neutral-muted" />
       ) : null}

@@ -118,47 +118,28 @@ function rankRow(item: SortedResult, query: string, terms: string[]) {
 function rankGroups(items: SortedResult[], search: string) {
   const query = search.trim().toLowerCase();
   const terms = query.split(/\s+/).filter(Boolean);
-  const groups: { rows: SortedResult[]; rank: number }[] = [];
+  const groups: { rows: SortedResult[]; rank: number; headed: boolean }[] = [];
+  const nested = new Set<string>();
 
   for (const item of items) {
     const rank = rankRow(item, query, terms);
     const current = groups.at(-1);
     // A `page` row opens the group it heads; one arriving before any of them stands alone.
     if (!current || item.type === "page") {
-      groups.push({ rows: [item], rank });
+      groups.push({ rows: [item], rank, headed: item.type === "page" });
       continue;
     }
 
+    // Only a group a `page` row opened has a title for the rest to indent under.
+    if (current.headed) nested.add(item.id);
     current.rows.push(item);
     current.rank = Math.max(current.rank, rank);
   }
 
-  return groups.sort((a, b) => b.rank - a.rank).flatMap(({ rows }) => rows);
-}
-
-/**
- * Drop the rows the component cards above already answer. A card carries the document's
- * title, cover and platforms, so the `page` row that only repeats the title goes; the rows
- * matched inside the document are deep links no card offers, so they stay — and, having lost
- * the header they were indented under, they stop indenting.
- */
-function dropCoveredHeaders(rows: SortedResult[], covered: Set<string>) {
-  const kept: SortedResult[] = [];
-  const nested = new Set<string>();
-  let underHeader = false;
-
-  for (const row of rows) {
-    if (row.type === "page") {
-      underHeader = !covered.has(row.url);
-      if (underHeader) kept.push(row);
-      continue;
-    }
-
-    if (underHeader) nested.add(row.id);
-    kept.push(row);
-  }
-
-  return { rows: kept, nested };
+  return {
+    rows: groups.sort((a, b) => b.rank - a.rank).flatMap(({ rows }) => rows),
+    nested,
+  };
 }
 
 /**
@@ -212,11 +193,8 @@ export default function DefaultSearchDialog({
     const data = query.data;
     if (data === "empty" || !data) return null;
 
-    return dropCoveredHeaders(
-      rankGroups(data, search),
-      new Set(components.map((entry) => entry.url)),
-    );
-  }, [query.data, search, components]);
+    return rankGroups(data, search);
+  }, [query.data, search]);
 
   // Fresh results re-activate the first document row, and that row scrolls itself into
   // view (`search-result-item.tsx`) — which, now that one box holds every block, would drag
