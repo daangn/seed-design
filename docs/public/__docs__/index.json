@@ -189,6 +189,12 @@
               ]
             },
             {
+              "id": "date-picker",
+              "title": "Date Picker",
+              "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.",
+              "docUrl": "/components/date-picker"
+            },
+            {
               "id": "dialog",
               "title": "Dialog",
               "description": "사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다.",
@@ -780,6 +786,12 @@
               "title": "더 당근답게: SEED는 어떻게 진화했나",
               "description": "자산 정리에서 멀티플랫폼·AI 시대까지, 당근 디자인 시스템 SEED가 V3로 진화하며 무엇을 '더 당근답게' 바꿨는지 담았습니다.",
               "docUrl": "/updates/how-seed-evolved"
+            },
+            {
+              "id": "pickers-dialog-select",
+              "title": "선택하고, 확인하고, 탐색하는 경험을 더 쉽게",
+              "description": "Quantity Picker부터 ScrollAutoHide까지, 제품에서 반복되는 상호작용을 더 일관되게 만드는 새로운 구성 요소를 소개해요.",
+              "docUrl": "/updates/pickers-dialog-select"
             },
             {
               "id": "whats-new-in-action-button",
