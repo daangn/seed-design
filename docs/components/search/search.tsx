@@ -2,6 +2,7 @@
 
 import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
+import type { SortedResult } from "fumadocs-core/search";
 import { useDocsSearch } from "fumadocs-core/search/client";
 import { staticClient } from "fumadocs-core/search/client/orama-static";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
@@ -80,6 +81,50 @@ function SearchInputPill() {
   );
 }
 
+/**
+ * How close one row sits to the query. Advanced search flattens title, heading and body into
+ * a single field with no field or all-terms weighting, so a partial ("Button"-only) body
+ * snippet can outrank the "Action Button" page: score the exact phrase first, then how many
+ * terms matched, then title/heading over body text.
+ */
+function rankRow(item: SortedResult, query: string, terms: string[]) {
+  const text = item.content.replace(/<\/?mark>/g, "").toLowerCase();
+  const phrase = terms.length > 1 && text.includes(query) ? 1 : 0;
+  const hits = terms.reduce((n, term) => n + (text.includes(term) ? 1 : 0), 0);
+  const kind = item.type === "text" ? 0 : 1;
+
+  return phrase * 100 + hits * 10 + kind;
+}
+
+/**
+ * Advanced search returns each matched document as a `page` row — whose content is the
+ * document title — followed by the heading and body rows that matched inside it. Ranking row
+ * by row pulled that apart and sank the `page` rows to the bottom, leaving every snippet with
+ * nothing to name the document it came from, so rank whole groups and move each as a unit.
+ * Array#sort is stable, which leaves zbsearch's own order as the tie-break, and reordering is
+ * safe because the list keys off item.id rather than array position.
+ */
+function rankGroups(items: SortedResult[], search: string) {
+  const query = search.trim().toLowerCase();
+  const terms = query.split(/\s+/).filter(Boolean);
+  const groups: { rows: SortedResult[]; rank: number }[] = [];
+
+  for (const item of items) {
+    const rank = rankRow(item, query, terms);
+    const current = groups.at(-1);
+    // A `page` row opens the group it heads; one arriving before any of them stands alone.
+    if (!current || item.type === "page") {
+      groups.push({ rows: [item], rank });
+      continue;
+    }
+
+    current.rows.push(item);
+    current.rank = Math.max(current.rank, rank);
+  }
+
+  return groups.sort((a, b) => b.rank - a.rank).flatMap(({ rows }) => rows);
+}
+
 export default function DefaultSearchDialog({
   defaultTag,
   tags = [],
@@ -105,27 +150,11 @@ export default function DefaultSearchDialog({
     enabled: tag === undefined || tag === TAGS.foundations.value,
   });
 
-  // Re-rank fumadocs' results before display. Its advanced search flattens title/heading/
-  // body into one field with no field or all-terms weighting, so a partial ("Button"-only)
-  // body snippet can outrank the "Action Button" pages. Push closer matches up — exact query
-  // phrase, then more matched terms, then title/heading over body — keeping orama's order as a
-  // stable tie-break. Reordering is safe: the list keys off item.id, not array position.
   const results = useMemo(() => {
     const data = query.data;
     if (data === "empty" || !data) return null;
-    const q = search.trim().toLowerCase();
-    const terms = q.split(/\s+/).filter(Boolean);
-    return data
-      .map((item, index) => {
-        const raw = item.content;
-        const text = typeof raw === "string" ? raw.replace(/<\/?mark>/g, "").toLowerCase() : "";
-        const phrase = terms.length > 1 && text.includes(q) ? 1 : 0;
-        const hits = terms.reduce((n, term) => n + (text.includes(term) ? 1 : 0), 0);
-        const kind = item.type === "text" ? 0 : 1; // title/heading above body text
-        return { item, index, rank: phrase * 100 + hits * 10 + kind };
-      })
-      .sort((a, b) => b.rank - a.rank || a.index - b.index)
-      .map((entry) => entry.item);
+
+    return rankGroups(data, search);
   }, [query.data, search]);
 
   return (
@@ -170,7 +199,11 @@ export default function DefaultSearchDialog({
                 // The token section already answers the query; a "no results" notice
                 // under it would contradict what's on screen.
                 Empty={() => (tokens.length > 0 ? null : <NoResults />)}
-                Item={(itemProps) => <SearchResultItem {...itemProps} />}
+                // Under a filter every result already belongs to the chosen section, so the
+                // label would repeat it on every group.
+                Item={(itemProps) => (
+                  <SearchResultItem {...itemProps} showSection={tag === undefined} />
+                )}
                 // Give up most of the 480px budget to the token section when it's
                 // showing, so the card stays close to the height the pinned dialog top
                 // assumes instead of running off short viewports.

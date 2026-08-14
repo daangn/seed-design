@@ -75,7 +75,7 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
           headings: [],
           contents: items.map((item) => ({ heading: "", content: item })),
         },
-        tag: TAGS.updates.value,
+        tag: TAGS.react.value,
         url: versionUrl,
       };
     });
@@ -122,7 +122,8 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
       indexSource(lynxSource, TAGS.lynx.value),
       indexSource(aiIntegrationSource, TAGS.aiIntegration.value),
       indexSource(updatesSource, TAGS.updates.value),
-      // Package changelogs belong to Updates.
+      // Package changelogs live at /react/updates/changelog, so they answer to React like the
+      // rest of that tree. The Updates chip stays the design system's own news at /updates.
       getChangelogIndexes(),
     ]);
 
