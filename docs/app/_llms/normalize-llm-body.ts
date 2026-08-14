@@ -110,8 +110,11 @@ export function normalizeLLMBody(content?: string): string {
   return normalizeLLMBodyWithRules(content, activeRules);
 }
 
-const _rulesInit = Promise.all(activeRules.filter((r) => r.init).map((r) => r.init!()));
+// 모듈 로드가 아니라 첫 호출에 시작한다. 이 모듈은 규칙 단위 테스트도 import하는데,
+// 모듈 스코프에서 발사하면 그 테스트 전부가 Sanity를 찌르게 된다.
+let rulesInitPromise: Promise<unknown> | null = null;
 
 export async function ensureRulesReady(): Promise<void> {
-  await _rulesInit;
+  rulesInitPromise ??= Promise.all(activeRules.map((rule) => rule.init?.()));
+  await rulesInitPromise;
 }

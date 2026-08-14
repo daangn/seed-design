@@ -19,7 +19,10 @@ const columnDefs: { key: string; header: string }[] = [
   { key: "note", header: "Note" },
 ];
 
-function generateMarkdownTable(component: ComponentData): string {
+/**
+ * 컴포넌트 하나의 플랫폼 상태 테이블을 만든다. Note 열은 어느 플랫폼에도 note가 없으면 통째로 빠진다.
+ */
+export function generateMarkdownTable(component: ComponentData): string {
   const rows: Row[] = PLATFORM_CONFIG.map(({ key, label }) => {
     const status = component[`${key}Status`] as PlatformStatus;
     const url = component[`${key}Url`] as string | undefined;
