@@ -48,13 +48,31 @@ export async function ComponentSpecBlock({
     throw new Error(`Component spec ${id} not found`);
   }
 
-  return componentSpec.body.map((variantDecl) => {
-    const variantKey = stringifyVariants(variantDecl.variants);
+  // Rules are flat, but the page still reads variant by variant: one heading and
+  // one table per variant region, with that region's rules as the rows.
+  const variantGroups = new Map<
+    string,
+    { variants: AST.VariantExpression[]; rules: AST.RuleDeclaration[] }
+  >();
+
+  for (const rule of componentSpec.rules) {
+    const variantKey = stringifyVariants(rule.variants);
+    const group = variantGroups.get(variantKey);
+
+    if (group) {
+      group.rules.push(rule);
+      continue;
+    }
+
+    variantGroups.set(variantKey, { variants: rule.variants, rules: [rule] });
+  }
+
+  return [...variantGroups].map(([variantKey, group]) => {
     if (variants && !variants.includes(variantKey)) {
       return null;
     }
 
-    const variantDescriptions = getVariantDescriptions(componentSpec.schema, variantDecl.variants);
+    const variantDescriptions = getVariantDescriptions(componentSpec.schema, group.variants);
 
     return (
       <Fragment key={variantKey}>
@@ -76,7 +94,7 @@ export async function ComponentSpecBlock({
         )}
         <ComponentVariantTable
           rootage={rootage}
-          variant={variantDecl}
+          rules={group.rules}
           schema={componentSpec.schema}
         />
       </Fragment>

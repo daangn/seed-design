@@ -264,7 +264,7 @@ export const typography = Object.entries(typographyVars).reduce(
     const firstChar = withoutPrefix.charAt(0).toLowerCase();
     const restOfString = withoutPrefix.slice(1);
     const name = (firstChar + restOfString) as TextVariant['textStyle'];
-    acc[name] = value.enabled.root;
+    acc[name] = value.rest.root;
     return acc;
   },
   {} as Record<

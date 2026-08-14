@@ -28,6 +28,10 @@ export function stringifyVariants(variants: AST.VariantExpression[]) {
 }
 
 export function stringifyStates(states: AST.StateExpression[]) {
+  if (states.length === 0) {
+    return "rest";
+  }
+
   return states.map(({ value }) => value).join(", ");
 }
 

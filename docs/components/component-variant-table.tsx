@@ -9,7 +9,7 @@ import { TokenCell, TokenValue } from "./token-cell";
 
 interface ComponentVariantTableProps {
   rootage: RootageCtx;
-  variant: AST.VariantDeclaration;
+  rules: AST.RuleDeclaration[];
   schema: AST.SchemaDeclaration;
 }
 
@@ -30,13 +30,13 @@ export function ComponentVariantTable(props: ComponentVariantTableProps) {
     propertyKey: string;
   } | null>(null);
 
-  const { rootage, variant, schema } = props;
+  const { rootage, rules, schema } = props;
   const tableItems: TableItem[] = useMemo(() => {
     const modes = getDefaultModes(rootage);
 
-    return variant.body.flatMap((stateDecl) => {
-      const stateKey = stringifyStates(stateDecl.states);
-      return stateDecl.body.flatMap((slotDecl) => {
+    return rules.flatMap((rule) => {
+      const stateKey = stringifyStates(rule.states);
+      return rule.body.flatMap((slotDecl) => {
         const slotKey = slotDecl.slot;
         const slotSchema = schema.slots.find((s) => s.name === slotKey);
 
@@ -87,7 +87,7 @@ export function ComponentVariantTable(props: ComponentVariantTableProps) {
         });
       });
     });
-  }, [rootage, variant, schema]);
+  }, [rootage, rules, schema]);
 
   return (
     <TableRoot wrapperClassName="max-w-screen -mx-4 px-4 md:mx-0 md:px-0 [scrollbar-width:thin]">

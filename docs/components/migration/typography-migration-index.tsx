@@ -14,7 +14,7 @@ export async function TypographyMigrationIndex() {
   const tableItems: FoundationTokenMapping[] = typographyMappings.map((item) => ({
     previous: item.previous,
     next: item.next.map((id) => {
-      const typography = rootage.componentSpecEntities.typography.body.find(({ variants }) =>
+      const typography = rootage.componentSpecEntities.typography.rules.find(({ variants }) =>
         variants.some((variant) => variant.name === "textStyle" && variant.value === id),
       );
 
@@ -25,7 +25,7 @@ export async function TypographyMigrationIndex() {
       return id;
     }),
     alternative: item.alternative?.map((id) => {
-      const typography = rootage.componentSpecEntities.typography.body.find(({ variants }) =>
+      const typography = rootage.componentSpecEntities.typography.rules.find(({ variants }) =>
         variants.some(
           (variant) => variant.name === "textStyle" && item.alternative?.includes(variant.value),
         ),
