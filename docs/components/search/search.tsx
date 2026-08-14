@@ -14,7 +14,7 @@ import {
   useSearch,
 } from "fumadocs-ui/components/dialog/search";
 import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
-import { type ReactNode, useMemo, useState } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { TAGS } from "@/app/api/search/constants";
 import { ComponentResults } from "./component-results";
 import { NoResults } from "./no-results";
@@ -153,25 +153,17 @@ function dropCoveredHeaders(rows: SortedResult[], covered: Set<string>) {
 }
 
 /**
- * How much of the card is left for the document list once the promoted sections have taken
- * their share. The dialog's top is pinned as if the card were always at its tallest (see
- * `md:!top` below), so a section that appears has to come out of this budget rather than
- * push the card past it. Tokens run 4 tiles wide and cost the most.
+ * Components, tokens and documents scroll together in one box rather than each clipping
+ * itself. Every block is then as tall as its own content, and what doesn't fit the first
+ * screenful is reached by scrolling past the block above it — where three nested scroll
+ * areas instead had to divide a fixed height between them, and any block that outgrew its
+ * share got cut mid-card. Each block caps how many entries it lays out (`…_RESULT_LIMIT`),
+ * which is what keeps the one above from burying the ones below.
  */
-const LIST_MAX_HEIGHT = {
-  none: "[&>div]:!max-h-[480px]",
-  components: "[&>div]:!max-h-[264px]",
-  tokens: "[&>div]:!max-h-[176px]",
-  both: "[&>div]:!max-h-[120px]",
-} as const;
+const RESULTS_CLASS_NAME = "max-h-[480px] overflow-y-auto";
 
-function listMaxHeight(hasComponents: boolean, hasTokens: boolean) {
-  if (hasComponents && hasTokens) return LIST_MAX_HEIGHT.both;
-  if (hasTokens) return LIST_MAX_HEIGHT.tokens;
-  if (hasComponents) return LIST_MAX_HEIGHT.components;
-
-  return LIST_MAX_HEIGHT.none;
-}
+/** Hands the document list's own scrolling over to the box above. */
+const LIST_CLASS_NAME = "[&>div]:!max-h-none";
 
 export default function DefaultSearchDialog({
   defaultTag,
@@ -212,6 +204,16 @@ export default function DefaultSearchDialog({
     );
   }, [query.data, search, components]);
 
+  // Fresh results re-activate the first document row, and that row scrolls itself into
+  // view (`search-result-item.tsx`) — which, now that one box holds every block, would drag
+  // the promoted cards off the top before the reader has seen them. Effects run children
+  // first, so this one lands after that scroll and puts the box back at its start.
+  const resultsRef = useRef<HTMLDivElement>(null);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `results` is what the reset reacts to, not a value it reads
+  useEffect(() => {
+    resultsRef.current?.scrollTo({ top: 0 });
+  }, [results]);
+
   return (
     <SearchDialog search={search} onSearchChange={setSearch} isLoading={query.isLoading} {...props}>
       <SearchDialogOverlay
@@ -248,24 +250,27 @@ export default function DefaultSearchDialog({
               isLoading={query.isLoading}
               recent={<RecentPages />}
             >
-              <ComponentResults matches={components} search={search} compact={tokens.length > 0} />
-              <TokenResults matches={tokens} search={search} compact={components.length > 0} />
-              <SearchDialogList
-                items={results?.rows}
-                // The promoted sections already answer the query; a "no results" notice
-                // under them would contradict what's on screen.
-                Empty={() => (components.length > 0 || tokens.length > 0 ? null : <NoResults />)}
-                // Under a filter every result already belongs to the chosen section, so the
-                // label would repeat it on every group.
-                Item={(itemProps) => (
-                  <SearchResultItem
-                    {...itemProps}
-                    showSection={tag === undefined}
-                    nested={results?.nested.has(itemProps.item.id) ?? false}
-                  />
-                )}
-                className={listMaxHeight(components.length > 0, tokens.length > 0)}
-              />
+              <div ref={resultsRef} className={RESULTS_CLASS_NAME}>
+                <ComponentResults matches={components} search={search} />
+                <TokenResults matches={tokens} search={search} />
+                <SearchDialogList
+                  items={results?.rows}
+                  // The promoted sections already answer the query; a "no results" notice
+                  // under them would contradict what's on screen.
+                  Empty={() => (components.length > 0 || tokens.length > 0 ? null : <NoResults />)}
+                  // Under a filter every result already belongs to the chosen section, so the
+                  // label would repeat it on every group.
+                  Item={(itemProps) => (
+                    <SearchResultItem
+                      {...itemProps}
+                      showSection={tag === undefined}
+                      nested={results?.nested.has(itemProps.item.id) ?? false}
+                      autoActive={itemProps.item.id === results?.rows[0]?.id}
+                    />
+                  )}
+                  className={LIST_CLASS_NAME}
+                />
+              </div>
             </SearchResultsState>
             {footer}
           </div>

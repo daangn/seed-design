@@ -1,6 +1,7 @@
 "use client";
 
-import type { KeyboardEvent, ReactNode } from "react";
+import { useOnChange } from "fumadocs-core/utils/use-on-change";
+import { type KeyboardEvent, type ReactNode, useState } from "react";
 import { splitHighlights } from "@/lib/search-text";
 
 /**
@@ -25,6 +26,60 @@ export function Highlighted({ text, terms }: { text: string; terms: string[] }) 
     ) : (
       chunk.text
     ),
+  );
+}
+
+/**
+ * Holds a block to its first `limit` matches until the reader asks for the rest. The result
+ * area is one scroll container (`search.tsx`), so a block laying every match out would push
+ * the blocks under it past the fold with nothing to say they were there.
+ */
+export function useExpandable<T>({
+  search,
+  matches,
+  limit,
+}: {
+  search: string;
+  matches: T[];
+  limit: number;
+}) {
+  const [expanded, setExpanded] = useState(false);
+
+  // A new query is a new list; carrying the expansion over would dump hundreds of entries on
+  // someone who only added a letter.
+  useOnChange(search, () => {
+    setExpanded(false);
+  });
+
+  return {
+    visible: expanded ? matches : matches.slice(0, limit),
+    hidden: matches.length - limit,
+    expanded,
+    toggle: () => setExpanded((current) => !current),
+  };
+}
+
+/** Reveals what a block's limit held back, and folds it away again. */
+export function ShowMore({
+  hidden,
+  expanded,
+  onToggle,
+}: {
+  hidden: number;
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  if (hidden <= 0) return null;
+
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      onKeyDown={stopEnterPropagation}
+      className="mt-1.5 w-full cursor-pointer rounded-lg py-1.5 text-xs text-fg-neutral-subtle transition-colors hover:bg-bg-transparent-selected hover:text-fg-neutral focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
+    >
+      {expanded ? "접기" : `${hidden}개 더 보기`}
+    </button>
   );
 }
 

@@ -7,22 +7,24 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import type { ComponentSearchEntry } from "@/lib/component-search";
+import { COMPONENT_RESULT_LIMIT, type ComponentSearchEntry } from "@/lib/component-search";
 import { PLATFORM_CONFIG } from "@/lib/platform-status";
 import { splitQueryTerms } from "@/lib/search-text";
 import { isExternalUrl } from "@/lib/url";
-import { Highlighted, PromotedSection, stopEnterPropagation } from "./promoted-section";
+import {
+  Highlighted,
+  PromotedSection,
+  ShowMore,
+  stopEnterPropagation,
+  useExpandable,
+} from "./promoted-section";
 
 /**
- * Two cards tall, or one when the token section is showing too — the dialog's top is pinned
- * as if the card were always at its tallest (`search.tsx`), so a second promoted block has
- * to come out of the height already budgeted rather than push past it. Both heights leave
- * room for the tallest card, the one whose page documents several components; a row of
- * ordinary cards is shorter and shows a sliver of the next, which is the scroll cue. The
- * rest scroll: a query that names a family (`button`) matches five or six components.
+ * Three across on the dialog's desktop width, two once it narrows to the viewport — a fixed
+ * count rather than `auto-fill`, since the panel is 720px wide at every desktop size and so
+ * would never change column count on its own.
  */
-const COMPONENT_GRID_CLASS_NAME =
-  "grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-2 overflow-y-auto";
+const COMPONENT_GRID_CLASS_NAME = "grid grid-cols-2 gap-2 md:grid-cols-3";
 
 const BADGE_CLASS_NAME =
   "inline-flex items-center gap-0.5 rounded-md bg-bg-neutral-weak-alpha px-1.5 py-0.5 text-[11px] leading-[1.4] text-fg-neutral-muted";
@@ -79,17 +81,8 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
   const router = useRouter();
 
   return (
-    <li
-      className={clsx(
-        "relative flex gap-2.5 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed",
-        // A page covering several components carries a row of badges per component, which
-        // won't sit on one line in half a dialog. Give it the full row instead of letting
-        // every badge set wrap.
-        entry.components.length > 1 && "[grid-column:1/-1]",
-      )}
-    >
-      {/* `self-start` keeps the 16:9 box off the card's height, which the badge rows drive. */}
-      <div className="relative aspect-video w-24 shrink-0 self-start overflow-hidden rounded-lg bg-bg-transparent-selected">
+    <li className="relative flex flex-col gap-2 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed">
+      <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-bg-transparent-selected">
         {entry.thumbnail ? (
           <Image
             src={entry.thumbnail}
@@ -97,12 +90,12 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
             fill
             loading="lazy"
             decoding="async"
-            sizes="96px"
+            sizes="(min-width: 768px) 224px, 45vw"
             className="object-cover"
           />
         ) : null}
       </div>
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-col px-0.5">
         {/* The `after` overlay makes the whole card open the guideline while leaving the
             platform badges as links of their own — an anchor can't nest inside an anchor. */}
         <Link
@@ -124,34 +117,35 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
           </span>
         </Link>
         {entry.description ? (
-          <p className="line-clamp-1 text-[11px] leading-snug text-fg-neutral-subtle">
+          <p className="line-clamp-2 text-[11px] leading-snug text-fg-neutral-subtle">
             <Highlighted text={entry.description} terms={terms} />
           </p>
         ) : null}
-        {entry.components.length > 0 ? (
-          // `relative` lifts the badges over the card-wide overlay above, which is painted
-          // as part of an earlier sibling.
-          <div className="relative mt-1 flex flex-col gap-1">
-            {entry.components.map(({ name, platforms }) => (
-              <div key={name} className="flex flex-wrap items-center gap-1">
-                {/* A page documenting one component is already named by the card's title;
-                    one documenting several names each row, like its own status table. */}
-                {entry.components.length > 1 ? (
-                  <span className="text-[11px] font-medium leading-[1.4] text-fg-neutral">
-                    {name}
-                  </span>
-                ) : null}
-                {PLATFORM_CONFIG.map(({ key, label }) => {
-                  const platform = platforms.find((shipped) => shipped.key === key);
-                  return platform ? (
-                    <PlatformBadge key={key} label={label} href={platform.url} />
-                  ) : null;
-                })}
-              </div>
-            ))}
-          </div>
-        ) : null}
       </div>
+      {entry.components.length > 0 ? (
+        // `mt-auto` drops the badges to the card's floor, so a row of cards lines its
+        // platforms up however unevenly the titles and summaries above them ran. `relative`
+        // lifts them over the card-wide overlay, which an earlier sibling paints.
+        <div className="relative mt-auto flex flex-col gap-1 px-0.5">
+          {entry.components.map(({ name, platforms }) => (
+            <div key={name} className="flex flex-wrap items-center gap-1">
+              {/* A page documenting one component is already named by the card's title;
+                  one documenting several names each row, like its own status table. */}
+              {entry.components.length > 1 ? (
+                <span className="w-full text-[11px] font-medium leading-[1.4] text-fg-neutral">
+                  {name}
+                </span>
+              ) : null}
+              {PLATFORM_CONFIG.map(({ key, label }) => {
+                const platform = platforms.find((shipped) => shipped.key === key);
+                return platform ? (
+                  <PlatformBadge key={key} label={label} href={platform.url} />
+                ) : null;
+              })}
+            </div>
+          ))}
+        </div>
+      ) : null}
     </li>
   );
 }
@@ -164,25 +158,28 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
 export function ComponentResults({
   matches,
   search,
-  compact,
 }: {
   matches: ComponentSearchEntry[];
   search: string;
-
-  /** One row instead of two, for when the token section is showing as well. */
-  compact: boolean;
 }) {
+  const { visible, hidden, expanded, toggle } = useExpandable({
+    search,
+    matches,
+    limit: COMPONENT_RESULT_LIMIT,
+  });
+
   const terms = useMemo(() => splitQueryTerms(search), [search]);
 
   if (matches.length === 0) return null;
 
   return (
     <PromotedSection label="컴포넌트" count={matches.length}>
-      <ul className={clsx(COMPONENT_GRID_CLASS_NAME, compact ? "max-h-[92px]" : "max-h-[168px]")}>
-        {matches.map((entry) => (
+      <ul className={COMPONENT_GRID_CLASS_NAME}>
+        {visible.map((entry) => (
           <ComponentCard key={entry.slug} entry={entry} terms={terms} />
         ))}
       </ul>
+      <ShowMore hidden={hidden} expanded={expanded} onToggle={toggle} />
     </PromotedSection>
   );
 }

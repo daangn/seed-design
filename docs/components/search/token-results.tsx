@@ -1,11 +1,9 @@
 "use client";
 
-import clsx from "clsx";
-import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type CSSProperties, type ReactNode, useMemo, useState } from "react";
+import { type CSSProperties, type ReactNode, useMemo } from "react";
 import { TOKEN_KIND_ICON } from "@/components/token-kind-icon";
 import { splitQueryTerms } from "@/lib/search-text";
 import {
@@ -14,17 +12,16 @@ import {
   type TokenSearchEntry,
   tokenReferenceHref,
 } from "@/lib/token-search";
-import { Highlighted, PromotedSection, stopEnterPropagation } from "./promoted-section";
+import {
+  Highlighted,
+  PromotedSection,
+  ShowMore,
+  stopEnterPropagation,
+  useExpandable,
+} from "./promoted-section";
 
-/**
- * Tall enough for two rows even when a token id wraps onto a second line, so the cut
- * lands between rows instead of through a description — or one row when the component
- * section is showing too. The grid auto-fills — 2 columns on a phone, 4 on desktop — and
- * "더 보기" pours the remaining matches into this same scroll box rather than growing the
- * dialog.
- */
-const TOKEN_GRID_CLASS_NAME =
-  "grid grid-cols-[repeat(auto-fill,minmax(148px,1fr))] gap-2 overflow-y-auto";
+/** Auto-fills to the dialog's width — 2 columns on a phone, 4 on desktop. */
+const TOKEN_GRID_CLASS_NAME = "grid grid-cols-[repeat(auto-fill,minmax(148px,1fr))] gap-2";
 
 /**
  * Colour roles read differently depending on where the token is meant to land, so each
@@ -178,50 +175,27 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
  * `bg.neutral` surfaces the tokens themselves rather than only the pages mentioning
  * them. Each tile links to that token's reference page.
  */
-export function TokenResults({
-  matches,
-  search,
-  compact,
-}: {
-  matches: TokenSearchEntry[];
-  search: string;
-
-  /** One row of tiles instead of two, for when the component section is showing as well. */
-  compact: boolean;
-}) {
-  const [expanded, setExpanded] = useState(false);
-
-  // A new query is a new list; carrying the expansion over would dump hundreds of tiles
-  // on someone who only added a letter.
-  useOnChange(search, () => {
-    setExpanded(false);
+export function TokenResults({ matches, search }: { matches: TokenSearchEntry[]; search: string }) {
+  const { visible, hidden, expanded, toggle } = useExpandable({
+    search,
+    matches,
+    limit: TOKEN_RESULT_LIMIT,
   });
 
   const terms = useMemo(() => splitQueryTerms(search), [search]);
 
   if (matches.length === 0) return null;
 
-  const hidden = matches.length - TOKEN_RESULT_LIMIT;
-
   return (
     <PromotedSection label="토큰" count={matches.length}>
-      <ul className={clsx(TOKEN_GRID_CLASS_NAME, compact ? "max-h-[128px]" : "max-h-[264px]")}>
-        {(expanded ? matches : matches.slice(0, TOKEN_RESULT_LIMIT)).map((entry) => (
+      <ul className={TOKEN_GRID_CLASS_NAME}>
+        {visible.map((entry) => (
           <li key={entry.id}>
             <TokenTile entry={entry} terms={terms} />
           </li>
         ))}
       </ul>
-      {hidden > 0 ? (
-        <button
-          type="button"
-          onClick={() => setExpanded((current) => !current)}
-          onKeyDown={stopEnterPropagation}
-          className="mt-1.5 w-full cursor-pointer rounded-lg py-1.5 text-xs text-fg-neutral-subtle transition-colors hover:bg-bg-transparent-selected hover:text-fg-neutral focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
-        >
-          {expanded ? "접기" : `${hidden}개 더 보기`}
-        </button>
-      ) : null}
+      <ShowMore hidden={hidden} expanded={expanded} onToggle={toggle} />
     </PromotedSection>
   );
 }

@@ -147,6 +147,7 @@ export function SearchResultItem({
   onClick,
   showSection,
   nested,
+  autoActive,
 }: {
   item: SearchItemType;
   onClick: () => void;
@@ -157,14 +158,21 @@ export function SearchResultItem({
   /** Whether a header row above owns this one. Decided by the caller, which knows which
    * headers a component card replaced. */
   nested: boolean;
+
+  /** Whether the list activates this row on its own — it does that to the first one of every
+   * result set, without the reader having moved anywhere. */
+  autoActive: boolean;
 }) {
   const { active, setActive } = useSearchList();
   const isActive = item.id === active;
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (isActive) ref.current?.scrollIntoView({ block: "nearest" });
-  }, [isActive]);
+    // Only rows the reader moved to scroll themselves in. The first row of a result set is
+    // activated for them, and the promoted cards sharing this scroll box sit above it — so
+    // pulling it into view would sweep them off the top before they had been looked at.
+    if (isActive && !autoActive) ref.current?.scrollIntoView({ block: "nearest" });
+  }, [isActive, autoActive]);
 
   // Drive List Item's built-in hover styling for the keyboard-active row (desktop uses
   // [data-hover], touch uses [data-active]). No brand highlight.
