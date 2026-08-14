@@ -99,3 +99,26 @@ describe("RULE_ELEMENT_NAMES", () => {
     expect(unpreserved).toEqual(RULE_NAMES_WITHOUT_PRESERVED_ELEMENT);
   });
 });
+
+describe("activeRules", () => {
+  // 룰 단위 테스트는 룰을 명시 배열로 넘겨 돌리므로, 룰이 activeRules에서 빠져도 계속 통과한다.
+  // 등록 자체를 여기서 고정해야 실제 파이프라인에서 조용히 사라진 룰이 잡힌다. 순서까지 보는 건
+  // rules/index.ts가 활성 순서의 단일 진입점이기 때문이다.
+  it("등록된 룰과 그 순서를 고정한다", () => {
+    expect(activeRules.map((rule) => rule.name)).toMatchInlineSnapshot(`
+      [
+        "AvailableSince",
+        "Badge",
+        "ComponentExample",
+        "CodeBlockTabs",
+        "TypeTable",
+        "TokenReference",
+        "ProgressBoardTable",
+        "IconLibrary",
+        "CatalogGrid",
+        "ComponentSpecBlock",
+        "ChangelogPage",
+      ]
+    `);
+  });
+});
