@@ -185,7 +185,9 @@ describe("tokenReferenceRule", () => {
     `);
   });
 
-  it("reads an HTML-escaped regex attribute", () => {
+  // HTML-escaped 짝이 없는 이유: escapeMdxAttributeValue는 `"`만 `&#x22;`로 바꾸는데, 토큰 id를
+  // 겨냥한 정규식에 `"`가 들어갈 일이 없다. groups는 배열 리터럴이라 따옴표가 늘 escape된다.
+  it("reads a quoted regex attribute", () => {
     expect(render(String.raw`<TokenReference regex="/\.solid\./" />`)).toMatchInlineSnapshot(`
       "| Token | mode-one | mode-two |
       | --- | --- | --- |
