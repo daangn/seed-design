@@ -90,8 +90,8 @@ describe("bump peer dependencies workflow", () => {
     expect(workflow).toContain("github.event.comment.body == '/bump-peer-deps'");
     expect(workflow).toContain('["OWNER", "MEMBER", "COLLABORATOR"]');
     expect(workflow).toContain("contents: write");
+    expect(workflow).toContain("issues: write");
     expect(workflow).toContain("pull-requests: write");
-    expect(workflow).not.toContain("issues: write");
     expect(workflow).toContain("changeset-release/dev");
     expect(workflow).toContain("release: version packages");
     expect(workflow).toContain("head.repo?.full_name");
