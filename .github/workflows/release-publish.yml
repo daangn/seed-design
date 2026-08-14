@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -83,7 +83,7 @@ jobs:
       control-sha: ${{ steps.identity.outputs.controlSha }}
     steps:
       - name: Checkout the exact release source without credentials
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
@@ -134,7 +134,7 @@ jobs:
       pointer-after: ${{ steps.publish.outputs.pointer-after }}
     steps:
       - name: Resolve current trusted dev head
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: dev
           fetch-depth: 0
@@ -145,7 +145,7 @@ jobs:
         run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Checkout immutable trusted control plane
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare-rootage.outputs.control-sha }}
           fetch-depth: 0

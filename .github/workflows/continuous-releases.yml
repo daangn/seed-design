@@ -68,7 +68,7 @@ jobs:
       rootage-version: ${{ steps.rootage-prepare.outputs.version }}
     steps:
       - name: Checkout exact PR head without credentials
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
           fetch-depth: 0
@@ -149,7 +149,7 @@ jobs:
       contents: read
     steps:
       - name: Resolve current trusted dev head
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: dev
           fetch-depth: 0
@@ -160,7 +160,7 @@ jobs:
         run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Checkout immutable trusted control plane
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.resolve.outputs.control-sha }}
           fetch-depth: 0
