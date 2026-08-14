@@ -4,6 +4,8 @@ import type { ObjectStore, StoredObject } from "./types";
 const MAX_WRITE_ATTEMPTS = 2;
 const MAX_RECONCILE_READS = 3;
 
+class StablePointerConflictError extends Error {}
+
 export interface StablePointerMutation {
   changed: boolean;
   previous: StoredObject | null;
@@ -25,6 +27,18 @@ function isExactPrevious(current: StoredObject | null, previous: StoredObject | 
   return (
     current !== null &&
     current.etag === previous.etag &&
+    current.sha256 === previous.sha256 &&
+    bytesEqual(current.bytes, previous.bytes)
+  );
+}
+
+function hasExactPreviousContent(
+  current: StoredObject | null,
+  previous: StoredObject | null,
+): boolean {
+  if (!previous) return current === null;
+  return (
+    current !== null &&
     current.sha256 === previous.sha256 &&
     bytesEqual(current.bytes, previous.bytes)
   );
@@ -104,39 +118,58 @@ export async function mutateStablePointer(
     return { changed: false, previous, applied: previous };
   }
 
+  let expected = previous;
   let lastAmbiguousError: unknown;
   for (let attempt = 1; attempt <= MAX_WRITE_ATTEMPTS; attempt += 1) {
     try {
-      const result = previous
-        ? await store.putIfMatch(POINTER_KEY, bytes, checksum, previous.etag)
+      const result = expected
+        ? await store.putIfMatch(POINTER_KEY, bytes, checksum, expected.etag)
         : await store.putIfAbsent(POINTER_KEY, bytes, checksum);
       if (result.status === "precondition-failed") {
-        throw new Error("stable 포인터가 동시에 변경되었습니다.");
+        const current = await store.get(POINTER_KEY);
+        if (await isExactIntended(current, bytes, checksum)) {
+          return { changed: false, previous: current, applied: current };
+        }
+        if (!hasExactPreviousContent(current, expected)) {
+          throw new StablePointerConflictError("stable 포인터가 실제로 동시에 변경되었습니다.");
+        }
+        if (current && !current.etag) {
+          throw new StablePointerConflictError(
+            "재조회한 stable 포인터 ETag가 없어 CAS를 다시 수행할 수 없습니다.",
+          );
+        }
+        expected = current;
+        if (attempt === MAX_WRITE_ATTEMPTS) {
+          throw new StablePointerConflictError(
+            current
+              ? "R2가 재조회한 stable 포인터 ETag의 If-Match를 반복해서 거부했습니다."
+              : "R2가 재확인한 빈 stable 포인터의 If-None-Match를 반복해서 거부했습니다.",
+          );
+        }
+        continue;
       }
       if (result.etag) {
         return {
           changed: true,
-          previous,
+          previous: expected,
           applied: { bytes: bytes.slice(), etag: result.etag, sha256: checksum },
         };
       }
       lastAmbiguousError = new Error("stable 포인터 CAS 응답에 ETag가 없습니다.");
     } catch (error) {
-      if (error instanceof Error && error.message === "stable 포인터가 동시에 변경되었습니다.") {
-        throw error;
-      }
+      if (error instanceof StablePointerConflictError) throw error;
       lastAmbiguousError = error;
     }
 
     const reconciled = await reconcileAmbiguousWrite(
       store,
-      previous,
+      expected,
       bytes,
       checksum,
       lastAmbiguousError,
     );
     if (reconciled.state === "applied") {
-      return { changed: true, previous, applied: reconciled.object };
+      return { changed: true, previous: expected, applied: reconciled.object };
     }
   }
   throw new Error(
