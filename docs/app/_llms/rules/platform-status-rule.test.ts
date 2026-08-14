@@ -48,8 +48,15 @@ describe("generateMarkdownTable", () => {
   });
 
   it("escapes pipes and flattens newlines so a note cannot break the table", () => {
-    expect(generateMarkdownTable({ ...base, figmaNote: "a | b\nc" })).toContain(
-      "| Figma | Done | a \\| b c |",
+    expect(generateMarkdownTable({ ...base, figmaNote: "a | b\nc" })).toBe(
+      [
+        "| Platform | Status | Note |",
+        "| --- | --- | --- |",
+        "| Figma | Done | a \\| b c |",
+        "| React | In Progress |  |",
+        "| iOS | Not Ready |  |",
+        "| Android | Not Planned |  |",
+      ].join("\n"),
     );
   });
 });

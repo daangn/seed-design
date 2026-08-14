@@ -62,7 +62,7 @@ describe("progressBoardRule", () => {
 
     const actual = normalizeLLMBodyWithRules(input, [progressBoardRule]);
 
-    expect(actual).toContain("ProgressBoardTable");
+    expect(actual).toBe("<ProgressBoardTable />");
   });
 
   it("renders summary and component tables for typical data", () => {

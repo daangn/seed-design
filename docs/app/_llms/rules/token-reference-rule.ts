@@ -121,12 +121,12 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
 /*
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
-type ArtifactValue =
+export type ArtifactValue =
   | Exclude<Exchange.Value, Exchange.Gradient | Exchange.Shadow>
   | { type: "gradient"; value: readonly Exchange.GradientStop[] | Exchange.TokenRef }
   | { type: "shadow"; value: readonly Exchange.ShadowLayer[] | Exchange.TokenRef };
 
-type ArtifactTokensModel = {
+export type ArtifactTokensModel = {
   kind: "Tokens";
   metadata: Exchange.TokensModel["metadata"];
   data: {
@@ -138,7 +138,7 @@ type ArtifactTokensModel = {
   };
 };
 
-function formatTokenValue(entry: ArtifactValue): string {
+export function formatTokenValue(entry: ArtifactValue): string {
   return (
     match(entry)
       .with({ type: "number" }, ({ value }) => String(value))
@@ -168,7 +168,7 @@ function formatTokenValue(entry: ArtifactValue): string {
   rootage 토큰 데이터에서 마크다운 테이블을 생성합니다.
   groups가 ["radius"]이면 "$radius." 로 시작하는 토큰만 포함합니다.
 */
-function generateMarkdownTable(
+export function generateMarkdownTable(
   tokens: ArtifactTokensModel["data"]["tokens"],
   groups: string[],
 ): string {
