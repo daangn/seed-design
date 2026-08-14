@@ -15,6 +15,24 @@ function etagDiagnostic(etag: string): Record<string, unknown> {
   };
 }
 
+function ifMatchEtag(etag: string): string {
+  if (!etag.startsWith("W/")) return etag;
+  const strongEtag = etag.slice(2);
+  if (!strongEtag.startsWith('"') || !strongEtag.endsWith('"')) {
+    throw new Error("R2가 잘못된 weak ETag를 반환해 안전한 If-Match를 만들 수 없습니다.");
+  }
+  return strongEtag;
+}
+
+function conditionDiagnostic(condition: Record<string, string>): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(condition).map(([name, value]) => [
+      name,
+      name === "if-match" ? etagDiagnostic(value) : value,
+    ]),
+  );
+}
+
 function errorDiagnostic(error: unknown): Record<string, unknown> {
   if (!error || typeof error !== "object") return { message: String(error) };
   const value = error as {
@@ -91,6 +109,7 @@ export class R2ObjectStore implements ObjectStore {
     bytes: Uint8Array,
     sha256: string,
     condition: Record<string, string>,
+    observedCondition?: Record<string, string>,
   ): Promise<ConditionalPutResult> {
     const headers: Record<string, string> = {
       ...condition,
@@ -111,12 +130,10 @@ export class R2ObjectStore implements ObjectStore {
         this.#diagnostic?.({
           event: "r2-conditional-put",
           key,
-          condition: Object.fromEntries(
-            Object.entries(condition).map(([name, value]) => [
-              name,
-              name === "if-match" ? etagDiagnostic(value) : value,
-            ]),
-          ),
+          condition: conditionDiagnostic(condition),
+          ...(observedCondition
+            ? { observedCondition: conditionDiagnostic(observedCondition) }
+            : {}),
           outcome: "created",
           responseEtag: etagDiagnostic(etag),
         });
@@ -127,12 +144,10 @@ export class R2ObjectStore implements ObjectStore {
         this.#diagnostic?.({
           event: "r2-conditional-put",
           key,
-          condition: Object.fromEntries(
-            Object.entries(condition).map(([name, value]) => [
-              name,
-              name === "if-match" ? etagDiagnostic(value) : value,
-            ]),
-          ),
+          condition: conditionDiagnostic(condition),
+          ...(observedCondition
+            ? { observedCondition: conditionDiagnostic(observedCondition) }
+            : {}),
           outcome: errorStatus(error) === 412 ? "precondition-failed" : "error",
           error: errorDiagnostic(error),
         });
@@ -152,7 +167,7 @@ export class R2ObjectStore implements ObjectStore {
     sha256: string,
     etag: string,
   ): Promise<ConditionalPutResult> {
-    return this.#put(key, bytes, sha256, { "if-match": etag });
+    return this.#put(key, bytes, sha256, { "if-match": ifMatchEtag(etag) }, { "if-match": etag });
   }
 
   async list(prefix: string): Promise<Array<{ key: string; uploaded: Date }>> {

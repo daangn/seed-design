@@ -28,7 +28,7 @@ PR snapshot은 `0.0.0-snapshot.pr-{PR 번호}.sha-{40자리 head SHA}` 버전을
 - `bun tools/rootage-cdn/src/cli.ts cleanup-snapshots ...`: PR이 닫힌 지 30일 지난 완료 snapshot을 manifest부터 제거
 
 production 쓰기에는 `ROOTAGE_R2_ACCESS_KEY_ID`, `ROOTAGE_R2_SECRET_ACCESS_KEY`, `CF_ACCOUNT_ID`, `ROOTAGE_R2_BUCKET`이 필요하다.
-stable 포인터 조건부 쓰기를 진단할 때는 `ROOTAGE_R2_DIAGNOSTICS=true`를 추가한다. 이 로그는 stable 포인터의 ETag 원문과 형식, 조건부 PUT 결과, R2 오류 상태를 stderr에 기록하며 접근 키와 서명 헤더는 기록하지 않는다.
+stable 포인터 조건부 쓰기를 진단할 때는 `ROOTAGE_R2_DIAGNOSTICS=true`를 추가한다. 이 로그는 stable 포인터에서 관찰한 ETag와 실제 `If-Match` 값, 조건부 PUT 결과, R2 오류 상태를 stderr에 기록하며 접근 키와 서명 헤더는 기록하지 않는다. R2 GET이 weak ETag를 반환하면 strong 비교만 수행하는 `If-Match`에 맞게 `W/`만 제거하고 따옴표와 opaque tag는 그대로 유지한다.
 배포·route 변경·rollback·삭제는 GitHub의 `rootage-production` environment 승인을 거친 수동 workflow에서 실행한다.
 Snapshot 게시와 정기 정리도 기존 `rootage-production` environment를 재사용한다. 두 workflow 모두 `dev`의 신뢰된 코드만 실행하며 PR 빌드 job에는 R2 자격 증명을 전달하지 않는다.
 production Worker 배포는 기존 단일 100% traffic deployment/version을 먼저 기록하고 `https://seed-design.io/rootage/latest/index.json`의 응답 shape와 exact Worker version header를 확인한다. smoke 실패 시 현재 deployment와 version이 방금 배포한 두 ID와 모두 일치할 때만 기록한 정확한 이전 version으로 자동 rollback한다.
