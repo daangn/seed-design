@@ -1,34 +1,25 @@
 "use client";
 
+import { IconHashLine } from "@karrotmarket/react-monochrome-icon";
+import clsx from "clsx";
 import type { SearchItemType } from "fumadocs-ui/components/dialog/search";
 import { useSearchList } from "fumadocs-ui/components/dialog/search";
 import { type Ref, useEffect, useRef } from "react";
-import { ListButtonItem, ListLinkItem } from "seed-design/ui/list";
-import { sectionLabel } from "@/lib/docs-sections";
 import { ResultMarkdown } from "./result-markdown";
-
-/**
- * Indent for the rows matched inside a document, measured from the row's own gutter so the
- * List Item recipe stays the single source for the outer padding. Inline rather than a
- * utility class because that recipe is unlayered and would win over `@layer utilities`.
- */
-const NESTED_ROW_STYLE = {
-  paddingInlineStart:
-    "calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-dimension-x4))",
-};
+import { Breadcrumbs, ROW_ACTIVE_CLASS_NAME, ROW_CLASS_NAME } from "./row";
 
 /** Gap that opens a new block. Every row that isn't indented under a header starts one. */
 const BLOCK_START_CLASS_NAME = "[&:not(:first-child)]:mt-2";
 
 /**
- * A single search result rendered with the SEED List snippet (`ListLinkItem`). Wired to
- * fumadocs' `useSearchList()`: the keyboard-active row gets List Item's own neutral
- * hover/pressed background via `data-hover` (no brand `highlighted` variant) and scrolls
- * into view. Pass this via SearchDialogList's `Item` prop.
+ * A single search result. Wired to fumadocs' `useSearchList()`: the keyboard-active row takes
+ * the neutral selected background and scrolls itself into view. Pass this via
+ * SearchDialogList's `Item` prop.
  *
- * Advanced search hands the list one `page` row per matched document followed by the rows
- * that matched inside it, so a `page` row renders as the group's header — the document title,
- * and the section it sits in — and the rest render indented beneath the header they belong to.
+ * Advanced search hands the list one `page` row per matched document followed by the rows that
+ * matched inside it, so a `page` row renders as the group's header — breadcrumbs over the
+ * document title — and the rest render beneath it, indented and threaded onto a rail that runs
+ * down the group the way fumadocs' own result list draws it.
  */
 export function SearchResultItem({
   item,
@@ -40,7 +31,7 @@ export function SearchResultItem({
   item: SearchItemType;
   onClick: () => void;
 
-  /** Section label on group headers. Off under a filter, where it would repeat the chip. */
+  /** Whether the trail keeps its section. Dropped under a filter, where it repeats the chip. */
   showSection: boolean;
 
   /** Whether a header row above owns this one. Decided by the caller, which knows which
@@ -62,52 +53,73 @@ export function SearchResultItem({
     if (isActive && !autoActive) ref.current?.scrollIntoView({ block: "nearest" });
   }, [isActive, autoActive]);
 
-  // Drive List Item's built-in hover styling for the keyboard-active row (desktop uses
-  // [data-hover], touch uses [data-active]). No brand highlight.
   const activation = {
     "aria-selected": isActive,
-    "data-hover": isActive ? "" : undefined,
-    "data-active": isActive ? "" : undefined,
     onPointerMove: () => setActive(item.id),
   };
 
+  const rowClassName = clsx(ROW_CLASS_NAME, isActive && ROW_ACTIVE_CLASS_NAME);
+
   if (item.type === "action") {
     return (
-      <ListButtonItem
+      <button
+        type="button"
         ref={ref as Ref<HTMLButtonElement>}
-        title={item.node}
         onClick={onClick}
+        className={clsx(rowClassName, BLOCK_START_CLASS_NAME)}
         {...activation}
-      />
+      >
+        {item.node}
+      </button>
     );
   }
 
   const isHeader = item.type === "page";
-  const title =
-    typeof item.content === "string" ? (
-      <ResultMarkdown>{item.content}</ResultMarkdown>
-    ) : (
-      item.content
-    );
 
   return (
-    <ListLinkItem
+    <a
       ref={ref as Ref<HTMLAnchorElement>}
       href={item.url}
-      title={isHeader ? <span className="font-medium">{title}</span> : title}
-      // The static advanced index has no breadcrumbs, so derive the section from the URL.
-      suffix={isHeader && showSection ? sectionLabel(item.url) || undefined : undefined}
-      // Indented rows belong to the header above them; everything else — a header, or a row
-      // whose header a card replaced — starts a block of its own.
-      rootProps={nested ? { style: NESTED_ROW_STYLE } : { className: BLOCK_START_CLASS_NAME }}
-      onClick={(e) => {
+      className={clsx(rowClassName, !nested && BLOCK_START_CLASS_NAME)}
+      onClick={(event) => {
         // Route through fumadocs' onSelect (client-side push + close). Keep href for
         // semantics and cmd/ctrl-click to open in a new tab.
-        if (e.metaKey || e.ctrlKey) return;
-        e.preventDefault();
+        if (event.metaKey || event.ctrlKey) return;
+
+        event.preventDefault();
         onClick();
       }}
       {...activation}
-    />
+    >
+      {isHeader ? (
+        <Breadcrumbs trail={(item.breadcrumbs ?? []).slice(showSection ? 0 : 1)} />
+      ) : null}
+      {/* The rail threads the rows matched inside a document onto the header above them. A row
+          whose header a component card replaced has nothing to thread onto, so it draws none. */}
+      {nested ? (
+        <span aria-hidden className="absolute inset-y-0 start-3 w-px bg-stroke-neutral-muted" />
+      ) : null}
+      {nested && item.type === "heading" ? (
+        <IconHashLine
+          aria-hidden
+          className="absolute start-6 top-2.5 size-3.5 text-fg-neutral-subtle"
+        />
+      ) : null}
+      <span
+        className={clsx(
+          "block min-w-0",
+          // A heading is a place in the document rather than a sentence from it, so it carries
+          // the same weight as the title above it; body text stays quieter than both.
+          item.type === "text" ? "text-fg-neutral-muted" : "font-medium",
+          nested && (item.type === "heading" ? "ps-8" : "ps-4"),
+        )}
+      >
+        {typeof item.content === "string" ? (
+          <ResultMarkdown>{item.content}</ResultMarkdown>
+        ) : (
+          item.content
+        )}
+      </span>
+    </a>
   );
 }

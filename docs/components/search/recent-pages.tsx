@@ -1,14 +1,16 @@
 "use client";
 
+import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
 import { useRouter } from "next/navigation";
-import { List, ListLinkItem } from "seed-design/ui/list";
 import { useRecentPages } from "@/hooks/useRecentPages";
+import { Breadcrumbs, ROW_CLASS_NAME } from "./row";
 
 /**
- * Empty-state (no query) content for the search dialog: recently visited pages rendered
- * with the SEED List snippet (title + section detail). With no history yet, shows a
- * friendly prompt.
+ * Empty-state (no query) content for the search dialog: recently visited pages, drawn as the
+ * result rows they stand in for. They are plain links rather than entries in fumadocs' list,
+ * so the arrow keys never reach them and the ground lights on hover instead of on active.
+ * With no history yet, shows a friendly prompt.
  */
 export function RecentPages() {
   const pages = useRecentPages();
@@ -22,25 +24,29 @@ export function RecentPages() {
   }
 
   return (
-    <div className="p-2">
-      <p className="px-2 pb-1 text-xs font-medium text-fg-neutral-muted">최근 방문한 페이지</p>
-      <List width="full">
-        {pages.map((page) => (
-          <ListLinkItem
-            key={page.url}
-            href={page.url}
-            title={page.title}
-            detail={page.section || undefined}
-            onClick={(e) => {
-              // Keep client-side navigation (the snippet renders a plain <a>).
-              if (e.metaKey || e.ctrlKey) return;
-              e.preventDefault();
-              onOpenChange(false);
-              router.push(page.url);
-            }}
-          />
-        ))}
-      </List>
+    <div className="p-1">
+      <p className="px-2.5 pt-1 pb-1.5 text-xs font-medium text-fg-neutral-muted">
+        최근 방문한 페이지
+      </p>
+      {pages.map((page) => (
+        <a
+          key={page.url}
+          href={page.url}
+          className={clsx(ROW_CLASS_NAME, "hover:bg-bg-transparent-selected")}
+          onClick={(event) => {
+            // Keep cmd/ctrl-click opening a tab; a plain click routes through the client
+            // router and closes the dialog behind it.
+            if (event.metaKey || event.ctrlKey) return;
+
+            event.preventDefault();
+            onOpenChange(false);
+            router.push(page.url);
+          }}
+        >
+          <Breadcrumbs trail={page.section ? [page.section] : []} />
+          <span className="block min-w-0 font-medium">{page.title}</span>
+        </a>
+      ))}
     </div>
   );
 }
