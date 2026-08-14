@@ -21,12 +21,15 @@ function entry(title: string, overrides: Partial<ComponentSearchEntry> = {}): Co
 const ENTRIES = [
   entry("Action Button", {
     description: "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+    keywords: ["액션 버튼"],
   }),
-  entry("Bottom Sheet"),
+  entry("Bottom Sheet", { keywords: ["바텀 시트"] }),
   entry("Callout", { description: "사용자에게 중요한 안내를 전달하는 컴포넌트입니다." }),
-  entry("Floating Action Button"),
-  entry("Input Button"),
-  entry("List", { slug: "list", url: "/components/list" }),
+  entry("Floating Action Button", { keywords: ["플로팅 액션 버튼"] }),
+  entry("Input Button", { keywords: ["인풋 버튼"] }),
+  entry("List", { slug: "list", url: "/components/list", keywords: ["리스트"] }),
+  entry("Menu Sheet", { keywords: ["메뉴 시트"] }),
+  entry("Menu", { keywords: ["메뉴"] }),
 ];
 
 const titles = (search: string) => matchComponents(ENTRIES, search).map(({ title }) => title);
@@ -58,12 +61,37 @@ describe("matchComponents", () => {
     expect(titles("button floating")).toEqual(["Floating Action Button"]);
   });
 
+  it("matches a keyword the page's own words never spell out", () => {
+    // The whole of Menu's keyword, and the opening word of Menu Sheet's.
+    expect(titles("메뉴")).toEqual(["Menu", "Menu Sheet"]);
+  });
+
+  it("matches a keyword typed without its space", () => {
+    expect(titles("메뉴시트")).toEqual(["Menu Sheet"]);
+  });
+
+  it("matches a query naming a later word of a keyword", () => {
+    expect(titles("시트")).toEqual(["Menu Sheet", "Bottom Sheet"]);
+  });
+
+  it("ignores a query buried inside a word of a keyword", () => {
+    // `리액션` spells out `액션`, so matching mid-word would file Reaction Button under a
+    // query naming the Action Button family.
+    expect(
+      matchComponents([entry("Reaction Button", { keywords: ["리액션 버튼"] })], "액션"),
+    ).toEqual([]);
+  });
+
+  it("gathers every component whose keyword ends in the same word", () => {
+    expect(titles("버튼")).toEqual(["Input Button", "Action Button", "Floating Action Button"]);
+  });
+
   it("falls back to the Korean description", () => {
     expect(titles("안내")).toEqual(["Callout"]);
   });
 
   it("prefers the name over the description when both match", () => {
-    expect(titles("액션")).toEqual(["Action Button"]);
+    expect(titles("액션")[0]).toBe("Action Button");
     expect(titles("list")[0]).toBe("List");
   });
 

@@ -22,6 +22,12 @@ export interface ComponentSearchEntry {
   slug: string;
   title: string;
   description?: string;
+  /**
+   * Search terms the document declares in its frontmatter for queries its own words never
+   * answer. Component names are written in English throughout, so `메뉴` reaches nothing on
+   * the Menu page — an alias is the only thing that carries the word people search in.
+   */
+  keywords?: string[];
   /** Design guideline page, e.g. `/components/action-button`. */
   url: string;
   /** Cover image in its on-page form, from `resolveCoverImage()`. */
@@ -42,6 +48,7 @@ export interface ComponentSearchEntry {
  */
 function scoreEntry(entry: ComponentSearchEntry, query: string, terms: string[]) {
   const name = normalizeSearchText(entry.title);
+  const keywords = entry.keywords?.map(normalizeSearchText) ?? [];
   if (name === query || normalizeSearchText(entry.slug) === query) return 1000;
 
   // Padding both sides turns "lands on a word boundary" into a plain substring test. Within
@@ -52,6 +59,14 @@ function scoreEntry(entry: ComponentSearchEntry, query: string, terms: string[])
   const wholeWords = padded.indexOf(` ${query} `);
   if (wholeWords >= 0) return 900 - Math.min(wholeWords, 50);
 
+  // A keyword is written down by hand rather than read off the page, so a query that is one
+  // names the component as squarely as its own name does — under a name that spells the
+  // query out, over one that merely opens with it. Spaces come off both sides the way the
+  // one-word name tier below takes them off: `메뉴 시트` and `메뉴시트` are the same word,
+  // and which one gets typed is nobody's convention to fix.
+  const collapsed = query.replace(/ /g, "");
+  if (keywords.some((keyword) => keyword.replace(/ /g, "") === collapsed)) return 800;
+
   const wordStart = padded.indexOf(` ${query}`);
   if (wordStart >= 0) return 700 - Math.min(wordStart, 50);
 
@@ -61,6 +76,11 @@ function scoreEntry(entry: ComponentSearchEntry, query: string, terms: string[])
   if (name.replace(/ /g, "").includes(query.replace(/ /g, ""))) return 300;
 
   if (terms.every((term) => name.includes(term))) return 200;
+
+  // `시트` against a `메뉴 시트` keyword, padded the way the name tiers pad. Matching anywhere
+  // inside instead would make `액션` a hit on `리액션` and `텍스트` one on `컨텍스트`: Korean
+  // writes a compound as one word, so its parts swallow other words whole.
+  if (keywords.some((keyword) => ` ${keyword} `.includes(` ${query}`))) return 150;
 
   const description = entry.description?.toLowerCase();
   if (description && terms.every((term) => description.includes(term))) return 100;

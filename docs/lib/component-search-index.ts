@@ -52,13 +52,14 @@ export async function buildComponentSearchIndex(): Promise<ComponentSearchEntry[
     )
     .map((page) => {
       const slug = page.slugs[0];
-      const { componentIds = [slug], coverImage } = page.data.frontmatter;
+      const { componentIds = [slug], coverImage, keywords } = page.data.frontmatter;
 
       return {
         slug,
         title: page.data.title,
         url: page.url,
         ...(page.data.description && { description: page.data.description }),
+        ...(keywords?.length && { keywords }),
         ...(coverImage && { thumbnail: resolveCoverImage(coverImage).thumbnail }),
         components: componentIds
           .map((id) => componentData.get(id))
