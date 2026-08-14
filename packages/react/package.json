@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -49,8 +49,8 @@
     "@seed-design/react-checkbox": "^2.0.1",
     "@seed-design/react-collapsible": "^1.0.1",
     "@seed-design/react-dialog": "^2.0.3",
-    "@seed-design/react-date-picker": "^1.0.0",
-    "@seed-design/react-drawer": "^2.0.5",
+    "@seed-design/react-date-picker": "^1.1.0",
+    "@seed-design/react-drawer": "^2.0.6",
     "@seed-design/react-field": "^2.0.1",
     "@seed-design/react-field-button": "^2.0.1",
     "@seed-design/react-fieldset": "^1.0.1",
@@ -82,7 +82,7 @@
     "unicode-segmenter": "^0.17.3"
   },
   "peerDependencies": {
-    "@seed-design/css": "^2.4.0",
+    "@seed-design/css": "^2.5.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },

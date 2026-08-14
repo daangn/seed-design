@@ -1,5 +1,44 @@
 # @seed-design/lynx-css
 
+## 0.8.0
+
+### Minor Changes
+
+- ebb4eae: Lynx 입력 폼 컴포넌트를 추가합니다.
+
+  - `Field`, `TextField`, `KeyboardAvoidingScrollView`를 제공합니다.
+  - `TextField.Input`과 `TextField.Textarea`에서 native 입력, controlled value, grapheme 단위 글자 수 제한을 지원합니다.
+  - `TextField.Textarea`는 내용에 따른 자동 높이 조절을 지원합니다.
+  - `KeyboardAvoidingScrollView`는 focus된 입력과 Field footer가 키보드에 가려지지 않도록 스크롤합니다.
+  - `npx @seed-design/cli@latest add ui:text-field`로 조합된 snippet을 설치할 수 있습니다.
+
+  ```tsx
+  <KeyboardAvoidingScrollView>
+    <TextField label="소개" maxGraphemeCount={80}>
+      <TextFieldTextarea accessibility-label="소개" />
+    </TextField>
+  </KeyboardAvoidingScrollView>
+  ```
+
+### Patch Changes
+
+- ebb4eae: Date Picker에서 시작일을 유지하고 종료일만 변경할 수 있는 기능을 추가합니다.
+
+  - `selectionMode="range"`에서 `rangeStartReadOnly` prop을 사용할 수 있습니다.
+  - 시작일보다 늦은 날짜만 새 종료일로 선택할 수 있습니다.
+  - 읽기 전용 시작일의 시각적 상태와 접근성 이름을 제공합니다.
+
+  ```tsx
+  <DatePicker
+    selectionMode="range"
+    rangeStartReadOnly
+    value={{
+      start: { year: 2026, month: 8, day: 7 },
+      end: { year: 2026, month: 8, day: 9 },
+    }}
+  />
+  ```
+
 ## 0.7.0
 
 ### Minor Changes
