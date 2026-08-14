@@ -87,7 +87,10 @@ export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone:
     <>
       <header
         className={clsx(
-          "fixed inset-x-0 top-0 z-[1000]",
+          // `right`: same scroll-lock trim the footer compensates for (see section-footer) —
+          // <body> narrows by the removed scrollbar width while this fixed bar does not, which
+          // would slide the right-hand actions out of line with the page under them.
+          "fixed inset-x-0 right-[var(--removed-body-scroll-bar-size,0px)] top-0 z-[1000]",
           LANDING_LIGHT_ONLY_COLOR_BRIDGE,
           `transition-transform ${EASE_DUR} motion-reduce:transition-none`,
           isHidden ? "-translate-y-full pointer-events-none" : "translate-y-0",

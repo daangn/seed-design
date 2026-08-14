@@ -51,6 +51,15 @@ const searchDatabase = create({
 
 const initSearchDatabase = () => searchDatabase;
 
+/**
+ * fumadocs ships the dialog at `z-50`. The docs header (`z-40`) sits under that, but the
+ * landing chrome does not: its header is `z-[1000]` and the mobile nav panel resolves to
+ * 1200 (`--side-panel-z-index: 1100` + `--layer-index: 100`), so both painted over the
+ * dialog. Search is the site's topmost modal, so it clears the whole ladder — only the
+ * landing custom cursor (`z-[100000]`) stays above it.
+ */
+const DIALOG_LAYER_CLASS_NAME = "z-[1300]";
+
 /** Search input rendered as a standalone pill above the results card (see mockup). */
 export const SEARCH_INPUT_PILL_CLASS_NAME =
   "flex items-center gap-3 rounded-full border border-stroke-neutral-muted bg-bg-layer-floating py-[19.5px] pl-6 pr-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-stroke-focus-ring max-md:py-[14px]";
@@ -121,9 +130,12 @@ export default function DefaultSearchDialog({
 
   return (
     <SearchDialog search={search} onSearchChange={setSearch} isLoading={query.isLoading} {...props}>
-      <SearchDialogOverlay className="!bg-bg-overlay !backdrop-blur-none" />
+      <SearchDialogOverlay
+        className={clsx(DIALOG_LAYER_CLASS_NAME, "!bg-bg-overlay !backdrop-blur-none")}
+      />
       <SearchDialogContent
         className={clsx(
+          DIALOG_LAYER_CLASS_NAME,
           // Strip fumadocs' single-panel chrome so the pill + card render as two separate
           // surfaces; the inner wrapper below keeps them as one child (avoids the
           // between-children border rule) and stacks them with a gap.

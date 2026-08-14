@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { docsIndexSchema, type DocsItem } from "../../packages/cli/src/schema";
 import {
@@ -177,6 +178,29 @@ describe("generated docs index artifact", () => {
       for (const section of category.sections) {
         expect(section.items).toEqual([...section.items].sort(compareDocsItems));
       }
+    }
+  });
+});
+
+describe("generated docs index source directories", () => {
+  it("fails without writing an index when a source directory is missing", async () => {
+    // The script has no exports and runs `main()` on import, so it can only be driven as a
+    // process. An empty cwd makes the first `sources` entry the missing one.
+    const cwd = mkdtempSync(path.join(tmpdir(), "seed-docs-index-"));
+
+    try {
+      const proc = Bun.spawn(["bun", path.join(import.meta.dir, "generate-docs-index.ts")], {
+        cwd,
+        stdout: "pipe",
+        stderr: "pipe",
+      });
+      const [stderr, exitCode] = await Promise.all([new Response(proc.stderr).text(), proc.exited]);
+
+      expect(exitCode).toBe(1);
+      expect(stderr).toContain("Content directory not found:");
+      expect(existsSync(path.join(cwd, "public", "__docs__", "index.json"))).toBe(false);
+    } finally {
+      rmSync(cwd, { recursive: true, force: true });
     }
   });
 });
