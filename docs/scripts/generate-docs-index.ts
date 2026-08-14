@@ -77,8 +77,6 @@ function filePathToSlugs(relPath: string): string[] | null {
  * Recursively collect all .mdx files from a directory.
  */
 function collectMdxFiles(dir: string, base = ""): string[] {
-  if (!existsSync(dir)) return [];
-
   const results: string[] = [];
   for (const entry of readdirSync(dir)) {
     const fullPath = path.join(dir, entry);
@@ -202,6 +200,13 @@ async function main() {
 
   for (const { dir, categoryId, baseUrl, sectionId: fixedSectionId } of sources) {
     const sourceDir = path.join(contentDir, dir);
+
+    // Every entry in `sources` is a directory that must exist. Skipping a missing one would
+    // drop its whole section from the index while the build still reports success.
+    if (!existsSync(sourceDir)) {
+      throw new Error(`Content directory not found: ${sourceDir}. Update \`sources\` if it moved.`);
+    }
+
     const mdxFiles = collectMdxFiles(sourceDir);
 
     for (const relPath of mdxFiles) {
