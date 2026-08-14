@@ -96,7 +96,11 @@ function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
       <span
         aria-hidden
         style={themed(background)}
-        className="block h-11 w-full rounded-lg border border-stroke-neutral-muted bg-[var(--token-preview-light)] dark:bg-[var(--token-preview-dark)]"
+        // The `background` shorthand rather than `bg-*`: gradient tokens put a
+        // `linear-gradient()` in the variable, and Tailwind can't see through `var()` to
+        // tell a colour from an image, so `bg-[var(…)]` compiles to `background-color` and
+        // drops every gradient at computed-value time.
+        className="block h-11 w-full rounded-lg border border-stroke-neutral-muted [background:var(--token-preview-light)] dark:[background:var(--token-preview-dark)]"
       />
     );
   }
