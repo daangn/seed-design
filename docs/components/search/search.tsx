@@ -16,6 +16,7 @@ import {
 import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useMemo, useState } from "react";
 import { TAGS } from "@/app/api/search/constants";
+import { ComponentResults } from "./component-results";
 import { NoResults } from "./no-results";
 import { RecentPages } from "./recent-pages";
 import { SearchResultItem } from "./search-result-item";
@@ -23,6 +24,7 @@ import { SearchResultsState } from "./search-results-state";
 import { SearchTags } from "./tags";
 import { TokenResults } from "./token-results";
 import { koreanTokenizer } from "./tokenizer";
+import { useComponentSearch } from "./use-component-search";
 import { useTokenSearch } from "./use-token-search";
 import { create } from "zbsearch";
 
@@ -125,6 +127,52 @@ function rankGroups(items: SortedResult[], search: string) {
   return groups.sort((a, b) => b.rank - a.rank).flatMap(({ rows }) => rows);
 }
 
+/**
+ * Drop the rows the component cards above already answer. A card carries the document's
+ * title, cover and platforms, so the `page` row that only repeats the title goes; the rows
+ * matched inside the document are deep links no card offers, so they stay — and, having lost
+ * the header they were indented under, they stop indenting.
+ */
+function dropCoveredHeaders(rows: SortedResult[], covered: Set<string>) {
+  const kept: SortedResult[] = [];
+  const nested = new Set<string>();
+  let underHeader = false;
+
+  for (const row of rows) {
+    if (row.type === "page") {
+      underHeader = !covered.has(row.url);
+      if (underHeader) kept.push(row);
+      continue;
+    }
+
+    if (underHeader) nested.add(row.id);
+    kept.push(row);
+  }
+
+  return { rows: kept, nested };
+}
+
+/**
+ * How much of the card is left for the document list once the promoted sections have taken
+ * their share. The dialog's top is pinned as if the card were always at its tallest (see
+ * `md:!top` below), so a section that appears has to come out of this budget rather than
+ * push the card past it. Tokens run 4 tiles wide and cost the most.
+ */
+const LIST_MAX_HEIGHT = {
+  none: "[&>div]:!max-h-[480px]",
+  components: "[&>div]:!max-h-[288px]",
+  tokens: "[&>div]:!max-h-[176px]",
+  both: "[&>div]:!max-h-[120px]",
+} as const;
+
+function listMaxHeight(hasComponents: boolean, hasTokens: boolean) {
+  if (hasComponents && hasTokens) return LIST_MAX_HEIGHT.both;
+  if (hasTokens) return LIST_MAX_HEIGHT.tokens;
+  if (hasComponents) return LIST_MAX_HEIGHT.components;
+
+  return LIST_MAX_HEIGHT.none;
+}
+
 export default function DefaultSearchDialog({
   defaultTag,
   tags = [],
@@ -143,8 +191,12 @@ export default function DefaultSearchDialog({
     setTag(v);
   });
 
-  // Tokens live under Foundations, so they only belong in the unfiltered view and in
-  // that section's own filter.
+  // Each promoted section belongs to one docs section, so it shows in the unfiltered view
+  // and under that section's own filter.
+  const components = useComponentSearch({
+    search,
+    enabled: tag === undefined || tag === TAGS.components.value,
+  });
   const tokens = useTokenSearch({
     search,
     enabled: tag === undefined || tag === TAGS.foundations.value,
@@ -154,8 +206,11 @@ export default function DefaultSearchDialog({
     const data = query.data;
     if (data === "empty" || !data) return null;
 
-    return rankGroups(data, search);
-  }, [query.data, search]);
+    return dropCoveredHeaders(
+      rankGroups(data, search),
+      new Set(components.map((entry) => entry.url)),
+    );
+  }, [query.data, search, components]);
 
   return (
     <SearchDialog search={search} onSearchChange={setSearch} isLoading={query.isLoading} {...props}>
@@ -193,21 +248,23 @@ export default function DefaultSearchDialog({
               isLoading={query.isLoading}
               recent={<RecentPages />}
             >
-              <TokenResults matches={tokens} search={search} />
+              <ComponentResults matches={components} search={search} compact={tokens.length > 0} />
+              <TokenResults matches={tokens} search={search} compact={components.length > 0} />
               <SearchDialogList
-                items={results}
-                // The token section already answers the query; a "no results" notice
-                // under it would contradict what's on screen.
-                Empty={() => (tokens.length > 0 ? null : <NoResults />)}
+                items={results?.rows}
+                // The promoted sections already answer the query; a "no results" notice
+                // under them would contradict what's on screen.
+                Empty={() => (components.length > 0 || tokens.length > 0 ? null : <NoResults />)}
                 // Under a filter every result already belongs to the chosen section, so the
                 // label would repeat it on every group.
                 Item={(itemProps) => (
-                  <SearchResultItem {...itemProps} showSection={tag === undefined} />
+                  <SearchResultItem
+                    {...itemProps}
+                    showSection={tag === undefined}
+                    nested={results?.nested.has(itemProps.item.id) ?? false}
+                  />
                 )}
-                // Give up most of the 480px budget to the token section when it's
-                // showing, so the card stays close to the height the pinned dialog top
-                // assumes instead of running off short viewports.
-                className={tokens.length > 0 ? "[&>div]:!max-h-[176px]" : "[&>div]:!max-h-[480px]"}
+                className={listMaxHeight(components.length > 0, tokens.length > 0)}
               />
             </SearchResultsState>
             {footer}

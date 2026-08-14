@@ -1,28 +1,30 @@
 "use client";
 
+import clsx from "clsx";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type CSSProperties, type KeyboardEvent, type ReactNode, useMemo, useState } from "react";
+import { type CSSProperties, type ReactNode, useMemo, useState } from "react";
 import { TOKEN_KIND_ICON } from "@/components/token-kind-icon";
+import { splitQueryTerms } from "@/lib/search-text";
 import {
-  splitHighlights,
-  splitQueryTerms,
   type ThemedCss,
   TOKEN_RESULT_LIMIT,
   type TokenSearchEntry,
   tokenReferenceHref,
 } from "@/lib/token-search";
+import { Highlighted, PromotedSection, stopEnterPropagation } from "./promoted-section";
 
 /**
  * Tall enough for two rows even when a token id wraps onto a second line, so the cut
- * lands between rows instead of through a description. The grid auto-fills — 2 columns
- * on a phone, 4 on desktop — and "더 보기" pours the remaining matches into this same
- * scroll box rather than growing the dialog.
+ * lands between rows instead of through a description — or one row when the component
+ * section is showing too. The grid auto-fills — 2 columns on a phone, 4 on desktop — and
+ * "더 보기" pours the remaining matches into this same scroll box rather than growing the
+ * dialog.
  */
 const TOKEN_GRID_CLASS_NAME =
-  "grid max-h-[264px] grid-cols-[repeat(auto-fill,minmax(148px,1fr))] gap-2 overflow-y-auto";
+  "grid grid-cols-[repeat(auto-fill,minmax(148px,1fr))] gap-2 overflow-y-auto";
 
 /**
  * Colour roles read differently depending on where the token is meant to land, so each
@@ -36,30 +38,6 @@ const COLOR_ROLE_PREVIEW: Record<string, "text" | "line" | undefined> = {
 
 const themed = ({ light, dark }: ThemedCss) =>
   ({ "--token-preview-light": light, "--token-preview-dark": dark }) as CSSProperties;
-
-/**
- * fumadocs' result list binds Enter on `window` to open whichever row it considers
- * active. A focused tile would otherwise navigate to that row instead of itself.
- */
-function stopEnterPropagation(event: KeyboardEvent) {
-  if (event.key === "Enter") event.stopPropagation();
-}
-
-function Highlighted({ text, terms }: { text: string; terms: string[] }) {
-  return splitHighlights(text, terms).map((chunk, index) =>
-    chunk.match ? (
-      <mark
-        // biome-ignore lint/suspicious/noArrayIndexKey: chunks are positional, and the list is rebuilt whenever the text or terms change
-        key={index}
-        className="bg-[var(--selection-bg)] text-[var(--selection-fg)]"
-      >
-        {chunk.text}
-      </mark>
-    ) : (
-      chunk.text
-    ),
-  );
-}
 
 /**
  * Stand-in for the page canvas, showing both grounds a screen is built from:
@@ -200,7 +178,17 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
  * `bg.neutral` surfaces the tokens themselves rather than only the pages mentioning
  * them. Each tile links to that token's reference page.
  */
-export function TokenResults({ matches, search }: { matches: TokenSearchEntry[]; search: string }) {
+export function TokenResults({
+  matches,
+  search,
+  compact,
+}: {
+  matches: TokenSearchEntry[];
+  search: string;
+
+  /** One row of tiles instead of two, for when the component section is showing as well. */
+  compact: boolean;
+}) {
   const [expanded, setExpanded] = useState(false);
 
   // A new query is a new list; carrying the expansion over would dump hundreds of tiles
@@ -216,11 +204,8 @@ export function TokenResults({ matches, search }: { matches: TokenSearchEntry[];
   const hidden = matches.length - TOKEN_RESULT_LIMIT;
 
   return (
-    <section aria-label="토큰 검색 결과" className="border-b border-stroke-neutral-muted p-3 pb-2">
-      <p className="px-0.5 pb-2 text-xs font-medium text-fg-neutral-muted">
-        토큰 <span className="text-fg-neutral-subtle">{matches.length}개</span>
-      </p>
-      <ul className={TOKEN_GRID_CLASS_NAME}>
+    <PromotedSection label="토큰" count={matches.length}>
+      <ul className={clsx(TOKEN_GRID_CLASS_NAME, compact ? "max-h-[128px]" : "max-h-[264px]")}>
         {(expanded ? matches : matches.slice(0, TOKEN_RESULT_LIMIT)).map((entry) => (
           <li key={entry.id}>
             <TokenTile entry={entry} terms={terms} />
@@ -237,6 +222,6 @@ export function TokenResults({ matches, search }: { matches: TokenSearchEntry[];
           {expanded ? "접기" : `${hidden}개 더 보기`}
         </button>
       ) : null}
-    </section>
+    </PromotedSection>
   );
 }

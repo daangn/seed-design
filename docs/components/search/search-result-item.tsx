@@ -129,6 +129,9 @@ const NESTED_ROW_STYLE = {
     "calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-dimension-x4))",
 };
 
+/** Gap that opens a new block. Every row that isn't indented under a header starts one. */
+const BLOCK_START_CLASS_NAME = "[&:not(:first-child)]:mt-2";
+
 /**
  * A single search result rendered with the SEED List snippet (`ListLinkItem`). Wired to
  * fumadocs' `useSearchList()`: the keyboard-active row gets List Item's own neutral
@@ -143,12 +146,17 @@ export function SearchResultItem({
   item,
   onClick,
   showSection,
+  nested,
 }: {
   item: SearchItemType;
   onClick: () => void;
 
   /** Section label on group headers. Off under a filter, where it would repeat the chip. */
   showSection: boolean;
+
+  /** Whether a header row above owns this one. Decided by the caller, which knows which
+   * headers a component card replaced. */
+  nested: boolean;
 }) {
   const { active, setActive } = useSearchList();
   const isActive = item.id === active;
@@ -191,11 +199,9 @@ export function SearchResultItem({
       title={isHeader ? <span className="font-medium">{title}</span> : title}
       // The static advanced index has no breadcrumbs, so derive the section from the URL.
       suffix={isHeader && showSection ? sectionLabel(item.url) || undefined : undefined}
-      // Headers keep the row gutter and open a gap so one document's matches read as a block;
-      // the rows under them indent instead.
-      rootProps={
-        isHeader ? { className: "[&:not(:first-child)]:mt-2" } : { style: NESTED_ROW_STYLE }
-      }
+      // Indented rows belong to the header above them; everything else — a header, or a row
+      // whose header a card replaced — starts a block of its own.
+      rootProps={nested ? { style: NESTED_ROW_STYLE } : { className: BLOCK_START_CLASS_NAME }}
       onClick={(e) => {
         // Route through fumadocs' onSelect (client-side push + close). Keep href for
         // semantics and cmd/ctrl-click to open in a new tab.

@@ -1,3 +1,5 @@
+import { normalizeSearchText } from "./search-text";
+
 /** Static JSON index built by `app/api/token-search/route.ts`. */
 export const TOKEN_SEARCH_API = "/api/token-search";
 
@@ -38,25 +40,12 @@ export interface TokenSearchEntry {
 }
 
 /**
- * `$color.bg.neutral-solid` → `color bg neutral solid`. Token ids mix `.` and `-` as
- * separators, so flattening both to spaces lets one query shape match however the user
- * happened to type it (`bg.neutral`, `bg neutral`, `bg-neutral`).
- */
-const normalize = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[$.\-_/\s]+/g, " ")
-    .trim();
-
-export const splitQueryTerms = (search: string) => normalize(search).split(" ").filter(Boolean);
-
-/**
  * Higher is better; 0 drops the token. The tiers go from "the user typed this exact
  * token" down to "only the Korean description mentions it", so a paste of a full id
  * always wins over the hundred tokens that merely share its prefix.
  */
 function scoreEntry(entry: TokenSearchEntry, query: string, terms: string[]) {
-  const id = normalize(entry.id);
+  const id = normalizeSearchText(entry.id);
   if (id === query) return 1000;
 
   // Normalization leaves the segments space-separated, so padding both sides turns
@@ -81,7 +70,7 @@ function scoreEntry(entry: TokenSearchEntry, query: string, terms: string[]) {
 }
 
 export function matchTokens(entries: TokenSearchEntry[], search: string) {
-  const query = normalize(search);
+  const query = normalizeSearchText(search);
   if (!query) return [];
 
   const terms = query.split(" ");
@@ -111,28 +100,4 @@ export function matchTokens(entries: TokenSearchEntry[], search: string) {
   }
 
   return [...groups.values()].flat();
-}
-
-const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-/**
- * Cut `text` into alternating plain and matched chunks so the caller can mark the parts
- * the query hit — the same treatment fumadocs gives document results, except the terms
- * are matched here rather than arriving pre-wrapped in `<mark>`.
- *
- * Terms come from the normalized query, so they never span a separator; matching them
- * against the raw text highlights each segment the user typed and leaves the `.`/`-`
- * between them alone.
- */
-export function splitHighlights(text: string, terms: string[]) {
-  if (terms.length === 0) return [{ text, match: false }];
-
-  return (
-    text
-      .split(new RegExp(`(${terms.map(escapeRegExp).join("|")})`, "gi"))
-      // `split` with one capture group interleaves plain text and matches, so the odd
-      // slots are the hits.
-      .map((chunk, index) => ({ text: chunk, match: index % 2 === 1 }))
-      .filter((chunk) => chunk.text !== "")
-  );
 }
