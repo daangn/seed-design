@@ -89,9 +89,16 @@ describe("bump peer dependencies workflow", () => {
     expect(workflow).toContain("issue_comment:");
     expect(workflow).toContain("github.event.comment.body == '/bump-peer-deps'");
     expect(workflow).toContain('["OWNER", "MEMBER", "COLLABORATOR"]');
-    expect(workflow).toContain("contents: write");
+    expect(workflow).toContain("contents: read");
     expect(workflow).toContain("issues: write");
-    expect(workflow).toContain("pull-requests: write");
+    expect(workflow).toContain("pull-requests: read");
+    expect(workflow).toContain(
+      "actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1",
+    );
+    expect(workflow).toContain("vars.DAANGN_BUD_CLIENT_ID");
+    expect(workflow).toContain("secrets.DAANGN_BUD_PRIVATE_KEY");
+    expect(workflow).toContain("permission-contents: write");
+    expect(workflow).toContain(`token: ${githubExpression("steps.app-token.outputs.token")}`);
     expect(workflow).toContain("changeset-release/dev");
     expect(workflow).toContain("release: version packages");
     expect(workflow).toContain("head.repo?.full_name");

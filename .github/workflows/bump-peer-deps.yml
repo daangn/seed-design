@@ -18,9 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: write
+      contents: read
       issues: write
-      pull-requests: write
+      pull-requests: read
 
     steps:
       - name: Acknowledge command and resolve version PR
@@ -92,12 +92,21 @@ jobs:
           test "$(git rev-parse HEAD)" = "$CONTROL_SHA"
           git merge-base --is-ancestor "$CONTROL_SHA" refs/remotes/origin/dev
 
+      - name: Create Daangn Bud token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
+          private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
+          permission-contents: write
+
       - name: Checkout exact version PR head
         uses: actions/checkout@v6
         with:
           ref: ${{ steps.pull.outputs.source-sha }}
           path: source
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
           persist-credentials: true
 
       - uses: oven-sh/setup-bun@v2
