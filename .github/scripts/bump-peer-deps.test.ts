@@ -91,7 +91,7 @@ describe("bump peer dependencies workflow", () => {
     expect(workflow).toContain('["OWNER", "MEMBER", "COLLABORATOR"]');
     expect(workflow).toContain("contents: read");
     expect(workflow).toContain("issues: write");
-    expect(workflow).toContain("pull-requests: read");
+    expect(workflow).toContain("pull-requests: write");
     expect(workflow).toContain(
       "actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1",
     );
