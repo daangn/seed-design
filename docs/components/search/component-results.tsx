@@ -11,13 +11,7 @@ import { COMPONENT_RESULT_LIMIT, type ComponentSearchEntry } from "@/lib/compone
 import { PLATFORM_CONFIG } from "@/lib/platform-status";
 import { splitQueryTerms } from "@/lib/search-text";
 import { isExternalUrl } from "@/lib/url";
-import {
-  Highlighted,
-  PromotedSection,
-  ShowMore,
-  stopEnterPropagation,
-  useExpandable,
-} from "./promoted-section";
+import { Highlighted, PromotedSection, ShowMore, useExpandable } from "./promoted-section";
 
 /**
  * Three across on the dialog's desktop width, two once it narrows to the viewport — a fixed
@@ -48,7 +42,6 @@ function PlatformBadge({ label, href }: { label: string; href?: string }) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        onKeyDown={stopEnterPropagation}
         className={clsx(BADGE_CLASS_NAME, BADGE_LINK_CLASS_NAME)}
       >
         {label}
@@ -67,7 +60,6 @@ function PlatformBadge({ label, href }: { label: string; href?: string }) {
         onOpenChange(false);
         router.push(href);
       }}
-      onKeyDown={stopEnterPropagation}
       className={clsx(BADGE_CLASS_NAME, BADGE_LINK_CLASS_NAME)}
     >
       {label}
@@ -109,7 +101,6 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
             onOpenChange(false);
             router.push(entry.url);
           }}
-          onKeyDown={stopEnterPropagation}
           className="text-[13px] font-medium leading-snug text-fg-neutral after:absolute after:inset-0 after:rounded-xl focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
         >
           <span className="block truncate">

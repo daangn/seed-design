@@ -12,13 +12,7 @@ import {
   type TokenSearchEntry,
   tokenReferenceHref,
 } from "@/lib/token-search";
-import {
-  Highlighted,
-  PromotedSection,
-  ShowMore,
-  stopEnterPropagation,
-  useExpandable,
-} from "./promoted-section";
+import { Highlighted, PromotedSection, ShowMore, useExpandable } from "./promoted-section";
 
 /** Auto-fills to the dialog's width — 2 columns on a phone, 4 on desktop. */
 const TOKEN_GRID_CLASS_NAME = "grid grid-cols-[repeat(auto-fill,minmax(148px,1fr))] gap-2";
@@ -149,8 +143,10 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
         onOpenChange(false);
         router.push(href);
       }}
-      onKeyDown={stopEnterPropagation}
-      className="flex flex-col gap-1.5 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
+      // A tile only fills the row its grid cell was stretched to if it takes the height:
+      // otherwise a one-line description leaves the hover ground short of a two-line
+      // neighbour's bottom edge.
+      className="flex h-full flex-col gap-1.5 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
     >
       <TokenPreview entry={entry} />
       <span className="min-w-0 px-0.5">

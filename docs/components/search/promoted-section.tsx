@@ -1,16 +1,8 @@
 "use client";
 
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
-import { type KeyboardEvent, type ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 import { splitHighlights } from "@/lib/search-text";
-
-/**
- * fumadocs' result list binds Enter on `window` to open whichever row it considers
- * active. A focused tile or card would otherwise navigate to that row instead of itself.
- */
-export function stopEnterPropagation(event: KeyboardEvent) {
-  if (event.key === "Enter") event.stopPropagation();
-}
 
 /** Marks the query inside text the section matched itself, rather than via fumadocs. */
 export function Highlighted({ text, terms }: { text: string; terms: string[] }) {
@@ -75,7 +67,6 @@ export function ShowMore({
     <button
       type="button"
       onClick={onToggle}
-      onKeyDown={stopEnterPropagation}
       className="mt-1.5 w-full cursor-pointer rounded-lg py-1.5 text-xs text-fg-neutral-subtle transition-colors hover:bg-bg-transparent-selected hover:text-fg-neutral focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
     >
       {expanded ? "접기" : `${hidden}개 더 보기`}
@@ -99,6 +90,12 @@ export function PromotedSection({
   return (
     <section
       aria-label={`${label} 검색 결과`}
+      // fumadocs' result list binds Enter on `window` to open whichever document row it
+      // considers active. Everything in here is focusable and opens something of its own, so
+      // the key is caught before it leaves the section — one handler covers every child.
+      onKeyDown={(event) => {
+        if (event.key === "Enter") event.stopPropagation();
+      }}
       className="border-b border-stroke-neutral-muted p-3 pb-2"
     >
       <p className="px-0.5 pb-2 text-xs font-medium text-fg-neutral-muted">
