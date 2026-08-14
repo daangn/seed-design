@@ -25,39 +25,39 @@ const skeleton = defineRecipe({
       animationFillMode: "forwards",
 
       animationName: "slide-x",
-      animationDuration: vars.base.enabled.shimmer.duration,
-      animationTimingFunction: vars.base.enabled.shimmer.timingFunction,
+      animationDuration: vars.base.rest.shimmer.duration,
+      animationTimingFunction: vars.base.rest.shimmer.timingFunction,
       animationIterationCount: "infinite",
     },
   },
   variants: {
     radius: {
       0: {
-        borderRadius: vars.radius0.enabled.root.cornerRadius,
+        borderRadius: vars.radius0.rest.root.cornerRadius,
       },
       8: {
-        borderRadius: vars.radius8.enabled.root.cornerRadius,
+        borderRadius: vars.radius8.rest.root.cornerRadius,
       },
       16: {
-        borderRadius: vars.radius16.enabled.root.cornerRadius,
+        borderRadius: vars.radius16.rest.root.cornerRadius,
       },
       full: {
-        borderRadius: vars.radiusFull.enabled.root.cornerRadius,
+        borderRadius: vars.radiusFull.rest.root.cornerRadius,
       },
     },
     tone: {
       neutral: {
-        background: vars.toneNeutral.enabled.root.color,
+        background: vars.toneNeutral.rest.root.color,
 
         "&::after": {
-          backgroundImage: `linear-gradient(90deg, ${vars.toneNeutral.enabled.shimmer.gradient})`,
+          backgroundImage: `linear-gradient(90deg, ${vars.toneNeutral.rest.shimmer.gradient})`,
         },
       },
       magic: {
-        background: vars.toneMagic.enabled.root.color,
+        background: vars.toneMagic.rest.root.color,
 
         "&::after": {
-          backgroundImage: `linear-gradient(90deg, ${vars.toneMagic.enabled.shimmer.gradient})`,
+          backgroundImage: `linear-gradient(90deg, ${vars.toneMagic.rest.shimmer.gradient})`,
         },
       },
     },

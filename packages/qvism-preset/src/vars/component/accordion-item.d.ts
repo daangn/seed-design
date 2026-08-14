@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
@@ -57,7 +57,7 @@ export declare const vars: {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "trigger": {
         "paddingY": "var(--seed-dimension-x4)"
       },
@@ -82,7 +82,7 @@ export declare const vars: {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "trigger": {
         "paddingY": "var(--seed-dimension-x5)"
       },
@@ -110,7 +110,7 @@ export declare const vars: {
    * Accordion Item들이 하나의 연속된 목록처럼 표현됩니다. 밀접하게 관련된 항목들을 컴팩트하게 나열할 때 사용합니다.
    */
   "variantInline": {
-    "enabled": {
+    "rest": {
       "root": {
         "dividerColor": "var(--seed-color-stroke-neutral-subtle)",
         "dividerPaddingX": "var(--seed-dimension-x3)"
@@ -121,7 +121,7 @@ export declare const vars: {
    * 각 Accordion Item이 개별 카드 형태로 분리되어 표현됩니다. 항목 간 시각적 독립성이 필요하거나, 각 섹션의 중요도가 동등할 때 사용합니다.
    */
   "variantSeparated": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",

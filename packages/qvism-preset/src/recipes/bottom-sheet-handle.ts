@@ -9,16 +9,16 @@ const bottomSheetHandle = defineSlotRecipe({
     root: {
       // positioning
       position: "absolute",
-      top: handleVars.base.enabled.root.fromTop,
+      top: handleVars.base.rest.root.fromTop,
       left: "50%",
       transform: "translateX(-50%)",
 
       // appearance
-      width: handleVars.base.enabled.root.width,
-      height: handleVars.base.enabled.root.height,
-      backgroundColor: handleVars.base.enabled.root.color,
-      borderRadius: handleVars.base.enabled.root.borderRadius,
-      transition: `background-color ${handleVars.base.enabled.root.colorDuration} ${handleVars.base.enabled.root.colorTimingFunction}`,
+      width: handleVars.base.rest.root.width,
+      height: handleVars.base.rest.root.height,
+      backgroundColor: handleVars.base.rest.root.color,
+      borderRadius: handleVars.base.rest.root.borderRadius,
+      transition: `background-color ${handleVars.base.rest.root.colorDuration} ${handleVars.base.rest.root.colorTimingFunction}`,
       touchAction: "pan-y",
 
       [pseudo(engaged)]: {
@@ -30,8 +30,8 @@ const bottomSheetHandle = defineSlotRecipe({
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      width: handleVars.base.enabled.touchArea.width,
-      height: handleVars.base.enabled.touchArea.height,
+      width: handleVars.base.rest.touchArea.width,
+      height: handleVars.base.rest.touchArea.height,
       touchAction: "inherit",
     },
   },

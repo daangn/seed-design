@@ -53,87 +53,88 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "selected";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 220;
-                    "unit": "px";
-                  };
-                };
-              };
-              "selectionIndicator": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r2";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak";
-                };
-              };
-              "item": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t10-static";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t10-static";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 220;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "selected",
-            ];
-            "slots": {
-              "item": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
+          };
+          "selectionIndicator": {
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 44;
+                "unit": "px";
               };
             };
-          },
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r2";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak";
+            };
+          };
+          "item": {
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 44;
+                "unit": "px";
+              };
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t10-static";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t10-static";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "selected",
         ];
+        "slots": {
+          "item": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
       },
     ];
   };

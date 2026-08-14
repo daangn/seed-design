@@ -40,7 +40,7 @@ const slider = defineSlotRecipe({
 
       width: "100%",
 
-      gap: vars.base.enabled.root.gap,
+      gap: vars.base.rest.root.gap,
 
       userSelect: "none",
       touchAction: "none",
@@ -56,7 +56,7 @@ const slider = defineSlotRecipe({
     control: {
       position: "relative",
 
-      height: vars.base.enabled.control.height,
+      height: vars.base.rest.control.height,
 
       display: "flex",
       alignItems: "center",
@@ -66,11 +66,11 @@ const slider = defineSlotRecipe({
 
       flexGrow: 1,
 
-      backgroundColor: vars.base.enabled.track.color,
+      backgroundColor: vars.base.rest.track.color,
 
-      height: vars.base.enabled.track.height,
+      height: vars.base.rest.track.height,
 
-      borderRadius: vars.base.enabled.track.cornerRadius,
+      borderRadius: vars.base.rest.track.cornerRadius,
       overflow: "hidden",
 
       [pseudo(disabled)]: {
@@ -82,9 +82,9 @@ const slider = defineSlotRecipe({
 
       height: "100%",
 
-      backgroundColor: vars.base.enabled.range.color,
+      backgroundColor: vars.base.rest.range.color,
 
-      transition: `left ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, right ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
+      transition: `left ${vars.base.rest.range.widthDuration} ${vars.base.rest.range.widthTimingFunction}, right ${vars.base.rest.range.widthDuration} ${vars.base.rest.range.widthTimingFunction}`,
       willChange: "left, right",
 
       [pseudo("[data-dir='ltr']")]: {
@@ -109,13 +109,13 @@ const slider = defineSlotRecipe({
       position: "absolute",
       top: "50%",
 
-      width: thumbVars.base.enabled.root.size,
-      height: thumbVars.base.enabled.root.size,
+      width: thumbVars.base.rest.root.size,
+      height: thumbVars.base.rest.root.size,
 
       transform: "translate(-50%, -50%)",
 
       // opacity transition is only for web so isn't defined in rootage
-      transition: `left ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, right ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, opacity ${duration.d2} ${timingFunction.easing}`,
+      transition: `left ${thumbVars.base.rest.root.translateDuration} ${thumbVars.base.rest.root.translateTimingFunction}, right ${thumbVars.base.rest.root.translateDuration} ${thumbVars.base.rest.root.translateTimingFunction}, opacity ${duration.d2} ${timingFunction.easing}`,
       willChange: "left, right, opacity",
 
       [pseudo("[data-ssr]")]: {
@@ -136,11 +136,11 @@ const slider = defineSlotRecipe({
 
         inset: 0,
 
-        backgroundColor: thumbVars.base.enabled.root.color,
-        borderRadius: thumbVars.base.enabled.root.cornerRadius,
+        backgroundColor: thumbVars.base.rest.root.color,
+        borderRadius: thumbVars.base.rest.root.cornerRadius,
 
         ...createFocusRingRestStyles(),
-        transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+        transition: `transform ${thumbVars.base.rest.root.scaleDuration} ${thumbVars.base.rest.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
         willChange: "transform",
 
         cursor: "grab",
@@ -175,7 +175,7 @@ const slider = defineSlotRecipe({
       position: "relative",
 
       // we set height here because all markers' position is absolute
-      height: vars.base.enabled.marker.lineHeight,
+      height: vars.base.rest.marker.lineHeight,
     },
     valueIndicatorRoot: {
       display: "flex",
@@ -187,83 +187,83 @@ const slider = defineSlotRecipe({
 
       boxSizing: "border-box",
 
-      transition: `left ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}, right ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}`,
+      transition: `left ${vars.base.rest.valueIndicatorRoot.translateDuration} ${vars.base.rest.valueIndicatorRoot.translateTimingFunction}, right ${vars.base.rest.valueIndicatorRoot.translateDuration} ${vars.base.rest.valueIndicatorRoot.translateTimingFunction}`,
       willChange: "left, right",
 
-      background: vars.base.enabled.valueIndicatorRoot.color,
+      background: vars.base.rest.valueIndicatorRoot.color,
 
-      paddingInline: vars.base.enabled.valueIndicatorRoot.paddingX,
-      paddingBlock: vars.base.enabled.valueIndicatorRoot.paddingY,
+      paddingInline: vars.base.rest.valueIndicatorRoot.paddingX,
+      paddingBlock: vars.base.rest.valueIndicatorRoot.paddingY,
 
-      borderRadius: vars.base.enabled.valueIndicatorRoot.cornerRadius,
+      borderRadius: vars.base.rest.valueIndicatorRoot.cornerRadius,
 
-      color: vars.base.enabled.valueIndicatorLabel.color,
-      fontSize: vars.base.enabled.valueIndicatorLabel.fontSize,
-      lineHeight: vars.base.enabled.valueIndicatorLabel.lineHeight,
-      fontWeight: vars.base.enabled.valueIndicatorLabel.fontWeight,
+      color: vars.base.rest.valueIndicatorLabel.color,
+      fontSize: vars.base.rest.valueIndicatorLabel.fontSize,
+      lineHeight: vars.base.rest.valueIndicatorLabel.lineHeight,
+      fontWeight: vars.base.rest.valueIndicatorLabel.fontWeight,
 
       whiteSpace: "pre-wrap",
       textAlign: "center",
 
       width: "max-content",
-      minWidth: `calc(${vars.base.enabled.valueIndicatorRoot.paddingX} * 2 + ${vars.base.enabled.valueIndicatorArrow.width})`,
+      minWidth: `calc(${vars.base.rest.valueIndicatorRoot.paddingX} * 2 + ${vars.base.rest.valueIndicatorArrow.width})`,
 
       [pseudo("[data-dir='ltr']")]: {
         left: "calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset))",
-        transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY}))`,
+        transform: `translate(-50%, calc(-100% - ${vars.base.rest.thumb.size} / 2 - ${vars.base.rest.valueIndicatorRoot.offsetY}))`,
       },
 
       [pseudo("[data-dir='rtl']")]: {
         right: "calc(var(--indicator-label-position) * 1% + var(--indicator-label-offset))",
-        transform: `translate(50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY}))`,
+        transform: `translate(50%, calc(-100% - ${vars.base.rest.thumb.size} / 2 - ${vars.base.rest.valueIndicatorRoot.offsetY}))`,
       },
 
       [pseudo(valueIndicatorShown, "[data-dir='ltr']")]: {
         ...enterAnimation({
-          scale: vars.base.enabled.valueIndicatorRoot.enterScale,
-          opacity: vars.base.enabled.valueIndicatorRoot.enterOpacity,
-          duration: vars.base.enabled.valueIndicatorRoot.enterDuration,
-          timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
+          scale: vars.base.rest.valueIndicatorRoot.enterScale,
+          opacity: vars.base.rest.valueIndicatorRoot.enterOpacity,
+          duration: vars.base.rest.valueIndicatorRoot.enterDuration,
+          timingFunction: vars.base.rest.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "-50%",
           // TODO: make 0.3125rem a rootage constant
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
+          translateY: `calc(-100% - ${vars.base.rest.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
       [pseudo(valueIndicatorShown, "[data-dir='rtl']")]: {
         ...enterAnimation({
-          scale: vars.base.enabled.valueIndicatorRoot.enterScale,
-          opacity: vars.base.enabled.valueIndicatorRoot.enterOpacity,
-          duration: vars.base.enabled.valueIndicatorRoot.enterDuration,
-          timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
+          scale: vars.base.rest.valueIndicatorRoot.enterScale,
+          opacity: vars.base.rest.valueIndicatorRoot.enterOpacity,
+          duration: vars.base.rest.valueIndicatorRoot.enterDuration,
+          timingFunction: vars.base.rest.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
+          translateY: `calc(-100% - ${vars.base.rest.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
       [pseudo(not(valueIndicatorShown), "[data-dir='ltr']")]: {
         ...exitAnimation({
-          scale: vars.base.enabled.valueIndicatorRoot.exitScale,
-          opacity: vars.base.enabled.valueIndicatorRoot.exitOpacity,
-          duration: vars.base.enabled.valueIndicatorRoot.exitDuration,
-          timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
+          scale: vars.base.rest.valueIndicatorRoot.exitScale,
+          opacity: vars.base.rest.valueIndicatorRoot.exitOpacity,
+          duration: vars.base.rest.valueIndicatorRoot.exitDuration,
+          timingFunction: vars.base.rest.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "-50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
+          translateY: `calc(-100% - ${vars.base.rest.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
       [pseudo(not(valueIndicatorShown), "[data-dir='rtl']")]: {
         ...exitAnimation({
-          scale: vars.base.enabled.valueIndicatorRoot.exitScale,
-          opacity: vars.base.enabled.valueIndicatorRoot.exitOpacity,
-          duration: vars.base.enabled.valueIndicatorRoot.exitDuration,
-          timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
+          scale: vars.base.rest.valueIndicatorRoot.exitScale,
+          opacity: vars.base.rest.valueIndicatorRoot.exitOpacity,
+          duration: vars.base.rest.valueIndicatorRoot.exitDuration,
+          timingFunction: vars.base.rest.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "50%",
-          translateY: `calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 0.3125rem)`,
+          translateY: `calc(-100% - ${vars.base.rest.thumb.size} / 2 - 0.3125rem)`,
         }),
       },
 
@@ -277,14 +277,14 @@ const slider = defineSlotRecipe({
       },
     },
     valueIndicatorArrow: {
-      width: vars.base.enabled.valueIndicatorArrow.width,
+      width: vars.base.rest.valueIndicatorArrow.width,
       // we're making it square
-      height: vars.base.enabled.valueIndicatorArrow.width,
+      height: vars.base.rest.valueIndicatorArrow.width,
 
       position: "absolute",
       top: "100%",
 
-      transition: `left ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}, right ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}`,
+      transition: `left ${vars.base.rest.valueIndicatorRoot.translateDuration} ${vars.base.rest.valueIndicatorRoot.translateTimingFunction}, right ${vars.base.rest.valueIndicatorRoot.translateDuration} ${vars.base.rest.valueIndicatorRoot.translateTimingFunction}`,
       willChange: "left, right",
 
       // Center horizontally with offset to align with thumb
@@ -306,10 +306,10 @@ const slider = defineSlotRecipe({
       // svg has default display of inline, which makes it be affected by line-height
       display: "block",
 
-      fill: vars.base.enabled.valueIndicatorArrow.color,
+      fill: vars.base.rest.valueIndicatorArrow.color,
 
-      width: vars.base.enabled.valueIndicatorArrow.width,
-      height: vars.base.enabled.valueIndicatorArrow.height,
+      width: vars.base.rest.valueIndicatorArrow.width,
+      height: vars.base.rest.valueIndicatorArrow.height,
     },
   },
   variants: {},
@@ -325,10 +325,10 @@ const sliderMarker = defineRecipe({
 
     width: "max-content",
 
-    color: vars.base.enabled.marker.color,
-    fontWeight: vars.base.enabled.marker.fontWeight,
-    fontSize: vars.base.enabled.marker.fontSize,
-    lineHeight: vars.base.enabled.marker.lineHeight,
+    color: vars.base.rest.marker.color,
+    fontWeight: vars.base.rest.marker.fontWeight,
+    fontSize: vars.base.rest.marker.fontSize,
+    lineHeight: vars.base.rest.marker.lineHeight,
 
     [pseudo("[data-dir='ltr']")]: {
       left: "calc(var(--marker-position) * 1% + var(--marker-offset))",
@@ -387,7 +387,7 @@ const sliderTick = defineRecipe({
 
     height: "100%",
 
-    backgroundColor: tickVars.base.enabled.root.color,
+    backgroundColor: tickVars.base.rest.root.color,
 
     transform: "translate(-50%, -50%)",
 
@@ -401,10 +401,10 @@ const sliderTick = defineRecipe({
   variants: {
     weight: {
       thin: {
-        width: tickVars.weightThin.enabled.root.width,
+        width: tickVars.weightThin.rest.root.width,
       },
       thick: {
-        width: tickVars.weightThick.enabled.root.width,
+        width: tickVars.weightThick.rest.root.width,
       },
     },
   },

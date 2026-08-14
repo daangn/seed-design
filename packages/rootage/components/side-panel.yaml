@@ -112,9 +112,10 @@ data:
           small: {}
           medium: {}
           large: {}
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: scrolled
+  rules:
+    - slots:
         backdrop:
           color: $color.bg.overlay
           enterDuration: $duration.d6
@@ -159,19 +160,24 @@ data:
         closeButton:
           fromTop: 28px
           fromRight: 24px
-      scrolled:
+    - states:
+        - scrolled
+      slots:
         body:
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-muted
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         content:
           width: 480px
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         content:
           width: 720px
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         content:
           width: 960px

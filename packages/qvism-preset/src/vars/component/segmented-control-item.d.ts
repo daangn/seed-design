@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "86px",
         "minHeight": "34px",

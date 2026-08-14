@@ -22,9 +22,10 @@ data:
             type: color
           size:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           color: $color.bg.neutral-weak
           cornerRadius: $radius.full
@@ -33,6 +34,8 @@ data:
         icon:
           color: $color.fg.neutral
           size: 14px
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed

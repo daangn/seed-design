@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
@@ -11,7 +11,7 @@ export const vars = {
     }
   },
   "variantBrandSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -52,7 +52,7 @@ export const vars = {
         "rangeColor": "var(--seed-color-fg-neutral)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       }
@@ -83,7 +83,7 @@ export const vars = {
     }
   },
   "variantNeutralWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -124,7 +124,7 @@ export const vars = {
         "rangeColor": "var(--seed-color-fg-neutral)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       }
@@ -155,7 +155,7 @@ export const vars = {
     }
   },
   "sizeXsmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x8)",
         "cornerRadius": "var(--seed-radius-full)",
@@ -180,7 +180,7 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
         "cornerRadius": "var(--seed-radius-full)",

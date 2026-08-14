@@ -27,9 +27,15 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+    variants:
+      tone:
+        values:
+          neutral: {}
+          critical: {}
+  rules:
+    - slots:
         root:
           color: $color.bg.layer-floating
           minHeight: 50px
@@ -39,14 +45,18 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.layer-floating-pressed
-    tone=neutral:
-      enabled:
+    - variants:
+        tone: neutral
+      slots:
         label:
           color: $color.fg.neutral
-    tone=critical:
-      enabled:
+    - variants:
+        tone: critical
+      slots:
         label:
           color: $color.fg.critical

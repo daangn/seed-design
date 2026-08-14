@@ -28,9 +28,10 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           color: $color.bg.neutral-weak
           minHeight: 52px
@@ -42,6 +43,8 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.medium
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed

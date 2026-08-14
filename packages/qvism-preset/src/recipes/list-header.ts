@@ -7,26 +7,26 @@ const listHeader = defineRecipe({
     display: "flex",
     alignItems: "center",
     width: "100%",
-    gap: vars.base.enabled.root.gap,
+    gap: vars.base.rest.root.gap,
     justifyContent: "space-between",
 
     boxSizing: "border-box",
 
-    paddingInline: vars.base.enabled.root.paddingX,
-    paddingBlock: vars.base.enabled.root.paddingY,
+    paddingInline: vars.base.rest.root.paddingX,
+    paddingBlock: vars.base.rest.root.paddingY,
 
-    fontSize: vars.base.enabled.root.fontSize,
-    lineHeight: vars.base.enabled.root.lineHeight,
+    fontSize: vars.base.rest.root.fontSize,
+    lineHeight: vars.base.rest.root.lineHeight,
   },
   variants: {
     variant: {
       mediumWeak: {
-        fontWeight: vars.variantMediumWeak.enabled.root.fontWeight,
-        color: vars.variantMediumWeak.enabled.root.color,
+        fontWeight: vars.variantMediumWeak.rest.root.fontWeight,
+        color: vars.variantMediumWeak.rest.root.color,
       },
       boldSolid: {
-        fontWeight: vars.variantBoldSolid.enabled.root.fontWeight,
-        color: vars.variantBoldSolid.enabled.root.color,
+        fontWeight: vars.variantBoldSolid.rest.root.fontWeight,
+        color: vars.variantBoldSolid.rest.root.color,
       },
     },
   },

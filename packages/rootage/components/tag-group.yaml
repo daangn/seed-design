@@ -16,25 +16,32 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    variants:
+      size:
+        values:
+          t2: {}
+          t3: {}
+          t4: {}
+  rules:
+    - slots:
         separator:
           color: $color.palette.gray-600
           fontWeight: $font-weight.regular
-
-    size=t2:
-      enabled:
+    - variants:
+        size: t2
+      slots:
         separator:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
-    size=t3:
-      enabled:
+    - variants:
+        size: t3
+      slots:
         separator:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
-    size=t4:
-      enabled:
+    - variants:
+        size: t4
+      slots:
         separator:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4

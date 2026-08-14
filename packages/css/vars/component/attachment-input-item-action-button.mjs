@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1)"
       },
@@ -15,7 +15,7 @@ export const vars = {
     }
   },
   "typeFile": {
-    "enabled": {
+    "rest": {
       "icon": {
         "color": "var(--seed-color-fg-neutral-subtle)"
       },
@@ -25,7 +25,7 @@ export const vars = {
     }
   },
   "typeImage": {
-    "enabled": {
+    "rest": {
       "icon": {
         "color": "var(--seed-color-palette-static-white)"
       },

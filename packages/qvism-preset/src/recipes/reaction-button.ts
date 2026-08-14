@@ -32,18 +32,18 @@ const reactionButton = defineRecipe({
     ...createFocusRingRestStyles(),
     [pseudo(focusVisible)]: createFocusRingStyles(),
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
-    background: vars.base.enabled.root.color,
-    fontWeight: vars.base.enabled.label.fontWeight,
-    color: vars.base.enabled.label.color,
-    boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+    transition: `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}, box-shadow ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    background: vars.base.rest.root.color,
+    fontWeight: vars.base.rest.label.fontWeight,
+    color: vars.base.rest.label.color,
+    boxShadow: `inset 0 0 0 ${vars.base.rest.root.strokeWidth} ${vars.base.rest.root.strokeColor}`,
 
-    "--track-color": vars.base.enabled.progressCircle.trackColor,
-    "--range-color": vars.base.enabled.progressCircle.rangeColor,
+    "--track-color": vars.base.rest.progressCircle.trackColor,
+    "--range-color": vars.base.rest.progressCircle.rangeColor,
 
     ...count({
-      fontWeight: vars.base.enabled.count.fontWeight,
-      color: vars.base.enabled.count.color,
+      fontWeight: vars.base.rest.count.fontWeight,
+      color: vars.base.rest.count.color,
     }),
 
     [pseudo(engaged)]: {
@@ -62,7 +62,7 @@ const reactionButton = defineRecipe({
       }),
     },
     [pseudo(pressed, engaged)]: {
-      background: vars.base.selectedPressed.root.color,
+      background: vars.base.pressedSelected.root.color,
     },
     [pseudo(disabled)]: {
       cursor: "not-allowed",
@@ -89,47 +89,51 @@ const reactionButton = defineRecipe({
     },
   },
   variants: {
+    // TODO: `disabled` is written before `loading` at equal specificity, so a
+    // button that is both keeps the loading background. The spec ranks `disabled`
+    // higher; swapping the blocks would match it, but it changes rendered output
+    // and wants a design review first.
     size: {
       xsmall: {
-        height: vars.sizeXsmall.enabled.root.minHeight,
-        paddingInline: vars.sizeXsmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeXsmall.enabled.root.paddingY,
-        gap: vars.sizeXsmall.enabled.root.gap,
-        borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
+        height: vars.sizeXsmall.rest.root.minHeight,
+        paddingInline: vars.sizeXsmall.rest.root.paddingX,
+        paddingBlock: vars.sizeXsmall.rest.root.paddingY,
+        gap: vars.sizeXsmall.rest.root.gap,
+        borderRadius: vars.sizeXsmall.rest.root.cornerRadius,
 
-        fontSize: vars.sizeXsmall.enabled.label.fontSize,
-        lineHeight: vars.sizeXsmall.enabled.label.lineHeight,
+        fontSize: vars.sizeXsmall.rest.label.fontSize,
+        lineHeight: vars.sizeXsmall.rest.label.lineHeight,
 
-        "--size": vars.sizeXsmall.enabled.progressCircle.size,
-        "--thickness": vars.sizeXsmall.enabled.progressCircle.thickness,
+        "--size": vars.sizeXsmall.rest.progressCircle.size,
+        "--thickness": vars.sizeXsmall.rest.progressCircle.thickness,
 
         ...count({
-          fontSize: vars.sizeXsmall.enabled.count.fontSize,
-          lineHeight: vars.sizeXsmall.enabled.count.lineHeight,
+          fontSize: vars.sizeXsmall.rest.count.fontSize,
+          lineHeight: vars.sizeXsmall.rest.count.lineHeight,
         }),
         ...prefixIcon({
-          size: vars.sizeXsmall.enabled.prefixIcon.size,
+          size: vars.sizeXsmall.rest.prefixIcon.size,
         }),
       },
       small: {
-        height: vars.sizeSmall.enabled.root.minHeight,
-        paddingInline: vars.sizeSmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
-        gap: vars.sizeSmall.enabled.root.gap,
-        borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
+        height: vars.sizeSmall.rest.root.minHeight,
+        paddingInline: vars.sizeSmall.rest.root.paddingX,
+        paddingBlock: vars.sizeSmall.rest.root.paddingY,
+        gap: vars.sizeSmall.rest.root.gap,
+        borderRadius: vars.sizeSmall.rest.root.cornerRadius,
 
-        fontSize: vars.sizeSmall.enabled.label.fontSize,
-        lineHeight: vars.sizeSmall.enabled.label.lineHeight,
+        fontSize: vars.sizeSmall.rest.label.fontSize,
+        lineHeight: vars.sizeSmall.rest.label.lineHeight,
 
-        "--size": vars.sizeSmall.enabled.progressCircle.size,
-        "--thickness": vars.sizeSmall.enabled.progressCircle.thickness,
+        "--size": vars.sizeSmall.rest.progressCircle.size,
+        "--thickness": vars.sizeSmall.rest.progressCircle.thickness,
 
         ...count({
-          fontSize: vars.sizeSmall.enabled.count.fontSize,
-          lineHeight: vars.sizeSmall.enabled.count.lineHeight,
+          fontSize: vars.sizeSmall.rest.count.fontSize,
+          lineHeight: vars.sizeSmall.rest.count.lineHeight,
         }),
         ...prefixIcon({
-          size: vars.sizeSmall.enabled.prefixIcon.size,
+          size: vars.sizeSmall.rest.prefixIcon.size,
         }),
       },
     },

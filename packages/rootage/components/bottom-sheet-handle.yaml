@@ -28,10 +28,10 @@ data:
             type: dimension
           height:
             type: dimension
-
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           fromTop: 6px
           width: 36px
@@ -43,6 +43,8 @@ data:
         touchArea:
           width: 44px
           height: 44px
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.palette.gray-500

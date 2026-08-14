@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-neutral)",
         "fontWeight": "var(--seed-font-weight-medium)"
@@ -15,7 +15,7 @@ export declare const vars: {
     }
   },
   "size32": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x8)",
         "gap": "var(--seed-dimension-x2_5)"
@@ -27,7 +27,7 @@ export declare const vars: {
     }
   },
   "size24": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x6)",
         "gap": "var(--seed-dimension-x2)"
@@ -39,7 +39,7 @@ export declare const vars: {
     }
   },
   "size16": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x6)",
         "gap": "var(--seed-dimension-x1_5)"

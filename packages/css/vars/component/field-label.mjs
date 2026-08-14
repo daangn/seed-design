@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-fg-neutral)",
         "fontSize": "var(--seed-font-size-t5)",
@@ -9,14 +9,14 @@ export const vars = {
     }
   },
   "weightMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontWeight": "var(--seed-font-weight-medium)"
       }
     }
   },
   "weightBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontWeight": "var(--seed-font-weight-bold)"
       }

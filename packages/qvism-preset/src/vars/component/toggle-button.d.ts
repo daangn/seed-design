@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
@@ -14,7 +14,7 @@ export declare const vars: {
    * 브랜드 컬러로 강조된 스타일입니다.
    */
   "variantBrandSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -55,7 +55,7 @@ export declare const vars: {
         "rangeColor": "var(--seed-color-fg-neutral)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       }
@@ -89,7 +89,7 @@ export declare const vars: {
    * 기본적인 토글 스타일입니다.
    */
   "variantNeutralWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -130,7 +130,7 @@ export declare const vars: {
         "rangeColor": "var(--seed-color-fg-neutral)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       }
@@ -161,7 +161,7 @@ export declare const vars: {
     }
   },
   "sizeXsmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x8)",
         "cornerRadius": "var(--seed-radius-full)",
@@ -186,7 +186,7 @@ export declare const vars: {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
         "cornerRadius": "var(--seed-radius-full)",

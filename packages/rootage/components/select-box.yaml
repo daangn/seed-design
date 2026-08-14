@@ -97,9 +97,19 @@ data:
             description: 닫힐 때는 빠르게 접히고 천천히 fade out됩니다.
           collapseOpacityTimingFunction:
             type: cubicBezier
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: selected
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+    variants:
+      layout:
+        values:
+          horizontal: {}
+          vertical: {}
+  rules:
+    - slots:
         root:
           cornerRadius: $radius.r3
           color: $color.bg.transparent
@@ -137,14 +147,15 @@ data:
           collapseHeightTimingFunction: $timing-function.easing
           collapseOpacityDuration: 400ms
           collapseOpacityTimingFunction: $timing-function.easing
-
-      selected:
+    - states:
+        - selected
+      slots:
         root:
           strokeWidth: 2px
-      enabled,selected:
-        root:
           strokeColor: $color.stroke.neutral-contrast
-      disabled:
+    - states:
+        - disabled
+      slots:
         root:
           strokeColor: $color.stroke.neutral-muted
         prefixIcon:
@@ -153,24 +164,27 @@ data:
           color: $color.fg.disabled
         description:
           color: $color.fg.disabled
-
-      enabled,pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-
-    layout=horizontal:
-      enabled:
+    - variants:
+        layout: horizontal
+      slots:
         trigger:
           paddingLeft: $dimension.x5
           paddingRight: $dimension.x4
           paddingY: $dimension.x4
-        content: # aligns horizontally
+        content:
+          # aligns horizontally
           gap: $dimension.x3
-
-    layout=vertical:
-      enabled:
+    - variants:
+        layout: vertical
+      slots:
         trigger:
           paddingX: $dimension.x4
           paddingY: $dimension.x5
-        content: # aligns vertically
+        content:
+          # aligns vertically
           gap: $dimension.x2_5

@@ -43,18 +43,18 @@ const extendedActionSheet = defineSlotRecipe({
       right: 0,
       bottom: 0,
       left: 0,
-      background: vars.base.enabled.backdrop.color,
+      background: vars.base.rest.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
-        duration: vars.base.enabled.backdrop.exitDuration,
-        opacity: vars.base.enabled.backdrop.exitOpacity,
+        timingFunction: vars.base.rest.backdrop.exitTimingFunction,
+        duration: vars.base.rest.backdrop.exitDuration,
+        opacity: vars.base.rest.backdrop.exitOpacity,
       }),
       [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
-        duration: vars.base.enabled.backdrop.enterDuration,
-        opacity: vars.base.enabled.backdrop.enterOpacity,
+        timingFunction: vars.base.rest.backdrop.enterTimingFunction,
+        duration: vars.base.rest.backdrop.enterDuration,
+        opacity: vars.base.rest.backdrop.enterOpacity,
       }),
     },
     content: {
@@ -66,20 +66,20 @@ const extendedActionSheet = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      background: vars.base.enabled.content.color,
-      paddingInline: vars.base.enabled.content.paddingX,
-      paddingBlock: vars.base.enabled.content.paddingY,
-      borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
-      borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+      background: vars.base.rest.content.color,
+      paddingInline: vars.base.rest.content.paddingX,
+      paddingBlock: vars.base.rest.content.paddingY,
+      borderTopLeftRadius: vars.base.rest.content.topCornerRadius,
+      borderTopRightRadius: vars.base.rest.content.topCornerRadius,
 
       [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.content.exitTimingFunction,
-        duration: vars.base.enabled.content.exitDuration,
+        timingFunction: vars.base.rest.content.exitTimingFunction,
+        duration: vars.base.rest.content.exitDuration,
         translateY: "100%",
       }),
       [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.content.enterTimingFunction,
-        duration: vars.base.enabled.content.enterDuration,
+        timingFunction: vars.base.rest.content.enterTimingFunction,
+        duration: vars.base.rest.content.enterDuration,
         translateY: "100%",
       }),
     },
@@ -88,21 +88,21 @@ const extendedActionSheet = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "center",
 
-      gap: vars.base.enabled.header.gap,
-      paddingBottom: vars.base.enabled.header.paddingBottom,
+      gap: vars.base.rest.header.gap,
+      paddingBottom: vars.base.rest.header.paddingBottom,
     },
     title: {
-      color: vars.base.enabled.title.color,
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      color: vars.base.rest.title.color,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
     },
     list: {
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
 
-      gap: vars.base.enabled.list.gap,
+      gap: vars.base.rest.list.gap,
     },
     group: {
       display: "flex",
@@ -110,30 +110,30 @@ const extendedActionSheet = defineSlotRecipe({
       alignItems: "stretch",
       overflow: "hidden",
 
-      borderRadius: vars.base.enabled.group.cornerRadius,
+      borderRadius: vars.base.rest.group.cornerRadius,
     },
     footer: {
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
 
-      paddingTop: vars.base.enabled.footer.paddingTop,
+      paddingTop: vars.base.rest.footer.paddingTop,
     },
     closeButton: {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
 
-      backgroundColor: closeVars.base.enabled.root.color,
-      minHeight: closeVars.base.enabled.root.minHeight,
-      paddingInline: closeVars.base.enabled.root.paddingX,
-      paddingBlock: closeVars.base.enabled.root.paddingY,
-      borderRadius: closeVars.base.enabled.root.cornerRadius,
+      backgroundColor: closeVars.base.rest.root.color,
+      minHeight: closeVars.base.rest.root.minHeight,
+      paddingInline: closeVars.base.rest.root.paddingX,
+      paddingBlock: closeVars.base.rest.root.paddingY,
+      borderRadius: closeVars.base.rest.root.cornerRadius,
 
-      color: closeVars.base.enabled.label.color,
-      fontSize: closeVars.base.enabled.label.fontSize,
-      lineHeight: closeVars.base.enabled.label.lineHeight,
-      fontWeight: closeVars.base.enabled.label.fontWeight,
+      color: closeVars.base.rest.label.color,
+      fontSize: closeVars.base.rest.label.fontSize,
+      lineHeight: closeVars.base.rest.label.lineHeight,
+      fontWeight: closeVars.base.rest.label.fontWeight,
 
       [pseudo(active)]: {
         backgroundColor: closeVars.base.pressed.root.color,

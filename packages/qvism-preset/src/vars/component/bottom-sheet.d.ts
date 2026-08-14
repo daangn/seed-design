@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "backdrop": {
         "color": "var(--seed-color-bg-overlay)",
         "enterDuration": "var(--seed-duration-d6)",
@@ -52,7 +52,7 @@ export declare const vars: {
     }
   },
   "headerAlignmentLeftCloseButtonTrue": {
-    "enabled": {
+    "rest": {
       "title": {
         "paddingRight": "56px",
         "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)"
@@ -60,7 +60,7 @@ export declare const vars: {
     }
   },
   "headerAlignmentLeftCloseButtonFalse": {
-    "enabled": {
+    "rest": {
       "title": {
         "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"
@@ -68,7 +68,7 @@ export declare const vars: {
     }
   },
   "headerAlignmentCenterCloseButtonTrue": {
-    "enabled": {
+    "rest": {
       "title": {
         "paddingLeft": "56px",
         "paddingRight": "56px"
@@ -76,7 +76,7 @@ export declare const vars: {
     }
   },
   "headerAlignmentCenterCloseButtonFalse": {
-    "enabled": {
+    "rest": {
       "title": {
         "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingRight": "var(--seed-dimension-spacing-x-global-gutter)"

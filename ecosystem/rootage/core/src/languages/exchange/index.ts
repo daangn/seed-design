@@ -214,22 +214,21 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
     }
   }
 
-  function buildVariant(variant: AST.VariantDeclaration): Exchange.VariantDeclaration {
-    const variants = variant.variants.reduce<Record<string, string>>((acc, expr) => {
-      acc[expr.name] = expr.value;
-      return acc;
-    }, {});
-    const definitions = variant.body.map((stDecl) => ({
-      states: stDecl.states.map((s) => s.value),
-      slots: stDecl.body.reduce<Record<string, Record<string, Exchange.Value>>>((acc, slot) => {
+  function buildRule(rule: AST.RuleDeclaration): Exchange.Rule {
+    return {
+      variants: rule.variants.reduce<Record<string, string>>((acc, expr) => {
+        acc[expr.name] = expr.value;
+        return acc;
+      }, {}),
+      states: rule.states.map((s) => s.value),
+      slots: rule.body.reduce<Record<string, Record<string, Exchange.Value>>>((acc, slot) => {
         acc[slot.slot] = slot.body.reduce<Record<string, Exchange.Value>>((props, p) => {
           props[p.property] = buildValue(p);
           return props;
         }, {});
         return acc;
       }, {}),
-    }));
-    return { variants, definitions };
+    };
   }
 
   // Narrowed rather than spread wholesale: `type` and `values` only travel
@@ -278,6 +277,13 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
           }),
         ]),
       ),
+      states: schema.states.map((state) =>
+        compactObject({
+          id: state.name,
+          suppresses: state.suppresses,
+          description: state.description,
+        }),
+      ),
     };
   }
 
@@ -290,7 +296,7 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
       id: metadata.id,
       name: metadata.name,
       schema: buildSchema(ast.data.schema),
-      definitions: ast.data.body.map(buildVariant),
+      rules: ast.data.rules.map(buildRule),
     },
   };
 }

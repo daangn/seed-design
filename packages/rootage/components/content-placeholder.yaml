@@ -21,9 +21,8 @@ data:
             description: root slot 대한 asset slot의 높이 비율입니다.
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           color: $color.palette.gray-200
         asset:
@@ -31,15 +30,3 @@ data:
           maxWidth: 160px
           heightFraction: 0.5
           color: $color.palette.gray-400
-    type=default: {}
-    type=buySell: {}
-    type=car: {}
-    type=commerce: {}
-    type=coupon: {}
-    type=food: {}
-    type=group: {}
-    type=image: {}
-    type=jobs: {}
-    type=business: {}
-    type=post: {}
-    type=realty: {}

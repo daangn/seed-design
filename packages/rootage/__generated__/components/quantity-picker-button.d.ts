@@ -62,238 +62,232 @@ declare const artifact: {
             "medium": {};
             "large": {};
           };
-          "defaultValue": "small";
         };
       };
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "loading";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "disabled";
+          "suppresses": readonly [
+            "pressed",
+          ];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-              };
+            "colorDuration": {
+              "type": "duration";
+              "value": "$duration.color-transition";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-              };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "small";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x9";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r2";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x9";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r2";
+            };
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 16;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 16;
+                "unit": "px";
+              };
+            };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x10";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r2";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x10";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r2";
+            };
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
+              };
+            };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x13";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r3";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x13";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r3";
+            };
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
+              };
+            };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
     ];
   };

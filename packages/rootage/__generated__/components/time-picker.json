@@ -52,88 +52,89 @@
           }
         }
       },
-      "variants": {}
+      "variants": {},
+      "states": [
+        {
+          "id": "selected",
+          "suppresses": []
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 220,
-                    "unit": "px"
-                  }
-                }
-              },
-              "selectionIndicator": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r2"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak"
-                }
-              },
-              "item": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t10-static"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t10-static"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension",
+              "value": {
+                "value": 220,
+                "unit": "px"
               }
             }
           },
-          {
-            "states": [
-              "selected"
-            ],
-            "slots": {
-              "item": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
+          "selectionIndicator": {
+            "height": {
+              "type": "dimension",
+              "value": {
+                "value": 44,
+                "unit": "px"
               }
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.r2"
+            },
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-weak"
+            }
+          },
+          "item": {
+            "height": {
+              "type": "dimension",
+              "value": {
+                "value": 44,
+                "unit": "px"
+              }
+            },
+            "paddingX": {
+              "type": "dimension",
+              "value": "$dimension.x4"
+            },
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t10-static"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t10-static"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.medium"
+            },
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "selected"
+        ],
+        "slots": {
+          "item": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          }
+        }
       }
     ]
   }

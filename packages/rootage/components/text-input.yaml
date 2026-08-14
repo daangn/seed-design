@@ -28,8 +28,7 @@ data:
             type: color
           strokeDuration:
             type: duration
-            description: enabled 상태의 stroke 위에 focused/invalid 상태의 stroke가 fade in/out 되는 데에
-              걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
+            description: enabled 상태의 stroke 위에 focused/invalid 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
           strokeTimingFunction:
             type: cubicBezier
       value:
@@ -97,9 +96,19 @@ data:
             description: 뷰포트 너비와 관계없이 사용할 수 있습니다.
           medium:
             description: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
-  definitions:
-    base:
-      enabled:
+      type:
+        values:
+          singleline:
+            description: 한 줄 입력입니다.
+          multiline:
+            description: 여러 줄 입력입니다. 같은 size의 singleline보다 높이가 큽니다.
+    states:
+      - id: focused
+      - id: invalid
+      - id: readonly
+      - id: disabled
+  rules:
+    - slots:
         root:
           strokeColor: $color.stroke.neutral-weak
           strokeDuration: 0.1s
@@ -120,16 +129,25 @@ data:
           fontWeight: $font-weight.regular
         suffixIcon:
           color: $color.fg.neutral-muted
-      focused:
+    - states:
+        - focused
+      slots:
         root:
           strokeColor: $color.stroke.neutral-contrast
-      invalid:
+    - states:
+        - invalid
+      slots:
         root:
           strokeColor: $color.stroke.critical-solid
-      invalid,focused:
+    - states:
+        - focused
+        - invalid
+      slots:
         root:
           strokeColor: $color.stroke.critical-solid # being obvious
-      disabled:
+    - states:
+        - disabled
+      slots:
         value:
           color: $color.fg.disabled
         placeholder:
@@ -142,27 +160,55 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-    variant=outline:
-      enabled:
+    - variants:
+        variant: outline
+      slots:
         root:
           strokeWidth: 1px
-      focused:
+    - variants:
+        variant: outline
+      states:
+        - focused
+      slots:
         root:
           strokeWidth: 2px
-      invalid:
+    - variants:
+        variant: outline
+      states:
+        - invalid
+      slots:
         root:
           strokeWidth: 2px
-      readonly:
+    - variants:
+        variant: outline
+      states:
+        - readonly
+      slots:
         root:
           color: $color.bg.disabled
-      disabled:
+    - variants:
+        variant: outline
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
-    variant=outline,size=large:
-      enabled:
+    # Height is the one thing a multiline input overrides, so it is stated against
+    # `type=singleline` rather than against every type. Written as `variant`+`size`
+    # it would merely overlap the multiline rule, and neither would win.
+    - variants:
+        variant: outline
+        size: large
+        type: singleline
+      slots:
+        root:
+          minHeight: $dimension.x13
+    - variants:
+        variant: outline
+        size: large
+      slots:
         root:
           gap: $dimension.x2_5
-          minHeight: $dimension.x13
           cornerRadius: $radius.r3
           paddingX: $dimension.x4
         value:
@@ -181,11 +227,19 @@ data:
           lineHeight: $line-height.t5
         suffixIcon:
           size: $dimension.x5
-    variant=outline,size=medium:
-      enabled:
+    - variants:
+        variant: outline
+        size: medium
+        type: singleline
+      slots:
+        root:
+          minHeight: $dimension.x10
+    - variants:
+        variant: outline
+        size: medium
+      slots:
         root:
           gap: $dimension.x2
-          minHeight: $dimension.x10
           cornerRadius: $radius.r2
           paddingX: $dimension.x3_5
         value:
@@ -204,28 +258,48 @@ data:
           lineHeight: $line-height.t4
         suffixIcon:
           size: $dimension.x4
-
-    variant=underline:
-      enabled:
+    - variants:
+        variant: underline
+      slots:
         root:
           strokeBottomWidth: 1px
-      focused:
+    - variants:
+        variant: underline
+      states:
+        - focused
+      slots:
         root:
           strokeBottomWidth: 2px
-      invalid:
+    - variants:
+        variant: underline
+      states:
+        - invalid
+      slots:
         root:
           strokeBottomWidth: 2px
-      readonly:
+    - variants:
+        variant: underline
+      states:
+        - readonly
+      slots:
         value:
           color: $color.fg.neutral-muted
         placeholder:
           color: $color.fg.neutral-muted
-    variant=underline,size=large:
-      enabled:
+    - variants:
+        variant: underline
+        size: large
+        type: singleline
+      slots:
         root:
-          gap: $dimension.x2_5
           minHeight: $dimension.x10
           paddingY: $dimension.x2
+    - variants:
+        variant: underline
+        size: large
+      slots:
+        root:
+          gap: $dimension.x2_5
         value:
           fontSize: $font-size.t6
           lineHeight: $line-height.t6
@@ -242,12 +316,20 @@ data:
           lineHeight: $line-height.t6
         suffixIcon:
           size: $dimension.x6
-    variant=underline,size=medium:
-      enabled:
+    - variants:
+        variant: underline
+        size: medium
+        type: singleline
+      slots:
         root:
-          gap: $dimension.x2
           minHeight: 34px
           paddingY: $dimension.x1_5
+    - variants:
+        variant: underline
+        size: medium
+      slots:
+        root:
+          gap: $dimension.x2
         value:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
@@ -264,14 +346,17 @@ data:
           lineHeight: $line-height.t5
         suffixIcon:
           size: $dimension.x5
-    type=singleline: {}
-    type=multiline,size=large:
-      enabled:
+    - variants:
+        size: large
+        type: multiline
+      slots:
         root:
           minHeight: 94px
           paddingY: $dimension.x3_5
-    type=multiline,size=medium:
-      enabled:
+    - variants:
+        size: medium
+        type: multiline
+      slots:
         root:
           minHeight: 82px
           paddingY: $dimension.x3

@@ -43,18 +43,18 @@ const contentDialog = defineSlotRecipe({
     backdrop: {
       position: "fixed",
       inset: 0,
-      background: vars.base.enabled.backdrop.color,
+      background: vars.base.rest.backdrop.color,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
 
       [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
-        duration: vars.base.enabled.backdrop.enterDuration,
-        opacity: vars.base.enabled.backdrop.enterOpacity,
+        timingFunction: vars.base.rest.backdrop.enterTimingFunction,
+        duration: vars.base.rest.backdrop.enterDuration,
+        opacity: vars.base.rest.backdrop.enterOpacity,
       }),
       [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
-        duration: vars.base.enabled.backdrop.exitDuration,
-        opacity: vars.base.enabled.backdrop.exitOpacity,
+        timingFunction: vars.base.rest.backdrop.exitTimingFunction,
+        duration: vars.base.rest.backdrop.exitDuration,
+        opacity: vars.base.rest.backdrop.exitOpacity,
       }),
     },
     content: {
@@ -69,16 +69,16 @@ const contentDialog = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
 
-      background: vars.base.enabled.content.color,
-      borderRadius: vars.base.enabled.content.cornerRadius,
+      background: vars.base.rest.content.color,
+      borderRadius: vars.base.rest.content.cornerRadius,
 
       // Default width routed through real-valued custom properties so the responsive var
       // chain never links `--foo: var(<guaranteed-invalid>)` — see https://webkit.org/b/241433
       // and the same pattern in side-panel. Mobile-first: viewport fraction below md,
       // size-capped token width at md+ (the cap is the only value that differs by size —
       // see variants). A consumer `width`/`maxWidth` StyleProp still wins via the chain.
-      "--content-dialog-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
-      "--content-dialog-default-max-width": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
+      "--content-dialog-default-width": `calc(${vars.base.rest.content.widthFraction} * 100vw)`,
+      "--content-dialog-default-max-width": `calc(${vars.base.rest.content.widthFraction} * 100%)`,
       "--seed-box-width--responsive": "var(--content-dialog-default-width)",
       "--seed-box-max-width--responsive": "var(--content-dialog-default-max-width)",
       width: "var(--seed-box-width)",
@@ -88,24 +88,24 @@ const contentDialog = defineSlotRecipe({
       // without dynamic-viewport-unit support. The array emits both declarations, so the cascade
       // keeps dvh where parsed and falls back to vh where it isn't.
       maxHeight: [
-        `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
-        `calc(${vars.base.enabled.content.maxHeightFraction} * 100dvh)`,
+        `calc(${vars.base.rest.content.maxHeightFraction} * 100vh)`,
+        `calc(${vars.base.rest.content.maxHeightFraction} * 100dvh)`,
       ],
       [breakpoints.up("md")]: {
         "--content-dialog-default-width": "var(--content-dialog-size-width)",
-        "--content-dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,
+        "--content-dialog-default-max-width": `calc(100vw - 2 * ${vars.base.rest.content.marginX})`,
       },
 
       [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.content.enterTimingFunction,
-        duration: vars.base.enabled.content.enterDuration,
-        opacity: vars.base.enabled.content.enterOpacity,
-        scale: vars.base.enabled.content.enterScale,
+        timingFunction: vars.base.rest.content.enterTimingFunction,
+        duration: vars.base.rest.content.enterDuration,
+        opacity: vars.base.rest.content.enterOpacity,
+        scale: vars.base.rest.content.enterScale,
       }),
       [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.content.exitTimingFunction,
-        duration: vars.base.enabled.content.exitDuration,
-        opacity: vars.base.enabled.content.exitOpacity,
+        timingFunction: vars.base.rest.content.exitTimingFunction,
+        duration: vars.base.rest.content.exitDuration,
+        opacity: vars.base.rest.content.exitOpacity,
       }),
     },
     header: {
@@ -113,14 +113,14 @@ const contentDialog = defineSlotRecipe({
       flexDirection: "column",
       flexShrink: 0,
 
-      gap: vars.base.enabled.header.gap,
-      paddingInline: vars.base.enabled.header.paddingX,
-      paddingTop: vars.base.enabled.header.paddingTop,
-      paddingBottom: vars.base.enabled.header.paddingBottom,
+      gap: vars.base.rest.header.gap,
+      paddingInline: vars.base.rest.header.paddingX,
+      paddingTop: vars.base.rest.header.paddingTop,
+      paddingBottom: vars.base.rest.header.paddingBottom,
 
       // Reserve room on the right so the title/description never run under the close button.
       [pseudo("[data-show-close-button]")]: {
-        paddingRight: `calc(${vars.base.enabled.closeButton.fromRight} + ${closeButtonVars.base.enabled.icon.size} + ${vars.base.enabled.header.closeButtonGap})`,
+        paddingRight: `calc(${vars.base.rest.closeButton.fromRight} + ${closeButtonVars.base.rest.icon.size} + ${vars.base.rest.header.closeButtonGap})`,
       },
     },
     body: {
@@ -130,7 +130,7 @@ const contentDialog = defineSlotRecipe({
       flex: 1,
       overflowY: "auto",
 
-      "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
+      "--seed-box-padding-x--responsive": vars.base.rest.body.paddingX,
       // real values, not `initial` — see https://webkit.org/b/241433
       // min-height 0, not auto: lets the flexed body shrink below its content size
       // so it scrolls within the content's maxHeight cap instead of stretching it.
@@ -144,7 +144,7 @@ const contentDialog = defineSlotRecipe({
       justifyContent: "var(--seed-box-justify-content)",
       alignItems: "var(--seed-box-align-items)",
 
-      transition: `box-shadow ${vars.base.enabled.body.strokeDuration} ${vars.base.enabled.body.strokeTimingFunction}`,
+      transition: `box-shadow ${vars.base.rest.body.strokeDuration} ${vars.base.rest.body.strokeTimingFunction}`,
       [pseudo("[data-scrolled]", not(":first-child"))]: {
         boxShadow: `inset 0 ${vars.base.scrolled.body.strokeWidth} 0 0 ${vars.base.scrolled.body.strokeColor}`,
       },
@@ -153,9 +153,9 @@ const contentDialog = defineSlotRecipe({
       // toggled by data-overflow from the styled layer. Applying them unconditionally
       // fades near-fitting content that can never be scrolled clear of the fade band.
       [pseudo("[data-overflow]")]: {
-        paddingBottom: vars.base.enabled.body.paddingBottom,
-        maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
-        WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.enabled.body.paddingBottom})`,
+        paddingBottom: vars.base.rest.body.paddingBottom,
+        maskImage: `linear-gradient(to top, transparent 0, black ${vars.base.rest.body.paddingBottom})`,
+        WebkitMaskImage: `linear-gradient(to top, transparent 0, black ${vars.base.rest.body.paddingBottom})`,
       },
 
       // body can have focus when it overflows
@@ -165,18 +165,18 @@ const contentDialog = defineSlotRecipe({
       },
     },
     title: {
-      color: vars.base.enabled.title.color,
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      color: vars.base.rest.title.color,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
 
       margin: 0,
     },
     description: {
-      color: vars.base.enabled.description.color,
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      color: vars.base.rest.description.color,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -187,31 +187,31 @@ const contentDialog = defineSlotRecipe({
       alignItems: "stretch",
       flexShrink: 0,
 
-      paddingInline: vars.base.enabled.footer.paddingX,
-      paddingTop: vars.base.enabled.footer.paddingTop,
-      paddingBottom: vars.base.enabled.footer.paddingBottom,
+      paddingInline: vars.base.rest.footer.paddingX,
+      paddingTop: vars.base.rest.footer.paddingTop,
+      paddingBottom: vars.base.rest.footer.paddingBottom,
     },
     closeButton: {
       position: "absolute",
-      top: vars.base.enabled.closeButton.fromTop,
-      right: vars.base.enabled.closeButton.fromRight,
+      top: vars.base.rest.closeButton.fromTop,
+      right: vars.base.rest.closeButton.fromRight,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       border: "none",
-      background: closeButtonVars.base.enabled.root.color,
-      borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
+      background: closeButtonVars.base.rest.root.color,
+      borderRadius: closeButtonVars.base.rest.root.cornerRadius,
 
-      padding: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) / 2)`,
-      margin: `calc((${closeButtonVars.base.enabled.icon.size} - ${closeButtonVars.base.enabled.root.size}) / 2)`,
+      padding: `calc((${closeButtonVars.base.rest.root.size} - ${closeButtonVars.base.rest.icon.size}) / 2)`,
+      margin: `calc((${closeButtonVars.base.rest.icon.size} - ${closeButtonVars.base.rest.root.size}) / 2)`,
 
       cursor: "pointer",
 
-      transition: `background ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background ${closeButtonVars.base.rest.root.colorDuration} ${closeButtonVars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...onlyIcon({
-        color: closeButtonVars.base.enabled.icon.color,
-        size: closeButtonVars.base.enabled.icon.size,
+        color: closeButtonVars.base.rest.icon.color,
+        size: closeButtonVars.base.rest.icon.size,
       }),
 
       ...createFocusRingRestStyles(),
@@ -228,12 +228,12 @@ const contentDialog = defineSlotRecipe({
       // consumed by the base `--content-dialog-default-width` switch at md+.
       medium: {
         content: {
-          "--content-dialog-size-width": vars.sizeMedium.enabled.content.maxWidth,
+          "--content-dialog-size-width": vars.sizeMedium.rest.content.maxWidth,
         },
       },
       large: {
         content: {
-          "--content-dialog-size-width": vars.sizeLarge.enabled.content.maxWidth,
+          "--content-dialog-size-width": vars.sizeLarge.rest.content.maxWidth,
         },
       },
     },

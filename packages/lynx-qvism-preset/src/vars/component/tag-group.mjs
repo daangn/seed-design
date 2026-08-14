@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "separator": {
         "color": "var(--seed-color-palette-gray-600)",
         "fontWeight": "var(--seed-font-weight-regular)"
@@ -8,7 +8,7 @@ export const vars = {
     }
   },
   "sizeT2": {
-    "enabled": {
+    "rest": {
       "separator": {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)"
@@ -16,7 +16,7 @@ export const vars = {
     }
   },
   "sizeT3": {
-    "enabled": {
+    "rest": {
       "separator": {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)"
@@ -24,7 +24,7 @@ export const vars = {
     }
   },
   "sizeT4": {
-    "enabled": {
+    "rest": {
       "separator": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)"

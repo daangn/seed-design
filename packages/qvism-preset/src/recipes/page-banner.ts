@@ -10,9 +10,9 @@ import {
 } from "../utils/focus-ring";
 import { vars as tokens } from "../vars";
 
-const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5`;
-const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
-const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
+const closeButtonNegativeMargin = `(${vars.base.rest.suffixIcon.targetSize} - ${vars.base.rest.suffixIcon.size}) * -0.5`;
+const prefixIconVerticalAdjustMargin = `(${vars.base.rest.root.minHeight} - ${vars.base.rest.prefixIcon.size}) * 0.5 - ${vars.base.rest.root.paddingY}`;
+const buttonBleedAmount = `(${vars.base.rest.button.targetHeight} - ${vars.base.rest.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
   name: "page-banner",
@@ -31,19 +31,19 @@ const pageBanner = defineSlotRecipe({
       alignItems: "flex-start",
       textAlign: "start",
       width: "100%",
-      minHeight: vars.base.enabled.root.minHeight,
+      minHeight: vars.base.rest.root.minHeight,
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.rest.root.paddingX,
+      paddingBlock: vars.base.rest.root.paddingY,
 
       ...prefixIcon({
-        size: vars.base.enabled.prefixIcon.size,
-        marginRight: vars.base.enabled.prefixIcon.marginRight,
+        size: vars.base.rest.prefixIcon.size,
+        marginRight: vars.base.rest.prefixIcon.marginRight,
         marginTop: `calc(${prefixIconVerticalAdjustMargin})`,
       }),
       ...suffixIcon({
-        size: vars.base.enabled.suffixIcon.size,
-        marginLeft: vars.base.enabled.suffixIcon.marginLeft,
+        size: vars.base.rest.suffixIcon.size,
+        marginLeft: vars.base.rest.suffixIcon.marginLeft,
         alignSelf: "center",
       }),
 
@@ -62,19 +62,19 @@ const pageBanner = defineSlotRecipe({
       justifyContent: "space-between",
       flexGrow: 1,
 
-      gap: vars.base.enabled.content.gap,
+      gap: vars.base.rest.content.gap,
     },
     body: {
-      lineHeight: vars.base.enabled.description.lineHeight,
+      lineHeight: vars.base.rest.description.lineHeight,
 
       flexGrow: 1,
     },
     title: {
       flexShrink: 0,
 
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
 
       [pseudo("::after")]: {
         content: '"  "',
@@ -82,9 +82,9 @@ const pageBanner = defineSlotRecipe({
       },
     },
     description: {
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
     },
     button: {
       fontFamily: "inherit",
@@ -98,9 +98,9 @@ const pageBanner = defineSlotRecipe({
       margin: `calc(${buttonBleedAmount} * -1)`,
       padding: `calc(${buttonBleedAmount})`,
 
-      fontSize: vars.base.enabled.button.fontSize,
-      lineHeight: vars.base.enabled.button.lineHeight,
-      fontWeight: vars.base.enabled.button.fontWeight,
+      fontSize: vars.base.rest.button.fontSize,
+      lineHeight: vars.base.rest.button.lineHeight,
+      fontWeight: vars.base.rest.button.fontWeight,
 
       borderRadius: tokens.$radius.r1,
       transition: FOCUS_RING_TRANSITION,
@@ -115,13 +115,13 @@ const pageBanner = defineSlotRecipe({
       justifyContent: "center",
       alignItems: "center",
 
-      width: vars.base.enabled.suffixIcon.targetSize,
-      height: vars.base.enabled.suffixIcon.targetSize,
+      width: vars.base.rest.suffixIcon.targetSize,
+      height: vars.base.rest.suffixIcon.targetSize,
 
       margin: `calc(${closeButtonNegativeMargin})`,
 
       // Consume suffixIcon margin here, and reset suffix icon margin.
-      marginLeft: `calc(${closeButtonNegativeMargin} + ${vars.base.enabled.suffixIcon.marginLeft})`,
+      marginLeft: `calc(${closeButtonNegativeMargin} + ${vars.base.rest.suffixIcon.marginLeft})`,
       "--seed-suffix-icon-margin-left": "initial",
 
       alignSelf: "center",
@@ -161,13 +161,13 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
-          backgroundColor: vars.toneNeutralVariantWeak.enabled.root.color,
+          backgroundColor: vars.toneNeutralVariantWeak.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneNeutralVariantWeak.enabled.prefixIcon.color,
+            color: vars.toneNeutralVariantWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneNeutralVariantWeak.enabled.suffixIcon.color,
+            color: vars.toneNeutralVariantWeak.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -175,13 +175,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneNeutralVariantWeak.enabled.title.color,
+          color: vars.toneNeutralVariantWeak.rest.title.color,
         },
         description: {
-          color: vars.toneNeutralVariantWeak.enabled.description.color,
+          color: vars.toneNeutralVariantWeak.rest.description.color,
         },
         button: {
-          color: vars.toneNeutralVariantWeak.enabled.button.color,
+          color: vars.toneNeutralVariantWeak.rest.button.color,
         },
       },
     },
@@ -190,13 +190,13 @@ const pageBanner = defineSlotRecipe({
       variant: "solid",
       css: {
         root: {
-          backgroundColor: vars.toneNeutralVariantSolid.enabled.root.color,
+          backgroundColor: vars.toneNeutralVariantSolid.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneNeutralVariantSolid.enabled.prefixIcon.color,
+            color: vars.toneNeutralVariantSolid.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneNeutralVariantSolid.enabled.suffixIcon.color,
+            color: vars.toneNeutralVariantSolid.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -204,13 +204,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneNeutralVariantSolid.enabled.title.color,
+          color: vars.toneNeutralVariantSolid.rest.title.color,
         },
         description: {
-          color: vars.toneNeutralVariantSolid.enabled.description.color,
+          color: vars.toneNeutralVariantSolid.rest.description.color,
         },
         button: {
-          color: vars.toneNeutralVariantSolid.enabled.button.color,
+          color: vars.toneNeutralVariantSolid.rest.button.color,
         },
       },
     },
@@ -219,13 +219,13 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
-          backgroundColor: vars.toneInformativeVariantWeak.enabled.root.color,
+          backgroundColor: vars.toneInformativeVariantWeak.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneInformativeVariantWeak.enabled.prefixIcon.color,
+            color: vars.toneInformativeVariantWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneInformativeVariantWeak.enabled.suffixIcon.color,
+            color: vars.toneInformativeVariantWeak.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -233,13 +233,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneInformativeVariantWeak.enabled.title.color,
+          color: vars.toneInformativeVariantWeak.rest.title.color,
         },
         description: {
-          color: vars.toneInformativeVariantWeak.enabled.description.color,
+          color: vars.toneInformativeVariantWeak.rest.description.color,
         },
         button: {
-          color: vars.toneInformativeVariantWeak.enabled.button.color,
+          color: vars.toneInformativeVariantWeak.rest.button.color,
         },
       },
     },
@@ -248,13 +248,13 @@ const pageBanner = defineSlotRecipe({
       variant: "solid",
       css: {
         root: {
-          backgroundColor: vars.toneInformativeVariantSolid.enabled.root.color,
+          backgroundColor: vars.toneInformativeVariantSolid.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneInformativeVariantSolid.enabled.prefixIcon.color,
+            color: vars.toneInformativeVariantSolid.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneInformativeVariantSolid.enabled.suffixIcon.color,
+            color: vars.toneInformativeVariantSolid.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -262,13 +262,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneInformativeVariantSolid.enabled.title.color,
+          color: vars.toneInformativeVariantSolid.rest.title.color,
         },
         description: {
-          color: vars.toneInformativeVariantSolid.enabled.description.color,
+          color: vars.toneInformativeVariantSolid.rest.description.color,
         },
         button: {
-          color: vars.toneInformativeVariantSolid.enabled.button.color,
+          color: vars.toneInformativeVariantSolid.rest.button.color,
         },
       },
     },
@@ -277,13 +277,13 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
-          backgroundColor: vars.tonePositiveVariantWeak.enabled.root.color,
+          backgroundColor: vars.tonePositiveVariantWeak.rest.root.color,
 
           ...prefixIcon({
-            color: vars.tonePositiveVariantWeak.enabled.prefixIcon.color,
+            color: vars.tonePositiveVariantWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.tonePositiveVariantWeak.enabled.suffixIcon.color,
+            color: vars.tonePositiveVariantWeak.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -291,13 +291,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.tonePositiveVariantWeak.enabled.title.color,
+          color: vars.tonePositiveVariantWeak.rest.title.color,
         },
         description: {
-          color: vars.tonePositiveVariantWeak.enabled.description.color,
+          color: vars.tonePositiveVariantWeak.rest.description.color,
         },
         button: {
-          color: vars.tonePositiveVariantWeak.enabled.button.color,
+          color: vars.tonePositiveVariantWeak.rest.button.color,
         },
       },
     },
@@ -306,13 +306,13 @@ const pageBanner = defineSlotRecipe({
       variant: "solid",
       css: {
         root: {
-          backgroundColor: vars.tonePositiveVariantSolid.enabled.root.color,
+          backgroundColor: vars.tonePositiveVariantSolid.rest.root.color,
 
           ...prefixIcon({
-            color: vars.tonePositiveVariantSolid.enabled.prefixIcon.color,
+            color: vars.tonePositiveVariantSolid.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.tonePositiveVariantSolid.enabled.suffixIcon.color,
+            color: vars.tonePositiveVariantSolid.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -320,13 +320,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.tonePositiveVariantSolid.enabled.title.color,
+          color: vars.tonePositiveVariantSolid.rest.title.color,
         },
         description: {
-          color: vars.tonePositiveVariantSolid.enabled.description.color,
+          color: vars.tonePositiveVariantSolid.rest.description.color,
         },
         button: {
-          color: vars.tonePositiveVariantSolid.enabled.button.color,
+          color: vars.tonePositiveVariantSolid.rest.button.color,
         },
       },
     },
@@ -335,13 +335,13 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
-          backgroundColor: vars.toneWarningVariantWeak.enabled.root.color,
+          backgroundColor: vars.toneWarningVariantWeak.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneWarningVariantWeak.enabled.prefixIcon.color,
+            color: vars.toneWarningVariantWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneWarningVariantWeak.enabled.suffixIcon.color,
+            color: vars.toneWarningVariantWeak.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -349,13 +349,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneWarningVariantWeak.enabled.title.color,
+          color: vars.toneWarningVariantWeak.rest.title.color,
         },
         description: {
-          color: vars.toneWarningVariantWeak.enabled.description.color,
+          color: vars.toneWarningVariantWeak.rest.description.color,
         },
         button: {
-          color: vars.toneWarningVariantWeak.enabled.button.color,
+          color: vars.toneWarningVariantWeak.rest.button.color,
         },
       },
     },
@@ -364,13 +364,13 @@ const pageBanner = defineSlotRecipe({
       variant: "solid",
       css: {
         root: {
-          backgroundColor: vars.toneWarningVariantSolid.enabled.root.color,
+          backgroundColor: vars.toneWarningVariantSolid.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneWarningVariantSolid.enabled.prefixIcon.color,
+            color: vars.toneWarningVariantSolid.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneWarningVariantSolid.enabled.suffixIcon.color,
+            color: vars.toneWarningVariantSolid.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -378,13 +378,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneWarningVariantSolid.enabled.title.color,
+          color: vars.toneWarningVariantSolid.rest.title.color,
         },
         description: {
-          color: vars.toneWarningVariantSolid.enabled.description.color,
+          color: vars.toneWarningVariantSolid.rest.description.color,
         },
         button: {
-          color: vars.toneWarningVariantSolid.enabled.button.color,
+          color: vars.toneWarningVariantSolid.rest.button.color,
         },
       },
     },
@@ -393,13 +393,13 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
-          backgroundColor: vars.toneCriticalVariantWeak.enabled.root.color,
+          backgroundColor: vars.toneCriticalVariantWeak.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneCriticalVariantWeak.enabled.prefixIcon.color,
+            color: vars.toneCriticalVariantWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneCriticalVariantWeak.enabled.suffixIcon.color,
+            color: vars.toneCriticalVariantWeak.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -407,13 +407,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneCriticalVariantWeak.enabled.title.color,
+          color: vars.toneCriticalVariantWeak.rest.title.color,
         },
         description: {
-          color: vars.toneCriticalVariantWeak.enabled.description.color,
+          color: vars.toneCriticalVariantWeak.rest.description.color,
         },
         button: {
-          color: vars.toneCriticalVariantWeak.enabled.button.color,
+          color: vars.toneCriticalVariantWeak.rest.button.color,
         },
       },
     },
@@ -422,13 +422,13 @@ const pageBanner = defineSlotRecipe({
       variant: "solid",
       css: {
         root: {
-          backgroundColor: vars.toneCriticalVariantSolid.enabled.root.color,
+          backgroundColor: vars.toneCriticalVariantSolid.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneCriticalVariantSolid.enabled.prefixIcon.color,
+            color: vars.toneCriticalVariantSolid.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneCriticalVariantSolid.enabled.suffixIcon.color,
+            color: vars.toneCriticalVariantSolid.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -436,13 +436,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneCriticalVariantSolid.enabled.title.color,
+          color: vars.toneCriticalVariantSolid.rest.title.color,
         },
         description: {
-          color: vars.toneCriticalVariantSolid.enabled.description.color,
+          color: vars.toneCriticalVariantSolid.rest.description.color,
         },
         button: {
-          color: vars.toneCriticalVariantSolid.enabled.button.color,
+          color: vars.toneCriticalVariantSolid.rest.button.color,
         },
       },
     },
@@ -451,13 +451,13 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.rest.root.gradient})`,
 
           ...prefixIcon({
-            color: vars.toneMagicVariantWeak.enabled.prefixIcon.color,
+            color: vars.toneMagicVariantWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneMagicVariantWeak.enabled.suffixIcon.color,
+            color: vars.toneMagicVariantWeak.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button)", engaged)]: {
@@ -465,13 +465,13 @@ const pageBanner = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneMagicVariantWeak.enabled.title.color,
+          color: vars.toneMagicVariantWeak.rest.title.color,
         },
         description: {
-          color: vars.toneMagicVariantWeak.enabled.description.color,
+          color: vars.toneMagicVariantWeak.rest.description.color,
         },
         button: {
-          color: vars.toneMagicVariantWeak.enabled.button.color,
+          color: vars.toneMagicVariantWeak.rest.button.color,
         },
       },
     },

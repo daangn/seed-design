@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "var(--seed-dimension-x5)"
       },
@@ -16,12 +16,12 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-subtle)"
       }
     },
-    "enabledSelected": {
+    "selected": {
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       }
     },
-    "enabledSelectedPressed": {
+    "pressedSelected": {
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       }
@@ -31,7 +31,7 @@ export const vars = {
         "color": "var(--seed-color-fg-disabled)"
       }
     },
-    "disabledSelected": {
+    "selectedDisabled": {
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       }

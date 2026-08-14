@@ -52,11 +52,11 @@ export const selectTrigger = defineSlotRecipe({
       border: "none",
       fontFamily: "inherit",
 
-      backgroundColor: selectTriggerVars.base.enabled.root.color,
+      backgroundColor: selectTriggerVars.base.rest.root.color,
 
-      boxShadow: `inset 0 0 0 ${selectTriggerVars.base.enabled.root.strokeWidth} ${selectTriggerVars.base.enabled.root.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${selectTriggerVars.base.rest.root.strokeWidth} ${selectTriggerVars.base.rest.root.strokeColor}`,
 
-      transition: `background-color ${selectTriggerVars.base.enabled.root.colorDuration} ${selectTriggerVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${selectTriggerVars.base.rest.root.colorDuration} ${selectTriggerVars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       "&::after": {
         content: '""',
@@ -67,7 +67,7 @@ export const selectTrigger = defineSlotRecipe({
         borderColor: "transparent",
         borderWidth: selectTriggerVars.base.invalid.root.strokeWidth,
 
-        transition: `border-color ${selectTriggerVars.base.enabled.root.strokeDuration} ${selectTriggerVars.base.enabled.root.strokeTimingFunction}`,
+        transition: `border-color ${selectTriggerVars.base.rest.root.strokeDuration} ${selectTriggerVars.base.rest.root.strokeTimingFunction}`,
 
         pointerEvents: "none",
       },
@@ -95,9 +95,9 @@ export const selectTrigger = defineSlotRecipe({
       },
     },
     value: {
-      fontWeight: selectTriggerVars.base.enabled.value.fontWeight,
+      fontWeight: selectTriggerVars.base.rest.value.fontWeight,
 
-      color: selectTriggerVars.base.enabled.value.color,
+      color: selectTriggerVars.base.rest.value.color,
 
       overflow: "hidden",
       textOverflow: "ellipsis",
@@ -117,9 +117,9 @@ export const selectTrigger = defineSlotRecipe({
       },
     },
     placeholder: {
-      fontWeight: selectTriggerVars.base.enabled.placeholder.fontWeight,
+      fontWeight: selectTriggerVars.base.rest.placeholder.fontWeight,
 
-      color: selectTriggerVars.base.enabled.placeholder.color,
+      color: selectTriggerVars.base.rest.placeholder.color,
 
       overflow: "hidden",
       textOverflow: "ellipsis",
@@ -141,7 +141,7 @@ export const selectTrigger = defineSlotRecipe({
     prefixIcon: {
       flexShrink: 0,
 
-      color: selectTriggerVars.base.enabled.prefixIcon.color,
+      color: selectTriggerVars.base.rest.prefixIcon.color,
 
       pointerEvents: "none",
 
@@ -152,16 +152,16 @@ export const selectTrigger = defineSlotRecipe({
     suffixIcon: {
       flexShrink: 0,
 
-      color: selectTriggerVars.base.enabled.suffixIcon.color,
+      color: selectTriggerVars.base.rest.suffixIcon.color,
 
       pointerEvents: "none",
 
       transform: "rotate(0deg)",
-      transition: `transform ${selectTriggerVars.base.enabled.suffixIcon.closeRotateDuration} ${selectTriggerVars.base.enabled.suffixIcon.closeRotateTimingFunction}`,
+      transition: `transform ${selectTriggerVars.base.rest.suffixIcon.closeRotateDuration} ${selectTriggerVars.base.rest.suffixIcon.closeRotateTimingFunction}`,
 
       [pseudo(open)]: {
         transform: "rotate(180deg)",
-        transition: `transform ${selectTriggerVars.base.enabled.suffixIcon.openRotateDuration} ${selectTriggerVars.base.enabled.suffixIcon.openRotateTimingFunction}`,
+        transition: `transform ${selectTriggerVars.base.rest.suffixIcon.openRotateDuration} ${selectTriggerVars.base.rest.suffixIcon.openRotateTimingFunction}`,
       },
 
       [pseudo("[data-disabled]")]: {
@@ -173,100 +173,100 @@ export const selectTrigger = defineSlotRecipe({
     size: {
       large: {
         root: {
-          height: selectTriggerVars.sizeLarge.enabled.root.height,
-          gap: selectTriggerVars.sizeLarge.enabled.root.gap,
-          paddingInline: selectTriggerVars.sizeLarge.enabled.root.paddingX,
-          borderRadius: selectTriggerVars.sizeLarge.enabled.root.cornerRadius,
+          height: selectTriggerVars.sizeLarge.rest.root.height,
+          gap: selectTriggerVars.sizeLarge.rest.root.gap,
+          paddingInline: selectTriggerVars.sizeLarge.rest.root.paddingX,
+          borderRadius: selectTriggerVars.sizeLarge.rest.root.cornerRadius,
         },
         value: {
-          fontSize: selectTriggerVars.sizeLarge.enabled.value.fontSize,
-          lineHeight: selectTriggerVars.sizeLarge.enabled.value.lineHeight,
+          fontSize: selectTriggerVars.sizeLarge.rest.value.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.rest.value.lineHeight,
         },
         placeholder: {
-          fontSize: selectTriggerVars.sizeLarge.enabled.placeholder.fontSize,
-          lineHeight: selectTriggerVars.sizeLarge.enabled.placeholder.lineHeight,
+          fontSize: selectTriggerVars.sizeLarge.rest.placeholder.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.rest.placeholder.lineHeight,
         },
         prefixIcon: {
-          width: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
-          height: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
+          width: selectTriggerVars.sizeLarge.rest.prefixIcon.size,
+          height: selectTriggerVars.sizeLarge.rest.prefixIcon.size,
         },
         suffixIcon: {
-          width: selectTriggerVars.sizeLarge.enabled.suffixIcon.size,
-          height: selectTriggerVars.sizeLarge.enabled.suffixIcon.size,
+          width: selectTriggerVars.sizeLarge.rest.suffixIcon.size,
+          height: selectTriggerVars.sizeLarge.rest.suffixIcon.size,
         },
       },
       medium: {
         root: {
-          height: selectTriggerVars.sizeMedium.enabled.root.height,
-          gap: selectTriggerVars.sizeMedium.enabled.root.gap,
-          paddingInline: selectTriggerVars.sizeMedium.enabled.root.paddingX,
-          borderRadius: selectTriggerVars.sizeMedium.enabled.root.cornerRadius,
+          height: selectTriggerVars.sizeMedium.rest.root.height,
+          gap: selectTriggerVars.sizeMedium.rest.root.gap,
+          paddingInline: selectTriggerVars.sizeMedium.rest.root.paddingX,
+          borderRadius: selectTriggerVars.sizeMedium.rest.root.cornerRadius,
         },
         value: {
-          fontSize: selectTriggerVars.sizeMedium.enabled.value.fontSize,
-          lineHeight: selectTriggerVars.sizeMedium.enabled.value.lineHeight,
+          fontSize: selectTriggerVars.sizeMedium.rest.value.fontSize,
+          lineHeight: selectTriggerVars.sizeMedium.rest.value.lineHeight,
         },
         placeholder: {
-          fontSize: selectTriggerVars.sizeMedium.enabled.placeholder.fontSize,
-          lineHeight: selectTriggerVars.sizeMedium.enabled.placeholder.lineHeight,
+          fontSize: selectTriggerVars.sizeMedium.rest.placeholder.fontSize,
+          lineHeight: selectTriggerVars.sizeMedium.rest.placeholder.lineHeight,
         },
         prefixIcon: {
-          width: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
-          height: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
+          width: selectTriggerVars.sizeMedium.rest.prefixIcon.size,
+          height: selectTriggerVars.sizeMedium.rest.prefixIcon.size,
         },
         suffixIcon: {
-          width: selectTriggerVars.sizeMedium.enabled.suffixIcon.size,
-          height: selectTriggerVars.sizeMedium.enabled.suffixIcon.size,
+          width: selectTriggerVars.sizeMedium.rest.suffixIcon.size,
+          height: selectTriggerVars.sizeMedium.rest.suffixIcon.size,
         },
       },
       responsive: {
         root: {
-          height: selectTriggerVars.sizeLarge.enabled.root.height,
-          gap: selectTriggerVars.sizeLarge.enabled.root.gap,
-          paddingInline: selectTriggerVars.sizeLarge.enabled.root.paddingX,
-          borderRadius: selectTriggerVars.sizeLarge.enabled.root.cornerRadius,
+          height: selectTriggerVars.sizeLarge.rest.root.height,
+          gap: selectTriggerVars.sizeLarge.rest.root.gap,
+          paddingInline: selectTriggerVars.sizeLarge.rest.root.paddingX,
+          borderRadius: selectTriggerVars.sizeLarge.rest.root.cornerRadius,
 
           [breakpoints.up("lg")]: {
-            height: selectTriggerVars.sizeMedium.enabled.root.height,
-            gap: selectTriggerVars.sizeMedium.enabled.root.gap,
-            paddingInline: selectTriggerVars.sizeMedium.enabled.root.paddingX,
-            borderRadius: selectTriggerVars.sizeMedium.enabled.root.cornerRadius,
+            height: selectTriggerVars.sizeMedium.rest.root.height,
+            gap: selectTriggerVars.sizeMedium.rest.root.gap,
+            paddingInline: selectTriggerVars.sizeMedium.rest.root.paddingX,
+            borderRadius: selectTriggerVars.sizeMedium.rest.root.cornerRadius,
           },
         },
         value: {
-          fontSize: selectTriggerVars.sizeLarge.enabled.value.fontSize,
-          lineHeight: selectTriggerVars.sizeLarge.enabled.value.lineHeight,
+          fontSize: selectTriggerVars.sizeLarge.rest.value.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.rest.value.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: selectTriggerVars.sizeMedium.enabled.value.fontSize,
-            lineHeight: selectTriggerVars.sizeMedium.enabled.value.lineHeight,
+            fontSize: selectTriggerVars.sizeMedium.rest.value.fontSize,
+            lineHeight: selectTriggerVars.sizeMedium.rest.value.lineHeight,
           },
         },
         placeholder: {
-          fontSize: selectTriggerVars.sizeLarge.enabled.placeholder.fontSize,
-          lineHeight: selectTriggerVars.sizeLarge.enabled.placeholder.lineHeight,
+          fontSize: selectTriggerVars.sizeLarge.rest.placeholder.fontSize,
+          lineHeight: selectTriggerVars.sizeLarge.rest.placeholder.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: selectTriggerVars.sizeMedium.enabled.placeholder.fontSize,
-            lineHeight: selectTriggerVars.sizeMedium.enabled.placeholder.lineHeight,
+            fontSize: selectTriggerVars.sizeMedium.rest.placeholder.fontSize,
+            lineHeight: selectTriggerVars.sizeMedium.rest.placeholder.lineHeight,
           },
         },
         prefixIcon: {
-          width: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
-          height: selectTriggerVars.sizeLarge.enabled.prefixIcon.size,
+          width: selectTriggerVars.sizeLarge.rest.prefixIcon.size,
+          height: selectTriggerVars.sizeLarge.rest.prefixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
-            height: selectTriggerVars.sizeMedium.enabled.prefixIcon.size,
+            width: selectTriggerVars.sizeMedium.rest.prefixIcon.size,
+            height: selectTriggerVars.sizeMedium.rest.prefixIcon.size,
           },
         },
         suffixIcon: {
-          width: selectTriggerVars.sizeLarge.enabled.suffixIcon.size,
-          height: selectTriggerVars.sizeLarge.enabled.suffixIcon.size,
+          width: selectTriggerVars.sizeLarge.rest.suffixIcon.size,
+          height: selectTriggerVars.sizeLarge.rest.suffixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: selectTriggerVars.sizeMedium.enabled.suffixIcon.size,
-            height: selectTriggerVars.sizeMedium.enabled.suffixIcon.size,
+            width: selectTriggerVars.sizeMedium.rest.suffixIcon.size,
+            height: selectTriggerVars.sizeMedium.rest.suffixIcon.size,
           },
         },
       },
@@ -303,28 +303,28 @@ export const select = defineSlotRecipe({
     },
     content: {
       width: `var(${SELECT_REFERENCE_WIDTH})`,
-      borderRadius: selectVars.base.enabled.root.cornerRadius,
-      background: selectVars.base.enabled.root.color,
-      boxShadow: selectVars.base.enabled.root.shadow,
+      borderRadius: selectVars.base.rest.root.cornerRadius,
+      background: selectVars.base.rest.root.color,
+      boxShadow: selectVars.base.rest.root.shadow,
       transformOrigin: `var(${SELECT_TRANSFORM_ORIGIN})`,
 
       overflow: "hidden",
 
       [pseudo(open)]: {
         ...enterAnimation({
-          scale: selectVars.base.enabled.root.enterScale,
-          opacity: selectVars.base.enabled.root.enterOpacity,
-          duration: selectVars.base.enabled.root.enterDuration,
-          timingFunction: selectVars.base.enabled.root.enterTimingFunction,
+          scale: selectVars.base.rest.root.enterScale,
+          opacity: selectVars.base.rest.root.enterOpacity,
+          duration: selectVars.base.rest.root.enterDuration,
+          timingFunction: selectVars.base.rest.root.enterTimingFunction,
         }),
       },
 
       [pseudo(not(open))]: {
         ...exitAnimation({
-          scale: selectVars.base.enabled.root.exitScale,
-          opacity: selectVars.base.enabled.root.exitOpacity,
-          duration: selectVars.base.enabled.root.exitDuration,
-          timingFunction: selectVars.base.enabled.root.exitTimingFunction,
+          scale: selectVars.base.rest.root.exitScale,
+          opacity: selectVars.base.rest.root.exitOpacity,
+          duration: selectVars.base.rest.root.exitDuration,
+          timingFunction: selectVars.base.rest.root.exitTimingFunction,
         }),
       },
 
@@ -338,14 +338,14 @@ export const select = defineSlotRecipe({
     },
     scrollArea: {
       overflowY: "auto",
-      maxHeight: `min(${selectVars.base.enabled.root.maxHeight}, var(${SELECT_AVAILABLE_HEIGHT}, ${selectVars.base.enabled.root.maxHeight}))`,
+      maxHeight: `min(${selectVars.base.rest.root.maxHeight}, var(${SELECT_AVAILABLE_HEIGHT}, ${selectVars.base.rest.root.maxHeight}))`,
       boxSizing: "border-box",
 
-      paddingBlock: selectVars.base.enabled.root.paddingY,
+      paddingBlock: selectVars.base.rest.root.paddingY,
 
       display: "flex",
       flexDirection: "column",
-      gap: selectVars.base.enabled.root.gap,
+      gap: selectVars.base.rest.root.gap,
     },
     group: {
       display: "flex",
@@ -354,55 +354,55 @@ export const select = defineSlotRecipe({
       "& + &::before": {
         content: '""',
         display: "block",
-        marginInline: selectVars.base.enabled.divider.marginX,
-        marginBottom: selectVars.base.enabled.root.gap,
-        height: selectVars.base.enabled.divider.height,
+        marginInline: selectVars.base.rest.divider.marginX,
+        marginBottom: selectVars.base.rest.root.gap,
+        height: selectVars.base.rest.divider.height,
         flexShrink: 0,
-        backgroundColor: selectVars.base.enabled.divider.color,
+        backgroundColor: selectVars.base.rest.divider.color,
       },
     },
     groupLabel: {
-      color: selectVars.base.enabled.groupLabel.color,
+      color: selectVars.base.rest.groupLabel.color,
     },
   },
   variants: {
     size: {
       large: {
         groupLabel: {
-          paddingBlock: selectVars.sizeLarge.enabled.groupLabel.paddingY,
-          paddingInline: selectVars.sizeLarge.enabled.groupLabel.paddingX,
+          paddingBlock: selectVars.sizeLarge.rest.groupLabel.paddingY,
+          paddingInline: selectVars.sizeLarge.rest.groupLabel.paddingX,
 
-          fontSize: selectVars.sizeLarge.enabled.groupLabel.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.groupLabel.lineHeight,
-          fontWeight: selectVars.sizeLarge.enabled.groupLabel.fontWeight,
+          fontSize: selectVars.sizeLarge.rest.groupLabel.fontSize,
+          lineHeight: selectVars.sizeLarge.rest.groupLabel.lineHeight,
+          fontWeight: selectVars.sizeLarge.rest.groupLabel.fontWeight,
         },
       },
       medium: {
         groupLabel: {
-          paddingBlock: selectVars.sizeMedium.enabled.groupLabel.paddingY,
-          paddingInline: selectVars.sizeMedium.enabled.groupLabel.paddingX,
+          paddingBlock: selectVars.sizeMedium.rest.groupLabel.paddingY,
+          paddingInline: selectVars.sizeMedium.rest.groupLabel.paddingX,
 
-          fontSize: selectVars.sizeMedium.enabled.groupLabel.fontSize,
-          lineHeight: selectVars.sizeMedium.enabled.groupLabel.lineHeight,
-          fontWeight: selectVars.sizeMedium.enabled.groupLabel.fontWeight,
+          fontSize: selectVars.sizeMedium.rest.groupLabel.fontSize,
+          lineHeight: selectVars.sizeMedium.rest.groupLabel.lineHeight,
+          fontWeight: selectVars.sizeMedium.rest.groupLabel.fontWeight,
         },
       },
       responsive: {
         groupLabel: {
-          paddingBlock: selectVars.sizeLarge.enabled.groupLabel.paddingY,
-          paddingInline: selectVars.sizeLarge.enabled.groupLabel.paddingX,
+          paddingBlock: selectVars.sizeLarge.rest.groupLabel.paddingY,
+          paddingInline: selectVars.sizeLarge.rest.groupLabel.paddingX,
 
-          fontSize: selectVars.sizeLarge.enabled.groupLabel.fontSize,
-          lineHeight: selectVars.sizeLarge.enabled.groupLabel.lineHeight,
-          fontWeight: selectVars.sizeLarge.enabled.groupLabel.fontWeight,
+          fontSize: selectVars.sizeLarge.rest.groupLabel.fontSize,
+          lineHeight: selectVars.sizeLarge.rest.groupLabel.lineHeight,
+          fontWeight: selectVars.sizeLarge.rest.groupLabel.fontWeight,
 
           [breakpoints.up("lg")]: {
-            paddingBlock: selectVars.sizeMedium.enabled.groupLabel.paddingY,
-            paddingInline: selectVars.sizeMedium.enabled.groupLabel.paddingX,
+            paddingBlock: selectVars.sizeMedium.rest.groupLabel.paddingY,
+            paddingInline: selectVars.sizeMedium.rest.groupLabel.paddingX,
 
-            fontSize: selectVars.sizeMedium.enabled.groupLabel.fontSize,
-            lineHeight: selectVars.sizeMedium.enabled.groupLabel.lineHeight,
-            fontWeight: selectVars.sizeMedium.enabled.groupLabel.fontWeight,
+            fontSize: selectVars.sizeMedium.rest.groupLabel.fontSize,
+            lineHeight: selectVars.sizeMedium.rest.groupLabel.lineHeight,
+            fontWeight: selectVars.sizeMedium.rest.groupLabel.fontWeight,
           },
         },
       },
@@ -433,12 +433,12 @@ export const selectItem = defineSlotRecipe({
   base: {
     root: {
       position: "relative",
-      scrollMarginBlock: selectVars.base.enabled.root.paddingY,
+      scrollMarginBlock: selectVars.base.rest.root.paddingY,
 
       display: "flex",
       alignItems: "center",
 
-      paddingInline: selectItemVars.base.enabled.root.paddingX,
+      paddingInline: selectItemVars.base.rest.root.paddingX,
 
       outline: "none",
       cursor: "default",
@@ -459,9 +459,9 @@ export const selectItem = defineSlotRecipe({
         inset: 0,
         zIndex: -1,
 
-        borderRadius: selectItemVars.base.enabled.root.cornerRadius,
+        borderRadius: selectItemVars.base.rest.root.cornerRadius,
 
-        transition: `background-color ${selectItemVars.base.enabled.root.colorDuration} ${selectItemVars.base.enabled.root.colorTimingFunction}, inset-inline ${selectItemVars.base.enabled.root.marginDuration} ${selectItemVars.base.enabled.root.marginTimingFunction}`,
+        transition: `background-color ${selectItemVars.base.rest.root.colorDuration} ${selectItemVars.base.rest.root.colorTimingFunction}, inset-inline ${selectItemVars.base.rest.root.marginDuration} ${selectItemVars.base.rest.root.marginTimingFunction}`,
       },
 
       // Active-option / pressed background. In a select-only combobox the list items
@@ -487,7 +487,7 @@ export const selectItem = defineSlotRecipe({
     prefixIcon: {
       flexShrink: 0,
 
-      color: selectItemVars.base.enabled.prefixIcon.color,
+      color: selectItemVars.base.rest.prefixIcon.color,
 
       [pseudo(disabled)]: {
         color: selectItemVars.base.disabled.prefixIcon.color,
@@ -498,19 +498,19 @@ export const selectItem = defineSlotRecipe({
       flexDirection: "column",
 
       flexGrow: 1,
-      gap: selectItemVars.base.enabled.body.gap,
+      gap: selectItemVars.base.rest.body.gap,
     },
     label: {
-      fontWeight: selectItemVars.base.enabled.label.fontWeight,
-      color: selectItemVars.base.enabled.label.color,
+      fontWeight: selectItemVars.base.rest.label.fontWeight,
+      color: selectItemVars.base.rest.label.color,
 
       [pseudo(disabled)]: {
         color: selectItemVars.base.disabled.label.color,
       },
     },
     description: {
-      fontWeight: selectItemVars.base.enabled.description.fontWeight,
-      color: selectItemVars.base.enabled.description.color,
+      fontWeight: selectItemVars.base.rest.description.fontWeight,
+      color: selectItemVars.base.rest.description.color,
 
       [pseudo(disabled)]: {
         color: selectItemVars.base.disabled.description.color,
@@ -519,7 +519,7 @@ export const selectItem = defineSlotRecipe({
     indicator: {
       flexShrink: 0,
 
-      color: selectItemVars.base.enabled.indicator.color,
+      color: selectItemVars.base.rest.indicator.color,
 
       [pseudo(disabled)]: {
         color: selectItemVars.base.disabled.indicator.color,
@@ -530,96 +530,96 @@ export const selectItem = defineSlotRecipe({
     size: {
       large: {
         root: {
-          paddingBlock: selectItemVars.sizeLarge.enabled.root.paddingY,
+          paddingBlock: selectItemVars.sizeLarge.rest.root.paddingY,
 
-          gap: selectItemVars.sizeLarge.enabled.root.gap,
+          gap: selectItemVars.sizeLarge.rest.root.gap,
         },
         prefixIcon: {
-          width: selectItemVars.sizeLarge.enabled.prefixIcon.size,
-          height: selectItemVars.sizeLarge.enabled.prefixIcon.size,
+          width: selectItemVars.sizeLarge.rest.prefixIcon.size,
+          height: selectItemVars.sizeLarge.rest.prefixIcon.size,
         },
         label: {
-          fontSize: selectItemVars.sizeLarge.enabled.label.fontSize,
-          lineHeight: selectItemVars.sizeLarge.enabled.label.lineHeight,
+          fontSize: selectItemVars.sizeLarge.rest.label.fontSize,
+          lineHeight: selectItemVars.sizeLarge.rest.label.lineHeight,
         },
         description: {
-          fontSize: selectItemVars.sizeLarge.enabled.description.fontSize,
-          lineHeight: selectItemVars.sizeLarge.enabled.description.lineHeight,
+          fontSize: selectItemVars.sizeLarge.rest.description.fontSize,
+          lineHeight: selectItemVars.sizeLarge.rest.description.lineHeight,
         },
         indicator: {
-          width: selectItemVars.sizeLarge.enabled.indicator.size,
-          height: selectItemVars.sizeLarge.enabled.indicator.size,
+          width: selectItemVars.sizeLarge.rest.indicator.size,
+          height: selectItemVars.sizeLarge.rest.indicator.size,
         },
       },
       medium: {
         root: {
-          paddingBlock: selectItemVars.sizeMedium.enabled.root.paddingY,
+          paddingBlock: selectItemVars.sizeMedium.rest.root.paddingY,
 
-          gap: selectItemVars.sizeMedium.enabled.root.gap,
+          gap: selectItemVars.sizeMedium.rest.root.gap,
         },
         prefixIcon: {
-          width: selectItemVars.sizeMedium.enabled.prefixIcon.size,
-          height: selectItemVars.sizeMedium.enabled.prefixIcon.size,
+          width: selectItemVars.sizeMedium.rest.prefixIcon.size,
+          height: selectItemVars.sizeMedium.rest.prefixIcon.size,
         },
         label: {
-          fontSize: selectItemVars.sizeMedium.enabled.label.fontSize,
-          lineHeight: selectItemVars.sizeMedium.enabled.label.lineHeight,
+          fontSize: selectItemVars.sizeMedium.rest.label.fontSize,
+          lineHeight: selectItemVars.sizeMedium.rest.label.lineHeight,
         },
         description: {
-          fontSize: selectItemVars.sizeMedium.enabled.description.fontSize,
-          lineHeight: selectItemVars.sizeMedium.enabled.description.lineHeight,
+          fontSize: selectItemVars.sizeMedium.rest.description.fontSize,
+          lineHeight: selectItemVars.sizeMedium.rest.description.lineHeight,
         },
         indicator: {
-          width: selectItemVars.sizeMedium.enabled.indicator.size,
-          height: selectItemVars.sizeMedium.enabled.indicator.size,
+          width: selectItemVars.sizeMedium.rest.indicator.size,
+          height: selectItemVars.sizeMedium.rest.indicator.size,
         },
       },
       responsive: {
         root: {
-          paddingBlock: selectItemVars.sizeLarge.enabled.root.paddingY,
+          paddingBlock: selectItemVars.sizeLarge.rest.root.paddingY,
 
-          gap: selectItemVars.sizeLarge.enabled.root.gap,
+          gap: selectItemVars.sizeLarge.rest.root.gap,
 
           [breakpoints.up("lg")]: {
-            paddingBlock: selectItemVars.sizeMedium.enabled.root.paddingY,
+            paddingBlock: selectItemVars.sizeMedium.rest.root.paddingY,
 
-            gap: selectItemVars.sizeMedium.enabled.root.gap,
+            gap: selectItemVars.sizeMedium.rest.root.gap,
           },
         },
         prefixIcon: {
-          width: selectItemVars.sizeLarge.enabled.prefixIcon.size,
-          height: selectItemVars.sizeLarge.enabled.prefixIcon.size,
+          width: selectItemVars.sizeLarge.rest.prefixIcon.size,
+          height: selectItemVars.sizeLarge.rest.prefixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: selectItemVars.sizeMedium.enabled.prefixIcon.size,
-            height: selectItemVars.sizeMedium.enabled.prefixIcon.size,
+            width: selectItemVars.sizeMedium.rest.prefixIcon.size,
+            height: selectItemVars.sizeMedium.rest.prefixIcon.size,
           },
         },
         label: {
-          fontSize: selectItemVars.sizeLarge.enabled.label.fontSize,
-          lineHeight: selectItemVars.sizeLarge.enabled.label.lineHeight,
+          fontSize: selectItemVars.sizeLarge.rest.label.fontSize,
+          lineHeight: selectItemVars.sizeLarge.rest.label.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: selectItemVars.sizeMedium.enabled.label.fontSize,
-            lineHeight: selectItemVars.sizeMedium.enabled.label.lineHeight,
+            fontSize: selectItemVars.sizeMedium.rest.label.fontSize,
+            lineHeight: selectItemVars.sizeMedium.rest.label.lineHeight,
           },
         },
         description: {
-          fontSize: selectItemVars.sizeLarge.enabled.description.fontSize,
-          lineHeight: selectItemVars.sizeLarge.enabled.description.lineHeight,
+          fontSize: selectItemVars.sizeLarge.rest.description.fontSize,
+          lineHeight: selectItemVars.sizeLarge.rest.description.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: selectItemVars.sizeMedium.enabled.description.fontSize,
-            lineHeight: selectItemVars.sizeMedium.enabled.description.lineHeight,
+            fontSize: selectItemVars.sizeMedium.rest.description.fontSize,
+            lineHeight: selectItemVars.sizeMedium.rest.description.lineHeight,
           },
         },
         indicator: {
-          width: selectItemVars.sizeLarge.enabled.indicator.size,
-          height: selectItemVars.sizeLarge.enabled.indicator.size,
+          width: selectItemVars.sizeLarge.rest.indicator.size,
+          height: selectItemVars.sizeLarge.rest.indicator.size,
 
           [breakpoints.up("lg")]: {
-            width: selectItemVars.sizeMedium.enabled.indicator.size,
-            height: selectItemVars.sizeMedium.enabled.indicator.size,
+            width: selectItemVars.sizeMedium.rest.indicator.size,
+            height: selectItemVars.sizeMedium.rest.indicator.size,
           },
         },
       },

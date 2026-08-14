@@ -35,62 +35,44 @@
             "false": {
               "description": "테두리를 표시하지 않습니다."
             }
-          },
-          "defaultValue": "true"
+          }
         }
-      }
+      },
+      "states": []
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "padding": {
-                  "type": "dimension",
-                  "value": "$dimension.x1_5"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "padding": {
+              "type": "dimension",
+              "value": "$dimension.x1_5"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "stroke": "true"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-subtle"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color",
+              "value": "$color.stroke.neutral-subtle"
+            },
+            "strokeWidth": {
+              "type": "dimension",
+              "value": {
+                "value": 1,
+                "unit": "px"
               }
             }
           }
-        ]
-      },
-      {
-        "variants": {
-          "stroke": "false"
-        },
-        "definitions": []
+        }
       }
     ]
   }

@@ -3,8 +3,8 @@ import { defineSlotRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 
-const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5`;
-const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
+const closeButtonNegativeMargin = `(${vars.base.rest.suffixIcon.targetSize} - ${vars.base.rest.suffixIcon.size}) * -0.5`;
+const prefixIconVerticalAdjustMargin = `(${vars.base.rest.root.minHeight} - ${vars.base.rest.prefixIcon.size}) * 0.5 - ${vars.base.rest.root.paddingY}`;
 
 /**
  * @deprecated Use `page-banner` instead.
@@ -24,19 +24,19 @@ const inlineBanner = defineSlotRecipe({
       alignItems: "flex-start",
       textAlign: "start",
       width: "100%",
-      minHeight: vars.base.enabled.root.minHeight,
+      minHeight: vars.base.rest.root.minHeight,
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.rest.root.paddingX,
+      paddingBlock: vars.base.rest.root.paddingY,
 
       ...prefixIcon({
-        size: vars.base.enabled.prefixIcon.size,
-        marginRight: vars.base.enabled.prefixIcon.marginRight,
+        size: vars.base.rest.prefixIcon.size,
+        marginRight: vars.base.rest.prefixIcon.marginRight,
         marginTop: `calc(${prefixIconVerticalAdjustMargin})`,
       }),
       ...suffixIcon({
-        size: vars.base.enabled.suffixIcon.size,
-        marginLeft: vars.base.enabled.suffixIcon.marginLeft,
+        size: vars.base.rest.suffixIcon.size,
+        marginLeft: vars.base.rest.suffixIcon.marginLeft,
         alignSelf: "center",
       }),
 
@@ -50,9 +50,9 @@ const inlineBanner = defineSlotRecipe({
     title: {
       flexShrink: 0,
 
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
 
       [pseudo("::after")]: {
         content: '"  "',
@@ -60,9 +60,9 @@ const inlineBanner = defineSlotRecipe({
       },
     },
     description: {
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
     },
     link: {
       flexShrink: 0,
@@ -77,11 +77,11 @@ const inlineBanner = defineSlotRecipe({
 
       // TODO: handle targetHeight
       marginBlock: "auto",
-      marginLeft: vars.base.enabled.link.marginLeft,
+      marginLeft: vars.base.rest.link.marginLeft,
 
-      fontSize: vars.base.enabled.link.fontSize,
-      lineHeight: vars.base.enabled.link.lineHeight,
-      fontWeight: vars.base.enabled.link.fontWeight,
+      fontSize: vars.base.rest.link.fontSize,
+      lineHeight: vars.base.rest.link.lineHeight,
+      fontWeight: vars.base.rest.link.fontWeight,
 
       textDecoration: "underline",
       textUnderlineOffset: "2px",
@@ -94,13 +94,13 @@ const inlineBanner = defineSlotRecipe({
       justifyContent: "center",
       alignItems: "center",
 
-      width: vars.base.enabled.suffixIcon.targetSize,
-      height: vars.base.enabled.suffixIcon.targetSize,
+      width: vars.base.rest.suffixIcon.targetSize,
+      height: vars.base.rest.suffixIcon.targetSize,
 
       margin: `calc(${closeButtonNegativeMargin})`,
 
       // Consume suffixIcon margin here, and reset suffix icon margin.
-      marginLeft: `calc(${closeButtonNegativeMargin} + ${vars.base.enabled.suffixIcon.marginLeft})`,
+      marginLeft: `calc(${closeButtonNegativeMargin} + ${vars.base.rest.suffixIcon.marginLeft})`,
       "--seed-suffix-icon-margin-left": "initial",
 
       alignSelf: "center",
@@ -118,156 +118,156 @@ const inlineBanner = defineSlotRecipe({
     variant: {
       neutralWeak: {
         root: {
-          backgroundColor: vars.variantNeutralWeak.enabled.root.color,
-          color: vars.variantNeutralWeak.enabled.description.color,
+          backgroundColor: vars.variantNeutralWeak.rest.root.color,
+          color: vars.variantNeutralWeak.rest.description.color,
 
           ...prefixIcon({
-            color: vars.variantNeutralWeak.enabled.prefixIcon.color,
+            color: vars.variantNeutralWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.variantNeutralWeak.enabled.suffixIcon.color,
+            color: vars.variantNeutralWeak.rest.suffixIcon.color,
           }),
         },
         title: {
-          color: vars.variantNeutralWeak.enabled.title.color,
+          color: vars.variantNeutralWeak.rest.title.color,
         },
         description: {
-          color: vars.variantNeutralWeak.enabled.description.color,
+          color: vars.variantNeutralWeak.rest.description.color,
         },
         link: {
-          color: vars.variantNeutralWeak.enabled.link.color,
+          color: vars.variantNeutralWeak.rest.link.color,
         },
       },
       positiveWeak: {
         root: {
-          backgroundColor: vars.variantPositiveWeak.enabled.root.color,
-          color: vars.variantPositiveWeak.enabled.description.color,
+          backgroundColor: vars.variantPositiveWeak.rest.root.color,
+          color: vars.variantPositiveWeak.rest.description.color,
 
           ...prefixIcon({
-            color: vars.variantPositiveWeak.enabled.prefixIcon.color,
+            color: vars.variantPositiveWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.variantPositiveWeak.enabled.suffixIcon.color,
+            color: vars.variantPositiveWeak.rest.suffixIcon.color,
           }),
         },
         title: {
-          color: vars.variantPositiveWeak.enabled.title.color,
+          color: vars.variantPositiveWeak.rest.title.color,
         },
         description: {
-          color: vars.variantPositiveWeak.enabled.description.color,
+          color: vars.variantPositiveWeak.rest.description.color,
         },
         link: {
-          color: vars.variantPositiveWeak.enabled.link.color,
+          color: vars.variantPositiveWeak.rest.link.color,
         },
       },
       informativeWeak: {
         root: {
-          backgroundColor: vars.variantInformativeWeak.enabled.root.color,
-          color: vars.variantInformativeWeak.enabled.description.color,
+          backgroundColor: vars.variantInformativeWeak.rest.root.color,
+          color: vars.variantInformativeWeak.rest.description.color,
 
           ...prefixIcon({
-            color: vars.variantInformativeWeak.enabled.prefixIcon.color,
+            color: vars.variantInformativeWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.variantInformativeWeak.enabled.suffixIcon.color,
+            color: vars.variantInformativeWeak.rest.suffixIcon.color,
           }),
         },
         title: {
-          color: vars.variantInformativeWeak.enabled.title.color,
+          color: vars.variantInformativeWeak.rest.title.color,
         },
         description: {
-          color: vars.variantInformativeWeak.enabled.description.color,
+          color: vars.variantInformativeWeak.rest.description.color,
         },
         link: {
-          color: vars.variantInformativeWeak.enabled.link.color,
+          color: vars.variantInformativeWeak.rest.link.color,
         },
       },
       warningWeak: {
         root: {
-          backgroundColor: vars.variantWarningWeak.enabled.root.color,
-          color: vars.variantWarningWeak.enabled.description.color,
+          backgroundColor: vars.variantWarningWeak.rest.root.color,
+          color: vars.variantWarningWeak.rest.description.color,
 
           ...prefixIcon({
-            color: vars.variantWarningWeak.enabled.prefixIcon.color,
+            color: vars.variantWarningWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.variantWarningWeak.enabled.suffixIcon.color,
+            color: vars.variantWarningWeak.rest.suffixIcon.color,
           }),
         },
         title: {
-          color: vars.variantWarningWeak.enabled.title.color,
+          color: vars.variantWarningWeak.rest.title.color,
         },
         description: {
-          color: vars.variantWarningWeak.enabled.description.color,
+          color: vars.variantWarningWeak.rest.description.color,
         },
         link: {
-          color: vars.variantWarningWeak.enabled.link.color,
+          color: vars.variantWarningWeak.rest.link.color,
         },
       },
       warningSolid: {
         root: {
-          backgroundColor: vars.variantWarningSolid.enabled.root.color,
-          color: vars.variantWarningSolid.enabled.description.color,
+          backgroundColor: vars.variantWarningSolid.rest.root.color,
+          color: vars.variantWarningSolid.rest.description.color,
 
           ...prefixIcon({
-            color: vars.variantWarningSolid.enabled.prefixIcon.color,
+            color: vars.variantWarningSolid.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.variantWarningSolid.enabled.suffixIcon.color,
+            color: vars.variantWarningSolid.rest.suffixIcon.color,
           }),
         },
         title: {
-          color: vars.variantWarningSolid.enabled.title.color,
+          color: vars.variantWarningSolid.rest.title.color,
         },
         description: {
-          color: vars.variantWarningSolid.enabled.description.color,
+          color: vars.variantWarningSolid.rest.description.color,
         },
         link: {
-          color: vars.variantWarningSolid.enabled.link.color,
+          color: vars.variantWarningSolid.rest.link.color,
         },
       },
       criticalWeak: {
         root: {
-          backgroundColor: vars.variantCriticalWeak.enabled.root.color,
-          color: vars.variantCriticalWeak.enabled.description.color,
+          backgroundColor: vars.variantCriticalWeak.rest.root.color,
+          color: vars.variantCriticalWeak.rest.description.color,
 
           ...prefixIcon({
-            color: vars.variantCriticalWeak.enabled.prefixIcon.color,
+            color: vars.variantCriticalWeak.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.variantCriticalWeak.enabled.suffixIcon.color,
+            color: vars.variantCriticalWeak.rest.suffixIcon.color,
           }),
         },
         title: {
-          color: vars.variantCriticalWeak.enabled.title.color,
+          color: vars.variantCriticalWeak.rest.title.color,
         },
         description: {
-          color: vars.variantCriticalWeak.enabled.description.color,
+          color: vars.variantCriticalWeak.rest.description.color,
         },
         link: {
-          color: vars.variantCriticalWeak.enabled.link.color,
+          color: vars.variantCriticalWeak.rest.link.color,
         },
       },
       criticalSolid: {
         root: {
-          backgroundColor: vars.variantCriticalSolid.enabled.root.color,
-          color: vars.variantCriticalSolid.enabled.description.color,
+          backgroundColor: vars.variantCriticalSolid.rest.root.color,
+          color: vars.variantCriticalSolid.rest.description.color,
 
           ...prefixIcon({
-            color: vars.variantCriticalSolid.enabled.prefixIcon.color,
+            color: vars.variantCriticalSolid.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.variantCriticalSolid.enabled.suffixIcon.color,
+            color: vars.variantCriticalSolid.rest.suffixIcon.color,
           }),
         },
         title: {
-          color: vars.variantCriticalSolid.enabled.title.color,
+          color: vars.variantCriticalSolid.rest.title.color,
         },
         description: {
-          color: vars.variantCriticalSolid.enabled.description.color,
+          color: vars.variantCriticalSolid.rest.description.color,
         },
         link: {
-          color: vars.variantCriticalSolid.enabled.link.color,
+          color: vars.variantCriticalSolid.rest.link.color,
         },
       },
     },

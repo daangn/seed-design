@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
         "strokeColor": "var(--seed-color-stroke-neutral-subtle)"
@@ -11,7 +11,7 @@ export declare const vars: {
    * 대표 사용처: 댓글을 남긴 사용자
    */
   "size20": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "20px",
         "strokeWidth": "1px"
@@ -22,7 +22,7 @@ export declare const vars: {
    * 대표 사용처: 답글 프로필
    */
   "size24": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "24px",
         "strokeWidth": "1px"
@@ -43,7 +43,7 @@ export declare const vars: {
    * 대표 사용처: 댓글 프로필
    */
   "size36": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "36px",
         "strokeWidth": "1px"
@@ -64,7 +64,7 @@ export declare const vars: {
    * 대표 사용처: 게시글 상세 내 프로필
    */
   "size42": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "42px",
         "strokeWidth": "1px"
@@ -85,7 +85,7 @@ export declare const vars: {
    * 대표 사용처: 작은 리스트
    */
   "size48": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "48px",
         "strokeWidth": "1px"
@@ -106,7 +106,7 @@ export declare const vars: {
    * 대표 사용처: 큰 리스트
    */
   "size56": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "56px",
         "strokeWidth": "1px"
@@ -127,7 +127,7 @@ export declare const vars: {
    * 대표 사용처: 프로필 상세, 캐러셀
    */
   "size64": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "64px",
         "strokeWidth": "1px"
@@ -145,7 +145,7 @@ export declare const vars: {
     }
   },
   "size80": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "80px",
         "strokeWidth": "1px"
@@ -163,7 +163,7 @@ export declare const vars: {
     }
   },
   "size96": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "96px",
         "strokeWidth": "1px"
@@ -184,7 +184,7 @@ export declare const vars: {
    * 대표 사용처: 프로필 수정
    */
   "size108": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "108px",
         "strokeWidth": "1px"

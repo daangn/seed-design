@@ -14,9 +14,8 @@ data:
         properties:
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           color: $color.palette.gray-500
         image:

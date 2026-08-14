@@ -53,7 +53,7 @@ const accordion = defineSlotRecipe({
       padding: 0,
       fontFamily: "inherit",
       textAlign: "start",
-      paddingInline: itemVars.base.enabled.trigger.paddingX,
+      paddingInline: itemVars.base.rest.trigger.paddingX,
 
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
@@ -69,7 +69,7 @@ const accordion = defineSlotRecipe({
       flexShrink: 0,
 
       ...onlyIcon({
-        color: itemVars.base.enabled.prefixIcon.color,
+        color: itemVars.base.rest.prefixIcon.color,
       }),
 
       [pseudo(disabled)]: {
@@ -82,20 +82,20 @@ const accordion = defineSlotRecipe({
       display: "flex",
       flex: 1,
       flexDirection: "column",
-      gap: itemVars.base.enabled.body.gap,
+      gap: itemVars.base.rest.body.gap,
       minWidth: 0,
     },
     title: {
-      color: itemVars.base.enabled.title.color,
-      fontWeight: itemVars.base.enabled.title.fontWeight,
+      color: itemVars.base.rest.title.color,
+      fontWeight: itemVars.base.rest.title.fontWeight,
 
       [pseudo(disabled)]: {
         color: itemVars.base.disabled.title.color,
       },
     },
     description: {
-      color: itemVars.base.enabled.description.color,
-      fontWeight: itemVars.base.enabled.description.fontWeight,
+      color: itemVars.base.rest.description.color,
+      fontWeight: itemVars.base.rest.description.fontWeight,
 
       [pseudo(disabled)]: {
         color: itemVars.base.disabled.description.color,
@@ -106,10 +106,10 @@ const accordion = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
       marginLeft: "auto",
-      color: itemVars.base.enabled.suffixIcon.color,
+      color: itemVars.base.rest.suffixIcon.color,
 
       transform: "rotate(0deg)",
-      transition: `transform ${itemVars.base.enabled.suffixIcon.rotateDuration} ${itemVars.base.enabled.suffixIcon.rotateTimingFunction}`,
+      transition: `transform ${itemVars.base.rest.suffixIcon.rotateDuration} ${itemVars.base.rest.suffixIcon.rotateTimingFunction}`,
 
       [pseudo(open)]: {
         transform: "rotate(180deg)",
@@ -124,12 +124,12 @@ const accordion = defineSlotRecipe({
       height: 0,
       opacity: 0,
 
-      transition: `height ${itemVars.base.enabled.content.collapseHeightDuration} ${itemVars.base.enabled.content.collapseHeightTimingFunction}, opacity ${itemVars.base.enabled.content.collapseHeightDuration} ${itemVars.base.enabled.content.collapseHeightTimingFunction}`,
+      transition: `height ${itemVars.base.rest.content.collapseHeightDuration} ${itemVars.base.rest.content.collapseHeightTimingFunction}, opacity ${itemVars.base.rest.content.collapseHeightDuration} ${itemVars.base.rest.content.collapseHeightTimingFunction}`,
 
       [pseudo(open)]: {
         height: "var(--collapsible-content-height)",
         opacity: 1,
-        transition: `height ${itemVars.base.enabled.content.expandHeightDuration} ${itemVars.base.enabled.content.expandHeightTimingFunction}, opacity ${itemVars.base.enabled.content.expandHeightDuration} ${itemVars.base.enabled.content.expandHeightTimingFunction}`,
+        transition: `height ${itemVars.base.rest.content.expandHeightDuration} ${itemVars.base.rest.content.expandHeightTimingFunction}, opacity ${itemVars.base.rest.content.expandHeightDuration} ${itemVars.base.rest.content.expandHeightTimingFunction}`,
       },
     },
   },
@@ -143,9 +143,9 @@ const accordion = defineSlotRecipe({
             content: "''",
             position: "absolute",
             bottom: 0,
-            insetInline: itemVars.variantInline.enabled.root.dividerPaddingX,
+            insetInline: itemVars.variantInline.rest.root.dividerPaddingX,
             height: "1px",
-            backgroundColor: itemVars.variantInline.enabled.root.dividerColor,
+            backgroundColor: itemVars.variantInline.rest.root.dividerColor,
           },
         },
         trigger: {
@@ -155,8 +155,8 @@ const accordion = defineSlotRecipe({
             inset: 0,
             zIndex: -1,
             transitionProperty: "background-color, inset-inline, border-radius",
-            transitionDuration: itemVars.base.enabled.root.colorDuration,
-            transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
+            transitionDuration: itemVars.base.rest.root.colorDuration,
+            transitionTimingFunction: itemVars.base.rest.root.colorTimingFunction,
           },
           [pseudo(not(disabled), engaged, "::before")]: {
             backgroundColor: itemVars.base.pressed.trigger.color,
@@ -167,8 +167,8 @@ const accordion = defineSlotRecipe({
       },
       separated: {
         item: {
-          boxShadow: `inset 0 0 0 ${itemVars.variantSeparated.enabled.root.strokeWidth} ${itemVars.variantSeparated.enabled.root.strokeColor}`,
-          borderRadius: itemVars.variantSeparated.enabled.root.cornerRadius,
+          boxShadow: `inset 0 0 0 ${itemVars.variantSeparated.rest.root.strokeWidth} ${itemVars.variantSeparated.rest.root.strokeColor}`,
+          borderRadius: itemVars.variantSeparated.rest.root.cornerRadius,
           overflow: "hidden",
         },
         trigger: {
@@ -178,8 +178,8 @@ const accordion = defineSlotRecipe({
             inset: 0,
             zIndex: -1,
             transitionProperty: "background-color",
-            transitionDuration: itemVars.base.enabled.root.colorDuration,
-            transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
+            transitionDuration: itemVars.base.rest.root.colorDuration,
+            transitionTimingFunction: itemVars.base.rest.root.colorTimingFunction,
           },
           [pseudo(not(disabled), engaged, "::before")]: {
             backgroundColor: itemVars.base.pressed.trigger.color,
@@ -190,103 +190,103 @@ const accordion = defineSlotRecipe({
     size: {
       medium: {
         trigger: {
-          paddingBlock: itemVars.sizeMedium.enabled.trigger.paddingY,
+          paddingBlock: itemVars.sizeMedium.rest.trigger.paddingY,
         },
         prefix: {
-          marginRight: itemVars.sizeMedium.enabled.prefix.paddingRight,
+          marginRight: itemVars.sizeMedium.rest.prefix.paddingRight,
           ...onlyIcon({
-            size: itemVars.sizeMedium.enabled.prefixIcon.size,
+            size: itemVars.sizeMedium.rest.prefixIcon.size,
           }),
         },
         title: {
-          fontSize: itemVars.sizeMedium.enabled.title.fontSize,
-          lineHeight: itemVars.sizeMedium.enabled.title.lineHeight,
+          fontSize: itemVars.sizeMedium.rest.title.fontSize,
+          lineHeight: itemVars.sizeMedium.rest.title.lineHeight,
         },
         description: {
-          fontSize: itemVars.sizeMedium.enabled.description.fontSize,
-          lineHeight: itemVars.sizeMedium.enabled.description.lineHeight,
+          fontSize: itemVars.sizeMedium.rest.description.fontSize,
+          lineHeight: itemVars.sizeMedium.rest.description.lineHeight,
         },
         suffixIcon: {
           ...suffixIcon({
-            size: itemVars.sizeMedium.enabled.suffixIcon.size,
-            marginLeft: itemVars.sizeMedium.enabled.suffixIcon.paddingLeft,
+            size: itemVars.sizeMedium.rest.suffixIcon.size,
+            marginLeft: itemVars.sizeMedium.rest.suffixIcon.paddingLeft,
           }),
         },
       },
       large: {
         trigger: {
-          paddingBlock: itemVars.sizeLarge.enabled.trigger.paddingY,
+          paddingBlock: itemVars.sizeLarge.rest.trigger.paddingY,
         },
         prefix: {
-          marginRight: itemVars.sizeLarge.enabled.prefix.paddingRight,
+          marginRight: itemVars.sizeLarge.rest.prefix.paddingRight,
           ...onlyIcon({
-            size: itemVars.sizeLarge.enabled.prefixIcon.size,
+            size: itemVars.sizeLarge.rest.prefixIcon.size,
           }),
         },
         title: {
-          fontSize: itemVars.sizeLarge.enabled.title.fontSize,
-          lineHeight: itemVars.sizeLarge.enabled.title.lineHeight,
+          fontSize: itemVars.sizeLarge.rest.title.fontSize,
+          lineHeight: itemVars.sizeLarge.rest.title.lineHeight,
         },
         description: {
-          fontSize: itemVars.sizeLarge.enabled.description.fontSize,
-          lineHeight: itemVars.sizeLarge.enabled.description.lineHeight,
+          fontSize: itemVars.sizeLarge.rest.description.fontSize,
+          lineHeight: itemVars.sizeLarge.rest.description.lineHeight,
         },
         suffixIcon: {
           ...suffixIcon({
-            size: itemVars.sizeLarge.enabled.suffixIcon.size,
-            marginLeft: itemVars.sizeLarge.enabled.suffixIcon.paddingLeft,
+            size: itemVars.sizeLarge.rest.suffixIcon.size,
+            marginLeft: itemVars.sizeLarge.rest.suffixIcon.paddingLeft,
           }),
         },
       },
       responsive: {
         trigger: {
-          paddingBlock: itemVars.sizeMedium.enabled.trigger.paddingY,
+          paddingBlock: itemVars.sizeMedium.rest.trigger.paddingY,
 
           [breakpoints.up("md")]: {
-            paddingBlock: itemVars.sizeLarge.enabled.trigger.paddingY,
+            paddingBlock: itemVars.sizeLarge.rest.trigger.paddingY,
           },
         },
         prefix: {
-          marginRight: itemVars.sizeMedium.enabled.prefix.paddingRight,
+          marginRight: itemVars.sizeMedium.rest.prefix.paddingRight,
           ...onlyIcon({
-            size: itemVars.sizeMedium.enabled.prefixIcon.size,
+            size: itemVars.sizeMedium.rest.prefixIcon.size,
           }),
 
           [breakpoints.up("md")]: {
-            marginRight: itemVars.sizeLarge.enabled.prefix.paddingRight,
+            marginRight: itemVars.sizeLarge.rest.prefix.paddingRight,
             ...onlyIcon({
-              size: itemVars.sizeLarge.enabled.prefixIcon.size,
+              size: itemVars.sizeLarge.rest.prefixIcon.size,
             }),
           },
         },
         title: {
-          fontSize: itemVars.sizeMedium.enabled.title.fontSize,
-          lineHeight: itemVars.sizeMedium.enabled.title.lineHeight,
+          fontSize: itemVars.sizeMedium.rest.title.fontSize,
+          lineHeight: itemVars.sizeMedium.rest.title.lineHeight,
 
           [breakpoints.up("md")]: {
-            fontSize: itemVars.sizeLarge.enabled.title.fontSize,
-            lineHeight: itemVars.sizeLarge.enabled.title.lineHeight,
+            fontSize: itemVars.sizeLarge.rest.title.fontSize,
+            lineHeight: itemVars.sizeLarge.rest.title.lineHeight,
           },
         },
         description: {
-          fontSize: itemVars.sizeMedium.enabled.description.fontSize,
-          lineHeight: itemVars.sizeMedium.enabled.description.lineHeight,
+          fontSize: itemVars.sizeMedium.rest.description.fontSize,
+          lineHeight: itemVars.sizeMedium.rest.description.lineHeight,
 
           [breakpoints.up("md")]: {
-            fontSize: itemVars.sizeLarge.enabled.description.fontSize,
-            lineHeight: itemVars.sizeLarge.enabled.description.lineHeight,
+            fontSize: itemVars.sizeLarge.rest.description.fontSize,
+            lineHeight: itemVars.sizeLarge.rest.description.lineHeight,
           },
         },
         suffixIcon: {
           ...suffixIcon({
-            size: itemVars.sizeMedium.enabled.suffixIcon.size,
-            marginLeft: itemVars.sizeMedium.enabled.suffixIcon.paddingLeft,
+            size: itemVars.sizeMedium.rest.suffixIcon.size,
+            marginLeft: itemVars.sizeMedium.rest.suffixIcon.paddingLeft,
           }),
 
           [breakpoints.up("md")]: {
             ...suffixIcon({
-              size: itemVars.sizeLarge.enabled.suffixIcon.size,
-              marginLeft: itemVars.sizeLarge.enabled.suffixIcon.paddingLeft,
+              size: itemVars.sizeLarge.rest.suffixIcon.size,
+              marginLeft: itemVars.sizeLarge.rest.suffixIcon.paddingLeft,
             }),
           },
         },
@@ -299,7 +299,7 @@ const accordion = defineSlotRecipe({
       size: "medium",
       css: {
         root: {
-          gap: vars.variantSeparatedSizeMedium.enabled.root.gap,
+          gap: vars.variantSeparatedSizeMedium.rest.root.gap,
         },
       },
     },
@@ -308,7 +308,7 @@ const accordion = defineSlotRecipe({
       size: "large",
       css: {
         root: {
-          gap: vars.variantSeparatedSizeLarge.enabled.root.gap,
+          gap: vars.variantSeparatedSizeLarge.rest.root.gap,
         },
       },
     },
@@ -317,10 +317,10 @@ const accordion = defineSlotRecipe({
       size: "responsive",
       css: {
         root: {
-          gap: vars.variantSeparatedSizeMedium.enabled.root.gap,
+          gap: vars.variantSeparatedSizeMedium.rest.root.gap,
 
           [breakpoints.up("md")]: {
-            gap: vars.variantSeparatedSizeLarge.enabled.root.gap,
+            gap: vars.variantSeparatedSizeLarge.rest.root.gap,
           },
         },
       },

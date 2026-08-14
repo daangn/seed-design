@@ -24,14 +24,13 @@ data:
             description: 이미지 테두리에 스트로크를 표시합니다.
           "false":
             description: 테두리를 표시하지 않습니다.
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           padding: $dimension.x1_5
-    stroke=true:
-      enabled:
+    - variants:
+        stroke: "true"
+      slots:
         root:
           strokeColor: $color.stroke.neutral-subtle
           strokeWidth: 1px
-    stroke=false: {}

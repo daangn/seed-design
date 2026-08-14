@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -10,7 +10,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "18px",
         "minHeight": "18px",
@@ -29,7 +29,7 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "6px",
         "cornerRadius": "var(--seed-radius-full)",

@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
@@ -8,7 +8,7 @@ export const vars = {
     }
   },
   "variantSquare": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)"
@@ -19,7 +19,7 @@ export const vars = {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
-    "enabledSelected": {
+    "selected": {
       "root": {
         "strokeWidth": "0px",
         "strokeColor": "#00000000"
@@ -34,14 +34,14 @@ export const vars = {
         "color": "var(--seed-color-fg-disabled)"
       }
     },
-    "disabledSelected": {
+    "selectedDisabled": {
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       }
     }
   },
   "variantSquareToneBrand": {
-    "enabledSelected": {
+    "selected": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -56,7 +56,7 @@ export const vars = {
     }
   },
   "variantSquareToneNeutral": {
-    "enabledSelected": {
+    "selected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -71,7 +71,7 @@ export const vars = {
     }
   },
   "variantGhost": {
-    "enabled": {
+    "rest": {
       "icon": {
         "color": "var(--seed-color-fg-placeholder)",
         "colorDuration": "var(--seed-duration-color-transition)",
@@ -88,14 +88,14 @@ export const vars = {
         "color": "var(--seed-color-fg-disabled)"
       }
     },
-    "disabledSelected": {
+    "selectedDisabled": {
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       }
     }
   },
   "variantGhostToneBrand": {
-    "enabledSelected": {
+    "selected": {
       "icon": {
         "color": "var(--seed-color-fg-brand)"
       }
@@ -107,7 +107,7 @@ export const vars = {
     }
   },
   "variantGhostToneNeutral": {
-    "enabledSelected": {
+    "selected": {
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       }
@@ -119,7 +119,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "var(--seed-dimension-x5)",
         "cornerRadius": "var(--seed-radius-r1)"
@@ -127,7 +127,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "var(--seed-dimension-x6)",
         "cornerRadius": "var(--seed-radius-r1)"
@@ -135,28 +135,28 @@ export const vars = {
     }
   },
   "variantSquareSizeMedium": {
-    "enabled": {
+    "rest": {
       "icon": {
         "size": "12px"
       }
     }
   },
   "variantSquareSizeLarge": {
-    "enabled": {
+    "rest": {
       "icon": {
         "size": "14px"
       }
     }
   },
   "variantGhostSizeMedium": {
-    "enabled": {
+    "rest": {
       "icon": {
         "size": "14px"
       }
     }
   },
   "variantGhostSizeLarge": {
-    "enabled": {
+    "rest": {
       "icon": {
         "size": "18px"
       }

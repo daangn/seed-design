@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "gapY": "var(--seed-dimension-x1)"
       }

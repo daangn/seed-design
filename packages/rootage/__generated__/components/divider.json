@@ -17,29 +17,24 @@
           }
         }
       },
-      "variants": {}
+      "variants": {},
+      "states": []
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "thickness": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "thickness": {
+              "type": "dimension",
+              "value": {
+                "value": 1,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       }
     ]
   }

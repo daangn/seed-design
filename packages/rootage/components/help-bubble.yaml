@@ -84,9 +84,8 @@ data:
             type: dimension
           marginTop:
             type: dimension
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           color: $color.bg.neutral-inverted
           cornerRadius: $radius.r3

@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
         "strokeColor": "var(--seed-color-stroke-neutral-subtle)"
@@ -8,7 +8,7 @@ export const vars = {
     }
   },
   "size20": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "20px",
         "strokeWidth": "1px"
@@ -16,7 +16,7 @@ export const vars = {
     }
   },
   "size24": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "24px",
         "strokeWidth": "1px"
@@ -32,7 +32,7 @@ export const vars = {
     }
   },
   "size36": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "36px",
         "strokeWidth": "1px"
@@ -48,7 +48,7 @@ export const vars = {
     }
   },
   "size42": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "42px",
         "strokeWidth": "1px"
@@ -64,7 +64,7 @@ export const vars = {
     }
   },
   "size48": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "48px",
         "strokeWidth": "1px"
@@ -80,7 +80,7 @@ export const vars = {
     }
   },
   "size56": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "56px",
         "strokeWidth": "1px"
@@ -96,7 +96,7 @@ export const vars = {
     }
   },
   "size64": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "64px",
         "strokeWidth": "1px"
@@ -112,7 +112,7 @@ export const vars = {
     }
   },
   "size80": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "80px",
         "strokeWidth": "1px"
@@ -128,7 +128,7 @@ export const vars = {
     }
   },
   "size96": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "96px",
         "strokeWidth": "1px"
@@ -144,7 +144,7 @@ export const vars = {
     }
   },
   "size108": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "108px",
         "strokeWidth": "1px"

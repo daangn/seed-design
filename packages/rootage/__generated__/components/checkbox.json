@@ -41,155 +41,130 @@
           "values": {
             "regular": {},
             "bold": {}
-          },
-          "defaultValue": "regular"
+          }
         },
         "size": {
           "values": {
             "medium": {},
             "large": {}
-          },
-          "defaultValue": "medium"
+          }
         }
-      }
+      },
+      "states": [
+        {
+          "id": "disabled",
+          "suppresses": []
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "root": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                }
-              }
+        "states": [],
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
+          "root": {
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x2"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          }
+        }
       },
       {
         "variants": {
           "weight": "regular"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                }
-              }
+        "states": [],
+        "slots": {
+          "label": {
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.regular"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "weight": "bold"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.bold"
-                }
-              }
+        "states": [],
+        "slots": {
+          "label": {
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.bold"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "size": "medium"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension",
-                  "value": "$dimension.x8"
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension",
+              "value": "$dimension.x8"
+            }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t4"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t4"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "size": "large"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension",
-                  "value": "$dimension.x9"
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension",
+              "value": "$dimension.x9"
+            }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t5"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t5"
             }
           }
-        ]
+        }
       }
     ]
   }

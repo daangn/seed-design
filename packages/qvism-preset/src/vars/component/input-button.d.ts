@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
@@ -87,7 +87,7 @@ export declare const vars: {
    * 뷰포트 너비와 관계없이 사용할 수 있습니다.
    */
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x13)",
         "gap": "var(--seed-dimension-x2_5)",
@@ -125,7 +125,7 @@ export declare const vars: {
    * Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
    */
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x10)",
         "gap": "var(--seed-dimension-x2)",

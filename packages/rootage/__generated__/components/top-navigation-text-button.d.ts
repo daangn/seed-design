@@ -58,167 +58,146 @@ declare const artifact: {
             "layer": {};
             "transparent": {};
           };
-          "defaultValue": "layer";
         };
         "theme": {
           "values": {
             "ios": {};
-            "android": {};
           };
-          "defaultValue": "ios";
         };
       };
+      "states": readonly [
+        {
+          "id": "disabled";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-                "maxFontSizeScale": {
-                  "type": "number";
-                  "value": 1.2;
-                };
-                "minFontSizeScale": {
-                  "type": "number";
-                  "value": 1;
-                };
-                "maxLineHeightScale": {
-                  "type": "number";
-                  "value": 1.2;
-                };
-                "minLineHeightScale": {
-                  "type": "number";
-                  "value": 1;
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 44;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+            "maxFontSizeScale": {
+              "type": "number";
+              "value": 1.2;
+            };
+            "minFontSizeScale": {
+              "type": "number";
+              "value": 1;
+            };
+            "maxLineHeightScale": {
+              "type": "number";
+              "value": 1.2;
+            };
+            "minLineHeightScale": {
+              "type": "number";
+              "value": 1;
+            };
+          };
+        };
       },
       {
         "variants": {
           "tone": "layer";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-            };
-          },
+          };
+        };
+      },
+      {
+        "variants": {
+          "tone": "layer";
+        };
+        "states": readonly [
+          "disabled",
         ];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
       },
       {
         "variants": {
           "tone": "transparent";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-            };
-          },
+          };
+        };
+      },
+      {
+        "variants": {
+          "tone": "transparent";
+        };
+        "states": readonly [
+          "disabled",
         ];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
       },
       {
         "variants": {
           "theme": "ios";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "maxWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 96;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "maxWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 96;
+                "unit": "px";
               };
             };
-          },
-        ];
-      },
-      {
-        "variants": {
-          "theme": "android";
+          };
         };
-        "definitions": readonly [];
       },
     ];
   };

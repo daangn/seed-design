@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
         "shadow": "0px 2px 6px 0px #00000026"
@@ -8,7 +8,7 @@ export const vars = {
     }
   },
   "variantNeutralSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -26,7 +26,7 @@ export const vars = {
     }
   },
   "variantLayerFloating": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-layer-floating)"
       },
@@ -44,7 +44,7 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "40px",
         "gap": "var(--seed-dimension-x1)",
@@ -62,7 +62,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "48px",
         "gap": "var(--seed-dimension-x1)",

@@ -1,6 +1,6 @@
 export const vars = {
   "textStyleScreenTitle": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
@@ -9,7 +9,7 @@ export const vars = {
     }
   },
   "textStyleArticleBody": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t6)",
@@ -18,7 +18,7 @@ export const vars = {
     }
   },
   "textStyleArticleNote": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -27,7 +27,7 @@ export const vars = {
     }
   },
   "textStyleT1Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
@@ -36,7 +36,7 @@ export const vars = {
     }
   },
   "textStyleT1Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
@@ -45,7 +45,7 @@ export const vars = {
     }
   },
   "textStyleT1Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
@@ -54,7 +54,7 @@ export const vars = {
     }
   },
   "textStyleT2Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
@@ -63,7 +63,7 @@ export const vars = {
     }
   },
   "textStyleT2Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
@@ -72,7 +72,7 @@ export const vars = {
     }
   },
   "textStyleT2Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
@@ -81,7 +81,7 @@ export const vars = {
     }
   },
   "textStyleT3Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
@@ -90,7 +90,7 @@ export const vars = {
     }
   },
   "textStyleT3Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
@@ -99,7 +99,7 @@ export const vars = {
     }
   },
   "textStyleT3Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
@@ -108,7 +108,7 @@ export const vars = {
     }
   },
   "textStyleT4Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -117,7 +117,7 @@ export const vars = {
     }
   },
   "textStyleT4Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -126,7 +126,7 @@ export const vars = {
     }
   },
   "textStyleT4Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -135,7 +135,7 @@ export const vars = {
     }
   },
   "textStyleT5Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -144,7 +144,7 @@ export const vars = {
     }
   },
   "textStyleT5Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -153,7 +153,7 @@ export const vars = {
     }
   },
   "textStyleT5Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -162,7 +162,7 @@ export const vars = {
     }
   },
   "textStyleT6Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6)",
         "lineHeight": "var(--seed-line-height-t6)",
@@ -171,7 +171,7 @@ export const vars = {
     }
   },
   "textStyleT6Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6)",
         "lineHeight": "var(--seed-line-height-t6)",
@@ -180,7 +180,7 @@ export const vars = {
     }
   },
   "textStyleT6Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6)",
         "lineHeight": "var(--seed-line-height-t6)",
@@ -189,7 +189,7 @@ export const vars = {
     }
   },
   "textStyleT7Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7)",
         "lineHeight": "var(--seed-line-height-t7)",
@@ -198,7 +198,7 @@ export const vars = {
     }
   },
   "textStyleT7Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7)",
         "lineHeight": "var(--seed-line-height-t7)",
@@ -207,7 +207,7 @@ export const vars = {
     }
   },
   "textStyleT7Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7)",
         "lineHeight": "var(--seed-line-height-t7)",
@@ -216,7 +216,7 @@ export const vars = {
     }
   },
   "textStyleT8Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8)",
         "lineHeight": "var(--seed-line-height-t8)",
@@ -225,7 +225,7 @@ export const vars = {
     }
   },
   "textStyleT8Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8)",
         "lineHeight": "var(--seed-line-height-t8)",
@@ -234,7 +234,7 @@ export const vars = {
     }
   },
   "textStyleT8Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8)",
         "lineHeight": "var(--seed-line-height-t8)",
@@ -243,7 +243,7 @@ export const vars = {
     }
   },
   "textStyleT9Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9)",
         "lineHeight": "var(--seed-line-height-t9)",
@@ -252,7 +252,7 @@ export const vars = {
     }
   },
   "textStyleT9Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9)",
         "lineHeight": "var(--seed-line-height-t9)",
@@ -261,7 +261,7 @@ export const vars = {
     }
   },
   "textStyleT9Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9)",
         "lineHeight": "var(--seed-line-height-t9)",
@@ -270,7 +270,7 @@ export const vars = {
     }
   },
   "textStyleT10Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
@@ -279,7 +279,7 @@ export const vars = {
     }
   },
   "textStyleT10Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
@@ -288,7 +288,7 @@ export const vars = {
     }
   },
   "textStyleT10Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
@@ -297,7 +297,7 @@ export const vars = {
     }
   },
   "textStyleT11Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11)",
         "lineHeight": "var(--seed-line-height-t11)",
@@ -306,7 +306,7 @@ export const vars = {
     }
   },
   "textStyleT11Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11)",
         "lineHeight": "var(--seed-line-height-t11)",
@@ -315,7 +315,7 @@ export const vars = {
     }
   },
   "textStyleT11Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11)",
         "lineHeight": "var(--seed-line-height-t11)",
@@ -324,7 +324,7 @@ export const vars = {
     }
   },
   "textStyleT12Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12)",
         "lineHeight": "var(--seed-line-height-t12)",
@@ -333,7 +333,7 @@ export const vars = {
     }
   },
   "textStyleT12Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12)",
         "lineHeight": "var(--seed-line-height-t12)",
@@ -342,7 +342,7 @@ export const vars = {
     }
   },
   "textStyleT12Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12)",
         "lineHeight": "var(--seed-line-height-t12)",
@@ -351,7 +351,7 @@ export const vars = {
     }
   },
   "textStyleT13Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13)",
         "lineHeight": "var(--seed-line-height-t13)",
@@ -360,7 +360,7 @@ export const vars = {
     }
   },
   "textStyleT13Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13)",
         "lineHeight": "var(--seed-line-height-t13)",
@@ -369,7 +369,7 @@ export const vars = {
     }
   },
   "textStyleT13Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13)",
         "lineHeight": "var(--seed-line-height-t13)",
@@ -378,7 +378,7 @@ export const vars = {
     }
   },
   "textStyleT14Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14)",
         "lineHeight": "var(--seed-line-height-t14)",
@@ -387,7 +387,7 @@ export const vars = {
     }
   },
   "textStyleT14Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14)",
         "lineHeight": "var(--seed-line-height-t14)",
@@ -396,7 +396,7 @@ export const vars = {
     }
   },
   "textStyleT14Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14)",
         "lineHeight": "var(--seed-line-height-t14)",
@@ -405,7 +405,7 @@ export const vars = {
     }
   },
   "textStyleT1StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
         "lineHeight": "var(--seed-line-height-t1-static)",
@@ -414,7 +414,7 @@ export const vars = {
     }
   },
   "textStyleT1StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
         "lineHeight": "var(--seed-line-height-t1-static)",
@@ -423,7 +423,7 @@ export const vars = {
     }
   },
   "textStyleT1StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
         "lineHeight": "var(--seed-line-height-t1-static)",
@@ -432,7 +432,7 @@ export const vars = {
     }
   },
   "textStyleT2StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
         "lineHeight": "var(--seed-line-height-t2-static)",
@@ -441,7 +441,7 @@ export const vars = {
     }
   },
   "textStyleT2StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
         "lineHeight": "var(--seed-line-height-t2-static)",
@@ -450,7 +450,7 @@ export const vars = {
     }
   },
   "textStyleT2StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
         "lineHeight": "var(--seed-line-height-t2-static)",
@@ -459,7 +459,7 @@ export const vars = {
     }
   },
   "textStyleT3StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
         "lineHeight": "var(--seed-line-height-t3-static)",
@@ -468,7 +468,7 @@ export const vars = {
     }
   },
   "textStyleT3StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
         "lineHeight": "var(--seed-line-height-t3-static)",
@@ -477,7 +477,7 @@ export const vars = {
     }
   },
   "textStyleT3StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
         "lineHeight": "var(--seed-line-height-t3-static)",
@@ -486,7 +486,7 @@ export const vars = {
     }
   },
   "textStyleT4StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
         "lineHeight": "var(--seed-line-height-t4-static)",
@@ -495,7 +495,7 @@ export const vars = {
     }
   },
   "textStyleT4StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
         "lineHeight": "var(--seed-line-height-t4-static)",
@@ -504,7 +504,7 @@ export const vars = {
     }
   },
   "textStyleT4StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
         "lineHeight": "var(--seed-line-height-t4-static)",
@@ -513,7 +513,7 @@ export const vars = {
     }
   },
   "textStyleT5StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
         "lineHeight": "var(--seed-line-height-t5-static)",
@@ -522,7 +522,7 @@ export const vars = {
     }
   },
   "textStyleT5StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
         "lineHeight": "var(--seed-line-height-t5-static)",
@@ -531,7 +531,7 @@ export const vars = {
     }
   },
   "textStyleT5StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
         "lineHeight": "var(--seed-line-height-t5-static)",
@@ -540,7 +540,7 @@ export const vars = {
     }
   },
   "textStyleT6StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
         "lineHeight": "var(--seed-line-height-t6-static)",
@@ -549,7 +549,7 @@ export const vars = {
     }
   },
   "textStyleT6StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
         "lineHeight": "var(--seed-line-height-t6-static)",
@@ -558,7 +558,7 @@ export const vars = {
     }
   },
   "textStyleT6StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
         "lineHeight": "var(--seed-line-height-t6-static)",
@@ -567,7 +567,7 @@ export const vars = {
     }
   },
   "textStyleT7StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
         "lineHeight": "var(--seed-line-height-t7-static)",
@@ -576,7 +576,7 @@ export const vars = {
     }
   },
   "textStyleT7StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
         "lineHeight": "var(--seed-line-height-t7-static)",
@@ -585,7 +585,7 @@ export const vars = {
     }
   },
   "textStyleT7StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
         "lineHeight": "var(--seed-line-height-t7-static)",
@@ -594,7 +594,7 @@ export const vars = {
     }
   },
   "textStyleT8StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
         "lineHeight": "var(--seed-line-height-t8-static)",
@@ -603,7 +603,7 @@ export const vars = {
     }
   },
   "textStyleT8StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
         "lineHeight": "var(--seed-line-height-t8-static)",
@@ -612,7 +612,7 @@ export const vars = {
     }
   },
   "textStyleT8StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
         "lineHeight": "var(--seed-line-height-t8-static)",
@@ -621,7 +621,7 @@ export const vars = {
     }
   },
   "textStyleT9StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9-static)",
         "lineHeight": "var(--seed-line-height-t9-static)",
@@ -630,7 +630,7 @@ export const vars = {
     }
   },
   "textStyleT9StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9-static)",
         "lineHeight": "var(--seed-line-height-t9-static)",
@@ -639,7 +639,7 @@ export const vars = {
     }
   },
   "textStyleT9StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9-static)",
         "lineHeight": "var(--seed-line-height-t9-static)",
@@ -648,7 +648,7 @@ export const vars = {
     }
   },
   "textStyleT10StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
@@ -657,7 +657,7 @@ export const vars = {
     }
   },
   "textStyleT10StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
@@ -666,7 +666,7 @@ export const vars = {
     }
   },
   "textStyleT10StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
@@ -675,7 +675,7 @@ export const vars = {
     }
   },
   "textStyleT11StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11-static)",
         "lineHeight": "var(--seed-line-height-t11-static)",
@@ -684,7 +684,7 @@ export const vars = {
     }
   },
   "textStyleT11StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11-static)",
         "lineHeight": "var(--seed-line-height-t11-static)",
@@ -693,7 +693,7 @@ export const vars = {
     }
   },
   "textStyleT11StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11-static)",
         "lineHeight": "var(--seed-line-height-t11-static)",
@@ -702,7 +702,7 @@ export const vars = {
     }
   },
   "textStyleT12StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12-static)",
         "lineHeight": "var(--seed-line-height-t12-static)",
@@ -711,7 +711,7 @@ export const vars = {
     }
   },
   "textStyleT12StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12-static)",
         "lineHeight": "var(--seed-line-height-t12-static)",
@@ -720,7 +720,7 @@ export const vars = {
     }
   },
   "textStyleT12StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12-static)",
         "lineHeight": "var(--seed-line-height-t12-static)",
@@ -729,7 +729,7 @@ export const vars = {
     }
   },
   "textStyleT13StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13-static)",
         "lineHeight": "var(--seed-line-height-t13-static)",
@@ -738,7 +738,7 @@ export const vars = {
     }
   },
   "textStyleT13StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13-static)",
         "lineHeight": "var(--seed-line-height-t13-static)",
@@ -747,7 +747,7 @@ export const vars = {
     }
   },
   "textStyleT13StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13-static)",
         "lineHeight": "var(--seed-line-height-t13-static)",
@@ -756,7 +756,7 @@ export const vars = {
     }
   },
   "textStyleT14StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14-static)",
         "lineHeight": "var(--seed-line-height-t14-static)",
@@ -765,7 +765,7 @@ export const vars = {
     }
   },
   "textStyleT14StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14-static)",
         "lineHeight": "var(--seed-line-height-t14-static)",
@@ -774,7 +774,7 @@ export const vars = {
     }
   },
   "textStyleT14StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14-static)",
         "lineHeight": "var(--seed-line-height-t14-static)",

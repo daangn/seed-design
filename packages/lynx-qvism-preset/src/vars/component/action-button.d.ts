@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -16,7 +16,7 @@ export declare const vars: {
    * 브랜드의 핵심 가치를 전달하며, 사용자 간 연결이 일어나는 서비스의 주요 기능에 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
    */
   "variantBrandSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -75,7 +75,7 @@ export declare const vars: {
    * 대부분의 화면에서 CTA로 사용합니다. 한 화면에 하나만 사용하는 것을 권장합니다.
    */
   "variantNeutralSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -134,7 +134,7 @@ export declare const vars: {
    * CTA를 제외한 대부분의 액션에 사용됩니다.
    */
   "variantNeutralWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -193,7 +193,7 @@ export declare const vars: {
    * 삭제나 초기화처럼 되돌릴 수 없는 중요한 작업에 사용합니다.
    */
   "variantCriticalSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },
@@ -252,7 +252,7 @@ export declare const vars: {
    * variant=brandSolid, neutralSolid, criticalSolid와 함께 사용할 수 없으며, variant=brandOutline과 조합하여 사용하는 것을 권장합니다.
    */
   "variantNeutralOutline": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -314,7 +314,7 @@ export declare const vars: {
    * variant=brandSolid, neutralSolid, criticalSolid와 함께 사용할 수 없으며, variant=neutralOutline과 조합하여 사용하는 것을 권장합니다.
    */
   "variantBrandOutline": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -376,7 +376,7 @@ export declare const vars: {
    * 배경 없이 텍스트와 아이콘만 표시됩니다. 모두 동일한 색상을 사용하는 조건에서 icon, prefix icon, suffix icon, label에 정의된 color를 변경할 수 있으며, label의 fontWeight를 `$font-weight.regular` 또는 `$font-weight.medium`으로 변경하여 주목도를 조절할 수 있습니다.
    */
   "variantGhost": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "#ffffff00"
       },
@@ -435,7 +435,7 @@ export declare const vars: {
    * 작은 공간에서 효율적으로 사용할 수 있는 Pill 형태로 제공됩니다.
    */
   "sizeXsmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x8)",
         "cornerRadius": "var(--seed-radius-full)"
@@ -456,7 +456,7 @@ export declare const vars: {
    * - `layout=withText`: 텍스트와 함께 아이콘을 표시할 수 있습니다.
    */
   "sizeXsmallLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x3_5)",
@@ -481,7 +481,7 @@ export declare const vars: {
    * - `layout=iconOnly`: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 접근성 레이블과 함께 사용하는 것을 권장합니다.
    */
   "sizeXsmallLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x8)",
         "paddingX": "var(--seed-dimension-x1_5)",
@@ -497,7 +497,7 @@ export declare const vars: {
    * 화면 중앙에서 범용적으로 사용됩니다.
    */
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
         "cornerRadius": "var(--seed-radius-r2)"
@@ -518,7 +518,7 @@ export declare const vars: {
    * - `layout=withText`: 텍스트와 함께 아이콘을 표시할 수 있습니다.
    */
   "sizeSmallLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x3_5)",
@@ -543,7 +543,7 @@ export declare const vars: {
    * - `layout=iconOnly`: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 접근성 레이블과 함께 사용하는 것을 권장합니다.
    */
   "sizeSmallLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x9)",
         "paddingX": "var(--seed-dimension-x2)",
@@ -559,7 +559,7 @@ export declare const vars: {
    * 화면 중앙에서 범용적으로 사용됩니다.
    */
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x10)",
         "cornerRadius": "var(--seed-radius-r2)"
@@ -580,7 +580,7 @@ export declare const vars: {
    * - `layout=withText`: 텍스트와 함께 아이콘을 표시할 수 있습니다.
    */
   "sizeMediumLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1_5)",
         "paddingX": "var(--seed-dimension-x4)",
@@ -605,7 +605,7 @@ export declare const vars: {
    * - `layout=iconOnly`: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 접근성 레이블과 함께 사용하는 것을 권장합니다.
    */
   "sizeMediumLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x10)",
         "paddingX": "var(--seed-dimension-x2_5)",
@@ -621,7 +621,7 @@ export declare const vars: {
    * 주로 CTA 역할로 사용됩니다.
    */
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x13)",
         "cornerRadius": "var(--seed-radius-r3)"
@@ -642,7 +642,7 @@ export declare const vars: {
    * - `layout=withText`: 텍스트와 함께 아이콘을 표시할 수 있습니다.
    */
   "sizeLargeLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x2)",
         "paddingX": "var(--seed-dimension-x5)",
@@ -667,7 +667,7 @@ export declare const vars: {
    * - `layout=iconOnly`: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 접근성 레이블과 함께 사용하는 것을 권장합니다.
    */
   "sizeLargeLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x13)",
         "paddingX": "var(--seed-dimension-x3_5)",

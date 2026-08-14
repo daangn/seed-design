@@ -141,167 +141,162 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "backdrop": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.overlay";
-                };
-                "enterDuration": {
-                  "type": "duration";
-                  "value": "$duration.d2";
-                };
-                "enterTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.enter";
-                };
-                "enterOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-                "exitDuration": {
-                  "type": "duration";
-                  "value": "$duration.d2";
-                };
-                "exitTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.exit";
-                };
-                "exitOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-              };
-              "content": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-floating";
-                };
-                "maxWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 480;
-                    "unit": "px";
-                  };
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.spacing-x.global-gutter";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "topCornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r5";
-                };
-                "enterDuration": {
-                  "type": "duration";
-                  "value": "$duration.d6";
-                };
-                "enterTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.enter-expressive";
-                };
-                "exitDuration": {
-                  "type": "duration";
-                  "value": "$duration.d4";
-                };
-                "exitTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.exit";
-                };
-              };
-              "header": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingBottom": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-              };
-              "title": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t6";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t6";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "description": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.regular";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-muted";
-                };
-              };
-              "list": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-              };
-              "group": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r4";
-                };
-              };
-              "divider": {
-                "strokeBottomWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
-              };
-              "footer": {
-                "paddingTop": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
+        "states": readonly [];
+        "slots": {
+          "backdrop": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.overlay";
+            };
+            "enterDuration": {
+              "type": "duration";
+              "value": "$duration.d2";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.enter";
+            };
+            "enterOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+            "exitDuration": {
+              "type": "duration";
+              "value": "$duration.d2";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.exit";
+            };
+            "exitOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+          };
+          "content": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-floating";
+            };
+            "maxWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 480;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.spacing-x.global-gutter";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "topCornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r5";
+            };
+            "enterDuration": {
+              "type": "duration";
+              "value": "$duration.d6";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.enter-expressive";
+            };
+            "exitDuration": {
+              "type": "duration";
+              "value": "$duration.d4";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.exit";
+            };
+          };
+          "header": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "paddingBottom": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+          };
+          "title": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t6";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t6";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+          "description": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.regular";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-muted";
+            };
+          };
+          "list": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+          };
+          "group": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r4";
+            };
+          };
+          "divider": {
+            "strokeBottomWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+          };
+          "footer": {
+            "paddingTop": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+          };
+        };
       },
     ];
   };

@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-palette-gray-00)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",

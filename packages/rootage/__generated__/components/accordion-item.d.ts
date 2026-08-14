@@ -151,7 +151,6 @@ declare const artifact: {
             "medium": {};
             "large": {};
           };
-          "defaultValue": "medium";
         };
         "variant": {
           "values": {
@@ -162,339 +161,322 @@ declare const artifact: {
               "description": "각 Accordion Item이 개별 카드 형태로 분리되어 표현됩니다. 항목 간 시각적 독립성이 필요하거나, 각 섹션의 중요도가 동등할 때 사용합니다.";
             };
           };
-          "defaultValue": "inline";
         };
       };
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "disabled";
+          "suppresses": readonly [
+            "pressed",
+          ];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
-              "trigger": {
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.spacing-x.global-gutter";
-                };
-              };
-              "body": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x0_5";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "title": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
-              "description": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-subtle";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-subtle";
-                };
-                "rotateDuration": {
-                  "type": "duration";
-                  "value": "$duration.d6";
-                };
-                "rotateTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
-              "content": {
-                "expandHeightDuration": {
-                  "type": "duration";
-                  "value": "$duration.d6";
-                };
-                "expandHeightTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-                "collapseHeightDuration": {
-                  "type": "duration";
-                  "value": "$duration.d6";
-                };
-                "collapseHeightTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "colorDuration": {
+              "type": "duration";
+              "value": "$duration.color-transition";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "title": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "description": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "trigger": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-                "marginX": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-              };
+          };
+          "trigger": {
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.spacing-x.global-gutter";
             };
-          },
+          };
+          "body": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x0_5";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+          "title": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+          };
+          "description": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-subtle";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-subtle";
+            };
+            "rotateDuration": {
+              "type": "duration";
+              "value": "$duration.d6";
+            };
+            "rotateTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+          "content": {
+            "expandHeightDuration": {
+              "type": "duration";
+              "value": "$duration.d6";
+            };
+            "expandHeightTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+            "collapseHeightDuration": {
+              "type": "duration";
+              "value": "$duration.d6";
+            };
+            "collapseHeightTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
         ];
+        "slots": {
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "title": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "description": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
+        ];
+        "slots": {
+          "trigger": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+            "marginX": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "trigger": {
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-              };
-              "prefix": {
-                "paddingRight": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
-              };
-              "title": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-              };
-              "description": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-                "paddingLeft": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
+        "states": readonly [];
+        "slots": {
+          "trigger": {
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+          };
+          "prefix": {
+            "paddingRight": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "title": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+          };
+          "description": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+            "paddingLeft": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "trigger": {
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-              };
-              "prefix": {
-                "paddingRight": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
-              };
-              "title": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t7";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t7";
-                };
-              };
-              "description": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "paddingLeft": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
+        "states": readonly [];
+        "slots": {
+          "trigger": {
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+          };
+          "prefix": {
+            "paddingRight": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "title": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t7";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t7";
+            };
+          };
+          "description": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+            "paddingLeft": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "inline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "dividerColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-subtle";
-                };
-                "dividerPaddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "dividerColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-subtle";
             };
-          },
-        ];
+            "dividerPaddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "separated";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r3";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r3";
+            };
+          };
+        };
       },
     ];
   };

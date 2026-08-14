@@ -148,73 +148,70 @@ function processTypographyTokens(
   const flatTypography: Record<string, Record<string, string>> = {};
 
   for (const typographyToken of typographyTokens) {
-    if (!typographyToken?.body) continue;
+    if (!typographyToken?.rules) continue;
 
-    for (const variant of typographyToken.body) {
-      if (!variant.variants.some((v) => v.name === "textStyle")) continue;
-
-      const textStyleVariant = variant.variants.find((v) => v.name === "textStyle");
+    for (const rule of typographyToken.rules) {
+      const textStyleVariant = rule.variants.find((v) => v.name === "textStyle");
       if (!textStyleVariant) continue;
+
+      // Typography carries no states, so only the unconditional rule has type styles.
+      if (rule.states.length > 0) continue;
 
       const className = textStyleVariant.value;
       const kebabClassName = convertToKebabCase(className);
 
-      for (const state of variant.body) {
-        if (!state.states.some((s: { value: string }) => s.value === "enabled")) continue;
+      for (const slot of rule.body) {
+        const slotName = slot.slot || "root";
+        if (slotName !== "root") continue;
 
-        for (const slot of state.body) {
-          const slotName = slot.slot || "root";
-          if (slotName !== "root") continue;
+        const typographyStyle: Record<string, string> = {};
 
-          const typographyStyle: Record<string, string> = {};
-
-          for (const prop of slot.body) {
-            if (prop.property === "fontSize" && "value" in prop) {
-              if (prop.kind === "DimensionPropertyDeclaration") {
-                if (prop.value.kind === "TokenLit") {
-                  const tokenPrefix = options?.sourcePrefix || options?.prefix;
-                  const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
-                  typographyStyle.fontSize = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
-                } else if (prop.value.kind === "DimensionLit") {
-                  typographyStyle.fontSize = `${prop.value.value}${prop.value.unit}`;
-                }
-              }
-            }
-
-            if (prop.property === "lineHeight" && "value" in prop) {
-              if (
-                prop.kind === "NumberPropertyDeclaration" ||
-                prop.kind === "DimensionPropertyDeclaration"
-              ) {
-                if (prop.value.kind === "TokenLit") {
-                  const tokenPrefix = options?.sourcePrefix || options?.prefix;
-                  const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
-                  typographyStyle.lineHeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
-                } else if ("value" in prop.value) {
-                  typographyStyle.lineHeight =
-                    prop.value.kind === "DimensionLit"
-                      ? `${prop.value.value}${prop.value.unit}`
-                      : `${prop.value.value}`;
-                }
-              }
-            }
-
-            if (prop.property === "fontWeight" && "value" in prop) {
-              if (prop.kind === "NumberPropertyDeclaration") {
-                if (prop.value.kind === "TokenLit") {
-                  const tokenPrefix = options?.sourcePrefix || options?.prefix;
-                  const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
-                  typographyStyle.fontWeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
-                } else if (prop.value.kind === "NumberLit") {
-                  typographyStyle.fontWeight = `${prop.value.value}`;
-                }
+        for (const prop of slot.body) {
+          if (prop.property === "fontSize" && "value" in prop) {
+            if (prop.kind === "DimensionPropertyDeclaration") {
+              if (prop.value.kind === "TokenLit") {
+                const tokenPrefix = options?.sourcePrefix || options?.prefix;
+                const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
+                typographyStyle.fontSize = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
+              } else if (prop.value.kind === "DimensionLit") {
+                typographyStyle.fontSize = `${prop.value.value}${prop.value.unit}`;
               }
             }
           }
 
-          if (Object.keys(typographyStyle).length > 0) {
-            flatTypography[kebabClassName] = typographyStyle;
+          if (prop.property === "lineHeight" && "value" in prop) {
+            if (
+              prop.kind === "NumberPropertyDeclaration" ||
+              prop.kind === "DimensionPropertyDeclaration"
+            ) {
+              if (prop.value.kind === "TokenLit") {
+                const tokenPrefix = options?.sourcePrefix || options?.prefix;
+                const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
+                typographyStyle.lineHeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
+              } else if ("value" in prop.value) {
+                typographyStyle.lineHeight =
+                  prop.value.kind === "DimensionLit"
+                    ? `${prop.value.value}${prop.value.unit}`
+                    : `${prop.value.value}`;
+              }
+            }
           }
+
+          if (prop.property === "fontWeight" && "value" in prop) {
+            if (prop.kind === "NumberPropertyDeclaration") {
+              if (prop.value.kind === "TokenLit") {
+                const tokenPrefix = options?.sourcePrefix || options?.prefix;
+                const prefixPart = tokenPrefix ? `${tokenPrefix}-` : "";
+                typographyStyle.fontWeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
+              } else if (prop.value.kind === "NumberLit") {
+                typographyStyle.fontWeight = `${prop.value.value}`;
+              }
+            }
+          }
+        }
+
+        if (Object.keys(typographyStyle).length > 0) {
+          flatTypography[kebabClassName] = typographyStyle;
         }
       }
     }

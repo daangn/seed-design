@@ -3,11 +3,11 @@ import type {
   ComponentSpecDocument,
   PropertyDeclaration,
   PropertySchemaDeclaration,
+  RuleDeclaration,
   SchemaDeclaration,
   SlotDeclaration,
   SlotSchemaDeclaration,
-  StateDeclaration,
-  VariantDeclaration,
+  StateSchemaDeclaration,
   VariantSchemaDeclaration,
   VariantValueSchemaDeclaration,
 } from "../ast";
@@ -16,11 +16,6 @@ import type * as Document from "./types";
 import { isTokenRef } from "./is-token-ref";
 import { parseMetadataDeclaration } from "./metadata";
 import { parseValueAs } from "./value";
-
-interface ParseContext {
-  componentId: string;
-  slotSchemas: Document.ComponentSpecSlotSchema;
-}
 
 export function parseComponentSpecDocument(
   model: Document.ComponentSpecModel,
@@ -36,127 +31,51 @@ export function parseComponentSpecDeclaration(
 ): ComponentSpecDeclaration {
   const { id, name } = model.metadata;
 
-  const slotSchemas = model.data.schema?.slots ?? {};
+  const slotSchemas = model.data.schema.slots;
+  const variantOrder = Object.keys(model.data.schema.variants ?? {});
+  const stateOrder = (model.data.schema.states ?? []).map((state) => state.id);
 
-  const body: VariantDeclaration[] = [];
-
-  for (const [key, value] of Object.entries(model.data.definitions)) {
-    body.push(parseVariantDeclaration(key, value, { componentId: id, slotSchemas }));
-  }
-
-  const inferredVariants = inferVariantSchema(model.data.definitions);
-  const explicitVariants = model.data.schema?.variants ?? {};
-
-  const mergedVariants: Document.ComponentSpecVariantSchema = { ...inferredVariants };
-
-  for (const [variantName, explicitVariant] of Object.entries(explicitVariants)) {
-    const inferredVariant = mergedVariants[variantName];
-
-    if (inferredVariant) {
-      mergedVariants[variantName] = {
-        values: { ...inferredVariant.values, ...explicitVariant.values },
-        defaultValue: explicitVariant.defaultValue ?? inferredVariant.defaultValue,
-        description: explicitVariant.description ?? inferredVariant.description,
-      };
-
-      continue;
-    }
-
-    mergedVariants[variantName] = explicitVariant;
-  }
-
-  const schema = {
-    slots: model.data.schema?.slots ?? {},
-    variants: mergedVariants,
-  };
-
-  return factory.createComponentSpecDeclaration(id, name, parseSchemaDeclaration(schema), body);
-}
-
-function inferVariantSchema(
-  definitions: Document.ComponentSpecDefinitions,
-): Document.ComponentSpecVariantSchema {
-  const result = new Map<string, Set<string>>();
-
-  for (const variantExpr of Object.keys(definitions)) {
-    const variant = parseVariantExpression(variantExpr);
-
-    for (const key of Object.keys(variant)) {
-      const values = result.get(key) ?? new Set();
-      values.add(variant[key]!);
-      result.set(key, values);
-    }
-  }
-
-  const schema: Document.ComponentSpecVariantSchema = {};
-
-  for (const [key, values] of result) {
-    const valueSchema: Document.ComponentSpecVariantValueSchema = {};
-
-    for (const value of values) {
-      valueSchema[value] = {};
-    }
-
-    const defaultValue = values.values().next().value!;
-
-    schema[key] = { values: valueSchema, defaultValue };
-  }
-
-  return schema;
-}
-
-function parseVariantExpression(variantExpression: string) {
-  if (variantExpression === "base") {
-    return {};
-  }
-
-  const keyValues = variantExpression.split(",").map((s) => s.trim());
-  const variant: Record<string, string> = {};
-  for (const keyValue of keyValues) {
-    const [key, value] = keyValue.split("=");
-    if (!key || !value) {
-      throw new Error(`Invalid variant format: ${variantExpression}`);
-    }
-
-    variant[key] = value;
-  }
-
-  return variant;
-}
-
-function parseStateExpression(stateExpression: string) {
-  return stateExpression.split(",");
-}
-
-function parseVariantDeclaration(
-  key: string,
-  decl: Document.ComponentSpecVariantDefinitions,
-  ctx: ParseContext,
-): VariantDeclaration {
-  const variantExprs = Object.entries(parseVariantExpression(key)).map(([k, v]) =>
-    factory.createVariantExpression(k, v),
+  const rules = model.data.rules.map((rule) =>
+    parseRuleDeclaration(rule, { componentId: id, slotSchemas, variantOrder, stateOrder }),
   );
 
-  // Convert definitions => array of StateDeclaration
-  const stateDecls: StateDeclaration[] = Object.entries(decl).map(([k, v]) =>
-    parseStateDeclaration(k, v, ctx),
+  return factory.createComponentSpecDeclaration(
+    id,
+    name,
+    parseSchemaDeclaration(model.data.schema),
+    rules,
   );
-
-  return factory.createVariantDeclaration(variantExprs, stateDecls);
 }
 
-function parseStateDeclaration(
-  key: string,
-  decl: Record<string, Record<string, Document.PropertyValue>>,
+interface ParseContext {
+  componentId: string;
+  slotSchemas: Document.ComponentSpecSlotSchema;
+  variantOrder: string[];
+  stateOrder: string[];
+}
+
+/**
+ * Axes and states are re-sorted into schema order rather than kept as written, so
+ * two documents that name the same region always produce the same declaration —
+ * `[selected, pressed]` and `[pressed, selected]` cannot resolve differently.
+ * `analyzer/validate.ts` separately rejects the unsorted spelling, keeping the
+ * checked-in files down to one form too.
+ */
+function parseRuleDeclaration(
+  rule: Document.ComponentSpecRule,
   ctx: ParseContext,
-): StateDeclaration {
-  // We'll treat def.states as an array of strings => an array of StateExpression
-  const stateExpressions = parseStateExpression(key).map((st) => factory.createStateExpression(st));
+): RuleDeclaration {
+  const variants = Object.entries(rule.variants ?? {})
+    .sort(([a], [b]) => ctx.variantOrder.indexOf(a) - ctx.variantOrder.indexOf(b))
+    .map(([name, value]) => factory.createVariantExpression(name, value));
 
-  // Convert slot data => array of SlotDeclaration
-  const slotDecls: SlotDeclaration[] = [];
+  const states = [...(rule.states ?? [])]
+    .sort((a, b) => ctx.stateOrder.indexOf(a) - ctx.stateOrder.indexOf(b))
+    .map((state) => factory.createStateExpression(state));
 
-  for (const [slotName, props] of Object.entries(decl)) {
+  const slots: SlotDeclaration[] = [];
+
+  for (const [slotName, props] of Object.entries(rule.slots)) {
     const propertySchemas = ctx.slotSchemas[slotName]?.properties;
     const propertyDecls: PropertyDeclaration[] = [];
 
@@ -169,14 +88,14 @@ function parseStateDeclaration(
       );
     }
 
-    slotDecls.push(factory.createSlotDeclaration(slotName, propertyDecls));
+    slots.push(factory.createSlotDeclaration(slotName, propertyDecls));
   }
 
-  return factory.createStateDeclaration(stateExpressions, slotDecls);
+  return factory.createRuleDeclaration(variants, states, slots);
 }
 
 /**
- * Turn a property name + Document.Value => one of property declarations
+ * Turn a property name + Document.PropertyValue => one of property declarations
  * (ColorPropertyDeclaration, DimensionPropertyDeclaration, etc.).
  *
  * The token-reference check runs ahead of the type dispatch: an alias looks the
@@ -266,11 +185,18 @@ function parseVariantSchemaDeclaration(
   });
 }
 
-// `Required` because the caller has already merged the inferred variant axes in,
-// so both halves are resolved by the time they reach here.
-function parseSchemaDeclaration(model: Required<Document.ComponentSpecSchema>): SchemaDeclaration {
+function parseStateSchemaDeclaration(
+  model: Document.ComponentSpecStateSchema,
+): StateSchemaDeclaration[] {
+  return model.map((state) =>
+    factory.createStateSchemaDeclaration(state.id, state.suppresses ?? [], state.description),
+  );
+}
+
+function parseSchemaDeclaration(model: Document.ComponentSpecSchema): SchemaDeclaration {
   return factory.createSchemaDeclaration(
     parseSlotSchemaDeclaration(model.slots),
-    parseVariantSchemaDeclaration(model.variants),
+    parseVariantSchemaDeclaration(model.variants ?? {}),
+    parseStateSchemaDeclaration(model.states ?? []),
   );
 }

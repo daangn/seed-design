@@ -51,156 +51,138 @@
             "16": {},
             "24": {},
             "32": {}
-          },
-          "defaultValue": "32"
+          }
         }
-      }
+      },
+      "states": [
+        {
+          "id": "disabled",
+          "suppresses": []
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "label": {
-                "opacity": {
-                  "type": "number",
-                  "value": 0.58
-                },
-                "opacityDuration": {
-                  "type": "duration",
-                  "value": "$duration.d1"
-                },
-                "opacityTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                }
-              }
+        "states": [],
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.medium"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "label": {
+            "opacity": {
+              "type": "number",
+              "value": 0.58
+            },
+            "opacityDuration": {
+              "type": "duration",
+              "value": "$duration.d1"
+            },
+            "opacityTimingFunction": {
+              "type": "cubicBezier",
+              "value": "$timing-function.easing"
+            }
+          }
+        }
       },
       {
         "variants": {
           "size": "32"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension",
-                  "value": "$dimension.x8"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension",
+              "value": "$dimension.x8"
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x2_5"
+            }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t5"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t5"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "size": "24"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension",
+              "value": "$dimension.x6"
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x2"
+            }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t4"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t4"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "size": "16"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1_5"
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t3"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t3"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension",
+              "value": "$dimension.x6"
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x1_5"
+            }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t3"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t3"
             }
           }
-        ]
+        }
       }
     ]
   }

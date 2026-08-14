@@ -10,8 +10,7 @@ data:
         properties:
           gapY:
             type: dimension
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           gapY: $dimension.x1

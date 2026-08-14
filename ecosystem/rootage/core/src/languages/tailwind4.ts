@@ -313,34 +313,31 @@ ${styleLines.join("\n")}
     sourcePrefix: string,
   ): void {
     for (const typographyToken of typographyTokens) {
-      if (!typographyToken?.body) continue;
+      if (!typographyToken?.rules) continue;
 
-      for (const variant of typographyToken.body) {
-        if (!variant.variants.some((v) => v.name === "textStyle")) continue;
-
-        const textStyleVariant = variant.variants.find((v) => v.name === "textStyle");
+      for (const rule of typographyToken.rules) {
+        const textStyleVariant = rule.variants.find((v) => v.name === "textStyle");
         if (!textStyleVariant) continue;
+
+        // Typography carries no states, so only the unconditional rule has type styles.
+        if (rule.states.length > 0) continue;
 
         const className = textStyleVariant.value;
 
-        for (const state of variant.body) {
-          if (!state.states.some((s: { value: string }) => s.value === "enabled")) continue;
+        for (const slot of rule.body) {
+          const slotName = slot.slot || "root";
+          if (slotName !== "root") continue;
 
-          for (const slot of state.body) {
-            const slotName = slot.slot || "root";
-            if (slotName !== "root") continue;
+          const typographyStyles: string[] = [];
 
-            const typographyStyles: string[] = [];
+          for (const prop of slot.body) {
+            this.processTypographyProperty(prop, typographyStyles, sourcePrefix);
+          }
 
-            for (const prop of slot.body) {
-              this.processTypographyProperty(prop, typographyStyles, sourcePrefix);
-            }
-
-            if (typographyStyles.length > 0) {
-              typographyUtilities.push(`  .${className} {
+          if (typographyStyles.length > 0) {
+            typographyUtilities.push(`  .${className} {
 ${typographyStyles.join("\n")}
   }`);
-            }
           }
         }
       }

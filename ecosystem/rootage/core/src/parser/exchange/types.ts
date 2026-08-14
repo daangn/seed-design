@@ -70,23 +70,25 @@ export interface ComponentSpecModel {
   data: ComponentSpecData;
 }
 
-export interface VariantDeclaration {
+/**
+ * Both keys are always present, unlike in authoring where either may be omitted:
+ * a reader of the exchange document should never have to supply a default.
+ */
+export interface Rule {
   variants: Record<string, string>;
-  definitions: Array<{
-    states: string[];
-    slots: {
-      [slot: string]: {
-        [property: string]: Value;
-      };
+  states: string[];
+  slots: {
+    [slot: string]: {
+      [property: string]: Value;
     };
-  }>;
+  };
 }
 
 export interface ComponentSpecData {
   id: string;
   name: string;
   schema: ComponentSpecSchema;
-  definitions: VariantDeclaration[];
+  rules: Rule[];
 }
 
 export type ComponentSpecPropertySchema = Record<
@@ -109,7 +111,7 @@ export interface ComponentSpecSlotSchema {
 export interface ComponentSpecVariantSchema {
   [name: string]: {
     values: ComponentSpecVariantValueSchema;
-    defaultValue: string;
+    defaultValue?: string;
     description?: string;
   };
 }
@@ -120,9 +122,17 @@ export interface ComponentSpecVariantValueSchema {
   };
 }
 
+/** Weakest state first; a state's position in this list is its precedence rank. */
+export type ComponentSpecStateSchema = Array<{
+  id: string;
+  suppresses: string[];
+  description?: string;
+}>;
+
 export interface ComponentSpecSchema {
   slots: ComponentSpecSlotSchema;
   variants: ComponentSpecVariantSchema;
+  states: ComponentSpecStateSchema;
 }
 
 export interface TokensModel {

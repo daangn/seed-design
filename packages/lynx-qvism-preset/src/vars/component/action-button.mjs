@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -13,7 +13,7 @@ export const vars = {
     }
   },
   "variantBrandSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -63,7 +63,7 @@ export const vars = {
     }
   },
   "variantNeutralSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -113,7 +113,7 @@ export const vars = {
     }
   },
   "variantNeutralWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -163,7 +163,7 @@ export const vars = {
     }
   },
   "variantCriticalSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },
@@ -213,7 +213,7 @@ export const vars = {
     }
   },
   "variantNeutralOutline": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -266,7 +266,7 @@ export const vars = {
     }
   },
   "variantBrandOutline": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -319,7 +319,7 @@ export const vars = {
     }
   },
   "variantGhost": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "#ffffff00"
       },
@@ -369,7 +369,7 @@ export const vars = {
     }
   },
   "sizeXsmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x8)",
         "cornerRadius": "var(--seed-radius-full)"
@@ -386,7 +386,7 @@ export const vars = {
     }
   },
   "sizeXsmallLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x3_5)",
@@ -405,7 +405,7 @@ export const vars = {
     }
   },
   "sizeXsmallLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x8)",
         "paddingX": "var(--seed-dimension-x1_5)",
@@ -417,7 +417,7 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
         "cornerRadius": "var(--seed-radius-r2)"
@@ -434,7 +434,7 @@ export const vars = {
     }
   },
   "sizeSmallLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x3_5)",
@@ -453,7 +453,7 @@ export const vars = {
     }
   },
   "sizeSmallLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x9)",
         "paddingX": "var(--seed-dimension-x2)",
@@ -465,7 +465,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x10)",
         "cornerRadius": "var(--seed-radius-r2)"
@@ -482,7 +482,7 @@ export const vars = {
     }
   },
   "sizeMediumLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1_5)",
         "paddingX": "var(--seed-dimension-x4)",
@@ -501,7 +501,7 @@ export const vars = {
     }
   },
   "sizeMediumLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x10)",
         "paddingX": "var(--seed-dimension-x2_5)",
@@ -513,7 +513,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x13)",
         "cornerRadius": "var(--seed-radius-r3)"
@@ -530,7 +530,7 @@ export const vars = {
     }
   },
   "sizeLargeLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x2)",
         "paddingX": "var(--seed-dimension-x5)",
@@ -549,7 +549,7 @@ export const vars = {
     }
   },
   "sizeLargeLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x13)",
         "paddingX": "var(--seed-dimension-x3_5)",

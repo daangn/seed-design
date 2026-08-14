@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-neutral-subtle)"
       }
@@ -17,7 +17,7 @@ export declare const vars: {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "44px",
         "paddingX": "var(--seed-dimension-x2_5)",
@@ -31,7 +31,7 @@ export declare const vars: {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "40px",
         "paddingX": "var(--seed-dimension-x2_5)",

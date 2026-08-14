@@ -55,20 +55,20 @@ const attachmentInputTrigger = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
 
-      width: triggerVars.base.enabled.root.size,
-      height: triggerVars.base.enabled.root.size,
+      width: triggerVars.base.rest.root.size,
+      height: triggerVars.base.rest.root.size,
 
-      gap: triggerVars.base.enabled.root.gap,
+      gap: triggerVars.base.rest.root.gap,
 
       flexShrink: 0,
 
       border: "none",
       padding: 0,
       font: "inherit",
-      boxShadow: `inset 0 0 0 ${triggerVars.base.enabled.root.strokeWidth} ${triggerVars.base.enabled.root.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${triggerVars.base.rest.root.strokeWidth} ${triggerVars.base.rest.root.strokeColor}`,
       cursor: "pointer",
       backgroundColor: "transparent",
-      borderRadius: triggerVars.base.enabled.root.cornerRadius,
+      borderRadius: triggerVars.base.rest.root.cornerRadius,
       transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
@@ -83,9 +83,9 @@ const attachmentInputTrigger = defineSlotRecipe({
       },
     },
     icon: {
-      width: triggerVars.base.enabled.icon.size,
-      height: triggerVars.base.enabled.icon.size,
-      color: triggerVars.base.enabled.icon.color,
+      width: triggerVars.base.rest.icon.size,
+      height: triggerVars.base.rest.icon.size,
+      color: triggerVars.base.rest.icon.color,
 
       flexShrink: 0,
 
@@ -96,18 +96,18 @@ const attachmentInputTrigger = defineSlotRecipe({
     itemCountArea: {
       // we define lineHeight here because some reset.css sets default line-height
       // e.g. tailwind preflight sets * { line-height: 1.5 }
-      fontSize: triggerVars.base.enabled.itemCount.fontSize,
-      lineHeight: triggerVars.base.enabled.itemCount.lineHeight,
+      fontSize: triggerVars.base.rest.itemCount.fontSize,
+      lineHeight: triggerVars.base.rest.itemCount.lineHeight,
     },
     itemCount: {
-      color: triggerVars.base.enabled.itemCount.color,
+      color: triggerVars.base.rest.itemCount.color,
 
-      fontSize: triggerVars.base.enabled.itemCount.fontSize,
-      lineHeight: triggerVars.base.enabled.itemCount.lineHeight,
-      fontWeight: triggerVars.base.enabled.itemCount.fontWeight,
+      fontSize: triggerVars.base.rest.itemCount.fontSize,
+      lineHeight: triggerVars.base.rest.itemCount.lineHeight,
+      fontWeight: triggerVars.base.rest.itemCount.fontWeight,
 
       [pseudo("[data-empty]")]: {
-        color: triggerVars.base.enabled.maxItemCount.color,
+        color: triggerVars.base.rest.maxItemCount.color,
       },
 
       [pseudo(disabled)]: {
@@ -115,11 +115,11 @@ const attachmentInputTrigger = defineSlotRecipe({
       },
     },
     maxItemCount: {
-      color: triggerVars.base.enabled.maxItemCount.color,
+      color: triggerVars.base.rest.maxItemCount.color,
 
-      fontSize: triggerVars.base.enabled.maxItemCount.fontSize,
-      lineHeight: triggerVars.base.enabled.maxItemCount.lineHeight,
-      fontWeight: triggerVars.base.enabled.maxItemCount.fontWeight,
+      fontSize: triggerVars.base.rest.maxItemCount.fontSize,
+      lineHeight: triggerVars.base.rest.maxItemCount.lineHeight,
+      fontWeight: triggerVars.base.rest.maxItemCount.fontWeight,
 
       [pseudo(disabled)]: {
         color: triggerVars.base.disabled.maxItemCount.color,
@@ -155,13 +155,13 @@ const attachmentInputItem = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: itemVars.base.enabled.root.gap,
+      gap: itemVars.base.rest.root.gap,
 
-      height: itemVars.base.enabled.root.height,
-      borderRadius: itemVars.base.enabled.root.cornerRadius,
+      height: itemVars.base.rest.root.height,
+      borderRadius: itemVars.base.rest.root.cornerRadius,
 
-      "--remove-button-mask-size": itemVars.base.enabled.removeButtonMask.size,
-      "--remove-button-mask-offset": itemVars.base.enabled.removeButtonMask.offset,
+      "--remove-button-mask-size": itemVars.base.rest.removeButtonMask.size,
+      "--remove-button-mask-offset": itemVars.base.rest.removeButtonMask.offset,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -203,16 +203,16 @@ const attachmentInputItem = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
 
-      width: itemVars.base.enabled.thumbnail.size,
-      height: itemVars.base.enabled.thumbnail.size,
-      backgroundColor: itemVars.base.enabled.thumbnail.color,
-      borderRadius: itemVars.base.enabled.thumbnail.cornerRadius,
+      width: itemVars.base.rest.thumbnail.size,
+      height: itemVars.base.rest.thumbnail.size,
+      backgroundColor: itemVars.base.rest.thumbnail.color,
+      borderRadius: itemVars.base.rest.thumbnail.cornerRadius,
 
       flexShrink: 0,
 
       ...onlyIcon({
-        color: itemVars.base.enabled.thumbnailIcon.color,
-        size: itemVars.base.enabled.thumbnailIcon.size,
+        color: itemVars.base.rest.thumbnailIcon.color,
+        size: itemVars.base.rest.thumbnailIcon.size,
       }),
     },
     metadata: {
@@ -226,16 +226,16 @@ const attachmentInputItem = defineSlotRecipe({
       overflow: "hidden",
       wordBreak: "break-all",
 
-      fontSize: itemVars.base.enabled.name.fontSize,
-      lineHeight: itemVars.base.enabled.name.lineHeight,
-      fontWeight: itemVars.base.enabled.name.fontWeight,
-      color: itemVars.base.enabled.name.color,
+      fontSize: itemVars.base.rest.name.fontSize,
+      lineHeight: itemVars.base.rest.name.lineHeight,
+      fontWeight: itemVars.base.rest.name.fontWeight,
+      color: itemVars.base.rest.name.color,
     },
     size: {
-      fontSize: itemVars.base.enabled.size.fontSize,
-      lineHeight: itemVars.base.enabled.size.lineHeight,
-      fontWeight: itemVars.base.enabled.size.fontWeight,
-      color: itemVars.base.enabled.size.color,
+      fontSize: itemVars.base.rest.size.fontSize,
+      lineHeight: itemVars.base.rest.size.lineHeight,
+      fontWeight: itemVars.base.rest.size.fontWeight,
+      color: itemVars.base.rest.size.color,
     },
     backdrop: {
       position: "absolute",
@@ -272,23 +272,23 @@ const attachmentInputItem = defineSlotRecipe({
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
-      fontSize: itemActionButtonVars.base.enabled.label.fontSize,
-      lineHeight: itemActionButtonVars.base.enabled.label.lineHeight,
-      fontWeight: itemActionButtonVars.base.enabled.label.fontWeight,
+      fontSize: itemActionButtonVars.base.rest.label.fontSize,
+      lineHeight: itemActionButtonVars.base.rest.label.lineHeight,
+      fontWeight: itemActionButtonVars.base.rest.label.fontWeight,
 
-      gap: itemActionButtonVars.base.enabled.root.gap,
+      gap: itemActionButtonVars.base.rest.root.gap,
 
       ...onlyIcon({
-        size: itemActionButtonVars.base.enabled.icon.size,
+        size: itemActionButtonVars.base.rest.icon.size,
       }),
     },
     removeButton: {
       position: "absolute",
-      top: `calc(${itemRemoveButtonVars.base.enabled.root.offset} * -1)`,
-      right: `calc(${itemRemoveButtonVars.base.enabled.root.offset} * -1)`,
+      top: `calc(${itemRemoveButtonVars.base.rest.root.offset} * -1)`,
+      right: `calc(${itemRemoveButtonVars.base.rest.root.offset} * -1)`,
 
-      width: itemRemoveButtonVars.base.enabled.root.size,
-      height: itemRemoveButtonVars.base.enabled.root.size,
+      width: itemRemoveButtonVars.base.rest.root.size,
+      height: itemRemoveButtonVars.base.rest.root.size,
 
       display: "flex",
       alignItems: "center",
@@ -296,19 +296,19 @@ const attachmentInputItem = defineSlotRecipe({
 
       border: "none",
       padding: 0,
-      backgroundColor: itemRemoveButtonVars.base.enabled.root.color,
-      borderRadius: itemRemoveButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: itemRemoveButtonVars.base.rest.root.color,
+      borderRadius: itemRemoveButtonVars.base.rest.root.cornerRadius,
       cursor: "pointer",
       transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
-      boxShadow: `inset 0 0 0 ${itemRemoveButtonVars.base.enabled.root.strokeWidth} ${itemRemoveButtonVars.base.enabled.root.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${itemRemoveButtonVars.base.rest.root.strokeWidth} ${itemRemoveButtonVars.base.rest.root.strokeColor}`,
 
       ...onlyIcon({
-        size: itemRemoveButtonVars.base.enabled.icon.size,
-        color: itemRemoveButtonVars.base.enabled.icon.color,
+        size: itemRemoveButtonVars.base.rest.icon.size,
+        color: itemRemoveButtonVars.base.rest.icon.color,
       }),
 
       [pseudo(not(disabled), engaged)]: {
@@ -336,11 +336,11 @@ const attachmentInputItem = defineSlotRecipe({
     type: {
       general: {
         root: {
-          width: itemVars.typeFile.enabled.root.width,
-          paddingInline: itemVars.typeFile.enabled.root.paddingX,
+          width: itemVars.typeFile.rest.root.width,
+          paddingInline: itemVars.typeFile.rest.root.paddingX,
 
           "&::before": {
-            boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeFile.enabled.root.strokeColor}`,
+            boxShadow: `inset 0 0 0 ${itemVars.base.rest.root.strokeWidth} ${itemVars.typeFile.rest.root.strokeColor}`,
           },
         },
         thumbnail: {
@@ -384,16 +384,16 @@ const attachmentInputItem = defineSlotRecipe({
           },
         },
         actionButton: {
-          color: itemActionButtonVars.typeFile.enabled.label.color,
+          color: itemActionButtonVars.typeFile.rest.label.color,
 
           ...onlyIcon({
-            color: itemActionButtonVars.typeFile.enabled.icon.color,
+            color: itemActionButtonVars.typeFile.rest.icon.color,
           }),
         },
       },
       image: {
         root: {
-          width: itemVars.typeImage.enabled.root.width,
+          width: itemVars.typeImage.rest.root.width,
 
           transition: "opacity 0.2s",
 
@@ -402,7 +402,7 @@ const attachmentInputItem = defineSlotRecipe({
             // so each forms a stacking context. Without this, the <img> paints over
             // the border and hides it. Lift the border above the image.
             zIndex: 1,
-            boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeImage.enabled.root.strokeColor}`,
+            boxShadow: `inset 0 0 0 ${itemVars.base.rest.root.strokeWidth} ${itemVars.typeImage.rest.root.strokeColor}`,
           },
 
           [pseudo(readOnly)]: {
@@ -428,30 +428,30 @@ const attachmentInputItem = defineSlotRecipe({
           alignItems: "center",
           justifyContent: "center",
 
-          height: itemVars.typeImage.enabled.badge.height,
-          paddingInline: itemVars.typeImage.enabled.badge.paddingX,
+          height: itemVars.typeImage.rest.badge.height,
+          paddingInline: itemVars.typeImage.rest.badge.paddingX,
 
-          backgroundColor: itemVars.typeImage.enabled.badge.color,
-          borderRadius: `0 0 ${itemVars.typeImage.enabled.badge.cornerRadius} ${itemVars.typeImage.enabled.badge.cornerRadius}`,
+          backgroundColor: itemVars.typeImage.rest.badge.color,
+          borderRadius: `0 0 ${itemVars.typeImage.rest.badge.cornerRadius} ${itemVars.typeImage.rest.badge.cornerRadius}`,
         },
         badgeLabel: {
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
 
-          fontSize: itemVars.typeImage.enabled.badgeLabel.fontSize,
-          lineHeight: itemVars.typeImage.enabled.badgeLabel.lineHeight,
-          fontWeight: itemVars.typeImage.enabled.badgeLabel.fontWeight,
-          color: itemVars.typeImage.enabled.badgeLabel.color,
+          fontSize: itemVars.typeImage.rest.badgeLabel.fontSize,
+          lineHeight: itemVars.typeImage.rest.badgeLabel.lineHeight,
+          fontWeight: itemVars.typeImage.rest.badgeLabel.fontWeight,
+          color: itemVars.typeImage.rest.badgeLabel.color,
         },
         backdrop: {
-          background: itemVars.typeImage.enabled.backdrop.color,
+          background: itemVars.typeImage.rest.backdrop.color,
         },
         actionButton: {
-          color: itemActionButtonVars.typeImage.enabled.label.color,
+          color: itemActionButtonVars.typeImage.rest.label.color,
 
           ...onlyIcon({
-            color: itemActionButtonVars.typeImage.enabled.icon.color,
+            color: itemActionButtonVars.typeImage.rest.icon.color,
           }),
         },
       },
@@ -471,7 +471,7 @@ const attachmentInput = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      gap: vars.base.enabled.root.gap,
+      gap: vars.base.rest.root.gap,
 
       marginInline: "calc(var(--seed-attachment-input-extend-x) * -1)",
     },
@@ -481,13 +481,13 @@ const attachmentInput = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
 
-      height: dropzoneVars.base.enabled.root.height,
-      gap: dropzoneVars.base.enabled.root.gap,
+      height: dropzoneVars.base.rest.root.height,
+      gap: dropzoneVars.base.rest.root.gap,
 
-      border: `${dropzoneVars.base.enabled.root.strokeWidth} dashed ${dropzoneVars.base.enabled.root.strokeColor}`,
-      borderRadius: dropzoneVars.base.enabled.root.cornerRadius,
+      border: `${dropzoneVars.base.rest.root.strokeWidth} dashed ${dropzoneVars.base.rest.root.strokeColor}`,
+      borderRadius: dropzoneVars.base.rest.root.cornerRadius,
 
-      paddingInline: dropzoneVars.base.enabled.root.paddingX,
+      paddingInline: dropzoneVars.base.rest.root.paddingX,
 
       // counteract root's negative margin so the dropzone stays within the original bounds
       marginInline: "var(--seed-attachment-input-extend-x)",
@@ -504,11 +504,11 @@ const attachmentInput = defineSlotRecipe({
       },
     },
     dropzoneLabel: {
-      color: dropzoneVars.base.enabled.label.color,
+      color: dropzoneVars.base.rest.label.color,
 
-      fontSize: dropzoneVars.base.enabled.label.fontSize,
-      lineHeight: dropzoneVars.base.enabled.label.lineHeight,
-      fontWeight: dropzoneVars.base.enabled.label.fontWeight,
+      fontSize: dropzoneVars.base.rest.label.fontSize,
+      lineHeight: dropzoneVars.base.rest.label.lineHeight,
+      fontWeight: dropzoneVars.base.rest.label.fontWeight,
 
       textAlign: "center",
 
@@ -519,21 +519,21 @@ const attachmentInput = defineSlotRecipe({
     // wraps the trigger and the file items
     container: {
       display: "flex",
-      gap: vars.base.enabled.items.gap,
+      gap: vars.base.rest.items.gap,
 
       // makes the container scrollable when there are many files
       overflowX: "auto",
 
       // keeps the icon removeButton's top from being cut off
-      paddingTop: itemRemoveButtonVars.base.enabled.root.offset,
-      marginTop: `calc(${itemRemoveButtonVars.base.enabled.root.offset} * -1)`,
+      paddingTop: itemRemoveButtonVars.base.rest.root.offset,
+      marginTop: `calc(${itemRemoveButtonVars.base.rest.root.offset} * -1)`,
 
       paddingInline: "var(--seed-attachment-input-extend-x)",
     },
     // wraps the file items
     itemGroup: {
       display: "flex",
-      gap: vars.base.enabled.items.gap,
+      gap: vars.base.rest.items.gap,
 
       listStyle: "none",
       padding: 0,

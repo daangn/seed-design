@@ -35,17 +35,21 @@ const toggleButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
-    fontWeight: vars.base.enabled.label.fontWeight,
+    transition: `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    fontWeight: vars.base.rest.label.fontWeight,
   },
   variants: {
+    // TODO: `disabled` is written before `loading` at equal specificity, so a
+    // button that is both keeps the loading background. The spec ranks `disabled`
+    // higher; swapping the blocks would match it, but it changes rendered output
+    // and wants a design review first.
     variant: {
       brandSolid: {
-        background: vars.variantBrandSolid.enabled.root.color,
-        color: vars.variantBrandSolid.enabled.label.color,
+        background: vars.variantBrandSolid.rest.root.color,
+        color: vars.variantBrandSolid.rest.label.color,
 
-        "--track-color": vars.variantBrandSolid.enabled.progressCircle.trackColor,
-        "--range-color": vars.variantBrandSolid.enabled.progressCircle.rangeColor,
+        "--track-color": vars.variantBrandSolid.rest.progressCircle.trackColor,
+        "--range-color": vars.variantBrandSolid.rest.progressCircle.rangeColor,
 
         [pseudo(engaged)]: {
           background: vars.variantBrandSolid.pressed.root.color,
@@ -65,7 +69,7 @@ const toggleButton = defineRecipe({
           }),
         },
         [pseudo(pressed, engaged)]: {
-          background: vars.variantBrandSolid.selectedPressed.root.color,
+          background: vars.variantBrandSolid.pressedSelected.root.color,
         },
         [pseudo(disabled)]: {
           background: vars.variantBrandSolid.disabled.root.color,
@@ -86,18 +90,18 @@ const toggleButton = defineRecipe({
         },
 
         ...prefixIcon({
-          color: vars.variantBrandSolid.enabled.prefixIcon.color,
+          color: vars.variantBrandSolid.rest.prefixIcon.color,
         }),
         ...suffixIcon({
-          color: vars.variantBrandSolid.enabled.suffixIcon.color,
+          color: vars.variantBrandSolid.rest.suffixIcon.color,
         }),
       },
       neutralWeak: {
-        background: vars.variantNeutralWeak.enabled.root.color,
-        color: vars.variantNeutralWeak.enabled.label.color,
+        background: vars.variantNeutralWeak.rest.root.color,
+        color: vars.variantNeutralWeak.rest.label.color,
 
-        "--track-color": vars.variantNeutralWeak.enabled.progressCircle.trackColor,
-        "--range-color": vars.variantNeutralWeak.enabled.progressCircle.rangeColor,
+        "--track-color": vars.variantNeutralWeak.rest.progressCircle.trackColor,
+        "--range-color": vars.variantNeutralWeak.rest.progressCircle.rangeColor,
 
         [pseudo(engaged)]: {
           background: vars.variantNeutralWeak.pressed.root.color,
@@ -117,7 +121,7 @@ const toggleButton = defineRecipe({
           }),
         },
         [pseudo(pressed, engaged)]: {
-          background: vars.variantNeutralWeak.selectedPressed.root.color,
+          background: vars.variantNeutralWeak.pressedSelected.root.color,
         },
         [pseudo(disabled)]: {
           background: vars.variantNeutralWeak.disabled.root.color,
@@ -138,50 +142,50 @@ const toggleButton = defineRecipe({
         },
 
         ...prefixIcon({
-          color: vars.variantNeutralWeak.enabled.prefixIcon.color,
+          color: vars.variantNeutralWeak.rest.prefixIcon.color,
         }),
         ...suffixIcon({
-          color: vars.variantNeutralWeak.enabled.suffixIcon.color,
+          color: vars.variantNeutralWeak.rest.suffixIcon.color,
         }),
       },
     },
     size: {
       xsmall: {
-        height: vars.sizeXsmall.enabled.root.minHeight,
-        borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
-        gap: vars.sizeXsmall.enabled.root.gap,
-        paddingInline: vars.sizeXsmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeXsmall.enabled.root.paddingY,
-        fontSize: vars.sizeXsmall.enabled.label.fontSize,
-        lineHeight: vars.sizeXsmall.enabled.label.lineHeight,
+        height: vars.sizeXsmall.rest.root.minHeight,
+        borderRadius: vars.sizeXsmall.rest.root.cornerRadius,
+        gap: vars.sizeXsmall.rest.root.gap,
+        paddingInline: vars.sizeXsmall.rest.root.paddingX,
+        paddingBlock: vars.sizeXsmall.rest.root.paddingY,
+        fontSize: vars.sizeXsmall.rest.label.fontSize,
+        lineHeight: vars.sizeXsmall.rest.label.lineHeight,
 
-        "--size": vars.sizeXsmall.enabled.progressCircle.size,
-        "--thickness": vars.sizeXsmall.enabled.progressCircle.thickness,
+        "--size": vars.sizeXsmall.rest.progressCircle.size,
+        "--thickness": vars.sizeXsmall.rest.progressCircle.thickness,
 
         ...prefixIcon({
-          size: vars.sizeXsmall.enabled.prefixIcon.size,
+          size: vars.sizeXsmall.rest.prefixIcon.size,
         }),
         ...suffixIcon({
-          size: vars.sizeXsmall.enabled.suffixIcon.size,
+          size: vars.sizeXsmall.rest.suffixIcon.size,
         }),
       },
       small: {
-        height: vars.sizeSmall.enabled.root.minHeight,
-        borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
-        gap: vars.sizeSmall.enabled.root.gap,
-        paddingInline: vars.sizeSmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
-        fontSize: vars.sizeSmall.enabled.label.fontSize,
-        lineHeight: vars.sizeSmall.enabled.label.lineHeight,
+        height: vars.sizeSmall.rest.root.minHeight,
+        borderRadius: vars.sizeSmall.rest.root.cornerRadius,
+        gap: vars.sizeSmall.rest.root.gap,
+        paddingInline: vars.sizeSmall.rest.root.paddingX,
+        paddingBlock: vars.sizeSmall.rest.root.paddingY,
+        fontSize: vars.sizeSmall.rest.label.fontSize,
+        lineHeight: vars.sizeSmall.rest.label.lineHeight,
 
-        "--size": vars.sizeSmall.enabled.progressCircle.size,
-        "--thickness": vars.sizeSmall.enabled.progressCircle.thickness,
+        "--size": vars.sizeSmall.rest.progressCircle.size,
+        "--thickness": vars.sizeSmall.rest.progressCircle.thickness,
 
         ...prefixIcon({
-          size: vars.sizeSmall.enabled.prefixIcon.size,
+          size: vars.sizeSmall.rest.prefixIcon.size,
         }),
         ...suffixIcon({
-          size: vars.sizeSmall.enabled.suffixIcon.size,
+          size: vars.sizeSmall.rest.suffixIcon.size,
         }),
       },
     },

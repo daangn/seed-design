@@ -30,8 +30,8 @@ const quantityPicker = defineSlotRecipe({
       alignItems: "center",
       boxSizing: "border-box",
 
-      backgroundColor: vars.base.enabled.root.color,
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+      backgroundColor: vars.base.rest.root.color,
+      boxShadow: `inset 0 0 0 ${vars.base.rest.root.strokeWidth} ${vars.base.rest.root.strokeColor}`,
 
       [pseudo(invalid)]: {
         boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
@@ -47,8 +47,8 @@ const quantityPicker = defineSlotRecipe({
       cursor: "pointer",
       border: "none",
       padding: 0,
-      backgroundColor: buttonVars.base.enabled.root.color,
-      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      backgroundColor: buttonVars.base.rest.root.color,
+      transition: `background-color ${buttonVars.base.rest.root.colorDuration} ${buttonVars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -65,9 +65,9 @@ const quantityPicker = defineSlotRecipe({
     },
     decrementIcon: {
       flexShrink: 0,
-      color: buttonVars.base.enabled.icon.color,
-      "--track-color": buttonVars.base.enabled.progressCircle.trackColor,
-      "--range-color": buttonVars.base.enabled.progressCircle.rangeColor,
+      color: buttonVars.base.rest.icon.color,
+      "--track-color": buttonVars.base.rest.progressCircle.trackColor,
+      "--range-color": buttonVars.base.rest.progressCircle.rangeColor,
 
       [pseudo(disabled)]: {
         color: buttonVars.base.disabled.icon.color,
@@ -81,8 +81,8 @@ const quantityPicker = defineSlotRecipe({
       justifyContent: "center",
       boxSizing: "border-box",
 
-      fontWeight: vars.base.enabled.valueDisplay.fontWeight,
-      color: vars.base.enabled.valueDisplay.color,
+      fontWeight: vars.base.rest.valueDisplay.fontWeight,
+      color: vars.base.rest.valueDisplay.color,
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.valueDisplay.color,
@@ -102,7 +102,7 @@ const quantityPicker = defineSlotRecipe({
     },
     divider: {
       flexShrink: 0,
-      backgroundColor: vars.base.enabled.divider.color,
+      backgroundColor: vars.base.rest.divider.color,
     },
     incrementButton: {
       display: "inline-flex",
@@ -114,8 +114,8 @@ const quantityPicker = defineSlotRecipe({
       cursor: "pointer",
       border: "none",
       padding: 0,
-      backgroundColor: buttonVars.base.enabled.root.color,
-      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      backgroundColor: buttonVars.base.rest.root.color,
+      transition: `background-color ${buttonVars.base.rest.root.colorDuration} ${buttonVars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -132,9 +132,9 @@ const quantityPicker = defineSlotRecipe({
     },
     incrementIcon: {
       flexShrink: 0,
-      color: buttonVars.base.enabled.icon.color,
-      "--track-color": buttonVars.base.enabled.progressCircle.trackColor,
-      "--range-color": buttonVars.base.enabled.progressCircle.rangeColor,
+      color: buttonVars.base.rest.icon.color,
+      "--track-color": buttonVars.base.rest.progressCircle.trackColor,
+      "--range-color": buttonVars.base.rest.progressCircle.rangeColor,
 
       [pseudo(disabled)]: {
         color: buttonVars.base.disabled.icon.color,
@@ -142,6 +142,10 @@ const quantityPicker = defineSlotRecipe({
     },
   },
   variants: {
+    // TODO: `disabled` is written before `loading` at equal specificity, so a
+    // button that is both keeps the loading background. The spec ranks `disabled`
+    // higher; swapping the blocks would match it, but it changes rendered output
+    // and wants a design review first.
     layout: {
       hug: {},
       fill: {
@@ -153,113 +157,113 @@ const quantityPicker = defineSlotRecipe({
     size: {
       small: {
         root: {
-          height: vars.sizeSmall.enabled.root.height,
-          borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
+          height: vars.sizeSmall.rest.root.height,
+          borderRadius: vars.sizeSmall.rest.root.cornerRadius,
         },
         decrementButton: {
-          width: buttonVars.sizeSmall.enabled.root.size,
-          height: buttonVars.sizeSmall.enabled.root.size,
-          borderRadius: buttonVars.sizeSmall.enabled.root.cornerRadius,
+          width: buttonVars.sizeSmall.rest.root.size,
+          height: buttonVars.sizeSmall.rest.root.size,
+          borderRadius: buttonVars.sizeSmall.rest.root.cornerRadius,
         },
         decrementIcon: {
-          width: buttonVars.sizeSmall.enabled.icon.size,
-          height: buttonVars.sizeSmall.enabled.icon.size,
-          "--size": buttonVars.sizeSmall.enabled.progressCircle.size,
-          "--thickness": buttonVars.sizeSmall.enabled.progressCircle.thickness,
+          width: buttonVars.sizeSmall.rest.icon.size,
+          height: buttonVars.sizeSmall.rest.icon.size,
+          "--size": buttonVars.sizeSmall.rest.progressCircle.size,
+          "--thickness": buttonVars.sizeSmall.rest.progressCircle.thickness,
         },
         valueDisplay: {
-          paddingInline: vars.sizeSmall.enabled.valueDisplay.paddingX,
-          fontSize: vars.sizeSmall.enabled.valueDisplay.fontSize,
-          lineHeight: vars.sizeSmall.enabled.valueDisplay.lineHeight,
+          paddingInline: vars.sizeSmall.rest.valueDisplay.paddingX,
+          fontSize: vars.sizeSmall.rest.valueDisplay.fontSize,
+          lineHeight: vars.sizeSmall.rest.valueDisplay.lineHeight,
         },
         divider: {
-          width: vars.sizeSmall.enabled.divider.width,
-          height: vars.sizeSmall.enabled.divider.height,
+          width: vars.sizeSmall.rest.divider.width,
+          height: vars.sizeSmall.rest.divider.height,
         },
         incrementButton: {
-          width: buttonVars.sizeSmall.enabled.root.size,
-          height: buttonVars.sizeSmall.enabled.root.size,
-          borderRadius: buttonVars.sizeSmall.enabled.root.cornerRadius,
+          width: buttonVars.sizeSmall.rest.root.size,
+          height: buttonVars.sizeSmall.rest.root.size,
+          borderRadius: buttonVars.sizeSmall.rest.root.cornerRadius,
         },
         incrementIcon: {
-          width: buttonVars.sizeSmall.enabled.icon.size,
-          height: buttonVars.sizeSmall.enabled.icon.size,
-          "--size": buttonVars.sizeSmall.enabled.progressCircle.size,
-          "--thickness": buttonVars.sizeSmall.enabled.progressCircle.thickness,
+          width: buttonVars.sizeSmall.rest.icon.size,
+          height: buttonVars.sizeSmall.rest.icon.size,
+          "--size": buttonVars.sizeSmall.rest.progressCircle.size,
+          "--thickness": buttonVars.sizeSmall.rest.progressCircle.thickness,
         },
       },
       medium: {
         root: {
-          height: vars.sizeMedium.enabled.root.height,
-          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+          height: vars.sizeMedium.rest.root.height,
+          borderRadius: vars.sizeMedium.rest.root.cornerRadius,
         },
         decrementButton: {
-          width: buttonVars.sizeMedium.enabled.root.size,
-          height: buttonVars.sizeMedium.enabled.root.size,
-          borderRadius: buttonVars.sizeMedium.enabled.root.cornerRadius,
+          width: buttonVars.sizeMedium.rest.root.size,
+          height: buttonVars.sizeMedium.rest.root.size,
+          borderRadius: buttonVars.sizeMedium.rest.root.cornerRadius,
         },
         decrementIcon: {
-          width: buttonVars.sizeMedium.enabled.icon.size,
-          height: buttonVars.sizeMedium.enabled.icon.size,
-          "--size": buttonVars.sizeMedium.enabled.progressCircle.size,
-          "--thickness": buttonVars.sizeMedium.enabled.progressCircle.thickness,
+          width: buttonVars.sizeMedium.rest.icon.size,
+          height: buttonVars.sizeMedium.rest.icon.size,
+          "--size": buttonVars.sizeMedium.rest.progressCircle.size,
+          "--thickness": buttonVars.sizeMedium.rest.progressCircle.thickness,
         },
         valueDisplay: {
-          paddingInline: vars.sizeMedium.enabled.valueDisplay.paddingX,
-          fontSize: vars.sizeMedium.enabled.valueDisplay.fontSize,
-          lineHeight: vars.sizeMedium.enabled.valueDisplay.lineHeight,
+          paddingInline: vars.sizeMedium.rest.valueDisplay.paddingX,
+          fontSize: vars.sizeMedium.rest.valueDisplay.fontSize,
+          lineHeight: vars.sizeMedium.rest.valueDisplay.lineHeight,
         },
         divider: {
-          width: vars.sizeMedium.enabled.divider.width,
-          height: vars.sizeMedium.enabled.divider.height,
+          width: vars.sizeMedium.rest.divider.width,
+          height: vars.sizeMedium.rest.divider.height,
         },
         incrementButton: {
-          width: buttonVars.sizeMedium.enabled.root.size,
-          height: buttonVars.sizeMedium.enabled.root.size,
-          borderRadius: buttonVars.sizeMedium.enabled.root.cornerRadius,
+          width: buttonVars.sizeMedium.rest.root.size,
+          height: buttonVars.sizeMedium.rest.root.size,
+          borderRadius: buttonVars.sizeMedium.rest.root.cornerRadius,
         },
         incrementIcon: {
-          width: buttonVars.sizeMedium.enabled.icon.size,
-          height: buttonVars.sizeMedium.enabled.icon.size,
-          "--size": buttonVars.sizeMedium.enabled.progressCircle.size,
-          "--thickness": buttonVars.sizeMedium.enabled.progressCircle.thickness,
+          width: buttonVars.sizeMedium.rest.icon.size,
+          height: buttonVars.sizeMedium.rest.icon.size,
+          "--size": buttonVars.sizeMedium.rest.progressCircle.size,
+          "--thickness": buttonVars.sizeMedium.rest.progressCircle.thickness,
         },
       },
       large: {
         root: {
-          height: vars.sizeLarge.enabled.root.height,
-          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+          height: vars.sizeLarge.rest.root.height,
+          borderRadius: vars.sizeLarge.rest.root.cornerRadius,
         },
         decrementButton: {
-          width: buttonVars.sizeLarge.enabled.root.size,
-          height: buttonVars.sizeLarge.enabled.root.size,
-          borderRadius: buttonVars.sizeLarge.enabled.root.cornerRadius,
+          width: buttonVars.sizeLarge.rest.root.size,
+          height: buttonVars.sizeLarge.rest.root.size,
+          borderRadius: buttonVars.sizeLarge.rest.root.cornerRadius,
         },
         decrementIcon: {
-          width: buttonVars.sizeLarge.enabled.icon.size,
-          height: buttonVars.sizeLarge.enabled.icon.size,
-          "--size": buttonVars.sizeLarge.enabled.progressCircle.size,
-          "--thickness": buttonVars.sizeLarge.enabled.progressCircle.thickness,
+          width: buttonVars.sizeLarge.rest.icon.size,
+          height: buttonVars.sizeLarge.rest.icon.size,
+          "--size": buttonVars.sizeLarge.rest.progressCircle.size,
+          "--thickness": buttonVars.sizeLarge.rest.progressCircle.thickness,
         },
         valueDisplay: {
-          paddingInline: vars.sizeLarge.enabled.valueDisplay.paddingX,
-          fontSize: vars.sizeLarge.enabled.valueDisplay.fontSize,
-          lineHeight: vars.sizeLarge.enabled.valueDisplay.lineHeight,
+          paddingInline: vars.sizeLarge.rest.valueDisplay.paddingX,
+          fontSize: vars.sizeLarge.rest.valueDisplay.fontSize,
+          lineHeight: vars.sizeLarge.rest.valueDisplay.lineHeight,
         },
         divider: {
-          width: vars.sizeLarge.enabled.divider.width,
-          height: vars.sizeLarge.enabled.divider.height,
+          width: vars.sizeLarge.rest.divider.width,
+          height: vars.sizeLarge.rest.divider.height,
         },
         incrementButton: {
-          width: buttonVars.sizeLarge.enabled.root.size,
-          height: buttonVars.sizeLarge.enabled.root.size,
-          borderRadius: buttonVars.sizeLarge.enabled.root.cornerRadius,
+          width: buttonVars.sizeLarge.rest.root.size,
+          height: buttonVars.sizeLarge.rest.root.size,
+          borderRadius: buttonVars.sizeLarge.rest.root.cornerRadius,
         },
         incrementIcon: {
-          width: buttonVars.sizeLarge.enabled.icon.size,
-          height: buttonVars.sizeLarge.enabled.icon.size,
-          "--size": buttonVars.sizeLarge.enabled.progressCircle.size,
-          "--thickness": buttonVars.sizeLarge.enabled.progressCircle.thickness,
+          width: buttonVars.sizeLarge.rest.icon.size,
+          height: buttonVars.sizeLarge.rest.icon.size,
+          "--size": buttonVars.sizeLarge.rest.progressCircle.size,
+          "--thickness": buttonVars.sizeLarge.rest.progressCircle.thickness,
         },
       },
     },

@@ -50,7 +50,7 @@ const imageFrame = defineSlotRecipe({
             inset: 0,
             pointerEvents: "none",
             borderRadius: "inherit",
-            boxShadow: `inset 0 0 0 ${vars.strokeTrue.enabled.root.strokeWidth} ${vars.strokeTrue.enabled.root.strokeColor}`,
+            boxShadow: `inset 0 0 0 ${vars.strokeTrue.rest.root.strokeWidth} ${vars.strokeTrue.rest.root.strokeColor}`,
           },
         },
       },

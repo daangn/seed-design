@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-r5)",
         "color": "var(--seed-color-bg-layer-floating)",
@@ -35,7 +35,7 @@ export declare const vars: {
    * 뷰포트 너비와 관계없이 사용할 수 있습니다.
    */
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "width": "240px"
       },
@@ -52,7 +52,7 @@ export declare const vars: {
    * Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
    */
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "width": "200px"
       },

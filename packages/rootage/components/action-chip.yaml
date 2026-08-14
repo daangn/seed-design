@@ -62,9 +62,22 @@ data:
             type: dimension
           lineHeight:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+    variants:
+      size:
+        values:
+          small: {}
+          medium: {}
+      layout:
+        values:
+          withText: {}
+          iconOnly: {}
+  rules:
+    - slots:
         root:
           color: $color.bg.neutral-weak
           cornerRadius: $radius.full
@@ -80,10 +93,14 @@ data:
         count:
           color: $color.fg.neutral-muted
           fontWeight: $font-weight.medium
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-      disabled:
+    - states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -96,8 +113,9 @@ data:
           color: $color.fg.disabled
         count:
           color: $color.fg.disabled
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           minHeight: $dimension.x8
           paddingY: $dimension.x1_5
@@ -112,8 +130,9 @@ data:
         count:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           minHeight: $dimension.x9
           paddingY: $dimension.x2
@@ -128,22 +147,30 @@ data:
         count:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-    size=small,layout=withText:
-      enabled:
+    - variants:
+        size: small
+        layout: withText
+      slots:
         root:
           paddingX: $dimension.x3
-    size=small,layout=iconOnly:
-      enabled:
+    - variants:
+        size: small
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x8
         icon:
           size: $dimension.x4
-    size=medium,layout=withText:
-      enabled:
+    - variants:
+        size: medium
+        layout: withText
+      slots:
         root:
           paddingX: $dimension.x3_5
-    size=medium,layout=iconOnly:
-      enabled:
+    - variants:
+        size: medium
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x9
         icon:

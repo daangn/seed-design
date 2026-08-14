@@ -44,7 +44,6 @@ declare const artifact: {
             "regular": {};
             "bold": {};
           };
-          "defaultValue": "regular";
         };
         "size": {
           "values": {
@@ -52,158 +51,128 @@ declare const artifact: {
             "t5": {};
             "t6": {};
           };
-          "defaultValue": "t4";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {
           "weight": "regular";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.regular";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.regular";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "weight": "bold";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "size": "t4";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x0_5";
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x0_5";
             };
-          },
-        ];
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "t5";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x0_5";
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x0_5";
             };
-          },
-        ];
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "t6";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x0_5";
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t6";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t6";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x0_5";
             };
-          },
-        ];
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t6";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t6";
+            };
+          };
+        };
       },
     ];
   };

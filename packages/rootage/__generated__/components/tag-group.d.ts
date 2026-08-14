@@ -33,104 +33,80 @@ declare const artifact: {
             "t3": {};
             "t4": {};
           };
-          "defaultValue": "t2";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "separator": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-600";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.regular";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "separator": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-600";
             };
-          },
-        ];
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.regular";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "t2";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "separator": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t2";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t2";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "separator": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t2";
             };
-          },
-        ];
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t2";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "t3";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "separator": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "separator": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
             };
-          },
-        ];
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "t4";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "separator": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "separator": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
             };
-          },
-        ];
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+          };
+        };
       },
     ];
   };

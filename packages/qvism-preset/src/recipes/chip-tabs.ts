@@ -26,7 +26,7 @@ const chipTabs = defineSlotRecipe({
       msOverflowStyle: "none",
       scrollbarWidth: "none",
 
-      padding: `0px ${vars.base.enabled.root.paddingX}`,
+      padding: `0px ${vars.base.rest.root.paddingX}`,
 
       "&::-webkit-scrollbar": {
         display: "none",
@@ -71,10 +71,10 @@ const chipTabs = defineSlotRecipe({
       // chips shrink past their text + padding, so the label bleeds into the padding.
       flexShrink: 0,
 
-      borderRadius: chipVars.base.enabled.root.cornerRadius,
-      fontWeight: chipVars.base.enabled.label.fontWeight,
+      borderRadius: chipVars.base.rest.root.cornerRadius,
+      fontWeight: chipVars.base.rest.label.fontWeight,
 
-      transition: `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${chipVars.base.rest.root.colorDuration} ${chipVars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -84,35 +84,35 @@ const chipTabs = defineSlotRecipe({
     size: {
       medium: {
         list: {
-          gap: vars.base.enabled.root.gap,
+          gap: vars.base.rest.root.gap,
         },
         trigger: {
           // NOTE: chip uses `height`, but chip-tab keeps `minHeight` to preserve existing behavior
-          minHeight: chipVars.sizeMedium.enabled.root.height,
-          minWidth: chipVars.sizeMediumLayoutWithText.enabled.root.minWidth,
-          fontSize: chipVars.sizeMedium.enabled.label.fontSize,
-          paddingInline: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+          minHeight: chipVars.sizeMedium.rest.root.height,
+          minWidth: chipVars.sizeMediumLayoutWithText.rest.root.minWidth,
+          fontSize: chipVars.sizeMedium.rest.label.fontSize,
+          paddingInline: `calc(${chipVars.sizeMedium.rest.root.paddingX} + ${chipVars.base.rest.label.paddingX})`,
         },
       },
       large: {
         list: {
-          gap: vars.base.enabled.root.gap,
+          gap: vars.base.rest.root.gap,
         },
         trigger: {
           // NOTE: chip uses `height`, but chip-tab keeps `minHeight` to preserve existing behavior
-          minHeight: chipVars.sizeLarge.enabled.root.height,
-          minWidth: chipVars.sizeLargeLayoutWithText.enabled.root.minWidth,
-          fontSize: chipVars.sizeLarge.enabled.label.fontSize,
-          paddingInline: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+          minHeight: chipVars.sizeLarge.rest.root.height,
+          minWidth: chipVars.sizeLargeLayoutWithText.rest.root.minWidth,
+          fontSize: chipVars.sizeLarge.rest.label.fontSize,
+          paddingInline: `calc(${chipVars.sizeLarge.rest.root.paddingX} + ${chipVars.base.rest.label.paddingX})`,
         },
       },
     },
     variant: {
       neutralSolid: {
         trigger: {
-          backgroundColor: chipVars.variantSolid.enabled.root.color,
+          backgroundColor: chipVars.variantSolid.rest.root.color,
 
-          color: chipVars.variantSolid.enabled.label.color,
+          color: chipVars.variantSolid.rest.label.color,
 
           [pseudo(selected)]: {
             backgroundColor: chipVars.variantSolid.selected.root.color,
@@ -124,7 +124,7 @@ const chipTabs = defineSlotRecipe({
           },
 
           [pseudo(selected, engaged)]: {
-            backgroundColor: chipVars.variantSolid.selectedPressed.root.color,
+            backgroundColor: chipVars.variantSolid.pressedSelected.root.color,
           },
 
           [pseudo(disabled)]: {
@@ -135,10 +135,10 @@ const chipTabs = defineSlotRecipe({
       },
       neutralOutline: {
         trigger: {
-          backgroundColor: chipVars.variantOutlineStrong.enabled.root.color,
-          border: `${chipVars.variantOutlineStrong.enabled.root.strokeWidth} solid ${chipVars.variantOutlineStrong.enabled.root.strokeColor}`,
+          backgroundColor: chipVars.variantOutlineStrong.rest.root.color,
+          border: `${chipVars.variantOutlineStrong.rest.root.strokeWidth} solid ${chipVars.variantOutlineStrong.rest.root.strokeColor}`,
 
-          color: chipVars.variantOutlineStrong.enabled.label.color,
+          color: chipVars.variantOutlineStrong.rest.label.color,
 
           [pseudo(selected)]: {
             backgroundColor: chipVars.variantOutlineStrong.selected.root.color,
@@ -151,7 +151,7 @@ const chipTabs = defineSlotRecipe({
           },
 
           [pseudo(selected, engaged)]: {
-            backgroundColor: chipVars.variantOutlineStrong.selectedPressed.root.color,
+            backgroundColor: chipVars.variantOutlineStrong.pressedSelected.root.color,
           },
 
           [pseudo(disabled)]: {

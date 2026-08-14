@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -29,7 +29,7 @@ export declare const vars: {
    * 기본 스타일입니다.
    */
   "variantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-alpha)"
       },
@@ -75,7 +75,7 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-inverted)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
@@ -90,7 +90,7 @@ export declare const vars: {
    * 명확한 구분이 필요한 경우 사용합니다.
    */
   "variantOutlineStrong": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -138,7 +138,7 @@ export declare const vars: {
         "color": "var(--seed-color-fg-neutral-inverted)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
@@ -153,7 +153,7 @@ export declare const vars: {
    * Selection 사용 시 주목도가 낮은 스타일로 권장됩니다.
    */
   "variantOutlineWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -189,7 +189,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-neutral-weak)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       }
@@ -201,7 +201,7 @@ export declare const vars: {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "32px",
         "paddingX": "var(--seed-dimension-x1_5)"
@@ -226,7 +226,7 @@ export declare const vars: {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "36px",
         "paddingX": "var(--seed-dimension-x2)"
@@ -251,7 +251,7 @@ export declare const vars: {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "40px",
         "paddingX": "var(--seed-dimension-x2_5)"
@@ -277,42 +277,42 @@ export declare const vars: {
     }
   },
   "sizeSmallLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "44px"
       }
     }
   },
   "sizeMediumLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x12)"
       }
     }
   },
   "sizeLargeLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x13)"
       }
     }
   },
   "sizeSmallLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x8)"
       }
     }
   },
   "sizeMediumLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x9)"
       }
     }
   },
   "sizeLargeLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x10)"
       }

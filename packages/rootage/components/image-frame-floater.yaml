@@ -12,9 +12,8 @@ data:
           offset:
             type: dimension
             description: image-frame root slot의 padding property로 대체되었습니다.
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           # NOTE: do not move/remove this property unless you're bumping the major version of @seed-design/react; vars generated from here have been imported in react/src/components/ImageFrame/ImageFrame.tsx
           offset: 6px

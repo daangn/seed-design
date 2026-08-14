@@ -7,7 +7,7 @@ const radioGroup = defineRecipe({
     display: "flex",
 
     flexDirection: "column",
-    gap: vars.base.enabled.root.gapY,
+    gap: vars.base.rest.root.gapY,
   },
   variants: {},
   defaultVariants: {},

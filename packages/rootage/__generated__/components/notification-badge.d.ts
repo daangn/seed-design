@@ -70,162 +70,144 @@ declare const artifact: {
               "description": "간결한 도트 형태로, 텍스트 없이 상태 변화만 표시합니다. 알림의 존재 여부만 중요하거나 공간이 제한된 경우에 적합합니다. 내부 라벨은 지원하지 않습니다.";
             };
           };
-          "defaultValue": "large";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-solid";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
-                "minHeight": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 0;
-                    "unit": "px";
-                  };
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "iconAttachedInsetEnd": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 8;
-                    "unit": "px";
-                  };
-                };
-                "iconAttachedInsetTop": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
-                "textAttachedGap": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t1-static";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t1-static";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "minHeight": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
+              };
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": {
+                "value": 0;
+                "unit": "px";
+              };
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+            "iconAttachedInsetEnd": {
+              "type": "dimension";
+              "value": {
+                "value": 8;
+                "unit": "px";
+              };
+            };
+            "iconAttachedInsetTop": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
+              };
+            };
+            "textAttachedGap": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
+              };
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t1-static";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t1-static";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "small";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 6;
-                    "unit": "px";
-                  };
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "iconAttachedInsetEnd": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 7;
-                    "unit": "px";
-                  };
-                };
-                "iconAttachedInsetTop": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 7;
-                    "unit": "px";
-                  };
-                };
-                "textAttachedGap": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 6;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+            "iconAttachedInsetEnd": {
+              "type": "dimension";
+              "value": {
+                "value": 7;
+                "unit": "px";
+              };
+            };
+            "iconAttachedInsetTop": {
+              "type": "dimension";
+              "value": {
+                "value": 7;
+                "unit": "px";
+              };
+            };
+            "textAttachedGap": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
     ];
   };

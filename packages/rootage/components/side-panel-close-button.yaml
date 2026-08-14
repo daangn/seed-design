@@ -28,9 +28,10 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           color: $color.bg.transparent
           cornerRadius: $radius.r3
@@ -42,6 +43,8 @@ data:
           size: 22px
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed

@@ -7,7 +7,7 @@ import { validate } from "./validate";
 
 /**
  * A ComponentSpec in the exchange format, whose schema declares a single `root`
- * slot while the definitions may name any slot.
+ * slot while its one rule may name any slot.
  *
  * Exchange values carry their own type tag rather than being typed by the schema,
  * which makes this the only remaining way to hand `validate` a slot, property, or
@@ -25,11 +25,14 @@ function componentSpec(
     data: {
       id,
       name: "component",
-      schema: { slots: { root: { properties: rootProperties } }, variants: {} },
-      definitions: [{ variants: {}, definitions: [{ states: ["enabled"], slots }] }],
+      schema: { slots: { root: { properties: rootProperties } }, variants: {}, states: [] },
+      rules: [{ variants: {}, states: [], slots }],
     },
   };
 }
+
+const validateComponentSpec = (yaml: string) =>
+  validate(buildContext([{ fileName: "component", ast: Authoring.fromString(yaml) }]));
 
 describe("validate", () => {
   it("should return true for valid models", () => {
@@ -76,9 +79,16 @@ describe("validate", () => {
                 properties:
                   color:
                     type: color
-          definitions:
-            base:
-              enabled:
+            states:
+              - id: pressed
+              - id: disabled
+                suppresses: [pressed]
+          rules:
+            - slots:
+                root:
+                  color: "$color.bg.layer-1"
+            - states: [disabled]
+              slots:
                 root:
                   color: "$color.bg.layer-1"`),
       },
@@ -213,9 +223,8 @@ describe("validate", () => {
                 properties:
                   color:
                     type: color
-          definitions:
-            base:
-              enabled:
+          rules:
+            - slots:
                 root:
                   color: "$color.bg.layer-1"`),
       },
@@ -452,9 +461,8 @@ describe("validate", () => {
                     type: color
                   unusedProp:
                     type: color
-          definitions:
-            base:
-              enabled:
+          rules:
+            - slots:
                 root:
                   color: "$color.bg.layer-1"`),
       },
@@ -510,9 +518,8 @@ describe("validate", () => {
                 properties:
                   color:
                     type: color
-          definitions:
-            base:
-              enabled:
+          rules:
+            - slots:
                 root:
                   color: "$dimension.x4"`),
       },
@@ -522,5 +529,282 @@ describe("validate", () => {
 
     expect(result.valid).toEqual(false);
     expect(result.message).toContain('Property "color" expects type "color" but got "dimension"');
+  });
+
+  it("should return false if a rule names a state the schema does not declare", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          states:
+            - id: disabled
+        rules:
+          - states: [pressed]
+            slots:
+              root:
+                color: "#ffffff"
+    `);
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain('State "pressed" is not declared in schema');
+  });
+
+  it("should return false if a rule names the same state twice", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          states:
+            - id: pressed
+        rules:
+          - states: [pressed, pressed]
+            slots:
+              root:
+                color: "#ffffff"
+    `);
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain("names a state twice");
+  });
+
+  it("should return false if a state is declared twice in the schema", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          states:
+            - id: pressed
+            - id: pressed
+        rules:
+          - states: [pressed]
+            slots:
+              root:
+                color: "#ffffff"
+    `);
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain("States are declared more than once");
+  });
+
+  it("should return false if a state suppresses one the schema does not declare", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          states:
+            - id: pressed
+            - id: disabled
+              suppresses: [hovered]
+        rules:
+          - slots:
+              root:
+                color: "#ffffff"
+    `);
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain(
+      'State "disabled" suppresses "hovered", which is not declared',
+    );
+  });
+
+  it("should return false if a state suppresses one of equal or higher precedence", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          states:
+            - id: pressed
+              suppresses: [disabled]
+            - id: disabled
+        rules:
+          - slots:
+              root:
+                color: "#ffffff"
+    `);
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain(
+      'State "pressed" suppresses "disabled", which has equal or higher precedence',
+    );
+  });
+
+  it("should return false if two rules carry the same selector", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          variants:
+            variant:
+              values:
+                brandSolid: {}
+        rules:
+          - variants:
+              variant: brandSolid
+            slots:
+              root:
+                color: "#ffffff"
+          - variants:
+              variant: brandSolid
+            slots:
+              root:
+                color: "#000000"
+    `);
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain(
+      "{variant=brandSolid | any state} is declared by more than one rule",
+    );
+  });
+
+  it("should return false if two rules declare one property over overlapping variants and neither is narrower", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          variants:
+            size:
+              values:
+                large: {}
+            type:
+              values:
+                multiline: {}
+        rules:
+          - variants:
+              size: large
+            slots:
+              root:
+                color: "#aaaaaa"
+          - variants:
+              type: multiline
+            slots:
+              root:
+                color: "#cccccc"
+    `);
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain('both declare "root.color" over an overlapping region');
+  });
+
+  it("should return true if one of the two overlapping selectors contains the other", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          variants:
+            size:
+              values:
+                large: {}
+            type:
+              values:
+                multiline: {}
+        rules:
+          - variants:
+              size: large
+            slots:
+              root:
+                color: "#aaaaaa"
+          - variants:
+              size: large
+              type: multiline
+            slots:
+              root:
+                color: "#cccccc"
+    `);
+
+    expect(result.valid).toEqual(true);
+  });
+
+  it("should return false if a variant defaultValue is not one of its values", () => {
+    const result = validateComponentSpec(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "1"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                color:
+                  type: color
+          variants:
+            variant:
+              values:
+                brandSolid: {}
+              defaultValue: neutralSolid
+        rules:
+          - slots:
+              root:
+                color: "#ffffff"
+    `);
+
+    expect(result.valid).toEqual(false);
+    expect(result.message).toContain(
+      'Variant "variant" has defaultValue "neutralSolid", which is not one of its values',
+    );
   });
 });

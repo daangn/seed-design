@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
@@ -41,7 +41,7 @@ export declare const vars: {
    * - `variant=weak`: 배경색이 연한 스타일입니다.
    */
   "toneNeutralVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -72,7 +72,7 @@ export declare const vars: {
    * - `variant=solid`: 배경색이 진한 스타일입니다.
    */
   "toneNeutralVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -103,7 +103,7 @@ export declare const vars: {
    * - `variant=weak`: 배경색이 연한 스타일입니다.
    */
   "tonePositiveVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
@@ -134,7 +134,7 @@ export declare const vars: {
    * - `variant=solid`: 배경색이 진한 스타일입니다.
    */
   "tonePositiveVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-positive-solid)"
       },
@@ -165,7 +165,7 @@ export declare const vars: {
    * - `variant=weak`: 배경색이 연한 스타일입니다.
    */
   "toneInformativeVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
@@ -196,7 +196,7 @@ export declare const vars: {
    * - `variant=solid`: 배경색이 진한 스타일입니다.
    */
   "toneInformativeVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-informative-solid)"
       },
@@ -227,7 +227,7 @@ export declare const vars: {
    * - `variant=weak`: 배경색이 연한 스타일입니다.
    */
   "toneWarningVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
@@ -258,7 +258,7 @@ export declare const vars: {
    * - `variant=solid`: 배경색이 진한 스타일입니다.
    */
   "toneWarningVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-warning-solid)"
       },
@@ -289,7 +289,7 @@ export declare const vars: {
    * - `variant=weak`: 배경색이 연한 스타일입니다.
    */
   "toneCriticalVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
@@ -320,7 +320,7 @@ export declare const vars: {
    * - `variant=solid`: 배경색이 진한 스타일입니다.
    */
   "toneCriticalVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },
@@ -352,7 +352,7 @@ export declare const vars: {
    * - `variant=weak`: 배경색이 연한 스타일입니다.
    */
   "toneMagicVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "gradient": "var(--seed-gradient-glow-magic)"
       },

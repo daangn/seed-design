@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -43,7 +43,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x3)",
@@ -66,7 +66,7 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
@@ -89,7 +89,7 @@ export const vars = {
     }
   },
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -102,7 +102,7 @@ export const vars = {
     }
   },
   "toneCritical": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical)"
       },

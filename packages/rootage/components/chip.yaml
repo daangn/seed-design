@@ -77,9 +77,23 @@ data:
             description: 명확한 구분이 필요한 경우 사용합니다.
           outlineWeak:
             description: Selection 사용 시 주목도가 낮은 스타일로 권장됩니다.
-  definitions:
-    base:
-      enabled:
+      size:
+        values:
+          small: {}
+          medium: {}
+          large: {}
+      layout:
+        values:
+          withText: {}
+          iconOnly: {}
+    states:
+      - id: pressed
+      - id: selected
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
@@ -95,9 +109,9 @@ data:
           paddingX: $dimension.x1_5
         icon:
           color: $color.fg.neutral
-
-    variant=solid:
-      enabled:
+    - variants:
+        variant: solid
+      slots:
         root:
           color: $color.bg.neutral-weak-alpha
         label:
@@ -108,13 +122,25 @@ data:
           color: $color.fg.neutral
         icon:
           color: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: solid
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-alpha-pressed
-      disabled:
+    - variants:
+        variant: solid
+      states:
+        - disabled
+      slots:
         root:
           opacity: 0.5
-      selected:
+    - variants:
+        variant: solid
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted
         label:
@@ -125,15 +151,25 @@ data:
           color: $color.fg.neutral-inverted
         icon:
           color: $color.fg.neutral-inverted
-      selected, pressed:
+    - variants:
+        variant: solid
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-      selected, disabled:
+    - variants:
+        variant: solid
+      states:
+        - selected
+        - disabled
+      slots:
         root:
           opacity: 0.5
-
-    variant=outlineStrong:
-      enabled:
+    - variants:
+        variant: outlineStrong
+      slots:
         root:
           color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
@@ -146,13 +182,25 @@ data:
           color: $color.fg.neutral
         icon:
           color: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: outlineStrong
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - variants:
+        variant: outlineStrong
+      states:
+        - disabled
+      slots:
         root:
           opacity: 0.5
-      selected:
+    - variants:
+        variant: outlineStrong
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted
         label:
@@ -163,15 +211,25 @@ data:
           color: $color.fg.neutral-inverted
         icon:
           color: $color.fg.neutral-inverted
-      selected, pressed:
+    - variants:
+        variant: outlineStrong
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-      selected, disabled:
+    - variants:
+        variant: outlineStrong
+      states:
+        - selected
+        - disabled
+      slots:
         root:
           opacity: 0.5
-
-    variant=outlineWeak:
-      enabled:
+    - variants:
+        variant: outlineWeak
+      slots:
         root:
           color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
@@ -184,25 +242,47 @@ data:
           color: $color.fg.neutral
         icon:
           color: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: outlineWeak
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - variants:
+        variant: outlineWeak
+      states:
+        - disabled
+      slots:
         root:
           opacity: 0.5
-      selected:
+    - variants:
+        variant: outlineWeak
+      states:
+        - selected
+      slots:
         root:
           strokeColor: $color.stroke.neutral-contrast
           color: $color.bg.neutral-weak
-      selected, pressed:
+    - variants:
+        variant: outlineWeak
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-      selected, disabled:
+    - variants:
+        variant: outlineWeak
+      states:
+        - selected
+        - disabled
+      slots:
         root:
           opacity: 0.5
-
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           height: 32px
           paddingX: $dimension.x1_5
@@ -217,8 +297,9 @@ data:
           size: $dimension.x5
         icon:
           size: $dimension.x3_5
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           height: 36px
           paddingX: $dimension.x2
@@ -233,8 +314,9 @@ data:
           size: $dimension.x6
         icon:
           size: $dimension.x4
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         root:
           height: 40px
           paddingX: $dimension.x2_5
@@ -250,29 +332,39 @@ data:
           size: $dimension.x7
         icon:
           size: $dimension.x4
-
-    size=small,layout=withText:
-      enabled:
+    - variants:
+        size: small
+        layout: withText
+      slots:
         root:
           minWidth: 44px
-    size=medium,layout=withText:
-      enabled:
+    - variants:
+        size: medium
+        layout: withText
+      slots:
         root:
           minWidth: $dimension.x12
-    size=large,layout=withText:
-      enabled:
+    - variants:
+        size: large
+        layout: withText
+      slots:
         root:
           minWidth: $dimension.x13
-
-    size=small,layout=iconOnly:
-      enabled:
+    - variants:
+        size: small
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x8
-    size=medium,layout=iconOnly:
-      enabled:
+    - variants:
+        size: medium
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x9
-    size=large,layout=iconOnly:
-      enabled:
+    - variants:
+        size: large
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x10

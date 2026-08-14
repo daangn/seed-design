@@ -32,11 +32,11 @@ const helpBubble = defineSlotRecipe({
       display: "flex",
       alignItems: "flex-start",
 
-      background: vars.base.enabled.root.color,
+      background: vars.base.rest.root.color,
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      paddingInline: vars.base.rest.root.paddingX,
+      paddingBlock: vars.base.rest.root.paddingY,
+      borderRadius: vars.base.rest.root.cornerRadius,
 
       // real value, not `initial` — see https://webkit.org/b/241433
       "--seed-box-max-width--responsive": "none",
@@ -44,19 +44,19 @@ const helpBubble = defineSlotRecipe({
 
       [pseudo(open)]: {
         ...enterAnimation({
-          scale: vars.base.enabled.root.enterScale,
-          opacity: vars.base.enabled.root.enterOpacity,
-          duration: vars.base.enabled.root.enterDuration,
-          timingFunction: vars.base.enabled.root.enterTimingFunction,
+          scale: vars.base.rest.root.enterScale,
+          opacity: vars.base.rest.root.enterOpacity,
+          duration: vars.base.rest.root.enterDuration,
+          timingFunction: vars.base.rest.root.enterTimingFunction,
         }),
       },
 
       [pseudo(not(open))]: {
         ...exitAnimation({
-          scale: vars.base.enabled.root.exitScale,
-          opacity: vars.base.enabled.root.exitOpacity,
-          duration: vars.base.enabled.root.exitDuration,
-          timingFunction: vars.base.enabled.root.exitTimingFunction,
+          scale: vars.base.rest.root.exitScale,
+          opacity: vars.base.rest.root.exitOpacity,
+          duration: vars.base.rest.root.exitDuration,
+          timingFunction: vars.base.rest.root.exitTimingFunction,
         }),
       },
 
@@ -71,23 +71,23 @@ const helpBubble = defineSlotRecipe({
       },
     },
     arrow: {
-      width: vars.base.enabled.arrow.width,
+      width: vars.base.rest.arrow.width,
       // we're making it square
-      height: vars.base.enabled.arrow.width,
+      height: vars.base.rest.arrow.width,
     },
     arrowTip: {
       // svg has default display of inline, which makes it be affected by line-height
       display: "block",
 
-      fill: vars.base.enabled.arrow.color,
+      fill: vars.base.rest.arrow.color,
 
-      width: vars.base.enabled.arrow.width,
-      height: vars.base.enabled.arrow.height,
+      width: vars.base.rest.arrow.width,
+      height: vars.base.rest.arrow.height,
     },
     body: {
       display: "flex",
       flexDirection: "column",
-      gap: vars.base.enabled.body.gap,
+      gap: vars.base.rest.body.gap,
 
       wordBreak: "keep-all",
       overflowWrap: "break-word",
@@ -97,18 +97,18 @@ const helpBubble = defineSlotRecipe({
       minWidth: 0,
     },
     title: {
-      color: vars.base.enabled.title.color,
-      fontSize: vars.base.enabled.title.fontSize,
-      fontWeight: vars.base.enabled.title.fontWeight,
-      lineHeight: vars.base.enabled.title.lineHeight,
+      color: vars.base.rest.title.color,
+      fontSize: vars.base.rest.title.fontSize,
+      fontWeight: vars.base.rest.title.fontWeight,
+      lineHeight: vars.base.rest.title.lineHeight,
 
       whiteSpace: "pre-wrap",
     },
     description: {
-      color: vars.base.enabled.description.color,
-      fontSize: vars.base.enabled.description.fontSize,
-      fontWeight: vars.base.enabled.description.fontWeight,
-      lineHeight: vars.base.enabled.description.lineHeight,
+      color: vars.base.rest.description.color,
+      fontSize: vars.base.rest.description.fontSize,
+      fontWeight: vars.base.rest.description.fontWeight,
+      lineHeight: vars.base.rest.description.lineHeight,
 
       whiteSpace: "pre-wrap",
     },
@@ -119,20 +119,20 @@ const helpBubble = defineSlotRecipe({
       border: "none",
       background: "transparent",
       cursor: "pointer",
-      padding: `calc((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2)`,
+      padding: `calc((${vars.base.rest.closeButton.targetSize} - ${vars.base.rest.closeButton.size}) / 2)`,
 
-      marginLeft: `calc(${vars.base.enabled.root.gap} - ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
-      marginRight: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
-      marginBlock: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
+      marginLeft: `calc(${vars.base.rest.root.gap} - ((${vars.base.rest.closeButton.targetSize} - ${vars.base.rest.closeButton.size}) / 2))`,
+      marginRight: `calc(-1 * ((${vars.base.rest.closeButton.targetSize} - ${vars.base.rest.closeButton.size}) / 2))`,
+      marginBlock: `calc(-1 * ((${vars.base.rest.closeButton.targetSize} - ${vars.base.rest.closeButton.size}) / 2) + ${vars.base.rest.closeButton.marginTop})`,
 
-      color: vars.base.enabled.closeButton.color,
+      color: vars.base.rest.closeButton.color,
 
       ...onlyIcon({
-        color: vars.base.enabled.closeButton.color,
-        size: vars.base.enabled.closeButton.size,
+        color: vars.base.rest.closeButton.color,
+        size: vars.base.rest.closeButton.size,
       }),
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: vars.base.rest.root.cornerRadius,
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),

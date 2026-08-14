@@ -18,68 +18,90 @@ data:
             type: color
           strokeWidth:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    variants:
+      size:
+        values:
+          "20": {}
+          "24": {}
+          "36": {}
+          "42": {}
+          "48": {}
+          "56": {}
+          "64": {}
+          "80": {}
+          "96": {}
+          "108": {}
+  rules:
+    - slots:
         item:
           cornerRadius: $radius.full
           strokeColor: $color.bg.layer-default
-    size=20:
-      enabled:
+    - variants:
+        size: "20"
+      slots:
         root:
           gap: -5px
         item:
           strokeWidth: 1px
-    size=24:
-      enabled:
+    - variants:
+        size: "24"
+      slots:
         root:
           gap: -6px
         item:
           strokeWidth: 1px
-    size=36:
-      enabled:
+    - variants:
+        size: "36"
+      slots:
         root:
           gap: -8px
         item:
           strokeWidth: 2px
-    size=42:
-      enabled:
+    - variants:
+        size: "42"
+      slots:
         root:
           gap: -10px
         item:
           strokeWidth: 2px
-    size=48:
-      enabled:
+    - variants:
+        size: "48"
+      slots:
         root:
           gap: -12px
         item:
           strokeWidth: 2px
-    size=56:
-      enabled:
+    - variants:
+        size: "56"
+      slots:
         root:
           gap: -13px
         item:
           strokeWidth: 3px
-    size=64:
-      enabled:
+    - variants:
+        size: "64"
+      slots:
         root:
           gap: -16px
         item:
           strokeWidth: 3px
-    size=80:
-      enabled:
+    - variants:
+        size: "80"
+      slots:
         root:
           gap: -20px
         item:
           strokeWidth: 4px
-    size=96:
-      enabled:
+    - variants:
+        size: "96"
+      slots:
         root:
           gap: -24px
         item:
           strokeWidth: 5px
-    size=108:
-      enabled:
+    - variants:
+        size: "108"
+      slots:
         root:
           gap: -27px
         item:

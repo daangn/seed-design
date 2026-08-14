@@ -172,280 +172,262 @@ declare const artifact: {
             "medium": {};
             "large": {};
           };
-          "defaultValue": "small";
         };
       };
+      "states": readonly [
+        {
+          "id": "scrolled";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "backdrop": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.overlay";
-                };
-                "enterDuration": {
-                  "type": "duration";
-                  "value": "$duration.d6";
-                };
-                "enterTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.enter";
-                };
-                "enterOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-                "exitDuration": {
-                  "type": "duration";
-                  "value": "$duration.d6";
-                };
-                "exitTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.exit";
-                };
-                "exitOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-              };
-              "content": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-floating";
-                };
-                "widthFraction": {
-                  "type": "number";
-                  "value": 0.8;
-                };
-                "enterDuration": {
-                  "type": "duration";
-                  "value": "$duration.d6";
-                };
-                "enterTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.enter-expressive";
-                };
-                "exitDuration": {
-                  "type": "duration";
-                  "value": "$duration.d6";
-                };
-                "exitTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.exit-expressive";
-                };
-              };
-              "header": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-                "minHeight": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 70;
-                    "unit": "px";
-                  };
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "paddingTop": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "paddingBottom": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "closeButtonGap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-              };
-              "body": {
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "paddingBottom": {
-                  "type": "dimension";
-                  "value": "$dimension.x12";
-                };
-                "strokeDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "strokeTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
-              "footer": {
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "paddingTop": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "paddingBottom": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-              };
-              "title": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t8";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t8";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
-              "description": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-muted";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.regular";
-                };
-              };
-              "closeButton": {
-                "fromTop": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 28;
-                    "unit": "px";
-                  };
-                };
-                "fromRight": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 24;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "backdrop": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.overlay";
+            };
+            "enterDuration": {
+              "type": "duration";
+              "value": "$duration.d6";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.enter";
+            };
+            "enterOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+            "exitDuration": {
+              "type": "duration";
+              "value": "$duration.d6";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.exit";
+            };
+            "exitOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+          };
+          "content": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-floating";
+            };
+            "widthFraction": {
+              "type": "number";
+              "value": 0.8;
+            };
+            "enterDuration": {
+              "type": "duration";
+              "value": "$duration.d6";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.enter-expressive";
+            };
+            "exitDuration": {
+              "type": "duration";
+              "value": "$duration.d6";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.exit-expressive";
+            };
+          };
+          "header": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+            "minHeight": {
+              "type": "dimension";
+              "value": {
+                "value": 70;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "scrolled",
-            ];
-            "slots": {
-              "body": {
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+            "paddingTop": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+            "paddingBottom": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "closeButtonGap": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+          };
+          "body": {
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+            "paddingBottom": {
+              "type": "dimension";
+              "value": "$dimension.x12";
+            };
+            "strokeDuration": {
+              "type": "duration";
+              "value": "$duration.color-transition";
+            };
+            "strokeTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+          "footer": {
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+            "paddingTop": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "paddingBottom": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+          };
+          "title": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t8";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t8";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+          "description": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-muted";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.regular";
+            };
+          };
+          "closeButton": {
+            "fromTop": {
+              "type": "dimension";
+              "value": {
+                "value": 28;
+                "unit": "px";
               };
             };
-          },
+            "fromRight": {
+              "type": "dimension";
+              "value": {
+                "value": 24;
+                "unit": "px";
+              };
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "scrolled",
         ];
+        "slots": {
+          "body": {
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "small";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "content": {
-                "width": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 480;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "content": {
+            "width": {
+              "type": "dimension";
+              "value": {
+                "value": 480;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "content": {
-                "width": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 720;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "content": {
+            "width": {
+              "type": "dimension";
+              "value": {
+                "value": 720;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "content": {
-                "width": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 960;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "content": {
+            "width": {
+              "type": "dimension";
+              "value": {
+                "value": 960;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
     ];
   };

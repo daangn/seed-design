@@ -46,90 +46,91 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "fromTop": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 6;
-                    "unit": "px";
-                  };
-                };
-                "width": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 36;
-                    "unit": "px";
-                  };
-                };
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 4;
-                    "unit": "px";
-                  };
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-400";
-                };
-                "borderRadius": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 9999;
-                    "unit": "px";
-                  };
-                };
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
-              "touchArea": {
-                "width": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "fromTop": {
+              "type": "dimension";
+              "value": {
+                "value": 6;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
+            "width": {
+              "type": "dimension";
+              "value": {
+                "value": 36;
+                "unit": "px";
               };
             };
-          },
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 4;
+                "unit": "px";
+              };
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-400";
+            };
+            "borderRadius": {
+              "type": "dimension";
+              "value": {
+                "value": 9999;
+                "unit": "px";
+              };
+            };
+            "colorDuration": {
+              "type": "duration";
+              "value": "$duration.color-transition";
+            };
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+          "touchArea": {
+            "width": {
+              "type": "dimension";
+              "value": {
+                "value": 44;
+                "unit": "px";
+              };
+            };
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 44;
+                "unit": "px";
+              };
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
+            };
+          };
+        };
       },
     ];
   };

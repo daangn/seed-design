@@ -1,9 +1,59 @@
-import type { PropertySchemaDeclaration, TokenDeclaration, ValueLit } from "../parser/ast";
+import type {
+  ComponentSpecDeclaration,
+  PropertySchemaDeclaration,
+  TokenDeclaration,
+  ValueLit,
+} from "../parser/ast";
+import {
+  compareRules,
+  getStateRanks,
+  stringifyRuleSelector,
+  variantSelectorsOverlap,
+} from "./resolve";
 import type { RootageCtx } from "./types";
 
 interface ValidationResult {
   valid: boolean;
   message: string;
+}
+
+/**
+ * The check that makes the language unambiguous rather than merely
+ * deterministic-by-convention.
+ *
+ * State precedence totally orders rules that differ in states, so the only pair a
+ * document can leave undecided is one whose variant selectors overlap without
+ * either containing the other — `{size=large}` against `{type=multiline}`, say.
+ * Rather than invent a tiebreak nobody declared, refuse the document: the author
+ * has to name the region they meant.
+ */
+function findAmbiguity(
+  spec: ComponentSpecDeclaration,
+  stateRanks: Map<string, number>,
+): string | undefined {
+  for (const [index, a] of spec.rules.entries()) {
+    for (const b of spec.rules.slice(index + 1)) {
+      if (compareRules(a, b, stateRanks) !== undefined) continue;
+      if (!variantSelectorsOverlap(a, b)) continue;
+
+      for (const slot of a.body) {
+        const counterpart = b.body.find((other) => other.slot === slot.slot);
+        if (!counterpart) continue;
+
+        for (const property of slot.body) {
+          if (!counterpart.body.some((other) => other.property === property.property)) continue;
+
+          return (
+            `${stringifyRuleSelector(a)} and ${stringifyRuleSelector(b)} both declare ` +
+            `"${slot.slot}.${property.property}" over an overlapping region of component spec "${spec.name}", ` +
+            `and neither is more specific than the other. Narrow one of them so the winner follows from the document.`
+          );
+        }
+      }
+    }
+  }
+
+  return undefined;
 }
 
 // this might live in ast.ts later but not sure: *Lit["kind"] already shows its type
@@ -132,74 +182,179 @@ export function validate(ctx: RootageCtx): ValidationResult {
       slotSchemaMap.set(slotSchema.name, propertySchemaMap);
     }
 
+    const variantSchemaMap = new Map(
+      componentSpec.schema.variants.map((variant) => [
+        variant.name,
+        new Set(variant.values.map((value) => value.name)),
+      ]),
+    );
+
+    for (const variant of componentSpec.schema.variants) {
+      if (variant.values.length === 0) {
+        return {
+          valid: false,
+          message: `Variant "${variant.name}" has no values in component spec "${componentSpec.name}"`,
+        };
+      }
+
+      if (variant.defaultValue && !variantSchemaMap.get(variant.name)?.has(variant.defaultValue)) {
+        return {
+          valid: false,
+          message: `Variant "${variant.name}" has defaultValue "${variant.defaultValue}", which is not one of its values, in component spec "${componentSpec.name}"`,
+        };
+      }
+    }
+
+    const stateRanks = getStateRanks(componentSpec);
+
+    if (stateRanks.size !== componentSpec.schema.states.length) {
+      return {
+        valid: false,
+        message: `States are declared more than once in component spec "${componentSpec.name}"`,
+      };
+    }
+
+    // Suppression only ever points down the precedence list. That keeps the
+    // effective-state pass single-shot and order-independent, and rules out the
+    // pair of states that cancel each other.
+    for (const [rank, state] of componentSpec.schema.states.entries()) {
+      for (const target of state.suppresses) {
+        const targetRank = stateRanks.get(target);
+
+        if (targetRank === undefined) {
+          return {
+            valid: false,
+            message: `State "${state.name}" suppresses "${target}", which is not declared, in component spec "${componentSpec.name}"`,
+          };
+        }
+
+        if (targetRank >= rank) {
+          return {
+            valid: false,
+            message: `State "${state.name}" suppresses "${target}", which has equal or higher precedence, in component spec "${componentSpec.name}". A state can only suppress states declared before it.`,
+          };
+        }
+      }
+    }
+
     const usedProperties = new Map<string, Set<string>>();
     for (const slotSchema of componentSpec.schema.slots) {
       usedProperties.set(slotSchema.name, new Set());
     }
 
-    for (const variant of componentSpec.body) {
-      for (const state of variant.body) {
-        for (const slot of state.body) {
-          const propertySchemaMap = slotSchemaMap.get(slot.slot);
-          if (!propertySchemaMap) {
+    const seenSelectors = new Set<string>();
+
+    for (const rule of componentSpec.rules) {
+      for (const expr of rule.variants) {
+        const values = variantSchemaMap.get(expr.name);
+
+        if (!values) {
+          return {
+            valid: false,
+            message: `Variant "${expr.name}" is not declared in schema but used by ${stringifyRuleSelector(rule)} in component spec "${componentSpec.name}"`,
+          };
+        }
+
+        if (!values.has(expr.value)) {
+          return {
+            valid: false,
+            message: `Variant "${expr.name}" has no value "${expr.value}", used by ${stringifyRuleSelector(rule)} in component spec "${componentSpec.name}"`,
+          };
+        }
+      }
+
+      for (const expr of rule.states) {
+        if (!stateRanks.has(expr.value)) {
+          return {
+            valid: false,
+            message: `State "${expr.value}" is not declared in schema but used by ${stringifyRuleSelector(rule)} in component spec "${componentSpec.name}"`,
+          };
+        }
+      }
+
+      if (new Set(rule.states.map((expr) => expr.value)).size !== rule.states.length) {
+        return {
+          valid: false,
+          message: `${stringifyRuleSelector(rule)} names a state twice in component spec "${componentSpec.name}"`,
+        };
+      }
+
+      // Two rules over the same region are the one case precedence cannot settle,
+      // since neither is more specific than the other.
+      const selector = stringifyRuleSelector(rule);
+      if (seenSelectors.has(selector)) {
+        return {
+          valid: false,
+          message: `${selector} is declared by more than one rule in component spec "${componentSpec.name}". Merge them: which one wins would otherwise depend on document order.`,
+        };
+      }
+      seenSelectors.add(selector);
+
+      for (const slot of rule.body) {
+        const propertySchemaMap = slotSchemaMap.get(slot.slot);
+        if (!propertySchemaMap) {
+          return {
+            valid: false,
+            message: `Slot "${slot.slot}" is not defined in schema but used in component spec "${componentSpec.name}"`,
+          };
+        }
+
+        for (const property of slot.body) {
+          usedProperties.get(slot.slot)?.add(property.property);
+
+          const propertySchema = propertySchemaMap.get(property.property);
+          if (!propertySchema) {
             return {
               valid: false,
-              message: `Slot "${slot.slot}" is not defined in schema but used in component spec "${componentSpec.name}"`,
+              message: `Property "${property.property}" is not defined in slot "${slot.slot}" schema but used in component spec "${componentSpec.name}"`,
             };
           }
 
-          for (const property of slot.body) {
-            usedProperties.get(slot.slot)?.add(property.property);
-
-            const propertySchema = propertySchemaMap.get(property.property);
-            if (!propertySchema) {
+          if (property.value.kind === "TokenLit") {
+            const tokenName = property.value.identifier;
+            if (!tokenNameSet.has(tokenName)) {
               return {
                 valid: false,
-                message: `Property "${property.property}" is not defined in slot "${slot.slot}" schema but used in component spec "${componentSpec.name}"`,
-              };
-            }
-
-            if (property.value.kind === "TokenLit") {
-              const tokenName = property.value.identifier;
-              if (!tokenNameSet.has(tokenName)) {
-                return {
-                  valid: false,
-                  message: `Token "${tokenName}" is not defined but used in component spec "${componentSpec.name}"`,
-                };
-              }
-            }
-
-            const expectedType = propertySchema.type;
-            const actualType = (() => {
-              switch (property.value.kind) {
-                case "TokenLit":
-                  return tokenTypeMap.get(property.value.identifier);
-
-                default:
-                  return LITERAL_KIND_TO_TYPE[property.value.kind];
-              }
-            })();
-
-            if (actualType && actualType !== expectedType) {
-              return {
-                valid: false,
-                message: `Property "${property.property}" expects type "${expectedType}" but got "${actualType}" in component spec "${componentSpec.name}"`,
-              };
-            }
-
-            if (
-              propertySchema.type === "enum" &&
-              property.value.kind === "EnumLit" &&
-              !propertySchema.values.includes(property.value.value)
-            ) {
-              return {
-                valid: false,
-                message: `Property "${property.property}" expects one of ${propertySchema.values.map((value) => `"${value}"`).join(", ")} but got "${property.value.value}" in component spec "${componentSpec.name}"`,
+                message: `Token "${tokenName}" is not defined but used in component spec "${componentSpec.name}"`,
               };
             }
           }
+
+          const expectedType = propertySchema.type;
+          const actualType = (() => {
+            switch (property.value.kind) {
+              case "TokenLit":
+                return tokenTypeMap.get(property.value.identifier);
+
+              default:
+                return LITERAL_KIND_TO_TYPE[property.value.kind];
+            }
+          })();
+
+          if (actualType && actualType !== expectedType) {
+            return {
+              valid: false,
+              message: `Property "${property.property}" expects type "${expectedType}" but got "${actualType}" in component spec "${componentSpec.name}"`,
+            };
+          }
+
+          if (
+            propertySchema.type === "enum" &&
+            property.value.kind === "EnumLit" &&
+            !propertySchema.values.includes(property.value.value)
+          ) {
+            return {
+              valid: false,
+              message: `Property "${property.property}" expects one of ${propertySchema.values.map((value) => `"${value}"`).join(", ")} but got "${property.value.value}" in component spec "${componentSpec.name}"`,
+            };
+          }
         }
       }
+    }
+
+    const ambiguity = findAmbiguity(componentSpec, stateRanks);
+    if (ambiguity) {
+      return { valid: false, message: ambiguity };
     }
 
     for (const slotSchema of componentSpec.schema.slots) {

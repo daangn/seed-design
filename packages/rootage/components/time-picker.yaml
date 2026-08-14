@@ -32,9 +32,10 @@ data:
             type: number
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: selected
+  rules:
+    - slots:
         root:
           height: 220px
         selectionIndicator:
@@ -48,6 +49,8 @@ data:
           lineHeight: $line-height.t10-static
           fontWeight: $font-weight.medium
           color: $color.fg.disabled
-      selected:
+    - states:
+        - selected
+      slots:
         item:
           color: $color.fg.neutral

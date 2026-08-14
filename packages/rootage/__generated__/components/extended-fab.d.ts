@@ -72,265 +72,245 @@ declare const artifact: {
               "description": "플로팅 레이어 위에 사용하는 스타일입니다.";
             };
           };
-          "defaultValue": "neutralSolid";
         };
         "size": {
           "values": {
             "small": {};
             "medium": {};
           };
-          "defaultValue": "small";
         };
       };
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "shadow": {
-                  "type": "shadow";
-                  "value": readonly [
-                    {
-                      "color": "#00000026";
-                      "offsetX": {
-                        "value": 0;
-                        "unit": "px";
-                      };
-                      "offsetY": {
-                        "value": 2;
-                        "unit": "px";
-                      };
-                      "blur": {
-                        "value": 6;
-                        "unit": "px";
-                      };
-                      "spread": {
-                        "value": 0;
-                        "unit": "px";
-                      };
-                    },
-                  ];
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
             };
-          },
-        ];
+            "shadow": {
+              "type": "shadow";
+              "value": readonly [
+                {
+                  "color": "#00000026";
+                  "offsetX": {
+                    "value": 0;
+                    "unit": "px";
+                  };
+                  "offsetY": {
+                    "value": 2;
+                    "unit": "px";
+                  };
+                  "blur": {
+                    "value": 6;
+                    "unit": "px";
+                  };
+                  "spread": {
+                    "value": 0;
+                    "unit": "px";
+                  };
+                },
+              ];
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "neutralSolid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-inverted";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-inverted";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-inverted-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
             };
-          },
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralSolid";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-inverted-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "layerFloating";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-floating";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-floating";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-floating-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "layerFloating";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-floating-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "small";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 40;
-                    "unit": "px";
-                  };
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": {
+                "value": 40;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 16;
+                "unit": "px";
+              };
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 48;
-                    "unit": "px";
-                  };
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": {
+                "value": 48;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 16;
+                "unit": "px";
+              };
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+        };
       },
     ];
   };

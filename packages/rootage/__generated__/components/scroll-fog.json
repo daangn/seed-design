@@ -23,37 +23,32 @@
           }
         }
       },
-      "variants": {}
+      "variants": {},
+      "states": []
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "fromColor": {
-                  "type": "color",
-                  "value": "#00000000"
-                },
-                "toColor": {
-                  "type": "color",
-                  "value": "#000000ff"
-                },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 20,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "fromColor": {
+              "type": "color",
+              "value": "#00000000"
+            },
+            "toColor": {
+              "type": "color",
+              "value": "#000000ff"
+            },
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 20,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       }
     ]
   }

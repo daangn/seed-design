@@ -57,252 +57,186 @@ declare const artifact: {
             "l9": {};
             "l10": {};
           };
-          "defaultValue": "l1";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
-              "emote": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x8";
-                };
-                "bleed": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
             };
-          },
-        ];
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+          "emote": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x8";
+            };
+            "bleed": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+          };
+        };
       },
       {
         "variants": {
           "level": "l1";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l1.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l1.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l2";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l2.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l2.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l3";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l3.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l3.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l4";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l4.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l4.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l5";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l5.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l5.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l6";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l6.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l6.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l7";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l7.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l7.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l8";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l8.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l8.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l9";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l9.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l9.text";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "level": "l10";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.manner-temp.l10.text";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.manner-temp.l10.text";
             };
-          },
-        ];
+          };
+        };
       },
     ];
   };

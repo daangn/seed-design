@@ -36,30 +36,30 @@ export const notificationBadgePositioner = defineRecipe({
       size: "large",
       attach: "icon",
       css: {
-        top: vars.sizeLarge.enabled.root.iconAttachedInsetTop,
-        right: vars.sizeLarge.enabled.root.iconAttachedInsetEnd,
+        top: vars.sizeLarge.rest.root.iconAttachedInsetTop,
+        right: vars.sizeLarge.rest.root.iconAttachedInsetEnd,
       },
     },
     {
       size: "small",
       attach: "icon",
       css: {
-        top: vars.sizeSmall.enabled.root.iconAttachedInsetTop,
-        right: vars.sizeSmall.enabled.root.iconAttachedInsetEnd,
+        top: vars.sizeSmall.rest.root.iconAttachedInsetTop,
+        right: vars.sizeSmall.rest.root.iconAttachedInsetEnd,
       },
     },
     {
       size: "large",
       attach: "text",
       css: {
-        right: `calc(-1 * ${vars.sizeLarge.enabled.root.textAttachedGap})`,
+        right: `calc(-1 * ${vars.sizeLarge.rest.root.textAttachedGap})`,
       },
     },
     {
       size: "small",
       attach: "text",
       css: {
-        right: `calc(-1 * ${vars.sizeSmall.enabled.root.textAttachedGap})`,
+        right: `calc(-1 * ${vars.sizeSmall.rest.root.textAttachedGap})`,
       },
     },
   ],
@@ -83,27 +83,27 @@ export const notificationBadge = defineRecipe({
     MozOsxFontSmoothing: "grayscale",
     textDecoration: "none",
 
-    backgroundColor: vars.base.enabled.root.color,
-    color: vars.base.enabled.label.color,
+    backgroundColor: vars.base.rest.root.color,
+    color: vars.base.rest.label.color,
   },
   variants: {
     size: {
       small: {
-        width: vars.sizeSmall.enabled.root.size,
-        height: vars.sizeSmall.enabled.root.size,
-        borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
+        width: vars.sizeSmall.rest.root.size,
+        height: vars.sizeSmall.rest.root.size,
+        borderRadius: vars.sizeSmall.rest.root.cornerRadius,
       },
       large: {
-        minWidth: vars.sizeLarge.enabled.root.minWidth,
-        minHeight: vars.sizeLarge.enabled.root.minHeight,
-        borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+        minWidth: vars.sizeLarge.rest.root.minWidth,
+        minHeight: vars.sizeLarge.rest.root.minHeight,
+        borderRadius: vars.sizeLarge.rest.root.cornerRadius,
 
-        paddingInline: vars.sizeLarge.enabled.root.paddingX,
-        paddingBlock: vars.sizeLarge.enabled.root.paddingY,
+        paddingInline: vars.sizeLarge.rest.root.paddingX,
+        paddingBlock: vars.sizeLarge.rest.root.paddingY,
 
-        fontSize: vars.sizeLarge.enabled.label.fontSize,
-        lineHeight: vars.sizeLarge.enabled.label.lineHeight,
-        fontWeight: vars.sizeLarge.enabled.label.fontWeight,
+        fontSize: vars.sizeLarge.rest.label.fontSize,
+        lineHeight: vars.sizeLarge.rest.label.lineHeight,
+        fontWeight: vars.sizeLarge.rest.label.fontWeight,
       },
     },
   },

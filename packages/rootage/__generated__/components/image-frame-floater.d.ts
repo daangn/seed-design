@@ -19,28 +19,23 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 6;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 6;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
     ];
   };

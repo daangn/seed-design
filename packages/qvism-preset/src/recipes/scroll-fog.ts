@@ -9,8 +9,8 @@ const scrollFog = defineRecipe({
     height: "100%",
     width: "100%",
 
-    "--scroll-fog-from-color": vars.base.enabled.root.fromColor,
-    "--scroll-fog-to-color": vars.base.enabled.root.toColor,
+    "--scroll-fog-from-color": vars.base.rest.root.fromColor,
+    "--scroll-fog-to-color": vars.base.rest.root.toColor,
 
     // 4-directional gradients for fog effect
     maskImage: [

@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)",
         "minHeight": "52px",
@@ -33,7 +33,7 @@ export const vars = {
     }
   },
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -43,7 +43,7 @@ export const vars = {
     }
   },
   "toneCritical": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical)"
       },
@@ -51,7 +51,5 @@ export const vars = {
         "color": "var(--seed-color-fg-critical)"
       }
     }
-  },
-  "labelAlignLeft": {},
-  "labelAlignCenter": {}
+  }
 }

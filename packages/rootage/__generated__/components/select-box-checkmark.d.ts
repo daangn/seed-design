@@ -34,115 +34,128 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "selected";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "disabled";
+          "suppresses": readonly [
+            "pressed",
+          ];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 15;
-                    "unit": "px";
-                  };
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.placeholder";
-                };
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 15;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-subtle";
-                };
-              };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.placeholder";
             };
-          },
-          {
-            "states": readonly [
-              "enabled",
-              "selected",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
+            "colorDuration": {
+              "type": "duration";
+              "value": "$duration.color-transition";
             };
-          },
-          {
-            "states": readonly [
-              "enabled",
-              "selected",
-              "pressed",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-            };
-          },
-          {
-            "states": readonly [
-              "disabled",
-              "selected",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-            };
-          },
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-subtle";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "selected",
+        ];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
+          "selected",
+        ];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "selected",
+          "disabled",
+        ];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
       },
     ];
   };

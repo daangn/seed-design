@@ -131,525 +131,642 @@ data:
             description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
           t14StaticBold:
             description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
-  definitions:
-    textStyle=screenTitle:
-      enabled:
+          t1Regular: {}
+          t1Medium: {}
+          t1Bold: {}
+          t2Regular: {}
+          t2Medium: {}
+          t2Bold: {}
+          t3Regular: {}
+          t3Medium: {}
+          t3Bold: {}
+          t4Regular: {}
+          t4Medium: {}
+          t4Bold: {}
+          t5Regular: {}
+          t5Medium: {}
+          t5Bold: {}
+          t6Regular: {}
+          t6Medium: {}
+          t6Bold: {}
+          t7Regular: {}
+          t7Medium: {}
+          t7Bold: {}
+          t8Regular: {}
+          t8Medium: {}
+          t8Bold: {}
+          t9Regular: {}
+          t9Medium: {}
+          t9Bold: {}
+          t10Regular: {}
+          t10Medium: {}
+          t10Bold: {}
+  rules:
+    - variants:
+        textStyle: screenTitle
+      slots:
         root:
           fontSize: $font-size.t10
           lineHeight: $line-height.t10
           fontWeight: $font-weight.bold
-    textStyle=articleBody:
-      enabled:
+    - variants:
+        textStyle: articleBody
+      slots:
         root:
           fontSize: $font-size.t5
           lineHeight: $line-height.t6
           fontWeight: $font-weight.regular
-    textStyle=articleNote:
-      enabled:
+    - variants:
+        textStyle: articleNote
+      slots:
         root:
           fontSize: $font-size.t4
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
-    textStyle=t1Regular:
-      enabled:
+    - variants:
+        textStyle: t1Regular
+      slots:
         root:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
           fontWeight: $font-weight.regular
-    textStyle=t1Medium:
-      enabled:
+    - variants:
+        textStyle: t1Medium
+      slots:
         root:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
           fontWeight: $font-weight.medium
-    textStyle=t1Bold:
-      enabled:
+    - variants:
+        textStyle: t1Bold
+      slots:
         root:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
           fontWeight: $font-weight.bold
-    textStyle=t2Regular:
-      enabled:
+    - variants:
+        textStyle: t2Regular
+      slots:
         root:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.regular
-    textStyle=t2Medium:
-      enabled:
+    - variants:
+        textStyle: t2Medium
+      slots:
         root:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.medium
-    textStyle=t2Bold:
-      enabled:
+    - variants:
+        textStyle: t2Bold
+      slots:
         root:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.bold
-    textStyle=t3Regular:
-      enabled:
+    - variants:
+        textStyle: t3Regular
+      slots:
         root:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
           fontWeight: $font-weight.regular
-    textStyle=t3Medium:
-      enabled:
+    - variants:
+        textStyle: t3Medium
+      slots:
         root:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
           fontWeight: $font-weight.medium
-    textStyle=t3Bold:
-      enabled:
+    - variants:
+        textStyle: t3Bold
+      slots:
         root:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
           fontWeight: $font-weight.bold
-    textStyle=t4Regular:
-      enabled:
+    - variants:
+        textStyle: t4Regular
+      slots:
         root:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.regular
-    textStyle=t4Medium:
-      enabled:
+    - variants:
+        textStyle: t4Medium
+      slots:
         root:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.medium
-    textStyle=t4Bold:
-      enabled:
+    - variants:
+        textStyle: t4Bold
+      slots:
         root:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.bold
-    textStyle=t5Regular:
-      enabled:
+    - variants:
+        textStyle: t5Regular
+      slots:
         root:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
-    textStyle=t5Medium:
-      enabled:
+    - variants:
+        textStyle: t5Medium
+      slots:
         root:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.medium
-    textStyle=t5Bold:
-      enabled:
+    - variants:
+        textStyle: t5Bold
+      slots:
         root:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold
-    textStyle=t6Regular:
-      enabled:
+    - variants:
+        textStyle: t6Regular
+      slots:
         root:
           fontSize: $font-size.t6
           lineHeight: $line-height.t6
           fontWeight: $font-weight.regular
-    textStyle=t6Medium:
-      enabled:
+    - variants:
+        textStyle: t6Medium
+      slots:
         root:
           fontSize: $font-size.t6
           lineHeight: $line-height.t6
           fontWeight: $font-weight.medium
-    textStyle=t6Bold:
-      enabled:
+    - variants:
+        textStyle: t6Bold
+      slots:
         root:
           fontSize: $font-size.t6
           lineHeight: $line-height.t6
           fontWeight: $font-weight.bold
-    textStyle=t7Regular:
-      enabled:
+    - variants:
+        textStyle: t7Regular
+      slots:
         root:
           fontSize: $font-size.t7
           lineHeight: $line-height.t7
           fontWeight: $font-weight.regular
-    textStyle=t7Medium:
-      enabled:
+    - variants:
+        textStyle: t7Medium
+      slots:
         root:
           fontSize: $font-size.t7
           lineHeight: $line-height.t7
           fontWeight: $font-weight.medium
-    textStyle=t7Bold:
-      enabled:
+    - variants:
+        textStyle: t7Bold
+      slots:
         root:
           fontSize: $font-size.t7
           lineHeight: $line-height.t7
           fontWeight: $font-weight.bold
-    textStyle=t8Regular:
-      enabled:
+    - variants:
+        textStyle: t8Regular
+      slots:
         root:
           fontSize: $font-size.t8
           lineHeight: $line-height.t8
           fontWeight: $font-weight.regular
-    textStyle=t8Medium:
-      enabled:
+    - variants:
+        textStyle: t8Medium
+      slots:
         root:
           fontSize: $font-size.t8
           lineHeight: $line-height.t8
           fontWeight: $font-weight.medium
-    textStyle=t8Bold:
-      enabled:
+    - variants:
+        textStyle: t8Bold
+      slots:
         root:
           fontSize: $font-size.t8
           lineHeight: $line-height.t8
           fontWeight: $font-weight.bold
-    textStyle=t9Regular:
-      enabled:
+    - variants:
+        textStyle: t9Regular
+      slots:
         root:
           fontSize: $font-size.t9
           lineHeight: $line-height.t9
           fontWeight: $font-weight.regular
-    textStyle=t9Medium:
-      enabled:
+    - variants:
+        textStyle: t9Medium
+      slots:
         root:
           fontSize: $font-size.t9
           lineHeight: $line-height.t9
           fontWeight: $font-weight.medium
-    textStyle=t9Bold:
-      enabled:
+    - variants:
+        textStyle: t9Bold
+      slots:
         root:
           fontSize: $font-size.t9
           lineHeight: $line-height.t9
           fontWeight: $font-weight.bold
-    textStyle=t10Regular:
-      enabled:
+    - variants:
+        textStyle: t10Regular
+      slots:
         root:
           fontSize: $font-size.t10
           lineHeight: $line-height.t10
           fontWeight: $font-weight.regular
-    textStyle=t10Medium:
-      enabled:
+    - variants:
+        textStyle: t10Medium
+      slots:
         root:
           fontSize: $font-size.t10
           lineHeight: $line-height.t10
           fontWeight: $font-weight.medium
-    textStyle=t10Bold:
-      enabled:
+    - variants:
+        textStyle: t10Bold
+      slots:
         root:
           fontSize: $font-size.t10
           lineHeight: $line-height.t10
           fontWeight: $font-weight.bold
-    textStyle=t11Regular:
-      enabled:
+    - variants:
+        textStyle: t11Regular
+      slots:
         root:
           fontSize: $font-size.t11
           lineHeight: $line-height.t11
           fontWeight: $font-weight.regular
-    textStyle=t11Medium:
-      enabled:
+    - variants:
+        textStyle: t11Medium
+      slots:
         root:
           fontSize: $font-size.t11
           lineHeight: $line-height.t11
           fontWeight: $font-weight.medium
-    textStyle=t11Bold:
-      enabled:
+    - variants:
+        textStyle: t11Bold
+      slots:
         root:
           fontSize: $font-size.t11
           lineHeight: $line-height.t11
           fontWeight: $font-weight.bold
-    textStyle=t12Regular:
-      enabled:
+    - variants:
+        textStyle: t12Regular
+      slots:
         root:
           fontSize: $font-size.t12
           lineHeight: $line-height.t12
           fontWeight: $font-weight.regular
-    textStyle=t12Medium:
-      enabled:
+    - variants:
+        textStyle: t12Medium
+      slots:
         root:
           fontSize: $font-size.t12
           lineHeight: $line-height.t12
           fontWeight: $font-weight.medium
-    textStyle=t12Bold:
-      enabled:
+    - variants:
+        textStyle: t12Bold
+      slots:
         root:
           fontSize: $font-size.t12
           lineHeight: $line-height.t12
           fontWeight: $font-weight.bold
-    textStyle=t13Regular:
-      enabled:
+    - variants:
+        textStyle: t13Regular
+      slots:
         root:
           fontSize: $font-size.t13
           lineHeight: $line-height.t13
           fontWeight: $font-weight.regular
-    textStyle=t13Medium:
-      enabled:
+    - variants:
+        textStyle: t13Medium
+      slots:
         root:
           fontSize: $font-size.t13
           lineHeight: $line-height.t13
           fontWeight: $font-weight.medium
-    textStyle=t13Bold:
-      enabled:
+    - variants:
+        textStyle: t13Bold
+      slots:
         root:
           fontSize: $font-size.t13
           lineHeight: $line-height.t13
           fontWeight: $font-weight.bold
-    textStyle=t14Regular:
-      enabled:
+    - variants:
+        textStyle: t14Regular
+      slots:
         root:
           fontSize: $font-size.t14
           lineHeight: $line-height.t14
           fontWeight: $font-weight.regular
-    textStyle=t14Medium:
-      enabled:
+    - variants:
+        textStyle: t14Medium
+      slots:
         root:
           fontSize: $font-size.t14
           lineHeight: $line-height.t14
           fontWeight: $font-weight.medium
-    textStyle=t14Bold:
-      enabled:
+    - variants:
+        textStyle: t14Bold
+      slots:
         root:
           fontSize: $font-size.t14
           lineHeight: $line-height.t14
           fontWeight: $font-weight.bold
-    textStyle=t1StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t1StaticRegular
+      slots:
         root:
           fontSize: $font-size.t1-static
           lineHeight: $line-height.t1-static
           fontWeight: $font-weight.regular
-    textStyle=t1StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t1StaticMedium
+      slots:
         root:
           fontSize: $font-size.t1-static
           lineHeight: $line-height.t1-static
           fontWeight: $font-weight.medium
-    textStyle=t1StaticBold:
-      enabled:
+    - variants:
+        textStyle: t1StaticBold
+      slots:
         root:
           fontSize: $font-size.t1-static
           lineHeight: $line-height.t1-static
           fontWeight: $font-weight.bold
-    textStyle=t2StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t2StaticRegular
+      slots:
         root:
           fontSize: $font-size.t2-static
           lineHeight: $line-height.t2-static
           fontWeight: $font-weight.regular
-    textStyle=t2StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t2StaticMedium
+      slots:
         root:
           fontSize: $font-size.t2-static
           lineHeight: $line-height.t2-static
           fontWeight: $font-weight.medium
-    textStyle=t2StaticBold:
-      enabled:
+    - variants:
+        textStyle: t2StaticBold
+      slots:
         root:
           fontSize: $font-size.t2-static
           lineHeight: $line-height.t2-static
           fontWeight: $font-weight.bold
-    textStyle=t3StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t3StaticRegular
+      slots:
         root:
           fontSize: $font-size.t3-static
           lineHeight: $line-height.t3-static
           fontWeight: $font-weight.regular
-    textStyle=t3StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t3StaticMedium
+      slots:
         root:
           fontSize: $font-size.t3-static
           lineHeight: $line-height.t3-static
           fontWeight: $font-weight.medium
-    textStyle=t3StaticBold:
-      enabled:
+    - variants:
+        textStyle: t3StaticBold
+      slots:
         root:
           fontSize: $font-size.t3-static
           lineHeight: $line-height.t3-static
           fontWeight: $font-weight.bold
-    textStyle=t4StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t4StaticRegular
+      slots:
         root:
           fontSize: $font-size.t4-static
           lineHeight: $line-height.t4-static
           fontWeight: $font-weight.regular
-    textStyle=t4StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t4StaticMedium
+      slots:
         root:
           fontSize: $font-size.t4-static
           lineHeight: $line-height.t4-static
           fontWeight: $font-weight.medium
-    textStyle=t4StaticBold:
-      enabled:
+    - variants:
+        textStyle: t4StaticBold
+      slots:
         root:
           fontSize: $font-size.t4-static
           lineHeight: $line-height.t4-static
           fontWeight: $font-weight.bold
-    textStyle=t5StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t5StaticRegular
+      slots:
         root:
           fontSize: $font-size.t5-static
           lineHeight: $line-height.t5-static
           fontWeight: $font-weight.regular
-    textStyle=t5StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t5StaticMedium
+      slots:
         root:
           fontSize: $font-size.t5-static
           lineHeight: $line-height.t5-static
           fontWeight: $font-weight.medium
-    textStyle=t5StaticBold:
-      enabled:
+    - variants:
+        textStyle: t5StaticBold
+      slots:
         root:
           fontSize: $font-size.t5-static
           lineHeight: $line-height.t5-static
           fontWeight: $font-weight.bold
-    textStyle=t6StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t6StaticRegular
+      slots:
         root:
           fontSize: $font-size.t6-static
           lineHeight: $line-height.t6-static
           fontWeight: $font-weight.regular
-    textStyle=t6StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t6StaticMedium
+      slots:
         root:
           fontSize: $font-size.t6-static
           lineHeight: $line-height.t6-static
           fontWeight: $font-weight.medium
-    textStyle=t6StaticBold:
-      enabled:
+    - variants:
+        textStyle: t6StaticBold
+      slots:
         root:
           fontSize: $font-size.t6-static
           lineHeight: $line-height.t6-static
           fontWeight: $font-weight.bold
-    textStyle=t7StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t7StaticRegular
+      slots:
         root:
           fontSize: $font-size.t7-static
           lineHeight: $line-height.t7-static
           fontWeight: $font-weight.regular
-    textStyle=t7StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t7StaticMedium
+      slots:
         root:
           fontSize: $font-size.t7-static
           lineHeight: $line-height.t7-static
           fontWeight: $font-weight.medium
-    textStyle=t7StaticBold:
-      enabled:
+    - variants:
+        textStyle: t7StaticBold
+      slots:
         root:
           fontSize: $font-size.t7-static
           lineHeight: $line-height.t7-static
           fontWeight: $font-weight.bold
-    textStyle=t8StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t8StaticRegular
+      slots:
         root:
           fontSize: $font-size.t8-static
           lineHeight: $line-height.t8-static
           fontWeight: $font-weight.regular
-    textStyle=t8StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t8StaticMedium
+      slots:
         root:
           fontSize: $font-size.t8-static
           lineHeight: $line-height.t8-static
           fontWeight: $font-weight.medium
-    textStyle=t8StaticBold:
-      enabled:
+    - variants:
+        textStyle: t8StaticBold
+      slots:
         root:
           fontSize: $font-size.t8-static
           lineHeight: $line-height.t8-static
           fontWeight: $font-weight.bold
-    textStyle=t9StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t9StaticRegular
+      slots:
         root:
           fontSize: $font-size.t9-static
           lineHeight: $line-height.t9-static
           fontWeight: $font-weight.regular
-    textStyle=t9StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t9StaticMedium
+      slots:
         root:
           fontSize: $font-size.t9-static
           lineHeight: $line-height.t9-static
           fontWeight: $font-weight.medium
-    textStyle=t9StaticBold:
-      enabled:
+    - variants:
+        textStyle: t9StaticBold
+      slots:
         root:
           fontSize: $font-size.t9-static
           lineHeight: $line-height.t9-static
           fontWeight: $font-weight.bold
-    textStyle=t10StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t10StaticRegular
+      slots:
         root:
           fontSize: $font-size.t10-static
           lineHeight: $line-height.t10-static
           fontWeight: $font-weight.regular
-    textStyle=t10StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t10StaticMedium
+      slots:
         root:
           fontSize: $font-size.t10-static
           lineHeight: $line-height.t10-static
           fontWeight: $font-weight.medium
-    textStyle=t10StaticBold:
-      enabled:
+    - variants:
+        textStyle: t10StaticBold
+      slots:
         root:
           fontSize: $font-size.t10-static
           lineHeight: $line-height.t10-static
           fontWeight: $font-weight.bold
-    textStyle=t11StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t11StaticRegular
+      slots:
         root:
           fontSize: $font-size.t11-static
           lineHeight: $line-height.t11-static
           fontWeight: $font-weight.regular
-    textStyle=t11StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t11StaticMedium
+      slots:
         root:
           fontSize: $font-size.t11-static
           lineHeight: $line-height.t11-static
           fontWeight: $font-weight.medium
-    textStyle=t11StaticBold:
-      enabled:
+    - variants:
+        textStyle: t11StaticBold
+      slots:
         root:
           fontSize: $font-size.t11-static
           lineHeight: $line-height.t11-static
           fontWeight: $font-weight.bold
-    textStyle=t12StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t12StaticRegular
+      slots:
         root:
           fontSize: $font-size.t12-static
           lineHeight: $line-height.t12-static
           fontWeight: $font-weight.regular
-    textStyle=t12StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t12StaticMedium
+      slots:
         root:
           fontSize: $font-size.t12-static
           lineHeight: $line-height.t12-static
           fontWeight: $font-weight.medium
-    textStyle=t12StaticBold:
-      enabled:
+    - variants:
+        textStyle: t12StaticBold
+      slots:
         root:
           fontSize: $font-size.t12-static
           lineHeight: $line-height.t12-static
           fontWeight: $font-weight.bold
-    textStyle=t13StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t13StaticRegular
+      slots:
         root:
           fontSize: $font-size.t13-static
           lineHeight: $line-height.t13-static
           fontWeight: $font-weight.regular
-    textStyle=t13StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t13StaticMedium
+      slots:
         root:
           fontSize: $font-size.t13-static
           lineHeight: $line-height.t13-static
           fontWeight: $font-weight.medium
-    textStyle=t13StaticBold:
-      enabled:
+    - variants:
+        textStyle: t13StaticBold
+      slots:
         root:
           fontSize: $font-size.t13-static
           lineHeight: $line-height.t13-static
           fontWeight: $font-weight.bold
-    textStyle=t14StaticRegular:
-      enabled:
+    - variants:
+        textStyle: t14StaticRegular
+      slots:
         root:
           fontSize: $font-size.t14-static
           lineHeight: $line-height.t14-static
           fontWeight: $font-weight.regular
-    textStyle=t14StaticMedium:
-      enabled:
+    - variants:
+        textStyle: t14StaticMedium
+      slots:
         root:
           fontSize: $font-size.t14-static
           lineHeight: $line-height.t14-static
           fontWeight: $font-weight.medium
-    textStyle=t14StaticBold:
-      enabled:
+    - variants:
+        textStyle: t14StaticBold
+      slots:
         root:
           fontSize: $font-size.t14-static
           lineHeight: $line-height.t14-static

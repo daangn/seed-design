@@ -16,40 +16,40 @@ const checkboxRecipe = defineSlotRecipe({
       display: "flex",
       alignItems: "flex-start",
       position: "relative",
-      gap: vars.base.enabled.root.gap,
+      gap: vars.base.rest.root.gap,
     },
     label: {
-      color: vars.base.enabled.label.color,
+      color: vars.base.rest.label.color,
     },
   },
   variants: {
     weight: {
       regular: {
-        label: { fontWeight: vars.weightRegular.enabled.label.fontWeight },
+        label: { fontWeight: vars.weightRegular.rest.label.fontWeight },
       },
       bold: {
-        label: { fontWeight: vars.weightBold.enabled.label.fontWeight },
+        label: { fontWeight: vars.weightBold.rest.label.fontWeight },
       },
     },
     size: {
       medium: {
         root: {
-          minHeight: vars.sizeMedium.enabled.root.minHeight,
-          "--checkmark-margin-top": `calc((${vars.sizeMedium.enabled.root.minHeight} - ${checkmarkVars.sizeMedium.enabled.root.size}) / 2)`,
+          minHeight: vars.sizeMedium.rest.root.minHeight,
+          "--checkmark-margin-top": `calc((${vars.sizeMedium.rest.root.minHeight} - ${checkmarkVars.sizeMedium.rest.root.size}) / 2)`,
         },
         label: {
-          fontSize: vars.sizeMedium.enabled.label.fontSize,
-          lineHeight: vars.sizeMedium.enabled.label.lineHeight,
+          fontSize: vars.sizeMedium.rest.label.fontSize,
+          lineHeight: vars.sizeMedium.rest.label.lineHeight,
         },
       },
       large: {
         root: {
-          minHeight: vars.sizeLarge.enabled.root.minHeight,
-          "--checkmark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${checkmarkVars.sizeLarge.enabled.root.size}) / 2)`,
+          minHeight: vars.sizeLarge.rest.root.minHeight,
+          "--checkmark-margin-top": `calc((${vars.sizeLarge.rest.root.minHeight} - ${checkmarkVars.sizeLarge.rest.root.size}) / 2)`,
         },
         label: {
-          fontSize: vars.sizeLarge.enabled.label.fontSize,
-          lineHeight: vars.sizeLarge.enabled.label.lineHeight,
+          fontSize: vars.sizeLarge.rest.label.fontSize,
+          lineHeight: vars.sizeLarge.rest.label.lineHeight,
         },
       },
     },

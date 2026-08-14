@@ -10,8 +10,7 @@ data:
         properties:
           maxWidth:
             type: dimension
-            description: 버튼 레이블이 길어졌을 때 ellipsis 말줄임을 시작할 최대 너비입니다. Top Navigation main
-              slot이 충분한 공간을 차지할 수 있도록 하기 위해 폰트 스케일링의 영향을 받지 않는 px 값을 사용합니다.
+            description: 버튼 레이블이 길어졌을 때 ellipsis 말줄임을 시작할 최대 너비입니다. Top Navigation main slot이 충분한 공간을 차지할 수 있도록 하기 위해 폰트 스케일링의 영향을 받지 않는 px 값을 사용합니다.
           height:
             type: dimension
           paddingX:
@@ -34,9 +33,18 @@ data:
             type: number
           minLineHeightScale:
             type: number
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: disabled
+    variants:
+      tone:
+        values:
+          layer: {}
+          transparent: {}
+      theme:
+        values:
+          ios: {}
+  rules:
+    - slots:
         root:
           height: 44px
           paddingX: $dimension.x2_5
@@ -48,22 +56,32 @@ data:
           minFontSizeScale: 1
           maxLineHeightScale: 1.2
           minLineHeightScale: 1
-    tone=layer:
-      enabled:
+    - variants:
+        tone: layer
+      slots:
         label:
           color: $color.fg.neutral
-      disabled:
+    - variants:
+        tone: layer
+      states:
+        - disabled
+      slots:
         label:
           color: $color.fg.disabled
-    tone=transparent:
-      enabled:
+    - variants:
+        tone: transparent
+      slots:
         label:
           color: $color.palette.static-white
-      disabled:
+    - variants:
+        tone: transparent
+      states:
+        - disabled
+      slots:
         label:
           color: $color.fg.disabled
-    theme=ios:
-      enabled:
+    - variants:
+        theme: ios
+      slots:
         root:
           maxWidth: 96px
-    theme=android: {}

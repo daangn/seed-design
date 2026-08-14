@@ -25,72 +25,54 @@
           "values": {
             "thin": {},
             "thick": {}
-          },
-          "defaultValue": "thin"
+          }
         }
-      }
+      },
+      "states": []
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral-inverted"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "weight": "thin"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "width": {
+              "type": "dimension",
+              "value": {
+                "value": 1,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "weight": "thick"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "width": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "width": {
+              "type": "dimension",
+              "value": "$dimension.x1"
             }
           }
-        ]
+        }
       }
     ]
   }

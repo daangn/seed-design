@@ -46,9 +46,14 @@ data:
             description: 기본 FAB 스타일입니다.
           layerFloating:
             description: 플로팅 레이어 위에 사용하는 스타일입니다.
-  definitions:
-    base:
-      enabled:
+      size:
+        values:
+          small: {}
+          medium: {}
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           cornerRadius: $radius.full
           shadow:
@@ -59,30 +64,41 @@ data:
                 blur: 6px
                 spread: 0px
                 color: "#00000026"
-    variant=neutralSolid:
-      enabled:
+    - variants:
+        variant: neutralSolid
+      slots:
         root:
           color: $color.bg.neutral-inverted
         label:
           color: $color.fg.neutral-inverted
         prefixIcon:
           color: $color.fg.neutral-inverted
-      pressed:
+    - variants:
+        variant: neutralSolid
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-    variant=layerFloating:
-      enabled:
+    - variants:
+        variant: layerFloating
+      slots:
         root:
           color: $color.bg.layer-floating
         label:
           color: $color.fg.neutral
         prefixIcon:
           color: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: layerFloating
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.layer-floating-pressed
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           minHeight: 40px
           gap: $dimension.x1
@@ -94,8 +110,9 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.medium
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           minHeight: 48px
           gap: $dimension.x1

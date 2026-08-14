@@ -47,7 +47,7 @@ const avatar = defineSlotRecipe({
       justifyContent: "center",
       verticalAlign: "top",
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: vars.base.rest.root.cornerRadius,
       width: "var(--avatar-size)",
       height: "var(--avatar-size)",
 
@@ -58,8 +58,8 @@ const avatar = defineSlotRecipe({
         position: "absolute",
         inset: 0,
         pointerEvents: "none",
-        borderRadius: vars.base.enabled.root.cornerRadius,
-        boxShadow: `inset 0 0 0 var(--avatar-stroke-width) ${vars.base.enabled.root.strokeColor}`,
+        borderRadius: vars.base.rest.root.cornerRadius,
+        boxShadow: `inset 0 0 0 var(--avatar-stroke-width) ${vars.base.rest.root.strokeColor}`,
 
         ...mask,
       },
@@ -94,7 +94,7 @@ const avatar = defineSlotRecipe({
       height: "100%",
       objectFit: "cover",
       overflow: "hidden",
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: vars.base.rest.root.cornerRadius,
 
       ...mask,
 
@@ -120,8 +120,8 @@ const avatar = defineSlotRecipe({
     size: {
       20: {
         root: {
-          "--avatar-size": vars.size20.enabled.root.size,
-          "--avatar-stroke-width": vars.size20.enabled.root.strokeWidth,
+          "--avatar-size": vars.size20.rest.root.size,
+          "--avatar-stroke-width": vars.size20.rest.root.strokeWidth,
           "--badge-mask-size": "0px", // 20px에서 뱃지를 사용하지 않음
           "--badge-mask-offset": "0px", // 20px에서 뱃지를 사용하지 않음
         },
@@ -131,110 +131,110 @@ const avatar = defineSlotRecipe({
       },
       24: {
         root: {
-          "--avatar-size": vars.size24.enabled.root.size,
-          "--avatar-stroke-width": vars.size24.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size24.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size24.enabled.badgeMask.offset,
+          "--avatar-size": vars.size24.rest.root.size,
+          "--avatar-stroke-width": vars.size24.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size24.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size24.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size24.enabled.badge.size,
-          "--badge-offset": vars.size24.enabled.badge.offset,
+          "--badge-size": vars.size24.rest.badge.size,
+          "--badge-offset": vars.size24.rest.badge.offset,
         },
       },
       36: {
         root: {
-          "--avatar-size": vars.size36.enabled.root.size,
-          "--avatar-stroke-width": vars.size36.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size36.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size36.enabled.badgeMask.offset,
+          "--avatar-size": vars.size36.rest.root.size,
+          "--avatar-stroke-width": vars.size36.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size36.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size36.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size36.enabled.badge.size,
-          "--badge-offset": vars.size36.enabled.badge.offset,
+          "--badge-size": vars.size36.rest.badge.size,
+          "--badge-offset": vars.size36.rest.badge.offset,
         },
       },
       42: {
         root: {
-          "--avatar-size": vars.size42.enabled.root.size,
-          "--avatar-stroke-width": vars.size42.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size42.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size42.enabled.badgeMask.offset,
+          "--avatar-size": vars.size42.rest.root.size,
+          "--avatar-stroke-width": vars.size42.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size42.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size42.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size42.enabled.badge.size,
-          "--badge-offset": vars.size42.enabled.badge.offset,
+          "--badge-size": vars.size42.rest.badge.size,
+          "--badge-offset": vars.size42.rest.badge.offset,
         },
       },
       48: {
         root: {
-          "--avatar-size": vars.size48.enabled.root.size,
-          "--avatar-stroke-width": vars.size48.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size48.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size48.enabled.badgeMask.offset,
+          "--avatar-size": vars.size48.rest.root.size,
+          "--avatar-stroke-width": vars.size48.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size48.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size48.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size48.enabled.badge.size,
-          "--badge-offset": vars.size48.enabled.badge.offset,
+          "--badge-size": vars.size48.rest.badge.size,
+          "--badge-offset": vars.size48.rest.badge.offset,
         },
       },
       56: {
         root: {
-          "--avatar-size": vars.size56.enabled.root.size,
-          "--avatar-stroke-width": vars.size56.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size56.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size56.enabled.badgeMask.offset,
+          "--avatar-size": vars.size56.rest.root.size,
+          "--avatar-stroke-width": vars.size56.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size56.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size56.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size56.enabled.badge.size,
-          "--badge-offset": vars.size56.enabled.badge.offset,
+          "--badge-size": vars.size56.rest.badge.size,
+          "--badge-offset": vars.size56.rest.badge.offset,
         },
       },
       64: {
         root: {
-          "--avatar-size": vars.size64.enabled.root.size,
-          "--avatar-stroke-width": vars.size64.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size64.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size64.enabled.badgeMask.offset,
+          "--avatar-size": vars.size64.rest.root.size,
+          "--avatar-stroke-width": vars.size64.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size64.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size64.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size64.enabled.badge.size,
-          "--badge-offset": vars.size64.enabled.badge.offset,
+          "--badge-size": vars.size64.rest.badge.size,
+          "--badge-offset": vars.size64.rest.badge.offset,
         },
       },
       80: {
         root: {
-          "--avatar-size": vars.size80.enabled.root.size,
-          "--avatar-stroke-width": vars.size80.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size80.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size80.enabled.badgeMask.offset,
+          "--avatar-size": vars.size80.rest.root.size,
+          "--avatar-stroke-width": vars.size80.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size80.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size80.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size80.enabled.badge.size,
-          "--badge-offset": vars.size80.enabled.badge.offset,
+          "--badge-size": vars.size80.rest.badge.size,
+          "--badge-offset": vars.size80.rest.badge.offset,
         },
       },
       96: {
         root: {
-          "--avatar-size": vars.size96.enabled.root.size,
-          "--avatar-stroke-width": vars.size96.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size96.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size96.enabled.badgeMask.offset,
+          "--avatar-size": vars.size96.rest.root.size,
+          "--avatar-stroke-width": vars.size96.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size96.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size96.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size96.enabled.badge.size,
-          "--badge-offset": vars.size96.enabled.badge.offset,
+          "--badge-size": vars.size96.rest.badge.size,
+          "--badge-offset": vars.size96.rest.badge.offset,
         },
       },
       108: {
         root: {
-          "--avatar-size": vars.size108.enabled.root.size,
-          "--avatar-stroke-width": vars.size108.enabled.root.strokeWidth,
-          "--badge-mask-size": vars.size108.enabled.badgeMask.size,
-          "--badge-mask-offset": vars.size108.enabled.badgeMask.offset,
+          "--avatar-size": vars.size108.rest.root.size,
+          "--avatar-stroke-width": vars.size108.rest.root.strokeWidth,
+          "--badge-mask-size": vars.size108.rest.badgeMask.size,
+          "--badge-mask-offset": vars.size108.rest.badgeMask.offset,
         },
         badge: {
-          "--badge-size": vars.size108.enabled.badge.size,
-          "--badge-offset": vars.size108.enabled.badge.offset,
+          "--badge-size": vars.size108.rest.badge.size,
+          "--badge-offset": vars.size108.rest.badge.offset,
         },
       },
     },

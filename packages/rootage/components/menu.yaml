@@ -75,10 +75,8 @@ data:
             description: 뷰포트 너비와 관계없이 사용할 수 있습니다.
           small:
             description: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
-
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           cornerRadius: $radius.r5
           color: $color.bg.layer-floating
@@ -102,8 +100,9 @@ data:
           marginX: $dimension.x4
           height: 1px
           color: $color.stroke.neutral-muted
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           width: 240px
         groupLabel:
@@ -112,8 +111,9 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.medium
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           width: 200px
         groupLabel:

@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-r5)",
         "color": "var(--seed-color-bg-layer-floating)",
@@ -30,7 +30,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "groupLabel": {
         "paddingY": "var(--seed-dimension-x2_5)",
         "paddingX": "var(--seed-dimension-x4)",
@@ -41,7 +41,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "groupLabel": {
         "paddingY": "var(--seed-dimension-x2)",
         "paddingX": "var(--seed-dimension-x4)",

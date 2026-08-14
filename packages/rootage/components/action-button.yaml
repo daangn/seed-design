@@ -110,9 +110,14 @@ data:
             description: 텍스트와 함께 아이콘을 표시할 수 있습니다.
           iconOnly:
             description: 아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 접근성 레이블과 함께 사용하는 것을 권장합니다.
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: loading
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
@@ -120,8 +125,9 @@ data:
           scaleTimingFunction: $timing-function.pressed-scale
         label:
           fontWeight: $font-weight.bold
-    variant=brandSolid:
-      enabled:
+    - variants:
+        variant: brandSolid
+      slots:
         root:
           color: $color.bg.brand-solid
         label:
@@ -135,10 +141,18 @@ data:
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
           rangeColor: $color.palette.static-white
-      pressed:
+    - variants:
+        variant: brandSolid
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.brand-solid-pressed
-      disabled:
+    - variants:
+        variant: brandSolid
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -149,11 +163,16 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: brandSolid
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.brand-solid-pressed
-    variant=neutralSolid:
-      enabled:
+    - variants:
+        variant: neutralSolid
+      slots:
         root:
           color: $color.bg.neutral-inverted
         label:
@@ -167,10 +186,18 @@ data:
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
           rangeColor: $color.palette.static-white
-      pressed:
+    - variants:
+        variant: neutralSolid
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-      disabled:
+    - variants:
+        variant: neutralSolid
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -181,11 +208,16 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: neutralSolid
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-    variant=neutralWeak:
-      enabled:
+    - variants:
+        variant: neutralWeak
+      slots:
         root:
           color: $color.bg.neutral-weak
         label:
@@ -199,10 +231,18 @@ data:
         progressCircle:
           trackColor: $color.palette.gray-500
           rangeColor: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: neutralWeak
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-      disabled:
+    - variants:
+        variant: neutralWeak
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -213,11 +253,16 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: neutralWeak
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-    variant=criticalSolid:
-      enabled:
+    - variants:
+        variant: criticalSolid
+      slots:
         root:
           color: $color.bg.critical-solid
         label:
@@ -231,10 +276,18 @@ data:
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
           rangeColor: $color.palette.static-white
-      pressed:
+    - variants:
+        variant: criticalSolid
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.critical-solid-pressed
-      disabled:
+    - variants:
+        variant: criticalSolid
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -245,11 +298,16 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: criticalSolid
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.critical-solid-pressed
-    variant=neutralOutline:
-      enabled:
+    - variants:
+        variant: neutralOutline
+      slots:
         root:
           color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
@@ -265,10 +323,18 @@ data:
         progressCircle:
           trackColor: $color.palette.gray-500
           rangeColor: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: neutralOutline
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - variants:
+        variant: neutralOutline
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
@@ -280,11 +346,16 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: neutralOutline
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.transparent
-    variant=brandOutline:
-      enabled:
+    - variants:
+        variant: brandOutline
+      slots:
         root:
           color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
@@ -300,10 +371,18 @@ data:
         progressCircle:
           trackColor: $color.palette.carrot-200
           rangeColor: $color.bg.brand-solid
-      pressed:
+    - variants:
+        variant: brandOutline
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - variants:
+        variant: brandOutline
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.transparent
           strokeColor: $color.stroke.neutral-muted
@@ -315,11 +394,16 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: brandOutline
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.transparent
-    variant=ghost:
-      enabled:
+    - variants:
+        variant: ghost
+      slots:
         root:
           color: "#ffffff00"
         label:
@@ -333,10 +417,18 @@ data:
         progressCircle:
           trackColor: $color.palette.gray-500
           rangeColor: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: ghost
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - variants:
+        variant: ghost
+      states:
+        - disabled
+      slots:
         root:
           color: "#ffffff00"
         label:
@@ -347,22 +439,33 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: ghost
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.transparent-pressed
-    size=xsmall:
-      enabled:
+    - variants:
+        size: xsmall
+      slots:
         root:
           minHeight: $dimension.x8
           cornerRadius: $radius.full
         progressCircle:
           size: 14px
           thickness: 2px
-      pressed:
+    - variants:
+        size: xsmall
+      states:
+        - pressed
+      slots:
         root:
           scale: $scale.s95
-    size=xsmall, layout=withText:
-      enabled:
+    - variants:
+        size: xsmall
+        layout: withText
+      slots:
         root:
           gap: $dimension.x1
           paddingX: $dimension.x3_5
@@ -374,27 +477,36 @@ data:
         label:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
-    size=xsmall, layout=iconOnly:
-      enabled:
+    - variants:
+        size: xsmall
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x8
           paddingX: $dimension.x1_5
           paddingY: $dimension.x1_5
         icon:
           size: $dimension.x3_5
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           minHeight: $dimension.x9
           cornerRadius: $radius.r2
         progressCircle:
           size: 14px
           thickness: 2px
-      pressed:
+    - variants:
+        size: small
+      states:
+        - pressed
+      slots:
         root:
           scale: $scale.s97
-    size=small, layout=withText:
-      enabled:
+    - variants:
+        size: small
+        layout: withText
+      slots:
         root:
           gap: $dimension.x1
           paddingX: $dimension.x3_5
@@ -406,27 +518,36 @@ data:
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-    size=small, layout=iconOnly:
-      enabled:
+    - variants:
+        size: small
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x9
           paddingX: $dimension.x2
           paddingY: $dimension.x2
         icon:
           size: $dimension.x4
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           minHeight: $dimension.x10
           cornerRadius: $radius.r2
         progressCircle:
           size: 16px
           thickness: 2px
-      pressed:
+    - variants:
+        size: medium
+      states:
+        - pressed
+      slots:
         root:
           scale: $scale.s97
-    size=medium, layout=withText:
-      enabled:
+    - variants:
+        size: medium
+        layout: withText
+      slots:
         root:
           gap: $dimension.x1_5
           paddingX: $dimension.x4
@@ -438,27 +559,36 @@ data:
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-    size=medium, layout=iconOnly:
-      enabled:
+    - variants:
+        size: medium
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x10
           paddingX: $dimension.x2_5
           paddingY: $dimension.x2_5
         icon:
           size: 18px
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         root:
           minHeight: $dimension.x13
           cornerRadius: $radius.r3
         progressCircle:
           size: 18px
           thickness: 2px
-      pressed:
+    - variants:
+        size: large
+      states:
+        - pressed
+      slots:
         root:
           scale: $scale.s98
-    size=large, layout=withText:
-      enabled:
+    - variants:
+        size: large
+        layout: withText
+      slots:
         root:
           gap: $dimension.x2
           paddingX: $dimension.x5
@@ -470,8 +600,10 @@ data:
         label:
           fontSize: $font-size.t6
           lineHeight: $line-height.t6
-    size=large, layout=iconOnly:
-      enabled:
+    - variants:
+        size: large
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x13
           paddingX: $dimension.x3_5

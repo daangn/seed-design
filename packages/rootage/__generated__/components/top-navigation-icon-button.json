@@ -32,107 +32,100 @@
           "values": {
             "layer": {},
             "transparent": {}
-          },
-          "defaultValue": "layer"
+          }
         }
-      }
+      },
+      "states": [
+        {
+          "id": "disabled",
+          "suppresses": []
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 24,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 44,
+                "unit": "px"
+              }
+            }
+          },
+          "icon": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 24,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "tone": "layer"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
+        "states": [],
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "tone": "layer"
+        },
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          }
+        }
       },
       {
         "variants": {
           "tone": "transparent"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
+        "states": [],
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.palette.static-white"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "tone": "transparent"
+        },
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          }
+        }
       }
     ]
   }

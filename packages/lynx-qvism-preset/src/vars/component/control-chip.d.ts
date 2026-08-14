@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
@@ -51,7 +51,7 @@ export declare const vars: {
         "color": "var(--seed-color-palette-static-white-alpha-800)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-solid-muted-pressed)"
       }
@@ -78,7 +78,7 @@ export declare const vars: {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x8)",
         "paddingY": "var(--seed-dimension-x1_5)",
@@ -100,7 +100,7 @@ export declare const vars: {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
         "paddingY": "var(--seed-dimension-x2)",
@@ -122,14 +122,14 @@ export declare const vars: {
     }
   },
   "sizeSmallLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x3)"
       }
     }
   },
   "sizeSmallLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x8)"
       },
@@ -139,14 +139,14 @@ export declare const vars: {
     }
   },
   "sizeMediumLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x3_5)"
       }
     }
   },
   "sizeMediumLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x9)"
       },

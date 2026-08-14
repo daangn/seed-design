@@ -110,9 +110,15 @@ data:
             type: number
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: today
+      - id: selected
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           color: $color.bg.layer-floating
         header:
@@ -166,19 +172,27 @@ data:
           lineHeight: $line-height.t10-static
           fontWeight: $font-weight.medium
           color: $color.fg.disabled
-      pressed:
+    - states:
+        - pressed
+      slots:
         dateVisual:
           color: $color.bg.transparent-pressed
-      today:
+    - states:
+        - today
+      slots:
         dateVisual:
           color: $color.bg.neutral-weak
-      selected:
+    - states:
+        - selected
+      slots:
         dateVisual:
           color: $color.bg.neutral-inverted
         dateContent:
           color: $color.fg.neutral-inverted
         wheelItem:
           color: $color.fg.neutral
-      disabled:
+    - states:
+        - disabled
+      slots:
         dateContent:
           color: $color.fg.disabled

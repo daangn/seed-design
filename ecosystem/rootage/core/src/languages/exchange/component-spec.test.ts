@@ -5,25 +5,24 @@ import { getComponentSpecModel } from "./index";
 import { Authoring, type Exchange } from "../../parser";
 
 describe("getComponentSpecModel", () => {
-  it("should transform base only", () => {
+  it("should transform a rule that names no variant and no state", () => {
     const yaml = `
-  kind: ComponentSpec
-  metadata:
-    id: test
-    name: test
-  data:
-    schema:
-      slots:
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+  rules:
+    - slots:
         root:
-          properties:
-            color:
-              type: color
-    definitions:
-      base:
-        enabled:
-          root:
-            color: "#ffffff"
-  `;
+          color: "#ffffff"
+`;
 
     const transformed = getComponentSpecModel(
       Authoring.parseComponentSpecDocument(YAML.parse(yaml)),
@@ -49,23 +48,20 @@ describe("getComponentSpecModel", () => {
             },
           },
           variants: {},
+          states: [],
         },
-        definitions: [
+        rules: [
           {
             variants: {},
-            definitions: [
-              {
-                states: ["enabled"],
-                slots: {
-                  root: {
-                    color: {
-                      type: "color",
-                      value: "#ffffff",
-                    },
-                  },
+            states: [],
+            slots: {
+              root: {
+                color: {
+                  type: "color",
+                  value: "#ffffff",
                 },
               },
-            ],
+            },
           },
         ],
       },
@@ -74,29 +70,34 @@ describe("getComponentSpecModel", () => {
     expect(transformed).toEqual(expected);
   });
 
-  it("should transform base and variants", () => {
+  it("should transform rules with and without a variant", () => {
     const yaml = `
-  kind: ComponentSpec
-  metadata:
-    id: test
-    name: test
-  data:
-    schema:
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+    variants:
+      variant:
+        values:
+          primary: {}
+        defaultValue: primary
+  rules:
+    - slots:
+        root:
+          color: "#ffffff"
+    - variants:
+        variant: primary
       slots:
         root:
-          properties:
-            color:
-              type: color
-    definitions:
-      base:
-        enabled:
-          root:
-            color: "#ffffff"
-      variant=primary:
-        enabled:
-          root:
-            color: "#000000"
-  `;
+          color: "#000000"
+`;
 
     const transformed = getComponentSpecModel(
       Authoring.parseComponentSpecDocument(YAML.parse(yaml)),
@@ -129,39 +130,32 @@ describe("getComponentSpecModel", () => {
               defaultValue: "primary",
             },
           },
+          states: [],
         },
-        definitions: [
+        rules: [
           {
             variants: {},
-            definitions: [
-              {
-                states: ["enabled"],
-                slots: {
-                  root: {
-                    color: {
-                      type: "color",
-                      value: "#ffffff",
-                    },
-                  },
+            states: [],
+            slots: {
+              root: {
+                color: {
+                  type: "color",
+                  value: "#ffffff",
                 },
               },
-            ],
+            },
           },
           {
             variants: { variant: "primary" },
-            definitions: [
-              {
-                states: ["enabled"],
-                slots: {
-                  root: {
-                    color: {
-                      type: "color",
-                      value: "#000000",
-                    },
-                  },
+            states: [],
+            slots: {
+              root: {
+                color: {
+                  type: "color",
+                  value: "#000000",
                 },
               },
-            ],
+            },
           },
         ],
       },
@@ -172,23 +166,28 @@ describe("getComponentSpecModel", () => {
 
   it("should transform compound state", () => {
     const yaml = `
-  kind: ComponentSpec
-  metadata:
-    id: test
-    name: test
-  data:
-    schema:
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+    states:
+      - id: selected
+      - id: pressed
+  rules:
+    - states:
+        - selected
+        - pressed
       slots:
         root:
-          properties:
-            color:
-              type: color
-    definitions:
-      base:
-        enabled,selected:
-          root:
-            color: "#ffffff"
-  `;
+          color: "#ffffff"
+`;
 
     const transformed = getComponentSpecModel(
       Authoring.parseComponentSpecDocument(YAML.parse(yaml)),
@@ -214,23 +213,23 @@ describe("getComponentSpecModel", () => {
             },
           },
           variants: {},
+          states: [
+            { id: "selected", suppresses: [] },
+            { id: "pressed", suppresses: [] },
+          ],
         },
-        definitions: [
+        rules: [
           {
             variants: {},
-            definitions: [
-              {
-                states: ["enabled", "selected"],
-                slots: {
-                  root: {
-                    color: {
-                      type: "color",
-                      value: "#ffffff",
-                    },
-                  },
+            states: ["selected", "pressed"],
+            slots: {
+              root: {
+                color: {
+                  type: "color",
+                  value: "#ffffff",
                 },
               },
-            ],
+            },
           },
         ],
       },
@@ -241,27 +240,35 @@ describe("getComponentSpecModel", () => {
 
   it("should transform compound variants", () => {
     const yaml = `
-  kind: ComponentSpec
-  metadata:
-    id: test
-    name: test
-  data:
-    schema:
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+    variants:
+      variant:
+        values:
+          primary: {}
+      shape:
+        values:
+          rounded: {}
+  rules:
+    - slots:
+        root:
+          color: "#ffffff"
+    - variants:
+        variant: primary
+        shape: rounded
       slots:
         root:
-          properties:
-            color:
-              type: color
-    definitions:
-      base:
-        enabled:
-          root:
-            color: "#ffffff"
-      variant=primary,shape=rounded:
-        enabled:
-          root:
-            color: "#000000"
-  `;
+          color: "#000000"
+`;
 
     const transformed = getComponentSpecModel(
       Authoring.parseComponentSpecDocument(YAML.parse(yaml)),
@@ -291,48 +298,119 @@ describe("getComponentSpecModel", () => {
               values: {
                 primary: {},
               },
-              defaultValue: "primary",
             },
             shape: {
               values: {
                 rounded: {},
               },
-              defaultValue: "rounded",
             },
           },
+          states: [],
         },
-        definitions: [
+        rules: [
           {
             variants: {},
-            definitions: [
-              {
-                states: ["enabled"],
-                slots: {
-                  root: {
-                    color: {
-                      type: "color",
-                      value: "#ffffff",
-                    },
-                  },
+            states: [],
+            slots: {
+              root: {
+                color: {
+                  type: "color",
+                  value: "#ffffff",
                 },
               },
-            ],
+            },
           },
           {
             variants: { variant: "primary", shape: "rounded" },
-            definitions: [
-              {
-                states: ["enabled"],
-                slots: {
-                  root: {
-                    color: {
-                      type: "color",
-                      value: "#000000",
-                    },
-                  },
+            states: [],
+            slots: {
+              root: {
+                color: {
+                  type: "color",
+                  value: "#000000",
                 },
               },
-            ],
+            },
+          },
+        ],
+      },
+    };
+
+    expect(transformed).toEqual(expected);
+  });
+
+  it("should transform the state schema", () => {
+    const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+    states:
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+        description: Cancels the press feedback outright.
+  rules:
+    - states:
+        - disabled
+      slots:
+        root:
+          color: "#000000"
+`;
+
+    const transformed = getComponentSpecModel(
+      Authoring.parseComponentSpecDocument(YAML.parse(yaml)),
+    );
+
+    const expected: Exchange.ComponentSpecModel = {
+      kind: "ComponentSpec",
+      metadata: {
+        id: "test",
+        name: "test",
+      },
+      data: {
+        id: "test",
+        name: "test",
+        schema: {
+          slots: {
+            root: {
+              properties: {
+                color: {
+                  type: "color",
+                },
+              },
+            },
+          },
+          variants: {},
+          states: [
+            { id: "pressed", suppresses: [] },
+            {
+              id: "disabled",
+              suppresses: ["pressed"],
+              description: "Cancels the press feedback outright.",
+            },
+          ],
+        },
+        rules: [
+          {
+            variants: {},
+            states: ["disabled"],
+            slots: {
+              root: {
+                color: {
+                  type: "color",
+                  value: "#000000",
+                },
+              },
+            },
           },
         ],
       },
@@ -343,35 +421,34 @@ describe("getComponentSpecModel", () => {
 
   it("should transform shadow", () => {
     const yaml = `
-  kind: ComponentSpec
-  metadata:
-    id: test
-    name: test
-  data:
-    schema:
-      slots:
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          shadow:
+            type: shadow
+  rules:
+    - slots:
         root:
-          properties:
-            shadow:
-              type: shadow
-    definitions:
-      base:
-        enabled:
-          root:
-            shadow:
-              type: shadow
-              value:
-                - offsetX: 0px
-                  offsetY: 3px
-                  blur: 8px
-                  spread: 0px
-                  color: "#00000026"
-                - offsetX: 0px
-                  offsetY: 1px
-                  blur: 3px
-                  spread: 0px
-                  color: "#0000000f"
-  `;
+          shadow:
+            type: shadow
+            value:
+              - offsetX: 0px
+                offsetY: 3px
+                blur: 8px
+                spread: 0px
+                color: "#00000026"
+              - offsetX: 0px
+                offsetY: 1px
+                blur: 3px
+                spread: 0px
+                color: "#0000000f"
+`;
 
     const parsed = getComponentSpecModel(Authoring.parseComponentSpecDocument(YAML.parse(yaml)));
 
@@ -395,38 +472,35 @@ describe("getComponentSpecModel", () => {
             },
           },
           variants: {},
+          states: [],
         },
-        definitions: [
+        rules: [
           {
             variants: {},
-            definitions: [
-              {
-                states: ["enabled"],
-                slots: {
-                  root: {
-                    shadow: {
-                      type: "shadow",
-                      value: [
-                        {
-                          color: "#00000026",
-                          offsetX: { value: 0, unit: "px" },
-                          offsetY: { value: 3, unit: "px" },
-                          blur: { value: 8, unit: "px" },
-                          spread: { value: 0, unit: "px" },
-                        },
-                        {
-                          color: "#0000000f",
-                          offsetX: { value: 0, unit: "px" },
-                          offsetY: { value: 1, unit: "px" },
-                          blur: { value: 3, unit: "px" },
-                          spread: { value: 0, unit: "px" },
-                        },
-                      ],
+            states: [],
+            slots: {
+              root: {
+                shadow: {
+                  type: "shadow",
+                  value: [
+                    {
+                      color: "#00000026",
+                      offsetX: { value: 0, unit: "px" },
+                      offsetY: { value: 3, unit: "px" },
+                      blur: { value: 8, unit: "px" },
+                      spread: { value: 0, unit: "px" },
                     },
-                  },
+                    {
+                      color: "#0000000f",
+                      offsetX: { value: 0, unit: "px" },
+                      offsetY: { value: 1, unit: "px" },
+                      blur: { value: 3, unit: "px" },
+                      spread: { value: 0, unit: "px" },
+                    },
+                  ],
                 },
               },
-            ],
+            },
           },
         ],
       },
@@ -437,24 +511,23 @@ describe("getComponentSpecModel", () => {
 
   it("should transform external metadata fields", () => {
     const yaml = `
-  kind: ComponentSpec
-  metadata:
-    id: test
-    name: test
-    deprecated: Deprecated
-  data:
-    schema:
-      slots:
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+  deprecated: Deprecated
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+  rules:
+    - slots:
         root:
-          properties:
-            color:
-              type: color
-    definitions:
-      base:
-        enabled:
-          root:
-            color: "#ffffff"
-  `;
+          color: "#ffffff"
+`;
 
     const transformed = getComponentSpecModel(
       Authoring.parseComponentSpecDocument(YAML.parse(yaml)),
@@ -481,23 +554,20 @@ describe("getComponentSpecModel", () => {
             },
           },
           variants: {},
+          states: [],
         },
-        definitions: [
+        rules: [
           {
             variants: {},
-            definitions: [
-              {
-                states: ["enabled"],
-                slots: {
-                  root: {
-                    color: {
-                      type: "color",
-                      value: "#ffffff",
-                    },
-                  },
+            states: [],
+            slots: {
+              root: {
+                color: {
+                  type: "color",
+                  value: "#ffffff",
                 },
               },
-            ],
+            },
           },
         ],
       },

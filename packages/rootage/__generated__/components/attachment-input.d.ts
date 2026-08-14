@@ -27,31 +27,26 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-              };
-              "items": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2";
             };
-          },
-        ];
+          };
+          "items": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+          };
+        };
       },
     ];
   };

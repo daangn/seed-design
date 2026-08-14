@@ -9,5 +9,9 @@ export function stringifyVariantExpression(variants: VariantExpression[]): strin
 }
 
 export function stringifyStateExpression(states: StateExpression[]): string {
+  if (states.length === 0) {
+    return "rest";
+  }
+
   return states.map((s) => s.value).join(",");
 }

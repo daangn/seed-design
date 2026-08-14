@@ -13,14 +13,14 @@ const actionSheetItem = defineRecipe({
     justifyContent: "center",
     position: "relative",
 
-    backgroundColor: vars.base.enabled.root.color,
-    minHeight: vars.base.enabled.root.minHeight,
-    paddingInline: vars.base.enabled.root.paddingX,
-    paddingBlock: vars.base.enabled.root.paddingY,
+    backgroundColor: vars.base.rest.root.color,
+    minHeight: vars.base.rest.root.minHeight,
+    paddingInline: vars.base.rest.root.paddingX,
+    paddingBlock: vars.base.rest.root.paddingY,
 
-    fontSize: vars.base.enabled.label.fontSize,
-    lineHeight: vars.base.enabled.label.lineHeight,
-    fontWeight: vars.base.enabled.label.fontWeight,
+    fontSize: vars.base.rest.label.fontSize,
+    lineHeight: vars.base.rest.label.lineHeight,
+    fontWeight: vars.base.rest.label.fontWeight,
 
     [pseudo(active)]: {
       backgroundColor: vars.base.pressed.root.color,
@@ -30,20 +30,20 @@ const actionSheetItem = defineRecipe({
       content: "''",
       display: "block",
       position: "absolute",
-      left: rootVars.base.enabled.divider.marginX,
-      right: rootVars.base.enabled.divider.marginX,
+      left: rootVars.base.rest.divider.marginX,
+      right: rootVars.base.rest.divider.marginX,
       bottom: 0,
-      height: rootVars.base.enabled.divider.strokeWidth,
-      background: rootVars.base.enabled.divider.strokeColor,
+      height: rootVars.base.rest.divider.strokeWidth,
+      background: rootVars.base.rest.divider.strokeColor,
     },
   },
   variants: {
     tone: {
       neutral: {
-        color: vars.toneNeutral.enabled.label.color,
+        color: vars.toneNeutral.rest.label.color,
       },
       critical: {
-        color: vars.toneCritical.enabled.label.color,
+        color: vars.toneCritical.rest.label.color,
       },
     },
   },

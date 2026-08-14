@@ -12,6 +12,10 @@ SEED Design의 **디자인 토큰과 컴포넌트 스키마를 YAML로 정의**�
 ## 코드 작성 컨벤션
 
 - 컴포넌트 YAML 첫 줄: `# yaml-language-server: $schema=./schema.json`
+- ComponentSpec은 `schema.states`(약한 것부터 나열, 위치가 곧 우선순위)와 평평한 `rules` 배열로 쓴다. `rules` 배열의 순서에는 의미가 없으니, 어떤 규칙이 이겨야 하면 state 순위를 바꾸거나 규칙의 selector를 좁힌다.
+- `enabled`는 state가 아니다. 상태와 무관하게 적용되는 값은 `states` 없는 규칙에 쓴다.
+- 규칙의 `variants`/`states`는 schema에 선언된 순서대로 적는다. 파서가 어차피 정렬하므로, 다르게 적으면 파일이 말하는 것과 생성되는 변수 이름이 어긋난다.
+- 두 규칙이 같은 property를 겹치는 영역에 선언하는데 어느 쪽도 상대를 포함하지 않으면 `bun rootage:validate`가 거부한다. 이긴 쪽에 나머지 축을 마저 적어 포함관계를 만든다.
 - 토큰 네이밍: `$type.category.name` (예: `$color.palette.gray-00`)
 - theme 값: `theme-light`와 `theme-dark` 모두 정의 필수
 - outline이나 1px frame 성격의 token은 기본적으로 `strokeColor`/`strokeWidth` vocabulary를 먼저 검토한다. 실제 CSS border semantics를 public contract로 드러낼 때만 `border*`를 사용한다.

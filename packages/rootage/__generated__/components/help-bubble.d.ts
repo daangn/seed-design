@@ -133,177 +133,172 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-inverted";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r3";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "enterScale": {
-                  "type": "number";
-                  "value": 0.9;
-                };
-                "enterOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-                "enterDuration": {
-                  "type": "duration";
-                  "value": "$duration.d4";
-                };
-                "enterTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.enter";
-                };
-                "exitScale": {
-                  "type": "number";
-                  "value": 1;
-                };
-                "exitOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-                "exitDuration": {
-                  "type": "duration";
-                  "value": "$duration.d4";
-                };
-                "exitTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
-              "arrow": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-inverted";
-                };
-                "width": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 12;
-                    "unit": "px";
-                  };
-                };
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 8;
-                    "unit": "px";
-                  };
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
-                "gutter": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 4;
-                    "unit": "px";
-                  };
-                };
-                "padding": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
-              };
-              "body": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x0_5";
-                };
-              };
-              "title": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
-              "description": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.regular";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
-              "closeButton": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-                "targetSize": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 38;
-                    "unit": "px";
-                  };
-                };
-                "marginTop": {
-                  "type": "dimension";
-                  "value": "$dimension.x0_5";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-inverted";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r3";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "enterScale": {
+              "type": "number";
+              "value": 0.9;
+            };
+            "enterOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+            "enterDuration": {
+              "type": "duration";
+              "value": "$duration.d4";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.enter";
+            };
+            "exitScale": {
+              "type": "number";
+              "value": 1;
+            };
+            "exitOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+            "exitDuration": {
+              "type": "duration";
+              "value": "$duration.d4";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+          "arrow": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-inverted";
+            };
+            "width": {
+              "type": "dimension";
+              "value": {
+                "value": 12;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 8;
+                "unit": "px";
+              };
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
+              };
+            };
+            "gutter": {
+              "type": "dimension";
+              "value": {
+                "value": 4;
+                "unit": "px";
+              };
+            };
+            "padding": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
+              };
+            };
+          };
+          "body": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x0_5";
+            };
+          };
+          "title": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+          "description": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.regular";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+          "closeButton": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
+            };
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+            "targetSize": {
+              "type": "dimension";
+              "value": {
+                "value": 38;
+                "unit": "px";
+              };
+            };
+            "marginTop": {
+              "type": "dimension";
+              "value": "$dimension.x0_5";
+            };
+          };
+        };
       },
     ];
   };

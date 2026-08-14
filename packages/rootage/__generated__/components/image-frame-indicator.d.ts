@@ -44,55 +44,50 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-black-alpha-800";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x0_5";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t1";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t1";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-black-alpha-800";
             };
-          },
-        ];
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x0_5";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t1";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t1";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+          };
+        };
       },
     ];
   };

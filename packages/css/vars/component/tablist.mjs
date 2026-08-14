@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
         "strokeBottomWidth": "1px",
@@ -15,7 +15,7 @@ export const vars = {
     }
   },
   "layoutHug": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)"
       },
@@ -25,7 +25,7 @@ export const vars = {
     }
   },
   "layoutFill": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "0px"
       },
@@ -35,14 +35,14 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "40px"
       }
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "44px"
       }

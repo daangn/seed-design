@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "backdrop": {
         "color": "var(--seed-color-bg-overlay)",
         "enterDuration": "var(--seed-duration-d6)",
@@ -71,7 +71,7 @@ export declare const vars: {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "width": "480px"
@@ -79,7 +79,7 @@ export declare const vars: {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "width": "720px"
@@ -87,7 +87,7 @@ export declare const vars: {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "width": "960px"

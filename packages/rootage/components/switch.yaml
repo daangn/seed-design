@@ -28,36 +28,47 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: disabled
+    variants:
+      size:
+        values:
+          "32": {}
+          "24": {}
+          "16": {}
+  rules:
+    - slots:
         label:
           color: $color.fg.neutral
           fontWeight: $font-weight.medium
-      disabled:
+    - states:
+        - disabled
+      slots:
         label:
           opacity: 0.58
           opacityDuration: $duration.d1
           opacityTimingFunction: $timing-function.easing
-    
-    size=32:
-      enabled:
+    - variants:
+        size: "32"
+      slots:
         root:
           height: $dimension.x8
           gap: $dimension.x2_5
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-    size=24:
-      enabled:
+    - variants:
+        size: "24"
+      slots:
         root:
           height: $dimension.x6
           gap: $dimension.x2
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-    size=16:
-      enabled:
+    - variants:
+        size: "16"
+      slots:
         root:
           height: $dimension.x6
           gap: $dimension.x1_5

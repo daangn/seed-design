@@ -34,137 +34,42 @@ declare const artifact: {
           };
         };
       };
-      "variants": {
-        "type": {
-          "values": {
-            "default": {};
-            "buySell": {};
-            "car": {};
-            "commerce": {};
-            "coupon": {};
-            "food": {};
-            "group": {};
-            "image": {};
-            "jobs": {};
-            "business": {};
-            "post": {};
-            "realty": {};
-          };
-          "defaultValue": "default";
-        };
-      };
+      "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-200";
-                };
-              };
-              "asset": {
-                "minWidth": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "maxWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 160;
-                    "unit": "px";
-                  };
-                };
-                "heightFraction": {
-                  "type": "number";
-                  "value": 0.5;
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-400";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-200";
+            };
+          };
+          "asset": {
+            "minWidth": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "maxWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 160;
+                "unit": "px";
               };
             };
-          },
-        ];
-      },
-      {
-        "variants": {
-          "type": "default";
+            "heightFraction": {
+              "type": "number";
+              "value": 0.5;
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-400";
+            };
+          };
         };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "buySell";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "car";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "commerce";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "coupon";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "food";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "group";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "image";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "jobs";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "business";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "post";
-        };
-        "definitions": readonly [];
-      },
-      {
-        "variants": {
-          "type": "realty";
-        };
-        "definitions": readonly [];
       },
     ];
   };

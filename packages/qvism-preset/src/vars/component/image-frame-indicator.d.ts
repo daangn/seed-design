@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         /** 인디케이터 배경색입니다. */
         "color": "var(--seed-color-palette-static-black-alpha-800)",

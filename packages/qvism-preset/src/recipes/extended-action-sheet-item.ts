@@ -16,16 +16,16 @@ const extendedActionSheetItem = defineRecipe({
     alignItems: "center",
     justifyContent: "flex-start",
 
-    backgroundColor: vars.base.enabled.root.color,
-    minHeight: vars.base.enabled.root.minHeight,
-    paddingInline: vars.base.enabled.root.paddingX,
-    paddingBlock: vars.base.enabled.root.paddingY,
-    gap: vars.base.enabled.root.gap,
-    boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
+    backgroundColor: vars.base.rest.root.color,
+    minHeight: vars.base.rest.root.minHeight,
+    paddingInline: vars.base.rest.root.paddingX,
+    paddingBlock: vars.base.rest.root.paddingY,
+    gap: vars.base.rest.root.gap,
+    boxShadow: `inset 0 calc(-1 * ${rootVars.base.rest.divider.strokeBottomWidth}) 0 ${rootVars.base.rest.divider.strokeColor}`,
 
-    fontSize: vars.base.enabled.label.fontSize,
-    lineHeight: vars.base.enabled.label.lineHeight,
-    fontWeight: vars.base.enabled.label.fontWeight,
+    fontSize: vars.base.rest.label.fontSize,
+    lineHeight: vars.base.rest.label.lineHeight,
+    fontWeight: vars.base.rest.label.fontWeight,
 
     [pseudo(active)]: {
       backgroundColor: vars.base.pressed.root.color,
@@ -35,21 +35,21 @@ const extendedActionSheetItem = defineRecipe({
     },
 
     ...prefixIcon({
-      size: vars.base.enabled.prefixIcon.size,
+      size: vars.base.rest.prefixIcon.size,
     }),
   },
   variants: {
     tone: {
       neutral: {
-        color: vars.toneNeutral.enabled.label.color,
+        color: vars.toneNeutral.rest.label.color,
         ...prefixIcon({
-          color: vars.toneNeutral.enabled.prefixIcon.color,
+          color: vars.toneNeutral.rest.prefixIcon.color,
         }),
       },
       critical: {
-        color: vars.toneCritical.enabled.label.color,
+        color: vars.toneCritical.rest.label.color,
         ...prefixIcon({
-          color: vars.toneCritical.enabled.prefixIcon.color,
+          color: vars.toneCritical.rest.prefixIcon.color,
         }),
       },
     },

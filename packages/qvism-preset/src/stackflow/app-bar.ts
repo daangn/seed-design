@@ -34,21 +34,21 @@ export const appBarMain = defineSlotRecipe({
       // NOTE: nested clamp — outer component bounds narrow the inner global clamp baked into the token (intersection; requires component range ⊆ global range). see packages/qvism-preset/src/global.ts
       titleOnly: {
         title: {
-          fontSize: `clamp(calc(${tokens.$fontSize.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.minFontSizeScale}), ${vars.titleLayoutTitleOnly.enabled.title.fontSize}, calc(${tokens.$fontSize.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.maxFontSizeScale}))`,
-          fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
-          lineHeight: `clamp(calc(${tokens.$lineHeight.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.minLineHeightScale}), ${vars.titleLayoutTitleOnly.enabled.title.lineHeight}, calc(${tokens.$lineHeight.t6Static} * ${vars.titleLayoutTitleOnly.enabled.title.maxLineHeightScale}))`,
+          fontSize: `clamp(calc(${tokens.$fontSize.t6Static} * ${vars.titleLayoutTitleOnly.rest.title.minFontSizeScale}), ${vars.titleLayoutTitleOnly.rest.title.fontSize}, calc(${tokens.$fontSize.t6Static} * ${vars.titleLayoutTitleOnly.rest.title.maxFontSizeScale}))`,
+          fontWeight: vars.titleLayoutTitleOnly.rest.title.fontWeight,
+          lineHeight: `clamp(calc(${tokens.$lineHeight.t6Static} * ${vars.titleLayoutTitleOnly.rest.title.minLineHeightScale}), ${vars.titleLayoutTitleOnly.rest.title.lineHeight}, calc(${tokens.$lineHeight.t6Static} * ${vars.titleLayoutTitleOnly.rest.title.maxLineHeightScale}))`,
         },
       },
       withSubtitle: {
         title: {
-          fontSize: `clamp(calc(${tokens.$fontSize.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.minFontSizeScale}), ${vars.titleLayoutWithSubtitle.enabled.title.fontSize}, calc(${tokens.$fontSize.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.maxFontSizeScale}))`,
-          fontWeight: vars.titleLayoutWithSubtitle.enabled.title.fontWeight,
-          lineHeight: `clamp(calc(${tokens.$lineHeight.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.minLineHeightScale}), ${vars.titleLayoutWithSubtitle.enabled.title.lineHeight}, calc(${tokens.$lineHeight.t5Static} * ${vars.titleLayoutWithSubtitle.enabled.title.maxLineHeightScale}))`,
+          fontSize: `clamp(calc(${tokens.$fontSize.t5Static} * ${vars.titleLayoutWithSubtitle.rest.title.minFontSizeScale}), ${vars.titleLayoutWithSubtitle.rest.title.fontSize}, calc(${tokens.$fontSize.t5Static} * ${vars.titleLayoutWithSubtitle.rest.title.maxFontSizeScale}))`,
+          fontWeight: vars.titleLayoutWithSubtitle.rest.title.fontWeight,
+          lineHeight: `clamp(calc(${tokens.$lineHeight.t5Static} * ${vars.titleLayoutWithSubtitle.rest.title.minLineHeightScale}), ${vars.titleLayoutWithSubtitle.rest.title.lineHeight}, calc(${tokens.$lineHeight.t5Static} * ${vars.titleLayoutWithSubtitle.rest.title.maxLineHeightScale}))`,
         },
         subtitle: {
-          fontSize: `clamp(calc(${tokens.$fontSize.t2Static} * ${vars.titleLayoutWithSubtitle.enabled.subtitle.minFontSizeScale}), ${vars.titleLayoutWithSubtitle.enabled.subtitle.fontSize}, calc(${tokens.$fontSize.t2Static} * ${vars.titleLayoutWithSubtitle.enabled.subtitle.maxFontSizeScale}))`,
-          fontWeight: vars.titleLayoutWithSubtitle.enabled.subtitle.fontWeight,
-          lineHeight: `clamp(calc(${tokens.$lineHeight.t2Static} * ${vars.titleLayoutWithSubtitle.enabled.subtitle.minLineHeightScale}), ${vars.titleLayoutWithSubtitle.enabled.subtitle.lineHeight}, calc(${tokens.$lineHeight.t2Static} * ${vars.titleLayoutWithSubtitle.enabled.subtitle.maxLineHeightScale}))`,
+          fontSize: `clamp(calc(${tokens.$fontSize.t2Static} * ${vars.titleLayoutWithSubtitle.rest.subtitle.minFontSizeScale}), ${vars.titleLayoutWithSubtitle.rest.subtitle.fontSize}, calc(${tokens.$fontSize.t2Static} * ${vars.titleLayoutWithSubtitle.rest.subtitle.maxFontSizeScale}))`,
+          fontWeight: vars.titleLayoutWithSubtitle.rest.subtitle.fontWeight,
+          lineHeight: `clamp(calc(${tokens.$lineHeight.t2Static} * ${vars.titleLayoutWithSubtitle.rest.subtitle.minLineHeightScale}), ${vars.titleLayoutWithSubtitle.rest.subtitle.lineHeight}, calc(${tokens.$lineHeight.t2Static} * ${vars.titleLayoutWithSubtitle.rest.subtitle.maxLineHeightScale}))`,
         },
       },
     },
@@ -88,24 +88,24 @@ export const appBarMain = defineSlotRecipe({
     tone: {
       layer: {
         root: {
-          color: vars.toneLayer.enabled.title.color,
+          color: vars.toneLayer.rest.title.color,
         },
         title: {
-          color: vars.toneLayer.enabled.title.color,
+          color: vars.toneLayer.rest.title.color,
         },
         subtitle: {
-          color: vars.toneLayer.enabled.subtitle.color,
+          color: vars.toneLayer.rest.subtitle.color,
         },
       },
       transparent: {
         root: {
-          color: vars.toneTransparent.enabled.title.color,
+          color: vars.toneTransparent.rest.title.color,
         },
         title: {
-          color: vars.toneTransparent.enabled.title.color,
+          color: vars.toneTransparent.rest.title.color,
         },
         subtitle: {
-          color: vars.toneTransparent.enabled.subtitle.color,
+          color: vars.toneTransparent.rest.subtitle.color,
         },
       },
     },
@@ -173,54 +173,54 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeIos.enabled.root.paddingX,
+          height: `calc(${vars.themeIos.rest.root.height} + var(--seed-safe-area-top))`,
+          paddingInline: vars.themeIos.rest.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
-          width: iconButtonVars.base.enabled.root.size,
-          height: iconButtonVars.base.enabled.root.size,
+          width: iconButtonVars.base.rest.root.size,
+          height: iconButtonVars.base.rest.root.size,
 
           // cursor: "pointer"; // we might need this later
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginLeft: `calc(-1 * (${iconButtonVars.base.rest.root.size} - ${iconButtonVars.base.rest.icon.size}) / 2)`,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginRight: `calc(-1 * (${iconButtonVars.base.rest.root.size} - ${iconButtonVars.base.rest.icon.size}) / 2)`,
           },
         },
         // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
         // if we decide to do so, we should require users to wrap the icon with the <Icon /> component. (currently it's optional)
         icon: {
-          width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
+          width: `var(--seed-icon-size, ${iconButtonVars.base.rest.icon.size})`,
+          height: `var(--seed-icon-size, ${iconButtonVars.base.rest.icon.size})`,
         },
       },
       // TODO: most of these can be shared with cupertino, we can just override the necessary styles
       android: {
         root: {
-          height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeAndroid.enabled.root.paddingX,
+          height: `calc(${vars.themeAndroid.rest.root.height} + var(--seed-safe-area-top))`,
+          paddingInline: vars.themeAndroid.rest.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
-          width: iconButtonVars.base.enabled.root.size,
-          height: iconButtonVars.base.enabled.root.size,
+          width: iconButtonVars.base.rest.root.size,
+          height: iconButtonVars.base.rest.root.size,
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginLeft: `calc(-1 * (${iconButtonVars.base.rest.root.size} - ${iconButtonVars.base.rest.icon.size}) / 2)`,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginRight: `calc(-1 * (${iconButtonVars.base.rest.root.size} - ${iconButtonVars.base.rest.icon.size}) / 2)`,
           },
         },
         icon: {
-          width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
+          width: `var(--seed-icon-size, ${iconButtonVars.base.rest.icon.size})`,
+          height: `var(--seed-icon-size, ${iconButtonVars.base.rest.icon.size})`,
         },
         left: {
-          paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
+          paddingRight: vars.themeAndroid.rest.main.paddingLeft,
         },
       },
     },
@@ -232,19 +232,19 @@ export const appBar = defineSlotRecipe({
     tone: {
       layer: {
         background: {
-          background: `var(--seed-box-background, ${vars.toneLayer.enabled.root.color})`,
+          background: `var(--seed-box-background, ${vars.toneLayer.rest.root.color})`,
         },
         icon: {
-          color: `var(--seed-icon-color, ${iconButtonVars.toneLayer.enabled.icon.color})`,
+          color: `var(--seed-icon-color, ${iconButtonVars.toneLayer.rest.icon.color})`,
         },
       },
       transparent: {
         root: {
           // gradient is handled in app-screen.ts
-          backgroundColor: vars.toneTransparentGradientFalse.enabled.root.color,
+          backgroundColor: vars.toneTransparentGradientFalse.rest.root.color,
         },
         icon: {
-          color: `var(--seed-icon-color, ${iconButtonVars.toneTransparent.enabled.icon.color})`,
+          color: `var(--seed-icon-color, ${iconButtonVars.toneTransparent.rest.icon.color})`,
         },
       },
     },

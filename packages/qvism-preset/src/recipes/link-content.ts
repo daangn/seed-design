@@ -34,38 +34,38 @@ const linkContent = defineRecipe({
   variants: {
     weight: {
       bold: {
-        fontWeight: vars.weightBold.enabled.label.fontWeight,
+        fontWeight: vars.weightBold.rest.label.fontWeight,
       },
       regular: {
-        fontWeight: vars.weightRegular.enabled.label.fontWeight,
+        fontWeight: vars.weightRegular.rest.label.fontWeight,
       },
     },
     size: {
       t6: {
-        fontSize: vars.sizeT6.enabled.label.fontSize,
-        lineHeight: vars.sizeT6.enabled.label.lineHeight,
-        gap: vars.sizeT6.enabled.root.gap,
+        fontSize: vars.sizeT6.rest.label.fontSize,
+        lineHeight: vars.sizeT6.rest.label.lineHeight,
+        gap: vars.sizeT6.rest.root.gap,
 
         ...suffixIcon({
-          size: vars.sizeT6.enabled.suffixIcon.size,
+          size: vars.sizeT6.rest.suffixIcon.size,
         }),
       },
       t5: {
-        fontSize: vars.sizeT5.enabled.label.fontSize,
-        lineHeight: vars.sizeT5.enabled.label.lineHeight,
-        gap: vars.sizeT5.enabled.root.gap,
+        fontSize: vars.sizeT5.rest.label.fontSize,
+        lineHeight: vars.sizeT5.rest.label.lineHeight,
+        gap: vars.sizeT5.rest.root.gap,
 
         ...suffixIcon({
-          size: vars.sizeT5.enabled.suffixIcon.size,
+          size: vars.sizeT5.rest.suffixIcon.size,
         }),
       },
       t4: {
-        fontSize: vars.sizeT4.enabled.label.fontSize,
-        lineHeight: vars.sizeT4.enabled.label.lineHeight,
-        gap: vars.sizeT4.enabled.root.gap,
+        fontSize: vars.sizeT4.rest.label.fontSize,
+        lineHeight: vars.sizeT4.rest.label.lineHeight,
+        gap: vars.sizeT4.rest.root.gap,
 
         ...suffixIcon({
-          size: vars.sizeT4.enabled.suffixIcon.size,
+          size: vars.sizeT4.rest.suffixIcon.size,
         }),
       },
     },

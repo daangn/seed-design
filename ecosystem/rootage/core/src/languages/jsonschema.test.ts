@@ -92,10 +92,15 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
             "schema": {
               "$ref": "#/definitions/componentSpecSchema"
             },
-            "definitions": {
-              "$ref": "#/definitions/definitions"
+            "rules": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/rule"
+              }
             }
-          }
+          },
+          "required": ["schema", "rules"],
+          "additionalProperties": false
         }
       },
       "required": ["kind", "metadata", "data"],
@@ -109,8 +114,12 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
             },
             "variants": {
               "$ref": "#/definitions/variantsSchema"
+            },
+            "states": {
+              "$ref": "#/definitions/statesSchema"
             }
           },
+          "required": ["slots"],
           "additionalProperties": false
         },
         "slotsSchema": {
@@ -188,6 +197,7 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
               "type": "string"
             }
           },
+          "required": ["values"],
           "additionalProperties": false
         },
         "variantValuesSchema": {
@@ -202,31 +212,52 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
             "additionalProperties": false
           }
         },
-        "definitions": {
+        "statesSchema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "suppresses": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": ["id"],
+            "additionalProperties": false
+          }
+        },
+        "rule": {
           "type": "object",
           "properties": {
-            "base": {
-              "$ref": "#/definitions/variant"
+            "variants": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "states": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "slots": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/slot"
+              }
             }
           },
-          "patternProperties": {
-            "^.*=.*$": {
-              "$ref": "#/definitions/variant"
-            }
-          },
+          "required": ["slots"],
           "additionalProperties": false
-        },
-        "variant": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/state"
-          }
-        },
-        "state": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/slot"
-          }
         },
         "slot": {
           "type": "object",

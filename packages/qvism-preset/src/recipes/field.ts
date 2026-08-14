@@ -22,51 +22,51 @@ export const field = defineSlotRecipe({
 
       width: "100%",
 
-      gap: vars.base.enabled.root.gap,
+      gap: vars.base.rest.root.gap,
     },
     header: {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
 
-      paddingInline: vars.base.enabled.header.paddingX,
-      gap: vars.base.enabled.header.gap,
+      paddingInline: vars.base.rest.header.paddingX,
+      gap: vars.base.rest.header.gap,
     },
     footer: {
       display: "flex",
       alignItems: "flex-start",
 
-      paddingInline: vars.base.enabled.footer.paddingX,
-      gap: vars.base.enabled.footer.gap,
+      paddingInline: vars.base.rest.footer.paddingX,
+      gap: vars.base.rest.footer.gap,
     },
     description: {
       display: "flex",
 
-      color: vars.base.enabled.description.color,
-      fontWeight: vars.base.enabled.description.fontWeight,
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
+      color: vars.base.rest.description.color,
+      fontWeight: vars.base.rest.description.fontWeight,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
 
       ...prefixIcon({
-        size: vars.base.enabled.descriptionIcon.size,
-        color: vars.base.enabled.descriptionIcon.color,
-        marginRight: vars.base.enabled.descriptionIcon.paddingRight,
-        marginTop: `calc((${vars.base.enabled.description.lineHeight} - ${vars.base.enabled.descriptionIcon.size}) / 2)`,
+        size: vars.base.rest.descriptionIcon.size,
+        color: vars.base.rest.descriptionIcon.color,
+        marginRight: vars.base.rest.descriptionIcon.paddingRight,
+        marginTop: `calc((${vars.base.rest.description.lineHeight} - ${vars.base.rest.descriptionIcon.size}) / 2)`,
       }),
     },
     errorMessage: {
       display: "flex",
 
-      color: vars.base.enabled.errorMessage.color,
-      fontWeight: vars.base.enabled.errorMessage.fontWeight,
-      fontSize: vars.base.enabled.errorMessage.fontSize,
-      lineHeight: vars.base.enabled.errorMessage.lineHeight,
+      color: vars.base.rest.errorMessage.color,
+      fontWeight: vars.base.rest.errorMessage.fontWeight,
+      fontSize: vars.base.rest.errorMessage.fontSize,
+      lineHeight: vars.base.rest.errorMessage.lineHeight,
 
       ...prefixIcon({
-        size: vars.base.enabled.errorIcon.size,
-        color: vars.base.enabled.errorIcon.color,
-        marginRight: vars.base.enabled.errorIcon.paddingRight,
-        marginTop: `calc((${vars.base.enabled.errorMessage.lineHeight} - ${vars.base.enabled.errorIcon.size}) / 2)`,
+        size: vars.base.rest.errorIcon.size,
+        color: vars.base.rest.errorIcon.color,
+        marginRight: vars.base.rest.errorIcon.paddingRight,
+        marginTop: `calc((${vars.base.rest.errorMessage.lineHeight} - ${vars.base.rest.errorIcon.size}) / 2)`,
       }),
     },
     characterCountArea: {
@@ -74,17 +74,17 @@ export const field = defineSlotRecipe({
 
       // we define lineHeight here because some reset.css sets default line-height
       // e.g. tailwind preflight sets * { line-height: 1.5 }
-      fontSize: vars.base.enabled.characterCount.fontSize,
-      lineHeight: vars.base.enabled.characterCount.lineHeight,
+      fontSize: vars.base.rest.characterCount.fontSize,
+      lineHeight: vars.base.rest.characterCount.lineHeight,
     },
     characterCount: {
-      color: vars.base.enabled.characterCount.color,
-      fontWeight: vars.base.enabled.characterCount.fontWeight,
-      fontSize: vars.base.enabled.characterCount.fontSize,
-      lineHeight: vars.base.enabled.characterCount.lineHeight,
+      color: vars.base.rest.characterCount.color,
+      fontWeight: vars.base.rest.characterCount.fontWeight,
+      fontSize: vars.base.rest.characterCount.fontSize,
+      lineHeight: vars.base.rest.characterCount.lineHeight,
 
       [pseudo("[data-empty]", not(invalid))]: {
-        color: vars.base.enabled.maxCharacterCount.color,
+        color: vars.base.rest.maxCharacterCount.color,
       },
 
       [pseudo(invalid)]: {
@@ -92,10 +92,10 @@ export const field = defineSlotRecipe({
       },
     },
     maxCharacterCount: {
-      color: vars.base.enabled.maxCharacterCount.color,
-      fontWeight: vars.base.enabled.maxCharacterCount.fontWeight,
-      fontSize: vars.base.enabled.maxCharacterCount.fontSize,
-      lineHeight: vars.base.enabled.maxCharacterCount.lineHeight,
+      color: vars.base.rest.maxCharacterCount.color,
+      fontWeight: vars.base.rest.maxCharacterCount.fontWeight,
+      fontSize: vars.base.rest.maxCharacterCount.fontSize,
+      lineHeight: vars.base.rest.maxCharacterCount.lineHeight,
 
       [pseudo(invalid)]: {
         color: vars.base.invalid.maxCharacterCount.color,
@@ -111,9 +111,9 @@ export const fieldLabel = defineSlotRecipe({
   slots: ["root", "indicatorText", "indicatorIcon"],
   base: {
     root: {
-      color: labelVars.base.enabled.root.color,
-      fontSize: labelVars.base.enabled.root.fontSize,
-      lineHeight: labelVars.base.enabled.root.lineHeight,
+      color: labelVars.base.rest.root.color,
+      fontSize: labelVars.base.rest.root.fontSize,
+      lineHeight: labelVars.base.rest.root.lineHeight,
     },
     indicatorText: {
       display: "inline",
@@ -121,12 +121,12 @@ export const fieldLabel = defineSlotRecipe({
 
       // TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
       // NOTE: when updating vars, update px values accordingly
-      paddingLeft: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorText.paddingLeft}, calc(4px * var(--seed-font-size-limit-max)))`,
+      paddingLeft: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.rest.indicatorText.paddingLeft}, calc(4px * var(--seed-font-size-limit-max)))`,
 
-      color: vars.base.enabled.indicatorText.color,
-      fontSize: vars.base.enabled.indicatorText.fontSize,
-      lineHeight: vars.base.enabled.indicatorText.lineHeight,
-      fontWeight: vars.base.enabled.indicatorText.fontWeight,
+      color: vars.base.rest.indicatorText.color,
+      fontSize: vars.base.rest.indicatorText.fontSize,
+      lineHeight: vars.base.rest.indicatorText.lineHeight,
+      fontWeight: vars.base.rest.indicatorText.fontWeight,
     },
     indicatorIcon: {
       display: "inline",
@@ -134,24 +134,24 @@ export const fieldLabel = defineSlotRecipe({
 
       // TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
       // NOTE: when updating vars, update px values accordingly
-      width: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
-      height: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
-      marginTop: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingTop}, calc(4px * var(--seed-font-size-limit-max)))`,
-      marginLeft: `clamp(calc(2px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingLeft}, calc(2px * var(--seed-font-size-limit-max)))`,
+      width: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.rest.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
+      height: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.rest.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
+      marginTop: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.rest.indicatorIcon.paddingTop}, calc(4px * var(--seed-font-size-limit-max)))`,
+      marginLeft: `clamp(calc(2px * var(--seed-font-size-limit-min)), ${vars.base.rest.indicatorIcon.paddingLeft}, calc(2px * var(--seed-font-size-limit-max)))`,
 
-      color: vars.base.enabled.indicatorIcon.color,
+      color: vars.base.rest.indicatorIcon.color,
     },
   },
   variants: {
     weight: {
       medium: {
         root: {
-          fontWeight: labelVars.weightMedium.enabled.root.fontWeight,
+          fontWeight: labelVars.weightMedium.rest.root.fontWeight,
         },
       },
       bold: {
         root: {
-          fontWeight: labelVars.weightBold.enabled.root.fontWeight,
+          fontWeight: labelVars.weightBold.rest.root.fontWeight,
         },
       },
     },

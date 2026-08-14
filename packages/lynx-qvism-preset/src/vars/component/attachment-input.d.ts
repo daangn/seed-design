@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       /** Attachment Input Dropzone과 Items를 감싸는 컨테이너입니다. */
       "root": {
         "gap": "var(--seed-dimension-x2)"

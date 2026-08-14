@@ -31,9 +31,10 @@ data:
             type: color
           size:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: selected
+  rules:
+    - slots:
         root:
           size: $dimension.x6
           targetSize: $dimension.x10
@@ -57,7 +58,9 @@ data:
         lineIcon:
           color: $color.palette.static-white
           size: $dimension.x6
-      selected:
+    - states:
+        - selected
+      slots:
         fillIcon:
           gradient:
             type: gradient

@@ -28,9 +28,10 @@ data:
             type: dimension
           lineHeight:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           minHeight: $dimension.x9
           paddingX: $dimension.x3_5
@@ -41,6 +42,8 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.bold
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.layer-default-pressed

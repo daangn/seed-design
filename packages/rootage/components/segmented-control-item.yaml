@@ -44,9 +44,14 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: selected
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           minWidth: 86px
           minHeight: 34px
@@ -63,14 +68,20 @@ data:
           color: $color.fg.neutral-subtle
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-muted
-      selected:
+    - states:
+        - selected
+      slots:
         label:
           color: $color.fg.neutral
-      disabled:
+    - states:
+        - disabled
+      slots:
         label:
           color: $color.fg.disabled

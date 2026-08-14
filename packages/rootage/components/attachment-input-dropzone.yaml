@@ -31,9 +31,11 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: draggingOver
+      - id: disabled
+  rules:
+    - slots:
         root:
           height: 120px
           gap: $dimension.x2
@@ -47,9 +49,13 @@ data:
           fontSize: $font-size.t4
           lineHeight: $font-size.t4
           fontWeight: $font-weight.medium
-      draggingOver:
+    - states:
+        - draggingOver
+      slots:
         root:
           strokeColor: $color.stroke.neutral-solid
-      disabled:
+    - states:
+        - disabled
+      slots:
         label:
           color: $color.fg.disabled

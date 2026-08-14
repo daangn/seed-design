@@ -32,8 +32,8 @@ const listItem = defineSlotRecipe({
       width: "100%",
       isolation: "isolate",
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.rest.root.paddingX,
+      paddingBlock: vars.base.rest.root.paddingY,
 
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",
@@ -43,14 +43,14 @@ const listItem = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
 
-      "--seed-box-padding-right--responsive": vars.base.enabled.prefix.paddingRight,
+      "--seed-box-padding-right--responsive": vars.base.rest.prefix.paddingRight,
       paddingRight: "var(--seed-box-padding-right)",
 
       "--seed-focus-ring": "none",
 
       ...onlyIcon({
-        color: vars.base.enabled.prefixIcon.color,
-        size: vars.base.enabled.prefixIcon.size,
+        color: vars.base.rest.prefixIcon.color,
+        size: vars.base.rest.prefixIcon.size,
       }),
 
       [pseudo(disabled)]: {
@@ -66,19 +66,19 @@ const listItem = defineSlotRecipe({
 
       "--seed-box-position": "initial",
       position: "var(--seed-box-position)",
-      "--seed-box-gap--responsive": vars.base.enabled.suffix.gap,
+      "--seed-box-gap--responsive": vars.base.rest.suffix.gap,
       gap: "var(--seed-box-gap)",
 
       "--seed-focus-ring": "none",
 
-      fontSize: vars.base.enabled.suffixText.fontSize,
-      lineHeight: vars.base.enabled.suffixText.lineHeight,
-      fontWeight: vars.base.enabled.suffixText.fontWeight,
-      color: vars.base.enabled.suffixText.color,
+      fontSize: vars.base.rest.suffixText.fontSize,
+      lineHeight: vars.base.rest.suffixText.lineHeight,
+      fontWeight: vars.base.rest.suffixText.fontWeight,
+      color: vars.base.rest.suffixText.color,
 
       ...onlyIcon({
-        color: vars.base.enabled.suffixIcon.color,
-        size: vars.base.enabled.suffixIcon.size,
+        color: vars.base.rest.suffixIcon.color,
+        size: vars.base.rest.suffixIcon.size,
       }),
 
       [pseudo(disabled)]: {
@@ -99,9 +99,9 @@ const listItem = defineSlotRecipe({
       backgroundColor: "transparent",
       border: "none",
       fontFamily: "inherit",
-      "--seed-box-gap--responsive": vars.base.enabled.body.gap,
+      "--seed-box-gap--responsive": vars.base.rest.body.gap,
       gap: "var(--seed-box-gap)",
-      "--seed-box-padding-right--responsive": vars.base.enabled.body.paddingRight,
+      "--seed-box-padding-right--responsive": vars.base.rest.body.paddingRight,
       padding: "0 var(--seed-box-padding-right) 0 0",
 
       textDecoration: "none",
@@ -131,8 +131,8 @@ const listItem = defineSlotRecipe({
         zIndex: -1,
 
         transitionProperty: "background-color, inset-inline, border-radius",
-        transitionDuration: vars.base.enabled.root.colorDuration,
-        transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
+        transitionDuration: vars.base.rest.root.colorDuration,
+        transitionTimingFunction: vars.base.rest.root.colorTimingFunction,
       },
 
       // engaged(:active/:hover) custom selector is only attached when the item is a button or an anchor
@@ -169,20 +169,20 @@ const listItem = defineSlotRecipe({
     title: {
       flexShrink: 0,
 
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
-      color: vars.base.enabled.title.color,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
+      color: vars.base.rest.title.color,
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.title.color,
       },
     },
     detail: {
-      fontSize: vars.base.enabled.detail.fontSize,
-      lineHeight: vars.base.enabled.detail.lineHeight,
-      fontWeight: vars.base.enabled.detail.fontWeight,
-      color: vars.base.enabled.detail.color,
+      fontSize: vars.base.rest.detail.fontSize,
+      lineHeight: vars.base.rest.detail.lineHeight,
+      fontWeight: vars.base.rest.detail.fontWeight,
+      color: vars.base.rest.detail.color,
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.detail.color,
@@ -201,17 +201,17 @@ const listItem = defineSlotRecipe({
           },
 
           [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
-            backgroundColor: vars.base.highlightedPressed.root.color,
+            backgroundColor: vars.base.pressedHighlighted.root.color,
           },
 
           [media.isHoverableInputDevice]: {
             [pseudo(not(disabled), "[data-hover]", "::before")]: {
-              backgroundColor: vars.base.highlightedPressed.root.color,
+              backgroundColor: vars.base.pressedHighlighted.root.color,
             },
           },
           [media.isNotHoverableInputDevice]: {
             [pseudo(not(disabled), "[data-active]", "::before")]: {
-              backgroundColor: vars.base.highlightedPressed.root.color,
+              backgroundColor: vars.base.pressedHighlighted.root.color,
             },
           },
         },

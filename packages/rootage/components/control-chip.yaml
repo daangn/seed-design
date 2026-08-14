@@ -64,9 +64,23 @@ data:
             type: number
           fontSize:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: selected
+      - id: disabled
+        suppresses:
+          - pressed
+    variants:
+      size:
+        values:
+          small: {}
+          medium: {}
+      layout:
+        values:
+          withText: {}
+          iconOnly: {}
+  rules:
+    - slots:
         root:
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
@@ -83,10 +97,14 @@ data:
         count:
           color: $color.fg.neutral-muted
           fontWeight: $font-weight.medium
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.layer-default-pressed
-      selected:
+    - states:
+        - selected
+      slots:
         root:
           strokeWidth: 0px
           color: $color.bg.neutral-solid-muted
@@ -101,10 +119,15 @@ data:
           color: $color.palette.static-white
         count:
           color: $color.palette.static-white-alpha-800
-      selected, pressed:
+    - states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-solid-muted-pressed
-      disabled:
+    - states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -117,8 +140,9 @@ data:
           color: $color.fg.disabled
         count:
           color: $color.fg.disabled
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           minHeight: $dimension.x8
           paddingY: $dimension.x1_5
@@ -132,8 +156,9 @@ data:
           size: $dimension.x3_5
         count:
           fontSize: $font-size.t4
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           minHeight: $dimension.x9
           paddingY: $dimension.x2
@@ -147,22 +172,30 @@ data:
           size: $dimension.x3_5
         count:
           fontSize: $font-size.t4
-    size=small,layout=withText:
-      enabled:
+    - variants:
+        size: small
+        layout: withText
+      slots:
         root:
           paddingX: $dimension.x3
-    size=small,layout=iconOnly:
-      enabled:
+    - variants:
+        size: small
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x8
         icon:
           size: $dimension.x4
-    size=medium,layout=withText:
-      enabled:
+    - variants:
+        size: medium
+        layout: withText
+      slots:
         root:
           paddingX: $dimension.x3_5
-    size=medium,layout=iconOnly:
-      enabled:
+    - variants:
+        size: medium
+        layout: iconOnly
+      slots:
         root:
           minWidth: $dimension.x9
         icon:

@@ -29,21 +29,21 @@ export const appBarMain = defineSlotRecipe({
     layout: {
       titleOnly: {
         title: {
-          fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
-          fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
-          lineHeight: vars.titleLayoutTitleOnly.enabled.title.lineHeight,
+          fontSize: vars.titleLayoutTitleOnly.rest.title.fontSize,
+          fontWeight: vars.titleLayoutTitleOnly.rest.title.fontWeight,
+          lineHeight: vars.titleLayoutTitleOnly.rest.title.lineHeight,
         },
       },
       withSubtitle: {
         title: {
-          fontSize: vars.titleLayoutWithSubtitle.enabled.title.fontSize,
-          fontWeight: vars.titleLayoutWithSubtitle.enabled.title.fontWeight,
-          lineHeight: vars.titleLayoutWithSubtitle.enabled.title.lineHeight,
+          fontSize: vars.titleLayoutWithSubtitle.rest.title.fontSize,
+          fontWeight: vars.titleLayoutWithSubtitle.rest.title.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.rest.title.lineHeight,
         },
         subtitle: {
-          fontSize: vars.titleLayoutWithSubtitle.enabled.subtitle.fontSize,
-          fontWeight: vars.titleLayoutWithSubtitle.enabled.subtitle.fontWeight,
-          lineHeight: vars.titleLayoutWithSubtitle.enabled.subtitle.lineHeight,
+          fontSize: vars.titleLayoutWithSubtitle.rest.subtitle.fontSize,
+          fontWeight: vars.titleLayoutWithSubtitle.rest.subtitle.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.rest.subtitle.lineHeight,
         },
       },
     },
@@ -67,7 +67,7 @@ export const appBarMain = defineSlotRecipe({
           alignItems: "flex-start",
           justifyContent: "center",
           width: "100%",
-          height: vars.themeAndroid.enabled.root.height,
+          height: vars.themeAndroid.rest.root.height,
         },
       },
     },
@@ -79,24 +79,24 @@ export const appBarMain = defineSlotRecipe({
     tone: {
       layer: {
         root: {
-          color: vars.toneLayer.enabled.title.color,
+          color: vars.toneLayer.rest.title.color,
         },
         title: {
-          color: vars.toneLayer.enabled.title.color,
+          color: vars.toneLayer.rest.title.color,
         },
         subtitle: {
-          color: vars.toneLayer.enabled.subtitle.color,
+          color: vars.toneLayer.rest.subtitle.color,
         },
       },
       transparent: {
         root: {
-          color: vars.toneTransparent.enabled.title.color,
+          color: vars.toneTransparent.rest.title.color,
         },
         title: {
-          color: vars.toneTransparent.enabled.title.color,
+          color: vars.toneTransparent.rest.title.color,
         },
         subtitle: {
-          color: vars.toneTransparent.enabled.subtitle.color,
+          color: vars.toneTransparent.rest.subtitle.color,
         },
       },
     },
@@ -166,47 +166,47 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeIos.enabled.root.paddingX,
-          paddingRight: vars.themeIos.enabled.root.paddingX,
+          height: `calc(${vars.themeIos.rest.root.height} + var(--seed-safe-area-top))`,
+          paddingLeft: vars.themeIos.rest.root.paddingX,
+          paddingRight: vars.themeIos.rest.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {
-          height: vars.themeIos.enabled.root.height,
+          height: vars.themeIos.rest.root.height,
         },
         right: {
-          height: vars.themeIos.enabled.root.height,
+          height: vars.themeIos.rest.root.height,
         },
         iconButton: {
-          width: iconButtonVars.base.enabled.root.size,
-          height: iconButtonVars.base.enabled.root.size,
+          width: iconButtonVars.base.rest.root.size,
+          height: iconButtonVars.base.rest.root.size,
         },
         icon: {
-          width: iconButtonVars.base.enabled.icon.size,
-          height: iconButtonVars.base.enabled.icon.size,
+          width: iconButtonVars.base.rest.icon.size,
+          height: iconButtonVars.base.rest.icon.size,
         },
       },
       android: {
         root: {
-          height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeAndroid.enabled.root.paddingX,
-          paddingRight: vars.themeAndroid.enabled.root.paddingX,
+          height: `calc(${vars.themeAndroid.rest.root.height} + var(--seed-safe-area-top))`,
+          paddingLeft: vars.themeAndroid.rest.root.paddingX,
+          paddingRight: vars.themeAndroid.rest.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {
-          height: vars.themeAndroid.enabled.root.height,
-          paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
+          height: vars.themeAndroid.rest.root.height,
+          paddingRight: vars.themeAndroid.rest.main.paddingLeft,
         },
         right: {
-          height: vars.themeAndroid.enabled.root.height,
+          height: vars.themeAndroid.rest.root.height,
         },
         iconButton: {
-          width: iconButtonVars.base.enabled.root.size,
-          height: iconButtonVars.base.enabled.root.size,
+          width: iconButtonVars.base.rest.root.size,
+          height: iconButtonVars.base.rest.root.size,
         },
         icon: {
-          width: iconButtonVars.base.enabled.icon.size,
-          height: iconButtonVars.base.enabled.icon.size,
+          width: iconButtonVars.base.rest.icon.size,
+          height: iconButtonVars.base.rest.icon.size,
         },
       },
     },
@@ -218,18 +218,18 @@ export const appBar = defineSlotRecipe({
     tone: {
       layer: {
         background: {
-          background: vars.toneLayer.enabled.root.color,
+          background: vars.toneLayer.rest.root.color,
         },
         icon: {
-          color: iconButtonVars.toneLayer.enabled.icon.color,
+          color: iconButtonVars.toneLayer.rest.icon.color,
         },
       },
       transparent: {
         background: {
-          background: vars.toneTransparentGradientFalse.enabled.root.color,
+          background: vars.toneTransparentGradientFalse.rest.root.color,
         },
         icon: {
-          color: iconButtonVars.toneTransparent.enabled.icon.color,
+          color: iconButtonVars.toneTransparent.rest.icon.color,
         },
       },
     },

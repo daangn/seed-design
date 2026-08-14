@@ -46,68 +46,69 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x9";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r2";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-muted";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x9";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-default-pressed";
-                };
-              };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
             };
-          },
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r2";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-muted";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-default-pressed";
+            };
+          };
+        };
       },
     ];
   };

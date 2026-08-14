@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-layer-floating)",
         "minHeight": "50px",
@@ -20,14 +20,14 @@ export declare const vars: {
     }
   },
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       }
     }
   },
   "toneCritical": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-critical)"
       }

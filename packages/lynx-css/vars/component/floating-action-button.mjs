@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)",
         "cornerRadius": "var(--seed-radius-full)",
@@ -23,7 +23,7 @@ export const vars = {
     }
   },
   "extendedTrue": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x4_5)",
@@ -42,7 +42,7 @@ export const vars = {
     }
   },
   "extendedFalse": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "56px"
       },

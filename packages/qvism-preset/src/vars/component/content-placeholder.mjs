@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-palette-gray-200)"
       },
@@ -11,17 +11,5 @@ export const vars = {
         "color": "var(--seed-color-palette-gray-400)"
       }
     }
-  },
-  "typeDefault": {},
-  "typeBuySell": {},
-  "typeCar": {},
-  "typeCommerce": {},
-  "typeCoupon": {},
-  "typeFood": {},
-  "typeGroup": {},
-  "typeImage": {},
-  "typeJobs": {},
-  "typeBusiness": {},
-  "typePost": {},
-  "typeRealty": {}
+  }
 }

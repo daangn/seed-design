@@ -20,9 +20,14 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: selected
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           size: $dimension.x5
         icon:
@@ -30,23 +35,30 @@ data:
           color: $color.fg.placeholder
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-
-      pressed:
+    - states:
+        - pressed
+      slots:
         icon:
           color: $color.fg.neutral-subtle
-
-      enabled,selected:
+    - states:
+        - selected
+      slots:
         icon:
           color: $color.fg.neutral
-
-      enabled,selected,pressed:
+    - states:
+        - pressed
+        - selected
+      slots:
         icon:
           color: $color.fg.neutral # being obvious
-
-      disabled:
+    - states:
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled
-
-      disabled,selected:
+    - states:
+        - selected
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled # being obvious

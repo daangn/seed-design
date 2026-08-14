@@ -16,9 +16,8 @@ data:
           gap:
             type: dimension
         description: Attachment Input Trigger 및 Attachment Input Items를 감싸는 컨테이너입니다.
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           gap: $dimension.x2
         items:

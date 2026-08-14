@@ -75,9 +75,8 @@ data:
             type: color
           marginX:
             type: dimension
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         backdrop:
           color: $color.bg.overlay
           enterDuration: $duration.d2

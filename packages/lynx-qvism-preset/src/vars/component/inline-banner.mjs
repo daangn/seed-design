@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
@@ -35,7 +35,7 @@ export const vars = {
     }
   },
   "variantNeutralWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -57,7 +57,7 @@ export const vars = {
     }
   },
   "variantPositiveWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
@@ -79,7 +79,7 @@ export const vars = {
     }
   },
   "variantInformativeWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
@@ -101,7 +101,7 @@ export const vars = {
     }
   },
   "variantWarningWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
@@ -123,7 +123,7 @@ export const vars = {
     }
   },
   "variantWarningSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-warning-solid)"
       },
@@ -145,7 +145,7 @@ export const vars = {
     }
   },
   "variantCriticalWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
@@ -167,7 +167,7 @@ export const vars = {
     }
   },
   "variantCriticalSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },

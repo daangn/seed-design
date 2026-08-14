@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -46,7 +46,7 @@ export declare const vars: {
    * 뷰포트 너비와 관계없이 사용할 수 있습니다.
    */
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x3)",
@@ -72,7 +72,7 @@ export declare const vars: {
    * Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
    */
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
@@ -98,7 +98,7 @@ export declare const vars: {
    * 일반적인 작업을 수행하는 기본 아이템입니다.
    */
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -114,7 +114,7 @@ export declare const vars: {
    * 데이터 삭제와 같이 되돌릴 수 없는 작업을 수행하는 아이템입니다.
    */
   "toneCritical": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical)"
       },

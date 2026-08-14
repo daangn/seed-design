@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "fromColor": "#00000000",
         "toColor": "#000000ff",

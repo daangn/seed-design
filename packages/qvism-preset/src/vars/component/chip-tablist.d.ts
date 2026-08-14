@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "gap": "8px"
@@ -8,14 +8,14 @@ export declare const vars: {
     }
   },
   "variantNeutralSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "8px"
       }
     }
   },
   "variantNeutralOutline": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "8px"
       }

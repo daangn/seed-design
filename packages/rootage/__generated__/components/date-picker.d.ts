@@ -181,272 +181,290 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "today";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "selected";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "disabled";
+          "suppresses": readonly [
+            "pressed",
+          ];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-floating";
-                };
-              };
-              "header": {
-                "height": {
-                  "type": "dimension";
-                  "value": "$dimension.x12";
-                };
-              };
-              "headerLabel": {
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "iconSize": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "months": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-              };
-              "continuousScroll": {
-                "fogHeight": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 96;
-                    "unit": "px";
-                  };
-                };
-              };
-              "weekday": {
-                "height": {
-                  "type": "dimension";
-                  "value": "$dimension.x12";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-subtle";
-                };
-              };
-              "monthLabel": {
-                "height": {
-                  "type": "dimension";
-                  "value": "$dimension.x12";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "dateCell": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x12";
-                };
-              };
-              "dateVisual": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 42;
-                    "unit": "px";
-                  };
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-              };
-              "dateContent": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-muted";
-                };
-              };
-              "rangeBackground": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak";
-                };
-              };
-              "wheelSelectionIndicator": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r2";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak";
-                };
-              };
-              "wheelContainer": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 336;
-                    "unit": "px";
-                  };
-                };
-              };
-              "wheelItem": {
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t10-static";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t10-static";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-floating";
+            };
+          };
+          "header": {
+            "height": {
+              "type": "dimension";
+              "value": "$dimension.x12";
+            };
+          };
+          "headerLabel": {
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "iconSize": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+          "months": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+          };
+          "continuousScroll": {
+            "fogHeight": {
+              "type": "dimension";
+              "value": {
+                "value": 96;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "dateVisual": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
+          };
+          "weekday": {
+            "height": {
+              "type": "dimension";
+              "value": "$dimension.x12";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-subtle";
+            };
+          };
+          "monthLabel": {
+            "height": {
+              "type": "dimension";
+              "value": "$dimension.x12";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+          "dateCell": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x12";
+            };
+          };
+          "dateVisual": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 42;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "today",
-            ];
-            "slots": {
-              "dateVisual": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak";
-                };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+          };
+          "dateContent": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-muted";
+            };
+          };
+          "rangeBackground": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak";
+            };
+          };
+          "wheelSelectionIndicator": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r2";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak";
+            };
+          };
+          "wheelContainer": {
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 336;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "selected",
-            ];
-            "slots": {
-              "dateVisual": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-inverted";
-                };
-              };
-              "dateContent": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
-              "wheelItem": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
+          };
+          "wheelItem": {
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "dateContent": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t10-static";
             };
-          },
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t10-static";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "dateVisual": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "today",
+        ];
+        "slots": {
+          "dateVisual": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "selected",
+        ];
+        "slots": {
+          "dateVisual": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-inverted";
+            };
+          };
+          "dateContent": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
+            };
+          };
+          "wheelItem": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "dateContent": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
       },
     ];
   };

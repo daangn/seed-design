@@ -74,136 +74,144 @@
           }
         }
       },
-      "variants": {}
+      "variants": {},
+      "states": [
+        {
+          "id": "pressed",
+          "suppresses": []
+        },
+        {
+          "id": "disabled",
+          "suppresses": [
+            "pressed"
+          ]
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 80,
-                    "unit": "px"
-                  }
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.transparent"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r3"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-weak"
-                }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
-                }
-              },
-              "itemCount": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                },
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t2"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t2"
-                }
-              },
-              "maxItemCount": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                },
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t2"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t2"
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 80,
+                "unit": "px"
               }
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x1"
+            },
+            "color": {
+              "type": "color",
+              "value": "$color.bg.transparent"
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.r3"
+            },
+            "strokeWidth": {
+              "type": "dimension",
+              "value": {
+                "value": 1,
+                "unit": "px"
+              }
+            },
+            "strokeColor": {
+              "type": "color",
+              "value": "$color.stroke.neutral-weak"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.transparent-pressed"
-                }
-              }
+          "icon": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x6"
+            },
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral-subtle"
             }
           },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "itemCount": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "maxItemCount": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
+          "itemCount": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.regular"
+            },
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t2"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t2"
+            }
+          },
+          "maxItemCount": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral-subtle"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.regular"
+            },
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t2"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t2"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.transparent-pressed"
+            }
+          }
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "itemCount": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "maxItemCount": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          }
+        }
       }
     ]
   }

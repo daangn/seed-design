@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "120px",
         "gap": "var(--seed-dimension-x2)",

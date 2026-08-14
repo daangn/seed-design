@@ -30,12 +30,12 @@ const contextualFloatingButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    borderRadius: vars.base.enabled.root.cornerRadius,
-    boxShadow: vars.base.enabled.root.shadow,
+    borderRadius: vars.base.rest.root.cornerRadius,
+    boxShadow: vars.base.rest.root.shadow,
 
-    fontSize: vars.layoutWithText.enabled.label.fontSize,
-    lineHeight: vars.layoutWithText.enabled.label.lineHeight,
-    fontWeight: vars.layoutWithText.enabled.label.fontWeight,
+    fontSize: vars.layoutWithText.rest.label.fontSize,
+    lineHeight: vars.layoutWithText.rest.label.lineHeight,
+    fontWeight: vars.layoutWithText.rest.label.fontWeight,
 
     "--seed-box-z-index": "initial",
     zIndex: "var(--seed-box-z-index)",
@@ -53,27 +53,31 @@ const contextualFloatingButton = defineRecipe({
     left: "var(--seed-box-left)",
 
     ...onlyIcon({
-      size: vars.layoutIconOnly.enabled.icon.size,
+      size: vars.layoutIconOnly.rest.icon.size,
     }),
 
-    "--size": vars.base.enabled.progressCircle.size,
-    "--thickness": vars.base.enabled.progressCircle.thickness,
+    "--size": vars.base.rest.progressCircle.size,
+    "--thickness": vars.base.rest.progressCircle.thickness,
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
+    // TODO: `disabled` is written before `loading` at equal specificity, so a
+    // button that is both keeps the loading background. The spec ranks `disabled`
+    // higher; swapping the blocks would match it, but it changes rendered output
+    // and wants a design review first.
     variant: {
       solid: {
-        background: vars.variantSolid.enabled.root.color,
-        color: vars.variantSolid.enabled.label.color,
+        background: vars.variantSolid.rest.root.color,
+        color: vars.variantSolid.rest.label.color,
         ...onlyIcon({
-          color: vars.variantSolid.enabled.icon.color,
+          color: vars.variantSolid.rest.icon.color,
         }),
         ...prefixIcon({
-          color: vars.variantSolid.enabled.prefixIcon.color,
+          color: vars.variantSolid.rest.prefixIcon.color,
         }),
-        "--track-color": vars.variantSolid.enabled.progressCircle.trackColor,
-        "--range-color": vars.variantSolid.enabled.progressCircle.rangeColor,
+        "--track-color": vars.variantSolid.rest.progressCircle.trackColor,
+        "--range-color": vars.variantSolid.rest.progressCircle.rangeColor,
 
         [pseudo(engaged)]: {
           background: vars.variantSolid.pressed.root.color,
@@ -94,16 +98,16 @@ const contextualFloatingButton = defineRecipe({
         },
       },
       layer: {
-        background: vars.variantLayer.enabled.root.color,
-        color: vars.variantLayer.enabled.label.color,
+        background: vars.variantLayer.rest.root.color,
+        color: vars.variantLayer.rest.label.color,
         ...onlyIcon({
-          color: vars.variantLayer.enabled.icon.color,
+          color: vars.variantLayer.rest.icon.color,
         }),
         ...prefixIcon({
-          color: vars.variantLayer.enabled.prefixIcon.color,
+          color: vars.variantLayer.rest.prefixIcon.color,
         }),
-        "--track-color": vars.variantLayer.enabled.progressCircle.trackColor,
-        "--range-color": vars.variantLayer.enabled.progressCircle.rangeColor,
+        "--track-color": vars.variantLayer.rest.progressCircle.trackColor,
+        "--range-color": vars.variantLayer.rest.progressCircle.rangeColor,
 
         [pseudo(engaged)]: {
           background: vars.variantLayer.pressed.root.color,
@@ -126,21 +130,21 @@ const contextualFloatingButton = defineRecipe({
     },
     layout: {
       withText: {
-        minHeight: vars.layoutWithText.enabled.root.minHeight,
-        paddingInline: vars.layoutWithText.enabled.root.paddingX,
-        paddingBlock: vars.layoutWithText.enabled.root.paddingY,
-        gap: vars.layoutWithText.enabled.root.gap,
+        minHeight: vars.layoutWithText.rest.root.minHeight,
+        paddingInline: vars.layoutWithText.rest.root.paddingX,
+        paddingBlock: vars.layoutWithText.rest.root.paddingY,
+        gap: vars.layoutWithText.rest.root.gap,
 
         ...prefixIcon({
-          size: vars.layoutWithText.enabled.prefixIcon.size,
+          size: vars.layoutWithText.rest.prefixIcon.size,
         }),
       },
       iconOnly: {
-        width: vars.layoutIconOnly.enabled.root.size,
-        height: vars.layoutIconOnly.enabled.root.size,
+        width: vars.layoutIconOnly.rest.root.size,
+        height: vars.layoutIconOnly.rest.root.size,
 
         ...onlyIcon({
-          size: vars.layoutIconOnly.enabled.icon.size,
+          size: vars.layoutIconOnly.rest.icon.size,
         }),
       },
     },

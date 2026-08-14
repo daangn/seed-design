@@ -157,10 +157,22 @@ data:
     variants:        # variant, size, layout 등
       variant: { values: { ... } }
       size: { values: { ... } }
-  definitions:       # 상태별 실제 값
-    base: { ... }
-    variant=brandSolid: { ... }
+    states:          # 약한 것부터. 목록의 위치가 곧 우선순위다
+      - id: pressed
+      - id: loading
+      - id: disabled
+        suppresses: [pressed]   # disabled면 pressed는 아예 성립하지 않는다
+  rules:             # 평평한 배열. 배열 순서는 의미가 없다
+    - slots: { ... }                    # variants/states 없음 = 항상 적용
+    - variants: { variant: brandSolid }
+      states: [disabled]
+      slots: { ... }
 ```
+
+한 property의 최종 값은 **state 우선순위 → variant 포함관계** 순으로 결정된다. state
+순위가 variant보다 세다: `disabled`가 어떤 variant 규칙보다 이긴다. 두 규칙이 겹치는데
+어느 쪽도 상대를 포함하지 않으면 `rootage:validate`가 문서를 거부한다 — 임의로 승자를
+정하는 대신 저자가 범위를 좁히게 한다.
 
 ---
 

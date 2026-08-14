@@ -1,20 +1,20 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-fg-neutral-inverted)"
       }
     }
   },
   "weightThin": {
-    "enabled": {
+    "rest": {
       "root": {
         "width": "1px"
       }
     }
   },
   "weightThick": {
-    "enabled": {
+    "rest": {
       "root": {
         "width": "var(--seed-dimension-x1)"
       }

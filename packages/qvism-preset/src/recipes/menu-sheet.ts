@@ -38,7 +38,7 @@ const menuSheet = defineSlotRecipe({
     backdrop: {
       position: "fixed",
       inset: 0,
-      background: vars.base.enabled.backdrop.color,
+      background: vars.base.rest.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
     },
     content: {
@@ -53,16 +53,16 @@ const menuSheet = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      background: vars.base.enabled.content.color,
-      paddingInline: vars.base.enabled.content.paddingX,
+      background: vars.base.rest.content.color,
+      paddingInline: vars.base.rest.content.paddingX,
 
       // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
       // but currently React menu sheet doesn't have a handle in the header
       paddingTop: `var(--menu-sheet-header-padding-top, ${tokens.$dimension.x4})`,
 
-      paddingBottom: `calc(${vars.base.enabled.content.paddingBottom} + var(--seed-safe-area-bottom))`,
-      borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
-      borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+      paddingBottom: `calc(${vars.base.rest.content.paddingBottom} + var(--seed-safe-area-bottom))`,
+      borderTopLeftRadius: vars.base.rest.content.topCornerRadius,
+      borderTopRightRadius: vars.base.rest.content.topCornerRadius,
 
       [pseudo(focus)]: {
         outline: "none",
@@ -75,7 +75,7 @@ const menuSheet = defineSlotRecipe({
 
         // When wrapped by Drawer (SwipeableMenuSheet), expose header padding-top
         // so the Handle has room above the header.
-        "--menu-sheet-header-padding-top": vars.base.enabled.content.paddingTop,
+        "--menu-sheet-header-padding-top": vars.base.rest.content.paddingTop,
 
         // Expand Content Background
         "&::after": {
@@ -95,23 +95,23 @@ const menuSheet = defineSlotRecipe({
       alignItems: "center",
       textAlign: "center",
 
-      gap: vars.base.enabled.header.gap,
-      paddingBottom: vars.base.enabled.header.paddingBottom,
+      gap: vars.base.rest.header.gap,
+      paddingBottom: vars.base.rest.header.paddingBottom,
     },
     title: {
-      color: vars.base.enabled.title.color,
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      color: vars.base.rest.title.color,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
 
       // since title is an h2
       margin: 0,
     },
     description: {
-      color: vars.base.enabled.description.color,
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      color: vars.base.rest.description.color,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
 
       // since description is a p
       margin: 0,
@@ -121,7 +121,7 @@ const menuSheet = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
 
-      gap: vars.base.enabled.list.gap,
+      gap: vars.base.rest.list.gap,
     },
     group: {
       display: "flex",
@@ -129,33 +129,33 @@ const menuSheet = defineSlotRecipe({
       alignItems: "stretch",
       overflow: "hidden",
 
-      borderRadius: vars.base.enabled.group.cornerRadius,
+      borderRadius: vars.base.rest.group.cornerRadius,
     },
     footer: {
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
 
-      paddingTop: vars.base.enabled.footer.paddingTop,
+      paddingTop: vars.base.rest.footer.paddingTop,
     },
     closeButton: {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
 
-      backgroundColor: closeVars.base.enabled.root.color,
-      minHeight: closeVars.base.enabled.root.minHeight,
-      paddingInline: closeVars.base.enabled.root.paddingX,
-      paddingBlock: closeVars.base.enabled.root.paddingY,
-      borderRadius: closeVars.base.enabled.root.cornerRadius,
+      backgroundColor: closeVars.base.rest.root.color,
+      minHeight: closeVars.base.rest.root.minHeight,
+      paddingInline: closeVars.base.rest.root.paddingX,
+      paddingBlock: closeVars.base.rest.root.paddingY,
+      borderRadius: closeVars.base.rest.root.cornerRadius,
 
       border: "none",
       fontFamily: "inherit",
 
-      color: closeVars.base.enabled.label.color,
-      fontSize: closeVars.base.enabled.label.fontSize,
-      lineHeight: closeVars.base.enabled.label.lineHeight,
-      fontWeight: closeVars.base.enabled.label.fontWeight,
+      color: closeVars.base.rest.label.color,
+      fontSize: closeVars.base.rest.label.fontSize,
+      lineHeight: closeVars.base.rest.label.lineHeight,
+      fontWeight: closeVars.base.rest.label.fontWeight,
 
       transition: FOCUS_RING_TRANSITION,
 
@@ -172,25 +172,25 @@ const menuSheet = defineSlotRecipe({
       false: {
         backdrop: {
           [pseudo(open)]: enterAnimation({
-            timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
-            duration: vars.base.enabled.backdrop.enterDuration,
-            opacity: vars.base.enabled.backdrop.enterOpacity,
+            timingFunction: vars.base.rest.backdrop.enterTimingFunction,
+            duration: vars.base.rest.backdrop.enterDuration,
+            opacity: vars.base.rest.backdrop.enterOpacity,
           }),
           [pseudo(not(open))]: exitAnimation({
-            timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
-            duration: vars.base.enabled.backdrop.exitDuration,
-            opacity: vars.base.enabled.backdrop.exitOpacity,
+            timingFunction: vars.base.rest.backdrop.exitTimingFunction,
+            duration: vars.base.rest.backdrop.exitDuration,
+            opacity: vars.base.rest.backdrop.exitOpacity,
           }),
         },
         content: {
           [pseudo(open)]: enterAnimation({
-            timingFunction: vars.base.enabled.content.enterTimingFunction,
-            duration: vars.base.enabled.content.enterDuration,
+            timingFunction: vars.base.rest.content.enterTimingFunction,
+            duration: vars.base.rest.content.enterDuration,
             translateY: "100%",
           }),
           [pseudo(not(open))]: exitAnimation({
-            timingFunction: vars.base.enabled.content.exitTimingFunction,
-            duration: vars.base.enabled.content.exitDuration,
+            timingFunction: vars.base.rest.content.exitTimingFunction,
+            duration: vars.base.rest.content.exitDuration,
             translateY: "100%",
           }),
         },

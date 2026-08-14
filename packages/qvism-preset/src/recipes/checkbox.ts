@@ -15,14 +15,14 @@ const checkbox = defineSlotRecipe({
       isolation: "isolate",
       cursor: "pointer",
 
-      gap: vars.base.enabled.root.gap,
+      gap: vars.base.rest.root.gap,
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
       },
     },
     label: {
-      color: vars.base.enabled.label.color,
+      color: vars.base.rest.label.color,
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.label.color,
@@ -33,38 +33,38 @@ const checkbox = defineSlotRecipe({
     weight: {
       regular: {
         label: {
-          fontWeight: vars.weightRegular.enabled.label.fontWeight,
+          fontWeight: vars.weightRegular.rest.label.fontWeight,
         },
       },
       bold: {
         label: {
-          fontWeight: vars.weightBold.enabled.label.fontWeight,
+          fontWeight: vars.weightBold.rest.label.fontWeight,
         },
       },
     },
     size: {
       large: {
         root: {
-          minHeight: vars.sizeLarge.enabled.root.minHeight,
-          "--checkmark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${checkmarkVars.sizeLarge.enabled.root.size}) / 2)`, // 수직 위치 보정
+          minHeight: vars.sizeLarge.rest.root.minHeight,
+          "--checkmark-margin-top": `calc((${vars.sizeLarge.rest.root.minHeight} - ${checkmarkVars.sizeLarge.rest.root.size}) / 2)`, // 수직 위치 보정
         },
         label: {
-          fontSize: vars.sizeLarge.enabled.label.fontSize,
-          lineHeight: vars.sizeLarge.enabled.label.lineHeight,
+          fontSize: vars.sizeLarge.rest.label.fontSize,
+          lineHeight: vars.sizeLarge.rest.label.lineHeight,
 
-          marginTop: `calc(${vars.sizeLarge.enabled.root.minHeight} / 2 - ${vars.sizeLarge.enabled.label.lineHeight} / 2)`, // 수직 위치 보정
+          marginTop: `calc(${vars.sizeLarge.rest.root.minHeight} / 2 - ${vars.sizeLarge.rest.label.lineHeight} / 2)`, // 수직 위치 보정
         },
       },
       medium: {
         root: {
-          minHeight: vars.sizeMedium.enabled.root.minHeight,
-          "--checkmark-margin-top": `calc((${vars.sizeMedium.enabled.root.minHeight} - ${checkmarkVars.sizeMedium.enabled.root.size}) / 2)`, // 수직 위치 보정
+          minHeight: vars.sizeMedium.rest.root.minHeight,
+          "--checkmark-margin-top": `calc((${vars.sizeMedium.rest.root.minHeight} - ${checkmarkVars.sizeMedium.rest.root.size}) / 2)`, // 수직 위치 보정
         },
         label: {
-          fontSize: vars.sizeMedium.enabled.label.fontSize,
-          lineHeight: vars.sizeMedium.enabled.label.lineHeight,
+          fontSize: vars.sizeMedium.rest.label.fontSize,
+          lineHeight: vars.sizeMedium.rest.label.lineHeight,
 
-          marginTop: `calc(${vars.sizeMedium.enabled.root.minHeight} / 2 - ${vars.sizeMedium.enabled.label.lineHeight} / 2)`, // 수직 위치 보정
+          marginTop: `calc(${vars.sizeMedium.rest.root.minHeight} / 2 - ${vars.sizeMedium.rest.label.lineHeight} / 2)`, // 수직 위치 보정
         },
       },
     },

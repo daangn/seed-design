@@ -137,170 +137,165 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "backdrop": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.overlay";
-                };
-                "enterDuration": {
-                  "type": "duration";
-                  "value": "$duration.d2";
-                };
-                "enterTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.enter";
-                };
-                "enterOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-                "exitDuration": {
-                  "type": "duration";
-                  "value": "$duration.d2";
-                };
-                "exitTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.exit";
-                };
-                "exitOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-              };
-              "content": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-floating";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r5";
-                };
-                "marginX": {
-                  "type": "dimension";
-                  "value": "$dimension.x8";
-                };
-                "marginY": {
-                  "type": "dimension";
-                  "value": "$dimension.x16";
-                };
-                "maxWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 272;
-                    "unit": "px";
-                  };
-                };
-                "enterDuration": {
-                  "type": "duration";
-                  "value": "$duration.d4";
-                };
-                "enterTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.enter-expressive";
-                };
-                "enterOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-                "enterScale": {
-                  "type": "number";
-                  "value": 1.3;
-                };
-                "exitDuration": {
-                  "type": "duration";
-                  "value": "$duration.d2";
-                };
-                "exitTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.exit";
-                };
-                "exitOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-              };
-              "header": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-                "paddingTop": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-              };
-              "footer": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-                "paddingTop": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "paddingBottom": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-              };
-              "title": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t7";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t7";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
-              "description": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.regular";
-                };
+        "states": readonly [];
+        "slots": {
+          "backdrop": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.overlay";
+            };
+            "enterDuration": {
+              "type": "duration";
+              "value": "$duration.d2";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.enter";
+            };
+            "enterOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+            "exitDuration": {
+              "type": "duration";
+              "value": "$duration.d2";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.exit";
+            };
+            "exitOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+          };
+          "content": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-floating";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r5";
+            };
+            "marginX": {
+              "type": "dimension";
+              "value": "$dimension.x8";
+            };
+            "marginY": {
+              "type": "dimension";
+              "value": "$dimension.x16";
+            };
+            "maxWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 272;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "enterDuration": {
+              "type": "duration";
+              "value": "$duration.d4";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.enter-expressive";
+            };
+            "enterOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+            "enterScale": {
+              "type": "number";
+              "value": 1.3;
+            };
+            "exitDuration": {
+              "type": "duration";
+              "value": "$duration.d2";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.exit";
+            };
+            "exitOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+          };
+          "header": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+            "paddingTop": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+          };
+          "footer": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+            "paddingTop": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "paddingBottom": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+          };
+          "title": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t7";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t7";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+          "description": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.regular";
+            };
+          };
+        };
       },
     ];
   };

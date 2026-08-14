@@ -35,7 +35,7 @@ const dialog = defineSlotRecipe({
     backdrop: {
       position: "fixed",
       inset: 0,
-      background: vars.base.enabled.backdrop.color,
+      background: vars.base.rest.backdrop.color,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
     },
     content: {
@@ -50,10 +50,10 @@ const dialog = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
 
-      background: vars.base.enabled.content.color,
-      maxWidth: vars.base.enabled.content.maxWidth,
-      margin: `auto ${vars.base.enabled.content.marginX}`,
-      borderRadius: vars.base.enabled.content.cornerRadius,
+      background: vars.base.rest.content.color,
+      maxWidth: vars.base.rest.content.maxWidth,
+      margin: `auto ${vars.base.rest.content.marginX}`,
+      borderRadius: vars.base.rest.content.cornerRadius,
 
       [pseudo(focus)]: {
         outline: "none",
@@ -63,23 +63,23 @@ const dialog = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingInline: vars.base.enabled.header.paddingX,
-      paddingTop: vars.base.enabled.header.paddingTop,
-      gap: vars.base.enabled.header.gap,
+      paddingInline: vars.base.rest.header.paddingX,
+      paddingTop: vars.base.rest.header.paddingTop,
+      gap: vars.base.rest.header.gap,
     },
     title: {
-      color: vars.base.enabled.title.color,
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      color: vars.base.rest.title.color,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
 
       margin: 0,
     },
     description: {
-      color: vars.base.enabled.description.color,
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      color: vars.base.rest.description.color,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -89,9 +89,9 @@ const dialog = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
 
-      paddingInline: vars.base.enabled.footer.paddingX,
-      paddingTop: vars.base.enabled.footer.paddingTop,
-      paddingBottom: vars.base.enabled.footer.paddingBottom,
+      paddingInline: vars.base.rest.footer.paddingX,
+      paddingTop: vars.base.rest.footer.paddingTop,
+      paddingBottom: vars.base.rest.footer.paddingBottom,
     },
   },
   variants: {
@@ -99,27 +99,27 @@ const dialog = defineSlotRecipe({
       false: {
         backdrop: {
           [pseudo(open)]: enterAnimation({
-            timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
-            duration: vars.base.enabled.backdrop.enterDuration,
-            opacity: vars.base.enabled.backdrop.enterOpacity,
+            timingFunction: vars.base.rest.backdrop.enterTimingFunction,
+            duration: vars.base.rest.backdrop.enterDuration,
+            opacity: vars.base.rest.backdrop.enterOpacity,
           }),
           [pseudo(not(open))]: exitAnimation({
-            timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
-            duration: vars.base.enabled.backdrop.exitDuration,
-            opacity: vars.base.enabled.backdrop.exitOpacity,
+            timingFunction: vars.base.rest.backdrop.exitTimingFunction,
+            duration: vars.base.rest.backdrop.exitDuration,
+            opacity: vars.base.rest.backdrop.exitOpacity,
           }),
         },
         content: {
           [pseudo(open)]: enterAnimation({
-            timingFunction: vars.base.enabled.content.enterTimingFunction,
-            duration: vars.base.enabled.content.enterDuration,
-            opacity: vars.base.enabled.content.enterOpacity,
-            scale: vars.base.enabled.content.enterScale,
+            timingFunction: vars.base.rest.content.enterTimingFunction,
+            duration: vars.base.rest.content.enterDuration,
+            opacity: vars.base.rest.content.enterOpacity,
+            scale: vars.base.rest.content.enterScale,
           }),
           [pseudo(not(open))]: exitAnimation({
-            timingFunction: vars.base.enabled.content.exitTimingFunction,
-            duration: vars.base.enabled.content.exitDuration,
-            opacity: vars.base.enabled.content.exitOpacity,
+            timingFunction: vars.base.rest.content.exitTimingFunction,
+            duration: vars.base.rest.content.exitDuration,
+            opacity: vars.base.rest.content.exitOpacity,
           }),
         },
       },

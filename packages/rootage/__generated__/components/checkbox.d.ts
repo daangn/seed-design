@@ -42,154 +42,129 @@ declare const artifact: {
             "regular": {};
             "bold": {};
           };
-          "defaultValue": "regular";
         };
         "size": {
           "values": {
             "medium": {};
             "large": {};
           };
-          "defaultValue": "medium";
         };
       };
+      "states": readonly [
+        {
+          "id": "disabled";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2";
             };
-          },
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
         ];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
       },
       {
         "variants": {
           "weight": "regular";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.regular";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.regular";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "weight": "bold";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x8";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x8";
             };
-          },
-        ];
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x9";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x9";
             };
-          },
-        ];
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+          };
+        };
       },
     ];
   };

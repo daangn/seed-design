@@ -8,8 +8,8 @@ export const tagGroup = defineSlotRecipe({
   slots: ["root", "separator"],
   base: {
     separator: {
-      color: vars.base.enabled.separator.color,
-      fontWeight: vars.base.enabled.separator.fontWeight,
+      color: vars.base.rest.separator.color,
+      fontWeight: vars.base.rest.separator.fontWeight,
 
       whiteSpace: "pre",
 
@@ -20,20 +20,20 @@ export const tagGroup = defineSlotRecipe({
     size: {
       t2: {
         separator: {
-          fontSize: vars.sizeT2.enabled.separator.fontSize,
-          lineHeight: vars.sizeT2.enabled.separator.lineHeight,
+          fontSize: vars.sizeT2.rest.separator.fontSize,
+          lineHeight: vars.sizeT2.rest.separator.lineHeight,
         },
       },
       t3: {
         separator: {
-          fontSize: vars.sizeT3.enabled.separator.fontSize,
-          lineHeight: vars.sizeT3.enabled.separator.lineHeight,
+          fontSize: vars.sizeT3.rest.separator.fontSize,
+          lineHeight: vars.sizeT3.rest.separator.lineHeight,
         },
       },
       t4: {
         separator: {
-          fontSize: vars.sizeT4.enabled.separator.fontSize,
-          lineHeight: vars.sizeT4.enabled.separator.lineHeight,
+          fontSize: vars.sizeT4.rest.separator.fontSize,
+          lineHeight: vars.sizeT4.rest.separator.lineHeight,
         },
       },
     },
@@ -74,7 +74,7 @@ export const tagGroup = defineSlotRecipe({
       truncate: false,
       css: {
         root: {
-          lineHeight: itemVars.sizeT2.enabled.label.lineHeight,
+          lineHeight: itemVars.sizeT2.rest.label.lineHeight,
         },
       },
     },
@@ -83,7 +83,7 @@ export const tagGroup = defineSlotRecipe({
       truncate: false,
       css: {
         root: {
-          lineHeight: itemVars.sizeT3.enabled.label.lineHeight,
+          lineHeight: itemVars.sizeT3.rest.label.lineHeight,
         },
       },
     },
@@ -92,7 +92,7 @@ export const tagGroup = defineSlotRecipe({
       truncate: false,
       css: {
         root: {
-          lineHeight: itemVars.sizeT4.enabled.label.lineHeight,
+          lineHeight: itemVars.sizeT4.rest.label.lineHeight,
         },
       },
     },
@@ -141,11 +141,11 @@ export const tagGroupItem = defineSlotRecipe({
       wordBreak: "normal",
 
       [pseudo(not(":first-child"))]: {
-        marginLeft: itemVars.base.enabled.root.gap,
+        marginLeft: itemVars.base.rest.root.gap,
       },
 
       [pseudo(not(":last-child"))]: {
-        marginRight: itemVars.base.enabled.root.gap,
+        marginRight: itemVars.base.rest.root.gap,
       },
     },
   },
@@ -154,64 +154,64 @@ export const tagGroupItem = defineSlotRecipe({
       t2: {
         root: {
           ...prefixIcon({
-            size: itemVars.sizeT2.enabled.prefixIcon.size,
+            size: itemVars.sizeT2.rest.prefixIcon.size,
           }),
           ...suffixIcon({
-            size: itemVars.sizeT2.enabled.suffixIcon.size,
+            size: itemVars.sizeT2.rest.suffixIcon.size,
           }),
           ...onlyIcon({
-            size: itemVars.sizeT2.enabled.prefixIcon.size,
+            size: itemVars.sizeT2.rest.prefixIcon.size,
           }),
         },
         label: {
-          fontSize: itemVars.sizeT2.enabled.label.fontSize,
-          lineHeight: itemVars.sizeT2.enabled.label.lineHeight,
+          fontSize: itemVars.sizeT2.rest.label.fontSize,
+          lineHeight: itemVars.sizeT2.rest.label.lineHeight,
         },
       },
       t3: {
         root: {
           ...prefixIcon({
-            size: itemVars.sizeT3.enabled.prefixIcon.size,
+            size: itemVars.sizeT3.rest.prefixIcon.size,
           }),
           ...suffixIcon({
-            size: itemVars.sizeT3.enabled.suffixIcon.size,
+            size: itemVars.sizeT3.rest.suffixIcon.size,
           }),
           ...onlyIcon({
-            size: itemVars.sizeT3.enabled.prefixIcon.size,
+            size: itemVars.sizeT3.rest.prefixIcon.size,
           }),
         },
         label: {
-          fontSize: itemVars.sizeT3.enabled.label.fontSize,
-          lineHeight: itemVars.sizeT3.enabled.label.lineHeight,
+          fontSize: itemVars.sizeT3.rest.label.fontSize,
+          lineHeight: itemVars.sizeT3.rest.label.lineHeight,
         },
       },
       t4: {
         root: {
           ...prefixIcon({
-            size: itemVars.sizeT4.enabled.prefixIcon.size,
+            size: itemVars.sizeT4.rest.prefixIcon.size,
           }),
           ...suffixIcon({
-            size: itemVars.sizeT4.enabled.suffixIcon.size,
+            size: itemVars.sizeT4.rest.suffixIcon.size,
           }),
           ...onlyIcon({
-            size: itemVars.sizeT4.enabled.prefixIcon.size,
+            size: itemVars.sizeT4.rest.prefixIcon.size,
           }),
         },
         label: {
-          fontSize: itemVars.sizeT4.enabled.label.fontSize,
-          lineHeight: itemVars.sizeT4.enabled.label.lineHeight,
+          fontSize: itemVars.sizeT4.rest.label.fontSize,
+          lineHeight: itemVars.sizeT4.rest.label.lineHeight,
         },
       },
     },
     weight: {
       regular: {
         label: {
-          fontWeight: itemVars.weightRegular.enabled.label.fontWeight,
+          fontWeight: itemVars.weightRegular.rest.label.fontWeight,
         },
       },
       bold: {
         label: {
-          fontWeight: itemVars.weightBold.enabled.label.fontWeight,
+          fontWeight: itemVars.weightBold.rest.label.fontWeight,
         },
       },
     },
@@ -219,49 +219,49 @@ export const tagGroupItem = defineSlotRecipe({
       neutralSubtle: {
         root: {
           ...prefixIcon({
-            color: itemVars.toneNeutralSubtle.enabled.prefixIcon.color,
+            color: itemVars.toneNeutralSubtle.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: itemVars.toneNeutralSubtle.enabled.suffixIcon.color,
+            color: itemVars.toneNeutralSubtle.rest.suffixIcon.color,
           }),
           ...onlyIcon({
-            color: itemVars.toneNeutralSubtle.enabled.prefixIcon.color,
+            color: itemVars.toneNeutralSubtle.rest.prefixIcon.color,
           }),
         },
         label: {
-          color: itemVars.toneNeutralSubtle.enabled.label.color,
+          color: itemVars.toneNeutralSubtle.rest.label.color,
         },
       },
       neutral: {
         root: {
           ...prefixIcon({
-            color: itemVars.toneNeutral.enabled.prefixIcon.color,
+            color: itemVars.toneNeutral.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: itemVars.toneNeutral.enabled.suffixIcon.color,
+            color: itemVars.toneNeutral.rest.suffixIcon.color,
           }),
           ...onlyIcon({
-            color: itemVars.toneNeutral.enabled.prefixIcon.color,
+            color: itemVars.toneNeutral.rest.prefixIcon.color,
           }),
         },
         label: {
-          color: itemVars.toneNeutral.enabled.label.color,
+          color: itemVars.toneNeutral.rest.label.color,
         },
       },
       brand: {
         root: {
           ...prefixIcon({
-            color: itemVars.toneBrand.enabled.prefixIcon.color,
+            color: itemVars.toneBrand.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: itemVars.toneBrand.enabled.suffixIcon.color,
+            color: itemVars.toneBrand.rest.suffixIcon.color,
           }),
           ...onlyIcon({
-            color: itemVars.toneBrand.enabled.prefixIcon.color,
+            color: itemVars.toneBrand.rest.prefixIcon.color,
           }),
         },
         label: {
-          color: itemVars.toneBrand.enabled.label.color,
+          color: itemVars.toneBrand.rest.label.color,
         },
       },
     },

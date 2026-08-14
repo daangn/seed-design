@@ -54,12 +54,12 @@ export const appScreen = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          "--app-bar-height": navVars.themeIos.enabled.root.height,
+          "--app-bar-height": navVars.themeIos.rest.root.height,
         },
       },
       android: {
         root: {
-          "--app-bar-height": navVars.themeAndroid.enabled.root.height,
+          "--app-bar-height": navVars.themeAndroid.rest.root.height,
         },
         edge: {
           display: "none",

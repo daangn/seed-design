@@ -63,16 +63,27 @@ data:
             description: 브랜드 컬러로 강조된 스타일입니다.
           neutralWeak:
             description: 기본적인 토글 스타일입니다.
-  definitions:
-    base:
-      enabled:
+      size:
+        values:
+          xsmall: {}
+          small: {}
+    states:
+      - id: pressed
+      - id: selected
+      - id: loading
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
         label:
           fontWeight: $font-weight.bold
-    variant=brandSolid:
-      enabled:
+    - variants:
+        variant: brandSolid
+      slots:
         root:
           color: $color.bg.brand-solid
         label:
@@ -84,10 +95,18 @@ data:
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
           rangeColor: $color.palette.static-white
-      pressed:
+    - variants:
+        variant: brandSolid
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.brand-solid-pressed
-      selected:
+    - variants:
+        variant: brandSolid
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-weak
         label:
@@ -99,10 +118,19 @@ data:
         progressCircle:
           trackColor: $color.palette.gray-500
           rangeColor: $color.fg.neutral
-      selected,pressed:
+    - variants:
+        variant: brandSolid
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-      disabled:
+    - variants:
+        variant: brandSolid
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -111,14 +139,24 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: brandSolid
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.brand-solid-pressed
-      selected,loading:
+    - variants:
+        variant: brandSolid
+      states:
+        - selected
+        - loading
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-    variant=neutralWeak:
-      enabled:
+    - variants:
+        variant: neutralWeak
+      slots:
         root:
           color: $color.bg.neutral-weak
         label:
@@ -130,10 +168,18 @@ data:
         progressCircle:
           trackColor: $color.palette.gray-500
           rangeColor: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: neutralWeak
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-      selected:
+    - variants:
+        variant: neutralWeak
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-weak
         label:
@@ -145,10 +191,19 @@ data:
         progressCircle:
           trackColor: $color.palette.gray-500
           rangeColor: $color.fg.neutral
-      selected,pressed:
+    - variants:
+        variant: neutralWeak
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-      disabled:
+    - variants:
+        variant: neutralWeak
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -157,14 +212,24 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: neutralWeak
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-      selected,loading:
+    - variants:
+        variant: neutralWeak
+      states:
+        - selected
+        - loading
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-    size=xsmall:
-      enabled:
+    - variants:
+        size: xsmall
+      slots:
         root:
           minHeight: $dimension.x8
           cornerRadius: $radius.full
@@ -181,8 +246,9 @@ data:
         progressCircle:
           size: 14px
           thickness: 2px
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           minHeight: $dimension.x9
           cornerRadius: $radius.full

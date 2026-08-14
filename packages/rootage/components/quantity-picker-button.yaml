@@ -40,9 +40,14 @@ data:
           small: {}
           medium: {}
           large: {}
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: loading
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           color: $color.bg.transparent
           colorDuration: $duration.color-transition
@@ -52,17 +57,24 @@ data:
         progressCircle:
           trackColor: $color.palette.gray-500
           rangeColor: $color.fg.neutral
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - states:
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled
-      loading:
+    - states:
+        - loading
+      slots:
         root:
           color: $color.bg.transparent-pressed
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           size: $dimension.x9
           cornerRadius: $radius.r2
@@ -71,8 +83,9 @@ data:
         progressCircle:
           size: 16px
           thickness: 2px
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           size: $dimension.x10
           cornerRadius: $radius.r2
@@ -81,8 +94,9 @@ data:
         progressCircle:
           size: 18px
           thickness: 2px
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         root:
           size: $dimension.x13
           cornerRadius: $radius.r3

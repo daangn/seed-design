@@ -1,18 +1,17 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "padding": "var(--seed-dimension-x1_5)"
       }
     }
   },
   "strokeTrue": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-subtle)",
         "strokeWidth": "1px"
       }
     }
-  },
-  "strokeFalse": {}
+  }
 }

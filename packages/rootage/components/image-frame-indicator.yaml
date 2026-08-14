@@ -27,9 +27,8 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           color: $color.palette.static-black-alpha-800
           cornerRadius: $radius.full

@@ -15,9 +15,8 @@ data:
             type: color
           size:
             type: dimension
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           fromColor: "#00000000"
           toColor: "#000000ff"

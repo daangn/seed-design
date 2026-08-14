@@ -22,36 +22,49 @@ data:
             type: dimension
           lineHeight:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: disabled
+    variants:
+      weight:
+        values:
+          regular: {}
+          bold: {}
+      size:
+        values:
+          medium: {}
+          large: {}
+  rules:
+    - slots:
         label:
           color: $color.fg.neutral
         root:
           gap: $dimension.x2
-      disabled:
+    - states:
+        - disabled
+      slots:
         label:
           color: $color.fg.disabled
-
-    weight=regular:
-      enabled:
+    - variants:
+        weight: regular
+      slots:
         label:
           fontWeight: $font-weight.regular
-    weight=bold:
-      enabled:
+    - variants:
+        weight: bold
+      slots:
         label:
           fontWeight: $font-weight.bold
-
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           minHeight: $dimension.x8
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         root:
           minHeight: $dimension.x9
         label:

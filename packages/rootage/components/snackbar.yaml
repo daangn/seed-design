@@ -84,9 +84,13 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    variants:
+      variant:
+        values:
+          positive: {}
+          critical: {}
+  rules:
+    - slots:
         # TODO: we might split region out to a separate component
         region:
           paddingX: $dimension.x2
@@ -126,12 +130,13 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.bold
-    variant=default: {}
-    variant=positive:
-      enabled:
+    - variants:
+        variant: positive
+      slots:
         prefixIcon:
           color: $color.fg.positive
-    variant=critical:
-      enabled:
+    - variants:
+        variant: critical
+      slots:
         prefixIcon:
           color: $color.fg.critical

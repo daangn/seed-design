@@ -50,95 +50,101 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "draggingOver";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "disabled";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 120;
-                    "unit": "px";
-                  };
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r3";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-subtle";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 120;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "draggingOver",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-solid";
-                };
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r3";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
             };
-          },
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-subtle";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "draggingOver",
         ];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-solid";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
       },
     ];
   };

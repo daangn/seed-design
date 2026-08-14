@@ -105,8 +105,7 @@
             "layer": {
               "description": "시각적 부담 없이 부드럽게 액션을 유도합니다."
             }
-          },
-          "defaultValue": "solid"
+          }
         },
         "layout": {
           "values": {
@@ -116,357 +115,360 @@
             "iconOnly": {
               "description": "icon만 표시합니다. 아이콘만으로 의미를 전달하기 때문에 접근성 레이블과 함께 사용해야 합니다."
             }
-          },
-          "defaultValue": "withText"
+          }
         }
-      }
+      },
+      "states": [
+        {
+          "id": "pressed",
+          "suppresses": []
+        },
+        {
+          "id": "loading",
+          "suppresses": []
+        },
+        {
+          "id": "disabled",
+          "suppresses": [
+            "pressed"
+          ]
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                },
-                "shadow": {
-                  "type": "shadow",
-                  "value": "$shadow.s3"
-                },
-                "colorDuration": {
-                  "type": "duration",
-                  "value": "$duration.color-transition"
-                },
-                "colorTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                }
-              },
-              "progressCircle": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 16,
-                    "unit": "px"
-                  }
-                },
-                "thickness": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.full"
+            },
+            "shadow": {
+              "type": "shadow",
+              "value": "$shadow.s3"
+            },
+            "colorDuration": {
+              "type": "duration",
+              "value": "$duration.color-transition"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier",
+              "value": "$timing-function.easing"
+            }
+          },
+          "progressCircle": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 16,
+                "unit": "px"
+              }
+            },
+            "thickness": {
+              "type": "dimension",
+              "value": {
+                "value": 2,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "variant": "solid"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-inverted"
-                }
-              },
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color",
-                  "value": "$color.palette.gray-700"
-                },
-                "rangeColor": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-inverted"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-inverted-pressed"
-                }
-              }
+          "progressCircle": {
+            "trackColor": {
+              "type": "color",
+              "value": "$color.palette.gray-700"
+            },
+            "rangeColor": {
+              "type": "color",
+              "value": "$color.fg.neutral-inverted"
             }
           },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.disabled"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral-inverted"
             }
           },
-          {
-            "states": [
-              "loading"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-inverted-pressed"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral-inverted"
+            }
+          },
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral-inverted"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "variant": "solid"
+        },
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-inverted-pressed"
+            }
+          }
+        }
+      },
+      {
+        "variants": {
+          "variant": "solid"
+        },
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.disabled"
+            }
+          },
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          }
+        }
+      },
+      {
+        "variants": {
+          "variant": "solid"
+        },
+        "states": [
+          "loading"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-inverted-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "variant": "layer"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-floating"
-                }
-              },
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color",
-                  "value": "$color.palette.gray-500"
-                },
-                "rangeColor": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.layer-floating"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-floating-pressed"
-                }
-              }
+          "progressCircle": {
+            "trackColor": {
+              "type": "color",
+              "value": "$color.palette.gray-500"
+            },
+            "rangeColor": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.disabled"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           },
-          {
-            "states": [
-              "loading"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-floating-pressed"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "variant": "layer"
+        },
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.layer-floating-pressed"
+            }
+          }
+        }
+      },
+      {
+        "variants": {
+          "variant": "layer"
+        },
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.disabled"
+            }
+          },
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          }
+        }
+      },
+      {
+        "variants": {
+          "variant": "layer"
+        },
+        "states": [
+          "loading"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.layer-floating-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "layout": "withText"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 36,
-                    "unit": "px"
-                  }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
-                }
-              },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 16,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension",
+              "value": {
+                "value": 36,
+                "unit": "px"
+              }
+            },
+            "paddingX": {
+              "type": "dimension",
+              "value": "$dimension.x3_5"
+            },
+            "paddingY": {
+              "type": "dimension",
+              "value": "$dimension.x2"
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x1"
+            }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t4"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t4"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.medium"
+            }
+          },
+          "prefixIcon": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 16,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "layout": "iconOnly"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 44,
+                "unit": "px"
+              }
+            }
+          },
+          "icon": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 22,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       }
     ]
   }

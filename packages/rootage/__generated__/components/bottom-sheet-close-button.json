@@ -36,70 +36,71 @@
           }
         }
       },
-      "variants": {}
+      "variants": {},
+      "states": [
+        {
+          "id": "pressed",
+          "suppresses": []
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 28,
-                    "unit": "px"
-                  }
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 14,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-weak"
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.full"
+            },
+            "targetSize": {
+              "type": "dimension",
+              "value": {
+                "value": 44,
+                "unit": "px"
+              }
+            },
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 28,
+                "unit": "px"
               }
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak-pressed"
-                }
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            },
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 14,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-weak-pressed"
+            }
+          }
+        }
       }
     ]
   }

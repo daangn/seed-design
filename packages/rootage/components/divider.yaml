@@ -10,8 +10,7 @@ data:
         properties:
           thickness:
             type: dimension
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           thickness: 1px

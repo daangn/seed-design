@@ -6,7 +6,7 @@ const columnBase = {
   flex: "0 0 auto",
   outline: "none",
   "&[data-disabled]": {
-    [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.enabled.item.color,
+    [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.rest.item.color,
   },
 };
 
@@ -25,16 +25,16 @@ const timePicker = defineSlotRecipe({
   base: {
     root: {
       width: "100%",
-      height: vars.base.enabled.root.height,
+      height: vars.base.rest.root.height,
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.item.color,
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius]:
-        vars.base.enabled.selectionIndicator.cornerRadius,
+        vars.base.rest.selectionIndicator.cornerRadius,
     },
     scrollFog: {},
     columns: {},
     selectionIndicator: {
-      borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
-      backgroundColor: vars.base.enabled.selectionIndicator.color,
+      borderRadius: vars.base.rest.selectionIndicator.cornerRadius,
+      backgroundColor: vars.base.rest.selectionIndicator.color,
     },
     periodColumn: {
       ...columnBase,
@@ -47,11 +47,11 @@ const timePicker = defineSlotRecipe({
       ...columnBase,
     },
     item: {
-      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.item.color,
-      paddingInline: vars.base.enabled.item.paddingX,
-      fontSize: vars.base.enabled.item.fontSize,
-      lineHeight: vars.base.enabled.item.lineHeight,
-      fontWeight: vars.base.enabled.item.fontWeight,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.rest.item.color,
+      paddingInline: vars.base.rest.item.paddingX,
+      fontSize: vars.base.rest.item.fontSize,
+      lineHeight: vars.base.rest.item.lineHeight,
+      fontWeight: vars.base.rest.item.fontWeight,
       fontVariantNumeric: "tabular-nums",
     },
   },

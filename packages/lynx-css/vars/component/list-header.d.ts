@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingY": "var(--seed-dimension-x2)",
@@ -11,7 +11,7 @@ export declare const vars: {
     }
   },
   "variantMediumWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontWeight": "var(--seed-font-weight-medium)",
         "color": "var(--seed-color-fg-neutral-subtle)"
@@ -19,7 +19,7 @@ export declare const vars: {
     }
   },
   "variantBoldSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontWeight": "var(--seed-font-weight-bold)",
         "color": "var(--seed-color-fg-neutral)"

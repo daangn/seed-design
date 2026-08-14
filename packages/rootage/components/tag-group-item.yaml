@@ -38,14 +38,28 @@ data:
             type: dimension
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    variants:
+      size:
+        values:
+          t2: {}
+          t3: {}
+          t4: {}
+      weight:
+        values:
+          regular: {}
+          bold: {}
+      tone:
+        values:
+          neutralSubtle: {}
+          neutral: {}
+          brand: {}
+  rules:
+    - slots:
         root:
           gap: $dimension.x0_5
-
-    size=t2:
-      enabled:
+    - variants:
+        size: t2
+      slots:
         label:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
@@ -55,19 +69,21 @@ data:
           size: $dimension.x3 # might change to rem later
         suffixIcon:
           size: $dimension.x3 # might change to rem later
-    size=t3:
-      enabled:
+    - variants:
+        size: t3
+      slots:
         label:
           fontSize: $font-size.t3
-          lineHeight: $line-height.t3 
+          lineHeight: $line-height.t3
         icon:
           size: 13px # might change to rem later
         prefixIcon:
           size: 13px # might change to rem later
         suffixIcon:
           size: 13px # might change to rem later
-    size=t4:
-      enabled:
+    - variants:
+        size: t4
+      slots:
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
@@ -77,18 +93,19 @@ data:
           size: $dimension.x3_5 # might change to rem later
         suffixIcon:
           size: $dimension.x3_5 # might change to rem later
-
-    weight=regular:
-      enabled:
+    - variants:
+        weight: regular
+      slots:
         label:
           fontWeight: $font-weight.regular
-    weight=bold:
-      enabled:
+    - variants:
+        weight: bold
+      slots:
         label:
           fontWeight: $font-weight.bold
-
-    tone=neutralSubtle:
-      enabled:
+    - variants:
+        tone: neutralSubtle
+      slots:
         label:
           color: $color.fg.neutral-subtle
         icon:
@@ -97,8 +114,9 @@ data:
           color: $color.fg.neutral-subtle
         suffixIcon:
           color: $color.fg.neutral-subtle
-    tone=neutral:
-      enabled:
+    - variants:
+        tone: neutral
+      slots:
         label:
           color: $color.fg.neutral
         icon:
@@ -107,8 +125,9 @@ data:
           color: $color.fg.neutral
         suffixIcon:
           color: $color.fg.neutral
-    tone=brand:
-      enabled:
+    - variants:
+        tone: brand
+      slots:
         label:
           color: $color.fg.brand
         icon:

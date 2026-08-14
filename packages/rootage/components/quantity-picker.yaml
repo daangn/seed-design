@@ -44,9 +44,11 @@ data:
           small: {}
           medium: {}
           large: {}
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: invalid
+      - id: disabled
+  rules:
+    - slots:
         root:
           color: $color.bg.layer-default
           strokeWidth: 1px
@@ -56,15 +58,20 @@ data:
           color: $color.fg.neutral
         divider:
           color: $color.stroke.neutral-subtle
-      invalid:
+    - states:
+        - invalid
+      slots:
         root:
           strokeWidth: 2px
           strokeColor: $color.stroke.critical-solid
-      disabled:
+    - states:
+        - disabled
+      slots:
         valueDisplay:
           color: $color.fg.disabled
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           height: $dimension.x9
           cornerRadius: $radius.r2
@@ -75,8 +82,9 @@ data:
         divider:
           width: 1px
           height: $dimension.x4
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           height: $dimension.x10
           cornerRadius: $radius.r2
@@ -87,8 +95,9 @@ data:
         divider:
           width: 1px
           height: $dimension.x4
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         root:
           height: $dimension.x13
           cornerRadius: $radius.r3

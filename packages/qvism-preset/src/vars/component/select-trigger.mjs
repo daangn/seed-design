@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
@@ -70,7 +70,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x13)",
         "gap": "var(--seed-dimension-x2_5)",
@@ -94,7 +94,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x10)",
         "gap": "var(--seed-dimension-x2)",

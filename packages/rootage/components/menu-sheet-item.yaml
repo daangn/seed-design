@@ -61,9 +61,10 @@ data:
             description: 라벨을 왼쪽 정렬합니다.
           center:
             description: 라벨을 중앙 정렬합니다.
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           color: $color.bg.neutral-weak
           minHeight: 52px
@@ -83,22 +84,28 @@ data:
           lineHeight: $line-height.t3
           fontWeight: $font-weight.medium
           color: $color.fg.neutral-subtle
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-    tone=neutral:
-      enabled:
+    - variants:
+        tone: neutral
+      slots:
         prefixIcon:
           color: $color.fg.neutral
         label:
           color: $color.fg.neutral
-    tone=critical:
-      enabled:
+    - variants:
+        tone: critical
+      slots:
         prefixIcon:
           color: $color.fg.critical
         label:
           color: $color.fg.critical
-    labelAlign=left:
-      enabled: {}
-    labelAlign=center:
-      enabled: {}
+    - variants:
+        labelAlign: left
+      slots: {}
+    - variants:
+        labelAlign: center
+      slots: {}

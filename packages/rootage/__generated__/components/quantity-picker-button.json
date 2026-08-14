@@ -61,239 +61,233 @@
             "small": {},
             "medium": {},
             "large": {}
-          },
-          "defaultValue": "small"
+          }
         }
-      }
+      },
+      "states": [
+        {
+          "id": "pressed",
+          "suppresses": []
+        },
+        {
+          "id": "loading",
+          "suppresses": []
+        },
+        {
+          "id": "disabled",
+          "suppresses": [
+            "pressed"
+          ]
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.transparent"
-                },
-                "colorDuration": {
-                  "type": "duration",
-                  "value": "$duration.color-transition"
-                },
-                "colorTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color",
-                  "value": "$color.palette.gray-500"
-                },
-                "rangeColor": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.transparent"
+            },
+            "colorDuration": {
+              "type": "duration",
+              "value": "$duration.color-transition"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier",
+              "value": "$timing-function.easing"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.transparent-pressed"
-                }
-              }
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "loading"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.transparent-pressed"
-                }
-              }
+          "progressCircle": {
+            "trackColor": {
+              "type": "color",
+              "value": "$color.palette.gray-500"
+            },
+            "rangeColor": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.transparent-pressed"
+            }
+          }
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          }
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "loading"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.transparent-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "size": "small"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x9"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r2"
-                }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 16,
-                    "unit": "px"
-                  }
-                }
-              },
-              "progressCircle": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 16,
-                    "unit": "px"
-                  }
-                },
-                "thickness": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x9"
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.r2"
+            }
+          },
+          "icon": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 16,
+                "unit": "px"
+              }
+            }
+          },
+          "progressCircle": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 16,
+                "unit": "px"
+              }
+            },
+            "thickness": {
+              "type": "dimension",
+              "value": {
+                "value": 2,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "size": "medium"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x10"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r2"
-                }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 18,
-                    "unit": "px"
-                  }
-                }
-              },
-              "progressCircle": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 18,
-                    "unit": "px"
-                  }
-                },
-                "thickness": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x10"
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.r2"
+            }
+          },
+          "icon": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 18,
+                "unit": "px"
+              }
+            }
+          },
+          "progressCircle": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 18,
+                "unit": "px"
+              }
+            },
+            "thickness": {
+              "type": "dimension",
+              "value": {
+                "value": 2,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "size": "large"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x13"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r3"
-                }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
-                }
-              },
-              "progressCircle": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
-                },
-                "thickness": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x13"
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.r3"
+            }
+          },
+          "icon": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 22,
+                "unit": "px"
+              }
+            }
+          },
+          "progressCircle": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 22,
+                "unit": "px"
+              }
+            },
+            "thickness": {
+              "type": "dimension",
+              "value": {
+                "value": 2,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       }
     ]
   }

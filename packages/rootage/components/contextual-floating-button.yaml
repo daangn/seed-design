@@ -73,9 +73,14 @@ data:
             description: label과 prefixIcon을 함께 표시합니다.
           iconOnly:
             description: icon만 표시합니다. 아이콘만으로 의미를 전달하기 때문에 접근성 레이블과 함께 사용해야 합니다.
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: loading
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           cornerRadius: $radius.full
           shadow: $shadow.s3
@@ -84,8 +89,9 @@ data:
         progressCircle:
           size: 16px
           thickness: 2px
-    variant=solid:
-      enabled:
+    - variants:
+        variant: solid
+      slots:
         root:
           color: $color.bg.neutral-inverted
         progressCircle:
@@ -97,10 +103,18 @@ data:
           color: $color.fg.neutral-inverted
         icon:
           color: $color.fg.neutral-inverted
-      pressed:
+    - variants:
+        variant: solid
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-      disabled:
+    - variants:
+        variant: solid
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -109,11 +123,16 @@ data:
           color: $color.fg.disabled
         icon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: solid
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-    variant=layer:
-      enabled:
+    - variants:
+        variant: layer
+      slots:
         root:
           color: $color.bg.layer-floating
         progressCircle:
@@ -125,10 +144,18 @@ data:
           color: $color.fg.neutral
         icon:
           color: $color.fg.neutral
-      pressed:
+    - variants:
+        variant: layer
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.layer-floating-pressed
-      disabled:
+    - variants:
+        variant: layer
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
         label:
@@ -137,11 +164,16 @@ data:
           color: $color.fg.disabled
         icon:
           color: $color.fg.disabled
-      loading:
+    - variants:
+        variant: layer
+      states:
+        - loading
+      slots:
         root:
           color: $color.bg.layer-floating-pressed
-    layout=withText:
-      enabled:
+    - variants:
+        layout: withText
+      slots:
         root:
           minHeight: 36px
           paddingX: $dimension.x3_5
@@ -153,8 +185,9 @@ data:
           fontWeight: $font-weight.medium
         prefixIcon:
           size: 16px
-    layout=iconOnly:
-      enabled:
+    - variants:
+        layout: iconOnly
+      slots:
         root:
           size: 44px
         icon:

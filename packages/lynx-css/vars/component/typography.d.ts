@@ -3,7 +3,7 @@ export declare const vars: {
    * 화면에 크게 표시되는 주요 제목이나 타이틀에 사용합니다.
    */
   "textStyleScreenTitle": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
@@ -15,7 +15,7 @@ export declare const vars: {
    * 게시물이나 콘텐츠 중심 섹션의 본문 텍스트에 사용합니다.
    */
   "textStyleArticleBody": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t6)",
@@ -27,7 +27,7 @@ export declare const vars: {
    * 주석, 참고 사항 및 상세 리스트 등 부가 정보에 사용하며, 일반 본문 텍스트에는 사용하지 않습니다.
    */
   "textStyleArticleNote": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -36,7 +36,7 @@ export declare const vars: {
     }
   },
   "textStyleT1Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
@@ -45,7 +45,7 @@ export declare const vars: {
     }
   },
   "textStyleT1Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
@@ -54,7 +54,7 @@ export declare const vars: {
     }
   },
   "textStyleT1Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",
@@ -63,7 +63,7 @@ export declare const vars: {
     }
   },
   "textStyleT2Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
@@ -72,7 +72,7 @@ export declare const vars: {
     }
   },
   "textStyleT2Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
@@ -81,7 +81,7 @@ export declare const vars: {
     }
   },
   "textStyleT2Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
@@ -90,7 +90,7 @@ export declare const vars: {
     }
   },
   "textStyleT3Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
@@ -99,7 +99,7 @@ export declare const vars: {
     }
   },
   "textStyleT3Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
@@ -108,7 +108,7 @@ export declare const vars: {
     }
   },
   "textStyleT3Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
@@ -117,7 +117,7 @@ export declare const vars: {
     }
   },
   "textStyleT4Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -126,7 +126,7 @@ export declare const vars: {
     }
   },
   "textStyleT4Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -135,7 +135,7 @@ export declare const vars: {
     }
   },
   "textStyleT4Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -144,7 +144,7 @@ export declare const vars: {
     }
   },
   "textStyleT5Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -153,7 +153,7 @@ export declare const vars: {
     }
   },
   "textStyleT5Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -162,7 +162,7 @@ export declare const vars: {
     }
   },
   "textStyleT5Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -171,7 +171,7 @@ export declare const vars: {
     }
   },
   "textStyleT6Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6)",
         "lineHeight": "var(--seed-line-height-t6)",
@@ -180,7 +180,7 @@ export declare const vars: {
     }
   },
   "textStyleT6Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6)",
         "lineHeight": "var(--seed-line-height-t6)",
@@ -189,7 +189,7 @@ export declare const vars: {
     }
   },
   "textStyleT6Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6)",
         "lineHeight": "var(--seed-line-height-t6)",
@@ -198,7 +198,7 @@ export declare const vars: {
     }
   },
   "textStyleT7Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7)",
         "lineHeight": "var(--seed-line-height-t7)",
@@ -207,7 +207,7 @@ export declare const vars: {
     }
   },
   "textStyleT7Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7)",
         "lineHeight": "var(--seed-line-height-t7)",
@@ -216,7 +216,7 @@ export declare const vars: {
     }
   },
   "textStyleT7Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7)",
         "lineHeight": "var(--seed-line-height-t7)",
@@ -225,7 +225,7 @@ export declare const vars: {
     }
   },
   "textStyleT8Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8)",
         "lineHeight": "var(--seed-line-height-t8)",
@@ -234,7 +234,7 @@ export declare const vars: {
     }
   },
   "textStyleT8Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8)",
         "lineHeight": "var(--seed-line-height-t8)",
@@ -243,7 +243,7 @@ export declare const vars: {
     }
   },
   "textStyleT8Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8)",
         "lineHeight": "var(--seed-line-height-t8)",
@@ -252,7 +252,7 @@ export declare const vars: {
     }
   },
   "textStyleT9Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9)",
         "lineHeight": "var(--seed-line-height-t9)",
@@ -261,7 +261,7 @@ export declare const vars: {
     }
   },
   "textStyleT9Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9)",
         "lineHeight": "var(--seed-line-height-t9)",
@@ -270,7 +270,7 @@ export declare const vars: {
     }
   },
   "textStyleT9Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9)",
         "lineHeight": "var(--seed-line-height-t9)",
@@ -279,7 +279,7 @@ export declare const vars: {
     }
   },
   "textStyleT10Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
@@ -288,7 +288,7 @@ export declare const vars: {
     }
   },
   "textStyleT10Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
@@ -297,7 +297,7 @@ export declare const vars: {
     }
   },
   "textStyleT10Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
@@ -309,7 +309,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT11Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11)",
         "lineHeight": "var(--seed-line-height-t11)",
@@ -321,7 +321,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT11Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11)",
         "lineHeight": "var(--seed-line-height-t11)",
@@ -333,7 +333,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT11Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11)",
         "lineHeight": "var(--seed-line-height-t11)",
@@ -345,7 +345,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT12Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12)",
         "lineHeight": "var(--seed-line-height-t12)",
@@ -357,7 +357,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT12Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12)",
         "lineHeight": "var(--seed-line-height-t12)",
@@ -369,7 +369,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT12Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12)",
         "lineHeight": "var(--seed-line-height-t12)",
@@ -381,7 +381,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT13Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13)",
         "lineHeight": "var(--seed-line-height-t13)",
@@ -393,7 +393,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT13Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13)",
         "lineHeight": "var(--seed-line-height-t13)",
@@ -405,7 +405,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT13Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13)",
         "lineHeight": "var(--seed-line-height-t13)",
@@ -417,7 +417,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT14Regular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14)",
         "lineHeight": "var(--seed-line-height-t14)",
@@ -429,7 +429,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT14Medium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14)",
         "lineHeight": "var(--seed-line-height-t14)",
@@ -441,7 +441,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
    */
   "textStyleT14Bold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14)",
         "lineHeight": "var(--seed-line-height-t14)",
@@ -453,7 +453,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT1StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
         "lineHeight": "var(--seed-line-height-t1-static)",
@@ -465,7 +465,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT1StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
         "lineHeight": "var(--seed-line-height-t1-static)",
@@ -477,7 +477,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT1StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t1-static)",
         "lineHeight": "var(--seed-line-height-t1-static)",
@@ -489,7 +489,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT2StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
         "lineHeight": "var(--seed-line-height-t2-static)",
@@ -501,7 +501,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT2StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
         "lineHeight": "var(--seed-line-height-t2-static)",
@@ -513,7 +513,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT2StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t2-static)",
         "lineHeight": "var(--seed-line-height-t2-static)",
@@ -525,7 +525,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT3StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
         "lineHeight": "var(--seed-line-height-t3-static)",
@@ -537,7 +537,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT3StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
         "lineHeight": "var(--seed-line-height-t3-static)",
@@ -549,7 +549,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT3StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t3-static)",
         "lineHeight": "var(--seed-line-height-t3-static)",
@@ -561,7 +561,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT4StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
         "lineHeight": "var(--seed-line-height-t4-static)",
@@ -573,7 +573,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT4StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
         "lineHeight": "var(--seed-line-height-t4-static)",
@@ -585,7 +585,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT4StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t4-static)",
         "lineHeight": "var(--seed-line-height-t4-static)",
@@ -597,7 +597,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT5StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
         "lineHeight": "var(--seed-line-height-t5-static)",
@@ -609,7 +609,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT5StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
         "lineHeight": "var(--seed-line-height-t5-static)",
@@ -621,7 +621,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT5StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t5-static)",
         "lineHeight": "var(--seed-line-height-t5-static)",
@@ -633,7 +633,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT6StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
         "lineHeight": "var(--seed-line-height-t6-static)",
@@ -645,7 +645,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT6StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
         "lineHeight": "var(--seed-line-height-t6-static)",
@@ -657,7 +657,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT6StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t6-static)",
         "lineHeight": "var(--seed-line-height-t6-static)",
@@ -669,7 +669,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT7StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
         "lineHeight": "var(--seed-line-height-t7-static)",
@@ -681,7 +681,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT7StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
         "lineHeight": "var(--seed-line-height-t7-static)",
@@ -693,7 +693,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT7StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t7-static)",
         "lineHeight": "var(--seed-line-height-t7-static)",
@@ -705,7 +705,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT8StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
         "lineHeight": "var(--seed-line-height-t8-static)",
@@ -717,7 +717,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT8StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
         "lineHeight": "var(--seed-line-height-t8-static)",
@@ -729,7 +729,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT8StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
         "lineHeight": "var(--seed-line-height-t8-static)",
@@ -741,7 +741,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT9StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9-static)",
         "lineHeight": "var(--seed-line-height-t9-static)",
@@ -753,7 +753,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT9StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9-static)",
         "lineHeight": "var(--seed-line-height-t9-static)",
@@ -765,7 +765,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT9StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t9-static)",
         "lineHeight": "var(--seed-line-height-t9-static)",
@@ -777,7 +777,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT10StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
@@ -789,7 +789,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT10StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
@@ -801,7 +801,7 @@ export declare const vars: {
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT10StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
@@ -813,7 +813,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT11StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11-static)",
         "lineHeight": "var(--seed-line-height-t11-static)",
@@ -825,7 +825,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT11StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11-static)",
         "lineHeight": "var(--seed-line-height-t11-static)",
@@ -837,7 +837,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT11StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t11-static)",
         "lineHeight": "var(--seed-line-height-t11-static)",
@@ -849,7 +849,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT12StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12-static)",
         "lineHeight": "var(--seed-line-height-t12-static)",
@@ -861,7 +861,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT12StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12-static)",
         "lineHeight": "var(--seed-line-height-t12-static)",
@@ -873,7 +873,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT12StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t12-static)",
         "lineHeight": "var(--seed-line-height-t12-static)",
@@ -885,7 +885,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT13StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13-static)",
         "lineHeight": "var(--seed-line-height-t13-static)",
@@ -897,7 +897,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT13StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13-static)",
         "lineHeight": "var(--seed-line-height-t13-static)",
@@ -909,7 +909,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT13StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t13-static)",
         "lineHeight": "var(--seed-line-height-t13-static)",
@@ -921,7 +921,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT14StaticRegular": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14-static)",
         "lineHeight": "var(--seed-line-height-t14-static)",
@@ -933,7 +933,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT14StaticMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14-static)",
         "lineHeight": "var(--seed-line-height-t14-static)",
@@ -945,7 +945,7 @@ export declare const vars: {
    * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
   "textStyleT14StaticBold": {
-    "enabled": {
+    "rest": {
       "root": {
         "fontSize": "var(--seed-font-size-t14-static)",
         "lineHeight": "var(--seed-line-height-t14-static)",

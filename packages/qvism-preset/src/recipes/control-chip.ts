@@ -26,20 +26,20 @@ const controlChip = defineRecipe({
     flexShrink: 0,
     lineHeight: 1,
 
-    borderRadius: vars.base.enabled.root.cornerRadius,
-    boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+    borderRadius: vars.base.rest.root.cornerRadius,
+    boxShadow: `inset 0 0 0 ${vars.base.rest.root.strokeWidth} ${vars.base.rest.root.strokeColor}`,
 
-    color: vars.base.enabled.label.color,
-    fontWeight: vars.base.enabled.label.fontWeight,
+    color: vars.base.rest.label.color,
+    fontWeight: vars.base.rest.label.fontWeight,
 
     // Icon styles
-    ...prefixIcon({ color: vars.base.enabled.prefixIcon.color }),
-    ...suffixIcon({ color: vars.base.enabled.suffixIcon.color }),
-    ...onlyIcon({ color: vars.base.enabled.icon.color }),
+    ...prefixIcon({ color: vars.base.rest.prefixIcon.color }),
+    ...suffixIcon({ color: vars.base.rest.suffixIcon.color }),
+    ...onlyIcon({ color: vars.base.rest.icon.color }),
 
     ...count({
-      fontWeight: vars.base.enabled.count.fontWeight,
-      color: vars.base.enabled.count.color,
+      fontWeight: vars.base.rest.count.fontWeight,
+      color: vars.base.rest.count.color,
     }),
 
     [pseudo(focus)]: {
@@ -59,7 +59,7 @@ const controlChip = defineRecipe({
       ...count({ color: vars.base.selected.count.color }),
     },
     [pseudo(checked, active)]: {
-      background: vars.base.selectedPressed.root.color,
+      background: vars.base.pressedSelected.root.color,
     },
     [pseudo(disabled)]: {
       cursor: "not-allowed",
@@ -73,31 +73,31 @@ const controlChip = defineRecipe({
   variants: {
     size: {
       medium: {
-        minHeight: vars.sizeMedium.enabled.root.minHeight,
-        paddingBlock: vars.sizeMedium.enabled.root.paddingY,
-        gap: vars.sizeMedium.enabled.root.gap,
-        fontSize: vars.sizeMedium.enabled.label.fontSize,
-        lineHeight: vars.sizeMedium.enabled.label.lineHeight,
+        minHeight: vars.sizeMedium.rest.root.minHeight,
+        paddingBlock: vars.sizeMedium.rest.root.paddingY,
+        gap: vars.sizeMedium.rest.root.gap,
+        fontSize: vars.sizeMedium.rest.label.fontSize,
+        lineHeight: vars.sizeMedium.rest.label.lineHeight,
 
-        ...prefixIcon({ size: vars.sizeMedium.enabled.prefixIcon.size }),
-        ...suffixIcon({ size: vars.sizeMedium.enabled.suffixIcon.size }),
-        ...onlyIcon({ size: vars.sizeMediumLayoutIconOnly.enabled.icon.size }),
+        ...prefixIcon({ size: vars.sizeMedium.rest.prefixIcon.size }),
+        ...suffixIcon({ size: vars.sizeMedium.rest.suffixIcon.size }),
+        ...onlyIcon({ size: vars.sizeMediumLayoutIconOnly.rest.icon.size }),
         ...count({
-          fontSize: vars.sizeMedium.enabled.count.fontSize,
+          fontSize: vars.sizeMedium.rest.count.fontSize,
         }),
       },
       small: {
-        minHeight: vars.sizeSmall.enabled.root.minHeight,
-        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
-        gap: vars.sizeSmall.enabled.root.gap,
-        fontSize: vars.sizeSmall.enabled.label.fontSize,
-        lineHeight: vars.sizeSmall.enabled.label.lineHeight,
+        minHeight: vars.sizeSmall.rest.root.minHeight,
+        paddingBlock: vars.sizeSmall.rest.root.paddingY,
+        gap: vars.sizeSmall.rest.root.gap,
+        fontSize: vars.sizeSmall.rest.label.fontSize,
+        lineHeight: vars.sizeSmall.rest.label.lineHeight,
 
-        ...prefixIcon({ size: vars.sizeSmall.enabled.prefixIcon.size }),
-        ...suffixIcon({ size: vars.sizeSmall.enabled.suffixIcon.size }),
-        ...onlyIcon({ size: vars.sizeSmallLayoutIconOnly.enabled.icon.size }),
+        ...prefixIcon({ size: vars.sizeSmall.rest.prefixIcon.size }),
+        ...suffixIcon({ size: vars.sizeSmall.rest.suffixIcon.size }),
+        ...onlyIcon({ size: vars.sizeSmallLayoutIconOnly.rest.icon.size }),
         ...count({
-          fontSize: vars.sizeSmall.enabled.count.fontSize,
+          fontSize: vars.sizeSmall.rest.count.fontSize,
         }),
       },
     },
@@ -111,28 +111,28 @@ const controlChip = defineRecipe({
       size: "medium",
       layout: "withText",
       css: {
-        paddingInline: vars.sizeMediumLayoutWithText.enabled.root.paddingX,
+        paddingInline: vars.sizeMediumLayoutWithText.rest.root.paddingX,
       },
     },
     {
       size: "medium",
       layout: "iconOnly",
       css: {
-        minWidth: vars.sizeMediumLayoutIconOnly.enabled.root.minWidth,
+        minWidth: vars.sizeMediumLayoutIconOnly.rest.root.minWidth,
       },
     },
     {
       size: "small",
       layout: "withText",
       css: {
-        paddingInline: vars.sizeSmallLayoutWithText.enabled.root.paddingX,
+        paddingInline: vars.sizeSmallLayoutWithText.rest.root.paddingX,
       },
     },
     {
       size: "small",
       layout: "iconOnly",
       css: {
-        minWidth: vars.sizeSmallLayoutIconOnly.enabled.root.minWidth,
+        minWidth: vars.sizeSmallLayoutIconOnly.rest.root.minWidth,
       },
     },
   ],

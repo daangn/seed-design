@@ -91,19 +91,23 @@ data:
           collapseHeightTimingFunction:
             type: cubicBezier
     variants:
+      size:
+        values:
+          medium: {}
+          large: {}
       variant:
         values:
           inline:
             description: Accordion Item들이 하나의 연속된 목록처럼 표현됩니다. 밀접하게 관련된 항목들을 컴팩트하게 나열할 때 사용합니다.
           separated:
             description: 각 Accordion Item이 개별 카드 형태로 분리되어 표현됩니다. 항목 간 시각적 독립성이 필요하거나, 각 섹션의 중요도가 동등할 때 사용합니다.
-      size:
-        values:
-          medium: {}
-          large: {}
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
@@ -128,7 +132,9 @@ data:
           expandHeightTimingFunction: $timing-function.easing
           collapseHeightDuration: $duration.d6
           collapseHeightTimingFunction: $timing-function.easing
-      disabled:
+    - states:
+        - disabled
+      slots:
         prefixIcon:
           color: $color.fg.disabled
         title:
@@ -137,14 +143,16 @@ data:
           color: $color.fg.disabled
         suffixIcon:
           color: $color.fg.disabled
-      pressed:
+    - states:
+        - pressed
+      slots:
         trigger:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x1_5
           cornerRadius: $dimension.x2_5
-
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         trigger:
           paddingY: $dimension.x4
         prefix:
@@ -160,9 +168,9 @@ data:
         suffixIcon:
           size: $dimension.x5
           paddingLeft: $dimension.x3
-
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         trigger:
           paddingY: $dimension.x5
         prefix:
@@ -178,15 +186,15 @@ data:
         suffixIcon:
           size: $dimension.x6
           paddingLeft: $dimension.x3
-
-    variant=inline:
-      enabled:
+    - variants:
+        variant: inline
+      slots:
         root:
           dividerColor: $color.stroke.neutral-subtle
           dividerPaddingX: $dimension.x3
-
-    variant=separated:
-      enabled:
+    - variants:
+        variant: separated
+      slots:
         root:
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px

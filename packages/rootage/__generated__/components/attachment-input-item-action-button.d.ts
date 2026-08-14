@@ -49,100 +49,82 @@ declare const artifact: {
             "file": {};
             "image": {};
           };
-          "defaultValue": "file";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t2";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t2";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
             };
-          },
-        ];
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t2";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t2";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+          };
+        };
       },
       {
         "variants": {
           "type": "file";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-subtle";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-subtle";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-subtle";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-subtle";
+            };
+          };
+        };
       },
       {
         "variants": {
           "type": "image";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
       },
     ];
   };

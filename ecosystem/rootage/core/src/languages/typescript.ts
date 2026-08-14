@@ -41,54 +41,50 @@ function stringifyVariantKey(variants: VariantExpression[]): string {
   return camelCase(asKebab, { mergeAmbiguousCharacters: true });
 }
 
-function stringifyStateKey(state: StateExpression[]): string {
-  return camelCase(state.map((s) => s.value).join("-"));
+/**
+ * `rest` names the rule that constrains no state — the values in force whatever
+ * is going on. It is deliberately not `enabled`: those values apply while the
+ * component is disabled too, and only get overridden there.
+ */
+function stringifyStateKey(states: StateExpression[]): string {
+  if (states.length === 0) {
+    return "rest";
+  }
+
+  return camelCase(states.map((s) => s.value).join("-"));
 }
 
 export function createStringifier(options: { prefix?: string } = {}) {
   const cssStringifier = createCssStringifier(options);
 
   function getComponentSpec(decl: ComponentSpecDeclaration) {
-    const body = decl.body;
-
     const result: Record<string, Record<string, Record<string, Record<string, string>>>> = {};
 
-    for (const variantDecl of body) {
-      const variantKey = stringifyVariantKey(variantDecl.variants);
-      const variant: Record<string, Record<string, Record<string, string>>> = {};
+    for (const rule of decl.rules) {
+      const slot: Record<string, Record<string, string>> = {};
 
-      for (const stateDecl of variantDecl.body) {
-        const stateKey = stringifyStateKey(stateDecl.states);
-        const slot: Record<string, Record<string, string>> = {};
+      for (const slotDecl of rule.body) {
+        const property: Record<string, string> = {};
 
-        for (const slotDecl of stateDecl.body) {
-          const slotKey = slotDecl.slot;
-          const property: Record<string, string> = {};
+        for (const propertyDecl of slotDecl.body) {
+          // An enum records a design decision rather than a value CSS can
+          // consume, so it never becomes a custom property.
+          if (propertyDecl.value.kind === "EnumLit") continue;
 
-          for (const propertyDecl of slotDecl.body) {
-            // An enum records a design decision rather than a value CSS can
-            // consume, so it never becomes a custom property.
-            if (propertyDecl.value.kind === "EnumLit") continue;
-
-            const propertyKey = propertyDecl.property;
-            const expr = propertyDecl.value;
-
-            property[propertyKey] = cssStringifier.valueOrToken(expr);
-          }
-
-          // A slot holding nothing but enums, or a state left with no slots, would
-          // publish an empty object where consumers expect values.
-          if (Object.keys(property).length === 0) continue;
-
-          slot[slotKey] = property;
+          property[propertyDecl.property] = cssStringifier.valueOrToken(propertyDecl.value);
         }
 
-        if (Object.keys(slot).length === 0) continue;
+        // A slot holding nothing but enums, or a rule left with no slots, would
+        // publish an empty object where consumers expect values.
+        if (Object.keys(property).length === 0) continue;
 
-        variant[stateKey] = slot;
+        slot[slotDecl.slot] = property;
       }
 
-      result[variantKey] = variant;
+      if (Object.keys(slot).length === 0) continue;
+
+      const variant = (result[stringifyVariantKey(rule.variants)] ??= {});
+      variant[stringifyStateKey(rule.states)] = slot;
     }
 
     return result;
@@ -120,13 +116,15 @@ export function createStringifier(options: { prefix?: string } = {}) {
 
     // Build variant key -> descriptions map from actual variant declarations
     const variantKeyDescMap = new Map<string, string[]>();
-    for (const variantDecl of decl.body) {
-      const variantKey = stringifyVariantKey(variantDecl.variants);
+    for (const rule of decl.rules) {
+      const variantKey = stringifyVariantKey(rule.variants);
+      if (variantKeyDescMap.has(variantKey)) continue;
+
       const descriptions: string[] = [];
 
-      const isCompound = variantDecl.variants.length > 1;
+      const isCompound = rule.variants.length > 1;
 
-      for (const variant of variantDecl.variants) {
+      for (const variant of rule.variants) {
         const valueDescMap = variantValueDescLookup.get(variant.name);
         const desc = valueDescMap?.get(variant.value);
 

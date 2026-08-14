@@ -37,69 +37,70 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "targetSize": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 28;
-                    "unit": "px";
-                  };
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+            "targetSize": {
+              "type": "dimension";
+              "value": {
+                "value": 44;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak-pressed";
-                };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 28;
+                "unit": "px";
               };
             };
-          },
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
+              };
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak-pressed";
+            };
+          };
+        };
       },
     ];
   };

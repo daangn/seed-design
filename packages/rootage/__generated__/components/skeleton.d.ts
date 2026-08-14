@@ -49,7 +49,6 @@ declare const artifact: {
               "description": "Avatar(원형) 콘텐츠에 사용합니다.";
             };
           };
-          "defaultValue": "0";
         };
         "tone": {
           "values": {
@@ -60,176 +59,134 @@ declare const artifact: {
               "description": "AI 기능이 활성화되었을 때 사용합니다.";
             };
           };
-          "defaultValue": "neutral";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "shimmer": {
-                "duration": {
-                  "type": "duration";
-                  "value": {
-                    "value": 1.5;
-                    "unit": "s";
-                  };
-                };
-                "timingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
+        "states": readonly [];
+        "slots": {
+          "shimmer": {
+            "duration": {
+              "type": "duration";
+              "value": {
+                "value": 1.5;
+                "unit": "s";
               };
             };
-          },
-        ];
+            "timingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+        };
       },
       {
         "variants": {
           "radius": "0";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 0;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": {
+                "value": 0;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "radius": "8";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 8;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": {
+                "value": 8;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "radius": "16";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": {
+                "value": 16;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "radius": "full";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "tone": "neutral";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-200";
-                };
-              };
-              "shimmer": {
-                "gradient": {
-                  "type": "gradient";
-                  "value": "$gradient.shimmer-neutral";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-200";
             };
-          },
-        ];
+          };
+          "shimmer": {
+            "gradient": {
+              "type": "gradient";
+              "value": "$gradient.shimmer-neutral";
+            };
+          };
+        };
       },
       {
         "variants": {
           "tone": "magic";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.magic-weak";
-                };
-              };
-              "shimmer": {
-                "gradient": {
-                  "type": "gradient";
-                  "value": "$gradient.shimmer-magic";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.magic-weak";
             };
-          },
-        ];
+          };
+          "shimmer": {
+            "gradient": {
+              "type": "gradient";
+              "value": "$gradient.shimmer-magic";
+            };
+          };
+        };
       },
     ];
   };

@@ -20,30 +20,25 @@
           }
         }
       },
-      "variants": {}
+      "variants": {},
+      "states": []
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "gapX": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
-                },
-                "gapY": {
-                  "type": "dimension",
-                  "value": "$dimension.spacing-y.component-default"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "gapX": {
+              "type": "dimension",
+              "value": "$dimension.x3"
+            },
+            "gapY": {
+              "type": "dimension",
+              "value": "$dimension.spacing-y.component-default"
             }
           }
-        ]
+        }
       }
     ]
   }

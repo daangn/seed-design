@@ -43,84 +43,92 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "disabled";
+          "suppresses": readonly [
+            "pressed",
+          ];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-default";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-weak";
-                };
-                "offset": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-default";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-default-pressed";
-                };
-              };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-weak";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+            "offset": {
+              "type": "dimension";
+              "value": "$dimension.x1";
             };
-          },
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-default-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
       },
     ];
   };

@@ -63,18 +63,16 @@ function buildReferenceGraph(
 
   // Add component spec references
   for (const componentSpec of componentSpecs) {
-    const { id, body } = componentSpec;
+    const { id, rules } = componentSpec;
 
-    for (const { variants: variantKey, body: state } of body) {
-      for (const { states: stateKey, body: slot } of state) {
-        for (const { slot: slotKey, body: property } of slot) {
-          for (const { property: propertyKey, value } of property) {
-            if (value.kind === "TokenLit") {
-              const tokenName = value.identifier;
-              const componentRef = `${id}/${stringifyVariantExpression(variantKey)}/${stringifyStateExpression(stateKey)}/${slotKey}/${propertyKey}`;
-              for (const mode in graph[tokenName]?.references) {
-                graph[tokenName]?.references[mode]?.push(componentRef);
-              }
+    for (const { variants, states, body: slots } of rules) {
+      for (const { slot: slotKey, body: properties } of slots) {
+        for (const { property: propertyKey, value } of properties) {
+          if (value.kind === "TokenLit") {
+            const tokenName = value.identifier;
+            const componentRef = `${id}/${stringifyVariantExpression(variants)}/${stringifyStateExpression(states)}/${slotKey}/${propertyKey}`;
+            for (const mode in graph[tokenName]?.references) {
+              graph[tokenName]?.references[mode]?.push(componentRef);
             }
           }
         }

@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -12,12 +12,12 @@ export const vars = {
         "cornerRadius": "var(--seed-radius-full)"
       }
     },
-    "enabledPressed": {
+    "pressed": {
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
-    "enabledSelected": {
+    "selected": {
       "root": {
         "strokeWidth": "0px",
         "strokeColor": "#00000000"
@@ -25,7 +25,7 @@ export const vars = {
     }
   },
   "toneBrand": {
-    "enabledSelected": {
+    "selected": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -33,7 +33,7 @@ export const vars = {
         "color": "var(--seed-color-palette-static-white)"
       }
     },
-    "enabledSelectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
@@ -43,7 +43,7 @@ export const vars = {
         "color": "var(--seed-color-palette-gray-300)"
       }
     },
-    "disabledSelected": {
+    "selectedDisabled": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeWidth": "1px",
@@ -55,7 +55,7 @@ export const vars = {
     }
   },
   "toneNeutral": {
-    "enabledSelected": {
+    "selected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -63,7 +63,7 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-inverted)"
       }
     },
-    "enabledSelectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
@@ -73,7 +73,7 @@ export const vars = {
         "color": "var(--seed-color-palette-gray-300)"
       }
     },
-    "disabledSelected": {
+    "selectedDisabled": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeWidth": "1px",
@@ -85,7 +85,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "var(--seed-dimension-x5)"
       },
@@ -100,7 +100,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "var(--seed-dimension-x6)"
       },

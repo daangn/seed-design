@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x5)",
         "paddingY": "var(--seed-dimension-x0_5)",
@@ -15,7 +15,7 @@ export declare const vars: {
     }
   },
   "levelL1": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l1-bg)"
       },
@@ -25,7 +25,7 @@ export declare const vars: {
     }
   },
   "levelL2": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l2-bg)"
       },
@@ -35,7 +35,7 @@ export declare const vars: {
     }
   },
   "levelL3": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l3-bg)"
       },
@@ -45,7 +45,7 @@ export declare const vars: {
     }
   },
   "levelL4": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l4-bg)"
       },
@@ -55,7 +55,7 @@ export declare const vars: {
     }
   },
   "levelL5": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l5-bg)"
       },
@@ -65,7 +65,7 @@ export declare const vars: {
     }
   },
   "levelL6": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l6-bg)"
       },
@@ -75,7 +75,7 @@ export declare const vars: {
     }
   },
   "levelL7": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l7-bg)"
       },
@@ -85,7 +85,7 @@ export declare const vars: {
     }
   },
   "levelL8": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l8-bg)"
       },
@@ -95,7 +95,7 @@ export declare const vars: {
     }
   },
   "levelL9": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l9-bg)"
       },
@@ -105,7 +105,7 @@ export declare const vars: {
     }
   },
   "levelL10": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-manner-temp-l10-bg)"
       },

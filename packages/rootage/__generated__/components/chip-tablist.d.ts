@@ -26,81 +26,63 @@ declare const artifact: {
             "neutralSolid": {};
             "neutralOutline": {};
           };
-          "defaultValue": "neutralSolid";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 8;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "gap": {
+              "type": "dimension";
+              "value": {
+                "value": 8;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "variant": "neutralSolid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 8;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": {
+                "value": 8;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "variant": "neutralOutline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 8;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": {
+                "value": 8;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
     ];
   };

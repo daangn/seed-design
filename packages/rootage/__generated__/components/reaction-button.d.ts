@@ -108,396 +108,403 @@ declare const artifact: {
             "xsmall": {};
             "small": {};
           };
-          "defaultValue": "xsmall";
         };
       };
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "selected";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "loading";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "disabled";
+          "suppresses": readonly [
+            "pressed",
+          ];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
-              "count": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-              };
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
             };
-          },
-          {
-            "states": readonly [
-              "selected",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.brand-weak";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
-              "count": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.carrot-200";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
+            "colorDuration": {
+              "type": "duration";
+              "value": "$duration.color-transition";
             };
-          },
-          {
-            "states": readonly [
-              "selected",
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-              };
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.disabled";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 0;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "count": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak-pressed";
-                };
-              };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
             };
-          },
-          {
-            "states": readonly [
-              "selected",
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
+          };
+          "count": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "selected",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.brand-weak";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand";
+            };
+          };
+          "count": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.carrot-200";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.fg.brand";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
+          "selected",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.disabled";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 0;
+                "unit": "px";
+              };
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "count": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "selected",
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "xsmall";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x8";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
-              "count": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x8";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+          "count": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
+              };
+            };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "small";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x9";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
-              "count": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x9";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+          "count": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
+              };
+            };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
     ];
   };

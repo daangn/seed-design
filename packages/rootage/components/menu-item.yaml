@@ -69,21 +69,25 @@ data:
           fontWeight:
             type: number
     variants:
-      tone:
-        values:
-          neutral:
-            description: 일반적인 작업을 수행하는 기본 아이템입니다.
-          critical:
-            description: 데이터 삭제와 같이 되돌릴 수 없는 작업을 수행하는 아이템입니다.
       size:
         values:
           medium:
             description: 뷰포트 너비와 관계없이 사용할 수 있습니다.
           small:
             description: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
-  definitions:
-    base:
-      enabled:
+      tone:
+        values:
+          neutral:
+            description: 일반적인 작업을 수행하는 기본 아이템입니다.
+          critical:
+            description: 데이터 삭제와 같이 되돌릴 수 없는 작업을 수행하는 아이템입니다.
+    states:
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
@@ -98,12 +102,16 @@ data:
         description:
           fontWeight: $font-weight.regular
           color: $color.fg.neutral-subtle
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x2
           cornerRadius: $radius.r3
-      disabled:
+    - states:
+        - disabled
+      slots:
         prefixIcon:
           color: $color.fg.disabled
         suffixIcon:
@@ -112,8 +120,9 @@ data:
           color: $color.fg.disabled
         description:
           color: $color.fg.disabled
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           paddingX: $dimension.x4
           paddingY: $dimension.x3
@@ -128,8 +137,9 @@ data:
         description:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           paddingX: $dimension.x4
           paddingY: $dimension.x2_5
@@ -144,16 +154,18 @@ data:
         description:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
-    tone=neutral:
-      enabled:
+    - variants:
+        tone: neutral
+      slots:
         prefixIcon:
           color: $color.fg.neutral
         suffixIcon:
           color: $color.fg.neutral
         label:
           color: $color.fg.neutral
-    tone=critical:
-      enabled:
+    - variants:
+        tone: critical
+      slots:
         prefixIcon:
           color: $color.fg.critical
         suffixIcon:

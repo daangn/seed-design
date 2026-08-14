@@ -146,7 +146,6 @@ declare const artifact: {
               "description": "배경 없이 텍스트와 아이콘만 표시됩니다. 모두 동일한 색상을 사용하는 조건에서 icon, prefix icon, suffix icon, label에 정의된 color를 변경할 수 있으며, label의 fontWeight를 `$font-weight.regular` 또는 `$font-weight.medium`으로 변경하여 주목도를 조절할 수 있습니다.";
             };
           };
-          "defaultValue": "brandSolid";
         };
         "size": {
           "values": {
@@ -163,7 +162,6 @@ declare const artifact: {
               "description": "주로 CTA 역할로 사용됩니다.";
             };
           };
-          "defaultValue": "xsmall";
         };
         "layout": {
           "values": {
@@ -174,1463 +172,1433 @@ declare const artifact: {
               "description": "아이콘만으로 의미를 전달하기 때문에 접근성이 떨어집니다. 꼭 필요한 경우에만 접근성 레이블과 함께 사용하는 것을 권장합니다.";
             };
           };
-          "defaultValue": "withText";
         };
       };
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "loading";
+          "suppresses": readonly [];
+        },
+        {
+          "id": "disabled";
+          "suppresses": readonly [
+            "pressed",
+          ];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-                "scaleDuration": {
-                  "type": "duration";
-                  "value": "$duration.pressed-scale";
-                };
-                "scaleTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.pressed-scale";
-                };
-              };
-              "label": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "colorDuration": {
+              "type": "duration";
+              "value": "$duration.color-transition";
             };
-          },
-        ];
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+            "scaleDuration": {
+              "type": "duration";
+              "value": "$duration.pressed-scale";
+            };
+            "scaleTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.pressed-scale";
+            };
+          };
+          "label": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "brandSolid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.static-white-alpha-300";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-solid";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.disabled";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid-pressed";
-                };
-              };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
             };
-          },
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.static-white-alpha-300";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "brandSolid";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-solid-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "brandSolid";
+        };
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.disabled";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "brandSolid";
+        };
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-solid-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "neutralSolid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-inverted";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.static-white-alpha-300";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-inverted";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-inverted-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.disabled";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-inverted-pressed";
-                };
-              };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
             };
-          },
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.static-white-alpha-300";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralSolid";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-inverted-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralSolid";
+        };
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.disabled";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralSolid";
+        };
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-inverted-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "neutralWeak";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.disabled";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak-pressed";
-                };
-              };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralWeak";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralWeak";
+        };
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.disabled";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralWeak";
+        };
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "criticalSolid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.critical-solid";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.static-white-alpha-300";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.critical-solid";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.critical-solid-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.disabled";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.critical-solid-pressed";
-                };
-              };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
             };
-          },
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.static-white-alpha-300";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "criticalSolid";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.critical-solid-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "criticalSolid";
+        };
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.disabled";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "criticalSolid";
+        };
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.critical-solid-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "neutralOutline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-              };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralOutline";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralOutline";
+        };
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "neutralOutline";
+        };
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "brandOutline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.carrot-200";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-              };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand";
             };
-          },
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.carrot-200";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.bg.brand-solid";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "brandOutline";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "brandOutline";
+        };
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "brandOutline";
+        };
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "ghost";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "#ffffff00";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
-              "progressCircle": {
-                "trackColor": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
-                "rangeColor": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "#ffffff00";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-              };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "#ffffff00";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "prefixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
-              "suffixIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.disabled";
-                };
-              };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "loading",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent-pressed";
-                };
-              };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+          "progressCircle": {
+            "trackColor": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
+            };
+            "rangeColor": {
+              "type": "color";
+              "value": "$color.fg.neutral";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "ghost";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "ghost";
+        };
+        "states": readonly [
+          "disabled",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "#ffffff00";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "prefixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+          "suffixIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.disabled";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
+          "variant": "ghost";
+        };
+        "states": readonly [
+          "loading",
+        ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "xsmall";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x8";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x8";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
+            };
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s95";
-                };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
               };
             };
-          },
+          };
+        };
+      },
+      {
+        "variants": {
+          "size": "xsmall";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "scale": {
+              "type": "number";
+              "value": "$scale.s95";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "xsmall";
           "layout": "withText";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "xsmall";
           "layout": "iconOnly";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minWidth": {
-                  "type": "dimension";
-                  "value": "$dimension.x8";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minWidth": {
+              "type": "dimension";
+              "value": "$dimension.x8";
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "small";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x9";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r2";
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x9";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r2";
+            };
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s97";
-                };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
               };
             };
-          },
+          };
+        };
+      },
+      {
+        "variants": {
+          "size": "small";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "scale": {
+              "type": "number";
+              "value": "$scale.s97";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "small";
           "layout": "withText";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "small";
           "layout": "iconOnly";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minWidth": {
-                  "type": "dimension";
-                  "value": "$dimension.x9";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minWidth": {
+              "type": "dimension";
+              "value": "$dimension.x9";
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x10";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r2";
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x10";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r2";
+            };
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 16;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s97";
-                };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
               };
             };
-          },
+          };
+        };
+      },
+      {
+        "variants": {
+          "size": "medium";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "scale": {
+              "type": "number";
+              "value": "$scale.s97";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
           "layout": "withText";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
           "layout": "iconOnly";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minWidth": {
-                  "type": "dimension";
-                  "value": "$dimension.x10";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minWidth": {
+              "type": "dimension";
+              "value": "$dimension.x10";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x13";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r3";
-                };
-              };
-              "progressCircle": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 2;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x13";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r3";
+            };
+          };
+          "progressCircle": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
               };
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s98";
-                };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 2;
+                "unit": "px";
               };
             };
-          },
+          };
+        };
+      },
+      {
+        "variants": {
+          "size": "large";
+        };
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "scale": {
+              "type": "number";
+              "value": "$scale.s98";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
           "layout": "withText";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-              };
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
-              };
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t6";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t6";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+          };
+          "prefixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "suffixIcon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
+              };
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t6";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t6";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
           "layout": "iconOnly";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "minWidth": {
-                  "type": "dimension";
-                  "value": "$dimension.x13";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x3_5";
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "minWidth": {
+              "type": "dimension";
+              "value": "$dimension.x13";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x3_5";
+            };
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
     ];
   };

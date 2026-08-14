@@ -22,10 +22,10 @@ export const tagGroup = defineSlotRecipe({
       flexShrink: 0,
     },
     separator: {
-      color: vars.base.enabled.separator.color,
-      fontWeight: vars.base.enabled.separator.fontWeight,
-      marginLeft: itemVars.base.enabled.root.gap,
-      marginRight: itemVars.base.enabled.root.gap,
+      color: vars.base.rest.separator.color,
+      fontWeight: vars.base.rest.separator.fontWeight,
+      marginLeft: itemVars.base.rest.root.gap,
+      marginRight: itemVars.base.rest.root.gap,
       flexShrink: 0,
     },
   },
@@ -33,20 +33,20 @@ export const tagGroup = defineSlotRecipe({
     size: {
       t2: {
         separator: {
-          fontSize: vars.sizeT2.enabled.separator.fontSize,
-          lineHeight: vars.sizeT2.enabled.separator.lineHeight,
+          fontSize: vars.sizeT2.rest.separator.fontSize,
+          lineHeight: vars.sizeT2.rest.separator.lineHeight,
         },
       },
       t3: {
         separator: {
-          fontSize: vars.sizeT3.enabled.separator.fontSize,
-          lineHeight: vars.sizeT3.enabled.separator.lineHeight,
+          fontSize: vars.sizeT3.rest.separator.fontSize,
+          lineHeight: vars.sizeT3.rest.separator.lineHeight,
         },
       },
       t4: {
         separator: {
-          fontSize: vars.sizeT4.enabled.separator.fontSize,
-          lineHeight: vars.sizeT4.enabled.separator.lineHeight,
+          fontSize: vars.sizeT4.rest.separator.fontSize,
+          lineHeight: vars.sizeT4.rest.separator.lineHeight,
         },
       },
     },
@@ -74,44 +74,44 @@ export const tagGroupItem = defineSlotRecipe({
     size: {
       t2: {
         label: {
-          fontSize: itemVars.sizeT2.enabled.label.fontSize,
-          lineHeight: itemVars.sizeT2.enabled.label.lineHeight,
+          fontSize: itemVars.sizeT2.rest.label.fontSize,
+          lineHeight: itemVars.sizeT2.rest.label.lineHeight,
         },
       },
       t3: {
         label: {
-          fontSize: itemVars.sizeT3.enabled.label.fontSize,
-          lineHeight: itemVars.sizeT3.enabled.label.lineHeight,
+          fontSize: itemVars.sizeT3.rest.label.fontSize,
+          lineHeight: itemVars.sizeT3.rest.label.lineHeight,
         },
       },
       t4: {
         label: {
-          fontSize: itemVars.sizeT4.enabled.label.fontSize,
-          lineHeight: itemVars.sizeT4.enabled.label.lineHeight,
+          fontSize: itemVars.sizeT4.rest.label.fontSize,
+          lineHeight: itemVars.sizeT4.rest.label.lineHeight,
         },
       },
     },
     weight: {
       regular: {
         label: {
-          fontWeight: itemVars.weightRegular.enabled.label.fontWeight,
+          fontWeight: itemVars.weightRegular.rest.label.fontWeight,
         },
       },
       bold: {
         label: {
-          fontWeight: itemVars.weightBold.enabled.label.fontWeight,
+          fontWeight: itemVars.weightBold.rest.label.fontWeight,
         },
       },
     },
     tone: {
       neutralSubtle: {
-        label: { color: itemVars.toneNeutralSubtle.enabled.label.color },
+        label: { color: itemVars.toneNeutralSubtle.rest.label.color },
       },
       neutral: {
-        label: { color: itemVars.toneNeutral.enabled.label.color },
+        label: { color: itemVars.toneNeutral.rest.label.color },
       },
       brand: {
-        label: { color: itemVars.toneBrand.enabled.label.color },
+        label: { color: itemVars.toneBrand.rest.label.color },
       },
     },
   },

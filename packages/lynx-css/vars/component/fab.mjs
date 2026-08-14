@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-layer-floating)",
         "cornerRadius": "var(--seed-radius-full)",

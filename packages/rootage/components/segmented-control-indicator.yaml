@@ -20,9 +20,13 @@ data:
             type: duration
           transformTimingFunction:
             type: cubicBezier
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           color: $color.palette.gray-00
           strokeColor: $color.stroke.neutral-muted
@@ -30,9 +34,13 @@ data:
           cornerRadius: $radius.full
           transformDuration: $duration.d4
           transformTimingFunction: $timing-function.easing
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.palette.gray-100
-      disabled:
+    - states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled

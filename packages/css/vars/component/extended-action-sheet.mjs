@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "backdrop": {
         "color": "var(--seed-color-bg-overlay)",
         "enterDuration": "var(--seed-duration-d2)",

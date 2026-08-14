@@ -112,250 +112,245 @@
             "medium": {
               "description": "Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다."
             }
-          },
-          "defaultValue": "large"
+          }
         }
-      }
+      },
+      "states": [
+        {
+          "id": "pressed",
+          "suppresses": []
+        },
+        {
+          "id": "disabled",
+          "suppresses": [
+            "pressed"
+          ]
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r3"
-                },
-                "colorDuration": {
-                  "type": "duration",
-                  "value": "$duration.color-transition"
-                },
-                "colorTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                },
-                "marginDuration": {
-                  "type": "duration",
-                  "value": "$duration.d3"
-                },
-                "marginTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "body": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x0_5"
-                }
-              },
-              "label": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "description": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
-                }
-              },
-              "indicator": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "paddingX": {
+              "type": "dimension",
+              "value": "$dimension.x4"
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.r3"
+            },
+            "colorDuration": {
+              "type": "duration",
+              "value": "$duration.color-transition"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier",
+              "value": "$timing-function.easing"
+            },
+            "marginDuration": {
+              "type": "duration",
+              "value": "$duration.d3"
+            },
+            "marginTimingFunction": {
+              "type": "cubicBezier",
+              "value": "$timing-function.easing"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.transparent-pressed"
-                },
-                "marginX": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "description": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              },
-              "indicator": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
-              }
+          "body": {
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x0_5"
+            }
+          },
+          "label": {
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.regular"
+            },
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "description": {
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.regular"
+            },
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral-subtle"
+            }
+          },
+          "indicator": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.transparent-pressed"
+            },
+            "marginX": {
+              "type": "dimension",
+              "value": "$dimension.x2"
+            }
+          }
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "disabled"
+        ],
+        "slots": {
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "description": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          },
+          "indicator": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.disabled"
+            }
+          }
+        }
       },
       {
         "variants": {
           "size": "large"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "paddingY": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
-                }
-              },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              },
-              "description": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t3"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t3"
-                }
-              },
-              "indicator": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "paddingY": {
+              "type": "dimension",
+              "value": "$dimension.x3"
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x3"
+            }
+          },
+          "prefixIcon": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 22,
+                "unit": "px"
               }
             }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t5"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t5"
+            }
+          },
+          "description": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t3"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t3"
+            }
+          },
+          "indicator": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x3_5"
+            }
           }
-        ]
+        }
       },
       {
         "variants": {
           "size": "medium"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "paddingY": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                }
-              },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x4_5"
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                }
-              },
-              "description": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t2"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t2"
-                }
-              },
-              "indicator": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "paddingY": {
+              "type": "dimension",
+              "value": "$dimension.x2_5"
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x2"
+            }
+          },
+          "prefixIcon": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x4_5"
+            }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t4"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t4"
+            }
+          },
+          "description": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t2"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t2"
+            }
+          },
+          "indicator": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x3"
             }
           }
-        ]
+        }
       }
     ]
   }

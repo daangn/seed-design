@@ -26,32 +26,27 @@
           "description": "Attachment Input Trigger 및 Attachment Input Items를 감싸는 컨테이너입니다."
         }
       },
-      "variants": {}
+      "variants": {},
+      "states": []
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                }
-              },
-              "items": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x2"
+            }
+          },
+          "items": {
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x2"
             }
           }
-        ]
+        }
       }
     ]
   }

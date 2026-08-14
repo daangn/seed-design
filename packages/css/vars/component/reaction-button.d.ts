@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
@@ -49,7 +49,7 @@ export declare const vars: {
         "rangeColor": "var(--seed-color-fg-brand)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
@@ -82,7 +82,7 @@ export declare const vars: {
     }
   },
   "sizeXsmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x8)",
         "cornerRadius": "var(--seed-radius-full)",
@@ -108,7 +108,7 @@ export declare const vars: {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
         "cornerRadius": "var(--seed-radius-full)",

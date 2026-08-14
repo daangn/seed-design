@@ -28,22 +28,22 @@ const callout = defineSlotRecipe({
       textAlign: "start",
 
       width: "100%",
-      minHeight: vars.base.enabled.root.minHeight,
+      minHeight: vars.base.rest.root.minHeight,
 
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.rest.root.paddingX,
+      paddingBlock: vars.base.rest.root.paddingY,
 
-      gap: vars.base.enabled.root.gap,
+      gap: vars.base.rest.root.gap,
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: vars.base.rest.root.cornerRadius,
 
       textDecoration: "none",
 
       ...prefixIcon({
-        size: vars.base.enabled.prefixIcon.size,
+        size: vars.base.rest.prefixIcon.size,
       }),
       ...suffixIcon({
-        size: vars.base.enabled.suffixIcon.size,
+        size: vars.base.rest.suffixIcon.size,
       }),
 
       [pseudo(":is(button, a)")]: {
@@ -59,12 +59,12 @@ const callout = defineSlotRecipe({
 
       // we define lineHeight here because some reset.css sets default line-height
       // e.g. tailwind preflight sets * { line-height: 1.5 }
-      lineHeight: vars.base.enabled.description.lineHeight,
+      lineHeight: vars.base.rest.description.lineHeight,
     },
     title: {
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
 
       [pseudo("::after")]: {
         content: '"  "',
@@ -72,9 +72,9 @@ const callout = defineSlotRecipe({
       },
     },
     description: {
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
 
       [pseudo(":not(:last-child)::after")]: {
         content: '"  "',
@@ -89,9 +89,9 @@ const callout = defineSlotRecipe({
       border: "none",
       cursor: "pointer",
 
-      fontSize: vars.base.enabled.link.fontSize,
-      lineHeight: vars.base.enabled.link.lineHeight,
-      fontWeight: vars.base.enabled.link.fontWeight,
+      fontSize: vars.base.rest.link.fontSize,
+      lineHeight: vars.base.rest.link.lineHeight,
+      fontWeight: vars.base.rest.link.fontWeight,
       textDecoration: "underline",
       textUnderlineOffset: "2px",
 
@@ -112,12 +112,12 @@ const callout = defineSlotRecipe({
       justifyContent: "center",
       alignItems: "center",
 
-      width: vars.base.enabled.suffixIcon.targetSize,
-      height: vars.base.enabled.suffixIcon.targetSize,
+      width: vars.base.rest.suffixIcon.targetSize,
+      height: vars.base.rest.suffixIcon.targetSize,
 
-      margin: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
+      margin: `calc((${vars.base.rest.suffixIcon.targetSize} - ${vars.base.rest.suffixIcon.size}) * -0.5)`,
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: vars.base.rest.root.cornerRadius,
       transition: FOCUS_RING_TRANSITION,
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -130,13 +130,13 @@ const callout = defineSlotRecipe({
     tone: {
       neutral: {
         root: {
-          backgroundColor: vars.toneNeutral.enabled.root.color,
+          backgroundColor: vars.toneNeutral.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneNeutral.enabled.prefixIcon.color,
+            color: vars.toneNeutral.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneNeutral.enabled.suffixIcon.color,
+            color: vars.toneNeutral.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button, a)", engaged)]: {
@@ -144,24 +144,24 @@ const callout = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneNeutral.enabled.title.color,
+          color: vars.toneNeutral.rest.title.color,
         },
         description: {
-          color: vars.toneNeutral.enabled.description.color,
+          color: vars.toneNeutral.rest.description.color,
         },
         link: {
-          color: vars.toneNeutral.enabled.link.color,
+          color: vars.toneNeutral.rest.link.color,
         },
       },
       informative: {
         root: {
-          backgroundColor: vars.toneInformative.enabled.root.color,
+          backgroundColor: vars.toneInformative.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneInformative.enabled.prefixIcon.color,
+            color: vars.toneInformative.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneInformative.enabled.suffixIcon.color,
+            color: vars.toneInformative.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button, a)", engaged)]: {
@@ -169,24 +169,24 @@ const callout = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneInformative.enabled.title.color,
+          color: vars.toneInformative.rest.title.color,
         },
         description: {
-          color: vars.toneInformative.enabled.description.color,
+          color: vars.toneInformative.rest.description.color,
         },
         link: {
-          color: vars.toneInformative.enabled.link.color,
+          color: vars.toneInformative.rest.link.color,
         },
       },
       positive: {
         root: {
-          backgroundColor: vars.tonePositive.enabled.root.color,
+          backgroundColor: vars.tonePositive.rest.root.color,
 
           ...prefixIcon({
-            color: vars.tonePositive.enabled.prefixIcon.color,
+            color: vars.tonePositive.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.tonePositive.enabled.suffixIcon.color,
+            color: vars.tonePositive.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button, a)", engaged)]: {
@@ -194,24 +194,24 @@ const callout = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.tonePositive.enabled.title.color,
+          color: vars.tonePositive.rest.title.color,
         },
         description: {
-          color: vars.tonePositive.enabled.description.color,
+          color: vars.tonePositive.rest.description.color,
         },
         link: {
-          color: vars.tonePositive.enabled.link.color,
+          color: vars.tonePositive.rest.link.color,
         },
       },
       warning: {
         root: {
-          backgroundColor: vars.toneWarning.enabled.root.color,
+          backgroundColor: vars.toneWarning.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneWarning.enabled.prefixIcon.color,
+            color: vars.toneWarning.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneWarning.enabled.suffixIcon.color,
+            color: vars.toneWarning.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button, a)", engaged)]: {
@@ -219,24 +219,24 @@ const callout = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneWarning.enabled.title.color,
+          color: vars.toneWarning.rest.title.color,
         },
         description: {
-          color: vars.toneWarning.enabled.description.color,
+          color: vars.toneWarning.rest.description.color,
         },
         link: {
-          color: vars.toneWarning.enabled.link.color,
+          color: vars.toneWarning.rest.link.color,
         },
       },
       critical: {
         root: {
-          backgroundColor: vars.toneCritical.enabled.root.color,
+          backgroundColor: vars.toneCritical.rest.root.color,
 
           ...prefixIcon({
-            color: vars.toneCritical.enabled.prefixIcon.color,
+            color: vars.toneCritical.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneCritical.enabled.suffixIcon.color,
+            color: vars.toneCritical.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button, a)", engaged)]: {
@@ -244,24 +244,24 @@ const callout = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneCritical.enabled.title.color,
+          color: vars.toneCritical.rest.title.color,
         },
         description: {
-          color: vars.toneCritical.enabled.description.color,
+          color: vars.toneCritical.rest.description.color,
         },
         link: {
-          color: vars.toneCritical.enabled.link.color,
+          color: vars.toneCritical.rest.link.color,
         },
       },
       magic: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.rest.root.gradient})`,
 
           ...prefixIcon({
-            color: vars.toneMagic.enabled.prefixIcon.color,
+            color: vars.toneMagic.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.toneMagic.enabled.suffixIcon.color,
+            color: vars.toneMagic.rest.suffixIcon.color,
           }),
 
           [pseudo(":is(button, a)", engaged)]: {
@@ -269,13 +269,13 @@ const callout = defineSlotRecipe({
           },
         },
         title: {
-          color: vars.toneMagic.enabled.title.color,
+          color: vars.toneMagic.rest.title.color,
         },
         description: {
-          color: vars.toneMagic.enabled.description.color,
+          color: vars.toneMagic.rest.description.color,
         },
         link: {
-          color: vars.toneMagic.enabled.link.color,
+          color: vars.toneMagic.rest.link.color,
         },
       },
     },

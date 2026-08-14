@@ -37,7 +37,7 @@ const bottomSheet = defineSlotRecipe({
     backdrop: {
       position: "fixed",
       inset: 0,
-      background: vars.base.enabled.backdrop.color,
+      background: vars.base.rest.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       /** Snap Points - Transition-based fade (JS sets inline opacity) */
@@ -62,9 +62,9 @@ const bottomSheet = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      background: vars.base.enabled.content.color,
-      borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
-      borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+      background: vars.base.rest.content.color,
+      borderTopLeftRadius: vars.base.rest.content.topCornerRadius,
+      borderTopRightRadius: vars.base.rest.content.topCornerRadius,
       paddingBottom: "var(--seed-safe-area-bottom)",
 
       // Performance and interaction
@@ -72,7 +72,7 @@ const bottomSheet = defineSlotRecipe({
       willChange: "transform",
 
       // Base animation properties
-      transition: `transform ${vars.base.enabled.content.enterDuration} ${vars.base.enabled.content.enterTimingFunction}`,
+      transition: `transform ${vars.base.rest.content.enterDuration} ${vars.base.rest.content.enterTimingFunction}`,
 
       /** Snap Points - Initial State (before animation ready) */
       [pseudo("[data-snap-points='true']")]: {
@@ -103,26 +103,26 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      gap: vars.base.enabled.header.gap,
-      paddingTop: vars.base.enabled.header.paddingTop,
-      paddingBottom: vars.base.enabled.header.paddingBottom,
+      gap: vars.base.rest.header.gap,
+      paddingTop: vars.base.rest.header.paddingTop,
+      paddingBottom: vars.base.rest.header.paddingBottom,
     },
     title: {
-      color: vars.base.enabled.title.color,
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      color: vars.base.rest.title.color,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
       wordBreak: "keep-all",
 
       margin: 0,
     },
     description: {
-      color: vars.base.enabled.description.color,
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      color: vars.base.rest.description.color,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
 
-      paddingInline: vars.base.enabled.description.paddingX,
+      paddingInline: vars.base.rest.description.paddingX,
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -131,7 +131,7 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
+      "--seed-box-padding-x--responsive": vars.base.rest.body.paddingX,
       // real values, not `initial` — see https://webkit.org/b/241433
       "--seed-box-height--responsive": "auto",
       "--seed-box-min-height--responsive": "auto",
@@ -149,10 +149,10 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingInline: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.rest.footer.paddingX,
 
-      paddingTop: vars.base.enabled.footer.paddingTop,
-      paddingBottom: vars.base.enabled.footer.paddingBottom,
+      paddingTop: vars.base.rest.footer.paddingTop,
+      paddingBottom: vars.base.rest.footer.paddingBottom,
     },
     closeButton: {
       position: "absolute",
@@ -161,24 +161,24 @@ const bottomSheet = defineSlotRecipe({
       alignItems: "center",
       border: "none",
 
-      top: vars.base.enabled.closeButton.fromTop,
-      right: vars.base.enabled.closeButton.fromRight,
-      borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
-      background: closeButtonVars.base.enabled.root.color,
-      width: closeButtonVars.base.enabled.root.size,
-      height: closeButtonVars.base.enabled.root.size,
+      top: vars.base.rest.closeButton.fromTop,
+      right: vars.base.rest.closeButton.fromRight,
+      borderRadius: closeButtonVars.base.rest.root.cornerRadius,
+      background: closeButtonVars.base.rest.root.color,
+      width: closeButtonVars.base.rest.root.size,
+      height: closeButtonVars.base.rest.root.size,
       cursor: "pointer",
 
       ...onlyIcon({
-        color: closeButtonVars.base.enabled.icon.color,
-        size: closeButtonVars.base.enabled.icon.size,
+        color: closeButtonVars.base.rest.icon.color,
+        size: closeButtonVars.base.rest.icon.size,
       }),
 
       "&:after": {
         content: '""',
 
         position: "absolute",
-        inset: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        inset: `calc((${closeButtonVars.base.rest.root.size} - ${closeButtonVars.base.rest.root.targetSize}) / 2)`,
 
         borderRadius: tokens.$radius.r1,
 
@@ -204,11 +204,11 @@ const bottomSheet = defineSlotRecipe({
           justifyContent: "flex-start",
         },
         title: {
-          paddingLeft: vars.headerAlignmentLeftCloseButtonFalse.enabled.title.paddingLeft,
-          paddingRight: vars.headerAlignmentLeftCloseButtonFalse.enabled.title.paddingRight,
+          paddingLeft: vars.headerAlignmentLeftCloseButtonFalse.rest.title.paddingLeft,
+          paddingRight: vars.headerAlignmentLeftCloseButtonFalse.rest.title.paddingRight,
           [pseudo("[data-show-close-button]")]: {
-            paddingLeft: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingLeft,
-            paddingRight: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingRight,
+            paddingLeft: vars.headerAlignmentLeftCloseButtonTrue.rest.title.paddingLeft,
+            paddingRight: vars.headerAlignmentLeftCloseButtonTrue.rest.title.paddingRight,
           },
         },
       },
@@ -218,11 +218,11 @@ const bottomSheet = defineSlotRecipe({
           textAlign: "center",
         },
         title: {
-          paddingLeft: vars.headerAlignmentCenterCloseButtonFalse.enabled.title.paddingLeft,
-          paddingRight: vars.headerAlignmentCenterCloseButtonFalse.enabled.title.paddingRight,
+          paddingLeft: vars.headerAlignmentCenterCloseButtonFalse.rest.title.paddingLeft,
+          paddingRight: vars.headerAlignmentCenterCloseButtonFalse.rest.title.paddingRight,
           [pseudo("[data-show-close-button]")]: {
-            paddingLeft: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingLeft,
-            paddingRight: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingRight,
+            paddingLeft: vars.headerAlignmentCenterCloseButtonTrue.rest.title.paddingLeft,
+            paddingRight: vars.headerAlignmentCenterCloseButtonTrue.rest.title.paddingRight,
           },
         },
       },
@@ -232,13 +232,13 @@ const bottomSheet = defineSlotRecipe({
         backdrop: {
           [pseudo(open, "[data-snap-points='false']", not("[data-animation-done='true']"))]: {
             animationName: "fade-in",
-            animationDuration: vars.base.enabled.backdrop.enterDuration,
-            animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
+            animationDuration: vars.base.rest.backdrop.enterDuration,
+            animationTimingFunction: vars.base.rest.backdrop.enterTimingFunction,
           },
           [pseudo(not(open), "[data-snap-points='false']")]: {
             animationName: "fade-out",
-            animationDuration: vars.base.enabled.backdrop.exitDuration,
-            animationTimingFunction: vars.base.enabled.backdrop.exitTimingFunction,
+            animationDuration: vars.base.rest.backdrop.exitDuration,
+            animationTimingFunction: vars.base.rest.backdrop.exitTimingFunction,
             animationFillMode: "forwards",
           },
           [pseudo(
@@ -248,29 +248,29 @@ const bottomSheet = defineSlotRecipe({
             not("[data-animation-done='true']"),
           )]: {
             animationName: "fade-in",
-            animationDuration: vars.base.enabled.backdrop.enterDuration,
-            animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
+            animationDuration: vars.base.rest.backdrop.enterDuration,
+            animationTimingFunction: vars.base.rest.backdrop.enterTimingFunction,
           },
         },
         content: {
-          animationDuration: vars.base.enabled.content.enterDuration,
-          animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+          animationDuration: vars.base.rest.content.enterDuration,
+          animationTimingFunction: vars.base.rest.content.enterTimingFunction,
           [pseudo(open, "[data-snap-points='false']", not("[data-animation-done='true']"))]: {
             animationName: "drawer-slide-from-bottom",
-            animationDuration: vars.base.enabled.content.enterDuration,
-            animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+            animationDuration: vars.base.rest.content.enterDuration,
+            animationTimingFunction: vars.base.rest.content.enterTimingFunction,
           },
           [pseudo(not(open), "[data-snap-points='false']")]: {
             animationName: "drawer-slide-to-bottom",
-            animationDuration: vars.base.enabled.content.exitDuration,
-            animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
+            animationDuration: vars.base.rest.content.exitDuration,
+            animationTimingFunction: vars.base.rest.content.exitTimingFunction,
             animationFillMode: "forwards",
           },
           [pseudo(open, "[data-delayed-snap-points='true']", not("[data-animation-done='true']"))]:
             {
               animationName: "drawer-slide-from-bottom",
-              animationDuration: vars.base.enabled.content.enterDuration,
-              animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+              animationDuration: vars.base.rest.content.enterDuration,
+              animationTimingFunction: vars.base.rest.content.enterTimingFunction,
             },
         },
       },

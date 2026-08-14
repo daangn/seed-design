@@ -16,18 +16,24 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    variants:
+      weight:
+        values:
+          medium: {}
+          bold: {}
+  rules:
+    - slots:
         root:
           color: $color.fg.neutral
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-    weight=medium:
-      enabled:
+    - variants:
+        weight: medium
+      slots:
         root:
           fontWeight: $font-weight.medium
-    weight=bold:
-      enabled:
+    - variants:
+        weight: bold
+      slots:
         root:
           fontWeight: $font-weight.bold

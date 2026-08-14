@@ -19,15 +19,15 @@ const radiomarkRecipe = defineSlotRecipe({
       flex: "none",
       marginTop: "var(--radiomark-margin-top, 0)",
 
-      borderWidth: vars.base.enabled.root.strokeWidth,
+      borderWidth: vars.base.rest.root.strokeWidth,
       borderStyle: "solid",
-      borderColor: vars.base.enabled.root.strokeColor,
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderColor: vars.base.rest.root.strokeColor,
+      borderRadius: vars.base.rest.root.cornerRadius,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}`,
     },
     icon: {
-      borderRadius: vars.base.enabled.icon.cornerRadius,
+      borderRadius: vars.base.rest.icon.cornerRadius,
     },
   },
   variants: {
@@ -38,22 +38,22 @@ const radiomarkRecipe = defineSlotRecipe({
     size: {
       medium: {
         root: {
-          width: vars.sizeMedium.enabled.root.size,
-          height: vars.sizeMedium.enabled.root.size,
+          width: vars.sizeMedium.rest.root.size,
+          height: vars.sizeMedium.rest.root.size,
         },
         icon: {
-          width: vars.sizeMedium.enabled.icon.size,
-          height: vars.sizeMedium.enabled.icon.size,
+          width: vars.sizeMedium.rest.icon.size,
+          height: vars.sizeMedium.rest.icon.size,
         },
       },
       large: {
         root: {
-          width: vars.sizeLarge.enabled.root.size,
-          height: vars.sizeLarge.enabled.root.size,
+          width: vars.sizeLarge.rest.root.size,
+          height: vars.sizeLarge.rest.root.size,
         },
         icon: {
-          width: vars.sizeLarge.enabled.icon.size,
-          height: vars.sizeLarge.enabled.icon.size,
+          width: vars.sizeLarge.rest.icon.size,
+          height: vars.sizeLarge.rest.icon.size,
         },
       },
     },
@@ -79,13 +79,13 @@ const radiomarkRecipe = defineSlotRecipe({
       disabled: false,
       css: {
         root: {
-          backgroundColor: vars.toneBrand.enabledSelected.root.color,
-          borderWidth: vars.base.enabledSelected.root.strokeWidth,
-          borderColor: vars.base.enabledSelected.root.strokeColor,
+          backgroundColor: vars.toneBrand.selected.root.color,
+          borderWidth: vars.base.selected.root.strokeWidth,
+          borderColor: vars.base.selected.root.strokeColor,
         },
         icon: {
-          color: vars.toneBrand.enabledSelected.icon.color,
-          backgroundColor: vars.toneBrand.enabledSelected.icon.color,
+          color: vars.toneBrand.selected.icon.color,
+          backgroundColor: vars.toneBrand.selected.icon.color,
         },
       },
     },
@@ -95,13 +95,13 @@ const radiomarkRecipe = defineSlotRecipe({
       disabled: false,
       css: {
         root: {
-          backgroundColor: vars.toneNeutral.enabledSelected.root.color,
-          borderWidth: vars.base.enabledSelected.root.strokeWidth,
-          borderColor: vars.base.enabledSelected.root.strokeColor,
+          backgroundColor: vars.toneNeutral.selected.root.color,
+          borderWidth: vars.base.selected.root.strokeWidth,
+          borderColor: vars.base.selected.root.strokeColor,
         },
         icon: {
-          color: vars.toneNeutral.enabledSelected.icon.color,
-          backgroundColor: vars.toneNeutral.enabledSelected.icon.color,
+          color: vars.toneNeutral.selected.icon.color,
+          backgroundColor: vars.toneNeutral.selected.icon.color,
         },
       },
     },
@@ -127,13 +127,13 @@ const radiomarkRecipe = defineSlotRecipe({
       disabled: true,
       css: {
         root: {
-          backgroundColor: vars.toneBrand.disabledSelected.root.color,
-          borderWidth: vars.toneBrand.disabledSelected.root.strokeWidth,
-          borderColor: vars.toneBrand.disabledSelected.root.strokeColor,
+          backgroundColor: vars.toneBrand.selectedDisabled.root.color,
+          borderWidth: vars.toneBrand.selectedDisabled.root.strokeWidth,
+          borderColor: vars.toneBrand.selectedDisabled.root.strokeColor,
         },
         icon: {
-          color: vars.toneBrand.disabledSelected.icon.color,
-          backgroundColor: vars.toneBrand.disabledSelected.icon.color,
+          color: vars.toneBrand.selectedDisabled.icon.color,
+          backgroundColor: vars.toneBrand.selectedDisabled.icon.color,
         },
       },
     },
@@ -143,13 +143,13 @@ const radiomarkRecipe = defineSlotRecipe({
       disabled: true,
       css: {
         root: {
-          backgroundColor: vars.toneNeutral.disabledSelected.root.color,
-          borderWidth: vars.toneNeutral.disabledSelected.root.strokeWidth,
-          borderColor: vars.toneNeutral.disabledSelected.root.strokeColor,
+          backgroundColor: vars.toneNeutral.selectedDisabled.root.color,
+          borderWidth: vars.toneNeutral.selectedDisabled.root.strokeWidth,
+          borderColor: vars.toneNeutral.selectedDisabled.root.strokeColor,
         },
         icon: {
-          color: vars.toneNeutral.disabledSelected.icon.color,
-          backgroundColor: vars.toneNeutral.disabledSelected.icon.color,
+          color: vars.toneNeutral.selectedDisabled.icon.color,
+          backgroundColor: vars.toneNeutral.selectedDisabled.icon.color,
         },
       },
     },
@@ -181,7 +181,7 @@ const radiomarkRecipe = defineSlotRecipe({
       pressed: true,
       checked: false,
       disabled: false,
-      css: { root: { backgroundColor: vars.base.enabledPressed.root.color } },
+      css: { root: { backgroundColor: vars.base.pressed.root.color } },
     },
     // ── pressed: tone + selected ───────────────────────────────────────────
     {
@@ -189,14 +189,14 @@ const radiomarkRecipe = defineSlotRecipe({
       pressed: true,
       checked: true,
       disabled: false,
-      css: { root: { backgroundColor: vars.toneBrand.enabledSelectedPressed.root.color } },
+      css: { root: { backgroundColor: vars.toneBrand.pressedSelected.root.color } },
     },
     {
       tone: "neutral",
       pressed: true,
       checked: true,
       disabled: false,
-      css: { root: { backgroundColor: vars.toneNeutral.enabledSelectedPressed.root.color } },
+      css: { root: { backgroundColor: vars.toneNeutral.pressedSelected.root.color } },
     },
   ],
   defaultVariants: {

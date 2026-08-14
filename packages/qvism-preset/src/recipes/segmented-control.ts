@@ -22,11 +22,11 @@ const segmentedControl = defineSlotRecipe({
 
       position: "relative",
 
-      padding: vars.base.enabled.root.padding,
+      padding: vars.base.rest.root.padding,
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: vars.base.rest.root.cornerRadius,
 
-      backgroundColor: vars.base.enabled.root.color,
+      backgroundColor: vars.base.rest.root.color,
 
       gridAutoFlow: "column",
       gridAutoColumns: "1fr",
@@ -42,16 +42,16 @@ const segmentedControl = defineSlotRecipe({
       willChange: "transform",
       transform: "translateX(calc(var(--segment-index) * 100%))",
 
-      insetBlock: vars.base.enabled.root.padding,
-      left: vars.base.enabled.root.padding,
-      width: `calc((100% - ${vars.base.enabled.root.padding} * 2) / var(--segment-count))`,
+      insetBlock: vars.base.rest.root.padding,
+      left: vars.base.rest.root.padding,
+      width: `calc((100% - ${vars.base.rest.root.padding} * 2) / var(--segment-count))`,
 
-      borderRadius: indicatorVars.base.enabled.root.cornerRadius,
-      backgroundColor: indicatorVars.base.enabled.root.color,
+      borderRadius: indicatorVars.base.rest.root.cornerRadius,
+      backgroundColor: indicatorVars.base.rest.root.color,
 
-      boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${indicatorVars.base.rest.root.strokeWidth} ${indicatorVars.base.rest.root.strokeColor}`,
 
-      transition: `transform ${indicatorVars.base.enabled.root.transformDuration} ${indicatorVars.base.enabled.root.transformTimingFunction}`,
+      transition: `transform ${indicatorVars.base.rest.root.transformDuration} ${indicatorVars.base.rest.root.transformTimingFunction}`,
     },
     item: {
       display: "flex",
@@ -63,24 +63,24 @@ const segmentedControl = defineSlotRecipe({
       boxSizing: "border-box",
       overflowWrap: "break-word",
 
-      minWidth: itemVars.base.enabled.root.minWidth,
-      minHeight: itemVars.base.enabled.root.minHeight,
+      minWidth: itemVars.base.rest.root.minWidth,
+      minHeight: itemVars.base.rest.root.minHeight,
 
-      gap: itemVars.base.enabled.root.gap,
+      gap: itemVars.base.rest.root.gap,
 
       // ensures every item has the height of the tallest item (e.g. item with 2+ lines of label)
       height: "100%",
 
-      paddingInline: itemVars.base.enabled.root.paddingX,
-      paddingBlock: itemVars.base.enabled.root.paddingY,
-      borderRadius: itemVars.base.enabled.root.cornerRadius,
+      paddingInline: itemVars.base.rest.root.paddingX,
+      paddingBlock: itemVars.base.rest.root.paddingY,
+      borderRadius: itemVars.base.rest.root.cornerRadius,
 
-      fontWeight: itemVars.base.enabled.label.fontWeight,
-      fontSize: itemVars.base.enabled.label.fontSize,
-      lineHeight: itemVars.base.enabled.label.lineHeight,
-      color: itemVars.base.enabled.label.color,
+      fontWeight: itemVars.base.rest.label.fontWeight,
+      fontSize: itemVars.base.rest.label.fontSize,
+      lineHeight: itemVars.base.rest.label.lineHeight,
+      color: itemVars.base.rest.label.color,
 
-      transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}, box-shadow ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${itemVars.base.rest.root.colorDuration} ${itemVars.base.rest.root.colorTimingFunction}, color ${itemVars.base.rest.label.colorDuration} ${itemVars.base.rest.label.colorTimingFunction}, box-shadow ${itemVars.base.rest.root.colorDuration} ${itemVars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
@@ -99,12 +99,12 @@ const segmentedControl = defineSlotRecipe({
         backgroundColor: indicatorVars.base.disabled.root.color,
 
         // this is the same as the indicator stroke
-        boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
+        boxShadow: `inset 0 0 0 ${indicatorVars.base.rest.root.strokeWidth} ${indicatorVars.base.rest.root.strokeColor}`,
       },
 
       [pseudo(not(disabled), checked, engaged)]: {
         backgroundColor: indicatorVars.base.pressed.root.color,
-        boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
+        boxShadow: `inset 0 0 0 ${indicatorVars.base.rest.root.strokeWidth} ${indicatorVars.base.rest.root.strokeColor}`,
       },
 
       [pseudo(not(disabled), not(checked), engaged)]: {

@@ -36,61 +36,43 @@ declare const artifact: {
               "description": "테두리를 표시하지 않습니다.";
             };
           };
-          "defaultValue": "true";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "padding": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "padding": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "stroke": "true";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-subtle";
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-subtle";
+            };
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-        ];
-      },
-      {
-        "variants": {
-          "stroke": "false";
+          };
         };
-        "definitions": readonly [];
       },
     ];
   };

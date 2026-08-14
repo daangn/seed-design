@@ -52,155 +52,137 @@ declare const artifact: {
             "24": {};
             "32": {};
           };
-          "defaultValue": "32";
         };
       };
+      "states": readonly [
+        {
+          "id": "disabled";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-          {
-            "states": readonly [
-              "disabled",
-            ];
-            "slots": {
-              "label": {
-                "opacity": {
-                  "type": "number";
-                  "value": 0.58;
-                };
-                "opacityDuration": {
-                  "type": "duration";
-                  "value": "$duration.d1";
-                };
-                "opacityTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
             };
-          },
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "disabled",
         ];
+        "slots": {
+          "label": {
+            "opacity": {
+              "type": "number";
+              "value": 0.58;
+            };
+            "opacityDuration": {
+              "type": "duration";
+              "value": "$duration.d1";
+            };
+            "opacityTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "32";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": "$dimension.x8";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension";
+              "value": "$dimension.x8";
             };
-          },
-        ];
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "24";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension";
+              "value": "$dimension.x6";
             };
-          },
-        ];
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "16";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "height": {
+              "type": "dimension";
+              "value": "$dimension.x6";
             };
-          },
-        ];
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+          };
+        };
       },
     ];
   };

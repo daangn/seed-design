@@ -78,620 +78,554 @@ declare const artifact: {
               "description": "대표 사용처: 프로필 수정";
             };
           };
-          "defaultValue": "20";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-subtle";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
             };
-          },
-        ];
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-subtle";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "20";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 20;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 20;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "24";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 24;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 12;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 15;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 10;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 24;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 12;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 15;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 10;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "36";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 36;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 20;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 14;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 36;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 20;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 14;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "42";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 42;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 24;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 20;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 26;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 42;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 24;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 20;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 26;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 16;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "48";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 48;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 28;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 30;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 18;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 48;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 28;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 30;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 18;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "56";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 56;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 34;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 24;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 36;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 20;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 56;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 34;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 24;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 36;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 20;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "64";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 64;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 40;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 26;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 42;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 22;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 64;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 40;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 26;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 42;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 22;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "80";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 80;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 52;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 32;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 54;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 28;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 80;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 52;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 32;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 54;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 28;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "96";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 96;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 62;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 38;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 65;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 32;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 96;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 62;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 38;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 65;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 32;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "108";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 108;
-                    "unit": "px";
-                  };
-                };
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badgeMask": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 70;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
-              };
-              "badge": {
-                "offset": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 74;
-                    "unit": "px";
-                  };
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 36;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 108;
+                "unit": "px";
               };
             };
-          },
-        ];
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+          };
+          "badgeMask": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 70;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 44;
+                "unit": "px";
+              };
+            };
+          };
+          "badge": {
+            "offset": {
+              "type": "dimension";
+              "value": {
+                "value": 74;
+                "unit": "px";
+              };
+            };
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 36;
+                "unit": "px";
+              };
+            };
+          };
+        };
       },
     ];
   };

@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingY": "var(--seed-dimension-x3)",
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
@@ -64,7 +64,7 @@ export const vars = {
         "color": "var(--seed-color-bg-brand-weak)"
       }
     },
-    "highlightedPressed": {
+    "pressedHighlighted": {
       "root": {
         "color": "var(--seed-color-bg-brand-weak-pressed)"
       }

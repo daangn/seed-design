@@ -23,9 +23,10 @@ data:
             type: color
           size:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           color: $color.bg.layer-floating
           cornerRadius: $radius.full
@@ -41,6 +42,8 @@ data:
         icon:
           color: $color.fg.neutral
           size: 22px
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.layer-floating-pressed

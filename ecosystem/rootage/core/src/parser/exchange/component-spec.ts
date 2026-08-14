@@ -3,11 +3,11 @@ import type {
   ComponentSpecDocument,
   PropertyDeclaration,
   PropertySchemaDeclaration,
+  RuleDeclaration,
   SchemaDeclaration,
   SlotDeclaration,
   SlotSchemaDeclaration,
-  StateDeclaration,
-  VariantDeclaration,
+  StateSchemaDeclaration,
   VariantSchemaDeclaration,
   VariantValueSchemaDeclaration,
 } from "../ast";
@@ -38,43 +38,24 @@ export function parseComponentSpecDeclaration(
   data: Document.ComponentSpecData,
 ): ComponentSpecDeclaration {
   const { id, name } = data;
-  const body: VariantDeclaration[] = [];
-
-  for (const variantDecl of data.definitions) {
-    body.push(parseVariantDeclaration(variantDecl));
-  }
 
   return factory.createComponentSpecDeclaration(
     id,
     name,
     parseSchemaDeclaration(data.schema),
-    body,
+    data.rules.map((rule) => parseRuleDeclaration(rule)),
   );
 }
 
-function parseVariantDeclaration(input: Document.VariantDeclaration): VariantDeclaration {
-  // Convert each { [variantName]: string } pair => AST.createVariantExpression
-  const variantExprs = Object.entries(input.variants).map(([k, v]) =>
+function parseRuleDeclaration(rule: Document.Rule): RuleDeclaration {
+  const variantExprs = Object.entries(rule.variants).map(([k, v]) =>
     factory.createVariantExpression(k, v),
   );
+  const stateExprs = rule.states.map((st) => factory.createStateExpression(st));
 
-  // Convert definitions => array of StateDeclaration
-  const stateDecls: StateDeclaration[] = input.definitions.map((def) => parseStateDeclaration(def));
-
-  return factory.createVariantDeclaration(variantExprs, stateDecls);
-}
-
-function parseStateDeclaration(def: {
-  states: string[];
-  slots: Record<string, Record<string, Document.Value>>;
-}): StateDeclaration {
-  // We'll treat def.states as an array of strings => an array of StateExpression
-  const stateExpressions = def.states.map((st) => factory.createStateExpression(st));
-
-  // Convert slot data => array of SlotDeclaration
   const slotDecls: SlotDeclaration[] = [];
 
-  for (const [slotName, props] of Object.entries(def.slots)) {
+  for (const [slotName, props] of Object.entries(rule.slots)) {
     const propertyDecls: PropertyDeclaration[] = [];
 
     for (const [propKey, lhValue] of Object.entries(props)) {
@@ -84,7 +65,7 @@ function parseStateDeclaration(def: {
     slotDecls.push(factory.createSlotDeclaration(slotName, propertyDecls));
   }
 
-  return factory.createStateDeclaration(stateExpressions, slotDecls);
+  return factory.createRuleDeclaration(variantExprs, stateExprs, slotDecls);
 }
 
 /**
@@ -160,9 +141,18 @@ function parseVariantSchemaDeclaration(
   });
 }
 
+function parseStateSchemaDeclaration(
+  model: Document.ComponentSpecStateSchema,
+): StateSchemaDeclaration[] {
+  return model.map((state) =>
+    factory.createStateSchemaDeclaration(state.id, state.suppresses, state.description),
+  );
+}
+
 function parseSchemaDeclaration(model: Document.ComponentSpecSchema): SchemaDeclaration {
   return factory.createSchemaDeclaration(
     parseSlotSchemaDeclaration(model.slots),
     parseVariantSchemaDeclaration(model.variants),
+    parseStateSchemaDeclaration(model.states),
   );
 }

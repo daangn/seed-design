@@ -49,110 +49,111 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [
+        {
+          "id": "selected";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "targetSize": {
-                  "type": "dimension";
-                  "value": "$dimension.x10";
-                };
-              };
-              "fillIcon": {
-                "gradient": {
-                  "type": "gradient";
-                  "value": readonly [
-                    {
-                      "color": "$color.palette.static-black-alpha-600";
-                      "position": 0;
-                    },
-                    {
-                      "color": "$color.palette.static-black-alpha-600";
-                      "position": 1;
-                    },
-                  ];
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "shadow": {
-                  "type": "shadow";
-                  "value": readonly [
-                    {
-                      "color": "#00000026";
-                      "offsetX": {
-                        "value": 0;
-                        "unit": "px";
-                      };
-                      "offsetY": {
-                        "value": 2;
-                        "unit": "px";
-                      };
-                      "blur": {
-                        "value": 4;
-                        "unit": "px";
-                      };
-                      "spread": {
-                        "value": 0;
-                        "unit": "px";
-                      };
-                    },
-                  ];
-                };
-              };
-              "lineIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x6";
             };
-          },
-          {
-            "states": readonly [
-              "selected",
-            ];
-            "slots": {
-              "fillIcon": {
-                "gradient": {
-                  "type": "gradient";
-                  "value": readonly [
-                    {
-                      "color": "#FF9A56";
-                      "position": 0;
-                    },
-                    {
-                      "color": "#FF6600";
-                      "position": 1;
-                    },
-                  ];
-                };
-              };
-              "lineIcon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.transparent";
-                };
-              };
+            "targetSize": {
+              "type": "dimension";
+              "value": "$dimension.x10";
             };
-          },
+          };
+          "fillIcon": {
+            "gradient": {
+              "type": "gradient";
+              "value": readonly [
+                {
+                  "color": "$color.palette.static-black-alpha-600";
+                  "position": 0;
+                },
+                {
+                  "color": "$color.palette.static-black-alpha-600";
+                  "position": 1;
+                },
+              ];
+            };
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+            "shadow": {
+              "type": "shadow";
+              "value": readonly [
+                {
+                  "color": "#00000026";
+                  "offsetX": {
+                    "value": 0;
+                    "unit": "px";
+                  };
+                  "offsetY": {
+                    "value": 2;
+                    "unit": "px";
+                  };
+                  "blur": {
+                    "value": 4;
+                    "unit": "px";
+                  };
+                  "spread": {
+                    "value": 0;
+                    "unit": "px";
+                  };
+                },
+              ];
+            };
+          };
+          "lineIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "selected",
         ];
+        "slots": {
+          "fillIcon": {
+            "gradient": {
+              "type": "gradient";
+              "value": readonly [
+                {
+                  "color": "#FF9A56";
+                  "position": 0;
+                },
+                {
+                  "color": "#FF6600";
+                  "position": 1;
+                },
+              ];
+            };
+          };
+          "lineIcon": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.transparent";
+            };
+          };
+        };
       },
     ];
   };

@@ -24,9 +24,13 @@ data:
             type: cubicBezier
           scale:
             type: number
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           size: $dimension.x5
           cornerRadius: $radius.full
@@ -37,9 +41,13 @@ data:
 
           translateDuration: $duration.d3
           translateTimingFunction: $timing-function.easing
-      disabled:
+    - states:
+        - disabled
+      slots:
         root:
           color: $color.fg.disabled # fg 토큰인데 적절할까?
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           scale: 1.2

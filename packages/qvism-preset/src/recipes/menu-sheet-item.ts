@@ -17,12 +17,12 @@ const menuSheetItem = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
 
-      backgroundColor: vars.base.enabled.root.color,
-      minHeight: vars.base.enabled.root.minHeight,
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
-      gap: vars.base.enabled.root.gap,
-      boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
+      backgroundColor: vars.base.rest.root.color,
+      minHeight: vars.base.rest.root.minHeight,
+      paddingInline: vars.base.rest.root.paddingX,
+      paddingBlock: vars.base.rest.root.paddingY,
+      gap: vars.base.rest.root.gap,
+      boxShadow: `inset 0 calc(-1 * ${rootVars.base.rest.divider.strokeBottomWidth}) 0 ${rootVars.base.rest.divider.strokeColor}`,
 
       // iOS 15 has default margin on buttons
       margin: 0,
@@ -36,14 +36,14 @@ const menuSheetItem = defineSlotRecipe({
 
       "&:first-child": {
         // TODO: since we have this, overflow: hidden; from the group slot can be removed
-        borderTopLeftRadius: rootVars.base.enabled.group.cornerRadius,
-        borderTopRightRadius: rootVars.base.enabled.group.cornerRadius,
+        borderTopLeftRadius: rootVars.base.rest.group.cornerRadius,
+        borderTopRightRadius: rootVars.base.rest.group.cornerRadius,
       },
 
       "&:last-child": {
         // TODO: since we have this, overflow: hidden; from the group slot can be removed
-        borderBottomLeftRadius: rootVars.base.enabled.group.cornerRadius,
-        borderBottomRightRadius: rootVars.base.enabled.group.cornerRadius,
+        borderBottomLeftRadius: rootVars.base.rest.group.cornerRadius,
+        borderBottomRightRadius: rootVars.base.rest.group.cornerRadius,
         boxShadow: "none",
       },
 
@@ -52,26 +52,26 @@ const menuSheetItem = defineSlotRecipe({
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 
       ...prefixIcon({
-        size: vars.base.enabled.prefixIcon.size,
+        size: vars.base.rest.prefixIcon.size,
       }),
     },
     content: {
       display: "flex",
       flexDirection: "column",
 
-      gap: vars.base.enabled.content.gap,
+      gap: vars.base.rest.content.gap,
     },
     label: {
-      fontSize: vars.base.enabled.label.fontSize,
-      lineHeight: vars.base.enabled.label.lineHeight,
-      fontWeight: vars.base.enabled.label.fontWeight,
+      fontSize: vars.base.rest.label.fontSize,
+      lineHeight: vars.base.rest.label.lineHeight,
+      fontWeight: vars.base.rest.label.fontWeight,
     },
     description: {
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
 
-      color: vars.base.enabled.description.color,
+      color: vars.base.rest.description.color,
     },
   },
   variants: {
@@ -79,21 +79,21 @@ const menuSheetItem = defineSlotRecipe({
       neutral: {
         root: {
           ...prefixIcon({
-            color: vars.toneNeutral.enabled.prefixIcon.color,
+            color: vars.toneNeutral.rest.prefixIcon.color,
           }),
         },
         label: {
-          color: vars.toneNeutral.enabled.label.color,
+          color: vars.toneNeutral.rest.label.color,
         },
       },
       critical: {
         root: {
           ...prefixIcon({
-            color: vars.toneCritical.enabled.prefixIcon.color,
+            color: vars.toneCritical.rest.prefixIcon.color,
           }),
         },
         label: {
-          color: vars.toneCritical.enabled.label.color,
+          color: vars.toneCritical.rest.label.color,
         },
       },
     },

@@ -33,20 +33,20 @@ const floatingActionButton = defineSlotRecipe({
       position: "relative",
       overflow: "hidden",
 
-      background: vars.base.enabled.root.color,
-      borderRadius: vars.base.enabled.root.cornerRadius,
-      boxShadow: vars.base.enabled.root.shadow,
+      background: vars.base.rest.root.color,
+      borderRadius: vars.base.rest.root.cornerRadius,
+      boxShadow: vars.base.rest.root.shadow,
 
-      color: vars.extendedTrue.enabled.label.color,
-      fontSize: vars.extendedTrue.enabled.label.fontSize,
-      lineHeight: vars.extendedTrue.enabled.label.lineHeight,
-      fontWeight: vars.extendedTrue.enabled.label.fontWeight,
+      color: vars.extendedTrue.rest.label.color,
+      fontSize: vars.extendedTrue.rest.label.fontSize,
+      lineHeight: vars.extendedTrue.rest.label.lineHeight,
+      fontWeight: vars.extendedTrue.rest.label.fontWeight,
 
       transition: [
-        `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
-        `max-width ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
-        `height ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
-        `padding ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
+        `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}`,
+        `max-width ${vars.base.rest.root.layoutDuration} ${vars.base.rest.root.layoutTimingFunction}`,
+        `height ${vars.base.rest.root.layoutDuration} ${vars.base.rest.root.layoutTimingFunction}`,
+        `padding ${vars.base.rest.root.layoutDuration} ${vars.base.rest.root.layoutTimingFunction}`,
         FOCUS_RING_TRANSITION,
       ].join(", "),
 
@@ -59,11 +59,11 @@ const floatingActionButton = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       flexShrink: 0,
-      color: vars.base.enabled.icon.color,
+      color: vars.base.rest.icon.color,
       transition: [
-        `margin-right ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
-        `width ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
-        `height ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
+        `margin-right ${vars.base.rest.root.layoutDuration} ${vars.base.rest.root.layoutTimingFunction}`,
+        `width ${vars.base.rest.root.layoutDuration} ${vars.base.rest.root.layoutTimingFunction}`,
+        `height ${vars.base.rest.root.layoutDuration} ${vars.base.rest.root.layoutTimingFunction}`,
       ].join(", "),
     },
     label: {
@@ -76,18 +76,18 @@ const floatingActionButton = defineSlotRecipe({
     extended: {
       true: {
         root: {
-          paddingInline: vars.extendedTrue.enabled.root.paddingX,
-          height: vars.extendedTrue.enabled.root.minHeight,
+          paddingInline: vars.extendedTrue.rest.root.paddingX,
+          height: vars.extendedTrue.rest.root.minHeight,
 
           // trick for width transition
           width: "fit-content",
           maxWidth: "999px",
         },
         icon: {
-          width: vars.extendedTrue.enabled.icon.size,
-          height: vars.extendedTrue.enabled.icon.size,
+          width: vars.extendedTrue.rest.icon.size,
+          height: vars.extendedTrue.rest.icon.size,
 
-          marginRight: vars.extendedTrue.enabled.root.gap,
+          marginRight: vars.extendedTrue.rest.root.gap,
 
           transition: "none",
         },
@@ -96,17 +96,17 @@ const floatingActionButton = defineSlotRecipe({
         root: {
           padding: 0,
 
-          minWidth: vars.extendedFalse.enabled.root.size,
-          maxWidth: vars.extendedFalse.enabled.root.size,
-          height: vars.extendedFalse.enabled.root.size,
+          minWidth: vars.extendedFalse.rest.root.size,
+          maxWidth: vars.extendedFalse.rest.root.size,
+          height: vars.extendedFalse.rest.root.size,
         },
         icon: {
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: vars.extendedFalse.enabled.icon.size,
-          height: vars.extendedFalse.enabled.icon.size,
+          width: vars.extendedFalse.rest.icon.size,
+          height: vars.extendedFalse.rest.icon.size,
         },
         label: {
           opacity: 0,

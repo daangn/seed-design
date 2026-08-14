@@ -32,76 +32,58 @@ declare const artifact: {
             "medium": {};
             "bold": {};
           };
-          "defaultValue": "medium";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral";
             };
-          },
-        ];
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+          };
+        };
       },
       {
         "variants": {
           "weight": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "weight": "bold";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
             };
-          },
-        ];
+          };
+        };
       },
     ];
   };

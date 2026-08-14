@@ -92,167 +92,155 @@ declare const artifact: {
               "description": "아이콘만 표시되는 기본 형태입니다.";
             };
           };
-          "defaultValue": "true";
         };
       };
+      "states": readonly [
+        {
+          "id": "pressed";
+          "suppresses": readonly [];
+        },
+      ];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.full";
-                };
-                "shadow": {
-                  "type": "shadow";
-                  "value": "$shadow.s3";
-                };
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-                "layoutDuration": {
-                  "type": "duration";
-                  "value": "$duration.d4";
-                };
-                "layoutTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-                "sizeDuration": {
-                  "type": "duration";
-                  "value": "$duration.d4";
-                };
-                "sizeTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-solid";
             };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid-pressed";
-                };
-              };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.full";
             };
-          },
+            "shadow": {
+              "type": "shadow";
+              "value": "$shadow.s3";
+            };
+            "colorDuration": {
+              "type": "duration";
+              "value": "$duration.color-transition";
+            };
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+            "layoutDuration": {
+              "type": "duration";
+              "value": "$duration.d4";
+            };
+            "layoutTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+          "icon": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+            "sizeDuration": {
+              "type": "duration";
+              "value": "$duration.d4";
+            };
+            "sizeTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.easing";
+            };
+          };
+        };
+      },
+      {
+        "variants": {};
+        "states": readonly [
+          "pressed",
         ];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-solid-pressed";
+            };
+          };
+        };
       },
       {
         "variants": {
           "extended": "true";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-                "minHeight": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 48;
-                    "unit": "px";
-                  };
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t5";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t5";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x3";
+            };
+            "minHeight": {
+              "type": "dimension";
+              "value": {
+                "value": 48;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t5";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t5";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+        };
       },
       {
         "variants": {
           "extended": "false";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 56;
-                    "unit": "px";
-                  };
-                };
-              };
-              "icon": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": {
+                "value": 56;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "icon": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+          };
+        };
       },
     ];
   };

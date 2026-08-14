@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "item": {
         "cornerRadius": "var(--seed-radius-full)",
         "strokeColor": "var(--seed-color-bg-layer-default)"
@@ -8,7 +8,7 @@ export declare const vars: {
     }
   },
   "size20": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-5px"
       },
@@ -18,7 +18,7 @@ export declare const vars: {
     }
   },
   "size24": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-6px"
       },
@@ -28,7 +28,7 @@ export declare const vars: {
     }
   },
   "size36": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-8px"
       },
@@ -38,7 +38,7 @@ export declare const vars: {
     }
   },
   "size42": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-10px"
       },
@@ -48,7 +48,7 @@ export declare const vars: {
     }
   },
   "size48": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-12px"
       },
@@ -58,7 +58,7 @@ export declare const vars: {
     }
   },
   "size56": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-13px"
       },
@@ -68,7 +68,7 @@ export declare const vars: {
     }
   },
   "size64": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-16px"
       },
@@ -78,7 +78,7 @@ export declare const vars: {
     }
   },
   "size80": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-20px"
       },
@@ -88,7 +88,7 @@ export declare const vars: {
     }
   },
   "size96": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-24px"
       },
@@ -98,7 +98,7 @@ export declare const vars: {
     }
   },
   "size108": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "-27px"
       },

@@ -32,63 +32,63 @@ const extendedFab = defineRecipe({
       cursor: "not-allowed",
     },
 
-    borderRadius: vars.base.enabled.root.cornerRadius,
-    boxShadow: vars.base.enabled.root.shadow,
+    borderRadius: vars.base.rest.root.cornerRadius,
+    boxShadow: vars.base.rest.root.shadow,
   },
   variants: {
     variant: {
       neutralSolid: {
-        background: vars.variantNeutralSolid.enabled.root.color,
-        color: vars.variantNeutralSolid.enabled.label.color,
+        background: vars.variantNeutralSolid.rest.root.color,
+        color: vars.variantNeutralSolid.rest.label.color,
 
         [pseudo(active)]: {
           background: vars.variantNeutralSolid.pressed.root.color,
         },
 
         ...prefixIcon({
-          color: vars.variantNeutralSolid.enabled.prefixIcon.color,
+          color: vars.variantNeutralSolid.rest.prefixIcon.color,
         }),
       },
       layerFloating: {
-        background: vars.variantLayerFloating.enabled.root.color,
-        color: vars.variantLayerFloating.enabled.label.color,
+        background: vars.variantLayerFloating.rest.root.color,
+        color: vars.variantLayerFloating.rest.label.color,
 
         [pseudo(active)]: {
           background: vars.variantLayerFloating.pressed.root.color,
         },
 
         ...prefixIcon({
-          color: vars.variantLayerFloating.enabled.prefixIcon.color,
+          color: vars.variantLayerFloating.rest.prefixIcon.color,
         }),
       },
     },
     size: {
       small: {
-        paddingInline: vars.sizeSmall.enabled.root.paddingX,
-        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
-        minHeight: vars.sizeSmall.enabled.root.minHeight,
-        gap: vars.sizeSmall.enabled.root.gap,
+        paddingInline: vars.sizeSmall.rest.root.paddingX,
+        paddingBlock: vars.sizeSmall.rest.root.paddingY,
+        minHeight: vars.sizeSmall.rest.root.minHeight,
+        gap: vars.sizeSmall.rest.root.gap,
 
-        fontSize: vars.sizeSmall.enabled.label.fontSize,
-        lineHeight: vars.sizeSmall.enabled.label.lineHeight,
-        fontWeight: vars.sizeSmall.enabled.label.fontWeight,
+        fontSize: vars.sizeSmall.rest.label.fontSize,
+        lineHeight: vars.sizeSmall.rest.label.lineHeight,
+        fontWeight: vars.sizeSmall.rest.label.fontWeight,
 
         ...prefixIcon({
-          size: vars.sizeSmall.enabled.prefixIcon.size,
+          size: vars.sizeSmall.rest.prefixIcon.size,
         }),
       },
       medium: {
-        paddingInline: vars.sizeMedium.enabled.root.paddingX,
-        paddingBlock: vars.sizeMedium.enabled.root.paddingY,
-        minHeight: vars.sizeMedium.enabled.root.minHeight,
-        gap: vars.sizeMedium.enabled.root.gap,
+        paddingInline: vars.sizeMedium.rest.root.paddingX,
+        paddingBlock: vars.sizeMedium.rest.root.paddingY,
+        minHeight: vars.sizeMedium.rest.root.minHeight,
+        gap: vars.sizeMedium.rest.root.gap,
 
-        fontSize: vars.sizeMedium.enabled.label.fontSize,
-        lineHeight: vars.sizeMedium.enabled.label.lineHeight,
-        fontWeight: vars.sizeMedium.enabled.label.fontWeight,
+        fontSize: vars.sizeMedium.rest.label.fontSize,
+        lineHeight: vars.sizeMedium.rest.label.lineHeight,
+        fontWeight: vars.sizeMedium.rest.label.fontWeight,
 
         ...prefixIcon({
-          size: vars.sizeMedium.enabled.prefixIcon.size,
+          size: vars.sizeMedium.rest.prefixIcon.size,
         }),
       },
     },

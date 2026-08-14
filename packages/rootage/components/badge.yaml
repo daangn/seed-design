@@ -36,6 +36,10 @@ data:
           color:
             type: color
     variants:
+      size:
+        values:
+          large: {}
+          medium: {}
       variant:
         values:
           solid:
@@ -56,9 +60,11 @@ data:
             description: 만료 임박, 제출 누락, 필수 정보 부족 등 잠재적 문제 상태
           critical:
             description: 검수 거절, 제재 상태, 편집 불가, 유효성 검증 실패
-  definitions:
-    size=large:
-      enabled:
+          brand: {}
+  rules:
+    - variants:
+        size: large
+      slots:
         root:
           maxWidth: 6.75rem # 108px ÷ 16
           minHeight: $dimension.x6
@@ -68,8 +74,9 @@ data:
         label:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           maxWidth: 7.5rem # 120px ÷ 16
           minHeight: $dimension.x5
@@ -79,131 +86,163 @@ data:
         label:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
-
-    variant=weak:
-      enabled:
+    - variants:
+        variant: weak
+      slots:
         label:
           fontWeight: $font-weight.medium
-    variant=solid:
-      enabled:
+    - variants:
+        variant: solid
+      slots:
         label:
           fontWeight: $font-weight.bold
-    variant=outline:
-      enabled:
+    - variants:
+        variant: outline
+      slots:
         root:
           strokeWidth: 1px
         label:
           fontWeight: $font-weight.bold
-
-    tone=neutral, variant=weak:
-      enabled:
+    - variants:
+        tone: neutral
+        variant: weak
+      slots:
         root:
           color: $color.bg.neutral-weak
         label:
           color: $color.fg.neutral-muted
-    tone=neutral, variant=solid:
-      enabled:
+    - variants:
+        tone: neutral
+        variant: solid
+      slots:
         root:
           color: $color.palette.gray-800
         label:
           color: $color.fg.neutral-inverted
-    tone=neutral, variant=outline:
-      enabled:
+    - variants:
+        tone: neutral
+        variant: outline
+      slots:
         root:
           strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.neutral-muted
-
-    tone=brand, variant=weak:
-      enabled:
+    - variants:
+        tone: brand
+        variant: weak
+      slots:
         root:
           color: $color.bg.brand-weak
         label:
           color: $color.fg.brand-contrast
-    tone=brand, variant=solid:
-      enabled:
+    - variants:
+        tone: brand
+        variant: solid
+      slots:
         root:
           color: $color.bg.brand-solid
         label:
           color: $color.palette.static-white
-    tone=brand, variant=outline:
-      enabled:
+    - variants:
+        tone: brand
+        variant: outline
+      slots:
         root:
           strokeColor: $color.stroke.brand-weak
         label:
           color: $color.fg.brand
-
-    tone=informative, variant=weak:
-      enabled:
+    - variants:
+        tone: informative
+        variant: weak
+      slots:
         root:
           color: $color.bg.informative-weak
         label:
           color: $color.fg.informative-contrast
-    tone=informative, variant=solid:
-      enabled:
+    - variants:
+        tone: informative
+        variant: solid
+      slots:
         root:
           color: $color.bg.informative-solid
         label:
           color: $color.palette.static-white
-    tone=informative, variant=outline:
-      enabled:
+    - variants:
+        tone: informative
+        variant: outline
+      slots:
         root:
           strokeColor: $color.stroke.informative-weak
         label:
           color: $color.fg.informative
-
-    tone=positive, variant=weak:
-      enabled:
+    - variants:
+        tone: positive
+        variant: weak
+      slots:
         root:
           color: $color.bg.positive-weak
         label:
           color: $color.fg.positive-contrast
-    tone=positive, variant=solid:
-      enabled:
+    - variants:
+        tone: positive
+        variant: solid
+      slots:
         root:
           color: $color.bg.positive-solid
         label:
           color: $color.palette.static-white
-    tone=positive, variant=outline:
-      enabled:
+    - variants:
+        tone: positive
+        variant: outline
+      slots:
         root:
           strokeColor: $color.stroke.positive-weak
         label:
           color: $color.fg.positive
-
-    tone=warning, variant=weak:
-      enabled:
+    - variants:
+        tone: warning
+        variant: weak
+      slots:
         root:
           color: $color.bg.warning-weak
         label:
           color: $color.fg.warning-contrast
-    tone=warning, variant=solid:
-      enabled:
+    - variants:
+        tone: warning
+        variant: solid
+      slots:
         root:
           color: $color.bg.warning-solid
         label:
           color: $color.palette.static-black-alpha-900
-    tone=warning, variant=outline:
-      enabled:
+    - variants:
+        tone: warning
+        variant: outline
+      slots:
         root:
           strokeColor: $color.stroke.warning-weak
         label:
           color: $color.fg.warning
-
-    tone=critical, variant=weak:
-      enabled:
+    - variants:
+        tone: critical
+        variant: weak
+      slots:
         root:
           color: $color.bg.critical-weak
         label:
           color: $color.fg.critical-contrast
-    tone=critical, variant=solid:
-      enabled:
+    - variants:
+        tone: critical
+        variant: solid
+      slots:
         root:
           color: $color.bg.critical-solid
         label:
           color: $color.palette.static-white
-    tone=critical, variant=outline:
-      enabled:
+    - variants:
+        tone: critical
+        variant: outline
+      slots:
         root:
           strokeColor: $color.stroke.critical-weak
         label:

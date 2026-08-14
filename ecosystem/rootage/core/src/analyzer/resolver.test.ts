@@ -275,23 +275,40 @@ describe("resolveReferences", () => {
                   },
                 },
               },
+              variants: {
+                tone: {
+                  values: {
+                    layer: {},
+                  },
+                },
+              },
+              states: [{ id: "disabled" }],
             },
-            definitions: {
-              base: {
-                enabled: {
+            rules: [
+              {
+                slots: {
                   root: {
                     color: "$color.bg.layer-default",
                   },
                 },
               },
-              "tone=layer": {
-                enabled: {
+              {
+                variants: { tone: "layer" },
+                slots: {
                   root: {
                     color: "$color.bg.layer-default",
                   },
                 },
               },
-            },
+              {
+                states: ["disabled"],
+                slots: {
+                  root: {
+                    color: "$color.bg.layer-default",
+                  },
+                },
+              },
+            ],
           },
         }),
       },
@@ -302,8 +319,9 @@ describe("resolveReferences", () => {
 
     expect(result).toEqual([
       "$color.bg.layer-default",
-      "testid/base/enabled/root/color",
-      "testid/tone=layer/enabled/root/color",
+      "testid/base/rest/root/color",
+      "testid/tone=layer/rest/root/color",
+      "testid/base/disabled/root/color",
     ]);
   });
 });
@@ -427,15 +445,15 @@ describe("getTypeResolvedSourceFile", () => {
                 },
               },
             },
-            definitions: {
-              base: {
-                enabled: {
+            rules: [
+              {
+                slots: {
                   root: {
                     color: "$color.bg.layer-1",
                   },
                 },
               },
-            },
+            ],
           },
         }),
       },

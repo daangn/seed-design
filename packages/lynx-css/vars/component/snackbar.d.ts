@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "region": {
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x2)",
@@ -47,16 +47,15 @@ export declare const vars: {
       }
     }
   },
-  "variantDefault": {},
   "variantPositive": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-positive)"
       }
     }
   },
   "variantCritical": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical)"
       }

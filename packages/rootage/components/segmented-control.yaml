@@ -14,9 +14,8 @@ data:
             type: dimension
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           padding: $dimension.x1
           cornerRadius: $radius.full

@@ -107,9 +107,10 @@ data:
             type: dimension
           lineHeight:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: disabled
+  rules:
+    - slots:
         root:
           gap: $dimension.x0_5
         control:
@@ -160,7 +161,9 @@ data:
           fontWeight: $font-weight.regular
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
-      disabled:
+    - states:
+        - disabled
+      slots:
         track:
           color: $color.bg.disabled
         range:

@@ -22,11 +22,11 @@ export const snackbarRegion = defineRecipe({
     right: "calc(env(safe-area-inset-right, 0px))",
     bottom: "calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px))",
 
-    paddingInline: vars.base.enabled.region.paddingX,
-    paddingBlock: vars.base.enabled.region.paddingY,
+    paddingInline: vars.base.rest.region.paddingX,
+    paddingBlock: vars.base.rest.region.paddingY,
     transitionProperty: "bottom",
-    transitionDuration: vars.base.enabled.region.offsetDuration,
-    transitionTimingFunction: vars.base.enabled.region.offsetTimingFunction,
+    transitionDuration: vars.base.rest.region.offsetDuration,
+    transitionTimingFunction: vars.base.rest.region.offsetTimingFunction,
   },
   variants: {},
   defaultVariants: {},
@@ -42,27 +42,27 @@ export const snackbar = defineSlotRecipe({
       alignItems: "center",
 
       width: "100%",
-      maxWidth: vars.base.enabled.root.maxWidth,
+      maxWidth: vars.base.rest.root.maxWidth,
 
-      background: vars.base.enabled.root.color,
-      borderRadius: vars.base.enabled.root.cornerRadius,
-      paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
-      minHeight: vars.base.enabled.root.minHeight,
+      background: vars.base.rest.root.color,
+      borderRadius: vars.base.rest.root.cornerRadius,
+      paddingInline: vars.base.rest.root.paddingX,
+      paddingBlock: vars.base.rest.root.paddingY,
+      minHeight: vars.base.rest.root.minHeight,
 
       ...enterAnimation({
-        timingFunction: vars.base.enabled.root.enterTimingFunction,
-        duration: vars.base.enabled.root.enterDuration,
-        opacity: vars.base.enabled.root.enterOpacity,
-        scale: vars.base.enabled.root.enterScale,
+        timingFunction: vars.base.rest.root.enterTimingFunction,
+        duration: vars.base.rest.root.enterDuration,
+        opacity: vars.base.rest.root.enterOpacity,
+        scale: vars.base.rest.root.enterScale,
       }),
 
       "&:not([data-open])": {
         ...exitAnimation({
-          timingFunction: vars.base.enabled.root.exitTimingFunction,
-          duration: vars.base.enabled.root.exitDuration, // TODO: should we use --remove-delay here?
-          opacity: vars.base.enabled.root.exitOpacity,
-          scale: vars.base.enabled.root.exitScale,
+          timingFunction: vars.base.rest.root.exitTimingFunction,
+          duration: vars.base.rest.root.exitDuration, // TODO: should we use --remove-delay here?
+          opacity: vars.base.rest.root.exitOpacity,
+          scale: vars.base.rest.root.exitScale,
         }),
       },
 
@@ -75,22 +75,22 @@ export const snackbar = defineSlotRecipe({
       flexGrow: 1,
       justifyContent: "space-between",
       alignItems: "center",
-      paddingInline: vars.base.enabled.content.paddingX,
-      gap: vars.base.enabled.content.gap,
+      paddingInline: vars.base.rest.content.paddingX,
+      gap: vars.base.rest.content.gap,
     },
     message: {
       margin: 0,
 
-      color: vars.base.enabled.message.color,
-      fontSize: vars.base.enabled.message.fontSize,
-      lineHeight: vars.base.enabled.message.lineHeight,
-      fontWeight: vars.base.enabled.message.fontWeight,
+      color: vars.base.rest.message.color,
+      fontSize: vars.base.rest.message.fontSize,
+      lineHeight: vars.base.rest.message.lineHeight,
+      fontWeight: vars.base.rest.message.fontWeight,
     },
     prefixIcon: {
       flexShrink: 0,
-      width: vars.base.enabled.prefixIcon.size,
-      height: vars.base.enabled.prefixIcon.size,
-      paddingRight: vars.base.enabled.prefixIcon.paddingRight,
+      width: vars.base.rest.prefixIcon.size,
+      height: vars.base.rest.prefixIcon.size,
+      paddingRight: vars.base.rest.prefixIcon.paddingRight,
     },
     actionButton: {
       position: "relative",
@@ -107,10 +107,10 @@ export const snackbar = defineSlotRecipe({
       textDecoration: "none",
       flexShrink: 0,
 
-      color: vars.base.enabled.actionButton.color,
-      fontSize: vars.base.enabled.actionButton.fontSize,
-      lineHeight: vars.base.enabled.actionButton.lineHeight,
-      fontWeight: vars.base.enabled.actionButton.fontWeight,
+      color: vars.base.rest.actionButton.color,
+      fontSize: vars.base.rest.actionButton.fontSize,
+      lineHeight: vars.base.rest.actionButton.lineHeight,
+      fontWeight: vars.base.rest.actionButton.fontWeight,
 
       // target size
       "&:after": {
@@ -118,8 +118,8 @@ export const snackbar = defineSlotRecipe({
         position: "absolute",
         top: "50%",
         transform: "translateY(-50%)",
-        insetInline: `calc(-1 * ${vars.base.enabled.actionButton.targetPaddingX})`,
-        minHeight: vars.base.enabled.actionButton.targetMinHeight,
+        insetInline: `calc(-1 * ${vars.base.rest.actionButton.targetPaddingX})`,
+        minHeight: vars.base.rest.actionButton.targetMinHeight,
         background: "transparent",
         ...createFocusRingRestStyles({ position: "inside" }),
         transition: FOCUS_RING_TRANSITION,
@@ -146,12 +146,12 @@ export const snackbar = defineSlotRecipe({
       },
       positive: {
         prefixIcon: {
-          color: vars.variantPositive.enabled.prefixIcon.color,
+          color: vars.variantPositive.rest.prefixIcon.color,
         },
       },
       critical: {
         prefixIcon: {
-          color: vars.variantCritical.enabled.prefixIcon.color,
+          color: vars.variantCritical.rest.prefixIcon.color,
         },
       },
     },

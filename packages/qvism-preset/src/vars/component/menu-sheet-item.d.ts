@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)",
         "minHeight": "52px",
@@ -36,7 +36,7 @@ export declare const vars: {
    * 일반적인 작업을 수행하는 기본 아이템입니다.
    */
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -49,7 +49,7 @@ export declare const vars: {
    * 데이터 삭제와 같이 되돌릴 수 없는 작업을 수행하는 아이템입니다.
    */
   "toneCritical": {
-    "enabled": {
+    "rest": {
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical)"
       },
@@ -57,13 +57,5 @@ export declare const vars: {
         "color": "var(--seed-color-fg-critical)"
       }
     }
-  },
-  /**
-   * 라벨을 왼쪽 정렬합니다.
-   */
-  "labelAlignLeft": {},
-  /**
-   * 라벨을 중앙 정렬합니다.
-   */
-  "labelAlignCenter": {}
+  }
 }

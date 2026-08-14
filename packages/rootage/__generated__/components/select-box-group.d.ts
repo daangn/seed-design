@@ -21,29 +21,24 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gapX": {
-                  "type": "dimension";
-                  "value": "$dimension.x3";
-                };
-                "gapY": {
-                  "type": "dimension";
-                  "value": "$dimension.spacing-y.component-default";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gapX": {
+              "type": "dimension";
+              "value": "$dimension.x3";
             };
-          },
-        ];
+            "gapY": {
+              "type": "dimension";
+              "value": "$dimension.spacing-y.component-default";
+            };
+          };
+        };
       },
     ];
   };

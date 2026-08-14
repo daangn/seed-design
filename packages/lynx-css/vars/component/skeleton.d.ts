@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "shimmer": {
         "duration": "1.5s",
         "timingFunction": "var(--seed-timing-function-easing)"
@@ -11,7 +11,7 @@ export declare const vars: {
    * 기본값입니다.
    */
   "radius0": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "0px"
       }
@@ -21,7 +21,7 @@ export declare const vars: {
    * 텍스트 콘텐츠에 사용합니다.
    */
   "radius8": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "8px"
       }
@@ -31,7 +31,7 @@ export declare const vars: {
    * 카드 및 썸네일에 사용합니다.
    */
   "radius16": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "16px"
       }
@@ -41,7 +41,7 @@ export declare const vars: {
    * Avatar(원형) 콘텐츠에 사용합니다.
    */
   "radiusFull": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)"
       }
@@ -51,7 +51,7 @@ export declare const vars: {
    * 데이터를 불러오는 일반적인 로딩 경험에 사용합니다.
    */
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-palette-gray-200)"
       },
@@ -64,7 +64,7 @@ export declare const vars: {
    * AI 기능이 활성화되었을 때 사용합니다.
    */
   "toneMagic": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-magic-weak)"
       },

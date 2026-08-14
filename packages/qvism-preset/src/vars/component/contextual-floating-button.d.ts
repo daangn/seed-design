@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
         "shadow": "var(--seed-shadow-s3)",
@@ -17,7 +17,7 @@ export declare const vars: {
    * 배경과 대비되는 강조된 보조 액션으로 중요도 높은 행동 유도 시 적합합니다.
    */
   "variantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -64,7 +64,7 @@ export declare const vars: {
    * 시각적 부담 없이 부드럽게 액션을 유도합니다.
    */
   "variantLayer": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-layer-floating)"
       },
@@ -111,7 +111,7 @@ export declare const vars: {
    * label과 prefixIcon을 함께 표시합니다.
    */
   "layoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "36px",
         "paddingX": "var(--seed-dimension-x3_5)",
@@ -132,7 +132,7 @@ export declare const vars: {
    * icon만 표시합니다. 아이콘만으로 의미를 전달하기 때문에 접근성 레이블과 함께 사용해야 합니다.
    */
   "layoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "44px"
       },

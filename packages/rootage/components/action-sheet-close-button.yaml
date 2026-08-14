@@ -27,9 +27,10 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           color: $color.bg.layer-floating
           minHeight: 50px
@@ -40,6 +41,8 @@ data:
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold
           color: $color.fg.neutral
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.layer-floating-pressed

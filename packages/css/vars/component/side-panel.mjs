@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "backdrop": {
         "color": "var(--seed-color-bg-overlay)",
         "enterDuration": "var(--seed-duration-d6)",
@@ -62,21 +62,21 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "content": {
         "width": "480px"
       }
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "content": {
         "width": "720px"
       }
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "content": {
         "width": "960px"
       }

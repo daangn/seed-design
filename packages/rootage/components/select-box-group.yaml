@@ -12,9 +12,8 @@ data:
             type: dimension
           gapY:
             type: dimension
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           gapX: $dimension.x3
           gapY: $dimension.spacing-y.component-default

@@ -129,484 +129,465 @@
             "magic": {
               "description": "AI 기능을 나타냅니다."
             }
-          },
-          "defaultValue": "neutral"
+          }
         }
-      }
+      },
+      "states": [
+        {
+          "id": "pressed",
+          "suppresses": []
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r2_5"
-                },
-                "minHeight": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 50,
-                    "unit": "px"
-                  }
-                }
-              },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                }
-              },
-              "title": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.bold"
-                }
-              },
-              "description": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                }
-              },
-              "link": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t4"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                }
-              },
-              "suffixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": "$dimension.x10"
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "paddingX": {
+              "type": "dimension",
+              "value": "$dimension.x3_5"
+            },
+            "paddingY": {
+              "type": "dimension",
+              "value": "$dimension.x3_5"
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x3"
+            },
+            "cornerRadius": {
+              "type": "dimension",
+              "value": "$radius.r2_5"
+            },
+            "minHeight": {
+              "type": "dimension",
+              "value": {
+                "value": 50,
+                "unit": "px"
               }
             }
+          },
+          "prefixIcon": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x4"
+            }
+          },
+          "title": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t4"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t4"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.bold"
+            }
+          },
+          "description": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t4"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t4"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.regular"
+            }
+          },
+          "link": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t4"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t4"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.regular"
+            }
+          },
+          "suffixIcon": {
+            "size": {
+              "type": "dimension",
+              "value": "$dimension.x4"
+            },
+            "targetSize": {
+              "type": "dimension",
+              "value": "$dimension.x10"
+            }
           }
-        ]
+        }
       },
       {
         "variants": {
           "tone": "neutral"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "title": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "description": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "link": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-weak"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak-pressed"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "title": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "description": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "link": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "suffixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "tone": "neutral"
+        },
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-weak-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "tone": "informative"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.informative-weak"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.informative-contrast"
-                }
-              },
-              "title": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.informative-contrast"
-                }
-              },
-              "description": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.informative-contrast"
-                }
-              },
-              "link": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.informative-contrast"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.informative-contrast"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.informative-weak"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.informative-weak-pressed"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.informative-contrast"
+            }
+          },
+          "title": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.informative-contrast"
+            }
+          },
+          "description": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.informative-contrast"
+            }
+          },
+          "link": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.informative-contrast"
+            }
+          },
+          "suffixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.informative-contrast"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "tone": "informative"
+        },
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.informative-weak-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "tone": "positive"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.positive-weak"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.positive-contrast"
-                }
-              },
-              "title": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.positive-contrast"
-                }
-              },
-              "description": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.positive-contrast"
-                }
-              },
-              "link": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.positive-contrast"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.positive-contrast"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.positive-weak"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.positive-weak-pressed"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.positive-contrast"
+            }
+          },
+          "title": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.positive-contrast"
+            }
+          },
+          "description": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.positive-contrast"
+            }
+          },
+          "link": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.positive-contrast"
+            }
+          },
+          "suffixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.positive-contrast"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "tone": "positive"
+        },
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.positive-weak-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "tone": "warning"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.warning-weak"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.warning-contrast"
-                }
-              },
-              "title": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.warning-contrast"
-                }
-              },
-              "description": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.warning-contrast"
-                }
-              },
-              "link": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.warning-contrast"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.warning-contrast"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.warning-weak"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.warning-weak-pressed"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.warning-contrast"
+            }
+          },
+          "title": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.warning-contrast"
+            }
+          },
+          "description": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.warning-contrast"
+            }
+          },
+          "link": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.warning-contrast"
+            }
+          },
+          "suffixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.warning-contrast"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "tone": "warning"
+        },
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.warning-weak-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "tone": "critical"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.critical-weak"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical-contrast"
-                }
-              },
-              "title": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical-contrast"
-                }
-              },
-              "description": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical-contrast"
-                }
-              },
-              "link": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical-contrast"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical-contrast"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.critical-weak"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.critical-weak-pressed"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.critical-contrast"
+            }
+          },
+          "title": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.critical-contrast"
+            }
+          },
+          "description": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.critical-contrast"
+            }
+          },
+          "link": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.critical-contrast"
+            }
+          },
+          "suffixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.critical-contrast"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "tone": "critical"
+        },
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.critical-weak-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "tone": "magic"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "gradient": {
-                  "type": "gradient",
-                  "value": "$gradient.glow-magic"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "title": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "description": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "link": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "gradient": {
+              "type": "gradient",
+              "value": "$gradient.glow-magic"
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "gradient": {
-                  "type": "gradient",
-                  "value": "$gradient.glow-magic-pressed"
-                }
-              }
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "title": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "description": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "link": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "suffixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {
+          "tone": "magic"
+        },
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "gradient": {
+              "type": "gradient",
+              "value": "$gradient.glow-magic-pressed"
+            }
+          }
+        }
       }
     ]
   }

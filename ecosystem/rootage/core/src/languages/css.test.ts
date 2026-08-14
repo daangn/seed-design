@@ -61,14 +61,11 @@ test("stringifier.value should stringify an enum parsed from a component spec", 
           },
         },
       },
-      definitions: {
-        base: { pressed: { root: { scaleScope: "content" } } },
-      },
+      rules: [{ slots: { root: { scaleScope: "content" } } }],
     },
   };
 
-  const propertyDecl =
-    Authoring.parseComponentSpecDocument(spec).data.body[0]?.body[0]?.body[0]?.body[0];
+  const propertyDecl = Authoring.parseComponentSpecDocument(spec).data.rules[0]?.body[0]?.body[0];
   if (propertyDecl?.kind !== "EnumPropertyDeclaration") {
     throw new Error("expected the spec to parse into an enum property");
   }

@@ -61,28 +61,25 @@ declare const artifact: {
             "large": {};
             "medium": {};
           };
-          "defaultValue": "large";
         };
         "variant": {
           "values": {
-            "weak": {
-              "description": "반복적인 구조를 가진 환경에서 사용합니다. 배경색이 있는 경우에는 권장하지 않습니다.";
-            };
             "solid": {
               "description": "배경이 복잡하거나 이미지 위에 Badge가 겹치는 경우 사용합니다.";
             };
             "outline": {
               "description": "중간 정도의 주목도가 필요한 본문 또는 상세 화면에서 사용합니다.";
             };
+            "weak": {
+              "description": "반복적인 구조를 가진 환경에서 사용합니다. 배경색이 있는 경우에는 권장하지 않습니다.";
+            };
           };
-          "defaultValue": "weak";
         };
         "tone": {
           "values": {
             "neutral": {
               "description": "상태가 특별히 없거나, 상태값이 명확하지 않은 초기 상태";
             };
-            "brand": {};
             "informative": {
               "description": "베타 기능 안내, 사용자 권한 제한, 정보 기반 메시지";
             };
@@ -95,664 +92,527 @@ declare const artifact: {
             "critical": {
               "description": "검수 거절, 제재 상태, 편집 불가, 유효성 검증 실패";
             };
+            "brand": {};
           };
-          "defaultValue": "neutral";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {
           "size": "large";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "maxWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 6.75;
-                    "unit": "rem";
-                  };
-                };
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r1_5";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t2";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t2";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "maxWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 6.75;
+                "unit": "rem";
               };
             };
-          },
-        ];
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x1";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r1_5";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t2";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t2";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "maxWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 7.5;
-                    "unit": "rem";
-                  };
-                };
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x5";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x1_5";
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x0_5";
-                };
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r1";
-                };
-              };
-              "label": {
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t1";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t1";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "maxWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 7.5;
+                "unit": "rem";
               };
             };
-          },
-        ];
+            "minHeight": {
+              "type": "dimension";
+              "value": "$dimension.x5";
+            };
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x1_5";
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x0_5";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r1";
+            };
+          };
+          "label": {
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t1";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t1";
+            };
+          };
+        };
       },
       {
         "variants": {
           "variant": "weak";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "variant": "solid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "label": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "variant": "outline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-              };
-              "label": {
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.bold";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeWidth": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "label": {
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.bold";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "weak";
           "tone": "neutral";
-          "variant": "weak";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.neutral-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-muted";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.neutral-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-muted";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "solid";
           "tone": "neutral";
-          "variant": "solid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-800";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-800";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "outline";
           "tone": "neutral";
-          "variant": "outline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-muted";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-muted";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "weak";
           "tone": "brand";
-          "variant": "weak";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand-contrast";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand-contrast";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "solid";
           "tone": "brand";
-          "variant": "solid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-solid";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "outline";
           "tone": "brand";
-          "variant": "outline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.brand-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.brand";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.brand-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.brand";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "weak";
           "tone": "informative";
-          "variant": "weak";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.informative-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.informative-contrast";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.informative-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.informative-contrast";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "solid";
           "tone": "informative";
-          "variant": "solid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.informative-solid";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.informative-solid";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "outline";
           "tone": "informative";
-          "variant": "outline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.informative-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.informative";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.informative-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.informative";
+            };
+          };
+        };
       },
       {
         "variants": {
-          "tone": "positive";
           "variant": "weak";
-        };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.positive-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.positive-contrast";
-                };
-              };
-            };
-          },
-        ];
-      },
-      {
-        "variants": {
           "tone": "positive";
-          "variant": "solid";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.positive-solid";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.positive-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.positive-contrast";
+            };
+          };
+        };
       },
       {
         "variants": {
+          "variant": "solid";
           "tone": "positive";
-          "variant": "outline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.positive-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.positive";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.positive-solid";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
       },
       {
         "variants": {
-          "tone": "warning";
+          "variant": "outline";
+          "tone": "positive";
+        };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.positive-weak";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.positive";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
           "variant": "weak";
+          "tone": "warning";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.warning-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.warning-contrast";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.warning-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.warning-contrast";
+            };
+          };
+        };
       },
       {
         "variants": {
-          "tone": "warning";
           "variant": "solid";
-        };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.warning-solid";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-black-alpha-900";
-                };
-              };
-            };
-          },
-        ];
-      },
-      {
-        "variants": {
           "tone": "warning";
-          "variant": "outline";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.warning-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.warning";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.warning-solid";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-black-alpha-900";
+            };
+          };
+        };
       },
       {
         "variants": {
-          "tone": "critical";
+          "variant": "outline";
+          "tone": "warning";
+        };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.warning-weak";
+            };
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.warning";
+            };
+          };
+        };
+      },
+      {
+        "variants": {
           "variant": "weak";
+          "tone": "critical";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.critical-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.critical-contrast";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.critical-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.critical-contrast";
+            };
+          };
+        };
       },
       {
         "variants": {
-          "tone": "critical";
           "variant": "solid";
+          "tone": "critical";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.critical-solid";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.critical-solid";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
       },
       {
         "variants": {
-          "tone": "critical";
           "variant": "outline";
+          "tone": "critical";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color";
-                  "value": "$color.stroke.critical-weak";
-                };
-              };
-              "label": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.critical";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "strokeColor": {
+              "type": "color";
+              "value": "$color.stroke.critical-weak";
             };
-          },
-        ];
+          };
+          "label": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.critical";
+            };
+          };
+        };
       },
     ];
   };

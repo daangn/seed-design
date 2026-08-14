@@ -71,7 +71,7 @@ function resolveProgressCircleSize(
   const size = actionButtonSize ?? "medium";
   const token = resolveRecipeToken(actionButtonVars, [
     `size${capitalize(size)}`,
-    "enabled",
+    "rest",
     "progressCircle",
     "size",
   ]);

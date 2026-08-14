@@ -40,28 +40,28 @@ export const menu = defineSlotRecipe({
       outline: "none",
     },
     content: {
-      borderRadius: menuVars.base.enabled.root.cornerRadius,
-      background: menuVars.base.enabled.root.color,
-      boxShadow: menuVars.base.enabled.root.shadow,
+      borderRadius: menuVars.base.rest.root.cornerRadius,
+      background: menuVars.base.rest.root.color,
+      boxShadow: menuVars.base.rest.root.shadow,
       transformOrigin: `var(${MENU_TRANSFORM_ORIGIN})`,
 
       overflow: "hidden",
 
       [pseudo(open)]: {
         ...enterAnimation({
-          scale: menuVars.base.enabled.root.enterScale,
-          opacity: menuVars.base.enabled.root.enterOpacity,
-          duration: menuVars.base.enabled.root.enterDuration,
-          timingFunction: menuVars.base.enabled.root.enterTimingFunction,
+          scale: menuVars.base.rest.root.enterScale,
+          opacity: menuVars.base.rest.root.enterOpacity,
+          duration: menuVars.base.rest.root.enterDuration,
+          timingFunction: menuVars.base.rest.root.enterTimingFunction,
         }),
       },
 
       [pseudo(not(open))]: {
         ...exitAnimation({
-          scale: menuVars.base.enabled.root.exitScale,
-          opacity: menuVars.base.enabled.root.exitOpacity,
-          duration: menuVars.base.enabled.root.exitDuration,
-          timingFunction: menuVars.base.enabled.root.exitTimingFunction,
+          scale: menuVars.base.rest.root.exitScale,
+          opacity: menuVars.base.rest.root.exitOpacity,
+          duration: menuVars.base.rest.root.exitDuration,
+          timingFunction: menuVars.base.rest.root.exitTimingFunction,
         }),
       },
 
@@ -81,14 +81,14 @@ export const menu = defineSlotRecipe({
     },
     scrollArea: {
       overflowY: "auto",
-      maxHeight: `min(${menuVars.base.enabled.root.maxHeight}, var(${MENU_AVAILABLE_HEIGHT}, ${menuVars.base.enabled.root.maxHeight}))`,
+      maxHeight: `min(${menuVars.base.rest.root.maxHeight}, var(${MENU_AVAILABLE_HEIGHT}, ${menuVars.base.rest.root.maxHeight}))`,
       boxSizing: "border-box",
 
-      paddingBlock: menuVars.base.enabled.root.paddingY,
+      paddingBlock: menuVars.base.rest.root.paddingY,
 
       display: "flex",
       flexDirection: "column",
-      gap: menuVars.base.enabled.root.gap,
+      gap: menuVars.base.rest.root.gap,
     },
     group: {
       display: "flex",
@@ -97,68 +97,68 @@ export const menu = defineSlotRecipe({
       "& + &::before": {
         content: '""',
         display: "block",
-        marginInline: menuVars.base.enabled.divider.marginX,
-        marginBottom: menuVars.base.enabled.root.gap,
-        height: menuVars.base.enabled.divider.height,
+        marginInline: menuVars.base.rest.divider.marginX,
+        marginBottom: menuVars.base.rest.root.gap,
+        height: menuVars.base.rest.divider.height,
         flexShrink: 0,
-        backgroundColor: menuVars.base.enabled.divider.color,
+        backgroundColor: menuVars.base.rest.divider.color,
       },
     },
     groupLabel: {
-      color: menuVars.base.enabled.groupLabel.color,
+      color: menuVars.base.rest.groupLabel.color,
     },
   },
   variants: {
     size: {
       medium: {
         content: {
-          width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeMedium.enabled.root.width})`,
+          width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeMedium.rest.root.width})`,
         },
         groupLabel: {
-          paddingBlock: menuVars.sizeMedium.enabled.groupLabel.paddingY,
-          paddingInline: menuVars.sizeMedium.enabled.groupLabel.paddingX,
+          paddingBlock: menuVars.sizeMedium.rest.groupLabel.paddingY,
+          paddingInline: menuVars.sizeMedium.rest.groupLabel.paddingX,
 
-          fontSize: menuVars.sizeMedium.enabled.groupLabel.fontSize,
-          lineHeight: menuVars.sizeMedium.enabled.groupLabel.lineHeight,
-          fontWeight: menuVars.sizeMedium.enabled.groupLabel.fontWeight,
+          fontSize: menuVars.sizeMedium.rest.groupLabel.fontSize,
+          lineHeight: menuVars.sizeMedium.rest.groupLabel.lineHeight,
+          fontWeight: menuVars.sizeMedium.rest.groupLabel.fontWeight,
         },
       },
       small: {
         content: {
-          width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeSmall.enabled.root.width})`,
+          width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeSmall.rest.root.width})`,
         },
         groupLabel: {
-          paddingBlock: menuVars.sizeSmall.enabled.groupLabel.paddingY,
-          paddingInline: menuVars.sizeSmall.enabled.groupLabel.paddingX,
+          paddingBlock: menuVars.sizeSmall.rest.groupLabel.paddingY,
+          paddingInline: menuVars.sizeSmall.rest.groupLabel.paddingX,
 
-          fontSize: menuVars.sizeSmall.enabled.groupLabel.fontSize,
-          lineHeight: menuVars.sizeSmall.enabled.groupLabel.lineHeight,
-          fontWeight: menuVars.sizeSmall.enabled.groupLabel.fontWeight,
+          fontSize: menuVars.sizeSmall.rest.groupLabel.fontSize,
+          lineHeight: menuVars.sizeSmall.rest.groupLabel.lineHeight,
+          fontWeight: menuVars.sizeSmall.rest.groupLabel.fontWeight,
         },
       },
       responsive: {
         content: {
-          width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeMedium.enabled.root.width})`,
+          width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeMedium.rest.root.width})`,
 
           [breakpoints.up("lg")]: {
-            width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeSmall.enabled.root.width})`,
+            width: `var(${MENU_REFERENCE_WIDTH}, ${menuVars.sizeSmall.rest.root.width})`,
           },
         },
         groupLabel: {
-          paddingBlock: menuVars.sizeMedium.enabled.groupLabel.paddingY,
-          paddingInline: menuVars.sizeMedium.enabled.groupLabel.paddingX,
+          paddingBlock: menuVars.sizeMedium.rest.groupLabel.paddingY,
+          paddingInline: menuVars.sizeMedium.rest.groupLabel.paddingX,
 
-          fontSize: menuVars.sizeMedium.enabled.groupLabel.fontSize,
-          lineHeight: menuVars.sizeMedium.enabled.groupLabel.lineHeight,
-          fontWeight: menuVars.sizeMedium.enabled.groupLabel.fontWeight,
+          fontSize: menuVars.sizeMedium.rest.groupLabel.fontSize,
+          lineHeight: menuVars.sizeMedium.rest.groupLabel.lineHeight,
+          fontWeight: menuVars.sizeMedium.rest.groupLabel.fontWeight,
 
           [breakpoints.up("lg")]: {
-            paddingBlock: menuVars.sizeSmall.enabled.groupLabel.paddingY,
-            paddingInline: menuVars.sizeSmall.enabled.groupLabel.paddingX,
+            paddingBlock: menuVars.sizeSmall.rest.groupLabel.paddingY,
+            paddingInline: menuVars.sizeSmall.rest.groupLabel.paddingX,
 
-            fontSize: menuVars.sizeSmall.enabled.groupLabel.fontSize,
-            lineHeight: menuVars.sizeSmall.enabled.groupLabel.lineHeight,
-            fontWeight: menuVars.sizeSmall.enabled.groupLabel.fontWeight,
+            fontSize: menuVars.sizeSmall.rest.groupLabel.fontSize,
+            lineHeight: menuVars.sizeSmall.rest.groupLabel.lineHeight,
+            fontWeight: menuVars.sizeSmall.rest.groupLabel.fontWeight,
           },
         },
       },
@@ -189,8 +189,8 @@ export const menuItem = defineSlotRecipe({
   base: {
     root: {
       position: "relative",
-      scrollMarginTop: menuVars.base.enabled.root.paddingY,
-      scrollMarginBottom: menuVars.base.enabled.root.paddingY,
+      scrollMarginTop: menuVars.base.rest.root.paddingY,
+      scrollMarginBottom: menuVars.base.rest.root.paddingY,
 
       display: "flex",
       alignItems: "center",
@@ -215,8 +215,8 @@ export const menuItem = defineSlotRecipe({
         zIndex: -1,
 
         transitionProperty: "background-color, inset-inline, border-radius",
-        transitionDuration: menuItemVars.base.enabled.root.colorDuration,
-        transitionTimingFunction: menuItemVars.base.enabled.root.colorTimingFunction,
+        transitionDuration: menuItemVars.base.rest.root.colorDuration,
+        transitionTimingFunction: menuItemVars.base.rest.root.colorTimingFunction,
       },
 
       "&::after": {
@@ -256,18 +256,18 @@ export const menuItem = defineSlotRecipe({
       flexDirection: "column",
 
       flexGrow: 1,
-      gap: menuItemVars.base.enabled.body.gap,
+      gap: menuItemVars.base.rest.body.gap,
     },
     label: {
-      fontWeight: menuItemVars.base.enabled.label.fontWeight,
+      fontWeight: menuItemVars.base.rest.label.fontWeight,
 
       [pseudo(disabled)]: {
         color: menuItemVars.base.disabled.label.color,
       },
     },
     description: {
-      fontWeight: menuItemVars.base.enabled.description.fontWeight,
-      color: menuItemVars.base.enabled.description.color,
+      fontWeight: menuItemVars.base.rest.description.fontWeight,
+      color: menuItemVars.base.rest.description.color,
 
       [pseudo(disabled)]: {
         color: menuItemVars.base.disabled.description.color,
@@ -278,98 +278,98 @@ export const menuItem = defineSlotRecipe({
     size: {
       medium: {
         root: {
-          paddingBlock: menuItemVars.sizeMedium.enabled.root.paddingY,
-          paddingInline: menuItemVars.sizeMedium.enabled.root.paddingX,
+          paddingBlock: menuItemVars.sizeMedium.rest.root.paddingY,
+          paddingInline: menuItemVars.sizeMedium.rest.root.paddingX,
 
-          gap: menuItemVars.sizeMedium.enabled.root.gap,
+          gap: menuItemVars.sizeMedium.rest.root.gap,
 
           ...prefixIcon({
-            size: menuItemVars.sizeMedium.enabled.prefixIcon.size,
+            size: menuItemVars.sizeMedium.rest.prefixIcon.size,
           }),
 
           ...suffixIcon({
-            size: menuItemVars.sizeMedium.enabled.suffixIcon.size,
+            size: menuItemVars.sizeMedium.rest.suffixIcon.size,
           }),
         },
         label: {
-          fontSize: menuItemVars.sizeMedium.enabled.label.fontSize,
-          lineHeight: menuItemVars.sizeMedium.enabled.label.lineHeight,
+          fontSize: menuItemVars.sizeMedium.rest.label.fontSize,
+          lineHeight: menuItemVars.sizeMedium.rest.label.lineHeight,
         },
         description: {
-          fontSize: menuItemVars.sizeMedium.enabled.description.fontSize,
-          lineHeight: menuItemVars.sizeMedium.enabled.description.lineHeight,
+          fontSize: menuItemVars.sizeMedium.rest.description.fontSize,
+          lineHeight: menuItemVars.sizeMedium.rest.description.lineHeight,
         },
       },
       small: {
         root: {
-          paddingBlock: menuItemVars.sizeSmall.enabled.root.paddingY,
-          paddingInline: menuItemVars.sizeSmall.enabled.root.paddingX,
+          paddingBlock: menuItemVars.sizeSmall.rest.root.paddingY,
+          paddingInline: menuItemVars.sizeSmall.rest.root.paddingX,
 
-          gap: menuItemVars.sizeSmall.enabled.root.gap,
+          gap: menuItemVars.sizeSmall.rest.root.gap,
 
           ...prefixIcon({
-            size: menuItemVars.sizeSmall.enabled.prefixIcon.size,
+            size: menuItemVars.sizeSmall.rest.prefixIcon.size,
           }),
 
           ...suffixIcon({
-            size: menuItemVars.sizeSmall.enabled.suffixIcon.size,
+            size: menuItemVars.sizeSmall.rest.suffixIcon.size,
           }),
         },
         label: {
-          fontSize: menuItemVars.sizeSmall.enabled.label.fontSize,
-          lineHeight: menuItemVars.sizeSmall.enabled.label.lineHeight,
+          fontSize: menuItemVars.sizeSmall.rest.label.fontSize,
+          lineHeight: menuItemVars.sizeSmall.rest.label.lineHeight,
         },
         description: {
-          fontSize: menuItemVars.sizeSmall.enabled.description.fontSize,
-          lineHeight: menuItemVars.sizeSmall.enabled.description.lineHeight,
+          fontSize: menuItemVars.sizeSmall.rest.description.fontSize,
+          lineHeight: menuItemVars.sizeSmall.rest.description.lineHeight,
         },
       },
       responsive: {
         root: {
-          paddingBlock: menuItemVars.sizeMedium.enabled.root.paddingY,
-          paddingInline: menuItemVars.sizeMedium.enabled.root.paddingX,
+          paddingBlock: menuItemVars.sizeMedium.rest.root.paddingY,
+          paddingInline: menuItemVars.sizeMedium.rest.root.paddingX,
 
-          gap: menuItemVars.sizeMedium.enabled.root.gap,
+          gap: menuItemVars.sizeMedium.rest.root.gap,
 
           ...prefixIcon({
-            size: menuItemVars.sizeMedium.enabled.prefixIcon.size,
+            size: menuItemVars.sizeMedium.rest.prefixIcon.size,
           }),
 
           ...suffixIcon({
-            size: menuItemVars.sizeMedium.enabled.suffixIcon.size,
+            size: menuItemVars.sizeMedium.rest.suffixIcon.size,
           }),
 
           [breakpoints.up("lg")]: {
-            paddingBlock: menuItemVars.sizeSmall.enabled.root.paddingY,
-            paddingInline: menuItemVars.sizeSmall.enabled.root.paddingX,
+            paddingBlock: menuItemVars.sizeSmall.rest.root.paddingY,
+            paddingInline: menuItemVars.sizeSmall.rest.root.paddingX,
 
-            gap: menuItemVars.sizeSmall.enabled.root.gap,
+            gap: menuItemVars.sizeSmall.rest.root.gap,
 
             ...prefixIcon({
-              size: menuItemVars.sizeSmall.enabled.prefixIcon.size,
+              size: menuItemVars.sizeSmall.rest.prefixIcon.size,
             }),
 
             ...suffixIcon({
-              size: menuItemVars.sizeSmall.enabled.suffixIcon.size,
+              size: menuItemVars.sizeSmall.rest.suffixIcon.size,
             }),
           },
         },
         label: {
-          fontSize: menuItemVars.sizeMedium.enabled.label.fontSize,
-          lineHeight: menuItemVars.sizeMedium.enabled.label.lineHeight,
+          fontSize: menuItemVars.sizeMedium.rest.label.fontSize,
+          lineHeight: menuItemVars.sizeMedium.rest.label.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: menuItemVars.sizeSmall.enabled.label.fontSize,
-            lineHeight: menuItemVars.sizeSmall.enabled.label.lineHeight,
+            fontSize: menuItemVars.sizeSmall.rest.label.fontSize,
+            lineHeight: menuItemVars.sizeSmall.rest.label.lineHeight,
           },
         },
         description: {
-          fontSize: menuItemVars.sizeMedium.enabled.description.fontSize,
-          lineHeight: menuItemVars.sizeMedium.enabled.description.lineHeight,
+          fontSize: menuItemVars.sizeMedium.rest.description.fontSize,
+          lineHeight: menuItemVars.sizeMedium.rest.description.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: menuItemVars.sizeSmall.enabled.description.fontSize,
-            lineHeight: menuItemVars.sizeSmall.enabled.description.lineHeight,
+            fontSize: menuItemVars.sizeSmall.rest.description.fontSize,
+            lineHeight: menuItemVars.sizeSmall.rest.description.lineHeight,
           },
         },
       },
@@ -378,27 +378,27 @@ export const menuItem = defineSlotRecipe({
       neutral: {
         root: {
           ...prefixIcon({
-            color: menuItemVars.toneNeutral.enabled.prefixIcon.color,
+            color: menuItemVars.toneNeutral.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: menuItemVars.toneNeutral.enabled.suffixIcon.color,
+            color: menuItemVars.toneNeutral.rest.suffixIcon.color,
           }),
         },
         label: {
-          color: menuItemVars.toneNeutral.enabled.label.color,
+          color: menuItemVars.toneNeutral.rest.label.color,
         },
       },
       critical: {
         root: {
           ...prefixIcon({
-            color: menuItemVars.toneCritical.enabled.prefixIcon.color,
+            color: menuItemVars.toneCritical.rest.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: menuItemVars.toneCritical.enabled.suffixIcon.color,
+            color: menuItemVars.toneCritical.rest.suffixIcon.color,
           }),
         },
         label: {
-          color: menuItemVars.toneCritical.enabled.label.color,
+          color: menuItemVars.toneCritical.rest.label.color,
         },
       },
     },

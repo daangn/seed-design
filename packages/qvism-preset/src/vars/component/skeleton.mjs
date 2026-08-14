@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "shimmer": {
         "duration": "1.5s",
         "timingFunction": "var(--seed-timing-function-easing)"
@@ -8,35 +8,35 @@ export const vars = {
     }
   },
   "radius0": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "0px"
       }
     }
   },
   "radius8": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "8px"
       }
     }
   },
   "radius16": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "16px"
       }
     }
   },
   "radiusFull": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)"
       }
     }
   },
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-palette-gray-200)"
       },
@@ -46,7 +46,7 @@ export const vars = {
     }
   },
   "toneMagic": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-magic-weak)"
       },

@@ -26,71 +26,53 @@ declare const artifact: {
             "thin": {};
             "thick": {};
           };
-          "defaultValue": "thin";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-inverted";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-inverted";
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "weight": "thin";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "width": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "width": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "weight": "thick";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "width": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "width": {
+              "type": "dimension";
+              "value": "$dimension.x1";
             };
-          },
-        ];
+          };
+        };
       },
     ];
   };

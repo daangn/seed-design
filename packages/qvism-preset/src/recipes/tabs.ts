@@ -29,9 +29,9 @@ const tabs = defineSlotRecipe({
         display: "none",
       },
 
-      background: vars.base.enabled.root.color,
+      background: vars.base.rest.root.color,
       // use inset boxShadow instead of border to avoid layout shift
-      boxShadow: `inset 0 -${vars.base.enabled.root.strokeBottomWidth} ${vars.base.enabled.root.strokeColor}`,
+      boxShadow: `inset 0 -${vars.base.rest.root.strokeBottomWidth} ${vars.base.rest.root.strokeColor}`,
     },
     carousel: {
       display: "block",
@@ -62,12 +62,12 @@ const tabs = defineSlotRecipe({
       position: "absolute",
       willChange: "left, width",
       transitionProperty: "left, width",
-      transitionDuration: vars.base.enabled.indicator.transformDuration,
-      transitionTimingFunction: vars.base.enabled.indicator.transformTimingFunction,
+      transitionDuration: vars.base.rest.indicator.transformDuration,
+      transitionTimingFunction: vars.base.rest.indicator.transformTimingFunction,
       left: "var(--indicator-left, 0px)",
       width: "var(--indicator-width, 0px)",
-      color: vars.base.enabled.indicator.color,
-      borderBottom: `${vars.base.enabled.indicator.height} solid ${vars.base.enabled.indicator.color}`,
+      color: vars.base.rest.indicator.color,
+      borderBottom: `${vars.base.rest.indicator.height} solid ${vars.base.rest.indicator.color}`,
       bottom: 0,
 
       [pseudo("[data-ssr]")]: {
@@ -86,7 +86,7 @@ const tabs = defineSlotRecipe({
       backgroundColor: "transparent",
       whiteSpace: "nowrap",
 
-      color: triggerVars.base.enabled.label.color,
+      color: triggerVars.base.rest.label.color,
 
       [pseudo(selected)]: {
         color: triggerVars.base.selected.label.color,
@@ -101,8 +101,8 @@ const tabs = defineSlotRecipe({
         content: "''",
         position: "absolute",
         bottom: 0,
-        height: vars.base.enabled.indicator.height,
-        backgroundColor: vars.base.enabled.indicator.color,
+        height: vars.base.rest.indicator.height,
+        backgroundColor: vars.base.rest.indicator.color,
       },
 
       transition: FOCUS_RING_TRANSITION,
@@ -114,29 +114,29 @@ const tabs = defineSlotRecipe({
     triggerLayout: {
       fill: {
         list: {
-          paddingInline: vars.layoutFill.enabled.root.paddingX,
+          paddingInline: vars.layoutFill.rest.root.paddingX,
           justifyContent: "space-around",
         },
         indicator: {
-          left: `calc(var(--indicator-left, 0px) + ${vars.layoutFill.enabled.indicator.insetX})`,
-          width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutFill.enabled.indicator.insetX})`,
+          left: `calc(var(--indicator-left, 0px) + ${vars.layoutFill.rest.indicator.insetX})`,
+          width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutFill.rest.indicator.insetX})`,
         },
         trigger: {
           flex: 1,
 
           [pseudo(selected, "[data-ssr]:after")]: {
-            insetInline: vars.layoutFill.enabled.indicator.insetX,
+            insetInline: vars.layoutFill.rest.indicator.insetX,
           },
         },
       },
       hug: {
         list: {
-          paddingInline: vars.layoutHug.enabled.root.paddingX,
+          paddingInline: vars.layoutHug.rest.root.paddingX,
           justifyContent: "flex-start",
         },
         indicator: {
-          left: `calc(var(--indicator-left, 0px) + ${vars.layoutHug.enabled.indicator.insetX})`,
-          width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutHug.enabled.indicator.insetX})`,
+          left: `calc(var(--indicator-left, 0px) + ${vars.layoutHug.rest.indicator.insetX})`,
+          width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutHug.rest.indicator.insetX})`,
         },
         trigger: {
           [pseudo(selected, "[data-ssr]:after")]: {
@@ -169,36 +169,36 @@ const tabs = defineSlotRecipe({
     size: {
       small: {
         root: {
-          "--tabs-list-height": vars.sizeSmall.enabled.root.height,
+          "--tabs-list-height": vars.sizeSmall.rest.root.height,
         },
         list: {
-          minHeight: vars.sizeSmall.enabled.root.height,
+          minHeight: vars.sizeSmall.rest.root.height,
         },
         trigger: {
-          minHeight: triggerVars.sizeSmall.enabled.root.minHeight,
-          paddingInline: triggerVars.sizeSmall.enabled.root.paddingX,
-          paddingBlock: triggerVars.sizeSmall.enabled.root.paddingY,
+          minHeight: triggerVars.sizeSmall.rest.root.minHeight,
+          paddingInline: triggerVars.sizeSmall.rest.root.paddingX,
+          paddingBlock: triggerVars.sizeSmall.rest.root.paddingY,
 
-          fontSize: triggerVars.sizeSmall.enabled.label.fontSize,
-          lineHeight: triggerVars.sizeSmall.enabled.label.lineHeight,
-          fontWeight: triggerVars.sizeSmall.enabled.label.fontWeight,
+          fontSize: triggerVars.sizeSmall.rest.label.fontSize,
+          lineHeight: triggerVars.sizeSmall.rest.label.lineHeight,
+          fontWeight: triggerVars.sizeSmall.rest.label.fontWeight,
         },
       },
       medium: {
         root: {
-          "--tabs-list-height": vars.sizeMedium.enabled.root.height,
+          "--tabs-list-height": vars.sizeMedium.rest.root.height,
         },
         list: {
-          minHeight: vars.sizeMedium.enabled.root.height,
+          minHeight: vars.sizeMedium.rest.root.height,
         },
         trigger: {
-          minHeight: triggerVars.sizeMedium.enabled.root.minHeight,
-          paddingInline: triggerVars.sizeMedium.enabled.root.paddingX,
-          paddingBlock: triggerVars.sizeMedium.enabled.root.paddingY,
+          minHeight: triggerVars.sizeMedium.rest.root.minHeight,
+          paddingInline: triggerVars.sizeMedium.rest.root.paddingX,
+          paddingBlock: triggerVars.sizeMedium.rest.root.paddingY,
 
-          fontSize: triggerVars.sizeMedium.enabled.label.fontSize,
-          lineHeight: triggerVars.sizeMedium.enabled.label.lineHeight,
-          fontWeight: triggerVars.sizeMedium.enabled.label.fontWeight,
+          fontSize: triggerVars.sizeMedium.rest.label.fontSize,
+          lineHeight: triggerVars.sizeMedium.rest.label.lineHeight,
+          fontWeight: triggerVars.sizeMedium.rest.label.fontWeight,
         },
       },
     },

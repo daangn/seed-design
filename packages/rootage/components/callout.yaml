@@ -83,9 +83,10 @@ data:
             description: 중요한 문제를 나타냅니다.
           magic:
             description: AI 기능을 나타냅니다.
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           paddingX: $dimension.x3_5
           paddingY: $dimension.x3_5
@@ -109,8 +110,9 @@ data:
         suffixIcon:
           size: $dimension.x4
           targetSize: $dimension.x10
-    tone=neutral:
-      enabled:
+    - variants:
+        tone: neutral
+      slots:
         root:
           color: $color.bg.neutral-weak
         prefixIcon:
@@ -123,11 +125,16 @@ data:
           color: $color.fg.neutral
         suffixIcon:
           color: $color.fg.neutral
-      pressed:
+    - variants:
+        tone: neutral
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-    tone=informative:
-      enabled:
+    - variants:
+        tone: informative
+      slots:
         root:
           color: $color.bg.informative-weak
         prefixIcon:
@@ -140,11 +147,16 @@ data:
           color: $color.fg.informative-contrast
         suffixIcon:
           color: $color.fg.informative-contrast
-      pressed:
+    - variants:
+        tone: informative
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.informative-weak-pressed
-    tone=positive:
-      enabled:
+    - variants:
+        tone: positive
+      slots:
         root:
           color: $color.bg.positive-weak
         prefixIcon:
@@ -157,11 +169,16 @@ data:
           color: $color.fg.positive-contrast
         suffixIcon:
           color: $color.fg.positive-contrast
-      pressed:
+    - variants:
+        tone: positive
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.positive-weak-pressed
-    tone=warning:
-      enabled:
+    - variants:
+        tone: warning
+      slots:
         root:
           color: $color.bg.warning-weak
         prefixIcon:
@@ -174,11 +191,16 @@ data:
           color: $color.fg.warning-contrast
         suffixIcon:
           color: $color.fg.warning-contrast
-      pressed:
+    - variants:
+        tone: warning
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.warning-weak-pressed
-    tone=critical:
-      enabled:
+    - variants:
+        tone: critical
+      slots:
         root:
           color: $color.bg.critical-weak
         prefixIcon:
@@ -191,11 +213,16 @@ data:
           color: $color.fg.critical-contrast
         suffixIcon:
           color: $color.fg.critical-contrast
-      pressed:
+    - variants:
+        tone: critical
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.critical-weak-pressed
-    tone=magic:
-      enabled:
+    - variants:
+        tone: magic
+      slots:
         root:
           gradient: $gradient.glow-magic
         prefixIcon:
@@ -208,6 +235,10 @@ data:
           color: $color.fg.neutral
         suffixIcon:
           color: $color.fg.neutral
-      pressed:
+    - variants:
+        tone: magic
+      states:
+        - pressed
+      slots:
         root:
           gradient: $gradient.glow-magic-pressed

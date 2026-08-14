@@ -26,9 +26,13 @@ data:
             type: dimension
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           size: $dimension.x5
           # targetSize: $dimension.x5
@@ -40,9 +44,13 @@ data:
         icon:
           size: $dimension.x2_5
           color: $color.fg.neutral
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.layer-default-pressed
-      disabled:
+    - states:
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled

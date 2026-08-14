@@ -1,6 +1,6 @@
 export const vars = {
   "themeIos": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "44px",
         "paddingX": "var(--seed-dimension-x4)"
@@ -8,7 +8,7 @@ export const vars = {
     }
   },
   "themeAndroid": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "56px",
         "paddingX": "var(--seed-dimension-x4)"
@@ -19,7 +19,7 @@ export const vars = {
     }
   },
   "toneLayer": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-layer-default)"
       },
@@ -32,7 +32,7 @@ export const vars = {
     }
   },
   "toneTransparent": {
-    "enabled": {
+    "rest": {
       "title": {
         "color": "var(--seed-color-palette-static-white)"
       },
@@ -42,14 +42,14 @@ export const vars = {
     }
   },
   "toneTransparentGradientFalse": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "#00000000"
       }
     }
   },
   "toneTransparentGradientTrue": {
-    "enabled": {
+    "rest": {
       "root": {
         "gradient": "#00000059 0%, #00000000 100%",
         "bleedBottom": "var(--seed-dimension-x5)"
@@ -57,7 +57,7 @@ export const vars = {
     }
   },
   "titleLayoutTitleOnly": {
-    "enabled": {
+    "rest": {
       "title": {
         "fontSize": "var(--seed-font-size-t6)",
         "fontWeight": "var(--seed-font-weight-bold)",
@@ -70,7 +70,7 @@ export const vars = {
     }
   },
   "titleLayoutWithSubtitle": {
-    "enabled": {
+    "rest": {
       "title": {
         "fontSize": "var(--seed-font-size-t5)",
         "fontWeight": "var(--seed-font-weight-bold)",

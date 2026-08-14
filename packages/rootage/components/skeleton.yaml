@@ -21,12 +21,6 @@ data:
           gradient:
             type: gradient
     variants:
-      tone:
-        values:
-          neutral:
-            description: 데이터를 불러오는 일반적인 로딩 경험에 사용합니다.
-          magic:
-            description: AI 기능이 활성화되었을 때 사용합니다.
       radius:
         values:
           "0":
@@ -37,36 +31,47 @@ data:
             description: 카드 및 썸네일에 사용합니다.
           full:
             description: Avatar(원형) 콘텐츠에 사용합니다.
-  definitions:
-    base:
-      enabled:
+      tone:
+        values:
+          neutral:
+            description: 데이터를 불러오는 일반적인 로딩 경험에 사용합니다.
+          magic:
+            description: AI 기능이 활성화되었을 때 사용합니다.
+  rules:
+    - slots:
         shimmer:
           duration: 1.5s
           timingFunction: $timing-function.easing
-    radius=0:
-      enabled:
+    - variants:
+        radius: "0"
+      slots:
         root:
           cornerRadius: 0px
-    radius=8:
-      enabled:
+    - variants:
+        radius: "8"
+      slots:
         root:
           cornerRadius: 8px
-    radius=16:
-      enabled:
+    - variants:
+        radius: "16"
+      slots:
         root:
           cornerRadius: 16px
-    radius=full:
-      enabled:
+    - variants:
+        radius: full
+      slots:
         root:
           cornerRadius: $radius.full
-    tone=neutral:
-      enabled:
+    - variants:
+        tone: neutral
+      slots:
         root:
           color: $color.palette.gray-200
         shimmer:
           gradient: $gradient.shimmer-neutral
-    tone=magic:
-      enabled:
+    - variants:
+        tone: magic
+      slots:
         root:
           color: $color.bg.magic-weak
         shimmer:

@@ -24,7 +24,7 @@ const textInput = defineSlotRecipe({
         borderRadius: "inherit",
         borderColor: "transparent",
 
-        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
+        transition: `border-color ${vars.base.rest.root.strokeDuration} ${vars.base.rest.root.strokeTimingFunction}`,
 
         pointerEvents: "none",
       },
@@ -40,9 +40,9 @@ const textInput = defineSlotRecipe({
       flexGrow: 1,
       alignSelf: "stretch",
 
-      color: vars.base.enabled.value.color,
+      color: vars.base.rest.value.color,
 
-      fontWeight: vars.base.enabled.value.fontWeight,
+      fontWeight: vars.base.rest.value.fontWeight,
 
       paddingInline: 0,
 
@@ -54,8 +54,8 @@ const textInput = defineSlotRecipe({
       },
 
       [pseudo("::placeholder")]: {
-        color: vars.base.enabled.placeholder.color,
-        fontWeight: vars.base.enabled.placeholder.fontWeight,
+        color: vars.base.rest.placeholder.color,
+        fontWeight: vars.base.rest.placeholder.fontWeight,
       },
 
       // disable browser default background colors
@@ -63,7 +63,7 @@ const textInput = defineSlotRecipe({
       // might want to set a huge boxShadow to cover the background color, but that causes the root boxShadow to be hidden
       [pseudo(":is(:-webkit-autofill, :autofill)")]: {
         // disable browser default text color
-        WebkitTextFillColor: vars.base.enabled.value.color,
+        WebkitTextFillColor: vars.base.rest.value.color,
 
         // delay transition
         transition: `background-color ${MAX_DURATION_SECONDS}s ${MAX_DURATION_SECONDS}s`,
@@ -86,15 +86,15 @@ const textInput = defineSlotRecipe({
       },
     },
     prefixText: {
-      color: vars.base.enabled.prefixText.color,
-      fontWeight: vars.base.enabled.prefixText.fontWeight,
+      color: vars.base.rest.prefixText.color,
+      fontWeight: vars.base.rest.prefixText.fontWeight,
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.prefixText.color,
       },
     },
     prefixIcon: {
-      color: vars.base.enabled.prefixIcon.color,
+      color: vars.base.rest.prefixIcon.color,
       flexShrink: 0,
 
       [pseudo(disabled)]: {
@@ -102,15 +102,15 @@ const textInput = defineSlotRecipe({
       },
     },
     suffixText: {
-      color: vars.base.enabled.suffixText.color,
-      fontWeight: vars.base.enabled.suffixText.fontWeight,
+      color: vars.base.rest.suffixText.color,
+      fontWeight: vars.base.rest.suffixText.fontWeight,
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.suffixText.color,
       },
     },
     suffixIcon: {
-      color: vars.base.enabled.suffixIcon.color,
+      color: vars.base.rest.suffixIcon.color,
       flexShrink: 0,
 
       [pseudo(disabled)]: {
@@ -128,57 +128,57 @@ const textInput = defineSlotRecipe({
       size: "large",
       css: {
         root: {
-          gap: vars.variantOutlineSizeLarge.enabled.root.gap,
-          minHeight: vars.variantOutlineSizeLarge.enabled.root.minHeight,
-          borderRadius: vars.variantOutlineSizeLarge.enabled.root.cornerRadius,
+          gap: vars.variantOutlineSizeLarge.rest.root.gap,
+          minHeight: vars.variantOutlineSizeLargeTypeSingleline.rest.root.minHeight,
+          borderRadius: vars.variantOutlineSizeLarge.rest.root.cornerRadius,
         },
         value: {
-          fontSize: vars.variantOutlineSizeLarge.enabled.value.fontSize,
-          lineHeight: vars.variantOutlineSizeLarge.enabled.value.lineHeight,
+          fontSize: vars.variantOutlineSizeLarge.rest.value.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.rest.value.lineHeight,
 
           [pseudo("::placeholder")]: {
-            fontSize: vars.variantOutlineSizeLarge.enabled.placeholder.fontSize,
-            lineHeight: vars.variantOutlineSizeLarge.enabled.placeholder.lineHeight,
+            fontSize: vars.variantOutlineSizeLarge.rest.placeholder.fontSize,
+            lineHeight: vars.variantOutlineSizeLarge.rest.placeholder.lineHeight,
           },
 
           [pseudo(":first-child")]: {
-            paddingLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            paddingLeft: vars.variantOutlineSizeLarge.rest.root.paddingX,
           },
 
           [pseudo(":last-child")]: {
-            paddingRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            paddingRight: vars.variantOutlineSizeLarge.rest.root.paddingX,
           },
         },
         prefixText: {
-          fontSize: vars.variantOutlineSizeLarge.enabled.prefixText.fontSize,
-          lineHeight: vars.variantOutlineSizeLarge.enabled.prefixText.lineHeight,
+          fontSize: vars.variantOutlineSizeLarge.rest.prefixText.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.rest.prefixText.lineHeight,
 
           [pseudo(":first-child")]: {
-            marginLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            marginLeft: vars.variantOutlineSizeLarge.rest.root.paddingX,
           },
         },
         prefixIcon: {
-          width: vars.variantOutlineSizeLarge.enabled.prefixIcon.size,
-          height: vars.variantOutlineSizeLarge.enabled.prefixIcon.size,
+          width: vars.variantOutlineSizeLarge.rest.prefixIcon.size,
+          height: vars.variantOutlineSizeLarge.rest.prefixIcon.size,
 
           [pseudo(":first-child")]: {
-            marginLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            marginLeft: vars.variantOutlineSizeLarge.rest.root.paddingX,
           },
         },
         suffixText: {
-          fontSize: vars.variantOutlineSizeLarge.enabled.suffixText.fontSize,
-          lineHeight: vars.variantOutlineSizeLarge.enabled.suffixText.lineHeight,
+          fontSize: vars.variantOutlineSizeLarge.rest.suffixText.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.rest.suffixText.lineHeight,
 
           [pseudo(":last-child")]: {
-            marginRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            marginRight: vars.variantOutlineSizeLarge.rest.root.paddingX,
           },
         },
         suffixIcon: {
-          width: vars.variantOutlineSizeLarge.enabled.suffixIcon.size,
-          height: vars.variantOutlineSizeLarge.enabled.suffixIcon.size,
+          width: vars.variantOutlineSizeLarge.rest.suffixIcon.size,
+          height: vars.variantOutlineSizeLarge.rest.suffixIcon.size,
 
           [pseudo(":last-child")]: {
-            marginRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            marginRight: vars.variantOutlineSizeLarge.rest.root.paddingX,
           },
         },
       },
@@ -188,57 +188,57 @@ const textInput = defineSlotRecipe({
       size: "medium",
       css: {
         root: {
-          gap: vars.variantOutlineSizeMedium.enabled.root.gap,
-          minHeight: vars.variantOutlineSizeMedium.enabled.root.minHeight,
-          borderRadius: vars.variantOutlineSizeMedium.enabled.root.cornerRadius,
+          gap: vars.variantOutlineSizeMedium.rest.root.gap,
+          minHeight: vars.variantOutlineSizeMediumTypeSingleline.rest.root.minHeight,
+          borderRadius: vars.variantOutlineSizeMedium.rest.root.cornerRadius,
         },
         value: {
-          fontSize: vars.variantOutlineSizeMedium.enabled.value.fontSize,
-          lineHeight: vars.variantOutlineSizeMedium.enabled.value.lineHeight,
+          fontSize: vars.variantOutlineSizeMedium.rest.value.fontSize,
+          lineHeight: vars.variantOutlineSizeMedium.rest.value.lineHeight,
 
           [pseudo("::placeholder")]: {
-            fontSize: vars.variantOutlineSizeMedium.enabled.placeholder.fontSize,
-            lineHeight: vars.variantOutlineSizeMedium.enabled.placeholder.lineHeight,
+            fontSize: vars.variantOutlineSizeMedium.rest.placeholder.fontSize,
+            lineHeight: vars.variantOutlineSizeMedium.rest.placeholder.lineHeight,
           },
 
           [pseudo(":first-child")]: {
-            paddingLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            paddingLeft: vars.variantOutlineSizeMedium.rest.root.paddingX,
           },
 
           [pseudo(":last-child")]: {
-            paddingRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            paddingRight: vars.variantOutlineSizeMedium.rest.root.paddingX,
           },
         },
         prefixText: {
-          fontSize: vars.variantOutlineSizeMedium.enabled.prefixText.fontSize,
-          lineHeight: vars.variantOutlineSizeMedium.enabled.prefixText.lineHeight,
+          fontSize: vars.variantOutlineSizeMedium.rest.prefixText.fontSize,
+          lineHeight: vars.variantOutlineSizeMedium.rest.prefixText.lineHeight,
 
           [pseudo(":first-child")]: {
-            marginLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            marginLeft: vars.variantOutlineSizeMedium.rest.root.paddingX,
           },
         },
         prefixIcon: {
-          width: vars.variantOutlineSizeMedium.enabled.prefixIcon.size,
-          height: vars.variantOutlineSizeMedium.enabled.prefixIcon.size,
+          width: vars.variantOutlineSizeMedium.rest.prefixIcon.size,
+          height: vars.variantOutlineSizeMedium.rest.prefixIcon.size,
 
           [pseudo(":first-child")]: {
-            marginLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            marginLeft: vars.variantOutlineSizeMedium.rest.root.paddingX,
           },
         },
         suffixText: {
-          fontSize: vars.variantOutlineSizeMedium.enabled.suffixText.fontSize,
-          lineHeight: vars.variantOutlineSizeMedium.enabled.suffixText.lineHeight,
+          fontSize: vars.variantOutlineSizeMedium.rest.suffixText.fontSize,
+          lineHeight: vars.variantOutlineSizeMedium.rest.suffixText.lineHeight,
 
           [pseudo(":last-child")]: {
-            marginRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            marginRight: vars.variantOutlineSizeMedium.rest.root.paddingX,
           },
         },
         suffixIcon: {
-          width: vars.variantOutlineSizeMedium.enabled.suffixIcon.size,
-          height: vars.variantOutlineSizeMedium.enabled.suffixIcon.size,
+          width: vars.variantOutlineSizeMedium.rest.suffixIcon.size,
+          height: vars.variantOutlineSizeMedium.rest.suffixIcon.size,
 
           [pseudo(":last-child")]: {
-            marginRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+            marginRight: vars.variantOutlineSizeMedium.rest.root.paddingX,
           },
         },
       },
@@ -248,116 +248,116 @@ const textInput = defineSlotRecipe({
       size: "responsive",
       css: {
         root: {
-          gap: vars.variantOutlineSizeLarge.enabled.root.gap,
-          minHeight: vars.variantOutlineSizeLarge.enabled.root.minHeight,
-          borderRadius: vars.variantOutlineSizeLarge.enabled.root.cornerRadius,
+          gap: vars.variantOutlineSizeLarge.rest.root.gap,
+          minHeight: vars.variantOutlineSizeLargeTypeSingleline.rest.root.minHeight,
+          borderRadius: vars.variantOutlineSizeLarge.rest.root.cornerRadius,
 
           [breakpoints.up("lg")]: {
-            gap: vars.variantOutlineSizeMedium.enabled.root.gap,
-            minHeight: vars.variantOutlineSizeMedium.enabled.root.minHeight,
-            borderRadius: vars.variantOutlineSizeMedium.enabled.root.cornerRadius,
+            gap: vars.variantOutlineSizeMedium.rest.root.gap,
+            minHeight: vars.variantOutlineSizeMediumTypeSingleline.rest.root.minHeight,
+            borderRadius: vars.variantOutlineSizeMedium.rest.root.cornerRadius,
           },
         },
         value: {
-          fontSize: vars.variantOutlineSizeLarge.enabled.value.fontSize,
-          lineHeight: vars.variantOutlineSizeLarge.enabled.value.lineHeight,
+          fontSize: vars.variantOutlineSizeLarge.rest.value.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.rest.value.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.variantOutlineSizeMedium.enabled.value.fontSize,
-            lineHeight: vars.variantOutlineSizeMedium.enabled.value.lineHeight,
+            fontSize: vars.variantOutlineSizeMedium.rest.value.fontSize,
+            lineHeight: vars.variantOutlineSizeMedium.rest.value.lineHeight,
           },
 
           [pseudo("::placeholder")]: {
-            fontSize: vars.variantOutlineSizeLarge.enabled.placeholder.fontSize,
-            lineHeight: vars.variantOutlineSizeLarge.enabled.placeholder.lineHeight,
+            fontSize: vars.variantOutlineSizeLarge.rest.placeholder.fontSize,
+            lineHeight: vars.variantOutlineSizeLarge.rest.placeholder.lineHeight,
 
             [breakpoints.up("lg")]: {
-              fontSize: vars.variantOutlineSizeMedium.enabled.placeholder.fontSize,
-              lineHeight: vars.variantOutlineSizeMedium.enabled.placeholder.lineHeight,
+              fontSize: vars.variantOutlineSizeMedium.rest.placeholder.fontSize,
+              lineHeight: vars.variantOutlineSizeMedium.rest.placeholder.lineHeight,
             },
           },
 
           [pseudo(":first-child")]: {
-            paddingLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            paddingLeft: vars.variantOutlineSizeLarge.rest.root.paddingX,
 
             [breakpoints.up("lg")]: {
-              paddingLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+              paddingLeft: vars.variantOutlineSizeMedium.rest.root.paddingX,
             },
           },
 
           [pseudo(":last-child")]: {
-            paddingRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            paddingRight: vars.variantOutlineSizeLarge.rest.root.paddingX,
 
             [breakpoints.up("lg")]: {
-              paddingRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+              paddingRight: vars.variantOutlineSizeMedium.rest.root.paddingX,
             },
           },
         },
         prefixText: {
-          fontSize: vars.variantOutlineSizeLarge.enabled.prefixText.fontSize,
-          lineHeight: vars.variantOutlineSizeLarge.enabled.prefixText.lineHeight,
+          fontSize: vars.variantOutlineSizeLarge.rest.prefixText.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.rest.prefixText.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.variantOutlineSizeMedium.enabled.prefixText.fontSize,
-            lineHeight: vars.variantOutlineSizeMedium.enabled.prefixText.lineHeight,
+            fontSize: vars.variantOutlineSizeMedium.rest.prefixText.fontSize,
+            lineHeight: vars.variantOutlineSizeMedium.rest.prefixText.lineHeight,
           },
 
           [pseudo(":first-child")]: {
-            marginLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            marginLeft: vars.variantOutlineSizeLarge.rest.root.paddingX,
 
             [breakpoints.up("lg")]: {
-              marginLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+              marginLeft: vars.variantOutlineSizeMedium.rest.root.paddingX,
             },
           },
         },
         prefixIcon: {
-          width: vars.variantOutlineSizeLarge.enabled.prefixIcon.size,
-          height: vars.variantOutlineSizeLarge.enabled.prefixIcon.size,
+          width: vars.variantOutlineSizeLarge.rest.prefixIcon.size,
+          height: vars.variantOutlineSizeLarge.rest.prefixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: vars.variantOutlineSizeMedium.enabled.prefixIcon.size,
-            height: vars.variantOutlineSizeMedium.enabled.prefixIcon.size,
+            width: vars.variantOutlineSizeMedium.rest.prefixIcon.size,
+            height: vars.variantOutlineSizeMedium.rest.prefixIcon.size,
           },
 
           [pseudo(":first-child")]: {
-            marginLeft: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            marginLeft: vars.variantOutlineSizeLarge.rest.root.paddingX,
 
             [breakpoints.up("lg")]: {
-              marginLeft: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+              marginLeft: vars.variantOutlineSizeMedium.rest.root.paddingX,
             },
           },
         },
         suffixText: {
-          fontSize: vars.variantOutlineSizeLarge.enabled.suffixText.fontSize,
-          lineHeight: vars.variantOutlineSizeLarge.enabled.suffixText.lineHeight,
+          fontSize: vars.variantOutlineSizeLarge.rest.suffixText.fontSize,
+          lineHeight: vars.variantOutlineSizeLarge.rest.suffixText.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.variantOutlineSizeMedium.enabled.suffixText.fontSize,
-            lineHeight: vars.variantOutlineSizeMedium.enabled.suffixText.lineHeight,
+            fontSize: vars.variantOutlineSizeMedium.rest.suffixText.fontSize,
+            lineHeight: vars.variantOutlineSizeMedium.rest.suffixText.lineHeight,
           },
 
           [pseudo(":last-child")]: {
-            marginRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            marginRight: vars.variantOutlineSizeLarge.rest.root.paddingX,
 
             [breakpoints.up("lg")]: {
-              marginRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+              marginRight: vars.variantOutlineSizeMedium.rest.root.paddingX,
             },
           },
         },
         suffixIcon: {
-          width: vars.variantOutlineSizeLarge.enabled.suffixIcon.size,
-          height: vars.variantOutlineSizeLarge.enabled.suffixIcon.size,
+          width: vars.variantOutlineSizeLarge.rest.suffixIcon.size,
+          height: vars.variantOutlineSizeLarge.rest.suffixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: vars.variantOutlineSizeMedium.enabled.suffixIcon.size,
-            height: vars.variantOutlineSizeMedium.enabled.suffixIcon.size,
+            width: vars.variantOutlineSizeMedium.rest.suffixIcon.size,
+            height: vars.variantOutlineSizeMedium.rest.suffixIcon.size,
           },
 
           [pseudo(":last-child")]: {
-            marginRight: vars.variantOutlineSizeLarge.enabled.root.paddingX,
+            marginRight: vars.variantOutlineSizeLarge.rest.root.paddingX,
 
             [breakpoints.up("lg")]: {
-              marginRight: vars.variantOutlineSizeMedium.enabled.root.paddingX,
+              marginRight: vars.variantOutlineSizeMedium.rest.root.paddingX,
             },
           },
         },
@@ -368,34 +368,34 @@ const textInput = defineSlotRecipe({
       size: "large",
       css: {
         root: {
-          gap: vars.variantUnderlineSizeLarge.enabled.root.gap,
-          minHeight: vars.variantUnderlineSizeLarge.enabled.root.minHeight,
-          paddingBlock: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
+          gap: vars.variantUnderlineSizeLarge.rest.root.gap,
+          minHeight: vars.variantUnderlineSizeLargeTypeSingleline.rest.root.minHeight,
+          paddingBlock: vars.variantUnderlineSizeLargeTypeSingleline.rest.root.paddingY,
         },
         value: {
-          fontSize: vars.variantUnderlineSizeLarge.enabled.value.fontSize,
-          lineHeight: vars.variantUnderlineSizeLarge.enabled.value.lineHeight,
+          fontSize: vars.variantUnderlineSizeLarge.rest.value.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.rest.value.lineHeight,
 
           [pseudo("::placeholder")]: {
-            fontSize: vars.variantUnderlineSizeLarge.enabled.placeholder.fontSize,
-            lineHeight: vars.variantUnderlineSizeLarge.enabled.placeholder.lineHeight,
+            fontSize: vars.variantUnderlineSizeLarge.rest.placeholder.fontSize,
+            lineHeight: vars.variantUnderlineSizeLarge.rest.placeholder.lineHeight,
           },
         },
         prefixText: {
-          fontSize: vars.variantUnderlineSizeLarge.enabled.prefixText.fontSize,
-          lineHeight: vars.variantUnderlineSizeLarge.enabled.prefixText.lineHeight,
+          fontSize: vars.variantUnderlineSizeLarge.rest.prefixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.rest.prefixText.lineHeight,
         },
         prefixIcon: {
-          width: vars.variantUnderlineSizeLarge.enabled.prefixIcon.size,
-          height: vars.variantUnderlineSizeLarge.enabled.prefixIcon.size,
+          width: vars.variantUnderlineSizeLarge.rest.prefixIcon.size,
+          height: vars.variantUnderlineSizeLarge.rest.prefixIcon.size,
         },
         suffixText: {
-          fontSize: vars.variantUnderlineSizeLarge.enabled.suffixText.fontSize,
-          lineHeight: vars.variantUnderlineSizeLarge.enabled.suffixText.lineHeight,
+          fontSize: vars.variantUnderlineSizeLarge.rest.suffixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.rest.suffixText.lineHeight,
         },
         suffixIcon: {
-          width: vars.variantUnderlineSizeLarge.enabled.suffixIcon.size,
-          height: vars.variantUnderlineSizeLarge.enabled.suffixIcon.size,
+          width: vars.variantUnderlineSizeLarge.rest.suffixIcon.size,
+          height: vars.variantUnderlineSizeLarge.rest.suffixIcon.size,
         },
       },
     },
@@ -404,34 +404,34 @@ const textInput = defineSlotRecipe({
       size: "medium",
       css: {
         root: {
-          gap: vars.variantUnderlineSizeMedium.enabled.root.gap,
-          minHeight: vars.variantUnderlineSizeMedium.enabled.root.minHeight,
-          paddingBlock: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
+          gap: vars.variantUnderlineSizeMedium.rest.root.gap,
+          minHeight: vars.variantUnderlineSizeMediumTypeSingleline.rest.root.minHeight,
+          paddingBlock: vars.variantUnderlineSizeMediumTypeSingleline.rest.root.paddingY,
         },
         value: {
-          fontSize: vars.variantUnderlineSizeMedium.enabled.value.fontSize,
-          lineHeight: vars.variantUnderlineSizeMedium.enabled.value.lineHeight,
+          fontSize: vars.variantUnderlineSizeMedium.rest.value.fontSize,
+          lineHeight: vars.variantUnderlineSizeMedium.rest.value.lineHeight,
 
           [pseudo("::placeholder")]: {
-            fontSize: vars.variantUnderlineSizeMedium.enabled.placeholder.fontSize,
-            lineHeight: vars.variantUnderlineSizeMedium.enabled.placeholder.lineHeight,
+            fontSize: vars.variantUnderlineSizeMedium.rest.placeholder.fontSize,
+            lineHeight: vars.variantUnderlineSizeMedium.rest.placeholder.lineHeight,
           },
         },
         prefixText: {
-          fontSize: vars.variantUnderlineSizeMedium.enabled.prefixText.fontSize,
-          lineHeight: vars.variantUnderlineSizeMedium.enabled.prefixText.lineHeight,
+          fontSize: vars.variantUnderlineSizeMedium.rest.prefixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeMedium.rest.prefixText.lineHeight,
         },
         prefixIcon: {
-          width: vars.variantUnderlineSizeMedium.enabled.prefixIcon.size,
-          height: vars.variantUnderlineSizeMedium.enabled.prefixIcon.size,
+          width: vars.variantUnderlineSizeMedium.rest.prefixIcon.size,
+          height: vars.variantUnderlineSizeMedium.rest.prefixIcon.size,
         },
         suffixText: {
-          fontSize: vars.variantUnderlineSizeMedium.enabled.suffixText.fontSize,
-          lineHeight: vars.variantUnderlineSizeMedium.enabled.suffixText.lineHeight,
+          fontSize: vars.variantUnderlineSizeMedium.rest.suffixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeMedium.rest.suffixText.lineHeight,
         },
         suffixIcon: {
-          width: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
-          height: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
+          width: vars.variantUnderlineSizeMedium.rest.suffixIcon.size,
+          height: vars.variantUnderlineSizeMedium.rest.suffixIcon.size,
         },
       },
     },
@@ -440,69 +440,69 @@ const textInput = defineSlotRecipe({
       size: "responsive",
       css: {
         root: {
-          gap: vars.variantUnderlineSizeLarge.enabled.root.gap,
-          minHeight: vars.variantUnderlineSizeLarge.enabled.root.minHeight,
-          paddingBlock: vars.variantUnderlineSizeLarge.enabled.root.paddingY,
+          gap: vars.variantUnderlineSizeLarge.rest.root.gap,
+          minHeight: vars.variantUnderlineSizeLargeTypeSingleline.rest.root.minHeight,
+          paddingBlock: vars.variantUnderlineSizeLargeTypeSingleline.rest.root.paddingY,
 
           [breakpoints.up("lg")]: {
-            gap: vars.variantUnderlineSizeMedium.enabled.root.gap,
-            minHeight: vars.variantUnderlineSizeMedium.enabled.root.minHeight,
-            paddingBlock: vars.variantUnderlineSizeMedium.enabled.root.paddingY,
+            gap: vars.variantUnderlineSizeMedium.rest.root.gap,
+            minHeight: vars.variantUnderlineSizeMediumTypeSingleline.rest.root.minHeight,
+            paddingBlock: vars.variantUnderlineSizeMediumTypeSingleline.rest.root.paddingY,
           },
         },
         value: {
-          fontSize: vars.variantUnderlineSizeLarge.enabled.value.fontSize,
-          lineHeight: vars.variantUnderlineSizeLarge.enabled.value.lineHeight,
+          fontSize: vars.variantUnderlineSizeLarge.rest.value.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.rest.value.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.variantUnderlineSizeMedium.enabled.value.fontSize,
-            lineHeight: vars.variantUnderlineSizeMedium.enabled.value.lineHeight,
+            fontSize: vars.variantUnderlineSizeMedium.rest.value.fontSize,
+            lineHeight: vars.variantUnderlineSizeMedium.rest.value.lineHeight,
           },
 
           [pseudo("::placeholder")]: {
-            fontSize: vars.variantUnderlineSizeLarge.enabled.placeholder.fontSize,
-            lineHeight: vars.variantUnderlineSizeLarge.enabled.placeholder.lineHeight,
+            fontSize: vars.variantUnderlineSizeLarge.rest.placeholder.fontSize,
+            lineHeight: vars.variantUnderlineSizeLarge.rest.placeholder.lineHeight,
 
             [breakpoints.up("lg")]: {
-              fontSize: vars.variantUnderlineSizeMedium.enabled.placeholder.fontSize,
-              lineHeight: vars.variantUnderlineSizeMedium.enabled.placeholder.lineHeight,
+              fontSize: vars.variantUnderlineSizeMedium.rest.placeholder.fontSize,
+              lineHeight: vars.variantUnderlineSizeMedium.rest.placeholder.lineHeight,
             },
           },
         },
         prefixText: {
-          fontSize: vars.variantUnderlineSizeLarge.enabled.prefixText.fontSize,
-          lineHeight: vars.variantUnderlineSizeLarge.enabled.prefixText.lineHeight,
+          fontSize: vars.variantUnderlineSizeLarge.rest.prefixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.rest.prefixText.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.variantUnderlineSizeMedium.enabled.prefixText.fontSize,
-            lineHeight: vars.variantUnderlineSizeMedium.enabled.prefixText.lineHeight,
+            fontSize: vars.variantUnderlineSizeMedium.rest.prefixText.fontSize,
+            lineHeight: vars.variantUnderlineSizeMedium.rest.prefixText.lineHeight,
           },
         },
         prefixIcon: {
-          width: vars.variantUnderlineSizeLarge.enabled.prefixIcon.size,
-          height: vars.variantUnderlineSizeLarge.enabled.prefixIcon.size,
+          width: vars.variantUnderlineSizeLarge.rest.prefixIcon.size,
+          height: vars.variantUnderlineSizeLarge.rest.prefixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: vars.variantUnderlineSizeMedium.enabled.prefixIcon.size,
-            height: vars.variantUnderlineSizeMedium.enabled.prefixIcon.size,
+            width: vars.variantUnderlineSizeMedium.rest.prefixIcon.size,
+            height: vars.variantUnderlineSizeMedium.rest.prefixIcon.size,
           },
         },
         suffixText: {
-          fontSize: vars.variantUnderlineSizeLarge.enabled.suffixText.fontSize,
-          lineHeight: vars.variantUnderlineSizeLarge.enabled.suffixText.lineHeight,
+          fontSize: vars.variantUnderlineSizeLarge.rest.suffixText.fontSize,
+          lineHeight: vars.variantUnderlineSizeLarge.rest.suffixText.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.variantUnderlineSizeMedium.enabled.suffixText.fontSize,
-            lineHeight: vars.variantUnderlineSizeMedium.enabled.suffixText.lineHeight,
+            fontSize: vars.variantUnderlineSizeMedium.rest.suffixText.fontSize,
+            lineHeight: vars.variantUnderlineSizeMedium.rest.suffixText.lineHeight,
           },
         },
         suffixIcon: {
-          width: vars.variantUnderlineSizeLarge.enabled.suffixIcon.size,
-          height: vars.variantUnderlineSizeLarge.enabled.suffixIcon.size,
+          width: vars.variantUnderlineSizeLarge.rest.suffixIcon.size,
+          height: vars.variantUnderlineSizeLarge.rest.suffixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
-            height: vars.variantUnderlineSizeMedium.enabled.suffixIcon.size,
+            width: vars.variantUnderlineSizeMedium.rest.suffixIcon.size,
+            height: vars.variantUnderlineSizeMedium.rest.suffixIcon.size,
           },
         },
       },
@@ -512,7 +512,7 @@ const textInput = defineSlotRecipe({
     variant: {
       outline: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          boxShadow: `inset 0 0 0 ${vars.variantOutline.rest.root.strokeWidth} ${vars.base.rest.root.strokeColor}`,
 
           "&::after": {
             borderStyle: "solid",
@@ -530,7 +530,7 @@ const textInput = defineSlotRecipe({
           },
 
           [pseudo(invalid, focus, "::after")]: {
-            borderColor: vars.base.invalidFocused.root.strokeColor,
+            borderColor: vars.base.focusedInvalid.root.strokeColor,
             borderWidth: vars.variantOutline.invalid.root.strokeWidth,
           },
 
@@ -546,7 +546,7 @@ const textInput = defineSlotRecipe({
       },
       underline: {
         root: {
-          boxShadow: `inset 0 calc(${vars.variantUnderline.enabled.root.strokeBottomWidth} * -1) 0 0 ${vars.base.enabled.root.strokeColor}`,
+          boxShadow: `inset 0 calc(${vars.variantUnderline.rest.root.strokeBottomWidth} * -1) 0 0 ${vars.base.rest.root.strokeColor}`,
 
           "&::after": {
             borderBottomStyle: "solid",
@@ -564,7 +564,7 @@ const textInput = defineSlotRecipe({
           },
 
           [pseudo(invalid, focus, "::after")]: {
-            borderBottomColor: vars.base.invalidFocused.root.strokeColor,
+            borderBottomColor: vars.base.focusedInvalid.root.strokeColor,
             borderBottomWidth: vars.variantUnderline.invalid.root.strokeBottomWidth,
           },
         },
@@ -583,28 +583,28 @@ const textInput = defineSlotRecipe({
       large: {
         value: {
           [pseudo(":is(textarea)")]: {
-            minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
-            paddingBlock: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+            minHeight: vars.sizeLargeTypeMultiline.rest.root.minHeight,
+            paddingBlock: vars.sizeLargeTypeMultiline.rest.root.paddingY,
           },
         },
       },
       medium: {
         value: {
           [pseudo(":is(textarea)")]: {
-            minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
-            paddingBlock: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+            minHeight: vars.sizeMediumTypeMultiline.rest.root.minHeight,
+            paddingBlock: vars.sizeMediumTypeMultiline.rest.root.paddingY,
           },
         },
       },
       responsive: {
         value: {
           [pseudo(":is(textarea)")]: {
-            minHeight: vars.typeMultilineSizeLarge.enabled.root.minHeight,
-            paddingBlock: vars.typeMultilineSizeLarge.enabled.root.paddingY,
+            minHeight: vars.sizeLargeTypeMultiline.rest.root.minHeight,
+            paddingBlock: vars.sizeLargeTypeMultiline.rest.root.paddingY,
 
             [breakpoints.up("lg")]: {
-              minHeight: vars.typeMultilineSizeMedium.enabled.root.minHeight,
-              paddingBlock: vars.typeMultilineSizeMedium.enabled.root.paddingY,
+              minHeight: vars.sizeMediumTypeMultiline.rest.root.minHeight,
+              paddingBlock: vars.sizeMediumTypeMultiline.rest.root.paddingY,
             },
           },
         },

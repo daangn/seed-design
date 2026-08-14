@@ -291,13 +291,17 @@ data:
         properties:
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    variants:
+      variant:
+        values:
+          primary: {}
+  rules:
+    - slots:
         root:
           color: "#ffffff"
-    variant=primary:
-      enabled:
+    - variants:
+        variant: primary
+      slots:
         root:
           color: "#000000"
 `;
@@ -308,14 +312,63 @@ data:
   expect(result).toMatchInlineSnapshot(`
     "export const vars = {
       "base": {
-        "enabled": {
+        "rest": {
           "root": {
             "color": "#ffffff"
           }
         }
       },
       "variantPrimary": {
-        "enabled": {
+        "rest": {
+          "root": {
+            "color": "#000000"
+          }
+        }
+      }
+    }"
+  `);
+});
+
+test("getComponentSpecMjs should key a stateless rule as rest and join compound state names", () => {
+  const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+    states:
+      - id: selected
+      - id: pressed
+  rules:
+    - slots:
+        root:
+          color: "#ffffff"
+    - states:
+        - selected
+        - pressed
+      slots:
+        root:
+          color: "#000000"
+`;
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(yaml));
+
+  const result = getComponentSpecMjs(model.data);
+
+  expect(result).toMatchInlineSnapshot(`
+    "export const vars = {
+      "base": {
+        "rest": {
+          "root": {
+            "color": "#ffffff"
+          }
+        },
+        "selectedPressed": {
           "root": {
             "color": "#000000"
           }
@@ -338,13 +391,17 @@ data:
         properties:
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    variants:
+      variant:
+        values:
+          primary: {}
+  rules:
+    - slots:
         root:
           color: "#ffffff"
-    variant=primary:
-      enabled:
+    - variants:
+        variant: primary
+      slots:
         root:
           color: "#000000"
 `;
@@ -355,14 +412,14 @@ data:
   expect(result).toMatchInlineSnapshot(`
     "export declare const vars: {
       "base": {
-        "enabled": {
+        "rest": {
           "root": {
             "color": "#ffffff"
           }
         }
       },
       "variantPrimary": {
-        "enabled": {
+        "rest": {
           "root": {
             "color": "#000000"
           }
@@ -373,9 +430,6 @@ data:
 });
 
 test("getComponentSpecDts should generate JSDoc for descriptions", () => {
-  // NOTE: values and defaultValue are NOT required in schema.variants
-  // because they can be inferred from definitions via deep merging.
-  // Only descriptions need to be explicitly provided.
   const yaml = `
 kind: ComponentSpec
 metadata:
@@ -403,21 +457,26 @@ data:
             description: Color property description
           padding:
             type: dimension
-  definitions:
-    variant=primary:
-      enabled:
+  rules:
+    - variants:
+        variant: primary
+      slots:
         root:
           color: "#ffffff"
-    variant=secondary:
-      enabled:
+    - variants:
+        variant: secondary
+      slots:
         root:
           color: "#000000"
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           padding: 8px
-    size=small, variant=primary:
-      enabled:
+    - variants:
+        variant: primary
+        size: small
+      slots:
         root:
           color: "#ffffff"
           padding: 4px
@@ -432,7 +491,7 @@ data:
        * Primary variant description
        */
       "variantPrimary": {
-        "enabled": {
+        "rest": {
           /** Root slot description */
           "root": {
             /** Color property description */
@@ -444,7 +503,7 @@ data:
        * Secondary variant description
        */
       "variantSecondary": {
-        "enabled": {
+        "rest": {
           /** Root slot description */
           "root": {
             /** Color property description */
@@ -456,7 +515,7 @@ data:
        * Small size description
        */
       "sizeSmall": {
-        "enabled": {
+        "rest": {
           /** Root slot description */
           "root": {
             "padding": "8px"
@@ -464,11 +523,11 @@ data:
         }
       },
       /**
-       * - \`size=small\`: Small size description
        * - \`variant=primary\`: Primary variant description
+       * - \`size=small\`: Small size description
        */
-      "sizeSmallVariantPrimary": {
-        "enabled": {
+      "variantPrimarySizeSmall": {
+        "rest": {
           /** Root slot description */
           "root": {
             /** Color property description */
@@ -546,12 +605,15 @@ data:
           scaleScope:
             type: enum
             values: [self, content]
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+  rules:
+    - slots:
         root:
           color: "#ffffff"
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           scaleScope: content
 `;
@@ -559,12 +621,12 @@ data:
 
   const result = getComponentSpecMjs(model.data);
 
-  // `pressed` disappears entirely: its only property is an enum, which leaves the
-  // slot empty, which leaves the state empty.
+  // The `pressed` rule disappears entirely: its only property is an enum, which
+  // leaves the slot empty, which leaves the rule with nothing to publish.
   expect(result).toMatchInlineSnapshot(`
     "export const vars = {
       "base": {
-        "enabled": {
+        "rest": {
           "root": {
             "color": "#ffffff"
           }
@@ -584,10 +646,15 @@ describe("getExchangeDts", () => {
           },
         },
       },
-      definitions: [
-        { variants: {}, slots: { root: { color: { type: "color", value: "$color.bg.neutral" } } } },
+      rules: [
+        {
+          variants: {},
+          states: [],
+          slots: { root: { color: { type: "color", value: "$color.bg.neutral" } } },
+        },
         {
           variants: { labelAlign: "center" },
+          states: ["pressed"],
           slots: { label: { textAlign: { type: "enum", value: "center" } } },
         },
       ],
@@ -610,9 +677,10 @@ describe("getExchangeDts", () => {
             };
           };
         };
-        "definitions": readonly [
+        "rules": readonly [
           {
             "variants": {};
+            "states": readonly [];
             "slots": {
               "root": {
                 "color": {
@@ -626,6 +694,9 @@ describe("getExchangeDts", () => {
             "variants": {
               "labelAlign": "center";
             };
+            "states": readonly [
+              "pressed",
+            ];
             "slots": {
               "label": {
                 "textAlign": {

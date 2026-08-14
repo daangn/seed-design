@@ -18,29 +18,24 @@
           }
         }
       },
-      "variants": {}
+      "variants": {},
+      "states": []
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "offset": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 6,
-                    "unit": "px"
-                  }
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "offset": {
+              "type": "dimension",
+              "value": {
+                "value": 6,
+                "unit": "px"
               }
             }
           }
-        ]
+        }
       }
     ]
   }

@@ -12,17 +12,23 @@ data:
             type: dimension
           gap:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    variants:
+      variant:
+        values:
+          neutralSolid: {}
+          neutralOutline: {}
+  rules:
+    - slots:
         root:
           paddingX: $dimension.x4
           gap: 8px
-    variant=neutralSolid:
-      enabled:
+    - variants:
+        variant: neutralSolid
+      slots:
         root:
           gap: 8px
-    variant=neutralOutline:
-      enabled:
+    - variants:
+        variant: neutralOutline
+      slots:
         root:
           gap: 8px

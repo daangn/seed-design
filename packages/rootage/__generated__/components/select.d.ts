@@ -112,186 +112,168 @@ declare const artifact: {
               "description": "Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.";
             };
           };
-          "defaultValue": "large";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension";
-                  "value": "$radius.r5";
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.layer-floating";
-                };
-                "shadow": {
-                  "type": "shadow";
-                  "value": "$shadow.s3";
-                };
-                "enterDuration": {
-                  "type": "duration";
-                  "value": "$duration.d3";
-                };
-                "enterTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.enter";
-                };
-                "enterScale": {
-                  "type": "number";
-                  "value": 0.95;
-                };
-                "enterOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-                "exitDuration": {
-                  "type": "duration";
-                  "value": "$duration.d2";
-                };
-                "exitTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.exit";
-                };
-                "exitScale": {
-                  "type": "number";
-                  "value": 0.95;
-                };
-                "exitOpacity": {
-                  "type": "number";
-                  "value": 0;
-                };
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "gap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "gutter": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "overflowPadding": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "maxHeight": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 480;
-                    "unit": "px";
-                  };
-                };
-              };
-              "groupLabel": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral-subtle";
-                };
-              };
-              "divider": {
-                "marginX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 1;
-                    "unit": "px";
-                  };
-                };
-                "color": {
-                  "type": "color";
-                  "value": "$color.stroke.neutral-muted";
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "cornerRadius": {
+              "type": "dimension";
+              "value": "$radius.r5";
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.bg.layer-floating";
+            };
+            "shadow": {
+              "type": "shadow";
+              "value": "$shadow.s3";
+            };
+            "enterDuration": {
+              "type": "duration";
+              "value": "$duration.d3";
+            };
+            "enterTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.enter";
+            };
+            "enterScale": {
+              "type": "number";
+              "value": 0.95;
+            };
+            "enterOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+            "exitDuration": {
+              "type": "duration";
+              "value": "$duration.d2";
+            };
+            "exitTimingFunction": {
+              "type": "cubicBezier";
+              "value": "$timing-function.exit";
+            };
+            "exitScale": {
+              "type": "number";
+              "value": 0.95;
+            };
+            "exitOpacity": {
+              "type": "number";
+              "value": 0;
+            };
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "gap": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "gutter": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "overflowPadding": {
+              "type": "dimension";
+              "value": "$dimension.x2";
+            };
+            "maxHeight": {
+              "type": "dimension";
+              "value": {
+                "value": 480;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+          "groupLabel": {
+            "color": {
+              "type": "color";
+              "value": "$color.fg.neutral-subtle";
+            };
+          };
+          "divider": {
+            "marginX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "height": {
+              "type": "dimension";
+              "value": {
+                "value": 1;
+                "unit": "px";
+              };
+            };
+            "color": {
+              "type": "color";
+              "value": "$color.stroke.neutral-muted";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "large";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "groupLabel": {
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2_5";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t4";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t4";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "groupLabel": {
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2_5";
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t4";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t4";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.medium";
+            };
+          };
+        };
       },
       {
         "variants": {
           "size": "medium";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "groupLabel": {
-                "paddingY": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t3";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t3";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.regular";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "groupLabel": {
+            "paddingY": {
+              "type": "dimension";
+              "value": "$dimension.x2";
             };
-          },
-        ];
+            "paddingX": {
+              "type": "dimension";
+              "value": "$dimension.x4";
+            };
+            "fontSize": {
+              "type": "dimension";
+              "value": "$font-size.t3";
+            };
+            "lineHeight": {
+              "type": "dimension";
+              "value": "$line-height.t3";
+            };
+            "fontWeight": {
+              "type": "number";
+              "value": "$font-weight.regular";
+            };
+          };
+        };
       },
     ];
   };

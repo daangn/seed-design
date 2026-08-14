@@ -30,9 +30,23 @@ data:
             type: color
           cornerRadius:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: selected
+      - id: disabled
+        suppresses:
+          - pressed
+    variants:
+      tone:
+        values:
+          brand: {}
+          neutral: {}
+      size:
+        values:
+          medium: {}
+          large: {}
+  rules:
+    - slots:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
@@ -41,68 +55,114 @@ data:
           cornerRadius: $radius.full
         icon:
           cornerRadius: $radius.full
-      enabled,pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      enabled,selected:
+    - states:
+        - selected
+      slots:
         root:
           strokeWidth: 0px
           strokeColor: "#00000000"
-
-    tone=brand:
-      enabled,selected:
+    - variants:
+        tone: brand
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.brand-solid
         icon:
           color: $color.palette.static-white
-      enabled,selected,pressed:
+    - variants:
+        tone: brand
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.brand-solid-pressed
-      disabled:
+    - variants:
+        tone: brand
+      states:
+        - disabled
+      slots:
         root:
           color: $color.palette.gray-300
-      disabled,selected:
+    - variants:
+        tone: brand
+      states:
+        - selected
+        - disabled
+      slots:
         root:
           color: $color.bg.transparent
           strokeWidth: 1px
           strokeColor: $color.palette.gray-300
         icon:
           color: $color.palette.gray-300
-    tone=neutral:
-      enabled,selected:
+    - variants:
+        tone: neutral
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted
         icon:
           color: $color.fg.neutral-inverted
-      enabled,selected,pressed:
+    - variants:
+        tone: neutral
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-      disabled:
+    - variants:
+        tone: neutral
+      states:
+        - disabled
+      slots:
         root:
           color: $color.palette.gray-300
-      disabled,selected:
+    - variants:
+        tone: neutral
+      states:
+        - selected
+        - disabled
+      slots:
         root:
           color: $color.bg.transparent
           strokeWidth: 1px
           strokeColor: $color.palette.gray-300
         icon:
           color: $color.palette.gray-300
-
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           size: $dimension.x5
         icon:
           size: $dimension.x2
-      disabled:
+    - variants:
+        size: medium
+      states:
+        - disabled
+      slots:
         icon:
           size: $dimension.x2_5
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         root:
           size: $dimension.x6
         icon:
           size: $dimension.x2_5
-      disabled:
+    - variants:
+        size: large
+      states:
+        - disabled
+      slots:
         icon:
           size: $dimension.x3

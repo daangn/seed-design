@@ -21,9 +21,8 @@ import type {
   PropertyDeclaration,
   SlotDeclaration,
   StateExpression,
-  StateDeclaration,
   VariantExpression,
-  VariantDeclaration,
+  RuleDeclaration,
   ComponentSpecDeclaration,
   ColorTokenDeclaration,
   DimensionTokenDeclaration,
@@ -50,6 +49,7 @@ import type {
   UnresolvedTokenValueDeclaration,
   UnresolvedPropertyDeclaration,
   SchemaDeclaration,
+  StateSchemaDeclaration,
   PropertySchema,
   PropertySchemaDeclaration,
   SlotSchemaDeclaration,
@@ -364,14 +364,16 @@ export function createStateExpression(value: string): StateExpression {
 }
 
 /**
- * StateDeclaration factory
+ * RuleDeclaration factory
  */
-export function createStateDeclaration(
+export function createRuleDeclaration(
+  variants: VariantExpression[],
   states: StateExpression[],
   body: SlotDeclaration[],
-): StateDeclaration {
+): RuleDeclaration {
   return {
-    kind: "StateDeclaration",
+    kind: "RuleDeclaration",
+    variants,
     states,
     body,
   };
@@ -392,20 +394,6 @@ export function createVariantExpression(name: string, value: string): VariantExp
   };
 }
 
-/**
- * VariantDeclaration factory
- */
-export function createVariantDeclaration(
-  variants: VariantExpression[],
-  body: StateDeclaration[],
-): VariantDeclaration {
-  return {
-    kind: "VariantDeclaration",
-    variants,
-    body,
-  };
-}
-
 // -----------------------------------------------------------------------------
 // SchemaDeclaration
 // -----------------------------------------------------------------------------
@@ -416,11 +404,29 @@ export function createVariantDeclaration(
 export function createSchemaDeclaration(
   slots: SlotSchemaDeclaration[],
   variants: VariantSchemaDeclaration[],
+  states: StateSchemaDeclaration[],
 ): SchemaDeclaration {
   return {
     kind: "SchemaDeclaration",
     slots,
     variants,
+    states,
+  };
+}
+
+/**
+ * StateSchemaDeclaration factory
+ */
+export function createStateSchemaDeclaration(
+  name: string,
+  suppresses: string[],
+  description?: string,
+): StateSchemaDeclaration {
+  return {
+    kind: "StateSchemaDeclaration",
+    name,
+    suppresses,
+    description,
   };
 }
 
@@ -460,7 +466,7 @@ export function createPropertySchemaDeclaration<T extends PropertySchema>(name: 
 export function createVariantSchemaDeclaration(
   name: string,
   values: VariantValueSchemaDeclaration[],
-  defaultValue: string,
+  defaultValue?: string,
   description?: string,
 ): VariantSchemaDeclaration {
   return {
@@ -497,14 +503,14 @@ export function createComponentSpecDeclaration(
   id: string,
   name: string,
   schema: SchemaDeclaration,
-  body: VariantDeclaration[],
+  rules: RuleDeclaration[],
 ): ComponentSpecDeclaration {
   return {
     kind: "ComponentSpecDeclaration",
     id,
     name,
     schema,
-    body,
+    rules,
   };
 }
 

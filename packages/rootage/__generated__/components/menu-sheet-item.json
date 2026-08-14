@@ -87,8 +87,7 @@
             "critical": {
               "description": "데이터 삭제와 같이 되돌릴 수 없는 작업을 수행하는 아이템입니다."
             }
-          },
-          "defaultValue": "neutral"
+          }
         },
         "labelAlign": {
           "values": {
@@ -98,186 +97,162 @@
             "center": {
               "description": "라벨을 중앙 정렬합니다."
             }
-          },
-          "defaultValue": "left"
+          }
         }
-      }
+      },
+      "states": [
+        {
+          "id": "pressed",
+          "suppresses": []
+        }
+      ]
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak"
-                },
-                "minHeight": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 52,
-                    "unit": "px"
-                  }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
-                }
-              },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
-                }
-              },
-              "content": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x0_5"
-                }
-              },
-              "label": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.regular"
-                }
-              },
-              "description": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t3"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t3"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-subtle"
-                }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-weak"
+            },
+            "minHeight": {
+              "type": "dimension",
+              "value": {
+                "value": 52,
+                "unit": "px"
+              }
+            },
+            "paddingX": {
+              "type": "dimension",
+              "value": "$dimension.x4"
+            },
+            "paddingY": {
+              "type": "dimension",
+              "value": "$dimension.x3_5"
+            },
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x3_5"
+            }
+          },
+          "prefixIcon": {
+            "size": {
+              "type": "dimension",
+              "value": {
+                "value": 22,
+                "unit": "px"
               }
             }
           },
-          {
-            "states": [
-              "pressed"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-weak-pressed"
-                }
-              }
+          "content": {
+            "gap": {
+              "type": "dimension",
+              "value": "$dimension.x0_5"
+            }
+          },
+          "label": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t5"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t5"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.regular"
+            }
+          },
+          "description": {
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t3"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t3"
+            },
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.medium"
+            },
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral-subtle"
             }
           }
-        ]
+        }
+      },
+      {
+        "variants": {},
+        "states": [
+          "pressed"
+        ],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.bg.neutral-weak-pressed"
+            }
+          }
+        }
       },
       {
         "variants": {
           "tone": "neutral"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              }
+        "states": [],
+        "slots": {
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            }
+          },
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "tone": "critical"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical"
-                }
-              }
+        "states": [],
+        "slots": {
+          "prefixIcon": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.critical"
+            }
+          },
+          "label": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.critical"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "labelAlign": "left"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {}
-          }
-        ]
+        "states": [],
+        "slots": {}
       },
       {
         "variants": {
           "labelAlign": "center"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {}
-          }
-        ]
+        "states": [],
+        "slots": {}
       }
     ]
   }

@@ -20,7 +20,7 @@ function capitalize<T extends string>(value: T): Capitalize<T> {
 function getTypographyStyle(textStyle: TextStyle | undefined) {
   const key = `textStyle${capitalize(textStyle ?? "t5Regular")}`;
   const value = typography[key as keyof typeof typography];
-  return value.enabled.root;
+  return value.rest.root;
 }
 
 export interface TextProps extends TextStyleProps, LynxStyledElementProps {}

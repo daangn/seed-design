@@ -60,10 +60,21 @@ data:
             type: duration
           translateTimingFunction:
             type: cubicBezier
-
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: selected
+      - id: disabled
+    variants:
+      tone:
+        values:
+          brand: {}
+          neutral: {}
+      size:
+        values:
+          "32": {}
+          "24": {}
+          "16": {}
+  rules:
+    - slots:
         root:
           cornerRadius: $radius.full
           color: $color.palette.gray-600
@@ -80,38 +91,60 @@ data:
           colorDuration: $duration.d1
           colorTimingFunction: $timing-function.easing
           colorDelay: 20ms
-      disabled:
+    - states:
+        - disabled
+      slots:
         root:
           opacity: 0.38
           opacityDuration: $duration.d1
           opacityTimingFunction: $timing-function.easing
-      selected:
+    - states:
+        - selected
+      slots:
         thumb:
           scale: 1.0
-
-    tone=brand:
-      enabled:
+    - variants:
+        tone: brand
+      slots:
         thumb:
           color: $color.palette.static-white
-      enabled,selected:
+    - variants:
+        tone: brand
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.brand-solid
-    tone=neutral:
-      enabled:
+    - variants:
+        tone: neutral
+      slots:
         thumb:
           color: $color.fg.neutral-inverted
-      enabled,selected:
+    - variants:
+        tone: neutral
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted
-      disabled:
+    - variants:
+        tone: neutral
+      states:
+        - disabled
+      slots:
         thumb:
           color: $color.palette.static-black-alpha-700
-      disabled,selected:
+    - variants:
+        tone: neutral
+      states:
+        - selected
+        - disabled
+      slots:
         root:
           color: $color.palette.gray-600
-
-    size=32:
-      enabled:
+    - variants:
+        size: "32"
+      slots:
         root:
           height: 32px
           width: 52px
@@ -120,8 +153,9 @@ data:
         thumb:
           height: 26px
           width: 26px
-    size=24:
-      enabled:
+    - variants:
+        size: "24"
+      slots:
         root:
           height: 24px
           width: 38px
@@ -130,8 +164,9 @@ data:
         thumb:
           height: 20px
           width: 20px
-    size=16:
-      enabled:
+    - variants:
+        size: "16"
+      slots:
         root:
           height: 16px
           width: 26px

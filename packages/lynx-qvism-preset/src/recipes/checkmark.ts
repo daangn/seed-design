@@ -20,7 +20,7 @@ const checkmarkRecipe = defineSlotRecipe({
       flex: "none",
       marginTop: "var(--checkmark-margin-top, 0)",
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}`,
     },
     icon: {
       position: "absolute",
@@ -30,15 +30,15 @@ const checkmarkRecipe = defineSlotRecipe({
     variant: {
       square: {
         root: {
-          borderWidth: vars.variantSquare.enabled.root.strokeWidth,
+          borderWidth: vars.variantSquare.rest.root.strokeWidth,
           borderStyle: "solid",
-          borderColor: vars.variantSquare.enabled.root.strokeColor,
+          borderColor: vars.variantSquare.rest.root.strokeColor,
         },
       },
       ghost: {
         icon: {
-          color: vars.variantGhost.enabled.icon.color,
-          transition: `color ${vars.variantGhost.enabled.icon.colorDuration} ${vars.variantGhost.enabled.icon.colorTimingFunction}`,
+          color: vars.variantGhost.rest.icon.color,
+          transition: `color ${vars.variantGhost.rest.icon.colorDuration} ${vars.variantGhost.rest.icon.colorTimingFunction}`,
         },
       },
     },
@@ -49,16 +49,16 @@ const checkmarkRecipe = defineSlotRecipe({
     size: {
       medium: {
         root: {
-          width: vars.sizeMedium.enabled.root.size,
-          height: vars.sizeMedium.enabled.root.size,
-          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+          width: vars.sizeMedium.rest.root.size,
+          height: vars.sizeMedium.rest.root.size,
+          borderRadius: vars.sizeMedium.rest.root.cornerRadius,
         },
       },
       large: {
         root: {
-          width: vars.sizeLarge.enabled.root.size,
-          height: vars.sizeLarge.enabled.root.size,
-          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+          width: vars.sizeLarge.rest.root.size,
+          height: vars.sizeLarge.rest.root.size,
+          borderRadius: vars.sizeLarge.rest.root.cornerRadius,
         },
       },
     },
@@ -86,8 +86,8 @@ const checkmarkRecipe = defineSlotRecipe({
       size: "medium",
       css: {
         icon: {
-          width: vars.variantSquareSizeMedium.enabled.icon.size,
-          height: vars.variantSquareSizeMedium.enabled.icon.size,
+          width: vars.variantSquareSizeMedium.rest.icon.size,
+          height: vars.variantSquareSizeMedium.rest.icon.size,
         },
       },
     },
@@ -96,8 +96,8 @@ const checkmarkRecipe = defineSlotRecipe({
       size: "large",
       css: {
         icon: {
-          width: vars.variantSquareSizeLarge.enabled.icon.size,
-          height: vars.variantSquareSizeLarge.enabled.icon.size,
+          width: vars.variantSquareSizeLarge.rest.icon.size,
+          height: vars.variantSquareSizeLarge.rest.icon.size,
         },
       },
     },
@@ -106,8 +106,8 @@ const checkmarkRecipe = defineSlotRecipe({
       size: "medium",
       css: {
         icon: {
-          width: vars.variantGhostSizeMedium.enabled.icon.size,
-          height: vars.variantGhostSizeMedium.enabled.icon.size,
+          width: vars.variantGhostSizeMedium.rest.icon.size,
+          height: vars.variantGhostSizeMedium.rest.icon.size,
         },
       },
     },
@@ -116,8 +116,8 @@ const checkmarkRecipe = defineSlotRecipe({
       size: "large",
       css: {
         icon: {
-          width: vars.variantGhostSizeLarge.enabled.icon.size,
-          height: vars.variantGhostSizeLarge.enabled.icon.size,
+          width: vars.variantGhostSizeLarge.rest.icon.size,
+          height: vars.variantGhostSizeLarge.rest.icon.size,
         },
       },
     },
@@ -139,8 +139,8 @@ const checkmarkRecipe = defineSlotRecipe({
       disabled: false,
       css: {
         root: {
-          borderWidth: vars.variantSquare.enabledSelected.root.strokeWidth,
-          borderColor: vars.variantSquare.enabledSelected.root.strokeColor,
+          borderWidth: vars.variantSquare.selected.root.strokeWidth,
+          borderColor: vars.variantSquare.selected.root.strokeColor,
         },
       },
     },
@@ -150,8 +150,8 @@ const checkmarkRecipe = defineSlotRecipe({
       disabled: false,
       css: {
         root: {
-          borderWidth: vars.variantSquare.enabledSelected.root.strokeWidth,
-          borderColor: vars.variantSquare.enabledSelected.root.strokeColor,
+          borderWidth: vars.variantSquare.selected.root.strokeWidth,
+          borderColor: vars.variantSquare.selected.root.strokeColor,
         },
       },
     },
@@ -163,8 +163,8 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color },
-        icon: { color: vars.variantSquareToneBrand.enabledSelected.icon.color },
+        root: { backgroundColor: vars.variantSquareToneBrand.selected.root.color },
+        icon: { color: vars.variantSquareToneBrand.selected.icon.color },
       },
     },
     {
@@ -173,8 +173,8 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color },
-        icon: { color: vars.variantSquareToneNeutral.enabledSelected.icon.color },
+        root: { backgroundColor: vars.variantSquareToneNeutral.selected.root.color },
+        icon: { color: vars.variantSquareToneNeutral.selected.icon.color },
       },
     },
     {
@@ -183,8 +183,8 @@ const checkmarkRecipe = defineSlotRecipe({
       indeterminate: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color },
-        icon: { color: vars.variantSquareToneBrand.enabledSelected.icon.color },
+        root: { backgroundColor: vars.variantSquareToneBrand.selected.root.color },
+        icon: { color: vars.variantSquareToneBrand.selected.icon.color },
       },
     },
     {
@@ -193,8 +193,8 @@ const checkmarkRecipe = defineSlotRecipe({
       indeterminate: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color },
-        icon: { color: vars.variantSquareToneNeutral.enabledSelected.icon.color },
+        root: { backgroundColor: vars.variantSquareToneNeutral.selected.root.color },
+        icon: { color: vars.variantSquareToneNeutral.selected.icon.color },
       },
     },
 
@@ -215,7 +215,7 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: true,
       css: {
-        icon: { color: vars.variantSquare.disabledSelected.icon.color },
+        icon: { color: vars.variantSquare.selectedDisabled.icon.color },
       },
     },
     {
@@ -223,7 +223,7 @@ const checkmarkRecipe = defineSlotRecipe({
       indeterminate: true,
       disabled: true,
       css: {
-        icon: { color: vars.variantSquare.disabledSelected.icon.color },
+        icon: { color: vars.variantSquare.selectedDisabled.icon.color },
       },
     },
 
@@ -234,7 +234,7 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        icon: { color: vars.variantGhostToneBrand.enabledSelected.icon.color },
+        icon: { color: vars.variantGhostToneBrand.selected.icon.color },
       },
     },
     {
@@ -243,7 +243,7 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        icon: { color: vars.variantGhostToneNeutral.enabledSelected.icon.color },
+        icon: { color: vars.variantGhostToneNeutral.selected.icon.color },
       },
     },
 
@@ -260,7 +260,7 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: true,
       css: {
-        icon: { color: vars.variantGhost.disabledSelected.icon.color },
+        icon: { color: vars.variantGhost.selectedDisabled.icon.color },
       },
     },
 

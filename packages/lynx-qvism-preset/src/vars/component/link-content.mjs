@@ -1,20 +1,20 @@
 export const vars = {
   "weightRegular": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontWeight": "var(--seed-font-weight-regular)"
       }
     }
   },
   "weightBold": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }
   },
   "sizeT4": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x0_5)"
       },
@@ -28,7 +28,7 @@ export const vars = {
     }
   },
   "sizeT5": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x0_5)"
       },
@@ -42,7 +42,7 @@ export const vars = {
     }
   },
   "sizeT6": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x0_5)"
       },

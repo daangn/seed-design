@@ -18,25 +18,20 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "gapY": {
-                  "type": "dimension";
-                  "value": "$dimension.x1";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "gapY": {
+              "type": "dimension";
+              "value": "$dimension.x1";
             };
-          },
-        ];
+          };
+        };
       },
     ];
   };

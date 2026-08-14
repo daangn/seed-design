@@ -31,77 +31,59 @@
           "values": {
             "medium": {},
             "bold": {}
-          },
-          "defaultValue": "medium"
+          }
         }
-      }
+      },
+      "states": []
     },
-    "definitions": [
+    "rules": [
       {
         "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                },
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color",
+              "value": "$color.fg.neutral"
+            },
+            "fontSize": {
+              "type": "dimension",
+              "value": "$font-size.t5"
+            },
+            "lineHeight": {
+              "type": "dimension",
+              "value": "$line-height.t5"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "weight": "medium"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.medium"
             }
           }
-        ]
+        }
       },
       {
         "variants": {
           "weight": "bold"
         },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.bold"
-                }
-              }
+        "states": [],
+        "slots": {
+          "root": {
+            "fontWeight": {
+              "type": "number",
+              "value": "$font-weight.bold"
             }
           }
-        ]
+        }
       }
     ]
   }

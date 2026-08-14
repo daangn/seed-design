@@ -17,12 +17,12 @@ const switchmarkRecipe = defineSlotRecipe({
       display: "block",
       position: "relative",
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
-      background: vars.base.enabled.root.color,
+      borderRadius: vars.base.rest.root.cornerRadius,
+      background: vars.base.rest.root.color,
 
       margin: "var(--switchmark-margin-top, 0) 0", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction} ${vars.base.rest.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       [pseudo(disabled)]: {
         opacity: vars.base.disabled.root.opacity,
@@ -32,13 +32,13 @@ const switchmarkRecipe = defineSlotRecipe({
       [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     thumb: {
-      borderRadius: vars.base.enabled.thumb.cornerRadius,
+      borderRadius: vars.base.rest.thumb.cornerRadius,
 
       // translateDuration & translateTimingFunction are defined in vars but not used
-      transition: `transform ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}, background-color ${vars.base.enabled.thumb.colorDuration} ${vars.base.enabled.thumb.colorTimingFunction} ${vars.base.enabled.thumb.colorDelay}`,
+      transition: `transform ${vars.base.rest.thumb.scaleDuration} ${vars.base.rest.thumb.scaleTimingFunction}, background-color ${vars.base.rest.thumb.colorDuration} ${vars.base.rest.thumb.colorTimingFunction} ${vars.base.rest.thumb.colorDelay}`,
 
       // defining 'scale' / 'translate' and else independently from 'transform' -> requires Chrome 104~ && Safari 14.1~
-      transform: `scale(${vars.base.enabled.thumb.scale})`,
+      transform: `scale(${vars.base.rest.thumb.scale})`,
     },
   },
   variants: {
@@ -46,14 +46,14 @@ const switchmarkRecipe = defineSlotRecipe({
       neutral: {
         root: {
           [pseudo(checked)]: {
-            background: vars.toneNeutral.enabledSelected.root.color,
+            background: vars.toneNeutral.selected.root.color,
           },
           [pseudo(disabled, checked)]: {
-            background: vars.toneNeutral.disabledSelected.root.color,
+            background: vars.toneNeutral.selectedDisabled.root.color,
           },
         },
         thumb: {
-          background: vars.toneNeutral.enabled.thumb.color,
+          background: vars.toneNeutral.rest.thumb.color,
 
           [pseudo(disabled)]: {
             background: vars.toneNeutral.disabled.thumb.color,
@@ -63,57 +63,57 @@ const switchmarkRecipe = defineSlotRecipe({
       brand: {
         root: {
           [pseudo(checked)]: {
-            background: vars.toneBrand.enabledSelected.root.color,
+            background: vars.toneBrand.selected.root.color,
           },
         },
         thumb: {
-          background: vars.toneBrand.enabled.thumb.color,
+          background: vars.toneBrand.rest.thumb.color,
         },
       },
     },
     size: {
       32: {
         root: {
-          minWidth: vars.size32.enabled.root.width,
-          minHeight: vars.size32.enabled.root.height,
-          padding: `${vars.size32.enabled.root.paddingY} ${vars.size32.enabled.root.paddingX}`,
+          minWidth: vars.size32.rest.root.width,
+          minHeight: vars.size32.rest.root.height,
+          padding: `${vars.size32.rest.root.paddingY} ${vars.size32.rest.root.paddingX}`,
         },
         thumb: {
-          width: vars.size32.enabled.thumb.width,
-          height: vars.size32.enabled.thumb.height,
+          width: vars.size32.rest.thumb.width,
+          height: vars.size32.rest.thumb.height,
 
           [pseudo(checked)]: {
-            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size32.enabled.root.width} - ${vars.size32.enabled.root.height}))`,
+            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size32.rest.root.width} - ${vars.size32.rest.root.height}))`,
           },
         },
       },
       24: {
         root: {
-          minWidth: vars.size24.enabled.root.width,
-          minHeight: vars.size24.enabled.root.height,
-          padding: `${vars.size24.enabled.root.paddingY} ${vars.size24.enabled.root.paddingX}`,
+          minWidth: vars.size24.rest.root.width,
+          minHeight: vars.size24.rest.root.height,
+          padding: `${vars.size24.rest.root.paddingY} ${vars.size24.rest.root.paddingX}`,
         },
         thumb: {
-          width: vars.size24.enabled.thumb.width,
-          height: vars.size24.enabled.thumb.height,
+          width: vars.size24.rest.thumb.width,
+          height: vars.size24.rest.thumb.height,
 
           [pseudo(checked)]: {
-            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size24.enabled.root.width} - ${vars.size24.enabled.root.height}))`,
+            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size24.rest.root.width} - ${vars.size24.rest.root.height}))`,
           },
         },
       },
       16: {
         root: {
-          minWidth: vars.size16.enabled.root.width,
-          minHeight: vars.size16.enabled.root.height,
-          padding: `${vars.size16.enabled.root.paddingY} ${vars.size16.enabled.root.paddingX}`,
+          minWidth: vars.size16.rest.root.width,
+          minHeight: vars.size16.rest.root.height,
+          padding: `${vars.size16.rest.root.paddingY} ${vars.size16.rest.root.paddingX}`,
         },
         thumb: {
-          width: vars.size16.enabled.thumb.width,
-          height: vars.size16.enabled.thumb.height,
+          width: vars.size16.rest.thumb.width,
+          height: vars.size16.rest.thumb.height,
 
           [pseudo(checked)]: {
-            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size16.enabled.root.width} - ${vars.size16.enabled.root.height}))`,
+            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size16.rest.root.width} - ${vars.size16.rest.root.height}))`,
           },
         },
       },

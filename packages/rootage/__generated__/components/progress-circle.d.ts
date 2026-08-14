@@ -62,18 +62,16 @@ declare const artifact: {
               "description": "주로 전체 페이지 로딩에 사용합니다.";
             };
           };
-          "defaultValue": "40";
         };
         "indeterminate": {
           "values": {
-            "false": {
-              "description": "대기 시간이 얼마나 남은지 아는 상황일 때 사용합니다. 진행 상황에 맞춰서 원을 채웁니다.";
-            };
             "true": {
               "description": "대기 시간이 얼마나 남은지 모르는 상황일 때 사용합니다. 계속해서 회전하는 동작을 합니다.";
             };
+            "false": {
+              "description": "대기 시간이 얼마나 남은지 아는 상황일 때 사용합니다. 진행 상황에 맞춰서 원을 채웁니다.";
+            };
           };
-          "defaultValue": "false";
         };
         "tone": {
           "values": {
@@ -87,231 +85,189 @@ declare const artifact: {
               "description": "화면 전체를 어둡게 덮는 오버레이(Overlay) 위에 로딩 상태를 표시할 때 사용합니다.";
             };
           };
-          "defaultValue": "neutral";
         };
       };
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {
           "size": "40";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x10";
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 5;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x10";
+            };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 5;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "size": "24";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension";
-                  "value": "$dimension.x6";
-                };
-                "thickness": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 3;
-                    "unit": "px";
-                  };
-                };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "size": {
+              "type": "dimension";
+              "value": "$dimension.x6";
+            };
+            "thickness": {
+              "type": "dimension";
+              "value": {
+                "value": 3;
+                "unit": "px";
               };
             };
-          },
-        ];
+          };
+        };
       },
       {
         "variants": {
           "indeterminate": "false";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "range": {
-                "lengthDuration": {
-                  "type": "duration";
-                  "value": {
-                    "value": 300;
-                    "unit": "ms";
-                  };
-                };
-                "lengthTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": readonly [
-                    0,
-                    0,
-                    0.15,
-                    1,
-                  ];
-                };
+        "states": readonly [];
+        "slots": {
+          "range": {
+            "lengthDuration": {
+              "type": "duration";
+              "value": {
+                "value": 300;
+                "unit": "ms";
               };
             };
-          },
-        ];
+            "lengthTimingFunction": {
+              "type": "cubicBezier";
+              "value": readonly [
+                0,
+                0,
+                0.15,
+                1,
+              ];
+            };
+          };
+        };
       },
       {
         "variants": {
           "indeterminate": "true";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "range": {
-                "lengthDuration": {
-                  "type": "duration";
-                  "value": {
-                    "value": 1.2;
-                    "unit": "s";
-                  };
-                };
-                "rotateDuration": {
-                  "type": "duration";
-                  "value": {
-                    "value": 1.2;
-                    "unit": "s";
-                  };
-                };
-                "headTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": readonly [
-                    0.35,
-                    0,
-                    0.65,
-                    1,
-                  ];
-                };
-                "tailTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": readonly [
-                    0.35,
-                    0,
-                    0.65,
-                    0.6,
-                  ];
-                };
-                "rotateTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": readonly [
-                    0.35,
-                    0.25,
-                    0.65,
-                    0.75,
-                  ];
-                };
+        "states": readonly [];
+        "slots": {
+          "range": {
+            "lengthDuration": {
+              "type": "duration";
+              "value": {
+                "value": 1.2;
+                "unit": "s";
               };
             };
-          },
-        ];
+            "rotateDuration": {
+              "type": "duration";
+              "value": {
+                "value": 1.2;
+                "unit": "s";
+              };
+            };
+            "headTimingFunction": {
+              "type": "cubicBezier";
+              "value": readonly [
+                0.35,
+                0,
+                0.65,
+                1,
+              ];
+            };
+            "tailTimingFunction": {
+              "type": "cubicBezier";
+              "value": readonly [
+                0.35,
+                0,
+                0.65,
+                0.6,
+              ];
+            };
+            "rotateTimingFunction": {
+              "type": "cubicBezier";
+              "value": readonly [
+                0.35,
+                0.25,
+                0.65,
+                0.75,
+              ];
+            };
+          };
+        };
       },
       {
         "variants": {
           "tone": "neutral";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "track": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-200";
-                };
-              };
-              "range": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "track": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-200";
             };
-          },
-        ];
+          };
+          "range": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
+            };
+          };
+        };
       },
       {
         "variants": {
           "tone": "brand";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "track": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.carrot-200";
-                };
-              };
-              "range": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.bg.brand-solid";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "track": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.carrot-200";
             };
-          },
-        ];
+          };
+          "range": {
+            "color": {
+              "type": "color";
+              "value": "$color.bg.brand-solid";
+            };
+          };
+        };
       },
       {
         "variants": {
           "tone": "staticWhite";
         };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "track": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white-alpha-300";
-                };
-              };
-              "range": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "track": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white-alpha-300";
             };
-          },
-        ];
+          };
+          "range": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white";
+            };
+          };
+        };
       },
     ];
   };

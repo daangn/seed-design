@@ -1,13 +1,13 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x0_5)"
       }
     }
   },
   "sizeT2": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)"
@@ -24,7 +24,7 @@ export declare const vars: {
     }
   },
   "sizeT3": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)"
@@ -41,7 +41,7 @@ export declare const vars: {
     }
   },
   "sizeT4": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)"
@@ -58,21 +58,21 @@ export declare const vars: {
     }
   },
   "weightRegular": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontWeight": "var(--seed-font-weight-regular)"
       }
     }
   },
   "weightBold": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }
   },
   "toneNeutralSubtle": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-neutral-subtle)"
       },
@@ -88,7 +88,7 @@ export declare const vars: {
     }
   },
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -104,7 +104,7 @@ export declare const vars: {
     }
   },
   "toneBrand": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-brand)"
       },

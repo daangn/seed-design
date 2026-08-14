@@ -34,9 +34,9 @@ const text = defineRecipe({
       Object.entries(vars).map(([key, value]) => [
         uncapitalize(key.split("textStyle")[1]),
         {
-          "--seed-font-size": value.enabled.root.fontSize,
-          "--seed-line-height": value.enabled.root.lineHeight,
-          "--seed-font-weight": value.enabled.root.fontWeight,
+          "--seed-font-size": value.rest.root.fontSize,
+          "--seed-line-height": value.rest.root.lineHeight,
+          "--seed-font-weight": value.rest.root.fontWeight,
         },
       ]),
     ) as Record<Uncapitalize<OmitPrefix<keyof typeof vars>>, any>,

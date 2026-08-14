@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "44px"
       },
@@ -10,7 +10,7 @@ export const vars = {
     }
   },
   "toneLayer": {
-    "enabled": {
+    "rest": {
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       }
@@ -22,7 +22,7 @@ export const vars = {
     }
   },
   "toneTransparent": {
-    "enabled": {
+    "rest": {
       "icon": {
         "color": "var(--seed-color-palette-static-white)"
       }

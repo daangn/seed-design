@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -25,7 +25,7 @@ export const vars = {
     }
   },
   "variantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-alpha)"
       },
@@ -69,7 +69,7 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-inverted)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
@@ -81,7 +81,7 @@ export const vars = {
     }
   },
   "variantOutlineStrong": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -127,7 +127,7 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-inverted)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
@@ -139,7 +139,7 @@ export const vars = {
     }
   },
   "variantOutlineWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "strokeColor": "var(--seed-color-stroke-neutral-muted)",
@@ -174,7 +174,7 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-weak)"
       }
     },
-    "selectedPressed": {
+    "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       }
@@ -186,7 +186,7 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "32px",
         "paddingX": "var(--seed-dimension-x1_5)"
@@ -210,7 +210,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "36px",
         "paddingX": "var(--seed-dimension-x2)"
@@ -234,7 +234,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "40px",
         "paddingX": "var(--seed-dimension-x2_5)"
@@ -259,42 +259,42 @@ export const vars = {
     }
   },
   "sizeSmallLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "44px"
       }
     }
   },
   "sizeMediumLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x12)"
       }
     }
   },
   "sizeLargeLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x13)"
       }
     }
   },
   "sizeSmallLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x8)"
       }
     }
   },
   "sizeMediumLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x9)"
       }
     }
   },
   "sizeLargeLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x10)"
       }

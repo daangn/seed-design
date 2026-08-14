@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
         "shadow": "var(--seed-shadow-s3)",
@@ -14,7 +14,7 @@ export const vars = {
     }
   },
   "variantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -58,7 +58,7 @@ export const vars = {
     }
   },
   "variantLayer": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-layer-floating)"
       },
@@ -102,7 +102,7 @@ export const vars = {
     }
   },
   "layoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "36px",
         "paddingX": "var(--seed-dimension-x3_5)",
@@ -120,7 +120,7 @@ export const vars = {
     }
   },
   "layoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "44px"
       },

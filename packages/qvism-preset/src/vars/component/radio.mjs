@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -15,21 +15,21 @@ export const vars = {
     }
   },
   "weightRegular": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontWeight": "var(--seed-font-weight-regular)"
       }
     }
   },
   "weightBold": {
-    "enabled": {
+    "rest": {
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x8)"
       },
@@ -40,7 +40,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)"
       },

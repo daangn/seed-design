@@ -28,15 +28,15 @@ const fab = defineRecipe({
       cursor: "not-allowed",
     },
 
-    background: vars.base.enabled.root.color,
-    borderRadius: vars.base.enabled.root.cornerRadius,
-    boxShadow: vars.base.enabled.root.shadow,
-    width: vars.base.enabled.root.size,
-    height: vars.base.enabled.root.size,
+    background: vars.base.rest.root.color,
+    borderRadius: vars.base.rest.root.cornerRadius,
+    boxShadow: vars.base.rest.root.shadow,
+    width: vars.base.rest.root.size,
+    height: vars.base.rest.root.size,
 
     ...onlyIcon({
-      color: vars.base.enabled.icon.color,
-      size: vars.base.enabled.icon.size,
+      color: vars.base.rest.icon.color,
+      size: vars.base.rest.icon.size,
     }),
 
     [pseudo(active)]: {

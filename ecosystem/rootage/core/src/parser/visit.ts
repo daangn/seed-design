@@ -91,22 +91,16 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "ComponentSpecDeclaration":
       return {
         ...node,
-        body: node.body.map((body) => fn(body)),
+        rules: node.rules.map((rule) => fn(rule)),
       };
-    case "VariantDeclaration":
+    case "RuleDeclaration":
       return {
         ...node,
         variants: node.variants.map((variant) => fn(variant)),
-        body: node.body.map((body) => fn(body)),
-      };
-    case "VariantExpression":
-      return node;
-    case "StateDeclaration":
-      return {
-        ...node,
         states: node.states.map((state) => fn(state)),
         body: node.body.map((body) => fn(body)),
       };
+    case "VariantExpression":
     case "StateExpression":
       return node;
     case "SlotDeclaration":

@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x3_5)",
         "paddingY": "var(--seed-dimension-x3_5)",
@@ -38,7 +38,7 @@ export declare const vars: {
    * 일반적인 정보를 전달합니다.
    */
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -70,7 +70,7 @@ export declare const vars: {
    * 유용한 정보를 제공합니다.
    */
   "toneInformative": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
@@ -102,7 +102,7 @@ export declare const vars: {
    * 긍정적인 상태를 나타냅니다.
    */
   "tonePositive": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
@@ -134,7 +134,7 @@ export declare const vars: {
    * 주의가 필요한 상태를 나타냅니다.
    */
   "toneWarning": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
@@ -166,7 +166,7 @@ export declare const vars: {
    * 중요한 문제를 나타냅니다.
    */
   "toneCritical": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
@@ -198,7 +198,7 @@ export declare const vars: {
    * AI 기능을 나타냅니다.
    */
   "toneMagic": {
-    "enabled": {
+    "rest": {
       "root": {
         "gradient": "var(--seed-gradient-glow-magic)"
       },

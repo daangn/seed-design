@@ -330,22 +330,26 @@ export interface StateExpression {
   value: string;
 }
 
-export interface StateDeclaration {
-  kind: "StateDeclaration";
-  states: StateExpression[];
-  body: SlotDeclaration[];
-}
-
 export interface VariantExpression {
   kind: "VariantExpression";
   name: string;
   value: string;
 }
 
-export interface VariantDeclaration {
-  kind: "VariantDeclaration";
+/**
+ * One selector over the (variant, state) space plus the values it declares there.
+ *
+ * Rules sit in a flat list rather than nested under a variant and then a state:
+ * nesting forced every rule to name a variant region and a state set even when it
+ * constrained only one of them, and made the containing keys — whose order JSON
+ * does not preserve — carry meaning. An empty `variants` matches every variant, an
+ * empty `states` every state.
+ */
+export interface RuleDeclaration {
+  kind: "RuleDeclaration";
   variants: VariantExpression[];
-  body: StateDeclaration[];
+  states: StateExpression[];
+  body: SlotDeclaration[];
 }
 
 export interface SlotSchemaDeclaration {
@@ -376,7 +380,7 @@ export interface VariantSchemaDeclaration {
   kind: "VariantSchemaDeclaration";
   name: string;
   values: VariantValueSchemaDeclaration[];
-  defaultValue: string;
+  defaultValue?: string;
   description?: string;
 }
 
@@ -386,10 +390,22 @@ export interface VariantValueSchemaDeclaration {
   description?: string;
 }
 
+/**
+ * Weakest state first: a state's index in `SchemaDeclaration["states"]` is its
+ * precedence rank, and `suppresses` names the weaker states it cancels outright.
+ */
+export interface StateSchemaDeclaration {
+  kind: "StateSchemaDeclaration";
+  name: string;
+  suppresses: string[];
+  description?: string;
+}
+
 export interface SchemaDeclaration {
   kind: "SchemaDeclaration";
   slots: SlotSchemaDeclaration[];
   variants: VariantSchemaDeclaration[];
+  states: StateSchemaDeclaration[];
 }
 
 export interface ComponentSpecDeclaration {
@@ -397,7 +413,7 @@ export interface ComponentSpecDeclaration {
   id: string;
   name: string;
   schema: SchemaDeclaration;
-  body: VariantDeclaration[];
+  rules: RuleDeclaration[];
 }
 
 export interface ComponentSpecDocument {
@@ -451,8 +467,7 @@ export type Node =
   | UnresolvedPropertyDeclaration
   | SlotDeclaration
   | StateExpression
-  | StateDeclaration
   | VariantExpression
-  | VariantDeclaration
+  | RuleDeclaration
   | ComponentSpecDeclaration
   | ComponentSpecDocument;

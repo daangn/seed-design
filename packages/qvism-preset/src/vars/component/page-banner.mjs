@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
@@ -37,7 +37,7 @@ export const vars = {
     }
   },
   "toneNeutralVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -64,7 +64,7 @@ export const vars = {
     }
   },
   "toneNeutralVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -91,7 +91,7 @@ export const vars = {
     }
   },
   "tonePositiveVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
@@ -118,7 +118,7 @@ export const vars = {
     }
   },
   "tonePositiveVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-positive-solid)"
       },
@@ -145,7 +145,7 @@ export const vars = {
     }
   },
   "toneInformativeVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
@@ -172,7 +172,7 @@ export const vars = {
     }
   },
   "toneInformativeVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-informative-solid)"
       },
@@ -199,7 +199,7 @@ export const vars = {
     }
   },
   "toneWarningVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
@@ -226,7 +226,7 @@ export const vars = {
     }
   },
   "toneWarningVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-warning-solid)"
       },
@@ -253,7 +253,7 @@ export const vars = {
     }
   },
   "toneCriticalVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
@@ -280,7 +280,7 @@ export const vars = {
     }
   },
   "toneCriticalVariantSolid": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },
@@ -307,7 +307,7 @@ export const vars = {
     }
   },
   "toneMagicVariantWeak": {
-    "enabled": {
+    "rest": {
       "root": {
         "gradient": "var(--seed-gradient-glow-magic)"
       },

@@ -1,13 +1,13 @@
 export const vars = {
   "variantSeparatedSizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x3)"
       }
     }
   },
   "variantSeparatedSizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x4)"
       }

@@ -102,9 +102,10 @@ data:
             type: dimension
           lineHeight:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: invalid
+  rules:
+    - slots:
         root:
           gap: $dimension.x2
         header:
@@ -152,7 +153,9 @@ data:
           fontWeight: $font-weight.regular
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-      invalid:
+    - states:
+        - invalid
+      slots:
         characterCount:
           color: $color.fg.critical
         maxCharacterCount:

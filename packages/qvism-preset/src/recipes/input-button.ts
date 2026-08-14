@@ -46,11 +46,11 @@ const inputButton = defineSlotRecipe({
       border: "none",
       padding: 0,
 
-      backgroundColor: vars.base.enabled.root.color,
+      backgroundColor: vars.base.rest.root.color,
 
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+      boxShadow: `inset 0 0 0 ${vars.base.rest.root.strokeWidth} ${vars.base.rest.root.strokeColor}`,
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       "&::after": {
         content: '""',
@@ -61,7 +61,7 @@ const inputButton = defineSlotRecipe({
         borderColor: "transparent",
         borderWidth: vars.base.invalid.root.strokeWidth,
 
-        transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
+        transition: `border-color ${vars.base.rest.root.strokeDuration} ${vars.base.rest.root.strokeTimingFunction}`,
 
         pointerEvents: "none",
       },
@@ -89,9 +89,9 @@ const inputButton = defineSlotRecipe({
       },
     },
     value: {
-      fontWeight: vars.base.enabled.value.fontWeight,
+      fontWeight: vars.base.rest.value.fontWeight,
 
-      color: vars.base.enabled.value.color,
+      color: vars.base.rest.value.color,
 
       overflow: "hidden",
       textOverflow: "ellipsis",
@@ -110,9 +110,9 @@ const inputButton = defineSlotRecipe({
       },
     },
     placeholder: {
-      fontWeight: vars.base.enabled.placeholder.fontWeight,
+      fontWeight: vars.base.rest.placeholder.fontWeight,
 
-      color: vars.base.enabled.placeholder.color,
+      color: vars.base.rest.placeholder.color,
 
       overflow: "hidden",
       textOverflow: "ellipsis",
@@ -131,9 +131,9 @@ const inputButton = defineSlotRecipe({
       },
     },
     prefixText: {
-      fontWeight: vars.base.enabled.prefixText.fontWeight,
+      fontWeight: vars.base.rest.prefixText.fontWeight,
 
-      color: vars.base.enabled.prefixText.color,
+      color: vars.base.rest.prefixText.color,
 
       pointerEvents: "none",
 
@@ -144,7 +144,7 @@ const inputButton = defineSlotRecipe({
     prefixIcon: {
       flexShrink: 0,
 
-      color: vars.base.enabled.prefixIcon.color,
+      color: vars.base.rest.prefixIcon.color,
 
       pointerEvents: "none",
 
@@ -153,9 +153,9 @@ const inputButton = defineSlotRecipe({
       },
     },
     suffixText: {
-      fontWeight: vars.base.enabled.suffixText.fontWeight,
+      fontWeight: vars.base.rest.suffixText.fontWeight,
 
-      color: vars.base.enabled.suffixText.color,
+      color: vars.base.rest.suffixText.color,
 
       pointerEvents: "none",
 
@@ -166,7 +166,7 @@ const inputButton = defineSlotRecipe({
     suffixIcon: {
       flexShrink: 0,
 
-      color: vars.base.enabled.suffixIcon.color,
+      color: vars.base.rest.suffixIcon.color,
 
       pointerEvents: "none",
 
@@ -188,7 +188,7 @@ const inputButton = defineSlotRecipe({
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
       ...onlyIcon({
-        color: vars.base.enabled.clearButton.color,
+        color: vars.base.rest.clearButton.color,
       }),
     },
   },
@@ -196,158 +196,158 @@ const inputButton = defineSlotRecipe({
     size: {
       large: {
         root: {
-          height: vars.sizeLarge.enabled.root.height,
-          gap: vars.sizeLarge.enabled.root.gap,
-          paddingInline: vars.sizeLarge.enabled.root.paddingX,
+          height: vars.sizeLarge.rest.root.height,
+          gap: vars.sizeLarge.rest.root.gap,
+          paddingInline: vars.sizeLarge.rest.root.paddingX,
         },
         button: {
-          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+          borderRadius: vars.sizeLarge.rest.root.cornerRadius,
         },
         value: {
-          fontSize: vars.sizeLarge.enabled.value.fontSize,
-          lineHeight: vars.sizeLarge.enabled.value.lineHeight,
+          fontSize: vars.sizeLarge.rest.value.fontSize,
+          lineHeight: vars.sizeLarge.rest.value.lineHeight,
         },
         placeholder: {
-          fontSize: vars.sizeLarge.enabled.placeholder.fontSize,
-          lineHeight: vars.sizeLarge.enabled.placeholder.lineHeight,
+          fontSize: vars.sizeLarge.rest.placeholder.fontSize,
+          lineHeight: vars.sizeLarge.rest.placeholder.lineHeight,
         },
         prefixText: {
-          fontSize: vars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
+          fontSize: vars.sizeLarge.rest.prefixText.fontSize,
+          lineHeight: vars.sizeLarge.rest.prefixText.lineHeight,
         },
         prefixIcon: {
-          width: vars.sizeLarge.enabled.prefixIcon.size,
-          height: vars.sizeLarge.enabled.prefixIcon.size,
+          width: vars.sizeLarge.rest.prefixIcon.size,
+          height: vars.sizeLarge.rest.prefixIcon.size,
         },
         suffixText: {
-          fontSize: vars.sizeLarge.enabled.suffixText.fontSize,
-          lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
+          fontSize: vars.sizeLarge.rest.suffixText.fontSize,
+          lineHeight: vars.sizeLarge.rest.suffixText.lineHeight,
         },
         suffixIcon: {
-          width: vars.sizeLarge.enabled.suffixIcon.size,
-          height: vars.sizeLarge.enabled.suffixIcon.size,
+          width: vars.sizeLarge.rest.suffixIcon.size,
+          height: vars.sizeLarge.rest.suffixIcon.size,
         },
         clearButton: onlyIcon({
-          size: vars.sizeLarge.enabled.clearButton.size,
+          size: vars.sizeLarge.rest.clearButton.size,
         }),
       },
       medium: {
         root: {
-          height: vars.sizeMedium.enabled.root.height,
-          gap: vars.sizeMedium.enabled.root.gap,
-          paddingInline: vars.sizeMedium.enabled.root.paddingX,
+          height: vars.sizeMedium.rest.root.height,
+          gap: vars.sizeMedium.rest.root.gap,
+          paddingInline: vars.sizeMedium.rest.root.paddingX,
         },
         button: {
-          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+          borderRadius: vars.sizeMedium.rest.root.cornerRadius,
         },
         value: {
-          fontSize: vars.sizeMedium.enabled.value.fontSize,
-          lineHeight: vars.sizeMedium.enabled.value.lineHeight,
+          fontSize: vars.sizeMedium.rest.value.fontSize,
+          lineHeight: vars.sizeMedium.rest.value.lineHeight,
         },
         placeholder: {
-          fontSize: vars.sizeMedium.enabled.placeholder.fontSize,
-          lineHeight: vars.sizeMedium.enabled.placeholder.lineHeight,
+          fontSize: vars.sizeMedium.rest.placeholder.fontSize,
+          lineHeight: vars.sizeMedium.rest.placeholder.lineHeight,
         },
         prefixText: {
-          fontSize: vars.sizeMedium.enabled.prefixText.fontSize,
-          lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
+          fontSize: vars.sizeMedium.rest.prefixText.fontSize,
+          lineHeight: vars.sizeMedium.rest.prefixText.lineHeight,
         },
         prefixIcon: {
-          width: vars.sizeMedium.enabled.prefixIcon.size,
-          height: vars.sizeMedium.enabled.prefixIcon.size,
+          width: vars.sizeMedium.rest.prefixIcon.size,
+          height: vars.sizeMedium.rest.prefixIcon.size,
         },
         suffixText: {
-          fontSize: vars.sizeMedium.enabled.suffixText.fontSize,
-          lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
+          fontSize: vars.sizeMedium.rest.suffixText.fontSize,
+          lineHeight: vars.sizeMedium.rest.suffixText.lineHeight,
         },
         suffixIcon: {
-          width: vars.sizeMedium.enabled.suffixIcon.size,
-          height: vars.sizeMedium.enabled.suffixIcon.size,
+          width: vars.sizeMedium.rest.suffixIcon.size,
+          height: vars.sizeMedium.rest.suffixIcon.size,
         },
         clearButton: onlyIcon({
-          size: vars.sizeMedium.enabled.clearButton.size,
+          size: vars.sizeMedium.rest.clearButton.size,
         }),
       },
       responsive: {
         root: {
-          height: vars.sizeLarge.enabled.root.height,
-          gap: vars.sizeLarge.enabled.root.gap,
-          paddingInline: vars.sizeLarge.enabled.root.paddingX,
+          height: vars.sizeLarge.rest.root.height,
+          gap: vars.sizeLarge.rest.root.gap,
+          paddingInline: vars.sizeLarge.rest.root.paddingX,
 
           [breakpoints.up("lg")]: {
-            height: vars.sizeMedium.enabled.root.height,
-            gap: vars.sizeMedium.enabled.root.gap,
-            paddingInline: vars.sizeMedium.enabled.root.paddingX,
+            height: vars.sizeMedium.rest.root.height,
+            gap: vars.sizeMedium.rest.root.gap,
+            paddingInline: vars.sizeMedium.rest.root.paddingX,
           },
         },
         button: {
-          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+          borderRadius: vars.sizeLarge.rest.root.cornerRadius,
 
           [breakpoints.up("lg")]: {
-            borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+            borderRadius: vars.sizeMedium.rest.root.cornerRadius,
           },
         },
         value: {
-          fontSize: vars.sizeLarge.enabled.value.fontSize,
-          lineHeight: vars.sizeLarge.enabled.value.lineHeight,
+          fontSize: vars.sizeLarge.rest.value.fontSize,
+          lineHeight: vars.sizeLarge.rest.value.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.sizeMedium.enabled.value.fontSize,
-            lineHeight: vars.sizeMedium.enabled.value.lineHeight,
+            fontSize: vars.sizeMedium.rest.value.fontSize,
+            lineHeight: vars.sizeMedium.rest.value.lineHeight,
           },
         },
         placeholder: {
-          fontSize: vars.sizeLarge.enabled.placeholder.fontSize,
-          lineHeight: vars.sizeLarge.enabled.placeholder.lineHeight,
+          fontSize: vars.sizeLarge.rest.placeholder.fontSize,
+          lineHeight: vars.sizeLarge.rest.placeholder.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.sizeMedium.enabled.placeholder.fontSize,
-            lineHeight: vars.sizeMedium.enabled.placeholder.lineHeight,
+            fontSize: vars.sizeMedium.rest.placeholder.fontSize,
+            lineHeight: vars.sizeMedium.rest.placeholder.lineHeight,
           },
         },
         prefixText: {
-          fontSize: vars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
+          fontSize: vars.sizeLarge.rest.prefixText.fontSize,
+          lineHeight: vars.sizeLarge.rest.prefixText.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.sizeMedium.enabled.prefixText.fontSize,
-            lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
+            fontSize: vars.sizeMedium.rest.prefixText.fontSize,
+            lineHeight: vars.sizeMedium.rest.prefixText.lineHeight,
           },
         },
         prefixIcon: {
-          width: vars.sizeLarge.enabled.prefixIcon.size,
-          height: vars.sizeLarge.enabled.prefixIcon.size,
+          width: vars.sizeLarge.rest.prefixIcon.size,
+          height: vars.sizeLarge.rest.prefixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: vars.sizeMedium.enabled.prefixIcon.size,
-            height: vars.sizeMedium.enabled.prefixIcon.size,
+            width: vars.sizeMedium.rest.prefixIcon.size,
+            height: vars.sizeMedium.rest.prefixIcon.size,
           },
         },
         suffixText: {
-          fontSize: vars.sizeLarge.enabled.suffixText.fontSize,
-          lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
+          fontSize: vars.sizeLarge.rest.suffixText.fontSize,
+          lineHeight: vars.sizeLarge.rest.suffixText.lineHeight,
 
           [breakpoints.up("lg")]: {
-            fontSize: vars.sizeMedium.enabled.suffixText.fontSize,
-            lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
+            fontSize: vars.sizeMedium.rest.suffixText.fontSize,
+            lineHeight: vars.sizeMedium.rest.suffixText.lineHeight,
           },
         },
         suffixIcon: {
-          width: vars.sizeLarge.enabled.suffixIcon.size,
-          height: vars.sizeLarge.enabled.suffixIcon.size,
+          width: vars.sizeLarge.rest.suffixIcon.size,
+          height: vars.sizeLarge.rest.suffixIcon.size,
 
           [breakpoints.up("lg")]: {
-            width: vars.sizeMedium.enabled.suffixIcon.size,
-            height: vars.sizeMedium.enabled.suffixIcon.size,
+            width: vars.sizeMedium.rest.suffixIcon.size,
+            height: vars.sizeMedium.rest.suffixIcon.size,
           },
         },
         clearButton: {
           ...onlyIcon({
-            size: vars.sizeLarge.enabled.clearButton.size,
+            size: vars.sizeLarge.rest.clearButton.size,
           }),
 
           [breakpoints.up("lg")]: onlyIcon({
-            size: vars.sizeMedium.enabled.clearButton.size,
+            size: vars.sizeMedium.rest.clearButton.size,
           }),
         },
       },

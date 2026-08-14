@@ -16,24 +16,40 @@ data:
             type: dimension
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: disabled
+    variants:
+      tone:
+        values:
+          layer: {}
+          transparent: {}
+  rules:
+    - slots:
         root:
           size: 44px
         icon:
           size: 24px
-    tone=layer:
-      enabled:
+    - variants:
+        tone: layer
+      slots:
         icon:
           color: $color.fg.neutral
-      disabled:
+    - variants:
+        tone: layer
+      states:
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled
-    tone=transparent:
-      enabled:
+    - variants:
+        tone: transparent
+      slots:
         icon:
           color: $color.palette.static-white
-      disabled:
+    - variants:
+        tone: transparent
+      states:
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled

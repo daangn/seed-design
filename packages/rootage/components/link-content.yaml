@@ -23,17 +23,30 @@ data:
         properties:
           size:
             type: dimension
-  definitions:
-    weight=regular:
-      enabled:
+    variants:
+      weight:
+        values:
+          regular: {}
+          bold: {}
+      size:
+        values:
+          t4: {}
+          t5: {}
+          t6: {}
+  rules:
+    - variants:
+        weight: regular
+      slots:
         label:
           fontWeight: $font-weight.regular
-    weight=bold:
-      enabled:
+    - variants:
+        weight: bold
+      slots:
         label:
           fontWeight: $font-weight.bold
-    size=t4:
-      enabled:
+    - variants:
+        size: t4
+      slots:
         root:
           gap: $dimension.x0_5
         suffixIcon:
@@ -41,8 +54,9 @@ data:
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-    size=t5:
-      enabled:
+    - variants:
+        size: t5
+      slots:
         root:
           gap: $dimension.x0_5
         suffixIcon:
@@ -50,8 +64,9 @@ data:
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-    size=t6:
-      enabled:
+    - variants:
+        size: t6
+      slots:
         root:
           gap: $dimension.x0_5
         suffixIcon:

@@ -25,31 +25,26 @@ declare const artifact: {
         };
       };
       "variants": {};
+      "states": readonly [];
     };
-    "definitions": readonly [
+    "rules": readonly [
       {
         "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.gray-500";
-                };
-              };
-              "image": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.palette.static-white-alpha-800";
-                };
-              };
+        "states": readonly [];
+        "slots": {
+          "root": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.gray-500";
             };
-          },
-        ];
+          };
+          "image": {
+            "color": {
+              "type": "color";
+              "value": "$color.palette.static-white-alpha-800";
+            };
+          };
+        };
       },
     ];
   };

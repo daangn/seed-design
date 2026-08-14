@@ -484,19 +484,19 @@ yargs(process.argv.slice(2))
         if (model.kind !== "ComponentSpec") continue;
         if (!model.data.schema?.slots) continue;
 
-        // Collect used properties from definitions
+        // Collect used properties from rules
         const usedProperties = new Map<string, Set<string>>();
         for (const slotName of Object.keys(model.data.schema.slots)) {
           usedProperties.set(slotName, new Set());
         }
 
-        for (const variantExpr of Object.values(model.data.definitions)) {
-          for (const stateBody of Object.values(variantExpr)) {
-            for (const [slotName, slotBody] of Object.entries(stateBody)) {
-              if (!usedProperties.has(slotName)) continue;
-              for (const propName of Object.keys(slotBody)) {
-                usedProperties.get(slotName)!.add(propName);
-              }
+        for (const rule of model.data.rules) {
+          for (const [slotName, slotBody] of Object.entries(rule.slots)) {
+            const used = usedProperties.get(slotName);
+            if (!used) continue;
+
+            for (const propName of Object.keys(slotBody)) {
+              used.add(propName);
             }
           }
         }

@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
@@ -11,7 +11,7 @@ export declare const vars: {
    * 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
    */
   "variantSquare": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)"
@@ -22,7 +22,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
-    "enabledSelected": {
+    "selected": {
       "root": {
         "strokeWidth": "0px",
         "strokeColor": "#00000000"
@@ -37,7 +37,7 @@ export declare const vars: {
         "color": "var(--seed-color-fg-disabled)"
       }
     },
-    "disabledSelected": {
+    "selectedDisabled": {
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -47,7 +47,7 @@ export declare const vars: {
    * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
    */
   "variantSquareToneBrand": {
-    "enabledSelected": {
+    "selected": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
       },
@@ -65,7 +65,7 @@ export declare const vars: {
    * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
    */
   "variantSquareToneNeutral": {
-    "enabledSelected": {
+    "selected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
@@ -83,7 +83,7 @@ export declare const vars: {
    * 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
    */
   "variantGhost": {
-    "enabled": {
+    "rest": {
       "icon": {
         "color": "var(--seed-color-fg-placeholder)",
         "colorDuration": "var(--seed-duration-color-transition)",
@@ -100,7 +100,7 @@ export declare const vars: {
         "color": "var(--seed-color-fg-disabled)"
       }
     },
-    "disabledSelected": {
+    "selectedDisabled": {
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -110,7 +110,7 @@ export declare const vars: {
    * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
    */
   "variantGhostToneBrand": {
-    "enabledSelected": {
+    "selected": {
       "icon": {
         "color": "var(--seed-color-fg-brand)"
       }
@@ -125,7 +125,7 @@ export declare const vars: {
    * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
    */
   "variantGhostToneNeutral": {
-    "enabledSelected": {
+    "selected": {
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       }
@@ -137,7 +137,7 @@ export declare const vars: {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "var(--seed-dimension-x5)",
         "cornerRadius": "var(--seed-radius-r1)"
@@ -145,7 +145,7 @@ export declare const vars: {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "var(--seed-dimension-x6)",
         "cornerRadius": "var(--seed-radius-r1)"
@@ -156,7 +156,7 @@ export declare const vars: {
    * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
    */
   "variantSquareSizeMedium": {
-    "enabled": {
+    "rest": {
       "icon": {
         "size": "12px"
       }
@@ -166,7 +166,7 @@ export declare const vars: {
    * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
    */
   "variantSquareSizeLarge": {
-    "enabled": {
+    "rest": {
       "icon": {
         "size": "14px"
       }
@@ -176,7 +176,7 @@ export declare const vars: {
    * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
    */
   "variantGhostSizeMedium": {
-    "enabled": {
+    "rest": {
       "icon": {
         "size": "14px"
       }
@@ -186,7 +186,7 @@ export declare const vars: {
    * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
    */
   "variantGhostSizeLarge": {
-    "enabled": {
+    "rest": {
       "icon": {
         "size": "18px"
       }

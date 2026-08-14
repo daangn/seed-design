@@ -95,10 +95,15 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
           "schema": {
             "$ref": "#/definitions/componentSpecSchema"
           },
-          "definitions": {
-            "$ref": "#/definitions/definitions"
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/rule"
+            }
           }
-        }
+        },
+        "required": ["schema", "rules"],
+        "additionalProperties": false
       }
     },
     "required": ["kind", "metadata", "data"],
@@ -112,8 +117,12 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
           },
           "variants": {
             "$ref": "#/definitions/variantsSchema"
+          },
+          "states": {
+            "$ref": "#/definitions/statesSchema"
           }
         },
+        "required": ["slots"],
         "additionalProperties": false
       },
       "slotsSchema": {
@@ -191,6 +200,7 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
             "type": "string"
           }
         },
+        "required": ["values"],
         "additionalProperties": false
       },
       "variantValuesSchema": {
@@ -205,31 +215,52 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
           "additionalProperties": false
         }
       },
-      "definitions": {
+      "statesSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "suppresses": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": ["id"],
+          "additionalProperties": false
+        }
+      },
+      "rule": {
         "type": "object",
         "properties": {
-          "base": {
-            "$ref": "#/definitions/variant"
+          "variants": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "slots": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/slot"
+            }
           }
         },
-        "patternProperties": {
-          "^.*=.*$": {
-            "$ref": "#/definitions/variant"
-          }
-        },
+        "required": ["slots"],
         "additionalProperties": false
-      },
-      "variant": {
-        "type": "object",
-        "additionalProperties": {
-          "$ref": "#/definitions/state"
-        }
-      },
-      "state": {
-        "type": "object",
-        "additionalProperties": {
-          "$ref": "#/definitions/slot"
-        }
       },
       "slot": {
         "type": "object",

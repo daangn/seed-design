@@ -96,20 +96,23 @@ export interface ComponentSpecModel {
 }
 
 export interface ComponentSpecData {
-  schema?: ComponentSpecSchema;
-  definitions: ComponentSpecDefinitions;
+  schema: ComponentSpecSchema;
+  rules: ComponentSpecRule[];
 }
 
-export interface ComponentSpecVariantDefinitions {
-  [state: string]: {
+/**
+ * `variants` omitted means "every variant"; `states` omitted means "whatever the
+ * active states are". Both default to the widest region rather than to a
+ * distinguished rest state, so nothing has to name the absence of a state.
+ */
+export interface ComponentSpecRule {
+  variants?: Record<string, string>;
+  states?: string[];
+  slots: {
     [slot: string]: {
       [property: string]: PropertyValue;
     };
   };
-}
-
-export interface ComponentSpecDefinitions {
-  [variantExpression: string]: ComponentSpecVariantDefinitions;
 }
 
 export interface ComponentSpecSlotSchema {
@@ -132,7 +135,7 @@ export type ComponentSpecPropertySchema = Record<
 export interface ComponentSpecVariantSchema {
   [name: string]: {
     values: ComponentSpecVariantValueSchema;
-    defaultValue: string;
+    defaultValue?: string;
     description?: string;
   };
 }
@@ -143,14 +146,21 @@ export interface ComponentSpecVariantValueSchema {
   };
 }
 
+/**
+ * Weakest state first. A state's position is its precedence, so reordering this
+ * list is the whole of "make this state win" — there is no second place where
+ * precedence could be written and disagree.
+ */
+export type ComponentSpecStateSchema = Array<{
+  id: string;
+  suppresses?: string[];
+  description?: string;
+}>;
+
 export interface ComponentSpecSchema {
   slots: ComponentSpecSlotSchema;
-  /**
-   * Optional because the parser infers the variant axes from the keys of
-   * `definitions` and only merges this in on top — most component documents
-   * declare nothing here.
-   */
   variants?: ComponentSpecVariantSchema;
+  states?: ComponentSpecStateSchema;
 }
 
 export type Model = TokenCollectionsModel | TokensModel | ComponentSpecModel;

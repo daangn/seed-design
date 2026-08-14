@@ -90,9 +90,17 @@ data:
             type: dimension
           fromRight:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    variants:
+      headerAlignment:
+        values:
+          left: {}
+          center: {}
+      closeButton:
+        values:
+          "true": {}
+          "false": {}
+  rules:
+    - slots:
         backdrop:
           color: $color.bg.overlay
           enterDuration: $duration.d6
@@ -134,23 +142,31 @@ data:
         closeButton:
           fromTop: $dimension.x6
           fromRight: $dimension.x4
-    headerAlignment=left,closeButton=true:
-      enabled:
+    - variants:
+        headerAlignment: left
+        closeButton: "true"
+      slots:
         title:
           paddingRight: 56px
           paddingLeft: $dimension.spacing-x.global-gutter
-    headerAlignment=left,closeButton=false:
-      enabled:
+    - variants:
+        headerAlignment: left
+        closeButton: "false"
+      slots:
         title:
           paddingLeft: $dimension.spacing-x.global-gutter
           paddingRight: $dimension.spacing-x.global-gutter
-    headerAlignment=center,closeButton=true:
-      enabled:
+    - variants:
+        headerAlignment: center
+        closeButton: "true"
+      slots:
         title:
           paddingLeft: 56px
           paddingRight: 56px
-    headerAlignment=center,closeButton=false:
-      enabled:
+    - variants:
+        headerAlignment: center
+        closeButton: "false"
+      slots:
         title:
           paddingLeft: $dimension.spacing-x.global-gutter
           paddingRight: $dimension.spacing-x.global-gutter

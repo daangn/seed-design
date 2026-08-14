@@ -91,10 +91,16 @@ data:
             type: dimension
           fontWeight:
             type: number
-
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: readonly
+      - id: dragging
+    variants:
+      type:
+        values:
+          file: {}
+          image: {}
+  rules:
+    - slots:
         root:
           height: 80px
           color: $color.bg.transparent
@@ -121,30 +127,38 @@ data:
         removeButtonMask:
           offset: $dimension.x1_5
           size: $dimension.x6
-
-    type=file:
-      enabled:
+    - variants:
+        type: file
+      slots:
         root:
           width: 160px
           strokeColor: $color.stroke.neutral-weak
           paddingX: $dimension.x4
-      readonly:
+    - variants:
+        type: file
+      states:
+        - readonly
+      slots:
         thumbnailIcon:
           color: $color.fg.disabled
         name:
           color: $color.fg.disabled
         size:
           color: $color.fg.disabled
-      dragging:
+    - variants:
+        type: file
+      states:
+        - dragging
+      slots:
         thumbnailIcon:
           color: $color.fg.disabled
         name:
           color: $color.fg.disabled
         size:
           color: $color.fg.disabled
-
-    type=image:
-      enabled:
+    - variants:
+        type: image
+      slots:
         root:
           width: 80px
           strokeColor: $color.stroke.neutral-subtle
@@ -160,9 +174,17 @@ data:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.medium
-      readonly:
+    - variants:
+        type: image
+      states:
+        - readonly
+      slots:
         root:
           opacity: 0.5
-      dragging:
+    - variants:
+        type: image
+      states:
+        - dragging
+      slots:
         root:
           opacity: 0.5

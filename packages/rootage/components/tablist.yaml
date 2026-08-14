@@ -30,9 +30,17 @@ data:
             type: cubicBezier
           insetX:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    variants:
+      layout:
+        values:
+          hug: {}
+          fill: {}
+      size:
+        values:
+          small: {}
+          medium: {}
+  rules:
+    - slots:
         root:
           color: $color.bg.layer-default
           strokeBottomWidth: 1px
@@ -42,23 +50,27 @@ data:
           color: $color.fg.neutral
           transformDuration: $duration.d4
           transformTimingFunction: $timing-function.easing
-    layout=hug:
-      enabled:
+    - variants:
+        layout: hug
+      slots:
         root:
           paddingX: $dimension.spacing-x.global-gutter
         indicator:
           insetX: 0px
-    layout=fill:
-      enabled:
+    - variants:
+        layout: fill
+      slots:
         root:
           paddingX: 0px
         indicator:
           insetX: $dimension.spacing-x.global-gutter
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           height: 40px
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           height: 44px

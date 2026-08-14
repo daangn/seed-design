@@ -5,7 +5,7 @@ import { parseComponentSpecDeclaration } from "./component-spec";
 import type { ComponentSpecData } from "./types";
 
 describe("parseComponentSpecData", () => {
-  it("should parse base only", () => {
+  it("should parse a rule that names neither a variant nor a state", () => {
     const input: ComponentSpecData = {
       id: "test",
       name: "test",
@@ -20,23 +20,20 @@ describe("parseComponentSpecData", () => {
           },
         },
         variants: {},
+        states: [],
       },
-      definitions: [
+      rules: [
         {
           variants: {},
-          definitions: [
-            {
-              states: ["enabled"],
-              slots: {
-                root: {
-                  color: {
-                    type: "color",
-                    value: "#ffffff",
-                  },
-                },
+          states: [],
+          slots: {
+            root: {
+              color: {
+                type: "color",
+                value: "#ffffff",
               },
             },
-          ],
+          },
         },
       ],
     };
@@ -53,22 +50,16 @@ describe("parseComponentSpecData", () => {
           ]),
         ],
         [],
+        [],
       ),
       [
-        factory.createVariantDeclaration(
+        factory.createRuleDeclaration(
+          [],
           [],
           [
-            factory.createStateDeclaration(
-              [factory.createStateExpression("enabled")],
-              [
-                factory.createSlotDeclaration("root", [
-                  factory.createColorPropertyDeclaration(
-                    "color",
-                    factory.createColorHexLit("#ffffff"),
-                  ),
-                ]),
-              ],
-            ),
+            factory.createSlotDeclaration("root", [
+              factory.createColorPropertyDeclaration("color", factory.createColorHexLit("#ffffff")),
+            ]),
           ],
         ),
       ],
@@ -77,7 +68,7 @@ describe("parseComponentSpecData", () => {
     expect(parsed).toEqual(expected);
   });
 
-  it("should parse base and variants", () => {
+  it("should parse a rule that names a variant alongside one that does not", () => {
     const input: ComponentSpecData = {
       id: "test",
       name: "test",
@@ -99,41 +90,34 @@ describe("parseComponentSpecData", () => {
             defaultValue: "primary",
           },
         },
+        states: [],
       },
-      definitions: [
+      rules: [
         {
           variants: {},
-          definitions: [
-            {
-              states: ["enabled"],
-              slots: {
-                root: {
-                  color: {
-                    type: "color",
-                    value: "#ffffff",
-                  },
-                },
+          states: [],
+          slots: {
+            root: {
+              color: {
+                type: "color",
+                value: "#ffffff",
               },
             },
-          ],
+          },
         },
         {
           variants: {
             variant: "primary",
           },
-          definitions: [
-            {
-              states: ["enabled"],
-              slots: {
-                root: {
-                  color: {
-                    type: "color",
-                    value: "#000000",
-                  },
-                },
+          states: [],
+          slots: {
+            root: {
+              color: {
+                type: "color",
+                value: "#000000",
               },
             },
-          ],
+          },
         },
       ],
     };
@@ -156,38 +140,25 @@ describe("parseComponentSpecData", () => {
             "primary",
           ),
         ],
+        [],
       ),
       [
-        factory.createVariantDeclaration(
+        factory.createRuleDeclaration(
+          [],
           [],
           [
-            factory.createStateDeclaration(
-              [factory.createStateExpression("enabled")],
-              [
-                factory.createSlotDeclaration("root", [
-                  factory.createColorPropertyDeclaration(
-                    "color",
-                    factory.createColorHexLit("#ffffff"),
-                  ),
-                ]),
-              ],
-            ),
+            factory.createSlotDeclaration("root", [
+              factory.createColorPropertyDeclaration("color", factory.createColorHexLit("#ffffff")),
+            ]),
           ],
         ),
-        factory.createVariantDeclaration(
+        factory.createRuleDeclaration(
           [factory.createVariantExpression("variant", "primary")],
+          [],
           [
-            factory.createStateDeclaration(
-              [factory.createStateExpression("enabled")],
-              [
-                factory.createSlotDeclaration("root", [
-                  factory.createColorPropertyDeclaration(
-                    "color",
-                    factory.createColorHexLit("#000000"),
-                  ),
-                ]),
-              ],
-            ),
+            factory.createSlotDeclaration("root", [
+              factory.createColorPropertyDeclaration("color", factory.createColorHexLit("#000000")),
+            ]),
           ],
         ),
       ],
@@ -211,23 +182,23 @@ describe("parseComponentSpecData", () => {
           },
         },
         variants: {},
+        states: [
+          { id: "pressed", suppresses: [] },
+          { id: "selected", suppresses: [] },
+        ],
       },
-      definitions: [
+      rules: [
         {
           variants: {},
-          definitions: [
-            {
-              states: ["enabled", "selected"],
-              slots: {
-                root: {
-                  color: {
-                    type: "color",
-                    value: "#ffffff",
-                  },
-                },
+          states: ["pressed", "selected"],
+          slots: {
+            root: {
+              color: {
+                type: "color",
+                value: "#ffffff",
               },
             },
-          ],
+          },
         },
       ],
     };
@@ -244,22 +215,19 @@ describe("parseComponentSpecData", () => {
           ]),
         ],
         [],
+        [
+          factory.createStateSchemaDeclaration("pressed", []),
+          factory.createStateSchemaDeclaration("selected", []),
+        ],
       ),
       [
-        factory.createVariantDeclaration(
+        factory.createRuleDeclaration(
           [],
+          [factory.createStateExpression("pressed"), factory.createStateExpression("selected")],
           [
-            factory.createStateDeclaration(
-              [factory.createStateExpression("enabled"), factory.createStateExpression("selected")],
-              [
-                factory.createSlotDeclaration("root", [
-                  factory.createColorPropertyDeclaration(
-                    "color",
-                    factory.createColorHexLit("#ffffff"),
-                  ),
-                ]),
-              ],
-            ),
+            factory.createSlotDeclaration("root", [
+              factory.createColorPropertyDeclaration("color", factory.createColorHexLit("#ffffff")),
+            ]),
           ],
         ),
       ],
@@ -296,42 +264,35 @@ describe("parseComponentSpecData", () => {
             defaultValue: "rounded",
           },
         },
+        states: [],
       },
-      definitions: [
+      rules: [
         {
           variants: {},
-          definitions: [
-            {
-              states: ["enabled"],
-              slots: {
-                root: {
-                  color: {
-                    type: "color",
-                    value: "#ffffff",
-                  },
-                },
+          states: [],
+          slots: {
+            root: {
+              color: {
+                type: "color",
+                value: "#ffffff",
               },
             },
-          ],
+          },
         },
         {
           variants: {
             variant: "primary",
             shape: "rounded",
           },
-          definitions: [
-            {
-              states: ["enabled"],
-              slots: {
-                root: {
-                  color: {
-                    type: "color",
-                    value: "#000000",
-                  },
-                },
+          states: [],
+          slots: {
+            root: {
+              color: {
+                type: "color",
+                value: "#000000",
               },
             },
-          ],
+          },
         },
       ],
     };
@@ -359,47 +320,158 @@ describe("parseComponentSpecData", () => {
             "rounded",
           ),
         ],
+        [],
       ),
       [
-        factory.createVariantDeclaration(
+        factory.createRuleDeclaration(
+          [],
           [],
           [
-            factory.createStateDeclaration(
-              [factory.createStateExpression("enabled")],
-              [
-                factory.createSlotDeclaration("root", [
-                  factory.createColorPropertyDeclaration(
-                    "color",
-                    factory.createColorHexLit("#ffffff"),
-                  ),
-                ]),
-              ],
-            ),
+            factory.createSlotDeclaration("root", [
+              factory.createColorPropertyDeclaration("color", factory.createColorHexLit("#ffffff")),
+            ]),
           ],
         ),
-        factory.createVariantDeclaration(
+        factory.createRuleDeclaration(
           [
             factory.createVariantExpression("variant", "primary"),
             factory.createVariantExpression("shape", "rounded"),
           ],
+          [],
           [
-            factory.createStateDeclaration(
-              [factory.createStateExpression("enabled")],
-              [
-                factory.createSlotDeclaration("root", [
-                  factory.createColorPropertyDeclaration(
-                    "color",
-                    factory.createColorHexLit("#000000"),
-                  ),
-                ]),
-              ],
-            ),
+            factory.createSlotDeclaration("root", [
+              factory.createColorPropertyDeclaration("color", factory.createColorHexLit("#000000")),
+            ]),
           ],
         ),
       ],
     );
 
     expect(parsed).toEqual(expected);
+  });
+
+  it("should keep a rule's variants and states in the order the document writes them", () => {
+    const input: ComponentSpecData = {
+      id: "test",
+      name: "test",
+      schema: {
+        slots: {
+          root: {
+            properties: {
+              color: {
+                type: "color",
+              },
+            },
+          },
+        },
+        variants: {
+          variant: {
+            values: {
+              primary: {},
+            },
+            defaultValue: "primary",
+          },
+          shape: {
+            values: {
+              rounded: {},
+            },
+            defaultValue: "rounded",
+          },
+        },
+        states: [
+          { id: "pressed", suppresses: [] },
+          { id: "disabled", suppresses: ["pressed"] },
+        ],
+      },
+      rules: [
+        {
+          variants: {
+            shape: "rounded",
+            variant: "primary",
+          },
+          states: ["disabled", "pressed"],
+          slots: {
+            root: {
+              color: {
+                type: "color",
+                value: "#000000",
+              },
+            },
+          },
+        },
+      ],
+    };
+
+    const parsed = parseComponentSpecDeclaration(input);
+
+    // An exchange document is generated from an already-sorted authoring AST, so its
+    // order is the answer rather than something to re-derive.
+    expect(parsed.rules).toEqual([
+      factory.createRuleDeclaration(
+        [
+          factory.createVariantExpression("shape", "rounded"),
+          factory.createVariantExpression("variant", "primary"),
+        ],
+        [factory.createStateExpression("disabled"), factory.createStateExpression("pressed")],
+        [
+          factory.createSlotDeclaration("root", [
+            factory.createColorPropertyDeclaration("color", factory.createColorHexLit("#000000")),
+          ]),
+        ],
+      ),
+    ]);
+  });
+
+  it("should parse the state schema with its suppresses list", () => {
+    const input: ComponentSpecData = {
+      id: "test",
+      name: "test",
+      schema: {
+        slots: {
+          root: {
+            properties: {
+              color: {
+                type: "color",
+              },
+            },
+          },
+        },
+        variants: {},
+        states: [
+          { id: "pressed", suppresses: [] },
+          {
+            id: "disabled",
+            suppresses: ["pressed"],
+            description: "Cancels the press feedback outright.",
+          },
+        ],
+      },
+      rules: [
+        {
+          variants: {},
+          states: [],
+          slots: {
+            root: {
+              color: {
+                type: "color",
+                value: "#ffffff",
+              },
+            },
+          },
+        },
+      ],
+    };
+
+    const parsed = parseComponentSpecDeclaration(input);
+
+    expect(parsed.schema.states).toEqual([
+      factory.createStateSchemaDeclaration("pressed", []),
+      factory.createStateSchemaDeclaration(
+        "disabled",
+        ["pressed"],
+        "Cancels the press feedback outright.",
+      ),
+    ]);
   });
 
   it("should parse shadow", () => {
@@ -417,62 +489,59 @@ describe("parseComponentSpecData", () => {
           },
         },
         variants: {},
+        states: [],
       },
-      definitions: [
+      rules: [
         {
           variants: {},
-          definitions: [
-            {
-              states: ["enabled"],
-              slots: {
-                root: {
-                  shadow: {
-                    type: "shadow",
-                    value: [
-                      {
-                        offsetX: {
-                          value: 0,
-                          unit: "px",
-                        },
-                        offsetY: {
-                          value: 3,
-                          unit: "px",
-                        },
-                        blur: {
-                          value: 8,
-                          unit: "px",
-                        },
-                        spread: {
-                          value: 0,
-                          unit: "px",
-                        },
-                        color: "#00000026",
-                      },
-                      {
-                        offsetX: {
-                          value: 0,
-                          unit: "px",
-                        },
-                        offsetY: {
-                          value: 1,
-                          unit: "px",
-                        },
-                        blur: {
-                          value: 3,
-                          unit: "px",
-                        },
-                        spread: {
-                          value: 0,
-                          unit: "px",
-                        },
-                        color: "#0000000f",
-                      },
-                    ],
+          states: [],
+          slots: {
+            root: {
+              shadow: {
+                type: "shadow",
+                value: [
+                  {
+                    offsetX: {
+                      value: 0,
+                      unit: "px",
+                    },
+                    offsetY: {
+                      value: 3,
+                      unit: "px",
+                    },
+                    blur: {
+                      value: 8,
+                      unit: "px",
+                    },
+                    spread: {
+                      value: 0,
+                      unit: "px",
+                    },
+                    color: "#00000026",
                   },
-                },
+                  {
+                    offsetX: {
+                      value: 0,
+                      unit: "px",
+                    },
+                    offsetY: {
+                      value: 1,
+                      unit: "px",
+                    },
+                    blur: {
+                      value: 3,
+                      unit: "px",
+                    },
+                    spread: {
+                      value: 0,
+                      unit: "px",
+                    },
+                    color: "#0000000f",
+                  },
+                ],
               },
             },
-          ],
+          },
         },
       ],
     };
@@ -489,37 +558,34 @@ describe("parseComponentSpecData", () => {
           ]),
         ],
         [],
+        [],
       ),
       [
-        factory.createVariantDeclaration(
+        factory.createRuleDeclaration(
+          [],
           [],
           [
-            factory.createStateDeclaration(
-              [factory.createStateExpression("enabled")],
-              [
-                factory.createSlotDeclaration("root", [
-                  factory.createShadowPropertyDeclaration(
-                    "shadow",
-                    factory.createShadowLit([
-                      factory.createShadowLayerLit(
-                        factory.createColorHexLit("#00000026"),
-                        factory.createDimensionLit(0, "px"),
-                        factory.createDimensionLit(3, "px"),
-                        factory.createDimensionLit(8, "px"),
-                        factory.createDimensionLit(0, "px"),
-                      ),
-                      factory.createShadowLayerLit(
-                        factory.createColorHexLit("#0000000f"),
-                        factory.createDimensionLit(0, "px"),
-                        factory.createDimensionLit(1, "px"),
-                        factory.createDimensionLit(3, "px"),
-                        factory.createDimensionLit(0, "px"),
-                      ),
-                    ]),
+            factory.createSlotDeclaration("root", [
+              factory.createShadowPropertyDeclaration(
+                "shadow",
+                factory.createShadowLit([
+                  factory.createShadowLayerLit(
+                    factory.createColorHexLit("#00000026"),
+                    factory.createDimensionLit(0, "px"),
+                    factory.createDimensionLit(3, "px"),
+                    factory.createDimensionLit(8, "px"),
+                    factory.createDimensionLit(0, "px"),
+                  ),
+                  factory.createShadowLayerLit(
+                    factory.createColorHexLit("#0000000f"),
+                    factory.createDimensionLit(0, "px"),
+                    factory.createDimensionLit(1, "px"),
+                    factory.createDimensionLit(3, "px"),
+                    factory.createDimensionLit(0, "px"),
                   ),
                 ]),
-              ],
-            ),
+              ),
+            ]),
           ],
         ),
       ],

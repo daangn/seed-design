@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x1)"
       },
@@ -16,70 +16,70 @@ export declare const vars: {
     }
   },
   "levelL1": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l1-text)"
       }
     }
   },
   "levelL2": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l2-text)"
       }
     }
   },
   "levelL3": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l3-text)"
       }
     }
   },
   "levelL4": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l4-text)"
       }
     }
   },
   "levelL5": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l5-text)"
       }
     }
   },
   "levelL6": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l6-text)"
       }
     }
   },
   "levelL7": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l7-text)"
       }
     }
   },
   "levelL8": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l8-text)"
       }
     }
   },
   "levelL9": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l9-text)"
       }
     }
   },
   "levelL10": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-manner-temp-l10-text)"
       }

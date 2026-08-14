@@ -39,110 +39,198 @@ data:
             description: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
           ghost:
             description: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
-  definitions:
-    base:
-      enabled:
+      tone:
+        values:
+          brand: {}
+          neutral: {}
+      size:
+        values:
+          medium: {}
+          large: {}
+    states:
+      - id: pressed
+      - id: selected
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-    variant=square:
-      enabled:
+    - variants:
+        variant: square
+      slots:
         root:
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak
-      pressed:
+    - variants:
+        variant: square
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      enabled,selected:
+    - variants:
+        variant: square
+      states:
+        - selected
+      slots:
         root:
           strokeWidth: 0px
           strokeColor: "#00000000"
-      disabled:
+    - variants:
+        variant: square
+      states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
           strokeColor: $color.stroke.neutral-muted
         icon:
           color: $color.fg.disabled
-      disabled,selected:
+    - variants:
+        variant: square
+      states:
+        - selected
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled
-
-    variant=square,tone=brand:
-      enabled,selected:
+    - variants:
+        variant: square
+        tone: brand
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.brand-solid
         icon:
           color: $color.palette.static-white
-      pressed,selected:
+    - variants:
+        variant: square
+        tone: brand
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.brand-solid-pressed
-    variant=square,tone=neutral:
-      enabled,selected:
+    - variants:
+        variant: square
+        tone: neutral
+      states:
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted
         icon:
           color: $color.fg.neutral-inverted
-      pressed,selected:
+    - variants:
+        variant: square
+        tone: neutral
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.neutral-inverted-pressed
-
-    variant=ghost:
-      enabled:
+    - variants:
+        variant: ghost
+      slots:
         icon:
           color: $color.fg.placeholder
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-
-      pressed:
+    - variants:
+        variant: ghost
+      states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - variants:
+        variant: ghost
+      states:
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled
-      disabled,selected:
+    - variants:
+        variant: ghost
+      states:
+        - selected
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled
-
-    variant=ghost,tone=brand:
-      enabled,selected:
+    - variants:
+        variant: ghost
+        tone: brand
+      states:
+        - selected
+      slots:
         icon:
           color: $color.fg.brand
-      pressed,selected:
+    - variants:
+        variant: ghost
+        tone: brand
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.palette.carrot-200
-    variant=ghost,tone=neutral:
-      enabled,selected:
+    - variants:
+        variant: ghost
+        tone: neutral
+      states:
+        - selected
+      slots:
         icon:
           color: $color.fg.neutral
-      pressed,selected:
+    - variants:
+        variant: ghost
+        tone: neutral
+      states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.palette.gray-200
-
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         root:
           size: $dimension.x5
           cornerRadius: $radius.r1
-
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         root:
           size: $dimension.x6
           cornerRadius: $radius.r1
-
-    variant=square,size=medium:
-      enabled:
+    - variants:
+        variant: square
+        size: medium
+      slots:
         icon:
           size: 12px
-    variant=square,size=large:
-      enabled:
+    - variants:
+        variant: square
+        size: large
+      slots:
         icon:
           size: 14px
-    variant=ghost,size=medium:
-      enabled:
+    - variants:
+        variant: ghost
+        size: medium
+      slots:
         icon:
           size: 14px
-    variant=ghost,size=large:
-      enabled:
+    - variants:
+        variant: ghost
+        size: large
+      slots:
         icon:
           size: 18px

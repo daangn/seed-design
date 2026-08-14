@@ -21,13 +21,16 @@ data:
         values:
           medium: {}
           large: {}
-  definitions:
-    variant=separated, size=medium:
-      enabled:
+  rules:
+    - variants:
+        variant: separated
+        size: medium
+      slots:
         root:
           gap: $dimension.x3
-
-    variant=separated, size=large:
-      enabled:
+    - variants:
+        variant: separated
+        size: large
+      slots:
         root:
           gap: $dimension.x4

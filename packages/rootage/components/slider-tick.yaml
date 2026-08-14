@@ -12,16 +12,22 @@ data:
             type: dimension
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    variants:
+      weight:
+        values:
+          thin: {}
+          thick: {}
+  rules:
+    - slots:
         root:
           color: $color.fg.neutral-inverted # fg 토큰인데 적절할까?      
-    weight=thin:
-      enabled:
+    - variants:
+        weight: thin
+      slots:
         root:
           width: 1px
-    weight=thick:
-      enabled:
+    - variants:
+        weight: thick
+      slots:
         root:
           width: $dimension.x1

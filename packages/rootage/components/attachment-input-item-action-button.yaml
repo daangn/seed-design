@@ -26,9 +26,13 @@ data:
             type: dimension
           fontWeight:
             type: number
-  definitions:
-    base:
-      enabled:
+    variants:
+      type:
+        values:
+          file: {}
+          image: {}
+  rules:
+    - slots:
         root:
           gap: $dimension.x1
         icon:
@@ -37,16 +41,16 @@ data:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.medium
-
-    type=file:
-      enabled:
+    - variants:
+        type: file
+      slots:
         icon:
           color: $color.fg.neutral-subtle
         label:
           color: $color.fg.neutral-subtle
-
-    type=image:
-      enabled:
+    - variants:
+        type: image
+      slots:
         icon:
           color: $color.palette.static-white
         label:

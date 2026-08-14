@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "cornerRadius": "var(--seed-radius-r3)",
         "color": "var(--seed-color-bg-transparent)",
@@ -48,11 +48,7 @@ export const vars = {
     },
     "selected": {
       "root": {
-        "strokeWidth": "2px"
-      }
-    },
-    "enabledSelected": {
-      "root": {
+        "strokeWidth": "2px",
         "strokeColor": "var(--seed-color-stroke-neutral-contrast)"
       }
     },
@@ -70,14 +66,14 @@ export const vars = {
         "color": "var(--seed-color-fg-disabled)"
       }
     },
-    "enabledPressed": {
+    "pressed": {
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
       }
     }
   },
   "layoutHorizontal": {
-    "enabled": {
+    "rest": {
       "trigger": {
         "paddingLeft": "var(--seed-dimension-x5)",
         "paddingRight": "var(--seed-dimension-x4)",
@@ -89,7 +85,7 @@ export const vars = {
     }
   },
   "layoutVertical": {
-    "enabled": {
+    "rest": {
       "trigger": {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x5)"

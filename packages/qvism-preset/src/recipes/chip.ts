@@ -27,9 +27,9 @@ const chip = defineSlotRecipe({
       flexShrink: 0,
       lineHeight: 1,
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
-      transitionDuration: vars.base.enabled.root.colorDuration,
-      transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
+      borderRadius: vars.base.rest.root.cornerRadius,
+      transitionDuration: vars.base.rest.root.colorDuration,
+      transitionTimingFunction: vars.base.rest.root.colorTimingFunction,
       transitionProperty: "background-color, color, border-color, box-shadow, outline-color",
 
       ...createFocusRingRestStyles(),
@@ -42,14 +42,14 @@ const chip = defineSlotRecipe({
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      fontWeight: vars.base.enabled.label.fontWeight,
-      paddingInline: vars.base.enabled.label.paddingX,
+      fontWeight: vars.base.rest.label.fontWeight,
+      paddingInline: vars.base.rest.label.paddingX,
     },
     prefixIcon: {
       display: "inline-flex",
       alignItems: "center",
       flexShrink: 0,
-      paddingLeft: vars.base.enabled.prefixIcon.paddingLeft,
+      paddingLeft: vars.base.rest.prefixIcon.paddingLeft,
     },
     prefixAvatar: {
       display: "inline-flex",
@@ -60,17 +60,17 @@ const chip = defineSlotRecipe({
       display: "inline-flex",
       alignItems: "center",
       flexShrink: 0,
-      paddingRight: vars.base.enabled.suffixIcon.paddingRight,
+      paddingRight: vars.base.rest.suffixIcon.paddingRight,
     },
   },
   variants: {
     variant: {
       solid: {
         root: {
-          background: vars.variantSolid.enabled.root.color,
+          background: vars.variantSolid.rest.root.color,
 
           ...onlyIcon({
-            color: vars.variantSolid.enabled.icon.color,
+            color: vars.variantSolid.rest.icon.color,
           }),
 
           [pseudo(checked)]: {
@@ -85,33 +85,33 @@ const chip = defineSlotRecipe({
             background: vars.variantSolid.pressed.root.color,
           },
           [pseudo(checked, engaged, not(disabled))]: {
-            background: vars.variantSolid.selectedPressed.root.color,
+            background: vars.variantSolid.pressedSelected.root.color,
           },
           [pseudo(disabled)]: {
             opacity: vars.variantSolid.disabled.root.opacity,
           },
         },
         label: {
-          color: vars.variantSolid.enabled.label.color,
+          color: vars.variantSolid.rest.label.color,
 
           [pseudo(checked)]: {
             color: vars.variantSolid.selected.label.color,
           },
         },
         prefixIcon: {
-          color: vars.variantSolid.enabled.prefixIcon.color,
+          color: vars.variantSolid.rest.prefixIcon.color,
         },
         suffixIcon: {
-          color: vars.variantSolid.enabled.suffixIcon.color,
+          color: vars.variantSolid.rest.suffixIcon.color,
         },
       },
       outlineStrong: {
         root: {
-          background: vars.variantOutlineStrong.enabled.root.color,
-          boxShadow: `inset 0 0 0 ${vars.variantOutlineStrong.enabled.root.strokeWidth} ${vars.variantOutlineStrong.enabled.root.strokeColor}`,
+          background: vars.variantOutlineStrong.rest.root.color,
+          boxShadow: `inset 0 0 0 ${vars.variantOutlineStrong.rest.root.strokeWidth} ${vars.variantOutlineStrong.rest.root.strokeColor}`,
 
           ...onlyIcon({
-            color: vars.variantOutlineStrong.enabled.icon.color,
+            color: vars.variantOutlineStrong.rest.icon.color,
           }),
 
           [pseudo(engaged, not(disabled))]: {
@@ -124,33 +124,33 @@ const chip = defineSlotRecipe({
             }),
           },
           [pseudo(checked, engaged, not(disabled))]: {
-            background: vars.variantOutlineStrong.selectedPressed.root.color,
+            background: vars.variantOutlineStrong.pressedSelected.root.color,
           },
           [pseudo(disabled)]: {
             opacity: vars.variantOutlineStrong.disabled.root.opacity,
           },
         },
         label: {
-          color: vars.variantOutlineStrong.enabled.label.color,
+          color: vars.variantOutlineStrong.rest.label.color,
 
           [pseudo(checked)]: {
             color: vars.variantOutlineStrong.selected.label.color,
           },
         },
         prefixIcon: {
-          color: vars.variantOutlineStrong.enabled.prefixIcon.color,
+          color: vars.variantOutlineStrong.rest.prefixIcon.color,
         },
         suffixIcon: {
-          color: vars.variantOutlineStrong.enabled.suffixIcon.color,
+          color: vars.variantOutlineStrong.rest.suffixIcon.color,
         },
       },
       outlineWeak: {
         root: {
-          background: vars.variantOutlineWeak.enabled.root.color,
-          boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.enabled.root.strokeColor}`,
+          background: vars.variantOutlineWeak.rest.root.color,
+          boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.rest.root.strokeWidth} ${vars.variantOutlineWeak.rest.root.strokeColor}`,
 
           ...onlyIcon({
-            color: vars.variantOutlineWeak.enabled.icon.color,
+            color: vars.variantOutlineWeak.rest.icon.color,
           }),
 
           [pseudo(engaged, not(disabled))]: {
@@ -158,96 +158,96 @@ const chip = defineSlotRecipe({
           },
           [pseudo(checked)]: {
             background: vars.variantOutlineWeak.selected.root.color,
-            boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.selected.root.strokeColor}`,
+            boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.rest.root.strokeWidth} ${vars.variantOutlineWeak.selected.root.strokeColor}`,
           },
           [pseudo(checked, engaged, not(disabled))]: {
-            background: vars.variantOutlineWeak.selectedPressed.root.color,
+            background: vars.variantOutlineWeak.pressedSelected.root.color,
           },
           [pseudo(disabled)]: {
             opacity: vars.variantOutlineWeak.disabled.root.opacity,
           },
         },
         label: {
-          color: vars.variantOutlineWeak.enabled.label.color,
+          color: vars.variantOutlineWeak.rest.label.color,
         },
         prefixIcon: {
-          color: vars.variantOutlineWeak.enabled.prefixIcon.color,
+          color: vars.variantOutlineWeak.rest.prefixIcon.color,
         },
         suffixIcon: {
-          color: vars.variantOutlineWeak.enabled.suffixIcon.color,
+          color: vars.variantOutlineWeak.rest.suffixIcon.color,
         },
       },
     },
     size: {
       large: {
         root: {
-          height: vars.sizeLarge.enabled.root.height,
-          paddingInline: vars.sizeLarge.enabled.root.paddingX,
+          height: vars.sizeLarge.rest.root.height,
+          paddingInline: vars.sizeLarge.rest.root.paddingX,
 
           ...onlyIcon({
-            size: vars.sizeLarge.enabled.icon.size,
+            size: vars.sizeLarge.rest.icon.size,
           }),
         },
         label: {
-          fontSize: vars.sizeLarge.enabled.label.fontSize,
-          lineHeight: vars.sizeLarge.enabled.label.lineHeight,
+          fontSize: vars.sizeLarge.rest.label.fontSize,
+          lineHeight: vars.sizeLarge.rest.label.lineHeight,
         },
         prefixIcon: {
           ...onlyIcon({
-            size: vars.sizeLarge.enabled.prefixIcon.size,
+            size: vars.sizeLarge.rest.prefixIcon.size,
           }),
         },
         suffixIcon: {
           ...onlyIcon({
-            size: vars.sizeLarge.enabled.suffixIcon.size,
+            size: vars.sizeLarge.rest.suffixIcon.size,
           }),
         },
       },
       medium: {
         root: {
-          height: vars.sizeMedium.enabled.root.height,
-          paddingInline: vars.sizeMedium.enabled.root.paddingX,
+          height: vars.sizeMedium.rest.root.height,
+          paddingInline: vars.sizeMedium.rest.root.paddingX,
 
           ...onlyIcon({
-            size: vars.sizeMedium.enabled.icon.size,
+            size: vars.sizeMedium.rest.icon.size,
           }),
         },
         label: {
-          fontSize: vars.sizeMedium.enabled.label.fontSize,
-          lineHeight: vars.sizeMedium.enabled.label.lineHeight,
+          fontSize: vars.sizeMedium.rest.label.fontSize,
+          lineHeight: vars.sizeMedium.rest.label.lineHeight,
         },
         prefixIcon: {
           ...onlyIcon({
-            size: vars.sizeMedium.enabled.prefixIcon.size,
+            size: vars.sizeMedium.rest.prefixIcon.size,
           }),
         },
         suffixIcon: {
           ...onlyIcon({
-            size: vars.sizeMedium.enabled.suffixIcon.size,
+            size: vars.sizeMedium.rest.suffixIcon.size,
           }),
         },
       },
       small: {
         root: {
-          height: vars.sizeSmall.enabled.root.height,
-          paddingInline: vars.sizeSmall.enabled.root.paddingX,
+          height: vars.sizeSmall.rest.root.height,
+          paddingInline: vars.sizeSmall.rest.root.paddingX,
 
           ...onlyIcon({
-            size: vars.sizeSmall.enabled.icon.size,
+            size: vars.sizeSmall.rest.icon.size,
           }),
         },
         label: {
-          fontSize: vars.sizeSmall.enabled.label.fontSize,
-          lineHeight: vars.sizeSmall.enabled.label.lineHeight,
+          fontSize: vars.sizeSmall.rest.label.fontSize,
+          lineHeight: vars.sizeSmall.rest.label.lineHeight,
         },
         prefixIcon: {
           ...onlyIcon({
-            size: vars.sizeSmall.enabled.prefixIcon.size,
+            size: vars.sizeSmall.rest.prefixIcon.size,
           }),
         },
         suffixIcon: {
           ...onlyIcon({
-            size: vars.sizeSmall.enabled.suffixIcon.size,
+            size: vars.sizeSmall.rest.suffixIcon.size,
           }),
         },
       },
@@ -263,7 +263,7 @@ const chip = defineSlotRecipe({
       layout: "withText",
       css: {
         root: {
-          minWidth: vars.sizeSmallLayoutWithText.enabled.root.minWidth,
+          minWidth: vars.sizeSmallLayoutWithText.rest.root.minWidth,
         },
       },
     },
@@ -272,7 +272,7 @@ const chip = defineSlotRecipe({
       layout: "withText",
       css: {
         root: {
-          minWidth: vars.sizeMediumLayoutWithText.enabled.root.minWidth,
+          minWidth: vars.sizeMediumLayoutWithText.rest.root.minWidth,
         },
       },
     },
@@ -281,7 +281,7 @@ const chip = defineSlotRecipe({
       layout: "withText",
       css: {
         root: {
-          minWidth: vars.sizeLargeLayoutWithText.enabled.root.minWidth,
+          minWidth: vars.sizeLargeLayoutWithText.rest.root.minWidth,
         },
       },
     },
@@ -290,7 +290,7 @@ const chip = defineSlotRecipe({
       layout: "iconOnly",
       css: {
         root: {
-          minWidth: vars.sizeSmallLayoutIconOnly.enabled.root.minWidth,
+          minWidth: vars.sizeSmallLayoutIconOnly.rest.root.minWidth,
         },
       },
     },
@@ -299,7 +299,7 @@ const chip = defineSlotRecipe({
       layout: "iconOnly",
       css: {
         root: {
-          minWidth: vars.sizeMediumLayoutIconOnly.enabled.root.minWidth,
+          minWidth: vars.sizeMediumLayoutIconOnly.rest.root.minWidth,
         },
       },
     },
@@ -308,7 +308,7 @@ const chip = defineSlotRecipe({
       layout: "iconOnly",
       css: {
         root: {
-          minWidth: vars.sizeLargeLayoutIconOnly.enabled.root.minWidth,
+          minWidth: vars.sizeLargeLayoutIconOnly.rest.root.minWidth,
         },
       },
     },

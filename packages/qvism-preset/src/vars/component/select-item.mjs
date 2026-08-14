@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
         "cornerRadius": "var(--seed-radius-r3)",
@@ -49,7 +49,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingY": "var(--seed-dimension-x3)",
         "gap": "var(--seed-dimension-x3)"
@@ -71,7 +71,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingY": "var(--seed-dimension-x2_5)",
         "gap": "var(--seed-dimension-x2)"

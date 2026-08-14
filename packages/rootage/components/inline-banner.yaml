@@ -69,9 +69,18 @@ data:
             type: dimension
           color:
             type: color
-  definitions:
-    base:
-      enabled:
+    variants:
+      variant:
+        values:
+          neutralWeak: {}
+          positiveWeak: {}
+          informativeWeak: {}
+          warningWeak: {}
+          warningSolid: {}
+          criticalWeak: {}
+          criticalSolid: {}
+  rules:
+    - slots:
         root:
           paddingX: $dimension.x4
           paddingY: $dimension.x2_5
@@ -97,8 +106,9 @@ data:
           size: $dimension.x4
           targetSize: $dimension.x10
           marginLeft: $dimension.x4
-    variant=neutralWeak:
-      enabled:
+    - variants:
+        variant: neutralWeak
+      slots:
         root:
           color: $color.bg.neutral-weak
         prefixIcon:
@@ -111,8 +121,9 @@ data:
           color: $color.fg.neutral
         suffixIcon:
           color: $color.fg.neutral
-    variant=positiveWeak:
-      enabled:
+    - variants:
+        variant: positiveWeak
+      slots:
         root:
           color: $color.bg.positive-weak
         prefixIcon:
@@ -125,8 +136,9 @@ data:
           color: $color.fg.positive-contrast
         suffixIcon:
           color: $color.fg.positive-contrast
-    variant=informativeWeak:
-      enabled:
+    - variants:
+        variant: informativeWeak
+      slots:
         root:
           color: $color.bg.informative-weak
         prefixIcon:
@@ -139,8 +151,9 @@ data:
           color: $color.fg.informative-contrast
         suffixIcon:
           color: $color.fg.informative-contrast
-    variant=warningWeak:
-      enabled:
+    - variants:
+        variant: warningWeak
+      slots:
         root:
           color: $color.bg.warning-weak
         prefixIcon:
@@ -153,8 +166,9 @@ data:
           color: $color.fg.warning-contrast
         suffixIcon:
           color: $color.fg.warning-contrast
-    variant=warningSolid:
-      enabled:
+    - variants:
+        variant: warningSolid
+      slots:
         root:
           color: $color.bg.warning-solid
         prefixIcon:
@@ -167,8 +181,9 @@ data:
           color: $color.fg.neutral
         suffixIcon:
           color: $color.fg.neutral
-    variant=criticalWeak:
-      enabled:
+    - variants:
+        variant: criticalWeak
+      slots:
         root:
           color: $color.bg.critical-weak
         prefixIcon:
@@ -181,8 +196,9 @@ data:
           color: $color.fg.critical-contrast
         suffixIcon:
           color: $color.fg.critical-contrast
-    variant=criticalSolid:
-      enabled:
+    - variants:
+        variant: criticalSolid
+      slots:
         root:
           color: $color.bg.critical-solid
         prefixIcon:

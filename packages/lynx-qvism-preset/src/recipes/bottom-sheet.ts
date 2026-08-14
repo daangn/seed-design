@@ -45,7 +45,7 @@ const bottomSheet = defineSlotRecipe({
       // from the sheet's position via `setStyleProperty` on the main thread.
       opacity: 0,
 
-      background: vars.base.enabled.backdrop.color,
+      background: vars.base.rest.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
     },
     content: {
@@ -55,9 +55,9 @@ const bottomSheet = defineSlotRecipe({
       flexDirection: "column",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      background: vars.base.enabled.content.color,
-      borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
-      borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+      background: vars.base.rest.content.color,
+      borderTopLeftRadius: vars.base.rest.content.topCornerRadius,
+      borderTopRightRadius: vars.base.rest.content.topCornerRadius,
 
       // Initial offscreen position; transforms are driven by main-thread motion.
       transform: "translate3d(0, 100%, 0)",
@@ -66,26 +66,26 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      gap: vars.base.enabled.header.gap,
-      paddingTop: vars.base.enabled.header.paddingTop,
-      paddingBottom: vars.base.enabled.header.paddingBottom,
+      gap: vars.base.rest.header.gap,
+      paddingTop: vars.base.rest.header.paddingTop,
+      paddingBottom: vars.base.rest.header.paddingBottom,
     },
     title: {
-      color: vars.base.enabled.title.color,
-      fontSize: vars.base.enabled.title.fontSize,
-      lineHeight: vars.base.enabled.title.lineHeight,
-      fontWeight: vars.base.enabled.title.fontWeight,
+      color: vars.base.rest.title.color,
+      fontSize: vars.base.rest.title.fontSize,
+      lineHeight: vars.base.rest.title.lineHeight,
+      fontWeight: vars.base.rest.title.fontWeight,
 
       margin: 0,
     },
     description: {
-      color: vars.base.enabled.description.color,
-      fontSize: vars.base.enabled.description.fontSize,
-      lineHeight: vars.base.enabled.description.lineHeight,
-      fontWeight: vars.base.enabled.description.fontWeight,
+      color: vars.base.rest.description.color,
+      fontSize: vars.base.rest.description.fontSize,
+      lineHeight: vars.base.rest.description.lineHeight,
+      fontWeight: vars.base.rest.description.fontWeight,
 
-      paddingLeft: vars.base.enabled.description.paddingX,
-      paddingRight: vars.base.enabled.description.paddingX,
+      paddingLeft: vars.base.rest.description.paddingX,
+      paddingRight: vars.base.rest.description.paddingX,
 
       margin: 0,
     },
@@ -95,18 +95,18 @@ const bottomSheet = defineSlotRecipe({
       flex: 1,
       minHeight: "0",
 
-      paddingLeft: vars.base.enabled.body.paddingX,
-      paddingRight: vars.base.enabled.body.paddingX,
+      paddingLeft: vars.base.rest.body.paddingX,
+      paddingRight: vars.base.rest.body.paddingX,
     },
     footer: {
       display: "flex",
       flexDirection: "column",
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingLeft: vars.base.rest.footer.paddingX,
+      paddingRight: vars.base.rest.footer.paddingX,
 
-      paddingTop: vars.base.enabled.footer.paddingTop,
-      paddingBottom: vars.base.enabled.footer.paddingBottom,
+      paddingTop: vars.base.rest.footer.paddingTop,
+      paddingBottom: vars.base.rest.footer.paddingBottom,
     },
     closeButton: {
       // Tier B placeholder: Lynx SVG support pending. Kept so the slot exists
@@ -125,8 +125,8 @@ const bottomSheet = defineSlotRecipe({
           justifyContent: "flex-start",
         },
         title: {
-          paddingLeft: vars.headerAlignmentLeftCloseButtonFalse.enabled.title.paddingLeft,
-          paddingRight: vars.headerAlignmentLeftCloseButtonFalse.enabled.title.paddingRight,
+          paddingLeft: vars.headerAlignmentLeftCloseButtonFalse.rest.title.paddingLeft,
+          paddingRight: vars.headerAlignmentLeftCloseButtonFalse.rest.title.paddingRight,
         },
       },
       center: {
@@ -135,8 +135,8 @@ const bottomSheet = defineSlotRecipe({
           textAlign: "center",
         },
         title: {
-          paddingLeft: vars.headerAlignmentCenterCloseButtonFalse.enabled.title.paddingLeft,
-          paddingRight: vars.headerAlignmentCenterCloseButtonFalse.enabled.title.paddingRight,
+          paddingLeft: vars.headerAlignmentCenterCloseButtonFalse.rest.title.paddingLeft,
+          paddingRight: vars.headerAlignmentCenterCloseButtonFalse.rest.title.paddingRight,
         },
       },
     },

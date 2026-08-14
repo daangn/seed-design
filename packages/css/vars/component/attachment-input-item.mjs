@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "80px",
         "color": "var(--seed-color-bg-transparent)",
@@ -36,7 +36,7 @@ export const vars = {
     }
   },
   "typeFile": {
-    "enabled": {
+    "rest": {
       "root": {
         "width": "160px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
@@ -67,7 +67,7 @@ export const vars = {
     }
   },
   "typeImage": {
-    "enabled": {
+    "rest": {
       "root": {
         "width": "80px",
         "strokeColor": "var(--seed-color-stroke-neutral-subtle)"

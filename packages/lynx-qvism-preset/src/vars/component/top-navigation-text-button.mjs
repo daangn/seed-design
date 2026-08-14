@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "44px",
         "paddingX": "var(--seed-dimension-x2_5)"
@@ -17,7 +17,7 @@ export const vars = {
     }
   },
   "toneLayer": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       }
@@ -29,7 +29,7 @@ export const vars = {
     }
   },
   "toneTransparent": {
-    "enabled": {
+    "rest": {
       "label": {
         "color": "var(--seed-color-palette-static-white)"
       }
@@ -41,11 +41,10 @@ export const vars = {
     }
   },
   "themeIos": {
-    "enabled": {
+    "rest": {
       "root": {
         "maxWidth": "96px"
       }
     }
-  },
-  "themeAndroid": {}
+  }
 }

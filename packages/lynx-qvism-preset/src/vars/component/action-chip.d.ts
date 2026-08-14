@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)"
@@ -50,7 +50,7 @@ export declare const vars: {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x8)",
         "paddingY": "var(--seed-dimension-x1_5)",
@@ -73,7 +73,7 @@ export declare const vars: {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
         "paddingY": "var(--seed-dimension-x2)",
@@ -96,14 +96,14 @@ export declare const vars: {
     }
   },
   "sizeSmallLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x3)"
       }
     }
   },
   "sizeSmallLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x8)"
       },
@@ -113,14 +113,14 @@ export declare const vars: {
     }
   },
   "sizeMediumLayoutWithText": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x3_5)"
       }
     }
   },
   "sizeMediumLayoutIconOnly": {
-    "enabled": {
+    "rest": {
       "root": {
         "minWidth": "var(--seed-dimension-x9)"
       },

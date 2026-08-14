@@ -64,9 +64,20 @@ data:
             type: dimension
           thickness:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: selected
+      - id: loading
+      - id: disabled
+        suppresses:
+          - pressed
+    variants:
+      size:
+        values:
+          xsmall: {}
+          small: {}
+  rules:
+    - slots:
         root:
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
@@ -84,10 +95,14 @@ data:
         progressCircle:
           trackColor: $color.palette.gray-500
           rangeColor: $color.fg.neutral
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      selected:
+    - states:
+        - selected
+      slots:
         root:
           color: $color.bg.transparent
           strokeColor: $color.stroke.brand-weak
@@ -101,10 +116,15 @@ data:
         progressCircle:
           trackColor: $color.palette.carrot-200
           rangeColor: $color.fg.brand
-      selected,pressed:
+    - states:
+        - pressed
+        - selected
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - states:
+        - disabled
+      slots:
         root:
           color: $color.bg.disabled
           strokeWidth: 0px
@@ -114,15 +134,21 @@ data:
           color: $color.fg.disabled
         prefixIcon:
           color: $color.fg.disabled
-      loading:
+    - states:
+        - loading
+      slots:
         root:
           color: $color.bg.neutral-weak-pressed
-      selected,loading:
+    - states:
+        - selected
+        - loading
+      slots:
         root:
           color: $color.bg.transparent-pressed
           strokeWidth: 1px
-    size=xsmall:
-      enabled:
+    - variants:
+        size: xsmall
+      slots:
         root:
           minHeight: $dimension.x8
           cornerRadius: $radius.full
@@ -140,8 +166,9 @@ data:
         progressCircle:
           size: 14px
           thickness: 2px
-    size=small:
-      enabled:
+    - variants:
+        size: small
+      slots:
         root:
           minHeight: $dimension.x9
           cornerRadius: $radius.full

@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
@@ -27,7 +27,7 @@ export const vars = {
     }
   },
   "sizeSmall": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x9)",
         "cornerRadius": "var(--seed-radius-r2)"
@@ -44,7 +44,7 @@ export const vars = {
     }
   },
   "sizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x10)",
         "cornerRadius": "var(--seed-radius-r2)"
@@ -61,7 +61,7 @@ export const vars = {
     }
   },
   "sizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "height": "var(--seed-dimension-x13)",
         "cornerRadius": "var(--seed-radius-r3)"

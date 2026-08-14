@@ -22,23 +22,23 @@ const radiomark = defineSlotRecipe({
       justifyContent: "center",
       flex: "none",
 
-      borderWidth: vars.base.enabled.root.strokeWidth,
-      borderColor: vars.base.enabled.root.strokeColor,
+      borderWidth: vars.base.rest.root.strokeWidth,
+      borderColor: vars.base.rest.root.strokeColor,
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: vars.base.rest.root.cornerRadius,
 
       marginTop: "var(--radiomark-margin-top, 0)", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${vars.base.rest.root.colorDuration} ${vars.base.rest.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
 
       [pseudo(not(disabled), engaged)]: {
-        backgroundColor: vars.base.enabledPressed.root.color,
+        backgroundColor: vars.base.pressed.root.color,
       },
 
       [pseudo(checked)]: {
-        borderWidth: vars.base.enabledSelected.root.strokeWidth,
+        borderWidth: vars.base.selected.root.strokeWidth,
       },
 
       [pseudo(disabled)]: {
@@ -48,16 +48,16 @@ const radiomark = defineSlotRecipe({
 
       [pseudo(disabled, checked)]: {
         // we use toneBrand here; rootage needs some more clarification on this
-        backgroundColor: vars.toneBrand.disabledSelected.root.color,
-        borderWidth: vars.toneBrand.disabledSelected.root.strokeWidth,
-        borderColor: vars.toneBrand.disabledSelected.root.strokeColor,
+        backgroundColor: vars.toneBrand.selectedDisabled.root.color,
+        borderWidth: vars.toneBrand.selectedDisabled.root.strokeWidth,
+        borderColor: vars.toneBrand.selectedDisabled.root.strokeColor,
       },
 
       [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),
     },
     icon: {
       display: "none",
-      borderRadius: vars.base.enabled.icon.cornerRadius,
+      borderRadius: vars.base.rest.icon.cornerRadius,
 
       [pseudo(checked)]: {
         display: "block",
@@ -65,7 +65,7 @@ const radiomark = defineSlotRecipe({
 
       [pseudo(disabled, checked)]: {
         // we use toneBrand here; rootage needs some more clarification on this
-        color: vars.toneBrand.disabledSelected.icon.color,
+        color: vars.toneBrand.selectedDisabled.icon.color,
       },
     },
   },
@@ -74,32 +74,32 @@ const radiomark = defineSlotRecipe({
       neutral: {
         root: {
           [pseudo(checked)]: {
-            backgroundColor: vars.toneNeutral.enabledSelected.root.color,
+            backgroundColor: vars.toneNeutral.selected.root.color,
           },
 
           [pseudo(not(disabled), checked, engaged)]: {
-            backgroundColor: vars.toneNeutral.enabledSelectedPressed.root.color,
+            backgroundColor: vars.toneNeutral.pressedSelected.root.color,
           },
         },
         icon: {
           [pseudo(checked)]: {
-            color: vars.toneNeutral.enabledSelected.icon.color,
+            color: vars.toneNeutral.selected.icon.color,
           },
         },
       },
       brand: {
         root: {
           [pseudo(checked)]: {
-            backgroundColor: vars.toneBrand.enabledSelected.root.color,
+            backgroundColor: vars.toneBrand.selected.root.color,
           },
 
           [pseudo(not(disabled), checked, engaged)]: {
-            backgroundColor: vars.toneBrand.enabledSelectedPressed.root.color,
+            backgroundColor: vars.toneBrand.pressedSelected.root.color,
           },
         },
         icon: {
           [pseudo(checked)]: {
-            color: vars.toneBrand.enabledSelected.icon.color,
+            color: vars.toneBrand.selected.icon.color,
           },
         },
       },
@@ -107,12 +107,12 @@ const radiomark = defineSlotRecipe({
     size: {
       large: {
         root: {
-          width: vars.sizeLarge.enabled.root.size,
-          height: vars.sizeLarge.enabled.root.size,
+          width: vars.sizeLarge.rest.root.size,
+          height: vars.sizeLarge.rest.root.size,
         },
         icon: {
-          width: vars.sizeLarge.enabled.icon.size,
-          height: vars.sizeLarge.enabled.icon.size,
+          width: vars.sizeLarge.rest.icon.size,
+          height: vars.sizeLarge.rest.icon.size,
 
           [pseudo(disabled)]: {
             width: vars.sizeLarge.disabled.icon.size,
@@ -122,12 +122,12 @@ const radiomark = defineSlotRecipe({
       },
       medium: {
         root: {
-          width: vars.sizeMedium.enabled.root.size,
-          height: vars.sizeMedium.enabled.root.size,
+          width: vars.sizeMedium.rest.root.size,
+          height: vars.sizeMedium.rest.root.size,
         },
         icon: {
-          width: vars.sizeMedium.enabled.icon.size,
-          height: vars.sizeMedium.enabled.icon.size,
+          width: vars.sizeMedium.rest.icon.size,
+          height: vars.sizeMedium.rest.icon.size,
 
           [pseudo(disabled)]: {
             width: vars.sizeMedium.disabled.icon.size,

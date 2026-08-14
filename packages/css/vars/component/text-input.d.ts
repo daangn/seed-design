@@ -1,6 +1,6 @@
 export declare const vars: {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         /** enabled 상태의 stroke 위에 focused/invalid 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다. */
@@ -40,7 +40,7 @@ export declare const vars: {
         "strokeColor": "var(--seed-color-stroke-critical-solid)"
       }
     },
-    "invalidFocused": {
+    "focusedInvalid": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-critical-solid)"
       }
@@ -70,7 +70,7 @@ export declare const vars: {
    * 기본 스타일입니다.
    */
   "variantOutline": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeWidth": "1px"
       }
@@ -99,12 +99,23 @@ export declare const vars: {
   /**
    * - `variant=outline`: 기본 스타일입니다.
    * - `size=large`: 뷰포트 너비와 관계없이 사용할 수 있습니다.
+   * - `type=singleline`: 한 줄 입력입니다.
+   */
+  "variantOutlineSizeLargeTypeSingleline": {
+    "rest": {
+      "root": {
+        "minHeight": "var(--seed-dimension-x13)"
+      }
+    }
+  },
+  /**
+   * - `variant=outline`: 기본 스타일입니다.
+   * - `size=large`: 뷰포트 너비와 관계없이 사용할 수 있습니다.
    */
   "variantOutlineSizeLarge": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x2_5)",
-        "minHeight": "var(--seed-dimension-x13)",
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x4)"
       },
@@ -135,12 +146,23 @@ export declare const vars: {
   /**
    * - `variant=outline`: 기본 스타일입니다.
    * - `size=medium`: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
+   * - `type=singleline`: 한 줄 입력입니다.
+   */
+  "variantOutlineSizeMediumTypeSingleline": {
+    "rest": {
+      "root": {
+        "minHeight": "var(--seed-dimension-x10)"
+      }
+    }
+  },
+  /**
+   * - `variant=outline`: 기본 스타일입니다.
+   * - `size=medium`: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
    */
   "variantOutlineSizeMedium": {
-    "enabled": {
+    "rest": {
       "root": {
         "gap": "var(--seed-dimension-x2)",
-        "minHeight": "var(--seed-dimension-x10)",
         "cornerRadius": "var(--seed-radius-r2)",
         "paddingX": "var(--seed-dimension-x3_5)"
       },
@@ -172,7 +194,7 @@ export declare const vars: {
    * 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
    */
   "variantUnderline": {
-    "enabled": {
+    "rest": {
       "root": {
         "strokeBottomWidth": "1px"
       }
@@ -199,13 +221,24 @@ export declare const vars: {
   /**
    * - `variant=underline`: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
    * - `size=large`: 뷰포트 너비와 관계없이 사용할 수 있습니다.
+   * - `type=singleline`: 한 줄 입력입니다.
    */
-  "variantUnderlineSizeLarge": {
-    "enabled": {
+  "variantUnderlineSizeLargeTypeSingleline": {
+    "rest": {
       "root": {
-        "gap": "var(--seed-dimension-x2_5)",
         "minHeight": "var(--seed-dimension-x10)",
         "paddingY": "var(--seed-dimension-x2)"
+      }
+    }
+  },
+  /**
+   * - `variant=underline`: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
+   * - `size=large`: 뷰포트 너비와 관계없이 사용할 수 있습니다.
+   */
+  "variantUnderlineSizeLarge": {
+    "rest": {
+      "root": {
+        "gap": "var(--seed-dimension-x2_5)"
       },
       "value": {
         "fontSize": "var(--seed-font-size-t6)",
@@ -234,13 +267,24 @@ export declare const vars: {
   /**
    * - `variant=underline`: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
    * - `size=medium`: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
+   * - `type=singleline`: 한 줄 입력입니다.
    */
-  "variantUnderlineSizeMedium": {
-    "enabled": {
+  "variantUnderlineSizeMediumTypeSingleline": {
+    "rest": {
       "root": {
-        "gap": "var(--seed-dimension-x2)",
         "minHeight": "34px",
         "paddingY": "var(--seed-dimension-x1_5)"
+      }
+    }
+  },
+  /**
+   * - `variant=underline`: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
+   * - `size=medium`: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
+   */
+  "variantUnderlineSizeMedium": {
+    "rest": {
+      "root": {
+        "gap": "var(--seed-dimension-x2)"
       },
       "value": {
         "fontSize": "var(--seed-font-size-t5)",
@@ -266,12 +310,12 @@ export declare const vars: {
       }
     }
   },
-  "typeSingleline": {},
   /**
    * - `size=large`: 뷰포트 너비와 관계없이 사용할 수 있습니다.
+   * - `type=multiline`: 여러 줄 입력입니다. 같은 size의 singleline보다 높이가 큽니다.
    */
-  "typeMultilineSizeLarge": {
-    "enabled": {
+  "sizeLargeTypeMultiline": {
+    "rest": {
       "root": {
         "minHeight": "94px",
         "paddingY": "var(--seed-dimension-x3_5)"
@@ -280,9 +324,10 @@ export declare const vars: {
   },
   /**
    * - `size=medium`: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
+   * - `type=multiline`: 여러 줄 입력입니다. 같은 size의 singleline보다 높이가 큽니다.
    */
-  "typeMultilineSizeMedium": {
-    "enabled": {
+  "sizeMediumTypeMultiline": {
+    "rest": {
       "root": {
         "minHeight": "82px",
         "paddingY": "var(--seed-dimension-x3)"

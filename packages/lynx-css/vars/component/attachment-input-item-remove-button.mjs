@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "size": "var(--seed-dimension-x5)",
         "cornerRadius": "var(--seed-radius-full)",

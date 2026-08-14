@@ -15,7 +15,7 @@ const identityPlaceholder = defineSlotRecipe({
       width: "100%",
       height: "100%",
 
-      backgroundColor: vars.base.enabled.root.color,
+      backgroundColor: vars.base.rest.root.color,
     },
     image: {
       display: "block",
@@ -24,7 +24,7 @@ const identityPlaceholder = defineSlotRecipe({
       objectFit: "cover",
       overflow: "hidden",
 
-      fill: vars.base.enabled.image.color,
+      fill: vars.base.rest.image.color,
     },
   },
   variants: {

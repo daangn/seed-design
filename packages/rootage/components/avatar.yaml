@@ -8,21 +8,23 @@ data:
     variants:
       size:
         values:
-          20:
+          "20":
             description: "대표 사용처: 댓글을 남긴 사용자"
-          24:
+          "24":
             description: "대표 사용처: 답글 프로필"
-          36:
+          "36":
             description: "대표 사용처: 댓글 프로필"
-          42:
+          "42":
             description: "대표 사용처: 게시글 상세 내 프로필"
-          48:
+          "48":
             description: "대표 사용처: 작은 리스트"
-          56:
+          "56":
             description: "대표 사용처: 큰 리스트"
-          64:
+          "64":
             description: "대표 사용처: 프로필 상세, 캐러셀"
-          108:
+          "80": {}
+          "96": {}
+          "108":
             description: "대표 사용처: 프로필 수정"
     slots:
       root:
@@ -49,19 +51,20 @@ data:
             type: dimension
           size:
             type: dimension
-  definitions:
-    base:
-      enabled:
+  rules:
+    - slots:
         root:
           cornerRadius: $radius.full
           strokeColor: $color.stroke.neutral-subtle
-    size=20:
-      enabled:
+    - variants:
+        size: "20"
+      slots:
         root:
           size: 20px
           strokeWidth: 1px
-    size=24:
-      enabled:
+    - variants:
+        size: "24"
+      slots:
         root:
           size: 24px
           strokeWidth: 1px
@@ -71,8 +74,9 @@ data:
         badge:
           offset: 15px
           size: 10px
-    size=36:
-      enabled:
+    - variants:
+        size: "36"
+      slots:
         root:
           size: 36px
           strokeWidth: 1px
@@ -82,8 +86,9 @@ data:
         badge:
           offset: 22px
           size: 14px
-    size=42:
-      enabled:
+    - variants:
+        size: "42"
+      slots:
         root:
           size: 42px
           strokeWidth: 1px
@@ -93,8 +98,9 @@ data:
         badge:
           offset: 26px
           size: 16px
-    size=48:
-      enabled:
+    - variants:
+        size: "48"
+      slots:
         root:
           size: 48px
           strokeWidth: 1px
@@ -104,8 +110,9 @@ data:
         badge:
           offset: 30px
           size: 18px
-    size=56:
-      enabled:
+    - variants:
+        size: "56"
+      slots:
         root:
           size: 56px
           strokeWidth: 1px
@@ -115,8 +122,9 @@ data:
         badge:
           offset: 36px
           size: 20px
-    size=64:
-      enabled:
+    - variants:
+        size: "64"
+      slots:
         root:
           size: 64px
           strokeWidth: 1px
@@ -126,8 +134,9 @@ data:
         badge:
           offset: 42px
           size: 22px
-    size=80:
-      enabled:
+    - variants:
+        size: "80"
+      slots:
         root:
           size: 80px
           strokeWidth: 1px
@@ -137,8 +146,9 @@ data:
         badge:
           offset: 54px
           size: 28px
-    size=96:
-      enabled:
+    - variants:
+        size: "96"
+      slots:
         root:
           size: 96px
           strokeWidth: 1px
@@ -148,8 +158,9 @@ data:
         badge:
           offset: 65px
           size: 32px
-    size=108:
-      enabled:
+    - variants:
+        size: "108"
+      slots:
         root:
           size: 108px
           strokeWidth: 1px

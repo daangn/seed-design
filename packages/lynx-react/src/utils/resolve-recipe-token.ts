@@ -12,7 +12,7 @@
  * // variant × state × slot → color
  * const color = resolveRecipeToken(actionButtonVars, [
  *   `variant${capitalize(variant)}`,
- *   state,          // "enabled" | "disabled" | "loading" | "pressed"
+ *   state,          // "rest" | "disabled" | "loading" | "pressed"
  *   "prefixIcon",
  *   "color",
  * ]);
@@ -20,7 +20,7 @@
  * // size × layout → icon size
  * const size = resolveRecipeToken(actionButtonVars, [
  *   `size${capitalize(size)}Layout${capitalize(layout)}`,
- *   "enabled",
+ *   "rest",         // the rule that names no state
  *   "prefixIcon",
  *   "size",
  * ]);

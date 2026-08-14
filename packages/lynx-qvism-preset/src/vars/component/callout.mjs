@@ -1,6 +1,6 @@
 export const vars = {
   "base": {
-    "enabled": {
+    "rest": {
       "root": {
         "paddingX": "var(--seed-dimension-x3_5)",
         "paddingY": "var(--seed-dimension-x3_5)",
@@ -33,7 +33,7 @@ export const vars = {
     }
   },
   "toneNeutral": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -60,7 +60,7 @@ export const vars = {
     }
   },
   "toneInformative": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
@@ -87,7 +87,7 @@ export const vars = {
     }
   },
   "tonePositive": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
@@ -114,7 +114,7 @@ export const vars = {
     }
   },
   "toneWarning": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
@@ -141,7 +141,7 @@ export const vars = {
     }
   },
   "toneCritical": {
-    "enabled": {
+    "rest": {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
@@ -168,7 +168,7 @@ export const vars = {
     }
   },
   "toneMagic": {
-    "enabled": {
+    "rest": {
       "root": {
         "gradient": "var(--seed-gradient-glow-magic)"
       },

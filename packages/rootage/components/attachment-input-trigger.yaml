@@ -46,9 +46,13 @@ data:
             type: dimension
           lineHeight:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: pressed
+      - id: disabled
+        suppresses:
+          - pressed
+  rules:
+    - slots:
         root:
           size: 80px
           gap: $dimension.x1
@@ -69,10 +73,14 @@ data:
           fontWeight: $font-weight.regular
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
-      pressed:
+    - states:
+        - pressed
+      slots:
         root:
           color: $color.bg.transparent-pressed
-      disabled:
+    - states:
+        - disabled
+      slots:
         icon:
           color: $color.fg.disabled
         itemCount:

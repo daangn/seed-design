@@ -116,9 +116,15 @@ data:
             type: dimension
           fromRight:
             type: dimension
-  definitions:
-    base:
-      enabled:
+    states:
+      - id: scrolled
+    variants:
+      size:
+        values:
+          medium: {}
+          large: {}
+  rules:
+    - slots:
         backdrop:
           color: $color.bg.overlay
           enterDuration: $duration.d2
@@ -168,15 +174,19 @@ data:
         closeButton:
           fromTop: $dimension.x7
           fromRight: $dimension.x6
-      scrolled:
+    - states:
+        - scrolled
+      slots:
         body:
           strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
-    size=medium:
-      enabled:
+    - variants:
+        size: medium
+      slots:
         content:
           maxWidth: 480px
-    size=large:
-      enabled:
+    - variants:
+        size: large
+      slots:
         content:
           maxWidth: 800px
