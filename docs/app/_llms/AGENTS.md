@@ -5,13 +5,20 @@ alwaysApply: true
 
 # AGENTS.md
 
-`docs/app/_llms`는 문서의 `processed` MDX를 LLM 친화 텍스트로 정제하는 모듈이다.
+## 디렉토리 개요
 
-## 모듈 개요
+`docs/app/_llms`는 문서의 `processed` MDX를 LLM 친화 텍스트로 정제하는 모듈이다. MDX AST 기반 룰 시스템으로 llms.txt 출력 품질을 제어한다. 입력인 `processed`는 상위 `app/source.tsx`의 remark 파이프라인이 만들고, 정제된 결과는 `llms-route.ts`가 서빙한다.
 
-- MDX AST 기반 룰 시스템으로 llms.txt 출력 품질을 제어한다.
+## 파일 작성 컨벤션
 
-## 코드 컨벤션
+- 룰은 컴포넌트 하나당 한 파일씩 `rules/<컴포넌트명 kebab-case>-rule.ts`로 둔다.
+- 룰 단위 테스트는 구현 옆에 같은 이름의 `.test.ts`로 둔다.
+- 여러 룰이 공유하는 헬퍼는 `-rule` 접미사 없이 역할 이름으로 둔다(`markdown-utils.ts`, `estree-utils.ts`).
+- fixture는 `__fixtures__/<룰 이름>/<케이스>.input.mdx`와 `.output.mdx` 쌍으로 두고, 여러 룰이 함께 걸리는 케이스만 `__fixtures__/pipeline/`에 둔다.
+- 생성물이나 외부 패키지 데이터에 묶이는 입력은 fixture로 만들지 않는다(TECH.md 「테스트 작성」). 그 데이터가 바뀌면 룰이 멀쩡해도 fixture가 깨진다.
+- barrel file은 `rules/index.ts` 하나뿐이다. 나머지 모듈은 파일 경로로 직접 import한다.
+
+## 코드 작성 컨벤션
 
 - 룰은 `Rule` 인터페이스를 구현해 `rules/`에 분리한다.
 - 룰은 `match`(대상 식별)와 `transform`(노드 변환)을 분리한다.
