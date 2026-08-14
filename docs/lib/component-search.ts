@@ -18,8 +18,13 @@ export interface ComponentSearchEntry {
   url: string;
   /** Cover image in its on-page form, from `resolveCoverImage()`. */
   thumbnail?: string;
-  /** Platforms the component ships on, in `PLATFORM_CONFIG` order. */
-  platforms: { key: PlatformKey; url?: string }[];
+  /**
+   * Shipped platforms per component the page documents, in `componentIds` order — a page can
+   * cover more than one (`manner-temp` → Manner Temp + Manner Temp Badge), and each keeps its
+   * own rollout and its own links, the way the page's status table shows them. Components
+   * with nothing shipped are left out.
+   */
+  components: { name: string; platforms: { key: PlatformKey; url?: string }[] }[];
 }
 
 /**

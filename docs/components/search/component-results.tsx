@@ -16,8 +16,10 @@ import { Highlighted, PromotedSection, stopEnterPropagation } from "./promoted-s
 /**
  * Two cards tall, or one when the token section is showing too — the dialog's top is pinned
  * as if the card were always at its tallest (`search.tsx`), so a second promoted block has
- * to come out of the height already budgeted rather than push past it. The rest scroll: a
- * query that names a family (`button`) matches five or six components.
+ * to come out of the height already budgeted rather than push past it. Both heights leave
+ * room for the tallest card, the one whose page documents several components; a row of
+ * ordinary cards is shorter and shows a sliver of the next, which is the scroll cue. The
+ * rest scroll: a query that names a family (`button`) matches five or six components.
  */
 const COMPONENT_GRID_CLASS_NAME =
   "grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-2 overflow-y-auto";
@@ -77,8 +79,17 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
   const router = useRouter();
 
   return (
-    <li className="relative flex gap-2.5 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed">
-      <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-bg-transparent-selected">
+    <li
+      className={clsx(
+        "relative flex gap-2.5 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed",
+        // A page covering several components carries a row of badges per component, which
+        // won't sit on one line in half a dialog. Give it the full row instead of letting
+        // every badge set wrap.
+        entry.components.length > 1 && "[grid-column:1/-1]",
+      )}
+    >
+      {/* `self-start` keeps the 16:9 box off the card's height, which the badge rows drive. */}
+      <div className="relative aspect-video w-24 shrink-0 self-start overflow-hidden rounded-lg bg-bg-transparent-selected">
         {entry.thumbnail ? (
           <Image
             src={entry.thumbnail}
@@ -117,16 +128,27 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
             <Highlighted text={entry.description} terms={terms} />
           </p>
         ) : null}
-        {entry.platforms.length > 0 ? (
+        {entry.components.length > 0 ? (
           // `relative` lifts the badges over the card-wide overlay above, which is painted
           // as part of an earlier sibling.
-          <div className="relative mt-1 flex flex-wrap gap-1">
-            {PLATFORM_CONFIG.map(({ key, label }) => {
-              const platform = entry.platforms.find((shipped) => shipped.key === key);
-              return platform ? (
-                <PlatformBadge key={key} label={label} href={platform.url} />
-              ) : null;
-            })}
+          <div className="relative mt-1 flex flex-col gap-1">
+            {entry.components.map(({ name, platforms }) => (
+              <div key={name} className="flex flex-wrap items-center gap-1">
+                {/* A page documenting one component is already named by the card's title;
+                    one documenting several names each row, like its own status table. */}
+                {entry.components.length > 1 ? (
+                  <span className="text-[11px] font-medium leading-[1.4] text-fg-neutral">
+                    {name}
+                  </span>
+                ) : null}
+                {PLATFORM_CONFIG.map(({ key, label }) => {
+                  const platform = platforms.find((shipped) => shipped.key === key);
+                  return platform ? (
+                    <PlatformBadge key={key} label={label} href={platform.url} />
+                  ) : null;
+                })}
+              </div>
+            ))}
           </div>
         ) : null}
       </div>
@@ -156,7 +178,7 @@ export function ComponentResults({
 
   return (
     <PromotedSection label="컴포넌트" count={matches.length}>
-      <ul className={clsx(COMPONENT_GRID_CLASS_NAME, compact ? "max-h-[68px]" : "max-h-[144px]")}>
+      <ul className={clsx(COMPONENT_GRID_CLASS_NAME, compact ? "max-h-[92px]" : "max-h-[168px]")}>
         {matches.map((entry) => (
           <ComponentCard key={entry.slug} entry={entry} terms={terms} />
         ))}

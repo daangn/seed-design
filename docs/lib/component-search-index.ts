@@ -25,22 +25,12 @@ async function fetchComponentData() {
   }
 }
 
-/**
- * Platforms every one of the page's components has shipped on. A page can document several
- * (`list` → list-item + list-header) and one badge speaks for the page as a whole, so a
- * component still in progress withholds it — as does a page whose components Sanity doesn't
- * know at all, where `every` would otherwise vouch for all four.
- */
-function shippedPlatforms(components: ComponentData[]) {
-  if (components.length === 0) return [];
-
-  return PLATFORM_CONFIG.filter(({ key }) =>
-    components.every((component) => component[`${key}Status`] === "ready"),
-  ).map(({ key }) => {
-    const url = components.map((component) => component[`${key}Url`]).find(Boolean);
+/** The component's Done(`ready`) platforms, as `components/platform-status-table.tsx` picks them. */
+const donePlatforms = (component: ComponentData) =>
+  PLATFORM_CONFIG.filter(({ key }) => component[`${key}Status`] === "ready").map(({ key }) => {
+    const url = component[`${key}Url`];
     return { key, ...(url && { url }) };
   });
-}
 
 /**
  * Flatten every component document into the shape the search dialog needs. Deprecated
@@ -70,11 +60,11 @@ export async function buildComponentSearchIndex(): Promise<ComponentSearchEntry[
         url: page.url,
         ...(page.data.description && { description: page.data.description }),
         ...(coverImage && { thumbnail: resolveCoverImage(coverImage).thumbnail }),
-        platforms: shippedPlatforms(
-          componentIds
-            .map((id) => componentData.get(id))
-            .filter((component): component is ComponentData => Boolean(component)),
-        ),
+        components: componentIds
+          .map((id) => componentData.get(id))
+          .filter((component): component is ComponentData => Boolean(component))
+          .map((component) => ({ name: component.name, platforms: donePlatforms(component) }))
+          .filter(({ platforms }) => platforms.length > 0),
       } satisfies ComponentSearchEntry;
     })
     .sort((a, b) => a.title.localeCompare(b.title));

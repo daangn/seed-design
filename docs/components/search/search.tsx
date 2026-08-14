@@ -160,7 +160,7 @@ function dropCoveredHeaders(rows: SortedResult[], covered: Set<string>) {
  */
 const LIST_MAX_HEIGHT = {
   none: "[&>div]:!max-h-[480px]",
-  components: "[&>div]:!max-h-[288px]",
+  components: "[&>div]:!max-h-[264px]",
   tokens: "[&>div]:!max-h-[176px]",
   both: "[&>div]:!max-h-[120px]",
 } as const;
