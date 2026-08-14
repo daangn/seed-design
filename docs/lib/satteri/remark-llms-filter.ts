@@ -6,7 +6,7 @@ import {
   type MdxJsxTextElement,
 } from "satteri";
 
-type FilterElement = NonNullable<LLMsOptions["filterElement"]>;
+export type FilterElement = NonNullable<LLMsOptions["filterElement"]>;
 
 /**
  * Fumadocs `remarkLlms`가 덮어쓰는 MDX 필터를 `_stringify` 힌트로 미리 적용합니다.

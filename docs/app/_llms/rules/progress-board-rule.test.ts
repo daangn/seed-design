@@ -46,9 +46,8 @@ const edgeCaseComponents: ComponentData[] = [
   },
 ];
 
-// normalize-llm-body는 import 시 모든 규칙의 init()(Sanity fetch)을 비동기로 시작한다.
-// 네트워크가 되는 환경에서 그 fetch가 완료되면 componentsCache가 실데이터로 채워지므로,
-// "빈 캐시" 테스트가 async init 미완료 레이스에 의존하지 않도록 매 테스트 전에 명시적으로 비운다.
+// componentsCache는 모듈 스코프라 한 프로세스에서 도는 다른 테스트 파일과 공유된다.
+// "빈 캐시" 테스트가 남의 상태에 물리지 않도록 매 테스트 전후로 비운다.
 beforeEach(() => {
   __setComponentsCacheForTests(null);
 });
@@ -63,7 +62,7 @@ describe("progressBoardRule", () => {
 
     const actual = normalizeLLMBodyWithRules(input, [progressBoardRule]);
 
-    expect(actual).toContain("ProgressBoardTable");
+    expect(actual).toBe("<ProgressBoardTable />");
   });
 
   it("renders summary and component tables for typical data", () => {
