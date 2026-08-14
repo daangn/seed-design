@@ -184,8 +184,9 @@ describe("generated docs index artifact", () => {
 
 describe("generated docs index source directories", () => {
   it("fails without writing an index when a source directory is missing", async () => {
-    // The script has no exports and runs `main()` on import, so it can only be driven as a
-    // process. An empty cwd makes the first `sources` entry the missing one.
+    // Driven as a process because the assertions are the exit code and the absence of a written
+    // index.json, and `main()` is not exported. An empty cwd makes the first `sources` entry the
+    // missing one.
     const cwd = mkdtempSync(path.join(tmpdir(), "seed-docs-index-"));
 
     try {
