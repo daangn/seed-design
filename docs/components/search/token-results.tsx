@@ -26,11 +26,11 @@ const TOKEN_GRID_CLASS_NAME =
 
 /**
  * Colour roles read differently depending on where the token is meant to land, so each
- * preview mimics the usage: a background fills the box, a foreground sits on the page
- * background as a chip, and a stroke draws the 2px line it would draw.
+ * preview mimics the usage: a background fills the box, a foreground paints letterforms
+ * on the page grounds, and a stroke draws the 2px line it would draw.
  */
-const COLOR_ROLE_PREVIEW: Record<string, "chip" | "line" | undefined> = {
-  "$color.fg": "chip",
+const COLOR_ROLE_PREVIEW: Record<string, "text" | "line" | undefined> = {
+  "$color.fg": "text",
   "$color.stroke": "line",
 };
 
@@ -62,18 +62,26 @@ function Highlighted({ text, terms }: { text: string; terms: string[] }) {
 }
 
 /**
- * Stand-in for the page canvas. Foreground, stroke and shadow tokens are all defined
- * against `$color.bg.layer-default`, so previewing them on the dialog's own surface
- * would misreport how they land. docs/AGENTS.md steers docs *chrome* away from opaque
- * SEED greys; this box is content — the point is to show the real backdrop.
+ * Stand-in for the page canvas, showing both grounds a screen is built from:
+ * `layer-default`, the surface most content sits on, and `layer-basement`, the canvas
+ * underneath it. Foreground, stroke and shadow tokens are all defined against those, so
+ * previewing them on the dialog's own surface would misreport how they land — and picking
+ * one of the two would still hide how the token reads on the other. docs/AGENTS.md steers
+ * docs *chrome* away from opaque SEED greys; this box is content — the point is to show
+ * the real backdrop.
+ *
+ * Split down the middle rather than across: the box is 44px tall and the two layers sit
+ * about 1.1 apart in contrast, so as a pair of 22px bands the seam would vanish.
  */
 function PreviewSurface({ children }: { children: ReactNode }) {
   return (
     <span
       aria-hidden
-      className="flex h-11 w-full items-center justify-center overflow-hidden rounded-lg border border-stroke-neutral-muted bg-bg-layer-default"
+      className="relative flex h-11 w-full overflow-hidden rounded-lg border border-stroke-neutral-muted"
     >
-      {children}
+      <span className="flex-1 bg-bg-layer-default" />
+      <span className="flex-1 bg-bg-layer-basement" />
+      <span className="absolute inset-0 flex items-center justify-center">{children}</span>
     </span>
   );
 }
@@ -84,13 +92,18 @@ function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
   if (background) {
     const role = COLOR_ROLE_PREVIEW[group];
 
-    if (role === "chip")
+    // Letterforms can't be cut in half, so each ground gets its own pair rather than one
+    // word straddling the seam. A stroke is a line already, and reads across it.
+    if (role === "text")
       return (
         <PreviewSurface>
           <span
             style={themed(background)}
-            className="size-5 rounded-full bg-[var(--token-preview-light)] dark:bg-[var(--token-preview-dark)]"
-          />
+            className="flex w-full text-[15px] font-semibold leading-none text-[var(--token-preview-light)] dark:text-[var(--token-preview-dark)]"
+          >
+            <span className="flex-1 text-center">Aa</span>
+            <span className="flex-1 text-center">Aa</span>
+          </span>
         </PreviewSurface>
       );
 
