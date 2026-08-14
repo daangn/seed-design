@@ -17,6 +17,7 @@ import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { TAGS } from "@/app/api/search/constants";
 import { ComponentResults } from "./component-results";
+import { SearchFooter } from "./footer";
 import { NoResults } from "./no-results";
 import { RecentPages } from "./recent-pages";
 import { SearchResultItem } from "./search-result-item";
@@ -39,11 +40,19 @@ export interface DefaultSearchDialogProps extends SharedProps {
    */
   api?: string;
 
-  footer?: ReactNode;
-
   /** Extra classes for the dialog panel (e.g. landing overrides its mobile position). */
   contentClassName?: string;
+
+  /** Pin the dialog to the light palette, for pages that are light-only themselves. */
+  lightOnly?: boolean;
 }
+
+/**
+ * Overlay and panel portal to <body>, so a light-only page can't contain them — each pins
+ * itself. SEED pairs `color-scheme: light only` with the light tokens under this attribute,
+ * which is what keeps the parts the browser paints — scrollbar, caret, autofill — out of dark.
+ */
+const LIGHT_ONLY_PROPS = { "data-seed-color-mode": "light-only" };
 
 const searchDatabase = create({
   schema: { _: "string" },
@@ -162,15 +171,20 @@ function dropCoveredHeaders(rows: SortedResult[], covered: Set<string>) {
  */
 const RESULTS_CLASS_NAME = "max-h-[480px] overflow-y-auto";
 
-/** Hands the document list's own scrolling over to the box above. */
-const LIST_CLASS_NAME = "[&>div]:!max-h-none";
+/**
+ * Hands the document list's own scrolling over to the box above. Its height animation goes
+ * with the cap that motivated it: a ResizeObserver drives that height off the list's content,
+ * and once the cap is gone the content is the full result set — so what used to ease a panel
+ * between two bounded sizes would ease the scroll box's whole extent open on every keystroke.
+ */
+const LIST_CLASS_NAME = "!h-auto !transition-none [&>div]:!max-h-none";
 
 export default function DefaultSearchDialog({
   defaultTag,
   tags = [],
   api,
-  footer,
   contentClassName,
+  lightOnly,
   ...props
 }: DefaultSearchDialogProps): ReactNode {
   const [tag, setTag] = useState<string | undefined>(defaultTag);
@@ -218,8 +232,10 @@ export default function DefaultSearchDialog({
     <SearchDialog search={search} onSearchChange={setSearch} isLoading={query.isLoading} {...props}>
       <SearchDialogOverlay
         className={clsx(DIALOG_LAYER_CLASS_NAME, "!bg-bg-overlay !backdrop-blur-none")}
+        {...(lightOnly && LIGHT_ONLY_PROPS)}
       />
       <SearchDialogContent
+        {...(lightOnly && LIGHT_ONLY_PROPS)}
         className={clsx(
           DIALOG_LAYER_CLASS_NAME,
           // Strip fumadocs' single-panel chrome so the pill + card render as two separate
@@ -259,7 +275,7 @@ export default function DefaultSearchDialog({
                   // under them would contradict what's on screen.
                   Empty={() => (components.length > 0 || tokens.length > 0 ? null : <NoResults />)}
                   // Under a filter every result already belongs to the chosen section, so the
-                  // label would repeat it on every group.
+                  // trail would open with the chip's own word on every group.
                   Item={(itemProps) => (
                     <SearchResultItem
                       {...itemProps}
@@ -272,7 +288,7 @@ export default function DefaultSearchDialog({
                 />
               </div>
             </SearchResultsState>
-            {footer}
+            <SearchFooter />
           </div>
         </div>
       </SearchDialogContent>
@@ -288,9 +304,9 @@ const LANDING_MOBILE_POSITION =
 
 /**
  * Landing(/) search dialog. RootProvider's `search.options` is typed to fumadocs'
- * DefaultSearchDialogProps (no `contentClassName`), so the landing injects its
- * mobile position here via the SearchDialog component instead of via `options`.
+ * DefaultSearchDialogProps (no `contentClassName` or `lightOnly`), so the landing injects its
+ * mobile position and its palette here via the SearchDialog component instead of via `options`.
  */
 export function LandingSearchDialog(props: SharedProps) {
-  return <DefaultSearchDialog {...props} contentClassName={LANDING_MOBILE_POSITION} />;
+  return <DefaultSearchDialog {...props} contentClassName={LANDING_MOBILE_POSITION} lightOnly />;
 }
