@@ -15,6 +15,7 @@ import {
 import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { TAGS } from "@/app/api/search/constants";
+import { useRecentPages } from "@/hooks/useRecentPages";
 import { ComponentResults } from "./component-results";
 import { SearchFooter } from "./footer";
 import { NoResults } from "./no-results";
@@ -193,6 +194,23 @@ export default function DefaultSearchDialog({
     return rankGroups(data, search);
   }, [query.data, search]);
 
+  // Every block waits for the slowest of the three, so they arrive together rather than one
+  // after another, shifting the grid under someone already reading it.
+  const isLoading = query.isLoading || componentsPending || tokensPending;
+
+  // Read here rather than inside the block below, because the footer's hints turn on what the
+  // list holds and the empty state's rows are these.
+  const recentPages = useRecentPages();
+
+  // Mirrors what `SearchResultsState` puts on screen. Loading, failing and finding nothing all
+  // leave the arrows nowhere to go, which is what the hints are answering for.
+  const hasItems =
+    search.trim() === ""
+      ? recentPages.length > 0
+      : !query.error &&
+        !isLoading &&
+        (components.length > 0 || tokens.length > 0 || (results?.rows.length ?? 0) > 0);
+
   // One box holds every block, so a query answered further down than the last one would open
   // already scrolled past the components promoted above it.
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -251,11 +269,8 @@ export default function DefaultSearchDialog({
               <SearchResultsState
                 search={search}
                 error={query.error}
-                // Every block waits for the slowest of the three, so they arrive together
-                // rather than one after another, shifting the grid under someone already
-                // reading it.
-                isLoading={query.isLoading || componentsPending || tokensPending}
-                recent={<RecentPages />}
+                isLoading={isLoading}
+                recent={<RecentPages pages={recentPages} />}
               >
                 <Autocomplete.List ref={resultsRef} className={RESULTS_CLASS_NAME}>
                   <ComponentResults matches={components} search={search} />
@@ -289,7 +304,7 @@ export default function DefaultSearchDialog({
                   </div>
                 </Autocomplete.List>
               </SearchResultsState>
-              <SearchFooter />
+              <SearchFooter hasItems={hasItems} />
             </div>
           </div>
         </Autocomplete.Root>

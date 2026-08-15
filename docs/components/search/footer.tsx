@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearch } from "fumadocs-ui/components/dialog/search";
 import type { ReactNode } from "react";
 
 function Hint({ keys, children }: { keys: string[]; children: ReactNode }) {
@@ -25,20 +24,18 @@ function Hint({ keys, children }: { keys: string[]; children: ReactNode }) {
  *
  * All four arrows, because the results are a grid: ↑↓ step between rows and ←→ along one, so
  * a row of component cards is crossed sideways rather than one card at a time. The move and
- * open hints appear only once something is typed — with no query the results give way to the
- * recent pages, which are plain links the arrows never reach.
+ * open hints answer for keys that have somewhere to go, so they follow whether the list holds
+ * any rows — the recent pages included — rather than whether anything has been typed.
  */
-export function SearchFooter() {
-  const { search } = useSearch();
-
+export function SearchFooter({ hasItems }: { hasItems: boolean }) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-stroke-neutral-muted px-3 py-2 text-xs text-fg-neutral-subtle max-md:hidden">
-      {search.trim() === "" ? null : (
+      {hasItems ? (
         <>
           <Hint keys={["↑", "↓", "←", "→"]}>이동</Hint>
           <Hint keys={["Enter"]}>열기</Hint>
         </>
-      )}
+      ) : null}
       <Hint keys={["Esc"]}>닫기</Hint>
     </div>
   );
