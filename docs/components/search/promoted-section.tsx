@@ -119,9 +119,14 @@ export function ShowMore({
 
 /**
  * A block of results promoted above the document list — components, tokens — introduced by
- * what it holds and how many of them the query matched. A group rather than a plain box: the
- * rows inside it belong to the same grid as the document rows below, and this is what names
- * them without breaking that run.
+ * what it holds and how many of them the query matched.
+ *
+ * Boxes without a role of their own, rather than the `Group`/`GroupLabel` pair this reads
+ * like: a grid takes rows, and a group between it and them leaves the rows inside without the
+ * parent their own role requires — so the whole block drops out of the grid the arrow keys are
+ * walking. A plain box is passed straight through instead, which is what the document block
+ * below already relies on. The cost is that the label names the rows by sitting in front of
+ * them rather than by being tied to them.
  */
 export function PromotedSection({
   label,
@@ -133,16 +138,16 @@ export function PromotedSection({
   children: ReactNode;
 }) {
   return (
-    <Autocomplete.Group className="border-b border-stroke-neutral-muted p-3 pb-2">
-      <Autocomplete.GroupLabel className="px-0.5 pb-2 text-xs font-medium text-fg-neutral-muted">
+    <div className="border-b border-stroke-neutral-muted p-3 pb-2">
+      <div className="px-0.5 pb-2 text-xs font-medium text-fg-neutral-muted">
         {label} <span className="text-fg-neutral-subtle">{count}개</span>
-      </Autocomplete.GroupLabel>
+      </div>
       {/* A card carries 6px of padding inside its own ground, against the 2px the label is
           inset by, so cards laid out plainly within the section's padding sit their covers
           4px right of the label above them — and of the document rows further down, which
           start on the label's line. Pulling the block back by that much puts the three on
           one line and leaves the grounds to overhang, as they already did. */}
       <div className="-mx-1">{children}</div>
-    </Autocomplete.Group>
+    </div>
   );
 }
