@@ -23,9 +23,10 @@ function Hint({ keys, children }: { keys: string[]; children: ReactNode }) {
  * Keyboard hints along the bottom of the results card. Hidden below `md`, where there is no
  * keyboard to press and the dialog needs the height more.
  *
- * The move and open hints appear only once something is typed: they drive fumadocs' result
- * list (`SearchDialogList` binds the keys), and with no query that list is empty — the recent
- * pages standing in for it are plain links the arrows never reach.
+ * All four arrows, because the results are a grid: ↑↓ step between rows and ←→ along one, so
+ * a row of component cards is crossed sideways rather than one card at a time. The move and
+ * open hints appear only once something is typed — with no query the results give way to the
+ * recent pages, which are plain links the arrows never reach.
  */
 export function SearchFooter() {
   const { search } = useSearch();
@@ -34,7 +35,7 @@ export function SearchFooter() {
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-stroke-neutral-muted px-3 py-2 text-xs text-fg-neutral-subtle max-md:hidden">
       {search.trim() === "" ? null : (
         <>
-          <Hint keys={["↑", "↓"]}>이동</Hint>
+          <Hint keys={["↑", "↓", "←", "→"]}>이동</Hint>
           <Hint keys={["Enter"]}>열기</Hint>
         </>
       )}

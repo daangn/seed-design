@@ -1,5 +1,7 @@
 "use client";
 
+import { Autocomplete } from "@base-ui/react/autocomplete";
+import clsx from "clsx";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import { type ReactNode, useState } from "react";
 import { splitHighlights } from "@/lib/search-text";
@@ -51,6 +53,28 @@ export function useExpandable<T>({
   };
 }
 
+/**
+ * Cuts a block's entries into the lines the arrow keys read. Base UI works out what sits
+ * above, below and beside a cell from `role="row"` ancestors rather than from the CSS, so a
+ * block lays itself out as a column of rows rather than as one box the browser wraps on its
+ * own — otherwise every entry would count as one endless row and ↑↓ would have nowhere to go.
+ *
+ * The size is the desktop column count. Below `md` the grid narrows and a row stops being one
+ * line of its own, which is also where there is no keyboard to press — the hints hide
+ * themselves there.
+ */
+export function toRows<T>(entries: T[], columns: number) {
+  const rows: T[][] = [];
+
+  for (const entry of entries) {
+    const current = rows.at(-1);
+    if (current && current.length < columns) current.push(entry);
+    else rows.push([entry]);
+  }
+
+  return rows;
+}
+
 /** Reveals what a block's limit held back, and folds it away again. */
 export function ShowMore({
   hidden,
@@ -64,19 +88,40 @@ export function ShowMore({
   if (hidden <= 0) return null;
 
   return (
-    <button
-      type="button"
-      onClick={onToggle}
-      className="mt-1.5 w-full cursor-pointer rounded-lg py-1.5 text-xs text-fg-neutral-subtle transition-colors hover:bg-bg-transparent-selected hover:text-fg-neutral focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
-    >
-      {expanded ? "접기" : `${hidden}개 더 보기`}
-    </button>
+    <Autocomplete.Row>
+      <Autocomplete.Item
+        // A value of its own, unlike the rows around it, because an item left without one
+        // holds `null` — and `null` is also what a list that selects nothing has selected, so
+        // this row would answer to it and the arrow keys would start here instead of at the
+        // top of the block.
+        value={expanded ? "collapse" : "expand"}
+        // Base UI reads a click on an item as choosing it, and choosing closes the popup —
+        // which here is the whole dialog. This one only unfolds the block above it, so its
+        // handler is stopped and the toggle runs on its own.
+        onClick={(event) => {
+          event.preventBaseUIHandler();
+          onToggle();
+        }}
+        className={(state) =>
+          clsx(
+            "mt-1.5 w-full cursor-pointer rounded-lg py-1.5 text-center text-xs transition-colors",
+            state.highlighted
+              ? "bg-bg-transparent-selected text-fg-neutral"
+              : "text-fg-neutral-subtle",
+          )
+        }
+      >
+        {expanded ? "접기" : `${hidden}개 더 보기`}
+      </Autocomplete.Item>
+    </Autocomplete.Row>
   );
 }
 
 /**
  * A block of results promoted above the document list — components, tokens — introduced by
- * what it holds and how many of them the query matched.
+ * what it holds and how many of them the query matched. A group rather than a plain box: the
+ * rows inside it belong to the same grid as the document rows below, and this is what names
+ * them without breaking that run.
  */
 export function PromotedSection({
   label,
@@ -88,20 +133,16 @@ export function PromotedSection({
   children: ReactNode;
 }) {
   return (
-    <section
-      aria-label={`${label} 검색 결과`}
-      // fumadocs' result list binds Enter on `window` to open whichever document row it
-      // considers active. Everything in here is focusable and opens something of its own, so
-      // the key is caught before it leaves the section — one handler covers every child.
-      onKeyDown={(event) => {
-        if (event.key === "Enter") event.stopPropagation();
-      }}
-      className="border-b border-stroke-neutral-muted p-3 pb-2"
-    >
-      <p className="px-0.5 pb-2 text-xs font-medium text-fg-neutral-muted">
+    <Autocomplete.Group className="border-b border-stroke-neutral-muted p-3 pb-2">
+      <Autocomplete.GroupLabel className="px-0.5 pb-2 text-xs font-medium text-fg-neutral-muted">
         {label} <span className="text-fg-neutral-subtle">{count}개</span>
-      </p>
-      {children}
-    </section>
+      </Autocomplete.GroupLabel>
+      {/* A card carries 6px of padding inside its own ground, against the 2px the label is
+          inset by, so cards laid out plainly within the section's padding sit their covers
+          4px right of the label above them — and of the document rows further down, which
+          start on the label's line. Pulling the block back by that much puts the three on
+          one line and leaves the grounds to overhang, as they already did. */}
+      <div className="-mx-1">{children}</div>
+    </Autocomplete.Group>
   );
 }

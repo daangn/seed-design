@@ -1,5 +1,6 @@
 "use client";
 
+import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
 import type { SortedResult } from "fumadocs-core/search";
@@ -9,9 +10,7 @@ import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import {
   SearchDialog,
   SearchDialogContent,
-  SearchDialogList,
   SearchDialogOverlay,
-  useSearch,
 } from "fumadocs-ui/components/dialog/search";
 import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
@@ -76,14 +75,17 @@ const DIALOG_LAYER_CLASS_NAME = "z-[1300]";
 export const SEARCH_INPUT_PILL_CLASS_NAME =
   "flex items-center gap-3 rounded-full border border-stroke-neutral-muted bg-bg-layer-floating py-[19.5px] pl-6 pr-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-stroke-focus-ring max-md:py-[14px]";
 
+/**
+ * The field keeps the focus the whole time the dialog is open — the arrow keys move a
+ * highlight through the results rather than the focus, which is what lets someone keep typing
+ * after they have moved. Base UI owns the input itself for that reason; the pill around it is
+ * ours.
+ */
 function SearchInputPill() {
-  const { search, onSearchChange } = useSearch();
   return (
     <div className={SEARCH_INPUT_PILL_CLASS_NAME}>
       <IconMagnifyingglassLine className="size-6 shrink-0 text-fg-neutral-subtle max-md:size-[18px]" />
-      <input
-        value={search}
-        onChange={(e) => onSearchChange(e.target.value)}
+      <Autocomplete.Input
         placeholder="검색어를 입력해주세요"
         aria-label="검색어 입력"
         className="t7-regular max-md:t5-regular w-0 flex-1 bg-transparent text-fg-neutral placeholder:text-fg-neutral-subtle focus-visible:outline-none"
@@ -152,13 +154,8 @@ function rankGroups(items: SortedResult[], search: string) {
  */
 const RESULTS_CLASS_NAME = "max-h-[480px] overflow-y-auto";
 
-/**
- * Hands the document list's own scrolling over to the box above. Its height animation goes
- * with the cap that motivated it: a ResizeObserver drives that height off the list's content,
- * and once the cap is gone the content is the full result set — so what used to ease a panel
- * between two bounded sizes would ease the scroll box's whole extent open on every keystroke.
- */
-const LIST_CLASS_NAME = "!h-auto !transition-none [&>div]:!max-h-none";
+/** Gap that opens a new block. Every row that isn't indented under a header starts one. */
+const BLOCK_START_CLASS_NAME = "[&:not(:first-child)]:mt-2";
 
 export default function DefaultSearchDialog({
   defaultTag,
@@ -180,11 +177,11 @@ export default function DefaultSearchDialog({
 
   // Each promoted section belongs to one docs section, so it shows in the unfiltered view
   // and under that section's own filter.
-  const components = useComponentSearch({
+  const { matches: components, pending: componentsPending } = useComponentSearch({
     search,
     enabled: tag === undefined || tag === TAGS.components.value,
   });
-  const tokens = useTokenSearch({
+  const { matches: tokens, pending: tokensPending } = useTokenSearch({
     search,
     enabled: tag === undefined || tag === TAGS.foundations.value,
   });
@@ -196,10 +193,8 @@ export default function DefaultSearchDialog({
     return rankGroups(data, search);
   }, [query.data, search]);
 
-  // Fresh results re-activate the first document row, and that row scrolls itself into
-  // view (`search-result-item.tsx`) — which, now that one box holds every block, would drag
-  // the promoted cards off the top before the reader has seen them. Effects run children
-  // first, so this one lands after that scroll and puts the box back at its start.
+  // One box holds every block, so a query answered further down than the last one would open
+  // already scrolled past the components promoted above it.
   const resultsRef = useRef<HTMLDivElement>(null);
   // biome-ignore lint/correctness/useExhaustiveDependencies: `results` is what the reset reacts to, not a value it reads
   useEffect(() => {
@@ -229,46 +224,75 @@ export default function DefaultSearchDialog({
           contentClassName,
         )}
       >
-        <div className="flex flex-col gap-6">
-          <SearchInputPill />
-          <div className="overflow-hidden rounded-2xl border border-stroke-neutral-muted bg-bg-layer-floating">
-            <SearchTags
-              tag={tag}
-              onTagChange={setTag}
-              tags={tags}
-              className="border-b border-stroke-neutral-muted p-3"
-            />
-            <SearchResultsState
-              search={search}
-              error={query.error}
-              isLoading={query.isLoading}
-              recent={<RecentPages />}
-            >
-              <div ref={resultsRef} className={RESULTS_CLASS_NAME}>
-                <ComponentResults matches={components} search={search} />
-                <TokenResults matches={tokens} search={search} />
-                <SearchDialogList
-                  items={results?.rows}
-                  // The promoted sections already answer the query; a "no results" notice
-                  // under them would contradict what's on screen.
-                  Empty={() => (components.length > 0 || tokens.length > 0 ? null : <NoResults />)}
-                  // Under a filter every result already belongs to the chosen section, so the
-                  // trail would open with the chip's own word on every group.
-                  Item={(itemProps) => (
-                    <SearchResultItem
-                      {...itemProps}
-                      showSection={tag === undefined}
-                      nested={results?.nested.has(itemProps.item.id) ?? false}
-                      autoActive={itemProps.item.id === results?.rows[0]?.id}
-                    />
-                  )}
-                  className={LIST_CLASS_NAME}
-                />
-              </div>
-            </SearchResultsState>
-            <SearchFooter />
+        {/* `inline` leaves the popup, its focus trap and its scroll lock unrendered — the
+            dialog around it already owns all three — and keeps only what the results need:
+            the arrow keys, the highlight and the ARIA that ties them to the field. `grid`
+            reads the rows from the markup, which is how blocks of three, four and one share
+            one run of keys. Filtering stays ours (`mode="none"`), and binding `open` to the
+            dialog's is what clears the highlight when it closes. */}
+        <Autocomplete.Root
+          inline
+          grid
+          mode="none"
+          open={props.open}
+          onOpenChange={props.onOpenChange}
+          value={search}
+          onValueChange={setSearch}
+        >
+          <div className="flex flex-col gap-6">
+            <SearchInputPill />
+            <div className="overflow-hidden rounded-2xl border border-stroke-neutral-muted bg-bg-layer-floating">
+              <SearchTags
+                tag={tag}
+                onTagChange={setTag}
+                tags={tags}
+                className="border-b border-stroke-neutral-muted p-3"
+              />
+              <SearchResultsState
+                search={search}
+                error={query.error}
+                // Every block waits for the slowest of the three, so they arrive together
+                // rather than one after another, shifting the grid under someone already
+                // reading it.
+                isLoading={query.isLoading || componentsPending || tokensPending}
+                recent={<RecentPages />}
+              >
+                <Autocomplete.List ref={resultsRef} className={RESULTS_CLASS_NAME}>
+                  <ComponentResults matches={components} search={search} />
+                  <TokenResults matches={tokens} search={search} />
+                  <div className="p-1">
+                    {/* The promoted blocks already answer the query; a "no results" notice
+                        under them would contradict what's on screen. */}
+                    {results?.rows.length === 0 &&
+                    components.length === 0 &&
+                    tokens.length === 0 ? (
+                      <NoResults />
+                    ) : null}
+                    {results?.rows.map((row) => {
+                      const nested = results.nested.has(row.id);
+                      return (
+                        <Autocomplete.Row
+                          key={row.id}
+                          className={clsx(!nested && BLOCK_START_CLASS_NAME)}
+                        >
+                          {/* Under a filter every result already belongs to the chosen
+                              section, so the trail would open with the chip's own word on
+                              every group. */}
+                          <SearchResultItem
+                            item={row}
+                            showSection={tag === undefined}
+                            nested={nested}
+                          />
+                        </Autocomplete.Row>
+                      );
+                    })}
+                  </div>
+                </Autocomplete.List>
+              </SearchResultsState>
+              <SearchFooter />
+            </div>
           </div>
-        </div>
+        </Autocomplete.Root>
       </SearchDialogContent>
     </SearchDialog>
   );

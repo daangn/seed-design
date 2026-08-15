@@ -1,20 +1,18 @@
 "use client";
 
+import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconHashLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
-import type { SearchItemType } from "fumadocs-ui/components/dialog/search";
-import { useSearchList } from "fumadocs-ui/components/dialog/search";
-import { type Ref, useEffect, useRef } from "react";
+import type { SortedResult } from "fumadocs-core/search";
+import { useSearch } from "fumadocs-ui/components/dialog/search";
+import { useRouter } from "next/navigation";
 import { ResultMarkdown } from "./result-markdown";
 import { Breadcrumbs, ROW_ACTIVE_CLASS_NAME, ROW_CLASS_NAME } from "./row";
 
-/** Gap that opens a new block. Every row that isn't indented under a header starts one. */
-const BLOCK_START_CLASS_NAME = "[&:not(:first-child)]:mt-2";
-
 /**
- * A single search result. Wired to fumadocs' `useSearchList()`: the keyboard-active row takes
- * the neutral selected background and scrolls itself into view. Pass this via
- * SearchDialogList's `Item` prop.
+ * A single search result, as one cell of the grid the results card is. The row the arrow keys
+ * are on takes the neutral selected background, and so does the one the pointer is over — Base
+ * UI highlights on hover too, so the two are one state here.
  *
  * Advanced search hands the list one `page` row per matched document followed by the rows that
  * matched inside it, so a `page` row renders as the group's header — breadcrumbs over the
@@ -23,13 +21,10 @@ const BLOCK_START_CLASS_NAME = "[&:not(:first-child)]:mt-2";
  */
 export function SearchResultItem({
   item,
-  onClick,
   showSection,
   nested,
-  autoActive,
 }: {
-  item: SearchItemType;
-  onClick: () => void;
+  item: SortedResult;
 
   /** Whether the trail keeps its section. Dropped under a filter, where it repeats the chip. */
   showSection: boolean;
@@ -37,63 +32,27 @@ export function SearchResultItem({
   /** Whether a header row above owns this one. Decided by the caller, which is what groups
    * the rows. */
   nested: boolean;
-
-  /** Whether the list activates this row on its own — it does that to the first one of every
-   * result set, without the reader having moved anywhere. */
-  autoActive: boolean;
 }) {
-  const { active, setActive } = useSearchList();
-  const isActive = item.id === active;
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    // Only rows the reader moved to scroll themselves in. The first row of a result set is
-    // activated for them, and the promoted cards sharing this scroll box sit above it — so
-    // pulling it into view would sweep them off the top before they had been looked at.
-    if (isActive && !autoActive) ref.current?.scrollIntoView({ block: "nearest" });
-  }, [isActive, autoActive]);
-
-  const activation = {
-    "aria-selected": isActive,
-    onPointerMove: () => setActive(item.id),
-  };
-
-  const rowClassName = clsx(ROW_CLASS_NAME, isActive && ROW_ACTIVE_CLASS_NAME);
-
-  if (item.type === "action") {
-    return (
-      <button
-        type="button"
-        ref={ref as Ref<HTMLButtonElement>}
-        onClick={onClick}
-        className={clsx(rowClassName, BLOCK_START_CLASS_NAME)}
-        {...activation}
-      >
-        {item.node}
-      </button>
-    );
-  }
-
-  const isHeader = item.type === "page";
+  const { onOpenChange } = useSearch();
+  const router = useRouter();
 
   return (
-    <a
-      ref={ref as Ref<HTMLAnchorElement>}
-      href={item.url}
-      className={clsx(rowClassName, !nested && BLOCK_START_CLASS_NAME)}
+    <Autocomplete.Item
+      value={item.id}
+      // The cell opens the document; the anchor inside is what makes it a link the browser
+      // recognises. Base UI's own handler would close the dialog without routing anywhere, so
+      // it is stopped and the two paths stay one.
       onClick={(event) => {
-        // Route through fumadocs' onSelect (client-side push + close). Keep href for
-        // semantics and cmd/ctrl-click to open in a new tab.
+        event.preventBaseUIHandler();
+        // Keep cmd/ctrl-click opening a tab — the anchor below is left to do it.
         if (event.metaKey || event.ctrlKey) return;
 
         event.preventDefault();
-        onClick();
+        onOpenChange(false);
+        router.push(item.url);
       }}
-      {...activation}
+      className={(state) => clsx(ROW_CLASS_NAME, state.highlighted && ROW_ACTIVE_CLASS_NAME)}
     >
-      {isHeader ? (
-        <Breadcrumbs trail={(item.breadcrumbs ?? []).slice(showSection ? 0 : 1)} />
-      ) : null}
       {/* The rail threads the rows matched inside a document onto the header above them. */}
       {nested ? (
         <span aria-hidden className="absolute inset-y-0 start-3 w-px bg-stroke-neutral-muted" />
@@ -104,21 +63,26 @@ export function SearchResultItem({
           className="absolute start-6 top-2.5 size-3.5 text-fg-neutral-subtle"
         />
       ) : null}
-      <span
-        className={clsx(
-          "block min-w-0",
-          // A heading is a place in the document rather than a sentence from it, so it carries
-          // the same weight as the title above it; body text stays quieter than both.
-          item.type === "text" ? "text-fg-neutral-muted" : "font-medium",
-          nested && (item.type === "heading" ? "ps-8" : "ps-4"),
-        )}
-      >
-        {typeof item.content === "string" ? (
-          <ResultMarkdown>{item.content}</ResultMarkdown>
-        ) : (
-          item.content
-        )}
-      </span>
-    </a>
+      <a href={item.url} className="block after:absolute after:inset-0 after:rounded-lg">
+        {item.type === "page" ? (
+          <Breadcrumbs trail={(item.breadcrumbs ?? []).slice(showSection ? 0 : 1)} />
+        ) : null}
+        <span
+          className={clsx(
+            "block min-w-0",
+            // A heading is a place in the document rather than a sentence from it, so it carries
+            // the same weight as the title above it; body text stays quieter than both.
+            item.type === "text" ? "text-fg-neutral-muted" : "font-medium",
+            nested && (item.type === "heading" ? "ps-8" : "ps-4"),
+          )}
+        >
+          {typeof item.content === "string" ? (
+            <ResultMarkdown>{item.content}</ResultMarkdown>
+          ) : (
+            item.content
+          )}
+        </span>
+      </a>
+    </Autocomplete.Item>
   );
 }

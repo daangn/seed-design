@@ -5,12 +5,12 @@ import { normalizeSearchText } from "./search-text";
 export const COMPONENT_SEARCH_API = "/api/component-search";
 
 /**
- * How many cards the component section shows before it offers to reveal the rest — one row
- * on the dialog's desktop width. A query naming a family (`button`) matches five or six
- * components, and laying them all out would push the token and document blocks under it off
- * the first screenful.
+ * How many cards the component section shows before it offers to reveal the rest — two rows on
+ * the dialog's desktop width, three once it narrows to two columns. Six divides by both counts,
+ * so neither width is left ending on a half-empty line. Laying every match out instead would
+ * push the token and document blocks under it off the first screenful.
  */
-export const COMPONENT_RESULT_LIMIT = 3;
+export const COMPONENT_RESULT_LIMIT = 6;
 
 /**
  * One component document, flattened at build time so the search dialog gets the platform

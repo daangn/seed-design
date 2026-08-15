@@ -1,5 +1,7 @@
 "use client";
 
+import { Autocomplete } from "@base-ui/react/autocomplete";
+import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,10 +14,17 @@ import {
   type TokenSearchEntry,
   tokenReferenceHref,
 } from "@/lib/token-search";
-import { Highlighted, PromotedSection, ShowMore, useExpandable } from "./promoted-section";
+import { Highlighted, PromotedSection, ShowMore, toRows, useExpandable } from "./promoted-section";
 
-/** Auto-fills to the dialog's width — 2 columns on a phone, 4 on desktop. */
-const TOKEN_GRID_CLASS_NAME = "grid grid-cols-[repeat(auto-fill,minmax(148px,1fr))] gap-2";
+/**
+ * Four across the dialog's desktop width, two once it narrows to the viewport. A counted
+ * grid rather than the `auto-fill` this once was: a row has to be a row in the markup for the
+ * arrow keys to read it, so the count the panel's fixed 720px was already producing is now
+ * stated rather than measured.
+ */
+const TOKEN_COLUMNS = 4;
+
+const TOKEN_ROW_CLASS_NAME = "grid grid-cols-2 gap-2 md:grid-cols-4";
 
 /**
  * Colour roles read differently depending on where the token is meant to land, so each
@@ -128,15 +137,15 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
   const href = tokenReferenceHref(entry.id);
 
   return (
-    <Link
-      href={href}
-      // The name wraps across lines and splits into two colours, so spell the id out
-      // again for screen readers.
-      aria-label={entry.id}
+    <Autocomplete.Item
+      value={entry.id}
       title={`${entry.id}\n${entry.label}`}
+      // The cell opens the reference; the anchor below is what makes it a link the browser
+      // recognises. Base UI's own handler would close the dialog without routing, so it is
+      // stopped and the two paths stay one.
       onClick={(event) => {
-        // Keep cmd/ctrl-click opening a tab; a plain click routes through the client
-        // router and closes the dialog behind it.
+        event.preventBaseUIHandler();
+        // Keep cmd/ctrl-click opening a tab — the anchor below is left to do it.
         if (event.metaKey || event.ctrlKey) return;
 
         event.preventDefault();
@@ -144,20 +153,31 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
         router.push(href);
       }}
       // A tile only fills the row its grid cell was stretched to if it takes the height:
-      // otherwise a one-line description leaves the hover ground short of a two-line
+      // otherwise a one-line description leaves the highlighted ground short of a two-line
       // neighbour's bottom edge.
-      className="flex h-full flex-col gap-1.5 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
+      className={(state) =>
+        clsx(
+          "relative flex h-full flex-col gap-1.5 rounded-xl p-1.5 transition-colors active:bg-bg-transparent-selected-pressed",
+          state.highlighted && "bg-bg-transparent-selected",
+        )
+      }
     >
       <TokenPreview entry={entry} />
       <span className="min-w-0 px-0.5">
-        <span className="block wrap-anywhere text-[11px] leading-snug">
+        <Link
+          href={href}
+          // The name wraps across lines and splits into two colours, so spell the id out
+          // again for screen readers.
+          aria-label={entry.id}
+          className="block wrap-anywhere text-[11px] leading-snug after:absolute after:inset-0 after:rounded-xl focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
+        >
           <span className="text-fg-neutral-subtle">
             <Highlighted text={`${entry.group}.`} terms={terms} />
           </span>
           <span className="font-medium text-fg-neutral">
             <Highlighted text={entry.key} terms={terms} />
           </span>
-        </span>
+        </Link>
         {/* No `block` here — line-clamp needs to set `display: -webkit-box` itself, and a
             display utility alongside it silently wins. Two thirds of the tokens have no
             description; the reserved line keeps a row of those from collapsing to a
@@ -166,7 +186,7 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
           {entry.description ? <Highlighted text={entry.description} terms={terms} /> : null}
         </span>
       </span>
-    </Link>
+    </Autocomplete.Item>
   );
 }
 
@@ -188,13 +208,15 @@ export function TokenResults({ matches, search }: { matches: TokenSearchEntry[];
 
   return (
     <PromotedSection label="토큰" count={matches.length}>
-      <ul className={TOKEN_GRID_CLASS_NAME}>
-        {visible.map((entry) => (
-          <li key={entry.id}>
-            <TokenTile entry={entry} terms={terms} />
-          </li>
+      <div className="flex flex-col gap-2">
+        {toRows(visible, TOKEN_COLUMNS).map((row) => (
+          <Autocomplete.Row key={row[0].id} className={TOKEN_ROW_CLASS_NAME}>
+            {row.map((entry) => (
+              <TokenTile key={entry.id} entry={entry} terms={terms} />
+            ))}
+          </Autocomplete.Row>
         ))}
-      </ul>
+      </div>
       <ShowMore hidden={hidden} expanded={expanded} onToggle={toggle} />
     </PromotedSection>
   );

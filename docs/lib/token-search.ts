@@ -9,7 +9,7 @@ export const tokenReferenceHref = (id: string) =>
   `${TOKEN_REFERENCE_URL}/${encodeURIComponent(id)}`;
 
 /** How many tiles the token section shows before it offers to reveal the rest. */
-export const TOKEN_RESULT_LIMIT = 12;
+export const TOKEN_RESULT_LIMIT = 8;
 
 /** CSS for the preview box, per theme. Non-color collections repeat one value. */
 export interface ThemedCss {

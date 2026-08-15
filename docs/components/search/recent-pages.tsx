@@ -25,9 +25,10 @@ export function RecentPages() {
 
   return (
     <div className="p-1">
-      <p className="px-2.5 pt-1 pb-1.5 text-xs font-medium text-fg-neutral-muted">
-        최근 방문한 페이지
-      </p>
+      {/* `py-2` on top of the block's own 4px is what the promoted sections' labels sit at —
+          12px above the text, 8px between it and the ground of the first row. The two never
+          show at once, so the only thing keeping them in the same place is the arithmetic. */}
+      <p className="px-2.5 py-2 text-xs font-medium text-fg-neutral-muted">최근 방문한 페이지</p>
       {pages.map((page) => (
         <a
           key={page.url}

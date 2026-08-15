@@ -1,5 +1,6 @@
 "use client";
 
+import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
 import Image from "next/image";
@@ -11,12 +12,20 @@ import { COMPONENT_RESULT_LIMIT, type ComponentSearchEntry } from "@/lib/compone
 import { PLATFORM_CONFIG } from "@/lib/platform-status";
 import { splitQueryTerms } from "@/lib/search-text";
 import { isExternalUrl } from "@/lib/url";
-import { Highlighted, PromotedSection, ShowMore, useExpandable } from "./promoted-section";
+import { Highlighted, PromotedSection, ShowMore, toRows, useExpandable } from "./promoted-section";
 
 /**
- * Three across on the dialog's desktop width, two once it narrows to the viewport — a fixed
- * count rather than `auto-fill`, since the panel is 720px wide at every desktop size and so
- * would never change column count on its own.
+ * How many cards one arrow-key row holds — the desktop column count, so there a row in the
+ * markup is a row on screen. A fixed count rather than `auto-fill`, since the panel is 720px
+ * wide at every desktop size and so would never change column count on its own.
+ */
+const COMPONENT_COLUMNS = 3;
+
+/**
+ * One grid for the whole block rather than one per row, the rows inside it laid out as
+ * `display: contents`, so the cards pack across the boundaries between them. Rows of three
+ * laying themselves out each would leave a hole at the end of every one below `md`, where the
+ * grid narrows to two columns — what the token block escapes only because four divides in two.
  */
 const COMPONENT_GRID_CLASS_NAME = "grid grid-cols-2 gap-2 md:grid-cols-3";
 
@@ -29,6 +38,9 @@ const BADGE_LINK_CLASS_NAME =
 /**
  * One platform the component has shipped on. A badge without a link still reports the
  * rollout — Sanity carries the URL per platform and only some are filled in.
+ *
+ * A badge sits inside the cell the card occupies, and that cell opens the guideline when it is
+ * clicked, so every badge that leads somewhere of its own stops the click from reaching it.
  */
 function PlatformBadge({ label, href }: { label: string; href?: string }) {
   const { onOpenChange } = useSearch();
@@ -42,6 +54,7 @@ function PlatformBadge({ label, href }: { label: string; href?: string }) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={(event) => event.stopPropagation()}
         className={clsx(BADGE_CLASS_NAME, BADGE_LINK_CLASS_NAME)}
       >
         {label}
@@ -54,6 +67,7 @@ function PlatformBadge({ label, href }: { label: string; href?: string }) {
     <Link
       href={href}
       onClick={(event) => {
+        event.stopPropagation();
         if (event.metaKey || event.ctrlKey) return;
 
         event.preventDefault();
@@ -73,7 +87,27 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
   const router = useRouter();
 
   return (
-    <li className="relative flex flex-col gap-2 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed">
+    <Autocomplete.Item
+      value={entry.url}
+      // The cell owns the opening, so pointer and Enter arrive at one handler rather than at
+      // the anchor for one and Base UI's own selection for the other. Its handler is stopped
+      // because that one would close the dialog without ever routing anywhere.
+      onClick={(event) => {
+        event.preventBaseUIHandler();
+        // Keep cmd/ctrl-click opening a tab — the anchor below is left to do it.
+        if (event.metaKey || event.ctrlKey) return;
+
+        event.preventDefault();
+        onOpenChange(false);
+        router.push(entry.url);
+      }}
+      className={(state) =>
+        clsx(
+          "relative flex flex-col gap-2 rounded-xl p-1.5 transition-colors active:bg-bg-transparent-selected-pressed",
+          state.highlighted && "bg-bg-transparent-selected",
+        )
+      }
+    >
       <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-bg-transparent-selected">
         {entry.thumbnail ? (
           <Image
@@ -88,19 +122,11 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
         ) : null}
       </div>
       <div className="flex min-w-0 flex-col px-0.5">
-        {/* The `after` overlay makes the whole card open the guideline while leaving the
-            platform badges as links of their own — an anchor can't nest inside an anchor. */}
+        {/* The `after` overlay hands the whole card the anchor's own behaviour — the address
+            in the status bar, cmd-click, "open in new tab" — while leaving the platform
+            badges as links of their own, since an anchor can't nest inside an anchor. */}
         <Link
           href={entry.url}
-          onClick={(event) => {
-            // Keep cmd/ctrl-click opening a tab; a plain click routes through the client
-            // router and closes the dialog behind it.
-            if (event.metaKey || event.ctrlKey) return;
-
-            event.preventDefault();
-            onOpenChange(false);
-            router.push(entry.url);
-          }}
           className="text-[13px] font-medium leading-snug text-fg-neutral after:absolute after:inset-0 after:rounded-xl focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
         >
           <span className="block truncate">
@@ -137,7 +163,7 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
           ))}
         </div>
       ) : null}
-    </li>
+    </Autocomplete.Item>
   );
 }
 
@@ -165,11 +191,15 @@ export function ComponentResults({
 
   return (
     <PromotedSection label="컴포넌트" count={matches.length}>
-      <ul className={COMPONENT_GRID_CLASS_NAME}>
-        {visible.map((entry) => (
-          <ComponentCard key={entry.slug} entry={entry} terms={terms} />
+      <div className={COMPONENT_GRID_CLASS_NAME}>
+        {toRows(visible, COMPONENT_COLUMNS).map((row) => (
+          <Autocomplete.Row key={row[0].slug} className="contents">
+            {row.map((entry) => (
+              <ComponentCard key={entry.slug} entry={entry} terms={terms} />
+            ))}
+          </Autocomplete.Row>
         ))}
-      </ul>
+      </div>
       <ShowMore hidden={hidden} expanded={expanded} onToggle={toggle} />
     </PromotedSection>
   );
