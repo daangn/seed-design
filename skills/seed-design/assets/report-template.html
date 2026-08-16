@@ -3,20 +3,22 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SEED 진단 — {{프로젝트명}}</title>
+<meta name="color-scheme" content="light dark" />
+<title>SEED 진단 · {{프로젝트명}}</title>
 <style>
 /* SEED 팔레트를 직접 박아 둔다. 리포트는 SEED가 설치되지 않은 곳에서도 열려야 한다. */
 :root {
-  --fg: #2a3038; --fg-muted: #868b94;
+  color-scheme: light dark;
+  --fg: #2a3038; --fg-muted: #555d6d;
   --bg: #ffffff; --bg-layer: #f7f8f9; --stroke: #eeeff1;
-  --error: #fa342c; --warn: #9b7821; --info: #217cf9;
+  --error: #921708; --warn: #4f3e1f; --info: #0b4596; --focus: #217cf9;
   --error-bg: #fef1f0; --warn-bg: #fdf6e6; --info-bg: #eef5fe;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --fg: #e9eaec; --fg-muted: #b0b3ba;
     --bg: #000000; --bg-layer: #16171b; --stroke: #2b2e35;
-    --error: #ff6e60; --warn: #ca901c; --info: #41a2f9;
+    --error: #ff6e60; --warn: #ca901c; --info: #41a2f9; --focus: #41a2f9;
     --error-bg: #2a1614; --warn-bg: #241d0e; --info-bg: #101d2e;
   }
 }
@@ -24,50 +26,63 @@
 body {
   margin: 0; padding: 32px 20px 80px; background: var(--bg); color: var(--fg);
   font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", sans-serif;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
 }
-main { max-width: 860px; margin: 0 auto; }
+main { min-width: 0; max-width: 860px; margin: 0 auto; }
 h1 { font-size: 22px; margin: 0 0 4px; letter-spacing: -0.01em; }
 h2 { font-size: 16px; margin: 40px 0 12px; letter-spacing: -0.01em; }
+h1, h2 { text-wrap: balance; }
 .target { color: var(--fg-muted); font-size: 13px; margin: 0 0 24px; word-break: break-all; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
 
-/* 요약 — 제일 먼저 눈에 들어와야 하는 것 */
-.summary { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-.stat { flex: 1 1 120px; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--stroke); background: var(--bg-layer); }
+/* 요약: 제일 먼저 눈에 들어와야 하는 것 */
+.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 8px; }
+.stat { min-width: 0; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--stroke); background: var(--bg-layer); }
 .stat b { display: block; font-size: 26px; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .stat span { font-size: 12px; color: var(--fg-muted); }
 .stat.error b { color: var(--error); } .stat.warn b { color: var(--warn); } .stat.info b { color: var(--info); }
 
-/* 조치 순서 — 유저가 "그래서 뭘 먼저?"에 답을 얻는 자리 */
+/* 조치 순서: 유저가 "그래서 뭘 먼저?"에 답을 얻는 자리 */
 .next { border: 1px solid var(--stroke); border-radius: 10px; padding: 4px 20px; background: var(--bg-layer); }
-.next ol { padding-left: 20px; } .next li { margin: 10px 0; }
+.next ol { padding-inline-start: 20px; } .next li { margin: 10px 0; overflow-wrap: anywhere; }
 
-/* 검사 범위 — 실행하지 않은 룰과 그 이유까지 결과의 일부다 */
-.scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
-.scope-card { border: 1px solid var(--stroke); border-radius: 10px; padding: 14px 16px; }
-.scope-card h3 { font-size: 14px; margin: 0 0 10px; }
+/* 검사 범위: 실행하지 않은 룰과 그 이유까지 결과의 일부다 */
+.scope-list { display: grid; gap: 10px; }
+details.scope-card { min-width: 0; border: 1px solid var(--stroke); border-radius: 10px; overflow: hidden; }
+details.scope-card > summary {
+  min-height: 48px; cursor: pointer; padding: 12px 16px; background: var(--bg-layer);
+  display: flex; align-items: center; gap: 10px; list-style: none;
+}
+details.scope-card > summary::-webkit-details-marker { display: none; }
+details.scope-card > summary::before { content: "▸"; color: var(--fg-muted); font-size: 11px; }
+details.scope-card[open] > summary::before { content: "▾"; }
+details.scope-card > summary:focus-visible { outline-offset: -3px; }
+.scope-name { font-size: 14px; font-weight: 700; }
+.scope-count { margin-inline-start: auto; color: var(--fg-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.scope-body { min-width: 0; padding: 0 16px 12px; }
 .check { padding: 9px 0; border-top: 1px solid var(--stroke); }
-.check:first-of-type { border-top: 0; padding-top: 0; }
-.check-head { display: flex; align-items: baseline; gap: 8px; }
-.check-rule { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
-.status { margin-left: auto; font-size: 11px; font-weight: 700; white-space: nowrap; }
-.status.pass { color: var(--fg-muted); }
-.status.fail { color: var(--error); }
-.status.not-applicable, .status.not-verified { color: var(--warn); }
-.check p { margin: 5px 0 0; font-size: 12px; color: var(--fg-muted); }
-.check details { margin-top: 5px; font-size: 12px; }
-.check details > summary { cursor: pointer; color: var(--warn); }
+.check:first-child { border-top: 0; }
+.check-head { display: flex; align-items: flex-start; gap: 8px; min-width: 0; }
+.check-rule { min-width: 0; font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+.status { margin-inline-start: auto; padding: 1px 7px; border-radius: 5px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.status.pass, .status.not-applicable { color: var(--fg-muted); background: var(--bg-layer); }
+.status.fail { color: var(--error); background: var(--error-bg); }
+.status.not-verified { color: var(--warn); background: var(--warn-bg); }
+.check p { margin: 5px 0 0; font-size: 13px; color: var(--fg-muted); overflow-wrap: anywhere; }
+.check-reason strong { color: var(--fg); }
 
-/* 룰 그룹 — details/summary로 접는다(JS 없음) */
+/* 룰 그룹: details/summary로 접는다(JS 없음) */
 details.rule { border: 1px solid var(--stroke); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
 details.rule > summary {
-  cursor: pointer; padding: 13px 16px; background: var(--bg-layer);
+  min-height: 48px; cursor: pointer; padding: 12px 16px; background: var(--bg-layer);
   display: flex; align-items: center; gap: 10px; list-style: none;
 }
 details.rule > summary::-webkit-details-marker { display: none; }
 details.rule > summary::before { content: "▸"; color: var(--fg-muted); font-size: 11px; }
 details.rule[open] > summary::before { content: "▾"; }
-.rule-id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
-.rule-count { margin-left: auto; font-size: 12px; color: var(--fg-muted); font-variant-numeric: tabular-nums; }
+.rule-id { min-width: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; overflow-wrap: anywhere; }
+.rule-count { margin-inline-start: auto; font-size: 12px; color: var(--fg-muted); font-variant-numeric: tabular-nums; }
+details.rule > summary:focus-visible { outline-offset: -3px; }
 
 /* finding 하나 */
 .finding { padding: 16px; border-top: 1px solid var(--stroke); }
@@ -80,20 +95,27 @@ details.rule[open] > summary::before { content: "▾"; }
 .chip.info { color: var(--info); background: var(--info-bg); }
 .loc { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--fg-muted); word-break: break-all; }
 .msg { margin: 8px 0 0; }
-/* remediation은 길다 — 기본으로 접어 둔다 */
+/* remediation은 길다. 기본으로 접어 둔다. */
 .finding details { margin-top: 10px; }
-.finding details > summary { cursor: pointer; font-size: 13px; color: var(--info); }
+.finding details > summary { min-height: 32px; cursor: pointer; display: inline-flex; align-items: center; font-size: 13px; color: var(--info); }
 .finding details > p { margin: 8px 0 0; padding: 12px 14px; background: var(--bg-layer); border-radius: 8px; font-size: 14px; }
-/* 근거 문서는 접지 않는다 — "무엇을 읽어야 하는지"가 이 도구의 본체다 */
+/* 근거 문서는 접지 않는다. "무엇을 읽어야 하는지"가 이 도구의 본체다. */
 .refs { margin: 10px 0 0; font-size: 13px; }
-.refs a { color: var(--info); word-break: break-all; }
+.refs a { color: var(--info); overflow-wrap: anywhere; }
 
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--stroke); vertical-align: top; }
+th, td { text-align: start; padding: 8px 10px; border-bottom: 1px solid var(--stroke); vertical-align: top; }
 th { color: var(--fg-muted); font-weight: 600; }
 .verdict-pass { color: var(--fg-muted); } .verdict-fail { color: var(--error); font-weight: 600; }
-.wrap { overflow-x: auto; }
+.wrap { max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
 footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--stroke); font-size: 12px; color: var(--fg-muted); }
+@media (max-width: 480px) {
+  body { padding: 24px 16px 56px; }
+  .stat { padding: 12px; }
+  .stat b { font-size: 24px; }
+  details.scope-card > summary { align-items: flex-start; flex-wrap: wrap; }
+  .scope-count { width: 100%; margin-inline-start: 21px; }
+}
 </style>
 </head>
 <body>
@@ -118,39 +140,42 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--stroke
 
   <h2>검사 범위</h2>
   <!-- checks[]를 category별로 묶는다. pass/fail뿐 아니라 not-applicable/not-verified도 빠뜨리지 않는다. -->
-  <div class="scope-grid">
-    <section class="scope-card">
-      <h3>{{category — config | compatibility | setup | foundations | components | library}}</h3>
+  <div class="scope-list">
+    <!-- fail 또는 not-verified가 있는 category는 open을 붙인다. 전부 pass/not-applicable이면 접어 둔다. -->
+    <details class="scope-card" open>
+      <summary>
+        <span class="scope-name">{{category: config | compatibility | setup | foundations | components | library}}</span>
+        <span class="scope-count">pass {{N}} · fail {{N}} · N/A {{N}} · 미검증 {{N}}</span>
+      </summary>
+      <div class="scope-body">
 
-      <div class="check">
-        <div class="check-head">
-          <span class="check-rule">{{check.rule}}</span>
-          <span class="status {{check.status}}">{{check.status — pass | fail}}</span>
-        </div>
-        <p>{{check.evidence}}</p>
-        <p class="refs">
-          근거:
-          <!-- check.references 전체를 반복한다. -->
-          <a href="{{reference}}">{{reference}}</a>
-        </p>
-      </div>
-
-      <div class="check">
-        <div class="check-head">
-          <span class="check-rule">{{check.rule}}</span>
-          <span class="status {{check.status}}">{{check.status — not-applicable | not-verified}}</span>
-        </div>
-        <details>
-          <summary>적용 제외·미검증 이유</summary>
-          <p>{{check.reason}}</p>
+        <div class="check">
+          <div class="check-head">
+            <span class="check-rule">{{check.rule}}</span>
+            <span class="status {{check.status}}">{{check.status: pass | fail}}</span>
+          </div>
+          <p>{{check.evidence}}</p>
           <p class="refs">
             근거:
             <!-- check.references 전체를 반복한다. -->
             <a href="{{reference}}">{{reference}}</a>
           </p>
-        </details>
+        </div>
+
+        <div class="check">
+          <div class="check-head">
+            <span class="check-rule">{{check.rule}}</span>
+            <span class="status {{check.status}}">{{check.status: not-applicable | not-verified}}</span>
+          </div>
+          <p class="check-reason"><strong>이유:</strong> {{check.reason}}</p>
+          <p class="refs">
+            근거:
+            <!-- check.references 전체를 반복한다. -->
+            <a href="{{reference}}">{{reference}}</a>
+          </p>
+        </div>
       </div>
-    </section>
+    </details>
   </div>
 
   <h2>진단 결과</h2>
@@ -168,7 +193,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--stroke
       <p class="refs">읽어보기: <a href="{{references[0]}}">{{references[0]}}</a></p>
       <details>
         <summary>어떻게 고치나</summary>
-        <p>{{remediation — 문서 근거 포함. 실행이 아니라 안내}}</p>
+        <p>{{remediation: 문서 근거 포함. 실행이 아니라 안내}}</p>
       </details>
     </div>
   </details>
@@ -178,15 +203,15 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--stroke
   <details class="rule">
     <summary><span class="rule-id">{{컴포넌트}}</span><span class="rule-count">pass {{N}} · fail {{N}}</span></summary>
     <div class="wrap"><table>
-      <tr><th>#</th><th>기준</th><th>판정</th><th>근거</th></tr>
-      <tr><td>1</td><td>{{기준 문장 그대로}}</td><td class="verdict-pass">pass</td><td>{{파일:줄 또는 사유}}</td></tr>
+      <thead><tr><th scope="col">#</th><th scope="col">기준</th><th scope="col">판정</th><th scope="col">근거</th></tr></thead>
+      <tbody><tr><td>1</td><td>{{기준 문장 그대로}}</td><td class="verdict-pass">pass</td><td>{{파일:줄 또는 사유}}</td></tr></tbody>
     </table></div>
   </details>
 
   <h2>검토했지만 기각한 것</h2>
   <div class="wrap"><table>
-    <tr><th>후보</th><th>기각 사유</th></tr>
-    <tr><td>{{항목}}</td><td>{{왜 위반으로 올리지 않았는지}}</td></tr>
+    <thead><tr><th scope="col">후보</th><th scope="col">기각 사유</th></tr></thead>
+    <tbody><tr><td>{{항목}}</td><td>{{왜 위반으로 올리지 않았는지}}</td></tr></tbody>
   </table></div>
 
   <footer>{{도구·버전}} · 이 리포트는 진단 결과이며 코드를 수정하지 않았습니다.</footer>
