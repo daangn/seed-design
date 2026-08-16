@@ -194,7 +194,23 @@ findings:
     references:
       - https://seed-design.io/react/llms.txt
       - "{libraryAuthorsLeafUrlResolvedFromIndex}"
-    remediation: 검증한 peer 범위로 옮기고 external·소비자 CSS 계약을 함께 확인합니다.
+    remediation: |-
+      다음 SEED Doctor finding을 수정해 주세요.
+
+      대상 프로젝트: /path/to/project
+      대상 파일: packages/ui/package.json
+      문제: 소비 가능한 패키지가 @seed-design/react를 dependencies에 선언합니다.
+
+      요구사항:
+      - 공식 Library Authors 문서에서 현재 설치본과 호환되는 peer 범위를 확인해 @seed-design/react 선언을 옮겨 주세요.
+      - 번들러 external 설정과 소비자의 CSS import 계약도 같은 문서 기준으로 맞춰 주세요.
+      - 공개 API와 관련 없는 파일은 변경하지 마세요.
+
+      근거:
+      - https://seed-design.io/react/llms.txt
+      - {libraryAuthorsLeafUrlResolvedFromIndex}
+
+      먼저 저장소의 AGENTS.md와 package scripts를 확인하세요. 수정 후 package scripts에서 변경 범위에 맞는 검증을 선택해 실행하고 결과를 알려 주세요.
 verdicts: []
 coverage: []
 rejected: []
@@ -207,7 +223,7 @@ rejected: []
 | `meta.projectKinds` | `app`·`library` 역할 배열 | 역할이 비배타적이며, 역할 증거가 없으면 빈 배열일 수 있습니다 |
 | `checks` | 요청 범위의 모든 룰 상태 | pass/fail뿐 아니라 적용 제외·미검증 이유까지 실제 검사 범위를 보여 줍니다 |
 | `summary` | findings의 severity별 개수 | 점수나 등급을 만들지 않습니다 |
-| `findings` | 고칠 것만 | 공식 근거와 수정 안내를 함께 둡니다 |
+| `findings` | 고칠 것만 | 공식 근거와 복사 가능한 수정 프롬프트를 함께 둡니다 |
 | `verdicts` | 컴포넌트 기준별 판정 전체 | 통과와 `unknown`·`not-verified`를 숨기지 않습니다 |
 | `coverage` | 기계 수집 기준과 실제 판정 수 | component-guidelines의 기준 건너뛰기를 드러냅니다 |
 | `rejected` | 검토했지만 기각한 후보 | 보지 않은 것과 보고 뺀 것을 구분합니다 |
@@ -215,6 +231,8 @@ rejected: []
 check status는 `pass | fail | not-applicable | not-verified`, category는 `config | compatibility | setup | foundations | components | library`입니다. `pass`·`fail`에는 `evidence`, 적용 제외·미검증에는 `reason`, 모든 check에는 공식 `references`가 필요합니다.
 
 `verdicts.unknownReason`은 문서 임계값 부재(`no-threshold`), 런타임 의존(`runtime-dependent`), 코드 밖 정보(`not-in-code`), 공식 문서 충돌(`doc-conflict`)을 구분합니다. `rejected`에는 실제로 검토했지만 공식 기준이 허용하거나 증거가 부족해 뺀 후보만 적습니다.
+
+`findings[].remediation`은 설명문이 아니라 해당 finding만 별도 수정 요청으로 전달할 수 있는 완결된 프롬프트입니다. 대상 프로젝트와 파일, 확인된 문제, 구체적인 요구사항, 변경 제약, 공식 근거 전체, 저장소 지침과 package scripts를 확인한 뒤 적절한 검증을 실행하라는 요청을 포함합니다. Doctor는 프롬프트를 생성만 하며 사용자가 실제 수정을 요청하기 전에는 실행하지 않습니다.
 
 ### 스키마
 
@@ -227,7 +245,7 @@ check status는 `pass | fail | not-applicable | not-verified`, category는 `conf
 
 ## HTML 리포트
 
-HTML은 요청할 때만 YAML과 같은 임시 디렉토리에 만듭니다. "먼저 할 것" 다음에 범주별 검사 범위를 보여 주고, `not-applicable`·`not-verified` 이유를 접어서 볼 수 있습니다. finding 근거·수정 안내, 판정 표, coverage, 기각 목록은 그대로 보존합니다. 외부 CDN·JavaScript 없이 한 파일로 열립니다.
+HTML은 요청할 때만 YAML과 같은 임시 디렉토리에 만듭니다. "먼저 할 것" 다음에 범주별 검사 범위를 보여 주고, `not-applicable`·`not-verified` 이유를 접어서 볼 수 있습니다. finding마다 공식 근거와 접어 둔 "수정 프롬프트"를 제공하며, 판정 표·coverage·기각 목록도 보존합니다. 외부 CDN·JavaScript 없이 한 파일로 열립니다.
 
 ## Doctor references
 

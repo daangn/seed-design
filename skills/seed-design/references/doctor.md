@@ -152,7 +152,23 @@ findings:
     references:
       - https://seed-design.io/react/llms.txt
       - "{libraryAuthorsLeafUrlResolvedFromIndex}"
-    remediation: SEED 런타임 패키지를 검증한 peer 범위로 옮기고 external·소비자 CSS 계약을 함께 확인합니다.
+    remediation: |-
+      다음 SEED Doctor finding을 수정해 주세요.
+
+      대상 프로젝트: /path/to/project
+      대상 파일: packages/ui/package.json
+      문제: 소비 가능한 패키지가 @seed-design/react를 dependencies에 선언합니다.
+
+      요구사항:
+      - 공식 Library Authors 문서에서 현재 설치본과 호환되는 peer 범위를 확인해 @seed-design/react 선언을 옮겨 주세요.
+      - 번들러 external 설정과 소비자의 CSS import 계약도 같은 문서 기준으로 맞춰 주세요.
+      - 공개 API와 관련 없는 파일은 변경하지 마세요.
+
+      근거:
+      - https://seed-design.io/react/llms.txt
+      - {libraryAuthorsLeafUrlResolvedFromIndex}
+
+      먼저 저장소의 AGENTS.md와 package scripts를 확인하세요. 수정 후 package scripts에서 변경 범위에 맞는 검증을 선택해 실행하고 결과를 알려 주세요.
 coverage: []
 verdicts: []
 rejected: []
@@ -162,6 +178,7 @@ rejected: []
 
 - `checks`: 실제 검사 범위. 통과·실패·적용 제외·미검증을 모두 보여 줍니다.
 - `findings`: 고칠 것만. `checks.status: fail`인 룰에서 나옵니다.
+- `findings[].remediation`: finding 하나를 별도 수정 요청으로 전달할 수 있는 완결된 프롬프트입니다. Doctor가 프롬프트를 실행했다는 뜻은 아닙니다.
 - `summary`: findings를 severity별로 다시 센 값입니다. 손으로 추정하지 않습니다.
 - `verdicts`: component-guidelines의 기준별 판정 전체. `pass | fail | unknown | not-verified`를 유지합니다.
 - `coverage`: component-guidelines의 기계 수집 기준 수(`expected`)와 실제 판정 수(`judged`), 판단 보충 수(`derived`). `expected != judged`면 실행 결함입니다.
@@ -182,6 +199,19 @@ component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criter
 
 `rejected`는 실제로 살펴본 후보만 적습니다. 공식 문서가 허용하거나, 증거가 부족하거나, 역할이 다른 구현이거나, 의도적인 도메인 선택으로 보이는 경우에 candidate·reason·file을 남깁니다. 칸을 채우기 위해 후보를 만들지 않습니다.
 
+### 수정 프롬프트 계약
+
+각 finding의 `remediation`은 설명문이 아니라 그대로 복사해 코딩 에이전트에 전달할 수 있는 명령형 프롬프트로 씁니다. 하나의 프롬프트만 읽어도 수정 범위를 이해할 수 있도록 다음을 포함합니다.
+
+1. `meta.target`과 finding의 `file`, 값이 있으면 `line`
+2. finding의 `message`로 확인한 문제
+3. 공식 문서에서 도출한 구체적인 수정 요구사항
+4. 관련 없는 파일·공개 API·사용자 변경을 보존하는 제약
+5. finding의 `references` 전체
+6. 저장소 지침과 package scripts를 먼저 확인하고 변경 범위에 맞게 검증하라는 요청
+
+존재하지 않는 명령·파일·대체 API를 프롬프트에 추측해서 넣지 않습니다. 여러 finding이 같은 원인과 한 번의 수정으로 해결되면 기존 묶음 규칙대로 하나의 finding과 하나의 프롬프트를 만듭니다. Doctor는 이 프롬프트를 생성만 하며, 사용자가 실제 수정을 요청하기 전에는 실행하지 않습니다.
+
 ## 저장과 다중 워크스페이스
 
 - 대상 프로젝트에는 쓰지 않습니다. YAML은 임시 디렉토리에 저장하고 경로를 알려줍니다.
@@ -197,5 +227,5 @@ component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criter
 - 한 파일로 완결합니다. CDN·외부 폰트·JavaScript를 쓰지 않고 `<details>`로 접습니다.
 - "먼저 할 것" 다음에 **범주별 검사 범위**를 보여 줍니다.
 - `not-applicable`·`not-verified` 이유와 references를 숨기지 않습니다.
-- 기존 finding 근거·수정 안내, 판정 표, coverage, 기각 목록, severity count를 보존합니다.
+- 기존 finding 근거·수정 프롬프트, 판정 표, coverage, 기각 목록, severity count를 보존합니다.
 - footer에 대상 코드를 수정하지 않았음을 명시합니다.

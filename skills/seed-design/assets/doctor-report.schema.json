@@ -156,7 +156,8 @@
           },
           "remediation": {
             "type": "string",
-            "description": "수정 방법 안내. 실행이 아니라 안내다."
+            "minLength": 1,
+            "description": "finding 하나를 별도 수정 요청으로 전달할 수 있는 완결된 프롬프트. 대상 프로젝트와 파일, 문제, 구체적인 수정 요구사항, 관련 없는 변경을 피하는 제약, references 전체, 저장소 지침과 package scripts를 확인한 뒤 변경 범위에 맞게 검증하라는 요청을 포함한다. Doctor는 이 프롬프트를 생성할 뿐 실행하지 않는다."
           }
         }
       }

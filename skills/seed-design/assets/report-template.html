@@ -95,10 +95,14 @@ details.rule > summary:focus-visible { outline-offset: -3px; }
 .chip.info { color: var(--info); background: var(--info-bg); }
 .loc { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--fg-muted); word-break: break-all; }
 .msg { margin: 8px 0 0; }
-/* remediation은 길다. 기본으로 접어 둔다. */
+/* 수정 프롬프트는 길다. 사용자가 선택한 finding에서만 펼쳐 본다. */
 .finding details { margin-top: 10px; }
 .finding details > summary { min-height: 32px; cursor: pointer; display: inline-flex; align-items: center; font-size: 13px; color: var(--info); }
-.finding details > p { margin: 8px 0 0; padding: 12px 14px; background: var(--bg-layer); border-radius: 8px; font-size: 14px; }
+.prompt-note { margin: 8px 0 0; font-size: 12px; color: var(--fg-muted); }
+.fix-prompt {
+  margin: 8px 0 0; padding: 12px 14px; border-radius: 8px; background: var(--bg-layer); color: var(--fg);
+  white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
 /* 근거 문서는 접지 않는다. "무엇을 읽어야 하는지"가 이 도구의 본체다. */
 .refs { margin: 10px 0 0; font-size: 13px; }
 .refs a { color: var(--info); overflow-wrap: anywhere; }
@@ -192,8 +196,9 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--stroke
       <p class="msg">{{위반 내용 한 문장}}</p>
       <p class="refs">읽어보기: <a href="{{references[0]}}">{{references[0]}}</a></p>
       <details>
-        <summary>어떻게 고치나</summary>
-        <p>{{remediation: 문서 근거 포함. 실행이 아니라 안내}}</p>
+        <summary>수정 프롬프트</summary>
+        <p class="prompt-note">아래 프롬프트를 검토한 뒤 코딩 에이전트에 전달하세요. Doctor가 직접 수정하지는 않습니다.</p>
+        <pre class="fix-prompt"><code>{{remediation: 대상·파일·문제·요구사항·제약·references·검증을 포함한 완결된 프롬프트}}</code></pre>
       </details>
     </div>
   </details>
