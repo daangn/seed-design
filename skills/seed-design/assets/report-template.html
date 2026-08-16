@@ -41,6 +41,22 @@ h2 { font-size: 16px; margin: 40px 0 12px; letter-spacing: -0.01em; }
 .next { border: 1px solid var(--stroke); border-radius: 10px; padding: 4px 20px; background: var(--bg-layer); }
 .next ol { padding-left: 20px; } .next li { margin: 10px 0; }
 
+/* 검사 범위 — 실행하지 않은 룰과 그 이유까지 결과의 일부다 */
+.scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.scope-card { border: 1px solid var(--stroke); border-radius: 10px; padding: 14px 16px; }
+.scope-card h3 { font-size: 14px; margin: 0 0 10px; }
+.check { padding: 9px 0; border-top: 1px solid var(--stroke); }
+.check:first-of-type { border-top: 0; padding-top: 0; }
+.check-head { display: flex; align-items: baseline; gap: 8px; }
+.check-rule { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+.status { margin-left: auto; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.status.pass { color: var(--fg-muted); }
+.status.fail { color: var(--error); }
+.status.not-applicable, .status.not-verified { color: var(--warn); }
+.check p { margin: 5px 0 0; font-size: 12px; color: var(--fg-muted); }
+.check details { margin-top: 5px; font-size: 12px; }
+.check details > summary { cursor: pointer; color: var(--warn); }
+
 /* 룰 그룹 — details/summary로 접는다(JS 없음) */
 details.rule { border: 1px solid var(--stroke); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
 details.rule > summary {
@@ -98,6 +114,43 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--stroke
     <ol>
       <li>{{원인이 같은 것끼리 묶은 조치를 순서대로. 개별 finding 나열이 아니다.}}</li>
     </ol>
+  </div>
+
+  <h2>검사 범위</h2>
+  <!-- checks[]를 category별로 묶는다. pass/fail뿐 아니라 not-applicable/not-verified도 빠뜨리지 않는다. -->
+  <div class="scope-grid">
+    <section class="scope-card">
+      <h3>{{category — config | compatibility | setup | foundations | components | library}}</h3>
+
+      <div class="check">
+        <div class="check-head">
+          <span class="check-rule">{{check.rule}}</span>
+          <span class="status {{check.status}}">{{check.status — pass | fail}}</span>
+        </div>
+        <p>{{check.evidence}}</p>
+        <p class="refs">
+          근거:
+          <!-- check.references 전체를 반복한다. -->
+          <a href="{{reference}}">{{reference}}</a>
+        </p>
+      </div>
+
+      <div class="check">
+        <div class="check-head">
+          <span class="check-rule">{{check.rule}}</span>
+          <span class="status {{check.status}}">{{check.status — not-applicable | not-verified}}</span>
+        </div>
+        <details>
+          <summary>적용 제외·미검증 이유</summary>
+          <p>{{check.reason}}</p>
+          <p class="refs">
+            근거:
+            <!-- check.references 전체를 반복한다. -->
+            <a href="{{reference}}">{{reference}}</a>
+          </p>
+        </details>
+      </div>
+    </section>
   </div>
 
   <h2>진단 결과</h2>

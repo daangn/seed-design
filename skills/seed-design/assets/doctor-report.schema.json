@@ -4,16 +4,16 @@
   "title": "SEED Doctor Report",
   "description": "SEED 사용 상태 진단의 결과. 채팅 요약과 HTML 리포트는 이 파일에서 파생되므로, 이것이 단일 소스다.",
   "type": "object",
-  "required": ["schemaVersion", "meta", "summary", "findings", "verdicts", "rejected"],
+  "required": ["schemaVersion", "meta", "summary", "checks", "findings", "verdicts", "rejected"],
   "additionalProperties": true,
   "properties": {
     "schemaVersion": {
       "description": "필드가 깨지는 변경에만 올린다.",
-      "const": 1
+      "const": 2
     },
     "meta": {
       "type": "object",
-      "required": ["target", "framework", "date"],
+      "required": ["target", "framework", "projectKinds", "date"],
       "additionalProperties": true,
       "properties": {
         "target": { "type": "string", "description": "진단 대상 프로젝트 경로" },
@@ -22,6 +22,12 @@
           "description": "모노레포일 때 SEED를 쓰는 워크스페이스. 단일 패키지면 생략."
         },
         "framework": { "enum": ["react", "lynx"] },
+        "projectKinds": {
+          "type": "array",
+          "description": "프로젝트 역할. 앱이면서 소비 가능한 라이브러리일 수 있으므로 비배타적이다.",
+          "uniqueItems": true,
+          "items": { "enum": ["app", "library"] }
+        },
         "date": { "type": "string", "description": "YYYY-MM-DD" },
         "seed": {
           "type": "object",
@@ -53,9 +59,65 @@
         "info": { "type": "integer", "minimum": 0 }
       }
     },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "description": "이번 실행에서 요청 범위에 들어온 룰 전체. 적용되지 않거나 검증하지 못한 룰도 이유와 함께 남겨 실제 검사 범위를 드러낸다.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "category", "status", "references"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": {
+            "type": "string",
+            "description": "네임스페이스를 포함한 룰 id. 예: seed/project-config"
+          },
+          "category": {
+            "enum": ["config", "compatibility", "setup", "foundations", "components", "library"]
+          },
+          "status": {
+            "enum": ["pass", "fail", "not-applicable", "not-verified"]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1,
+            "description": "pass/fail 판정의 대상과 근거. 파일:줄, 설치본 버전, 실행 결과 등을 적는다."
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "description": "not-applicable/not-verified인 이유. 적용 조건 불충족과 검증 실패를 구분한다."
+          },
+          "references": {
+            "type": "array",
+            "description": "판정 또는 적용 제외의 근거가 된 공식 문서 URL.",
+            "minItems": 1,
+            "items": { "type": "string" }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "status": { "enum": ["pass", "fail"] } },
+              "required": ["status"]
+            },
+            "then": { "required": ["evidence"] }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": { "enum": ["not-applicable", "not-verified"] }
+              },
+              "required": ["status"]
+            },
+            "then": { "required": ["reason"] }
+          }
+        ]
+      }
+    },
     "findings": {
       "type": "array",
-      "description": "고칠 것. verdict가 fail인 항목만 들어온다.",
+      "description": "고칠 것. checks.status가 fail인 룰에서 나온 항목만 들어온다.",
       "items": {
         "type": "object",
         "required": ["rule", "severity", "message", "file", "references", "remediation"],
