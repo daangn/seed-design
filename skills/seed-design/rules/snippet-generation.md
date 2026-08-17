@@ -20,7 +20,6 @@
 
 전체·플랫폼 인덱스에서 현재 CLI 문서를 찾아 그 문서가 안내하는 backup·diff 보존 방식으로 재설치를 제안합니다. 명령과 옵션을 이 룰에 고정하지 않습니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`
-- 선택된 플랫폼의 `llms.txt`가 현재 연결한 CLI·registry·upgrade 문서
+- 전체·플랫폼 인덱스가 현재 연결한 CLI·registry·upgrade 문서

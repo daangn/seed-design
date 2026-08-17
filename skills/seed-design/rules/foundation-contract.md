@@ -24,8 +24,8 @@ SEED 토큰 import, vars 접근, SEED CSS 변수 또는 스타일 패키지 impo
 
 Doctor는 존재·공개성·제거·내부 API 의존 같은 계약 위반만 판정합니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`가 연결한 Foundations 인덱스
-- 선택된 플랫폼의 `llms.txt`가 연결한 스타일·토큰 문서
+- 전체 인덱스가 연결한 Foundations 인덱스
+- 선택된 플랫폼 인덱스가 연결한 스타일·토큰 문서
 - 대상의 실제 설치본 package exports

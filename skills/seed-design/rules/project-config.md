@@ -25,7 +25,6 @@
 - 설치 패키지끼리 맞는지는 `package-compatibility`, 스니펫과 패키지가 맞는지는 `snippet-compatibility`가 판단합니다.
 - 설정이 유효하면 최신 버전이 아니더라도 이 룰은 통과입니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`
-- 선택된 플랫폼의 `llms.txt`가 현재 연결한 CLI 설정 문서
+- 전체·플랫폼 인덱스가 현재 연결한 CLI 설정 문서

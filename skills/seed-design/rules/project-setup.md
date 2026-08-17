@@ -18,7 +18,6 @@
 
 설정 파일 자체의 schema와 경로 충돌은 `project-config`, 패키지 버전 조합은 `package-compatibility`가 판단합니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`
-- 선택된 플랫폼의 `llms.txt`가 현재 연결한 설치·스타일 문서
+- 선택된 플랫폼 인덱스가 현재 연결한 설치·스타일 문서

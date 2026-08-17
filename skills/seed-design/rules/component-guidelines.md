@@ -10,9 +10,9 @@
 
 ## 문서·구현 연결
 
-1. `https://seed-design.io/llms.txt`에서 현재 Components 진입점을 찾습니다.
+1. 문서 풀의 전체 인덱스에서 현재 Components 진입점을 찾습니다.
 2. Components 인덱스에서 컴포넌트 문서를 찾고, 인덱스가 제공한 raw URL을 읽습니다.
-3. 공통 문서의 Platform 표 → 선택된 플랫폼 `llms.txt` → 플랫폼 registry 전체 인덱스 → 재export를 따라간 설치본 package exports 순으로 실제 구현·registry id를 찾습니다.
+3. 공통 문서의 Platform 표 → 문서 풀의 플랫폼 인덱스 → 플랫폼 registry 전체 인덱스 → 재export를 따라간 설치본 package exports 순으로 실제 구현·registry id를 찾습니다.
 4. id 매핑과 지원 컴포넌트 목록을 룰이나 프로필에 유지하지 않습니다. 빈 문서·낡은 링크·문서 충돌은 `doc-conflict` 근거로 남깁니다.
 
 ## 대상 선정
@@ -63,8 +63,8 @@
 
 deprecated 대상은 [no-deprecated-component](./no-deprecated-component.md), 패키지 호환은 [package-compatibility](./package-compatibility.md), 토큰 공개성은 [foundation-contract](./foundation-contract.md)가 소유합니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`가 현재 연결한 Components 인덱스와 개별 가이드라인
-- 선택된 플랫폼의 `llms.txt`가 현재 연결한 구현 문서
+- 전체 인덱스가 현재 연결한 Components 인덱스와 개별 가이드라인
+- 선택된 플랫폼 인덱스가 현재 연결한 구현 문서
 - 선택된 플랫폼의 registry와 대상 설치본 package exports

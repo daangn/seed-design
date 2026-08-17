@@ -52,6 +52,8 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 - React 문서 인덱스: `https://seed-design.io/react/llms.txt`
 - Lynx 문서 인덱스: `https://seed-design.io/lynx/llms.txt`
 
+한 요청 실행 안에서는 URL을 정규화한 문서 풀을 유지합니다. 전체 인덱스, 선택된 플랫폼 인덱스, 각 leaf 문서는 URL마다 한 번만 읽고 이후 단계와 룰에서 같은 내용을 재사용합니다. 리포트 `references`에 같은 URL을 반복하는 것은 출처를 보존하는 것이며 다시 읽으라는 뜻이 아닙니다. HTTP 캐시를 가정하지 않습니다.
+
 다음 순서를 지킵니다.
 
 1. 전체 문서 인덱스에서 공통 Components·Foundations·Patterns 또는 선택된 플랫폼의 현재 진입점을 찾습니다.

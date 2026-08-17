@@ -16,8 +16,7 @@
 
 패키지가 여러 개면 같은 원인과 조치로 사라지는 최신성 격차를 한 finding과 `files[]`로 묶을 수 있습니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`
-- 선택된 플랫폼의 `llms.txt`가 현재 연결한 upgrade·changelog 문서
+- 선택된 플랫폼 인덱스가 현재 연결한 upgrade·changelog 문서
 - 대상 package registry metadata

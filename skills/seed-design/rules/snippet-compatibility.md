@@ -20,7 +20,6 @@
 - 최신 registry와 설치 세대의 차이는 [snippet-generation](./snippet-generation.md)만 판단합니다.
 - 구현·스타일 패키지끼리의 호환은 [package-compatibility](./package-compatibility.md)만 판단합니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`
-- 선택된 플랫폼의 `llms.txt`가 연결하거나 현재 플랫폼 지원을 명시한 CLI 문서
+- 전체·플랫폼 인덱스가 연결하거나 현재 플랫폼 지원을 명시한 CLI 문서

@@ -19,8 +19,7 @@
 - npm 최신과의 격차는 [outdated-version](./outdated-version.md)만 판단합니다.
 - 설치 스니펫의 요구 범위는 [snippet-compatibility](./snippet-compatibility.md)만 판단합니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`
-- 선택된 플랫폼의 `llms.txt`가 현재 연결한 설치·업그레이드·호환 문서
+- 선택된 플랫폼 인덱스가 현재 연결한 설치·업그레이드·호환 문서
 - 대상의 실제 설치본 package metadata

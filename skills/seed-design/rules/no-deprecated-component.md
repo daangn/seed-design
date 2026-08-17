@@ -20,8 +20,7 @@
 
 이번 실행에서 읽은 공식 문서의 대체안과 제거 시점을 그대로 안내합니다. 대체안이 없으면 임의의 컴포넌트나 토큰을 만들지 않고 추적해야 할 문서와 버전 경계만 남깁니다. 재설치 명령이 필요하면 현재 CLI 문서에서 찾아 제시합니다.
 
-## 읽어야 할 문서
+## 문서 풀에서 사용할 근거
 
-- `https://seed-design.io/llms.txt`
-- 선택된 플랫폼의 `llms.txt`가 현재 연결한 deprecation·upgrade 문서
+- 전체·플랫폼 인덱스가 현재 연결한 deprecation·upgrade 문서
 - 선택된 플랫폼의 현재 registry metadata
