@@ -24,8 +24,8 @@ Doctor는 Markdown 기반 Skill입니다. 별도 실행 스크립트나 Quick/De
 
 1. 사용자가 지정한 경로가 있으면 그 경로 안에서만 후보를 찾습니다.
 2. 대상 아래에서 `seed-design.json`을 찾습니다. `node_modules`, `.git`, `.claude/worktrees`는 반드시 제외합니다.
-3. 설정 파일을 하나도 찾지 못했을 때만 workspace manifest를 따라 `@seed-design/*` 직접 의존성이 있는 워크스페이스를 찾습니다. 설정 부재만으로 SEED 미사용이라고 결론내리지 않습니다.
-4. 각 후보를 별도 워크스페이스로 유지합니다. 하위 설정 파일이 속한 package 경계 또는 직접 의존성이 선언된 package가 리포트 단위입니다.
+3. 설정 파일 발견 여부와 관계없이 workspace manifest를 따라 `@seed-design/*` 직접 의존성이 있는 워크스페이스도 함께 찾습니다. 설정 부재만으로 SEED 미사용이라고 결론내리지 않습니다.
+4. `seed-design.json`이 속한 package와 직접 의존성이 선언된 package를 같은 package 경계로 정규화해 중복 제거합니다. 같은 경계에 두 단서가 있으면 하나의 리포트 단위에 모두 유지합니다.
 
 여러 워크스페이스가 발견되면 어느 대상을 진단할지 확인합니다. 사용자가 "전체"를 요청했다면 **워크스페이스별 YAML을 각각** 생성합니다. 서로 다른 `meta`를 가진 결과를 하나로 합치지 않습니다.
 
@@ -94,6 +94,8 @@ scope에 들어온 룰마다 `checks[]`를 하나 이상 만듭니다.
 | `not-verified` | 인덱스·연결 문서·네트워크·도구·설치본·경로를 확인하지 못함 |
 
 `pass`·`fail`은 `evidence`, 적용 제외·미검증은 `reason`을 씁니다. 모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요합니다. 문서를 발견한 check는 플랫폼 인덱스와 실제로 읽은 leaf 문서를 함께 기록하고, 문서 부재 check는 확인한 플랫폼 인덱스를 기록합니다.
+
+각 `check.rule`은 리포트 안에서 유일해야 합니다. finding은 동일한 `rule`의 `fail` check가 있을 때만 만들고, 각 `fail` check에는 적어도 하나의 finding이 있어야 합니다. `pass`·`not-applicable`·`not-verified` check의 rule은 findings에 나오면 안 됩니다.
 
 [component-guidelines](../rules/component-guidelines.md)는 현재 공통 문서와 플랫폼 인덱스로 연결 가능한 컴포넌트마다 반복하고 `coverage`·`verdicts`를 채웁니다. 공식 계약을 찾지 못한 룰도 조용히 빼지 말고 해당 범주가 scope라면 `not-applicable`로 남깁니다.
 
@@ -183,6 +185,15 @@ rejected: []
 - `verdicts`: component-guidelines의 기준별 판정 전체. `pass | fail | unknown | not-verified`를 유지합니다.
 - `coverage`: component-guidelines의 기계 수집 기준 수(`expected`)와 실제 판정 수(`judged`), 판단 보충 수(`derived`). `expected != judged`면 실행 결함입니다.
 - `rejected`: 실제 검토했지만 공식 기준이 허용하거나 증거가 부족해 finding으로 만들지 않은 후보입니다.
+
+JSON Schema는 배열 간 동적 `rule` 일치를 표현하지 못하므로, YAML을 저장하기 전에 다음 의미 검증을 별도로 수행합니다.
+
+1. `checks[].rule`이 중복되지 않음
+2. 모든 `findings[].rule`에 동일한 rule의 `fail` check가 정확히 하나 있음
+3. 모든 `fail` check에 동일한 rule의 finding이 적어도 하나 있음
+4. `summary`가 findings의 severity별 개수와 일치하고, 모든 `coverage`의 `expected == judged`임
+
+하나라도 실패하면 리포트를 완료한 것으로 보고하지 말고 판정·집계를 먼저 바로잡습니다.
 
 `verdicts.unknown`은 문서 임계값 부재·런타임 의존·코드 밖 정보·문서 충돌처럼 기준별 판정이 불가능할 때 사용합니다. 룰 실행 자체의 적용 여부를 나타내는 `checks.status`와 혼동하지 않습니다.
 

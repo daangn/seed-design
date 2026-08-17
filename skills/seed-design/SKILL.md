@@ -96,9 +96,10 @@ Doctor 요청은 [doctor.md](references/doctor.md)의 적응형 탐색 절차를
 
 1. 사용자 지정 경로
 2. `node_modules`, `.git`, `.claude/worktrees`를 제외한 `seed-design.json`
-3. 설정이 없을 때 직접 `@seed-design/*` 의존성이 있는 workspace
-4. 사용자 명시 → `framework` → 직접 의존성 순의 플랫폼 확정
-5. 공개 진입점과 앱·라이브러리 빌드 증거에 따른 비배타적 역할 판정
+3. 설정 발견 여부와 관계없이 직접 `@seed-design/*` 의존성이 있는 workspace
+4. 두 후보를 package 경계로 중복 제거
+5. 사용자 명시 → `framework` → 직접 의존성 순의 플랫폼 확정
+6. 공개 진입점과 앱·라이브러리 빌드 증거에 따른 비배타적 역할 판정
 
 - React Doctor: [doctor-react.md](references/doctor-react.md)를 함께 읽습니다.
 - Lynx Doctor: [doctor-lynx.md](references/doctor-lynx.md)를 함께 읽습니다.

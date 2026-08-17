@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://seed-design.io/schemas/doctor-report.json",
   "title": "SEED Doctor Report",
-  "description": "SEED 사용 상태 진단의 결과. 채팅 요약과 HTML 리포트는 이 파일에서 파생되므로, 이것이 단일 소스다.",
+  "description": "SEED 사용 상태 진단의 결과. 채팅 요약과 HTML 리포트는 이 파일에서 파생되므로, 이것이 단일 소스다. JSON Schema가 표현할 수 없는 배열 간 rule 관계는 생성 단계에서 의미 검증한다.",
   "type": "object",
   "required": ["schemaVersion", "meta", "summary", "checks", "findings", "verdicts", "rejected"],
   "additionalProperties": true,
@@ -62,7 +62,7 @@
     "checks": {
       "type": "array",
       "minItems": 1,
-      "description": "이번 실행에서 요청 범위에 들어온 룰 전체. 적용되지 않거나 검증하지 못한 룰도 이유와 함께 남겨 실제 검사 범위를 드러낸다.",
+      "description": "이번 실행에서 요청 범위에 들어온 룰 전체. 적용되지 않거나 검증하지 못한 룰도 이유와 함께 남겨 실제 검사 범위를 드러낸다. rule은 리포트 안에서 유일해야 하며 fail check만 같은 rule의 findings를 가진다.",
       "items": {
         "type": "object",
         "required": ["rule", "category", "status", "references"],
@@ -117,7 +117,7 @@
     },
     "findings": {
       "type": "array",
-      "description": "고칠 것. checks.status가 fail인 룰에서 나온 항목만 들어온다.",
+      "description": "고칠 것. 생성 단계에서 같은 rule의 checks.status가 fail임을 의미 검증한 항목만 들어온다. 모든 fail check는 적어도 하나의 finding을 갖고, 다른 상태의 check는 finding을 갖지 않는다.",
       "items": {
         "type": "object",
         "required": ["rule", "severity", "message", "file", "references", "remediation"],
