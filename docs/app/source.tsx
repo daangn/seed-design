@@ -226,7 +226,12 @@ const foundationsDocs = localMd({
 
 const componentsDocs = localMd({
   dir: "content/components",
-  frontmatterSchema: designSchema.extend({ componentIds: z.array(z.string()).optional() }),
+  frontmatterSchema: designSchema.extend({
+    componentIds: z.array(z.string()).optional(),
+    // 영문 이름과 한글 검색어가 다른 컴포넌트를 검색 다이얼로그의 컴포넌트 카드에서 찾을 수
+    // 있게 하는 별칭입니다 (`메뉴` → Menu). 문서 본문 검색에는 반영되지 않습니다.
+    keywords: z.array(z.string()).optional(),
+  }),
   metaSchema: docsMetaSchema,
   satteriOptions: createSatteriOptions,
 });
