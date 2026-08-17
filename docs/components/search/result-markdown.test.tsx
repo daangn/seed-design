@@ -60,6 +60,15 @@ describe("ResultMarkdown", () => {
     expect(screen.getByText(/진행 현황/)).toBeDefined();
   });
 
+  it("파싱이 텍스트를 남기지 않으면 원문을 그대로 보여준다", () => {
+    // 표의 빈칸 `-`는 빈 리스트로, 한국식 날짜는 숫자마다 열리는 중첩 ol로 파싱돼 행이 통째로
+    // 비어버린다. 색인 14,789행 중 이렇게 아무것도 안 남는 행이 24개다.
+    expect(render(<ResultMarkdown>{"-"}</ResultMarkdown>).container.textContent).toBe("-");
+    expect(render(<ResultMarkdown>{"2015. 7. 16."}</ResultMarkdown>).container.textContent).toBe(
+      "2015. 7. 16.",
+    );
+  });
+
   it("코드 스팬 안의 JSX는 컴포넌트가 아니라 코드로 남는다", () => {
     const { container } = render(
       <ResultMarkdown>{"`<AlertDialogTrigger>`는 dialog를 엽니다"}</ResultMarkdown>,

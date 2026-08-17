@@ -6,7 +6,7 @@ import type { CalloutType } from "fumadocs-ui/components/callout";
 import type { Root } from "hast";
 import type { ReactNode } from "react";
 import rehypeRaw from "rehype-raw";
-import { visit } from "unist-util-visit";
+import { EXIT, visit } from "unist-util-visit";
 
 /**
  * Everything Markdown itself can turn into an element here. A row's content is the Markdown its
@@ -54,11 +54,52 @@ function rehypeMdxTag() {
   };
 }
 
+/**
+ * Whether anything in the tree puts characters on screen. A `custom` element counts without
+ * holding text of its own — `MdxTagBadge` draws it from the component's name and attributes,
+ * which is all a self-closing `<FigmaImage alt="…" />` ever had.
+ */
+function hasRenderableContent(tree: Root) {
+  let renderable = false;
+
+  visit(tree, (node) => {
+    if (
+      (node.type === "text" && node.value.trim() !== "") ||
+      (node.type === "element" && node.tagName === "custom")
+    ) {
+      renderable = true;
+      return EXIT;
+    }
+  });
+
+  return renderable;
+}
+
+/**
+ * Markdown that spends every character on structure and leaves nothing to print: a table cell
+ * holding `-` parses to an empty list, and `2015. 7. 16.` to three nested ones, each digit read
+ * as the number that opens the next. A row is one line lifted out of a page rather than a
+ * document, so where the parse consumes it whole the source text is the truer reading — and the
+ * one the row showed before its content was Markdown at all.
+ *
+ * Runs after `rehypeMdxTag`, which is what turns a component into the `custom` element the check
+ * above looks for.
+ */
+function rehypeSourceFallback() {
+  // Typed structurally rather than as a `VFile`: `vfile` reaches us through remark rather than
+  // as a dependency of our own.
+  return (tree: Root, file: { value: unknown }) => {
+    if (hasRenderableContent(tree)) return;
+
+    tree.children = [{ type: "text", value: String(file.value) }];
+  };
+}
+
 const { Markdown } = createMarkdownRenderer({
   // The search server wraps matched terms in `<mark>` and the index carries components as raw
   // JSX, so a row's Markdown is only whole once the HTML in it is parsed too.
   remarkRehypeOptions: { allowDangerousHtml: true },
-  rehypePlugins: [rehypeRaw, rehypeMdxTag],
+  rehypePlugins: [rehypeRaw, rehypeMdxTag, rehypeSourceFallback],
 });
 
 /**
