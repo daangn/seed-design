@@ -19,6 +19,8 @@ const RATIO_VAR = "--seed-swipe-back-displacement-ratio";
 
 interface SwipeSetupOptions {
   swipeBackArea?: "edge" | "full" | "none";
+  /** seedPlugin이 stack 전체에 거는 기본값 */
+  pluginSwipeBackArea?: "edge" | "full" | "none";
   transitionStyle?: "horizontalSlide" | "verticalSlide" | "crossfade";
   onSwipeBackStart?: () => void;
   onSwipeBackMove?: (props: { displacement: number; displacementRatio: number }) => void;
@@ -28,7 +30,7 @@ interface SwipeSetupOptions {
 }
 
 async function setupSwipe(options: SwipeSetupOptions = {}) {
-  const { screens = 2, popOnSwiped, ...screenProps } = options;
+  const { screens = 2, popOnSwiped, pluginSwipeBackArea, ...screenProps } = options;
 
   // 스와이프 대상(top) activity에만 커스텀 props를 붙인다
   const topProps = {
@@ -48,6 +50,7 @@ async function setupSwipe(options: SwipeSetupOptions = {}) {
       C: makeActivity({ testId: "c", ...(screens >= 3 ? topProps : {}) }),
     },
     initialActivity: "A",
+    swipeBackArea: pluginSwipeBackArea,
   });
 
   if (screens >= 2) {
@@ -498,6 +501,82 @@ describe("swipe back — none 모드", () => {
       fireEvent.touchMove(button, touchInit(400, 300));
       await nextFrame();
       fireEvent.touchEnd(button, touchInit(400, 300));
+
+      expect(top.dataset["swipeBackState"]).toBeUndefined();
+      expect(onSwipeBackStart).not.toHaveBeenCalled();
+    } finally {
+      clock.restore();
+    }
+  });
+});
+
+describe("swipe back — seedPlugin 기본값", () => {
+  it("화면이 area를 지정하지 않으면 plugin 기본값을 따른다", async () => {
+    const clock = createClock();
+    const onSwipeBackStart = mock(() => {});
+    try {
+      const { container, top, edge } = await setupSwipe({
+        pluginSwipeBackArea: "full",
+        transitionStyle: "horizontalSlide",
+        onSwipeBackStart,
+      });
+      const button = container.querySelector('[data-testid="b-button"]') as HTMLElement;
+
+      // full 모드는 edge strip을 렌더하지 않는다
+      expect(edge).toBeNull();
+
+      fireEvent.touchStart(button, touchInit(200, 300));
+      clock.advance(16);
+      fireEvent.touchMove(button, touchInit(215, 301));
+      await nextFrame();
+
+      expect(top.dataset["swipeBackState"]).toBe("swiping");
+      expect(onSwipeBackStart).toHaveBeenCalledTimes(1);
+    } finally {
+      clock.restore();
+    }
+  });
+
+  it("화면이 넘긴 명시적 undefined는 plugin 기본값을 덮지 않는다", async () => {
+    const clock = createClock();
+    const onSwipeBackStart = mock(() => {});
+    try {
+      const { container, top } = await setupSwipe({
+        pluginSwipeBackArea: "full",
+        swipeBackArea: undefined,
+        transitionStyle: "horizontalSlide",
+        onSwipeBackStart,
+      });
+      const button = container.querySelector('[data-testid="b-button"]') as HTMLElement;
+
+      fireEvent.touchStart(button, touchInit(200, 300));
+      clock.advance(16);
+      fireEvent.touchMove(button, touchInit(215, 301));
+      await nextFrame();
+
+      expect(top.dataset["swipeBackState"]).toBe("swiping");
+      expect(onSwipeBackStart).toHaveBeenCalledTimes(1);
+    } finally {
+      clock.restore();
+    }
+  });
+
+  it("화면이 지정한 area가 plugin 기본값을 이긴다", async () => {
+    const clock = createClock();
+    const onSwipeBackStart = mock(() => {});
+    try {
+      const { container, top } = await setupSwipe({
+        pluginSwipeBackArea: "full",
+        swipeBackArea: "none",
+        transitionStyle: "horizontalSlide",
+        onSwipeBackStart,
+      });
+      const button = container.querySelector('[data-testid="b-button"]') as HTMLElement;
+
+      fireEvent.touchStart(button, touchInit(200, 300));
+      clock.advance(16);
+      fireEvent.touchMove(button, touchInit(400, 300));
+      await nextFrame();
 
       expect(top.dataset["swipeBackState"]).toBeUndefined();
       expect(onSwipeBackStart).not.toHaveBeenCalled();
