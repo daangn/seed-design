@@ -29,7 +29,7 @@
     "typecheck:lynx-examples": "bun node_modules/typescript/bin/tsc -p examples/lynx/tsconfig.json",
     "typecheck:lynx-tooling": "bun node_modules/typescript/bin/tsc -p tsconfig.lynx-node.json",
     "build:lynx-examples": "bun scripts/lynx-examples/build.ts",
-    "build:lynx-examples:development": "bun scripts/lynx-examples/build-development.ts",
+    "build:lynx-examples:development": "bun scripts/lynx-examples/build.ts --development",
     "dev:lynx-examples": "bun scripts/lynx-examples/watch.ts"
   },
   "dependencies": {

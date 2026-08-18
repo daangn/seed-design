@@ -7,6 +7,7 @@ import {
   EXAMPLES_DIRECTORY,
   PUBLIC_DIRECTORY,
 } from "./constants.js";
+import { buildLynxExamples } from "./build.js";
 
 let child: ReturnType<typeof Bun.spawn> | undefined;
 let restarting = false;
@@ -17,13 +18,7 @@ async function prepareAndStart() {
   child?.kill();
   if (child) await child.exited;
 
-  const prepare = Bun.spawn(["bun", "scripts/lynx-examples/build-development.ts"], {
-    cwd: DOCS_DIRECTORY,
-    stdout: "inherit",
-    stderr: "inherit",
-    env: process.env,
-  });
-  if ((await prepare.exited) !== 0) process.exit(1);
+  await buildLynxExamples({ mode: "development" });
 
   child = Bun.spawn(
     [

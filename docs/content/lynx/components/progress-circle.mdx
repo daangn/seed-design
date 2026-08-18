@@ -5,15 +5,6 @@ description: 작업이 진행 중임을 알리거나 작업 시간을 시각적�
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
 
-<LynxComponentExample name="lynx/progress-circle/preview">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/progress-circle/preview.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
 ## Installation
 
 ```package-install
@@ -22,92 +13,33 @@ npx @seed-design/cli add ui:progress-circle
 
 <LynxManualInstallation name="progress-circle" />
 
-## Props
+## Usage
 
-<react-type-table path="./registry/lynx/ui/progress-circle.tsx" name="ProgressCircleProps" />
+```tsx
+import { ProgressCircle } from "@/components/ui/progress-circle";
 
-## Examples
-
-### Neutral
-
-<LynxComponentExample name="lynx/progress-circle/neutral">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/progress-circle/neutral.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
-### Brand
-
-<LynxComponentExample name="lynx/progress-circle/brand">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/progress-circle/brand.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
-### Static White
-
-<LynxComponentExample name="lynx/progress-circle/static-white">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/progress-circle/static-white.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
-### Size=40
-
-<LynxComponentExample name="lynx/progress-circle/40">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/progress-circle/40.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
-### Size=24
-
-<LynxComponentExample name="lynx/progress-circle/24">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/progress-circle/24.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
+export function App() {
+  return <ProgressCircle tone="brand" size="40" />;
+}
+```
 
 ### Determinate
 
 `minValue`, `maxValue`, `value`를 지정하면 determinate 모드로 동작합니다.
 
-<LynxComponentExample name="lynx/progress-circle/determinate">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/progress-circle/determinate.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
+```tsx
+import { ProgressCircle } from "@/components/ui/progress-circle";
 
-### Indeterminate
+export function App() {
+  return (
+    <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={0.5} />
+  );
+}
+```
 
-`value`를 생략하거나 `undefined`로 지정하면 indeterminate 모드로 동작합니다.
+## Props
 
-<LynxComponentExample name="lynx/progress-circle/indeterminate">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/progress-circle/indeterminate.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
+<react-type-table path="./registry/lynx/ui/progress-circle.tsx" name="ProgressCircleProps" />
 
 ## 웹 버전과의 차이
 
