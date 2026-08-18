@@ -35,14 +35,16 @@ const CALLOUT_ROW_ATTRIBUTES = ["type", "title"];
 function stringifyCalloutRow(node: Nodes) {
   if (node.type !== "mdxJsxFlowElement" || node.name !== "Callout") return undefined;
 
-  const attributes = node.attributes.flatMap((attribute) =>
-    attribute.type === "mdxJsxAttribute" &&
-    CALLOUT_ROW_ATTRIBUTES.includes(attribute.name) &&
-    typeof attribute.value === "string" &&
-    attribute.value.trim() !== ""
-      ? [{ name: attribute.name, value: attribute.value }]
-      : [],
-  );
+  const attributes = node.attributes.flatMap((attribute) => {
+    if (attribute.type !== "mdxJsxAttribute") return [];
+    if (!CALLOUT_ROW_ATTRIBUTES.includes(attribute.name)) return [];
+
+    // 표현식으로 쓴 속성값(`title={"…"}`)은 Fumadocs 기본 stringifier와 같이 원본 표현식을
+    // 읽는다. 문자열만 받으면 그렇게 쓴 Callout이 title 없는 것으로 보여 row가 통째로 빠진다.
+    const value = typeof attribute.value === "string" ? attribute.value : attribute.value?.value;
+
+    return value?.trim() ? [{ name: attribute.name, value }] : [];
+  });
 
   if (!attributes.some(({ name }) => name === "title")) return undefined;
 

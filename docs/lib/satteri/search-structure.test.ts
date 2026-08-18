@@ -65,6 +65,17 @@ describe("structureOptions", () => {
     ]);
   });
 
+  it("표현식으로 쓴 title도 row로 남긴다", async () => {
+    const contents = await structuredContents(
+      '<Callout type="warn" title={"확인 방법"}>\n\n본문 문단\n\n</Callout>',
+    );
+
+    expect(contents).toEqual([
+      { heading: undefined, content: '<Callout type="warn" title="&#x22;확인 방법&#x22;" />' },
+      { heading: undefined, content: "본문 문단" },
+    ]);
+  });
+
   it("Callout row가 안의 코드블록을 삼키지 않는다", async () => {
     const contents = await structuredContents(
       '<Callout type="info" title="확인 방법">\n\n```\ngit grep -E \'(A|B)\'\n```\n\n</Callout>',
