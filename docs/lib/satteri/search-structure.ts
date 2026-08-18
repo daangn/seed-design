@@ -99,17 +99,12 @@ export const structureOptions: StructureOptions = {
     // 카드가 가리키는 문서로 데려가지도 못한다. 검색에서만 제외하며 llms.txt에는 그대로 남는다
     // (mdxTypes는 remarkStructure 전용, filterElement는 remarkLlms와 공유).
     if ("name" in node && node.name === "Card") return false;
+    // 아래 빈-자식 규칙보다 먼저 물어야 한다. 자기 닫는 `<Callout />`은 그 규칙에 걸려 row가
+    // 되고, 남길 title이 없으니 글자 없는 배지 하나짜리 row로 남는다.
+    if ("name" in node && node.name === "Callout") return stringifyCalloutRow(node) !== undefined;
     if (!("children" in node) || node.children.length === 0) return true;
-    if (!("name" in node)) return false;
 
-    switch (node.name) {
-      case "TypeTable":
-        return true;
-      case "Callout":
-        return stringifyCalloutRow(node) !== undefined;
-      default:
-        return false;
-    }
+    return "name" in node && node.name === "TypeTable";
   },
   stringify: structureStringify,
 };

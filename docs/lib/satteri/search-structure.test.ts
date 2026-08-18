@@ -31,6 +31,11 @@ describe("structureOptions", () => {
     expect(contents).toEqual([{ heading: undefined, content: "본문 문단" }]);
   });
 
+  it("자식이 없는 Callout도 title이 없으면 row를 만들지 않는다", async () => {
+    expect(await structuredContents('<Callout type="info" />')).toEqual([]);
+    expect(await structuredContents('<Callout type="info"></Callout>')).toEqual([]);
+  });
+
   it("title 있는 Callout은 자식 없는 태그 row와 본문 row로 나뉜다", async () => {
     const contents = await structuredContents(
       '<Callout type="info" title="확인 방법">\n\n본문 문단\n\n</Callout>',
