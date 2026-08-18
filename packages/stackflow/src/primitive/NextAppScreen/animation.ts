@@ -26,9 +26,7 @@ const BEHIND_OFFSET_PERCENT = -30;
 const BEHIND_X = `translate3d(${BEHIND_OFFSET_PERCENT}%, 0, 0)`;
 
 const VERTICAL_LAYER_OFFSET = "8vh";
-const VERTICAL_DIM_OFFSET = "-8vh";
 const VERTICAL_LAYER_Y = `translate3d(0, ${VERTICAL_LAYER_OFFSET}, 0)`;
-const VERTICAL_DIM_Y = `translate3d(0, ${VERTICAL_DIM_OFFSET}, 0)`;
 
 // ─── Timings ────────────────────────────────────────────────────────────────
 
@@ -83,10 +81,7 @@ const SCREEN_MOTION = {
         { opacity: "0", transform: VERTICAL_LAYER_Y },
         { opacity: "1", transform: RESTING },
       ],
-      dim: [
-        { opacity: "0", transform: VERTICAL_DIM_Y },
-        { opacity: "1", transform: RESTING },
-      ],
+      dim: [{ opacity: "0" }, { opacity: "1" }],
     },
     pop: {
       ...VERTICAL_EXIT,
@@ -94,10 +89,7 @@ const SCREEN_MOTION = {
         { opacity: "1", transform: RESTING },
         { opacity: "0", transform: VERTICAL_LAYER_Y },
       ],
-      dim: [
-        { opacity: "1", transform: RESTING },
-        { opacity: "0", transform: VERTICAL_DIM_Y },
-      ],
+      dim: [{ opacity: "1" }, { opacity: "0" }],
     },
     "push-behind": null,
     "pop-behind": null,
@@ -247,12 +239,9 @@ const SWIPE_MOTION = {
       complete: { opacity: "0", transform: VERTICAL_LAYER_Y },
     },
     dim: {
-      start: (ratio) => ({
-        opacity: `${1 - ratio}`,
-        transform: `translate3d(0, calc(${ratio} * ${VERTICAL_DIM_OFFSET}), 0)`,
-      }),
-      cancel: { opacity: "1", transform: RESTING },
-      complete: { opacity: "0", transform: VERTICAL_DIM_Y },
+      start: fadeOut,
+      cancel: { opacity: "1" },
+      complete: { opacity: "0" },
     },
     behindLayer: null,
   },
