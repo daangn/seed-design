@@ -7,6 +7,7 @@ import { stackflow, lazy } from "@stackflow/react/future";
 import { config } from "./stackflow.config";
 import { historySyncPlugin } from "@stackflow/plugin-history-sync";
 import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
+import { isIos } from "../platform";
 import { theme } from "./theme";
 import ActivityDemoArticleDetail from "../activities/ActivityDemoArticleDetail";
 import ActivityDemoHome from "../activities/ActivityDemoHome";
@@ -22,7 +23,11 @@ export const { Stack, actions, stepActions } = stackflow({
   plugins: [
     basicRendererPlugin(),
     basicUIPlugin({ theme }),
-    seedPlugin({ theme }),
+    // iOS에서만 화면 전체를 백스와이프 영역으로 쓰고, 기기 디스플레이 모서리에 맞춰
+    // 전환/스와이프 중 클립한다. 55px = iPhone 15 Pro의 UIScreen
+    // _displayCornerRadius(55.0pt, 15 Pro Max / 14 Pro 동일). 나머지 플랫폼은
+    // swipeBackArea edge 기본값에 클립 없음.
+    seedPlugin({ theme, ...(isIos && { swipeBackArea: "full" as const, clipRadius: 55 }) }),
     iframeSyncPlugin(),
     historySyncPlugin({
       config,
@@ -132,12 +137,18 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
     ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
     ActivityNextAppScreen: lazy(() => import("../activities/ActivityNextAppScreen")),
+    ActivityNextAppScreenPreview: lazy(() => import("../activities/ActivityNextAppScreenPreview")),
     ActivityNextAppScreenTransparent: lazy(
       () => import("../activities/ActivityNextAppScreenTransparent"),
     ),
     ActivityAppScreenIntersectionObserver: lazy(
       () => import("../activities/ActivityAppScreenIntersectionObserver"),
     ),
+    ActivityNextAppScreenIntersectionObserver: lazy(
+      () => import("../activities/ActivityNextAppScreenIntersectionObserver"),
+    ),
+    ActivityNextAnimateFalseTest: lazy(() => import("../activities/ActivityNextAnimateFalseTest")),
+    ActivityNextTransitionStyle: lazy(() => import("../activities/ActivityNextTransitionStyle")),
     ActivityAppScreenAppBarCustomization: lazy(
       () => import("../activities/ActivityAppScreenAppBarCustomization"),
     ),
