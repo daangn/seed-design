@@ -117,12 +117,19 @@ export const nextAppScreen = defineSlotRecipe({
       overflow: "hidden",
 
       "--app-bar-offset": "calc(var(--app-bar-height) + var(--seed-safe-area-top))",
-      "--z-index-dim": "calc(var(--z-index-base) + 0)",
-      "--z-index-layer": "calc(var(--z-index-base) + 1)",
-      "--z-index-edge": "calc(var(--z-index-base) + 2)",
+
+      // The screen takes ONE slot of the activity's 5-wide z-index band, and
+      // the z-index makes it a stacking context so every part below is ordered
+      // locally — nothing inside can reach into a neighbouring activity.
+      //
+      // The offset has to thread a stack that also holds legacy AppScreens,
+      // which spread their parts across `base + 0..7`: it must clear the screen
+      // below (`app-bar` at base - 5 + 7 = base + 2) and stay under the screen
+      // above (`dim` at base + 5 + 0 = base + 5). Only 3 and 4 satisfy both.
+      zIndex: "calc(var(--z-index-base) + 3)",
     },
     dim: {
-      zIndex: "var(--z-index-dim)",
+      zIndex: 0,
       position: "absolute",
       width: "100%",
       top: 0,
@@ -131,7 +138,7 @@ export const nextAppScreen = defineSlotRecipe({
     // NOTE: no transform / will-change at rest — position: fixed descendants of
     // the content must anchor to the viewport while the screen is idle.
     layer: {
-      zIndex: "var(--z-index-layer)",
+      zIndex: 1,
       boxSizing: "border-box",
       position: "absolute",
       width: "100%",
@@ -160,7 +167,7 @@ export const nextAppScreen = defineSlotRecipe({
       },
     },
     edge: {
-      zIndex: "var(--z-index-edge)",
+      zIndex: 2,
       position: "absolute",
       width: "20px",
       height: "100%",
