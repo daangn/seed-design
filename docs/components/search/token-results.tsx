@@ -157,8 +157,8 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
       // neighbour's bottom edge.
       className={(state) =>
         clsx(
-          "relative flex h-full flex-col gap-1.5 rounded-xl p-1.5 transition-colors active:bg-bg-transparent-selected-pressed",
-          state.highlighted && "bg-bg-transparent-selected",
+          "relative flex h-full flex-col gap-1.5 rounded-xl p-1.5 transition-colors",
+          state.highlighted && "bg-bg-transparent-pressed",
         )
       }
     >

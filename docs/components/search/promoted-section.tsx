@@ -106,7 +106,7 @@ export function ShowMore({
           clsx(
             "mt-1.5 w-full cursor-pointer rounded-lg py-1.5 text-center text-xs transition-colors",
             state.highlighted
-              ? "bg-bg-transparent-selected text-fg-neutral"
+              ? "bg-bg-transparent-pressed text-fg-neutral"
               : "text-fg-neutral-subtle",
           )
         }

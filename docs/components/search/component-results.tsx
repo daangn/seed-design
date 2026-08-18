@@ -47,8 +47,8 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
       }}
       className={(state) =>
         clsx(
-          "relative flex flex-col gap-2 rounded-xl p-1.5 transition-colors active:bg-bg-transparent-selected-pressed",
-          state.highlighted && "bg-bg-transparent-selected",
+          "relative flex flex-col gap-2 rounded-xl p-1.5 transition-colors",
+          state.highlighted && "bg-bg-transparent-pressed",
         )
       }
     >
