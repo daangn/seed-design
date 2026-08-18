@@ -73,6 +73,7 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
   const { rootProps: swipeBackRootProps, edgeProps: swipeBackEdgeProps } = useNextSwipeBack({
     ...swipeBackProps,
     swipeBackArea,
+    transitionStyle: effectiveTransitionStyle,
     rootRef,
     layerRef,
     dimRef,
