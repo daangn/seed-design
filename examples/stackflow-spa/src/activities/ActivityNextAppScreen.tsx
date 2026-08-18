@@ -23,6 +23,10 @@ declare module "@stackflow/config" {
   }
 }
 
+const SWIPE_BACK_AREAS = ["edge", "full", "none"] as const satisfies ReadonlyArray<
+  NonNullable<NextAppScreenProps["swipeBackArea"]>
+>;
+
 const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"> = ({
   params,
 }) => {
@@ -53,12 +57,15 @@ const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"
               push transitionStyle: {style}
             </ActionButton>
           ))}
-          <ActionButton
-            variant="brandSolid"
-            onClick={() => push("ActivityNextAppScreen", { swipeBackArea: "full" })}
-          >
-            push swipeBackArea: full
-          </ActionButton>
+          {SWIPE_BACK_AREAS.map((area) => (
+            <ActionButton
+              key={area}
+              variant={params.swipeBackArea === area ? "neutralWeak" : "neutralSolid"}
+              onClick={() => push("ActivityNextAppScreen", { swipeBackArea: area })}
+            >
+              push swipeBackArea: {area}
+            </ActionButton>
+          ))}
           <ActionButton onClick={() => push("ActivityNextAppScreenTransparent", {})}>
             push transparent tone
           </ActionButton>
