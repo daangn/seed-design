@@ -38,7 +38,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@seed-design/rootage-artifacts": "2.5.0",
+    "@seed-design/rootage-artifacts": "2.6.0",
     "csstype": "^3.1.3"
   }
 }
