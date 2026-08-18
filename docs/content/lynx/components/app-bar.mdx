@@ -5,6 +5,12 @@ description: 화면 상단에서 현재 화면의 제목과 탐색 액션을 보
 
 <AvailableSince packages="@seed-design/lynx-react@0.2.0, @seed-design/lynx-css@0.2.0" />
 
+<LynxComponentExample name="lynx/app-bar/preview">
+  ```json doc-gen:file
+  { "file": "examples/lynx/app-bar/preview.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -47,98 +53,25 @@ npx @seed-design/cli add ui:app-bar
 
 <react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarCloseButtonProps" />
 
-## Usage
-
-설치한 snippet은 Root와 주요 슬롯을 `AppBar`, `AppBarLeft`, `AppBarMain`, `AppBarRight`로 export 합니다. `AppBarBackButton`, `AppBarCloseButton`은 기본 아이콘만 제공하며, 실제 이동 로직은 `bindtap`으로 직접 전달합니다.
-
-```tsx
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "@/components/ui/app-bar";
-
-export function Header({ goBack }: { goBack: () => void }) {
-  return (
-    <AppBar>
-      <AppBarLeft>
-        <AppBarBackButton bindtap={goBack} />
-      </AppBarLeft>
-      <AppBarMain title="동네생활" />
-      <AppBarRight />
-    </AppBar>
-  );
-}
-```
+## Examples
 
 ### Title / Subtitle
 
-`AppBarMain`에 `title`, `subtitle`을 전달하면 내부에서 `AppBar.Title`, `AppBar.Subtitle`을 조립합니다. `subtitle`이 있으면 `layout="withSubtitle"`가 자동으로 적용됩니다.
-
-```tsx
-import { AppBar, AppBarMain } from "@/components/ui/app-bar";
-
-export function Header() {
-  return (
-    <AppBar>
-      <AppBarMain title="관심 목록" subtitle="3개의 새 소식" />
-    </AppBar>
-  );
-}
-```
-
-직접 슬롯을 조립하고 싶다면 `AppBarMain`의 children으로 compound 컴포넌트를 전달합니다.
-
-```tsx
-import { AppBar, AppBarMain } from "@/components/ui/app-bar";
-import { AppBar as SeedAppBar } from "@seed-design/lynx-react";
-
-export function Header() {
-  return (
-    <AppBar>
-      <AppBarMain layout="withSubtitle">
-        <SeedAppBar.Title>제목</SeedAppBar.Title>
-        <SeedAppBar.Subtitle>부제목</SeedAppBar.Subtitle>
-      </AppBarMain>
-    </AppBar>
-  );
-}
-```
+<LynxComponentExample name="lynx/app-bar/title-subtitle">
+  ```json doc-gen:file
+  { "file": "examples/lynx/app-bar/title-subtitle.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
 ### Left / Right Action
 
-왼쪽과 오른쪽에는 icon button 또는 custom slot을 배치할 수 있습니다. Cupertino theme에서는 좌우 슬롯 폭을 읽어 가운데 title이 치우치지 않도록 padding을 보정합니다.
+실제 이동 로직은 `bindtap`에서 앱의 navigation 함수와 연결합니다.
 
-```tsx
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarCloseButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-  AppBarSlot,
-} from "@/components/ui/app-bar";
-
-export function Header({ goBack, close }: { goBack: () => void; close: () => void }) {
-  return (
-    <AppBar>
-      <AppBarLeft>
-        <AppBarBackButton bindtap={goBack} />
-      </AppBarLeft>
-      <AppBarMain title="작성하기" />
-      <AppBarRight>
-        <AppBarSlot>
-          <text>완료</text>
-        </AppBarSlot>
-        <AppBarCloseButton bindtap={close} />
-      </AppBarRight>
-    </AppBar>
-  );
-}
-```
+<LynxComponentExample name="lynx/app-bar/actions">
+  ```json doc-gen:file
+  { "file": "examples/lynx/app-bar/actions.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
 ### Accessibility
 
@@ -156,19 +89,13 @@ import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
 
 `theme`은 `"cupertino"` 또는 `"android"`를 사용할 수 있습니다. 명시하지 않으면 AppBar 내부에서 `SystemInfo.platform`을 읽어 Android에서는 `"android"`, 그 외 플랫폼이나 값이 없을 때는 `"cupertino"`를 사용합니다.
 
-```tsx
-<AppBar>
-  <AppBarMain title="자동 theme" />
-</AppBar>
-```
-
 수동으로 지정한 `theme`은 platform 기본값보다 우선합니다.
 
-```tsx
-<AppBar theme="android">
-  <AppBarMain title="Android layout" />
-</AppBar>
-```
+<LynxComponentExample name="lynx/app-bar/themes">
+  ```json doc-gen:file
+  { "file": "examples/lynx/app-bar/themes.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
 ## Web Version Differences
 

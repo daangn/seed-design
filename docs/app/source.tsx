@@ -94,6 +94,16 @@ const filterStructureElement: NonNullable<LLMsOptions["filterElement"]> = (node)
   }
 };
 
+const filterLlmsElement: NonNullable<LLMsOptions["filterElement"]> = (node) => {
+  if (
+    (node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement") &&
+    (node.name === "ComponentExample" || node.name === "LynxComponentExample")
+  ) {
+    return true;
+  }
+  return filterStructureElement(node);
+};
+
 const structureStringify: NonNullable<StructureOptions["stringify"]> = {
   filterElement: filterStructureElement,
   filterMdxAttributes(node, attribute) {
@@ -126,7 +136,7 @@ const structureOptions: StructureOptions = {
 
 const llmsOptions: LLMsOptions = {
   as: "processed",
-  filterElement: structureStringify.filterElement,
+  filterElement: filterLlmsElement,
   filterMdxAttributes: structureStringify.filterMdxAttributes,
 };
 
@@ -147,7 +157,7 @@ const customMdastPlugins = [
       scale: 2,
     },
   }),
-  remarkApplyLlmsFilter(filterStructureElement),
+  remarkApplyLlmsFilter(filterLlmsElement),
   remarkLlms(llmsOptions),
 ];
 

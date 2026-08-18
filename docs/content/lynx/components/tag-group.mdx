@@ -5,6 +5,12 @@ description: 텍스트 태그를 수평으로 나열해 여러 속성·상태·�
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
 
+<LynxComponentExample name="lynx/tag-group/preview">
+  ```json doc-gen:file
+  { "file": "examples/lynx/tag-group/preview.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -12,45 +18,6 @@ npx @seed-design/cli add ui:tag-group
 ```
 
 <LynxManualInstallation name="tag-group" />
-
-## Usage
-
-설치한 snippet은 `TagGroupRoot`와 `TagGroupItem`을 export 합니다. `TagGroupItem`은 `label` prop을 받아 내부에서 Lynx `<text>` label을 렌더합니다.
-
-```tsx
-import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
-
-export function App() {
-  return (
-    <TagGroupRoot size="t2">
-      <TagGroupItem label="동네 인증" />
-      <TagGroupItem label="매너 온도 42.0°C" />
-      <TagGroupItem tone="brand" weight="bold" label="추천" />
-    </TagGroupRoot>
-  );
-}
-```
-
-`TagGroupRoot`의 `size`·`weight`·`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `" · "`이고 `separator` prop으로 바꿀 수 있습니다.
-
-`TagGroupItem`은 `flexShrink`를 지원합니다. 긴 태그가 있는 레이아웃에서 item의 축소 우선순위를 조정해야 할 때 사용하세요.
-
-### Tone / Separator
-
-`TagGroupRoot`의 `tone`, `weight`, `separator`는 그룹 기본값으로 전달되고, 개별 `TagGroupItem`에서 필요한 값만 덮어쓸 수 있습니다.
-
-```tsx
-import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
-
-export function TagGroupVariants() {
-  return (
-    <TagGroupRoot size="t2" tone="neutralSubtle" separator=" / ">
-      <TagGroupItem tone="brand" weight="bold" label="NEW" />
-      <TagGroupItem label="무료 나눔" />
-    </TagGroupRoot>
-  );
-}
-```
 
 ## Props
 
@@ -67,6 +34,50 @@ export function TagGroupVariants() {
   path="./registry/lynx/ui/tag-group.tsx"
   name="TagGroupItemProps"
 />
+
+## Examples
+
+### Sizes
+
+<LynxComponentExample name="lynx/tag-group/sizes">
+  ```json doc-gen:file
+  { "file": "examples/lynx/tag-group/sizes.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Weights
+
+<LynxComponentExample name="lynx/tag-group/weights">
+  ```json doc-gen:file
+  { "file": "examples/lynx/tag-group/weights.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Tones
+
+<LynxComponentExample name="lynx/tag-group/tones">
+  ```json doc-gen:file
+  { "file": "examples/lynx/tag-group/tones.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Customizing Separators
+
+<LynxComponentExample name="lynx/tag-group/customizing-separators">
+  ```json doc-gen:file
+  { "file": "examples/lynx/tag-group/customizing-separators.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Wrapping Behavior
+
+Lynx에서는 각 item과 그 앞의 separator가 하나의 flex 단위로 다음 줄에 배치됩니다.
+
+<LynxComponentExample name="lynx/tag-group/wrapping-behavior">
+  ```json doc-gen:file
+  { "file": "examples/lynx/tag-group/wrapping-behavior.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
 ## 웹 버전과의 차이
 
@@ -95,6 +106,8 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 | `truncate` (Root) | 한 줄 유지 + 모든 item label의 말줄임 | Lynx flex 모델에서는 label이 item 너비에 맞춰지지 않아 웹 수준의 inline ellipsis가 동작하지 않음. 모든 item에 말줄임을 일괄 적용하는 경험이 자연스럽지 않아 제거됨 |
 | `asChild` (Root/Item) | Slot 기반 다형 렌더 | Lynx에서 Primitive Slot 패턴 미제공 |
 | `prefixIcon` / `suffixIcon` (Item) | 아이콘 + 라벨 | Lynx 3.7 SVG 지원 이후 Tier B에서 재검토 |
+
+React 문서의 **With Icons**와 **Customizing `TagGroupItem`** 예제는 `prefixIcon` 또는 `suffixIcon`이 필요하므로 Lynx Examples에서 제외했습니다. **Wrapping Behavior**는 지원되는 item 단위 줄바꿈만 보여주며, `truncate` 비교는 포함하지 않습니다.
 
 ### 이벤트·ref
 

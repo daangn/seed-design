@@ -5,6 +5,12 @@ description: 한 줄 텍스트를 입력받고 Field의 레이블·설명·오�
 
 <AvailableSince packages="@seed-design/lynx-react@0.4.0, @seed-design/lynx-css@0.7.0" />
 
+<LynxComponentExample name="lynx/text-field-input/preview">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/preview.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -23,83 +29,109 @@ npx @seed-design/cli add ui:text-field
 
 <react-type-table path="./registry/lynx/ui/text-field.tsx" name="TextFieldInputProps" />
 
-## Usage
+## Examples
 
-Snippet의 `TextField`가 label, description, required indicator와 한 줄 입력 영역을 조합합니다. Lynx에는 HTML `label for` 연결이 없으므로 native 입력에는 `accessibility-label`을 함께 지정합니다.
+### State
 
-```tsx
-import { TextField, TextFieldInput } from "@/components/ui/text-field";
+#### Enabled
 
-export function TitleField() {
-  return (
-    <TextField label="제목" required showRequiredIndicator name="title">
-      <TextFieldInput accessibility-label="제목" placeholder="제목을 입력해 주세요" />
-    </TextField>
-  );
-}
-```
+<LynxComponentExample name="lynx/text-field-input/enabled">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/enabled.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-### Controlled value
+#### Disabled
 
-`value`와 `onValueChange`를 전달하면 controlled mode로 동작합니다. Lynx native 입력에는 `value` attribute가 없으므로 컴포넌트가 `setValue` UI method로 값을 동기화합니다.
+<LynxComponentExample name="lynx/text-field-input/disabled">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/disabled.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-```tsx
-import { useState } from "@lynx-js/react";
-import { TextField, TextFieldInput } from "@/components/ui/text-field";
+#### Read Only
 
-export function ControlledTitle() {
-  const [value, setValue] = useState("");
+<LynxComponentExample name="lynx/text-field-input/read-only">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/read-only.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-  return (
-    <TextField value={value} onValueChange={({ value }) => setValue(value)}>
-      <TextFieldInput accessibility-label="제목" />
-    </TextField>
-  );
-}
-```
+### Size
 
-### Grapheme limit
+Lynx는 `large`와 `medium`을 지원합니다. 웹의 `responsive` 크기는 지원하지 않습니다.
 
-이모지·조합 문자를 사용자에게 보이는 한 글자로 계산하려면 snippet의 `maxGraphemeCount`와 `onValueChange`를 사용합니다.
+<LynxComponentExample name="lynx/text-field-input/size">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/size.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-```tsx
-import { useState } from "@lynx-js/react";
-import { TextField, TextFieldInput } from "@/components/ui/text-field";
+### Customizable Parts
 
-export function LimitedTitleField() {
-  const [value, setValue] = useState("");
+#### Prefix
 
-  return (
-    <TextField
-      label="제목"
-      value={value}
-      maxGraphemeCount={40}
-      onValueChange={({ slicedValue }) => setValue(slicedValue)}
-    >
-      <TextFieldInput accessibility-label="제목" />
-    </TextField>
-  );
-}
-```
+<LynxComponentExample name="lynx/text-field-input/prefix">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/prefix.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-### Keyboard avoidance
+#### Suffix
 
-`KeyboardAvoidingScrollView` 안에 배치하면 `TextFieldInput`이 focus될 때 자동으로 등록되어 키보드에 가려지지 않는 위치로 스크롤됩니다.
+<LynxComponentExample name="lynx/text-field-input/suffix">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/suffix.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-```tsx
-import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
-import { TextField, TextFieldInput } from "@/components/ui/text-field";
+#### Both Affixes
 
-export function Form() {
-  return (
-    <KeyboardAvoidingScrollView>
-      <TextField label="제목">
-        <TextFieldInput accessibility-label="제목" />
-      </TextField>
-    </KeyboardAvoidingScrollView>
-  );
-}
-```
+<LynxComponentExample name="lynx/text-field-input/both-affixes">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/both-affixes.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+#### Indicator
+
+<LynxComponentExample name="lynx/text-field-input/indicator">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/indicator.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+#### Grapheme Count
+
+<LynxComponentExample name="lynx/text-field-input/grapheme-count">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/grapheme-count.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+<LynxComponentExample name="lynx/text-field-input/grapheme-count-controlled">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/grapheme-count-controlled.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Use Cases
+
+#### Number Formatting
+
+<LynxComponentExample name="lynx/text-field-input/number-formatting">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/number-formatting.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+#### Slicing
+
+<LynxComponentExample name="lynx/text-field-input/slicing">
+  ```json doc-gen:file
+  { "file": "examples/lynx/text-field-input/slicing.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
 ## Web Version Differences
 
@@ -114,3 +146,5 @@ export function Form() {
 ## Unsupported Lynx Features
 
 - HTML form submit, browser validation, `aria-describedby` id 연결은 지원하지 않습니다.
+- React 문서의 **Form (Uncontrolled)**과 **React Hook Form** 예제는 HTML form 제출 모델이 필요하므로 Lynx Examples에서 제외했습니다.
+- React 기본 미리보기의 `autoFocus`는 Lynx `TextFieldInput` 공개 API에 없으므로 제외했습니다.

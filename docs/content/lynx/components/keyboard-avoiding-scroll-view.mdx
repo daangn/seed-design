@@ -5,6 +5,12 @@ description: 소프트 키보드가 활성 입력을 가리지 않도록 세로 
 
 <AvailableSince packages="@seed-design/lynx-react@0.4.0" />
 
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/preview" height={480}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/keyboard-avoiding-scroll-view/preview.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -14,25 +20,6 @@ description: 소프트 키보드가 활성 입력을 가리지 않도록 세로 
 ## Props
 
 <react-type-table path="../packages/lynx-react/src/components/KeyboardAvoidingScrollView/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewProps" />
-
-## Usage
-
-```tsx
-import { KeyboardAvoidingScrollView, TextField } from "@seed-design/lynx-react";
-
-export function Form() {
-  return (
-    <KeyboardAvoidingScrollView keyboardGap={24} scrollBehavior="smooth">
-      <TextField.Root>
-        <TextField.Input accessibility-label="제목" />
-      </TextField.Root>
-      <TextField.Root>
-        <TextField.Textarea accessibility-label="내용" />
-      </TextField.Root>
-    </KeyboardAvoidingScrollView>
-  );
-}
-```
 
 `TextField.Input`과 `TextField.Textarea`가 focus·blur·layout 변경을 자동으로 전달하므로 별도 등록 prop은 필요하지 않습니다.
 
