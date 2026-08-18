@@ -108,8 +108,13 @@ export const config = defineConfig({
     { route: "/article-prevent-pull", name: "ActivityArticlePreventPull" },
     { route: "/article-prevent-drag", name: "ActivityArticlePreventDrag" },
     { route: "/pull-to-refresh-preview", name: "ActivityPullToRefreshPreview" },
+    { route: "/next-pull-to-refresh-preview", name: "ActivityNextPullToRefreshPreview" },
     { route: "/pull-to-refresh-tabs", name: "ActivityPullToRefreshTabs" },
     { route: "/pull-to-refresh-prevent-pull", name: "ActivityPullToRefreshPreventPull" },
+    {
+      route: "/next-pull-to-refresh-prevent-pull",
+      name: "ActivityNextPullToRefreshPreventPull",
+    },
 
     { route: "/demo/home", name: "ActivityDemoHome" },
     { route: "/demo/article-detail", name: "ActivityDemoArticleDetail" },

@@ -148,9 +148,15 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityArticlePreventPull: lazy(() => import("../activities/ActivityArticlePreventPull")),
     ActivityArticlePreventDrag: lazy(() => import("../activities/ActivityArticlePreventDrag")),
     ActivityPullToRefreshPreview: lazy(() => import("../activities/ActivityPullToRefreshPreview")),
+    ActivityNextPullToRefreshPreview: lazy(
+      () => import("../activities/ActivityNextPullToRefreshPreview"),
+    ),
     ActivityPullToRefreshTabs: lazy(() => import("../activities/ActivityPullToRefreshTabs")),
     ActivityPullToRefreshPreventPull: lazy(
       () => import("../activities/ActivityPullToRefreshPreventPull"),
+    ),
+    ActivityNextPullToRefreshPreventPull: lazy(
+      () => import("../activities/ActivityNextPullToRefreshPreventPull"),
     ),
   },
 });

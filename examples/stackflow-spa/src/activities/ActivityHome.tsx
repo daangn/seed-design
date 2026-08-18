@@ -268,8 +268,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "Pull to Refresh",
       icon: RefreshCwIcon,
       items: [
+        { title: "기본", ...to("ActivityNextPullToRefreshPreview", {}) },
         { title: "기본 [Legacy]", ...to("ActivityPullToRefreshPreview", {}) },
         { title: "Tabs와 조합", ...to("ActivityPullToRefreshTabs", {}) },
+        { title: "preventPull", ...to("ActivityNextPullToRefreshPreventPull", {}) },
         { title: "preventPull [Legacy]", ...to("ActivityPullToRefreshPreventPull", {}) },
         { title: "Article 텍스트 선택 중 당김 차단", ...to("ActivityArticlePreventPull", {}) },
       ],
