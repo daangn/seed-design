@@ -299,10 +299,18 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "PullToRefresh",
       items: [
         {
+          title: "PullToRefresh",
+          onClick: () => push("ActivityNextPullToRefreshPreview", {}),
+        },
+        {
           title: "PullToRefresh [Legacy]",
           onClick: () => push("ActivityPullToRefreshPreview", {}),
         },
         { title: "PullToRefresh × Tabs", onClick: () => push("ActivityPullToRefreshTabs", {}) },
+        {
+          title: "PullToRefresh (preventPull)",
+          onClick: () => push("ActivityNextPullToRefreshPreventPull", {}),
+        },
         {
           title: "PullToRefresh (preventPull) [Legacy]",
           onClick: () => push("ActivityPullToRefreshPreventPull", {}),
