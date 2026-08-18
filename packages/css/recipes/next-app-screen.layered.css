@@ -127,22 +127,18 @@
 
   [data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__dim--transitionStyle_verticalSlide, [data-screen-state="pop"] > .seed-next-app-screen__dim--transitionStyle_verticalSlide {
     opacity: 0;
-    transform: translate3d(0, -8vh, 0);
   }
 
   [data-swipe-back-state="swiping"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_verticalSlide {
     opacity: calc(1 - var(--seed-swipe-back-displacement-ratio, 0));
-    transform: translate3d(0, calc(var(--seed-swipe-back-displacement-ratio, 0) * -8vh), 0);
   }
 
   [data-swipe-back-state="canceling"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_verticalSlide {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
   }
 
   [data-swipe-back-state="completing"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_verticalSlide {
     opacity: 0;
-    transform: translate3d(0, -8vh, 0);
   }
 
   [data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__layer--transitionStyle_verticalSlide, [data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_verticalSlide {
