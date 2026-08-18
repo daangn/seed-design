@@ -276,31 +276,65 @@ describe("swipe back — edge 모드", () => {
       clock.restore();
     }
   });
+});
 
-  it("gesture-start transitionStyle이 horizontalSlide가 아니면 제스처 자체가 없다 (swiped 보고도 없음)", async () => {
-    const clock = createClock();
-    const onSwipeBackStart = mock(() => {});
-    const onSwipeBackEnd = mock((_: { swiped: boolean }) => {});
-    try {
-      const { edge, top } = await setupSwipe({
-        transitionStyle: "verticalSlide",
-        onSwipeBackStart,
-        onSwipeBackEnd,
-      });
+describe("swipe back — transitionStyle 독립", () => {
+  for (const transitionStyle of ["verticalSlide", "crossfade"] as const) {
+    it(`${transitionStyle}에서도 edge 제스처가 끝까지 동작한다`, async () => {
+      const clock = createClock();
+      const onSwipeBackStart = mock(() => {});
+      const onSwipeBackEnd = mock((_: { swiped: boolean }) => {});
+      try {
+        const { edge, top, topLayer } = await setupSwipe({
+          transitionStyle,
+          onSwipeBackStart,
+          onSwipeBackEnd,
+        });
 
-      fireEvent.touchStart(edge as HTMLElement, touchInit(10, 300));
-      clock.advance(16);
-      fireEvent.touchMove(edge as HTMLElement, touchInit(500, 300));
-      await nextFrame();
-      fireEvent.touchEnd(edge as HTMLElement, touchInit(500, 300));
+        fireEvent.touchStart(edge as HTMLElement, touchInit(10, 300));
+        clock.advance(1000);
+        fireEvent.touchMove(edge as HTMLElement, touchInit(500, 300));
+        await nextFrame();
 
-      expect(onSwipeBackStart).not.toHaveBeenCalled();
-      expect(onSwipeBackEnd).not.toHaveBeenCalled();
-      expect(top.dataset["swipeBackState"]).toBeUndefined();
-    } finally {
-      clock.restore();
-    }
-  });
+        expect(onSwipeBackStart).toHaveBeenCalledTimes(1);
+        expect(top.dataset["swipeBackState"]).toBe("swiping");
+        // 스타일이 무엇이든 제스처가 파는 건 같은 ratio다 — 그 ratio를 각자의
+        // exit(수평 이동 / 수직 이동 + fade / fade)으로 해석하는 건 CSS 쪽.
+        expect(Number(topLayer.style.getPropertyValue(RATIO_VAR))).toBeCloseTo(490 / 1024, 3);
+
+        fireEvent.touchEnd(edge as HTMLElement, touchInit(500, 300));
+        expect(onSwipeBackEnd).toHaveBeenCalledWith({ swiped: true });
+        expect(top.dataset["swipeBackState"]).toBe("completing");
+
+        finishAnimations();
+      } finally {
+        clock.restore();
+      }
+    });
+
+    it(`${transitionStyle}에서도 full 모드가 claim한다`, async () => {
+      const clock = createClock();
+      const onSwipeBackStart = mock(() => {});
+      try {
+        const { container, top } = await setupSwipe({
+          swipeBackArea: "full",
+          transitionStyle,
+          onSwipeBackStart,
+        });
+        const button = container.querySelector('[data-testid="b-button"]') as HTMLElement;
+
+        fireEvent.touchStart(button, touchInit(200, 300));
+        clock.advance(16);
+        fireEvent.touchMove(button, touchInit(215, 301));
+        await nextFrame();
+
+        expect(top.dataset["swipeBackState"]).toBe("swiping");
+        expect(onSwipeBackStart).toHaveBeenCalledTimes(1);
+      } finally {
+        clock.restore();
+      }
+    });
+  }
 });
 
 describe("swipe back — full 모드", () => {
