@@ -46,28 +46,29 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 
 ## 3. 공식 문서 라우팅
 
-문서 경로를 추측하지 말고 완전히 한정된 `docs` CLI 경로를 사용합니다.
+문서 목록과 지원 범위를 스킬에 복사하지 않습니다. 요청할 때마다 아래 인덱스를 먼저 읽고, 인덱스가 제공한 링크를 그대로 따라갑니다.
 
-| 필요한 정보 | 먼저 실행할 명령 |
-|---|---|
-| 공통 컴포넌트 스펙 | `npx @seed-design/cli@latest docs docs/components/{id} --raw` |
-| Foundations | `npx @seed-design/cli@latest docs docs/foundations/{topic} --raw` |
-| React 구현 | `npx @seed-design/cli@latest docs react/components/{id} --raw` |
-| Lynx 구현 | `npx @seed-design/cli@latest docs lynx/components/{id} --raw` |
+- 전체 문서 인덱스: `https://seed-design.io/llms.txt`
+- React 문서 인덱스: `https://seed-design.io/react/llms.txt`
+- Lynx 문서 인덱스: `https://seed-design.io/lynx/llms.txt`
 
-`{topic}`은 `color`, `color-role`, `typography`, `spacing`, `radius`, `elevation`, `motion`처럼 공식 인덱스에 있는 실제 id를 사용합니다. 문서 URL이 `/foundations/color/color-role`처럼 중첩돼 있어도 CLI id는 `color-role`일 수 있으므로 URL 경로를 그대로 넣지 않습니다.
+한 요청 실행 안에서는 URL을 정규화한 문서 풀을 유지합니다. 전체 인덱스, 선택된 플랫폼 인덱스, 각 leaf 문서는 URL마다 한 번만 읽고 이후 단계와 룰에서 같은 내용을 재사용합니다. 리포트 `references`에 같은 URL을 반복하는 것은 출처를 보존하는 것이며 다시 읽으라는 뜻이 아닙니다. HTTP 캐시를 가정하지 않습니다.
 
-- 공통 컴포넌트 인덱스: `https://seed-design.io/components/llms.txt`
-- Foundations 인덱스: `https://seed-design.io/foundations/llms.txt`
-- React 구현 인덱스: `https://seed-design.io/react/llms.txt`
-- Lynx 구현 인덱스: `https://seed-design.io/lynx/llms.txt`
+다음 순서를 지킵니다.
+
+1. 전체 문서 인덱스에서 공통 Components·Foundations·Patterns 또는 선택된 플랫폼의 현재 진입점을 찾습니다.
+2. 플랫폼 구현 요청이면 선택된 플랫폼 인덱스를 읽고, 제목·category·설명으로 필요한 문서를 찾습니다.
+3. 인덱스가 제공한 leaf URL을 열어 실제 계약을 읽습니다. 기억한 경로나 URL 조합으로 leaf 문서를 만들지 않습니다.
+4. 인덱스를 정상적으로 읽었는데 관련 항목이 없으면 현재 공식 문서가 없다고 판단합니다. 인덱스 자체를 읽지 못했으면 부재로 확정하지 않습니다.
+
+CLI의 `docs` 명령을 사용할 때도 먼저 인덱스에서 문서와 id를 확인합니다. URL 경로와 CLI id가 같다고 가정하지 말고, id를 확정할 수 없으면 인덱스의 URL을 직접 읽습니다.
 
 ### 컴포넌트 답변 순서
 
 1. 스펙 질문이면 공통 컴포넌트 문서만 읽습니다.
 2. 구현 질문이면 플랫폼을 판별하고 해당 플랫폼 문서를 읽습니다.
 3. 스펙과 구현을 함께 묻는다면 공통 문서를 먼저 읽고, 판별된 플랫폼 문서를 이어서 읽습니다.
-4. 공통 문서 id와 구현 문서 id가 다르면 공통 문서의 Platform 표와 플랫폼 구현 인덱스로 실제 id를 찾습니다.
+4. 공통 문서 id와 구현 문서 id가 다르면 공통 문서의 Platform 표와 선택된 플랫폼 인덱스로 실제 id를 찾습니다.
 5. 선택한 플랫폼 문서나 registry 항목이 없으면 그 플랫폼의 구현·문서가 없다고 알립니다. 다른 플랫폼 문서로 대체하지 않습니다.
 
 스니펫이 필요하면 선택한 플랫폼 registry만 사용합니다.
@@ -81,12 +82,7 @@ https://seed-design.io/__registry__/{react|lynx}/{registryId}/{itemId}.json
 
 ### CLI 문서
 
-CLI 명령어와 설정의 canonical 문서는 현재 React 문서 트리 아래에 있습니다.
-
-- `/llms/react/getting-started/cli/commands.txt`
-- `/llms/react/getting-started/cli/configuration.txt`
-
-이 위치는 문서 정보 구조일 뿐 CLI 지원 범위를 뜻하지 않습니다. `init`, `add`, `add-all`, `compat`, `docs`와 `seed-design.json.framework`, `--framework react|lynx`는 두 플랫폼을 지원합니다. 실제 실행 대상은 위 플랫폼 판별 결과에 맞추고, 필요한 경우 `--framework`를 명시합니다. `--seed-react-version`은 이름 그대로 React 전용입니다.
+전체·플랫폼 인덱스에서 `CLI`, `Commands`, `Configuration`에 해당하는 현재 링크를 찾고 내용을 읽습니다. 문서가 어느 플랫폼 트리 아래에 있는지만으로 지원 플랫폼이나 옵션을 추론하지 않습니다. 명령·플래그·설정 필드는 연결된 문서 또는 설치한 CLI 소스가 명시한 값만 사용합니다.
 
 ## 4. 판단이 필요한 절차
 
@@ -98,21 +94,36 @@ CLI 명령어와 설정의 canonical 문서는 현재 React 문서 트리 아래
 
 마이그레이션과 업그레이드도 플랫폼을 먼저 판별합니다. 참조 파일의 React 전용 옵션이나 호환표를 Lynx에 적용하지 말고, 선택된 플랫폼의 패키지와 changelog만 대조합니다.
 
-Doctor 요청은 [doctor.md](references/doctor.md)의 지원표를 먼저 확인합니다.
+Doctor 요청은 [doctor.md](references/doctor.md)의 적응형 탐색 절차를 먼저 따릅니다.
 
-- React Doctor: [doctor-react.md](references/doctor-react.md)를 함께 읽고 프로필에 적힌 룰만 실행합니다.
-- Lynx Doctor: 현재 미지원입니다. React 프로필이나 React 룰을 대신 실행하지 말고 지원 범위를 알립니다.
+1. 사용자 지정 경로
+2. `node_modules`, `.git`, `.claude/worktrees`를 제외한 `seed-design.json`
+3. 설정 발견 여부와 관계없이 직접 `@seed-design/*` 의존성이 있는 workspace
+4. 두 후보를 package 경계로 중복 제거
+5. 사용자 명시 → `framework` → 직접 의존성 순의 플랫폼 확정
+6. 공개 진입점과 앱·라이브러리 빌드 증거에 따른 비배타적 역할 판정
+
+- React Doctor: [doctor-react.md](references/doctor-react.md)를 함께 읽습니다.
+- Lynx Doctor: [doctor-lynx.md](references/doctor-lynx.md)를 함께 읽습니다.
+
+플랫폼 프로필은 문서 지원 현황을 복제하지 않고 인덱스·패키지·registry 탐색의 시작점만 제공합니다. 일반 진단은 공통 룰 전체를 scope에 넣고, 현재 인덱스에서 발견한 공식 계약과 각 룰의 적용 조건으로 검사 여부를 정합니다. 사용자가 config·setup·foundations·components·compatibility·library 중 범주를 지정했다면 그 범주만 실행합니다. 여러 workspace의 전체 진단은 리포트를 workspace별로 따로 만듭니다.
 
 Doctor는 문제를 찾는 진단이고, `upgrade.md`는 실제로 버전을 올리는 절차입니다. 진단이 버전 격차를 알려도 사용자가 수정을 요청하기 전에는 업그레이드를 실행하지 않습니다.
 
 ## 5. 코드 작성과 기존 코드 진단
 
-`rules/`의 룰은 SEED 코드를 작성할 때 지킵니다. Doctor에서는 선택된 플랫폼 프로필이 활성화한 룰만 소급 적용합니다.
+`rules/`의 룰은 SEED 코드를 작성할 때 지키는 계약이자 Doctor의 판정 기준입니다. Doctor에서는 선택된 플랫폼 프로필과 각 룰의 적용 조건을 함께 사용합니다.
 
-- [outdated-version](rules/outdated-version.md): 직접 설치한 패키지 버전 격차
-- [snippet-generation](rules/snippet-generation.md): 설치 스니펫과 선택된 플랫폼 registry의 세대 차이
-- [no-deprecated-component](rules/no-deprecated-component.md): deprecated 컴포넌트·스니펫·토큰·옵션
-- [component-guidelines](rules/component-guidelines.md): 공통 디자인 문서에서 도출한 기준과 선택된 플랫폼 구현의 대조
+- [project-config](rules/project-config.md): 현재 CLI 설정 계약, framework 충돌, snippet path·alias 연결
+- [package-compatibility](rules/package-compatibility.md): 플랫폼 패키지 설치본 조합
+- [project-setup](rules/project-setup.md): 선택된 플랫폼 문서가 요구하는 앱 설치·스타일 연결
+- [snippet-compatibility](rules/snippet-compatibility.md): 현재 패키지와 설치 스니펫의 CLI `compat` 결과
+- [foundation-contract](rules/foundation-contract.md): 토큰 존재·공개성·내부 스타일 API 의존
+- [library-authors](rules/library-authors.md): 공식 저자 문서가 있는 플랫폼의 peer·external·CSS·배포 계약
+- [outdated-version](rules/outdated-version.md): 직접 설치한 패키지의 최신 세대 격차만
+- [snippet-generation](rules/snippet-generation.md): 설치 스니펫과 registry의 최신 세대 차이만
+- [no-deprecated-component](rules/no-deprecated-component.md): 플랫폼에 유효한 출처가 있는 deprecated 항목만
+- [component-guidelines](rules/component-guidelines.md): 공통 디자인 문서와 매핑 가능한 플랫폼 구현의 대조
 
 토큰은 문서·CSS·플랫폼 API에서 표기가 달라질 수 있습니다. 공통 Foundations 문서에서 의미와 토큰을 확인한 뒤, 코드 표기는 선택된 플랫폼 구현 문서에서 확인합니다. 한 플랫폼의 코드 표기를 다른 플랫폼에 복사하지 않습니다.
 
@@ -121,5 +132,7 @@ Doctor는 문제를 찾는 진단이고, `upgrade.md`는 실제로 버전을 올
 - 공식 문서를 실제로 읽고 근거 링크와 함께 답합니다.
 - 설치·실행 명령은 대상 프로젝트의 패키지 매니저에 맞춥니다.
 - read-only 진단과 실제 수정 요청을 구분합니다.
+- Doctor 결과는 schema v2 YAML을 단일 원천으로 임시 디렉토리에 기록하고, 사용자가 "YAML만"을 명시하지 않으면 같은 디렉토리에 HTML 리포트도 함께 생성합니다. 대상 프로젝트에는 쓰지 않습니다.
+- 각 finding의 `remediation`에는 대상·문제·요구사항·제약·근거·검증을 포함한 복사 가능한 수정 프롬프트를 기록합니다. 프롬프트를 만드는 것은 진단이며, 사용자가 별도로 수정을 요청하기 전에는 실행하지 않습니다.
 - 없는 경로나 API를 추측하지 않습니다.
 - 작업이 끝나면 현재 맥락에 맞는 다음 단계만 짧게 제안합니다.
