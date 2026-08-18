@@ -21,7 +21,7 @@ export async function LynxComponentExample({
 
   return (
     <ErrorBoundary>
-      <Tabs card items={["미리보기", "QR 코드", "코드"]}>
+      <Tabs card className="!overflow-hidden" items={["미리보기", "QR 코드", "코드"]}>
         <Tab value="미리보기">
           <LynxComponentPreview url={entry.web} height={height} />
         </Tab>

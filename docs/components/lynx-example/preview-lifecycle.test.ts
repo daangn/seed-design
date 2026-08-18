@@ -22,6 +22,9 @@ describe("Lynx 미리보기 lifecycle", () => {
   it("스타일 규칙을 설정한 다음 url을 설정해 shadow root 생성을 시작한다", () => {
     const assignments: string[] = [];
     const element = {
+      set browserConfig(value: Record<string, unknown>) {
+        assignments.push(`browserConfig:${value.lynxSdkVersion}`);
+      },
       set globalProps(_value: unknown) {
         assignments.push("globalProps");
       },
@@ -39,6 +42,6 @@ describe("Lynx 미리보기 lifecycle", () => {
       url: "/preview.web.bundle",
     });
 
-    expect(assignments).toEqual(["globalProps", "injectStyleRules", "url"]);
+    expect(assignments).toEqual(["browserConfig:3.5", "globalProps", "injectStyleRules", "url"]);
   });
 });

@@ -20,6 +20,7 @@ export default defineConfig(async () => {
     source: { entry: toRspeedyEntries(entries) },
     plugins: [
       pluginReactLynx({
+        targetSdkVersion: "3.9",
         globalPropsMode: "reactive",
         enableCSSSelector: true,
         enableCSSInvalidation: true,

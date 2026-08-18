@@ -3,10 +3,13 @@ export interface QueryableShadowRoot {
 }
 
 interface ConfigurableLynxView {
+  browserConfig?: Record<string, unknown>;
   globalProps: unknown;
   injectStyleRules?: string[];
   url?: string;
 }
+
+const LYNX_WEB_RUNTIME_SDK_VERSION = "3.5";
 
 export function configureLynxView(element: ConfigurableLynxView, theme: string) {
   element.globalProps = { theme };
@@ -34,6 +37,7 @@ export function initializeLynxView(
   element: ConfigurableLynxView,
   options: { theme: string; styleRules: string[]; url: string },
 ) {
+  element.browserConfig = { lynxSdkVersion: LYNX_WEB_RUNTIME_SDK_VERSION };
   configureLynxView(element, options.theme);
   element.injectStyleRules = options.styleRules;
   element.url = options.url;
