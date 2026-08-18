@@ -24,6 +24,8 @@ declare module "@stackflow/config" {
   }
 }
 
+// Legacy AppScreen 회귀 검증 전용. 신규 activity 는 NextAppScreen 만 쓴다.
+// NextAppScreen 짝: ActivityNextTransitionStyle
 const ActivityTransitionStyle: StaticActivityComponentType<"ActivityTransitionStyle"> = ({
   params: { transitionStyle },
 }) => {
@@ -47,7 +49,7 @@ const ActivityTransitionStyle: StaticActivityComponentType<"ActivityTransitionSt
           <AppBarBackButton />
         </AppBarLeft>
         {/* can be undefined if search parameter isn't provided */}
-        <AppBarMain title={transitionStyle ?? "Transition Styles"} />
+        <AppBarMain title={`${transitionStyle ?? "Transition Styles"} (Legacy)`} />
         <AppBarRight>
           <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
