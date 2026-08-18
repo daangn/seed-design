@@ -1,4 +1,3 @@
-import type { PlatformKey } from "./platform-status";
 import { normalizeSearchText } from "./search-text";
 
 /** Static JSON index built by `app/api/component-search/route.ts`. */
@@ -13,9 +12,8 @@ export const COMPONENT_SEARCH_API = "/api/component-search";
 export const COMPONENT_RESULT_LIMIT = 6;
 
 /**
- * One component document, flattened at build time so the search dialog gets the platform
- * rollout — which lives in Sanity and is only reachable from a server component — without
- * a query of its own.
+ * One component document, flattened at build time so the search dialog gets what a card
+ * shows — the page tree it comes from is only reachable from a server component.
  */
 export interface ComponentSearchEntry {
   /** Page slug, e.g. `action-button`. */
@@ -32,13 +30,6 @@ export interface ComponentSearchEntry {
   url: string;
   /** Cover image in its on-page form, from `resolveCoverImage()`. */
   thumbnail?: string;
-  /**
-   * Shipped platforms per component the page documents, in `componentIds` order — a page can
-   * cover more than one (`manner-temp` → Manner Temp + Manner Temp Badge), and each keeps its
-   * own rollout and its own links, the way the page's status table shows them. Components
-   * with nothing shipped are left out.
-   */
-  components: { name: string; platforms: { key: PlatformKey; url?: string }[] }[];
 }
 
 /**

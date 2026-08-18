@@ -17,7 +17,7 @@ export const ROW_CLASS_NAME =
   "relative block w-full select-none rounded-lg px-2.5 py-2 text-start text-sm wrap-anywhere text-fg-neutral";
 
 /** The row's own ground when it is the one the reader is on. */
-export const ROW_ACTIVE_CLASS_NAME = "bg-bg-transparent-selected";
+export const ROW_ACTIVE_CLASS_NAME = "bg-bg-transparent-pressed";
 
 /**
  * Where a row's page sits, printed over its title — the one line that says which part of the

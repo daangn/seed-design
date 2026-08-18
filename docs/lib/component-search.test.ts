@@ -8,12 +8,6 @@ function entry(title: string, overrides: Partial<ComponentSearchEntry> = {}): Co
     title,
     url: `/components/${slug}`,
     thumbnail: `/og/components/${slug}.webp`,
-    components: [
-      {
-        name: title,
-        platforms: [{ key: "figma" }, { key: "react", url: `/react/components/${slug}` }],
-      },
-    ],
     ...overrides,
   };
 }
