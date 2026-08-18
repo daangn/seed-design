@@ -7,9 +7,14 @@ import { Fragment, type ReactNode } from "react";
  * One row in the results card. The document results and the recent pages that stand in for
  * them take turns filling the same box, so they are measured and coloured the same way rather
  * than each bringing its own idea of what a row is.
+ *
+ * `wrap-anywhere` because a row prints whatever line the page held, and a regex or a shell
+ * command carries no space for the line breaker to work with. Left unbroken, one such row is
+ * wider than the box, and the box — scrollable on one axis — takes a horizontal scrollbar for
+ * it, dragging every other row sideways.
  */
 export const ROW_CLASS_NAME =
-  "relative block w-full select-none rounded-lg px-2.5 py-2 text-start text-sm text-fg-neutral";
+  "relative block w-full select-none rounded-lg px-2.5 py-2 text-start text-sm wrap-anywhere text-fg-neutral";
 
 /** The row's own ground when it is the one the reader is on. */
 export const ROW_ACTIVE_CLASS_NAME = "bg-bg-transparent-selected";
