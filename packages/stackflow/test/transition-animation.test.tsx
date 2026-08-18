@@ -127,7 +127,7 @@ describe("horizontalSlide WAAPI", () => {
 });
 
 describe("verticalSlide / crossfade WAAPI", () => {
-  it("verticalSlide push는 layer/dim을 반대 방향으로 300ms 동안 움직인다", async () => {
+  it("verticalSlide push는 layer를 300ms 동안 올리고 dim은 자리에서 띄운다", async () => {
     const { container, push } = renderStack({
       activities: {
         A: makeActivity({ testId: "a" }),
@@ -149,8 +149,8 @@ describe("verticalSlide / crossfade WAAPI", () => {
       fill: "none",
     });
     expect(latestAnimation(dimOf(container, "b")).keyframes).toEqual([
-      { opacity: "0", transform: "translate3d(0, -8vh, 0)" },
-      { opacity: "1", transform: "translate3d(0, 0, 0)" },
+      { opacity: "0" },
+      { opacity: "1" },
     ]);
   });
 
@@ -361,10 +361,7 @@ describe("swipe back release WAAPI", () => {
       easing: "linear",
       fill: "none",
     });
-    expect(latestAnimation(dimOf(container, "b")).keyframes[1]).toEqual({
-      opacity: "0",
-      transform: "translate3d(0, -8vh, 0)",
-    });
+    expect(latestAnimation(dimOf(container, "b")).keyframes[1]).toEqual({ opacity: "0" });
     // 이 스타일의 behind 화면은 제자리에 있으므로 릴리즈 대상도 아니다
     expect(animationsOn(layerOf(container, "a"))).toHaveLength(0);
 
