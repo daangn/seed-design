@@ -67,7 +67,7 @@ function transformNodes(
       if (matchedRule) {
         try {
           const nextNodes = matchedRule.transform(node, context);
-          // 룰은 변환할 수 없을 때 원본 노드를 그대로 돌려준다(AGENTS.md의 안전 실패 규약).
+          // 룰은 변환할 수 없을 때 원본 노드를 그대로 돌려준다.
           // 그 결과를 다시 돌리면 같은 룰이 다시 매치돼 스택이 넘칠 때까지 재귀하고,
           // 아래 catch가 그 RangeError를 삼켜 실패가 드러나지 않는다.
           const unchanged = nextNodes.length === 1 && nextNodes[0] === node;

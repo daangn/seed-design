@@ -96,7 +96,7 @@ export function buildMarkdown(entries: ComponentEntry[]): string {
 }
 
 /**
- * 항목을 인자로 받아 테스트가 실데이터 없이 룰을 만들 수 있게 한다(TECH.md 「테스트 작성」).
+ * 항목을 인자로 받아 테스트가 실데이터 없이 룰을 만들 수 있게 한다.
  * `load`는 `init`이 한 번만 부르고, `transform`은 그 결과를 동기로 읽는다.
  */
 export function createComponentGridRule(
