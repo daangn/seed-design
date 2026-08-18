@@ -13,8 +13,9 @@ SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제
 ## 코드 작성 컨벤션
 
 - Activity 컴포넌트는 `StaticActivityComponentType<"ActivityName">` 타입.
-- 모든 activity는 `AppScreen` + `AppBar` 구조를 기본으로 쓴다 (기존 activity 참고).
+- 모든 activity는 `NextAppScreen` + `NextAppBar` 구조를 기본으로 쓴다 (기존 activity 참고).
 - 신규 activity는 NAS만 쓴다. 구형 화면은 아래 8개뿐이고, 전부 AppBar title과 `ActivityHome` 링크에 `Legacy` 표식이 붙어 있다. 표식 없는 항목은 NAS라는 뜻이므로, 구형을 새로 추가하거나 옮길 때 표식도 같이 옮긴다.
+- 한 화면 안에서 두 세대를 섞지 않는다. legacy `AppBar`는 `useAppScreenContext()`를 호출하므로 `NextAppScreen` 안에서 렌더하면 throw한다.
 
 ### 구형 AppScreen이 남아 있는 곳
 
@@ -32,6 +33,7 @@ SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제
 - snippet 변경 후에는 이 예제 앱 build를 확인하여 실제 소비자 코드가 깨지지 않았는지 검증한다.
 - vendored snippet을 앱 코드에서 임시로 우회 수정하기보다, 가능한 한 `docs/registry/react/ui/`의 public snippet contract를 먼저 바로잡고 여기로 내려보낸다.
 - Activity 예시는 컴포넌트가 자체 제공하는 권장 layout을 우선 보여준다. `Footer`, `Body`처럼 recipe가 gap/stretch/layout을 이미 가진 slot에는 검증 목적 없는 추가 layout wrapper를 넣지 않는다.
+- 플랫폼 분기는 `src/platform.ts`의 `isIos` 하나로 통일하고, 결과는 `Stack.tsx`의 `seedPlugin` 옵션(`theme`, `swipeBackArea`, `clipRadius`) 한 군데서만 소비한다. activity별로 다시 판별하거나 CSS에 플랫폼 선택자를 만들지 않는다.
 
 ## Activity 등록 체크리스트
 

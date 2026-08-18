@@ -1,5 +1,4 @@
 import { defineConfig } from "@stackflow/config";
-import { theme } from "./theme";
 
 export const config = defineConfig({
   initialActivity: () => "ActivityHome",
@@ -97,8 +96,15 @@ export const config = defineConfig({
     { route: "/app-screen-preview", name: "ActivityAppScreenPreview" },
     { route: "/app-screen-transparent", name: "ActivityAppScreenTransparent" },
     { route: "/next-app-screen", name: "ActivityNextAppScreen" },
+    { route: "/next-app-screen-preview", name: "ActivityNextAppScreenPreview" },
     { route: "/next-app-screen-transparent", name: "ActivityNextAppScreenTransparent" },
     { route: "/app-screen-intersection-observer", name: "ActivityAppScreenIntersectionObserver" },
+    {
+      route: "/next-app-screen-intersection-observer",
+      name: "ActivityNextAppScreenIntersectionObserver",
+    },
+    { route: "/next-animate-false-test", name: "ActivityNextAnimateFalseTest" },
+    { route: "/next-transition-style", name: "ActivityNextTransitionStyle" },
     { route: "/app-screen-app-bar-customization", name: "ActivityAppScreenAppBarCustomization" },
     { route: "/alert-dialog-stackflow", name: "ActivityAlertDialogStackflow" },
     {
@@ -119,5 +125,8 @@ export const config = defineConfig({
     { route: "/demo/home", name: "ActivityDemoHome" },
     { route: "/demo/article-detail", name: "ActivityDemoArticleDetail" },
   ],
-  transitionDuration: theme === "cupertino" ? 350 : 300,
+  // NextAppScreen unmounts on this timer, so an exit longer than it gets cut
+  // off mid-animation. 350ms is the longest exit any transitionStyle runs
+  // (horizontalSlide), and any screen may opt into it regardless of theme.
+  transitionDuration: 350,
 });
