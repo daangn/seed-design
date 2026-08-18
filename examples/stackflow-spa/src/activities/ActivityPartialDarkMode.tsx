@@ -1,14 +1,14 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarRight,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarRight,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, VStack } from "@seed-design/react";
@@ -23,25 +23,25 @@ const ActivityPartialDarkMode: StaticActivityComponentType<"ActivityPartialDarkM
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="Partial Dark Mode" />
-        <AppBarRight>
-          <AppBarIconButton>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Partial Dark Mode" />
+        <NextAppBarRight>
+          <NextAppBarIconButton>
             <IconBellLine />
-          </AppBarIconButton>
-          <AppBarIconButton>
+          </NextAppBarIconButton>
+          <NextAppBarIconButton>
             <IconBellLine />
-          </AppBarIconButton>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+          </NextAppBarIconButton>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack>
           <Box bg="bg.layerDefault" color="fg.neutral" p="x4">
             This is System Mode
@@ -53,8 +53,8 @@ const ActivityPartialDarkMode: StaticActivityComponentType<"ActivityPartialDarkM
             This is Dark Only Mode
           </Box>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

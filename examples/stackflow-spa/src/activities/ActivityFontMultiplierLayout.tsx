@@ -1,6 +1,11 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 import { Box, VStack, Text } from "@seed-design/react";
 import { Callout } from "seed-design/ui/callout";
@@ -41,14 +46,14 @@ const ActivityFontMultiplierLayout: StaticActivityComponentType<
   const { value, scale } = useFontScalingMultiplier();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="Font Multiplier Layout" />
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Font Multiplier Layout" />
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="spacingY.componentDefault" px="spacingX.globalGutter">
           <Callout
             tone="informative"
@@ -110,8 +115,8 @@ const ActivityFontMultiplierLayout: StaticActivityComponentType<
             새로고침
           </ActionButton>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

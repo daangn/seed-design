@@ -11,14 +11,18 @@ import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import {
+  NextAppScreen,
+  NextAppScreenContent,
+  type NextAppScreenProps,
+} from "seed-design/ui/next-app-screen";
 import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -37,6 +41,7 @@ import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { Callout } from "seed-design/ui/callout";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
+import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
 
 import {
   IconHandPointUpLine,
@@ -60,7 +65,7 @@ type NavigationSection = {
 declare module "@stackflow/config" {
   interface Register {
     ActivityHome: {
-      transitionStyle?: AppScreenProps["transitionStyle"];
+      transitionStyle?: NextAppScreenProps["transitionStyle"];
     };
   }
 }
@@ -116,6 +121,19 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           title: "NextAppScreen (transparent)",
           onClick: () => push("ActivityNextAppScreenTransparent", {}),
         },
+        { title: "Preview", onClick: () => push("ActivityNextAppScreenPreview", {}) },
+        {
+          title: "IntersectionObserver",
+          onClick: () => push("ActivityNextAppScreenIntersectionObserver", {}),
+        },
+        {
+          title: "animate: false Test (밀림 버그)",
+          onClick: () => push("ActivityNextAnimateFalseTest", {}),
+        },
+        ...nextAppScreenVariantMap.transitionStyle.map((transitionStyle) => ({
+          title: `ActivityNextTransitionStyle (${transitionStyle})`,
+          onClick: () => push("ActivityNextTransitionStyle", { transitionStyle }),
+        })),
       ],
     },
     {
@@ -446,21 +464,21 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
   ];
 
   return (
-    <AppScreen transitionStyle={params.transitionStyle}>
-      <AppBar>
+    <NextAppScreen transitionStyle={params.transitionStyle}>
+      <NextAppBar>
         {activityIndex > 0 && (
-          <AppBarLeft>
-            <AppBarBackButton />
-          </AppBarLeft>
+          <NextAppBarLeft>
+            <NextAppBarBackButton />
+          </NextAppBarLeft>
         )}
-        <AppBarMain title="Home" />
-        <AppBarRight>
-          <AppBarIconButton>
+        <NextAppBarMain title="Home" />
+        <NextAppBarRight>
+          <NextAppBarIconButton>
             <IconBellLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent
         ptr
         onPtrRefresh={async () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -502,8 +520,8 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             ))}
           </VStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
