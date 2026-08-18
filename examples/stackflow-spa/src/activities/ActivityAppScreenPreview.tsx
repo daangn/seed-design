@@ -17,6 +17,8 @@ declare module "@stackflow/config" {
   }
 }
 
+// Legacy AppScreen 회귀 검증 전용. 신규 activity 는 NextAppScreen 만 쓴다.
+// NextAppScreen 짝: ActivityNextAppScreenPreview
 const ActivityAppScreenPreview: StaticActivityComponentType<"ActivityAppScreenPreview"> = () => {
   return (
     <AppScreen theme="cupertino">
@@ -24,7 +26,7 @@ const ActivityAppScreenPreview: StaticActivityComponentType<"ActivityAppScreenPr
         <AppBarLeft>
           <AppBarCloseButton />
         </AppBarLeft>
-        <AppBarMain>Preview</AppBarMain>
+        <AppBarMain>Preview (Legacy)</AppBarMain>
         <AppBarRight>
           <AppBarIconButton aria-label="Notification">
             <IconBellFill />

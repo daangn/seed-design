@@ -85,8 +85,17 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
         {
-          title: "animate: false Test (밀림 버그)",
+          title: "animate: false Test (밀림 버그) [Legacy]",
           onClick: () => push("ActivityAnimateFalseTest", {}),
+        },
+        { title: "Preview [Legacy]", onClick: () => push("ActivityAppScreenPreview", {}) },
+        {
+          title: "Transparent [Legacy]",
+          onClick: () => push("ActivityAppScreenTransparent", {}),
+        },
+        {
+          title: "IntersectionObserver [Legacy]",
+          onClick: () => push("ActivityAppScreenIntersectionObserver", {}),
         },
         {
           title: `Push to here (current activityIndex: ${activityIndex})`,
@@ -94,7 +103,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         },
         { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
         ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
-          title: `ActivityTransitionStyle (${transitionStyle})`,
+          title: `ActivityTransitionStyle (${transitionStyle}) [Legacy]`,
           onClick: () => push("ActivityTransitionStyle", { transitionStyle }),
         })),
       ],
@@ -289,10 +298,13 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     {
       title: "PullToRefresh",
       items: [
-        { title: "PullToRefresh", onClick: () => push("ActivityPullToRefreshPreview", {}) },
+        {
+          title: "PullToRefresh [Legacy]",
+          onClick: () => push("ActivityPullToRefreshPreview", {}),
+        },
         { title: "PullToRefresh × Tabs", onClick: () => push("ActivityPullToRefreshTabs", {}) },
         {
-          title: "PullToRefresh (preventPull)",
+          title: "PullToRefresh (preventPull) [Legacy]",
           onClick: () => push("ActivityPullToRefreshPreventPull", {}),
         },
         {

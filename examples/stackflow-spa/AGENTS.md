@@ -14,6 +14,17 @@ SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제
 
 - Activity 컴포넌트는 `StaticActivityComponentType<"ActivityName">` 타입.
 - 모든 activity는 `AppScreen` + `AppBar` 구조를 기본으로 쓴다 (기존 activity 참고).
+- 신규 activity는 NAS만 쓴다. 구형 화면은 아래 8개뿐이고, 전부 AppBar title과 `ActivityHome` 링크에 `Legacy` 표식이 붙어 있다. 표식 없는 항목은 NAS라는 뜻이므로, 구형을 새로 추가하거나 옮길 때 표식도 같이 옮긴다.
+
+### 구형 AppScreen이 남아 있는 곳
+
+계보가 셋이고 남은 이유가 서로 다르다.
+
+| 계보 | import 출처 | activity | 남은 이유 |
+| --- | --- | --- | --- |
+| A | `seed-design/ui/app-screen` (vendored snippet) | `ActivityAnimateFalseTest`, `ActivityTransitionStyle`, `ActivityAppScreenPreview`, `ActivityAppScreenTransparent`, `ActivityAppScreenIntersectionObserver` | 회귀 검증용. 각각 `Next` 접두 NAS 짝이 있다 |
+| B | `@seed-design/stackflow` 직접 import | `ActivityPullToRefreshPreview`, `ActivityPullToRefreshPreventPull` | snippet `AppScreenContent`가 PTR을 이미 통합하고 있어서, 수동 조합을 보여주려고 snippet을 우회한다. NAS 짝은 `ActivityNextPullToRefreshPreview` / `ActivityNextPullToRefreshPreventPull`이며 snippet의 `ptr` prop을 쓴다 |
+| C | `@stackflow/plugin-basic-ui` | `ActivityPluginBasicUI` | SEED가 아니라 stackflow가 제공하는 AppScreen. 비교 대상으로 남긴다 |
 - Stackflow params가 없는 activity는 `declare module "@stackflow/config"` 블록에서 `{}`로 선언.
 - Box 기반 컴포넌트의 시각적 검증용 activity는 `ActivityHome`의 적절한 섹션에 링크를 추가한다.
 - `src/seed-design/ui/`는 generated snippet의 vendored copy로 취급한다. registry snippet API가 바뀌면 이 경로도 같이 업데이트한다.

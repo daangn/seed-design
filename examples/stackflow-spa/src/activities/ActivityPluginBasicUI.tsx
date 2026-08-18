@@ -10,6 +10,8 @@ declare module "@stackflow/config" {
   }
 }
 
+// SEED 의 legacy AppScreen 이 아니라 @stackflow/plugin-basic-ui 가 제공하는 AppScreen 이다.
+// SEED AppScreen / NextAppScreen 과 나란히 비교하려고 남겨둔 화면.
 const ActivityPluginBasicUI: StaticActivityComponentType<"ActivityPluginBasicUI"> = () => {
   const { push } = useFlow();
 
