@@ -1,12 +1,12 @@
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarRight,
-  AppBarMain,
-  AppBarIconButton,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarRight,
+  NextAppBarMain,
+  NextAppBarIconButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 import {
   IconBellLine,
@@ -29,28 +29,28 @@ const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => 
   const [counts, setCounts] = useState({ left: 1, right: 1 });
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
           {Array.from({ length: counts.left }).map((_, index) => (
-            <AppBarIconButton key={index}>
+            <NextAppBarIconButton key={index}>
               <IconBellLine />
-            </AppBarIconButton>
+            </NextAppBarIconButton>
           ))}
-        </AppBarLeft>
-        <AppBarMain
+        </NextAppBarLeft>
+        <NextAppBarMain
           title="Random Long Title Hello World Commodo occaecat laboris voluptate aute magna."
           subtitle="Subtitle Ut voluptate in sint sunt adipisicing ex adipisicing magna ad fugiat excepteur commodo voluptate."
         />
-        <AppBarRight>
+        <NextAppBarRight>
           {Array.from({ length: counts.right }).map((_, index) => (
-            <AppBarIconButton key={index}>
+            <NextAppBarIconButton key={index}>
               <IconBellLine />
-            </AppBarIconButton>
+            </NextAppBarIconButton>
           ))}
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="spacingY.componentDefault" px="spacingX.globalGutter" py="x3">
           <ActionButton variant="neutralSolid" onClick={() => push("ActivityTransparentBar", {})}>
             ActivityTransparentBar
@@ -105,8 +105,8 @@ const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => 
             </ActionButton>
           </HStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

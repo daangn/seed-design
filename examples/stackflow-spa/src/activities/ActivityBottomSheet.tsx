@@ -14,7 +14,8 @@ import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { Switch } from "seed-design/ui/switch";
 import { Chip } from "seed-design/ui/chip";
-import { appScreenVariantMap, type AppScreenVariant } from "@seed-design/css/recipes/app-screen";
+import type { NextAppScreenProps } from "seed-design/ui/next-app-screen";
+import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -33,7 +34,7 @@ const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = 
   const [nameError, setNameError] = useState<string | null>(null);
   const [keepMounted, setKeepMounted] = useState(false);
   const [transitionStyle, setTransitionStyle] =
-    useState<AppScreenVariant["transitionStyle"]>("slideFromRightIOS");
+    useState<NonNullable<NextAppScreenProps["transitionStyle"]>>("horizontalSlide");
 
   const handleSubmit = () => {
     if (!form.current) return;
@@ -132,11 +133,11 @@ const ActivityBottomSheet: StaticActivityComponentType<"ActivityBottomSheet"> = 
                   aria-label="Transition style"
                   value={transitionStyle}
                   onValueChange={(style) =>
-                    setTransitionStyle(style as AppScreenVariant["transitionStyle"])
+                    setTransitionStyle(style as NonNullable<NextAppScreenProps["transitionStyle"]>)
                   }
                 >
                   <HStack gap="x2" wrap="wrap">
-                    {appScreenVariantMap.transitionStyle.map((style) => (
+                    {nextAppScreenVariantMap.transitionStyle.map((style) => (
                       <Chip.RadioItem key={style} value={style}>
                         <Chip.Label>{style}</Chip.Label>
                       </Chip.RadioItem>

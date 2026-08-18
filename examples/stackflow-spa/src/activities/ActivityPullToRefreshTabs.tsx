@@ -1,7 +1,7 @@
 import { VStack } from "@seed-design/react";
 import { type StaticActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppBar, NextAppBarMain } from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
@@ -17,11 +17,11 @@ declare module "@stackflow/config" {
 
 const ActivityPullToRefreshTabs: StaticActivityComponentType<"ActivityPullToRefreshTabs"> = () => {
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarMain>Pull To Refresh</AppBarMain>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarMain>Pull To Refresh</NextAppBarMain>
+      </NextAppBar>
+      <NextAppScreenContent>
         <TabsRoot defaultValue="1" contentLayout="fill">
           <TabsList>
             <TabsTrigger value="1">Tab 1</TabsTrigger>
@@ -48,8 +48,8 @@ const ActivityPullToRefreshTabs: StaticActivityComponentType<"ActivityPullToRefr
             <VStack px="spacingX.globalGutter">PTR is not available in this tab.</VStack>
           </TabsContent>
         </TabsRoot>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

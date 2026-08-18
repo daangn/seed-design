@@ -1,7 +1,12 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
-import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarIconButton,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { Avatar } from "seed-design/ui/avatar";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 import { IconPlusFill, IconStarFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
@@ -17,16 +22,16 @@ const ActivityCodegenTest: StaticActivityComponentType<"ActivityCodegenTest"> = 
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarMain title="Codegen Test" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarMain title="Codegen Test" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack bg="bg.layerDefault">
           <HStack align="center" p="spacingX.globalGutter">
             <HStack justify="center" gap="spacingY.componentDefault" grow={true}>
@@ -88,8 +93,8 @@ const ActivityCodegenTest: StaticActivityComponentType<"ActivityCodegenTest"> = 
             </HStack>
           </HStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

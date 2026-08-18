@@ -1,14 +1,14 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-  AppBarIconButton,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+  NextAppBarIconButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
 
@@ -32,19 +32,19 @@ const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> 
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Toggle Button</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Toggle Button</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <ComponentAnalyzer
           variantsMap={toggleButtonVariantMap}
           initialVariants={initialVariants}
@@ -55,8 +55,8 @@ const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> 
             </ToggleButton>
           )}
         />
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

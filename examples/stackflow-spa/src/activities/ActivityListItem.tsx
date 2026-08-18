@@ -8,14 +8,14 @@ import { Icon } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
@@ -81,19 +81,19 @@ const ActivityListItem: StaticActivityComponentType<"ActivityListItem"> = () => 
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="ListItem" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="ListItem" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent
         ptr
         onPtrRefresh={async () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -127,8 +127,8 @@ const ActivityListItem: StaticActivityComponentType<"ActivityListItem"> = () => 
             ),
           )}
         </List>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

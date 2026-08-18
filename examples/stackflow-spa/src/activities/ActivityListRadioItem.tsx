@@ -4,14 +4,14 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
 import { Radiomark } from "seed-design/ui/radio-group";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
@@ -71,19 +71,19 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="ListRadioItem" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="ListRadioItem" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent
         ptr
         onPtrRefresh={async () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -176,8 +176,8 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
             )}
           </RadioGroup.Root>
         </List>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

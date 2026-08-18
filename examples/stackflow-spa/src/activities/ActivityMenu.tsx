@@ -3,14 +3,14 @@ import { useFlow } from "@stackflow/react/future";
 import { useRef, useState, type CSSProperties } from "react";
 
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   IconArrowUpBracketDownLine,
   IconBellLine,
@@ -78,19 +78,19 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
   const [lastReason, setLastReason] = useState<string>("-");
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Menu</AppBarMain>
-        <AppBarRight>
-          {/* AppBarIconButton as MenuTrigger */}
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Menu</NextAppBarMain>
+        <NextAppBarRight>
+          {/* NextAppBarIconButton as MenuTrigger */}
           <MenuRoot size="medium">
             <MenuTrigger asChild>
-              <AppBarIconButton aria-label="알림">
+              <NextAppBarIconButton aria-label="알림">
                 <IconBellLine />
-              </AppBarIconButton>
+              </NextAppBarIconButton>
             </MenuTrigger>
             <MenuContent>
               <MenuGroup>
@@ -101,12 +101,12 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </MenuContent>
           </MenuRoot>
 
-          {/* Another AppBarIconButton Menu — "more" pattern */}
+          {/* Another NextAppBarIconButton Menu — "more" pattern */}
           <MenuRoot size="medium" placement="bottom-end">
             <MenuTrigger asChild>
-              <AppBarIconButton aria-label="더보기">
+              <NextAppBarIconButton aria-label="더보기">
                 <IconDot3VerticalLine />
-              </AppBarIconButton>
+              </NextAppBarIconButton>
             </MenuTrigger>
             <MenuContent>
               <MenuGroup>
@@ -124,12 +124,12 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </MenuContent>
           </MenuRoot>
 
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x6" style={{ padding: 16 }}>
           <VStack gap="x3">
             <SectionTitle>Basic Trigger</SectionTitle>
@@ -432,8 +432,8 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
             </AlertDialogRoot>
           </VStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
