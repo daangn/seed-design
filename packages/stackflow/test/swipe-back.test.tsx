@@ -1,37 +1,21 @@
-import { describe, expect, it, mock, spyOn } from "bun:test";
+import { describe, expect, it, mock } from "bun:test";
 import { fireEvent } from "@testing-library/react";
 import { makeActivity } from "./fixtures";
-import { getPart, getScreen, getScreens, poll, renderStack, settle } from "./harness";
+import {
+  createClock,
+  getPart,
+  getScreen,
+  getScreens,
+  nextFrame,
+  poll,
+  renderStack,
+  settle,
+  touchInit,
+} from "./harness";
+import { finishAnimations, runningAnimationsOn } from "./waapi";
 
 const DISPLACEMENT_VAR = "--seed-swipe-back-displacement";
 const RATIO_VAR = "--seed-swipe-back-displacement-ratio";
-
-const nextFrame = () =>
-  new Promise<void>((resolve) => {
-    requestAnimationFrame(() => resolve());
-  });
-
-/** Deterministic Date.now so velocity is controllable. */
-function createClock() {
-  let value = 100_000;
-  const spy = spyOn(Date, "now").mockImplementation(() => value);
-
-  return {
-    advance: (ms: number) => {
-      value += ms;
-    },
-    restore: () => spy.mockRestore(),
-  };
-}
-
-const touchInit = (x: number, y: number) => ({
-  touches: [{ clientX: x, clientY: y }],
-  changedTouches: [{ clientX: x, clientY: y }],
-});
-
-function fireTransitionEnd(el: HTMLElement) {
-  fireEvent.transitionEnd(el, { propertyName: "transform" });
-}
 
 interface SwipeSetupOptions {
   swipeBackArea?: "edge" | "full" | "none";
@@ -132,7 +116,7 @@ describe("swipe back — edge 모드", () => {
     }
   });
 
-  it("임계값 미달 릴리즈: canceling → transitionend 후 상태/vars 정리, swiped=false", async () => {
+  it("임계값 미달 릴리즈: canceling → release 애니메이션 완료 후 상태/vars 정리, swiped=false", async () => {
     const clock = createClock();
     const onSwipeBackEnd = mock((_: { swiped: boolean }) => {});
     try {
@@ -151,10 +135,18 @@ describe("swipe back — edge 모드", () => {
       expect(top.dataset["swipeBackState"]).toBe("canceling");
       expect(behind.dataset["swipeBackState"]).toBe("canceling");
 
-      fireTransitionEnd(topLayer);
+      // release는 세 element(top layer/dim, behind layer)를 한꺼번에 되돌린다
+      for (const el of [topLayer, topDim, behindLayer]) {
+        expect(runningAnimationsOn(el)).toHaveLength(1);
+      }
 
-      expect(top.dataset["swipeBackState"]).toBeUndefined();
-      expect(behind.dataset["swipeBackState"]).toBeUndefined();
+      clock.restore();
+      finishAnimations();
+
+      await poll(() => {
+        expect(top.dataset["swipeBackState"]).toBeUndefined();
+        expect(behind.dataset["swipeBackState"]).toBeUndefined();
+      });
       for (const el of [topLayer, topDim, behindLayer]) {
         expect(el.style.getPropertyValue(DISPLACEMENT_VAR)).toBe("");
         expect(el.style.getPropertyValue(RATIO_VAR)).toBe("");
@@ -225,7 +217,7 @@ describe("swipe back — edge 모드", () => {
     }
   });
 
-  it("transitionend가 안 와도 타임아웃으로 정리된다", async () => {
+  it("release 애니메이션이 완료를 보고하지 않아도 타임아웃으로 정리된다", async () => {
     const clock = createClock();
     try {
       const { edge, top, behind } = await setupSwipe({ transitionStyle: "horizontalSlide" });
