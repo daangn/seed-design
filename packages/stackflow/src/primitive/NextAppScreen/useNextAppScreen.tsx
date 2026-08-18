@@ -4,6 +4,7 @@ import { useActivityZIndexBase } from "../../hooks";
 import { nextAppScreenAnatomy } from "./anatomy";
 import { useNextScreenRegistry } from "./registry";
 import { useNextScreenStatus } from "./useNextScreenStatus";
+import { useNextScreenTransition } from "./useNextScreenTransition";
 import { useNextSwipeBack, type UseNextSwipeBackProps } from "./useNextSwipeBack";
 import type { NextAppScreenTransitionStyle } from "./types";
 
@@ -13,12 +14,13 @@ export interface UseNextAppScreenProps extends UseNextSwipeBackProps {
    * default (cupertino → horizontalSlide, android → verticalSlide) and passes
    * the result down.
    *
-   * NOTE: the CSS transition durations are fixed (350ms for horizontalSlide,
-   * 300ms enter / 150ms exit for verticalSlide and crossfade) while stackflow's
+   * NOTE: the motion durations are fixed (350ms for horizontalSlide, 300ms
+   * enter / 150ms exit for verticalSlide and crossfade) while stackflow's
    * configured `transitionDuration` governs unmount timing. Enter tolerates
-   * any mismatch (the target holds, the transition finishes on its own), but
-   * an exit gets cut off by unmount — keep `transitionDuration` at or above
-   * the largest CSS exit duration (350ms covers every style).
+   * any mismatch (a resting state leaves the animation running, and it ends
+   * on the position that state holds anyway), but an exit gets cut off by
+   * unmount — keep `transitionDuration` at or above the largest exit duration
+   * (350ms covers every style).
    *
    * @default "horizontalSlide"
    */
@@ -56,10 +58,10 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
 
   // Flips one frame AFTER the mounting paint (double rAF — a single rAF can
   // fire within the same frame). While absent, the recipe pins the enter
-  // start position, so the slide-in transition departs from the offset
-  // instead of the resting position. Re-mounts (StrictMode, future
-  // <Activity> restore) reset to false, which doubles as "no transition on
-  // restore" protection.
+  // start position, so a first paint that beats the enter animation onto the
+  // screen still lands on the offset rather than the resting position.
+  // Re-mounts (StrictMode, future <Activity> restore) reset to false, which
+  // doubles as "no transition on restore" protection.
   const [ready, setReady] = useState(false);
   useEffect(() => {
     let rafId = requestAnimationFrame(() => {
@@ -75,6 +77,14 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
     layerRef,
     dimRef,
     screenState,
+  });
+
+  useNextScreenTransition({
+    screenState,
+    transitionStyle: effectiveTransitionStyle,
+    rootRef,
+    layerRef,
+    dimRef,
   });
 
   const zIndexBase = useActivityZIndexBase();

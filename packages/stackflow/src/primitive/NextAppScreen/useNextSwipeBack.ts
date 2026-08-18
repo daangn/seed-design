@@ -2,6 +2,8 @@ import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useStack } from "@stackflow/react";
 import { useNullableActivity } from "@stackflow/react-ui-core";
 import { useEffect, useRef } from "react";
+import { cancelAll, waitAll } from "../private/waapi";
+import { playSwipeRelease, SWIPE_RELEASE } from "./animation";
 import { useNextScreenRegistry } from "./registry";
 import type { NextScreenState, NextSwipeBackArea } from "./types";
 
@@ -13,13 +15,6 @@ const CLAIM_SLOP_PX = 10;
 
 /** Full mode: max deviation from horizontal, as tan(10°). */
 const CLAIM_MAX_ANGLE_TAN = Math.tan((10 * Math.PI) / 180);
-
-/**
- * Fallback for the release settle in case `transitionend` never fires
- * (interrupted transition, display:none, environments without transitions).
- * The release transition itself is 350ms.
- */
-const RELEASE_FALLBACK_MS = 450;
 
 const DISPLACEMENT_VAR = "--seed-swipe-back-displacement";
 const RATIO_VAR = "--seed-swipe-back-displacement-ratio";
@@ -70,7 +65,9 @@ function clearSwipeVars(el: HTMLElement | null) {
 
 /**
  * Read the current translateX from the computed transform — used to rebase a
- * re-grab during release. Returns null when unavailable (e.g. happy-dom).
+ * re-grab during release, where the value being read is the output of the
+ * release animation. Must therefore run before that animation is cancelled.
+ * Returns null when unavailable (e.g. happy-dom).
  */
 function readTranslateX(el: HTMLElement | null): number | null {
   if (!el || typeof window === "undefined") return null;
@@ -234,7 +231,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
   const contextRef = useRef<GestureContext | null>(null);
   const pendingMoveRef = useRef<{ x: number; t: number } | null>(null);
   const rafIdRef = useRef<number | null>(null);
-  const releaseCleanupRef = useRef<(() => void) | null>(null);
+  const releaseAnimsRef = useRef<Animation[]>([]);
 
   useEffect(() => {
     if (swipeBackArea === "none") return;
@@ -271,43 +268,52 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     }
   }
 
-  function clearReleaseWait() {
-    releaseCleanupRef.current?.();
-    releaseCleanupRef.current = null;
+  /**
+   * Abandon a release in flight. Nothing has to be restored: the animations
+   * are `fill: "none"`, so cancelling drops every element onto the position
+   * its `data-swipe-back-state` already declares in CSS.
+   */
+  function stopRelease() {
+    cancelAll(releaseAnimsRef.current);
+    releaseAnimsRef.current = [];
   }
 
-  /** Wait for the release transition to settle: transitionend + timeout race. */
-  function waitForReleaseSettle(onSettle: () => void) {
-    clearReleaseWait();
+  /**
+   * Animate the released gesture to its resting position and settle once it
+   * lands. `waitAll` races the animations against a timeout so a browser that
+   * never reports completion still cleans up; with no animations at all (no
+   * WAAPI) the settle is delayed by hand, because consumers rely on the pause
+   * to decide the pop before the exit-guard branch reads the screen state.
+   *
+   * Claiming `releaseAnimsRef` invalidates any settle still pending, so a
+   * re-grab or a newer gesture can never be finished by the old one.
+   */
+  function playRelease(
+    targets: SwipeTargets,
+    displacement: number,
+    mode: "cancel" | "complete",
+    onSettle: () => void,
+  ) {
+    stopRelease();
 
-    const topLayer = contextRef.current?.targets.topLayer ?? layerRef.current;
-    let settled = false;
+    const animations = playSwipeRelease(
+      { layer: targets.topLayer, dim: targets.topDim, behindLayer: targets.behindLayer },
+      displacement,
+      mode,
+    );
+    releaseAnimsRef.current = animations;
 
-    const settle = () => {
-      if (settled) return;
+    const settled =
+      animations.length > 0
+        ? waitAll(animations, SWIPE_RELEASE.duration)
+        : new Promise<void>((resolve) => setTimeout(resolve, SWIPE_RELEASE.duration));
 
-      settled = true;
-      clearReleaseWait();
+    settled.then(() => {
+      if (releaseAnimsRef.current !== animations) return;
+
+      releaseAnimsRef.current = [];
       onSettle();
-    };
-    const handleTransitionEnd = (event: TransitionEvent) => {
-      if (event.target !== topLayer) return;
-
-      // Environments without TransitionEvent (happy-dom) dispatch plain
-      // Events with no propertyName — accept those; in browsers, only the
-      // transform transition of the layer counts.
-      const { propertyName } = event as Partial<TransitionEvent>;
-      if (propertyName !== undefined && propertyName !== "transform") return;
-
-      settle();
-    };
-
-    const timer = setTimeout(settle, RELEASE_FALLBACK_MS);
-    topLayer?.addEventListener("transitionend", handleTransitionEnd);
-    releaseCleanupRef.current = () => {
-      clearTimeout(timer);
-      topLayer?.removeEventListener("transitionend", handleTransitionEnd);
-    };
+    });
   }
 
   function finishGesture(targets: SwipeTargets) {
@@ -345,9 +351,9 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     // Re-grab during release: rebase the origin from the current transform.
     if (phaseRef.current === "releasing" && contextRef.current) {
       const context = contextRef.current;
-      clearReleaseWait();
-
       const currentDisplacement = readTranslateX(context.targets.topLayer) ?? context.displacement;
+      stopRelease();
+
       context.x0 = touch.clientX;
       context.y0 = touch.clientY;
       context.t0 = Date.now();
@@ -469,16 +475,16 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     setSwipeState(context.targets, swiped ? "completing" : "canceling");
 
     if (swiped) {
-      waitForReleaseSettle(() => {
+      playRelease(context.targets, context.displacement, "complete", () => {
         const currentContext = contextRef.current;
         if (!currentContext) return;
 
         const { targets } = currentContext;
         if (targets.topRoot.dataset["screenState"] === "idle") {
-          // Exit-guard: the consumer decided not to pop — glide back to place,
-          // then clean up like a canceled gesture.
+          // Exit-guard: the consumer decided not to pop — glide back from the
+          // offscreen position, then clean up like a canceled gesture.
           setSwipeState(targets, "canceling");
-          waitForReleaseSettle(() => finishGesture(targets));
+          playRelease(targets, window.innerWidth, "cancel", () => finishGesture(targets));
           return;
         }
 
@@ -489,7 +495,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
         contextRef.current = null;
       });
     } else {
-      waitForReleaseSettle(() => {
+      playRelease(context.targets, context.displacement, "cancel", () => {
         const currentContext = contextRef.current;
         if (!currentContext) return;
 
@@ -520,8 +526,8 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
   // refs and module-level helpers, so the empty dependency list is exact.
   useEffect(() => {
     return () => {
-      releaseCleanupRef.current?.();
-      releaseCleanupRef.current = null;
+      cancelAll(releaseAnimsRef.current);
+      releaseAnimsRef.current = [];
       pendingMoveRef.current = null;
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);

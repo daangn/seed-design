@@ -5,11 +5,13 @@
  * @stackflow/plugin-renderer-basic is not a dependency of this package, so a
  * minimal equivalent renderer plugin is defined inline.
  */
+import { spyOn } from "bun:test";
 import { act, render } from "@testing-library/react";
 import { stackflow } from "@stackflow/react";
 import type { ActivityComponentType, StackflowReactPlugin } from "@stackflow/react";
 import { Fragment } from "react";
 import { seedPlugin, type SeedPluginOptions } from "../src";
+import { finishAnimations, resetAnimations } from "./waapi";
 
 const testRendererPlugin = (): StackflowReactPlugin => () => ({
   key: "test-renderer",
@@ -35,6 +37,8 @@ export interface RenderStackOptions {
 }
 
 export function renderStack(options: RenderStackOptions) {
+  resetAnimations();
+
   const { Stack, actions } = stackflow({
     transitionDuration: options.transitionDuration ?? 80,
     activities: options.activities,
@@ -57,6 +61,33 @@ export function renderStack(options: RenderStackOptions) {
         actions.pop();
       });
     },
+  };
+}
+
+export const touchInit = (x: number, y: number) => ({
+  touches: [{ clientX: x, clientY: y }],
+  changedTouches: [{ clientX: x, clientY: y }],
+});
+
+export const nextFrame = () =>
+  new Promise<void>((resolve) => {
+    requestAnimationFrame(() => resolve());
+  });
+
+/**
+ * Deterministic `Date.now` so a gesture's velocity is controllable — without
+ * it a touchmove fired in the same millisecond as the touchstart reads as an
+ * arbitrarily fast flick and crosses the velocity threshold.
+ */
+export function createClock() {
+  let value = 100_000;
+  const spy = spyOn(Date, "now").mockImplementation(() => value);
+
+  return {
+    advance: (ms: number) => {
+      value += ms;
+    },
+    restore: () => spy.mockRestore(),
   };
 }
 
@@ -95,7 +126,13 @@ export async function poll(
   }
 }
 
-/** Wait until every mounted screen reaches a resting state. */
+/**
+ * Wait until every mounted screen reaches a resting state.
+ *
+ * Also reports the transition animations as complete: the stub never ends one
+ * on its own, and a screen at rest in a browser is one whose motion has run
+ * out. Without this a settled stack would still look mid-transition.
+ */
 export async function settle(container: HTMLElement) {
   await poll(() => {
     const screens = getScreens(container);
@@ -108,4 +145,6 @@ export async function settle(container: HTMLElement) {
       }
     }
   });
+
+  finishAnimations();
 }
