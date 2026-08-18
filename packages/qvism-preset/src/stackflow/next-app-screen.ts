@@ -2,19 +2,12 @@ import { defineSlotRecipe } from "../utils/define";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
 
-// ─── Transition timings (legacy parity) ─────────────────────────────────────
-
-// approximates iOS spring animation
-const HORIZONTAL = { duration: "350ms", timingFunction: "cubic-bezier(0.2, 0.1, 0.21, 0.99)" };
-
-// approximates Easing.out(Easing.poly(5))
-const VERTICAL_ENTER = { duration: "300ms", timingFunction: "cubic-bezier(0.23, 0.1, 0.32, 1)" };
-const VERTICAL_EXIT = { duration: "150ms", timingFunction: "linear" };
-
-const CROSSFADE_ENTER = { duration: "300ms", timingFunction: "ease-out" };
-const CROSSFADE_EXIT = { duration: "150ms", timingFunction: "ease-in" };
-
-/** Behind layer park position while a horizontalSlide top covers it. */
+/**
+ * Behind layer park position while a horizontalSlide top covers it.
+ *
+ * Mirrored by the WAAPI keyframes in
+ * `packages/stackflow/src/primitive/NextAppScreen/animation.ts`.
+ */
 const BEHIND_TRANSLATE_X = "-30%";
 
 // ─── State selectors ─────────────────────────────────────────────────────────
@@ -23,20 +16,20 @@ const BEHIND_TRANSLATE_X = "-30%";
 // (data-part="screen"); every animated slot is a direct child of the root, so
 // `[state] > &` scopes each rule to its own screen.
 //
-// Every state rule declares only TARGET values; the `transition` shorthand
-// lives unconditionally on each transitionStyle variant. css-transitions
-// cancels a running transition when the after-change style stops declaring
-// its transition-property, so keeping it resident lets an early state flip
-// (e.g. core marks `idle` before the CSS duration elapses) finish the run
-// instead of snapping — and any interrupt retargets from the current
-// computed value.
+// These rules declare where each state RESTS, never how it travels there. The
+// travel is played with WAAPI from
+// `packages/stackflow/src/primitive/NextAppScreen/animation.ts`, whose
+// keyframes end exactly on the values below. Holding the resting positions in
+// CSS is what makes the states self-healing: an animation that is cancelled,
+// times out, or never runs at all leaves the screen wherever its current state
+// says it belongs, with no inline style anyone has to clean up.
 //
 // `push` matches only until `data-screen-ready` lands (one frame after
-// mount): the enter start offset is pinned there, and dropping it is what
-// starts the slide-in. States whose target IS the resting position (`push`
-// after ready, `idle`, `pop-behind`) need no rule at all — the resting state
-// stays plain CSS defaults, so re-showing a screen from `display: none`
-// (e.g. future React <Activity>) cannot replay a transition.
+// mount): it pins the enter start offset so a paint that beats the animation
+// onto the screen still shows the offset rather than the resting position.
+// States whose resting position IS the default (`push` after ready, `idle`,
+// `pop-behind`) need no rule at all, so re-showing a screen from
+// `display: none` (e.g. future React <Activity>) cannot leave it displaced.
 
 const pushStart = '[data-screen-state="push"]:not([data-screen-ready]) > &';
 const pop = '[data-screen-state="pop"] > &';
@@ -68,9 +61,6 @@ const swipeBackActive = "[data-swipe-back-state] > &";
 const SWIPE_TOP_TRANSFORM = "translate3d(var(--seed-swipe-back-displacement, 0px), 0, 0)";
 const SWIPE_BEHIND_TRANSFORM = `translate3d(calc(${BEHIND_TRANSLATE_X} + var(--seed-swipe-back-displacement-ratio, 0) * 30%), 0, 0)`;
 const SWIPE_DIM_OPACITY = "calc(1 - var(--seed-swipe-back-displacement-ratio, 0))";
-
-const RELEASE_TRANSFORM_TRANSITION = `transform ${HORIZONTAL.duration} ${HORIZONTAL.timingFunction}`;
-const RELEASE_OPACITY_TRANSITION = `opacity ${HORIZONTAL.duration} ${HORIZONTAL.timingFunction}`;
 
 // clip-path over border-radius + overflow: no scroll-container or
 // containing-block side effects on the layer, and it degrades further back
@@ -159,32 +149,20 @@ export const nextAppScreen = defineSlotRecipe({
         dim: {
           height: "100%",
           background: vars.$color.palette.staticBlackAlpha400,
-          transition: `opacity ${HORIZONTAL.duration} ${HORIZONTAL.timingFunction}`,
 
           [pushStart]: { opacity: "0" },
           [pop]: { opacity: "0" },
 
-          [swiping]: {
-            transition: "none",
-            opacity: SWIPE_DIM_OPACITY,
-          },
-          [canceling]: {
-            opacity: "1",
-            transition: RELEASE_OPACITY_TRANSITION,
-          },
-          [completing]: {
-            opacity: "0",
-            transition: RELEASE_OPACITY_TRANSITION,
-          },
+          [swiping]: { opacity: SWIPE_DIM_OPACITY },
+          [canceling]: { opacity: "1" },
+          [completing]: { opacity: "0" },
         },
         layer: {
-          transition: `transform ${HORIZONTAL.duration} ${HORIZONTAL.timingFunction}`,
-
           // top
           [pushStart]: { transform: "translate3d(100%, 0, 0)" },
           [pop]: { transform: "translate3d(100%, 0, 0)" },
 
-          // behind (`pop-behind` targets the resting position — no rule)
+          // behind (`pop-behind` rests at the default position — no rule)
           [pushBehind]: {
             transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
           },
@@ -193,59 +171,30 @@ export const nextAppScreen = defineSlotRecipe({
           },
 
           // swipe interaction (vars written imperatively on the elements)
-          [swiping]: {
-            transition: "none",
-            transform: SWIPE_TOP_TRANSFORM,
-          },
-          [swipingBehind]: {
-            transition: "none",
-            transform: SWIPE_BEHIND_TRANSFORM,
-          },
+          [swiping]: { transform: SWIPE_TOP_TRANSFORM },
+          [swipingBehind]: { transform: SWIPE_BEHIND_TRANSFORM },
 
-          // swipe release — retargets from the current var-driven computed
-          // value to the target position
-          [canceling]: {
-            transform: "translate3d(0, 0, 0)",
-            transition: RELEASE_TRANSFORM_TRANSITION,
-          },
+          // swipe release — the WAAPI animation departs from the displacement
+          // the drag left behind and lands on these
+          [canceling]: { transform: "translate3d(0, 0, 0)" },
           [cancelingBehind]: {
             transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
-            transition: RELEASE_TRANSFORM_TRANSITION,
           },
-          [completing]: {
-            transform: "translate3d(100%, 0, 0)",
-            transition: RELEASE_TRANSFORM_TRANSITION,
-          },
-          [completingBehind]: {
-            transform: "translate3d(0, 0, 0)",
-            transition: RELEASE_TRANSFORM_TRANSITION,
-          },
+          [completing]: { transform: "translate3d(100%, 0, 0)" },
+          [completingBehind]: { transform: "translate3d(0, 0, 0)" },
         },
       },
       verticalSlide: {
         dim: {
           height: "100%",
           background: vars.$color.palette.staticBlackAlpha400,
-          transition: `transform ${VERTICAL_ENTER.duration} ${VERTICAL_ENTER.timingFunction}, opacity ${VERTICAL_ENTER.duration} ${VERTICAL_ENTER.timingFunction}`,
 
           [pushStart]: { opacity: "0", transform: "translate3d(0, -8vh, 0)" },
-          [pop]: {
-            opacity: "0",
-            transform: "translate3d(0, -8vh, 0)",
-            transitionDuration: VERTICAL_EXIT.duration,
-            transitionTimingFunction: VERTICAL_EXIT.timingFunction,
-          },
+          [pop]: { opacity: "0", transform: "translate3d(0, -8vh, 0)" },
         },
         layer: {
-          transition: `transform ${VERTICAL_ENTER.duration} ${VERTICAL_ENTER.timingFunction}, opacity ${VERTICAL_ENTER.duration} ${VERTICAL_ENTER.timingFunction}`,
-
           [pushStart]: { opacity: "0", transform: "translate3d(0, 8vh, 0)" },
-          [pop]: {
-            opacity: "0",
-            transform: "translate3d(0, 8vh, 0)",
-            transitionDuration: VERTICAL_EXIT.duration,
-            transitionTimingFunction: VERTICAL_EXIT.timingFunction,
-          },
+          [pop]: { opacity: "0", transform: "translate3d(0, 8vh, 0)" },
         },
         edge: {
           display: "none",
@@ -256,14 +205,8 @@ export const nextAppScreen = defineSlotRecipe({
           display: "none",
         },
         layer: {
-          transition: `opacity ${CROSSFADE_ENTER.duration} ${CROSSFADE_ENTER.timingFunction}`,
-
           [pushStart]: { opacity: "0" },
-          [pop]: {
-            opacity: "0",
-            transitionDuration: CROSSFADE_EXIT.duration,
-            transitionTimingFunction: CROSSFADE_EXIT.timingFunction,
-          },
+          [pop]: { opacity: "0" },
         },
         edge: {
           display: "none",
