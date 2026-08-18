@@ -30,5 +30,6 @@ SEED React 컴포넌트를 Stackflow SPA에서 검증하는 예제 앱이다. �
 ## 규칙
 
 - activity는 `AppScreen` + `AppBar` 구조를 기본으로 쓴다.
+- 신규 activity는 NextAppScreen을 쓰고, 구형 AppScreen 예제는 제목과 홈 링크에 `Legacy`를 표시한다.
 - snippet이 있는 컴포넌트는 `@seed-design/react` 직접 import 대신 `seed-design/ui/*`를 쓴다.
 - 컴포넌트가 제공하는 권장 layout을 먼저 보여준다. `Footer`, `Body`처럼 recipe가 gap·stretch·layout을 가진 slot에는 검증 목적 없는 layout wrapper를 넣지 않는다.
