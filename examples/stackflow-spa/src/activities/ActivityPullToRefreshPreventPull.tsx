@@ -13,6 +13,8 @@ declare module "@stackflow/config" {
   }
 }
 
+// Legacy AppScreen 회귀 검증 전용. 신규 activity 는 NextAppScreen 만 쓴다.
+// NextAppScreen 짝: ActivityNextPullToRefreshPreventPull
 const ActivityPullToRefreshPreventPull: StaticActivityComponentType<
   "ActivityPullToRefreshPreventPull"
 > = () => {
@@ -22,7 +24,7 @@ const ActivityPullToRefreshPreventPull: StaticActivityComponentType<
     <AppScreen.Root>
       <AppBar.Root>
         <AppBar.Main>
-          <AppBar.Title>Pull To Refresh</AppBar.Title>
+          <AppBar.Title>Pull To Refresh preventPull (Legacy)</AppBar.Title>
         </AppBar.Main>
       </AppBar.Root>
       <PullToRefreshRoot
