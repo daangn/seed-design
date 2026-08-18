@@ -1,13 +1,17 @@
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarRight,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarRight,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+} from "seed-design/ui/next-app-bar";
+import {
+  NextAppScreen,
+  NextAppScreenContent,
+  type NextAppScreenProps,
+} from "seed-design/ui/next-app-screen";
 
 import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import img from "../assets/peng.jpeg";
@@ -25,39 +29,39 @@ declare module "@stackflow/config" {
 }
 
 const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBar"> = () => {
-  const [layerOffsetTop, setLayerOffsetTop] =
-    useState<NonNullable<AppScreenProps["layerOffsetTop"]>>("none");
-  const [gradient, setGradient] = useState<NonNullable<AppScreenProps["gradient"]>>(true);
+  const [contentOffsetTop, setContentOffsetTop] =
+    useState<NonNullable<NextAppScreenProps["contentOffsetTop"]>>("none");
+  const [gradient, setGradient] = useState<NonNullable<NextAppScreenProps["gradient"]>>(true);
 
   const { push } = useFlow();
 
   return (
-    <AppScreen layerOffsetTop={layerOffsetTop} tone="transparent" gradient={gradient}>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>펭귄</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton>
+    <NextAppScreen contentOffsetTop={contentOffsetTop} tone="transparent" gradient={gradient}>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>펭귄</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton>
             <IconBellLine />
-          </AppBarIconButton>
-          <AppBarIconButton>
+          </NextAppBarIconButton>
+          <NextAppBarIconButton>
             <IconBellLine />
-          </AppBarIconButton>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+          </NextAppBarIconButton>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="spacingX.globalGutter">
           <img src={img} alt="penguin" />
           <VStack px="x4" gap="spacingY.componentDefault" align="center">
             <SegmentedControl
-              aria-label="Layer Offset Top"
-              value={layerOffsetTop}
-              onValueChange={(value) => setLayerOffsetTop(value as typeof layerOffsetTop)}
+              aria-label="Content Offset Top"
+              value={contentOffsetTop}
+              onValueChange={(value) => setContentOffsetTop(value as typeof contentOffsetTop)}
             >
               <SegmentedControlItem value="none">none</SegmentedControlItem>
               <SegmentedControlItem value="safeArea">safeArea</SegmentedControlItem>
@@ -99,8 +103,8 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
           <img src={img} alt="penguin" />
           <img src={img} alt="penguin" />
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
