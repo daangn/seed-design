@@ -14,7 +14,8 @@ export const vars = {
         "exitScale": "1",
         "exitOpacity": "0",
         "exitDuration": "var(--seed-duration-d4)",
-        "exitTimingFunction": "var(--seed-timing-function-easing)"
+        "exitTimingFunction": "var(--seed-timing-function-easing)",
+        "overflowPadding": "var(--seed-dimension-x4)"
       },
       "arrow": {
         "color": "var(--seed-color-bg-neutral-inverted)",

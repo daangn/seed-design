@@ -34,6 +34,9 @@ data:
             type: duration
           exitTimingFunction:
             type: cubicBezier
+          overflowPadding:
+            type: dimension
+            description: 말풍선과 뷰포트 경계 사이의 최소 간격을 정의합니다.
       arrow:
         properties:
           color:
@@ -101,6 +104,7 @@ data:
           exitOpacity: 0
           exitDuration: $duration.d4
           exitTimingFunction: $timing-function.easing
+          overflowPadding: $dimension.x4
         arrow:
           color: $color.bg.neutral-inverted
           width: 12px
