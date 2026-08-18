@@ -33,6 +33,8 @@ export interface RenderStackOptions {
   activities: Record<string, ActivityComponentType>;
   initialActivity: string;
   theme?: SeedPluginOptions["theme"];
+  swipeBackArea?: SeedPluginOptions["swipeBackArea"];
+  clipRadius?: SeedPluginOptions["clipRadius"];
   transitionDuration?: number;
 }
 
@@ -43,7 +45,14 @@ export function renderStack(options: RenderStackOptions) {
     transitionDuration: options.transitionDuration ?? 80,
     activities: options.activities,
     initialActivity: (() => options.initialActivity) as never,
-    plugins: [testRendererPlugin(), seedPlugin({ theme: options.theme ?? "cupertino" })],
+    plugins: [
+      testRendererPlugin(),
+      seedPlugin({
+        theme: options.theme ?? "cupertino",
+        swipeBackArea: options.swipeBackArea,
+        clipRadius: options.clipRadius,
+      }),
+    ],
   });
 
   const utils = render(<Stack />);

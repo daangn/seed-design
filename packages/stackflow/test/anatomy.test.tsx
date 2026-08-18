@@ -88,6 +88,52 @@ describe("NextAppScreen anatomy", () => {
     expect(screen.style.getPropertyValue("--z-index-base")).toBe("0");
   });
 
+  it("clipRadius를 root의 clip radius var로 내려보낸다 (number는 px)", async () => {
+    const { container } = renderStack({
+      activities: { A: makeActivity({ testId: "a", clipRadius: 55 }) },
+      initialActivity: "A",
+    });
+    await settle(container);
+
+    expect(
+      getScreen(container, "a").style.getPropertyValue("--seed-next-app-screen-clip-radius"),
+    ).toBe("55px");
+  });
+
+  it("clipRadius가 없으면 var를 쓰지 않는다 (recipe fallback인 0px = 클립 없음)", async () => {
+    const { container } = renderStack({
+      activities: { A: makeActivity({ testId: "a" }) },
+      initialActivity: "A",
+    });
+    await settle(container);
+
+    expect(
+      getScreen(container, "a").style.getPropertyValue("--seed-next-app-screen-clip-radius"),
+    ).toBe("");
+  });
+
+  it("plugin clipRadius가 stack 전역 기본값이 되고, 화면 prop이 이를 이긴다", async () => {
+    const { container } = renderStack({
+      activities: { Default: makeActivity({ testId: "default" }) },
+      initialActivity: "Default",
+      clipRadius: 55,
+    });
+    await settle(container);
+    expect(
+      getScreen(container, "default").style.getPropertyValue("--seed-next-app-screen-clip-radius"),
+    ).toBe("55px");
+
+    const { container: ownContainer } = renderStack({
+      activities: { Own: makeActivity({ testId: "own", clipRadius: "2rem" }) },
+      initialActivity: "Own",
+      clipRadius: 55,
+    });
+    await settle(ownContainer);
+    expect(
+      getScreen(ownContainer, "own").style.getPropertyValue("--seed-next-app-screen-clip-radius"),
+    ).toBe("2rem");
+  });
+
   it("legacy 앱스크린 anatomy와 완전히 분리되어 있다 (legacy 엔진이 Next 파츠를 관측할 수 없다)", async () => {
     const { container, push } = renderStack({
       activities: {

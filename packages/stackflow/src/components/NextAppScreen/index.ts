@@ -9,6 +9,7 @@ export {
 
 export type {
   NextAppScreenContentProps,
+  NextAppScreenContextProps,
   NextAppScreenDimProps,
   NextAppScreenEdgeProps,
   NextAppScreenLayerProps,
