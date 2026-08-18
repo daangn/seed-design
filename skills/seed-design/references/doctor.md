@@ -233,15 +233,15 @@ component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criter
 
 ## 저장과 다중 워크스페이스
 
-- 대상 프로젝트에는 쓰지 않습니다. YAML은 임시 디렉토리에 저장하고 경로를 알려줍니다.
-- HTML은 사용자가 요청했을 때만 같은 임시 디렉토리에 생성합니다.
-- 여러 워크스페이스를 전체 진단하면 각 workspace마다 schema v2 YAML을 별도로 만듭니다.
+- 대상 프로젝트에는 쓰지 않습니다. schema v2 YAML과 HTML을 같은 임시 디렉토리에 저장하고 두 경로를 알려줍니다.
+- 사용자가 명시적으로 "YAML만"을 요청한 경우에만 HTML을 생략합니다.
+- 여러 워크스페이스를 전체 진단하면 각 workspace마다 schema v2 YAML과 HTML을 한 쌍씩 만듭니다.
 - 같은 workspace를 범주별로 나눠 검사했다면 `checks`·`findings`·`verdicts`·`coverage`·`rejected`를 합치고 findings에서 summary를 다시 계산합니다. `meta`가 다르면 합치지 않습니다.
-- 채팅에는 workspace별 요약, 적용 제외·미검증 수, "먼저 할 것"과 파일 경로만 전달합니다.
+- 채팅에는 workspace별 요약, 적용 제외·미검증 수, "먼저 할 것"과 YAML·HTML 경로만 전달합니다.
 
 ## HTML 리포트
 
-사용자가 요청하면 YAML을 입력으로 `assets/report-template.html`의 구조를 채웁니다.
+스키마와 필드 관계 검증을 통과한 YAML만 입력으로 사용해 `assets/report-template.html`의 구조를 채웁니다. HTML에서 판정이나 집계를 별도로 만들지 않습니다. 렌더링에 실패하면 검증된 YAML은 보존하고 실패 이유를 알리며, HTML까지 생성된 것처럼 보고하지 않습니다.
 
 - 한 파일로 완결합니다. CDN·외부 폰트·JavaScript를 쓰지 않고 `<details>`로 접습니다.
 - "먼저 할 것" 다음에 **범주별 검사 범위**를 보여 줍니다.
