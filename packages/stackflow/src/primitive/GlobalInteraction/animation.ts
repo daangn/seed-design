@@ -5,6 +5,7 @@
  * inline styles are explicitly updated on finish (see dom.ts).
  */
 
+import { collectAnimations, safeAnimate, type AnimationResult, cancelAll } from "../private/waapi";
 import type { TransitionTargets, TransitionStyle } from "./dom";
 import { setTransform, setOpacity } from "./dom";
 import {
@@ -14,6 +15,9 @@ import {
   TITLE_OFFSET_PERCENT,
   TITLE_TRANSLATE_RATIO,
 } from "./constants";
+
+export { cancelAll };
+export type { AnimationResult };
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -30,19 +34,7 @@ const FADE_IN_ENTER_DURATION = 300;
 const FADE_IN_EXIT_EASING = "ease-in";
 const FADE_IN_EXIT_DURATION = 150;
 
-// Extra margin added to duration for the setTimeout race fallback.
-const FINISHED_TIMEOUT_MARGIN = 100;
-
 // ─── Utilities ──────────────────────────────────────────────────────────────
-
-function safeAnimate(
-  el: HTMLElement | null,
-  keyframes: Keyframe[],
-  options: KeyframeAnimationOptions,
-): Animation | null {
-  if (!el) return null;
-  return el.animate(keyframes, options);
-}
 
 /**
  * Snap the app-bar background element transform during an interactive gesture
@@ -64,76 +56,6 @@ export function scrubAppBarBackground(
     }
   }
   return safeAnimate(el, [{ transform }], { duration: 1, fill: "forwards" });
-}
-
-export function cancelAll(animations: (Animation | null)[]) {
-  for (const a of animations) {
-    try {
-      a?.cancel();
-    } catch {
-      /* ignore */
-    }
-  }
-}
-
-/**
- * Resolve when the animation finishes or `timeoutMs` elapses, whichever
- * comes first. Uses `Animation.finished` when available (Chrome 84+,
- * Safari 13.1+, Firefox 110+) and falls back to `onfinish` / `oncancel`
- * listeners for older browsers (e.g. Chrome 77). Both the timer and the
- * listeners are always cleaned up on the losing side of the race, so a
- * late-firing animation cannot invoke a stale callback or leak via
- * closure-retained Animation references.
- */
-function waitOne(a: Animation, timeoutMs: number): Promise<void> {
-  const maybeFinished = (a as { finished?: Promise<Animation> }).finished;
-
-  if (maybeFinished && typeof maybeFinished.then === "function") {
-    return new Promise<void>((resolve) => {
-      let settled = false;
-      const finish = () => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
-        resolve();
-      };
-      const timer = setTimeout(finish, timeoutMs);
-      maybeFinished.then(finish, finish);
-    });
-  }
-
-  return new Promise<void>((resolve) => {
-    let settled = false;
-    const finish = () => {
-      if (settled) return;
-      settled = true;
-      try {
-        a.onfinish = null;
-        a.oncancel = null;
-      } catch {
-        /* ignore */
-      }
-      clearTimeout(timer);
-      resolve();
-    };
-    a.onfinish = finish;
-    a.oncancel = finish;
-    const timer = setTimeout(finish, timeoutMs);
-  });
-}
-
-function waitAll(animations: (Animation | null)[], durationMs: number): Promise<void> {
-  const valid = animations.filter((a): a is Animation => a !== null);
-  if (valid.length === 0) return Promise.resolve();
-  const timeout = durationMs + FINISHED_TIMEOUT_MARGIN;
-  return Promise.all(valid.map((a) => waitOne(a, timeout))).then(() => {});
-}
-
-export type AnimationResult = { animations: Animation[]; finished: Promise<void> };
-
-function collectAnimations(anims: (Animation | null)[], durationMs: number): AnimationResult {
-  const animations = anims.filter((a): a is Animation => a !== null);
-  return { animations, finished: waitAll(animations, durationMs) };
 }
 
 // ─── iOS Slide ──────────────────────────────────────────────────────────────
