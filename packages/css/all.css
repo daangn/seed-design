@@ -8259,18 +8259,16 @@
 
 .seed-next-app-screen__root {
   --app-bar-offset: calc(var(--app-bar-height) + var(--seed-safe-area-top));
-  --z-index-dim: calc(var(--z-index-base) + 0);
-  --z-index-layer: calc(var(--z-index-base) + 1);
-  --z-index-edge: calc(var(--z-index-base) + 2);
   width: 100%;
   height: 100%;
+  z-index: calc(var(--z-index-base) + 3);
   position: absolute;
   inset-inline: 0;
   overflow: hidden;
 }
 
 .seed-next-app-screen__dim {
-  z-index: var(--z-index-dim);
+  z-index: 0;
   top: 0;
   width: 100%;
   position: absolute;
@@ -8278,7 +8276,7 @@
 }
 
 .seed-next-app-screen__layer {
-  z-index: var(--z-index-layer);
+  z-index: 1;
   box-sizing: border-box;
   background-color: var(--seed-color-bg-layer-default);
   width: 100%;
@@ -8308,7 +8306,7 @@
 }
 
 .seed-next-app-screen__edge {
-  z-index: var(--z-index-edge);
+  z-index: 2;
   width: 20px;
   height: 100%;
   position: absolute;
